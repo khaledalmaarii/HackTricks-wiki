@@ -5,18 +5,14 @@
 _Hacktricks Logos & Motion Design von_ [_@ppiernacho_](https://www.instagram.com/ppieranacho/)_._
 
 {% hint style="success" %}
-**Willkommen im Wiki, wo du jeden Hack-Trick/Technik/irgendetwas finden wirst, das ich von CTFs, realen Apps, Forschungen und Nachrichten gelernt habe.**
+**Willkommen im Wiki, wo du jeden Hack-Trick/Technik/was auch immer finden wirst, den ich aus CTFs, realen Apps, Forschungsarbeiten und Nachrichten gelernt habe.**
 {% endhint %}
 
-Um loszulegen, folge dieser Seite, auf der du den **typischen Ablauf** findest, den **du beim Pentesting** von einem oder mehreren **Maschinen befolgen solltest:**
+Um loszulegen, folge dieser Seite, auf der du den **typischen Ablauf** findest, dem du folgen solltest, wenn du **eine oder mehrere Maschinen pentestest:**
 
 {% content-ref url="generic-methodologies-and-resources/pentesting-methodology.md" %}
 [pentesting-methodology.md](generic-methodologies-and-resources/pentesting-methodology.md)
 {% endcontent-ref %}
-
-## Platinum-Sponsoren
-
-_Deine Firma könnte hier stehen._
 
 ## Unternehmenssponsoren
 
@@ -24,11 +20,13 @@ _Deine Firma könnte hier stehen._
 
 <figure><img src=".gitbook/assets/stm (1).png" alt=""><figcaption></figcaption></figure>
 
-[**STM Cyber**](https://www.stmcyber.com) ist ein großartiges Cybersicherheitsunternehmen, dessen Motto **HACK THE UNHACKABLE** ist. Sie führen ihre eigenen Forschungen durch und entwickeln ihre eigenen Hacking-Tools, um **mehrere wertvolle Cybersicherheitsdienste** wie Pentesting, Red Teams und Schulungen anzubieten.
+[**STM Cyber**](https://www.stmcyber.com) ist ein großartiges Cybersicherheitsunternehmen, dessen Slogan **HACK THE UNHACKABLE** lautet. Sie führen ihre eigenen Forschungen durch und entwickeln ihre eigenen Hacking-Tools, um **mehrere wertvolle Cybersicherheitsdienste** wie Pentests, Red Teams und Schulungen anzubieten.
 
 Du kannst ihren **Blog** unter [**https://blog.stmcyber.com**](https://blog.stmcyber.com) überprüfen.
 
-**STM Cyber** unterstützt auch Cybersicherheitsprojekte im Open Source-Bereich wie HackTricks :)
+**STM Cyber** unterstützt auch Cybersicherheitsprojekte im Open-Source-Bereich wie HackTricks :)
+
+***
 
 ### [RootedCON](https://www.rootedcon.com/)
 
@@ -37,6 +35,7 @@ Du kannst ihren **Blog** unter [**https://blog.stmcyber.com**](https://blog.stmc
 [**RootedCON**](https://www.rootedcon.com) ist das relevanteste Cybersicherheitsereignis in **Spanien** und eines der wichtigsten in **Europa**. Mit **der Mission, technisches Wissen zu fördern**, ist dieser Kongress ein brodelnder Treffpunkt für Technologie- und Cybersicherheitsprofis in jeder Disziplin.
 
 {% embed url="https://www.rootedcon.com/" %}
+***
 
 ### [Intigriti](https://www.intigriti.com)
 
@@ -44,13 +43,15 @@ Du kannst ihren **Blog** unter [**https://blog.stmcyber.com**](https://blog.stmc
 
 **Intigriti** ist die **Nummer 1 in Europa** für ethisches Hacken und **Bug-Bounty-Plattform**.
 
-**Bug-Bounty-Tipp**: **Melde dich an** bei **Intigriti**, einer Premium-**Bug-Bounty-Plattform, die von Hackern für Hacker erstellt wurde**! Trete uns noch heute bei [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) bei und beginne, Prämien von bis zu **100.000 $** zu verdienen!
+**Bug-Bounty-Tipp**: **Registriere dich** bei **Intigriti**, einer Premium-**Bug-Bounty-Plattform, die von Hackern für Hacker erstellt wurde**! Trete noch heute unter [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) bei und verdiene Bounties von bis zu **100.000 $**!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
+***
+
 ### [Trickest](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)
 
-<figure><img src=".gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Verwende [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um einfach Workflows zu erstellen und zu **automatisieren**, die von den weltweit **fortschrittlichsten** Community-Tools unterstützt werden.
@@ -58,6 +59,8 @@ Verwende [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medi
 Erhalte noch heute Zugriff:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+
+***
 
 ### [HACKENPROOF](https://bit.ly/3xrrDrL)
 
@@ -69,10 +72,10 @@ Trete dem [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) Serve
 Beschäftige dich mit Inhalten, die sich mit dem Nervenkitzel und den Herausforderungen des Hackens befassen
 
 **Echtzeit-Hack-News**\
-Bleibe mit der schnelllebigen Hacking-Welt durch Echtzeitnachrichten und Einblicke auf dem Laufenden
+Bleibe mit den schnelllebigen Neuigkeiten und Einblicken aus der Welt des Hackens auf dem Laufenden
 
 **Neueste Ankündigungen**\
-Bleibe über die neuesten Bug-Bounties und wichtige Plattformupdates informiert
+Bleibe über die neuesten Bug-Bounties und wichtigen Plattformupdates informiert
 
 **Trete uns bei** auf [**Discord**](https://discord.com/invite/N3FrSbmwdy) und beginne noch heute mit Top-Hackern zusammenzuarbeiten!
 
@@ -82,9 +85,19 @@ Bleibe über die neuesten Bug-Bounties und wichtige Plattformupdates informiert
 
 <figure><img src=".gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
-**Sofort einsatzbereite Einrichtung für Schwachstellenbewertung & Penetrationstests**. Führe einen vollständigen Penetrationstest von überall aus mit 20+ Tools & Funktionen durch, die von der Aufklärung bis zum Bericht reichen. Wir ersetzen keine Pentester - wir entwickeln benutzerdefinierte Tools, Erkennungs- & Exploitation-Module, um ihnen etwas Zeit zu geben, tiefer zu graben, Shells zu öffnen und Spaß zu haben.
+**Sofort einsatzbereite Einrichtung für Schwachstellenbewertung & Penetrationstests**. Führe einen vollständigen Pentest von überall aus mit 20+ Tools & Funktionen durch, die von der Aufklärung bis zum Bericht reichen. Wir ersetzen keine Pentester - wir entwickeln benutzerdefinierte Tools, Erkennungs- & Exploitation-Module, um ihnen etwas Zeit zu geben, tiefer zu graben, Shells zu öffnen und Spaß zu haben.
 
 {% embed url="https://pentest-tools.com/" %}
+
+***
+
+### [Try Hard Security Group](https://discord.gg/tryhardsecurity)
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+***
 
 ### [WebSec](https://websec.nl/)
 
@@ -94,7 +107,7 @@ Bleibe über die neuesten Bug-Bounties und wichtige Plattformupdates informiert
 
 WebSec ist ein **All-in-One-Sicherheitsunternehmen**, was bedeutet, dass sie alles machen; Pentesting, **Sicherheits**-Audits, Awareness-Schulungen, Phishing-Kampagnen, Code-Reviews, Exploit-Entwicklung, Sicherheitsexperten-Outsourcing und vieles mehr.
 
-Eine weitere coole Sache an WebSec ist, dass im Gegensatz zum Branchendurchschnitt WebSec **sehr zuversichtlich in ihren Fähigkeiten** ist, in dem Maße, dass sie die besten Qualitätsresultate garantieren, wie es auf ihrer Website heißt "**Wenn wir es nicht hacken können, zahlst du nicht!**". Für weitere Informationen schau dir ihre [**Website**](https://websec.nl/en/) und ihren [**Blog**](https://websec.nl/blog/) an!
+Eine weitere coole Sache an WebSec ist, dass sie im Gegensatz zum Branchendurchschnitt sehr zuversichtlich in ihren Fähigkeiten sind, so sehr, dass sie die besten Qualitätsresultate garantieren, wie es auf ihrer Website heißt "**Wenn wir es nicht hacken können, zahlst du nicht!**". Für weitere Informationen schau dir ihre [**Website**](https://websec.nl/en/) und ihren [**Blog**](https://websec.nl/blog/) an!
 
 Zusätzlich zu dem oben Genannten ist WebSec auch ein **engagierter Unterstützer von HackTricks.**
 

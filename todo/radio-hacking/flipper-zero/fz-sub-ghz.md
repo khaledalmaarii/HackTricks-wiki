@@ -2,17 +2,25 @@
 
 <details>
 
-<summary><strong>Erlernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Erlernen Sie das Hacken von AWS von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
+* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
 
 </details>
+
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+***
 
 ## Einführung <a href="#kfpn7" id="kfpn7"></a>
 
@@ -31,7 +39,7 @@ Flipper Zero verfügt über ein integriertes Sub-1-GHz-Modul, das auf einem [﻿
 ### Frequenzanalysator
 
 {% hint style="info" %}
-Wie Sie herausfinden, welche Frequenz die Fernbedienung verwendet
+Wie man herausfindet, welche Frequenz die Fernbedienung verwendet
 {% endhint %}
 
 Beim Analysieren scannt Flipper Zero die Signalstärke (RSSI) bei allen verfügbaren Frequenzen in der Frequenzkonfiguration. Flipper Zero zeigt die Frequenz mit dem höchsten RSSI-Wert an, mit einer Signalstärke von mehr als -90 [dBm](https://en.wikipedia.org/wiki/DBm).
@@ -46,20 +54,20 @@ Um die Frequenz der Fernbedienung zu bestimmen, führen Sie folgende Schritte au
 ### Lesen
 
 {% hint style="info" %}
-Informationen zur verwendeten Frequenz finden (auch eine andere Möglichkeit, die verwendete Frequenz zu finden)
+Informationen über die verwendete Frequenz finden (auch eine andere Möglichkeit, die verwendete Frequenz zu finden)
 {% endhint %}
 
 Die **Lesen**-Option **hört auf der konfigurierten Frequenz** mit der angegebenen Modulation: standardmäßig 433,92 AM. Wenn beim Lesen **etwas gefunden wird**, werden **Informationen** auf dem Bildschirm angezeigt. Diese Informationen können verwendet werden, um das Signal in Zukunft zu replizieren.
 
-Während Lesen verwendet wird, ist es möglich, die **linke Taste zu drücken** und sie zu **konfigurieren**.\
-Zu diesem Zeitpunkt hat es **4 Modulationen** (AM270, AM650, FM328 und FM476) und **mehrere relevante Frequenzen** gespeichert:
+Während des Lesens ist es möglich, die **linke Taste zu drücken** und **sie zu konfigurieren**.\
+Zu diesem Zeitpunkt gibt es **4 Modulationen** (AM270, AM650, FM328 und FM476) und **mehrere relevante Frequenzen** gespeichert:
 
 <figure><img src="../../../.gitbook/assets/image (28).png" alt=""><figcaption></figcaption></figure>
 
-Sie können **jene einstellen, die Sie interessieren**, jedoch, wenn Sie **nicht sicher sind, welche Frequenz** von der Fernbedienung verwendet wird, **schalten Sie das Hopping auf AN** (standardmäßig Aus) und drücken Sie die Taste mehrmals, bis Flipper sie erfasst und Ihnen die benötigten Informationen zur Einstellung der Frequenz gibt.
+Sie können **jene einstellen, die Sie interessieren**, jedoch, wenn Sie **nicht sicher sind, welche Frequenz** von der Fernbedienung verwendet wird, **schalten Sie das Hopping auf ON** (standardmäßig aus) und drücken Sie die Taste mehrmals, bis Flipper sie erfasst und Ihnen die benötigten Informationen zur Einstellung der Frequenz gibt.
 
 {% hint style="danger" %}
-Das Wechseln zwischen Frequenzen dauert einige Zeit, daher können Signale, die zum Zeitpunkt des Wechsels übertragen werden, verpasst werden. Für besseren Signalempfang stellen Sie eine feste Frequenz fest, die durch den Frequenzanalysator bestimmt wird.
+Das Wechseln zwischen Frequenzen dauert einige Zeit, daher können Signale, die während des Wechsels übertragen werden, verpasst werden. Für eine bessere Signalrezeption stellen Sie eine feste Frequenz fest, die durch den Frequenzanalysator bestimmt wird.
 {% endhint %}
 
 ### **Rohdaten lesen**
@@ -74,7 +82,7 @@ Standardmäßig ist **Rohdaten lesen auch bei 433,92 in AM650**, aber wenn Sie m
 
 ### Brute-Force
 
-Wenn Sie das Protokoll kennen, das beispielsweise von der Garagentür verwendet wird, ist es möglich, **alle Codes zu generieren und mit dem Flipper Zero zu senden**. Hier ist ein Beispiel, das allgemeine gängige Arten von Garagen unterstützt: [**https://github.com/tobiabocchi/flipperzero-bruteforce**](https://github.com/tobiabocchi/flipperzero-bruteforce)
+Wenn Sie das Protokoll kennen, das beispielsweise von der Garagentür verwendet wird, ist es möglich, **alle Codes zu generieren und mit dem Flipper Zero zu senden**. Dies ist ein Beispiel, das allgemeine gängige Arten von Garagen unterstützt: [**https://github.com/tobiabocchi/flipperzero-bruteforce**](https://github.com/tobiabocchi/flipperzero-bruteforce)
 
 ### Manuell hinzufügen
 
@@ -84,15 +92,15 @@ Signale aus einer konfigurierten Liste von Protokollen hinzufügen
 
 #### Liste der [unterstützten Protokolle](https://docs.flipperzero.one/sub-ghz/add-new-remote) <a href="#id-3iglu" id="id-3iglu"></a>
 
-| Princeton\_433 (funktioniert mit der Mehrheit der statischen Codesysteme) | 433,92 | Statisch |
+| Princeton\_433 (funktioniert mit den meisten statischen Codesystemen) | 433,92 | Statisch  |
 | --------------------------------------------------------------- | ------ | ------- |
-| Nice Flo 12bit\_433                                             | 433,92 | Statisch |
-| Nice Flo 24bit\_433                                             | 433,92 | Statisch |
-| CAME 12bit\_433                                                 | 433,92 | Statisch |
-| CAME 24bit\_433                                                 | 433,92 | Statisch |
-| Linear\_300                                                     | 300,00 | Statisch |
-| CAME TWEE                                                       | 433,92 | Statisch |
-| Gate TX\_433                                                    | 433,92 | Statisch |
+| Nice Flo 12bit\_433                                             | 433,92 | Statisch  |
+| Nice Flo 24bit\_433                                             | 433,92 | Statisch  |
+| CAME 12bit\_433                                                 | 433,92 | Statisch  |
+| CAME 24bit\_433                                                 | 433,92 | Statisch  |
+| Linear\_300                                                     | 300,00 | Statisch  |
+| CAME TWEE                                                       | 433,92 | Statisch  |
+| Gate TX\_433                                                    | 433,92 | Statisch  |
 | DoorHan\_315                                                    | 315,00 | Dynamisch |
 | DoorHan\_433                                                    | 433,92 | Dynamisch |
 | LiftMaster\_315                                                 | 315,00 | Dynamisch |
@@ -117,6 +125,12 @@ Erhalten Sie dBm der gespeicherten Frequenzen
 ## Referenz
 
 * [https://docs.flipperzero.one/sub-ghz](https://docs.flipperzero.one/sub-ghz)
+
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
 
 <details>
 
