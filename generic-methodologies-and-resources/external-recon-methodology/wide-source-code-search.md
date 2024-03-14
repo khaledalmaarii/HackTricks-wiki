@@ -1,43 +1,57 @@
-# Geniş Kaynak Kodu Arama
+# Geniş Kaynak Kodu Araması
 
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile sıfırdan kahraman olmak için AWS hackleme öğrenin!</strong></summary>
+<summary><strong>AWS hackleme konusunda sıfırdan kahraman olmaya kadar öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
-* Şirketinizi HackTricks'te **reklamınızı görmek** veya HackTricks'i **PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin.
-* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz olan [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin.
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live) takip edin.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
+* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)** takip edin.**
+* **Hacking püf noktalarınızı göndererek HackTricks** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR gönderin.
 
 </details>
 
-Bu sayfanın amacı, bir veya daha fazla platformda binlerce/milyonlarca repo içinde **kod aramasına izin veren platformları** sıralamaktır.
+**Try Hard Güvenlik Grubu**
 
-Bu, sızdırılmış bilgileri veya zayıflıkların desenlerini aramak için birkaç durumda yardımcı olur.
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
-* [**SourceGraph**](https://sourcegraph.com/search): Milyonlarca repo içinde arama yapın. Ücretsiz bir sürümü ve 15 günlük ücretsiz bir kurumsal sürümü bulunmaktadır. Regex'leri destekler.
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+***
+
+Bu sayfanın amacı, bir veya daha fazla platformda binlerce/milyonlarca depoda **kod aramaya izin veren platformları** sıralamaktır.
+
+Bu, **sızdırılmış bilgileri aramak** veya **zafiyetlerin** desenlerini aramak için birkaç durumda yardımcı olur.
+
+* [**SourceGraph**](https://sourcegraph.com/search): Milyonlarca depoda arama yapın. Ücretsiz bir sürümü ve kurumsal bir sürümü (15 günlük ücretsiz) bulunmaktadır. Regex'leri destekler.
 * [**Github Arama**](https://github.com/search): Github üzerinde arama yapın. Regex'leri destekler.
-* Belki de [**Github Kod Arama**](https://cs.github.com/) da faydalı olabilir.
+* Belki de [**Github Kod Araması**](https://cs.github.com/) da faydalı olabilir.
 * [**Gitlab Gelişmiş Arama**](https://docs.gitlab.com/ee/user/search/advanced\_search.html): Gitlab projeleri arasında arama yapın. Regex'leri destekler.
 * [**SearchCode**](https://searchcode.com/): Milyonlarca projede kod arayın.
 
 {% hint style="warning" %}
-Bir repo içinde sızıntıları ararken `git log -p` gibi bir şey çalıştırdığınızda, **diğer sızıntılar içeren başka dalların da olabileceğini unutmayın**!
+Bir depoda sızıntıları ararken ve `git log -p` gibi bir şey çalıştırırken **diğer sırların ve sırlar içeren diğer taahhütlerin** olabileceğini unutmayın!
 {% endhint %}
+
+**Try Hard Güvenlik Grubu**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
 
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile sıfırdan kahraman olmak için AWS hackleme öğrenin!</strong></summary>
+<summary><strong>AWS hackleme konusunda sıfırdan kahraman olmaya kadar öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
-* Şirketinizi HackTricks'te **reklamınızı görmek** veya HackTricks'i **PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin.
-* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz olan [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin.
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live) takip edin.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
+* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)** takip edin.**
+* **Hacking püf noktalarınızı göndererek HackTricks** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR gönderin.
 
 </details>
