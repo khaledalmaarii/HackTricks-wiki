@@ -10,9 +10,17 @@ Autres façons de soutenir HackTricks :
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
+
+**Groupe de sécurité Try Hard**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+***
 
 ## **Extraction de données à partir de fichiers**
 
@@ -32,7 +40,7 @@ foremost -i file # Extracts data
 ```
 ### **Exiftool**
 
-Aide à visualiser les métadonnées des fichiers, disponible [ici](https://www.sno.phy.queensu.ca/\~phil/exiftool/).
+Aide à afficher les métadonnées des fichiers, disponible [ici](https://www.sno.phy.queensu.ca/\~phil/exiftool/).
 ```bash
 exiftool file # Shows the metadata
 ```
@@ -44,11 +52,11 @@ exiv2 file # Shows the metadata
 ```
 ### **Fichier**
 
-Identifier le type de fichier avec lequel vous travaillez.
+Identifiez le type de fichier avec lequel vous travaillez.
 
 ### **Chaînes de caractères**
 
-Extrait les chaînes de caractères lisibles des fichiers, en utilisant différents paramètres d'encodage pour filtrer la sortie.
+Extrait les chaînes de caractères lisibles des fichiers, en utilisant divers paramètres d'encodage pour filtrer la sortie.
 ```bash
 strings -n 6 file # Extracts strings with a minimum length of 6
 strings -n 6 file | head -n 20 # First 20 strings
@@ -88,16 +96,16 @@ Pour tenter de réparer une image endommagée, ajouter un commentaire de métado
 
 Steghide facilite la dissimulation de données dans les fichiers `JPEG, BMP, WAV et AU`, capable d'incorporer et d'extraire des données chiffrées. L'installation est simple en utilisant `apt`, et son [code source est disponible sur GitHub](https://github.com/StefanoDeVuono/steghide).
 
-**Commandes :**
+**Commandes:**
 
 * `steghide info fichier` révèle si un fichier contient des données cachées.
-* `steghide extract -sf fichier [--mot de passe]` extrait les données cachées, mot de passe en option.
+* `steghide extract -sf fichier [--mot de passe motdepasse]` extrait les données cachées, mot de passe en option.
 
 Pour une extraction basée sur le web, visitez [ce site web](https://futureboy.us/stegano/decinput.html).
 
-**Attaque par force brute avec Stegcracker :**
+**Attaque par force brute avec Stegcracker:**
 
-* Pour tenter de craquer un mot de passe sur Steghide, utilisez [stegcracker](https://github.com/Paradoxis/StegCracker.git) comme suit :
+* Pour tenter de craquer un mot de passe sur Steghide, utilisez [stegcracker](https://github.com/Paradoxis/StegCracker.git) comme suit:
 ```bash
 stegcracker <file> [<wordlist>]
 ```
@@ -129,6 +137,8 @@ Les techniques de Transformée de Fourier Rapide (FFT) peuvent révéler du cont
 Stegpy permet d'incorporer des informations dans des fichiers image et audio, prenant en charge des formats tels que PNG, BMP, GIF, WebP et WAV. Il est disponible sur [GitHub](https://github.com/dhsdshdhk/stegpy).
 
 ### **Pngcheck pour l'analyse des fichiers PNG**
+
+Pour analyser les fichiers PNG ou valider leur authenticité, utilisez:
 ```bash
 apt-get install pngcheck
 pngcheck stego.png
@@ -143,13 +153,13 @@ Pour une exploration plus approfondie, envisagez de visiter :
 * [OpenStego](https://www.openstego.com/)
 * [DIIT](https://diit.sourceforge.net/)
 
-## **Extraction de données des fichiers audio**
+## **Extraction de données à partir d'audios**
 
 La **stéganographie audio** offre une méthode unique pour dissimuler des informations dans des fichiers sonores. Différents outils sont utilisés pour incorporer ou récupérer du contenu caché.
 
 ### **Steghide (JPEG, BMP, WAV, AU)**
 
-Steghide est un outil polyvalent conçu pour cacher des données dans des fichiers JPEG, BMP, WAV et AU. Des instructions détaillées sont fournies dans la [documentation des astuces de stéganographie](stego-tricks.md#steghide).
+Steghide est un outil polyvalent conçu pour cacher des données dans des fichiers JPEG, BMP, WAV et AU. Des instructions détaillées sont fournies dans la [documentation des astuces stéganographiques](stego-tricks.md#steghide).
 
 ### **Stegpy (PNG, BMP, GIF, WebP, WAV)**
 
@@ -157,7 +167,7 @@ Cet outil est compatible avec une variété de formats, y compris PNG, BMP, GIF,
 
 ### **ffmpeg**
 
-ffmpeg est essentiel pour évaluer l'intégrité des fichiers audio, mettre en évidence des informations détaillées et repérer d'éventuelles anomalies.
+ffmpeg est essentiel pour évaluer l'intégrité des fichiers audio, mettant en évidence des informations détaillées et identifiant toute anomalie.
 ```bash
 ffmpeg -v info -i stego.mp3 -f null -
 ```
@@ -177,15 +187,15 @@ Deepsound permet le chiffrement et la détection d'informations dans des fichier
 
 Un outil inestimable pour l'inspection visuelle et analytique des fichiers audio, Sonic Visualizer peut révéler des éléments cachés indétectables par d'autres moyens. Visitez le [site officiel](https://www.sonicvisualiser.org/) pour en savoir plus.
 
-### **DTMF Tones - Dial Tones**
+### **Tonalités DTMF - Tonalités de numérotation**
 
 La détection des tonalités DTMF dans les fichiers audio peut être réalisée à l'aide d'outils en ligne tels que [ce détecteur DTMF](https://unframework.github.io/dtmf-detect/) et [DialABC](http://dialabc.com/sound/detect/index.html).
 
 ## **Autres Techniques**
 
-### **Binary Length SQRT - QR Code**
+### **Longueur Binaire SQRT - Code QR**
 
-Les données binaires qui donnent un nombre entier en racine carrée pourraient représenter un code QR. Utilisez ce snippet pour vérifier:
+Les données binaires qui donnent un nombre entier en carré peuvent représenter un code QR. Utilisez ce snippet pour vérifier:
 ```python
 import math
 math.sqrt(2500) #50
@@ -194,14 +204,20 @@ math.sqrt(2500) #50
 
 Pour la conversion binaire en image, consultez [dcode](https://www.dcode.fr/binary-image). Pour lire les codes QR, utilisez [ce lecteur de codes-barres en ligne](https://online-barcode-reader.inliteresearch.com/).
 
-### **Traduction en braille**
+### **Traduction en Braille**
 
-Pour traduire le braille, le [traducteur Braille de Branah](https://www.branah.com/braille-translator) est une excellente ressource.
+Pour traduire en Braille, le [traducteur Braille Branah](https://www.branah.com/braille-translator) est une excellente ressource.
 
 ## **Références**
 
 * [**https://0xrick.github.io/lists/stego/**](https://0xrick.github.io/lists/stego/)
 * [**https://github.com/DominicBreuker/stego-toolkit**](https://github.com/DominicBreuker/stego-toolkit)
+
+**Groupe de sécurité Try Hard**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
 
 <details>
 

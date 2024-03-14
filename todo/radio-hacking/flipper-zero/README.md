@@ -12,6 +12,14 @@
 
 </details>
 
+**Groupe de sécurité Try Hard**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+***
+
 Avec [**Flipper Zero**](https://flipperzero.one/), vous pouvez :
 
 * **Écouter/Capturer/Rejouer des fréquences radio:** [**Sub-GHz**](fz-sub-ghz.md)
@@ -23,7 +31,13 @@ Avec [**Flipper Zero**](https://flipperzero.one/), vous pouvez :
 * **L'utiliser comme clé de sécurité (U2F)**
 * **Jouer à Snake**
 
-**Autres ressources Flipper Zero sur** [**https://github.com/djsime1/awesome-flipperzer**](https://github.com/djsime1/awesome-flipperzero)
+**Autres ressources Flipper Zero dans** [**https://github.com/djsime1/awesome-flipperzer**](https://github.com/djsime1/awesome-flipperzero)
+
+**Groupe de sécurité Try Hard**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
 
 <details>
 

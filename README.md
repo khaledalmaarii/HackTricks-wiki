@@ -1,8 +1,8 @@
-# Astuces de Piratage
+# HackTricks
 
 <figure><img src=".gitbook/assets/hacktricks.gif" alt=""><figcaption></figcaption></figure>
 
-_Logos et design de mouvement Hacktricks par_ [_@ppiernacho_](https://www.instagram.com/ppieranacho/)_._
+_Logos et design en mouvement de Hacktricks par_ [_@ppiernacho_](https://www.instagram.com/ppieranacho/)_._
 
 {% hint style="success" %}
 **Bienvenue sur le wiki où vous trouverez chaque astuce/technique de piratage/ce que j'ai appris des CTFs, des applications de la vie réelle, de la lecture de recherches et de l'actualité.**
@@ -14,11 +14,7 @@ Pour commencer, suivez cette page où vous trouverez le **flux typique** que **v
 [pentesting-methodology.md](generic-methodologies-and-resources/pentesting-methodology.md)
 {% endcontent-ref %}
 
-## Sponsors Platine
-
-_Votre entreprise pourrait être ici._
-
-## Sponsors Corporate
+## Sponsors d'Entreprise
 
 ### [STM Cyber](https://www.stmcyber.com)
 
@@ -30,6 +26,8 @@ Vous pouvez consulter leur **blog** sur [**https://blog.stmcyber.com**](https://
 
 **STM Cyber** soutient également des projets open source en cybersécurité comme HackTricks :)
 
+***
+
 ### [RootedCON](https://www.rootedcon.com/)
 
 <figure><img src=".gitbook/assets/image (4) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
@@ -37,6 +35,7 @@ Vous pouvez consulter leur **blog** sur [**https://blog.stmcyber.com**](https://
 [**RootedCON**](https://www.rootedcon.com) est l'événement le plus pertinent en cybersécurité en **Espagne** et l'un des plus importants en **Europe**. Avec **la mission de promouvoir les connaissances techniques**, ce congrès est un point de rencontre bouillonnant pour les professionnels de la technologie et de la cybersécurité dans chaque discipline.
 
 {% embed url="https://www.rootedcon.com/" %}
+***
 
 ### [Intigriti](https://www.intigriti.com)
 
@@ -44,9 +43,11 @@ Vous pouvez consulter leur **blog** sur [**https://blog.stmcyber.com**](https://
 
 **Intigriti** est la plateforme de piratage éthique **n°1 en Europe** et de **bug bounty**.
 
-**Conseil de bug bounty**: **Inscrivez-vous** sur **Intigriti**, une plateforme de **bug bounty premium créée par des hackers, pour des hackers**! Rejoignez-nous sur [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) aujourd'hui, et commencez à gagner des primes allant jusqu'à **100 000 $**!
+**Astuce de bug bounty**: **Inscrivez-vous** sur **Intigriti**, une plateforme de **bug bounty premium créée par des hackers, pour des hackers**! Rejoignez-nous sur [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) aujourd'hui, et commencez à gagner des primes allant jusqu'à **100 000 $**!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
+
+***
 
 ### [Trickest](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)
 
@@ -59,20 +60,22 @@ Accédez dès aujourd'hui:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
+***
+
 ### [HACKENPROOF](https://bit.ly/3xrrDrL)
 
 <figure><img src=".gitbook/assets/image (5) (1).png" alt=""><figcaption></figcaption></figure>
 
-Rejoignez le serveur [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) pour communiquer avec des hackers expérimentés et des chasseurs de bugs!
+Rejoignez le serveur [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) pour communiquer avec des hackers expérimentés et des chasseurs de primes!
 
 **Perspectives de Piratage**\
 Engagez-vous avec du contenu qui explore le frisson et les défis du piratage
 
 **Actualités de Piratage en Temps Réel**\
-Restez informé du monde du piratage en temps réel à travers des actualités et des perspectives
+Restez informé sur le monde du piratage à rythme rapide grâce aux actualités et aux perspectives en temps réel
 
 **Dernières Annonces**\
-Restez informé des derniers bug bounties lancés et des mises à jour cruciales de la plateforme
+Restez informé des derniers lancements de bug bounties et des mises à jour cruciales de la plateforme
 
 **Rejoignez-nous sur** [**Discord**](https://discord.com/invite/N3FrSbmwdy) et commencez à collaborer avec les meilleurs hackers dès aujourd'hui!
 
@@ -82,17 +85,27 @@ Restez informé des derniers bug bounties lancés et des mises à jour cruciales
 
 <figure><img src=".gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
-**Configuration instantanément disponible pour l'évaluation des vulnérabilités et les tests d'intrusion**. Exécutez un test d'intrusion complet de n'importe où avec plus de 20 outils et fonctionnalités allant de la reconnaissance au reporting. Nous ne remplaçons pas les testeurs d'intrusion - nous développons des outils personnalisés, des modules de détection et d'exploitation pour leur donner plus de temps pour creuser plus profondément, ouvrir des shells et s'amuser.
+**Configuration instantanément disponible pour l'évaluation des vulnérabilités et les tests de pénétration**. Effectuez un test d'intrusion complet de n'importe où avec plus de 20 outils et fonctionnalités allant de la reconnaissance aux rapports. Nous ne remplaçons pas les testeurs d'intrusion - nous développons des outils personnalisés, des modules de détection et d'exploitation pour leur donner du temps pour creuser plus profondément, ouvrir des shells et s'amuser.
 
 {% embed url="https://pentest-tools.com/" %}
+
+***
+
+### [Try Hard Security Group](https://discord.gg/tryhardsecurity)
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+***
 
 ### [WebSec](https://websec.nl/)
 
 <figure><img src=".gitbook/assets/websec (1).svg" alt=""><figcaption></figcaption></figure>
 
-[**WebSec**](https://websec.nl) est une entreprise de cybersécurité professionnelle basée à **Amsterdam** qui aide à **protéger** les entreprises **du monde entier** contre les dernières menaces en cybersécurité en fournissant des services de **sécurité offensive** avec une approche **moderne**.
+[**WebSec**](https://websec.nl) est une entreprise de cybersécurité professionnelle basée à **Amsterdam** qui aide à **protéger** les entreprises **du monde entier** contre les dernières menaces en cybersécurité en fournissant des services de **sécurité offensive** avec une **approche moderne**.
 
-WebSec est une **entreprise de sécurité tout-en-un** ce qui signifie qu'ils font tout; Tests d'intrusion, Audits de sécurité, Formations en sensibilisation, Campagnes de phishing, Revue de code, Développement d'exploits, Externalisation d'experts en sécurité et bien plus encore.
+WebSec est une entreprise de sécurité **tout-en-un**, ce qui signifie qu'ils font tout; Tests d'intrusion, Audits de sécurité, Formations en sensibilisation, Campagnes de phishing, Revue de code, Développement d'exploits, Externalisation d'experts en sécurité et bien plus encore.
 
 Une autre chose cool à propos de WebSec est que contrairement à la moyenne de l'industrie, WebSec est **très confiant dans ses compétences**, à tel point qu'ils **garantissent les meilleurs résultats de qualité**, il est indiqué sur leur site web "**Si nous ne pouvons pas le pirater, vous ne le payez pas!**". Pour plus d'informations, consultez leur [**site web**](https://websec.nl/en/) et leur [**blog**](https://websec.nl/blog/)!
 
@@ -102,7 +115,7 @@ En plus de ce qui précède, WebSec est également un **supporter engagé de Hac
 
 ## Licence & Avertissement
 
-**Consultez-les dans:**
+**Consultez-les sur:**
 
 {% content-ref url="welcome/hacktricks-values-and-faq.md" %}
 [hacktricks-values-and-faq.md](welcome/hacktricks-values-and-faq.md)
@@ -110,14 +123,14 @@ En plus de ce qui précède, WebSec est également un **supporter engagé de Hac
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert Red Team AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks:
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF** Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez** 💬 le [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
