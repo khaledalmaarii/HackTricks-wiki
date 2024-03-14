@@ -6,19 +6,27 @@
 
 Altri modi per supportare HackTricks:
 
-* Se desideri vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
 * Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di GitHub.
 
 </details>
+
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+***
 
 ## **Estrarre Dati da File**
 
 ### **Binwalk**
 
-Uno strumento per cercare file binari per file e dati nascosti incorporati. Viene installato tramite `apt` e la sua sorgente è disponibile su [GitHub](https://github.com/ReFirmLabs/binwalk).
+Uno strumento per cercare file binari per file nascosti e dati incorporati. Viene installato tramite `apt` e la sua sorgente è disponibile su [GitHub](https://github.com/ReFirmLabs/binwalk).
 ```bash
 binwalk file # Displays the embedded data
 binwalk -e file # Extracts the data
@@ -26,7 +34,7 @@ binwalk --dd ".*" file # Extracts all data
 ```
 ### **Foremost**
 
-Recupera i file in base all'intestazione e al piè di pagina, utile per le immagini png. Installato tramite `apt` con la sua sorgente su [GitHub](https://github.com/korczis/foremost).
+Recupera file in base ai loro header e footer, utile per immagini png. Installato tramite `apt` con la sua sorgente su [GitHub](https://github.com/korczis/foremost).
 ```bash
 foremost -i file # Extracts data
 ```
@@ -76,7 +84,7 @@ I caratteri invisibili in spazi apparentemente vuoti possono nascondere informaz
 
 ### **Identificare i Dettagli dell'Immagine con GraphicMagick**
 
-[GraphicMagick](https://imagemagick.org/script/download.php) serve per determinare i tipi di file immagine e identificare potenziali corruzioni. Esegui il comando seguente per ispezionare un'immagine:
+[GraphicMagick](https://imagemagick.org/script/download.php) serve per determinare i tipi di file delle immagini e identificare potenziali corruzioni. Esegui il comando seguente per ispezionare un'immagine:
 ```bash
 ./magick identify -verbose stego.jpg
 ```
@@ -86,7 +94,7 @@ Per tentare di riparare un'immagine danneggiata, potrebbe essere utile aggiunger
 ```
 ### **Steghide per la Nascita dei Dati**
 
-Steghide facilita la nascita dei dati all'interno dei file `JPEG, BMP, WAV e AU`, in grado di incorporare ed estrarre dati criptati. L'installazione è semplice utilizzando `apt`, e il [codice sorgente è disponibile su GitHub](https://github.com/StefanoDeVuono/steghide).
+Steghide facilita la nascita dei dati all'interno di file `JPEG, BMP, WAV e AU`, in grado di incorporare ed estrarre dati criptati. L'installazione è semplice utilizzando `apt`, e il [codice sorgente è disponibile su GitHub](https://github.com/StefanoDeVuono/steghide).
 
 **Comandi:**
 
@@ -103,7 +111,7 @@ stegcracker <file> [<wordlist>]
 ```
 ### **zsteg per file PNG e BMP**
 
-zsteg è specializzato nel rivelare dati nascosti nei file PNG e BMP. L'installazione avviene tramite `gem install zsteg`, con la sua [fonte su GitHub](https://github.com/zed-0xff/zsteg).
+zsteg è specializzato nel rivelare dati nascosti nei file PNG e BMP. L'installazione avviene tramite `gem install zsteg`, con la [sua sorgente su GitHub](https://github.com/zed-0xff/zsteg).
 
 **Comandi:**
 
@@ -112,13 +120,13 @@ zsteg è specializzato nel rivelare dati nascosti nei file PNG e BMP. L'installa
 
 ### **StegoVeritas e Stegsolve**
 
-**stegoVeritas** controlla i metadati, esegue trasformazioni dell'immagine, e applica la forza bruta LSB tra le altre funzionalità. Utilizza `stegoveritas.py -h` per un elenco completo delle opzioni e `stegoveritas.py stego.jpg` per eseguire tutti i controlli.
+**stegoVeritas** controlla i metadati, esegue trasformazioni dell'immagine e applica la forza bruta LSB tra le altre funzionalità. Utilizza `stegoveritas.py -h` per un elenco completo delle opzioni e `stegoveritas.py stego.jpg` per eseguire tutti i controlli.
 
 **Stegsolve** applica vari filtri di colore per rivelare testi o messaggi nascosti nelle immagini. È disponibile su [GitHub](https://github.com/eugenekolo/sec-tools/tree/master/stego/stegsolve/stegsolve).
 
 ### **FFT per il rilevamento di contenuti nascosti**
 
-Le tecniche di Trasformata di Fourier Veloce (FFT) possono svelare contenuti nascosti nelle immagini. Risorse utili includono:
+Le tecniche di Trasformata di Fourier Veloce (FFT) possono rivelare contenuti nascosti nelle immagini. Risorse utili includono:
 
 * [Demo EPFL](http://bigwww.epfl.ch/demo/ip/demos/FFT/)
 * [Ejectamenta](https://www.ejectamenta.com/Fourifier-fullscreen/)
@@ -175,7 +183,7 @@ Deepsound consente la crittografia e il rilevamento di informazioni all'interno 
 
 ### **Sonic Visualizer**
 
-Uno strumento prezioso per l'ispezione visiva e analitica dei file audio, Sonic Visualizer può rivelare elementi nascosti non rilevabili con altri mezzi. Visita il [sito ufficiale](https://www.sonicvisualiser.org/) per ulteriori informazioni.
+Uno strumento prezioso per l'ispezione visiva e analitica dei file audio, Sonic Visualizer può rivelare elementi nascosti non rilevabili in altri modi. Visita il [sito ufficiale](https://www.sonicvisualiser.org/) per ulteriori informazioni.
 
 ### **Toni DTMF - Tonalità di chiamata**
 
@@ -190,25 +198,31 @@ I dati binari che danno un numero intero potrebbero rappresentare un codice QR. 
 import math
 math.sqrt(2500) #50
 ```
-### **Traduzione Braille**
+### **Traduzione in Braille**
 
-Per tradurre il Braille, il [Branah Braille Translator](https://www.branah.com/braille-translator) è una risorsa eccellente.
+Per tradurre in Braille, il [Traduttore Braille di Branah](https://www.branah.com/braille-translator) è una risorsa eccellente.
 
 ## **Riferimenti**
 
 * [**https://0xrick.github.io/lists/stego/**](https://0xrick.github.io/lists/stego/)
 * [**https://github.com/DominicBreuker/stego-toolkit**](https://github.com/DominicBreuker/stego-toolkit)
 
+**Gruppo di Sicurezza Try Hard**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
 <details>
 
-<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Altri modi per supportare HackTricks:
 
 * Se desideri vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusivi [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di Github.
+* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository di Github.
 
 </details>

