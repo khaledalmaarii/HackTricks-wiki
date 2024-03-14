@@ -2,25 +2,33 @@
 
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
 
 支持HackTricks的其他方式：
 
 - 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 - 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-- 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFTs收藏品](https://opensea.io/collection/the-peass-family)
+- 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
 - **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**。**
 - 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+***
+
 ## 切割和恢复工具
 
-更多工具请参考[https://github.com/Claudio-C/awesome-datarecovery](https://github.com/Claudio-C/awesome-datarecovery)
+更多工具请查看[https://github.com/Claudio-C/awesome-datarecovery](https://github.com/Claudio-C/awesome-datarecovery)
 
 ### Autopsy
 
-在取证中最常用的用于从图像中提取文件的工具是[**Autopsy**](https://www.autopsy.com/download/)。下载、安装并让其摄取文件以查找“隐藏”文件。请注意，Autopsy旨在支持磁盘映像和其他类型的图像，而不是简单文件。
+在取证中最常用的提取图像文件的工具是[**Autopsy**](https://www.autopsy.com/download/)。下载、安装并让其摄取文件以查找“隐藏”文件。请注意，Autopsy旨在支持磁盘映像和其他类型的映像，而不是简单文件。
 
 ### Binwalk <a href="#binwalk" id="binwalk"></a>
 
@@ -43,7 +51,7 @@ foremost -v -i file.img -o output
 ```
 ### **Scalpel**
 
-**Scalpel** 是另一个工具，可用于查找和提取**嵌入在文件中的文件**。在这种情况下，您需要从配置文件（_/etc/scalpel/scalpel.conf_）中取消注释您希望提取的文件类型。
+**Scalpel** 是另一个工具，可用于查找和提取**嵌入在文件中的文件**。在这种情况下，您需要取消配置文件（_/etc/scalpel/scalpel.conf_）中您希望提取的文件类型的注释。
 ```bash
 sudo apt-get install scalpel
 scalpel file.img -o output
@@ -72,7 +80,7 @@ bulk_extractor memory.img -o out_folder
 
 - 可视化和活跃的**结构查看器**
 - 不同焦点的多个绘图
-- 集中在样本的部分上
+- 集中在样本的部分
 - 在 PE 或 ELF 可执行文件中**查看字符串和资源**
 - 从文件中获取用于密码分析的**模式**
 - **发现**打包程序或编码器算法
@@ -85,7 +93,7 @@ BinVis 是在黑盒测试场景中熟悉未知目标的**起点**。
 
 ### FindAES
 
-通过搜索密钥计划来搜索 AES 密钥。能够找到 TrueCrypt 和 BitLocker 等使用的 128、192 和 256 位密钥。
+通过搜索其密钥计划来搜索 AES 密钥。能够找到用于 TrueCrypt 和 BitLocker 等的 128、192 和 256 位密钥。
 
 在[此处](https://sourceforge.net/projects/findaes/)下载。
 

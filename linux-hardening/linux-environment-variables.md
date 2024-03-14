@@ -2,21 +2,29 @@
 
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
 
 支持HackTricks的其他方式：
 
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
 * 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**。**
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+***
+
 ## 全局变量
 
-全局变量**将被**子进程继承。
+全局变量**将会**被**子进程**继承。
 
 您可以通过以下方式为当前会话创建一个全局变量：
 ```bash
@@ -62,7 +70,7 @@ cat /proc/`python -c "import os; print(os.getppid())"`/environ
 * **LANG** – 您当前的语言。
 * **MAIL** – 用户邮件存储位置。通常为 **/var/spool/mail/USER**。
 * **MANPATH** – 用于搜索手册页的目录列表。
-* **OSTYPE** – 操作系统类型。
+* **OSTYPE** – 操作系统的类型。
 * **PS1** – bash 中的默认提示符。
 * **PATH** – 存储所有目录的路径，这些目录包含您希望通过指定文件名而不是相对或绝对路径来执行的二进制文件。
 * **PWD** – 当前工作目录。
@@ -75,7 +83,7 @@ cat /proc/`python -c "import os; print(os.getppid())"`/environ
 
 ### **HISTFILESIZE**
 
-将此变量的值更改为 **0**，这样当您 **结束会话** 时，**历史文件**（\~/.bash\_history）将被删除。
+将此变量的值更改为 **0**，这样当您 **结束会话** 时，历史文件（\~/.bash\_history）将被删除。
 ```bash
 export HISTFILESIZE=0
 ```
@@ -87,7 +95,7 @@ export HISTSIZE=0
 ```
 ### http\_proxy & https\_proxy
 
-进程将使用在此处声明的 **代理** 通过 **http 或 https** 连接到互联网。
+进程将使用此处声明的**代理**通过**http或https**连接到互联网。
 ```bash
 export http_proxy="http://10.10.10.10:8080"
 export https_proxy="http://10.10.10.10:8080"
@@ -109,7 +117,7 @@ Root:
 
 ![](<../.gitbook/assets/image (87).png>)
 
-普通用户:
+Regular user:
 
 ![](<../.gitbook/assets/image (88).png>)
 
@@ -117,6 +125,26 @@ Root:
 
 ![](<../.gitbook/assets/image (89).png>)
 
-一个后台作业，一个停止作业，最后一个命令未正确完成:
+一个后台作业，一个停止和最后一个命令未正确完成:
 
 ![](<../.gitbook/assets/image (90).png>)
+
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+<details>
+
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+
+支持HackTricks的其他方式:
+
+* 如果您想在HackTricks中看到您的**公司广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+
+</details>

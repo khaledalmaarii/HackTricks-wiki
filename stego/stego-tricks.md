@@ -8,11 +8,19 @@
 
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
 * **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
+
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+***
 
 ## **从文件中提取数据**
 
@@ -70,17 +78,17 @@ cmp original.jpg stego.jpg -b -l
 
 ### **空格中的隐藏数据**
 
-在看似空白的空格中，可能隐藏着不可见字符所包含的信息。要提取这些数据，请访问 [https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder](https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder)。
+看似空白的空格中可能隐藏着不可见字符。要提取这些数据，请访问[https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder](https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder)。
 
 ## **从图像中提取数据**
 
 ### **使用GraphicMagick识别图像细节**
 
-[GraphicMagick](https://imagemagick.org/script/download.php) 用于确定图像文件类型并识别潜在的损坏。执行以下命令来检查一个图像：
+[GraphicMagick](https://imagemagick.org/script/download.php)用于确定图像文件类型并识别潜在的损坏。执行以下命令来检查一个图像：
 ```bash
 ./magick identify -verbose stego.jpg
 ```
-尝试修复损坏的图像时，添加元数据注释可能会有所帮助：
+要尝试修复损坏的图像，添加元数据注释可能会有所帮助：
 ```bash
 ./magick mogrify -set comment 'Extraneous bytes removed' stego.jpg
 ```
@@ -107,18 +115,18 @@ zsteg 专门用于揭示 PNG 和 BMP 文件中的隐藏数据。通过 `gem inst
 
 **命令:**
 
-* `zsteg -a file` 在文件上应用所有检测方法。
-* `zsteg -E file` 指定用于数据提取的有效载荷。
+* `zsteg -a file` 对文件应用所有检测方法。
+* `zsteg -E file` 指定数据提取的有效载荷。
 
 ### **StegoVeritas 和 Stegsolve**
 
-**stegoVeritas** 检查元数据，执行图像转换，并应用 LSB 强制破解等其他功能。使用 `stegoveritas.py -h` 查看所有选项的完整列表，使用 `stegoveritas.py stego.jpg` 执行所有检查。
+**stegoVeritas** 检查元数据，执行图像转换，应用 LSB 强制破解等功能。使用 `stegoveritas.py -h` 查看所有选项的完整列表，使用 `stegoveritas.py stego.jpg` 执行所有检查。
 
 **Stegsolve** 应用各种颜色滤镜来显示图像中隐藏的文本或消息。可在[GitHub](https://github.com/eugenekolo/sec-tools/tree/master/stego/stegsolve/stegsolve)上找到。
 
-### **FFT 用于隐藏内容检测**
+### **FFT 用于检测隐藏内容**
 
-快速傅里叶变换（FFT）技术可以揭示图像中隐藏的内容。有用的资源包括:
+快速傅里叶变换（FFT）技术可揭示图像中的隐藏内容。有用的资源包括:
 
 * [EPFL 演示](http://bigwww.epfl.ch/demo/ip/demos/FFT/)
 * [Ejectamenta](https://www.ejectamenta.com/Fourifier-fullscreen/)
@@ -151,21 +159,21 @@ pngcheck stego.png
 
 ### **Steghide (JPEG, BMP, WAV, AU)**
 
-Steghide 是一个多功能工具，旨在将数据隐藏在 JPEG、BMP、WAV 和 AU 文件中。详细说明请参阅 [stego tricks documentation](stego-tricks.md#steghide)。
+Steghide 是一个多功能工具，旨在将数据隐藏在 JPEG、BMP、WAV 和 AU 文件中。详细说明请参阅[隐写技巧文档](stego-tricks.md#steghide)。
 
 ### **Stegpy (PNG, BMP, GIF, WebP, WAV)**
 
-该工具兼容多种格式，包括 PNG、BMP、GIF、WebP 和 WAV。有关更多信息，请参阅 [Stegpy's section](stego-tricks.md#stegpy-png-bmp-gif-webp-wav)。
+该工具兼容各种格式，包括 PNG、BMP、GIF、WebP 和 WAV。有关更多信息，请参阅[Stegpy 的部分](stego-tricks.md#stegpy-png-bmp-gif-webp-wav)。
 
 ### **ffmpeg**
 
-ffmpeg 对于评估音频文件的完整性至关重要，突出显示详细信息并指出任何不一致之处。
+ffmpeg 对于评估音频文件的完整性至关重要，突出显示详细信息并指出任何差异。
 ```bash
 ffmpeg -v info -i stego.mp3 -f null -
 ```
 ### **WavSteg (WAV)**
 
-WavSteg在WAV文件中使用最低有效位策略隐藏和提取数据。可在[GitHub](https://github.com/ragibson/Steganography#WavSteg)上找到。命令包括：
+WavSteg在WAV文件中使用最低有效位策略隐藏和提取数据。它可以在[GitHub](https://github.com/ragibson/Steganography#WavSteg)上找到。命令包括：
 ```bash
 python3 WavSteg.py -r -b 1 -s soundfile -o outputfile
 
@@ -177,40 +185,46 @@ Deepsound允许使用AES-256在声音文件中加密和检测信息。可以从[
 
 ### **Sonic Visualizer**
 
-Sonic Visualizer是一款无价的工具，用于对音频文件进行视觉和分析检查，可以揭示其他方法无法检测到的隐藏元素。访问[官方网站](https://www.sonicvisualiser.org/)了解更多信息。
+Sonic Visualizer是一个无价的工具，用于对音频文件进行视觉和分析检查，可以揭示其他方法无法检测到的隐藏元素。访问[官方网站](https://www.sonicvisualiser.org/)了解更多信息。
 
-### **DTMF Tones - 拨号音**
+### **DTMF Tones - Dial Tones**
 
 可以通过在线工具如[此DTMF检测器](https://unframework.github.io/dtmf-detect/)和[DialABC](http://dialabc.com/sound/detect/index.html)来检测音频文件中的DTMF音调。
 
 ## **其他技术**
 
-### **二进制长度平方根 - QR码**
+### **Binary Length SQRT - QR Code**
 
-平方为整数的二进制数据可能代表一个QR码。使用以下代码片段进行检查：
+将平方为整数的二进制数据可能代表QR码。使用以下代码片段进行检查：
 ```python
 import math
 math.sqrt(2500) #50
 ```
-### **点字翻译**
+### **盲文翻译**
 
-要进行点字翻译，请使用[Branah点字翻译器](https://www.branah.com/braille-translator)这一优秀资源。
+要进行盲文翻译，请使用[Branah盲文翻译器](https://www.branah.com/braille-translator)这一优秀资源。
 
 ## **参考资料**
 
 * [**https://0xrick.github.io/lists/stego/**](https://0xrick.github.io/lists/stego/)
 * [**https://github.com/DominicBreuker/stego-toolkit**](https://github.com/DominicBreuker/stego-toolkit)
 
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
 
 支持HackTricks的其他方式：
 
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**上关注**我们。
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>

