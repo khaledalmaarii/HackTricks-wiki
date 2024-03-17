@@ -9,12 +9,12 @@
 - 如果您想在HackTricks中看到您的**公司广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 - 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
 - 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-- **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+- **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 - 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
-MIG被创建用于**简化Mach IPC**代码的生成过程。它基本上**生成了所需的代码**，以便服务器和客户端根据给定的定义进行通信。即使生成的代码看起来很丑陋，开发人员只需导入它，他的代码将比以前简单得多。
+MIG被创建用于**简化Mach IPC**代码创建过程。它基本上**生成了所需的代码**，以便服务器和客户端根据给定的定义进行通信。即使生成的代码看起来很丑陋，开发人员只需导入它，他的代码将比以前简单得多。
 
 ### 示例
 
@@ -43,7 +43,7 @@ mig -header myipcUser.h -sheader myipcServer.h myipc.defs
 ```
 在当前目录中将创建几个新文件。
 
-在文件**`myipcServer.c`**和**`myipcServer.h`**中，您可以找到结构**`SERVERPREFmyipc_subsystem`**的声明和定义，该结构基本上定义了根据接收到的消息ID调用的函数（我们指定了起始编号为500）：
+在文件**`myipcServer.c`**和**`myipcServer.h`**中，您可以找到结构**`SERVERPREFmyipc_subsystem`**的声明和定义，该结构基本上定义了根据接收到的消息ID调用的函数（我们指定了一个起始编号为500）：
 ```c
 /* Description of this subsystem, for use in direct RPC */
 const struct SERVERPREFmyipc_subsystem SERVERPREFmyipc_subsystem = {
@@ -65,23 +65,31 @@ myipc_server_routine,
 
 ### macOS MIG (Mach Interface Generator)
 
-MIG is a tool used to define inter-process communication (IPC) for macOS. It generates client and server-side code for message-based IPC. MIG interfaces are defined in .defs files and are used to specify the messages that can be sent between processes.
+macOS MIG (Mach Interface Generator) is a tool used to define inter-process communication (IPC) interfaces in macOS. It generates C code that handles the communication between processes using Mach messages.
 
-MIG is commonly used in macOS for system services and kernel extensions. It provides a structured way for processes to communicate with each other and is essential for many low-level macOS operations.
+MIG interfaces are defined in .defs files, which are then processed by the mig compiler to generate the necessary C code for the server and client sides of the IPC communication.
 
-To use MIG, you define the message formats in a .defs file, run the MIG compiler to generate the necessary code, and then incorporate the generated code into your project. This allows processes to send and receive messages using the defined MIG interfaces.
+By understanding and manipulating MIG interfaces, an attacker could potentially abuse IPC mechanisms to escalate privileges or perform unauthorized actions on a macOS system.
 
-By understanding how MIG works and how IPC is implemented in macOS, security researchers can identify potential vulnerabilities and privilege escalation paths in the system. It is important to analyze MIG interfaces and their usage to ensure the security of macOS systems. 
+### Example of a MIG Interface Definition
 
-### macOS MIG（Mach接口生成器）
+```c
+routine myipc_server_routine {
+    mach_msg_header_t Head;
+    mach_msg_type_t Type;
+    int data;
+} InData;
 
-MIG是用于定义macOS进程间通信（IPC）的工具。它为基于消息的IPC生成客户端和服务器端代码。MIG接口在.defs文件中定义，并用于指定进程之间可以发送的消息。
+routine myipc_client_routine {
+    mach_msg_header_t Head;
+    mach_msg_type_t Type;
+    int data;
+} OutData;
+```
 
-MIG通常用于macOS的系统服务和内核扩展。它为进程之间通信提供了一种结构化的方式，对于许多低级macOS操作至关重要。
+In this example, `myipc_server_routine` and `myipc_client_routine` are defined as MIG routines, specifying the structure of the messages exchanged between the server and client processes.
 
-要使用MIG，您需要在.defs文件中定义消息格式，运行MIG编译器以生成必要的代码，然后将生成的代码合并到您的项目中。这样，进程就可以使用定义的MIG接口发送和接收消息。
-
-通过了解MIG的工作原理以及IPC在macOS中的实现方式，安全研究人员可以识别系统中潜在的漏洞和提权路径。分析MIG接口及其使用情况对于确保macOS系统的安全至关重要。 
+Understanding how MIG interfaces work can help security professionals in analyzing and securing IPC mechanisms in macOS applications. 
 
 {% endtab %}
 ```c
@@ -113,7 +121,7 @@ return SERVERPREFmyipc_subsystem.routine[msgh_id].stub_routine;
 ```
 在这个例子中，我们只在定义中定义了一个函数，但如果我们定义了更多函数，它们将位于**`SERVERPREFmyipc_subsystem`**数组内，第一个函数将被分配给ID **500**，第二个函数将被分配给ID **501**...
 
-实际上，可以在**`myipcServer.h`**中的**`subsystem_to_name_map_myipc`**结构中识别这种关系：
+实际上可以在**`myipcServer.h`**中的**`subsystem_to_name_map_myipc`**结构中识别这种关系：
 ```c
 #ifndef subsystem_to_name_map_myipc
 #define subsystem_to_name_map_myipc \
@@ -156,7 +164,7 @@ return FALSE;
 
 检查前面突出显示的行，访问要通过ID调用的函数。
 
-以下是创建一个简单**服务器**和**客户端**的代码，其中客户端可以从服务器调用函数Subtract：
+以下是创建一个简单**服务器**和**客户端**的代码，其中客户端可以从服务器调用Subtract函数：
 
 {% tabs %}
 {% tab title="myipc_server.c" %}
@@ -192,41 +200,46 @@ mach_msg_server(myipc_server, sizeof(union __RequestUnion__SERVERPREFmyipc_subsy
 ```
 {% endtab %}
 
-{% tab title="myipc_client.c" %}
+{% tab title="myipc_client.c" %} 
 
-### myipc_client.c
+### macOS MIG (Mach Interface Generator)
+
+macOS MIG (Mach Interface Generator) is a tool used to define inter-process communication (IPC) interfaces in macOS. It generates C code that handles the communication between processes using Mach messages.
+
+MIG interfaces are defined in .defs files, which are then processed by the mig tool to generate the necessary C code for IPC. This generated code includes functions for sending and receiving messages, as well as handling complex data structures.
+
+By understanding and manipulating MIG interfaces, an attacker could potentially abuse IPC mechanisms to escalate privileges or perform unauthorized actions on a macOS system.
+
+### Example
 
 ```c
 #include <stdio.h>
 #include <mach/mach.h>
-#include <servers/bootstrap.h>
 #include "myipc.h"
 
 int main() {
-    mach_port_t bootstrap_port;
-    kern_return_t kr = task_get_bootstrap_port(mach_task_self(), &bootstrap_port);
+    mach_port_t server_port;
+    kern_return_t kr;
+
+    kr = bootstrap_look_up(bootstrap_port, "com.example.myipc", &server_port);
     if (kr != KERN_SUCCESS) {
-        printf("[-] Failed to get bootstrap port\n");
+        printf("Failed to look up server port\n");
         return 1;
     }
 
-    myipc_t myipc = myipc_alloc_init(bootstrap_port);
-    if (myipc == MACH_PORT_NULL) {
-        printf("[-] Failed to allocate and init myipc object\n");
-        return json_object();
-    }
-
-    char *response = myipc_send_message(myipc, "Hello, server!");
-    if (response == NULL) {
-        printf("[-] Failed to send message\n");
-        return 1;
-    }
-
-    printf("[+] Received response: %s\n", response);
+    myipc_do_something(server_port);
 
     return 0;
 }
 ```
+
+In this example, a client process looks up the server port using `bootstrap_look_up` and then calls a function `myipc_do_something` defined in the MIG-generated header file `myipc.h`.
+
+By analyzing and understanding the MIG-generated code, an attacker could potentially find vulnerabilities or ways to abuse the IPC mechanism for malicious purposes.
+
+### Mitigation
+
+To mitigate potential abuse of MIG interfaces, it is essential to follow secure coding practices, regularly update the system to patch known vulnerabilities, and monitor IPC communications for any suspicious activities. Additionally, restricting access to sensitive IPC interfaces can help prevent unauthorized abuse. 
 
 {% endtab %}
 ```c
@@ -257,11 +270,11 @@ USERPREFSubtract(port, 40, 2);
 
 由于许多二进制文件现在使用MIG来公开mach端口，了解如何**识别使用了MIG**以及MIG在每个消息ID上执行的**功能**是很有趣的。
 
-[**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2)可以从Mach-O二进制文件中解析MIG信息，指示消息ID并识别要执行的函数：
+[**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2)可以解析Mach-O二进制文件中的MIG信息，指示消息ID并识别要执行的函数：
 ```bash
 jtool2 -d __DATA.__const myipc_server | grep MIG
 ```
-先前提到负责根据接收的消息ID调用正确函数的函数是`myipc_server`。然而，通常不会有二进制文件的符号（没有函数名称），因此有趣的是**查看反编译后的样子**，因为它总是非常相似的（此函数的代码与暴露的函数无关）：
+在之前提到的函数`myipc_server`将负责**根据接收的消息ID调用正确的函数**。然而，通常情况下你不会拥有二进制文件的符号（即没有函数名称），因此有趣的是**查看反编译后的样子**，因为它总是非常相似的（此函数的代码与暴露的函数无关）：
 
 {% tabs %}
 {% tab title="myipc_server反编译 1" %}
@@ -290,7 +303,7 @@ rax = *(int32_t *)(var_10 + 0x14);
 var_4 = 0x0;
 }
 else {
-// 计算地址，使用2个参数调用正确的函数
+// 计算地址调用带有2个参数的正确函数
 <strong>                    (var_20)(var_10, var_18);
 </strong>                    var_4 = 0x1;
 }
@@ -358,7 +371,7 @@ r8 = 0x1;
 var_4 = 0x0;
 }
 else {
-// 调用计算出的地址，调用应该在其中的函数
+// 调用计算出的地址，该地址应调用函数
 <strong>                            (var_20)(var_10, var_18);
 </strong>                            var_4 = 0x1;
 }
@@ -382,14 +395,12 @@ return r0;
 {% endtab %}
 {% endtabs %}
 
-实际上，如果转到函数**`0x100004000`**，您将找到**`routine_descriptor`**结构体的数组。结构体的第一个元素是**函数实现的地址**，**结构体占用0x28字节**，因此每0x28字节（从字节0开始）您可以获得8字节，这将是将被调用的**函数的地址**：
-
-<figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+实际上，如果你转到函数**`0x100004000`**，你会找到**`routine_descriptor`**结构体的数组。结构体的第一个元素是**函数实现的地址**，**结构体占用0x28字节**，因此每0x28字节（从字节0开始）你可以获得8字节，这将是将被调用的**函数的地址**：
 
 <figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-可以使用[**此Hopper脚本**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py)提取这些数据。
+<figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+
+这些数据可以通过[**使用此Hopper脚本**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py)来提取。
 * **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) **和** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **github 仓库提交 PR 来分享您的黑客技巧。**
-
-</details>
