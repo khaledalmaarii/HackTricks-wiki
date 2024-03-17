@@ -2,19 +2,19 @@
 
 <details>
 
-<summary><strong>Sıfırdan kahraman olacak şekilde AWS hacklemeyi öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahramana dönüştürmek için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile öğrenin!</strong></summary>
 
-HackTricks'ı desteklemenin diğer yolları:
+HackTricks'i desteklemenin diğer yolları:
 
 * **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
 * [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **bizi** **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Hacking püf noktalarınızı paylaşarak PR'ler göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
 
-MIG, **Mach IPC işlemi oluşturma sürecini basitleştirmek** için oluşturulmuştur. Temelde, sunucu ve istemcinin iletişim kurması için gerekli kodu **belirli bir tanım ile oluşturur**. Oluşturulan kod ne kadar kötü görünürse görünsün, bir geliştirici sadece bunu içe aktarması yeterli olacak ve kodu öncekinden çok daha basit olacaktır.
+MIG, **Mach IPC işlemi** kod oluşturma sürecini basitleştirmek için oluşturulmuştur. Temelde, sunucu ve istemcinin iletişim kurması için gerekli kodu **belirli bir tanım ile oluşturur**. Oluşturulan kod ne kadar kötü görünürse görünsün, bir geliştirici sadece bunu içe aktarması yeterli olacak ve kodu öncekinden çok daha basit olacaktır.
 
 ### Örnek
 
@@ -37,13 +37,13 @@ n2          :  uint32_t);
 ```
 {% endcode %}
 
-Şimdi mig'i kullanarak, birbirleriyle iletişim kurabilecek şekilde sunucu ve istemci kodunu oluşturun ve Çıkarma işlevini çağırmak için birbirleriyle iletişim kurun:
+Şimdi mig'i kullanarak birbirleriyle iletişim kurabilecek sunucu ve istemci kodunu oluşturmak için Subtract işlevini çağırmak için:
 ```bash
 mig -header myipcUser.h -sheader myipcServer.h myipc.defs
 ```
 Çeşitli yeni dosyalar mevcut dizinde oluşturulacaktır.
 
-**`myipcServer.c`** ve **`myipcServer.h`** dosyalarında **`SERVERPREFmyipc_subsystem`** yapısının bildirimi ve tanımını bulabilirsiniz, bu yapı temelde alınan mesaj kimliğine göre çağrılacak işlevi tanımlar (başlangıç numarasını 500 olarak belirttik):
+**`myipcServer.c`** ve **`myipcServer.h`** dosyalarında **`SERVERPREFmyipc_subsystem`** yapısının bildirimi ve tanımını bulabilirsiniz, bu yapı temel olarak alınan mesaj kimliğine göre çağrılacak işlevi tanımlar (başlangıç numarasını 500 olarak belirttik):
 
 {% tabs %}
 {% tab title="myipcServer.c" %}
@@ -64,27 +64,17 @@ myipc_server_routine,
 ```
 {% endtab %}
 
-{% tab title="myipcServer.h" %} 
-
-### macOS MIG (Mach Interface Generator)
-
-MIG is a tool used to define inter-process communication (IPC) for macOS. It generates client and server-side code for IPC. MIG interfaces are defined in .defs files and are used to define the messages that can be sent between processes.
-
-#### Example .defs file:
+{% tab title="myipcServer.h" %}Dosya: myipcServer.h
 
 ```c
-routine my_ipc_message {
-    mach_msg_header_t Head;
-    int data;
-} -> {
-    mach_msg_header_t Head;
-    int result;
-};
-```
+#include <mach/mach.h>
+#include <servers/bootstrap.h>
+#include "myipcServer.h"
 
-In this example, `my_ipc_message` is a routine that sends an integer `data` from the client to the server and receives an integer `result` in response.
+kern_return_t myipc_server(mach_msg_header_t *InHeadP, mach_msg_header_t *OutHeadP);
+``` 
 
-MIG simplifies the process of defining IPC interfaces and handling messages between processes in macOS.
+{% endtab %}
 ```c
 /* Description of this subsystem, for use in direct RPC */
 extern const struct SERVERPREFmyipc_subsystem {
@@ -205,48 +195,16 @@ mach_msg_server(myipc_server, sizeof(union __RequestUnion__SERVERPREFmyipc_subsy
 #include "myipc.h"
 
 int main() {
-    mach_port_t bootstrap_port;
-    kern_return_t kr = task_get_bootstrap_port(mach_task_self(), &bootstrap_port);
+    mach_port_t server_port;
+    kern_return_t kr;
+
+    kr = bootstrap_look_up(bootstrap_port, "com.example.myipc", &server_port);
     if (kr != KERN_SUCCESS) {
-        printf("Failed to get bootstrap port\n");
+        printf("Failed to look up server port: %s\n", mach_error_string(kr));
         return 1;
     }
 
-    myipc_t myipc = MYIPC_NULL;
-    kr = bootstrap_look_up(bootstrap_port, MYIPC_SERVICE_NAME, &myipc);
-    if (kr != KERN_SUCCESS) {
-        printf("Failed to look up service %s\n", MYIPC_SERVICE_NAME);
-        return json_object();
-    }
-
-    myipc_msg_t msg = {
-        .hdr = {
-            .msgh_bits = MACH_MSGH_BITS_COMPLEX | MACH_MSGH_BITS(MACH_MSG_TYPE_COPY_SEND, Mjson_objectACH_MSG_TYPE_MAKE_SEND_ONCE),
-            .msgh_size = sizeof(myipc_msg_t),
-            .msgh_remote_port = myipc,
-            .msgh_local_port = MACH_PORT_NULL,
-            .msgh_id = 0x41414141
-        },
-        .body = {
-            .msgh_descriptor_count = 1,
-            .msgh_descriptors = {
-                {
-                    .name = MACH_MSG_PORT_DESCRIPTOR,
-                    .disposition = MACH_MSG_TYPE_COPY_SEND,
-                    .type = MACH_MSG_PORT_DESCRIPTOR,
-                    .pad1 = 0,
-                    .pad2 = 0,
-                    .port = MACH_PORT_NULL
-                }
-            }
-        }
-    };
-
-    kr = mach_msg(&msg.hdr, MACH_SEND_MSG, msg.hmsg_size, 0, MACH_PORT_NULL, MACH_MSG_TIMEOUT_NONE, MACH_PORT_NULL);
-    if (kr != KERN_SUCCESS) {
-        printf("Failed to send message\n");
-        return 1;
-    }
+    myipc_client(server_port);
 
     return 0;
 }
@@ -279,20 +237,20 @@ USERPREFSubtract(port, 40, 2);
 ```
 ### Binary Analizi
 
-Birçok ikili dosya artık mach bağlantı noktalarını açığa çıkarmak için MIG'yi kullandığından, MIG'nin kullanıldığını **tanımanın** ve her mesaj kimliği ile MIG'nin yürüttüğü **işlevleri** bilmek ilginçtir.
+Birçok ikili dosya artık mach bağlantı noktalarını açığa çıkarmak için MIG kullanıyor, bu nedenle **MIG'nin kullanıldığını belirlemenin** ve her mesaj kimliği ile **MIG'nin yürüttüğü işlevleri** bilmek ilginç olabilir.
 
-[**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2), bir Mach-O ikili dosyasından MIG bilgilerini ayrıştırabilir ve mesaj kimliğini göstererek yürütülecek işlevi tanımlayabilir:
+[**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2), bir Mach-O ikili dosyasından MIG bilgilerini ayrıştırabilir ve mesaj kimliğini göstererek yürütülecek işlevi belirleyebilir:
 ```bash
 jtool2 -d __DATA.__const myipc_server | grep MIG
 ```
-Önceki bölümde, **alınan mesaj kimliğine bağlı olarak doğru işlevi çağıracak olan fonksiyonun** `myipc_server` olduğu belirtilmişti. Ancak genellikle ikili dosyanın sembolleri olmayacaktır (işlev adları yok), bu yüzden **nasıl decompile edildiğine bakmak ilginç olacaktır** çünkü her zaman çok benzer olacaktır (bu işlevin kodu, sunulan işlevlerden bağımsızdır):
+Daha önce, **alınan mesaj kimliğine bağlı olarak doğru işlevi çağıracak olan fonksiyonun** `myipc_server` olduğu belirtilmişti. Ancak genellikle ikili dosyanın sembolleri olmayacaktır (işlev adları yok), bu yüzden **nasıl decompile edildiğine bakmak ilginç olacaktır** çünkü her zaman çok benzer olacaktır (bu işlevin kodu, sunulan işlevlerden bağımsızdır):
 
 {% tabs %}
 {% tab title="myipc_server decompiled 1" %}
 <pre class="language-c"><code class="lang-c">int _myipc_server(int arg0, int arg1) {
 var_10 = arg0;
 var_18 = arg1;
-// Doğru işlev işaretçilerini bulmak için ilk talimatlar
+// Uygun işlev işaretçilerini bulmak için ilk talimatlar
 *(int32_t *)var_18 = *(int32_t *)var_10 &#x26; 0x1f;
 *(int32_t *)(var_18 + 0x8) = *(int32_t *)(var_10 + 0x8);
 *(int32_t *)(var_18 + 0x4) = 0x24;
@@ -301,13 +259,13 @@ var_18 = arg1;
 *(int32_t *)(var_18 + 0x10) = 0x0;
 if (*(int32_t *)(var_10 + 0x14) &#x3C;= 0x1f4 &#x26;&#x26; *(int32_t *)(var_10 + 0x14) >= 0x1f4) {
 rax = *(int32_t *)(var_10 + 0x14);
-// Bu işlevi tanımlamaya yardımcı olabilecek sign_extend_64 çağrısı
+// Çağrılacak işlevi tanımlamaya yardımcı olabilecek sign_extend_64 çağrısı
 // Bu, çağrılması gereken işlevin işaretçisini rax'a depolar
-// Kullanılan adres 0x100004040'ı kontrol edin (işlev adresleri dizisi)
+// Kullanılan adres 0x100004040'ı kontrol edin (işlevlerin adresleri dizisi)
 // 0x1f4 = 500 (başlangıç ​​ID'si)
 <strong>            rax = *(sign_extend_64(rax - 0x1f4) * 0x28 + 0x100004040);
 </strong>            var_20 = rax;
-// If - else, if döndürmezken else doğru işlevi çağırır ve true döndürür
+// If - else, if yanıtı yanlış döndürürken else doğru işlevi çağırır ve doğru döndürür
 <strong>            if (rax == 0x0) {
 </strong>                    *(var_18 + 0x18) = **_NDR_record;
 *(int32_t *)(var_18 + 0x20) = 0xfffffffffffffed1;
@@ -331,7 +289,7 @@ return rax;
 {% endtab %}
 
 {% tab title="myipc_server decompiled 2" %}
-Bu, farklı bir Hopper ücretsiz sürümünde decompile edilmiş aynı işlevdir:
+Bu, farklı bir Hopper free sürümünde decompile edilmiş aynı işlevdir:
 
 <pre class="language-c"><code class="lang-c">int _myipc_server(int arg0, int arg1) {
 r31 = r31 - 0x40;
@@ -339,7 +297,7 @@ saved_fp = r29;
 stack[-8] = r30;
 var_10 = arg0;
 var_18 = arg1;
-// Doğru işlev işaretçilerini bulmak için ilk talimatlar
+// Uygun işlev işaretçilerini bulmak için ilk talimatlar
 *(int32_t *)var_18 = *(int32_t *)var_10 &#x26; 0x1f | 0x0;
 *(int32_t *)(var_18 + 0x8) = *(int32_t *)(var_10 + 0x8);
 *(int32_t *)(var_18 + 0x4) = 0x24;
@@ -375,7 +333,7 @@ r8 = 0x1;
 }
 }
 // Önceki sürümdeki gibi aynı if else
-// Kullanılan adres 0x100004040 (işlev adresleri dizisi) kontrol edilir
+// Kullanılan adres 0x100004040 (işlevlerin adresleri dizisi) kontrol edilir
 <strong>                    if ((r8 &#x26; 0x1) == 0x0) {
 </strong><strong>                            *(var_18 + 0x18) = **0x100004000;
 </strong>                            *(int32_t *)(var_18 + 0x20) = 0xfffffed1;
@@ -406,24 +364,22 @@ return r0;
 {% endtab %}
 {% endtabs %}
 
-Aslında, **`0x100004000`** işlevine giderseniz, **`routine_descriptor`** yapılarının dizisini bulacaksınız. Yapının ilk öğesi, **işlevin uygulandığı adres** ve **yapının 0x28 bayt** alacağıdır, bu nedenle her 0x28 baytta (bayt 0'dan başlayarak) 8 bayt alabilir ve bu, **çağrılacak işlevin adresi** olacaktır:
-
-<figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+Aslında, **`0x100004000`** işlevine giderseniz, **`routine_descriptor`** yapılarının dizisini bulacaksınız. Yapının ilk öğesi, **işlevin uygulandığı adres** ve **yapının 0x28 bayt aldığını** göz önünde bulundurarak, her 0x28 baytta (bayt 0'dan başlayarak) 8 bayt alabilir ve bu, **çağrılacak işlevin adresi** olacaktır:
 
 <figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+
+<figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Bu veriler, [**bu Hopper betiği kullanılarak**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py) çıkarılabilir.
 
 <details>
 
-<summary><strong>Sıfırdan başlayarak AWS hacklemeyi öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile!</strong></summary>
+<summary><strong>Sıfırdan başlayarak AWS hacklemeyi</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile öğrenin!</strong></summary>
 
 HackTricks'i desteklemenin diğer yolları:
 
-* Şirketinizi **HackTricks'te reklamını görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* **Şirketinizi HackTricks'te reklamını görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
 * [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu
-* **Discord grubuna** 💬 [**katılın**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**'da takip edin**.
-* **Hacking püf noktalarınızı paylaşarak PR'ler göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) **ve** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **github depolarına katkıda bulunun**.
-
-</details>
+* **Discord grubuna** 💬 [**katılın**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**'da takip edin.**
+* **Hacking püf noktalarınızı göndererek PR'ler gönderin** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **github depolarına.**

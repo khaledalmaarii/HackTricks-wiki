@@ -2,23 +2,23 @@
 
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan ileri seviyeye öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile</strong>!</summary>
+<summary><strong>AWS hacklemeyi sıfırdan ileri seviyeye öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile!</strong></summary>
 
 HackTricks'i desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamınızı görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na göz atın (https://github.com/sponsors/carlospolop)!
+* **Şirketinizin HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Ailesi**]'ni (https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**]'in (https://opensea.io/collection/the-peass-family) bulunduğu koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)'da **takip edin**.
-* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**The PEASS Family'yi**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Hacking püf noktalarınızı paylaşarak PR'ler göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
 
 ## XPC Yetkilendirme
 
-Apple, bağlanan işlemin **bir XPC yöntemini çağırmak için izinlere sahip olup olmadığını doğrulamanın** başka bir yolunu da önerir.
+Apple, bağlanan işlemin **bir XPC yöntemini çağırmaya izin** **olup olmadığını doğrulamanın** başka bir yolunu da önerir.
 
-Bir uygulamanın **yetkili bir kullanıcı olarak işlemler gerçekleştirmesi gerektiğinde**, genellikle uygulamayı yetkili bir kullanıcı olarak çalıştırmak yerine, bu işlemleri gerçekleştirmek için uygulamadan çağrılabilen bir XPC hizmeti olarak HelperTool'u kök olarak yükler. Ancak, hizmeti çağıran uygulamanın yeterli yetkilendirmeye sahip olması gerekir.
+Bir uygulamanın **yetkili bir kullanıcı olarak işlemler gerçekleştirmesi gerektiğinde**, genellikle uygulamayı yetkili bir kullanıcı olarak çalıştırmak yerine, bu işlemleri gerçekleştirmek için çağrılabilecek bir XPC hizmeti olarak HelperTool'u kök olarak yükler. Ancak, hizmeti çağıran uygulamanın yeterli yetkilendirmeye sahip olması gerekir.
 
 ### ShouldAcceptNewConnection her zaman YES
 
@@ -106,7 +106,7 @@ assert(blockErr == errAuthorizationSuccess);
 }];
 }
 ```
-`enumerateRightsUsingBlock` işlevi, `commandInfo` içinde tanımlanan uygulama izinlerini almak için kullanılan işlevdir:
+`enumerateRightsUsingBlock` işlevi, `commandInfo` içinde tanımlanan uygulama izinlerini almak için kullanılan işlevidir:
 ```objectivec
 static NSString * kCommandKeyAuthRightName    = @"authRightName";
 static NSString * kCommandKeyAuthRightDefault = @"authRightDefault";
@@ -186,13 +186,13 @@ block(authRightName, authRightDefault, authRightDesc);
 ```
 Bu, işlem sonunda `commandInfo` içinde belirtilen izinlerin `/var/db/auth.db` içinde saklanacağı anlamına gelir. **Her bir yöntem için** bulabileceğiniz şeylere dikkat edin ki **kimlik doğrulaması gerektirecek**, **izin adı** ve **`kCommandKeyAuthRightDefault`**. Sonuncusu **bu hakkı kimin alabileceğini belirtir**.
 
-Bir hakkı kimin erişebileceğini belirtmek için farklı kapsamlar vardır. Bazıları [AuthorizationDB.h](https://github.com/aosm/Security/blob/master/Security/libsecurity\_authorization/lib/AuthorizationDB.h) içinde tanımlanmıştır (hepsini [burada bulabilirsiniz](https://www.dssw.co.uk/reference/authorization-rights/)), ancak özetle:
+Bir hakkı kimin erişebileceğini belirtmek için farklı kapsamlar vardır. Bunlardan bazıları [AuthorizationDB.h](https://github.com/aosm/Security/blob/master/Security/libsecurity\_authorization/lib/AuthorizationDB.h) içinde tanımlanmıştır (hepsini [burada bulabilirsiniz](https://www.dssw.co.uk/reference/authorization-rights/)), ancak özetle:
 
-<table><thead><tr><th width="284.3333333333333">Ad</th><th width="165">Değer</th><th>Açıklama</th></tr></thead><tbody><tr><td>kAuthorizationRuleClassAllow</td><td>allow</td><td>Herkes</td></tr><tr><td>kAuthorizationRuleClassDeny</td><td>deny</td><td>Hiç kimse</td></tr><tr><td>kAuthorizationRuleIsAdmin</td><td>is-admin</td><td>Mevcut kullanıcının bir yönetici olması gerekiyor (yönetici grubu içinde)</td></tr><tr><td>kAuthorizationRuleAuthenticateAsSessionUser</td><td>authenticate-session-owner</td><td>Kullanıcıdan kimlik doğrulaması iste</td></tr><tr><td>kAuthorizationRuleAuthenticateAsAdmin</td><td>authenticate-admin</td><td>Kullanıcıdan kimlik doğrulaması iste. Yönetici olması gerekiyor (yönetici grubu içinde)</td></tr><tr><td>kAuthorizationRightRule</td><td>rule</td><td>Kuralları belirt</td></tr><tr><td>kAuthorizationComment</td><td>comment</td><td>Haklar hakkında ekstra yorumlar belirt</td></tr></tbody></table>
+<table><thead><tr><th width="284.3333333333333">Ad</th><th width="165">Değer</th><th>Açıklama</th></tr></thead><tbody><tr><td>kAuthorizationRuleClassAllow</td><td>allow</td><td>Herkes</td></tr><tr><td>kAuthorizationRuleClassDeny</td><td>deny</td><td>Hiç kimse</td></tr><tr><td>kAuthorizationRuleIsAdmin</td><td>is-admin</td><td>Mevcut kullanıcının bir yönetici olması gerekiyor (yönetici grubu içinde)</td></tr><tr><td>kAuthorizationRuleAuthenticateAsSessionUser</td><td>authenticate-session-owner</td><td>Kullanıcıdan kimlik doğrulaması iste</td></tr><tr><td>kAuthorizationRuleAuthenticateAsAdmin</td><td>authenticate-admin</td><td>Kullanıcıdan kimlik doğrulaması iste. Yönetici olması gerekiyor (yönetici grubu içinde)</td></tr><tr><td>kAuthorizationRightRule</td><td>rule</td><td>Kuralları belirt</td></tr><tr><td>kAuthorizationComment</td><td>comment</td><td>Hakka ek açıklamalar belirt</td></tr></tbody></table>
 
-### Haklar Doğrulaması
+### Hak Doğrulama
 
-`HelperTool/HelperTool.m` içindeki **`readLicenseKeyAuthorization`** fonksiyonu, **bu tür bir yöntemi** yürütmeye yetkili olup olmadığını kontrol ederken **`checkAuthorization`** fonksiyonunu çağıranın yetkilendirilip yetkilendirilmediğini kontrol eder. Bu işlev, çağıran işlem tarafından gönderilen **authData**'nın **doğru biçimde** olup olmadığını kontrol edecek ve ardından belirli bir yöntemi çağırmak için **gerekenin ne olduğunu** kontrol edecektir. Her şey yolunda giderse, **döndürülen `error` `nil` olacaktır**:
+`HelperTool/HelperTool.m` içinde **`readLicenseKeyAuthorization`** fonksiyonu, **bu tür bir yöntemi** yürütmeye yetkili olup olmadığını kontrol ederken **`checkAuthorization`** fonksiyonunu çağıranın yetkilendirilip yetkilendirilmediğini kontrol eder. Bu işlev, çağıran işlem tarafından gönderilen **authData**'nın **doğru biçimde** olup olmadığını kontrol edecek ve ardından belirli bir yöntemi çağırmak için **gerekenin ne olduğunu** kontrol edecektir. Her şey yolunda giderse, **döndürülen `error` `nil` olacaktır**:
 ```objectivec
 - (NSError *)checkAuthorization:(NSData *)authData command:(SEL)command
 {
@@ -240,19 +240,19 @@ assert(junk == errAuthorizationSuccess);
 return error;
 }
 ```
-Not edin ki, o yöntemi çağırmak için gereksinimleri kontrol etmek için `authorizationRightForCommand` işlevi sadece önceden yorumlanmış nesne **`commandInfo`**'yu kontrol edecektir. Daha sonra, işlevi çağırmak için **`AuthorizationCopyRights`**'ı çağıracaktır (bayrakların kullanıcıyla etkileşime izin verdiğine dikkat edin).
+Not edin ki, o yöntemi çağırmak için gereksinimleri kontrol etmek için `authorizationRightForCommand` işlevi sadece önceden yorumlanmış nesne `commandInfo`'yu kontrol edecektir. Daha sonra, işlevi çağırmak için hakları olup olmadığını kontrol etmek için `AuthorizationCopyRights` çağrılacaktır (bayrakların kullanıcıyla etkileşime izin verdiğine dikkat edin).
 
-Bu durumda, `readLicenseKeyAuthorization` işlevini çağırmak için `kCommandKeyAuthRightDefault`'ın `@kAuthorizationRuleClassAllow` olarak tanımlandığı belirtilmiştir. Bu yüzden **herkes onu** çağırabilir.
+Bu durumda, `readLicenseKeyAuthorization` işlevini çağırmak için `kCommandKeyAuthRightDefault` `@kAuthorizationRuleClassAllow` olarak tanımlanmıştır. Bu yüzden **herkes onu çağırabilir**.
 
 ### DB Bilgisi
 
-Bu bilginin `/var/db/auth.db` içinde depolandığı belirtilmiştir. Tüm depolanan kuralları listeleyebilirsiniz:
+Bu bilginin `/var/db/auth.db` içinde depolandığı belirtildi. Tüm depolanan kuralları listeleyebilirsiniz:
 ```sql
 sudo sqlite3 /var/db/auth.db
 SELECT name FROM rules;
 SELECT name FROM rules WHERE name LIKE '%safari%';
 ```
-Ardından, kimin erişim hakkına sahip olduğunu okuyabilirsiniz:
+Ardından, kimin erişim hakkına sahip olduğunu şu şekilde okuyabilirsiniz:
 ```bash
 security authorizationdb read com.apple.safaridriver.allow
 ```
@@ -262,13 +262,13 @@ security authorizationdb read com.apple.safaridriver.allow
 
 1. **'authenticate-user': 'false'**
 * Bu en doğrudan anahtardır. `false` olarak ayarlandığında, bir kullanıcının bu hakkı elde etmek için kimlik doğrulaması sağlaması gerekmez.
-* Bu, kullanıcının ait olması gereken bir grupla birlikte veya aşağıdaki 2 seçenekten biriyle **kullanılır**.
+* Bu, kullanıcının ait olması gereken bir grupla birlikte veya aşağıdaki 2 seçenekten biriyle birlikte kullanılır.
 2. **'allow-root': 'true'**
-* Bir kullanıcı kök kullanıcı olarak çalışıyorsa (yükseltilmiş izinlere sahip), ve bu anahtar `true` olarak ayarlanmışsa, kök kullanıcı muhtemelen bu hakkı ek kimlik doğrulaması olmadan elde edebilir. Ancak genellikle, kök kullanıcı durumuna ulaşmak zaten kimlik doğrulama gerektirir, bu nedenle çoğu kullanıcı için bu bir "kimlik doğrulama olmadan" senaryosu değildir.
+* Bir kullanıcı kök kullanıcı olarak çalışıyorsa (yükseltilmiş izinlere sahip), ve bu anahtar `true` olarak ayarlanmışsa, kök kullanıcı bu hakkı muhtemelen daha fazla kimlik doğrulaması olmadan elde edebilir. Ancak genellikle, kök kullanıcı durumuna ulaşmak zaten kimlik doğrulama gerektirir, bu nedenle çoğu kullanıcı için bu bir "kimlik doğrulama olmadan" senaryosu değildir.
 3. **'session-owner': 'true'**
-* `true` olarak ayarlandığında, oturumun sahibi (şu anda oturum açmış olan kullanıcı) bu hakkı otomatik olarak alacaktır. Bu, kullanıcının zaten oturum açmışsa ek kimlik doğrulamayı atlayabilir.
+* `true` olarak ayarlandığında, oturumun sahibi (şu anda oturum açık olan kullanıcı) bu hakkı otomatik olarak alır. Bu, kullanıcının zaten oturum açmışsa ek kimlik doğrulamayı atlayabilir.
 4. **'shared': 'true'**
-* Bu anahtar kimlik doğrulamasız haklar vermez. Bunun yerine, `true` olarak ayarlanırsa, hak doğrulandıktan sonra, her birinin yeniden kimlik doğrulamasına gerek duymadan birden fazla işlem arasında paylaşılabileceği anlamına gelir. Ancak hak ilk olarak kimlik doğrulaması gerektirecektir, başka anahtarlarla birleştirilmediği sürece, örneğin `'authenticate-user': 'false'`.
+* Bu anahtar kimlik doğrulamasız haklar vermez. Bunun yerine, `true` olarak ayarlanırsa, hak doğrulandıktan sonra, her birinin yeniden kimlik doğrulaması yapmadan birden fazla işlem arasında paylaşılabileceği anlamına gelir. Ancak hak ilk olarak kimlik doğrulaması gerektirecektir, başka anahtarlarla birleştirilmediği sürece, örneğin `'authenticate-user': 'false'`.
 ```bash
 Rights with 'authenticate-user': 'false':
 is-admin (admin), is-admin-nonshared (admin), is-appstore (_appstore), is-developer (_developer), is-lpadmin (_lpadmin), is-root (run as root), is-session-owner (session owner), is-webdeveloper (_webdeveloper), system-identity-write-self (session owner), system-install-iap-software (run as root), system-install-software-iap (run as root)
@@ -281,15 +281,15 @@ authenticate-session-owner, authenticate-session-owner-or-admin, authenticate-se
 ```
 ## Yetkilendirme Geri Mühendisliği
 
-### EvenBetterAuthorization'ın Kullanılıp Kullanılmadığını Kontrol Etme
+### EvenBetterAuthorization Kullanılıp Kullanılmadığını Kontrol Etme
 
 Eğer **`[HelperTool checkAuthorization:command:]`** fonksiyonunu bulursanız, muhtemelen işlem önceden bahsedilen yetkilendirme şemasını kullanıyor:
 
-<figure><img src="../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Bu fonksiyon, `AuthorizationCreateFromExternalForm`, `authorizationRightForCommand`, `AuthorizationCopyRights`, `AuhtorizationFree` gibi fonksiyonları çağırıyorsa, [**EvenBetterAuthorizationSample**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L101-L154) kullanıyor demektir.
 
-Kullanıcı etkileşimi olmadan bazı ayrıcalıklı işlemleri çağırmak için izin alınabilir mi diye görmek için **`/var/db/auth.db`**'yi kontrol edin.
+Bazı ayrıcalıklı eylemleri kullanıcı etkileşimi olmadan çağırma izinlerini almak mümkün olup olmadığını görmek için **`/var/db/auth.db`** dosyasını kontrol edin.
 
 ### Protokol İletişimi
 
@@ -297,11 +297,11 @@ Daha sonra, XPC servisi ile iletişim kurabilmek için protokol şemasını bulm
 
 **`shouldAcceptNewConnection`** fonksiyonu dışa aktarılan protokolü gösterir:
 
-<figure><img src="../../../../../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Bu durumda, EvenBetterAuthorizationSample'da olduğu gibi aynı şeye sahibiz, [**bu satıra bakın**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L94).
+Bu durumda, EvenBetterAuthorizationSample'da olduğu gibi aynı şeyi bulduk, [**bu satıra bakın**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L94).
 
-Kullanılan protokolün adını bildiğinizde, **başlık tanımını dump etmek mümkündür**:
+Kullanılan protokolün adını bildiğinizde, **başlık tanımını dump etmek mümkün olacaktır**:
 ```bash
 class-dump /Library/PrivilegedHelperTools/com.example.HelperTool
 
@@ -317,9 +317,9 @@ class-dump /Library/PrivilegedHelperTools/com.example.HelperTool
 ```
 Son olarak, onunla iletişim kurabilmek için açığa çıkarılan Mach Servisinin adını bilmemiz gerekiyor. Bunu bulmanın birkaç yolu vardır:
 
-* **`[HelperTool init()]`** içinde kullanılan Mach Servisinin görüldüğü yerde:
+* **`[HelperTool init()]`** içinde kullanılan Mach Servisinin görüldüğü yer:
 
-<figure><img src="../../../../../.gitbook/assets/image (4) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../../.gitbook/assets/image (4) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 * launchd plist dosyasında:
 ```xml
@@ -339,7 +339,7 @@ cat /Library/LaunchDaemons/com.example.HelperTool.plist
 Bu örnekte şunlar oluşturulmuştur:
 
 * Fonksiyonlarla protokolün tanımı
-* Erişim istemek için kullanılacak boş bir yetkilendirme
+* Erişim istemek için kullanılacak boş bir kimlik doğrulaması
 * XPC servisine bağlantı
 * Bağlantı başarılıysa fonksiyonu çağırma
 ```objectivec
@@ -425,14 +425,14 @@ NSLog(@"Finished!");
 
 <details>
 
-<summary><strong>Sıfırdan kahraman olana kadar AWS hacklemeyi öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Sıfırdan kahraman olmak için AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* **Şirketinizi HackTricks'te reklamınızı görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family'yi**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR'ler göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family)
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın veya** bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**'da takip edin.**
+* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>

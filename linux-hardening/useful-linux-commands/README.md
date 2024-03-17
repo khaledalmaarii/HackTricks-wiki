@@ -1,28 +1,28 @@
 # Faydalı Linux Komutları
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kullanarak dünyanın en gelişmiş topluluk araçları tarafından desteklenen iş akışlarını kolayca oluşturun ve otomatikleştirin.\
-Bugün Erişim Alın:
+[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kullanarak dünyanın en gelişmiş topluluk araçlarıyla desteklenen **otomatik iş akışlarını** kolayca oluşturun ve otomatikleştirin.\
+Bugün Erişim Edinin:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> ile sıfırdan kahramana kadar AWS hacklemeyi öğrenin<strong>!</strong></summary>
+<summary><strong>Sıfırdan kahramana kadar AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-HackTricks'i desteklemenin diğer yolları:
+HackTricks'ı desteklemenin diğer yolları:
 
-* Şirketinizi HackTricks'te **reklam vermek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'i keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
-* Hacking hilelerinizi [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR göndererek paylaşın.
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family)
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın veya** bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**'da takip edin.**
+* **Hacking püf noktalarınızı göndererek HackTricks ve HackTricks Cloud** github depolarına PR'lar göndererek paylaşın.
 
 </details>
 
-## Ortak Bash Komutları
+## Ortak Bash
 ```bash
 #Exfiltration using Base64
 base64 -w 0 file
@@ -141,11 +141,11 @@ sudo chattr -i file.txt #Remove the bit so you can delete it
 # List files inside zip
 7z l file.zip
 ```
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kullanarak dünyanın en gelişmiş topluluk araçları tarafından desteklenen **iş akışlarını kolayca oluşturun ve otomatikleştirin**.\
-Bugün Erişim Alın:
+[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) kullanarak dünyanın en gelişmiş topluluk araçlarıyla desteklenen **otomatik iş akışlarını** kolayca oluşturun ve otomatikleştirin.\
+Bugün Erişim Edinin:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -171,21 +171,20 @@ i686-mingw32msvc-gcc -o executable useradd.c
 ```
 ## Greps
 
-`grep` komutu, metin dosyalarında belirli bir deseni aramak için kullanılan güçlü bir arama aracıdır. Aşağıda, `grep` komutunun bazı yaygın kullanımlarını bulabilirsiniz:
+### Açıklama
+`grep` komutu, metin dosyalarında belirli bir metni aramak için kullanılır.
 
-- **Basit Arama**: `grep 'desen' dosya` komutu, belirli bir deseni içeren satırları bulmak için kullanılır. Örneğin, `grep 'hello' file.txt` komutu, `file.txt` dosyasında "hello" kelimesini içeren satırları bulur.
+### Kullanım
+```bash
+grep "aranacak_metin" dosya_adı
+```
 
-- **Bütün Kelime Araması**: `grep -w 'kelime' dosya` komutu, belirli bir kelimenin tam olarak eşleştiği satırları bulmak için kullanılır. Örneğin, `grep -w 'hello' file.txt` komutu, `file.txt` dosyasında sadece "hello" kelimesini içeren satırları bulur.
+### Örnek
+```bash
+grep "root" /etc/passwd
+```
 
-- **Büyük/Küçük Harf Duyarlılığı**: `grep -i 'desen' dosya` komutu, arama işlemini büyük/küçük harf duyarlılığı olmadan gerçekleştirir. Örneğin, `grep -i 'hello' file.txt` komutu, `file.txt` dosyasında "hello", "Hello" veya "HELLO" gibi farklı büyük/küçük harf kombinasyonlarını içeren satırları bulur.
-
-- **Satır Numaralarını Gösterme**: `grep -n 'desen' dosya` komutu, eşleşen satırların yanında satır numaralarını da gösterir. Örneğin, `grep -n 'hello' file.txt` komutu, `file.txt` dosyasında "hello" kelimesini içeren satırları ve bu satırların numaralarını bulur.
-
-- **Birden Fazla Dosyada Arama**: `grep 'desen' dosya1 dosya2` komutu, birden fazla dosyada aynı deseni aramak için kullanılır. Örneğin, `grep 'hello' file1.txt file2.txt` komutu, `file1.txt` ve `file2.txt` dosyalarında "hello" kelimesini içeren satırları bulur.
-
-- **Dizinlerde Arama**: `grep -r 'desen' dizin` komutu, belirli bir deseni içeren tüm dosyaları ve alt dizinleri arar. Örneğin, `grep -r 'hello' /home/user` komutu, `/home/user` dizininde "hello" kelimesini içeren tüm dosyaları ve alt dizinlerini bulur.
-
-Bu sadece `grep` komutunun bazı temel kullanımlarıdır. Daha fazla seçenek ve kullanım için `grep` komutunun man sayfasını (`man grep`) inceleyebilirsiniz.
+Bu komut, `/etc/passwd` dosyasında "root" kelimesini arar ve eşleşen satırları görüntüler.
 ```bash
 #Extract emails from file
 grep -E -o "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b" file.txt
@@ -267,46 +266,32 @@ egrep -a -o "\bISBN(?:-1[03])?:? (?=[0-9X]{10}$|(?=(?:[0-9]+[- ]){3})[- 0-9X]{13
 ```
 ## Bul
 
-### Description
-This command is used to search for files or directories in a specified location.
+### `find`
 
-### Syntax
-```
-find [path] [options] [expression]
-```
+`find` komutu, dosya sisteminizde dosya ve dizinleri aramanıza ve belirli kriterlere göre filtrelemenize olanak tanır.
 
-### Options
-- `-name`: Searches for files or directories with a specific name.
-- `-type`: Searches for files or directories of a specific type.
-- `-size`: Searches for files of a specific size.
-- `-user`: Searches for files or directories owned by a specific user.
-- `-group`: Searches for files or directories owned by a specific group.
-- `-mtime`: Searches for files or directories modified within a specific time frame.
-- `-exec`: Executes a command on each file or directory found.
+#### Kullanım
 
-### Examples
-1. Search for a file named "passwords.txt" in the current directory:
-```
-find . -name passwords.txt
+```bash
+find /path/to/search -name "filename"
 ```
 
-2. Search for all directories in the "/var/www" directory:
-```
-find /var/www -type d
+- `/path/to/search`: Arama yapılacak dizinin yolu
+- `-name "filename"`: Aranacak dosya adı
+
+#### Örnekler
+
+1. `/etc` dizininde `passwd` dosyasını bulma:
+
+```bash
+find /etc -name "passwd"
 ```
 
-3. Search for files larger than 1MB in the "/home" directory:
-```
-find /home -type f -size +1M
-```
+2. `/home` dizininde `.txt` uzantılı dosyaları bulma:
 
-4. Search for files modified within the last 7 days in the "/tmp" directory and delete them:
+```bash
+find /home -name "*.txt"
 ```
-find /tmp -type f -mtime -7 -exec rm {} \;
-```
-
-### Additional Resources
-- [Linux find command](https://linux.die.net/man/1/find)
 ```bash
 # Find SUID set files.
 find / -perm /u=s -ls 2>/dev/null
@@ -336,20 +321,6 @@ find / -maxdepth 5 -type f -printf "%T@ %Tc | %p \n" 2>/dev/null | grep -v "| /p
 find / -maxdepth 5 -type d -printf "%T@ %Tc | %p \n" 2>/dev/null | grep -v "| /proc" | grep -v "| /dev" | grep -v "| /run" | grep -v "| /var/log" | grep -v "| /boot"  | grep -v "| /sys/" | sort -n -r | less
 ```
 ## Nmap arama yardımı
-
-Nmap, ağ tarama ve keşif aracıdır. Aşağıda, Nmap'in bazı yaygın kullanılan komutlarını ve parametrelerini bulabilirsiniz:
-
-- `-sn`: Canlı cihazları tespit etmek için ICMP ping taraması yapar.
-- `-sS`: TCP SYN taraması yapar.
-- `-sU`: UDP taraması yapar.
-- `-p`: Belirli bir port veya port aralığını taramak için kullanılır.
-- `-O`: Hedef cihazın işletim sistemini tahmin etmek için kullanılır.
-- `-A`: İşletim sistemi tahmini, port taraması, hizmet tespiti ve betik taraması gibi bir dizi tarama işlemi gerçekleştirir.
-- `-v`: Ayrıntılı çıktı sağlar.
-- `-oN`: Çıktıyı normal metin dosyasına kaydeder.
-- `-oX`: Çıktıyı XML formatında kaydeder.
-
-Nmap hakkında daha fazla bilgi için, Nmap'in resmi belgelerine başvurabilirsiniz.
 ```bash
 #Nmap scripts ((default or version) and smb))
 nmap --script-help "(default or version) and *smb*"
@@ -358,86 +329,16 @@ nmap --script-help "(default or version) and smb)"
 ```
 ## Bash
 
-Bash, kısaltması "Bourne Again Shell" olan bir Unix kabuk programıdır. Bash, Linux ve diğer Unix tabanlı işletim sistemlerinde yaygın olarak kullanılan bir kabuktur. Bash, kullanıcıların komutları çalıştırmasına, betikler yazmasına ve sistemle etkileşimde bulunmasına olanak tanır.
-
-### Temel Komutlar
-
-- `ls`: Mevcut dizindeki dosya ve dizinleri listeler.
-- `cd`: Dizin değiştirir.
-- `pwd`: Mevcut çalışma dizinini gösterir.
-- `mkdir`: Yeni bir dizin oluşturur.
-- `rm`: Dosya veya dizinleri siler.
-- `cp`: Dosyaları veya dizinleri kopyalar.
-- `mv`: Dosyaları veya dizinleri taşır veya yeniden adlandırır.
-- `cat`: Dosyanın içeriğini görüntüler veya dosyaları birleştirir.
-- `grep`: Belirli bir metni dosyalarda veya çıktılarda arar.
-- `chmod`: Dosya veya dizinlerin izinlerini değiştirir.
-- `chown`: Dosya veya dizinlerin sahiplerini değiştirir.
-- `chgrp`: Dosya veya dizinlerin gruplarını değiştirir.
-- `sudo`: Root (süper kullanıcı) olarak komutları çalıştırır.
-- `su`: Kullanıcı hesabını değiştirir.
-
-### Dosya İşlemleri
-
-- `touch`: Yeni bir dosya oluşturur veya mevcut bir dosyanın zaman damgasını günceller.
-- `cat`: Dosyanın içeriğini görüntüler veya dosyaları birleştirir.
-- `head`: Dosyanın başlangıcını görüntüler.
-- `tail`: Dosyanın sonunu görüntüler.
-- `less`: Dosyanın içeriğini sayfa sayfa görüntüler.
-- `wc`: Dosyanın satır, kelime ve karakter sayısını verir.
-- `sort`: Dosyanın satırlarını sıralar.
-- `uniq`: Dosyanın ardışık tekrarlanan satırlarını kaldırır.
-- `cut`: Dosyanın belirli bir bölümünü keser.
-- `paste`: Dosyaları birleştirir.
-- `diff`: İki dosya arasındaki farkları gösterir.
-
-### Ağ İşlemleri
-
-- `ping`: Bir IP adresine veya alan adına ping atar.
-- `ifconfig`: Ağ arayüzlerinin yapılandırmasını görüntüler veya değiştirir.
-- `netstat`: Ağ bağlantılarını ve bağlantı noktalarını görüntüler.
-- `ssh`: Uzak bir sunucuya güvenli bir şekilde bağlanır.
-- `scp`: Dosyaları güvenli bir şekilde kopyalar.
-- `wget`: İnternet üzerinden dosyaları indirir.
-- `curl`: İnternet üzerindeki kaynaklara istek gönderir ve yanıtları alır.
-
-### Süreç İşlemleri
-
-- `ps`: Çalışan süreçleri listeler.
-- `top`: Sistemdeki süreçleri gerçek zamanlı olarak izler.
-- `kill`: Bir süreci sonlandırır.
-- `bg`: Bir süreci arka planda çalıştırır.
-- `fg`: Bir süreci ön plana alır.
-- `nohup`: Bir süreci bağlantıyı kapatmadan arka planda çalıştırır.
-
-### Diğer Kullanışlı Komutlar
-
-- `history`: Komut geçmişini görüntüler.
-- `alias`: Komutlara takma adlar verir.
-- `man`: Bir komutun kullanımını ve belgelerini görüntüler.
-- `which`: Bir komutun tam yolunu gösterir.
-- `find`: Dosya ve dizinleri arar.
-- `tar`: Dosyaları sıkıştırır veya açar.
-- `gzip`: Dosyaları sıkıştırır veya açar.
-- `sed`: Metin dönüşümleri yapar.
-- `awk`: Metin işleme ve raporlama yapar.
-
-Bu sadece birkaç temel Bash komutudur. Bash hakkında daha fazla bilgi edinmek için `man bash` komutunu kullanabilirsiniz.
+## Bash
 ```bash
 #All bytes inside a file (except 0x20 and 0x00)
 for j in $((for i in {0..9}{0..9} {0..9}{a..f} {a..f}{0..9} {a..f}{a..f}; do echo $i; done ) | sort | grep -v "20\|00"); do echo -n -e "\x$j" >> bytes; done
 ```
 ## Iptables
 
-Iptables, Linux işletim sistemlerinde kullanılan bir güvenlik duvarı aracıdır. İptables, paket filtreleme, ağ adresi çevirme ve ağ adresi ve port tabanlı paket yönlendirme gibi işlevleri gerçekleştirebilir. Aşağıda, Iptables'in temel kullanımı için bazı komutlar bulunmaktadır:
+### İptables Hakkında
 
-- `iptables -L`: Mevcut kuralları ve zincirleri listeler.
-- `iptables -F`: Tüm kuralları ve zincirleri temizler.
-- `iptables -A <chain> -p <protocol> --dport <port> -j <action>`: Belirli bir zincire yeni bir kural ekler. `<chain>` zincir adını, `<protocol>` protokol türünü, `<port>` hedef port numarasını ve `<action>` ise kuralın ne yapacağını belirtir.
-- `iptables -D <chain> <rule_number>`: Belirli bir zincirden bir kuralı siler. `<chain>` zincir adını ve `<rule_number>` ise silinecek kuralın numarasını belirtir.
-- `iptables -P <chain> <policy>`: Belirli bir zincirin varsayılan politikasını ayarlar. `<chain>` zincir adını ve `<policy>` ise varsayılan politikayı belirtir.
-
-Daha fazla bilgi için, `man iptables` komutunu kullanabilirsiniz.
+İptables, Linux işletim sisteminde güvenlik duvarı kurallarını yapılandırmak için kullanılan bir araçtır. Bu araç, ağ trafiğini kontrol etmek ve yönlendirmek için kullanılır. İptables, paket filtreleme, ağ adresi çevirme ve ağ adresi ve portu değiştirme gibi işlemleri gerçekleştirebilir. Güvenlik duvarı kurallarını yapılandırmak için genellikle komut satırı arayüzü kullanılır.
 ```bash
 #Delete curent rules and chains
 iptables --flush
@@ -470,22 +371,22 @@ iptables -P OUTPUT ACCEPT
 ```
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary><strong>Sıfırdan kahraman olmaya kadar AWS hacklemeyi öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** isterseniz, [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na (https://github.com/sponsors/carlospolop) göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
+* [**The PEASS Family**]'yi (https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**]'i (https://opensea.io/collection/the-peass-family) içeren koleksiyonumuzu
+* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**'da takip edin.**
+* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Dünyanın **en gelişmiş topluluk araçları** tarafından desteklenen **iş akışlarını kolayca oluşturmak ve otomatikleştirmek** için [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)'i kullanın.\
+[**Trickest**]'i (https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kullanarak dünyanın **en gelişmiş topluluk araçları** tarafından desteklenen **iş akışlarını kolayca oluşturun ve otomatikleştirin**.\
 Bugün Erişim Alın:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
