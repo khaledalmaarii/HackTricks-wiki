@@ -1,28 +1,28 @@
 # Χρήσιμες Εντολές Linux
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Χρησιμοποιήστε το [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) για να δημιουργήσετε και να αυτοματοποιήσετε ροές εργασίας με τα πιο προηγμένα εργαλεία της κοινότητας.\
-Αποκτήστε πρόσβαση σήμερα:
+Χρησιμοποιήστε το [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) για να δημιουργήσετε εύκολα και να **αυτοματοποιήσετε ροές εργασίας** με τα πιο προηγμένα εργαλεία της κοινότητας.\
+Αποκτήστε Πρόσβαση Σήμερα:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 <details>
 
-<summary><strong>Μάθετε το hacking στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
+Άλλοι τρόποι υποστήριξης του HackTricks:
 
-* Εάν θέλετε να δείτε την εταιρεία σας να διαφημίζεται στο HackTricks ή να κατεβάσετε το HackTricks σε μορφή PDF, ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα κόλπα σας στο hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs** στα αποθετήρια του [**HackTricks**](https://github.com/carlospolop/hacktricks) και του [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-## Κοινές εντολές Bash
+## Κοινές Εντολές Bash
 ```bash
 #Exfiltration using Base64
 base64 -w 0 file
@@ -141,10 +141,10 @@ sudo chattr -i file.txt #Remove the bit so you can delete it
 # List files inside zip
 7z l file.zip
 ```
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Χρησιμοποιήστε το [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) για να δημιουργήσετε και να αυτοματοποιήσετε εργασιακές διαδικασίες με τα πιο προηγμένα εργαλεία της κοινότητας.\
+Χρησιμοποιήστε το [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) για να δημιουργήσετε εύκολα και να **αυτοματοποιήσετε ροές εργασίας** με τα πιο προηγμένα εργαλεία της παγκόσμιας κοινότητας.\
 Αποκτήστε πρόσβαση σήμερα:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -169,56 +169,7 @@ python pyinstaller.py --onefile exploit.py
 #sudo apt-get install gcc-mingw-w64-i686
 i686-mingw32msvc-gcc -o executable useradd.c
 ```
-## Greps
-
-Οι εντολές `grep` και `egrep` χρησιμοποιούνται για την αναζήτηση κειμένου σε αρχεία ή σε αποτελέσματα εντολών. Ακολουθούν μερικά παραδείγματα χρήσης:
-
-- Αναζήτηση για ένα συγκεκριμένο κείμενο σε ένα αρχείο:
-  ```
-  grep "κείμενο" αρχείο
-  ```
-
-- Αναζήτηση για ένα συγκεκριμένο κείμενο σε πολλά αρχεία:
-  ```
-  grep "κείμενο" αρχείο1 αρχείο2 αρχείο3
-  ```
-
-- Αναζήτηση για ένα συγκεκριμένο κείμενο σε όλα τα αρχεία ενός φακέλου:
-  ```
-  grep "κείμενο" φάκελο/*
-  ```
-
-- Αναζήτηση για ένα συγκεκριμένο κείμενο, αγνοώντας την περίπτωση των γραμμάτων:
-  ```
-  grep -i "κείμενο" αρχείο
-  ```
-
-- Αναζήτηση για ένα συγκεκριμένο κείμενο, εμφανίζοντας τις γραμμές που το περιέχουν:
-  ```
-  grep -n "κείμενο" αρχείο
-  ```
-
-- Αναζήτηση για ένα συγκεκριμένο κείμενο, εμφανίζοντας μόνο τις γραμμές που δεν το περιέχουν:
-  ```
-  grep -v "κείμενο" αρχείο
-  ```
-
-- Αναζήτηση για ένα συγκεκριμένο κείμενο, εμφανίζοντας τις γραμμές που το περιέχουν και τις γραμμές που το περιβάλλουν:
-  ```
-  grep -A 2 -B 2 "κείμενο" αρχείο
-  ```
-
-- Αναζήτηση για ένα συγκεκριμένο κείμενο, εμφανίζοντας μόνο τις γραμμές που το περιέχουν και τον αριθμό της γραμμής:
-  ```
-  grep -n "κείμενο" αρχείο | cut -d ":" -f 1
-  ```
-
-- Αναζήτηση για ένα συγκεκριμένο κείμενο, εμφανίζοντας μόνο τον αριθμό των γραμμών που το περιέχουν:
-  ```
-  grep -c "κείμενο" αρχείο
-  ```
-
-Οι εντολές `grep` και `egrep` είναι ιδιαίτερα χρήσιμες για την αναζήτηση κειμένου σε αρχεία και την εξαγωγή σχετικών πληροφοριών.
+## Φίλτρα Greps
 ```bash
 #Extract emails from file
 grep -E -o "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b" file.txt
@@ -299,51 +250,6 @@ grep -Po 'd{3}[s-_]?d{3}[s-_]?d{4}' *.txt > us-phones.txt
 egrep -a -o "\bISBN(?:-1[03])?:? (?=[0-9X]{10}$|(?=(?:[0-9]+[- ]){3})[- 0-9X]{13}$|97[89][0-9]{10}$|(?=(?:[0-9]+[- ]){4})[- 0-9]{17}$)(?:97[89][- ]?)?[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9X]\b" *.txt > isbn.txt
 ```
 ## Εύρεση
-
-The `find` command is used to search for files and directories in a directory hierarchy based on various criteria. It is a powerful tool that can be used to locate specific files or perform complex searches.
-
-### Basic Usage
-
-The basic syntax of the `find` command is as follows:
-
-```
-find [path] [expression]
-```
-
-- `[path]`: Specifies the directory or directories to search in. If no path is provided, the current directory is used.
-- `[expression]`: Specifies the search criteria. This can include file names, file types, file sizes, and more.
-
-### Examples
-
-Here are some examples of how the `find` command can be used:
-
-- Search for a file named `example.txt` in the current directory and its subdirectories:
-
-  ```
-  find . -name example.txt
-  ```
-
-- Search for all files with the `.txt` extension in the `/home/user` directory:
-
-  ```
-  find /home/user -name "*.txt"
-  ```
-
-- Search for files larger than 1MB in the `/var/log` directory:
-
-  ```
-  find /var/log -size +1M
-  ```
-
-- Search for directories with the word `backup` in their name:
-
-  ```
-  find / -type d -name "*backup*"
-  ```
-
-### Conclusion
-
-The `find` command is a versatile tool for searching files and directories in Linux. By using different expressions, you can customize your search and find exactly what you're looking for.
 ```bash
 # Find SUID set files.
 find / -perm /u=s -ls 2>/dev/null
@@ -372,62 +278,23 @@ find / -maxdepth 5 -type f -printf "%T@ %Tc | %p \n" 2>/dev/null | grep -v "| /p
 # Found Newer directory only and sort by time. (depth = 5)
 find / -maxdepth 5 -type d -printf "%T@ %Tc | %p \n" 2>/dev/null | grep -v "| /proc" | grep -v "| /dev" | grep -v "| /run" | grep -v "| /var/log" | grep -v "| /boot"  | grep -v "| /sys/" | sort -n -r | less
 ```
-## Βοήθεια για αναζήτηση με το Nmap
-
-Nmap είναι ένα εργαλείο ανοικτού κώδικα για ανίχνευση δικτύου και ανάλυση ασφαλείας. Παρέχει πολλές επιλογές αναζήτησης για να σας βοηθήσει να εξερευνήσετε ένα δίκτυο και να εντοπίσετε ευπάθειες ασφαλείας. Παρακάτω παρέχονται μερικές χρήσιμες εντολές αναζήτησης που μπορείτε να χρησιμοποιήσετε με το Nmap:
-
-- `nmap -sn <IP>`: Ανιχνεύει τις συσκευές στο δίκτυο χωρίς να σαρώνει τις πόρτες.
-- `nmap -p- <IP>`: Σαρώνει όλες τις πόρτες σε ένα συγκεκριμένο IP.
-- `nmap -sV <IP>`: Ανιχνεύει τις υπηρεσίες που εκτελούνται σε ένα συγκεκριμένο IP.
-- `nmap -A <IP>`: Εκτελεί μια πλήρη ανάλυση ασφαλείας, συμπεριλαμβανομένης της ανίχνευσης λειτουργικού συστήματος, των υπηρεσιών και των ευπαθειών.
-- `nmap --script <script> <IP>`: Εκτελεί ένα συγκεκριμένο script Nmap σε ένα συγκεκριμένο IP.
-
-Αυτές είναι μόνο μερικές από τις εντολές αναζήτησης που μπορείτε να χρησιμοποιήσετε με το Nmap. Εξερευνήστε την τεκμηρίωση του Nmap για περισσότερες πληροφορίες και επιλογές.
+## Βοήθεια αναζήτησης Nmap
 ```bash
 #Nmap scripts ((default or version) and smb))
 nmap --script-help "(default or version) and *smb*"
 locate -r '\.nse$' | xargs grep categories | grep 'default\|version\|safe' | grep smb
 nmap --script-help "(default or version) and smb)"
 ```
-## Εντολές Bash
-
-Οι εντολές Bash είναι εντολές που μπορούν να εκτελεστούν στο κέλυφος του Bash (Bourne Again SHell). Αυτές οι εντολές παρέχουν διάφορες λειτουργίες και δυνατότητες για τη διαχείριση του συστήματος Linux. Παρακάτω παρουσιάζονται μερικές χρήσιμες εντολές Bash:
-
-- `ls`: Εμφανίζει τα αρχεία και τους φακέλους στον τρέχοντα κατάλογο.
-- `cd`: Αλλάζει τον τρέχοντα κατάλογο.
-- `pwd`: Εμφανίζει τον απόλυτο δρόμο του τρέχοντος καταλόγου.
-- `mkdir`: Δημιουργεί έναν νέο φάκελο.
-- `rm`: Διαγράφει ένα αρχείο ή έναν φάκελο.
-- `cp`: Αντιγράφει ένα αρχείο ή έναν φάκελο.
-- `mv`: Μετακινεί ένα αρχείο ή έναν φάκελο.
-- `cat`: Εμφανίζει το περιεχόμενο ενός αρχείου.
-- `grep`: Αναζητά για ένα συγκεκριμένο κείμενο σε ένα αρχείο ή σε πολλά αρχεία.
-- `chmod`: Αλλάζει τα δικαιώματα πρόσβασης ενός αρχείου ή ενός φακέλου.
-- `chown`: Αλλάζει τον ιδιοκτήτη ενός αρχείου ή ενός φακέλου.
-- `ps`: Εμφανίζει τις ενεργές διεργασίες.
-- `top`: Εμφανίζει τις ενεργές διεργασίες και τη χρήση των πόρων του συστήματος.
-- `kill`: Τερματίζει μια ενεργή διεργασία.
-- `ssh`: Συνδέεται σε έναν απομακρυσμένο υπολογιστή μέσω πρωτοκόλλου SSH.
-- `wget`: Κατεβάζει ένα αρχείο από το διαδίκτυο.
-- `curl`: Κάνει αιτήσεις HTTP σε έναν διακομιστή.
-
-Αυτές είναι μόνο μερικές από τις πολλές εντολές Bash που είναι διαθέσιμες. Μπορείτε να εξερευνήσετε περισσότερες εντολές και να ανακαλύψετε τις δυνατότητες του Bash κέλυφους για την αποτελεσματική διαχείριση του συστήματος Linux.
+## Κέλυφος Bash
 ```bash
 #All bytes inside a file (except 0x20 and 0x00)
 for j in $((for i in {0..9}{0..9} {0..9}{a..f} {a..f}{0..9} {a..f}{a..f}; do echo $i; done ) | sort | grep -v "20\|00"); do echo -n -e "\x$j" >> bytes; done
 ```
 ## Iptables
 
-Το Iptables είναι ένα εργαλείο που χρησιμοποιείται για την διαχείριση των κανόνων του firewall σε συστήματα Linux. Με το Iptables μπορείτε να δημιουργήσετε, να τροποποιήσετε και να διαγράψετε κανόνες που ελέγχουν την κίνηση των δεδομένων στο δίκτυο.
+### Περιγραφή
 
-Οι βασικές εντολές που χρησιμοποιούνται με το Iptables είναι οι εξής:
-
-- `iptables -L`: Εμφανίζει τους κανόνες του firewall.
-- `iptables -A`: Προσθέτει έναν νέο κανόνα στο firewall.
-- `iptables -D`: Διαγράφει έναν κανόνα από το firewall.
-- `iptables -P`: Ορίζει την προεπιλεγμένη ενέργεια για έναν κανόνα.
-
-Μπορείτε επίσης να χρησιμοποιήσετε διάφορες επιλογές με αυτές τις εντολές για να προσαρμόσετε τη συμπεριφορά του firewall σύμφωνα με τις ανάγκες σας.
+Το **iptables** είναι ένα εργαλείο που χρησιμοποιείται για τη διαχείριση των κανόνων πυραμίδας στα συστήματα Linux. Χρησιμοποιείται για την προστασία του συστήματος από επιθέσεις δικτύου, την προώθηση πακέτων, την αποκλεισμό IP και άλλες δικτυακές λειτουργίες.
 ```bash
 #Delete curent rules and chains
 iptables --flush
@@ -460,22 +327,22 @@ iptables -P OUTPUT ACCEPT
 ```
 <details>
 
-<summary><strong>Μάθετε το hacking του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
+Άλλοι τρόποι υποστήριξης του HackTricks:
 
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα hacking tricks σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Ανακαλύψτε την [**Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια στο GitHub.
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Χρησιμοποιήστε το [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) για να δημιουργήσετε και να **αυτοματοποιήσετε ροές εργασίας** με τα πιο προηγμένα εργαλεία της κοινότητας.\
+Χρησιμοποιήστε το [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) για να δημιουργήσετε εύκολα και να **αυτοματοποιήσετε ροές εργασίας** με τα πιο προηγμένα εργαλεία της κοινότητας.\
 Αποκτήστε πρόσβαση σήμερα:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
