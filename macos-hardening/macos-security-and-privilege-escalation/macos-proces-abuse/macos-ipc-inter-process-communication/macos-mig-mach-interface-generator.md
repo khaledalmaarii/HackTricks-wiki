@@ -44,9 +44,6 @@ mig -header myipcUser.h -sheader myipcServer.h myipc.defs
 Plusieurs nouveaux fichiers seront créés dans le répertoire actuel.
 
 Dans les fichiers **`myipcServer.c`** et **`myipcServer.h`**, vous pouvez trouver la déclaration et la définition de la structure **`SERVERPREFmyipc_subsystem`**, qui définit essentiellement la fonction à appeler en fonction de l'ID du message reçu (nous avons indiqué un numéro de départ de 500) :
-
-{% tabs %}
-{% tab title="myipcServer.c" %}
 ```c
 /* Description of this subsystem, for use in direct RPC */
 const struct SERVERPREFmyipc_subsystem SERVERPREFmyipc_subsystem = {
@@ -68,11 +65,20 @@ myipc_server_routine,
 
 ### macOS MIG (Mach Interface Generator)
 
-Le générateur d'interface Mach (MIG) est un outil fourni par Apple pour simplifier la communication entre les processus sur macOS. Il génère des interfaces de programmation pour les services système qui utilisent le Mach IPC pour la communication inter-processus.
+Le générateur d'interface Mach (MIG) est un outil fourni par Apple pour simplifier la communication entre les processus sur macOS. Il génère des interfaces de programmation pour les services système qui utilisent le Mach IPC (Inter-Process Communication).
 
-L'utilisation de MIG peut présenter des risques de sécurité, car une mauvaise configuration des interfaces peut entraîner des vulnérabilités de type dépassement de tampon ou de fuite de mémoire. Il est essentiel de sécuriser correctement les interfaces générées par MIG pour éviter les abus de processus et les élévations de privilèges sur un système macOS. 
+Voici un exemple de fichier d'en-tête pour un serveur MIG personnalisé :
 
-Assurez-vous de comprendre en profondeur le fonctionnement de MIG et de mettre en œuvre les bonnes pratiques de sécurité lors de son utilisation dans le développement d'applications macOS. 
+```c
+#include <mach/mach.h>
+#include <servers/bootstrap.h>
+
+kern_return_t my_server(mach_msg_header_t *InHeadP, mach_msg_header_t *OutHeadP);
+```
+
+Dans cet exemple, `my_server` est la fonction qui sera appelée pour traiter les messages reçus par le serveur MIG personnalisé.
+
+L'utilisation de MIG peut introduire des vulnérabilités de sécurité si les entrées ne sont pas correctement validées, ce qui peut être exploité pour des attaques de privilège d'escalade. Il est essentiel de sécuriser correctement les services utilisant MIG pour éviter les abus de processus sur macOS. 
 
 {% endtab %}
 ```c
@@ -90,7 +96,7 @@ routine[1];
 {% endtab %}
 {% endtabs %}
 
-Basé sur la structure précédente, la fonction **`myipc_server_routine`** recevra l'**ID du message** et renverra la fonction appropriée à appeler :
+En fonction de la structure précédente, la fonction **`myipc_server_routine`** recevra l'**ID du message** et renverra la fonction appropriée à appeler :
 ```c
 mig_external mig_routine_t myipc_server_routine
 (mach_msg_header_t *InHeadP)
@@ -114,7 +120,7 @@ En fait, il est possible d'identifier cette relation dans la structure **`subsys
 { "Subtract", 500 }
 #endif
 ```
-Enfin, une autre fonction importante pour faire fonctionner le serveur sera **`myipc_server`**, qui est celle qui va effectivement **appeler la fonction** liée à l'ID reçu :
+Enfin, une autre fonction importante pour faire fonctionner le serveur sera **`myipc_server`**, qui est celle qui va effectivement **appeler la fonction** liée à l'identifiant reçu :
 
 <pre class="language-c"><code class="lang-c">mig_external boolean_t myipc_server
 (mach_msg_header_t *InHeadP, mach_msg_header_t *OutHeadP)
@@ -196,21 +202,23 @@ mach_msg_server(myipc_server, sizeof(union __RequestUnion__SERVERPREFmyipc_subsy
 
 int main() {
     mach_port_t bootstrap_port;
-    kern_return_t err;
-
-    err = task_get_bootstrap_port(mach_task_self(), &bootstrap_port);
-    if (err != KERN_SUCCESS) {
+    kern_return_t kr = task_get_bootstrap_port(mach_task_self(), &bootstrap_port);
+    if (kr != KERN_SUCCESS) {
         printf("Failed to get bootstrap port\n");
         return 1;
     }
 
-    err = myipc_register(bootstrap_port);
-    if (err != KjsonERN_SUCCESS) {
-        printf("Failed to register myipc service\n");
-        return 1;
+    myipc_args_t args = {0};
+    args.x = 10;
+    args.y = 20;
+
+    kr = myipc_call(bootstrap_port, &args);
+    if (kr != KERN_SUCCESS) {
+        printf("Failed to call myipc\n");
+        return json_object();
     }
 
-    printf("myipc service registered successfully\n");
+    printf("Result: %d\n", args.result);
 
     return 0;
 }
@@ -372,9 +380,9 @@ return r0;
 
 En fait, si vous allez à la fonction **`0x100004000`**, vous trouverez le tableau des structures **`routine_descriptor`**. Le premier élément de la structure est l'**adresse** où la **fonction** est implémentée, et la **structure prend 0x28 octets**, donc tous les 0x28 octets (à partir de l'octet 0) vous pouvez obtenir 8 octets et ce sera l'**adresse de la fonction** qui sera appelée :
 
-<figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
-
 <figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+
+<figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Ces données peuvent être extraites [**en utilisant ce script Hopper**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py).
 
@@ -388,4 +396,6 @@ Autres façons de soutenir HackTricks :
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux dépôts github de** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>

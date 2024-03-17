@@ -9,7 +9,7 @@ Autres façons de soutenir HackTricks:
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
@@ -143,7 +143,7 @@ Il existe environ **50 types différents de commandes de chargement** que le sys
 ### **LC\_SEGMENT/LC\_SEGMENT\_64**
 
 {% hint style="success" %}
-Essentiellement, ce type de commande de chargement définit **comment charger les segments \_\_TEXT** (code exécutable) **et \_\_DATA** (données du processus) **selon les décalages indiqués dans la section Data** lorsque le binaire est exécuté.
+Essentiellement, ce type de commande de chargement définit **comment charger les segments \_\_TEXT** (code exécutable) **et \_\_DATA** (données pour le processus) **selon les décalages indiqués dans la section Data** lorsque le binaire est exécuté.
 {% endhint %}
 
 Ces commandes **définissent des segments** qui sont **cartographiés** dans l'**espace mémoire virtuel** d'un processus lors de son exécution.
@@ -173,7 +173,7 @@ Exemple d'en-tête de segment :
 
 <figure><img src="../../../.gitbook/assets/image (2) (2) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Cet en-tête définit le **nombre de sections dont les en-têtes apparaissent après** :
+Cet en-tête définit le **nombre de sections dont les en-têtes apparaissent après** lui :
 ```c
 struct section_64 { /* for 64-bit architectures */
 char		sectname[16];	/* name of this section */
@@ -190,32 +190,32 @@ uint32_t	reserved2;	/* reserved (for count or sizeof) */
 uint32_t	reserved3;	/* reserved */
 };
 ```
-Exemple de **titre de section** :
+Exemple de **en-tête de section** :
 
 <figure><img src="../../../.gitbook/assets/image (6) (2).png" alt=""><figcaption></figcaption></figure>
 
 Si vous **ajoutez** le **décalage de section** (0x37DC) + le **décalage** où **l'architecture commence**, dans ce cas `0x18000` --> `0x37DC + 0x18000 = 0x1B7DC`
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Il est également possible d'obtenir des **informations d'en-tête** à partir de la **ligne de commande** avec :
 ```bash
 otool -lv /bin/ls
 ```
-Les segments communs chargés par cette commande :
+Les segments courants chargés par cette commande :
 
 * **`__PAGEZERO` :** Il indique au noyau de **mapper** l'**adresse zéro** afin qu'elle ne puisse pas être lue, écrite ou exécutée. Les variables maxprot et minprot dans la structure sont définies à zéro pour indiquer qu'il n'y a **aucun droit de lecture-écriture-exécution sur cette page**.
-* Cette allocation est importante pour **atténuer les vulnérabilités de déréférencement de pointeur NULL**.
+* Cette allocation est importante pour **atténuer les vulnérabilités de référence de pointeur NULL**.
 * **`__TEXT` :** Contient du **code exécutable** avec des autorisations de **lecture** et d'**exécution** (pas d'écriture). Sections courantes de ce segment :
   * `__text` : Code binaire compilé
   * `__const` : Données constantes
   * `__cstring` : Constantes de chaîne
   * `__stubs` et `__stubs_helper` : Impliqués lors du processus de chargement de bibliothèque dynamique
-* **`__DATA` :** Contient des données **lisibles** et **inscriptibles** (non exécutables).
+* **`__DATA` :** Contient des données **lisibles** et **modifiables** (non exécutables).
   * `__data` : Variables globales (qui ont été initialisées)
   * `__bss` : Variables statiques (qui n'ont pas été initialisées)
   * `__objc_*` (\_\_objc\_classlist, \_\_objc\_protolist, etc) : Informations utilisées par le runtime Objective-C
-* **`__LINKEDIT` :** Contient des informations pour le lien (dyld) telles que "entrées de table de symboles, de chaînes et de réadressage".
+* **`__LINKEDIT` :** Contient des informations pour le linker (dyld) telles que "entrées de table de symboles, de chaînes et de réadressage".
 * **`__OBJC` :** Contient des informations utilisées par le runtime Objective-C. Bien que ces informations puissent également être trouvées dans le segment \_\_DATA, dans diverses sections \_\_objc\_\*.
 
 ### **`LC_MAIN`**
@@ -279,13 +279,13 @@ Au cœur du fichier se trouve la région des données, composée de plusieurs se
 Les données sont essentiellement la partie contenant toutes les **informations** chargées par les commandes de chargement **LC\_SEGMENTS\_64**
 {% endhint %}
 
-![https://www.oreilly.com/api/v2/epubs/9781785883378/files/graphics/B05055_02_38.jpg](<../../../.gitbook/assets/image (507) (3).png>)
+![https://www.oreilly.com/api/v2/epubs/9781785883378/files/graphics/B05055\_02\_38.jpg](<../../../.gitbook/assets/image (507) (3).png>)
 
 Cela inclut :
 
 * **Table des fonctions** : Qui contient des informations sur les fonctions du programme.
 * **Table des symboles** : Qui contient des informations sur les fonctions externes utilisées par le binaire
-* Il pourrait également contenir des fonctions internes, des noms de variables, et plus encore.
+* Il pourrait également contenir des noms de fonctions internes, des noms de variables et plus encore.
 
 Pour vérifier, vous pouvez utiliser l'outil [**Mach-O View**](https://sourceforge.net/projects/machoview/) :
 
@@ -297,14 +297,14 @@ size -m /bin/ls
 ```
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge HackTricks AWS)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
-D'autres façons de soutenir HackTricks:
+D'autres façons de soutenir HackTricks :
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

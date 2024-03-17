@@ -2,13 +2,13 @@
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS HackTricks)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks :
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
@@ -25,7 +25,7 @@ Si vous ne savez pas ce que sont les messages Mach, commencez par consulter cett
 {% endcontent-ref %}
 
 Pour l'instant, retenez que ([définition à partir d'ici](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing)) :
-Les messages Mach sont envoyés via un _port Mach_, qui est un canal de communication **un récepteur, plusieurs expéditeurs** intégré dans le noyau Mach. **Plusieurs processus peuvent envoyer des messages** à un port Mach, mais à tout moment, **un seul processus peut le lire**. Tout comme les descripteurs de fichiers et les sockets, les ports Mach sont alloués et gérés par le noyau et les processus ne voient qu'un entier, qu'ils peuvent utiliser pour indiquer au noyau lequel de leurs ports Mach ils veulent utiliser.
+Les messages Mach sont envoyés sur un _port Mach_, qui est un canal de communication à **un seul destinataire, plusieurs expéditeurs** intégré dans le noyau Mach. **Plusieurs processus peuvent envoyer des messages** à un port Mach, mais à tout moment, **un seul processus peut le lire**. Tout comme les descripteurs de fichiers et les sockets, les ports Mach sont alloués et gérés par le noyau et les processus ne voient qu'un entier, qu'ils peuvent utiliser pour indiquer au noyau lequel de leurs ports Mach ils veulent utiliser.
 
 ## Connexion XPC
 
@@ -39,7 +39,7 @@ Si vous ne savez pas comment une connexion XPC est établie, consultez :
 
 Ce qui est intéressant à savoir, c'est que **l'abstraction XPC est une connexion un à un**, mais elle est basée sur une technologie qui **peut avoir plusieurs expéditeurs, donc :**
 
-* Les ports Mach sont un récepteur unique, **plusieurs expéditeurs**.
+* Les ports Mach sont un destinataire unique, **plusieurs expéditeurs**.
 * Le jeton d'audit d'une connexion XPC est le jeton d'audit **copié du message le plus récemment reçu**.
 * Obtenir le **jeton d'audit** d'une connexion XPC est crucial pour de nombreux **contrôles de sécurité**.
 
@@ -51,15 +51,15 @@ Bien que la situation précédente semble prometteuse, il existe des scénarios 
 Deux méthodes différentes par lesquelles cela pourrait être exploité :
 
 1. Variante 1 :
-* L'**exploit** se connecte au service **A** et au service **B**.
-* Le service **B** peut appeler une **fonctionnalité privilégiée** dans le service **A** que l'utilisateur ne peut pas.
+* L'**exploit** se **connecte** au service **A** et au service **B**.
+* Le service **B** peut appeler une **fonctionnalité privilégiée** dans le service A que l'utilisateur ne peut pas.
 * Le service **A** appelle **`xpc_connection_get_audit_token`** tout en étant _**pas**_ à l'intérieur du **gestionnaire d'événements** pour une connexion dans un **`dispatch_async`**.
 * Ainsi, un **message différent** pourrait **écraser le jeton d'audit** car il est envoyé de manière asynchrone en dehors du gestionnaire d'événements.
 * L'exploit transmet à **service B le droit d'ENVOI à service A**.
 * Ainsi, svc **B** enverra effectivement les **messages** au service **A**.
 * L'**exploit** tente d'**appeler** l'**action privilégiée**. Dans un RC, svc **A** **vérifie** l'autorisation de cette **action** tandis que **svc B a écrasé le jeton d'audit** (donnant à l'exploit l'accès pour appeler l'action privilégiée).
 2. Variante 2 :
-* Le service **B** peut appeler une **fonctionnalité privilégiée** dans le service **A** que l'utilisateur ne peut pas.
+* Le service **B** peut appeler une **fonctionnalité privilégiée** dans le service A que l'utilisateur ne peut pas.
 * L'exploit se connecte avec le **service A** qui **envoie** à l'exploit un **message attendant une réponse** dans un **port de réponse** spécifique.
 * L'exploit envoie au **service** B un message passant **ce port de réponse**.
 * Lorsque le service **B répond**, il **envoie le message au service A**, **tandis que** l'**exploit** envoie un **message différent au service A** essayant d'**atteindre une fonctionnalité privilégiée** et s'attendant à ce que la réponse de service B écrase le jeton d'audit au moment parfait (Condition de Course).
@@ -68,7 +68,7 @@ Deux méthodes différentes par lesquelles cela pourrait être exploité :
 
 Scénario :
 
-* Deux services Mach **`A`** et **`B`** auxquels nous pouvons tous deux nous connecter (en fonction du profil de sandbox et des vérifications d'autorisation avant d'accepter la connexion).
+* Deux services Mach **`A`** et **`B`** auxquels nous pouvons tous deux nous connecter (en fonction du profil de bac à sable et des vérifications d'autorisation avant d'accepter la connexion).
 * _**A**_ doit avoir une **vérification d'autorisation** pour une action spécifique que **`B`** peut passer (mais notre application ne peut pas).
 * Par exemple, si B a des **privilèges** ou s'exécute en tant que **root**, il pourrait lui permettre de demander à A d'effectuer une action privilégiée.
 * Pour cette vérification d'autorisation, **`A`** obtient le jeton d'audit de manière asynchrone, par exemple en appelant `xpc_connection_get_audit_token` depuis **`dispatch_async`**.
@@ -87,11 +87,11 @@ Pour effectuer l'attaque :
 2. Former une **connexion secondaire** à `diagnosticd`. Contrairement à la procédure normale, au lieu de créer et d'envoyer deux nouveaux ports Mach, le droit d'envoi du port client est remplacé par une copie du **droit d'envoi** associé à la connexion `smd`.
 3. En conséquence, les messages XPC peuvent être envoyés à `diagnosticd`, mais les réponses de `diagnosticd` sont redirigées vers `smd`. Pour `smd`, il semble que les messages de l'utilisateur et de `diagnosticd` proviennent de la même connexion.
 
-![Image illustrant le processus de l'exploit](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/exploit.png)
+![Image illustrant le processus d'exploitation](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/exploit.png)
 4. La prochaine étape consiste à instruire `diagnosticd` d'initier la surveillance d'un processus choisi (potentiellement celui de l'utilisateur). Simultanément, une vague de messages 1004 de routine est envoyée à `smd`. L'intention ici est d'installer un outil avec des privilèges élevés.
-5. Cette action déclenche une condition de course au sein de la fonction `handle_bless`. Le timing est crucial : l'appel de fonction `xpc_connection_get_pid` doit renvoyer le PID du processus de l'utilisateur (car l'outil privilégié réside dans le bundle d'application de l'utilisateur). Cependant, la fonction `xpc_connection_get_audit_token`, spécifiquement dans la sous-routine `connection_is_authorized`, doit faire référence au jeton d'audit appartenant à `diagnosticd`.
+5. Cette action déclenche une condition de concurrence dans la fonction `handle_bless`. Le timing est crucial : l'appel de fonction `xpc_connection_get_pid` doit renvoyer le PID du processus de l'utilisateur (car l'outil privilégié réside dans le bundle d'application de l'utilisateur). Cependant, la fonction `xpc_connection_get_audit_token`, spécifiquement dans la sous-routine `connection_is_authorized`, doit faire référence au jeton d'audit appartenant à `diagnosticd`.
 
-## Variante 2 : transfert de réponse
+## Variante 2 : renvoi de réponse
 
 Dans un environnement XPC (Communication inter-processus), bien que les gestionnaires d'événements n'exécutent pas de manière concurrente, le traitement des messages de réponse a un comportement unique. Deux méthodes distinctes existent pour envoyer des messages qui attendent une réponse :
 
@@ -104,7 +104,7 @@ Pour exploiter cette vulnérabilité, la configuration suivante est requise :
 
 * Deux services mach, appelés **`A`** et **`B`**, qui peuvent tous deux établir une connexion.
 * Le service **`A`** devrait inclure une vérification d'autorisation pour une action spécifique que seul **`B`** peut effectuer (l'application de l'utilisateur ne peut pas).
-* Le service **`A`** devrait envoyer un message qui attend une réponse.
+* Le service **`A`** devrait envoyer un message qui anticipe une réponse.
 * L'utilisateur peut envoyer un message à **`B`** auquel il répondra.
 
 Le processus d'exploitation implique les étapes suivantes :
@@ -117,7 +117,7 @@ Ci-dessous se trouve une représentation visuelle du scénario d'attaque décrit
 
 !\[https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/variant2.png]\(../../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png)
 
-<figure><img src="../../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1).png" alt="https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/variant2.png" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/variant2.png" width="563"><figcaption></figcaption></figure>
 
 ## Problèmes de découverte
 

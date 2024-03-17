@@ -1,6 +1,6 @@
 # Commandes Linux Utiles
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser facilement** des flux de travail alimentés par les outils communautaires les plus avancés au monde.\
@@ -14,10 +14,10 @@ Accédez dès aujourd'hui :
 
 Autres façons de soutenir HackTricks :
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
@@ -141,11 +141,11 @@ sudo chattr -i file.txt #Remove the bit so you can delete it
 # List files inside zip
 7z l file.zip
 ```
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) pour construire facilement et **automatiser des workflows** alimentés par les outils communautaires les plus avancés au monde.\
-Accédez-y aujourd'hui :
+Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -171,37 +171,23 @@ i686-mingw32msvc-gcc -o executable useradd.c
 ```
 ## Greps
 
-Grep est un outil puissant pour rechercher des chaînes de texte dans les fichiers. Voici quelques exemples d'utilisation courante de grep :
+### Recherche de chaînes de texte dans des fichiers
+La commande `grep` est utilisée pour rechercher des chaînes de texte dans des fichiers. Par exemple, pour rechercher le mot "example" dans un fichier nommé `file.txt`, vous pouvez utiliser la commande suivante :
+```bash
+grep "example" file.txt
+```
 
-- Rechercher une chaîne de texte dans un fichier :
-  ```bash
-  grep "mot-clé" fichier.txt
-  ```
+### Recherche récursive dans les répertoires
+Pour rechercher de manière récursive dans tous les fichiers d'un répertoire et de ses sous-répertoires, vous pouvez utiliser l'option `-r` avec `grep`. Par exemple, pour rechercher le mot "keyword" dans tous les fichiers du répertoire courant, utilisez la commande suivante :
+```bash
+grep -r "keyword" .
+```
 
-- Rechercher de manière récursive dans tous les fichiers d'un répertoire :
-  ```bash
-  grep -r "mot-clé" /chemin/vers/repertoire
-  ```
-
-- Ignorer la casse lors de la recherche :
-  ```bash
-  grep -i "mot-clé" fichier.txt
-  ```
-
-- Afficher le numéro de ligne des correspondances :
-  ```bash
-  grep -n "mot-clé" fichier.txt
-  ```
-
-- Afficher les lignes qui ne correspondent pas au motif :
-  ```bash
-  grep -v "mot-clé" fichier.txt
-  ```
-
-- Rechercher un motif en utilisant des expressions régulières :
-  ```bash
-  grep -E "motif" fichier.txt
-  ```
+### Ignorer la casse
+Pour effectuer une recherche sans tenir compte de la casse, utilisez l'option `-i` avec `grep`. Par exemple, pour rechercher "example" sans distinction entre majuscules et minuscules, utilisez la commande suivante :
+```bash
+grep -i "example" file.txt
+```
 ```bash
 #Extract emails from file
 grep -E -o "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b" file.txt
@@ -319,27 +305,118 @@ nmap --script-help "(default or version) and smb)"
 ```
 ## Bash
 
-## Bash
+### Commandes utiles
+
+#### `history`
+La commande `history` affiche une liste des commandes précédemment exécutées par l'utilisateur.
+
+#### `alias`
+La commande `alias` permet de créer des alias pour des commandes souvent utilisées.
+
+#### `chmod`
+La commande `chmod` est utilisée pour modifier les permissions d'accès aux fichiers et répertoires.
+
+#### `chown`
+La commande `chown` est utilisée pour changer le propriétaire et le groupe d'un fichier ou d'un répertoire.
+
+#### `ps`
+La commande `ps` affiche les processus en cours d'exécution sur le système.
+
+#### `top`
+La commande `top` affiche les processus en cours d'exécution en temps réel, triés par utilisation de ressources.
+
+#### `kill`
+La commande `kill` est utilisée pour arrêter un processus en cours d'exécution en utilisant son PID (identifiant de processus).
+
+#### `shutdown`
+La commande `shutdown` est utilisée pour arrêter ou redémarrer le système.
+
+#### `ifconfig`
+La commande `ifconfig` affiche et configure les interfaces réseau sur le système.
+
+#### `netstat`
+La commande `netstat` affiche les connexions réseau, les tables de routage, les statistiques d'interface, etc.
+
+#### `ss`
+La commande `ss` est utilisée pour obtenir des informations sur les sockets réseau.
+
+#### `lsof`
+La commande `lsof` affiche les fichiers ouverts par les processus en cours d'exécution.
+
+#### `df`
+La commande `df` affiche l'utilisation de l'espace disque sur le système de fichiers.
+
+#### `du`
+La commande `du` affiche l'utilisation de l'espace disque par répertoire.
+
+#### `free`
+La commande `free` affiche l'utilisation de la mémoire système et des échanges.
+
+#### `uptime`
+La commande `uptime` affiche depuis combien de temps le système est en ligne et la charge moyenne.
+
+#### `grep`
+La commande `grep` est utilisée pour rechercher du texte dans des fichiers ou des sorties de commandes.
+
+#### `find`
+La commande `find` est utilisée pour rechercher des fichiers et des répertoires en fonction de certains critères.
+
+#### `tar`
+La commande `tar` est utilisée pour archiver et extraire des fichiers à partir d'une archive.
+
+#### `zip`
+La commande `zip` est utilisée pour compresser des fichiers dans un format zip.
+
+#### `unzip`
+La commande `unzip` est utilisée pour extraire des fichiers d'une archive zip.
+
+#### `curl`
+La commande `curl` est utilisée pour transférer des données vers ou depuis un serveur.
+
+#### `wget`
+La commande `wget` est utilisée pour télécharger des fichiers depuis le Web.
+
+#### `ssh`
+La commande `ssh` est utilisée pour se connecter à un serveur distant de manière sécurisée.
+
+#### `scp`
+La commande `scp` est utilisée pour copier des fichiers de manière sécurisée entre des hôtes distants.
+
+#### `rsync`
+La commande `rsync` est utilisée pour synchroniser des fichiers et des répertoires entre des hôtes distants ou locaux.
+
+#### `crontab`
+La commande `crontab` est utilisée pour gérer les tâches planifiées sur le système.
+
+#### `journalctl`
+La commande `journalctl` est utilisée pour afficher les messages du journal du système et des services.
+
+#### `systemctl`
+La commande `systemctl` est utilisée pour contrôler le système et les services systemd.
+
+#### `lsblk`
+La commande `lsblk` affiche les informations sur les périphériques de stockage du système.
+
+#### `lscpu`
+La commande `lscpu` affiche les informations sur le processeur du système.
+
+#### `lsusb`
+La commande `lsusb` affiche les informations sur les périphériques USB connectés au système.
 ```bash
 #All bytes inside a file (except 0x20 and 0x00)
 for j in $((for i in {0..9}{0..9} {0..9}{a..f} {a..f}{0..9} {a..f}{a..f}; do echo $i; done ) | sort | grep -v "20\|00"); do echo -n -e "\x$j" >> bytes; done
 ```
 ## Iptables
 
-### Description
-Iptables is a powerful firewall utility for Linux systems. It allows you to configure the packet filtering rules of the Linux kernel firewall, which can be used to secure and control network traffic.
+Iptables est un utilitaire en ligne de commande pour configurer le pare-feu du noyau Linux. Il permet de définir des règles pour contrôler le trafic réseau entrant et sortant. Voici quelques commandes utiles pour gérer les règles iptables :
 
-### Useful Commands
+- `iptables -L` : Affiche toutes les règles iptables actuellement définies.
+- `iptables -F` : Efface toutes les règles iptables.
+- `iptables -A` : Ajoute une règle à une chaîne spécifique.
+- `iptables -D` : Supprime une règle spécifique.
+- `iptables -P` : Définit la politique par défaut pour une chaîne.
 
-- **List all rules**: `iptables -L`
-- **List all rules with line numbers**: `iptables -L --line-numbers`
-- **Flush all rules**: `iptables -F`
-- **Block a specific IP address**: `iptables -A INPUT -s <IP_ADDRESS> -j DROP`
-- **Allow a specific IP address**: `iptables -A INPUT -s <IP_ADDRESS> -j ACCEPT`
-- **Block a specific port**: `iptables -A INPUT -p tcp --dport <PORT_NUMBER> -j DROP`
-- **Allow a specific port**: `iptables -A INPUT -p tcp --dport <PORT_NUMBER> -j ACCEPT`
-- **Save rules**: `iptables-save > /etc/iptables/rules.v4`
-- **Restore rules**: `iptables-restore < /etc/iptables/rules.v4`
+Il est important de comprendre comment utiliser iptables pour renforcer la sécurité de votre système Linux.
 ```bash
 #Delete curent rules and chains
 iptables --flush
@@ -372,22 +449,22 @@ iptables -P OUTPUT ACCEPT
 ```
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
-Autres façons de soutenir HackTricks :
+Autres façons de soutenir HackTricks:
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser facilement des workflows** alimentés par les outils communautaires les plus avancés au monde.\
-Accédez dès aujourd'hui :
+Accédez dès aujourd'hui:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
