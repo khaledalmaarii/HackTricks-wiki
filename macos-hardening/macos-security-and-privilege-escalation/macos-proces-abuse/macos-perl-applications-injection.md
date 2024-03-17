@@ -10,13 +10,13 @@ Njia nyingine za kusaidia HackTricks:
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
 ## Kupitia `PERL5OPT` & `PERL5LIB` env variable
 
-Kwa kutumia mazingira ya env PERL5OPT inawezekana kufanya perl itekeleze amri za kupotosha.\
+Kwa kutumia mazingira ya env PERL5OPT inawezekana kufanya perl itekeleze amri za kupindukia.\
 Kwa mfano, unda script hii:
 
 {% code title="test.pl" %}
@@ -48,7 +48,7 @@ PERL5LIB=/tmp/ PERL5OPT=-Mpmod
 ```
 ## Kupitia mahitaji
 
-Inawezekana kuorodhesha folda za mahitaji kwa utaratibu wa Perl unaoendeshwa:
+Inawezekana kuorodhesha folda za mahitaji kwa mpangilio wa Perl unaoendeshwa:
 ```bash
 perl -e 'print join("\n", @INC)'
 ```
@@ -64,15 +64,15 @@ Ambayo itarudisha kitu kama:
 /System/Library/Perl/Extras/5.30/darwin-thread-multi-2level
 /System/Library/Perl/Extras/5.30
 ```
-Baadhi ya folda zilizorudishwa hazipo, hata hivyo, **`/Library/Perl/5.30`** ipo, haijalindwa na **SIP** na iko **kabla** ya folda zilizolindwa na SIP. Kwa hivyo, mtu anaweza kutumia folda hiyo kuongeza mahitaji ya script ili script ya Perl yenye mamlaka makubwa iweze kuijumuisha.
+Baadhi ya folda zilizorudishwa hazipo, hata hivyo, **`/Library/Perl/5.30`** ipo, haikilindwi na **SIP** na iko **kabla** ya folda zilizolindwa na SIP. Kwa hivyo, mtu anaweza kutumia folda hiyo kuongeza mahitaji ya script ili script ya Perl yenye mamlaka makubwa iweze kuijumuisha.
 
 {% hint style="warning" %}
 Hata hivyo, kumbuka kwamba **unahitaji kuwa na ruhusa ya msingi kuandika kwenye folda hiyo** na siku hizi utapata **ombi la TCC** hili:
 {% endhint %}
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1).png" alt="" width="244"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1).png" alt="" width="244"><figcaption></figcaption></figure>
 
-Kwa mfano, ikiwa script inaingiza **`use File::Basename;`** ingewezekana kuunda `/Library/Perl/5.30/File/Basename.pm` ili kufanya iendeshe nambari ya kupendelea.
+Kwa mfano, ikiwa script inaingiza **`use File::Basename;`** ingewezekana kuunda `/Library/Perl/5.30/File/Basename.pm` ili kufanya iweze kutekeleza nambari ya kupendelea.
 
 ## Marejeo
 
