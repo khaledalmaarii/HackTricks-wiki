@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Nauka hakowania AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Nauka hakerskiego AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 
@@ -10,19 +10,19 @@ Inne sposoby wsparcia HackTricks:
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakowania, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
 
 </details>
 
 ## Autoryzacja XPC
 
-Apple proponuje również inną metodę uwierzytelniania, czy łączący proces ma **uprawnienia do wywołania wystawionej metody XPC**.
+Apple proponuje również inną metodę uwierzytelniania, aby sprawdzić, czy łączący proces ma **uprawnienia do wywołania wystawionej metody XPC**.
 
 Kiedy aplikacja musi **wykonywać działania jako uprzywilejowany użytkownik**, zamiast uruchamiać aplikację jako uprzywilejowany użytkownik, zazwyczaj instaluje jako root HelperTool jako usługę XPC, którą można wywołać z aplikacji, aby wykonać te działania. Jednak aplikacja wywołująca usługę powinna mieć wystarczającą autoryzację.
 
 ### ShouldAcceptNewConnection zawsze YES
 
-Przykład można znaleźć w [EvenBetterAuthorizationSample](https://github.com/brenwell/EvenBetterAuthorizationSample). W `App/AppDelegate.m` próbuje **połączyć się** z **HelperTool**. A w `HelperTool/HelperTool.m` funkcja **`shouldAcceptNewConnection`** **nie będzie sprawdzać** żadnych wymagań wskazanych wcześniej. Zawsze zwróci YES:
+Przykład można znaleźć w [EvenBetterAuthorizationSample](https://github.com/brenwell/EvenBetterAuthorizationSample). W `App/AppDelegate.m` próbuje się **połączyć** z **HelperTool**. A w `HelperTool/HelperTool.m` funkcja **`shouldAcceptNewConnection`** **nie będzie sprawdzać** żadnych wymagań wskazanych wcześniej. Zawsze zwróci YES:
 ```objectivec
 - (BOOL)listener:(NSXPCListener *)listener shouldAcceptNewConnection:(NSXPCConnection *)newConnection
 // Called by our XPC listener when a new connection comes in.  We configure the connection
@@ -49,7 +49,7 @@ Aby uzyskać więcej informacji na temat właściwej konfiguracji tego sprawdzen
 
 Jednakże, zachodzi **autoryzacja, gdy wywoływana jest metoda z HelperTool**.
 
-Funkcja **`applicationDidFinishLaunching`** z pliku `App/AppDelegate.m` utworzy puste odwołanie do autoryzacji po uruchomieniu aplikacji. To powinno zawsze działać.\
+Funkcja **`applicationDidFinishLaunching`** z `App/AppDelegate.m` utworzy puste odwołanie do autoryzacji po uruchomieniu aplikacji. To powinno zawsze działać.\
 Następnie spróbuje **dodać pewne uprawnienia** do tego odwołania autoryzacji, wywołując `setupAuthorizationRights`:
 ```objectivec
 - (void)applicationDidFinishLaunching:(NSNotification *)note
@@ -74,7 +74,7 @@ if (self->_authRef) {
 [self.window makeKeyAndOrderFront:self];
 }
 ```
-Funkcja `setupAuthorizationRights` z pliku `Common/Common.m` zapisze w bazie danych autoryzacji `/var/db/auth.db` uprawnienia aplikacji. Zauważ, że dodane zostaną tylko te uprawnienia, które nie znajdują się jeszcze w bazie danych:
+Funkcja `setupAuthorizationRights` z pliku `Common/Common.m` zapisze uprawnienia aplikacji w bazie danych autoryzacji `/var/db/auth.db`. Zauważ, że dodane zostaną tylko te uprawnienia, które nie znajdują się jeszcze w bazie danych:
 ```objectivec
 + (void)setupAuthorizationRights:(AuthorizationRef)authRef
 // See comment in header.
@@ -240,7 +240,7 @@ assert(junk == errAuthorizationSuccess);
 return error;
 }
 ```
-Zauważ, że aby **sprawdzić wymagania do uzyskania uprawnień** do wywołania tej metody, funkcja `authorizationRightForCommand` po prostu sprawdzi wcześniej skomentowany obiekt **`commandInfo`**. Następnie wywoła **`AuthorizationCopyRights`** aby sprawdzić, **czy ma uprawnienia** do wywołania funkcji (zauważ, że flagi pozwalają na interakcję z użytkownikiem).
+Zauważ, że **aby sprawdzić wymagania do uzyskania uprawnień** do wywołania tej metody, funkcja `authorizationRightForCommand` po prostu sprawdzi wcześniej skomentowany obiekt **`commandInfo`**. Następnie wywoła **`AuthorizationCopyRights`** aby sprawdzić, **czy ma uprawnienia** do wywołania funkcji (zauważ, że flagi pozwalają na interakcję z użytkownikiem).
 
 W tym przypadku, aby wywołać funkcję `readLicenseKeyAuthorization`, `kCommandKeyAuthRightDefault` jest zdefiniowane jako `@kAuthorizationRuleClassAllow`. Więc **każdy może ją wywołać**.
 
@@ -256,19 +256,19 @@ Następnie możesz odczytać, kto ma dostęp do uprawnień za pomocą:
 ```bash
 security authorizationdb read com.apple.safaridriver.allow
 ```
-### Prawa przyznane
+### Prawa dozwolone
 
 Możesz znaleźć **wszystkie konfiguracje uprawnień** [**tutaj**](https://www.dssw.co.uk/reference/authorization-rights/), ale kombinacje, które nie wymagają interakcji użytkownika, to:
 
 1. **'authenticate-user': 'false'**
 * To jest najbardziej bezpośredni klucz. Jeśli ustawiony na `false`, oznacza, że użytkownik nie musi podawać uwierzytelnienia, aby uzyskać to prawo.
-* Jest używany w **połączeniu z jednym z poniższych lub wskazując grupę**, do której użytkownik musi należeć.
+* Jest używany w **kombinacji z jednym z poniższych lub wskazującą grupę**, do której użytkownik musi należeć.
 2. **'allow-root': 'true'**
 * Jeśli użytkownik działa jako użytkownik root (który ma podwyższone uprawnienia), a ten klucz jest ustawiony na `true`, użytkownik root może potencjalnie uzyskać to prawo bez dodatkowego uwierzytelnienia. Jednak zazwyczaj uzyskanie statusu użytkownika root już wymaga uwierzytelnienia, więc nie jest to scenariusz "bez uwierzytelnienia" dla większości użytkowników.
 3. **'session-owner': 'true'**
 * Jeśli ustawiony na `true`, właściciel sesji (obecnie zalogowany użytkownik) automatycznie otrzyma to prawo. Może to ominąć dodatkowe uwierzytelnienie, jeśli użytkownik jest już zalogowany.
 4. **'shared': 'true'**
-* Ten klucz nie przyznaje praw bez uwierzytelnienia. Zamiast tego, jeśli ustawiony na `true`, oznacza to, że po uwierzytelnieniu prawa można udostępnić wielu procesom bez konieczności ponownego uwierzytelniania. Jednak początkowe przyznanie prawa nadal będzie wymagać uwierzytelnienia, chyba że jest połączone z innymi kluczami, takimi jak `'authenticate-user': 'false'`.
+* Ten klucz nie nadaje praw bez uwierzytelnienia. Zamiast tego, jeśli ustawiony na `true`, oznacza to, że po uwierzytelnieniu prawa można udostępnić wielu procesom bez konieczności ponownego uwierzytelniania. Jednak początkowe nadanie prawa nadal będzie wymagać uwierzytelnienia, chyba że jest połączone z innymi kluczami, takimi jak `'authenticate-user': 'false'`.
 
 Możesz [**użyć tego skryptu**](https://gist.github.com/carlospolop/96ecb9e385a4667b9e40b24e878652f9), aby uzyskać interesujące prawa:
 ```bash
@@ -291,7 +291,7 @@ Jeśli znajdziesz funkcję: **`[HelperTool checkAuthorization:command:]`**, to p
 
 Jeśli ta funkcja wywołuje funkcje takie jak `AuthorizationCreateFromExternalForm`, `authorizationRightForCommand`, `AuthorizationCopyRights`, `AuhtorizationFree`, to używa [**EvenBetterAuthorizationSample**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L101-L154).
 
-Sprawdź **`/var/db/auth.db`**, aby sprawdzić, czy można uzyskać uprawnienia do wywołania pewnej akcji uprzywilejowanej bez interakcji użytkownika.
+Sprawdź **`/var/db/auth.db`**, aby zobaczyć, czy możliwe jest uzyskanie uprawnień do wywołania pewnej uprzywilejowanej akcji bez interakcji użytkownika.
 
 ### Komunikacja protokołowa
 
@@ -299,11 +299,11 @@ Następnie musisz znaleźć schemat protokołu, aby móc nawiązać komunikację
 
 Funkcja **`shouldAcceptNewConnection`** wskazuje na eksportowany protokół:
 
-<figure><img src="../../../../../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 W tym przypadku mamy to samo co w EvenBetterAuthorizationSample, [**sprawdź tę linię**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L94).
 
-Znając nazwę używanego protokołu, można **wydrukować jego definicję nagłówka** za pomocą:
+Znając nazwę używanego protokołu, możliwe jest **wygenerowanie definicji jego nagłówka** za pomocą:
 ```bash
 class-dump /Library/PrivilegedHelperTools/com.example.HelperTool
 
@@ -317,11 +317,11 @@ class-dump /Library/PrivilegedHelperTools/com.example.HelperTool
 @end
 [...]
 ```
-Ostatecznie musimy poznać **nazwę wystawionego usługi Mach**, aby nawiązać z nią komunikację. Istnieje kilka sposobów na jej znalezienie:
+Ostatecznie musimy poznać **nazwę wystawionego usługi Mach**, aby nawiązać z nią komunikację. Istnieje kilka sposobów, aby to znaleźć:
 
 * W **`[HelperTool init()]`**, gdzie można zobaczyć używaną usługę Mach:
 
-<figure><img src="../../../../../.gitbook/assets/image (4) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../../.gitbook/assets/image (4) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 * W pliku launchd plist:
 ```xml
@@ -341,7 +341,7 @@ cat /Library/LaunchDaemons/com.example.HelperTool.plist
 W tym przykładzie jest utworzone:
 
 * Definicja protokołu z funkcjami
-* Pusta autoryzacja do użycia w celu uzyskania dostępu
+* Pusta autoryzacja do użycia w celu żądania dostępu
 * Połączenie z usługą XPC
 * Wywołanie funkcji, jeśli połączenie było udane
 ```objectivec
@@ -427,7 +427,7 @@ NSLog(@"Finished!");
 
 <details>
 
-<summary><strong>Zacznij od zera i zostań mistrzem hakowania AWS dzięki</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Nauka hakowania AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 
@@ -435,6 +435,6 @@ Inne sposoby wsparcia HackTricks:
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na githubie.
+* **Podziel się swoimi sztuczkami hakowania, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na githubie.
 
 </details>

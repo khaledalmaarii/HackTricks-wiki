@@ -10,7 +10,7 @@ Inne sposoby wsparcia HackTricks:
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -24,7 +24,7 @@ Jeśli nie wiesz, czym są wiadomości Mach, zacznij od sprawdzenia tej strony:
 [macos-ipc-inter-process-communication](../../../../mac-os-architecture/macos-ipc-inter-process-communication/)
 {% endcontent-ref %}
 
-Na razie zapamiętaj, że ([definicja stąd](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing)):\
+Na chwilę obecną pamiętaj ([definicja stąd](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing)):\
 Wiadomości Mach są wysyłane przez _port mach_, który jest **kanałem komunikacyjnym jednego odbiorcy, wielu nadawców** wbudowanym w jądro mach. **Wiele procesów może wysyłać wiadomości** do portu mach, ale w dowolnym momencie **tylko jeden proces może je czytać**. Podobnie jak deskryptory plików i gniazda, porty mach są przydzielane i zarządzane przez jądro, a procesy widzą tylko liczbę całkowitą, którą mogą użyć do wskazania jądru, który z ich portów mach chcą użyć.
 
 ## Połączenie XPC
@@ -46,25 +46,25 @@ Co jest dla Ciebie interesujące, to to, że **abstrakcja XPC to połączenie je
 Mimo że poprzednia sytuacja wydaje się obiecująca, istnieją scenariusze, w których to nie spowoduje problemów ([stąd](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing)):
 
 * Tokeny audytu są często używane do sprawdzenia autoryzacji, aby zdecydować, czy zaakceptować połączenie. Ponieważ dzieje się to za pomocą wiadomości do portu usługi, **jeszcze nie zostało nawiązane połączenie**. Więcej wiadomości na tym porcie będzie po prostu obsługiwane jako dodatkowe żądania połączenia. Dlatego **kontrole przed zaakceptowaniem połączenia nie są podatne** (oznacza to również, że wewnątrz `-listener:shouldAcceptNewConnection:` token audytu jest bezpieczny). Szukamy zatem **połączeń XPC, które weryfikują konkretne działania**.
-* Obsługa zdarzeń XPC jest obsługiwana synchronicznie. Oznacza to, że obsługa zdarzeń dla jednej wiadomości musi zostać zakończona przed jej wywołaniem dla następnej, nawet na równoległych kolejkach dystrybucji. Dlatego wewnątrz **obsługi zdarzeń XPC token audytu nie może zostać nadpisany** przez inne normalne (nie-odpowiedzi!) wiadomości.
+* Obsługa zdarzeń XPC jest obsługiwana synchronicznie. Oznacza to, że obsługa zdarzenia dla jednej wiadomości musi zostać zakończona przed jej wywołaniem dla następnej, nawet na równoległych kolejkach dystrybucji. Dlatego wewnątrz **obsługi zdarzeń XPC token audytu nie może zostać nadpisany** przez inne normalne (nie-odpowiedzi!) wiadomości.
 
 Dwa różne sposoby, w jakie to może być wykorzystane:
 
 1. Wariant 1:
-* **Exploit** łączy się z usługą **A** i usługą **B**
+* **Exploit** **łączy się** z usługą **A** i usługą **B**
 * Usługa **B** może wywołać **uprzywilejowaną funkcjonalność** w usłudze A, której użytkownik nie może
-* Usługa **A** wywołuje **`xpc_connection_get_audit_token`** podczas _**nie**_ znajdowania się w **obsłudze zdarzeń** dla połączenia w **`dispatch_async`**.
-* Więc **inna** wiadomość mogłaby **nadpisać Token Audytu**, ponieważ jest wysyłana asynchronicznie poza obsługą zdarzeń.
+* Usługa **A** wywołuje **`xpc_connection_get_audit_token`** podczas _**nie**_ znajdowania się w **obsłudze zdarzenia** dla połączenia w **`dispatch_async`**.
+* Więc **inna** wiadomość mogłaby **nadpisać Token Audytowy**, ponieważ jest wysyłana asynchronicznie poza obsługą zdarzenia.
 * Exploit przekazuje **usłudze B prawo DO WYSYŁANIA do usługi A**.
 * Więc usługa **B** faktycznie **wysyła** **wiadomości** do usługi **A**.
-* **Exploit** próbuje **wywołać** **uprzywilejowaną akcję**. W RC usługa **A sprawdza** autoryzację tej **akcji**, podczas gdy **usługa B nadpisała Token Audytu** (dając exploittowi dostęp do wywołania uprzywilejowanej akcji).
+* **Exploit** próbuje **wywołać** **uprzywilejowaną akcję.** W RC usługa **A sprawdza** autoryzację tej **akcji**, podczas gdy **usługa B nadpisała Token Audytowy** (dając exploittowi dostęp do wywołania uprzywilejowanej akcji).
 2. Wariant 2:
 * Usługa **B** może wywołać **uprzywilejowaną funkcjonalność** w usłudze A, której użytkownik nie może
 * Exploit łączy się z **usługą A**, która **wysyła** exploita **wiadomość oczekującą na odpowiedź** w określonym **porcie odpowiedzi**.
 * Exploit wysyła **usłudze B wiadomość przekazującą ten port odpowiedzi**.
-* Gdy usługa **B odpowiada**, **wysyła wiadomość do usługi A**, **podczas gdy** **exploit** wysyła inną **wiadomość do usługi A**, próbując **osiągnąć uprzywilejowaną funkcjonalność** i oczekując, że odpowiedź od usługi B nadpisze Token Audytu w idealnym momencie (Warunki Wyścigu).
+* Gdy usługa **B odpowiada**, **wysyła wiadomość do usługi A**, **podczas gdy** **exploit** wysyła inną **wiadomość do usługi A**, próbując **osiągnąć uprzywilejowaną funkcjonalność** i oczekując, że odpowiedź od usługi B nadpisze Token Audytowy w idealnym momencie (Warunki Wyścigu).
 
-## Wariant 1: wywołanie xpc\_connection\_get\_audit\_token poza obsługą zdarzeń <a href="#variant-1-calling-xpc_connection_get_audit_token-outside-of-an-event-handler" id="variant-1-calling-xpc_connection_get_audit_token-outside-of-an-event-handler"></a>
+## Wariant 1: wywołanie xpc\_connection\_get\_audit\_token poza obsługą zdarzenia <a href="#variant-1-calling-xpc_connection_get_audit_token-outside-of-an-event-handler" id="variant-1-calling-xpc_connection_get_audit_token-outside-of-an-event-handler"></a>
 
 Scenariusz:
 
@@ -77,14 +77,14 @@ Scenariusz:
 W tym przypadku atakujący mógłby wywołać **Warunki Wyścigu**, tworząc **exploit**, który **prosi A o wykonanie akcji** kilka razy, jednocześnie wysyłając **B wiadomości do `A`**. Gdy RC jest **udany**, token audytu **B** zostanie skopiowany w pamięci **podczas** obsługi żądania naszego **exploita** przez A, dając mu **dostęp do akcji uprzywilejowanej, którą mógłby poprosić tylko B**.
 {% endhint %}
 
-Do tego doszło z **`A`** jako `smd` i **`B`** jako `diagnosticd`. Funkcja [`SMJobBless`](https://developer.apple.com/documentation/servicemanagement/1431078-smjobbless?language=objc) z smb może być użyta do zainstalowania nowego uprzywilejowanego narzędzia pomocniczego (jako **root**). Jeśli **proces działa jako root** i kontaktuje się z **smd**, nie będą wykonywane żadne inne kontrole.
+Do tego doszło z **`A`** jako `smd` i **`B`** jako `diagnosticd`. Funkcję [`SMJobBless`](https://developer.apple.com/documentation/servicemanagement/1431078-smjobbless?language=objc) z smb można użyć do zainstalowania nowego uprzywilejowanego narzędzia pomocniczego (jako **root**). Jeśli **proces działa jako root** i kontaktuje się z **smd**, nie będą wykonywane żadne inne kontrole.
 
 Dlatego usługa **B** to **`diagnosticd`**, ponieważ działa jako **root** i może być używana do **monitorowania** procesu, więc po rozpoczęciu monitorowania będzie **wysyłać wiele wiadomości na sekundę.**
 
 Aby przeprowadzić atak:
 
 1. Nawiąż **połączenie** z usługą o nazwie `smd`, korzystając z standardowego protokołu XPC.
-2. Utwórz dodatkowe **połączenie** z `diagnosticd`. W przeciwieństwie do normalnej procedury, zamiast tworzyć i wysyłać dwa nowe porty mach, prawo do wysyłania portu klienta jest zastępowane duplikatem **prawa do wysyłania** skojarzonego z połączeniem `smd`.
+2. Utwórz dodatkowe **połączenie** do `diagnosticd`. W przeciwieństwie do normalnej procedury, zamiast tworzyć i wysyłać dwa nowe porty mach, prawo do wysyłania portu klienta jest zastępowane duplikatem **prawa do wysyłania** skojarzonego z połączeniem `smd`.
 3. W rezultacie wiadomości XPC mogą być wysyłane do `diagnosticd`, ale odpowiedzi z `diagnosticd` są przekierowywane do `smd`. Dla `smd` wydaje się, że wiadomości zarówno od użytkownika, jak i `diagnosticd` pochodzą z tego samego połączenia.
 
 ![Obrazek przedstawiający proces ataku](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/exploit.png)
@@ -93,7 +93,7 @@ Aby przeprowadzić atak:
 
 ## Wariant 2: przekazywanie odpowiedzi
 
-W środowisku XPC (Cross-Process Communication), chociaż obsługiwacze zdarzeń nie wykonują się równolegle, obsługa komunikatów odpowiedzi ma unikalne zachowanie. Istnieją specjalnie dwa różne metody wysyłania komunikatów, które oczekują odpowiedzi:
+W środowisku XPC (Cross-Process Communication), chociaż obsługiwacze zdarzeń nie wykonują się równolegle, obsługa komunikatów odpowiedzi ma unikalne zachowanie. Konkretnie istnieją dwa różne metody wysyłania komunikatów oczekujących na odpowiedź:
 
 1. **`xpc_connection_send_message_with_reply`**: Tutaj komunikat XPC jest odbierany i przetwarzany w wyznaczonej kolejce.
 2. **`xpc_connection_send_message_with_reply_sync`**: W przeciwnym razie, w tej metodzie komunikat XPC jest odbierany i przetwarzany w bieżącej kolejce dyspozytorskiej.
@@ -102,34 +102,34 @@ To rozróżnienie jest istotne, ponieważ pozwala na możliwość **parsowania p
 
 Aby wykorzystać tę podatność, wymagane jest następujące przygotowanie:
 
-* Dwa usługi mach, oznaczone jako **`A`** i **`B`**, obie mogą nawiązać połączenie.
+* Dwa usługi mach, oznaczone jako **`A`** i **`B`**, obie z możliwością nawiązania połączenia.
 * Usługa **`A`** powinna zawierać sprawdzenie autoryzacji dla konkretnej akcji, którą tylko **`B`** może wykonać (aplikacja użytkownika nie może).
 * Usługa **`A`** powinna wysłać komunikat, który oczekuje odpowiedzi.
 * Użytkownik może wysłać komunikat do **`B`**, na który ten odpowie.
 
-Proces eksploatacji obejmuje następujące kroki:
+Proces wykorzystania obejmuje następujące kroki:
 
-1. Oczekiwanie, aż usługa **`A`** wyśle komunikat, który oczekuje odpowiedzi.
-2. Zamiast bezpośrednio odpowiadać na **`A`**, port odpowiedzi jest przejęty i używany do wysłania komunikatu do usługi **`B`**.
+1. Oczekiwanie na wysłanie przez usługę **`A`** komunikatu, który oczekuje odpowiedzi.
+2. Zamiast bezpośrednio odpowiadać na **`A`**, port odpowiedzi jest przejęty i użyty do wysłania komunikatu do usługi **`B`**.
 3. Następnie wysyłany jest komunikat dotyczący zabronionej akcji, z oczekiwaniem, że zostanie przetworzony równolegle z odpowiedzią od **`B`**.
 
 Poniżej znajduje się wizualna reprezentacja opisanego scenariusza ataku:
 
 !\[https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/variant2.png]\(../../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png)
 
-<figure><img src="../../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1).png" alt="https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/variant2.png" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/variant2.png" width="563"><figcaption></figcaption></figure>
 
-## Problemy z Odkryciem
+## Problemy z odkryciem
 
 * **Trudności w Lokalizowaniu Instancji**: Poszukiwanie instancji użycia `xpc_connection_get_audit_token` było trudne, zarówno statycznie, jak i dynamicznie.
-* **Metodologia**: Frida została użyta do podpięcia funkcji `xpc_connection_get_audit_token`, filtrowanie wywołań niepochodzących od obsługaczy zdarzeń. Jednakże ta metoda była ograniczona do podpiętego procesu i wymagała aktywnego użycia.
+* **Metodologia**: Frida została użyta do podpięcia funkcji `xpc_connection_get_audit_token`, filtrowanie wywołań niepochodzących od obsługaczy zdarzeń. Jednakże ta metoda była ograniczona do procesu podpiętego i wymagała aktywnego użycia.
 * **Narzędzia Analizy**: Narzędzia takie jak IDA/Ghidra były używane do badania osiągalnych usług mach, ale proces był czasochłonny, komplikowany przez wywołania związane z pamięcią podręczną dyld.
 * **Ograniczenia Skryptowania**: Próby zautomatyzowania analizy wywołań `xpc_connection_get_audit_token` z bloków `dispatch_async` były utrudnione przez złożoności w parsowaniu bloków i interakcje z pamięcią podręczną dyld.
 
 ## Naprawa <a href="#the-fix" id="the-fix"></a>
 
-* **Zgłoszone Problemy**: Zgłoszono raport do Apple, w którym szczegółowo opisano ogólne i konkretne problemy znalezione w `smd`.
+* **Zgłoszone Problemy**: Zostało przesłane zgłoszenie do Apple, szczegółowo opisujące ogólne i konkretne problemy znalezione w `smd`.
 * **Odpowiedź od Apple**: Apple rozwiązało problem w `smd`, zastępując `xpc_connection_get_audit_token` przez `xpc_dictionary_get_audit_token`.
-* **Charakter Naprawy**: Funkcja `xpc_dictionary_get_audit_token` jest uważana za bezpieczną, ponieważ pobiera token audytu bezpośrednio z wiadomości mach powiązanej z otrzymanym komunikatem XPC. Jednakże nie jest to część publicznego interfejsu API, podobnie jak `xpc_connection_get_audit_token`.
-* **Brak Szerokiej Naprawy**: Pozostaje niejasne, dlaczego Apple nie zaimplementowało bardziej kompleksowej naprawy, takiej jak odrzucanie komunikatów niezgodnych z zapisanym tokenem audytu połączenia. Może to być spowodowane możliwością legitimizacji zmiany tokenu audytu w określonych scenariuszach (np. użycie `setuid`).
+* **Charakter Naprawy**: Funkcja `xpc_dictionary_get_audit_token` jest uważana za bezpieczną, ponieważ pobiera token audytu bezpośrednio z wiadomości mach powiązanej z otrzymanym komunikatem XPC. Jednak nie jest to część publicznego interfejsu API, podobnie jak `xpc_connection_get_audit_token`.
+* **Brak Szerszej Naprawy**: Pozostaje niejasne, dlaczego Apple nie zaimplementowało bardziej kompleksowego rozwiązania, takiego jak odrzucanie komunikatów niezgodnych z zapisanym tokenem audytu połączenia. Może to być spowodowane możliwością legitimizacji zmiany tokenu audytu w określonych scenariuszach (np. użycie `setuid`).
 * **Aktualny Status**: Problem nadal występuje w iOS 17 i macOS 14, stanowiąc wyzwanie dla osób starających się go zidentyfikować i zrozumieć.
