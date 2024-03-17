@@ -6,15 +6,15 @@
 
 Outras maneiras de apoiar o HackTricks:
 
-- Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-- Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-- Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-- **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-- **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente com as ferramentas comunitárias mais avançadas do mundo.\
@@ -24,162 +24,155 @@ Acesse hoje:
 
 ## O que é um Certificado
 
-Na criptografia, um **certificado de chave pública**, também conhecido como **certificado digital** ou **certificado de identidade**, é um documento eletrônico usado para provar a propriedade de uma chave pública. O certificado inclui informações sobre a chave, informações sobre a identidade de seu proprietário (chamado de sujeito) e a assinatura digital de uma entidade que verificou o conteúdo do certificado (chamado de emissor). Se a assinatura for válida e o software que examina o certificado confiar no emissor, ele pode usar essa chave para se comunicar de forma segura com o sujeito do certificado.
+Um **certificado de chave pública** é um ID digital usado em criptografia para provar que alguém possui uma chave pública. Ele inclui os detalhes da chave, a identidade do proprietário (o sujeito) e uma assinatura digital de uma autoridade confiável (o emissor). Se o software confiar no emissor e a assinatura for válida, é possível uma comunicação segura com o proprietário da chave.
 
-Em um esquema típico de [infraestrutura de chave pública](https://en.wikipedia.org/wiki/Public-key\_infrastructure) (PKI), o emissor do certificado é uma [autoridade de certificação](https://en.wikipedia.org/wiki/Certificate\_authority) (CA), geralmente uma empresa que cobra dos clientes para emitir certificados para eles. Em contraste, em um esquema de [rede de confiança](https://en.wikipedia.org/wiki/Web\_of\_trust), os indivíduos assinam diretamente as chaves uns dos outros, em um formato que desempenha uma função semelhante a um certificado de chave pública.
+Os certificados são principalmente emitidos por [autoridades de certificação](https://en.wikipedia.org/wiki/Certificate\_authority) (CAs) em uma configuração de [infraestrutura de chave pública](https://en.wikipedia.org/wiki/Public-key\_infrastructure) (PKI). Outro método é a [rede de confiança](https://en.wikipedia.org/wiki/Web\_of\_trust), onde os usuários verificam diretamente as chaves uns dos outros. O formato comum para certificados é [X.509](https://en.wikipedia.org/wiki/X.509), que pode ser adaptado para necessidades específicas, conforme descrito no RFC 5280.
 
-O formato mais comum para certificados de chave pública é definido por [X.509](https://en.wikipedia.org/wiki/X.509). Como o X.509 é muito geral, o formato é ainda mais restrito por perfis definidos para determinados casos de uso, como [Infraestrutura de Chave Pública (X.509)](https://en.wikipedia.org/wiki/PKIX) conforme definido no RFC 5280.
+## Campos Comuns do x509
 
-## Campos Comuns x509
+### **Campos Comuns em Certificados x509**
 
-- **Número da Versão:** Versão do formato x509.
-- **Número de Série**: Usado para identificar unicamente o certificado nos sistemas de uma CA. Em particular, isso é usado para rastrear informações de revogação.
-- **Sujeito**: A entidade a qual o certificado pertence: uma máquina, um indivíduo ou uma organização.
-- **Nome Comum**: Domínios afetados pelo certificado. Pode ser 1 ou mais e pode conter curingas.
-- **País (C)**: País
-- **Nome Distinto (DN)**: O sujeito completo: `C=US, ST=California, L=San Francisco, O=Example, Inc., CN=shared.global.example.net`
-- **Localidade (L)**: Local
-- **Organização (O)**: Nome da organização
-- **Unidade Organizacional (OU)**: Divisão de uma organização (como "Recursos Humanos").
-- **Estado ou Província (ST, S ou P)**: Lista de nomes de estado ou província
-- **Emissor**: A entidade que verificou as informações e assinou o certificado.
-- **Nome Comum (CN)**: Nome da autoridade de certificação
-- **País (C)**: País da autoridade de certificação
-- **Nome Distinto (DN)**: Nome distinto da autoridade de certificação
-- **Localidade (L)**: Local onde a organização pode ser encontrada.
-- **Organização (O)**: Nome da organização
-- **Unidade Organizacional (OU)**: Divisão de uma organização (como "Recursos Humanos").
-- **Não Antes**: A data e hora mais cedo em que o certificado é válido. Geralmente definido algumas horas ou dias antes do momento em que o certificado foi emitido, para evitar problemas de [diferença de horário](https://en.wikipedia.org/wiki/Clock\_skew#On\_a\_network).
-- **Não Depois**: A data e hora após as quais o certificado não é mais válido.
-- **Chave Pública**: Uma chave pública pertencente ao sujeito do certificado. (Esta é uma das partes principais, pois é isso que é assinado pela CA)
-- **Algoritmo de Chave Pública**: Algoritmo usado para gerar a chave pública. Como RSA.
-- **Curva da Chave Pública**: A curva usada pelo algoritmo de chave pública de curva elíptica (se aplicável). Como nistp521.
-- **Expoente da Chave Pública**: Expoente usado para derivar a chave pública (se aplicável). Como 65537.
-- **Tamanho da Chave Pública**: O tamanho do espaço da chave pública em bits. Como 2048.
-- **Algoritmo de Assinatura**: O algoritmo usado para assinar o certificado de chave pública.
-- **Assinatura**: Uma assinatura do corpo do certificado pela chave privada do emissor.
-- **Extensões x509v3**
-- **Uso da Chave**: Os usos criptográficos válidos da chave pública do certificado. Os valores comuns incluem validação de assinatura digital, cifragem de chave e assinatura de certificado.
-- Em um certificado Web, isso aparecerá como uma _extensão X509v3_ e terá o valor `Assinatura Digital`
-- **Uso Estendido da Chave**: As aplicações nas quais o certificado pode ser usado. Os valores comuns incluem autenticação de servidor TLS, proteção de e-mail e assinatura de código.
-- Em um certificado Web, isso aparecerá como uma _extensão X509v3_ e terá o valor `Autenticação de Servidor Web TLS`
-- **Nome Alternativo do Sujeito:** Permite aos usuários especificar **nomes de host adicionais** para um único **certificado SSL**. O uso da extensão SAN é uma prática padrão para certificados SSL e está a caminho de substituir o uso do **nome** comum.
-- **Restrição Básica:** Esta extensão descreve se o certificado é um certificado de CA ou um certificado de entidade final. Um certificado de CA é algo que assina certificados de outros e um certificado de entidade final é o certificado usado em uma página da web, por exemplo (a última parte da cadeia).
-- **Identificador de Chave do Sujeito** (SKI): Esta extensão declara um **identificador único para a chave pública** no certificado. É necessário em todos os certificados de CA. As CAs propagam seu próprio SKI para a extensão de Identificador de Chave do Emissor (AKI) nos certificados emitidos. É o hash da chave pública do sujeito.
-- **Identificador de Chave da Autoridade**: Contém um identificador de chave que é derivado da chave pública no certificado do emissor. É o hash da chave pública do emissor.
-- **Acesso à Informação da Autoridade** (AIA): Esta extensão contém no máximo dois tipos de informações:
-- Informações sobre **como obter o emissor deste certificado** (método de acesso do emissor da CA)
-- Endereço do **respondedor OCSP de onde a revogação deste certificado** pode ser verificada (método de acesso OCSP).
-- **Pontos de Distribuição de CRL**: Esta extensão identifica a localização da CRL da qual a revogação deste certificado pode ser verificada. A aplicação que processa o certificado pode obter a localização da CRL desta extensão, baixar a CRL e então verificar a revogação deste certificado.
-- **CT Precertificate SCTs**: Logs de Transparência de Certificado referentes ao certificado
+Nos certificados x509, vários **campos** desempenham papéis críticos para garantir a validade e a segurança do certificado. Aqui está uma explicação desses campos:
 
-### Diferença entre OCSP e Pontos de Distribuição de CRL
+* O **Número da Versão** indica a versão do formato x509.
+* O **Número de Série** identifica unicamente o certificado dentro do sistema de uma Autoridade de Certificação (CA), principalmente para rastreamento de revogação.
+* O campo **Sujeito** representa o proprietário do certificado, que pode ser uma máquina, um indivíduo ou uma organização. Ele inclui identificação detalhada, como:
+* **Nome Comum (CN)**: Domínios cobertos pelo certificado.
+* **País (C)**, **Localidade (L)**, **Estado ou Província (ST, S ou P)**, **Organização (O)** e **Unidade Organizacional (OU)** fornecem detalhes geográficos e organizacionais.
+* O **Nome Distinto (DN)** encapsula a identificação completa do sujeito.
+* **Emissor** detalha quem verificou e assinou o certificado, incluindo subcampos semelhantes ao Sujeito para a CA.
+* O **Período de Validade** é marcado pelos horários **Não Antes** e **Não Depois**, garantindo que o certificado não seja usado antes ou depois de uma determinada data.
+* A seção da **Chave Pública**, crucial para a segurança do certificado, especifica o algoritmo, tamanho e outros detalhes técnicos da chave pública.
+* As **extensões x509v3** aprimoram a funcionalidade do certificado, especificando **Uso da Chave**, **Uso Estendido da Chave**, **Nome Alternativo do Sujeito** e outras propriedades para ajustar a aplicação do certificado.
 
-**OCSP** (RFC 2560) é um protocolo padrão que consiste em um **cliente OCSP e um respondente OCSP**. Este protocolo **determina o status de revogação de um determinado certificado de chave pública digital** **sem** ter que **baixar** a **CRL inteira**.\
-**CRL** é o **método tradicional** de verificação da validade do certificado. Uma **CRL fornece uma lista de números de série de certificados** que foram revogados ou não são mais válidos. As CRLs permitem que o verificador verifique o status de revogação do certificado apresentado enquanto o verifica. As CRLs são limitadas a 512 entradas.\
-De [aqui](https://www.arubanetworks.com/techdocs/ArubaOS%206\_3\_1\_Web\_Help/Content/ArubaFrameStyles/CertRevocation/About\_OCSP\_and\_CRL.htm).
+#### **Uso da Chave e Extensões**
 
-### O que é Transparência de Certificado
+* **Uso da Chave** identifica aplicações criptográficas da chave pública, como assinatura digital ou cifragem de chave.
+* **Uso Estendido da Chave** restringe ainda mais os casos de uso do certificado, por exemplo, para autenticação de servidor TLS.
+* **Nome Alternativo do Sujeito** e **Restrição Básica** definem nomes de host adicionais cobertos pelo certificado e se é um certificado de CA ou de entidade final, respectivamente.
+* Identificadores como **Identificador da Chave do Sujeito** e **Identificador da Chave da Autoridade** garantem a singularidade e rastreabilidade das chaves.
+* **Acesso à Informação da Autoridade** e **Pontos de Distribuição de Lista de Revogação (CRL)** fornecem caminhos para verificar a CA emissora e verificar o status de revogação do certificado.
+* **CT Precertificate SCTs** oferecem registros de transparência, cruciais para a confiança pública no certificado.
+```python
+# Example of accessing and using x509 certificate fields programmatically:
+from cryptography import x509
+from cryptography.hazmat.backends import default_backend
 
-A Transparência de Certificado visa remediar ameaças baseadas em certificados, **tornando a emissão e a existência de certificados SSL abertas à escrutínio pelos proprietários de domínios, CAs e usuários de domínios**. Especificamente, a Transparência de Certificado tem três objetivos principais:
+# Load an x509 certificate (assuming cert.pem is a certificate file)
+with open("cert.pem", "rb") as file:
+cert_data = file.read()
+certificate = x509.load_pem_x509_certificate(cert_data, default_backend())
 
-* Tornar impossível (ou pelo menos muito difícil) para uma CA **emitir um certificado SSL para um domínio sem que o certificado seja visível para o proprietário** desse domínio.
-* Fornecer um **sistema de auditoria e monitoramento aberto que permite a qualquer proprietário de domínio ou CA determinar se os certificados foram emitidos por engano ou maliciosamente**.
-* **Proteger os usuários** (tanto quanto possível) de serem enganados por certificados que foram emitidos por engano ou maliciosamente.
+# Accessing fields
+serial_number = certificate.serial_number
+issuer = certificate.issuer
+subject = certificate.subject
+public_key = certificate.public_key()
+
+print(f"Serial Number: {serial_number}")
+print(f"Issuer: {issuer}")
+print(f"Subject: {subject}")
+print(f"Public Key: {public_key}")
+```
+### **Diferença entre Pontos de Distribuição OCSP e CRL**
+
+**OCSP** (**RFC 2560**) envolve um cliente e um respondedor trabalhando juntos para verificar se um certificado de chave pública digital foi revogado, sem precisar baixar o **CRL** completo. Este método é mais eficiente do que o tradicional **CRL**, que fornece uma lista de números de série de certificados revogados, mas requer o download de um arquivo potencialmente grande. Os CRLs podem incluir até 512 entradas. Mais detalhes estão disponíveis [aqui](https://www.arubanetworks.com/techdocs/ArubaOS%206\_3\_1\_Web\_Help/Content/ArubaFrameStyles/CertRevocation/About\_OCSP\_and\_CRL.htm).
+
+### **O que é Transparência de Certificado**
+
+A Transparência de Certificado ajuda a combater ameaças relacionadas a certificados, garantindo que a emissão e a existência de certificados SSL sejam visíveis para os proprietários de domínios, CAs e usuários. Seus objetivos são:
+
+* Impedir que CAs emitam certificados SSL para um domínio sem o conhecimento do proprietário do domínio.
+* Estabelecer um sistema de auditoria aberto para rastrear certificados emitidos erroneamente ou maliciosamente.
+* Proteger os usuários contra certificados fraudulentos.
 
 #### **Logs de Certificado**
 
-Os logs de certificado são serviços de rede simples que mantêm **registros de certificados criptograficamente assegurados, publicamente auditáveis e somente para adição**. **Qualquer pessoa pode enviar certificados para um log**, embora as autoridades de certificação provavelmente sejam os principais remetentes. Da mesma forma, qualquer pessoa pode consultar um log para obter uma prova criptográfica, que pode ser usada para verificar se o log está se comportando corretamente ou verificar se um determinado certificado foi registrado. O número de servidores de log não precisa ser grande (digamos, muito menos de mil em todo o mundo), e cada um pode ser operado independentemente por uma CA, um ISP ou qualquer outra parte interessada.
+Os logs de certificado são registros publicamente auditáveis e somente de adição de certificados, mantidos por serviços de rede. Esses logs fornecem provas criptográficas para fins de auditoria. Tanto as autoridades de emissão quanto o público podem enviar certificados para esses logs ou consultá-los para verificação. Embora o número exato de servidores de log não seja fixo, espera-se que seja inferior a mil globalmente. Esses servidores podem ser gerenciados de forma independente por CAs, ISPs ou qualquer entidade interessada.
 
-#### Consulta
+#### **Consulta**
 
-Você pode consultar os logs de Transparência de Certificado de qualquer domínio em [https://crt.sh/](https://crt.sh).
+Para explorar os logs de Transparência de Certificado para qualquer domínio, visite [https://crt.sh/](https://crt.sh).
 
-## Formatos
+## **Formatos**
 
-Existem diferentes formatos que podem ser usados para armazenar um certificado.
+### **Formato PEM**
 
-#### **Formato PEM**
+* Formato mais amplamente utilizado para certificados.
+* Requer arquivos separados para certificados e chaves privadas, codificados em Base64 ASCII.
+* Extensões comuns: .cer, .crt, .pem, .key.
+* Principalmente usado por servidores Apache e similares.
 
-- É o formato mais comum usado para certificados
-- A maioria dos servidores (Ex: Apache) espera que os certificados e a chave privada estejam em arquivos separados\
-- Geralmente são arquivos ASCII codificados em Base64\
-- As extensões usadas para certificados PEM são .cer, .crt, .pem, .key\
-- O Apache e servidores similares usam certificados no formato PEM
+### **Formato DER**
 
-#### **Formato DER**
+* Um formato binário de certificados.
+* Não possui as declarações "BEGIN/END CERTIFICATE" encontradas em arquivos PEM.
+* Extensões comuns: .cer, .der.
+* Frequentemente usado com plataformas Java.
 
-- O formato DER é a forma binária do certificado
-- Todos os tipos de certificados e chaves privadas podem ser codificados no formato DER
-- Certificados formatados em DER não contêm as declarações "INÍCIO CERTIFICADO/FIM CERTIFICADO"
-- Certificados formatados em DER usam mais frequentemente as extensões ‘.cer’ e '.der'
-- DER é tipicamente usado em Plataformas Java
+### **Formato P7B/PKCS#7**
 
-#### **Formato P7B/PKCS#7**
+* Armazenado em Base64 ASCII, com extensões .p7b ou .p7c.
+* Contém apenas certificados e certificados de cadeia, excluindo a chave privada.
+* Suportado pelo Microsoft Windows e Java Tomcat.
 
-- O formato PKCS#7 ou P7B é armazenado em formato ASCII Base64 e tem uma extensão de arquivo .p7b ou .p7c
-- Um arquivo P7B contém apenas certificados e certificados de cadeia (CAs intermediárias), não a chave privada
-- As plataformas mais comuns que suportam arquivos P7B são Microsoft Windows e Java Tomcat
+### **Formato PFX/P12/PKCS#12**
 
-#### **Formato PFX/P12/PKCS#12**
+* Um formato binário que encapsula certificados de servidor, certificados intermediários e chaves privadas em um único arquivo.
+* Extensões: .pfx, .p12.
+* Principalmente usado no Windows para importação e exportação de certificados.
 
-- O formato PKCS#12 ou PFX/P12 é um formato binário para armazenar o certificado do servidor, certificados intermediários e a chave privada em um arquivo criptografável
-- Esses arquivos geralmente têm extensões como .pfx e .p12
-- Eles são tipicamente usados em máquinas Windows para importar e exportar certificados e chaves privadas
+### **Conversão de Formatos**
 
-### Conversões de Formatos
+As **conversões PEM** são essenciais para compatibilidade:
 
-**Converter x509 para PEM**
-```
+* **x509 para PEM**
+```bash
 openssl x509 -in certificatename.cer -outform PEM -out certificatename.pem
 ```
-#### **Converter PEM para DER**
-```
+* **PEM para DER**
+```bash
 openssl x509 -outform der -in certificatename.pem -out certificatename.der
 ```
-**Converter DER para PEM**
-```
+* **DER para PEM**
+```bash
 openssl x509 -inform der -in certificatename.der -out certificatename.pem
 ```
-**Converter PEM para P7B**
-
-**Nota:** O formato PKCS#7 ou P7B é armazenado em formato Base64 ASCII e tem uma extensão de arquivo .p7b ou .p7c. Um arquivo P7B contém apenas certificados e certificados de cadeia (CAs intermediários), não a chave privada. As plataformas mais comuns que suportam arquivos P7B são o Microsoft Windows e o Java Tomcat.
-```
+* **PEM para P7B**
+```bash
 openssl crl2pkcs7 -nocrl -certfile certificatename.pem -out certificatename.p7b -certfile CACert.cer
 ```
-**Converter PKCS7 para PEM**
-```
+* **PKCS7 para PEM**
+```bash
 openssl pkcs7 -print_certs -in certificatename.p7b -out certificatename.pem
 ```
-**Converter pfx para PEM**
+**Conversões PFX** são cruciais para gerenciar certificados no Windows:
 
-**Nota:** O formato PKCS#12 ou PFX é um formato binário para armazenar o certificado do servidor, certificados intermediários e a chave privada em um arquivo criptografável. Arquivos PFX geralmente têm extensões como .pfx e .p12. Arquivos PFX são tipicamente usados em máquinas Windows para importar e exportar certificados e chaves privadas.
-```
+- **PFX para PEM**
+```bash
 openssl pkcs12 -in certificatename.pfx -out certificatename.pem
 ```
-**Converter PFX para PKCS#8**\
-**Nota:** Isso requer 2 comandos
-
-**1- Converter PFX para PEM**
-```
+* **PFX para PKCS#8** envolve dois passos:
+1. Converter PFX para PEM
+```bash
 openssl pkcs12 -in certificatename.pfx -nocerts -nodes -out certificatename.pem
 ```
-**2- Converter PEM para PKCS8**
-```
+2. Converta PEM para PKCS8
+```bash
 openSSL pkcs8 -in certificatename.pem -topk8 -nocrypt -out certificatename.pk8
 ```
-**Converter P7B para PFX**\
-**Nota:** Isso requer 2 comandos
-
-1- **Converter P7B para CER**
-```
+* **P7B para PFX** também requer dois comandos:
+1. Converter P7B para CER
+```bash
 openssl pkcs7 -print_certs -in certificatename.p7b -out certificatename.cer
 ```
-**2- Converter CER e Chave Privada para PFX**
+2. Converter CER e Chave Privada para PFX
+```bash
+openssl pkcs12 -export -in certificatename.cer -inkey privateKey.key -out certificatename.pfx -certfile cacert.cer
 ```
-openssl pkcs12 -export -in certificatename.cer -inkey privateKey.key -out certificatename.pfx -certfile  cacert.cer
-```
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+***
+
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente com as ferramentas comunitárias **mais avançadas do mundo**.\
@@ -196,7 +189,7 @@ Outras formas de apoiar o HackTricks:
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud). 
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

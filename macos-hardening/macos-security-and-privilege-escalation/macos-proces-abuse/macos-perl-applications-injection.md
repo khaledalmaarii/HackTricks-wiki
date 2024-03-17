@@ -64,13 +64,13 @@ O que retornará algo como:
 /System/Library/Perl/Extras/5.30/darwin-thread-multi-2level
 /System/Library/Perl/Extras/5.30
 ```
-Algumas das pastas retornadas nem mesmo existem, no entanto, **`/Library/Perl/5.30`** existe, não é protegida pelo SIP e está antes das pastas protegidas pelo SIP. Portanto, alguém poderia abusar dessa pasta para adicionar dependências de script nela, para que um script Perl de alto privilégio as carregue.
+Algumas das pastas retornadas nem sequer existem, no entanto, **`/Library/Perl/5.30`** existe, não é protegida pelo SIP e está antes das pastas protegidas pelo SIP. Portanto, alguém poderia abusar dessa pasta para adicionar dependências de script nela, para que um script Perl de alto privilégio as carregue.
 
 {% hint style="warning" %}
 No entanto, observe que você **precisa ser root para escrever nessa pasta** e hoje em dia você receberá este **prompt TCC**:
 {% endhint %}
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1).png" alt="" width="244"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1).png" alt="" width="244"><figcaption></figcaption></figure>
 
 Por exemplo, se um script estiver importando **`use File::Basename;`** seria possível criar `/Library/Perl/5.30/File/Basename.pm` para executar código arbitrário.
 
@@ -84,10 +84,10 @@ Por exemplo, se um script estiver importando **`use File::Basename;`** seria pos
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

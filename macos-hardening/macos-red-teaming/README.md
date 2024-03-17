@@ -2,14 +2,14 @@
 
 <details>
 
-<summary><strong>Aprenda hacking na AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda a hackear a AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Outras formas de apoiar o HackTricks:
 
 * Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
@@ -31,17 +31,17 @@ Para red teaming em ambientes MacOS, é altamente recomendável ter algum entend
 
 Um MDM terá permissão para instalar, consultar ou remover perfis, instalar aplicativos, criar contas de administrador locais, definir senha de firmware, alterar a chave do FileVault...
 
-Para executar seu próprio MDM, você precisa **que seu CSR seja assinado por um fornecedor**, o que você poderia tentar obter em [**https://mdmcert.download/**](https://mdmcert.download/). E para executar seu próprio MDM para dispositivos Apple, você poderia usar [**MicroMDM**](https://github.com/micromdm/micromdm).
+Para executar seu próprio MDM, você precisa **do seu CSR assinado por um fornecedor**, que você poderia tentar obter em [**https://mdmcert.download/**](https://mdmcert.download/). E para executar seu próprio MDM para dispositivos Apple, você poderia usar [**MicroMDM**](https://github.com/micromdm/micromdm).
 
 No entanto, para instalar um aplicativo em um dispositivo inscrito, você ainda precisa que ele seja assinado por uma conta de desenvolvedor... no entanto, após a inscrição no MDM, o **dispositivo adiciona o certificado SSL do MDM como uma CA confiável**, então agora você pode assinar qualquer coisa.
 
-Para inscrever o dispositivo em um MDM, você precisa instalar um arquivo **`mobileconfig`** como root, que poderia ser entregue via um arquivo **pkg** (você poderia compactá-lo em zip e quando baixado do safari ele será descompactado).
+Para inscrever o dispositivo em um MDM, você precisa instalar um arquivo **`mobileconfig`** como root, que poderia ser entregue via um arquivo **pkg** (você poderia comprimi-lo em zip e quando baixado do safari ele será descompactado).
 
 O **agente Mythic Orthrus** usa essa técnica.
 
 ### Abusando do JAMF PRO
 
-O JAMF pode executar **scripts personalizados** (scripts desenvolvidos pelo sysadmin), **cargas úteis nativas** (criação de conta local, definir senha EFI, monitoramento de arquivo/processo...) e **MDM** (configurações de dispositivo, certificados de dispositivo...).
+O JAMF pode executar **scripts personalizados** (scripts desenvolvidos pelo sysadmin), **cargas nativas** (criação de contas locais, definir senha EFI, monitoramento de arquivos/processos...) e **MDM** (configurações de dispositivo, certificados de dispositivo...).
 
 #### Autoinscrição do JAMF
 
@@ -55,7 +55,7 @@ Além disso, após encontrar as credenciais adequadas, você pode ser capaz de f
 
 #### Autenticação de Dispositivo JAMF
 
-<figure><img src="../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 O binário **`jamf`** continha o segredo para abrir o keychain que, na época da descoberta, era **compartilhado** entre todos e era: **`jk23ucnq91jfu9aj`**.\
 Além disso, o jamf **persiste** como um **LaunchDaemon** em **`/Library/LaunchAgents/com.jamf.management.agent.plist`**
@@ -89,18 +89,18 @@ sudo jamf policy -id 0
 
 #### Impersonação do JAMF
 
-Para **impersonar a comunicação** entre um dispositivo e o JMF você precisa de:
+Para **impersonar a comunicação** entre um dispositivo e o JMF você precisa:
 
 * O **UUID** do dispositivo: `ioreg -d2 -c IOPlatformExpertDevice | awk -F" '/IOPlatformUUID/{print $(NF-1)}'`
 * O **keychain do JAMF** em: `/Library/Application\ Support/Jamf/JAMF.keychain` que contém o certificado do dispositivo
 
-Com essas informações, **crie uma VM** com o **UUID de Hardware roubado** e com o **SIP desativado**, deixe cair o **keychain do JAMF**, **intercepte** o **agente do Jamf** e roube suas informações.
+Com essas informações, **crie uma VM** com o **UUID de Hardware roubado** e com o **SIP desativado**, solte o **keychain do JAMF**, **intercepte** o **agente** do Jamf e roube suas informações.
 
 #### Roubo de Segredos
 
 <figure><img src="../../.gitbook/assets/image (11).png" alt=""><figcaption><p>a</p></figcaption></figure>
 
-Você também pode monitorar o local `/Library/Application Support/Jamf/tmp/` para os **scripts personalizados** que os administradores podem querer executar via Jamf, pois eles são **colocados aqui, executados e removidos**. Esses scripts **podem conter credenciais**.
+Você também pode monitorar a localização `/Library/Application Support/Jamf/tmp/` para os **scripts personalizados** que os administradores podem querer executar via Jamf, pois eles são **colocados aqui, executados e removidos**. Esses scripts **podem conter credenciais**.
 
 No entanto, as **credenciais** podem ser passadas para esses scripts como **parâmetros**, então você precisaria monitorar `ps aux | grep -i jamf` (sem nem mesmo ser root).
 
@@ -108,7 +108,7 @@ O script [**JamfExplorer.py**](https://github.com/WithSecureLabs/Jamf-Attack-Too
 
 ### Acesso Remoto ao macOS
 
-E também sobre os **protocolos de rede** **"especiais"** do **MacOS**:
+E também sobre os **protocolos** de **rede** **especiais** do **MacOS**:
 
 {% content-ref url="../macos-security-and-privilege-escalation/macos-protocols.md" %}
 [macos-protocols.md](../macos-security-and-privilege-escalation/macos-protocols.md)
@@ -130,7 +130,7 @@ Em algumas ocasiões, você descobrirá que o **computador MacOS está conectado
 [pentesting-kerberos-88](../../network-services-pentesting/pentesting-kerberos-88/)
 {% endcontent-ref %}
 
-Algumas **ferramentas locais do MacOS** que também podem ajudar são `dscl`:
+Alguma **ferramenta local do MacOS** que também pode ajudá-lo é `dscl`:
 ```bash
 dscl "/Active Directory/[Domain]/All Domains" ls /
 ```
@@ -208,5 +208,5 @@ Quando um arquivo é baixado no Safari, se for um arquivo "seguro", ele será **
 * [**https://www.youtube.com/watch?v=IiMladUbL6E**](https://www.youtube.com/watch?v=IiMladUbL6E)
 * [**https://medium.com/xm-cyber/introducing-machound-a-solution-to-macos-active-directory-based-attacks-2a425f0a22b6**](https://medium.com/xm-cyber/introducing-machound-a-solution-to-macos-active-directory-based-attacks-2a425f0a22b6)
 * [**https://gist.github.com/its-a-feature/1a34f597fb30985a2742bb16116e74e0**](https://gist.github.com/its-a-feature/1a34f597fb30985a2742bb16116e74e0)
-* [**Come to the Dark Side, We Have Apples: Turning macOS Management Evil**](https://www.youtube.com/watch?v=pOQOh07eMxY)
-* [**OBTS v3.0: "An Attackers Perspective on Jamf Configurations" - Luke Roberts / Calum Hall**](https://www.youtube.com/watch?v=ju1IYWUv4ZA)
+* [**Venha para o Lado Negro, Nós Temos Maçãs: Tornando a Gestão do macOS Malévola**](https://www.youtube.com/watch?v=pOQOh07eMxY)
+* [**OBTS v3.0: "Uma Perspectiva de Atacante sobre Configurações Jamf" - Luke Roberts / Calum Hall**](https://www.youtube.com/watch?v=ju1IYWUv4ZA)

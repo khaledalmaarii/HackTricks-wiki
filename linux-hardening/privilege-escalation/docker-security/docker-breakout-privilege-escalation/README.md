@@ -2,14 +2,14 @@
 
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao avançado com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking na AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
@@ -17,15 +17,15 @@ Outras maneiras de apoiar o HackTricks:
 <figure><img src="../../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente com as **ferramentas comunitárias mais avançadas** do mundo.\
-Tenha Acesso Hoje:
+Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente com as ferramentas comunitárias mais avançadas do mundo.\
+Acesse hoje:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 ## Enumeração e Fuga Automáticas
 
 * [**linpeas**](https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS): Também pode **enumerar containers**
-* [**CDK**](https://github.com/cdk-team/CDK#installationdelivery): Esta ferramenta é bastante **útil para enumerar o contêiner em que você está e até tentar escapar automaticamente**
+* [**CDK**](https://github.com/cdk-team/CDK#installationdelivery): Esta ferramenta é bastante **útil para enumerar o contêiner em que você está e tentar escapar automaticamente**
 * [**amicontained**](https://github.com/genuinetools/amicontained): Ferramenta útil para obter os privilégios que o contêiner possui a fim de encontrar maneiras de escapar dele
 * [**deepce**](https://github.com/stealthcopter/deepce): Ferramenta para enumerar e escapar de contêineres
 * [**grype**](https://github.com/anchore/grype): Obtenha as CVEs contidas no software instalado na imagem
@@ -54,7 +54,7 @@ nsenter --target 1 --mount --uts --ipc --net --pid -- bash
 docker run -it -v /:/host/ --cap-add=ALL --security-opt apparmor=unconfined --security-opt seccomp=unconfined --security-opt label:disable --pid=host --userns=host --uts=host --cgroupns=host ubuntu chroot /host/ bash
 ```
 {% hint style="info" %}
-Caso o **socket do docker esteja em um local inesperado**, ainda é possível se comunicar com ele usando o comando **`docker`** com o parâmetro **`-H unix:///caminho/para/docker.sock`**
+Caso o **socket do docker esteja em um local inesperado**, você ainda pode se comunicar com ele usando o comando **`docker`** com o parâmetro **`-H unix:///caminho/para/docker.sock`**
 {% endhint %}
 
 O daemon do Docker também pode estar [ouvindo em uma porta (por padrão 2375, 2376)](../../../../network-services-pentesting/2375-pentesting-docker.md) ou em sistemas baseados no Systemd, a comunicação com o daemon do Docker pode ocorrer sobre o socket do Systemd `fd://`.
@@ -98,7 +98,7 @@ Um container privilegiado pode ser criado com a flag `--privileged` ou desabilit
 * `--cgroupns=host`
 * `Montar /dev`
 
-A flag `--privileged` reduz significativamente a segurança do container, oferecendo **acesso irrestrito a dispositivos** e contornando **diversas proteções**. Para uma análise detalhada, consulte a documentação sobre os impactos completos de `--privileged`.
+A flag `--privileged` reduz significativamente a segurança do container, oferecendo **acesso irrestrito a dispositivos** e contornando **diversas proteções**. Para uma análise detalhada, consulte a documentação sobre os impactos completos do `--privileged`.
 
 {% content-ref url="../docker-privileged.md" %}
 [docker-privileged.md](../docker-privileged.md)
@@ -122,7 +122,7 @@ docker run --rm -it --privileged ubuntu bash
 ```
 #### Montagem de Disco - Poc1
 
-Contêineres Docker bem configurados não permitirão comandos como **fdisk -l**. No entanto, em um comando Docker mal configurado onde a flag `--privileged` ou `--device=/dev/sda1` com caps é especificada, é possível obter privilégios para ver a unidade do host.
+Contêineres Docker bem configurados não permitirão comandos como **fdisk -l**. No entanto, em um comando Docker mal configurado onde a flag `--privileged` ou `--device=/dev/sda1` com privilégios é especificada, é possível obter privilégios para visualizar a unidade do host.
 
 ![](https://bestestredteam.com/content/images/2019/08/image-16.png)
 
@@ -376,7 +376,7 @@ bash -p #From non priv inside mounted folder
 ```
 ### Escalação de Privilégios com 2 shells
 
-Se você tem acesso como **root dentro de um contêiner** e conseguiu **escapar como um usuário não privilegiado para o host**, você pode abusar de ambos os shells para **escalar privilégios dentro do host** se tiver a capacidade MKNOD dentro do contêiner (por padrão) conforme [**explicado neste post**](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/).\
+Se você tem acesso como **root dentro de um contêiner** e conseguiu **escapar como um usuário não privilegiado para o host**, você pode abusar de ambos os shells para **escalar privilégios dentro do host** se tiver a capacidade MKNOD dentro do contêiner (por padrão) como [**explicado neste post**](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/).\
 Com essa capacidade, o usuário root dentro do contêiner tem permissão para **criar arquivos de dispositivo de bloco**. Arquivos de dispositivo são arquivos especiais usados para **acessar hardware subjacente e módulos do kernel**. Por exemplo, o arquivo de dispositivo de bloco /dev/sda dá acesso para **ler os dados brutos no disco do sistema**.
 
 O Docker se protege contra o uso indevido de dispositivos de bloco dentro dos contêineres, impondo uma política cgroup que **bloqueia operações de leitura/gravação de dispositivos de bloco**. No entanto, se um dispositivo de bloco for **criado dentro do contêiner**, ele se torna acessível de fora do contêiner através do diretório **/proc/PID/root/**. Esse acesso requer que o **proprietário do processo seja o mesmo** tanto dentro quanto fora do contêiner.
@@ -447,7 +447,7 @@ cat /proc/635813/fd/4
 Você também pode **encerrar processos e causar um DoS**.
 
 {% hint style="warning" %}
-Se, de alguma forma, você tiver **acesso privilegiado a um processo fora do contêiner**, você poderia executar algo como `nsenter --target <pid> --all` ou `nsenter --target <pid> --mount --net --pid --cgroup` para **executar um shell com as mesmas restrições ns** (esperançosamente nenhuma) **daquele processo.**
+Se de alguma forma você tiver **acesso privilegiado sobre um processo fora do contêiner**, você poderia executar algo como `nsenter --target <pid> --all` ou `nsenter --target <pid> --mount --net --pid --cgroup` para **executar um shell com as mesmas restrições ns** (esperançosamente nenhuma) **daquele processo.**
 {% endhint %}
 
 ### hostNetwork
@@ -463,16 +463,16 @@ Como nos exemplos a seguir:
 * [Artigo: Como contatar o Google SRE: Inserindo um shell no Cloud SQL](https://offensi.com/2020/08/18/how-to-contact-google-sre-dropping-a-shell-in-cloud-sql/)
 * [MITM do serviço de metadados permite escalonamento de privilégios de root (EKS / GKE)](https://blog.champtar.fr/Metadata\_MITM\_root\_EKS\_GKE/)
 
-Você também poderá acessar **serviços de rede vinculados ao localhost** dentro do host ou até mesmo acessar as **permissões de metadados do nó** (que podem ser diferentes das que um contêiner pode acessar).
+Você também poderá acessar **serviços de rede vinculados ao localhost** dentro do host ou até mesmo acessar as **permissões de metadados do nó** (que podem ser diferentes daquelas que um contêiner pode acessar).
 
 ### hostIPC
 ```bash
 docker run --rm -it --ipc=host ubuntu bash
 ```
-Com `hostIPC=true`, você ganha acesso aos recursos de comunicação entre processos (IPC) do host, como **memória compartilhada** em `/dev/shm`. Isso permite a leitura/escrita onde os mesmos recursos IPC são usados por outros processos do host ou do pod. Use `ipcs` para inspecionar esses mecanismos IPC.
+Com `hostIPC=true`, você ganha acesso aos recursos de comunicação entre processos (IPC) do host, como **memória compartilhada** em `/dev/shm`. Isso permite a leitura/escrita onde os mesmos recursos de IPC são usados por outros processos do host ou do pod. Use `ipcs` para inspecionar esses mecanismos de IPC mais a fundo.
 
 * **Inspecionar /dev/shm** - Procure por quaisquer arquivos neste local de memória compartilhada: `ls -la /dev/shm`
-* **Inspecionar instalações IPC existentes** - Você pode verificar se alguma instalação IPC está sendo usada com `/usr/bin/ipcs`. Verifique com: `ipcs -a`
+* **Inspecionar as instalações de IPC existentes** - Você pode verificar se alguma instalação de IPC está sendo usada com `/usr/bin/ipcs`. Verifique com: `ipcs -a`
 
 ### Recuperar capacidades
 
@@ -500,7 +500,7 @@ Tenha acesso hoje:
 Caso você consiga executar `docker exec` como root (provavelmente com sudo), você pode tentar escalar privilégios escapando de um contêiner abusando do CVE-2019-5736 (exploit [aqui](https://github.com/Frichetten/CVE-2019-5736-PoC/blob/master/main.go)). Essa técnica basicamente **sobrescreverá** o binário _**/bin/sh**_ do **host** **a partir de um contêiner**, então qualquer pessoa que execute docker exec pode acionar o payload.
 
 Altere o payload conforme necessário e compile o main.go com `go build main.go`. O binário resultante deve ser colocado no contêiner docker para execução.\
-Ao executar, assim que exibir `[+] Overwritten /bin/sh successfully`, você precisa executar o seguinte na máquina host:
+Ao executar, assim que exibir `[+] Sobrescrito /bin/sh com sucesso`, você precisa executar o seguinte na máquina host:
 
 `docker exec -it <nome-do-contêiner> /bin/sh`
 
@@ -516,7 +516,7 @@ Existem outros CVEs aos quais o contêiner pode ser vulnerável, você pode enco
 
 ### Superfície de Fuga do Docker
 
-* **Namespaces:** O processo deve estar **completamente separado de outros processos** por meio de namespaces, para que não possamos escapar interagindo com outros processos devido aos namespaces (por padrão, não pode se comunicar via IPCs, soquetes unix, serviços de rede, D-Bus, `/proc` de outros processos).
+* **Namespaces:** O processo deve estar **completamente separado de outros processos** via namespaces, para que não possamos escapar interagindo com outros processos devido a namespaces (por padrão, não pode se comunicar via IPCs, soquetes unix, serviços de rede, D-Bus, `/proc` de outros processos).
 * **Usuário root**: Por padrão, o usuário que executa o processo é o usuário root (no entanto, seus privilégios são limitados).
 * **Capacidades**: O Docker deixa as seguintes capacidades: `cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap=ep`
 * **Syscalls**: Estes são os syscalls que o **usuário root não poderá chamar** (por falta de capacidades + Seccomp). Os outros syscalls poderiam ser usados para tentar escapar.
@@ -567,29 +567,29 @@ Existem outros CVEs aos quais o contêiner pode ser vulnerável, você pode enco
 
 {% tab title="syscall_bf.c" %} 
 
-## Escalada de Privilégios Docker Breakout
+## Escalação de Privilégios Docker Breakout
 
-Este exploit demonstra uma técnica de escalada de privilégios que pode ser usada para escapar de um contêiner Docker e obter acesso ao host subjacente. O exploit explora uma vulnerabilidade no Docker que permite a um contêiner montar um diretório do host como um volume, mesmo que o diretório contenha arquivos sensíveis, como `/etc`. Isso pode levar a um ataque de escalada de privilégios, permitindo que um invasor modifique arquivos críticos do sistema no host.
+Este exploit é um exemplo de escalada de privilégios que pode ser usado para escapar de um contêiner Docker e obter acesso ao host subjacente. O exploit explora uma vulnerabilidade no Docker que permite a um contêiner montar um diretório do host como um sistema de arquivos de volume, permitindo assim que o atacante acesse o host.
 
 ### Uso
 
-Compile o exploit usando o seguinte comando:
+Compile o exploit com:
 
 ```bash
-gcc -o syscall_bf syscall_bf.c
+gcc -static -o syscall_bf syscall_bf.c
 ```
 
-Execute o exploit compilado com privilégios de root:
+Execute o exploit dentro de um contêiner Docker para obter acesso ao host:
 
 ```bash
-sudo ./syscall_bf
+docker run -v /:/host -it --rm syscall_bf /host
 ```
 
-Isso resultará na execução de um shell com privilégios de root fora do contêiner Docker.
+Isso montará o sistema de arquivos raiz do host dentro do contêiner, permitindo que o atacante acesse o host subjacente.
 
 ### Mitigação
 
-Para mitigar esse tipo de ataque, evite montar diretórios sensíveis do host dentro de contêineres Docker. Além disso, certifique-se de que apenas contêineres confiáveis e seguros sejam implantados em seu ambiente Docker.
+Para mitigar esse tipo de ataque, evite montar diretórios do host dentro de contêineres Docker, a menos que seja absolutamente necessário. Além disso, mantenha seu Docker atualizado com as últimas correções de segurança para evitar vulnerabilidades conhecidas.
 
 {% endtab %}
 ````c
@@ -655,7 +655,7 @@ If you are in **userspace** (**no kernel exploit** involved) the way to find new
 * [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/exposed-docker-socket](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/exposed-docker-socket)
 * [https://bishopfox.com/blog/kubernetes-pod-privilege-escalation#Pod4](https://bishopfox.com/blog/kubernetes-pod-privilege-escalation#Pod4)
 
-<figure><img src="../../../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
 Get Access Today:
@@ -671,7 +671,7 @@ Other ways to support HackTricks:
 * If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
 * Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

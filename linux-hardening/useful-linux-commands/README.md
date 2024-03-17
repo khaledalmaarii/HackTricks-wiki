@@ -1,9 +1,9 @@
 # Comandos Úteis do Linux
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente com as ferramentas comunitárias mais avançadas do mundo.\
+Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir facilmente e **automatizar fluxos de trabalho** com as ferramentas comunitárias mais avançadas do mundo.\
 Acesse hoje:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -17,7 +17,7 @@ Outras formas de apoiar o HackTricks:
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
@@ -141,10 +141,10 @@ sudo chattr -i file.txt #Remove the bit so you can delete it
 # List files inside zip
 7z l file.zip
 ```
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) para construir facilmente e **automatizar fluxos de trabalho** com as ferramentas comunitárias **mais avançadas do mundo**.\
+Use [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) para construir facilmente e **automatizar fluxos de trabalho** com as ferramentas comunitárias mais avançadas do mundo.\
 Acesse hoje mesmo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -171,14 +171,37 @@ i686-mingw32msvc-gcc -o executable useradd.c
 ```
 ## Greps
 
-Grep é uma ferramenta poderosa para pesquisar texto em arquivos. Aqui estão alguns exemplos úteis de como usar o Grep:
+Grep é uma ferramenta poderosa para pesquisar texto em arquivos. Aqui estão alguns exemplos úteis de como usar o grep:
 
-- `grep "palavra-chave" arquivo.txt`: Pesquisa a palavra-chave no arquivo.txt.
-- `grep -r "palavra-chave" /diretorio`: Pesquisa recursivamente a palavra-chave em um diretório.
-- `grep -i "palavra-chave" arquivo.txt`: Pesquisa a palavra-chave sem diferenciar maiúsculas de minúsculas.
-- `grep -v "palavra-chave" arquivo.txt`: Exibe linhas que não contêm a palavra-chave.
-- `grep -E "expressão-regular" arquivo.txt`: Usa expressões regulares na pesquisa.
-- `grep -n "palavra-chave" arquivo.txt`: Exibe o número da linha em que a palavra-chave foi encontrada.
+- **Pesquisar por uma palavra-chave em um arquivo:**
+  ```bash
+  grep "palavra-chave" arquivo.txt
+  ```
+
+- **Pesquisar por uma palavra-chave em vários arquivos:**
+  ```bash
+  grep "palavra-chave" arquivo1.txt arquivo2.txt
+  ```
+
+- **Pesquisar de forma recursiva em todos os arquivos de um diretório:**
+  ```bash
+  grep -r "palavra-chave" /caminho/do/diretorio
+  ```
+
+- **Pesquisar por uma palavra-chave ignorando maiúsculas e minúsculas:**
+  ```bash
+  grep -i "palavra-chave" arquivo.txt
+  ```
+
+- **Exibir o número da linha em que a palavra-chave foi encontrada:**
+  ```bash
+  grep -n "palavra-chave" arquivo.txt
+  ```
+
+- **Exibir o número total de ocorrências da palavra-chave:**
+  ```bash
+  grep -c "palavra-chave" arquivo.txt
+  ```
 ```bash
 #Extract emails from file
 grep -E -o "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b" file.txt
@@ -303,7 +326,7 @@ for j in $((for i in {0..9}{0..9} {0..9}{a..f} {a..f}{0..9} {a..f}{a..f}; do ech
 ```
 ## Iptables
 
-iptables é uma ferramenta de firewall para sistemas Linux que permite aos usuários configurar regras de segurança para proteger suas redes contra acessos não autorizados.
+iptables é uma ferramenta de firewall para sistemas Linux que permite aos usuários configurar regras de segurança para proteger a rede contra acessos não autorizados.
 ```bash
 #Delete curent rules and chains
 iptables --flush
@@ -343,15 +366,15 @@ Outras maneiras de apoiar o HackTricks:
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente com as ferramentas comunitárias mais avançadas do mundo.\
+Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente com as ferramentas comunitárias **mais avançadas do mundo**.\
 Acesse hoje:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
