@@ -240,9 +240,9 @@ assert(junk == errAuthorizationSuccess);
 return error;
 }
 ```
-Merk op dat om **die vereistes te kontroleer om die reg** te kry om daardie metode te roep, sal die funksie `authorizationRightForCommand` net die voorheen kommentaarobjek **`commandInfo`** nagaan. Dan sal dit **`AuthorizationCopyRights`** roep om te kontroleer **of dit die regte** het om die funksie te roep (merk op dat die vlae interaksie met die gebruiker toelaat).
+Merk op dat om die vereistes te **kontroleer om die reg** te kry om daardie metode te roep, sal die funksie `authorizationRightForCommand` net die voorheen kommentaar-objek **`commandInfo`** nagaan. Dan sal dit **`AuthorizationCopyRights`** roep om te kontroleer **of dit die regte** het om die funksie te roep (merk op dat die vlae interaksie met die gebruiker toelaat).
 
-In hierdie geval, om die funksie `readLicenseKeyAuthorization` te roep, is `kCommandKeyAuthRightDefault` omskryf as `@kAuthorizationRuleClassAllow`. So **enigiemand kan dit roep**.
+In hierdie geval, om die funksie `readLicenseKeyAuthorization` te roep, is die `kCommandKeyAuthRightDefault` omskryf as `@kAuthorizationRuleClassAllow`. So **enigiemand kan dit roep**.
 
 ### DB Inligting
 
@@ -258,19 +258,19 @@ security authorizationdb read com.apple.safaridriver.allow
 ```
 ### Toelaatbare regte
 
-Jy kan **al die toestemmingskonfigurasies** [**hier**](https://www.dssw.co.uk/reference/authorization-rights/) vind, maar die kombinasies wat nie gebruikerinteraksie vereis nie, sal wees:
+Jy kan **al die toestemmingskonfigurasies** [**hier vind**](https://www.dssw.co.uk/reference/authorization-rights/), maar die kombinasies wat nie gebruikerinteraksie vereis nie, is:
 
 1. **'authenticate-user': 'false'**
 * Hierdie is die mees direkte sleutel. Indien ingestel op `false`, dui dit aan dat 'n gebruiker nie verifikasie hoef te verskaf om hierdie reg te verkry nie.
-* Dit word gebruik in **kombinasie met een van die 2 hieronder of deur 'n groep aan te dui** waaraan die gebruiker moet behoort.
+* Dit word gebruik in **kombinasie met een van die 2 onderstaande of deur 'n groep aan te dui** waarvan die gebruiker deel moet wees.
 2. **'allow-root': 'true'**
-* Indien 'n gebruiker as die root-gebruiker optree (wat verhoogde regte het), en hierdie sleutel op `true` ingestel is, kan die root-gebruiker moontlik hierdie reg verkry sonder verdere verifikasie. Gewoonlik vereis dit egter reeds verifikasie om 'n root-gebruikerstatus te bereik, dus is dit nie 'n "geen verifikasie" scenario vir die meeste gebruikers nie.
+* Indien 'n gebruiker as die root-gebruiker optree (wat verhoogde regte het) en hierdie sleutel op `true` ingestel is, kan die root-gebruiker moontlik hierdie reg verkry sonder verdere verifikasie. Gewoonlik vereis dit egter reeds verifikasie om 'n root-gebruikerstatus te bereik, dus is dit nie 'n "geen verifikasie" scenario vir die meeste gebruikers nie.
 3. **'session-owner': 'true'**
-* Indien ingestel op `true`, sal die eienaar van die sessie (die tans ingeteken gebruiker) hierdie reg outomaties verkry. Dit kan addisionele verifikasie omseil indien die gebruiker reeds ingeteken is.
+* Indien ingestel op `true`, sal die eienaar van die sessie (die tans ingeteken gebruiker) hierdie reg outomaties verkry. Dit kan verdere verifikasie omseil indien die gebruiker reeds ingeteken is.
 4. **'shared': 'true'**
-* Hierdie sleutel verleen nie regte sonder verifikasie nie. Indien op `true` ingestel, beteken dit dat sodra die reg ge-verifieer is, dit tussen verskeie prosesse gedeel kan word sonder dat elkeen weer moet her-verifieer nie. Maar die aanvanklike toekenning van die reg sal steeds verifikasie vereis tensy dit gekombineer word met ander sleutels soos `'authenticate-user': 'false'`.
+* Hierdie sleutel verleen nie regte sonder verifikasie nie. Indien op `true` ingestel, beteken dit eerder dat sodra die reg ge-verifieer is, dit tussen verskeie prosesse gedeel kan word sonder dat elkeen weer moet verifieer. Die aanvanklike toekenning van die reg sal egter steeds verifikasie vereis tensy dit gekombineer word met ander sleutels soos `'authenticate-user': 'false'`.
 
-Jy kan [**hierdie skripsie**](https://gist.github.com/carlospolop/96ecb9e385a4667b9e40b24e878652f9) gebruik om die interessante regte te kry:
+Jy kan [**hierdie skripsie gebruik**](https://gist.github.com/carlospolop/96ecb9e385a4667b9e40b24e878652f9) om die interessante regte te kry:
 ```bash
 Rights with 'authenticate-user': 'false':
 is-admin (admin), is-admin-nonshared (admin), is-appstore (_appstore), is-developer (_developer), is-lpadmin (_lpadmin), is-root (run as root), is-session-owner (session owner), is-webdeveloper (_webdeveloper), system-identity-write-self (session owner), system-install-iap-software (run as root), system-install-software-iap (run as root)
@@ -299,7 +299,7 @@ Daarna moet jy die protokolskema vind om kommunikasie met die XPC-diens te kan v
 
 Die funksie **`shouldAcceptNewConnection`** dui die uitgevoerde protokol aan:
 
-<figure><img src="../../../../../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 In hierdie geval het ons dieselfde as in EvenBetterAuthorizationSample, [**kontroleer hierdie lyn**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L94).
 
@@ -321,7 +321,7 @@ Laastens, ons moet net die **naam van die blootgestelde Mach-diens** weet om 'n 
 
 * In die **`[HelperTool init]`** waar jy kan sien watter Mach-diens gebruik word:
 
-<figure><img src="../../../../../.gitbook/assets/image (4) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../../.gitbook/assets/image (4) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 * In die launchd plist:
 ```xml

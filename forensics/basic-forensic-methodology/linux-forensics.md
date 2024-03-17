@@ -1,9 +1,10 @@
-# Linux Forensika
+# Linux Forensics
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik en outomaties werkstrome te bou met behulp van die wêreld se mees gevorderde gemeenskapsinstrumente.\
-Kry vandag toegang:
+\
+Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik en **outomatiese werksvloei** te bou wat aangedryf word deur die wêreld se **mees gevorderde** gemeenskapsinstrumente.\
+Kry Vandaag Toegang:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -13,11 +14,11 @@ Kry vandag toegang:
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy jou **maatskappy in HackTricks wil adverteer** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repositoriums.
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
 
@@ -25,12 +26,12 @@ Ander maniere om HackTricks te ondersteun:
 
 ### Basiese Inligting
 
-Eerstens word dit aanbeveel om 'n **USB** te hê met **bekende goeie binêre en biblioteke daarop** (jy kan net Ubuntu kry en die _/bin_, _/sbin_, _/lib,_ en _/lib64_ lêers kopieer), monteer dan die USB en wysig die omgewingsveranderlikes om daardie binêre te gebruik:
+Eerstens word dit aanbeveel om 'n **USB** met **bekende goeie binêre lêers en biblioteke daarop** te hê (jy kan net Ubuntu kry en die _/bin_, _/sbin_, _/lib,_ en _/lib64_ lêers kopieer), monteer dan die USB, en wysig die omgewingsveranderlikes om daardie binêre lêers te gebruik:
 ```bash
 export PATH=/mnt/usb/bin:/mnt/usb/sbin
 export LD_LIBRARY_PATH=/mnt/usb/lib:/mnt/usb/lib64
 ```
-Sodra jy die stelsel gekonfigureer het om goeie en bekende binaire lêers te gebruik, kan jy begin met die **onttrekking van basiese inligting**:
+Nadat jy die stelsel ingestel het om goeie en bekende bineêre lêers te gebruik, kan jy begin **om 'n paar basiese inligting te onttrek**:
 ```bash
 date #Date and time (Clock may be skewed, Might be at a different timezone)
 uname -a #OS info
@@ -50,45 +51,45 @@ find /directory -type f -mtime -1 -print #Find modified files during the last mi
 ```
 #### Verdagte inligting
 
-Terwyl jy die basiese inligting bekom, moet jy kyk vir vreemde dinge soos:
+Terwyl jy die basiese inligting bekom, moet jy vir vreemde dinge soos die volgende kyk:
 
-* **Root prosesse** loop gewoonlik met lae PIDS, so as jy 'n root proses vind met 'n groot PID, kan jy vermoed
-* Kyk na **geregistreerde aanmeldings** van gebruikers sonder 'n skulp binne `/etc/passwd`
-* Kyk vir **wagwoordhasings** binne `/etc/shadow` vir gebruikers sonder 'n skulp
+- **Root prosesse** hardloop gewoonlik met lae PIDS, so as jy 'n root proses met 'n groot PID vind, kan jy dit verdenk
+- Kyk na **geregistreerde aanmeldings** van gebruikers sonder 'n skaal binne `/etc/passwd`
+- Kyk vir **wagwoordhasings** binne `/etc/shadow` vir gebruikers sonder 'n skaal
 
 ### Geheue Dump
 
-Om die geheue van die lopende stelsel te verkry, word dit aanbeveel om [**LiME**](https://github.com/504ensicsLabs/LiME) te gebruik.\
-Om dit te **kompileer**, moet jy dieselfde kernel gebruik as die slagoffer se masjien.
+Om die geheue van die lopende stelsel te bekom, word dit aanbeveel om [**LiME**](https://github.com/504ensicsLabs/LiME) te gebruik.\
+Om dit te **kompileer**, moet jy dieselfde **kernel** gebruik as die slagoffer se masjien.
 
 {% hint style="info" %}
-Onthou dat jy **nie LiME of enige ander ding** op die slagoffer se masjien kan installeer nie, aangesien dit verskeie veranderinge daaraan sal maak.
+Onthou dat jy **LiME of enige ander ding nie kan installeer** op die slagoffer se masjien nie, aangesien dit verskeie veranderinge daaraan sal maak
 {% endhint %}
 
-As jy 'n identiese weergawe van Ubuntu het, kan jy `apt-get install lime-forensics-dkms` gebruik.\
-In ander gevalle moet jy [**LiME**](https://github.com/504ensicsLabs/LiME) van GitHub aflaai en dit met die korrekte kernelkoppele kompilleer. Om die presiese kernelkoppele van die slagoffer se masjien te verkry, kan jy eenvoudig die gids `/lib/modules/<kernel weergawe>` na jou masjien kopieer en dan LiME daarmee kompilleer:
+Dus, as jy 'n identiese weergawe van Ubuntu het, kan jy `apt-get install lime-forensics-dkms` gebruik\
+In ander gevalle moet jy [**LiME**](https://github.com/504ensicsLabs/LiME) van github aflaai en dit met die korrekte kernelkoppe kompileer. Om die **presiese kernelkoppe** van die slagoffer se masjien te bekom, kan jy net die gids `/lib/modules/<kernel weergawe>` na jou masjien kopieer, en dan LiME daarmee **kompileer**:
 ```bash
 make -C /lib/modules/<kernel version>/build M=$PWD
 sudo insmod lime.ko "path=/home/sansforensics/Desktop/mem_dump.bin format=lime"
 ```
 LiME ondersteun 3 **formate**:
 
-* Roh (elke segment saamgevoeg)
-* Gepad (soortgelyk aan roh, maar met nulle in die regterbits)
-* Lime (aanbevole formaat met metadata)
+* Rou (elke segment aanmekaar gekonkatenasieer)
+* Gepas (soortgelyk aan rou, maar met nulle in die regter bietjies)
+* LiME (aanbevole formaat met metadata)
 
-LiME kan ook gebruik word om die dump **via die netwerk te stuur** in plaas daarvan om dit op die stelsel te stoor deur iets soos te gebruik: `path=tcp:4444`
+LiME kan ook gebruik word om die storting via die netwerk te **stuur** in plaas van dit op die stelsel te stoor deur iets soos: `path=tcp:4444`
 
-### Skyskaping
+### Skyfbeelding
 
-#### Afskakeling
+#### Afskakel
 
-Eerstens, sal jy die stelsel moet **afskaal**. Dit is nie altyd 'n opsie nie, aangesien die stelsel soms 'n produksieserver kan wees wat die maatskappy nie kan bekostig om af te skaal nie.\
-Daar is **2 maniere** om die stelsel af te skaal, 'n **normale afskakeling** en 'n **"trek die prop uit" afskakeling**. Die eerste een sal die **prosesse toelaat om soos gewoonlik te beëindig** en die **lêersisteem** om **gelyk te maak**, maar dit sal ook die moontlike **malware** toelaat om **bewyse te vernietig**. Die "trek die prop uit" benadering mag 'n **sekere verlies van inligting** meebring (nie baie van die inligting gaan verlore gaan nie aangesien ons reeds 'n beeld van die geheue geneem het nie) en die **malware sal geen geleentheid hê** om iets daaraan te doen nie. Daarom, as jy **vermoed** dat daar 'n **malware** mag wees, voer net die **`sync`** **opdrag** op die stelsel uit en trek die prop uit.
+Eerstens, sal jy die stelsel moet **afskakel**. Dit is nie altyd 'n opsie nie aangesien die stelsel soms 'n produksieserver kan wees wat die maatskappy nie kan bekostig om af te skakel nie.\
+Daar is **2 maniere** om die stelsel af te skakel, 'n **normale afskakeling** en 'n **"trek die prop uit" afskakeling**. Die eerste een sal die **prosesse toelaat om soos gewoonlik te beëindig** en die **lêersisteem** om **gesinkroniseer** te word, maar dit sal ook die moontlike **malware** toelaat om **bewyse te vernietig**. Die "trek die prop uit" benadering mag 'n bietjie **inligtingsverlies** meebring (nie baie van die inligting gaan verlore gaan aangesien ons reeds 'n beeld van die geheue geneem het nie) en die **malware sal geen geleentheid hê** om iets daaraan te doen nie. Daarom, as jy vermoed dat daar 'n **malware** mag wees, voer net die **`sync`** **bevel** op die stelsel uit en trek die prop uit.
 
-#### Neem 'n beeld van die skyf
+#### 'n Beeld van die skyf neem
 
-Dit is belangrik om daarop te let dat **voordat jy jou rekenaar aan iets wat met die saak verband hou, koppel**, jy moet seker maak dat dit as **alleen-lees** gemonteer gaan word om enige inligting te verander.
+Dit is belangrik om te let dat **voordat jy jou rekenaar aan iets wat met die saak verband hou, koppel**, moet jy seker maak dat dit as **alleen lees** gemonteer gaan word om te verhoed dat enige inligting gewysig word.
 ```bash
 #Create a raw copy of the disk
 dd if=<subject device> of=<image file> bs=512
@@ -97,9 +98,9 @@ dd if=<subject device> of=<image file> bs=512
 dcfldd if=<subject device> of=<image file> bs=512 hash=<algorithm> hashwindow=<chunk size> hashlog=<hash file>
 dcfldd if=/dev/sdc of=/media/usb/pc.image hash=sha256 hashwindow=1M hashlog=/media/usb/pc.hashes
 ```
-### Voor-analise van skijfafbeelding
+### Skijfafbeelding voor-ontleding
 
-Beeld 'n skijfafbeelding af sonder enige verdere data.
+Beeldvorming van 'n skijfafbeelding met geen verdere data nie.
 ```bash
 #Find out if it's a disk image using "file" command
 file disk.img
@@ -152,39 +153,39 @@ r/r 16: secret.txt
 icat -i raw -f ext4 disk.img 16
 ThisisTheMasterSecret
 ```
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik en outomatiese werksvloeie te bou met behulp van die wêreld se mees gevorderde gemeenskapsinstrumente.\
-Kry vandag toegang:
+\
+Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik en **outomatiseer werkstrome** te bou wat aangedryf word deur die wêreld se **mees gevorderde** gemeenskapsinstrumente.\
+Kry Vandaag Toegang:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 ## Soek na bekende Malware
 
-### Gewysigde Sisteemlêers
+### Gewysigde Stelsel lêers
 
-Linux bied gereedskap om die integriteit van sisteemkomponente te verseker, wat belangrik is om potensieel problematiese lêers op te spoor.
+Linux bied gereedskap vir die verseker van die integriteit van stelselkomponente, wat noodsaaklik is om potensieel problematiese lêers op te spoor.
 
-- **RedHat-gebaseerde stelsels**: Gebruik `rpm -Va` vir 'n omvattende ondersoek.
-- **Debian-gebaseerde stelsels**: `dpkg --verify` vir aanvanklike verifikasie, gevolg deur `debsums | grep -v "OK$"` (nadat `debsums` geïnstalleer is met `apt-get install debsums`) om enige probleme te identifiseer.
+* **RedHat-gebaseerde stelsels**: Gebruik `rpm -Va` vir 'n omvattende ondersoek.
+* **Debian-gebaseerde stelsels**: `dpkg --verify` vir aanvanklike verifikasie, gevolg deur `debsums | grep -v "OK$"` (nadat `debsums` met `apt-get install debsums` geïnstalleer is) om enige probleme te identifiseer.
 
-### Malware/Rootkit Detekteerders
+### Malware/Rootkit Detectors
 
-Lees die volgende bladsy om meer te wete te kom oor gereedskap wat nuttig kan wees om malware op te spoor:
+Lees die volgende bladsy om meer te leer oor gereedskap wat nuttig kan wees om malware te vind:
 
 {% content-ref url="malware-analysis.md" %}
 [malware-analysis.md](malware-analysis.md)
 {% endcontent-ref %}
 
-## Soek geïnstalleerde programme
+## Soek na geïnstalleerde programme
 
-Om doeltreffend te soek na geïnstalleerde programme op beide Debian- en RedHat-stelsels, oorweeg om stelsellogboeke en databasisse saam met handmatige kontroles in algemene gidslys te gebruik.
+Om doeltreffend te soek na geïnstalleerde programme op beide Debian- en RedHat-stelsels, oorweeg om stelsellogs en databasisse te benut saam met handmatige kontroles in algemene gids.
 
-- Vir Debian, ondersoek **_`/var/lib/dpkg/status`_** en **_`/var/log/dpkg.log`_** om besonderhede oor pakketaanbringings te verkry, deur `grep` te gebruik om te filtreer vir spesifieke inligting.
+* Vir Debian, ondersoek _**`/var/lib/dpkg/status`**_ en _**`/var/log/dpkg.log`**_ om besonderhede oor pakketaanvullings te kry, gebruik `grep` om te filter vir spesifieke inligting.
+* RedHat-gebruikers kan die RPM-databasis ondervra met `rpm -qa --root=/mntpath/var/lib/rpm` om geïnstalleerde pakkette te lys.
 
-- RedHat-gebruikers kan die RPM-databasis ondervra met `rpm -qa --root=/mntpath/var/lib/rpm` om geïnstalleerde pakkette te lys.
-
-Om sagteware wat handmatig of buite hierdie pakketsbestuurders geïnstalleer is, op te spoor, verken gidslyste soos **_`/usr/local`_**, **_`/opt`_**, **_`/usr/sbin`_**, **_`/usr/bin`_**, **_`/bin`_**, en **_`/sbin`_**. Kombineer gidslyste met stelselspesifieke opdragte om uitvoerbare lêers te identifiseer wat nie met bekende pakkette geassosieer word nie, en verbeter soek na alle geïnstalleerde programme.
+Om sagteware wat handmatig geïnstalleer is of buite hierdie pakketsbestuurders geïnstalleer is, te ontdek, verken gids soos _**`/usr/local`**_, _**`/opt`**_, _**`/usr/sbin`**_, _**`/usr/bin`**_, _**`/bin`**_, en _**`/sbin`**_. Kombineer gidslys met stelselspesifieke bevele om uitvoerbare lêers te identifiseer wat nie verband hou met bekende pakkette nie, wat jou soektog na alle geïnstalleerde programme verbeter.
 ```bash
 # Debian package and log details
 cat /var/lib/dpkg/status | grep -E "Package:|Status:"
@@ -200,16 +201,17 @@ find /sbin/ –exec rpm -qf {} \; | grep "is not"
 # Find exacuable files
 find / -type f -executable | grep <something>
 ```
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik en outomatiese werksvloeie te bou met behulp van die wêreld se mees gevorderde gemeenskapsinstrumente.\
-Kry vandag toegang:
+\
+Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik **werkstrome te bou** en outomatiseer met die wêreld se **mees gevorderde** gemeenskapsinstrumente.\
+Kry Vandaag Toegang:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 ## Herstel Verwyderde Lopende Binêre Lêers
 
-Stel jou voor 'n proses wat uitgevoer is vanaf /tmp/exec en verwyder is. Dit is moontlik om dit te onttrek.
+Stel jou voor 'n proses wat uitgevoer is vanaf /tmp/exec en verwyder is. Dit is moontlik om dit te onttrek
 ```bash
 cd /proc/3746/ #PID with the exec file deleted
 head -1 maps #Get address of the file. It was 08048000-08049000
@@ -217,29 +219,7 @@ dd if=mem bs=1 skip=08048000 count=1000 of=/tmp/exec2 #Recorver it
 ```
 ## Inspekteer Autostart-plekke
 
-### Geskeduleerde Take
-
-```html
-Scheduled tasks are a common way for programs to run automatically at specific times or intervals. In Linux, the cron daemon is responsible for managing scheduled tasks. To inspect scheduled tasks, you can check the contents of the `/etc/cron.d/` directory and the user-specific cron files located in `/var/spool/cron/crontabs/`.
-
-To view the contents of the `/etc/cron.d/` directory, you can use the following command:
-
-```bash
-ls -l /etc/cron.d/
-```
-
-This will display a list of files that correspond to scheduled tasks. Each file represents a separate task and contains the command to be executed and the schedule for when it should run.
-
-To view the user-specific cron files, you can use the following command:
-
-```bash
-ls -l /var/spool/cron/crontabs/
-```
-
-This will display a list of files that correspond to the cron files for each user. Each file represents a separate user and contains their individual scheduled tasks.
-
-Inspecting these autostart locations can help identify any suspicious or unauthorized tasks that may be running on the system.
-```
+### Beplande Take
 ```bash
 cat /var/spool/cron/crontabs/*  \
 /var/spool/cron/atjobs \
@@ -255,68 +235,67 @@ ls -l /usr/lib/cron/tabs/ /Library/LaunchAgents/ /Library/LaunchDaemons/ ~/Libra
 ```
 ### Dienste
 
-Paaie waar 'n kwaadwillige program as 'n diens geïnstalleer kan word:
+Paaie waar 'n kwaadwillige program geïnstalleer kan word as 'n diens:
 
-- **/etc/inittab**: Roep inisialiseringsskripte soos rc.sysinit aan, wat verder verwys na opstartskripte.
-- **/etc/rc.d/** en **/etc/rc.boot/**: Bevat skripte vir diensopstart, waarvan die laasgenoemde in ouer Linux-weergawes gevind word.
-- **/etc/init.d/**: Word gebruik in sekere Linux-weergawes soos Debian om opstartskripte te stoor.
+- **/etc/inittab**: Roep inisialiseringsskripte soos rc.sysinit aan, wat verder na aanloopskripte verwys.
+- **/etc/rc.d/** en **/etc/rc.boot/**: Bevat skripte vir diensaanvang, waarvan die laaste in ouer Linux-weergawes gevind word.
+- **/etc/init.d/**: Word in sekere Linux-weergawes soos Debian gebruik vir die stoor van aanloopskripte.
 - Dienste kan ook geaktiveer word via **/etc/inetd.conf** of **/etc/xinetd/**, afhangende van die Linux-variant.
 - **/etc/systemd/system**: 'n Gids vir stelsel- en diensbestuurskripte.
 - **/etc/systemd/system/multi-user.target.wants/**: Bevat skakels na dienste wat in 'n multi-gebruiker vlak gestart moet word.
 - **/usr/local/etc/rc.d/**: Vir aangepaste of derdeparty-dienste.
-- **~/.config/autostart/**: Vir gebruikersspesifieke outomatiese opstarttoepassings, wat 'n versteekte plek vir gebruikersgerigte kwaadwillige programme kan wees.
+- **\~/.config/autostart/**: Vir gebruikerspesifieke outomatiese aanlooptoepassings, wat 'n skuilplek vir gebruikersgerigte kwaadwillige sagteware kan wees.
 - **/lib/systemd/system/**: Stelselwye verstek eenheidslêers wat deur geïnstalleerde pakkette voorsien word.
-
 
 ### Kernelmodules
 
-Linux-kernelmodules, dikwels deur kwaadwillige programme as rootkit-komponente gebruik, word by stelselopstart gelaai. Die kritieke gids en lêers vir hierdie modules sluit in:
+Linux kernelmodules, dikwels deur kwaadwillige sagteware as rootkit-komponente gebruik, word by stelselbegin gelaai. Die kritieke gids en lêers vir hierdie modules sluit in:
 
-- **/lib/modules/$(uname -r)**: Bevat modules vir die lopende kernelweergawe.
-- **/etc/modprobe.d**: Bevat konfigurasie-lêers om modulelaaiing te beheer.
+- **/lib/modules/$(uname -r)**: Hou modules vir die lopende kernelweergawe.
+- **/etc/modprobe.d**: Bevat konfigurasie lêers om modulelaaiing te beheer.
 - **/etc/modprobe** en **/etc/modprobe.conf**: Lêers vir globale module-instellings.
 
-### Ander outomatiese opstartlokasies
+### Ander Autostart-plekke
 
-Linux maak gebruik van verskeie lêers om programme outomaties uit te voer wanneer 'n gebruiker aanmeld, wat potensieel kwaadwillige programme kan bevat:
+Linux gebruik verskeie lêers om programme outomaties uit te voer by gebruiker aanmelding, wat moontlik kwaadwillige sagteware kan bevat:
 
-- **/etc/profile.d/***, **/etc/profile**, en **/etc/bash.bashrc**: Uitgevoer vir enige gebruikersaanmelding.
-- **~/.bashrc**, **~/.bash_profile**, **~/.profile**, en **~/.config/autostart**: Gebruikersspesifieke lêers wat uitgevoer word wanneer hulle aanmeld.
-- **/etc/rc.local**: Word uitgevoer nadat alle stelseldienste gestart het, wat die einde van die oorgang na 'n multi-gebruiker omgewing aandui.
+- **/etc/profile.d/**\*, **/etc/profile**, en **/etc/bash.bashrc**: Uitgevoer vir enige gebruiker aanmelding.
+- **\~/.bashrc**, **\~/.bash\_profile**, **\~/.profile**, en **\~/.config/autostart**: Gebruikerspesifieke lêers wat by hul aanmelding loop.
+- **/etc/rc.local**: Loop nadat alle stelseldienste begin het, wat die einde van die oorgang na 'n multi-gebruiker omgewing aandui.
 
-## Ondersoek Loglêers
+## Ondersoek Logboeke
 
-Linux-stelsels hou gebruikersaktiwiteite en stelselgebeure by deur middel van verskeie loglêers. Hierdie loglêers is van kritieke belang vir die identifisering van ongemagtigde toegang, kwaadwillige infeksies en ander sekuriteitsvoorvalle. Sleutelloglêers sluit in:
+Linux-stelsels hou gebruikersaktiwiteite en stelselgebeure by deur verskeie log lêers. Hierdie logboeke is noodsaaklik vir die identifisering van ongemagtigde toegang, kwaadwillige infeksies, en ander veiligheidsvoorvalle. Sleutel log lêers sluit in:
 
 - **/var/log/syslog** (Debian) of **/var/log/messages** (RedHat): Vang stelselwye boodskappe en aktiwiteite op.
 - **/var/log/auth.log** (Debian) of **/var/log/secure** (RedHat): Neem outentiseringspogings, suksesvolle en mislukte aanmeldings op.
 - Gebruik `grep -iE "session opened for|accepted password|new session|not in sudoers" /var/log/auth.log` om relevante outentiseringsgebeure te filter.
-- **/var/log/boot.log**: Bevat stelselopstartboodskappe.
-- **/var/log/maillog** of **/var/log/mail.log**: Log e-posbedieneraktiwiteite, nuttig vir die opspoor van e-posverwante dienste.
-- **/var/log/kern.log**: Stoor kernelboodskappe, insluitend foute en waarskuwings.
-- **/var/log/dmesg**: Bevat toestuurprogramboodskappe.
-- **/var/log/faillog**: Neem mislukte aanmeldingspogings op, wat help met sekuriteitskrisisondersoeke.
-- **/var/log/cron**: Log cron-werkuitvoerings.
+- **/var/log/boot.log**: Bevat stelselbeginboodskappe.
+- **/var/log/maillog** of **/var/log/mail.log**: Neem e-posdiensaktiwiteite op, nuttig vir die opsporing van e-posverwante dienste.
+- **/var/log/kern.log**: Berg kernelboodskappe op, insluitend foute en waarskuwings.
+- **/var/log/dmesg**: Hou toestelbestuurderboodskappe aan.
+- **/var/log/faillog**: Neem mislukte aanmeldingspogings op, wat help met veiligheidsverbrekingondersoeke.
+- **/var/log/cron**: Neem cron-werkuitvoerings op.
 - **/var/log/daemon.log**: Volg agtergronddiensaktiwiteite.
 - **/var/log/btmp**: Dokumenteer mislukte aanmeldingspogings.
-- **/var/log/httpd/**: Bevat Apache HTTPD-fout- en toegangsloglêers.
-- **/var/log/mysqld.log** of **/var/log/mysql.log**: Log MySQL-databasisaktiwiteite.
+- **/var/log/httpd/**: Bevat Apache HTTPD-fout- en toegangslogboeke.
+- **/var/log/mysqld.log** of **/var/log/mysql.log**: Neem MySQL-databasisaktiwiteite op.
 - **/var/log/xferlog**: Neem FTP-lêeroordragte op.
-- **/var/log/**: Kontroleer altyd vir onverwagte loglêers hier.
+- **/var/log/**: Kontroleer altyd vir onverwagte logboeke hier.
 
 {% hint style="info" %}
-Linux-stelselloglêers en oudit-subsisteme kan gedeaktiveer of uitgewis word tydens 'n inbreuk of kwaadwillige voorval. Omdat loglêers op Linux-stelsels gewoonlik van die nuttigste inligting oor kwaadwillige aktiwiteite bevat, verwyder indringers dit gereeld. Daarom is dit belangrik om, wanneer beskikbare loglêers ondersoek word, te kyk vir gaping of uit plek ininskrywings wat 'n aanduiding van uitwissing of manipulasie kan wees.
+Linux-stelsellogboeke en ouditsubstelsels kan gedeaktiveer of verwyder word in 'n indringing of kwaadwillige voorval. Omdat logboeke op Linux-stelsels gewoonlik van die nuttigste inligting oor skadelike aktiwiteite bevat, verwyder indringers dit gereeld. Daarom is dit belangrik om by die ondersoek van beskikbare log lêers te kyk vir gaping of uit plek inskrywings wat 'n aanduiding van verwydering of manipulasie kan wees.
 {% endhint %}
 
 **Linux hou 'n opdraggeskiedenis vir elke gebruiker by**, gestoor in:
 
-- ~/.bash_history
-- ~/.zsh_history
-- ~/.zsh_sessions/*
-- ~/.python_history
-- ~/.*_history
+- \~/.bash\_history
+- \~/.zsh\_history
+- \~/.zsh\_sessions/\*
+- \~/.python\_history
+- \~/.\*\_history
 
-Verder verskaf die `last -Faiwx`-opdrag 'n lys van gebruikersaanmeldings. Kontroleer dit vir onbekende of onverwagte aanmeldings.
+Verder bied die `last -Faiwx` opdrag 'n lys van gebruikersaanmeldings. Kontroleer dit vir onbekende of onverwagte aanmeldings.
 
 Kontroleer lêers wat ekstra regte kan verleen:
 
@@ -325,23 +304,23 @@ Kontroleer lêers wat ekstra regte kan verleen:
 - Ondersoek `/etc/groups` om enige ongewone groepslidmaatskappe of -regte te identifiseer.
 - Ondersoek `/etc/passwd` om enige ongewone groepslidmaatskappe of -regte te identifiseer.
 
-Sommige programme genereer ook hul eie loglêers:
+Sommige programme genereer ook hul eie logboeke:
 
-- **SSH**: Ondersoek _~/.ssh/authorized_keys_ en _~/.ssh/known_hosts_ vir ongemagtigde afstandsverbindinge.
-- **Gnome Desktop**: Kyk na _~/.recently-used.xbel_ vir onlangs benaderde lêers via Gnome-toepassings.
-- **Firefox/Chrome**: Kontroleer blaaiergeskiedenis en aflaaiers in _~/.mozilla/firefox_ of _~/.config/google-chrome_ vir verdagte aktiwiteite.
-- **VIM**: Ondersoek _~/.viminfo_ vir gebruiksdetails, soos benaderde lêerpaadjies en soekgeskiedenis.
-- **Open Office**: Kyk vir onlangse dokumenttoegang wat dui op gekompromitteerde lêers.
-- **FTP/SFTP**: Ondersoek loglêers in _~/.ftp_history_ of _~/.sftp_history_ vir lêeroordragte wat moontlik ongemagtig is.
-- **MySQL**: Ondersoek _~/.mysql_history_ vir uitgevoerde MySQL-navrae, wat moontlik ongemagtigde databasisaktiwiteite kan onthul.
-- **Less**: Analiseer _~/.lesshst_ vir gebruiksgeskiedenis, insluitend besigtigde lêers en uitgevoerde opdragte.
-- **Git**: Ondersoek _~/.gitconfig_ en projek _.git/logs_ vir veranderinge aan bewaarplekke.
+- **SSH**: Ondersoek _\~/.ssh/authorized\_keys_ en _\~/.ssh/known\_hosts_ vir ongemagtigde afgeleë verbindinge.
+- **Gnome Desktop**: Kyk na _\~/.recently-used.xbel_ vir onlangs benaderde lêers via Gnome-toepassings.
+- **Firefox/Chrome**: Kontroleer blaaiergeskiedenis en aflaaie in _\~/.mozilla/firefox_ of _\~/.config/google-chrome_ vir verdagte aktiwiteite.
+- **VIM**: Ondersoek _\~/.viminfo_ vir gebruiksdetails, soos benaderde lêerpaadjies en soekgeskiedenis.
+- **Open Office**: Kontroleer vir onlangse dokumenttoegang wat dui op gekompromitteerde lêers.
+- **FTP/SFTP**: Ondersoek logboeke in _\~/.ftp\_history_ of _\~/.sftp\_history_ vir lêeroordragte wat moontlik ongemagtig is.
+- **MySQL**: Ondersoek _\~/.mysql\_history_ vir uitgevoerde MySQL-navrae, wat moontlik ongemagtigde databasisaktiwiteite kan onthul.
+- **Less**: Analiseer _\~/.lesshst_ vir gebruiksgeskiedenis, insluitend besigtigde lêers en uitgevoerde opdragte.
+- **Git**: Ondersoek _\~/.gitconfig_ en projek _.git/logs_ vir veranderinge aan bewaarplekke.
 
-### USB-loglêers
+### USB Logboeke
 
-[**usbrip**](https://github.com/snovvcrash/usbrip) is 'n klein stukkie sagteware wat in suiwer Python 3 geskryf is en Linux-loglêers (`/var/log/syslog*` of `/var/log/messages*` afhangende van die distribusie) ontleed om USB-gebeurtenisgeskiedenis-tabelle saam te stel.
+[**usbrip**](https://github.com/snovvcrash/usbrip) is 'n klein stukkie sagteware geskryf in suiwer Python 3 wat Linux-log lêers (`/var/log/syslog*` of `/var/log/messages*` afhangende van die distribusie) ontled om USB-gebeurtenisgeskiedenis tabele saam te stel.
 
-Dit is interessant om **alle USB's wat gebruik is**, te ken en dit sal nuttiger wees as jy 'n geoorloofde lys van USB's het om "oortredingsgebeure" (die gebruik van USB's wat nie binne daardie lys val nie) te vind.
+Dit is interessant om **al die USB's wat gebruik is te ken** en dit sal meer nuttig wees as jy 'n gemagtigde lys van USB's het om "oortredingsgebeure" te vind (die gebruik van USB's wat nie binne daardie lys is nie). 
 
 ### Installasie
 ```bash
@@ -358,107 +337,101 @@ usbrip ids search --pid 0002 --vid 0e0f #Search for pid AND vid
 ```
 Meer voorbeelde en inligting binne die github: [https://github.com/snovvcrash/usbrip](https://github.com/snovvcrash/usbrip)
 
-
-
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik en outomatiese werkstrome te bou met behulp van die wêreld se mees gevorderde gemeenskapsinstrumente.\
-Kry vandag toegang:
+Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik te bou en **werkstrome outomatiseer** wat aangedryf word deur die wêreld se **mees gevorderde** gemeenskaplike gereedskap.\
+Kry Vandaag Toegang:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
+## Oorsig van Gebruikersrekeninge en Aanmeldaktiwiteite
 
-
-## Oorsig van Gebruikersrekeninge en Aantekenaktiwiteite
-
-Ondersoek die _**/etc/passwd**_, _**/etc/shadow**_ en **sekuriteitslêers** vir ongewone name of rekeninge wat geskep is en/of gebruik is in die nabyheid van bekende ongemagtigde gebeure. Kyk ook na moontlike sudo-bruteforce-aanvalle.\
+Ondersoek die _**/etc/passwd**_, _**/etc/shadow**_ en **sekuriteitslogs** vir ongewone name of rekeninge wat geskep is en/of gebruik is in nabyheid van bekende ongemagtigde gebeure. Kyk ook vir moontlike sudo-bruteforce-aanvalle.\
 Verder, kyk na lêers soos _**/etc/sudoers**_ en _**/etc/groups**_ vir onverwagte voorregte wat aan gebruikers gegee is.\
-Kyk uiteindelik vir rekeninge sonder wagwoorde of maklik raai wagwoorde.
+Laastens, soek na rekeninge met **geen wagwoorde** of **maklik gerade** wagwoorde.
 
 ## Ondersoek Lêersisteem
 
 ### Analise van Lêersisteemstrukture in Malware-ondersoek
 
-Wanneer malware-voorvalle ondersoek word, is die struktuur van die lêersisteem 'n belangrike bron van inligting wat beide die volgorde van gebeure en die inhoud van die malware onthul. Tog ontwikkel malware-skrywers tegnieke om hierdie analise te bemoeilik, soos die wysiging van lêerstempels of die vermyding van die lêersisteem vir data-opberging.
+Wanneer malware-voorvalle ondersoek word, is die struktuur van die lêersisteem 'n belangrike bron van inligting, wat beide die volgorde van gebeure en die inhoud van die malware onthul. Tog ontwikkel malware-skrywers tegnieke om hierdie analise te bemoeilik, soos die wysiging van lêer-timestamps of die vermyding van die lêersisteem vir data-opberging.
 
 Om hierdie teen-forensiese metodes te teenwerk, is dit noodsaaklik om:
 
-- **'n Deeglike tydlyn-analise uit te voer** met behulp van instrumente soos **Autopsy** om gebeurtenis-tydlyne te visualiseer of **Sleuth Kit se** `mactime` vir gedetailleerde tydlyn-data.
-- **Onverwagte skripte in die $PATH van die stelsel te ondersoek**, wat skulpskote of PHP-skripte wat deur aanvallers gebruik word, kan insluit.
-- **`/dev` te ondersoek vir ongewone lêers**, aangesien dit tradisioneel spesiale lêers bevat, maar moontlik malware-verwante lêers kan huisves.
-- **Te soek na verskuilde lêers of gidslyne** met name soos ".. " (punt punt spasie) of "..^G" (punt punt beheer-G), wat kwaadwillige inhoud kan verberg.
-- **Setuid-root-lêers te identifiseer** met behulp van die opdrag:
-```find / -user root -perm -04000 -print```
-Dit vind lêers met verhoogde voorregte wat deur aanvallers misbruik kan word.
-- **Verwyderingstempelmerkers** in inode-tabelle te hersien om massiewe lêerverwyderings op te spoor, wat moontlik die teenwoordigheid van rootkits of trojane aandui.
-- **Opeenvolgende inodes te ondersoek** vir nabygeleë kwaadwillige lêers nadat een geïdentifiseer is, aangesien hulle saam geplaas kon wees.
-- **Gewone binêre gidslyne** (_/bin_, _/sbin_) te ondersoek vir onlangs gewysigde lêers, aangesien hierdie deur malware gewysig kon word.
-```bash
+* **Voer 'n deeglike tydlyn-analise uit** met behulp van gereedskappe soos **Autopsy** om gebeurtenis-tydlyne te visualiseer of **Sleuth Kit's** `mactime` vir gedetailleerde tydlyn-data.
+* **Ondersoek onverwagte skripte** in die stelsel se $PATH, wat dalk skul of PHP-skripte wat deur aanvallers gebruik word, kan insluit.
+* **Ondersoek `/dev` vir atipiese lêers**, aangesien dit tradisioneel spesiale lêers bevat, maar malware-verwante lêers kan bevat.
+* **Soek na verskuilde lêers of gidsname** met name soos ".. " (dot dot spatie) of "..^G" (dot dot control-G), wat kwaadwillige inhoud kan verberg.
+* **Identifiseer setuid-root-lêers** met die opdrag: `find / -user root -perm -04000 -print` Dit vind lêers met verhoogde regte wat deur aanvallers misbruik kan word.
+* **Ondersoek verwyderingstimestamps** in inode-tabelle om massiewe lêerverwyderings op te spoor, wat moontlik die teenwoordigheid van rootkits of trojane kan aandui.
+* **Inspekteer aaneenlopende inodes** vir nabygeleë kwaadwillige lêers nadat een geïdentifiseer is, aangesien hulle saam geplaas kon wees.
+* **Kontroleer algemene binêre gidsname** (_/bin_, _/sbin_) vir onlangs gewysigde lêers, aangesien hierdie deur malware verander kon wees.
+````bash
 # List recent files in a directory:
 ls -laR --sort=time /bin```
 
 # Sort files in a directory by inode:
 ls -lai /bin | sort -n```
-```
+````
 {% hint style="info" %}
-Let daarop dat 'n **aanvaller** die **tyd** kan **verander** om **lêers te laat voorkom** asof dit **wettig** is, maar hy kan die **inode** nie verander nie. As jy vind dat 'n **lêer** aandui dat dit geskep en verander is op dieselfde tyd as die res van die lêers in dieselfde vouer, maar die **inode** onverwags groter is, dan is die **tydstempels van daardie lêer verander**.
+Let wel dat 'n **aanvaller** die **tyd kan wysig** om **lêers te laat voorkom** asof hulle **wettig** is, maar hy **kan nie** die **inode** wysig nie. As jy vind dat 'n **lêer** aandui dat dit geskep en gewysig is op dieselfde tyd as die res van die lêers in dieselfde vouer, maar die **inode** is **onverwags groter**, dan is die **tydstempels van daardie lêer gewysig**.
 {% endhint %}
 
 ## Vergelyk lêers van verskillende lêersisteemweergawes
 
 ### Opsomming van Vergelyking van Lêersisteemweergawes
 
-Om lêersisteemweergawes te vergelyk en veranderinge te identifiseer, gebruik ons vereenvoudigde `git diff`-opdragte:
+Om lêersisteemweergawes te vergelyk en veranderinge te identifiseer, gebruik ons vereenvoudigde `git diff` opdragte:
 
-- **Om nuwe lêers te vind**, vergelyk twee gidsen:
+* **Om nuwe lêers te vind**, vergelyk twee gide:
 ```bash
 git diff --no-index --diff-filter=A path/to/old_version/ path/to/new_version/
 ```
-- **Vir gewysigde inhoud**, lys veranderinge terwyl spesifieke lyne geïgnoreer word:
+* **Vir gewysigde inhoud**, lys veranderinge terwyl spesifieke lyne geïgnoreer word:
 ```bash
 git diff --no-index --diff-filter=M path/to/old_version/ path/to/new_version/ | grep -E "^\+" | grep -v "Installed-Time"
 ```
-- **Om uitgewisde lêers op te spoor**:
+* **Om uitgewisde lêers op te spoor**:
 ```bash
 git diff --no-index --diff-filter=D path/to/old_version/ path/to/new_version/
 ```
-- **Filteropsies** (`--diff-filter`) help om te versmalling na spesifieke veranderinge soos bygevoeg (`A`), verwyder (`D`), of gewysig (`M`) lêers.
-- `A`: Bygevoegde lêers
-- `C`: Gekopieerde lêers
-- `D`: Verwyderde lêers
-- `M`: Gewysigde lêers
-- `R`: Hernoemde lêers
-- `T`: Tipe veranderinge (bv. lêer na simbooliese skakel)
-- `U`: Onversoenbare lêers
-- `X`: Onbekende lêers
-- `B`: Gebroke lêers
+* **Filter opsies** (`--diff-filter`) help om te spesifiseer soos bygevoeg (`A`), verwyder (`D`), of gewysig (`M`) lêers.
+* `A`: Bygevoegde lêers
+* `C`: Gekopieerde lêers
+* `D`: Verwyderde lêers
+* `M`: Gewysigde lêers
+* `R`: Hernoemde lêers
+* `T`: Tipe veranderinge (bv., lêer na simbooliese skakel)
+* `U`: Ongesmerge lêers
+* `X`: Onbekende lêers
+* `B`: Gebreekte lêers
 
 ## Verwysings
 
 * [https://cdn.ttgtmedia.com/rms/security/Malware%20Forensics%20Field%20Guide%20for%20Linux%20Systems\_Ch3.pdf](https://cdn.ttgtmedia.com/rms/security/Malware%20Forensics%20Field%20Guide%20for%20Linux%20Systems\_Ch3.pdf)
 * [https://www.plesk.com/blog/featured/linux-logs-explained/](https://www.plesk.com/blog/featured/linux-logs-explained/)
 * [https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---diff-filterACDMRTUXB82308203](https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---diff-filterACDMRTUXB82308203)
-* **Boek: Malware Forensics Field Guide for Linux Systems: Digital Forensics Field Guides**
+* **Boek: Malware Forensics Field Guide vir Linux-stelsels: Digitale Forensics Field Guides**
 
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Werk jy in 'n **cybersecurity-maatskappy**? Wil jy jou **maatskappy adverteer in HackTricks**? of wil jy toegang hê tot die **nuutste weergawe van die PEASS of laai HackTricks af in PDF**? Kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+Werk jy in 'n **cybersecurity-maatskappy**? Wil jy jou **maatskappy geadverteer sien in HackTricks**? of wil jy toegang hê tot die **nuutste weergawe van die PEASS of laai HackTricks in PDF af**? Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
+* Kry die [**amptelike PEASS & HackTricks-swag**](https://peass.creator-spring.com)
 * **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 
-**Deel jou hacktruuks deur PR's in te dien by die** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **en** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+**Deel jou haktruuks deur PR's in te dien by die** [**hacktricks-opslag**](https://github.com/carlospolop/hacktricks) **en** [**hacktricks-cloud-opslag**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik en **outomatiese werksvloeie** te bou met behulp van die wêreld se **mees gevorderde** gemeenskapsinstrumente.\
+Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik te bou en **outomatiseer werkafvloei** aangedryf deur die wêreld se **mees gevorderde** gemeenskapshulpmiddels.\
 Kry Vandag Toegang:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

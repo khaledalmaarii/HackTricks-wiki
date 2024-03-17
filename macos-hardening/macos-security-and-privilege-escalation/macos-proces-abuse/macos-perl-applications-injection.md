@@ -48,11 +48,11 @@ PERL5LIB=/tmp/ PERL5OPT=-Mpmod
 ```
 ## Via afhanklikhede
 
-Dit is moontlik om die afhanklikhede van die Perl wat loop, in 'n lys te plaas:
+Dit is moontlik om die afhanklikhede van die Perl wat loop, in 'n lys te vertoon:
 ```bash
 perl -e 'print join("\n", @INC)'
 ```
-Wat sal iets soos dit teruggee:
+Wat sal iets soos die volgende teruggee:
 ```bash
 /Library/Perl/5.30/darwin-thread-multi-2level
 /Library/Perl/5.30
@@ -70,9 +70,9 @@ Sommige van die teruggekeerde lêers bestaan selfs nie, maar **`/Library/Perl/5.
 Let wel dat jy **root moet wees om in daardie lêer te skryf** en deesdae sal jy hierdie **TCC-prompt** kry:
 {% endhint %}
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1).png" alt="" width="244"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1).png" alt="" width="244"><figcaption></figcaption></figure>
 
-Byvoorbeeld, as 'n skrip **`use File::Basename;`** invoer, sou dit moontlik wees om `/Library/Perl/5.30/File/Basename.pm` te skep om dit arbitêre kode te laat uitvoer.
+Byvoorbeeld, as 'n skrip **`use File::Basename;`** invoer, sou dit moontlik wees om `/Library/Perl/5.30/File/Basename.pm` te skep om arbitêre kode uit te voer.
 
 ## Verwysings
 
@@ -84,7 +84,7 @@ Byvoorbeeld, as 'n skrip **`use File::Basename;`** invoer, sou dit moontlik wees
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
