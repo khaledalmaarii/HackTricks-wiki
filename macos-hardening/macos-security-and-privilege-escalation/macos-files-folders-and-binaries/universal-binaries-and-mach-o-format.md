@@ -1,26 +1,26 @@
-# macOS Universal binaries & Mach-O Format
+# Universal binaries e formato Mach-O su macOS
 
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking su AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Altri modi per supportare HackTricks:
 
-* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
 
 ## Informazioni di base
 
-I binari di Mac OS di solito vengono compilati come **binari universali**. Un **binario universale** può **supportare più architetture nello stesso file**.
+Di solito i binari di Mac OS sono compilati come **universal binaries**. Un **universal binary** può **supportare più architetture nello stesso file**.
 
 Questi binari seguono la **struttura Mach-O** che è essenzialmente composta da:
 
-* Intestazione
+* Header
 * Comandi di caricamento
 * Dati
 
@@ -47,9 +47,9 @@ uint32_t	align;		/* allineamento come potenza di 2 */
 };
 </code></pre>
 
-L'intestazione ha i byte **magic** seguiti dal **numero** di **architetture** che il file **contiene** (`nfat_arch`) e ogni architettura avrà una struttura `fat_arch`.
+L'intestazione ha i byte **magic** seguiti dal **numero** di **archs** che il file **contiene** (`nfat_arch`) e ogni architettura avrà una struttura `fat_arch`.
 
-Verificalo con:
+Controlla con:
 
 <pre class="language-shell-session"><code class="lang-shell-session">% file /bin/ls
 /bin/ls: Mach-O universal binary with 2 architectures: [x86_64:Mach-O 64-bit executable x86_64] [arm64e:Mach-O 64-bit executable arm64e]
@@ -76,15 +76,15 @@ capabilities PTR_AUTH_VERSION USERSPACE 0
 </strong>    align 2^14 (16384)
 </code></pre>
 
-o utilizzando lo strumento [Mach-O View](https://sourceforge.net/projects/machoview/):
+o usando lo strumento [Mach-O View](https://sourceforge.net/projects/machoview/):
 
 <figure><img src="../../../.gitbook/assets/image (5) (1) (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-Come potresti pensare, di solito un binario universale compilato per 2 architetture **raddoppia la dimensione** di uno compilato per una sola architettura.
+Come potresti pensare, di solito un binary universale compilato per 2 architetture **raddoppia la dimensione** di uno compilato per una sola architettura.
 
-## **Intestazione Mach-O**
+## Intestazione Mach-O
 
-L'intestazione contiene informazioni di base sul file, come i byte magici per identificarlo come file Mach-O e informazioni sull'architettura di destinazione. Puoi trovarlo in: `mdfind loader.h | grep -i mach-o | grep -E "loader.h$"`
+L'intestazione contiene informazioni di base sul file, come byte magici per identificarlo come file Mach-O e informazioni sull'architettura di destinazione. Puoi trovarlo in: `mdfind loader.h | grep -i mach-o | grep -E "loader.h$"`
 ```c
 #define	MH_MAGIC	0xfeedface	/* the mach magic number */
 #define MH_CIGAM	0xcefaedfe	/* NXSwapInt(MH_MAGIC) */
@@ -114,8 +114,8 @@ uint32_t	reserved;	/* reserved */
 **Tipi di file**:
 
 * MH\_EXECUTE (0x2): Eseguibile Mach-O standard
-* MH\_DYLIB (0x6): Una libreria dinamica Mach-O (ad esempio .dylib)
-* MH\_BUNDLE (0x8): Un bundle Mach-O (ad esempio .bundle)
+* MH\_DYLIB (0x6): Una libreria dinamica Mach-O (cioè .dylib)
+* MH\_BUNDLE (0x8): Un bundle Mach-O (cioè .bundle)
 ```bash
 # Checking the mac header of a binary
 otool -arch arm64e -hv /bin/ls
@@ -129,9 +129,9 @@ Oppure utilizzando [Mach-O View](https://sourceforge.net/projects/machoview/):
 
 ## **Comandi di caricamento Mach-O**
 
-Qui viene specificato il **layout del file in memoria**, dettagliando la **posizione della tabella dei simboli**, il contesto del thread principale all'avvio dell'esecuzione e le **librerie condivise** richieste. Vengono fornite istruzioni al dynamic loader **(dyld)** sul processo di caricamento del binario in memoria.
+La **disposizione del file in memoria** è specificata qui, dettagliando la **posizione della tabella dei simboli**, il contesto del thread principale all'avvio dell'esecuzione e le **librerie condivise** richieste. Vengono forniste istruzioni al caricatore dinamico **(dyld)** sul processo di caricamento del binario in memoria.
 
-Viene utilizzata la struttura **load\_command**, definita nel menzionato **`loader.h`**:
+Viene utilizzata la struttura **load\_command**, definita nel menzionato file **`loader.h`**:
 ```objectivec
 struct load_command {
 uint32_t cmd;           /* type of load command */
@@ -143,14 +143,14 @@ Ci sono circa **50 diversi tipi di comandi di caricamento** che il sistema gesti
 ### **LC\_SEGMENT/LC\_SEGMENT\_64**
 
 {% hint style="success" %}
-Fondamentalmente, questo tipo di comando di caricamento definisce **come caricare i segmenti \_\_TEXT** (codice eseguibile) **e \_\_DATA** (dati per il processo) in base agli **offset indicati nella sezione dei dati** quando il binario viene eseguito.
+Fondamentalmente, questo tipo di Comando di Caricamento definisce **come caricare il \_\_TEXT** (codice eseguibile) **e il \_\_DATA** (dati per il processo) **segmenti** in base agli **offset indicati nella sezione dei Dati** quando il binario viene eseguito.
 {% endhint %}
 
-Questi comandi **definiscono i segmenti** che vengono **mappati** nello **spazio di memoria virtuale** di un processo quando viene eseguito.
+Questi comandi **definiscono segmenti** che vengono **mappati** nello **spazio di memoria virtuale** di un processo quando viene eseguito.
 
-Ci sono **diversi tipi** di segmenti, come il segmento **\_\_TEXT**, che contiene il codice eseguibile di un programma, e il segmento **\_\_DATA**, che contiene i dati utilizzati dal processo. Questi **segmenti si trovano nella sezione dei dati** del file Mach-O.
+Ci sono **diversi tipi** di segmenti, come il segmento **\_\_TEXT**, che contiene il codice eseguibile di un programma, e il segmento **\_\_DATA**, che contiene dati utilizzati dal processo. Questi **segmenti sono situati nella sezione dei dati** del file Mach-O.
 
-**Ogni segmento** può essere ulteriormente **diviso** in più **sezioni**. La struttura del comando di caricamento contiene **informazioni** su **queste sezioni** all'interno del rispettivo segmento.
+**Ogni segmento** può essere ulteriormente **diviso** in più **sezioni**. La **struttura del comando di caricamento** contiene **informazioni** su **queste sezioni** all'interno del rispettivo segmento.
 
 Nell'intestazione trovi prima l'**intestazione del segmento**:
 
@@ -194,38 +194,38 @@ Esempio di **intestazione di sezione**:
 
 <figure><img src="../../../.gitbook/assets/image (6) (2).png" alt=""><figcaption></figcaption></figure>
 
-Se **aggiungi** l'**offset della sezione** (0x37DC) + l'**offset** in cui **inizia l'architettura**, in questo caso `0x18000` --> `0x37DC + 0x18000 = 0x1B7DC`
+Se si **aggiunge** l'**offset della sezione** (0x37DC) + l'**offset** in cui inizia l'**architettura**, in questo caso `0x18000` --> `0x37DC + 0x18000 = 0x1B7DC`
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-È anche possibile ottenere le **informazioni dell'intestazione** dalla **riga di comando** con:
+È anche possibile ottenere le **informazioni sull'intestazione** dalla **riga di comando** con:
 ```bash
 otool -lv /bin/ls
 ```
-Segmenti comuni caricati da questo comando:
+Segmenti comuni caricati da questo cmd:
 
-* **`__PAGEZERO`:** Istruisce il kernel a **mappare** l'**indirizzo zero** in modo che **non possa essere letto, scritto o eseguito**. Le variabili maxprot e minprot nella struttura sono impostate su zero per indicare che non ci sono **diritti di lettura-scrittura-esecuzione su questa pagina**.
-* Questa allocazione è importante per **mitigare le vulnerabilità di dereferenziazione del puntatore NULL**.
-* **`__TEXT`**: Contiene **codice eseguibile** con permessi di **lettura** ed **esecuzione** (non scrivibile)**.** Sezioni comuni di questo segmento:
-* `__text`: Codice binario compilato
-* `__const`: Dati costanti
-* `__cstring`: Costanti di stringa
-* `__stubs` e `__stubs_helper`: Coinvolti durante il processo di caricamento delle librerie dinamiche
-* **`__DATA`**: Contiene dati che sono **leggibili** e **scrivibili** (non eseguibili)**.**
-* `__data`: Variabili globali (che sono state inizializzate)
-* `__bss`: Variabili statiche (che non sono state inizializzate)
-* `__objc_*` (\_\_objc\_classlist, \_\_objc\_protolist, ecc.): Informazioni utilizzate dall'Objective-C runtime
-* **`__LINKEDIT`**: Contiene informazioni per il linker (dyld) come "simbolo, stringa ed entry della tabella di rilocazione".
-* **`__OBJC`**: Contiene informazioni utilizzate dall'Objective-C runtime. Tuttavia, queste informazioni potrebbero essere presenti anche nel segmento \_\_DATA, all'interno delle varie sezioni \_\_objc\_\*.
+- **`__PAGEZERO`:** Istruisce il kernel a **mappare** l'**indirizzo zero** in modo che **non possa essere letto, scritto o eseguito**. Le variabili maxprot e minprot nella struttura sono impostate su zero per indicare che non ci sono **diritti di lettura-scrittura-esecuzione su questa pagina**.
+- Questa allocazione è importante per **mitigare le vulnerabilità di dereferenziazione del puntatore NULL**.
+- **`__TEXT`**: Contiene **codice eseguibile** con permessi di **lettura** ed **esecuzione** (non scrivibile)**.** Sezioni comuni di questo segmento:
+  - `__text`: Codice binario compilato
+  - `__const`: Dati costanti
+  - `__cstring`: Costanti di stringa
+  - `__stubs` e `__stubs_helper`: Coinvolti durante il processo di caricamento della libreria dinamica
+- **`__DATA`**: Contiene dati che sono **leggibili** e **scrivibili** (non eseguibili)**.**
+  - `__data`: Variabili globali (che sono state inizializzate)
+  - `__bss`: Variabili statiche (che non sono state inizializzate)
+  - `__objc_*` (\_\_objc\_classlist, \_\_objc\_protolist, ecc.): Informazioni utilizzate dall'Objective-C runtime
+- **`__LINKEDIT`**: Contiene informazioni per il linker (dyld) come "voci di tabella dei simboli, stringhe e rilocazione".
+- **`__OBJC`**: Contiene informazioni utilizzate dall'Objective-C runtime. Anche se queste informazioni potrebbero essere trovate nel segmento \_\_DATA, all'interno di varie sezioni \_\_objc\_\*.
 
 ### **`LC_MAIN`**
 
-Contiene il punto di ingresso nell'attributo **entryoff**. Al momento del caricamento, **dyld** semplicemente **aggiunge** questo valore alla **base del binario** in memoria, quindi **salta** a questa istruzione per avviare l'esecuzione del codice del binario.
+Contiene il punto di ingresso nell'attributo **entryoff**. Al momento del caricamento, **dyld** semplicemente **aggiunge** questo valore alla (in memoria) **base del binario**, quindi **salta** a questa istruzione per avviare l'esecuzione del codice del binario.
 
 ### **LC\_CODE\_SIGNATURE**
 
-Contiene informazioni sulla **firma del codice del file Mach-O**. Contiene solo un **offset** che **punta** al **blocco di firma**. Di solito si trova alla fine del file.\
-Tuttavia, è possibile trovare ulteriori informazioni su questa sezione in [**questo post del blog**](https://davedelong.com/blog/2018/01/10/reading-your-own-entitlements/) e in questo [**gists**](https://gist.github.com/carlospolop/ef26f8eb9fafd4bc22e69e1a32b81da4).
+Contiene informazioni sulla **firma del codice del file Mach-O**. Contiene solo un **offset** che **punta** al **blob della firma**. Di solito si trova alla fine del file.\
+Tuttavia, è possibile trovare alcune informazioni su questa sezione in [**questo post sul blog**](https://davedelong.com/blog/2018/01/10/reading-your-own-entitlements/) e in questo [**gists**](https://gist.github.com/carlospolop/ef26f8eb9fafd4bc22e69e1a32b81da4).
 
 ### **LC\_LOAD\_DYLINKER**
 
@@ -233,9 +233,9 @@ Contiene il **percorso dell'eseguibile del linker dinamico** che mappa le librer
 
 ### **`LC_LOAD_DYLIB`**
 
-Questo comando di caricamento descrive una **dipendenza da una libreria dinamica** che **istruisce** il **loader** (dyld) a **caricare e collegare tale libreria**. C'è un comando di caricamento LC\_LOAD\_DYLIB **per ogni libreria** richiesta dal binario Mach-O.
+Questo comando di caricamento descrive una **dipendenza da libreria dinamica** che **istruisce** il **caricatore** (dyld) a **caricare e collegare tale libreria**. C'è un comando di caricamento LC\_LOAD\_DYLIB **per ogni libreria** richiesta dal binario Mach-O.
 
-* Questo comando di caricamento è una struttura di tipo **`dylib_command`** (che contiene una struttura dylib, che descrive la libreria dinamica dipendente effettiva):
+- Questo comando di caricamento è una struttura di tipo **`dylib_command`** (che contiene una struct dylib, che descrive la libreria dinamica dipendente effettiva):
 ```objectivec
 struct dylib_command {
 uint32_t        cmd;            /* LC_LOAD_{,WEAK_}DYLIB */
@@ -252,7 +252,7 @@ uint32_t compatibility_version;     /* library's compatibility vers number*/
 ```
 ![](<../../../.gitbook/assets/image (558).png>)
 
-Puoi ottenere queste informazioni anche dalla CLI con:
+È possibile ottenere queste informazioni anche da CLI con:
 ```bash
 otool -L /bin/ls
 /bin/ls:
@@ -260,51 +260,51 @@ otool -L /bin/ls
 /usr/lib/libncurses.5.4.dylib (compatibility version 5.4.0, current version 5.4.0)
 /usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1319.0.0)
 ```
-Alcune librerie potenzialmente correlate al malware sono:
+Alcune potenziali librerie correlate al malware sono:
 
-* **DiskArbitration**: Monitoraggio delle unità USB
-* **AVFoundation**: Cattura audio e video
-* **CoreWLAN**: Scansioni WiFi.
+- **DiskArbitration**: Monitoraggio delle unità USB
+- **AVFoundation**: Cattura audio e video
+- **CoreWLAN**: Scansioni Wifi.
 
 {% hint style="info" %}
-Un binario Mach-O può contenere uno o **più** **costruttori**, che verranno **eseguiti** **prima** dell'indirizzo specificato in **LC\_MAIN**.\
+Un binario Mach-O può contenere uno o **più costruttori**, che verranno **eseguiti prima** dell'indirizzo specificato in **LC\_MAIN**.\
 Gli offset di eventuali costruttori sono contenuti nella sezione **\_\_mod\_init\_func** del segmento **\_\_DATA\_CONST**.
 {% endhint %}
 
 ## **Dati Mach-O**
 
-Al centro del file si trova la regione dei dati, composta da diversi segmenti definiti nella regione dei comandi di caricamento. **All'interno di ogni segmento possono essere presenti diverse sezioni di dati**, con ciascuna sezione che **contiene codice o dati** specifici per un determinato tipo.
+Al centro del file si trova la regione dei dati, composta da diversi segmenti come definito nella regione dei comandi di caricamento. **Una varietà di sezioni dati può essere contenuta in ciascun segmento**, con ciascuna sezione che **contiene codice o dati** specifici per un tipo.
 
 {% hint style="success" %}
-I dati sono fondamentalmente la parte che contiene tutte le **informazioni** che vengono caricate dai comandi di caricamento **LC\_SEGMENTS\_64**
+I dati sono essenzialmente la parte che contiene tutte le **informazioni** caricate dai comandi di caricamento **LC\_SEGMENTS\_64**
 {% endhint %}
 
-![https://www.oreilly.com/api/v2/epubs/9781785883378/files/graphics/B05055_02_38.jpg](<../../../.gitbook/assets/image (507) (3).png>)
+![https://www.oreilly.com/api/v2/epubs/9781785883378/files/graphics/B05055\_02\_38.jpg](<../../../.gitbook/assets/image (507) (3).png>)
 
-Ciò include:
+Questo include:
 
-* **Tabella delle funzioni**: Che contiene informazioni sulle funzioni del programma.
-* **Tabella dei simboli**: Che contiene informazioni sulle funzioni esterne utilizzate dal binario.
-* Potrebbe contenere anche funzioni interne, nomi di variabili e altro ancora.
+- **Tabella delle funzioni**: Che contiene informazioni sulle funzioni del programma.
+- **Tabella dei simboli**: Che contiene informazioni sulle funzioni esterne utilizzate dal binario
+- Potrebbe contenere anche funzioni interne, nomi di variabili e altro.
 
-Per verificarlo, è possibile utilizzare lo strumento [**Mach-O View**](https://sourceforge.net/projects/machoview/):
+Per controllarlo, potresti utilizzare lo strumento [**Mach-O View**](https://sourceforge.net/projects/machoview/):
 
 <figure><img src="../../../.gitbook/assets/image (2) (1) (4).png" alt=""><figcaption></figcaption></figure>
 
-O tramite la riga di comando:
+O dal terminale:
 ```bash
 size -m /bin/ls
 ```
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
 
 Altri modi per supportare HackTricks:
 
-* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Se desideri vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai repository github di** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>

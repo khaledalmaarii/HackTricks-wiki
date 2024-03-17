@@ -1,10 +1,10 @@
 # Comandi utili di Linux
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilizza [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) per creare e automatizzare facilmente flussi di lavoro supportati dagli strumenti della community più avanzati al mondo.\
-Ottieni l'accesso oggi stesso:
+Utilizza [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) per creare facilmente e **automatizzare flussi di lavoro** supportati dagli strumenti della comunità più avanzati al mondo.\
+Ottieni l'accesso oggi:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -14,11 +14,11 @@ Ottieni l'accesso oggi stesso:
 
 Altri modi per supportare HackTricks:
 
-* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF**, controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Se desideri vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT**](https://opensea.io/collection/the-peass-family) esclusivi
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai repository di** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) su GitHub.
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione esclusiva di [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository di Github.
 
 </details>
 
@@ -141,11 +141,11 @@ sudo chattr -i file.txt #Remove the bit so you can delete it
 # List files inside zip
 7z l file.zip
 ```
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilizza [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) per creare e automatizzare facilmente flussi di lavoro basati sugli strumenti della community più avanzati al mondo.\
-Ottieni l'accesso oggi stesso:
+Usa [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) per creare facilmente e **automatizzare flussi di lavoro** supportati dagli strumenti della comunità **più avanzati al mondo**.\
+Ottieni l'accesso oggi:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -171,19 +171,13 @@ i686-mingw32msvc-gcc -o executable useradd.c
 ```
 ## Greps
 
-Grep è uno strumento molto potente per cercare testo all'interno di file o output di comandi. Di seguito sono riportati alcuni esempi di come utilizzare grep:
+Grep è uno strumento potente per cercare testo all'interno di file. Ecco alcuni utilizzi comuni:
 
-- `grep parola file.txt`: cerca la parola nel file.txt e restituisce tutte le righe che la contengono.
-- `grep -i parola file.txt`: cerca la parola nel file.txt, ignorando la differenza tra maiuscole e minuscole.
-- `grep -r parola cartella/`: cerca la parola all'interno di tutti i file nella cartella e nelle sue sottocartelle.
-- `grep -v parola file.txt`: cerca tutte le righe che non contengono la parola nel file.txt.
-- `grep -n parola file.txt`: cerca la parola nel file.txt e restituisce anche il numero di riga corrispondente.
-- `grep -E "parola1|parola2" file.txt`: cerca la parola1 o la parola2 nel file.txt.
-- `grep -A 3 parola file.txt`: cerca la parola nel file.txt e restituisce anche le 3 righe successive.
-- `grep -B 2 parola file.txt`: cerca la parola nel file.txt e restituisce anche le 2 righe precedenti.
-- `grep -C 2 parola file.txt`: cerca la parola nel file.txt e restituisce anche le 2 righe precedenti e le 2 righe successive.
-
-Questi sono solo alcuni esempi di come utilizzare grep. Esistono molte altre opzioni e combinazioni possibili per adattarsi alle tue esigenze specifiche.
+- `grep "parola_chiave" file.txt`: Cerca una parola chiave all'interno di un file.
+- `grep -r "parola_chiave" /directory`: Cerca una parola chiave all'interno di una directory in modo ricorsivo.
+- `grep -i "parola_chiave" file.txt`: Esegue una ricerca non case-sensitive della parola chiave all'interno di un file.
+- `grep -v "parola_chiave" file.txt`: Mostra le righe che non contengono la parola chiave.
+- `grep -A 3 -B 2 "parola_chiave" file.txt`: Mostra 3 righe dopo e 2 righe prima di ogni occorrenza della parola chiave in un file.
 ```bash
 #Extract emails from file
 grep -E -o "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b" file.txt
@@ -264,53 +258,6 @@ grep -Po 'd{3}[s-_]?d{3}[s-_]?d{4}' *.txt > us-phones.txt
 egrep -a -o "\bISBN(?:-1[03])?:? (?=[0-9X]{10}$|(?=(?:[0-9]+[- ]){3})[- 0-9X]{13}$|97[89][0-9]{10}$|(?=(?:[0-9]+[- ]){4})[- 0-9]{17}$)(?:97[89][- ]?)?[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9X]\b" *.txt > isbn.txt
 ```
 ## Trova
-
-The `find` command is used to search for files and directories in a specified location. It can be very useful for finding specific files based on different criteria such as name, size, type, and modification time.
-
-### Syntax
-
-```
-find [path] [expression]
-```
-
-- `[path]`: Specifies the starting directory for the search. If not specified, the search will start from the current directory.
-- `[expression]`: Specifies the search criteria. This can include options, tests, and actions.
-
-### Examples
-
-1. Search for a file by name:
-```
-find /home -name myfile.txt
-```
-This command will search for a file named `myfile.txt` in the `/home` directory and its subdirectories.
-
-2. Search for files by extension:
-```
-find /var/log -name "*.log"
-```
-This command will search for files with the `.log` extension in the `/var/log` directory and its subdirectories.
-
-3. Search for files by size:
-```
-find /tmp -size +1M
-```
-This command will search for files larger than 1 megabyte in the `/tmp` directory and its subdirectories.
-
-4. Search for files by type:
-```
-find /usr/bin -type f
-```
-This command will search for regular files in the `/usr/bin` directory and its subdirectories.
-
-5. Search for files modified within a specific time range:
-```
-find /etc -mtime -7
-```
-This command will search for files modified within the last 7 days in the `/etc` directory and its subdirectories.
-
-### Conclusion
-
-The `find` command is a powerful tool for searching files and directories in Linux. By using different options and tests, you can narrow down your search and find exactly what you're looking for.
 ```bash
 # Find SUID set files.
 find / -perm /u=s -ls 2>/dev/null
@@ -339,21 +286,7 @@ find / -maxdepth 5 -type f -printf "%T@ %Tc | %p \n" 2>/dev/null | grep -v "| /p
 # Found Newer directory only and sort by time. (depth = 5)
 find / -maxdepth 5 -type d -printf "%T@ %Tc | %p \n" 2>/dev/null | grep -v "| /proc" | grep -v "| /dev" | grep -v "| /run" | grep -v "| /var/log" | grep -v "| /boot"  | grep -v "| /sys/" | sort -n -r | less
 ```
-## Aiuto per la ricerca di Nmap
-
-Nmap è uno strumento di scansione di rete molto potente e versatile. Può essere utilizzato per eseguire una varietà di attività di scansione, come la scoperta di host, la scansione delle porte e l'identificazione dei servizi in esecuzione su un host.
-
-Di seguito sono riportati alcuni comandi utili per la ricerca con Nmap:
-
-- `nmap -sn <indirizzo IP>`: esegue una scansione di tipo ping per verificare se un host è raggiungibile.
-- `nmap -p <porta> <indirizzo IP>`: esegue una scansione delle porte specificate su un host.
-- `nmap -sV <indirizzo IP>`: identifica i servizi in esecuzione su un host.
-- `nmap -A <indirizzo IP>`: esegue una scansione completa dell'host, inclusa l'identificazione dei servizi, la rilevazione del sistema operativo e altro ancora.
-- `nmap -O <indirizzo IP>`: tenta di identificare il sistema operativo in esecuzione su un host.
-- `nmap -T4 <indirizzo IP>`: imposta il livello di intensità della scansione su "Aggressivo" per accelerare il processo di scansione.
-- `nmap -v <indirizzo IP>`: esegue la scansione in modalità verbosa, mostrando informazioni dettagliate durante il processo di scansione.
-
-Questi sono solo alcuni dei comandi più comuni utilizzati con Nmap. Per ulteriori informazioni e opzioni, consulta la documentazione ufficiale di Nmap.
+## Guida alla ricerca di Nmap
 ```bash
 #Nmap scripts ((default or version) and smb))
 nmap --script-help "(default or version) and *smb*"
@@ -362,56 +295,14 @@ nmap --script-help "(default or version) and smb)"
 ```
 ## Bash
 
-Bash è una shell di comando comune utilizzata nei sistemi operativi Linux e Unix. È possibile utilizzare Bash per eseguire comandi, scrivere script e automatizzare le attività di sistema. Di seguito sono riportati alcuni comandi utili di Bash:
-
-- `cd [directory]`: cambia la directory corrente nel percorso specificato.
-- `ls`: elenca i file e le directory nella directory corrente.
-- `pwd`: visualizza il percorso della directory corrente.
-- `mkdir [directory]`: crea una nuova directory con il nome specificato.
-- `rm [file]`: rimuove il file specificato.
-- `cp [file1] [file2]`: copia il file1 nel file2.
-- `mv [file1] [file2]`: sposta o rinomina il file1 nel file2.
-- `cat [file]`: visualizza il contenuto del file.
-- `grep [pattern] [file]`: cerca il pattern nel file e visualizza le corrispondenze.
-- `chmod [permissions] [file]`: imposta i permessi del file.
-- `chown [user] [file]`: cambia il proprietario del file.
-- `chgrp [group] [file]`: cambia il gruppo del file.
-- `sudo [command]`: esegue il comando con i privilegi di amministratore.
-- `history`: visualizza la cronologia dei comandi eseguiti.
-- `man [command]`: visualizza il manuale del comando specificato.
-- `exit`: esce dalla shell di Bash.
-
-Questi sono solo alcuni dei comandi di base di Bash. Bash offre molte altre funzionalità e comandi avanzati che possono essere utili durante lo sviluppo e l'amministrazione di un sistema Linux.
+Bash stands for "Bourne Again Shell". It is the default shell for most Linux distributions. Bash is a powerful tool for managing Linux systems through the command line interface.
 ```bash
 #All bytes inside a file (except 0x20 and 0x00)
 for j in $((for i in {0..9}{0..9} {0..9}{a..f} {a..f}{0..9} {a..f}{a..f}; do echo $i; done ) | sort | grep -v "20\|00"); do echo -n -e "\x$j" >> bytes; done
 ```
 ## Iptables
 
-Iptables è un potente firewall basato su regole per i sistemi Linux. Viene utilizzato per filtrare e gestire il traffico di rete in entrata e in uscita. Iptables può essere utilizzato per proteggere il sistema da attacchi esterni e per configurare il routing del traffico di rete.
-
-### Comandi utili
-
-Di seguito sono riportati alcuni comandi utili per lavorare con iptables:
-
-- `iptables -L`: visualizza le regole correnti del firewall.
-- `iptables -F`: elimina tutte le regole correnti del firewall.
-- `iptables -A <chain> -p <protocol> --dport <port> -j <action>`: aggiunge una nuova regola al firewall. È possibile specificare la catena (`chain`), il protocollo (`protocol`), la porta di destinazione (`dport`) e l'azione da intraprendere (`action`).
-- `iptables -D <chain> <rule_number>`: elimina una regola specifica dal firewall. È necessario specificare la catena (`chain`) e il numero della regola (`rule_number`).
-- `iptables-save > <file>`: salva le regole correnti del firewall in un file specificato.
-- `iptables-restore < <file>`: ripristina le regole del firewall da un file specificato.
-
-### Esempi di utilizzo
-
-Ecco alcuni esempi di utilizzo di iptables:
-
-- Bloccare tutto il traffico in entrata e in uscita: `iptables -P INPUT DROP` e `iptables -P OUTPUT DROP`.
-- Consentire il traffico in entrata sulla porta 80 (HTTP): `iptables -A INPUT -p tcp --dport 80 -j ACCEPT`.
-- Consentire il traffico in uscita sulla porta 443 (HTTPS): `iptables -A OUTPUT -p tcp --dport 443 -j ACCEPT`.
-- Consentire il traffico in entrata da un indirizzo IP specifico: `iptables -A INPUT -s <ip_address> -j ACCEPT`.
-- Bloccare il traffico in entrata da un indirizzo IP specifico: `iptables -A INPUT -s <ip_address> -j DROP`.
-
-Questi sono solo alcuni esempi di come utilizzare iptables per configurare il firewall del tuo sistema Linux. È importante comprendere le diverse opzioni e regole disponibili per proteggere efficacemente il tuo sistema da potenziali minacce di rete.
+Iptables è uno strumento versatile per gestire le regole del firewall in Linux. Può essere utilizzato per filtrare, modificare o indirizzare il traffico di rete. Iptables è una parte essenziale della sicurezza del sistema Linux e può essere utilizzato per proteggere il sistema da varie minacce online.
 ```bash
 #Delete curent rules and chains
 iptables --flush
@@ -444,22 +335,22 @@ iptables -P OUTPUT ACCEPT
 ```
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
 
 Altri modi per supportare HackTricks:
 
-* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Se desideri vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai repository di** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) su GitHub.
+* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Usa [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) per creare e **automatizzare flussi di lavoro** con gli strumenti comunitari più avanzati al mondo.\
-Ottieni l'accesso oggi stesso:
+Usa [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) per costruire facilmente e **automatizzare flussi di lavoro** supportati dagli strumenti comunitari **più avanzati** al mondo.\
+Ottieni l'accesso oggi:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

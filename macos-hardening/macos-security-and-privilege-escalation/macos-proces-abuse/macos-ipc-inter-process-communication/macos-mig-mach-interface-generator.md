@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
 
 Altri modi per supportare HackTricks:
 
@@ -14,7 +14,7 @@ Altri modi per supportare HackTricks:
 
 </details>
 
-MIG è stato creato per **semplificare il processo di creazione del codice Mach IPC**. Fondamentalmente **genera il codice necessario** per il server e il client per comunicare con una definizione data. Anche se il codice generato è brutto, un programmatore dovrà solo importarlo e il suo codice sarà molto più semplice rispetto a prima.
+MIG è stato creato per **semplificare il processo di creazione del codice Mach IPC**. Fondamentalmente **genera il codice necessario** per far comunicare server e client con una definizione data. Anche se il codice generato è brutto, uno sviluppatore dovrà solo importarlo e il suo codice sarà molto più semplice rispetto a prima.
 
 ### Esempio
 
@@ -43,7 +43,7 @@ mig -header myipcUser.h -sheader myipcServer.h myipc.defs
 ```
 Verranno creati diversi nuovi file nella directory corrente.
 
-Nei file **`myipcServer.c`** e **`myipcServer.h`** puoi trovare la dichiarazione e la definizione della struttura **`SERVERPREFmyipc_subsystem`**, che fondamentalmente definisce la funzione da chiamare in base all'ID del messaggio ricevuto (abbiamo indicato un numero iniziale di 500):
+Nei file **`myipcServer.c`** e **`myipcServer.h`** puoi trovare la dichiarazione e la definizione della struttura **`SERVERPREFmyipc_subsystem`**, che definisce fondamentalmente la funzione da chiamare in base all'ID del messaggio ricevuto (abbiamo indicato un numero iniziale di 500):
 
 {% tabs %}
 {% tab title="myipcServer.c" %}
@@ -138,9 +138,9 @@ return FALSE;
 }
 </code></pre>
 
-Controlla le righe precedentemente evidenziate accedendo alla funzione da chiamare tramite ID.
+Controlla le linee precedentemente evidenziate accedendo alla funzione da chiamare tramite ID.
 
-Di seguito è riportato il codice per creare un semplice **server** e **client** in cui il client può chiamare le funzioni Sottrai dal server:
+Di seguito è riportato il codice per creare un **server** e un **client** semplici in cui il client può chiamare le funzioni Sottrai dal server:
 
 {% tabs %}
 {% tab title="myipc_server.c" %}
@@ -203,7 +203,7 @@ USERPREFSubtract(port, 40, 2);
 ```
 ### Analisi Binaria
 
-Poiché molti binari ora utilizzano MIG per esporre le porte mach, è interessante sapere come **identificare che è stato utilizzato MIG** e le **funzioni che MIG esegue** con ciascun ID messaggio.
+Poiché molti binari utilizzano ora MIG per esporre le porte mach, è interessante sapere come **identificare che è stato utilizzato MIG** e le **funzioni che MIG esegue** con ciascun ID messaggio.
 
 [**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2) può analizzare le informazioni MIG da un binario Mach-O indicando l'ID del messaggio e identificando la funzione da eseguire:
 ```bash
@@ -255,7 +255,7 @@ return rax;
 {% endtab %}
 
 {% tab title="myipc_server decompiled 2" %}
-Questa è la stessa funzione decompilata in una versione diversa di Hopper free:
+Questa è la stessa funzione decompilata in una versione gratuita diversa di Hopper:
 
 <pre class="language-c"><code class="lang-c">int _myipc_server(int arg0, int arg1) {
 r31 = r31 - 0x40;
@@ -332,12 +332,10 @@ return r0;
 
 In realtà, se si va alla funzione **`0x100004000`** si troverà l'array di strutture **`routine_descriptor`**. Il primo elemento della struttura è l'**indirizzo** in cui la **funzione** è implementata, e la **struttura occupa 0x28 byte**, quindi ogni 0x28 byte (a partire dal byte 0) è possibile ottenere 8 byte e quello sarà l'**indirizzo della funzione** che verrà chiamata:
 
-<figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
-
 <figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+
+<figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Questi dati possono essere estratti [**utilizzando questo script di Hopper**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py).
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **repository di Github.**
-
-</details>
