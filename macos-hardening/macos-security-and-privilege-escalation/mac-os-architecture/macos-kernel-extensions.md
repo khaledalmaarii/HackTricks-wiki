@@ -1,48 +1,48 @@
-# macOS Kernelni ekstenzije
+# macOS Kernel Extensions
 
 <details>
 
 <summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised on HackTricks**? Or do you want to have access to the **latest version of PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our exclusive collection of [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS and HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) **Discord group** or the [**telegram group**](https://t.me/peass) or **follow me** on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live).
-* **Share your hacking tricks by sending PR to** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Da li radite u **kompaniji za sajber bezbednost**? Želite da vidite svoju **kompaniju reklamiranu na HackTricks-u**? Ili želite pristup **poslednjoj verziji PEASS-a ili preuzimanje HackTricks-a u PDF formatu**? Pogledajte [**PLANOVE ZA ČLANSTVO**](https://github.com/sponsors/carlospolop)!
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu ekskluzivnu kolekciju [**NFT-a**](https://opensea.io/collection/the-peass-family)
+* Nabavite **zvanični PEASS i HackTricks** [**swag**](https://peass.creator-spring.com)
+* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) **Discord grupi** ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live).
+* **Podelite svoje hakovanje trikove slanjem PR-a na** [**hacktricks repozitorijum**](https://github.com/carlospolop/hacktricks) **i** [**hacktricks-cloud repozitorijum**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
 ## Osnovne informacije
 
-Kernelne ekstenzije (Kexts) su **paketi** sa **`.kext`** ekstenzijom koji se **direktno učitavaju u macOS kernel prostor**, pružajući dodatne funkcionalnosti glavnom operativnom sistemu.
+Kernel ekstenzije (Kexts) su **paketi** sa ekstenzijom **`.kext`** koji se **direktno učitavaju u macOS kernel prostor**, pružajući dodatne funkcionalnosti glavnom operativnom sistemu.
 
 ### Zahtevi
 
-Očigledno, ovo je tako moćno da je **komplikovano učitati kernelnu ekstenziju**. Ovo su **zahtevi** koje kernelna ekstenzija mora ispuniti da bi se učitala:
+Očigledno, ovo je toliko moćno da je **komplikovano učitati kernel ekstenziju**. Ovo su **zahtevi** koje kernel ekstenzija mora ispuniti da bi bila učitana:
 
-* Kada se **ulazi u režim oporavka**, kernelne **ekstenzije moraju biti dozvoljene** za učitavanje:
+* Prilikom **ulaska u režim oporavka**, kernel **ekstenzije moraju biti dozvoljene** za učitavanje:
 
-<figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-* Kernelna ekstenzija mora biti **potpisana kernelnim sertifikatom za potpisivanje koda**, koji može **dodeliti samo Apple**. Koja će detaljno pregledati kompaniju i razloge zašto je potrebna.
-* Kernelna ekstenzija takođe mora biti **notarizovana**, Apple će je moći proveriti na prisustvo malvera.
-* Zatim, **root** korisnik je taj koji može **učitati kernelnu ekstenziju** i fajlovi unutar paketa moraju **pripadati root-u**.
-* Tokom procesa učitavanja, paket mora biti pripremljen na **zaštićenoj lokaciji bez root pristupa**: `/Library/StagedExtensions` (zahteva `com.apple.rootless.storage.KernelExtensionManagement` dozvolu).
-* Na kraju, prilikom pokušaja učitavanja, korisnik će [**primiti zahtev za potvrdu**](https://developer.apple.com/library/archive/technotes/tn2459/\_index.html) i, ako ga prihvati, računar se mora **ponovo pokrenuti** da bi ga učitao.
+* Kernel ekstenzija mora biti **potpisana kernel kodnim potpisom**, koji može dati samo **Apple**. Ko će detaljno pregledati kompaniju i razloge zašto je potrebno.
+* Kernel ekstenzija takođe mora biti **notarizovana**, Apple će moći da je proveri na prisustvo malvera.
+* Zatim, **root** korisnik je taj koji može **učitati kernel ekstenziju** i fajlovi unutar paketa moraju **pripadati root-u**.
+* Tokom procesa učitavanja, paket mora biti pripremljen na **zaštićenoj lokaciji koja nije root**: `/Library/StagedExtensions` (zahteva dozvolu `com.apple.rootless.storage.KernelExtensionManagement`).
+* Na kraju, prilikom pokušaja učitavanja, korisnik će [**dobiti zahtev za potvrdu**](https://developer.apple.com/library/archive/technotes/tn2459/\_index.html) i, ako se prihvati, računar mora biti **restartovan** da bi je učitao.
 
 ### Proces učitavanja
 
-U Catalini je bilo ovako: Zanimljivo je primetiti da se **proces verifikacije** dešava u **userland-u**. Međutim, samo aplikacije sa **`com.apple.private.security.kext-management`** dozvolom mogu **zatražiti od kernela da učita ekstenziju**: `kextcache`, `kextload`, `kextutil`, `kextd`, `syspolicyd`
+U Catalina verziji je bilo ovako: Zanimljivo je primetiti da se **proces verifikacije** dešava u **userland-u**. Međutim, samo aplikacije sa dozvolom **`com.apple.private.security.kext-management`** mogu **zatražiti od kernela da učita ekstenziju**: `kextcache`, `kextload`, `kextutil`, `kextd`, `syspolicyd`
 
-1. **`kextutil`** komandna linija **pokreće** proces **verifikacije** za učitavanje ekstenzije
-* Komuniciraće sa **`kextd`** slanjem poruke putem **Mach servisa**.
+1. **`kextutil`** cli **pokreće** proces **verifikacije** za učitavanje ekstenzije
+* Razgovaraće sa **`kextd`** slanjem putem **Mach servisa**.
 2. **`kextd`** će proveriti nekoliko stvari, kao što je **potpis**
-* Komuniciraće sa **`syspolicyd`** da **proveri** da li se ekstenzija može **učitati**.
-3. **`syspolicyd`** će **zatražiti** od **korisnika** potvrdu ako ekstenzija prethodno nije učitana.
-* **`syspolicyd`** će prijaviti rezultat **`kextd`**-u
+* Razgovaraće sa **`syspolicyd`** da **proveri** da li se ekstenzija može **učitati**.
+3. **`syspolicyd`** će **zatražiti od korisnika** ako ekstenzija prethodno nije učitana.
+* **`syspolicyd`** će prijaviti rezultat **`kextd`-u**
 4. **`kextd`** će konačno moći da **kaže kernelu da učita** ekstenziju
 
-Ako **`kextd`** nije dostupan, **`kextutil`** može izvršiti iste provere.
+Ako **`kextd`** nije dostupan, **`kextutil`** može obaviti iste provere.
 
 ## References
 
@@ -51,12 +51,12 @@ Ako **`kextd`** nije dostupan, **`kextutil`** može izvršiti iste provere.
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised on HackTricks**? Or do you want to have access to the **latest version of PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our exclusive collection of [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS and HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) **Discord group** or the [**telegram group**](https://t.me/peass) or **follow me** on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live).
-* **Share your hacking tricks by sending PR to** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Da li radite u **kompaniji za sajber bezbednost**? Želite da vidite svoju **kompaniju reklamiranu na HackTricks-u**? Ili želite pristup **poslednjoj verziji PEASS-a ili preuzimanje HackTricks-a u PDF formatu**? Pogledajte [**PLANOVE ZA ČLANSTVO**](https://github.com/sponsors/carlospolop)!
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu ekskluzivnu kolekciju [**NFT-a**](https://opensea.io/collection/the-peass-family)
+* Nabavite **zvanični PEASS i HackTricks** [**swag**](https://peass.creator-spring.com)
+* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) **Discord grupi** ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live).
+* **Podelite svoje hakovanje trikove slanjem PR-a na** [**hacktricks repozitorijum**](https://github.com/carlospolop/hacktricks) **i** [**hacktricks-cloud repozitorijum**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

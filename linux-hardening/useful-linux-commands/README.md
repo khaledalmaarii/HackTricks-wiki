@@ -1,9 +1,10 @@
 # Korisne Linux komande
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da biste lako izgradili i **automatizovali radne tokove** uz pomoć najnaprednijih alata zajednice.\
-Dobijte pristup danas:
+\
+Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da biste lako izgradili i **automatizovali radne tokove** pokretane najnaprednijim alatima zajednice.\
+Pristupite danas:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -13,15 +14,15 @@ Dobijte pristup danas:
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **oglašavanje vaše kompanije u HackTricks-u** ili **preuzmete HackTricks u PDF formatu**, proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje trikove hakovanja slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
-## Uobičajene Bash komande
+## Uobičajene Bash
 ```bash
 #Exfiltration using Base64
 base64 -w 0 file
@@ -140,11 +141,11 @@ sudo chattr -i file.txt #Remove the bit so you can delete it
 # List files inside zip
 7z l file.zip
 ```
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da biste lako izgradili i **automatizovali radne tokove** pokretane najnaprednijim alatima zajednice.\
-Dobijte pristup danas:
+Koristite [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) da biste lako izgradili i **automatizovali radne tokove** pokretane najnaprednijim alatima zajednice.\
+Pristupite danas:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -170,19 +171,13 @@ i686-mingw32msvc-gcc -o executable useradd.c
 ```
 ## Greps
 
-Grep je moćan alat za pretragu i filtriranje teksta. Koristi se za pronalaženje linija teksta koje odgovaraju određenom obrascu. Evo nekoliko korisnih grep komandi:
+Grep je moćna komanda za pretragu teksta koja se koristi za pronalaženje određenih reči ili uzoraka unutar datoteka. Može se koristiti za pretragu jedne datoteke ili više datoteka odjednom. Na primer:
 
-- `grep pattern file`: Pretražuje datoteku za linije koje sadrže određeni obrazac.
-- `grep -i pattern file`: Pretražuje datoteku za linije koje sadrže određeni obrazac, bez obzira na veličinu slova.
-- `grep -v pattern file`: Pretražuje datoteku za linije koje ne sadrže određeni obrazac.
-- `grep -r pattern directory`: Rekurzivno pretražuje direktorijum i sve poddirektorijume za linije koje sadrže određeni obrazac.
-- `grep -l pattern file`: Ispisuje samo imena datoteka koje sadrže određeni obrazac.
-- `grep -n pattern file`: Ispisuje linije koje sadrže određeni obrazac, zajedno sa brojevima linija.
-- `grep -E pattern file`: Koristi proširene regularne izraze za pretragu datoteke.
-- `grep -o pattern file`: Ispisuje samo podudarajući deo linije koji odgovara određenom obrascu.
-- `grep -c pattern file`: Broji koliko puta se određeni obrazac pojavljuje u datoteci.
+```bash
+grep "pattern" file.txt
+```
 
-Ove grep komande su samo osnovne, ali mogu biti vrlo korisne prilikom pretrage i filtriranja teksta.
+Ova komanda će pretražiti datoteku `file.txt` i ispisati sve linije koje sadrže dati uzorak.
 ```bash
 #Extract emails from file
 grep -E -o "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b" file.txt
@@ -263,108 +258,6 @@ grep -Po 'd{3}[s-_]?d{3}[s-_]?d{4}' *.txt > us-phones.txt
 egrep -a -o "\bISBN(?:-1[03])?:? (?=[0-9X]{10}$|(?=(?:[0-9]+[- ]){3})[- 0-9X]{13}$|97[89][0-9]{10}$|(?=(?:[0-9]+[- ]){4})[- 0-9]{17}$)(?:97[89][- ]?)?[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9X]\b" *.txt > isbn.txt
 ```
 ## Pronađi
-
----
-
-### Find Files by Name
-
-### Pronađi fajlove po imenu
-
-To find files in Linux based on their names, you can use the `find` command. The basic syntax is as follows:
-
-Da biste pronašli fajlove u Linuxu na osnovu njihovih imena, možete koristiti `find` komandu. Osnovna sintaksa je sledeća:
-
-```bash
-find <directory> -name "<filename>"
-```
-
-Replace `<directory>` with the directory where you want to start the search, and `<filename>` with the name of the file you are looking for. You can use wildcards (`*`) to match multiple files or parts of a filename.
-
-Zamenite `<directory>` direktorijumom u kojem želite da započnete pretragu, a `<filename>` imenom fajla koji tražite. Možete koristiti džokere (`*`) da biste pronašli više fajlova ili delove imena fajla.
-
-For example, to find all files with the extension `.txt` in the current directory, you can use the following command:
-
-Na primer, da biste pronašli sve fajlove sa ekstenzijom `.txt` u trenutnom direktorijumu, možete koristiti sledeću komandu:
-
-```bash
-find . -name "*.txt"
-```
-
-This will search for all files ending with `.txt` in the current directory and its subdirectories.
-
-Ovo će pretražiti sve fajlove koji se završavaju sa `.txt` u trenutnom direktorijumu i njegovim poddirektorijumima.
-
-### Find Files by Type
-
-### Pronađi fajlove po tipu
-
-To find files based on their type, you can use the `-type` option with the `find` command. The syntax is as follows:
-
-Da biste pronašli fajlove na osnovu njihovog tipa, možete koristiti opciju `-type` sa `find` komandom. Sintaksa je sledeća:
-
-```bash
-find <directory> -type <filetype>
-```
-
-Replace `<directory>` with the directory where you want to start the search, and `<filetype>` with the type of file you are looking for. Some common file types are:
-
-Zamenite `<directory>` direktorijumom u kojem želite da započnete pretragu, a `<filetype>` tipom fajla koji tražite. Neki uobičajeni tipovi fajlova su:
-
-- `f` for regular files
-- `d` for directories
-- `l` for symbolic links
-- `c` for character devices
-- `b` for block devices
-- `p` for named pipes
-- `s` for sockets
-
-- `f` za obične fajlove
-- `d` za direktorijume
-- `l` za simboličke veze
-- `c` za karakteristične uređaje
-- `b` za blok uređaje
-- `p` za imenovane cevi
-- `s` za sokete
-
-For example, to find all directories in the current directory, you can use the following command:
-
-Na primer, da biste pronašli sve direktorijume u trenutnom direktorijumu, možete koristiti sledeću komandu:
-
-```bash
-find . -type d
-```
-
-This will search for all directories in the current directory and its subdirectories.
-
-Ovo će pretražiti sve direktorijume u trenutnom direktorijumu i njegovim poddirektorijumima.
-
-### Find Files by Size
-
-### Pronađi fajlove po veličini
-
-To find files based on their size, you can use the `-size` option with the `find` command. The syntax is as follows:
-
-Da biste pronašli fajlove na osnovu njihove veličine, možete koristiti opciju `-size` sa `find` komandom. Sintaksa je sledeća:
-
-```bash
-find <directory> -size <size>
-```
-
-Replace `<directory>` with the directory where you want to start the search, and `<size>` with the size of the file you are looking for. You can specify the size in bytes (`b`), kilobytes (`k`), megabytes (`M`), gigabytes (`G`), or terabytes (`T`).
-
-Zamenite `<directory>` direktorijumom u kojem želite da započnete pretragu, a `<size>` veličinom fajla koji tražite. Možete navesti veličinu u bajtovima (`b`), kilobajtima (`k`), megabajtima (`M`), gigabajtima (`G`) ili terabajtima (`T`).
-
-For example, to find all files larger than 1 megabyte in the current directory, you can use the following command:
-
-Na primer, da biste pronašli sve fajlove veće od 1 megabajta u trenutnom direktorijumu, možete koristiti sledeću komandu:
-
-```bash
-find . -size +1M
-```
-
-This will search for all files larger than 1 megabyte in the current directory and its subdirectories.
-
-Ovo će pretražiti sve fajlove veće od 1 megabajta u trenutnom direktorijumu i njegovim poddirektorijumima.
 ```bash
 # Find SUID set files.
 find / -perm /u=s -ls 2>/dev/null
@@ -394,90 +287,18 @@ find / -maxdepth 5 -type f -printf "%T@ %Tc | %p \n" 2>/dev/null | grep -v "| /p
 find / -maxdepth 5 -type d -printf "%T@ %Tc | %p \n" 2>/dev/null | grep -v "| /proc" | grep -v "| /dev" | grep -v "| /run" | grep -v "| /var/log" | grep -v "| /boot"  | grep -v "| /sys/" | sort -n -r | less
 ```
 ## Nmap pretraga pomoć
-
-Nmap je moćan alat za skeniranje mreže koji se koristi za otkrivanje otvorenih portova, identifikaciju servisa koji rade na tim portovima i mapiranje mrežne topologije. Ovde su neki korisni Nmap parametri koji vam mogu pomoći u vašim pretragama:
-
-- `-p <portovi>`: Određuje specifične portove koje želite da skenirate. Možete navesti pojedinačne portove ili opseg portova, na primer `-p 80` ili `-p 1-100`.
-
-- `-sS`: Vrši TCP SYN skeniranje, koje je brže od standardnog TCP skeniranja. Ovaj parametar se koristi za otkrivanje otvorenih portova.
-
-- `-sU`: Vrši UDP skeniranje, koje se koristi za otkrivanje otvorenih UDP portova.
-
-- `-O`: Pokušava identifikovati operativni sistem ciljnog računara na osnovu karakteristika mrežnog protokola.
-
-- `-A`: Izvršava detaljan skeniranje, uključujući otkrivanje operativnog sistema, verzije servisa i druge informacije.
-
-- `-v`: Prikazuje detaljnije informacije o skeniranju.
-
-- `-oN <ime_fajla>`: Snima rezultate skeniranja u određeni fajl.
-
-Ovo su samo neki od parametara koje možete koristiti sa Nmap-om. Za više informacija o Nmap-u i njegovim mogućnostima, možete pogledati zvaničnu dokumentaciju.
 ```bash
 #Nmap scripts ((default or version) and smb))
 nmap --script-help "(default or version) and *smb*"
 locate -r '\.nse$' | xargs grep categories | grep 'default\|version\|safe' | grep smb
 nmap --script-help "(default or version) and smb)"
 ```
-## Bash
-
-Bash (Bourne Again SHell) je popularan interpreter komandne linije i skripting jezik koji se često koristi u Linux okruženju. Ovde su neke korisne komande koje možete koristiti u Bash-u:
-
-- `ls`: Prikazuje sadržaj trenutnog direktorijuma.
-- `cd`: Menja trenutni direktorijum.
-- `pwd`: Prikazuje putanju do trenutnog direktorijuma.
-- `mkdir`: Kreira novi direktorijum.
-- `rm`: Briše fajl ili direktorijum.
-- `cp`: Kopira fajl ili direktorijum.
-- `mv`: Premešta fajl ili direktorijum.
-- `cat`: Prikazuje sadržaj fajla.
-- `grep`: Pretražuje fajl za određeni tekst.
-- `chmod`: Menja dozvole pristupa fajlovima i direktorijumima.
-- `chown`: Menja vlasnika fajla ili direktorijuma.
-- `ps`: Prikazuje aktivne procese.
-- `kill`: Prekida izvršavanje procesa.
-- `top`: Prikazuje informacije o trenutno aktivnim procesima.
-- `history`: Prikazuje istoriju komandi koje su izvršene.
-
-Ovo su samo neke od mnogih korisnih komandi koje možete koristiti u Bash-u. Bash pruža mnoge mogućnosti za automatizaciju zadataka i manipulaciju sistemom, pa je važno da se upoznate sa ovim komandama kako biste efikasno radili u Linux okruženju.
+## Baš
 ```bash
 #All bytes inside a file (except 0x20 and 0x00)
 for j in $((for i in {0..9}{0..9} {0..9}{a..f} {a..f}{0..9} {a..f}{a..f}; do echo $i; done ) | sort | grep -v "20\|00"); do echo -n -e "\x$j" >> bytes; done
 ```
 ## Iptables
-
-Iptables je alat za konfigurisanje firewall-a u Linux operativnom sistemu. Koristi se za kontrolu ulaznog i izlaznog saobraćaja na mreži, kao i za filtriranje paketa na osnovu različitih kriterijuma.
-
-### Osnovne komande
-
-- `iptables -L`: Prikazuje trenutna pravila firewall-a.
-- `iptables -F`: Briše sva pravila iz firewall-a.
-- `iptables -A`: Dodaje novo pravilo u firewall.
-- `iptables -D`: Briše postojeće pravilo iz firewall-a.
-- `iptables -P`: Postavlja podrazumevano ponašanje firewall-a.
-
-### Pravila
-
-Pravila u iptables-u se sastoje od različitih delova koji definišu uslove filtriranja paketa. Evo nekoliko osnovnih delova pravila:
-
-- `--source`: Definiše izvor paketa.
-- `--destination`: Definiše odredište paketa.
-- `--protocol`: Definiše protokol koji se koristi (npr. TCP, UDP, ICMP).
-- `--sport`: Definiše izvorni port paketa.
-- `--dport`: Definiše odredišni port paketa.
-- `--in-interface`: Definiše ulazno mrežno sučelje.
-- `--out-interface`: Definiše izlazno mrežno sučelje.
-
-### Primeri
-
-Evo nekoliko primera kako se koriste komande iptables:
-
-- `iptables -A INPUT -p tcp --dport 22 -j ACCEPT`: Ovo pravilo dozvoljava ulazni TCP saobraćaj na portu 22 (SSH).
-- `iptables -A OUTPUT -p udp --dport 53 -j ACCEPT`: Ovo pravilo dozvoljava izlazni UDP saobraćaj na portu 53 (DNS).
-- `iptables -A INPUT -s 192.168.0.0/24 -j DROP`: Ovo pravilo blokira sav ulazni saobraćaj sa IP adrese 192.168.0.0/24.
-
-### Napomena
-
-Nakon što se pravila dodaju ili promene, potrebno je sačuvati ih kako bi bila trajna. U suprotnom, pravila će biti izgubljena prilikom restartovanja sistema. Da biste sačuvali pravila, možete koristiti komandu `iptables-save` i sačuvati rezultat u odgovarajući konfiguracioni fajl.
 ```bash
 #Delete curent rules and chains
 iptables --flush
@@ -514,18 +335,18 @@ iptables -P OUTPUT ACCEPT
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** Proverite [**PLANOVE ZA PRIJATELJSTVO**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da lako izgradite i **automatizujete radne tokove** pokretane najnaprednijim alatima zajednice.\
+Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da biste lako izgradili i **automatizovali radne tokove** pokretane najnaprednijim alatima zajednice na svetu.\
 Dobijte pristup danas:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

