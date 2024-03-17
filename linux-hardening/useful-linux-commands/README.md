@@ -1,23 +1,24 @@
 # Nützliche Linux-Befehle
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um Workflows einfach zu erstellen und zu automatisieren, die von den fortschrittlichsten Community-Tools der Welt unterstützt werden.
-Erhalten Sie noch heute Zugriff:
+\
+Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um mühelos **Workflows zu erstellen** und zu **automatisieren**, die von den weltweit **fortschrittlichsten** Community-Tools unterstützt werden.\
+Heute Zugriff erhalten:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 <details>
 
-<summary><strong>Lernen Sie das Hacken von AWS von Null bis zum Helden mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Erlernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositories einreichen.
 
 </details>
 
@@ -140,10 +141,11 @@ sudo chattr -i file.txt #Remove the bit so you can delete it
 # List files inside zip
 7z l file.zip
 ```
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um Workflows einfach zu erstellen und zu automatisieren, die von den fortschrittlichsten Community-Tools der Welt unterstützt werden.
-Erhalten Sie noch heute Zugriff:
+\
+Verwenden Sie [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks), um mühelos **Workflows zu erstellen** und zu **automatisieren**, die von den weltweit **fortschrittlichsten** Community-Tools unterstützt werden.\
+Heute Zugriff erhalten:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -169,96 +171,29 @@ i686-mingw32msvc-gcc -o executable useradd.c
 ```
 ## Greps
 
-Grep is a powerful command-line tool used for searching text patterns in files. It is an essential tool for Linux users and can be used in various scenarios. Here are some useful grep commands:
-
-### Basic Grep
-
-The basic grep command syntax is as follows:
+### Grep nach einem Muster in einer Datei
 
 ```bash
-grep [options] pattern [file...]
+grep "muster" datei
 ```
 
-- `pattern` is the text pattern you want to search for.
-- `file` is the file(s) you want to search in. If no file is specified, grep will search in standard input.
-
-Here are some examples:
-
-- Search for a specific word in a file:
+### Grep nach einem Muster in mehreren Dateien
 
 ```bash
-grep "word" file.txt
+grep "muster" datei1 datei2
 ```
 
-- Search for a pattern in multiple files:
+### Grep nach einem Muster in allen Dateien im Verzeichnis
 
 ```bash
-grep "pattern" file1.txt file2.txt file3.txt
+grep "muster" *
 ```
 
-### Case-Insensitive Search
-
-By default, grep performs a case-sensitive search. To perform a case-insensitive search, use the `-i` option:
+### Grep nach einem Muster in allen Dateien im Verzeichnis und in allen Unterverzeichnissen
 
 ```bash
-grep -i "pattern" file.txt
+grep -r "muster" *
 ```
-
-### Recursive Search
-
-To search for a pattern in all files within a directory and its subdirectories, use the `-r` option:
-
-```bash
-grep -r "pattern" directory/
-```
-
-### Invert Match
-
-To search for lines that do not match a pattern, use the `-v` option:
-
-```bash
-grep -v "pattern" file.txt
-```
-
-### Count Matches
-
-To count the number of matches for a pattern, use the `-c` option:
-
-```bash
-grep -c "pattern" file.txt
-```
-
-### Display Line Numbers
-
-To display line numbers along with the matching lines, use the `-n` option:
-
-```bash
-grep -n "pattern" file.txt
-```
-
-### Regular Expressions
-
-Grep supports regular expressions for more advanced pattern matching. Here are some examples:
-
-- Search for lines starting with a specific word:
-
-```bash
-grep "^word" file.txt
-```
-
-- Search for lines ending with a specific word:
-
-```bash
-grep "word$" file.txt
-```
-
-- Search for lines containing one of multiple patterns:
-
-```bash
-grep "pattern1\|pattern2" file.txt
-```
-
-These are just a few examples of what you can do with grep. It is a versatile tool that can be used in various ways to search and manipulate text files.
 ```bash
 #Extract emails from file
 grep -E -o "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b" file.txt
@@ -340,66 +275,25 @@ egrep -a -o "\bISBN(?:-1[03])?:? (?=[0-9X]{10}$|(?=(?:[0-9]+[- ]){3})[- 0-9X]{13
 ```
 ## Find
 
-### Description
+### Beschreibung
 
-The `find` command is used to search for files and directories in a directory hierarchy based on different criteria such as name, size, type, and more. It is a powerful tool that can be used for various purposes, including system administration, file management, and security auditing.
+Der `find`-Befehl wird verwendet, um Dateien und Verzeichnisse basierend auf verschiedenen Kriterien zu suchen.
 
 ### Syntax
 
-The basic syntax of the `find` command is as follows:
-
-```
-find [path] [expression]
+```bash
+find <path> <options>
 ```
 
-- `path`: Specifies the directory or directories to search in. If no path is provided, the current directory is used.
-- `expression`: Specifies the search criteria. This can include options, tests, and actions.
+### Optionen
 
-### Examples
-
-1. Search for a file by name:
-
-   ```
-   find /path/to/directory -name "filename"
-   ```
-
-   This command will search for a file with the specified name in the given directory and its subdirectories.
-
-2. Search for files by extension:
-
-   ```
-   find /path/to/directory -name "*.txt"
-   ```
-
-   This command will search for files with the `.txt` extension in the specified directory and its subdirectories.
-
-3. Search for files by size:
-
-   ```
-   find /path/to/directory -size +10M
-   ```
-
-   This command will search for files larger than 10 megabytes in the specified directory and its subdirectories.
-
-4. Search for directories:
-
-   ```
-   find /path/to/directory -type d
-   ```
-
-   This command will search for directories in the specified directory and its subdirectories.
-
-5. Search for files modified within a specific time range:
-
-   ```
-   find /path/to/directory -type f -newermt "2021-01-01" ! -newermt "2022-01-01"
-   ```
-
-   This command will search for files modified between January 1, 2021, and December 31, 2021, in the specified directory and its subdirectories.
-
-### Additional Resources
-
-- [Linux man page for find](https://man7.org/linux/man-pages/man1/find.1.html)
+- `-name`: Sucht nach Dateien/Verzeichnissen mit einem bestimmten Namen.
+- `-type`: Sucht nach einem bestimmten Typ (z. B. `f` für Datei, `d` für Verzeichnis).
+- `-size`: Sucht nach Dateien basierend auf ihrer Größe.
+- `-exec`: Führt einen Befehl für jede gefundene Datei/Verzeichnis aus.
+- `-delete`: Löscht die gefundenen Dateien/Verzeichnisse.
+- `-mtime`: Sucht nach Dateien, die innerhalb einer bestimmten Anzahl von Tagen geändert wurden.
+- `-user`: Sucht nach Dateien/Verzeichnissen, die einem bestimmten Benutzer gehören.
 ```bash
 # Find SUID set files.
 find / -perm /u=s -ls 2>/dev/null
@@ -428,33 +322,7 @@ find / -maxdepth 5 -type f -printf "%T@ %Tc | %p \n" 2>/dev/null | grep -v "| /p
 # Found Newer directory only and sort by time. (depth = 5)
 find / -maxdepth 5 -type d -printf "%T@ %Tc | %p \n" 2>/dev/null | grep -v "| /proc" | grep -v "| /dev" | grep -v "| /run" | grep -v "| /var/log" | grep -v "| /boot"  | grep -v "| /sys/" | sort -n -r | less
 ```
-## Nmap-Suchhilfe
-
-Nmap ist ein leistungsstolles Tool zur Netzwerkscannung und -erkennung. Es bietet eine Vielzahl von Optionen und Funktionen, um Informationen über Netzwerke und Hosts zu sammeln. Hier sind einige nützliche Befehle und Optionen, die Ihnen bei der Verwendung von Nmap helfen können:
-
-- **Grundlegende Scan-Typen:**
-  - `nmap <Ziel-IP>`: Führt einen Standard-Scan auf das angegebene Ziel durch.
-  - `nmap -sS <Ziel-IP>`: Führt einen SYN-Scan durch, um offene Ports zu erkennen.
-  - `nmap -sU <Ziel-IP>`: Führt einen UDP-Scan durch, um offene UDP-Ports zu erkennen.
-  - `nmap -sV <Ziel-IP>`: Führt einen Versions-Scan durch, um Informationen über Dienste und deren Versionen zu erhalten.
-
-- **Erweiterte Scan-Optionen:**
-  - `nmap -p <Port> <Ziel-IP>`: Führt einen Scan auf einem bestimmten Port durch.
-  - `nmap -p- <Ziel-IP>`: Führt einen Scan auf allen Ports durch.
-  - `nmap -A <Ziel-IP>`: Führt einen aggressiven Scan durch, um detaillierte Informationen zu erhalten.
-  - `nmap -O <Ziel-IP>`: Führt einen Betriebssystemerkennungs-Scan durch, um das Betriebssystem des Ziels zu identifizieren.
-
-- **Ausgabeoptionen:**
-  - `nmap -oN <Dateiname> <Ziel-IP>`: Speichert die Ergebnisse in einer normalen Textdatei.
-  - `nmap -oX <Dateiname> <Ziel-IP>`: Speichert die Ergebnisse in einer XML-Datei.
-  - `nmap -oG <Dateiname> <Ziel-IP>`: Speichert die Ergebnisse in einer Grep-fähigen Textdatei.
-
-- **Weitere Optionen:**
-  - `nmap -T<0-5> <Ziel-IP>`: Legt die Scan-Geschwindigkeit fest (0 = Paranoid, 5 = Insane).
-  - `nmap -v <Ziel-IP>`: Gibt detaillierte Ausgaben während des Scans aus.
-  - `nmap -h`: Zeigt die Hilfe und eine Liste aller verfügbaren Optionen an.
-
-Diese Befehle und Optionen sind nur ein Auszug aus den vielen Funktionen, die Nmap bietet. Es ist wichtig, die Dokumentation zu lesen und mit den verschiedenen Optionen vertraut zu werden, um das Beste aus diesem leistungsstarken Tool herauszuholen.
+## Nmap Suchhilfe
 ```bash
 #Nmap scripts ((default or version) and smb))
 nmap --script-help "(default or version) and *smb*"
@@ -463,78 +331,32 @@ nmap --script-help "(default or version) and smb)"
 ```
 ## Bash
 
-Bash ist eine beliebte Shell für Linux-Systeme. Hier sind einige nützliche Befehle, die Ihnen bei der Verwaltung und Überwachung Ihres Systems helfen können:
+### Beschreibung
 
-### Dateisystem
-
-- `ls`: Zeigt den Inhalt des aktuellen Verzeichnisses an.
-- `cd`: Wechselt das Verzeichnis.
-- `pwd`: Zeigt den Pfad des aktuellen Verzeichnisses an.
-- `mkdir`: Erstellt ein neues Verzeichnis.
-- `rm`: Löscht eine Datei oder ein Verzeichnis.
-- `cp`: Kopiert eine Datei oder ein Verzeichnis.
-- `mv`: Verschiebt eine Datei oder ein Verzeichnis.
-- `find`: Sucht nach Dateien oder Verzeichnissen.
-- `grep`: Durchsucht Dateien nach einem bestimmten Muster.
-- `chmod`: Ändert die Berechtigungen einer Datei oder eines Verzeichnisses.
-- `chown`: Ändert den Besitzer einer Datei oder eines Verzeichnisses.
-- `chgrp`: Ändert die Gruppe einer Datei oder eines Verzeichnisses.
-
-### Prozessverwaltung
-
-- `ps`: Zeigt laufende Prozesse an.
-- `top`: Zeigt die laufenden Prozesse in Echtzeit an.
-- `kill`: Beendet einen Prozess.
-- `killall`: Beendet alle Prozesse mit einem bestimmten Namen.
-- `bg`: Setzt einen Prozess in den Hintergrund.
-- `fg`: Holt einen Prozess in den Vordergrund.
-
-### Netzwerk
-
-- `ifconfig`: Zeigt Netzwerkschnittstelleninformationen an.
-- `ping`: Sendet ICMP Echo-Anforderungen an eine IP-Adresse.
-- `netstat`: Zeigt Netzwerkverbindungen, Routingtabellen und Schnittstellenstatistiken an.
-- `ssh`: Stellt eine sichere Verbindung zu einem Remote-Server her.
-- `scp`: Kopiert Dateien zwischen lokalem und Remote-Server.
-- `wget`: Lädt Dateien von einer URL herunter.
-
-### Systeminformationen
-
-- `uname`: Zeigt Informationen über den Kernel an.
-- `whoami`: Zeigt den aktuellen Benutzernamen an.
-- `hostname`: Zeigt den Hostnamen des Systems an.
-- `uptime`: Zeigt die Systemlaufzeit an.
-- `df`: Zeigt Informationen über die Dateisystemnutzung an.
-- `free`: Zeigt Informationen über den Arbeitsspeicher an.
-- `lscpu`: Zeigt Informationen über die CPU an.
-
-Diese Befehle sind nur ein Auszug aus den vielen verfügbaren Bash-Befehlen. Sie können weitere Befehle und deren Optionen in der Bash-Dokumentation finden.
+Bash ist eine beliebte Unix-Shell und Befehlsinterpreter für Unix-basierte Betriebssysteme wie Linux. Es bietet eine Befehlszeilenumgebung, in der Benutzer Befehle eingeben und Skripte ausführen können, um verschiedene Aufgaben auszuführen. Bash bietet eine Vielzahl von Funktionen und Befehlen, die es Benutzern ermöglichen, effizient mit dem Betriebssystem zu interagieren und komplexe Aufgaben zu automatisieren.
 ```bash
 #All bytes inside a file (except 0x20 and 0x00)
 for j in $((for i in {0..9}{0..9} {0..9}{a..f} {a..f}{0..9} {a..f}{a..f}; do echo $i; done ) | sort | grep -v "20\|00"); do echo -n -e "\x$j" >> bytes; done
 ```
 ## Iptables
 
-Iptables ist ein leistungsstarkes Werkzeug zur Verwaltung der Firewall in Linux. Es ermöglicht die Filterung von Netzwerkverkehr basierend auf verschiedenen Kriterien wie IP-Adresse, Portnummer und Protokoll. Iptables kann verwendet werden, um den eingehenden und ausgehenden Datenverkehr zu kontrollieren und somit die Sicherheit des Systems zu erhöhen.
+### Beschreibung
 
-### Grundlegende Befehle
+Iptables ist ein leistungsstarkes Tool zur Konfiguration von Firewall-Regeln in Linux-Systemen. Es ermöglicht die Kontrolle des Datenverkehrs auf Netzwerkebene durch das Definieren von Regeln für den Datenverkehr.
 
-- `iptables -L`: Zeigt die aktuelle Konfiguration der Firewall an.
-- `iptables -F`: Löscht alle Regeln aus der Firewall.
-- `iptables -A <chain> -p <protocol> --dport <port> -j <action>`: Fügt eine Regel hinzu, um den Datenverkehr auf einen bestimmten Port basierend auf dem angegebenen Protokoll zu steuern. `<chain>` kann INPUT, OUTPUT oder FORWARD sein, `<protocol>` kann TCP, UDP oder ICMP sein, `<port>` ist die Portnummer und `<action>` kann ACCEPT, DROP oder REJECT sein.
-- `iptables -D <chain> <rule_number>`: Löscht eine bestimmte Regel aus der Firewall, basierend auf der angegebenen Regelnummer.
+### Verwendung
 
-### Beispiel
+Um Iptables zu verwenden, müssen Sie die Befehlszeile verwenden. Hier sind einige grundlegende Befehle, die Ihnen den Einstieg erleichtern:
 
-Angenommen, wir möchten den eingehenden Datenverkehr auf Port 22 (SSH) blockieren, können wir folgenden Befehl verwenden:
+- `iptables -L`: Zeigt die aktuellen Firewall-Regeln an.
+- `iptables -A INPUT -s <source> -j DROP`: Blockiert den Datenverkehr von einer bestimmten Quelle.
+- `iptables -A OUTPUT -d <destination> -j DROP`: Blockiert den Datenverkehr zu einem bestimmten Ziel.
+- `iptables -P INPUT DROP`: Setzt die Standardeinstellung für eingehenden Datenverkehr auf Blockieren.
+- `iptables -P OUTPUT DROP`: Setzt die Standardeinstellung für ausgehenden Datenverkehr auf Blockieren.
 
-```bash
-iptables -A INPUT -p tcp --dport 22 -j DROP
-```
+### Hinweis
 
-Dieser Befehl fügt eine Regel zur INPUT-Kette hinzu, um den eingehenden TCP-Datenverkehr auf Port 22 zu blockieren.
-
-Um die aktuelle Konfiguration der Firewall anzuzeigen, können wir den Befehl `iptables -L` verwenden.
+Es ist wichtig, vorsichtig zu sein, wenn Sie mit Iptables arbeiten, da falsch konfigurierte Regeln dazu führen können, dass der Netzwerkverkehr gestört wird. Es wird empfohlen, vor der Implementierung von Regeln eine Sicherungskopie der aktuellen Konfiguration zu erstellen.
 ```bash
 #Delete curent rules and chains
 iptables --flush
@@ -567,22 +389,22 @@ iptables -P OUTPUT ACCEPT
 ```
 <details>
 
-<summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Erlernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
+* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um Workflows einfach zu erstellen und zu automatisieren, die von den weltweit **fortschrittlichsten** Community-Tools unterstützt werden.\
-Erhalten Sie noch heute Zugriff:
+Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um mühelos **Workflows zu erstellen und zu automatisieren**, die von den weltweit **fortschrittlichsten** Community-Tools unterstützt werden.\
+Heute Zugriff erhalten:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

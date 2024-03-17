@@ -24,26 +24,27 @@ Um loszulegen, folge dieser Seite, auf der du den **typischen Ablauf** findest, 
 
 Du kannst ihren **Blog** unter [**https://blog.stmcyber.com**](https://blog.stmcyber.com) überprüfen.
 
-**STM Cyber** unterstützt auch Cybersicherheitsprojekte im Open-Source-Bereich wie HackTricks :)
+**STM Cyber** unterstützt auch Cybersicherheitsprojekte im Open Source-Bereich wie HackTricks :)
 
 ***
 
 ### [RootedCON](https://www.rootedcon.com/)
 
-<figure><img src=".gitbook/assets/image (4) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (4) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 [**RootedCON**](https://www.rootedcon.com) ist das relevanteste Cybersicherheitsereignis in **Spanien** und eines der wichtigsten in **Europa**. Mit **der Mission, technisches Wissen zu fördern**, ist dieser Kongress ein brodelnder Treffpunkt für Technologie- und Cybersicherheitsprofis in jeder Disziplin.
 
 {% embed url="https://www.rootedcon.com/" %}
+
 ***
 
 ### [Intigriti](https://www.intigriti.com)
 
-<figure><img src=".gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 **Intigriti** ist die **Nummer 1 in Europa** für ethisches Hacken und **Bug-Bounty-Plattform**.
 
-**Bug-Bounty-Tipp**: **Registriere dich** bei **Intigriti**, einer Premium-**Bug-Bounty-Plattform, die von Hackern für Hacker erstellt wurde**! Trete noch heute unter [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) bei und verdiene Bounties von bis zu **100.000 $**!
+**Bug-Bounty-Tipp**: **Melde dich an** bei **Intigriti**, einer Premium-**Bug-Bounty-Plattform, die von Hackern für Hacker** erstellt wurde! Trete noch heute unter [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) bei und verdiene Bounties von bis zu **100.000 $**!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
@@ -51,12 +52,12 @@ Du kannst ihren **Blog** unter [**https://blog.stmcyber.com**](https://blog.stmc
 
 ### [Trickest](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)
 
-<figure><img src=".gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Verwende [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um einfach Workflows zu erstellen und zu **automatisieren**, die von den weltweit **fortschrittlichsten** Community-Tools unterstützt werden.
 
-Erhalte noch heute Zugriff:
+Erhalte noch heute Zugang:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -64,7 +65,7 @@ Erhalte noch heute Zugriff:
 
 ### [HACKENPROOF](https://bit.ly/3xrrDrL)
 
-<figure><img src=".gitbook/assets/image (5) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (5) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Trete dem [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) Server bei, um mit erfahrenen Hackern und Bug-Bounty-Jägern zu kommunizieren!
 
@@ -72,28 +73,28 @@ Trete dem [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) Serve
 Beschäftige dich mit Inhalten, die sich mit dem Nervenkitzel und den Herausforderungen des Hackens befassen
 
 **Echtzeit-Hack-News**\
-Bleibe mit den schnelllebigen Neuigkeiten und Einblicken aus der Welt des Hackens auf dem Laufenden
+Bleibe mit der schnelllebigen Hacking-Welt durch Echtzeit-Nachrichten und Einblicke auf dem Laufenden
 
 **Neueste Ankündigungen**\
-Bleibe über die neuesten Bug-Bounties und wichtigen Plattformupdates informiert
+Bleibe über die neuesten Bug-Bounties und wichtige Plattform-Updates informiert
 
 **Trete uns bei** auf [**Discord**](https://discord.com/invite/N3FrSbmwdy) und beginne noch heute mit Top-Hackern zusammenzuarbeiten!
 
 ***
 
-### [Pentest-Tools.com](https://pentest-tools.com/) - Das unverzichtbare Penetrationstest-Toolkit
+### [Pentest-Tools.com](https://pentest-tools.com/) - Das essentielle Penetrationstest-Toolkit
 
-<figure><img src=".gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-**Sofort einsatzbereite Einrichtung für Schwachstellenbewertung & Penetrationstests**. Führe einen vollständigen Pentest von überall aus mit 20+ Tools & Funktionen durch, die von der Aufklärung bis zum Bericht reichen. Wir ersetzen keine Pentester - wir entwickeln benutzerdefinierte Tools, Erkennungs- & Exploitation-Module, um ihnen etwas Zeit zu geben, tiefer zu graben, Shells zu öffnen und Spaß zu haben.
+**Sofort einsatzbereite Einrichtung für Schwachstellenbewertung & Penetrationstests**. Führe einen vollständigen Pentest von überall aus mit 20+ Tools & Funktionen durch, die von der Aufklärung bis zum Bericht reichen. Wir ersetzen keine Pentester - wir entwickeln benutzerdefinierte Tools, Erkennungs- & Exploit-Module, um ihnen etwas Zeit zu geben, tiefer zu graben, Shells zu öffnen und Spaß zu haben.
 
 {% embed url="https://pentest-tools.com/" %}
 
 ***
 
-### [Try Hard Security Group](https://discord.gg/tryhardsecurity)
+\### [Try Hard Security Group](https://discord.gg/tryhardsecurity)
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 

