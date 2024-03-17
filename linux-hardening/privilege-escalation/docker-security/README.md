@@ -2,45 +2,45 @@
 
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 **제로부터 영웅까지 AWS 해킹 배우기**!</summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)를 통해 AWS 해킹을 처음부터 전문가까지 배우세요!</strong></summary>
 
 HackTricks를 지원하는 다른 방법:
 
-* **회사를 HackTricks에서 광고하거나 HackTricks를 PDF로 다운로드**하고 싶다면 [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구매하세요
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)를 **팔로우**하세요.
-* **HackTricks** 및 **HackTricks Cloud** github 저장소에 PR을 제출하여 **해킹 트릭을 공유**하세요.
+- **회사가 HackTricks에 광고되길 원하거나 PDF로 HackTricks를 다운로드하고 싶다면** [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
+- [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구매하세요
+- [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
+- 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)를 **팔로우**하세요.
+- **해킹 요령을 공유하려면** [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 저장소에 PR을 제출하세요.
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)를 사용하여 **세계에서 가장 고급** 커뮤니티 도구를 활용한 **워크플로우를 쉽게 구축**하고 **자동화**하세요.\
+[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks)를 사용하여 세계에서 가장 **고급** 커뮤니티 도구를 활용한 **워크플로우를 쉽게 구축**하고 **자동화**하세요.\
 오늘 바로 액세스하세요:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 ## **기본 Docker 엔진 보안**
 
-**Docker 엔진**은 Linux 커널의 **네임스페이스**와 **Cgroups**를 활용하여 컨테이너를 격리하며 기본적인 보안 계층을 제공합니다. **캐퍼빌리티 드롭**, **Seccomp**, **SELinux/AppArmor**을 통해 추가적인 보호가 제공되어 컨테이너 격리가 강화됩니다. **인증 플러그인**을 사용하여 사용자 조치를 더 제한할 수 있습니다.
+**Docker 엔진**은 컨테이너를 격리하기 위해 Linux 커널의 **네임스페이스**와 **Cgroups**를 사용하여 기본적인 보안 계층을 제공합니다. **캐퍼빌리티 드롭**, **Seccomp**, **SELinux/AppArmor**을 통해 추가적인 보호가 제공되어 컨테이너 격리가 강화됩니다. **인증 플러그인**을 사용하여 사용자 조치를 더 제한할 수 있습니다.
 
 ![Docker 보안](https://sreeninet.files.wordpress.com/2016/03/dockersec1.png)
 
 ### Docker 엔진에 안전한 액세스
 
-Docker 엔진은 Unix 소켓을 통해 로컬로 또는 HTTP를 통해 원격으로 액세스할 수 있습니다. 원격 액세스의 경우, 기밀성, 무결성 및 인증을 보장하기 위해 HTTPS 및 **TLS**를 사용하는 것이 중요합니다.
+Docker 엔진은 로컬로는 Unix 소켓을 통해, 원격으로는 HTTP를 사용하여 액세스할 수 있습니다. 원격 액세스의 경우, 기밀성, 무결성 및 인증을 보장하기 위해 HTTPS 및 **TLS**를 사용하는 것이 중요합니다.
 
-Ubuntu 시스템에서 Docker는 기본적으로 `unix:///var/run/docker.sock`에서 Unix 소켓을 수신합니다. Docker의 시작 옵션은 `/etc/default/docker`에 정의됩니다. Docker API 및 클라이언트에 원격 액세스를 활성화하려면 다음 설정을 추가하여 Docker 데몬을 HTTP 소켓에 노출하세요:
+Ubuntu 시스템에서 Docker의 시작 옵션은 `/etc/default/docker`에 정의되어 있습니다. Docker API 및 클라이언트에 원격 액세스를 활성화하려면 다음 설정을 추가하여 Docker 데몬을 HTTP 소켓으로 노출하세요:
 ```bash
 DOCKER_OPTS="-D -H unix:///var/run/docker.sock -H tcp://192.168.56.101:2376"
 sudo service docker restart
 ```
-그러나 Docker 데몬을 HTTP로 노출하는 것은 보안 문제로 인해 권장되지 않습니다. 연결을 안전하게 하기 위해 HTTPS를 사용하는 것이 좋습니다. 연결을 보호하는 두 가지 주요 방법이 있습니다:
+그러나 Docker 데몬을 HTTP로 노출하는 것은 보안 문제로 인해 권장되지 않습니다. 연결을 안전하게 하려면 HTTPS를 사용하는 것이 좋습니다. 연결을 보호하는 두 가지 주요 방법이 있습니다:
 
 1. 클라이언트가 서버의 신원을 확인합니다.
-2. 클라이언트와 서버가 상호 인증을 수행하여 서로의 신원을 확인합니다.
+2. 클라이언트와 서버가 상호 각자의 신원을 인증합니다.
 
 인증서는 서버의 신원을 확인하는 데 사용됩니다. 두 방법에 대한 자세한 예제는 [**이 안내서**](https://sreeninet.wordpress.com/2016/03/06/docker-security-part-3engine-access/)를 참조하십시오.
 
@@ -56,7 +56,7 @@ sudo service docker restart
 
 컨테이너에는 기본 이미지 또는 기본 이미지 위에 설치된 소프트웨어로 인해 **보안 취약점**이 있을 수 있습니다. Docker는 **Nautilus**라는 프로젝트를 진행 중이며, 이 프로젝트는 컨테이너의 보안 취약점을 스캔하고 취약점을 나열합니다. Nautilus는 각 컨테이너 이미지 레이어를 취약점 저장소와 비교하여 보안 취약점을 식별하는 방식으로 작동합니다.
 
-자세한 내용은 [**여기를 읽어보세요**](https://docs.docker.com/engine/scan/).
+더 많은 [**정보는 여기를 참조하십시오**](https://docs.docker.com/engine/scan/).
 
 * **`docker scan`**
 
@@ -93,10 +93,10 @@ clair-scanner -w example-alpine.yaml --ip YOUR_LOCAL_IP alpine:3.5
 도커 이미지 서명은 컨테이너에서 사용되는 이미지의 보안과 무결성을 보장합니다. 다음은 간략한 설명입니다:
 
 - **도커 콘텐츠 신뢰(Docker Content Trust)**는 이미지 서명을 관리하기 위해 The Update Framework (TUF)를 기반으로 하는 Notary 프로젝트를 활용합니다. 자세한 정보는 [Notary](https://github.com/docker/notary) 및 [TUF](https://theupdateframework.github.io)를 참조하십시오.
-- 도커 콘텐츠 신뢰를 활성화하려면 `export DOCKER_CONTENT_TRUST=1`을 설정하십시오. 이 기능은 도커 버전 1.10 이후에 기본적으로 꺼져 있습니다.
-- 이 기능을 활성화하면 서명된 이미지만 다운로드할 수 있습니다. 초기 이미지 푸시는 루트 및 태깅 키에 대한 암호를 설정해야 하며, 도커는 보안을 강화하기 위해 Yubikey도 지원합니다. 자세한 내용은 [여기](https://blog.docker.com/2015/11/docker-content-trust-yubikey/)에서 확인할 수 있습니다.
+- 도커 콘텐츠 신뢰를 활성화하려면 `export DOCKER_CONTENT_TRUST=1`을 설정하십시오. 이 기능은 도커 버전 1.10 이상에서 기본적으로 꺼져 있습니다.
+- 이 기능을 활성화하면 서명된 이미지만 다운로드할 수 있습니다. 초기 이미지 푸시에는 루트 및 태깅 키에 대한 암호를 설정해야 하며, 도커는 보안을 강화하기 위해 Yubikey도 지원합니다. 자세한 내용은 [여기](https://blog.docker.com/2015/11/docker-content-trust-yubikey/)에서 확인할 수 있습니다.
 - 콘텐츠 신뢰가 활성화된 상태에서 서명되지 않은 이미지를 가져오려고 시도하면 "No trust data for latest" 오류가 발생합니다.
-- 첫 번째 이후의 이미지 푸시에 대해, 도커는 이미지에 서명하기 위해 저장소 키의 암호를 요청합니다.
+- 첫 번째 이후의 이미지 푸시에 대해 도커는 이미지에 서명하기 위해 저장소 키의 암호를 요청합니다.
 
 개인 키를 백업하려면 다음 명령을 사용하십시오:
 ```bash
@@ -106,7 +106,7 @@ Docker 호스트를 전환할 때는 작업을 유지하기 위해 루트 및 �
 
 ***
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)를 사용하여 세계에서 가장 **고급** 커뮤니티 도구를 활용한 **워크플로우를 쉽게 구축**하고 **자동화**하세요.\
@@ -122,25 +122,25 @@ Docker 호스트를 전환할 때는 작업을 유지하기 위해 루트 및 �
 
 #### 주요 프로세스 격리 기능
 
-컨테이너 환경에서 프로젝트 및 프로세스를 격리하는 것은 보안 및 자원 관리에 매우 중요합니다. 여기에는 주요 개념의 간단한 설명이 포함됩니다:
+컨테이너 환경에서 프로젝트 및 프로세스를 격리하는 것은 보안 및 자원 관리에 매우 중요합니다. 다음은 주요 개념의 간단한 설명입니다:
 
 **네임스페이스**
 
 * **목적**: 프로세스, 네트워크 및 파일 시스템과 같은 리소스의 격리를 보장합니다. 특히 Docker에서는 네임스페이스가 컨테이너의 프로세스를 호스트 및 다른 컨테이너와 분리합니다.
-* **`unshare` 사용**: `unshare` 명령(또는 기본 시스콜)을 사용하여 새로운 네임스페이스를 생성하여 추가적인 격리 계층을 제공합니다. 그러나 Kubernetes는 이를 기본적으로 차단하지 않지만 Docker는 차단합니다.
-* **제한 사항**: 새로운 네임스페이스를 생성하면 프로세스가 호스트의 기본 네임스페이스로 되돌아갈 수 없습니다. 호스트 네임스페이스에 침투하려면 일반적으로 호스트의 `/proc` 디렉토리에 액세스해야 하며, `nsenter`를 사용하여 진입해야 합니다.
+* **`unshare` 사용**: `unshare` 명령(또는 해당 시스콜)을 사용하여 새로운 네임스페이스를 생성하여 추가적인 격리 계층을 제공합니다. 그러나 Kubernetes는 이를 기본적으로 차단하지 않지만 Docker는 차단합니다.
+* **제한**: 새로운 네임스페이스를 생성하더라도 프로세스가 호스트의 기본 네임스페이스로 되돌아가지 못합니다. 호스트 네임스페이스에 침투하려면 일반적으로 호스트의 `/proc` 디렉토리에 액세스해야 하며, `nsenter`를 사용하여 진입해야 합니다.
 
 **제어 그룹 (CGroups)**
 
 * **기능**: 프로세스 간 자원을 할당하는 데 주로 사용됩니다.
-* **보안 측면**: CGroups 자체는 `release_agent` 기능을 제외하고는 격리 보안을 제공하지 않습니다. 이 기능이 잘못 구성된 경우 권한이 없는 액세스를 악용할 수 있습니다.
+* **보안 측면**: CGroups 자체는 격리 보안을 제공하지 않지만, 잘못 구성된 경우 `release_agent` 기능을 통해 무단 액세스를 악용할 수 있습니다.
 
 **능력 제한**
 
-* **중요성**: 프로세스 격리를 위한 중요한 보안 기능입니다.
+* **중요성**: 프로세스 격리에 대한 중요한 보안 기능입니다.
 * **기능**: 특정 능력을 삭제함으로써 루트 프로세스가 수행할 수 있는 작업을 제한합니다. 프로세스가 루트 권한으로 실행되더라도 필요한 능력이 없으면 특권 작업을 실행할 수 없으며, 시스콜은 권한이 부족하여 실패합니다.
 
-이것은 프로세스가 다른 능력을 삭제한 후 남은 **능력**입니다:
+이것은 프로세스가 다른 능력을 삭제한 후 **남은 능력**입니다:
 
 {% code overflow="wrap" %}
 ```
@@ -157,15 +157,15 @@ Current: cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,ca
 
 도커에는 활성화할 수 있는 템플릿이 있습니다: [https://github.com/moby/moby/tree/master/profiles/apparmor](https://github.com/moby/moby/tree/master/profiles/apparmor)
 
-이를 통해 기능, 시스콜, 파일 및 폴더 접근을 줄일 수 있습니다...
+이를 통해 기능을 줄이고, 시스콜, 파일 및 폴더 접근을 제한할 수 있습니다...
 
 </details>
 
 ### 네임스페이스
 
-**네임스페이스**는 리눅스 커널의 기능으로, 하나의 **리소스 집합**을 볼 수 있는 **프로세스** 집합과 **다른** 리소스 집합을 볼 수 있는 **다른** 프로세스 집합으로 **커널 리소스를 분할**합니다. 이 기능은 동일한 네임스페이스를 가진 리소스와 프로세스 세트를 가지고 있지만 해당 네임스페이스는 서로 다른 리소스를 참조합니다. 리소스는 여러 공간에 존재할 수 있습니다.
+**네임스페이스**는 Linux 커널의 기능으로, 하나의 **프로세스 집합**이 **한 세트의 자원**을 볼 때 **다른** 프로세스 집합이 **다른** 세트의 자원을 볼 수 있도록 커널 자원을 분할하는 기능입니다. 이 기능은 동일한 네임스페이스를 가진 자원과 프로세스 세트를 가지고 있지만, 해당 네임스페이스는 서로 다른 자원을 참조합니다. 자원은 여러 공간에 존재할 수 있습니다.
 
-도커는 컨테이너 격리를 달성하기 위해 다음과 같은 리눅스 커널 네임스페이스를 활용합니다:
+도커는 컨테이너 격리를 달성하기 위해 다음과 같은 Linux 커널 네임스페이스를 활용합니다:
 
 * pid 네임스페이스
 * mount 네임스페이스
@@ -181,8 +181,8 @@ Current: cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,ca
 
 ### cgroups
 
-리눅스 커널 기능인 **cgroups**는 일련의 프로세스 사이에서 **cpu, 메모리, io, 네트워크 대역폭과 같은 리소스를 제한**하는 기능을 제공합니다. 도커는 특정 컨테이너에 대한 리소스 제어를 가능하게 하는 cgroup 기능을 사용합니다.\
-다음은 사용자 공간 메모리가 500m로 제한되고, 커널 메모리가 50m로 제한되며, CPU 공유가 512로, blkioweight가 400으로 설정된 컨테이너입니다. CPU 공유는 컨테이너의 CPU 사용량을 제어하는 비율입니다. 기본값은 1024이며 0에서 1024 사이의 범위를 가집니다. CPU 공유가 1024인 세 개의 컨테이너가 동일한 경우, CPU 리소스 경합이 발생할 경우 각 컨테이너는 CPU의 최대 33%를 사용할 수 있습니다. blkio-weight는 컨테이너의 IO를 제어하는 비율입니다. 기본값은 500이며 10에서 1000 사이의 범위를 가집니다.
+Linux 커널 기능인 **cgroups**는 프로세스 집합에서 **cpu, 메모리, io, 네트워크 대역폭과 같은 자원을 제한**하는 기능을 제공합니다. 도커는 특정 컨테이너에 대한 자원 제어를 가능하게 하는 cgroup 기능을 사용합니다.\
+다음은 사용자 공간 메모리가 500m로 제한되고, 커널 메모리가 50m로 제한되며, CPU 공유가 512로, blkioweight가 400으로 설정된 컨테이너입니다. CPU 공유는 컨테이너의 CPU 사용량을 제어하는 비율입니다. 기본값은 1024이며 0에서 1024 사이의 범위를 가집니다. CPU 공유가 1024인 세 개의 컨테이너가 있을 경우, CPU 자원 경합이 발생할 때 각 컨테이너는 CPU의 최대 33%를 사용할 수 있습니다. blkio-weight는 컨테이너의 IO를 제어하는 비율입니다. 기본값은 500이며 10에서 1000 사이의 범위를 가집니다.
 ```
 docker run -it -m 500M --kernel-memory 50M --cpu-shares 512 --blkio-weight 400 --name ubuntu1 ubuntu bash
 ```
@@ -200,31 +200,31 @@ ls -l /proc/<PID>/ns #Get the Group and the namespaces (some may be uniq to the 
 
 ### Capabilities
 
-Capabilities는 루트 사용자에게 허용될 수 있는 기능을 **더 세밀하게 제어**할 수 있게 합니다. Docker는 Linux 커널 기능을 사용하여 **사용자의 유형과 관계없이 컨테이너 내에서 수행할 수 있는 작업을 제한**합니다.
+Capabilities는 루트 사용자에게 허용될 수 있는 기능을 **더 세밀하게 제어**할 수 있게 합니다. Docker는 Linux 커널 기능을 사용하여 **사용자 유형과 관계없이 컨테이너 내에서 수행할 수 있는 작업을 제한**합니다.
 
-도커 컨테이너가 실행될 때, **프로세스는 격리에서 탈출할 수 있는 민감한 기능을 제거**합니다. 이는 프로세스가 민감한 작업을 수행하고 탈출하는 것을 방지하기 위한 시도입니다:
+도커 컨테이너가 실행될 때, **프로세스는 격리에서 탈출할 수 있는 민감한 기능을 제거**합니다. 이는 프로세스가 민감한 작업을 수행하고 탈출할 수 없도록 보장합니다:
 
 {% content-ref url="../linux-capabilities.md" %}
 [linux-capabilities.md](../linux-capabilities.md)
 {% endcontent-ref %}
 
-### Docker에서 Seccomp
+### Docker의 Seccomp
 
-이는 Docker가 컨테이너 내에서 사용할 수 있는 **syscalls를 제한**하는 보안 기능입니다:
+이는 Docker가 컨테이너 내에서 사용할 수 있는 **syscalls를 제한**할 수 있게 하는 보안 기능입니다:
 
 {% content-ref url="seccomp.md" %}
 [seccomp.md](seccomp.md)
 {% endcontent-ref %}
 
-### Docker에서 AppArmor
+### Docker의 AppArmor
 
-**AppArmor**는 **프로그램별 프로필**을 사용하여 **컨테이너를 제한된 리소스 집합으로 제한**하는 커널 개선 기능입니다.:
+**AppArmor**는 **프로그램별 프로필**을 사용하여 **컨테이너를 제한된 리소스로 제한**하는 커널 개선 기능입니다.:
 
 {% content-ref url="apparmor.md" %}
 [apparmor.md](apparmor.md)
 {% endcontent-ref %}
 
-### Docker에서 SELinux
+### Docker의 SELinux
 
 * **라벨링 시스템**: SELinux는 모든 프로세스와 파일 시스템 객체에 고유한 라벨을 할당합니다.
 * **정책 강제**: 시스템 내에서 프로세스 라벨이 다른 라벨에 대해 수행할 수 있는 작업을 정의하는 보안 정책을 강제합니다.
@@ -232,7 +232,7 @@ Capabilities는 루트 사용자에게 허용될 수 있는 기능을 **더 세�
 * **컨테이너 내 파일 라벨링**: 컨테이너 내 파일은 일반적으로 `container_file_t`로 라벨이 지정됩니다.
 * **정책 규칙**: SELinux 정책은 주로 `container_t` 라벨을 가진 프로세스가 일반적으로 `container_file_t`로 라벨이 지정된 파일과만 상호 작용(읽기, 쓰기, 실행)할 수 있도록 합니다.
 
-이 메커니즘은 컨테이너 내 프로세스가 침해당해도 해당 라벨을 가진 객체와만 상호 작용하도록 보장하여, 이러한 침해로부터 발생할 수 있는 잠재적인 피해를 크게 제한합니다.
+이 메커니즘은 컨테이너 내 프로세스가 손상되더라도 해당 라벨을 가진 객체와만 상호 작용하도록 제한하여 이러한 손상으로부터 발생할 수 있는 잠재적인 피해를 크게 제한합니다.
 
 {% content-ref url="../selinux.md" %}
 [selinux.md](../selinux.md)
@@ -240,10 +240,10 @@ Capabilities는 루트 사용자에게 허용될 수 있는 기능을 **더 세�
 
 ### AuthZ & AuthN
 
-Docker에서 권한 부여 플러그인은 Docker 데몬에 대한 요청을 허용하거나 차단하는 보안에서 중요한 역할을 합니다. 이 결정은 두 가지 주요 컨텍스트를 검토하여 내립니다:
+Docker에서 권한 부여 플러그인은 Docker 데몬에 대한 요청을 허용하거나 차단할지 결정하여 보안에 중요한 역할을 합니다. 이 결정은 두 가지 주요 컨텍스트를 검토하여 내립니다:
 
-* **인증 컨텍스트**: 사용자에 대한 포괄적인 정보를 포함하며, 누구인지 및 어떻게 인증했는지와 같은 정보를 제공합니다.
-* **명령 컨텍스트**: 요청과 관련된 모든 중요한 데이터를 포함합니다.
+* **인증 컨텍스트**: 사용자에 대한 포괄적인 정보를 포함하며, 사용자가 누구이며 어떻게 인증했는지 등을 알려줍니다.
+* **명령어 컨텍스트**: 요청과 관련된 모든 중요한 데이터를 포함합니다.
 
 이러한 컨텍스트는 인증된 사용자로부터의 합법적인 요청만 처리되도록 보장하여 Docker 작업의 보안을 강화합니다.
 
@@ -253,7 +253,7 @@ Docker에서 권한 부여 플러그인은 Docker 데몬에 대한 요청을 허
 
 ## 컨테이너로부터의 DoS
 
-컨테이너가 사용할 수 있는 리소스를 제대로 제한하지 않으면, 침해당한 컨테이너가 실행 중인 호스트에 DoS를 발생시킬 수 있습니다.
+컨테이너가 사용할 수 있는 리소스를 제대로 제한하지 않으면, 손상된 컨테이너가 실행 중인 호스트에 DoS를 발생시킬 수 있습니다.
 
 * CPU DoS
 ```bash
@@ -281,9 +281,7 @@ nc -lvp 4444 >/dev/null & while true; do cat /dev/urandom | nc <target IP> 4444;
 
 #### no-new-privileges
 
-만약 공격자가 낮은 권한 사용자로 액세스를 얻는 컨테이너를 실행 중이라면, **잘못 구성된 suid 이진 파일**이 있는 경우, 공격자는 이를 악용하여 **컨테이너 내에서 권한 상승**을 할 수 있습니다. 이로 인해 그가 컨테이너를 탈출할 수도 있습니다.
-
-**`no-new-privileges`** 옵션을 활성화하여 컨테이너를 실행하면, **이러한 종류의 권한 상승을 방지**할 수 있습니다.
+공격자가 낮은 권한 사용자로 액세스를 얻는 컨테이너를 실행 중인 경우 **`no-new-privileges`** 옵션을 활성화하여 컨테이너를 실행하면 이러한 권한 상승을 방지할 수 있습니다.
 ```
 docker run -it --security-opt=no-new-privileges:true nonewpriv
 ```
@@ -312,19 +310,19 @@ Docker 이미지에 비밀을 직접 포함하거나 환경 변수를 사용하�
 
 **Docker 볼륨**은 민감한 정보에 액세스하는 데 권장되는 안전한 대안입니다. 이들은 메모리 내 임시 파일 시스템으로 사용될 수 있으며, `docker inspect` 및 로깅과 관련된 위험을 완화합니다. 그러나 루트 사용자 및 컨테이너에 `exec` 액세스 권한이 있는 사용자는 여전히 비밀을 액세스할 수 있습니다.
 
-**Docker secrets**은 민감한 정보를 처리하는 더 안전한 방법을 제공합니다. 이미지 빌드 단계에서 비밀이 필요한 경우, **BuildKit**은 빌드 시간 비밀을 지원하는 효율적인 솔루션을 제공하여 빌드 속도를 향상시키고 추가 기능을 제공합니다.
+**Docker secrets**은 민감한 정보를 처리하는 더 안전한 방법을 제공합니다. 이미지 빌드 단계 중에 비밀이 필요한 경우, **BuildKit**은 빌드 시간 비밀을 지원하는 효율적인 솔루션을 제공하여 빌드 속도를 향상시키고 추가 기능을 제공합니다.
 
-BuildKit을 활용하기 위해 다음 세 가지 방법으로 활성화할 수 있습니다:
+BuildKit을 활용하기 위해 세 가지 방법으로 활성화할 수 있습니다:
 
 1. 환경 변수를 통해: `export DOCKER_BUILDKIT=1`
-2. 명령어에 접두사를 붙여: `DOCKER_BUILDKIT=1 docker build .`
+2. 명령에 접두사를 붙여: `DOCKER_BUILDKIT=1 docker build .`
 3. Docker 구성에서 기본적으로 활성화: `{ "features": { "buildkit": true } }`, 이후 Docker 재시작.
 
 BuildKit은 `--secret` 옵션을 사용하여 빌드 시간 비밀을 사용할 수 있도록 하며, 이러한 비밀이 이미지 빌드 캐시나 최종 이미지에 포함되지 않도록 보장합니다.
 ```bash
 docker build --secret my_key=my_value ,src=path/to/my_secret_file .
 ```
-실행 중인 컨테이너에서 필요한 비밀 정보의 경우, **Docker Compose와 Kubernetes**는 견고한 솔루션을 제공합니다. Docker Compose는 시크릿 파일을 지정하기 위해 서비스 정의에서 `secrets` 키를 활용하며, 이는 `docker-compose.yml` 예시에서 확인할 수 있습니다:
+실행 중인 컨테이너에서 필요한 비밀 정보의 경우, **Docker Compose와 Kubernetes**은 견고한 솔루션을 제공합니다. Docker Compose는 비밀 파일을 지정하기 위해 서비스 정의에서 `secrets` 키를 활용하며, 이는 `docker-compose.yml` 예시에서 확인할 수 있습니다:
 ```yaml
 version: "3.7"
 services:
@@ -337,9 +335,9 @@ secrets:
 my_secret:
 file: ./my_secret_file.txt
 ```
-이 구성은 Docker Compose를 사용하여 서비스를 시작할 때 비밀을 사용할 수 있도록합니다.
+이 구성은 Docker Compose를 사용하여 서비스를 시작할 때 비밀을 사용할 수 있도록 합니다.
 
-Kubernetes 환경에서는 비밀이 네이티브로 지원되며 [Helm-Secrets](https://github.com/futuresimple/helm-secrets)와 같은 도구로 더욱 효율적으로 관리할 수 있습니다. Kubernetes의 Role Based Access Controls (RBAC)는 Docker Enterprise와 유사하게 비밀 관리 보안을 강화합니다.
+Kubernetes 환경에서는 비밀이 네이티브로 지원되며 [Helm-Secrets](https://github.com/futuresimple/helm-secrets)와 같은 도구로 더욱 효과적으로 관리할 수 있습니다. Kubernetes의 Role Based Access Controls (RBAC)는 Docker Enterprise와 유사하게 비밀 관리 보안을 강화합니다.
 
 ### gVisor
 
@@ -355,25 +353,25 @@ Kubernetes 환경에서는 비밀이 네이티브로 지원되며 [Helm-Secrets]
 
 ### 요약 팁
 
-* **`--privileged` 플래그를 사용하지 않거나** [**컨테이너 내부에 Docker 소켓을 마운트하지 마십시오**](https://raesene.github.io/blog/2016/03/06/The-Dangers-Of-Docker.sock/)**.** Docker 소켓을 사용하면 컨테이너를 생성할 수 있으므로, 예를 들어 `--privileged` 플래그를 사용하여 다른 컨테이너를 실행하는 등 호스트를 완전히 제어할 수 있습니다.
-* **컨테이너 내부에서 root로 실행하지 마십시오.** [**다른 사용자**](https://docs.docker.com/develop/develop-images/dockerfile\_best-practices/#user) **및** [**사용자 네임스페이스**](https://docs.docker.com/engine/security/userns-remap/)**를 사용하십시오.** 컨테이너 내의 root는 사용자 네임스페이스로 재매핑되지 않는 한 호스트와 동일합니다. 주로 Linux 네임스페이스, 기능 및 cgroups에 의해 약간 제한됩니다.
-* [**모든 기능을 삭제하십시오**](https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities) **(`--cap-drop=all`) 및 필요한 것만 활성화하십시오** (`--cap-add=...`). 많은 워크로드는 어떤 기능도 필요로하지 않으며, 이를 추가하면 잠재적인 공격 범위가 증가합니다.
-* [**“no-new-privileges” 보안 옵션을 사용하여**](https://raesene.github.io/blog/2019/06/01/docker-capabilities-and-no-new-privs/) **프로세스가 더 많은 권한을 얻는 것을 방지하십시오.** 예를 들어 suid 이진 파일을 통해 권한을 더 얻는 것을 방지합니다.
-* **컨테이너에 사용 가능한 자원을 제한하십시오.** 자원 제한은 머신을 서비스 거부 공격으로부터 보호할 수 있습니다.
-* **[seccomp](https://docs.docker.com/engine/security/seccomp/)**, **[AppArmor](https://docs.docker.com/engine/security/apparmor/)** **(또는 SELinux)** 프로필을 조정하여 컨테이너에서 사용 가능한 작업 및 시스템 호출을 최소한으로 제한하십시오.
-* **[공식 Docker 이미지](https://docs.docker.com/docker-hub/official\_images/)를 사용하고 서명을 요구하거나 해당 이미지를 기반으로 직접 빌드하십시오.** 백도어가 있는 이미지를 상속하거나 사용하지 마십시오. 또한 루트 키, 암호를 안전한 위치에 저장하십시오. Docker는 UCP를 사용하여 키를 관리할 계획입니다.
-* **이미지를 정기적으로 다시 빌드하여** 호스트 및 이미지에 보안 패치를 적용하십시오.
-* **비밀을 현명하게 관리하여** 공격자가 액세스하기 어렵도록 하십시오.
-* **도커 데몬을 노출하는 경우 HTTPS를 사용**하여 클라이언트 및 서버 인증을 수행하십시오.
-* **Dockerfile에서는 ADD 대신 COPY를 선호하십시오.** ADD는 자동으로 압축 해제된 파일을 복사하고 URL에서 파일을 복사할 수 있습니다. COPY는 이러한 기능을 갖고 있지 않습니다. 가능한 경우 ADD 사용을 피하여 원격 URL 및 Zip 파일을 통한 공격에 취약하지 않도록 하십시오.
-* **각 마이크로 서비스에 대해 별도의 컨테이너를 사용하십시오.**
-* **컨테이너 이미지를 더 작게 유지하십시오.**
-다른 방법으로 HackTricks를 지원할 수 있습니다:
+* **`--privileged` 플래그를 사용하지 않거나** [**컨테이너 내부에 Docker 소켓을 마운트하지 마세요**](https://raesene.github.io/blog/2016/03/06/The-Dangers-Of-Docker.sock/)**.** Docker 소켓을 통해 컨테이너를 생성할 수 있으므로, 예를 들어 `--privileged` 플래그를 사용하여 다른 컨테이너를 실행하여 호스트를 완전히 제어하는 것이 쉽습니다.
+* **컨테이너 내부에서 root로 실행하지 마세요.** [**다른 사용자**](https://docs.docker.com/develop/develop-images/dockerfile\_best-practices/#user) **와** [**사용자 네임스페이스**](https://docs.docker.com/engine/security/userns-remap/) **를 사용하세요.** 컨테이너 내의 root는 사용자 네임스페이스로 재매핑되지 않는 한 호스트와 동일합니다. 주로 Linux 네임스페이스, 기능 및 cgroups에 의해 약간 제한됩니다.
+* [**모든 기능을 삭제하고**](https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities) **필요한 것만 활성화하세요** (`--cap-add=...`). 많은 워크로드는 어떤 기능도 필요로 하지 않으며, 추가하면 잠재적인 공격 범위가 증가합니다.
+* [**“no-new-privileges” 보안 옵션을 사용하여**](https://raesene.github.io/blog/2019/06/01/docker-capabilities-and-no-new-privs/) **프로세스가 더 많은 권한을 얻는 것을 방지하세요.** 예를 들어 suid 이진 파일을 통해.
+* [**컨테이너에 사용 가능한 리소스를 제한하세요**](https://docs.docker.com/engine/reference/run/#runtime-constraints-on-resources)**.** 리소스 제한은 머신을 서비스 거부 공격으로부터 보호할 수 있습니다.
+* **[seccomp](https://docs.docker.com/engine/security/seccomp/)**, **[AppArmor](https://docs.docker.com/engine/security/apparmor/)** **(또는 SELinux)** 프로필을 조정하여 컨테이너에서 사용 가능한 작업 및 시스템 호출을 최소한으로 제한하세요.
+* **[공식 Docker 이미지](https://docs.docker.com/docker-hub/official\_images/)를 사용하고 서명을 요구하거나 해당 이미지를 기반으로 직접 빌드하세요.** 백도어가 있는 이미지를 상속하거나 사용하지 마세요. 또한 루트 키, 암호를 안전한 위치에 저장하세요. Docker는 UCP를 사용하여 키를 관리할 계획입니다.
+* **이미지를 정기적으로 다시 빌드하여 호스트 및 이미지에 보안 패치를 적용하세요.**
+* **비밀을 현명하게 관리하여 공격자가 액세스하기 어렵게 만드세요.**
+* Docker 데몬을 노출하는 경우 HTTPS를 사용하여 클라이언트 및 서버 인증을 수행하세요.
+* Dockerfile에서 **ADD 대신 COPY를 선호하세요.** ADD는 자동으로 압축 해제하고 URL에서 파일을 복사할 수 있습니다. COPY는 이러한 기능이 없습니다. 가능한 경우 ADD 사용을 피하여 원격 URL 및 Zip 파일을 통한 공격에 취약하지 않도록 하세요.
+* **각 마이크로 서비스에 대해 별도의 컨테이너를 사용하세요.**
+* **컨테이너 이미지를 더 작게 유지하세요.**
+<summary><strong>제로부터 영웅이 될 때까지 AWS 해킹을 배우세요</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* **회사를 HackTricks에서 광고하거나 PDF로 다운로드하고 싶다면** [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 굿즈**](https://peass.creator-spring.com)를 구매하세요
+HackTricks를 지원하는 다른 방법:
+
+* **회사가 HackTricks에 광고되길 원하거나** **HackTricks를 PDF로 다운로드**하고 싶다면 [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구매하세요
 * [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**를 팔로우**하세요.
-* **해킹 요령을 공유하려면** [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 저장소에 PR을 제출하세요.
-
-</details>
+* **💬 [**디스코드 그룹**](https://discord.gg/hRep4RUj7f)에 가입하거나 [**텔레그램 그룹**](https://t.me/peass)에 가입하거나** **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **해킹 트릭을 공유하고 싶다면 PR을 제출하여** [**HackTricks**](https://github.com/carlospolop/hacktricks) **및** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **깃허브 저장소에 기여하세요.**

