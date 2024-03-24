@@ -16,7 +16,7 @@ Outras maneiras de apoiar o HackTricks:
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -28,7 +28,7 @@ Isso ajuda em várias ocasiões a **procurar por informações vazadas** ou por 
 
 * [**SourceGraph**](https://sourcegraph.com/search): Pesquise em milhões de repositórios. Há uma versão gratuita e uma versão empresarial (com 15 dias grátis). Suporta regexes.
 * [**Github Search**](https://github.com/search): Pesquise no Github. Suporta regexes.
-* Talvez também seja útil verificar o [**Github Code Search**](https://cs.github.com/).
+* Talvez também seja útil verificar [**Github Code Search**](https://cs.github.com/).
 * [**Gitlab Advanced Search**](https://docs.gitlab.com/ee/user/search/advanced\_search.html): Pesquise em projetos do Gitlab. Suporta regexes.
 * [**SearchCode**](https://searchcode.com/): Pesquise código em milhões de projetos.
 
@@ -38,7 +38,7 @@ Quando você procura por vazamentos em um repositório e executa algo como `git 
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
