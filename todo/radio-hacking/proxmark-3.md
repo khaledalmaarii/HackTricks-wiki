@@ -14,7 +14,7 @@
 
 **Groupe de sécurité Try Hard**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -24,7 +24,7 @@
 
 La première chose à faire est d'avoir un [**Proxmark3**](https://proxmark.com) et [**d'installer le logiciel et ses dépendances**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux)[**s**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux).
 
-### Attaquer les systèmes MIFARE Classic 1KB
+### Attaquer les MIFARE Classic 1KB
 
 Il a **16 secteurs**, chacun ayant **4 blocs** et chaque bloc contient **16B**. L'UID se trouve dans le secteur 0 bloc 0 (et ne peut pas être modifié).\
 Pour accéder à chaque secteur, vous avez besoin de **2 clés** (**A** et **B**) qui sont stockées dans **le bloc 3 de chaque secteur** (secteur de contrôle). Le secteur de contrôle stocke également les **bits d'accès** qui donnent les permissions de **lecture et écriture** sur **chaque bloc** en utilisant les 2 clés.\
@@ -49,7 +49,7 @@ proxmark3> hf mf eset 01 000102030405060708090a0b0c0d0e0f # Write those bytes to
 proxmark3> hf mf eget 01 # Read block 1
 proxmark3> hf mf wrbl 01 B FFFFFFFFFFFF 000102030405060708090a0b0c0d0e0f # Write to the card
 ```
-Le Proxmark3 permet d'effectuer d'autres actions comme **écouter en douce** une **communication Tag à Lecteur** pour essayer de trouver des données sensibles. Sur cette carte, vous pourriez simplement renifler la communication et calculer la clé utilisée car les **opérations cryptographiques utilisées sont faibles** et en connaissant le texte en clair et le texte chiffré, vous pouvez le calculer (outil `mfkey64`).
+Le Proxmark3 permet d'effectuer d'autres actions comme **écouter** une **communication Tag à Lecteur** pour essayer de trouver des données sensibles. Dans ce cas, vous pourriez simplement renifler la communication et calculer la clé utilisée car les **opérations cryptographiques utilisées sont faibles** et en connaissant le texte en clair et le texte chiffré, vous pouvez le calculer (outil `mfkey64`).
 
 ### Commandes Brutes
 
@@ -63,11 +63,11 @@ No chinese magic backdoor command detected
 Prng detection: WEAK
 Valid ISO14443A Tag Found - Quiting Search
 ```
-Avec ces informations, vous pourriez essayer de rechercher des informations sur la carte et sur la manière de communiquer avec elle. Proxmark3 permet d'envoyer des commandes brutes comme : `hf 14a raw -p -b 7 26`
+Avec ces informations, vous pourriez essayer de rechercher des informations sur la carte et sur la manière de communiquer avec elle. Proxmark3 permet d'envoyer des commandes brutes comme: `hf 14a raw -p -b 7 26`
 
 ### Scripts
 
-Le logiciel Proxmark3 est livré avec une liste préchargée de **scripts d'automatisation** que vous pouvez utiliser pour effectuer des tâches simples. Pour récupérer la liste complète, utilisez la commande `script list`. Ensuite, utilisez la commande `script run`, suivie du nom du script :
+Le logiciel Proxmark3 est livré avec une liste préchargée de **scripts d'automatisation** que vous pouvez utiliser pour effectuer des tâches simples. Pour récupérer la liste complète, utilisez la commande `script list`. Ensuite, utilisez la commande `script run`, suivi du nom du script:
 ```
 proxmark3> script run mfkeys
 ```
@@ -75,7 +75,7 @@ Vous pouvez créer un script pour **fuzzer les lecteurs de tags**, en copiant le
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 

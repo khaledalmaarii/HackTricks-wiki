@@ -10,13 +10,13 @@ Autres façons de soutenir HackTricks :
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 
 **Groupe de sécurité Try Hard**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -46,6 +46,8 @@ echo $LOCAL
 unset LOCAL
 ```
 ## Liste des variables actuelles
+
+To list all current environment variables, you can use the `env` command. This will display a list of all environment variables currently set in your Linux system.
 ```bash
 set
 env
@@ -59,12 +61,12 @@ cat /proc/`python -c "import os; print(os.getppid())"`/environ
 
 * **DISPLAY** – l'affichage utilisé par **X**. Cette variable est généralement définie sur **:0.0**, ce qui signifie le premier affichage sur l'ordinateur actuel.
 * **EDITOR** – l'éditeur de texte préféré de l'utilisateur.
-* **HISTFILESIZE** – le nombre maximum de lignes contenues dans le fichier d'historique.
+* **HISTFILESIZE** – le nombre maximal de lignes contenues dans le fichier d'historique.
 * **HISTSIZE** – Nombre de lignes ajoutées au fichier d'historique lorsque l'utilisateur termine sa session.
 * **HOME** – votre répertoire personnel.
 * **HOSTNAME** – le nom d'hôte de l'ordinateur.
 * **LANG** – votre langue actuelle.
-* **MAIL** – l'emplacement du répertoire de courrier de l'utilisateur. Généralement **/var/spool/mail/USER**.
+* **MAIL** – l'emplacement du répertoire de messagerie de l'utilisateur. Généralement **/var/spool/mail/USER**.
 * **MANPATH** – la liste des répertoires à rechercher pour les pages de manuel.
 * **OSTYPE** – le type de système d'exploitation.
 * **PS1** – l'invite par défaut dans bash.
@@ -85,7 +87,7 @@ export HISTFILESIZE=0
 ```
 ### **HISTSIZE**
 
-Changez la **valeur de cette variable à 0**, ainsi lorsque vous **terminez votre session**, aucune commande ne sera ajoutée au **fichier d'historique** (\~/.bash\_history).
+Changez la **valeur de cette variable à 0**, ainsi lorsque vous **terminez votre session** aucun commande ne sera ajoutée au **fichier d'historique** (\~/.bash\_history).
 ```bash
 export HISTSIZE=0
 ```
@@ -96,7 +98,7 @@ Les processus utiliseront le **proxy** déclaré ici pour se connecter à Intern
 export http_proxy="http://10.10.10.10:8080"
 export https_proxy="http://10.10.10.10:8080"
 ```
-### SSL\_CERT\_FILE & SSL\_CERT\_DIR
+### SSL_CERT_FILE & SSL_CERT_DIR
 
 Les processus feront confiance aux certificats indiqués dans **ces variables d'environnement**.
 ```bash
@@ -127,7 +129,7 @@ Un travail en arrière-plan, un arrêté et la dernière commande n'a pas fini c
 
 **Groupe de sécurité Try Hard**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -141,6 +143,6 @@ Autres façons de soutenir HackTricks:
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
