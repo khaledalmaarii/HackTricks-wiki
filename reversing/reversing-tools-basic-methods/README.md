@@ -14,9 +14,9 @@ Outras maneiras de apoiar o HackTricks:
 
 </details>
 
-**Try Hard Security Group**
+**Grupo de Segurança Try Hard**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -51,11 +51,11 @@ O mérito aqui é que se um código-fonte perdido requer restauração de uma mo
 
 ### [.NET Reflector](https://www.red-gate.com/products/reflector/)
 
-Com um modelo abrangente de complementos e uma API que estende a ferramenta para atender às suas necessidades exatas, o .NET reflector economiza tempo e simplifica o desenvolvimento. Vamos dar uma olhada na infinidade de serviços de engenharia reversa que esta ferramenta oferece:
+Com um modelo abrangente de complementos e uma API que estende a ferramenta para atender às suas necessidades exatas, o .NET Reflector economiza tempo e simplifica o desenvolvimento. Vamos dar uma olhada na infinidade de serviços de engenharia reversa que essa ferramenta oferece:
 
 * Fornece uma visão de como os dados fluem por uma biblioteca ou componente
 * Fornece insights sobre a implementação e uso de idiomas e estruturas .NET
-* Encontra funcionalidades não documentadas e não expostas para obter mais das APIs e tecnologias utilizadas.
+* Encontra funcionalidades não documentadas e não expostas para obter mais das APIs e tecnologias usadas.
 * Encontra dependências e diferentes montagens
 * Localiza exatamente a origem de erros em seu código, componentes de terceiros e bibliotecas.
 * Depura o código-fonte de todo o código .NET com o qual você trabalha.
@@ -75,9 +75,9 @@ File.AppendAllText(path, "Password: " + password + "\n");
 ```
 ### Depuração do DNSpy
 
-Para depurar código usando o DNSpy, você precisa:
+Para depurar o código usando o DNSpy, você precisa:
 
-Primeiro, alterar os **atributos de Assembly** relacionados à **depuração**:
+Primeiro, alterar os **atributos do Assembly** relacionados à **depuração**:
 
 ![](<../../.gitbook/assets/image (278).png>)
 ```aspnet
@@ -98,7 +98,7 @@ Em seguida, salve o novo arquivo via _**Arquivo >> Salvar módulo...**_:
 
 ![](<../../.gitbook/assets/image (279).png>)
 
-Isso é necessário porque se você não fizer isso, durante a **execução** várias **otimizações** serão aplicadas ao código e pode ser possível que ao depurar um **ponto de interrupção nunca seja atingido** ou algumas **variáveis não existam**.
+Isso é necessário porque se você não fizer isso, em **tempo de execução** várias **otimizações** serão aplicadas ao código e poderia ser possível que durante a depuração um **ponto de interrupção nunca seja atingido** ou algumas **variáveis não existam**.
 
 Então, se sua aplicação .NET está sendo **executada** pelo **IIS**, você pode **reiniciá-la** com:
 ```
@@ -137,7 +137,7 @@ Clique com o botão direito em qualquer módulo no **Explorador de Assemblies** 
 
 * **Carregar rundll32** (64 bits em C:\Windows\System32\rundll32.exe e 32 bits em C:\Windows\SysWOW64\rundll32.exe)
 * Selecione o depurador **Windbg**
-* Selecione "**Suspender na carga/descarga da biblioteca**"
+* Selecione "**Suspender na carga/descarga de biblioteca**"
 
 ![](<../../.gitbook/assets/image (135).png>)
 
@@ -190,7 +190,7 @@ Você pode encontrar uma versão ligeiramente modificada do Blobrunner no seguin
 
 ### Depurando um shellcode com jmp2it
 
-[**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4) é muito semelhante ao blobrunner. Ele irá **alocar** o **shellcode** dentro de um espaço de memória e iniciar um **loop eterno**. Em seguida, você precisa **anexar o depurador** ao processo, **iniciar, esperar 2-5 segundos e pressionar parar** e você se encontrará dentro do **loop eterno**. Pule para a próxima instrução do loop eterno, pois será uma chamada para o shellcode, e finalmente você se encontrará executando o shellcode.
+[**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4)é muito semelhante ao blobrunner. Ele irá **alocar** o **shellcode** dentro de um espaço de memória e iniciar um **loop eterno**. Em seguida, você precisa **anexar o depurador** ao processo, **iniciar aguardar 2-5 segundos e pressionar parar** e você se encontrará dentro do **loop eterno**. Pule para a próxima instrução do loop eterno, pois será uma chamada para o shellcode, e finalmente você se encontrará executando o shellcode.
 
 ![](<../../.gitbook/assets/image (397).png>)
 
@@ -200,7 +200,7 @@ Você pode baixar uma versão compilada do [jmp2it na página de lançamentos](h
 
 [**Cutter**](https://github.com/rizinorg/cutter/releases/tag/v1.12.0) é a GUI do radare. Usando o cutter, você pode emular o shellcode e inspecioná-lo dinamicamente.
 
-Observe que o Cutter permite "Abrir Arquivo" e "Abrir Shellcode". No meu caso, quando abri o shellcode como arquivo, ele o descompilou corretamente, mas quando o abri como shellcode, não:
+Observe que o Cutter permite "Abrir Arquivo" e "Abrir Shellcode". No meu caso, quando abri o shellcode como um arquivo, ele o descompilou corretamente, mas quando o abri como um shellcode, não:
 
 ![](<../../.gitbook/assets/image (400).png>)
 
@@ -230,7 +230,7 @@ scDbg também conta com um iniciador gráfico onde você pode selecionar as opç
 
 ![](<../../.gitbook/assets/image (398).png>)
 
-A opção **Create Dump** fará o dump do shellcode final se alguma alteração for feita dinamicamente no shellcode na memória (útil para baixar o shellcode decodificado). O **start offset** pode ser útil para iniciar o shellcode em um deslocamento específico. A opção **Debug Shell** é útil para depurar o shellcode usando o terminal scDbg (no entanto, considero qualquer uma das opções explicadas anteriormente melhor para esse fim, pois você poderá usar o Ida ou x64dbg).
+A opção **Create Dump** irá despejar o shellcode final se alguma alteração for feita dinamicamente no shellcode na memória (útil para baixar o shellcode decodificado). O **start offset** pode ser útil para iniciar o shellcode em um deslocamento específico. A opção **Debug Shell** é útil para depurar o shellcode usando o terminal scDbg (no entanto, considero qualquer uma das opções explicadas anteriormente melhor para este assunto, pois você poderá usar o Ida ou x64dbg).
 
 ### Desmontagem usando o CyberChef
 
@@ -250,11 +250,11 @@ apt-get install libz3-dev
 ```
 E [instale o keystone](https://github.com/keystone-engine/keystone/blob/master/docs/COMPILE-NIX.md) (`apt-get install cmake; mkdir build; cd build; ../make-share.sh; make install`)
 
-Se você está participando de um **CTF, essa solução alternativa para encontrar a flag** pode ser muito útil: [https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html](https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html)
+Se estiver participando de um **CTF, essa solução alternativa para encontrar a flag** pode ser muito útil: [https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html](https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html)
 
 ## Rust
 
-Para encontrar o **ponto de entrada**, procure as funções por `::main` como em:
+Para encontrar o **ponto de entrada**, pesquise as funções por `::main` como em:
 
 ![](<../../.gitbook/assets/image (612).png>)
 
@@ -265,7 +265,7 @@ Tendo o **nome** das **funções** sendo chamadas, pesquise sobre elas na **Inte
 
 Para binários compilados em Delphi, você pode usar [https://github.com/crypto2011/IDR](https://github.com/crypto2011/IDR)
 
-Se você precisar reverter um binário Delphi, sugiro que use o plugin do IDA [https://github.com/Coldzer0/IDA-For-Delphi](https://github.com/Coldzer0/IDA-For-Delphi)
+Se precisar reverter um binário Delphi, sugiro que use o plugin do IDA [https://github.com/Coldzer0/IDA-For-Delphi](https://github.com/Coldzer0/IDA-For-Delphi)
 
 Basta pressionar **ATL+f7** (importar plugin python no IDA) e selecionar o plugin python.
 
@@ -275,15 +275,15 @@ Também é muito interessante porque se você pressionar um botão na aplicaçã
 
 ## Golang
 
-Se você precisar reverter um binário Golang, sugiro que use o plugin do IDA [https://github.com/sibears/IDAGolangHelper](https://github.com/sibears/IDAGolangHelper)
+Se precisar reverter um binário Golang, sugiro que use o plugin do IDA [https://github.com/sibears/IDAGolangHelper](https://github.com/sibears/IDAGolangHelper)
 
 Basta pressionar **ATL+f7** (importar plugin python no IDA) e selecionar o plugin python.
 
 Isso resolverá os nomes das funções.
 
-## Python compilado
+## Python Compilado
 
-Nesta página, você pode encontrar como obter o código Python de um binário compilado ELF/EXE Python:
+Nesta página, você pode encontrar como obter o código Python de um binário compilado em ELF/EXE:
 
 {% content-ref url="../../forensics/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md" %}
 [.pyc.md](../../forensics/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md)
@@ -291,7 +291,7 @@ Nesta página, você pode encontrar como obter o código Python de um binário c
 
 ## GBA - Game Body Advance
 
-Se você obter o **binário** de um jogo GBA, você pode usar diferentes ferramentas para **emular** e **depurar**:
+Se você obter o **binário** de um jogo GBA, pode usar diferentes ferramentas para **emular** e **depurar**:
 
 * [**no$gba**](https://problemkaputt.de/gba.htm) (_Baixe a versão de depuração_) - Contém um depurador com interface
 * [**mgba** ](https://mgba.io)- Contém um depurador CLI
@@ -315,7 +315,7 @@ DOWN = 128
 R = 256
 L = 256
 ```
-Portanto, neste tipo de programa, a parte interessante será **como o programa trata a entrada do usuário**. No endereço **0x4000130**, você encontrará a função comumente encontrada: **KEYINPUT**.
+Portanto, neste tipo de programa, a parte interessante será **como o programa trata a entrada do usuário**. No endereço **0x4000130** você encontrará a função comumente encontrada: **KEYINPUT**.
 
 ![](<../../.gitbook/assets/image (579).png>)
 
@@ -384,8 +384,8 @@ DAT_030000d8 = DAT_030000d8 + 0x3a;
 ```
 No código anterior, você pode ver que estamos comparando **uVar1** (o local onde está o **valor do botão pressionado**) com alguns valores:
 
-- Primeiro, é comparado com o **valor 4** (botão **SELECT**): No desafio, este botão limpa a tela.
-- Em seguida, é comparado com o **valor 8** (botão **START**): No desafio, isso verifica se o código é válido para obter a bandeira.
+- Primeiro, é comparado com o **valor 4** (botão **SELECT**): Neste desafio, este botão limpa a tela.
+- Em seguida, é comparado com o **valor 8** (botão **START**): Neste desafio, isso verifica se o código é válido para obter a bandeira.
 - Neste caso, a variável **`DAT_030000d8`** é comparada com 0xf3 e se o valor for o mesmo, algum código é executado.
 - Em todos os outros casos, é verificado um cont (`DAT_030000d4`). É um cont porque está adicionando 1 logo após entrar no código. Se for menor que 8, algo que envolve **adicionar** valores a **`DAT_030000d8`** é feito (basicamente está adicionando os valores dos botões pressionados nesta variável, desde que o cont seja menor que 8).
 
@@ -404,7 +404,7 @@ Portanto, neste desafio, conhecendo os valores dos botões, você precisava **pr
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -414,9 +414,9 @@ Portanto, neste desafio, conhecendo os valores dos botões, você precisava **pr
 
 Outras maneiras de apoiar o HackTricks:
 
-- Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-- Obtenha o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-- Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+- Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+- Obtenha [**produtos oficiais PEASS & HackTricks**](https://peass.creator-spring.com)
+- Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 - **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 - **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 

