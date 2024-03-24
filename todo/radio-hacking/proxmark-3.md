@@ -6,15 +6,15 @@
 
 * Arbeiten Sie in einem **Cybersicherheitsunternehmen**? Möchten Sie Ihr **Unternehmen in HackTricks beworben sehen**? Oder möchten Sie Zugriff auf die **neueste Version des PEASS oder HackTricks als PDF herunterladen**? Überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
+* Holen Sie sich den [**offiziellen PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
 * **Treten Sie der** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) bei oder der [**Telegram-Gruppe**](https://t.me/peass) oder **folgen** Sie mir auf **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an das** [**hacktricks-Repo**](https://github.com/carlospolop/hacktricks) **und das** [**hacktricks-cloud-Repo**](https://github.com/carlospolop/hacktricks-cloud) **einreichen**.
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an das** [**hacktricks-Repository**](https://github.com/carlospolop/hacktricks) **und das** [**hacktricks-cloud-Repository**](https://github.com/carlospolop/hacktricks-cloud) **senden**.
 
 </details>
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -22,13 +22,13 @@
 
 ## Angriff auf RFID-Systeme mit Proxmark3
 
-Das erste, was Sie tun müssen, ist ein [**Proxmark3**](https://proxmark.com) zu haben und [**die Software und ihre Abhängigkeiten zu installieren**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux)[**s**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux).
+Das Erste, was Sie tun müssen, ist ein [**Proxmark3**](https://proxmark.com) zu haben und [**die Software und ihre Abhängigkeiten zu installieren**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux)[**s**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux).
 
 ### Angriff auf MIFARE Classic 1KB
 
-Es hat **16 Sektoren**, von denen jeder **4 Blöcke** hat und jeder Block **16B** enthält. Die UID befindet sich im Sektor 0 Block 0 (und kann nicht geändert werden).\
+Es hat **16 Sektoren**, von denen jeder **4 Blöcke** hat und jeder Block **16B** enthält. Die UID befindet sich im Sektor 0 Block 0 (und kann nicht verändert werden).\
 Um auf jeden Sektor zuzugreifen, benötigen Sie **2 Schlüssel** (**A** und **B**), die in **Block 3 jedes Sektors** gespeichert sind (Sektortrailer). Der Sektortrailer speichert auch die **Zugriffsbits**, die die **Lese- und Schreibberechtigungen** für **jeden Block** unter Verwendung der 2 Schlüssel geben.\
-2 Schlüssel sind nützlich, um Berechtigungen zum Lesen zu geben, wenn Sie den ersten kennen, und zum Schreiben, wenn Sie den zweiten kennen (zum Beispiel).
+2 Schlüssel sind nützlich, um Leseberechtigungen zu geben, wenn Sie den ersten kennen, und Schreibberechtigungen zu geben, wenn Sie den zweiten kennen (zum Beispiel).
 
 Es können mehrere Angriffe durchgeführt werden.
 ```bash
@@ -67,27 +67,27 @@ Mit diesen Informationen könnten Sie versuchen, Informationen über die Karte u
 
 ### Skripte
 
-Die Proxmark3-Software wird mit einer vorab geladenen Liste von **Automatisierungsskripten** geliefert, die Sie verwenden können, um einfache Aufgaben auszuführen. Um die vollständige Liste abzurufen, verwenden Sie den Befehl `script list`. Verwenden Sie anschließend den Befehl `script run`, gefolgt vom Namen des Skripts:
+Die Proxmark3-Software wird mit einer vorab geladenen Liste von **Automatisierungsskripten** geliefert, die Sie für einfache Aufgaben verwenden können. Um die vollständige Liste abzurufen, verwenden Sie den Befehl `script list`. Verwenden Sie dann den Befehl `script run`, gefolgt vom Namen des Skripts:
 ```
 proxmark3> script run mfkeys
 ```
-Sie können ein Skript erstellen, um **Tag-Reader zu fuzz**, indem Sie die Daten einer **gültigen Karte** kopieren und ein **Lua-Skript** schreiben, das **einen oder mehrere zufällige Bytes randomisiert** und überprüft, ob der **Reader bei einer beliebigen Iteration abstürzt**.
+Du kannst ein Skript erstellen, um **Tag-Reader zu fuzz**, indem du die Daten einer **gültigen Karte** kopierst und dann ein **Lua-Skript** schreibst, das **einen oder mehrere zufällige Bytes randomisiert** und überprüft, ob der **Reader bei einer beliebigen Iteration abstürzt**.
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 
 <details>
 
-<summary><strong>Erlernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Lerne AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Arbeiten Sie in einem **Cybersicherheitsunternehmen**? Möchten Sie Ihr **Unternehmen in HackTricks beworben sehen**? Oder möchten Sie Zugriff auf die **neueste Version des PEASS erhalten oder HackTricks im PDF-Format herunterladen**? Überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* **Treten Sie der** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie mir auf **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an das** [**HackTricks-Repository**](https://github.com/carlospolop/hacktricks) **und das** [**HackTricks-Cloud-Repository**](https://github.com/carlospolop/hacktricks-cloud) **senden**.
+* Arbeitest du in einem **Cybersicherheitsunternehmen**? Möchtest du dein **Unternehmen in HackTricks beworben sehen**? Oder möchtest du Zugriff auf die **neueste Version des PEASS oder HackTricks als PDF herunterladen**? Überprüfe die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Entdecke [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Hol dir das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
+* **Trete der** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** mir auf **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Teile deine Hacking-Tricks, indem du PRs an das** [**HackTricks-Repository**](https://github.com/carlospolop/hacktricks) **und das** [**HackTricks-Cloud-Repository**](https://github.com/carlospolop/hacktricks-cloud) **einreichst**.
 
 </details>

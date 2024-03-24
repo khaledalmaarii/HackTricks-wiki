@@ -16,7 +16,7 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -60,21 +60,21 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 ### [Netzwerk](windows-local-privilege-escalation/#network)
 
 * Überprüfen Sie die **aktuellen** [**Netzwerkinformationen**](windows-local-privilege-escalation/#network)
-* Überprüfen Sie **versteckte lokale Dienste**, die nach außen eingeschränkt sind
+* Überprüfen Sie **versteckte lokale Dienste**, die nach außen hin eingeschränkt sind
 
 ### [Laufende Prozesse](windows-local-privilege-escalation/#running-processes)
 
-* Prozessbinärdateien [**Datei- und Ordnerberechtigungen**](windows-local-privilege-escalation/#file-and-folder-permissions)
-* [**Passwort-Mining im Speicher**](windows-local-privilege-escalation/#memory-password-mining)
+* Berechtigungen für Prozessbinärdateien [**Datei- und Ordnerberechtigungen**](windows-local-privilege-escalation/#file-and-folder-permissions)
+* [**Speicherpasswort-Mining**](windows-local-privilege-escalation/#memory-password-mining)
 * [**Unsichere GUI-Apps**](windows-local-privilege-escalation/#insecure-gui-apps)
-* Stehlen Sie Anmeldeinformationen mit **interessanten Prozessen** über `ProcDump.exe` ? (Firefox, Chrome, usw. ...)
+* Stehlen Sie Anmeldeinformationen mit **interessanten Prozessen** über `ProcDump.exe` ? (Firefox, Chrome, usw.)
 
 ### [Dienste](windows-local-privilege-escalation/#services)
 
 * [Können Sie einen **Dienst ändern**?](windows-local-privilege-escalation#permissions)
-* [Können Sie die **ausgeführte** Binärdatei eines **Dienstes ändern**?](windows-local-privilege-escalation/#modify-service-binary-path)
-* [Können Sie das **Registrierungs**-**ändern** eines **Dienstes ändern**?](windows-local-privilege-escalation/#services-registry-modify-permissions)
-* Können Sie von einem **nicht in Anführungszeichen gesetzten Dienst**-Binärpfad profitieren?](windows-local-privilege-escalation/#unquoted-service-paths)
+* [Können Sie die **Binärdatei ändern**, die von einem **Dienst ausgeführt wird**?](windows-local-privilege-escalation/#modify-service-binary-path)
+* [Können Sie das **Registrierungs** eines **Dienstes ändern**?](windows-local-privilege-escalation/#services-registry-modify-permissions)
+* Können Sie von einem **nicht in Anführungszeichen gesetzten Dienst-Binärpfad** profitieren?](windows-local-privilege-escalation/#unquoted-service-paths)
 
 ### [**Anwendungen**](windows-local-privilege-escalation/#applications)
 
@@ -84,7 +84,7 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 ### [DLL Hijacking](windows-local-privilege-escalation/#path-dll-hijacking)
 
 * [ ] Können Sie **in jedem Ordner innerhalb des PATH schreiben**?
-* [ ] Gibt es einen bekannten Dienst-Binary, der versucht, eine **nicht vorhandene DLL zu laden**?
+* [ ] Gibt es einen bekannten Dienst-Binary, der **versucht, eine nicht vorhandene DLL zu laden**?
 * [ ] Können Sie **in einem Binärdatei-Ordner schreiben**?
 
 ### [Netzwerk](windows-local-privilege-escalation/#network)
@@ -97,7 +97,7 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 * [ ] [**Winlogon** ](windows-local-privilege-escalation/#winlogon-credentials)Anmeldeinformationen
 * [ ] [**Windows Vault**](windows-local-privilege-escalation/#credentials-manager-windows-vault) Anmeldeinformationen, die Sie verwenden könnten?
 * [ ] Interessante [**DPAPI-Anmeldeinformationen**](windows-local-privilege-escalation/#dpapi)?
-* [ ] Passwörter von gespeicherten [**Wifi-Netzwerken**](windows-local-privilege-escalation/#wifi)?
+* [ ] Passwörter von gespeicherten [**WLAN-Netzwerken**](windows-local-privilege-escalation/#wifi)?
 * [ ] Interessante Informationen in [**gespeicherten RDP-Verbindungen**](windows-local-privilege-escalation/#saved-rdp-connections)?
 * [ ] Passwörter in [**kürzlich ausgeführten Befehlen**](windows-local-privilege-escalation/#recently-run-commands)?
 * [ ] [**Remote Desktop Credentials Manager**](windows-local-privilege-escalation/#remote-desktop-credential-manager) Passwörter?
@@ -114,8 +114,8 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 * [ ] [**McAfee SiteList.xml**](windows-local-privilege-escalation/#mcafee-sitelist.xml) Datei?
 * [ ] [**Gecachtes GPP-Passwort**](windows-local-privilege-escalation/#cached-gpp-pasword)?
 * [ ] Passwort in [**IIS-Webkonfigurationsdatei**](windows-local-privilege-escalation/#iis-web-config)?
-* [ ] Interessante Informationen in [**Web-Logs**](windows-local-privilege-escalation/#logs)?
-* [ ] Möchten Sie den Benutzer nach Anmeldeinformationen [**fragen**](windows-local-privilege-escalation/#ask-for-credentials)?
+* [ ] Interessante Informationen in [**Web** **Logs**](windows-local-privilege-escalation/#logs)?
+* [ ] Möchten Sie [**nach Anmeldeinformationen fragen**](windows-local-privilege-escalation/#ask-for-credentials) beim Benutzer?
 * [ ] Interessante [**Dateien im Papierkorb**](windows-local-privilege-escalation/#credentials-in-the-recyclebin)?
 * [ ] Andere [**Registrierung mit Anmeldeinformationen**](windows-local-privilege-escalation/#inside-the-registry)?
 * [ ] In [**Browserdaten**](windows-local-privilege-escalation/#browsers-history) (Datenbanken, Verlauf, Lesezeichen, ...)?
@@ -128,11 +128,11 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 
 ### [Pipe-Client-Imitation](windows-local-privilege-escalation/#named-pipe-client-impersonation)
 
-* [ ] Überprüfen Sie, ob Sie es missbrauchen können
+* [ ] Überprüfen, ob Sie es missbrauchen können
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -142,10 +142,10 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen** möchten oder **HackTricks im PDF-Format herunterladen** möchten, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
 
 </details>

