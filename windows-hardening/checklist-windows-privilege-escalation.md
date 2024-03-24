@@ -16,7 +16,7 @@ Ander maniere om HackTricks te ondersteun:
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -27,7 +27,7 @@ Ander maniere om HackTricks te ondersteun:
 ### [Stelselinligting](windows-local-privilege-escalation/#system-info)
 
 * [ ] Verkry [**Stelselinligting**](windows-local-privilege-escalation/#system-info)
-* [ ] Soek na **kern** [**uitbuitings met skripte**](windows-local-privilege-escalation/#version-exploits)
+* [ ] Soek na **kern** [**uitbuitings deur skripte te gebruik**](windows-local-privilege-escalation/#version-exploits)
 * [ ] Gebruik **Google om te soek** vir kern **uitbuitings**
 * [ ] Gebruik **searchsploit om te soek** vir kern **uitbuitings**
 * [ ] Interessante inligting in [**omgewingsveranderlikes**](windows-local-privilege-escalation/#environment)?
@@ -43,10 +43,10 @@ Ander maniere om HackTricks te ondersteun:
 * [ ] Kontroleer [**LAPS**](windows-local-privilege-escalation/#laps)
 * [ ] Kontroleer of [**WDigest** ](windows-local-privilege-escalation/#wdigest)aktief is
 * [ ] [**LSA-beskerming**](windows-local-privilege-escalation/#lsa-protection)?
-* [ ] [**Legkaartwag**](windows-local-privilege-escalation/#credentials-guard)[?](windows-local-privilege-escalation/#cached-credentials)
-* [ ] [**Gekasde Wagwoorde**](windows-local-privilege-escalation/#cached-credentials)?
+* [ ] [**Legitimasiewag**](windows-local-privilege-escalation/#credentials-guard)[?](windows-local-privilege-escalation/#cached-credentials)
+* [ ] [**Gekasheerde Legitimasie**](windows-local-privilege-escalation/#cached-credentials)?
 * [ ] Kontroleer of enige [**AV**](windows-av-bypass) aktief is
-* [ ] [**AppLocker-beleid**](authentication-credentials-uac-and-efs#applocker-policy)?
+* [**AppLocker-beleid**](authentication-credentials-uac-and-efs#applocker-policy)?
 * [**UAC**](authentication-credentials-uac-and-efs/uac-user-account-control)
 * [**Gebruikerbevoegdhede**](windows-local-privilege-escalation/#users-and-groups)
 * Kontroleer [**huidige** gebruiker **bevoegdhede**](windows-local-privilege-escalation/#users-and-groups)
@@ -67,13 +67,13 @@ Ander maniere om HackTricks te ondersteun:
 * Prosesse binêre [**lêer- en vouerbevoegdhede**](windows-local-privilege-escalation/#file-and-folder-permissions)
 * [**Geheue Wagwoordontginning**](windows-local-privilege-escalation/#memory-password-mining)
 * [**Onveilige GUI-toepassings**](windows-local-privilege-escalation/#insecure-gui-apps)
-* Steel geloofsbriewe met **interessante prosesse** via `ProcDump.exe` ? (firefox, chrome, ens ...)
+* Steel legitimasie met **interessante prosesse** via `ProcDump.exe` ? (firefox, chrome, ens ...)
 
 ### [Dienste](windows-local-privilege-escalation/#services)
 
-* [Kan jy enige diens **verander**?](windows-local-privilege-escalation#permissions)
-* [Kan jy die **binêre** wat deur enige **diens** **uitgevoer** word, **verander**?](windows-local-privilege-escalation/#modify-service-binary-path)
-* [Kan jy die **register** van enige **diens** **verander**?](windows-local-privilege-escalation/#services-registry-modify-permissions)
+* [Kan jy enige diens **wysig**?](windows-local-privilege-escalation#permissions)
+* [Kan jy die **binêre** wat deur enige **diens** **uitgevoer** word, **wysig**?](windows-local-privilege-escalation/#modify-service-binary-path)
+* [Kan jy die **register** van enige **diens** **wysig**?](windows-local-privilege-escalation/#services-registry-modify-permissions)
 * [Kan jy voordeel trek uit enige **ongekwoteerde diens** binêre **pad**?](windows-local-privilege-escalation/#unquoted-service-paths)
 
 ### [**Toepassings**](windows-local-privilege-escalation/#applications)
@@ -89,50 +89,50 @@ Ander maniere om HackTricks te ondersteun:
 
 ### [Netwerk](windows-local-privilege-escalation/#network)
 
-* [ ] Enumerate die netwerk (aandele, interafses, roetes, bure, ...)
+* [ ] Enumerate die netwerk (aandele, interfaces, roetes, bure, ...)
 * [ ] Neem 'n spesiale kyk na netwerk dienste wat luister op localhost (127.0.0.1)
 
-### [Windows Legitieme Inligting](windows-local-privilege-escalation/#windows-credentials)
+### [Windows Geloofsbriewe](windows-local-privilege-escalation/#windows-credentials)
 
-* [ ] [**Winlogon** ](windows-local-privilege-escalation/#winlogon-credentials)legitieme inligting
-* [ ] [**Windows Vault**](windows-local-privilege-escalation/#credentials-manager-windows-vault) legitieme inligting wat jy kan gebruik?
-* [ ] Interessante [**DPAPI legitieme inligting**](windows-local-privilege-escalation/#dpapi)?
+* [ ] [**Winlogon** ](windows-local-privilege-escalation/#winlogon-credentials)geloofsbriewe
+* [ ] [**Windows Vault**](windows-local-privilege-escalation/#credentials-manager-windows-vault) geloofsbriewe wat jy kan gebruik?
+* [ ] Interessante [**DPAPI geloofsbriewe**](windows-local-privilege-escalation/#dpapi)?
 * [ ] Wagwoorde van gestoorde [**Wifi netwerke**](windows-local-privilege-escalation/#wifi)?
 * [ ] Interessante inligting in [**gestoorde RDP Verbindings**](windows-local-privilege-escalation/#saved-rdp-connections)?
 * [ ] Wagwoorde in [**onlangs uitgevoerde bevele**](windows-local-privilege-escalation/#recently-run-commands)?
-* [ ] [**Remote Desktop Legitieme Inligting Bestuurder**](windows-local-privilege-escalation/#remote-desktop-credential-manager) wagwoorde?
-* [ ] [**AppCmd.exe** bestaan](windows-local-privilege-escalation/#appcmd-exe)? Legitieme inligting?
-* [ ] [**SCClient.exe**](windows-local-privilege-escalation/#scclient-sccm)? DLL Sybelading?
+* [ ] [**Remote Desktop Credentials Manager**](windows-local-privilege-escalation/#remote-desktop-credential-manager) wagwoorde?
+* [ ] [**AppCmd.exe** bestaan](windows-local-privilege-escalation/#appcmd-exe)? Geloofsbriewe?
+* [ ] [**SCClient.exe**](windows-local-privilege-escalation/#scclient-sccm)? DLL Side Loading?
 
-### [Lêers en Registreer (Legitieme Inligting)](windows-local-privilege-escalation/#files-and-registry-credentials)
+### [Lêers en Registreer (Geloofsbriewe)](windows-local-privilege-escalation/#files-and-registry-credentials)
 
-* [ ] **Putty:** [**Legitieme Inligting**](windows-local-privilege-escalation/#putty-creds) **en** [**SSH gas sleutels**](windows-local-privilege-escalation/#putty-ssh-host-keys)
+* [ ] **Putty:** [**Geloofsbriewe**](windows-local-privilege-escalation/#putty-creds) **en** [**SSH gas sleutels**](windows-local-privilege-escalation/#putty-ssh-host-keys)
 * [ ] [**SSH sleutels in die register**](windows-local-privilege-escalation/#ssh-keys-in-registry)?
-* [ ] Wagwoorde in [**ongeagte lêers**](windows-local-privilege-escalation/#unattended-files)?
+* [ ] Wagwoorde in [**onbemande lêers**](windows-local-privilege-escalation/#unattended-files)?
 * [ ] Enige [**SAM & SYSTEM**](windows-local-privilege-escalation/#sam-and-system-backups) rugsteun?
-* [ ] [**Wolk legitieme inligting**](windows-local-privilege-escalation/#cloud-credentials)?
+* [ ] [**Wolk geloofsbriewe**](windows-local-privilege-escalation/#cloud-credentials)?
 * [ ] [**McAfee SiteList.xml**](windows-local-privilege-escalation/#mcafee-sitelist.xml) lêer?
 * [**Cached GPP Wagwoord**](windows-local-privilege-escalation/#cached-gpp-pasword)?
-* Wagwoord in [**IIS Web opset lêer**](windows-local-privilege-escalation/#iis-web-config)?
+* Wagwoord in [**IIS Web konfigurasie lêer**](windows-local-privilege-escalation/#iis-web-config)?
 * Interessante inligting in [**web** **logs**](windows-local-privilege-escalation/#logs)?
-* Wil jy [**vra vir legitieme inligting**](windows-local-privilege-escalation/#ask-for-credentials) van die gebruiker?
+* Wil jy [**vra vir geloofsbriewe**](windows-local-privilege-escalation/#ask-for-credentials) van die gebruiker?
 * Interessante [**lêers binne die Stortbak**](windows-local-privilege-escalation/#credentials-in-the-recyclebin)?
-* Ander [**register wat legitieme inligting bevat**](windows-local-privilege-escalation/#inside-the-registry)?
+* Ander [**register wat geloofsbriewe bevat**](windows-local-privilege-escalation/#inside-the-registry)?
 * Binne [**Blaaier data**](windows-local-privilege-escalation/#browsers-history) (dbs, geskiedenis, bladmerke, ...)?
 * [**Generiese wagwoord soektog**](windows-local-privilege-escalation/#generic-password-search-in-files-and-registry) in lêers en register
-* [**Hulpmiddels**](windows-local-privilege-escalation/#tools-that-search-for-passwords) om outomaties vir wagwoorde te soek
+* [**Hulpmiddels**](windows-local-privilege-escalation/#tools-that-search-for-passwords) om outomaties te soek vir wagwoorde
 
 ### [Uitgelekte Handlers](windows-local-privilege-escalation/#leaked-handlers)
 
 * [ ] Het jy toegang tot enige handler van 'n proses wat deur 'n administrateur uitgevoer is?
 
-### [Pyp Kliënt Impersonasie](windows-local-privilege-escalation/#named-pipe-client-impersonation)
+### [Pyp Klient Impersonation](windows-local-privilege-escalation/#named-pipe-client-impersonation)
 
 * [ ] Kyk of jy dit kan misbruik
 
 **Probeer Hard Sekuriteitsgroep**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -142,7 +142,7 @@ Ander maniere om HackTricks te ondersteun:
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **laai HackTricks af in PDF** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**

@@ -14,9 +14,9 @@ Ander maniere om HackTricks te ondersteun:
 
 </details>
 
-**Probeer Hard Security Group**
+**Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -43,7 +43,7 @@ binwalk --dd ".*" file #Displays and extracts all files from the given file
 ```
 ### Foremost
 
-'n Ander algemene instrument om verskuilde lêers te vind is **foremost**. Jy kan die opsetlêer van foremost vind in `/etc/foremost.conf`. As jy net wil soek na spesifieke lêers, ontkommentarieer hulle. As jy niks ontkommentarieer nie, sal foremost soek na sy verstek geconfigureerde lêertipes.
+'n Ander algemene instrument om verskuilde lêers te vind is **foremost**. Jy kan die opsetlêer van foremost vind in `/etc/foremost.conf`. As jy net wil soek na spesifieke lêers, moet jy hulle uitkommenteer. As jy niks uitkommenteer nie, sal foremost soek na sy verstek geconfigureerde lêertipes.
 ```bash
 sudo apt-get install foremost
 foremost -v -i file.img -o output
@@ -58,19 +58,19 @@ scalpel file.img -o output
 ```
 ### Bulk Extractor
 
-Hierdie gereedskap kom binne Kali maar jy kan dit hier vind: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
+Hierdie instrument kom binne kali maar jy kan dit hier vind: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
 
-Hierdie gereedskap kan 'n beeld skandeer en sal **pcaps onttrek** binne dit, **netwerk inligting (URL's, domeine, IP's, MAC's, e-posse)** en meer **lêers**. Jy hoef net te doen:
+Hierdie instrument kan 'n beeld skandeer en sal **pcaps onttrek** binne dit, **netwerk inligting (URL's, domeine, IP's, MAC's, e-posse)** en meer **lêers**. Jy hoef net te doen:
 ```
 bulk_extractor memory.img -o out_folder
 ```
-Navigeer deur **alle inligting** wat die instrument ingesamel het (wagwoorde?), **analiseer** die **pakette** (lees[ **Pcaps-analise**](../pcap-inspection/)), soek na **vreemde domeine** (domeine verwant aan **malware** of **nie-bestaande**).
+Navigeer deur **alle inligting** wat die instrument ingesamel het (wagwoorde?), **analiseer** die **pakette** (lees[ **Pcaps-analise**](../pcap-inspection/)), soek na **vreemde domeine** (domeine verwant aan **kwaadwillige sagteware** of **nie-bestaande**).
 
 ### PhotoRec
 
 Jy kan dit vind op [https://www.cgsecurity.org/wiki/TestDisk\_Download](https://www.cgsecurity.org/wiki/TestDisk\_Download)
 
-Dit kom met GUI- en CLI-weergawes. Jy kan die **lêertipes** kies wat PhotoRec moet soek.
+Dit kom met GUI- en CLI-weergawes. Jy kan die **lêertipes** kies wat jy wil hê dat PhotoRec moet soek.
 
 ![](<../../../.gitbook/assets/image (524).png>)
 
@@ -85,28 +85,28 @@ Kyk na die [kode](https://code.google.com/archive/p/binvis/) en die [webwerf-ins
 * Fokus op dele van 'n monster
 * **Sien van reekse en bronne**, in PE of ELF uitvoerbare lêers bv.
 * Kry **patrone** vir kriptontleding van lêers
-* **Opmerk** pakker- of enkodeeralgoritmes
+* **Opmerk** pakkerversekerings- of enkodeeralgoritmes
 * **Identifiseer** Steganografie deur patrone
 * **Visuele** binêre-verskil
 
-BinVis is 'n goeie **beginpunt om vertroud te raak met 'n onbekende teiken** in 'n swartboks-situasie.
+BinVis is 'n goeie **beginpunt om vertroud te raak met 'n onbekende teiken** in 'n swart-boksing scenario.
 
 ## Spesifieke Data Carving-instrumente
 
 ### FindAES
 
-Soek na AES-sleutels deur te soek na hul sleutelskedules. In staat om 128, 192 en 256 bit sleutels te vind, soos dié wat deur TrueCrypt en BitLocker gebruik word.
+Soek na AES-sleutels deur te soek na hul sleutelskedules. In staat om 128, 192, en 256 bit sleutels te vind, soos dié wat deur TrueCrypt en BitLocker gebruik word.
 
 Laai af [hier](https://sourceforge.net/projects/findaes/).
 
 ## Aanvullende instrumente
 
-Jy kan [**viu** ](https://github.com/atanunq/viu)gebruik om beelde vanuit die terminaal te sien.\
-Jy kan die Linux-opdraglyn-instrument **pdftotext** gebruik om 'n pdf na teks te omskep en dit te lees.
+Jy kan [**viu** ](https://github.com/atanunq/viu)gebruik om beelde van die terminaal te sien.\
+Jy kan die Linux-opdraglyn-instrument **pdftotext** gebruik om 'n pdf in te skakel na teks en dit te lees.
 
-**Probeer Hard Security Group**
+**Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -116,7 +116,7 @@ Jy kan die Linux-opdraglyn-instrument **pdftotext** gebruik om 'n pdf na teks te
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

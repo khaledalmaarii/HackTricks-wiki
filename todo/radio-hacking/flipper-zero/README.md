@@ -14,7 +14,7 @@
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -22,7 +22,7 @@
 
 Met [**Flipper Zero**](https://flipperzero.one/) kan jy:
 
-* **Luister/Vasvang/Afspeel radiofrekwensies:** [**Sub-GHz**](fz-sub-ghz.md)
+* **Luister/Vasvang/Herhaal radiofrekwensies:** [**Sub-GHz**](fz-sub-ghz.md)
 * **Lees/Vasvang/Emuleer NFC-kaarte:** [**NFC**](fz-nfc.md)
 * **Lees/Vasvang/Emuleer 125kHz-etikette:** [**125kHz RFID**](fz-125khz-rfid.md)
 * **Lees/Vasvang/Stuur Infrarooi seine:** [**Infrarooi**](fz-infrared.md)
@@ -35,7 +35,7 @@ Met [**Flipper Zero**](https://flipperzero.one/) kan jy:
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
