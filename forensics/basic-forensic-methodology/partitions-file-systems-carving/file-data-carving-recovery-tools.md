@@ -6,7 +6,7 @@
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -16,7 +16,7 @@ Njia nyingine za kusaidia HackTricks:
 
 **Kikundi cha Usalama cha Try Hard**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -43,7 +43,7 @@ binwalk --dd ".*" file #Displays and extracts all files from the given file
 ```
 ### Foremost
 
-Chombo kingine cha kawaida cha kutafuta faili zilizofichwa ni **foremost**. Unaweza kupata faili ya usanidi wa foremost katika `/etc/foremost.conf`. Ikiwa unataka tu kutafuta baadhi ya faili maalum, toa alama ya mstari. Ikiwa hutotoa alama yoyote, foremost itatafuta aina zake za faili zilizosanidiwa kwa msingi.
+Chombo kingine cha kawaida cha kutafuta faili zilizofichwa ni **foremost**. Unaweza kupata faili ya usanidi wa foremost katika `/etc/foremost.conf`. Ikiwa unataka tu kutafuta baadhi ya faili maalum, toa alama ya maoni kwao. Ikiwa hutotoa alama ya maoni kwa kitu chochote, foremost itatafuta aina zake za faili zilizosanidiwa kwa msingi.
 ```bash
 sudo apt-get install foremost
 foremost -v -i file.img -o output
@@ -51,7 +51,7 @@ foremost -v -i file.img -o output
 ```
 ### **Scalpel**
 
-**Scalpel** ni chombo kingine kinachoweza kutumika kutafuta na kutoa **faili zilizowekwa ndani ya faili**. Katika kesi hii, utahitaji kufuta maoni kutoka kwenye faili ya usanidi (_/etc/scalpel/scalpel.conf_) aina za faili unazotaka izitoa.
+**Scalpel** ni chombo kingine kinachoweza kutumika kutafuta na kutoa **faili zilizojumuishwa katika faili**. Katika kesi hii, utahitaji kufuta maoni kutoka kwenye faili ya usanidi (_/etc/scalpel/scalpel.conf_) aina za faili unazotaka izitoa.
 ```bash
 sudo apt-get install scalpel
 scalpel file.img -o output
@@ -64,8 +64,6 @@ Herramienta hii inaweza kutafuta picha na **kutoa pcaps** ndani yake, **taarifa 
 ```
 bulk_extractor memory.img -o out_folder
 ```
-Pitia **maelezo yote** ambayo chombo kimekusanya (maneno ya siri?), **chambua** **pakiti** (soma [**Uchambuzi wa Pcaps**](../pcap-inspection/)), tafuta **vikoa vya ajabu** (vikoa vinavyohusiana na **programu hasidi** au **visivyokuwepo**).
-
 ### PhotoRec
 
 Unaweza kuipata kwenye [https://www.cgsecurity.org/wiki/TestDisk\_Download](https://www.cgsecurity.org/wiki/TestDisk\_Download)
@@ -80,18 +78,18 @@ Angalia [mimba](https://code.google.com/archive/p/binvis/) na [zana ya ukurasa w
 
 #### Sifa za BinVis
 
-* Mwonekano wa **muundo** wa kipekee
-* Grafu nyingi kwa maeneo tofauti ya kuzingatia
+* Mwangaza wa **muundo na mtazamaji** wa vitendo
+* Grafu nyingi kwa pointi tofauti za kuzingatia
 * Kuzingatia sehemu za sampuli
 * **Kuona maneno na rasilimali**, katika utekelezaji wa PE au ELF kwa mfano
-* Kupata **mifano** kwa cryptanalysis kwenye faili
-* **Kugundua** pakiti au algorithm za encoder
-* **Tambua** Steganografia kwa mifano
-* **Mwonekano** wa tofauti za binary
+* Kupata **mifumo** kwa cryptanalysis kwenye faili
+* **Kugundua** packer au algorithms za encoder
+* **Kutambua** Steganography kwa mifumo
+* **Visual** binary-diffing
 
 BinVis ni **mahali pazuri pa kuanzia ili kuzoea lengo lisilojulikana** katika hali ya black-boxing.
 
-## Vyombo Maalum vya Kuchonga Data
+## Zana Maalum za Ukarabati wa Data
 
 ### FindAES
 
@@ -99,14 +97,14 @@ Inatafuta funguo za AES kwa kutafuta ratiba zao za funguo. Inaweza kupata funguo
 
 Pakua [hapa](https://sourceforge.net/projects/findaes/).
 
-## Vyombo vya Kuboresha
+## Zana Zingine za Kufanana
 
 Unaweza kutumia [**viu** ](https://github.com/atanunq/viu)kuona picha kutoka kwenye terminal.\
 Unaweza kutumia zana ya mstari wa amri ya linux **pdftotext** kubadilisha pdf kuwa maandishi na kusoma.
 
-**Kikundi cha Usalama cha Try Hard**
+**Jaribu Kikundi cha Usalama cha Kujitahidi**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -114,7 +112,7 @@ Unaweza kutumia zana ya mstari wa amri ya linux **pdftotext** kubadilisha pdf ku
 
 <summary><strong>Jifunze kuhusu kuvamia AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Njia nyingine za kusaidia HackTricks:
+Njia zingine za kusaidia HackTricks:
 
 * Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)

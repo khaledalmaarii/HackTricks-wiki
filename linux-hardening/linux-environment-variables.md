@@ -16,7 +16,7 @@ Njia nyingine za kusaidia HackTricks:
 
 **Kikundi cha Usalama cha Try Hard**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -60,7 +60,7 @@ Kutoka: [https://geek-university.com/linux/common-environment-variables/](https:
 * **DISPLAY** – kiolesura kinachotumiwa na **X**. Kipimo hiki kawaida huwekwa kama **:0.0**, ambayo inamaanisha kiolesura cha kwanza kwenye kompyuta ya sasa.
 * **EDITOR** – mhariri wa maandishi unaopendelewa na mtumiaji.
 * **HISTFILESIZE** – idadi kubwa ya mistari inayojumuishwa kwenye faili ya historia.
-* **HISTSIZE** – Idadi ya mistari inayoongezwa kwenye faili ya historia wakati mtumiaji anamaliza kikao chake.
+* **HISTSIZE** – Idadi ya mistari inayoongezwa kwenye faili ya historia wakati mtumiaji anamaliza kipindi chake.
 * **HOME** – saraka yako ya nyumbani.
 * **HOSTNAME** – jina la mwenyeji wa kompyuta.
 * **LANG** – lugha yako ya sasa.
@@ -68,9 +68,9 @@ Kutoka: [https://geek-university.com/linux/common-environment-variables/](https:
 * **MANPATH** – orodha ya saraka za kutafuta kurasa za mwongozo.
 * **OSTYPE** – aina ya mfumo wa uendeshaji.
 * **PS1** – ishara ya amri ya msingi katika bash.
-* **PATH** – hifadhi njia ya saraka zote zinazoshikilia faili za binary unazotaka kutekeleza kwa kutoa jina la faili na sio kwa njia ya kihusishi au kamili.
+* **PATH** – hifadhi njia ya saraka zote zinazoshikilia faili za binary unazotaka kutekeleza kwa kuzitaja kwa jina la faili na sio kwa njia ya kihusishi au kamili.
 * **PWD** – saraka ya kazi ya sasa.
-* **SHELL** – njia ya kabu ya amri ya sasa (kwa mfano, **/bin/bash**).
+* **SHELL** – njia ya kabati ya amri ya sasa (kwa mfano, **/bin/bash**).
 * **TERM** – aina ya terminal ya sasa (kwa mfano, **xterm**).
 * **TZ** – eneo lako la muda.
 * **USER** – jina lako la mtumiaji la sasa.
@@ -79,13 +79,13 @@ Kutoka: [https://geek-university.com/linux/common-environment-variables/](https:
 
 ### **HISTFILESIZE**
 
-Badilisha **thamani ya kipimo hiki kuwa 0**, hivyo unapomaliza kikao chako faili ya historia (\~/.bash\_history) **itafutwa**.
+Badilisha **thamani ya kipimo hiki iwe 0**, hivyo unapomaliza **kipindi chako** faili ya **historia** (\~/.bash\_history) **itafutwa**.
 ```bash
 export HISTFILESIZE=0
 ```
 ### **HISTSIZE**
 
-**Badilisha thamani ya kigezo hiki iwe 0**, ili unapomaliza **kikao chako** amri yoyote isiongezwe kwenye **faili ya historia** (\~/.bash\_history).
+Badilisha **thamani ya kigezo hiki iwe 0**, ili unapomaliza **kikao chako** amri yoyote isiongezwe kwenye **faili ya historia** (\~/.bash\_history).
 ```bash
 export HISTSIZE=0
 ```
@@ -96,9 +96,9 @@ Mchakato utatumia **proxy** iliyotangazwa hapa kuunganisha kwenye mtandao kupiti
 export http_proxy="http://10.10.10.10:8080"
 export https_proxy="http://10.10.10.10:8080"
 ```
-### SSL\_CERT\_FILE & SSL\_CERT\_DIR
+### SSL_CERT_FILE & SSL_CERT_DIR
 
-Mchakato utaamini vyeti vilivyoorodheshwa katika **hizi variables za mazingira**.
+Mchakato utaamini vyeti vilivyoorodheshwa katika **mazingira haya ya mazingira**.
 ```bash
 export SSL_CERT_FILE=/path/to/ca-bundle.pem
 export SSL_CERT_DIR=/path/to/ca-certificates
@@ -125,15 +125,15 @@ Kazi moja iliyowekwa nyuma, moja imezuiliwa na amri ya mwisho haikumalizika kwa 
 
 ![](<../.gitbook/assets/image (90).png>)
 
-**Kikundi cha Usalama cha Kujaribu Kwa Bidii**
+**Kikundi cha Usalama cha Kujitahidi Kwa Bidii**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu udukuzi wa AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
@@ -141,6 +141,6 @@ Njia nyingine za kusaidia HackTricks:
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
