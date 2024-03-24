@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Altri modi per supportare HackTricks:
 
@@ -16,7 +16,7 @@ Altri modi per supportare HackTricks:
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -90,7 +90,7 @@ DebuggableAttribute.DebuggingModes.DisableOptimizations |
 DebuggableAttribute.DebuggingModes.IgnoreSymbolStoreSequencePoints |
 DebuggableAttribute.DebuggingModes.EnableEditAndContinue)]
 ```
-E clicca su **compile**:
+E clicca su **compila**:
 
 ![](<../../.gitbook/assets/image (314) (1) (1).png>)
 
@@ -104,25 +104,25 @@ Quindi, se la tua applicazione .NET viene **eseguita** da **IIS**, puoi **riavvi
 ```
 iisreset /noforce
 ```
-Quindi, per iniziare il debug, dovresti chiudere tutti i file aperti e selezionare **Allega al processo...** nella **scheda Debug**:
+Quindi, per iniziare il debug, dovresti chiudere tutti i file aperti e selezionare **Attach to Process...** nella **scheda Debug**:
 
 ![](<../../.gitbook/assets/image (280).png>)
 
-Successivamente seleziona **w3wp.exe** per collegarti al **server IIS** e clicca su **allega**:
+Successivamente, seleziona **w3wp.exe** per collegarti al **server IIS** e clicca su **attach**:
 
 ![](<../../.gitbook/assets/image (281).png>)
 
-Ora che stiamo effettuando il debug del processo, è il momento di fermarlo e caricare tutti i moduli. Prima fai clic su _Debug >> Interrompi tutto_ e poi fai clic su _**Debug >> Finestre >> Moduli**_:
+Ora che stiamo effettuando il debug del processo, è il momento di fermarlo e caricare tutti i moduli. Prima fai clic su _Debug >> Break All_ e poi fai clic su _**Debug >> Windows >> Modules**_:
 
 ![](<../../.gitbook/assets/image (286).png>)
 
 ![](<../../.gitbook/assets/image (283).png>)
 
-Fai clic su qualsiasi modulo su **Moduli** e seleziona **Apri tutti i moduli**:
+Fai clic su qualsiasi modulo in **Modules** e seleziona **Open All Modules**:
 
 ![](<../../.gitbook/assets/image (284).png>)
 
-Fai clic con il pulsante destro su qualsiasi modulo in **Esplora assembly** e seleziona **Ordina assembly**:
+Fai clic con il pulsante destro su qualsiasi modulo in **Assembly Explorer** e seleziona **Sort Assemblies**:
 
 ![](<../../.gitbook/assets/image (285).png>)
 
@@ -145,7 +145,7 @@ Fai clic con il pulsante destro su qualsiasi modulo in **Esplora assembly** e se
 
 ![](<../../.gitbook/assets/image (136).png>)
 
-Quindi, quando inizi il debug, **l'esecuzione si interromperà quando ogni DLL viene caricata**, quindi, quando rundll32 carica la tua DLL, l'esecuzione si interromperà.
+Quindi, quando inizi il debug, l'esecuzione verrà interrotta ogni volta che viene caricata una DLL, quindi, quando rundll32 carica la tua DLL, l'esecuzione verrà interrotta.
 
 Ma, come puoi accedere al codice della DLL che è stata caricata? Utilizzando questo metodo, non so come.
 
@@ -153,8 +153,8 @@ Ma, come puoi accedere al codice della DLL che è stata caricata? Utilizzando qu
 
 * **Carica rundll32** (64 bit in C:\Windows\System32\rundll32.exe e 32 bit in C:\Windows\SysWOW64\rundll32.exe)
 * **Modifica la riga di comando** ( _File --> Modifica riga di comando_ ) e imposta il percorso della DLL e la funzione che desideri chiamare, ad esempio: "C:\Windows\SysWOW64\rundll32.exe" "Z:\shared\Cybercamp\rev2\\\14.ridii\_2.dll",DLLMain
-* Cambia _Opzioni --> Impostazioni_ e seleziona "**Ingresso DLL**".
-* Quindi **avvia l'esecuzione**, il debugger si fermerà a ogni dll principale, a un certo punto ti **fermerai nell'ingresso della DLL del tuo dll**. Da lì, cerca i punti in cui desideri impostare un breakpoint.
+* Cambia _Opzioni --> Impostazioni_ e seleziona "**DLL Entry**".
+* Quindi **avvia l'esecuzione**, il debugger si fermerà ad ogni dll main, a un certo punto ti fermerai nell'**Entry della DLL della tua DLL**. Da lì, cerca i punti in cui desideri impostare un breakpoint.
 
 Nota che quando l'esecuzione viene interrotta per qualsiasi motivo in win64dbg, puoi vedere **in quale codice ti trovi** guardando nella **parte superiore della finestra di win64dbg**:
 
@@ -181,8 +181,8 @@ Quindi, guardando questo, puoi vedere quando l'esecuzione è stata interrotta ne
 [**Blobrunner**](https://github.com/OALabs/BlobRunner) **alloca** lo **shellcode** all'interno di uno spazio di memoria, ti **indica** l'**indirizzo di memoria** in cui lo shellcode è stato allocato e **ferma** l'esecuzione.\
 Successivamente, è necessario **collegare un debugger** (Ida o x64dbg) al processo e impostare un **breakpoint all'indirizzo di memoria indicato** e **riprendere** l'esecuzione. In questo modo sarai in grado di eseguire il debug dello shellcode.
 
-La pagina dei rilasci su GitHub contiene zip contenenti i rilasci compilati: [https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)\
-Puoi trovare una versione leggermente modificata di Blobrunner nel seguente link. Per compilarlo, basta **creare un progetto C/C++ in Visual Studio Code, copiare e incollare il codice e compilarlo**.
+La pagina dei rilasci su GitHub contiene zippati contenenti i rilasci compilati: [https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)\
+Puoi trovare una versione leggermente modificata di Blobrunner al seguente link. Per compilarlo, basta **creare un progetto C/C++ in Visual Studio Code, copiare e incollare il codice e compilarlo**.
 
 {% content-ref url="blobrunner.md" %}
 [blobrunner.md](blobrunner.md)
@@ -190,7 +190,7 @@ Puoi trovare una versione leggermente modificata di Blobrunner nel seguente link
 
 ### Debugging di uno shellcode con jmp2it
 
-[**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4)è molto simile a blobrunner. **Alloca** lo **shellcode** all'interno di uno spazio di memoria e avvia un **loop eterno**. Successivamente è necessario **collegare il debugger** al processo, **avviare l'esecuzione, attendere 2-5 secondi e premere stop** e ti troverai all'interno del **loop eterno**. Salta alla prossima istruzione del loop eterno poiché sarà una chiamata allo shellcode e infine ti troverai ad eseguire lo shellcode.
+[**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4) è molto simile a blobrunner. **Alloca** lo **shellcode** all'interno di uno spazio di memoria e avvia un **loop eterno**. Successivamente, è necessario **collegare il debugger** al processo, **avviare l'esecuzione, attendere 2-5 secondi e premere stop** e ti troverai all'interno del **loop eterno**. Salta alla prossima istruzione del loop eterno poiché sarà una chiamata allo shellcode e infine ti troverai ad eseguire lo shellcode.
 
 ![](<../../.gitbook/assets/image (397).png>)
 
@@ -200,7 +200,7 @@ Puoi scaricare una versione compilata di [jmp2it nella pagina dei rilasci](https
 
 [**Cutter**](https://github.com/rizinorg/cutter/releases/tag/v1.12.0) è l'interfaccia grafica di radare. Utilizzando Cutter puoi emulare lo shellcode e ispezionarlo dinamicamente.
 
-Nota che Cutter ti consente di "Aprire file" e "Aprire shellcode". Nel mio caso, quando ho aperto lo shellcode come file, lo ha decompilato correttamente, ma quando l'ho aperto come shellcode non l'ha fatto:
+Nota che Cutter ti consente di "Aprire File" e "Aprire Shellcode". Nel mio caso, quando ho aperto lo shellcode come file, lo ha decompilato correttamente, ma quando l'ho aperto come shellcode no:
 
 ![](<../../.gitbook/assets/image (400).png>)
 
@@ -210,11 +210,11 @@ Per avviare l'emulazione nel punto desiderato, imposta un bp lì e apparentement
 
 ![](<../../.gitbook/assets/image (401).png>)
 
-Puoi vedere lo stack, ad esempio, all'interno di un dump esadecimale:
+Puoi vedere ad esempio lo stack all'interno di un dump esadecimale:
 
 ![](<../../.gitbook/assets/image (402).png>)
 
-### Deobfuscation dello shellcode e ottenere le funzioni eseguite
+### Deobfuscating dello shellcode e ottenere le funzioni eseguite
 
 Dovresti provare [**scdbg**](http://sandsprite.com/blogs/index.php?uid=7\&pid=152).\
 Ti dirà quali funzioni sta utilizzando lo shellcode e se lo shellcode si sta **decodificando** in memoria.
@@ -226,13 +226,13 @@ scdbg.exe -f shellcode -d #Dump decoded shellcode
 scdbg.exe -f shellcode /findsc #Find offset where starts
 scdbg.exe -f shellcode /foff 0x0000004D #Start the executing in that offset
 ```
-scDbg conta anche un launcher grafico in cui puoi selezionare le opzioni desiderate ed eseguire lo shellcode
+scDbg conta anche con un launcher grafico in cui puoi selezionare le opzioni desiderate ed eseguire lo shellcode
 
 ![](<../../.gitbook/assets/image (398).png>)
 
-L'opzione **Create Dump** scaricherà lo shellcode finale se viene apportata qualsiasi modifica dinamicamente nello shellcode in memoria (utile per scaricare lo shellcode decodificato). L'**offset di avvio** può essere utile per avviare lo shellcode a un offset specifico. L'opzione **Debug Shell** è utile per eseguire il debug dello shellcode utilizzando il terminale scDbg (tuttavia trovo che una qualsiasi delle opzioni spiegate prima sia migliore per questa questione in quanto sarai in grado di utilizzare Ida o x64dbg).
+L'opzione **Create Dump** scaricherà lo shellcode finale se viene apportata una modifica dinamica allo shellcode in memoria (utile per scaricare lo shellcode decodificato). L'**offset di avvio** può essere utile per avviare lo shellcode a un offset specifico. L'opzione **Debug Shell** è utile per eseguire il debug dello shellcode utilizzando il terminale scDbg (tuttavia trovo che una qualsiasi delle opzioni spiegate prima sia migliore per questa questione in quanto potrai utilizzare Ida o x64dbg).
 
-### Disassemblaggio usando CyberChef
+### Disassemblaggio utilizzando CyberChef
 
 Carica il tuo file shellcode come input e utilizza la seguente ricetta per decompilarlo: [https://gchq.github.io/CyberChef/#recipe=To\_Hex('Space',0)Disassemble\_x86('32','Full%20x86%20architecture',16,0,true,true)](https://gchq.github.io/CyberChef/#recipe=To\_Hex\('Space',0\)Disassemble\_x86\('32','Full%20x86%20architecture',16,0,true,true\))
 
@@ -243,7 +243,7 @@ Questo offuscatore **modifica tutte le istruzioni per `mov`** (sì, davvero cool
 * [https://www.youtube.com/watch?v=2VF\_wPkiBJY](https://www.youtube.com/watch?v=2VF\_wPkiBJY)
 * [https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas\_2015\_the\_movfuscator.pdf](https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas\_2015\_the\_movfuscator.pdf)
 
-Se sei fortunato [demovfuscator](https://github.com/kirschju/demovfuscator) deofuscherà il binario. Ha diverse dipendenze
+Se sei fortunato, [demovfuscator](https://github.com/kirschju/demovfuscator) deofuscherà il binario. Ha diverse dipendenze
 ```
 apt-get install libcapstone-dev
 apt-get install libz3-dev
@@ -259,7 +259,7 @@ Per trovare il **punto di ingresso** cerca le funzioni con `::main` come in:
 ![](<../../.gitbook/assets/image (612).png>)
 
 In questo caso il binario si chiamava authenticator, quindi è abbastanza ovvio che questa sia la funzione principale interessante.\
-Avendo il **nome** delle **funzioni** chiamate, cerca su **Internet** per apprendere i loro **input** e **output**.
+Avendo il **nome** delle **funzioni** chiamate, cerca informazioni su di esse su **Internet** per conoscere i loro **input** e **output**.
 
 ## **Delphi**
 
@@ -315,7 +315,7 @@ DOWN = 128
 R = 256
 L = 256
 ```
-Quindi, in questo tipo di programma, la parte interessante sarà **come il programma tratta l'input dell'utente**. All'indirizzo **0x4000130** troverai la funzione comunemente trovata: **KEYINPUT**.
+Quindi, in questo tipo di programma, la parte interessante sarà **come il programma gestisce l'input dell'utente**. All'indirizzo **0x4000130** troverai la funzione comunemente trovata: **KEYINPUT**.
 
 ![](<../../.gitbook/assets/image (579).png>)
 
@@ -354,7 +354,7 @@ uVar2 = DAT_030004dc;
 uVar1 = *puVar6;
 if ((uVar1 & DAT_030004da & ~uVar4) != 0) {
 ```
-L'ultimo if sta controllando se **`uVar4`** è tra gli **ultimi Keys** e non è la chiave corrente, chiamata anche rilascio di un pulsante (la chiave corrente è memorizzata in **`uVar1`**).
+L'ultimo if sta controllando se **`uVar4`** è tra gli **ultimi tasti** e non è il tasto corrente, chiamato anche rilascio di un pulsante (il tasto corrente è memorizzato in **`uVar1`**).
 ```c
 if (uVar1 == 4) {
 DAT_030000d4 = 0;
@@ -405,13 +405,13 @@ Quindi, in questa sfida, conoscendo i valori dei pulsanti, dovevi **premere una 
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 <details>
 
-<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Altri modi per supportare HackTricks:
 
@@ -419,6 +419,6 @@ Altri modi per supportare HackTricks:
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
 * Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository di Github.
+* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

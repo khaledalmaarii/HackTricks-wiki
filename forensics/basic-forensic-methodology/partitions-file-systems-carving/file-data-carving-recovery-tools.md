@@ -7,7 +7,7 @@
 Altri modi per supportare HackTricks:
 
 * Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale PEASS & HackTricks**](https://peass.creator-spring.com)
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
 * Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
@@ -16,7 +16,7 @@ Altri modi per supportare HackTricks:
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -32,7 +32,7 @@ Lo strumento più comune utilizzato in forense per estrarre file dalle immagini 
 
 ### Binwalk <a href="#binwalk" id="binwalk"></a>
 
-**Binwalk** è uno strumento per analizzare file binari e trovare contenuti incorporati. È installabile tramite `apt` e il suo codice sorgente si trova su [GitHub](https://github.com/ReFirmLabs/binwalk).
+**Binwalk** è uno strumento per analizzare file binari per trovare contenuti incorporati. È installabile tramite `apt` e il suo codice sorgente si trova su [GitHub](https://github.com/ReFirmLabs/binwalk).
 
 **Comandi utili**:
 ```bash
@@ -58,14 +58,12 @@ scalpel file.img -o output
 ```
 ### Bulk Extractor
 
-Questo strumento è incluso in kali ma puoi trovarlo qui: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
+Questo strumento è incluso in Kali ma puoi trovarlo qui: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
 
-Questo strumento può esaminare un'immagine e **estrarrà pcaps** al suo interno, **informazioni di rete (URL, domini, IP, MAC, email)** e altri **file**. Devi solo fare:
+Questo strumento può esaminare un'immagine e **estrarrà i pcaps** al suo interno, le **informazioni di rete (URL, domini, IP, MAC, email)** e altri **file**. Devi solo fare:
 ```
 bulk_extractor memory.img -o out_folder
 ```
-Navigate attraverso **tutte le informazioni** che lo strumento ha raccolto (password?), **analizza** i **pacchetti** (leggi [**Analisi Pcaps**](../pcap-inspection/)), cerca **domini strani** (domini correlati al **malware** o **inesistenti**).
-
 ### PhotoRec
 
 Puoi trovarlo su [https://www.cgsecurity.org/wiki/TestDisk\_Download](https://www.cgsecurity.org/wiki/TestDisk\_Download)
@@ -82,14 +80,14 @@ Controlla il [codice](https://code.google.com/archive/p/binvis/) e la [pagina we
 
 * Visualizzatore di **strutture** visive e attive
 * Più grafici per punti di focalizzazione diversi
-* Concentrarsi su porzioni di un campione
+* Concentrandosi su porzioni di un campione
 * **Vedere stringhe e risorse**, in eseguibili PE o ELF ad es.
 * Ottenere **modelli** per la crittoanalisi dei file
 * **Individuare** algoritmi di impacchettamento o codifica
 * **Identificare** la steganografia tramite modelli
 * **Differenziazione** binaria visuale
 
-BinVis è un ottimo **punto di partenza per familiarizzare con un target sconosciuto** in uno scenario di black-boxing.
+BinVis è un ottimo **punto di partenza per familiarizzare con un target sconosciuto** in uno scenario di scatola nera.
 
 ## Strumenti Specifici per il Recupero dei Dati
 
@@ -101,12 +99,12 @@ Scarica [qui](https://sourceforge.net/projects/findaes/).
 
 ## Strumenti Complementari
 
-Puoi utilizzare [**viu** ](https://github.com/atanunq/viu)per visualizzare immagini dal terminale.\
+Puoi utilizzare [**viu** ](https://github.com/atanunq/viu)per vedere immagini dal terminale.\
 Puoi utilizzare lo strumento della riga di comando di Linux **pdftotext** per trasformare un pdf in testo e leggerlo.
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -118,8 +116,8 @@ Altri modi per supportare HackTricks:
 
 * Se desideri vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusivi [**NFT**](https://opensea.io/collection/the-peass-family)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository di Github.
 
 </details>

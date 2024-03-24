@@ -2,11 +2,11 @@
 
 <details>
 
-<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking su AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
 
 Altri modi per supportare HackTricks:
 
-* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
 * Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -16,7 +16,7 @@ Altri modi per supportare HackTricks:
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -34,7 +34,7 @@ binwalk --dd ".*" file # Extracts all data
 ```
 ### **Foremost**
 
-Recupera file in base ai loro header e footer, utile per immagini png. Installato tramite `apt` con la sua sorgente su [GitHub](https://github.com/korczis/foremost).
+Recupera file in base all'intestazione e al piè di pagina, utile per le immagini png. Installato tramite `apt` con la sua sorgente su [GitHub](https://github.com/korczis/foremost).
 ```bash
 foremost -i file # Extracts data
 ```
@@ -92,26 +92,26 @@ Per tentare di riparare un'immagine danneggiata, potrebbe essere utile aggiunger
 ```bash
 ./magick mogrify -set comment 'Extraneous bytes removed' stego.jpg
 ```
-### **Steghide per la Nascita dei Dati**
+### **Steghide per il Nascondere Dati**
 
-Steghide facilita la nascita dei dati all'interno di file `JPEG, BMP, WAV e AU`, in grado di incorporare ed estrarre dati criptati. L'installazione è semplice utilizzando `apt`, e il [codice sorgente è disponibile su GitHub](https://github.com/StefanoDeVuono/steghide).
+Steghide facilita il nascondere dati all'interno di file `JPEG, BMP, WAV e AU`, in grado di incorporare ed estrarre dati criptati. L'installazione è semplice utilizzando `apt`, e il [codice sorgente è disponibile su GitHub](https://github.com/StefanoDeVuono/steghide).
 
 **Comandi:**
 
 * `steghide info file` rivela se un file contiene dati nascosti.
-* `steghide extract -sf file [--passphrase password]` estrae i dati nascosti, password facoltativa.
+* `steghide extract -sf file [--passphrase password]` estrae i dati nascosti, password opzionale.
 
 Per l'estrazione basata sul web, visita [questo sito web](https://futureboy.us/stegano/decinput.html).
 
 **Attacco di Forza Bruta con Stegcracker:**
 
-* Per tentare la violazione della password su Steghide, utilizza [stegcracker](https://github.com/Paradoxis/StegCracker.git) nel seguente modo:
+* Per tentare il cracking della password su Steghide, utilizza [stegcracker](https://github.com/Paradoxis/StegCracker.git) nel seguente modo:
 ```bash
 stegcracker <file> [<wordlist>]
 ```
 ### **zsteg per file PNG e BMP**
 
-zsteg è specializzato nel rivelare dati nascosti nei file PNG e BMP. L'installazione avviene tramite `gem install zsteg`, con la [sua sorgente su GitHub](https://github.com/zed-0xff/zsteg).
+zsteg è specializzato nel rivelare dati nascosti nei file PNG e BMP. L'installazione avviene tramite `gem install zsteg`, con la sua [fonte su GitHub](https://github.com/zed-0xff/zsteg).
 
 **Comandi:**
 
@@ -161,7 +161,7 @@ Steghide è uno strumento versatile progettato per nascondere dati nei file JPEG
 
 ### **Stegpy (PNG, BMP, GIF, WebP, WAV)**
 
-Questo strumento è compatibile con una varietà di formati tra cui PNG, BMP, GIF, WebP e WAV. Per ulteriori informazioni, consulta la [sezione di Stegpy](stego-tricks.md#stegpy-png-bmp-gif-webp-wav).
+Questo strumento è compatibile con una varietà di formati tra cui PNG, BMP, GIF, WebP e WAV. Per ulteriori informazioni, consulta la [sezione su Stegpy](stego-tricks.md#stegpy-png-bmp-gif-webp-wav).
 
 ### **ffmpeg**
 
@@ -198,18 +198,18 @@ I dati binari che danno un numero intero potrebbero rappresentare un codice QR. 
 import math
 math.sqrt(2500) #50
 ```
-### **Traduzione in Braille**
+### **Traduzione Braille**
 
-Per tradurre in Braille, il [Traduttore Braille di Branah](https://www.branah.com/braille-translator) è una risorsa eccellente.
+Per tradurre il Braille, il [Traduttore Braille di Branah](https://www.branah.com/braille-translator) è una risorsa eccellente.
 
 ## **Riferimenti**
 
 * [**https://0xrick.github.io/lists/stego/**](https://0xrick.github.io/lists/stego/)
 * [**https://github.com/DominicBreuker/stego-toolkit**](https://github.com/DominicBreuker/stego-toolkit)
 
-**Gruppo di Sicurezza Try Hard**
+**Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -221,8 +221,8 @@ Altri modi per supportare HackTricks:
 
 * Se desideri vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusivi [**NFT**](https://opensea.io/collection/the-peass-family)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository di Github.
+* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
