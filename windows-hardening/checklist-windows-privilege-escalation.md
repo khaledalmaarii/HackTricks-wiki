@@ -2,21 +2,21 @@
 
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
 
 支持HackTricks的其他方式：
 
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFTs收藏品](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFT](https://opensea.io/collection/the-peass-family)收藏品
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -41,7 +41,7 @@
 
 * [ ] 检查[**审计**](windows-local-privilege-escalation/#audit-settings)和[**WEF**](windows-local-privilege-escalation/#wef)设置
 * [ ] 检查[**LAPS**](windows-local-privilege-escalation/#laps)
-* [ ] 检查是否激活[**WDigest**](windows-local-privilege-escalation/#wdigest)
+* [ ] 检查是否激活了[**WDigest**](windows-local-privilege-escalation/#wdigest)
 * [ ] [**LSA保护**](windows-local-privilege-escalation/#lsa-protection)？
 * [**凭据保护**](windows-local-privilege-escalation/#credentials-guard)[?](windows-local-privilege-escalation/#cached-credentials)
 * [**缓存凭据**](windows-local-privilege-escalation/#cached-credentials)？
@@ -51,15 +51,15 @@
 * [**用户权限**](windows-local-privilege-escalation/#users-and-groups)
 * 检查[**当前**用户**权限**](windows-local-privilege-escalation/#users-and-groups)
 * 您是否是[**任何特权组的成员**](windows-local-privilege-escalation/#privileged-groups)？
-* 检查是否启用了[这些令牌中的任何一个](windows-local-privilege-escalation/#token-manipulation)：**SeImpersonatePrivilege, SeAssignPrimaryPrivilege, SeTcbPrivilege, SeBackupPrivilege, SeRestorePrivilege, SeCreateTokenPrivilege, SeLoadDriverPrivilege, SeTakeOwnershipPrivilege, SeDebugPrivilege** ?
+* 检查是否启用了以下任何令牌：**SeImpersonatePrivilege, SeAssignPrimaryPrivilege, SeTcbPrivilege, SeBackupPrivilege, SeRestorePrivilege, SeCreateTokenPrivilege, SeLoadDriverPrivilege, SeTakeOwnershipPrivilege, SeDebugPrivilege**？
 * [**用户会话**](windows-local-privilege-escalation/#logged-users-sessions)？
 * 检查[**用户主目录**](windows-local-privilege-escalation/#home-folders)（访问？）
 * 检查[**密码策略**](windows-local-privilege-escalation/#password-policy)
-* [剪贴板中的内容是什么](windows-local-privilege-escalation/#get-the-content-of-the-clipboard)？
+* [**剪贴板**](windows-local-privilege-escalation/#get-the-content-of-the-clipboard)中有什么？
 
 ### [网络](windows-local-privilege-escalation/#network)
 
-* 检查**当前**[**网络** **信息**](windows-local-privilege-escalation/#network)
+* 检查**当前**[**网络信息**](windows-local-privilege-escalation/#network)
 * 检查**隐藏的本地服务**是否受限于外部
 
 ### [运行进程](windows-local-privilege-escalation/#running-processes)
@@ -90,15 +90,16 @@
 ### [Network](windows-local-privilege-escalation/#network)
 
 * [ ] 枚举网络（共享、接口、路由、邻居，...）
-* [ ] 特别关注在本地主机（127.0.0.1）上监听的网络服务
+* [ ] 特别关注监听在本地主机（127.0.0.1）上的网络服务
 
 ### [Windows Credentials](windows-local-privilege-escalation/#windows-credentials)
 
 * [ ] [**Winlogon**](windows-local-privilege-escalation/#winlogon-credentials)凭据
-* [ ] 你可以使用的[**Windows Vault**](windows-local-privilege-escalation/#credentials-manager-windows-vault)凭据吗？
-* [ ] 有趣的[**DPAPI凭据**](windows-local-privilege-escalation/#dpapi)吗？
+* [ ] 你可以使用的[**Windows Vault**](windows-local-privilege-escalation/#credentials-manager-windows-vault)凭据？
+* [ ] 有趣的[**DPAPI凭据**](windows-local-privilege-escalation/#dpapi)？
 * [ ] 已保存的[**Wifi网络**](windows-local-privilege-escalation/#wifi)密码？
 * [ ] 已保存的[**RDP连接**](windows-local-privilege-escalation/#saved-rdp-connections)中的密码？
+* [ ] 最近运行命令中的密码[**recently run commands**](windows-local-privilege-escalation/#recently-run-commands)？
 * [ ] [**远程桌面凭据管理器**](windows-local-privilege-escalation/#remote-desktop-credential-manager)密码？
 * [ ] [**AppCmd.exe**存在](windows-local-privilege-escalation/#appcmd-exe)吗？凭据？
 * [ ] [**SCClient.exe**](windows-local-privilege-escalation/#scclient-sccm)？DLL侧加载？
@@ -108,18 +109,18 @@
 * [ ] **Putty:** [**凭据**](windows-local-privilege-escalation/#putty-creds) **和** [**SSH主机密钥**](windows-local-privilege-escalation/#putty-ssh-host-keys)
 * [ ] 注册表中的[**SSH密钥**](windows-local-privilege-escalation/#ssh-keys-in-registry)？
 * [ ] 未经人工干预的文件中的密码[**unattended files**](windows-local-privilege-escalation/#unattended-files)？
-* [ ] 任何[**SAM & SYSTEM**](windows-local-privilege-escalation/#sam-and-system-backups)备份？
+* [ ] 任何[**SAM和SYSTEM**](windows-local-privilege-escalation/#sam-and-system-backups)备份？
 * [ ] [**云凭据**](windows-local-privilege-escalation/#cloud-credentials)？
 * [ ] [**McAfee SiteList.xml**](windows-local-privilege-escalation/#mcafee-sitelist.xml)文件？
 * [ ] [**缓存的GPP密码**](windows-local-privilege-escalation/#cached-gpp-pasword)？
 * [ ] [**IIS Web配置文件**](windows-local-privilege-escalation/#iis-web-config)中的密码？
 * [ ] [**Web日志**](windows-local-privilege-escalation/#logs)中的有趣信息？
 * [ ] 想要向用户[**请求凭据**](windows-local-privilege-escalation/#ask-for-credentials)吗？
-* [ ] 回收站中的[**文件**](windows-local-privilege-escalation/#credentials-in-the-recyclebin)中的有趣信息？
+* [ ] 回收站中的[**凭据**](windows-local-privilege-escalation/#credentials-in-the-recyclebin)中的有趣文件？
 * [ ] 其他包含凭据的[**注册表**](windows-local-privilege-escalation/#inside-the-registry)？
 * [ ] 浏览器数据中的[**文件**](windows-local-privilege-escalation/#browsers-history)（数据库、历史记录、书签，...）？
-* [ ] 在文件和注册表中进行[**通用密码搜索**](windows-local-privilege-escalation/#generic-password-search-in-files-and-registry)？
-* [ ] 自动搜索密码的[**工具**](windows-local-privilege-escalation/#tools-that-search-for-passwords)？
+* [**在文件和注册表中进行通用密码搜索**](windows-local-privilege-escalation/#generic-password-search-in-files-and-registry)？
+* [**工具**](windows-local-privilege-escalation/#tools-that-search-for-passwords)自动搜索密码
 
 ### [Leaked Handlers](windows-local-privilege-escalation/#leaked-handlers)
 
@@ -127,11 +128,11 @@
 
 ### [Pipe Client Impersonation](windows-local-privilege-escalation/#named-pipe-client-impersonation)
 
-* [ ] 检查是否可以滥用它
+* [ ] 检查是否可以滥用
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -141,10 +142,10 @@
 
 支持HackTricks的其他方式：
 
-* 如果您想在HackTricks中看到您的**公司广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 发现我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord组**](https://discord.gg/hRep4RUj7f) 或 [**电报组**](https://t.me/peass) 或在**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)上**关注**我们。
+* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[NFTs](https://opensea.io/collection/the-peass-family)收藏品
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)上**关注**我们。
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
