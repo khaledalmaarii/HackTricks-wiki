@@ -7,7 +7,7 @@
 Inne sposoby wsparcia HackTricks:
 
 * Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Kup [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podziel się swoimi sztuczkami hakowania, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
@@ -16,7 +16,7 @@ Inne sposoby wsparcia HackTricks:
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -24,13 +24,13 @@ Inne sposoby wsparcia HackTricks:
 
 ## Wprowadzenie <a href="#kfpn7" id="kfpn7"></a>
 
-Flipper Zero może **odbierać i nadawać częstotliwości radiowe w zakresie od 300 do 928 MHz** za pomocą wbudowanego modułu, który może odczytywać, zapisywać i emulować piloty zdalne. Te pilotażowe zdalne są używane do interakcji z bramami, szlabanami, zamkami radiowymi, przełącznikami zdalnego sterowania, dzwonkami bezprzewodowymi, inteligentnymi światłami i innymi. Flipper Zero może pomóc Ci dowiedzieć się, czy Twoje zabezpieczenia są naruszone.
+Flipper Zero może **odbierać i nadawać częstotliwości radiowe w zakresie od 300 do 928 MHz** za pomocą wbudowanego modułu, który może odczytywać, zapisywać i emulować piloty zdalnego sterowania. Te pilotażowe zdalne są używane do interakcji z bramami, szlabanami, zamkami radiowymi, przełącznikami zdalnego sterowania, dzwonkami bezprzewodowymi, inteligentnymi światłami i innymi. Flipper Zero może pomóc Ci dowiedzieć się, czy Twoje zabezpieczenia są naruszone.
 
 <figure><img src="../../../.gitbook/assets/image (3) (2) (1).png" alt=""><figcaption></figcaption></figure>
 
 ## Sprzęt Sub-GHz <a href="#kfpn7" id="kfpn7"></a>
 
-Flipper Zero posiada wbudowany moduł sub-1 GHz oparty na układzie [﻿](https://www.st.com/en/nfc/st25r3916.html#overview)﻿[CC1101](https://www.ti.com/lit/ds/symlink/cc1101.pdf) i antenę radiową (maksymalny zasięg to 50 metrów). Zarówno układ CC1101, jak i antena są zaprojektowane do pracy w częstotliwościach z pasm 300-348 MHz, 387-464 MHz i 779-928 MHz.
+Flipper Zero posiada wbudowany moduł sub-1 GHz oparty na układzie [﻿](https://www.st.com/en/nfc/st25r3916.html#overview)﻿[CC1101](https://www.ti.com/lit/ds/symlink/cc1101.pdf) i antenę radiową (maksymalny zasięg to 50 metrów). Zarówno układ CC1101, jak i antena są zaprojektowane do pracy w częstotliwościach w pasmach 300-348 MHz, 387-464 MHz i 779-928 MHz.
 
 <figure><img src="../../../.gitbook/assets/image (1) (8) (1).png" alt=""><figcaption></figcaption></figure>
 
@@ -39,16 +39,16 @@ Flipper Zero posiada wbudowany moduł sub-1 GHz oparty na układzie [﻿](https:
 ### Analizator Częstotliwości
 
 {% hint style="info" %}
-Jak znaleźć, jaką częstotliwość używa pilot zdalny
+Jak znaleźć, jaką częstotliwość używa pilot
 {% endhint %}
 
-Podczas analizowania, Flipper Zero skanuje siłę sygnału (RSSI) we wszystkich dostępnych częstotliwościach w konfiguracji częstotliwości. Flipper Zero wyświetla częstotliwość o najwyższej wartości RSSI, z siłą sygnału wyższą niż -90 [dBm](https://en.wikipedia.org/wiki/DBm).
+Podczas analizowania, Flipper Zero skanuje siłę sygnału (RSSI) we wszystkich dostępnych częstotliwościach w konfiguracji częstotliwości. Flipper Zero wyświetla częstotliwość z najwyższą wartością RSSI, o sile sygnału wyższej niż -90 [dBm](https://en.wikipedia.org/wiki/DBm).
 
-Aby określić częstotliwość pilota zdalnego, wykonaj następujące czynności:
+Aby określić częstotliwość pilota, wykonaj następujące czynności:
 
-1. Umieść pilot zdalny bardzo blisko lewej strony Flipper Zero.
-2. Przejdź do **Menu Głównego** **→ Sub-GHz**.
-3. Wybierz **Analizator Częstotliwości**, następnie przytrzymaj przycisk na pilocie zdalnym, który chcesz przeanalizować.
+1. Umieść pilot bardzo blisko lewej strony Flipper Zero.
+2. Przejdź do **Menu Główne** **→ Sub-GHz**.
+3. Wybierz **Analizator Częstotliwości**, następnie naciśnij i przytrzymaj przycisk na pilocie, który chcesz przeanalizować.
 4. Sprawdź wartość częstotliwości na ekranie.
 
 ### Odczyt
@@ -57,14 +57,14 @@ Aby określić częstotliwość pilota zdalnego, wykonaj następujące czynnośc
 Znajdź informacje o używanej częstotliwości (również inny sposób znalezienia używanej częstotliwości)
 {% endhint %}
 
-Opcja **Odczyt** **nasłuchuje na skonfigurowanej częstotliwości** na wskazanej modulacji: domyślnie 433,92 AM. Jeśli podczas odczytywania **znajdzie się coś**, informacje są wyświetlane na ekranie. Te informacje mogą być użyte do replikacji sygnału w przyszłości.
+Opcja **Odczyt** **nasłuchuje na skonfigurowanej częstotliwości** na wskazanej modulacji: domyślnie 433,92 AM. Jeśli podczas odczytu **znajdzie się coś**, informacje są wyświetlane na ekranie. Te informacje mogą być użyte do replikacji sygnału w przyszłości.
 
-Podczas korzystania z funkcji Odczyt, można nacisnąć **lewy przycisk** i **skonfigurować to**.\
+Podczas korzystania z funkcji Odczyt, można nacisnąć **lewy przycisk** i **skonfigurować go**.\
 W tym momencie są **4 modulacje** (AM270, AM650, FM328 i FM476), oraz **kilka istotnych częstotliwości** przechowywanych:
 
 <figure><img src="../../../.gitbook/assets/image (28).png" alt=""><figcaption></figcaption></figure>
 
-Możesz ustawić **dowolną, która Cię interesuje**, jednak jeśli **nie jesteś pewien, która częstotliwość** może być używana przez pilot zdalny, **ustaw Hopping na ON** (domyślnie Off) i naciśnij przycisk kilka razy, aż Flipper ją przechwyci i poda Ci potrzebne informacje do ustawienia częstotliwości.
+Możesz ustawić **dowolną, która Cię interesuje**, jednak jeśli **nie jesteś pewien, która częstotliwość** może być używana przez pilota, **ustaw Hopping na ON** (domyślnie Off), i naciśnij przycisk kilka razy, aż Flipper ją przechwyci i poda Ci potrzebne informacje do ustawienia częstotliwości.
 
 {% hint style="danger" %}
 Przełączanie między częstotliwościami zajmuje trochę czasu, dlatego sygnały przesyłane w trakcie przełączania mogą zostać pominięte. Dla lepszego odbioru sygnału, ustaw stałą częstotliwość określoną przez Analizator Częstotliwości.
@@ -82,7 +82,7 @@ Domyślnie **Odczyt Surowy jest również w 433,92 w AM650**, ale jeśli za pomo
 
 ### Atak Brute-Force
 
-Jeśli znasz protokół używany na przykład przez bramę garażową, można **wygenerować wszystkie kody i wysłać je za pomocą Flipper Zero**. Jest to przykład obsługi ogólnych powszechnie stosowanych typów garaży: [**https://github.com/tobiabocchi/flipperzero-bruteforce**](https://github.com/tobiabocchi/flipperzero-bruteforce)
+Jeśli znasz protokół używany na przykład przez bramę garażową, możliwe jest **wygenerowanie wszystkich kodów i ich wysłanie za pomocą Flipper Zero**. Jest to przykład obsługujący ogólne powszechne typy garaży: [**https://github.com/tobiabocchi/flipperzero-bruteforce**](https://github.com/tobiabocchi/flipperzero-bruteforce)
 
 ### Dodaj Ręcznie
 
@@ -119,7 +119,7 @@ Sprawdź listę na [https://docs.flipperzero.one/sub-ghz/frequencies](https://do
 ### Test
 
 {% hint style="info" %}
-Pobierz dBm z zapisanych częstotliwości
+Uzyskaj dBm z zapisanych częstotliwości
 {% endhint %}
 
 ## Odnośniki
@@ -128,7 +128,7 @@ Pobierz dBm z zapisanych częstotliwości
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 

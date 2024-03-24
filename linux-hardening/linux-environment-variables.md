@@ -16,7 +16,7 @@ Inne sposoby wsparcia HackTricks:
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -46,10 +46,6 @@ echo $LOCAL
 unset LOCAL
 ```
 ## Wyświetlanie bieżących zmiennych
-
-```bash
-printenv
-```
 ```bash
 set
 env
@@ -64,11 +60,11 @@ Z: [https://geek-university.com/linux/common-environment-variables/](https://gee
 * **DISPLAY** – wyświetlacz używany przez **X**. Zmienna ta zazwyczaj jest ustawiona na **:0.0**, co oznacza pierwszy wyświetlacz na bieżącym komputerze.
 * **EDITOR** – preferowany edytor tekstu użytkownika.
 * **HISTFILESIZE** – maksymalna liczba linii zawartych w pliku historii.
-* **HISTSIZE** – Liczba linii dodanych do pliku historii po zakończeniu sesji użytkownika.
+* **HISTSIZE** – Liczba linii dodawanych do pliku historii po zakończeniu sesji użytkownika.
 * **HOME** – katalog domowy.
 * **HOSTNAME** – nazwa hosta komputera.
 * **LANG** – bieżący język.
-* **MAIL** – lokalizacja skrzynki pocztowej użytkownika. Zazwyczaj **/var/spool/mail/USER**.
+* **MAIL** – lokalizacja skrzynki odbiorczej użytkownika. Zazwyczaj **/var/spool/mail/USER**.
 * **MANPATH** – lista katalogów do wyszukiwania stron podręcznika.
 * **OSTYPE** – typ systemu operacyjnego.
 * **PS1** – domyślny znak zachęty w bashu.
@@ -95,7 +91,7 @@ export HISTSIZE=0
 ```
 ### http\_proxy & https\_proxy
 
-Procesy będą korzystać z zadeklarowanego tutaj **serwera proxy** do połączenia z internetem za pośrednictwem **http lub https**.
+Procesy będą korzystać z zadeklarowanego tutaj **serwera proxy** do połączenia z internetem za pośrednictwem protokołów **http lub https**.
 ```bash
 export http_proxy="http://10.10.10.10:8080"
 export https_proxy="http://10.10.10.10:8080"
@@ -131,7 +127,7 @@ Jeden proces w tle, jeden zatrzymany i ostatnie polecenie nie zakończyło się 
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -144,7 +140,7 @@ Inne sposoby wsparcia HackTricks:
 * Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**Grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
 * **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

