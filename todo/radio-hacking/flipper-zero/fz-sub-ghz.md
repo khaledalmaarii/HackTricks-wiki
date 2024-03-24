@@ -6,17 +6,17 @@
 
 HackTricks'ı desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* **Şirketinizi HackTricks'te reklamınızı görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
 * [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)'da **takip edin**.
-* **Hacking püf noktalarınızı göndererek HackTricks ve HackTricks Cloud** github depolarına PR göndererek paylaşın.
+* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Hacking püf noktalarınızı paylaşarak** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR gönderin.
 
 </details>
 
 **Try Hard Güvenlik Grubu**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -24,13 +24,13 @@ HackTricks'ı desteklemenin diğer yolları:
 
 ## Giriş <a href="#kfpn7" id="kfpn7"></a>
 
-Flipper Zero, 300-928 MHz aralığında **radyo frekanslarını alıp ve iletebilir**. Dahili modülü sayesinde uzaktan kumandaları okuyabilir, kaydedebilir ve taklit edebilir. Bu kumandalar, kapılar, bariyerler, radyo kilitleri, uzaktan kumandalı anahtarlar, kablosuz kapı zilleri, akıllı ışıklar ve daha fazlası ile etkileşim için kullanılır. Flipper Zero, güvenliğinizin tehlikeye atılıp atılmadığını öğrenmenize yardımcı olabilir.
+Flipper Zero, uzaktan kumandaları okuyabilen, kaydedebilen ve taklit edebilen dahili modülü sayesinde **300-928 MHz aralığında radyo frekanslarını alıp ve iletebilir**. Bu kumandalar, kapılar, bariyerler, radyo kilitleri, uzaktan kumandalı anahtarlar, kablosuz kapı zilleri, akıllı ışıklar ve daha fazlası ile etkileşim için kullanılır. Flipper Zero, güvenliğinizin tehlikeye atılıp atılmadığını öğrenmenize yardımcı olabilir.
 
 <figure><img src="../../../.gitbook/assets/image (3) (2) (1).png" alt=""><figcaption></figcaption></figure>
 
 ## Sub-GHz donanımı <a href="#kfpn7" id="kfpn7"></a>
 
-Flipper Zero, [﻿](https://www.st.com/en/nfc/st25r3916.html#overview)﻿[CC1101 çipi](https://www.ti.com/lit/ds/symlink/cc1101.pdf) ve bir radyo antenine dayalı dahili sub-1 GHz modülüne sahiptir (maksimum menzil 50 metredir). Hem CC1101 çipi hem de anten, 300-348 MHz, 387-464 MHz ve 779-928 MHz bantlarında çalışacak şekilde tasarlanmıştır.
+Flipper Zero, [﻿](https://www.st.com/en/nfc/st25r3916.html#overview)﻿[CC1101 çipi](https://www.ti.com/lit/ds/symlink/cc1101.pdf) ve bir radyo anteni (maksimum menzil 50 metre) üzerine kurulu dahili bir sub-1 GHz modüle sahiptir. Hem CC1101 çipi hem de anten, 300-348 MHz, 387-464 MHz ve 779-928 MHz bantlarında çalışacak şekilde tasarlanmıştır.
 
 <figure><img src="../../../.gitbook/assets/image (1) (8) (1).png" alt=""><figcaption></figcaption></figure>
 
@@ -39,16 +39,16 @@ Flipper Zero, [﻿](https://www.st.com/en/nfc/st25r3916.html#overview)﻿[CC1101
 ### Frekans Analizörü
 
 {% hint style="info" %}
-Uzaktan kumandanın hangi frekansı kullandığını bulma
+Kumandanın hangi frekansı kullandığını bulma
 {% endhint %}
 
-Analiz yapılırken, Flipper Zero frekans konfigürasyonunda mevcut olan tüm frekanslarda sinyal gücünü (RSSI) tarar. Flipper Zero, -90 [dBm](https://en.wikipedia.org/wiki/DBm)'den yüksek sinyal gücüne sahip olan frekansı ekranda gösterir.
+Analiz yapılırken, Flipper Zero frekans konfigürasyonunda mevcut olan tüm frekanslarda sinyal gücünü (RSSI) tarar. Flipper Zero, -90 [dBm](https://en.wikipedia.org/wiki/DBm)'den yüksek sinyal gücüne sahip olan en yüksek RSSI değerine sahip frekansı ekranda gösterir.
 
-Uzaktan kumandanın frekansını belirlemek için şunları yapın:
+Kumandanın frekansını belirlemek için şunları yapın:
 
-1. Uzaktan kumandayı Flipper Zero'nun soluna çok yakın bir yere yerleştirin.
+1. Kumandayı Flipper Zero'nun soluna çok yakın bir yere yerleştirin.
 2. **Ana Menü**'ye gidin **→ Sub-GHz**.
-3. **Frekans Analizörü**nü seçin, ardından analiz etmek istediğiniz uzaktan kumandadaki düğmeye basılı tutun.
+3. **Frekans Analizörü**nü seçin, ardından analiz etmek istediğiniz kumandadaki düğmeye basılı tutun.
 4. Ekranda frekans değerini inceleyin.
 
 ### Oku
@@ -57,14 +57,14 @@ Uzaktan kumandanın frekansını belirlemek için şunları yapın:
 Kullanılan frekans hakkında bilgi bulma (kullanılan frekansı bulmanın başka bir yolu)
 {% endhint %}
 
-**Oku** seçeneği, varsayılan olarak 433.92 AM modülasyonunda yapılandırılmış frekansta **dinleme yapar**. Okuma sırasında **bir şey bulunursa**, ekran üzerinde **bilgi verilir**. Bu bilgi, gelecekte sinyali çoğaltmak için kullanılabilir.
+**Oku** seçeneği, varsayılan olarak 433.92 AM modülasyonunda yapılandırılmış frekansta **dinleme yapar**. **Okuma sırasında bir şey bulunursa**, ekran üzerinde **bilgi verilir**. Bu bilgi, gelecekte sinyali çoğaltmak için kullanılabilir.
 
 Okuma kullanılırken, **sol düğmeye basarak yapılandırabilirsiniz**.\
 Şu anda **4 modülasyon** (AM270, AM650, FM328 ve FM476) ve **çeşitli ilgili frekanslar** saklanmış durumda:
 
 <figure><img src="../../../.gitbook/assets/image (28).png" alt=""><figcaption></figcaption></figure>
 
-Sizi ilgilendiren **herhangi birini ayarlayabilirsiniz**, ancak eğer hangi frekansın uzaktan kumanda tarafından kullanıldığından emin değilseniz, **Hopping'i ON** (varsayılan olarak Off) yapın ve Flipper'ın yakalayıp ihtiyacınız olan bilgiyi vermesi için düğmeye birkaç kez basın.
+Sizi ilgilendiren **herhangi birini ayarlayabilirsiniz**, ancak eğer hangi frekansın kumanda tarafından kullanıldığından emin değilseniz, **Hopping'i ON** (varsayılan olarak Off) olarak ayarlayın ve Flipper'ın yakaladığı ve ihtiyacınız olan bilgiyi verdiği frekansı ayarlamak için düğmeye birkaç kez basın.
 
 {% hint style="danger" %}
 Frekanslar arasında geçiş yapmak biraz zaman alır, bu nedenle geçiş sırasında iletilen sinyaller kaçırılabilir. Daha iyi sinyal alımı için Frekans Analizörü tarafından belirlenen sabit bir frekans ayarlayın.
@@ -73,41 +73,41 @@ Frekanslar arasında geçiş yapmak biraz zaman alır, bu nedenle geçiş sıras
 ### **Ham Oku**
 
 {% hint style="info" %}
-Yapılandırılmış frekansta bir sinyali çalmak (ve tekrarlamak)
+Yapılandırılmış frekansta bir sinyali çalın (ve tekrarlayın)
 {% endhint %}
 
 **Ham Oku** seçeneği, dinleme frekansında gönderilen sinyalleri **kaydeder**. Bu, bir sinyali **çalmak** ve **tekrarlamak** için kullanılabilir.
 
-Varsayılan olarak **Ham Oku da 433.92'de AM650'de** bulunur, ancak Oku seçeneği ile ilginizi çeken sinyalin farklı bir frekans/modülasyonda olduğunu bulduysanız, bunu da değiştirebilirsiniz sol düğmeye basarak (Ham Oku seçeneği içindeyken).
+Varsayılan olarak **Ham Oku da 433.92'de AM650'de** bulunur, ancak Oku seçeneği ile ilginizi çeken sinyalin farklı bir frekans/modülasyonda olduğunu bulursanız, bunu da değiştirebilirsiniz sol düğmeye basarak (Ham Oku seçeneği içindeyken).
 
 ### Kaba Kuvvet
 
-Örneğin garaj kapısı tarafından kullanılan protokolü biliyorsanız, **tüm kodları oluşturabilir ve Flipper Zero ile gönderebilirsiniz**. Bu, genel garaj tiplerini destekleyen bir örnektir: [**https://github.com/tobiabocchi/flipperzero-bruteforce**](https://github.com/tobiabocchi/flipperzero-bruteforce)
+Örneğin garaj kapısı tarafından kullanılan protokolü biliyorsanız, **tüm kodları oluşturabilir ve Flipper Zero ile gönderebilirsiniz**. Bu, genel olarak yaygın garaj tiplerini destekleyen bir örnektir: [**https://github.com/tobiabocchi/flipperzero-bruteforce**](https://github.com/tobiabocchi/flipperzero-bruteforce)
 
 ### Manuel Olarak Ekle
 
 {% hint style="info" %}
-Yapılandırılmış protokoller listesinden sinyal ekleyin
+Yapılandırılmış protokoller listesinden sinyaller ekleyin
 {% endhint %}
 
 #### [Desteklenen protokollerin listesi](https://docs.flipperzero.one/sub-ghz/add-new-remote) <a href="#id-3iglu" id="id-3iglu"></a>
 
-| Princeton\_433 (statik kod sistemlerinin çoğuyla çalışır) | 433.92 | Statik  |
-| -------------------------------------------------------- | ------ | ------- |
-| Nice Flo 12bit\_433                                    | 433.92 | Statik  |
-| Nice Flo 24bit\_433                                    | 433.92 | Statik  |
-| CAME 12bit\_433                                        | 433.92 | Statik  |
-| CAME 24bit\_433                                        | 433.92 | Statik  |
-| Linear\_300                                            | 300.00 | Statik  |
-| CAME TWEE                                              | 433.92 | Statik  |
-| Gate TX\_433                                           | 433.92 | Statik  |
-| DoorHan\_315                                           | 315.00 | Dinamik |
-| DoorHan\_433                                           | 433.92 | Dinamik |
-| LiftMaster\_315                                        | 315.00 | Dinamik |
-| LiftMaster\_390                                        | 390.00 | Dinamik |
-| Security+2.0\_310                                      | 310.00 | Dinamik |
-| Security+2.0\_315                                      | 315.00 | Dinamik |
-| Security+2.0\_390                                      | 390.00 | Dinamik |
+| Princeton\_433 (çoğu statik kod sistemiyle çalışır) | 433.92 | Statik  |
+| --------------------------------------------------- | ------ | ------- |
+| Nice Flo 12bit\_433                               | 433.92 | Statik  |
+| Nice Flo 24bit\_433                               | 433.92 | Statik  |
+| CAME 12bit\_433                                   | 433.92 | Statik  |
+| CAME 24bit\_433                                   | 433.92 | Statik  |
+| Linear\_300                                       | 300.00 | Statik  |
+| CAME TWEE                                         | 433.92 | Statik  |
+| Gate TX\_433                                      | 433.92 | Statik  |
+| DoorHan\_315                                      | 315.00 | Dinamik |
+| DoorHan\_433                                      | 433.92 | Dinamik |
+| LiftMaster\_315                                   | 315.00 | Dinamik |
+| LiftMaster\_390                                   | 390.00 | Dinamik |
+| Security+2.0\_310                                 | 310.00 | Dinamik |
+| Security+2.0\_315                                 | 315.00 | Dinamik |
+| Security+2.0\_390                                 | 390.00 | Dinamik |
 ### Desteklenen Sub-GHz Satıcıları
 
 Listeye [https://docs.flipperzero.one/sub-ghz/supported-vendors](https://docs.flipperzero.one/sub-ghz/supported-vendors) adresinden bakabilirsiniz.
@@ -128,20 +128,20 @@ Kaydedilen frekansların dBm değerlerini alın
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 <details>
 
-<summary><strong>A'dan Z'ye AWS hackleme konusunda öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 HackTricks'i desteklemenin diğer yolları:
 
-* Şirketinizi **HackTricks'te reklamını görmek** veya **HackTricks'i PDF olarak indirmek** istiyorsanız [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* Şirketinizi HackTricks'te **tanıtmak istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'i keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu görün
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)'u takip edin.
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family)
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**'u takip edin.**
 * **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>

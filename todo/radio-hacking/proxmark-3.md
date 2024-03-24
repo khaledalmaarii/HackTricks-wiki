@@ -2,19 +2,19 @@
 
 <details>
 
-<summary><strong>Sıfırdan kahraman olmaya kadar AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan ileri seviyeye öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile!</strong></summary>
 
-* **Bir siber güvenlik şirketinde mi çalışıyorsunuz? Şirketinizin HackTricks'te reklamını görmek ister misiniz? ya da PEASS'ın en son sürümüne erişmek veya HackTricks'i PDF olarak indirmek ister misiniz? [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* [**Resmi PEASS & HackTricks ürünlerini alın**](https://peass.creator-spring.com)
-* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubuna**](https://t.me/peass) veya beni **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **ve** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **ile paylaşın.**
+* **Bir siber güvenlik şirketinde mi çalışıyorsunuz? Şirketinizin HackTricks'te reklamını görmek ister misiniz? Ya da en son PEASS sürümüne erişmek veya HackTricks'i PDF olarak indirmek ister misiniz?** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* **💬** [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya beni **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**'da takip edin**.
+* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **ve** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **ile katkıda bulunun**.
 
 </details>
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -26,8 +26,8 @@
 
 ### MIFARE Classic 1KB Saldırısı
 
-Her birinde **4 blok** bulunan **16 sektörü** vardır ve her blok **16B** içerir. UID, sektör 0 blok 0'da bulunur (ve değiştirilemez).\
-Her sektöre erişmek için **2 anahtar** (**A** ve **B**) gereklidir ve bunlar **her sektörün blok 3'ünde** (sektör kapakları) saklanır. Sektör kapakları ayrıca **her bloğa** erişim izinlerini veren **okuma ve yazma** izinlerini saklar.\
+**16 sektörü** bulunmaktadır, her birinde **4 blok** ve her blok **16B** içerir. UID, sektör 0 blok 0'da bulunur (ve değiştirilemez).\
+Her sektöre erişmek için **2 anahtar** (**A** ve **B**) gereklidir ve bunlar **her sektörün blok 3'ünde** (sektör başlığı) saklanır. Sektör başlığı ayrıca, 2 anahtarı kullanarak **her bloğa okuma ve yazma** izinleri veren **erişim bitlerini** saklar.\
 2 anahtar, ilkini bildiğinizde okuma izni vermek ve ikincisini bildiğinizde yazma izni vermek için kullanışlıdır (örneğin).
 
 Birçok saldırı gerçekleştirilebilir.
@@ -49,7 +49,7 @@ proxmark3> hf mf eset 01 000102030405060708090a0b0c0d0e0f # Write those bytes to
 proxmark3> hf mf eget 01 # Read block 1
 proxmark3> hf mf wrbl 01 B FFFFFFFFFFFF 000102030405060708090a0b0c0d0e0f # Write to the card
 ```
-Proxmark3, hassas verileri bulmaya çalışmak için **Tag to Reader iletişimini dinleyerek** diğer eylemleri gerçekleştirmenize olanak tanır. Bu kartta, iletişimi dinleyebilir ve kullanılan anahtarı hesaplayabilirsiniz çünkü **kriptografik işlemler zayıftır** ve düz metin ve şifre metni bilindiğinde bunu hesaplayabilirsiniz (`mfkey64` aracı).
+Proxmark3, hassas verileri bulmaya çalışmak için **Tag to Reader iletişimini izleyerek** **dinleme** gibi diğer eylemleri gerçekleştirmenize olanak tanır. Bu kartta, **kriptografik işlemler zayıf olduğundan** iletişimi dinleyerek kullanılan anahtarı hesaplayabilirsiniz ve düz metin ve şifreli metni bildiğinizde bunu hesaplayabilirsiniz (`mfkey64` aracı).
 
 ### Ham Komutlar
 
@@ -73,23 +73,23 @@ proxmark3> script run mfkeys
 ```
 **Proxmark 3 ile Radyo Hacking**
 
-Farklı bir **Lua betiği** oluşturabilirsiniz. Bu betik, **etiket okuyucularını fuzz** etmek için kullanılabilir. **Geçerli bir kartın** verilerini kopyalayarak, bir veya daha fazla **rastgele byte'ı randomize eden** ve herhangi bir iterasyonda **okuyucunun çöküp çökmediğini kontrol eden** bir Lua betiği yazın.
+Farklı tag okuyucularını **fuzzlamak** için bir betik oluşturabilirsiniz, bu yolla bir **geçerli kartın** verilerini kopyalayarak **Lua betiği** yazabilir ve bir veya daha fazla **rastgele byte'ı randomize** ederek okuyucunun herhangi bir iterasyonda **çöküp çökmediğini kontrol edebilirsiniz**.
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 
 <details>
 
-<summary><strong>A'dan Z'ye AWS hackleme konusunda öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert) ile sıfırdan kahramana kadar AWS hackleme öğrenin</strong></summary>
 
-* **Bir **cybersecurity şirketinde mi çalışıyorsunuz? Şirketinizi **HackTricks'te reklamını görmek ister misiniz**? ya da **PEASS'ın en son sürümüne erişmek veya HackTricks'i PDF olarak indirmek ister misiniz**? [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **Bir siber güvenlik şirketinde mi çalışıyorsunuz? Şirketinizi HackTricks'te görmek ister misiniz? ya da en son PEASS sürümüne erişmek veya HackTricks'i PDF olarak indirmek ister misiniz?** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) **kontrol edin!**
 * [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin, özel [**NFT'lerimizi**](https://opensea.io/collection/the-peass-family) görün
 * [**Resmi PEASS & HackTricks ürünlerini alın**](https://peass.creator-spring.com)
-* **Katılın** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**'ı takip edin**.
-* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **ve** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **ile katkıda bulunun**.
+* **Katılın** [**💬**](https://emojipedia.org/speech-balloon/) **Discord grubuna** veya [**telegram grubuna**](https://t.me/peass) **katılın veya beni Twitter'da takip edin** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Hacking püf noktalarınızı paylaşın, PR'lar göndererek** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **ve** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **ile.**
 
 </details>

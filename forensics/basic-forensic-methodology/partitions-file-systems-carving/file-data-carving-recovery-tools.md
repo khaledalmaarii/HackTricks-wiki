@@ -2,11 +2,11 @@
 
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahramana öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile!</strong></summary>
+<summary><strong>Sıfırdan kahraman olmak için AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na göz atın (https://github.com/sponsors/carlospolop)!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
 * [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
 * **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'da takip edin.**
@@ -16,7 +16,7 @@ HackTricks'ı desteklemenin diğer yolları:
 
 **Try Hard Güvenlik Grubu**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -26,9 +26,9 @@ HackTricks'ı desteklemenin diğer yolları:
 
 Daha fazla araç için [https://github.com/Claudio-C/awesome-datarecovery](https://github.com/Claudio-C/awesome-datarecovery)
 
-### Otopsi
+### Autopsy
 
-Görüntülerden dosyaları çıkarmak için forenzikte en yaygın kullanılan araç [**Otopsi**](https://www.autopsy.com/download/)'dir. İndirin, kurun ve dosyayı içeri alması için "gizli" dosyaları bulmasını sağlayın. Otopsi'nin disk görüntüleri ve diğer türdeki görüntüleri desteklemek üzere inşa edildiğini unutmayın, ancak basit dosyaları desteklemez.
+Görüntülerden dosyaları çıkarmak için en yaygın kullanılan araç [**Autopsy**](https://www.autopsy.com/download/)'dir. İndirin, kurun ve dosyayı içeri alarak "gizli" dosyaları bulmasını sağlayın. Autopsy, disk görüntülerini ve diğer türdeki görüntüleri desteklemek üzere oluşturulmuştur, ancak basit dosyaları desteklemez.
 
 ### Binwalk <a href="#binwalk" id="binwalk"></a>
 
@@ -43,7 +43,7 @@ binwalk --dd ".*" file #Displays and extracts all files from the given file
 ```
 ### Foremost
 
-Gizli dosyaları bulmak için başka bir yaygın araç **foremost**'tir. Foremost'un yapılandırma dosyasını `/etc/foremost.conf` içinde bulabilirsiniz. Belirli dosyaları aramak istiyorsanız, onları yorum satırından çıkarın. Hiçbir şeyi yorum satırından çıkarmazsanız, foremost varsayılan olarak yapılandırılmış dosya türlerini arayacaktır.
+Gizli dosyaları bulmak için başka yaygın bir araç **foremost**'tir. Foremost'un yapılandırma dosyasını `/etc/foremost.conf` içinde bulabilirsiniz. Belirli dosyaları aramak istiyorsanız, onları yorum satırından çıkarın. Hiçbir şeyi yorum satırından çıkarmazsanız, foremost varsayılan olarak yapılandırılmış dosya türlerini arayacaktır.
 ```bash
 sudo apt-get install foremost
 foremost -v -i file.img -o output
@@ -60,13 +60,13 @@ scalpel file.img -o output
 
 Bu araç Kali içinde gelir ancak burada da bulabilirsiniz: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
 
-Bu araç bir görüntüyü tarayabilir ve içindeki **pcap'leri**, **ağ bilgilerini (URL'ler, alan adları, IP'ler, MAC'ler, e-postaları)** ve daha fazla **dosyayı çıkarabilir**. Yapmanız gereken tek şey:
+Bu araç bir görüntüyü tarayabilir ve içindeki **pcap'leri**, **ağ bilgilerini (URL'ler, alan adları, IP'ler, MAC'ler, e-postaları)** ve daha fazla **dosyayı çıkaracaktır**. Yapmanız gereken tek şey:
 ```
 bulk_extractor memory.img -o out_folder
 ```
 ### PhotoRec
 
-[PhotoRec](https://www.cgsecurity.org/wiki/TestDisk_Download) bulabilirsiniz.
+[PhotoRec](https://www.cgsecurity.org/wiki/TestDisk_Download) bulunan bir araçtır.
 
 GUI ve CLI sürümleriyle gelir. PhotoRec'in aramasını istediğiniz **dosya türlerini** seçebilirsiniz.
 
@@ -82,42 +82,42 @@ Kodu [buradan](https://code.google.com/archive/p/binvis/) ve [web sayfa aracın�
 - Farklı odak noktaları için birden fazla çizim
 - Bir örneğin bölümlerine odaklanma
 - PE veya ELF yürütülebilir dosyalarda **dizileri ve kaynakları** görmek
-- Dosyalardaki kriptoanaliz için **desenler** elde etme
-- Paketleyici veya kodlayıcı algoritmaları **belirleme**
-- Desenler aracılığıyla **Steganografiyi tanımlama**
+- Dosyalarda kriptoanaliz için **desenler** elde etme
+- Paketleyici veya kodlayıcı algoritmaları **tespit etme**
+- Desenlere göre **Steganografi** tanımlama
 - **Görsel** ikili farklılaştırma
 
-BinVis, siyah kutu senaryosunda **bilinmeyen bir hedefle tanışmak için harika bir başlangıç noktasıdır**.
+BinVis, bir siyah kutu senaryosunda **bilinmeyen bir hedefle tanışmak için harika bir başlangıç noktasıdır**.
 
-## Özel Veri Oyma Araçları
+## Özel Veri Kazıma Araçları
 
 ### FindAES
 
 AES anahtarlarını arayarak anahtar programlarını arar. TrueCrypt ve BitLocker gibi kullanılan 128, 192 ve 256 bit anahtarları bulabilir.
 
-[Şuradan](https://sourceforge.net/projects/findaes/) indirebilirsiniz.
+İndirme bağlantısı [burada](https://sourceforge.net/projects/findaes/).
 
-## Tamamlayıcı araçlar
+## Tamamlayıcı Araçlar
 
 Resimleri terminalden görmek için [**viu**](https://github.com/atanunq/viu)'yu kullanabilirsiniz.\
 Bir pdf'i metne dönüştürmek ve okumak için linux komut satırı aracı **pdftotext**'i kullanabilirsiniz.
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 <details>
 
-<summary><strong>Sıfırdan kahraman olana kadar AWS hacklemeyi öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Sıfırdan kahraman olmak için AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 HackTricks'i desteklemenin diğer yolları:
 
-- **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-- [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-- Özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) olan [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin
-- 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi Twitter'da 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)'ı takip edin.
-- **Hacking püf noktalarınızı göndererek HackTricks ve HackTricks Cloud** github depolarına PR göndererek paylaşın.
+* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* Özel [**NFT'lerimiz olan**](https://opensea.io/collection/the-peass-family) [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi Twitter'da 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)'ı takip edin.
+* **Hacking püf noktalarınızı göndererek HackTricks ve HackTricks Cloud** github depolarına PR'lar göndererek paylaşın.
 
 </details>

