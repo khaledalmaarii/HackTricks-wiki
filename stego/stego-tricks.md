@@ -16,7 +16,7 @@
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -26,7 +26,7 @@
 
 ### **Binwalk**
 
-用于搜索二进制文件中嵌入的隐藏文件和数据的工具。通过`apt`安装，源代码可在[GitHub](https://github.com/ReFirmLabs/binwalk)上找到。
+用于搜索二进制文件中嵌入的隐藏文件和数据的工具。通过`apt`安装，其源代码可在[GitHub](https://github.com/ReFirmLabs/binwalk)上找到。
 ```bash
 binwalk file # Displays the embedded data
 binwalk -e file # Extracts the data
@@ -34,7 +34,7 @@ binwalk --dd ".*" file # Extracts all data
 ```
 ### **Foremost**
 
-根据文件的头部和尾部恢复文件，对于 png 图像非常有用。通过 `apt` 安装，源代码位于 [GitHub](https://github.com/korczis/foremost)。
+根据文件的头部和尾部恢复文件，对于 png 图像非常有用。通过 `apt` 安装，其源代码位于 [GitHub](https://github.com/korczis/foremost)。
 ```bash
 foremost -i file # Extracts data
 ```
@@ -68,7 +68,7 @@ strings -e b -n 6 file # 16bit strings (big-endian)
 strings -e L -n 6 file # 32bit strings (little-endian)
 strings -e B -n 6 file # 32bit strings (big-endian)
 ```
-### **比较（cmp）**
+### **比较 (cmp)**
 
 用于将修改后的文件与在线找到的原始版本进行比较。
 ```bash
@@ -78,13 +78,13 @@ cmp original.jpg stego.jpg -b -l
 
 ### **空格中的隐藏数据**
 
-看似空白的空格中可能隐藏着不可见字符。要提取这些数据，请访问[https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder](https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder)。
+在看似空白的空格中，可能隐藏着不可见字符所包含的信息。要提取这些数据，请访问 [https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder](https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder)。
 
 ## **从图像中提取数据**
 
 ### **使用GraphicMagick识别图像细节**
 
-[GraphicMagick](https://imagemagick.org/script/download.php)用于确定图像文件类型并识别潜在的损坏。执行以下命令来检查一个图像：
+[GraphicMagick](https://imagemagick.org/script/download.php) 用于确定图像文件类型并识别潜在的损坏。执行以下命令来检查一个图像：
 ```bash
 ./magick identify -verbose stego.jpg
 ```
@@ -115,18 +115,18 @@ zsteg 专门用于揭示 PNG 和 BMP 文件中的隐藏数据。通过 `gem inst
 
 **命令:**
 
-* `zsteg -a file` 对文件应用所有检测方法。
-* `zsteg -E file` 指定数据提取的有效载荷。
+* `zsteg -a file` 在文件上应用所有检测方法。
+* `zsteg -E file` 指定用于数据提取的有效载荷。
 
 ### **StegoVeritas 和 Stegsolve**
 
-**stegoVeritas** 检查元数据，执行图像转换，应用 LSB 强制破解等功能。使用 `stegoveritas.py -h` 查看所有选项的完整列表，使用 `stegoveritas.py stego.jpg` 执行所有检查。
+**stegoVeritas** 检查元数据，执行图像转换，并应用 LSB 强制破解等其他功能。使用 `stegoveritas.py -h` 查看所有选项的完整列表，使用 `stegoveritas.py stego.jpg` 执行所有检查。
 
 **Stegsolve** 应用各种颜色滤镜来显示图像中隐藏的文本或消息。可在[GitHub](https://github.com/eugenekolo/sec-tools/tree/master/stego/stegsolve/stegsolve)上找到。
 
-### **FFT 用于检测隐藏内容**
+### **FFT 用于隐藏内容检测**
 
-快速傅里叶变换（FFT）技术可揭示图像中的隐藏内容。有用的资源包括:
+快速傅里叶变换（FFT）技术可以揭示图像中隐藏的内容。有用的资源包括:
 
 * [EPFL 演示](http://bigwww.epfl.ch/demo/ip/demos/FFT/)
 * [Ejectamenta](https://www.ejectamenta.com/Fourifier-fullscreen/)
@@ -145,7 +145,7 @@ pngcheck stego.png
 ```
 ### **图像分析的附加工具**
 
-进一步探索，请考虑访问：
+进一步探索，请访问：
 
 * [Magic Eye Solver](http://magiceye.ecksdee.co.uk/)
 * [Image Error Level Analysis](https://29a.ch/sandbox/2012/imageerrorlevelanalysis/)
@@ -163,17 +163,17 @@ Steghide 是一个多功能工具，旨在将数据隐藏在 JPEG、BMP、WAV �
 
 ### **Stegpy (PNG, BMP, GIF, WebP, WAV)**
 
-该工具兼容各种格式，包括 PNG、BMP、GIF、WebP 和 WAV。有关更多信息，请参阅[Stegpy 的部分](stego-tricks.md#stegpy-png-bmp-gif-webp-wav)。
+该工具兼容多种格式，包括 PNG、BMP、GIF、WebP 和 WAV。有关更多信息，请参阅[Stegpy部分](stego-tricks.md#stegpy-png-bmp-gif-webp-wav)。
 
 ### **ffmpeg**
 
-ffmpeg 对于评估音频文件的完整性至关重要，突出显示详细信息并指出任何差异。
+ffmpeg 对于评估音频文件的完整性至关重要，突出显示详细信息并指出任何不一致之处。
 ```bash
 ffmpeg -v info -i stego.mp3 -f null -
 ```
 ### **WavSteg (WAV)**
 
-WavSteg在WAV文件中使用最低有效位策略隐藏和提取数据。它可以在[GitHub](https://github.com/ragibson/Steganography#WavSteg)上找到。命令包括：
+WavSteg在WAV文件中使用最低有效位策略隐藏和提取数据。可在[GitHub](https://github.com/ragibson/Steganography#WavSteg)上找到。命令包括：
 ```bash
 python3 WavSteg.py -r -b 1 -s soundfile -o outputfile
 
@@ -187,22 +187,22 @@ Deepsound允许使用AES-256在声音文件中加密和检测信息。可以从[
 
 Sonic Visualizer是一个无价的工具，用于对音频文件进行视觉和分析检查，可以揭示其他方法无法检测到的隐藏元素。访问[官方网站](https://www.sonicvisualiser.org/)了解更多信息。
 
-### **DTMF Tones - Dial Tones**
+### **DTMF Tones - 拨号音**
 
 可以通过在线工具如[此DTMF检测器](https://unframework.github.io/dtmf-detect/)和[DialABC](http://dialabc.com/sound/detect/index.html)来检测音频文件中的DTMF音调。
 
 ## **其他技术**
 
-### **Binary Length SQRT - QR Code**
+### **二进制长度平方根 - QR码**
 
-将平方为整数的二进制数据可能代表QR码。使用以下代码片段进行检查：
+平方为整数的二进制数据可能代表一个QR码。使用以下代码片段进行检查：
 ```python
 import math
 math.sqrt(2500) #50
 ```
 ### **盲文翻译**
 
-要进行盲文翻译，请使用[Branah盲文翻译器](https://www.branah.com/braille-translator)这一优秀资源。
+要进行盲文翻译，请使用[Branah盲文翻译器](https://www.branah.com/braille-translator)，这是一个很好的资源。
 
 ## **参考资料**
 
@@ -211,7 +211,7 @@ math.sqrt(2500) #50
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -221,10 +221,10 @@ math.sqrt(2500) #50
 
 支持HackTricks的其他方式：
 
-* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 如果您想在HackTricks中看到您的**公司广告**或**下载PDF版本的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFT**](https://opensea.io/collection/the-peass-family)收藏品
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**上关注**我们。
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>

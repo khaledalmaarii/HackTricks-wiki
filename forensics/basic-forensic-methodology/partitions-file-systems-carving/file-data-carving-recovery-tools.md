@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
 
 支持HackTricks的其他方式：
 
@@ -16,7 +16,7 @@
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -51,7 +51,7 @@ foremost -v -i file.img -o output
 ```
 ### **Scalpel**
 
-**Scalpel** 是另一个工具，可用于查找和提取**嵌入在文件中的文件**。在这种情况下，您需要取消配置文件（_/etc/scalpel/scalpel.conf_）中您希望提取的文件类型的注释。
+**Scalpel** 是另一个工具，可用于查找和提取**嵌入在文件中的文件**。在这种情况下，您需要从配置文件（_/etc/scalpel/scalpel.conf_）中取消注释您希望提取的文件类型。
 ```bash
 sudo apt-get install scalpel
 scalpel file.img -o output
@@ -68,7 +68,7 @@ bulk_extractor memory.img -o out_folder
 
 您可以在[https://www.cgsecurity.org/wiki/TestDisk\_Download](https://www.cgsecurity.org/wiki/TestDisk\_Download)找到它。
 
-它带有 GUI 和 CLI 版本。您可以选择要让 PhotoRec 搜索的**文件类型**。
+它带有 GUI 和 CLI 版本。您可以选择要 PhotoRec 搜索的**文件类型**。
 
 ![](<../../../.gitbook/assets/image (524).png>)
 
@@ -100,4 +100,4 @@ BinVis 是在黑盒测试场景中熟悉未知目标的**起点**。
 ## 附加工具
 
 您可以使用[**viu**](https://github.com/atanunq/viu)来在终端中查看图像。\
-您可以使用 Linux 命令行工具**pdftotext**将 PDF 转换为文本并阅读它。
+您可以使用 Linux 命令行工具**pdftotext**将 pdf 转换为文本并阅读它。
