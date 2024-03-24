@@ -6,7 +6,7 @@
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJSTVO**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJSTVO**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
@@ -16,7 +16,7 @@ Drugi načini podrške HackTricks-u:
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -33,7 +33,7 @@ echo $MYGLOBAL #Prints: hello world
 ```
 Ova promenljiva će biti dostupna vašim trenutnim sesijama i njihovim podprocesima.
 
-Možete **ukloniti** promenljivu tako što ćete:
+Možete **ukloniti** promenljivu koristeći:
 ```bash
 unset MYGLOBAL
 ```
@@ -46,6 +46,10 @@ echo $LOCAL
 unset LOCAL
 ```
 ## Lista trenutnih promenljivih
+
+```bash
+printenv
+```
 ```bash
 set
 env
@@ -85,7 +89,7 @@ export HISTFILESIZE=0
 ```
 ### **HISTSIZE**
 
-Promenite **vrednost ove promenljive na 0**, tako da kada **završite sesiju**, bilo koja komanda neće biti dodata u **istorijski fajl** (\~/.bash\_history).
+Promenite **vrednost ove promenljive na 0**, tako da kada **završite sesiju**, nijedna komanda neće biti dodata u **istoriju fajla** (\~/.bash\_history).
 ```bash
 export HISTSIZE=0
 ```
@@ -98,7 +102,7 @@ export https_proxy="http://10.10.10.10:8080"
 ```
 ### SSL\_CERT\_FILE & SSL\_CERT\_DIR
 
-Procesi će verovati sertifikatima navedenim u **ovim env varijablama**.
+Procesi će verovati sertifikatima navedenim u **ovim env promenljivama**.
 ```bash
 export SSL_CERT_FILE=/path/to/ca-bundle.pem
 export SSL_CERT_DIR=/path/to/ca-certificates
@@ -127,7 +131,7 @@ Jedan pozadinski posao, jedan zaustavljen i poslednja komanda nije završena isp
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 

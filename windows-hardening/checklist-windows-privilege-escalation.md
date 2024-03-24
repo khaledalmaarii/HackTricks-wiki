@@ -16,45 +16,45 @@ Drugi načini podrške HackTricks-u:
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 ***
 
-### **Najbolji alat za traženje vektora eskalacije privilegija u lokalnom Windows-u:** [**WinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)
+### **Najbolji alat za traženje vektora lokalnog eskaliranja privilegija u Windows-u:** [**WinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)
 
 ### [Informacije o sistemu](windows-local-privilege-escalation/#system-info)
 
 * [ ] Dobiti [**Informacije o sistemu**](windows-local-privilege-escalation/#system-info)
-* [ ] Pretražiti **kernel** [**exploite korišćenjem skripti**](windows-local-privilege-escalation/#version-exploits)
-* [ ] Koristiti **Google za pretragu** kernel **exploita**
-* [ ] Koristiti **searchsploit za pretragu** kernel **exploita**
-* [ ] Interesantne informacije u [**env varijablama**](windows-local-privilege-escalation/#environment)?
+* [ ] Pretražiti **kernel** [**eksploate korišćenjem skripti**](windows-local-privilege-escalation/#version-exploits)
+* [ ] Koristiti **Google za pretragu** kernel **eksploatacija**
+* [ ] Koristiti **searchsploit za pretragu** kernel **eksploatacija**
+* [ ] Zanimljive informacije u [**env varijablama**](windows-local-privilege-escalation/#environment)?
 * [ ] Lozinke u [**PowerShell istoriji**](windows-local-privilege-escalation/#powershell-history)?
-* [ ] Interesantne informacije u [**Internet postavkama**](windows-local-privilege-escalation/#internet-settings)?
+* [ ] Zanimljive informacije u [**Internet postavkama**](windows-local-privilege-escalation/#internet-settings)?
 * [ ] [**Diskovi**](windows-local-privilege-escalation/#drives)?
-* [ ] [**WSUS exploit**](windows-local-privilege-escalation/#wsus)?
+* [ ] [**WSUS eksploatacija**](windows-local-privilege-escalation/#wsus)?
 * [**AlwaysInstallElevated**](windows-local-privilege-escalation/#alwaysinstallelevated)?
 
-### [Enumeracija logovanja/AV-a](windows-local-privilege-escalation/#enumeration)
+### [Enumeracija logovanja/AV](windows-local-privilege-escalation/#enumeration)
 
 * [ ] Proveriti [**Audit** ](windows-local-privilege-escalation/#audit-settings)i [**WEF** ](windows-local-privilege-escalation/#wef)postavke
 * [ ] Proveriti [**LAPS**](windows-local-privilege-escalation/#laps)
 * [ ] Proveriti da li je [**WDigest** ](windows-local-privilege-escalation/#wdigest)aktivan
-* [ ] [**LSA Protection**](windows-local-privilege-escalation/#lsa-protection)?
-* [ ] [**Credentials Guard**](windows-local-privilege-escalation/#credentials-guard)[?](windows-local-privilege-escalation/#cached-credentials)
-* [ ] [**Keširane lozinke**](windows-local-privilege-escalation/#cached-credentials)?
+* [ ] [**LSA Zaštita**](windows-local-privilege-escalation/#lsa-protection)?
+* [ ] [**Zaštita Kredencijala**](windows-local-privilege-escalation/#credentials-guard)[?](windows-local-privilege-escalation/#cached-credentials)
+* [ ] [**Keširane Kredencijale**](windows-local-privilege-escalation/#cached-credentials)?
 * [ ] Proveriti da li postoji neki [**AV**](windows-av-bypass)
 * [**AppLocker Politika**](authentication-credentials-uac-and-efs#applocker-policy)?
 * [**UAC**](authentication-credentials-uac-and-efs/uac-user-account-control)
-* [**Korisničke privilegije**](windows-local-privilege-escalation/#users-and-groups)
+* [**Korisničke Privilegije**](windows-local-privilege-escalation/#users-and-groups)
 * Proveriti [**trenutne** korisničke **privilegije**](windows-local-privilege-escalation/#users-and-groups)
 * Da li ste [**član neke privilegovane grupe**](windows-local-privilege-escalation/#privileged-groups)?
-* Proveriti da li su vam omogućeni neki od ovih tokena (windows-local-privilege-escalation/#token-manipulation): **SeImpersonatePrivilege, SeAssignPrimaryPrivilege, SeTcbPrivilege, SeBackupPrivilege, SeRestorePrivilege, SeCreateTokenPrivilege, SeLoadDriverPrivilege, SeTakeOwnershipPrivilege, SeDebugPrivilege** ?
-* [**Korisničke sesije**](windows-local-privilege-escalation/#logged-users-sessions)?
+* Proveriti da li su vam omogućeni [bilo koji od ovih tokena](windows-local-privilege-escalation/#token-manipulation): **SeImpersonatePrivilege, SeAssignPrimaryPrivilege, SeTcbPrivilege, SeBackupPrivilege, SeRestorePrivilege, SeCreateTokenPrivilege, SeLoadDriverPrivilege, SeTakeOwnershipPrivilege, SeDebugPrivilege** ?
+* [**Korisničke Sesije**](windows-local-privilege-escalation/#logged-users-sessions)?
 * Proveriti [**korisničke direktorijume**](windows-local-privilege-escalation/#home-folders) (pristup?)
-* Proveriti [**Politiku lozinke**](windows-local-privilege-escalation/#password-policy)
+* Proveriti [**Politiku Lozinke**](windows-local-privilege-escalation/#password-policy)
 * Šta je [**unutar Clipboard-a**](windows-local-privilege-escalation/#get-the-content-of-the-clipboard)?
 
 ### [Mreža](windows-local-privilege-escalation/#network)
@@ -62,25 +62,25 @@ Drugi načini podrške HackTricks-u:
 * Proveriti **trenutne** [**informacije o mreži**](windows-local-privilege-escalation/#network)
 * Proveriti **skrivene lokalne servise** ograničene prema spolja
 
-### [Pokrenuti procesi](windows-local-privilege-escalation/#running-processes)
+### [Pokrenuti Procesi](windows-local-privilege-escalation/#running-processes)
 
-* Dozvole fajlova i direktorijuma procesa [**file and folders permissions**](windows-local-privilege-escalation/#file-and-folder-permissions)
+* Dozvole fajlova i direktorijuma za procese binarnih datoteka (windows-local-privilege-escalation/#file-and-folder-permissions)
 * [**Izvlačenje lozinki iz memorije**](windows-local-privilege-escalation/#memory-password-mining)
 * [**Nesigurne GUI aplikacije**](windows-local-privilege-escalation/#insecure-gui-apps)
-* Ukrasti akreditive sa **interesantnih procesa** putem `ProcDump.exe` ? (firefox, chrome, itd ...) 
+* Ukrasti kredencijale sa **zanimljivih procesa** putem `ProcDump.exe` ? (firefox, chrome, itd ...) 
 
 ### [Servisi](windows-local-privilege-escalation/#services)
 
 * [Možete li **modifikovati neki servis**?](windows-local-privilege-escalation#permissions)
-* [Možete li **modifikovati** binarni fajl koji se **izvršava** od strane nekog **servisa**?](windows-local-privilege-escalation/#modify-service-binary-path)
+* [Možete li **modifikovati** binarnu datoteku koju **izvršava** neki **servis**?](windows-local-privilege-escalation/#modify-service-binary-path)
 * [Možete li **modifikovati** registar nekog **servisa**?](windows-local-privilege-escalation/#services-registry-modify-permissions)
-* Da li možete iskoristiti neki od **servisa sa neispravnim putem do binarnog fajla**? (windows-local-privilege-escalation/#unquoted-service-paths)
+* Da li možete iskoristiti neki **servis sa neispravnim putem binarne datoteke**? (windows-local-privilege-escalation/#unquoted-service-paths)
 
 ### [**Aplikacije**](windows-local-privilege-escalation/#applications)
 
-* **Dozvole za pisanje na instalirane aplikacije**](windows-local-privilege-escalation/#write-permissions)
+* **Dozvole za pisanje na instalirane aplikacije** (windows-local-privilege-escalation/#write-permissions)
 * [**Aplikacije koje se pokreću pri startovanju**](windows-local-privilege-escalation/#run-at-startup)
-* **Ranjivi** [**Drajveri**](windows-local-privilege-escalation/#drivers)
+* **Ranjivi** [**Driveri**](windows-local-privilege-escalation/#drivers)
 ### [DLL Hijacking](windows-local-privilege-escalation/#path-dll-hijacking)
 
 * [ ] Možete li **pisati u bilo kojem folderu unutar PATH-a**?
@@ -132,7 +132,7 @@ Drugi načini podrške HackTricks-u:
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 

