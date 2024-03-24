@@ -6,17 +6,17 @@
 
 HackTricks'ı desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI'na**](https://github.com/sponsors/carlospolop) göz atın!
+* **Şirketinizi HackTricks'te reklam görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na göz atın (https://github.com/sponsors/carlospolop)!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
 * [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking hilelerinizi paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)'da **takip edin**.
+* **Hacking hilelerinizi paylaşarak PR göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
 
 **Try Hard Güvenlik Grubu**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -46,7 +46,7 @@ exiftool file # Shows the metadata
 ```
 ### **Exiv2**
 
-Exiftool'a benzer şekilde, metaveri görüntüleme için kullanılır. `apt` üzerinden yüklenebilir, kaynak kodları [GitHub](https://github.com/Exiv2/exiv2) üzerinde bulunabilir ve resmi websitesi [burada](http://www.exiv2.org/) yer almaktadır.
+Metadata görüntüleme için exiftool'a benzer. `apt` aracılığıyla yüklenebilir, kaynak [GitHub](https://github.com/Exiv2/exiv2) üzerinde bulunabilir ve resmi bir [web sitesi](http://www.exiv2.org/) bulunmaktadır.
 ```bash
 exiv2 file # Shows the metadata
 ```
@@ -56,7 +56,7 @@ Uğraştığınız dosya türünü belirleyin.
 
 ### **Dizgeler**
 
-Dosyalardan okunabilir dizgeler çıkarır, çıktıyı filtrelemek için çeşitli kodlama ayarlarını kullanır.
+Dosyalardan okunabilir dizgeler çıkarır, çeşitli kodlama ayarlarını kullanarak çıktıyı filtrelemek için.
 ```bash
 strings -n 6 file # Extracts strings with a minimum length of 6
 strings -n 6 file | head -n 20 # First 20 strings
@@ -82,9 +82,9 @@ Görünüşte boş alanlardaki görünmez karakterler bilgi saklayabilir. Bu ver
 
 ## **Görüntülerden Veri Çıkarma**
 
-### **GrafikMagick ile Görüntü Detaylarını Tanımlama**
+### **GrafikDetayları GraphicMagick ile Tanımlama**
 
-[GraphicMagick](https://imagemagick.org/script/download.php), görüntü dosya türlerini belirlemek ve olası bozulmaları tanımlamak için kullanılır. Bir görüntüyü incelemek için aşağıdaki komutu çalıştırın:
+[GraphicMagick](https://imagemagick.org/script/download.php), görüntü dosyası türlerini belirlemek ve olası bozulmaları tanımlamak için kullanılır. Bir görüntüyü incelemek için aşağıdaki komutu çalıştırın:
 ```bash
 ./magick identify -verbose stego.jpg
 ```
@@ -94,11 +94,11 @@ Hasar görmüş bir görüntüyü onarmak için, bir meta veri yorumu eklemek ya
 ```
 ### **Veri Gizleme İçin Steghide**
 
-Steghide, `JPEG, BMP, WAV ve AU` dosyaları içine veri gizlemeyi kolaylaştırır, şifreli veri gömmeyi ve çıkarmayı sağlar. Kurulumu `apt` kullanarak basittir ve [kaynak kodu GitHub'da mevcuttur](https://github.com/StefanoDeVuono/steghide).
+Steghide, `JPEG, BMP, WAV ve AU` dosyaları içine veri gizlemeyi kolaylaştırır, şifreli veri gömmeyi ve çıkarmayı sağlar. Kurulumu `apt` kullanarak kolaydır ve [kaynak kodu GitHub'da mevcuttur](https://github.com/StefanoDeVuono/steghide).
 
 **Komutlar:**
 
-* `steghide info dosya` bir dosyanın gizli veri içerip içermediğini ortaya çıkarır.
+* `steghide info dosya` dosyanın gizli veri içerip içermediğini ortaya çıkarır.
 * `steghide extract -sf dosya [--passphrase şifre]` gizli veriyi çıkarır, şifre isteğe bağlıdır.
 
 Web tabanlı çıkarma için [bu web sitesini](https://futureboy.us/stegano/decinput.html) ziyaret edin.
@@ -120,9 +120,9 @@ zsteg, PNG ve BMP dosyalarındaki gizli verileri ortaya çıkarmak için uzmanla
 
 ### **StegoVeritas ve Stegsolve**
 
-**stegoVeritas**, meta verileri kontrol eder, görüntü dönüşümleri yapar ve diğer özellikler arasında LSB brute forcing uygular. Tüm seçeneklerin tam listesi için `stegoveritas.py -h` kullanın ve tüm kontrolleri gerçekleştirmek için `stegoveritas.py stego.jpg` komutunu kullanın.
+**stegoVeritas**, metaverileri kontrol eder, görüntü dönüşümleri yapar ve diğer özellikler arasında LSB brute forcing uygular. Tüm seçeneklerin listesi için `stegoveritas.py -h` kullanın ve tüm kontrolleri gerçekleştirmek için `stegoveritas.py stego.jpg` komutunu kullanın.
 
-**Stegsolve**, gizli metinleri veya mesajları ortaya çıkarmak için çeşitli renk filtreleri uygular. [GitHub'da](https://github.com/eugenekolo/sec-tools/tree/master/stego/stegsolve/stegsolve) bulunabilir.
+**Stegsolve**, görüntülerde gizli metinleri veya mesajları ortaya çıkarmak için çeşitli renk filtreleri uygular. [GitHub'da](https://github.com/eugenekolo/sec-tools/tree/master/stego/stegsolve/stegsolve) bulunabilir.
 
 ### **Gizli İçerik Tespiti için FFT**
 
@@ -134,11 +134,11 @@ Hızlı Fourier Dönüşümü (FFT) teknikleri, görüntülerde gizli içeriği 
 
 ### **Ses ve Görüntü Dosyaları için Stegpy**
 
-Stegpy, PNG, BMP, GIF, WebP ve WAV gibi formatları destekleyerek bilgi gömme işlemine izin verir. [GitHub'da](https://github.com/dhsdshdhk/stegpy) bulunabilir.
+Stegpy, bilgiyi görüntü ve ses dosyalarına gömmeyi sağlar ve PNG, BMP, GIF, WebP ve WAV gibi formatları destekler. [GitHub'da](https://github.com/dhsdshdhk/stegpy) bulunabilir.
 
 ### **PNG Dosya Analizi için Pngcheck**
 
-PNG dosyalarını analiz etmek veya doğrulamak için kullanılır:
+PNG dosyalarını analiz etmek veya doğrulamak için kullanılabilir:
 ```bash
 apt-get install pngcheck
 pngcheck stego.png
@@ -153,9 +153,9 @@ Daha fazla keşif için şu adresleri ziyaret etmeyi düşünün:
 * [OpenStego](https://www.openstego.com/)
 * [DIIT](https://diit.sourceforge.net/)
 
-## **Veri Çıkarma Audiolardan**
+## **Ses Dosyalarından Veri Çıkarma**
 
-**Audio steganografi**, ses dosyaları içinde bilgi gizleme için benzersiz bir yöntem sunar. Farklı araçlar gizli içeriği gömmek veya almak için kullanılır.
+**Ses steganografisi**, bilgileri ses dosyalarının içine gizlemek için benzersiz bir yöntem sunar. Gizli içeriği gömmek veya almak için farklı araçlar kullanılır.
 
 ### **Steghide (JPEG, BMP, WAV, AU)**
 
@@ -195,7 +195,7 @@ Ses dosyalarındaki DTMF tonlarını tespit etmek, [bu DTMF dedektörü](https:/
 
 ### **Binary Length SQRT - QR Code**
 
-Tam bir sayıya karesi olan ikili veri bir QR kodu temsil edebilir. Bunun kontrolü için bu parçacığı kullanın:
+Tam bir sayıya karesel olarak eşit olan ikili veri, bir QR kodu temsil edebilir. Bunun kontrolü için bu parçacığı kullanın:
 ```python
 import math
 math.sqrt(2500) #50
@@ -209,22 +209,22 @@ Braille çevirisi için [Branah Braille Çevirmeni](https://www.branah.com/brail
 * [**https://0xrick.github.io/lists/stego/**](https://0xrick.github.io/lists/stego/)
 * [**https://github.com/DominicBreuker/stego-toolkit**](https://github.com/DominicBreuker/stego-toolkit)
 
-**Try Hard Security Group**
+**Try Hard Security Grubu**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahramana kadar öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Sıfırdan kahraman olana kadar AWS hackleme konusunda</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile öğrenin!</strong></summary>
 
 HackTricks'i desteklemenin diğer yolları:
 
-* Şirketinizi HackTricks'te **tanıtmak istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family'yi**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**'ı takip edin.**
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)'da takip edin.**
 * **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>

