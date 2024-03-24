@@ -7,14 +7,14 @@
 * Lavori in una **azienda di sicurezza informatica**? Vuoi vedere la **tua azienda pubblicizzata su HackTricks**? o vuoi avere accesso all'**ultima versione del PEASS o scaricare HackTricks in PDF**? Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
 * Ottieni il [**merchandising ufficiale PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) [**Gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR al** [**repo di hacktricks**](https://github.com/carlospolop/hacktricks) **e al** [**repo di hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR al** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **e al** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -27,8 +27,8 @@ La prima cosa da fare è avere un [**Proxmark3**](https://proxmark.com) e [**ins
 ### Attaccare i Sistemi MIFARE Classic 1KB
 
 Ha **16 settori**, ognuno con **4 blocchi** e ogni blocco contiene **16B**. L'UID si trova nel settore 0 blocco 0 (e non può essere modificato).\
-Per accedere a ciascun settore sono necessarie **2 chiavi** (**A** e **B**) che sono memorizzate nel **blocco 3 di ciascun settore** (trailer del settore). Il trailer del settore memorizza anche i **bit di accesso** che forniscono le autorizzazioni di **lettura e scrittura** su **ciascun blocco** utilizzando le 2 chiavi.\
-2 chiavi sono utili per dare autorizzazioni di lettura se si conosce la prima e di scrittura se si conosce la seconda (ad esempio).
+Per accedere a ciascun settore sono necessarie **2 chiavi** (**A** e **B**) che sono memorizzate nel **blocco 3 di ciascun settore** (trailer del settore). Il trailer del settore memorizza anche i **bit di accesso** che danno le autorizzazioni di **lettura e scrittura** su **ciascun blocco** utilizzando le 2 chiavi.\
+2 chiavi sono utili per dare autorizzazioni di lettura se si conosce la prima e scrittura se si conosce la seconda (ad esempio).
 
 Sono possibili vari attacchi.
 ```bash
@@ -49,7 +49,7 @@ proxmark3> hf mf eset 01 000102030405060708090a0b0c0d0e0f # Write those bytes to
 proxmark3> hf mf eget 01 # Read block 1
 proxmark3> hf mf wrbl 01 B FFFFFFFFFFFF 000102030405060708090a0b0c0d0e0f # Write to the card
 ```
-Il Proxmark3 consente di eseguire altre azioni come **intercettare** una **comunicazione Tag to Reader** per cercare di trovare dati sensibili. In questa carta è possibile solo fiutare la comunicazione e calcolare la chiave utilizzata perché le **operazioni crittografiche utilizzate sono deboli** e conoscendo il testo in chiaro e cifrato è possibile calcolarla (strumento `mfkey64`).
+Il Proxmark3 consente di eseguire altre azioni come **intercettare** una **comunicazione Tag to Reader** per cercare di trovare dati sensibili. In questa scheda è possibile intercettare la comunicazione e calcolare la chiave utilizzata poiché le **operazioni crittografiche utilizzate sono deboli** e conoscendo il testo in chiaro e cifrato è possibile calcolarla (strumento `mfkey64`).
 
 ### Comandi Grezzi
 
@@ -75,7 +75,7 @@ Puoi creare uno script per **fuzzare i lettori di tag**, quindi copiando i dati 
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -88,6 +88,6 @@ Puoi creare uno script per **fuzzare i lettori di tag**, quindi copiando i dati 
 * Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR al** [**repo di hacktricks**](https://github.com/carlospolop/hacktricks) **e al** [**repo di hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Condividi i tuoi trucchi di hacking inviando PR al** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **e al** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

