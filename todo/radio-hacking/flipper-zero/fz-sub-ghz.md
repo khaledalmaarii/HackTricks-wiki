@@ -6,7 +6,7 @@
 
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks in PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -16,7 +16,7 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -59,12 +59,12 @@ Informationen über die verwendete Frequenz finden (auch eine andere Möglichkei
 
 Die **Lesen**-Option **hört auf der konfigurierten Frequenz** mit der angegebenen Modulation: standardmäßig 433,92 AM. Wenn beim Lesen **etwas gefunden wird**, werden **Informationen** auf dem Bildschirm angezeigt. Diese Informationen können verwendet werden, um das Signal in Zukunft zu replizieren.
 
-Während des Lesens ist es möglich, die **linke Taste zu drücken** und **sie zu konfigurieren**.\
+Während Lesen verwendet wird, ist es möglich, die **linke Taste zu drücken** und sie **zu konfigurieren**.\
 Zu diesem Zeitpunkt gibt es **4 Modulationen** (AM270, AM650, FM328 und FM476) und **mehrere relevante Frequenzen** gespeichert:
 
 <figure><img src="../../../.gitbook/assets/image (28).png" alt=""><figcaption></figcaption></figure>
 
-Sie können **jene einstellen, die Sie interessieren**, jedoch, wenn Sie **nicht sicher sind, welche Frequenz** von der Fernbedienung verwendet wird, **schalten Sie das Hopping auf ON** (standardmäßig aus) und drücken Sie die Taste mehrmals, bis Flipper sie erfasst und Ihnen die benötigten Informationen zur Einstellung der Frequenz gibt.
+Sie können **jene einstellen, die Sie interessieren**, jedoch, wenn Sie **nicht sicher sind, welche Frequenz** von der Fernbedienung verwendet wird, **schalten Sie Hopping auf ON** (standardmäßig aus) und drücken Sie die Taste mehrmals, bis Flipper sie erfasst und Ihnen die benötigten Informationen zur Einstellung der Frequenz gibt.
 
 {% hint style="danger" %}
 Das Wechseln zwischen Frequenzen dauert einige Zeit, daher können Signale, die während des Wechsels übertragen werden, verpasst werden. Für eine bessere Signalrezeption stellen Sie eine feste Frequenz fest, die durch den Frequenzanalysator bestimmt wird.
@@ -78,7 +78,7 @@ Ein Signal in der konfigurierten Frequenz stehlen (und wiederholen)
 
 Die **Rohdaten lesen**-Option **zeichnet Signale** auf, die auf der Empfangsfrequenz gesendet werden. Dies kann verwendet werden, um ein Signal zu **stehlen** und es zu **wiederholen**.
 
-Standardmäßig ist **Rohdaten lesen auch bei 433,92 in AM650**, aber wenn Sie mit der Lesen-Option festgestellt haben, dass das Signal, das Sie interessiert, in einer **anderen Frequenz/Modulation liegt, können Sie das auch ändern**, indem Sie links drücken (während Sie sich in der Rohdaten lesen-Option befinden).
+Standardmäßig ist **Rohdaten lesen auch bei 433,92 in AM650**, aber wenn Sie mit der Lesen-Option festgestellt haben, dass das Signal, das Sie interessiert, in einer **anderen Frequenz/Modulation liegt, können Sie das auch ändern**, indem Sie links drücken (während Sie sich in der Rohdaten-Leseoption befinden).
 
 ### Brute-Force
 
@@ -92,7 +92,7 @@ Signale aus einer konfigurierten Liste von Protokollen hinzufügen
 
 #### Liste der [unterstützten Protokolle](https://docs.flipperzero.one/sub-ghz/add-new-remote) <a href="#id-3iglu" id="id-3iglu"></a>
 
-| Princeton\_433 (funktioniert mit den meisten statischen Codesystemen) | 433,92 | Statisch  |
+| Princeton\_433 (funktioniert mit der Mehrheit der statischen Codesysteme) | 433,92 | Statisch  |
 | --------------------------------------------------------------- | ------ | ------- |
 | Nice Flo 12bit\_433                                             | 433,92 | Statisch  |
 | Nice Flo 24bit\_433                                             | 433,92 | Statisch  |
@@ -128,13 +128,13 @@ Erhalten Sie dBm der gespeicherten Frequenzen
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 <details>
 
-<summary><strong>Erlernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Erlernen Sie AWS-Hacking von Null zum Profi mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Andere Möglichkeiten, HackTricks zu unterstützen:
 

