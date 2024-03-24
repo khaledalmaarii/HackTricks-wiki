@@ -4,9 +4,9 @@
 
 <summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Werk jy in 'n **cybersekuriteitsmaatskappy**? Wil jy jou **maatskappy geadverteer sien in HackTricks**? of wil jy toegang hê tot die **nuutste weergawe van die PEASS of HackTricks aflaai in PDF-formaat**? Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* Werk jy vir 'n **cybersekuriteitsmaatskappy**? Wil jy jou **maatskappy geadverteer sien in HackTricks**? of wil jy toegang hê tot die **nuutste weergawe van die PEASS of HackTricks aflaai in PDF-formaat**? Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Kry die [**amptelike PEASS & HackTricks-klere**](https://peass.creator-spring.com)
 * **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou haktruuks deur PR's in te dien by die** [**hacktricks-opslag**](https://github.com/carlospolop/hacktricks) **en** [**hacktricks-cloud-opslag**](https://github.com/carlospolop/hacktricks-cloud).
 
@@ -14,7 +14,7 @@
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -28,7 +28,7 @@ Die eerste ding wat jy moet doen, is om 'n [**Proxmark3**](https://proxmark.com)
 
 Dit het **16 sektore**, elkeen het **4 blokke** en elke blok bevat **16B**. Die UID is in sektor 0 blok 0 (en kan nie verander word nie).\
 Om toegang tot elke sektor te verkry, het jy **2 sleutels** (**A** en **B**) nodig wat gestoor word in **blok 3 van elke sektor** (sektor-trailer). Die sektor-trailer stoor ook die **toegangsbits** wat die **lees- en skryfregte** op **elke blok** gee deur die 2 sleutels te gebruik.\
-2 sleutels is nuttig om leesregte te gee as jy die eerste een ken en skryfregte te gee as jy die tweede een ken (byvoorbeeld).
+2 sleutels is nuttig om toestemming te gee om te lees as jy die eerste een ken en om te skryf as jy die tweede een ken (byvoorbeeld).
 
 Verskeie aanvalle kan uitgevoer word
 ```bash
@@ -67,15 +67,15 @@ Met hierdie inligting kan jy probeer om inligting oor die kaart te soek en oor d
 
 ### Skripte
 
-Die Proxmark3 sagteware kom met 'n voorgelaaide lys van **outomatiseringskripte** wat jy kan gebruik om eenvoudige take uit te voer. Om die volledige lys te herwin, gebruik die `script list` bevel. Gebruik daarna die `script run` bevel, gevolg deur die skrip se naam:
+Die Proxmark3 sagteware kom met 'n voorgelaaide lys van **outomatiseringskripte** wat jy kan gebruik om eenvoudige take uit te voer. Om die volledige lys te kry, gebruik die `script list` bevel. Gebruik daarna die `script run` bevel, gevolg deur die skrip se naam:
 ```
 proxmark3> script run mfkeys
 ```
-Jy kan 'n skripsie skep om **taglesers te fuzz**, deur die data van 'n **geldige kaart** te kopieer en dan 'n **Lua-skripsie** te skryf wat een of meer **willekeurige bytes** randomiseer en nagaan of die **leser vasloop** met enige iterasie.
+Jy kan 'n skripsie skep om **taglesers te fuzz**, deur die data van 'n **geldige kaart** te kopieer en dan 'n **Lua-skripsie** te skryf wat een of meer **willekeurige bytes randomiseer** en nagaan of die **leser vasloop** met enige iterasie.
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 

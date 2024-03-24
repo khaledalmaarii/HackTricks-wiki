@@ -14,9 +14,9 @@ Ander maniere om HackTricks te ondersteun:
 
 </details>
 
-**Probeer Hard Security Group**
+**Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -26,7 +26,7 @@ Ander maniere om HackTricks te ondersteun:
 
 Die globale veranderlikes **sal** geërf word deur **kindprosesse**.
 
-Jy kan 'n globale veranderlike skep vir jou huidige sessie deur te doen:
+Jy kan 'n globale veranderlike vir jou huidige sessie skep deur:
 ```bash
 export MYGLOBAL="hello world"
 echo $MYGLOBAL #Prints: hello world
@@ -57,20 +57,20 @@ cat /proc/`python -c "import os; print(os.getppid())"`/environ
 
 Van: [https://geek-university.com/linux/common-environment-variables/](https://geek-university.com/linux/common-environment-variables/)
 
-* **DISPLAY** – die vertoning wat deur **X** gebruik word. Hierdie veranderlike is gewoonlik ingestel op **:0.0**, wat beteken die eerste vertoning op die huidige rekenaar.
-* **EDITOR** – die gebruiker se voorkeur teksredigeerder.
-* **HISTFILESIZE** – die maksimum aantal lyne wat in die geskiedenis-lêer bevat word.
-* **HISTSIZE** – Aantal lyne wat by die geskiedenis-lêer gevoeg word wanneer die gebruiker sy sessie afsluit.
+* **DISPLAY** – die vertoning wat deur **X** gebruik word. Hierdie veranderlike is gewoonlik ingestel op **:0.0**, wat die eerste vertoning op die huidige rekenaar beteken.
+* **EDITOR** – die voorkeur teksredakteur van die gebruiker.
+* **HISTFILESIZE** – die maksimum aantal lyne wat in die geskiedenis lêer bevat word.
+* **HISTSIZE** – Aantal lyne wat by die geskiedenis lêer gevoeg word wanneer die gebruiker sy sessie beëindig.
 * **HOME** – jou tuisgids.
 * **HOSTNAME** – die rekenaar se gasnaam.
 * **LANG** – jou huidige taal.
 * **MAIL** – die ligging van die gebruiker se posbus. Gewoonlik **/var/spool/mail/USER**.
 * **MANPATH** – die lys van gids om vir handleidingsbladsye te soek.
 * **OSTYPE** – die tipe bedryfstelsel.
-* **PS1** – die verstek-prompt in bash.
+* **PS1** – die verstek aansporing in bash.
 * **PATH** – stoor die pad van al die gids waarin binêre lêers gehou word wat jy wil uitvoer deur net die naam van die lêer te spesifiseer en nie deur relatiewe of absolute pad nie.
 * **PWD** – die huidige werksgids.
-* **SHELL** – die pad na die huidige opdragshell (byvoorbeeld, **/bin/bash**).
+* **SHELL** – die pad na die huidige opdragskulp (byvoorbeeld, **/bin/bash**).
 * **TERM** – die huidige terminaal tipe (byvoorbeeld, **xterm**).
 * **TZ** – jou tydsone.
 * **USER** – jou huidige gebruikersnaam.
@@ -79,13 +79,13 @@ Van: [https://geek-university.com/linux/common-environment-variables/](https://g
 
 ### **HISTFILESIZE**
 
-Verander die **waarde van hierdie veranderlike na 0**, sodat wanneer jy **jou sessie afsluit** die **geskiedenis-lêer** (\~/.bash\_history) **verwyder sal word**.
+Verander die **waarde van hierdie veranderlike na 0**, sodat wanneer jy **jou sessie beëindig** die **geskiedenis lêer** (\~/.bash\_history) **verwyder sal word**.
 ```bash
 export HISTFILESIZE=0
 ```
 ### **HISTSIZE**
 
-Verander die **waarde van hierdie veranderlike na 0**, sodat wanneer jy **jou sessie beëindig** enige opdrag by die **geskiedenis lêer** (\~/.bash\_history) toegevoeg word.
+Verander die **waarde van hierdie veranderlike na 0**, sodat wanneer jy **jou sessie beëindig** enige opdrag by die **geskiedenis lêer** (\~/.bash\_history) toegevoeg sal word.
 ```bash
 export HISTSIZE=0
 ```
@@ -117,17 +117,17 @@ Gewone gebruiker:
 
 ![](<../.gitbook/assets/image (88).png>)
 
-Een, twee en drie agtergrondtake:
+Een, twee en drie agtergrondwerk:
 
 ![](<../.gitbook/assets/image (89).png>)
 
-Een agtergrondtaak, een gestop en laaste bevel het nie korrek geëindig nie:
+Een agtergrondwerk, een gestop en laaste bevel het nie korrek afgehandel nie:
 
 ![](<../.gitbook/assets/image (90).png>)
 
 **Probeer Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -137,10 +137,10 @@ Een agtergrondtaak, een gestop en laaste bevel het nie korrek geëindig nie:
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy wil sien jou **maatskappy geadverteer in HackTricks** of **laai HackTricks af in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou haktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* **Deel jou haktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

