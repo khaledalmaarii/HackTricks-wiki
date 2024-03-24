@@ -16,7 +16,7 @@ Autres façons de soutenir HackTricks :
 
 **Groupe de sécurité Try Hard**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -24,11 +24,11 @@ Autres façons de soutenir HackTricks :
 
 Le but de cette page est d'énumérer les **plateformes permettant de rechercher du code** (littéral ou regex) dans des milliers/millions de dépôts sur une ou plusieurs plateformes.
 
-Cela aide dans plusieurs occasions à **rechercher des informations divulguées** ou des **modèles de vulnérabilités**.
+Cela aide dans plusieurs occasions à **rechercher des informations divulguées** ou des modèles de **vulnérabilités**.
 
 * [**SourceGraph**](https://sourcegraph.com/search) : Recherche dans des millions de dépôts. Il existe une version gratuite et une version entreprise (avec 15 jours gratuits). Il prend en charge les regex.
 * [**Recherche Github**](https://github.com/search) : Recherche sur Github. Il prend en charge les regex.
-* Il peut également être utile de consulter [**Github Code Search**](https://cs.github.com/).
+* Il peut également être utile de consulter [**Recherche de code Github**](https://cs.github.com/).
 * [**Recherche avancée Gitlab**](https://docs.gitlab.com/ee/user/search/advanced\_search.html) : Recherche dans les projets Gitlab. Prise en charge des regex.
 * [**SearchCode**](https://searchcode.com/) : Recherche de code dans des millions de projets.
 
@@ -38,7 +38,7 @@ Lorsque vous recherchez des fuites dans un dépôt et exécutez quelque chose co
 
 **Groupe de sécurité Try Hard**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 

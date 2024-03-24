@@ -14,7 +14,7 @@
 
 **Groupe de sécurité Try Hard**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -49,7 +49,7 @@ proxmark3> hf mf eset 01 000102030405060708090a0b0c0d0e0f # Write those bytes to
 proxmark3> hf mf eget 01 # Read block 1
 proxmark3> hf mf wrbl 01 B FFFFFFFFFFFF 000102030405060708090a0b0c0d0e0f # Write to the card
 ```
-Le Proxmark3 permet d'effectuer d'autres actions comme **écouter** une **communication Tag à Lecteur** pour essayer de trouver des données sensibles. Sur cette carte, vous pourriez simplement renifler la communication et calculer la clé utilisée car les **opérations cryptographiques utilisées sont faibles** et en connaissant le texte en clair et le texte chiffré, vous pouvez le calculer (outil `mfkey64`).
+Le Proxmark3 permet d'effectuer d'autres actions comme **écouter en douce** une **communication Tag à Lecteur** pour essayer de trouver des données sensibles. Sur cette carte, vous pourriez simplement renifler la communication et calculer la clé utilisée car les **opérations cryptographiques utilisées sont faibles** et en connaissant le texte en clair et le texte chiffré, vous pouvez le calculer (outil `mfkey64`).
 
 ### Commandes Brutes
 
@@ -67,7 +67,7 @@ Avec ces informations, vous pourriez essayer de rechercher des informations sur 
 
 ### Scripts
 
-Le logiciel Proxmark3 est livré avec une liste préchargée de **scripts d'automatisation** que vous pouvez utiliser pour effectuer des tâches simples. Pour récupérer la liste complète, utilisez la commande `script list`. Ensuite, utilisez la commande `script run`, suivi du nom du script :
+Le logiciel Proxmark3 est livré avec une liste préchargée de **scripts d'automatisation** que vous pouvez utiliser pour effectuer des tâches simples. Pour récupérer la liste complète, utilisez la commande `script list`. Ensuite, utilisez la commande `script run`, suivie du nom du script :
 ```
 proxmark3> script run mfkeys
 ```
@@ -75,7 +75,7 @@ Vous pouvez créer un script pour **fuzzer les lecteurs de tags**, en copiant le
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 

