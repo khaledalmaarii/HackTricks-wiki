@@ -14,7 +14,7 @@
 
 **Kikundi cha Usalama cha Kujaribu Kwa Bidii**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -22,20 +22,20 @@
 
 Kwa [**Flipper Zero**](https://flipperzero.one/) unaweza:
 
-* **Sikiliza/Chukua/Rejea marudio ya redio:** [**Sub-GHz**](fz-sub-ghz.md)
-* **Soma/Chukua/Emule kadi za NFC:** [**NFC**](fz-nfc.md)
-* **Soma/Chukua/Emule vitambulisho vya 125kHz:** [**125kHz RFID**](fz-125khz-rfid.md)
-* **Soma/Chukua/Tuma ishara za Infrared:** [**Infrared**](fz-infrared.md)
-* **Soma/Chukua/Emule iButtons:** [**iButton**](../ibutton.md)
-* **Tumia kama Bad USB**
-* **Tumia kama ufunguo wa usalama (U2F)**
-* **Cheza Snake**
+* **Kusikiliza/Kukamata/Kurejea marudio ya redio:** [**Sub-GHz**](fz-sub-ghz.md)
+* **Kusoma/Kukamata/Kuiga kadi za NFC:** [**NFC**](fz-nfc.md)
+* **Kusoma/Kukamata/Kuiga vitambulisho vya 125kHz:** [**125kHz RFID**](fz-125khz-rfid.md)
+* **Kusoma/Kukamata/Kutuma ishara za Infrared:** [**Infrared**](fz-infrared.md)
+* **Kusoma/Kukamata/Kuiga iButtons:** [**iButton**](../ibutton.md)
+* **Kuitumia kama Bad USB**
+* **Kuitumia kama ufunguo wa usalama (U2F)**
+* **Kucheza Snake**
 
 **Rasilimali zingine za Flipper Zero katika** [**https://github.com/djsime1/awesome-flipperzer**](https://github.com/djsime1/awesome-flipperzero)
 
 **Kikundi cha Usalama cha Kujaribu Kwa Bidii**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 

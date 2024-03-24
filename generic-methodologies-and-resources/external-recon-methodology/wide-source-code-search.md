@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi kuwa shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi mtaalamu na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalamu wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
@@ -16,7 +16,7 @@ Njia nyingine za kusaidia HackTricks:
 
 **Kikundi cha Usalama cha Kujitahidi**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -24,11 +24,11 @@ Njia nyingine za kusaidia HackTricks:
 
 Lengo la ukurasa huu ni kuhesabu **majukwaa yanayoruhusu kutafuta msimbo** (halisi au regex) katika maelfu/mamilioni ya repos kwenye majukwaa moja au zaidi.
 
-Hii husaidia katika matukio kadhaa ya **kutafuta taarifa zilizovuja** au mifano ya **mapungufu ya usalama**.
+Hii husaidia katika matukio kadhaa ya **kutafuta taarifa zilizovuja** au kwa mifano ya **mapengo**.
 
 * [**SourceGraph**](https://sourcegraph.com/search): Tafuta katika mamilioni ya repos. Kuna toleo la bure na toleo la biashara (na siku 15 za bure). Inasaidia regexes.
 * [**Github Search**](https://github.com/search): Tafuta kote Github. Inasaidia regexes.
-* Labda ni muhimu pia kuangalia [**Github Code Search**](https://cs.github.com/).
+* Labda pia ni muhimu kuangalia [**Github Code Search**](https://cs.github.com/).
 * [**Gitlab Advanced Search**](https://docs.gitlab.com/ee/user/search/advanced\_search.html): Tafuta katika miradi ya Gitlab. Inasaidia regexes.
 * [**SearchCode**](https://searchcode.com/): Tafuta msimbo katika miradi mamilioni.
 
@@ -38,13 +38,13 @@ Unapotafuta uvujaji katika repo na kuendesha kitu kama `git log -p` usisahau kwa
 
 **Kikundi cha Usalama cha Kujitahidi**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi kuwa shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi mtaalamu na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalamu wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 

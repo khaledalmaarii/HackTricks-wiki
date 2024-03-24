@@ -1,28 +1,28 @@
-# Vifaa vya Kugeuza & Mbinu za Msingi
+# Zana za Kugeuza & Mbinu za Msingi
 
 <details>
 
-<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
+* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
-**Kikundi cha Usalama cha Kujaribu Kwa Bidii**
+**Kikundi cha Usalama cha Try Hard**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 ***
 
-## Vifaa vya Kugeuza vilivyotegemea ImGui
+## Zana za Kugeuza Zilizotegemea ImGui
 
 Programu:
 
@@ -47,27 +47,27 @@ Programu:
 
 dotPeek ni msambazaji ambao **hugawanya na kuchunguza muundo wa multiple**, ikiwa ni pamoja na **maktaba** (.dll), **faili za metadata za Windows** (.winmd), na **programu za kutekelezwa** (.exe). Mara baada ya kugawanywa, mkusanyiko unaweza kuokolewa kama mradi wa Visual Studio (.csproj).
 
-Faida hapa ni kwamba ikiwa msimbo uliopotea unahitaji kurejeshwa kutoka kwa mkusanyiko wa zamani, hatua hii inaweza kuokoa muda. Zaidi ya hayo, dotPeek hutoa urambazaji wa manufaa kote kwenye msimbo uliogawanywa, ikifanya kuwa moja ya zana kamili kwa **uchambuzi wa algorithm wa Xamarin.**
+Faida hapa ni kwamba ikiwa msimbo wa chanzo uliopotea unahitaji kurejeshwa kutoka kwa mkusanyiko wa zamani, hatua hii inaweza kuokoa muda. Zaidi, dotPeek hutoa urambazaji wa manufaa kote kwenye msimbo uliogawanywa, ikifanya iwe moja ya zana kamili kwa **uchambuzi wa algorithm wa Xamarin.**
 
 ### [.NET Reflector](https://www.red-gate.com/products/reflector/)
 
-Kwa mfano wa kuongeza wa kina na API ambayo inapanua zana ili kufaa mahitaji yako sahihi, .NET reflector hupunguza muda na kusahilisha maendeleo. Hebu tuangalie huduma nyingi za uhandisi wa nyuma ambazo zana hii hutoa:
+Kwa mfano wa kuongeza wa kina na API ambayo inapanua zana ili kufaa mahitaji yako halisi, .NET reflector hupunguza muda na kufanya maendeleo kuwa rahisi. Hebu tuangalie huduma nyingi za uhandisi wa nyuma ambazo zana hii hutoa:
 
 * Hutoa ufahamu jinsi data inavyopita kupitia maktaba au sehemu
-* Hutoa ufahamu wa utekelezaji na matumizi ya lugha na fremu za .NET
+* Hutoa ufahamu katika utekelezaji na matumizi ya lugha na fremu za .NET
 * Hupata utendaji usioelezwa na usiofunuliwa ili kupata zaidi kutoka kwa APIs na teknolojia zilizotumiwa.
 * Hupata tegemezi na makusanyo tofauti
 * Inagundua mahali sahihi ya makosa katika msimbo wako, vipengele vya tatu, na maktaba.
-* Hufanya uchunguzi katika chanzo cha msimbo wote wa .NET unaoendana nao.
+* Hufanya uchunguzi katika chanzo cha msimbo wote wa .NET unaoendelea kufanya kazi nao.
 
 ### [ILSpy](https://github.com/icsharpcode/ILSpy) & [dnSpy](https://github.com/dnSpy/dnSpy/releases)
 
-[ILSpy programu-jalizi kwa Visual Studio Code](https://github.com/icsharpcode/ilspy-vscode): Unaweza kuwa nayo kwenye OS yoyote (unaweza kuweka moja kwa moja kutoka VSCode, hakuna haja ya kupakua git. Bonyeza **Extensions** na **tafuta ILSpy**).\
+[ILSpy plugin kwa Visual Studio Code](https://github.com/icsharpcode/ilspy-vscode): Unaweza kuwa nayo kwenye OS yoyote (unaweza kuweka moja kwa moja kutoka VSCode, hakuna haja ya kupakua git. Bonyeza **Extensions** na **tafuta ILSpy**).\
 Ikiwa unahitaji **kugeuza**, **kurekebisha** na **kusambaza** tena unaweza kutumia [**dnSpy**](https://github.com/dnSpy/dnSpy/releases) au tawi linalotunzwa kikamilifu la hiyo, [**dnSpyEx**](https://github.com/dnSpyEx/dnSpy/releases). (**Bonyeza Kulia -> Badilisha Mbinu** kubadilisha kitu ndani ya kazi).
 
-### Kuingiza DNSpy
+### Uchakataji wa DNSpy
 
-Ili kufanya **DNSpy iweke rekodi fulani katika faili**, unaweza kutumia kificho hiki:
+Ili kufanya **DNSpy iwekeze baadhi ya habari kwenye faili**, unaweza kutumia kificho hiki:
 ```cs
 using System.IO;
 path = "C:\\inetpub\\temp\\MyTest2.txt";
@@ -75,7 +75,7 @@ File.AppendAllText(path, "Password: " + password + "\n");
 ```
 ### Kurekebisha DNSpy
 
-Ili kurekebisha nambari kwa kutumia DNSpy unahitaji:
+Ili kurekebisha msimbo kwa kutumia DNSpy unahitaji:
 
 Kwanza, badilisha **Vipengele vya Utoaji** vinavyohusiana na **urekebishaji**:
 
@@ -104,7 +104,7 @@ Kisha, ikiwa programu yako ya .NET inaendeshwa na **IIS** unaweza kuirekebisha k
 ```
 iisreset /noforce
 ```
-Kisha, ili kuanza kudebugi unapaswa kufunga faili zote zilizofunguliwa na ndani ya **Tab ya Kudebugi** chagua **Ambatanisha kwa Mchakato...**:
+Kisha, ili kuanza kurekebisha hitilafu unapaswa kufunga faili zote zilizofunguliwa na ndani ya **Kichupo cha Kurekebisha** chagua **Ambatanisha kwa Mchakato...**:
 
 ![](<../../.gitbook/assets/image (280).png>)
 
@@ -112,7 +112,7 @@ Kisha chagua **w3wp.exe** kuambatisha kwenye **seva ya IIS** na bonyeza **ambata
 
 ![](<../../.gitbook/assets/image (281).png>)
 
-Sasa tukiwa tunadebugi mchakato, ni wakati wa kuusimamisha na kupakia moduli zote. Kwanza bonyeza _Kudebugi >> Simamisha Yote_ kisha bonyeza _**Kudebugi >> Windows >> Moduli**_:
+Sasa tukiwa tunarekebisha mchakato, ni wakati wa kuusimamisha na kupakia moduli zote. Kwanza bonyeza _Kurekebisha >> Simamisha Yote_ kisha bonyeza _**Kurekebisha >> Windows >> Moduli**_:
 
 ![](<../../.gitbook/assets/image (286).png>)
 
@@ -122,7 +122,7 @@ Bonyeza moduli yoyote kwenye **Moduli** na chagua **Fungua Moduli Zote**:
 
 ![](<../../.gitbook/assets/image (284).png>)
 
-Bonyeza kulia moduli yoyote kwenye **Mtafuta wa Moduli** na bonyeza **Panga Moduli**:
+Bonyeza kulia moduli yoyote katika **Mtafuta wa Mkusanyiko** na bonyeza **Panga Mkusanyiko**:
 
 ![](<../../.gitbook/assets/image (285).png>)
 
@@ -131,12 +131,12 @@ Bonyeza kulia moduli yoyote kwenye **Mtafuta wa Moduli** na bonyeza **Panga Modu
 [https://github.com/skylot/jadx](https://github.com/skylot/jadx)\
 [https://github.com/java-decompiler/jd-gui/releases](https://github.com/java-decompiler/jd-gui/releases)
 
-## Kudebugi DLLs
+## Kurekebisha DLLs
 
 ### Kutumia IDA
 
 * **Pakia rundll32** (64bits katika C:\Windows\System32\rundll32.exe na 32 bits katika C:\Windows\SysWOW64\rundll32.exe)
-* Chagua kudebugi ya **Windbg**
+* Chagua kurekebisha **Windbg**
 * Chagua "**Sitishe wakati wa kupakia/kusitisha maktaba**"
 
 ![](<../../.gitbook/assets/image (135).png>)
@@ -145,7 +145,7 @@ Bonyeza kulia moduli yoyote kwenye **Mtafuta wa Moduli** na bonyeza **Panga Modu
 
 ![](<../../.gitbook/assets/image (136).png>)
 
-Kisha, unapoanza kudebugi **utekelezaji utasimamishwa wakati kila DLL inapopakiwa**, kisha, wakati rundll32 inapopakia DLL yako utekelezaji utasimamishwa.
+Kisha, unapoanza kurekebisha **utekelezaji utasimamishwa wakati kila DLL inapopakiwa**, kisha, wakati rundll32 inapopakia DLL yako utekelezaji utasimamishwa.
 
 Lakini, unawezaje kufikia namna ya kificho cha DLL iliyopakiwa? Kutumia njia hii, sijui jinsi.
 
@@ -154,13 +154,13 @@ Lakini, unawezaje kufikia namna ya kificho cha DLL iliyopakiwa? Kutumia njia hii
 * **Pakia rundll32** (64bits katika C:\Windows\System32\rundll32.exe na 32 bits katika C:\Windows\SysWOW64\rundll32.exe)
 * **Badilisha Mstari wa Amri** ( _Faili --> Badilisha Mstari wa Amri_ ) na weka njia ya dll na kazi unayotaka kuita, kwa mfano: "C:\Windows\SysWOW64\rundll32.exe" "Z:\shared\Cybercamp\rev2\\\14.ridii\_2.dll",DLLMain
 * Badilisha _Chaguo --> Vipimo_ na chagua "**Kuingia kwa DLL**".
-* Kisha **anza utekelezaji**, kudebugi itasimama kwa kila kuingia kwa dll, kwa wakati fulani utasimama kwenye kuingia kwa dll yako. Kutoka hapo, tafuta sehemu unayotaka kuweka kiungo cha kusitisha.
+* Kisha **anza utekelezaji**, mchunguzi atasimama kwa kila dll kuu, kwa wakati fulani utasimama katika kuingia kwa dll yako. Kutoka hapo, tafuta tu sehemu unayotaka kuweka kiungo cha kusitisha.
 
-Tambua kwamba unapokuwa umesimamishwa kwa sababu yoyote katika win64dbg unaweza kuona **kificho unachotazama** juu ya dirisha la win64dbg:
+Tambua kwamba unapokuwa umesimamishwa kwa sababu yoyote katika win64dbg unaweza kuona **kificho unachotazama** katika **juu ya dirisha la win64dbg**:
 
 ![](<../../.gitbook/assets/image (137).png>)
 
-Kisha, ukitazama hii unaweza kuona wakati utekelezaji uliposimamishwa kwenye dll unayotaka kudebugi.
+Kisha, ukitazama hii unaweza kuona wakati utekelezaji uliposimamishwa katika dll unayotaka kurekebisha.
 
 ## Programu za GUI / Michezo ya Video
 
@@ -176,27 +176,27 @@ Kisha, ukitazama hii unaweza kuona wakati utekelezaji uliposimamishwa kwenye dll
 
 ## Shellcodes
 
-### Kudebugi shellcode na blobrunner
+### Kurekebisha shellcode na blobrunner
 
 [**Blobrunner**](https://github.com/OALabs/BlobRunner) ita **tenga** **shellcode** ndani ya nafasi ya kumbukumbu, itakuonyesha **anwani ya kumbukumbu** ambapo shellcode ilipangiwa na itasimamisha utekelezaji.\
-Kisha, unahitaji **kuambatanisha kudebugi** (Ida au x64dbg) kwa mchakato na weka **kiungo cha kusitisha kwenye anwani ya kumbukumbu iliyotajwa** na **rejesha** utekelezaji. Kwa njia hii utakuwa unadebugi shellcode.
+Kisha, unahitaji **kuambatanisha mchunguzi** (Ida au x64dbg) kwa mchakato na weka **kiungo cha kusitisha kwenye anwani ya kumbukumbu iliyotajwa** na **endelea** utekelezaji. Hivi ndivyo utakavyokuwa unarekebisha shellcode.
 
-Ukurasa wa kutolewa wa github una zip zinazoleta kutolewa kwa kuchapishwa: [https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)\
-Unaweza kupata toleo lililobadilishwa kidogo la Blobrunner kwenye kiungo kifuatacho. Ili kulipachika tu **unda mradi wa C/C++ katika Visual Studio Code, nakili na ubandike kificho na ujenge**.
+Ukurasa wa kutolewa kwenye github una zip zinazojumuisha kutolewa kwa kisasa: [https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)\
+Unaweza kupata toleo lililobadilishwa kidogo la Blobrunner kwenye kiungo kifuatacho. Ili kulipakua tu **unda mradi wa C/C++ katika Visual Studio Code, nakili na ubandike kificho na ulijenge**.
 
 {% content-ref url="blobrunner.md" %}
 [blobrunner.md](blobrunner.md)
 {% endcontent-ref %}
 
-### Kudebugi shellcode na jmp2it
+### Kurekebisha shellcode na jmp2it
 
-[**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4)ni sawa sana na blobrunner. Ita **tenga** **shellcode** ndani ya nafasi ya kumbukumbu, na anza **mzunguko wa milele**. Kisha unahitaji **kuambatanisha kudebugi** kwa mchakato, **anza kucheza subiri sekunde 2-5 na bonyeza kusimamisha** na utajikuta ndani ya **mzunguko wa milele**. Ruka kwenye maagizo ijayo ya mzunguko wa milele kwani itakuwa wito kwa shellcode, na mwishowe utajikuta unatekeleza shellcode.
+[**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4)ni sawa sana na blobrunner. Ita **tenga** **shellcode** ndani ya nafasi ya kumbukumbu, na anza **mzunguko wa milele**. Kisha unahitaji **kuambatanisha mchunguzi** kwa mchakato, **anza kucheza subiri sekunde 2-5 na bonyeza kusimamisha** na utajikuta ndani ya **mzunguko wa milele**. Ruka kwenye maagizo ijayo ya mzunguko wa milele kwani itakuwa wito kwa shellcode, na hatimaye utajikuta unatekeleza shellcode.
 
 ![](<../../.gitbook/assets/image (397).png>)
 
 Unaweza kupakua toleo lililobadilishwa la [jmp2it kwenye ukurasa wa kutolewa](https://github.com/adamkramer/jmp2it/releases/).
 
-### Kudebugi shellcode kwa kutumia Cutter
+### Kurekebisha shellcode kwa kutumia Cutter
 
 [**Cutter**](https://github.com/rizinorg/cutter/releases/tag/v1.12.0) ni GUI ya radare. Kutumia cutter unaweza kuiga shellcode na kuichunguza kwa njia ya kudumu.
 
@@ -214,10 +214,10 @@ Unaweza kuona stakiti kwa mfano ndani ya dumpu ya hex:
 
 ![](<../../.gitbook/assets/image (402).png>)
 
-### Kufuta kificho cha shellcode na kupata kazi zilizotekelezwa
+### Kufuta shellcode na kupata kazi zilizotekelezwa
 
 Unapaswa kujaribu [**scdbg**](http://sandsprite.com/blogs/index.php?uid=7\&pid=152).\
-Itakwambia mambo kama **kazi zipi** shellcode inatumia na ikiwa shellcode inajichimba yenyewe kwenye kumbukumbu.
+Itakwambia mambo kama **kazi zipi** shellcode inatumia na ikiwa shellcode inajichakaza yenyewe kwenye kumbukumbu.
 ```bash
 scdbg.exe -f shellcode # Get info
 scdbg.exe -f shellcode -r #show analysis report at end of run
@@ -226,11 +226,11 @@ scdbg.exe -f shellcode -d #Dump decoded shellcode
 scdbg.exe -f shellcode /findsc #Find offset where starts
 scdbg.exe -f shellcode /foff 0x0000004D #Start the executing in that offset
 ```
-scDbg pia inaanzisha kielelezo cha picha ambapo unaweza kuchagua chaguo unalotaka na kutekeleza shellcode
+scDbg pia ina launcher ya kielelezo ambapo unaweza kuchagua chaguo unalotaka na kutekeleza shellcode
 
 ![](<../../.gitbook/assets/image (398).png>)
 
-Chaguo la **Unda Dump** litadump shellcode ya mwisho ikiwa kuna mabadiliko yoyote yanayofanywa kwa shellcode kwa njia ya kumbukumbu (inayoweza kutumika kupakua shellcode iliyofanywa). **Kianzio cha kuanza** kinaweza kuwa muhimu kuanza shellcode kwenye kianzio maalum. Chaguo la **Kianzio cha Kufuatilia** ni muhimu kufuatilia shellcode kwa kutumia terminal ya scDbg (hata hivyo, ninaona chaguo lolote lililoelezwa hapo awali ni bora kwa jambo hili kwani utaweza kutumia Ida au x64dbg).
+Chaguo la **Unda Dump** litadump shellcode ya mwisho ikiwa kuna mabadiliko yoyote yanayofanywa kwa shellcode kwa njia ya kumbukumbu (inayoweza kutumika kupakua shellcode iliyofanywa). **Kianzio cha kuanza** kinaweza kuwa muhimu kuanza shellcode kwenye kianzio maalum. Chaguo la **Kianzio cha Kufuatilia** ni muhimu kufuatilia shellcode kwa kutumia terminal ya scDbg (hata hivyo, ninaona chaguo lolote lililoelezwa hapo awali ni bora kwa suala hili kwani utaweza kutumia Ida au x64dbg).
 
 ### Kufasiri kwa Kutumia CyberChef
 
@@ -238,12 +238,12 @@ Pakia faili yako ya shellcode kama kuingiza na tumia mapishi yafuatayo kudecompi
 
 ## [Movfuscator](https://github.com/xoreaxeaxeax/movfuscator)
 
-Obfuscator huyu **hubadilisha maagizo yote kwa `mov`**(ndio, kweli ni mzuri sana). Pia hutumia kuvuruga kubadilisha mifumo ya utekelezaji. Kwa habari zaidi kuhusu jinsi inavyofanya kazi:
+Obfuscator huyu **hubadilisha maagizo yote kwa `mov`** (ndio, kweli ni nzuri sana). Pia hutumia kuvuruga kubadilisha mifumo ya utekelezaji. Kwa maelezo zaidi kuhusu jinsi inavyofanya kazi:
 
 * [https://www.youtube.com/watch?v=2VF\_wPkiBJY](https://www.youtube.com/watch?v=2VF\_wPkiBJY)
 * [https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas\_2015\_the\_movfuscator.pdf](https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas\_2015\_the\_movfuscator.pdf)
 
-Ikiwa una bahati [demovfuscator](https://github.com/kirschju/demovfuscator) itadefusika binary. Ina tegemezi kadhaa
+Ikiwa una bahati [demovfuscator](https://github.com/kirschju/demovfuscator) itaondoa ufusaji wa binary. Ina tegemezi kadhaa
 ```
 apt-get install libcapstone-dev
 apt-get install libz3-dev
@@ -254,7 +254,7 @@ Ikiwa unacheza **CTF, njia hii ya kupata bendera** inaweza kuwa muhimu sana: [ht
 
 ## Rust
 
-Ili kupata **sehemu ya kuingia** tafuta kazi kwa `::main` kama hivi:
+Ili kupata **sehemu ya kuingia**, tafuta kazi kwa `::main` kama hivi:
 
 ![](<../../.gitbook/assets/image (612).png>)
 
@@ -269,7 +269,7 @@ Ikiwa unahitaji kubadilisha binary ya Delphi ningependekeza utumie programu-jali
 
 Bonyeza **ATL+f7** (ingiza programu-jalizi ya python kwenye IDA) na chagua programu-jalizi ya python.
 
-Programu-jalizi hii itatekeleza binary na kutatua majina ya kazi kwa njia ya moja kwa moja mwanzoni mwa uchunguzi. Baada ya kuanza uchunguzi bonyeza tena kitufe cha Kuanza (kijani au f9) na kuvunja itagonga mwanzoni mwa msimbo halisi.
+Programu-jalizi hii itatekeleza binary na kutatua majina ya kazi kwa njia ya kudumu mwanzoni mwa uchunguzi. Baada ya kuanza uchunguzi bonyeza tena kitufe cha Kuanza (kijani au f9) na kuvunja itagonga mwanzoni mwa nambari halisi.
 
 Pia ni ya kuvutia sana kwa sababu ikiwa bonyeza kitufe katika programu ya kielelezo cha picha, mchunguzi utasimama kwenye kazi inayotekelezwa na kitufe hicho.
 
@@ -283,7 +283,7 @@ Hii itatatua majina ya kazi.
 
 ## Python iliyokompiliwa
 
-Kwenye ukurasa huu unaweza kupata jinsi ya kupata msimbo wa python kutoka kwa binary iliyokompiliwa ya ELF/EXE python:
+Kwenye ukurasa huu unaweza kupata jinsi ya kupata nambari ya python kutoka kwa binary iliyokompiliwa ya ELF/EXE:
 
 {% content-ref url="../../forensics/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md" %}
 [.pyc.md](../../forensics/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md)
@@ -298,7 +298,7 @@ Ikiwa unapata **binary** ya mchezo wa GBA unaweza kutumia zana tofauti kwa **kui
 * [**gba-ghidra-loader**](https://github.com/pudii/gba-ghidra-loader) - Programu-jalizi ya Ghidra
 * [**GhidraGBA**](https://github.com/SiD3W4y/GhidraGBA) - Programu-jalizi ya Ghidra
 
-Kwenye [**no$gba**](https://problemkaputt.de/gba.htm), katika _**Chaguo --> Wekaanishaji wa Kuiga --> Vidhibiti**_\*\* \*\* unaweza kuona jinsi ya kubonyeza vitufe vya Game Boy Advance
+Katika [**no$gba**](https://problemkaputt.de/gba.htm), katika _**Chaguo --> Wekaanishaji wa Kuiga --> Vidhibiti**_\*\* \*\* unaweza kuona jinsi ya kubonyeza vitufe vya Game Boy Advance
 
 ![](<../../.gitbook/assets/image (578).png>)
 
@@ -319,7 +319,7 @@ Kwa hivyo, katika aina hii ya programu, sehemu ya kuvutia itakuwa **jinsi progra
 
 ![](<../../.gitbook/assets/image (579).png>)
 
-Katika picha iliyopita unaweza kuona kwamba kazi inaitwa kutoka **FUN\_080015a8** (anwani: _0x080015fa_ na _0x080017ac_).
+Katika picha iliyotangulia unaweza kuona kwamba kazi inaitwa kutoka **FUN\_080015a8** (anwani: _0x080015fa_ na _0x080017ac_).
 
 Katika kazi hiyo, baada ya operesheni za awali (bila umuhimu wowote):
 ```c
@@ -342,7 +342,7 @@ FUN_08000dd0(&DAT_02009584,0x6000000,&DAT_030000dc);
 FUN_08000354(&DAT_030000dc,0x3c);
 uVar4 = DAT_030004d8;
 ```
-Imepatikana msimbo huu:
+Imepatikana hii nambari:
 ```c
 do {
 DAT_030004da = uVar4; //This is the last key pressed
@@ -384,13 +384,13 @@ DAT_030000d8 = DAT_030000d8 + 0x3a;
 ```
 Katika msimbo uliopita unaweza kuona kwamba tunalinganisha **uVar1** (mahali ambapo **thamani ya kitufe kilichobonyezwa** iko) na baadhi ya thamani:
 
-* Kwanza, inalinganishwa na **thamani 4** (kitufe cha **SELECT**): Katika changamoto hii kitufe hiki hufuta skrini
+* Kwanza, inalinganishwa na **thamani 4** (kitufe cha **SELECT**): Katika changamoto hii kitufe hiki husafisha skrini
 * Kisha, inalinganishwa na **thamani 8** (kitufe cha **START**): Katika changamoto hii inachunguza ikiwa msimbo ni halali kupata bendera.
 * Katika kesi hii, var **`DAT_030000d8`** inalinganishwa na 0xf3 na ikiwa thamani ni sawa msimbo fulani unatekelezwa.
 * Katika kesi nyingine yoyote, baadhi ya cont (`DAT_030000d4`) inachunguzwa. Ni cont kwa sababu inaongeza 1 mara tu baada ya kuingia katika msimbo.\
 Ikiwa ni chini ya 8 kitu kinachohusisha **kuongeza** thamani kwa \*\*`DAT_030000d8` \*\* kinachofanywa (kimsingi inaongeza thamani za vitufe vilivyobonyezwa katika hii variable muda mrefu kama cont iko chini ya 8).
 
-Hivyo, katika changamoto hii, kujua thamani za vitufe, ulihitaji **kubonyeza mchanganyiko wenye urefu mdogo kuliko 8 ambao matokeo ya kuongeza ni 0xf3.**
+Hivyo, katika changamoto hii, kwa kujua thamani za vitufe, ulihitaji **kubonyeza mchanganyiko wenye urefu mdogo kuliko 8 ambao matokeo ya kuongeza ni 0xf3.**
 
 **Kumbukumbu kwa mafunzo haya:** [**https://exp.codes/Nostalgia/**](https://exp.codes/Nostalgia/)
 
@@ -405,7 +405,7 @@ Hivyo, katika changamoto hii, kujua thamani za vitufe, ulihitaji **kubonyeza mch
 
 **Kikundi cha Usalama cha Kujitahidi**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 

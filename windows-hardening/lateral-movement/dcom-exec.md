@@ -4,17 +4,17 @@
 
 <summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Unataka kuona **kampuni yako ikionyeshwa kwenye HackTricks**? au unataka kupata upatikanaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Unataka kuona **kampuni yako ikionekana kwenye HackTricks**? au unataka kupata upatikanaji wa **toleo jipya la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **nifuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud)..
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud)..
 
 </details>
 
 **Kikundi cha Usalama cha Try Hard**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -29,9 +29,9 @@ Modeli ya Vitu vya Mfano wa Vitengo vilivyosambazwa (DCOM) inatoa uwezo wa kuvut
 ```bash
 Get-CimInstance Win32_DCOMApplication
 ```
-COM object, [MMC Application Class (MMC20.Application)](https://technet.microsoft.com/en-us/library/cc181199.aspx), inawezesha uandishi wa hatua za MMC snap-in kwa kutumia script. Kwa umuhimu, kipengele hiki kina njia ya `ExecuteShellCommand` chini ya `Document.ActiveView`. Taarifa zaidi kuhusu njia hii inaweza kupatikana [hapa](https://msdn.microsoft.com/en-us/library/aa815396\(v=vs.85\).aspx). Angalia ikifanya kazi:
+COM object, [MMC Application Class (MMC20.Application)](https://technet.microsoft.com/en-us/library/cc181199.aspx), inawezesha uandishi wa hatua za MMC snap-in kwa kutumia script. Kwa umuhimu, hii object ina `ExecuteShellCommand` method chini ya `Document.ActiveView`. Taarifa zaidi kuhusu method hii zinapatikana [hapa](https://msdn.microsoft.com/en-us/library/aa815396\(v=vs.85\).aspx). Angalia ikifanya kazi:
 
-Kipengele hiki kinawezesha utekelezaji wa amri kupitia mtandao kupitia programu ya DCOM. Ili kuingiliana na DCOM kijijini kama msimamizi, PowerShell inaweza kutumika kama ifuatavyo:
+Hii kipengele inarahisisha utekelezaji wa amri kupitia mtandao kupitia programu ya DCOM. Ili kuingiliana na DCOM kijijini kama admin, PowerShell inaweza kutumika kama ifuatavyo:
 ```powershell
 [activator]::CreateInstance([type]::GetTypeFromProgID("<DCOM_ProgID>", "<IP_Address>"))
 ```
@@ -60,7 +60,7 @@ Kitu cha **MMC20.Application** kiligunduliwa kukosa "LaunchPermissions" wazi, ki
 Vitu viwili maalum, `ShellBrowserWindow` na `ShellWindows`, vilionyeshwa kutokana na kukosa kwa Ruhusa wazi ya Kuzindua. Kutokuwepo kwa kuingia kwa usajili wa `LaunchPermission` chini ya `HKCR:\AppID\{guid}` inaashiria kukosekana kwa ruhusa wazi.
 
 ###  ShellWindows
-Kwa `ShellWindows`, ambayo haina ProgID, njia za .NET `Type.GetTypeFromCLSID` na `Activator.CreateInstance` hurahisisha kuunda vitu kwa kutumia AppID yake. Mchakato huu unatumia OleView .NET kuchukua CLSID kwa `ShellWindows`. Mara baada ya kuundwa, mwingiliano unawezekana kupitia njia ya `WindowsShell.Item`, ikiongoza kwa wito wa njia kama `Document.Application.ShellExecute`.
+Kwa `ShellWindows`, ambayo haina ProgID, njia za .NET `Type.GetTypeFromCLSID` na `Activator.CreateInstance` hurahisisha kuunda vitu kwa kutumia AppID yake. Mchakato huu unatumia OleView .NET kupata CLSID kwa `ShellWindows`. Mara baada ya kuundwa, mwingiliano unawezekana kupitia njia ya `WindowsShell.Item`, ikiongoza kwa wito wa njia kama `Document.Application.ShellExecute`.
 
 Amri za PowerShell za mfano zilitolewa kuunda kipengee na kutekeleza amri kijijini:
 ```powershell
@@ -120,7 +120,7 @@ SharpLateral.exe reddcom HOSTNAME C:\Users\Administrator\Desktop\malware.exe
 
 **Kikundi cha Usalama cha Try Hard**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -132,7 +132,7 @@ Njia nyingine za kusaidia HackTricks:
 
 * Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Shiriki mbinu zako za kuvamia kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
