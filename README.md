@@ -32,7 +32,7 @@ _해킹트릭 로고 및 모션 디자인은_ [_@ppiernacho_](https://www.instag
 
 <figure><img src=".gitbook/assets/image (4) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com)은 **스페인**에서 가장 중요한 사이버 보안 이벤트 중 하나이자 **유럽**에서 가장 중요한 이벤트 중 하나입니다. 기술 지식을 증진하는 것을 임무로 삼아 이 회의는 모든 분야의 기술 및 사이버 보안 전문가들을 위한 뜨거운 만남의 장입니다.
+[**RootedCON**](https://www.rootedcon.com)은 **스페인**에서 가장 중요한 사이버 보안 이벤트 중 하나이며 **유럽**에서 가장 중요한 이벤트 중 하나입니다. 기술 지식을 증진하는 것을 임무로 삼아 이 회의는 모든 분야의 기술 및 사이버 보안 전문가들을 위한 뜨거운 만남 지점입니다.
 
 {% embed url="https://www.rootedcon.com/" %}
 
@@ -44,7 +44,7 @@ _해킹트릭 로고 및 모션 디자인은_ [_@ppiernacho_](https://www.instag
 
 **Intigriti**는 **유럽 최고의** 윤리적 해킹 및 **버그 바운티 플랫폼**입니다.
 
-**버그 바운티 팁**: **Intigriti**에 가입하여 해커들이 만든 프리미엄 **버그 바운티 플랫폼**에 가입하세요! 오늘 [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks)에서 가입하고 최대 **$100,000**의 바운티를 받아보세요!
+**버그 바운티 팁**: **해커들에 의해 만들어진 프리미엄 버그 바운티 플랫폼인 Intigriti에 가입하세요**! 오늘 [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks)에서 가입하고 최대 **$100,000**의 바운티를 받아보세요!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
@@ -55,7 +55,7 @@ _해킹트릭 로고 및 모션 디자인은_ [_@ppiernacho_](https://www.instag
 <figure><img src=".gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)를 사용하여 세계에서 가장 **고급**한 커뮤니티 도구를 활용한 **워크플로우를 쉽게 구축**하고 자동화하세요.
+[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)를 사용하여 세계에서 **가장 고급** 커뮤니티 도구를 활용한 **워크플로우를 쉽게 구축하고 자동화**하세요.
 
 오늘 바로 액세스하세요:
 
@@ -86,13 +86,13 @@ _해킹트릭 로고 및 모션 디자인은_ [_@ppiernacho_](https://www.instag
 
 <figure><img src=".gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-**취약점 평가 및 침투 테스트를 위한 즉시 사용 가능한 설정**. 20개 이상의 도구 및 기능으로 완전한 펜테스트를 어디서든 실행하세요. 우리는 펜테스터를 대체하지 않습니다 - 그들에게 시간을 돌려주기 위해 사용자 정의 도구, 탐지 및 공격 모듈을 개발하여 더 깊이 파고들고 쉘을 열고 즐길 수 있도록 합니다.
+**취약점 평가 및 침투 테스트를 위한 즉시 사용 가능한 설정**. 20개 이상의 도구 및 기능으로 완전한 펜테스트를 어디서든 실행하세요. 우리는 펜테스터를 대체하지 않습니다 - 깊이 파고들고 쉘을 열고 즐기기 위해 사용자 정의 도구, 탐지 및 공격 모듈을 개발합니다.
 
 {% embed url="https://pentest-tools.com/" %}
 
 ***
 
-\### [Try Hard Security Group](https://discord.gg/tryhardsecurity)
+### [Try Hard Security Group](https://discord.gg/tryhardsecurity)
 
 <figure><img src=".gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
@@ -104,13 +104,13 @@ _해킹트릭 로고 및 모션 디자인은_ [_@ppiernacho_](https://www.instag
 
 <figure><img src=".gitbook/assets/websec (1).svg" alt=""><figcaption></figcaption></figure>
 
-[**WebSec**](https://websec.nl)은 **암스테르담**에 기반을 둔 전문적인 사이버 보안 회사로, **현대적인** 접근 방식으로 비즈니스를 **전 세계적으로** 최신 사이버 보안 위협으로부터 보호합니다. 
+[**WebSec**](https://websec.nl)은 **암스테르담**에 기반을 둔 전문적인 사이버 보안 회사로, **현대적인** 접근 방식으로 비즈니스를 **전 세계적으로** 최신 사이버 보안 위협으로부터 보호합니다.
 
 WebSec는 **모든 것을 다 하는 보안 회사**로, 펜테스팅, **보안** 감사, 인식 훈련, 피싱 캠페인, 코드 리뷰, 익스플로잇 개발, 보안 전문가 아웃소싱 등을 제공합니다.
 
-WebSec의 또 다른 멋진 점은 업계 평균과 달리 WebSec가 **자신들의 기술에 대해 매우 자신 있다는 것**입니다. 그들의 웹사이트에는 "**만약 우리가 해킹할 수 없다면, 지불할 필요가 없습니다!**"라고 명시되어 있습니다. 자세한 정보는 [**웹사이트**](https://websec.nl/en/) 및 [**블로그**](https://websec.nl/blog/)를 확인하세요!
+WebSec의 또 다른 멋진 점은 업계 평균과 달리 WebSec가 **자신들의 기술에 대해 매우 자신 있다는 것**입니다. 그들의 웹사이트에는 "**만약 우리가 해킹할 수 없다면, 지불하지 않습니다!**"라고 명시되어 있습니다. 자세한 정보는 [**웹사이트**](https://websec.nl/en/) 및 [**블로그**](https://websec.nl/blog/)를 참조하세요!
 
-위와 같은 WebSec는 HackTricks를 열심히 지원합니다.
+위와 같은 WebSec는 HackTricks의 **열렬한 지지자**입니다.
 
 {% embed url="https://www.youtube.com/watch?v=Zq2JycGDCPM" %}
 
@@ -128,10 +128,10 @@ WebSec의 또 다른 멋진 점은 업계 평균과 달리 WebSec가 **자신들
 
 HackTricks를 지원하는 다른 방법:
 
-* **회사를 HackTricks에서 광고하거나 PDF로 다운로드**하려면 [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* **회사를 HackTricks에서 광고하거나 HackTricks를 PDF로 다운로드**하려면 [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
 * [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 구매하세요
 * [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* **💬 [디스코드 그룹](https://discord.gg/hRep4RUj7f)** 또는 [**텔레그램 그룹**](https://t.me/peass)에 가입하거나 **트위터** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **해킹 트릭을 제출하여 HackTricks**와 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃헙 저장소에 PR을 제출하세요.
+* **💬 [디스코드 그룹](https://discord.gg/hRep4RUj7f)에 가입하거나 [텔레그램 그룹](https://t.me/peass)에 가입하거나** **트위터** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **해킹 트릭을 제출하여 HackTricks** 및 **HackTricks Cloud** 깃허브 저장소에 PR을 제출하여** 협력하세요.
 
 </details>
