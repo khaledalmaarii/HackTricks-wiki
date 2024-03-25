@@ -5,7 +5,7 @@
 _Logos e design de movimento do Hacktricks por_ [_@ppiernacho_](https://www.instagram.com/ppieranacho/)_._
 
 {% hint style="success" %}
-**Bem-vindo ao wiki onde você encontrará cada truque/técnica de hacking/qualquer coisa que eu tenha aprendido em CTFs, aplicativos da vida real, pesquisas e notícias.**
+**Bem-vindo ao wiki onde você encontrará cada truque/técnica de hacking/o que quer que eu tenha aprendido em CTFs, aplicativos da vida real, pesquisas e notícias.**
 {% endhint %}
 
 Para começar, siga esta página onde você encontrará o **fluxo típico** que **você deve seguir ao fazer pentesting** em uma ou mais **máquinas:**
@@ -22,7 +22,7 @@ Para começar, siga esta página onde você encontrará o **fluxo típico** que 
 
 [**STM Cyber**](https://www.stmcyber.com) é uma ótima empresa de cibersegurança cujo slogan é **HACK THE UNHACKABLE**. Eles realizam suas próprias pesquisas e desenvolvem suas próprias ferramentas de hacking para **oferecer vários serviços valiosos de cibersegurança** como pentesting, Red teams e treinamento.
 
-Você pode conferir o **blog deles** em [**https://blog.stmcyber.com**](https://blog.stmcyber.com)
+Você pode conferir o **blog** deles em [**https://blog.stmcyber.com**](https://blog.stmcyber.com)
 
 **STM Cyber** também apoia projetos de código aberto de cibersegurança como o HackTricks :)
 
@@ -73,7 +73,7 @@ Junte-se ao servidor do [**HackenProof Discord**](https://discord.com/invite/N3F
 Engaje-se com conteúdo que explora a emoção e os desafios do hacking
 
 **Notícias de Hacking em Tempo Real**\
-Mantenha-se atualizado com o mundo acelerado do hacking através de notícias e percepções em tempo real
+Mantenha-se atualizado com o mundo acelerado do hacking por meio de notícias e percepções em tempo real
 
 **Últimos Anúncios**\
 Fique informado sobre os mais recentes bug bounties lançados e atualizações cruciais da plataforma
@@ -86,13 +86,13 @@ Fique informado sobre os mais recentes bug bounties lançados e atualizações c
 
 <figure><img src=".gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-**Configuração instantaneamente disponível para avaliação de vulnerabilidades e testes de penetração**. Execute um pentest completo de qualquer lugar com mais de 20 ferramentas e recursos que vão desde reconhecimento até relatórios. Não substituímos pentesters - desenvolvemos ferramentas personalizadas, módulos de detecção e exploração para dar a eles mais tempo para aprofundar, invadir sistemas e se divertir.
+**Configuração instantaneamente disponível para avaliação de vulnerabilidades e testes de penetração**. Execute um pentest completo de qualquer lugar com mais de 20 ferramentas e recursos que vão desde reconhecimento até relatórios. Não substituímos pentesters - desenvolvemos ferramentas personalizadas, módulos de detecção e exploração para dar a eles mais tempo para aprofundar, abrir shells e se divertir.
 
 {% embed url="https://pentest-tools.com/" %}
 
 ***
 
-\### [Try Hard Security Group](https://discord.gg/tryhardsecurity)
+### [Try Hard Security Group](https://discord.gg/tryhardsecurity)
 
 <figure><img src=".gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
