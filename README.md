@@ -5,7 +5,7 @@
 _Loghi e motion design di Hacktricks di_ [_@ppiernacho_](https://www.instagram.com/ppieranacho/)_._
 
 {% hint style="success" %}
-**Benvenuti nella wiki dove troverai ogni trucco/tecnica di hacking/o qualsiasi altra cosa che ho imparato da CTF, app della vita reale, ricerche e notizie.**
+**Benvenuti nella wiki dove troverai ogni trucco/tecnica di hacking/o qualsiasi altra cosa che ho imparato dai CTF, dalle app della vita reale, dalla lettura di ricerche e notizie.**
 {% endhint %}
 
 Per iniziare, segui questa pagina dove troverai il **flusso tipico** che **dovresti seguire durante il pentesting** di una o più **macchine:**
@@ -20,7 +20,7 @@ Per iniziare, segui questa pagina dove troverai il **flusso tipico** che **dovre
 
 <figure><img src=".gitbook/assets/stm (1).png" alt=""><figcaption></figcaption></figure>
 
-[**STM Cyber**](https://www.stmcyber.com) è una grande azienda di cybersecurity il cui slogan è **HACK THE UNHACKABLE**. Svolgono la propria ricerca e sviluppano i propri strumenti di hacking per **offrire diversi servizi di cybersecurity** come pentesting, Red teams e formazione.
+[**STM Cyber**](https://www.stmcyber.com) è una grande azienda di cybersecurity il cui slogan è **HACK THE UNHACKABLE**. Svolgono la propria ricerca e sviluppano i propri strumenti di hacking per **offrire diversi servizi di cybersecurity** come pentesting, Red team e formazione.
 
 Puoi controllare il loro **blog** su [**https://blog.stmcyber.com**](https://blog.stmcyber.com)
 
@@ -44,7 +44,7 @@ Puoi controllare il loro **blog** su [**https://blog.stmcyber.com**](https://blo
 
 **Intigriti** è la piattaforma di ethical hacking **numero 1 in Europa** e di **bug bounty**.
 
-**Consiglio bug bounty**: **iscriviti** a **Intigriti**, una piattaforma premium di **bug bounty creata da hacker, per hacker**! Unisciti a noi su [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) oggi e inizia a guadagnare ricompense fino a **$100,000**!
+**Consiglio bug bounty**: **iscriviti** a **Intigriti**, una piattaforma premium di **bug bounty creata da hacker, per hacker**! Unisciti a noi su [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) oggi e inizia a guadagnare taglie fino a **$100,000**!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
@@ -75,8 +75,8 @@ Coinvolgiti con contenuti che approfondiscono l'emozione e le sfide dell'hacking
 **Notizie sull'hacking in tempo reale**\
 Resta aggiornato con il mondo dell'hacking in tempo reale attraverso notizie e approfondimenti
 
-**Ultime novità**\
-Rimani informato sui nuovi bug bounty in arrivo e sugli aggiornamenti cruciali della piattaforma
+**Ultimi annunci**\
+Resta informato sui nuovi bug bounty in arrivo e sugli aggiornamenti cruciali della piattaforma
 
 **Unisciti a noi su** [**Discord**](https://discord.com/invite/N3FrSbmwdy) e inizia a collaborare con i migliori hacker oggi!
 
@@ -86,13 +86,13 @@ Rimani informato sui nuovi bug bounty in arrivo e sugli aggiornamenti cruciali d
 
 <figure><img src=".gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-**Setup immediatamente disponibile per la valutazione delle vulnerabilità e il penetration testing**. Esegui un pentest completo da qualsiasi luogo con oltre 20 strumenti e funzionalità che vanno dalla ricognizione alla segnalazione. Non sostituiamo i pentester - sviluppiamo strumenti personalizzati, moduli di rilevamento ed exploit per restituire loro del tempo per approfondire, popolare shell e divertirsi.
+**Setup immediatamente disponibile per la valutazione delle vulnerabilità e il penetration testing**. Esegui un pentest completo da qualsiasi luogo con oltre 20 strumenti e funzionalità che vanno dalla ricognizione alla segnalazione. Non sostituiamo i pentester - sviluppiamo strumenti personalizzati, moduli di rilevamento ed exploit per restituire loro del tempo per approfondire, aprire shell e divertirsi.
 
 {% embed url="https://pentest-tools.com/" %}
 
 ***
 
-\### [Try Hard Security Group](https://discord.gg/tryhardsecurity)
+### [Try Hard Security Group](https://discord.gg/tryhardsecurity)
 
 <figure><img src=".gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
@@ -104,11 +104,11 @@ Rimani informato sui nuovi bug bounty in arrivo e sugli aggiornamenti cruciali d
 
 <figure><img src=".gitbook/assets/websec (1).svg" alt=""><figcaption></figcaption></figure>
 
-[**WebSec**](https://websec.nl) è una società di cybersecurity professionale con sede ad **Amsterdam** che aiuta a **proteggere** le imprese **in tutto il mondo** contro le ultime minacce di cybersecurity fornendo servizi di **offensive-security** con un **approccio moderno**.
+[**WebSec**](https://websec.nl) è una società di cybersecurity professionale con sede ad **Amsterdam** che aiuta a **proteggere** le imprese **in tutto il mondo** contro le ultime minacce di cybersecurity fornendo servizi di **offensive-security** con un approccio **moderno**.
 
-WebSec è una **società di sicurezza all-in-one** che significa che fanno tutto; Pentesting, **Security** Audits, Awareness Trainings, Phishing Campagnes, Code Review, Exploit Development, Security Experts Outsourcing e molto altro.
+WebSec è una società di sicurezza **all-in-one**, il che significa che fanno tutto; Pentesting, Audit di Sicurezza, Formazioni sulla Consapevolezza, Campagne di Phishing, Revisione del Codice, Sviluppo di Exploit, Outsourcing di Esperti di Sicurezza e molto altro.
 
-Un'altra cosa interessante su WebSec è che, a differenza della media del settore, WebSec è **molto sicura delle proprie competenze**, al punto che **garantiscono i migliori risultati di qualità**, si legge sul loro sito "**Se non possiamo hackerarlo, non lo paghiamo!**". Per ulteriori informazioni dai un'occhiata al loro [**sito web**](https://websec.nl/en/) e [**blog**](https://websec.nl/blog/)!
+Un'altra cosa interessante su WebSec è che, a differenza della media del settore, WebSec è **molto sicura delle proprie competenze**, al punto che **garantisce i migliori risultati di qualità**, si legge sul loro sito "**Se non possiamo hackerarlo, non lo paghi!**". Per ulteriori informazioni dai un'occhiata al loro [**sito web**](https://websec.nl/en/) e al [**blog**](https://websec.nl/blog/)!
 
 Oltre a quanto sopra, WebSec è anche un **sostenitore impegnato di HackTricks.**
 
@@ -130,8 +130,8 @@ Altri modi per supportare HackTricks:
 
 * Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusivi [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
