@@ -14,13 +14,13 @@
 
 **Grupo de Segurança Try Hard**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 ***
 
-## MMC20.Application
+## Aplicação MMC20
 
 **Para mais informações sobre essa técnica, confira o post original em [https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/](https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/)**
 
@@ -55,12 +55,12 @@ ls \\10.10.10.10\c$\Users
 
 **Para mais informações sobre essa técnica, consulte o post original [https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/](https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/)**
 
-O objeto **MMC20.Application** foi identificado como carente de "LaunchPermissions" explícitos, recorrendo a permissões que permitem acesso de Administradores. Para mais detalhes, um tópico pode ser explorado [aqui](https://twitter.com/tiraniddo/status/817532039771525120), e é recomendado o uso do [@tiraniddo](https://twitter.com/tiraniddo)’s OleView .NET para filtrar objetos sem Permissão de Lançamento explícita.
+O objeto **MMC20.Application** foi identificado como carente de "LaunchPermissions" explícitos, recorrendo a permissões que permitem acesso aos Administradores. Para mais detalhes, um tópico pode ser explorado [aqui](https://twitter.com/tiraniddo/status/817532039771525120), e é recomendado o uso da ferramenta OleView .NET de [@tiraniddo](https://twitter.com/tiraniddo) para filtrar objetos sem permissão de lançamento explícita.
 
 Dois objetos específicos, `ShellBrowserWindow` e `ShellWindows`, foram destacados devido à falta de Permissões de Lançamento explícitas. A ausência de uma entrada de registro `LaunchPermission` em `HKCR:\AppID\{guid}` significa a ausência de permissões explícitas.
 
 ###  ShellWindows
-Para `ShellWindows`, que não possui um ProgID, os métodos .NET `Type.GetTypeFromCLSID` e `Activator.CreateInstance` facilitam a instanciação do objeto usando seu AppID. Esse processo aproveita o OleView .NET para recuperar o CLSID para `ShellWindows`. Uma vez instanciado, a interação é possível através do método `WindowsShell.Item`, levando à invocação de métodos como `Document.Application.ShellExecute`.
+Para `ShellWindows`, que não possui um ProgID, os métodos .NET `Type.GetTypeFromCLSID` e `Activator.CreateInstance` facilitam a instanciação do objeto usando seu AppID. Esse processo utiliza o OleView .NET para recuperar o CLSID para `ShellWindows`. Uma vez instanciado, a interação é possível através do método `WindowsShell.Item`, levando à invocação de métodos como `Document.Application.ShellExecute`.
 
 Exemplos de comandos PowerShell foram fornecidos para instanciar o objeto e executar comandos remotamente:
 ```powershell
@@ -71,7 +71,7 @@ $item.Document.Application.ShellExecute("cmd.exe", "/c calc.exe", "c:\windows\sy
 ```
 ### Movimentação lateral com Objetos DCOM do Excel
 
-A movimentação lateral pode ser alcançada explorando objetos DCOM do Excel. Para informações detalhadas, é aconselhável ler a discussão sobre a alavancagem do Excel DDE para movimentação lateral via DCOM no [blog da Cybereason](https://www.cybereason.com/blog/leveraging-excel-dde-for-lateral-movement-via-dcom).
+A movimentação lateral pode ser alcançada explorando objetos DCOM do Excel. Para obter informações detalhadas, é aconselhável ler a discussão sobre a alavancagem do Excel DDE para movimentação lateral via DCOM no [blog da Cybereason](https://www.cybereason.com/blog/leveraging-excel-dde-for-lateral-movement-via-dcom).
 
 O projeto Empire fornece um script PowerShell, que demonstra a utilização do Excel para execução de código remoto (RCE) manipulando objetos DCOM. Abaixo estão trechos do script disponível no [repositório GitHub do Empire](https://github.com/EmpireProject/Empire/blob/master/data/module_source/lateral_movement/Invoke-DCOM.ps1), mostrando diferentes métodos para abusar do Excel para RCE:
 ```powershell
@@ -120,7 +120,7 @@ SharpLateral.exe reddcom HOSTNAME C:\Users\Administrator\Desktop\malware.exe
 
 **Grupo de Segurança Try Hard**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 

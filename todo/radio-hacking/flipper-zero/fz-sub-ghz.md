@@ -16,7 +16,7 @@ Outras formas de apoiar o HackTricks:
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -64,25 +64,25 @@ Neste momento, existem **4 modulações** (AM270, AM650, FM328 e FM476), e **vá
 
 <figure><img src="../../../.gitbook/assets/image (28).png" alt=""><figcaption></figcaption></figure>
 
-Você pode definir **qualquer uma que lhe interesse**, no entanto, se você **não tem certeza de qual frequência** pode ser a usada pelo controle remoto que você tem, **defina o Hopping como ON** (Desligado por padrão) e pressione o botão várias vezes até o Flipper capturar e fornecer as informações necessárias para definir a frequência.
+Você pode definir **qualquer uma que lhe interesse**, no entanto, se você **não tem certeza de qual frequência** pode ser a usada pelo controle remoto que você tem, **defina o Hopping como ON** (Desligado por padrão), e pressione o botão várias vezes até o Flipper capturar e fornecer as informações necessárias para definir a frequência.
 
 {% hint style="danger" %}
 Alternar entre frequências leva algum tempo, portanto, os sinais transmitidos no momento da troca podem ser perdidos. Para uma melhor recepção do sinal, defina uma frequência fixa determinada pelo Analisador de Frequência.
 {% endhint %}
 
-### **Ler Bruto**
+### **Ler Raw**
 
 {% hint style="info" %}
-Roube (e reproduza) um sinal na frequência configurada
+Roubar (e repetir) um sinal na frequência configurada
 {% endhint %}
 
-A opção **Ler Bruto** **registra sinais** enviados na frequência de escuta. Isso pode ser usado para **roubar** um sinal e **repeti-lo**.
+A opção **Ler Raw** **registra sinais** enviados na frequência de escuta. Isso pode ser usado para **roubar** um sinal e **repeti-lo**.
 
-Por padrão, o **Ler Bruto também está em 433,92 em AM650**, mas se com a opção Ler você descobrir que o sinal que lhe interessa está em uma **frequência/modulação diferente, você também pode modificá-lo** pressionando esquerda (enquanto estiver dentro da opção Ler Bruto).
+Por padrão, o **Ler Raw também está em 433,92 em AM650**, mas se com a opção Ler você descobrir que o sinal que lhe interessa está em uma **frequência/modulação diferente, você também pode modificá-lo** pressionando esquerda (enquanto estiver dentro da opção Ler Raw).
 
 ### Brute-Force
 
-Se você conhece o protocolo usado, por exemplo, pela porta da garagem, é possível **gerar todos os códigos e enviá-los com o Flipper Zero**. Este é um exemplo que suporta tipos comuns de garagens em geral: [**https://github.com/tobiabocchi/flipperzero-bruteforce**](https://github.com/tobiabocchi/flipperzero-bruteforce)
+Se você conhece o protocolo usado, por exemplo, pela porta da garagem, é possível **gerar todos os códigos e enviá-los com o Flipper Zero**. Este é um exemplo que suporta tipos comuns gerais de garagens: [**https://github.com/tobiabocchi/flipperzero-bruteforce**](https://github.com/tobiabocchi/flipperzero-bruteforce)
 
 ### Adicionar Manualmente
 
@@ -128,7 +128,7 @@ Obtenha dBms das frequências salvas
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -139,7 +139,7 @@ Obtenha dBms das frequências salvas
 Outras formas de apoiar o HackTricks:
 
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**oficial PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Obtenha o [**oficial PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).

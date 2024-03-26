@@ -14,7 +14,7 @@
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -49,11 +49,11 @@ proxmark3> hf mf eset 01 000102030405060708090a0b0c0d0e0f # Write those bytes to
 proxmark3> hf mf eget 01 # Read block 1
 proxmark3> hf mf wrbl 01 B FFFFFFFFFFFF 000102030405060708090a0b0c0d0e0f # Write to the card
 ```
-O Proxmark3 permite realizar outras ações como **interceptar** uma **comunicação de Tag para Leitor** para tentar encontrar dados sensíveis. Neste cartão, você pode simplesmente interceptar a comunicação e calcular a chave usada porque as **operações criptográficas utilizadas são fracas** e, conhecendo o texto simples e cifrado, você pode calculá-la (ferramenta `mfkey64`).
+O Proxmark3 permite realizar outras ações como **interceptar** a **comunicação entre o Tag e o Leitor** para tentar encontrar dados sensíveis. Neste cartão, você pode simplesmente interceptar a comunicação e calcular a chave usada porque as **operações criptográficas utilizadas são fracas** e, conhecendo o texto simples e cifrado, você pode calculá-la (ferramenta `mfkey64`).
 
 ### Comandos Raw
 
-Sistemas IoT às vezes usam **tags não marcadas ou não comerciais**. Nesse caso, você pode usar o Proxmark3 para enviar **comandos raw personalizados para as tags**.
+Os sistemas IoT às vezes usam **tags não marcadas ou não comerciais**. Nesse caso, você pode usar o Proxmark3 para enviar **comandos raw personalizados para as tags**.
 ```bash
 proxmark3> hf search UID : 80 55 4b 6c ATQA : 00 04
 SAK : 08 [2]
@@ -63,7 +63,7 @@ No chinese magic backdoor command detected
 Prng detection: WEAK
 Valid ISO14443A Tag Found - Quiting Search
 ```
-Com essa informação, você poderia tentar buscar informações sobre o cartão e sobre a forma de se comunicar com ele. O Proxmark3 permite enviar comandos brutos como: `hf 14a raw -p -b 7 26`
+Com essa informação, você pode tentar buscar informações sobre o cartão e sobre a forma de se comunicar com ele. O Proxmark3 permite enviar comandos brutos como: `hf 14a raw -p -b 7 26`
 
 ### Scripts
 
@@ -71,11 +71,11 @@ O software Proxmark3 vem com uma lista pré-carregada de **scripts de automaçã
 ```
 proxmark3> script run mfkeys
 ```
-Pode criar um script para **fuzz tag readers**, copiando os dados de um **cartão válido** apenas escreva um **script Lua** que **randomize** um ou mais **bytes aleatórios** e verifique se o **leitor trava** com qualquer iteração.
+Podes criar um script para **fuzzar leitores de tags**, copiando os dados de um **cartão válido** e escrevendo um **script Lua** que **randomize** um ou mais **bytes aleatórios** e verifique se o **leitor crasha** com qualquer iteração.
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -84,10 +84,10 @@ Pode criar um script para **fuzz tag readers**, copiando os dados de um **cartã
 
 <summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Quer ver sua **empresa anunciada no HackTricks**? ou quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Trabalhas numa **empresa de cibersegurança**? Queres ver a **tua empresa anunciada no HackTricks**? ou queres ter acesso à **última versão do PEASS ou fazer download do HackTricks em PDF**? Verifica os [**PLANOS DE SUBSCRIÇÃO**](https://github.com/sponsors/carlospolop)!
+* Descobre [**A Família PEASS**](https://opensea.io/collection/the-peass-family), a nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Obtém o [**oficial PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **Junta-te ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **segue-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Partilha os teus truques de hacking submetendo PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

