@@ -1,4 +1,4 @@
-# Phishing Metodologie
+# Hengel Metode
 
 <details>
 
@@ -6,11 +6,11 @@
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repos.
+* **Deel jou hengeltruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
 
@@ -18,35 +18,35 @@ Ander maniere om HackTricks te ondersteun:
 
 1. Verken die slagoffer
 1. Kies die **slagoffer-domein**.
-2. Voer 'n paar basiese webondersoeke uit deur te soek na aanmeldingsportale wat deur die slagoffer gebruik word en **besluit** watter een jy sal **impersoneer**.
-3. Gebruik 'n bietjie **OSINT** om e-posse te **vind**.
+2. Voer 'n paar basiese webversameling uit **op soek na aanmeldingsportale** wat deur die slagoffer gebruik word en **besluit** watter een jy sal **impersoneer**.
+3. Gebruik 'n bietjie **OSINT** om **e-posse** te **vind**.
 2. Berei die omgewing voor
-1. **Koop die domein** wat jy gaan gebruik vir die hengel-assessering
-2. **Konfigureer die e-posdiens** verwante rekords (SPF, DMARC, DKIM, rDNS)
-3. Konfigureer die VPS met **gophish**
+1. **Koop die domein** wat jy gaan gebruik vir die hengelassessering
+2. **Stel die e-posdiens** verwante rekords in (SPF, DMARC, DKIM, rDNS)
+3. Stel die VPS op met **gophish**
 3. Berei die veldtog voor
-1. Berei die **e-pos-sjabloon** voor
+1. Berei die **e-pos sjabloon** voor
 2. Berei die **webbladsy** voor om die geloofsbriewe te steel
-4. Begin die veldtog!
+4. Lanseer die veldtog!
 
-## Genereer soortgelyke domeinname of koop 'n betroubare domein
+## Genereer soortgelyke domeinname of koop 'n vertroude domein
 
-### Tegnieke vir die variasie van domeinname
+### Domeinnaamvariasietegnieke
 
-* **Sleutelwoord**: Die domeinnaam **bevat** 'n belangrike **sleutelwoord** van die oorspronklike domein (bv. zelster.com-management.com).
-* **Gehypeniseerde subdomein**: Verander die **punt vir 'n strepie** van 'n subdomein (bv. www-zelster.com).
-* **Nuwe TLD**: Dieselfde domein met 'n **nuwe TLD** (bv. zelster.org)
-* **Homoglyf**: Dit **vervang** 'n letter in die domeinnaam met **letters wat soortgelyk lyk** (bv. zelfser.com).
-* **Omruiling**: Dit **ruil twee letters** binne die domeinnaam om (bv. zelster.com).
-* **Enkelvoud/Meervoud**: Voeg of verwyder "s" aan die einde van die domeinnaam (bv. zeltsers.com).
-* **Weglating**: Dit **verwyder een** van die letters uit die domeinnaam (bv. zelser.com).
-* **Herhaling**: Dit **herhaal een** van die letters in die domeinnaam (bv. zeltsser.com).
-* **Vervanging**: Soos homoglyf, maar minder sluipend. Dit vervang een van die letters in die domeinnaam, miskien met 'n letter in die nabyheid van die oorspronklike letter op die sleutelbord (bv. zektser.com).
-* **Subdomein**: Voeg 'n **punt** in die domeinnaam in (bv. ze.lster.com).
-* **Invoeging**: Dit **voeg 'n letter** by die domeinnaam in (bv. zerltser.com).
-* **Ontbrekende punt**: Voeg die TLD by die domeinnaam. (bv. zelstercom.com)
+* **Sleutelwoord**: Die domeinnaam **bevat 'n belangrike sleutelwoord** van die oorspronklike domein (bv., zelster.com-bestuur.com).
+* **Gedagteken subdomein**: Verander die **punt vir 'n koppelteken** van 'n subdomein (bv., www-zelster.com).
+* **Nuwe TLD**: Dieselfde domein met 'n **nuwe TLD** (bv., zelster.org)
+* **Homoglyf**: Dit **vervang** 'n letter in die domeinnaam met **letters wat soortgelyk lyk** (bv., zelfser.com).
+* **Transposisie:** Dit **ruil twee letters** binne die domeinnaam (bv., zelsetr.com).
+* **Enkelvoudig/meervoudig**: Voeg by of verwyder "s" aan die einde van die domeinnaam (bv., zeltsers.com).
+* **Weglating**: Dit **verwyder een** van die letters uit die domeinnaam (bv., zelser.com).
+* **Herhaling**: Dit **herhaal een** van die letters in die domeinnaam (bv., zeltsser.com).
+* **Vervanging**: Soos homoglyf maar minder slu. Dit vervang een van die letters in die domeinnaam, miskien met 'n letter in die nabyheid van die oorspronklike letter op die sleutelbord (bv., zektser.com).
+* **Subdomein**: Voer 'n **punt** binne die domeinnaam in (bv., ze.lster.com).
+* **Invoeging**: Dit **voeg 'n letter** by die domeinnaam in (bv., zerltser.com).
+* **Ontbrekende punt**: Voeg die TLD by die domeinnaam. (bv., zelstercom.com)
 
-**Outomatiese hulpmiddels**
+**Outomatiese Gereedskap**
 
 * [**dnstwist**](https://github.com/elceef/dnstwist)
 * [**urlcrazy**](https://github.com/urbanadventurer/urlcrazy)
@@ -59,25 +59,25 @@ Ander maniere om HackTricks te ondersteun:
 
 ### Bitflipping
 
-Daar is 'n **moontlikheid dat een van die bits wat gestoor of in kommunikasie is, outomaties omgeskakel kan word** as gevolg van verskeie faktore soos sonvlamme, kosmiese strale of hardewarefoute.
+Daar is 'n **moontlikheid dat een van 'n paar bits wat gestoor of in kommunikasie is, outomaties omgeswaai kan word** as gevolg van verskeie faktore soos sonflitse, kosmiese strale, of hardeware foute.
 
-Wanneer hierdie konsep **toegepas word op DNS-versoeke**, is dit moontlik dat die **domein wat deur die DNS-bediener ontvang word**, nie dieselfde is as die aanvanklike gevraagde domein nie.
+Wanneer hierdie konsep **toegepas word op DNS-versoeke**, is dit moontlik dat die **domein wat deur die DNS-bediener ontvang word**, nie dieselfde is as die aanvanklike aangevraagde domein nie.
 
 Byvoorbeeld, 'n enkele bit-wysiging in die domein "windows.com" kan dit verander na "windnws.com."
 
-Aanvallers kan hiervan **profiteer deur verskeie bit-flipping-domeine** te registreer wat soortgelyk is aan die slagoffer se domein. Hulle bedoeling is om legitieme gebruikers na hul eie infrastruktuur om te lei.
+Aanvallers kan hiervan **profiteer deur meervoudige bit-omswaai-domeine te registreer** wat soortgelyk is aan die slagoffer se domein. Hulle beoog om wettige gebruikers na hul eie infrastruktuur te stuur.
 
-Vir meer inligting, lees [https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/](https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/)
+Vir meer inligting lees [https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/](https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/)
 
-### Koop 'n betroubare domein
+### Koop 'n vertroude domein
 
-Jy kan soek na 'n vervalde domein wat jy kan gebruik by [https://www.expireddomains.net/](https://www.expireddomains.net).\
-Om seker te maak dat die vervalde domein wat jy gaan koop **reeds 'n goeie SEO het**, kan jy nagaan hoe dit gekategoriseer word in:
+Jy kan soek na 'n vervalde domein in [https://www.expireddomains.net/](https://www.expireddomains.net) wat jy kan gebruik.\
+Om seker te maak dat die vervalde domein wat jy gaan koop **reeds 'n goeie SEO het**, kan jy nagaan hoe dit gekategoriseer is in:
 
 * [http://www.fortiguard.com/webfilter](http://www.fortiguard.com/webfilter)
 * [https://urlfiltering.paloaltonetworks.com/query/](https://urlfiltering.paloaltonetworks.com/query/)
 
-## Ontdek e-posse
+## Ontdek E-posse
 
 * [https://github.com/laramies/theHarvester](https://github.com/laramies/theHarvester) (100% gratis)
 * [https://phonebook.cz/](https://phonebook.cz) (100% gratis)
@@ -85,25 +85,25 @@ Om seker te maak dat die vervalde domein wat jy gaan koop **reeds 'n goeie SEO h
 * [https://hunter.io/](https://hunter.io)
 * [https://anymailfinder.com/](https://anymailfinder.com)
 
-Om meer geldige e-posse te **ontdek** of die een wat jy reeds ontdek het, te **verifieer**, kan jy kyk of jy hul smtp-bedieners kan brute force. [Leer hoe om e-posadres te verifieer/ontdek hier](../../network-services-pentesting/pentesting-smtp/#username-bruteforce-enumeration).\
-Moenie ook vergeet dat as gebruikers **enige webportaal gebruik om by hul e-posse te kom**, jy kan nagaan of dit vatbaar is vir **gebruikersnaam-brute force**, en die kwesbaarheid uitbuit indien moontlik.
+Om meer geldige e-posse te ontdek of die een wat jy reeds ontdek het te **verifieer**, kan jy kyk of jy hulle smtp-bedieners van die slagoffer kan **brute force**. [Leer hoe om e-posadres te verifieer/ontdek hier](../../network-services-pentesting/pentesting-smtp/#username-bruteforce-enumeration).\
+Moenie vergeet dat as die gebruikers enige webportaal gebruik om by hul e-posse te kom nie, kan jy nagaan of dit vatbaar is vir **gebruikersnaam brute force**, en die kwesbaarheid benut indien moontlik.
 
-## Konfigurering van GoPhish
+## Konfigureer GoPhish
 
 ### Installasie
 
-Jy kan dit aflaai vanaf [https://github.com/gophish/gophish/releases/tag/v0.11.0](https://github.com/gophish/gophish/releases/tag/v0.11.0)
+Jy kan dit aflaai van [https://github.com/gophish/gophish/releases/tag/v0.11.0](https://github.com/gophish/gophish/releases/tag/v0.11.0)
 
 Laai dit af en dekomprimeer dit binne `/opt/gophish` en voer `/opt/gophish/gophish` uit\
-Jy sal 'n wagwoord vir die admin-gebruiker kry op poort 3333 in die uitset. Toegang daardie poort en gebruik daardie geloofsbriewe om die admin-wagwoord te verander. Jy mag dalk daardie poort na plaaslike toe moet skuif:
+Jy sal 'n wagwoord vir die admin-gebruiker kry op poort 3333 in die uitset. Toegang daardie poort en gebruik daardie geloofsbriewe om die admin-wagwoord te verander. Jy mag dalk daardie poort na plaaslike moet tonnel.
 ```bash
 ssh -L 3333:127.0.0.1:3333 <user>@<ip>
 ```
-### Konfigurasie
+### Opset
 
-**TLS-sertifikaatkonfigurasie**
+**TLS-sertifikaatopset**
 
-Voordat hierdie stap geneem word, moet jy die domein wat jy gaan gebruik, **reeds gekoop** het en dit moet na die **IP van die VPS** waar jy **gophish** konfigureer, **verwys**.
+Voor hierdie stap moet jy **reeds die domein gekoop het** wat jy gaan gebruik en dit moet na die **IP van die VPS** wat jy **gophish** opset, **verwys**.
 ```bash
 DOMAIN="<domain>"
 wget https://dl.eff.org/certbot-auto
@@ -121,9 +121,9 @@ cp "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" /opt/gophish/ssl_keys/key.crt�
 ```
 **Poskonfigurasie**
 
-Begin deur te installeer: `apt-get install postfix`
+Begin met die installering: `apt-get install postfix`
 
-Voeg dan die domein by die volgende lêers:
+Voeg dan die domein by in die volgende lêers:
 
 * **/etc/postfix/virtual\_domains**
 * **/etc/postfix/transport**
@@ -136,7 +136,7 @@ Voeg dan die domein by die volgende lêers:
 
 Verander uiteindelik die lêers **`/etc/hostname`** en **`/etc/mailname`** na jou domeinnaam en **herlaai jou VPS.**
 
-Skep nou 'n **DNS A-rekord** van `mail.<domain>` wat na die **ip-adres** van die VPS wys en 'n **DNS MX-rekord** wat na `mail.<domain>` wys.
+Skep nou 'n **DNS A-rekord** van `mail.<domain>` wat na die **ip-adres** van die VPS wys en 'n **DNS MX-rekord** wat na `mail.<domain>` wys
 
 Laat ons nou toets om 'n e-pos te stuur:
 ```bash
@@ -171,7 +171,7 @@ Wysig `/opt/gophish/config.json` na die volgende (let op die gebruik van https):
 }
 }
 ```
-**Stel gophish-diens op**
+**Stel gophish-diens in**
 
 Om die gophish-diens te skep sodat dit outomaties gestart en bestuur kan word as 'n diens, kan jy die lêer `/etc/init.d/gophish` skep met die volgende inhoud:
 ```bash
@@ -220,7 +220,7 @@ case $1 in
 start|stop|status) "$1" ;;
 esac
 ```
-Voltooi die konfigurasie van die diens en toets dit deur die volgende stappe te volg:
+Voltooi die opstelling van die diens en kontroleer dit deur die volgende te doen:
 ```bash
 mkdir /var/log/gophish
 chmod +x /etc/init.d/gophish
@@ -231,15 +231,15 @@ service gophish status
 ss -l | grep "3333\|443"
 service gophish stop
 ```
-## Konfigureer posdiens en domein
+## Instelling van posdiens en domein
 
-### Wag en wees legitiem
+### Wag & wees legitiem
 
-Hoe ouer 'n domein is, hoe minder waarskynlik is dit dat dit as spam gevang sal word. Jy moet dus so lank as moontlik wag (ten minste 1 week) voordat jy die phising-assessering doen. Verder sal die reputasie wat verkry word beter wees as jy 'n bladsy oor 'n reputasievolle sektor plaas.
+Hoe ouer 'n domein is, hoe minder waarskynlik is dit dat dit as spam gevang sal word. Jy moet dus so lank as moontlik wag (ten minste 1 week) voordat die hengelassessering plaasvind. Verder, as jy 'n bladsy oor 'n reputasie-sektor plaas, sal die verkrygte reputasie beter wees.
 
-Let daarop dat selfs al moet jy 'n week wag, jy alles nou kan konfigureer.
+Let daarop dat selfs al moet jy 'n week wag, kan jy nou alles afkonfigureer.
 
-### Konfigureer omgekeerde DNS (rDNS) rekord
+### Konfigureer Omgekeerde DNS (rDNS) rekord
 
 Stel 'n rDNS (PTR) rekord in wat die IP-adres van die VPS na die domeinnaam oplos.
 
@@ -251,21 +251,21 @@ Jy kan [https://www.spfwizard.net/](https://www.spfwizard.net) gebruik om jou SP
 
 ![](<../../.gitbook/assets/image (388).png>)
 
-Dit is die inhoud wat binne 'n TXT-rekord in die domein ingestel moet word:
+Dit is die inhoud wat binne 'n TXT-rekord binne die domein ingestel moet word:
 ```bash
 v=spf1 mx a ip4:ip.ip.ip.ip ?all
 ```
-### Domeingebaseerde Berigverifikasie, Rapportering en Nakoming (DMARC) Rekord
+### Domeingebaseerde Berigverifikasie, Verslagdoening & Ooreenstemming (DMARC) Rekord
 
-Jy moet 'n DMARC-rekord **konfigureer vir die nuwe domein**. As jy nie weet wat 'n DMARC-rekord is nie, [**lees hierdie bladsy**](../../network-services-pentesting/pentesting-smtp/#dmarc).
+Jy moet **'n DMARC-rekord vir die nuwe domein instel**. As jy nie weet wat 'n DMARC-rekord is nie, [**lees hierdie bladsy**](../../network-services-pentesting/pentesting-smtp/#dmarc).
 
-Jy moet 'n nuwe DNS TXT-rekord skep wat die gasheernaam `_dmarc.<domein>` na die volgende inhoud verwys:
+Jy moet 'n nuwe DNS TXT-rekord skep wat na die gasnaam `_dmarc.<domein>` wys met die volgende inhoud:
 ```bash
 v=DMARC1; p=none
 ```
 ### DomainKeys Identified Mail (DKIM)
 
-Jy moet 'n DKIM vir die nuwe domein **konfigureer**. As jy nie weet wat 'n DMARC-rekord is nie, [**lees hierdie bladsy**](../../network-services-pentesting/pentesting-smtp/#dkim).
+Jy moet **'n DKIM vir die nuwe domein instel**. As jy nie weet wat 'n DMARC-rekord is nie, [**lees hierdie bladsy**](../../network-services-pentesting/pentesting-smtp/#dkim).
 
 Hierdie handleiding is gebaseer op: [https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy)
 
@@ -276,15 +276,15 @@ v=DKIM1; h=sha256; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0wPibdqP
 ```
 {% endhint %}
 
-### Toets jou e-pos konfigurasie telling
+### Toets jou e-poskonfigurasie telling
 
-Jy kan dit doen deur gebruik te maak van [https://www.mail-tester.com/](https://www.mail-tester.com)\
+Jy kan dit doen deur [https://www.mail-tester.com/](https://www.mail-tester.com) te gebruik\
 Net toegang tot die bladsy en stuur 'n e-pos na die adres wat hulle aan jou gee:
 ```bash
 echo "This is the body of the email" | mail -s "This is the subject line" test-iimosa79z@srv1.mail-tester.com
 ```
-Jy kan ook **jou e-pos konfigurasie nagaan** deur 'n e-pos te stuur na `check-auth@verifier.port25.com` en **die antwoord te lees** (hiervoor sal jy die poort **25** moet **oopmaak** en die antwoord in die lêer _/var/mail/root_ sien as jy die e-pos as root stuur).\
-Maak seker dat jy slaag vir al die toetse:
+Jy kan ook **jou e-poskonfigurasie nagaan** deur 'n e-pos te stuur na `check-auth@verifier.port25.com` en **die antwoord te lees** (hiervoor moet jy poort **25 oopmaak** en die antwoord in die lêer _/var/mail/root_ sien as jy die e-pos as root stuur).\
+Kontroleer dat jy slaag vir al die toetse:
 ```bash
 ==========================================================
 Summary of Results
@@ -295,41 +295,41 @@ DKIM check:         pass
 Sender-ID check:    pass
 SpamAssassin check: ham
 ```
-Jy kan ook 'n **boodskap na 'n Gmail onder jou beheer** stuur en die **e-pos se koppe** in jou Gmail-inboks nagaan, `dkim=pass` moet teenwoordig wees in die `Authentication-Results` kopvel.
+Jy kan ook 'n **boodskap na 'n Gmail onder jou beheer** stuur, en die **e-pos se koppe** in jou Gmail-inboks nagaan, `dkim=pass` behoort teenwoordig te wees in die `Authentication-Results` kopvel.
 ```
 Authentication-Results: mx.google.com;
 spf=pass (google.com: domain of contact@example.com designates --- as permitted sender) smtp.mail=contact@example.com;
 dkim=pass header.i=@example.com;
 ```
-### Verwydering van Spamhouse Blacklist
+### Verwydering van Spamhouse Swartlys
 
-Die bladsy [www.mail-tester.com](www.mail-tester.com) kan aandui of jou domein deur Spamhouse geblokkeer word. Jy kan versoek dat jou domein/IP verwyder word by: [https://www.spamhaus.org/lookup/](https://www.spamhaus.org/lookup/)
+Die bladsy [www.mail-tester.com](www.mail-tester.com) kan aandui of jou domein deur spamhouse geblokkeer word. Jy kan versoek dat jou domein/IP verwyder word by: [https://www.spamhaus.org/lookup/](https://www.spamhaus.org/lookup/)
 
-### Verwydering van Microsoft Blacklist
+### Verwydering van Microsoft Swartlys
 
 Jy kan versoek dat jou domein/IP verwyder word by [https://sender.office.com/](https://sender.office.com).
 
-## Skep & Lanseer GoPhish-veldtog
+## Skep & Lanceer 'n GoPhish-veldtog
 
 ### Verstuurprofiel
 
-* Stel 'n **naam in om** die verstuurprofiel te identifiseer
-* Besluit van watter rekening jy die phising-e-posse gaan stuur. Voorstelle: _noreply, support, servicedesk, salesforce..._
-* Jy kan die gebruikersnaam en wagwoord leeg laat, maar maak seker om die "Ignore Certificate Errors" te merk
+* Stel 'n **naam in om die** afstuurprofiel te identifiseer
+* Besluit van watter rekening jy die hengel-e-posse gaan stuur. Voorstelle: _noreply, support, servicedesk, salesforce..._
+* Jy kan die gebruikersnaam en wagwoord leeg laat, maar maak seker om die Ignore Certificate Errors te kontroleer
 
-![](<../../.gitbook/assets/image (253) (1) (2) (1) (1) (2) (2) (3) (3) (5) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (17).png>)
+![](<../../.gitbook/assets/image (253) (1) (2) (1) (1) (2) (2) (3) (3) (5) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (17).png>)
 
 {% hint style="info" %}
-Dit word aanbeveel om die "**Send Test Email**" funksionaliteit te gebruik om te toets of alles werk.\
-Ek sal aanbeveel om die toets-e-posse na 10min-posadressse te stuur om te voorkom dat jy op die swartlys beland terwyl jy toetse doen.
+Dit word aanbeveel om die "**Stuur Toets E-pos**" funksionaliteit te gebruik om te toets of alles werk.\
+Ek sal aanbeveel om die toets-e-posse na 10min-posadres te stuur om te verhoed dat jy op 'n swartlys beland terwyl jy toetse doen.
 {% endhint %}
 
-### E-pos-sjabloon
+### E-pos Templaat
 
-* Stel 'n **naam in om** die sjabloon te identifiseer
+* Stel 'n **naam in om** die templaat te identifiseer
 * Skryf dan 'n **onderwerp** (niks vreemds nie, net iets wat jy in 'n gewone e-pos sou verwag om te lees)
-* Maak seker dat jy "**Add Tracking Image**" gemerk het
-* Skryf die **e-pos-sjabloon** (jy kan veranderlikes gebruik soos in die volgende voorbeeld):
+* Maak seker jy het "**Voeg Spoorbeeld in**" aangevink
+* Skryf die **e-pos templaat** (jy kan veranderlikes gebruik soos in die volgende voorbeeld):
 ```markup
 <html>
 <head>
@@ -348,56 +348,56 @@ WRITE HERE SOME SIGNATURE OF SOMEONE FROM THE COMPANY
 </body>
 </html>
 ```
-Let daarop dat **om die geloofwaardigheid van die e-pos te verhoog**, dit aanbeveel word om 'n handtekening van 'n e-pos van die kliënt te gebruik. Voorstelle:
+Merk op dat **om die geloofwaardigheid van die e-pos te verhoog**, dit aanbeveel word om 'n handtekening van 'n e-pos van die klient te gebruik. Voorstelle:
 
 * Stuur 'n e-pos na 'n **nie-bestaande adres** en kyk of die reaksie enige handtekening het.
 * Soek na **openbare e-posse** soos info@ex.com of press@ex.com of public@ex.com en stuur hulle 'n e-pos en wag vir die reaksie.
-* Probeer om **'n geldige ontdekte** e-pos te kontak en wag vir die reaksie.
+* Probeer om **'n geldige ontdekte** e-pos te kontak en wag vir die reaksie
 
 ![](<../../.gitbook/assets/image (393).png>)
 
 {% hint style="info" %}
-Die E-pos Templaat maak dit ook moontlik om **lêers aan te heg om te stuur**. As jy ook NTLM-uitdagings wil steel deur van spesiaal vervaardigde lêers/dokumente gebruik te maak, [lees hierdie bladsy](../../windows-hardening/ntlm/places-to-steal-ntlm-creds.md).
+Die E-pos Templaat maak dit ook moontlik om **lêers aan te heg om te stuur**. As jy ook NTLM-uitdagings wil steel deur spesiaal ontwerpte lêers/dokumente te gebruik, [lees hierdie bladsy](../../windows-hardening/ntlm/places-to-steal-ntlm-creds.md).
 {% endhint %}
 
 ### Landingsbladsy
 
 * Skryf 'n **naam**
-* **Skryf die HTML-kode** van die webbladsy. Let daarop dat jy webbladsye kan **importe**.
-* Merk **Vasgevang Data** en **Vasgevang Wagwoorde**
-* Stel 'n **omleiding** in
+* **Skryf die HTML-kode** van die webbladsy. Merk op dat jy webbladsye kan **importe**.
+* Merk **Vasgevangde Ingesaamde Data** en **Vasgevangde Wagwoorde**
+* Stel 'n **herleiding** in
 
 ![](<../../.gitbook/assets/image (394).png>)
 
 {% hint style="info" %}
-Gewoonlik sal jy die HTML-kode van die bladsy moet wysig en 'n paar toetse plaaslik doen (dalk deur van 'n Apache-bediener gebruik te maak) **tot jy tevrede is met die resultate**. Skryf dan daardie HTML-kode in die blokkie.\
-Let daarop dat as jy **van statiese hulpbronne** vir die HTML gebruik (dalk van CSS- en JS-bladsye), jy hulle kan stoor in _**/opt/gophish/static/endpoint**_ en dan daarna toegang daartoe kan verkry vanaf _**/static/\<lêernaam>**_
+Gewoonlik sal jy die HTML-kode van die bladsy moet wysig en toetse in 'n plaaslike omgewing moet doen (miskien deur 'n Apache-bediener te gebruik) **tot jy tevrede is met die resultate.** Skryf dan daardie HTML-kode in die blokkie.\
+Merk op dat as jy **sekere statiese hulpbronne** vir die HTML nodig het (miskien sekere CSS- en JS-bladsye) kan jy hulle stoor in _**/opt/gophish/static/endpoint**_ en dan toegang daartoe kry vanaf _**/static/\<lêernaam>**_
 {% endhint %}
 
 {% hint style="info" %}
-Vir die omleiding kan jy die gebruikers **omlei na die regmatige hoofwebbladsy** van die slagoffer, of hulle omlei na _/static/migration.html_ byvoorbeeld, 'n **draaiwiel** ([**https://loading.io/**](https://loading.io)) vir 5 sekondes plaas en dan aandui dat die proses suksesvol was.
+Vir die herleiding kan jy die gebruikers **herlei na die regte hoofwebbladsy** van die slagoffer, of hulle herlei na _/static/migrasie.html_ byvoorbeeld, sit 'n **draaiende wiel (**[**https://loading.io/**](https://loading.io)**) vir 5 sekondes en dui dan aan dat die proses suksesvol was**.
 {% endhint %}
 
 ### Gebruikers & Groepe
 
 * Stel 'n naam in
-* **Importeer die data** (let daarop dat jy die voornaam, van en e-posadres van elke gebruiker nodig het om die templaat vir die voorbeeld te gebruik)
+* **Importeer die data** (merk op dat jy die voornaam, van en e-posadres van elke gebruiker nodig het om die templaat vir die voorbeeld te gebruik)
 
 ![](<../../.gitbook/assets/image (395).png>)
 
 ### Veldtog
 
-Skep uiteindelik 'n veldtog deur 'n naam, die e-pos templaat, die landingsbladsy, die URL, die stuurprofiel en die groep te kies. Let daarop dat die URL die skakel is wat na die slagoffers gestuur word.
+Skep uiteindelik 'n veldtog deur 'n naam, die e-pos templaat, die landingsbladsy, die URL, die stuurprofiel en die groep te kies. Merk op dat die URL die skakel is wat na die slagoffers gestuur sal word
 
-Let daarop dat die **Stuurprofiel toelaat om 'n toets-e-pos te stuur om te sien hoe die uiteindelike phising-e-pos lyk**:
+Merk op dat die **Stuurprofiel toelaat om 'n toets-e-pos te stuur om te sien hoe die finale hengel-e-pos lyk**:
 
 ![](<../../.gitbook/assets/image (396).png>)
 
 {% hint style="info" %}
-Ek sal aanbeveel om die toets-e-posse na 10min-e-posadresse te stuur om te verhoed dat jy deur toetse op 'n swartlys geplaas word.
+Ek sal aanbeveel om die toets-e-posse na 10min-posadres te stuur om te verhoed dat jy op 'n swartlys beland terwyl jy toetse doen.
 {% endhint %}
 
-Sodra alles gereed is, begin die veldtog!
+Sodra alles gereed is, begin net die veldtog!
 
 ## Webwerfkloning
 
@@ -407,42 +407,67 @@ As jy om enige rede die webwerf wil kloon, kyk na die volgende bladsy:
 [clone-a-website.md](clone-a-website.md)
 {% endcontent-ref %}
 
-## Terugdeur-dokumente & -lêers
+## Agterdeur Dokumente & Lêers
 
-In sommige phising-assesserings (veral vir Rooi Spanne) wil jy ook **lêers stuur wat 'n sekere soort terugdeur bevat** (dalk 'n C2 of dalk net iets wat 'n outentifikasie sal inisieer).\
+In sommige hengelassesseringe (hoofsaaklik vir Rooi Spanne) wil jy ook **lêers stuur wat 'n soort agterdeur bevat** (miskien 'n C2 of dalk net iets wat 'n outentifikasie sal inisieer).\
 Kyk na die volgende bladsy vir voorbeelde:
 
 {% content-ref url="phishing-documents.md" %}
 [phishing-documents.md](phishing-documents.md)
 {% endcontent-ref %}
 
-## Phising MFA
+## Hengel MFA
 
-### Via Proxy MitM
+### Via Proksi MitM
 
-Die vorige aanval is redelik slim omdat jy 'n regte webwerf naboots en die inligting wat deur die gebruiker ingevoer is, versamel. Ongelukkig, as die gebruiker nie die korrekte wagwoord ingevoer het nie of as die toepassing wat jy nageboots het, met 2FA gekonfigureer is, **sal hierdie inligting jou nie in staat stel om die bedriegde gebruiker na te boots nie**.
+Die vorige aanval is redelik slim omdat jy 'n werklike webwerf vervals en die inligting wat deur die gebruiker ingevoer is, insamel. Ongelukkig, as die gebruiker nie die korrekte wagwoord ingevoer het nie of as die aansoek wat jy vervals het, met 2FA gekonfigureer is, **sal hierdie inligting jou nie toelaat om die bedriegde gebruiker te impersoneer nie**.
 
-Dit is waar hulpmiddels soos [**evilginx2**](https://github.com/kgretzky/evilginx2)**,** [**CredSniper**](https://github.com/ustayready/CredSniper) en [**muraena**](https://github.com/muraenateam/muraena) nuttig is. Hierdie hulpmiddel sal jou in staat stel om 'n MitM-soort aanval te genereer. Die aanval werk basies soos volg:
+Dit is waar gereedskap soos [**evilginx2**](https://github.com/kgretzky/evilginx2)**,** [**CredSniper**](https://github.com/ustayready/CredSniper) en [**muraena**](https://github.com/muraenateam/muraena) nuttig is. Hierdie gereedskap sal jou in staat stel om 'n MitM-aanval te genereer. Die aanvalle werk basies so:
 
-1. Jy **boots die aanmeldingsvorm** van die regte webbladsy na.
-2. Die gebruiker **stuur** sy **inskrywings** na jou valse bladsy en die hulpmiddel stuur dit na die regte webbladsy, **deur te kyk of die inligting werk**.
-3. As die rekening met **2FA** gekonfigureer is, sal die MitM-bladsy daarvoor vra en sodra die **gebruiker dit invoer**, sal die hulpmiddel dit na die regte webbladsy stuur.
-4. Sodra die gebruiker geïdentifiseer is, sal jy (as aanvaller) die **inskrywings, die 2FA, die koekie en enige inligting** van elke interaksie wat jy tydens die MitM-uitvoer van die hulpmiddel uitvoer, **vasgevang het**.
+1. Jy **impersoneer die aanmeldingsvorm** van die werklike webbladsy.
+2. Die gebruiker **stuur** sy **legitimasie-inligting** na jou valse bladsy en die gereedskap stuur dit na die werklike webbladsy, **om te kyk of die inligting werk**.
+3. As die rekening met **2FA** gekonfigureer is, sal die MitM-bladsy daarvoor vra en sodra die **gebruiker dit invoer**, sal die gereedskap dit na die werklike webbladsy stuur.
+4. Sodra die gebruiker geïdentifiseer is, sal jy (as aanvaller) die **legitimasie-inligting, die 2FA, die koekie en enige inligting** van elke interaksie wat jy terwyl die gereedskap 'n MitM uitvoer, vasgevang het.
 
 ### Via VNC
 
-Wat as jy die slagoffer in plaas daarvan **na 'n skadelike bladsy stuur** met dieselfde voorkoms as die oorspronklike een, hom na 'n **VNC-sessie met 'n blaaier wat aan die regte webbladsy gekoppel is**, stuur? Jy sal kan sien wat hy doen, die wagwoord steel, die gebruikte MFA, die koekies...\
+Wat as jy in plaas daarvan die slagoffer na 'n skadelike bladsy met dieselfde voorkoms as die oorspronklike een stuur, hom na 'n **VNC-sessie met 'n blaaier wat aan die werklike webbladsy gekoppel is**, stuur? Jy sal kan sien wat hy doen, die wagwoord steel, die gebruikte 2FA, die koekies...\
 Jy kan dit doen met [**EvilnVNC**](https://github.com/JoelGMSec/EvilnoVNC)
 
 ## Die opsporing van die opsporing
 
-Dit is vanselfsprekend een van die beste maniere om te weet of jy gevang is, is om jou domein in swartlyste te soek. As dit gelys word, is jou domein op een of ander manier as verdag geïdentifiseer.\
-Een maklike manier om te kyk of jou domein op enige swartlys verskyn, is deur [https://malwareworld.com/](https://malwareworld.com) te gebruik
+Dit is vanselfsprekend een van die beste maniere om te weet of jy betraps is, is om **jou domein binne swartlyste te soek**. As dit gelys word, is jou domein op een of ander manier as verdag geïdentifiseer.\
+Een maklike manier om te kontroleer of jou domein in enige swartlys voorkom, is om [https://malwareworld.com/](https://malwareworld.com) te gebruik
 
-Daar is egter ander maniere om te weet of die slagoffer **aktief op soek is na verdagte phising-aktiwiteit in die wildernis**, soos verduidelik in:
+Daar is egter ander maniere om te weet of die slagoffer **aktief op soek is na verdagte hengelaktiwiteite in die wild** soos verduidelik in:
 
 {% content-ref url="detecting-phising.md" %}
 [detecting-phising.md](detecting-phising.md)
 {% endcontent-ref %}
 
-Jy kan 'n domein **koop met 'n baie soortgelyke naam** as die slagoffer se domein **en/of 'n sertifikaat genereer** vir 'n **subdomein** van 'n domein wat deur jou beheer word **wat die sleutelwoord** van die slagoffer
+Jy kan **'n domein met 'n baie soortgelyke naam koop** as die slagoffer se domein **en/of 'n sertifikaat genereer** vir 'n **subdomein** van 'n domein wat deur jou beheer word **wat die sleutelwoord** van die slagoffer se domein bevat. As die **slagoffer** enige soort **DNS- of HTTP-interaksie** met hulle uitvoer, sal jy weet dat **hy aktief op soek is** na verdagte domeine en jy moet baie versigtig wees.
+
+### Evalueer die hengel
+
+Gebruik [**Phishious** ](https://github.com/Rices/Phishious)om te evalueer of jou e-pos in die spamvouer gaan beland of geblokkeer gaan word of suksesvol gaan wees.
+
+## Verwysings
+
+* [https://zeltser.com/domain-name-variations-in-phishing/](https://zeltser.com/domain-name-variations-in-phishing/)
+* [https://0xpatrik.com/phishing-domains/](https://0xpatrik.com/phishing-domains/)
+* [https://darkbyte.net/robando-sesiones-y-bypasseando-2fa-con-evilnovnc/](https://darkbyte.net/robando-sesiones-y-bypasseando-2fa-con-evilnovnc/)
+* [https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy)
+
+<details>
+
+<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+
+Ander maniere om HackTricks te ondersteun:
+
+* As jy wil sien hoe jou **maatskappy geadverteer word in HackTricks** of **HackTricks in PDF aflaai**, kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Deel jou hakerstruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+
+</details>
