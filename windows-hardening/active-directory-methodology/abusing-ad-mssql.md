@@ -138,7 +138,8 @@ _Connexion en utilisant l'authentification Windows:_
 
 #### Trouver des liens de confiance
 ```sql
-select * from master..sysservers
+select * from master..sysservers;
+EXEC sp_linkedservers;
 ```
 ![](<../../.gitbook/assets/image (168).png>)
 
@@ -172,8 +173,8 @@ EXECUTE('EXECUTE(''sp_addsrvrolemember ''''hacker'''' , ''''sysadmin'''' '') AT 
 ```
 ## Élévation locale des privilèges
 
-L'utilisateur local **MSSQL** a généralement un type spécial de privilège appelé **`SeImpersonatePrivilege`**. Cela permet au compte d'**"usurper l'identité d'un client après authentification"**.
+L'utilisateur local **MSSQL** a généralement un type de privilège spécial appelé **`SeImpersonatePrivilege`**. Cela permet au compte d'**"usurper l'identité d'un client après l'authentification"**.
 
-Une stratégie à laquelle de nombreux auteurs ont pensé est de forcer un service **SYSTEM** à s'authentifier auprès d'un service malveillant ou de l'homme du milieu que l'attaquant crée. Ce service malveillant peut alors usurper l'identité du service **SYSTEM** pendant qu'il essaie de s'authentifier.
+Une stratégie que de nombreux auteurs ont développée consiste à forcer un service **SYSTEM** à s'authentifier auprès d'un service malveillant ou de l'homme du milieu que l'attaquant crée. Ce service malveillant peut alors usurper l'identité du service **SYSTEM** pendant qu'il tente de s'authentifier.
 
 [SweetPotato](https://github.com/CCob/SweetPotato) propose une collection de ces différentes techniques qui peuvent être exécutées via la commande `execute-assembly` de Beacon.
