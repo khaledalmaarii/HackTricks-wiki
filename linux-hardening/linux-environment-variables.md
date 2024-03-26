@@ -2,21 +2,21 @@
 
 <details>
 
-<summary><strong>Sıfırdan kahraman olana kadar AWS hacklemeyi öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary><strong>Sıfırdan kahraman olmak için AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
-HackTricks'ı desteklemenin diğer yolları:
+HackTricks'i desteklemenin diğer yolları:
 
 * **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na göz atın (https://github.com/sponsors/carlospolop)!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* [**Resmi PEASS & HackTricks ürünleri**]'ni edinin (https://peass.creator-spring.com)
+* [**PEASS Ailesi**]'ni keşfedin (https://opensea.io/collection/the-peass-family), özel [**NFT'ler**]'imiz koleksiyonumuz
 * **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**'da takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR'ler göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* **Hacking püf noktalarınızı paylaşarak PR göndererek HackTricks** (https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına.
 
 </details>
 
 **Try Hard Güvenlik Grubu**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -24,7 +24,7 @@ HackTricks'ı desteklemenin diğer yolları:
 
 ## Global değişkenler
 
-Global değişkenler **çocuk işlemler tarafından miras alınacaktır**.
+Global değişkenler **çocuk işlemler tarafından** devralınacaktır.
 
 Mevcut oturumunuz için bir global değişken oluşturabilirsiniz:
 ```bash
@@ -39,13 +39,17 @@ unset MYGLOBAL
 ```
 ## Yerel değişkenler
 
-**Yerel değişkenler** yalnızca **mevcut kabuk / betik** tarafından **erişilebilir**.
+**Yerel değişkenler** yalnızca **mevcut kabuk/senkron** tarafından **erişilebilir**.
 ```bash
 LOCAL="my local"
 echo $LOCAL
 unset LOCAL
 ```
 ## Mevcut değişkenleri listele
+
+```bash
+printenv
+```
 ```bash
 set
 env
@@ -57,7 +61,7 @@ cat /proc/`python -c "import os; print(os.getppid())"`/environ
 
 Kaynak: [https://geek-university.com/linux/common-environment-variables/](https://geek-university.com/linux/common-environment-variables/)
 
-* **DISPLAY** – **X** tarafından kullanılan ekran. Bu değişken genellikle **:0.0** olarak ayarlanır, bu da mevcut bilgisayardaki ilk ekranı ifade eder.
+* **DISPLAY** – **X** tarafından kullanılan ekran. Bu değişken genellikle **:0.0** olarak ayarlanır, bu da mevcut bilgisayardaki ilk ekranı temsil eder.
 * **EDITOR** – kullanıcının tercih ettiği metin düzenleyici.
 * **HISTFILESIZE** – geçmiş dosyasında bulunan maksimum satır sayısı.
 * **HISTSIZE** – Kullanıcı oturumu sona erdiğinde geçmiş dosyasına eklenen satır sayısı.
@@ -68,7 +72,7 @@ Kaynak: [https://geek-university.com/linux/common-environment-variables/](https:
 * **MANPATH** – kılavuz sayfalarını aramak için kullanılan dizinlerin listesi.
 * **OSTYPE** – işletim sistemi türü.
 * **PS1** – bash'teki varsayılan komut istemi.
-* **PATH** – yürütmek istediğiniz ikili dosyaların bulunduğu tüm dizinlerin yolunu saklar, dosyanın adını belirterek yürütmek istediğiniz dosyayı göreceli veya mutlak yol belirtmeden yürütebilirsiniz.
+* **PATH** – yürütmek istediğiniz ikili dosyaların bulunduğu tüm dizinlerin yolu, dosyanın adını belirterek yürütmek istediğiniz dosyanın adını belirtmek yerine göreli veya mutlak yol belirtmeden.
 * **PWD** – mevcut çalışma dizini.
 * **SHELL** – geçerli komut kabuğunun yolu (örneğin, **/bin/bash**).
 * **TERM** – mevcut terminal türü (örneğin, **xterm**).
@@ -79,7 +83,7 @@ Kaynak: [https://geek-university.com/linux/common-environment-variables/](https:
 
 ### **HISTFILESIZE**
 
-Bu değişkenin **değerini 0** olarak değiştirin, böylece oturumunuzu sonlandırdığınızda geçmiş dosyası (\~/.bash\_history) **silinecektir**.
+Bu değişkenin **değerini 0 olarak değiştirin**, böylece oturumunuzu sonlandırdığınızda geçmiş dosyası (\~/.bash\_history) **silinecektir**.
 ```bash
 export HISTFILESIZE=0
 ```
@@ -91,14 +95,14 @@ export HISTSIZE=0
 ```
 ### http\_proxy & https\_proxy
 
-İşlemler, internete bağlanmak için burada belirtilen **proxy**'yi kullanacaktır, **http veya https** üzerinden.
+İşlemler, internete bağlanmak için burada belirtilen **proxy**'yi kullanacaktır **http veya https** üzerinden.
 ```bash
 export http_proxy="http://10.10.10.10:8080"
 export https_proxy="http://10.10.10.10:8080"
 ```
 ### SSL_CERT_FILE & SSL_CERT_DIR
 
-**Bu çevre değişkenlerinde** belirtilen sertifikalara işlemler güvenecektir.
+**Bu ortam değişkenlerinde** belirtilen sertifikalara işlemler güvenecektir.
 ```bash
 export SSL_CERT_FILE=/path/to/ca-bundle.pem
 export SSL_CERT_DIR=/path/to/ca-certificates
@@ -117,17 +121,17 @@ Normal kullanıcı:
 
 ![](<../.gitbook/assets/image (88).png>)
 
-Arka planda bir, iki ve üç iş:
+Bir, iki ve üç arka planda çalışan işler:
 
 ![](<../.gitbook/assets/image (89).png>)
 
-Bir arka planda iş, bir durdurulmuş iş ve son komut doğru bir şekilde tamamlanmadı:
+Bir arka planda çalışan iş, bir durdurulan iş ve son komut doğru bir şekilde tamamlanmadı:
 
 ![](<../.gitbook/assets/image (90).png>)
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -137,10 +141,10 @@ Bir arka planda iş, bir durdurulmuş iş ve son komut doğru bir şekilde tamam
 
 HackTricks'i desteklemenin diğer yolları:
 
-* Şirketinizi **HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* Şirketinizi **HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na (https://github.com/sponsors/carlospolop) göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family'yi**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın veya** bizi **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**'da takip edin.**
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)** takip edin.**
 * **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>

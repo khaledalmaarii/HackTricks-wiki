@@ -2,13 +2,13 @@
 
 <details>
 
-<summary><strong>Sıfırdan kahraman olmak için AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary><strong>Sıfırdan kahraman olacak şekilde AWS hacklemeyi öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na göz atın (https://github.com/sponsors/carlospolop)!
+* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na(https://github.com/sponsors/carlospolop) göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu
 * **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'da takip edin.**
 * **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
@@ -16,7 +16,7 @@ HackTricks'ı desteklemenin diğer yolları:
 
 **Try Hard Güvenlik Grubu**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -26,13 +26,13 @@ HackTricks'ı desteklemenin diğer yolları:
 
 Daha fazla araç için [https://github.com/Claudio-C/awesome-datarecovery](https://github.com/Claudio-C/awesome-datarecovery)
 
-### Autopsy
+### Otopsi
 
-Görüntülerden dosyaları çıkarmak için en yaygın kullanılan araç [**Autopsy**](https://www.autopsy.com/download/)'dir. İndirin, kurun ve dosyayı içeri alarak "gizli" dosyaları bulmasını sağlayın. Autopsy, disk görüntülerini ve diğer türdeki görüntüleri desteklemek üzere oluşturulmuştur, ancak basit dosyaları desteklemez.
+Görüntülerden dosyaları çıkarmak için en yaygın kullanılan araç [**Otopsi**](https://www.autopsy.com/download/)'dir. İndirin, kurun ve dosyayı içeri alarak "gizli" dosyaları bulun. Otopsi'nin disk görüntüleri ve diğer türdeki görüntüleri desteklemek üzere yapıldığını unutmayın, ancak basit dosyaları desteklemez.
 
 ### Binwalk <a href="#binwalk" id="binwalk"></a>
 
-**Binwalk**, gömülü içerik bulmak için ikili dosyaları analiz etmek için bir araçtır. `apt` aracılığıyla yüklenebilir ve kaynak kodu [GitHub](https://github.com/ReFirmLabs/binwalk)'da bulunabilir.
+**Binwalk**, gömülü içerik bulmak için ikili dosyaları analiz etmek için bir araçtır. `apt` aracılığıyla yüklenebilir ve kaynağı [GitHub](https://github.com/ReFirmLabs/binwalk)'da bulunabilir.
 
 **Kullanışlı komutlar**:
 ```bash
@@ -43,7 +43,7 @@ binwalk --dd ".*" file #Displays and extracts all files from the given file
 ```
 ### Foremost
 
-Gizli dosyaları bulmak için başka yaygın bir araç **foremost**'tir. Foremost'un yapılandırma dosyasını `/etc/foremost.conf` içinde bulabilirsiniz. Belirli dosyaları aramak istiyorsanız, onları yorum satırından çıkarın. Hiçbir şeyi yorum satırından çıkarmazsanız, foremost varsayılan olarak yapılandırılmış dosya türlerini arayacaktır.
+Gizli dosyaları bulmak için başka bir yaygın araç **foremost**'tir. Foremost'un yapılandırma dosyasını `/etc/foremost.conf` içinde bulabilirsiniz. Belirli dosyaları aramak istiyorsanız, onları yorum satırından çıkarın. Hiçbir şeyi yorum satırından çıkarmazsanız, foremost varsayılan olarak yapılandırılmış dosya türlerini arayacaktır.
 ```bash
 sudo apt-get install foremost
 foremost -v -i file.img -o output
@@ -51,7 +51,7 @@ foremost -v -i file.img -o output
 ```
 ### **Scalpel**
 
-**Scalpel**, başka bir araçtır ve bir dosyanın içine gömülü olan dosyaları bulmak ve çıkarmak için kullanılabilir. Bu durumda, çıkarmak istediğiniz dosya türlerini yapılandırma dosyasından (_/etc/scalpel/scalpel.conf_) yorum satırından çıkarmalısınız.
+**Scalpel**, dosya içine gömülü olan dosyaları bulmak ve çıkarmak için kullanılabilecek başka bir araçtır. Bu durumda, çıkarmak istediğiniz dosya türlerini yapılandırma dosyasından (_/etc/scalpel/scalpel.conf_) yorum satırından çıkarmalısınız.
 ```bash
 sudo apt-get install scalpel
 scalpel file.img -o output
@@ -83,7 +83,7 @@ Kodu [buradan](https://code.google.com/archive/p/binvis/) ve [web sayfa aracın�
 - Bir örneğin bölümlerine odaklanma
 - PE veya ELF yürütülebilir dosyalarda **dizileri ve kaynakları** görmek
 - Dosyalarda kriptoanaliz için **desenler** elde etme
-- Paketleyici veya kodlayıcı algoritmaları **tespit etme**
+- Paketleyici veya kodlayıcı algoritmaları **belirleme**
 - Desenlere göre **Steganografi** tanımlama
 - **Görsel** ikili farklılaştırma
 
@@ -93,7 +93,7 @@ BinVis, bir siyah kutu senaryosunda **bilinmeyen bir hedefle tanışmak için ha
 
 ### FindAES
 
-AES anahtarlarını arayarak anahtar programlarını arar. TrueCrypt ve BitLocker gibi kullanılan 128, 192 ve 256 bit anahtarları bulabilir.
+AES anahtarlarını arayarak anahtar programlarını arar. TrueCrypt ve BitLocker gibi 128, 192 ve 256 bit anahtarları bulabilir.
 
 İndirme bağlantısı [burada](https://sourceforge.net/projects/findaes/).
 
@@ -104,7 +104,7 @@ Bir pdf'i metne dönüştürmek ve okumak için linux komut satırı aracı **pd
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -116,8 +116,8 @@ HackTricks'i desteklemenin diğer yolları:
 
 * **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* Özel [**NFT'lerimiz olan**](https://opensea.io/collection/the-peass-family) [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi Twitter'da 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)'ı takip edin.
-* **Hacking püf noktalarınızı göndererek HackTricks ve HackTricks Cloud** github depolarına PR'lar göndererek paylaşın.
+* [**The PEASS Family'yi**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)'da **takip edin**.
+* **Hacking püf noktalarınızı göndererek HackTricks ve HackTricks Cloud** github depolarına PR göndererek paylaşın.
 
 </details>
