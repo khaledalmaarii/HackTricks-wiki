@@ -10,13 +10,13 @@ Inne sposoby wsparcia HackTricks:
 * Kup [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Podziel się swoimi sztuczkami hakowania, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -78,16 +78,16 @@ Sprawdź [kod](https://code.google.com/archive/p/binvis/) oraz [narzędzie na st
 
 #### Funkcje BinVis
 
-* Wizualizator **struktury** z aktywnym podglądem
+* Wizualizator **struktury** plików
 * Wiele wykresów dla różnych punktów skupienia
 * Skupienie na fragmentach próbki
-* **Widzenie ciągów i zasobów**, w plikach wykonywalnych PE lub ELF, np.
-* Uzyskiwanie **wzorców** do kryptografii plików
+* **Wykrywanie ciągów i zasobów**, w plikach wykonywalnych PE lub ELF, np.
+* Pozyskiwanie **wzorców** do kryptografii plików
 * **Wykrywanie** algorytmów pakowania lub kodowania
 * **Identyfikacja** steganografii poprzez wzorce
 * **Wizualne** porównywanie binarne
 
-BinVis to świetne **miejsce początkowe, aby zapoznać się z nieznanym celem** w scenariuszu black-boxing.
+BinVis to doskonały **punkt wyjścia do zapoznania się z nieznanym celem** w scenariuszu black-boxing.
 
 ## Konkretne narzędzia do odzyskiwania danych
 
@@ -100,17 +100,17 @@ Pobierz [tutaj](https://sourceforge.net/projects/findaes/).
 ## Narzędzia uzupełniające
 
 Możesz użyć [**viu** ](https://github.com/atanunq/viu), aby zobaczyć obrazy z terminala.\
-Możesz użyć narzędzia wiersza poleceń systemu Linux **pdftotext**, aby przekształcić plik PDF na tekst i go przeczytać.
+Możesz użyć narzędzia wiersza poleceń systemu Linux **pdftotext**, aby przekształcić plik PDF na tekst i go odczytać.
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 <details>
 
-<summary><strong>Dowiedz się, jak hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 

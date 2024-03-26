@@ -6,8 +6,8 @@
 
 Inne sposoby wsparcia HackTricks:
 
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCYJNY**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
+* Kup [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podziel się swoimi sztuczkami hakowania, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
@@ -16,7 +16,7 @@ Inne sposoby wsparcia HackTricks:
 
 **Grupa Try Hard Security**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -34,13 +34,13 @@ binwalk --dd ".*" file # Extracts all data
 ```
 ### **Foremost**
 
-Odzyskuje pliki na podstawie ich nagłówków i stóp, przydatne dla obrazów png. Zainstalowany za pomocą `apt` z źródłem na [GitHub](https://github.com/korczis/foremost).
+Odzyskuje pliki na podstawie ich nagłówków i stop. Przydatne dla obrazów png. Zainstaluj za pomocą `apt` z źródłem na [GitHub](https://github.com/korczis/foremost).
 ```bash
 foremost -i file # Extracts data
 ```
 ### **Exiftool**
 
-Pomaga wyświetlać metadane pliku, dostępny [tutaj](https://www.sno.phy.queensu.ca/\~phil/exiftool/).
+Pomaga wyświetlać metadane pliku, dostępny [tutaj](https://www.sno.phy.queensu.ca/~phil/exiftool/).
 ```bash
 exiftool file # Shows the metadata
 ```
@@ -56,7 +56,7 @@ Zidentyfikuj rodzaj pliku, z którym masz do czynienia.
 
 ### **Ciągi znaków**
 
-Wyodrębnia czytelne ciągi znaków z plików, korzystając z różnych ustawień kodowania do filtrowania wyników.
+Wyodrębnia czytelne ciągi znaków z plików, używając różnych ustawień kodowania do filtrowania wyników.
 ```bash
 strings -n 6 file # Extracts strings with a minimum length of 6
 strings -n 6 file | head -n 20 # First 20 strings
@@ -82,7 +82,7 @@ Niewidoczne znaki w pozornie pustych miejscach mogą zawierać informacje. Aby w
 
 ## **Wyciąganie Danych z Obrazów**
 
-### **Identyfikacja Szczegółów Obrazu za pomocą GraphicMagick**
+### **Identyfikacja Szczegółów Obrazu za Pomocą GraphicMagick**
 
 [GraphicMagick](https://imagemagick.org/script/download.php) służy do określania typów plików obrazów i identyfikowania potencjalnych uszkodzeń. Wykonaj poniższą komendę, aby przeanalizować obraz:
 ```bash
@@ -126,7 +126,7 @@ zsteg specjalizuje się w odkrywaniu ukrytych danych w plikach PNG i BMP. Instal
 
 ### **FFT do Wykrywania Ukrytej Zawartości**
 
-Techniki Szybkiej Transformaty Fouriera (FFT) mogą odsłonić ukrytą zawartość w obrazach. Przydatne zasoby to:
+Techniki Szybkiej Transformaty Fouriera (FFT) mogą ujawnić ukrytą zawartość w obrazach. Przydatne zasoby to:
 
 * [Demo EPFL](http://bigwww.epfl.ch/demo/ip/demos/FFT/)
 * [Ejectamenta](https://www.ejectamenta.com/Fourifier-fullscreen/)
@@ -137,8 +137,6 @@ Techniki Szybkiej Transformaty Fouriera (FFT) mogą odsłonić ukrytą zawartoś
 Stegpy pozwala na osadzanie informacji w plikach obrazów i dźwięku, obsługując formaty takie jak PNG, BMP, GIF, WebP i WAV. Jest dostępny na [GitHubie](https://github.com/dhsdshdhk/stegpy).
 
 ### **Pngcheck do Analizy Plików PNG**
-
-Aby analizować pliki PNG lub zweryfikować ich autentyczność, użyj:
 ```bash
 apt-get install pngcheck
 pngcheck stego.png
@@ -148,7 +146,7 @@ pngcheck stego.png
 Dla dalszego eksplorowania, rozważ odwiedzenie:
 
 * [Magic Eye Solver](http://magiceye.ecksdee.co.uk/)
-* [Analiza Poziomu Błędu Obrazu](https://29a.ch/sandbox/2012/imageerrorlevelanalysis/)
+* [Analiza poziomu błędów obrazu](https://29a.ch/sandbox/2012/imageerrorlevelanalysis/)
 * [Outguess](https://github.com/resurrecting-open-source-projects/outguess)
 * [OpenStego](https://www.openstego.com/)
 * [DIIT](https://diit.sourceforge.net/)
@@ -163,7 +161,7 @@ Steghide to wszechstronne narzędzie przeznaczone do ukrywania danych w plikach 
 
 ### **Stegpy (PNG, BMP, GIF, WebP, WAV)**
 
-To narzędzie jest kompatybilne z różnymi formatami, w tym PNG, BMP, GIF, WebP i WAV. Aby uzyskać więcej informacji, zapoznaj się z [sekcją Stegpy](stego-tricks.md#stegpy-png-bmp-gif-webp-wav).
+To narzędzie jest kompatybilne z różnymi formatami, w tym PNG, BMP, GIF, WebP i WAV. Aby uzyskać więcej informacji, zajrzyj do [sekcji Stegpy](stego-tricks.md#stegpy-png-bmp-gif-webp-wav).
 
 ### **ffmpeg**
 
@@ -195,18 +193,14 @@ Wykrywanie sygnałów DTMF w plikach audio można osiągnąć za pomocą narzęd
 
 ### **Długość Binarna SQRT - Kod QR**
 
-Dane binarne, które dają liczbę całkowitą po podniesieniu do kwadratu, mogą reprezentować kod QR. Skorzystaj z tego fragmentu, aby sprawdzić:
+Dane binarne, które dają liczbę całkowitą po podniesieniu do kwadratu, mogą reprezentować kod QR. Użyj tego fragmentu do sprawdzenia:
 ```python
 import math
 math.sqrt(2500) #50
 ```
-### **Tłumaczenie na język polski**
+### **Tłumaczenie Braille'a**
 
-Do konwersji z binarnego na obraz, sprawdź [dcode](https://www.dcode.fr/binary-image). Aby odczytać kody QR, skorzystaj z [tego czytnika kodów kreskowych online](https://online-barcode-reader.inliteresearch.com/).
-
-### **Tłumaczenie na alfabet Braille'a**
-
-Do tłumaczenia na alfabet Braille'a, [Tłumacz Braille'a Branah](https://www.branah.com/braille-translator) to doskonałe źródło.
+Do tłumaczenia Braille'a użyj [Tłumacza Braille'a Branah](https://www.branah.com/braille-translator).
 
 ## **Referencje**
 
@@ -215,7 +209,7 @@ Do tłumaczenia na alfabet Braille'a, [Tłumacz Braille'a Branah](https://www.br
 
 **Grupa Try Hard Security**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 

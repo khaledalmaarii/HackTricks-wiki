@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Zacznij naukę hakowania AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Zacznij od zera i stań się ekspertem od hakowania AWS dzięki</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 
@@ -16,7 +16,7 @@ Inne sposoby wsparcia HackTricks:
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -47,14 +47,14 @@ Oprogramowanie:
 
 dotPeek to dekompilator, który **dekompiluje i analizuje wiele formatów**, w tym **biblioteki** (.dll), **pliki metadanych systemu Windows** (.winmd) i **pliki wykonywalne** (.exe). Po dekompilacji zestawu można zapisać jako projekt Visual Studio (.csproj).
 
-Zaletą jest to, że jeśli utracony kod źródłowy wymaga przywrócenia z archiwalnego zestawu, ta czynność może zaoszczędzić czas. Ponadto dotPeek zapewnia wygodną nawigację po zdekompilowanym kodzie, co czyni go jednym z doskonałych narzędzi do analizy algorytmów Xamarin.
+Zaletą jest to, że jeśli utracony kod źródłowy wymaga przywrócenia z archiwalnego zestawu, ta czynność może zaoszczędzić czas. Ponadto dotPeek zapewnia wygodną nawigację po zdekompilowanym kodzie, co czyni go jednym z doskonałych narzędzi do **analizy algorytmów Xamarin.**
 
 ### [.NET Reflector](https://www.red-gate.com/products/reflector/)
 
 Dzięki kompleksowemu modelowi dodatków i interfejsowi API rozszerzającemu narzędzie, .NET Reflector oszczędza czas i upraszcza rozwój. Przejrzyjmy mnogość usług inżynierii wstecznej, które oferuje to narzędzie:
 
 * Zapewnia wgląd w sposób przepływu danych przez bibliotekę lub komponent
-* Zapewnia wgląd w implementację i użycie języków i frameworków .NET
+* Zapewnia wgląd w implementację i użycie języków i platform .NET
 * Znajduje funkcjonalności nieudokumentowane i nieujawnione, aby uzyskać więcej z używanych interfejsów API i technologii.
 * Znajduje zależności i różne zestawy
 * Namierza dokładne miejsce błędów w twoim kodzie, komponentach innych firm i bibliotekach.
@@ -62,8 +62,8 @@ Dzięki kompleksowemu modelowi dodatków i interfejsowi API rozszerzającemu nar
 
 ### [ILSpy](https://github.com/icsharpcode/ILSpy) & [dnSpy](https://github.com/dnSpy/dnSpy/releases)
 
-[Wtyczka ILSpy dla Visual Studio Code](https://github.com/icsharpcode/ilspy-vscode): Możesz ją mieć w dowolnym systemie operacyjnym (możesz zainstalować ją bezpośrednio z VSCode, nie trzeba pobierać z git. Kliknij **Extensions** i **szukaj ILSpy**).\
-Jeśli musisz **dekompilować**, **modyfikować** i **ponownie kompilować**, możesz użyć [**dnSpy**](https://github.com/dnSpy/dnSpy/releases) lub aktywnie rozwijanej gałęzi, [**dnSpyEx**](https://github.com/dnSpyEx/dnSpy/releases). (**Kliknij prawym przyciskiem -> Zmodyfikuj metodę** aby zmienić coś wewnątrz funkcji).
+[Plugin ILSpy dla Visual Studio Code](https://github.com/icsharpcode/ilspy-vscode): Możesz go mieć w dowolnym systemie operacyjnym (możesz zainstalować go bezpośrednio z VSCode, nie trzeba pobierać z git. Kliknij **Extensions** i **szukaj ILSpy**).\
+Jeśli musisz **dekompilować**, **modyfikować** i **ponownie kompilować**, możesz użyć [**dnSpy**](https://github.com/dnSpy/dnSpy/releases) lub aktywnie rozwijanej gałęzi, [**dnSpyEx**](https://github.com/dnSpyEx/dnSpy/releases). (**Kliknij prawym przyciskiem -> Modify Method** aby zmienić coś wewnątrz funkcji).
 
 ### Logowanie DNSpy
 
@@ -98,13 +98,13 @@ Następnie zapisz nowy plik za pomocą _**Plik >> Zapisz moduł...**_:
 
 ![](<../../.gitbook/assets/image (279).png>)
 
-Jest to konieczne, ponieważ jeśli tego nie zrobisz, podczas **uruchamiania** kodu zostanie zastosowanych kilka **optymalizacji**, co może spowodować, że podczas debugowania **punkt przerwania nie zostanie osiągnięty** lub niektóre **zmienne nie będą istnieć**.
+Jest to konieczne, ponieważ jeśli tego nie zrobisz, podczas **uruchamiania** kodu zostanie zastosowanych kilka **optymalizacji**, co może spowodować, że podczas debugowania **punkt przerwania nie zostanie osiągnięty** lub niektóre **zmienne nie istnieją**.
 
 Następnie, jeśli twoja aplikacja .NET jest **uruchamiana** przez **IIS**, możesz ją **ponownie uruchomić** za pomocą:
 ```
 iisreset /noforce
 ```
-Następnie, aby rozpocząć debugowanie, należy zamknąć wszystkie otwarte pliki i w zakładce **Debug** wybrać **Attach to Process...**:
+Następnie, aby rozpocząć debugowanie, należy zamknąć wszystkie otwarte pliki i w zakładce **Debug** wybrać opcję **Attach to Process...**:
 
 ![](<../../.gitbook/assets/image (280).png>)
 
@@ -122,7 +122,7 @@ Kliknij dowolny moduł w **Modules** i wybierz **Open All Modules**:
 
 ![](<../../.gitbook/assets/image (284).png>)
 
-Kliknij prawym przyciskiem myszy dowolny moduł w **Assembly Explorer** i kliknij **Sort Assemblies**:
+Kliknij prawym przyciskiem myszy dowolny moduł w **Assembly Explorer** i wybierz **Sort Assemblies**:
 
 ![](<../../.gitbook/assets/image (285).png>)
 
@@ -147,20 +147,20 @@ Kliknij prawym przyciskiem myszy dowolny moduł w **Assembly Explorer** i klikni
 
 Następnie, gdy rozpoczniesz debugowanie, **wykonanie zostanie zatrzymane po załadowaniu każdego DLL**, a gdy rundll32 załaduje twoje DLL, wykonanie zostanie zatrzymane.
 
-Ale jak uzyskać dostęp do kodu DLL, który został załadowany? Korzystając z tej metody, nie wiem jak.
+Ale jak uzyskać dostęp do kodu załadowanego DLL? Korzystając z tej metody, nie wiem jak.
 
 ### Korzystanie z x64dbg/x32dbg
 
 * **Załaduj rundll32** (64 bity w C:\Windows\System32\rundll32.exe i 32 bity w C:\Windows\SysWOW64\rundll32.exe)
-* **Zmień linię poleceń** ( _File --> Change Command Line_ ) i ustaw ścieżkę do pliku DLL oraz funkcję, którą chcesz wywołać, na przykład: "C:\Windows\SysWOW64\rundll32.exe" "Z:\shared\Cybercamp\rev2\\\14.ridii\_2.dll",DLLMain
+* **Zmień linię poleceń** ( _File --> Change Command Line_ ) i ustaw ścieżkę do pliku DLL i funkcję, którą chcesz wywołać, na przykład: "C:\Windows\SysWOW64\rundll32.exe" "Z:\shared\Cybercamp\rev2\\\14.ridii\_2.dll",DLLMain
 * Zmień _Options --> Settings_ i wybierz "**DLL Entry**".
-* Następnie **rozpocznij wykonanie**, debugger zatrzyma się przy każdym głównym elemencie DLL, w pewnym momencie zatrzymasz się w **wejściu DLL twojego DLL**. Następnie wyszukaj punkty, w których chcesz ustawić punkt przerwania.
+* Następnie **rozpocznij wykonanie**, debugger zatrzyma się przy każdym głównym punkcie DLL, w pewnym momencie zatrzymasz się w **DLL Entry twojego DLL**. Następnie wyszukaj miejsca, w których chcesz ustawić punkt przerwania.
 
 Zauważ, że gdy wykonanie zostanie zatrzymane z jakiegokolwiek powodu w win64dbg, możesz zobaczyć **w jakim kodzie się znajdujesz** patrząc na **górę okna win64dbg**:
 
 ![](<../../.gitbook/assets/image (137).png>)
 
-Następnie, patrząc na to, możesz zobaczyć, kiedy wykonanie zostało zatrzymane w DLL, którą chcesz debugować.
+Następnie, patrząc na to, możesz zobaczyć, kiedy wykonanie zostało zatrzymane w interesującym cię DLL.
 
 ## Aplikacje GUI / Gry wideo
 
@@ -181,7 +181,7 @@ Następnie, patrząc na to, możesz zobaczyć, kiedy wykonanie zostało zatrzyma
 [**Blobrunner**](https://github.com/OALabs/BlobRunner) **przydzieli** **shellkod** w przestrzeni pamięci, wskaże **adres pamięci**, w którym shellkod został przydzielony, a następnie **zatrzyma** wykonanie.\
 Następnie musisz **dołączyć debugger** (Ida lub x64dbg) do procesu i ustawić **punkt przerwania na wskazanym adresie pamięci**, a następnie **wznów** wykonanie. W ten sposób będziesz debugować shellkod.
 
-Na stronie wydań na GitHubie znajdziesz skompilowane wersje: [https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)\
+Na stronie wydań na GitHubie znajdziesz archiwa zip zawierające skompilowane wersje: [https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)\
 Możesz znaleźć nieco zmodyfikowaną wersję Blobrunner pod następującym linkiem. Aby ją skompilować, wystarczy **utworzyć projekt C/C++ w Visual Studio Code, skopiować i wkleić kod oraz go skompilować**.
 
 {% content-ref url="blobrunner.md" %}
@@ -190,7 +190,7 @@ Możesz znaleźć nieco zmodyfikowaną wersję Blobrunner pod następującym lin
 
 ### Debugowanie shellkodu za pomocą jmp2it
 
-[**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4)jest bardzo podobny do blobrunner. **Przydzieli** **shellkod** w przestrzeni pamięci i rozpocznie **wieczną pętlę**. Następnie musisz **dołączyć debugger** do procesu, **rozpocząć działanie, poczekać 2-5 sekund i nacisnąć stop**, a znajdziesz się w **wiecznej pętli**. Przejdź do następnej instrukcji wiecznej pętli, ponieważ będzie to wywołanie shellkodu, a ostatecznie będziesz wykonywać shellkod.
+[**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4)jest bardzo podobny do blobrunner. **Przydzieli** **shellkod** w przestrzeni pamięci i rozpocznie **wieczną pętlę**. Następnie musisz **dołączyć debugger** do procesu, **rozpocząć działanie, poczekać 2-5 sekund i nacisnąć stop**, aby znaleźć się w **wiecznej pętli**. Przejdź do następnej instrukcji wiecznej pętli, która będzie wywołaniem do shellkodu, a ostatecznie będziesz wykonywać shellkod.
 
 ![](<../../.gitbook/assets/image (397).png>)
 
@@ -198,9 +198,9 @@ Możesz pobrać skompilowaną wersję [jmp2it ze strony wydań](https://github.c
 
 ### Debugowanie shellkodu za pomocą Cutter
 
-[**Cutter**](https://github.com/rizinorg/cutter/releases/tag/v1.12.0) to GUI radare. Za pomocą Cuttera możesz emulować shellkod i dynamicznie go analizować.
+[**Cutter**](https://github.com/rizinorg/cutter/releases/tag/v1.12.0) to interfejs graficzny radare. Za pomocą Cuttera możesz emulować shellkod i dynamicznie go analizować.
 
-Należy zauważyć, że Cutter pozwala na "Otwarcie pliku" i "Otwarcie shellkodu". W moim przypadku, gdy otworzyłem shellkod jako plik, został poprawnie zdekompilowany, ale gdy otworzyłem go jako shellkod, nie:
+Zauważ, że Cutter pozwala na "Otwarcie pliku" i "Otwarcie shellkodu". W moim przypadku, gdy otworzyłem shellkod jako plik, został on poprawnie zdekompilowany, ale gdy otworzyłem go jako shellkod, nie:
 
 ![](<../../.gitbook/assets/image (400).png>)
 
@@ -214,10 +214,10 @@ Możesz zobaczyć stos na przykład w postaci zrzutu szesnastkowego:
 
 ![](<../../.gitbook/assets/image (402).png>)
 
-### Rozszyfrowywanie shellkodu i uzyskiwanie wykonywanych funkcji
+### Deobfuskacja shellkodu i uzyskiwanie funkcji wykonywanych
 
 Spróbuj [**scdbg**](http://sandsprite.com/blogs/index.php?uid=7\&pid=152).\
-Pokaże ci, które funkcje używa shellkod i czy shellkod **dekoduje** się w pamięci.
+Program wskaże, które funkcje wykorzystuje shellkod i czy shellkod jest **dekodowany** w pamięci.
 ```bash
 scdbg.exe -f shellcode # Get info
 scdbg.exe -f shellcode -r #show analysis report at end of run
@@ -226,13 +226,13 @@ scdbg.exe -f shellcode -d #Dump decoded shellcode
 scdbg.exe -f shellcode /findsc #Find offset where starts
 scdbg.exe -f shellcode /foff 0x0000004D #Start the executing in that offset
 ```
-scDbg posiada również graficzny uruchamiacz, w którym możesz wybrać opcje, których chcesz użyć i wykonać shellcode
+scDbg posiada również graficzny uruchamiacz, w którym można wybrać żądane opcje i wykonać shellcode
 
 ![](<../../.gitbook/assets/image (398).png>)
 
-Opcja **Create Dump** spowoduje zrzucenie ostatecznego shellcode, jeśli jakakolwiek zmiana zostanie dokonana dynamicznie w pamięci shellcode (przydatne do pobrania zdekodowanego shellcode). **Start offset** może być przydatny do uruchomienia shellcode w określonym przesunięciu. Opcja **Debug Shell** jest przydatna do debugowania shellcode za pomocą terminala scDbg (jednak uważam, że któreś z opcji wyjaśnionych wcześniej są lepsze w tej kwestii, ponieważ będziesz mógł użyć Ida lub x64dbg).
+Opcja **Create Dump** spowoduje zrzucenie ostatecznego shellcode, jeśli w pamięci dynamicznie zostaną dokonane jakiekolwiek zmiany w shellcode (przydatne do pobrania zdekodowanego shellcode). **Start offset** może być przydatny do uruchomienia shellcode w określonym przesunięciu. Opcja **Debug Shell** jest przydatna do debugowania shellcode za pomocą terminala scDbg (jednak uważam, że któreś z opcji wyjaśnionych wcześniej są lepsze w tej kwestii, ponieważ będziesz mógł użyć Ida lub x64dbg).
 
-### Rozkładanie na części za pomocą CyberChef
+### Rozkładanie za pomocą CyberChef
 
 Prześlij plik ze swoim shellcodem jako dane wejściowe i użyj następującego przepisu, aby go zdekompilować: [https://gchq.github.io/CyberChef/#recipe=To\_Hex('Space',0)Disassemble\_x86('32','Full%20x86%20architecture',16,0,true,true)](https://gchq.github.io/CyberChef/#recipe=To\_Hex\('Space',0\)Disassemble\_x86\('32','Full%20x86%20architecture',16,0,true,true\))
 
@@ -243,7 +243,7 @@ Ten obfuskator **modyfikuje wszystkie instrukcje dla `mov`** (tak, naprawdę faj
 * [https://www.youtube.com/watch?v=2VF\_wPkiBJY](https://www.youtube.com/watch?v=2VF\_wPkiBJY)
 * [https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas\_2015\_the\_movfuscator.pdf](https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas\_2015\_the\_movfuscator.pdf)
 
-Jeśli masz szczęście, [demovfuscator](https://github.com/kirschju/demovfuscator) zdemistyfikuje binarny plik. Ma kilka zależności
+Jeśli masz szczęście, [demovfuscator](https://github.com/kirschju/demovfuscator) zdeobfuskuje binarny plik. Ma kilka zależności.
 ```
 apt-get install libcapstone-dev
 apt-get install libz3-dev
@@ -269,7 +269,7 @@ Jeśli musisz odwrócić binarny plik Delphi, sugeruję użycie wtyczki IDA [htt
 
 Wystarczy nacisnąć **ATL+f7** (importuj wtyczkę python w IDA) i wybierz wtyczkę python.
 
-Ta wtyczka będzie wykonywać binarny plik i dynamicznie rozwiązywać nazwy funkcji na początku debugowania. Po rozpoczęciu debugowania ponownie naciśnij przycisk Start (zielony lub f9), a przerwa zostanie przerwana na początku rzeczywistego kodu.
+Ta wtyczka będzie wykonywać binarny plik i dynamicznie rozwiązywać nazwy funkcji na początku debugowania. Po rozpoczęciu debugowania ponownie naciśnij przycisk Start (zielony lub f9), a przerwa zostanie ustawiona na początku prawdziwego kodu.
 
 Jest to również bardzo interesujące, ponieważ jeśli naciśniesz przycisk w aplikacji graficznej, debugger zatrzyma się w funkcji wykonywanej przez ten przycisk.
 
@@ -388,6 +388,6 @@ W poprzednim kodzie można zobaczyć, że porównujemy **uVar1** (miejsce, gdzie
 * Następnie porównujemy go z **wartością 8** (przycisk **START**): W tym wyzwaniu sprawdzane jest, czy kod jest poprawny, aby uzyskać flagę.
 * W tym przypadku zmienna **`DAT_030000d8`** jest porównywana z 0xf3, a jeśli wartość jest taka sama, wykonywany jest pewien kod.
 * W pozostałych przypadkach sprawdzane jest **cont** (`DAT_030000d4`). Jest to **cont**, ponieważ dodaje 1 zaraz po wpisaniu kodu.\
-Jeśli jest mniejszy niż 8, wykonywane są działania polegające na **dodawaniu** wartości do **`DAT_030000d8`** (w zasadzie dodawane są wartości naciśniętych klawiszy do tej zmiennej, dopóki cont jest mniejszy niż 8).
+Jeśli jest mniejszy niż 8, wykonywane są działania polegające na **dodawaniu** wartości do zmiennej **`DAT_030000d8`** (w zasadzie dodawane są wartości naciśniętych klawiszy do tej zmiennej, dopóki cont jest mniejszy niż 8).
 
 W tym wyzwaniu, znając wartości przycisków, musisz **nacisnąć kombinację o długości mniejszej niż 8, tak aby wynikowe dodawanie było równe 0xf3.**
