@@ -10,13 +10,13 @@ Autres façons de soutenir HackTricks :
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 
 **Groupe de sécurité Try Hard**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -26,7 +26,7 @@ Autres façons de soutenir HackTricks :
 
 ### **Binwalk**
 
-Un outil pour rechercher des fichiers binaires à la recherche de fichiers et de données cachés. Il est installé via `apt` et son code source est disponible sur [GitHub](https://github.com/ReFirmLabs/binwalk).
+Un outil pour rechercher des fichiers binaires pour des fichiers et des données cachés intégrés. Il est installé via `apt` et son code source est disponible sur [GitHub](https://github.com/ReFirmLabs/binwalk).
 ```bash
 binwalk file # Displays the embedded data
 binwalk -e file # Extracts the data
@@ -34,13 +34,13 @@ binwalk --dd ".*" file # Extracts all data
 ```
 ### **Foremost**
 
-Récupère les fichiers en fonction de leurs en-têtes et pieds de page, utile pour les images png. Installé via `apt` avec sa source sur [GitHub](https://github.com/korczis/foremost).
+Récupère les fichiers en se basant sur leurs en-têtes et pieds de page, utile pour les images png. Installé via `apt` avec sa source sur [GitHub](https://github.com/korczis/foremost).
 ```bash
 foremost -i file # Extracts data
 ```
 ### **Exiftool**
 
-Aide à visualiser les métadonnées des fichiers, disponible [ici](https://www.sno.phy.queensu.ca/\~phil/exiftool/).
+Aide à afficher les métadonnées des fichiers, disponible [ici](https://www.sno.phy.queensu.ca/\~phil/exiftool/).
 ```bash
 exiftool file # Shows the metadata
 ```
@@ -52,7 +52,7 @@ exiv2 file # Shows the metadata
 ```
 ### **Fichier**
 
-Identifier le type de fichier avec lequel vous travaillez.
+Identifiez le type de fichier avec lequel vous travaillez.
 
 ### **Chaînes de caractères**
 
@@ -105,7 +105,7 @@ Pour une extraction basée sur le web, visitez [ce site web](https://futureboy.u
 
 **Attaque par force brute avec Stegcracker :**
 
-* Pour tenter le craquage de mot de passe sur Steghide, utilisez [stegcracker](https://github.com/Paradoxis/StegCracker.git) comme suit :
+* Pour tenter de craquer un mot de passe sur Steghide, utilisez [stegcracker](https://github.com/Paradoxis/StegCracker.git) comme suit :
 ```bash
 stegcracker <file> [<wordlist>]
 ```
@@ -120,7 +120,7 @@ zsteg se spécialise dans la découverte de données cachées dans les fichiers 
 
 ### **StegoVeritas et Stegsolve**
 
-**stegoVeritas** vérifie les métadonnées, effectue des transformations d'image, et applique la force brute LSB, entre autres fonctionnalités. Utilisez `stegoveritas.py -h` pour une liste complète des options et `stegoveritas.py stego.jpg` pour exécuter toutes les vérifications.
+**stegoVeritas** vérifie les métadonnées, effectue des transformations d'image et applique la force brute LSB, entre autres fonctionnalités. Utilisez `stegoveritas.py -h` pour une liste complète des options et `stegoveritas.py stego.jpg` pour exécuter toutes les vérifications.
 
 **Stegsolve** applique divers filtres de couleur pour révéler des textes ou des messages cachés dans les images. Il est disponible sur [GitHub](https://github.com/eugenekolo/sec-tools/tree/master/stego/stegsolve/stegsolve).
 
@@ -137,6 +137,8 @@ Les techniques de Transformée de Fourier Rapide (FFT) peuvent révéler du cont
 Stegpy permet d'incorporer des informations dans des fichiers image et audio, prenant en charge des formats tels que PNG, BMP, GIF, WebP et WAV. Il est disponible sur [GitHub](https://github.com/dhsdshdhk/stegpy).
 
 ### **Pngcheck pour l'analyse des fichiers PNG**
+
+Pour analyser les fichiers PNG ou valider leur authenticité, utilisez:
 ```bash
 apt-get install pngcheck
 pngcheck stego.png
@@ -151,7 +153,7 @@ Pour une exploration plus approfondie, envisagez de visiter :
 * [OpenStego](https://www.openstego.com/)
 * [DIIT](https://diit.sourceforge.net/)
 
-## **Extraction de données à partir d'audios**
+## **Extraction de données des fichiers audio**
 
 La **stéganographie audio** offre une méthode unique pour dissimuler des informations dans des fichiers sonores. Différents outils sont utilisés pour incorporer ou récupérer du contenu caché.
 
@@ -165,7 +167,7 @@ Cet outil est compatible avec une variété de formats, y compris PNG, BMP, GIF,
 
 ### **ffmpeg**
 
-ffmpeg est essentiel pour évaluer l'intégrité des fichiers audio, mettant en lumière des informations détaillées et identifiant toute anomalie.
+ffmpeg est essentiel pour évaluer l'intégrité des fichiers audio, mettre en évidence des informations détaillées et repérer d'éventuelles anomalies.
 ```bash
 ffmpeg -v info -i stego.mp3 -f null -
 ```
@@ -185,7 +187,7 @@ Deepsound permet le chiffrement et la détection d'informations dans des fichier
 
 Un outil inestimable pour l'inspection visuelle et analytique des fichiers audio, Sonic Visualizer peut révéler des éléments cachés indétectables par d'autres moyens. Visitez le [site officiel](https://www.sonicvisualiser.org/) pour en savoir plus.
 
-### **Tonalités DTMF - Tonalités de composition**
+### **Tonalités DTMF - Tonalités de numérotation**
 
 La détection des tonalités DTMF dans les fichiers audio peut être réalisée à l'aide d'outils en ligne tels que [ce détecteur DTMF](https://unframework.github.io/dtmf-detect/) et [DialABC](http://dialabc.com/sound/detect/index.html).
 
@@ -193,7 +195,7 @@ La détection des tonalités DTMF dans les fichiers audio peut être réalisée 
 
 ### **Longueur Binaire SQRT - Code QR**
 
-Des données binaires qui donnent un nombre entier en racine carrée peuvent représenter un code QR. Utilisez cet extrait de code pour vérifier :
+Les données binaires qui donnent un nombre entier en carré peuvent représenter un code QR. Utilisez ce snippet pour vérifier:
 ```python
 import math
 math.sqrt(2500) #50
@@ -204,7 +206,7 @@ Pour la conversion binaire en image, consultez [dcode](https://www.dcode.fr/bina
 
 ### **Traduction en Braille**
 
-Pour traduire le Braille, le [traducteur Braille Branah](https://www.branah.com/braille-translator) est une excellente ressource.
+Pour traduire en Braille, le [traducteur Braille Branah](https://www.branah.com/braille-translator) est une excellente ressource.
 
 ## **Références**
 
@@ -213,7 +215,7 @@ Pour traduire le Braille, le [traducteur Braille Branah](https://www.branah.com/
 
 **Groupe de sécurité Try Hard**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -221,12 +223,12 @@ Pour traduire le Braille, le [traducteur Braille Branah](https://www.branah.com/
 
 <summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Autres façons de soutenir HackTricks :
+Autres façons de soutenir HackTricks:
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez** 💬 le [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>

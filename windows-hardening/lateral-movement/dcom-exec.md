@@ -14,7 +14,7 @@
 
 **Groupe de sécurité Try Hard**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -25,7 +25,7 @@
 **Pour plus d'informations sur cette technique, consultez l'article original sur [https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/](https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/)**
 
 
-Le modèle d'objet de composant distribué (DCOM) offre une capacité intéressante pour les interactions basées sur le réseau avec des objets. Microsoft fournit une documentation complète pour à la fois DCOM et le modèle d'objet de composant (COM), accessible [ici pour DCOM](https://msdn.microsoft.com/en-us/library/cc226801.aspx) et [ici pour COM](https://msdn.microsoft.com/en-us/library/windows/desktop/ms694363\(v=vs.85\).aspx). Une liste des applications DCOM peut être récupérée en utilisant la commande PowerShell :
+Le modèle d'objet de composant distribué (DCOM) présente une capacité intéressante pour les interactions basées sur le réseau avec des objets. Microsoft fournit une documentation complète pour à la fois DCOM et le modèle d'objet de composant (COM), accessible [ici pour DCOM](https://msdn.microsoft.com/en-us/library/cc226801.aspx) et [ici pour COM](https://msdn.microsoft.com/en-us/library/windows/desktop/ms694363\(v=vs.85\).aspx). Une liste des applications DCOM peut être récupérée en utilisant la commande PowerShell :
 ```bash
 Get-CimInstance Win32_DCOMApplication
 ```
@@ -55,9 +55,9 @@ ls \\10.10.10.10\c$\Users
 
 **Pour plus d'informations sur cette technique, consultez l'article original [https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/](https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/)**
 
-L'objet **MMC20.Application** a été identifié comme manquant de "LaunchPermissions" explicites, se contentant des autorisations permettant l'accès aux administrateurs. Pour plus de détails, un fil peut être exploré [ici](https://twitter.com/tiraniddo/status/817532039771525120), et l'utilisation de [@tiraniddo](https://twitter.com/tiraniddo)’s OleView .NET pour filtrer les objets sans autorisation de lancement explicite est recommandée.
+L'objet **MMC20.Application** a été identifié comme manquant de "LaunchPermissions" explicites, se basant sur des autorisations permettant l'accès aux administrateurs par défaut. Pour plus de détails, un fil de discussion peut être exploré [ici](https://twitter.com/tiraniddo/status/817532039771525120), et l'utilisation de [@tiraniddo](https://twitter.com/tiraniddo) OleView .NET pour filtrer les objets sans autorisation de lancement explicite est recommandée.
 
-Deux objets spécifiques, `ShellBrowserWindow` et `ShellWindows`, ont été mis en avant en raison de leur absence de Launch Permissions explicites. L'absence d'une entrée de registre `LaunchPermission` sous `HKCR:\AppID\{guid}` signifie l'absence d'autorisations explicites.
+Deux objets spécifiques, `ShellBrowserWindow` et `ShellWindows`, ont été mis en avant en raison de leur absence d'autorisations de lancement explicites. L'absence d'une entrée de registre `LaunchPermission` sous `HKCR:\AppID\{guid}` signifie l'absence d'autorisations explicites.
 
 ###  ShellWindows
 Pour `ShellWindows`, qui ne possède pas de ProgID, les méthodes .NET `Type.GetTypeFromCLSID` et `Activator.CreateInstance` facilitent l'instanciation de l'objet en utilisant son AppID. Ce processus exploite OleView .NET pour récupérer le CLSID de `ShellWindows`. Une fois instancié, l'interaction est possible via la méthode `WindowsShell.Item`, permettant l'invocation de méthodes telles que `Document.Application.ShellExecute`.
@@ -73,7 +73,7 @@ $item.Document.Application.ShellExecute("cmd.exe", "/c calc.exe", "c:\windows\sy
 
 Le mouvement latéral peut être réalisé en exploitant les objets DCOM Excel. Pour des informations détaillées, il est conseillé de lire la discussion sur l'utilisation de Excel DDE pour le mouvement latéral via DCOM sur le [blog de Cybereason](https://www.cybereason.com/blog/leveraging-excel-dde-for-lateral-movement-via-dcom).
 
-Le projet Empire fournit un script PowerShell, qui démontre l'utilisation d'Excel pour l'exécution de code à distance (RCE) en manipulant des objets DCOM. Ci-dessous des extraits du script disponible sur le [dépôt GitHub d'Empire](https://github.com/EmpireProject/Empire/blob/master/data/module_source/lateral_movement/Invoke-DCOM.ps1), montrant différentes méthodes pour abuser d'Excel pour le RCE:
+Le projet Empire fournit un script PowerShell, qui démontre l'utilisation de Excel pour l'exécution de code à distance (RCE) en manipulant des objets DCOM. Ci-dessous des extraits du script disponible sur le [dépôt GitHub d'Empire](https://github.com/EmpireProject/Empire/blob/master/data/module_source/lateral_movement/Invoke-DCOM.ps1), présentant différentes méthodes pour abuser de Excel pour le RCE:
 ```powershell
 # Detection of Office version
 elseif ($Method -Match "DetectOffice") {
@@ -109,7 +109,7 @@ SharpLateral.exe reddcom HOSTNAME C:\Users\Administrator\Desktop\malware.exe
 ## Outils Automatiques
 
 * Le script Powershell [**Invoke-DCOM.ps1**](https://github.com/EmpireProject/Empire/blob/master/data/module\_source/lateral\_movement/Invoke-DCOM.ps1) permet d'invoquer facilement toutes les méthodes commentées pour exécuter du code sur d'autres machines.
-* Vous pourriez également utiliser [**SharpLateral**](https://github.com/mertdas/SharpLateral) :
+* Vous pourriez également utiliser [**SharpLateral**](https://github.com/mertdas/SharpLateral):
 ```bash
 SharpLateral.exe reddcom HOSTNAME C:\Users\Administrator\Desktop\malware.exe
 ```
@@ -120,7 +120,7 @@ SharpLateral.exe reddcom HOSTNAME C:\Users\Administrator\Desktop\malware.exe
 
 **Groupe de sécurité Try Hard**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 

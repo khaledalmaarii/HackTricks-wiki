@@ -14,7 +14,7 @@
 
 **Groupe de sécurité Try Hard**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -24,7 +24,7 @@ Avec [**Flipper Zero**](https://flipperzero.one/), vous pouvez :
 
 * **Écouter/Capturer/Rejouer des fréquences radio:** [**Sub-GHz**](fz-sub-ghz.md)
 * **Lire/Capturer/Émuler des cartes NFC:** [**NFC**](fz-nfc.md)
-* **Lire/Capturer/Émuler des tags 125kHz:** [**RFID 125kHz**](fz-125khz-rfid.md)
+* **Lire/Capturer/Émuler des balises 125kHz:** [**RFID 125kHz**](fz-125khz-rfid.md)
 * **Lire/Capturer/Envoyer des signaux infrarouges:** [**Infrarouge**](fz-infrared.md)
 * **Lire/Capturer/Émuler des iButtons:** [**iButton**](../ibutton.md)
 * **L'utiliser comme Bad USB**
@@ -35,7 +35,7 @@ Avec [**Flipper Zero**](https://flipperzero.one/), vous pouvez :
 
 **Groupe de sécurité Try Hard**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 

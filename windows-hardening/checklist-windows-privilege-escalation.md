@@ -2,13 +2,13 @@
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert Red Team AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks :
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
@@ -16,7 +16,7 @@ Autres façons de soutenir HackTricks :
 
 **Groupe de sécurité Try Hard**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -26,10 +26,10 @@ Autres façons de soutenir HackTricks :
 
 ### [Informations système](windows-local-privilege-escalation/#system-info)
 
-* [ ] Obtenir les [**informations système**](windows-local-privilege-escalation/#system-info)
-* [ ] Rechercher des **exploits du noyau** [**en utilisant des scripts**](windows-local-privilege-escalation/#version-exploits)
-* [ ] Utiliser **Google pour rechercher** des **exploits du noyau**
-* [ ] Utiliser **searchsploit pour rechercher** des **exploits du noyau**
+* [ ] Obtenir des [**informations système**](windows-local-privilege-escalation/#system-info)
+* [ ] Rechercher des **exploits de kernel** [**en utilisant des scripts**](windows-local-privilege-escalation/#version-exploits)
+* [ ] Utiliser **Google pour rechercher** des **exploits de kernel**
+* [ ] Utiliser **searchsploit pour rechercher** des **exploits de kernel**
 * [ ] Informations intéressantes dans les [**variables d'environnement**](windows-local-privilege-escalation/#environment) ?
 * [ ] Mots de passe dans l'**historique PowerShell**](windows-local-privilege-escalation/#powershell-history) ?
 * [ ] Informations intéressantes dans les [**paramètres Internet**](windows-local-privilege-escalation/#internet-settings) ?
@@ -49,7 +49,7 @@ Autres façons de soutenir HackTricks :
 * [**Stratégie AppLocker**](authentication-credentials-uac-and-efs#applocker-policy) ?
 * [**UAC**](authentication-credentials-uac-and-efs/uac-user-account-control)
 * [**Privilèges utilisateur**](windows-local-privilege-escalation/#users-and-groups)
-* Vérifier les [**privilèges utilisateur**](windows-local-privilege-escalation/#users-and-groups) **actuels**
+* Vérifier les [**privilèges utilisateur actuels**](windows-local-privilege-escalation/#users-and-groups)
 * Êtes-vous [**membre d'un groupe privilégié**](windows-local-privilege-escalation/#privileged-groups) ?
 * Vérifier si vous avez activé [l'un de ces jetons](windows-local-privilege-escalation/#token-manipulation) : **SeImpersonatePrivilege, SeAssignPrimaryPrivilege, SeTcbPrivilege, SeBackupPrivilege, SeRestorePrivilege, SeCreateTokenPrivilege, SeLoadDriverPrivilege, SeTakeOwnershipPrivilege, SeDebugPrivilege** ?
 * [**Sessions utilisateur**](windows-local-privilege-escalation/#logged-users-sessions) ?
@@ -64,7 +64,7 @@ Autres façons de soutenir HackTricks :
 
 ### [Processus en cours d'exécution](windows-local-privilege-escalation/#running-processes)
 
-* Autorisations des fichiers et dossiers des binaires de processus [**](windows-local-privilege-escalation/#file-and-folder-permissions)
+* Autorisations des fichiers binaires des processus [**fichier et dossiers**](windows-local-privilege-escalation/#file-and-folder-permissions)
 * [**Extraction de mots de passe en mémoire**](windows-local-privilege-escalation/#memory-password-mining)
 * [**Applications GUI non sécurisées**](windows-local-privilege-escalation/#insecure-gui-apps)
 * Voler des informations d'identification avec des **processus intéressants** via `ProcDump.exe` ? (firefox, chrome, etc ...)
@@ -74,7 +74,7 @@ Autres façons de soutenir HackTricks :
 * [Pouvez-vous **modifier un service** ?](windows-local-privilege-escalation#permissions)
 * [Pouvez-vous **modifier** le **binaire** exécuté par un **service** ?](windows-local-privilege-escalation/#modify-service-binary-path)
 * [Pouvez-vous **modifier** le **registre** d'un **service** ?](windows-local-privilege-escalation/#services-registry-modify-permissions)
-* Pouvez-vous profiter de tout **chemin binaire de service non mis entre guillemets** ?](windows-local-privilege-escalation/#unquoted-service-paths)
+* Pouvez-vous profiter de tout **chemin binaire de service non entre guillemets** ?](windows-local-privilege-escalation/#unquoted-service-paths)
 
 ### [**Applications**](windows-local-privilege-escalation/#applications)
 
@@ -113,7 +113,7 @@ Autres façons de soutenir HackTricks :
 * [ ] [**Informations d'identification Cloud**](windows-local-privilege-escalation/#cloud-credentials)?
 * [ ] Fichier [**McAfee SiteList.xml**](windows-local-privilege-escalation/#mcafee-sitelist.xml)?
 * [ ] [**Mot de passe GPP mis en cache**](windows-local-privilege-escalation/#cached-gpp-pasword)?
-* [ ] Mot de passe dans le fichier de configuration web [**IIS**](windows-local-privilege-escalation/#iis-web-config)?
+* [ ] Mot de passe dans le fichier de configuration web [**IIS Web config file**](windows-local-privilege-escalation/#iis-web-config)?
 * [ ] Informations intéressantes dans les [**logs web**](windows-local-privilege-escalation/#logs)?
 * [ ] Voulez-vous [**demander des informations d'identification**](windows-local-privilege-escalation/#ask-for-credentials) à l'utilisateur?
 * [ ] Informations intéressantes dans les [**fichiers de la Corbeille**](windows-local-privilege-escalation/#credentials-in-the-recyclebin)?
