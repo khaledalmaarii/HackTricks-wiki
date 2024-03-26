@@ -16,29 +16,29 @@ Ander maniere om HackTricks te ondersteun:
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 ***
 
-Die doel van hierdie bladsy is om **platforms te ontsluit wat soektogte vir kode** (letterlik of regex) toelaat oor duisende/miljoene repos in een of meer platforms.
+Die doel van hierdie bladsy is om **platforms te onderskei wat dit moontlik maak om vir kode te soek** (letterlik of regex) in duisende/miljoene repos op een of meer platforms.
 
 Dit help in verskeie geleenthede om te **soek na uitgelekte inligting** of vir **kwesbaarhede** patrone.
 
 * [**SourceGraph**](https://sourcegraph.com/search): Soek in miljoene repos. Daar is 'n gratis weergawe en 'n ondernemingsweergawe (met 15 dae gratis). Dit ondersteun regexes.
-* [**Github Soektog**](https://github.com/search): Soek deur Github. Dit ondersteun regexes.
+* [**Github Soektog**](https://github.com/search): Soek oor Github. Dit ondersteun regexes.
 * Dit mag ook nuttig wees om ook [**Github Kodesoektog**](https://cs.github.com/) te kontroleer.
-* [**Gitlab Gevorderde Soektog**](https://docs.gitlab.com/ee/user/search/advanced\_search.html): Soek deur Gitlab-projekte. Ondersteun regexes.
+* [**Gitlab Gevorderde Soektog**](https://docs.gitlab.com/ee/user/search/advanced\_search.html): Soek oor Gitlab projekte. Ondersteun regexes.
 * [**SearchCode**](https://searchcode.com/): Soek kode in miljoene projekte.
 
 {% hint style="warning" %}
-Wanneer jy na lekke in 'n repo soek en iets soos `git log -p` hardloop, moenie vergeet dat daar dalk **ander takke met ander commits** is wat geheime bevat nie!
+Wanneer jy vir lekke in 'n repo soek en iets soos `git log -p` hardloop, moenie vergeet dat daar dalk **ander takke met ander commits** is wat geheime bevat nie!
 {% endhint %}
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 

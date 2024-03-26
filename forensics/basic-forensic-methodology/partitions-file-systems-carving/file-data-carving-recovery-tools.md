@@ -10,13 +10,13 @@ Ander maniere om HackTricks te ondersteun:
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* **Deel jou haktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -43,7 +43,7 @@ binwalk --dd ".*" file #Displays and extracts all files from the given file
 ```
 ### Foremost
 
-'n Ander algemene instrument om verskuilde lêers te vind is **foremost**. Jy kan die opsetlêer van foremost vind in `/etc/foremost.conf`. As jy net wil soek na spesifieke lêers, moet jy hulle uitkommenteer. As jy niks uitkommenteer nie, sal foremost soek na sy verstek geconfigureerde lêertipes.
+'n Ander algemene instrument om verskuilde lêers te vind is **foremost**. Jy kan die opsetlêer van foremost vind in `/etc/foremost.conf`. As jy net wil soek na spesifieke lêers, moet jy hulle uitkommentarieer. As jy niks uitkommentarieer nie, sal foremost soek na sy verstek geconfigureerde lêertipes.
 ```bash
 sudo apt-get install foremost
 foremost -v -i file.img -o output
@@ -60,7 +60,7 @@ scalpel file.img -o output
 
 Hierdie gereedskap kom binne Kali, maar jy kan dit hier vind: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
 
-Hierdie gereedskap kan 'n beeld skandeer en sal **pcaps onttrek** binne-in dit, **netwerk inligting (URL's, domeine, IP's, MAC's, e-posse)** en meer **lêers**. Jy hoef net te doen:
+Hierdie gereedskap kan 'n beeld skandeer en sal **pcaps onttrek** binne dit, **netwerk inligting (URL's, domeine, IP's, MAC's, e-posse)** en meer **lêers**. Jy hoef net te doen:
 ```
 bulk_extractor memory.img -o out_folder
 ```
@@ -85,7 +85,7 @@ Kyk na die [kode](https://code.google.com/archive/p/binvis/) en die [webwerf-ins
 * Fokus op dele van 'n monster
 * **Sien van reekse en bronne**, in PE of ELF uitvoerbare lêers bv.
 * Kry **patrone** vir kriptontleding van lêers
-* **Opmerk** pakker- of enkodeeralgoritmes
+* **Opmerk** pakkerversekerings- of enkodeeralgoritmes
 * **Identifiseer** Steganografie deur patrone
 * **Visuele** binêre-verskil
 
@@ -106,13 +106,13 @@ Jy kan die linux-opdraglyn-instrument **pdftotext** gebruik om 'n pdf in te skak
 
 **Probeer Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Ander maniere om HackTricks te ondersteun:
 

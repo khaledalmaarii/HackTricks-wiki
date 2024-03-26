@@ -8,7 +8,7 @@ Ander maniere om HackTricks te ondersteun:
 
 * As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
@@ -16,7 +16,7 @@ Ander maniere om HackTricks te ondersteun:
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -45,11 +45,11 @@ Ander maniere om HackTricks te ondersteun:
 * [ ] [**LSA-beskerming**](windows-local-privilege-escalation/#lsa-protection)?
 * [ ] [**Legitimasiewag**](windows-local-privilege-escalation/#credentials-guard)[?](windows-local-privilege-escalation/#cached-credentials)
 * [ ] [**Gekasheerde Legitimasie**](windows-local-privilege-escalation/#cached-credentials)?
-* [ ] Kontroleer of enige [**AV**](windows-av-bypass) aktief is
-* [ ] [**AppLocker-beleid**](authentication-credentials-uac-and-efs#applocker-policy)?
+* [ ] Kontroleer of enige [**AV**](windows-av-bypass)
+* [**AppLocker-beleid**](authentication-credentials-uac-and-efs#applocker-policy)?
 * [**UAC**](authentication-credentials-uac-and-efs/uac-user-account-control)
-* [**Gebruikerbevoegdhede**](windows-local-privilege-escalation/#users-and-groups)
-* Kontroleer [**huidige** gebruiker **bevoegdhede**](windows-local-privilege-escalation/#users-and-groups)
+* [**Gebruikersvoorregte**](windows-local-privilege-escalation/#users-and-groups)
+* Kontroleer [**huidige** gebruiker **voorregte**](windows-local-privilege-escalation/#users-and-groups)
 * Is jy 'n [**lid van enige bevoorregte groep**](windows-local-privilege-escalation/#privileged-groups)?
 * Kontroleer of jy enige van hierdie tokens geaktiveer het: **SeImpersonatePrivilege, SeAssignPrimaryPrivilege, SeTcbPrivilege, SeBackupPrivilege, SeRestorePrivilege, SeCreateTokenPrivilege, SeLoadDriverPrivilege, SeTakeOwnershipPrivilege, SeDebugPrivilege** ?
 * [**Gebruikersessies**](windows-local-privilege-escalation/#logged-users-sessions)?
@@ -64,7 +64,7 @@ Ander maniere om HackTricks te ondersteun:
 
 ### [Lopende Prosesse](windows-local-privilege-escalation/#running-processes)
 
-* Prosesse binêre [**lêer- en vouerbevoegdhede**](windows-local-privilege-escalation/#file-and-folder-permissions)
+* Prosesse binêre [**lêer- en vouerregte**](windows-local-privilege-escalation/#file-and-folder-permissions)
 * [**Geheue Wagwoordontginning**](windows-local-privilege-escalation/#memory-password-mining)
 * [**Onveilige GUI-toepassings**](windows-local-privilege-escalation/#insecure-gui-apps)
 * Steel legitimasie met **interessante prosesse** via `ProcDump.exe` ? (firefox, chrome, ens ...)
@@ -78,7 +78,7 @@ Ander maniere om HackTricks te ondersteun:
 
 ### [**Toepassings**](windows-local-privilege-escalation/#applications)
 
-* **Skryf** [**bevoegdhede op geïnstalleerde toepassings**](windows-local-privilege-escalation/#write-permissions)
+* **Skryf** [**regte op geïnstalleerde toepassings**](windows-local-privilege-escalation/#write-permissions)
 * [**Begin Toepassings**](windows-local-privilege-escalation/#run-at-startup)
 * **Kwesbare** [**Drywers**](windows-local-privilege-escalation/#drivers)
 ### [DLL Hijacking](windows-local-privilege-escalation/#path-dll-hijacking)
@@ -89,63 +89,63 @@ Ander maniere om HackTricks te ondersteun:
 
 ### [Netwerk](windows-local-privilege-escalation/#network)
 
-* [ ] Enumerateer die netwerk (aandele, interafses, roetes, bure, ...)
-* [ ] Neem 'n spesiale kyk na netwerk dienste wat luister op die plaaslike masjien (127.0.0.1)
+* [ ] Enumerate die netwerk (aandele, interafses, roetes, bure, ...)
+* [ ] Neem 'n spesiale kyk na netwerkdienste wat luister op localhost (127.0.0.1)
 
 ### [Windows Legitieme Inligting](windows-local-privilege-escalation/#windows-credentials)
 
 * [ ] [**Winlogon** ](windows-local-privilege-escalation/#winlogon-credentials)legitieme inligting
 * [ ] [**Windows Vault**](windows-local-privilege-escalation/#credentials-manager-windows-vault) legitieme inligting wat jy kan gebruik?
 * [ ] Interessante [**DPAPI legitieme inligting**](windows-local-privilege-escalation/#dpapi)?
-* [ ] Wagwoorde van gestoorde [**Wifi netwerke**](windows-local-privilege-escalation/#wifi)?
-* [ ] Interessante inligting in [**gestoorde RDP Verbindings**](windows-local-privilege-escalation/#saved-rdp-connections)?
+* [ ] Wagwoorde van gestoorde [**Wifi-netwerke**](windows-local-privilege-escalation/#wifi)?
+* [ ] Interessante inligting in [**gestoorde RDP-konneksies**](windows-local-privilege-escalation/#saved-rdp-connections)?
 * [ ] Wagwoorde in [**onlangs uitgevoerde bevele**](windows-local-privilege-escalation/#recently-run-commands)?
-* [ ] [**Remote Desktop Legitieme Inligting Bestuurder**](windows-local-privilege-escalation/#remote-desktop-credential-manager) wagwoorde?
+* [ ] [**Remote Desktop Credentials Manager**](windows-local-privilege-escalation/#remote-desktop-credential-manager) wagwoorde?
 * [ ] [**AppCmd.exe** bestaan](windows-local-privilege-escalation/#appcmd-exe)? Legitieme inligting?
-* [ ] [**SCClient.exe**](windows-local-privilege-escalation/#scclient-sccm)? DLL Sybelading?
+* [ ] [**SCClient.exe**](windows-local-privilege-escalation/#scclient-sccm)? DLL-kantlaaiing?
 
 ### [Lêers en Registreer (Legitieme Inligting)](windows-local-privilege-escalation/#files-and-registry-credentials)
 
-* [ ] **Putty:** [**Legitieme Inligting**](windows-local-privilege-escalation/#putty-creds) **en** [**SSH gas sleutels**](windows-local-privilege-escalation/#putty-ssh-host-keys)
-* [ ] [**SSH sleutels in die register**](windows-local-privilege-escalation/#ssh-keys-in-registry)?
-* [ ] Wagwoorde in [**onbemande lêers**](windows-local-privilege-escalation/#unattended-files)?
+* [ ] **Putty:** [**Legitieme inligting**](windows-local-privilege-escalation/#putty-creds) **en** [**SSH-gashere sleutels**](windows-local-privilege-escalation/#putty-ssh-host-keys)
+* [ ] [**SSH-sleutels in die register**](windows-local-privilege-escalation/#ssh-keys-in-registry)?
+* [ ] Wagwoorde in [**ongeagte lêers**](windows-local-privilege-escalation/#unattended-files)?
 * [ ] Enige [**SAM & SYSTEM**](windows-local-privilege-escalation/#sam-and-system-backups) rugsteun?
-* [ ] [**Wolk legitieme inligting**](windows-local-privilege-escalation/#cloud-credentials)?
+* [ ] [**Wolklegitieme inligting**](windows-local-privilege-escalation/#cloud-credentials)?
 * [ ] [**McAfee SiteList.xml**](windows-local-privilege-escalation/#mcafee-sitelist.xml) lêer?
-* [**Cached GPP Wagwoord**](windows-local-privilege-escalation/#cached-gpp-pasword)?
-* Wagwoord in [**IIS Web opset lêer**](windows-local-privilege-escalation/#iis-web-config)?
-* Interessante inligting in [**web** **logs**](windows-local-privilege-escalation/#logs)?
-* Wil jy [**vra vir legitieme inligting**](windows-local-privilege-escalation/#ask-for-credentials) van die gebruiker?
-* Interessante [**lêers binne die Stortbak**](windows-local-privilege-escalation/#credentials-in-the-recyclebin)?
-* Ander [**register wat legitieme inligting bevat**](windows-local-privilege-escalation/#inside-the-registry)?
-* Binne [**Blaaier data**](windows-local-privilege-escalation/#browsers-history) (dbs, geskiedenis, bladmerke, ...)?
-* [**Generiese wagwoord soektog**](windows-local-privilege-escalation/#generic-password-search-in-files-and-registry) in lêers en register
-* [**Hulpmiddels**](windows-local-privilege-escalation/#tools-that-search-for-passwords) om outomaties vir wagwoorde te soek
+* [ ] [**Gekasieerde GPP-wagwoord**](windows-local-privilege-escalation/#cached-gpp-pasword)?
+* [ ] Wagwoord in [**IIS-webkonfigurasie-lêer**](windows-local-privilege-escalation/#iis-web-config)?
+* [ ] Interessante inligting in [**web** **logs**](windows-local-privilege-escalation/#logs)?
+* [ ] Wil jy [**vra vir legitieme inligting**](windows-local-privilege-escalation/#ask-for-credentials) van die gebruiker?
+* [ ] Interessante [**lêers binne die Stortbak**](windows-local-privilege-escalation/#credentials-in-the-recyclebin)?
+* [ ] Ander [**register wat legitieme inligting bevat**](windows-local-privilege-escalation/#inside-the-registry)?
+* [ ] Binne [**Blaaierdata**](windows-local-privilege-escalation/#browsers-history) (databasisse, geskiedenis, bladmerke, ...)?
+* [ ] [**Generiese wagwoordsoektog**](windows-local-privilege-escalation/#generic-password-search-in-files-and-registry) in lêers en register
+* [ ] [**Hulpmiddels**](windows-local-privilege-escalation/#tools-that-search-for-passwords) om outomaties vir wagwoorde te soek
 
 ### [Uitgelekte Handlers](windows-local-privilege-escalation/#leaked-handlers)
 
 * [ ] Het jy toegang tot enige handler van 'n proses wat deur 'n administrateur uitgevoer is?
 
-### [Pyp Kliënt Impersonasie](windows-local-privilege-escalation/#named-pipe-client-impersonation)
+### [Pypklient Impersonasie](windows-local-privilege-escalation/#named-pipe-client-impersonation)
 
 * [ ] Kyk of jy dit kan misbruik
 
 **Probeer Hard Sekuriteitsgroep**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 <details>
 
-<summary><strong>Leer AWS hak van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kontroleer die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou haktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>

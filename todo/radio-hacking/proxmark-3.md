@@ -4,9 +4,9 @@
 
 <summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Werk jy vir 'n **cybersekuriteitsmaatskappy**? Wil jy jou **maatskappy geadverteer sien in HackTricks**? of wil jy toegang hê tot die **nuutste weergawe van die PEASS of HackTricks aflaai in PDF-formaat**? Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* Werk jy in 'n **cybersekuriteitsmaatskappy**? Wil jy jou **maatskappy geadverteer sien in HackTricks**? of wil jy toegang hê tot die **nuutste weergawe van die PEASS of HackTricks aflaai in PDF-formaat**? Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
-* Kry die [**amptelike PEASS & HackTricks-klere**](https://peass.creator-spring.com)
+* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou haktruuks deur PR's in te dien by die** [**hacktricks-opslag**](https://github.com/carlospolop/hacktricks) **en** [**hacktricks-cloud-opslag**](https://github.com/carlospolop/hacktricks-cloud).
 
@@ -14,7 +14,7 @@
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -49,7 +49,7 @@ proxmark3> hf mf eset 01 000102030405060708090a0b0c0d0e0f # Write those bytes to
 proxmark3> hf mf eget 01 # Read block 1
 proxmark3> hf mf wrbl 01 B FFFFFFFFFFFF 000102030405060708090a0b0c0d0e0f # Write to the card
 ```
-Die Proxmark3 maak dit moontlik om ander aksies uit te voer soos **afluistering** van 'n **Tag to Reader kommunikasie** om te probeer sensitiewe data te vind. Op hierdie kaart kan jy net die kommunikasie afluister en die gebruikte sleutel bereken omdat die **kriptografiese operasies wat gebruik word swak is** en deur die plain en siffer teks te ken, kan jy dit bereken (`mfkey64`-werktuig).
+Die Proxmark3 maak dit moontlik om ander aksies uit te voer soos **afluistering** van 'n **Tag to Reader kommunikasie** om te probeer om sensitiewe data te vind. Op hierdie kaart kan jy net die kommunikasie afluister en die gebruikte sleutel bereken omdat die **kriptografiese operasies wat gebruik word swak is** en deur die plain en siffer teks te ken, kan jy dit bereken (`mfkey64`-werktuig).
 
 ### Rou Bevele
 
@@ -63,19 +63,19 @@ No chinese magic backdoor command detected
 Prng detection: WEAK
 Valid ISO14443A Tag Found - Quiting Search
 ```
-Met hierdie inligting kan jy probeer om inligting oor die kaart te soek en oor die manier waarop om daarmee te kommunikeer. Proxmark3 maak dit moontlik om rou bevele te stuur soos: `hf 14a raw -p -b 7 26`
+Met hierdie inligting kan jy probeer om inligting oor die kaart en die manier waarop dit kommunikeer, te soek. Proxmark3 maak dit moontlik om rou bevele te stuur soos: `hf 14a raw -p -b 7 26`
 
 ### Skripte
 
-Die Proxmark3 sagteware kom met 'n voorgelaaide lys van **outomatiseringskripte** wat jy kan gebruik om eenvoudige take uit te voer. Om die volledige lys te kry, gebruik die `script list` bevel. Gebruik daarna die `script run` bevel, gevolg deur die skrip se naam:
+Die Proxmark3 sagteware kom met 'n voorgelaaide lys van **outomatisering skripte** wat jy kan gebruik om eenvoudige take uit te voer. Om die volledige lys te kry, gebruik die `script list` bevel. Gebruik daarna die `script run` bevel, gevolg deur die skrip se naam:
 ```
 proxmark3> script run mfkeys
 ```
-Jy kan 'n skripsie skep om **taglesers te fuzz**, deur die data van 'n **geldige kaart** te kopieer en dan 'n **Lua-skripsie** te skryf wat een of meer **willekeurige bytes randomiseer** en nagaan of die **leser vasloop** met enige iterasie.
+Jy kan 'n skripsie skep om **taglesers te fuzz**, deur die data van 'n **geldige kaart** te kopieer en dan 'n **Lua-skripsie** te skryf wat een of meer **willekeurige bytes** randomiseer en nagaan of die **leser vasloop** met enige iterasie.
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -84,7 +84,7 @@ Jy kan 'n skripsie skep om **taglesers te fuzz**, deur die data van 'n **geldige
 
 <summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Werk jy in 'n **cybersekerheidsmaatskappy**? Wil jy jou **maatskappy geadverteer sien in HackTricks**? of wil jy toegang hê tot die **nuutste weergawe van die PEASS of HackTricks aflaai in PDF-formaat**? Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* Werk jy vir 'n **cybersekerheidsmaatskappy**? Wil jy jou **maatskappy geadverteer sien in HackTricks**? of wil jy toegang hê tot die **nuutste weergawe van die PEASS of HackTricks aflaai in PDF**? Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
