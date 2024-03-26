@@ -6,7 +6,7 @@
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -16,7 +16,7 @@ Drugi načini podrške HackTricks-u:
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -54,17 +54,17 @@ Da biste odredili frekvenciju daljinskog upravljača, uradite sledeće:
 ### Čitanje
 
 {% hint style="info" %}
-Pronađite informacije o korišćenoj frekvenciji (takođe još jedan način da se pronađe koja frekvencija se koristi)
+Pronađite informacije o korišćenoj frekvenciji (takođe još jedan način da se pronađe korišćena frekvencija)
 {% endhint %}
 
-Opcija **Čitanje** **sluša na konfigurisanoj frekvenciji** na naznačenoj modulaciji: 433.92 AM po podrazumevanim postavkama. Ako se **nešto pronađe** prilikom čitanja, **informacije se prikazuju** na ekranu. Ove informacije mogu biti korisne za replikaciju signala u budućnosti.
+Opcija **Čitanje** **sluša na konfigurisanoj frekvenciji** na naznačenoj modulaciji: 433.92 AM prema podrazumevanim postavkama. Ako se **nešto pronađe** prilikom čitanja, **informacije se prikazuju** na ekranu. Ove informacije mogu biti korisne za replikaciju signala u budućnosti.
 
-Dok se koristi Čitanje, moguće je pritisnuti **levi taster** i **konfigurisati ga**.\
+Dok se koristi Čitanje, moguće je pritisnuti **levo dugme** i **konfigurisati ga**.\
 Trenutno ima **4 modulacije** (AM270, AM650, FM328 i FM476), i **nekoliko relevantnih frekvencija** je sačuvano:
 
 <figure><img src="../../../.gitbook/assets/image (28).png" alt=""><figcaption></figcaption></figure>
 
-Možete postaviti **bilo koju koja vas zanima**, međutim, ako niste sigurni koja frekvencija bi mogla biti ona koju koristi daljinski upravljač koji imate, **postavite Hopping na ON** (Isključeno po podrazumevanim postavkama), i pritisnite dugme nekoliko puta dok Flipper ne uhvati signal i pruži vam informacije koje su vam potrebne da postavite frekvenciju.
+Možete postaviti **bilo koju koja vas zanima**, međutim, ako niste sigurni koja frekvencija bi mogla biti korišćena od strane daljinskog upravljača koji imate, **postavite Hopping na ON** (Isključeno po podrazumevanim postavkama), i pritisnite dugme nekoliko puta dok Flipper ne uhvati signal i pruži vam informacije koje su vam potrebne da postavite frekvenciju.
 
 {% hint style="danger" %}
 Prebacivanje između frekvencija traje neko vreme, stoga signali koji se prenose u trenutku prebacivanja mogu biti propušteni. Za bolji prijem signala, postavite fiksnu frekvenciju određenu Analizatorom frekvencija.
@@ -78,11 +78,11 @@ Ukradite (i ponovo reprodukujte) signal na konfigurisanoj frekvenciji
 
 Opcija **Čitanje sirovih podataka** **snima signale** poslate na slušajućoj frekvenciji. Ovo se može koristiti za **ukradanje** signala i **ponovno slanje**.
 
-Podrazumevano, **Čitanje sirovih podataka je takođe na 433.92 u AM650**, ali ako ste sa opcijom Čitanje pronašli da vas zanima signal na **drugoj frekvenciji/modulaciji, takođe je možete izmeniti** pritiskom na levo dugme (dok ste unutar opcije Čitanje sirovih podataka).
+Podrazumevano, **Čitanje sirovih podataka je takođe na 433.92 u AM650**, ali ako ste sa opcijom Čitanje pronašli da vas zanima signal na **drugoj frekvenciji/modulaciji, takođe to možete izmeniti** pritiskom na levo dugme (dok ste unutar opcije Čitanje sirovih podataka).
 
 ### Brute-Force
 
-Ako znate protokol koji se koristi na primer za garažna vrata, moguće je **generisati sve kodove i poslati ih sa Flipper Zero uređajem.** Ovo je primer koji podržava opšte poznate tipove garaža: [**https://github.com/tobiabocchi/flipperzero-bruteforce**](https://github.com/tobiabocchi/flipperzero-bruteforce)
+Ako znate protokol koji se koristi na primer za garažna vrata, moguće je **generisati sve kodove i poslati ih sa Flipper Zero uređajem.** Ovo je primer koji podržava opšte uobičajene tipove garaža: [**https://github.com/tobiabocchi/flipperzero-bruteforce**](https://github.com/tobiabocchi/flipperzero-bruteforce)
 
 ### Ručno dodavanje
 
@@ -94,20 +94,20 @@ Dodajte signale iz konfigurisane liste protokola
 
 | Princeton\_433 (radi sa većinom statičkih kodnih sistema) | 433.92 | Statički |
 | -------------------------------------------------------- | ------ | -------- |
-| Nice Flo 12bit\_433                                      | 433.92 | Statički |
-| Nice Flo 24bit\_433                                      | 433.92 | Statički |
-| CAME 12bit\_433                                          | 433.92 | Statički |
-| CAME 24bit\_433                                          | 433.92 | Statički |
-| Linear\_300                                              | 300.00 | Statički |
-| CAME TWEE                                                | 433.92 | Statički |
-| Gate TX\_433                                             | 433.92 | Statički |
-| DoorHan\_315                                             | 315.00 | Dinamički |
-| DoorHan\_433                                             | 433.92 | Dinamički |
-| LiftMaster\_315                                          | 315.00 | Dinamički |
-| LiftMaster\_390                                          | 390.00 | Dinamički |
-| Security+2.0\_310                                        | 310.00 | Dinamički |
-| Security+2.0\_315                                        | 315.00 | Dinamički |
-| Security+2.0\_390                                        | 390.00 | Dinamički |
+| Nice Flo 12bit\_433                                    | 433.92 | Statički |
+| Nice Flo 24bit\_433                                    | 433.92 | Statički |
+| CAME 12bit\_433                                        | 433.92 | Statički |
+| CAME 24bit\_433                                        | 433.92 | Statički |
+| Linear\_300                                            | 300.00 | Statički |
+| CAME TWEE                                              | 433.92 | Statički |
+| Gate TX\_433                                           | 433.92 | Statički |
+| DoorHan\_315                                           | 315.00 | Dinamički |
+| DoorHan\_433                                           | 433.92 | Dinamički |
+| LiftMaster\_315                                        | 315.00 | Dinamički |
+| LiftMaster\_390                                        | 390.00 | Dinamički |
+| Security+2.0\_310                                      | 310.00 | Dinamički |
+| Security+2.0\_315                                      | 315.00 | Dinamički |
+| Security+2.0\_390                                      | 390.00 | Dinamički |
 ### Podržani prodavci Sub-GHz
 
 Proverite listu na [https://docs.flipperzero.one/sub-ghz/supported-vendors](https://docs.flipperzero.one/sub-ghz/supported-vendors)
@@ -128,6 +128,20 @@ Dobijte dBm vrednosti sačuvanih frekvencija
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
+
+<details>
+
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+
+Drugi načini podrške HackTricks-u:
+
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+
+</details>

