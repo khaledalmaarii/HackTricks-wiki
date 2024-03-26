@@ -2,21 +2,21 @@
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
 **Kikundi cha Usalama cha Try Hard**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -74,17 +74,17 @@ Inatumika kulinganisha faili iliyobadilishwa na toleo lake la asili lililopatika
 ```bash
 cmp original.jpg stego.jpg -b -l
 ```
-## **Kuondoa Data Iliyofichwa kwenye Matini**
+## **Kuchimbua Data Iliyofichwa kwenye Matini**
 
 ### **Data Iliyofichwa kwenye Nafasi**
 
-Vipande visivyoonekana katika nafasi zisizo na maudhui yanaweza kuficha taarifa. Ili kuondoa data hii, tembelea [https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder](https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder).
+Vipande visivyoonekana katika nafasi zisizo na maudhui yanaweza kuficha taarifa. Ili kuchimba data hii, tembelea [https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder](https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder).
 
-## **Kuondoa Data kutoka kwenye Picha**
+## **Kuchimbua Data kutoka kwenye Picha**
 
 ### **Kutambua Maelezo ya Picha kwa Kutumia GraphicMagick**
 
-[GraphicMagick](https://imagemagick.org/script/download.php) inatumika kutambua aina za faili za picha na kutambua uharibifu wa uwezekano. Tekeleza amri ifuatayo kuangalia picha:
+[GraphicMagick](https://imagemagick.org/script/download.php) inatumika kutambua aina za faili za picha na kutambua uharibifu wa uwezekano. Tekeleza amri ifuatayo kuchunguza picha:
 ```bash
 ./magick identify -verbose stego.jpg
 ```
@@ -116,11 +116,11 @@ zsteg inajitolea katika kufunua data iliyofichwa katika faili za PNG na BMP. Usa
 **Amri:**
 
 * `zsteg -a faili` inatumia njia zote za ugunduzi kwenye faili.
-* `zsteg -E faili` inabainisha mzigo wa data kwa uchimbaji wa data.
+* `zsteg -E faili` inabainisha mzigo wa data kwa uchimbaji.
 
 ### **StegoVeritas na Stegsolve**
 
-**stegoVeritas** huchunguza metadata, hufanya mabadiliko ya picha, na kutumia nguvu ya LSB miongoni mwa sifa zingine. Tumia `stegoveritas.py -h` kwa orodha kamili ya chaguo na `stegoveritas.py stego.jpg` kutekeleza uchunguzi wote.
+**stegoVeritas** huchunguza metadata, hufanya mabadiliko ya picha, na kutumia nguvu ya kufikirika ya LSB miongoni mwa sifa zingine. Tumia `stegoveritas.py -h` kwa orodha kamili ya chaguo na `stegoveritas.py stego.jpg` kutekeleza uchunguzi wote.
 
 **Stegsolve** inatumia vichujio vya rangi mbalimbali kufunua maandishi au ujumbe uliofichwa ndani ya picha. Inapatikana kwenye [GitHub](https://github.com/eugenekolo/sec-tools/tree/master/stego/stegsolve/stegsolve).
 
@@ -134,7 +134,7 @@ Mbinu za Fast Fourier Transform (FFT) zinaweza kufunua yaliyofichwa katika picha
 
 ### **Stegpy kwa Faili za Sauti na Picha**
 
-Stegpy inaruhusu kuingiza habari katika faili za picha na sauti, ikisaidia muundo kama PNG, BMP, GIF, WebP, na WAV. Inapatikana kwenye [GitHub](https://github.com/dhsdshdhk/stegpy).
+Stegpy inaruhusu kuingiza habari kwenye faili za picha na sauti, ikisaidia muundo kama PNG, BMP, GIF, WebP, na WAV. Inapatikana kwenye [GitHub](https://github.com/dhsdshdhk/stegpy).
 
 ### **Pngcheck kwa Uchambuzi wa Faili za PNG**
 
@@ -167,7 +167,7 @@ Zana hii inalingana na aina mbalimbali za muundo ikiwa ni pamoja na PNG, BMP, GI
 
 ### **ffmpeg**
 
-ffmpeg ni muhimu kwa kutathmini uadilifu wa faili za sauti, kuelezea maelezo ya kina na kutambua hitilafu yoyote.
+ffmpeg ni muhimu kwa kutathmini uadilifu wa faili za sauti, kueleza maelezo ya kina na kutambua hitilafu yoyote.
 ```bash
 ffmpeg -v info -i stego.mp3 -f null -
 ```
@@ -181,26 +181,26 @@ python3 WavSteg.py -r -b 2 -s soundfile -o outputfile
 ```
 ### **Deepsound**
 
-Deepsound inaruhusu kwa encryption na uchunguzi wa habari ndani ya faili za sauti kwa kutumia AES-256. Inaweza kupakuliwa kutoka [ukurasa rasmi](http://jpinsoft.net/deepsound/download.aspx).
+Deepsound inaruhusu kufanya encryption na kugundua habari ndani ya faili za sauti kwa kutumia AES-256. Inaweza kupakuliwa kutoka [ukurasa rasmi](http://jpinsoft.net/deepsound/download.aspx).
 
 ### **Sonic Visualizer**
 
-Zana muhimu kwa uchunguzi wa kivisual na kianalitiki wa faili za sauti, Sonic Visualizer inaweza kufunua vipengele vilivyofichwa visivyoweza kugunduliwa kwa njia nyingine. Tembelea [tovuti rasmi](https://www.sonicvisualiser.org/) kwa maelezo zaidi.
+Zana muhimu kwa uchunguzi wa kivisuali na kianalitiki wa faili za sauti, Sonic Visualizer inaweza kufunua vipengele vilivyofichwa visivyoweza kugunduliwa kwa njia nyingine. Tembelea [tovuti rasmi](https://www.sonicvisualiser.org/) kwa maelezo zaidi.
 
 ### **DTMF Tones - Dial Tones**
 
-Kugundua sauti za DTMF katika faili za sauti kunaweza kufikiwa kupitia zana mtandaoni kama [hii DTMF detector](https://unframework.github.io/dtmf-detect/) na [DialABC](http://dialabc.com/sound/detect/index.html).
+Kugundua sauti za DTMF katika faili za sauti kunaweza kufanikiwa kupitia zana mtandaoni kama [hii DTMF detector](https://unframework.github.io/dtmf-detect/) na [DialABC](http://dialabc.com/sound/detect/index.html).
 
 ## **Mbinu Nyingine**
 
-### **Urefu wa Binary SQRT - QR Code**
+### **Urefu wa Binary SQRT - Msimbo wa QR**
 
-Data ya binary ambayo inapata mraba wa nambari kamili inaweza kuwakilisha QR code. Tumia sehemu hii kuangalia:
+Data ya binary ambayo inapata mraba wa nambari kamili inaweza kuwakilisha msimbo wa QR. Tumia kificho hiki kuangalia:
 ```python
 import math
 math.sqrt(2500) #50
 ```
-### **Ubadilishaji wa Braille**
+### **Tafsiri ya Braille**
 
 Kwa kutafsiri Braille, [Mwandishi wa Braille wa Branah](https://www.branah.com/braille-translator) ni rasilimali nzuri.
 
@@ -211,20 +211,20 @@ Kwa kutafsiri Braille, [Mwandishi wa Braille wa Branah](https://www.branah.com/b
 
 **Kikundi cha Usalama cha Try Hard**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kuvamia AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu zako za kuvamia kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

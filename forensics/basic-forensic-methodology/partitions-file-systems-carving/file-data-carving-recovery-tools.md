@@ -2,21 +2,21 @@
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
 **Kikundi cha Usalama cha Try Hard**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -28,13 +28,13 @@ Zana zaidi kwenye [https://github.com/Claudio-C/awesome-datarecovery](https://gi
 
 ### Autopsy
 
-Zana ya kawaida sana kutumika katika uchunguzi wa kielelezo ili kutoa faili kutoka kwa picha ni [**Autopsy**](https://www.autopsy.com/download/). Pakua, isakinishe na ifanye iingize faili ili kupata faili "zilizofichwa". Kumbuka kwamba Autopsy imejengwa kusaidia picha za diski na aina zingine za picha, lakini sio faili za kawaida.
+Zana ya kawaida sana kutumika katika uchunguzi wa kiforensiki kutoa faili kutoka kwa picha ni [**Autopsy**](https://www.autopsy.com/download/). Pakua, isakinishe na ifanye iingize faili ili kupata faili "zilizofichwa". Kumbuka kwamba Autopsy imejengwa kusaidia picha za diski na aina zingine za picha, lakini sio faili za kawaida.
 
 ### Binwalk <a href="#binwalk" id="binwalk"></a>
 
 **Binwalk** ni zana ya kuchambua faili za binary ili kupata yaliyomo yaliyofichwa. Inaweza kusakinishwa kupitia `apt` na chanzo chake kiko kwenye [GitHub](https://github.com/ReFirmLabs/binwalk).
 
-**Amri za Kufaa**:
+**Amri muhimu**:
 ```bash
 sudo apt install binwalk #Insllation
 binwalk file #Displays the embedded data in the given file
@@ -43,7 +43,7 @@ binwalk --dd ".*" file #Displays and extracts all files from the given file
 ```
 ### Foremost
 
-Chombo kingine cha kawaida cha kutafuta faili zilizofichwa ni **foremost**. Unaweza kupata faili ya usanidi wa foremost katika `/etc/foremost.conf`. Ikiwa unataka tu kutafuta baadhi ya faili maalum, toa alama ya mstari kwa faili hizo. Ikiwa hutotoa alama yoyote, foremost itatafuta aina zake za faili zilizosanidiwa kwa msingi.
+Chombo kingine cha kawaida cha kupata faili zilizofichwa ni **foremost**. Unaweza kupata faili ya usanidi wa foremost katika `/etc/foremost.conf`. Ikiwa unataka tu kutafuta baadhi ya faili maalum, toa alama ya mstari mbele yake. Ikiwa hutotoa alama yoyote, foremost itatafuta aina zake za faili zilizosanidiwa kwa chaguo-msingi.
 ```bash
 sudo apt-get install foremost
 foremost -v -i file.img -o output
@@ -58,9 +58,9 @@ scalpel file.img -o output
 ```
 ### Bulk Extractor
 
-Chombo hiki kinapatikana ndani ya kali lakini unaweza kukipata hapa: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
+Herramienta hii iko ndani ya kali lakini unaweza kuipata hapa: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
 
-Chombo hiki kinaweza kutafuta picha na **kutoa pcaps** ndani yake, **taarifa za mtandao (URLs, domains, IPs, MACs, barua pepe)** na **faili zaidi**. Unachohitaji kufanya ni:
+Herramienta hii inaweza skana picha na **kutoa pcaps** ndani yake, **taarifa za mtandao (URLs, domains, IPs, MACs, barua pepe)** na **faili zaidi**. Unachohitaji kufanya ni:
 ```
 bulk_extractor memory.img -o out_folder
 ```
@@ -74,7 +74,7 @@ Inakuja na toleo la GUI na CLI. Unaweza kuchagua **aina za faili** unazotaka Pho
 
 ### binvis
 
-Angalia [mimba](https://code.google.com/archive/p/binvis/) na [zana ya ukurasa wa wavuti](https://binvis.io/#/).
+Angalia [code](https://code.google.com/archive/p/binvis/) na [ukurasa wa zana ya wavuti](https://binvis.io/#/).
 
 #### Sifa za BinVis
 
@@ -83,7 +83,7 @@ Angalia [mimba](https://code.google.com/archive/p/binvis/) na [zana ya ukurasa w
 * Kuzingatia sehemu za sampuli
 * **Kuona maneno na rasilimali**, katika utekelezaji wa PE au ELF kwa mfano
 * Kupata **mifano** kwa cryptanalysis kwenye faili
-* **Kugundua** pakiti au algorithm za encoder
+* **Kutambua** packer au algorithms za encoder
 * **Kutambua** Steganography kwa mifano
 * **Mwangaza** wa tofauti za binary
 
@@ -104,7 +104,7 @@ Unaweza kutumia zana ya mstari wa amri ya linux **pdftotext** kubadilisha pdf ku
 
 **Kikundi cha Usalama cha Try Hard**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -112,7 +112,7 @@ Unaweza kutumia zana ya mstari wa amri ya linux **pdftotext** kubadilisha pdf ku
 
 <summary><strong>Jifunze kuhusu kuvamia AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Njia zingine za kusaidia HackTricks:
+Njia nyingine za kusaidia HackTricks:
 
 * Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
