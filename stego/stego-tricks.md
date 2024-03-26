@@ -6,7 +6,7 @@
 
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks in PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -16,7 +16,7 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -32,7 +32,7 @@ binwalk file # Displays the embedded data
 binwalk -e file # Extracts the data
 binwalk --dd ".*" file # Extracts all data
 ```
-### **Foremost**
+### **Vordergründig**
 
 Stellt Dateien basierend auf ihren Headern und Footern wieder her, nützlich für PNG-Bilder. Installiert über `apt` mit der Quelle auf [GitHub](https://github.com/korczis/foremost).
 ```bash
@@ -74,7 +74,7 @@ Nützlich zum Vergleichen einer modifizierten Datei mit ihrer Originalversion, d
 ```bash
 cmp original.jpg stego.jpg -b -l
 ```
-## **Extrahieren von versteckten Daten in Text**
+## **Extrahieren von versteckten Daten in Texten**
 
 ### **Versteckte Daten in Leerzeichen**
 
@@ -84,24 +84,24 @@ Unsichtbare Zeichen in scheinbar leeren Leerzeichen können Informationen verber
 
 ### **Identifizieren von Bilddetails mit GraphicMagick**
 
-[GraphicMagick](https://imagemagick.org/script/download.php) dient dazu, Bilddateitypen zu bestimmen und potenzielle Korruptionen zu identifizieren. Führen Sie den folgenden Befehl aus, um ein Bild zu inspizieren:
+[GraphicMagick](https://imagemagick.org/script/download.php) dient dazu, Bilddateitypen zu bestimmen und potenzielle Beschädigungen zu identifizieren. Führen Sie den folgenden Befehl aus, um ein Bild zu inspizieren:
 ```bash
 ./magick identify -verbose stego.jpg
 ```
-Um eine beschädigte Bildreparatur zu versuchen, könnte das Hinzufügen eines Metadatenkommentars hilfreich sein:
+Um eine Reparatur an einem beschädigten Bild zu versuchen, könnte das Hinzufügen eines Metadatenkommentars hilfreich sein:
 ```bash
 ./magick mogrify -set comment 'Extraneous bytes removed' stego.jpg
 ```
-### **Steghide zur Datenverdeckung**
+### **Steghide zur Datenverheimlichung**
 
-Steghide erleichtert das Verstecken von Daten in `JPEG, BMP, WAV und AU`-Dateien und kann verschlüsselte Daten einbetten und extrahieren. Die Installation ist einfach mit `apt` durchführbar, und der [Quellcode ist auf GitHub verfügbar](https://github.com/StefanoDeVuono/steghide).
+Steghide erleichtert das Verstecken von Daten in `JPEG, BMP, WAV und AU` Dateien und kann verschlüsselte Daten einbetten und extrahieren. Die Installation ist einfach mit `apt` und der [Quellcode ist auf GitHub verfügbar](https://github.com/StefanoDeVuono/steghide).
 
 **Befehle:**
 
 * `steghide info Datei` zeigt an, ob eine Datei versteckte Daten enthält.
-* `steghide extract -sf Datei [--Passwort Passwort]` extrahiert die versteckten Daten, Passwort optional.
+* `steghide extract -sf Datei [--Passwort Passwort]` extrahiert die versteckten Daten, Passwort ist optional.
 
-Für eine webbasierte Extraktion besuchen Sie [diese Website](https://futureboy.us/stegano/decinput.html).
+Für die webbasierte Extraktion besuchen Sie [diese Website](https://futureboy.us/stegano/decinput.html).
 
 **Bruteforce-Angriff mit Stegcracker:**
 
@@ -173,7 +173,7 @@ ffmpeg -v info -i stego.mp3 -f null -
 ```
 ### **WavSteg (WAV)**
 
-WavSteg zeichnet sich durch die Verwendung der Least Significant Bit-Strategie aus, um Daten in WAV-Dateien zu verbergen und extrahieren. Es ist auf [GitHub](https://github.com/ragibson/Steganography#WavSteg) verfügbar. Befehle sind:
+WavSteg zeichnet sich durch die Fähigkeit aus, Daten in WAV-Dateien mithilfe der Least Significant Bit-Strategie zu verbergen und extrahieren. Es ist auf [GitHub](https://github.com/ragibson/Steganography#WavSteg) verfügbar. Befehle sind:
 ```bash
 python3 WavSteg.py -r -b 1 -s soundfile -o outputfile
 
@@ -195,7 +195,7 @@ Die Erkennung von DTMF-Tönen in Audiodateien kann mithilfe von Online-Tools wie
 
 ### **Binäre Länge SQRT - QR-Code**
 
-Binäre Daten, die zu einer ganzen Zahl quadrieren, könnten einen QR-Code darstellen. Verwenden Sie diesen Codeausschnitt, um zu überprüfen:
+Binäre Daten, die zu einer ganzen Zahl quadrieren, könnten einen QR-Code darstellen. Verwenden Sie diesen Code-Schnipsel, um zu überprüfen:
 ```python
 import math
 math.sqrt(2500) #50
@@ -211,18 +211,18 @@ Für die Übersetzung von Braille ist der [Branah Braille Translator](https://ww
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 <details>
 
-<summary><strong>Erlernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Erlernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
 * Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
+* Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
