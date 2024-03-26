@@ -16,29 +16,29 @@
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 ***
 
-本页面的目标是列举允许在一个或多个平台中搜索代码（文字或正则表达式）的**平台**。
+本页面的目标是列举允许在一个或多个平台上搜索代码（文字或正则表达式）的**平台**。
 
-这在多种情况下有助于**搜索泄漏信息**或**漏洞**模式。
+这在多种情况下有助于搜索**泄漏信息**或**漏洞**模式。
 
 * [**SourceGraph**](https://sourcegraph.com/search): 在数百万个仓库中搜索。有免费版本和企业版本（15天免费）。支持正则表达式。
-* [**Github搜索**](https://github.com/search): 在Github中搜索。支持正则表达式。
+* [**Github搜索**](https://github.com/search): 在Github上搜索。支持正则表达式。
 * 也许还有必要检查[**Github代码搜索**](https://cs.github.com/)。
 * [**Gitlab高级搜索**](https://docs.gitlab.com/ee/user/search/advanced\_search.html): 在Gitlab项目中搜索。支持正则表达式。
 * [**SearchCode**](https://searchcode.com/): 在数百万个项目中搜索代码。
 
 {% hint style="warning" %}
-当您在一个仓库中寻找泄漏并运行类似`git log -p`的命令时，不要忘记可能存在**其他分支包含其他提交**，其中可能包含机密信息！
+当您在一个仓库中寻找泄漏并运行类似`git log -p`的命令时，不要忘记可能存在**其他分支和其他提交**包含机密信息！
 {% endhint %}
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
