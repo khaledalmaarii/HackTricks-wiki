@@ -6,7 +6,7 @@
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
@@ -34,16 +34,16 @@ Outras maneiras de apoiar o HackTricks:
 ### Técnicas de Variação de Nomes de Domínio
 
 * **Palavra-chave**: O nome de domínio **contém** uma **palavra-chave** importante do domínio original (por exemplo, zelster.com-management.com).
-* **Subdomínio com hífen**: Altera o **ponto por um hífen** de um subdomínio (por exemplo, www-zelster.com).
+* **Subdomínio com hífen**: Troque o **ponto por um hífen** de um subdomínio (por exemplo, www-zelster.com).
 * **Novo TLD**: Mesmo domínio usando um **novo TLD** (por exemplo, zelster.org)
 * **Homóglifo**: Ele **substitui** uma letra no nome de domínio por **letras que se parecem** (por exemplo, zelfser.com).
-* **Transposição:** Ele **troca duas letras** dentro do nome de domínio (por exemplo, zelster.com).
+* **Transposição:** Ele **troca duas letras** dentro do nome de domínio (por exemplo, zelsetr.com).
 * **Singularização/Pluralização**: Adiciona ou remove "s" no final do nome de domínio (por exemplo, zeltsers.com).
 * **Omissão**: Ele **remove uma** das letras do nome de domínio (por exemplo, zelser.com).
 * **Repetição:** Ele **repete uma** das letras no nome de domínio (por exemplo, zeltsser.com).
-* **Subdominado**: Introduz um **ponto** dentro do nome de domínio (por exemplo, ze.lster.com).
+* **Subdominado**: Introduza um **ponto** dentro do nome de domínio (por exemplo, ze.lster.com).
 * **Inserção**: Ele **insere uma letra** no nome de domínio (por exemplo, zerltser.com).
-* **Ponto ausente**: Anexa o TLD ao nome de domínio. (por exemplo, zelstercom.com)
+* **Ponto ausente**: Anexe o TLD ao nome de domínio. (por exemplo, zelstercom.com)
 
 **Ferramentas Automáticas**
 
@@ -102,7 +102,7 @@ ssh -L 3333:127.0.0.1:3333 <user>@<ip>
 
 **Configuração do certificado TLS**
 
-Antes deste passo, você deve **ter comprado o domínio** que irá utilizar e ele deve estar **apontando** para o **IP do VPS** onde você está configurando o **gophish**.
+Antes deste passo, você deve **já ter comprado o domínio** que irá utilizar e ele deve estar **apontando** para o **IP do VPS** onde você está configurando o **gophish**.
 ```bash
 DOMAIN="<domain>"
 wget https://dl.eff.org/certbot-auto
@@ -234,7 +234,7 @@ service gophish stop
 
 ### Aguarde e seja legítimo
 
-Quanto mais antigo for um domínio, menos provável é que ele seja identificado como spam. Portanto, você deve esperar o máximo de tempo possível (pelo menos 1 semana) antes da avaliação de phishing. Além disso, se você colocar uma página sobre um setor reputacional, a reputação obtida será melhor.
+Quanto mais antigo um domínio, menos provável é que ele seja identificado como spam. Portanto, você deve esperar o máximo de tempo possível (pelo menos 1 semana) antes da avaliação de phishing. Além disso, se você colocar uma página sobre um setor reputacional, a reputação obtida será melhor.
 
 Observe que mesmo que você tenha que esperar uma semana, você pode terminar de configurar tudo agora.
 
@@ -254,7 +254,7 @@ Este é o conteúdo que deve ser definido dentro de um registro TXT dentro do do
 ```bash
 v=spf1 mx a ip4:ip.ip.ip.ip ?all
 ```
-### Registro de Autenticação, Relatórios e Conformidade Baseados em Domínio (DMARC)
+### Registro de Autenticação, Relatórios e Conformidade de Mensagens Baseadas em Domínio (DMARC)
 
 Você deve **configurar um registro DMARC para o novo domínio**. Se você não sabe o que é um registro DMARC, [**leia esta página**](../../network-services-pentesting/pentesting-smtp/#dmarc).
 
@@ -275,7 +275,7 @@ v=DKIM1; h=sha256; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0wPibdqP
 ```
 {% endhint %}
 
-### Teste a pontuação de configuração do seu e-mail
+### Teste a pontuação da sua configuração de e-mail
 
 Você pode fazer isso usando [https://www.mail-tester.com/](https://www.mail-tester.com)\
 Apenas acesse a página e envie um e-mail para o endereço que eles fornecem:
@@ -300,15 +300,15 @@ Authentication-Results: mx.google.com;
 spf=pass (google.com: domain of contact@example.com designates --- as permitted sender) smtp.mail=contact@example.com;
 dkim=pass header.i=@example.com;
 ```
-### Remoção da Lista de Spamhouse
+### Removendo da Lista de Bloqueio do Spamhouse
 
-A página [www.mail-tester.com](www.mail-tester.com) pode indicar se o seu domínio está sendo bloqueado pelo spamhouse. Você pode solicitar a remoção do seu domínio/IP em: [https://www.spamhaus.org/lookup/](https://www.spamhaus.org/lookup/)
+A página [www.mail-tester.com](www.mail-tester.com) pode indicar se seu domínio está sendo bloqueado pelo spamhouse. Você pode solicitar a remoção do seu domínio/IP em: [https://www.spamhaus.org/lookup/](https://www.spamhaus.org/lookup/)
 
-### Remoção da Lista Negra da Microsoft
+### Removendo da Lista de Bloqueio da Microsoft
 
 Você pode solicitar a remoção do seu domínio/IP em [https://sender.office.com/](https://sender.office.com).
 
-## Criar e Lançar uma Campanha de Phishing com o GoPhish
+## Criar e Lançar uma Campanha de Phishing com GoPhish
 
 ### Perfil de Envio
 
@@ -320,15 +320,15 @@ Você pode solicitar a remoção do seu domínio/IP em [https://sender.office.co
 
 {% hint style="info" %}
 É recomendado usar a funcionalidade "**Enviar Email de Teste**" para verificar se tudo está funcionando.\
-Recomendo **enviar os emails de teste para endereços de email temporários** para evitar ser colocado em listas negras durante os testes.
+Recomendo **enviar os e-mails de teste para endereços de e-mail temporários** para evitar ser colocado em listas negras durante os testes.
 {% endhint %}
 
-### Modelo de Email
+### Modelo de E-mail
 
 * Defina um **nome para identificar** o modelo
-* Em seguida, escreva um **assunto** (nada estranho, apenas algo que você esperaria ler em um email regular)
+* Em seguida, escreva um **assunto** (nada estranho, apenas algo que você esperaria ler em um e-mail regular)
 * Certifique-se de marcar "**Adicionar Imagem de Rastreamento**"
-* Escreva o **modelo de email** (você pode usar variáveis como no exemplo a seguir):
+* Escreva o **modelo de e-mail** (você pode usar variáveis como no exemplo a seguir):
 ```markup
 <html>
 <head>
@@ -351,7 +351,7 @@ Observe que **para aumentar a credibilidade do e-mail**, é recomendável usar a
 
 * Envie um e-mail para um **endereço inexistente** e verifique se a resposta possui alguma assinatura.
 * Procure por **e-mails públicos** como info@ex.com ou press@ex.com ou public@ex.com e envie um e-mail para eles e aguarde a resposta.
-* Tente contatar **algum e-mail válido descoberto** e aguarde a resposta
+* Tente contatar **algum e-mail válido descoberto** e aguarde a resposta.
 
 ![](<../../.gitbook/assets/image (393).png>)
 
@@ -408,7 +408,7 @@ Se por algum motivo você deseja clonar o site, verifique a seguinte página:
 
 ## Documentos e Arquivos com Backdoor
 
-Em algumas avaliações de phishing (principalmente para Equipes Vermelhas), você também vai querer **enviar arquivos contendo algum tipo de backdoor** (talvez um C2 ou talvez apenas algo que acionará uma autenticação).\
+Em algumas avaliações de phishing (principalmente para Red Teams), você também vai querer **enviar arquivos contendo algum tipo de backdoor** (talvez um C2 ou talvez apenas algo que acionará uma autenticação).\
 Confira a seguinte página para alguns exemplos:
 
 {% content-ref url="phishing-documents.md" %}
@@ -419,11 +419,11 @@ Confira a seguinte página para alguns exemplos:
 
 ### Via Proxy MitM
 
-O ataque anterior é bastante inteligente, pois você está falsificando um site real e coletando as informações inseridas pelo usuário. Infelizmente, se o usuário não inserir a senha correta ou se a aplicação que você falsificou estiver configurada com autenticação de dois fatores, **essas informações não permitirão que você se passe pelo usuário enganado**.
+O ataque anterior é bastante inteligente, pois você está falsificando um site real e coletando as informações inseridas pelo usuário. Infelizmente, se o usuário não inserir a senha correta ou se a aplicação que você falsificou estiver configurada com 2FA, **essas informações não permitirão que você se passe pelo usuário enganado**.
 
 É aí que ferramentas como [**evilginx2**](https://github.com/kgretzky/evilginx2)**,** [**CredSniper**](https://github.com/ustayready/CredSniper) e [**muraena**](https://github.com/muraenateam/muraena) são úteis. Essa ferramenta permitirá que você gere um ataque tipo MitM. Basicamente, os ataques funcionam da seguinte maneira:
 
-1. Você **falsifica o formulário de login** da página real.
+1. Você **impersonifica o formulário de login** da página real.
 2. O usuário **envia** suas **credenciais** para sua página falsa e a ferramenta as envia para a página real, **verificando se as credenciais funcionam**.
 3. Se a conta estiver configurada com **2FA**, a página MitM solicitará isso e, uma vez que o **usuário o insira**, a ferramenta o enviará para a página web real.
 4. Uma vez que o usuário estiver autenticado, você (como atacante) terá **capturado as credenciais, o 2FA, o cookie e qualquer informação** de cada interação sua enquanto a ferramenta estiver realizando um MitM.
