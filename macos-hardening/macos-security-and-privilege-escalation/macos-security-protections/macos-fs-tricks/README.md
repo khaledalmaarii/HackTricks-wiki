@@ -2,19 +2,19 @@
 
 <details>
 
-<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako ikionekana katika HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
-## Mchanganyiko wa Ruhusa za POSIX
+## Mchanganyiko wa ruhusa za POSIX
 
 Ruhusa katika **directory**:
 
@@ -28,23 +28,23 @@ Ruhusa katika **directory**:
 
 **Jinsi ya kubadilisha faili/folder iliyo milikiwa na root**, lakini:
 
-* Mzazi mmoja wa **directory ni mmiliki** wa njia ni mtumiaji
+* Mzazi mmoja wa **directory ni mmiliki** katika njia ni mtumiaji
 * Mzazi mmoja wa **directory ni mmiliki wa kikundi cha watumiaji** na **ruhusa ya kuandika**
 * Kikundi cha watumiaji kina **ruhusa ya kuandika** kwa **faili**
 
-Kwa mchanganyiko wowote uliopita, mshambuliaji anaweza **kuingiza** **kiungo cha ishara/kali** kwenye njia inayotarajiwa ili kupata andika ya kiholela yenye mamlaka.
+Kwa mchanganyiko wowote uliopita, mshambuliaji anaweza **kuingiza** **kiungo cha sim/hard** kwenye njia inayotarajiwa ili kupata uandishi wa aina yoyote wa kipekee.
 
 ### Kesi Maalum ya R+X ya Mzizi wa Folda
 
-Ikiwa kuna faili katika **directory** ambapo **pekee mzizi ana ufikivu wa R+X**, hizo **hazipatikani kwa mtu mwingine yeyote**. Kwa hivyo udhaifu unaoruhusu **kuhamisha faili inayoweza kusomwa na mtumiaji**, ambayo haiwezi kusomwa kwa sababu ya **kizuizi hicho**, kutoka kwenye folda hii **kwenda kwenye nyingine**, inaweza kutumika kusoma faili hizi.
+Ikiwa kuna faili katika **directory** ambapo **root pekee ana ufikiaji wa R+X**, hizo **hazipatikani kwa mtu mwingine yeyote**. Kwa hivyo, udhaifu unaoruhusu **kuhamisha faili inayoweza kusomwa na mtumiaji**, ambayo haiwezi kusomwa kwa sababu ya **kizuizi hicho**, kutoka kwenye folda hii **kwenda kwenye nyingine**, unaweza kutumika kusoma faili hizi.
 
 Mfano katika: [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions)
 
 ## Kiungo cha Ishara / Kiungo Kali
 
-Ikiwa mchakato uliopewa mamlaka unahifadhi data katika **faili** ambayo inaweza **kudhibitiwa** na **mtumiaji mwenye mamlaka ya chini**, au ambayo inaweza **kuumbwa mapema** na mtumiaji mwenye mamlaka ya chini. Mtumiaji anaweza tu **kuielekeza kwenye faili nyingine** kupitia Kiungo cha Ishara au Kali, na mchakato uliopewa mamlaka atahifadhi kwenye faili hiyo.
+Ikiwa mchakato uliopewa mamlaka unahifadhi data katika **faili** ambayo inaweza **kudhibitiwa** na **mtumiaji mwenye mamlaka ya chini**, au ambayo inaweza **kuundwa mapema** na mtumiaji mwenye mamlaka ya chini. Mtumiaji anaweza tu **kuielekeza kwenye faili nyingine** kupitia Kiungo cha Ishara au Kiungo Kali, na mchakato uliopewa mamlaka atahifadhi kwenye faili hiyo.
 
-Angalia sehemu zingine ambapo mshambuliaji anaweza **kutumia andika ya kiholela kuinua mamlaka**.
+Angalia sehemu zingine ambapo mshambuliaji anaweza **kutumia uandishi wa aina yoyote wa kipekee kwa kukuza mamlaka**.
 
 ## .fileloc
 
@@ -64,7 +64,7 @@ Mfano:
 ```
 ## FD ya Kiholela
 
-Ikiwa unaweza kufanya **mchakato ufungue faili au folda kwa mamlaka kubwa**, unaweza kutumia **`crontab`** kufungua faili katika `/etc/sudoers.d` kwa kutumia **`EDITOR=exploit.py`**, hivyo `exploit.py` itapata FD kwa faili ndani ya `/etc/sudoers` na kuitumia.
+Ikiwa unaweza kufanya **mchakato ufungue faili au folda kwa mamlaka kubwa**, unaweza kutumia **`crontab`** kufungua faili katika `/etc/sudoers.d` kwa kutumia **`EDITOR=exploit.py`**, hivyo `exploit.py` itapata FD ya faili ndani ya `/etc/sudoers` na kuitumia.
 
 Kwa mfano: [https://youtu.be/f1HA5QhLQ7Y?t=21098](https://youtu.be/f1HA5QhLQ7Y?t=21098)
 
@@ -122,13 +122,13 @@ ls -le /tmp/test
 ```
 ### **com.apple.acl.text xattr + AppleDouble**
 
-Muundo wa faili wa **AppleDouble** unakopisha faili pamoja na ACEs zake.
+**Muundo wa faili wa AppleDouble** unakopi faili pamoja na ACEs zake.
 
-Katika [**msimbo wa chanzo**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) inawezekana kuona kuwa uwakilishi wa maandishi wa ACL uliohifadhiwa ndani ya xattr inayoitwa **`com.apple.acl.text`** utawekwa kama ACL katika faili iliyopandishwa. Kwa hivyo, ikiwa ulipandisha programu ndani ya faili ya zip na muundo wa faili wa **AppleDouble** na ACL ambayo inazuia xattrs zingine kuandikwa kwake... xattr ya karantini haikuwekwa kwenye programu:
+Katika [**msimbo wa chanzo**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) inawezekana kuona kuwa uwakilishi wa maandishi wa ACL uliohifadhiwa ndani ya xattr inayoitwa **`com.apple.acl.text`** itawekwa kama ACL katika faili iliyofunguliwa. Kwa hivyo, ikiwa ulifunga programu ndani ya faili ya zip na muundo wa faili wa **AppleDouble** na ACL ambayo inazuia xattrs zingine kuandikwa kwake... xattr ya karantini haikuwekwa kwenye programu:
 
 Angalia [**ripoti ya asili**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/) kwa maelezo zaidi.
 
-Ili kuzalisha hii kwanza tunahitaji kupata mnyororo sahihi wa acl:
+Ili kuzidisha hili kwanza tunahitaji kupata mnyororo sahihi wa acl:
 ```bash
 # Everything will be happening here
 mkdir /tmp/temp_xattrs
@@ -208,9 +208,9 @@ Inawezekana kuhesabu saini ya rasilimali kutoka kwa cli na:
 ```bash
 openssl dgst -binary -sha1 /System/Cryptexes/App/System/Applications/Safari.app/Contents/Resources/AppIcon.icns | openssl base64
 ```
-## Pakia faili za dmgs
+## Kufunga dmgs
 
-Mtumiaji anaweza kupakia faili ya dmgs iliyoundwa hata juu ya folda zilizopo. Hivi ndivyo unavyoweza kuunda pakiti ya faili ya dmgs yenye maudhui ya desturi:
+Mtumiaji anaweza kufunga dmg ya desturi hata juu ya folda zilizopo. Hivi ndivyo unavyoweza kuunda pakiti ya dmg ya desturi na maudhui ya desturi:
 ```bash
 # Create the volume
 hdiutil create /private/tmp/tmp.dmg -size 2m -ov -volname CustomVolName -fs APFS 1>/dev/null
@@ -233,15 +233,18 @@ hdiutil create -srcfolder justsome.app justsome.dmg
 ```
 {% endcode %}
 
+Kawaida macOS inamount diski ikiongea na huduma ya `com.apple.DiskArbitrarion.diskarbitrariond` (iliyotolewa na `/usr/libexec/diskarbitrationd`). Ikiwa unaweka paramu `-d` kwenye faili ya plist ya LaunchDaemons na kuanzisha upya, itahifadhi logs itahifadhi logs katika `/var/log/diskarbitrationd.log`.\
+Walakini, inawezekana kutumia zana kama `hdik` na `hdiutil` kuwasiliana moja kwa moja na `com.apple.driver.DiskImages` kext.
+
 ## Kuandika Kiholela
 
-### Skripti za kipindi cha wakati
+### Skripti za sh za kipindi
 
-Ikiwa skripti yako inaweza kufasiriwa kama **skripti ya shell** unaweza kuandika upya skripti ya shell ya **`/etc/periodic/daily/999.local`** ambayo itaendeshwa kila siku.
+Ikiwa skripti yako inaweza kufasiriwa kama **skripti ya shell** unaweza kuandika upya **`/etc/periodic/daily/999.local`** skripti ya shell ambayo itaanzishwa kila siku.
 
-Unaweza **kuiga** utekelezaji wa skripti hii kwa: **`sudo periodic daily`**
+Unaweza **kuiga** utekelezaji wa skripti hii na: **`sudo periodic daily`**
 
-### Madaemoni
+### Daemons
 
 Andika **LaunchDaemon** ya kiholela kama **`/Library/LaunchDaemons/xyz.hacktricks.privesc.plist`** na plist inayotekeleza skripti ya kiholela kama:
 ```xml
@@ -262,7 +265,7 @@ Andika **LaunchDaemon** ya kiholela kama **`/Library/LaunchDaemons/xyz.hacktrick
 ```
 ### Faili ya Sudoers
 
-Ikiwa una **uwezo wa kuandika** kwa hiari, unaweza kuunda faili ndani ya folda ya **`/etc/sudoers.d/`** ukijipa **ruhusa ya sudo**.
+Ikiwa una **uwezo wa kuandika** kwa hiari, unaweza kuunda faili ndani ya folda **`/etc/sudoers.d/`** ukijipa **ruhusa ya sudo**.
 
 ### Faili za PATH
 
@@ -272,7 +275,7 @@ Unaweza pia kuandika faili katika **`/etc/paths.d`** ili kupakia folda mpya kwen
 
 ## Unda faili zinazoweza kuandikwa kama watumiaji wengine
 
-Hii itaunda faili inayomilikiwa na mizizi ambayo inaweza kuandikwa na mimi ([**mimba kutoka hapa**](https://github.com/gergelykalman/brew-lpe-via-periodic/blob/main/brew\_lpe.sh)). Hii pia inaweza kufanya kazi kama privesc:
+Hii itaunda faili inayomilikiwa na mizizi ambayo inaweza kuandikwa na mimi ([**code kutoka hapa**](https://github.com/gergelykalman/brew-lpe-via-periodic/blob/main/brew\_lpe.sh)). Hii pia inaweza kufanya kazi kama privesc:
 ```bash
 DIRNAME=/usr/local/etc/periodic/daily
 
@@ -290,14 +293,14 @@ echo $FILENAME
 
 <details>
 
-<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu udukuzi wa AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MIPANGO YA KUJISAJILI**](https://github.com/sponsors/carlospolop)!
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>

@@ -1,96 +1,96 @@
-# Faili, Folda, na Programu za macOS & Kumbukumbu
+# macOS Faili, Folda, Binari & Kumbukumbu
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kuvamia AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
 * Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za kuvamia kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
-## Muundo wa Hiyerakia ya Faili
+## Mpangilio wa Hiyerarkia ya Faili
 
 * **/Applications**: Programu zilizosakinishwa zinapaswa kuwa hapa. Watumiaji wote wataweza kuzifikia.
-* **/bin**: Programu za amri za mstari
-* **/cores**: Ikiwepo, hutumiwa kuhifadhi kumbukumbu za msingi
-* **/dev**: Kila kitu kinachotibiwa kama faili, kwa hivyo unaweza kuona vifaa vya vifaa vilivyohifadhiwa hapa.
+* **/bin**: Binari za mstari wa amri
+* **/cores**: Ikiwepo, hutumiwa kuhifadhi dump za msingi
+* **/dev**: Kila kitu kinafanywa kama faili hivyo unaweza kuona vifaa vya vifaa vilivyohifadhiwa hapa.
 * **/etc**: Faili za usanidi
-* **/Library**: Sehemu nyingi na faili zinazohusiana na mapendeleo, akiba, na magogo zinaweza kupatikana hapa. Folda ya Maktaba iko kwenye mzizi na kwenye folda ya kila mtumiaji.
-* **/private**: Haijathibitishwa lakini folda nyingi zilizotajwa ni viungo vya ishara kwa folda ya kibinafsi.
-* **/sbin**: Programu muhimu za mfumo (zinazohusiana na usimamizi)
-* **/System**: Faili za kuendesha OS X. Unapaswa kupata hasa faili za Apple hapa (sio za watu wa tatu).
-* **/tmp**: Faili zinafutwa baada ya siku 3 (ni kiungo laini kwa /private/tmp)
-* **/Users**: Folda ya nyumbani kwa watumiaji.
-* **/usr**: Usanidi na programu za mfumo
-* **/var**: Faili za kuingiza
-* **/Volumes**: Drives zilizounganishwa zitaonekana hapa.
-* **/.vol**: Ukikimbia `stat a.txt` utapata kitu kama `16777223 7545753 -rw-r--r-- 1 username wheel ...` ambapo nambari ya kwanza ni nambari ya kitambulisho ya kiasi ambapo faili inapatikana na ya pili ni nambari ya inode. Unaweza kupata yaliyomo ya faili hii kupitia /.vol/ na habari hiyo ukikimbia `cat /.vol/16777223/7545753`
+* **/Library**: Ving'amuzi vingi na faili zinazohusiana na mapendeleo, cache na magogo zinaweza kupatikana hapa. Kuna folda ya Maktaba inayopatikana kwenye mizizi na kwenye saraka ya kila mtumiaji.
+* **/private**: Isiyoelezwa lakini ving'amuzi vingi vilivyotajwa ni viungo vya alama kwa saraka ya faragha.
+* **/sbin**: Binari muhimu za mfumo (zinazohusiana na usimamizi)
+* **/System**: Faili za kufanya OS X iende. Unapaswa kupata hasa faili za Apple hapa (si za watu wengine).
+* **/tmp**: Faili hufutwa baada ya siku 3 (ni kiungo laini kwenda /private/tmp)
+* **/Users**: Saraka ya nyumbani kwa watumiaji.
+* **/usr**: Usanidi na binari za mfumo
+* **/var**: Faili za logi
+* **/Volumes**: Madereva yaliyosakinishwa yataonekana hapa.
+* **/.vol**: Ukikimbia `stat a.txt` unapata kitu kama `16777223 7545753 -rw-r--r-- 1 jina_la_mtumiaji gurudumu ...` ambapo nambari ya kwanza ni nambari ya kitambulisho cha kiasi ambapo faili ipo na ya pili ni nambari ya inode. Unaweza kupata maudhui ya faili hii kupitia /.vol/ kwa habari hiyo ukikimbia `cat /.vol/16777223/7545753`
 
 ### Folda za Programu
 
-* **Programu za mfumo** ziko chini ya `/System/Applications`
+* **Programu za Mfumo** zinapatikana chini ya `/System/Applications`
 * **Programu zilizosakinishwa** kawaida zinasakinishwa katika `/Applications` au katika `~/Applications`
-* **Data ya programu** inaweza kupatikana katika `/Library/Application Support` kwa programu zinazotumika kama mizizi na `~/Library/Application Support` kwa programu zinazotumika kama mtumiaji.
-* **Daemons** za programu za watu wa tatu **zinahitaji kukimbia kama mizizi** kawaida ziko katika `/Library/PrivilegedHelperTools/`
-* Programu **zilizofungwa kwenye sanduku** zimepangwa katika folda ya `~/Library/Containers`. Kila programu ina folda iliyoitwa kulingana na Kitambulisho cha Pakiti cha programu (`com.apple.Safari`).
+* **Data ya Programu** inaweza kupatikana katika `/Library/Application Support` kwa programu zinazoendeshwa kama mizizi na `~/Library/Application Support` kwa programu zinazoendeshwa kama mtumiaji.
+* **Daemons** za programu za watu wengine ambazo **zinaendeshwa kama mizizi** kawaida zinapatikana katika `/Library/PrivilegedHelperTools/`
+* Programu **zilizofungwa** zimepangwa katika saraka ya `~/Library/Containers`. Kila programu ina saraka iliyoitwa kulingana na kitambulisho cha mfuko wa programu (`com.apple.Safari`).
 * **Kernel** iko katika `/System/Library/Kernels/kernel`
-* **Nyongeza za kernel za Apple** ziko katika `/System/Library/Extensions`
-* **Nyongeza za kernel za watu wa tatu** zimehifadhiwa katika `/Library/Extensions`
+* **Vifaa vya nyongeza vya kernel vya Apple** viko katika `/System/Library/Extensions`
+* **Vifaa vya nyongeza vya kernel vya watu wengine** hifadhiwa katika `/Library/Extensions`
 
 ### Faili zenye Taarifa Nyeti
 
-MacOS inahifadhi habari kama nywila katika maeneo kadhaa:
+MacOS inahifadhi taarifa kama nywila katika maeneo kadhaa:
 
 {% content-ref url="macos-sensitive-locations.md" %}
 [macos-sensitive-locations.md](macos-sensitive-locations.md)
 {% endcontent-ref %}
 
-### Wadukuzi wa Pkg Wanaoweza Kudhurika
+### Wafungaji wa pkg Wenye Udhaifu
 
 {% content-ref url="macos-installers-abuse.md" %}
 [macos-installers-abuse.md](macos-installers-abuse.md)
 {% endcontent-ref %}
 
-## Nyongeza Maalum za OS X
+## Vifaa Maalum vya OS X
 
-* **`.dmg`**: Faili za Picha za Diski za Apple ni za kawaida sana kwa wasakinishaji.
-* **`.kext`**: Inapaswa kufuata muundo maalum na ni toleo la OS X la dereva. (ni kifurushi)
-* **`.plist`**: Inajulikana pia kama orodha ya mali inahifadhi habari katika muundo wa XML au binary.
+* **`.dmg`**: Faili za Picha za Apple Disk ni za kawaida sana kwa wafungaji.
+* **`.kext`**: Lazima ifuate muundo maalum na ni toleo la OS X la dereva. (ni kifurushi)
+* **`.plist`**: Inayojulikana pia kama orodha ya mali inahifadhi taarifa kwa muundo wa XML au binary.
 * Inaweza kuwa XML au binary. Zile za binary zinaweza kusomwa na:
 * `defaults read config.plist`
 * `/usr/libexec/PlistBuddy -c print config.plsit`
 * `plutil -p ~/Library/Preferences/com.apple.screensaver.plist`
 * `plutil -convert xml1 ~/Library/Preferences/com.apple.screensaver.plist -o -`
 * `plutil -convert json ~/Library/Preferences/com.apple.screensaver.plist -o -`
-* **`.app`**: Programu za Apple zinazofuata muundo wa folda (Ni kifurushi).
+* **`.app`**: Programu za Apple zinazofuata muundo wa saraka (ni kifurushi).
 * **`.dylib`**: Maktaba za kudumu (kama faili za DLL za Windows)
-* **`.pkg`**: Ni sawa na xar (muundo wa Kumbukumbu Unaojulikana). Amri ya wasakinishaji inaweza kutumika kusakinisha yaliyomo ya faili hizi.
+* **`.pkg`**: Ni sawa na xar (muundo wa Kumbukumbu inayoweza kupanuliwa). Amri ya kufungua inaweza kutumika kusakinisha maudhui ya faili hizi.
 * **`.DS_Store`**: Faili hii iko kwenye kila saraka, inahifadhi sifa na ubinafsishaji wa saraka.
-* **`.Spotlight-V100`**: Folda hii inaonekana kwenye saraka ya mzizi ya kila kiasi kwenye mfumo.
-* **`.metadata_never_index`**: Ikiwa faili hii iko kwenye mzizi wa kiasi, Spotlight haitaunda faharisi ya kiasi hicho.
-* **`.noindex`**: Faili na saraka zenye kifungu hiki hazitafaharishwa na Spotlight.
+* **`.Spotlight-V100`**: Saraka hii inaonekana kwenye saraka ya mizizi ya kila kiasi kwenye mfumo.
+* **`.metadata_never_index`**: Ikiwa faili hii iko kwenye mizizi ya kiasi Spotlight haitaindeksi kiasi hicho.
+* **`.noindex`**: Faili na saraka zenye kivuli hicho hazitaindeksiwa na Spotlight.
 
 ### Vifurushi vya macOS
 
-Kifurushi ni **folda** ambayo **inaonekana kama kitu katika Finder** (mfano wa kifurushi ni faili za `*.app`).
+Kifurushi ni **saraka** ambayo **inaonekana kama kitu katika Finder** (mfano wa Kifurushi ni faili za `*.app`).
 
 {% content-ref url="macos-bundles.md" %}
 [macos-bundles.md](macos-bundles.md)
 {% endcontent-ref %}
 
-## Hifadhi ya Pamoja ya Dyld
+## Dyld Shared Cache
 
-Kwenye macOS (na iOS) maktaba za pamoja za mfumo, kama fremu na dylib, zinaunganishwa katika faili moja, inayoitwa **hifadhi ya pamoja ya dyld**. Hii inaboresha utendaji, kwani namna ya namna inaweza kupakia haraka.
+Kwenye macOS (na iOS) maktaba zote za mfumo, kama fremu na dylibs, zimeunganishwa katika faili moja, inayoitwa **dyld shared cache**. Hii inaboresha utendaji, kwani nambari inaweza kupakiwa haraka.
 
-Kama hifadhi ya pamoja ya dyld, kernel na nyongeza za kernel pia zimekamilishwa katika hifadhi ya kernel, ambayo inapakia wakati wa kuanza.
+Kama dyld shared cache, kernel na vifaa vya nyongeza vya kernel pia hukusanywa katika cache ya kernel, ambayo hupakiwa wakati wa kuanza.
 
-Ili kutoa maktaba kutoka kwenye faili moja ya hifadhi ya pamoja ya dylib, ilikuwa inawezekana kutumia binary [dyld\_shared\_cache\_util](https://www.mbsplugins.de/files/dyld\_shared\_cache\_util-dyld-733.8.zip) ambayo labda haifanyi kazi siku hizi lakini unaweza pia kutumia [**dyldextractor**](https://github.com/arandomdev/dyldextractor):
+Ili kutoa maktaba kutoka kwenye faili moja ya dylib shared cache ilikuwa inawezekana kutumia binary [dyld\_shared\_cache\_util](https://www.mbsplugins.de/files/dyld\_shared\_cache\_util-dyld-733.8.zip) ambayo inaweza isifanye kazi leo lakini unaweza pia kutumia [**dyldextractor**](https://github.com/arandomdev/dyldextractor):
 
 {% code overflow="wrap" %}
 ```bash
@@ -104,12 +104,12 @@ dyldex_all [dyld_shared_cache_path] # Extract all
 ```
 {% endcode %}
 
-Katika toleo za zamani unaweza kupata **shared cache** katika **`/System/Library/dyld/`**.
+Katika toleo za zamani unaweza kupata **cache iliyoshirikiwa** katika **`/System/Library/dyld/`**.
 
 Katika iOS unaweza kuzipata katika **`/System/Library/Caches/com.apple.dyld/`**.
 
 {% hint style="success" %}
-Tambua kwamba hata kama zana ya `dyld_shared_cache_util` haifanyi kazi, unaweza kumfikishia **binary ya dyld iliyoshirikiwa kwa Hopper** na Hopper ataweza kutambua maktaba zote na kukuruhusu **kuchagua ni ipi** unayotaka kuchunguza:
+Tambua kwamba hata kama zana ya `dyld_shared_cache_util` haifanyi kazi, unaweza kumtumia **dyld binary iliyoshirikiwa kwa Hopper** na Hopper itaweza kutambua maktaba zote na kukuruhusu **kuchagua ni ipi** unayotaka kuchunguza:
 {% endhint %}
 
 <figure><img src="../../../.gitbook/assets/image (680).png" alt="" width="563"><figcaption></figcaption></figure>
@@ -118,42 +118,82 @@ Tambua kwamba hata kama zana ya `dyld_shared_cache_util` haifanyi kazi, unaweza 
 
 ### Mamlaka ya Folda
 
-Katika **folda**, **kusoma** inaruhusu **kuorodhesha**, **kuandika** inaruhusu **kufuta** na **kuandika** faili ndani yake, na **kutekeleza** inaruhusu **kupitia** saraka. Kwa hivyo, kwa mfano, mtumiaji mwenye **mamlaka ya kusoma juu ya faili** ndani ya saraka ambapo hana **mamlaka ya kutekeleza** **hataweza kusoma** faili hiyo.
+Katika **folda**, **kusoma** kuruhusu **kuorodhesha**, **kuandika** kuruhusu **kufuta** na **kuandika** faili ndani yake, na **kutekeleza** kuruhusu **kuvuka** saraka. Kwa hivyo, kwa mfano, mtumiaji mwenye **ruhusa ya kusoma kwenye faili** ndani ya saraka ambapo hana ruhusa ya **utekelezaji** **hataweza kusoma** faili hiyo.
 
-### Viongeza vya Bendera
+### Modifiers ya Bendera
 
-Kuna viongeza kadhaa ambavyo vinaweza kuwekwa kwenye faili ambavyo vitafanya faili ifanye kazi tofauti. Unaweza **kuchunguza viongeza** vya faili ndani ya saraka na `ls -lO /njia/saraka`
+Kuna baadhi ya bendera ambazo zinaweza kuwekwa kwenye faili ambazo zitafanya faili zichukue tabia tofauti. Unaweza **kuangalia bendera** za faili ndani ya saraka na `ls -lO /njia/saraka`
 
-* **`uchg`**: Inajulikana kama bendera ya **uchange** itazuia **hatua yoyote** ya kubadilisha au kufuta **faili**. Kuweka bendera hiyo fanya: `chflags uchg file.txt`
-* Mtumiaji wa mizizi anaweza **kuondoa bendera** na kubadilisha faili
-* **`restricted`**: Bendera hii inafanya faili iwe **imekingwa na SIP** (hauwezi kuongeza bendera hii kwenye faili).
-* **`Sticky bit`**: Ikiwa kuna saraka na biti ya kushikamana, **tu** mmiliki wa **saraka au mizizi inaweza kubadilisha jina au kufuta** faili. Kawaida hii imewekwa kwenye saraka ya /tmp ili kuzuia watumiaji wa kawaida kufuta au kuhamisha faili za watumiaji wengine.
+* **`uchg`**: Inayojulikana kama bendera ya **uchange** itazuia **hatua yoyote** ya kubadilisha au kufuta **faili**. Kuweka ni: `chflags uchg faili.txt`
+* Mtumiaji wa mizizi anaweza **kuondoa bendera** na kuhariri faili
+* **`ilizuiwa`**: Bendera hii inafanya faili ilindwe na SIP (huwezi kuongeza bendera hii kwa faili).
+* **`Bit ya Sticky`**: Ikiwa kuna saraka yenye biti ya sticky, **pekee** mmiliki wa saraka au mizizi wanaweza kubadilisha jina au kufuta faili. Kawaida hii huwekwa kwenye saraka ya /tmp kuzuia watumiaji wa kawaida kufuta au kuhamisha faili za watumiaji wengine.
+
+Bendera zote zinaweza kupatikana kwenye faili `sys/stat.h` (ipate kwa kutumia `mdfind stat.h | grep stat.h`) na ni:
+
+* `UF_SETTABLE` 0x0000ffff: Kifuniko cha bendera zinazoweza kubadilishwa na mmiliki.
+* `UF_NODUMP` 0x00000001: Usidumishe faili.
+* `UF_IMMUTABLE` 0x00000002: Faili haitaweza kubadilishwa.
+* `UF_APPEND` 0x00000004: Kuandika kwenye faili kunaweza kuongeza tu.
+* `UF_OPAQUE` 0x00000008: Saraka ni isiyoonekana kuhusiana na muungano.
+* `UF_COMPRESSED` 0x00000020: Faili imepakatwa (baadhi ya mifumo ya faili).
+* `UF_TRACKED` 0x00000040: Hakuna arifa kwa kufuta/kubadilisha majina kwa faili zilizo na hii.
+* `UF_DATAVAULT` 0x00000080: Haki inahitajika kwa kusoma na kuandika.
+* `UF_HIDDEN` 0x00008000: Kiashiria kwamba kipengee hiki haitakiwi kuonyeshwa kwenye GUI.
+* `SF_SUPPORTED` 0x009f0000: Kifuniko cha bendera zinazoungwa mkono na msimamizi wa mizizi.
+* `SF_SETTABLE` 0x3fff0000: Kifuniko cha bendera zinazoweza kubadilishwa na msimamizi wa mizizi.
+* `SF_SYNTHETIC` 0xc0000000: Kifuniko cha bendera za kusoma tu za mfumo.
+* `SF_ARCHIVED` 0x00010000: Faili imehifadhiwa.
+* `SF_IMMUTABLE` 0x00020000: Faili haitaweza kubadilishwa.
+* `SF_APPEND` 0x00040000: Kuandika kwenye faili kunaweza kuongeza tu.
+* `SF_RESTRICTED` 0x00080000: Haki inahitajika kwa kuandika.
+* `SF_NOUNLINK` 0x00100000: Kipengee hakiwezi kuondolewa, kubadilishwa jina au kufungwa.
+* `SF_FIRMLINK` 0x00800000: Faili ni firmlink.
+* `SF_DATALESS` 0x40000000: Faili ni kitu cha bila data.
 
 ### **ACL za Faili**
 
-ACL za faili zina **ACE** (Kuingia Kudhibiti Upatikanaji) ambapo mamlaka zaidi **za kina** zinaweza kupewa watumiaji tofauti.
+ACL za Faili zina **ACE** (Viingilio vya Kudhibiti Upatikanaji) ambapo ruhusa **za kina zaidi** zinaweza kupewa watumiaji tofauti.
 
-Inawezekana kutoa **mamlaka haya** kwa **saraka**: `orodhesha`, `tafuta`, `ongeza_faili`, `ongeza_saraka_ndogo`, `futa_mtoto`, `futa_mtoto`.\
+Inawezekana kutoa **ruhusa** hizi kwa **directory**: `kuorodhesha`, `tafuta`, `ongeza_faili`, `ongeza_saraka`, `futa_mtoto`, `futa_mtoto`.\
 Na kwa **faili**: `soma`, `andika`, `ongeza`, `tekeleza`.
 
-Wakati faili ina ACL, utaona **"+" wakati wa kuorodhesha mamlaka kama vile**:
+Wakati faili ina ACL utaona **"+" wakati wa kuorodhesha ruhusa kama ilivyo**:
 ```bash
 ls -ld Movies
 drwx------+   7 username  staff     224 15 Apr 19:42 Movies
 ```
-Unaweza **kusoma ACLs** ya faili kwa kutumia:
+Unaweza **kusoma ACLs** ya faili kwa:
 ```bash
 ls -lde Movies
 drwx------+ 7 username  staff  224 15 Apr 19:42 Movies
 0: group:everyone deny delete
 ```
-Unaweza kupata **faili zote zenye ACLs** kwa kutumia (hii ni polepole sana):
+Unaweza kupata **faili zote zenye ACLs** kwa (hii ni polepole sana):
 ```bash
 ls -RAle / 2>/dev/null | grep -E -B1 "\d: "
 ```
-### Vyanzo vya Rasilimali | macOS ADS
+### Atributi Zilizozidishwa
 
-Hii ni njia ya kupata **Alternate Data Streams kwenye mashine za MacOS**. Unaweza kuokoa maudhui ndani ya sifa iliyopanuliwa inayoitwa **com.apple.ResourceFork** ndani ya faili kwa kuokoa katika **file/..namedfork/rsrc**.
+Atributi zilizozidishwa zina jina na thamani inayotakiwa, na zinaweza kuonekana kwa kutumia `ls -@` na kuhaririwa kwa kutumia amri ya `xattr`. Baadhi ya atributi zilizozidishwa za kawaida ni:
+
+* `com.apple.resourceFork`: Ulinganifu wa rasilimali. Pia inaonekana kama `filename/..namedfork/rsrc`
+* `com.apple.quarantine`: MacOS: Mfumo wa karantini wa Gatekeeper (III/6)
+* `metadata:*`: MacOS: metadata mbalimbali, kama vile `_backup_excludeItem`, au `kMD*`
+* `com.apple.lastuseddate` (#PS): Tarehe ya mwisho ya matumizi ya faili
+* `com.apple.FinderInfo`: MacOS: Taarifa za Finder (k.m., vitambulisho vya rangi)
+* `com.apple.TextEncoding`: Inabainisha uendeshaji wa maandishi ya faili za ASCII
+* `com.apple.logd.metadata`: Hutumiwa na logd kwenye faili katika `/var/db/diagnostics`
+* `com.apple.genstore.*`: Uhifadhi wa kizazi (`/.DocumentRevisions-V100` katika mizizi ya mfumo wa faili)
+* `com.apple.rootless`: MacOS: Hutumiwa na System Integrity Protection kuweka lebo kwenye faili (III/10)
+* `com.apple.uuidb.boot-uuid`: Alama za logd za vipindi vya kuanza upya na UUID ya kipekee
+* `com.apple.decmpfs`: MacOS: Ufutwaji wa faili kwa uwazi (II/7)
+* `com.apple.cprotect`: \*OS: Data ya kielektroniki ya kila faili (III/11)
+* `com.apple.installd.*`: \*OS: Metadata hutumiwa na installd, k.m., `installType`, `uniqueInstallID`
+
+### Rasilimali Forks | macOS ADS
+
+Hii ni njia ya kupata **Mizani za Data Mbadala kwenye mashine za MacOS**. Unaweza kuokoa maudhui ndani ya atributi iliyozidishwa inayoitwa **com.apple.ResourceFork** ndani ya faili kwa kuihifadhi katika **file/..namedfork/rsrc**.
 ```bash
 echo "Hello" > a.txt
 echo "Hello Mac ADS" > a.txt/..namedfork/rsrc
@@ -164,58 +204,64 @@ com.apple.ResourceFork: Hello Mac ADS
 ls -l a.txt #The file length is still q
 -rw-r--r--@ 1 username  wheel  6 17 Jul 01:15 a.txt
 ```
-Unaweza **kupata faili zote zinazohifadhi sifa hii ya ziada** kwa kutumia:
+Unaweza **kupata faili zote zinazo na sifa hii ya ziada** kwa:
 
 {% code overflow="wrap" %}
 ```bash
 find / -type f -exec ls -ld {} \; 2>/dev/null | grep -E "[x\-]@ " | awk '{printf $9; printf "\n"}' | xargs -I {} xattr -lv {} | grep "com.apple.ResourceFork"
 ```
-{% endcode %}
+### decmpfs
 
-## **Universal binaries &** Mach-o Format
+Kipengele cha ziada `com.apple.decmpfs` inaonyesha kuwa faili imehifadhiwa kwa njia ya kusimbwa, `ls -l` itaripoti **ukubwa wa 0** na data iliyosimbwa iko ndani ya kipengele hiki. Kila wakati faili inapofikiwa itadondoshwa katika kumbukumbu.
 
-Binaries za Mac OS kawaida zinakusanywa kama **universal binaries**. **Universal binary** inaweza **kusaidia miundo tofauti ya usanidi katika faili moja**.
+Kipengele hiki kinaweza kuonekana na `ls -lO` kikiashiria kama kimezimwa kwa sababu faili zilizosimbwa pia zinatambuliwa na bendera `UF_COMPRESSED`. Ikiwa faili iliyosimbwa inaondolewa bendera hii kwa kutumia `chflags nocompressed </path/to/file>`, mfumo hautajua kuwa faili ilikuwa imesimbwa na kwa hivyo haitaweza kuidondosha na kufikia data (itadhani kuwa ni tupu).
+
+Zana ya afscexpand inaweza kutumika kufanya kazi ya kuidondosha faili.
+
+## **Faili za Universal &** Muundo wa Mach-o
+
+Faili za Mac OS kawaida hukusanywa kama **faili za universal**. **Faili ya universal** inaweza **kusaidia miundo mingi ndani ya faili moja**.
 
 {% content-ref url="universal-binaries-and-mach-o-format.md" %}
 [universal-binaries-and-mach-o-format.md](universal-binaries-and-mach-o-format.md)
 {% endcontent-ref %}
 
-## Kudumpisha Kumbukumbu ya macOS
+## Kudondosha Kumbukumbu ya macOS
 
 {% content-ref url="macos-memory-dumping.md" %}
 [macos-memory-dumping.md](macos-memory-dumping.md)
 {% endcontent-ref %}
 
-## Pembejeo za Hatari za Faili za Mac OS
+## Aina za Hatari za Faili za Mac OS
 
-Folda `/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/System` ndio mahali ambapo habari kuhusu **hatari zinazohusiana na viendelezi tofauti vya faili zimehifadhiwa**. Folda hii inagawa faili katika viwango tofauti vya hatari, ikiongoza jinsi Safari inavyoshughulikia faili hizi baada ya kuzipakua. Vikundi hivi ni kama ifuatavyo:
+Dhibiti `/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/System` ndipo ambapo habari kuhusu **hatari inayohusiana na viendelezi vya faili tofauti imehifadhiwa**. Dhibiti hii inagawa faili katika viwango tofauti vya hatari, ikichochea jinsi Safari inavyoshughulikia faili hizi baada ya kupakuliwa. Vikundi ni kama ifuatavyo:
 
-- **LSRiskCategorySafe**: Faili katika kundi hili inachukuliwa kuwa **salama kabisa**. Safari itaifungua faili hii moja kwa moja baada ya kupakuliwa.
-- **LSRiskCategoryNeutral**: Faili hizi hazina onyo na **hazifunguliwi moja kwa moja** na Safari.
-- **LSRiskCategoryUnsafeExecutable**: Faili zilizo chini ya kundi hili **zinasababisha onyo** linaloonyesha kuwa faili hiyo ni programu. Hii ni hatua ya usalama ya kumjulisha mtumiaji.
-- **LSRiskCategoryMayContainUnsafeExecutable**: Kundi hili ni kwa ajili ya faili, kama vile nyaraka, ambazo zinaweza kuwa na programu. Safari itatoa **onyo** isipokuwa iweze kuthibitisha kuwa yaliyomo yote ni salama au yana hatari ya kawaida.
+* **LSRiskCategorySafe**: Faili katika kundi hili zinachukuliwa kuwa **salama kabisa**. Safari itafungua faili hizi moja kwa moja baada ya kupakuliwa.
+* **LSRiskCategoryNeutral**: Hizi ni faili ambazo hazina onyo na **hazifunguliwi moja kwa moja** na Safari.
+* **LSRiskCategoryUnsafeExecutable**: Faili chini ya kundi hili **huchochea onyo** linaloonyesha kuwa faili ni programu. Hii ni hatua ya usalama ya kumuarifu mtumiaji.
+* **LSRiskCategoryMayContainUnsafeExecutable**: Kundi hili ni kwa ajili ya faili, kama vile nyaraka, ambazo zinaweza kuwa na programu inayoweza kutekelezwa. Safari ita **chochea onyo** isipokuwa iweze kuthibitisha kuwa maudhui yote ni salama au yasiyo na hatari.
 
 ## Faili za Kumbukumbu
 
-* **`$HOME/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2`**: Ina habari kuhusu faili zilizopakuliwa, kama vile URL ambapo zilipakuliwa.
-* **`/var/log/system.log`**: Kumbukumbu kuu ya mifumo ya OSX. com.apple.syslogd.plist inahusika na utekelezaji wa syslogging (unaweza kuangalia ikiwa imelemazwa kwa kutafuta "com.apple.syslogd" katika `launchctl list`.
-* **`/private/var/log/asl/*.asl`**: Hizi ni Kumbukumbu za Mfumo wa Apple ambazo zinaweza kuwa na habari muhimu.
-* **`$HOME/Library/Preferences/com.apple.recentitems.plist`**: Inahifadhi faili na programu zilizotembelewa hivi karibuni kupitia "Finder".
-* **`$HOME/Library/Preferences/com.apple.loginitems.plsit`**: Inahifadhi vitu vya kuzindua wakati wa kuanza kwa mfumo.
-* **`$HOME/Library/Logs/DiskUtility.log`**: Faili ya kumbukumbu ya Programu ya DiskUtility (habari kuhusu diski, pamoja na USB).
-* **`/Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist`**: Data kuhusu vituo vya kupata mtandao wa wireless.
-* **`/private/var/db/launchd.db/com.apple.launchd/overrides.plist`**: Orodha ya daemons iliyozimwa.
+* **`$HOME/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2`**: Ina habari kuhusu faili zilizopakuliwa, kama URL kutoka mahali zilipopakuliwa.
+* **`/var/log/system.log`**: Kumbukumbu kuu ya mifumo ya OSX. com.apple.syslogd.plist inahusika na utekelezaji wa syslogging (unaweza kuangalia ikiwa imezimwa kwa kutafuta "com.apple.syslogd" katika `launchctl list`.
+* **`/private/var/log/asl/*.asl`**: Hizi ni Kumbukumbu za Mifumo ya Apple ambayo inaweza kuwa na habari ya kuvutia.
+* **`$HOME/Library/Preferences/com.apple.recentitems.plist`**: Inahifadhi faili na programu zilizoangaliwa hivi karibuni kupitia "Finder".
+* **`$HOME/Library/Preferences/com.apple.loginitems.plsit`**: Inahifadhi vitu vya kuzindua wakati wa kuanza kwa mfumo
+* **`$HOME/Library/Logs/DiskUtility.log`**: Faili ya kumbukumbu ya Programu ya DiskUtility (habari kuhusu diski, pamoja na USB)
+* **`/Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist`**: Data kuhusu pointi za kupata mtandao wa wireless.
+* **`/private/var/db/launchd.db/com.apple.launchd/overrides.plist`**: Orodha ya daemons zilizozimwa.
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kuvamia AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako inatangazwa katika HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za kuvamia kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
