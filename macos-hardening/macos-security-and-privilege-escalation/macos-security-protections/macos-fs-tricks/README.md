@@ -19,7 +19,7 @@ Outras maneiras de apoiar o HackTricks:
 Permissões em um **diretório**:
 
 * **leitura** - você pode **enumerar** as entradas do diretório
-* **escrita** - você pode **excluir/escrever** **arquivos** no diretório e você pode **excluir pastas vazias**.
+* **escrita** - você pode **excluir/escrever** **arquivos** no diretório e pode **excluir pastas vazias**.
 * Mas você **não pode excluir/modificar pastas não vazias** a menos que tenha permissões de escrita sobre elas.
 * Você **não pode modificar o nome de uma pasta** a menos que a possua.
 * **execução** - você está **autorizado a percorrer** o diretório - se você não tiver esse direito, não poderá acessar nenhum arquivo dentro dele, ou em quaisquer subdiretórios.
@@ -32,9 +32,9 @@ Permissões em um **diretório**:
 * Um **proprietário de diretório pai** no caminho é um **grupo de usuários** com **acesso de escrita**
 * Um **grupo de usuários** tem **acesso de escrita** ao **arquivo**
 
-Com qualquer uma das combinações anteriores, um atacante poderia **injetar** um **link simbólico/rígido** no caminho esperado para obter uma gravação arbitrária privilegiada.
+Com uma das combinações anteriores, um atacante poderia **injetar** um **link simbólico/rígido** no caminho esperado para obter uma gravação arbitrária privilegiada.
 
-### Caso Especial de Raiz de Pasta R+X
+### Caso Especial de Raiz da Pasta R+X
 
 Se houver arquivos em um **diretório** onde **apenas o root tem acesso R+X**, esses arquivos **não são acessíveis a mais ninguém**. Portanto, uma vulnerabilidade que permita **mover um arquivo legível por um usuário**, que não pode ser lido por causa dessa **restrição**, desta pasta **para outra diferente**, poderia ser abusada para ler esses arquivos.
 
@@ -42,7 +42,7 @@ Exemplo em: [https://theevilbit.github.io/posts/exploiting\_directory\_permissio
 
 ## Link Simbólico / Link Rígido
 
-Se um processo privilegiado estiver gravando dados em um **arquivo** que poderia ser **controlado** por um **usuário com menos privilégios**, ou que poderia ser **previamente criado** por um usuário com menos privilégios. O usuário poderia simplesmente **apontá-lo para outro arquivo** via um Link Simbólico ou Rígido, e o processo privilegiado gravará nesse arquivo.
+Se um processo privilegiado estiver gravando dados em um **arquivo** que poderia ser **controlado** por um **usuário com menos privilégios**, ou que poderia ter sido **criado anteriormente** por um usuário com menos privilégios. O usuário poderia simplesmente **apontá-lo para outro arquivo** via um link simbólico ou rígido, e o processo privilegiado gravará nesse arquivo.
 
 Verifique nas outras seções onde um atacante poderia **abusar de uma gravação arbitrária para escalar privilégios**.
 
@@ -64,17 +64,17 @@ Exemplo:
 ```
 ## FD Arbitrário
 
-Se você pode fazer um **processo abrir um arquivo ou uma pasta com altos privilégios**, você pode abusar do **`crontab`** para abrir um arquivo em `/etc/sudoers.d` com **`EDITOR=exploit.py`**, então o `exploit.py` obterá o FD para o arquivo dentro de `/etc/sudoers` e abusará dele.
+Se você conseguir fazer um **processo abrir um arquivo ou uma pasta com altos privilégios**, você pode abusar do **`crontab`** para abrir um arquivo em `/etc/sudoers.d` com **`EDITOR=exploit.py`**, então o `exploit.py` obterá o FD para o arquivo dentro de `/etc/sudoers` e abusará dele.
 
 Por exemplo: [https://youtu.be/f1HA5QhLQ7Y?t=21098](https://youtu.be/f1HA5QhLQ7Y?t=21098)
 
-## Truques para Evitar Atributos Estendidos de Quarentena
+## Evitar truques de atributos estendidos de quarentena
 
 ### Removê-lo
 ```bash
 xattr -d com.apple.quarantine /path/to/file_or_app
 ```
-### Sinalizador uchg / uchange / uimmutable
+### Bandeira uchg / uchange / uimmutable
 
 Se um arquivo/pasta tiver esse atributo imutável, não será possível colocar um xattr nele.
 ```bash
@@ -97,9 +97,9 @@ mkdir /tmp/mnt/lol
 xattr -w com.apple.quarantine "" /tmp/mnt/lol
 xattr: [Errno 1] Operation not permitted: '/tmp/mnt/lol'
 ```
-### ACL de writeextattr
+### ACL writeextattr
 
-Esta ACL impede a adição de `xattrs` ao arquivo.
+Este ACL impede a adição de `xattrs` ao arquivo.
 ```bash
 rm -rf /tmp/test*
 echo test >/tmp/test
@@ -233,9 +233,12 @@ hdiutil create -srcfolder justsome.app justsome.dmg
 ```
 {% endcode %}
 
+Normalmente, o macOS monta o disco falando com o serviço Mach `com.apple.DiskArbitrarion.diskarbitrariond` (fornecido por `/usr/libexec/diskarbitrationd`). Se adicionar o parâmetro `-d` ao arquivo plist do LaunchDaemons e reiniciar, ele armazenará logs em `/var/log/diskarbitrationd.log`.\
+No entanto, é possível usar ferramentas como `hdik` e `hdiutil` para se comunicar diretamente com o kext `com.apple.driver.DiskImages`.
+
 ## Gravações Arbitrárias
 
-### Scripts periódicos sh
+### Scripts sh periódicos
 
 Se o seu script puder ser interpretado como um **script shell**, você pode sobrescrever o script shell **`/etc/periodic/daily/999.local`** que será acionado todos os dias.
 
@@ -260,21 +263,19 @@ Escreva um **LaunchDaemon** arbitrário como **`/Library/LaunchDaemons/xyz.hackt
 </dict>
 </plist>
 ```
-Apenas gere o script `/Applications/Scripts/privesc.sh` com os **comandos** que você gostaria de executar como root.
+### Ficheiro Sudoers
 
-### Arquivo Sudoers
+Se tiver **escrita arbitrária**, poderá criar um ficheiro dentro da pasta **`/etc/sudoers.d/`** concedendo a si mesmo privilégios **sudo**.
 
-Se você tiver **escrita arbitrária**, você poderia criar um arquivo dentro da pasta **`/etc/sudoers.d/`** concedendo a si mesmo privilégios **sudo**.
+### Ficheiros PATH
 
-### Arquivos PATH
+O ficheiro **`/etc/paths`** é um dos principais locais que popula a variável de ambiente PATH. Deve ser root para o sobrescrever, mas se um script de um **processo privilegiado** estiver a executar algum **comando sem o caminho completo**, poderá **sequestrá-lo** modificando este ficheiro.
 
-O arquivo **`/etc/paths`** é um dos principais locais que popula a variável de ambiente PATH. Você deve ser root para sobrescrevê-lo, mas se um script de um **processo privilegiado** estiver executando algum **comando sem o caminho completo**, você pode ser capaz de **sequestrá-lo** modificando este arquivo.
+Também pode escrever ficheiros em **`/etc/paths.d`** para carregar novas pastas na variável de ambiente `PATH`.
 
-Você também pode escrever arquivos em **`/etc/paths.d`** para carregar novas pastas na variável de ambiente `PATH`.
+## Gerar ficheiros graváveis como outros utilizadores
 
-## Gerar arquivos graváveis como outros usuários
-
-Isso irá gerar um arquivo que pertence ao root e é gravável por mim ([**código daqui**](https://github.com/gergelykalman/brew-lpe-via-periodic/blob/main/brew\_lpe.sh)). Isso também pode funcionar como privesc:
+Isto irá gerar um ficheiro que pertence ao root e que é gravável por mim ([**código daqui**](https://github.com/gergelykalman/brew-lpe-via-periodic/blob/main/brew\_lpe.sh)). Isto também pode funcionar como privesc:
 ```bash
 DIRNAME=/usr/local/etc/periodic/daily
 
@@ -292,7 +293,7 @@ echo $FILENAME
 
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking da AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Outras maneiras de apoiar o HackTricks:
 
