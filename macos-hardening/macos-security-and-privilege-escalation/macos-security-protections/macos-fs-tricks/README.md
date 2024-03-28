@@ -8,7 +8,7 @@ Ander maniere om HackTricks te ondersteun:
 
 * As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
@@ -21,7 +21,7 @@ Toestemmings in 'n **gids**:
 * **lees** - jy kan die gidsinskrywings **opsom**
 * **skryf** - jy kan **lêers skryf/verwyder** in die gids en jy kan **leë mappe verwyder**.
 * Maar jy **kan nie nie-leë mappe verwyder/wysig** tensy jy skryftoestemmings daaroor het nie.
-* Jy **kan nie die naam van 'n map wysig** tensy jy dit besit nie.
+* Jy **kan nie die naam van 'n map wysig** tensy jy die eienaar daarvan is nie.
 * **uitvoer** - jy is **toegelaat om deur** die gids te beweeg - as jy nie hierdie reg het nie, kan jy nie enige lêers daarin, of in enige subgidse, toegang nie.
 
 ### Gevaarlike Kombinasies
@@ -36,13 +36,13 @@ Met enige van die vorige kombinasies kan 'n aanvaller 'n **sym/hard skakel** ins
 
 ### Gidsroet R+X Spesiale geval
 
-As daar lêers in 'n **gids** is waar **slegs root R+X-toegang het**, is daardie lêers **nie toeganklik vir enigiemand anders nie**. Dus kan 'n kwesbaarheid wat toelaat om 'n lêer leesbaar deur 'n gebruiker te **skuif**, wat nie gelees kan word as gevolg van daardie **beperking**, van hierdie gids **na 'n ander een**, misbruik word om hierdie lêers te lees.
+As daar lêers in 'n **gids** is waar **slegs root R+X-toegang** het, is daardie lêers **nie toeganklik vir enigiemand anders nie**. Dus kan 'n kwesbaarheid wat toelaat om 'n lêer leesbaar deur 'n gebruiker te **skuif**, wat nie gelees kan word as gevolg van daardie **beperking**, van hierdie gids **na 'n ander een**, misbruik word om hierdie lêers te lees.
 
 Voorbeeld in: [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions)
 
 ## Simboliese Skakel / Harde Skakel
 
-As 'n bevoorregte proses data in 'n **lêer** skryf wat deur 'n **laer bevoorregte gebruiker** beheer kan word, of wat deur 'n laer bevoorregte gebruiker **vooraf geskep** kan word. Die gebruiker kan dit net **na 'n ander lêer wys** via 'n Simboliese of Harde skakel, en die bevoorregte proses sal op daardie lêer skryf.
+As 'n bevoorregte proses data skryf in 'n **lêer** wat deur 'n **laer bevoorregte gebruiker beheer** kan word, of wat voorheen deur 'n laer bevoorregte gebruiker geskep kon word. Die gebruiker kan dit net **na 'n ander lêer wys** deur 'n Simboliese of Harde skakel, en die bevoorregte proses sal op daardie lêer skryf.
 
 Kyk na die ander afdelings waar 'n aanvaller 'n willekeurige skryf kan misbruik om voorregte te eskaleer.
 
@@ -124,7 +124,7 @@ ls -le /tmp/test
 
 **AppleDouble**-lêerformaat kopieer 'n lêer saam met sy ACE's.
 
-In die [**bronkode**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) is dit moontlik om te sien dat die ACL-teksverteenwoordiging wat binne die xattr genoem word **`com.apple.acl.text`** gestoor word, as ACL in die gedekomprimeerde lêer ingestel gaan word. Dus, as jy 'n aansoek in 'n zip-lêer met die **AppleDouble**-lêerformaat saam met 'n ACL wat voorkom dat ander xattrs daarin geskryf word, saamgedruk het... die karantyn-xattr is nie in die aansoek ingestel nie:
+In die [**bronkode**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) is dit moontlik om te sien dat die ACL-teksverteenwoordiging wat binne die xattr genaamd **`com.apple.acl.text`** gestoor word, as ACL in die gedekomprimeerde lêer ingestel gaan word. Dus, as jy 'n aansoek in 'n zip-lêer met die **AppleDouble**-lêerformaat saam met 'n ACL wat voorkom dat ander xattrs daaraan geskryf word, saamgedruk het... die karantyn-xattr is nie in die aansoek ingestel nie:
 
 Kyk na die [**oorspronklike verslag**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/) vir meer inligting.
 
@@ -146,7 +146,7 @@ ditto -c -k del test.zip
 ditto -x -k --rsrc test.zip .
 ls -le test
 ```
-(Moenie vergeet dat selfs as dit werk, die sandboks skryf die karantyn xattr voor)
+(Moenie vergeet dat selfs as dit werk die sandboks skryf die karantyn xattr voor)
 
 Nie regtig nodig nie, maar ek los dit daar net in geval:
 
@@ -156,9 +156,9 @@ Nie regtig nodig nie, maar ek los dit daar net in geval:
 
 ## Bypass Kodehandtekeninge
 
-Bundles bevat die lêer **`_CodeSignature/CodeResources`** wat die **hash** van elke enkele **lêer** in die **bundle** bevat. Let daarop dat die hash van CodeResources ook **ingebou is in die uitvoerbare lêer**, so ons kan nie daarmee mors nie.
+Bundles bevat die lêer **`_CodeSignature/CodeResources`** wat die **hash** van elke enkele **lêer** in die **bundel** bevat. Let daarop dat die hash van CodeResources ook **ingebou is in die uitvoerbare lêer**, so ons kan nie daarmee mors nie.
 
-Daar is egter sommige lêers waarvan die handtekening nie nagegaan sal word nie, hierdie het die sleutel uitgesluit in die plist, soos:
+Daar is egter sommige lêers waarvan die handtekening nie nagegaan sal word nie, hierdie het die sleutel uitlaat in die plist, soos:
 ```xml
 <dict>
 ...
@@ -211,6 +211,8 @@ openssl dgst -binary -sha1 /System/Cryptexes/App/System/Applications/Safari.app/
 ## Monteer dmgs
 
 'n Gebruiker kan 'n aangepaste dmg selfs bo-op bestaande lêers monteer. Dit is hoe jy 'n aangepaste dmg-pakket met aangepaste inhoud kan skep:
+
+{% code overflow="wrap" %}
 ```bash
 # Create the volume
 hdiutil create /private/tmp/tmp.dmg -size 2m -ov -volname CustomVolName -fs APFS 1>/dev/null
@@ -233,17 +235,20 @@ hdiutil create -srcfolder justsome.app justsome.dmg
 ```
 {% endcode %}
 
-## Willekeurige Skryfaksies
+Gewoonlik koppel macOS skyf deur met die `com.apple.DiskArbitrarion.diskarbitrariond` Mach-diens te praat (verskaf deur `/usr/libexec/diskarbitrationd`). As die parameter `-d` by die LaunchDaemons plist-lêer gevoeg word en herlaai word, sal dit logboeke stoor in `/var/log/diskarbitrationd.log`.\
+Dit is egter moontlik om gereedskap soos `hdik` en `hdiutil` te gebruik om direk met die `com.apple.driver.DiskImages` kext te kommunikeer.
+
+## Willekeurige Skrywings
 
 ### Periodieke sh-skripte
 
-As jou skripsie geïnterpreteer kan word as 'n **shell-skripsie** kan jy die **`/etc/periodic/daily/999.local`** shell-skripsie oorskryf wat elke dag geaktiveer sal word.
+As jou skrip geïnterpreteer kan word as 'n **shell-skrip**, kan jy die **`/etc/periodic/daily/999.local`** shell-skrip oorskryf wat elke dag geaktiveer sal word.
 
-Jy kan 'n **nep** uitvoering van hierdie skripsie maak met: **`sudo periodic daily`**
+Jy kan 'n **nep** uitvoering van hierdie skrip maak met: **`sudo periodic daily`**
 
 ### Daemons
 
-Skryf 'n willekeurige **LaunchDaemon** soos **`/Library/LaunchDaemons/xyz.hacktricks.privesc.plist`** met 'n plist wat 'n willekeurige skripsie uitvoer soos:
+Skryf 'n willekeurige **LaunchDaemon** soos **`/Library/LaunchDaemons/xyz.hacktricks.privesc.plist`** met 'n plist wat 'n willekeurige skrip uitvoer soos:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -264,13 +269,13 @@ Skryf 'n willekeurige **LaunchDaemon** soos **`/Library/LaunchDaemons/xyz.hacktr
 
 ### Sudoers-lêer
 
-As jy **willekeurige skryfregte** het, kan jy 'n lêer binne die vouer **`/etc/sudoers.d/`** skep wat jou **sudo**-bevoegdhede gee.
+As jy **willekeurige skryfregte** het, kan jy 'n lêer binne die gids **`/etc/sudoers.d/`** skep wat jou **sudo**-bevoegdhede toeken.
 
 ### PAD-lêers
 
-Die lêer **`/etc/paths`** is een van die hoofplekke wat die PAD-omgewingsveranderlike populeer. Jy moet root wees om dit te oorskryf, maar as 'n skrip van 'n **bevoorregte proses** 'n **opdrag sonder die volledige pad** uitvoer, kan jy dit dalk **kaap** deur hierdie lêer te wysig.
+Die lêer **`/etc/paths`** is een van die belangrikste plekke wat die PAD-omgewingsveranderlike populeer. Jy moet root wees om dit te oorskryf, maar as 'n skrip van 'n **bevoorregte proses** 'n **opdrag sonder die volledige pad** uitvoer, kan jy dit dalk **kaap** deur hierdie lêer te wysig.
 
-Jy kan ook lêers skryf in **`/etc/paths.d`** om nuwe vouers in die `PAD`-omgewingsveranderlike te laai.
+Jy kan ook lêers skryf in **`/etc/paths.d`** om nuwe gids in die `PAD`-omgewingsveranderlike te laai.
 
 ## Genereer skryfbare lêers as ander gebruikers
 
@@ -292,14 +297,14 @@ echo $FILENAME
 
 <details>
 
-<summary><strong>Leer AWS hakwerk vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Ander maniere om HackTricks te ondersteun:
 
 * As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kontroleer die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag. 
+* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag. 
 
 </details>
