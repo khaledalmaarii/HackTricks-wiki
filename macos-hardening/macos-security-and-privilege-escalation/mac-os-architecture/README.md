@@ -1,36 +1,36 @@
-# macOS Kernel ve Sistem Uzantıları
+# macOS Çekirdek ve Sistem Uzantıları
 
 <details>
 
-<summary><strong>AWS hackleme becerilerinizi sıfırdan ileri seviyeye taşıyın</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile</strong>!</summary>
+<summary><strong>AWS hackleme konusunda sıfırdan kahraman olmaya kadar öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile!</strong></summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
-* Şirketinizi **HackTricks'te reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin, özel [**NFT'ler**](https://opensea.io/collection/the-peass-family) içerir
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
+* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**Resmi PEASS & HackTricks ürünleri**](https://peass.creator-spring.com)'ni edinin
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)'da **takip edin**.
+* **Hacking püf noktalarınızı paylaşarak PR'ler göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
 
 ## XNU Çekirdeği
 
-**macOS'un çekirdeği XNU'dur**, "X is Not Unix" anlamına gelir. Bu çekirdek temel olarak **Mach mikroçekirdeği** (daha sonra tartışılacak) ve **Berkeley Yazılım Dağıtımı (BSD)**'den gelen öğelerden oluşur. XNU ayrıca **I/O Kit adlı bir sistem aracılığıyla çekirdek sürücüleri için bir platform sağlar**. XNU çekirdeği, Darwin açık kaynak projesinin bir parçasıdır, bu da **kaynak kodunun özgürce erişilebilir** olduğu anlamına gelir.
+**macOS'un çekirdeği XNU**'dur, "X is Not Unix" anlamına gelir. Bu çekirdek temel olarak **Mach mikroçekirdeği**nden (daha sonra tartışılacak) ve **Berkeley Yazılım Dağıtımı (BSD)**'den gelen öğelerden oluşur. XNU ayrıca **I/O Kit adlı bir sistem aracılığıyla çekirdek sürücülerine platform sağlar**. XNU çekirdeği, Darwin açık kaynak projesinin bir parçasıdır, bu da **kaynak kodunun serbestçe erişilebilir** olduğu anlamına gelir.
 
-Bir güvenlik araştırmacısı veya Unix geliştirici perspektifinden bakıldığında, **macOS**, zarif bir GUI'ye ve bir dizi özel uygulamaya sahip bir **FreeBSD** sistemiyle oldukça **benzer** hissedebilir. BSD için geliştirilen çoğu uygulama, Unix kullanıcıları için tanıdık olan komut satırı araçları macOS'ta değişiklik yapmadan derlenip çalıştırılabilir. Bununla birlikte, XNU çekirdeği Mach'ı içerdiği için geleneksel bir Unix benzeri sistem ile macOS arasında bazı önemli farklılıklar vardır ve bu farklılıklar potansiyel sorunlara veya benzersiz avantajlara neden olabilir.
+Bir güvenlik araştırmacısı veya Unix geliştirici açısından bakıldığında, **macOS**, şık bir GUI'ye ve bir dizi özel uygulamaya sahip bir **FreeBSD** sistemiyle oldukça **benzer** hissettirebilir. BSD için geliştirilen çoğu uygulama, Unix kullanıcılarına tanıdık gelen komut satırı araçları macOS'ta herhangi bir değişiklik yapmadan derlenip çalıştırılabilir. Ancak, XNU çekirdeği Mach'ı içerdiğinden, geleneksel bir Unix benzeri sistem ile macOS arasında bazı önemli farklılıklar vardır ve bu farklar potansiyel sorunlara neden olabilir veya benzersiz avantajlar sağlayabilir.
 
 XNU'nun açık kaynak sürümü: [https://opensource.apple.com/source/xnu/](https://opensource.apple.com/source/xnu/)
 
 ### Mach
 
-Mach, **UNIX uyumlu** olacak şekilde tasarlanmış bir **mikroçekirdek**tir. Temel tasarım prensiplerinden biri, **çekirdek** alanında çalışan **kod miktarını en aza indirmek** ve bunun yerine dosya sistemi, ağ ve I/O gibi birçok tipik çekirdek işlevinin **kullanıcı düzeyi görevleri olarak çalışmasına izin vermek**ti.
+Mach, **UNIX uyumlu** bir **mikroçekirdek**tir. Temel tasarım prensiplerinden biri, **çekirdek alanında çalışan kod miktarını en aza indirgemek** ve dosya sistemi, ağ ve G/Ç gibi birçok tipik çekirdek işlevinin **kullanıcı düzeyi görevleri olarak çalışmasına izin vermektir**.
 
-XNU'da Mach, **çekirdek** tarafından genellikle işlenen birçok kritik düşük seviye işlem için sorumludur, örneğin işlemci zamanlaması, çoklu görev ve sanal bellek yönetimi.
+XNU'da, Mach, işlemci planlaması, çoklu görev, ve sanal bellek yönetimi gibi bir çekirdek tipik olarak ele aldığı birçok kritik düşük seviye işlemden sorumludur.
 
 ### BSD
 
-XNU **çekirdeği**, aynı adres alanında Mach ile birlikte çalışan **FreeBSD** projesinden türetilmiş birçok kodu da **içerir**. Bununla birlikte, XNU içindeki FreeBSD kodu, uyumluluğunu sağlamak için değişiklikler gerektirdiğinden, orijinal FreeBSD kodundan önemli ölçüde farklı olabilir. FreeBSD, aşağıdaki gibi birçok çekirdek işlemine katkıda bulunur:
+XNU **çekirdeği** ayrıca **FreeBSD** projesinden türetilen önemli miktarda kodu **içerir**. Bu kod, Mach ile aynı adres alanında **çekirdeğin bir parçası olarak çalışır**. Ancak, XNU içindeki FreeBSD kodu, uyumluluğunu sağlamak için değişiklikler gerektiğinden, orijinal FreeBSD kodundan önemli ölçüde farklı olabilir. FreeBSD, aşağıdakiler de dahil olmak üzere birçok çekirdek işlemine katkıda bulunur:
 
 * İşlem yönetimi
 * Sinyal işleme
@@ -39,13 +39,13 @@ XNU **çekirdeği**, aynı adres alanında Mach ile birlikte çalışan **FreeBS
 * TCP/IP yığını ve soketler
 * Güvenlik duvarı ve paket filtreleme
 
-BSD ve Mach arasındaki etkileşimi anlamak, farklı kavramsal çerçevelerinden dolayı karmaşık olabilir. Örneğin, BSD, temel yürütme birimi olarak işlemleri kullanırken, Mach iş parçacıklarına dayalı olarak çalışır. Bu fark, BSD'nin çekirdek içindeki kodu, bir görev ve bir iş parçacığı yapısını oluşturmak için Mach işlevlerini kullanan BSD kodu tarafından XNU'da uzlaştırılır.
+BSD ve Mach arasındaki etkileşimi anlamak karmaşık olabilir, çünkü bunların farklı kavramsal çerçeveleri vardır. Örneğin, BSD, temel yürütme birimi olarak işlemleri kullanırken, Mach, iş parçacıklarına dayalı olarak çalışır. Bu uyumsuzluk, XNU'da, **her BSD işlemini yalnızca bir Mach göreviyle ilişkilendirerek** uzlaştırılır. BSD'nin fork() sistem çağrısı kullanıldığında, çekirdek içindeki BSD kodu, bir görev ve bir iş parçacığı yapısı oluşturmak için Mach işlevlerini kullanır.
 
-Ayrıca, **Mach ve BSD farklı güvenlik modellerini** sürdürür: **Mach'ın** güvenlik modeli **port haklarına** dayanırken, BSD'nin güvenlik modeli **işlem sahipliğine** dayanır. Bu iki model arasındaki farklar bazen yerel ayrıcalık yükseltme güvenlik açıklarına neden olmuştur. Tipik sistem çağrılarının yanı sıra, kullanıcı alanı programlarının çekirdek ile etkileşimde bulunmasına izin veren **Mach tuzağı**ları da vardır. Bu farklı unsurlar bir araya gelerek macOS çekirdeğinin çok yönlü, karma bir mimarisini oluşturur.
+Ayrıca, **Mach ve BSD'nin her birinin farklı güvenlik modelleri vardır**: **Mach'ın** güvenlik modeli **port haklarına** dayanırken, BSD'nin güvenlik modeli **işlem sahipliğine** dayanır. Bu iki model arasındaki farklar bazen yerel ayrıcalık yükseltme güvenlik açıklarına neden olmuştur. Tipik sistem çağrılarından başka, **kullanıcı alanı programlarının çekirdek ile etkileşimine izin veren Mach tuzağı**lar da bulunmaktadır. Bu farklı unsurlar bir araya gelerek macOS çekirdeğinin çok yönlü, karmaşık mimarisini oluşturur.
 
 ### I/O Kit - Sürücüler
 
-I/O Kit, XNU çekirdeğindeki açık kaynaklı, nesne yönelimli bir **aygıt sürücüsü çerçevesi**dir ve **dinamik olarak yüklenen aygıt sürücülerini** yönetir. Modüler kodun çekirdeğe anında eklenmesine olanak tanır ve çeşitli donanımı destekler.
+I/O Kit, XNU çekirdeğindeki açık kaynaklı, nesne yönelimli bir **cihaz sürücü çerçevesi**dir, **dinamik olarak yüklenen cihaz sürücülerini** yönetir. Çeşitli donanımı destekleyen modüler kodun çekirdeğe anında eklenmesine izin verir.
 
 {% content-ref url="macos-iokit.md" %}
 [macos-iokit.md](macos-iokit.md)
@@ -59,28 +59,30 @@ I/O Kit, XNU çekirdeğindeki açık kaynaklı, nesne yönelimli bir **aygıt s�
 
 ### Kernelcache
 
-**Kernelcache**, XNU çekirdeğinin **önceden derlenmiş ve önceden bağlantılı bir sürümü**dür ve temel aygıt **sürücüleri** ve **çekirdek uzantıları** içerir. Sıkıştırılmış bir formatta depolanır ve önyükleme işlemi sırasında belleğe açılır. Kernelcache, hazır çalışmaya hazır bir çekirdek ve önemli sürücülerin bulunmasıyla daha hızlı bir önyükleme süresi sağlar, aksi takdirde bu bileşenlerin önyükleme sırasında dinamik olarak yüklenmesi ve bağlanması için harcanacak zaman ve kaynakları azaltır.
+**Kernelcache**, XNU çekirdeğinin **ön derlenmiş ve ön bağlantılı bir sürümü** ile temel cihaz **sürücüleri** ve **çekirdek uzantıları**nı içeren bir yapıdır. Sıkıştırılmış bir formatta depolanır ve önyükleme işlemi sırasında belleğe açılır. Kernelcache, önyükleme sırasında bu bileşenlerin dinamik olarak yüklenmesi ve bağlanması için harcanacak zaman ve kaynakları azaltarak, hazır çalışmaya hazır bir çekirdek ve önemli sürücülerin bulunabilir olmasını sağlayarak **daha hızlı bir önyükleme süresi** sağlar.
 
-iOS'ta **`/System/Library/Caches/com.apple.kernelcaches/kernelcache`** konumunda bulunur, macOS'ta ise **`find / -name kernelcache 2>/dev/null`** komutuyla bulunabilir.
+iOS'ta **`/System/Library/Caches/com.apple.kernelcaches/kernelcache`** konumundadır, macOS'ta ise **`find / -name kernelcache 2>/dev/null`** veya **`mdfind kernelcache | grep kernelcache`** komutlarıyla bulunabilir.
+
+Yüklenen çekirdek uzantılarını kontrol etmek için **`kextstat`** komutunu çalıştırmak mümkündür.
 
 #### IMG4
 
-IMG4 dosya formatı, Apple'ın iOS ve macOS cihazlarında **çekirdekcache** gibi firmware bileşenlerini güvenli bir şekilde **saklamak ve doğrulamak** için kullandığı bir konteyner formatıdır. IMG4 formatı, bir başlık ve gerçek yük (çekirdek veya önyükleyici gibi) ile bir imza ve bir dizi manifest özelliği gibi farklı veri parçalarını kapsayan birkaç etiket içerir. Format, firmware bileşeninin oturum açmadan önce cihazın onaylamasına ve bütünlüğünü doğrulamasına olanak tanır.
+IMG4 dosya formatı, Apple'ın iOS ve macOS cihazlarında **firmware** bileşenlerini güvenli bir şekilde **saklamak ve doğrulamak** için kullandığı bir konteyner formatıdır (örneğin **kernelcache**). IMG4 formatı, bir başlık ve gerçek yük (örneğin bir çekirdek veya önyükleyici), bir imza ve bir dizi manifest özelliği içeren farklı etiketleri içerir. Format, cihazın, bileşeni yürütmeye başlamadan önce bileşenin otantikliğini ve bütünlüğünü doğrulamasına olanak tanıyan kriptografik doğrulamayı destekler.
 
 Genellikle aşağıdaki bileşenlerden oluşur:
 
 * **Yük (IM4P)**:
-* Sık sık sıkıştırılmış (LZFSE4, LZSS, ...)
+* Genellikle sıkıştırılmıştır (LZFSE4, LZSS, ...)
 * İsteğe bağlı olarak şifrelenmiş
 * **Manifest (IM4M)**:
 * İmza içerir
 * Ek Anahtar/Değer sözlüğü
-* **Geri Yükleme Bilgisi (IM4R)**:
+* **Restore Bilgisi (IM4R)**:
 * APNonce olarak da bilinir
-* Bazı güncellemelerin tekrarlanmasını önler
+* Bazı güncellemelerin tekrar oynatılmasını önler
 * İSTEĞE BAĞLI: Genellikle bulunmaz
 
-Kernelcache'i açmak için:
+Çekirdekcache'i açmak için:
 ```bash
 # pyimg4 (https://github.com/m1stadev/PyIMG4)
 pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
@@ -90,14 +92,14 @@ img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
 ```
 #### Kernelcache Sembolleri
 
-Bazen Apple, sembollerle birlikte **kernelcache** yayınlar. Sembollerle birlikte bazı firmware'leri [https://theapplewiki.com](https://theapplewiki.com/) adresindeki bağlantıları takip ederek indirebilirsiniz.
+Bazen Apple, **sembolleri** içeren **kernelcache** yayınlıyor. Bazı sembollerle birlikte firmware'leri [https://theapplewiki.com](https://theapplewiki.com/) adresinden indirebilirsiniz.
 
 ### IPSW
 
-Bunlar, Apple'ın **firmware'leri** olup [**https://ipsw.me/**](https://ipsw.me/) adresinden indirebileceğiniz dosyalardır. Diğer dosyalar arasında **kernelcache** bulunur.\
-Dosyaları çıkarmak için sadece **unzip** yapmanız yeterlidir.
+Bunlar, [**https://ipsw.me/**](https://ipsw.me/) adresinden indirebileceğiniz Apple **firmware'leri**dir. Diğer dosyalar arasında **kernelcache** bulunur.\
+Dosyaları **çıkarmak** için sadece onu **zip** dosyasından çıkarmanız yeterlidir.
 
-Firmware'i çıkardıktan sonra, **`kernelcache.release.iphone14`** gibi bir dosya elde edersiniz. Bu dosya **IMG4** formatındadır ve ilgili bilgileri aşağıdaki yöntemlerle çıkarabilirsiniz:
+Firmware çıkardıktan sonra şu türde bir dosya elde edersiniz: **`kernelcache.release.iphone14`**. Bu, **IMG4** formatındadır ve ilginç bilgileri çıkarmak için şu aracı kullanabilirsiniz:
 
 * [**pyimg4**](https://github.com/m1stadev/PyIMG4)
 
@@ -111,9 +113,9 @@ pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphon
 ```bash
 img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
 ```
-Çıkarılan kernelcache için sembolleri kontrol edebilirsiniz: **`nm -a kernelcache.release.iphone14.e | wc -l`**
+**`nm -a kernelcache.release.iphone14.e | wc -l`** komutunu kullanarak çıkarılan kernelcache için sembolleri kontrol edebilirsiniz.
 
-Bununla birlikte, şimdi **tüm uzantıları** veya **ilgilendiğiniz birini** çıkarabiliriz:
+Bununla birlikte şimdi **tüm uzantıları** veya **ilgilendiğiniz uzantıyı** çıkarabiliriz:
 ```bash
 # List all extensions
 kextex -l kernelcache.release.iphone14.e
@@ -126,9 +128,9 @@ kextex_all kernelcache.release.iphone14.e
 # Check the extension for symbols
 nm -a binaries/com.apple.security.sandbox | wc -l
 ```
-## macOS Çekirdek Uzantıları
+## macOS Kernel Uzantıları
 
-macOS, yüksek ayrıcalıklarla çalışacak olan kodun yüklenmesine karşı **son derece kısıtlayıcıdır** (.kext). Aslında, varsayılan olarak (bir bypass bulunmadıkça) neredeyse imkansızdır.
+macOS, **yüksek ayrıcalıklarla çalışacak olan kodlar nedeniyle Kernel Uzantılarını** (.kext) yüklemeyi oldukça kısıtlayıcıdır. Aslında, varsayılan olarak neredeyse imkansızdır (bir bypass bulunmadıkça).
 
 {% content-ref url="macos-kernel-extensions.md" %}
 [macos-kernel-extensions.md](macos-kernel-extensions.md)
@@ -136,7 +138,7 @@ macOS, yüksek ayrıcalıklarla çalışacak olan kodun yüklenmesine karşı **
 
 ### macOS Sistem Uzantıları
 
-macOS, Çekirdek Uzantıları yerine kullanıcı düzeyinde API'ler sunan Sistem Uzantılarını oluşturdu. Bu şekilde, geliştiriciler çekirdek uzantıları kullanmaktan kaçınabilirler.
+Kernel Uzantıları yerine macOS, çekirdek ile etkileşim için kullanıcı düzeyinde API'lar sunan Sistem Uzantılarını oluşturdu. Bu sayede geliştiriciler çekirdek uzantılarını kullanmaktan kaçınabilirler.
 
 {% content-ref url="macos-system-extensions.md" %}
 [macos-system-extensions.md](macos-system-extensions.md)
@@ -149,14 +151,14 @@ macOS, Çekirdek Uzantıları yerine kullanıcı düzeyinde API'ler sunan Sistem
 
 <details>
 
-<summary><strong>AWS hackleme konusunda sıfırdan kahramana dönüşmek için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>'ı öğrenin!</strong></summary>
+<summary><strong>Sıfırdan kahraman olmak için AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-HackTricks'i desteklemenin diğer yolları:
+HackTricks'ı desteklemenin diğer yolları:
 
-* Şirketinizi HackTricks'te **reklamınızı görmek** veya HackTricks'i **PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* **Şirketinizi HackTricks'te reklamınızı görmek veya HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz olan [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'da takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR göndererek paylaşın.
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi Twitter'da** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
