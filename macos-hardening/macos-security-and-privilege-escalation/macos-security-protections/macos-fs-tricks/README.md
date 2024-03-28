@@ -18,7 +18,7 @@ Inne sposoby wsparcia HackTricks:
 
 Uprawnienia w **katalogu**:
 
-* **odczyt** - możesz **wyświetlać** wpisy w katalogu
+* **odczyt** - możesz **wyświetlać** wpisy katalogu
 * **zapis** - możesz **usunąć/napisać** **pliki** w katalogu oraz **usunąć puste foldery**.
 * Jednak **nie możesz usunąć/modyfikować niepustych folderów** chyba że masz uprawnienia do zapisu nad nimi.
 * **Nie możesz modyfikować nazwy folderu** chyba że jesteś jego właścicielem.
@@ -36,19 +36,19 @@ Z dowolną z powyższych kombinacji atakujący mógłby **wstrzyknąć** **link 
 
 ### Specjalny przypadek Folder root R+X
 
-Jeśli w **katalogu** są pliki, do których **tylko root ma dostęp do R+X**, to **nie są one dostępne dla nikogo innego**. Więc podatność pozwalająca **przenieść plik czytelny dla użytkownika**, który nie może go odczytać z powodu tej **restrykcji**, z tego katalogu **do innego**, może być wykorzystana do odczytania tych plików.
+Jeśli w **katalogu** są pliki, do których **tylko root ma dostęp do R+X**, te pliki **nie są dostępne dla nikogo innego**. Więc podatność pozwalająca **przenieść plik czytelny dla użytkownika**, który nie może go odczytać z powodu tej **restrykcji**, z tego katalogu **do innego**, może być wykorzystana do odczytania tych plików.
 
 Przykład w: [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions)
 
 ## Link symboliczny / Link twardy
 
-Jeśli uprzywilejowany proces zapisuje dane w **pliku**, który może być **kontrolowany** przez **mniej uprzywilejowanego użytkownika**, lub który mógł być **wcześniej utworzony** przez mniej uprzywilejowanego użytkownika. Użytkownik mógłby po prostu **skierować go do innego pliku** za pomocą linku symbolicznego lub twardego, a uprzywilejowany proces będzie zapisywał w tym pliku.
+Jeśli uprzywilejowany proces zapisuje dane w **pliku**, który może być **kontrolowany** przez **mniej uprzywilejowanego użytkownika**, lub który mógł być **wcześniej utworzony** przez mniej uprzywilejowanego użytkownika. Użytkownik mógłby po prostu **skierować go do innego pliku** za pomocą linku symbolicznego lub twardego, a uprzywilejowany proces zapisze w tym pliku.
 
 Sprawdź w innych sekcjach, gdzie atakujący mógłby **wykorzystać dowolny zapis do eskalacji uprawnień**.
 
 ## .fileloc
 
-Pliki z rozszerzeniem **`.fileloc`** mogą wskazywać na inne aplikacje lub binaria, więc gdy są otwierane, aplikacja/binarny zostanie uruchomiony.\
+Pliki z rozszerzeniem **`.fileloc`** mogą wskazywać na inne aplikacje lub binarne, więc gdy są otwierane, aplikacja/binarny zostanie uruchomiony.\
 Przykład:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -122,9 +122,9 @@ ls -le /tmp/test
 ```
 ### **com.apple.acl.text xattr + AppleDouble**
 
-Format pliku **AppleDouble** kopiuje plik wraz z jego ACEs.
+Format pliku **AppleDouble** kopiuje plik wraz z jego ACE.
 
-W [**źródłowym kodzie**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) można zobaczyć, że reprezentacja tekstu ACL przechowywana wewnątrz xattr o nazwie **`com.apple.acl.text`** zostanie ustawiona jako ACL w zdekompresowanym pliku. Dlatego, jeśli spakowano aplikację do pliku zip w formacie **AppleDouble** z ACL, które uniemożliwiają zapisywanie innych xattr... xattr kwarantanny nie został ustawiony w aplikacji:
+W [**źródłowym kodzie**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) można zobaczyć, że reprezentacja tekstu ACL przechowywana wewnątrz xattr o nazwie **`com.apple.acl.text`** zostanie ustawiona jako ACL w zdekompresowanym pliku. Dlatego jeśli spakowano aplikację do pliku zip w formacie **AppleDouble** z ACL uniemożliwiającym zapisywanie innych xattr... xattr kwarantanny nie został ustawiony w aplikacji:
 
 Sprawdź [**oryginalny raport**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/) po więcej informacji.
 
@@ -146,7 +146,7 @@ ditto -c -k del test.zip
 ditto -x -k --rsrc test.zip .
 ls -le test
 ```
-(Odnotuj, że nawet jeśli to działa, sandbox zapisuje atrybuty xattr kwarantanny przed)
+(Note that even if this works the sandbox write the quarantine xattr before)
 
 Nie jest to naprawdę konieczne, ale zostawiam to tutaj na wszelki wypadek:
 
@@ -154,11 +154,11 @@ Nie jest to naprawdę konieczne, ale zostawiam to tutaj na wszelki wypadek:
 [macos-xattr-acls-extra-stuff.md](macos-xattr-acls-extra-stuff.md)
 {% endcontent-ref %}
 
-## Ominiecie podpisów kodu
+## Ominięcie Podpisów Kodu
 
 Paczki zawierają plik **`_CodeSignature/CodeResources`**, który zawiera **skrót** każdego pojedynczego **pliku** w **paczce**. Należy zauważyć, że skrót CodeResources jest również **wbudowany w plik wykonywalny**, więc nie możemy tego zmienić.
 
-Jednak istnieją pewne pliki, których podpis nie będzie sprawdzany, posiadają one klucz omit w pliku plist, jak na przykład:
+Jednak istnieją pewne pliki, których podpis nie będzie sprawdzany, posiadają one klucz omit w pliku plist, na przykład:
 ```xml
 <dict>
 ...
@@ -203,12 +203,14 @@ Jednak istnieją pewne pliki, których podpis nie będzie sprawdzany, posiadają
 </dict>
 ```
 Możliwe jest obliczenie sygnatury zasobu z wiersza poleceń za pomocą:
+
+{% code overflow="wrap" %}
 ```bash
 openssl dgst -binary -sha1 /System/Cryptexes/App/System/Applications/Safari.app/Contents/Resources/AppIcon.icns | openssl base64
 ```
-## Zamontuj obrazy dysków dmg
+## Zamontuj obrazy dysków
 
-Użytkownik może zamontować niestandardowy obraz dysku dmg nawet na istniejących folderach. Oto jak można utworzyć niestandardowy pakiet dmg z niestandardową zawartością:
+Użytkownik może zamontować niestandardowy obraz dysku nawet na istniejących folderach. Oto jak można utworzyć niestandardowy pakiet dmg z niestandardową zawartością:
 ```bash
 # Create the volume
 hdiutil create /private/tmp/tmp.dmg -size 2m -ov -volname CustomVolName -fs APFS 1>/dev/null
@@ -231,17 +233,20 @@ hdiutil create -srcfolder justsome.app justsome.dmg
 ```
 {% endcode %}
 
-## Dowolne zapisy
+Zazwyczaj macOS montuje dysk, komunikując się z usługą Mach `com.apple.DiskArbitrarion.diskarbitrariond` (dostarczaną przez `/usr/libexec/diskarbitrationd`). Dodanie parametru `-d` do pliku LaunchDaemons plist i ponowne uruchomienie spowoduje zapisywanie logów w `/var/log/diskarbitrationd.log`.\
+Jednakże możliwe jest użycie narzędzi takich jak `hdik` i `hdiutil` do bezpośredniej komunikacji z rozszerzeniem jądra `com.apple.driver.DiskImages`.
+
+## Arbitrary Writes
 
 ### Skrypty sh okresowe
 
-Jeśli twój skrypt mógłby zostać zinterpretowany jako **skrypt powłoki**, możesz nadpisać skrypt powłoki **`/etc/periodic/daily/999.local`**, który zostanie uruchomiony codziennie.
+Jeśli twój skrypt może zostać zinterpretowany jako **skrypt powłoki**, możesz nadpisać skrypt powłoki **`/etc/periodic/daily/999.local`**, który zostanie uruchomiony codziennie.
 
-Możesz **podrobić** wykonanie tego skryptu za pomocą: **`sudo periodic daily`**
+Możesz **symulować** wykonanie tego skryptu za pomocą: **`sudo periodic daily`**
 
 ### Daemony
 
-Napisz dowolny **LaunchDaemon** jak **`/Library/LaunchDaemons/xyz.hacktricks.privesc.plist`** z plikiem plist wykonującym dowolny skrypt, na przykład:
+Napisz dowolny **LaunchDaemon** jak **`/Library/LaunchDaemons/xyz.hacktricks.privesc.plist`** z plistem wykonującym dowolny skrypt, na przykład:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -260,13 +265,13 @@ Napisz dowolny **LaunchDaemon** jak **`/Library/LaunchDaemons/xyz.hacktricks.pri
 ```
 ### Plik Sudoers
 
-Jeśli masz **dowolne uprawnienia do zapisu**, możesz utworzyć plik w folderze **`/etc/sudoers.d/`** nadając sobie **uprawnienia sudo**.
+Jeśli masz **dowolne uprawnienia do zapisu**, możesz utworzyć plik w folderze **`/etc/sudoers.d/`** nadając sobie uprawnienia **sudo**.
 
-### Pliki PATH
+### Pliki ścieżki
 
-Plik **`/etc/paths`** jest jednym z głównych miejsc, które uzupełniają zmienną środowiskową PATH. Musisz być rootem, aby go nadpisać, ale jeśli skrypt z **procesu uprzywilejowanego** wykonuje jakieś **polecenie bez pełnej ścieżki**, możesz próbować go **przechwycić**, modyfikując ten plik.
+Plik **`/etc/paths`** to jedno z głównych miejsc, które uzupełnia zmienną środowiskową PATH. Musisz być rootem, aby go nadpisać, ale jeśli skrypt z **procesu uprzywilejowanego** wykonuje jakieś **polecenie bez pełnej ścieżki**, możesz próbować go **przechwycić**, modyfikując ten plik.
 
-Możesz również tworzyć pliki w **`/etc/paths.d`**, aby załadować nowe foldery do zmiennej środowiskowej `PATH`.
+Możesz również tworzyć pliki w **`/etc/paths.d`** aby załadować nowe foldery do zmiennej środowiskowej `PATH`.
 
 ## Generowanie plików z możliwością zapisu jako inne użytkowniki
 
@@ -288,14 +293,14 @@ echo $FILENAME
 
 <details>
 
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Zacznij od zera i zostań ekspertem w hakowaniu AWS dzięki</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 
 * Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Dołącz do** 💬 [**Grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
 
 </details>

