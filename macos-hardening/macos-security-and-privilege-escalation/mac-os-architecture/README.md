@@ -4,13 +4,13 @@
 
 <summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras maneiras de apoiar o HackTricks:
+Outras formas de apoiar o HackTricks:
 
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -18,13 +18,13 @@ Outras maneiras de apoiar o HackTricks:
 
 O **núcleo do macOS é o XNU**, que significa "X is Not Unix". Esse kernel é fundamentalmente composto pelo **micronúcleo Mach** (a ser discutido posteriormente), **e** elementos da Distribuição de Software Berkeley (**BSD**). O XNU também fornece uma plataforma para **drivers de kernel por meio de um sistema chamado I/O Kit**. O kernel XNU faz parte do projeto de código aberto Darwin, o que significa que **seu código-fonte é livremente acessível**.
 
-Do ponto de vista de um pesquisador de segurança ou de um desenvolvedor Unix, o **macOS** pode parecer bastante **similar** a um sistema **FreeBSD** com uma GUI elegante e uma série de aplicativos personalizados. A maioria dos aplicativos desenvolvidos para o BSD será compilada e executada no macOS sem a necessidade de modificações, pois as ferramentas de linha de comando familiares aos usuários Unix estão todas presentes no macOS. No entanto, como o kernel XNU incorpora o Mach, existem algumas diferenças significativas entre um sistema semelhante a Unix tradicional e o macOS, e essas diferenças podem causar problemas potenciais ou fornecer vantagens únicas.
+Do ponto de vista de um pesquisador de segurança ou de um desenvolvedor Unix, o **macOS** pode parecer bastante **similar** a um sistema **FreeBSD** com uma GUI elegante e uma série de aplicativos personalizados. A maioria dos aplicativos desenvolvidos para o BSD será compilada e executada no macOS sem a necessidade de modificações, pois as ferramentas de linha de comando familiares aos usuários Unix estão todas presentes no macOS. No entanto, como o kernel XNU incorpora o Mach, existem algumas diferenças significativas entre um sistema semelhante ao Unix tradicional e o macOS, e essas diferenças podem causar problemas potenciais ou fornecer vantagens únicas.
 
 Versão de código aberto do XNU: [https://opensource.apple.com/source/xnu/](https://opensource.apple.com/source/xnu/)
 
 ### Mach
 
-Mach é um **micronúcleo** projetado para ser **compatível com o UNIX**. Um de seus princípios-chave de design foi **minimizar** a quantidade de **código** em execução no **espaço do kernel** e, em vez disso, permitir que muitas funções típicas do kernel, como sistema de arquivos, rede e E/S, sejam **executadas como tarefas de nível de usuário**.
+Mach é um **micronúcleo** projetado para ser **compatível com o UNIX**. Um de seus princípios-chave de design foi **minimizar** a quantidade de **código** em execução no **espaço do kernel** e, em vez disso, permitir que muitas funções típicas do kernel, como sistema de arquivos, rede e E/S, sejam **executadas como tarefas em nível de usuário**.
 
 No XNU, o Mach é **responsável por muitas das operações críticas de baixo nível** que um kernel normalmente manipula, como escalonamento de processador, multitarefa e gerenciamento de memória virtual.
 
@@ -39,13 +39,13 @@ O **kernel** XNU também **incorpora** uma quantidade significativa de código d
 * Pilha TCP/IP e soquetes
 * Firewall e filtragem de pacotes
 
-Compreender a interação entre o BSD e o Mach pode ser complexo, devido aos seus diferentes frameworks conceituais. Por exemplo, o BSD usa processos como sua unidade de execução fundamental, enquanto o Mach opera com base em threads. Essa discrepância é conciliada no XNU **associando cada processo BSD a uma tarefa Mach** que contém exatamente uma thread Mach. Quando a chamada de sistema fork() do BSD é usada, o código do BSD dentro do kernel usa funções do Mach para criar uma estrutura de tarefa e uma thread.
+Compreender a interação entre o BSD e o Mach pode ser complexo, devido aos seus diferentes frameworks conceituais. Por exemplo, o BSD usa processos como sua unidade de execução fundamental, enquanto o Mach opera com base em threads. Essa discrepância é conciliada no XNU **associando cada processo BSD com uma tarefa Mach** que contém exatamente uma thread Mach. Quando a chamada de sistema fork() do BSD é usada, o código do BSD dentro do kernel usa funções do Mach para criar uma estrutura de tarefa e uma thread.
 
-Além disso, **Mach e BSD mantêm modelos de segurança diferentes**: o modelo de segurança do **Mach** é baseado em **direitos de porta**, enquanto o modelo de segurança do BSD opera com base na **propriedade do processo**. Disparidades entre esses dois modelos ocasionalmente resultaram em vulnerabilidades de escalonamento de privilégios locais. Além das chamadas de sistema típicas, também existem **armadilhas do Mach que permitem que programas de espaço de usuário interajam com o kernel**. Esses elementos diferentes juntos formam a arquitetura híbrida multifacetada do kernel macOS.
+Além disso, **Mach e BSD mantêm modelos de segurança diferentes**: o modelo de segurança do **Mach** é baseado em **direitos de porta**, enquanto o modelo de segurança do BSD opera com base na **propriedade do processo**. Disparidades entre esses dois modelos ocasionalmente resultaram em vulnerabilidades de escalonamento de privilégios locais. Além das chamadas de sistema típicas, também existem **armadilhas do Mach que permitem que programas em espaço de usuário interajam com o kernel**. Esses diferentes elementos juntos formam a arquitetura híbrida e multifacetada do kernel macOS.
 
 ### I/O Kit - Drivers
 
-O I/O Kit é um **framework de driver de dispositivo** orientado a objetos de código aberto no kernel XNU, que lida com **drivers de dispositivo carregados dinamicamente**. Ele permite que código modular seja adicionado ao kernel dinamicamente, suportando hardware diversificado.
+O I/O Kit é um **framework de driver de dispositivo orientado a objetos de código aberto** no kernel XNU, que lida com **drivers de dispositivo carregados dinamicamente**. Ele permite que código modular seja adicionado ao kernel dinamicamente, suportando hardware diversificado.
 
 {% content-ref url="macos-iokit.md" %}
 [macos-iokit.md](macos-iokit.md)
@@ -59,9 +59,11 @@ O I/O Kit é um **framework de driver de dispositivo** orientado a objetos de c�
 
 ### Kernelcache
 
-O **kernelcache** é uma versão **pré-compilada e pré-linkada do kernel XNU**, juntamente com **drivers de dispositivo essenciais** e **extensões de kernel**. Ele é armazenado em um formato **compactado** e é descompactado na memória durante o processo de inicialização. O kernelcache facilita um **tempo de inicialização mais rápido** ao ter uma versão pronta para ser executada do kernel e drivers essenciais disponíveis, reduzindo o tempo e os recursos que seriam gastos de outra forma no carregamento dinâmico e na vinculação desses componentes durante a inicialização.
+O **kernelcache** é uma versão **pré-compilada e pré-linkada do kernel XNU**, juntamente com **drivers de dispositivo essenciais** e **extensões de kernel**. Ele é armazenado em um **formato comprimido** e é descompactado na memória durante o processo de inicialização. O kernelcache facilita um **tempo de inicialização mais rápido** ao ter uma versão pronta para ser executada do kernel e drivers essenciais disponíveis, reduzindo o tempo e os recursos que seriam gastos no carregamento dinâmico e na vinculação desses componentes no momento da inicialização.
 
-No iOS, ele está localizado em **`/System/Library/Caches/com.apple.kernelcaches/kernelcache`** no macOS você pode encontrá-lo com **`find / -name kernelcache 2>/dev/null`**
+No iOS, ele está localizado em **`/System/Library/Caches/com.apple.kernelcaches/kernelcache`** no macOS você pode encontrá-lo com **`find / -name kernelcache 2>/dev/null`** ou **`mdfind kernelcache | grep kernelcache`**
+
+É possível executar **`kextstat`** para verificar as extensões de kernel carregadas.
 
 #### IMG4
 
@@ -70,14 +72,14 @@ O formato de arquivo IMG4 é um formato de contêiner usado pela Apple em seus d
 Geralmente é composto pelos seguintes componentes:
 
 * **Carga útil (IM4P)**:
-* Frequentemente compactado (LZFSE4, LZSS, …)
+* Frequentemente comprimido (LZFSE4, LZSS, …)
 * Opcionalmente criptografado
 * **Manifesto (IM4M)**:
 * Contém Assinatura
 * Dicionário Adicional Chave/Valor
 * **Informações de Restauração (IM4R)**:
 * Também conhecido como APNonce
-* Impede a reprodução de algumas atualizações
+* Impede a repetição de algumas atualizações
 * OPCIONAL: Geralmente isso não é encontrado
 
 Descompacte o Kernelcache:
@@ -149,14 +151,14 @@ Em vez de usar Extensões de Kernel, o macOS criou as Extensões de Sistema, que
 
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao hero com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Outras formas de apoiar o HackTricks:
 
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
