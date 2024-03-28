@@ -6,49 +6,49 @@
 
 HackTricks를 지원하는 다른 방법:
 
-* **회사가 HackTricks에 광고되길 원하거나** **PDF 형식의 HackTricks를 다운로드하길 원한다면** [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* **회사가 HackTricks에 광고되길 원하거나** **PDF 형식의 HackTricks를 다운로드하고 싶다면** [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
 * [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구매하세요
 * [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* **💬 [디스코드 그룹](https://discord.gg/hRep4RUj7f)** 또는 [텔레그램 그룹](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**를 팔로우**하세요.
-* **해킹 트릭을 공유하려면** [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 저장소로 PR을 제출하세요.
+* **💬 [Discord 그룹](https://discord.gg/hRep4RUj7f)** 또는 [텔레그램 그룹](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**를 팔로우**하세요.
+* **해킹 트릭을 공유하려면 PR을 제출하여** [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 저장소에 기여하세요.
 
 </details>
 
 ## POSIX 권한 조합
 
-**디렉터리**의 권한:
+**디렉토리**의 권한:
 
-* **읽기** - 디렉터리 항목을 **열거**할 수 있음
-* **쓰기** - 디렉터리에 **파일을 삭제/쓰기**할 수 있으며 **빈 폴더를 삭제**할 수 있음.
+* **읽기** - 디렉토리 항목을 **열거**할 수 있음
+* **쓰기** - 디렉토리에 **파일을 삭제/쓰기**할 수 있으며 **빈 폴더를 삭제**할 수 있음.
 * 그러나 **쓰기 권한**이 없으면 **비어 있지 않은 폴더를 삭제/수정**할 수 없음.
-* 소유권이 없으면 **폴더 이름을 수정**할 수 없음.
-* **실행** - 디렉터리를 **탐색**할 수 있음 - 이 권한이 없으면 해당 디렉터리 내의 파일이나 하위 디렉터리에 액세스할 수 없음.
+* **폴더 이름을 수정**할 수 없음(소유하지 않은 경우).
+* **실행** - 디렉토리를 **탐색**할 수 있음 - 이 권한이 없으면 해당 디렉토리 내의 파일 또는 하위 디렉토리에 액세스할 수 없음.
 
 ### 위험한 조합
 
-**루트가 소유한 파일/폴더를 덮어쓰는 방법**, 그러나:
+**루트가 소유한 파일/폴더를 덮어쓰는 방법**, 하지만:
 
-* 경로에서 하나의 **디렉터리 소유자**가 사용자인 경우
-* 경로에서 하나의 **디렉터리 소유자**가 **쓰기 액세스**를 가진 **사용자 그룹**인 경우
-* 사용자 **그룹**이 **파일**에 **쓰기** 액세스 권한을 가지고 있는 경우
+* 경로에서 하나의 **디렉토리 소유자**가 사용자인 경우
+* 경로에서 하나의 **디렉토리 소유자**가 **쓰기 액세스**를 가진 **사용자 그룹**인 경우
+* 사용자 **그룹**이 **파일**에 **쓰기** 액세스 권한을 가짐
 
 이전 조합 중 하나로 공격자는 특권 임의 쓰기를 얻기 위해 예상 경로에 **sym/hard 링크를 삽입**할 수 있음.
 
 ### 폴더 루트 R+X 특수 케이스
 
-**루트만 R+X 액세스 권한을 가진 디렉터리**에 파일이 있는 경우, 해당 파일은 **다른 사람에게 접근할 수 없음**. 따라서 사용자가 읽을 수 없는 파일을 **이동**할 수 있는 취약점이 있다면, 이 폴더에서 **다른 폴더로 이동**하여 이러한 파일을 읽을 수 있도록 악용할 수 있음.
+**루트만 R+X 액세스**를 가진 **디렉토리**에 파일이 있는 경우, 해당 파일은 **다른 사람에게 접근할 수 없음**. 따라서 사용자가 읽을 수 없는 **제한** 때문에 읽을 수 없는 파일을 **다른 폴더로 이동**하는 취약점이 있다면 이 파일을 읽기 위해 악용될 수 있음.
 
 예시: [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions)
 
 ## 심볼릭 링크 / 하드 링크
 
-특권 프로세스가 **사용자**가 **제어할 수 있는 파일**에 데이터를 쓰거나 **낮은 특권 사용자**가 **이전에 생성한 파일**에 데이터를 쓰고 있는 경우, 사용자는 심볼릭 또는 하드 링크를 통해 해당 파일을 다른 파일로 **가리킬 수 있으며**, 특권 프로세스는 해당 파일에 쓸 것입니다.
+특권 프로세스가 **사용자**가 **제어할 수 있는 파일**에 데이터를 쓰거나 **낮은 권한을 가진 사용자**가 **이전에 생성한 파일**에 데이터를 쓰고 있는 경우, 사용자는 심볼릭 또는 하드 링크를 통해 해당 파일로 **가리킬 수 있으며**, 특권 프로세스는 해당 파일에 쓸 것입니다.
 
-공격자가 특권 상승을 위해 임의 쓰기를 악용할 수 있는 곳을 확인하세요.
+다른 섹션에서 공격자가 **특권 상승을 위해 임의 쓰기를 악용**할 수 있는 위치를 확인하세요.
 
 ## .fileloc
 
-**`.fileloc`** 확장자가 있는 파일은 다른 응용프로그램이나 이진 파일을 가리킬 수 있어서 해당 파일을 열면 응용프로그램/이진 파일이 실행됩니다.\
+**`.fileloc`** 확장자가 있는 파일은 다른 응용 프로그램이나 이진 파일을 가리킬 수 있어서 해당 파일을 열면 응용 프로그램/이진 파일이 실행됩니다.\
 예시:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -64,7 +64,7 @@ HackTricks를 지원하는 다른 방법:
 ```
 ## 임의의 FD
 
-만약 **프로세스가 높은 권한으로 파일이나 폴더를 열도록** 만들 수 있다면, **`crontab`**을 악용하여 `/etc/sudoers.d`에 있는 파일을 **`EDITOR=exploit.py`**로 열어서 `exploit.py`가 `/etc/sudoers` 내부의 파일에 대한 FD를 얻고 악용할 수 있습니다.
+만약 **프로세스가 높은 권한으로 파일이나 폴더를 열도록** 만들 수 있다면, **`crontab`**을 악용하여 `/etc/sudoers.d`에 있는 파일을 **`EDITOR=exploit.py`**로 열어 `exploit.py`가 `/etc/sudoers` 내부의 파일에 대한 FD를 가져와 악용할 수 있습니다.
 
 예시: [https://youtu.be/f1HA5QhLQ7Y?t=21098](https://youtu.be/f1HA5QhLQ7Y?t=21098)
 
@@ -76,7 +76,7 @@ xattr -d com.apple.quarantine /path/to/file_or_app
 ```
 ### uchg / uchange / uimmutable 플래그
 
-만약 파일/폴더가 이 불변 속성을 가지고 있다면 xattr을 적용할 수 없습니다.
+만약 파일/폴더가 이 불변 속성을 가지고 있다면, 해당 파일에 xattr을 적용할 수 없습니다.
 ```bash
 echo asd > /tmp/asd
 chflags uchg /tmp/asd # "chflags uchange /tmp/asd" or "chflags uimmutable /tmp/asd"
@@ -122,9 +122,9 @@ ls -le /tmp/test
 ```
 ### **com.apple.acl.text xattr + AppleDouble**
 
-**AppleDouble** 파일 형식은 ACE(접근 제어 항목)를 포함하여 파일을 복사합니다.
+**AppleDouble** 파일 형식은 ACE를 포함한 파일을 복사합니다.
 
-[**소스 코드**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html)에서 볼 수 있듯이 xattr인 **`com.apple.acl.text`**에 저장된 ACL 텍스트 표현은 압축 해제된 파일에서 ACL로 설정됩니다. 따라서, ACL을 포함하는 zip 파일로 응용 프로그램을 압축하고 다른 xattr이 기록되지 못하도록 하는 ACL이 있는 경우... 격리 xattr이 응용 프로그램에 설정되지 않았습니다:
+[**소스 코드**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html)에서 볼 수 있듯이, xattr인 **`com.apple.acl.text`**에 저장된 ACL 텍스트 표현은 압축 해제된 파일에서 ACL로 설정됩니다. 따라서, 다른 xattr이 쓰여지는 것을 방지하는 ACL이 있는 zip 파일로 응용 프로그램을 압축했다면... quarantine xattr이 응용 프로그램에 설정되지 않았습니다:
 
 자세한 정보는 [**원본 보고서**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/)를 확인하십시오.
 
@@ -158,7 +158,7 @@ ls -le test
 
 번들에는 **`_CodeSignature/CodeResources`** 파일이 포함되어 있으며 이 파일에는 번들 내의 모든 **파일**의 **해시**가 포함되어 있습니다. CodeResources의 해시는 또한 **실행 파일에 포함**되어 있기 때문에 해당 부분을 건드릴 수 없습니다.
 
-그러나 일부 파일의 서명은 확인되지 않을 수 있습니다. 이러한 파일은 plist에 omit 키가 있는 파일입니다.
+그러나 일부 파일의 서명은 확인되지 않을 수 있습니다. 이러한 파일은 plist에 omit 키가 있는 것과 같습니다:
 ```xml
 <dict>
 ...
@@ -233,17 +233,20 @@ hdiutil create -srcfolder justsome.app justsome.dmg
 ```
 {% endcode %}
 
+일반적으로 macOS는 `/usr/libexec/diskarbitrationd`에서 제공되는 `com.apple.DiskArbitrarion.diskarbitrariond` Mach 서비스와 통신하여 디스크를 마운트합니다. LaunchDaemons plist 파일에 `-d` 매개변수를 추가하고 다시 시작하면 `/var/log/diskarbitrationd.log`에 로그를 저장합니다.\
+그러나 `hdik` 및 `hdiutil`과 같은 도구를 사용하여 `com.apple.driver.DiskImages` kext와 직접 통신하는 것이 가능합니다.
+
 ## 임의 쓰기
 
 ### 주기적인 sh 스크립트
 
 스크립트가 **쉘 스크립트**로 해석될 수 있다면 매일 트리거될 **`/etc/periodic/daily/999.local`** 쉘 스크립트를 덮어쓸 수 있습니다.
 
-다음 명령어로 이 스크립트를 **가짜로** 실행할 수 있습니다: **`sudo periodic daily`**
+다음과 같이 이 스크립트를 **가짜** 실행할 수 있습니다: **`sudo periodic daily`**
 
 ### 데몬
 
-**LaunchDaemon**과 같은 임의의 **LaunchDaemon**을 작성하고 **`/Library/LaunchDaemons/xyz.hacktricks.privesc.plist`**와 같은 plist를 사용하여 임의의 스크립트를 실행할 수 있습니다:
+임의의 **LaunchDaemon**인 **`/Library/LaunchDaemons/xyz.hacktricks.privesc.plist`**를 작성하고 임의의 스크립트를 실행하는 plist를 실행합니다:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -270,13 +273,13 @@ hdiutil create -srcfolder justsome.app justsome.dmg
 
 ### PATH 파일
 
-**`/etc/paths`** 파일은 PATH 환경 변수를 채우는 주요 위치 중 하나입니다. 이 파일을 덮어쓰려면 루트 권한이 필요하지만, **특권 프로세스**에서 **전체 경로 없이 명령어를 실행**하는 경우, 이 파일을 수정하여 **해킹**할 수 있습니다.
+**`/etc/paths`** 파일은 `PATH` 환경 변수를 채우는 주요 위치 중 하나입니다. 이 파일을 덮어쓰려면 루트 권한이 필요하지만, **특권 프로세스**에서 **전체 경로 없이 명령어를 실행**하는 경우, 이 파일을 수정하여 **해킹**할 수 있습니다.
 
 `/etc/paths.d`**에 파일을 작성하여 `PATH` 환경 변수에 새 폴더를 로드할 수도 있습니다.
 
 ## 다른 사용자로부터 쓰기 가능한 파일 생성
 
-이 명령은 나에게 쓰기 가능한 root 소유의 파일을 생성합니다 ([**여기의 코드**](https://github.com/gergelykalman/brew-lpe-via-periodic/blob/main/brew\_lpe.sh)). 이것은 권한 상승으로 작동할 수도 있습니다:
+이는 나에게 쓰기 가능한 파일을 소유한 root 파일을 생성합니다 ([**여기의 코드**](https://github.com/gergelykalman/brew-lpe-via-periodic/blob/main/brew\_lpe.sh)). 이것 또한 권한 상승으로 작동할 수 있습니다.
 ```bash
 DIRNAME=/usr/local/etc/periodic/daily
 
@@ -294,14 +297,14 @@ echo $FILENAME
 
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)로부터 제로에서 영웅까지 AWS 해킹 배우기</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>제로부터 히어로가 되기까지 AWS 해킹 배우기</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 HackTricks를 지원하는 다른 방법:
 
-* **회사가 HackTricks에서 광고되길 원하거나** **PDF 형식의 HackTricks를 다운로드하길 원한다면** [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구매하세요
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 저희의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* **💬 [**디스코드 그룹**](https://discord.gg/hRep4RUj7f)에 가입하거나 [**텔레그램 그룹**](https://t.me/peass)에 가입하거나** **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **해킹 트릭을 공유하고 싶다면** [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 저장소로 PR을 제출하세요.
+* **회사가 HackTricks에 광고되길 원하거나** **PDF 형식의 HackTricks를 다운로드하고 싶다면** [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* [**공식 PEASS & HackTricks 굿즈**](https://peass.creator-spring.com)를 구매하세요
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
+* **💬 [**디스코드 그룹**](https://discord.gg/hRep4RUj7f)이나 [**텔레그램 그룹**](https://t.me/peass)에 가입하거나** 트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **해킹 트릭을 공유하려면** [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 저장소로 PR을 제출하세요.
 
 </details>
