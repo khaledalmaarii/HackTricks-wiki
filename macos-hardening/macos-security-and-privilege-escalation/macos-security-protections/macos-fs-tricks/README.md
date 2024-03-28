@@ -6,7 +6,7 @@
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJSTVO**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -21,7 +21,7 @@ Dozvole u **direktorijumu**:
 * **čitanje** - možete **izlistati** unose u direktorijumu
 * **pisanje** - možete **brisati/pisati** **fajlove** u direktorijumu i možete **brisati prazne foldere**.
 * Ali **ne možete obrisati/izmeniti neprazne foldere** osim ako imate dozvole za pisanje nad njima.
-* Ne možete izmeniti ime foldera osim ako ga posedujete.
+* Ne možete **izmeniti ime foldera** osim ako ste vlasnik.
 * **izvršavanje** - dozvoljeno vam je **traverzovati** direktorijum - ako nemate ovu dozvolu, ne možete pristupiti bilo kojim fajlovima unutra, ili u bilo kojim poddirektorijumima.
 
 ### Opasne Kombinacije
@@ -32,7 +32,7 @@ Dozvole u **direktorijumu**:
 * Jedan roditeljski **direktorijum vlasnik** u putanji je **grupa korisnika** sa **pristupom pisanju**
 * Grupa korisnika ima **pristup pisanju** fajlu
 
-Sa bilo kojom od prethodnih kombinacija, napadač bi mogao **ubaciti** simbolički ili tvrdi **link** na očekivanu putanju kako bi dobio privilegovanu proizvoljnu izmenu.
+Sa bilo kojom od prethodnih kombinacija, napadač bi mogao **ubaciti** simboličnu ili tvrdu vezu na očekivanu putanju kako bi dobio privilegovanu proizvoljnu izmenu.
 
 ### Poseban slučaj Folder root R+X
 
@@ -40,15 +40,15 @@ Ako postoje fajlovi u **direktorijumu** gde **samo root ima R+X pristup**, oni n
 
 Primer u: [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions)
 
-## Simbolički Link / Tvrdi Link
+## Simbolična veza / Tvrda veza
 
-Ako privilegovani proces piše podatke u **fajl** koji bi mogao biti **kontrolisan** od strane **korisnika sa manje privilegija**, ili koji bi mogao biti **prethodno kreiran** od strane korisnika sa manje privilegija. Korisnik bi mogao samo **usmeriti** na drugi fajl putem Simboličkog ili Tvrdog linka, i privilegovani proces će pisati na taj fajl.
+Ako privilegovani proces piše podatke u **fajl** koji bi mogao biti **kontrolisan** od strane **manje privilegovanog korisnika**, ili koji bi mogao biti **prethodno kreiran** od strane manje privilegovanog korisnika. Korisnik jednostavno može **usmeriti** na drugi fajl putem simbolične ili tvrde veze, i privilegovani proces će pisati na taj fajl.
 
 Proverite u drugim sekcijama gde napadač može **zloupotrebiti proizvoljno pisanje da bi eskalirao privilegije**.
 
 ## .fileloc
 
-Fajlovi sa ekstenzijom **`.fileloc`** mogu pokazivati na druge aplikacije ili binarne fajlove tako da kada se otvore, aplikacija/binarni fajl će biti izvršen.\
+Fajlovi sa **`.fileloc`** ekstenzijom mogu pokazivati na druge aplikacije ili binarne fajlove tako da kada se otvore, aplikacija/binarni fajl će biti izvršen.\
 Primer:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -74,7 +74,7 @@ Na primer: [https://youtu.be/f1HA5QhLQ7Y?t=21098](https://youtu.be/f1HA5QhLQ7Y?t
 ```bash
 xattr -d com.apple.quarantine /path/to/file_or_app
 ```
-### uchg / uchange / uimmutable zastava
+### uchg / uchange / uimmutable flag
 
 Ako datoteka/folder ima ovaj nepromenljivi atribut, neće biti moguće staviti xattr na nju.
 ```bash
@@ -99,7 +99,7 @@ xattr: [Errno 1] Operation not permitted: '/tmp/mnt/lol'
 ```
 ### writeextattr ACL
 
-Ova ACL sprečava dodavanje `xattrs` datoteci.
+Ova ACL sprečava dodavanje `xattrs` datoteci
 ```bash
 rm -rf /tmp/test*
 echo test >/tmp/test
@@ -122,9 +122,9 @@ ls -le /tmp/test
 ```
 ### **com.apple.acl.text xattr + AppleDouble**
 
-**AppleDouble** format datoteke kopira datoteku zajedno sa svojim ACE-ovima.
+**AppleDouble** format datoteka kopira datoteku zajedno sa njenim ACE-ovima.
 
-U [**izvornom kodu**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) moguće je videti da se ACL tekstualna reprezentacija čuva unutar xattr-a nazvanog **`com.apple.acl.text`** i da će biti postavljena kao ACL u dekompresovanoj datoteci. Dakle, ako ste kompresovali aplikaciju u zip datoteku sa **AppleDouble** formatom datoteke sa ACL-om koji sprečava pisanje drugih xattr-ova u nju... karantinski xattr nije postavljen u aplikaciju:
+U [**izvornom kodu**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) moguće je videti da se ACL tekstualna reprezentacija čuva unutar xattr-a nazvanog **`com.apple.acl.text`** i postavlja se kao ACL u dekompresovanoj datoteci. Dakle, ako ste kompresovali aplikaciju u zip datoteku sa **AppleDouble** formatom datoteke sa ACL-om koji sprečava pisanje drugih xattr-ova u nju... karantinski xattr nije postavljen u aplikaciju:
 
 Proverite [**originalni izveštaj**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/) za više informacija.
 
@@ -154,11 +154,11 @@ Nije baš potrebno, ali ostavljam to tamo, samo u slučaju:
 [macos-xattr-acls-extra-stuff.md](macos-xattr-acls-extra-stuff.md)
 {% endcontent-ref %}
 
-## Zaobilaženje koda potpisa
+## Zaobilaženje Koda Potpisa
 
 Bundles sadrže datoteku **`_CodeSignature/CodeResources`** koja sadrži **hash** svake pojedinačne **datoteke** u **bundle**-u. Napomena da je hash CodeResources-a takođe **ugrađen u izvršnu datoteku**, tako da s tim ne možemo manipulisati.
 
-Međutim, postoje neke datoteke čiji potpis neće biti proveren, one imaju ključ za izostavljanje u plist-u, kao što su:
+Međutim, postoje neke datoteke čiji potpis neće biti proveren, one imaju ključ omit u plist-u, kao što su:
 ```xml
 <dict>
 ...
@@ -202,9 +202,7 @@ Međutim, postoje neke datoteke čiji potpis neće biti proveren, one imaju klju
 ...
 </dict>
 ```
-Moguće je izračunati potpis resursa sa terminala pomoću: 
-
-{% code overflow="wrap" %}
+Moguće je izračunati potpis resursa sa terminala pomoću:
 ```bash
 openssl dgst -binary -sha1 /System/Cryptexes/App/System/Applications/Safari.app/Contents/Resources/AppIcon.icns | openssl base64
 ```
@@ -233,13 +231,16 @@ hdiutil create -srcfolder justsome.app justsome.dmg
 ```
 {% endcode %}
 
+Obično macOS montira disk razgovarajući sa `com.apple.DiskArbitrarion.diskarbitrariond` Mach servisom (koji pruža `/usr/libexec/diskarbitrationd`). Ako dodate parametar `-d` u LaunchDaemons plist datoteku i ponovo pokrenete, ona će čuvati logove u `/var/log/diskarbitrationd.log`.\
+Međutim, moguće je koristiti alate poput `hdik` i `hdiutil` za direktnu komunikaciju sa `com.apple.driver.DiskImages` kextom.
+
 ## Proizvoljni upisi
 
 ### Periodični sh skriptovi
 
-Ako vaš skript može biti tumačen kao **shell skripta** možete prebrisati **`/etc/periodic/daily/999.local`** shell skript koji će biti pokrenut svakog dana.
+Ako vaša skripta može biti interpretirana kao **shell skripta** možete prepisati **`/etc/periodic/daily/999.local`** shell skriptu koja će biti pokrenuta svakog dana.
 
-Možete **falsifikovati** izvršenje ovog skripta sa: **`sudo periodic daily`**
+Možete **falsifikovati** izvršenje ove skripte sa: **`sudo periodic daily`**
 
 ### Demoni
 
@@ -264,17 +265,17 @@ Napišite proizvoljni **LaunchDaemon** poput **`/Library/LaunchDaemons/xyz.hackt
 
 ### Datoteka Sudoers
 
-Ako imate **proizvoljan upis**, možete kreirati datoteku unutar fascikle **`/etc/sudoers.d/`** koja vam dodeljuje **sudo** privilegije.
+Ako imate **proizvoljan zapis**, možete kreirati datoteku unutar fascikle **`/etc/sudoers.d/`** koja vam dodeljuje **sudo** privilegije.
 
 ### Putanje datoteka
 
-Datoteka **`/etc/paths`** je jedno od glavnih mesta koje popunjava PATH env varijablu. Morate biti root da biste je prepisali, ali ako skript iz **privilegovanog procesa** izvršava neku **komandu bez punog puta**, možda ćete moći da je **preuzmete** modifikujući ovu datoteku.
+Datoteka **`/etc/paths`** je jedno od glavnih mesta koje popunjava promenljivu okruženja PATH. Morate biti root da biste je prepisali, ali ako skripta iz **privilegovanog procesa** izvršava neku **komandu bez punog puta**, možda ćete moći da je **preuzmete** modifikujući ovu datoteku.
 
-Takođe možete pisati datoteke u **`/etc/paths.d`** da učitate nove fascikle u `PATH` env varijablu.
+Takođe možete pisati datoteke u **`/etc/paths.d`** da učitate nove fascikle u promenljivu okruženja `PATH`.
 
-## Generisanje datoteka sa dozvolom za upis drugih korisnika
+## Generisanje datoteka sa dozvolom pisanja kao drugi korisnici
 
-Ovo će generisati datoteku koja pripada root-u, a koju mogu da pišem ja ([**kod odavde**](https://github.com/gergelykalman/brew-lpe-via-periodic/blob/main/brew\_lpe.sh)). Ovo takođe može raditi kao privesc:
+Ovo će generisati datoteku koja pripada root-u i koju mogu da pišem ja ([**kod odavde**](https://github.com/gergelykalman/brew-lpe-via-periodic/blob/main/brew\_lpe.sh)). Ovo takođe može raditi kao privesc:
 ```bash
 DIRNAME=/usr/local/etc/periodic/daily
 

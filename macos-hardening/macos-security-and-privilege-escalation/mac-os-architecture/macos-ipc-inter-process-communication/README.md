@@ -6,11 +6,11 @@
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu u HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJSTVO**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite svoje hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
@@ -18,60 +18,64 @@ Drugi načini podrške HackTricks-u:
 
 ### Osnovne informacije
 
-Mach koristi **taskove** kao **najmanju jedinicu** za deljenje resursa, a svaki task može sadržati **više niti**. Ovi **taskovi i niti se mapiraju 1:1 na POSIX procese i niti**.
+Mach koristi **taskove** kao **najmanju jedinicu** za deljenje resursa, pri čemu svaki task može sadržati **više niti**. Ovi **taskovi i niti se mapiraju 1:1 na POSIX procese i niti**.
 
-Komunikacija između taskova se odvija putem Mach Inter-Process Communication (IPC), koristeći jednosmerni kanal komunikacije. **Poruke se prenose između portova**, koji deluju kao **redovi poruka** koje upravlja kernel.
+Komunikacija između taskova se odvija putem Mach Inter-Process Communication (IPC), koristeći jednosmjerne komunikacione kanale. **Poruke se prenose između portova**, koji deluju kao **redovi poruka** upravljani od strane kernela.
 
-Svaki proces ima **IPC tabelu**, u kojoj je moguće pronaći **mach portove procesa**. Ime mach porta je zapravo broj (pokazivač na kernel objekat).
+Svaki proces ima **IPC tabelu**, u kojoj je moguće pronaći **mach portove procesa**. Ime mach porta zapravo predstavlja broj (pokazivač na kernel objekat).
 
 Proces takođe može poslati ime porta sa određenim pravima **drugom tasku** i kernel će napraviti ovaj unos u **IPC tabeli drugog taska**.
 
-### Prava na portu
+### Prava Porta
 
-Prava na portu, koja definišu koje operacije task može izvršiti, ključne su za ovu komunikaciju. Moguća **prava na portu** su ([definicije odavde](https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html)):
+Prava porta, koja definišu koje operacije task može izvršiti, ključna su za ovu komunikaciju. Moguća **prava porta** su ([definicije odavde](https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html)):
 
-* **Pravo na prijem**, koje omogućava prijem poruka poslatih na port. Mach portovi su MPSC (multiple-producer, single-consumer) redovi, što znači da može postojati samo **jedno pravo na prijem za svaki port** u celom sistemu (za razliku od cevi, gde više procesa može držati deskriptore fajlova za čitanje sa jednog kraja cevi).
-* **Task sa pravom na prijem** može primati poruke i **kreirati prava na slanje**, što mu omogućava slanje poruka. Originalno samo **sopstveni task ima pravo na prijem nad svojim portom**.
-* **Pravo na slanje**, koje omogućava slanje poruka na port.
-* Pravo na slanje se može **klonirati** tako da task koji poseduje pravo na slanje može klonirati pravo i **dodeliti ga trećem tasku**.
-* **Pravo na jednokratno slanje**, koje omogućava slanje jedne poruke na port i zatim nestaje.
-* **Pravo na set porta**, koje označava _set porta_ umesto pojedinačnog porta. Izvlačenje poruke iz seta porta izvlači poruku iz jednog od portova koje sadrži. Setovi portova se mogu koristiti za istovremeno osluškivanje na više portova, slično kao `select`/`poll`/`epoll`/`kqueue` u Unix-u.
-* **Mrtvo ime**, koje nije stvarno pravo na portu, već samo rezervno mesto. Kada se port uništi, sva postojeća prava na portu postaju mrtva imena.
+* **Pravo za prijem**, koje omogućava prijem poruka poslatih na port. Mach portovi su MPSC (multiple-producer, single-consumer) redovi, što znači da može postojati samo **jedno pravo za prijem za svaki port** u celom sistemu (za razliku od cevi, gde više procesa može držati deskriptore fajlova za kraj za čitanje jedne cevi).
+* Task sa **Pravom za prijem** može primiti poruke i **kreirati Prava za slanje**, omogućavajući mu slanje poruka. Originalno samo **sopstveni task ima Pravo za prijem nad svojim portom**.
+* **Pravo za slanje**, koje omogućava slanje poruka na port.
+* Pravo za slanje se može **klonirati** tako da task koji poseduje Pravo za slanje može klonirati pravo i **dodeliti ga trećem tasku**.
+* **Pravo za jednokratno slanje**, koje omogućava slanje jedne poruke na port i zatim nestaje.
+* **Pravo za set porta**, koje označava _set portova_ umesto pojedinačnog porta. Izvlačenje poruke iz seta porta izvlači poruku iz jednog od portova koje sadrži. Setovi portova se mogu koristiti za osluškivanje više portova istovremeno, slično kao `select`/`poll`/`epoll`/`kqueue` u Unix-u.
+* **Mrtvo ime**, koje nije stvarno pravo porta, već samo rezervisano mesto. Kada se port uništi, sva postojeća prava porta na portu postaju mrtva imena.
 
-**Taskovi mogu preneti SEND prava drugima**, omogućavajući im slanje poruka nazad. **SEND prava takođe mogu biti klonirana, tako da task može duplicirati pravo i dati ga trećem tasku**. Ovo, zajedno sa posredničkim procesom poznatim kao **bootstrap server**, omogućava efikasnu komunikaciju između taskova.
+**Taskovi mogu preneti SEND prava drugima**, omogućavajući im da pošalju poruke nazad. **SEND prava takođe mogu biti klonirana, tako da task može duplicirati i dati pravo trećem tasku**. Ovo, zajedno sa posredničkim procesom poznatim kao **bootstrap server**, omogućava efikasnu komunikaciju između taskova.
+
+### Portovi Fajlova
+
+Portovi fajlova omogućavaju da se deskriptori fajlova enkapsuliraju u Mac portove (koristeći Mach prava porta). Moguće je kreirati `fileport` iz datog FD koristeći `fileport_makeport` i kreirati FD iz fileporta koristeći `fileport_makefd`.
 
 ### Uspostavljanje komunikacije
 
 #### Koraci:
 
-Kao što je pomenuto, da bi se uspostavio kanal komunikacije, uključen je **bootstrap server** (**launchd** na Mac-u).
+Kako je pomenuto, da bi se uspostavio kanal komunikacije, uključen je **bootstrap server** (**launchd** na Mac-u).
 
-1. Task **A** pokreće **novi port**, dobijajući **pravo na prijem** u procesu.
-2. Task **A**, kao vlasnik prava na prijem, **generiše pravo na slanje za port**.
-3. Task **A** uspostavlja **konekciju** sa **bootstrap serverom**, pružajući **ime servisa porta** i **pravo na slanje** kroz postupak poznat kao bootstrap registracija.
-4. Task **B** komunicira sa **bootstrap serverom** kako bi izvršio bootstrap **pretragu za servisnim imenom**. Ako je uspešno, **server duplicira pravo na slanje** primljeno od Taska A i **prebacuje ga Tasku B**.
-5. Nakon sticanja prava na slanje, Task **B** je sposoban da **formuliše poruku** i šalje je **Tasku A**.
-6. Za dvosmernu komunikaciju obično Task **B** generiše novi port sa **pravom na prijem** i **pravom na slanje**, i daje **pravo na slanje Tasku A** kako bi mogao slati poruke TASKU B (dvosmerna komunikacija).
+1. Task **A** inicira **novi port**, dobijajući **pravo za prijem** u procesu.
+2. Task **A**, kao nosilac Prava za prijem, **generiše Pravo za slanje za port**.
+3. Task **A** uspostavlja **konekciju** sa **bootstrap serverom**, pružajući **servisno ime porta** i **Pravo za slanje** kroz proceduru poznatu kao registracija bootstrap-a.
+4. Task **B** interaguje sa **bootstrap serverom** da izvrši bootstrap **pretragu za ime servisa**. Ukoliko je uspešno, **server duplira Pravo za slanje** primljeno od Taska A i **prebacuje ga Tasku B**.
+5. Nakon što dobije Pravo za slanje, Task **B** je sposoban da **formuliše** poruku i pošalje je **Tasku A**.
+6. Za dvosmernu komunikaciju obično task **B** generiše novi port sa **Pravom za prijem** i **Pravom za slanje**, i daje **Pravo za slanje Tasku A** kako bi mogao slati poruke TASKU B (dvosmerna komunikacija).
 
-Bootstrap server **ne može autentifikovati** ime servisa koje tvrdi task. Ovo znači da bi **task mogao potencijalno imitirati bilo koji sistemski task**, kao što je lažno **tvrditi ime autorizacionog servisa** a zatim odobriti svaki zahtev.
+Bootstrap server **ne može autentifikovati** ime servisa koje tvrdi task. Ovo znači da bi **task** potencijalno mogao **predstavljati bilo koji sistemski task**, kao što je lažno **tvrditi ime autorizacionog servisa** a zatim odobravati svaki zahtev.
 
-Zatim, Apple čuva **imena sistemskih servisa** u sigurnim konfiguracionim fajlovima, smeštenim u **SIP-zaštićenim** direktorijumima: `/System/Library/LaunchDaemons` i `/System/Library/LaunchAgents`. Pored svakog imena servisa, takođe je sačuvana i **pripadajuća binarna datoteka**. Bootstrap server će kreirati i držati **pravo na prijem za svako od ovih imena servisa**.
+Zatim, Apple čuva **imena sistema pruženih servisa** u sigurnim konfiguracionim fajlovima, smeštenim u SIP-zaštićenim direktorijumima: `/System/Library/LaunchDaemons` i `/System/Library/LaunchAgents`. Pored svakog imena servisa, takođe je sačuvana i **povezana binarna datoteka**. Bootstrap server će kreirati i držati **Pravo za prijem za svako od ovih imena servisa**.
 
-Za ove unapred definisane servise, **proces pretrage se malo razlikuje**. Kada se traži ime servisa, launchd pokreće servis dinamički. Novi tok rada je sledeći:
+Za ove unapred definisane servise, **proces pretrage se malo razlikuje**. Kada se ime servisa traži, launchd pokreće servis dinamički. Novi tok rada je sledeći:
 
-* Task **B** pokreće bootstrap **pretragu** za imenom servisa.
-* **launchd** proverava da li je task pokrenut i ako nije, **pokreće** ga.
-* Task **A** (servis) izvršava **bootstrap check-in**. Ovde, **bootstrap** server kreira pravo na slanje, zadržava ga i **prebacuje pravo na prijem Tasku A**.
-* launchd duplicira **pravo na slanje i šalje ga Tasku B**.
-* Task **B** generiše novi port sa **pravom na prijem** i **pravom na slanje**, i daje **pravo na slanje Tasku A** (svc) kako bi mogao slati poruke TASKU B (dvosmerna komunikacija).
+* Task **B** inicira bootstrap **pretragu** za imenom servisa.
+* **launchd** proverava da li je task pokrenut i ako nije, ga **pokreće**.
+* Task **A** (servis) izvršava **bootstrap check-in**. Ovde, **bootstrap** server kreira Pravo za slanje, zadržava ga, i **prebacuje Pravo za prijem Tasku A**.
+* launchd duplira **Pravo za slanje i šalje ga Tasku B**.
+* Task **B** generiše novi port sa **Pravom za prijem** i **Pravom za slanje**, i daje **Pravo za slanje Tasku A** (servisu) kako bi mogao slati poruke TASKU B (dvosmerna komunikacija).
 
-Međutim, ovaj proces se primenjuje samo na unapred definisane sistemsko zadatke. Ne-sistemski zadaci i dalje funkcionišu kao što je prvobitno opisano, što potencijalno može omogućiti imitaciju.
+Međutim, ovaj proces se odnosi samo na unapred definisane sistemski taskove. Ne-sistemski taskovi i dalje funkcionišu kao što je opisano originalno, što potencijalno može omogućiti predstavljanje. 
 
-### Mach poruka
+### Mach Poruka
 
-[Više informacija ovde](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)
+[Pronađite više informacija ovde](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)
 
-Funkcija `mach_msg`, suštinski sistemski poziv, koristi se za slanje i primanje Mach poruka. Funkcija zahteva da se poruka pošalje kao početni argument. Ova poruka mora početi sa strukturom `mach_msg_header_t`, a zatim sledi stvarni sadržaj poruke. Struktura je definisana kao sledi
+Funkcija `mach_msg`, suštinski sistemski poziv, koristi se za slanje i primanje Mach poruka. Funkcija zahteva da poruka bude poslata kao početni argument. Ova poruka mora početi sa strukturom `mach_msg_header_t`, praćenom stvarnim sadržajem poruke. Struktura je definisana na sledeći način:
 ```c
 typedef struct {
 mach_msg_bits_t               msgh_bits;
@@ -82,34 +86,34 @@ mach_port_name_t              msgh_voucher_port;
 mach_msg_id_t                 msgh_id;
 } mach_msg_header_t;
 ```
-Procesi koji poseduju _**pravo prijema**_ mogu primati poruke na Mach portu. S druge strane, **pošiljaoci** dobijaju _**pravo slanja**_ ili _**pravo jednokratnog slanja**_. Pravo jednokratnog slanja se koristi isključivo za slanje jedne poruke, nakon čega postaje nevažeće.
+Procesi koji poseduju _**pravo na prijem**_ mogu primati poruke na Mach portu. Nasuprot tome, **pošiljaoci** imaju _**pravo slanja**_ ili _**pravo slanja jednom**_. Pravo slanja jednom je isključivo za slanje jedne poruke, nakon čega postaje nevažeće.
 
-Da bi se postigla jednostavna **dvosmerna komunikacija**, proces može specificirati **mach port** u zaglavlju mach poruke koji se naziva _reply port_ (**`msgh_local_port`**), gde **primalac** poruke može **poslati odgovor** na tu poruku. Bitovi u polju **`msgh_bits`** se mogu koristiti da **ukazuju** da se za ovaj port treba izvesti i preneti **pravo jednokratnog slanja** (`MACH_MSG_TYPE_MAKE_SEND_ONCE`).
+Da bi postigli jednostavnu **bidirekcionalnu komunikaciju**, proces može odrediti **mach port** u mach **zaglavlju poruke** nazvan _port za odgovor_ (**`msgh_local_port`**) gde **primalac** poruke može **poslati odgovor** na tu poruku. Bitovi u **`msgh_bits`** mogu se koristiti da **pokažu** da bi trebalo izvesti i preneti **pravo slanja jednom** za ovaj port (`MACH_MSG_TYPE_MAKE_SEND_ONCE`).
 
 {% hint style="success" %}
-Napomena da se ovakva vrsta dvosmerne komunikacije koristi u XPC porukama koje očekuju odgovor (`xpc_connection_send_message_with_reply` i `xpc_connection_send_message_with_reply_sync`). Ali **obično se stvaraju različiti portovi** kao što je objašnjeno ranije kako bi se uspostavila dvosmerna komunikacija.
+Imajte na umu da se ovakva vrsta bidirekcionalne komunikacije koristi u XPC porukama koje očekuju odgovor (`xpc_connection_send_message_with_reply` i `xpc_connection_send_message_with_reply_sync`). Ali se **obično stvaraju različiti portovi** kako je objašnjeno ranije da bi se uspostavila bidirekcionalna komunikacija.
 {% endhint %}
 
 Ostala polja zaglavlja poruke su:
 
-* `msgh_size`: veličina celog paketa.
-* `msgh_remote_port`: port na koji se šalje ova poruka.
-* `msgh_voucher_port`: [mach vaučeri](https://robert.sesek.com/2023/6/mach\_vouchers.html).
-* `msgh_id`: ID ove poruke, koji tumači primalac.
+- `msgh_size`: veličina celog paketa.
+- `msgh_remote_port`: port na koji je poslata ova poruka.
+- `msgh_voucher_port`: [mach vaučeri](https://robert.sesek.com/2023/6/mach\_vouchers.html).
+- `msgh_id`: ID ove poruke, koji tumači primalac.
 
 {% hint style="danger" %}
-Napomena da se **mach poruke šalju preko **_**mach porta**_, koji je **kanal komunikacije sa jednim primaocem** i **više pošiljalaca** ugrađen u mach kernel. **Više procesa** može **slati poruke** na mach port, ali u svakom trenutku samo **jedan proces može čitati** sa njega.
+Imajte na umu da se **mach poruke šalju preko \_mach porta**\_, koji je **kanal komunikacije sa jednim primaocem** i **više pošiljalaca** ugrađen u mach jezgro. **Više procesa** može **slati poruke** na mach port, ali u svakom trenutku samo **jedan proces može čitati** sa njega.
 {% endhint %}
 
 ### Nabrojavanje portova
 ```bash
 lsmp -p <pid>
 ```
-Možete instalirati ovaj alat na iOS preuzimanjem sa [http://newosxbook.com/tools/binpack64-256.tar.gz ](http://newosxbook.com/tools/binpack64-256.tar.gz)
+Možete instalirati ovaj alat u iOS preuzimanjem sa [http://newosxbook.com/tools/binpack64-256.tar.gz](http://newosxbook.com/tools/binpack64-256.tar.gz)
 
 ### Primer koda
 
-Primetite kako **pošiljalac** alocira port, kreira **send right** za ime `org.darlinghq.example` i šalje ga **bootstrap serveru**, dok je primalac zatražio **send right** za to ime i koristio ga da **pošalje poruku**.
+Obratite pažnju kako **pošiljalac** **dodeljuje** port, kreira **send right** za ime `org.darlinghq.example` i šalje ga **bootstrap serveru** dok je pošiljalac zatražio **send right** za to ime i koristio ga je da **pošalje poruku**.
 
 {% tabs %}
 {% tab title="receiver.c" %}
@@ -178,7 +182,36 @@ message.some_text[9] = 0;
 printf("Text: %s, number: %d\n", message.some_text, message.some_number);
 }
 ```
-{% tab title="sender.c" %}
+{% endtab %}
+
+{% tab title="sender.c" %}Ovo je primer koda za slanje poruka preko IPC-a na macOS operativnom sistemu. Koristi se funkcija `msgsnd` za slanje poruke na red poruka. Potrebno je prvo dobiti identifikator reda poruka koristeći funkciju `msgget`. Zatim se koristi funkcija `msgsnd` za slanje strukture poruke na red poruka. Na kraju, koristi se funkcija `msgctl` za kontrolu reda poruka. Ovaj kod demonstrira osnovni proces slanja poruka preko IPC-a na macOS-u.
+
+```c
+#include <stdio.h>
+#include <sys/ipc.h>
+#include <sys/msg.h>
+
+struct message {
+    long mtype;
+    char mtext[100];
+};
+
+int main() {
+    key_t key;
+    int msgid;
+    struct message msg = {1, "Hello, IPC!"};
+
+    key = ftok("sender.c", 'B');
+    msgid = msgget(key, 0666 | IPC_CREAT);
+
+    msgsnd(msgid, &msg, sizeof(struct message), 0);
+
+    msgctl(msgid, IPC_RMID, NULL);
+
+    return 0;
+}
+```
+{% endtab %}
 ```c
 // Code from https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html
 // gcc sender.c -o sender
@@ -230,25 +263,22 @@ return 1;
 printf("Sent a message\n");
 }
 ```
-{% endtab %}
-{% endtabs %}
+### Privilegovani portovi
 
-### Privilegovane porte
+- **Host port**: Ako proces ima **Send** privilegiju nad ovim portom, može dobiti **informacije** o **sistemu** (npr. `host_processor_info`).
+- **Host priv port**: Proces sa **Send** pravom nad ovim portom može izvršiti **privilegovane akcije** poput učitavanja kernel ekstenzija. **Proces mora biti root** da bi dobio ovo ovlašćenje.
+- Takođe, da bi pozvao **`kext_request`** API, potrebno je imati druge dozvole poput **`com.apple.private.kext*`** koje su dodeljene samo Apple binarnim fajlovima.
+- **Task name port**: Neprivilegovana verzija _task porta_. Referencira task, ali ne dozvoljava kontrolu nad njim. Jedina stvar koja je dostupna kroz njega je `task_info()`.
+- **Task port** (poznat i kao kernel port)**:** Sa Send dozvolom nad ovim portom moguće je kontrolisati task (čitanje/pisanje memorije, kreiranje niti...).
+- Pozovi `mach_task_self()` da **dobiješ ime** za ovaj port za pozivaoca taska. Ovaj port se nasleđuje samo preko **`exec()`**; novi task kreiran sa `fork()` dobija novi task port (kao poseban slučaj, task takođe dobija novi task port nakon `exec()` u suid binarnom fajlu). Jedini način da spawnuješ task i dobiješ njegov port je da izvedeš ["port swap dance"](https://robert.sesek.com/2014/1/changes\_to\_xnu\_mach\_ipc.html) dok radiš `fork()`.
+- Ovo su ograničenja za pristup portu (iz `macos_task_policy` iz binarnog fajla `AppleMobileFileIntegrity`):
+  - Ako aplikacija ima **`com.apple.security.get-task-allow` dozvolu**, procesi od **istog korisnika mogu pristupiti task portu** (obično dodato od strane Xcode-a za debugovanje). Proces notarizacije neće dozvoliti ovo za produkcijska izdanja.
+  - Aplikacije sa **`com.apple.system-task-ports` dozvolom** mogu dobiti **task port za bilo** koji proces, osim kernela. U starijim verzijama se nazivalo **`task_for_pid-allow`**. Ovo je dodeljeno samo Apple aplikacijama.
+  - **Root može pristupiti task portovima** aplikacija **koje nisu kompajlirane sa** zaštićenim izvršavanjem (i ne od strane Apple-a).
 
-* **Host port**: Ako proces ima **Send** privilegiju nad ovim portom, može dobiti **informacije** o **sistemu** (npr. `host_processor_info`).
-* **Host priv port**: Proces sa **Send** pravom nad ovim portom može izvršiti **privilegovane akcije** kao što je učitavanje kernel ekstenzije. **Proces mora biti root** da bi dobio ovo ovlašćenje.
-* Osim toga, da bi se pozvao **`kext_request`** API, potrebno je imati druge privilegije **`com.apple.private.kext*`** koje se dodeljuju samo Apple binarnim fajlovima.
-* **Task name port**: Neprivilegovana verzija _task porta_. Referiše na task, ali ne dozvoljava kontrolu nad njim. Jedina stvar koja je dostupna kroz njega je `task_info()`.
-* **Task port** (poznat i kao kernel port)**:** Sa Send dozvolom nad ovim portom moguće je kontrolisati task (čitanje/pisanje memorije, kreiranje niti...).
-* Pozovite `mach_task_self()` da biste **dobili ime** za ovaj port za task pozivaoca. Ovaj port se samo **nasleđuje** prilikom **`exec()`**; novi task kreiran sa `fork()` dobija novi task port (kao poseban slučaj, task takođe dobija novi task port nakon `exec()` u suid binarnom fajlu). Jedini način da se spawnuje task i dobije njegov port je izvršiti ["port swap dance"](https://robert.sesek.com/2014/1/changes\_to\_xnu\_mach\_ipc.html) tokom `fork()` operacije.
-* Ovo su ograničenja za pristup portu (iz `macos_task_policy` iz binarnog fajla `AppleMobileFileIntegrity`):
-* Ako aplikacija ima **`com.apple.security.get-task-allow` privilegiju**, procesi od **iste korisnika mogu pristupiti task portu** (obično dodato od strane Xcode-a za debagovanje). Proces notarizacije neće to dozvoliti za produkcijske verzije.
-* Aplikacije sa **`com.apple.system-task-ports` privilegijom** mogu dobiti task port za bilo koji proces, osim kernela. U starijim verzijama se zvalo **`task_for_pid-allow`**. Ovo je dodeljeno samo Apple aplikacijama.
-* **Root može pristupiti task portovima** aplikacija koje **nisu** kompajlirane sa **hardened** runtime-om (i nisu od Apple-a).
+### Ubacivanje shell koda u nit putem Task porta
 
-### Ubacivanje Shellcode-a u nit putem Task porta&#x20;
-
-Možete preuzeti shellcode sa:
+Možeš dohvatiti shell kod sa:
 
 {% content-ref url="../../macos-apps-inspecting-debugging-and-fuzzing/arm64-basic-assembly.md" %}
 [arm64-basic-assembly.md](../../macos-apps-inspecting-debugging-and-fuzzing/arm64-basic-assembly.md)
@@ -285,7 +315,29 @@ performMathOperations();  // Silent action
 return 0;
 }
 ```
-{% tab title="entitlements.plist" %}entitlements.plist
+{% endtab %}
+
+{% tab title="entitlements.plist" %} 
+
+### macOS IPC (Inter-Process Communication)
+
+IPC mechanisms are used by macOS applications to communicate with each other. Understanding how IPC works is crucial for privilege escalation and lateral movement during a security assessment.
+
+#### Mach Messages
+
+Mach messages are a low-level IPC mechanism used by macOS. They are sent between tasks and are used for inter-process communication. By analyzing the entitlements.plist file, you can identify which processes are allowed to send and receive Mach messages.
+
+#### XPC Services
+
+XPC services are a higher-level IPC mechanism that allows applications to create and manage separate processes. By analyzing the entitlements.plist file, you can determine which XPC services are available and which processes can communicate with them.
+
+#### Distributed Objects
+
+Distributed Objects is another IPC mechanism used by macOS applications. By analyzing the entitlements.plist file, you can identify which processes are allowed to use Distributed Objects for inter-process communication.
+
+Understanding these IPC mechanisms and analyzing the entitlements.plist file can help identify potential security weaknesses and privilege escalation opportunities in macOS applications. 
+
+{% endtab %}
 ```xml
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -298,7 +350,7 @@ return 0;
 {% endtab %}
 {% endtabs %}
 
-**Kompajlirajte** prethodni program i dodajte **ovlašćenja** da biste mogli da ubacite kod sa istim korisnikom (ako ne, moraćete da koristite **sudo**).
+**Kompajlujte** prethodni program i dodajte **ovlašćenja** kako biste mogli da ubacite kod sa istim korisnikom (ako ne, moraćete koristiti **sudo**).
 
 <details>
 
@@ -499,20 +551,20 @@ inject(pid);
 return 0;
 }
 ```
-</details>
+</detalji>
 ```bash
 gcc -framework Foundation -framework Appkit sc_inject.m -o sc_inject
 ./inject <pi or string>
 ```
-### Dylib ubacivanje u nit putem Task porta
+### Ubacivanje Dylib-a u nit putem Task porta
 
-Na macOS-u se **niti** mogu manipulisati putem **Mach** ili korišćenjem **posix `pthread` API-ja**. Nit koju smo generisali u prethodnom ubacivanju je generisana korišćenjem Mach API-ja, tako da **nije u skladu sa posix standardom**.
+Na macOS-u se **niti** mogu manipulisati putem **Mach** ili korišćenjem **posix `pthread` API-ja**. Nit koju smo generisali u prethodnom ubacivanju, generisana je korišćenjem Mach API-ja, tako da **nije posix kompatibilna**.
 
-Bilo je moguće **ubaciti jednostavan shellcode** radi izvršavanja komande jer nije bilo potrebno raditi sa posix kompatibilnim API-jima, već samo sa Mach-om. **Kompleksnije ubacivanje** bi zahtevalo da nit takođe bude **posix kompatibilna**.
+Bilo je moguće **ubaciti jednostavan shellcode** da izvrši komandu jer **nije bilo potrebno raditi sa posix** kompatibilnim API-jima, već samo sa Mach-om. **Složenije injekcije** bi zahtevale da **nit** takođe bude **posix kompatibilna**.
 
-Da bi se **unapredila nit**, trebalo bi je pozvati **`pthread_create_from_mach_thread`** koja će **kreirati ispravnu pthread nit**. Zatim, ova nova pthread nit može **pozvati dlopen** da **učita dylib** sa sistema, tako da umesto pisanja novog shellcode-a za izvršavanje različitih akcija, moguće je učitati prilagođene biblioteke.
+Stoga, da bismo **unapredili nit**, trebalo bi da pozovemo **`pthread_create_from_mach_thread`** koji će **kreirati validnu pthread**. Zatim, ova nova pthread bi mogla **pozvati dlopen** da **učita dylib** sa sistema, tako da umesto pisanja novog shellcode-a za obavljanje različitih akcija, moguće je učitati prilagođene biblioteke.
 
-Možete pronaći **primer dylib-ova** u (na primer, onaj koji generiše log i zatim ga možete slušati):
+Možete pronaći **primer dylib-ova** u (na primer onaj koji generiše log i zatim možete da ga slušate):
 
 {% content-ref url="../../macos-dyld-hijacking-and-dyld_insert_libraries.md" %}
 [macos-dyld-hijacking-and-dyld\_insert\_libraries.md](../../macos-dyld-hijacking-and-dyld\_insert\_libraries.md)
@@ -725,21 +777,21 @@ kr  = vm_protect(remoteTask, remoteCode64, 0x70, FALSE, VM_PROT_READ | VM_PROT_E
 
 if (kr != KERN_SUCCESS)
 {
-fprintf(stderr,"Nemoguće postaviti dozvole memorije za kod udaljenog niti: Greška %s\n", mach_error_string(kr));
+fprintf(stderr,"Nije moguće postaviti dozvole memorije za kod udaljenog niti: Greška %s\n", mach_error_string(kr));
 return (-4);
 }
 
-// Postavi dozvole na alociranu memoriju steka
+// Postavljanje dozvola na alociranu memoriju steka
 kr  = vm_protect(remoteTask, remoteStack64, STACK_SIZE, TRUE, VM_PROT_READ | VM_PROT_WRITE);
 
 if (kr != KERN_SUCCESS)
 {
-fprintf(stderr,"Nemoguće postaviti dozvole memorije za stek udaljene niti: Greška %s\n", mach_error_string(kr));
+fprintf(stderr,"Nije moguće postaviti dozvole memorije za stek udaljene niti: Greška %s\n", mach_error_string(kr));
 return (-4);
 }
 
 
-// Kreiraj nit za izvršavanje shell koda
+// Kreiranje niti za izvršavanje shell koda
 struct arm_unified_thread_state remoteThreadState64;
 thread_act_t         remoteThread;
 
@@ -761,7 +813,7 @@ kr = thread_create_running(remoteTask, ARM_THREAD_STATE64, // ARM_THREAD_STATE64
 (thread_state_t) &remoteThreadState64.ts_64, ARM_THREAD_STATE64_COUNT , &remoteThread );
 
 if (kr != KERN_SUCCESS) {
-fprintf(stderr,"Nemoguće kreirati udaljenu nit: greška %s", mach_error_string (kr));
+fprintf(stderr,"Nije moguće kreirati udaljenu nit: greška %s", mach_error_string (kr));
 return (-3);
 }
 
@@ -787,12 +839,12 @@ int rc = stat (action, &buf);
 if (rc == 0) inject(pid,action);
 else
 {
-fprintf(stderr,"Dylib fajl nije pronađen\n");
+fprintf(stderr,"Dylib nije pronađen\n");
 }
 
 }
 ```
-</details>
+</detalji>
 ```bash
 gcc -framework Foundation -framework Appkit dylib_injector.m -o dylib_injector
 ./inject <pid-of-mysleep> </path/to/lib.dylib>
@@ -809,7 +861,7 @@ U ovoj tehnici se preuzima nit procesa:
 
 ### Osnovne informacije
 
-XPC, što označava XNU (jezgro koje koristi macOS) inter-procesnu komunikaciju, je okvir za **komunikaciju između procesa** na macOS-u i iOS-u. XPC pruža mehanizam za izvođenje **sigurnih, asinhronih poziva metoda između različitih procesa** na sistemu. To je deo Apple-ovog sigurnosnog paradigme, omogućavajući **kreiranje aplikacija sa odvojenim privilegijama** gde svaki **komponent** radi sa **samo dozvolama koje su mu potrebne** da obavi svoj posao, čime se ograničava potencijalna šteta od kompromitovanog procesa.
+XPC, što označava XNU (jezgro koje koristi macOS) međuprocesnu komunikaciju, je okvir za **komunikaciju između procesa** na macOS-u i iOS-u. XPC pruža mehanizam za **sigurne, asinhrone pozive metoda između različitih procesa** na sistemu. To je deo Apple-ovog sigurnosnog paradigma, omogućavajući **kreiranje aplikacija sa razdvojenim privilegijama** gde svaki **komponent** radi sa **samo dozvolama koje su mu potrebne** da obavi svoj posao, čime se ograničava potencijalna šteta od kompromitovanog procesa.
 
 Za više informacija o tome kako ova **komunikacija funkcioniše** i kako **može biti ranjiva**, pogledajte:
 
@@ -817,9 +869,9 @@ Za više informacija o tome kako ova **komunikacija funkcioniše** i kako **mož
 [macos-xpc](../../macos-proces-abuse/macos-ipc-inter-process-communication/macos-xpc/)
 {% endcontent-ref %}
 
-## MIG - Mach Interface Generator
+## MIG - Generator Mach interfejsa
 
-MIG je kreiran kako bi **olakšao proces kreiranja Mach IPC** koda. U osnovi, on **generiše potreban kod** za server i klijenta kako bi komunicirali sa datom definicijom. Iako je generisani kod ružan, programer će samo trebati da ga uveze i njegov kod će biti mnogo jednostavniji nego pre.
+MIG je kreiran da **simplifikuje proces kreiranja koda Mach IPC**. U osnovi, **generiše potreban kod** za server i klijenta da komuniciraju sa datom definicijom. Čak i ako je generisani kod ružan, programer će samo trebati da ga uveze i njegov kod će biti mnogo jednostavniji nego pre.
 
 Za više informacija pogledajte:
 
@@ -841,10 +893,10 @@ Za više informacija pogledajte:
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju oglašenu u HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
