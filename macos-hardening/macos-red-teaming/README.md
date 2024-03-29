@@ -31,13 +31,13 @@ Für Red Teaming in MacOS-Umgebungen wird dringend empfohlen, ein Verständnis d
 
 Ein MDM hat die Berechtigung, Profile zu installieren, abzufragen oder zu entfernen, Anwendungen zu installieren, lokale Admin-Konten zu erstellen, das Firmware-Passwort festzulegen, den FileVault-Schlüssel zu ändern...
 
-Um Ihr eigenes MDM auszuführen, benötigen Sie **Ihren CSR, der von einem Anbieter signiert ist**, den Sie versuchen könnten, mit [**https://mdmcert.download/**](https://mdmcert.download/) zu erhalten. Und um Ihr eigenes MDM für Apple-Geräte auszuführen, könnten Sie [**MicroMDM**](https://github.com/micromdm/micromdm) verwenden.
+Um Ihr eigenes MDM auszuführen, benötigen Sie **Ihren CSR, der von einem Anbieter signiert wurde**, den Sie versuchen könnten, mit [**https://mdmcert.download/**](https://mdmcert.download/) zu erhalten. Und um Ihr eigenes MDM für Apple-Geräte auszuführen, könnten Sie [**MicroMDM**](https://github.com/micromdm/micromdm) verwenden.
 
 Um jedoch eine Anwendung auf einem eingeschriebenen Gerät zu installieren, muss sie immer noch von einem Entwicklerkonto signiert sein... jedoch fügt das Gerät beim MDM-Enrollment das SSL-Zertifikat des MDM als vertrauenswürdige CA hinzu, sodass Sie jetzt alles signieren können.
 
 Um das Gerät in einem MDM einzuschreiben, müssen Sie eine **`mobileconfig`**-Datei als Root installieren, die über eine **pkg**-Datei bereitgestellt werden könnte (Sie könnten sie in einem Zip komprimieren und wenn sie aus Safari heruntergeladen wird, wird sie dekomprimiert).
 
-Der **Mythic-Agent Orthrus** verwendet diese Technik.
+**Mythic-Agent Orthrus** verwendet diese Technik.
 
 ### Ausnutzen von JAMF PRO
 
@@ -45,9 +45,9 @@ JAMF kann **benutzerdefinierte Skripte** (von Sysadmin entwickelte Skripte), **n
 
 #### JAMF-Selbsteinschreibung
 
-Gehen Sie zu einer Seite wie `https://<Firmenname>.jamfcloud.com/enroll/`, um zu sehen, ob **die Selbsteinschreibung aktiviert ist**. Wenn ja, könnte es **nach Anmeldeinformationen fragen**.
+Gehen Sie zu einer Seite wie `https://<Firmenname>.jamfcloud.com/enroll/`, um zu sehen, ob **die Selbstregistrierung aktiviert ist**. Wenn ja, könnte es **nach Anmeldeinformationen fragen**.
 
-Sie könnten das Skript [**JamfSniper.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfSniper.py) verwenden, um einen Passwort-Sprühangriff durchzuführen.
+Sie könnten das Skript [**JamfSniper.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfSniper.py) verwenden, um einen Passwort-Spraying-Angriff durchzuführen.
 
 Darüber hinaus könnten Sie nach dem Auffinden geeigneter Anmeldeinformationen in der Lage sein, andere Benutzernamen mit dem folgenden Formular per Brute-Force anzugreifen:
 
@@ -55,7 +55,7 @@ Darüber hinaus könnten Sie nach dem Auffinden geeigneter Anmeldeinformationen 
 
 #### JAMF-Geräteauthentifizierung
 
-<figure><img src="../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Das **`jamf`**-Binär enthielt das Geheimnis, den Schlüsselbund zu öffnen, der zum Zeitpunkt der Entdeckung **von allen geteilt wurde** und es war: **`jk23ucnq91jfu9aj`**.\
 Darüber hinaus bleibt jamf als **LaunchDaemon** in **`/Library/LaunchAgents/com.jamf.management.agent.plist`** bestehen.
@@ -96,15 +96,15 @@ sudo jamf policy -id 0
 Um die **Kommunikation** zwischen einem Gerät und JMF zu **imitieren**, benötigen Sie:
 
 * Die **UUID** des Geräts: `ioreg -d2 -c IOPlatformExpertDevice | awk -F" '/IOPlatformUUID/{print $(NF-1)}'`
-* Das **JAMF-Schlüsselbund** von: `/Library/Application\ Support/Jamf/JAMF.keychain`, das das Gerätezertifikat enthält
+* Den **JAMF-Schlüsselbund** von: `/Library/Application\ Support/Jamf/JAMF.keychain`, der das Gerätezertifikat enthält
 
-Mit diesen Informationen **erstellen Sie eine VM** mit der **gestohlenen** Hardware-**UUID** und mit deaktiviertem **SIP**, lassen das **JAMF-Schlüsselbund fallen**, **hooken** den Jamf-**Agenten** und stehlen seine Informationen.
+Mit diesen Informationen **erstellen Sie eine VM** mit der **gestohlenen** Hardware-**UUID** und mit deaktiviertem **SIP**, lassen den **JAMF-Schlüsselbund fallen**, **hooken** den Jamf-**Agenten** und stehlen seine Informationen.
 
 #### Geheimnisse stehlen
 
 <figure><img src="../../.gitbook/assets/image (11).png" alt=""><figcaption><p>a</p></figcaption></figure>
 
-Sie könnten auch den Ordner `/Library/Application Support/Jamf/tmp/` überwachen, um die **benutzerdefinierten Skripte** zu überwachen, die Administratoren über Jamf ausführen möchten, da sie hier **platziert, ausgeführt und entfernt** werden. Diese Skripte **können Anmeldeinformationen enthalten**.
+Sie könnten auch den Ordner `/Library/Application Support/Jamf/tmp/` überwachen, um die **benutzerdefinierten Skripte** zu sehen, die Administratoren über Jamf ausführen möchten, da sie hier **platziert, ausgeführt und entfernt** werden. Diese Skripte **können Anmeldeinformationen enthalten**.
 
 Allerdings könnten **Anmeldeinformationen** als **Parameter** an diese Skripte übergeben werden, daher müssten Sie `ps aux | grep -i jamf` überwachen (ohne Root-Rechte zu haben).
 
@@ -134,14 +134,14 @@ In einigen Fällen werden Sie feststellen, dass der **MacOS-Computer mit einem A
 [pentesting-kerberos-88](../../network-services-pentesting/pentesting-kerberos-88/)
 {% endcontent-ref %}
 
-Einige **lokale MacOS-Tools**, die Ihnen ebenfalls helfen können, sind `dscl`:
+Einige **lokale MacOS-Tools**, die Ihnen ebenfalls helfen könnten, sind `dscl`:
 ```bash
 dscl "/Active Directory/[Domain]/All Domains" ls /
 ```
 Auch gibt es einige Tools für MacOS, um automatisch das AD aufzulisten und mit Kerberos zu arbeiten:
 
 * [**Machound**](https://github.com/XMCyber/MacHound): MacHound ist eine Erweiterung des Bloodhound-Audit-Tools, das das Sammeln und Einlesen von Active Directory-Beziehungen auf MacOS-Hosts ermöglicht.
-* [**Bifrost**](https://github.com/its-a-feature/bifrost): Bifrost ist ein Objective-C-Projekt, das entwickelt wurde, um mit den Heimdal krb5-APIs auf macOS zu interagieren. Das Ziel des Projekts ist es, bessere Sicherheitstests rund um Kerberos auf macOS-Geräten unter Verwendung nativer APIs zu ermöglichen, ohne dass ein anderes Framework oder Pakete auf dem Ziel benötigt werden.
+* [**Bifrost**](https://github.com/its-a-feature/bifrost): Bifrost ist ein Objective-C-Projekt, das entwickelt wurde, um mit den Heimdal krb5-APIs auf macOS zu interagieren. Das Ziel des Projekts ist es, bessere Sicherheitstests rund um Kerberos auf macOS-Geräten unter Verwendung nativer APIs zu ermöglichen, ohne dass andere Frameworks oder Pakete auf dem Ziel benötigt werden.
 * [**Orchard**](https://github.com/its-a-feature/Orchard): JavaScript for Automation (JXA)-Tool zur Durchführung der Active Directory-Auflistung.
 
 ### Domäneninformationen
@@ -152,17 +152,17 @@ echo show com.apple.opendirectoryd.ActiveDirectory | scutil
 
 Die drei Arten von MacOS-Benutzern sind:
 
-- **Lokale Benutzer** - Werden vom lokalen OpenDirectory-Dienst verwaltet und sind in keiner Weise mit dem Active Directory verbunden.
-- **Netzwerkbenutzer** - Flüchtige Active Directory-Benutzer, die eine Verbindung zum DC-Server benötigen, um sich zu authentifizieren.
-- **Mobile Benutzer** - Active Directory-Benutzer mit einer lokalen Sicherung für ihre Anmeldeinformationen und Dateien.
+- **Lokale Benutzer** — Werden vom lokalen OpenDirectory-Dienst verwaltet und sind in keiner Weise mit dem Active Directory verbunden.
+- **Netzwerkbenutzer** — Flüchtige Active Directory-Benutzer, die eine Verbindung zum DC-Server benötigen, um sich zu authentifizieren.
+- **Mobile Benutzer** — Active Directory-Benutzer mit einem lokalen Backup für ihre Anmeldeinformationen und Dateien.
 
 Die lokalen Informationen zu Benutzern und Gruppen werden im Ordner _/var/db/dslocal/nodes/Default_ gespeichert.\
-Zum Beispiel werden die Informationen zum Benutzer namens _mark_ in _/var/db/dslocal/nodes/Default/users/mark.plist_ gespeichert und die Informationen zur Gruppe _admin_ in _/var/db/dslocal/nodes/Default/groups/admin.plist_.
+Zum Beispiel werden die Informationen zum Benutzer namens _mark_ in _/var/db/dslocal/nodes/Default/users/mark.plist_ gespeichert und die Informationen zur Gruppe _admin_ befinden sich in _/var/db/dslocal/nodes/Default/groups/admin.plist_.
 
-Zusätzlich zu den Verwendung von HasSession und AdminTo-Kanten fügt **MacHound drei neue Kanten** zur Bloodhound-Datenbank hinzu:
+Zusätzlich zu den Verwendung der HasSession- und AdminTo-Kanten fügt **MacHound drei neue Kanten** zur Bloodhound-Datenbank hinzu:
 
-- **CanSSH** - Entität, die zum SSH auf den Host berechtigt ist
-- **CanVNC** - Entität, die zum VNC auf den Host berechtigt ist
+- **CanSSH** - Entität, die zum SSH-Zugriff auf den Host berechtigt ist
+- **CanVNC** - Entität, die zum VNC-Zugriff auf den Host berechtigt ist
 - **CanAE** - Entität, die zum Ausführen von AppleEvent-Skripten auf dem Host berechtigt ist
 ```bash
 #User enumeration
@@ -189,7 +189,7 @@ Mehr Informationen unter [https://its-a-feature.github.io/posts/2018/01/Active-D
 
 ## Zugriff auf den Schlüsselbund
 
-Der Schlüsselbund enthält höchstwahrscheinlich sensible Informationen, die bei einem Zugriff ohne Aufforderung dazu beitragen könnten, ein Red-Team-Exercise voranzutreiben:
+Der Schlüsselbund enthält höchstwahrscheinlich sensible Informationen, die bei Zugriff ohne Aufforderung helfen könnten, ein Red-Team-Exercise voranzutreiben:
 
 {% content-ref url="macos-keychain.md" %}
 [macos-keychain.md](macos-keychain.md)
@@ -197,7 +197,7 @@ Der Schlüsselbund enthält höchstwahrscheinlich sensible Informationen, die be
 
 ## Externe Dienste
 
-MacOS Red Teaming unterscheidet sich von einem regulären Windows Red Teaming, da **MacOS in der Regel direkt mit mehreren externen Plattformen integriert ist**. Eine gängige Konfiguration von MacOS besteht darin, auf den Computer mit **OneLogin synchronisierten Anmeldeinformationen zuzugreifen und über OneLogin auf verschiedene externe Dienste zuzugreifen** (wie github, aws...).
+MacOS Red Teaming unterscheidet sich von einem regulären Windows Red Teaming, da **MacOS in der Regel direkt mit mehreren externen Plattformen integriert ist**. Eine gängige Konfiguration von MacOS besteht darin, auf den Computer mit **OneLogin synchronisierten Anmeldedaten zuzugreifen und auf mehrere externe Dienste** (wie github, aws...) über OneLogin zuzugreifen.
 
 ## Verschiedene Red-Team-Techniken
 

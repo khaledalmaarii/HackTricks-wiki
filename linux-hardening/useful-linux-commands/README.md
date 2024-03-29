@@ -1,6 +1,6 @@
 # Nützliche Linux-Befehle
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um mühelos **Workflows zu erstellen** und zu **automatisieren**, die von den weltweit **fortschrittlichsten** Community-Tools unterstützt werden.\
@@ -10,7 +10,7 @@ Heute Zugriff erhalten:
 
 <details>
 
-<summary><strong>Erlernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Erlernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
@@ -18,7 +18,7 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositories einreichen.
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
 
 </details>
 
@@ -141,7 +141,7 @@ sudo chattr -i file.txt #Remove the bit so you can delete it
 # List files inside zip
 7z l file.zip
 ```
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Verwenden Sie [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks), um mühelos **Workflows zu erstellen** und zu **automatisieren**, die von den weltweit **fortschrittlichsten** Community-Tools unterstützt werden.\
@@ -171,29 +171,7 @@ i686-mingw32msvc-gcc -o executable useradd.c
 ```
 ## Greps
 
-### Grep nach einem Muster in einer Datei
-
-```bash
-grep "muster" datei
-```
-
-### Grep nach einem Muster in mehreren Dateien
-
-```bash
-grep "muster" datei1 datei2
-```
-
-### Grep nach einem Muster in allen Dateien im Verzeichnis
-
-```bash
-grep "muster" *
-```
-
-### Grep nach einem Muster in allen Dateien im Verzeichnis und in allen Unterverzeichnissen
-
-```bash
-grep -r "muster" *
-```
+Grep ist ein leistungsstarkes Tool zum Durchsuchen von Text in Dateien. Es kann verwendet werden, um nach bestimmten Zeichenfolgen in einer oder mehreren Dateien zu suchen. Grep kann auch mit regulären Ausdrücken verwendet werden, um die Suche zu verfeinern.
 ```bash
 #Extract emails from file
 grep -E -o "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b" file.txt
@@ -287,13 +265,28 @@ find <path> <options>
 
 ### Optionen
 
-- `-name`: Sucht nach Dateien/Verzeichnissen mit einem bestimmten Namen.
-- `-type`: Sucht nach einem bestimmten Typ (z. B. `f` für Datei, `d` für Verzeichnis).
-- `-size`: Sucht nach Dateien basierend auf ihrer Größe.
+- `-name`: Suche nach Dateien/Verzeichnissen mit einem bestimmten Namen.
+- `-type`: Suche nach einem bestimmten Typ von Datei (z. B. `f` für reguläre Datei, `d` für Verzeichnis).
+- `-user`: Suche nach Dateien/Verzeichnissen, die einem bestimmten Benutzer gehören.
+- `-size`: Suche nach Dateien basierend auf ihrer Größe.
 - `-exec`: Führt einen Befehl für jede gefundene Datei/Verzeichnis aus.
-- `-delete`: Löscht die gefundenen Dateien/Verzeichnisse.
-- `-mtime`: Sucht nach Dateien, die innerhalb einer bestimmten Anzahl von Tagen geändert wurden.
-- `-user`: Sucht nach Dateien/Verzeichnissen, die einem bestimmten Benutzer gehören.
+
+### Beispiele
+
+1. Suche nach einer Datei mit einem bestimmten Namen im aktuellen Verzeichnis:
+```bash
+find . -name example.txt
+```
+
+2. Suche nach allen Verzeichnissen im Home-Verzeichnis:
+```bash
+find ~ -type d
+```
+
+3. Suche nach Dateien, die einem bestimmten Benutzer gehören:
+```bash
+find /var/log -user root
+```
 ```bash
 # Find SUID set files.
 find / -perm /u=s -ls 2>/dev/null
@@ -342,7 +335,7 @@ for j in $((for i in {0..9}{0..9} {0..9}{a..f} {a..f}{0..9} {a..f}{a..f}; do ech
 
 ### Beschreibung
 
-Iptables ist ein leistungsstarkes Tool zur Konfiguration von Firewall-Regeln in Linux-Systemen. Es ermöglicht die Kontrolle des Datenverkehrs auf Netzwerkebene durch das Definieren von Regeln für den Datenverkehr.
+Iptables ist ein leistungsstarkes Tool zur Konfiguration von Firewall-Regeln in Linux-Systemen. Es ermöglicht die Kontrolle des Datenverkehrs auf Netzwerkebene durch die Definition von Regeln für den Datenverkehr.
 
 ### Verwendung
 
@@ -354,9 +347,7 @@ Um Iptables zu verwenden, müssen Sie die Befehlszeile verwenden. Hier sind eini
 - `iptables -P INPUT DROP`: Setzt die Standardeinstellung für eingehenden Datenverkehr auf Blockieren.
 - `iptables -P OUTPUT DROP`: Setzt die Standardeinstellung für ausgehenden Datenverkehr auf Blockieren.
 
-### Hinweis
-
-Es ist wichtig, vorsichtig zu sein, wenn Sie mit Iptables arbeiten, da falsch konfigurierte Regeln dazu führen können, dass der Netzwerkverkehr gestört wird. Es wird empfohlen, vor der Implementierung von Regeln eine Sicherungskopie der aktuellen Konfiguration zu erstellen.
+Diese Befehle sind nur ein Ausgangspunkt. Iptables bietet eine Vielzahl von Optionen und Konfigurationen, um die Firewall nach Ihren Anforderungen anzupassen.
 ```bash
 #Delete curent rules and chains
 iptables --flush
@@ -401,10 +392,10 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um mühelos **Workflows zu erstellen und zu automatisieren**, die von den weltweit **fortschrittlichsten** Community-Tools unterstützt werden.\
+Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um einfach **Workflows zu erstellen und zu automatisieren**, die von den weltweit **fortschrittlichsten** Community-Tools unterstützt werden.\
 Heute Zugriff erhalten:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

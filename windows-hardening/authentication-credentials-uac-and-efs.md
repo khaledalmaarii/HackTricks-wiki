@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Erlernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Erlernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
@@ -14,7 +14,7 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 
 </details>
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um mühelos **Workflows zu erstellen und zu automatisieren**, die von den weltweit **fortschrittlichsten Community-Tools** unterstützt werden.\
 Heute Zugriff erhalten:
@@ -56,7 +56,7 @@ C:\windows\tracing
 * **Schlecht geschriebene Regeln könnten ebenfalls umgangen werden**
 * Zum Beispiel, mit **`<FilePathCondition Path="%OSDRIVE%*\allowed*"/>`**, können Sie einen **Ordner namens `allowed`** überall erstellen und er wird erlaubt sein.
 * Organisationen konzentrieren sich oft darauf, die Ausführung der `%System32%\WindowsPowerShell\v1.0\powershell.exe` ausführbaren Datei zu blockieren, vergessen jedoch die **anderen** [**PowerShell-Ausführungsorte**](https://www.powershelladmin.com/wiki/PowerShell\_Executables\_File\_System\_Locations) wie `%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe` oder `PowerShell_ISE.exe`.
-* **DLL-Durchsetzung sehr selten aktiviert** aufgrund der zusätzlichen Belastung, die sie auf ein System legen kann, und der Menge an erforderlichen Tests, um sicherzustellen, dass nichts kaputt geht. Daher können **DLLs als Hintertüren verwendet werden, um AppLocker zu umgehen**.
+* **DLL-Durchsetzung ist sehr selten aktiviert** aufgrund der zusätzlichen Belastung, die sie auf ein System legen kann, und der Menge an erforderlichen Tests, um sicherzustellen, dass nichts kaputt geht. Daher können **DLLs als Hintertüren verwendet werden, um AppLocker zu umgehen**.
 * Sie können [**ReflectivePick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) oder [**SharpPick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) verwenden, um **PowerShell-Code in jedem Prozess auszuführen** und AppLocker zu umgehen. Weitere Informationen finden Sie unter: [https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode](https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode).
 
 ## Speicherung von Anmeldeinformationen
@@ -67,11 +67,11 @@ Lokale Anmeldeinformationen sind in dieser Datei vorhanden, die Passwörter sind
 
 ### Lokale Sicherheitsbehörde (LSA) - LSASS
 
-Die **Anmeldeinformationen** (gehasht) werden im **Speicher** dieses Subsystems aus Single Sign-On-Gründen **gespeichert**.\
+Die **Anmeldeinformationen** (gehasht) werden im **Speicher** dieses Subsystems für Single Sign-On-Zwecke **gespeichert**.\
 **LSA** verwaltet die lokale **Sicherheitsrichtlinie** (Passwortrichtlinie, Benutzerberechtigungen...), **Authentifizierung**, **Zugriffstoken**...\
-LSA wird derjenige sein, der die bereitgestellten Anmeldeinformationen in der **SAM**-Datei überprüft (für eine lokale Anmeldung) und mit dem **Domänencontroller** kommuniziert, um einen Domänenbenutzer zu authentifizieren.
+LSA wird überprüfen, ob die bereitgestellten Anmeldeinformationen in der **SAM**-Datei vorhanden sind (für eine lokale Anmeldung) und mit dem **Domänencontroller** kommunizieren, um einen Domänenbenutzer zu authentifizieren.
 
-Die **Anmeldeinformationen** sind im **Prozess LSASS** gespeichert: Kerberos-Tickets, Hashes NT und LM, leicht entschlüsselbare Passwörter.
+Die **Anmeldeinformationen** werden im **Prozess LSASS** gespeichert: Kerberos-Tickets, NT- und LM-Hashes, leicht entschlüsselbare Passwörter.
 
 ### LSA-Secrets
 
@@ -122,23 +122,23 @@ sc query windefend
 ```
 ## Verschlüsseltes Dateisystem (EFS)
 
-EFS sichert Dateien durch Verschlüsselung unter Verwendung eines **symmetrischen Schlüssels** namens **File Encryption Key (FEK)**. Dieser Schlüssel wird mit dem **öffentlichen Schlüssel** des Benutzers verschlüsselt und innerhalb des verschlüsselten Dateisystems des $EFS **alternativen Datenstroms** gespeichert. Wenn eine Entschlüsselung erforderlich ist, wird der entsprechende **private Schlüssel** des digitalen Zertifikats des Benutzers verwendet, um den FEK aus dem $EFS-Stream zu entschlüsseln. Weitere Details finden Sie [hier](https://en.wikipedia.org/wiki/Encrypting\_File\_System).
+EFS sichert Dateien durch Verschlüsselung unter Verwendung eines **symmetrischen Schlüssels** namens **File Encryption Key (FEK)**. Dieser Schlüssel wird mit dem **öffentlichen Schlüssel** des Benutzers verschlüsselt und innerhalb des verschlüsselten Dateis $EFS **alternativen Datenstroms** gespeichert. Bei Bedarf zur Entschlüsselung wird der entsprechende **private Schlüssel** des digitalen Zertifikats des Benutzers verwendet, um den FEK aus dem $EFS-Stream zu entschlüsseln. Weitere Details finden Sie [hier](https://en.wikipedia.org/wiki/Encrypting\_File\_System).
 
-**Szenarien für die Entschlüsselung ohne Benutzerinitiierung** umfassen:
+**Szenarien für Entschlüsselung ohne Benutzerinitiierung** umfassen:
 
 - Wenn Dateien oder Ordner auf ein nicht-EFS-Dateisystem wie [FAT32](https://en.wikipedia.org/wiki/File\_Allocation\_Table) verschoben werden, werden sie automatisch entschlüsselt.
 - Verschlüsselte Dateien, die über das Netzwerk über das SMB/CIFS-Protokoll gesendet werden, werden vor der Übertragung entschlüsselt.
 
-Diese Verschlüsselungsmethode ermöglicht einen **transparenten Zugriff** auf verschlüsselte Dateien für den Besitzer. Das einfache Ändern des Passworts des Besitzers und das Anmelden ermöglichen jedoch keine Entschlüsselung.
+Diese Verschlüsselungsmethode ermöglicht einen **transparenten Zugriff** auf verschlüsselte Dateien für den Besitzer. Das einfache Ändern des Passworts des Besitzers und das Einloggen erlauben jedoch keine Entschlüsselung.
 
-**Haupterkenntnisse**:
+**Hauptpunkte**:
 
 - EFS verwendet einen symmetrischen FEK, der mit dem öffentlichen Schlüssel des Benutzers verschlüsselt ist.
 - Zur Entschlüsselung wird der private Schlüssel des Benutzers verwendet, um auf den FEK zuzugreifen.
 - Die automatische Entschlüsselung erfolgt unter bestimmten Bedingungen, z. B. beim Kopieren auf FAT32 oder bei der Netzwerkübertragung.
 - Verschlüsselte Dateien sind für den Besitzer ohne zusätzliche Schritte zugänglich.
 
-### Überprüfen von EFS-Informationen
+### EFS-Informationen überprüfen
 
 Überprüfen Sie, ob ein **Benutzer** diesen **Dienst** verwendet hat, indem Sie prüfen, ob dieser Pfad existiert: `C:\users\<Benutzername>\appdata\roaming\Microsoft\Protect`
 
@@ -148,7 +148,7 @@ Diese Verschlüsselungsmethode ermöglicht einen **transparenten Zugriff** auf v
 
 #### Als Autoritätssystem
 
-In diesem Fall muss der **Opferbenutzer** einen **Prozess** im Host **ausführen**. In diesem Fall können Sie mit einer `meterpreter`-Sitzung das Token des Benutzerprozesses übernehmen (`impersonate_token` von `incognito`). Oder Sie könnten einfach zu einem Prozess des Benutzers `migrieren`.
+In diesem Fall muss der **Opferbenutzer** einen **Prozess** im Host ausführen. In diesem Fall können Sie mit einer `meterpreter`-Sitzung das Token des Benutzerprozesses übernehmen (`impersonate_token` von `incognito`). Oder Sie könnten einfach zu einem Prozess des Benutzers `migrieren`.
 
 #### Kenntnis des Benutzerpassworts
 
@@ -156,7 +156,7 @@ In diesem Fall muss der **Opferbenutzer** einen **Prozess** im Host **ausführen
 
 ## Gruppenverwaltete Dienstkonten (gMSA)
 
-Microsoft hat **Group Managed Service Accounts (gMSA)** entwickelt, um die Verwaltung von Dienstkonten in IT-Infrastrukturen zu vereinfachen. Im Gegensatz zu herkömmlichen Dienstkonten, bei denen häufig die Einstellung "**Kennwort läuft nie ab**" aktiviert ist, bieten gMSAs eine sicherere und verwaltbarere Lösung:
+Microsoft hat **Gruppenverwaltete Dienstkonten (gMSA)** entwickelt, um die Verwaltung von Dienstkonten in IT-Infrastrukturen zu vereinfachen. Im Gegensatz zu traditionellen Dienstkonten, bei denen häufig die Einstellung "**Kennwort läuft nie ab**" aktiviert ist, bieten gMSAs eine sicherere und verwaltbarere Lösung:
 
 - **Automatisches Kennwortmanagement**: gMSAs verwenden ein komplexes, 240-Zeichen langes Kennwort, das sich automatisch gemäß der Domänen- oder Computerrichtlinie ändert. Dieser Prozess wird vom Key Distribution Service (KDC) von Microsoft verwaltet, was manuelle Kennwortaktualisierungen überflüssig macht.
 - **Erhöhte Sicherheit**: Diese Konten sind immun gegen Sperren und können nicht für interaktive Anmeldungen verwendet werden, was ihre Sicherheit erhöht.
@@ -164,7 +164,7 @@ Microsoft hat **Group Managed Service Accounts (gMSA)** entwickelt, um die Verwa
 - **Fähigkeit zur Ausführung geplanter Aufgaben**: Im Gegensatz zu verwalteten Dienstkonten unterstützen gMSAs die Ausführung geplanter Aufgaben.
 - **Vereinfachtes SPN-Management**: Das System aktualisiert automatisch den Service Principal Name (SPN), wenn es Änderungen an den sAMaccount-Details oder dem DNS-Namen des Computers gibt, was das SPN-Management vereinfacht.
 
-Die Kennwörter für gMSAs werden in der LDAP-Eigenschaft _**msDS-ManagedPassword**_ gespeichert und alle 30 Tage automatisch von den Domänencontrollern (DCs) zurückgesetzt. Dieses Kennwort, ein verschlüsseltes Datenblob namens [MSDS-MANAGEDPASSWORD\_BLOB](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-adts/a9019740-3d73-46ef-a9ae-3ea8eb86ac2e), kann nur von autorisierten Administratoren und den Servern, auf denen die gMSAs installiert sind, abgerufen werden, was eine sichere Umgebung gewährleistet. Um auf diese Informationen zuzugreifen, ist eine gesicherte Verbindung wie LDAPS erforderlich, oder die Verbindung muss mit 'Sealing & Secure' authentifiziert werden.
+Die Kennwörter für gMSAs werden in der LDAP-Eigenschaft _**msDS-ManagedPassword**_ gespeichert und alle 30 Tage automatisch von den Domänencontrollern (DCs) zurückgesetzt. Dieses Kennwort, ein verschlüsseltes Datenblob namens [MSDS-MANAGEDPASSWORD\_BLOB](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-adts/a9019740-3d73-46ef-a9ae-3ea8eb86ac2e), kann nur von autorisierten Administratoren und den Servern, auf denen die gMSAs installiert sind, abgerufen werden, was eine sichere Umgebung gewährleistet. Um auf diese Informationen zuzugreifen, ist eine gesicherte Verbindung wie LDAPS erforderlich, oder die Verbindung muss mit 'Versiegeln & Sichern' authentifiziert werden.
 
 ![https://cube0x0.github.io/Relaying-for-gMSA/](../.gitbook/assets/asd1.png)
 
@@ -178,7 +178,7 @@ Sie können dieses Kennwort mit [**GMSAPasswordReader**](https://github.com/rvaz
 
 ## LAPS
 
-Die **Local Administrator Password Solution (LAPS)**, die zum Download von [Microsoft](https://www.microsoft.com/en-us/download/details.aspx?id=46899) zur Verfügung steht, ermöglicht das Management von lokalen Administratorpasswörtern. Diese Passwörter, die **zufällig generiert**, einzigartig und **regelmäßig geändert** werden, werden zentral im Active Directory gespeichert. Der Zugriff auf diese Passwörter ist durch ACLs auf autorisierte Benutzer beschränkt. Mit ausreichenden Berechtigungen kann die Möglichkeit zum Lesen von lokalen Administratorpasswörtern bereitgestellt werden.
+Die **Local Administrator Password Solution (LAPS)**, die zum Download von [Microsoft](https://www.microsoft.com/en-us/download/details.aspx?id=46899) zur Verfügung steht, ermöglicht das Management von lokalen Administratorpasswörtern. Diese Passwörter, die **zufällig generiert**, einzigartig und **regelmäßig geändert** werden, werden zentral im Active Directory gespeichert. Der Zugriff auf diese Passwörter ist durch ACLs auf autorisierte Benutzer beschränkt. Mit ausreichenden Berechtigungen kann die Möglichkeit geboten werden, lokale Administratorpasswörter zu lesen.
 
 {% content-ref url="active-directory-methodology/laps.md" %}
 [laps.md](active-directory-methodology/laps.md)
@@ -186,7 +186,7 @@ Die **Local Administrator Password Solution (LAPS)**, die zum Download von [Micr
 
 ## PS Constrained Language Mode
 
-PowerShell [**Constrained Language Mode**](https://devblogs.microsoft.com/powershell/powershell-constrained-language-mode/) **sperrt viele der Funktionen**, die benötigt werden, um PowerShell effektiv zu nutzen, wie das Blockieren von COM-Objekten, das Zulassen nur genehmigter .NET-Typen, XAML-basierter Workflows, PowerShell-Klassen und mehr.
+PowerShell [**Constrained Language Mode**](https://devblogs.microsoft.com/powershell/powershell-constrained-language-mode/) **sperrt viele der Funktionen**, die benötigt werden, um PowerShell effektiv zu nutzen, wie das Blockieren von COM-Objekten, das Zulassen nur genehmigter .NET-Typen, XAML-basierte Workflows, PowerShell-Klassen und mehr.
 
 ### **Überprüfen**
 ```powershell
@@ -233,9 +233,7 @@ Powershell -command "Write-Host 'My voice is my passport, verify me.'"
 9º Use EncodeCommand
 $command = "Write-Host 'My voice is my passport, verify me.'" $bytes = [System.Text.Encoding]::Unicode.GetBytes($command) $encodedCommand = [Convert]::ToBase64String($bytes) powershell.exe -EncodedCommand $encodedCommand
 ```
-Mehr Informationen finden Sie [hier](https://blog.netspi.com/15-ways-to-bypass-the-powershell-execution-policy/)
-
-## Security Support Provider Interface (SSPI)
+## Sicherheitsunterstützungsschnittstelle (SSPI)
 
 Ist die API, die zur Authentifizierung von Benutzern verwendet werden kann.
 
@@ -264,11 +262,11 @@ Die SSPI ist dafür zuständig, das geeignete Protokoll für zwei Maschinen zu f
 [uac-user-account-control.md](windows-security-controls/uac-user-account-control.md)
 {% endcontent-ref %}
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um mühelos **Workflows zu erstellen und zu automatisieren**, unterstützt von den weltweit **fortschrittlichsten** Community-Tools.\
-Erhalten Sie noch heute Zugriff:
+Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um mühelos **Workflows zu erstellen und zu automatisieren**, die von den weltweit **fortschrittlichsten** Community-Tools unterstützt werden.\
+Heute noch Zugriff erhalten:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -280,10 +278,10 @@ Erhalten Sie noch heute Zugriff:
 
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere exklusive Sammlung von [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
+* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositories einreichen.
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
 
 </details>

@@ -6,7 +6,7 @@
 
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegramm-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -14,24 +14,24 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um mühelos Workflows zu erstellen und zu **automatisieren**, die von den weltweit **fortschrittlichsten** Community-Tools unterstützt werden.\
+Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um mühelos Workflows zu erstellen und zu **automatisieren**, die von den fortschrittlichsten Community-Tools der Welt unterstützt werden.\
 Heute Zugriff erhalten:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 ## Browser-Artefakte <a href="#id-3def" id="id-3def"></a>
 
-Browser-Artefakte umfassen verschiedene Arten von Daten, die von Webbrowsern gespeichert werden, wie Navigationsverlauf, Lesezeichen und Cache-Daten. Diese Artefakte werden in spezifischen Ordnern im Betriebssystem aufbewahrt, unterscheiden sich in Standort und Namen je nach Browser, speichern jedoch im Allgemeinen ähnliche Datentypen.
+Browser-Artefakte umfassen verschiedene Arten von Daten, die von Webbrowsern gespeichert werden, wie Navigationsverlauf, Lesezeichen und Cache-Daten. Diese Artefakte werden in spezifischen Ordnern im Betriebssystem aufbewahrt, unterscheiden sich in Standort und Namen zwischen Browsern, speichern jedoch im Allgemeinen ähnliche Datentypen.
 
 Hier ist eine Zusammenfassung der häufigsten Browser-Artefakte:
 
 * **Navigationsverlauf**: Verfolgt die Besuche von Benutzern auf Websites, nützlich zur Identifizierung von Besuchen auf bösartigen Websites.
 * **Automatische Vervollständigung**: Vorschläge basierend auf häufigen Suchanfragen, bieten Einblicke, wenn sie mit dem Navigationsverlauf kombiniert werden.
 * **Lesezeichen**: Von Benutzern gespeicherte Websites für schnellen Zugriff.
-* **Erweiterungen und Add-ons**: Vom Benutzer installierte Browser-Erweiterungen oder Add-ons.
+* **Erweiterungen und Add-ons**: Vom Benutzer installierte Browsererweiterungen oder Add-ons.
 * **Cache**: Speichert Webinhalte (z. B. Bilder, JavaScript-Dateien) zur Verbesserung der Ladezeiten von Websites, wertvoll für forensische Analysen.
 * **Anmeldungen**: Gespeicherte Anmeldeinformationen.
 * **Favicons**: Mit Websites verknüpfte Symbole, die in Registerkarten und Lesezeichen erscheinen, nützlich für zusätzliche Informationen zu Benutzerbesuchen.
@@ -57,10 +57,10 @@ In jedem Profilordner finden Sie mehrere wichtige Dateien:
 * Verwenden Sie spezifische SQL-Abfragen, um Verlaufs- und Download-Informationen zu extrahieren.
 * **bookmarkbackups**: Enthält Sicherungskopien von Lesezeichen.
 * **formhistory.sqlite**: Speichert Webformulardaten.
-* **handlers.json**: Verwaltet Protokoll-Handler.
+* **handlers.json**: Verwaltet Protokollhandler.
 * **persdict.dat**: Benutzerdefinierte Wörterbuchwörter.
 * **addons.json** und **extensions.sqlite**: Informationen zu installierten Add-ons und Erweiterungen.
-* **cookies.sqlite**: Cookie-Speicher, mit [MZCookiesView](https://www.nirsoft.net/utils/mzcv.html) zur Inspektion unter Windows verfügbar.
+* **cookies.sqlite**: Cookie-Speicher, mit [MZCookiesView](https://www.nirsoft.net/utils/mzcv.html) für die Inspektion unter Windows verfügbar.
 * **cache2/entries** oder **startupCache**: Cache-Daten, zugänglich durch Tools wie [MozillaCacheView](https://www.nirsoft.net/utils/mozilla\_cache\_viewer.html).
 * **favicons.sqlite**: Speichert Favicons.
 * **prefs.js**: Benutzereinstellungen und -präferenzen.
@@ -71,7 +71,7 @@ In jedem Profilordner finden Sie mehrere wichtige Dateien:
 
 Zusätzlich kann die Überprüfung der Anti-Phishing-Einstellungen des Browsers durch die Suche nach `browser.safebrowsing`-Einträgen in `prefs.js` erfolgen, die anzeigen, ob die Funktionen für sicheres Surfen aktiviert oder deaktiviert sind.
 
-Um zu versuchen, das Masterpasswort zu entschlüsseln, können Sie [https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt) verwenden.\
+Um zu versuchen, das Masterpasswort zu entschlüsseln, können Sie [https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt) verwenden\
 Mit dem folgenden Skript und Aufruf können Sie eine Passwortdatei zum Brute-Forcen angeben:
 
 {% code title="brute.sh" %}
@@ -99,9 +99,9 @@ Google Chrome speichert Benutzerprofile an spezifischen Orten basierend auf dem 
 
 In diesen Verzeichnissen befinden sich die meisten Benutzerdaten in den Ordnern **Default/** oder **ChromeDefaultData/**. Die folgenden Dateien enthalten wichtige Daten:
 
-* **Verlauf**: Enthält URLs, Downloads und Suchbegriffe. Auf Windows kann [ChromeHistoryView](https://www.nirsoft.net/utils/chrome\_history\_view.html) verwendet werden, um den Verlauf zu lesen. Die Spalte "Transition Type" hat verschiedene Bedeutungen, einschließlich Benutzerklicks auf Links, eingegebene URLs, Formulareingaben und Seitenaktualisierungen.
+* **Verlauf**: Enthält URLs, Downloads und Suchbegriffe. Auf Windows kann [ChromeHistoryView](https://www.nirsoft.net/utils/chrome\_history\_view.html) verwendet werden, um den Verlauf zu lesen. Die Spalte "Transition Type" hat verschiedene Bedeutungen, darunter Benutzerklicks auf Links, eingegebene URLs, Formulareingaben und Seitenaktualisierungen.
 * **Cookies**: Speichert Cookies. Zur Inspektion steht [ChromeCookiesView](https://www.nirsoft.net/utils/chrome\_cookies\_view.html) zur Verfügung.
-* **Cache**: Enthält zwischengespeicherte Daten. Windows-Benutzer können [ChromeCacheView](https://www.nirsoft.net/utils/chrome\_cache\_view.html) zur Inspektion nutzen.
+* **Cache**: Enthält zwischengespeicherte Daten. Windows-Benutzer können zur Inspektion [ChromeCacheView](https://www.nirsoft.net/utils/chrome\_cache\_view.html) nutzen.
 * **Lesezeichen**: Benutzer-Lesezeichen.
 * **Webdaten**: Enthält Formularverlauf.
 * **Favicons**: Speichert Website-Favicons.
@@ -123,11 +123,11 @@ Internet Explorer 11 verwaltet seine Daten und Metadaten an verschiedenen Orten,
 
 ### Metadatenspeicherung
 
-Metadaten für den Internet Explorer werden in `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` (wobei VX V01, V16 oder V24 ist) gespeichert. Begleitend dazu kann die Datei `V01.log` Zeitunterschiede zur Änderungszeit von `WebcacheVX.data` aufweisen, was auf eine Reparatur mit `esentutl /r V01 /d` hinweist. Diese Metadaten, die in einer ESE-Datenbank gespeichert sind, können mithilfe von Tools wie photorec und [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html) wiederhergestellt und inspiziert werden. In der **Containers**-Tabelle kann man die spezifischen Tabellen oder Container erkennen, in denen jeder Datensegment gespeichert ist, einschließlich Cache-Details für andere Microsoft-Tools wie Skype.
+Metadaten für Internet Explorer werden in `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` (wobei VX V01, V16 oder V24 ist) gespeichert. Begleitend dazu kann die Datei `V01.log` Zeitunterschiede bei Änderungen im Vergleich zu `WebcacheVX.data` aufweisen, was auf eine Reparatur mit `esentutl /r V01 /d` hinweist. Diese Metadaten, die in einer ESE-Datenbank gespeichert sind, können mithilfe von Tools wie photorec und [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html) wiederhergestellt und inspiziert werden. In der **Containers**-Tabelle kann man die spezifischen Tabellen oder Container erkennen, in denen jeder Datensegment gespeichert ist, einschließlich Cache-Details für andere Microsoft-Tools wie Skype.
 
 ### Cache-Inspektion
 
-Das Tool [IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html) ermöglicht die Cache-Inspektion und erfordert den Speicherort des Cache-Datenextraktionsordners. Metadaten für den Cache umfassen Dateinamen, Verzeichnis, Zugriffszähler, URL-Herkunft und Zeitstempel, die die Cache-Erstellung, den Zugriff, die Änderung und das Ablaufdatum anzeigen.
+Das Tool [IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html) ermöglicht die Cache-Inspektion und erfordert den Speicherort des extrahierten Cache-Datenordners. Metadaten für den Cache umfassen Dateinamen, Verzeichnis, Zugriffszähler, URL-Herkunft und Zeitstempel, die die Erstellungs-, Zugriffs-, Änderungs- und Ablaufzeiten des Caches anzeigen.
 
 ### Cookies-Verwaltung
 
@@ -135,19 +135,19 @@ Cookies können mithilfe von [IECookiesView](https://www.nirsoft.net/utils/iecoo
 
 ### Download-Details
 
-Metadaten zu Downloads sind über [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html) zugänglich, wobei spezifische Container Daten wie URL, Dateityp und Download-Speicherort enthalten. Physische Dateien sind unter `%userprofile%\Appdata\Roaming\Microsoft\Windows\IEDownloadHistory` zu finden.
+Download-Metadaten sind über [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html) zugänglich, wobei spezifische Container Daten wie URL, Dateityp und Download-Speicherort enthalten. Die physischen Dateien sind unter `%userprofile%\Appdata\Roaming\Microsoft\Windows\IEDownloadHistory` zu finden.
 
 ### Verlauf des Browsing
 
-Um den Browsing-Verlauf zu überprüfen, kann [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html) verwendet werden, wobei der Speicherort der extrahierten Verlaufsdateien und die Konfiguration für den Internet Explorer erforderlich sind. Die Metadaten enthalten hier Änderungs- und Zugriffszeiten sowie Zugriffszähler. Die Verlaufsdateien befinden sich in `%userprofile%\Appdata\Local\Microsoft\Windows\History`.
+Um den Browsing-Verlauf zu überprüfen, kann [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html) verwendet werden, wobei der Speicherort der extrahierten Verlaufsdateien und die Konfiguration für Internet Explorer erforderlich sind. Die Metadaten enthalten hier Änderungs- und Zugriffszeiten sowie Zugriffszähler. Die Verlaufsdateien befinden sich in `%userprofile%\Appdata\Local\Microsoft\Windows\History`.
 
 ### Eingegebene URLs
 
-Eingegebene URLs und deren Verwendungszuordnungen werden im Registrierungseditor unter `NTUSER.DAT` unter `Software\Microsoft\InternetExplorer\TypedURLs` und `Software\Microsoft\InternetExplorer\TypedURLsTime` gespeichert, wobei die letzten 50 vom Benutzer eingegebenen URLs und deren letzte Eingabezeiten verfolgt werden.
+Eingegebene URLs und deren Verwendungszuordnungen werden in der Registrierung unter `NTUSER.DAT` unter `Software\Microsoft\InternetExplorer\TypedURLs` und `Software\Microsoft\InternetExplorer\TypedURLsTime` gespeichert, wobei die letzten 50 vom Benutzer eingegebenen URLs und deren letzte Eingabezeiten verfolgt werden.
 
 ## Microsoft Edge
 
-Microsoft Edge speichert Benutzerdaten in `%userprofile%\Appdata\Local\Packages`. Die Pfade für verschiedene Datentypen lauten:
+Microsoft Edge speichert Benutzerdaten in `%userprofile%\Appdata\Local\Packages`. Die Pfade für verschiedene Datentypen sind:
 
 * **Profilpfad**: `C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge_XXX\AC`
 * **Verlauf, Cookies und Downloads**: `C:\Users\XX\AppData\Local\Microsoft\Windows\WebCache\WebCacheV01.dat`
@@ -183,7 +183,7 @@ Diese Pfade und Befehle sind entscheidend für den Zugriff auf und das Verständ
 * [https://books.google.com/books?id=jfMqCgAAQBAJ\&pg=PA128\&lpg=PA128\&dq=%22This+file](https://books.google.com/books?id=jfMqCgAAQBAJ\&pg=PA128\&lpg=PA128\&dq=%22This+file)
 * **Buch: OS X Incident Response: Scripting and Analysis By Jaron Bradley pag 123**
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um mühelos Workflows zu erstellen und zu automatisieren, die von den fortschrittlichsten Community-Tools der Welt unterstützt werden.\
@@ -194,8 +194,8 @@ Erhalten Sie noch heute Zugriff:
 <details>
 
 <summary><strong>Erlernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks Merch**](https://peass.creator-spring.com)
+* Wenn Sie Ihr Unternehmen in HackTricks beworben sehen möchten oder HackTricks im PDF-Format herunterladen möchten, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositorys senden.

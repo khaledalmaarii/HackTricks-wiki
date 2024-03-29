@@ -1,4 +1,4 @@
-# Umgehen von FS-Schutzmaßnahmen: Nur-Lesen / Kein-Exec / Distroless
+# Umgehung von FS-Schutzmaßnahmen: Nur-Lesen / Keine-Ausführung / Distroless
 
 <details>
 
@@ -6,7 +6,7 @@
 
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen** möchten oder **HackTricks als PDF herunterladen** möchten, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -14,7 +14,7 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Wenn Sie an einer **Hacking-Karriere** interessiert sind und das Unhackbare hacken möchten - **wir stellen ein!** (_fließendes Polnisch in Wort und Schrift erforderlich_).
 
@@ -24,12 +24,12 @@ Wenn Sie an einer **Hacking-Karriere** interessiert sind und das Unhackbare hack
 
 In den folgenden Videos finden Sie die auf dieser Seite erwähnten Techniken ausführlicher erklärt:
 
-* [**DEF CON 31 - Erkundung der Linux-Speicher-Manipulation für Stealth und Evasion**](https://www.youtube.com/watch?v=poHirez8jk4)
+* [**DEF CON 31 - Erforschung der Linux-Speicher-Manipulation für Stealth und Evasion**](https://www.youtube.com/watch?v=poHirez8jk4)
 * [**Stealth-Eindringungen mit DDexec-ng & in-memory dlopen() - HackTricks Track 2023**](https://www.youtube.com/watch?v=VM\_gjjiARaU)
 
-## Nur-Lesen / Kein-Exec-Szenario
+## Nur-Lesen / Keine-Ausführung-Szenario
 
-Es wird immer häufiger, dass Linux-Maschinen mit **Schutzmaßnahmen für eine nur-Lese (ro) Dateisystem** montiert sind, insbesondere in Containern. Dies liegt daran, dass das Ausführen eines Containers mit nur-Lese-Dateisystem so einfach ist wie das Festlegen von **`readOnlyRootFilesystem: true`** im `securitycontext`:
+Es wird immer häufiger, dass Linux-Maschinen mit **Schutzmaßnahmen für eine nur-Lesen (ro) Dateisystem** montiert sind, insbesondere in Containern. Dies liegt daran, dass das Ausführen eines Containers mit einem ro-Dateisystem so einfach ist wie das Festlegen von **`readOnlyRootFilesystem: true`** im `securitycontext`:
 
 <pre class="language-yaml"><code class="lang-yaml">apiVersion: v1
 kind: Pod
@@ -44,13 +44,13 @@ securityContext:
 </strong>    command: ["sh", "-c", "while true; do sleep 1000; done"]
 </code></pre>
 
-Auch wenn das Dateisystem als ro eingebunden ist, wird **`/dev/shm`** dennoch beschreibbar sein, sodass wir nichts auf die Festplatte schreiben können. Dieser Ordner wird jedoch mit **Kein-Exec-Schutz eingebunden**, sodass Sie, wenn Sie hier eine Binärdatei herunterladen, diese **nicht ausführen können**.
+Auch wenn das Dateisystem als ro eingehängt ist, wird **`/dev/shm`** weiterhin beschreibbar sein, sodass wir nichts auf die Festplatte schreiben können. Dieser Ordner wird jedoch mit **Keine-Ausführung-Schutzmaßnahmen eingehängt**, sodass Sie, wenn Sie hier eine Binärdatei herunterladen, diese **nicht ausführen können**.
 
 {% hint style="warning" %}
 Aus der Sicht eines Red Teams wird es dadurch **kompliziert, Binärdateien herunterzuladen und auszuführen**, die nicht bereits im System vorhanden sind (wie Backdoors oder Enumeratoren wie `kubectl`).
 {% endhint %}
 
-## Einfachster Umgehungsweg: Skripte
+## Einfachste Umgehung: Skripte
 
 Beachten Sie, dass ich von Binärdateien gesprochen habe, Sie können **jedes Skript ausführen**, solange der Interpreter innerhalb der Maschine vorhanden ist, wie ein **Shell-Skript**, wenn `sh` vorhanden ist, oder ein **Python-Skript**, wenn `python` installiert ist.
 
@@ -58,25 +58,25 @@ Dies reicht jedoch nicht aus, um Ihre Binärdatei-Backdoor oder andere Binärwer
 
 ## Speicherumgehungen
 
-Wenn Sie eine Binärdatei ausführen möchten, das Dateisystem dies jedoch nicht zulässt, ist der beste Weg, dies zu tun, indem Sie es aus dem **Speicher ausführen**, da die **Schutzmaßnahmen dort nicht gelten**.
+Wenn Sie eine Binärdatei ausführen möchten, das Dateisystem dies jedoch nicht zulässt, ist der beste Weg, dies zu tun, indem Sie es aus dem Speicher ausführen, da die **Schutzmaßnahmen dort nicht gelten**.
 
-### FD + exec-Systemaufruf-Umgehung
+### FD + exec syscall Umgehung
 
-Wenn Sie leistungsstarke Skript-Engines innerhalb der Maschine haben, wie **Python**, **Perl** oder **Ruby**, könnten Sie die Binärdatei zum Ausführen aus dem Speicher herunterladen, sie in einem Speicherdateideskript speichern (`create_memfd`-Systemaufruf), der nicht durch diese Schutzmaßnahmen geschützt wird, und dann einen **`exec`-Systemaufruf** aufrufen, wobei der **fd als auszuführende Datei angegeben wird**.
+Wenn Sie leistungsstarke Skript-Engines innerhalb der Maschine haben, wie **Python**, **Perl** oder **Ruby**, könnten Sie die Binärdatei zum Ausführen aus dem Speicher herunterladen, sie in einem Speicherdateideskript speichern (`create_memfd`-Syscall), der nicht durch diese Schutzmaßnahmen geschützt wird, und dann einen **`exec`-Syscall** aufrufen, wobei der **fd als auszuführende Datei** angegeben wird.
 
-Hierfür können Sie das Projekt [**fileless-elf-exec**](https://github.com/nnsee/fileless-elf-exec) verwenden. Sie können ihm eine Binärdatei übergeben, und es wird ein Skript in der angegebenen Sprache mit der **Binärdatei komprimiert und b64-codiert** generieren, mit den Anweisungen zum **Dekodieren und Dekomprimieren** in einem mit `create_memfd`-Systemaufruf erstellten **fd** und einem Aufruf des **exec**-Systemaufrufs zum Ausführen.
+Hierfür können Sie das Projekt [**fileless-elf-exec**](https://github.com/nnsee/fileless-elf-exec) verwenden. Sie können ihm eine Binärdatei übergeben, und es wird ein Skript in der angegebenen Sprache mit der **Binärdatei komprimiert und b64-codiert** generieren, mit den Anweisungen zum **Dekodieren und Dekomprimieren** in einem mit `create_memfd`-Syscall erstellten **fd** und einem Aufruf des **exec**-Syscalls zum Ausführen.
 
 {% hint style="warning" %}
-Dies funktioniert nicht in anderen Skriptsprachen wie PHP oder Node, da sie keine **Standardmethode zum Aufrufen von Rohsystemaufrufen** aus einem Skript haben, sodass es nicht möglich ist, `create_memfd` aufzurufen, um den **Speicherfd** zum Speichern der Binärdatei zu erstellen.
+Dies funktioniert nicht in anderen Skriptsprachen wie PHP oder Node, da sie keine **Standardmethode zum Aufrufen von Roh-Syscalls** aus einem Skript haben. Daher ist es nicht möglich, `create_memfd` aufzurufen, um den **Speicherfd** zum Speichern der Binärdatei zu erstellen.
 
-Darüber hinaus wird das Erstellen eines **regulären fd** mit einer Datei in `/dev/shm` nicht funktionieren, da Sie es nicht ausführen dürfen, da der **Kein-Exec-Schutz** angewendet wird.
+Darüber hinaus wird das Erstellen eines **regulären fd** mit einer Datei in `/dev/shm` nicht funktionieren, da Sie es nicht ausführen dürfen, da der **Keine-Ausführung-Schutz** angewendet wird.
 {% endhint %}
 
 ### DDexec / EverythingExec
 
 [**DDexec / EverythingExec**](https://github.com/arget13/DDexec) ist eine Technik, die es Ihnen ermöglicht, den **Speicher Ihres eigenen Prozesses zu modifizieren**, indem Sie seinen **`/proc/self/mem`** überschreiben.
 
-Daher können Sie, indem Sie den **Assembly-Code steuern**, der vom Prozess ausgeführt wird, ein **Shellcode** schreiben und den Prozess "mutieren", um **beliebigen Code auszuführen**.
+Daher können Sie, indem Sie den vom Prozess ausgeführten Assemblercode kontrollieren, ein **Shellcode** schreiben und den Prozess "mutieren", um **beliebigen Code auszuführen**.
 
 {% hint style="success" %}
 **DDexec / EverythingExec** ermöglicht es Ihnen, Ihren eigenen **Shellcode** oder **beliebige Binärdateien** aus dem **Speicher zu laden und auszuführen**.
@@ -108,19 +108,19 @@ Das Ziel von Distroless-Containern ist es, die Angriffsfläche von Containern zu
 In einem Distroless-Container finden Sie möglicherweise **nicht einmal `sh` oder `bash`**, um eine reguläre Shell zu erhalten. Sie werden auch keine Binärdateien wie `ls`, `whoami`, `id` finden... alles, was Sie normalerweise in einem System ausführen.
 
 {% hint style="warning" %}
-Daher werden Sie **keine** Möglichkeit haben, eine **Reverse-Shell** zu erhalten oder das System zu **enumerieren**, wie Sie es normalerweise tun.
+Daher werden Sie **keine** **Reverse-Shell** erhalten oder das System **wie gewohnt durchsuchen können**.
 {% endhint %}
 
 Wenn jedoch der kompromittierte Container beispielsweise ein Flask-Web ausführt, dann ist Python installiert, und daher können Sie eine **Python-Reverse-Shell** erhalten. Wenn Node ausgeführt wird, können Sie eine Node-Rev-Shell erhalten, und dasselbe gilt für fast jede **Skriptsprache**.
 
 {% hint style="success" %}
-Mit der Skriptsprache könnten Sie das System **enumerieren**, indem Sie die Fähigkeiten der Sprache nutzen.
+Mit der Skriptsprache könnten Sie das System **durch die Fähigkeiten der Sprache durchsuchen**.
 {% endhint %}
 
 Wenn es **keine `read-only/no-exec`**-Schutzmaßnahmen gibt, könnten Sie Ihre Reverse-Shell missbrauchen, um **Ihre Binärdateien im Dateisystem zu schreiben** und sie **auszuführen**.
 
 {% hint style="success" %}
-In diesen Art von Containern werden diese Schutzmaßnahmen jedoch normalerweise vorhanden sein, aber Sie könnten die **vorherigen Speicher-Ausführungstechniken verwenden, um sie zu umgehen**.
+In diesen Arten von Containern werden diese Schutzmaßnahmen jedoch normalerweise vorhanden sein, aber Sie könnten die **vorherigen Speicher-Ausführungstechniken verwenden, um sie zu umgehen**.
 {% endhint %}
 
 Sie finden **Beispiele**, wie Sie **einige RCE-Schwachstellen ausnutzen** können, um Skriptsprachen **Reverse-Shells** zu erhalten und Binärdateien aus dem Speicher auszuführen, unter [**https://github.com/carlospolop/DistrolessRCE**](https://github.com/carlospolop/DistrolessRCE).

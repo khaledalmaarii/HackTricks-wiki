@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Erlernen Sie AWS-Hacking von Null auf Heldenniveau mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Erlernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
@@ -46,7 +46,7 @@ Diese Berechtigung ermöglicht es, Frameworks, Plug-ins oder Bibliotheken zu lad
 
 ### `com.apple.private.security.clear-library-validation`
 
-Diese Berechtigung ist sehr ähnlich wie **`com.apple.security.cs.disable-library-validation`**, aber **anstatt** die Bibliotheksvalidierung direkt zu deaktivieren, ermöglicht sie dem Prozess, einen `csops`-Systemaufruf aufzurufen, um sie zu deaktivieren.\
+Diese Berechtigung ist sehr ähnlich wie **`com.apple.security.cs.disable-library-validation`**, aber **anstatt** die Bibliotheksvalidierung direkt zu deaktivieren, ermöglicht sie dem Prozess, einen `csops`-Systemaufruf zu tätigen, um sie zu deaktivieren.\
 Überprüfen Sie [**dies für weitere Informationen**](https://theevilbit.github.io/posts/com.apple.private.security.clear-library-validation/).
 
 ### `com.apple.security.cs.allow-dyld-environment-variables`
@@ -87,7 +87,7 @@ TODO: In [**diesem Bericht**](https://jhftss.github.io/The-Nightmare-of-Apple-OT
 
 ### `keychain-access-groups`
 
-Diese Berechtigungsliste enthält die **Schlüsselbundgruppen**, auf die die Anwendung zugreifen kann:
+Diese Berechtigung listet die **Schlüsselbundgruppen** auf, auf die die Anwendung Zugriff hat:
 ```xml
 <key>keychain-access-groups</key>
 <array>
@@ -116,36 +116,36 @@ Oder sie dazu bringen, **beliebige Aktionen** auszuführen.
 
 ### **`kTCCServiceEndpointSecurityClient`**
 
-Erlaubt unter anderem das **Schreiben in die TCC-Datenbank des Benutzers**.
+Erlaubt unter anderem, die **TCC-Datenbank der Benutzer zu schreiben**.
 
 ### **`kTCCServiceSystemPolicySysAdminFiles`**
 
-Erlaubt es, das Attribut **`NFSHomeDirectory`** eines Benutzers zu **ändern**, das seinen Heimatordnerpfad ändert und somit das Umgehen von TCC ermöglicht.
+Erlaubt es, das **Attribut `NFSHomeDirectory`** eines Benutzers zu **ändern**, das seinen Pfad zum Benutzerordner ändert und somit das Umgehen von TCC ermöglicht.
 
 ### **`kTCCServiceSystemPolicyAppBundles`**
 
 Erlaubt das Ändern von Dateien innerhalb von App-Bundles (innerhalb von app.app), was standardmäßig **nicht erlaubt ist**.
 
-<figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Es ist möglich zu überprüfen, wer auf diese Berechtigung zugreifen kann unter _Systemeinstellungen_ > _Datenschutz & Sicherheit_ > _App-Verwaltung_.
 
 ### `kTCCServiceAccessibility`
 
-Der Prozess wird in der Lage sein, die macOS-Zugänglichkeitsfunktionen **missbrauchen**, was bedeutet, dass er beispielsweise Tastenanschläge ausführen kann. Er könnte also Zugriff auf die Steuerung einer App wie Finder anfordern und den Dialog mit dieser Berechtigung genehmigen.
+Der Prozess wird in der Lage sein, die macOS-Zugänglichkeitsfunktionen **missbrauchen**, was bedeutet, dass er beispielsweise Tastenanschläge ausführen kann. Er könnte also Zugriff anfordern, um eine App wie den Finder zu steuern und den Dialog mit dieser Berechtigung zu genehmigen.
 
 ## Medium
 
 ### `com.apple.security.cs.allow-jit`
 
-Diese Berechtigung ermöglicht es, **Speicher zu erstellen, der schreib- und ausführbar ist**, indem der `MAP_JIT`-Flag an die `mmap()`-Systemfunktion übergeben wird. Überprüfen Sie [**dies für weitere Informationen**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-jit).
+Diese Berechtigung ermöglicht es, **Speicher zu erstellen, der schreibbar und ausführbar ist**, indem das `MAP_JIT`-Flag an die `mmap()`-Systemfunktion übergeben wird. Überprüfen Sie [**dies für weitere Informationen**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-jit).
 
 ### `com.apple.security.cs.allow-unsigned-executable-memory`
 
 Diese Berechtigung ermöglicht es, C-Code zu **überschreiben oder zu patchen**, die veraltete **`NSCreateObjectFileImageFromMemory`** zu verwenden (die grundsätzlich unsicher ist) oder das **DVDPlayback**-Framework zu verwenden. Überprüfen Sie [**dies für weitere Informationen**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory).
 
 {% hint style="danger" %}
-Das Einbeziehen dieser Berechtigung macht Ihre App anfällig für häufige Sicherheitslücken in sprachen mit speicherunsicheren Codes. Überlegen Sie sorgfältig, ob Ihre App diese Ausnahme benötigt.
+Das Hinzufügen dieser Berechtigung macht Ihre App anfällig für häufige Sicherheitslücken in speichersicheren Code-Sprachen. Überlegen Sie sorgfältig, ob Ihre App diese Ausnahme benötigt.
 {% endhint %}
 
 ### `com.apple.security.cs.disable-executable-page-protection`
@@ -153,7 +153,7 @@ Das Einbeziehen dieser Berechtigung macht Ihre App anfällig für häufige Siche
 Diese Berechtigung ermöglicht es, **Abschnitte ihrer eigenen ausführbaren Dateien** auf der Festplatte zu ändern, um erzwungen zu beenden. Überprüfen Sie [**dies für weitere Informationen**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-executable-page-protection).
 
 {% hint style="danger" %}
-Die Berechtigung zur Deaktivierung des Schutzes vor ausführbaren Seiten ist eine extreme Berechtigung, die einen grundlegenden Sicherheitsschutz aus Ihrer App entfernt und es einem Angreifer ermöglicht, den ausführbaren Code Ihrer App ohne Erkennung neu zu schreiben. Verwenden Sie wenn möglich engere Berechtigungen.
+Die Berechtigung zur Deaktivierung des Schutzes vor ausführbaren Seiten ist eine extreme Berechtigung, die einen grundlegenden Sicherheitsschutz aus Ihrer App entfernt und es einem Angreifer ermöglicht, den ausführbaren Code Ihrer App ohne Erkennung neu zu schreiben. Verwenden Sie möglichst engere Berechtigungen.
 {% endhint %}
 
 ### `com.apple.security.cs.allow-relative-library-loads`

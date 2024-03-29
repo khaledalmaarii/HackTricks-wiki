@@ -9,12 +9,12 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 * Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegramm-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositorys senden.
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um mithilfe der weltweit **fortschrittlichsten Community-Tools** **Workflows zu erstellen und zu automatisieren**.\
@@ -35,12 +35,12 @@ In Windows finden Sie den OneDrive-Ordner unter `\Users\<Benutzername>\AppData\L
 * Berichterstellungszeit
 * Größe der Festplatte des Betriebssystems
 
-Sobald Sie die CID gefunden haben, wird empfohlen, **Dateien zu suchen, die diese ID enthalten**. Möglicherweise finden Sie Dateien mit den Namen: _**\<CID>.ini**_ und _**\<CID>.dat**_, die interessante Informationen wie die Namen der mit OneDrive synchronisierten Dateien enthalten können.
+Nachdem Sie die CID gefunden haben, wird empfohlen, **Dateien zu suchen, die diese ID enthalten**. Möglicherweise finden Sie Dateien mit den Namen: _**\<CID>.ini**_ und _**\<CID>.dat**_, die interessante Informationen wie die Namen der mit OneDrive synchronisierten Dateien enthalten können.
 
 ## Google Drive
 
 In Windows finden Sie den Haupt-Google Drive-Ordner unter `\Users\<Benutzername>\AppData\Local\Google\Drive\user_default`\
-Dieser Ordner enthält eine Datei namens Sync\_log.log mit Informationen wie der E-Mail-Adresse des Kontos, Dateinamen, Zeitstempeln, MD5-Hashes der Dateien usw. Selbst gelöschte Dateien erscheinen in dieser Protokolldatei mit dem entsprechenden MD5.
+Dieser Ordner enthält eine Datei namens Sync\_log.log mit Informationen wie der E-Mail-Adresse des Kontos, Dateinamen, Zeitstempel, MD5-Hashes der Dateien usw. Selbst gelöschte Dateien erscheinen in dieser Protokolldatei mit dem entsprechenden MD5.
 
 Die Datei **`Cloud_graph\Cloud_graph.db`** ist eine SQLite-Datenbank, die die Tabelle **`cloud_graph_entry`** enthält. In dieser Tabelle finden Sie den **Namen** der **synchronisierten** **Dateien**, das Änderungsdatum, die Größe und den MD5-Prüfsummenwert der Dateien.
 
@@ -64,7 +64,7 @@ Und die Hauptdatenbanken sind:
 
 Die Erweiterung ".dbx" bedeutet, dass die **Datenbanken verschlüsselt** sind. Dropbox verwendet **DPAPI** ([https://docs.microsoft.com/en-us/previous-versions/ms995355(v=msdn.10)?redirectedfrom=MSDN](https://docs.microsoft.com/en-us/previous-versions/ms995355\(v=msdn.10\)?redirectedfrom=MSDN))
 
-Um die Verschlüsselung, die Dropbox verwendet, besser zu verstehen, können Sie [https://blog.digital-forensics.it/2017/04/brush-up-on-dropbox-dbx-decryption.html](https://blog.digital-forensics.it/2017/04/brush-up-on-dropbox-dbx-decryption.html) lesen.
+Um das von Dropbox verwendete Verschlüsselungsverfahren besser zu verstehen, können Sie [https://blog.digital-forensics.it/2017/04/brush-up-on-dropbox-dbx-decryption.html](https://blog.digital-forensics.it/2017/04/brush-up-on-dropbox-dbx-decryption.html) lesen.
 
 Die wichtigsten Informationen sind jedoch:
 
@@ -76,15 +76,15 @@ Die wichtigsten Informationen sind jedoch:
 Neben diesen Informationen benötigen Sie zum Entschlüsseln der Datenbanken noch:
 
 * Den **verschlüsselten DPAPI-Schlüssel**: Sie finden ihn in der Registrierung unter `NTUSER.DAT\Software\Dropbox\ks\client` (exportieren Sie diese Daten als Binärdatei)
-* Die **`SYSTEM`**- und **`SECURITY`-Hives**
-* Die **DPAPI-Meisterschlüssel**: Die in `\Users\<Benutzername>\AppData\Roaming\Microsoft\Protect` gefunden werden können
+* Die **`SYSTEM`**- und **`SECURITY`**-Hives
+* Die **DPAPI-Meisterschlüssel**: Diese finden Sie in `\Users\<Benutzername>\AppData\Roaming\Microsoft\Protect`
 * Den **Benutzernamen** und das **Passwort** des Windows-Benutzers
 
 Dann können Sie das Tool [**DataProtectionDecryptor**](https://nirsoft.net/utils/dpapi\_data\_decryptor.html)** verwenden:**
 
 ![](<../../../.gitbook/assets/image (448).png>)
 
-Wenn alles wie erwartet verläuft, zeigt das Tool den **Primärschlüssel** an, den Sie benötigen, um den ursprünglichen Schlüssel wiederherzustellen. Um den ursprünglichen Schlüssel wiederherzustellen, verwenden Sie einfach dieses [Cyber\_Chef-Rezept](https://gchq.github.io/CyberChef/#recipe=Derive\_PBKDF2\_key\(%7B'option':'Hex','string':'98FD6A76ECB87DE8DAB4623123402167'%7D,128,1066,'SHA1',%7B'option':'Hex','string':'0D638C092E8B82FC452883F95F355B8E'%7D\) und setzen Sie den Primärschlüssel als "Passphrase" in das Rezept.
+Wenn alles wie erwartet verläuft, zeigt das Tool den **Primärschlüssel** an, den Sie benötigen, um den ursprünglichen Schlüssel wiederherzustellen. Um den ursprünglichen Schlüssel wiederherzustellen, verwenden Sie einfach dieses [Cyber\_Chef-Rezept](https://gchq.github.io/CyberChef/#recipe=Derive\_PBKDF2\_key\(%7B'option':'Hex','string':'98FD6A76ECB87DE8DAB4623123402167'%7D,128,1066,'SHA1',%7B'option':'Hex','string':'0D638C092E8B82FC452883F95F355B8E'%7D\) und setzen den Primärschlüssel als "Passphrase" in das Rezept.
 
 Der resultierende Hexadezimalwert ist der endgültige Schlüssel, der zur Verschlüsselung der Datenbanken verwendet wird und mit dem entschlüsselt werden kann:
 ```bash
@@ -98,7 +98,7 @@ Die Datenbank **`config.dbx`** enthält:
 - **Host\_id: Hash** zur Authentifizierung in der Cloud. Dies kann nur über das Web widerrufen werden.
 - **Root\_ns**: Benutzerkennung
 
-Die Datenbank **`filecache.db`** enthält Informationen zu allen Dateien und Ordnern, die mit Dropbox synchronisiert sind. Die Tabelle `File_journal` enthält die nützlichsten Informationen:
+Die Datenbank **`filecache.db`** enthält Informationen zu allen Dateien und Ordnern, die mit Dropbox synchronisiert sind. Die Tabelle `File_journal` enthält die meisten nützlichen Informationen:
 
 - **Server\_path**: Pfad, in dem sich die Datei auf dem Server befindet (dieser Pfad wird vom `host_id` des Clients vorangestellt).
 - **local\_sjid**: Version der Datei
@@ -113,11 +113,11 @@ Andere Tabellen in dieser Datenbank enthalten weitere interessante Informationen
 - **deleted\_fields**: Gelöschte Dateien von Dropbox
 - **date\_added**
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um mühelos Workflows zu erstellen und zu **automatisieren**, die von den fortschrittlichsten Community-Tools der Welt unterstützt werden.\
-Heute noch Zugriff erhalten:
+Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um mühelos Workflows zu erstellen und zu automatisieren, die von den fortschrittlichsten Community-Tools der Welt unterstützt werden.\
+Erhalten Sie noch heute Zugriff:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -127,10 +127,10 @@ Heute noch Zugriff erhalten:
 
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
-- Wenn Sie Ihr **Unternehmen in HackTricks bewerben** oder **HackTricks im PDF-Format herunterladen** möchten, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+- Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 - Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
 - Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 - **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-- **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
+- **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
 
 </details>

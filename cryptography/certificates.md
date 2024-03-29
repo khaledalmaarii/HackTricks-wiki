@@ -14,10 +14,10 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 
 </details>
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um mühelos **Workflows zu erstellen und zu automatisieren**, die von den weltweit **fortschrittlichsten** Community-Tools unterstützt werden.\
+Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um mithilfe der weltweit **fortschrittlichsten Community-Tools** **Workflows zu erstellen und zu automatisieren**.\
 Heute Zugriff erhalten:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -32,27 +32,27 @@ Zertifikate werden hauptsächlich von [Zertifizierungsstellen](https://en.wikipe
 
 ### **Gemeinsame Felder in x509-Zertifikaten**
 
-In x509-Zertifikaten spielen mehrere **Felder** eine entscheidende Rolle, um die Gültigkeit und Sicherheit des Zertifikats sicherzustellen. Hier ist eine Aufschlüsselung dieser Felder:
+In x509-Zertifikaten spielen mehrere **Felder** eine entscheidende Rolle für die Gültigkeit und Sicherheit des Zertifikats. Hier ist eine Aufschlüsselung dieser Felder:
 
 * Die **Versionsnummer** kennzeichnet die Version des x509-Formats.
-* Die **Seriennummer** identifiziert eindeutig das Zertifikat innerhalb des Systems einer Zertifizierungsstelle (CA), hauptsächlich zur Rückverfolgung von Widerrufen.
+* Die **Seriennummer** identifiziert das Zertifikat eindeutig innerhalb des Systems einer Zertifizierungsstelle (CA), hauptsächlich für die Rückverfolgung von Widerrufungen.
 * Das **Subjekt**-Feld repräsentiert den Besitzer des Zertifikats, der eine Maschine, eine Person oder eine Organisation sein kann. Es enthält detaillierte Identifikationen wie:
 * **Common Name (CN)**: Domänen, die vom Zertifikat abgedeckt sind.
 * **Land (C)**, **Ort (L)**, **Bundesland oder Provinz (ST, S oder P)**, **Organisation (O)** und **Organisationseinheit (OU)** bieten geografische und organisatorische Details.
 * Der **Distinguished Name (DN)** umfasst die vollständige Subjektidentifikation.
-* Der **Aussteller** gibt an, wer das Zertifikat überprüft und signiert hat, einschließlich ähnlicher Unterfelder wie das Subjekt für die CA.
+* Der **Aussteller** gibt an, wer das Zertifikat überprüft und signiert hat, einschließlich ähnlicher Unterfelder wie beim Subjekt für die CA.
 * Der **Gültigkeitszeitraum** wird durch Zeitstempel **Not Before** und **Not After** markiert, um sicherzustellen, dass das Zertifikat nicht vor oder nach einem bestimmten Datum verwendet wird.
 * Der Abschnitt **Öffentlicher Schlüssel**, der für die Sicherheit des Zertifikats entscheidend ist, gibt Algorithmus, Größe und andere technische Details des öffentlichen Schlüssels an.
-* **x509v3-Erweiterungen** verbessern die Funktionalität des Zertifikats und geben **Schlüsselverwendung**, **Erweiterte Schlüsselverwendung**, **Alternativer Subjektname** und andere Eigenschaften an, um die Anwendung des Zertifikats zu optimieren.
+* **x509v3-Erweiterungen** verbessern die Funktionalität des Zertifikats und geben **Key Usage**, **Extended Key Usage**, **Subject Alternative Name** und andere Eigenschaften an, um die Anwendung des Zertifikats zu feinabstimmen.
 
-#### **Schlüsselverwendung und Erweiterungen**
+#### **Key Usage und Erweiterungen**
 
-* **Schlüsselverwendung** identifiziert kryptografische Anwendungen des öffentlichen Schlüssels, wie digitale Signatur oder Schlüsselverschlüsselung.
-* **Erweiterte Schlüsselverwendung** grenzt die Anwendungsfälle des Zertifikats weiter ein, z. B. für die TLS-Serverauthentifizierung.
-* **Alternativer Subjektname** und **Grundlegende Einschränkung** definieren zusätzliche Hostnamen, die vom Zertifikat abgedeckt sind, und ob es sich um ein CA- oder Endgerätezertifikat handelt.
-* Bezeichner wie **Subjektschlüsselkennung** und **Ausstellungsschlüsselkennung** gewährleisten Eindeutigkeit und Rückverfolgbarkeit von Schlüsseln.
-* **Behördeninformationszugriff** und **CRL-Verteilungspunkte** bieten Wege zur Überprüfung der ausstellenden CA und zur Überprüfung des Widerrufsstatus des Zertifikats.
-* **CT-Vor-Zertifikat-SCTs** bieten Transparenzprotokolle, die für das öffentliche Vertrauen in das Zertifikat entscheidend sind.
+* **Key Usage** identifiziert kryptografische Anwendungen des öffentlichen Schlüssels, wie digitale Signatur oder Schlüsselverschlüsselung.
+* **Extended Key Usage** grenzt die Anwendungsfälle des Zertifikats weiter ein, z. B. für die TLS-Serverauthentifizierung.
+* **Subject Alternative Name** und **Basic Constraint** definieren zusätzliche Hostnamen, die vom Zertifikat abgedeckt sind, und ob es sich um ein CA- oder Endgerätezertifikat handelt.
+* Bezeichner wie **Subject Key Identifier** und **Authority Key Identifier** gewährleisten Eindeutigkeit und Rückverfolgbarkeit von Schlüsseln.
+* **Authority Information Access** und **CRL Distribution Points** bieten Pfade zur Überprüfung der ausstellenden CA und zur Überprüfung des Widerrufsstatus des Zertifikats.
+* **CT Precertificate SCTs** bieten Transparenzprotokolle, die für das öffentliche Vertrauen in das Zertifikat entscheidend sind.
 ```python
 # Example of accessing and using x509 certificate fields programmatically:
 from cryptography import x509
@@ -80,21 +80,21 @@ print(f"Public Key: {public_key}")
 
 ### **Was ist Zertifikatstransparenz**
 
-Zertifikatstransparenz hilft, zertifikatsbezogene Bedrohungen zu bekämpfen, indem die Ausstellung und Existenz von SSL-Zertifikaten für Domain-Besitzer, CAs und Benutzer sichtbar gemacht werden. Ihre Ziele sind:
+Zertifikatstransparenz hilft, zertifikatsbezogene Bedrohungen zu bekämpfen, indem die Ausstellung und Existenz von SSL-Zertifikaten für Domain-Besitzer, CAs und Benutzer sichtbar gemacht werden. Die Ziele sind:
 
 * Verhindern, dass CAs SSL-Zertifikate für eine Domain ohne Wissen des Domain-Besitzers ausstellen.
-* Ein offenes Prüfsystem zur Verfolgung irrtümlich oder bösartig ausgestellter Zertifikate etablieren.
+* Ein offenes Prüfsystem für die Verfolgung irrtümlich oder bösartig ausgestellter Zertifikate etablieren.
 * Benutzer vor betrügerischen Zertifikaten schützen.
 
 #### **Zertifikat-Logs**
 
-Zertifikat-Logs sind öffentlich überprüfbare, nur anhängbare Aufzeichnungen von Zertifikaten, die von Netzwerkdiensten gepflegt werden. Diese Logs bieten kryptografische Beweise für Prüfzwecke. Ausstellungsbehörden und die Öffentlichkeit können Zertifikate in diese Logs einreichen oder sie zur Überprüfung abfragen. Obwohl die genaue Anzahl der Log-Server nicht festgelegt ist, wird erwartet, dass sie weltweit weniger als tausend beträgt. Diese Server können unabhängig von CAs, ISPs oder anderen interessierten Einheiten verwaltet werden.
+Zertifikat-Logs sind öffentlich überprüfbare, nur anhängbare Aufzeichnungen von Zertifikaten, die von Netzwerkdiensten gepflegt werden. Diese Logs bieten kryptografische Beweise für Prüfzwecke. Ausstellungsbehörden und die Öffentlichkeit können Zertifikate in diese Logs einreichen oder sie zur Überprüfung abfragen. Obwohl die genaue Anzahl der Log-Server nicht festgelegt ist, wird erwartet, dass sie weltweit weniger als tausend sind. Diese Server können unabhängig von CAs, ISPs oder anderen interessierten Einheiten verwaltet werden.
 
 #### **Abfrage**
 
 Um Zertifikatstransparenz-Logs für eine beliebige Domain zu erkunden, besuchen Sie [https://crt.sh/](https://crt.sh).
 
-Es gibt verschiedene Formate zum Speichern von Zertifikaten, die jeweils ihre eigenen Anwendungsfälle und Kompatibilität haben. Diese Zusammenfassung behandelt die Hauptformate und bietet Anleitungen zur Konvertierung zwischen ihnen.
+Es existieren verschiedene Formate zum Speichern von Zertifikaten, jedes mit eigenen Anwendungsfällen und Kompatibilität. Diese Zusammenfassung behandelt die Hauptformate und bietet Anleitungen zur Konvertierung zwischen ihnen.
 
 ## **Formate**
 
@@ -174,10 +174,10 @@ openssl pkcs12 -export -in certificatename.cer -inkey privateKey.key -out certif
 ```
 ***
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Verwenden Sie [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks), um mühelos **Workflows zu erstellen und zu automatisieren**, die von den fortschrittlichsten Community-Tools der Welt unterstützt werden.\
+Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um mühelos **Workflows zu erstellen** und zu **automatisieren**, die von den weltweit **fortschrittlichsten** Community-Tools unterstützt werden.\
 Heute Zugriff erhalten:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -191,7 +191,7 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 * Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github Repositories einreichen.
 
 </details>

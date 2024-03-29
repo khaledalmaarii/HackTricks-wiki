@@ -1,10 +1,9 @@
-# Linux Forensik
+# Linux-Forensik
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-\
-Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um einfach **Workflows zu erstellen und zu automatisieren**, die von den fortschrittlichsten Community-Tools der Welt unterstützt werden.\
-Heute noch Zugriff erhalten:
+Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um mühelos **Workflows zu erstellen und zu automatisieren**, die von den fortschrittlichsten Community-Tools der Welt unterstützt werden.\
+Heute Zugriff erhalten:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -14,11 +13,11 @@ Heute noch Zugriff erhalten:
 
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen** oder **HackTricks im PDF-Format herunterladen** möchten, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks in PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositorys senden.
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositories einreichen.
 
 </details>
 
@@ -51,31 +50,31 @@ find /directory -type f -mtime -1 -print #Find modified files during the last mi
 ```
 #### Verdächtige Informationen
 
-Beim Abrufen der grundlegenden Informationen sollten Sie nach seltsamen Dingen wie folgt überprüfen:
+Beim Abrufen der grundlegenden Informationen sollten Sie nach seltsamen Dingen wie:
 
 - **Root-Prozesse** laufen normalerweise mit niedrigen PIDs, daher sollten Sie misstrauisch sein, wenn Sie einen Root-Prozess mit einer hohen PID finden.
 - Überprüfen Sie die **registrierten Anmeldungen** von Benutzern ohne Shell in `/etc/passwd`.
-- Überprüfen Sie die **Passwort-Hashes** in `/etc/shadow` für Benutzer ohne Shell.
+- Überprüfen Sie **Passwort-Hashes** in `/etc/shadow` für Benutzer ohne Shell.
 
 ### Speicherabbild
 
 Um den Speicher des laufenden Systems zu erhalten, wird empfohlen, [**LiME**](https://github.com/504ensicsLabs/LiME) zu verwenden.\
-Um es zu **kompilieren**, müssen Sie den **gleichen Kernel** verwenden, den die Opfermaschine verwendet.
+Um es **zu kompilieren**, müssen Sie den **gleichen Kernel** verwenden, den die Opfermaschine verwendet.
 
 {% hint style="info" %}
 Denken Sie daran, dass Sie **LiME oder irgendetwas anderes** nicht in die Opfermaschine installieren können, da dies mehrere Änderungen daran vornehmen würde.
 {% endhint %}
 
 Wenn Sie also eine identische Version von Ubuntu haben, können Sie `apt-get install lime-forensics-dkms` verwenden.\
-In anderen Fällen müssen Sie [**LiME**](https://github.com/504ensicsLabs/LiME) von GitHub herunterladen und mit den richtigen Kernel-Headern kompilieren. Um die **genauen Kernel-Header** der Opfermaschine zu erhalten, können Sie einfach das Verzeichnis `/lib/modules/<Kernel-Version>` auf Ihren Computer kopieren und dann LiME damit **kompilieren**:
+In anderen Fällen müssen Sie [**LiME**](https://github.com/504ensicsLabs/LiME) von GitHub herunterladen und es mit den richtigen Kernel-Headern kompilieren. Um die **genauen Kernel-Header** der Opfermaschine zu erhalten, können Sie einfach das Verzeichnis `/lib/modules/<Kernel-Version>` auf Ihren Computer kopieren und dann LiME damit **kompilieren**:
 ```bash
 make -C /lib/modules/<kernel version>/build M=$PWD
 sudo insmod lime.ko "path=/home/sansforensics/Desktop/mem_dump.bin format=lime"
 ```
 LiME unterstützt 3 **Formate**:
 
-* Raw (jedes Segment zusammengefügt)
-* Gepolstert (wie Raw, aber mit Nullen in den rechten Bits)
+* Roh (jedes Segment zusammengefügt)
+* Gepolstert (wie Roh, aber mit Nullen in den rechten Bits)
 * Lime (empfohlenes Format mit Metadaten)
 
 LiME kann auch verwendet werden, um das **Dump über das Netzwerk zu senden**, anstatt es im System zu speichern, indem man etwas wie: `path=tcp:4444` verwendet.
@@ -85,11 +84,11 @@ LiME kann auch verwendet werden, um das **Dump über das Netzwerk zu senden**, a
 #### Herunterfahren
 
 Zunächst müssen Sie das System **herunterfahren**. Dies ist nicht immer eine Option, da das System manchmal ein Produktionsserver sein wird, den sich das Unternehmen nicht leisten kann herunterzufahren.\
-Es gibt **2 Möglichkeiten**, das System herunterzufahren, ein **normales Herunterfahren** und ein **"Stecker ziehen" Herunterfahren**. Das erste ermöglicht es den **Prozessen, wie gewohnt zu beenden** und das **Dateisystem zu synchronisieren**, erlaubt aber auch möglicherweise der **Malware**, **Beweise zu vernichten**. Der Ansatz "Stecker ziehen" kann zu **einigem Informationsverlust** führen (nicht viel Information geht verloren, da wir bereits ein Abbild des Speichers gemacht haben) und die **Malware wird keine Gelegenheit haben**, etwas dagegen zu unternehmen. Wenn Sie also **vermuten**, dass es eine **Malware** geben könnte, führen Sie einfach den **`sync`** **Befehl** auf dem System aus und ziehen Sie den Stecker.
+Es gibt **2 Möglichkeiten**, das System herunterzufahren, ein **normales Herunterfahren** und ein **"Stecker ziehen" Herunterfahren**. Das erste ermöglicht es den **Prozessen, wie gewohnt zu beenden** und das **Dateisystem zu synchronisieren**, erlaubt aber auch möglicherweise der **Malware**, **Beweise zu vernichten**. Der Ansatz "Stecker ziehen" kann zu **einigem Informationsverlust** führen (nicht viel Information geht verloren, da wir bereits ein Abbild des Speichers gemacht haben) und die **Malware wird keine Gelegenheit haben**, etwas dagegen zu unternehmen. Wenn Sie also vermuten, dass es eine **Malware** geben könnte, führen Sie einfach den **`sync`** **Befehl** auf dem System aus und ziehen Sie den Stecker.
 
 #### Erstellen eines Abbilds der Festplatte
 
-Es ist wichtig zu beachten, dass **bevor Sie Ihren Computer mit etwas in Verbindung bringen, das mit dem Fall zusammenhängt**, Sie sicherstellen müssen, dass es als schreibgeschützt eingebunden wird, um eine Änderung von Informationen zu vermeiden.
+Es ist wichtig zu beachten, dass **bevor Sie Ihren Computer mit etwas in Verbindung bringen, das mit dem Fall zusammenhängt**, Sie sicherstellen müssen, dass es als **schreibgeschützt eingebunden** wird, um eine Änderung von Informationen zu vermeiden.
 ```bash
 #Create a raw copy of the disk
 dd if=<subject device> of=<image file> bs=512
@@ -98,7 +97,7 @@ dd if=<subject device> of=<image file> bs=512
 dcfldd if=<subject device> of=<image file> bs=512 hash=<algorithm> hashwindow=<chunk size> hashlog=<hash file>
 dcfldd if=/dev/sdc of=/media/usb/pc.image hash=sha256 hashwindow=1M hashlog=/media/usb/pc.hashes
 ```
-### Voranalyse des Festplattenimages
+### Festplatten-Image-Voranalyse
 
 Erstellen eines Festplattenimages ohne weitere Daten.
 ```bash
@@ -153,7 +152,7 @@ r/r 16: secret.txt
 icat -i raw -f ext4 disk.img 16
 ThisisTheMasterSecret
 ```
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um mühelos **Workflows zu erstellen** und zu **automatisieren**, die von den fortschrittlichsten Community-Tools der Welt unterstützt werden.\
@@ -180,12 +179,12 @@ Lesen Sie die folgende Seite, um mehr über Tools zu erfahren, die nützlich sei
 
 ## Suche nach installierten Programmen
 
-Um effektiv nach installierten Programmen auf Debian- und RedHat-Systemen zu suchen, sollten Sie Systemprotokolle und Datenbanken in Kombination mit manuellen Überprüfungen in gängigen Verzeichnissen nutzen.
+Um effektiv nach installierten Programmen auf Debian- und RedHat-Systemen zu suchen, sollten Sie Systemprotokolle und -datenbanken in Kombination mit manuellen Überprüfungen in gängigen Verzeichnissen in Betracht ziehen.
 
-* Für Debian überprüfen Sie _**`/var/lib/dpkg/status`**_ und _**`/var/log/dpkg.log`**_, um Details zu Paketinstallationen abzurufen, und verwenden Sie `grep`, um nach spezifischen Informationen zu filtern.
+* Für Debian, überprüfen Sie _**`/var/lib/dpkg/status`**_ und _**`/var/log/dpkg.log`**_, um Details zu Paketinstallationen abzurufen, und verwenden Sie `grep`, um nach spezifischen Informationen zu filtern.
 * RedHat-Benutzer können die RPM-Datenbank mit `rpm -qa --root=/mntpath/var/lib/rpm` abfragen, um installierte Pakete aufzulisten.
 
-Um Software zu entdecken, die manuell oder außerhalb dieser Paketverwaltungsprogramme installiert wurde, erkunden Sie Verzeichnisse wie _**`/usr/local`**_, _**`/opt`**_, _**`/usr/sbin`**_, _**`/usr/bin`**_, _**`/bin`**_ und _**`/sbin`**_. Kombinieren Sie Verzeichnisauflistungen mit systemspezifischen Befehlen, um ausführbare Dateien zu identifizieren, die nicht mit bekannten Paketen in Verbindung stehen, und verbessern Sie so Ihre Suche nach allen installierten Programmen.
+Um Software zu entdecken, die manuell oder außerhalb dieser Paketverwaltungsprogramme installiert wurde, erkunden Sie Verzeichnisse wie _**`/usr/local`**_, _**`/opt`**_, _**`/usr/sbin`**_, _**`/usr/bin`**_, _**`/bin`**_ und _**`/sbin`**_. Kombinieren Sie Verzeichnislisten mit systemspezifischen Befehlen, um ausführbare Dateien zu identifizieren, die nicht mit bekannten Paketen verbunden sind, und verbessern Sie so Ihre Suche nach allen installierten Programmen.
 ```bash
 # Debian package and log details
 cat /var/lib/dpkg/status | grep -E "Package:|Status:"
@@ -201,10 +200,10 @@ find /sbin/ –exec rpm -qf {} \; | grep "is not"
 # Find exacuable files
 find / -type f -executable | grep <something>
 ```
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Verwenden Sie [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks), um einfach **Workflows zu erstellen** und zu **automatisieren**, die von den fortschrittlichsten Community-Tools der Welt unterstützt werden.\
+Verwenden Sie [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks), um ganz einfach **Workflows zu erstellen** und zu **automatisieren**, die von den fortschrittlichsten Community-Tools der Welt unterstützt werden.\
 Heute noch Zugriff erhalten:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -249,7 +248,7 @@ Pfade, an denen sich Malware als Dienst installieren könnte:
 
 ### Kernelmodule
 
-Linux-Kernelmodule, die von Malware häufig als Rootkit-Komponenten verwendet werden, werden beim Systemstart geladen. Die für diese Module kritischen Verzeichnisse und Dateien sind:
+Linux-Kernelmodule, die von Malware häufig als Rootkit-Komponenten verwendet werden, werden beim Systemstart geladen. Die für diese Module entscheidenden Verzeichnisse und Dateien sind:
 
 - **/lib/modules/$(uname -r)**: Enthält Module für die aktuelle Kernelversion.
 - **/etc/modprobe.d**: Enthält Konfigurationsdateien zur Steuerung des Modulladens.
@@ -263,7 +262,7 @@ Linux verwendet verschiedene Dateien, um Programme automatisch beim Benutzerlogi
 - **\~/.bashrc**, **\~/.bash\_profile**, **\~/.profile** und **\~/.config/autostart**: Benutzerspezifische Dateien, die bei deren Anmeldung ausgeführt werden.
 - **/etc/rc.local**: Wird ausgeführt, nachdem alle Systemdienste gestartet wurden und markiert das Ende des Übergangs in eine Multiuser-Umgebung.
 
-## Überprüfen von Protokollen
+## Protokolle überprüfen
 
 Linux-Systeme verfolgen Benutzeraktivitäten und Systemereignisse in verschiedenen Protokolldateien. Diese Protokolle sind entscheidend, um unbefugten Zugriff, Malware-Infektionen und andere Sicherheitsvorfälle zu identifizieren. Wichtige Protokolldateien sind:
 
@@ -284,7 +283,7 @@ Linux-Systeme verfolgen Benutzeraktivitäten und Systemereignisse in verschieden
 - **/var/log/**: Überprüfen Sie hier immer auf unerwartete Protokolle.
 
 {% hint style="info" %}
-Linux-Systemprotokolle und Überwachungssysteme können in einem Eindring- oder Malware-Vorfall deaktiviert oder gelöscht werden. Da Protokolle auf Linux-Systemen in der Regel einige der nützlichsten Informationen über bösartige Aktivitäten enthalten, löschen Eindringlinge sie routinemäßig. Daher ist es beim Überprüfen verfügbarer Protokolldateien wichtig, nach Lücken oder falsch sortierten Einträgen zu suchen, die auf Löschungen oder Manipulationen hinweisen könnten.
+Linux-Systemprotokolle und Überwachungssysteme können in einem Eindring- oder Malware-Vorfall deaktiviert oder gelöscht werden. Da Protokolle auf Linux-Systemen in der Regel einige der nützlichsten Informationen über bösartige Aktivitäten enthalten, löschen Eindringlinge sie routinemäßig. Daher ist es beim Überprüfen verfügbarer Protokolldateien wichtig, nach Lücken oder falsch platzierten Einträgen zu suchen, die auf Löschungen oder Manipulationen hinweisen könnten.
 {% endhint %}
 
 **Linux speichert eine Befehlshistorie für jeden Benutzer**, gespeichert in:
@@ -313,12 +312,12 @@ Einige Apps generieren auch ihre eigenen Protokolle:
 - **Open Office**: Überprüfen Sie kürzlich aufgerufene Dokumente, die auf kompromittierte Dateien hinweisen könnten.
 - **FTP/SFTP**: Überprüfen Sie Protokolle in _\~/.ftp\_history_ oder _\~/.sftp\_history_ auf Dateiübertragungen, die möglicherweise nicht autorisiert sind.
 - **MySQL**: Untersuchen Sie _\~/.mysql\_history_ auf ausgeführte MySQL-Abfragen, die möglicherweise nicht autorisierte Datenbankaktivitäten aufdecken.
-- **Less**: Analysieren Sie _\~/.lesshst_ für die Verlaufsnutzung, einschließlich angezeigter Dateien und ausgeführter Befehle.
-- **Git**: Überprüfen Sie _\~/.gitconfig_ und Projekt _.git/logs_ auf Änderungen an Repositories.
+- **Less**: Analysieren Sie _\~/.lesshst_ für die Verlaufshistorie, einschließlich angezeigter Dateien und ausgeführter Befehle.
+- **Git**: Untersuchen Sie _\~/.gitconfig_ und Projekt _.git/logs_ auf Änderungen an Repositories.
 
 ### USB-Protokolle
 
-[**usbrip**](https://github.com/snovvcrash/usbrip) ist eine kleine Software, die in reinem Python 3 geschrieben ist und Linux-Protokolldateien (`/var/log/syslog*` oder `/var/log/messages*` je nach Distribution) analysiert, um USB-Ereignisverlaufstabellen zu erstellen.
+[**usbrip**](https://github.com/snovvcrash/usbrip) ist ein kleines in reinem Python 3 geschriebenes Programm, das Linux-Protokolldateien (`/var/log/syslog*` oder `/var/log/messages*` je nach Distribution) analysiert, um USB-Ereignisverlaufstabellen zu erstellen.
 
 Es ist interessant zu **wissen, welche USBs verwendet wurden**, und es ist nützlicher, wenn Sie eine autorisierte Liste von USBs haben, um "Verstoßereignisse" zu finden (die Verwendung von USBs, die nicht in dieser Liste enthalten sind).
 
@@ -337,35 +336,35 @@ usbrip ids search --pid 0002 --vid 0e0f #Search for pid AND vid
 ```
 Mehr Beispiele und Informationen finden Sie auf GitHub: [https://github.com/snovvcrash/usbrip](https://github.com/snovvcrash/usbrip)
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um mühelos **Workflows zu erstellen und zu automatisieren**, die von den weltweit **fortschrittlichsten** Community-Tools unterstützt werden.\
+Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um einfach **Workflows zu erstellen und zu automatisieren**, die von den weltweit **fortschrittlichsten** Community-Tools unterstützt werden.\
 Heute Zugriff erhalten:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-## Überprüfen von Benutzerkonten und Anmeldeaktivitäten
+## Überprüfung von Benutzerkonten und Anmeldeaktivitäten
 
-Untersuchen Sie die Dateien _**/etc/passwd**_, _**/etc/shadow**_ und **Sicherheitsprotokolle** auf ungewöhnliche Namen oder Konten, die erstellt oder in unmittelbarer Nähe zu bekannten unbefugten Ereignissen verwendet wurden. Überprüfen Sie auch mögliche sudo-Brute-Force-Angriffe.\
+Untersuchen Sie die Dateien _**/etc/passwd**_, _**/etc/shadow**_ und **Sicherheitsprotokolle** auf ungewöhnliche Namen oder Konten, die erstellt und/oder in unmittelbarer Nähe zu bekannten unbefugten Ereignissen verwendet wurden. Überprüfen Sie auch mögliche sudo-Brute-Force-Angriffe.\
 Überprüfen Sie außerdem Dateien wie _**/etc/sudoers**_ und _**/etc/groups**_ auf unerwartete Berechtigungen, die Benutzern erteilt wurden.\
-Suchen Sie schließlich nach Konten ohne Passwörter oder mit leicht erratbaren Passwörtern.
+Suchen Sie schließlich nach Konten ohne Passwörter oder mit leicht zu erratenden Passwörtern.
 
 ## Dateisystem untersuchen
 
-### Analyse von Dateisystemstrukturen bei Malware-Untersuchungen
+### Analyse von Dateisystemstrukturen bei der Malware-Untersuchung
 
 Bei der Untersuchung von Malware-Vorfällen ist die Struktur des Dateisystems eine entscheidende Informationsquelle, die sowohl die Ereignisabfolge als auch den Inhalt der Malware aufzeigt. Malware-Autoren entwickeln jedoch Techniken, um diese Analyse zu erschweren, z. B. durch Ändern von Dateizeitstempeln oder Vermeiden des Dateisystems zur Datenspeicherung.
 
 Um diesen anti-forensischen Methoden entgegenzuwirken, ist es wichtig:
 
-* Führen Sie eine gründliche Zeitachsenanalyse durch, indem Sie Tools wie **Autopsy** zur Visualisierung von Ereigniszeitachsen oder **Sleuth Kit's** `mactime` zur detaillierten Zeitachsenanalyse verwenden.
+* Führen Sie eine gründliche Zeitachsenanalyse durch, indem Sie Tools wie **Autopsy** zur Visualisierung von Ereigniszeitachsen oder **Sleuth Kit's** `mactime` zur detaillierten Zeitachsen-Datenanalyse verwenden.
 * Untersuchen Sie unerwartete Skripte im $PATH des Systems, die Shell- oder PHP-Skripte enthalten könnten, die von Angreifern verwendet werden.
 * Untersuchen Sie `/dev` nach untypischen Dateien, da es traditionell spezielle Dateien enthält, aber auch Malware-bezogene Dateien enthalten kann.
 * Suchen Sie nach versteckten Dateien oder Verzeichnissen mit Namen wie ".. " (Punkt Punkt Leerzeichen) oder "..^G" (Punkt Punkt Steuerung-G), die bösartigen Inhalt verbergen könnten.
 * Identifizieren Sie setuid-Root-Dateien mit dem Befehl: `find / -user root -perm -04000 -print`. Dies findet Dateien mit erhöhten Berechtigungen, die von Angreifern missbraucht werden könnten.
 * Überprüfen Sie Löschzeitstempel in Inode-Tabellen, um Massenlöschungen von Dateien zu erkennen, die möglicherweise auf das Vorhandensein von Rootkits oder Trojanern hinweisen.
-* Inspektionieren Sie aufeinanderfolgende Inodes nach der Identifizierung einer bösartigen Datei auf nahegelegene bösartige Dateien, da sie möglicherweise zusammen platziert wurden.
+* Inspezieren Sie aufeinanderfolgende Inodes nach benachbarten bösartigen Dateien, nachdem Sie eine identifiziert haben, da sie möglicherweise zusammen platziert wurden.
 * Überprüfen Sie häufige binäre Verzeichnisse (_/bin_, _/sbin_) auf kürzlich geänderte Dateien, da diese von Malware verändert worden sein könnten.
 ````bash
 # List recent files in a directory:
@@ -375,20 +374,20 @@ ls -laR --sort=time /bin```
 ls -lai /bin | sort -n```
 ````
 {% hint style="info" %}
-Beachten Sie, dass ein **Angreifer** die **Zeit** ändern kann, um **Dateien als legitim erscheinen zu lassen**, aber er kann das **Inode** nicht ändern. Wenn Sie feststellen, dass eine **Datei** angibt, dass sie zur **gleichen Zeit wie der Rest der Dateien im selben Ordner erstellt und geändert wurde**, aber das **Inode unerwartet größer ist**, dann wurden die **Zeitstempel dieser Datei geändert**.
+Beachten Sie, dass ein **Angreifer** die **Zeit** ändern kann, um **Dateien als legitim erscheinen zu lassen**, aber er kann das **Inode** nicht ändern. Wenn Sie feststellen, dass eine **Datei** angibt, dass sie zur **gleichen Zeit erstellt und geändert** wurde wie der Rest der Dateien im selben Ordner, aber das **Inode unerwartet größer** ist, dann wurden die **Zeitstempel dieser Datei geändert**.
 {% endhint %}
 
 ## Vergleich von Dateien verschiedener Dateisystemversionen
 
 ### Zusammenfassung des Dateisystemversionsvergleichs
 
-Um Dateisystemversionen zu vergleichen und Änderungen zu ermitteln, verwenden wir vereinfachte `git diff`-Befehle:
+Um Dateisystemversionen zu vergleichen und Änderungen zu lokalisieren, verwenden wir vereinfachte `git diff`-Befehle:
 
 * **Um neue Dateien zu finden**, vergleichen Sie zwei Verzeichnisse:
 ```bash
 git diff --no-index --diff-filter=A path/to/old_version/ path/to/new_version/
 ```
-* **Für geänderte Inhalte** listen Sie Änderungen auf, wobei spezifische Zeilen ignoriert werden:
+* **Für geänderte Inhalte** Listen Sie Änderungen auf, wobei spezifische Zeilen ignoriert werden:
 ```bash
 git diff --no-index --diff-filter=M path/to/old_version/ path/to/new_version/ | grep -E "^\+" | grep -v "Installed-Time"
 ```
@@ -413,25 +412,3 @@ git diff --no-index --diff-filter=D path/to/old_version/ path/to/new_version/
 * [https://www.plesk.com/blog/featured/linux-logs-explained/](https://www.plesk.com/blog/featured/linux-logs-explained/)
 * [https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---diff-filterACDMRTUXB82308203](https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---diff-filterACDMRTUXB82308203)
 * **Buch: Malware Forensics Field Guide für Linux-Systeme: Digitale Forensik-Handbücher**
-
-<details>
-
-<summary><strong>Erlernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Arbeiten Sie in einem **Cybersicherheitsunternehmen**? Möchten Sie Ihr **Unternehmen in HackTricks beworben sehen**? Oder möchten Sie Zugriff auf die **neueste Version des PEASS erhalten oder HackTricks im PDF-Format herunterladen**? Überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
-* **Treten Sie der** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) bei oder der [**Telegram-Gruppe**](https://t.me/peass) oder **folgen** Sie mir auf **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-
-**Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an das** [**HackTricks-Repository**](https://github.com/carlospolop/hacktricks) **und das** [**HackTricks-Cloud-Repository**](https://github.com/carlospolop/hacktricks-cloud) **senden.**
-
-</details>
-
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
-
-\
-Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um mithilfe der weltweit **fortschrittlichsten Community-Tools** ganz einfach **Workflows zu erstellen und zu automatisieren**.\
-Heute Zugriff erhalten:
-
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

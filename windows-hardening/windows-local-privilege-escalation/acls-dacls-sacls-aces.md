@@ -1,6 +1,6 @@
 # ACLs - DACLs/SACLs/ACEs
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um mühelos **Workflows zu erstellen und zu automatisieren**, die von den weltweit **fortschrittlichsten** Community-Tools unterstützt werden.\
@@ -24,7 +24,7 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 
 ## **Zugriffssteuerungsliste (ACL)**
 
-Eine Zugriffssteuerungsliste (ACL) besteht aus einer geordneten Reihe von Zugriffskontrolleinträgen (ACEs), die den Schutz für ein Objekt und dessen Eigenschaften festlegen. Im Wesentlichen definiert eine ACL, welche Aktionen von welchen Sicherheitsprinzipalen (Benutzern oder Gruppen) auf einem bestimmten Objekt erlaubt oder verweigert werden.
+Eine Zugriffssteuerungsliste (ACL) besteht aus einer geordneten Reihe von Zugriffskontrolleinträgen (ACEs), die den Schutz eines Objekts und seiner Eigenschaften festlegen. Im Wesentlichen definiert eine ACL, welche Aktionen von welchen Sicherheitsprinzipalen (Benutzern oder Gruppen) auf einem bestimmten Objekt erlaubt oder verweigert werden.
 
 Es gibt zwei Arten von ACLs:
 
@@ -40,9 +40,9 @@ Der Prozess des Zugriffs auf eine Datei beinhaltet, dass das System den Sicherhe
 
 ### **Systeminteraktion mit ACLs**
 
-Jede Benutzersitzung ist mit einem Zugriffstoken verbunden, das relevante Sicherheitsinformationen für diese Sitzung enthält, einschließlich Benutzer-, Gruppenidentitäten und Berechtigungen. Dieses Token enthält auch eine Anmelde-SID, die die Sitzung eindeutig identifiziert.
+Jede Benutzersitzung ist mit einem Zugriffstoken verbunden, das Sicherheitsinformationen enthält, die für diese Sitzung relevant sind, einschließlich Benutzer-, Gruppenidentitäten und Berechtigungen. Dieses Token enthält auch eine Anmelde-SID, die die Sitzung eindeutig identifiziert.
 
-Die lokale Sicherheitsbehörde (LSASS) bearbeitet Zugriffsanfragen auf Objekte, indem sie die DACL nach ACEs überprüft, die mit dem Sicherheitsprinzipal übereinstimmen, der versucht auf das Objekt zuzugreifen. Wenn keine relevanten ACEs gefunden werden, wird der Zugriff sofort gewährt. Andernfalls vergleicht LSASS die ACEs mit der SID des Sicherheitsprinzipals im Zugriffstoken, um die Zugangsberechtigung zu bestimmen.
+Die lokale Sicherheitsbehörde (LSASS) verarbeitet Zugriffsanfragen auf Objekte, indem sie die DACL nach ACEs durchsucht, die dem Sicherheitsprinzipal, der versucht auf das Objekt zuzugreifen, entsprechen. Wenn keine relevanten ACEs gefunden werden, wird der Zugriff sofort gewährt. Andernfalls vergleicht LSASS die ACEs mit der SID des Sicherheitsprinzipals im Zugriffstoken, um die Zugangsberechtigung zu bestimmen.
 
 ### **Zusammengefasster Prozess**
 
@@ -56,7 +56,7 @@ Es gibt **drei Haupttypen von Zugriffskontrolleinträgen (ACEs)**:
 
 * **Zugriff verweigert ACE**: Dieser ACE verweigert explizit den Zugriff auf ein Objekt für bestimmte Benutzer oder Gruppen (in einer DACL).
 * **Zugriff erlaubt ACE**: Dieser ACE gewährt explizit den Zugriff auf ein Objekt für bestimmte Benutzer oder Gruppen (in einer DACL).
-* **Systemüberwachungs-ACE**: Positioniert innerhalb einer Systemzugriffssteuerungsliste (SACL) ist dieser ACE verantwortlich für die Erstellung von Überwachungsprotokollen bei Zugriffsversuchen auf ein Objekt durch Benutzer oder Gruppen. Es dokumentiert, ob der Zugriff erlaubt oder verweigert wurde und die Art des Zugriffs.
+* **Systemüberwachungs-ACE**: Positioniert innerhalb einer Systemzugriffssteuerungsliste (SACL) ist dieser ACE verantwortlich für die Erzeugung von Überwachungsprotokollen bei Zugriffsversuchen auf ein Objekt durch Benutzer oder Gruppen. Es dokumentiert, ob der Zugriff erlaubt oder verweigert wurde und die Art des Zugriffs.
 
 Jeder ACE hat **vier wesentliche Komponenten**:
 
@@ -65,7 +65,7 @@ Jeder ACE hat **vier wesentliche Komponenten**:
 3. **Vererbungsflaggen**, die bestimmen, ob untergeordnete Objekte den ACE von ihrem Elternelement erben können.
 4. Ein [**Zugriffsmaskenwert**](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-dtyp/7a53f60e-e730-4dfe-bbe9-b21b62eb790b?redirectedfrom=MSDN), ein 32-Bit-Wert, der die gewährten Rechte des Objekts angibt.
 
-Die Zugriffsbestimmung erfolgt durch das sequentielle Prüfen jedes ACE, bis:
+Die Zugriffsbestimmung erfolgt durch das sequenzielle Prüfen jedes ACE, bis:
 
 * Ein **Zugriff verweigert ACE** die angeforderten Rechte explizit einem im Zugriffstoken identifizierten Treuhänder verweigert.
 * **Zugriff-erlaubte ACE(s)** gewähren einem Treuhänder im Zugriffstoken explizit alle angeforderten Rechte.
@@ -73,26 +73,26 @@ Die Zugriffsbestimmung erfolgt durch das sequentielle Prüfen jedes ACE, bis:
 
 ### Reihenfolge der ACEs
 
-Die Art und Weise, wie **ACEs** (Regeln, die angeben, wer auf etwas zugreifen kann oder nicht) in einer Liste namens **DACL** platziert werden, ist sehr wichtig. Dies liegt daran, dass das System, sobald es den Zugriff basierend auf diesen Regeln gewährt oder verweigert, nicht mehr auf den Rest schaut.
+Die Art und Weise, wie **ACEs** (Regeln, die sagen, wer auf etwas zugreifen kann oder nicht) in einer Liste namens **DACL** platziert werden, ist sehr wichtig. Dies liegt daran, dass das System, sobald es den Zugriff basierend auf diesen Regeln gewährt oder verweigert, nicht mehr auf den Rest schaut.
 
 Es gibt eine beste Methode, um diese ACEs zu organisieren, und sie wird als **"kanonische Reihenfolge"** bezeichnet. Diese Methode hilft sicherzustellen, dass alles reibungslos und fair funktioniert. So funktioniert es für Systeme wie **Windows 2000** und **Windows Server 2003**:
 
 * Zuerst werden alle Regeln, die **speziell für dieses Element** erstellt wurden, vor denen platziert, die von anderswo stammen, wie einem übergeordneten Ordner.
 * In diesen spezifischen Regeln werden diejenigen, die **"nein" (verweigern)** sagen, vor denen platziert, die **"ja" (erlauben)** sagen.
-* Für die Regeln, die von anderswo stammen, beginnen Sie mit denen aus der **nächsten Quelle**, wie dem übergeordneten Ordner, und gehen dann von dort aus zurück. Wiederum setzen Sie **"nein"** vor **"ja"**.
+* Für die Regeln, die von anderswo stammen, beginnen Sie mit denen aus der **nächsten Quelle**, wie dem übergeordneten Ordner, und gehen dann von dort aus zurück. Wiederum setzen Sie **"nein"** vor **"ja".**
 
 Diese Einrichtung hilft auf zwei große Arten:
 
 * Sie stellt sicher, dass ein spezifisches **"nein"** respektiert wird, unabhängig davon, welche anderen **"ja"**-Regeln vorhanden sind.
 * Sie lässt den Besitzer eines Elements das **letzte Wort** darüber haben, wer Zugang erhält, bevor Regeln von übergeordneten Ordnern oder weiter hinten ins Spiel kommen.
 
-Indem man dies auf diese Weise macht, kann der Besitzer einer Datei oder eines Ordners sehr genau festlegen, wer Zugriff erhält, um sicherzustellen, dass die richtigen Personen Zugang erhalten und die falschen nicht.
+Indem man dies auf diese Weise macht, kann der Besitzer einer Datei oder eines Ordners sehr genau festlegen, wer Zugriff erhält, um sicherzustellen, dass die richtigen Personen Zugang haben und die falschen nicht.
 
 ![](https://www.ntfs.com/images/screenshots/ACEs.gif)
 
-Also geht es bei dieser **"kanonischen Reihenfolge"** darum, sicherzustellen, dass die Zugriffsregeln klar sind und gut funktionieren, indem spezifische Regeln zuerst platziert und alles auf intelligente Weise organisiert wird.
+Also geht es bei dieser **"kanonischen Reihenfolge"** darum, sicherzustellen, dass die Zugriffsregeln klar sind und gut funktionieren, spezifische Regeln zuerst zu platzieren und alles auf intelligente Weise zu organisieren.
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um mühelos **Workflows zu erstellen und zu automatisieren**, die von den weltweit **fortschrittlichsten** Community-Tools unterstützt werden.\
@@ -142,7 +142,7 @@ Jeder ACE enthält wichtige Informationen wie auf wen die Regel angewendet wird 
 
 #### Hauptunterschiede zwischen den ACE-Typen
 
-* **Generische ACEs** eignen sich für einfache Zugriffskontrollszenarien, bei denen dieselbe Regel auf alle Aspekte eines Objekts oder auf alle Objekte innerhalb eines Containers angewendet wird.
+* **Generische ACEs** sind für einfache Zugriffskontrollszenarien geeignet, bei denen dieselbe Regel auf alle Aspekte eines Objekts oder auf alle Objekte innerhalb eines Containers angewendet wird.
 * **Objektspezifische ACEs** werden für komplexere Szenarien verwendet, insbesondere in Umgebungen wie Active Directory, in denen möglicherweise der Zugriff auf bestimmte Eigenschaften eines Objekts unterschiedlich gesteuert werden muss.
 
 Zusammenfassend helfen ACLs und ACEs dabei, präzise Zugriffskontrollen zu definieren, um sicherzustellen, dass nur die richtigen Personen oder Gruppen Zugriff auf sensible Informationen oder Ressourcen haben, wobei die Zugriffsrechte bis auf die Ebene einzelner Eigenschaften oder Objekttypen angepasst werden können.
@@ -154,7 +154,7 @@ Zusammenfassend helfen ACLs und ACEs dabei, präzise Zugriffskontrollen zu defin
 | Typ        | Flagge, die den Typ des ACE angibt. Windows 2000 und Windows Server 2003 unterstützen sechs Arten von ACE: Drei generische ACE-Typen, die an alle schützbaren Objekte angehängt sind. Drei objektspezifische ACE-Typen, die für Active Directory-Objekte auftreten können.                                                                                                                                                                                                                                                            |
 | Flags       | Satz von Bitflags, die Vererbung und Überwachung steuern.                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 | Größe        | Anzahl der Bytes im Speicher, die für den ACE allokiert sind.                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| Zugriffsmaske | 32-Bit-Wert, dessen Bits den Zugriffsrechten für das Objekt entsprechen. Bits können entweder aktiviert oder deaktiviert sein, aber die Bedeutung der Einstellung hängt vom ACE-Typ ab. Wenn beispielsweise das Bit, das dem Recht zum Lesen von Berechtigungen entspricht, aktiviert ist und der ACE-Typ Deny ist, verweigert der ACE das Recht, die Berechtigungen des Objekts zu lesen. Wenn dasselbe Bit aktiviert ist, aber der ACE-Typ Allow ist, gewährt der ACE das Recht, die Berechtigungen des Objekts zu lesen. Weitere Details zur Zugriffsmaske finden sich in der nächsten Tabelle. |
+| Zugriffsmaske | 32-Bit-Wert, dessen Bits den Zugriffsrechten für das Objekt entsprechen. Bits können entweder ein- oder ausgeschaltet sein, aber die Bedeutung der Einstellung hängt vom ACE-Typ ab. Wenn beispielsweise das Bit, das dem Recht zum Lesen von Berechtigungen entspricht, eingeschaltet ist und der ACE-Typ Verweigern ist, verweigert der ACE das Recht, die Berechtigungen des Objekts zu lesen. Wenn dasselbe Bit eingeschaltet ist, der ACE-Typ jedoch Zulassen ist, gewährt der ACE das Recht, die Berechtigungen des Objekts zu lesen. Weitere Details zur Zugriffsmaske finden Sie in der nächsten Tabelle. |
 | SID         | Identifiziert einen Benutzer oder eine Gruppe, dessen Zugriff durch diesen ACE kontrolliert oder überwacht wird.                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 
 ### Layout der Zugriffsmaske
@@ -175,3 +175,25 @@ Zusammenfassend helfen ACLs und ACEs dabei, präzise Zugriffskontrollen zu defin
 * [https://www.ntfs.com/ntfs-permissions-acl-use.htm](https://www.ntfs.com/ntfs-permissions-acl-use.htm)
 * [https://secureidentity.se/acl-dacl-sacl-and-the-ace/](https://secureidentity.se/acl-dacl-sacl-and-the-ace/)
 * [https://www.coopware.in2.info/\_ntfsacl\_ht.htm](https://www.coopware.in2.info/\_ntfsacl\_ht.htm)
+
+<details>
+
+<summary><strong>Erlernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+
+Andere Möglichkeiten, HackTricks zu unterstützen:
+
+* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen** möchten oder **HackTricks im PDF-Format herunterladen** möchten, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
+* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegramm-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositories einreichen.
+
+</details>
+
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+
+\
+Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um mühelos Workflows zu erstellen und zu **automatisieren**, die von den weltweit **fortschrittlichsten** Community-Tools unterstützt werden.\
+Erhalten Sie noch heute Zugriff:
+
+{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

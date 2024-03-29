@@ -5,10 +5,10 @@
 _Hacktricks Logos & Motion Design von_ [_@ppiernacho_](https://www.instagram.com/ppieranacho/)_._
 
 {% hint style="success" %}
-**Willkommen im Wiki, wo du jeden Hack-Trick/Technik/was auch immer finden wirst, den ich aus CTFs, realen Apps, Forschungsarbeiten und Nachrichten gelernt habe.**
+**Willkommen im Wiki, wo du jeden Hack-Trick/Technik/ was auch immer finden wirst, den ich aus CTFs, realen Apps, Forschungen und Nachrichten gelernt habe.**
 {% endhint %}
 
-Um loszulegen, folge dieser Seite, auf der du den **typischen Ablauf** findest, dem du folgen solltest, wenn du **eine oder mehrere Maschinen pentestest:**
+Um loszulegen, folge dieser Seite, auf der du den **typischen Ablauf** findest, den **du beim Pentesting** von einem oder mehreren **Maschinen befolgen solltest:**
 
 {% content-ref url="generic-methodologies-and-resources/pentesting-methodology.md" %}
 [pentesting-methodology.md](generic-methodologies-and-resources/pentesting-methodology.md)
@@ -20,11 +20,11 @@ Um loszulegen, folge dieser Seite, auf der du den **typischen Ablauf** findest, 
 
 <figure><img src=".gitbook/assets/stm (1).png" alt=""><figcaption></figcaption></figure>
 
-[**STM Cyber**](https://www.stmcyber.com) ist ein großartiges Cybersicherheitsunternehmen, dessen Slogan **HACK THE UNHACKABLE** lautet. Sie führen ihre eigenen Forschungen durch und entwickeln ihre eigenen Hacking-Tools, um **mehrere wertvolle Cybersicherheitsdienste** wie Pentests, Red Teams und Schulungen anzubieten.
+[**STM Cyber**](https://www.stmcyber.com) ist ein großartiges Cybersicherheitsunternehmen, dessen Motto **HACK THE UNHACKABLE** lautet. Sie führen ihre eigenen Forschungen durch und entwickeln ihre eigenen Hacking-Tools, um **mehrere wertvolle Cybersicherheitsdienste** wie Pentesting, Red Teams und Schulungen anzubieten.
 
 Du kannst ihren **Blog** unter [**https://blog.stmcyber.com**](https://blog.stmcyber.com) überprüfen.
 
-**STM Cyber** unterstützt auch Cybersicherheitsprojekte im Open-Source-Bereich wie HackTricks :)
+**STM Cyber** unterstützt auch Cybersicherheitsprojekte im Open Source-Bereich wie HackTricks :)
 
 ***
 
@@ -40,11 +40,11 @@ Du kannst ihren **Blog** unter [**https://blog.stmcyber.com**](https://blog.stmc
 
 ### [Intigriti](https://www.intigriti.com)
 
-<figure><img src=".gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 **Intigriti** ist die **Nummer 1 in Europa** für ethisches Hacken und **Bug-Bounty-Plattform**.
 
-**Bug-Bounty-Tipp**: **Registriere dich** bei **Intigriti**, einer Premium-**Bug-Bounty-Plattform, die von Hackern für Hacker erstellt wurde**! Trete noch heute unter [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) bei und verdiene Prämien von bis zu **100.000 $**!
+**Bug-Bounty-Tipp**: **Melde dich an** bei **Intigriti**, einer Premium-**Bug-Bounty-Plattform, die von Hackern für Hacker** erstellt wurde! Trete noch heute unter [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) bei und verdiene Bounties von bis zu **100.000 $**!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
@@ -52,7 +52,7 @@ Du kannst ihren **Blog** unter [**https://blog.stmcyber.com**](https://blog.stmc
 
 ### [Trickest](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)
 
-<figure><img src=".gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Verwende [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um einfach Workflows zu erstellen und zu **automatisieren**, die von den weltweit **fortschrittlichsten** Community-Tools unterstützt werden.
@@ -67,28 +67,46 @@ Erhalte noch heute Zugriff:
 
 <figure><img src=".gitbook/assets/image (5) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Trete dem [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy)-Server bei, um mit erfahrenen Hackern und Bug-Bounty-Jägern zu kommunizieren!
+Trete dem [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) Server bei, um mit erfahrenen Hackern und Bug-Bounty-Jägern zu kommunizieren!
 
 **Hacking Insights**\
 Beschäftige dich mit Inhalten, die sich mit dem Nervenkitzel und den Herausforderungen des Hackens befassen
 
 **Echtzeit-Hack-News**\
-Bleibe mit den Neuigkeiten und Einblicken aus der schnelllebigen Hacking-Welt auf dem Laufenden
+Bleibe mit der schnelllebigen Hacking-Welt durch Echtzeitnachrichten und Einblicke auf dem Laufenden
 
 **Neueste Ankündigungen**\
-Bleibe über die neuesten Bug-Bounties und wichtigen Plattformupdates informiert
+Bleibe über die neuesten Bug-Bounties und wichtige Plattformupdates informiert
 
-**Trete uns bei** auf [**Discord**](https://discord.com/invite/N3FrSbmwdy) und beginne noch heute mit der Zusammenarbeit mit Top-Hackern!
+**Trete uns bei** auf [**Discord**](https://discord.com/invite/N3FrSbmwdy) und beginne noch heute mit Top-Hackern zusammenzuarbeiten!
 
 ***
 
-### [Pentest-Tools.com](https://pentest-tools.com/) - Das unverzichtbare Penetrationstest-Toolkit
+### [Pentest-Tools.com](https://pentest-tools.com/) - Das essentielle Penetrationstest-Toolkit
 
-<figure><img src=".gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-**Sofort einsatzbereite Einrichtung für Schwachstellenbewertung & Penetrationstests**. Führe einen vollständigen Pentest von überall aus mit 20+ Tools & Funktionen durch, die von der Aufklärung bis zum Bericht reichen. Wir ersetzen keine Pentester - wir entwickeln benutzerdefinierte Tools, Erkennungs- & Exploit-Module, um ihnen etwas Zeit zu geben, tiefer zu graben, Shells zu öffnen und Spaß zu haben.
+**Sofort einsatzbereite Einrichtung für Schwachstellenbewertung & Penetrationstests**. Führe einen vollständigen Penetrationstest von überall aus mit 20+ Tools & Funktionen durch, die von der Aufklärung bis zum Bericht reichen. Wir ersetzen keine Pentester - wir entwickeln benutzerdefinierte Tools, Erkennungs- & Exploit-Module, um ihnen etwas Zeit zu geben, tiefer zu graben, Shells zu öffnen und Spaß zu haben.
 
 {% embed url="https://pentest-tools.com/" %}
+
+***
+
+### [SerpApi](https://serpapi.com/)
+
+<figure><img src=".gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
+
+SerpApi bietet schnelle und einfache Echtzeit-APIs zum **Zugriff auf Suchmaschinenergebnisse**. Sie durchsuchen Suchmaschinen, handhaben Proxies, lösen Captchas und analysieren alle strukturierten Daten für dich.
+
+Ein Abonnement für einen der Pläne von SerpApi umfasst den Zugriff auf über 50 verschiedene APIs zum Scraping verschiedener Suchmaschinen, einschließlich Google, Bing, Baidu, Yahoo, Yandex und mehr.
+
+Im Gegensatz zu anderen Anbietern kratzt SerpApi nicht nur organische Ergebnisse ab. SerpApi-Antworten enthalten konsistent alle Anzeigen, Inline-Bilder und -Videos, Wissensgraphen und andere Elemente und Funktionen, die in den Suchergebnissen vorhanden sind.
+
+Aktuelle SerpApi-Kunden sind Apple, Shopify und GrubHub.
+
+Für weitere Informationen besuche ihren [Blog](https://serpapi.com/blog/)**,** oder probiere ein Beispiel in ihrem [**Spielplatz**](https://serpapi.com/playground)**.**
+
+Du kannst **hier ein kostenloses Konto** [**erstellen**](https://serpapi.com/users/sign\_up)**.**
 
 ***
 
@@ -106,17 +124,16 @@ Bleibe über die neuesten Bug-Bounties und wichtigen Plattformupdates informiert
 
 [**WebSec**](https://websec.nl) ist ein professionelles Cybersicherheitsunternehmen mit Sitz in **Amsterdam**, das Unternehmen auf der ganzen Welt vor den neuesten Cybersicherheitsbedrohungen schützt, indem es **offensive Sicherheitsdienste** mit einem **modernen** Ansatz bietet.
 
-WebSec ist ein **All-in-One-Sicherheitsunternehmen**, was bedeutet, dass sie alles machen; Pentesting, **Sicherheits**-Audits, Awareness-Schulungen, Phishing-Kampagnen, Code-Reviews, Exploit-Entwicklung, Outsourcing von Sicherheitsexperten und vieles mehr.
+WebSec ist ein **All-in-One-Sicherheitsunternehmen**, was bedeutet, dass sie alles machen; Pentesting, **Sicherheits**-Audits, Awareness-Schulungen, Phishing-Kampagnen, Code-Reviews, Exploit-Entwicklung, Sicherheitsexperten-Outsourcing und vieles mehr.
 
-Eine weitere coole Sache an WebSec ist, dass sie im Gegensatz zum Branchendurchschnitt sehr zuversichtlich in ihren Fähigkeiten sind, so sehr, dass sie die besten Qualitätsresultate garantieren, wie es auf ihrer Website heißt "**Wenn wir es nicht hacken können, zahlst du nicht!**". Für weitere Informationen schau dir ihre [**Website**](https://websec.nl/en/) und ihren [**Blog**](https://websec.nl/blog/) an!
+Eine weitere coole Sache an WebSec ist, dass sie im Gegensatz zum Branchendurchschnitt sehr zuversichtlich in ihren Fähigkeiten sind, so sehr, dass sie die besten Qualitätsresultate garantieren, es steht auf ihrer Website "**Wenn wir es nicht hacken können, zahlst du nicht!**". Für weitere Informationen schau dir ihre [**Website**](https://websec.nl/en/) und ihren [**Blog**](https://websec.nl/blog/) an!
 
 Zusätzlich zu dem oben Genannten ist WebSec auch ein **engagierter Unterstützer von HackTricks.**
 
 {% embed url="https://www.youtube.com/watch?v=Zq2JycGDCPM" %}
-
 ## Lizenz & Haftungsausschluss
 
-**Überprüfe sie unter:**
+**Überprüfen Sie sie unter:**
 
 {% content-ref url="welcome/hacktricks-values-and-faq.md" %}
 [hacktricks-values-and-faq.md](welcome/hacktricks-values-and-faq.md)
@@ -124,14 +141,14 @@ Zusätzlich zu dem oben Genannten ist WebSec auch ein **engagierter Unterstütze
 
 <details>
 
-<summary><strong>Lerne AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Erlernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* Wenn du deine **Firma in HackTricks beworben sehen** möchtest oder **HackTricks als PDF herunterladen** möchtest, überprüfe die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Hol dir das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
-* Entdecke [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Trete der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Teile deine Hacking-Tricks, indem du PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichst.
+* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
+* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositorys einreichen.
 
 </details>
