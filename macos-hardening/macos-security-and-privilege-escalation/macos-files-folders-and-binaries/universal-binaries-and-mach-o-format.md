@@ -2,14 +2,14 @@
 
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>에서 <strong>제로부터 영웅이 될 때까지 AWS 해킹을 배우세요</strong>!</summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>에서 <strong>AWS 해킹을 처음부터 전문가까지 배우세요</strong>!</summary>
 
-다른 HackTricks를 지원하는 방법:
+HackTricks를 지원하는 다른 방법:
 
-- **회사가 HackTricks에 광고되길 원하거나 PDF로 HackTricks를 다운로드하고 싶다면** [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
+- **회사를 HackTricks에서 광고하거나 PDF로 HackTricks를 다운로드**하려면 [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
 - [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구매하세요
 - [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-- 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)를 **팔로우**하세요.
+- 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)를 **팔로우**하세요.
 - **HackTricks** 및 **HackTricks Cloud** github 저장소에 PR을 제출하여 **해킹 트릭을 공유**하세요.
 
 </details>
@@ -20,15 +20,15 @@ Mac OS 이진 파일은 일반적으로 **universal binaries**로 컴파일됩�
 
 이러한 이진 파일은 기본적으로 **Mach-O 구조**를 따릅니다. 이 구조는 다음과 같이 구성됩니다:
 
-- 헤더(Header)
-- 로드 명령(Load Commands)
-- 데이터(Data)
+- 헤더
+- 로드 명령
+- 데이터
 
 ![https://alexdremov.me/content/images/2022/10/6XLCD.gif](<../../../.gitbook/assets/image (559).png>)
 
 ## Fat Header
 
-다음 명령어로 파일을 검색합니다: `mdfind fat.h | grep -i mach-o | grep -E "fat.h$"`
+다음 명령을 사용하여 파일을 검색합니다: `mdfind fat.h | grep -i mach-o | grep -E "fat.h$"`
 
 <pre class="language-c"><code class="lang-c"><strong>#define FAT_MAGIC	0xcafebabe
 </strong><strong>#define FAT_CIGAM	0xbebafeca	/* NXSwapLong(FAT_MAGIC) */
@@ -47,9 +47,9 @@ uint32_t	align;		/* alignment as a power of 2 */
 };
 </code></pre>
 
-헤더에는 **매직** 바이트가 있고 파일이 포함하는 **아키텍처의 수**(`nfat_arch`)를 나타내는 **숫자**가 뒤따르며 각 아키텍처는 `fat_arch` 구조체를 가집니다.
+헤더에는 **매직** 바이트가 있고 파일이 **포함하는** **archs**의 **수**(`nfat_arch`)가 뒤따르며 각 아키텍처에는 `fat_arch` 구조체가 있습니다.
 
-다음 명령어로 확인할 수 있습니다:
+다음 명령을 사용하여 확인합니다:
 
 <pre class="language-shell-session"><code class="lang-shell-session">% file /bin/ls
 /bin/ls: Mach-O universal binary with 2 architectures: [x86_64:Mach-O 64-bit executable x86_64] [arm64e:Mach-O 64-bit executable arm64e]
@@ -80,11 +80,11 @@ capabilities PTR_AUTH_VERSION USERSPACE 0
 
 <figure><img src="../../../.gitbook/assets/image (5) (1) (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-일반적으로 2개의 아키텍처를 위해 컴파일된 universal binary는 1개의 아키텍처를 위해 컴파일된 것의 **크기를 두 배로** 증가시킵니다.
+일반적으로 2개 아키텍처용으로 컴파일된 universal binary는 1개 아키텍처용으로 컴파일된 것보다 **크기가 두 배**입니다.
 
 ## **Mach-O Header**
 
-헤더에는 Mach-O 파일로 식별하기 위한 매직 바이트와 대상 아키텍처에 대한 정보와 같은 파일에 대한 기본 정보가 포함됩니다. 다음 위치에서 찾을 수 있습니다: `mdfind loader.h | grep -i mach-o | grep -E "loader.h$"`
+헤더에는 Mach-O 파일로 식별하는 매직 바이트와 대상 아키텍처에 대한 정보와 같은 파일에 대한 기본 정보가 포함됩니다. 다음 위치에서 찾을 수 있습니다: `mdfind loader.h | grep -i mach-o | grep -E "loader.h$"`
 ```c
 #define	MH_MAGIC	0xfeedface	/* the mach magic number */
 #define MH_CIGAM	0xcefaedfe	/* NXSwapInt(MH_MAGIC) */
@@ -129,7 +129,7 @@ MH_MAGIC_64    ARM64          E USR00     EXECUTE    19       1728   NOUNDEFS DY
 
 ## **Mach-O 로드 명령**
 
-**메모리에 파일의 레이아웃**이 여기에 지정되어 있으며, **심볼 테이블의 위치**, 실행 시작 시 주 스레드의 컨텍스트 및 필요한 **공유 라이브러리**에 대한 세부 정보가 제공됩니다. 이는 메모리로의 이진 파일 로딩 과정에 대한 동적 로더 **(dyld)**에게 지침을 제공합니다.
+**메모리 내 파일의 레이아웃**이 여기에 지정되어 있으며, **심볼 테이블의 위치**, 실행 시작 시 주 스레드의 컨텍스트 및 필요한 **공유 라이브러리**에 대한 세부 정보가 포함되어 있습니다. 메모리로의 이진 파일 로딩 프로세스에 대한 동적 로더 **(dyld)**에게 명령이 제공됩니다.
 
 이는 **`loader.h`**에 정의된 **load\_command** 구조를 사용합니다:
 ```objectivec
@@ -143,20 +143,20 @@ uint32_t cmdsize;       /* total size of command in bytes */
 ### **LC\_SEGMENT/LC\_SEGMENT\_64**
 
 {% hint style="success" %}
-기본적으로, 이 유형의 로드 명령어는 **바이너리가 실행될 때 데이터 섹션에 표시된 오프셋에 따라 \_\_TEXT** (실행 코드) **및 \_\_DATA** (프로세스용 데이터) **세그먼트를 로드하는 방법을 정의**합니다.
+기본적으로, 이 유형의 로드 명령어는 **바이너리가 실행될 때 데이터 섹션에 표시된 오프셋에 따라 \_\_TEXT** (실행 코드) **및 \_\_DATA** (프로세스용 데이터) **세그먼트를 어떻게 로드할지 정의**합니다.
 {% endhint %}
 
-이러한 명령어는 프로세스가 실행될 때 **가상 메모리 공간에 매핑되는 세그먼트를 정의**합니다.
+이러한 명령어는 프로세스의 **가상 메모리 공간에 매핑되는 세그먼트를 정의**합니다.
 
-**\_\_TEXT** 세그먼트는 프로그램의 실행 코드를 보유하고, **\_\_DATA** 세그먼트는 프로세스에서 사용되는 데이터를 포함합니다. 이러한 **세그먼트는 Mach-O 파일의 데이터 섹션에 위치**합니다.
+**\_\_TEXT** 세그먼트는 프로그램의 실행 코드를 보유하며, **\_\_DATA** 세그먼트는 프로세스에서 사용되는 데이터를 포함합니다. 이러한 **세그먼트는 Mach-O 파일의 데이터 섹션에 위치**합니다.
 
-**각 세그먼트**는 더 세부적으로 **여러 섹션으로 나뉠** 수 있습니다. **로드 명령어 구조**에는 **해당 세그먼트 내의 섹션에 대한 정보**가 포함되어 있습니다.
+**각 세그먼트**는 더 세부적으로 **여러 섹션으로 나뉠** 수 있습니다. **로드 명령어 구조**에는 해당 세그먼트 내의 **이러한 섹션에 대한 정보**가 포함되어 있습니다.
 
 헤더에서 먼저 **세그먼트 헤더**를 찾을 수 있습니다:
 
 <pre class="language-c"><code class="lang-c">struct segment_command_64 { /* 64비트 아키텍처용 */
 uint32_t	cmd;		/* LC_SEGMENT_64 */
-uint32_t	cmdsize;	/* section_64 구조체의 크기 포함 */
+uint32_t	cmdsize;	/* section_64 구조체의 크기를 포함 */
 char		segname[16];	/* 세그먼트 이름 */
 uint64_t	vmaddr;		/* 이 세그먼트의 메모리 주소 */
 uint64_t	vmsize;		/* 이 세그먼트의 메모리 크기 */
@@ -194,38 +194,38 @@ uint32_t	reserved3;	/* reserved */
 
 <figure><img src="../../../.gitbook/assets/image (6) (2).png" alt=""><figcaption></figcaption></figure>
 
-만약 **섹션 오프셋** (0x37DC)에 **아키텍처 시작 오프셋**을 **더한다면**, 이 경우 `0x18000` --> `0x37DC + 0x18000 = 0x1B7DC`
+만약 **섹션 오프셋** (0x37DC)을 **추가**하고 **아키텍처 시작 오프셋**을 더한다면, 이 경우 `0x18000` --> `0x37DC + 0x18000 = 0x1B7DC`
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-**커맨드 라인**에서도 **헤더 정보**를 얻는 것이 가능합니다:
+또한 **커맨드 라인**에서 **헤더 정보**를 얻는 것도 가능합니다:
 ```bash
 otool -lv /bin/ls
 ```
 다음은이 cmd에 의해로드되는 일반 세그먼트입니다:
 
-- **`__PAGEZERO`:** 커널에 **주소 제로를 매핑**하도록 지시하여 **읽을 수 없고 쓸 수 없고 실행할 수 없게**합니다. 구조체의 maxprot 및 minprot 변수는 **이 페이지에 읽기-쓰기-실행 권한이 없음**을 나타내기 위해 0으로 설정됩니다.
-- 이 할당은 **NULL 포인터 역참조 취약점을 완화**하는 데 중요합니다.
-- **`__TEXT`**: **읽기** 및 **실행** 권한을 가진 **실행 가능한 코드**를 포함합니다(쓰기 권한 없음)**.** 이 세그먼트의 일반 섹션:
-  - `__text`: 컴파일된 이진 코드
-  - `__const`: 상수 데이터
-  - `__cstring`: 문자열 상수
-  - `__stubs` 및 `__stubs_helper`: 동적 라이브러리 로딩 프로세스 중에 관련됨
-- **`__DATA`**: **읽기** 및 **쓰기** 가능한 데이터를 포함합니다(실행할 수 없음)**.**
-  - `__data`: 초기화된 전역 변수
-  - `__bss`: 초기화되지 않은 정적 변수
-  - `__objc_*` (\_\_objc\_classlist, \_\_objc\_protolist 등): Objective-C 런타임에서 사용되는 정보
-- **`__LINKEDIT`**: 링커(dyld)를 위한 정보를 포함하며, "심볼, 문자열 및 재배치 테이블 항목"을 포함합니다.
-- **`__OBJC`**: Objective-C 런타임에서 사용되는 정보를 포함합니다. 이 정보는 \_\_DATA 세그먼트 내의 다양한 \_\_objc\_\* 섹션에서도 찾을 수 있습니다.
+* **`__PAGEZERO`:** 커널에 **주소 0을 매핑**하도록 지시하여 **읽거나 쓰거나 실행할 수 없습니다**. 구조체의 maxprot 및 minprot 변수는 **이 페이지에 읽기-쓰기-실행 권한이 없음**을 나타내기 위해 0으로 설정됩니다.
+* 이 할당은 **NULL 포인터 역참조 취약점을 완화하는 데 중요**합니다.
+* **`__TEXT`**: **읽기** 및 **실행** 권한을 가진 **실행 가능한 코드**를 포함합니다(쓰기 권한 없음)**.** 이 세그먼트의 일반 섹션:
+* `__text`: 컴파일된 이진 코드
+* `__const`: 상수 데이터
+* `__cstring`: 문자열 상수
+* `__stubs` 및 `__stubs_helper`: 동적 라이브러리 로딩 프로세스 중에 관련됨
+* **`__DATA`**: **읽기** 및 **쓰기** 가능한 데이터를 포함합니다(실행 불가능)**.**
+* `__data`: 초기화된 전역 변수
+* `__bss`: 초기화되지 않은 정적 변수
+* `__objc_*` (\_\_objc\_classlist, \_\_objc\_protolist 등): Objective-C 런타임에서 사용되는 정보
+* **`__LINKEDIT`**: 링커(dyld)를 위한 정보를 포함하며, "심볼, 문자열 및 재배치 테이블 항목"을 포함합니다.
+* **`__OBJC`**: Objective-C 런타임에서 사용되는 정보를 포함합니다. 그러나 이 정보는 때때로 \_\_DATA 세그먼트 내의 다양한 \_\_objc\_\* 섹션에서도 찾을 수 있습니다.
 
 ### **`LC_MAIN`**
 
-**entryoff 속성**에 진입점을 포함합니다. 로드 시, **dyld**는 단순히 **이 값을 (메모리 내) 이진 파일의 베이스에 추가**하고, 그런 다음 **이 명령어로 이동**하여 이진 파일의 코드 실행을 시작합니다.
+**entryoff 속성**에 진입점을 포함합니다. 로드 시, **dyld**는 단순히 이 값을 (메모리 내) **바이너리의 베이스에 추가**하고, 그런 다음 이 명령으로 이동하여 바이너리 코드의 실행을 시작합니다.
 
 ### **LC\_CODE\_SIGNATURE**
 
-Macho-O 파일의 **코드 서명에 대한 정보**를 포함합니다. 이것은 일반적으로 파일의 매우 끝에 있는 **서명 블롭을 가리키는 오프셋**만을 포함합니다.\
-그러나 [**이 블로그 게시물**](https://davedelong.com/blog/2018/01/10/reading-your-own-entitlements/) 및 이 [**gists**](https://gist.github.com/carlospolop/ef26f8eb9fafd4bc22e69e1a32b81da4)에서이 섹션에 대한 일부 정보를 찾을 수 있습니다.
+Macho-O 파일의 **코드 서명에 대한 정보**를 포함합니다. 이는 일반적으로 파일의 매우 끝에 있는 **서명 블롭을 가리키는 오프셋**만을 포함합니다.\
+그러나 [**이 블로그 게시물**](https://davedelong.com/blog/2018/01/10/reading-your-own-entitlements/) 및 이 [**gists**](https://gist.github.com/carlospolop/ef26f8eb9fafd4bc22e69e1a32b81da4)에서 이 섹션에 대한 일부 정보를 찾을 수 있습니다.
 
 ### **LC\_LOAD\_DYLINKER**
 
@@ -233,9 +233,9 @@ Macho-O 파일의 **코드 서명에 대한 정보**를 포함합니다. 이것�
 
 ### **`LC_LOAD_DYLIB`**
 
-이 로드 명령어는 **로더**(dyld)에게 **해당 라이브러리를 로드하고 링크하도록 지시하는 동적 라이브러리** 종속성을 설명합니다. Mach-O 이진 파일이 필요로 하는 각 라이브러리에 대해 LC\_LOAD\_DYLIB 로드 명령어가 있습니다.
+이 로드 명령은 **로더**(dyld)에게 **해당 라이브러리를 로드하고 링크하도록 지시하는** **동적 라이브러리** 종속성을 설명합니다. Mach-O 바이너리가 필요로 하는 각 라이브러리에 대해 LC\_LOAD\_DYLIB 로드 명령이 있습니다.
 
-- 이 로드 명령어는 실제 종속 동적 라이브러리를 설명하는 **struct dylib을 포함하는 dylib_command 유형의 구조체**입니다.
+* 이 로드 명령은 실제 종속 동적 라이브러리를 설명하는 **`dylib` 구조체를 포함하는** **`dylib_command`** 유형의 구조체입니다:
 ```objectivec
 struct dylib_command {
 uint32_t        cmd;            /* LC_LOAD_{,WEAK_}DYLIB */
@@ -252,7 +252,7 @@ uint32_t compatibility_version;     /* library's compatibility vers number*/
 ```
 ![](<../../../.gitbook/assets/image (558).png>)
 
-당신은 또한 다음 명령어를 사용하여 이 정보를 CLI에서 얻을 수 있습니다:
+이 정보를 CLI에서도 얻을 수 있습니다:
 ```bash
 otool -L /bin/ls
 /bin/ls:
@@ -260,20 +260,20 @@ otool -L /bin/ls
 /usr/lib/libncurses.5.4.dylib (compatibility version 5.4.0, current version 5.4.0)
 /usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1319.0.0)
 ```
-잠재적인 악성 코드 관련 라이브러리는 다음과 같습니다:
+잠재적인 악성 코드 관련 라이브러리 몇 가지는 다음과 같습니다:
 
-* **DiskArbitration**: USB 드라이브 모니터링
-* **AVFoundation:** 오디오 및 비디오 캡처
-* **CoreWLAN**: Wifi 스캔
+- **DiskArbitration**: USB 드라이브 모니터링
+- **AVFoundation**: 오디오 및 비디오 캡처
+- **CoreWLAN**: Wifi 스캔
 
 {% hint style="info" %}
-Mach-O 이진 파일에는 **하나 이상의 생성자**가 포함될 수 있으며, 이는 **LC\_MAIN**에서 지정된 주소 **앞에서 실행**됩니다.\
+Mach-O 바이너리에는 **하나 이상의 생성자**가 포함될 수 있으며, 이는 **LC\_MAIN**에서 지정된 주소 **앞에서 실행**됩니다.\
 어떤 생성자의 오프셋은 **\_\_DATA\_CONST** 세그먼트의 **\_\_mod\_init\_func** 섹션에 저장됩니다.
 {% endhint %}
 
 ## **Mach-O 데이터**
 
-파일의 핵심에는 로드 명령 영역에서 정의된 여러 세그먼트로 구성된 데이터 영역이 있습니다. **각 세그먼트 내에는 다양한 데이터 섹션이 포함**될 수 있으며, 각 섹션은 **특정 유형의 코드 또는 데이터**를 보유합니다.
+파일의 핵심에는 로드 명령 영역에서 정의된 여러 세그먼트로 구성된 데이터 영역이 있습니다. **각 세그먼트 내에는 다양한 데이터 섹션이 포함**될 수 있으며, 각 섹션은 **특정 유형에 대한 코드 또는 데이터**를 보유합니다.
 
 {% hint style="success" %}
 데이터는 기본적으로 로드 명령 **LC\_SEGMENTS\_64**에 의해 로드되는 모든 **정보**를 포함하는 부분입니다.
@@ -283,9 +283,9 @@ Mach-O 이진 파일에는 **하나 이상의 생성자**가 포함될 수 있�
 
 이에는 다음이 포함됩니다:
 
-* **함수 테이블:** 프로그램 함수에 대한 정보를 보유
-* **심볼 테이블**: 이진 파일에서 사용되는 외부 함수에 대한 정보를 포함
-* 내부 함수, 변수 이름 등도 포함될 수 있습니다.
+- **함수 테이블**: 프로그램 함수에 대한 정보를 보유
+- **심볼 테이블**: 바이너리에서 사용되는 외부 함수에 대한 정보를 포함
+- 내부 함수, 변수 이름 등도 포함될 수 있습니다.
 
 확인하려면 [**Mach-O View**](https://sourceforge.net/projects/machoview/) 도구를 사용할 수 있습니다:
 
@@ -297,14 +297,14 @@ size -m /bin/ls
 ```
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team 전문가)로부터 AWS 해킹을 제로부터 전문가까지 배우세요</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>에서 <strong>제로부터 영웅까지 AWS 해킹 배우기</strong></summary>
 
 다른 방법으로 HackTricks를 지원하는 방법:
 
-* **회사가 HackTricks에서 광고되길 원하거나 HackTricks를 PDF로 다운로드하길 원한다면** [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* **회사가 HackTricks에 광고되길 원하거나 HackTricks를 PDF로 다운로드하길 원한다면** [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
 * [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구매하세요
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 저희의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)을 **팔로우**하세요.
-* **HackTricks** 및 **HackTricks Cloud** github 저장소에 PR을 제출하여 **해킹 트릭을 공유**하세요.
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
+* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)를 **팔로우**하세요.
+* **해킹 트릭을 공유하고 싶다면** [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 저장소에 PR을 제출하세요.
 
 </details>
