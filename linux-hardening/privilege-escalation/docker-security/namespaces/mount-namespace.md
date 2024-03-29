@@ -1,80 +1,74 @@
-# Mount Namespace
+# Простір імен монтування
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію в рекламі на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на GitHub.
 
 </details>
 
-## Basic Information
+## Основна інформація
 
-A mount namespace is a Linux kernel feature that provides isolation of the file system mount points seen by a group of processes. Each mount namespace has its own set of file system mount points, and **changes to the mount points in one namespace do not affect other namespaces**. This means that processes running in different mount namespaces can have different views of the file system hierarchy.
+Простір імен монтування - це функція ядра Linux, яка забезпечує ізоляцію точок монтування файлової системи, які бачать група процесів. Кожен простір імен монтування має свій набір точок монтування файлової системи, і **зміни в точках монтування в одному просторі імен не впливають на інші простори імен**. Це означає, що процеси, які працюють в різних просторах імен монтування, можуть мати різні види ієрархії файлової системи.
 
-Mount namespaces are particularly useful in containerization, where each container should have its own file system and configuration, isolated from other containers and the host system.
+Простори імен монтування особливо корисні в контейнеризації, де кожен контейнер повинен мати свою власну файлову систему та конфігурацію, відокремлену від інших контейнерів та системи хоста.
 
-### How it works:
+### Як це працює:
 
-1. When a new mount namespace is created, it is initialized with a **copy of the mount points from its parent namespace**. This means that, at creation, the new namespace shares the same view of the file system as its parent. However, any subsequent changes to the mount points within the namespace will not affect the parent or other namespaces.
-2. When a process modifies a mount point within its namespace, such as mounting or unmounting a file system, the **change is local to that namespace** and does not affect other namespaces. This allows each namespace to have its own independent file system hierarchy.
-3. Processes can move between namespaces using the `setns()` system call, or create new namespaces using the `unshare()` or `clone()` system calls with the `CLONE_NEWNS` flag. When a process moves to a new namespace or creates one, it will start using the mount points associated with that namespace.
-4. **File descriptors and inodes are shared across namespaces**, meaning that if a process in one namespace has an open file descriptor pointing to a file, it can **pass that file descriptor** to a process in another namespace, and **both processes will access the same file**. However, the file's path may not be the same in both namespaces due to differences in mount points.
+1. При створенні нового простору імен монтування він ініціалізується з **копією точок монтування з простору імен його батька**. Це означає, що при створенні нового простору імен він спільно використовує той самий вид файлової системи, що й його батько. Однак будь-які подальші зміни в точках монтування всередині простору імен не впливають на батьківський або інші простори імен.
+2. Коли процес модифікує точку монтування всередині свого простору імен, таку як монтування або розмонтовування файлової системи, **зміни є локальними для цього простору імен** і не впливають на інші простори імен. Це дозволяє кожному простору імен мати свою власну незалежну ієрархію файлової системи.
+3. Процеси можуть переміщатися між просторами імен за допомогою системного виклику `setns()`, або створювати нові простори імен за допомогою системних викликів `unshare()` або `clone()` з прапорцем `CLONE_NEWNS`. Коли процес переходить до нового простору імен або створює його, він почне використовувати точки монтування, що асоційовані з цим простором імен.
+4. **Дескриптори файлів та іноди спільно використовуються між просторами імен**, що означає, що якщо процес в одному просторі імен має відкритий дескриптор файлу, що вказує на файл, він може **передати цей дескриптор файлу** процесу в іншому просторі імен, і **обидва процеси матимуть доступ до одного й того ж файлу**. Однак шлях до файлу може бути різним у обох просторах імен через різницю в точках монтування.
 
-## Lab:
+## Лабораторія:
 
-### Create different Namespaces
+### Створення різних просторів імен
 
 #### CLI
-
 ```bash
 sudo unshare -m [--mount-proc] /bin/bash
 ```
-
-By mounting a new instance of the `/proc` filesystem if you use the param `--mount-proc`, you ensure that the new mount namespace has an **accurate and isolated view of the process information specific to that namespace**.
+Монтувавши новий екземпляр файлової системи `/proc`, якщо використовується параметр `--mount-proc`, ви забезпечуєте, що новий простір імен має **точний та ізольований перегляд інформації про процес, специфічний для цього простору імен**.
 
 <details>
 
-<summary>Error: bash: fork: Cannot allocate memory</summary>
+<summary>Помилка: bash: fork: Неможливо виділити пам'ять</summary>
 
-When `unshare` is executed without the `-f` option, an error is encountered due to the way Linux handles new PID (Process ID) namespaces. The key details and the solution are outlined below:
+Коли `unshare` виконується без опції `-f`, виникає помилка через те, як Linux обробляє нові простори імен PID (ідентифікатори процесів). Основні деталі та рішення наведено нижче:
 
-1. **Problem Explanation**:
-    - The Linux kernel allows a process to create new namespaces using the `unshare` system call. However, the process that initiates the creation of a new PID namespace (referred to as the "unshare" process) does not enter the new namespace; only its child processes do.
-    - Running `%unshare -p /bin/bash%` starts `/bin/bash` in the same process as `unshare`. Consequently, `/bin/bash` and its child processes are in the original PID namespace.
-    - The first child process of `/bin/bash` in the new namespace becomes PID 1. When this process exits, it triggers the cleanup of the namespace if there are no other processes, as PID 1 has the special role of adopting orphan processes. The Linux kernel will then disable PID allocation in that namespace.
+1. **Пояснення проблеми**:
+- Ядро Linux дозволяє процесу створювати нові простори імен за допомогою системного виклику `unshare`. Однак процес, який ініціює створення нового простору імен PID (відомий як "процес unshare"), не входить в новий простір імен; лише його дочірні процеси роблять це.
+- Виконання `%unshare -p /bin/bash%` запускає `/bin/bash` в тому ж процесі, що і `unshare`. В результаті `/bin/bash` та його дочірні процеси знаходяться в початковому просторі імен PID.
+- Перший дочірній процес `/bin/bash` в новому просторі імен стає PID 1. Коли цей процес завершується, він спричиняє очищення простору імен, якщо інших процесів немає, оскільки PID 1 має спеціальну роль у прийнятті сирітських процесів. Після цього ядро Linux вимикає виділення PID в цьому просторі імен.
 
-2. **Consequence**:
-    - The exit of PID 1 in a new namespace leads to the cleaning of the `PIDNS_HASH_ADDING` flag. This results in the `alloc_pid` function failing to allocate a new PID when creating a new process, producing the "Cannot allocate memory" error.
+2. **Наслідки**:
+- Виходження PID 1 в новому просторі імен призводить до очищення прапорця `PIDNS_HASH_ADDING`. Це призводить до невдалого виділення PID при створенні нового процесу, що призводить до помилки "Неможливо виділити пам'ять".
 
-3. **Solution**:
-    - The issue can be resolved by using the `-f` option with `unshare`. This option makes `unshare` fork a new process after creating the new PID namespace.
-    - Executing `%unshare -fp /bin/bash%` ensures that the `unshare` command itself becomes PID 1 in the new namespace. `/bin/bash` and its child processes are then safely contained within this new namespace, preventing the premature exit of PID 1 and allowing normal PID allocation.
+3. **Рішення**:
+- Проблему можна вирішити, використовуючи опцію `-f` з `unshare`. Ця опція змушує `unshare` розгалужувати новий процес після створення нового простору імен PID.
+- Виконання `%unshare -fp /bin/bash%` забезпечує, що сама команда `unshare` стає PID 1 в новому просторі імен. `/bin/bash` та його дочірні процеси потім безпечно знаходяться в цьому новому просторі імен, запобігаючи передчасному виходу PID 1 та дозволяючи нормальне виділення PID.
 
-By ensuring that `unshare` runs with the `-f` flag, the new PID namespace is correctly maintained, allowing `/bin/bash` and its sub-processes to operate without encountering the memory allocation error.
+Забезпечуючи, що `unshare` працює з прапорцем `-f`, новий простір імен PID правильно підтримується, що дозволяє `/bin/bash` та його підпроцесам працювати без зустрічі помилки виділення пам'яті.
 
 </details>
 
 #### Docker
-
 ```bash
 docker run -ti --name ubuntu1 -v /usr:/ubuntu1 ubuntu bash
 ```
-
-### &#x20;Check which namespace is your process in
-
+### Перевірте, в якому просторі імені знаходиться ваш процес
 ```bash
 ls -l /proc/self/ns/mnt
 lrwxrwxrwx 1 root root 0 Apr  4 20:30 /proc/self/ns/mnt -> 'mnt:[4026531841]'
 ```
-
-### Find all Mount namespaces
+### Знайдіть всі простори імен точок монтування
 
 {% code overflow="wrap" %}
 ```bash
@@ -82,20 +76,15 @@ sudo find /proc -maxdepth 3 -type l -name mnt -exec readlink {} \; 2>/dev/null |
 # Find the processes with an specific namespace
 sudo find /proc -maxdepth 3 -type l -name mnt -exec ls -l  {} \; 2>/dev/null | grep <ns-number>
 ```
-{% endcode %}
-
-### Enter inside a Mount namespace
-
+### Увійдіть всередину простору імені Mount
 ```bash
 nsenter -m TARGET_PID --pid /bin/bash
 ```
+Також, ви можете **увійти в простір імен іншого процесу лише як root**. І ви **не можете** **увійти** в інший простір імен **без дескриптора**, що вказує на нього (наприклад, `/proc/self/ns/mnt`).
 
-Also, you can only **enter in another process namespace if you are root**. And you **cannot** **enter** in other namespace **without a descriptor** pointing to it (like `/proc/self/ns/mnt`).
+Оскільки нові монти доступні лише в межах простору імен, можливо, що простір імен містить чутливу інформацію, до якої можна отримати доступ лише з нього.
 
-Because new mounts are only accessible within the namespace it's possible that a namespace contains sensitive information that can only be accessible from it.
-
-### Mount something
-
+### Підключіть щось
 ```bash
 # Generate new mount ns
 unshare -m /bin/bash
@@ -109,21 +98,20 @@ ls /tmp/mount_ns_example/test # Exists
 mount | grep tmpfs # Cannot see "tmpfs on /tmp/mount_ns_example"
 ls /tmp/mount_ns_example/test # Doesn't exist
 ```
-
-## References
+## Посилання
 * [https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory](https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory)
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію рекламовану в HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакінг-прийомами, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **і** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв на GitHub**.
 
 </details>

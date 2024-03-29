@@ -1,82 +1,74 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити **рекламу вашої компанії на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв GitHub.
 
 </details>
 
 
-There are several blogs in the Internet which **highlight the dangers of leaving printers configured with LDAP with default/weak** logon credentials.\
-This is because an attacker could **trick the printer to authenticate against a rouge LDAP server** (typically a `nc -vv -l -p 444` is enough) and to capture the printer **credentials on clear-text**.
+Є кілька блогів в Інтернеті, які **підкреслюють небезпеку залишення принтерів налаштованими з LDAP зі стандартними/слабкими** обліковими даними для входу.\
+Це через те, що зловмисник може **обманути принтер, щоб аутентифікуватися проти підробленого LDAP сервера** (зазвичай достатньо `nc -vv -l -p 444`) та захопити облікові дані принтера **у відкритому тексті**.
 
-Also, several printers will contains **logs with usernames** or could even be able to **download all usernames** from the Domain Controller.
+Крім того, деякі принтери міститимуть **журнали з іменами користувачів** або навіть можуть **завантажити всі імена користувачів** з контролера домену.
 
-All this **sensitive information** and the common **lack of security** makes printers very interesting for attackers.
+Усю цю **чутливу інформацію** та загальний **відсутність безпеки** робить принтери дуже цікавими для зловмисників.
 
-Some blogs about the topic:
+Деякі блоги на цю тему:
 
 * [https://www.ceos3c.com/hacking/obtaining-domain-credentials-printer-netcat/](https://www.ceos3c.com/hacking/obtaining-domain-credentials-printer-netcat/)
 * [https://medium.com/@nickvangilder/exploiting-multifunction-printers-during-a-penetration-test-engagement-28d3840d8856](https://medium.com/@nickvangilder/exploiting-multifunction-printers-during-a-penetration-test-engagement-28d3840d8856)
 
-## Printer Configuration
-- **Location**: The LDAP server list is found at: `Network > LDAP Setting > Setting Up LDAP`.
-- **Behavior**: The interface allows LDAP server modifications without re-entering credentials, aiming for user convenience but posing security risks.
-- **Exploit**: The exploit involves redirecting the LDAP server address to a controlled machine and leveraging the "Test Connection" feature to capture credentials.
+## Налаштування принтера
+- **Місце розташування**: Список серверів LDAP знаходиться за адресою: `Мережа > Налаштування LDAP > Налаштування LDAP`.
+- **Поведінка**: Інтерфейс дозволяє внесення змін до сервера LDAP без повторного введення облікових даних, спрямовуючи на зручність користувача, але створюючи ризики для безпеки.
+- **Експлойт**: Експлойт полягає в перенаправленні адреси сервера LDAP на керовану машину та використанні функції "Тест підключення" для захоплення облікових даних.
 
-## Capturing Credentials
+## Захоплення облікових даних
 
-**For more detailed steps, refer to the original [source](https://grimhacker.com/2018/03/09/just-a-printer/).**
+**Для докладніших кроків дивіться оригінальне [джерело](https://grimhacker.com/2018/03/09/just-a-printer/).**
 
-### Method 1: Netcat Listener
-A simple netcat listener might suffice:
-
+### Метод 1: Прослуховувач Netcat
+Можливо, досить простий прослуховувач netcat:
 ```bash
 sudo nc -k -v -l -p 386
 ```
+Однак, успішність цього методу варіюється.
 
-However, this method's success varies.
+### Метод 2: Повний LDAP-сервер з Slapd
+Більш надійний підхід передбачає налаштування повного LDAP-сервера, оскільки принтер виконує нульове зв'язування, а потім запит перед спробою прив'язки облікових даних.
 
-### Method 2: Full LDAP Server with Slapd
-A more reliable approach involves setting up a full LDAP server because the printer performs a null bind followed by a query before attempting credential binding.
-
-1. **LDAP Server Setup**: The guide follows steps from [this source](https://www.server-world.info/en/note?os=Fedora_26&p=openldap).
-2. **Key Steps**:
-    - Install OpenLDAP.
-    - Configure admin password.
-    - Import basic schemas.
-    - Set domain name on LDAP DB.
-    - Configure LDAP TLS.
-3. **LDAP Service Execution**: Once set up, the LDAP service can be run using:
-
+1. **Налаштування сервера LDAP**: Цей посібник слідує крокам з [цього джерела](https://www.server-world.info/en/note?os=Fedora_26&p=openldap).
+2. **Ключові кроки**:
+- Встановити OpenLDAP.
+- Налаштувати пароль адміністратора.
+- Імпортувати базові схеми.
+- Встановити доменне ім'я на LDAP DB.
+- Налаштувати LDAP TLS.
+3. **Виконання служби LDAP**: Після налаштування службу LDAP можна запустити за допомогою:
 ```bash
 slapd -d 2
 ```
-
-## References
+## Посилання
 * [https://grimhacker.com/2018/03/09/just-a-printer/](https://grimhacker.com/2018/03/09/just-a-printer/)
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримати HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію рекламовану на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв GitHub.
 
 </details>
-
-

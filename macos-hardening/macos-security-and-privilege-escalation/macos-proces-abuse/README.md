@@ -1,116 +1,115 @@
-# macOS Proces Abuse
+# Зловживання процесами macOS
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію рекламовану на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв GitHub.
 
 </details>
 
-## MacOS Process Abuse
+## Зловживання процесами macOS
 
-MacOS, like any other operating system, provides a variety of methods and mechanisms for **processes to interact, communicate, and share data**. While these techniques are essential for efficient system functioning, they can also be abused by threat actors to **perform malicious activities**.
+macOS, як і будь-яка інша операційна система, надає різноманітні методи та механізми для **взаємодії процесів, комунікації та обміну даними**. Хоча ці техніки є важливими для ефективної роботи системи, їх також можна зловживати зловмисниками для **виконання зловмисних дій**.
 
-### Library Injection
+### Впровадження бібліотеки
 
-Library Injection is a technique wherein an attacker **forces a process to load a malicious library**. Once injected, the library runs in the context of the target process, providing the attacker with the same permissions and access as the process.
+Впровадження бібліотеки - це техніка, при якій зловмисник **змушує процес завантажити зловісну бібліотеку**. Після впровадження бібліотека працює в контексті цільового процесу, надаючи зловмиснику ті ж дозволи та доступ, що й процес.
 
 {% content-ref url="macos-library-injection/" %}
 [macos-library-injection](macos-library-injection/)
 {% endcontent-ref %}
 
-### Function Hooking
+### Перехоплення функцій
 
-Function Hooking involves **intercepting function calls** or messages within a software code. By hooking functions, an attacker can **modify the behavior** of a process, observe sensitive data, or even gain control over the execution flow.
+Перехоплення функцій передбачає **перехоплення викликів функцій** або повідомлень у коді програмного забезпечення. Перехоплюючи функції, зловмисник може **змінювати поведінку** процесу, спостерігати за чутливими даними або навіть отримувати контроль над потоком виконання.
 
 {% content-ref url="../mac-os-architecture/macos-function-hooking.md" %}
 [macos-function-hooking.md](../mac-os-architecture/macos-function-hooking.md)
 {% endcontent-ref %}
 
-### Inter Process Communication
+### Міжпроцесне спілкування
 
-Inter Process Communication (IPC) refers to different methods by which separate processes **share and exchange data**. While IPC is fundamental for many legitimate applications, it can also be misused to subvert process isolation, leak sensitive information, or perform unauthorized actions.
+Міжпроцесне спілкування (IPC) відноситься до різних методів, за допомогою яких окремі процеси **обмінюються даними**. Хоча IPC є фундаментальним для багатьох законних додатків, його також можна зловживати для обхіду ізоляції процесів, витоку чутливої інформації або виконання несанкціонованих дій.
 
 {% content-ref url="../mac-os-architecture/macos-ipc-inter-process-communication/" %}
 [macos-ipc-inter-process-communication](../mac-os-architecture/macos-ipc-inter-process-communication/)
 {% endcontent-ref %}
 
-### Electron Applications Injection
+### Впровадження додатків Electron
 
-Electron applications executed with specific env variables could be vulnerable to process injection:
+Додатки Electron, що виконуються з конкретними змінними середовища, можуть бути вразливі для впровадження процесу:
 
 {% content-ref url="macos-electron-applications-injection.md" %}
 [macos-electron-applications-injection.md](macos-electron-applications-injection.md)
 {% endcontent-ref %}
 
-### Chromium Injection
+### Впровадження Chromium
 
-It's possible to use the flags `--load-extension` and `--use-fake-ui-for-media-stream` to perform a **man in the browser attack** allowing to steal keystrokes, traffic, cookies, inject scripts in pages...:
+Можливо використовувати прапорці `--load-extension` та `--use-fake-ui-for-media-stream` для виконання **атаки людини в браузері**, що дозволяє крадіжку натискань клавіш, трафіку, файлів cookie, впровадження скриптів на сторінках...:
 
 {% content-ref url="macos-chromium-injection.md" %}
 [macos-chromium-injection.md](macos-chromium-injection.md)
 {% endcontent-ref %}
 
-### Dirty NIB
+### Брудний NIB
 
-NIB files **define user interface (UI) elements** and their interactions within an application. However, they can **execute arbitrary commands** and **Gatekeeper doesn't stop** an already executed application from being executed if a **NIB file is modified**. Therefore, they could be used to make arbitrary programs execute arbitrary commands:
+Файли NIB **визначають елементи користувацького інтерфейсу (UI)** та їх взаємодію в додатку. Однак вони можуть **виконувати довільні команди** і **Gatekeeper не зупиняє** вже виконаний додаток від виконання, якщо **файл NIB змінено**. Тому їх можна використовувати для виконання довільних програм довільних команд:
 
 {% content-ref url="macos-dirty-nib.md" %}
 [macos-dirty-nib.md](macos-dirty-nib.md)
 {% endcontent-ref %}
 
-### Java Applications Injection
+### Впровадження додатків Java
 
-It's possible to abuse certain java capabilities (like the **`_JAVA_OPTS`** env variable) to make a java application execute **arbitrary code/commands**.
+Можливо зловживати деякими можливостями Java (наприклад, змінною середовища **`_JAVA_OPTS`**) для виконання **довільного коду/команд** в додатку Java.
 
 {% content-ref url="macos-java-apps-injection.md" %}
 [macos-java-apps-injection.md](macos-java-apps-injection.md)
 {% endcontent-ref %}
 
-### .Net Applications Injection
+### Впровадження додатків .Net
 
-It's possible to inject code into .Net applications by **abusing the .Net debugging functionality** (not protected by macOS protections such as runtime hardening).
+Можливо впроваджувати код в додатки .Net, **зловживаючи функціональністю налагодження .Net** (не захищеною від заходів захисту macOS, таких як жорстке виконання).
 
 {% content-ref url="macos-.net-applications-injection.md" %}
 [macos-.net-applications-injection.md](macos-.net-applications-injection.md)
 {% endcontent-ref %}
 
-### Perl Injection
+### Впровадження Perl
 
-Check different options to make a Perl script execute arbitrary code in:
+Перевірте різні варіанти, як зробити виконання довільного коду у Perl-скрипті:
 
 {% content-ref url="macos-perl-applications-injection.md" %}
 [macos-perl-applications-injection.md](macos-perl-applications-injection.md)
 {% endcontent-ref %}
 
-### Ruby Injection
+### Впровадження Ruby
 
-I't also possible to abuse ruby env variables to make arbitrary scripts execute arbitrary code:
+Також можливо зловживати змінними середовища Ruby для виконання довільних скриптів довільним кодом:
 
 {% content-ref url="macos-ruby-applications-injection.md" %}
 [macos-ruby-applications-injection.md](macos-ruby-applications-injection.md)
 {% endcontent-ref %}
 
-### Python Injection
+### Впровадження Python
 
-If the environment variable **`PYTHONINSPECT`** is set, the python process will drop into a python cli once it's finished. It's also possible to use **`PYTHONSTARTUP`** to indicate a python script to execute at the beginning of an interactive session.\
-However, note that **`PYTHONSTARTUP`** script won't be executed when **`PYTHONINSPECT`** creates the interactive session.
+Якщо змінна середовища **`PYTHONINSPECT`** встановлена, процес Python перейде до Python CLI після завершення. Також можна використовувати **`PYTHONSTARTUP`** для вказівки сценарію Python для виконання на початку інтерактивної сесії.\
+Проте слід зауважити, що сценарій **`PYTHONSTARTUP`** не буде виконаний, коли **`PYTHONINSPECT`** створює інтерактивну сесію.
 
-Other env variables such as **`PYTHONPATH`** and **`PYTHONHOME`** could also be useful to make a python command execute arbitrary code.
+Інші змінні середовища, такі як **`PYTHONPATH`** та **`PYTHONHOME`**, також можуть бути корисними для виконання довільного коду Python.
 
-Note that executables compiled with **`pyinstaller`** won't use these environmental variables even if they are running using an embedded python.
+Зауважте, що виконувані файли, скомпільовані за допомогою **`pyinstaller`**, не будуть використовувати ці змінні середовища, навіть якщо вони виконуються за допомогою вбудованого Python.
 
 {% hint style="danger" %}
-Overall I couldn't find a way to make python execute arbitrary code abusing environment variables.\
-However, most of the people install pyhton using **Hombrew**, which will install pyhton in a **writable location** for the default admin user. You can hijack it with something like:
-
+Загалом я не зміг знайти способу змусити Python виконати довільний код, зловживаючи змінними середовища.\
+Проте більшість людей встановлюють Python за допомогою **Hombrew**, який встановить Python в **записувальне місце** для типового адміністратора. Ви можете захопити його щось на зразок:
 ```bash
 mv /opt/homebrew/bin/python3 /opt/homebrew/bin/python3.old
 cat > /opt/homebrew/bin/python3 <<EOF
@@ -120,42 +119,41 @@ cat > /opt/homebrew/bin/python3 <<EOF
 EOF
 chmod +x /opt/homebrew/bin/python3
 ```
-
-Even **root** will run this code when running python.
+Навіть **root** виконає цей код при запуску python.
 {% endhint %}
 
-## Detection
+## Виявлення
 
-### Shield
+### Захист
 
-[**Shield**](https://theevilbit.github.io/shield/) ([**Github**](https://github.com/theevilbit/Shield)) is an open source application that can **detect and block process injection** actions:
+[**Shield**](https://theevilbit.github.io/shield/) ([**Github**](https://github.com/theevilbit/Shield)) - це відкрите додаток, який може **виявляти та блокувати дії з ін'єкцією процесів**:
 
-* Using **Environmental Variables**: It will monitor the presence of any of the following environmental variables: **`DYLD_INSERT_LIBRARIES`**, **`CFNETWORK_LIBRARY_PATH`**, **`RAWCAMERA_BUNDLE_PATH`** and **`ELECTRON_RUN_AS_NODE`**
-* Using **`task_for_pid`** calls: To find when one process wants to get the **task port of another** which allows to inject code in the process.
-* **Electron apps params**: Someone can use **`--inspect`**, **`--inspect-brk`** and **`--remote-debugging-port`** command line argument to start an Electron app in debugging mode, and thus inject code to it.
-* Using **symlinks** or **hardlinks**: Typically the most common abuse is to **place a link with our user privileges**, and **point it to a higher privilege** location. The detection is very simple for both hardlink and symlinks. If the process creating the link has a **different privilege level** than the target file, we create an **alert**. Unfortunately in the case of symlinks blocking is not possible, as we don’t have information about the destination of the link prior creation. This is a limitation of Apple’s EndpointSecuriy framework.
+* Використання **змінних середовища**: Він буде відстежувати наявність будь-яких з наступних змінних середовища: **`DYLD_INSERT_LIBRARIES`**, **`CFNETWORK_LIBRARY_PATH`**, **`RAWCAMERA_BUNDLE_PATH`** та **`ELECTRON_RUN_AS_NODE`**
+* Використання викликів **`task_for_pid`**: Щоб знайти, коли один процес хоче отримати **порт завдання іншого**, що дозволяє впроваджувати код у процес.
+* **Параметри програм Electron**: Хтось може використовувати аргумент командного рядка **`--inspect`**, **`--inspect-brk`** та **`--remote-debugging-port`** для запуску програми Electron у режимі налагодження, і таким чином впроваджувати код в неї.
+* Використання **символічних посилань** або **жорстких посилань**: Зазвичай найпоширенішим зловживанням є **розміщення посилання з нашими привілеями користувача** та **вказування його на місце з вищими привілеями**. Виявлення дуже просте як для жорстких, так і для символічних посилань. Якщо процес, який створює посилання, має **інший рівень привілеїв** від цільового файлу, ми створює **сповіщення**. Нажаль, у випадку символічних посилань блокування неможливе, оскільки ми не маємо інформації про призначення посилання перед створенням. Це обмеження фреймворку Apple для безпеки кінцевих точок.
 
-### Calls made by other processes
+### Виклики, здійснені іншими процесами
 
-In [**this blog post**](https://knight.sc/reverse%20engineering/2019/04/15/detecting-task-modifications.html) you can find how it's possible to use the function **`task_name_for_pid`** to get information about other **processes injecting code in a process** and then getting information about that other process.
+У [**цьому блозі**](https://knight.sc/reverse%20engineering/2019/04/15/detecting-task-modifications.html) ви можете дізнатися, як можна використовувати функцію **`task_name_for_pid`** для отримання інформації про інші **процеси, які впроваджують код у процес**, а потім отримати інформацію про цей інший процес.
 
-Note that to call that function you need to be **the same uid** as the one running the process or **root** (and it returns info about the process, not a way to inject code).
+Зверніть увагу, що для виклику цієї функції вам потрібно бути **тим самим uid**, що і той, що запускає процес, або **root** (і вона повертає інформацію про процес, а не спосіб впровадження коду).
 
-## References
+## Посилання
 
 * [https://theevilbit.github.io/shield/](https://theevilbit.github.io/shield/)
 * [https://medium.com/@metnew/why-electron-apps-cant-store-your-secrets-confidentially-inspect-option-a49950d6d51f](https://medium.com/@metnew/why-electron-apps-cant-store-your-secrets-confidentially-inspect-option-a49950d6d51f)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію рекламовану в HackTricks** або **завантажити HackTricks у PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github репозиторіїв.
 
 </details>

@@ -1,223 +1,222 @@
-# Radio
+# Радіо
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію в рекламі на HackTricks** або **завантажити HackTricks у PDF** Перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Дізнайтеся про [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакінг-трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв GitHub.
 
 </details>
 
 ## SigDigger
 
-[**SigDigger** ](https://github.com/BatchDrake/SigDigger)is a free digital signal analyzer for GNU/Linux and macOS, designed to extract information of unknown radio signals. It supports a variety of SDR devices through SoapySDR, and allows adjustable demodulation of FSK, PSK and ASK signals, decode analog video, analyze bursty signals and listen to analog voice channels (all in real time).
+[**SigDigger** ](https://github.com/BatchDrake/SigDigger) - це безкоштовний аналізатор цифрових сигналів для GNU/Linux та macOS, призначений для вилучення інформації з невідомих радіосигналів. Він підтримує різноманітні пристрої SDR через SoapySDR, дозволяє налаштовувати демодуляцію сигналів FSK, PSK та ASK, декодувати аналогове відео, аналізувати вибухові сигнали та слухати аналогові голосові канали (все в реальному часі).
 
-### Basic Config
+### Базова конфігурація
 
-After installing there are a few things that you could consider configuring.\
-In settings (the second tab button) you can select the **SDR device** or **select a file** to read and which frequency to syntonise and the Sample rate (recommended to up to 2.56Msps if your PC support it)\\
+Після встановлення є кілька речей, які варто розглянути для налаштування.\
+У налаштуваннях (друга кнопка вкладки) ви можете вибрати **пристрій SDR** або **вибрати файл** для читання, який частоту синтонізувати та швидкість зразка (рекомендується до 2,56 Мбіт/с, якщо ваш ПК підтримує це)\\
 
 ![](<../../.gitbook/assets/image (655) (1).png>)
 
-In the GUI behaviour it's recommended to enable a few things if your PC support it:
+У поведінці GUI рекомендується увімкнути деякі речі, якщо ваш ПК підтримує це:
 
 ![](<../../.gitbook/assets/image (465) (2).png>)
 
 {% hint style="info" %}
-If you realise that your PC is not capturing things try to disable OpenGL and lowering the sample rate.
+Якщо ви помітили, що ваш ПК не захоплює речі, спробуйте вимкнути OpenGL та знизити швидкість зразка.
 {% endhint %}
 
-### Uses
+### Використання
 
-* Just to **capture some time of a signal and analyze it** just maintain the button "Push to capture" as long as you need.
+* Просто для **захоплення деякого часу сигналу та його аналізу** просто утримуйте кнопку "Натисніть, щоб захопити" стільки, скільки вам потрібно.
 
 ![](<../../.gitbook/assets/image (631).png>)
 
-* The **Tuner** of SigDigger helps to **capture better signals** (but it can also degrade them). Ideally start with 0 and keep **making it bigger until** you find the **noise** introduce is **bigger** than the **improvement of the signal** you need).
+* **Тюнер** SigDigger допомагає **захоплювати кращі сигнали** (але він також може їх погіршувати). Ідеально починати з 0 і продовжувати **збільшувати його**, поки ви не знайдете, що **шум**, який вводиться, **більший**, ніж **покращення сигналу**, яке вам потрібно).
 
 ![](<../../.gitbook/assets/image (658).png>)
 
-### Synchronize with radio channel
+### Синхронізація з радіоканалом
 
-With [**SigDigger** ](https://github.com/BatchDrake/SigDigger)synchronize with the channel you want to hear, configure "Baseband audio preview" option, configure the bandwith to get all the info being sent and then set the Tuner to the level before the noise is really starting to increase:
+З [**SigDigger** ](https://github.com/BatchDrake/SigDigger) синхронізуйтеся з каналом, який ви хочете почути, налаштуйте опцію "Попередній перегляд аудіо базової смуги", налаштуйте ширину смуги, щоб отримати всю інформацію, яка надсилається, а потім встановіть Тюнер на рівень до того, як шум почне дійсно збільшуватися:
 
 ![](<../../.gitbook/assets/image (389).png>)
 
-## Interesting tricks
+## Цікаві трюки
 
-* When a device is sending bursts of information, usually the **first part is going to be a preamble** so you **don't** need to **worry** if you **don't find information** in there **or if there are some errors** there.
-* In frames of information you usually should **find different frames well aligned between them**:
+* Коли пристрій надсилає порції інформації, зазвичай **перша частина буде преамбулою**, тому вам **не потрібно хвилюватися**, якщо ви **не знаходите інформацію** там **або якщо там є деякі помилки**.
+* У фреймах інформації зазвичай ви повинні **знайти різні фрейми, які добре вирівняні між собою**:
 
 ![](<../../.gitbook/assets/image (660) (1).png>)
 
 ![](<../../.gitbook/assets/image (652) (1) (1).png>)
 
-* **After recovering the bits you might need to process them someway**. For example, in Manchester codification a up+down will be a 1 or 0 and a down+up will be the other one. So pairs of 1s and 0s (ups and downs) will be a real 1 or a real 0.
-* Even if a signal is using Manchester codification (it's impossible to find more than two 0s or 1s in a row), you might **find several 1s or 0s together in the preamble**!
+* **Після відновлення бітів вам може знадобитися якось їх обробити**. Наприклад, у кодуванні Манчестера вгору + вниз буде 1 або 0, а вниз + вгору - інший. Таким чином, пари 1 та 0 (вгори та внизи) будуть справжнім 1 або справжнім 0.
+* Навіть якщо сигнал використовує кодування Манчестера (неможливо знайти більше двох 0 або 1 підряд), ви можете **знайти кілька 1 або 0 разом у преамбулі**!
 
-### Uncovering modulation type with IQ
+### Виявлення типу модуляції за допомогою IQ
 
-There are 3 ways to store information in signals: Modulating the **amplitude**, **frequency** or **phase**.\
-If you are checking a signal there are different ways to try to figure out what is being used to store information (fin more ways below) but a good one is to check the IQ graph.
+Існує 3 способи зберігання інформації в сигналах: модуляція **амплітуди**, **частоти** або **фази**.\
+Якщо ви перевіряєте сигнал, є різні способи спробувати з'ясувати, які засоби використовуються для зберігання інформації (знайдіть більше способів нижче), але хорошим є перевірити графік IQ.
 
 ![](<../../.gitbook/assets/image (630).png>)
 
-* **Detecting AM**: If in the IQ graph appears for example **2 circles** (probably one in 0 and other in a different amplitude), it could means that this is an AM signal. This is because in the IQ graph the distance between the 0 and the circle is the amplitude of the signal, so it's easy to visualize different amplitudes being used.
-* **Detecting PM**: Like in the previous image, if you find small circles not related between them it probably means that a phase modulation is used. This is because in the IQ graph, the angle between the point and the 0,0 is the phase of the signal, so that means that 4 different phases are used.
-  * Note that if the information is hidden in the fact that a phase is changed and not in the phase itself, you won't see different phases clearly differentiated.
-* **Detecting FM**: IQ doesn't have a field to identify frequencies (distance to centre is amplitude and angle is phase).\
-  Therefore, to identify FM, you should **only see basically a circle** in this graph.\
-  Moreover, a different frequency is "represented" by the IQ graph by a **speed acceleration across the circle** (so in SysDigger selecting the signal the IQ graph is populated, if you find an acceleration or change of direction in the created circle it could mean that this is FM):
+* **Виявлення AM**: Якщо на графіку IQ з'являються, наприклад, **2 кола** (імовірно, одне в 0 і інше в різній амплітуді), це може означати, що це сигнал AM. Це тому, що на графіку IQ відстань між 0 та колом - це амплітуда сигналу, тому легко візуалізувати використання різних амплітуд.
+* **Виявлення PM**: Як у попередньому зображенні, якщо ви знаходите маленькі кола, які не пов'язані між собою, це, ймовірно, означає, що використовується фазова модуляція. Це тому, що на графіку IQ кут між точкою та 0,0 - це фаза сигналу, що означає, що використовуються 4 різні фази.
+* Зверніть увагу, що якщо інформація прихована в тому, що фаза змінюється, а не в самій фазі, ви не побачите чітко відрізнені різні фази.
+* **Виявлення FM**: IQ не має поля для ідентифікації частот (відстань до центру - це амплітуда, а кут - фаза).\
+Отже, для ідентифікації FM ви повинні **бачити в основному коло** на цьому графіку.\
+Більше того, різні частоти "представлені" на графіку IQ **прискоренням швидкості по колу** (таким чином, у SysDigger вибираючи сигнал графік IQ заповнюється, якщо ви знайдете прискорення або зміну напрямку в створеному колі, це може означати, що це FM):
 
-## AM Example
+## Приклад AM
 
 {% file src="../../.gitbook/assets/sigdigger_20220308_165547Z_2560000_433500000_float32_iq.raw" %}
 
-### Uncovering AM
+### Виявлення AM
 
-#### Checking the envelope
+#### Перевірка огортки
 
-Checking AM info with [**SigDigger** ](https://github.com/BatchDrake/SigDigger)and just looking at the **envelop** you can see different clear amplitude levels. The used signal is sending pulses with information in AM, this is how one pulse looks like:
+Перевіряючи інформацію AM за допомогою [**SigDigger** ](https://github.com/BatchDrake/SigDigger)і просто дивлячись на **огортку**, ви можете побачити різні чіткі рівні амплітуд. Використаний сигнал надсилає імпульси з інформацією в AM, ось як виглядає один імпульс:
 
 ![](<../../.gitbook/assets/image (636).png>)
 
-And this is how part of the symbol looks like with the waveform:
+А ось як виглядає частина символу з хвилею:
 
 ![](<../../.gitbook/assets/image (650) (1).png>)
 
-#### Checking the Histogram
+#### Перевірка гістограми
 
-You can **select the whole signal** where information is located, select **Amplitude** mode and **Selection** and click on **Histogram.** You can observer that 2 clear levels are only found
+Ви можете **вибрати весь сигнал**, де розташована інформація, вибрати режим **Амплітуда** та **Вибір** та клацнути на **Гістограму**. Ви можете побачити, що знаходяться лише 2 чіткі рівні
 
 ![](<../../.gitbook/assets/image (647) (1) (1).png>)
 
-For example, if you select Frequency instead of Amplitude in this AM signal you find just 1 frequency (no way information modulated in frequency is just using 1 freq).
+Наприклад, якщо ви виберете Частоту замість Амплітуди в цьому сигналі AM, ви знайдете лише 1 частоту (немає способу, що інформація модулюється в частоті, використовуючи лише 1 частоту).
 
 ![](<../../.gitbook/assets/image (637) (1) (1).png>)
 
-If you find a lot of frequencies potentially this won't be a FM, probably the signal frequency was just modified because of the channel.
+Якщо ви знайдете багато частот, ймовірно, це не буде FM, ймовірно, частота сигналу просто змінювалася через канал.
+#### З IQ
 
-#### With IQ
-
-In this example you can see how there is a **big circle** but also **a lot of points in the centre.**
+У цьому прикладі ви можете побачити, що є **великий коло**, а також **багато точок у центрі**.
 
 ![](<../../.gitbook/assets/image (640).png>)
 
-### Get Symbol Rate
+### Отримання Швидкості Символу
 
-#### With one symbol
+#### З одним символом
 
-Select the smallest symbol you can find (so you are sure it's just 1) and check the "Selection freq". I this case it would be 1.013kHz (so 1kHz).
+Виберіть найменший символ, який ви можете знайти (щоб бути впевненим, що це лише 1), та перевірте "Частоту вибору". У цьому випадку це буде 1.013 кГц (тобто 1 кГц).
 
 ![](<../../.gitbook/assets/image (638) (1).png>)
 
-#### With a group of symbols
+#### З групою символів
 
-You can also indicate the number of symbols you are going to select and SigDigger will calculate the frequency of 1 symbol (the more symbols selected the better probably). In this scenario I selected 10 symbols and the "Selection freq" is 1.004 Khz:
+Ви також можете вказати кількість символів, які ви збираєтеся вибрати, і SigDigger розрахує частоту 1 символу (зазвичай чим більше вибраних символів, тим краще). У цьому сценарії я вибрав 10 символів, і "Частота вибору" становить 1.004 кГц:
 
 ![](<../../.gitbook/assets/image (635).png>)
 
-### Get Bits
+### Отримання Бітів
 
-Having found this is an **AM modulated** signal and the **symbol rate** (and knowing that in this case something up means 1 and something down means 0), it's very easy to **obtain the bits** encoded in the signal. So, select the signal with info and configure the sampling and decision and press sample (check that **Amplitude** is selected, the discovered **Symbol rate** is configured and the **Gadner clock recovery** is selected):
+Знайшовши, що це **сигнал з амплітудною модуляцією** та **швидкість символу** (і знаючи, що в цьому випадку щось вгорі означає 1, а щось внизу означає 0), дуже легко **отримати біти**, закодовані в сигналі. Таким чином, виберіть сигнал з інформацією, налаштуйте зразок та рішення та натисніть зразок (перевірте, що вибрано **Амплітуду**, налаштовано відкриту **Швидкість символу** та вибрано **Відновлення годинника Гарднера**):
 
 ![](<../../.gitbook/assets/image (642) (1).png>)
 
-* **Sync to selection intervals** means that if you previously selected intervals to find the symbol rate, that symbol rate will be used.
-* **Manual** means that the indicated symbol rate is going to be used
-* In **Fixed interval selection** you indicate the number of intervals that should be selected and it calculates the symbol rate from it
-* **Gadner clock recovery** is usually the best option, but you still need to indicate some approximate symbol rate.
+* **Синхронізувати з інтервалами вибору** означає, що якщо ви раніше вибрали інтервали для визначення швидкості символу, то ця швидкість символу буде використовуватися.
+* **Ручний** означає, що буде використана вказана швидкість символу
+* У **Фіксований вибір інтервалу** ви вказуєте кількість інтервалів, які слід вибрати, і він розраховує швидкість символу з цього
+* **Відновлення годинника Гарднера** зазвичай є найкращим варіантом, але все ще потрібно вказати приблизну швидкість символу.
 
-Pressing sample this appears:
+Натискаючи зразок, з'являється це:
 
 ![](<../../.gitbook/assets/image (659).png>)
 
-Now, to make SigDigger understand **where is the range** of the level carrying information you need to click on the **lower level** and maintain clicked until the biggest level:
+Тепер, щоб зрозуміти, **де знаходиться діапазон** рівня, що несе інформацію, вам потрібно клацнути на **нижньому рівні** та утримувати клацання до найбільшого рівня:
 
 ![](<../../.gitbook/assets/image (662) (1) (1) (1).png>)
 
-If there would have been for example **4 different levels of amplitude**, you should have need to configure the **Bits per symbol to 2** and select from the smallest to the biggest.
+Якщо, наприклад, було б **4 різних рівні амплітуди**, вам довелося б налаштувати **Бітів на символ на 2** та вибрати від найменшого до найбільшого.
 
-Finally **increasing** the **Zoom** and **changing the Row size** you can see the bits (and you can select all and copy to get all the bits):
+Нарешті, **збільшуючи** **Масштаб** та **змінюючи розмір рядка**, ви можете побачити біти (і ви можете вибрати все та скопіювати, щоб отримати всі біти):
 
 ![](<../../.gitbook/assets/image (649) (1).png>)
 
-If the signal has more than 1 bit per symbol (for example 2), SigDigger has **no way to know which symbol is** 00, 01, 10, 11, so it will use different **grey scales** the represent each (and if you copy the bits it will use **numbers from 0 to 3**, you will need to treat them).
+Якщо сигнал має більше 1 біта на символ (наприклад, 2), SigDigger **не може знати, який символ** 00, 01, 10, 11, тому він використовуватиме різні **відтінки сірого** для кожного (і якщо ви скопіюєте біти, він використовуватиме **цифри від 0 до 3**, вам потрібно буде їх обробити).
 
-Also, use **codifications** such as **Manchester**, and **up+down** can be **1 or 0** and an down+up can be a 1 or 0. In those cases you need to **treat the obtained ups (1) and downs (0)** to substitute the pairs of 01 or 10 as 0s or 1s.
+Також використовуйте **кодування**, такі як **Манчестер**, і **вгору+вниз** може бути **1 або 0**, а вниз+вгору може бути 1 або 0. У таких випадках вам потрібно **обробити отримані вгори (1) та внизи (0)**, щоб замінити пари 01 або 10 як 0 або 1.
 
-## FM Example
+## Приклад FM
 
 {% file src="../../.gitbook/assets/sigdigger_20220308_170858Z_2560000_433500000_float32_iq.raw" %}
 
-### Uncovering FM
+### Розкриття FM
 
-#### Checking the frequencies and waveform
+#### Перевірка частот та форми хвилі
 
-Signal example sending information modulated in FM:
+Приклад сигналу, що надсилає інформацію, модульовану в FM:
 
 ![](<../../.gitbook/assets/image (661) (1).png>)
 
-In the previous image you can observe pretty good that **2 frequencies are used** but if you **observe** the **waveform** you might n**ot be able to identify correctly the 2 different frequencies**:
+На попередньому зображенні ви можете помітити, що використовуються **2 частоти**, але якщо ви **спостерігаєте** **форму хвилі**, ви може **не змогти правильно ідентифікувати 2 різні частоти**:
 
 ![](<../../.gitbook/assets/image (653).png>)
 
-This is because I capture the signal in booth frequencies, therefore one is approximately the other in negative:
+Це тому, що я зафіксував сигнал на обох частотах, тому одна приблизно рівна іншій у від'ємному значенні:
 
 ![](<../../.gitbook/assets/image (656).png>)
 
-If the synchronized frequency is **closer to one frequency than to the other** you can easily see the 2 different frequencies:
+Якщо синхронізована частота **ближча до однієї частоти, ніж до іншої**, ви легко можете побачити 2 різні частоти:
 
 ![](<../../.gitbook/assets/image (648) (1) (1) (1).png>)
 
 ![](<../../.gitbook/assets/image (634).png>)
 
-#### Checking the histogram
+#### Перевірка гістограми
 
-Checking the frequency histogram of the signal with information you can easily see 2 different signals:
+Перевіряючи гістограму частот сигналу з інформацією, ви легко можете побачити 2 різні сигнали:
 
 ![](<../../.gitbook/assets/image (657).png>)
 
-In this case if you check the **Amplitude histogram** you will find **only one amplitude**, so it **cannot be AM** (if you find a lot of amplitudes it might be because the signal has been losing power along the channel):
+У цьому випадку, якщо перевірити **гістограму амплітуд**, ви знайдете **лише одну амплітуду**, тому це **не може бути AM** (якщо ви знайдете багато амплітуд, це може бути через те, що сигнал втрачав потужність по каналу):
 
 ![](<../../.gitbook/assets/image (646).png>)
 
-And this is would be phase histogram (which makes very clear the signal is not modulated in phase):
+І ось гістограма фази (що дуже чітко показує, що сигнал не модульований в фазі):
 
 ![](<../../.gitbook/assets/image (201) (2).png>)
 
-#### With IQ
+#### З IQ
 
-IQ doesn't have a field to identify frequencies (distance to centre is amplitude and angle is phase).\
-Therefore, to identify FM, you should **only see basically a circle** in this graph.\
-Moreover, a different frequency is "represented" by the IQ graph by a **speed acceleration across the circle** (so in SysDigger selecting the signal the IQ graph is populated, if you find an acceleration or change of direction in the created circle it could mean that this is FM):
+IQ не має поля для ідентифікації частот (відстань до центру - це амплітуда, а кут - фаза).\
+Тому, щоб ідентифікувати FM, ви повинні **бачити в основному коло** на цьому графіку.\
+Більше того, різні частоти "представлені" на графіку IQ **прискоренням швидкості по колу** (таким чином, у SysDigger вибираючи сигнал, графік IQ заповнюється, якщо ви помітите прискорення або зміну напрямку в створеному колі, це може означати, що це FM):
 
 ![](<../../.gitbook/assets/image (643) (1).png>)
 
-### Get Symbol Rate
+### Отримання Швидкості Символу
 
-You can use the **same technique as the one used in the AM example** to get the symbol rate once you have found the frequencies carrying symbols.
+Ви можете використовувати **той самий метод, що і в прикладі з AM**, щоб отримати швидкість символу, як тільки ви знайдете частоти, які несуть символи.
 
-### Get Bits
+### Отримання Бітів
 
-You can use the **same technique as the one used in the AM example** to get the bits once you have **found the signal is modulated in frequency** and the **symbol rate**.
+Ви можете використовувати **той самий метод, що і в прикладі з AM**, щоб отримати біти, як тільки ви знайдете, що сигнал модульований в частоті, та **швидкість символу**.
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію рекламовану в HackTricks** або **завантажити HackTricks у PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Дізнайтеся про [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github репозиторіїв.
 
 </details>

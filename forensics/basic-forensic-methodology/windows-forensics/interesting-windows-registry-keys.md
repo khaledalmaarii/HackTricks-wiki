@@ -1,106 +1,90 @@
-# Interesting Windows Registry Keys
+# Цікаві ключі реєстру Windows
 
-### Interesting Windows Registry Keys
+### Цікаві ключі реєстру Windows
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію в рекламі HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв.
 
 </details>
 
 
-### **Windows Version and Owner Info**
-- Located at **`Software\Microsoft\Windows NT\CurrentVersion`**, you'll find the Windows version, Service Pack, installation time, and the registered owner's name in a straightforward manner.
+### **Інформація про версію Windows та власника**
+- У розділі **`Software\Microsoft\Windows NT\CurrentVersion`** ви знайдете версію Windows, пакунок обслуговування, час встановлення та ім'я зареєстрованого власника простим способом.
 
-### **Computer Name**
-- The hostname is found under **`System\ControlSet001\Control\ComputerName\ComputerName`**.
+### **Ім'я комп'ютера**
+- Ім'я хоста знаходиться в розділі **`System\ControlSet001\Control\ComputerName\ComputerName`**.
 
-### **Time Zone Setting**
-- The system's time zone is stored in **`System\ControlSet001\Control\TimeZoneInformation`**.
+### **Налаштування часового поясу**
+- Часовий пояс системи зберігається в **`System\ControlSet001\Control\TimeZoneInformation`**.
 
-### **Access Time Tracking**
-- By default, the last access time tracking is turned off (**`NtfsDisableLastAccessUpdate=1`**). To enable it, use:
-  `fsutil behavior set disablelastaccess 0`
+### **Відстеження часу доступу**
+- За замовчуванням відстеження часу останнього доступу вимкнено (**`NtfsDisableLastAccessUpdate=1`**). Щоб ввімкнути його, використовуйте:
+`fsutil behavior set disablelastaccess 0`
 
-### Windows Versions and Service Packs
-- The **Windows version** indicates the edition (e.g., Home, Pro) and its release (e.g., Windows 10, Windows 11), while **Service Packs** are updates that include fixes and, sometimes, new features.
+### Версії Windows та пакунки обслуговування
+- **Версія Windows** вказує на вид (наприклад, Home, Pro) та її випуск (наприклад, Windows 10, Windows 11), тоді як **пакунки обслуговування** - це оновлення, які включають виправлення та іноді нові функції.
 
-### Enabling Last Access Time
-- Enabling last access time tracking allows you to see when files were last opened, which can be critical for forensic analysis or system monitoring.
+### Ввімкнення часу останнього доступу
+- Ввімкнення відстеження часу останнього доступу дозволяє вам бачити, коли файли востаннє відкривалися, що може бути критичним для судового аналізу або моніторингу системи.
 
-### Network Information Details
-- The registry holds extensive data on network configurations, including **types of networks (wireless, cable, 3G)** and **network categories (Public, Private/Home, Domain/Work)**, which are vital for understanding network security settings and permissions.
+### Деталі мережевої інформації
+- Реєстр містить велику кількість даних про мережеві конфігурації, включаючи **типи мереж (бездротові, кабельні, 3G)** та **категорії мереж (Публічні, Приватні/Домашні, Доменні/Робочі)**, які є важливими для розуміння налаштувань мережевої безпеки та дозволів.
 
-### Client Side Caching (CSC)
-- **CSC** enhances offline file access by caching copies of shared files. Different **CSCFlags** settings control how and what files are cached, affecting performance and user experience, especially in environments with intermittent connectivity.
+### Кешування клієнтської сторони (CSC)
+- **CSC** покращує доступ до файлів в автономному режимі шляхом кешування копій спільних файлів. Різні налаштування **CSCFlags** контролюють, як і які файли кешуються, впливаючи на продуктивність та користувацький досвід, особливо в середовищах з періодичним підключенням.
 
-### AutoStart Programs
-- Programs listed in various `Run` and `RunOnce` registry keys are automatically launched at startup, affecting system boot time and potentially being points of interest for identifying malware or unwanted software.
+### Програми, які автоматично запускаються
+- Програми, перераховані в різних ключах реєстру `Run` та `RunOnce`, автоматично запускаються при запуску системи, впливаючи на час завантаження системи та потенційно бувши точками інтересу для ідентифікації шкідливого ПЗ або небажаного програмного забезпечення.
 
 ### Shellbags
-- **Shellbags** not only store preferences for folder views but also provide forensic evidence of folder access even if the folder no longer exists. They are invaluable for investigations, revealing user activity that isn't obvious through other means.
+- **Shellbags** не лише зберігають налаштування для перегляду папок, але й надають судові докази доступу до папок навіть у випадку, якщо папка більше не існує. Вони є невартісними для розслідувань, розкриваючи діяльність користувача, яка не є очевидною іншими засобами.
 
-### USB Information and Forensics
-- The details stored in the registry about USB devices can help trace which devices were connected to a computer, potentially linking a device to sensitive file transfers or unauthorized access incidents.
+### Інформація та судовий аналіз USB
+- Деталі, збережені в реєстрі про USB-пристрої, можуть допомогти відстежити, які пристрої були підключені до комп'ютера, потенційно пов'язуючи пристрій з передачами чутливих файлів або випадками несанкціонованого доступу.
 
-### Volume Serial Number
-- The **Volume Serial Number** can be crucial for tracking the specific instance of a file system, useful in forensic scenarios where file origin needs to be established across different devices.
+### Серійний номер тома
+- **Серійний номер тома** може бути вирішальним для відстеження конкретного екземпляра файлової системи, корисний в судових сценаріях, де потрібно встановити походження файлу на різних пристроях.
 
-### **Shutdown Details**
-- Shutdown time and count (the latter only for XP) are kept in **`System\ControlSet001\Control\Windows`** and **`System\ControlSet001\Control\Watchdog\Display`**.
+### **Деталі вимкнення**
+- Час вимкнення та кількість (останній тільки для XP) зберігаються в **`System\ControlSet001\Control\Windows`** та **`System\ControlSet001\Control\Watchdog\Display`**.
 
-### **Network Configuration**
-- For detailed network interface info, refer to **`System\ControlSet001\Services\Tcpip\Parameters\Interfaces{GUID_INTERFACE}`**.
-- First and last network connection times, including VPN connections, are logged under various paths in **`Software\Microsoft\Windows NT\CurrentVersion\NetworkList`**.
+### **Конфігурація мережі**
+- Для докладної інформації про мережевий інтерфейс звертайтеся до **`System\ControlSet001\Services\Tcpip\Parameters\Interfaces{GUID_INTERFACE}`**.
+- Перші та останні часи підключення до мережі, включаючи підключення VPN, реєструються в різних шляхах в **`Software\Microsoft\Windows NT\CurrentVersion\NetworkList`**.
 
-### **Shared Folders**
-- Shared folders and settings are under **`System\ControlSet001\Services\lanmanserver\Shares`**. The Client Side Caching (CSC) settings dictate offline file availability.
+### **Спільні папки**
+- Спільні папки та налаштування знаходяться в **`System\ControlSet001\Services\lanmanserver\Shares`**. Налаштування кешування клієнтської сторони (CSC) визначають доступність файлів в автономному режимі.
 
-### **Programs that Start Automatically**
-- Paths like **`NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Run`** and similar entries under `Software\Microsoft\Windows\CurrentVersion` detail programs set to run at startup.
+### **Програми, які автоматично запускаються**
+- Шляхи, такі як **`NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Run`** та подібні записи в `Software\Microsoft\Windows\CurrentVersion` деталізують програми, призначені для запуску при запуску системи.
 
-### **Searches and Typed Paths**
-- Explorer searches and typed paths are tracked in the registry under **`NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer`** for WordwheelQuery and TypedPaths, respectively.
+### **Пошуки та введені шляхи**
+- Пошуки та введені шляхи в Explorer відстежуються в реєстрі під **`NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer`** для WordwheelQuery та TypedPaths відповідно.
 
-### **Recent Documents and Office Files**
-- Recent documents and Office files accessed are noted in `NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs` and specific Office version paths.
+### **Нещодавні документи та файлів Office**
+- Недавно відкриті документи та файлів Office фіксуються в `NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs` та конкретних шляхах версій Office.
 
-### **Most Recently Used (MRU) Items**
-- MRU lists, indicating recent file paths and commands, are stored in various `ComDlg32` and `Explorer` subkeys under `NTUSER.DAT`.
+### **Останні використані (MRU) елементи**
+- Списки MRU, що вказують на останні шляхи файлів та команд, зберігаються в різних підключеннях `ComDlg32` та `Explorer` під `NTUSER.DAT`.
 
-### **User Activity Tracking**
-- The User Assist feature logs detailed application usage stats, including run count and last run time, at **`NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{GUID}\Count`**.
+### **Відстеження активності користувача**
+- Функція User Assist реєструє детальну статистику використання програм, включаючи кількість запусків та час останнього запуску, в **`NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{GUID}\Count`**.
 
-### **Shellbags Analysis**
-- Shellbags, revealing folder access details, are stored in `USRCLASS.DAT` and `NTUSER.DAT` under `Software\Microsoft\Windows\Shell`. Use **[Shellbag Explorer](https://ericzimmerman.github.io/#!index.md)** for analysis.
+### **Аналіз Shellbags**
+- Shellbags, які розкривають деталі доступу до папок, зберігаються в `USRCLASS.DAT` та `NTUSER.DAT` під `Software\Microsoft\Windows\Shell`. Використовуйте **[Shellbag Explorer](https://ericzimmerman.github.io/#!index.md)** для аналізу.
 
-### **USB Device History**
-- **`HKLM\SYSTEM\ControlSet001\Enum\USBSTOR`** and **`HKLM\SYSTEM\ControlSet001\Enum\USB`** contain rich details on connected USB devices, including manufacturer, product name, and connection timestamps.
-- The user associated with a specific USB device can be pinpointed by searching `NTUSER.DAT` hives for the device's **{GUID}**.
-- The last mounted device and its volume serial number can be traced through `System\MountedDevices` and `Software\Microsoft\Windows NT\CurrentVersion\EMDMgmt`, respectively.
+### **Історія USB-пристроїв**
+- **`HKLM\SYSTEM\ControlSet001\Enum\USBSTOR`** та **`HKLM\SYSTEM\ControlSet001\Enum\USB`** містять багато деталей про підключені USB-пристрої, включаючи виробника, назву продукту та часи підключення.
+- Користувач, пов'язаний з певним USB-пристроєм, може бути визначений шляхом пошуку уламків `NTUSER.DAT` для **{GUID}** пристрою.
+- Останній підключений пристрій та його серійний номер тома можна відстежити через `System\MountedDevices` та `Software\Microsoft\Windows NT\CurrentVersion\EMDMgmt`, відповідно.
 
-This guide condenses the crucial paths and methods for accessing detailed system, network, and user activity information on Windows systems, aiming for clarity and usability.
-
-
-
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
+Цей посібник узагальнює важливі шляхи та методи доступу до детальної інформації про систему, мережу та активність користувача в системах Windows, спрямований на зрозумілість та використовуваність.

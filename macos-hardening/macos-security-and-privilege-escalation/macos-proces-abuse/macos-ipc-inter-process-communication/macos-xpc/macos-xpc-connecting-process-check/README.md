@@ -1,75 +1,71 @@
-# macOS XPC Connecting Process Check
+# Перевірка процесу підключення XPC macOS
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію рекламовану в HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв GitHub.
 
 </details>
 
-## XPC Connecting Process Check
+## Перевірка процесу підключення XPC
 
-When a connection is stablished to an XPC service, the server will check if the connection is allowed. These are the checks it would usually perform:
+Коли встановлюється з'єднання з XPC-сервісом, сервер перевіряє, чи дозволено це з'єднання. Ось перевірки, які зазвичай виконуються:
 
-1. Check if the connecting **process is signed with an Apple-signed** certificate (only given out by Apple).
-   * If this **isn't verified**, an attacker could create a **fake certificate** to match any other check.
-2. Check if the connecting process is signed with the **organization’s certificate**, (team ID verification).
-   * If this **isn't verified**, **any developer certificate** from Apple can be used for signing, and connect to the service.
-3. Check if the connecting process **contains a proper bundle ID**.
-   * If this **isn't verified**, any tool **signed by the same org** could be used to interact with the XPC service.
-4. (4 or 5) Check if the connecting process has a **proper software version number**.
-   * If this **isn't verified,** an old, insecure clients, vulnerable to process injection could be used to connect to the XPC service even with the other checks in place.
-5. (4 or 5) Check if the connecting process has hardened runtime without dangerous entitlements (like the ones that allows to load arbitrary libraries or use DYLD env vars)
-   1. If this **isn't verified,** the client might be **vulnerable to code injection**
-6. Check if the connecting process has an **entitlement** that allows it to connect to the service. This is applicable for Apple binaries.
-7. The **verification** must be **based** on the connecting **client’s audit token** **instead** of its process ID (**PID**) since the former prevents **PID reuse attacks**.
-   * Developers **rarely use the audit token** API call since it’s **private**, so Apple could **change** at any time. Additionally, private API usage is not allowed in Mac App Store apps.
-     * If the method **`processIdentifier`** is used, it might be vulnerable
-     * **`xpc_dictionary_get_audit_token`** should be used instead of **`xpc_connection_get_audit_token`**, as the latest could also be [vulnerable in certain situations](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/).
+1. Перевірка, чи підключений **процес підписаний Apple-підписом** (наданим лише Apple).
+* Якщо це **не підтверджено**, зловмисник може створити **фальшивий сертифікат**, щоб відповідати будь-якій іншій перевірці.
+2. Перевірка, чи підключений процес підписаний **сертифікатом організації** (перевірка ідентифікатора команди).
+* Якщо це **не підтверджено**, можна використовувати **будь-який сертифікат розробника** від Apple для підпису та підключення до сервісу.
+3. Перевірка, чи підключений процес містить **правильний ідентифікатор пакета**.
+* Якщо це **не підтверджено**, будь-який інструмент, **підписаний тією ж організацією**, може бути використаний для взаємодії з XPC-сервісом.
+4. (4 або 5) Перевірка, чи у підключеному процесі є **правильний номер версії програмного забезпечення**.
+* Якщо це **не підтверджено**, можна використовувати старі, небезпечні клієнти, вразливі до впровадження процесу, для підключення до XPC-сервісу навіть за умови інших перевірок.
+5. (4 або 5) Перевірка, чи у підключеному процесі є зміцнений час виконання без небезпечних дозволів (таких, як ті, що дозволяють завантажувати довільні бібліотеки або використовувати змінні середовища DYLD)
+1. Якщо це **не підтверджено**, клієнт може бути **вразливим до впровадження коду**
+6. Перевірка, чи у підключеному процесі є **дозвіл**, що дозволяє йому підключатися до сервісу. Це застосовується до бінарних файлів Apple.
+7. **Перевірка** повинна бути **заснована** на **аудиторському токені підключення клієнта** **замість** його **ідентифікатора процесу (PID)**, оскільки перше запобігає **атакам повторного використання PID**.
+* Розробники **рідко використовують виклик API аудиторського токена**, оскільки він є **приватним**, тому Apple може **змінити** його в будь-який момент. Крім того, використання приватного API не дозволяється в додатках Mac App Store.
+* Якщо використовується метод **`processIdentifier`**, це може бути вразливим
+* Слід використовувати **`xpc_dictionary_get_audit_token`** замість **`xpc_connection_get_audit_token`**, оскільки останнє також може бути [вразливим у певних ситуаціях](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/).
 
-### Communication Attacks
+### Атаки на комунікацію
 
-For more information about the PID reuse attack check:
+Для отримання додаткової інформації про перевірку атаки повторного використання PID див.:
 
 {% content-ref url="macos-pid-reuse.md" %}
 [macos-pid-reuse.md](macos-pid-reuse.md)
 {% endcontent-ref %}
 
-For more information **`xpc_connection_get_audit_token`** attack check:
+Для отримання додаткової інформації про атаку **`xpc_connection_get_audit_token`** див.:
 
 {% content-ref url="macos-xpc_connection_get_audit_token-attack.md" %}
 [macos-xpc\_connection\_get\_audit\_token-attack.md](macos-xpc\_connection\_get\_audit\_token-attack.md)
 {% endcontent-ref %}
 
-### Trustcache - Downgrade Attacks Prevention
+### Trustcache - Запобігання атакам на зниження рівня
 
-Trustcache is a defensive method introduced in Apple Silicon machines that stores a database of CDHSAH of Apple binaries so only allowed non modified binaries can be executed. Which prevent the execution of downgrade versions.
+Trustcache - це захисний метод, введений на машинах Apple Silicon, який зберігає базу даних CDHSAH бінарних файлів Apple, щоб можна було виконувати лише дозволені незмінені бінарні файли. Це запобігає виконанню версій зниження.
 
-### Code Examples
+### Приклади коду
 
-The server will implement this **verification** in a function called **`shouldAcceptNewConnection`**.
+Сервер реалізує цю **перевірку** у функції з назвою **`shouldAcceptNewConnection`**.
 
 {% code overflow="wrap" %}
 ```objectivec
 - (BOOL)listener:(NSXPCListener *)listener shouldAcceptNewConnection:(NSXPCConnection *)newConnection {
-    //Check connection
-    return YES;
+//Check connection
+return YES;
 }
 ```
-{% endcode %}
+Об'єкт NSXPCConnection має **приватну** властивість **`auditToken`** (та, яка повинна бути використана, але може змінитися) та **публічну** властивість **`processIdentifier`** (та, яка не повинна використовуватися).
 
-The object NSXPCConnection has a **private** property **`auditToken`** (the one that should be used but could change) and a the **public** property **`processIdentifier`** (the one that shouldn't be used).
-
-The connecting process could be verified with something like:
-
-{% code overflow="wrap" %}
+Підключений процес можна перевірити за допомогою чогось на зразок:
 ```objectivec
 [...]
 SecRequirementRef requirementRef = NULL;
@@ -91,35 +87,33 @@ SecTaskValidateForRequirement(taskRef, (__bridge CFStringRef)(requirementString)
 ```
 {% endcode %}
 
-If a developer doesn't want to check the version of the client, he could check that the client is not vulnerable to process injection at least:
-
-{% code overflow="wrap" %}
+Якщо розробник не хоче перевіряти версію клієнта, він може перевірити, що клієнт принаймні не вразливий на впровадження процесу:
 ```objectivec
 [...]
 CFDictionaryRef csInfo = NULL;
 SecCodeCopySigningInformation(code, kSecCSDynamicInformation, &csInfo);
 uint32_t csFlags = [((__bridge NSDictionary *)csInfo)[(__bridge NSString *)kSecCodeInfoStatus] intValue];
-const uint32_t cs_hard = 0x100;        // don't load invalid page. 
+const uint32_t cs_hard = 0x100;        // don't load invalid page.
 const uint32_t cs_kill = 0x200;        // Kill process if page is invalid
 const uint32_t cs_restrict = 0x800;    // Prevent debugging
 const uint32_t cs_require_lv = 0x2000; // Library Validation
 const uint32_t cs_runtime = 0x10000;   // hardened runtime
 if ((csFlags & (cs_hard | cs_require_lv)) {
-    return Yes; // Accept connection
+return Yes; // Accept connection
 }
 ```
 {% endcode %}
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію рекламовану на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **і** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв на GitHub.**
 
 </details>

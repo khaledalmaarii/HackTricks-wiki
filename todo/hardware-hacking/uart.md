@@ -1,63 +1,60 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію рекламовану в HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **і** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв на GitHub**.
 
 </details>
 
 
-# Basic Information
+# Основна інформація
 
-UART is a serial protocol, which means it transfers data between components one bit at a time. In contrast, parallel communication protocols transmit data simultaneously through multiple channels. Common serial protocols include RS-232, I2C, SPI, CAN, Ethernet, HDMI, PCI Express, and USB.
+UART - це послідовний протокол, що означає, що він передає дані між компонентами по одному біту за раз. У порівнянні з цим, паралельні комунікаційні протоколи передають дані одночасно через кілька каналів. До загальних послідовних протоколів відносяться RS-232, I2C, SPI, CAN, Ethernet, HDMI, PCI Express та USB.
 
-Generally, the line is held high (at a logical 1 value) while UART is in the idle state. Then, to signal the start of a data transfer, the transmitter sends a start bit to the receiver, during which the signal is held low (at a logical 0 value). Next, the transmitter sends five to eight data bits containing the actual message, followed by an optional parity bit and one or two stop bits (with a logical 1 value), depending on the configuration. The parity bit, used for error checking, is rarely seen in practice. The stop bit (or bits) signify the end of transmission.
+Загалом, лінія утримується на високому рівні (значення логічної 1), коли UART перебуває в стані очікування. Потім, для сигналізації початку передачі даних, передавач надсилає приймачу стартовий біт, під час якого сигнал утримується на низькому рівні (значення логічної 0). Далі передавач надсилає п'ять до восьми бітів даних, що містять фактичне повідомлення, за якими слідує необов'язковий біт парності та один або два стоп-біти (зі значенням логічної 1), в залежності від конфігурації. Біт парності, який використовується для перевірки помилок, рідко бачиться на практиці. Стоп-біт (або біти) позначають кінець передачі.
 
-We call the most common configuration 8N1: eight data bits, no parity, and one stop bit. For example, if we wanted to send the character C, or 0x43 in ASCII, in an 8N1 UART configuration, we would send the following bits: 0 (the start bit); 0, 1, 0, 0, 0, 0, 1, 1 (the value of 0x43 in binary), and 0 (the stop bit).
+Ми називаємо найбільш поширену конфігурацію 8N1: вісім бітів даних, без парності та один стоп-біт. Наприклад, якщо ми хочемо відправити символ C, або 0x43 у ASCII, в конфігурації UART 8N1, ми відправимо наступні біти: 0 (стартовий біт); 0, 1, 0, 0, 0, 0, 1, 1 (значення 0x43 у двійковій системі), та 0 (стоп-біт).
 
 ![](<../../.gitbook/assets/image (648) (1) (1) (1) (1).png>)
 
-Hardware tools to communicate with UART:
+Апаратні засоби для спілкування з UART:
 
-* USB-to-serial adapter
-* Adapters with the CP2102 or PL2303 chips
-* Multipurpose tool such as: Bus Pirate, the Adafruit FT232H, the Shikra, or the Attify Badge
+* USB-серійний адаптер
+* Адаптери з чіпами CP2102 або PL2303
+* Універсальний інструмент, такий як: Bus Pirate, Adafruit FT232H, Shikra або Attify Badge
 
-## Identifying UART Ports
+## Визначення портів UART
 
-UART has 4 ports: **TX**(Transmit), **RX**(Receive), **Vcc**(Voltage), and **GND**(Ground). You might be able to find 4 ports with the **`TX`** and **`RX`** letters **written** in the PCB. But if there is no indication, you might need to try to find them yourself using a **multimeter** or a **logic analyzer**.
+UART має 4 порти: **TX**(Transmit), **RX**(Receive), **Vcc**(Voltage) та **GND**(Ground). Ви можете знайти 4 порти з літерами **`TX`** та **`RX`** **написаними** на платі. Але якщо немає позначення, вам може знадобитися спробувати знайти їх самостійно за допомогою **мультиметра** або **логічного аналізатора**.
 
-With a **multimeter** and the device powered off:
+З **мультиметром** та вимкненим пристроєм:
 
-* To identify the **GND** pin use the **Continuity Test** mode, place the back lead into ground and test with the red one until you hear a sound from the multimeter. Several GND pins can be found the PCB, so you might have found or not the one belonging to UART.
-* To identify the **VCC port**, set the **DC voltage mode** and set it up to 20 V of voltage. Black probe on ground and red probe on the pin. Power on the device. If the multimeter measures a constant voltage of either 3.3 V or 5 V, you’ve found the Vcc pin. If you get other voltages, retry with other ports.
-* To identify the **TX** **port**, **DC voltage mode** up to 20 V of voltage, black probe on ground, and red probe on the pin, and power on the device. If you find the voltage fluctuates for a few seconds and then stabilizes at the Vcc value, you’ve most likely found the TX port. This is because when powering on, it sends some debug data.
-* The **RX port** would be the closest one to the other 3, it has the lowest voltage fluctuation and lowest overall value of all the UART pins.
+* Для визначення піна **GND** використовуйте режим **Тесту на з'єднаність**, помістіть задній вивід в землю та перевірте червоним до тих пір, поки не почуєте звук від мультиметра. На платі можна знайти кілька пінів **GND**, тому ви можете знайти або не знайти той, що належить до UART.
+* Для визначення порту **VCC**, встановіть режим **постійної напруги** та встановіть його на 20 Вольт напруги. Чорна зонд на землю, а червона на пін. Увімкніть пристрій. Якщо мультиметр вимірює постійну напругу 3,3 В або 5 В, ви знайшли пін Vcc. Якщо ви отримуєте інші напруги, спробуйте із іншими портами.
+* Для визначення порту **TX**, режим **постійної напруги** до 20 Вольт напруги, чорна зонд на землю, червона на пін, та увімкніть пристрій. Якщо ви виявите, що напруга коливається протягом кількох секунд, а потім стабілізується на значенні Vcc, ви, ймовірно, знайшли порт TX. Це тому, що при увімкненні він відправляє деякі відлагоджувальні дані.
+* Порт **RX** буде найближчим до інших 3, він має найменші коливання напруги та найменше загальне значення серед усіх пінів UART.
 
-You can confuse the TX and RX ports and nothing would happen, but if you confuses the GND and the VCC port you might fry the circuit.
+Ви можете поміняти порти TX та RX, і нічого не станеться, але якщо ви помилитеся між GND та портом VCC, ви можете зруйнувати схему.
 
-With a logic analyzer:
+З логічним аналізатором:
 
-## Identifying the UART Baud Rate
+## Визначення швидкості передачі UART
 
-The easiest way to identify the correct baud rate is to look at the **TX pin’s output and try to read the data**. If the data you receive isn’t readable, switch to the next possible baud rate until the data becomes readable. You can use a USB-to-serial adapter or a multipurpose device like Bus Pirate to do this, paired with a helper script, such as [baudrate.py](https://github.com/devttys0/baudrate/). The most common baud rates are 9600, 38400, 19200, 57600, and 115200.
+Найпростіший спосіб визначити правильну швидкість передачі - це подивитися на вивід піна **TX та спробувати прочитати дані**. Якщо отримані дані нечитабельні, переключайтеся на наступну можливу швидкість передачі, поки дані не стануть читабельними. Для цього можна використовувати USB-серійний адаптер або універсальний пристрій, такий як Bus Pirate, у поєднанні з допоміжним скриптом, таким як [baudrate.py](https://github.com/devttys0/baudrate/). Найпоширеніші швидкості передачі - 9600, 38400, 19200, 57600 та 115200.
 
 {% hint style="danger" %}
-It's important to note that in this protocol you need to connect the TX of one device to the RX of the other!
+Важливо зауважити, що в цьому протоколі потрібно підключити TX одного пристрою до RX іншого!
 {% endhint %}
 
 # Bus Pirate
 
-In this scenario we are going to sniff the UART communication of the Arduino that is sending all the prints of the program to the Serial Monitor.
-
+У цьому сценарії ми будемо перехоплювати UART-комунікацію Arduino, яка надсилає всі виводи програми на монітор Серійного порту.
 ```bash
 # Check the modes
 UART>m
@@ -77,39 +74,39 @@ x. exit(without change)
 # Select UART
 (1)>3
 Set serial port speed: (bps)
- 1. 300
- 2. 1200
- 3. 2400
- 4. 4800
- 5. 9600
- 6. 19200
- 7. 38400
- 8. 57600
- 9. 115200
+1. 300
+2. 1200
+3. 2400
+4. 4800
+5. 9600
+6. 19200
+7. 38400
+8. 57600
+9. 115200
 10. BRG raw value
 
 # Select the speed the communication is occurring on (you BF all this until you find readable things)
 # Or you could later use the macro (4) to try to find the speed
 (1)>5
 Data bits and parity:
- 1. 8, NONE *default
- 2. 8, EVEN
- 3. 8, ODD
- 4. 9, NONE
- 
- # From now on pulse enter for default
+1. 8, NONE *default
+2. 8, EVEN
+3. 8, ODD
+4. 9, NONE
+
+# From now on pulse enter for default
 (1)>
 Stop bits:
- 1. 1 *default
- 2. 2
+1. 1 *default
+2. 2
 (1)>
 Receive polarity:
- 1. Idle 1 *default
- 2. Idle 0
+1. Idle 1 *default
+2. Idle 0
 (1)>
 Select output type:
- 1. Open drain (H=Hi-Z, L=GND)
- 2. Normal (H=3.3V, L=GND)
+1. Open drain (H=Hi-Z, L=GND)
+2. Normal (H=3.3V, L=GND)
 
 (1)>
 Clutch disengaged!!!
@@ -129,20 +126,16 @@ Escritura inicial completada:
 AAA Hi Dreg! AAA
 waiting a few secs to repeat....
 ```
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити **рекламу вашої компанії на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **і** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв на GitHub**.
 
 </details>
-
-

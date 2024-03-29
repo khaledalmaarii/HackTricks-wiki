@@ -2,43 +2,40 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити **рекламу вашої компанії на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **та** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв на GitHub**.
 
 </details>
 
-## Apple Propietary File System (APFS)
+## Пропрієтарна файлова система Apple (APFS)
 
-**Apple File System (APFS)** is a modern file system designed to supersede the Hierarchical File System Plus (HFS+). Its development was driven by the need for **improved performance, security, and efficiency**.
+**Apple File System (APFS)** - це сучасна файлова система, призначена для заміни Hierarchical File System Plus (HFS+). Її розробка була спрямована на **покращення продуктивності, безпеки та ефективності**.
 
-Some notable features of APFS include:
+Деякі помітні функції APFS включають:
 
-1. **Space Sharing**: APFS allows multiple volumes to **share the same underlying free storage** on a single physical device. This enables more efficient space utilization as the volumes can dynamically grow and shrink without the need for manual resizing or repartitioning.
-   1. This means, compared with traditional partitions in file disks, **that in APFS different partitions (volumes) shares all the disk space**, while a regular partition usually had a fixed size.
-2. **Snapshots**: APFS supports **creating snapshots**, which are **read-only**, point-in-time instances of the file system. Snapshots enable efficient backups and easy system rollbacks, as they consume minimal additional storage and can be quickly created or reverted.
-3. **Clones**: APFS can **create file or directory clones that share the same storage** as the original until either the clone or the original file is modified. This feature provides an efficient way to create copies of files or directories without duplicating the storage space.
-4. **Encryption**: APFS **natively supports full-disk encryption** as well as per-file and per-directory encryption, enhancing data security across different use cases.
-5. **Crash Protection**: APFS uses a **copy-on-write metadata scheme that ensures file system consistency** even in cases of sudden power loss or system crashes, reducing the risk of data corruption.
+1. **Спільне використання простору**: APFS дозволяє кільком обсягам **використовувати один і той же вільний простір** на одному фізичному пристрої. Це дозволяє більш ефективно використовувати простір, оскільки обсяги можуть динамічно збільшуватися і зменшуватися без необхідності вручного змінення розміру або репартиціонування.
+1. Це означає, порівняно з традиційними розділами на дисках, **що в APFS різні розділи (обсяги) діляться всім простором диска**, тоді як звичайний розділ зазвичай мав фіксований розмір.
+2. **Снапшоти**: APFS підтримує **створення снапшотів**, які є **тільки для читання**, моментальними екземплярами файлової системи. Снапшоти дозволяють ефективно робити резервні копії та легко відновлювати систему, оскільки вони займають мінімальний додатковий простір і можуть бути швидко створені або відновлені.
+3. **Клони**: APFS може **створювати клони файлів або каталогів, які використовують той самий простір**, що і оригінал, поки клон або оригінальний файл не буде змінено. Ця функція надає ефективний спосіб створення копій файлів або каталогів без дублювання простору зберігання.
+4. **Шифрування**: APFS **підтримує шифрування всього диска** а також шифрування на рівні файлу та каталогу, підвищуючи безпеку даних у різних випадках використання.
+5. **Захист від збоїв**: APFS використовує схему метаданих **копіювання при записі, яка забезпечує цілісність файлової системи** навіть у випадках раптової втрати живлення або збоїв системи, зменшуючи ризик пошкодження даних.
 
-Overall, APFS offers a more modern, flexible, and efficient file system for Apple devices, with a focus on improved performance, reliability, and security.
-
+Загалом APFS пропонує більш сучасну, гнучку та ефективну файлову систему для пристроїв Apple, з фокусом на покращену продуктивність, надійність та безпеку.
 ```bash
 diskutil list # Get overview of the APFS volumes
 ```
-
 ## Firmlinks
 
-The `Data` volume is mounted in **`/System/Volumes/Data`** (you can check this with `diskutil apfs list`).
+`Data` том змонтований у **`/System/Volumes/Data`** (це можна перевірити за допомогою `diskutil apfs list`).
 
-The list of firmlinks can be found in the **`/usr/share/firmlinks`** file.
-
+Список firmlinks можна знайти у файлі **`/usr/share/firmlinks`**.
 ```bash
 cat /usr/share/firmlinks
 /AppleInternal	AppleInternal
@@ -46,19 +43,4 @@ cat /usr/share/firmlinks
 /Library	Library
 [...]
 ```
-
-On the **left**, there is the directory path on the **System volume**, and on the **right**, the directory path where it maps on the **Data volume**. So, `/library` --> `/system/Volumes/data/library`
-
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
+На **лівому** боці є шлях каталогу на **Томі системи**, а на **правому** - шлях каталогу, де він відображається на **Томі даних**. Таким чином, `/library` --> `/system/Volumes/data/library`

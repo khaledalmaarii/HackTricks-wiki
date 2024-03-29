@@ -1,109 +1,97 @@
-# Kerberos Double Hop Problem
+# Проблема подвійного переходу Kerberos
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Ви працюєте в **кібербезпеці компанії**? Хочете побачити **рекламу вашої компанії на HackTricks**? або хочете мати доступ до **останньої версії PEASS або завантажити HackTricks у PDF**? Перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* Отримайте [**офіційний PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **Приєднуйтесь до** [**💬**](https://emojipedia.org/speech-balloon/) [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за мною на **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**репозиторію hacktricks**](https://github.com/carlospolop/hacktricks) **та** [**репозиторію hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-## Introduction
+## Вступ
 
-The Kerberos "Double Hop" problem appears when an attacker attempts to use **Kerberos authentication across two** **hops**, for example using **PowerShell**/**WinRM**.
+Проблема "подвійного переходу" Kerberos виникає, коли атакуючий намагається використовувати **аутентифікацію Kerberos через два** **переходи**, наприклад, використовуючи **PowerShell**/**WinRM**.
 
-When an **authentication** occurs through **Kerberos**, **credentials** **aren't** cached in **memory.** Therefore, if you run mimikatz you **won't find credentials** of the user in the machine even if he is running processes.
+Коли відбувається **аутентифікація** через **Kerberos**, **підтвердження** **не кешуються в пам'яті**. Тому, якщо ви запустите mimikatz, ви **не знайдете підтвердження** користувача на машині, навіть якщо він запускає процеси.
 
-This is because when connecting with Kerberos these are the steps:
+Це тому, що при підключенні за допомогою Kerberos відбуваються такі кроки:
 
-1. User1 provides credentials and **domain controller** returns a Kerberos **TGT** to the User1.
-2. User1 uses **TGT** to request a **service ticket** to **connect** to Server1.
-3. User1 **connects** to **Server1** and provides **service ticket**.
-4. **Server1** **doesn't** have **credentials** of User1 cached or the **TGT** of User1. Therefore, when User1 from Server1 tries to login to a second server, he is **not able to authenticate**.
+1. Користувач1 надає підтвердження, і **контролер домену** повертає Kerberos **TGT** користувачу1.
+2. Користувач1 використовує **TGT**, щоб запросити **квиток сервісу** для **підключення** до Сервер1.
+3. Користувач1 **підключається** до **Сервер1** і надає **квиток сервісу**.
+4. **Сервер1** **не має** **підтверджень** користувача1 в кеші або **TGT** користувача1. Тому, коли Користувач1 з Сервер1 намагається увійти на другий сервер, він **не може аутентифікуватися**.
 
-### Unconstrained Delegation
+### Неконтрольоване делегування
 
-If **unconstrained delegation** is enabled in the PC, this won't happen as the **Server** will **get** a **TGT** of each user accessing it. Moreover, if unconstrained delegation is used you probably can **compromise the Domain Controller** from it.\
-[**More info in the unconstrained delegation page**](unconstrained-delegation.md).
+Якщо **неконтрольоване делегування** увімкнено на ПК, цього не станеться, оскільки **Сервер** отримає **TGT** кожного користувача, який до нього звертається. Крім того, якщо використовується неконтрольоване делегування, ви, ймовірно, зможете **компрометувати Контролер домену** з нього.\
+[**Додаткова інформація на сторінці неконтрольованого делегування**](unconstrained-delegation.md).
 
 ### CredSSP
 
-Another way to avoid this problem which is [**notably insecure**](https://docs.microsoft.com/en-us/powershell/module/microsoft.wsman.management/enable-wsmancredssp?view=powershell-7) is **Credential Security Support Provider**. From Microsoft:
+Ще один спосіб уникнути цю проблему, який [**відомий як небезпечний**](https://docs.microsoft.com/en-us/powershell/module/microsoft.wsman.management/enable-wsmancredssp?view=powershell-7), це **Постачальник підтримки безпеки облікових даних**. Від Microsoft:
 
-> CredSSP authentication delegates the user credentials from the local computer to a remote computer. This practice increases the security risk of the remote operation. If the remote computer is compromised, when credentials are passed to it, the credentials can be used to control the network session.
+> Аутентифікація CredSSP делегує облікові дані користувача з локального комп'ютера на віддалений комп'ютер. Ця практика збільшує ризик безпеки віддаленої операції. Якщо віддалений комп'ютер скомпрометований, коли облікові дані передаються йому, облікові дані можуть бути використані для управління мережевою сесією.
 
-It is highly recommended that **CredSSP** be disabled on production systems, sensitive networks, and similar environments due to security concerns. To determine whether **CredSSP** is enabled, the `Get-WSManCredSSP` command can be run. This command allows for the **checking of CredSSP status** and can even be executed remotely, provided **WinRM** is enabled.
-
+Дуже рекомендується **вимкнути CredSSP** на виробничих системах, в чутливих мережах та подібних середовищах через проблеми безпеки. Щоб визначити, чи **CredSSP** увімкнено, можна виконати команду `Get-WSManCredSSP`. Ця команда дозволяє **перевірити статус CredSSP** і навіть виконати її віддалено, якщо увімкнено **WinRM**.
 ```powershell
 Invoke-Command -ComputerName bizintel -Credential ta\redsuit -ScriptBlock {
-    Get-WSManCredSSP
+Get-WSManCredSSP
 }
 ```
+## Обхідні шляхи
 
-## Workarounds
+### Виклик команди
 
-### Invoke Command
-
-To address the double hop issue, a method involving a nested `Invoke-Command` is presented. This does not solve the problem directly but offers a workaround without needing special configurations. The approach allows executing a command (`hostname`) on a secondary server through a PowerShell command executed from an initial attacking machine or through a previously established PS-Session with the first server. Here's how it's done:
-
+Для вирішення проблеми подвійного переходу запропонований метод, що включає в себе вкладений `Invoke-Command`. Це не вирішує проблему безпосередньо, але пропонує обхідний шлях без необхідності спеціальних конфігурацій. Підхід дозволяє виконати команду (`hostname`) на вторинному сервері через команду PowerShell, виконану з початкової атакуючої машини або через раніше встановлену PS-сесію з першим сервером. Ось як це робиться:
 ```powershell
 $cred = Get-Credential ta\redsuit
 Invoke-Command -ComputerName bizintel -Credential $cred -ScriptBlock {
-    Invoke-Command -ComputerName secdev -Credential $cred -ScriptBlock {hostname}
+Invoke-Command -ComputerName secdev -Credential $cred -ScriptBlock {hostname}
 }
 ```
+Альтернативою є встановлення PS-сесії з першим сервером та запуск `Invoke-Command` за допомогою `$cred`, що рекомендується для централізації завдань.
 
-Alternatively, establishing a PS-Session with the first server and running the `Invoke-Command` using `$cred` is suggested for centralizing tasks.
+### Зареєструвати конфігурацію PSSession
 
-### Register PSSession Configuration
-
-A solution to bypass the double hop problem involves using `Register-PSSessionConfiguration` with `Enter-PSSession`. This method requires a different approach than `evil-winrm` and allows for a session that does not suffer from the double hop limitation. 
-
+Рішення для обходу проблеми подвійного переходу полягає використання `Register-PSSessionConfiguration` з `Enter-PSSession`. Цей метод вимагає іншого підходу, ніж `evil-winrm`, і дозволяє створити сесію, яка не страждає від обмеження подвійного переходу.
 ```powershell
 Register-PSSessionConfiguration -Name doublehopsess -RunAsCredential domain_name\username
 Restart-Service WinRM
 Enter-PSSession -ConfigurationName doublehopsess -ComputerName <pc_name> -Credential domain_name\username
 klist
 ```
+### Перенаправлення портів
 
-### PortForwarding
-
-For local administrators on an intermediary target, port forwarding allows requests to be sent to a final server. Using `netsh`, a rule can be added for port forwarding, alongside a Windows firewall rule to allow the forwarded port. 
-
+Для локальних адміністраторів на проміжній цілі, перенаправлення портів дозволяє відправляти запити на кінцевий сервер. Використовуючи `netsh`, можна додати правило для перенаправлення портів, разом з правилом брандмауера Windows для дозволу перенаправленого порту.
 ```bash
 netsh interface portproxy add v4tov4 listenport=5446 listenaddress=10.35.8.17 connectport=5985 connectaddress=10.35.8.23
 netsh advfirewall firewall add rule name=fwd dir=in action=allow protocol=TCP localport=5446
 ```
-
 #### winrs.exe
 
-`winrs.exe` can be used for forwarding WinRM requests, potentially as a less detectable option if PowerShell monitoring is a concern. The command below demonstrates its use:
-
+`winrs.exe` може бути використаний для пересилання запитів WinRM, потенційно як менш виявний варіант, якщо вас турбує моніторинг PowerShell. Наведена нижче команда демонструє його використання:
 ```bash
 winrs -r:http://bizintel:5446 -u:ta\redsuit -p:2600leet hostname
 ```
-
 ### OpenSSH
 
-Installing OpenSSH on the first server enables a workaround for the double-hop issue, particularly useful for jump box scenarios. This method requires CLI installation and setup of OpenSSH for Windows. When configured for Password Authentication, this allows the intermediary server to obtain a TGT on behalf of the user.
+Встановлення OpenSSH на першому сервері дозволяє обійти проблему подвійного переходу, особливо корисно для сценаріїв з jump box. Цей метод вимагає встановлення та налаштування OpenSSH для Windows через командний рядок. При налаштуванні для аутентифікації за паролем це дозволяє проміжному серверу отримати TGT від імені користувача.
 
-#### OpenSSH Installation Steps
+#### Кроки встановлення OpenSSH
 
-1. Download and move the latest OpenSSH release zip to the target server.
-2. Unzip and run the `Install-sshd.ps1` script.
-3. Add a firewall rule to open port 22 and verify SSH services are running.
+1. Завантажте та перемістіть останній архів релізу OpenSSH на цільовий сервер.
+2. Розпакуйте та запустіть скрипт `Install-sshd.ps1`.
+3. Додайте правило брандмауера для відкриття порту 22 та перевірте, що служби SSH працюють.
 
-To resolve `Connection reset` errors, permissions might need to be updated to allow everyone read and execute access on the OpenSSH directory.
-
+Для вирішення помилок `Connection reset` може знадобитися оновлення дозволів для надання всім доступу на читання та виконання в каталозі OpenSSH.
 ```bash
 icacls.exe "C:\Users\redsuit\Documents\ssh\OpenSSH-Win64" /grant Everyone:RX /T
 ```
-
-## References
+## Посилання
 
 * [https://techcommunity.microsoft.com/t5/ask-the-directory-services-team/understanding-kerberos-double-hop/ba-p/395463?lightbox-message-images-395463=102145i720503211E78AC20](https://techcommunity.microsoft.com/t5/ask-the-directory-services-team/understanding-kerberos-double-hop/ba-p/395463?lightbox-message-images-395463=102145i720503211E78AC20)
 * [https://posts.slayerlabs.com/double-hop/](https://posts.slayerlabs.com/double-hop/)
@@ -112,12 +100,12 @@ icacls.exe "C:\Users\redsuit\Documents\ssh\OpenSSH-Win64" /grant Everyone:RX /T
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Ви працюєте в **кібербезпеці компанії**? Хочете побачити вашу **компанію рекламовану на HackTricks**? або ви хочете мати доступ до **останньої версії PEASS або завантажити HackTricks у PDF**? Перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Дізнайтеся про [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* Отримайте [**офіційний PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **Приєднуйтесь до** [**💬**](https://emojipedia.org/speech-balloon/) [**групи Discord**](https://discord.gg/hRep4RUj7f) або групи [**telegram**](https://t.me/peass) або **слідкуйте** за мною на **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**репозиторію hacktricks**](https://github.com/carlospolop/hacktricks) **і** [**репозиторію hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

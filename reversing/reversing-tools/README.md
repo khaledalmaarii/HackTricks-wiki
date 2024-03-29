@@ -1,131 +1,126 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію рекламовану на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Дізнайтеся про [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакінговими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв GitHub.
 
 </details>
 
-# Wasm Decompilation and Wat Compilation Guide
+# Посібник з декомпіляції Wasm та компіляції Wat
 
-In the realm of **WebAssembly**, tools for **decompiling** and **compiling** are essential for developers. This guide introduces some online resources and software for handling **Wasm (WebAssembly binary)** and **Wat (WebAssembly text)** files.
+У світі **WebAssembly** інструменти для **декомпіляції** та **компіляції** є важливими для розробників. Цей посібник представляє деякі онлайн-ресурси та програмне забезпечення для роботи з файлами **Wasm (бінарний WebAssembly)** та **Wat (текстовий WebAssembly)**.
 
-## Online Tools
+## Онлайн-інструменти
 
-- To **decompile** Wasm to Wat, the tool available at [Wabt's wasm2wat demo](https://webassembly.github.io/wabt/demo/wasm2wat/index.html) comes in handy. 
-- For **compiling** Wat back to Wasm, [Wabt's wat2wasm demo](https://webassembly.github.io/wabt/demo/wat2wasm/) serves the purpose.
-- Another decompilation option can be found at [web-wasmdec](https://wwwg.github.io/web-wasmdec/).
+- Для **декомпіляції** Wasm у Wat, корисний інструмент доступний на [демонстрації wasm2wat від Wabt](https://webassembly.github.io/wabt/demo/wasm2wat/index.html).
+- Для **компіляції** Wat назад у Wasm, служить [демонстрація wat2wasm від Wabt](https://webassembly.github.io/wabt/demo/wat2wasm/).
+- Інша опція декомпіляції може бути знайдена на [web-wasmdec](https://wwwg.github.io/web-wasmdec/).
 
-## Software Solutions
+## Програмні рішення
 
-- For a more robust solution, [JEB by PNF Software](https://www.pnfsoftware.com/jeb/demo) offers extensive features.
-- The open-source project [wasmdec](https://github.com/wwwg/wasmdec) is also available for decompilation tasks.
+- Для більш надійного рішення, [JEB від PNF Software](https://www.pnfsoftware.com/jeb/demo) пропонує широкі можливості.
+- Проект з відкритим кодом [wasmdec](https://github.com/wwwg/wasmdec) також доступний для завдань декомпіляції.
 
-# .Net Decompilation Resources
+# Ресурси для декомпіляції .Net
 
-Decompiling .Net assemblies can be accomplished with tools such as:
+Декомпіляцію .Net збірок можна виконати за допомогою таких інструментів, як:
 
-- [ILSpy](https://github.com/icsharpcode/ILSpy), which also offers a [plugin for Visual Studio Code](https://github.com/icsharpcode/ilspy-vscode), allowing cross-platform usage.
-- For tasks involving **decompilation**, **modification**, and **recompilation**, [dnSpy](https://github.com/0xd4d/dnSpy/releases) is highly recommended. **Right-clicking** a method and choosing **Modify Method** enables code changes.
-- [JetBrains' dotPeek](https://www.jetbrains.com/es-es/decompiler/) is another alternative for decompiling .Net assemblies.
+- [ILSpy](https://github.com/icsharpcode/ILSpy), який також пропонує [плагін для Visual Studio Code](https://github.com/icsharpcode/ilspy-vscode), що дозволяє використання на різних платформах.
+- Для завдань, пов'язаних з **декомпіляцією**, **зміною** та **рекомпіляцією**, високо рекомендується [dnSpy](https://github.com/0xd4d/dnSpy/releases). Вибір методу правою кнопкою миші та вибір **Змінити метод** дозволяє вносити зміни в код.
+- [dotPeek від JetBrains](https://www.jetbrains.com/es-es/decompiler/) є ще однією альтернативою для декомпіляції .Net збірок.
 
-## Enhancing Debugging and Logging with DNSpy
+## Покращення відладки та журналювання з DNSpy
 
-### DNSpy Logging
-To log information to a file using DNSpy, incorporate the following .Net code snippet:
+### Журналювання DNSpy
+Для журналювання інформації у файл за допомогою DNSpy, включіть наступний фрагмент коду .Net:
 
 %%%cpp
 using System.IO;
 path = "C:\\inetpub\\temp\\MyTest2.txt";
-File.AppendAllText(path, "Password: " + password + "\n");
+File.AppendAllText(path, "Пароль: " + password + "\n");
 %%%
 
-### DNSpy Debugging
-For effective debugging with DNSpy, a sequence of steps is recommended to adjust **Assembly attributes** for debugging, ensuring that optimizations that could hinder debugging are disabled. This process includes changing the `DebuggableAttribute` settings, recompiling the assembly, and saving the changes.
+### Відлагодження DNSpy
+Для ефективної відладки з DNSpy рекомендується послідовність кроків для налаштування **атрибутів Assembly** для відлагодження, забезпечуючи, що оптимізації, які можуть заважати відлагодженню, вимкнені. Цей процес включає зміну налаштувань `DebuggableAttribute`, рекомпіляцію збірки та збереження змін.
 
-Moreover, to debug a .Net application run by **IIS**, executing `iisreset /noforce` restarts IIS. To attach DNSpy to the IIS process for debugging, the guide instructs on selecting the **w3wp.exe** process within DNSpy and starting the debugging session.
+Крім того, для відлагодження додатка .Net, запущеного **IIS**, виконання `iisreset /noforce` перезапускає IIS. Для приєднання DNSpy до процесу IIS для відлагодження, посібник інструктує вибрати процес **w3wp.exe** у DNSpy та розпочати сеанс відлагодження.
 
-For a comprehensive view of loaded modules during debugging, accessing the **Modules** window in DNSpy is advised, followed by opening all modules and sorting assemblies for easier navigation and debugging.
+Для комплексного перегляду завантажених модулів під час відлагодження рекомендується отримати доступ до вікна **Модулів** в DNSpy, а потім відкрити всі модулі та відсортувати збірки для зручнішої навігації та відлагодження.
 
-This guide encapsulates the essence of WebAssembly and .Net decompilation, offering a pathway for developers to navigate these tasks with ease. 
+Цей посібник узагальнює суть декомпіляції WebAssembly та .Net, пропонуючи шлях для розробників для легкості виконання цих завдань.
 
-## **Java Decompiler**
-To decompile Java bytecode, these tools can be very helpful:
+## **Декомпілятор Java**
+Для декомпіляції Java байткоду ці інструменти можуть бути дуже корисними:
 - [jadx](https://github.com/skylot/jadx)
 - [JD-GUI](https://github.com/java-decompiler/jd-gui/releases)
 
-## **Debugging DLLs**
-### Using IDA
-- **Rundll32** is loaded from specific paths for 64-bit and 32-bit versions.
-- **Windbg** is selected as the debugger with the option to suspend on library load/unload enabled.
-- Execution parameters include the DLL path and function name. This setup halts execution upon each DLL's loading.
+## **Відлагодження DLLs**
+### Використання IDA
+- **Rundll32** завантажується з конкретних шляхів для 64-бітних та 32-бітних версій.
+- **Windbg** вибирається як відлагоджувач з опцією призупинення завантаження/вивантаження бібліотек.
+- Параметри виконання включають шлях до DLL та назву функції. Ця настройка призупиняє виконання при завантаженні кожної DLL.
 
-### Using x64dbg/x32dbg
-- Similar to IDA, **rundll32** is loaded with command line modifications to specify the DLL and function.
-- Settings are adjusted to break on DLL entry, allowing breakpoint setting at the desired DLL entry point.
+### Використання x64dbg/x32dbg
+- Подібно до IDA, **rundll32** завантажується з модифікаціями командного рядка для вказівки DLL та функції.
+- Налаштування змінюються для зупинки на вході в DLL, що дозволяє встановлювати точку зупинки на бажаній точці входу в DLL.
 
-### Images
-- Execution stopping points and configurations are illustrated through screenshots.
+### Зображення
+- Точки зупинки виконання та конфігурації показані за допомогою знімків екрану.
 
 ## **ARM & MIPS**
-- For emulation, [arm_now](https://github.com/nongiach/arm_now) is a useful resource.
+- Для емуляції, [arm_now](https://github.com/nongiach/arm_now) є корисним ресурсом.
 
-## **Shellcodes**
-### Debugging Techniques
-- **Blobrunner** and **jmp2it** are tools for allocating shellcodes in memory and debugging them with Ida or x64dbg.
-  - Blobrunner [releases](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)
-  - jmp2it [compiled version](https://github.com/adamkramer/jmp2it/releases/)
-- **Cutter** offers GUI-based shellcode emulation and inspection, highlighting differences in shellcode handling as a file versus direct shellcode.
+## **Шеллкоди**
+### Техніки відлагодження
+- **Blobrunner** та **jmp2it** - це інструменти для виділення шеллкодів у пам'яті та їх відлагодження з використанням Ida або x64dbg.
+- Blobrunner [релізи](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)
+- jmp2it [скомпільована версія](https://github.com/adamkramer/jmp2it/releases/)
+- **Cutter** пропонує емуляцію та інспекцію шеллкоду з графічним інтерфейсом користувача, підкреслюючи відмінності у роботі з файлом шеллкоду порівняно з безпосереднім шеллкодом.
 
-### Deobfuscation and Analysis
-- **scdbg** provides insights into shellcode functions and deobfuscation capabilities.
+### Деобфускація та аналіз
+- **scdbg** надає відомості про функції шеллкоду та можливості деобфускації.
 %%%bash
-scdbg.exe -f shellcode # Basic info
-scdbg.exe -f shellcode -r # Analysis report
-scdbg.exe -f shellcode -i -r # Interactive hooks
-scdbg.exe -f shellcode -d # Dump decoded shellcode
-scdbg.exe -f shellcode /findsc # Find start offset
-scdbg.exe -f shellcode /foff 0x0000004D # Execute from offset
+scdbg.exe -f shellcode # Базова інформація
+scdbg.exe -f shellcode -r # Звіт про аналіз
+scdbg.exe -f shellcode -i -r # Інтерактивні гачки
+scdbg.exe -f shellcode -d # Виведення розкодованого шеллкоду
+scdbg.exe -f shellcode /findsc # Пошук початкового зміщення
+scdbg.exe -f shellcode /foff 0x0000004D # Виконання з зміщення
 %%%
 
-- **CyberChef** for disassembling shellcode: [CyberChef recipe](https://gchq.github.io/CyberChef/#recipe=To_Hex%28'Space',0%29Disassemble_x86%28'32','Full%20x86%20architecture',16,0,true,true%29)
+- **CyberChef** для розбору шеллкоду: [Рецепт CyberChef](https://gchq.github.io/CyberChef/#recipe=To_Hex%28'Space',0%29Disassemble_x86%28'32','Full%20x86%20architecture',16,0,true,true%29)
 
 ## **Movfuscator**
-- An obfuscator that replaces all instructions with `mov`.
-- Useful resources include a [YouTube explanation](https://www.youtube.com/watch?v=2VF_wPkiBJY) and [PDF slides](https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas_2015_the_movfuscator.pdf).
-- **demovfuscator** might reverse movfuscator's obfuscation, requiring dependencies like `libcapstone-dev` and `libz3-dev`, and installing [keystone](https://github.com/keystone-engine/keystone/blob/master/docs/COMPILE-NIX.md).
-
+- Обфускатор, який замінює всі інструкції на `mov`.
+- Корисні ресурси включають [пояснення на YouTube](https://www.youtube.com/watch?v=2VF_wPkiBJY) та [слайди PDF](https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas_2015_the_movfuscator.pdf).
+- **demovfuscator** може розшифрувати обфускацію movfuscator, вимагаючи залежностей, таких як `libcapstone-dev` та `libz3-dev`, та встановлення [keystone](https://github.com/keystone-engine/keystone/blob/master/docs/COMPILE-NIX.md).
 ## **Delphi**
-- For Delphi binaries, [IDR](https://github.com/crypto2011/IDR) is recommended.
+- Для бінарних файлів Delphi рекомендується використовувати [IDR](https://github.com/crypto2011/IDR).
 
 
-# Courses
+# Курси
 
 * [https://github.com/0xZ0F/Z0FCourse\_ReverseEngineering](https://github.com/0xZ0F/Z0FCourse_ReverseEngineering)
-* [https://github.com/malrev/ABD](https://github.com/malrev/ABD) \(Binary deobfuscation\)
+* [https://github.com/malrev/ABD](https://github.com/malrev/ABD) \(Деобфускація бінарних файлів\)
 
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію в рекламі на HackTricks** або **завантажити HackTricks у PDF-форматі**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний мерч PEASS & HackTricks**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **і** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв на GitHub**.
 
 </details>
-
-

@@ -2,30 +2,29 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію в рекламі HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **і** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв на GitHub.**
 
 </details>
 
-## Context
+## Контекст
 
-In Linux in order to run a program it must exist as a file, it must be accessible in some way through the file system hierarchy (this is just how `execve()` works). This file may reside on disk or in ram (tmpfs, memfd) but you need a filepath. This has made very easy to control what is run on a Linux system, it makes easy to detect threats and attacker's tools or to prevent them from trying to execute anything of theirs at all (_e. g._ not allowing unprivileged users to place executable files anywhere).
+У Linux для запуску програми вона повинна існувати як файл, вона повинна бути доступна якимось чином через ієрархію файлової системи (це просто як працює `execve()`). Цей файл може знаходитися на диску або в оперативній пам'яті (tmpfs, memfd), але вам потрібен шлях до нього. Це дуже спрощує контроль за тим, що запускається в системі Linux, дозволяє виявляти загрози та інструменти зловмисників або запобігати їм спробувати виконати що-небудь своє (_наприклад_, не дозволяючи непривілейованим користувачам розміщувати виконувані файли де завгодно).
 
-But this technique is here to change all of this. If you can not start the process you want... **then you hijack one already existing**.
+Але ця техніка призначена змінити все це. Якщо ви не можете запустити процес, який вам потрібен... **тоді ви захоплюєте один вже існуючий**.
 
-This technique allows you to **bypass common protection techniques such as read-only, noexec, file-name whitelisting, hash whitelisting...**
+Ця техніка дозволяє вам **обійти загальні техніки захисту, такі як тільки для читання, noexec, білістинг імен файлів, білістинг хешів...**
 
-## Dependencies
+## Залежності
 
-The final script depends on the following tools to work, they need to be accessible in the system you are attacking (by default you will find all of them everywhere):
-
+Остаточний скрипт залежить від наступних інструментів для роботи, вони повинні бути доступні в системі, яку ви атакуєте (зазвичай ви знайдете їх скрізь):
 ```
 dd
 bash | zsh | ash (busybox)
@@ -39,80 +38,73 @@ wc
 tr
 base64
 ```
+## Техніка
 
-## The technique
+Якщо ви можете довільно змінювати пам'ять процесу, то можете захопити його. Це можна використовувати для захоплення вже існуючого процесу та заміни його іншою програмою. Це можна досягти, використовуючи виклик системного виклику `ptrace()` (що вимагає можливості виконання системних викликів або наявності gdb в системі) або, що цікавіше, записуючи в `/proc/$pid/mem`.
 
-If you are able to modify arbitrarily the memory of a process then you can take over it. This can be used to hijack an already existing process and replace it with another program. We can achieve this either by using the `ptrace()` syscall (which requires you to have the ability to execute syscalls or to have gdb available on the system) or, more interestingly, writing to `/proc/$pid/mem`.
+Файл `/proc/$pid/mem` є однозначним відображенням всього адресного простору процесу (наприклад, від `0x0000000000000000` до `0x7ffffffffffff000` в x86-64). Це означає, що читання або запис у цей файл за зсувом `x` те саме, що читання або зміна вмісту за віртуальною адресою `x`.
 
-The file `/proc/$pid/mem` is a one-to-one mapping of the entire address space of a process (_e. g._ from `0x0000000000000000` to `0x7ffffffffffff000` in x86-64). This means that reading from or writing to this file at an offset `x` is the same as reading from or modifying the contents at the virtual address `x`.
+Тепер ми маємо чотири основні проблеми:
 
-Now, we have four basic problems to face:
-
-* In general, only root and the program owner of the file may modify it.
+* Загалом, тільки root та власник програми файлу можуть змінювати його.
 * ASLR.
-* If we try to read or write to an address not mapped in the address space of the program we will get an I/O error.
+* Якщо ми спробуємо прочитати або записати адресу, яка не відображена в адресному просторі програми, ми отримаємо помилку вводу-виводу.
 
-This problems have solutions that, although they are not perfect, are good:
+Ці проблеми мають рішення, які, хоча вони не є ідеальними, є досить ефективними:
 
-* Most shell interpreters allow the creation of file descriptors that will then be inherited by child processes. We can create a fd pointing to the `mem` file of the sell with write permissions... so child processes that use that fd will be able to modify the shell's memory.
-* ASLR isn't even a problem, we can check the shell's `maps` file or any other from the procfs in order to gain information about the address space of the process.
-* So we need to `lseek()` over the file. From the shell this cannot be done unless using the infamous `dd`.
+* Більшість оболонкових інтерпретаторів дозволяють створювати файлові дескриптори, які потім будуть успадковані дочірніми процесами. Ми можемо створити fd, що вказує на файл `mem` оболонки з правами запису... тому дочірні процеси, які використовують цей fd, зможуть змінювати пам'ять оболонки.
+* ASLR навіть не проблема, ми можемо перевірити файл `maps` оболонки або будь-який інший з procfs, щоб отримати інформацію про адресний простір процесу.
+* Тому нам потрібно використовувати `lseek()` у файлі. З оболонки це не можна зробити, якщо не використовувати погано відомий `dd`.
 
-### In more detail
+### Детальніше
 
-The steps are relatively easy and do not require any kind of expertise to understand them:
+Кроки досить прості і не потребують жодних спеціальних знань для їх розуміння:
 
-* Parse the binary we want to run and the loader to find out what mappings they need. Then craft a "shell"code that will perform, broadly speaking, the same steps that the kernel does upon each call to `execve()`:
-  * Create said mappings.
-  * Read the binaries into them.
-  * Set up permissions.
-  * Finally initialize the stack with the arguments for the program and place the auxiliary vector (needed by the loader).
-  * Jump into the loader and let it do the rest (load libraries needed by the program).
-* Obtain from the `syscall` file the address to which the process will return after the syscall it is executing.
-* Overwrite that place, which will be executable, with our shellcode (through `mem` we can modify unwritable pages).
-* Pass the program we want to run to the stdin of the process (will be `read()` by said "shell"code).
-* At this point it is up to the loader to load the necessary libraries for our program and jump into it.
+* Розібрати бінарний файл, який ми хочемо запустити, та завантажувач, щоб дізнатися, які відображення їм потрібні. Потім створити "shell"код, який буде виконувати, загалом кажучи, ті самі кроки, які робить ядро при кожному виклику `execve()`:
+* Створити вказані відображення.
+* Прочитати бінарні файли в них.
+* Налаштувати дозволи.
+* Нарешті ініціалізувати стек з аргументами для програми та розмістити допоміжний вектор (необхідний завантажувачем).
+* Перейти до завантажувача та дозволити йому зробити все інше (завантажити бібліотеки, необхідні для програми).
+* Отримати з файлу `syscall` адресу, на яку процес повернеться після виклику системного виклику, який він виконує.
+* Перезаписати це місце, яке буде виконуваним, нашим "shell"кодом (через `mem` ми можемо змінювати незаписувані сторінки).
+* Передати програму, яку ми хочемо запустити, в stdin процесу (її буде `read()` цим "shell"кодом).
+* На цьому етапі все залежить від завантажувача, який завантажить необхідні бібліотеки для нашої програми та перейде до неї.
 
-**Check out the tool in** [**https://github.com/arget13/DDexec**](https://github.com/arget13/DDexec)
+**Перевірте інструмент на** [**https://github.com/arget13/DDexec**](https://github.com/arget13/DDexec)
 
 ## EverythingExec
 
-There are several alternatives to `dd`, one of which, `tail`, is currently the default program used to `lseek()` through the `mem` file (which was the sole purpose for using `dd`). Said alternatives are:
-
+Є кілька альтернатив для `dd`, одна з яких, `tail`, наразі є програмою за замовчуванням для `lseek()` через файл `mem` (що було єдиним метою використання `dd`). Зазначені альтернативи:
 ```bash
 tail
 hexdump
 cmp
 xxd
 ```
-
-Setting the variable `SEEKER` you may change the seeker used, _e. g._:
-
+Встановивши змінну `SEEKER`, ви можете змінити використаний пошуковик, _наприклад_:
 ```bash
 SEEKER=cmp bash ddexec.sh ls -l <<< $(base64 -w0 /bin/ls)
 ```
-
-If you find another valid seeker not implemented in the script you may still use it setting the `SEEKER_ARGS` variable:
-
+Якщо ви знайдете інший дійсний пошуковик, який не реалізований у скрипті, ви все ще можете використовувати його, встановивши змінну `SEEKER_ARGS`:
 ```bash
 SEEKER=xxd SEEKER_ARGS='-s $offset' zsh ddexec.sh ls -l <<< $(base64 -w0 /bin/ls)
 ```
+Заблокуйте це, EDRs.
 
-Block this, EDRs.
-
-## References
+## Посилання
 * [https://github.com/arget13/DDexec](https://github.com/arget13/DDexec)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію рекламовану в HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв GitHub.
 
 </details>

@@ -1,111 +1,111 @@
-# Threat Modeling
+# Моделювання загроз
 
-## Threat Modeling
+## Моделювання загроз
 
-Welcome to HackTricks' comprehensive guide on Threat Modeling! Embark on an exploration of this critical aspect of cybersecurity, where we identify, understand, and strategize against potential vulnerabilities in a system. This thread serves as a step-by-step guide packed with real-world examples, helpful software, and easy-to-understand explanations. Ideal for both novices and experienced practitioners looking to fortify their cybersecurity defenses.
+Ласкаво просимо до вичерпного посібника HackTricks з моделювання загроз! Почніть дослідження цього критичного аспекту кібербезпеки, де ми визначаємо, розуміємо та стратегічно діємо проти потенційних загроз у системі. Ця тема слугує посібником крок за кроком, наповненим реальними прикладами, корисним програмним забезпеченням та легкими для розуміння поясненнями. Ідеально підходить як для початківців, так і для досвідчених практиків, які бажають зміцнити свої кібербезпекові оборонні засоби.
 
-### Commonly Used Scenarios
+### Часто використовувані методології
 
-1. **Software Development**: As part of the Secure Software Development Life Cycle (SSDLC), threat modeling helps in **identifying potential sources of vulnerabilities** in the early stages of development.
-2. **Penetration Testing**: The Penetration Testing Execution Standard (PTES) framework requires **threat modeling to understand the system's vulnerabilities** before carrying out the test.
+1. **Розробка програмного забезпечення**: Як частина Життєвого циклу безпечного розроблення програмного забезпечення (SSDLC), моделювання загроз допомагає **виявити потенційні джерела уразливостей** на ранніх етапах розробки.
+2. **Тестування на проникнення**: Стандарт виконання тестування на проникнення (PTES) вимагає **моделювання загроз для розуміння уразливостей системи** перед проведенням тесту.
 
-### Threat Model in a Nutshell
+### Метод моделювання загроз у кількох словах
 
-A Threat Model is typically represented as a diagram, image, or some other form of visual illustration that depicts the planned architecture or existing build of an application. It bears resemblance to a **data flow diagram**, but the key distinction lies in its security-oriented design.
+Модель зазвичай представлена у вигляді діаграми, зображення або іншої форми візуалізації, що показує заплановану архітектуру або існуючу побудову додатка. Вона нагадує **діаграму потоку даних**, але ключова відмінність полягає в її орієнтованому на безпеку дизайні.
 
-Threat models often feature elements marked in red, symbolizing potential vulnerabilities, risks, or barriers. To streamline the process of risk identification, the CIA (Confidentiality, Integrity, Availability) triad is employed, forming the basis of many threat modeling methodologies, with STRIDE being one of the most common. However, the chosen methodology can vary depending on the specific context and requirements.
+Моделі загроз часто містять елементи, позначені червоним кольором, символізуючи потенційні уразливості, ризики або бар'єри. Для спрощення процесу ідентифікації ризиків використовується триада Конфіденційність, Цілісність, Доступність (CIA), яка є основою багатьох методологій моделювання загроз, з STRIDE як однією з найпоширеніших. Однак обрана методологія може відрізнятися в залежності від конкретного контексту та вимог.
 
-### The CIA Triad
+### Триада Конфіденційність, Цілісність, Доступність
 
-The CIA Triad is a widely recognized model in the field of information security, standing for Confidentiality, Integrity, and Availability. These three pillars form the foundation upon which many security measures and policies are built, including threat modeling methodologies.
+Триада Конфіденційність, Цілісність, Доступність широко визнана модель у галузі інформаційної безпеки, що означає Конфіденційність, Цілісність та Доступність. Ці три стовпи становлять основу, на якій ґрунтуються багато заходів безпеки та політик, включаючи методології моделювання загроз.
 
-1. **Confidentiality**: Ensuring that the data or system is not accessed by unauthorized individuals. This is a central aspect of security, requiring appropriate access controls, encryption, and other measures to prevent data breaches.
-2. **Integrity**: The accuracy, consistency, and trustworthiness of the data over its lifecycle. This principle ensures that the data is not altered or tampered with by unauthorized parties. It often involves checksums, hashing, and other data verification methods.
-3. **Availability**: This ensures that data and services are accessible to authorized users when needed. This often involves redundancy, fault tolerance, and high-availability configurations to keep systems running even in the face of disruptions.
+1. **Конфіденційність**: Забезпечення того, що дані або система не доступні несанкціонованим особам. Це центральний аспект безпеки, який вимагає відповідних контролів доступу, шифрування та інших заходів для запобігання порушенням даних.
+2. **Цілісність**: Точність, послідовність та надійність даних протягом їх життєвого циклу. Цей принцип забезпечує, що дані не змінюються або не підробляються несанкціонованими сторонами. Часто це включає контрольні суми, хешування та інші методи перевірки даних.
+3. **Доступність**: Забезпечення доступності даних та послуг для авторизованих користувачів у потрібний момент. Це часто включає резервне копіювання, відмовостійкі конфігурації та конфігурації високої доступності для забезпечення безперебійної роботи систем навіть у випадку збоїв.
 
-### Threat Modeling Methodlogies
+### Методології моделювання загроз
 
-1. **STRIDE**: Developed by Microsoft, STRIDE is an acronym for **Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, and Elevation of Privilege**. Each category represents a type of threat, and this methodology is commonly used in the design phase of a program or system to identify potential threats.
-2. **DREAD**: This is another methodology from Microsoft used for risk assessment of identified threats. DREAD stands for **Damage potential, Reproducibility, Exploitability, Affected users, and Discoverability**. Each of these factors is scored, and the result is used to prioritize identified threats.
-3. **PASTA** (Process for Attack Simulation and Threat Analysis): This is a seven-step, **risk-centric** methodology. It includes defining and identifying security objectives, creating a technical scope, application decomposition, threat analysis, vulnerability analysis, and risk/triage assessment.
-4. **Trike**: This is a risk-based methodology that focuses on defending assets. It starts from a **risk management** perspective and looks at threats and vulnerabilities in that context.
-5. **VAST** (Visual, Agile, and Simple Threat modeling): This approach aims to be more accessible and integrates into Agile development environments. It combines elements from the other methodologies and focuses on **visual representations of threats**.
-6. **OCTAVE** (Operationally Critical Threat, Asset, and Vulnerability Evaluation): Developed by the CERT Coordination Center, this framework is geared toward **organizational risk assessment rather than specific systems or software**.
+1. **STRIDE**: Розроблений Microsoft, STRIDE є абревіатурою для **Підроблення, Вплив, Відмова від заперечення, Розкриття інформації, Відмова в обслуговуванні та Підвищення привілеїв**. Кожна категорія e представляє тип загрози, і ця методологія часто використовується на етапі проектування програми або. для ідентифікації потенційних загроз.
+2. **DREAD**: Це ще одна методологія від Microsoft, яка використовується для оцінки ризику виявлених загроз. DREAD означає **Потенційний збиток, Відтворюваність, Експлуатованість, Постраждалі користувачі та Виявленість**. Кожен з цих факторів оцінюється, і результат використовується для пріоритизації виявлених загроз.
+3. **PASTA** (Процес для симуляції атак та аналізу загроз)**: Це семиетапна **рисково-центрична** методологія. Вона включає визначення та ідентифікацію цілей безпеки, створення технічного обсягу, декомпозицію додатка, аналіз загроз, аналіз вразливостей та оцінку ризику/тріажу.
+4. **Trike**: Це методологія, спрямов, на захист активів. Вона починається з **управління ризиками** і дивиться на загрози вразливостей в цьому контексті.
+5. **VAST** (Візуальне, Гнучке та Просте моделювання загроз): Цей підхід спрямований на більш доступність та інтегрується в середовища розробки Agile. Він поєднує елементи з інших методологій та фокусується на **візуальних представленнях загроз**.
+6. **OCTAVE** (Операційно критична оцінка загроз, активів та вразливостей): Розроблений Центром координації CERT, ця рамка спрямована на **організаційну оцінку ризику**, а не на конкретні системи чи програмне забезпечення.
 
-## Tools
+## Інструменти
 
-There are several tools and software solutions available that can **assist** with the creation and management of threat models. Here are a few you might consider.
+Існують кілька і доступних інструментів та програмних рішень, які можуть **допомогти** у створенні та управлінні моделями загроз. Ось кілька, які ви можете врахувати.
 
 ### [SpiderSuite](https://github.com/3nock/SpiderSuite)
 
-An advance cross-platform and multi-feature GUI web spider/crawler for cyber security professionals. Spider Suite can be used for attack surface mapping and analysis.
+Покращений крос-платформений та багатофункціональний графічний веб-павук/краулер для професіоналів з кібербезпеки. Spider Suite може бути використаний для картографування та аналізу поверхні атаки.
 
-**Usage**
+**Використання**
 
-1. Pick a URL and Crawl
+1. Виберіть URL та Краулінг
 
 <figure><img src="../.gitbook/assets/threatmodel_spidersuite_1.png" alt=""><figcaption></figcaption></figure>
 
-2. View Graph
+2. Перегляньте Графік
 
 <figure><img src="../.gitbook/assets/threatmodel_spidersuite_2.png" alt=""><figcaption></figcaption></figure>
 
 ### [OWASP Threat Dragon](https://github.com/OWASP/threat-dragon/releases)
 
-An open-source project from OWASP, Threat Dragon is both a web and desktop application that includes system diagramming as well as a rule engine to auto-generate threats/mitigations.
+Проект з відкритим кодом від OWASP, Threat Dragon є як веб- так і настільною програмою, яка включає діаграмування системи, а також правила для автоматичного генерування загроз/протиправних дій.
 
-**Usage**
+**Використання**
 
-1. Create New Project
+1. Створіть новий проект
 
 <figure><img src="../.gitbook/assets/create_new_project_1.jpg" alt=""><figcaption></figcaption></figure>
 
-Sometimes it could look like this:
+Іноді це може виглядати так:
 
 <figure><img src="../.gitbook/assets/1_threatmodel_create_project.jpg" alt=""><figcaption></figcaption></figure>
 
-2. Launch New Project
+2. Запустіть новий проект
 
 <figure><img src="../.gitbook/assets/launch_new_project_2.jpg" alt=""><figcaption></figcaption></figure>
 
-3. Save The New Project
+3. Збережіть новий проект
 
 <figure><img src="../.gitbook/assets/save_new_project.jpg" alt=""><figcaption></figcaption></figure>
 
-4. Create your model
+4. Створіть свою модель
 
-You can use tools like SpiderSuite Crawler to give you inspiration, a basic model would look something like this
+Ви можете використовувати інструменти, такі як SpiderSuite Crawler, щоб надихнути вас, базова модель виглядатиме приблизно так
 
 <figure><img src="../.gitbook/assets/0_basic_threat_model.jpg" alt=""><figcaption></figcaption></figure>
 
-Just a little bit of explanation about the entities:
+Трохи пояснення про сутності:
 
-* Process (The entity itself such as Webserver or web functionality)
-* Actor (A Person such as a Website Visitor, User or Administrator)
-* Data Flow Line (Indicator of Interaction)
-* Trust Boundary (Different network segments or scopes.)
-* Store (Things where data are stored at such as Databases)
+* Процес (Сутність, така як Веб-сервер або функціональність веб-сайту)
+* Актор (Особа, така як Відвідувач веб-сайту, Користувач або Адміністратор)
+* Лінія потоку даних (Індикатор взаємодії)
+* Межа довіри (Різні мережеві сегменти або області.)
+* Сховище (Місця, де дані зберігаються, такі як бази даних)
 
-5. Create a Threat (Step 1)
+5. Створіть загрозу (Крок 1)
 
-First you have to pick the layer you wish to add a threat to
+Спочатку вам потрібно вибрати шар, до якого ви хочете додати загрозу
 
-<figure><img src="../.gitbook/assets/3_threatmodel_chose-threat-layer.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/3_threatmodel_chose-threat-layer.jpg" alt=""><><figcaption></figcaption></figure>
 
-Now you can create the threat
+Тепер ви можете створити загрозу
 
 <figure><img src="../.gitbook/assets/4_threatmodel_create-threat.jpg" alt=""><figcaption></figcaption></figure>
 
-Keep in mind that there is a difference between Actor Threats and Process Threats. If you would add a threat to an Actor then you will only be able to choose "Spoofing" and "Repudiation. However in our example we add threat to a Process entity so we will see this in the threat creation box:
+Пам'ятайте, що є різниця між Загрозами Актора та Загрозами Процесу. Якщо ви додасте загрозу до Акрора, то ви зможете вибрати лише "Підроблення" та "Відмова від заперечення". Однак у нашому прикладі ми додаємо загрозу до сутності Процесу, тому ми побачимо це у вікні створення загрози:
 
 <figure><img src="../.gitbook/assets/2_threatmodel_type-option.jpg" alt=""><figcaption></figcaption></figure>
 
-6. Done
+6. Готово
 
-Now your finished model should look something like this. And this is how you make a simple threat model with OWASP Threat Dragon.
+Тепер ваша готова модель має виглядати приблизно так. І ось як ви створюєте просту модель загроз з OWASP Threat Dragon.
 
 <figure><img src="../.gitbook/assets/threat_model_finished.jpg" alt=""><figcaption></figcaption></figure>
 
-### [Microsoft Threat Modeling Tool](https://aka.ms/threatmodelingtool)
+### [Інструмент моделювання загроз від Microsoft](https://aka.ms/threatmodelingtool)
 
-This is a free tool from Microsoft that helps in finding threats in the design phase of software projects. It uses the STRIDE methodology and is particularly suitable for those developing on Microsoft's stack.
+Це безкоштовний інструмент від Microsoft, який допомагає виявляти загрози на етапі проектування програмних проектів. Він використовує методологію STRIDE і особливо підходить для тих, хто розробляє на стеку Microsoft.

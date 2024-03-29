@@ -1,16 +1,16 @@
-# Checklist - Local Windows Privilege Escalation
+# Чек-лист - Локальне підвищення привілеїв в Windows
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію рекламовану на HackTricks** або **завантажити HackTricks у PDF-форматі**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи телеграм**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **та** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв на GitHub**.
 
 </details>
 
@@ -22,116 +22,115 @@ Other ways to support HackTricks:
 
 ***
 
-### **Best tool to look for Windows local privilege escalation vectors:** [**WinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)
+### **Найкращий інструмент для пошуку векторів локального підвищення привілеїв в Windows:** [**WinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)
 
-### [System Info](windows-local-privilege-escalation/#system-info)
+### [Інформація про систему](windows-local-privilege-escalation/#system-info)
 
-* [ ] Obtain [**System information**](windows-local-privilege-escalation/#system-info)
-* [ ] Search for **kernel** [**exploits using scripts**](windows-local-privilege-escalation/#version-exploits)
-* [ ] Use **Google to search** for kernel **exploits**
-* [ ] Use **searchsploit to search** for kernel **exploits**
-* [ ] Interesting info in [**env vars**](windows-local-privilege-escalation/#environment)?
-* [ ] Passwords in [**PowerShell history**](windows-local-privilege-escalation/#powershell-history)?
-* [ ] Interesting info in [**Internet settings**](windows-local-privilege-escalation/#internet-settings)?
-* [ ] [**Drives**](windows-local-privilege-escalation/#drives)?
-* [ ] [**WSUS exploit**](windows-local-privilege-escalation/#wsus)?
-* [ ] [**AlwaysInstallElevated**](windows-local-privilege-escalation/#alwaysinstallelevated)?
+* [ ] Отримати [**інформацію про систему**](windows-local-privilege-escalation/#system-info)
+* [ ] Шукати **експлойти ядра** [**за допомогою скриптів**](windows-local-privilege-escalation/#version-exploits)
+* [ ] Використовувати **Google для пошуку** експлойтів ядра
+* [ ] Використовувати **searchsploit для пошуку** експлойтів ядра
+* [ ] Цікава інформація в [**змінних середовища**](windows-local-privilege-escalation/#environment)?
+* [ ] Паролі в [**історії PowerShell**](windows-local-privilege-escalation/#powershell-history)?
+* [ ] Цікава інформація в [**налаштуваннях Інтернету**](windows-local-privilege-escalation/#internet-settings)?
+* [ ] [**Диски**](windows-local-privilege-escalation/#drives)?
+* [ ] [**Експлойт WSUS**](windows-local-privilege-escalation/#wsus)?
+* [**AlwaysInstallElevated**](windows-local-privilege-escalation/#alwaysinstallelevated)?
 
-### [Logging/AV enumeration](windows-local-privilege-escalation/#enumeration)
+### [Перелік/перелік AV](windows-local-privilege-escalation/#enumeration)
 
-* [ ] Check [**Audit** ](windows-local-privilege-escalation/#audit-settings)and [**WEF** ](windows-local-privilege-escalation/#wef)settings
-* [ ] Check [**LAPS**](windows-local-privilege-escalation/#laps)
-* [ ] Check if [**WDigest** ](windows-local-privilege-escalation/#wdigest)is active
+* [ ] Перевірити [**налаштування Audit** ](windows-local-privilege-escalation/#audit-settings)та [**WEF** ](windows-local-privilege-escalation/#wef)
+* [ ] Перевірити [**LAPS**](windows-local-privilege-escalation/#laps)
+* [ ] Перевірити, чи активний [**WDigest** ](windows-local-privilege-escalation/#wdigest)
 * [ ] [**LSA Protection**](windows-local-privilege-escalation/#lsa-protection)?
-* [ ] [**Credentials Guard**](windows-local-privilege-escalation/#credentials-guard)[?](windows-local-privilege-escalation/#cached-credentials)
-* [ ] [**Cached Credentials**](windows-local-privilege-escalation/#cached-credentials)?
-* [ ] Check if any [**AV**](windows-av-bypass)
-* [ ] [**AppLocker Policy**](authentication-credentials-uac-and-efs#applocker-policy)?
-* [ ] [**UAC**](authentication-credentials-uac-and-efs/uac-user-account-control)
-* [ ] [**User Privileges**](windows-local-privilege-escalation/#users-and-groups)
-* [ ] Check [**current** user **privileges**](windows-local-privilege-escalation/#users-and-groups)
-* [ ] Are you [**member of any privileged group**](windows-local-privilege-escalation/#privileged-groups)?
-* [ ] Check if you have [any of these tokens enabled](windows-local-privilege-escalation/#token-manipulation): **SeImpersonatePrivilege, SeAssignPrimaryPrivilege, SeTcbPrivilege, SeBackupPrivilege, SeRestorePrivilege, SeCreateTokenPrivilege, SeLoadDriverPrivilege, SeTakeOwnershipPrivilege, SeDebugPrivilege** ?
-* [ ] [**Users Sessions**](windows-local-privilege-escalation/#logged-users-sessions)?
-* [ ] Check[ **users homes**](windows-local-privilege-escalation/#home-folders) (access?)
-* [ ] Check [**Password Policy**](windows-local-privilege-escalation/#password-policy)
-* [ ] What is[ **inside the Clipboard**](windows-local-privilege-escalation/#get-the-content-of-the-clipboard)?
+* [ ] [**Захист від облікових даних**](windows-local-privilege-escalation/#credentials-guard)[?](windows-local-privilege-escalation/#cached-credentials)
+* [ ] [**Кешовані облікові дані**](windows-local-privilege-escalation/#cached-credentials)?
+* [ ] Перевірити, чи є який-небудь [**AV**](windows-av-bypass)
+* [ ] [**Політика AppLocker**](authentication-credentials-uac-and-efs#applocker-policy)?
+* [**UAC**](authentication-credentials-uac-and-efs/uac-user-account-control)
+* [**Привілеї користувача**](windows-local-privilege-escalation/#users-and-groups)
+* Перевірити [**поточні** привілеї користувача **privileges**](windows-local-privilege-escalation/#users-and-groups)
+* Чи ви є [**членом будь-якої привілейованої групи**](windows-local-privilege-escalation/#privileged-groups)?
+* Перевірити, чи увімкнені [які-небудь з цих токенів](windows-local-privilege-escalation/#token-manipulation): **SeImpersonatePrivilege, SeAssignPrimaryPrivilege, SeTcbPrivilege, SeBackupPrivilege, SeRestorePrivilege, SeCreateTokenPrivilege, SeLoadDriverPrivilege, SeTakeOwnershipPrivilege, SeDebugPrivilege** ?
+* [**Сесії користувачів**](windows-local-privilege-escalation/#logged-users-sessions)?
+* Перевірити[ **домашні сторінки користувачів**](windows-local-privilege-escalation/#home-folders) (доступ?)
+* Перевірити [**Політику паролів**](windows-local-privilege-escalation/#password-policy)
+* Що знаходиться[ **в буфері обміну**](windows-local-privilege-escalation/#get-the-content-of-the-clipboard)?
 
-### [Network](windows-local-privilege-escalation/#network)
+### [Мережа](windows-local-privilege-escalation/#network)
 
-* [ ] Check **current** [**network** **information**](windows-local-privilege-escalation/#network)
-* [ ] Check **hidden local services** restricted to the outside
+* Перевірити **поточну** [**інформацію про мережу**](windows-local-privilege-escalation/#network)
+* Перевірити **приховані локальні служби**, обмежені для зовнішнього світу
 
-### [Running Processes](windows-local-privilege-escalation/#running-processes)
+### [Запущені процеси](windows-local-privilege-escalation/#running-processes)
 
-* [ ] Processes binaries [**file and folders permissions**](windows-local-privilege-escalation/#file-and-folder-permissions)
-* [ ] [**Memory Password mining**](windows-local-privilege-escalation/#memory-password-mining)
-* [ ] [**Insecure GUI apps**](windows-local-privilege-escalation/#insecure-gui-apps)
-* [ ] Steal credentials with **interesting processes** via `ProcDump.exe` ? (firefox, chrome, etc ...)
+* Дозволи для файлів та папок бінарних процесів [**файлів та папок**](windows-local-privilege-escalation/#file-and-folder-permissions)
+* [**Видобуток паролів з пам'яті**](windows-local-privilege-escalation/#memory-password-mining)
+* [**Небезпечні GUI-програми**](windows-local-privilege-escalation/#insecure-gui-apps)
+* Вкрасти облікові дані за допомогою **цікавих процесів** через `ProcDump.exe` ? (firefox, chrome, тощо ...)
 
-### [Services](windows-local-privilege-escalation/#services)
+### [Служби](windows-local-privilege-escalation/#services)
 
-* [ ] [Can you **modify any service**?](windows-local-privilege-escalation#permissions)
-* [ ] [Can you **modify** the **binary** that is **executed** by any **service**?](windows-local-privilege-escalation/#modify-service-binary-path)
-* [ ] [Can you **modify** the **registry** of any **service**?](windows-local-privilege-escalation/#services-registry-modify-permissions)
-* [ ] [Can you take advantage of any **unquoted service** binary **path**?](windows-local-privilege-escalation/#unquoted-service-paths)
+* [Чи можете ви **змінити будь-яку службу**?](windows-local-privilege-escalation#permissions)
+* [Чи можете ви **змінити** **бінарний файл**, який **виконується** будь-якою **службою**?](windows-local-privilege-escalation/#modify-service-binary-path)
+* [Чи можете ви **змінити** **реєстр** будь-якої **служби**?](windows-local-privilege-escalation/#services-registry-modify-permissions)
+* [Чи можете ви скористатися будь-яким **неправильним шляхом бінарного файлу служби**?](windows-local-privilege-escalation/#unquoted-service-paths)
 
-### [**Applications**](windows-local-privilege-escalation/#applications)
+### [**Додатки**](windows-local-privilege-escalation/#applications)
 
-* [ ] **Write** [**permissions on installed applications**](windows-local-privilege-escalation/#write-permissions)
-* [ ] [**Startup Applications**](windows-local-privilege-escalation/#run-at-startup)
-* [ ] **Vulnerable** [**Drivers**](windows-local-privilege-escalation/#drivers)
-
+* **Права на запис** [**встановлених додатків**](windows-local-privilege-escalation/#write-permissions)
+* [**Додатки запуску**](windows-local-privilege-escalation/#run-at-startup)
+* **Вразливі** [**Драйвери**](windows-local-privilege-escalation/#drivers)
 ### [DLL Hijacking](windows-local-privilege-escalation/#path-dll-hijacking)
 
-* [ ] Can you **write in any folder inside PATH**?
-* [ ] Is there any known service binary that **tries to load any non-existant DLL**?
-* [ ] Can you **write** in any **binaries folder**?
+* [ ] Чи можна **записувати в будь-яку теку всередині PATH**?
+* [ ] Чи є відомий сервісний бінарний файл, який **намагається завантажити будь-яку неіснуючу DLL**?
+* [ ] Чи можна **записувати** в будь-яку **теку з бінарними файлами**?
 
-### [Network](windows-local-privilege-escalation/#network)
+### [Мережа](windows-local-privilege-escalation/#network)
 
-* [ ] Enumerate the network (shares, interfaces, routes, neighbours, ...)
-* [ ] Take a special look at network services listening on localhost (127.0.0.1)
+* [ ] Перелічіть мережу (ресурси, інтерфейси, маршрути, сусіди, ...)
+* [ ] Зверніть увагу на мережеві служби, які прослуховують локальний хост (127.0.0.1)
 
-### [Windows Credentials](windows-local-privilege-escalation/#windows-credentials)
+### [Облікові записи Windows](windows-local-privilege-escalation/#windows-credentials)
 
-* [ ] [**Winlogon** ](windows-local-privilege-escalation/#winlogon-credentials)credentials
-* [ ] [**Windows Vault**](windows-local-privilege-escalation/#credentials-manager-windows-vault) credentials that you could use?
-* [ ] Interesting [**DPAPI credentials**](windows-local-privilege-escalation/#dpapi)?
-* [ ] Passwords of saved [**Wifi networks**](windows-local-privilege-escalation/#wifi)?
-* [ ] Interesting info in [**saved RDP Connections**](windows-local-privilege-escalation/#saved-rdp-connections)?
-* [ ] Passwords in [**recently run commands**](windows-local-privilege-escalation/#recently-run-commands)?
-* [ ] [**Remote Desktop Credentials Manager**](windows-local-privilege-escalation/#remote-desktop-credential-manager) passwords?
-* [ ] [**AppCmd.exe** exists](windows-local-privilege-escalation/#appcmd-exe)? Credentials?
-* [ ] [**SCClient.exe**](windows-local-privilege-escalation/#scclient-sccm)? DLL Side Loading?
+* [ ] [**Winlogon** ](windows-local-privilege-escalation/#winlogon-credentials)облікові дані
+* [ ] Облікові дані [**Windows Vault**](windows-local-privilege-escalation/#credentials-manager-windows-vault), які можна використовувати?
+* [ ] Цікаві [**DPAPI облікові дані**](windows-local-privilege-escalation/#dpapi)?
+* [ ] Паролі в збережених [**Wifi мережах**](windows-local-privilege-escalation/#wifi)?
+* [ ] Цікава інформація в [**збережених підключеннях RDP**](windows-local-privilege-escalation/#saved-rdp-connections)?
+* [ ] Паролі в [**недавно виконаних командах**](windows-local-privilege-escalation/#recently-run-commands)?
+* [ ] Паролі менеджера віддаленого робочого столу [**Remote Desktop Credentials Manager**](windows-local-privilege-escalation/#remote-desktop-credential-manager)?
+* [ ] Чи існує [**AppCmd.exe**](windows-local-privilege-escalation/#appcmd-exe)? Облікові дані?
+* [ ] [**SCClient.exe**](windows-local-privilege-escalation/#scclient-sccm)? Завантаження бібліотеки з боку?
 
-### [Files and Registry (Credentials)](windows-local-privilege-escalation/#files-and-registry-credentials)
+### [Файли та Реєстр (Облікові дані)](windows-local-privilege-escalation/#files-and-registry-credentials)
 
-* [ ] **Putty:** [**Creds**](windows-local-privilege-escalation/#putty-creds) **and** [**SSH host keys**](windows-local-privilege-escalation/#putty-ssh-host-keys)
-* [ ] [**SSH keys in registry**](windows-local-privilege-escalation/#ssh-keys-in-registry)?
-* [ ] Passwords in [**unattended files**](windows-local-privilege-escalation/#unattended-files)?
-* [ ] Any [**SAM & SYSTEM**](windows-local-privilege-escalation/#sam-and-system-backups) backup?
-* [ ] [**Cloud credentials**](windows-local-privilege-escalation/#cloud-credentials)?
-* [ ] [**McAfee SiteList.xml**](windows-local-privilege-escalation/#mcafee-sitelist.xml) file?
-* [ ] [**Cached GPP Password**](windows-local-privilege-escalation/#cached-gpp-pasword)?
-* [ ] Password in [**IIS Web config file**](windows-local-privilege-escalation/#iis-web-config)?
-* [ ] Interesting info in [**web** **logs**](windows-local-privilege-escalation/#logs)?
-* [ ] Do you want to [**ask for credentials**](windows-local-privilege-escalation/#ask-for-credentials) to the user?
-* [ ] Interesting [**files inside the Recycle Bin**](windows-local-privilege-escalation/#credentials-in-the-recyclebin)?
-* [ ] Other [**registry containing credentials**](windows-local-privilege-escalation/#inside-the-registry)?
-* [ ] Inside [**Browser data**](windows-local-privilege-escalation/#browsers-history) (dbs, history, bookmarks, ...)?
-* [ ] [**Generic password search**](windows-local-privilege-escalation/#generic-password-search-in-files-and-registry) in files and registry
-* [ ] [**Tools**](windows-local-privilege-escalation/#tools-that-search-for-passwords) to automatically search for passwords
+* [ ] **Putty:** [**Облікові дані**](windows-local-privilege-escalation/#putty-creds) **та** [**SSH ключі хоста**](windows-local-privilege-escalation/#putty-ssh-host-keys)
+* [ ] [**SSH ключі в реєстрі**](windows-local-privilege-escalation/#ssh-keys-in-registry)?
+* [ ] Паролі в [**файлах без участі користувача**](windows-local-privilege-escalation/#unattended-files)?
+* [ ] Чи є резервна копія [**SAM & SYSTEM**](windows-local-privilege-escalation/#sam-and-system-backups)?
+* [ ] [**Облікові дані хмар**](windows-local-privilege-escalation/#cloud-credentials)?
+* [ ] Файл [**McAfee SiteList.xml**](windows-local-privilege-escalation/#mcafee-sitelist.xml)?
+* [ ] [**Кешований пароль GPP**](windows-local-privilege-escalation/#cached-gpp-pasword)?
+* [ ] Пароль в [**файлі конфігурації IIS Web**](windows-local-privilege-escalation/#iis-web-config)?
+* [ ] Цікава інформація в [**веб-журналах**](windows-local-privilege-escalation/#logs)?
+* [ ] Чи хочете ви [**запитати облікові дані**](windows-local-privilege-escalation/#ask-for-credentials) у користувача?
+* [ ] Цікаві [**файли в кошику**](windows-local-privilege-escalation/#credentials-in-the-recyclebin)?
+* [ ] Інші [**реєстри, що містять облікові дані**](windows-local-privilege-escalation/#inside-the-registry)?
+* [ ] У [**даних браузера**](windows-local-privilege-escalation/#browsers-history) (бази даних, історія, закладки, ...)?
+* [**Загальний пошук паролів**](windows-local-privilege-escalation/#generic-password-search-in-files-and-registry) в файлах та реєстрі
+* [**Інструменти**](windows-local-privilege-escalation/#tools-that-search-for-passwords) для автоматичного пошуку паролів
 
-### [Leaked Handlers](windows-local-privilege-escalation/#leaked-handlers)
+### [Витікання обробників](windows-local-privilege-escalation/#leaked-handlers)
 
-* [ ] Have you access to any handler of a process run by administrator?
+* [ ] Чи є у вас доступ до будь-якого обробника процесу, запущеного адміністратором?
 
-### [Pipe Client Impersonation](windows-local-privilege-escalation/#named-pipe-client-impersonation)
+### [Імітація клієнта каналу](windows-local-privilege-escalation/#named-pipe-client-impersonation)
 
-* [ ] Check if you can abuse it
+* [ ] Перевірте, чи можете ви використовувати це
 
-**Try Hard Security Group**
+**Спробуйте групу безпеки Try Hard**
 
 <figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
@@ -139,14 +138,14 @@ Other ways to support HackTricks:
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію рекламовану в HackTricks** або **завантажити HackTricks у PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв GitHub.
 
 </details>

@@ -1,82 +1,66 @@
-# Enrolling Devices in Other Organisations
+# Реєстрація пристроїв в інших організаціях
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
-
-## Intro
-
-As [**previously commented**](./#what-is-mdm-mobile-device-management)**,** in order to try to enrol a device into an organization **only a Serial Number belonging to that Organization is needed**. Once the device is enrolled, several organizations will install sensitive data on the new device: certificates, applications, WiFi passwords, VPN configurations [and so on](https://developer.apple.com/enterprise/documentation/Configuration-Profile-Reference.pdf).\
-Therefore, this could be a dangerous entrypoint for attackers if the enrolment process isn't correctly protected.
-
-**The following is a summary of the research [https://duo.com/labs/research/mdm-me-maybe](https://duo.com/labs/research/mdm-me-maybe). Check it for further technical details!**
-
-## Overview of DEP and MDM Binary Analysis
-
-This research delves into the binaries associated with the Device Enrollment Program (DEP) and Mobile Device Management (MDM) on macOS. Key components include:
-
-- **`mdmclient`**: Communicates with MDM servers and triggers DEP check-ins on macOS versions before 10.13.4.
-- **`profiles`**: Manages Configuration Profiles, and triggers DEP check-ins on macOS versions 10.13.4 and later.
-- **`cloudconfigurationd`**: Manages DEP API communications and retrieves Device Enrollment profiles.
-
-DEP check-ins utilize the `CPFetchActivationRecord` and `CPGetActivationRecord` functions from the private Configuration Profiles framework to fetch the Activation Record, with `CPFetchActivationRecord` coordinating with `cloudconfigurationd` through XPC.
-
-## Tesla Protocol and Absinthe Scheme Reverse Engineering
-
-The DEP check-in involves `cloudconfigurationd` sending an encrypted, signed JSON payload to _iprofiles.apple.com/macProfile_. The payload includes the device's serial number and the action "RequestProfileConfiguration". The encryption scheme used is referred to internally as "Absinthe". Unraveling this scheme is complex and involves numerous steps, which led to exploring alternative methods for inserting arbitrary serial numbers in the Activation Record request.
-
-## Proxying DEP Requests
-
-Attempts to intercept and modify DEP requests to _iprofiles.apple.com_ using tools like Charles Proxy were hindered by payload encryption and SSL/TLS security measures. However, enabling the `MCCloudConfigAcceptAnyHTTPSCertificate` configuration allows bypassing the server certificate validation, although the payload's encrypted nature still prevents modification of the serial number without the decryption key.
-
-## Instrumenting System Binaries Interacting with DEP
-
-Instrumenting system binaries like `cloudconfigurationd` requires disabling System Integrity Protection (SIP) on macOS. With SIP disabled, tools like LLDB can be used to attach to system processes and potentially modify the serial number used in DEP API interactions. This method is preferable as it avoids the complexities of entitlements and code signing.
-
-**Exploiting Binary Instrumentation:**
-Modifying the DEP request payload before JSON serialization in `cloudconfigurationd` proved effective. The process involved:
-
-1. Attaching LLDB to `cloudconfigurationd`.
-2. Locating the point where the system serial number is fetched.
-3. Injecting an arbitrary serial number into the memory before the payload is encrypted and sent.
-
-This method allowed for retrieving complete DEP profiles for arbitrary serial numbers, demonstrating a potential vulnerability.
-
-### Automating Instrumentation with Python
-
-The exploitation process was automated using Python with the LLDB API, making it feasible to programmatically inject arbitrary serial numbers and retrieve corresponding DEP profiles.
-
-### Potential Impacts of DEP and MDM Vulnerabilities
-
-The research highlighted significant security concerns:
-
-1. **Information Disclosure**: By providing a DEP-registered serial number, sensitive organizational information contained in the DEP profile can be retrieved.
-2. **Rogue DEP Enrollment**: Without proper authentication, an attacker with a DEP-registered serial number can enroll a rogue device into an organization's MDM server, potentially gaining access to sensitive data and network resources.
-
-In conclusion, while DEP and MDM provide powerful tools for managing Apple devices in enterprise environments, they also present potential attack vectors that need to be secured and monitored.
-
-
-
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію в рекламі HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв.
 
 </details>
+
+## Вступ
+
+Як [**вже зазначалося раніше**](./#what-is-mdm-mobile-device-management)**,** для того щоб спробувати зареєструвати пристрій в організації **потрібен лише серійний номер, який належить цій організації**. Після реєстрації пристрою, кілька організацій встановлять чутливі дані на новий пристрій: сертифікати, додатки, паролі WiFi, конфігурації VPN [і так далі](https://developer.apple.com/enterprise/documentation/Configuration-Profile-Reference.pdf).\
+Отже, це може бути небезпечним входом для атак, якщо процес реєстрації не захищений належним чином.
+
+**Наведено підсумок дослідження [https://duo.com/labs/research/mdm-me-maybe](https://duo.com/labs/research/mdm-me-maybe). Перевірте його для отримання додаткових технічних деталей!**
+
+## Огляд DEP та аналіз бінарних файлів MDM
+
+Це дослідження розглядає бінарні файли, пов'язані з Програмою реєстрації пристроїв (DEP) та управлінням мобільними пристроями (MDM) на macOS. Основні компоненти включають:
+
+- **`mdmclient`**: Взаємодіє з серверами MDM та спричиняє перевірки DEP на macOS версій до 10.13.4.
+- **`profiles`**: Управляє конфігураційними профілями та спричиняє перевірки DEP на macOS версій 10.13.4 та пізніше.
+- **`cloudconfigurationd`**: Управляє комунікаціями API DEP та отримує профілі реєстрації пристроїв.
+
+Перевірки DEP використовують функції `CPFetchActivationRecord` та `CPGetActivationRecord` з приватного фреймворку конфігураційних профілів для отримання запису активації, причому `CPFetchActivationRecord` співпрацює з `cloudconfigurationd` через XPC.
+
+## Реверс-інженерія протоколу Tesla та схеми Absinthe
+
+Перевірка DEP включає відправлення `cloudconfigurationd` зашифрованого, підписаного JSON-пакету на _iprofiles.apple.com/macProfile_. Пакет містить серійний номер пристрою та дію "RequestProfileConfiguration". Внутрішньо використовується схема шифрування, відома як "Absinthe". Розкриття цієї схеми складне і включає численні кроки, що призвели до дослідження альтернативних методів для вставки довільних серійних номерів у запит запису активації.
+
+## Проксіювання запитів DEP
+
+Спроби перехоплення та зміни запитів DEP до _iprofiles.apple.com_ за допомогою інструментів, таких як Charles Proxy, були ускладнені шифруванням пакетів та заходами безпеки SSL/TLS. Однак увімкнення конфігурації `MCCloudConfigAcceptAnyHTTPSCertificate` дозволяє обійти перевірку сертифікатів сервера, хоча зашифрований характер пакету все ще унеможливлює зміну серійного номера без ключа розшифрування.
+
+## Інструментування системних бінарних файлів, що взаємодіють з DEP
+
+Інструментування системних бінарних файлів, таких як `cloudconfigurationd`, вимагає вимкнення Захисту Цілісності Системи (SIP) на macOS. З вимкненим SIP можна використовувати інструменти, такі як LLDB, для приєднання до системних процесів та потенційної зміни серійного номера, використаного взаємодії API DEP. Цей метод бажаний, оскільки він уникне складнощів з привілеями та підписом коду.
+
+**Експлуатація Інструментування Бінарних Файлів:**
+Зміна пакету запиту DEP перед серіалізацією JSON в `cloudconfigurationd` виявилася ефективною. Процес включав:
+
+1. Приєднання LLDB до `cloudconfigurationd`.
+2. Знаходження місця, де отримують серійний номер системи.
+3. Внесення довільного серійного номера в пам'ять перед шифруванням та відправленням пакету.
+
+Цей метод дозволяв отримувати повні профілі DEP для довільних серійних номерів, демонструючи потенційну вразливість.
+
+### Автоматизація Інструментування за допомогою Python
+
+Процес експлуатації був автоматизований за допомогою Python з використанням API LLDB, що дозволило програмно вводити довільні серійні номери та отримувати відповідні профілі DEP.
+
+### Потенційні Наслідки Вразливостей DEP та MDM
+
+Дослідження підкреслило значні побоювання з питань безпеки:
+
+1. **Розкриття Інформації**: Надаючи зареєстрований серійний номер DEP, можна отримати чутливу організаційну інформацію, що міститься в профілі DEP.
+2. **Реєстрація Рогатого Пристрою DEP**: Без належної аутентифікації атакуючий з зареєстрованим серійним номером DEP може зареєструвати рогатий пристрій на сервері MDM організації, отримуючи потенційний доступ до чутливих даних та мережевих ресурсів.
+
+На завершення, хоча DEP та MDM надають потужні інструменти для управління пристроями Apple в корпоративних середовищах, вони також представляють потенційні вектори атак, які потрібно захищати та контролювати.

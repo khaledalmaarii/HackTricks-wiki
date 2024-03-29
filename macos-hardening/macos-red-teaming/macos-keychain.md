@@ -1,72 +1,71 @@
-# macOS Keychain
+# Ключовий ланцюжок macOS
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію в рекламі на HackTricks** або **завантажити HackTricks у PDF** Перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв GitHub.
 
 </details>
 
-## Main Keychains
+## Основні ключові ланцюжки
 
-* The **User Keychain** (`~/Library/Keychains/login.keycahin-db`), which is used to store **user-specific credentials** like application passwords, internet passwords, user-generated certificates, network passwords, and user-generated public/private keys.
-* The **System Keychain** (`/Library/Keychains/System.keychain`), which stores **system-wide credentials** such as WiFi passwords, system root certificates, system private keys, and system application passwords.
+* **Ключовий ланцюжок користувача** (`~/Library/Keychains/login.keycahin-db`), який використовується для зберігання **користувацьких облікових даних**, таких як паролі додатків, паролі для Інтернету, сертифікати, паролі мережі та користувацькі пари ключів.
+* **Системний ключовий ланцюжок** (`/Library/Keychains/System.keychain`), який зберігає **системні облікові дані**, такі як паролі WiFi, кореневі сертифікати системи, приватні ключі системи та паролі додатків системи.
 
-### Password Keychain Access
+### Доступ до ключового ланцюжка паролів
 
-These files, while they do not have inherent protection and can be **downloaded**, are encrypted and require the **user's plaintext password to be decrypted**. A tool like [**Chainbreaker**](https://github.com/n0fate/chainbreaker) could be used for decryption.
+Ці файли, хоча і не мають вбудованого захисту і можуть бути **завантажені**, зашифровані і вимагають **пароль чистого тексту користувача для розшифрування**. Інструмент, такий як [**Chainbreaker**](https://github.com/n0fate/chainbreaker), може бути використаний для розшифрування.
 
-## Keychain Entries Protections
+## Захист записів ключового ланцюжка
 
 ### ACLs
 
-Each entry in the keychain is governed by **Access Control Lists (ACLs)** which dictate who can perform various actions on the keychain entry, including:
+Кожен запис у ключовому ланцюжку керується **Списками керування доступом (ACLs)**, які вказують, хто може виконувати різні дії з записом ключового ланцюжка, включаючи:
 
-* **ACLAuhtorizationExportClear**: Allows the holder to get the clear text of the secret.
-* **ACLAuhtorizationExportWrapped**: Allows the holder to get the clear text encrypted with another provided password.
-* **ACLAuhtorizationAny**: Allows the holder to perform any action.
+* **ACLAuhtorizationExportClear**: Дозволяє власнику отримати чіткий текст секрету.
+* **ACLAuhtorizationExportWrapped**: Дозволяє власнику отримати чіткий текст, зашифрований іншим наданим паролем.
+* **ACLAuhtorizationAny**: Дозволяє власнику виконувати будь-яку дію.
 
-The ACLs are further accompanied by a **list of trusted applications** that can perform these actions without prompting. This could be:
+ACL супроводжується **списком довірених додатків**, які можуть виконувати ці дії без підказки. Це може бути:
 
-* &#x20;**N`il`** (no authorization required, **everyone is trusted**)
-* An **empty** list (**nobody** is trusted)
-* **List** of specific **applications**.
+* &#x20;**N`il`** (не потрібно авторизації, **всі довірені**)
+* Порожній список (**ніхто не довіряється**)
+* **Список** конкретних **додатків**.
 
-Also the entry might contain the key **`ACLAuthorizationPartitionID`,** which is use to identify the **teamid, apple,** and **cdhash.**
+Також запис може містити ключ **`ACLAuthorizationPartitionID`,** який використовується для ідентифікації **teamid, apple,** та **cdhash.**
 
-* If the **teamid** is specified, then in order to **access the entry** value **withuot** a **prompt** the used application must have the **same teamid**.
-* If the **apple** is specified, then the app needs to be **signed** by **Apple**.
-* If the **cdhash** is indicated, then **app** must have the specific **cdhash**.
+* Якщо вказано **teamid**, то для **доступу до значення запису без** підказки використовуваний додаток повинен мати **той самий teamid**.
+* Якщо вказано **apple**, то додаток повинен бути **підписаний Apple**.
+* Якщо вказано **cdhash**, то додаток повинен мати конкретний **cdhash**.
 
-### Creating a Keychain Entry
+### Створення запису ключового ланцюжка
 
-When a **new** **entry** is created using **`Keychain Access.app`**, the following rules apply:
+Коли **створюється новий запис** за допомогою **`Keychain Access.app`**, застосовуються наступні правила:
 
-* All apps can encrypt.
-* **No apps** can export/decrypt (without prompting the user).
-* All apps can see the integrity check.
-* No apps can change ACLs.
-* The **partitionID** is set to **`apple`**.
+* Усі додатки можуть шифрувати.
+* **Жоден додаток** не може експортувати/розшифровувати (без підказки користувача).
+* Усі додатки можуть бачити перевірку цілісності.
+* Жоден додаток не може змінювати ACL.
+* **PartitionID** встановлено на **`apple`**.
 
-When an **application creates an entry in the keychain**, the rules are slightly different:
+Коли **додаток створює запис у ключовому ланцюжку**, правила трохи відрізняються:
 
-* All apps can encrypt.
-* Only the **creating application** (or any other apps explicitly added) can export/decrypt (without prompting the user).
-* All apps can see the integrity check.
-* No apps can change the ACLs.
-* The **partitionID** is set to **`teamid:[teamID here]`**.
+* Усі додатки можуть шифрувати.
+* Тільки **створюючий додаток** (або будь-які інші додатки, які явно додані) можуть експортувати/розшифровувати (без підказки користувача).
+* Усі додатки можуть бачити перевірку цілісності.
+* Жоден додаток не може змінювати ACL.
+* **PartitionID** встановлено на **`teamid:[teamID тут]`**.
 
-## Accessing the Keychain
+## Доступ до ключового ланцюжка
 
 ### `security`
-
 ```bash
 # Dump all metadata and decrypted secrets (a lot of pop-ups)
 security dump-keychain -a -d
@@ -77,73 +76,72 @@ security find-generic-password -a "Slack" -g
 # Change the specified entrys PartitionID entry
 security set-generic-password-parition-list -s "test service" -a "test acount" -S
 ```
-
 ### APIs
 
 {% hint style="success" %}
-The **keychain enumeration and dumping** of secrets that **won't generate a prompt** can be done with the tool [**LockSmith**](https://github.com/its-a-feature/LockSmith)
+**Перелік ключів та витягування** секретів, які **не викличуть запиту**, можна виконати за допомогою інструменту [**LockSmith**](https://github.com/its-a-feature/LockSmith)
 {% endhint %}
 
-List and get **info** about each keychain entry:
+Перелік та отримання **інформації** про кожен запис у ключниці:
 
-* The API **`SecItemCopyMatching`** gives info about each entry and there are some attributes you can set when using it:
-  * **`kSecReturnData`**: If true, it will try to decrypt the data (set to false to avoid potential pop-ups)
-  * **`kSecReturnRef`**: Get also reference to keychain item (set to true in case later you see you can decrypt without pop-up)
-  * **`kSecReturnAttributes`**: Get metadata about entries
-  * **`kSecMatchLimit`**: How many results to return
-  * **`kSecClass`**: What kind of keychain entry
+* API **`SecItemCopyMatching`** надає інформацію про кожен запис, і є деякі атрибути, які можна встановити при його використанні:
+* **`kSecReturnData`**: Якщо true, спробує розшифрувати дані (встановіть false, щоб уникнути можливих спливаючих вікон)
+* **`kSecReturnRef`**: Отримати також посилання на елемент ключниці (встановіть true у випадку, якщо пізніше ви побачите, що можете розшифрувати без спливаючого вікна)
+* **`kSecReturnAttributes`**: Отримати метадані про записи
+* **`kSecMatchLimit`**: Скільки результатів повернути
+* **`kSecClass`**: Який тип запису у ключниці
 
-Get **ACLs** of each entry:
+Отримання **ACLs** кожного запису:
 
-* With the API **`SecAccessCopyACLList`** you can get the **ACL for the keychain item**, and it will return a list of ACLs (like `ACLAuhtorizationExportClear` and the others previously mentioned)  where each list has:
-  * Description
-  * **Trusted Application List**. This could be:
-    * An app: /Applications/Slack.app
-    * A binary: /usr/libexec/airportd
-    * A group: group://AirPort
+* За допомогою API **`SecAccessCopyACLList`** ви можете отримати **ACL для елемента ключниці**, і він поверне список ACL (наприклад, `ACLAuhtorizationExportClear` та інші раніше згадані), де кожен список має:
+* Опис
+* **Список довірених додатків**. Це може бути:
+* Додаток: /Applications/Slack.app
+* Бінарний файл: /usr/libexec/airportd
+* Група: group://AirPort
 
-Export the data:
+Експорт даних:
 
-* The API **`SecKeychainItemCopyContent`** gets the plaintext
-* The API  **`SecItemExport`** exports the keys and certificates but might have to set passwords to export the content encrypted
+* API **`SecKeychainItemCopyContent`** отримує текст
+* API **`SecItemExport`** експортує ключі та сертифікати, але можливо доведеться встановити паролі для експорту вмісту зашифрованим
 
-And these are the **requirements** to be able to **export a secret without a prompt**:
+І ось **вимоги**, щоб мати можливість **експортувати секрет без запиту**:
 
-* If **1+ trusted** apps listed:
-  * Need the appropriate **authorizations** (**`Nil`**, or be **part** of the allowed list of apps in the authorization to access the secret info)
-  * Need code signature to match **PartitionID**
-  * Need code signature to match that of one **trusted app** (or be a member of the right KeychainAccessGroup)
-* If **all applications trusted**:
-  * Need the appropriate **authorizations**
-  * Need code signature to match **PartitionID**
-    * If **no PartitionID**, then this isn't needed
+* Якщо **1+ довірених** додатків перелічено:
+* Потрібні відповідні **авторизації** (**`Nil`**, або бути **частиною** списку дозволених додатків у авторизації для доступу до конфіденційної інформації)
+* Потрібно, щоб кодовий підпис відповідав **PartitionID**
+* Потрібно, щоб кодовий підпис відповідав кодовому підпису одного **довіреного додатку** (або бути членом відповідної групи KeychainAccessGroup)
+* Якщо **всі додатки довірені**:
+* Потрібні відповідні **авторизації**
+* Потрібно, щоб кодовий підпис відповідав **PartitionID**
+* Якщо **немає PartitionID**, тоді це не потрібно
 
 {% hint style="danger" %}
-Therefore, if there is **1 application listed**, you need to **inject code in that application**.
+Отже, якщо перелічено **1 додаток**, вам потрібно **впровадити код у цей додаток**.
 
-If **apple** is indicated in the **partitionID**, you could access it with **`osascript`** so anything that is trusting all applications with apple in the partitionID. **`Python`** could also be used for this.
+Якщо в **PartitionID** вказано **apple**, ви можете отримати до нього доступ за допомогою **`osascript`**, щоб отримати доступ до всього, що довіряє всім додаткам з apple в PartitionID. **`Python`** також може бути використаний для цього.
 {% endhint %}
 
-### Two additional attributes
+### Два додаткові атрибути
 
-* **Invisible**: It's a boolean flag to **hide** the entry from the **UI** Keychain app
-* **General**: It's to store **metadata** (so it's NOT ENCRYPTED)
-  * Microsoft was storing in plain text all the refresh tokens to access sensitive endpoint.
+* **Невидимий**: Це булевий прапорець для **приховування** запису від **UI** додатка Keychain
+* **Загальний**: Це для зберігання **метаданих** (тому це НЕ ШИФРОВАНО)
+* Компанія Microsoft зберігала в чистому тексті всі оновлювальні токени для доступу до чутливих кінцевих точок.
 
-## References
+## Посилання
 
 * [**#OBTS v5.0: "Lock Picking the macOS Keychain" - Cody Thomas**](https://www.youtube.com/watch?v=jKE1ZW33JpY)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію рекламовану в HackTricks** або **завантажити HackTricks у PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Дізнайтеся про [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на GitHub.
 
 </details>

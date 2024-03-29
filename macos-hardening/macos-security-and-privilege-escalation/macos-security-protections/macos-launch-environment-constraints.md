@@ -1,104 +1,100 @@
-# macOS Launch/Environment Constraints & Trust Cache
+# Обмеження запуску/середовища macOS та кеш довіри
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud)
+* Ви працюєте в **кібербезпецівій компанії**? Хочете побачити **рекламу вашої компанії на HackTricks**? або хочете мати доступ до **останньої версії PEASS або завантажити HackTricks у форматі PDF**? Перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Дізнайтеся про [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* **Приєднуйтесь до** [**💬**](https://emojipedia.org/speech-balloon/) [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за мною на **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**репозиторію hacktricks**](https://github.com/carlospolop/hacktricks) **та** [**репозиторію hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud)
 *
 * .
 
 </details>
 
-## Basic Information
+## Основна інформація
 
-Launch constraints in macOS were introduced to enhance security by **regulating how, who, and from where a process can be initiated**. Initiated in macOS Ventura, they provide a framework that categorizes **each system binary into distinct constraint categories**, which are defined within the **trust cache**, a list containing system binaries and their respective hashes​. These constraints extend to every executable binary within the system, entailing a set of **rules** delineating the requirements for **launching a particular binary**. The rules encompass self constraints that a binary must satisfy, parent constraints required to be met by its parent process, and responsible constraints to be adhered to by other relevant entities​.
+Обмеження запуску в macOS були введені для підвищення безпеки шляхом **регулювання того, як, хто і звідки може бути ініційований процес**. Запроваджені в macOS Ventura, вони надають фреймворк, який категоризує **кожний системний бінарний файл у різні категорії обмежень**, які визначені в **кеші довіри**, список, що містить системні бінарні файли та їх відповідні хеші. Ці обмеження поширюються на кожний виконуваний бінарний файл у системі, включаючи набір **правил**, які визначають вимоги для **запуску певного бінарного файлу**. Правила охоплюють власні обмеження, які повинен задовольняти бінарний файл, обмеження батьків, які повинні бути виконані батьківським процесом, та обмеження відповідальності, які повинні дотримуватися іншими відповідними сутностями.
 
-The mechanism extends to third-party apps through **Environment Constraints**, beginning from macOS Sonoma, allowing developers to protect their apps by specifying a **set of keys and values for environment constraints.**
+Механізм поширюється на сторонні додатки через **Обмеження середовища**, починаючи з macOS Sonoma, що дозволяє розробникам захищати свої додатки, вказуючи **набір ключів та значень для обмежень середовища**.
 
-You define **launch environment and library constraints** in constraint dictionaries that you either save in **`launchd` property list files**, or in **separate property list** files that you use in code signing.
+Ви визначаєте **обмеження запуску та бібліотек** в словниках обмежень, які ви зберігаєте в **файлах властивостей `launchd`**, або в **окремих файлах властивостей**, які ви використовуєте при підписанні коду.
 
-There are 4 types of constraints:
+Існує 4 типи обмежень:
 
-* **Self Constraints**: Constrains applied to the **running** binary.
-* **Parent Process**: Constraints applied to the **parent of the process** (for example **`launchd`** running a XP service)
-* **Responsible Constraints**: Constraints applied to the **process calling the service** in a XPC communication
-* **Library load constraints**: Use library load constraints to selectively describe code that can be loaded
+* **Власні обмеження**: Обмеження, які застосовуються до **виконуваного** бінарного файлу.
+* **Батьківський процес**: Обмеження, які застосовуються до **батька процесу** (наприклад **`launchd`**, який запускає службу XP)
+* **Обмеження відповідальності**: Обмеження, які застосовуються до **процесу, який викликає службу** у комунікації XPC
+* **Обмеження завантаження бібліотек**: Використовуйте обмеження завантаження бібліотек для селективного опису коду, який може бути завантажений
 
-So when a process tries to launch another process — by calling `execve(_:_:_:)` or `posix_spawn(_:_:_:_:_:_:)` — the operating system checks that the **executable** file **satisfies** its **own self constraint**. It also checks that the **parent** **process’s** executable **satisfies** the executable’s **parent constraint**, and that the **responsible** **process’s** executable **satisfies the executable’s responsible process constrain**t. If any of these launch constraints aren’t satisfied, the operating system doesn’t run the program.
+Таким чином, коли процес намагається запустити інший процес — викликаючи `execve(_:_:_:)` або `posix_spawn(_:_:_:_:_:_:)` — операційна система перевіряє, що **виконуваний** файл **задовольняє** своє **власне обмеження**. Вона також перевіряє, що **виконуваний файл батьківського процесу задовольняє обмеження батьківського процесу**, і що **виконуваний файл відповідального процесу задовольняє обмеження відповідального процесу**. Якщо будь-які з цих обмежень запуску не виконуються, операційна система не запускає програму.
 
-If when loading a library any part of the **library constraint isn’t true**, your process **doesn’t load** the library.
+Якщо при завантаженні бібліотеки будь-яка частина **обмеження бібліотеки не виконується**, ваш процес **не завантажує** бібліотеку.
 
-## LC Categories
+## Категорії LC
 
-A LC as composed by **facts** and **logical operations** (and, or..) that combines facts.
+LC складається з **фактів** та **логічних операцій** (і, або..), які комбінують факти.
 
-The[ **facts that a LC can use are documented**](https://developer.apple.com/documentation/security/defining\_launch\_environment\_and\_library\_constraints). For example:
+[**Факти, які може використовувати LC, задокументовані**](https://developer.apple.com/documentation/security/defining\_launch\_environment\_and\_library\_constraints). Наприклад:
 
-* is-init-proc: A Boolean value that indicates whether the executable must be the operating system’s initialization process (`launchd`).
-* is-sip-protected: A Boolean value that indicates whether the executable must be a file protected by System Integrity Protection (SIP).
-* `on-authorized-authapfs-volume:` A Boolean value that indicates whether the operating system loaded the executable from an authorized, authenticated APFS volume.
-* `on-authorized-authapfs-volume`: A Boolean value that indicates whether the operating system loaded the executable from an authorized, authenticated APFS volume.
-  * Cryptexes volume
-* `on-system-volume:`A Boolean value that indicates whether the operating system loaded the executable from the currently-booted system volume.
-  * Inside /System...
+* is-init-proc: Булеве значення, яке вказує, чи має виконуваний файл бути процесом ініціалізації операційної системи (`launchd`).
+* is-sip-protected: Булеве значення, яке вказує, чи має виконуваний файл бути файлом, захищеним Системою Цілісності (SIP).
+* `on-authorized-authapfs-volume:` Булеве значення, яке вказує, чи операційна система завантажила виконуваний файл з авторизованого, аутентифікованого тому APFS.
+* `on-authorized-authapfs-volume`: Булеве значення, яке вказує, чи операційна система завантажила виконуваний файл з авторизованого, аутентифікованого тому APFS.
+* Cryptexes volume
+* `on-system-volume:` Булеве значення, яке вказує, чи операційна система завантажила виконуваний файл з поточного завантаженого тому системи.
+* Всередині /System...
 * ...
 
-When an Apple binary is signed it **assigns it to a LC category** inside the **trust cache**.
+Коли Apple бінарний файл підписаний, він **призначає його категорії LC** всередині **кешу довіри**.
 
-* **iOS 16 LC categories** were [**reversed and documented in here**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056).
-* Current **LC categories (macOS 14** - Somona) have been reversed and their [**descriptions can be found here**](https://gist.github.com/theevilbit/a6fef1e0397425a334d064f7b6e1be53).
+* **16 категорій LC для iOS** були [**розгорнуті та задокументовані тут**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056).
+* Поточні **категорії LC (macOS 14** - Somona) були розгорнуті, і їх [**опис можна знайти тут**](https://gist.github.com/theevilbit/a6fef1e0397425a334d064f7b6e1be53).
 
-For example Category 1 is:
-
+Наприклад, Категорія 1:
 ```
 Category 1:
-        Self Constraint: (on-authorized-authapfs-volume || on-system-volume) && launch-type == 1 && validation-category == 1
-        Parent Constraint: is-init-proc
+Self Constraint: (on-authorized-authapfs-volume || on-system-volume) && launch-type == 1 && validation-category == 1
+Parent Constraint: is-init-proc
 ```
-
-* `(on-authorized-authapfs-volume || on-system-volume)`: Must be in System or Cryptexes volume.
-* `launch-type == 1`: Must be a system service (plist in LaunchDaemons).
-* `validation-category == 1`: An operating system executable.
+* `(on-authorized-authapfs-volume || on-system-volume)`: Повинно бути у томі System або Cryptexes.
+* `launch-type == 1`: Повинно бути системним сервісом (plist у LaunchDaemons).
+* `validation-category == 1`: Виконуваний файл операційної системи.
 * `is-init-proc`: Launchd
 
-### Reversing LC Categories
+### Реверсінг LC Категорій
 
-You have more information [**about it in here**](https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/#reversing-constraints), but basically, They are defined in **AMFI (AppleMobileFileIntegrity)**, so you need to download the Kernel Development Kit to get the **KEXT**. The symbols starting with **`kConstraintCategory`** are the **interesting** ones. Extracting them you will get a DER (ASN.1) encoded stream that you will need to decode with [ASN.1 Decoder](https://holtstrom.com/michael/tools/asn1decoder.php) or the python-asn1 library and its `dump.py` script, [andrivet/python-asn1](https://github.com/andrivet/python-asn1/tree/master) which will give you a more understandable string.
+Ви можете отримати більше інформації [**тут**](https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/#reversing-constraints), але в основному вони визначені в **AMFI (AppleMobileFileIntegrity)**, тому вам потрібно завантажити Набір розробки ядра, щоб отримати **KEXT**. Символи, що починаються з **`kConstraintCategory`**, є **цікавими**. Видобуваючи їх, ви отримаєте закодований потік DER (ASN.1), який потрібно розкодувати за допомогою [ASN.1 Decoder](https://holtstrom.com/michael/tools/asn1decoder.php) або бібліотеки python-asn1 та її сценарію `dump.py`, [andrivet/python-asn1](https://github.com/andrivet/python-asn1/tree/master), яка надасть вам більш зрозумілий рядок.
 
-## Environment Constraints
+## Обмеження середовища
 
-These are the Launch Constraints set configured in **third party applications**. The developer can select the **facts** and **logical operands to use** in his application to restrict the access to itself.
+Це обмеження запуску, налаштоване в **додатках сторонніх розробників**. Розробник може вибрати **факти** та **логічні операнди для використання** у своєму додатку для обмеження доступу до нього.
 
-It's possible to enumerate the Environment Constraints of an application with:
-
+Можливо перерахувати Обмеження середовища додатка за допомогою:
 ```bash
 codesign -d -vvvv app.app
 ```
+## Кеш довіри
 
-## Trust Caches
-
-In **macOS** there are a few trust caches:
+У **macOS** є кілька кешів довіри:
 
 * **`/System/Volumes/Preboot/*/boot/*/usr/standalone/firmware/FUD/BaseSystemTrustCache.img4`**
 * **`/System/Volumes/Preboot/*/boot/*/usr/standalone/firmware/FUD/StaticTrustCache.img4`**
 * **`/System/Library/Security/OSLaunchPolicyData`**
 
-And in iOS it looks like it's in **`/usr/standalone/firmware/FUD/StaticTrustCache.img4`**.
+А в iOS виглядає, що він знаходиться в **`/usr/standalone/firmware/FUD/StaticTrustCache.img4`**.
 
 {% hint style="warning" %}
-On macOS running on Apple Silicon devices, if an Apple signed binary is not in the trust cache, AMFI will refuse to load it.
+На macOS, що працює на пристроях Apple Silicon, якщо підписаний Apple бінарний файл не знаходиться в кеші довіри, AMFI відмовиться його завантажувати.
 {% endhint %}
 
-### Enumerating Trust Caches
+### Перелік кешів довіри
 
-The previous trust cache files are in format **IMG4** and **IM4P**, being IM4P the payload section of a IMG4 format.
+Попередні файли кешу довіри мають формат **IMG4** та **IM4P**, де IM4P - це розділ навантаження формату IMG4.
 
-You can use [**pyimg4**](https://github.com/m1stadev/PyIMG4) to extract the payload of databases:
+Ви можете використовувати [**pyimg4**](https://github.com/m1stadev/PyIMG4), щоб видобути навантаження баз даних:
 
 {% code overflow="wrap" %}
 ```bash
@@ -118,10 +114,9 @@ pyimg4 im4p extract -i /System/Library/Security/OSLaunchPolicyData -o /tmp/OSLau
 ```
 {% endcode %}
 
-(Another option could be to use the tool [**img4tool**](https://github.com/tihmstar/img4tool), which will run even in M1 even if the release is old and for x86\_64 if you install it in the proper locations).
+(Іншою опцією може бути використання інструменту [**img4tool**](https://github.com/tihmstar/img4tool), який буде працювати навіть в M1, навіть якщо версія застаріла, і для x86\_64, якщо ви встановите його в відповідні місця).
 
-Now you can use the tool [**trustcache**](https://github.com/CRKatri/trustcache) to get the information in a readable format:
-
+Тепер ви можете використовувати інструмент [**trustcache**](https://github.com/CRKatri/trustcache), щоб отримати інформацію у зручному форматі:
 ```bash
 # Install
 wget https://github.com/CRKatri/trustcache/releases/download/v2.0/trustcache_macos_arm64
@@ -145,46 +140,43 @@ entry count = 969
 01e6934cb8833314ea29640c3f633d740fc187f2 [none] [2] [2]
 020bf8c388deaef2740d98223f3d2238b08bab56 [none] [2] [3]
 ```
-
-The trust cache follows the following structure, so The **LC category is the 4th column**
-
+Довірний кеш має наступну структуру, тому **категорія LC є четвертим стовпцем**
 ```c
 struct trust_cache_entry2 {
-	uint8_t cdhash[CS_CDHASH_LEN];
-	uint8_t hash_type;
-	uint8_t flags;
-	uint8_t constraintCategory;
-	uint8_t reserved0;
+uint8_t cdhash[CS_CDHASH_LEN];
+uint8_t hash_type;
+uint8_t flags;
+uint8_t constraintCategory;
+uint8_t reserved0;
 } __attribute__((__packed__));
 ```
+Потім ви можете використати скрипт, такий як [**цей**](https://gist.github.com/xpn/66dc3597acd48a4c31f5f77c3cc62f30), щоб витягти дані.
 
-Then, you could use a script such as [**this one**](https://gist.github.com/xpn/66dc3597acd48a4c31f5f77c3cc62f30) to extract data.
+З цих даних ви можете перевірити додатки з **значенням обмежень запуску `0`**, які не обмежені ([**перевірте тут**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056) для кожного значення).
 
-From that data you can check the Apps with a **launch constraints value of `0`** , which are the ones that aren't constrained ([**check here**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056) for what each value is).
+## Заходи проти атак
 
-## Attack Mitigations
+Обмеження запуску б врегулювало кілька старих атак, **переконуючись, що процес не буде виконаний в неочікуваних умовах:** наприклад, з неочікуваних місць або викликаний неочікуваним батьківським процесом (якщо лише launchd має запускати його).
 
-Launch Constrains would have mitigated several old attacks by **making sure that the process won't be executed in unexpected conditions:** For example from unexpected locations or being invoked by an unexpected parent process (if only launchd should be launching it)
+Більше того, обмеження запуску також **перешкоджає атакам на зниження рівня.**
 
-Moreover, Launch Constraints also **mitigates downgrade attacks.**
+Однак вони **не захищають від поширених зловживань XPC**, **внедрень коду Electron** або **внедрень dylib** без перевірки бібліотек (якщо не відомі ідентифікатори команд, які можуть завантажувати бібліотеки).
 
-However, they **don't mitigate common XPC** abuses, **Electron** code injections or **dylib injections** without library validation (unless the team IDs that can load libraries are known).
+### Захист від служб XPC Daemon
 
-### XPC Daemon Protection
+У випуску Sonoma помітним пунктом є **конфігурація відповідальності служби XPC демона**. Служба XPC відповідає за себе, на відміну від клієнта, який підключається. Це документовано в звіті про зворотній зв'язок FB13206884. Ця настройка може здатися недосконалою, оскільки вона дозволяє певні взаємодії зі службою XPC:
 
-In the Sonoma release, a notable point is the daemon XPC service's **responsibility configuration**. The XPC service is accountable for itself, as opposed to the connecting client being responsible. This is documented in the feedback report FB13206884. This setup might seem flawed, as it allows certain interactions with the XPC service:
+- **Запуск служби XPC**: Якщо припустити, що це помилка, ця настройка не дозволяє ініціювати службу XPC через код атакувальника.
+- **Підключення до активної служби**: Якщо служба XPC вже працює (можливо, активована її початковим додатком), немає перешкод для підключення до неї.
 
-- **Launching the XPC Service**: If assumed to be a bug, this setup does not permit initiating the XPC service through attacker code.
-- **Connecting to an Active Service**: If the XPC service is already running (possibly activated by its original application), there are no barriers to connecting to it.
-
-While implementing constraints on the XPC service might be beneficial by **narrowing the window for potential attacks**, it doesn't address the primary concern. Ensuring the security of the XPC service fundamentally requires **validating the connecting client effectively**. This remains the sole method to fortify the service's security. Also, it's worth noting that the mentioned responsibility configuration is currently operational, which might not align with the intended design.
+Хоча впровадження обмежень на службу XPC може бути корисним, **звужуючи вікно для потенційних атак**, це не вирішує основну проблему. Забезпечення безпеки служби XPC фундаментально вимагає **ефективної перевірки підключеного клієнта**. Це залишається єдиним методом зміцнення безпеки служби. Також варто зазначити, що згадана конфігурація відповідальності наразі працює, що може не відповідати задуманому дизайну.
 
 
-### Electron Protection
+### Захист від Electron
 
-Even if it's required that the application has to be **opened by LaunchService** (in the parents constraints). This can be achieved using **`open`** (which can set env variables) or using the **Launch Services API** (where env variables can be indicated).
+Навіть якщо вимагається, щоб додаток був **відкритий за допомогою LaunchService** (в обмеженнях батьків). Це можна досягти за допомогою **`open`** (який може встановлювати змінні середовища) або використовуючи **API служб запуску** (де можна вказати змінні середовища).
 
-## References
+## Посилання
 
 * [https://youtu.be/f1HA5QhLQ7Y?t=24146](https://youtu.be/f1HA5QhLQ7Y?t=24146)
 * [https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/](https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/)
@@ -193,13 +185,13 @@ Even if it's required that the application has to be **opened by LaunchService**
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud)
+* Ви працюєте в **кібербезпеці**? Хочете побачити вашу **компанію в рекламі на HackTricks**? або хочете мати доступ до **останньої версії PEASS або завантажити HackTricks у PDF**? Перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Дізнайтеся про [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* **Приєднуйтесь до** [**💬**](https://emojipedia.org/speech-balloon/) [**групи Discord**](https://discord.gg/hRep4RUj7f) або групи в **телеграмі** або **слідкуйте** за мною в **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**репозиторію hacktricks**](https://github.com/carlospolop/hacktricks) **та** [**репозиторію hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud)
 *
 * .
 

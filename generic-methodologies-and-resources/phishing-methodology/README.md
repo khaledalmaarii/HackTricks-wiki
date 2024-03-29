@@ -1,112 +1,109 @@
-# Phishing Methodology
+# Методологія рибалки
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію в рекламі на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Дізнайтеся про [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв.
 
 </details>
 
-## Methodology
+## Методологія
 
-1. Recon the victim
-   1. Select the **victim domain**.
-   2. Perform some basic web enumeration **searching for login portals** used by the victim and **decide** which one you will **impersonate**.
-   3. Use some **OSINT** to **find emails**.
-2. Prepare the environment
-   1. **Buy the domain** you are going to use for the phishing assessment
-   2. **Configure the email service** related records (SPF, DMARC, DKIM, rDNS)
-   3. Configure the VPS with **gophish**
-3. Prepare the campaign
-   1. Prepare the **email template**
-   2. Prepare the **web page** to steal the credentials
-4. Launch the campaign!
+1. Розвідка жертви
+1. Виберіть **домен жертви**.
+2. Виконайте деяку базову веб-енумерацію, **шукаючи портали входу**, використовані жертвою, та **вирішіть**, який саме ви будете **імітувати**.
+3. Використовуйте деякі **OSINT**, щоб **знайти електронні адреси**.
+2. Підготуйте середовище
+1. **Купіть домен**, який ви будете використовувати для оцінки рибальства
+2. Налаштуйте записи, пов'язані з електронною поштою (SPF, DMARC, DKIM, rDNS)
+3. Налаштуйте VPS з **gophish**
+3. Підготуйте кампанію
+1. Підготуйте **шаблон електронного листа**
+2. Підготуйте **веб-сторінку** для крадіжки облікових даних
+4. Запустіть кампанію!
 
-## Generate similar domain names or buy a trusted domain
+## Генерація схожих доменних імен або купівля довіреного домену
 
-### Domain Name Variation Techniques
+### Техніки варіації доменних імен
 
-* **Keyword**: The domain name **contains** an important **keyword** of the original domain (e.g., zelster.com-management.com).
-* **hypened subdomain**: Change the **dot for a hyphen** of a subdomain (e.g., www-zelster.com).
-* **New TLD**: Same domain using a **new TLD** (e.g., zelster.org)
-* **Homoglyph**: It **replaces** a letter in the domain name with **letters that look similar** (e.g., zelfser.com).
-* **Transposition:** It **swaps two letters** within the domain name (e.g., zelsetr.com).
-* **Singularization/Pluralization**: Adds or removes “s” at the end of the domain name (e.g., zeltsers.com).
-* **Omission**: It **removes one** of the letters from the domain name (e.g., zelser.com).
-* **Repetition:** It **repeats one** of the letters in the domain name (e.g., zeltsser.com).
-* **Replacement**: Like homoglyph but less stealthy. It replaces one of the letters in the domain name, perhaps with a letter in proximity of the original letter on the keyboard (e.g, zektser.com).
-* **Subdomained**: Introduce a **dot** inside the domain name (e.g., ze.lster.com).
-* **Insertion**: It **inserts a letter** into the domain name (e.g., zerltser.com).
-* **Missing dot**: Append the TLD to the domain name. (e.g., zelstercom.com)
+* **Ключове слово**: Доменне ім'я **містить важливе ключове слово** оригінального домену (наприклад, zelster.com-management.com).
+* **Піддомен з дефісом**: Змініть **крапку на дефіс** піддомену (наприклад, www-zelster.com).
+* **Новий TLD**: Те ж саме доменне ім'я з використанням **нового TLD** (наприклад, zelster.org)
+* **Гомогліф**: Воно **замінює** літеру в доменному імені на **літери, які схожі** (наприклад, zelfser.com).
+* **Транспозиція**: Воно **обмінює дві літери** в межах доменного імені (наприклад, zelsetr.com).
+* **Однини/Множини**: Додає або видаляє "s" в кінці доменного імені (наприклад, zeltsers.com).
+* **Пропуск**: Воно **видаляє одну** з літер з доменного імені (наприклад, zelser.com).
+* **Повторення**: Воно **повторює одну** з літер в доменному імені (наприклад, zeltsser.com).
+* **Заміна**: Подібно до гомогліфа, але менш приховано. Воно замінює одну з літер в доменному імені, можливо, літерою, що знаходиться поруч з оригінальною літерою на клавіатурі (наприклад, zektser.com).
+* **Піддоменоване**: Введіть **крапку** всередині доменного імені (наприклад, ze.lster.com).
+* **Вставка**: Воно **вставляє літеру** в доменне ім'я (наприклад, zerltser.com).
+* **Відсутність крапки**: Додайте TLD до доменного імені. (наприклад, zelstercom.com)
 
-**Automatic Tools**
+**Автоматичні Інструменти**
 
 * [**dnstwist**](https://github.com/elceef/dnstwist)
 * [**urlcrazy**](https://github.com/urbanadventurer/urlcrazy)
 
-**Websites**
+**Веб-сайти**
 
 * [https://dnstwist.it/](https://dnstwist.it)
 * [https://dnstwister.report/](https://dnstwister.report)
 * [https://www.internetmarketingninjas.com/tools/free-tools/domain-typo-generator/](https://www.internetmarketingninjas.com/tools/free-tools/domain-typo-generator/)
 
-### Bitflipping
+### Бітовий перевертень
 
-There is a **possibility that one of some bits stored or in communication might get automatically flipped** due to various factors like solar flares, cosmic rays, or hardware errors.
+Є **можливість того, що один або деякі біти, збережені або в комунікації, можуть автоматично перевертатися** через різні фактори, такі як сонячні вибухи, космічні промені або помилки обладнання.
 
-When this concept is **applied to DNS requests**, it is possible that the **domain received by the DNS server** is not the same as the domain initially requested.
+Коли цей концепт **застосовується до запитів DNS**, можливо, що **домен, отриманий DNS-сервером**, не співпадає з доменом, який спочатку запитано.
 
-For example, a single bit modification in the domain "windows.com" can change it to "windnws.com."
+Наприклад, зміна одного біту в домені "windows.com" може змінити його на "windnws.com."
 
-Attackers may **take advantage of this by registering multiple bit-flipping domains** that are similar to the victim's domain. Their intention is to redirect legitimate users to their own infrastructure.
+Атакувальники можуть **скористатися цим, зареєструвавши кілька доменів з перевертанням бітів**, які схожі на домен жертви. Їхнім наміром є перенаправлення законних користувачів на свою власну інфраструктуру.
 
-For more information read [https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/](https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/)
+Для отримання додаткової інформації читайте [https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/](https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/)
 
-### Buy a trusted domain
+### Купівля довіреного домену
 
-You can search in [https://www.expireddomains.net/](https://www.expireddomains.net) for a expired domain that you could use.\
-In order to make sure that the expired domain that you are going to buy **has already a good SEO** you could search how is it categorized in:
+Ви можете шукати на [https://www.expireddomains.net/](https://www.expireddomains.net) за просроченим доменом, який ви могли б використовувати.\
+Щоб переконатися, що просрочений домен, який ви збираєтеся купити, **вже має хороший SEO**, ви можете перевірити, як він категоризований в:
 
 * [http://www.fortiguard.com/webfilter](http://www.fortiguard.com/webfilter)
 * [https://urlfiltering.paloaltonetworks.com/query/](https://urlfiltering.paloaltonetworks.com/query/)
 
-## Discovering Emails
+## Виявлення електронних адрес
 
-* [https://github.com/laramies/theHarvester](https://github.com/laramies/theHarvester) (100% free)
-* [https://phonebook.cz/](https://phonebook.cz) (100% free)
+* [https://github.com/laramies/theHarvester](https://github.com/laramies/theHarvester) (100% безкоштовно)
+* [https://phonebook.cz/](https://phonebook.cz) (100% безкоштовно)
 * [https://maildb.io/](https://maildb.io)
 * [https://hunter.io/](https://hunter.io)
 * [https://anymailfinder.com/](https://anymailfinder.com)
 
-In order to **discover more** valid email addresses or **verify the ones** you have already discovered you can check if you can brute-force them smtp servers of the victim. [Learn how to verify/discover email address here](../../network-services-pentesting/pentesting-smtp/#username-bruteforce-enumeration).\
-Moreover, don't forget that if the users use **any web portal to access their mails**, you can check if it's vulnerable to **username brute force**, and exploit the vulnerability if possible.
+Для **виявлення більше** дійсних адрес електронної пошти або **перевірки тих**, які ви вже виявили, ви можете перевірити, чи можете ви зламати їх smtp-сервери жертви. [Дізнайтеся, як перевірити/виявити адресу електронної пошти тут](../../network-services-pentesting/pentesting-smtp/#username-bruteforce-enumeration).\
+Крім того, не забувайте, що якщо користувачі використовують **будь-який веб-портал для доступу до своїх листів**, ви можете перевірити, чи він вразливий до **брутфорсу імен користувачів**, та використовувати вразливість, якщо це можливо.
 
-## Configuring GoPhish
+## Налаштування GoPhish
 
-### Installation
+### Встановлення
 
-You can download it from [https://github.com/gophish/gophish/releases/tag/v0.11.0](https://github.com/gophish/gophish/releases/tag/v0.11.0)
+Ви можете завантажити його з [https://github.com/gophish/gophish/releases/tag/v0.11.0](https://github.com/gophish/gophish/releases/tag/v0.11.0)
 
-Download and decompress it inside `/opt/gophish` and execute `/opt/gophish/gophish`\
-You will be given a password for the admin user in port 3333 in the output. Therefore, access that port and use those credentials to change the admin password. You may need to tunnel that port to local:
-
+Завантажте й розпакуйте його всередину `/opt/gophish` та виконайте `/opt/gophish/gophish`\
+Ви отримаєте пароль для адміністратора на порту 3333 у виведенні. Тому, зверніться до цього порту та використовуйте ці облікові дані для зміни пароля адміністратора. Можливо, вам знадобиться тунель до локального:
 ```bash
 ssh -L 3333:127.0.0.1:3333 <user>@<ip>
 ```
+### Налаштування
 
-### Configuration
+**Налаштування TLS-сертифіката**
 
-**TLS certificate configuration**
-
-Before this step you should have **already bought the domain** you are going to use and it must be **pointing** to the **IP of the VPS** where you are configuring **gophish**.
-
+Перед цим кроком ви повинні **вже купити домен**, який ви збираєтеся використовувати, і він повинен бути **спрямований** на **IP-адресу VPS**, де ви налаштовуєте **gophish**.
 ```bash
 DOMAIN="<domain>"
 wget https://dl.eff.org/certbot-auto
@@ -122,67 +119,61 @@ mkdir /opt/gophish/ssl_keys
 cp "/etc/letsencrypt/live/$DOMAIN/privkey.pem" /opt/gophish/ssl_keys/key.pem
 cp "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" /opt/gophish/ssl_keys/key.crt​
 ```
+**Налаштування пошти**
 
-**Mail configuration**
+Почніть встановлення: `apt-get install postfix`
 
-Start installing: `apt-get install postfix`
-
-Then add the domain to the following files:
+Потім додайте домен до наступних файлів:
 
 * **/etc/postfix/virtual\_domains**
 * **/etc/postfix/transport**
 * **/etc/postfix/virtual\_regexp**
 
-**Change also the values of the following variables inside /etc/postfix/main.cf**
+**Також змініть значення наступних змінних всередині /etc/postfix/main.cf**
 
 `myhostname = <domain>`\
 `mydestination = $myhostname, <domain>, localhost.com, localhost`
 
-Finally modify the files **`/etc/hostname`** and **`/etc/mailname`** to your domain name and **restart your VPS.**
+Нарешті, змініть файли **`/etc/hostname`** та **`/etc/mailname`** на назву вашого домену та **перезапустіть свій VPS.**
 
-Now, create a **DNS A record** of `mail.<domain>` pointing to the **ip address** of the VPS and a **DNS MX** record pointing to `mail.<domain>`
+Тепер створіть **DNS A запис** `mail.<domain>`, спрямований на **IP-адресу** VPS та **DNS MX запис**, спрямований на `mail.<domain>`
 
-Now lets test to send an email:
-
+Тепер спробуйте відправити електронного листа:
 ```bash
 apt install mailutils
 echo "This is the body of the email" | mail -s "This is the subject line" test@email.com
 ```
+**Налаштування Gophish**
 
-**Gophish configuration**
-
-Stop the execution of gophish and lets configure it.\
-Modify `/opt/gophish/config.json` to the following (note the use of https):
-
+Зупиніть виконання gophish та налаштуйте його.\
+Змініть `/opt/gophish/config.json` на наступне (зверніть увагу на використання https):
 ```bash
 {
-        "admin_server": {
-                "listen_url": "127.0.0.1:3333",
-                "use_tls": true,
-                "cert_path": "gophish_admin.crt",
-                "key_path": "gophish_admin.key"
-        },
-        "phish_server": {
-                "listen_url": "0.0.0.0:443",
-                "use_tls": true,
-                "cert_path": "/opt/gophish/ssl_keys/key.crt",
-                "key_path": "/opt/gophish/ssl_keys/key.pem"
-        },
-        "db_name": "sqlite3",
-        "db_path": "gophish.db",
-        "migrations_prefix": "db/db_",
-        "contact_address": "",
-        "logging": {
-                "filename": "",
-                "level": ""
-        }
+"admin_server": {
+"listen_url": "127.0.0.1:3333",
+"use_tls": true,
+"cert_path": "gophish_admin.crt",
+"key_path": "gophish_admin.key"
+},
+"phish_server": {
+"listen_url": "0.0.0.0:443",
+"use_tls": true,
+"cert_path": "/opt/gophish/ssl_keys/key.crt",
+"key_path": "/opt/gophish/ssl_keys/key.pem"
+},
+"db_name": "sqlite3",
+"db_path": "gophish.db",
+"migrations_prefix": "db/db_",
+"contact_address": "",
+"logging": {
+"filename": "",
+"level": ""
+}
 }
 ```
+**Налаштування служби gophish**
 
-**Configure gophish service**
-
-In order to create the gophish service so it can be started automatically and managed a service you can create the file `/etc/init.d/gophish` with the following content:
-
+Для створення служби gophish, щоб вона автоматично запускалася та керувалася як служба, ви можете створити файл `/etc/init.d/gophish` з наступним вмістом:
 ```bash
 #!/bin/bash
 # /etc/init.d/gophish
@@ -203,35 +194,33 @@ logfile=/var/log/gophish/gophish.log
 errfile=/var/log/gophish/gophish.error
 
 start() {
-    echo 'Starting '${processName}'...'
-    cd ${appDirectory}
-    nohup ./$process >>$logfile 2>>$errfile &
-    sleep 1
+echo 'Starting '${processName}'...'
+cd ${appDirectory}
+nohup ./$process >>$logfile 2>>$errfile &
+sleep 1
 }
 
 stop() {
-    echo 'Stopping '${processName}'...'
-    pid=$(/bin/pidof ${process})
-    kill ${pid}
-    sleep 1 
+echo 'Stopping '${processName}'...'
+pid=$(/bin/pidof ${process})
+kill ${pid}
+sleep 1
 }
 
 status() {
-    pid=$(/bin/pidof ${process})
-    if [["$pid" != ""| "$pid" != "" ]]; then
-        echo ${processName}' is running...'
-    else
-        echo ${processName}' is not running...'
-    fi
+pid=$(/bin/pidof ${process})
+if [["$pid" != ""| "$pid" != "" ]]; then
+echo ${processName}' is running...'
+else
+echo ${processName}' is not running...'
+fi
 }
 
 case $1 in
-    start|stop|status) "$1" ;;
+start|stop|status) "$1" ;;
 esac
 ```
-
-Finish configuring the service and checking it doing:
-
+Завершіть налаштування служби та перевірте її, виконавши:
 ```bash
 mkdir /var/log/gophish
 chmod +x /etc/init.d/gophish
@@ -242,69 +231,60 @@ service gophish status
 ss -l | grep "3333\|443"
 service gophish stop
 ```
+## Налаштування поштового сервера та домену
 
-## Configuring mail server and domain
+### Зачекайте та будьте легітними
 
-### Wait & be legit
+Чим старший домен, тим менше ймовірно, що його спіймуть як спам. Тому вам слід зачекати якомога більше часу (принаймні 1 тиждень) перед оцінкою рибалки. Крім того, якщо ви розмістите сторінку про репутаційний сектор, отримана репутація буде кращою.
 
-The older a domain is the less probable it's going to be caught as spam. Then you should wait as much time as possible (at least 1week) before the phishing assessment. moreover, if you put a page about a reputational sector the reputation obtained will be better.
+Зверніть увагу, що навіть якщо вам доведеться зачекати тиждень, ви можете завершити налаштування всього зараз.
 
-Note that even if you have to wait a week you can finish configuring everything now.
+### Налаштування оберненого DNS (rDNS)
 
-### Configure Reverse DNS (rDNS) record
+Встановіть запис оберненого DNS (PTR), який розгадує IP-адресу VPS на доменне ім'я.
 
-Set a rDNS (PTR) record that resolves the IP address of the VPS to the domain name.
+### Запис SPF (Sender Policy Framework)
 
-### Sender Policy Framework (SPF) Record
+Вам **необхідно налаштувати запис SPF для нового домену**. Якщо ви не знаєте, що таке запис SPF, [**прочитайте цю сторінку**](../../network-services-pentesting/pentesting-smtp/#spf).
 
-You must **configure a SPF record for the new domain**. If you don't know what is a SPF record [**read this page**](../../network-services-pentesting/pentesting-smtp/#spf).
-
-You can use [https://www.spfwizard.net/](https://www.spfwizard.net) to generate your SPF policy (use the IP of the VPS machine)
+Ви можете скористатися [https://www.spfwizard.net/](https://www.spfwizard.net), щоб згенерувати свою політику SPF (використовуйте IP-адресу машини VPS)
 
 ![](<../../.gitbook/assets/image (388).png>)
 
-This is the content that must be set inside a TXT record inside the domain:
-
+Це вміст, який повинен бути встановлений у запис TXT всередині домену:
 ```bash
 v=spf1 mx a ip4:ip.ip.ip.ip ?all
 ```
+### Запис про автентифікацію, звітність та відповідність повідомлень на основі домену (DMARC)
 
-### Domain-based Message Authentication, Reporting & Conformance (DMARC) Record
+Вам необхідно **налаштувати запис DMARC для нового домену**. Якщо ви не знаєте, що таке запис DMARC, [**прочитайте цю сторінку**](../../network-services-pentesting/pentesting-smtp/#dmarc).
 
-You must **configure a DMARC record for the new domain**. If you don't know what is a DMARC record [**read this page**](../../network-services-pentesting/pentesting-smtp/#dmarc).
-
-You have to create a new DNS TXT record pointing the hostname `_dmarc.<domain>` with the following content:
-
+Вам потрібно створити новий DNS TXT запис, який вказує на ім'я хоста `_dmarc.<домен>` з наступним вмістом:
 ```bash
 v=DMARC1; p=none
 ```
-
 ### DomainKeys Identified Mail (DKIM)
 
-You must **configure a DKIM for the new domain**. If you don't know what is a DMARC record [**read this page**](../../network-services-pentesting/pentesting-smtp/#dkim).
+Вам потрібно **налаштувати DKIM для нового домену**. Якщо ви не знаєте, що таке запис DMARC, [**прочитайте цю сторінку**](../../network-services-pentesting/pentesting-smtp/#dkim).
 
-This tutorial is based on: [https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy)
+Цей підручник базується на: [https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy)
 
 {% hint style="info" %}
-You need to concatenate both B64 values that the DKIM key generates:
-
+Вам потрібно конкатенувати обидва значення B64, які генерує ключ DKIM:
 ```
 v=DKIM1; h=sha256; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0wPibdqPtzYk81njjQCrChIcHzxOp8a1wjbsoNtka2X9QXCZs+iXkvw++QsWDtdYu3q0Ofnr0Yd/TmG/Y2bBGoEgeE+YTUG2aEgw8Xx42NLJq2D1pB2lRQPW4IxefROnXu5HfKSm7dyzML1gZ1U0pR5X4IZCH0wOPhIq326QjxJZm79E1nTh3xj" "Y9N/Dt3+fVnIbMupzXE216TdFuifKM6Tl6O/axNsbswMS1TH812euno8xRpsdXJzFlB9q3VbMkVWig4P538mHolGzudEBg563vv66U8D7uuzGYxYT4WS8NVm3QBMg0QKPWZaKp+bADLkOSB9J2nUpk4Aj9KB5swIDAQAB
 ```
 {% endhint %}
 
-### Test your email configuration score
+### Перевірте бал електронної пошти вашої конфігурації
 
-You can do that using [https://www.mail-tester.com/](https://www.mail-tester.com)\
-Just access the page and send an email to the address they give you:
-
+Ви можете зробити це, використовуючи [https://www.mail-tester.com/](https://www.mail-tester.com)\
+Просто перейдіть на сторінку і надішліть електронного листа на адресу, яку вони вам вказують:
 ```bash
 echo "This is the body of the email" | mail -s "This is the subject line" test-iimosa79z@srv1.mail-tester.com
 ```
-
-You can also **check your email configuration** sending an email to `check-auth@verifier.port25.com` and **reading the response** (for this you will need to **open** port **25** and see the response in the file _/var/mail/root_ if you send the email a as root).\
-Check that you pass all the tests:
-
+Ви також можете **перевірити конфігурацію своєї електронної пошти**, відправивши листа на `check-auth@verifier.port25.com` та **прочитавши відповідь** (для цього вам потрібно **відкрити** порт **25** та переглянути відповідь у файлі _/var/mail/root_, якщо ви відправляєте листа як root).\
+Переконайтеся, що ви пройшли всі тести:
 ```bash
 ==========================================================
 Summary of Results
@@ -315,49 +295,45 @@ DKIM check:         pass
 Sender-ID check:    pass
 SpamAssassin check: ham
 ```
-
-You could also send **message to a Gmail under your control**, and check the **email’s headers** in your Gmail inbox, `dkim=pass` should be present in the `Authentication-Results` header field.
-
+Ви також можете **надіслати повідомлення на Gmail, який перебуває під вашим контролем**, і перевірити **заголовки електронної пошти** у своїй скриньці Gmail, `dkim=pass` повинен бути присутній у полі заголовка `Authentication-Results`.
 ```
 Authentication-Results: mx.google.com;
-       spf=pass (google.com: domain of contact@example.com designates --- as permitted sender) smtp.mail=contact@example.com;
-       dkim=pass header.i=@example.com;
+spf=pass (google.com: domain of contact@example.com designates --- as permitted sender) smtp.mail=contact@example.com;
+dkim=pass header.i=@example.com;
 ```
+### Видалення з чорного списку Spamhouse
 
-### ​Removing from Spamhouse Blacklist
+Сторінка [www.mail-tester.com](www.mail-tester.com) може показати вам, чи ваш домен заблоковано Spamhouse. Ви можете запросити видалення вашого домену/IP за посиланням: [https://www.spamhaus.org/lookup/](https://www.spamhaus.org/lookup/)
 
-The page [www.mail-tester.com](www.mail-tester.com) can indicate you if you your domain is being blocked by spamhouse. You can request your domain/IP to be removed at: ​[https://www.spamhaus.org/lookup/](https://www.spamhaus.org/lookup/)
+### Видалення з чорного списку Microsoft
 
-### Removing from Microsoft Blacklist
+Ви можете запросити видалення вашого домену/IP за посиланням [https://sender.office.com/](https://sender.office.com).
 
-​​You can request your domain/IP to be removed at [https://sender.office.com/](https://sender.office.com).
+## Створення та запуск кампанії GoPhish
 
-## Create & Launch GoPhish Campaign
+### Профіль відправника
 
-### Sending Profile
+* Встановіть **ім'я для ідентифікації** профілю відправника
+* Вирішіть, з якого облікового запису ви будете відправляти листи з фішингом. Рекомендації: _noreply, support, servicedesk, salesforce..._
+* Ви можете залишити порожніми ім'я користувача та пароль, але переконайтеся, що ви встановили прапорець "Ігнорувати помилки сертифіката"
 
-* Set some **name to identify** the sender profile
-* Decide from which account are you going to send the phishing emails. Suggestions: _noreply, support, servicedesk, salesforce..._
-* You can leave blank the username and password, but make sure to check the Ignore Certificate Errors
-
-![](<../../.gitbook/assets/image (253) (1) (2) (1) (1) (2) (2) (3) (3) (5) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (17).png>)
+![](<../../.gitbook/assets/image (253) (1) (2) (1) (1) (2) (2) (3) (3) (5) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (17).png>)
 
 {% hint style="info" %}
-It's recommended to use the "**Send Test Email**" functionality to test that everything is working.\
-I would recommend to **send the test emails to 10min mails addresses** in order to avoid getting blacklisted making tests.
+Рекомендується використовувати функціонал "**Надіслати тестовий лист**", щоб перевірити, що все працює.\
+Я рекомендую **надсилати тестові листи на адреси 10min mails**, щоб уникнути потрапляння в чорний список під час тестування.
 {% endhint %}
 
-### Email Template
+### Шаблон електронної пошти
 
-* Set some **name to identify** the template
-* Then write a **subject** (nothing estrange, just something you could expect to read in a regular email)
-* Make sure you have checked "**Add Tracking Image**"
-* Write the **email template** (you can use variables like in the following example):
-
+* Встановіть **ім'я для ідентифікації** шаблону
+* Потім напишіть **тему** (нічого дивного, просто щось, що ви могли б очікувати прочитати в звичайному листі)
+* Переконайтеся, що ви встановили прапорець "**Додати відстежувальне зображення**"
+* Напишіть **шаблон електронного листа** (ви можете використовувати змінні, як у наступному прикладі):
 ```markup
 <html>
 <head>
-    <title></title>
+<title></title>
 </head>
 <body>
 <p class="MsoNormal"><span style="font-size:10.0pt;font-family:&quot;Verdana&quot;,sans-serif;color:black">Dear {{.FirstName}} {{.LastName}},</span></p>
@@ -372,127 +348,112 @@ WRITE HERE SOME SIGNATURE OF SOMEONE FROM THE COMPANY
 </body>
 </html>
 ```
+Зауважте, що **для підвищення вірогідності електронної пошти** рекомендується використовувати якусь підпис з електронної пошти клієнта. Рекомендації:
 
-Note that **in order to increase the credibility of the email**, it's recommended to use some signature from an email from the client. Suggestions:
-
-* Send an email to a **non existent address** and check if the response has any signature.
-* Search for **public emails** like info@ex.com or press@ex.com or public@ex.com and send them an email and wait for the response.
-* Try to contact **some valid discovered** email and wait for the response
+* Надішліть електронного листа на **несуществуючу адресу** і перевірте, чи є у відповіді який-небудь підпис.
+* Шукайте **публічні електронні адреси** типу info@ex.com або press@ex.com або public@ex.com та надсилайте їм електронний лист, очікуючи відповіді.
+* Спробуйте зв'язатися з **якоюсь валідною виявленою** електронною адресою та зачекайте на відповідь
 
 ![](<../../.gitbook/assets/image (393).png>)
 
 {% hint style="info" %}
-The Email Template also allows to **attach files to send**. If you would also like to steal NTLM challenges using some specially crafted files/documents [read this page](../../windows-hardening/ntlm/places-to-steal-ntlm-creds.md).
+Шаблон електронної пошти також дозволяє **долучати файли для відправки**. Якщо ви також хочете вкрасти виклики NTLM, використовуючи спеціально створені файли/документи, [прочитайте цю сторінку](../../windows-hardening/ntlm/places-to-steal-ntlm-creds.md).
 {% endhint %}
 
-### Landing Page
+### Посадова сторінка
 
-* Write a **name**
-* **Write the HTML code** of the web page. Note that you can **import** web pages.
-* Mark **Capture Submitted Data** and **Capture Passwords**
-* Set a **redirection**
+* Напишіть **ім'я**
+* **Напишіть HTML-код** веб-сторінки. Зверніть увагу, що ви можете **імпортувати** веб-сторінки.
+* Позначте **Захоплення надісланих даних** та **Захоплення паролів**
+* Встановіть **перенаправлення**
 
 ![](<../../.gitbook/assets/image (394).png>)
 
 {% hint style="info" %}
-Usually you will need to modify the HTML code of the page and make some tests in local (maybe using some Apache server) **until you like the results.** Then, write that HTML code in the box.\
-Note that if you need to **use some static resources** for the HTML (maybe some CSS and JS pages) you can save them in _**/opt/gophish/static/endpoint**_ and then access them from _**/static/\<filename>**_
+Зазвичай вам потрібно буде змінити HTML-код сторінки та провести деякі тести локально (можливо, використовуючи деякий сервер Apache) **доки вам не сподобаються результати**. Потім напишіть цей HTML-код у відповідному полі.\
+Зверніть увагу, що якщо вам потрібно **використовувати деякі статичні ресурси** для HTML (можливо, деякі CSS та JS сторінки), ви можете зберегти їх у _**/opt/gophish/static/endpoint**_ та потім отримати до них доступ з _**/static/\<filename>**_
 {% endhint %}
 
 {% hint style="info" %}
-For the redirection you could **redirect the users to the legit main web page** of the victim, or redirect them to _/static/migration.html_ for example, put some **spinning wheel (**[**https://loading.io/**](https://loading.io)**) for 5 seconds and then indicate that the process was successful**.
+Щодо перенаправлення ви можете **перенаправити користувачів на легітимну головну веб-сторінку** жертви або перенаправити їх на _/static/migration.html_ наприклад, показати якусь **крутящуся колесо** ([**https://loading.io/**](https://loading.io)) протягом 5 секунд, а потім вказати, що процес був успішним.
 {% endhint %}
 
-### Users & Groups
+### Користувачі та Групи
 
-* Set a name
-* **Import the data** (note that in order to use the template for the example you need the firstname, last name and email address of each user)
+* Встановіть ім'я
+* **Імпортуйте дані** (зверніть увагу, що для використання шаблону для прикладу вам потрібно прізвище, ім'я та електронну адресу кожного користувача)
 
 ![](<../../.gitbook/assets/image (395).png>)
 
-### Campaign
+### Кампанія
 
-Finally, create a campaign selecting a name, the email template, the landing page, the URL, the sending profile and the group. Note that the URL will be the link sent to the victims
+Нарешті, створіть кампанію, вибравши ім'я, шаблон електронної пошти, посадову сторінку, URL, профіль відправлення та групу. Зверніть увагу, що URL буде посиланням, відправленим жертвам
 
-Note that the **Sending Profile allow to send a test email to see how will the final phishing email looks like**:
+Зауважте, що **Профіль відправлення дозволяє відправити тестовий електронний лист, щоб побачити, як буде виглядати кінцевий лист з фішингом**:
 
 ![](<../../.gitbook/assets/image (396).png>)
 
 {% hint style="info" %}
-I would recommend to **send the test emails to 10min mails addresses** in order to avoid getting blacklisted making tests.
+Я рекомендую **відправляти тестові листи на адреси 10min**, щоб уникнути блокування під час тестування.
 {% endhint %}
 
-Once everything is ready, just launch the campaign!
+Як тільки все готово, просто запустіть кампанію!
 
-## Website Cloning
+## Клонування веб-сайту
 
-If for any reason you want to clone the website check the following page:
+Якщо з якоїсь причини вам потрібно клонувати веб-сайт, перевірте наступну сторінку:
 
 {% content-ref url="clone-a-website.md" %}
 [clone-a-website.md](clone-a-website.md)
 {% endcontent-ref %}
 
-## Backdoored Documents & Files
+## Документи та файли з задніми дверима
 
-In some phishing assessments (mainly for Red Teams) you will want to also **send files containing some kind of backdoor** (maybe a C2 or maybe just something that will trigger an authentication).\
-Check out the following page for some examples:
+У деяких оцінках фішингу (головним чином для Червоних Команд) ви також захочете **надіслати файли, що містять якусь форму задніх дверей** (можливо, C2 або просто щось, що спричинить аутентифікацію).\
+Перегляньте наступну сторінку для деяких прикладів:
 
 {% content-ref url="phishing-documents.md" %}
 [phishing-documents.md](phishing-documents.md)
 {% endcontent-ref %}
 
-## Phishing MFA
+## Фішинг MFA
 
-### Via Proxy MitM
+### Через Проксі MitM
 
-The previous attack is pretty clever as you are faking a real website and gathering the information set by the user. Unfortunately, if the user didn't put the correct password or if the application you faked is configured with 2FA, **this information won't allow you to impersonate the tricked user**.
+Попередній атака досить хитра, оскільки ви підробляєте реальний веб-сайт та збираєте інформацію, введену користувачем. Незважаючи на це, якщо користувач не ввів правильний пароль або якщо застосунок, який ви підробили, налаштований з двофакторною аутентифікацією, **ця інформація не дозволить вам підробити користувача**.
 
-This is where tools like [**evilginx2**](https://github.com/kgretzky/evilginx2)**,** [**CredSniper**](https://github.com/ustayready/CredSniper) and [**muraena**](https://github.com/muraenateam/muraena) are useful. This tool will allow you to generate a MitM like attack. Basically, the attacks works in the following way:
+Тут корисні інструменти, такі як [**evilginx2**](https://github.com/kgretzky/evilginx2)**,** [**CredSniper**](https://github.com/ustayready/CredSniper) та [**muraena**](https://github.com/muraenateam/muraena). Цей інструмент дозволить вам створити атаку типу MitM. Фактично, атаки працюють наступним чином:
 
-1. You **impersonate the login** form of the real webpage.
-2. The user **send** his **credentials** to your fake page and the tool send those to the real webpage, **checking if the credentials work**.
-3. If the account is configured with **2FA**, the MitM page will ask for it and once the **user introduces** it the tool will send it to the real web page.
-4. Once the user is authenticated you (as attacker) will have **captured the credentials, the 2FA, the cookie and any information** of every interaction your while the tool is performing a MitM.
+1. Ви **підробляєте форму входу** реальної веб-сторінки.
+2. Користувач **надсилає** свої **відомості для входу** на вашу фальшиву сторінку, а інструмент надсилає їх на реальну веб-сторінку, **перевіряючи, чи працюють відомості для входу**.
+3. Якщо обліковий запис налаштований з **двофакторною аутентифікацією**, сторінка MitM попросить про неї, і як тільки **користувач введе** її, інструмент надішле її на реальну веб-сторінку.
+4. Як тільки користувач автентифікується, ви (як атакуючий) **захопите відомості для входу, двофакторну аутентифікацію, куки та будь-яку інформацію** з кожної взаємодії, поки інструмент виконує атаку MitM.
 
-### Via VNC
+### Через VNC
 
-What if instead of **sending the victim to a malicious page** with the same looks as the original one, you send him to a **VNC session with a browser connected to the real web page**? You will be able to see what he does, steal the password, the MFA used, the cookies...\
-You can do this with [**EvilnVNC**](https://github.com/JoelGMSec/EvilnoVNC)
+Що, якщо замість **направлення жертви на зловмисну сторінку** з таким самим виглядом, як оригінальна, ви направите його на **сесію VNC з браузером, підключеним до реальної веб-сторінки**? Ви зможете бачити, що він робить, вкрасти пароль, використану двофакторну аутентифікацію, куки...\
+Ви можете це зробити за допомогою [**EvilnVNC**](https://github.com/JoelGMSec/EvilnoVNC)
 
-## Detecting the detection
+## Виявлення виявлення
 
-Obviously one of the best ways to know if you have been busted is to **search your domain inside blacklists**. If it appears listed, somehow your domain was detected as suspicions.\
-One easy way to check if you domain appears in any blacklist is to use [https://malwareworld.com/](https://malwareworld.com)
+Очевидно, один з найкращих способів дізнатися, чи вас викрили, це **пошук вашого домену в чорних списках**. Якщо він з'являється в списку, то якимось чином ваш домен був виявлений як підозрілий.\
+Один простий спосіб перевірити, чи ваш домен з'являється в будь-якому чорному списку, це використовувати [https://malwareworld.com/](https://malwareworld.com)
 
-However, there are other ways to know if the victim is **actively looking for suspicions phishing activity in the wild** as explained in:
+Однак є інші способи дізнатися, чи жертва **активно шукає підозріву фішингову діяльність в мережі**, як пояснено в:
 
 {% content-ref url="detecting-phising.md" %}
 [detecting-phising.md](detecting-phising.md)
 {% endcontent-ref %}
 
-You can **buy a domain with a very similar name** to the victims domain **and/or generate a certificate** for a **subdomain** of a domain controlled by you **containing** the **keyword** of the victim's domain. If the **victim** perform any kind of **DNS or HTTP interaction** with them, you will know that **he is actively looking** for suspicious domains and you will need to be very stealth.
+Ви можете **купити домен з дуже схожою назвою** на домен жертви **і/або згенерувати сертифікат** для **піддомену** домена, яким ви керуєте **із ключовим словом** домена жертви. Якщо **жертва** взаємодіє з ними **через DNS або HTTP**, ви будете знати, що **він активно шукає** підозрілі домени, і вам потрібно буде діяти дуже обережно.
 
-### Evaluate the phishing
+### Оцініть фішинг
 
-Use [**Phishious** ](https://github.com/Rices/Phishious)to evaluate if your email is going to end in the spam folder or if it's going to be blocked or successful.
+Використовуйте [**Phishious** ](https://github.com/Rices/Phishious), щоб оцінити, чи вашу електронну пошту потрапить у спам або вона буде заблокована чи успішно доставлена.
 
-## References
+## Посилання
 
 * [https://zeltser.com/domain-name-variations-in-phishing/](https://zeltser.com/domain-name-variations-in-phishing/)
 * [https://0xpatrik.com/phishing-domains/](https://0xpatrik.com/phishing-domains/)
 * [https://darkbyte.net/robando-sesiones-y-bypasseando-2fa-con-evilnovnc/](https://darkbyte.net/robando-sesiones-y-bypasseando-2fa-con-evilnovnc/)
 * [https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy)
-
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>

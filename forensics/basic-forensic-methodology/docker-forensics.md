@@ -1,31 +1,28 @@
-# Docker Forensics
+# Форензіка Docker
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити **рекламу вашої компанії на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **і** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв на GitHub**.
 
 </details>
 
-## Container modification
+## Зміна контейнера
 
-There are suspicions that some docker container was compromised:
-
+Є підозри, що деякий контейнер Docker був скомпрометований:
 ```bash
 docker ps
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
 cc03e43a052a        lamp-wordpress      "./run.sh"          2 minutes ago       Up 2 minutes        80/tcp              wordpress
 ```
-
-You can easily **find the modifications done to this container with regards to the image** with:
-
+Ви можете легко **знайти модифікації, внесені до цього контейнера щодо зображення**, за допомогою:
 ```bash
 docker diff wordpress
 C /var
@@ -39,70 +36,51 @@ A /var/lib/mysql/mysql/time_zone_leap_second.MYI
 A /var/lib/mysql/mysql/general_log.CSV
 ...
 ```
-
-In the previous command **C** means **Changed** and **A,** **Added**.\
-If you find that some interesting file like `/etc/shadow` was modified you can download it from the container to check for malicious activity with:
-
+У попередній команді **C** означає **Змінено**, а **A,** **Додано**. Якщо ви виявите, що якийсь цікавий файл, наприклад, `/etc/shadow`, був змінений, ви можете завантажити його з контейнера, щоб перевірити наявність зловмисної діяльності за допомогою:
 ```bash
 docker cp wordpress:/etc/shadow.
 ```
-
-You can also **compare it with the original one** running a new container and extracting the file from it:
-
+Ви також можете **порівняти його з оригіналом**, запустивши новий контейнер і витягнувши файл з нього:
 ```bash
 docker run -d lamp-wordpress
 docker cp b5d53e8b468e:/etc/shadow original_shadow #Get the file from the newly created container
 diff original_shadow shadow
 ```
-
-If you find that **some suspicious file was added** you can access the container and check it:
-
+Якщо ви виявите, що **додано підозрілий файл**, ви можете отримати доступ до контейнера та перевірити його:
 ```bash
 docker exec -it wordpress bash
 ```
+## Зміни в зображеннях
 
-## Images modifications
-
-When you are given an exported docker image (probably in `.tar` format) you can use [**container-diff**](https://github.com/GoogleContainerTools/container-diff/releases) to **extract a summary of the modifications**:
-
+Коли вам надають експортоване зображення Docker (найімовірніше у форматі `.tar`), ви можете використовувати [**container-diff**](https://github.com/GoogleContainerTools/container-diff/releases), щоб **витягти підсумок змін**:
 ```bash
 docker save <image> > image.tar #Export the image to a .tar file
 container-diff analyze -t sizelayer image.tar
 container-diff analyze -t history image.tar
 container-diff analyze -t metadata image.tar
 ```
-
-Then, you can **decompress** the image and **access the blobs** to search for suspicious files you may have found in the changes history:
-
+Потім ви можете **розпакувати** зображення та **отримати доступ до блобів**, щоб шукати підозрілі файли, які ви могли знайти в історії змін:
 ```bash
 tar -xf image.tar
 ```
+### Базовий аналіз
 
-### Basic Analysis
-
-You can get **basic information** from the image running:
-
+Ви можете отримати **базову інформацію** з образу, який запущено:
 ```bash
-docker inspect <image> 
+docker inspect <image>
 ```
-
-You can also get a summary **history of changes** with:
-
+Ви також можете отримати **історію змін** за допомогою:
 ```bash
 docker history --no-trunc <image>
 ```
-
-You can also generate a **dockerfile from an image** with:
-
+Ви також можете створити **dockerfile з образу** за допомогою:
 ```bash
 alias dfimage="docker run -v /var/run/docker.sock:/var/run/docker.sock --rm alpine/dfimage"
 dfimage -sV=1.36 madhuakula/k8s-goat-hidden-in-layers>
 ```
+### Занурення
 
-### Dive
-
-In order to find added/modified files in docker images you can also use the [**dive**](https://github.com/wagoodman/dive) (download it from [**releases**](https://github.com/wagoodman/dive/releases/tag/v0.10.0)) utility:
-
+Для пошуку доданих/змінених файлів в образах Docker ви також можете використовувати утиліту [**dive**](https://github.com/wagoodman/dive) (завантажте її з [**релізів**](https://github.com/wagoodman/dive/releases/tag/v0.10.0)):
 ```bash
 #First you need to load the image in your docker repo
 sudo docker load < image.tar                                                                                                                                                                                                         1 ⨯
@@ -111,33 +89,16 @@ Loaded image: flask:latest
 #And then open it with dive:
 sudo dive flask:latest
 ```
+Це дозволяє вам **переміщатися між різними блоками образів Docker** та перевіряти, які файли були змінені/додані. **Червоний** означає додано, а **жовтий** - змінено. Використовуйте **Tab**, щоб перейти до іншого виду, та **пробіл**, щоб згорнути/розгорнути папки.
 
-This allows you to **navigate through the different blobs of docker images** and check which files were modified/added. **Red** means added and **yellow** means modified. Use **tab** to move to the other view and **space** to collapse/open folders.
-
-With die you won't be able to access the content of the different stages of the image. To do so you will need to **decompress each layer and access it**.\
-You can decompress all the layers from an image from the directory where the image was decompressed executing:
-
+За допомогою цієї команди ви не зможете отримати доступ до вмісту різних етапів зображення. Для цього вам потрібно **розпакувати кожен шар та отримати до нього доступ**.\
+Ви можете розпакувати всі шари зображення з каталогу, де було розпаковано зображення, виконавши:
 ```bash
 tar -xf image.tar
 for d in `find * -maxdepth 0 -type d`; do cd $d; tar -xf ./layer.tar; cd ..; done
 ```
+## Облікові дані з пам'яті
 
-## Credentials from memory
+Зверніть увагу, що коли ви запускаєте контейнер Docker всередині хоста **ви можете бачити процеси, що працюють у контейнері з хоста**, просто запустивши `ps -ef`
 
-Note that when you run a docker container inside a host **you can see the processes running on the container from the host** just running `ps -ef`
-
-Therefore (as root) you can **dump the memory of the processes** from the host and search for **credentials** just [**like in the following example**](../../linux-hardening/privilege-escalation/#process-memory).
-
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
+Отже (як root) ви можете **витягти пам'ять процесів** з хоста та шукати **облікові дані** просто [**як у наступному прикладі**](../../linux-hardening/privilege-escalation/#process-memory).

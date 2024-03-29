@@ -1,181 +1,161 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію рекламовану на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Дізнайтеся про [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв GitHub.
 
 </details>
 
 
-# Timestamps
+# Відмітки часу
 
-An attacker may be interested in **changing the timestamps of files** to avoid being detected.\
-It's possible to find the timestamps inside the MFT in attributes `$STANDARD_INFORMATION` __ and __ `$FILE_NAME`.
+Атакуючому може бути цікаво **змінити відмітки часу файлів**, щоб уникнути виявлення.\
+Можна знайти відмітки часу всередині MFT в атрибутах `$STANDARD_INFORMATION` __ та __ `$FILE_NAME`.
 
-Both attributes have 4 timestamps: **Modification**, **access**, **creation**, and **MFT registry modification** (MACE or MACB).
+Обидва атрибути мають 4 відмітки часу: **Модифікація**, **доступ**, **створення** та **модифікація реєстру MFT** (MACE або MACB).
 
-**Windows explorer** and other tools show the information from **`$STANDARD_INFORMATION`**.
+**Провідник Windows** та інші інструменти показують інформацію з **`$STANDARD_INFORMATION`**.
 
-## TimeStomp - Anti-forensic Tool
+## TimeStomp - Анти-форензичний Інструмент
 
-This tool **modifies** the timestamp information inside **`$STANDARD_INFORMATION`** **but** **not** the information inside **`$FILE_NAME`**. Therefore, it's possible to **identify** **suspicious** **activity**.
+Цей інструмент **змінює** інформацію про відмітки часу всередині **`$STANDARD_INFORMATION`** **але** **не** інформацію всередині **`$FILE_NAME`**. Тому можна **виявити** **підозрілу** **активність**.
 
 ## Usnjrnl
 
-The **USN Journal** (Update Sequence Number Journal) is a feature of the NTFS (Windows NT file system) that keeps track of volume changes. The [**UsnJrnl2Csv**](https://github.com/jschicht/UsnJrnl2Csv) tool allows for the examination of these changes.
+**Журнал USN** (Журнал номерів послідовності оновлень) - це функція файлової системи NTFS (система файлів Windows NT), яка відстежує зміни обсягу. Інструмент [**UsnJrnl2Csv**](https://github.com/jschicht/UsnJrnl2Csv) дозволяє переглядати ці зміни.
 
 ![](<../../.gitbook/assets/image (449).png>)
 
-The previous image is the **output** shown by the **tool** where it can be observed that some **changes were performed** to the file.
+Попереднє зображення - це **вихід**, показаний **інструментом**, де можна побачити, що до файлу було внесено деякі **зміни**.
 
 ## $LogFile
 
-**All metadata changes to a file system are logged** in a process known as [write-ahead logging](https://en.wikipedia.org/wiki/Write-ahead_logging). The logged metadata is kept in a file named `**$LogFile**`, located in the root directory of an NTFS file system. Tools such as [LogFileParser](https://github.com/jschicht/LogFileParser) can be used to parse this file and identify changes.
+**Усі зміни метаданих в файловій системі реєструються** в процесі, відомому як [логування перед записом](https://en.wikipedia.org/wiki/Write-ahead_logging). Зареєстровані метадані зберігаються в файлі з назвою `**$LogFile**`, розташованому в кореневому каталозі файлової системи NTFS. Інструменти, такі як [LogFileParser](https://github.com/jschicht/LogFileParser), можуть використовуватися для розбору цього файлу та ідентифікації змін.
 
 ![](<../../.gitbook/assets/image (450).png>)
 
-Again, in the output of the tool it's possible to see that **some changes were performed**.
+Знову ж таки, у виході інструменту можна побачити, що **було виконано деякі зміни**.
 
-Using the same tool it's possible to identify to **which time the timestamps were modified**:
+За допомогою цього ж інструменту можна визначити, **коли були змінені відмітки часу**:
 
 ![](<../../.gitbook/assets/image (451).png>)
 
-* CTIME: File's creation time
-* ATIME: File's modification time
-* MTIME: File's MFT registry modification
-* RTIME: File's access time
+* CTIME: Час створення файлу
+* ATIME: Час модифікації файлу
+* MTIME: Час модифікації реєстру MFT файлу
+* RTIME: Час доступу до файлу
 
-## `$STANDARD_INFORMATION` and `$FILE_NAME` comparison
+## Порівняння `$STANDARD_INFORMATION` та `$FILE_NAME`
 
-Another way to identify suspicious modified files would be to compare the time on both attributes looking for **mismatches**.
+Ще один спосіб виявлення підозрілих змінених файлів - порівняти час в обох атрибутах, шукаючи **неспівпадіння**.
 
-## Nanoseconds
+## Наносекунди
 
-**NTFS** timestamps have a **precision** of **100 nanoseconds**. Then, finding files with timestamps like 2010-10-10 10:10:**00.000:0000 is very suspicious**.
+Відмітки часу **NTFS** мають **точність** **100 наносекунд**. Тому знаходження файлів з відмітками часу, наприклад, 2010-10-10 10:10:**00.000:0000, є дуже підозрілим**.
 
-## SetMace - Anti-forensic Tool
+## SetMace - Анти-форензичний Інструмент
 
-This tool can modify both attributes `$STARNDAR_INFORMATION` and `$FILE_NAME`. However, from Windows Vista, it's necessary for a live OS to modify this information.
+Цей інструмент може змінювати обидва атрибути `$STARNDAR_INFORMATION` та `$FILE_NAME`. Однак починаючи з Windows Vista, для зміни цієї інформації потрібна жива ОС.
 
-# Data Hiding
+# Приховування Даних
 
-NFTS uses a cluster and the minimum information size. That means that if a file occupies uses and cluster and a half, the **reminding half is never going to be used** until the file is deleted. Then, it's possible to **hide data in this slack space**.
+NTFS використовує кластер та мінімальний розмір інформації. Це означає, що якщо файл займає кластер та півтора, **залишкова половина ніколи не буде використана**, поки файл не буде видалено. Тому можна **приховати дані в цьому вільному просторі**.
 
-There are tools like slacker that allow hiding data in this "hidden" space. However, an analysis of the `$logfile` and `$usnjrnl` can show that some data was added:
+Є інструменти, такі як slacker, які дозволяють приховувати дані в цьому "прихованому" просторі. Однак аналіз `$logfile` та `$usnjrnl` може показати, що деякі дані було додано:
 
 ![](<../../.gitbook/assets/image (452).png>)
 
-Then, it's possible to retrieve the slack space using tools like FTK Imager. Note that this kind of tool can save the content obfuscated or even encrypted.
+Тоді можна відновити вільний простір за допомогою інструментів, таких як FTK Imager. Зверніть увагу, що цей тип інструменту може зберігати вміст в обфускованому або навіть зашифрованому вигляді.
 
 # UsbKill
 
-This is a tool that will **turn off the computer if any change in the USB** ports is detected.\
-A way to discover this would be to inspect the running processes and **review each python script running**.
+Це інструмент, який **вимкне комп'ютер, якщо виявлені будь-які зміни в USB** портах.\
+Щоб виявити це, слід перевірити запущені процеси та **переглянути кожний запущений скрипт Python**.
 
-# Live Linux Distributions
+# Живі Дистрибутиви Linux
 
-These distros are **executed inside the RAM** memory. The only way to detect them is **in case the NTFS file-system is mounted with write permissions**. If it's mounted just with read permissions it won't be possible to detect the intrusion.
+Ці дистрибутиви **виконуються всередині оперативної пам'яті RAM**. Єдиний спосіб виявити їх - **у випадку, якщо файлова система NTFS монтується з правами на запис**. Якщо вона монтується лише з правами на читання, то виявити вторгнення буде неможливо.
 
-# Secure Deletion
+# Безпечне Видалення
 
 [https://github.com/Claudio-C/awesome-data-sanitization](https://github.com/Claudio-C/awesome-data-sanitization)
 
-# Windows Configuration
+# Конфігурація Windows
 
-It's possible to disable several windows logging methods to make the forensics investigation much harder.
+Можливо вимкнути кілька методів журналювання Windows, щоб ускладнити розслідування форензики.
 
-## Disable Timestamps - UserAssist
+## Вимкнення Відміток Часу - UserAssist
 
-This is a registry key that maintains dates and hours when each executable was run by the user.
+Це реєстровий ключ, який зберігає дати та години, коли кожний виконуваний файл був запущений користувачем.
 
-Disabling UserAssist requires two steps:
+Для вимкнення UserAssist потрібно виконати два кроки:
 
-1. Set two registry keys, `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackProgs` and `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackEnabled`, both to zero in order to signal that we want UserAssist disabled.
-2. Clear your registry subtrees that look like `HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\<hash>`.
+1. Встановіть два реєстрових ключа, `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackProgs` та `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackEnabled`, обидва на нуль, щоб позначити, що ми хочемо вимкнути UserAssist.
+2. Очистіть гілки реєстру, які виглядають як `HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\<хеш>`.
 
-## Disable Timestamps - Prefetch
+## Вимкнення Відміток Часу - Prefetch
 
-This will save information about the applications executed with the goal of improving the performance of the Windows system. However, this can also be useful for forensics practices.
+Це збереже інформацію про виконані програми з метою покращення продуктивності системи Windows. Однак це також може бути корисним для практик форензики.
 
-* Execute `regedit`
-* Select the file path `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SessionManager\Memory Management\PrefetchParameters`
-* Right-click on both `EnablePrefetcher` and `EnableSuperfetch`
-* Select Modify on each of these to change the value from 1 (or 3) to 0
-* Restart
+* Виконайте `regedit`
+* Виберіть шлях файлу `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SessionManager\Memory Management\PrefetchParameters`
+* Клацніть правою кнопкою миші на `EnablePrefetcher` та `EnableSuperfetch`
+* Виберіть Змінити для кожного з них, щоб змінити значення з 1 (або 3) на 0
+* Перезавантажте
 
-## Disable Timestamps - Last Access Time
+## Вимкнення Відміток Часу - Останній Час Доступу
 
-Whenever a folder is opened from an NTFS volume on a Windows NT server, the system takes the time to **update a timestamp field on each listed folder**, called the last access time. On a heavily used NTFS volume, this can affect performance.
+Кожного разу, коли відкривається папка з тома NTFS на сервері Windows NT, система витрачає час на **оновлення полі відмітки часу на кожній перерахованій папці**, яке називається останній час доступу. На сильно використовуваному томі NTFS це може вплинути на продуктивність.
 
-1. Open the Registry Editor (Regedit.exe).
-2. Browse to `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem`.
-3. Look for `NtfsDisableLastAccessUpdate`. If it doesn’t exist, add this DWORD and set its value to 1, which will disable the process.
-4. Close the Registry Editor, and reboot the server.
+1. Відкрийте Редактор реєстру (Regedit.exe).
+2. Перейдіть до `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem`.
+3. Знайдіть `NtfsDisableLastAccessUpdate`. Якщо його немає, додайте цей DWORD та встановіть його значення на 1, що вимкне процес.
+4. Закрийте Редактор реєстру та перезавантажте сервер.
+## Видалення історії USB
 
-## Delete USB History
+Всі **записи пристроїв USB** зберігаються в реєстрі Windows під ключем реєстру **USBSTOR**, який містить підключі, що створюються кожного разу, коли ви підключаєте пристрій USB до свого ПК або ноутбука. Ви можете знайти цей ключ тут `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **Видалення цього** ключа призведе до видалення історії USB.\
+Ви також можете скористатися інструментом [**USBDeview**](https://www.nirsoft.net/utils/usb\_devices\_view.html), щоб переконатися, що ви їх видалили (і видалити їх).
 
-All the **USB Device Entries** are stored in Windows Registry Under the **USBSTOR** registry key that contains sub keys which are created whenever you plug a USB Device into your PC or Laptop. You can find this key here H`KEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **Deleting this** you will delete the USB history.\
-You may also use the tool [**USBDeview**](https://www.nirsoft.net/utils/usb\_devices\_view.html) to be sure you have deleted them (and to delete them).
+Іншим файлом, який зберігає інформацію про USB, є файл `setupapi.dev.log` всередині `C:\Windows\INF`. Його також слід видалити.
 
-Another file that saves information about the USBs is the file `setupapi.dev.log` inside `C:\Windows\INF`. This should also be deleted.
+## Вимкнення тіньових копій
 
-## Disable Shadow Copies
+**Вивести** тіньові копії за допомогою `vssadmin list shadowstorage`\
+**Видалити** їх, виконавши `vssadmin delete shadow`
 
-**List** shadow copies with `vssadmin list shadowstorage`\
-**Delete** them running `vssadmin delete shadow`
+Ви також можете видалити їх через GUI, слідуючи за кроками, запропонованими за посиланням [https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html](https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html)
 
-You can also delete them via GUI following the steps proposed in [https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html](https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html)
+Щоб вимкнути тіньові копії [кроки звідси](https://support.waters.com/KB_Inf/Other/WKB15560_How_to_disable_Volume_Shadow_Copy_Service_VSS_in_Windows):
 
-To disable shadow copies [steps from here](https://support.waters.com/KB_Inf/Other/WKB15560_How_to_disable_Volume_Shadow_Copy_Service_VSS_in_Windows):
+1. Відкрийте програму Служби, набравши "services" у текстовому полі пошуку після натискання кнопки запуску Windows.
+2. Зі списку знайдіть "Тіньову копію тому", виберіть її, а потім отримайте доступ до властивостей, клацнувши правою кнопкою миші.
+3. Виберіть "Вимкнено" зі списку випадаючих меню "Тип запуску", а потім підтвердіть зміну, клацнувши "Застосувати" і "OK".
 
-1. Open the Services program by typing "services" into the text search box after clicking the Windows start button.
-2. From the list, find "Volume Shadow Copy", select it, and then access Properties by right-clicking.
-3. Choose Disabled from the "Startup type" drop-down menu, and then confirm the change by clicking Apply and OK.
+Також можливо змінити конфігурацію файлів, які будуть скопійовані в тіньову копію, у реєстрі `HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot`
 
-It's also possible to modify the configuration of which files are going to be copied in the shadow copy in the registry `HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot`
+## Перезапис видалених файлів
 
-## Overwrite deleted files
+* Ви можете скористатися **інструментом Windows**: `cipher /w:C`. Це вказує cipher видалити будь-які дані з вільного місця на диску в диску C.
+* Ви також можете скористатися інструментами, такими як [**Eraser**](https://eraser.heidi.ie)
 
-* You can use a **Windows tool**: `cipher /w:C` This will indicate cipher to remove any data from the available unused disk space inside the C drive.
-* You can also use tools like [**Eraser**](https://eraser.heidi.ie)
+## Видалення журналів подій Windows
 
-## Delete Windows event logs
-
-* Windows + R --> eventvwr.msc --> Expand "Windows Logs" --> Right click each category and select "Clear Log"
+* Windows + R --> eventvwr.msc --> Розгорнути "Журнали Windows" --> Клацніть правою кнопкою миші на кожній категорії та виберіть "Очистити журнал"
 * `for /F "tokens=*" %1 in ('wevtutil.exe el') DO wevtutil.exe cl "%1"`
 * `Get-EventLog -LogName * | ForEach { Clear-EventLog $_.Log }`
 
-## Disable Windows event logs
+## Вимкнення журналів подій Windows
 
 * `reg add 'HKLM\SYSTEM\CurrentControlSet\Services\eventlog' /v Start /t REG_DWORD /d 4 /f`
-* Inside the services section disable the service "Windows Event Log"
-* `WEvtUtil.exec clear-log` or `WEvtUtil.exe cl`
+* У розділі служб вимкніть службу "Журнал подій Windows"
+* `WEvtUtil.exec clear-log` або `WEvtUtil.exe cl`
 
-## Disable $UsnJrnl
+## Вимкнення $UsnJrnl
 
 * `fsutil usn deletejournal /d c:`
-
-
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
-
-

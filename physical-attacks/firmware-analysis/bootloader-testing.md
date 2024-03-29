@@ -1,57 +1,55 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію в рекламі HackTricks** або **завантажити HackTricks у PDF** Перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакінг-прийомами, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв.
 
 </details>
 
-The following steps are recommended for modifying device startup configurations and bootloaders like U-boot:
+Рекомендовані кроки для модифікації конфігурацій запуску пристрою та завантажувачів, таких як U-boot:
 
-1. **Access Bootloader's Interpreter Shell**:
-   - During boot, press "0", space, or other identified "magic codes" to access the bootloader's interpreter shell.
+1. **Доступ до інтерпретатора завантажувача**:
+- Під час завантаження натисніть "0", пробіл або інші визначені "магічні коди", щоб отримати доступ до інтерпретатора завантажувача.
 
-2. **Modify Boot Arguments**:
-   - Execute the following commands to append '`init=/bin/sh`' to the boot arguments, allowing execution of a shell command:
-     %%%
-     #printenv
-     #setenv bootargs=console=ttyS0,115200 mem=63M root=/dev/mtdblock3 mtdparts=sflash:<partitiionInfo> rootfstype=<fstype> hasEeprom=0 5srst=0 init=/bin/sh
-     #saveenv
-     #boot
-     %%%
+2. **Змінити аргументи завантаження**:
+- Виконайте наступні команди, щоб додати '`init=/bin/sh`' до аргументів завантаження, що дозволить виконання команди оболонки:
+%%%
+#printenv
+#setenv bootargs=console=ttyS0,115200 mem=63M root=/dev/mtdblock3 mtdparts=sflash:<partitiionInfo> rootfstype=<fstype> hasEeprom=0 5srst=0 init=/bin/sh
+#saveenv
+#boot
+%%%
 
-3. **Setup TFTP Server**:
-   - Configure a TFTP server to load images over a local network:
-     %%%
-     #setenv ipaddr 192.168.2.2 #local IP of the device
-     #setenv serverip 192.168.2.1 #TFTP server IP
-     #saveenv
-     #reset
-     #ping 192.168.2.1 #check network access
-     #tftp ${loadaddr} uImage-3.6.35 #loadaddr takes the address to load the file into and the filename of the image on the TFTP server
-     %%%
+3. **Налаштувати сервер TFTP**:
+- Налаштуйте сервер TFTP для завантаження зображень через локальну мережу:
+%%%
+#setenv ipaddr 192.168.2.2 #локальна IP-адреса пристрою
+#setenv serverip 192.168.2.1 #IP-адреса сервера TFTP
+#saveenv
+#reset
+#ping 192.168.2.1 #перевірте доступ до мережі
+#tftp ${loadaddr} uImage-3.6.35 #loadaddr бере адресу для завантаження файлу та ім'я файлу зображення на сервері TFTP
+%%%
 
-4. **Utilize `ubootwrite.py`**:
-   - Use `ubootwrite.py` to write the U-boot image and push a modified firmware to gain root access.
+4. **Використовуйте `ubootwrite.py`**:
+- Використовуйте `ubootwrite.py` для запису зображення U-boot та відправлення модифікованої прошивки для отримання root-доступу.
 
-5. **Check Debug Features**:
-   - Verify if debug features like verbose logging, loading arbitrary kernels, or booting from untrusted sources are enabled.
+5. **Перевірте відладкові функції**:
+- Перевірте, чи увімкнені відладкові функції, такі як розширене ведення журналу, завантаження довільних ядер або завантаження з ненадійних джерел.
 
-6. **Cautionary Hardware Interference**:
-   - Be cautious when connecting one pin to ground and interacting with SPI or NAND flash chips during the device boot-up sequence, particularly before the kernel decompresses. Consult the NAND flash chip's datasheet before shorting pins.
+6. **Обережне втручання у апаратне забезпечення**:
+- Будьте обережні при підключенні одного контакту до землі та взаємодії з чіпами SPI або NAND Flash під час послідовності завантаження пристрою, зокрема до розпакування ядра. Перед замиканням контактів перевірте технічні характеристики чіпа NAND Flash.
 
-7. **Configure Rogue DHCP Server**:
-   - Set up a rogue DHCP server with malicious parameters for a device to ingest during a PXE boot. Utilize tools like Metasploit's (MSF) DHCP auxiliary server. Modify the 'FILENAME' parameter with command injection commands such as `'a";/bin/sh;#'` to test input validation for device startup procedures.
+7. **Налаштувати підроблений сервер DHCP**:
+- Налаштуйте підроблений сервер DHCP зі зловмисними параметрами для пристрою, які він прийматиме під час PXE-завантаження. Використовуйте інструменти, такі як допоміжний сервер DHCP Metasploit (MSF). Змініть параметр 'FILENAME' на команди введення команд впровадження, такі як `'a";/bin/sh;#'` для перевірки валідації введення для процедур запуску пристрою.
 
-**Note**: The steps involving physical interaction with device pins (*marked with asterisks) should be approached with extreme caution to avoid damaging the device.
+**Примітка**: Кроки, що передбачають фізичну взаємодію з контактами пристрою (*позначені зірочкою), слід підходити з надзвичайною обережністю, щоб уникнути пошкодження пристрою.
 
 
 ## References
@@ -60,16 +58,14 @@ The following steps are recommended for modifying device startup configurations 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію в рекламі HackTricks** або **завантажити HackTricks у PDF** Перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакінг-прийомами, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв.
 
 </details>
-
-

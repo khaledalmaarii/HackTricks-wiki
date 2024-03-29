@@ -2,86 +2,85 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Працюєте в **кібербезпецівій компанії**? Хочете побачити вашу **компанію в рекламі на HackTricks**? або хочете мати доступ до **останньої версії PEASS або завантажити HackTricks у PDF**? Перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Дізнайтеся про [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* **Приєднуйтесь до** [**💬**](https://emojipedia.org/speech-balloon/) [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за мною на **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до [репозиторію hacktricks](https://github.com/carlospolop/hacktricks) та [репозиторію hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
-### User Identification Variables
+### Змінні ідентифікації користувача
 
-- **`ruid`**: The **real user ID** denotes the user who initiated the process.
-- **`euid`**: Known as the **effective user ID**, it represents the user identity utilized by the system to ascertain process privileges. Generally, `euid` mirrors `ruid`, barring instances like a SetUID binary execution, where `euid` assumes the file owner's identity, thus granting specific operational permissions.
-- **`suid`**: This **saved user ID** is pivotal when a high-privilege process (typically running as root) needs to temporarily relinquish its privileges to perform certain tasks, only to later reclaim its initial elevated status.
+- **`ruid`**: **Реальний ідентифікатор користувача** вказує на користувача, який ініціював процес.
+- **`euid`**: Відомий як **ефективний ідентифікатор користувача**, він представляє ідентичність користувача, яку використовує система для визначення привілеїв процесу. Загалом, `euid` відображає `ruid`, за винятком випадків, коли виконується бінарний файл SetUID, де `euid` припускає ідентичність власника файлу, надаючи певні операційні дозволи.
+- **`suid`**: Цей **збережений ідентифікатор користувача** є ключовим, коли високопривілейований процес (зазвичай запущений як root) повинен тимчасово відмовитися від своїх привілеїв для виконання певних завдань, лише щоб пізніше повернутися до свого початкового підвищеного статусу.
 
-#### Important Note
-A process not operating under root can only modify its `euid` to match the current `ruid`, `euid`, or `suid`.
+#### Важлива примітка
+Процес, який не працює під root, може змінювати свій `euid`, щоб відповідати поточному `ruid`, `euid` або `suid`.
 
-### Understanding set*uid Functions
+### Розуміння функцій set*uid
 
-- **`setuid`**: Contrary to initial assumptions, `setuid` primarily modifies `euid` rather than `ruid`. Specifically, for privileged processes, it aligns `ruid`, `euid`, and `suid` with the specified user, often root, effectively solidifying these IDs due to the overriding `suid`. Detailed insights can be found in the [setuid man page](https://man7.org/linux/man-pages/man2/setuid.2.html).
-- **`setreuid`** and **`setresuid`**: These functions allow for the nuanced adjustment of `ruid`, `euid`, and `suid`. However, their capabilities are contingent on the process's privilege level. For non-root processes, modifications are restricted to the current values of `ruid`, `euid`, and `suid`. In contrast, root processes or those with `CAP_SETUID` capability can assign arbitrary values to these IDs. More information can be gleaned from the [setresuid man page](https://man7.org/linux/man-pages/man2/setresuid.2.html) and the [setreuid man page](https://man7.org/linux/man-pages/man2/setreuid.2.html).
+- **`setuid`**: На відміну від початкових припущень, `setuid` в основному змінює `euid`, а не `ruid`. Зокрема, для привілейованих процесів він вирівнює `ruid`, `euid` та `suid` з вказаним користувачем, часто root, ефективно закріплюючи ці ідентифікатори через перевизначення `suid`. Детальні відомості можна знайти на сторінці [setuid man](https://man7.org/linux/man-pages/man2/setuid.2.html).
+- **`setreuid`** та **`setresuid`**: Ці функції дозволяють докладне налаштування `ruid`, `euid` та `suid`. Однак їх можливості залежать від рівня привілеїв процесу. Для процесів, які не є root, модифікації обмежені поточними значеннями `ruid`, `euid` та `suid`. На відміну від цього, root-процеси або ті, які мають можливість `CAP_SETUID`, можуть призначати довільні значення цим ідентифікаторам. Додаткову інформацію можна отримати на сторінці [setresuid man](https://man7.org/linux/man-pages/man2/setresuid.2.html) та на сторінці [setreuid man](https://man7.org/linux/man-pages/man2/setreuid.2.html).
 
-These functionalities are designed not as a security mechanism but to facilitate the intended operational flow, such as when a program adopts another user's identity by altering its effective user ID.
+Ці функціональності призначені не як засіб безпеки, а для полегшення задуманого операційного процесу, наприклад, коли програма приймає ідентичність іншого користувача, змінюючи свій ефективний ідентифікатор користувача.
 
-Notably, while `setuid` might be a common go-to for privilege elevation to root (since it aligns all IDs to root), differentiating between these functions is crucial for understanding and manipulating user ID behaviors in varying scenarios.
+Зокрема, хоча `setuid` може бути загальним вибором для підвищення привілеїв до root (оскільки він вирівнює всі ідентифікатори до root), важливо розрізняти ці функції для розуміння та маніпулювання поведінкою ідентифікаторів користувача в різних сценаріях.
 
-### Program Execution Mechanisms in Linux
+### Механізми виконання програм в Linux
 
-#### **`execve` System Call**
-- **Functionality**: `execve` initiates a program, determined by the first argument. It takes two array arguments, `argv` for arguments and `envp` for the environment.
-- **Behavior**: It retains the memory space of the caller but refreshes the stack, heap, and data segments. The program's code is replaced by the new program.
-- **User ID Preservation**:
-  - `ruid`, `euid`, and supplementary group IDs remain unaltered.
-  - `euid` might have nuanced changes if the new program has the SetUID bit set.
-  - `suid` gets updated from `euid` post-execution.
-- **Documentation**: Detailed information can be found on the [`execve` man page](https://man7.org/linux/man-pages/man2/execve.2.html).
+#### **Системний виклик `execve`**
+- **Функціональність**: `execve` запускає програму, визначену першим аргументом. Він приймає два масиви аргументів, `argv` для аргументів та `envp` для середовища.
+- **Поведінка**: Він зберігає простір пам'яті викликаючого, але оновлює стек, купу та сегменти даних. Код програми замінюється новою програмою.
+- **Збереження ідентифікатора користувача**:
+- `ruid`, `euid` та додаткові ідентифікатори груп залишаються незмінними.
+- `euid` може мати нюансові зміни, якщо у новій програмі встановлено біт SetUID.
+- `suid` оновлюється з `euid` після виконання.
+- **Документація**: Докладну інформацію можна знайти на сторінці [`execve` man](https://man7.org/linux/man-pages/man2/execve.2.html).
 
-#### **`system` Function**
-- **Functionality**: Unlike `execve`, `system` creates a child process using `fork` and executes a command within that child process using `execl`.
-- **Command Execution**: Executes the command via `sh` with `execl("/bin/sh", "sh", "-c", command, (char *) NULL);`.
-- **Behavior**: As `execl` is a form of `execve`, it operates similarly but in the context of a new child process.
-- **Documentation**: Further insights can be obtained from the [`system` man page](https://man7.org/linux/man-pages/man3/system.3.html).
+#### **Функція `system`**
+- **Функціональність**: На відміну від `execve`, `system` створює дочірній процес за допомогою `fork` та виконує команду в цьому дочірньому процесі за допомогою `execl`.
+- **Виконання команди**: Виконує команду через `sh` за допомогою `execl("/bin/sh", "sh", "-c", command, (char *) NULL);`.
+- **Поведінка**: Оскільки `execl` є формою `execve`, він працює аналогічно, але в контексті нового дочірнього процесу.
+- **Документація**: Додаткові відомості можна отримати на сторінці [`system` man](https://man7.org/linux/man-pages/man3/system.3.html).
 
-#### **Behavior of `bash` and `sh` with SUID**
+#### **Поведінка `bash` та `sh` з SUID**
 - **`bash`**:
-  - Has a `-p` option influencing how `euid` and `ruid` are treated.
-  - Without `-p`, `bash` sets `euid` to `ruid` if they initially differ.
-  - With `-p`, the initial `euid` is preserved.
-  - More details can be found on the [`bash` man page](https://linux.die.net/man/1/bash).
+- Має опцію `-p`, яка впливає на те, як `euid` та `ruid` обробляються в `bash`.
+- Без `-p` `bash` встановлює `euid` на `ruid`, якщо вони спочатку відрізняються.
+- З `-p` початковий `euid` зберігається.
+- Докладнішу інформацію можна знайти на сторінці [`bash` man](https://linux.die.net/man/1/bash).
 - **`sh`**:
-  - Does not possess a mechanism similar to `-p` in `bash`.
-  - The behavior concerning user IDs is not explicitly mentioned, except under the `-i` option, emphasizing the preservation of `euid` and `ruid` equality.
-  - Additional information is available on the [`sh` man page](https://man7.org/linux/man-pages/man1/sh.1p.html).
+- Не має механізму, подібного до `-p` в `bash`.
+- Поведінка щодо ідентифікаторів користувача не згадується явно, за винятком опції `-i`, яка підкреслює збереження рівності `euid` та `ruid`.
+- Додаткову інформацію можна знайти на сторінці [`sh` man](https://man7.org/linux/man-pages/man1/sh.1p.html).
 
-These mechanisms, distinct in their operation, offer a versatile range of options for executing and transitioning between programs, with specific nuances in how user IDs are managed and preserved.
+Ці механізми, відмінні у своїй роботі, пропонують широкий спектр варіантів для виконання та переходу між програмами, з конкретними нюансами у керуванні та збереженні ідентифікаторів користувача.
 
-### Testing User ID Behaviors in Executions
+### Тестування поведінки ідентифікаторів користувача під час виконання
 
-Examples taken from https://0xdf.gitlab.io/2022/05/31/setuid-rabbithole.html#testing-on-jail, check it for further information
+Приклади взяті з https://0xdf.gitlab.io/2022/05/31/setuid-rabbithole.html#testing-on-jail, перевірте їх для отримання додаткової інформації
 
-#### Case 1: Using `setuid` with `system`
+#### Сценарій 1: Використання `setuid` з `system`
 
-**Objective**: Understanding the effect of `setuid` in combination with `system` and `bash` as `sh`.
+**Мета**: Розуміння ефекту `setuid` в поєднанні з `system` та `bash` як `sh`.
 
-**C Code**:
+**Код на C**:
 ```c
 #define _GNU_SOURCE
 #include <stdlib.h>
 #include <unistd.h>
 
 int main(void) {
-    setuid(1000);
-    system("id");
-    return 0;
+setuid(1000);
+system("id");
+return 0;
 }
 ```
-
-**Compilation and Permissions:**
+**Компіляція та дозволи:**
 ```bash
 oxdf@hacky$ gcc a.c -o /mnt/nfsshare/a;
 oxdf@hacky$ chmod 4755 /mnt/nfsshare/a
@@ -91,133 +90,116 @@ oxdf@hacky$ chmod 4755 /mnt/nfsshare/a
 bash-4.2$ $ ./a
 uid=99(nobody) gid=99(nobody) groups=99(nobody) context=system_u:system_r:unconfined_service_t:s0
 ```
+**Аналіз:**
 
-**Analysis:**
+* `ruid` та `euid` спочатку рівні 99 (nobody) та 1000 (frank) відповідно.
+* `setuid` вирівнює обидва на 1000.
+* `system` виконує `/bin/bash -c id` через символічне посилання з sh на bash.
+* `bash`, без `-p`, налаштовує `euid` для відповідності `ruid`, що призводить до того, що обидва стають 99 (nobody).
 
-* `ruid` and `euid` start as 99 (nobody) and 1000 (frank) respectively.
-* `setuid` aligns both to 1000.
-* `system` executes `/bin/bash -c id` due to the symlink from sh to bash.
-* `bash`, without `-p`, adjusts `euid` to match `ruid`, resulting in both being 99 (nobody).
+#### Випадок 2: Використання setreuid з system
 
-#### Case 2: Using setreuid with system
-
-**C Code**:
+**C Код**:
 ```c
 #define _GNU_SOURCE
 #include <stdlib.h>
 #include <unistd.h>
 
 int main(void) {
-    setreuid(1000, 1000);
-    system("id");
-    return 0;
+setreuid(1000, 1000);
+system("id");
+return 0;
 }
 ```
-
-**Compilation and Permissions:**
+**Компіляція та дозволи:**
 ```bash
 oxdf@hacky$ gcc b.c -o /mnt/nfsshare/b; chmod 4755 /mnt/nfsshare/b
 ```
-
-**Execution and Result:**
-
+**Виконання та Результат:**
 ```bash
 bash-4.2$ $ ./b
 uid=1000(frank) gid=99(nobody) groups=99(nobody) context=system_u:system_r:unconfined_service_t:s0
 ```
+**Аналіз:**
 
-**Analysis:**
+* `setreuid` встановлює як ruid, так і euid на 1000.
+* `system` викликає bash, який зберігає ідентифікатори користувачів через їх рівність, ефективно працюючи як frank.
 
-* `setreuid` sets both ruid and euid to 1000.
-* `system` invokes bash, which maintains the user IDs due to their equality, effectively operating as frank.
-
-#### Case 3: Using setuid with execve
-Objective: Exploring the interaction between setuid and execve.
-
+#### Сценарій 3: Використання setuid з execve
+Мета: Дослідження взаємодії між setuid та execve.
 ```bash
 #define _GNU_SOURCE
 #include <stdlib.h>
 #include <unistd.h>
 
 int main(void) {
-    setuid(1000);
-    execve("/usr/bin/id", NULL, NULL);
-    return 0;
+setuid(1000);
+execve("/usr/bin/id", NULL, NULL);
+return 0;
 }
 ```
-
-**Execution and Result:**
-
+**Виконання та Результат:**
 ```bash
 bash-4.2$ $ ./c
 uid=99(nobody) gid=99(nobody) euid=1000(frank) groups=99(nobody) context=system_u:system_r:unconfined_service_t:s0
 ```
+**Аналіз:**
 
-**Analysis:**
+* `ruid` залишається 99, але euid встановлено на 1000, відповідно до ефекту setuid.
 
-* `ruid` remains 99, but euid is set to 1000, in line with setuid's effect.
-
-**C Code Example 2 (Calling Bash):**
-
+**Приклад коду на мові C 2 (Виклик Bash):**
 ```bash
 #define _GNU_SOURCE
 #include <stdlib.h>
 #include <unistd.h>
 
 int main(void) {
-    setuid(1000);
-    execve("/bin/bash", NULL, NULL);
-    return 0;
+setuid(1000);
+execve("/bin/bash", NULL, NULL);
+return 0;
 }
 ```
-
-**Execution and Result:**
-
+**Виконання та Результат:**
 ```bash
 bash-4.2$ $ ./d
 bash-4.2$ $ id
 uid=99(nobody) gid=99(nobody) groups=99(nobody) context=system_u:system_r:unconfined_service_t:s0
 ```
+**Аналіз:**
 
-**Analysis:**
+* Хоча `euid` встановлено на 1000 за допомогою `setuid`, `bash` скидає euid на `ruid` (99) через відсутність `-p`.
 
-* Although `euid` is set to 1000 by `setuid`, `bash` resets euid to `ruid` (99) due to the absence of `-p`.
-
-**C Code Example 3 (Using bash -p):**
-
+**Приклад коду на мові C 3 (Використання bash -p):**
 ```bash
 #define _GNU_SOURCE
 #include <stdlib.h>
 #include <unistd.h>
 
 int main(void) {
-    char *const paramList[10] = {"/bin/bash", "-p", NULL};
-    setuid(1000);
-    execve(paramList[0], paramList, NULL);
-    return 0;
+char *const paramList[10] = {"/bin/bash", "-p", NULL};
+setuid(1000);
+execve(paramList[0], paramList, NULL);
+return 0;
 }
 ```
-
-**Execution and Result:**
-
+**Виконання та Результат:**
 ```bash
 bash-4.2$ $ ./e
 bash-4.2$ $ id
 uid=99(nobody) gid=99(nobody) euid=100
 ```
-
-## References
+## Посилання
 * [https://0xdf.gitlab.io/2022/05/31/setuid-rabbithole.html#testing-on-jail](https://0xdf.gitlab.io/2022/05/31/setuid-rabbithole.html#testing-on-jail)
 
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Ви працюєте в **кібербезпеці компанії**? Хочете, щоб ваша **компанія рекламувалася на HackTricks**? або ви хочете мати доступ до **останньої версії PEASS або завантажити HackTricks у форматі PDF**? Перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* **Приєднуйтесь до** [**💬**](https://emojipedia.org/speech-balloon/) [**групи Discord**](https://discord.gg/hRep4RUj7f) або групи [**telegram**](https://t.me/peass) або **слідкуйте** за мною на **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до [репозиторію hacktricks](https://github.com/carlospolop/hacktricks) та [репозиторію hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>

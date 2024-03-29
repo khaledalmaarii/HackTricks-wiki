@@ -1,19 +1,18 @@
-# macOS xattr-acls extra stuff
+# Додаткова інформація про xattr-acls macOS
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити **рекламу вашої компанії на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **і** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв на GitHub**.
 
 </details>
-
 ```bash
 rm -rf /tmp/test*
 echo test >/tmp/test
@@ -25,11 +24,9 @@ group:ABCDEFAB-CDEF-ABCD-EFAB-CDEF0000000C:everyone:12:deny:write,writeattr,writ
 
 ACL in hex: \x21\x23\x61\x63\x6c\x20\x31\x0a\x67\x72\x6f\x75\x70\x3a\x41\x42\x43\x44\x45\x46\x41\x42\x2d\x43\x44\x45\x46\x2d\x41\x42\x43\x44\x2d\x45\x46\x41\x42\x2d\x43\x44\x45\x46\x30\x30\x30\x30\x30\x30\x30\x43\x3a\x65\x76\x65\x72\x79\x6f\x6e\x65\x3a\x31\x32\x3a\x64\x65\x6e\x79\x3a\x77\x72\x69\x74\x65\x2c\x77\x72\x69\x74\x65\x61\x74\x74\x72\x2c\x77\x72\x69\x74\x65\x65\x78\x74\x61\x74\x74\x72\x2c\x77\x72\x69\x74\x65\x73\x65\x63\x75\x72\x69\x74\x79\x2c\x63\x68\x6f\x77\x6e\x0a
 ```
-
 <details>
 
-<summary>Code of get_acls</summary>
-
+<summary>Код функції get_acls</summary>
 ```c
 // gcc -o get_acls get_acls
 #include <stdio.h>
@@ -37,42 +34,40 @@ ACL in hex: \x21\x23\x61\x63\x6c\x20\x31\x0a\x67\x72\x6f\x75\x70\x3a\x41\x42\x43
 #include <sys/acl.h>
 
 int main(int argc, char *argv[]) {
-    if (argc != 2) {
-        fprintf(stderr, "Usage: %s <filepath>\n", argv[0]);
-        return 1;
-    }
+if (argc != 2) {
+fprintf(stderr, "Usage: %s <filepath>\n", argv[0]);
+return 1;
+}
 
-    const char *filepath = argv[1];
-    acl_t acl = acl_get_file(filepath, ACL_TYPE_EXTENDED);
-    if (acl == NULL) {
-        perror("acl_get_file");
-        return 1;
-    }
+const char *filepath = argv[1];
+acl_t acl = acl_get_file(filepath, ACL_TYPE_EXTENDED);
+if (acl == NULL) {
+perror("acl_get_file");
+return 1;
+}
 
-    char *acl_text = acl_to_text(acl, NULL);
-    if (acl_text == NULL) {
-        perror("acl_to_text");
-        acl_free(acl);
-        return 1;
-    }
+char *acl_text = acl_to_text(acl, NULL);
+if (acl_text == NULL) {
+perror("acl_to_text");
+acl_free(acl);
+return 1;
+}
 
-    printf("ACL for %s:\n%s\n", filepath, acl_text);
+printf("ACL for %s:\n%s\n", filepath, acl_text);
 
-    // Convert acl_text to hexadecimal and print it
-    printf("ACL in hex: ");
-    for (char *c = acl_text; *c != '\0'; c++) {
-        printf("\\x%02x", (unsigned char)*c);
-    }
-    printf("\n");
+// Convert acl_text to hexadecimal and print it
+printf("ACL in hex: ");
+for (char *c = acl_text; *c != '\0'; c++) {
+printf("\\x%02x", (unsigned char)*c);
+}
+printf("\n");
 
-    acl_free(acl);
-    acl_free(acl_text);
-    return 0;
+acl_free(acl);
+acl_free(acl_text);
+return 0;
 }
 ```
-
 </details>
-
 ```bash
 # Lets add the xattr com.apple.xxx.xxxx with the acls
 mkdir start
@@ -80,11 +75,9 @@ mkdir start/protected
 ./set_xattr start/protected
 echo something > start/protected/something
 ```
-
 <details>
 
-<summary>Code of set_xattr</summary>
-
+<summary>Код set_xattr</summary>
 ```c
 // gcc -o set_xattr set_xattr.c
 #include <stdio.h>
@@ -95,79 +88,78 @@ echo something > start/protected/something
 
 
 void print_xattrs(const char *filepath) {
-    ssize_t buflen = listxattr(filepath, NULL, 0, XATTR_NOFOLLOW);
-    if (buflen < 0) {
-        perror("listxattr");
-        return;
-    }
+ssize_t buflen = listxattr(filepath, NULL, 0, XATTR_NOFOLLOW);
+if (buflen < 0) {
+perror("listxattr");
+return;
+}
 
-    char *buf = malloc(buflen);
-    if (buf == NULL) {
-        perror("malloc");
-        return;
-    }
+char *buf = malloc(buflen);
+if (buf == NULL) {
+perror("malloc");
+return;
+}
 
-    buflen = listxattr(filepath, buf, buflen, XATTR_NOFOLLOW);
-    if (buflen < 0) {
-        perror("listxattr");
-        free(buf);
-        return;
-    }
+buflen = listxattr(filepath, buf, buflen, XATTR_NOFOLLOW);
+if (buflen < 0) {
+perror("listxattr");
+free(buf);
+return;
+}
 
-    printf("All current extended attributes for %s:\n", filepath);
-    for (char *name = buf; name < buf + buflen; name += strlen(name) + 1) {
-        printf("%s: ", name);
-        ssize_t valuelen = getxattr(filepath, name, NULL, 0, 0, XATTR_NOFOLLOW);
-        if (valuelen < 0) {
-            perror("getxattr");
-            continue;
-        }
+printf("All current extended attributes for %s:\n", filepath);
+for (char *name = buf; name < buf + buflen; name += strlen(name) + 1) {
+printf("%s: ", name);
+ssize_t valuelen = getxattr(filepath, name, NULL, 0, 0, XATTR_NOFOLLOW);
+if (valuelen < 0) {
+perror("getxattr");
+continue;
+}
 
-        char *value = malloc(valuelen + 1);
-        if (value == NULL) {
-            perror("malloc");
-            continue;
-        }
+char *value = malloc(valuelen + 1);
+if (value == NULL) {
+perror("malloc");
+continue;
+}
 
-        valuelen = getxattr(filepath, name, value, valuelen, 0, XATTR_NOFOLLOW);
-        if (valuelen < 0) {
-            perror("getxattr");
-            free(value);
-            continue;
-        }
+valuelen = getxattr(filepath, name, value, valuelen, 0, XATTR_NOFOLLOW);
+if (valuelen < 0) {
+perror("getxattr");
+free(value);
+continue;
+}
 
-        value[valuelen] = '\0';  // Null-terminate the value
-        printf("%s\n", value);
-        free(value);
-    }
+value[valuelen] = '\0';  // Null-terminate the value
+printf("%s\n", value);
+free(value);
+}
 
-    free(buf);
+free(buf);
 }
 
 
 int main(int argc, char *argv[]) {
-    if (argc != 2) {
-        fprintf(stderr, "Usage: %s <filepath>\n", argv[0]);
-        return 1;
-    }
+if (argc != 2) {
+fprintf(stderr, "Usage: %s <filepath>\n", argv[0]);
+return 1;
+}
 
-    const char *hex = "\x21\x23\x61\x63\x6c\x20\x31\x0a\x67\x72\x6f\x75\x70\x3a\x41\x42\x43\x44\x45\x46\x41\x42\x2d\x43\x44\x45\x46\x2d\x41\x42\x43\x44\x2d\x45\x46\x41\x42\x2d\x43\x44\x45\x46\x30\x30\x30\x30\x30\x30\x30\x43\x3a\x65\x76\x65\x72\x79\x6f\x6e\x65\x3a\x31\x32\x3a\x64\x65\x6e\x79\x3a\x77\x72\x69\x74\x65\x2c\x77\x72\x69\x74\x65\x61\x74\x74\x72\x2c\x77\x72\x69\x74\x65\x65\x78\x74\x61\x74\x74\x72\x2c\x77\x72\x69\x74\x65\x73\x65\x63\x75\x72\x69\x74\x79\x2c\x63\x68\x6f\x77\x6e\x0a";
-    const char *filepath = argv[1];
+const char *hex = "\x21\x23\x61\x63\x6c\x20\x31\x0a\x67\x72\x6f\x75\x70\x3a\x41\x42\x43\x44\x45\x46\x41\x42\x2d\x43\x44\x45\x46\x2d\x41\x42\x43\x44\x2d\x45\x46\x41\x42\x2d\x43\x44\x45\x46\x30\x30\x30\x30\x30\x30\x30\x43\x3a\x65\x76\x65\x72\x79\x6f\x6e\x65\x3a\x31\x32\x3a\x64\x65\x6e\x79\x3a\x77\x72\x69\x74\x65\x2c\x77\x72\x69\x74\x65\x61\x74\x74\x72\x2c\x77\x72\x69\x74\x65\x65\x78\x74\x61\x74\x74\x72\x2c\x77\x72\x69\x74\x65\x73\x65\x63\x75\x72\x69\x74\x79\x2c\x63\x68\x6f\x77\x6e\x0a";
+const char *filepath = argv[1];
 
-    int result = setxattr(filepath, "com.apple.xxx.xxxx", hex, strlen(hex), 0, 0);
-    if (result == 0) {
-        printf("Extended attribute set successfully.\n\n");
-    } else {
-        perror("setxattr");
-        return 1;
-    }
+int result = setxattr(filepath, "com.apple.xxx.xxxx", hex, strlen(hex), 0, 0);
+if (result == 0) {
+printf("Extended attribute set successfully.\n\n");
+} else {
+perror("setxattr");
+return 1;
+}
 
-    print_xattrs(filepath);
+print_xattrs(filepath);
 
-    return 0;
+return 0;
 }
 ```
-
 </details>
 
 {% code overflow="wrap" %}
@@ -186,23 +178,21 @@ rm -rf protected
 rm ._*
 ```
 {% endcode %}
-
 ```bash
 # Check if it worked
 ditto -x -k --rsrc protected.zip .
 xattr -l protected
 ```
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію рекламовану на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв GitHub.
 
 </details>

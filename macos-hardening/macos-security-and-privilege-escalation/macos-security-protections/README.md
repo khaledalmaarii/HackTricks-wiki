@@ -1,136 +1,127 @@
-# macOS Security Protections
+# Захист macOS
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію рекламовану на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Дізнайтеся про [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на GitHub.
 
 </details>
 
 ## Gatekeeper
 
-Gatekeeper is usually used to refer to the combination of **Quarantine + Gatekeeper + XProtect**, 3 macOS security modules that will try to **prevent users from executing potentially malicious software downloaded**.
+Gatekeeper зазвичай використовується для посилання на комбінацію **Quarantine + Gatekeeper + XProtect**, 3 модулі безпеки macOS, які спробують **запобігти виконанню потенційно шкідливого програмного забезпечення, завантаженого користувачами**.
 
-More information in:
+Додаткова інформація:
 
 {% content-ref url="macos-gatekeeper.md" %}
 [macos-gatekeeper.md](macos-gatekeeper.md)
 {% endcontent-ref %}
 
-## Processes Limitants
+## Обмеження процесів
 
-### SIP - System Integrity Protection
+### SIP - Захист системної цілісності
 
 {% content-ref url="macos-sip.md" %}
 [macos-sip.md](macos-sip.md)
 {% endcontent-ref %}
 
-### Sandbox
+### Пісочниця
 
-MacOS Sandbox **limits applications** running inside the sandbox to the **allowed actions specified in the Sandbox profile** the app is running with. This helps to ensure that **the application will be accessing only expected resources**.
+Пісочниця macOS **обмежує додатки**, що працюють у пісочниці, до **дій, дозволених в профілі пісочниці**, з яким працює додаток. Це допомагає забезпечити, що **додаток буде отримувати доступ лише до очікуваних ресурсів**.
 
 {% content-ref url="macos-sandbox/" %}
 [macos-sandbox](macos-sandbox/)
 {% endcontent-ref %}
 
-### TCC - **Transparency, Consent, and Control**
+### TCC - **Прозорість, Згода та Контроль**
 
-**TCC (Transparency, Consent, and Control)** is a security framework. It's designed to **manage the permissions** of applications, specifically by regulating their access to sensitive features. This includes elements like **location services, contacts, photos, microphone, camera, accessibility, and full disk access**. TCC ensures that apps can only access these features after obtaining explicit user consent, thereby bolstering privacy and control over personal data.
+**TCC (Прозорість, Згода та Контроль)** - це система безпеки. Вона призначена для **управління дозволами** додатків, зокрема шляхом регулювання їх доступу до чутливих функцій. Це включає елементи, такі як **сервіси місцезнаходження, контакти, фотографії, мікрофон, камера, доступність та повний доступ до диска**. TCC забезпечує, що додатки можуть отримати доступ до цих функцій лише після отримання явної згоди користувача, тим самим зміцнюючи конфіденційність та контроль над особистими даними.
 
 {% content-ref url="macos-tcc/" %}
 [macos-tcc](macos-tcc/)
 {% endcontent-ref %}
 
-### Launch/Environment Constraints & Trust Cache
+### Обмеження запуску/середовища та кеш довіри
 
-Launch constraints in macOS are a security feature to **regulate process initiation** by defining **who can launch** a process, **how**, and **from where**. Introduced in macOS Ventura, they categorize system binaries into constraint categories within a **trust cache**. Every executable binary has set **rules** for its **launch**, including **self**, **parent**, and **responsible** constraints. Extended to third-party apps as **Environment** Constraints in macOS Sonoma, these features help mitigate potential system exploitations by governing process launching conditions.
+Обмеження запуску в macOS - це функція безпеки для **регулювання ініціювання процесу**, визначаючи, **хто може запустити** процес, **як**, і **звідки**. Введені в macOS Ventura, вони категоризують системні бінарники в межах **кешу довіри**. Кожний виконуваний бінарний файл має встановлені **правила** для його **запуску**, включаючи **сам**, **батьківські** та **відповідальні** обмеження. Розширені до сторонніх додатків як **Обмеження середовища** в macOS Sonoma, ці функції допомагають пом'якшити можливі експлуатації системи, керуючи умовами запуску процесу.
 
 {% content-ref url="macos-launch-environment-constraints.md" %}
 [macos-launch-environment-constraints.md](macos-launch-environment-constraints.md)
 {% endcontent-ref %}
 
-## MRT - Malware Removal Tool
+## MRT - Інструмент видалення шкідливого програмного забезпечення
 
-The Malware Removal Tool (MRT) is another part of macOS's security infrastructure. As the name suggests, MRT's main function is to **remove known malware from infected systems**.
+Інструмент видалення шкідливого програмного забезпечення (MRT) є ще однією частиною інфраструктури безпеки macOS. Як із назви випливає, основна функція MRT - **видалення відомого шкідливого програмного забезпечення з інфікованих систем**.
 
-Once malware is detected on a Mac (either by XProtect or by some other means), MRT can be used to automatically **remove the malware**. MRT operates silently in the background and typically runs whenever the system is updated or when a new malware definition is downloaded (it looks like the rules MRT has to detect malware are inside the binary).
+Після виявлення шкідливого програмного забезпечення на Mac (чи то за допомогою XProtect, чи іншими засобами), MRT може бути використаний для автоматичного **видалення шкідливого програмного забезпечення**. MRT працює непомітно в фоновому режимі і зазвичай запускається кожного разу, коли система оновлюється або коли завантажується нове визначення шкідливого програмного забезпечення (здається, що правила, за якими MRT виявляє шкідливе програмне забезпечення, знаходяться всередині бінарного файлу).
 
-While both XProtect and MRT are part of macOS's security measures, they perform different functions:
+Хоча як XProtect, так і MRT є частинами заходів безпеки macOS, вони виконують різні функції:
 
-* **XProtect** is a preventative tool. It **checks files as they're downloaded** (via certain applications), and if it detects any known types of malware, it **prevents the file from opening**, thereby preventing the malware from infecting your system in the first place.
-* **MRT**, on the other hand, is a **reactive tool**. It operates after malware has been detected on a system, with the goal of removing the offending software to clean up the system.
+* **XProtect** є запобіжним інструментом. Він **перевіряє файли при їх завантаженні** (через певні додатки), і якщо він виявляє будь-які відомі типи шкідливого програмного забезпечення, він **запобігає відкриттю файлу**, тим самим запобігаючи інфікуванню вашої системи в першу чергу.
+* **MRT**, з іншого боку, є **реактивним інструментом**. Він працює після виявлення шкідливого програмного забезпечення на системі з метою видалення образливого програмного забезпечення для очищення системи.
 
-The MRT application is located in **`/Library/Apple/System/Library/CoreServices/MRT.app`**
+Додаток MRT розташований в **`/Library/Apple/System/Library/CoreServices/MRT.app`**
 
-## Background Tasks Management
+## Керування фоновими завданнями
 
-**macOS** now **alerts** every time a tool uses a well known **technique to persist code execution** (such as Login Items, Daemons...), so the user knows better **which software is persisting**.
+**macOS** тепер **повідомляє** кожного разу, коли інструмент використовує відомий **спосіб постійного виконання коду** (такий як елементи входу, демони...), щоб користувач краще **знав, яке програмне забезпечення постійно виконується**.
 
 <figure><img src="../../../.gitbook/assets/image (711).png" alt=""><figcaption></figcaption></figure>
 
-This runs with a **daemon** located in `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Versions/A/Resources/backgroundtaskmanagementd` and the **agent** in `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Support/BackgroundTaskManagementAgent.app`
+Це відбувається за допомогою **демона**, розташованого в `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Versions/A/Resources/backgroundtaskmanagementd` та **агента** в `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Support/BackgroundTaskManagementAgent.app`
 
-The way **`backgroundtaskmanagementd`** knows something is installed in a persistent folder is by **getting the FSEvents** and creating some **handlers** for those.
+Спосіб, як **`backgroundtaskmanagementd`** знає, що щось встановлено в постійну папку, полягає в тому, що він отримує **FSEvents** та створює деякі **обробники** для них.
 
-Moreover, there is a plist file that contains **well known applications** that frequently persists maintained by apple located in: `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Versions/A/Resources/attributions.plist`
-
+Крім того, є файл plist, який містить **відомі додатки**, які часто виконуються постійно, підтримувані Apple, розташований за адресою: `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Versions/A/Resources/attributions.plist`
 ```json
 [...]
 "us.zoom.ZoomDaemon" => {
-    "AssociatedBundleIdentifiers" => [
-      0 => "us.zoom.xos"
-    ]
-    "Attribution" => "Zoom"
-    "Program" => "/Library/PrivilegedHelperTools/us.zoom.ZoomDaemon"
-    "ProgramArguments" => [
-      0 => "/Library/PrivilegedHelperTools/us.zoom.ZoomDaemon"
-    ]
-    "TeamIdentifier" => "BJ4HAAB9B3"
-  }
+"AssociatedBundleIdentifiers" => [
+0 => "us.zoom.xos"
+]
+"Attribution" => "Zoom"
+"Program" => "/Library/PrivilegedHelperTools/us.zoom.ZoomDaemon"
+"ProgramArguments" => [
+0 => "/Library/PrivilegedHelperTools/us.zoom.ZoomDaemon"
+]
+"TeamIdentifier" => "BJ4HAAB9B3"
+}
 [...]
 ```
+### Перелік
 
-### Enumeration
-
-It's possible to **enumerate all** the configured background items running the Apple cli tool:
-
+Можливо **перелічити всі** налаштовані фонові елементи, які працюють за допомогою інструменту командного рядка Apple:
 ```bash
 # The tool will always ask for the users password
 sfltool dumpbtm
 ```
-
-Moreover, it's also possible to list this information with [**DumpBTM**](https://github.com/objective-see/DumpBTM).
-
+Крім того, цю інформацію також можна вивести за допомогою [**DumpBTM**](https://github.com/objective-see/DumpBTM).
 ```bash
 # You need to grant the Terminal Full Disk Access for this to work
 chmod +x dumpBTM
 xattr -rc dumpBTM # Remove quarantine attr
 ./dumpBTM
 ```
+Ця інформація зберігається в **`/private/var/db/com.apple.backgroundtaskmanagement/BackgroundItems-v4.btm`** і для терміналу потрібен FDA.
 
-This information is being stored in **`/private/var/db/com.apple.backgroundtaskmanagement/BackgroundItems-v4.btm`** and the Terminal needs FDA.
+### Втручання в BTM
 
-### Messing with BTM
+Коли знайдено нову постійність, відбувається подія типу **`ES_EVENT_TYPE_NOTIFY_BTM_LAUNCH_ITEM_ADD`**. Таким чином, будь-який спосіб **запобігти** відправці цієї **події** або **агенту сповіщати** користувача допоможе зловмиснику _**обійти**_ BTM.
 
-When a new persistence is found an event of type **`ES_EVENT_TYPE_NOTIFY_BTM_LAUNCH_ITEM_ADD`**. So, any way to **prevent** this **event** from being sent or the **agent from alerting** the user will help an attacker to _**bypass**_ BTM.
-
-* **Reseting the database**: Running the following command will reset the database (should rebuild it from the ground), however, for some reason, after running this, **no new persistence will be alerted until the system is rebooted**.
-  * **root** is required.
-
+* **Скидання бази даних**: Виконання наступної команди скине базу даних (повинна буде перебудована з нуля), однак, з якоїсь причини після виконання цього **нові постійність не будуть сповіщені, поки систему не перезавантажено**.
+* Потрібен **root**.
 ```bash
 # Reset the database
 sfltool resettbtm
 ```
-
-* **Stop the Agent**: It's possible to send a stop signal to the agent so it **won't be alerting the user** when new detections are found.
-
+* **Зупиніть агента**: Можливо надіслати сигнал зупинки агенту, щоб він **не сповіщав користувача**, коли виявляються нові виявлення.
 ```bash
 # Get PID
 pgrep BackgroundTaskManagementAgent
@@ -143,10 +134,9 @@ kill -SIGSTOP 1011
 ps -o state 1011
 T
 ```
+* **Помилка**: Якщо **процес, що створив постійність, швидко завершується після цього**, демон спробує **отримати інформацію** про нього, **зазнає невдачу**, і **не зможе відправити подію**, що вказує на те, що нова річ стає постійною.
 
-* **Bug**: If the **process that created the persistence exists fast right after it**, the daemon will try to **get information** about it, **fail**, and **won't be able to send the event** indicating that a new thing is persisting.
-
-References and **more information about BTM**:
+Посилання та **більше інформації про BTM**:
 
 * [https://youtu.be/9hjUmT031tc?t=26481](https://youtu.be/9hjUmT031tc?t=26481)
 * [https://www.patreon.com/posts/new-developer-77420730?l=fr](https://www.patreon.com/posts/new-developer-77420730?l=fr)
@@ -154,14 +144,14 @@ References and **more information about BTM**:
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити свою **компанію рекламовану в HackTricks** або **завантажити HackTricks у PDF** Перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв.
 
 </details>

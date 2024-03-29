@@ -1,68 +1,68 @@
-# macOS Bundles
+# Бандли macOS
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Експерт з червоної команди HackTricks AWS)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити **рекламу вашої компанії на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв.
 
 </details>
 
-## Basic Information
+## Основна інформація
 
-Bundles in macOS serve as containers for a variety of resources including applications, libraries, and other necessary files, making them appear as single objects in Finder, such as the familiar `*.app` files. The most commonly encountered bundle is the `.app` bundle, though other types like `.framework`, `.systemextension`, and `.kext` are also prevalent.
+Бандли в macOS служать контейнерами для різноманітних ресурсів, включаючи програми, бібліотеки та інші необхідні файли, що робить їх вигляд схожими на один об'єкт у Finder, такі як знайомі файли `*.app`. Найпоширенішим бандлом є бандл `.app`, хоча інші типи, такі як `.framework`, `.systemextension` та `.kext`, також поширені.
 
-### Essential Components of a Bundle
+### Основні компоненти бандлу
 
-Within a bundle, particularly within the `<application>.app/Contents/` directory, a variety of important resources are housed:
+У бандлі, зокрема у каталозі `<application>.app/Contents/`, розміщено різноманітні важливі ресурси:
 
-* **\_CodeSignature**: This directory stores code-signing details vital for verifying the integrity of the application. You can inspect the code-signing information using commands like: %%%bash openssl dgst -binary -sha1 /Applications/Safari.app/Contents/Resources/Assets.car | openssl base64 %%%
-* **MacOS**: Contains the executable binary of the application that runs upon user interaction.
-* **Resources**: A repository for the application's user interface components including images, documents, and interface descriptions (nib/xib files).
-* **Info.plist**: Acts as the application's main configuration file, crucial for the system to recognize and interact with the application appropriately.
+* **\_CodeSignature**: Цей каталог зберігає важливі дані підписування коду для перевірки цілісності програми. Ви можете переглянути інформацію про підпис коду за допомогою команд, наприклад: %%%bash openssl dgst -binary -sha1 /Applications/Safari.app/Contents/Resources/Assets.car | openssl base64 %%%
+* **MacOS**: Містить виконуваний бінарний файл програми, який запускається при взаємодії з користувачем.
+* **Resources**: Сховище компонентів інтерфейсу користувача програми, включаючи зображення, документи та описи інтерфейсу (файли nib/xib).
+* **Info.plist**: Діє як основний файл конфігурації програми, важливий для системи для визнання та взаємодії з програмою належним чином.
 
-#### Important Keys in Info.plist
+#### Важливі ключі в Info.plist
 
-The `Info.plist` file is a cornerstone for application configuration, containing keys such as:
+Файл `Info.plist` є важливим для конфігурації програми, містить ключі, такі як:
 
-* **CFBundleExecutable**: Specifies the name of the main executable file located in the `Contents/MacOS` directory.
-* **CFBundleIdentifier**: Provides a global identifier for the application, used extensively by macOS for application management.
-* **LSMinimumSystemVersion**: Indicates the minimum version of macOS required for the application to run.
+* **CFBundleExecutable**: Вказує назву головного виконуваного файлу, розташованого в каталозі `Contents/MacOS`.
+* **CFBundleIdentifier**: Надає глобальний ідентифікатор програми, який широко використовується macOS для управління програмами.
+* **LSMinimumSystemVersion**: Вказує мінімальну версію macOS, необхідну для запуску програми.
 
-### Exploring Bundles
+### Дослідження бандлів
 
-To explore the contents of a bundle, such as `Safari.app`, the following command can be used: `bash ls -lR /Applications/Safari.app/Contents`
+Для дослідження вмісту бандлу, такого як `Safari.app`, можна використати наступну команду: `bash ls -lR /Applications/Safari.app/Contents`
 
-This exploration reveals directories like `_CodeSignature`, `MacOS`, `Resources`, and files like `Info.plist`, each serving a unique purpose from securing the application to defining its user interface and operational parameters.
+Це дослідження розкриває каталоги, такі як `_CodeSignature`, `MacOS`, `Resources`, та файли, такі як `Info.plist`, кожен з яких виконує унікальну функцію від захисту програми до визначення її інтерфейсу користувача та операційних параметрів.
 
-#### Additional Bundle Directories
+#### Додаткові каталоги бандлу
 
-Beyond the common directories, bundles may also include:
+Поза загальними каталогами, бандли також можуть містити:
 
-* **Frameworks**: Contains bundled frameworks used by the application. Frameworks are like dylibs with extra resources.
-* **PlugIns**: A directory for plug-ins and extensions that enhance the application's capabilities.
-* **XPCServices**: Holds XPC services used by the application for out-of-process communication.
+* **Frameworks**: Містить упаковані фреймворки, використовувані програмою. Фреймворки схожі на dylibs з додатковими ресурсами.
+* **PlugIns**: Каталог для плагінів та розширень, які покращують можливості програми.
+* **XPCServices**: Містить XPC-сервіси, використовувані програмою для міжпроцесної комунікації.
 
-This structure ensures that all necessary components are encapsulated within the bundle, facilitating a modular and secure application environment.
+Ця структура забезпечує, що всі необхідні компоненти увібрані в бандл, сприяючи модулярному та безпечному середовищу програми.
 
-For more detailed information on `Info.plist` keys and their meanings, the Apple developer documentation provides extensive resources: [Apple Info.plist Key Reference](https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Introduction/Introduction.html).
+Для отримання більш детальної інформації про ключі `Info.plist` та їх значення, документація розробника Apple надає обширні ресурси: [Apple Info.plist Key Reference](https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Introduction/Introduction.html).
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Експерт з червоної команди HackTricks AWS)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити **рекламу вашої компанії на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв.
 
 </details>

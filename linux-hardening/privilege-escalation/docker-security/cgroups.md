@@ -2,30 +2,29 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити **рекламу вашої компанії на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **і** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв**.
 
 </details>
 
-## Basic Information
+## Основна інформація
 
-**Linux Control Groups**, or **cgroups**, are a feature of the Linux kernel that allows the allocation, limitation, and prioritization of system resources like CPU, memory, and disk I/O among process groups. They offer a mechanism for **managing and isolating the resource usage** of process collections, beneficial for purposes such as resource limitation, workload isolation, and resource prioritization among different process groups.
+**Керуючі групи Linux**, або **cgroups**, є функцією ядра Linux, яка дозволяє розподіляти, обмежувати та пріоритизувати ресурси системи, такі як процесор, пам'ять та введення/виведення даних між групами процесів. Вони пропонують механізм для **керування та ізоляції використання ресурсів** колекцій процесів, корисний для таких цілей, як обмеження ресурсів, ізоляція навантаження та пріоритизація ресурсів між різними групами процесів.
 
-There are **two versions of cgroups**: version 1 and version 2. Both can be used concurrently on a system. The primary distinction is that **cgroups version 2** introduces a **hierarchical, tree-like structure**, enabling more nuanced and detailed resource distribution among process groups. Additionally, version 2 brings various enhancements, including:
+Існують **дві версії cgroups**: версія 1 та версія 2. Обидві можуть використовуватися одночасно на системі. Основна відмінність полягає в тому, що **версія cgroups 2** вводить **ієрархічну структуру, схожу на дерево**, що дозволяє більш детально розподіляти ресурси між групами процесів. Крім того, версія 2 вносить різні покращення, включаючи:
 
-In addition to the new hierarchical organization, cgroups version 2 also introduced **several other changes and improvements**, such as support for **new resource controllers**, better support for legacy applications, and improved performance.
+Крім нової ієрархічної організації, cgroups версії 2 також ввів **кілька інших змін та покращень**, таких як підтримка **нових контролерів ресурсів**, краща підтримка застарілих додатків та покращена продуктивність.
 
-Overall, cgroups **version 2 offers more features and better performance** than version 1, but the latter may still be used in certain scenarios where compatibility with older systems is a concern.
+У цілому, cgroups **версії 2 пропонує більше функцій та кращу продуктивність** порівняно з версією 1, але останню все ще можна використовувати в певних сценаріях, де важлива сумісність зі старішими системами.
 
-You can list the v1 and v2 cgroups for any process by looking at its cgroup file in /proc/\<pid>. You can start by looking at your shell’s cgroups with this command:
-
+Ви можете переглянути cgroups v1 та v2 для будь-якого процесу, подивившись на його файл cgroup у /proc/\<pid>. Ви можете почати з перегляду cgroups вашої оболонки за допомогою цієї команди:
 ```shell-session
 $ cat /proc/self/cgroup
 12:rdma:/
@@ -40,75 +39,54 @@ $ cat /proc/self/cgroup
 1:name=systemd:/user.slice/user-1000.slice/session-2.scope
 0::/user.slice/user-1000.slice/session-2.scope
 ```
+Структура виводу виглядає наступним чином:
 
-The output structure is as follows:
+- **Номери 2–12**: cgroups v1, кожен рядок представляє різний cgroup. Контролери для них вказані поруч з номером.
+- **Номер 1**: Також cgroups v1, але використовується лише для управління (встановлено, наприклад, systemd) і не має контролера.
+- **Номер 0**: Представляє cgroups v2. Контролери не вказані, і цей рядок є ексклюзивним для систем, які працюють лише з cgroups v2.
+- **Назви ієрархічні**, нагадують шляхи до файлів, вказуючи на структуру та взаємозв'язок між різними cgroups.
+- **Назви, такі як /user.slice або /system.slice**, вказують на категоризацію cgroups, де user.slice зазвичай використовується для сеансів входу, керованих systemd, а system.slice - для системних служб.
 
-- **Numbers 2–12**: cgroups v1, with each line representing a different cgroup. Controllers for these are specified adjacent to the number.
-- **Number 1**: Also cgroups v1, but solely for management purposes (set by, e.g., systemd), and lacks a controller.
-- **Number 0**: Represents cgroups v2. No controllers are listed, and this line is exclusive on systems only running cgroups v2.
-- The **names are hierarchical**, resembling file paths, indicating the structure and relationship between different cgroups.
-- **Names like /user.slice or /system.slice** specify the categorization of cgroups, with user.slice typically for login sessions managed by systemd and system.slice for system services.
+### Перегляд cgroups
 
-### Viewing cgroups
+Зазвичай для доступу до **cgroups** використовується файлова система, відхиляючись від інтерфейсу виклику системи Unix, який традиційно використовується для взаємодії з ядром. Для дослідження конфігурації cgroup оболонки слід переглянути файл **/proc/self/cgroup**, який показує cgroup оболонки. Потім, перейшовши до каталогу **/sys/fs/cgroup** (або **`/sys/fs/cgroup/unified`**), і знаходячи каталог, який має таку ж назву, як cgroup, можна спостерігати різні налаштування та інформацію про використання ресурсів, що стосуються cgroup.
 
-The filesystem is typically utilized for accessing **cgroups**, diverging from the Unix system call interface traditionally used for kernel interactions. To investigate a shell's cgroup configuration, one should examine the **/proc/self/cgroup** file, which reveals the shell's cgroup. Then, by navigating to the **/sys/fs/cgroup** (or **`/sys/fs/cgroup/unified`**) directory and locating a directory that shares the cgroup's name, one can observe various settings and resource usage information pertinent to the cgroup.
+![Файлова система Cgroup](../../../.gitbook/assets/image%20(10)%20(2)%20(2).png)
 
-![Cgroup Filesystem](../../../.gitbook/assets/image%20(10)%20(2)%20(2).png)
-
-The key interface files for cgroups are prefixed with **cgroup**. The **cgroup.procs** file, which can be viewed with standard commands like cat, lists the processes within the cgroup. Another file, **cgroup.threads**, includes thread information.
+Ключові файли інтерфейсу для cgroups починаються з **cgroup**. Файл **cgroup.procs**, який можна переглянути за допомогою стандартних команд, таких як cat, містить перелік процесів у cgroup. Інший файл, **cgroup.threads**, включає інформацію про потоки.
 
 ![Cgroup Procs](../../../.gitbook/assets/image%20(1)%20(1)%20(5).png)
 
-Cgroups managing shells typically encompass two controllers that regulate memory usage and process count. To interact with a controller, files bearing the controller's prefix should be consulted. For instance, **pids.current** would be referenced to ascertain the count of threads in the cgroup.
+Cgroups, які керують оболонками, зазвичай включають два контролера, які регулюють використання пам'яті та кількість процесів. Для взаємодії з контролером слід переглянути файли, які мають префікс контролера. Наприклад, **pids.current** слід переглянути, щоб визначити кількість потоків у cgroup.
 
-![Cgroup Memory](../../../.gitbook/assets/image%20(3)%20(5).png)
+![Пам'ять Cgroup](../../../.gitbook/assets/image%20(3)%20(5).png)
 
-The indication of **max** in a value suggests the absence of a specific limit for the cgroup. However, due to the hierarchical nature of cgroups, limits might be imposed by a cgroup at a lower level in the directory hierarchy.
+Позначення **max** у значенні вказує на відсутність конкретного обмеження для cgroup. Однак через ієрархічний характер cgroups, обмеження можуть бути накладені cgroup на нижчому рівні в ієрархії каталогів.
 
 
-### Manipulating and Creating cgroups
+### Маніпулювання та створення cgroups
 
-Processes are assigned to cgroups by **writing their Process ID (PID) to the `cgroup.procs` file**. This requires root privileges. For instance, to add a process:
-
+Процеси призначаються cgroups шляхом **запису їх ідентифікатора процесу (PID) у файл `cgroup.procs`**. Це вимагає привілеїв root. Наприклад, щоб додати процес:
 ```bash
 echo [pid] > cgroup.procs
 ```
-
-Similarly, **modifying cgroup attributes, like setting a PID limit**, is done by writing the desired value to the relevant file. To set a maximum of 3,000 PIDs for a cgroup:
-
+Аналогічно, **зміна атрибутів cgroup, таких як встановлення обмеження PID**, виконується шляхом запису бажаного значення у відповідний файл. Щоб встановити максимум 3,000 PID для cgroup:
 ```bash
 echo 3000 > pids.max
 ```
+**Створення нових cgroups** включає створення нової піддиректорії в ієрархії cgroup, що спонукає ядро автоматично генерувати необхідні інтерфейсні файли. Хоча cgroups без активних процесів можна видалити за допомогою `rmdir`, слід пам'ятати про певні обмеження:
 
-**Creating new cgroups** involves making a new subdirectory within the cgroup hierarchy, which prompts the kernel to automatically generate necessary interface files. Though cgroups without active processes can be removed with `rmdir`, be aware of certain constraints:
-
-- **Processes can only be placed in leaf cgroups** (i.e., the most nested ones in a hierarchy). 
-- **A cgroup cannot possess a controller absent in its parent**.
-- **Controllers for child cgroups must be explicitly declared** in the `cgroup.subtree_control` file. For example, to enable CPU and PID controllers in a child cgroup:
-
+- **Процеси можуть бути розміщені лише в листових cgroups** (тобто найбільш вкладених в ієрархії).
+- **Cgroup не може мати контролера, відсутнього в його батьківському cgroup**.
+- **Контролери для дочірніх cgroups повинні бути явно вказані** в файлі `cgroup.subtree_control`. Наприклад, щоб увімкнути контролери CPU та PID в дочірньому cgroup:
 ```bash
 echo "+cpu +pids" > cgroup.subtree_control
 ```
+**Коренева cgroup** є винятком з цих правил, що дозволяє пряме розміщення процесів. Це можна використовувати для видалення процесів з управління systemd.
 
-The **root cgroup** is an exception to these rules, allowing direct process placement. This can be used to remove processes from systemd management.
+**Моніторинг використання ЦП** в межах cgroup можливий за допомогою файлу `cpu.stat`, який відображає загальний час ЦП, витрачений на процес, корисний для відстеження використання у підпроцесах служби:
 
-**Monitoring CPU usage** within a cgroup is possible through the `cpu.stat` file, displaying total CPU time consumed, helpful for tracking usage across a service's subprocesses:
+<figure><img src="../../../.gitbook/assets/image (2) (6) (3).png" alt=""><figcaption>Статистика використання ЦП, як показано в файлі cpu.stat</figcaption></figure>
 
-<figure><img src="../../../.gitbook/assets/image (2) (6) (3).png" alt=""><figcaption>CPU usage statistics as shown in the cpu.stat file</figcaption></figure>
-
-## References
-* **Book: How Linux Works, 3rd Edition: What Every Superuser Should Know By Brian Ward**
-
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
+## Посилання
+* **Книга: Як працює Linux, 3-є видання: Що кожен суперкористувач повинен знати Браяна Ворда**

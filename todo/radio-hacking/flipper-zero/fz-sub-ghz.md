@@ -2,15 +2,15 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію в рекламі HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **та** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github репозиторіїв.
 
 </details>
 
@@ -22,108 +22,107 @@ Other ways to support HackTricks:
 
 ***
 
-## Intro <a href="#kfpn7" id="kfpn7"></a>
+## Вступ <a href="#kfpn7" id="kfpn7"></a>
 
-Flipper Zero can **receive and transmit radio frequencies in the range of 300-928 MHz** with its built-in module, which can read, save, and emulate remote controls. These controls are used for interaction with gates, barriers, radio locks, remote control switches, wireless doorbells, smart lights, and more. Flipper Zero can help you to learn if your security is compromised.
+Flipper Zero може **приймати та передавати радіочастоти в діапазоні від 300 до 928 МГц** за допомогою вбудованого модуля, який може зчитувати, зберігати та емулювати пульт дистанційного керування. Ці пульти використовуються для взаємодії з воротами, бар'єрами, радіозамками, вимикачами дистанційного керування, бездротовими дзвіночками, розумними лампами та іншими пристроями. Flipper Zero може допомогти вам дізнатися, чи була порушена ваша безпека.
 
 <figure><img src="../../../.gitbook/assets/image (3) (2) (1).png" alt=""><figcaption></figcaption></figure>
 
-## Sub-GHz hardware <a href="#kfpn7" id="kfpn7"></a>
+## Апаратне забезпечення Sub-GHz <a href="#kfpn7" id="kfpn7"></a>
 
-Flipper Zero has a built-in sub-1 GHz module based on a [﻿](https://www.st.com/en/nfc/st25r3916.html#overview)﻿[CC1101 chip](https://www.ti.com/lit/ds/symlink/cc1101.pdf) and a radio antenna (the maximum range is 50 meters). Both the CC1101 chip and the antenna are designed to operate at frequencies in the 300-348 MHz, 387-464 MHz, and 779-928 MHz bands.
+У Flipper Zero є вбудований модуль sub-1 ГГц на основі чіпа [﻿](https://www.st.com/en/nfc/st25r3916.html#overview)﻿[CC1101](https://www.ti.com/lit/ds/symlink/cc1101.pdf) та радіоантени (максимальна дальність - 50 метрів). Як чіп CC1101, так і антена призначені для роботи на частотах у діапазонах 300-348 МГц, 387-464 МГц та 779-928 МГц.
 
 <figure><img src="../../../.gitbook/assets/image (1) (8) (1).png" alt=""><figcaption></figcaption></figure>
 
-## Actions
+## Дії
 
-### Frequency Analyser
-
-{% hint style="info" %}
-How to find which frequency is the remote using
-{% endhint %}
-
-When analysing, Flipper Zero is scanning signals strength (RSSI) at all the frequencies available in frequency configuration. Flipper Zero displays the frequency with the highest RSSI value, with signal strength higher than -90 [dBm](https://en.wikipedia.org/wiki/DBm).
-
-To determine the remote's frequency, do the following:
-
-1. Place the remote control very close to the left of Flipper Zero.
-2. Go to **Main Menu** **→ Sub-GHz**.
-3. Select **Frequency Analyzer**, then press and hold the button on the remote control you want to analyze.
-4. Review the frequency value on the screen.
-
-### Read
+### Аналізатор частот
 
 {% hint style="info" %}
-Find info about the frequency used (also another way to find which frequency is used)
+Як знайти, яку частоту використовує пульт
 {% endhint %}
 
-The **Read** option **listens on the configured frequency** on the indicated modulation: 433.92 AM by default. If **something is found** when reading, **info is given** in the screen. This info could be use to replicate the signal in the future.
+Під час аналізування Flipper Zero сканує сили сигналів (RSSI) на всіх доступних частотах у конфігурації частот. Flipper Zero відображає частоту з найвищим значенням RSSI, зі силою сигналу вище -90 [dBm](https://en.wikipedia.org/wiki/DBm).
 
-While Read is in use, it's possible to press the **left button** and **configure it**.\
-At this moment it has **4 modulations** (AM270, AM650, FM328 and FM476), and **several relevant frequencies** stored:
+Щоб визначити частоту пульта, виконайте наступне:
+
+1. Помістіть пульт дистанційного керування дуже близько до лівої частини Flipper Zero.
+2. Перейдіть до **Головного меню** **→ Sub-GHz**.
+3. Виберіть **Аналізатор частот**, потім натисніть і утримуйте кнопку на пульті дистанційного керування, який ви хочете проаналізувати.
+4. Перегляньте значення частоти на екрані.
+
+### Читати
+
+{% hint style="info" %}
+Дізнайтеся інформацію про використану частоту (також інший спосіб знайти використану частоту)
+{% endhint %}
+
+Опція **Читати** **прослуховує на налаштованій частоті** на вказаній модуляції: 433,92 AM за замовчуванням. Якщо **щось знайдено** під час читання, **надається інформація** на екрані. Цю інформацію можна використовувати для реплікації сигналу у майбутньому.
+
+Під час використання опції Читати можна натиснути **ліву кнопку** та **налаштувати її**.\
+На даний момент є **4 модуляції** (AM270, AM650, FM328 та FM476), і **кілька важливих частот** збережено:
 
 <figure><img src="../../../.gitbook/assets/image (28).png" alt=""><figcaption></figcaption></figure>
 
-You can set **any that interests you**, however, if you are **not sure which frequency** could be the one used by the remote you have, **set Hopping to ON** (Off by default), and press the button several times until Flipper captures it and give you the info you need to set the frequency.
+Ви можете встановити **будь-яку, яка вас цікавить**, однак, якщо ви **не впевнені, яка частота** може бути використана пультом, **ввімкніть Hopping на ON** (за замовчуванням вимкнено) та кілька разів натисніть кнопку, поки Flipper не зафіксує її і не надасть вам інформацію, яку вам потрібно встановити частоту.
 
 {% hint style="danger" %}
-Switching between frequencies takes some time, therefore signals transmitted at the time of switching can be missed. For better signal reception, set a fixed frequency determined by Frequency Analyzer.
+Перемикання між частотами займає певний час, тому сигнали, передані під час перемикання, можуть бути пропущені. Для кращого прийому сигналу встановіть фіксовану частоту, визначену Аналізатором частот.
 {% endhint %}
 
-### **Read Raw**
+### **Читати Raw**
 
 {% hint style="info" %}
-Steal (and replay) a signal in the configured frequency
+Вкрасти (і відтворити) сигнал на налаштованій частоті
 {% endhint %}
 
-The **Read Raw** option **records signals** send in the listening frequency. This can be used to **steal** a signal and **repeat** it.
+Опція **Читати Raw** **записує сигнали**, відправлені на прослуховувану частоту. Це можна використовувати для **викрадення** сигналу та **повторного відтворення** його.
 
-By default **Read Raw is also in 433.92 in AM650**, but if with the Read option you found that the signal that interest you is in a **different frequency/modulation, you can also modify that** pressing left (while inside the Read Raw option).
+За замовчуванням **Читати Raw також в 433,92 у AM650**, але якщо з опцією Читати ви виявили, що сигнал, який вас цікавить, знаходиться на **іншій частоті/модуляції, ви також можете змінити це**, натиснувши ліву кнопку (під час перебування в опції Читати Raw).
 
-### Brute-Force
+### Брутфорс
 
-If you know the protocol used for example by the garage door it's possible to g**enerate all the codes and send them with the Flipper Zero.** This is an example that support general common types of garages: [**https://github.com/tobiabocchi/flipperzero-bruteforce**](https://github.com/tobiabocchi/flipperzero-bruteforce)
+Якщо ви знаєте протокол, який використовується, наприклад, для гаражних воріт, можна **згенерувати всі коди та відправити їх за допомогою Flipper Zero**. Це приклад, який підтримує загальні типи гаражів: [**https://github.com/tobiabocchi/flipperzero-bruteforce**](https://github.com/tobiabocchi/flipperzero-bruteforce)
 
-### Add Manually
+### Додати вручну
 
 {% hint style="info" %}
-Add signals from a configured list of protocols
+Додати сигнали з налаштованого списку протоколів
 {% endhint %}
 
-#### List of [supported protocols](https://docs.flipperzero.one/sub-ghz/add-new-remote) <a href="#id-3iglu" id="id-3iglu"></a>
+#### Список [підтримуваних протоколів](https://docs.flipperzero.one/sub-ghz/add-new-remote) <a href="#id-3iglu" id="id-3iglu"></a>
 
-| Princeton\_433 (works with the majority of static code systems) | 433.92 | Static  |
-| --------------------------------------------------------------- | ------ | ------- |
-| Nice Flo 12bit\_433                                             | 433.92 | Static  |
-| Nice Flo 24bit\_433                                             | 433.92 | Static  |
-| CAME 12bit\_433                                                 | 433.92 | Static  |
-| CAME 24bit\_433                                                 | 433.92 | Static  |
-| Linear\_300                                                     | 300.00 | Static  |
-| CAME TWEE                                                       | 433.92 | Static  |
-| Gate TX\_433                                                    | 433.92 | Static  |
-| DoorHan\_315                                                    | 315.00 | Dynamic |
-| DoorHan\_433                                                    | 433.92 | Dynamic |
-| LiftMaster\_315                                                 | 315.00 | Dynamic |
-| LiftMaster\_390                                                 | 390.00 | Dynamic |
-| Security+2.0\_310                                               | 310.00 | Dynamic |
-| Security+2.0\_315                                               | 315.00 | Dynamic |
-| Security+2.0\_390                                               | 390.00 | Dynamic |
+| Princeton\_433 (працює з більшістю статичних кодових систем) | 433,92 | Статичний |
+| ----------------------------------------------------------- | ------ | --------- |
+| Nice Flo 12bit\_433                                         | 433,92 | Статичний |
+| Nice Flo 24bit\_433                                         | 433,92 | Статичний |
+| CAME 12bit\_433                                             | 433,92 | Статичний |
+| CAME 24bit\_433                                             | 433,92 | Статичний |
+| Linear\_300                                                 | 300,00 | Статичний |
+| CAME TWEE                                                   | 433,92 | Статичний |
+| Gate TX\_433                                                | 433,92 | Статичний |
+| DoorHan\_315                                                | 315,00 | Динамічний |
+| DoorHan\_433                                                | 433,92 | Динамічний |
+| LiftMaster\_315                                             | 315,00 | Динамічний |
+| LiftMaster\_390                                             | 390,00 | Динамічний |
+| Security+2.0\_310                                           | 310,00 | Динамічний |
+| Security+2.0\_315                                           | 315,00 | Динамічний |
+| Security+2.0\_390                                           | 390,00 | Динамічний |
+### Підтримувані виробники Sub-GHz
 
-### Supported Sub-GHz vendors
+Перевірте список за посиланням [https://docs.flipperzero.one/sub-ghz/supported-vendors](https://docs.flipperzero.one/sub-ghz/supported-vendors)
 
-Check the list in [https://docs.flipperzero.one/sub-ghz/supported-vendors](https://docs.flipperzero.one/sub-ghz/supported-vendors)
+### Підтримувані частоти за регіонами
 
-### Supported Frequencies by region
+Перевірте список за посиланням [https://docs.flipperzero.one/sub-ghz/frequencies](https://docs.flipperzero.one/sub-ghz/frequencies)
 
-Check the list in [https://docs.flipperzero.one/sub-ghz/frequencies](https://docs.flipperzero.one/sub-ghz/frequencies)
-
-### Test
+### Тест
 
 {% hint style="info" %}
-Get dBms of the saved frequencies
+Отримайте dBms збережених частот
 {% endhint %}
 
-## Reference
+## Посилання
 
 * [https://docs.flipperzero.one/sub-ghz](https://docs.flipperzero.one/sub-ghz)
 
@@ -135,14 +134,14 @@ Get dBms of the saved frequencies
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити **рекламу вашої компанії в HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **і** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв на GitHub.**
 
 </details>

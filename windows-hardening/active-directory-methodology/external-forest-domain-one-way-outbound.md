@@ -1,25 +1,24 @@
-# External Forest Domain - One-Way (Outbound)
+# Зовнішній Лісовий Домен - Односторонній (Вихідний)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію в рекламі HackTricks** або **завантажити HackTricks у PDF** Перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв GitHub.
 
 </details>
 
-In this scenario **your domain** is **trusting** some **privileges** to principal from a **different domains**.
+У цьому сценарії **ваш домен** надає деякі **привілеї** принципалу з **інших доменів**.
 
-## Enumeration
+## Енумерація
 
-### Outbound Trust
-
+### Вихідна Довіра
 ```powershell
 # Notice Outbound trust
 Get-DomainTrust
@@ -41,67 +40,58 @@ MemberName              : S-1-5-21-1028541967-2937615241-1935644758-1115
 MemberDistinguishedName : CN=S-1-5-21-1028541967-2937615241-1935644758-1115,CN=ForeignSecurityPrincipals,DC=DOMAIN,DC=LOCAL
 ## Note how the members aren't from the current domain (ConvertFrom-SID won't work)
 ```
+## Атака на обліковий запис довіри
 
-## Trust Account Attack
+Існує вразливість безпеки, коли встановлюється довірчий відносин між двома доменами, які тут ідентифікуються як домен **A** та домен **B**, де домен **B** розширює свій довіру до домену **A**. У цьому налаштуванні створюється спеціальний обліковий запис в домені **A** для домену **B**, який відіграє важливу роль у процесі аутентифікації між цими двома доменами. Цей обліковий запис, пов'язаний з доменом **B**, використовується для шифрування квитків для доступу до служб у межах доменів.
 
-A security vulnerability exists when a trust relationship is established between two domains, identified here as domain **A** and domain **B**, where domain **B** extends its trust to domain **A**. In this setup, a special account is created in domain **A** for domain **B**, which plays a crucial role in the authentication process between the two domains. This account, associated with domain **B**, is utilized for encrypting tickets for accessing services across the domains. 
-
-The critical aspect to understand here is that the password and hash of this special account can be extracted from a Domain Controller in domain **A** using a command line tool. The command to perform this action is:
-
+Критичним аспектом для розуміння тут є те, що пароль та хеш цього спеціального облікового запису можна витягти з контролера домену в домені **A**, використовуючи інструмент командного рядка. Команда для виконання цієї дії:
 ```powershell
 Invoke-Mimikatz -Command '"lsadump::trust /patch"' -ComputerName dc.my.domain.local
 ```
+Це видобуток можливий, оскільки обліковий запис, ідентифікований з **$** після свого імені, активний і належить до групи "Користувачі домену" домену **A**, тим самим успадковуючи дозволи, пов'язані з цією групою. Це дозволяє особам аутентифікуватися проти домену **A**, використовуючи облікові дані цього облікового запису.
 
-This extraction is possible because the account, identified with a **$** after its name, is active and belongs to the "Domain Users" group of domain **A**, thereby inheriting permissions associated with this group. This allows individuals to authenticate against domain **A** using the credentials of this account.
+**Попередження:** Це можливо використовувати цю ситуацію для отримання опору в домені **A** як користувач, хоча з обмеженими дозволами. Однак цей доступ достатній для виконання переліку в домені **A**.
 
-**Warning:** It is feasible to leverage this situation to gain a foothold in domain **A** as a user, albeit with limited permissions. However, this access is sufficient to perform enumeration on domain **A**.
-
-In a scenario where `ext.local` is the trusting domain and `root.local` is the trusted domain, a user account named `EXT$` would be created within `root.local`. Through specific tools, it is possible to dump the Kerberos trust keys, revealing the credentials of `EXT$` in `root.local`. The command to achieve this is:
-
+У сценарії, де `ext.local` є довіряючим доменом, а `root.local` - довіреним доменом, обліковий запис користувача з іменем `EXT$` буде створено в `root.local`. За допомогою конкретних інструментів можливо витягти ключі довіри Kerberos, розкриваючи облікові дані `EXT$` в `root.local`. Команда для досягнення цього:
 ```bash
 lsadump::trust /patch
 ```
-
-Following this, one could use the extracted RC4 key to authenticate as `root.local\EXT$` within `root.local` using another tool command:
-
+Після цього можна використовувати видобутий ключ RC4 для аутентифікації як `root.local\EXT$` в межах `root.local`, використовуючи іншу команду інструменту:
 ```bash
 .\Rubeus.exe asktgt /user:EXT$ /domain:root.local /rc4:<RC4> /dc:dc.root.local /ptt
 ```
-
-This authentication step opens up the possibility to enumerate and even exploit services within `root.local`, such as performing a Kerberoast attack to extract service account credentials using:
-
+Цей крок аутентифікації відкриває можливість переліку та навіть експлуатації служб в межах `root.local`, таких як виконання атаки Kerberoast для вилучення облікових даних облікового запису служби за допомогою:
 ```bash
 .\Rubeus.exe kerberoast /user:svc_sql /domain:root.local /dc:dc.root.local
 ```
+### Збір пароля довіри у відкритому вигляді
 
-### Gathering cleartext trust password
+У попередньому потоці використовувався хеш довіри замість **пароля у відкритому вигляді** (який також був **витягнутий за допомогою mimikatz**).
 
-In the previous flow it was used the trust hash instead of the **clear text password** (that was also **dumped by mimikatz**).
-
-The cleartext password can be obtained by converting the \[ CLEAR ] output from mimikatz from hexadecimal and removing null bytes ‘\x00’:
+Пароль у відкритому вигляді можна отримати, конвертуючи вивід \[ CLEAR ] з mimikatz з шістнадцяткового формату та видаливши нульові байти '\x00':
 
 ![](<../../.gitbook/assets/image (2) (1) (2) (1).png>)
 
-Sometimes when creating a trust relationship, a password must be typed in by the user for the trust. In this demonstration, the key is the original trust password and therefore human readable. As the key cycles (30 days), the cleartext will not be human-readable but technically still usable.
+Іноді при створенні довірчого відношення користувач повинен ввести пароль для довіри. У цій демонстрації ключ - це початковий пароль довіри, тому він читабельний для людини. Оскільки ключ циклічний (30 днів), пароль у відкритому вигляді не буде читабельним для людини, але технічно все ще може бути використаний.
 
-The cleartext password can be used to perform regular authentication as the trust account, an alternative to requesting a TGT using the Kerberos secret key of the trust account. Here, querying root.local from ext.local for members of Domain Admins:
+Пароль у відкритому вигляді може бути використаний для виконання звичайної аутентифікації як довірчий обліковий запис, альтернатива запиту TGT за допомогою секретного ключа Kerberos довірчого облікового запису. Тут запит root.local з ext.local для членів Domain Admins:
 
 ![](<../../.gitbook/assets/image (1) (1) (1) (2).png>)
 
-## References
+## Посилання
 
 * [https://improsec.com/tech-blog/sid-filter-as-security-boundary-between-domains-part-7-trust-account-attack-from-trusting-to-trusted](https://improsec.com/tech-blog/sid-filter-as-security-boundary-between-domains-part-7-trust-account-attack-from-trusting-to-trusted)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити свою **компанію рекламовану в HackTricks** або **завантажити HackTricks у PDF** Перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github репозиторіїв.
 
 </details>

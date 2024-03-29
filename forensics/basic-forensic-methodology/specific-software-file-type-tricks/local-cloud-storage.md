@@ -1,138 +1,122 @@
-# Local Cloud Storage
+# Локальне зберігання у хмарі
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію в рекламі HackTricks** або **завантажити HackTricks у PDF** Перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Дізнайтеся про [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв GitHub.
 
 </details>
 
 <figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+Використовуйте [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) для легкої побудови та **автоматизації робочих процесів** за допомогою найбільш **продвинутих** інструментів спільноти у світі.\
+Отримайте доступ сьогодні:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 ## OneDrive
 
-In Windows, you can find the OneDrive folder in `\Users\<username>\AppData\Local\Microsoft\OneDrive`. And inside `logs\Personal` it's possible to find the file `SyncDiagnostics.log` which contains some interesting data regarding the synchronized files:
+У Windows ви можете знайти папку OneDrive за шляхом `\Users\<username>\AppData\Local\Microsoft\OneDrive`. А всередині `logs\Personal` можна знайти файл `SyncDiagnostics.log`, в якому містяться деякі цікаві дані щодо синхронізованих файлів:
 
-* Size in bytes
-* Creation date
-* Modification date
-* Number of files in the cloud
-* Number of files in the folder
-* **CID**: Unique ID of the OneDrive user
-* Report generation time
-* Size of the HD of the OS
+* Розмір у байтах
+* Дата створення
+* Дата модифікації
+* Кількість файлів у хмарі
+* Кількість файлів у папці
+* **CID**: Унікальний ідентифікатор користувача OneDrive
+* Час генерації звіту
+* Розмір жорсткого диска ОС
 
-Once you have found the CID it's recommended to **search files containing this ID**. You may be able to find files with the name: _**\<CID>.ini**_ and _**\<CID>.dat**_ that may contain interesting information like the names of files synchronized with OneDrive.
+Як тільки ви знайдете CID, рекомендується **шукати файли, що містять цей ідентифікатор**. Можливо, ви зможете знайти файли з назвою: _**\<CID>.ini**_ та _**\<CID>.dat**_, які можуть містити цікаву інформацію, наприклад, назви файлів, які синхронізовані з OneDrive.
 
 ## Google Drive
 
-In Windows, you can find the main Google Drive folder in `\Users\<username>\AppData\Local\Google\Drive\user_default`\
-This folder contains a file called Sync\_log.log with information like the email address of the account, filenames, timestamps, MD5 hashes of the files, etc. Even deleted files appear in that log file with its corresponding MD5.
+У Windows ви можете знайти основну папку Google Drive за шляхом `\Users\<username>\AppData\Local\Google\Drive\user_default`\
+Ця папка містить файл під назвою Sync\_log.log з інформацією, такою як адреса електронної пошти облікового запису, назви файлів, мітки часу, MD5-хеші файлів тощо. Навіть видалені файли з'являються у цьому файлі журналу з відповідними MD5.
 
-The file **`Cloud_graph\Cloud_graph.db`** is a sqlite database which contains the table **`cloud_graph_entry`**. In this table you can find the **name** of the **synchronized** **files**, modified time, size, and the MD5 checksum of the files.
+Файл **`Cloud_graph\Cloud_graph.db`** є базою даних sqlite, яка містить таблицю **`cloud_graph_entry`**. У цій таблиці ви можете знайти **назву** **синхронізованих** **файлів**, час модифікації, розмір та контрольну суму MD5 файлів.
 
-The table data of the database **`Sync_config.db`** contains the email address of the account, the path of the shared folders and the Google Drive version.
+Дані таблиці бази даних **`Sync_config.db`** містять адресу електронної пошти облікового запису, шляхи до спільних папок та версію Google Drive.
 
 ## Dropbox
 
-Dropbox uses **SQLite databases** to manage the files. In this\
-You can find the databases in the folders:
+Dropbox використовує **бази даних SQLite** для управління файлами. У цьому\
+Ви можете знайти бази даних у папках:
 
 * `\Users\<username>\AppData\Local\Dropbox`
 * `\Users\<username>\AppData\Local\Dropbox\Instance1`
 * `\Users\<username>\AppData\Roaming\Dropbox`
 
-And the main databases are:
+І основні бази даних:
 
 * Sigstore.dbx
 * Filecache.dbx
 * Deleted.dbx
 * Config.dbx
 
-The ".dbx" extension means that the **databases** are **encrypted**. Dropbox uses **DPAPI** ([https://docs.microsoft.com/en-us/previous-versions/ms995355(v=msdn.10)?redirectedfrom=MSDN](https://docs.microsoft.com/en-us/previous-versions/ms995355\(v=msdn.10\)?redirectedfrom=MSDN))
+Розширення ".dbx" означає, що **бази даних** **зашифровані**. Dropbox використовує **DPAPI** ([https://docs.microsoft.com/en-us/previous-versions/ms995355(v=msdn.10)?redirectedfrom=MSDN](https://docs.microsoft.com/en-us/previous-versions/ms995355\(v=msdn.10\)?redirectedfrom=MSDN))
 
-To understand better the encryption that Dropbox uses you can read [https://blog.digital-forensics.it/2017/04/brush-up-on-dropbox-dbx-decryption.html](https://blog.digital-forensics.it/2017/04/brush-up-on-dropbox-dbx-decryption.html).
+Щоб краще зрозуміти шифрування, яке використовує Dropbox, ви можете прочитати [https://blog.digital-forensics.it/2017/04/brush-up-on-dropbox-dbx-decryption.html](https://blog.digital-forensics.it/2017/04/brush-up-on-dropbox-dbx-decryption.html).
 
-However, the main information is:
+Однак основна інформація:
 
-* **Entropy**: d114a55212655f74bd772e37e64aee9b
-* **Salt**: 0D638C092E8B82FC452883F95F355B8E
-* **Algorithm**: PBKDF2
-* **Iterations**: 1066
+* **Ентропія**: d114a55212655f74bd772e37e64aee9b
+* **Сіль**: 0D638C092E8B82FC452883F95F355B8E
+* **Алгоритм**: PBKDF2
+* **Ітерації**: 1066
 
-Apart from that information, to decrypt the databases you still need:
+Крім цієї інформації, для розшифрування баз даних вам все ще потрібно:
 
-* The **encrypted DPAPI key**: You can find it in the registry inside `NTUSER.DAT\Software\Dropbox\ks\client` (export this data as binary)
-* The **`SYSTEM`** and **`SECURITY`** hives
-* The **DPAPI master keys**: Which can be found in `\Users\<username>\AppData\Roaming\Microsoft\Protect`
-* The **username** and **password** of the Windows user
+* **Зашифрований ключ DPAPI**: Ви можете знайти його в реєстрі всередині `NTUSER.DAT\Software\Dropbox\ks\client` (експортуйте ці дані як бінарні)
+* Гілки **`SYSTEM`** та **`SECURITY`**
+* Майстер-ключі DPAPI: Які можна знайти в `\Users\<username>\AppData\Roaming\Microsoft\Protect`
+* Ім'я користувача та пароль Windows
 
-Then you can use the tool [**DataProtectionDecryptor**](https://nirsoft.net/utils/dpapi\_data\_decryptor.html)**:**
+Потім ви можете використовувати інструмент [**DataProtectionDecryptor**](https://nirsoft.net/utils/dpapi\_data\_decryptor.html)**:**
 
 ![](<../../../.gitbook/assets/image (448).png>)
 
-If everything goes as expected, the tool will indicate the **primary key** that you need to **use to recover the original one**. To recover the original one, just use this [cyber\_chef receipt](https://gchq.github.io/CyberChef/#recipe=Derive\_PBKDF2\_key\(%7B'option':'Hex','string':'98FD6A76ECB87DE8DAB4623123402167'%7D,128,1066,'SHA1',%7B'option':'Hex','string':'0D638C092E8B82FC452883F95F355B8E'%7D\)) putting the primary key as the "passphrase" inside the receipt.
+Якщо все пройде як очікувалося, інструмент покаже **основний ключ**, який вам потрібно **використовувати для відновлення оригінального**. Щоб відновити оригінальний, просто використовуйте цей [рецепт cyber\_chef](https://gchq.github.io/CyberChef/#recipe=Derive\_PBKDF2\_key\(%7B'option':'Hex','string':'98FD6A76ECB87DE8DAB4623123402167'%7D,128,1066,'SHA1',%7B'option':'Hex','string':'0D638C092E8B82FC452883F95F355B8E'%7D\)) вставляючи основний ключ як "пароль" всередині рецепту.
 
-The resulting hex is the final key used to encrypt the databases which can be decrypted with:
-
+Отриманий шістнадцятковий код - це кінцевий ключ, який використовується для шифрування баз даних, які можна розшифрувати за допомогою:
 ```bash
 sqlite -k <Obtained Key> config.dbx ".backup config.db" #This decompress the config.dbx and creates a clear text backup in config.db
 ```
+**База даних `config.dbx` містить:**
 
-The **`config.dbx`** database contains:
+- **Електронна пошта**: Електронна адреса користувача
+- **usernamedisplayname**: Ім'я користувача
+- **dropbox\_path**: Шлях, де знаходиться папка Dropbox
+- **Host\_id: Хеш**, використовується для аутентифікації в хмарі. Це можна скасувати лише з веб-версії.
+- **Root\_ns**: Ідентифікатор користувача
 
-* **Email**: The email of the user
-* **usernamedisplayname**: The name of the user
-* **dropbox\_path**: Path where the dropbox folder is located
-* **Host\_id: Hash** used to authenticate to the cloud. This can only be revoked from the web.
-* **Root\_ns**: User identifier
+**База даних `filecache.db` містить інформацію про всі файли та папки, які синхронізовані з Dropbox. Таблиця `File_journal` містить найбільш корисну інформацію:**
 
-The **`filecache.db`** database contains information about all the files and folders synchronized with Dropbox. The table `File_journal` is the one with more useful information:
+- **Server\_path**: Шлях, де знаходиться файл на сервері (цей шлях передує `host_id` клієнта).
+- **local\_sjid**: Версія файлу
+- **local\_mtime**: Дата модифікації
+- **local\_ctime**: Дата створення
 
-* **Server\_path**: Path where the file is located inside the server (this path is preceded by the `host_id` of the client).
-* **local\_sjid**: Version of the file
-* **local\_mtime**: Modification date
-* **local\_ctime**: Creation date
+Інші таблиці в цій базі даних містять цікаву інформацію:
 
-Other tables inside this database contain more interesting information:
-
-* **block\_cache**: hash of all the files and folders of Dropbox
-* **block\_ref**: Related the hash ID of the table `block_cache` with the file ID in the table `file_journal`
-* **mount\_table**: Share folders of dropbox
-* **deleted\_fields**: Dropbox deleted files
-* **date\_added**
+- **block\_cache**: Хеш усіх файлів та папок Dropbox
+- **block\_ref**: Пов'язаний ідентифікатор хешу таблиці `block_cache` з ідентифікатором файлу в таблиці `file_journal`
+- **mount\_table**: Спільні папки Dropbox
+- **deleted\_fields**: Видалені файли Dropbox
+- **date\_added**
 
 <figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+Використовуйте [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), щоб легко створювати та **автоматизувати робочі процеси** за допомогою найбільш **продвинутих** інструментів спільноти у світі.\
+Отримайте доступ сьогодні:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
-
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>

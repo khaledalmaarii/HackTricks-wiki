@@ -1,23 +1,22 @@
-# Access Tokens
+# Токени доступу
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Ви працюєте в **кібербезпеці компанії**? Хочете побачити вашу **компанію рекламовану на HackTricks**? або хочете мати доступ до **останньої версії PEASS або завантажити HackTricks у PDF**? Перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* **Приєднуйтесь до** [**💬**](https://emojipedia.org/speech-balloon/) [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за мною на **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**репозиторію hacktricks**](https://github.com/carlospolop/hacktricks) **та** [**репозиторію hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-## Access Tokens
+## Токени доступу
 
-Each **user logged** onto the system **holds an access token with security information** for that logon session. The system creates an access token when the user logs on. **Every process executed** on behalf of the user **has a copy of the access token**. The token identifies the user, the user's groups, and the user's privileges. A token also contains a logon SID (Security Identifier) that identifies the current logon session.
+Кожен **користувач, який увійшов** до системи, **має токен доступу з інформацією про безпеку** для цієї сесії входу. Система створює токен доступу, коли користувач увійшов. **Кожен процес, виконаний** від імені користувача, **має копію токена доступу**. Токен ідентифікує користувача, групи користувача та привілеї користувача. Токен також містить SID входу (Ідентифікатор безпеки), який ідентифікує поточну сесію входу.
 
-You can see this information executing `whoami /all`
-
+Ви можете побачити цю інформацію, виконавши `whoami /all`
 ```
 whoami /all
 
@@ -61,72 +60,52 @@ SeUndockPrivilege             Remove computer from docking station Disabled
 SeIncreaseWorkingSetPrivilege Increase a process working set       Disabled
 SeTimeZonePrivilege           Change the time zone                 Disabled
 ```
-
-or using _Process Explorer_ from Sysinternals (select process and access"Security" tab):
+або використовуючи _Process Explorer_ від Sysinternals (виберіть процес та перейдіть на вкладку "Безпека"):
 
 ![](<../../.gitbook/assets/image (321).png>)
 
-### Local administrator
+### Локальний адміністратор
 
-When a local administrator logins, **two access tokens are created**: One with admin rights and other one with normal rights. **By default**, when this user executes a process the one with **regular** (non-administrator) **rights is used**. When this user tries to **execute** anything **as administrator** ("Run as Administrator" for example) the **UAC** will be used to ask for permission.\
-If you want to [**learn more about the UAC read this page**](../authentication-credentials-uac-and-efs.md#uac)**.**
+Коли входить локальний адміністратор, **створюються два токени доступу**: один з правами адміністратора та інший зі звичайними правами. **За замовчуванням**, коли цей користувач запускає процес, використовується той з **звичайними** (не адміністраторськими) **правами**. Коли цей користувач намагається **виконати** що-небудь **як адміністратор** (наприклад, "Виконати в якості адміністратора"), буде використано **UAC**, щоб запитати дозвіл.\
+Якщо ви хочете [**дізнатися більше про UAC, прочитайте цю сторінку**](../authentication-credentials-uac-and-efs.md#uac)**.**
 
-### Credentials user impersonation
+### Імітація облікових даних користувача
 
-If you have **valid credentials of any other user**, you can **create** a **new logon session** with those credentials :
-
+Якщо у вас є **дійсні облікові дані будь-якого іншого користувача**, ви можете **створити** нову **сесію входу** з цими обліковими даними:
 ```
 runas /user:domain\username cmd.exe
 ```
-
-The **access token** has also a **reference** of the logon sessions inside the **LSASS**, this is useful if the process needs to access some objects of the network.\
-You can launch a process that **uses different credentials for accessing network services** using:
-
+**Токен доступу** також має **посилання** на сеанси входу в **LSASS**, це корисно, якщо процесу потрібен доступ до деяких об'єктів мережі.\
+Ви можете запустити процес, який **використовує різні облікові дані для доступу до мережевих служб**, використовуючи:
 ```
 runas /user:domain\username /netonly cmd.exe
 ```
+### Типи токенів
 
-This is useful if you have useful credentials to access objects in the network but those credentials aren't valid inside the current host as they are only going to be used in the network (in the current host your current user privileges will be used).
+Існує два типи доступних токенів:
 
-### Types of tokens
+* **Основний токен**: Він служить як представлення облікових даних безпеки процесу. Створення та асоціація основних токенів з процесами - це дії, які вимагають підвищених привілеїв, підкреслюючи принцип розділення привілеїв. Зазвичай, за створення токену відповідає служба аутентифікації, тоді як його асоціацією з оболонкою операційної системи користувача займається служба входу в систему. Важливо зауважити, що процеси успадковують основний токен свого батьківського процесу при створенні.
 
-There are two types of tokens available:
+* **Токен імперсонації**: Надає можливість серверній програмі тимчасово приймати ідентичність клієнта для доступу до захищених об'єктів. Цей механізм розглядається на чотирьох рівнях операцій:
+- **Анонімний**: Надає серверу доступ, схожий на доступ невідомого користувача.
+- **Ідентифікація**: Дозволяє серверу перевірити ідентичність клієнта без використання її для доступу до об'єктів.
+- **Імперсонація**: Дозволяє серверу працювати в ідентичності клієнта.
+- **Делегування**: Схоже на Імперсонацію, але включає можливість розширити це припущення ідентичності до віддалених систем, з якими взаємодіє сервер, забезпечуючи збереження облікових даних.
 
-* **Primary Token**: It serves as a representation of a process's security credentials. The creation and association of primary tokens with processes are actions that require elevated privileges, emphasizing the principle of privilege separation. Typically, an authentication service is responsible for token creation, while a logon service handles its association with the user's operating system shell. It is worth noting that processes inherit the primary token of their parent process at creation.
+#### Імітація токенів
 
-* **Impersonation Token**: Empowers a server application to adopt the client's identity temporarily for accessing secure objects. This mechanism is stratified into four levels of operation:
-    - **Anonymous**: Grants server access akin to that of an unidentified user.
-    - **Identification**: Allows the server to verify the client's identity without utilizing it for object access.
-    - **Impersonation**: Enables the server to operate under the client's identity.
-    - **Delegation**: Similar to Impersonation but includes the ability to extend this identity assumption to remote systems the server interacts with, ensuring credential preservation.
+Використовуючи модуль _**incognito**_ у metasploit, якщо у вас достатньо привілеїв, ви можете легко **переглядати** та **імітувати** інші **токени**. Це може бути корисним для виконання **дій, ніби ви були іншим користувачем**. Ви також можете **підвищити привілеї** за допомогою цієї техніки.
 
+### Привілеї токенів
 
-#### Impersonate Tokens
-
-Using the _**incognito**_ module of metasploit if you have enough privileges you can easily **list** and **impersonate** other **tokens**. This could be useful to perform **actions as if you where the other user**. You could also **escalate privileges** with this technique.
-
-### Token Privileges
-
-Learn which **token privileges can be abused to escalate privileges:**
+Дізнайтеся, які **привілеї токенів можна використовувати для підвищення привілеїв:**
 
 {% content-ref url="privilege-escalation-abusing-tokens/" %}
 [privilege-escalation-abusing-tokens](privilege-escalation-abusing-tokens/)
 {% endcontent-ref %}
 
-Take a look to [**all the possible token privileges and some definitions on this external page**](https://github.com/gtworek/Priv2Admin).
+Подивіться [**всі можливі привілеї токенів та деякі визначення на цій зовнішній сторінці**](https://github.com/gtworek/Priv2Admin).
 
-## References
+## Посилання
 
-Learn more about tokens in this tutorials: [https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa](https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa) and [https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)
-
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
-
-</details>
+Дізнайтеся більше про токени в цих посібниках: [https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa](https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa) та [https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)

@@ -1,16 +1,16 @@
-# File/Data Carving & Recovery Tools
+# Інструменти для відновлення файлів та даних
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію рекламовану на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **та** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв на GitHub**.
 
 </details>
 
@@ -22,112 +22,82 @@ Other ways to support HackTricks:
 
 ***
 
-## Carving & Recovery tools
+## Інструменти для відновлення та карвінгу
 
-More tools in [https://github.com/Claudio-C/awesome-datarecovery](https://github.com/Claudio-C/awesome-datarecovery)
+Більше інструментів за посиланням [https://github.com/Claudio-C/awesome-datarecovery](https://github.com/Claudio-C/awesome-datarecovery)
 
 ### Autopsy
 
-The most common tool used in forensics to extract files from images is [**Autopsy**](https://www.autopsy.com/download/). Download it, install it and make it ingest the file to find "hidden" files. Note that Autopsy is built to support disk images and other kinds of images, but not simple files.
+Найпоширеніший інструмент, який використовується в судовій експертизі для вилучення файлів з образів - це [**Autopsy**](https://www.autopsy.com/download/). Завантажте його, встановіть та використовуйте для пошуку "прихованих" файлів у файлі. Зверніть увагу, що Autopsy призначений для підтримки образів диска та інших видів образів, але не простих файлів.
 
 ### Binwalk <a href="#binwalk" id="binwalk"></a>
 
-**Binwalk** is a tool for analyzing binary files to find embedded content. It's installable via `apt` and its source is on [GitHub](https://github.com/ReFirmLabs/binwalk).
+**Binwalk** - це інструмент для аналізу бінарних файлів для пошуку вбудованого вмісту. Він може бути встановлений через `apt`, а його вихідний код знаходиться на [GitHub](https://github.com/ReFirmLabs/binwalk).
 
-**Useful commands**:
-
+**Корисні команди**:
 ```bash
 sudo apt install binwalk #Insllation
 binwalk file #Displays the embedded data in the given file
 binwalk -e file #Displays and extracts some files from the given file
 binwalk --dd ".*" file #Displays and extracts all files from the given file
 ```
-
 ### Foremost
 
-Another common tool to find hidden files is **foremost**. You can find the configuration file of foremost in `/etc/foremost.conf`. If you just want to search for some specific files uncomment them. If you don't uncomment anything foremost will search for its default configured file types.
-
+Ще один поширений інструмент для пошуку прихованих файлів - **foremost**. Ви можете знайти файл конфігурації foremost у `/etc/foremost.conf`. Якщо ви хочете лише знайти певні файли, розкоментуйте їх. Якщо ви нічого не розкоментуєте, foremost буде шукати файли типів, налаштованих за замовчуванням.
 ```bash
 sudo apt-get install foremost
 foremost -v -i file.img -o output
 #Discovered files will appear inside the folder "output"
 ```
-
 ### **Scalpel**
 
-**Scalpel** is another tool that can be used to find and extract **files embedded in a file**. In this case, you will need to uncomment from the configuration file (_/etc/scalpel/scalpel.conf_) the file types you want it to extract.
-
+**Scalpel** - це ще один інструмент, який можна використовувати для пошуку та вилучення **файлів, вбудованих у файл**. У цьому випадку вам потрібно розкоментувати з конфігураційного файлу (_/etc/scalpel/scalpel.conf_) типи файлів, які ви хочете вилучити.
 ```bash
 sudo apt-get install scalpel
 scalpel file.img -o output
 ```
-
 ### Bulk Extractor
 
-This tool comes inside kali but you can find it here: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
+Цей інструмент входить до складу Kali, але ви можете знайти його тут: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
 
-This tool can scan an image and will **extract pcaps** inside it, **network information (URLs, domains, IPs, MACs, mails)** and more **files**. You only have to do:
-
+Цей інструмент може сканувати зображення та **витягувати pcaps** всередині нього, **мережеву інформацію (URL-адреси, домени, IP-адреси, MAC-адреси, пошту)** та більше **файлів**. Вам потрібно лише виконати:
 ```
 bulk_extractor memory.img -o out_folder
 ```
-
-Navigate through **all the information** that the tool has gathered (passwords?), **analyse** the **packets** (read[ **Pcaps analysis**](../pcap-inspection/)), search for **weird domains** (domains related to **malware** or **non-existent**).
-
 ### PhotoRec
 
-You can find it in [https://www.cgsecurity.org/wiki/TestDisk\_Download](https://www.cgsecurity.org/wiki/TestDisk\_Download)
+Ви можете знайти його за посиланням [https://www.cgsecurity.org/wiki/TestDisk\_Download](https://www.cgsecurity.org/wiki/TestDisk\_Download)
 
-It comes with GUI and CLI versions. You can select the **file-types** you want PhotoRec to search for.
+Він поставляється з версіями GUI та CLI. Ви можете вибрати **типи файлів**, які ви хочете, щоб PhotoRec шукав.
 
 ![](<../../../.gitbook/assets/image (524).png>)
 
 ### binvis
 
-Check the [code](https://code.google.com/archive/p/binvis/) and the [web page tool](https://binvis.io/#/).
+Перевірте [код](https://code.google.com/archive/p/binvis/) та [веб-сторінку інструменту](https://binvis.io/#/).
 
-#### Features of BinVis
+#### Особливості BinVis
 
-* Visual and active **structure viewer**
-* Multiple plots for different focus points
-* Focusing on portions of a sample
-* **Seeing stings and resources**, in PE or ELF executables e. g.
-* Getting **patterns** for cryptanalysis on files
-* **Spotting** packer or encoder algorithms
-* **Identify** Steganography by patterns
-* **Visual** binary-diffing
+* Візуальний та активний **переглядач структури**
+* Кілька графіків для різних точок фокусу
+* Фокусування на частинах вибірки
+* **Побачення рядків та ресурсів**, у виконуваних файлах PE або ELF, наприклад
+* Отримання **шаблонів** для криптоаналізу файлів
+* **Виявлення** алгоритмів упаковки або кодування
+* **Визначення** стеганографії за шаблонами
+* **Візуальне** порівняння бінарних файлів
 
-BinVis is a great **start-point to get familiar with an unknown target** in a black-boxing scenario.
+BinVis - це чудова **стартова точка для ознайомлення з невідомою ціллю** в сценарії чорної скриньки.
 
-## Specific Data Carving Tools
+## Специфічні Інструменти Для Відновлення Даних
 
 ### FindAES
 
-Searches for AES keys by searching for their key schedules. Able to find 128. 192, and 256 bit keys, such as those used by TrueCrypt and BitLocker.
+Шукає ключі AES, шукаючи їх розклади ключів. Здатний знаходити ключі на 128, 192 та 256 біт, такі, як ті, що використовуються TrueCrypt та BitLocker.
 
-Download [here](https://sourceforge.net/projects/findaes/).
+Завантажте [тут](https://sourceforge.net/projects/findaes/).
 
-## Complementary tools
+## Доповнюючі інструменти
 
-You can use [**viu** ](https://github.com/atanunq/viu)to see images from the terminal.\
-You can use the linux command line tool **pdftotext** to transform a pdf into text and read it.
-
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
+Ви можете використовувати [**viu** ](https://github.com/atanunq/viu), щоб переглядати зображення з терміналу.\
+Ви можете використовувати інструмент командного рядка linux **pdftotext**, щоб перетворити pdf у текст і прочитати його.

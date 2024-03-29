@@ -1,109 +1,93 @@
-# Writable Sys Path +Dll Hijacking Privesc
+# Записний шлях Sys + Підвищення привілеїв за допомогою Dll Hijacking
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію рекламовану на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **і** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв на GitHub**.
 
 </details>
 
-## Introduction
+## Вступ
 
-If you found that you can **write in a System Path folder** (note that this won't work if you can write in a User Path folder) it's possible that you could **escalate privileges** in the system.
+Якщо ви виявили, що ви можете **записувати в папку Шляху системи** (зверніть увагу, що це не працюватиме, якщо ви можете записувати в папку Шляху користувача), це може означати, що ви можете **підвищити привілеї** в системі.
 
-In order to do that you can abuse a **Dll Hijacking** where you are going to **hijack a library being loaded** by a service or process with **more privileges** than yours, and because that service is loading a Dll that probably doesn't even exist in the entire system, it's going to try to load it from the System Path where you can write.
+Для цього ви можете використати **Dll Hijacking**, де ви будете **захоплювати бібліотеку, яку завантажує** служба або процес з **більшими привілеями**, ніж у вас, і через те, що ця служба завантажує Dll, який, ймовірно, навіть не існує в усій системі, вона спробує завантажити його з Шляху системи, де ви можете записувати.
 
-For more info about **what is Dll Hijackig** check:
+Для отримання додаткової інформації про **що таке Dll Hijacking** перегляньте:
 
 {% content-ref url="../dll-hijacking.md" %}
 [dll-hijacking.md](../dll-hijacking.md)
 {% endcontent-ref %}
 
-## Privesc with Dll Hijacking
+## Підвищення привілеїв за допомогою Dll Hijacking
 
-### Finding a missing Dll
+### Пошук відсутньої Dll
 
-The first thing you need is to **identify a process** running with **more privileges** than you that is trying to **load a Dll from the System Path** you can write in.
+Перше, що вам потрібно зробити, це **ідентифікувати процес**, який працює з **більшими привілеями**, ніж у вас, і намагається **завантажити Dll з Шляху системи**, в який ви можете записувати.
 
-The problem in this cases is that probably thoses processes are already running. To find which Dlls are lacking the services you need to launch procmon as soon as possible (before processes are loaded). So, to find lacking .dlls do:
+Проблема в тому, що, ймовірно, ці процеси вже працюють. Щоб знайти, які Dll відсутні у службах, вам потрібно запустити procmon якомога швидше (до завантаження процесів). Отже, щоб знайти відсутні .dll, виконайте:
 
-* **Create** the folder `C:\privesc_hijacking` and add the path `C:\privesc_hijacking` to **System Path env variable**. You can do this **manually** or with **PS**:
-
+* **Створіть** папку `C:\privesc_hijacking` та додайте шлях `C:\privesc_hijacking` до **змінної середовища Шляху системи**. Це можна зробити **вручну** або за допомогою **PS**:
 ```powershell
 # Set the folder path to create and check events for
 $folderPath = "C:\privesc_hijacking"
 
 # Create the folder if it does not exist
 if (!(Test-Path $folderPath -PathType Container)) {
-    New-Item -ItemType Directory -Path $folderPath | Out-Null
+New-Item -ItemType Directory -Path $folderPath | Out-Null
 }
 
 # Set the folder path in the System environment variable PATH
 $envPath = [Environment]::GetEnvironmentVariable("PATH", "Machine")
 if ($envPath -notlike "*$folderPath*") {
-    $newPath = "$envPath;$folderPath"
-    [Environment]::SetEnvironmentVariable("PATH", $newPath, "Machine")
+$newPath = "$envPath;$folderPath"
+[Environment]::SetEnvironmentVariable("PATH", $newPath, "Machine")
 }
 ```
-
-* Launch **`procmon`** and go to **`Options`** --> **`Enable boot logging`** and press **`OK`** in the prompt.
-* Then, **reboot**. When the computer is restarted **`procmon`** will start **recording** events asap.
-* Once **Windows** is **started execute `procmon`** again, it'll tell you that it has been running and will **ask you if you want to store** the events in a file. Say **yes** and **store the events in a file**.
-* **After** the **file** is **generated**, **close** the opened **`procmon`** window and **open the events file**.
-* Add these **filters** and you will find all the Dlls that some **proccess tried to load** from the writable System Path folder:
+* Запустіть **`procmon`** та перейдіть до **`Options`** --> **`Enable boot logging`** та натисніть **`OK`** у вікні підтвердження.
+* Після цього **перезавантажте** систему. Після перезавантаження **`procmon`** почне **записувати** події негайно.
+* Після того, як **Windows** буде **запущено, виконайте `procmon`** знову, він повідомить вас, що він працював, і запитає, чи хочете ви **зберегти** події у файл. Скажіть **так** та **збережіть події у файл**.
+* **Після** того, як **файл** буде **створено**, **закрийте** відкрите вікно **`procmon`** та **відкрийте файл подій**.
+* Додайте ці **фільтри**, і ви знайдете всі Dll, які **спробував завантажити** якийсь **процес** з записуваної папки **System Path**:
 
 <figure><img src="../../../.gitbook/assets/image (18).png" alt=""><figcaption></figcaption></figure>
 
-### Missed Dlls
+### Пропущені Dlls
 
-Running this in a free **virtual (vmware) Windows 11 machine** I got these results:
+Виконуючи це на безкоштовній **віртуальній (vmware) машині з Windows 11**, я отримав такі результати:
 
 <figure><img src="../../../.gitbook/assets/image (253).png" alt=""><figcaption></figcaption></figure>
 
-In this case the .exe are useless so ignore them, the missed DLLs where from:
+У цьому випадку .exe є непотрібними, тому ігноруйте їх, пропущені DLL були з:
 
-| Service                         | Dll                | CMD line                                                             |
+| Служба                         | Dll                | CMD line                                                             |
 | ------------------------------- | ------------------ | -------------------------------------------------------------------- |
-| Task Scheduler (Schedule)       | WptsExtensions.dll | `C:\Windows\system32\svchost.exe -k netsvcs -p -s Schedule`          |
-| Diagnostic Policy Service (DPS) | Unknown.DLL        | `C:\Windows\System32\svchost.exe -k LocalServiceNoNetwork -p -s DPS` |
+| Планувальник завдань (Schedule)       | WptsExtensions.dll | `C:\Windows\system32\svchost.exe -k netsvcs -p -s Schedule`          |
+| Служба діагностики політики (DPS) | Unknown.DLL        | `C:\Windows\System32\svchost.exe -k LocalServiceNoNetwork -p -s DPS` |
 | ???                             | SharedRes.dll      | `C:\Windows\system32\svchost.exe -k UnistackSvcGroup`                |
 
-After finding this, I found this interesting blog post that also explains how to [**abuse WptsExtensions.dll for privesc**](https://juggernaut-sec.com/dll-hijacking/#Windows\_10\_Phantom\_DLL\_Hijacking\_-\_WptsExtensionsdll). Which is what we **are going to do now**.
+Після знаходження цього, я знайшов цей цікавий блог-пост, який також пояснює, як [**зловживати WptsExtensions.dll для підвищення привілеїв**](https://juggernaut-sec.com/dll-hijacking/#Windows\_10\_Phantom\_DLL\_Hijacking\_-\_WptsExtensionsdll). Це те, що **ми збираємося зробити зараз**.
 
-### Exploitation
+### Експлуатація
 
-So, to **escalate privileges** we are going to hijack the library **WptsExtensions.dll**. Having the **path** and the **name** we just need to **generate the malicious dll**.
+Таким чином, для **підвищення привілеїв** ми збираємося перехопити бібліотеку **WptsExtensions.dll**. Маючи **шлях** та **ім'я**, нам просто потрібно **створити зловмисний dll**.
 
-You can [**try to use any of these examples**](../dll-hijacking.md#creating-and-compiling-dlls). You could run payloads such as: get a rev shell, add a user, execute a beacon...
+Ви можете [**спробувати використати будь-який з цих прикладів**](../dll-hijacking.md#creating-and-compiling-dlls). Ви можете запускати вразливості, такі як: отримати обернену оболонку, додати користувача, виконати маяк...
 
 {% hint style="warning" %}
-Note that **not all the service are run** with **`NT AUTHORITY\SYSTEM`** some are also run with **`NT AUTHORITY\LOCAL SERVICE`** which has **less privileges** and you **won't be able to create a new user** abuse its permissions.\
-However, that user has the **`seImpersonate`** privilege, so you can use the[ **potato suite to escalate privileges**](../roguepotato-and-printspoofer.md). So, in this case a rev shell is a better option that trying to create a user.
+Зверніть увагу, що **не всі служби працюють** з **`NT AUTHORITY\SYSTEM`**, деякі також працюють з **`NT AUTHORITY\LOCAL SERVICE`**, який має **менше привілеїв**, і ви **не зможете створити нового користувача**, використовуючи його дозволи.\
+Однак у цього користувача є привілеї **`seImpersonate`**, тому ви можете використовувати [**набір інструментів potato для підвищення привілеїв**](../roguepotato-and-printspoofer.md). Таким чином, у цьому випадку обернена оболонка є кращим варіантом, ніж спроба створення користувача.
 {% endhint %}
 
-At the moment of writing the **Task Scheduler** service is run with **Nt AUTHORITY\SYSTEM**.
+На момент написання служба **Планувальник завдань** працює з **Nt AUTHORITY\SYSTEM**.
 
-Having **generated the malicious Dll** (_in my case I used x64 rev shell and I got a shell back but defender killed it because it was from msfvenom_), save it in the writable System Path with the name **WptsExtensions.dll** and **restart** the computer (or restart the service or do whatever it takes to rerun the affected service/program).
+Після **створення зловмисного Dll** (_у моєму випадку я використовував x64 обернену оболонку і отримав оболонку, але захисник вбив її, оскільки вона була від msfvenom_), збережіть її в записувану папку **System Path** з ім'ям **WptsExtensions.dll** та **перезапустіть** комп'ютер (або перезапустіть службу або виконайте будь-що, щоб перезапустити порушену службу/програму).
 
-When the service is re-started, the **dll should be loaded and executed** (you can **reuse** the **procmon** trick to check if the **library was loaded as expected**).
-
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
+Коли служба буде перезапущена, **dll повинен бути завантажений та виконаний** (ви можете **повторно використовувати** трюк з **procmon**, щоб перевірити, чи **була бібліотека завантажена, як очікувалося**).

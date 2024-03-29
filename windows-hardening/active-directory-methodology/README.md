@@ -1,97 +1,95 @@
-# Active Directory Methodology
+# Методологія роботи з Active Directory
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію рекламовану на HackTricks** або **завантажити HackTricks у PDF-форматі**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Дізнайтеся про [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв GitHub.
 
 </details>
 
-## Basic overview
+## Основний огляд
 
-**Active Directory** serves as a foundational technology, enabling **network administrators** to efficiently create and manage **domains**, **users**, and **objects** within a network. It is engineered to scale, facilitating the organization of an extensive number of users into manageable **groups** and **subgroups**, while controlling **access rights** at various levels.
+**Active Directory** служить як основна технологія, що дозволяє **адміністраторам мережі** ефективно створювати та керувати **доменами**, **користувачами** та **об'єктами** в мережі. Вона розроблена для масштабування, сприяючи організації великої кількості користувачів у керовані **групи** та **підгрупи**, контролюючи **права доступу** на різних рівнях.
 
-The structure of **Active Directory** is comprised of three primary layers: **domains**, **trees**, and **forests**. A **domain** encompasses a collection of objects, such as **users** or **devices**, sharing a common database. **Trees** are groups of these domains linked by a shared structure, and a **forest** represents the collection of multiple trees, interconnected through **trust relationships**, forming the uppermost layer of the organizational structure. Specific **access** and **communication rights** can be designated at each of these levels.
+Структура **Active Directory** складається з трьох основних рівнів: **домени**, **дерева** та **ліси**. **Домен** охоплює колекцію об'єктів, таких як **користувачі** або **пристрої**, які діляться спільною базою даних. **Дерева** - це групи цих доменів, з'єднаних спільною структурою, а **ліс** представляє собою колекцію кількох дерев, які взаємодіють через **довіру**, утворюючи верхній рівень організаційної структури. На кожному з цих рівнів можна призначити конкретні **права доступу** та **комунікації**.
 
-Key concepts within **Active Directory** include:
+Ключові концепції в **Active Directory** включають:
 
-1. **Directory** – Houses all information pertaining to Active Directory objects.
-2. **Object** – Denotes entities within the directory, including **users**, **groups**, or **shared folders**.
-3. **Domain** – Serves as a container for directory objects, with the capability for multiple domains to coexist within a **forest**, each maintaining its own object collection.
-4. **Tree** – A grouping of domains that share a common root domain.
-5. **Forest** – The pinnacle of organizational structure in Active Directory, composed of several trees with **trust relationships** among them.
+1. **Каталог** - Містить всю інформацію, що стосується об'єктів Active Directory.
+2. **Об'єкт** - Позначає сутності в каталозі, включаючи **користувачів**, **групи** або **спільні папки**.
+3. **Домен** - Служить як контейнер для об'єктів каталогу, з можливістю існування кількох доменів у **лісі**, кожен з яких підтримує власну колекцію об'єктів.
+4. **Дерево** - Групування доменів, які мають спільний кореневий домен.
+5. **Ліс** - Вершина організаційної структури в Active Directory, складена з кількох дерев з **довірчими відносинами** між ними.
 
-**Active Directory Domain Services (AD DS)** encompasses a range of services critical for the centralized management and communication within a network. These services comprise:
+**Служби доменів Active Directory (AD DS)** охоплюють ряд служб, критичних для централізованого управління та комунікації в мережі. Ці служби включають:
 
-1. **Domain Services** – Centralizes data storage and manages interactions between **users** and **domains**, including **authentication** and **search** functionalities.
-2. **Certificate Services** – Oversees the creation, distribution, and management of secure **digital certificates**.
-3. **Lightweight Directory Services** – Supports directory-enabled applications through the **LDAP protocol**.
-4. **Directory Federation Services** – Provides **single-sign-on** capabilities to authenticate users across multiple web applications in a single session.
-5. **Rights Management** – Assists in safeguarding copyright material by regulating its unauthorized distribution and use.
-6. **DNS Service** – Crucial for the resolution of **domain names**.
+1. **Служби доменів** - Централізує зберігання даних та керує взаємодіями між **користувачами** та **доменами**, включаючи функції **аутентифікації** та **пошуку**.
+2. **Служби сертифікації** - Керує створенням, розподілом та управлінням безпечними **цифровими сертифікатами**.
+3. **Служби легкого каталогу** - Підтримує додатки, що підтримують каталог через **протокол LDAP**.
+4. **Служби федерації каталогів** - Надає можливості **одноразового входу** для аутентифікації користувачів у кількох веб-додатках під час однієї сесії.
+5. **Управління правами** - Допомагає захищати авторські матеріали, регулюючи їх незаконне поширення та використання.
+6. **Служба DNS** - Критична для розрішення **доменних імен**.
 
-For a more detailed explanation check: [**TechTerms - Active Directory Definition**](https://techterms.com/definition/active_directory)
+Для отримання більш детального пояснення дивіться: [**TechTerms - Визначення Active Directory**](https://techterms.com/definition/active_directory)
 
 
-### **Kerberos Authentication**
+### **Аутентифікація Kerberos**
 
-To learn how to **attack an AD** you need to **understand** really good the **Kerberos authentication process**.\
-[**Read this page if you still don't know how it works.**](kerberos-authentication.md)
+Щоб вивчити, як **здійснювати атаку на AD**, вам потрібно добре **розуміти процес аутентифікації Kerberos**.\
+[**Прочитайте цю сторінку, якщо ви все ще не знаєте, як це працює.**](kerberos-authentication.md)
 
-## Cheat Sheet
+## Шпаргалка
 
-You can take a lot to [https://wadcoms.github.io/](https://wadcoms.github.io) to have a quick view of which commands you can run to enumerate/exploit an AD.
+Ви можете перейти на [https://wadcoms.github.io/](https://wadcoms.github.io), щоб швидко переглянути, які команди можна виконати для переліку/експлуатації AD.
 
-## Recon Active Directory (No creds/sessions)
+## Рекон Active Directory (Без облікових даних/сесій)
 
-If you just have access to an AD environment but you don't have any credentials/sessions you could:
+Якщо у вас є доступ до середовища AD, але ви не маєте жодних облікових даних/сесій, ви можете:
 
-* **Pentest the network:**
-  * Scan the network, find machines and open ports and try to **exploit vulnerabilities** or **extract credentials** from them (for example, [printers could be very interesting targets](ad-information-in-printers.md).
-  * Enumerating DNS could give information about key servers in the domain as web, printers, shares, vpn, media, etc.
-    * `gobuster dns -d domain.local -t 25 -w /opt/Seclist/Discovery/DNS/subdomain-top2000.txt`
-  * Take a look to the General [**Pentesting Methodology**](../../generic-methodologies-and-resources/pentesting-methodology.md) to find more information about how to do this.
-* **Check for null and Guest access on smb services** (this won't work on modern Windows versions):
-  * `enum4linux -a -u "" -p "" <DC IP> && enum4linux -a -u "guest" -p "" <DC IP>`
-  * `smbmap -u "" -p "" -P 445 -H <DC IP> && smbmap -u "guest" -p "" -P 445 -H <DC IP>`
-  * `smbclient -U '%' -L //<DC IP> && smbclient -U 'guest%' -L //`
-  * A more detailed guide on how to enumerate a SMB server can be found here:
+* **Пентест мережі:**
+* Сканувати мережу, знаходити машини та відкриті порти та спробувати **експлуатувати вразливості** або **витягти облікові дані** з них (наприклад, [принтери можуть бути дуже цікавими цілями](ad-information-in-printers.md).
+* Перелік DNS може надати інформацію про ключові сервери в домені, такі як веб, принтери, ресурси, vpn, медіа тощо.
+* `gobuster dns -d domain.local -t 25 -w /opt/Seclist/Discovery/DNS/subdomain-top2000.txt`
+* Перегляньте загальну [**Методологію пентесту**](../../generic-methodologies-and-resources/pentesting-methodology.md), щоб дізнатися більше про це.
+* **Перевірте доступ до smb-сервісів для null та Guest** (це не працюватиме на сучасних версіях Windows):
+* `enum4linux -a -u "" -p "" <DC IP> && enum4linux -a -u "guest" -p "" <DC IP>`
+* `smbmap -u "" -p "" -P 445 -H <DC IP> && smbmap -u "guest" -p "" -P 445 -H <DC IP>`
+* `smbclient -U '%' -L //<DC IP> && smbclient -U 'guest%' -L //`
+* Докладний посібник з переліку сервера SMB можна знайти тут:
 
 {% content-ref url="../../network-services-pentesting/pentesting-smb.md" %}
 [pentesting-smb.md](../../network-services-pentesting/pentesting-smb.md)
 {% endcontent-ref %}
 
-* **Enumerate Ldap**
-  * `nmap -n -sV --script "ldap* and not brute" -p 389 <DC IP>`
-  * A more detailed guide on how to enumerate LDAP can be found here (pay **special attention to the anonymous access**):
+* **Перелік Ldap**
+* `nmap -n -sV --script "ldap* and not brute" -p 389 <DC IP>`
+* Докладний посібник з переліку LDAP можна знайти тут (приділіть **особливу увагу анонімному доступу**):
 
 {% content-ref url="../../network-services-pentesting/pentesting-ldap.md" %}
 [pentesting-ldap.md](../../network-services-pentesting/pentesting-ldap.md)
 {% endcontent-ref %}
 
-* **Poison the network**
-  * Gather credentials [**impersonating services with Responder**](../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md)
-  * Access host by [**abusing the relay attack**](../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md#relay-attack)
-  * Gather credentials **exposing** [**fake UPnP services with evil-S**](../../generic-methodologies-and-resources/pentesting-network/spoofing-ssdp-and-upnp-devices.md)[**SDP**](https://medium.com/@nickvangilder/exploiting-multifunction-printers-during-a-penetration-test-engagement-28d3840d8856)
+* **Забруднюйте мережу**
+* Збирайте облікові дані, [**підробляючи сервіси за допомогою Responder**](../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md)
+* Отримуйте доступ до хосту, [**зловживаючи атакою реле**](../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md#relay-attack)
+* Збирайте облікові дані, **використовуючи** [**фальшиві служби UPnP з evil-S**](../../generic-methodologies-and-resources/pentesting-network/spoofing-ssdp-and-upnp-devices.md)[**DP**](https://medium.com/@nickvangilder/exploiting-multifunction-printers-during-a-penetration-test-engagement-28d3840d8856)
 * [**OSINT**](https://book.hacktricks.xyz/external-recon-methodology):
-  * Extract usernames/names from internal documents, social media, services (mainly web) inside the domain environments and also from the publicly available.
-  * If you find the complete names of company workers, you could try different AD **username conventions (**[**read this**](https://activedirectorypro.com/active-directory-user-naming-convention/)). The most common conventions are: _NameSurname_, _Name.Surname_, _NamSur_ (3letters of each), _Nam.Sur_, _NSurname_, _N.Surname_, _SurnameName_, _Surname.Name_, _SurnameN_, _Surname.N_, 3 _random letters and 3 random numbers_ (abc123).
-  * Tools:
-    * [w0Tx/generate-ad-username](https://github.com/w0Tx/generate-ad-username)
-    * [urbanadventurer/username-anarchy](https://github.com/urbanadventurer/username-anarchy)
+* Витягайте імена користувачів/імена з внутрішніх документів, соціальних мереж, служб (головним чином веб-сервісів) в середовищах домену та також з загальнодоступних.
+* Якщо ви знаходите повні імена працівників компанії, ви можете спробувати різні **конвенції імен користувачів AD (**[**прочитайте це**](https://activedirectorypro.com/active-directory-user-naming-convention/)). Найпоширеніші конвенції імен: _Ім'яПрізвище_, _Ім'я.Прізвище_, _Ім'яПрізвище_ (3 літери кожного), _Ім'я.Прізвище_, _ПрізвищеІм'я_, _Прізвище.Ім'я_, _ПрізвищеІ_, _Прізвище.І_, 3 _випадкові літери та 3 випадкові числа_ (abc123).
+* Інструменти:
+* [w0Tx/generate-ad-username](https://github.com/w0Tx/generate-ad-username)
+* [urbanadventurer/username-anarchy](https://github.com/urbanadventurer/username-anarchy)
+### Перелік користувачів
 
-### User enumeration
-
-* **Anonymous SMB/LDAP enum:** Check the [**pentesting SMB**](../../network-services-pentesting/pentesting-smb.md) and [**pentesting LDAP**](../../network-services-pentesting/pentesting-ldap.md) pages.
-* **Kerbrute enum**: When an **invalid username is requested** the server will respond using the **Kerberos error** code _KRB5KDC\_ERR\_C\_PRINCIPAL\_UNKNOWN_, allowing us to determine that the username was invalid. **Valid usernames** will illicit either the **TGT in a AS-REP** response or the error _KRB5KDC\_ERR\_PREAUTH\_REQUIRED_, indicating that the user is required to perform pre-authentication.
-
+* **Анонімне SMB/LDAP перелікування:** Перевірте сторінки [**pentesting SMB**](../../network-services-pentesting/pentesting-smb.md) та [**pentesting LDAP**](../../network-services-pentesting/pentesting-ldap.md).
+* **Kerbrute перелік**: Коли запитується **недійсне ім'я користувача**, сервер відповість за допомогою **помилки Kerberos** _KRB5KDC\_ERR\_C\_PRINCIPAL\_UNKNOWN_, що дозволяє нам визначити, що ім'я користувача є недійсним. **Дійсні імена користувачів** викличуть або **TGT у відповіді AS-REP**, або помилку _KRB5KDC\_ERR\_PREAUTH\_REQUIRED_, що вказує на необхідність користувача виконати попередню аутентифікацію.
 ```bash
 ./kerbrute_linux_amd64 userenum -d lab.ropnop.com --dc 10.10.10.10 usernames.txt #From https://github.com/ropnop/kerbrute/releases
 
@@ -102,11 +100,9 @@ msf> use auxiliary/gather/kerberos_enumusers
 
 crackmapexec smb dominio.es  -u '' -p '' --users | awk '{print $4}' | uniq
 ```
+* **Сервер OWA (Outlook Web Access)**
 
-* **OWA (Outlook Web Access) Server**
-
-If you found one of these servers in the network you can also perform **user enumeration against it**. For example, you could use the tool [**MailSniper**](https://github.com/dafthack/MailSniper):
-
+Якщо ви знайшли один з цих серверів в мережі, ви також можете виконати **перелік користувачів проти нього**. Наприклад, ви можете використати інструмент [**MailSniper**](https://github.com/dafthack/MailSniper):
 ```bash
 ipmo C:\Tools\MailSniper\MailSniper.ps1
 # Get info about the domain
@@ -118,103 +114,100 @@ Invoke-PasswordSprayOWA -ExchHostname [ip] -UserList .\valid.txt -Password Summe
 # Get addresses list from the compromised mail
 Get-GlobalAddressList -ExchHostname [ip] -UserName [domain]\[username] -Password Summer2021 -OutFile gal.txt
 ```
-
 {% hint style="warning" %}
-You can find lists of usernames in [**this github repo**](https://github.com/danielmiessler/SecLists/tree/master/Usernames/Names) \*\*\*\* and this one ([**statistically-likely-usernames**](https://github.com/insidetrust/statistically-likely-usernames)).
+Ви можете знайти списки імен користувачів у [**цьому репозиторії GitHub**](https://github.com/danielmiessler/SecLists/tree/master/Usernames/Names) та цьому ([**statistically-likely-usernames**](https://github.com/insidetrust/statistically-likely-usernames)).
 
-However, you should have the **name of the people working on the company** from the recon step you should have performed before this. With the name and surname you could used the script [**namemash.py**](https://gist.github.com/superkojiman/11076951) to generate potential valid usernames.
+Однак вам слід мати **ім'я людей, які працюють у компанії** з кроку реконнесансу, який ви повинні були виконати до цього. З ім'ям та прізвищем ви можете використовувати скрипт [**namemash.py**](https://gist.github.com/superkojiman/11076951) для генерації потенційно дійсних імен користувачів.
 {% endhint %}
 
-### Knowing one or several usernames
+### Знання одного або кількох імен користувачів
 
-Ok, so you know you have already a valid username but no passwords... Then try:
+Добре, ви вже знаєте, що у вас є дійсне ім'я користувача, але немає паролів... Тоді спробуйте:
 
-* [**ASREPRoast**](asreproast.md): If a user **doesn't have** the attribute _DONT\_REQ\_PREAUTH_ you can **request a AS\_REP message** for that user that will contain some data encrypted by a derivation of the password of the user.
-* [**Password Spraying**](password-spraying.md): Let's try the most **common passwords** with each of the discovered users, maybe some user is using a bad password (keep in mind the password policy!).
-  * Note that you can also **spray OWA servers** to try to get access to the users mail servers.
+* [**ASREPRoast**](asreproast.md): Якщо у користувача **немає** атрибуту _DONT\_REQ\_PREAUTH_, ви можете **запитати повідомлення AS\_REP** для цього користувача, яке буде містити деякі дані, зашифровані похідним від пароля користувача.
+* [**Парольне розпилення**](password-spraying.md): Спробуйте най**поширеніші паролі** з кожним з виявлених користувачів, можливо, деякі користувачі використовують поганий пароль (пам'ятайте про політику паролів!).
+* Зверніть увагу, що ви також можете **розпилювати сервери OWA**, щоб спробувати отримати доступ до поштових серверів користувачів.
 
 {% content-ref url="password-spraying.md" %}
 [password-spraying.md](password-spraying.md)
 {% endcontent-ref %}
 
-### LLMNR/NBT-NS Poisoning
+### Отруєння LLMNR/NBT-NS
 
-You might be able to **obtain** some challenge **hashes** to crack **poisoning** some protocols of the **network**:
+Ви можете **отримати** деякі хеші виклику для взлому, **отруюючи** деякі протоколи **мережі**:
 
 {% content-ref url="../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md" %}
 [spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md](../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md)
 {% endcontent-ref %}
 
-### NTML Relay
+### Пересилання NTML
 
-If you have managed to enumerate the active directory you will have **more emails and a better understanding of the network**. You might be able to to force NTML [**relay attacks**](../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md#relay-attack) \*\*\*\* to get access to the AD env.
+Якщо вам вдалося перелічити активний каталог, ви матимете **більше електронних листів та краще розуміння мережі**. Ви можете спробувати змусити пересилання NTML [**атак**](../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md#relay-attack) \*\*\*\* для отримання доступу до середовища AD.
 
-### Steal NTLM Creds
+### Крадіжка облікових даних NTLM
 
-If you can **access other PCs or shares** with the **null or guest user** you could **place files** (like a SCF file) that if somehow accessed will t**rigger an NTML authentication against you** so you can **steal** the **NTLM challenge** to crack it:
+Якщо ви можете **отримати доступ до інших ПК або ресурсів** за допомогою **нульового або гостьового користувача**, ви можете **розмістити файли** (наприклад, файл SCF), які, якщо вони будуть якимось чином доступні, спричинять **аутентифікацію NTML проти вас**, щоб ви могли **вкрасти** **виклик NTLM** для його взлому:
 
 {% content-ref url="../ntlm/places-to-steal-ntlm-creds.md" %}
 [places-to-steal-ntlm-creds.md](../ntlm/places-to-steal-ntlm-creds.md)
 {% endcontent-ref %}
 
-## Enumerating Active Directory WITH credentials/session
+## Перелік активних каталогів З обліковими даними/сесією
 
-For this phase you need to have **compromised the credentials or a session of a valid domain account.** If you have some valid credentials or a shell as a domain user, **you should remember that the options given before are still options to compromise other users**.
+Для цієї фази вам потрібно було **компрометувати облікові дані або сесію дійсного доменного облікового запису**. Якщо у вас є деякі дійсні облікові дані або оболонка як доменного користувача, **пам'ятайте, що варіанти, наведені раніше, все ще є варіантами для компрометації інших користувачів**.
 
-Before start the authenticated enumeration you should know what is the **Kerberos double hop problem.**
+Перед початком аутентифікованого переліку вам слід знати, що таке **проблема подвійного стрибка Kerberos**.
 
 {% content-ref url="kerberos-double-hop-problem.md" %}
 [kerberos-double-hop-problem.md](kerberos-double-hop-problem.md)
 {% endcontent-ref %}
 
-### Enumeration
+### Перелік
 
-Having compromised an account is a **big step to start compromising the whole domain**, because you are going to be able to start the **Active Directory Enumeration:**
+Компрометація облікового запису є **великим кроком для початку компрометації всього домену**, оскільки ви зможете почати **перелік активних каталогів:**
 
-Regarding [**ASREPRoast**](asreproast.md) you can now find every possible vulnerable user, and regarding [**Password Spraying**](password-spraying.md) you can get a **list of all the usernames** and try the password of the compromised account, empty passwords and new promising passwords.
+Щодо [**ASREPRoast**](asreproast.md) ви можете знайти кожного можливого вразливого користувача, а щодо [**Парольного розпилення**](password-spraying.md) ви можете отримати **список усіх імен користувачів** та спробувати пароль облікового запису, порожні паролі та нові перспективні паролі.
 
-* You could use the [**CMD to perform a basic recon**](../basic-cmd-for-pentesters.md#domain-info)
-* You can also use [**powershell for recon**](../basic-powershell-for-pentesters/) which will be stealthier
-* You ca also [**use powerview**](../basic-powershell-for-pentesters/powerview.md) to extract more detailed information
-* Another amazing tool for recon in an active directory is [**BloodHound**](bloodhound.md). It is **not very stealthy** (depending on the collection methods you use), but **if you don't care** about that, you should totally give it a try. Find where users can RDP, find path to other groups, etc.
-  * **Other automated AD enumeration tools are:** [**AD Explorer**](bloodhound.md#ad-explorer)**,** [**ADRecon**](bloodhound.md#adrecon)**,** [**Group3r**](bloodhound.md#group3r)**,** [**PingCastle**](bloodhound.md#pingcastle)**.**
-* [**DNS records of the AD**](ad-dns-records.md) as they might contain interesting information.
-* A **tool with GUI** that you can use to enumerate the directory is **AdExplorer.exe** from **SysInternal** Suite.
-* You can also search in the LDAP database with **ldapsearch** to look for credentials in fields _userPassword_ & _unixUserPassword_, or even for _Description_. cf. [Password in AD User comment on PayloadsAllTheThings](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Active%20Directory%20Attack.md#password-in-ad-user-comment) for other methods.
-* If you are using **Linux**, you could also enumerate the domain using [**pywerview**](https://github.com/the-useless-one/pywerview).
-* You could also try automated tools as:
-  * [**tomcarver16/ADSearch**](https://github.com/tomcarver16/ADSearch)
-  * [**61106960/adPEAS**](https://github.com/61106960/adPEAS)
-*   **Extracting all domain users**
+* Ви можете використовувати [**CMD для виконання базового рекону**](../basic-cmd-for-pentesters.md#domain-info)
+* Ви також можете використовувати [**powershell для рекону**](../basic-powershell-for-pentesters/), що буде більш прихованим
+* Ви також можете [**використовувати powerview**](../basic-powershell-for-pentesters/powerview.md) для отримання більш детальної інформації
+* Ще одним дивовижним інструментом для рекону в активному каталозі є [**BloodHound**](bloodhound.md). Він **не дуже прихований** (залежно від методів збору, які ви використовуєте), але **якщо ви не турбуєтеся** про це, вам слід абсолютно спробувати. Знайдіть, де користувачі можуть підключатися за допомогою RDP, знайдіть шлях до інших груп тощо.
+* **Інші автоматизовані інструменти для переліку AD:** [**AD Explorer**](bloodhound.md#ad-explorer)**,** [**ADRecon**](bloodhound.md#adrecon)**,** [**Group3r**](bloodhound.md#group3r)**,** [**PingCastle**](bloodhound.md#pingcastle)**.**
+* [**DNS-записи AD**](ad-dns-records.md), оскільки вони можуть містити цікаву інформацію.
+* **Інструмент з графічним інтерфейсом**, який ви можете використовувати для переліку каталогу, це **AdExplorer.exe** з **SysInternal** Suite.
+* Ви також можете шукати в базі даних LDAP за допомогою **ldapsearch** для пошуку облікових даних у полях _userPassword_ та _unixUserPassword_, або навіть для _Description_. див. [Пароль в коментарі користувача AD на PayloadsAllTheThings](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Active%20Directory%20Attack.md#password-in-ad-user-comment) для інших методів.
+* Якщо ви використовуєте **Linux**, ви також можете перелічити домен за допомогою [**pywerview**](https://github.com/the-useless-one/pywerview).
+* Ви також можете спробувати автоматизовані інструменти, такі як:
+* [**tomcarver16/ADSearch**](https://github.com/tomcarver16/ADSearch)
+* [**61106960/adPEAS**](https://github.com/61106960/adPEAS)
+*   **Видобуток усіх користувачів домену**
 
-    It's very easy to obtain all the domain usernames from Windows (`net user /domain` ,`Get-DomainUser` or `wmic useraccount get name,sid`). In Linux, you can use: `GetADUsers.py -all -dc-ip 10.10.10.110 domain.com/username` or `enum4linux -a -u "user" -p "password" <DC IP>`
+Дуже легко отримати всі імена користувачів домену з Windows (`net user /domain`, `Get-DomainUser` або `wmic useraccount get name,sid`). У Linux ви можете використовувати: `GetADUsers.py -all -dc-ip 10.10.10.110 domain.com/username` або `enum4linux -a -u "user" -p "password" <DC IP>`
 
-> Even if this Enumeration section looks small this is the most important part of all. Access the links (mainly the one of cmd, powershell, powerview and BloodHound), learn how to enumerate a domain and practice until you feel comfortable. During an assessment, this will be the key moment to find your way to DA or to decide that nothing can be done.
+> Навіть якщо цей розділ Переліку виглядає невеликим, це найважливіша частина. Звертайтеся до посилань (головним чином до посилань на cmd, powershell, powerview та BloodHound), вивчайте, як перелічити домен, і практикуйте, поки не почуєте себе впевнено. Під час оцінки це буде ключовий момент для знаходження шляху до DA або вирішення питання, чи можна щось зробити.
 
 ### Kerberoast
 
-Kerberoasting involves obtaining **TGS tickets** used by services tied to user accounts and cracking their encryption—which is based on user passwords—**offline**.
+Kerberoasting включає отримання **TGS-квитків**, які використовуються службами, пов'язаними з обліковими записами користувачів, та взлому їх шифрування—яке базується на паролях користувачів—**офлайн**.
 
-More about this in:
+Докладніше про це в:
 
 {% content-ref url="kerberoast.md" %}
 [kerberoast.md](kerberoast.md)
 {% endcontent-ref %}
+### Віддалене підключення (RDP, SSH, FTP, Win-RM, тощо)
 
-### Remote connexion (RDP, SSH, FTP, Win-RM, etc)
+Після того, як ви отримали деякі облікові дані, ви можете перевірити, чи маєте ви доступ до будь-якої **машини**. Для цього ви можете використовувати **CrackMapExec**, щоб спробувати підключитися до кількох серверів за допомогою різних протоколів, відповідно до результатів сканування портів.
 
-Once you have obtained some credentials you could check if you have access to any **machine**. For that matter, you could use **CrackMapExec** to attempt connecting on several servers with different protocols, accordingly to your ports scans.
+### Підвищення привілеїв на локальному рівні
 
-### Local Privilege Escalation
+Якщо у вас є компрометовані облікові дані або сесія як звичайного користувача домену і ви маєте **доступ** до **будь-якої машини в домені** за допомогою цього користувача, вам слід спробувати знайти спосіб **підвищення привілеїв локально та викрадення облікових даних**. Це тому, що лише з привілеями локального адміністратора ви зможете **витягти хеші інших користувачів** у пам'яті (LSASS) та локально (SAM).
 
-If you have compromised credentials or a session as a regular domain user and you have **access** with this user to **any machine in the domain** you should try to find your way to **escalate privileges locally and looting for credentials**. This is because only with local administrator privileges you will be able to **dump hashes of other users** in memory (LSASS) and locally (SAM).
+У цій книзі є повна сторінка про [**підвищення привілеїв на локальному рівні в Windows**](../windows-local-privilege-escalation/) та [**чеклист**](../checklist-windows-privilege-escalation.md). Також не забудьте використовувати [**WinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite).
 
-There is a complete page in this book about [**local privilege escalation in Windows**](../windows-local-privilege-escalation/) and a [**checklist**](../checklist-windows-privilege-escalation.md). Also, don't forget to use [**WinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite).
+### Поточні квитки сесії
 
-### Current Session Tickets
-
-It's very **unlikely** that you will find **tickets** in the current user **giving you permission to access** unexpected resources, but you could check:
-
+Дуже **малоймовірно**, що ви знайдете **квитки** поточного користувача, які надають вам дозвіл на доступ до неочікуваних ресурсів, але ви можете перевірити:
 ```bash
 ## List all tickets (if not admin, only current user tickets)
 .\Rubeus.exe triage
@@ -222,20 +215,19 @@ It's very **unlikely** that you will find **tickets** in the current user **givi
 .\Rubeus.exe dump /service:krbtgt /luid:<luid> /nowrap
 [IO.File]::WriteAllBytes("ticket.kirbi", [Convert]::FromBase64String("<BASE64_TICKET>"))
 ```
-
 ### NTML Relay
 
-If you have managed to enumerate the active directory you will have **more emails and a better understanding of the network**. You might be able to to force NTML [**relay attacks**](../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md#relay-attack)**.**
+Якщо вам вдалося перелічити активний каталог, ви матимете **більше електронних листів та краще розуміння мережі**. Ви, можливо, зможете змусити атаки **пересилання NTML**.
 
-### **Looks for Creds in Computer Shares**
+### **Пошук облікових даних в розділах комп'ютерів**
 
-Now that you have some basic credentials you should check if you can **find** any **interesting files being shared inside the AD**. You could do that manually but it's a very boring repetitive task (and more if you find hundreds of docs you need to check).
+Тепер, коли у вас є деякі базові облікові дані, ви повинні перевірити, чи можете ви **знайти** які-небудь **цікаві файли, які діляться всередині AD**. Ви можете зробити це вручну, але це дуже нудна повторювана задача (особливо, якщо ви знаходите сотні документів, які потрібно перевірити).
 
-[**Follow this link to learn about tools you could use.**](../../network-services-pentesting/pentesting-smb.md#domain-shared-folders-search)
+[**Перейдіть за цим посиланням, щоб дізнатися про інструменти, які ви можете використовувати.**](../../network-services-pentesting/pentesting-smb.md#domain-shared-folders-search)
 
-### Steal NTLM Creds
+### Вкрадіть облікові дані NTLM
 
-If you can **access other PCs or shares** you could **place files** (like a SCF file) that if somehow accessed will t**rigger an NTML authentication against you** so you can **steal** the **NTLM challenge** to crack it:
+Якщо ви можете **отримати доступ до інших ПК або розділів**, ви можете **розмістити файли** (наприклад, файл SCF), які, якщо їх якось отримають доступ, спричинять **аутентифікацію NTML проти вас**, щоб ви могли **вкрасти** **виклик NTLM**, щоб розшифрувати його:
 
 {% content-ref url="../ntlm/places-to-steal-ntlm-creds.md" %}
 [places-to-steal-ntlm-creds.md](../ntlm/places-to-steal-ntlm-creds.md)
@@ -243,115 +235,113 @@ If you can **access other PCs or shares** you could **place files** (like a SCF 
 
 ### CVE-2021-1675/CVE-2021-34527 PrintNightmare
 
-This vulnerability allowed any authenticated user to **compromise the domain controller**.
+Ця уразливість дозволяла будь-якому аутентифікованому користувачеві **компрометувати контролер домену**.
 
 {% content-ref url="printnightmare.md" %}
 [printnightmare.md](printnightmare.md)
 {% endcontent-ref %}
 
-## Privilege escalation on Active Directory WITH privileged credentials/session
+## Підвищення привілеїв на Active Directory З привілейованими обліковими даними/сесією
 
-**For the following techniques a regular domain user is not enough, you need some special privileges/credentials to perform these attacks.**
+**Для наступних технік звичайного користувача домену недостатньо, вам потрібні деякі спеціальні привілеї/облікові дані для виконання цих атак.**
 
-### Hash extraction
+### Вилучення хешу
 
-Hopefully you have managed to **compromise some local admin** account using [AsRepRoast](asreproast.md), [Password Spraying](password-spraying.md), [Kerberoast](kerberoast.md), [Responder](../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md) including relaying, [EvilSSDP](../../generic-methodologies-and-resources/pentesting-network/spoofing-ssdp-and-upnp-devices.md), [escalating privileges locally](../windows-local-privilege-escalation/).\
-Then, its time to dump all the hashes in memory and locally.\
-[**Read this page about different ways to obtain the hashes.**](broken-reference/)
+Сподіваюсь, вам вдалося **компрометувати деякий локальний обліковий запис адміністратора** за допомогою [AsRepRoast](asreproast.md), [Password Spraying](password-spraying.md), [Kerberoast](kerberoast.md), [Responder](../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md), включаючи пересилання, [EvilSSDP](../../generic-methodologies-and-resources/pentesting-network/spoofing-ssdp-and-upnp-devices.md), [підвищення привілеїв локально](../windows-local-privilege-escalation/).\
+Тоді час витягнути всі хеші в пам'яті та локально.\
+[**Прочитайте цю сторінку про різні способи отримання хешів.**](broken-reference/)
 
-### Pass the Hash
+### Передача хешу
 
-**Once you have the hash of a user**, you can use it to **impersonate** it.\
-You need to use some **tool** that will **perform** the **NTLM authentication using** that **hash**, **or** you could create a new **sessionlogon** and **inject** that **hash** inside the **LSASS**, so when any **NTLM authentication is performed**, that **hash will be used.** The last option is what mimikatz does.\
-[**Read this page for more information.**](../ntlm/#pass-the-hash)
+**Якщо у вас є хеш користувача**, ви можете використовувати його для **імітації**.\
+Вам потрібно використовувати деякий **інструмент**, який буде **виконувати** **аутентифікацію NTLM, використовуючи** цей **хеш**, **або** ви можете створити новий **sessionlogon** та **впровадити** цей **хеш** всередину **LSASS**, тому коли буде виконано будь-яку **аутентифікацію NTLM**, цей **хеш буде використаний**. Остання опція - це те, що робить mimikatz.\
+[**Прочитайте цю сторінку для отримання додаткової інформації.**](../ntlm/#pass-the-hash)
 
-### Over Pass the Hash/Pass the Key
+### Передача хешу через Kerberos/Передача ключа
 
-This attack aims to **use the user NTLM hash to request Kerberos tickets**, as an alternative to the common Pass The Hash over NTLM protocol. Therefore, this could be especially **useful in networks where NTLM protocol is disabled** and only **Kerberos is allowed** as authentication protocol.
+Ця атака спрямована на **використання хешу NTLM користувача для запиту квитків Kerberos**, як альтернативу звичайному передачі хешу через протокол NTLM. Таким чином, це може бути особливо **корисним в мережах, де відключений протокол NTLM**, і дозволено лише **Kerberos як протокол аутентифікації**.
 
 {% content-ref url="over-pass-the-hash-pass-the-key.md" %}
 [over-pass-the-hash-pass-the-key.md](over-pass-the-hash-pass-the-key.md)
 {% endcontent-ref %}
 
-### Pass the Ticket
+### Передача квитка
 
-In the **Pass The Ticket (PTT)** attack method, attackers **steal a user's authentication ticket** instead of their password or hash values. This stolen ticket is then used to **impersonate the user**, gaining unauthorized access to resources and services within a network.
+У методі атаки **Pass The Ticket (PTT)** зловмисники **крадуть аутентифікаційний квиток користувача** замість їх пароля або хешів. Цей викрадений квиток потім використовується для **імітації користувача**, отримуючи несанкціонований доступ до ресурсів та служб всередині мережі.
 
 {% content-ref url="pass-the-ticket.md" %}
 [pass-the-ticket.md](pass-the-ticket.md)
 {% endcontent-ref %}
 
-### Credentials Reuse
+### Повторне використання облікових даних
 
-If you have the **hash** or **password** of a **local administrato**r you should try to **login locally** to other **PCs** with it.
-
+Якщо у вас є **хеш** або **пароль локального адміністратора**, вам слід спробувати **ввійти локально** на інші **ПК** з ним.
 ```bash
 # Local Auth Spray (once you found some local admin pass or hash)
 ## --local-auth flag indicate to only try 1 time per machine
 crackmapexec smb --local-auth 10.10.10.10/23 -u administrator -H 10298e182387f9cab376ecd08491764a0 | grep +
 ```
-
 {% hint style="warning" %}
-Note that this is quite **noisy** and **LAPS** would **mitigate** it.
+Зверніть увагу, що це досить **шумно** і **LAPS** допоможе це **пом'якшити**.
 {% endhint %}
 
-### MSSQL Abuse & Trusted Links
+### Зловживання MSSQL та Довірені посилання
 
-If a user has privileges to **access MSSQL instances**, he could be able to use it to **execute commands** in the MSSQL host (if running as SA), **steal** the NetNTLM **hash** or even perform a **relay** **attack**.\
-Also, if a MSSQL instance is trusted (database link) by a different MSSQL instance. If the user has privileges over the trusted database, he is going to be able to **use the trust relationship to execute queries also in the other instance**. These trusts can be chained and at some point the user might be able to find a misconfigured database where he can execute commands.\
-**The links between databases work even across forest trusts.**
+Якщо користувач має привілеї для **доступу до екземплярів MSSQL**, він може використовувати це для **виконання команд** на хості MSSQL (якщо він працює як SA), **вкрасти** хеш NetNTLM або навіть виконати **атаку ретрансляції**.\
+Також, якщо екземпляр MSSQL є довіреним (посилання на базу даних) іншим екземпляром MSSQL. Якщо у користувача є привілеї щодо довіреної бази даних, він зможе **використовувати довіреність для виконання запитів також в іншому екземплярі**. Ці довіри можуть бути ланцюжковими, і на певному етапі користувач може знайти неправильно налаштовану базу даних, де він може виконувати команди.\
+**Посилання між базами даних працюють навіть через довіреність лісів.**
 
 {% content-ref url="abusing-ad-mssql.md" %}
 [abusing-ad-mssql.md](abusing-ad-mssql.md)
 {% endcontent-ref %}
 
-### Unconstrained Delegation
+### Неконтрольована делегація
 
-If you find any Computer object with the attribute [ADS\_UF\_TRUSTED\_FOR\_DELEGATION](https://msdn.microsoft.com/en-us/library/aa772300\(v=vs.85\).aspx) and you have domain privileges in the computer, you will be able to dump TGTs from memory of every users that logins onto the computer.\
-So, if a **Domain Admin logins onto the computer**, you will be able to dump his TGT and impersonate him using [Pass the Ticket](pass-the-ticket.md).\
-Thanks to constrained delegation you could even **automatically compromise a Print Server** (hopefully it will be a DC).
+Якщо ви знаходите будь-який об'єкт Комп'ютера з атрибутом [ADS\_UF\_TRUSTED\_FOR\_DELEGATION](https://msdn.microsoft.com/en-us/library/aa772300\(v=vs.85\).aspx) і маєте привілеї домену на комп'ютері, ви зможете витягти TGT з пам'яті кожного користувача, який увійшов на комп'ютер.\
+Таким чином, якщо **Адміністратор домену увійшов на комп'ютер**, ви зможете витягти його TGT та уособлювати його, використовуючи [Pass the Ticket](pass-the-ticket.md).\
+Завдяки обмеженій делегації ви навіть можете **автоматично скомпрометувати Друковий сервер** (сподіваємося, що це буде DC).
 
 {% content-ref url="unconstrained-delegation.md" %}
 [unconstrained-delegation.md](unconstrained-delegation.md)
 {% endcontent-ref %}
 
-### Constrained Delegation
+### Обмежена делегація
 
-If a user or computer is allowed for "Constrained Delegation" it will be able to **impersonate any user to access some services in a computer**.\
-Then, if you **compromise the hash** of this user/computer you will be able to **impersonate any user** (even domain admins) to access some services.
+Якщо користувачу або комп'ютеру дозволено "Обмежену делегацію", він зможе **уособлювати будь-якого користувача для доступу до деяких служб на комп'ютері**.\
+Отже, якщо ви **компрометуєте хеш** цього користувача/комп'ютера, ви зможете **уособлювати будь-якого користувача** (навіть доменних адміністраторів) для доступу до деяких служб.
 
 {% content-ref url="constrained-delegation.md" %}
 [constrained-delegation.md](constrained-delegation.md)
 {% endcontent-ref %}
 
-### Resourced-based Constrain Delegation
+### Обмеження делегації на основі ресурсів
 
-Having **WRITE** privilege on an Active Directory object of a remote computer enables the attainment of code execution with **elevated privileges**:
+Маючи **привілеї ЗАПИСУ** на об'єкт Active Directory віддаленого комп'ютера, можна отримати виконання коду з **підвищеними привілеями**:
 
 {% content-ref url="resource-based-constrained-delegation.md" %}
 [resource-based-constrained-delegation.md](resource-based-constrained-delegation.md)
 {% endcontent-ref %}
 
-### ACLs Abuse
+### Зловживання ACL
 
-The compromised user could have some **interesting privileges over some domain objects** that could let you **move** laterally/**escalate** privileges.
+Компрометований користувач може мати деякі **цікаві привілеї щодо деяких об'єктів домену**, які можуть дозволити вам **переміщатися** бічно/**підвищувати** привілеї.
 
 {% content-ref url="acl-persistence-abuse/" %}
 [acl-persistence-abuse](acl-persistence-abuse/)
 {% endcontent-ref %}
 
-### Printer Spooler service abuse
+### Зловживання служби друкування
 
-Discovering a **Spool service listening** within the domain can be **abused** to **acquire new credentials** and **escalate privileges**.
+Виявлення **служби спулера, яка прослуховує** в межах домену може бути **зловживано** для **отримання нових облікових даних** та **підвищення привілеїв**.
 
 {% content-ref url="acl-persistence-abuse/" %}
 [printers-spooler-service-abuse](printers-spooler-service-abuse.md)
 {% endcontent-ref %}
 
-### Third party sessions abuse
+### Зловживання сеансами сторонніх вендорів
 
-If **other users** **access** the **compromised** machine, it's possible to **gather credentials from memory** and even **inject beacons in their processes** to impersonate them.\
-Usually users will access the system via RDP, so here you have how to performa couple of attacks over third party RDP sessions:
+Якщо **інші користувачі** **отримують доступ** до **компрометованого** комп'ютера, можливо **збирати облікові дані з пам'яті** та навіть **впроваджувати маяки в їх процеси** для уособлення їх.\
+Зазвичай користувачі отримують доступ до системи через RDP, отже, ось як виконати кілька атак над сеансами RDP сторонніх вендорів:
 
 {% content-ref url="rdp-sessions-abuse.md" %}
 [rdp-sessions-abuse.md](rdp-sessions-abuse.md)
@@ -359,143 +349,142 @@ Usually users will access the system via RDP, so here you have how to performa c
 
 ### LAPS
 
-**LAPS** provides a system for managing the **local Administrator password** on domain-joined computers, ensuring it's **randomized**, unique, and frequently **changed**. These passwords are stored in Active Directory and access is controlled through ACLs to authorized users only. With sufficient permissions to access these passwords, pivoting to other computers becomes possible.
+**LAPS** надає систему для управління **паролем локального адміністратора** на комп'ютерах, приєднаних до домену, забезпечуючи його **випадковість**, унікальність та часту **зміну**. Ці паролі зберігаються в Active Directory, а доступ контролюється через ACL лише для авторизованих користувачів. З достатніми дозволами для доступу до цих паролів стає можливим перехід на інші комп'ютери.
 
 {% content-ref url="laps.md" %}
 [laps.md](laps.md)
 {% endcontent-ref %}
 
-### Certificate Theft
+### Крадіжка сертифікатів
 
-**Gathering certificates** from the compromised machine could be a way to escalate privileges inside the environment:
+**Збір сертифікатів** з компрометованого комп'ютера може бути способом підвищення привілеїв всередині середовища:
 
 {% content-ref url="ad-certificates/certificate-theft.md" %}
 [certificate-theft.md](ad-certificates/certificate-theft.md)
 {% endcontent-ref %}
 
-### Certificate Templates Abuse
+### Зловживання шаблонами сертифікатів
 
-If **vulnerable templates** are configured it's possible to abuse them to escalate privileges:
+Якщо налаштовані **вразливі шаблони**, можна їх зловживати для підвищення привілеїв:
 
 {% content-ref url="ad-certificates/domain-escalation.md" %}
 [domain-escalation.md](ad-certificates/domain-escalation.md)
 {% endcontent-ref %}
 
-## Post-exploitation with high privilege account
+## Післяексплуатація з обліковим записом високих привілеїв
 
-### Dumping Domain Credentials
+### Витягування облікових даних домену
 
-Once you get **Domain Admin** or even better **Enterprise Admin** privileges, you can **dump** the **domain database**: _ntds.dit_.
+Як тільки ви отримаєте привілеї **Адміністратора домену** або навіть краще **Адміністратора підприємства**, ви можете **витягти** **базу даних домену**: _ntds.dit_.
 
-[**More information about DCSync attack can be found here**](dcsync.md).
+[**Додаткова інформація про атаку DCSync може бути знайдена тут**](dcsync.md).
 
-[**More information about how to steal the NTDS.dit can be found here**](broken-reference/)
+[**Додаткова інформація про те, як викрасти NTDS.dit, можна знайти тут**](broken-reference/)
 
-### Privesc as Persistence
+### Підвищення привілеїв як постійність
 
-Some of the techniques discussed before can be used for persistence.\
-For example you could:
+Деякі з технік, про які йшлося раніше, можуть бути використані для постійності.\
+Наприклад, ви можете:
 
-*   Make users vulnerable to [**Kerberoast**](kerberoast.md)
+*   Зробити користувачів вразливими до [**Kerberoast**](kerberoast.md)
 
-    ```powershell
-    Set-DomainObject -Identity <username> -Set @{serviceprincipalname="fake/NOTHING"}r
-    ```
-*   Make users vulnerable to [**ASREPRoast**](asreproast.md)
+```powershell
+Set-DomainObject -Identity <username> -Set @{serviceprincipalname="fake/NOTHING"}r
+```
+*   Зробити користувачів вразливими до [**ASREPRoast**](asreproast.md)
 
-    ```powershell
-    Set-DomainObject -Identity <username> -XOR @{UserAccountControl=4194304}
-    ```
-*   Grant [**DCSync**](./#dcsync) privileges to a user
+```powershell
+Set-DomainObject -Identity <username> -XOR @{UserAccountControl=4194304}
+```
+*   Надати привілеї [**DCSync**](./#dcsync) користувачеві
 
-    ```powershell
-    Add-DomainObjectAcl -TargetIdentity "DC=SUB,DC=DOMAIN,DC=LOCAL" -PrincipalIdentity bfarmer -Rights DCSync
-    ```
+```powershell
+Add-DomainObjectAcl -TargetIdentity "DC=SUB,DC=DOMAIN,DC=LOCAL" -PrincipalIdentity bfarmer -Rights DCSync
+```
 
-### Silver Ticket
+### Срібний квиток
 
-The **Silver Ticket attack** creates a **legitimate Ticket Granting Service (TGS) ticket** for a specific service by using the **NTLM hash** (for instance, the **hash of the PC account**). This method is employed to **access the service privileges**.
+Атака **Срібний квиток** створює **легітимний квиток служби отримання квитків (TGS)** для певної служби, використовуючи **хеш NTLM** (наприклад, **хеш облікового запису ПК**). Цей метод використовується для **доступу до привілеїв служби**.
 
 {% content-ref url="silver-ticket.md" %}
 [silver-ticket.md](silver-ticket.md)
 {% endcontent-ref %}
 
-### Golden Ticket
+### Золотий квиток
 
-A **Golden Ticket attack** involves an attacker gaining access to the **NTLM hash of the krbtgt account** in an Active Directory (AD) environment. This account is special because it's used to sign all **Ticket Granting Tickets (TGTs)**, which are essential for authenticating within the AD network.
+Атака **Золотий квиток** передбачає, що зловмисник отримує доступ до **хешу NTLM облікового запису krbtgt** в середовищі Active Directory (AD). Цей обліковий запис особливий, оскільки він використовується для підпису всіх **Квитків для отримання квитків (TGT)**, які є важливими для аутентифікації в мережі AD.
 
-Once the attacker obtains this hash, they can create **TGTs** for any account they choose (Silver ticket attack). 
+Як тільки зловмисник отримує цей хеш, він може створювати **TGT** для будь-якого облікового запису, який вибере (атака срібний квиток).
 
 {% content-ref url="golden-ticket.md" %}
 [golden-ticket.md](golden-ticket.md)
 {% endcontent-ref %}
 
-### Diamond Ticket
+### Атака алмазним квитком
 
-These are like golden tickets forged in a way that **bypasses common golden tickets detection mechanisms.**
+Це схоже на золоті квитки, сфальсифіковані таким чином, що **обхід механізмів виявлення золотих квитків**.
 
 {% content-ref url="diamond-ticket.md" %}
 [diamond-ticket.md](diamond-ticket.md)
 {% endcontent-ref %}
 
-### **Certificates Account Persistence**
+### **Постійність облікового запису сертифікатів**
 
-**Having certificates of an account or being able to request them** is a very good way to be able to persist in the users account (even if he changes the password):
+**Мати сертифікати облікового запису або мати можливість запитувати їх** - це дуже хороший спосіб мати можливість персистувати в обліковому записі користувача (навіть якщо він змінює пароль):
 
 {% content-ref url="ad-certificates/account-persistence.md" %}
 [account-persistence.md](ad-certificates/account-persistence.md)
 {% endcontent-ref %}
+### **Персистентність домену сертифікатів**
 
-### **Certificates Domain Persistence**
-
-**Using certificates is also possible to persist with high privileges inside the domain:**
+**Використання сертифікатів також можливо для постійного збереження з високими привілеями всередині домену:**
 
 {% content-ref url="ad-certificates/domain-persistence.md" %}
 [domain-persistence.md](ad-certificates/domain-persistence.md)
 {% endcontent-ref %}
 
-### AdminSDHolder Group
+### Група AdminSDHolder
 
-The **AdminSDHolder** object in Active Directory ensures the security of **privileged groups** (like Domain Admins and Enterprise Admins) by applying a standard **Access Control List (ACL)** across these groups to prevent unauthorized changes. However, this feature can be exploited; if an attacker modifies the AdminSDHolder's ACL to give full access to a regular user, that user gains extensive control over all privileged groups. This security measure, meant to protect, can thus backfire, allowing unwarranted access unless closely monitored.
+Об'єкт **AdminSDHolder** в Active Directory забезпечує безпеку **привілейованих груп** (таких як Domain Admins та Enterprise Admins), застосовуючи стандартний **список керування доступом (ACL)** для цих груп, щоб запобігти несанкціонованим змінам. Однак цю функцію можна зловживати; якщо зловмисник змінює ACL AdminSDHolder, щоб надати повний доступ звичайному користувачеві, цей користувач отримує широкий контроль над усіма привілейованими групами. Ця захисна міра, призначена для захисту, може відбитися назад, дозволяючи неправомірний доступ, якщо не буде уважно контрольовано.
 
-[**More information about AdminDSHolder Group here.**](privileged-groups-and-token-privileges.md#adminsdholder-group)
+[**Додаткова інформація про групу AdminDSHolder тут.**](privileged-groups-and-token-privileges.md#adminsdholder-group)
 
-### DSRM Credentials
+### Облікові дані DSRM
 
-Inside every **Domain Controller (DC)**, a **local administrator** account exists. By obtaining admin rights on such a machine, the local Administrator hash can be extracted using **mimikatz**. Following this, a registry modification is necessary to **enable the use of this password**, allowing for remote access to the local Administrator account.
+У кожному **контролері домену (DC)** існує обліковий запис **локального адміністратора**. Отримавши права адміністратора на такому пристрої, хеш локального адміністратора можна витягнути за допомогою **mimikatz**. Після цього необхідно внести зміни в реєстр для **активації використання цього пароля**, що дозволить віддалений доступ до облікового запису локального адміністратора.
 
 {% content-ref url="dsrm-credentials.md" %}
 [dsrm-credentials.md](dsrm-credentials.md)
 {% endcontent-ref %}
 
-### ACL Persistence
+### Постійність ACL
 
-You could **give** some **special permissions** to a **user** over some specific domain objects that will let the user **escalate privileges in the future**.
+Ви можете **надати** деякі **спеціальні дозволи** користувачеві для деяких конкретних об'єктів домену, що дозволить користувачеві **підвищити привілеї у майбутньому**.
 
 {% content-ref url="acl-persistence-abuse/" %}
 [acl-persistence-abuse](acl-persistence-abuse/)
 {% endcontent-ref %}
 
-### Security Descriptors
+### Дескриптори безпеки
 
-The **security descriptors** are used to **store** the **permissions** an **object** have **over** an **object**. If you can just **make** a **little change** in the **security descriptor** of an object, you can obtain very interesting privileges over that object without needing to be member of a privileged group.
+**Дескриптори безпеки** використовуються для **зберігання** **дозволів**, які **об'єкт** має **над** **об'єктом**. Якщо ви просто **внесете** **невелику зміну** в **дескриптор безпеки** об'єкта, ви можете отримати дуже цікаві привілеї над цим об'єктом, не будучи членом привілейованої групи.
 
 {% content-ref url="security-descriptors.md" %}
 [security-descriptors.md](security-descriptors.md)
 {% endcontent-ref %}
 
-### Skeleton Key
+### Скелетний ключ
 
-Alter **LSASS** in memory to establish a **universal password**, granting access to all domain accounts.
+Змініть **LSASS** в пам'яті, щоб встановити **універсальний пароль**, надаючи доступ до всіх облікових записів домену.
 
 {% content-ref url="skeleton-key.md" %}
 [skeleton-key.md](skeleton-key.md)
 {% endcontent-ref %}
 
-### Custom SSP
+### Власний SSP
 
-[Learn what is a SSP (Security Support Provider) here.](../authentication-credentials-uac-and-efs.md#security-support-provider-interface-sspi)\
-You can create you **own SSP** to **capture** in **clear text** the **credentials** used to access the machine.\\
+[Дізнайтеся, що таке SSP (Постачальник підтримки безпеки) тут.](../authentication-credentials-uac-and-efs.md#security-support-provider-interface-sspi)\
+Ви можете створити свій **власний SSP**, щоб **захопити** в **чистому тексті** **облікові дані**, які використовуються для доступу до машини.\\
 
 {% content-ref url="custom-ssp.md" %}
 [custom-ssp.md](custom-ssp.md)
@@ -503,78 +492,76 @@ You can create you **own SSP** to **capture** in **clear text** the **credential
 
 ### DCShadow
 
-It registers a **new Domain Controller** in the AD and uses it to **push attributes** (SIDHistory, SPNs...) on specified objects **without** leaving any **logs** regarding the **modifications**. You **need DA** privileges and be inside the **root domain**.\
-Note that if you use wrong data, pretty ugly logs will appear.
+Це реєструє **новий контролер домену** в AD та використовує його для **передачі атрибутів** (SIDHistory, SPNs...) на вказані об'єкти **без** залишення будь-яких **журналів** щодо **змін**. Вам **потрібні привілеї DA** та бути всередині **кореневого домену**.\
+Зверніть увагу, що якщо ви використовуєте неправильні дані, з'являться досить неприємні журнали.
 
 {% content-ref url="dcshadow.md" %}
 [dcshadow.md](dcshadow.md)
 {% endcontent-ref %}
 
-### LAPS Persistence
+### Постійність LAPS
 
-Previously we have discussed about how to escalate privileges if you have **enough permission to read LAPS passwords**. However, these passwords can also be used to **maintain persistence**.\
-Check:
+Раніше ми обговорювали, як підвищити привілеї, якщо у вас є **достатньо дозволів для читання паролів LAPS**. Однак ці паролі також можуть бути використані для **збереження постійності**.\
+Перевірте:
 
 {% content-ref url="laps.md" %}
 [laps.md](laps.md)
 {% endcontent-ref %}
 
-## Forest Privilege Escalation - Domain Trusts
+## Підвищення привілеїв лісу - Довіри доменів
 
-Microsoft views the **Forest** as the security boundary. This implies that **compromising a single domain could potentially lead to the entire Forest being compromised**.
+Microsoft розглядає **Ліс** як межу безпеки. Це означає, що **компрометація одного домену може потенційно призвести до компрометації всього Лісу**.
 
-### Basic Information
+### Основна інформація
 
-A [**domain trust**](http://technet.microsoft.com/en-us/library/cc759554\(v=ws.10\).aspx) is a security mechanism that enables a user from one **domain** to access resources in another **domain**. It essentially creates a linkage between the authentication systems of the two domains, allowing authentication verifications to flow seamlessly. When domains set up a trust, they exchange and retain specific **keys** within their **Domain Controllers (DCs)**, which are crucial to the trust's integrity.
+[**Довіра домену**](http://technet.microsoft.com/en-us/library/cc759554\(v=ws.10\).aspx) - це механізм безпеки, який дозволяє користувачеві з одного **домену** отримувати доступ до ресурсів в іншому **домені**. По суті, вона створює зв'язок між системами аутентифікації двох доменів, що дозволяє безперервному потоку перевірок аутентифікації. При налаштуванні довіри обмінюються та зберігаються конкретні **ключі** в їх **контролерах домену (DC)**, які є важливими для цілісності довіри.
 
-In a typical scenario, if a user intends to access a service in a **trusted domain**, they must first request a special ticket known as an **inter-realm TGT** from their own domain's DC. This TGT is encrypted with a shared **key** that both domains have agreed upon. The user then presents this TGT to the **DC of the trusted domain** to get a service ticket (**TGS**). Upon successful validation of the inter-realm TGT by the trusted domain's DC, it issues a TGS, granting the user access to the service.
+У типовому сценарії, якщо користувач має намір отримати доступ до служби в **довіреному домені**, він повинен спочатку запросити спеціальний квиток, відомий як **міждоменний TGT**, від свого власного DC. Цей TGT шифрується за допомогою спільного **ключа**, на якому домени домовилися. Потім користувач представляє цей TGT **DC довіреного домену**, щоб отримати квиток служби (**TGS**). Після успішної перевірки міждоменного TGT DC довіреного домену видає TGS, надаючи користувачеві доступ до служби.
 
-**Steps**:
+**Кроки**:
 
-1. A **client computer** in **Domain 1** starts the process by using its **NTLM hash** to request a **Ticket Granting Ticket (TGT)** from its **Domain Controller (DC1)**.
-2. DC1 issues a new TGT if the client is authenticated successfully.
-3. The client then requests an **inter-realm TGT** from DC1, which is needed to access resources in **Domain 2**.
-4. The inter-realm TGT is encrypted with a **trust key** shared between DC1 and DC2 as part of the two-way domain trust.
-5. The client takes the inter-realm TGT to **Domain 2's Domain Controller (DC2)**.
-6. DC2 verifies the inter-realm TGT using its shared trust key and, if valid, issues a **Ticket Granting Service (TGS)** for the server in Domain 2 the client wants to access.
-7. Finally, the client presents this TGS to the server, which is encrypted with the server’s account hash, to get access to the service in Domain 2.
+1. **Клієнтський комп'ютер** в **Домені 1** починає процес, використовуючи свій **хеш NTLM** для запиту **Квитка на надання доступу (TGT)** від свого **Контролера домену (DC1)**.
+2. DC1 видає новий TGT, якщо клієнт успішно аутентифікується.
+3. Потім клієнт запитує **міждоменний TGT** від DC1, який потрібний для доступу до ресурсів в **Домені 2**.
+4. Міждоменний TGT шифрується **ключем довіри**, який ділиться між DC1 та DC2 як частина двосторонньої довіри.
+5. Клієнт бере міждоменний TGT до **Контролера домену Домену 2 (DC2)**.
+6. DC2 перевіряє міждоменний TGT за допомогою спільного ключа довіри та, якщо він є дійсним, видає **Квиток служби на надання доступу (TGS)** для сервера в Домені 2, до якого клієнт хоче отримати доступ.
+7. Нарешті, клієнт представляє цей TGS серверу, який шифрується хешем облікового запису сервера, щоб отримати доступ до служби в Домені 2.
 
 
-### Different trusts
+### Різні довіри
 
-It's important to notice that **a trust can be 1 way or 2 ways**. In the 2 ways options, both domains will trust each other, but in the **1 way** trust relation one of the domains will be the **trusted** and the other the **trusting** domain. In the last case, **you will only be able to access resources inside the trusting domain from the trusted one**.
+Важливо помітити, що **довіра може бути односторонньою або двосторонньою**. У варіантах двосторонньої довіри обидва домени будуть довіряти один одному, але в **односторонньому** відношенні довіри один з доменів буде **довіреним**, а інший - **довіряючим** доменом. У останньому випадку **ви зможете отримати доступ лише до ресурсів всередині довіряючого домену з довіреного**.
 
-If Domain A trusts Domain B, A is the trusting domain and B ins the trusted one. Moreover, in **Domain A**, this would be an **Outbound trust**; and in **Domain B**, this would be an **Inbound trust**.
+Якщо Домен A довіряє Домену B, A є довіряючим доменом, а B - довіреним. Крім того, в **Домені A** це буде **Вихідний довір**; а в **Домені B** - **Вхідний довір**.
 
-**Different trusting relationships**
+**Різні відносини довіри**
 
-* **Parent-Child Trusts**: This is a common setup within the same forest, where a child domain automatically has a two-way transitive trust with its parent domain. Essentially, this means that authentication requests can flow seamlessly between the parent and the child.
-* **Cross-link Trusts**: Referred to as "shortcut trusts," these are established between child domains to expedite referral processes. In complex forests, authentication referrals typically have to travel up to the forest root and then down to the target domain. By creating cross-links, the journey is shortened, which is especially beneficial in geographically dispersed environments.
-* **External Trusts**: These are set up between different, unrelated domains and are non-transitive by nature. According to [Microsoft's documentation](https://technet.microsoft.com/en-us/library/cc773178\(v=ws.10\).aspx), external trusts are useful for accessing resources in a domain outside of the current forest that isn't connected by a forest trust. Security is bolstered through SID filtering with external trusts.
-* **Tree-root Trusts**: These trusts are automatically established between the forest root domain and a newly added tree root. While not commonly encountered, tree-root trusts are important for adding new domain trees to a forest, enabling them to maintain a unique domain name and ensuring two-way transitivity. More information can be found in [Microsoft's guide](https://technet.microsoft.com/en-us/library/cc773178\(v=ws.10\).aspx).
-* **Forest Trusts**: This type of trust is a two-way transitive trust between two forest root domains, also enforcing SID filtering to enhance security measures.
-* **MIT Trusts**: These trusts are established with non-Windows, [RFC4120-compliant](https://tools.ietf.org/html/rfc4120) Kerberos domains. MIT trusts are a bit more specialized and cater to environments requiring integration with Kerberos-based systems outside the Windows ecosystem.
+* **Батьківські-Дитячі Довіри**: Це загальна настройка всередині одного лісу, де дитячий домен автоматично має двосторонню транзитивну довіру з батьківським доменом. По суті, це означає, що запити аутентифікації можуть безперервно переходити між батьківським та дитячим.
+* **Перехресні Довіри**: Їх називають "скороченими довірами" і вони встановлюються між дитячими доменами для прискорення процесів посилань. У складних лісах зазвичай референції аутентифікації повинні подорожувати до кореня лісу, а потім до цільового домену. Створюючи перехресні посилання, маршрут скорочується, що особливо корисно в географічно розподілених середовищах.
+* **Зовнішні Довіри**: Вони встановлюються між різними, не пов'язаними доменами і є неперехідними за своєю природою. Згідно з [документацією Microsoft](https://technet.microsoft.com/en-us/library/cc773178\(v=ws.10\).aspx), зовнішні довіри корисні для доступу до ресурсів в домені поза поточним лісом, який не підключений за довірою лісу. Безпеку підсилюється за допомогою фільтрації SID зовнішніх довір.
+* **Довіри Кореня Дерева**: Ці довіри автоматично встановлюються між коренем лісу та ново доданим коренем дерева. Хоча це не зустрічається часто, довіри кореня дерева важливі для додавання нових дерев доменів до лісу, дозволяючи їм зберігати унікальне ім'я домену та забезпечуючи двосторонню транзитивність. Додаткову інформацію можна знайти в [посібнику Microsoft](https://technet.microsoft.com/en-us/library/cc773178\(v=ws.10\).aspx).
+* **Довіри Лісу**: Цей тип довіри - це двостороння транзитивна довіра між двома кореневими доменами лісу, також зміцнюється фільтрацією SID для підвищення заходів безпеки.
+* **Довіри MIT**: Ці довіри встановлюються з непристр
+#### Інші відмінності в **довірчих відносинах**
 
-#### Other differences in **trusting relationships**
+* Довірчий зв'язок може бути також **транзитивним** (A довіряє B, B довіряє C, тоді A довіряє C) або **нетранзитивним**.
+* Довірчий зв'язок може бути налаштований як **двосторонній довірчий** (обидва довіряють один одному) або як **односторонній довірчий** (лише один з них довіряє іншому).
 
-* A trust relationship can also be **transitive** (A trust B, B trust C, then A trust C) or **non-transitive**.
-* A trust relationship can be set up as **bidirectional trust** (both trust each other) or as **one-way trust** (only one of them trust the other).
+### Шлях атаки
 
-### Attack Path
+1. **Перелічіть** довірчі відносини
+2. Перевірте, чи має який-небудь **безпечний принципал** (користувач/група/комп'ютер) **доступ** до ресурсів **іншого домену**, можливо за допомогою записів ACE або за наявності в групах іншого домену. Шукайте **відносини між доменами** (довіра була створена, ймовірно, для цього).
+3. У цьому випадку може бути ще один варіант - kerberoast.
+4. **Компрометуйте** **акаунти**, які можуть **перехоплювати** через домени.
 
-1. **Enumerate** the trusting relationships
-2. Check if any **security principal** (user/group/computer) has **access** to resources of the **other domain**, maybe by ACE entries or by being in groups of the other domain. Look for **relationships across domains** (the trust was created for this probably).
-   1. kerberoast in this case could be another option.
-3. **Compromise** the **accounts** which can **pivot** through domains.
+Зловмисники можуть мати доступ до ресурсів в іншому домені за допомогою трьох основних механізмів:
 
-Attackers with could access to resources in another domain through three primary mechanisms:
+- **Членство в локальній групі**: Принципали можуть бути додані до локальних груп на машинах, таких як група "Адміністратори" на сервері, що надає їм значний контроль над цією машиною.
+- **Членство в групі іншого домену**: Принципали також можуть бути членами груп у іншому домені. Однак ефективність цього методу залежить від характеру довіри та обсягу групи.
+- **Списки керування доступом (ACL)**: Принципали можуть бути вказані в **ACL**, зокрема як сутності в **ACE** в межах **DACL**, що надає їм доступ до конкретних ресурсів. Для тих, хто бажає докладніше вивчити механіку ACL, DACL та ACE, біла книга під назвою "[An ACE Up The Sleeve](https://specterops.io/assets/resources/an_ace_up_the_sleeve.pdf)" є невичерпним джерелом інформації.
 
-- **Local Group Membership**: Principals might be added to local groups on machines, such as the “Administrators” group on a server, granting them significant control over that machine.
-- **Foreign Domain Group Membership**: Principals can also be members of groups within the foreign domain. However, the effectiveness of this method depends on the nature of the trust and the scope of the group.
-- **Access Control Lists (ACLs)**: Principals might be specified in an **ACL**, particularly as entities in **ACEs** within a **DACL**, providing them access to specific resources. For those looking to dive deeper into the mechanics of ACLs, DACLs, and ACEs, the whitepaper titled “[An ACE Up The Sleeve](https://specterops.io/assets/resources/an_ace_up_the_sleeve.pdf)” is an invaluable resource.
-
-### Child-to-Parent forest privilege escalation
-
+### Підвищення привілеїв лісу від дитини до батька
 ```
 Get-DomainTrust
 
@@ -586,74 +573,69 @@ TrustDirection  : Bidirectional       --> Trust direction (2ways in this case)
 WhenCreated     : 2/19/2021 1:28:00 PM
 WhenChanged     : 2/19/2021 1:28:00 PM
 ```
-
 {% hint style="warning" %}
-There are **2 trusted keys**, one for _Child --> Parent_ and another one for _Parent_ --> _Child_.\
-You can the one used by the current domain them with:
-
+Є **2 довірених ключі**, один для _Дитина --> Батько_ і інший для _Батько_ --> _Дитина_.\
+Ви можете використовувати той, який використовується в поточному домені, за допомогою:
 ```bash
 Invoke-Mimikatz -Command '"lsadump::trust /patch"' -ComputerName dc.my.domain.local
 Invoke-Mimikatz -Command '"lsadump::dcsync /user:dcorp\mcorp$"'
 ```
 {% endhint %}
 
-#### SID-History Injection
+#### Впровадження SID-History
 
-Escalate as Enterprise admin to the child/parent domain abusing the trust with SID-History injection:
+Ескалація до рівня адміністратора підприємства в дитячому/батьківському домені, зловживаючи довірою за допомогою впровадження SID-History:
 
 {% content-ref url="sid-history-injection.md" %}
 [sid-history-injection.md](sid-history-injection.md)
 {% endcontent-ref %}
 
-#### Exploit writeable Configuration NC
+#### Використання записуваного NC конфігурації
 
-Understanding how the Configuration Naming Context (NC) can be exploited is crucial. The Configuration NC serves as a central repository for configuration data across a forest in Active Directory (AD) environments. This data is replicated to every Domain Controller (DC) within the forest, with writable DCs maintaining a writable copy of the Configuration NC. To exploit this, one must have **SYSTEM privileges on a DC**, preferably a child DC.
+Розуміння того, як можна використовувати NC конфігурації (Configuration Naming Context) є критичним. NC конфігурації служить центральним сховищем для даних конфігурації у всьому лісі в середовищах Active Directory (AD). Ці дані реплікуються на кожен контролер домену (DC) у лісі, з записними DC, які підтримують записну копію NC конфігурації. Для використання цього, потрібно мати **привілеї SYSTEM на DC**, краще на дитячому DC.
 
-**Link GPO to root DC site**
+**Посилання GPO на кореневий DC сайт**
 
-The Configuration NC's Sites container includes information about all domain-joined computers' sites within the AD forest. By operating with SYSTEM privileges on any DC, attackers can link GPOs to the root DC sites. This action potentially compromises the root domain by manipulating policies applied to these sites.
+Контейнер сайтів NC конфігурації містить інформацію про всі сайти комп'ютерів, приєднаних до домену, у лісі AD. Операцію з привілеями SYSTEM на будь-якому DC, зловмисники можуть посилати GPO на сайти кореневого DC. Ця дія потенційно компрометує кореневий домен шляхом маніпулювання політиками, які застосовуються до цих сайтів.
 
-For in-depth information, one might explore research on [Bypassing SID Filtering](https://improsec.com/tech-blog/sid-filter-as-security-boundary-between-domains-part-4-bypass-sid-filtering-research).
+Для докладної інформації можна дослідити дослідження про [Обхід фільтрації SID](https://improsec.com/tech-blog/sid-filter-as-security-boundary-between-domains-part-4-bypass-sid-filtering-research).
 
-**Compromise any gMSA in the forest**
+**Компрометація будь-якого gMSA в лісі**
 
-An attack vector involves targeting privileged gMSAs within the domain. The KDS Root key, essential for calculating gMSAs' passwords, is stored within the Configuration NC. With SYSTEM privileges on any DC, it's possible to access the KDS Root key and compute the passwords for any gMSA across the forest.
+Вектор атаки включає націлювання привілейованих gMSA в межах домену. Ключ KDS Root, необхідний для обчислення паролів gMSA, зберігається в NC конфігурації. З привілеями SYSTEM на будь-якому DC можливий доступ до ключа KDS Root та обчислення паролів для будь-якого gMSA у всьому лісі.
 
-Detailed analysis can be found in the discussion on [Golden gMSA Trust Attacks](https://improsec.com/tech-blog/sid-filter-as-security-boundary-between-domains-part-5-golden-gmsa-trust-attack-from-child-to-parent).
+Детальний аналіз можна знайти в обговоренні [Атак на довірчість Golden gMSA](https://improsec.com/tech-blog/sid-filter-as-security-boundary-between-domains-part-5-golden-gmsa-trust-attack-from-child-to-parent).
 
-**Schema change attack**
+**Атака на зміну схеми**
 
-This method requires patience, waiting for the creation of new privileged AD objects. With SYSTEM privileges, an attacker can modify the AD Schema to grant any user complete control over all classes. This could lead to unauthorized access and control over newly created AD objects.
+Цей метод вимагає терпіння, очікуючи створення нових привілейованих об'єктів AD. З привілеями SYSTEM зловмисник може змінити схему AD, щоб надати будь-якому користувачеві повний контроль над усіма класами. Це може призвести до несанкціонованого доступу та контролю над новими створеними об'єктами AD.
 
-Further reading is available on [Schema Change Trust Attacks](https://improsec.com/tech-blog/sid-filter-as-security-boundary-between-domains-part-6-schema-change-trust-attack-from-child-to-parent).
+Додаткову інформацію можна знайти в [Атаках на довірчість зміни схеми](https://improsec.com/tech-blog/sid-filter-as-security-boundary-between-domains-part-6-schema-change-trust-attack-from-child-to-parent).
 
-**From DA to EA with ADCS ESC5**
+**Від DA до EA з ADCS ESC5**
 
-The ADCS ESC5 vulnerability targets control over Public Key Infrastructure (PKI) objects to create a certificate template that enables authentication as any user within the forest. As PKI objects reside in the Configuration NC, compromising a writable child DC enables the execution of ESC5 attacks.
+Уразливість ADCS ESC5 націлює контроль над об'єктами Інфраструктури відкритих ключів (PKI) для створення шаблону сертифіката, який дозволяє аутентифікацію як будь-якого користувача у лісі. Оскільки об'єкти PKI розташовані в NC конфігурації, компрометація записного дитячого DC дозволяє виконання атак ESC5.
 
-More details on this can be read in [From DA to EA with ESC5](https://posts.specterops.io/from-da-to-ea-with-esc5-f9f045aa105c). In scenarios lacking ADCS, the attacker has the capability to set up the necessary components, as discussed in [Escalating from Child Domain Admins to Enterprise Admins](https://www.pkisolutions.com/escalating-from-child-domains-admins-to-enterprise-admins-in-5-minutes-by-abusing-ad-cs-a-follow-up/).
+Додаткові деталі можна прочитати в [Від DA до EA з ESC5](https://posts.specterops.io/from-da-to-ea-with-esc5-f9f045aa105c). У сценаріях, де відсутній ADCS, зловмисник має можливість налаштувати необхідні компоненти, як обговорюється в [Ескалація від адміністраторів дитячих доменів до адміністраторів підприємства](https://www.pkisolutions.com/escalating-from-child-domains-admins-to-enterprise-admins-in-5-minutes-by-abusing-ad-cs-a-follow-up/).
 
-### External Forest Domain - One-Way (Inbound) or bidirectional
-
+### Зовнішній лісовий домен - односторонній (вхідний) або двосторонній
 ```powershell
 Get-DomainTrust
 SourceName      : a.domain.local   --> Current domain
 TargetName      : domain.external  --> Destination domain
 TrustType       : WINDOWS-ACTIVE_DIRECTORY
-TrustAttributes : 
+TrustAttributes :
 TrustDirection  : Inbound          --> Inboud trust
 WhenCreated     : 2/19/2021 10:50:56 PM
 WhenChanged     : 2/19/2021 10:50:56 PM
 ```
-
-In this scenario **your domain is trusted** by an external one giving you **undetermined permissions** over it. You will need to find **which principals of your domain have which access over the external domain** and then try to exploit it:
+У цьому сценарії **ваш домен довіряється** зовнішньому, що надає вам **невизначені дозволи** над ним. Вам потрібно знайти **які принципали вашого домену мають доступ до зовнішнього домену** і спробувати використати це:
 
 {% content-ref url="external-forest-domain-oneway-inbound.md" %}
 [external-forest-domain-oneway-inbound.md](external-forest-domain-oneway-inbound.md)
 {% endcontent-ref %}
 
-### External Forest Domain - One-Way (Outbound)
-
+### Зовнішній Лісовий Домен - Однобічний (Вихідний)
 ```powershell
 Get-DomainTrust -Domain current.local
 
@@ -665,72 +647,71 @@ TrustDirection  : Outbound        --> Outbound trust
 WhenCreated     : 2/19/2021 10:15:24 PM
 WhenChanged     : 2/19/2021 10:15:24 PM
 ```
+У цьому сценарії **ваш домен** надає деякі **привілеї** принципалу з **інших доменів**.
 
-In this scenario **your domain** is **trusting** some **privileges** to principal from a **different domains**.
-
-However, when a **domain is trusted** by the trusting domain, the trusted domain **creates a user** with a **predictable name** that uses as **password the trusted password**. Which means that it's possible to **access a user from the trusting domain to get inside the trusted one** to enumerate it and try to escalate more privileges:
+Проте, коли **домен довіряється** довіряючим доменом, довірений домен **створює користувача** з **передбачуваним ім'ям**, яке використовується як **пароль довіреного пароля**. Це означає, що можливо **отримати доступ до користувача з довіреного домену, щоб потрапити в довірений** для його переліку та спроби підвищення привілеїв:
 
 {% content-ref url="external-forest-domain-one-way-outbound.md" %}
 [external-forest-domain-one-way-outbound.md](external-forest-domain-one-way-outbound.md)
 {% endcontent-ref %}
 
-Another way to compromise the trusted domain is to find a [**SQL trusted link**](abusing-ad-mssql.md#mssql-trusted-links) created in the **opposite direction** of the domain trust (which isn't very common).
+Іншим способом компрометування довіреного домену є знаходження [**SQL довіреного посилання**](abusing-ad-mssql.md#mssql-trusted-links), створеного в **протилежному напрямку** довіри до домену (що не є дуже поширеним).
 
-Another way to compromise the trusted domain is to wait in a machine where a **user from the trusted domain can access** to login via **RDP**. Then, the attacker could inject code in the RDP session process and **access the origin domain of the victim** from there.\
-Moreover, if the **victim mounted his hard drive**, from the **RDP session** process the attacker could store **backdoors** in the **startup folder of the hard drive**. This technique is called **RDPInception.**
+Ще одним способом компрометування довіреного домену є очікування на машині, де **користувач з довіреного домену може отримати доступ**, щоб увійти через **RDP**. Потім зловмисник може впровадити код у процес сеансу RDP та **отримати доступ до домену жертви** звідти.\
+Більше того, якщо **жертва підключила свій жорсткий диск**, з процесу сеансу RDP зловмисник може зберігати **задні входи** в **папці автозапуску жорсткого диска**. Ця техніка називається **RDPInception.**
 
 {% content-ref url="rdp-sessions-abuse.md" %}
 [rdp-sessions-abuse.md](rdp-sessions-abuse.md)
 {% endcontent-ref %}
 
-### Domain trust abuse mitigation
+### Зменшення зловживання довіри до домену
 
-### **SID Filtering:**
+### **Фільтрація SID:**
 
-- The risk of attacks leveraging the SID history attribute across forest trusts is mitigated by SID Filtering, which is activated by default on all inter-forest trusts. This is underpinned by the assumption that intra-forest trusts are secure, considering the forest, rather than the domain, as the security boundary as per Microsoft's stance.
-- However, there's a catch: SID filtering might disrupt applications and user access, leading to its occasional deactivation.
+- Ризик атак, які використовують атрибут історії SID через довіру між лісами, зменшується за допомогою фільтрації SID, яка активується за замовчуванням на всіх міжлісових довірах. Це ґрунтується на припущенні, що внутрішні ліси є безпечними, вважаючи ліс, а не домен, як границю безпеки згідно з позицією Microsoft.
+- Однак є підводний камінь: фільтрація SID може порушити роботу додатків та доступ користувачів, що призводить до її випадкового вимкнення.
 
-### **Selective Authentication:**
+### **Вибіркова аутентифікація:**
 
-- For inter-forest trusts, employing Selective Authentication ensures that users from the two forests are not automatically authenticated. Instead, explicit permissions are required for users to access domains and servers within the trusting domain or forest.
-- It's important to note that these measures do not safeguard against the exploitation of the writable Configuration Naming Context (NC) or attacks on the trust account.
+- Для міжлісових довір, використання вибіркової аутентифікації забезпечує, що користувачі з двох лісів не автоматично аутентифікуються. Замість цього для доступу користувачів до доменів та серверів у довіряючому домені або лісі потрібні явні дозволи.
+- Важливо зауважити, що ці заходи не захищають від експлуатації записуваного контексту імені конфігурації (NC) або атак на обліковий запис довіри.
 
-[**More information about domain trusts in ired.team.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/child-domain-da-to-ea-in-parent-domain)
+[**Додаткова інформація про довіру до доменів на ired.team.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/child-domain-da-to-ea-in-parent-domain)
 
 ## AD -> Azure & Azure -> AD
 
 {% embed url="https://cloud.hacktricks.xyz/pentesting-cloud/azure-security/az-lateral-movements/azure-ad-connect-hybrid-identity" %}
 
-## Some General Defenses
+## Деякі загальні заходи захисту
 
-[**Learn more about how to protect credentials here.**](../stealing-credentials/credentials-protections.md)\
+[**Дізнайтеся більше про захист облікових даних тут.**](../stealing-credentials/credentials-protections.md)\
 
-### **Defensive Measures for Credential Protection**
+### **Захисні заходи для захисту облікових даних**
 
-- **Domain Admins Restrictions**: It is recommended that Domain Admins should only be allowed to login to Domain Controllers, avoiding their use on other hosts.
-- **Service Account Privileges**: Services should not be run with Domain Admin (DA) privileges to maintain security.
-- **Temporal Privilege Limitation**: For tasks requiring DA privileges, their duration should be limited. This can be achieved by: `Add-ADGroupMember -Identity ‘Domain Admins’ -Members newDA -MemberTimeToLive (New-TimeSpan -Minutes 20)`
+- **Обмеження адміністраторів домену**: Рекомендується, щоб адміністратори домену могли увійти тільки на контролери доменів, уникнувши їх використання на інших хостах.
+- **Привілеї облікових записів служб**: Служби не повинні запускатися з привілеями адміністратора домену (DA) для забезпечення безпеки.
+- **Обмеження тимчасових привілеїв**: Для завдань, які вимагають привілеїв адміністратора домену, їх тривалість повинна бути обмежена. Це можна досягти за допомогою: `Add-ADGroupMember -Identity ‘Domain Admins’ -Members newDA -MemberTimeToLive (New-TimeSpan -Minutes 20)`
 
-### **Implementing Deception Techniques**
+### **Впровадження технік обману**
 
-- Implementing deception involves setting traps, like decoy users or computers, with features such as passwords that do not expire or are marked as Trusted for Delegation. A detailed approach includes creating users with specific rights or adding them to high privilege groups.
-- A practical example involves using tools like: `Create-DecoyUser -UserFirstName user -UserLastName manager-uncommon -Password Pass@123 | DeployUserDeception -UserFlag PasswordNeverExpires -GUID d07da11f-8a3d-42b6-b0aa-76c962be719a -Verbose`
-- More on deploying deception techniques can be found at [Deploy-Deception on GitHub](https://github.com/samratashok/Deploy-Deception).
+- Впровадження обману включає встановлення пасток, таких як манекени користувачів або комп'ютерів, з функціями, такими як паролі, які не закінчуються або позначені як довірені для делегування. Детальний підхід включає створення користувачів з конкретними правами або додавання їх до груп високих привілеїв.
+- Практичний приклад включає використання інструментів, таких як: `Create-DecoyUser -UserFirstName user -UserLastName manager-uncommon -Password Pass@123 | DeployUserDeception -UserFlag PasswordNeverExpires -GUID d07da11f-8a3d-42b6-b0aa-76c962be719a -Verbose`
+- Додаткову інформацію про впровадження технік обману можна знайти на [Deploy-Deception on GitHub](https://github.com/samratashok/Deploy-Deception).
 
-### **Identifying Deception**
+### **Виявлення обману**
 
-- **For User Objects**: Suspicious indicators include atypical ObjectSID, infrequent logons, creation dates, and low bad password counts.
-- **General Indicators**: Comparing attributes of potential decoy objects with those of genuine ones can reveal inconsistencies. Tools like [HoneypotBuster](https://github.com/JavelinNetworks/HoneypotBuster) can assist in identifying such deceptions.
+- **Для об'єктів користувача**: Підозрілі показники включають нетиповий ObjectSID, рідкісні входи, дати створення та низькі показники поганих паролів.
+- **Загальні показники**: Порівняння атрибутів потенційних об'єктів-пасток з атрибутами справжніх може розкрити неузгодженості. Інструменти, такі як [HoneypotBuster](https://github.com/JavelinNetworks/HoneypotBuster), можуть допомогти в ідентифікації таких обманів.
 
-### **Bypassing Detection Systems**
+### **Обхід систем виявлення**
 
-- **Microsoft ATA Detection Bypass**:
-  - **User Enumeration**: Avoiding session enumeration on Domain Controllers to prevent ATA detection.
-  - **Ticket Impersonation**: Utilizing **aes** keys for ticket creation helps evade detection by not downgrading to NTLM.
-  - **DCSync Attacks**: Executing from a non-Domain Controller to avoid ATA detection is advised, as direct execution from a Domain Controller will trigger alerts.
+- **Обхід виявлення Microsoft ATA**:
+- **Перелік користувачів**: Уникання переліку сеансів на контролерах доменів для запобігання виявленню ATA.
+- **Імітація квитків**: Використання ключів **aes** для створення квитків допомагає уникнути виявлення, не знижуючи до NTLM.
+- **Атаки DCSync**: Виконання з недоменного контролера домену для уникнення виявлення ATA рекомендується, оскільки пряме виконання з контролера домену спричинить сповіщення.
 
 
-## References
+## Посилання
 
 * [http://www.harmj0y.net/blog/redteaming/a-guide-to-attacking-domain-trusts/](http://www.harmj0y.net/blog/redteaming/a-guide-to-attacking-domain-trusts/)
 * [https://www.labofapenetrationtester.com/2018/10/deploy-deception.html](https://www.labofapenetrationtester.com/2018/10/deploy-deception.html)
@@ -738,14 +719,14 @@ Moreover, if the **victim mounted his hard drive**, from the **RDP session** pro
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію рекламовану в HackTricks** або **завантажити HackTricks у PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Дізнайтеся більше про [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github репозиторіїв.
 
 </details>

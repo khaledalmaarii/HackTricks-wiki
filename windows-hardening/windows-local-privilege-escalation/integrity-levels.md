@@ -1,59 +1,54 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити **рекламу вашої компанії на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **і** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв на GitHub**.
 
 </details>
 
 
-# Integrity Levels
+# Рівні цілісності
 
-In Windows Vista and later versions, all protected items come with an **integrity level** tag. This setup mostly assigns a "medium" integrity level to files and registry keys, except for certain folders and files that Internet Explorer 7 can write to at a low integrity level. The default behavior is for processes initiated by standard users to have a medium integrity level, whereas services typically operate at a system integrity level. A high-integrity label safeguards the root directory.
+У Windows Vista та пізніших версіях всі захищені об'єкти мають мітку **рівня цілісності**. Ця настройка в основному призначена для присвоєння "середнього" рівня цілісності файлам та ключам реєстру, за винятком певних папок та файлів, до яких Internet Explorer 7 може записувати на низькому рівні цілісності. Стандартна поведінка полягає в тому, що процеси, ініційовані стандартними користувачами, мають середній рівень цілісності, тоді як служби зазвичай працюють на рівні цілісності системи. Високий рівень цілісності захищає кореневий каталог.
 
-A key rule is that objects can't be modified by processes with a lower integrity level than the object's level. The integrity levels are:
+Ключове правило полягає в тому, що об'єкти не можуть бути змінені процесами з нижчим рівнем цілісності, ніж рівень об'єкта. Рівні цілісності такі:
 
-- **Untrusted**: This level is for processes with anonymous logins. %%%Example: Chrome%%%
-- **Low**: Mainly for internet interactions, especially in Internet Explorer's Protected Mode, affecting associated files and processes, and certain folders like the **Temporary Internet Folder**. Low integrity processes face significant restrictions, including no registry write access and limited user profile write access.
-- **Medium**: The default level for most activities, assigned to standard users and objects without specific integrity levels. Even members of the Administrators group operate at this level by default.
-- **High**: Reserved for administrators, allowing them to modify objects at lower integrity levels, including those at the high level itself.
-- **System**: The highest operational level for the Windows kernel and core services, out of reach even for administrators, ensuring protection of vital system functions.
-- **Installer**: A unique level that stands above all others, enabling objects at this level to uninstall any other object.
+- **Ненадійний**: Цей рівень призначений для процесів з анонімними входами. %%%Приклад: Chrome%%%
+- **Низький**: Головним чином для взаємодії в Інтернеті, особливо в захищеному режимі Internet Explorer, що впливає на пов'язані файли та процеси, а також на певні папки, наприклад, **Тимчасовий каталог Інтернету**. Процеси з низьким рівнем цілісності стикаються зі значними обмеженнями, включаючи відсутність доступу до запису в реєстр та обмежений доступ до профілю користувача.
+- **Середній**: Стандартний рівень для більшості дій, призначений для стандартних користувачів та об'єктів без конкретних рівнів цілісності. Навіть члени групи Адміністраторів працюють на цьому рівні за замовчуванням.
+- **Високий**: Зарезервований для адміністраторів, що дозволяє їм змінювати об'єкти на нижчих рівнях цілісності, включаючи ті, що знаходяться на високому рівні цілісності.
+- **Система**: Найвищий операційний рівень для ядра Windows та основних служб, недосяжний навіть для адміністраторів, забезпечуючи захист важливих системних функцій.
+- **Інсталятор**: Унікальний рівень, що перебуває вище за всі інші, дозволяючи об'єктам на цьому рівні видаляти будь-який інший об'єкт.
 
-You can get the integrity level of a process using **Process Explorer** from **Sysinternals**, accessing the **properties** of the process and viewing the "**Security**" tab:
+Ви можете отримати рівень цілісності процесу, використовуючи **Process Explorer** від **Sysinternals**, звернувшись до **властивостей** процесу та переглянувши вкладку "**Безпека**":
 
 ![](<../../.gitbook/assets/image (318).png>)
 
-You can also get your **current integrity level** using `whoami /groups`
+Ви також можете отримати ваш **поточний рівень цілісності**, використовуючи `whoami /groups`
 
 ![](<../../.gitbook/assets/image (319).png>)
 
-## Integrity Levels in File-system
+## Рівні цілісності в файловій системі
 
-A object inside the file-system may need an **minimum integrity level requirement** and if a process doesn't have this integrity process it won't be able to interact with it.\
-For example, lets **create a regular from a regular user console file and check the permissions**:
-
+Об'єкт всередині файлової системи може потребувати **мінімального рівня цілісності** і якщо процес не має цього рівня цілісності, він не зможе взаємодіяти з ним.\
+Наприклад, давайте **створимо звичайний файл з консолі звичайного користувача та перевіримо дозволи**:
 ```
 echo asd >asd.txt
 icacls asd.txt
 asd.txt BUILTIN\Administrators:(I)(F)
-        DESKTOP-IDJHTKP\user:(I)(F)
-        NT AUTHORITY\SYSTEM:(I)(F)
-        NT AUTHORITY\INTERACTIVE:(I)(M,DC)
-        NT AUTHORITY\SERVICE:(I)(M,DC)
-        NT AUTHORITY\BATCH:(I)(M,DC)
+DESKTOP-IDJHTKP\user:(I)(F)
+NT AUTHORITY\SYSTEM:(I)(F)
+NT AUTHORITY\INTERACTIVE:(I)(M,DC)
+NT AUTHORITY\SERVICE:(I)(M,DC)
+NT AUTHORITY\BATCH:(I)(M,DC)
 ```
-
-Now, lets assign a minimum integrity level of **High** to the file. This **must be done from a console** running as **administrator** as a **regular console** will be running in Medium Integrity level and **won't be allowed** to assign High Integrity level to an object:
-
+Зараз давайте призначимо мінімальний рівень цілісності **Високий** для файлу. Це **повинно бути зроблено з консолі**, яка працює в режимі **адміністратора**, оскільки **звичайна консоль** працюватиме на рівні цілісності Середній і **не матиме дозволу** призначити рівень цілісності Високий для об'єкта:
 ```
 icacls asd.txt /setintegritylevel(oi)(ci) High
 processed file: asd.txt
@@ -61,16 +56,14 @@ Successfully processed 1 files; Failed processing 0 files
 
 C:\Users\Public>icacls asd.txt
 asd.txt BUILTIN\Administrators:(I)(F)
-        DESKTOP-IDJHTKP\user:(I)(F)
-        NT AUTHORITY\SYSTEM:(I)(F)
-        NT AUTHORITY\INTERACTIVE:(I)(M,DC)
-        NT AUTHORITY\SERVICE:(I)(M,DC)
-        NT AUTHORITY\BATCH:(I)(M,DC)
-        Mandatory Label\High Mandatory Level:(NW)
+DESKTOP-IDJHTKP\user:(I)(F)
+NT AUTHORITY\SYSTEM:(I)(F)
+NT AUTHORITY\INTERACTIVE:(I)(M,DC)
+NT AUTHORITY\SERVICE:(I)(M,DC)
+NT AUTHORITY\BATCH:(I)(M,DC)
+Mandatory Label\High Mandatory Level:(NW)
 ```
-
-This is where things get interesting. You can see that the user `DESKTOP-IDJHTKP\user` has **FULL privileges** over the file (indeed this was the user that created the file), however, due to the minimum integrity level implemented he won't be able to modify the file anymore unless he is running inside a High Integrity Level (note that he will be able to read it):
-
+Це те, де речі стають цікавішими. Ви можете побачити, що користувач `DESKTOP-IDJHTKP\user` має **ПОВНІ привілеї** до файлу (справді, це був користувач, який створив файл), однак, через встановлений мінімальний рівень цілісності він більше не зможе змінювати файл, якщо він не працює на рівні високої цілісності (зверніть увагу, що він зможе читати його):
 ```
 echo 1234 > asd.txt
 Access is denied.
@@ -79,50 +72,30 @@ del asd.txt
 C:\Users\Public\asd.txt
 Access is denied.
 ```
-
 {% hint style="info" %}
-**Therefore, when a file has a minimum integrity level, in order to modify it you need to be running at least in that integrity level.**
+**Отже, коли файл має мінімальний рівень цілісності, для його зміни потрібно працювати принаймні на цьому рівні цілісності.**
 {% endhint %}
 
-## Integrity Levels in Binaries
+## Рівні цілісності в бінарних файлів
 
-I made a copy of `cmd.exe` in `C:\Windows\System32\cmd-low.exe` and set it an **integrity level of low from an administrator console:**
-
+Я зробив копію `cmd.exe` у `C:\Windows\System32\cmd-low.exe` та встановив **рівень цілісності на низький з адміністраторської консолі:**
 ```
 icacls C:\Windows\System32\cmd-low.exe
 C:\Windows\System32\cmd-low.exe NT AUTHORITY\SYSTEM:(I)(F)
-                                BUILTIN\Administrators:(I)(F)
-                                BUILTIN\Users:(I)(RX)
-                                APPLICATION PACKAGE AUTHORITY\ALL APPLICATION PACKAGES:(I)(RX)
-                                APPLICATION PACKAGE AUTHORITY\ALL RESTRICTED APP PACKAGES:(I)(RX)
-                                Mandatory Label\Low Mandatory Level:(NW)
+BUILTIN\Administrators:(I)(F)
+BUILTIN\Users:(I)(RX)
+APPLICATION PACKAGE AUTHORITY\ALL APPLICATION PACKAGES:(I)(RX)
+APPLICATION PACKAGE AUTHORITY\ALL RESTRICTED APP PACKAGES:(I)(RX)
+Mandatory Label\Low Mandatory Level:(NW)
 ```
-
-Now, when I run `cmd-low.exe` it will **run under a low-integrity level** instead of a medium one:
+Тепер, коли я запускаю `cmd-low.exe`, він **працюватиме на низькому рівні цілісності** замість середнього:
 
 ![](<../../.gitbook/assets/image (320).png>)
 
-For curious people, if you assign high integrity level to a binary (`icacls C:\Windows\System32\cmd-high.exe /setintegritylevel high`) it won't run with high integrity level automatically (if you invoke it from a medium integrity level --by default-- it will run under a medium integrity level).
+Для цікавих осіб, якщо ви призначите високий рівень цілісності для виконуваного файлу (`icacls C:\Windows\System32\cmd-high.exe /setintegritylevel high`), він не буде автоматично запускатися з високим рівнем цілісності (якщо ви викликаєте його з середнім рівнем цілісності - за замовчуванням, він буде працювати на середньому рівні цілісності).
 
-## Integrity Levels in Processes
+## Рівні цілісності в процесах
 
-Not all files and folders have a minimum integrity level, **but all processes are running under an integrity level**. And similar to what happened with the file-system, **if a process wants to write inside another process it must have at least the same integrity level**. This means that a process with low integrity level can’t open a handle with full access to a process with medium integrity level.
+Не всі файли та папки мають мінімальний рівень цілісності, **але всі процеси працюють під рівнем цілісності**. І, подібно до того, що відбулося з файловою системою, **якщо процес хоче записати всередину іншого процесу, він повинен мати принаймні той самий рівень цілісності**. Це означає, що процес з низьким рівнем цілісності не може відкрити дескриптор з повним доступом до процесу з середнім рівнем цілісності.
 
-Due to the restrictions commented in this and the previous section, from a security point of view, it's always **recommended to run a process in the lower level of integrity possible**.
-
-
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
-
-
+Через обмеження, про які йшлося в цьому та попередньому розділах, з точки зору безпеки завжди **рекомендується запускати процес на найнижчому можливому рівні цілісності**.

@@ -3,198 +3,175 @@
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+Використовуйте [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) для легкої побудови та **автоматизації робочих процесів**, які працюють на основі найбільш **продвинутих** інструментів у спільноті.\
+Отримайте доступ сьогодні:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити свою **компанію в рекламі на HackTricks** або **завантажити HackTricks у PDF-форматі**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв GitHub.
 
 </details>
 
-## **Access Control List (ACL)**
+## **Список керування доступом (ACL)**
 
-An Access Control List (ACL) consists of an ordered set of Access Control Entries (ACEs) that dictate the protections for an object and its properties. In essence, an ACL defines which actions by which security principals (users or groups) are permitted or denied on a given object.
+Список керування доступом (ACL) складається з упорядкованого набору записів керування доступом (ACE), які визначають захист для об'єкта та його властивостей. В сутності, ACL визначає, які дії від яких безпекових суб'єктів (користувачів або груп) дозволені або заборонені для певного об'єкта.
 
-There are two types of ACLs:
+Існують два типи ACL:
 
-* **Discretionary Access Control List (DACL):** Specifies which users and groups have or do not have access to an object.
-* **System Access Control List (SACL):** Governs the auditing of access attempts to an object.
+* **Список керування доступом за власним бажанням (DACL):** Визначає, які користувачі та групи мають або не мають доступ до об'єкта.
+* **Список керування доступом системи (SACL):** Керує аудитом спроб доступу до об'єкта.
 
-The process of accessing a file involves the system checking the object's security descriptor against the user's access token to determine if access should be granted and the extent of that access, based on the ACEs.
+Процес доступу до файлу включає в себе перевірку дескриптора безпеки об'єкта на відповідність токену доступу користувача для визначення, чи слід надавати доступ та обсяг цього доступу, на основі ACE.
 
-### **Key Components**
+### **Ключові компоненти**
 
-* **DACL:** Contains ACEs that grant or deny access permissions to users and groups for an object. It's essentially the main ACL that dictates access rights.
-* **SACL:** Used for auditing access to objects, where ACEs define the types of access to be logged in the Security Event Log. This can be invaluable for detecting unauthorized access attempts or troubleshooting access issues.
+* **DACL:** Містить ACE, які надають або відмовляють у правах доступу користувачам та групам до об'єкта. Це, по суті, основний ACL, який визначає права доступу.
+* **SACL:** Використовується для аудиту доступу до об'єктів, де ACE визначають типи доступу, які слід реєструвати в журналі подій безпеки. Це може бути надзвичайно корисно для виявлення несанкціонованих спроб доступу або усунення проблем доступу.
 
-### **System Interaction with ACLs**
+### **Взаємодія системи з ACL**
 
-Each user session is associated with an access token that contains security information relevant to that session, including user, group identities, and privileges. This token also includes a logon SID that uniquely identifies the session.
+Кожна сесія користувача пов'язана з токеном доступу, який містить інформацію про безпеку, що стосується цієї сесії, включаючи ідентифікатори користувача, груп та привілеї. Цей токен також включає SID входу, який унікально ідентифікує сесію.
 
-The Local Security Authority (LSASS) processes access requests to objects by examining the DACL for ACEs that match the security principal attempting access. Access is immediately granted if no relevant ACEs are found. Otherwise, LSASS compares the ACEs against the security principal's SID in the access token to determine access eligibility.
+Місцевий орган безпеки (LSASS) обробляє запити на доступ до об'єктів, переглядаючи DACL для ACE, які відповідають безпековому суб'єкту, який намагається отримати доступ. Доступ негайно надається, якщо відповідні ACE не знайдені. В іншому випадку LSASS порівнює ACE з SID безпекового суб'єкта в токені доступу для визначення можливості доступу.
 
-### **Summarized Process**
+### **Узагальнений процес**
 
-* **ACLs:** Define access permissions through DACLs and audit rules through SACLs.
-* **Access Token:** Contains user, group, and privilege information for a session.
-* **Access Decision:** Made by comparing DACL ACEs with the access token; SACLs are used for auditing.
+* **ACL:** Визначають права доступу через DACL та правила аудиту через SACL.
+* **Токен доступу:** Містить інформацію про користувача, групу та привілеї для сесії.
+* **Рішення про доступ:** Приймається порівнянням DACL ACE з токеном доступу; SACL використовується для аудиту.
 
 ### ACEs
 
-There arey **three main types of Access Control Entries (ACEs)**:
+Існують **три основних типи записів керування доступом (ACE)**:
 
-* **Access Denied ACE**: This ACE explicitly denies access to an object for specified users or groups (in a DACL).
-* **Access Allowed ACE**: This ACE explicitly grants access to an object for specified users or groups (in a DACL).
-* **System Audit ACE**: Positioned within a System Access Control List (SACL), this ACE is responsible for generating audit logs upon access attempts to an object by users or groups. It documents whether access was allowed or denied and the nature of the access.
+* **ACE відмови в доступі**: Цей ACE явно відмовляє у доступі до об'єкта вказаним користувачам або групам (у DACL).
+* **ACE дозволу доступу**: Цей ACE явно надає доступ до об'єкта вказаним користувачам або групам (у DACL).
+* **ACE аудиту системи**: Розташований у Списку керування доступом системи (SACL), цей ACE відповідає за створення журналів аудиту при спробах доступу до об'єкта користувачами або групами. Він документує, чи був доступ наданий або відмовлений та характер доступу.
 
-Each ACE has **four critical components**:
+Кожен ACE має **чотири ключові компоненти**:
 
-1. The **Security Identifier (SID)** of the user or group (or their principal name in a graphical representation).
-2. A **flag** that identifies the ACE type (access denied, allowed, or system audit).
-3. **Inheritance flags** that determine if child objects can inherit the ACE from their parent.
-4. An [**access mask**](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-dtyp/7a53f60e-e730-4dfe-bbe9-b21b62eb790b?redirectedfrom=MSDN), a 32-bit value specifying the object's granted rights.
+1. **Ідентифікатор безпеки (SID)** користувача або групи (або їхнє ім'я представлене графічно).
+2. Прапорець, який ідентифікує тип ACE (доступ відмовлено, дозволено або системний аудит).
+3. **Прапорці успадкування**, які визначають, чи можуть дочірні об'єкти успадковувати ACE від батьківського об'єкта.
+4. [**Маска доступу**](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-dtyp/7a53f60e-e730-4dfe-bbe9-b21b62eb790b?redirectedfrom=MSDN), 32-бітне значення, що вказує надані права об'єкту.
 
-Access determination is conducted by sequentially examining each ACE until:
+Визначення доступу проводиться шляхом послідовного перегляду кожного ACE до:
 
-* An **Access-Denied ACE** explicitly denies the requested rights to a trustee identified in the access token.
-* **Access-Allowed ACE(s)** explicitly grant all requested rights to a trustee in the access token.
-* Upon checking all ACEs, if any requested right has **not been explicitly allowed**, access is implicitly **denied**.
+* **ACE відмови доступу** явно відмовляє у запитаних правах довіреному особі, вказаному в токені доступу.
+* **ACE дозволу доступу** явно надають усі запитані права довіреному особі в токені доступу.
+* Після перевірки всіх ACE, якщо будь-яке запитане право **не було явно дозволено**, доступ автоматично **відмовляється**.
 
-### Order of ACEs
+### Порядок ACE
 
-The way **ACEs** (rules that say who can or cannot access something) are put in a list called **DACL** is very important. This is because once the system gives or denies access based on these rules, it stops looking at the rest.
+Спосіб розміщення **ACE** (правила, які вказують, хто може або не може отримати доступ до чогось) у списку, який називається **DACL**, є дуже важливим. Це тому, що як тільки система надає або відмовляє у доступі на основі цих правил, вона перестає переглядати решту.
 
-There is a best way to organize these ACEs, and it is called **"canonical order."** This method helps make sure everything works smoothly and fairly. Here is how it goes for systems like **Windows 2000** and **Windows Server 2003**:
+Є найкращий спосіб організувати ці ACE, і його називають **"канонічний порядок"**. Цей метод допомагає забезпечити безперервну та справедливу роботу. Ось як це працює для систем, таких як **Windows 2000** та **Windows Server 2003**:
 
-* First, put all the rules that are made **specifically for this item** before the ones that come from somewhere else, like a parent folder.
-* In those specific rules, put the ones that say **"no" (deny)** before the ones that say **"yes" (allow)**.
-* For the rules that come from somewhere else, start with the ones from the **closest source**, like the parent, and then go back from there. Again, put **"no"** before **"yes."**
+* Спочатку розмістіть всі правила, які створені **спеціально для цього елемента**, перед тими, які походять з іншого джерела, наприклад, батьківської папки.
+* У цих конкретних правилах розмістіть ті, які говорять **"ні" (відмовити)** перед тими, які говорять **"так" (дозволити)**.
+* Для правил, які походять з іншого джерела, почніть з тих, які походять від **найближчого джерела**, наприклад, батька, а потім переходьте назад. Знову ж таки, розмістіть **"ні"** перед **"так"**.
 
-This setup helps in two big ways:
+Ця настройка допомагає у двох великих аспектах:
 
-* It makes sure that if there is a specific **"no,"** it is respected, no matter what other **"yes"** rules are there.
-* It lets the owner of an item have the **final say** on who gets in, before any rules from parent folders or further back come into play.
+* Вона переконується, що якщо є конкретне **"ні,"** воно поважається, незалежно від того, які інші правила **"так"** є наявні.
+* Власник елемента може **останнім** вирішувати, хто отримує доступ, перш ніж будь-які правила від батьківських папок або далі вступлять в силу.
 
-By doing things this way, the owner of a file or folder can be very precise about who gets access, making sure the right people can get in and the wrong ones can't.
+Таким чином, власник файлу або папки може бути дуже точним у визначенні, хто має доступ, переконуючись, що правильні люди можуть отримати доступ, а неправильні - ні.
 
 ![](https://www.ntfs.com/images/screenshots/ACEs.gif)
 
-So, this **"canonical order"** is all about making sure the access rules are clear and work well, putting specific rules first and organizing everything in a smart way.
+Таким чином, цей **"канонічний порядок"** спрямований на забезпечення ясності та ефективності прав доступу, розміщаючи специфічні правила спочатку та організовуючи все розумно.
 
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+Використовуйте [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) для легкої побудови та **автоматизації робочих процесів**, які працюють на основі найбільш **продвинутих** інструментів у спільноті.\
+Отримайте доступ сьогодні:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+### GUI Приклад
 
-### GUI Example
+[**Приклад звідси**](https://secureidentity.se/acl-dacl-sacl-and-the-ace/)
 
-[**Example from here**](https://secureidentity.se/acl-dacl-sacl-and-the-ace/)
-
-This is the classic security tab of a folder showing the ACL, DACL and ACEs:
+Це класична вкладка безпеки папки, яка показує ACL, DACL та ACE:
 
 ![http://secureidentity.se/wp-content/uploads/2014/04/classicsectab.jpg](../../.gitbook/assets/classicsectab.jpg)
 
-If we click the **Advanced button** we will get more options like inheritance:
+Якщо ми натиснемо **Розширені** кнопку, ми отримаємо більше опцій, таких як успадкування:
 
 ![http://secureidentity.se/wp-content/uploads/2014/04/aceinheritance.jpg](../../.gitbook/assets/aceinheritance.jpg)
 
-And if you add or edit a Security Principal:
+І якщо ви додаєте або редагуєте Security Principal:
 
 ![http://secureidentity.se/wp-content/uploads/2014/04/editseprincipalpointers1.jpg](../../.gitbook/assets/editseprincipalpointers1.jpg)
 
-And last we have the SACL in the Auditing tab:
+І на останок у нас є SACL на вкладці Аудиту:
 
 ![http://secureidentity.se/wp-content/uploads/2014/04/audit-tab.jpg](../../.gitbook/assets/audit-tab.jpg)
 
-### Explaining Access Control in a Simplified Manner
+### Пояснення керування доступом у спрощеному вигляді
 
-When managing access to resources, like a folder, we use lists and rules known as Access Control Lists (ACLs) and Access Control Entries (ACEs). These define who can or cannot access certain data.
+При керуванні доступом до ресурсів, таких як папка, ми використовуємо списки та правила, відомі як Списки керування доступом (ACL) та Записи керування доступом (ACE). Вони визначають, хто може або не може отримати доступ до певних даних.
 
-#### Denying Access to a Specific Group
+#### Відмова в доступі до конкретної групи
 
-Imagine you have a folder named Cost, and you want everyone to access it except for a marketing team. By setting up the rules correctly, we can ensure that the marketing team is explicitly denied access before allowing everyone else. This is done by placing the rule to deny access to the marketing team before the rule that allows access to everyone.
+Уявіть, що у вас є папка з назвою Cost, і ви хочете, щоб всі мали до неї доступ, за винятком маркетингової команди. Встановивши правила правильно, ми можемо забезпечити, що маркетинговій команді явно відмовлено в доступі перед наданням доступу всім іншим. Це досягається розміщенням правила відмови в доступі для маркетингової команди перед правилом, яке дозволяє доступ всім іншим.
 
-#### Allowing Access to a Specific Member of a Denied Group
+#### Надання доступу конкретному члену відхиленої групи
 
-Let's say Bob, the marketing director, needs access to the Cost folder, even though the marketing team generally shouldn't have access. We can add a specific rule (ACE) for Bob that grants him access, and place it before the rule that denies access to the marketing team. This way, Bob gets access despite the general restriction on his team.
+Скажімо, Боб, директор з маркетингу, потребує доступу до папки Cost, навіть якщо загалом маркетинговій команді не слід мати доступ. Ми можемо додати конкретне правило (ACE) для Боба, яке надає йому доступ, і розмістити його перед правилом, яке відмовляє доступу маркетинговій команді. Таким чином, Боб отримує доступ, незважаючи на загальне обмеження для його команди.
 
-#### Understanding Access Control Entries
+#### Розуміння Записів керування доступом
 
-ACEs are the individual rules in an ACL. They identify users or groups, specify what access is allowed or denied, and determine how these rules apply to sub-items (inheritance). There are two main types of ACEs:
+ACE - це окремі правила в ACL. Вони ідентифікують користувачів або групи, вказують, який доступ дозволяється або відмовляється, і визначають, як ці правила застосовуються до підпунктів (спадковість). Є два основних типи ACE:
 
-* **Generic ACEs**: These apply broadly, affecting either all types of objects or distinguishing only between containers (like folders) and non-containers (like files). For example, a rule that allows users to see the contents of a folder but not to access the files within it.
-* **Object-Specific ACEs**: These provide more precise control, allowing rules to be set for specific types of objects or even individual properties within an object. For instance, in a directory of users, a rule might allow a user to update their phone number but not their login hours.
+* **Загальні ACE**: Ці застосовуються широко, впливаючи або розрізняючи тільки між контейнерами (такими як папки) та не-контейнерами (такими як файли). Наприклад, правило, яке дозволяє користувачам бачити вміст папки, але не мати доступу до файлів всередині неї.
+* **Об'єкт-специфічні ACE**: Ці надають більш точний контроль, дозволяючи встановлювати правила для конкретних типів об'єктів або навіть окремих властивостей всередині об'єкта. Наприклад, у каталозі користувачів правило може дозволяти користувачеві оновлювати свій номер телефону, але не години входу.
 
-Each ACE contains important information like who the rule applies to (using a Security Identifier or SID), what the rule allows or denies (using an access mask), and how it's inherited by other objects.
+Кожен ACE містить важливу інформацію, таку як на кого поширюється правило (з використанням ідентифікатора безпеки або SID), що дозволяє або відмовляє (з використанням маски доступу) та як воно успадковується іншими об'єктами.
 
-#### Key Differences Between ACE Types
+#### Основні відмінності між типами ACE
 
-* **Generic ACEs** are suitable for simple access control scenarios, where the same rule applies to all aspects of an object or to all objects within a container.
-* **Object-Specific ACEs** are used for more complex scenarios, especially in environments like Active Directory, where you might need to control access to specific properties of an object differently.
+* **Загальні ACE** підходять для простих сценаріїв керування доступом, де одне правило застосовується до всіх аспектів об'єкта або до всіх об'єктів всередині контейнера.
+* **Об'єкт-специфічні ACE** використовуються для складніших сценаріїв, особливо в середовищах, таких як Active Directory, де може знадобитися контроль доступу до конкретних властивостей об'єкта по-різному.
 
-In summary, ACLs and ACEs help define precise access controls, ensuring that only the right individuals or groups have access to sensitive information or resources, with the ability to tailor access rights down to the level of individual properties or object types.
+У підсумку, ACL та ACE допомагають визначити точні керування доступом, забезпечуючи, що доступ до чутливої інформації або ресурсів мають лише відповідні особи або групи, з можливістю налаштування прав доступу до рівня окремих властивостей або типів об'єктів.
 
-### Access Control Entry Layout
+### Макет Запису керування доступом
 
-| ACE Field   | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| Поле ACE | Опис                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
 | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Type        | Flag that indicates the type of ACE. Windows 2000 and Windows Server 2003 support six types of ACE: Three generic ACE types that are attached to all securable objects. Three object-specific ACE types that can occur for Active Directory objects.                                                                                                                                                                                                                                                            |
-| Flags       | Set of bit flags that control inheritance and auditing.                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| Size        | Number of bytes of memory that are allocated for the ACE.                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| Access mask | 32-bit value whose bits correspond to access rights for the object. Bits can be set either on or off, but the setting's meaning depends on the ACE type. For example, if the bit that corresponds to the right to read permissions is turned on, and the ACE type is Deny, the ACE denies the right to read the object's permissions. If the same bit is set on but the ACE type is Allow, the ACE grants the right to read the object's permissions. More details of the Access mask appear in the next table. |
-| SID         | Identifies a user or group whose access is controlled or monitored by this ACE.                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| Тип        | Прапорець, який вказує тип ACE. Windows 2000 та Windows Server 2003 підтримують шість типів ACE: Три загальні типи ACE, які додаються до всіх об'єктів, які можна захистити. Три типи ACE, специфічні для об'єктів, які можуть виникати для об'єктів Active Directory.                                                                                                                                                                                                                                                            |
+| Прапорці       | Набір бітових прапорців, які контролюють успадкування та аудит.                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| Розмір        | Кількість байтів пам'яті, які виділяються для ACE.                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| Маска доступу | 32-бітне значення, чиї біти відповідають правам доступу до об'єкта. Біти можуть бути встановлені або вимкнені, але значення налаштування залежить від типу ACE. Наприклад, якщо біт, який відповідає праву на читання дозволів, увімкнено, і тип ACE - Відмова, ACE відмовляє у праві на читання дозволи об'єкта. Якщо той самий біт встановлено, але тип ACE - Дозвіл, ACE надає право на читання дозволів об'єкта. Детальніші відомості про маску доступу знаходяться в наступній таблиці. |
+| SID         | Ідентифікує користувача або групу, доступ до якого контролюється або моніториться цим ACE.                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 
-### Access Mask Layout
+### Макет маски доступу
 
-| Bit (Range) | Meaning                            | Description/Example                       |
+| Біт (Діапазон) | Значення                            | Опис/Приклад                       |
 | ----------- | ---------------------------------- | ----------------------------------------- |
-| 0 - 15      | Object Specific Access Rights      | Read data, Execute, Append data           |
-| 16 - 22     | Standard Access Rights             | Delete, Write ACL, Write Owner            |
-| 23          | Can access security ACL            |                                           |
-| 24 - 27     | Reserved                           |                                           |
-| 28          | Generic ALL (Read, Write, Execute) | Everything below                          |
-| 29          | Generic Execute                    | All things necessary to execute a program |
-| 30          | Generic Write                      | All things necessary to write to a file   |
-| 31          | Generic Read                       | All things necessary to read a file       |
+| 0 - 15      | Об'єкт-специфічні права доступу      | Читати дані, Виконати, Додати дані           |
+| 16 - 22     | Стандартні права доступу             | Видалити, Записати ACL, Записати власника            |
+| 23          | Може отримати доступ до безпеки ACL            |                                           |
+| 24 - 27     | Зарезервовано                           |                                           |
+| 28          | Загальний ВСЕ (Читати, Писати, Виконати) | Все нижче                          |
+| 29          | Загальний Виконати                    | Все необхідне для виконання програми |
+| 30          | Загальний Запис                      | Все необхідне для запису в файл   |
+| 31          | Загальний Читати                       | Все необхідне для читання файлу       |
 
-## References
+## Посилання
 
 * [https://www.ntfs.com/ntfs-permissions-acl-use.htm](https://www.ntfs.com/ntfs-permissions-acl-use.htm)
 * [https://secureidentity.se/acl-dacl-sacl-and-the-ace/](https://secureidentity.se/acl-dacl-sacl-and-the-ace/)
 * [https://www.coopware.in2.info/\_ntfsacl\_ht.htm](https://www.coopware.in2.info/\_ntfsacl\_ht.htm)
-
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
-
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
-
-\
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
-
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

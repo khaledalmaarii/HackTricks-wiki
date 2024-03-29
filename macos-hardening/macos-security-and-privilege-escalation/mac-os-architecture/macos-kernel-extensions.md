@@ -1,62 +1,62 @@
-# macOS Kernel Extensions
+# macOS Ядерні розширення
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Експерт з червоної команди AWS HackTricks)</strong></a><strong>!</strong></summary>
 
-* ¿Trabajas en una **empresa de ciberseguridad**? ¿Quieres ver tu **empresa anunciada en HackTricks**? ¿O quieres tener acceso a la **última versión de PEASS o descargar HackTricks en PDF**? ¡Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Obtén el [**swag oficial de PEASS y HackTricks**](https://peass.creator-spring.com)
-* **Únete al** [**💬**](https://emojipedia.org/speech-balloon/) **grupo de Discord** o al [**grupo de telegram**](https://t.me/peass) o **sígueme** en **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live).
-* **Comparte tus trucos de hacking enviando PR a** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **y** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Ви працюєте в **кібербезпеці компанії**? Хочете, щоб ваша **компанія була рекламована на HackTricks**? Або ви хочете мати доступ до **останньої версії PEASS або завантажити HackTricks у форматі PDF**? Перегляньте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Дізнайтеся про [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу ексклюзивну колекцію [**NFT**](https://opensea.io/collection/the-peass-family)
+* Отримайте [**офіційний мерч PEASS та HackTricks**](https://peass.creator-spring.com)
+* **Приєднуйтесь до** [**💬**](https://emojipedia.org/speech-balloon/) **групи Discord** або до [**групи Telegram**](https://t.me/peass) або **слідкуйте** за мною на **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live).
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**репозиторію hacktricks**](https://github.com/carlospolop/hacktricks) **та** [**репозиторію hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-## Basic Information
+## Основна інформація
 
-Kernel extensions (Kexts) are **packages** with a **`.kext`** extension that are **loaded directly into the macOS kernel space**, providing additional functionality to the main operating system.
+Ядерні розширення (Kexts) - це **пакети** з розширенням **`.kext`**, які **завантажуються безпосередньо в простір ядра macOS**, надаючи додатковий функціонал основній операційній системі.
 
-### Requirements
+### Вимоги
 
-Obviously, this is so powerful that it is **complicated to load a kernel extension**. These are the **requirements** that a kernel extension must meet to be loaded:
+Очевидно, що це настільки потужно, що **складно завантажити ядерне розширення**. Ось **вимоги**, яким повинно відповідати ядерне розширення для завантаження:
 
-* When **entering recovery mode**, kernel **extensions must be allowed** to be loaded:
+* При **вході в режим відновлення**, ядерні **розширення повинні бути дозволені** для завантаження:
 
 <figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-* The kernel extension must be **signed with a kernel code signing certificate**, which can only be **granted by Apple**. Who will review in detail the company and the reasons why it is needed.
-* The kernel extension must also be **notarized**, Apple will be able to check it for malware.
-* Then, the **root** user is the one who can **load the kernel extension** and the files inside the package must **belong to root**.
-* During the upload process, the package must be prepared in a **protected non-root location**: `/Library/StagedExtensions` (requires the `com.apple.rootless.storage.KernelExtensionManagement` grant).
-* Finally, when attempting to load it, the user will [**receive a confirmation request**](https://developer.apple.com/library/archive/technotes/tn2459/\_index.html) and, if accepted, the computer must be **restarted** to load it.
+* Ядерне розширення повинно бути **підписане сертифікатом підпису коду ядра**, який може видати лише **Apple**. Хто докладно перегляне компанію та причини, чому це потрібно.
+* Ядерне розширення також повинно бути **підтверджене**, Apple зможе перевірити його на віруси.
+* Тоді **користувач root** може **завантажити ядерне розширення**, а файли всередині пакету повинні **належати користувачеві root**.
+* Під час процесу завантаження пакет повинен бути підготовлений в **захищеному некореневому місці**: `/Library/StagedExtensions` (потрібно дозвіл `com.apple.rootless.storage.KernelExtensionManagement`).
+* Нарешті, при спробі завантажити його, користувач отримає [**запит на підтвердження**](https://developer.apple.com/library/archive/technotes/tn2459/\_index.html), і, якщо його прийнято, комп'ютер повинен бути **перезавантажений** для завантаження.
 
-### Loading process
+### Процес завантаження
 
-In Catalina it was like this: It is interesting to note that the **verification** process occurs in **userland**. However, only applications with the **`com.apple.private.security.kext-management`** grant can **request the kernel to load an extension**: `kextcache`, `kextload`, `kextutil`, `kextd`, `syspolicyd`
+У Catalina це було так: Цікаво відзначити, що процес **перевірки** відбувається в **userland**. Однак тільки додатки з дозволом **`com.apple.private.security.kext-management`** можуть **запитати ядро про завантаження розширення**: `kextcache`, `kextload`, `kextutil`, `kextd`, `syspolicyd`
 
-1. **`kextutil`** cli **starts** the **verification** process for loading an extension
-   * It will talk to **`kextd`** by sending using a **Mach service**.
-2. **`kextd`** will check several things, such as the **signature**
-   * It will talk to **`syspolicyd`** to **check** if the extension can be **loaded**.
-3. **`syspolicyd`** will **prompt** the **user** if the extension has not been previously loaded.
-   * **`syspolicyd`** will report the result to **`kextd`**
-4. **`kextd`** will finally be able to **tell the kernel to load** the extension
+1. **`kextutil`** cli **запускає** процес **перевірки** для завантаження розширення
+* Він буде спілкуватися з **`kextd`**, використовуючи **Mach service**.
+2. **`kextd`** перевірить кілька речей, таких як **підпис**
+* Він буде спілкуватися з **`syspolicyd`**, щоб **перевірити**, чи можна **завантажити** розширення.
+3. **`syspolicyd`** **запитає** **користувача**, якщо розширення раніше не було завантажено.
+* **`syspolicyd`** повідомить результат **`kextd`**
+4. **`kextd`** нарешті зможе **повідомити ядро про завантаження** розширення
 
-If **`kextd`** is not available, **`kextutil`** can perform the same checks.
+Якщо **`kextd`** недоступний, **`kextutil`** може виконати ті самі перевірки.
 
-## Referencias
+## Посилання
 
 * [https://www.makeuseof.com/how-to-enable-third-party-kernel-extensions-apple-silicon-mac/](https://www.makeuseof.com/how-to-enable-third-party-kernel-extensions-apple-silicon-mac/)
 * [https://www.youtube.com/watch?v=hGKOskSiaQo](https://www.youtube.com/watch?v=hGKOskSiaQo)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Експерт з червоної команди AWS HackTricks)</strong></a><strong>!</strong></summary>
 
-* ¿Trabajas en una **empresa de ciberseguridad**? ¿Quieres ver tu **empresa anunciada en HackTricks**? ¿O quieres tener acceso a la **última versión de PEASS o descargar HackTricks en PDF**? ¡Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Obtén el [**swag oficial de PEASS y HackTricks**](https://peass.creator-spring.com)
-* **Únete al** [**💬**](https://emojipedia.org/speech-balloon/) **grupo de Discord** o al [**grupo de telegram**](https://t.me/peass) o **sígueme** en **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live).
-* **Comparte tus trucos de hacking enviando PR a** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **y** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Ви працюєте в **кібербезпеці компанії**? Хочете, щоб ваша **компанія була рекламована на HackTricks**? Або ви хочете мати доступ до **останньої версії PEASS або завантажити HackTricks у форматі PDF**? Перегляньте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Дізнайтеся про [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу ексклюзивну колекцію [**NFT**](https://opensea.io/collection/the-peass-family)
+* Отримайте [**офіційний мерч PEASS та HackTricks**](https://peass.creator-spring.com)
+* **Приєднуйтесь до** [**💬**](https://emojipedia.org/speech-balloon/) **групи Discord** або до [**групи Telegram**](https://t.me/peass) або **слідкуйте** за мною на **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live).
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**репозиторію hacktricks**](https://github.com/carlospolop/hacktricks) **та** [**репозиторію hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

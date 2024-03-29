@@ -1,121 +1,114 @@
-# AD Certificates
+# Сертифікати AD
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію в рекламі на HackTricks** або **завантажити HackTricks у PDF** Перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Дізнайтеся про [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв GitHub.
 
 </details>
 
-## Introduction
+## Вступ
 
-### Components of a Certificate
+### Компоненти сертифіката
 
-- The **Subject** of the certificate denotes its owner.
-- A **Public Key** is paired with a privately held key to link the certificate to its rightful owner.
-- The **Validity Period**, defined by **NotBefore** and **NotAfter** dates, marks the certificate's effective duration.
-- A unique **Serial Number**, provided by the Certificate Authority (CA), identifies each certificate.
-- The **Issuer** refers to the CA that has issued the certificate.
-- **SubjectAlternativeName** allows for additional names for the subject, enhancing identification flexibility.
-- **Basic Constraints** identify if the certificate is for a CA or an end entity and define usage restrictions.
-- **Extended Key Usages (EKUs)** delineate the certificate's specific purposes, like code signing or email encryption, through Object Identifiers (OIDs).
-- The **Signature Algorithm** specifies the method for signing the certificate.
-- The **Signature**, created with the issuer's private key, guarantees the certificate's authenticity.
+- **Суб'єкт** сертифіката вказує на його власника.
+- **Публічний ключ** спарений з приватним ключем для зв'язку сертифіката з його законним власником.
+- **Період дії**, визначений датами **NotBefore** та **NotAfter**, вказує на ефективний термін дії сертифіката.
+- Унікальний **Серійний номер**, наданий Центром сертифікації (CA), ідентифікує кожен сертифікат.
+- **Видавець** вказує на CA, який видав сертифікат.
+- **SubjectAlternativeName** дозволяє додаткові імена для суб'єкта, покращуючи гнучкість ідентифікації.
+- **Основні обмеження** визначають, чи сертифікат призначений для CA чи кінцевого об'єкта та визначають обмеження використання.
+- **Розширені використання ключів (EKUs)** визначають конкретні цілі сертифіката, такі як підписання коду або шифрування електронної пошти, за допомогою ідентифікаторів об'єктів (OIDs).
+- **Алгоритм підпису** вказує метод підпису сертифіката.
+- **Підпис**, створений за допомогою приватного ключа видавця, гарантує автентичність сертифіката.
 
-### Special Considerations
+### Спеціальні врахування
 
-- **Subject Alternative Names (SANs)** expand a certificate's applicability to multiple identities, crucial for servers with multiple domains. Secure issuance processes are vital to avoid impersonation risks by attackers manipulating the SAN specification.
+- **Альтернативні імена суб'єктів (SANs)** розширюють застосовність сертифіката на кілька ідентичностей, що є важливим для серверів з декількома доменами. Надійні процеси видачі є важливими для уникнення ризиків імітації з боку зловмисників, які маніпулюють специфікацією SAN.
 
-### Certificate Authorities (CAs) in Active Directory (AD)
+### Центри сертифікації (CAs) в Active Directory (AD)
 
-AD CS acknowledges CA certificates in an AD forest through designated containers, each serving unique roles:
+AD CS визнає сертифікати CA в лісі AD через відповідні контейнери, кожен з яких виконує унікальні ролі:
 
-- **Certification Authorities** container holds trusted root CA certificates.
-- **Enrolment Services** container details Enterprise CAs and their certificate templates.
-- **NTAuthCertificates** object includes CA certificates authorized for AD authentication.
-- **AIA (Authority Information Access)** container facilitates certificate chain validation with intermediate and cross CA certificates.
+- Контейнер **Certification Authorities** містить довірені кореневі сертифікати CA.
+- Контейнер **Enrolment Services** містить підприємницькі CA та їх шаблони сертифікатів.
+- Об'єкт **NTAuthCertificates** включає сертифікати CA, схвалені для аутентифікації AD.
+- Контейнер **AIA (Authority Information Access)** сприяє перевірці ланцюжка сертифікатів з проміжними та перехресними сертифікатами.
 
-### Certificate Acquisition: Client Certificate Request Flow
+### Отримання сертифіката: Потік запиту клієнтського сертифіката
 
-1. The request process begins with clients finding an Enterprise CA.
-2. A CSR is created, containing a public key and other details, after generating a public-private key pair.
-3. The CA assesses the CSR against available certificate templates, issuing the certificate based on the template's permissions.
-4. Upon approval, the CA signs the certificate with its private key and returns it to the client.
+1. Процес запиту починається з того, що клієнти знаходять Підприємницький CA.
+2. Після створення пари ключів для публічного та приватного ключів створюється CSR, що містить публічний ключ та інші деталі.
+3. CA оцінює CSR наявними шаблонами сертифікатів, видавши сертифікат на основі дозволів шаблону.
+4. Після схвалення CA підписує сертифікат своїм приватним ключем та повертає його клієнту.
 
-### Certificate Templates
+### Шаблони сертифікатів
 
-Defined within AD, these templates outline the settings and permissions for issuing certificates, including permitted EKUs and enrollment or modification rights, critical for managing access to certificate services.
+Визначені в межах AD, ці шаблони визначають налаштування та дозволи для видачі сертифікатів, включаючи дозволені EKU та права на реєстрацію або зміну, що є критичним для управління доступом до сервісів сертифікатів.
 
-## Certificate Enrollment
+## Реєстрація сертифікатів
 
-The enrollment process for certificates is initiated by an administrator who **creates a certificate template**, which is then **published** by an Enterprise Certificate Authority (CA). This makes the template available for client enrollment, a step achieved by adding the template's name to the `certificatetemplates` field of an Active Directory object.
+Процес реєстрації сертифікатів ініціюється адміністратором, який **створює шаблон сертифіката**, який потім **публікується** Підприємницьким Центром сертифікації (CA). Це робить шаблон доступним для реєстрації клієнтів, крок, який досягається додаванням назви шаблону до поля `certificatetemplates` об'єкта Active Directory.
 
-For a client to request a certificate, **enrollment rights** must be granted. These rights are defined by security descriptors on the certificate template and the Enterprise CA itself. Permissions must be granted in both locations for a request to be successful.
+Для того, щоб клієнт міг запросити сертифікат, **права на реєстрацію** повинні бути надані. Ці права визначаються дескрипторами безпеки на шаблоні сертифіката та самому Підприємницькому CA. Дозволи повинні бути надані в обох місцях для успішного запиту.
 
-### Template Enrollment Rights
+### Права на реєстрацію шаблону
 
-These rights are specified through Access Control Entries (ACEs), detailing permissions like:
-- **Certificate-Enrollment** and **Certificate-AutoEnrollment** rights, each associated with specific GUIDs.
-- **ExtendedRights**, allowing all extended permissions.
-- **FullControl/GenericAll**, providing complete control over the template.
+Ці права визначаються через записи контролю доступу (ACEs), деталізуючи дозволи, такі як:
+- Права **Certificate-Enrollment** та **Certificate-AutoEnrollment**, кожне пов'язане з конкретними GUID.
+- **Розширені права**, що дозволяють всі розширені дозволи.
+- **FullControl/GenericAll**, надаючи повний контроль над шаблоном.
 
-### Enterprise CA Enrollment Rights
+### Права на реєстрацію Підприємницького CA
 
-The CA's rights are outlined in its security descriptor, accessible via the Certificate Authority management console. Some settings even allow low-privileged users remote access, which could be a security concern.
+Права CA визначаються в його дескрипторі безпеки, доступному через консоль управління Центром сертифікації. Деякі налаштування навіть дозволяють користувачам з низькими привілеями віддалений доступ, що може бути проблемою з безпекою.
 
-### Additional Issuance Controls
+### Додаткові контролі видачі
 
-Certain controls may apply, such as:
-- **Manager Approval**: Places requests in a pending state until approved by a certificate manager.
-- **Enrolment Agents and Authorized Signatures**: Specify the number of required signatures on a CSR and the necessary Application Policy OIDs.
+Можуть застосовуватися певні контролі, такі як:
+- **Схвалення менеджера**: Покладає запити в стан очікування до схвалення менеджером сертифікатів.
+- **Агенти реєстрації та авторизовані підписи**: Вказують кількість необхідних підписів на CSR та необхідні об'єкти політики додатків OIDs.
 
-### Methods to Request Certificates
+### Методи запиту сертифікатів
 
-Certificates can be requested through:
-1. **Windows Client Certificate Enrollment Protocol** (MS-WCCE), using DCOM interfaces.
-2. **ICertPassage Remote Protocol** (MS-ICPR), through named pipes or TCP/IP.
-3. The **certificate enrollment web interface**, with the Certificate Authority Web Enrollment role installed.
-4. The **Certificate Enrollment Service** (CES), in conjunction with the Certificate Enrollment Policy (CEP) service.
-5. The **Network Device Enrollment Service** (NDES) for network devices, using the Simple Certificate Enrollment Protocol (SCEP).
+Сертифікати можна запитати через:
+1. **Протокол реєстрації сертифікатів клієнта Windows** (MS-WCCE), використовуючи інтерфейси DCOM.
+2. **Віддалений протокол ICertPassage** (MS-ICPR), через іменовані канали або TCP/IP.
+3. **Веб-інтерфейс реєстрації сертифікатів**, з встановленою роллю веб-реєстрації сертифікатів авторитета.
+4. **Служба реєстрації сертифікатів** (CES), разом із службою політики реєстрації сертифікатів (CEP).
+5. **Служба реєстрації пристроїв мережі** (NDES) для мережевих пристроїв, використовуючи простий протокол реєстрації сертифікатів (SCEP).
 
-Windows users can also request certificates via the GUI (`certmgr.msc` or `certlm.msc`) or command-line tools (`certreq.exe` or PowerShell's `Get-Certificate` command).
-
+Користувачі Windows також можуть запитувати сертифікати через GUI (`certmgr.msc` або `certlm.msc`) або інструменти командного рядка (`certreq.exe` або команду `Get-Certificate` PowerShell).
 ```powershell
 # Example of requesting a certificate using PowerShell
 Get-Certificate -Template "User" -CertStoreLocation "cert:\\CurrentUser\\My"
 ```
+## Аутентифікація сертифікатів
 
-## Certificate Authentication
+Active Directory (AD) підтримує аутентифікацію за допомогою сертифікатів, в основному використовуючи протоколи **Kerberos** та **Secure Channel (Schannel)**.
 
-Active Directory (AD) supports certificate authentication, primarily utilizing **Kerberos** and **Secure Channel (Schannel)** protocols. 
+### Процес аутентифікації Kerberos
 
-### Kerberos Authentication Process
-
-In the Kerberos authentication process, a user's request for a Ticket Granting Ticket (TGT) is signed using the **private key** of the user's certificate. This request undergoes several validations by the domain controller, including the certificate's **validity**, **path**, and **revocation status**. Validations also include verifying that the certificate comes from a trusted source and confirming the issuer's presence in the **NTAUTH certificate store**. Successful validations result in the issuance of a TGT. The **`NTAuthCertificates`** object in AD, found at:
-
+У процесі аутентифікації Kerberos запит користувача на отримання квитка для отримання квитка (TGT) підписується за допомогою **приватного ключа** сертифіката користувача. Цей запит проходить кілька перевірок контролера домену, включаючи **валідність**, **шлях** та **статус відкликання** сертифіката. Перевірки також включають перевірку того, що сертифікат походить від довіреного джерела та підтвердження присутності видавця в **сховищі сертифікатів NTAUTH**. Успішні перевірки призводять до видачі TGT. Об'єкт **`NTAuthCertificates`** в AD, знаходиться за адресою:
 ```bash
 CN=NTAuthCertificates,CN=Public Key Services,CN=Services,CN=Configuration,DC=<domain>,DC=<com>
 ```
+### Безпека каналу (Schannel) аутентифікація
 
-is central to establishing trust for certificate authentication.
+Schannel сприяє безпечним з'єднанням TLS/SSL, де під час рукостискання клієнт представляє сертифікат, який, якщо успішно перевірений, авторизує доступ. Відображення сертифіката на обліковий запис AD може включати функцію **S4U2Self** Kerberos або **Subject Alternative Name (SAN)** сертифіката, серед інших методів.
 
-### Secure Channel (Schannel) Authentication
+### Перелік служб сертифікатів AD
 
-Schannel facilitates secure TLS/SSL connections, where during a handshake, the client presents a certificate that, if successfully validated, authorizes access. The mapping of a certificate to an AD account may involve Kerberos’s **S4U2Self** function or the certificate’s **Subject Alternative Name (SAN)**, among other methods.
+Служби сертифікатів AD можуть бути перелічені за допомогою запитів LDAP, розкриваючи інформацію про **Enterprise Certificate Authorities (CAs)** та їх конфігурації. Це доступно будь-якому користувачеві, який має аутентифікацію домену без спеціальних привілеїв. Інструменти, такі як **[Certify](https://github.com/GhostPack/Certify)** та **[Certipy](https://github.com/ly4k/Certipy)** використовуються для переліку та оцінки вразливостей в середовищах AD CS.
 
-### AD Certificate Services Enumeration
-
-AD's certificate services can be enumerated through LDAP queries, revealing information about **Enterprise Certificate Authorities (CAs)** and their configurations. This is accessible by any domain-authenticated user without special privileges. Tools like **[Certify](https://github.com/GhostPack/Certify)** and **[Certipy](https://github.com/ly4k/Certipy)** are used for enumeration and vulnerability assessment in AD CS environments.
-
-Commands for using these tools include:
-
+Команди для використання цих інструментів включають:
 ```bash
 # Enumerate trusted root CA certificates and Enterprise CAs with Certify
 Certify.exe cas
@@ -129,22 +122,21 @@ certipy find -vulnerable -u john@corp.local -p Passw0rd -dc-ip 172.16.126.128
 certutil.exe -TCAInfo
 certutil -v -dstemplate
 ```
-
-## References
+## Посилання
 
 * [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)
 * [https://comodosslstore.com/blog/what-is-ssl-tls-client-authentication-how-does-it-work.html](https://comodosslstore.com/blog/what-is-ssl-tls-client-authentication-how-does-it-work.html)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію рекламовану на HackTricks** або **завантажити HackTricks у PDF** Перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв GitHub.
 
 </details>

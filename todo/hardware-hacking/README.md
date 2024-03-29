@@ -1,16 +1,14 @@
-
-
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити **рекламу вашої компанії на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв.
 
 </details>
 
@@ -19,64 +17,49 @@ Other ways to support HackTricks:
 
 # JTAG
 
-JTAG allows to perform a boundary scan. The boundary scan analyzes certain circuitry, including embedded boundary-scan cells and registers for each pin.
+JTAG дозволяє виконувати граничне сканування. Граничне сканування аналізує певні схеми, включаючи вбудовані клітини та регістри граничного сканування для кожного контакту.
 
-The JTAG standard defines **specific commands for conducting boundary scans**, including the following:
+Стандарт JTAG визначає **конкретні команди для проведення граничного сканування**, включаючи наступне:
 
-* **BYPASS** allows you to test a specific chip without the overhead of passing through other chips.
-* **SAMPLE/PRELOAD** takes a sample of the data entering and leaving the device when it’s in its normal functioning mode.
-* **EXTEST** sets and reads pin states.
+* **BYPASS** дозволяє вам тестувати певний чіп без накладних витрат на проходження через інші чіпи.
+* **SAMPLE/PRELOAD** бере зразок даних, що входять і виходять з пристрою, коли він знаходиться в нормальному режимі функціонування.
+* **EXTEST** встановлює та зчитує стани контактів.
 
-It can also support other commands such as:
+Також може підтримувати інші команди, такі як:
 
-* **IDCODE** for identifying a device
-* **INTEST** for the internal testing of the device
+* **IDCODE** для ідентифікації пристрою
+* **INTEST** для внутрішнього тестування пристрою
 
-You might come across these instructions when you use a tool like the JTAGulator.
+Ви можете зіткнутися з цими інструкціями, коли використовуєте інструмент, наприклад, JTAGulator.
 
-## The Test Access Port
+## Порт доступу до тесту
 
-Boundary scans include tests of the four-wire **Test Access Port (TAP)**, a general-purpose port that provides **access to the JTAG test support** functions built into a component. TAP uses the following five signals:
+Граничне сканування включає тести чотирьохпровідного **порту доступу до тесту (TAP)**, загального призначення, який забезпечує **доступ до функцій підтримки тесту JTAG**, вбудованих у компонент. TAP використовує наступні п'ять сигналів:
 
-* Test clock input (**TCK**) The TCK is the **clock** that defines how often the TAP controller will take a single action (in other words, jump to the next state in the state machine).
-* Test mode select (**TMS**) input TMS controls the **finite state machine**. On each beat of the clock, the device’s JTAG TAP controller checks the voltage on the TMS pin. If the voltage is below a certain threshold, the signal is considered low and interpreted as 0, whereas if the voltage is above a certain threshold, the signal is considered high and interpreted as 1.
-* Test data input (**TDI**) TDI is the pin that sends **data into the chip through the scan cells**. Each vendor is responsible for defining the communication protocol over this pin, because JTAG doesn’t define this.
-* Test data output (**TDO**) TDO is the pin that sends **data out of the chip**.
-* Test reset (**TRST**) input The optional TRST resets the finite state machine **to a known good state**. Alternatively, if the TMS is held at 1 for five consecutive clock cycles, it invokes a reset, the same way the TRST pin would, which is why TRST is optional.
+* Вхід тактового сигналу тесту (**TCK**) TCK - це **тактовий сигнал**, який визначає, як часто контролер TAP буде виконувати одну дію (іншими словами, переходити до наступного стану в машині станів).
+* Вхід вибору режиму тесту (**TMS**) TMS керує **кінцевою машиною станів**. На кожному такті годинника контролер TAP JTAG пристрою перевіряє напругу на контакті TMS. Якщо напруга нижче певного порогу, сигнал вважається низьким і інтерпретується як 0, в той час як якщо напруга вище певного порогу, сигнал вважається високим і інтерпретується як 1.
+* Вхід даних тесту (**TDI**) TDI - це контакт, який відправляє **дані в чіп через скануючі клітини**. Кожен виробник відповідає за визначення протоколу зв'язку через цей контакт, оскільки JTAG цього не визначає.
+* Вихід даних тесту (**TDO**) TDO - це контакт, який відправляє **дані з чіпу**.
+* Вхід скидання тесту (**TRST**) Необов'язковий TRST скидає кінцеву машину станів **до відомого стану**. Альтернативно, якщо TMS утримується на 1 протягом п'яти послідовних тактів годинника, він викликає скидання, так само, як це робить контакт TRST, тому TRST є необов'язковим.
 
-Sometimes you will be able to find those pins marked in the PCB. In other occasions you might need to **find them**.
+Іноді ви зможете знайти ці контакти, позначені на платі. У інших випадках вам може знадобитися **знайти їх**.
 
-## Identifying JTAG pins
+## Визначення контактів JTAG
 
-The fastest but most expensive way to detect JTAG ports is by using the **JTAGulator**, a device created specifically for this purpose (although it can **also detect UART pinouts**).
+Найшвидший, але найбільш дорогий спосіб виявлення портів JTAG - використання **JTAGulator**, пристрою, створеного спеціально для цієї мети (хоча він також може **виявляти UART розпіновку**).
 
-It has **24 channels** you can connect to the boards pins. Then it performs a **BF attack** of all the possible combinations sending **IDCODE** and **BYPASS** boundary scan commands. If it receives a response, it displays the channel corresponding to each JTAG signal
+У нього є **24 канали**, які можна підключити до контактів плат. Потім він виконує **BF-атаку** всіх можливих комбінацій, відправляючи команди граничного сканування **IDCODE** та **BYPASS**. Якщо він отримує відповідь, він відображає канал, що відповідає кожному сигналу JTAG.
 
-A cheaper but much slower way of identifying JTAG pinouts is by using the [**JTAGenum**](https://github.com/cyphunk/JTAGenum/)  loaded on an Arduino-compatible microcontroller.
+Дешевший, але набагато повільніший спосіб визначення контактів JTAG - використання [**JTAGenum**](https://github.com/cyphunk/JTAGenum/), завантаженого на мікроконтролер, сумісний з Arduino.
 
-Using **JTAGenum**, you’d first **define the pins of the probing** device that you’ll use for the enumeration.You’d have to reference the device’s pinout diagram, and then connect these pins with the test points on your target device.
+Використовуючи **JTAGenum**, спочатку вам потрібно **визначити контакти пристрою для пронумеровування**. Вам доведеться звертатися до діаграми розпіновки пристрою, а потім підключити ці контакти до тестових точок на цільовому пристрої.
 
-A **third way** to identify JTAG pins is by **inspecting the PCB** for one of the pinouts. In some cases, PCBs might conveniently provide the **Tag-Connect interface**, which is a clear indication that the board has a JTAG connector, too. You can see what that interface looks like at [https://www.tag-connect.com/info/](https://www.tag-connect.com/info/). Additionally, inspecting the **datasheets of the chipsets on the PCB** might reveal pinout diagrams that point to JTAG interfaces.
+**Третій спосіб** визначення контактів JTAG - **огляд плати** для одного з розпіновок. У деяких випадках плати можуть зручно надавати **інтерфейс Tag-Connect**, що є чітким підтвердженням того, що на платі є роз'єм JTAG. Ви можете побачити, як виглядає цей інтерфейс за посиланням [https://www.tag-connect.com/info/](https://www.tag-connect.com/info/). Крім того, огляд документації **чіпсетів на платі** може розкрити діаграми розпіновок, які вказують на інтерфейси JTAG.
 
 # SDW
 
-SWD is an ARM-specific protocol designed for debugging.
+SWD - це протокол, специфічний для ARM, призначений для налагодження.
 
-The SWD interface requires **two pins**: a bidirectional **SWDIO** signal, which is the equivalent of JTAG’s **TDI and TDO pins and a clock**, and **SWCLK**, which is the equivalent of **TCK** in JTAG. Many devices support the **Serial Wire or JTAG Debug Port (SWJ-DP)**, a combined JTAG and SWD interface that enables you to connect either a SWD or JTAG probe to the target.
-
-
-<details>
-
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+Інтерфейс SWD потребує **двох контактів**: двонаправленого сигналу **SWDIO**, який є еквівалентом контактів **TDI та TDO JTAG та годинника**, та **SWCLK**, який є еквівалентом **TCK** в JTAG. Багато пристроїв підтримують **послідовний дріт або порт відлагодження JTAG (SWJ-DP)**, комбінований інтерфейс JTAG та SWD, який дозволяє підключати до цільового пристрою як зонд SWD, так і JTAG.
 
 </details>
-
-

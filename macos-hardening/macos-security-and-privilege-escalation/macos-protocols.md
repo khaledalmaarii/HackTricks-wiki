@@ -1,31 +1,30 @@
-# macOS Network Services & Protocols
+# Служби та протоколи мережі macOS
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити вашу **компанію рекламовану на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **та** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв GitHub**.
 
 </details>
 
-## Remote Access Services
+## Служби віддаленого доступу
 
-These are the common macOS services to access them remotely.\
-You can enable/disable these services in `System Settings` --> `Sharing`
+Це загальні служби macOS для віддаленого доступу до них.\
+Ви можете увімкнути/вимкнути ці служби в `System Settings` --> `Sharing`
 
-* **VNC**, known as “Screen Sharing” (tcp:5900)
-* **SSH**, called “Remote Login” (tcp:22)
-* **Apple Remote Desktop** (ARD), or “Remote Management” (tcp:3283, tcp:5900)
-* **AppleEvent**, known as “Remote Apple Event” (tcp:3031)
+* **VNC**, відомий як "Screen Sharing" (tcp:5900)
+* **SSH**, відомий як "Remote Login" (tcp:22)
+* **Apple Remote Desktop** (ARD), або "Remote Management" (tcp:3283, tcp:5900)
+* **AppleEvent**, відомий як "Remote Apple Event" (tcp:3031)
 
-Check if any is enabled running:
-
+Перевірте, чи яка-небудь з них увімкнена, запустивши:
 ```bash
 rmMgmt=$(netstat -na | grep LISTEN | grep tcp46 | grep "*.3283" | wc -l);
 scrShrng=$(netstat -na | grep LISTEN | egrep 'tcp4|tcp6' | grep "*.5900" | wc -l);
@@ -35,117 +34,103 @@ rAE=$(netstat -na | grep LISTEN | egrep 'tcp4|tcp6' | grep "*.3031" | wc -l);
 bmM=$(netstat -na | grep LISTEN | egrep 'tcp4|tcp6' | grep "*.4488" | wc -l);
 printf "\nThe following services are OFF if '0', or ON otherwise:\nScreen Sharing: %s\nFile Sharing: %s\nRemote Login: %s\nRemote Mgmt: %s\nRemote Apple Events: %s\nBack to My Mac: %s\n\n" "$scrShrng" "$flShrng" "$rLgn" "$rmMgmt" "$rAE" "$bmM";
 ```
+### Пентест ARD
 
-### Pentesting ARD
+Apple Remote Desktop (ARD) - це розширена версія [Virtual Network Computing (VNC)](https://en.wikipedia.org/wiki/Virtual_Network_Computing), спеціально адаптована для macOS, що пропонує додаткові функції. Значна вразливість ARD полягає в методі аутентифікації для пароля екрану керування, який використовує лише перші 8 символів пароля, що робить його вразливим до [атак перебору паролів](https://thudinh.blogspot.com/2017/09/brute-forcing-passwords-with-thc-hydra.html) за допомогою інструментів, таких як Hydra або [GoRedShell](https://github.com/ahhh/GoRedShell/), оскільки в ньому немає обмежень за замовчуванням.
 
-Apple Remote Desktop (ARD) is an enhanced version of [Virtual Network Computing (VNC)](https://en.wikipedia.org/wiki/Virtual_Network_Computing) tailored for macOS, offering additional features. A notable vulnerability in ARD is its authentication method for the control screen password, which only uses the first 8 characters of the password, making it prone to [brute force attacks](https://thudinh.blogspot.com/2017/09/brute-forcing-passwords-with-thc-hydra.html) with tools like Hydra or [GoRedShell](https://github.com/ahhh/GoRedShell/), as there are no default rate limits.
+Вразливі екземпляри можна ідентифікувати за допомогою скрипта `vnc-info` у **nmap**. Служби, які підтримують `VNC Authentication (2)`, особливо схильні до атак перебору через обрізання пароля до 8 символів.
 
-Vulnerable instances can be identified using **nmap**'s `vnc-info` script. Services supporting `VNC Authentication (2)` are especially susceptible to brute force attacks due to the 8-character password truncation.
-
-To enable ARD for various administrative tasks like privilege escalation, GUI access, or user monitoring, use the following command:
-
+Для активації ARD для різних адміністративних завдань, таких як підвищення привілеїв, доступ до GUI або моніторинг користувачів, використовуйте наступну команду:
 ```bash
 sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -activate -configure -allowAccessFor -allUsers -privs -all -clientopts -setmenuextra -menuextra yes
 ```
+ARD надає різні рівні керування, включаючи спостереження, спільне керування та повне керування, з сеансами, які залишаються навіть після зміни пароля користувача. Це дозволяє надсилати команди Unix безпосередньо, виконуючи їх як root для адміністративних користувачів. Завдяки плануванню завдань та віддаленому пошуку Remote Spotlight, ARD дозволяє виконувати віддалені, маловпливові пошуки чутливих файлів на кількох машинах.
 
-ARD provides versatile control levels, including observation, shared control, and full control, with sessions persisting even after user password changes. It allows sending Unix commands directly, executing them as root for administrative users. Task scheduling and Remote Spotlight search are notable features, facilitating remote, low-impact searches for sensitive files across multiple machines.
+## Протокол Bonjour
 
+Bonjour, технологія, розроблена Apple, дозволяє **пристроям в одній мережі виявляти послуги, які пропонуються один одному**. Відомий також як Rendezvous, **Zero Configuration** або Zeroconf, він дозволяє пристрою приєднатися до мережі TCP/IP, **автоматично вибрати IP-адресу** та транслювати свої послуги іншим пристроям у мережі.
 
-## Bonjour Protocol
+Zero Configuration Networking, наданий Bonjour, забезпечує можливість пристроям:
+* **Автоматично отримувати IP-адресу** навіть у відсутності DHCP-сервера.
+* Виконувати **переклад імен на адреси** без необхідності DNS-сервера.
+* **Виявляти послуги**, доступні в мережі.
 
-Bonjour, an Apple-designed technology, allows **devices on the same network to detect each other's offered services**. Known also as Rendezvous, **Zero Configuration**, or Zeroconf, it enables a device to join a TCP/IP network, **automatically choose an IP address**, and broadcast its services to other network devices.
+Пристрої, які використовують Bonjour, призначають собі **IP-адресу з діапазону 169.254/16** та перевіряють її унікальність у мережі. Mac зберігає запис у таблиці маршрутизації для цієї підмережі, який можна перевірити за допомогою `netstat -rn | grep 169`.
 
-Zero Configuration Networking, provided by Bonjour, ensures that devices can:
-* **Automatically obtain an IP Address** even in the absence of a DHCP server.
-* Perform **name-to-address translation** without requiring a DNS server.
-* **Discover services** available on the network.
+Для DNS Bonjour використовує **протокол Multicast DNS (mDNS)**. mDNS працює через **порт 5353/UDP**, використовуючи **стандартні запити DNS**, але спрямовуючи їх на **мультікаст-адресу 224.0.0.251**. Цей підхід забезпечує можливість всім пристроям, які слухають мережу, отримувати та відповідати на запити, сприяючи оновленню їх записів.
 
-Devices using Bonjour will assign themselves an **IP address from the 169.254/16 range** and verify its uniqueness on the network. Macs maintain a routing table entry for this subnet, verifiable via `netstat -rn | grep 169`.
+При приєднанні до мережі кожен пристрій самостійно обирає ім'я, яке зазвичай закінчується на **.local**, яке може бути похідним від імені хоста або випадково згенерованим.
 
-For DNS, Bonjour utilizes the **Multicast DNS (mDNS) protocol**. mDNS operates over **port 5353/UDP**, employing **standard DNS queries** but targeting the **multicast address 224.0.0.251**. This approach ensures that all listening devices on the network can receive and respond to the queries, facilitating the update of their records.
+Виявлення послуг у мережі сприяє **DNS Service Discovery (DNS-SD)**. Використовуючи формат записів DNS SRV, DNS-SD використовує **записи DNS PTR** для можливості переліку кількох послуг. Клієнт, який шукає певну послугу, буде запитувати запис PTR для `<Service>.<Domain>`, отримуючи у відповідь список записів PTR у форматі `<Instance>.<Service>.<Domain>`, якщо послуга доступна з декількох хостів.
 
-Upon joining the network, each device self-selects a name, typically ending in **.local**, which may be derived from the hostname or randomly generated.
+Утиліта `dns-sd` може бути використана для **виявлення та реклами послуг у мережі**. Ось деякі приклади її використання:
 
-Service discovery within the network is facilitated by **DNS Service Discovery (DNS-SD)**. Leveraging the format of DNS SRV records, DNS-SD uses **DNS PTR records** to enable the listing of multiple services. A client seeking a specific service will request a PTR record for `<Service>.<Domain>`, receiving in return a list of PTR records formatted as `<Instance>.<Service>.<Domain>` if the service is available from multiple hosts.
+### Пошук SSH-послуг
 
-
-The `dns-sd` utility can be employed for **discovering and advertising network services**. Here are some examples of its usage:
-
-### Searching for SSH Services
-
-To search for SSH services on the network, the following command is used:
+Для пошуку SSH-послуг у мережі використовується наступна команда:
 ```bash
 dns-sd -B _ssh._tcp
 ```
+Ця команда ініціює перегляд служб _ssh._tcp та виводить деталі, такі як мітка часу, прапорці, інтерфейс, домен, тип служби та назва екземпляру.
 
-This command initiates browsing for _ssh._tcp services and outputs details such as timestamp, flags, interface, domain, service type, and instance name.
+### Рекламування служби HTTP
 
-### Advertising an HTTP Service
-
-To advertise an HTTP service, you can use:
-
+Для реклами служби HTTP можна використовувати:
 ```bash
 dns-sd -R "Index" _http._tcp . 80 path=/index.html
 ```
+Ця команда реєструє службу HTTP з назвою "Index" на порту 80 з шляхом `/index.html`.
 
-This command registers an HTTP service named "Index" on port 80 with a path of `/index.html`.
-
-To then search for HTTP services on the network:
-
+Для пошуку служб HTTP в мережі:
 ```bash
 dns-sd -B _http._tcp
 ```
+Коли служба запускається, вона оголошує свою доступність всім пристроям у підмережі, відправляючи мультикастингові повідомлення про свою присутність. Пристрої, які цікавляться цими службами, не повинні відправляти запити, а просто слухати ці оголошення.
 
-When a service starts, it announces its availability to all devices on the subnet by multicasting its presence. Devices interested in these services don't need to send requests but simply listen for these announcements.
+Для більш зручного інтерфейсу додаток **Discovery - DNS-SD Browser**, доступний в Apple App Store, може візуалізувати послуги, які пропонуються в вашій локальній мережі.
 
-For a more user-friendly interface, the **Discovery - DNS-SD Browser** app available on the Apple App Store can visualize the services offered on your local network.
-
-Alternatively, custom scripts can be written to browse and discover services using the `python-zeroconf` library. The [**python-zeroconf**](https://github.com/jstasiak/python-zeroconf) script demonstrates creating a service browser for `_http._tcp.local.` services, printing added or removed services:
-
+Альтернативно, можна написати власні скрипти для перегляду та виявлення служб за допомогою бібліотеки `python-zeroconf`. Скрипт [**python-zeroconf**](https://github.com/jstasiak/python-zeroconf) демонструє створення браузера служб для служб `_http._tcp.local.`, який виводить додані або видалені служби:
 ```python
 from zeroconf import ServiceBrowser, Zeroconf
 
 class MyListener:
 
-    def remove_service(self, zeroconf, type, name):
-        print("Service %s removed" % (name,))
+def remove_service(self, zeroconf, type, name):
+print("Service %s removed" % (name,))
 
-    def add_service(self, zeroconf, type, name):
-        info = zeroconf.get_service_info(type, name)
-        print("Service %s added, service info: %s" % (name, info))
+def add_service(self, zeroconf, type, name):
+info = zeroconf.get_service_info(type, name)
+print("Service %s added, service info: %s" % (name, info))
 
 zeroconf = Zeroconf()
 listener = MyListener()
 browser = ServiceBrowser(zeroconf, "_http._tcp.local.", listener)
 try:
-    input("Press enter to exit...\n\n")
+input("Press enter to exit...\n\n")
 finally:
-    zeroconf.close()
+zeroconf.close()
 ```
-
-### Disabling Bonjour
-If there are concerns about security or other reasons to disable Bonjour, it can be turned off using the following command:
-
+### Вимкнення Bonjour
+Якщо є питання щодо безпеки або інших причин для вимкнення Bonjour, його можна вимкнути за допомогою наступної команди:
 ```bash
 sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.mDNSResponder.plist
 ```
+## Посилання
 
-## References
-
-* [**The Mac Hacker's Handbook**](https://www.amazon.com/-/es/Charlie-Miller-ebook-dp-B004U7MUMU/dp/B004U7MUMU/ref=mt\_other?\_encoding=UTF8\&me=\&qid=)
+* [**Посібник хакера Mac**](https://www.amazon.com/-/es/Charlie-Miller-ebook-dp-B004U7MUMU/dp/B004U7MUMU/ref=mt\_other?\_encoding=UTF8\&me=\&qid=)
 * [**https://taomm.org/vol1/analysis.html**](https://taomm.org/vol1/analysis.html)
 * [**https://lockboxx.blogspot.com/2019/07/macos-red-teaming-206-ard-apple-remote.html**](https://lockboxx.blogspot.com/2019/07/macos-red-teaming-206-ard-apple-remote.html)
 
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Other ways to support HackTricks:
+Інші способи підтримки HackTricks:
 
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Якщо ви хочете побачити **рекламу вашої компанії на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
+* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
+* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв GitHub.
 
 </details>
