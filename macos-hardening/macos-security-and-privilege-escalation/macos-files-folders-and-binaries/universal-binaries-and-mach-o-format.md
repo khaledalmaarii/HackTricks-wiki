@@ -6,7 +6,7 @@
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -80,7 +80,7 @@ of deur die [Mach-O View](https://sourceforge.net/projects/machoview/) gereedska
 
 <figure><img src="../../../.gitbook/assets/image (5) (1) (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-Soos jy dalk dink, verdubbel 'n universele bineêre wat vir 2 argitekture saamgestel is die grootte van een wat net vir 1 argitektuur saamgestel is.
+Soos jy dalk dink, verdubbel 'n universele bineêre wat vir 2 argitekture saamgestel is, gewoonlik die grootte van een wat net vir 1 argitektuur saamgestel is.
 
 ## **Mach-O Kop**
 
@@ -129,7 +129,7 @@ Of deur [Mach-O View](https://sourceforge.net/projects/machoview/) te gebruik:
 
 ## **Mach-O Laai-opdragte**
 
-Die **lêer se uitleg in geheue** word hier gespesifiseer, met inligting oor die **simbooltabel se ligging**, die konteks van die hoofdraad by die begin van die uitvoering, en die vereiste **gedeelde biblioteke**. Instruksies word aan die dinamiese laaier **(dyld)** verskaf oor die binêre laaiingsproses in geheue.
+Die **lêer se uitleg in geheue** word hier gespesifiseer, waar die **simbooltabel se ligging**, die konteks van die hoofdraad by uitvoerbegin, en die vereiste **gedeelde biblioteke** beskryf word. Instruksies word aan die dinamiese laaier **(dyld)** verskaf oor die binêre laaiingsproses in geheue.
 
 Die gebruik die **load\_command** struktuur, gedefinieer in die genoemde **`loader.h`**:
 ```objectivec
@@ -143,12 +143,12 @@ Daar is ongeveer **50 verskillende tipes laai-opdragte** wat die stelsel anders 
 ### **LC\_SEGMENT/LC\_SEGMENT\_64**
 
 {% hint style="success" %}
-Hierdie tipe Laai-opdrag definieer **hoe om die \_\_TEXT** (uitvoerbare kode) **en \_\_DATA** (data vir die proses) **segmente** te laai volgens die **offsets aangedui in die Data-afdeling** wanneer die binêre lêer uitgevoer word.
+Hierdie tipe Laai-opdrag definieer **hoe om die \_\_TEXT** (uitvoerbare kode) **en \_\_DATA** (data vir die proses) **segmente** te laai volgens die **offsets aangedui in die Data-seksie** wanneer die binêre lêer uitgevoer word.
 {% endhint %}
 
 Hierdie opdragte **definieer segmente** wat in die **virtuele geheue-ruimte** van 'n proses ingevoeg word wanneer dit uitgevoer word.
 
-Daar is **verskillende tipes** segmente, soos die **\_\_TEXT** segment, wat die uitvoerbare kode van 'n program bevat, en die **\_\_DATA** segment, wat data bevat wat deur die proses gebruik word. Hierdie **segmente is geleë in die data-afdeling** van die Mach-O lêer.
+Daar is **verskillende tipes** segmente, soos die **\_\_TEXT** segment, wat die uitvoerbare kode van 'n program bevat, en die **\_\_DATA** segment, wat data bevat wat deur die proses gebruik word. Hierdie **segmente is geleë in die data-seksie** van die Mach-O-lêer.
 
 **Elke segment** kan verder verdeel word in verskeie **seksies**. Die **laai-opdragstruktuur** bevat **inligting** oor **hierdie seksies** binne die betrokke segment.
 
@@ -190,11 +190,11 @@ uint32_t	reserved2;	/* reserved (for count or sizeof) */
 uint32_t	reserved3;	/* reserved */
 };
 ```
-Voorbeeld van **afdeling kop**:
+Voorbeeld van **seksie-kop**:
 
 <figure><img src="../../../.gitbook/assets/image (6) (2).png" alt=""><figcaption></figcaption></figure>
 
-As jy die **afdeling offset** (0x37DC) + die **offset** waar die **arg begin**, in hierdie geval `0x18000` byvoeg --> `0x37DC + 0x18000 = 0x1B7DC`
+As jy die **seksie-offset** (0x37DC) **byvoeg** by die **offset** waar die **argitektuur begin**, in hierdie geval `0x18000` --> `0x37DC + 0x18000 = 0x1B7DC`
 
 <figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
@@ -204,9 +204,9 @@ otool -lv /bin/ls
 ```
 Gemeenskaplike segmente wat deur hierdie cmd gelaai word:
 
-- **`__PAGEZERO`:** Dit instrueer die kernel om die **adres nul** te **kaart** sodat dit **nie gelees, geskryf of uitgevoer kan word nie**. Die maxprot en minprot veranderlikes in die struktuur word na nul ingestel om aan te dui dat daar **geen lees-skrif-uitvoer regte op hierdie bladsy** is.
-- Hierdie toewysing is belangrik om **NULL-aanwyservaringskwakbaarhede te verminder**.
-- **`__TEXT`**: Bevat **uitvoerbare** **kode** met **lees** en **uitvoer** toestemmings (nie skryfbaar)**.** Gewone dele van hierdie segment:
+- **`__PAGEZERO`:** Dit instrueer die kernel om die **adres nul** te **kaart** sodat dit **nie gelees, geskryf of uitgevoer kan word nie**. Die maxprot en minprot veranderlikes in die struktuur word na nul ingestel om aan te dui dat daar **geen lees-skuif-uitvoer regte op hierdie bladsy** is.
+- Hierdie toewysing is belangrik om **NULL-aanwyservaringskwakbaarhede te versag**.
+- **`__TEXT`**: Bevat **uitvoerbare** **kode** met **lees** en **uitvoer** toestemmings (nie skryfbare)**.** Gemeenskaplike dele van hierdie segment:
 - `__text`: Opgestelde binêre kode
 - `__const`: Konstante data
 - `__cstring`: String konstantes
@@ -216,26 +216,26 @@ Gemeenskaplike segmente wat deur hierdie cmd gelaai word:
 - `__bss`: Statiese veranderlikes (wat nie geïnisialiseer is nie)
 - `__objc_*` (\_\_objc\_classlist, \_\_objc\_protolist, ens): Inligting wat deur die Objective-C-uitvoertyd gebruik word
 - **`__LINKEDIT`**: Bevat inligting vir die koppelaar (dyld) soos, "simbool, string, en herlokasie tabelle inskrywings."
-- **`__OBJC`**: Bevat inligting wat deur die Objective-C-uitvoertyd gebruik word. Hierdie inligting kan ook in die \_\_DATA segment gevind word, binne verskeie in \_\_objc\_\* afdelings.
+- **`__OBJC`**: Bevat inligting wat deur die Objective-C-uitvoertyd gebruik word. Alhoewel hierdie inligting ook in die \_\_DATA segment gevind kan word, binne verskeie in \_\_objc\_\* afdelings.
 
 ### **`LC_MAIN`**
 
-Bevat die ingangspunt in die **entryoff eienskap.** Tydens laaityd **voeg dyld** eenvoudig hierdie waarde by die (in-geheue) **basis van die binêre lêer**, en **spring** dan na hierdie instruksie om die uitvoering van die binêre se kode te begin.
+Bevat die ingangspunt in die **entryoff eienskap.** By laai-tyd, **dyld** voeg eenvoudig hierdie waarde by die (in-memory) **basis van die binêre lêer**, en **spring** dan na hierdie instruksie om die uitvoering van die binêre se kode te begin.
 
 ### **LC\_CODE\_SIGNATURE**
 
-Bevat inligting oor die **kodesignatuur van die Macho-O-lêer**. Dit bevat slegs 'n **verskuiwing** wat na die **handtekeningblob** **verwys**. Dit is tipies aan die einde van die lêer.\
-Nietemin kan jy enige inligting oor hierdie afdeling vind in [**hierdie blogpos**](https://davedelong.com/blog/2018/01/10/reading-your-own-entitlements/) en hierdie [**gists**](https://gist.github.com/carlospolop/ef26f8eb9fafd4bc22e69e1a32b81da4).
+Bevat inligting oor die **kodesignatuur van die Macho-O-lêer**. Dit bevat slegs 'n **verskuiwing** wat na die **handtekeningblob** wys. Dit is tipies aan die einde van die lêer.\
+Nietemin, kan jy enige inligting oor hierdie afdeling vind in [**hierdie blogpos**](https://davedelong.com/blog/2018/01/10/reading-your-own-entitlements/) en hierdie [**gists**](https://gist.github.com/carlospolop/ef26f8eb9fafd4bc22e69e1a32b81da4).
 
 ### **LC\_LOAD\_DYLINKER**
 
-Bevat die **pad na die dinamiese koppelvlakuitvoerbare lêer** wat gedeelde biblioteke in die prosesadresruimte kaart. Die **waarde is altyd ingestel op `/usr/lib/dyld`**. Dit is belangrik om in ag te neem dat in macOS, dylib-kaarting in **gebruikermodus** plaasvind, nie in kernelmodus nie.
+Bevat die **pad na die dinamiese koppelvlakuitvoerbare lêer** wat gedeelde biblioteke in die prosesadresruimte kaart. Die **waarde is altyd ingestel op `/usr/lib/dyld`**. Dit is belangrik om in ag te neem dat in macOS, gebeur die dylib-kaart in **gebruikermodus**, nie in kernelmodus nie.
 
 ### **`LC_LOAD_DYLIB`**
 
-Hierdie laaikommando beskryf 'n **dinamiese** **biblioteek** afhanklikheid wat die **laaier** (dyld) **instrueer om genoemde biblioteek te laai en te skakel**. Daar is 'n LC\_LOAD\_DYLIB laaikommando **vir elke biblioteek** wat die Mach-O-binêre benodig.
+Hierdie laaibestelling beskryf 'n **dinamiese** **biblioteek** afhanklikheid wat die **laaier** (dyld) **instrueer om genoemde biblioteek te laai en te skakel**. Daar is 'n LC\_LOAD\_DYLIB laaibestelling **vir elke biblioteek** wat die Mach-O-binêre benodig.
 
-- Hierdie laaikommando is 'n struktuur van die tipe **`dylib_command`** (wat 'n struct dylib bevat, wat die werklike afhanklike dinamiese biblioteek beskryf):
+- Hierdie laaibestelling is 'n struktuur van die tipe **`dylib_command`** (wat 'n struct dylib bevat, wat die werklike afhanklike dinamiese biblioteek beskryf):
 ```objectivec
 struct dylib_command {
 uint32_t        cmd;            /* LC_LOAD_{,WEAK_}DYLIB */
@@ -287,7 +287,7 @@ Dit sluit in:
 * **Simbooltabel**: Wat inligting oor die eksterne funksie bevat wat deur die binêre gebruik word
 * Dit kan ook interne funksie, veranderlike name en meer bevat.
 
-Om dit te kontroleer kan jy die [**Mach-O View**](https://sourceforge.net/projects/machoview/) gereedskap gebruik:
+Om dit te kontroleer, kan jy die [**Mach-O View**](https://sourceforge.net/projects/machoview/) gereedskap gebruik:
 
 <figure><img src="../../../.gitbook/assets/image (2) (1) (4).png" alt=""><figcaption></figcaption></figure>
 
@@ -301,7 +301,7 @@ size -m /bin/ls
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**

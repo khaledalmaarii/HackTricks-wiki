@@ -19,21 +19,21 @@ Ander maniere om HackTricks te ondersteun:
 As jy nie weet wat Electron is nie, kan jy [**baie inligting hier vind**](https://book.hacktricks.xyz/network-services-pentesting/pentesting-web/xss-to-rce-electron-desktop-apps). Maar vir nou moet jy net weet dat Electron **node** laat loop.\
 En node het sekere **parameters** en **omgewingsveranderlikes** wat gebruik kan word om **dit ander kode te laat uitvoer** as die aangeduide lêer.
 
-### Electron-smeulstowwe
+### Electron-skerms
 
-Hierdie tegnieke sal binnekort bespreek word, maar onlangs het Electron verskeie **sekuriteitsvlaggies bygevoeg om hulle te voorkom**. Dit is die [**Electron-smeulstowwe**](https://www.electronjs.org/docs/latest/tutorial/fuses) en dit is diegene wat gebruik word om te voorkom dat Electron-toepassings in macOS **willekeurige kode laai**:
+Hierdie tegnieke sal later bespreek word, maar onlangs het Electron verskeie **sekuriteitsvlaggies bygevoeg om hulle te voorkom**. Dit is die [**Electron-skerms**](https://www.electronjs.org/docs/latest/tutorial/fuses) en dit is diegene wat gebruik word om te voorkom dat Electron-toepassings in macOS **willekeurige kode laai**:
 
 * **`RunAsNode`**: As dit gedeaktiveer is, voorkom dit die gebruik van die omgewingsveranderlike **`ELECTRON_RUN_AS_NODE`** om kode in te spuit.
 * **`EnableNodeCliInspectArguments`**: As dit gedeaktiveer is, sal parameters soos `--inspect`, `--inspect-brk` nie gerespekteer word nie. Dit verhoed op hierdie manier kode-inspuiting.
-* **`EnableEmbeddedAsarIntegrityValidation`**: As dit geaktiveer is, sal die gelaai **`asar`-lêer** deur macOS **gevalideer** word. Dit verhoed op hierdie manier **kode-inspuiting** deur die inhoud van hierdie lêer te wysig.
-* **`OnlyLoadAppFromAsar`**: As dit geaktiveer is, in plaas van soek om in die volgende volgorde te laai: **`app.asar`**, **`app`** en uiteindelik **`default_app.asar`**. Dit sal net app.asar nagaan en gebruik, wat verseker dat wanneer dit **gekombineer** word met die **`embeddedAsarIntegrityValidation`**-smeul dit **onmoontlik** is om **nie-gevalideerde kode te laai**.
+* **`EnableEmbeddedAsarIntegrityValidation`**: As dit geaktiveer is, sal die gelaai **`asar`-lêer** deur macOS **gevalideer** word. Op hierdie manier word **kode-inspuiting** voorkom deur die inhoud van hierdie lêer te wysig.
+* **`OnlyLoadAppFromAsar`**: As dit geaktiveer is, in plaas van soek om in die volgende volgorde te laai: **`app.asar`**, **`app`** en uiteindelik **`default_app.asar`**. Dit sal net `app.asar` nagaan en gebruik, wat verseker dat wanneer dit **gekombineer** word met die **`embeddedAsarIntegrityValidation`**-skerm, dit **onmoontlik** is om **nie-gevalideerde kode te laai**.
 * **`LoadBrowserProcessSpecificV8Snapshot`**: As dit geaktiveer is, gebruik die blaaierproses die lêer genaamd `browser_v8_context_snapshot.bin` vir sy V8-snapshot.
 
-'n Ander interessante smeul wat nie kode-inspuiting sal voorkom nie, is:
+'n Ander interessante skerm wat nie kode-inspuiting sal voorkom nie, is:
 
 * **EnableCookieEncryption**: As dit geaktiveer is, word die koekie-stoor op skyf versleutel met OS-vlak kriptografie sleutels.
 
-### Kontroleer Electron-smeulstowwe
+### Kontroleer Electron-skerms
 
 Jy kan **hierdie vlae nagaan** vanuit 'n toepassing met:
 ```bash
@@ -49,7 +49,7 @@ EnableEmbeddedAsarIntegrityValidation is Enabled
 OnlyLoadAppFromAsar is Enabled
 LoadBrowserProcessSpecificV8Snapshot is Disabled
 ```
-### Wysiging van Electron-sekeringe
+### Wysiging van Electron-sekering
 
 Soos die [**dokumente aandui**](https://www.electronjs.org/docs/latest/tutorial/fuses#runasnode), word die konfigurasie van die **Electron-skerings** ingestel binne die **Electron-binêre lêer** wat êrens die string **`dL7pKGdnNz796PbbjQWNKmHXBZaB9tsX`** bevat.
 
@@ -60,26 +60,26 @@ Binary file Slack.app//Contents/Frameworks/Electron Framework.framework/Versions
 ```
 Jy kan hierdie lêer in [https://hexed.it/](https://hexed.it/) laai en soek na die vorige string. Na hierdie string kan jy in ASCII 'n nommer "0" of "1" sien wat aandui of elke fuus gedeaktiveer of geaktiveer is. Modifiseer net die hekskode (`0x30` is `0` en `0x31` is `1`) om **die fuuswaardes te wysig**.
 
-<figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Let daarop dat as jy probeer om die **`Electron Framework` binêre lêer** binne 'n toepassing met hierdie gewysigde bytes te **owerwrite**, sal die toepassing nie loop nie.
+Merk op dat as jy probeer om die **`Electron Framework` binêre lêer** binne 'n aansoek met hierdie gewysigde bytes te **owerwrite**, sal die aansoek nie loop nie.
 
-## RCE kode byvoeging tot Electron-toepassings
+## RCE kode byvoeg tot Electron Aansoeke
 
-Daar kan **eksterne JS/HTML-lêers** wees wat 'n Electron-toepassing gebruik, sodat 'n aanvaller kode in hierdie lêers kan inspuit waarvan die handtekening nie nagegaan sal word nie en arbitrêre kode kan uitvoer in die konteks van die toepassing.
+Daar kan **eksterne JS/HTML-lêers** wees wat 'n Electron Aansoek gebruik, sodat 'n aanvaller kode in hierdie lêers kan inspuit waarvan die handtekening nie nagegaan sal word nie en arbitrêre kode kan uitvoer in die konteks van die aansoek.
 
 {% hint style="danger" %}
 Daar is egter tans 2 beperkings:
 
-* Die **`kTCCServiceSystemPolicyAppBundles`** toestemming is **nodig** om 'n toepassing te wysig, dus is dit standaard nie meer moontlik nie.
+* Die **`kTCCServiceSystemPolicyAppBundles`** toestemming is **nodig** om 'n Aansoek te wysig, dus is dit standaard nie meer moontlik nie.
 * Die saamgestelde **`asap`** lêer het gewoonlik die fuise **`embeddedAsarIntegrityValidation`** `en` **`onlyLoadAppFromAsar`** `geaktiveer`
 
 Dit maak hierdie aanvalspad meer ingewikkeld (of onmoontlik).
 {% endhint %}
 
-Let daarop dat dit moontlik is om die vereiste van **`kTCCServiceSystemPolicyAppBundles`** te omseil deur die toepassing na 'n ander gids te kopieer (soos **`/tmp`**), die vouer **`app.app/Contents`** te hernoem na **`app.app/NotCon`**, die **asar**-lêer met jou **skadelike** kode te **modifiseer**, dit terug te hernoem na **`app.app/Contents`** en dit uit te voer.
+Merk op dat dit moontlik is om die vereiste van **`kTCCServiceSystemPolicyAppBundles`** te omseil deur die aansoek na 'n ander gids te kopieer (soos **`/tmp`**), die vouer **`app.app/Contents`** te hernoem na **`app.app/NotCon`**, die **asar** lêer met jou **skadelike** kode te **modifiseer**, dit terug te hernoem na **`app.app/Contents`** en dit uit te voer.
 
-Jy kan die kode uit die asar-lêer uitpak met:
+Jy kan die kode uit die asar lêer uitpak met:
 ```bash
 npx asar extract app.asar app-decomp
 ```
@@ -101,7 +101,7 @@ require('child_process').execSync('/System/Applications/Calculator.app/Contents/
 {% endcode %}
 
 {% hint style="danger" %}
-As die **`RunAsNode`**-fusie gedeaktiveer is, sal die omgewingsveranderlike **`ELECTRON_RUN_AS_NODE`** geïgnoreer word, en dit sal nie werk nie.
+As die **`RunAsNode`**-siklus uitgeschakel is, sal die omgewingsveranderlike **`ELECTRON_RUN_AS_NODE`** geïgnoreer word, en dit sal nie werk nie.
 {% endhint %}
 
 ### Inspruiting van die App Plist
@@ -182,12 +182,12 @@ require('child_process').execSync('/System/Applications/Calculator.app/Contents/
 {% endcode %}
 
 {% hint style="danger" %}
-As die smeltkroes **`EnableNodeCliInspectArguments`** gedeaktiveer is, sal die app **node parameters ignoreer** (soos `--inspect`) wanneer dit begin word tensy die omgewingsveranderlike **`ELECTRON_RUN_AS_NODE`** ingestel is, wat ook **ignoreer** sal word as die smeltkroes **`RunAsNode`** gedeaktiveer is.
+As die fuus **`EnableNodeCliInspectArguments`** gedeaktiveer is, sal die app **node parameters ignoreer** (soos `--inspect`) wanneer dit begin word tensy die omgewingsveranderlike **`ELECTRON_RUN_AS_NODE`** ingestel is, wat ook **ignoreer** sal word as die fuus **`RunAsNode`** gedeaktiveer is.
 
-Nogtans kan jy steeds die **elektron parameter `--remote-debugging-port=9229`** gebruik, maar die vorige lading sal nie werk om ander prosesse uit te voer nie.
+Nogtans kan jy steeds die **electron param `--remote-debugging-port=9229`** gebruik, maar die vorige lading sal nie werk om ander prosesse uit te voer nie.
 {% endhint %}
 
-Deur die parameter **`--remote-debugging-port=9222`** te gebruik, is dit moontlik om sekere inligting van die Electron App te steel soos die **geskiedenis** (met GET-opdragte) of die **koekies** van die blaaier (aangesien hulle binne die blaaier **gedekripteer** word en daar 'n **json eindpunt** is wat hulle sal gee).
+Deur die param **`--remote-debugging-port=9222`** te gebruik, is dit moontlik om sekere inligting van die Electron App te steel soos die **geskiedenis** (met GET-opdragte) of die **koekies** van die webblaaier (aangesien hulle binne die webblaaier **gedekodeer** word en daar 'n **json eindpunt** is wat hulle sal gee).
 
 Jy kan leer hoe om dit te doen [**hier**](https://posts.specterops.io/hands-in-the-cookie-jar-dumping-cookies-with-chromiums-remote-debugger-port-34c4f468844e) en [**hier**](https://slyd0g.medium.com/debugging-cookie-dumping-failures-with-chromiums-remote-debugger-8a4c4d19429f) en die outomatiese instrument [WhiteChocolateMacademiaNut](https://github.com/slyd0g/WhiteChocolateMacademiaNut) gebruik of 'n eenvoudige skrips soos:
 ```python
@@ -201,7 +201,7 @@ In [**hierdie blogpos**](https://hackerone.com/reports/1274695), word hierdie fo
 
 ### Inspruiting vanaf die App Plist
 
-Jy kan hierdie omgewingsveranderlike misbruik in 'n plist om volharding te behou deur hierdie sleutels by te voeg:
+Jy kan hierdie omgewingsveranderlike misbruik in 'n plist om volhoubaarheid by te voeg deur hierdie sleutels:
 ```xml
 <dict>
 <key>ProgramArguments</key>
@@ -215,16 +215,16 @@ Jy kan hierdie omgewingsveranderlike misbruik in 'n plist om volharding te behou
 <true/>
 </dict>
 ```
-## TCC Oorweging van Ouer Weergawes
+## TCC Oorsprong misbruik van Ouer Weergawes
 
 {% hint style="success" %}
-Die TCC daemon van macOS kontroleer nie die uitgevoerde weergawe van die aansoek nie. As jy dus nie kode kan inspuit in 'n Electron-aansoek nie met enige van die vorige tegnieke nie, kan jy 'n vorige weergawe van die toepassing aflaai en kode daarin inspuit, aangesien dit steeds die TCC-voorregte sal kry (tensy die Trust Cache dit voorkom).
+Die TCC daemon van macOS kontroleer nie die uitgevoerde weergawe van die aansoek nie. As jy nie kode kan inspuit in 'n Electron-aansoek nie met enige van die vorige tegnieke nie, kan jy 'n vorige weergawe van die toepassing aflaai en kode daarin inspuit, aangesien dit steeds die TCC-voorregte sal kry (tensy die Trust Cache dit voorkom).
 {% endhint %}
 
 ## Voer nie-JS-kode uit
 
 Die vorige tegnieke sal jou in staat stel om **JS-kode binne die proses van die Electron-aansoek** uit te voer. Onthou egter dat die **kindprosesse onder dieselfde sandbakkieprofiel** as die oueraansoek loop en **hul TCC-toestemmings erf**.\
-Dus, as jy voorregte wil misbruik om byvoorbeeld toegang tot die kamera of mikrofoon te verkry, kan jy net **'n ander binêre lêer vanuit die proses uitvoer**.
+Daarom, as jy voorregte wil misbruik om byvoorbeeld toegang tot die kamera of mikrofoon te verkry, kan jy net **'n ander binêre lêer vanuit die proses uitvoer**.
 
 ## Outomatiese Inspruiting
 
@@ -274,14 +274,14 @@ Shell binding requested. Check `nc 127.0.0.1 12345`
 
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS hakwerk vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Ander maniere om HackTricks te ondersteun:
 
 * As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslaan.
+* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>

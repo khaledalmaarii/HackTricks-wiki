@@ -14,7 +14,7 @@ Ander maniere om HackTricks te ondersteun:
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik te bou en **werkstrome outomatiseer** wat aangedryf word deur die wêreld se **mees gevorderde** gemeenskapshulpmiddels.\
@@ -24,7 +24,7 @@ Kry Vandag Toegang:
 
 **Vir verdere besonderhede, kyk na:** [**https://trailofbits.github.io/ctf/forensics/**](https://trailofbits.github.io/ctf/forensics/)
 
-Die PDF-formaat is bekend vir sy kompleksiteit en potensiaal om data te verberg, wat dit 'n fokuspunt maak vir CTF forensiese uitdagings. Dit kombineer platte-tekstelemente met binêre voorwerpe, wat moontlik saamgedruk of versleutel kan wees, en kan skripte in tale soos JavaScript of Flash insluit. Om die PDF-struktuur te verstaan, kan 'n persoon verwys na Didier Stevens se [inleidende materiaal](https://blog.didierstevens.com/2008/04/09/quickpost-about-the-physical-and-logical-structure-of-pdf-files/), of gereedskap soos 'n teksredigeerder of 'n PDF-spesifieke redigeerder soos Origami gebruik.
+Die PDF-formaat is bekend vir sy kompleksiteit en potensiaal om data te verberg, wat dit 'n fokuspunt maak vir CTF forensiese uitdagings. Dit kombineer plat-teks elemente met binêre voorwerpe, wat moontlik saamgedruk of versleutel kan wees, en kan skripte in tale soos JavaScript of Flash insluit. Om die PDF-struktuur te verstaan, kan 'n mens verwys na Didier Stevens se [inleidende materiaal](https://blog.didierstevens.com/2008/04/09/quickpost-about-the-physical-and-logical-structure-of-pdf-files/), of gereedskap soos 'n teksredigeerder of 'n PDF-spesifieke redigeerder soos Origami gebruik.
 
 Vir diepgaande verkenning of manipulasie van PDF's, is gereedskap soos [qpdf](https://github.com/qpdf/qpdf) en [Origami](https://github.com/mobmewireless/origami-pdf) beskikbaar. Versteekte data binne PDF's kan verberg wees in:
 
@@ -35,7 +35,7 @@ Vir diepgaande verkenning of manipulasie van PDF's, is gereedskap soos [qpdf](ht
 * Teks agter beelde of oorvleuelende beelde
 * Nie-vertoonde kommentaar
 
-Vir aangepaste PDF-ontleding kan Python-biblioteke soos [PeepDF](https://github.com/jesparza/peepdf) gebruik word om op maat gemaakte ontledingsskripte te skep. Verder is die potensiaal van die PDF vir versteekte data-opberging so groot dat bronne soos die NSA-gids oor PDF-risiko's en teenmaatreëls, alhoewel nie meer by sy oorspronklike plek gehuisves nie, steeds waardevolle insigte bied. 'n [Kopie van die gids](http://www.itsecure.hu/library/file/Biztons%C3%A1gi%20%C3%BAtmutat%C3%B3k/Alkalmaz%C3%A1sok/Hidden%20Data%20and%20Metadata%20in%20Adobe%20PDF%20Files.pdf) en 'n versameling van [PDF-formaat truuks](https://github.com/corkami/docs/blob/master/PDF/PDF.md) deur Ange Albertini kan verdere leesstof oor die onderwerp bied.
+Vir aangepaste PDF-ontleding kan Python-biblioteke soos [PeepDF](https://github.com/jesparza/peepdf) gebruik word om op maat gemaakte ontledingsskripte te skep. Verder is die PDF se potensiaal vir versteekte data-opberging so groot dat bronne soos die NSA-gids oor PDF-risiko's en teenmaatreëls, alhoewel nie meer gehuisves op sy oorspronklike plek nie, steeds waardevolle insigte bied. 'n [Kopie van die gids](http://www.itsecure.hu/library/file/Biztons%C3%A1gi%20%C3%BAtmutat%C3%B3k/Alkalmaz%C3%A1sok/Hidden%20Data%20and%20Metadata%20in%20Adobe%20PDF%20Files.pdf) en 'n versameling van [PDF-formaat truuks](https://github.com/corkami/docs/blob/master/PDF/PDF.md) deur Ange Albertini kan verdere leesstof oor die onderwerp bied.
 
 <details>
 

@@ -1,6 +1,6 @@
 # Nuttige Linux-opdragte
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik **werkstrome te bou** en te **outomatiseer** met behulp van die wêreld se **mees gevorderde** gemeenskapsinstrumente.\
 Kry Vandaag Toegang:
@@ -13,7 +13,7 @@ Kry Vandaag Toegang:
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kontroleer die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -140,11 +140,11 @@ sudo chattr -i file.txt #Remove the bit so you can delete it
 # List files inside zip
 7z l file.zip
 ```
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) om maklik **werkstrome te bou** en outomatiseer met die wêreld se **mees gevorderde** gemeenskapsinstrumente.\
-Kry Vandag Toegang:
+Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik **werkstrome te bou** en te **outomatiseer** met behulp van die wêreld se **mees gevorderde** gemeenskapsinstrumente.\
+Kry Vandaag Toegang:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -170,7 +170,27 @@ i686-mingw32msvc-gcc -o executable useradd.c
 ```
 ## Greps
 
-Greps is 'n kragtige opdraggereelhulpprogram wat gebruik word vir die soektog na spesifieke patrone binne teks. Dit kan gebruik word vir soektogte binne lêers en selfs vir die soektog na spesifieke patrone binne 'n stroom van data wat deur 'n ander opdraggereelprogram gegenereer word.
+### Soek
+
+`grep` is 'n kragtige soekhulpmiddel wat gebruik word om te soek deur teks of binêre lêers vir patrone wat ooreenstem met spesifieke soekkriteria.
+
+### Basiese Gebruik
+
+```bash
+grep "patroon" lêernaam
+```
+
+### Soek in alle lêers in 'n gids
+
+```bash
+grep -r "patroon" gidsnaam
+```
+
+### Soek na 'n patroon in alle lêers wat ooreenstem met 'n spesifieke patroon
+
+```bash
+grep -r "patroon" * .uitbreiding
+```
 ```bash
 #Extract emails from file
 grep -E -o "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b" file.txt
@@ -288,130 +308,16 @@ nmap --script-help "(default or version) and smb)"
 ```
 ## Bash
 
-### Nuttige Linux-opdragte
-
-Hierdie dokument bevat 'n lys van nuttige Linux-opdragte wat kan help met die harding van 'n Linux-stelsel. Die opdragte sluit in:
-
-- `ls` - Lys die inhoud van 'n gids
-- `ps` - Vertoon aktiewe prosesse
-- `netstat` - Vertoon netwerkverbindings, routingtabelle, netwerkinterfaces en statistieke
-- `ss` - Vertoon netwerkverbindings
-- `top` - Vertoon aktiewe prosesse
-- `htop` - Verbeterde weergawe van `top`
-- `ifconfig` - Vertoon netwerkinterfaces
-- `ip` - Vertoon en konfigureer netwerkinterfaces
-- `w` - Vertoon ingeteken gebruikers en hul aktiwiteite
-- `who` - Vertoon ingeteken gebruikers
-- `last` - Vertoon 'n geskiedenis van ingeteken gebruikers
-- `chkconfig` - Beheer dienste
-- `systemctl` - Beheer systemd-diens
-- `journalctl` - Vertoon journale
-- `firewall-cmd` - Beheer die firewalld-diens
-- `sestatus` - Kontroleer SELinux-status
-- `getenforce` - Kontroleer SELinux-afdwingingsstatus
-- `setenforce` - Stel SELinux-afdwinging in
-- `chcon` - Verander SELinux-etikette
-- `getsebool` - Kontroleer SELinux-booleaanse waardes
-- `setsebool` - Stel SELinux-booleaanse waardes in
-- `auditctl` - Kontroleer die status van die Linux-audit-stelsel
-- `ausearch` - Soek in die Linux-audit-log
-- `journalctl` - Vertoon journale
-- `sshd` - SSH-diens
-- `sudo` - Voer opdragte uit as 'n ander gebruiker
-- `su` - Skakel tussen gebruikersrekeninge
-- `passwd` - Verander gebruikerswagwoorde
-- `chmod` - Verander lees-, skryf- en uitvoerregte van lêers en gids
-- `chown` - Verander eienaar van lêers en gids
-- `useradd` - Voeg 'n nuwe gebruiker by
-- `usermod` - Verander gebruikersinstellings
-- `userdel` - Verwyder 'n gebruiker
-- `groupadd` - Voeg 'n nuwe groep by
-- `groupmod` - Verander groepinstellings
-- `groupdel` - Verwyder 'n groep
-- `passwd` - Verander gebruikerswagwoorde
-- `chage` - Verander gebruikerswagwoordvervaldatum
-- `crontab` - Beheer cron-take
-- `at` - Skeduleer eenmalige take
-- `yum` - Beheer pakkette met yum
-- `rpm` - Beheer pakkette met rpm
-- `tar` - Hanteer `tar`-lêers
-- `gzip` - Kompresseer en dekompresseer lêers met gzip
-- `find` - Soek na lêers en gids
-- `grep` - Soek deur teks
-- `awk` - Proses tekslêers
-- `sed` - Redigeer teks
-- `sort` - Sorteer reëls in 'n lêer
-- `uniq` - Filter duplikaat reëls
-- `wc` - Tel woorde, reëls en karakters in 'n lêer
-- `curl` - Haal data van 'n URL af
-- `wget` - Haal lêers van die internet af
-- `ssh` - Skakel na 'n ander bediener oor 'n veilige SSH-verbinding
-- `scp` - Kopieer lêers oor 'n veilige SSH-verbinding
-- `rsync` - Sinchroniseer lêers tussen stelsels
-- `tar` - Skep 'n nuwe `tar`-lêer of onttrek dit
-- `zip` - Kompresseer lêers in 'n zip-lêer
-- `unzip` - Onttrek lêers uit 'n zip-lêer
-- `df` - Vertoon skryf- en leesruimte op stoorgeriewe
-- `du` - Vertoon die grootte van lêers en gids
-- `mount` - Koppel lêersisteem
-- `umount` - Ontkoppel lêersisteem
-- `fdisk` - Beheer stoorgeriewe
-- `lsblk` - Vertoon inligting oor bloktoestelle
-- `lsof` - Vertoon watter prosesse lêers gebruik
-- `lspci` - Vertoon PCI-toestel inligting
-- `lsusb` - Vertoon USB-toestel inligting
-- `uname` - Vertoon stelselinligting
-- `dmesg` - Vertoon kernalboodskappe
-- `uptime` - Vertoon stelselopsetyd
-- `free` - Vertoon geheuegebruik
-- `vmstat` - Vertoon virtuele geheue-inligting
-- `iostat` - Vertoon CPU- en I/O-inligting
-- `sar` - Versamel en vertoon stelselaktiwiteit
-- `ps` - Vertoon aktiewe prosesse
-- `kill` - Stuur 'n sein na prosesse
-- `nice` - Stel die prioriteit van 'n proses in
-- `renice` - Verander die prioriteit van 'n aktiewe proses
-- `top` - Vertoon aktiewe prosesse
-- `htop` - Verbeterde weergawe van `top`
-- `iotop` - Vertoon I/O-inligting
-- `ss` - Vertoon netwerkverbindings
-- `netstat` - Vertoon netwerkverbindings, routingtabelle, netwerkinterfaces en statistieke
-- `ip` - Vertoon en konfigureer netwerkinterfaces
-- `ifconfig` - Vertoon netwerkinterfaces
-- `ping` - Toets netwerkverbinding
-- `traceroute` - Toets roete na 'n bediener
-- `dig` - Toets DNS-navrae
-- `host` - Toets DNS-navrae
-- `whois` - Soek na inligting oor 'n domein
-- `sshd` - SSH-diens
-- `telnet` - Skakel na 'n bediener oor 'n Telnet-verbinding
-- `ftp` - Skakel na 'n bediener oor 'n FTP-verbinding
-- `curl` - Haal data van 'n URL af
-- `wget` - Haal lêers van die internet af
-- `scp` - Kopieer lêers oor 'n veilige SSH-verbinding
-- `rsync` - Sinchroniseer lêers tussen stelsels
-- `iptables` - Beheer IP-tabelle en firewall-instellings
-- `firewalld` - Beheer die firewalld-diens
-- `sestatus` - Kontroleer SELinux-status
-- `getenforce` - Kontroleer SELinux-afdwingingsstatus
-- `setenforce` - Stel SELinux-afdwinging in
-- `chcon` - Verander SELinux-etikette
-- `getsebool` - Kontroleer SELinux-booleaanse waardes
-- `setsebool` - Stel SELinux-booleaanse waardes in
-- `auditctl` - Kontroleer die status van die Linux-audit-stelsel
-- `ausearch` - Soek in die Linux-audit-log
-- `journalctl` - Vertoon journale
-- `systemctl` - Beheer systemd-diens
-- `chkconfig` - Beheer dienste
+Bash is 'n kragskellingsinterpreter wat algemeen in Linux-stelsels gebruik word. Dit bied 'n kragtige omgewing vir die uitvoering van opdragte en skryf van skrips.
 ```bash
 #All bytes inside a file (except 0x20 and 0x00)
 for j in $((for i in {0..9}{0..9} {0..9}{a..f} {a..f}{0..9} {a..f}{a..f}; do echo $i; done ) | sort | grep -v "20\|00"); do echo -n -e "\x$j" >> bytes; done
 ```
 ## Iptables
 
-### Oorsig
+### Inleiding
 
-Iptables is 'n kragtige firewall wat ingebou is in Linux-stelsels. Dit stel gebruikers in staat om netwerkverkeer te bestuur deur toegangsbeheerlys te skep en te bestuur. Dit kan gebruik word om verkeer te blokkeer, te laat deurgaan of te herlei op 'n Linux-bedienersisteem.
+Iptables is 'n kragtige firewall wat ingebou is in Linux-stelsels. Dit kan gebruik word om netwerkverkeer te bestuur deur reëls te definieer wat bepaal watter tipe verkeer toegelaat of geblokkeer word. Hierdie gids bevat nuttige Iptables-opdragte wat gebruik kan word vir die harding van Linux-stelsels.
 ```bash
 #Delete curent rules and chains
 iptables --flush
@@ -448,18 +354,18 @@ iptables -P OUTPUT ACCEPT
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kontroleer die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik te bou en **werkstrome outomatiseer** wat aangedryf word deur die wêreld se **mees gevorderde** gemeenskapshulpmiddels.\
-Kry Vandag Toegang:
+Kry Vandaag Toegang:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
