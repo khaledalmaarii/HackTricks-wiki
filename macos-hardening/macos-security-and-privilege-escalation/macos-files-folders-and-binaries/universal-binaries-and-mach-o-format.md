@@ -2,27 +2,27 @@
 
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
 
 支持HackTricks的其他方式：
 
 - 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 - 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-- 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品
-- **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+- 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品
+- **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 - 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
 ## 基本信息
 
-Mac OS二进制文件通常被编译为**通用二进制文件**。**通用二进制文件**可以在同一个文件中**支持多种架构**。
+Mac OS二进制文件通常被编译为**通用二进制文件**。**通用二进制文件**可以在同一文件中**支持多种架构**。
 
-这些二进制文件遵循**Mach-O结构**，基本上由以下部分组成：
+这些二进制文件遵循**Mach-O结构**，基本上由以下组成：
 
-- 头部（Header）
-- 装载命令（Load Commands）
-- 数据（Data）
+- 头部
+- 装载命令
+- 数据
 
 ![https://alexdremov.me/content/images/2022/10/6XLCD.gif](<../../../.gitbook/assets/image (559).png>)
 
@@ -35,7 +35,7 @@ Mac OS二进制文件通常被编译为**通用二进制文件**。**通用二�
 </strong>
 struct fat_header {
 <strong>	uint32_t	magic;		/* FAT_MAGIC or FAT_MAGIC_64 */
-</strong><strong>	uint32_t	nfat_arch;	/* 后续结构的数量 */
+</strong><strong>	uint32_t	nfat_arch;	/* 后面跟随的结构体数量 */
 </strong>};
 
 struct fat_arch {
@@ -47,7 +47,7 @@ uint32_t	align;		/* 2的幂对齐 */
 };
 </code></pre>
 
-头部包含**魔数**后跟文件**包含的架构数**（`nfat_arch`），每个架构都将有一个`fat_arch`结构。
+头部包含**魔术**字节，后跟文件**包含的**架构数（`nfat_arch`），每个架构都将有一个`fat_arch`结构体。
 
 使用以下命令检查：
 
@@ -80,11 +80,11 @@ capabilities PTR_AUTH_VERSION USERSPACE 0
 
 <figure><img src="../../../.gitbook/assets/image (5) (1) (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-正如您可能在想的那样，通常为2种架构编译的通用二进制文件**会使大小翻倍**，相比于仅为1种架构编译的情况。
+正如您可能想到的，通常为2种架构编译的通用二进制文件**会使大小翻倍**，而为单个架构编译的二进制文件。
 
 ## **Mach-O头部**
 
-头部包含有关文件的基本信息，例如用于识别其为Mach-O文件的魔数以及有关目标架构的信息。您可以在以下位置找到它：`mdfind loader.h | grep -i mach-o | grep -E "loader.h$"`
+头部包含有关文件的基本信息，例如用于识别其为Mach-O文件的魔术字节以及有关目标架构的信息。您可以在以下位置找到它：`mdfind loader.h | grep -i mach-o | grep -E "loader.h$"`
 ```c
 #define	MH_MAGIC	0xfeedface	/* the mach magic number */
 #define MH_CIGAM	0xcefaedfe	/* NXSwapInt(MH_MAGIC) */
@@ -138,12 +138,12 @@ uint32_t cmd;           /* type of load command */
 uint32_t cmdsize;       /* total size of command in bytes */
 };
 ```
-系统处理大约**50种不同类型的加载命令**。最常见的是：`LC_SEGMENT_64`、`LC_LOAD_DYLINKER`、`LC_MAIN`、`LC_LOAD_DYLIB`和`LC_CODE_SIGNATURE`。
+有大约**50种不同类型的加载命令**，系统会以不同方式处理。最常见的是：`LC_SEGMENT_64`、`LC_LOAD_DYLINKER`、`LC_MAIN`、`LC_LOAD_DYLIB`和`LC_CODE_SIGNATURE`。
 
 ### **LC\_SEGMENT/LC\_SEGMENT\_64**
 
 {% hint style="success" %}
-基本上，这种类型的加载命令定义了在执行二进制文件时，根据数据部分中指示的偏移量，**如何加载\_\_TEXT**（可执行代码）**和\_\_DATA**（进程数据）**段**。
+基本上，这种类型的加载命令定义了在执行二进制文件时，根据数据部分中指示的偏移量，如何加载**\_\_TEXT**（可执行代码）和**\_\_DATA**（进程数据）**段**。
 {% endhint %}
 
 这些命令**定义了在执行过程中映射到进程的虚拟内存空间中的段**。
@@ -194,18 +194,17 @@ uint32_t	reserved3;	/* reserved */
 
 <figure><img src="../../../.gitbook/assets/image (6) (2).png" alt=""><figcaption></figcaption></figure>
 
-如果**添加** **部分偏移量**（0x37DC）+ **arch 开始的偏移量**，在这种情况下 `0x18000` --> `0x37DC + 0x18000 = 0x1B7DC`
+如果**添加** **部分偏移量**（0x37DC）+ **arch开始的偏移量**，在这种情况下为 `0x18000` --> `0x37DC + 0x18000 = 0x1B7DC`
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 也可以通过**命令行**获取**头信息**。
 ```bash
 otool -lv /bin/ls
 ```
-```markdown
 以下是由此命令加载的常见段：
 
-- **`__PAGEZERO`：** 它指示内核**映射****地址零**，因此**无法读取、写入或执行**。结构中的maxprot和minprot变量设置为零，表示此页面上**没有读写执行权限**。
+- **`__PAGEZERO`：** 它指示内核**映射**地址**零**，因此**无法读取、写入或执行**。结构中的maxprot和minprot变量设置为零，表示此页面**没有读写执行权限**。
 - 此分配对于**缓解空指针解引用漏洞**很重要。
 - **`__TEXT`：** 包含具有**读取**和**执行**权限（不可写）的**可执行代码**。此段的常见部分：
   - `__text`：已编译的二进制代码
@@ -221,23 +220,22 @@ otool -lv /bin/ls
 
 ### **`LC_MAIN`**
 
-包含**entryoff属性**中的入口点。在加载时，**dyld**只需将此值**添加**到二进制文件的（内存中的）**基址**，然后**跳转**到此指令以开始执行二进制代码。
+包含**entryoff属性**中的入口点。在加载时，**dyld**只需将此值**添加**到（内存中的）**二进制基址**，然后**跳转**到此指令以开始执行二进制代码。
 
 ### **LC\_CODE\_SIGNATURE**
 
-包含有关Macho-O文件**代码签名**的信息。它只包含一个**指向签名块**的**偏移量**。这通常位于文件的末尾。\
-但是，您可以在[**此博客文章**](https://davedelong.com/blog/2018/01/10/reading-your-own-entitlements/)和此[**gists**](https://gist.github.com/carlospolop/ef26f8eb9fafd4bc22e69e1a32b81da4)中找到有关此部分的一些信息。
+包含有关**Macho-O文件的代码签名**的信息。它只包含一个**指向签名块**的**偏移量**。这通常位于文件的末尾。\
+但是，您可以在[**此博客文章**](https://davedelong.com/blog/2018/01/10/reading-your-own-entitlements/)和这个[**gists**](https://gist.github.com/carlospolop/ef26f8eb9fafd4bc22e69e1a32b81da4)中找到有关此部分的一些信息。
 
 ### **LC\_LOAD\_DYLINKER**
 
-包含**动态链接器可执行文件的路径**，将共享库映射到进程地址空间。**值始终设置为`/usr/lib/dyld`**。重要的是要注意，在macOS中，dylib映射发生在**用户模式**，而不是内核模式中。
+包含**动态链接器可执行文件的路径**，将共享库映射到进程地址空间。**值始终设置为`/usr/lib/dyld`**。重要的是要注意，在macOS中，dylib映射发生在**用户模式**，而不是内核模式。
 
 ### **`LC_LOAD_DYLIB`**
 
-此加载命令描述了一个**动态库**依赖项，**指示**加载器（dyld）**加载和链接该库**。Mach-O二进制文件所需的每个库都有一个LC\_LOAD\_DYLIB加载命令。
+此加载命令描述了**动态** **库** 依赖项，指示**加载器**（dyld）**加载和链接该库**。Mach-O二进制文件所需的每个库都有一个LC\_LOAD\_DYLIB加载命令。
 
 - 此加载命令是**`dylib_command`**类型的结构（包含描述实际依赖动态库的struct dylib）：
-```
 ```objectivec
 struct dylib_command {
 uint32_t        cmd;            /* LC_LOAD_{,WEAK_}DYLIB */
@@ -266,11 +264,11 @@ otool -L /bin/ls
 
 - **DiskArbitration**：监控USB驱动器
 - **AVFoundation**：捕获音频和视频
-- **CoreWLAN**：WiFi扫描。
+- **CoreWLAN**：Wifi扫描。
 
 {% hint style="info" %}
-Mach-O二进制文件可以包含一个或多个构造函数，在LC_MAIN指定的地址之前执行。\
-任何构造函数的偏移量都保存在__DATA_CONST段的__mod_init_func部分中。
+Mach-O二进制文件可以包含一个或**多个构造函数**，这些函数将在**LC\_MAIN**中指定的地址之前执行。\
+任何构造函数的偏移量都保存在**\_\_DATA\_CONST**段的**\_\_mod\_init\_func**部分中。
 {% endhint %}
 
 ## **Mach-O数据**
@@ -278,16 +276,16 @@ Mach-O二进制文件可以包含一个或多个构造函数，在LC_MAIN指定�
 文件的核心是数据区域，由加载命令区域中定义的几个段组成。**每个段中可以包含各种数据部分**，每个部分**包含特定类型的代码或数据**。
 
 {% hint style="success" %}
-数据基本上是包含在加载命令LC_SEGMENTS_64中加载的所有**信息**的部分。
+数据基本上是包含在加载命令**LC\_SEGMENTS\_64**加载的所有**信息**的部分。
 {% endhint %}
 
 ![https://www.oreilly.com/api/v2/epubs/9781785883378/files/graphics/B05055\_02\_38.jpg](<../../../.gitbook/assets/image (507) (3).png>)
 
 这包括：
 
-- **函数表**：保存有关程序函数的信息。
-- **符号表**：包含二进制文件使用的外部函数的信息
-- 还可能包含内部函数、变量名称等。
+- **函数表**：包含有关程序函数的信息。
+- **符号表**：包含有关二进制文件使用的外部函数的信息
+- 还可能包含内部函数、变量名称等等。
 
 您可以使用[Mach-O View](https://sourceforge.net/projects/machoview/)工具来检查：
 
@@ -301,7 +299,7 @@ size -m /bin/ls
 
 <summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
 
-支持HackTricks的其他方式：
+其他支持HackTricks的方式：
 
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
