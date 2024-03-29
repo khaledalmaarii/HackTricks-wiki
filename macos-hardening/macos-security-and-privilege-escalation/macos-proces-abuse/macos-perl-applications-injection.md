@@ -10,7 +10,7 @@ Inne sposoby wsparcia HackTricks:
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**Grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
 
 </details>
 
@@ -31,7 +31,7 @@ Teraz **wyeksportuj zmienną środowiskową** i wykonaj skrypt **perl**:
 export PERL5OPT='-Mwarnings;system("whoami")'
 perl test.pl # This will execute "whoami"
 ```
-Inną opcją jest utworzenie modułu Perl (np. `/tmp/pmod.pm`):
+Kolejną opcją jest utworzenie modułu Perl (np. `/tmp/pmod.pm`):
 
 {% code title="/tmp/pmod.pm" %}
 ```perl
@@ -42,7 +42,7 @@ system('whoami');
 ```
 {% endcode %}
 
-A następnie użyj zmiennych środowiskowych:
+Następnie użyj zmiennych środowiskowych:
 ```bash
 PERL5LIB=/tmp/ PERL5OPT=-Mpmod
 ```
@@ -64,13 +64,13 @@ Który zwróci coś w stylu:
 /System/Library/Perl/Extras/5.30/darwin-thread-multi-2level
 /System/Library/Perl/Extras/5.30
 ```
-Niektóre z zwróconych folderów nawet nie istnieją, jednak **`/Library/Perl/5.30`** istnieje, nie jest chroniony przez SIP i znajduje się przed folderami chronionymi przez SIP. Dlatego ktoś mógłby nadużyć tego folderu, aby dodać zależności skryptu, tak aby skrypt Perl o wysokich uprawnieniach mógł je załadować.
+Niektóre z zwróconych folderów nawet nie istnieją, jednak **`/Library/Perl/5.30`** **istnieje**, nie jest **chroniony** przez **SIP** i znajduje się **przed** folderami **chronionymi przez SIP**. Dlatego ktoś mógłby nadużyć tego folderu, aby dodać zależności skryptu, dzięki czemu skrypt Perl o wysokich uprawnieniach będzie je ładował.
 
 {% hint style="warning" %}
-Jednak zauważ, że **musisz być rootem, aby móc pisać w tym folderze**, a obecnie otrzymasz ten **komunikat TCC**:
+Jednak zauważ, że **musisz być rootem, aby pisać w tym folderze** i obecnie otrzymasz ten **komunikat TCC**:
 {% endhint %}
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1).png" alt="" width="244"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png" alt="" width="244"><figcaption></figcaption></figure>
 
 Na przykład, jeśli skrypt importuje **`use File::Basename;`**, byłoby możliwe utworzenie `/Library/Perl/5.30/File/Basename.pm`, aby wykonać arbitralny kod.
 
@@ -85,9 +85,9 @@ Na przykład, jeśli skrypt importuje **`use File::Basename;`**, byłoby możliw
 Inne sposoby wsparcia HackTricks:
 
 * Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Kup [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
+* **Dołącz do** 💬 [**Grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

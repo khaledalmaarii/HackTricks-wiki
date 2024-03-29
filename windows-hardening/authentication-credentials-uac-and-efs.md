@@ -2,35 +2,35 @@
 
 <details>
 
-<summary><strong>Zacznij od zera i stań się ekspertem od hakowania AWS dzięki</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Nauka hakowania AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 
 * Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na githubie.
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się swoimi sztuczkami hakowania, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
 
 </details>
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), aby łatwo tworzyć i **automatyzować przepływy pracy** przy użyciu **najbardziej zaawansowanych** narzędzi społecznościowych na świecie.\
-Zdobądź Dostęp Dziś:
+Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) do łatwego tworzenia i **automatyzacji prac** przy użyciu **najbardziej zaawansowanych narzędzi społecznościowych** na świecie.\
+Zdobądź dostęp już dziś:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 ## Polityka AppLocker
 
-Biała lista aplikacji to lista zatwierdzonych aplikacji lub plików wykonywalnych, które mogą być obecne i uruchamiane w systemie. Celem jest ochrona środowiska przed szkodliwym oprogramowaniem i niezatwierdzonym oprogramowaniem, które nie jest zgodne z konkretnymi potrzebami biznesowymi organizacji.
+Biała lista aplikacji to lista zatwierdzonych aplikacji lub plików wykonywalnych, które mają prawo być obecne i uruchamiane w systemie. Celem jest ochrona środowiska przed szkodliwym oprogramowaniem i niezatwierdzonym oprogramowaniem, które nie jest zgodne z konkretnymi potrzebami biznesowymi organizacji.
 
-[AppLocker](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/applocker/what-is-applocker) to **rozwiązanie białej listy aplikacji** firmy Microsoft, które daje administratorom systemów kontrolę nad **którymi aplikacjami i plikami użytkownicy mogą uruchamiać**. Zapewnia **dokładną kontrolę** nad plikami wykonywalnymi, skryptami, plikami instalacyjnymi systemu Windows, plikami DLL, aplikacjami pakietowymi i instalatorami aplikacji pakietowych.\
+[AppLocker](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/applocker/what-is-applocker) to **rozwiązanie białej listy aplikacji** firmy Microsoft, które daje administratorom systemu kontrolę nad **którymi aplikacjami i plikami użytkownicy mogą uruchamiać**. Zapewnia **dokładną kontrolę** nad plikami wykonywalnymi, skryptami, plikami instalacyjnymi systemu Windows, plikami DLL, aplikacjami pakietowymi i instalatorami pakietów aplikacji.\
 Organizacje często **blokują cmd.exe i PowerShell.exe** oraz dostęp do określonych katalogów, **ale wszystko to można ominąć**.
 
 ### Sprawdź
 
-Sprawdź, które pliki/rozszerzenia są na czarnej liście/białej liście:
+Sprawdź, które pliki/rozszerzenia są na czarnej/białej liście:
 ```powershell
 Get-ApplockerPolicy -Effective -xml
 
@@ -54,7 +54,7 @@ C:\windows\tracing
 ```
 * Powszechnie **zaufane** [**binaria "LOLBAS's"**](https://lolbas-project.github.io/) mogą być również przydatne do ominięcia AppLocker.
 * **Słabo napisane reguły mogą również zostać ominięte**
-* Na przykład, **`<FilePathCondition Path="%OSDRIVE%*\allowed*"/>`**, możesz utworzyć **folder o nazwie `allowed`** w dowolnym miejscu i będzie on zezwolony.
+* Na przykład, **`<FilePathCondition Path="%OSDRIVE%*\allowed*"/>`**, możesz utworzyć **folder o nazwie `allowed`** w dowolnym miejscu, a będzie on zezwolony.
 * Organizacje często skupiają się na **blokowaniu wykonywalnego pliku `%System32%\WindowsPowerShell\v1.0\powershell.exe`**, ale zapominają o **innych** [**lokalizacjach wykonywalnych plików PowerShell**](https://www.powershelladmin.com/wiki/PowerShell\_Executables\_File\_System\_Locations) takich jak `%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe` lub `PowerShell_ISE.exe`.
 * **Wymuszenie DLL jest bardzo rzadko włączane** ze względu na dodatkowe obciążenie, jakie może wprowadzić dla systemu, oraz ilość testów wymaganych do zapewnienia, że nic nie zostanie uszkodzone. Dlatego korzystanie z **DLL jako tylnych drzwi pomoże w ominięciu AppLocker**.
 * Możesz użyć [**ReflectivePick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) lub [**SharpPick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) do **wykonania kodu Powershell** w dowolnym procesie i ominięcia AppLocker. Aby uzyskać więcej informacji, sprawdź: [https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode](https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode).
@@ -67,28 +67,28 @@ Lokalne poświadczenia są obecne w tym pliku, hasła są zahaszowane.
 
 ### Lokalna władza bezpieczeństwa (LSA) - LSASS
 
-**Poświadczenia** (zahaszowane) są **zapisane** w **pamięci** tego podsystemu z powodów jednokrotnego logowania się.\
-**LSA** administruje lokalną **polityką bezpieczeństwa** (polityka haseł, uprawnienia użytkowników...), **uwierzytelnianiem**, **tokenami dostępu**...\
+**Poświadczenia** (zahaszowane) są **zapisane** w **pamięci** tego podsystemu z powodów jednokrotnego logowania.\
+**LSA** administruje lokalną **polityką bezpieczeństwa** (polityka hasła, uprawnienia użytkowników...), **uwierzytelnianiem**, **tokenami dostępu**...\
 LSA będzie tym, który **sprawdzi** podane poświadczenia wewnątrz pliku **SAM** (dla lokalnego logowania) i **będzie komunikować się** z **kontrolerem domeny** w celu uwierzytelnienia użytkownika domeny.
 
-**Poświadczenia** są **zapisane** wewnątrz procesu **LSASS**: bilety Kerberosa, hashe NT i LM, łatwo odszyfrowane hasła.
+**Poświadczenia** są **zapisane** wewnątrz procesu **LSASS**: bilety Kerberosa, hashe NT i LM, łatwo deszyfrowane hasła.
 
 ### Sekrety LSA
 
 LSA może zapisać na dysku niektóre poświadczenia:
 
-* Hasło konta komputera Active Directory (nieosiągalny kontroler domeny).
-* Hasła kont użytkowników usług systemu Windows
+* Hasło konta komputera z Aktywnego Katalogu (niedostępny kontroler domeny).
+* Hasła kont do usług systemu Windows
 * Hasła do zaplanowanych zadań
 * Więcej (hasło aplikacji IIS...)
 
 ### NTDS.dit
 
-To jest baza danych Active Directory. Jest obecna tylko w kontrolerach domeny.
+To jest baza danych Aktywnego Katalogu. Jest obecna tylko w kontrolerach domeny.
 
 ## Defender
 
-[**Microsoft Defender**](https://en.wikipedia.org/wiki/Microsoft\_Defender) to program antywirusowy dostępny w systemach Windows 10 i Windows 11, a także w wersjach systemu Windows Server. **Blokuję** on powszechne narzędzia do testów penetracyjnych, takie jak **`WinPEAS`**. Jednak istnieją sposoby **ominięcia tych zabezpieczeń**.
+[**Microsoft Defender**](https://en.wikipedia.org/wiki/Microsoft\_Defender) to program antywirusowy dostępny w systemach Windows 10 i Windows 11, a także w wersjach systemu Windows Server. **Blokuję** powszechne narzędzia do testów penetracyjnych, takie jak **`WinPEAS`**. Istnieją jednak sposoby na **ominięcie tych zabezpieczeń**.
 
 ### Sprawdź
 
@@ -133,17 +133,17 @@ Ten sposób szyfrowania umożliwia **transparentny dostęp** do zaszyfrowanych p
 
 **Najważniejsze informacje**:
 
-* EFS używa symetrycznego FEK, szyfrowanego kluczem publicznym użytkownika.
+* EFS używa symetrycznego FEK, zaszyfrowanego kluczem publicznym użytkownika.
 * Deszyfrowanie wykorzystuje klucz prywatny użytkownika do uzyskania dostępu do FEK.
 * Automatyczne deszyfrowanie zachodzi w określonych warunkach, takich jak kopiowanie do FAT32 lub transmisja sieciowa.
 * Zaszyfrowane pliki są dostępne dla właściciela bez dodatkowych kroków.
 
 ### Sprawdź informacje o EFS
 
-Sprawdź, czy **użytkownik** korzystał z tej **usługi**, sprawdzając, czy ścieżka istnieje: `C:\users\<nazwa_użytkownika>\appdata\roaming\Microsoft\Protect`
+Sprawdź, czy **użytkownik** korzystał z **tej usługi**, sprawdzając, czy ścieżka istnieje: `C:\users\<nazwa_użytkownika>\appdata\roaming\Microsoft\Protect`
 
-Sprawdź, **kto** ma **dostęp** do pliku, używając `cipher /c \<plik>\`
-Możesz także użyć `cipher /e` i `cipher /d` wewnątrz folderu, aby **zaszyfrować** i **odszyfrować** wszystkie pliki.
+Sprawdź, **kto ma dostęp** do pliku, używając `cipher /c \<plik>\`
+Możesz także użyć `cipher /e` i `cipher /d` wewnątrz folderu, aby **zaszyfrować** i **odszyfrować** wszystkie pliki
 
 ### Deszyfrowanie plików EFS
 
@@ -161,9 +161,9 @@ Microsoft opracował **Zarządzane Konta Usług Grupowych (gMSA)**, aby uproszcz
 
 * **Automatyczne Zarządzanie Hasłem**: gMSA używają złożonego hasła o długości 240 znaków, które automatycznie zmienia się zgodnie z polityką domeny lub komputera. Ten proces jest obsługiwany przez Usługę Dystrybucji Kluczy (KDC) firmy Microsoft, eliminując konieczność ręcznej aktualizacji hasła.
 * **Wzmocnione Bezpieczeństwo**: Te konta są odporne na blokady i nie mogą być używane do interaktywnych logowań, co zwiększa ich bezpieczeństwo.
-* **Wsparcie dla Wielu Hostów**: gMSA mogą być współdzielone przez wiele hostów, co sprawia, że są idealne dla usług działających na wielu serwerach.
+* **Wsparcie dla Wielu Hostów**: gMSA mogą być udostępniane na wielu hostach, co czyni je idealnymi dla usług działających na wielu serwerach.
 * **Zdolność do Planowania Zadań**: W przeciwieństwie do zarządzanych kont usług, gMSA obsługują uruchamianie zaplanowanych zadań.
-* **Uproszczone Zarządzanie SPN**: System automatycznie aktualizuje Nazwę Podstawową Usługi (SPN) w przypadku zmian w szczegółach konta sAMaccount komputera lub nazwy DNS, upraszczając zarządzanie SPN.
+* **Uproszczone Zarządzanie SPN**: System automatycznie aktualizuje Nazwę Usługi Podstawowej (SPN) w przypadku zmian w szczegółach konta sAMaccount komputera lub nazwy DNS, upraszczając zarządzanie SPN.
 
 Hasła dla gMSA są przechowywane w właściwości LDAP _**msDS-ManagedPassword**_ i są automatycznie resetowane co 30 dni przez kontrolery domeny (DC). To hasło, zaszyfrowany blok danych znany jako [MSDS-MANAGEDPASSWORD\_BLOB](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-adts/a9019740-3d73-46ef-a9ae-3ea8eb86ac2e), może być pobrane tylko przez upoważnionych administratorów i serwery, na których zainstalowane są gMSA, zapewniając bezpieczne środowisko. Aby uzyskać dostęp do tych informacji, wymagane jest zabezpieczone połączenie, takie jak LDAPS, lub połączenie musi być uwierzytelnione za pomocą 'Sealing & Secure'.
 
@@ -179,15 +179,15 @@ Sprawdź również tę [stronę internetową](https://cube0x0.github.io/Relaying
 
 ## LAPS
 
-**Local Administrator Password Solution (LAPS)**, dostępne do pobrania z [Microsoft](https://www.microsoft.com/en-us/download/details.aspx?id=46899), umożliwia zarządzanie hasłami lokalnych administratorów. Te hasła, które są **losowe**, unikalne i **regularnie zmieniane**, są przechowywane centralnie w Active Directory. Dostęp do tych haseł jest ograniczony za pomocą list kontroli dostępu (ACL) do autoryzowanych użytkowników. Przy odpowiednich uprawnieniach udzielonych, możliwe jest odczytanie haseł lokalnych administratorów.
+Rozwiązanie **Local Administrator Password Solution (LAPS)**, dostępne do pobrania z [Microsoft](https://www.microsoft.com/en-us/download/details.aspx?id=46899), umożliwia zarządzanie hasłami lokalnych administratorów. Te hasła, które są **losowe**, unikalne i **regularnie zmieniane**, są przechowywane centralnie w Active Directory. Dostęp do tych haseł jest ograniczony za pomocą list ACL do autoryzowanych użytkowników. Przy odpowiednich przyznanych uprawnieniach możliwe jest odczytanie haseł lokalnych administratorów.
 
 {% content-ref url="active-directory-methodology/laps.md" %}
 [laps.md](active-directory-methodology/laps.md)
 {% endcontent-ref %}
 
-## Tryb ograniczonego języka PowerShell
+## PS Tryb języka ograniczonego
 
-Tryb [**Ograniczonego Języka PowerShell**](https://devblogs.microsoft.com/powershell/powershell-constrained-language-mode/) **blokuje wiele funkcji** potrzebnych do efektywnego korzystania z PowerShell, takich jak blokowanie obiektów COM, zezwalanie tylko na zatwierdzone typy .NET, przepływy pracy oparte na XAML, klasy PowerShell i wiele innych.
+Tryb **Constrained Language Mode** PowerShella [**blokuje wiele funkcji**](https://devblogs.microsoft.com/powershell/powershell-constrained-language-mode/), które są potrzebne do efektywnego korzystania z PowerShell, takie jak blokowanie obiektów COM, zezwalanie tylko na zatwierdzone typy .NET, przepływy pracy oparte na XAML, klasy PowerShell i wiele innych.
 
 ### **Sprawdź**
 ```powershell
@@ -200,7 +200,7 @@ $ExecutionContext.SessionState.LanguageMode
 Powershell -version 2
 ```
 W obecnym systemie Windows to Bypass nie zadziała, ale możesz użyć [**PSByPassCLM**](https://github.com/padovah4ck/PSByPassCLM).\
-**Aby go skompilować, możesz potrzebować** **dodać odwołanie** -> _Przeglądaj_ -> _Przeglądaj_ -> dodać `C:\Windows\Microsoft.NET\assembly\GAC_MSIL\System.Management.Automation\v4.0_3.0.0.0\31bf3856ad364e35\System.Management.Automation.dll` i **zmienić projekt na .Net4.5**.
+**Aby go skompilować, możesz potrzebować** _**Dodaj odwołanie**_ -> _Przeglądaj_ -> _Przeglądaj_ -> dodać `C:\Windows\Microsoft.NET\assembly\GAC_MSIL\System.Management.Automation\v4.0_3.0.0.0\31bf3856ad364e35\System.Management.Automation.dll` i **zmień projekt na .Net4.5**.
 
 #### Bezpośrednie obejście:
 ```bash
@@ -214,7 +214,7 @@ Możesz użyć [**ReflectivePick**](https://github.com/PowerShellEmpire/PowerToo
 
 ## Polityka wykonania PS
 
-Domyślnie jest ustawiona na **restricted.** Główne sposoby obejścia tej polityki:
+Domyślnie jest ustawiona na **restricted.** Główne sposoby na obejście tej polityki:
 ```powershell
 1º Just copy and paste inside the interactive PS console
 2º Read en Exec
@@ -252,7 +252,7 @@ SSPI będzie odpowiedzialny za znalezienie odpowiedniego protokołu dla dwóch m
 * %windir%\Windows\System32\Wdigest.dll
 * **Schannel**: SSL i TLS
 * %windir%\Windows\System32\Schannel.dll
-* **Negotiate**: Używany do negocjacji protokołu do użycia (Kerberos lub NTLM, przy czym Kerberos jest domyślny)
+* **Negotiate**: Używany do negocjacji protokołu do użycia (Kerberos lub NTLM, z Kerberos jako domyślnym)
 * %windir%\Windows\System32\lsasrv.dll
 
 #### Negocjacje mogą oferować kilka metod lub tylko jedną.
@@ -265,7 +265,7 @@ SSPI będzie odpowiedzialny za znalezienie odpowiedniego protokołu dla dwóch m
 [uac-user-account-control.md](windows-security-controls/uac-user-account-control.md)
 {% endcontent-ref %}
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), aby łatwo tworzyć i **automatyzować zadania** przy użyciu najbardziej zaawansowanych narzędzi społeczności.\
@@ -277,14 +277,14 @@ Zdobądź dostęp już dziś:
 
 <details>
 
-<summary><strong>Dowiedz się, jak hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Zacznij od zera i zostań ekspertem w hakowaniu AWS z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 
 * Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

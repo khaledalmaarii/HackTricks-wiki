@@ -7,22 +7,22 @@
 Inne sposoby wsparcia HackTricks:
 
 * Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* Kup [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), aby łatwo tworzyć i **automatyzować przepływy pracy** zasilane przez **najbardziej zaawansowane narzędzia społecznościowe** na świecie.\
+Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), aby łatwo tworzyć i **automatyzować przepływy pracy** zasilane przez najbardziej zaawansowane narzędzia społeczności.\
 Zdobądź Dostęp Dziś:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-## Powszechne Ominięcia Ograniczeń
+## Pomiń Powszechne Ograniczenia
 
 ### Odwrócony Shell
 ```bash
@@ -165,8 +165,8 @@ Możesz użyć **burpcollab** lub [**pingb**](http://pingb.in) na przykład.
 
 ### Wbudowane polecenia
 
-W przypadku gdy nie możesz wykonać zewnętrznych funkcji i masz dostęp jedynie do **ograniczonego zestawu wbudowanych poleceń do uzyskania RCE**, istnieją przydatne sztuczki, aby to osiągnąć. Zazwyczaj **nie będziesz mógł użyć wszystkich** wbudowanych poleceń, dlatego powinieneś **znać wszystkie dostępne opcje**, aby próbować ominąć więzienie. Pomysł pochodzi od [**devploit**](https://twitter.com/devploit).\
-Po pierwsze sprawdź wszystkie [**wbudowane polecenia powłoki**](https://www.gnu.org/software/bash/manual/html\_node/Shell-Builtin-Commands.html)**.** Następnie oto kilka **rekomendacji**:
+W przypadku gdy nie możesz wykonać zewnętrznych funkcji i masz dostęp jedynie do **ograniczonego zestawu wbudowanych poleceń do uzyskania RCE**, istnieją przydatne sztuczki, aby to osiągnąć. Zazwyczaj **nie będziesz w stanie użyć wszystkich** **wbudowanych poleceń**, dlatego powinieneś **znać wszystkie dostępne opcje**, aby próbować ominąć więzienie. Pomysł pochodzi od [**devploit**](https://twitter.com/devploit).\
+Po pierwsze sprawdź wszystkie [**wbudowane polecenia powłoki**](https://www.gnu.org/software/bash/manual/html\_node/Shell-Builtin-Commands.html)**.** Następnie oto kilka **zaleceń**:
 ```bash
 # Get list of builtins
 declare builtins
@@ -233,7 +233,7 @@ if [ "a" ]; then echo 1; fi # Will print hello!
 # From https://github.com/Bashfuscator/Bashfuscator
 ./bashfuscator -c 'cat /etc/passwd'
 ```
-### Uruchomienie zdalnego kodu z 5 znakami
+### Uruchomienie zdalnego kodu z wykorzystaniem 5 znaków
 ```bash
 # From the Organge Tsai BabyFirst Revenge challenge: https://github.com/orangetw/My-CTF-Web-Challenges#babyfirst-revenge
 #Oragnge Tsai solution
@@ -280,7 +280,7 @@ ln /f*
 ## If there is a file /flag.txt that will create a hard link
 ## to it in the current folder
 ```
-### Uruchomienie zdalnego kodu z 4 znakami
+### Uruchamianie kodu zdalnego z wykorzystaniem 4 znaków
 ```bash
 # In a similar fashion to the previous bypass this one just need 4 chars to execute commands
 # it will follow the same principle of creating the command `ls -t>g` in a file
@@ -315,9 +315,9 @@ ln /f*
 'sh x'
 'sh g'
 ```
-## Bypass ochrony tylko do odczytu/Noexec/Distroless
+## Bypass ochrony przed odczytem/wykonaniem/Distroless
 
-Jeśli znajdujesz się w systemie plików z **ochroną tylko do odczytu i noexec** lub nawet w kontenerze distroless, istnieją nadal sposoby na **wykonywanie dowolnych binarnych plików, nawet powłoki!:**
+Jeśli znajdujesz się w systemie plików z **ochroną przed odczytem i wykonaniem** lub nawet w kontenerze Distroless, istnieją nadal sposoby na **wykonanie dowolnych binarnych plików, nawet powłoki!:**
 
 {% content-ref url="../bypass-bash-restrictions/bypass-fs-protections-read-only-no-exec-distroless/" %}
 [bypass-fs-protections-read-only-no-exec-distroless](../bypass-bash-restrictions/bypass-fs-protections-read-only-no-exec-distroless/)
@@ -329,24 +329,24 @@ Jeśli znajdujesz się w systemie plików z **ochroną tylko do odczytu i noexec
 [escaping-from-limited-bash.md](../privilege-escalation/escaping-from-limited-bash.md)
 {% endcontent-ref %}
 
-## Odwołania i Więcej
+## Odnośniki i Więcej
 
 * [https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Command%20Injection#exploits](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Command%20Injection#exploits)
 * [https://github.com/Bo0oM/WAF-bypass-Cheat-Sheet](https://github.com/Bo0oM/WAF-bypass-Cheat-Sheet)
 * [https://medium.com/secjuice/web-application-firewall-waf-evasion-techniques-2-125995f3e7b0](https://medium.com/secjuice/web-application-firewall-waf-evasion-techniques-2-125995f3e7b0)
 * [https://www.secjuice.com/web-application-firewall-waf-evasion/](https://www.secjuice.com/web-application-firewall-waf-evasion/)
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), aby łatwo tworzyć i **automatyzować zadania** przy użyciu najbardziej zaawansowanych narzędzi społeczności.\
-Zdobądź dostęp już dziś:
+Zdobądź Dostęp Dziś:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 <details>
 
-<summary><strong>Zacznij od zera i zostań ekspertem AWS w dziedzinie hakowania dzięki</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Dowiedz się, jak hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 

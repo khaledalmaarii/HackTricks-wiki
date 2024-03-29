@@ -10,14 +10,14 @@ Inne sposoby wsparcia HackTricks:
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), aby łatwo tworzyć i **automatyzować zadania** przy użyciu najbardziej zaawansowanych narzędzi społeczności.\
+Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), aby łatwo tworzyć i **automatyzować przepływy pracy** z wykorzystaniem najbardziej zaawansowanych narzędzi społeczności.\
 Otrzymaj dostęp już dziś:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -31,11 +31,11 @@ W systemie Windows folder OneDrive znajduje się w `\Users\<nazwa_użytkownika>\
 * Data modyfikacji
 * Liczba plików w chmurze
 * Liczba plików w folderze
-* **CID**: Unikalne ID użytkownika OneDrive
+* **CID**: Unikalny identyfikator użytkownika OneDrive
 * Czas generowania raportu
 * Rozmiar dysku twardego systemu operacyjnego
 
-Gdy już znajdziesz CID, zaleca się **wyszukiwanie plików zawierających to ID**. Możesz natrafić na pliki o nazwach: _**\<CID>.ini**_ i _**\<CID>.dat**_, które mogą zawierać interesujące informacje, takie jak nazwy plików zsynchronizowanych z OneDrive.
+Gdy już znajdziesz CID, zaleca się **wyszukiwanie plików zawierających ten identyfikator**. Możesz natrafić na pliki o nazwach: _**\<CID>.ini**_ i _**\<CID>.dat**_, które mogą zawierać interesujące informacje, takie jak nazwy plików zsynchronizowanych z OneDrive.
 
 ## Google Drive
 
@@ -75,17 +75,17 @@ Jednak główne informacje to:
 
 Oprócz tych informacji, aby odszyfrować bazy danych, potrzebujesz:
 
-* **Zaszyfrowany klucz DPAPI**: Możesz go znaleźć w rejestrze w `NTUSER.DAT\Software\Dropbox\ks\client` (wyeksportuj te dane jako binarne)
+* **Zaszyfrowany klucz DPAPI**: Możesz go znaleźć w rejestrze wewnątrz `NTUSER.DAT\Software\Dropbox\ks\client` (wyeksportuj te dane jako binarne)
 * Szyfrowane klucze główne DPAPI: Które można znaleźć w `\Users\<nazwa_użytkownika>\AppData\Roaming\Microsoft\Protect`
-* Nazwę użytkownika i hasło użytkownika systemu Windows
+* **Nazwę użytkownika** i **hasło** użytkownika systemu Windows
 
 Następnie możesz użyć narzędzia [**DataProtectionDecryptor**](https://nirsoft.net/utils/dpapi\_data\_decryptor.html)**:**
 
 ![](<../../../.gitbook/assets/image (448).png>)
 
-Jeśli wszystko pójdzie zgodnie z oczekiwaniami, narzędzie wskaże **klucz główny**, który musisz **użyć do odzyskania oryginalnego**. Aby odzyskać oryginalny, po prostu użyj tego [przepisu cyber\_chef](https://gchq.github.io/CyberChef/#recipe=Derive\_PBKDF2\_key\(%7B'option':'Hex','string':'98FD6A76ECB87DE8DAB4623123402167'%7D,128,1066,'SHA1',%7B'option':'Hex','string':'0D638C092E8B82FC452883F95F355B8E'%7D\)) wpisując klucz główny jako "hasło" w przepisie.
+Jeśli wszystko pójdzie zgodnie z oczekiwaniami, narzędzie wskaże **klucz główny**, który musisz **użyć do odzyskania oryginalnego**. Aby odzyskać oryginalny klucz, po prostu użyj tego [przepisu cyber\_chef](https://gchq.github.io/CyberChef/#recipe=Derive\_PBKDF2\_key\(%7B'option':'Hex','string':'98FD6A76ECB87DE8DAB4623123402167'%7D,128,1066,'SHA1',%7B'option':'Hex','string':'0D638C092E8B82FC452883F95F355B8E'%7D\) wpisując klucz główny jako "hasło" w przepisie.
 
-Otrzymany szesnastkowy kod to ostateczny klucz używany do szyfrowania baz danych, które można odszyfrować za pomocą:
+Wynikowy szesnastkowy kod to ostateczny klucz używany do szyfrowania baz danych, które można odszyfrować za pomocą:
 ```bash
 sqlite -k <Obtained Key> config.dbx ".backup config.db" #This decompress the config.dbx and creates a clear text backup in config.db
 ```
@@ -94,7 +94,7 @@ Baza danych **`config.dbx`** zawiera:
 - **Email**: Email użytkownika
 - **usernamedisplayname**: Nazwa użytkownika
 - **dropbox\_path**: Ścieżka, gdzie znajduje się folder Dropbox
-- **Host\_id: Hash** używany do uwierzytelniania w chmurze. Można go wycofać tylko z poziomu sieci.
+- **Host\_id: Hash** używany do uwierzytelnienia w chmurze. Można go wycofać tylko z poziomu sieci.
 - **Root\_ns**: Identyfikator użytkownika
 
 Baza danych **`filecache.db`** zawiera informacje o wszystkich plikach i folderach zsynchronizowanych z Dropbox. Tabela `File_journal` zawiera najbardziej przydatne informacje:
@@ -108,15 +108,15 @@ Inne tabele w tej bazie danych zawierają bardziej interesujące informacje:
 
 - **block\_cache**: skrót wszystkich plików i folderów Dropbox
 - **block\_ref**: Powiązanie identyfikatora skrótu z tabeli `block_cache` z identyfikatorem pliku w tabeli `file_journal`
-- **mount\_table**: Dzielone foldery Dropbox
+- **mount\_table**: Dzielenie folderów Dropbox
 - **deleted\_fields**: Usunięte pliki Dropbox
 - **date\_added**
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), aby łatwo tworzyć i **automatyzować zadania** przy użyciu najbardziej zaawansowanych narzędzi społeczności na świecie.\
-Otrzymaj dostęp już dziś:
+Zdobądź dostęp już dziś:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -127,9 +127,9 @@ Otrzymaj dostęp już dziś:
 Inne sposoby wsparcia HackTricks:
 
 - Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-- Kup [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+- Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 - Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-- **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-- **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
+- **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+- **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
 
 </details>

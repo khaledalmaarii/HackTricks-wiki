@@ -2,29 +2,29 @@
 
 <details>
 
-<summary><strong>Dowiedz się, jak hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Zacznij naukę hakowania AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 
 * Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* Kup [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
 
 </details>
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), aby łatwo budować i **automatyzować przepływy pracy** zasilane przez najbardziej zaawansowane narzędzia społeczności na świecie.\
+Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), aby łatwo budować i **automatyzować przepływy pracy** zasilane przez najbardziej zaawansowane narzędzia społecznościowe na świecie.\
 Zdobądź dostęp już dziś:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 ## Co to jest Certyfikat
 
-**Certyfikat klucza publicznego** to cyfrowe ID używane w kryptografii do potwierdzenia, że ktoś jest właścicielem klucza publicznego. Zawiera szczegóły klucza, tożsamość właściciela (podmiot) oraz cyfrowy podpis od zaufanego organu (wydawcy). Jeśli oprogramowanie ufa wydawcy i podpis jest ważny, możliwa jest bezpieczna komunikacja z właścicielem klucza.
+**Certyfikat klucza publicznego** to cyfrowe ID używane w kryptografii do potwierdzenia, że ktoś jest właścicielem klucza publicznego. Zawiera szczegóły klucza, tożsamość właściciela (podmiotu) oraz cyfrowy podpis od zaufanego organu (wydawcy). Jeśli oprogramowanie ufa wydawcy i podpis jest ważny, możliwa jest bezpieczna komunikacja z właścicielem klucza.
 
 Certyfikaty są głównie wydawane przez [organizacje certyfikujące](https://en.wikipedia.org/wiki/Certificate\_authority) (CAs) w konfiguracji [infrastruktury klucza publicznego](https://en.wikipedia.org/wiki/Public-key\_infrastructure) (PKI). Inną metodą jest [sieć zaufania](https://en.wikipedia.org/wiki/Web\_of\_trust), gdzie użytkownicy bezpośrednio weryfikują klucze innych. Powszechnym formatem certyfikatów jest [X.509](https://en.wikipedia.org/wiki/X.509), który można dostosować do konkretnych potrzeb, zgodnie z RFC 5280.
 
@@ -32,27 +32,27 @@ Certyfikaty są głównie wydawane przez [organizacje certyfikujące](https://en
 
 ### **Wspólne pola w certyfikatach x509**
 
-W certyfikatach x509 kilka **pól** odgrywa kluczową rolę w zapewnieniu ważności i bezpieczeństwa certyfikatu. Oto rozbudowa tych pól:
+W certyfikatach x509 kilka **pól** odgrywa kluczową rolę w zapewnieniu ważności i bezpieczeństwa certyfikatu. Oto ich rozbudowa:
 
 * **Numer wersji** oznacza wersję formatu x509.
 * **Numer seryjny** jednoznacznie identyfikuje certyfikat w systemie Organizacji Certyfikującej (CA), głównie do śledzenia unieważnień.
-* Pole **Podmiotu** reprezentuje właściciela certyfikatu, który może być maszyną, osobą fizyczną lub organizacją. Zawiera szczegółowe identyfikatory, takie jak:
+* Pole **Podmiotu** reprezentuje właściciela certyfikatu, który może być maszyną, osobą fizyczną lub organizacją. Obejmuje szczegółowe identyfikatory, takie jak:
 * **Nazwa wspólna (CN)**: Domeny objęte certyfikatem.
-* **Kraj (C)**, **Miejscowość (L)**, **Stan lub Prowincja (ST, S, lub P)**, **Organizacja (O)** oraz **Jednostka Organizacyjna (OU)** dostarczają szczegółów geograficznych i organizacyjnych.
+* **Kraj (C)**, **Miejscowość (L)**, **Stan lub Prowincja (ST, S, lub P)**, **Organizacja (O)** i **Jednostka Organizacyjna (OU)** dostarczają informacje geograficzne i organizacyjne.
 * **Nazwa Wyróżniająca (DN)** zawiera pełną identyfikację podmiotu.
 * **Wydawca** określa, kto zweryfikował i podpisał certyfikat, zawierając podobne podpola jak Podmiot dla CA.
 * **Okres ważności** jest oznaczony znacznikami **Nie Przed** i **Nie Po**, zapewniając, że certyfikat nie jest używany przed lub po określonej dacie.
-* Sekcja **Klucza Publicznego**, kluczowa dla bezpieczeństwa certyfikatu, określa algorytm, rozmiar i inne techniczne szczegóły klucza publicznego.
-* **Rozszerzenia x509v3** zwiększają funkcjonalność certyfikatu, określając **Użycie Klucza**, **Rozszerzone Użycie Klucza**, **Alternatywną Nazwę Podmiotu** i inne właściwości, aby dostroić zastosowanie certyfikatu.
+* Sekcja **Klucza Publicznego**, istotna dla bezpieczeństwa certyfikatu, określa algorytm, rozmiar i inne techniczne szczegóły klucza publicznego.
+* **Rozszerzenia x509v3** zwiększają funkcjonalność certyfikatu, określając **Użycie Klucza**, **Rozszerzone Użycie Klucza**, **Alternatywną Nazwę Podmiotu** i inne właściwości do dostrojenia zastosowania certyfikatu.
 
 #### **Użycie Klucza i Rozszerzenia**
 
-* **Użycie Klucza** identyfikuje kryptograficzne zastosowania klucza publicznego, takie jak podpisy cyfrowe lub szyfrowanie klucza.
+* **Użycie Klucza** identyfikuje zastosowania kryptograficzne klucza publicznego, takie jak podpisywanie cyfrowe lub szyfrowanie klucza.
 * **Rozszerzone Użycie Klucza** dalszo zawęża przypadki użycia certyfikatu, np. do uwierzytelniania serwera TLS.
-* **Alternatywna Nazwa Podmiotu** i **Podstawowy Ogranicznik** definiują dodatkowe nazwy hostów objęte certyfikatem oraz czy jest to certyfikat CA czy jednostki końcowej.
-* Identyfikatory, takie jak **Identyfikator Klucza Podmiotu** i **Identyfikator Klucza Władzy**, zapewniają unikalność i możliwość śledzenia kluczy.
-* **Dostęp do Informacji o Władzy** i **Punkty Dystrybucji Listy Unieważnień (CRL)** zapewniają ścieżki do weryfikacji wydającego CA i sprawdzenia statusu unieważnienia certyfikatu.
-* **CT Precertificate SCTs** oferują dzienniki transparentności, kluczowe dla publicznego zaufania do certyfikatu.
+* **Alternatywna Nazwa Podmiotu** i **Podstawowy Ograniczenie** definiują dodatkowe nazwy hostów objęte certyfikatem oraz czy jest to certyfikat CA czy jednostki końcowej.
+* Identyfikatory, takie jak **Identyfikator Klucza Podmiotu** i **Identyfikator Klucza Wydawcy**, zapewniają unikalność i możliwość śledzenia kluczy.
+* **Dostęp do Informacji o Wydawcy** i **Punkty Dystrybucji Listy Unieważnień (CRL)** zapewniają ścieżki do weryfikacji wydającego CA i sprawdzenia statusu unieważnienia certyfikatu.
+* **CT Precertificate SCTs** oferują dzienniki przejrzystości, istotne dla publicznego zaufania do certyfikatu.
 ```python
 # Example of accessing and using x509 certificate fields programmatically:
 from cryptography import x509
@@ -88,7 +88,7 @@ Transparentność Certyfikatu pomaga zwalczać zagrożenia związane z certyfika
 
 #### **Rejestry Certyfikatów**
 
-Rejestry certyfikatów są publicznie audytowalnymi, tylko do odczytu rekordami certyfikatów, utrzymywanymi przez usługi sieciowe. Te rejestry dostarczają dowodów kryptograficznych do celów audytu. Zarówno organy wydające certyfikaty, jak i publiczność, mogą przesyłać certyfikaty do tych rejestrów lub zapytywać o weryfikację. Chociaż dokładna liczba serwerów rejestru nie jest ustalona, spodziewa się, że będzie ich mniej niż tysiąc na całym świecie. Te serwery mogą być niezależnie zarządzane przez CA, dostawców usług internetowych lub dowolną zainteresowaną jednostkę.
+Rejestry certyfikatów są publicznie audytowalnymi, tylko do odczytu rekordami certyfikatów, utrzymywanymi przez usługi sieciowe. Te rejestry dostarczają dowodów kryptograficznych do celów audytu. Zarówno organy wydające certyfikaty, jak i publiczność, mogą przesyłać certyfikaty do tych rejestrów lub zapytać o ich weryfikację. Chociaż dokładna liczba serwerów rejestru nie jest ustalona, spodziewa się, że będzie ich mniej niż tysiąc na całym świecie. Te serwery mogą być niezależnie zarządzane przez CA, dostawców usług internetowych lub dowolną zainteresowaną jednostkę.
 
 #### **Zapytanie**
 
@@ -136,11 +136,12 @@ openssl x509 -in certificatename.cer -outform PEM -out certificatename.pem
 openssl x509 -outform der -in certificatename.pem -out certificatename.der
 ```
 * **DER to PEM**  
-* **DER na PEM**
+  * **DER na PEM**
 ```bash
 openssl x509 -inform der -in certificatename.der -out certificatename.pem
 ```
-* **PEM do P7B**
+* **PEM to P7B**  
+  * **PEM na P7B**
 ```bash
 openssl crl2pkcs7 -nocrl -certfile certificatename.pem -out certificatename.p7b -certfile CACert.cer
 ```
@@ -150,11 +151,11 @@ openssl pkcs7 -print_certs -in certificatename.p7b -out certificatename.pem
 ```
 **Konwersje PFX** są kluczowe dla zarządzania certyfikatami w systemie Windows:
 
-* **PFX do PEM**
+* **PFX na PEM**
 ```bash
 openssl pkcs12 -in certificatename.pfx -out certificatename.pem
 ```
-* **PFX do PKCS#8** wymaga dwóch kroków:
+* **PFX do PKCS#8** wymaga wykonania dwóch kroków:
 1. Konwersja PFX do PEM
 ```bash
 openssl pkcs12 -in certificatename.pfx -nocerts -nodes -out certificatename.pem
@@ -174,7 +175,7 @@ openssl pkcs12 -export -in certificatename.cer -inkey privateKey.key -out certif
 ```
 ***
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), aby łatwo budować i **automatyzować przepływy pracy** zasilane przez najbardziej zaawansowane narzędzia społecznościowe na świecie.\
