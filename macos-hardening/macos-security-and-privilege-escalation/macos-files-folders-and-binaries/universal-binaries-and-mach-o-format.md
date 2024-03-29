@@ -2,23 +2,23 @@
 
 <details>
 
-<summary><strong>AWS hackleme konusunda sıfırdan kahramana kadar öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile!</strong></summary>
+<summary><strong>Sıfırdan kahraman olana kadar AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile!</strong></summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na (https://github.com/sponsors/carlospolop) göz atın!
+* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na(https://github.com/sponsors/carlospolop) göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Ailesi**]'ni (https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**]'in (https://opensea.io/collection/the-peass-family) bulunduğu koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarınızı paylaşarak** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR göndererek katkıda bulunun.
+* [**The PEASS Ailesi**]'ni(https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**]'i(https://opensea.io/collection/the-peass-family) içeren koleksiyonumuz
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi Twitter'da 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)'da **takip edin**.
+* **Hacking püf noktalarınızı göndererek HackTricks** ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks) github depolarına PR'lar gönderin.
 
 </details>
 
 ## Temel Bilgiler
 
-Mac OS ikili dosyalar genellikle **evrensel ikili dosyalar** olarak derlenir. Bir **evrensel ikili dosya**, **aynı dosyada birden fazla mimariyi destekleyebilir**.
+Mac OS ikili dosyaları genellikle **evrensel ikili dosyalar** olarak derlenir. Bir **evrensel ikili dosya**, **aynı dosyada birden fazla mimariyi destekleyebilir**.
 
-Bu ikili dosyalar genellikle **Mach-O yapısını** takip eder, bu yapının temel olarak şunlardan oluşur:
+Bu ikili dosyalar, genellikle **Mach-O yapısını** takip eder, bu yapının temel olarak şunlardan oluşur:
 
 * Başlık
 * Yükleme Komutları
@@ -47,7 +47,7 @@ uint32_t	align;		/* 2'nin üssü olarak hizalama */
 };
 </code></pre>
 
-Başlık, **sihirli** baytları ve dosyanın içerdiği **mimari sayısını** (`nfat_arch`) takip eden her mimarinin bir `fat_arch` yapısına sahip olduğu baytları içerir.
+Başlık, **sihirli** baytları ve dosyanın içerdiği **mimari sayısını** (`nfat_arch`) takip eden her mimarinin bir `fat_arch` yapısına sahip olduğu **sayıyı** içerir.
 
 Şununla kontrol edin:
 
@@ -84,7 +84,7 @@ Genellikle 2 mimari için derlenen bir evrensel ikili dosya, yalnızca 1 mimari 
 
 ## **Mach-O Başlık**
 
-Başlık, dosya hakkında temel bilgiler içerir, örneğin dosyayı Mach-O dosyası olarak tanımlayan sihirli baytlar ve hedef mimari hakkında bilgiler. Bu bilgileri şurada bulabilirsiniz: `mdfind loader.h | grep -i mach-o | grep -E "loader.h$"`
+Başlık, dosya hakkında temel bilgiler içerir, örneğin sihirli baytlarla dosyayı Mach-O dosyası olarak tanımlamak ve hedef mimari hakkında bilgi içerir. Bunları şurada bulabilirsiniz: `mdfind loader.h | grep -i mach-o | grep -E "loader.h$"`
 ```c
 #define	MH_MAGIC	0xfeedface	/* the mach magic number */
 #define MH_CIGAM	0xcefaedfe	/* NXSwapInt(MH_MAGIC) */
@@ -114,8 +114,8 @@ uint32_t	reserved;	/* reserved */
 **Dosya Türleri**:
 
 * MH\_EXECUTE (0x2): Standart Mach-O yürütülebilir dosyası
-* MH\_DYLIB (0x6): Bir Mach-O dinamik bağlantılı kütüphane (.dylib)
-* MH\_BUNDLE (0x8): Bir Mach-O paketi (.bundle)
+* MH\_DYLIB (0x6): Bir Mach-O dinamik bağlantılı kütüphane (örneğin .dylib)
+* MH\_BUNDLE (0x8): Bir Mach-O paketi (örneğin .bundle)
 ```bash
 # Checking the mac header of a binary
 otool -arch arm64e -hv /bin/ls
@@ -127,9 +127,9 @@ Veya [Mach-O View](https://sourceforge.net/projects/machoview/) kullanarak:
 
 <figure><img src="../../../.gitbook/assets/image (4) (1) (4).png" alt=""><figcaption></figcaption></figure>
 
-## **Mach-O Yükleme komutları**
+## **Mach-O Yükleme Komutları**
 
-**Dosyanın bellekteki düzeni** burada belirtilir, **sembol tablosunun konumu**, yürütme başlangıcında ana iş parçacığının bağlamı ve gerekli **paylaşılan kütüphaneler** detaylandırılır. Talimatlar, ikincil belleğe yüklenen ikili dosyanın yükleme süreci hakkında dinamik yükleyici **(dyld)** için sağlanır.
+**Dosyanın bellekteki düzeni** burada belirtilir, **sembol tablosunun konumu**, yürütme başlangıcında ana iş parçacığının bağlamı ve gerekli **paylaşılan kütüphaneler** detaylandırılır. Talimatlar, ikincil yükleyici **(dyld)** tarafından binary'nin belleğe yüklenme sürecine ilişkin olarak sağlanır.
 
 Kullanılan yapı, belirtilen **`loader.h`** içinde tanımlanan **load\_command** yapısıdır:
 ```objectivec
@@ -146,11 +146,11 @@ Sistem farklı şekillerde işlediği yaklaşık **50 farklı yükleme komutu t�
 Temelde, bu tür Yükleme Komutları, ikili dosya yürütüldüğünde **\_\_TEXT** (yürütülebilir kod) ve **\_\_DATA** (işlem için veri) **segmentlerini** yüklemenin **veri bölümünde belirtilen ofsetlere göre** nasıl yükleneceğini tanımlar.
 {% endhint %}
 
-Bu komutlar, bir işlemin yürütüldüğünde **sanal bellek alanına eşlenen segmentleri tanımlar**.
+Bu komutlar, bir işlem yürütüldüğünde **sanal bellek alanına eşlenen segmentleri tanımlar**.
 
-**Farklı türlerde** segmentler bulunmaktadır, örneğin bir programın yürütülebilir kodunu içeren **\_\_TEXT** segmenti ve işlem tarafından kullanılan verileri içeren **\_\_DATA** segmenti. Bu **segmentler**, Mach-O dosyasının veri bölümünde bulunmaktadır.
+**\_\_TEXT** segmentini, bir programın yürütülebilir kodunu içeren ve işlem tarafından kullanılan verileri içeren **\_\_DATA** segmenti gibi **farklı türlerde segmentler** bulunmaktadır. Bu **segmentler**, Mach-O dosyasının veri bölümünde bulunur.
 
-**Her segment**, daha fazla **bölünebilir** olan **birçok bölüme** ayrılabilir. **Yükleme komutu yapısı**, ilgili segment içindeki **bu bölümler hakkında bilgi** içerir.
+**Her segment**, daha fazla **bölümlere** ayrılabilir. **Yükleme komutu yapısı**, ilgili segment içindeki **bu bölümler hakkında bilgi** içerir.
 
 Başlıkta önce **segment başlığını** bulursunuz:
 
@@ -169,11 +169,11 @@ int32_t		initprot;	/* başlangıç VM koruması */
 };
 </code></pre>
 
-Segment başlığının örneği:
+Segment başlığı örneği:
 
 <figure><img src="../../../.gitbook/assets/image (2) (2) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Bu başlık, **ardından görünen başlıkları olan bölümlerin sayısını** tanımlar:
+Bu başlık, **ardından başlıkları görünen bölümlerin sayısını** tanımlar:
 ```c
 struct section_64 { /* for 64-bit architectures */
 char		sectname[16];	/* name of this section */
@@ -196,23 +196,23 @@ uint32_t	reserved3;	/* reserved */
 
 Eğer **bölüm ofseti** (0x37DC) + **mimarinin başladığı ofset** eklenirse, bu durumda `0x18000` --> `0x37DC + 0x18000 = 0x1B7DC`
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Ayrıca **başlık bilgilerini** **komut satırından** almak da mümkündür:
 ```bash
 otool -lv /bin/ls
 ```
 ```markdown
-Bu komut tarafından yüklenen yaygın bölümler:
+Bu cmd tarafından yüklenen yaygın bölümler:
 
-* **`__PAGEZERO`:** Çekirdeğe **adres sıfırı**nı **haritalamaması** için talimat verir, böylece bu sayfada **okunamaz, yazılamaz veya yürütülemez**. Yapıdaki maxprot ve minprot değişkenleri sıfıra ayarlanır, bu sayfada **okuma-yazma-yürütme hakları olmadığını** belirtir.
+* **`__PAGEZERO`:** Çekirdeğe **adres sıfırı**nı **haritalamayı** emreder, böylece bu sayfada **okunamaz, yazılamaz veya yürütülemez**. Yapıdaki maxprot ve minprot değişkenleri sıfıra ayarlanır, bu sayfada **okuma-yazma-yürütme hakları olmadığını** belirtir.
 * Bu tahsis, **NULL işaretçi sızdırmazlıklarını hafifletmek** için önemlidir.
-* **`__TEXT`**: **Okunabilir** ve **yürütülebilir** izinlere sahip **yürütülebilir** **kod** içerir (yazılabilir değil)**.** Bu segmentin yaygın bölümleri:
+* **`__TEXT`**: **Yürütülebilir** **kod** içerir ve **okuma** ve **yürütme** izinlerine sahiptir (yazılabilir değil)**.** Bu segmentin yaygın bölümleri:
 * `__text`: Derlenmiş ikili kod
 * `__const`: Sabit veri
 * `__cstring`: Dize sabitleri
 * `__stubs` ve `__stubs_helper`: Dinamik kitaplık yükleme sürecinde rol oynar
-* **`__DATA`**: **Okunabilir** ve **yazılabilir** verileri içerir (yürütülebilir değil)**.**
+* **`__DATA`**: **Okunabilir** ve **yazılabilir** verileri içerir (yürütülemez)**.**
 * `__data`: Başlatılmış küresel değişkenler
 * `__bss`: Başlatılmamış statik değişkenler
 * `__objc_*` (\_\_objc\_classlist, \_\_objc\_protolist, vb.): Objective-C çalışma zamanı tarafından kullanılan bilgiler
@@ -221,22 +221,22 @@ Bu komut tarafından yüklenen yaygın bölümler:
 
 ### **`LC_MAIN`**
 
-**entryoff özniteliğindeki** giriş noktasını içerir. Yükleme zamanında, **dyld** bu değeri (bellekteki) **ikili tabanına ekler**, ardından bu talimata atlayarak ikilinin kodunun yürütülmesini başlatır.
+**entryoff özniteliğindeki** giriş noktasını içerir. Yükleme zamanında, **dyld** sadece bu değeri (bellekteki) **ikili tabanına ekler**, ardından bu talimata atlayarak ikilinin kodunun yürütmesini başlatır.
 
 ### **LC\_CODE\_SIGNATURE**
 
-Macho-O dosyasının **kod imzası hakkında bilgi** içerir. Yalnızca **imza bloğuna işaret eden bir ofset** içerir. Bu genellikle dosyanın sonunda bulunur.\
+Macho-O dosyasının **kod imzası hakkında bilgileri** içerir. Yalnızca **imza bloğuna işaret eden bir ofset** içerir. Bu genellikle dosyanın sonunda bulunur.\
 Ancak, bu bölümle ilgili bazı bilgileri [**bu blog yazısında**](https://davedelong.com/blog/2018/01/10/reading-your-own-entitlements/) ve bu [**gists**](https://gist.github.com/carlospolop/ef26f8eb9fafd4bc22e69e1a32b81da4) bulabilirsiniz.
 
 ### **LC\_LOAD\_DYLINKER**
 
-Paylaşılan kitaplıkları işlem adres alanına haritalayan dinamik bağlayıcı yürütülebilir dosyanın **yolunu içerir**. **Değer her zaman `/usr/lib/dyld` olarak ayarlanır**. macOS'ta dylib eşlemesi **çekirdek modunda değil, kullanıcı modunda** gerçekleşir.
+Paylaşılan kitaplıkları işlem adres alanına haritalayan dinamik bağlayıcı yürütülebilir dosyasının **yolunu içerir**. **Değer her zaman `/usr/lib/dyld` olarak ayarlanır**. macOS'ta dylib eşlemesi **çekirdek modunda değil, kullanıcı modunda** gerçekleşir.
 
 ### **`LC_LOAD_DYLIB`**
 
-Bu yükleme komutu, **yükleme ve bağlama talimatı veren** **dinamik** **kitaplık** bağımlılığını açıklar. Mach-O ikilisinin gerektirdiği her kitaplık için bir LC\_LOAD\_DYLIB yükleme komutu vardır.
+Bu yükleme komutu, **yükleme ve bağlama talimatını veren** **dinamik** **kitaplık** bağımlılığını açıklar. Mach-O ikilisinin gerektirdiği her kitaplık için bir LC\_LOAD\_DYLIB yükleme komutu vardır.
 
-* Bu yükleme komutu, **gerçek bağımlı dinamik kitaplığı tanımlayan** bir yapı türü olan **`dylib_command`** yapısını içerir:
+* Bu yükleme komutu, **gerçek bağımlı dinamik kitaplığı tanımlayan struct dylib içeren bir dylib_command** türünde bir yapıdır:
 ```
 ```objectivec
 struct dylib_command {
@@ -283,9 +283,9 @@ Veri, temelde yükleme komutları **LC\_SEGMENTS\_64** tarafından yüklenen tü
 
 Bu şunları içerir:
 
-* **Fonksiyon tablosu:** Program fonksiyonları hakkında bilgileri tutar.
-* **Sembol tablosu**: İkili dosya tarafından kullanılan harici fonksiyonlar hakkındaki bilgileri içerir
-* Ayrıca dahili fonksiyonları, değişken isimlerini ve daha fazlasını içerebilir.
+* **Fonksiyon tablosu:** Program fonksiyonları hakkında bilgiler içerir.
+* **Sembol tablosu**: İkili dosya tarafından kullanılan harici fonksiyonlar hakkında bilgi içerir
+* Ayrıca iç fonksiyonları, değişken adlarını ve daha fazlasını içerebilir.
 
 Bunu kontrol etmek için [**Mach-O View**](https://sourceforge.net/projects/machoview/) aracını kullanabilirsiniz:
 
@@ -299,14 +299,14 @@ size -m /bin/ls
 
 <özet>
 
-<strong>AWS hackleme konusunda sıfırdan kahramana kadar öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<strong>AWS hacklemeyi sıfırdan kahramana öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile</strong>!
 
-HackTricks'ı desteklemenin diğer yolları:
+Diğer HackTricks'i destekleme yolları:
 
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na (https://github.com/sponsors/carlospolop) göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Ailesi**]'ni (https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**]'i (https://opensea.io/collection/the-peass-family) içeren koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**'da takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR göndererek HackTricks** (https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına. 
+* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na göz atın (https://github.com/sponsors/carlospolop)!
+* [**Resmi PEASS & HackTricks ürünleri**]'ni alın (https://peass.creator-spring.com)
+* [**The PEASS Ailesi**]'ni keşfedin (https://opensea.io/collection/the-peass-family), özel [**NFT'lerimiz**]'in bulunduğu koleksiyonumuz
+* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Hackleme hilelerinizi paylaşarak PR'lar göndererek HackTricks** (https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına.
 
 </detaylar>

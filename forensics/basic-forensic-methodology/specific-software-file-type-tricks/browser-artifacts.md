@@ -6,18 +6,18 @@
 
 HackTricks'ı desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na(https://github.com/sponsors/carlospolop) göz atın!
+* [**Resmi PEASS & HackTricks ürünleri**](https://peass.creator-spring.com)'ni edinin
+* [**PEASS Ailesi**]'ni(https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**]'i(https://opensea.io/collection/the-peass-family) içeren koleksiyonumuz
 * **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'da takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* **Hacking püf noktalarınızı göndererek HackTricks ve HackTricks Cloud** github depolarına PR'lar göndererek paylaşın.
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Dünyanın **en gelişmiş topluluk araçları** tarafından desteklenen **iş akışlarını kolayca oluşturmak ve otomatikleştirmek** için [**Trickest'i**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kullanın.\
+[**Trickest**]'i(https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kullanarak dünyanın **en gelişmiş topluluk araçları** tarafından desteklenen **iş akışlarını kolayca oluşturun ve otomatikleştirin**.\
 Bugün Erişim Alın:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -37,7 +37,7 @@ Tarayıcı kalıntıları, web tarayıcıları tarafından depolanan çeşitli v
 * **Favikonlar**: Sitelerle ilişkilendirilen simgeler, sekmelerde ve yer imlerinde görünür, kullanıcı ziyaretleri hakkında ek bilgiler için faydalıdır.
 * **Tarayıcı Oturumları**: Açık tarayıcı oturumlarıyla ilgili veriler.
 * **İndirmeler**: Tarayıcı aracılığıyla indirilen dosyaların kayıtları.
-* **Form Verileri**: Web formlarına girilen bilgiler, gelecekte otomatik doldurma önerileri için kaydedilir.
+* **Form Verileri**: Web formlarına girilen bilgiler, gelecekteki otomatik doldurma önerileri için kaydedilir.
 * **Küçük Resimler**: Web sitelerinin önizleme görüntüleri.
 * **Özel Sözlük.txt**: Kullanıcının tarayıcının sözlüğüne eklediği kelimeler.
 
@@ -56,7 +56,7 @@ Her profil klasöründe, birkaç önemli dosya bulabilirsiniz:
 * **places.sqlite**: Geçmişi, yer imlerini ve indirmeleri saklar. Windows'ta [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html) gibi araçlar geçmiş verilerine erişebilir.
 * Geçmiş ve indirme bilgilerini çıkarmak için belirli SQL sorgularını kullanın.
 * **bookmarkbackups**: Yer imlerinin yedeklerini içerir.
-* **formhistory.sqlite**: Web formu verilerini saklar.
+* **formhistory.sqlite**: Web form verilerini saklar.
 * **handlers.json**: Protokol işleyicilerini yönetir.
 * **persdict.dat**: Özel sözlük kelimeleri.
 * **addons.json** ve **extensions.sqlite**: Yüklenen eklenti ve uzantı bilgileri.
@@ -64,15 +64,15 @@ Her profil klasöründe, birkaç önemli dosya bulabilirsiniz:
 * **cache2/entries** veya **startupCache**: Önbellek verileri, [MozillaCacheView](https://www.nirsoft.net/utils/mozilla\_cache\_viewer.html) gibi araçlar aracılığıyla erişilebilir.
 * **favicons.sqlite**: Favikonları saklar.
 * **prefs.js**: Kullanıcı ayarları ve tercihleri.
-* **downloads.sqlite**: Eski indirme veritabanı, şimdi places.sqlite'a entegre edilmiştir.
+* **downloads.sqlite**: Eski indirme veritabanı, şimdi places.sqlite'e entegre edilmiştir.
 * **thumbnails**: Web sitesi küçük resimleri.
 * **logins.json**: Şifrelenmiş giriş bilgileri.
 * **key4.db** veya **key3.db**: Hassas bilgileri güvence altına alan şifreleme anahtarlarını saklar.
 
-Ayrıca, tarayıcının anti-phishing ayarlarını kontrol etmek için `prefs.js` dosyasında `browser.safebrowsing` girişlerini arayarak güvenli gezinme özelliklerinin etkin veya devre dışı bırakılıp bırakılmadığını kontrol edebilirsiniz.
+Ayrıca, tarayıcının anti-phishing ayarlarını kontrol etmek için `prefs.js` dosyasında `browser.safebrowsing` girişlerini arayarak güvenli gezinme özelliklerinin etkin veya devre dışı bırakıldığını belirleyebilirsiniz.
 
-Ana şifreyi çözmek için şu adresten [https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt) yararlanabilirsiniz\
-Aşağıdaki betik ve çağrı ile kaba kuvvetle bir şifre dosyası belirleyebilirsiniz:
+Ana şifreyi çözmek için şu adresten yararlanabilirsiniz: [https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt)\
+Aşağıdaki betik ve çağrı ile bir şifre dosyası belirterek kaba kuvvet uygulayabilirsiniz:
 
 {% code title="brute.sh" %}
 ```bash
@@ -101,13 +101,13 @@ Bu dizinlerde, kullanıcı verilerinin çoğu **Default/** veya **ChromeDefaultD
 - **Bookmarks**: Kullanıcı yer imleri.
 - **Web Data**: Form geçmişini içerir.
 - **Favicons**: Web sitesi faviconlarını saklar.
-- **Login Data**: Kullanıcı adları ve şifreler gibi giriş kimlik bilgilerini içerir.
+- **Login Data**: Kullanıcı adları ve şifreler gibi giriş kimliklerini içerir.
 - **Current Session**/**Current Tabs**: Geçerli gezinme oturumu ve açık sekmeler hakkında veriler.
-- **Last Session**/**Last Tabs**: Chrome kapatılmadan önceki son oturum sırasında aktif olan siteler hakkında bilgi.
+- **Last Session**/**Last Tabs**: Chrome kapatılmadan önceki son oturumda aktif olan siteler hakkında bilgi.
 - **Extensions**: Tarayıcı uzantıları ve eklentileri için dizinler.
-- **Thumbnails**: Web sitesi minik resimlerini saklar.
+- **Thumbnails**: Web sitesi küçük resimlerini saklar.
 - **Preferences**: Eklentiler, uzantılar, açılır pencereler, bildirimler ve daha fazlası için ayarları içeren zengin bir dosya.
-- **Tarayıcının yerleşik anti-phishing'i**: Anti-phishing ve kötü amaçlı yazılım korumasının etkin olup olmadığını kontrol etmek için `grep 'safebrowsing' ~/Library/Application Support/Google/Chrome/Default/Preferences` komutunu çalıştırın. Çıktıda `{"enabled: true,"}` arayın.
+- **Tarayıcının yerleşik anti-phishing'i**: Anti-phishing ve kötü amaçlı yazılım korumasının etkin olup olmadığını kontrol etmek için `grep 'safebrowsing' ~/Library/Application Support/Google/Chrome/Default/Preferences` komutunu çalıştırın. Çıktıda `{"enabled: true,"}` ifadesini arayın.
 
 ## **SQLite DB Veri Kurtarma**
 
@@ -119,19 +119,19 @@ Internet Explorer 11, depolanan bilgileri ve ilgili ayrıntıları kolay erişim
 
 ### Metadata Depolama
 
-Internet Explorer için metadata `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` (VX V01, V16 veya V24 olabilir) içinde saklanır. Buna ek olarak, `V01.log` dosyası, `WebcacheVX.data` ile değişiklik zamanı uyumsuzluklarını gösterebilir, bu da `esentutl /r V01 /d` kullanarak onarım gerektiğini gösterebilir. Bu ESE veritabanında bulunan metadata, photorec ve [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html) gibi araçlar kullanılarak kurtarılabilir ve incelenebilir. **Containers** tablosu içinde, her veri segmentinin depolandığı belirli tabloları veya konteynerleri ayırt edebilirsiniz, Skype gibi diğer Microsoft araçları için önbellek ayrıntılarını içerir.
+Internet Explorer için metadata `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` (VX V01, V16 veya V24 olabilir) içinde saklanır. Buna ek olarak, `V01.log` dosyası, `WebcacheVX.data` ile değişiklik zamanı uyumsuzluklarını gösterebilir, bu durumda `esentutl /r V01 /d` kullanılarak onarım yapılması gerekebilir. Bu ESE veritabanında bulunan metadata, photorec ve [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html) gibi araçlar kullanılarak kurtarılabilir ve incelenebilir. **Containers** tablosu içinde, her veri segmentinin depolandığı belirli tabloları veya konteynerleri ayırt edebilir ve Skype gibi diğer Microsoft araçları için önbellek ayrıntılarını görebilirsiniz.
 
 ### Önbellek İnceleme
 
-[IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html) aracı, önbellek incelemesine olanak tanır, önbellek veri çıkarma klasör konumunu gerektirir. Önbellek için metadata, dosya adı, dizin, erişim sayısı, URL kökeni ve önbellek oluşturma, erişim, değiştirme ve sona erme zamanlarını gösteren zaman damgalarını içerir.
+[IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html) aracı, önbellek incelemesine olanak tanır ve önbellek veri çıkarma klasör konumunu gerektirir. Önbellek için metadata, dosya adı, dizin, erişim sayısı, URL kaynağı ve önbellek oluşturma, erişim, değiştirme ve sona erme zamanlarını gösteren zaman damgalarını içerir.
 
-### Çerez Yönetimi
+### Çerezler Yönetimi
 
-Çerezler, [IECookiesView](https://www.nirsoft.net/utils/iecookies.html) kullanılarak incelenebilir, metadata isimleri, URL'ler, erişim sayıları ve çeşitli zamanla ilgili ayrıntıları içerir. Kalıcı çerezler `%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies` içinde saklanırken, oturum çerezleri bellekte saklanır.
+Çerezler, [IECookiesView](https://www.nirsoft.net/utils/iecookies.html) kullanılarak incelenebilir ve metadata, isimler, URL'ler, erişim sayıları ve çeşitli zamanla ilgili ayrıntıları içerir. Kalıcı çerezler `%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies` içinde saklanırken, oturum çerezleri bellekte saklanır.
 
-### İndirme Ayrıntıları
+### İndirme Detayları
 
-İndirme metadata'sı [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html) ile erişilebilir, belirli konteynerler URL, dosya türü ve indirme konumu gibi verileri içerir. Fiziksel dosyalar `%userprofile%\Appdata\Roaming\Microsoft\Windows\IEDownloadHistory` altında bulunabilir.
+İndirme metadata'sı [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html) ile erişilebilir ve URL, dosya türü ve indirme konumu gibi belirli konteynerler verileri içerir. Fiziksel dosyalar `%userprofile%\Appdata\Roaming\Microsoft\Windows\IEDownloadHistory` altında bulunabilir.
 
 ### Gezinti Geçmişi
 
@@ -162,17 +162,17 @@ Safari verileri `/Users/$User/Library/Safari` içinde saklanır. Ana dosyalar ş
 - **Extensions.plist**: Safari tarayıcı uzantılarının listesi. Almak için `plutil` veya `pluginkit` kullanın.
 - **UserNotificationPermissions.plist**: Bildirim göndermeye izin verilen alanlar. Ayrıştırmak için `plutil` kullanın.
 - **LastSession.plist**: Son oturumdan sekmeler. Ayrıştırmak için `plutil` kullanın.
-- **Tarayıcının yerleşik anti-phishing'i**: `defaults read com.apple.Safari WarnAboutFraudulentWebsites` kullanarak kontrol edin. 1 yanıtı özelliğin etkin olduğunu gösterir.
+- **Tarayıcının yerleşik anti-phishing'i**: `defaults read com.apple.Safari WarnAboutFraudulentWebsites` kullanarak kontrol edin. 1 yanıtı, özelliğin etkin olduğunu gösterir.
 
 ## Opera
 
 Opera'nın verileri `/Users/$USER/Library/Application Support/com.operasoftware.Opera` içinde saklanır ve Chrome'un geçmiş ve indirme formatını paylaşır.
 
-- **Tarayıcının yerleşik anti-phishing'i**: `fraud_protection_enabled`in `true` olarak ayarlandığını kontrol ederek doğrulayın, bunu `grep` kullanarak yapabilirsiniz.
+- **Tarayıcının yerleşik anti-phishing'i**: `fraud_protection_enabled` ayarının `true` olarak ayarlanıp ayarlanmadığını `grep` kullanarak doğrulayın.
 
 Bu yollar ve komutlar, farklı web tarayıcıları tarafından depolanan gezinme verilerine erişmek ve anlamak için önemlidir.
-* Eğer **şirketinizin HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* **HackTricks'te şirketinizin reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
 * [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'da takip edin.**
+* **💬 [**Discord grubumuza**](https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubumuza**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** adresinden takip edin.**
 * **Hacking püf noktalarınızı paylaşın, PR'larınızı göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına.

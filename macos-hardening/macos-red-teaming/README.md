@@ -6,11 +6,11 @@
 
 HackTricks'ı desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamınızı görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* **Şirketinizi HackTricks'te reklamınızı görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na(https://github.com/sponsors/carlospolop) göz atın!
+* [**Resmi PEASS & HackTricks ürünleri**](https://peass.creator-spring.com)'ni edinin
+* [**PEASS Ailesi**](https://opensea.io/collection/the-peass-family)'ni keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
 * **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)'da **takip edin**.
-* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* **Hacking püf noktalarınızı göndererek HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR'lar göndererek paylaşın.
 
 </details>
 
@@ -21,7 +21,7 @@ HackTricks'ı desteklemenin diğer yolları:
 
 Yönetim platformuna erişmek için **yönetici kimlik bilgilerini ele geçirirseniz**, kötü amaçlı yazılımınızı makinelerde dağıtarak **tüm bilgisayarları potansiyel olarak tehlikeye atabilirsiniz**.
 
-MacOS ortamlarında kırmızı takım faaliyetleri için MDM'lerin nasıl çalıştığını anlamak son derece önerilir:
+MacOS ortamlarında kırmızı takım faaliyetleri için MDM'lerin nasıl çalıştığını anlamanız **şiddetle tavsiye edilir**:
 
 {% content-ref url="macos-mdm/" %}
 [macos-mdm](macos-mdm/)
@@ -29,21 +29,21 @@ MacOS ortamlarında kırmızı takım faaliyetleri için MDM'lerin nasıl çalı
 
 ### MDM'yi C2 Olarak Kullanma
 
-Bir MDM, profilleri yüklemeye, sorgulamaya veya kaldırmaya, uygulamaları yüklemeye, yerel yönetici hesapları oluşturmaya, firmware şifresi belirlemeye, FileVault anahtarını değiştirmeye izin verecektir...
+Bir MDM, profilleri yüklemeye, sorgulamaya veya kaldırmaya, uygulamaları yüklemeye, yerel yönetici hesapları oluşturmaya, firmware şifresini ayarlamaya, FileVault anahtarını değiştirmeye izin verecektir...
 
-Kendi MDM'nizi çalıştırmak için [**https://mdmcert.download/**](https://mdmcert.download/) adresinden **bir satıcı tarafından imzalanan CSR'nızı** almanız gerekmektedir. Apple cihazları için kendi MDM'nizi çalıştırmak için [**MicroMDM**](https://github.com/micromdm/micromdm) kullanabilirsiniz.
+Kendi MDM'nizi çalıştırmak için [**https://mdmcert.download/**](https://mdmcert.download/) adresinden alabileceğiniz bir **CSR'nızı bir satıcı tarafından imzalatmanız** gerekmektedir. Apple cihazları için kendi MDM'nizi çalıştırmak için [**MicroMDM**](https://github.com/micromdm/micromdm) kullanabilirsiniz.
 
-Ancak, bir uygulamayı kayıtlı bir cihaza yüklemek için hala bir geliştirici hesabı tarafından imzalanmış olması gerekmektedir... ancak, MDM kaydı sırasında **cihaz, MDM'nin SSL sertifikasını güvenilir bir CA olarak ekler**, böylece artık herhangi bir şeyi imzalayabilirsiniz.
+Ancak, kayıtlı bir cihaza uygulama yüklemek için hala bir geliştirici hesabıyla imzalanmış olması gerekmektedir... ancak, MDM kaydı sırasında **cihaz, MDM'nin SSL sertifikasını güvenilir bir CA olarak ekler**, böylece artık herhangi bir şeyi imzalayabilirsiniz.
 
-Cihazı bir MDM'ye kaydetmek için, kök olarak bir **`mobileconfig`** dosyası yüklemeniz gerekmektedir, bu dosya bir **pkg** dosyası aracılığıyla teslim edilebilir (zip içinde sıkıştırabilir ve safari'den indirildiğinde açılabilir).
+Bir cihazı MDM'ye kaydetmek için kök olarak bir **`mobileconfig`** dosyası yüklemeniz gerekmektedir, bu da bir **pkg** dosyası aracılığıyla teslim edilebilir (zip içinde sıkıştırabilir ve safari'den indirildiğinde açılabilir).
 
 **Mythic ajanı Orthrus** bu tekniği kullanır.
 
 ### JAMF PRO'yu Kötüye Kullanma
 
-JAMF, **özel betikler** (sistem yöneticisi tarafından geliştirilen betikler), **yerel yükler** (yerel hesap oluşturma, EFI şifresi belirleme, dosya/işlem izleme...) ve **MDM** (cihaz yapılandırmaları, cihaz sertifikaları...) çalıştırabilir.
+JAMF, **özel betikler** (sistem yöneticisi tarafından geliştirilen betikler), **yerel yükler** (yerel hesap oluşturma, EFI şifresi ayarlama, dosya/işlem izleme...) ve **MDM** (cihaz yapılandırmaları, cihaz sertifikaları...) çalıştırabilir.
 
-#### JAMF otomatik kayıt
+#### JAMF kendi kaydı
 
 Öz-kayıt etkinleştirilmiş bir sayfaya gitmek için `https://<şirket-adı>.jamfcloud.com/enroll/` gibi bir sayfaya gidin. Eğer etkinleştirilmişse **erişmek için kimlik bilgileri isteyebilir**.
 
@@ -55,14 +55,14 @@ Ayrıca, uygun kimlik bilgileri bulduktan sonra diğer kullanıcı adlarını ka
 
 #### JAMF cihaz Kimlik Doğrulama
 
-<figure><img src="../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-**`jamf`** ikili dosyası, keşif zamanında herkesle paylaşılan anahtarı açmak için gizliydi ve o zamanlar: **`jk23ucnq91jfu9aj`** idi.\
+**`jamf`** ikili dosyası, zamanında keşfedildiğinde **herkesle paylaşılan** anahtar zinciri açma sırrını içeriyordu ve bu: **`jk23ucnq91jfu9aj`** idi.\
 Ayrıca, jamf **`/Library/LaunchAgents/com.jamf.management.agent.plist`** konumunda bir **LaunchDaemon** olarak kalıcıdır.
 
 #### JAMF Cihaz Devralma
 
-**`jamf`**'ın kullanacağı **JSS** (Jamf Yazılım Sunucusu) **URL'si**, **`/Library/Preferences/com.jamfsoftware.jamf.plist`** konumundadır.\
+**`jamf`**'ın kullanacağı **JSS** (Jamf Yazılım Sunucusu) **URL'si** **`/Library/Preferences/com.jamfsoftware.jamf.plist`** konumundadır.\
 Bu dosya temelde URL'yi içerir:
 
 {% code overflow="wrap" %}
@@ -78,7 +78,7 @@ plutil -convert xml1 -o - /Library/Preferences/com.jamfsoftware.jamf.plist
 <integer>4</integer>
 [...]
 ```
-Böylece, bir saldırgan, bu dosyayı **üzerine yazacak şekilde ayarlanmış kötü amaçlı bir paket (`pkg`) bırakabilir ve yüklendiğinde URL'yi bir Typhon ajanından Mythic C2 dinleyicisine ayarlayarak artık JAMF'ı C2 olarak kötüye kullanabilir.**
+Böylece, bir saldırgan, bu dosyayı **üzerine yazacak şekilde** ayarlayarak yüklenen kötü amaçlı bir paket (`pkg`) bırakabilir ve artık JAMF'ı C2 olarak kötüye kullanabilir.
 ```bash
 # After changing the URL you could wait for it to be reloaded or execute:
 sudo jamf policy -id 0
@@ -92,15 +92,15 @@ sudo jamf policy -id 0
 Cihaz ve JMF arasındaki iletişimi **taklit etmek** için şunlara ihtiyacınız vardır:
 
 * Cihazın **UUID**'si: `ioreg -d2 -c IOPlatformExpertDevice | awk -F" '/IOPlatformUUID/{print $(NF-1)}'`
-* Cihaz sertifikasını içeren **JAMF anahtar zinciri**: `/Library/Application\ Support/Jamf/JAMF.keychain`
+* Cihaz sertifikasını içeren **JAMF anahtar zinciri**'ni şuradan alın: `/Library/Application\ Support/Jamf/JAMF.keychain`
 
-Bu bilgilerle, **çalınan** Donanım **UUID'si** ile ve **SIP devre dışı** bırakılmış bir VM **oluşturun**, **JAMF anahtar zincirini** bırakın, Jamf **ajansını kancala** ve bilgilerini çalın.
+Bu bilgilerle, **çalınan** Donanım **UUID**'si olan bir VM **oluşturun** ve **SIP devre dışı bırakılmışken**, **JAMF anahtar zincirini bırakın**, Jamf **ajansını kancalayın** ve bilgilerini çalın.
 
 #### Sırların Çalınması
 
 <figure><img src="../../.gitbook/assets/image (11).png" alt=""><figcaption><p>a</p></figcaption></figure>
 
-Ayrıca, yöneticilerin Jamf aracılığıyla yürütmek isteyebileceği **özel betikleri** izlemek için `/Library/Application Support/Jamf/tmp/` konumunu izleyebilirsiniz çünkü bunlar buraya **yerleştirilir, yürütülür ve kaldırılır**. Bu betikler **kimlik bilgilerini içerebilir**.
+Ayrıca, yöneticilerin Jamf aracılığıyla **çalıştırmak isteyebileceği** **özel betikleri** izlemek için `/Library/Application Support/Jamf/tmp/` konumunu izleyebilirsiniz çünkü bu betikler **buraya yerleştirilir, çalıştırılır ve kaldırılır**. Bu betikler **kimlik bilgileri içerebilir**.
 
 Ancak, **kimlik bilgileri** bu betiklere **parametreler** olarak iletilmiş olabilir, bu nedenle `ps aux | grep -i jamf`'yi (root olmadan bile) izlemeniz gerekebilir.
 
@@ -108,7 +108,7 @@ Ancak, **kimlik bilgileri** bu betiklere **parametreler** olarak iletilmiş olab
 
 ### macOS Uzak Erişim
 
-Ve ayrıca **MacOS** "özel" **ağ** **protokolleri** hakkında:
+Ve ayrıca **MacOS**'un "özel" **ağ** **protokolleri** hakkında:
 
 {% content-ref url="../macos-security-and-privilege-escalation/macos-protocols.md" %}
 [macos-protocols.md](../macos-security-and-privilege-escalation/macos-protocols.md)
@@ -137,8 +137,8 @@ dscl "/Active Directory/[Domain]/All Domains" ls /
 Ayrıca, MacOS için AD'yi otomatik olarak numaralandırmak ve kerberos ile oynamak için bazı araçlar hazırlanmıştır:
 
 * [**Machound**](https://github.com/XMCyber/MacHound): MacHound, MacOS ana bilgisayarlarında Active Directory ilişkilerini toplamak ve almak için Bloodhound denetim aracına bir uzantıdır.
-* [**Bifrost**](https://github.com/its-a-feature/bifrost): Bifrost, macOS'ta Heimdal krb5 API'leri ile etkileşim sağlamak üzere tasarlanmış bir Objective-C projesidir. Projenin amacı, hedef üzerinde herhangi bir diğer çerçeve veya paket gerektirmeksizin macOS cihazlarında Kerberos etrafında daha iyi güvenlik testleri yapılmasını sağlamaktır.
-* [**Orchard**](https://github.com/its-a-feature/Orchard): JavaScript for Automation (JXA) aracı, Active Directory numaralandırması yapmak için kullanılır.
+* [**Bifrost**](https://github.com/its-a-feature/bifrost): Bifrost, macOS'ta Heimdal krb5 API'leri ile etkileşim sağlamak üzere tasarlanmış bir Objective-C projesidir. Projenin amacı, hedef üzerinde herhangi bir diğer çerçeve veya paket gerektirmeden macOS cihazlarında Kerberos etrafında daha iyi güvenlik testleri yapılmasını sağlamaktır.
+* [**Orchard**](https://github.com/its-a-feature/Orchard): JavaScript for Automation (JXA) aracı olan Orchard, Active Directory numaralandırması yapmak için kullanılır.
 
 ### Alan Bilgileri
 ```bash
@@ -146,20 +146,20 @@ echo show com.apple.opendirectoryd.ActiveDirectory | scutil
 ```
 ### Kullanıcılar
 
-MacOS kullanıcılarının üç türü şunlardır:
+MacOS kullanıcılarının üç türü vardır:
 
 - **Yerel Kullanıcılar** — Yerel OpenDirectory hizmeti tarafından yönetilen, Active Directory ile herhangi bir şekilde bağlantılı olmayan kullanıcılar.
 - **Ağ Kullanıcıları** — Geçici Active Directory kullanıcıları, kimlik doğrulamak için DC sunucusuna bağlantı gerektirir.
 - **Mobil Kullanıcılar** — Kimlik ve dosyaları için yerel bir yedekleme olan Active Directory kullanıcıları.
 
-Kullanıcılar ve gruplarla ilgili yerel bilgiler, _/var/db/dslocal/nodes/Default_ klasöründe saklanır.\
+Kullanıcılar ve gruplarla ilgili yerel bilgiler _/var/db/dslocal/nodes/Default_ klasöründe saklanır.\
 Örneğin, _mark_ adlı kullanıcıyla ilgili bilgiler _/var/db/dslocal/nodes/Default/users/mark.plist_ dosyasında saklanır ve _admin_ grubuyla ilgili bilgiler _/var/db/dslocal/nodes/Default/groups/admin.plist_ dosyasında bulunur.
 
 HasSession ve AdminTo kenarlarını kullanmanın yanı sıra, **MacHound Bloodhound veritabanına üç yeni kenar ekler**:
 
 - **CanSSH** - ana bilgisayara SSH yapmaya izin verilen varlık
 - **CanVNC** - ana bilgisayara VNC yapmaya izin verilen varlık
-- **CanAE** - ana bilgisayarda AppleEvent komut dosyalarını çalıştırmaya izin verilen varlık
+- **CanAE** - ana bilgisayarda AppleEvent betiklerini çalıştırmaya izin verilen varlık
 ```bash
 #User enumeration
 dscl . ls /Users
@@ -193,7 +193,7 @@ Anahtarlık büyük olasılıkla hassas bilgiler içerir ve eğer bir uyarı olu
 
 ## Harici Hizmetler
 
-MacOS Kırmızı Takımı, genellikle **MacOS'un doğrudan birkaç harici platformla entegre olduğu normal Windows Kırmızı Takımdan farklıdır**. MacOS'un yaygın bir yapılandırması, **OneLogin senkronize kimlik bilgileri kullanarak bilgisayara erişim sağlamak ve OneLogin aracılığıyla birkaç harici hizmete erişmek** (github, aws gibi).
+MacOS Kırmızı Takımı, genellikle **MacOS'un doğrudan birkaç harici platformla entegre olduğu normal Windows Kırmızı Takımdan farklıdır**. MacOS'un yaygın bir yapılandırması, **OneLogin senkronize kimlik bilgileri kullanarak bilgisayara erişim sağlamak ve OneLogin aracılığıyla birkaç harici hizmete erişmek**tir (github, aws gibi...).
 
 ## Çeşitli Kırmızı Takım teknikleri
 
