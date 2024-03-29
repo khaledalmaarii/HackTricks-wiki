@@ -14,33 +14,33 @@
 
 ## Taarifa Msingi
 
-Vifurushi vya Kernel (Kexts) ni **vifurushi** vyenye kielezo cha **`.kext`** ambavyo **hulandishwa moja kwa moja katika nafasi ya kernel ya macOS**, kutoa utendaji wa ziada kwa mfumo wa uendeshaji kuu.
+Vifurushi vya Kernel (Kexts) ni **vifurushi** vyenye kielezo cha **`.kext`** ambavyo **hupakiwa moja kwa moja katika nafasi ya kernel ya macOS**, kutoa utendaji wa ziada kwa mfumo wa uendeshaji kuu.
 
 ### Mahitaji
 
-Dhahiri, hii ni **nguvu sana hivyo ni vigumu kuhifadhi kifurushi cha kernel**. Hizi ni **mahitaji** ambayo kifurushi cha kernel lazima kiyakidhi ili kuhifadhiwe:
+Kwa wazi, hii ni **nguvu sana hivyo ni vigumu kupakia kifurushi cha kernel**. Hizi ni **mahitaji** ambayo kifurushi cha kernel lazima kiyakidhi ili kipakiwe:
 
-* Wakati wa **kuingia kwenye hali ya kupona**, kernel **inapaswa kuruhusiwa** kuhifadhiwa:
+* Wakati wa **kuingia kwenye hali ya kupona**, vifurushi vya kernel **lazima viweze kupakiwa**:
   
-<figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-* Kifurushi cha kernel lazima kiwe **kimesainiwa na cheti cha usaini wa kanuni ya kernel**, ambacho kinaweza kupewa tu na **Apple**. Ambayo itakagua kwa undani kampuni na sababu kwa nini inahitajika.
-* Kifurushi cha kernel pia lazima kiwe **kimethibitishwa**, Apple itaweza kukagua kwa zisizo za programu hasidi.
-* Kisha, mtumiaji wa **root** ndiye anayeweza **kupakia kifurushi cha kernel** na faili ndani ya kifurushi hicho lazima **ziwe za root**.
-* Wakati wa mchakato wa kupakia, kifurushi lazima kiwe tayari katika eneo la **ulinzi lisilokuwa la root**: `/Library/StagedExtensions` (inahitaji kibali cha `com.apple.rootless.storage.KernelExtensionManagement`).
-* Hatimaye, wakati wa kujaribu kuhifadhi, mtumiaji atapokea [**ombi la uthibitisho**](https://developer.apple.com/library/archive/technotes/tn2459/\_index.html) na, ikiwa itakubaliwa, kompyuta lazima **izimishwe** ili kuihifadhi.
+* Kifurushi cha kernel lazima kiwe **kimesainiwa na cheti cha usaini wa nambari ya kernel**, ambacho kinaweza kupewa tu na **Apple**. Ambayo itakagua kwa undani kampuni na sababu kwa nini inahitajika.
+* Kifurushi cha kernel lazima pia kiwe **kimethibitishwa**, Apple itaweza kukagua kwa zisizo za programu hasidi.
+* Kisha, mtumiaji wa **root** ndiye anayeweza **kupakia kifurushi cha kernel** na faili ndani ya kifurushi hicho lazima **ziwe mali ya root**.
+* Wakati wa mchakato wa kupakia, kifurushi lazima kiwe tayari katika eneo la **ulinzi lisilo la root**: `/Library/StagedExtensions` (inahitaji idhini ya `com.apple.rootless.storage.KernelExtensionManagement`).
+* Hatimaye, wakati wa kujaribu kupakia, mtumiaji atapokea [**ombi la uthibitisho**](https://developer.apple.com/library/archive/technotes/tn2459/\_index.html) na, ikiwa itakubaliwa, kompyuta lazima **izimishwe** ili kuipakia.
 
-### Mchakato wa Kuhifadhi
+### Mchakato wa Upakiaji
 
-Katika Catalina ilikuwa hivi: Ni muhimu kufahamu kuwa mchakato wa **uthibitisho** unatokea katika **userland**. Walakini, programu tu zenye kibali cha **`com.apple.private.security.kext-management`** ndizo zinaweza **kuomba kernel kuhifadhi kifurushi**: `kextcache`, `kextload`, `kextutil`, `kextd`, `syspolicyd`
+Katika Catalina ilikuwa hivi: Ni muhimu kufahamu kuwa mchakato wa **uthibitisho** unatokea katika **userland**. Walakini, programu tu zenye idhini ya **`com.apple.private.security.kext-management`** ndizo zinaweza **kuomba kernel kupakia kifurushi**: `kextcache`, `kextload`, `kextutil`, `kextd`, `syspolicyd`
 
-1. **`kextutil`** cli **inaanza** mchakato wa **uthibitisho** wa kuhifadhi kifurushi
+1. **`kextutil`** cli **inaanza** mchakato wa **uthibitisho** wa kupakia kifurushi
 * Itazungumza na **`kextd`** kwa kutuma kutumia **huduma ya Mach**.
 2. **`kextd`** itachunguza mambo kadhaa, kama vile **saini**
-* Itazungumza na **`syspolicyd`** kucheki ikiwa kifurushi kinaweza **kupakiwa**.
-3. **`syspolicyd`** itamwomba **mtumiaji** ikiwa kifurushi hakijahifadhiwa hapo awali.
+* Itazungumza na **`syspolicyd`** ili **kuthibitisha** ikiwa kifurushi kinaweza **kupakiwa**.
+3. **`syspolicyd`** itamwomba **mtumiaji** ikiwa kifurushi hakijapakiwa hapo awali.
 * **`syspolicyd`** itaripoti matokeo kwa **`kextd`**
-4. **`kextd`** hatimaye itaweza **kuambia kernel kuhifadhi** kifurushi
+4. **`kextd`** hatimaye itaweza **kuambia kernel kupakia** kifurushi
 
 Ikiwa **`kextd`** haipatikani, **`kextutil`** inaweza kufanya ukaguzi sawa.
 

