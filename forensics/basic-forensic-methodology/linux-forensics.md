@@ -1,6 +1,6 @@
 # Analyse Forensique Linux
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire facilement et **automatiser des workflows** alimentés par les outils communautaires les plus avancés au monde.\
@@ -55,18 +55,18 @@ Lors de l'obtention des informations de base, vous devriez vérifier des choses 
 
 - Les **processus root** ont généralement des PIDS bas, donc si vous trouvez un processus root avec un PID élevé, vous pouvez suspecter
 - Vérifiez les **connexions enregistrées** des utilisateurs sans shell dans `/etc/passwd`
-- Vérifiez les **hachages de mots de passe** dans `/etc/shadow` pour les utilisateurs sans shell
+- Vérifiez les **hachages de mots de passe** à l'intérieur de `/etc/shadow` pour les utilisateurs sans shell
 
 ### Capture de mémoire
 
 Pour obtenir la mémoire du système en cours d'exécution, il est recommandé d'utiliser [**LiME**](https://github.com/504ensicsLabs/LiME).\
-Pour le **compiler**, vous devez utiliser le **même noyau** que celui utilisé par la machine victime.
+Pour le **compiler**, vous devez utiliser le **même noyau** que celui de la machine victime.
 
 {% hint style="info" %}
 Rappelez-vous que vous **ne pouvez pas installer LiME ou quoi que ce soit d'autre** sur la machine victime car cela apportera plusieurs modifications à celle-ci
 {% endhint %}
 
-Ainsi, si vous avez une version identique d'Ubuntu, vous pouvez utiliser `apt-get install lime-forensics-dkms`\
+Donc, si vous avez une version identique d'Ubuntu, vous pouvez utiliser `apt-get install lime-forensics-dkms`\
 Dans d'autres cas, vous devez télécharger [**LiME**](https://github.com/504ensicsLabs/LiME) depuis github et le compiler avec les en-têtes de noyau corrects. Pour **obtenir les en-têtes de noyau exacts** de la machine victime, vous pouvez simplement **copier le répertoire** `/lib/modules/<version du noyau>` sur votre machine, puis **compiler** LiME en les utilisant :
 ```bash
 make -C /lib/modules/<kernel version>/build M=$PWD
@@ -85,7 +85,7 @@ LiME peut également être utilisé pour **envoyer le vidage via le réseau** au
 #### Arrêt
 
 Tout d'abord, vous devrez **arrêter le système**. Ce n'est pas toujours une option car parfois le système sera un serveur de production que l'entreprise ne peut pas se permettre d'arrêter.\
-Il existe **2 façons** d'arrêter le système, un **arrêt normal** et un **arrêt "débrancher la prise"**. Le premier permettra aux **processus de se terminer comme d'habitude** et au **système de fichiers** d'être **synchronisé**, mais il permettra également aux éventuels **logiciels malveillants** de **détruire des preuves**. L'approche "débrancher la prise" peut entraîner **une certaine perte d'informations** (pas beaucoup d'informations seront perdues car nous avons déjà pris une image de la mémoire) et le **logiciel malveillant n'aura aucune opportunité** d'y remédier. Par conséquent, si vous **soupçonnez** la présence d'un **logiciel malveillant**, exécutez simplement la commande **`sync`** sur le système et débranchez la prise.
+Il existe **2 façons** d'arrêter le système, un **arrêt normal** et un **arrêt "débrancher la prise"**. Le premier permettra aux **processus de se terminer comme d'habitude** et au **système de fichiers** d'être **synchronisé**, mais il permettra également aux éventuels **logiciels malveillants** de **détruire des preuves**. L'approche "débrancher la prise" peut entraîner **une perte d'informations** (pas beaucoup d'informations seront perdues car nous avons déjà pris une image de la mémoire) et le **logiciel malveillant n'aura aucune opportunité** d'y remédier. Par conséquent, si vous **soupçonnez** la présence d'un **logiciel malveillant**, exécutez simplement la commande **`sync`** sur le système et débranchez la prise.
 
 #### Prendre une image du disque
 
@@ -153,7 +153,7 @@ r/r 16: secret.txt
 icat -i raw -f ext4 disk.img 16
 ThisisTheMasterSecret
 ```
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire facilement et **automatiser des workflows** alimentés par les outils communautaires les plus avancés au monde.\
@@ -201,7 +201,7 @@ find /sbin/ –exec rpm -qf {} \; | grep "is not"
 # Find exacuable files
 find / -type f -executable | grep <something>
 ```
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) pour construire facilement et **automatiser des workflows** alimentés par les outils communautaires les plus avancés au monde.\
@@ -251,7 +251,7 @@ Chemins où un logiciel malveillant pourrait être installé en tant que service
 
 Les modules du noyau Linux, souvent utilisés par les logiciels malveillants comme composants de rootkit, sont chargés au démarrage du système. Les répertoires et fichiers critiques pour ces modules incluent :
 
-* **/lib/modules/$(uname -r)** : Contient des modules pour la version du noyau en cours d'exécution.
+* **/lib/modules/$(uname -r)** : Contient les modules pour la version du noyau en cours d'exécution.
 * **/etc/modprobe.d** : Contient des fichiers de configuration pour contrôler le chargement des modules.
 * **/etc/modprobe** et **/etc/modprobe.conf** : Fichiers pour les paramètres globaux des modules.
 
@@ -335,20 +335,20 @@ usbrip events history --pid 0002 --vid 0e0f --user kali #Search by pid OR vid OR
 usbrip ids download #Downlaod database
 usbrip ids search --pid 0002 --vid 0e0f #Search for pid AND vid
 ```
-Plus d'exemples et d'informations sur le github: [https://github.com/snovvcrash/usbrip](https://github.com/snovvcrash/usbrip)
+Plus d'exemples et d'informations sur le github : [https://github.com/snovvcrash/usbrip](https://github.com/snovvcrash/usbrip)
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire facilement et **automatiser des workflows** alimentés par les outils communautaires les plus avancés au monde.\
-Accédez dès aujourd'hui:
+Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-## Examiner les comptes utilisateur et les activités de connexion
+## Examiner les comptes d'utilisateurs et les activités de connexion
 
 Examinez les fichiers _**/etc/passwd**_, _**/etc/shadow**_ et les **logs de sécurité** à la recherche de noms ou de comptes inhabituels créés et/ou utilisés à proximité d'événements non autorisés connus. Vérifiez également les possibles attaques de force brute sudo.\
-De plus, vérifiez des fichiers comme _**/etc/sudoers**_ et _**/etc/groups**_ pour des privilèges inattendus accordés aux utilisateurs.\
+De plus, vérifiez des fichiers tels que _**/etc/sudoers**_ et _**/etc/groups**_ pour des privilèges inattendus accordés aux utilisateurs.\
 Enfin, recherchez des comptes sans **mot de passe** ou avec des mots de passe **facilement devinables**.
 
 ## Examiner le système de fichiers
@@ -357,13 +357,13 @@ Enfin, recherchez des comptes sans **mot de passe** ou avec des mots de passe **
 
 Lors d'enquêtes sur des incidents de logiciels malveillants, la structure du système de fichiers est une source d'information cruciale, révélant à la fois la séquence des événements et le contenu du logiciel malveillant. Cependant, les auteurs de logiciels malveillants développent des techniques pour entraver cette analyse, telles que la modification des horodatages des fichiers ou l'évitement du système de fichiers pour le stockage des données.
 
-Pour contrer ces méthodes anti-forensiques, il est essentiel de:
+Pour contrer ces méthodes anti-forensiques, il est essentiel de :
 
-* **Effectuer une analyse minutieuse de la chronologie** en utilisant des outils comme **Autopsy** pour visualiser les chronologies d'événements ou `mactime` de **Sleuth Kit** pour des données chronologiques détaillées.
+* **Effectuer une analyse minutieuse de la chronologie** à l'aide d'outils tels que **Autopsy** pour visualiser les chronologies d'événements ou `mactime` de **Sleuth Kit** pour des données chronologiques détaillées.
 * **Enquêter sur des scripts inattendus** dans le $PATH du système, qui pourraient inclure des scripts shell ou PHP utilisés par des attaquants.
 * **Examiner `/dev` pour des fichiers atypiques**, car il contient traditionnellement des fichiers spéciaux, mais peut contenir des fichiers liés aux logiciels malveillants.
 * **Rechercher des fichiers ou répertoires cachés** avec des noms comme ".. " (point point espace) ou "..^G" (point point contrôle-G), qui pourraient dissimuler un contenu malveillant.
-* **Identifier les fichiers setuid root** en utilisant la commande: `find / -user root -perm -04000 -print` Cela permet de trouver des fichiers avec des permissions élevées, qui pourraient être exploités par des attaquants.
+* **Identifier les fichiers setuid root** en utilisant la commande : `find / -user root -perm -04000 -print` Cela permet de trouver des fichiers avec des permissions élevées, qui pourraient être exploités par des attaquants.
 * **Vérifier les horodatages de suppression** dans les tables d'inodes pour repérer des suppressions massives de fichiers, indiquant éventuellement la présence de rootkits ou de chevaux de Troie.
 * **Inspecter les inodes consécutifs** pour repérer des fichiers malveillants à proximité après en avoir identifié un, car ils peuvent avoir été placés ensemble.
 * **Vérifier les répertoires binaires courants** (_/bin_, _/sbin_) pour des fichiers récemment modifiés, car ils pourraient avoir été altérés par des logiciels malveillants.
@@ -412,7 +412,7 @@ git diff --no-index --diff-filter=D path/to/old_version/ path/to/new_version/
 * [https://cdn.ttgtmedia.com/rms/security/Malware%20Forensics%20Field%20Guide%20for%20Linux%20Systems\_Ch3.pdf](https://cdn.ttgtmedia.com/rms/security/Malware%20Forensics%20Field%20Guide%20for%20Linux%20Systems\_Ch3.pdf)
 * [https://www.plesk.com/blog/featured/linux-logs-explained/](https://www.plesk.com/blog/featured/linux-logs-explained/)
 * [https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---diff-filterACDMRTUXB82308203](https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---diff-filterACDMRTUXB82308203)
-* **Livre: Guide de terrain de la cybercriminalité pour les systèmes Linux: Guides de terrain pour la cybercriminalité**
+* **Livre: Guide de terrain de la cybercriminalité pour les systèmes Linux: Guides de terrain de la cybercriminalité**
 
 <details>
 
@@ -428,10 +428,10 @@ Travaillez-vous dans une **entreprise de cybersécurité**? Voulez-vous voir vot
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser facilement des workflows** alimentés par les outils communautaires les plus avancés au monde.\
-Obtenez l'accès aujourd'hui:
+Accédez dès aujourd'hui:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

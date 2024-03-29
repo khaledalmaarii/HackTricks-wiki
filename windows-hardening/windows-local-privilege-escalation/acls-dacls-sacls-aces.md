@@ -1,6 +1,6 @@
 # ACLs - DACLs/SACLs/ACEs
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire facilement et **automatiser des workflows** alimentés par les outils communautaires les plus avancés au monde.\
@@ -10,7 +10,7 @@ Accédez dès aujourd'hui :
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks :
 
@@ -40,22 +40,22 @@ Le processus d'accès à un fichier implique que le système vérifie le descrip
 
 ### **Interaction du système avec les ACL**
 
-Chaque session utilisateur est associée à un jeton d'accès contenant des informations de sécurité pertinentes pour cette session, y compris l'utilisateur, les identités de groupe et les privilèges. Ce jeton inclut également un SID de connexion qui identifie de manière unique la session.
+Chaque session utilisateur est associée à un jeton d'accès contenant des informations de sécurité pertinentes pour cette session, y compris les identités utilisateur, de groupe et les privilèges. Ce jeton inclut également un SID de connexion qui identifie de manière unique la session.
 
-L'Autorité de sécurité locale (LSASS) traite les demandes d'accès aux objets en examinant le DACL pour les ACE qui correspondent au principal de sécurité tentant d'accéder. L'accès est immédiatement accordé s'il n'y a pas d'ACE pertinents trouvés. Sinon, LSASS compare les ACE aux SID du principal de sécurité dans le jeton d'accès pour déterminer l'éligibilité à l'accès.
+L'Autorité de sécurité locale (LSASS) traite les demandes d'accès aux objets en examinant le DACL pour les ACE qui correspondent au principal de sécurité tentant d'accéder. L'accès est immédiatement accordé s'il n'y a pas d'ACE pertinents. Sinon, LSASS compare les ACE au SID du principal de sécurité dans le jeton d'accès pour déterminer l'éligibilité à l'accès.
 
 ### **Processus résumé**
 
-* **ACLs :** Définissent les autorisations d'accès via les DACL et les règles d'audit via les SACL.
-* **Jeton d'accès :** Contient des informations sur l'utilisateur, le groupe et les privilèges pour une session.
-* **Décision d'accès :** Faite en comparant les ACE DACL avec le jeton d'accès ; les SACL sont utilisés pour l'audit.
+* **ACL :** Définit les autorisations d'accès via les DACL et les règles d'audit via les SACL.
+* **Jeton d'accès :** Contient des informations utilisateur, de groupe et de privilège pour une session.
+* **Décision d'accès :** Faite en comparant les ACE du DACL avec le jeton d'accès ; les SACL sont utilisés pour l'audit.
 
 ### ACEs
 
 Il existe **trois principaux types d'entrées de contrôle d'accès (ACE)** :
 
-* **ACE d'accès refusé :** Cet ACE refuse explicitement l'accès à un objet pour des utilisateurs ou groupes spécifiés (dans un DACL).
-* **ACE d'accès autorisé :** Cet ACE accorde explicitement l'accès à un objet pour des utilisateurs ou groupes spécifiés (dans un DACL).
+* **ACE de refus d'accès :** Cet ACE refuse explicitement l'accès à un objet pour des utilisateurs ou groupes spécifiés (dans un DACL).
+* **ACE d'autorisation d'accès :** Cet ACE accorde explicitement l'accès à un objet pour des utilisateurs ou groupes spécifiés (dans un DACL).
 * **ACE d'audit système :** Positionné dans une Liste de contrôle d'accès système (SACL), cet ACE est responsable de la génération de journaux d'audit lors de tentatives d'accès à un objet par des utilisateurs ou groupes. Il documente si l'accès a été autorisé ou refusé et la nature de l'accès.
 
 Chaque ACE a **quatre composants critiques** :
@@ -67,9 +67,9 @@ Chaque ACE a **quatre composants critiques** :
 
 La détermination de l'accès est effectuée en examinant séquentiellement chaque ACE jusqu'à ce que :
 
-* Un **ACE d'accès refusé** refuse explicitement les droits demandés à un bénéficiaire identifié dans le jeton d'accès.
-* Les **ACE d'accès autorisé(s)** accordent explicitement tous les droits demandés à un bénéficiaire dans le jeton d'accès.
-* Après avoir vérifié tous les ACE, si un droit demandé n'a **pas été explicitement autorisé**, l'accès est implicitement **refusé**.
+* Un **ACE de refus d'accès** refuse explicitement les droits demandés à un bénéficiaire identifié dans le jeton d'accès.
+* Les **ACE d'autorisation d'accès** accordent explicitement tous les droits demandés à un bénéficiaire dans le jeton d'accès.
+* Après avoir vérifié tous les ACE, si un droit demandé n'a pas été explicitement autorisé, l'accès est implicitement **refusé**.
 
 ### Ordre des ACEs
 
@@ -77,22 +77,22 @@ La manière dont les **ACE** (règles qui disent qui peut ou ne peut pas accéde
 
 Il y a une meilleure façon d'organiser ces ACE, appelée **"ordre canonique"**. Cette méthode aide à s'assurer que tout fonctionne correctement et équitablement. Voici comment cela se passe pour les systèmes comme **Windows 2000** et **Windows Server 2003** :
 
-* Tout d'abord, placez toutes les règles spécifiquement créées pour cet élément avant celles qui viennent d'ailleurs, comme un dossier parent.
-* Dans ces règles spécifiques, placez celles qui disent **"non" (refuser)** avant celles qui disent **"oui" (autoriser)**.
-* Pour les règles qui viennent d'ailleurs, commencez par celles de la **source la plus proche**, comme le parent, puis remontez à partir de là. Encore une fois, placez **"non"** avant **"oui"**.
+* Tout d'abord, placez toutes les règles faites **spécifiquement pour cet élément** avant celles qui proviennent d'ailleurs, comme un dossier parent.
+* Dans ces règles spécifiques, placez d'abord celles qui disent **"non" (refuser)** avant celles qui disent **"oui" (autoriser)**.
+* Pour les règles qui proviennent d'ailleurs, commencez par celles de la **source la plus proche**, comme le parent, puis remontez. Encore une fois, placez **"non"** avant **"oui"**.
 
-Cette configuration aide de deux grandes manières :
+Cette configuration aide de deux manières importantes :
 
 * Elle garantit que si il y a un **"non"** spécifique, il est respecté, peu importe les autres règles **"oui"** qui sont là.
-* Elle permet au propriétaire d'un élément de décider en dernier ressort qui peut y accéder, avant que les règles des dossiers parents ou plus éloignés entrent en jeu.
+* Elle permet au propriétaire d'un élément d'avoir le **dernier mot** sur qui peut y accéder, avant que les règles des dossiers parents ou plus éloignés entrent en jeu.
 
-En procédant de cette manière, le propriétaire d'un fichier ou dossier peut être très précis sur qui peut y accéder, en s'assurant que les bonnes personnes peuvent entrer et que les mauvaises ne le peuvent pas.
+En procédant de cette manière, le propriétaire d'un fichier ou d'un dossier peut être très précis sur qui peut y accéder, en veillant à ce que les bonnes personnes puissent entrer et les mauvaises ne le puissent pas.
 
 ![](https://www.ntfs.com/images/screenshots/ACEs.gif)
 
 Ainsi, cet **"ordre canonique"** vise à garantir que les règles d'accès sont claires et fonctionnent bien, en plaçant d'abord les règles spécifiques et en organisant tout de manière intelligente.
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire facilement et **automatiser des workflows** alimentés par les outils communautaires les plus avancés au monde.\
@@ -125,18 +125,18 @@ Lors de la gestion de l'accès aux ressources, comme un dossier, nous utilisons 
 
 #### Refuser l'Accès à un Groupe Spécifique
 
-Imaginez que vous ayez un dossier nommé Coût, et que vous voulez que tout le monde y accède sauf une équipe marketing. En configurant correctement les règles, nous pouvons nous assurer que l'équipe marketing se voit explicitement refuser l'accès avant de permettre à tout le monde d'y accéder. Cela se fait en plaçant la règle de refus d'accès à l'équipe marketing avant la règle qui autorise l'accès à tout le monde.
+Imaginez que vous avez un dossier nommé Coût, et que vous voulez que tout le monde y accède sauf une équipe marketing. En configurant correctement les règles, nous pouvons nous assurer que l'équipe marketing se voit explicitement refuser l'accès avant de permettre à tout le monde d'y accéder. Cela se fait en plaçant la règle de refus d'accès à l'équipe marketing avant la règle qui autorise l'accès à tout le monde.
 
 #### Autoriser l'Accès à un Membre Spécifique d'un Groupe Refusé
 
-Disons que Bob, le directeur marketing, a besoin d'accéder au dossier Coût, même si l'équipe marketing ne devrait généralement pas y avoir accès. Nous pouvons ajouter une règle spécifique (ACE) pour Bob qui lui accorde l'accès, et la placer avant la règle qui refuse l'accès à l'équipe marketing. Ainsi, Bob obtient l'accès malgré la restriction générale imposée à son équipe.
+Disons que Bob, le directeur marketing, a besoin d'accéder au dossier Coût, même si l'équipe marketing ne devrait généralement pas y avoir accès. Nous pouvons ajouter une règle spécifique (ACE) pour Bob qui lui accorde l'accès, et la placer avant la règle qui refuse l'accès à l'équipe marketing. Ainsi, Bob obtient l'accès malgré la restriction générale de son équipe.
 
 #### Compréhension des Entrées de Contrôle d'Accès
 
 Les ACE sont les règles individuelles dans une ACL. Elles identifient les utilisateurs ou groupes, spécifient les accès autorisés ou refusés, et déterminent comment ces règles s'appliquent aux sous-éléments (héritage). Il existe deux principaux types d'ACE :
 
-* **ACE Génériques** : Ils s'appliquent largement, affectant soit tous les types d'objets, soit distinguant uniquement entre les conteneurs (comme les dossiers) et les non-conteneurs (comme les fichiers). Par exemple, une règle qui permet aux utilisateurs de voir le contenu d'un dossier mais pas d'accéder aux fichiers qu'il contient.
-* **ACE Spécifiques à l'Objet** : Ils offrent un contrôle plus précis, permettant de définir des règles pour des types d'objets spécifiques ou même des propriétés individuelles au sein d'un objet. Par exemple, dans un répertoire d'utilisateurs, une règle pourrait autoriser un utilisateur à mettre à jour son numéro de téléphone mais pas ses heures de connexion.
+* **ACE Génériques** : Ils s'appliquent largement, affectant soit tous les types d'objets, soit distinguant uniquement entre les conteneurs (comme les dossiers) et les non-conteneurs (comme les fichiers). Par exemple, une règle qui permet aux utilisateurs de voir le contenu d'un dossier mais pas d'accéder aux fichiers à l'intérieur.
+* **ACE Spécifiques à l'Objet** : Ils offrent un contrôle plus précis, permettant de définir des règles pour des types spécifiques d'objets ou même des propriétés individuelles au sein d'un objet. Par exemple, dans un répertoire d'utilisateurs, une règle pourrait autoriser un utilisateur à mettre à jour son numéro de téléphone mais pas ses heures de connexion.
 
 Chaque ACE contient des informations importantes telles que à qui s'applique la règle (en utilisant un Identifiant de Sécurité ou SID), ce que la règle autorise ou refuse (en utilisant un masque d'accès), et comment elle est héritée par d'autres objets.
 
@@ -149,12 +149,12 @@ En résumé, les ACL et les ACE permettent de définir des contrôles d'accès p
 
 ### Mise en Page de l'Entrée de Contrôle d'Accès
 
-| Champ ACE | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| Champ ACE  | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
 | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Type        | Drapeau indiquant le type d'ACE. Windows 2000 et Windows Server 2003 prennent en charge six types d'ACE : Trois types d'ACE génériques attachés à tous les objets sécurisables. Trois types d'ACE spécifiques à l'objet qui peuvent se produire pour les objets Active Directory.                                                                                                                                                                                                                                                            |
 | Drapeaux       | Ensemble de bits de contrôle d'héritage et d'audit.                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 | Taille        | Nombre d'octets de mémoire alloués pour l'ACE.                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| Masque d'accès | Valeur sur 32 bits dont les bits correspondent aux droits d'accès pour l'objet. Les bits peuvent être activés ou désactivés, mais la signification du réglage dépend du type d'ACE. Par exemple, si le bit correspondant au droit de lire les autorisations est activé, et que le type d'ACE est Refuser, l'ACE refuse le droit de lire les autorisations de l'objet. Si le même bit est activé mais que le type d'ACE est Autoriser, l'ACE accorde le droit de lire les autorisations de l'objet. Plus de détails sur le Masque d'accès apparaissent dans le tableau suivant. |
+| Masque d'accès | Valeur de 32 bits dont les bits correspondent aux droits d'accès pour l'objet. Les bits peuvent être activés ou désactivés, mais la signification du réglage dépend du type d'ACE. Par exemple, si le bit correspondant au droit de lire les autorisations est activé, et que le type d'ACE est Refuser, l'ACE refuse le droit de lire les autorisations de l'objet. Si le même bit est activé mais que le type d'ACE est Autoriser, l'ACE accorde le droit de lire les autorisations de l'objet. Plus de détails sur le Masque d'accès apparaissent dans le tableau suivant. |
 | SID         | Identifie un utilisateur ou un groupe dont l'accès est contrôlé ou surveillé par cette ACE.                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 
 ### Mise en Page du Masque d'Accès
@@ -190,7 +190,7 @@ Autres façons de soutenir HackTricks :
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser facilement des workflows** alimentés par les outils communautaires les plus avancés au monde.\

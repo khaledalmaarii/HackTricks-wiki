@@ -14,10 +14,10 @@ Autres façons de soutenir HackTricks :
 
 </details>
 
-<figure><img src="../../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser facilement des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser facilement des workflows** alimentés par les outils communautaires les plus avancés au monde.\
 Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -54,10 +54,10 @@ nsenter --target 1 --mount --uts --ipc --net --pid -- bash
 docker run -it -v /:/host/ --cap-add=ALL --security-opt apparmor=unconfined --security-opt seccomp=unconfined --security-opt label:disable --pid=host --userns=host --uts=host --cgroupns=host ubuntu chroot /host/ bash
 ```
 {% hint style="info" %}
-Au cas où le **socket docker est à un emplacement inattendu**, vous pouvez toujours communiquer avec lui en utilisant la commande **`docker`** avec le paramètre **`-H unix:///chemin/vers/docker.sock`**
+Au cas où le **socket docker est à un endroit inattendu**, vous pouvez toujours communiquer avec lui en utilisant la commande **`docker`** avec le paramètre **`-H unix:///chemin/vers/docker.sock`**
 {% endhint %}
 
-Le démon Docker peut également être [en écoute sur un port (par défaut 2375, 2376)](../../../../network-services-pentesting/2375-pentesting-docker.md) ou sur les systèmes basés sur Systemd, la communication avec le démon Docker peut se faire via le socket Systemd `fd://`.
+Le démon Docker peut également [écouter sur un port (par défaut 2375, 2376)](../../../../network-services-pentesting/2375-pentesting-docker.md) ou sur les systèmes basés sur Systemd, la communication avec le démon Docker peut se faire via le socket Systemd `fd://`.
 
 {% hint style="info" %}
 De plus, faites attention aux sockets d'exécution d'autres runtimes de haut niveau :
@@ -74,7 +74,7 @@ De plus, faites attention aux sockets d'exécution d'autres runtimes de haut niv
 
 Vous devriez vérifier les capacités du conteneur, s'il possède l'une des suivantes, vous pourriez être en mesure de vous échapper : **`CAP_SYS_ADMIN`**_,_ **`CAP_SYS_PTRACE`**, **`CAP_SYS_MODULE`**, **`DAC_READ_SEARCH`**, **`DAC_OVERRIDE, CAP_SYS_RAWIO`, `CAP_SYSLOG`, `CAP_NET_RAW`, `CAP_NET_ADMIN`**
 
-Vous pouvez vérifier les capacités actuelles du conteneur en utilisant les **outils automatiques mentionnés précédemment** ou :
+Vous pouvez vérifier les capacités actuelles du conteneur en utilisant **les outils automatiques mentionnés précédemment** ou :
 ```bash
 capsh --print
 ```
@@ -84,7 +84,7 @@ Sur la page suivante, vous pouvez **en apprendre davantage sur les capacités de
 [linux-capabilities.md](../../linux-capabilities.md)
 {% endcontent-ref %}
 
-## Évasion des conteneurs privilégiés
+## Échapper des conteneurs privilégiés
 
 Un conteneur privilégié peut être créé avec le drapeau `--privileged` ou en désactivant des défenses spécifiques :
 
@@ -122,7 +122,7 @@ docker run --rm -it --privileged ubuntu bash
 ```
 #### Montage du disque - Poc1
 
-Les conteneurs Docker bien configurés ne permettront pas des commandes telles que **fdisk -l**. Cependant, sur une commande Docker mal configurée où le drapeau `--privileged` ou `--device=/dev/sda1` avec des capacités est spécifié, il est possible d'obtenir les privilèges pour voir le lecteur hôte.
+Les conteneurs Docker bien configurés ne permettront pas des commandes telles que **fdisk -l**. Cependant, sur une commande Docker mal configurée où le drapeau `--privileged` ou `--device=/dev/sda1` avec des privilèges est spécifié, il est possible d'obtenir les privilèges pour voir le lecteur hôte.
 
 ![](https://bestestredteam.com/content/images/2019/08/image-16.png)
 
@@ -194,7 +194,7 @@ cat /o
 ```
 {% endcode %}
 
-#### Évasion des privilèges en abusant de l'agent de sortie créé ([cve-2022-0492](https://unit42.paloaltonetworks.com/cve-2022-0492-cgroups/)) - PoC2
+#### Évasion des privilèges en abusant de l'agent de libération créé ([cve-2022-0492](https://unit42.paloaltonetworks.com/cve-2022-0492-cgroups/)) - PoC2
 
 {% code title="Deuxième PoC" %}
 ```bash
@@ -248,7 +248,7 @@ Trouvez une **explication de la technique** dans :
 
 #### Évasion des privilèges en abusant de release\_agent sans connaître le chemin relatif - PoC3
 
-Dans les exploits précédents, le **chemin absolu du conteneur à l'intérieur du système de fichiers hôte est divulgué**. Cependant, ce n'est pas toujours le cas. Dans les cas où vous **ne connaissez pas le chemin absolu du conteneur à l'intérieur de l'hôte**, vous pouvez utiliser cette technique :
+Dans les exploits précédents, le **chemin absolu du conteneur à l'intérieur du système de fichiers de l'hôte est divulgué**. Cependant, ce n'est pas toujours le cas. Dans les cas où vous **ne connaissez pas le chemin absolu du conteneur à l'intérieur de l'hôte**, vous pouvez utiliser cette technique :
 
 {% content-ref url="release_agent-exploit-relative-paths-to-pids.md" %}
 [release\_agent-exploit-relative-paths-to-pids.md](release\_agent-exploit-relative-paths-to-pids.md)
@@ -312,7 +312,7 @@ sleep 1
 echo "Done! Output:"
 cat ${OUTPUT_PATH}
 ```
-Exécuter le PoC dans un conteneur privilégié devrait fournir une sortie similaire à :
+L'exécution du PoC dans un conteneur privilégié devrait fournir une sortie similaire à :
 ```bash
 root@container:~$ ./release_agent_pid_brute.sh
 Checking pid 100
@@ -345,11 +345,11 @@ root        10     2  0 11:25 ?        00:00:00 [ksoftirqd/0]
 Il existe plusieurs fichiers qui pourraient être montés et qui donnent des **informations sur l'hôte sous-jacent**. Certains d'entre eux peuvent même indiquer **quelque chose à exécuter par l'hôte lorsqu'un événement se produit** (ce qui permettrait à un attaquant de s'échapper du conteneur).\
 L'abus de ces fichiers peut permettre :
 
-- release\_agent (déjà abordé précédemment)
-- [binfmt\_misc](sensitive-mounts.md#proc-sys-fs-binfmt\_misc)
-- [core\_pattern](sensitive-mounts.md#proc-sys-kernel-core\_pattern)
-- [uevent\_helper](sensitive-mounts.md#sys-kernel-uevent\_helper)
-- [modprobe](sensitive-mounts.md#proc-sys-kernel-modprobe)
+* release\_agent (déjà abordé précédemment)
+* [binfmt\_misc](sensitive-mounts.md#proc-sys-fs-binfmt\_misc)
+* [core\_pattern](sensitive-mounts.md#proc-sys-kernel-core\_pattern)
+* [uevent\_helper](sensitive-mounts.md#sys-kernel-uevent\_helper)
+* [modprobe](sensitive-mounts.md#proc-sys-kernel-modprobe)
 
 Cependant, vous pouvez trouver **d'autres fichiers sensibles** à vérifier sur cette page :
 
@@ -379,7 +379,7 @@ bash -p #From non priv inside mounted folder
 Si vous avez un accès en tant que **root à l'intérieur d'un conteneur** et que vous avez **échappé en tant qu'utilisateur non privilégié vers l'hôte**, vous pouvez abuser des deux shells pour **élever les privilèges à l'intérieur de l'hôte** si vous avez la capacité MKNOD à l'intérieur du conteneur (c'est par défaut) comme [**expliqué dans ce post**](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/).\
 Avec une telle capacité, l'utilisateur root à l'intérieur du conteneur est autorisé à **créer des fichiers de périphérique bloc**. Les fichiers de périphérique sont des fichiers spéciaux utilisés pour **accéder au matériel sous-jacent et aux modules du noyau**. Par exemple, le fichier de périphérique bloc /dev/sda donne accès à **lire les données brutes sur le disque du système**.
 
-Docker se protège contre l'abus des fichiers de périphérique bloc à l'intérieur des conteneurs en imposant une politique cgroup qui **bloque les opérations de lecture/écriture des fichiers de périphérique bloc**. Néanmoins, si un fichier de périphérique bloc est **créé à l'intérieur du conteneur**, il devient accessible depuis l'extérieur du conteneur via le répertoire **/proc/PID/root/**. Cet accès nécessite que le **propriétaire du processus soit le même** à la fois à l'intérieur et à l'extérieur du conteneur.
+Docker se protège contre l'abus des périphériques bloc à l'intérieur des conteneurs en imposant une politique cgroup qui **bloque les opérations de lecture/écriture des périphériques bloc**. Néanmoins, si un périphérique bloc est **créé à l'intérieur du conteneur**, il devient accessible depuis l'extérieur du conteneur via le répertoire **/proc/PID/root/**. Cet accès nécessite que le **propriétaire du processus soit le même** à la fois à l'intérieur et à l'extérieur du conteneur.
 
 Exemple d'**exploitation** de ce [**writeup**](https://radboudinstituteof.pwning.nl/posts/htbunictfquals2021/goodgames/):
 ```bash
@@ -456,11 +456,11 @@ docker run --rm -it --network=host ubuntu bash
 ```
 Si un conteneur est configuré avec le pilote de réseau Docker [host (`--network=host`)](https://docs.docker.com/network/host/), la pile réseau de ce conteneur n'est pas isolée de l'hôte Docker (le conteneur partage l'espace réseau de l'hôte) et le conteneur ne reçoit pas d'adresse IP propre. En d'autres termes, le **conteneur lie tous les services directement à l'IP de l'hôte**. De plus, le conteneur peut **intercepter TOUT le trafic réseau que l'hôte** envoie et reçoit sur l'interface partagée `tcpdump -i eth0`.
 
-Par exemple, vous pouvez utiliser cela pour **sniffer voire falsifier le trafic** entre l'hôte et l'instance de métadonnées.
+Par exemple, vous pouvez utiliser cela pour **sniffer et même falsifier le trafic** entre l'hôte et l'instance de métadonnées.
 
 Comme dans les exemples suivants :
 
-* [Analyse : Comment contacter les SRE de Google : Obtenir un shell dans Cloud SQL](https://offensi.com/2020/08/18/how-to-contact-google-sre-dropping-a-shell-in-cloud-sql/)
+* [Article : Comment contacter les SRE de Google : Obtenir un shell dans Cloud SQL](https://offensi.com/2020/08/18/how-to-contact-google-sre-dropping-a-shell-in-cloud-sql/)
 * [L'interception du service de métadonnées permet une élévation de privilèges root (EKS / GKE)](https://blog.champtar.fr/Metadata\_MITM\_root\_EKS\_GKE/)
 
 Vous pourrez également accéder aux **services réseau liés à localhost** à l'intérieur de l'hôte ou même accéder aux **autorisations de métadonnées du nœud** (qui peuvent être différentes de celles auxquelles un conteneur peut accéder).
@@ -486,10 +486,10 @@ cat /proc/self/status | grep CapEff
 
 La deuxième technique expliquée dans l'article [https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/) indique comment vous pouvez abuser des montages de liaison avec les espaces utilisateurs, pour affecter les fichiers à l'intérieur de l'hôte (dans ce cas spécifique, supprimer des fichiers).
 
-<figure><img src="../../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire facilement et **automatiser des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
-Accédez dès aujourd'hui à :
+Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -517,9 +517,9 @@ Il existe d'autres CVE auxquelles le conteneur peut être vulnérable, vous pouv
 ### Surface d'évasion de Docker
 
 * **Espaces de noms :** Le processus doit être **complètement séparé des autres processus** via des espaces de noms, donc nous ne pouvons pas échapper à l'interaction avec d'autres processus en raison des espaces de noms (par défaut, ne peut pas communiquer via IPC, sockets Unix, services réseau, D-Bus, `/proc` d'autres processus).
-* **Utilisateur root :** Par défaut, l'utilisateur exécutant le processus est l'utilisateur root (cependant, ses privilèges sont limités).
+* **Utilisateur root :** Par défaut, l'utilisateur exécutant le processus est l'utilisateur root (mais ses privilèges sont limités).
 * **Capacités :** Docker laisse les capacités suivantes : `cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap=ep`
-* **Appels système :** Ce sont les appels système que l'**utilisateur root ne pourra pas appeler** (en raison du manque de capacités + Seccomp). Les autres appels système pourraient être utilisés pour essayer de s'échapper.
+* **Appels système :** Ce sont les appels système que l'**utilisateur root ne pourra pas appeler** (en raison du manque de capacités + Seccomp). Les autres appels système pourraient être utilisés pour tenter de s'échapper.
 
 {% tabs %}
 {% tab title="Appels système x64" %}
@@ -565,7 +565,7 @@ Il existe d'autres CVE auxquelles le conteneur peut être vulnérable, vous pouv
 ```
 {% endtab %}
 
-{% tab title="syscall_bf.c" %}Le code source suivant est un exemple de programme en C qui peut être utilisé pour effectuer une attaque de type "syscall brute force" afin d'obtenir un accès root non autorisé sur un système Linux. Ce programme tente de passer en revue toutes les valeurs possibles des appels système (syscalls) pour trouver celui qui lui permettra d'obtenir les privilèges root. Une fois le bon appel système trouvé, le programme l'exécute pour escalader ses privilèges. Cette technique est souvent utilisée lors de tests d'intrusion pour évaluer la sécurité d'un système. %}
+{% onglet title="syscall_bf.c" %}
 ````c
 // From a conversation I had with @arget131
 // Fir bfing syscalss in x64
@@ -629,7 +629,7 @@ If you are in **userspace** (**no kernel exploit** involved) the way to find new
 * [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/exposed-docker-socket](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/exposed-docker-socket)
 * [https://bishopfox.com/blog/kubernetes-pod-privilege-escalation#Pod4](https://bishopfox.com/blog/kubernetes-pod-privilege-escalation#Pod4)
 
-<figure><img src="../../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
 Get Access Today:

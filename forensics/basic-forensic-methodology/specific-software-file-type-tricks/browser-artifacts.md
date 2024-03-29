@@ -10,11 +10,11 @@ Autres façons de soutenir HackTricks :
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser facilement des workflows** alimentés par les outils communautaires les plus avancés au monde.\
@@ -28,7 +28,7 @@ Les artéfacts des navigateurs incluent divers types de données stockées par l
 
 Voici un résumé des artéfacts de navigateur les plus courants :
 
-* **Historique de navigation** : Suit les visites des utilisateurs sur des sites Web, utile pour identifier les visites sur des sites malveillants.
+* **Historique de navigation** : Suit les visites des utilisateurs sur les sites Web, utile pour identifier les visites sur des sites malveillants.
 * **Données d'autocomplétion** : Suggestions basées sur des recherches fréquentes, offrant des informations lorsqu'elles sont combinées avec l'historique de navigation.
 * **Favoris** : Sites enregistrés par l'utilisateur pour un accès rapide.
 * **Extensions et modules complémentaires** : Extensions de navigateur ou modules complémentaires installés par l'utilisateur.
@@ -49,12 +49,12 @@ Firefox organise les données utilisateur dans des profils, stockés à des empl
 * **MacOS** : `/Users/$USER/Library/Application Support/Firefox/Profiles/`
 * **Windows** : `%userprofile%\AppData\Roaming\Mozilla\Firefox\Profiles\`
 
-Un fichier `profiles.ini` dans ces répertoires répertorie les profils utilisateur. Les données de chaque profil sont stockées dans un dossier nommé d'après la variable `Path` dans `profiles.ini`, situé dans le même répertoire que `profiles.ini` lui-même. Si le dossier d'un profil est manquant, il a peut-être été supprimé.
+Un fichier `profiles.ini` dans ces répertoires répertorie les profils utilisateur. Les données de chaque profil sont stockées dans un dossier nommé d'après la variable `Path` dans `profiles.ini`, situé dans le même répertoire que `profiles.ini` lui-même. Si un dossier de profil est manquant, il a peut-être été supprimé.
 
 Dans chaque dossier de profil, vous pouvez trouver plusieurs fichiers importants :
 
 * **places.sqlite** : Stocke l'historique, les favoris et les téléchargements. Des outils comme [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html) sur Windows peuvent accéder aux données d'historique.
-* Utilisez des requêtes SQL spécifiques pour extraire des informations d'historique et de téléchargements.
+* Utilisez des requêtes SQL spécifiques pour extraire les informations d'historique et de téléchargements.
 * **bookmarkbackups** : Contient des sauvegardes de favoris.
 * **formhistory.sqlite** : Stocke les données de formulaire Web.
 * **handlers.json** : Gère les gestionnaires de protocole.
@@ -72,7 +72,9 @@ Dans chaque dossier de profil, vous pouvez trouver plusieurs fichiers importants
 De plus, vérifier les paramètres anti-hameçonnage du navigateur peut se faire en recherchant les entrées `browser.safebrowsing` dans `prefs.js`, indiquant si les fonctionnalités de navigation sécurisée sont activées ou désactivées.
 
 Pour essayer de décrypter le mot de passe principal, vous pouvez utiliser [https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt)\
-Avec le script et l'appel suivants, vous pouvez spécifier un fichier de mot de passe à forcer :
+Avec le script suivant et l'appel, vous pouvez spécifier un fichier de mot de passe pour effectuer une attaque par force brute :
+
+{% code title="brute.sh" %}
 ```bash
 #!/bin/bash
 
@@ -108,7 +110,7 @@ Dans ces répertoires, la plupart des données utilisateur peuvent être trouvé
 * **Dernière session**/**Derniers onglets** : Informations sur les sites actifs lors de la dernière session avant la fermeture de Chrome.
 * **Extensions** : Répertoires pour les extensions et les modules complémentaires du navigateur.
 * **Miniatures** : Stocke les miniatures des sites Web.
-* **Préférences** : Un fichier riche en informations, comprenant des paramètres pour les plugins, les extensions, les pop-ups, les notifications, et plus encore.
+* **Préférences** : Un fichier riche en informations, y compris les paramètres pour les plugins, les extensions, les pop-ups, les notifications, et plus encore.
 * **Anti-hameçonnage intégré du navigateur** : Pour vérifier si la protection anti-hameçonnage et contre les logiciels malveillants est activée, exécutez `grep 'safebrowsing' ~/Library/Application Support/Google/Chrome/Default/Preferences`. Recherchez `{"enabled: true,"}` dans la sortie.
 
 ## **Récupération de données de base de données SQLite**
@@ -117,7 +119,7 @@ Comme vous pouvez l'observer dans les sections précédentes, Chrome et Firefox 
 
 ## **Internet Explorer 11**
 
-Internet Explorer 11 gère ses données et métadonnées à travers divers emplacements, facilitant la séparation des informations stockées et de leurs détails correspondants pour un accès et une gestion faciles.
+Internet Explorer 11 gère ses données et métadonnées à travers différents emplacements, facilitant la séparation des informations stockées et de leurs détails correspondants pour un accès et une gestion faciles.
 
 ### Stockage des métadonnées
 
@@ -125,23 +127,23 @@ Les métadonnées d'Internet Explorer sont stockées dans `%userprofile%\Appdata
 
 ### Inspection du cache
 
-L'outil [IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html) permet l'inspection du cache, nécessitant l'emplacement du dossier d'extraction des données de cache. Les métadonnées du cache incluent le nom de fichier, le répertoire, le nombre d'accès, l'origine de l'URL, et les horodatages indiquant la création du cache, l'accès, la modification, et les temps d'expiration.
+L'outil [IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html) permet d'inspecter le cache, nécessitant l'emplacement du dossier d'extraction des données du cache. Les métadonnées du cache incluent le nom de fichier, le répertoire, le nombre d'accès, l'origine de l'URL, et les horodatages indiquant la création du cache, l'accès, la modification et les heures d'expiration.
 
 ### Gestion des cookies
 
-Les cookies peuvent être explorés en utilisant [IECookiesView](https://www.nirsoft.net/utils/iecookies.html), avec des métadonnées comprenant des noms, des URLs, des comptes d'accès, et divers détails liés au temps. Les cookies persistants sont stockés dans `%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies`, tandis que les cookies de session résident en mémoire.
+Les cookies peuvent être explorés en utilisant [IECookiesView](https://www.nirsoft.net/utils/iecookies.html), avec des métadonnées comprenant des noms, des URL, des comptes d'accès, et divers détails liés au temps. Les cookies persistants sont stockés dans `%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies`, tandis que les cookies de session résident en mémoire.
 
 ### Détails des téléchargements
 
-Les métadonnées des téléchargements sont accessibles via [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html), avec des conteneurs spécifiques contenant des données telles que l'URL, le type de fichier, et l'emplacement de téléchargement. Les fichiers physiques peuvent être trouvés sous `%userprofile%\Appdata\Roaming\Microsoft\Windows\IEDownloadHistory`.
+Les métadonnées des téléchargements sont accessibles via [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html), avec des conteneurs spécifiques contenant des données telles que l'URL, le type de fichier et l'emplacement du téléchargement. Les fichiers physiques peuvent être trouvés sous `%userprofile%\Appdata\Roaming\Microsoft\Windows\IEDownloadHistory`.
 
 ### Historique de navigation
 
-Pour examiner l'historique de navigation, [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html) peut être utilisé, nécessitant l'emplacement des fichiers d'historique extraits et la configuration pour Internet Explorer. Les métadonnées ici incluent les temps de modification et d'accès, ainsi que les comptes d'accès. Les fichiers d'historique sont situés dans `%userprofile%\Appdata\Local\Microsoft\Windows\History`.
+Pour examiner l'historique de navigation, [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html) peut être utilisé, nécessitant l'emplacement des fichiers d'historique extraits et la configuration pour Internet Explorer. Les métadonnées incluent ici les heures de modification et d'accès, ainsi que les comptes d'accès. Les fichiers d'historique se trouvent dans `%userprofile%\Appdata\Local\Microsoft\Windows\History`.
 
-### URLs saisies
+### URL saisies
 
-Les URLs saisies et leurs horaires d'utilisation sont stockés dans le registre sous `NTUSER.DAT` à `Software\Microsoft\InternetExplorer\TypedURLs` et `Software\Microsoft\InternetExplorer\TypedURLsTime`, suivant les 50 dernières URLs saisies par l'utilisateur et leurs derniers horaires d'entrée.
+Les URL saisies et leurs horaires d'utilisation sont stockés dans le registre sous `NTUSER.DAT` à `Software\Microsoft\InternetExplorer\TypedURLs` et `Software\Microsoft\InternetExplorer\TypedURLsTime`, suivant les 50 dernières URL saisies par l'utilisateur et leurs derniers horaires d'entrée.
 
 ## Microsoft Edge
 
@@ -157,9 +159,9 @@ Microsoft Edge stocke les données utilisateur dans `%userprofile%\Appdata\Local
 
 Les données de Safari sont stockées à `/Users/$User/Library/Safari`. Les fichiers clés incluent :
 
-* **History.db** : Contient les tables `history_visits` et `history_items` avec des URLs et des horodatages de visite. Utilisez `sqlite3` pour interroger.
+* **History.db** : Contient les tables `history_visits` et `history_items` avec des URL et des horodatages de visite. Utilisez `sqlite3` pour interroger.
 * **Downloads.plist** : Informations sur les fichiers téléchargés.
-* **Bookmarks.plist** : Stocke les URLs des signets.
+* **Bookmarks.plist** : Stocke les URL des signets.
 * **TopSites.plist** : Sites les plus visités.
 * **Extensions.plist** : Liste des extensions du navigateur Safari. Utilisez `plutil` ou `pluginkit` pour récupérer.
 * **UserNotificationPermissions.plist** : Domaines autorisés à envoyer des notifications push. Utilisez `plutil` pour analyser.
@@ -181,7 +183,7 @@ Ces chemins et commandes sont cruciaux pour accéder et comprendre les données 
 * [https://books.google.com/books?id=jfMqCgAAQBAJ\&pg=PA128\&lpg=PA128\&dq=%22This+file](https://books.google.com/books?id=jfMqCgAAQBAJ\&pg=PA128\&lpg=PA128\&dq=%22This+file)
 * **Livre : OS X Incident Response: Scripting and Analysis By Jaron Bradley pag 123**
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser facilement des workflows** alimentés par les outils communautaires les plus avancés au monde.\
@@ -192,12 +194,10 @@ Accédez dès aujourd'hui :
 <details>
 
 <summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-D'autres façons de soutenir HackTricks:
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* **Rejoignez** le 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>

@@ -16,7 +16,7 @@ Autres façons de soutenir HackTricks :
 
 <figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Si vous êtes intéressé par une **carrière en piratage** et pirater l'impossible - **nous recrutons !** (_polonais écrit et parlé couramment requis_).
+Si vous êtes intéressé par une **carrière en piratage** et pirater l'impossible - **nous recrutons !** (_maîtrise du polonais écrit et parlé requis_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
@@ -29,7 +29,7 @@ Dans les vidéos suivantes, vous trouverez les techniques mentionnées sur cette
 
 ## Scénario lecture seule / pas d'exécution
 
-Il est de plus en plus courant de trouver des machines Linux montées avec une protection de système de fichiers en **lecture seule (ro)**, notamment dans les conteneurs. Cela est dû au fait qu'il est aussi facile de lancer un conteneur avec un système de fichiers en ro qu'en définissant **`readOnlyRootFilesystem: true`** dans le `securitycontext` :
+Il est de plus en plus courant de trouver des machines Linux montées avec une protection de système de fichiers en **lecture seule (ro)**, notamment dans les conteneurs. Cela est dû au fait qu'il est aussi facile de lancer un conteneur avec un système de fichiers en ro en définissant **`readOnlyRootFilesystem: true`** dans le `securitycontext` :
 
 <pre class="language-yaml"><code class="lang-yaml">apiVersion: v1
 kind: Pod
@@ -44,7 +44,7 @@ securityContext:
 </strong>    command: ["sh", "-c", "while true; do sleep 1000; done"]
 </code></pre>
 
-Cependant, même si le système de fichiers est monté en ro, **`/dev/shm`** restera inscriptible, donc il est faux de dire que nous ne pouvons rien écrire sur le disque. Cependant, ce dossier sera **monté avec une protection no-exec**, donc si vous téléchargez un binaire ici, vous **ne pourrez pas l'exécuter**.
+Cependant, même si le système de fichiers est monté en ro, **`/dev/shm`** restera inscriptible, donc nous pouvons écrire sur le disque. Cependant, ce dossier sera **monté avec une protection no-exec**, donc si vous téléchargez un binaire ici, vous **ne pourrez pas l'exécuter**.
 
 {% hint style="warning" %}
 D'un point de vue d'équipe rouge, cela rend **compliqué le téléchargement et l'exécution** de binaires qui ne sont pas déjà présents dans le système (comme des portes dérobées ou des outils d'énumération comme `kubectl`).
@@ -58,11 +58,11 @@ Cependant, cela ne suffit pas pour exécuter votre porte dérobée binaire ou d'
 
 ## Contournements de la mémoire
 
-Si vous souhaitez exécuter un binaire mais que le système de fichiers ne le permet pas, la meilleure façon de le faire est en l'exécutant à partir de la mémoire, car les **protections ne s'appliquent pas là**.
+Si vous souhaitez exécuter un binaire mais que le système de fichiers ne le permet pas, la meilleure façon de le faire est en l'exécutant depuis la mémoire, car les **protections ne s'appliquent pas là**.
 
 ### Contournement de l'appel système FD + exec
 
-Si vous disposez de moteurs de script puissants dans la machine, tels que **Python**, **Perl** ou **Ruby**, vous pourriez télécharger le binaire à exécuter en mémoire, le stocker dans un descripteur de fichier en mémoire (`create_memfd` syscall), qui ne sera pas protégé par ces protections, puis appeler un **appel système `exec`** en indiquant le **fd comme fichier à exécuter**.
+Si vous disposez de moteurs de script puissants dans la machine, tels que **Python**, **Perl** ou **Ruby**, vous pourriez télécharger le binaire à exécuter depuis la mémoire, le stocker dans un descripteur de fichier en mémoire (`create_memfd` syscall), qui ne sera pas protégé par ces protections, puis appeler un **appel système `exec`** en indiquant le **fd comme fichier à exécuter**.
 
 Pour cela, vous pouvez facilement utiliser le projet [**fileless-elf-exec**](https://github.com/nnsee/fileless-elf-exec). Vous pouvez lui passer un binaire et il générera un script dans le langage indiqué avec le **binaire compressé et encodé en b64** avec les instructions pour **le décoder et le décompresser** dans un **fd** créé en appelant la syscall `create_memfd` et un appel à l'appel système **exec** pour l'exécuter.
 
@@ -74,12 +74,12 @@ De plus, la création d'un **fd régulier** avec un fichier dans `/dev/shm` ne f
 
 ### DDexec / EverythingExec
 
-[**DDexec / EverythingExec**](https://github.com/arget13/DDexec) est une technique qui vous permet de **modifier la mémoire de votre propre processus** en écrivant dans son **`/proc/self/mem`**.
+[**DDexec / EverythingExec**](https://github.com/arget13/DDexec) est une technique qui vous permet de **modifier la mémoire de votre propre processus** en écrasant son **`/proc/self/mem`**.
 
-Par conséquent, en **contrôlant le code assembleur** qui est exécuté par le processus, vous pouvez écrire un **shellcode** et "muter" le processus pour **exécuter n'importe quel code arbitraire**.
+Par conséquent, en **contrôlant le code d'assemblage** qui est exécuté par le processus, vous pouvez écrire un **shellcode** et "muter" le processus pour **exécuter n'importe quel code arbitraire**.
 
 {% hint style="success" %}
-**DDexec / EverythingExec** vous permettra de charger et d'**exécuter** votre propre **shellcode** ou **n'importe quel binaire** à partir de la **mémoire**.
+**DDexec / EverythingExec** vous permettra de charger et d'**exécuter** votre propre **shellcode** ou **n'importe quel binaire** depuis la **mémoire**.
 {% endhint %}
 ```bash
 # Basic example
@@ -117,7 +117,7 @@ Dans un conteneur Distroless, vous pourriez **ne pas trouver même `sh` ou `bash
 Par conséquent, vous **ne pourrez pas** obtenir un **shell inversé** ou **énumérer** le système comme vous le faites habituellement.
 {% endhint %}
 
-Cependant, si le conteneur compromis exécute par exemple une application web flask, alors Python est installé, et donc vous pouvez obtenir un **shell Python inversé**. S'il exécute node, vous pouvez obtenir un shell Node, et de même avec la plupart des **langages de script**.
+Cependant, si le conteneur compromis exécute par exemple une application web Flask, alors Python est installé, et donc vous pouvez obtenir un **shell Python inversé**. S'il exécute Node, vous pouvez obtenir un shell Node, et de même avec la plupart des **langages de script**.
 
 {% hint style="success" %}
 En utilisant le langage de script, vous pourriez **énumérer le système** en utilisant les capacités du langage.
@@ -131,7 +131,7 @@ Cependant, dans ce type de conteneurs, ces protections existent généralement, 
 
 Vous pouvez trouver des **exemples** sur la façon d'**exploiter certaines vulnérabilités RCE** pour obtenir des **shells inversés de langages de script** et exécuter des binaires en mémoire dans [**https://github.com/carlospolop/DistrolessRCE**](https://github.com/carlospolop/DistrolessRCE).
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Si vous êtes intéressé par une **carrière en piratage** et pirater l'impossible - **nous recrutons !** (_polonais écrit et parlé couramment requis_).
 
@@ -143,7 +143,7 @@ Si vous êtes intéressé par une **carrière en piratage** et pirater l'impossi
 
 Autres façons de soutenir HackTricks :
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF** Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez** 💬 le groupe Discord](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

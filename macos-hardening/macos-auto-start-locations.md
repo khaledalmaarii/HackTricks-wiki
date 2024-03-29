@@ -1,4 +1,4 @@
-# Démarrage automatique sur macOS
+# Auto Démarrage macOS
 
 <details>
 
@@ -16,10 +16,10 @@ Autres façons de soutenir HackTricks :
 
 Cette section est fortement basée sur la série de blogs [**Au-delà des bons vieux LaunchAgents**](https://theevilbit.github.io/beyond/), le but est d'ajouter **plus d'emplacements de démarrage automatique** (si possible), d'indiquer **quelles techniques fonctionnent toujours** de nos jours avec la dernière version de macOS (13.4) et de spécifier les **autorisations** nécessaires.
 
-## Contournement de la sandbox
+## Contournement de la Sandbox
 
 {% hint style="success" %}
-Ici, vous pouvez trouver des emplacements de démarrage utiles pour le **contournement de la sandbox** qui vous permettent simplement d'exécuter quelque chose en **l'écrivant dans un fichier** et en **attendant** une **action très courante**, un **certain laps de temps** ou une **action que vous pouvez généralement effectuer** depuis l'intérieur d'une sandbox sans avoir besoin de permissions root.
+Ici, vous pouvez trouver des emplacements de démarrage utiles pour le **contournement de la sandbox** qui vous permettent simplement d'exécuter quelque chose en **l'écrivant dans un fichier** et en **attendant** une **action très courante**, un **montant déterminé de temps** ou une **action que vous pouvez généralement effectuer** depuis l'intérieur d'une sandbox sans avoir besoin de permissions root.
 {% endhint %}
 
 ### Launchd
@@ -31,20 +31,20 @@ Ici, vous pouvez trouver des emplacements de démarrage utiles pour le **contour
 
 * **`/Library/LaunchAgents`**
 * **Déclencheur** : Redémarrage
-* Nécessite les droits d'administrateur
+* Nécessite des droits root
 * **`/Library/LaunchDaemons`**
 * **Déclencheur** : Redémarrage
-* Nécessite les droits d'administrateur
+* Nécessite des droits root
 * **`/System/Library/LaunchAgents`**
 * **Déclencheur** : Redémarrage
-* Nécessite les droits d'administrateur
+* Nécessite des droits root
 * **`/System/Library/LaunchDaemons`**
 * **Déclencheur** : Redémarrage
-* Nécessite les droits d'administrateur
+* Nécessite des droits root
 * **`~/Library/LaunchAgents`**
-* **Déclencheur** : Connexion
+* **Déclencheur** : Reconnexion
 * **`~/Library/LaunchDemons`**
-* **Déclencheur** : Connexion
+* **Déclencheur** : Reconnexion
 
 #### Description & Exploitation
 
@@ -83,10 +83,10 @@ Lorsqu'un utilisateur se connecte, les plists situés dans `/Users/$USER/Library
 Il existe des cas où un **agent doit être exécuté avant la connexion de l'utilisateur**, ceux-ci sont appelés **PreLoginAgents**. Par exemple, cela est utile pour fournir une technologie d'assistance lors de la connexion. Ils peuvent également être trouvés dans `/Library/LaunchAgents` (voir [**ici**](https://github.com/HelmutJ/CocoaSampleCode/tree/master/PreLoginAgents) un exemple).
 
 {% hint style="info" %}
-Les nouveaux fichiers de configuration de Daemons ou Agents seront **chargés après le prochain redémarrage ou en utilisant** `launchctl load <target.plist>` Il est **également possible de charger des fichiers .plist sans cette extension** avec `launchctl -F <file>` (cependant, ces fichiers plist ne seront pas automatiquement chargés après le redémarrage).\
-Il est également possible de **décharger** avec `launchctl unload <target.plist>` (le processus pointé par celui-ci sera terminé),
+Les nouveaux fichiers de configuration de Daemons ou Agents seront **chargés après le prochain redémarrage ou en utilisant** `launchctl load <target.plist>`. Il est **également possible de charger des fichiers .plist sans cette extension** avec `launchctl -F <file>` (cependant, ces fichiers plist ne seront pas automatiquement chargés après le redémarrage).\
+Il est également possible de **décharger** avec `launchctl unload <target.plist>` (le processus pointé par celui-ci sera terminé).
 
-Pour **s'assurer** qu'il n'y a **rien** (comme un remplacement) **empêchant un** **Agent** ou **Daemon** **de** **s'exécuter**, exécutez : `sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.smdb.plist`
+Pour **s'assurer** qu'il n'y a **rien** (comme un remplacement) **empêchant un** **Agent** ou **Daemon** **de s'exécuter**, exécutez : `sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.smdb.plist`
 {% endhint %}
 
 Listez tous les agents et daemons chargés par l'utilisateur actuel :
@@ -94,7 +94,7 @@ Listez tous les agents et daemons chargés par l'utilisateur actuel :
 launchctl list
 ```
 {% hint style="warning" %}
-Si un plist est détenu par un utilisateur, même s'il se trouve dans des dossiers système de démon, la **tâche sera exécutée en tant qu'utilisateur** et non en tant que root. Cela peut empêcher certaines attaques d'escalade de privilèges.
+Si un plist est détenu par un utilisateur, même s'il se trouve dans des dossiers système de démon, la **tâche sera exécutée en tant qu'utilisateur** et non en tant que root. Cela peut prévenir certaines attaques d'escalade de privilèges.
 {% endhint %}
 
 ### Fichiers de démarrage shell
@@ -104,7 +104,7 @@ Writeup (xterm): [https://theevilbit.github.io/beyond/beyond\_0018/](https://the
 
 * Utile pour contourner le bac à sable : [✅](https://emojipedia.org/check-mark-button)
 * Contournement de TCC : [✅](https://emojipedia.org/check-mark-button)
-* Mais vous devez trouver une application avec un contournement de TCC qui exécute un shell qui charge ces fichiers
+* Mais vous devez trouver une application avec un contournement de TCC qui exécute un shell chargeant ces fichiers
 
 #### Emplacements
 
@@ -135,7 +135,7 @@ La page de manuel de zsh, que nous pouvons lire avec **`man zsh`**, contient une
 # Example executino via ~/.zshrc
 echo "touch /tmp/hacktricks" >> ~/.zshrc
 ```
-### Applications réouvertes
+### Applications Réouvertes
 
 {% hint style="danger" %}
 Configurer l'exploitation indiquée et se déconnecter et se reconnecter ou même redémarrer n'a pas fonctionné pour moi pour exécuter l'application. (L'application n'était pas exécutée, peut-être qu'elle doit être en cours d'exécution lorsque ces actions sont effectuées)
@@ -186,7 +186,7 @@ Pour **ajouter une application à cette liste**, vous pouvez utiliser :
 * **`~/Library/Preferences/com.apple.Terminal.plist`**
 * **Déclencheur** : Ouvrir le Terminal
 
-#### Description et Exploitation
+#### Description & Exploitation
 
 Dans **`~/Library/Preferences`** sont stockées les préférences de l'utilisateur dans les Applications. Certaines de ces préférences peuvent contenir une configuration pour **exécuter d'autres applications/scripts**.
 
@@ -210,7 +210,7 @@ Cette configuration est reflétée dans le fichier **`~/Library/Preferences/com.
 }
 [...]
 ```
-Donc, si le plist des préférences du terminal dans le système pouvait être écrasé, alors la fonctionnalité **`open`** peut être utilisée pour **ouvrir le terminal et exécuter cette commande**.
+Donc, si le plist des préférences du terminal dans le système pouvait être écrasé, alors la fonctionnalité **`open`** peut être utilisée pour **ouvrir le terminal et cette commande sera exécutée**.
 
 Vous pouvez ajouter ceci depuis la ligne de commande avec:
 
@@ -238,7 +238,7 @@ Vous pouvez ajouter ceci depuis la ligne de commande avec:
 
 #### Description & Exploitation
 
-Si vous créez un script [**`.terminal`**](https://stackoverflow.com/questions/32086004/how-to-use-the-default-terminal-settings-when-opening-a-terminal-file-osx) et l'ouvrez, l'**application Terminal** sera automatiquement invoquée pour exécuter les commandes indiquées. Si l'application Terminal a des privilèges spéciaux (comme TCC), votre commande sera exécutée avec ces privilèges spéciaux.
+Si vous créez un script [**`.terminal`**](https://stackoverflow.com/questions/32086004/how-to-use-the-default-terminal-settings-when-opening-a-terminal-file-osx) et l'ouvrez, l'application **Terminal** sera automatiquement invoquée pour exécuter les commandes indiquées. Si l'application Terminal a des privilèges spéciaux (comme TCC), votre commande sera exécutée avec ces privilèges spéciaux.
 
 Essayez avec:
 ```bash
@@ -271,7 +271,7 @@ open /tmp/test.terminal
 Vous pouvez également utiliser les extensions **`.command`**, **`.tool`**, avec du contenu de scripts shell réguliers et ils seront également ouverts par Terminal.
 
 {% hint style="danger" %}
-Si le terminal a **un accès complet au disque**, il pourra effectuer cette action (notez que la commande exécutée sera visible dans une fenêtre de terminal).
+Si le terminal a **l'accès complet au disque**, il pourra effectuer cette action (notez que la commande exécutée sera visible dans une fenêtre de terminal).
 {% endhint %}
 
 ### Plugins Audio
@@ -279,7 +279,7 @@ Si le terminal a **un accès complet au disque**, il pourra effectuer cette acti
 Writeup: [https://theevilbit.github.io/beyond/beyond\_0013/](https://theevilbit.github.io/beyond/beyond\_0013/)\
 Writeup: [https://posts.specterops.io/audio-unit-plug-ins-896d3434a882](https://posts.specterops.io/audio-unit-plug-ins-896d3434a882)
 
-* Utile pour contourner le bac à sable : [✅](https://emojipedia.org/check-mark-button)
+* Utile pour contourner le bac à sable: [✅](https://emojipedia.org/check-mark-button)
 * Contournement de TCC : [🟠](https://emojipedia.org/large-orange-circle)
 * Vous pourriez obtenir un accès TCC supplémentaire
 
@@ -305,7 +305,7 @@ Selon les writeups précédents, il est possible de **compiler certains plugins 
 
 Writeup: [https://theevilbit.github.io/beyond/beyond\_0028/](https://theevilbit.github.io/beyond/beyond\_0028/)
 
-* Utile pour contourner le bac à sable : [✅](https://emojipedia.org/check-mark-button)
+* Utile pour contourner le bac à sable: [✅](https://emojipedia.org/check-mark-button)
 * Contournement de TCC : [🟠](https://emojipedia.org/large-orange-circle)
 * Vous pourriez obtenir un accès TCC supplémentaire
 
@@ -331,7 +331,7 @@ Cela n'a pas fonctionné pour moi, ni avec le LoginHook utilisateur ni avec le L
 
 **Writeup** : [https://theevilbit.github.io/beyond/beyond\_0022/](https://theevilbit.github.io/beyond/beyond\_0022/)
 
-* Utile pour contourner le bac à sable : [✅](https://emojipedia.org/check-mark-button)
+* Utile pour contourner le bac à sable: [✅](https://emojipedia.org/check-mark-button)
 * Contournement de TCC : [🔴](https://emojipedia.org/large-red-circle)
 
 #### Emplacement
@@ -339,7 +339,7 @@ Cela n'a pas fonctionné pour moi, ni avec le LoginHook utilisateur ni avec le L
 * Vous devez être capable d'exécuter quelque chose comme `defaults write com.apple.loginwindow LoginHook /Users/$USER/hook.sh`
 * Situé dans `~/Library/Preferences/com.apple.loginwindow.plist`
 
-Ils sont obsolètes mais peuvent être utilisés pour exécuter des commandes lorsqu'un utilisateur se connecte.
+Ils sont obsolètes mais peuvent être utilisés pour exécuter des commandes lorsque un utilisateur se connecte.
 ```bash
 cat > $HOME/hook.sh << EOF
 #!/bin/bash
@@ -371,15 +371,15 @@ Le fichier de l'utilisateur root est stocké dans **`/private/var/root/Library/P
 ## Contournement conditionnel du bac à sable
 
 {% hint style="success" %}
-Ici, vous pouvez trouver des emplacements de démarrage utiles pour le **contournement du bac à sable** qui vous permet d'exécuter simplement quelque chose en **l'écrivant dans un fichier** et **en ne s'attendant pas à des conditions super communes** comme des **programmes spécifiques installés, des actions d'utilisateur "non courantes"** ou des environnements.
+Ici, vous pouvez trouver des emplacements de démarrage utiles pour le **contournement du bac à sable** qui vous permet de simplement exécuter quelque chose en **l'écrivant dans un fichier** et **en attendant des conditions pas très courantes** comme des **programmes spécifiques installés, des actions d'utilisateur "non courantes" ou des environnements.**
 {% endhint %}
 
 ### Cron
 
 **Writeup**: [https://theevilbit.github.io/beyond/beyond\_0004/](https://theevilbit.github.io/beyond/beyond\_0004/)
 
-* Utile pour contourner le bac à sable : [✅](https://emojipedia.org/check-mark-button)
-* Cependant, vous devez être capable d'exécuter le binaire `crontab`
+* Utile pour contourner le bac à sable: [✅](https://emojipedia.org/check-mark-button)
+* Cependant, vous devez pouvoir exécuter le binaire `crontab`
 * Ou être root
 * Contournement de TCC : [🔴](https://emojipedia.org/large-red-circle)
 
@@ -395,9 +395,9 @@ Listez les tâches cron de l'**utilisateur actuel** avec :
 ```bash
 crontab -l
 ```
-Vous pouvez également voir tous les travaux cron des utilisateurs dans **`/usr/lib/cron/tabs/`** et **`/var/at/tabs/`** (nécessite les droits root).
+Vous pouvez également voir tous les travaux cron des utilisateurs dans **`/usr/lib/cron/tabs/`** et **`/var/at/tabs/`** (nécessite des privilèges root).
 
-Dans MacOS, plusieurs dossiers exécutant des scripts à **certaine fréquence** peuvent être trouvés dans :
+Dans MacOS, plusieurs dossiers exécutant des scripts à **certaines fréquences** peuvent être trouvés dans :
 ```bash
 # The one with the cron jobs is /usr/lib/cron/tabs/
 ls -lR /usr/lib/cron/tabs/ /private/var/at/jobs /etc/periodic/
@@ -415,7 +415,7 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0002/](https://theevilbit.
 
 * Utile pour contourner le bac à sable: [✅](https://emojipedia.org/check-mark-button)
 * Contournement de TCC: [✅](https://emojipedia.org/check-mark-button)
-* iTerm2 utilisé pour accorder des autorisations TCC
+* iTerm2 utilisé pour avoir accordé des autorisations TCC
 
 #### Emplacements
 
@@ -476,11 +476,11 @@ Le script **`~/Library/Application Support/iTerm2/Scripts/AutoLaunch.scpt`** ser
 ```bash
 do shell script "touch /tmp/iterm2-autolaunchscpt"
 ```
-Les préférences d'iTerm2 situées dans **`~/Library/Preferences/com.googlecode.iterm2.plist`** peuvent **indiquer une commande à exécuter** lorsque le terminal iTerm2 est ouvert.
+Le fichier de préférences iTerm2 situé dans **`~/Library/Preferences/com.googlecode.iterm2.plist`** peut **indiquer une commande à exécuter** lorsque le terminal iTerm2 est ouvert.
 
 Ce paramètre peut être configuré dans les paramètres d'iTerm2 :
 
-<figure><img src="../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Et la commande est reflétée dans les préférences :
 ```bash
@@ -508,7 +508,7 @@ open /Applications/iTerm.app/Contents/MacOS/iTerm2
 {% endcode %}
 
 {% hint style="warning" %}
-Il est très probable qu'il existe **d'autres façons d'abuser des préférences d'iTerm2** pour exécuter des commandes arbitraires.
+Il est très probable qu'il existe **d'autres moyens d'abuser des préférences d'iTerm2** pour exécuter des commandes arbitraires.
 {% endhint %}
 
 ### xbar
@@ -527,7 +527,7 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0007/](https://theevilbit.
 
 #### Description
 
-Si le programme populaire [**xbar**](https://github.com/matryer/xbar) est installé, il est possible d'écrire un script shell dans **`~/Library/Application\ Support/xbar/plugins/`** qui sera exécuté lorsque xbar est lancé:
+Si le programme populaire [**xbar**](https://github.com/matryer/xbar) est installé, il est possible d'écrire un script shell dans **`~/Library/Application\ Support/xbar/plugins/`** qui sera exécuté lorsque xbar est lancé :
 ```bash
 cat > "$HOME/Library/Application Support/xbar/plugins/a.sh" << EOF
 #!/bin/bash
@@ -539,19 +539,19 @@ chmod +x "$HOME/Library/Application Support/xbar/plugins/a.sh"
 
 **Writeup**: [https://theevilbit.github.io/beyond/beyond\_0008/](https://theevilbit.github.io/beyond/beyond\_0008/)
 
-* Utile pour contourner le bac à sable : [✅](https://emojipedia.org/check-mark-button)
+* Utile pour contourner le bac à sable: [✅](https://emojipedia.org/check-mark-button)
 * Mais Hammerspoon doit être installé
-* Contournement de TCC : [✅](https://emojipedia.org/check-mark-button)
+* Contournement de TCC: [✅](https://emojipedia.org/check-mark-button)
 * Il demande des autorisations d'accessibilité
 
 #### Emplacement
 
 * **`~/.hammerspoon/init.lua`**
-* **Déclencheur** : Une fois que Hammerspoon est exécuté
+* **Déclencheur**: Une fois que Hammerspoon est exécuté
 
 #### Description
 
-[**Hammerspoon**](https://github.com/Hammerspoon/hammerspoon) sert de plateforme d'automatisation pour **macOS**, exploitant le langage de script **LUA** pour ses opérations. Notamment, il prend en charge l'intégration de code AppleScript complet et l'exécution de scripts shell, améliorant ainsi considérablement ses capacités de script.
+[**Hammerspoon**](https://github.com/Hammerspoon/hammerspoon) sert de plateforme d'automatisation pour **macOS**, utilisant le langage de script **LUA** pour ses opérations. Notamment, il prend en charge l'intégration de code AppleScript complet et l'exécution de scripts shell, améliorant considérablement ses capacités de script.
 
 L'application recherche un seul fichier, `~/.hammerspoon/init.lua`, et lorsque le script est démarré, il sera exécuté.
 ```bash
@@ -565,26 +565,26 @@ EOF
 * Utile pour contourner le bac à sable: [✅](https://emojipedia.org/check-mark-button)
 * Mais BetterTouchTool doit être installé
 * Contournement de TCC: [✅](https://emojipedia.org/check-mark-button)
-* Il demande les autorisations Automation-Shortcuts et Accessibility
+* Il demande les autorisations Automation-Shortcuts et Accessibilité
 
 #### Emplacement
 
 * `~/Library/Application Support/BetterTouchTool/*`
 
-Cet outil permet d'indiquer des applications ou des scripts à exécuter lorsque certaines combinaisons de touches sont pressées. Un attaquant pourrait configurer sa propre **combinaison de touches et action à exécuter dans la base de données** pour exécuter du code arbitraire (une combinaison de touches pourrait simplement consister à appuyer sur une touche).
+Cet outil permet d'indiquer des applications ou des scripts à exécuter lorsque certaines combinaisons de touches sont pressées. Un attaquant pourrait configurer sa propre **combinaison de touches et action à exécuter dans la base de données** pour exécuter du code arbitraire (une combinaison de touches pourrait consister simplement à appuyer sur une touche).
 
 ### Alfred
 
 * Utile pour contourner le bac à sable: [✅](https://emojipedia.org/check-mark-button)
 * Mais Alfred doit être installé
 * Contournement de TCC: [✅](https://emojipedia.org/check-mark-button)
-* Il demande les autorisations Automation, Accessibility et même l'accès complet au disque
+* Il demande les autorisations Automation, Accessibilité et même Accès complet au disque
 
 #### Emplacement
 
 * `???`
 
-Il permet de créer des workflows qui peuvent exécuter du code lorsque certaines conditions sont remplies. Potentiellement, il est possible pour un attaquant de créer un fichier de workflow et de le faire charger par Alfred (il est nécessaire de payer la version premium pour utiliser des workflows).
+Il permet de créer des workflows qui peuvent exécuter du code lorsque certaines conditions sont remplies. Potentiellement, il est possible pour un attaquant de créer un fichier de workflow et de le faire charger par Alfred (il est nécessaire de payer la version premium pour utiliser les workflows).
 
 ### SSHRC
 
@@ -593,7 +593,7 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0006/](https://theevilbit.
 * Utile pour contourner le bac à sable: [✅](https://emojipedia.org/check-mark-button)
 * Mais ssh doit être activé et utilisé
 * Contournement de TCC: [✅](https://emojipedia.org/check-mark-button)
-* SSH a besoin de l'accès complet au disque
+* SSH a besoin d'un accès complet au disque
 
 #### Emplacement
 
@@ -604,7 +604,7 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0006/](https://theevilbit.
 * **Déclencheur**: Connexion via ssh
 
 {% hint style="danger" %}
-Pour activer ssh, l'accès complet au disque est requis:
+Pour activer ssh, un accès complet au disque est requis:
 ```bash
 sudo systemsetup -setremotelogin on
 ```
@@ -629,7 +629,7 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0003/](https://theevilbit.
 * Charge utile d'exploitation stockée en appelant **`osascript`**
 * **`/var/db/com.apple.xpc.launchd/loginitems.501.plist`**
 * **Déclencheur :** Connexion
-* Nécessite les droits root
+* Nécessite des privilèges root
 
 #### Description
 
@@ -659,7 +659,7 @@ Une autre option serait de créer les fichiers **`.bash_profile`** et **`.zshenv
 
 ### At
 
-Article : [https://theevilbit.github.io/beyond/beyond\_0014/](https://theevilbit.github.io/beyond/beyond\_0014/)
+Analyse : [https://theevilbit.github.io/beyond/beyond\_0014/](https://theevilbit.github.io/beyond/beyond\_0014/)
 
 * Utile pour contourner le bac à sable : [✅](https://emojipedia.org/check-mark-button)
 * Mais vous devez **exécuter** **`at`** et il doit être **activé**
@@ -671,7 +671,7 @@ Article : [https://theevilbit.github.io/beyond/beyond\_0014/](https://theevilbit
 
 #### **Description**
 
-Les tâches `at` sont conçues pour **planifier des tâches ponctuelles** à exécuter à des moments précis. Contrairement aux tâches cron, les tâches `at` sont automatiquement supprimées après l'exécution. Il est crucial de noter que ces tâches persistent à travers les redémarrages du système, ce qui les rend potentiellement préoccupantes en termes de sécurité dans certaines conditions.
+Les tâches `at` sont conçues pour **planifier des tâches ponctuelles** à exécuter à des moments précis. Contrairement aux tâches cron, les tâches `at` sont automatiquement supprimées après l'exécution. Il est crucial de noter que ces tâches persistent à travers les redémarrages du système, ce qui les classe comme des préoccupations de sécurité potentielles dans certaines conditions.
 
 Par **défaut**, elles sont **désactivées** mais l'utilisateur **root** peut les **activer** avec :
 ```bash
@@ -681,13 +681,13 @@ Cela créera un fichier dans 1 heure :
 ```bash
 echo "echo 11 > /tmp/at.txt" | at now+1
 ```
-Vérifiez la file d'attente des tâches en utilisant `atq`:
+Vérifiez la file d'attente des tâches en utilisant `atq:`
 ```shell-session
 sh-3.2# atq
 26	Tue Apr 27 00:46:00 2021
 22	Wed Apr 28 00:29:00 2021
 ```
-Ci-dessus, nous pouvons voir deux tâches planifiées. Nous pouvons imprimer les détails de la tâche en utilisant `at -c JOBNUMBER`
+Ci-dessus, nous pouvons voir deux tâches planifiées. Nous pouvons imprimer les détails de la tâche en utilisant `at -c NUMÉRODETÂCHE`.
 ```shell-session
 sh-3.2# at -c 26
 #!/bin/sh
@@ -747,19 +747,19 @@ Analyse : [https://posts.specterops.io/folder-actions-for-persistence-on-macos-8
 * Utile pour contourner le bac à sable : [✅](https://emojipedia.org/check-mark-button)
 * Mais vous devez être capable d'appeler `osascript` avec des arguments pour contacter **`System Events`** afin de pouvoir configurer les Actions de Dossier
 * Contournement de TCC : [🟠](https://emojipedia.org/large-orange-circle)
-* Il possède quelques autorisations TCC de base comme Bureau, Documents et Téléchargements
+* Il a quelques autorisations TCC de base comme Bureau, Documents et Téléchargements
 
 #### Emplacement
 
 * **`/Library/Scripts/Folder Action Scripts`**
-* Nécessite les droits d'administrateur
+* Nécessite des privilèges d'administrateur
 * **Déclencheur** : Accès au dossier spécifié
 * **`~/Library/Scripts/Folder Action Scripts`**
 * **Déclencheur** : Accès au dossier spécifié
 
 #### Description & Exploitation
 
-Les Actions de Dossier sont des scripts déclenchés automatiquement par des changements dans un dossier tels que l'ajout, la suppression d'éléments, ou d'autres actions comme l'ouverture ou le redimensionnement de la fenêtre du dossier. Ces actions peuvent être utilisées pour diverses tâches et peuvent être déclenchées de différentes manières, comme en utilisant l'interface Finder ou des commandes terminal.
+Les Actions de Dossier sont des scripts déclenchés automatiquement par des changements dans un dossier tels que l'ajout, la suppression d'éléments, ou d'autres actions comme l'ouverture ou le redimensionnement de la fenêtre du dossier. Ces actions peuvent être utilisées pour diverses tâches et peuvent être déclenchées de différentes manières, comme en utilisant l'interface utilisateur Finder ou des commandes terminal.
 
 Pour configurer des Actions de Dossier, vous avez des options comme :
 
@@ -818,9 +818,9 @@ Déplacez-le vers :
 mkdir -p "$HOME/Library/Scripts/Folder Action Scripts"
 mv /tmp/folder.scpt "$HOME/Library/Scripts/Folder Action Scripts"
 ```
-Ensuite, ouvrez l'application `Folder Actions Setup`, sélectionnez le **dossier que vous souhaitez surveiller** et sélectionnez dans votre cas **`folder.scpt`** (dans mon cas je l'ai appelé output2.scp) :
+Ensuite, ouvrez l'application `Folder Actions Setup`, sélectionnez le **dossier que vous souhaitez surveiller** et sélectionnez dans votre cas **`folder.scpt`** (dans mon cas, je l'ai appelé output2.scp) :
 
-<figure><img src="../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1).png" alt="" width="297"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" width="297"><figcaption></figcaption></figure>
 
 Maintenant, si vous ouvrez ce dossier avec **Finder**, votre script sera exécuté.
 
@@ -832,7 +832,7 @@ Maintenant, essayons de préparer cette persistance sans accès GUI :
 * `cp ~/Library/Preferences/com.apple.FolderActionsDispatcher.plist /tmp`
 2. **Supprimez** les Folder Actions que vous venez de définir :
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Maintenant que nous avons un environnement vide
 
@@ -937,14 +937,14 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0017](https://theevilbit.g
 #### Emplacement
 
 * `/Library/ColorPickers`
-* Nécessite des privilèges d'administrateur
+* Nécessite des privilèges d'administration
 * Déclencheur : Utilisation du sélecteur de couleurs
 * `~/Library/ColorPickers`
 * Déclencheur : Utilisation du sélecteur de couleurs
 
 #### Description & Exploitation
 
-**Compilez un bundle** de sélecteur de couleurs avec votre code (vous pourriez utiliser [**celui-ci par exemple**](https://github.com/viktorstrate/color-picker-plus)) et ajoutez un constructeur (comme dans la section [Économiseur d'écran](macos-auto-start-locations.md#screen-saver)) puis copiez le bundle dans `~/Library/ColorPickers`.
+**Compilez un bundle de sélecteur de couleurs** avec votre code (vous pourriez utiliser [**celui-ci par exemple**](https://github.com/viktorstrate/color-picker-plus)) et ajoutez un constructeur (comme dans la section [Économiseur d'écran](macos-auto-start-locations.md#screen-saver)) puis copiez le bundle dans `~/Library/ColorPickers`.
 
 Ensuite, lorsque le sélecteur de couleurs est déclenché, votre code devrait également l'être.
 
@@ -1002,13 +1002,13 @@ Writeup: [https://posts.specterops.io/saving-your-access-d562bf5bf90b](https://p
 * `~/Library/Screen Savers`
 * **Déclencheur** : Sélectionnez l'économiseur d'écran
 
-<figure><img src="../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" width="375"><figcaption></figcaption></figure>
 
 #### Description & Exploit
 
 Créez un nouveau projet dans Xcode et sélectionnez le modèle pour générer un nouvel **économiseur d'écran**. Ensuite, ajoutez-y votre code, par exemple le code suivant pour générer des journaux.
 
-**Compilez** et copiez le bundle `.saver` dans **`~/Library/Screen Savers`**. Ensuite, ouvrez l'interface graphique de l'économiseur d'écran et si vous cliquez simplement dessus, cela devrait générer beaucoup de journaux :
+**Compilez** et copiez le paquet `.saver` dans **`~/Library/Screen Savers`**. Ensuite, ouvrez l'interface graphique de l'économiseur d'écran et si vous cliquez simplement dessus, cela devrait générer beaucoup de journaux :
 
 {% code overflow="wrap" %}
 ```bash
@@ -1106,10 +1106,10 @@ writeup: [https://theevilbit.github.io/beyond/beyond\_0011/](https://theevilbit.
 * **Déclencheur**: Un nouveau fichier avec une extension gérée par le plugin Spotlight est créé.
 * `/Library/Spotlight/`
 * **Déclencheur**: Un nouveau fichier avec une extension gérée par le plugin Spotlight est créé.
-* Nécessite les droits d'administrateur
+* Nécessite des privilèges d'administrateur
 * `/System/Library/Spotlight/`
 * **Déclencheur**: Un nouveau fichier avec une extension gérée par le plugin Spotlight est créé.
-* Nécessite les droits d'administrateur
+* Nécessite des privilèges d'administrateur
 * `Some.app/Contents/Library/Spotlight/`
 * **Déclencheur**: Un nouveau fichier avec une extension gérée par le plugin Spotlight est créé.
 * Nouvelle application requise
@@ -1119,7 +1119,7 @@ writeup: [https://theevilbit.github.io/beyond/beyond\_0011/](https://theevilbit.
 Spotlight est la fonction de recherche intégrée de macOS, conçue pour offrir aux utilisateurs un **accès rapide et complet aux données de leurs ordinateurs**.\
 Pour faciliter cette capacité de recherche rapide, Spotlight maintient une **base de données propriétaire** et crée un index en **analysant la plupart des fichiers**, permettant des recherches rapides à la fois dans les noms de fichiers et leur contenu.
 
-Le mécanisme sous-jacent de Spotlight implique un processus central nommé 'mds', qui signifie **'serveur de métadonnées'**. Ce processus orchestre l'ensemble du service Spotlight. En complément, il existe plusieurs démons 'mdworker' qui effectuent diverses tâches de maintenance, telles que l'indexation de différents types de fichiers (`ps -ef | grep mdworker`). Ces tâches sont rendues possibles grâce aux plugins importateurs Spotlight, ou **"bundles .mdimporter"**, qui permettent à Spotlight de comprendre et d'indexer le contenu de divers formats de fichiers.
+Le mécanisme sous-jacent de Spotlight implique un processus central nommé 'mds', qui signifie **'serveur de métadonnées'**. Ce processus orchestre l'ensemble du service Spotlight. En complément, il existe plusieurs démons 'mdworker' qui effectuent diverses tâches de maintenance, telles que l'indexation de différents types de fichiers (`ps -ef | grep mdworker`). Ces tâches sont rendues possibles grâce aux plugins importateurs Spotlight, ou **bundles ".mdimporter"**, qui permettent à Spotlight de comprendre et d'indexer le contenu de divers formats de fichiers.
 
 Les plugins ou **bundles `.mdimporter`** sont situés aux endroits mentionnés précédemment et si un nouveau bundle apparaît, il est chargé en quelques minutes (pas besoin de redémarrer de service). Ces bundles doivent indiquer quels **types de fichiers et extensions ils peuvent gérer**, de cette manière, Spotlight les utilisera lorsqu'un nouveau fichier avec l'extension indiquée est créé.
 
@@ -1169,14 +1169,14 @@ plutil -p /Library/Spotlight/iBooksAuthor.mdimporter/Contents/Info.plist
 [...]
 ```
 {% hint style="danger" %}
-Si vous vérifiez le Plist d'autres `mdimporter`, vous pourriez ne pas trouver l'entrée **`UTTypeConformsTo`**. C'est parce que c'est un _Identifiant de Type Uniforme_ ([UTI](https://en.wikipedia.org/wiki/Uniform\_Type\_Identifier)) intégré et il n'a pas besoin de spécifier les extensions.
+Si vous vérifiez le Plist d'autres `mdimporter`, vous pourriez ne pas trouver l'entrée **`UTTypeConformsTo`**. C'est parce que c'est un _Uniform Type Identifiers_ ([UTI](https://en.wikipedia.org/wiki/Uniform\_Type\_Identifier)) intégré et il n'a pas besoin de spécifier les extensions.
 
 De plus, les plugins par défaut du système ont toujours la priorité, donc un attaquant ne peut accéder qu'aux fichiers qui ne sont pas indexés par les propres `mdimporters` d'Apple.
 {% endhint %}
 
-Pour créer votre propre importateur, vous pourriez commencer avec ce projet : [https://github.com/megrimm/pd-spotlight-importer](https://github.com/megrimm/pd-spotlight-importer) puis changer le nom, les **`CFBundleDocumentTypes`** et ajouter **`UTImportedTypeDeclarations`** pour qu'il prenne en charge l'extension que vous souhaitez supporter et les refléter dans **`schema.xml`**. Ensuite, **modifiez** le code de la fonction **`GetMetadataForFile`** pour exécuter votre charge utile lorsqu'un fichier avec l'extension traitée est créé.
+Pour créer votre propre importateur, vous pourriez commencer avec ce projet : [https://github.com/megrimm/pd-spotlight-importer](https://github.com/megrimm/pd-spotlight-importer) puis changer le nom, les **`CFBundleDocumentTypes`** et ajouter **`UTImportedTypeDeclarations`** pour prendre en charge l'extension que vous souhaitez supporter et les refléter dans **`schema.xml`**. Ensuite, **modifiez** le code de la fonction **`GetMetadataForFile`** pour exécuter votre charge utile lorsqu'un fichier avec l'extension traitée est créé.
 
-Enfin, **compilez et copiez votre nouveau `.mdimporter`** dans l'un des emplacements précédents et vous pouvez vérifier s'il est chargé en **surveillant les journaux** ou en vérifiant **`mdimport -L.`**
+Enfin, **compilez et copiez votre nouveau fichier `.mdimporter`** dans l'un des emplacements précédents et vous pouvez vérifier s'il est chargé en **surveillant les journaux** ou en vérifiant **`mdimport -L.`**
 
 ### ~~Panneau de préférences~~
 
@@ -1203,7 +1203,7 @@ Il semble que cela ne fonctionne plus.
 ## Contournement du bac à sable root
 
 {% hint style="success" %}
-Ici, vous pouvez trouver des emplacements de démarrage utiles pour le **contournement du bac à sable** qui vous permet de simplement exécuter quelque chose en **l'écrivant dans un fichier** en étant **root** et/ou en nécessitant d'autres **conditions étranges.**
+Ici, vous pouvez trouver des emplacements de démarrage utiles pour le **contournement du bac à sable** qui vous permettent simplement d'exécuter quelque chose en **l'écrivant dans un fichier** en étant **root** et/ou en nécessitant d'autres **conditions étranges.**
 {% endhint %}
 
 ### Périodique
@@ -1284,11 +1284,11 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0005/](https://theevilbit.
 
 #### Emplacement
 
-* Toujours nécessite des privilèges root
+* Toujours nécessite les droits root
 
 #### Description & Exploitation
 
-Comme PAM est plus axé sur la **persistance** et les logiciels malveillants que sur l'exécution facile dans macOS, ce blog ne donnera pas d'explication détaillée, **lisez les writeups pour mieux comprendre cette technique**.
+Comme PAM est plus axé sur la **persistance** et les logiciels malveillants que sur l'exécution facile à l'intérieur de macOS, ce blog ne donnera pas d'explication détaillée, **lisez les writeups pour mieux comprendre cette technique**.
 
 Vérifiez les modules PAM avec :
 ```bash
@@ -1347,7 +1347,7 @@ NSLog(@"%@", @"[+] Custom Authorization Plugin was loaded");
 system("echo \"%staff ALL=(ALL) NOPASSWD:ALL\" >> /etc/sudoers");
 }
 ```
-**Déplacez** le bundle à l'emplacement à charger :
+**Déplacez** le bundle vers l'emplacement à charger :
 ```bash
 cp -r CustomAuth.bundle /Library/Security/SecurityAgentPlugins/
 ```
@@ -1389,14 +1389,14 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0030/](https://theevilbit.
 #### Emplacement
 
 * **`/private/etc/man.conf`**
-* Requis root
+* Nécessite les droits root
 * **`/private/etc/man.conf`**: Chaque fois que man est utilisé
 
 #### Description & Exploit
 
-Le fichier de configuration **`/private/etc/man.conf`** indique le binaire/script à utiliser lors de l'ouverture des fichiers de documentation man. Ainsi, le chemin vers l'exécutable pourrait être modifié de sorte que chaque fois que l'utilisateur utilise man pour lire des documents, une porte dérobée est exécutée.
+Le fichier de configuration **`/private/etc/man.conf`** indique le binaire/script à utiliser lors de l'ouverture des fichiers de documentation man. Ainsi, le chemin vers l'exécutable pourrait être modifié de sorte qu'à chaque fois que l'utilisateur utilise man pour lire des documents, une porte dérobée est exécutée.
 
-Par exemple, défini dans **`/private/etc/man.conf`**:
+Par exemple, définir dans **`/private/etc/man.conf`**:
 ```
 MANPAGER /tmp/view
 ```
@@ -1420,12 +1420,12 @@ touch /tmp/manconf
 #### Emplacement
 
 * **`/etc/apache2/httpd.conf`**
-* Nécessite des privilèges root
-* Déclenchement : Lorsque Apache2 démarre
+* Root requis
+* Déclencheur: Lorsque Apache2 est démarré
 
 #### Description & Exploit
 
-Vous pouvez indiquer dans `/etc/apache2/httpd.conf` de charger un module en ajoutant une ligne comme suit :
+Vous pouvez indiquer dans `/etc/apache2/httpd.conf` de charger un module en ajoutant une ligne comme suit:
 
 {% code overflow="wrap" %}
 ```bash
@@ -1471,9 +1471,7 @@ Chaque fois qu'auditd détecte un avertissement, le script **`/etc/security/audi
 ```bash
 echo "touch /tmp/auditd_warn" >> /etc/security/audit_warn
 ```
-Vous pourriez forcer un avertissement avec `sudo audit -n`.
-
-### Éléments de Démarrage
+### Éléments de démarrage
 
 {% hint style="danger" %}
 **Ceci est obsolète, donc rien ne devrait être trouvé dans ces répertoires.**
@@ -1510,13 +1508,23 @@ Assurez-vous que le script rc et le fichier `StartupParameters.plist` sont corre
 
 ### Emplacements de démarrage automatique macOS
 
-Les emplacements suivants sont des endroits où des services peuvent être configurés pour démarrer automatiquement sur macOS :
+#### Emplacements de démarrage automatique
 
-- **LaunchAgents** : Ces services sont lancés au démarrage de session de l'utilisateur.
-- **LaunchDaemons** : Ces services sont lancés au démarrage du système.
-- **StartupItems** : Ancienne méthode de démarrage automatique, dépréciée à partir de macOS 10.5.
+Les emplacements suivants peuvent être utilisés pour démarrer automatiquement des programmes sur macOS :
 
-Il est important de surveiller et de gérer ces emplacements pour assurer la sécurité de votre système macOS. 
+- **/Library/LaunchAgents/**
+- **/Library/LaunchDaemons/**
+- **/System/Library/LaunchAgents/**
+- **/System/Library/LaunchDaemons/**
+- **~/Library/LaunchAgents/**
+
+#### Désactivation des emplacements de démarrage automatique
+
+Pour désactiver les emplacements de démarrage automatique, vous pouvez supprimer les fichiers de configuration des programmes que vous ne souhaitez pas démarrer automatiquement. Assurez-vous de sauvegarder les fichiers avant de les supprimer au cas où vous auriez besoin de les restaurer ultérieurement.
+
+#### Vérification des emplacements de démarrage automatique
+
+Pour vérifier quels programmes sont configurés pour démarrer automatiquement, vous pouvez examiner les fichiers présents dans les emplacements mentionnés ci-dessus. Assurez-vous de vérifier régulièrement ces emplacements pour détecter toute activité suspecte. 
 
 {% endtab %}
 ```bash
@@ -1543,14 +1551,14 @@ RunService "$1"
 ### ~~emond~~
 
 {% hint style="danger" %}
-Je ne peux pas trouver ce composant dans mon macOS donc pour plus d'informations consultez le writeup
+Je ne trouve pas ce composant dans mon macOS, pour plus d'informations consultez le writeup
 {% endhint %}
 
 Writeup: [https://theevilbit.github.io/beyond/beyond\_0023/](https://theevilbit.github.io/beyond/beyond\_0023/)
 
-Introduit par Apple, **emond** est un mécanisme de journalisation qui semble être sous-développé ou peut-être abandonné, mais reste accessible. Bien que pas particulièrement bénéfique pour un administrateur Mac, ce service obscur pourrait servir de méthode de persistance subtile pour les acteurs de menace, probablement inaperçue par la plupart des administrateurs macOS.
+Introduit par Apple, **emond** est un mécanisme de journalisation qui semble être sous-développé ou peut-être abandonné, mais reste accessible. Bien que peu bénéfique pour un administrateur Mac, ce service obscur pourrait servir de méthode de persistance subtile pour les acteurs de menace, probablement inaperçue par la plupart des administrateurs macOS.
 
-Pour ceux qui sont conscients de son existence, identifier toute utilisation malveillante de **emond** est simple. Le LaunchDaemon du système pour ce service recherche des scripts à exécuter dans un seul répertoire. Pour inspecter cela, la commande suivante peut être utilisée:
+Pour ceux qui connaissent son existence, identifier toute utilisation malveillante de **emond** est simple. Le LaunchDaemon du système pour ce service recherche des scripts à exécuter dans un seul répertoire. Pour inspecter cela, la commande suivante peut être utilisée:
 ```bash
 ls -l /private/var/db/emondClients
 ```
@@ -1566,7 +1574,7 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0018/](https://theevilbit.
 
 #### Description & Exploit
 
-XQuartz n'est **plus installé dans macOS**, donc si vous voulez plus d'informations, consultez le writeup.
+XQuartz n'est **plus installé dans macOS**, donc pour plus d'informations, consultez le writeup.
 
 ### ~~kext~~
 
@@ -1600,7 +1608,7 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0029/](https://theevilbit.
 #### Emplacement
 
 * **`/usr/local/bin/amstoold`**
-* Nécessite les droits d'administration
+* Nécessite les droits d'administrateur
 
 #### Description & Exploitation
 
@@ -1615,7 +1623,7 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0015/](https://theevilbit.
 #### Emplacement
 
 * **`/Library/Preferences/Xsan/.xsanrc`**
-* Nécessite les droits d'administration
+* Nécessite les droits d'administrateur
 * **Déclencheur**: Lorsque le service est exécuté (rarement)
 
 #### Description & exploitation
@@ -1728,14 +1736,14 @@ esac
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge HackTricks AWS)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert Red Team AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks:
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF** Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>

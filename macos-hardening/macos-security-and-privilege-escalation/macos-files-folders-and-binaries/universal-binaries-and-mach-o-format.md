@@ -129,7 +129,7 @@ Ou en utilisant [Mach-O View](https://sourceforge.net/projects/machoview/):
 
 ## **Commandes de chargement Mach-O**
 
-La **mise en page du fichier en mémoire** est spécifiée ici, détaillant l'emplacement de la **table des symboles**, le contexte du thread principal au démarrage de l'exécution, et les **bibliothèques partagées** requises. Des instructions sont fournies au chargeur dynamique **(dyld)** sur le processus de chargement du binaire en mémoire.
+La **disposition du fichier en mémoire** est spécifiée ici, détaillant l'emplacement de la **table des symboles**, le contexte du thread principal au démarrage de l'exécution, et les **bibliothèques partagées** requises. Des instructions sont fournies au chargeur dynamique **(dyld)** sur le processus de chargement du binaire en mémoire.
 
 Il utilise la structure **load\_command**, définie dans le fichier **`loader.h`**:
 ```objectivec
@@ -138,12 +138,12 @@ uint32_t cmd;           /* type of load command */
 uint32_t cmdsize;       /* total size of command in bytes */
 };
 ```
-Il existe environ **50 types différents de commandes de chargement** que le système gère différemment. Les plus courantes sont : `LC_SEGMENT_64`, `LC_LOAD_DYLINKER`, `LC_MAIN`, `LC_LOAD_DYLIB` et `LC_CODE_SIGNATURE`.
+Il existe environ **50 types de commandes de chargement** différents que le système gère différemment. Les plus courants sont : `LC_SEGMENT_64`, `LC_LOAD_DYLINKER`, `LC_MAIN`, `LC_LOAD_DYLIB` et `LC_CODE_SIGNATURE`.
 
 ### **LC\_SEGMENT/LC\_SEGMENT\_64**
 
 {% hint style="success" %}
-Essentiellement, ce type de commande de chargement définit **comment charger les segments \_\_TEXT** (code exécutable) **et \_\_DATA** (données pour le processus) **selon les décalages indiqués dans la section Data** lorsque le binaire est exécuté.
+Essentiellement, ce type de commande de chargement définit **comment charger les segments \_\_TEXT** (code exécutable) **et \_\_DATA** (données du processus) **selon les décalages indiqués dans la section Data** lorsque le binaire est exécuté.
 {% endhint %}
 
 Ces commandes **définissent des segments** qui sont **cartographiés** dans l'**espace mémoire virtuel** d'un processus lors de son exécution.
@@ -198,25 +198,25 @@ Si vous **ajoutez** le **décalage de section** (0x37DC) + le **décalage** où 
 
 <figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Il est également possible d'obtenir des **informations d'en-tête** à partir de la **ligne de commande** avec :
+Il est également possible d'obtenir des **informations d'en-tête** depuis la **ligne de commande** avec :
 ```bash
 otool -lv /bin/ls
 ```
 Les segments courants chargés par cette commande :
 
-* **`__PAGEZERO` :** Il indique au noyau de **mapper** l'**adresse zéro** afin qu'elle ne puisse pas être lue, écrite ou exécutée. Les variables maxprot et minprot dans la structure sont définies à zéro pour indiquer qu'il n'y a **aucun droit de lecture-écriture-exécution sur cette page**.
+* **`__PAGEZERO` :** Il indique au noyau de **mapper** l'**adresse zéro** afin qu'elle **ne puisse pas être lue, écrite ou exécutée**. Les variables maxprot et minprot dans la structure sont définies à zéro pour indiquer qu'il n'y a **aucun droit de lecture-écriture-exécution sur cette page**.
 * Cette allocation est importante pour **atténuer les vulnérabilités de référence de pointeur NULL**.
-* **`__TEXT` :** Contient du **code exécutable** avec des autorisations de **lecture** et d'**exécution** (pas d'écriture). Sections courantes de ce segment :
+* **`__TEXT`** : Contient du **code exécutable** avec des autorisations de **lecture** et d'**exécution** (pas d'écriture)**.** Sections courantes de ce segment :
   * `__text` : Code binaire compilé
   * `__const` : Données constantes
   * `__cstring` : Constantes de chaîne
   * `__stubs` et `__stubs_helper` : Impliqués lors du processus de chargement de bibliothèque dynamique
-* **`__DATA` :** Contient des données **lisibles** et **modifiables** (non exécutables).
+* **`__DATA`** : Contient des données **lisibles** et **inscriptibles** (non exécutables)**.**
   * `__data` : Variables globales (qui ont été initialisées)
   * `__bss` : Variables statiques (qui n'ont pas été initialisées)
   * `__objc_*` (\_\_objc\_classlist, \_\_objc\_protolist, etc) : Informations utilisées par le runtime Objective-C
-* **`__LINKEDIT` :** Contient des informations pour le linker (dyld) telles que "entrées de table de symboles, de chaînes et de réadressage".
-* **`__OBJC` :** Contient des informations utilisées par le runtime Objective-C. Bien que ces informations puissent également être trouvées dans le segment \_\_DATA, dans diverses sections \_\_objc\_\*.
+* **`__LINKEDIT`** : Contient des informations pour le lien (dyld) telles que "entrées de table de symboles, de chaînes et de réadressage."
+* **`__OBJC`** : Contient des informations utilisées par le runtime Objective-C. Bien que ces informations puissent également être trouvées dans le segment \_\_DATA, dans diverses sections \_\_objc\_\*.
 
 ### **`LC_MAIN`**
 
@@ -225,11 +225,11 @@ Contient le point d'entrée dans l'attribut **entryoff**. Au moment du chargemen
 ### **LC\_CODE\_SIGNATURE**
 
 Contient des informations sur la **signature de code du fichier Mach-O**. Il contient uniquement un **décalage** qui **pointe** vers le **blob de signature**. Cela se trouve généralement à la toute fin du fichier.\
-Cependant, vous pouvez trouver des informations sur cette section dans [**ce billet de blog**](https://davedelong.com/blog/2018/01/10/reading-your-own-entitlements/) et ce [**gist**](https://gist.github.com/carlospolop/ef26f8eb9fafd4bc22e69e1a32b81da4).
+Cependant, vous pouvez trouver des informations sur cette section dans [**cet article de blog**](https://davedelong.com/blog/2018/01/10/reading-your-own-entitlements/) et ce [**gist**](https://gist.github.com/carlospolop/ef26f8eb9fafd4bc22e69e1a32b81da4).
 
 ### **LC\_LOAD\_DYLINKER**
 
-Contient le **chemin vers l'exécutable du chargeur dynamique** qui mappe les bibliothèques partagées dans l'espace d'adressage du processus. La **valeur est toujours définie sur `/usr/lib/dyld`**. Il est important de noter que dans macOS, le mappage dylib se fait en **mode utilisateur**, pas en mode noyau.
+Contient le **chemin vers l'exécutable du chargeur dynamique** qui mappe les bibliothèques partagées dans l'espace d'adressage du processus. La **valeur est toujours définie sur `/usr/lib/dyld`**. Il est important de noter que sous macOS, le mappage dylib se fait en **mode utilisateur**, pas en mode noyau.
 
 ### **`LC_LOAD_DYLIB`**
 
@@ -285,9 +285,9 @@ Cela inclut :
 
 * **Table des fonctions** : Qui contient des informations sur les fonctions du programme.
 * **Table des symboles** : Qui contient des informations sur les fonctions externes utilisées par le binaire
-* Il pourrait également contenir des noms de fonctions internes, des noms de variables et plus encore.
+* Il pourrait également contenir des noms de fonctions internes, de variables, etc.
 
-Pour vérifier, vous pouvez utiliser l'outil [**Mach-O View**](https://sourceforge.net/projects/machoview/) :
+Pour vérifier, vous pourriez utiliser l'outil [**Mach-O View**](https://sourceforge.net/projects/machoview/) :
 
 <figure><img src="../../../.gitbook/assets/image (2) (1) (4).png" alt=""><figcaption></figcaption></figure>
 
@@ -299,12 +299,12 @@ size -m /bin/ls
 
 <summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
-D'autres façons de soutenir HackTricks :
+D'autres façons de soutenir HackTricks:
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>

@@ -10,7 +10,7 @@ Autres façons de soutenir HackTricks :
 - Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 - Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 - **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-- **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+- **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
@@ -44,6 +44,9 @@ mig -header myipcUser.h -sheader myipcServer.h myipc.defs
 Plusieurs nouveaux fichiers seront créés dans le répertoire actuel.
 
 Dans les fichiers **`myipcServer.c`** et **`myipcServer.h`**, vous pouvez trouver la déclaration et la définition de la structure **`SERVERPREFmyipc_subsystem`**, qui définit essentiellement la fonction à appeler en fonction de l'ID du message reçu (nous avons indiqué un numéro de départ de 500) :
+
+{% tabs %}
+{% tab title="myipcServer.c" %}
 ```c
 /* Description of this subsystem, for use in direct RPC */
 const struct SERVERPREFmyipc_subsystem SERVERPREFmyipc_subsystem = {
@@ -63,22 +66,15 @@ myipc_server_routine,
 
 {% tab title="myipcServer.h" %} 
 
-### macOS MIG (Mach Interface Generator)
-
-Le générateur d'interface Mach (MIG) est un outil fourni par Apple pour simplifier la communication entre les processus sur macOS. Il génère des interfaces de programmation pour les services système qui utilisent le Mach IPC (Inter-Process Communication).
-
-Voici un exemple de fichier d'en-tête pour un serveur MIG personnalisé :
-
 ```c
 #include <mach/mach.h>
 #include <servers/bootstrap.h>
+#include "myipcServer.h"
 
-kern_return_t my_server(mach_msg_header_t *InHeadP, mach_msg_header_t *OutHeadP);
+kern_return_t myipcregister(mach_port_t *server_port);
+kern_return_t myipcunregister(mach_port_t server_port);
+kern_return_t myipcrequest(mach_port_t server_port, int request, int *response);
 ```
-
-Dans cet exemple, `my_server` est la fonction qui sera appelée pour traiter les messages reçus par le serveur MIG personnalisé.
-
-L'utilisation de MIG peut introduire des vulnérabilités de sécurité si les entrées ne sont pas correctement validées, ce qui peut être exploité pour des attaques de privilège d'escalade. Il est essentiel de sécuriser correctement les services utilisant MIG pour éviter les abus de processus sur macOS. 
 
 {% endtab %}
 ```c
@@ -120,7 +116,7 @@ En fait, il est possible d'identifier cette relation dans la structure **`subsys
 { "Subtract", 500 }
 #endif
 ```
-Enfin, une autre fonction importante pour faire fonctionner le serveur sera **`myipc_server`**, qui est celle qui va effectivement **appeler la fonction** liée à l'identifiant reçu :
+Enfin, une autre fonction importante pour faire fonctionner le serveur sera **`myipc_server`**, qui est celle qui va effectivement **appeler la fonction** liée à l'ID reçu :
 
 <pre class="language-c"><code class="lang-c">mig_external boolean_t myipc_server
 (mach_msg_header_t *InHeadP, mach_msg_header_t *OutHeadP)
@@ -202,23 +198,21 @@ mach_msg_server(myipc_server, sizeof(union __RequestUnion__SERVERPREFmyipc_subsy
 
 int main() {
     mach_port_t bootstrap_port;
-    kern_return_t kr = task_get_bootstrap_port(mach_task_self(), &bootstrap_port);
-    if (kr != KERN_SUCCESS) {
+    kern_return_t err;
+
+    err = task_get_bootstrap_port(mach_task_self(), &bootstrap_port);
+    if (err != KERN_SUCCESS) {
         printf("Failed to get bootstrap port\n");
         return 1;
     }
 
-    myipc_args_t args = {0};
-    args.x = 10;
-    args.y = 20;
-
-    kr = myipc_call(bootstrap_port, &args);
-    if (kr != KERN_SUCCESS) {
-        printf("Failed to call myipc\n");
-        return json_object();
+    err = myipc_register(bootstrap_port);
+    if (err != KjsonERN_SUCCESS) {
+        printf("Failed to register myipc service\n");
+        return 1;
     }
 
-    printf("Result: %d\n", args.result);
+    printf("myipc service registered successfully\n");
 
     return 0;
 }
@@ -257,7 +251,7 @@ Comme de nombreux binaires utilisent désormais MIG pour exposer des ports mach,
 ```bash
 jtool2 -d __DATA.__const myipc_server | grep MIG
 ```
-Il a été mentionné précédemment que la fonction qui se chargera **d'appeler la fonction correcte en fonction de l'ID du message reçu** était `myipc_server`. Cependant, vous n'aurez généralement pas les symboles du binaire (pas de noms de fonctions), il est donc intéressant de **vérifier à quoi cela ressemble décompilé** car cela sera toujours très similaire (le code de cette fonction est indépendant des fonctions exposées) :
+Il a été mentionné précédemment que la fonction qui se chargera **d'appeler la fonction correcte en fonction de l'ID du message reçu** était `myipc_server`. Cependant, vous n'aurez généralement pas les symboles du binaire (pas de noms de fonctions), il est donc intéressant de **vérifier à quoi ressemble le décompilé** car il sera toujours très similaire (le code de cette fonction est indépendant des fonctions exposées) :
 
 {% tabs %}
 {% tab title="myipc_server décompilé 1" %}
@@ -279,7 +273,7 @@ rax = *(int32_t *)(var_10 + 0x14);
 // 0x1f4 = 500 (l'ID de départ)
 <strong>            rax = *(sign_extend_64(rax - 0x1f4) * 0x28 + 0x100004040);
 </strong>            var_20 = rax;
-// If - else, le if retourne false, tandis que le else appelle la bonne fonction et retourne true
+// Si - sinon, le si renvoie faux, tandis que le sinon appelle la bonne fonction et renvoie vrai
 <strong>            if (rax == 0x0) {
 </strong>                    *(var_18 + 0x18) = **_NDR_record;
 *(int32_t *)(var_18 + 0x20) = 0xfffffffffffffed1;
@@ -303,7 +297,7 @@ return rax;
 {% endtab %}
 
 {% tab title="myipc_server décompilé 2" %}
-C'est la même fonction décompilée dans une version Hopper gratuite différente :
+Il s'agit de la même fonction décompilée dans une version gratuite différente de Hopper :
 
 <pre class="language-c"><code class="lang-c">int _myipc_server(int arg0, int arg1) {
 r31 = r31 - 0x40;
@@ -346,7 +340,7 @@ if (CPU_FLAGS &#x26; NE) {
 r8 = 0x1;
 }
 }
-// Même if else que dans la version précédente
+// Même si sinon que dans la version précédente
 // Vérifiez l'utilisation de l'adresse 0x100004040 (tableau d'adresses de fonctions)
 <strong>                    if ((r8 &#x26; 0x1) == 0x0) {
 </strong><strong>                            *(var_18 + 0x18) = **0x100004000;
@@ -380,21 +374,11 @@ return r0;
 
 En fait, si vous allez à la fonction **`0x100004000`**, vous trouverez le tableau des structures **`routine_descriptor`**. Le premier élément de la structure est l'**adresse** où la **fonction** est implémentée, et la **structure prend 0x28 octets**, donc tous les 0x28 octets (à partir de l'octet 0) vous pouvez obtenir 8 octets et ce sera l'**adresse de la fonction** qui sera appelée :
 
-<figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
-
 <figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
+<figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+
 Ces données peuvent être extraites [**en utilisant ce script Hopper**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py).
-
-<details>
-
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Autres façons de soutenir HackTricks :
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 

@@ -42,7 +42,7 @@ Les applications avec l'Autorisation d'Outil de Débogage peuvent appeler `task_
 
 ### `com.apple.security.cs.disable-library-validation`
 
-Cette autorisation permet de **charger des frameworks, des plug-ins ou des bibliothèques sans être signés par Apple ou signés avec le même ID d'équipe** que l'exécutable principal, ce qui permettrait à un attaquant d'abuser de certaines charges de bibliothèques arbitraires pour injecter du code. Consultez [**ceci pour plus d'informations**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-library-validation).
+Cette autorisation permet de **charger des frameworks, des plug-ins ou des bibliothèques sans être signés par Apple ou signés avec le même ID d'équipe** que l'exécutable principal, ce qui permettrait à un attaquant d'abuser de certains chargements de bibliothèques arbitraires pour injecter du code. Consultez [**ceci pour plus d'informations**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-library-validation).
 
 ### `com.apple.private.security.clear-library-validation`
 
@@ -83,7 +83,7 @@ TODO: Dans [**ce rapport**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-
 
 ### `com.apple.private.apfs.create-sealed-snapshot`
 
-TODO: Dans [**ce rapport**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **il est mentionné que cela pourrait être utilisé pour** mettre à jour les contenus protégés par SSV après un redémarrage. Si vous savez comment, envoyez une PR s'il vous plaît !
+TODO: Dans [**ce rapport**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **il est mentionné que cela pourrait être utilisé pour** mettre à jour les contenus protégés par SSV après un redémarrage.
 
 ### `keychain-access-groups`
 
@@ -122,13 +122,13 @@ Permet, entre autres autorisations, d'**écrire dans la base de données TCC des
 
 ### **`kTCCServiceSystemPolicySysAdminFiles`**
 
-Permet de **modifier** l'attribut **`NFSHomeDirectory`** d'un utilisateur, ce qui modifie le chemin de son dossier personnel et permet donc de **contourner TCC**.
+Permet de **modifier** l'attribut **`NFSHomeDirectory`** d'un utilisateur qui modifie le chemin de son dossier personnel et permet donc de **contourner TCC**.
 
 ### **`kTCCServiceSystemPolicyAppBundles`**
 
 Permet de modifier des fichiers à l'intérieur des bundles d'applications (à l'intérieur de app.app), ce qui est **interdit par défaut**.
 
-<figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Il est possible de vérifier qui a cet accès dans _Préférences Système_ > _Confidentialité et sécurité_ > _Gestion des apps_.
 
@@ -140,31 +140,31 @@ Le processus pourra **abuser des fonctionnalités d'accessibilité de macOS**, c
 
 ### `com.apple.security.cs.allow-jit`
 
-Cette autorisation permet de **créer de la mémoire qui est inscriptible et exécutable** en passant le drapeau `MAP_JIT` à la fonction système `mmap()`. Consultez [**ce lien pour plus d'informations**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-jit).
+Cet avantage permet de **créer de la mémoire qui est inscriptible et exécutable** en passant le drapeau `MAP_JIT` à la fonction système `mmap()`. Vérifiez [**ceci pour plus d'informations**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-jit).
 
 ### `com.apple.security.cs.allow-unsigned-executable-memory`
 
-Cette autorisation permet de **outrepasser ou patcher du code C**, d'utiliser la fonction longtemps obsolète **`NSCreateObjectFileImageFromMemory`** (qui est fondamentalement non sécurisée), ou d'utiliser le framework **DVDPlayback**. Consultez [**ce lien pour plus d'informations**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory).
+Cet avantage permet de **outrepasser ou patcher du code C**, utiliser la longtemps dépréciée **`NSCreateObjectFileImageFromMemory`** (qui est fondamentalement non sécurisée), ou utiliser le framework **DVDPlayback**. Vérifiez [**ceci pour plus d'informations**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory).
 
 {% hint style="danger" %}
-Inclure cette autorisation expose votre app à des vulnérabilités courantes dans les langages de code non sécurisés en mémoire. Considérez attentivement si votre app a besoin de cette exception.
+Inclure cet avantage expose votre app à des vulnérabilités courantes dans les langages de code non sécurisés en mémoire. Considérez attentivement si votre app a besoin de cette exception.
 {% endhint %}
 
 ### `com.apple.security.cs.disable-executable-page-protection`
 
-Cette autorisation permet de **modifier des sections de ses propres fichiers exécutables** sur le disque pour forcer la sortie. Consultez [**ce lien pour plus d'informations**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-executable-page-protection).
+Cet avantage permet de **modifier des sections de ses propres fichiers exécutables** sur le disque pour sortir de force. Vérifiez [**ceci pour plus d'informations**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-executable-page-protection).
 
 {% hint style="danger" %}
-L'autorisation de désactivation de la protection des pages exécutables est une autorisation extrême qui supprime une protection de sécurité fondamentale de votre app, permettant à un attaquant de réécrire le code exécutable de votre app sans détection. Privilégiez des autorisations plus restreintes si possible.
+L'avantage de désactivation de la protection de la mémoire exécutable est un avantage extrême qui supprime une protection de sécurité fondamentale de votre app, permettant à un attaquant de réécrire le code exécutable de votre app sans détection. Privilégiez des avantages plus restreints si possible.
 {% endhint %}
 
 ### `com.apple.security.cs.allow-relative-library-loads`
 
-À FAIRE
+TODO
 
 ### `com.apple.private.nullfs_allow`
 
-Cette autorisation permet de monter un système de fichiers nullfs (interdit par défaut). Outil : [**mount\_nullfs**](https://github.com/JamaicanMoose/mount\_nullfs/tree/master).
+Cet avantage permet de monter un système de fichiers nullfs (interdit par défaut). Outil : [**mount\_nullfs**](https://github.com/JamaicanMoose/mount\_nullfs/tree/master).
 
 ### `kTCCServiceAll`
 
@@ -181,13 +181,13 @@ Permettre au processus de **demander toutes les autorisations TCC**.
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks :
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
