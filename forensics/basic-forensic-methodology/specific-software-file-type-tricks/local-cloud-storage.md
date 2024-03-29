@@ -14,23 +14,23 @@ Drugi načini podrške HackTricks-u:
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da lako izgradite i **automatizujete radne tokove** pokretane najnaprednijim alatima zajednice na svetu.\
+Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da lako izgradite i **automatizujete radne tokove** pokretane najnaprednijim alatima zajednice.\
 Dobijte pristup danas:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 ## OneDrive
 
-U Windows-u, OneDrive folder se može pronaći u `\Users\<korisničko_ime>\AppData\Local\Microsoft\OneDrive`. A unutar `logs\Personal` moguće je pronaći fajl `SyncDiagnostics.log` koji sadrži neke zanimljive podatke u vezi sa sinhronizovanim fajlovima:
+U Windows-u, možete pronaći OneDrive fasciklu u `\Users\<korisničko_ime>\AppData\Local\Microsoft\OneDrive`. A unutar `logs\Personal` moguće je pronaći fajl `SyncDiagnostics.log` koji sadrži neke zanimljive podatke u vezi sa sinhronizovanim fajlovima:
 
 * Veličina u bajtovima
 * Datum kreiranja
 * Datum modifikacije
 * Broj fajlova u oblaku
-* Broj fajlova u folderu
+* Broj fajlova u fascikli
 * **CID**: Jedinstveni ID OneDrive korisnika
 * Vreme generisanja izveštaja
 * Veličina HD-a OS-a
@@ -39,17 +39,17 @@ Kada pronađete CID, preporučljivo je **pretražiti fajlove koji sadrže ovaj I
 
 ## Google Drive
 
-U Windows-u, glavni Google Drive folder se može pronaći u `\Users\<korisničko_ime>\AppData\Local\Google\Drive\user_default`\
-Ovaj folder sadrži fajl nazvan Sync\_log.log sa informacijama poput email adrese naloga, imena fajlova, vremenskih oznaka, MD5 heševa fajlova, itd. Čak i obrisani fajlovi se pojavljuju u tom log fajlu sa odgovarajućim MD5 vrednostima.
+U Windows-u, možete pronaći glavnu Google Drive fasciklu u `\Users\<korisničko_ime>\AppData\Local\Google\Drive\user_default`\
+Ova fascikla sadrži fajl nazvan Sync\_log.log sa informacijama poput email adrese naloga, imena fajlova, vremenskih oznaka, MD5 heševa fajlova, itd. Čak i obrisani fajlovi se pojavljuju u tom log fajlu sa odgovarajućim MD5 vrednostima.
 
 Fajl **`Cloud_graph\Cloud_graph.db`** je sqlite baza podataka koja sadrži tabelu **`cloud_graph_entry`**. U ovoj tabeli možete pronaći **ime** **sinhronizovanih** **fajlova**, vreme modifikacije, veličinu i MD5 kontrolnu sumu fajlova.
 
-Podaci tabele baze podataka **`Sync_config.db`** sadrže email adresu naloga, putanje deljenih foldera i verziju Google Drive-a.
+Podaci tabele baze podataka **`Sync_config.db`** sadrže email adresu naloga, putanje deljenih fascikli i verziju Google Drive-a.
 
 ## Dropbox
 
 Dropbox koristi **SQLite baze podataka** za upravljanje fajlovima. U ovim\
-Možete pronaći baze podataka u folderima:
+Možete pronaći baze podataka u fasciklama:
 
 * `\Users\<korisničko_ime>\AppData\Local\Dropbox`
 * `\Users\<korisničko_ime>\AppData\Local\Dropbox\Instance1`
@@ -62,9 +62,9 @@ Glavne baze podataka su:
 * Deleted.dbx
 * Config.dbx
 
-Ekstenzija ".dbx" znači da su **baze podataka** **šifrovane**. Dropbox koristi **DPAPI** ([https://docs.microsoft.com/en-us/previous-versions/ms995355(v=msdn.10)?redirectedfrom=MSDN](https://docs.microsoft.com/en-us/previous-versions/ms995355\(v=msdn.10\)?redirectedfrom=MSDN))
+Ekstenzija ".dbx" znači da su **baze podataka enkriptovane**. Dropbox koristi **DPAPI** ([https://docs.microsoft.com/en-us/previous-versions/ms995355(v=msdn.10)?redirectedfrom=MSDN](https://docs.microsoft.com/en-us/previous-versions/ms995355\(v=msdn.10\)?redirectedfrom=MSDN))
 
-Da biste bolje razumeli šifrovanje koje Dropbox koristi, možete pročitati [https://blog.digital-forensics.it/2017/04/brush-up-on-dropbox-dbx-decryption.html](https://blog.digital-forensics.it/2017/04/brush-up-on-dropbox-dbx-decryption.html).
+Da biste bolje razumeli enkripciju koju Dropbox koristi, možete pročitati [https://blog.digital-forensics.it/2017/04/brush-up-on-dropbox-dbx-decryption.html](https://blog.digital-forensics.it/2017/04/brush-up-on-dropbox-dbx-decryption.html).
 
 Međutim, glavne informacije su:
 
@@ -75,7 +75,7 @@ Međutim, glavne informacije su:
 
 Osim tih informacija, da biste dešifrovali baze podataka, još uvek vam je potrebno:
 
-* **Šifrovani DPAPI ključ**: Možete ga pronaći u registru unutar `NTUSER.DAT\Software\Dropbox\ks\client` (izvezite ove podatke kao binarne)
+* **Enkriptovani DPAPI ključ**: Možete ga pronaći u registru unutar `NTUSER.DAT\Software\Dropbox\ks\client` (izvezite ove podatke kao binarne)
 * **`SYSTEM`** i **`SECURITY`** košnice
 * **DPAPI master ključevi**: Koji se mogu pronaći u `\Users\<korisničko_ime>\AppData\Roaming\Microsoft\Protect`
 * **korisničko ime** i **šifra** Windows korisnika
@@ -86,7 +86,7 @@ Zatim možete koristiti alat [**DataProtectionDecryptor**](https://nirsoft.net/u
 
 Ako sve ide kako se očekuje, alat će pokazati **primarni ključ** koji vam je potreban da biste **koristili za oporavak originalnog**. Da biste oporavili originalni, jednostavno koristite ovaj [cyber\_chef recept](https://gchq.github.io/CyberChef/#recipe=Derive\_PBKDF2\_key\(%7B'option':'Hex','string':'98FD6A76ECB87DE8DAB4623123402167'%7D,128,1066,'SHA1',%7B'option':'Hex','string':'0D638C092E8B82FC452883F95F355B8E'%7D\)) stavljajući primarni ključ kao "lozinku" unutar recepta.
 
-Rezultujući heksadecimalni broj je konačni ključ koji se koristi za šifrovanje baza podataka koje se mogu dešifrovati sa:
+Rezultujući heksadecimalni broj je konačni ključ koji se koristi za enkripciju baza podataka koje se mogu dešifrovati sa:
 ```bash
 sqlite -k <Obtained Key> config.dbx ".backup config.db" #This decompress the config.dbx and creates a clear text backup in config.db
 ```
@@ -113,10 +113,10 @@ Druge tabele unutar ove baze podataka sadrže još interesantnih informacija:
 - **deleted\_fields**: Obrisani fajlovi sa Dropbox-a
 - **date\_added**
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da lako kreirate i **automatizujete radne tokove** uz pomoć najnaprednijih alata zajednice.\
+Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da lako kreirate i **automatizujete radne tokove** uz pomoć najnaprednijih alata zajednice na svetu.\
 Pristupite danas:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -127,7 +127,7 @@ Pristupite danas:
 
 Drugi načini podrške HackTricks-u:
 
-- Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+- Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 - Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 - Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 - **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

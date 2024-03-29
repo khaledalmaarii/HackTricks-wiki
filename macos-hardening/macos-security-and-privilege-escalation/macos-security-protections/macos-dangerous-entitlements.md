@@ -6,7 +6,7 @@
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**Porodiču PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -18,7 +18,7 @@ Drugi načini podrške HackTricks-u:
 Imajte na umu da ovlašćenja koja počinju sa **`com.apple`** nisu dostupna trećim licima, samo ih Apple može odobriti.
 {% endhint %}
 
-## Visok
+## Visoko
 
 ### `com.apple.rootless.install.heritable`
 
@@ -42,7 +42,7 @@ Aplikacije sa ovlašćenjem za Alat za Debugovanje mogu pozvati `task_for_pid()`
 
 ### `com.apple.security.cs.disable-library-validation`
 
-Ovo ovlašćenje omogućava **učitavanje frameworka, plug-ina ili biblioteka bez potpisa od strane Apple-a ili potpisanog istim Team ID-em** kao glavni izvršni fajl, tako da napadač može zloupotrebiti neko proizvoljno učitavanje biblioteke da ubaci kod. Proverite [**ovde za više informacija**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-library-validation).
+Ovo ovlašćenje omogućava **učitavanje okvira, dodataka ili biblioteka bez potpisa od strane Apple-a ili potpisanog istim Team ID-em** kao glavni izvršni fajl, tako da napadač može zloupotrebiti neko proizvoljno učitavanje biblioteke da ubaci kod. Proverite [**ovde za više informacija**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-library-validation).
 
 ### `com.apple.private.security.clear-library-validation`
 
@@ -79,15 +79,15 @@ TODO: Ne znam šta ovo omogućava
 
 ### `com.apple.private.apfs.revert-to-snapshot`
 
-TODO: U [**ovom izveštaju**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **se pominje da bi ovo moglo biti korišćeno za** ažuriranje SSV-zaštićenih sadržaja nakon restarta. Ako znate kako, pošaljite PR molim vas!
+TODO: U [**ovom izveštaju**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **se pominje da bi ovo moglo biti korišćeno** za ažuriranje SSV-zaštićenih sadržaja nakon ponovnog pokretanja. Ako znate kako, pošaljite PR molim vas!
 
 ### `com.apple.private.apfs.create-sealed-snapshot`
 
-TODO: U [**ovom izveštaju**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **se pominje da bi ovo moglo biti korišćeno za** ažuriranje SSV-zaštićenih sadržaja nakon restarta. Ako znate kako, pošaljite PR molim vas!
+TODO: U [**ovom izveštaju**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **se pominje da bi ovo moglo biti korišćeno** za ažuriranje SSV-zaštićenih sadržaja nakon ponovnog pokretanja. Ako znate kako, pošaljite PR molim vas!
 
 ### `keychain-access-groups`
 
-Ovo ovlašćenje nabraja **keychain** grupe kojima aplikacija ima pristup:
+Ovo ovlašćenje nabraja **grupe ključeva** kojima aplikacija ima pristup:
 ```xml
 <key>keychain-access-groups</key>
 <array>
@@ -107,8 +107,6 @@ Daje dozvole za **Pristup celom disku**, jednu od najviših dozvola koje možete
 Omogućava aplikaciji slanje događaja drugim aplikacijama koje se često koriste za **automatizaciju zadataka**. Kontrolišući druge aplikacije, može zloupotrebiti dozvole koje su date tim drugim aplikacijama.
 
 Na primer, može ih naterati da zatraže korisnikovu lozinku:
-
-{% code overflow="wrap" %}
 ```bash
 osascript -e 'tell app "App Store" to activate' -e 'tell app "App Store" to activate' -e 'tell app "App Store" to display dialog "App Store requires your password to continue." & return & return default answer "" with icon 1 with hidden answer with title "App Store Alert"'
 ```
@@ -126,25 +124,25 @@ Dozvoljava **promenu** atributa **`NFSHomeDirectory`** korisnika koji menja puta
 
 ### **`kTCCServiceSystemPolicyAppBundles`**
 
-Dozvoljava modifikaciju fajlova unutar aplikacija (unutar app.app), što je **podrazumevano zabranjeno**.
+Dozvoljava modifikaciju fajlova unutar aplikativnih paketa (unutar app.app), što je **podrazumevano zabranjeno**.
 
-<figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Moguće je proveriti ko ima ovaj pristup u _Sistemskim postavkama_ > _Privatnost & Bezbednost_ > _Upravljanje aplikacijama_.
 
 ### `kTCCServiceAccessibility`
 
-Proces će moći da **zloupotrebi macOS funkcije pristupačnosti**, što znači da će na primer moći da pritisne taster. Tako bi mogao da zatraži pristup kontroli aplikacije poput Findera i odobri dijalog sa ovom dozvolom.
+Proces će moći da **zloupotrebi macOS funkcije pristupačnosti**, što znači da na primer može da pritisne tasterske prečice. Tako bi mogao da zatraži pristup kontroli aplikacije poput Findera i odobri dijalog sa ovom dozvolom.
 
 ## Srednje
 
 ### `com.apple.security.cs.allow-jit`
 
-Ova dozvola omogućava da se **kreira memorija koja je upisiva i izvršna** prolaskom `MAP_JIT` zastave funkciji sistema `mmap()`. Proveri [**ovde za više informacija**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-jit).
+Ova dozvola omogućava da se **kreira memorija koja je upisiva i izvršna** prolaskom `MAP_JIT` zastave ka `mmap()` sistemskoj funkciji. Proverite [**ovde za više informacija**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-jit).
 
 ### `com.apple.security.cs.allow-unsigned-executable-memory`
 
-Ova dozvola omogućava **zamenu ili zakrpu C koda**, korišćenje dugo zastarelog **`NSCreateObjectFileImageFromMemory`** (što je suštinski nesigurno), ili korišćenje **DVDPlayback** okvira. Proveri [**ovde za više informacija**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory).
+Ova dozvola omogućava **zamenu ili zakrpu C koda**, korišćenje dugo zastarelog **`NSCreateObjectFileImageFromMemory`** (što je fundamentalno nesigurno), ili korišćenje **DVDPlayback** okvira. Proverite [**ovde za više informacija**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory).
 
 {% hint style="danger" %}
 Uključivanje ove dozvole izlaže vašu aplikaciju uobičajenim ranjivostima u jezicima sa kodom koji nije siguran za memoriju. Pažljivo razmislite da li vaša aplikacija zahteva ovaj izuzetak.
@@ -152,10 +150,10 @@ Uključivanje ove dozvole izlaže vašu aplikaciju uobičajenim ranjivostima u j
 
 ### `com.apple.security.cs.disable-executable-page-protection`
 
-Ova dozvola omogućava **modifikaciju sekcija sopstvenih izvršnih fajlova** na disku da bi se silom izašlo. Proveri [**ovde za više informacija**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-executable-page-protection).
+Ova dozvola omogućava da se **modifikuju sekcije sopstvenih izvršnih fajlova** na disku kako bi se silom izašlo. Proverite [**ovde za više informacija**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-executable-page-protection).
 
 {% hint style="danger" %}
-Dozvola za Onemogućavanje zaštite izvršne memorije je ekstremna dozvola koja uklanja osnovnu sigurnosnu zaštitu iz vaše aplikacije, čime se omogućava napadaču da prepiše izvršni kod vaše aplikacije bez otkrivanja. Preferirajte uže dozvole ako je moguće.
+Dozvola za Onemogućavanje Zaštite Izvršne Memorije je ekstremna dozvola koja uklanja osnovnu sigurnosnu zaštitu iz vaše aplikacije, čime se omogućava napadaču da prepiše izvršni kod vaše aplikacije bez otkrivanja. Preferirajte uže dozvole ako je moguće.
 {% endhint %}
 
 ### `com.apple.security.cs.allow-relative-library-loads`
@@ -185,7 +183,7 @@ Dozvoli procesu da **zatraži sve TCC dozvole**.
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJE**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJE**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**

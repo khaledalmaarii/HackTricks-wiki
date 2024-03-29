@@ -194,9 +194,9 @@ Primer **sekcione zaglavlje**:
 
 <figure><img src="../../../.gitbook/assets/image (6) (2).png" alt=""><figcaption></figcaption></figure>
 
-Ako **dodate** **pomeraj sekcije** (0x37DC) + **pomeraj** gde **arh počinje**, u ovom slučaju `0x18000` --> `0x37DC + 0x18000 = 0x1B7DC`
+Ako **dodate** **pomeraj sekcije** (0x37DC) + **pomeraj** gde **arhiva počinje**, u ovom slučaju `0x18000` --> `0x37DC + 0x18000 = 0x1B7DC`
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Takođe je moguće dobiti **informacije o zaglavljima** sa **komandne linije** pomoću:
 ```bash
@@ -209,18 +209,18 @@ Uobičajeni segmenti učitani ovom komandom:
 * **`__TEXT`**: Sadrži **izvršni** **kod** sa **dozvolama za čitanje** i **izvršavanje** (bez mogućnosti pisanja)**.** Uobičajeni delovi ovog segmenta:
 * `__text`: Kompajlirani binarni kod
 * `__const`: Konstantni podaci
-* `__cstring`: Konstante stringova
+* `__cstring`: String konstante
 * `__stubs` i `__stubs_helper`: Uključeni tokom procesa dinamičkog učitavanja biblioteka
 * **`__DATA`**: Sadrži podatke koji su **čitljivi** i **pisivi** (bez mogućnosti izvršavanja)**.**
 * `__data`: Globalne promenljive (koje su inicijalizovane)
 * `__bss`: Statičke promenljive (koje nisu inicijalizovane)
 * `__objc_*` (\_\_objc\_classlist, \_\_objc\_protolist, itd): Informacije koje koristi Objective-C runtime
-* **`__LINKEDIT`**: Sadrži informacije za linkera (dyld) kao što su "ulazi tabela simbola, stringova i relokacija."
+* **`__LINKEDIT`**: Sadrži informacije za linkera (dyld) kao što su "ulazi simbola, stringova i tabela premeštanja."
 * **`__OBJC`**: Sadrži informacije koje koristi Objective-C runtime. Iako se ove informacije mogu naći i u segmentu \_\_DATA, unutar različitih \_\_objc\_\* sekcija.
 
 ### **`LC_MAIN`**
 
-Sadrži ulaznu tačku u **entryoff atributu**. Prilikom učitavanja, **dyld** jednostavno **dodaje** ovu vrednost na (u memoriji) **bazu binarnog koda**, a zatim **prelazi** na ovu instrukciju kako bi započeo izvršavanje koda binarnog fajla.
+Sadrži tačku ulaska u **entryoff atributu**. Prilikom učitavanja, **dyld** jednostavno **dodaje** ovu vrednost na (u memoriji) **bazu binarnog koda**, zatim **skoči** na ovu instrukciju da započne izvršavanje koda binarnog fajla.
 
 ### **LC\_CODE\_SIGNATURE**
 
@@ -229,11 +229,11 @@ Međutim, možete pronaći neke informacije o ovoj sekciji u [**ovom blog postu*
 
 ### **LC\_LOAD\_DYLINKER**
 
-Sadrži **putanju do izvršne datoteke dinamičkog linkera** koji mapira deljene biblioteke u prostor adresa procesa. Vrednost je uvek postavljena na `/usr/lib/dyld`. Važno je napomenuti da se u macOS-u mapiranje dylib-a dešava u **korisničkom režimu**, a ne u režimu jezgra.
+Sadrži **putanju do izvršne datoteke dinamičkog linkera** koji mapira deljene biblioteke u adresni prostor procesa. Vrednost je uvek postavljena na `/usr/lib/dyld`. Važno je napomenuti da se u macOS-u mapiranje dylib-a dešava u **korisničkom režimu**, a ne u režimu jezgra.
 
 ### **`LC_LOAD_DYLIB`**
 
-Ova komanda za učitavanje opisuje **zavisnost dinamičke biblioteke** koja **nalaže** učitavaču (dyld) da **učita i poveže navedenu biblioteku**. Postoji LC\_LOAD\_DYLIB komanda za učitavanje **za svaku biblioteku** koju Mach-O binarni fajl zahteva.
+Ova komanda za učitavanje opisuje zavisnost od **dinamičke** **biblioteke** koja **nalaže** učitavaču (dyld) da **učita i poveže navedenu biblioteku**. Postoji LC\_LOAD\_DYLIB komanda za učitavanje **za svaku biblioteku** koju Mach-O binarni fajl zahteva.
 
 * Ova komanda za učitavanje je struktura tipa **`dylib_command`** (koja sadrži strukturu dylib, opisuje stvarnu zavisnu dinamičku biblioteku):
 ```objectivec
@@ -273,7 +273,7 @@ Ofseti svih konstruktora se čuvaju u sekciji **\_\_mod\_init\_func** segmenta *
 
 ## **Mach-O Podaci**
 
-U osnovi fajla se nalazi region podataka, koji se sastoji od nekoliko segmenata definisanih u regionu komandi učitavanja. **Različite sekcije podataka mogu biti smeštene unutar svakog segmenta**, pri čemu svaka sekcija **sadrži kod ili podatke** specifične za tip.
+U osnovi fajla leži region podataka, koji se sastoji od nekoliko segmenata definisanih u regionu komandi učitavanja. **Različite sekcije podataka mogu biti smeštene unutar svakog segmenta**, pri čemu svaka sekcija **sadrži kod ili podatke** specifične za tip.
 
 {% hint style="success" %}
 Podaci su zapravo deo koji sadrži sve **informacije** koje se učitavaju pomoću komandi učitavanja **LC\_SEGMENTS\_64**
@@ -287,11 +287,11 @@ To uključuje:
 * **Tabela simbola**: Koja sadrži informacije o eksternim funkcijama koje koristi binarni fajl
 * Takođe može sadržati interne funkcije, imena promenljivih i još mnogo toga.
 
-Da biste to proverili, možete koristiti alat [**Mach-O View**](https://sourceforge.net/projects/machoview/):
+Za proveru možete koristiti alat [**Mach-O View**](https://sourceforge.net/projects/machoview/):
 
 <figure><img src="../../../.gitbook/assets/image (2) (1) (4).png" alt=""><figcaption></figcaption></figure>
 
-Ili sa komandne linije:
+Ili putem komandne linije:
 ```bash
 size -m /bin/ls
 ```
@@ -301,7 +301,7 @@ size -m /bin/ls
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJSTVO**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJE**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
