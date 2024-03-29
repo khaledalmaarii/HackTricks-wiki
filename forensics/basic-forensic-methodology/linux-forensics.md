@@ -1,22 +1,22 @@
 # Analisi Forense di Linux
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilizza [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) per creare e **automatizzare facilmente flussi di lavoro** supportati dagli strumenti della community più avanzati al mondo.\
+Utilizza [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) per creare e **automatizzare facilmente flussi di lavoro** supportati dagli strumenti della comunità più avanzati al mondo.\
 Ottieni l'accesso oggi:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
 
 Altri modi per supportare HackTricks:
 
 * Se desideri vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione esclusiva di [**NFT**](https://opensea.io/collection/the-peass-family)
+* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
@@ -26,7 +26,7 @@ Altri modi per supportare HackTricks:
 
 ### Informazioni di Base
 
-Prima di tutto, è consigliabile avere una **USB** con **binari e librerie noti e validi** (puoi semplicemente prendere Ubuntu e copiare le cartelle _/bin_, _/sbin_, _/lib_ e _/lib64_), quindi montare la USB e modificare le variabili d'ambiente per utilizzare quei binari:
+Prima di tutto, è consigliabile avere una **chiavetta USB** con **binari e librerie ben noti** (puoi semplicemente prendere ubuntu e copiare le cartelle _/bin_, _/sbin_, _/lib_ e _/lib64_), quindi montare la chiavetta USB e modificare le variabili d'ambiente per utilizzare quei binari:
 ```bash
 export PATH=/mnt/usb/bin:/mnt/usb/sbin
 export LD_LIBRARY_PATH=/mnt/usb/lib:/mnt/usb/lib64
@@ -75,7 +75,7 @@ sudo insmod lime.ko "path=/home/sansforensics/Desktop/mem_dump.bin format=lime"
 LiME supporta 3 **formati**:
 
 * Raw (ogni segmento concatenato insieme)
-* Padded (come raw, ma con zeri negli ultimi bit)
+* Padded (come raw, ma con zeri nei bit destri)
 * Lime (formato consigliato con metadati)
 
 LiME può anche essere utilizzato per **inviare il dump tramite rete** anziché memorizzarlo sul sistema utilizzando qualcosa come: `path=tcp:4444`
@@ -153,15 +153,15 @@ r/r 16: secret.txt
 icat -i raw -f ext4 disk.img 16
 ThisisTheMasterSecret
 ```
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilizza [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) per creare facilmente e **automatizzare flussi di lavoro** supportati dagli strumenti della comunità più avanzati al mondo.\
+Utilizza [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) per creare facilmente e **automatizzare flussi di lavoro** supportati dagli strumenti della community più avanzati al mondo.\
 Ottieni l'accesso oggi:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-## Ricerca di Malware conosciuti
+## Ricerca di Malware Conosciuti
 
 ### File di Sistema Modificati
 
@@ -180,7 +180,7 @@ Leggi la seguente pagina per scoprire gli strumenti che possono essere utili per
 
 ## Ricerca dei programmi installati
 
-Per cercare efficacemente i programmi installati su sistemi Debian e RedHat, considera di sfruttare i log di sistema e i database insieme a controlli manuali nelle directory comuni.
+Per cercare efficacemente i programmi installati sia nei sistemi Debian che RedHat, considera di sfruttare i log di sistema e i database insieme a controlli manuali nelle directory comuni.
 
 * Per Debian, ispeziona _**`/var/lib/dpkg/status`**_ e _**`/var/log/dpkg.log`**_ per ottenere dettagli sull'installazione dei pacchetti, utilizzando `grep` per filtrare informazioni specifiche.
 * Gli utenti RedHat possono interrogare il database RPM con `rpm -qa --root=/mntpath/var/lib/rpm` per elencare i pacchetti installati.
@@ -201,10 +201,10 @@ find /sbin/ –exec rpm -qf {} \; | grep "is not"
 # Find exacuable files
 find / -type f -executable | grep <something>
 ```
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Usa [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) per creare facilmente e **automatizzare flussi di lavoro** supportati dagli strumenti della community **più avanzati al mondo**.\
+Usa [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) per creare facilmente e **automatizzare flussi di lavoro** supportati dagli strumenti della community **più avanzati al mondo**.\
 Ottieni l'accesso oggi:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -239,7 +239,7 @@ Percorsi in cui un malware potrebbe essere installato come servizio:
 
 - **/etc/inittab**: Chiama gli script di inizializzazione come rc.sysinit, indirizzando ulteriormente agli script di avvio.
 - **/etc/rc.d/** e **/etc/rc.boot/**: Contengono script per l'avvio dei servizi, quest'ultimo trovato nelle versioni più vecchie di Linux.
-- **/etc/init.d/**: Usato in certe versioni di Linux come Debian per memorizzare gli script di avvio.
+- **/etc/init.d/**: Usato in alcune versioni di Linux come Debian per memorizzare gli script di avvio.
 - I servizi possono anche essere attivati tramite **/etc/inetd.conf** o **/etc/xinetd/**, a seconda della variante di Linux.
 - **/etc/systemd/system**: Una directory per gli script del sistema e del gestore dei servizi.
 - **/etc/systemd/system/multi-user.target.wants/**: Contiene collegamenti ai servizi che dovrebbero essere avviati in un runlevel multiutente.
@@ -271,16 +271,16 @@ I sistemi Linux tengono traccia delle attività degli utenti e degli eventi di s
 - **/var/log/auth.log** (Debian) o **/var/log/secure** (RedHat): Registrano tentativi di autenticazione, accessi riusciti e falliti.
 - Usare `grep -iE "session opened for|accepted password|new session|not in sudoers" /var/log/auth.log` per filtrare eventi di autenticazione rilevanti.
 - **/var/log/boot.log**: Contiene messaggi di avvio del sistema.
-- **/var/log/maillog** o **/var/log/mail.log**: Registri delle attività del server di posta elettronica, utili per tracciare servizi correlati alla posta elettronica.
+- **/var/log/maillog** o **/var/log/mail.log**: Registri delle attività del server di posta elettronica, utili per il tracciamento dei servizi relativi alla posta elettronica.
 - **/var/log/kern.log**: Memorizza messaggi del kernel, inclusi errori e avvisi.
-- **/var/log/dmesg**: Contiene messaggi dei driver di dispositivo.
-- **/var/log/faillog**: Registra tentativi di accesso falliti, aiutando nelle indagini sulle violazioni di sicurezza.
-- **/var/log/cron**: Registra l'esecuzione dei job cron.
+- **/var/log/dmesg**: Contiene messaggi dei driver del dispositivo.
+- **/var/log/faillog**: Registra tentativi di accesso falliti, utili nelle indagini di violazioni di sicurezza.
+- **/var/log/cron**: Registra le esecuzioni dei job cron.
 - **/var/log/daemon.log**: Traccia le attività dei servizi in background.
-- **/var/log/btmp**: Documenta tentativi di accesso falliti.
-- **/var/log/httpd/**: Contiene log degli errori e degli accessi di Apache HTTPD.
+- **/var/log/btmp**: Documenta i tentativi di accesso falliti.
+- **/var/log/httpd/**: Contiene i log degli errori e degli accessi di Apache HTTPD.
 - **/var/log/mysqld.log** o **/var/log/mysql.log**: Registri delle attività del database MySQL.
-- **/var/log/xferlog**: Registra trasferimenti di file FTP.
+- **/var/log/xferlog**: Registra i trasferimenti di file FTP.
 - **/var/log/**: Controllare sempre i log inaspettati qui.
 
 {% hint style="info" %}
@@ -297,10 +297,10 @@ I log di sistema e i sottosistemi di audit di Linux possono essere disabilitati 
 
 Inoltre, il comando `last -Faiwx` fornisce un elenco dei login degli utenti. Controllalo per login sconosciuti o inaspettati.
 
-Controllare i file che possono concedere privilegi aggiuntivi:
+Controlla i file che possono concedere privilegi aggiuntivi:
 
-- Esaminare `/etc/sudoers` per privilegi utente non anticipati che potrebbero essere stati concessi.
-- Esaminare `/etc/sudoers.d/` per privilegi utente non anticipati che potrebbero essere stati concessi.
+- Esaminare `/etc/sudoers` per privilegi utente non previsti che potrebbero essere stati concessi.
+- Esaminare `/etc/sudoers.d/` per privilegi utente non previsti che potrebbero essere stati concessi.
 - Esaminare `/etc/groups` per identificare eventuali appartenenze o autorizzazioni di gruppo insolite.
 - Esaminare `/etc/passwd` per identificare eventuali appartenenze o autorizzazioni di gruppo insolite.
 
@@ -310,7 +310,7 @@ Alcune app generano anche i propri log:
 - **Desktop Gnome**: Controllare _\~/.recently-used.xbel_ per i file recentemente accessati tramite le applicazioni Gnome.
 - **Firefox/Chrome**: Controllare la cronologia del browser e i download in _\~/.mozilla/firefox_ o _\~/.config/google-chrome_ per attività sospette.
 - **VIM**: Esaminare _\~/.viminfo_ per dettagli sull'uso, come percorsi dei file accessati e cronologia delle ricerche.
-- **Open Office**: Verificare gli accessi ai documenti recenti che potrebbero indicare file compromessi.
+- **Open Office**: Controllare gli accessi ai documenti recenti che potrebbero indicare file compromessi.
 - **FTP/SFTP**: Esaminare i log in _\~/.ftp\_history_ o _\~/.sftp\_history_ per trasferimenti di file che potrebbero essere non autorizzati.
 - **MySQL**: Investigare _\~/.mysql\_history_ per le query MySQL eseguite, rivelando potenzialmente attività non autorizzate sul database.
 - **Less**: Analizzare _\~/.lesshst_ per la cronologia dell'uso, inclusi file visualizzati e comandi eseguiti.
@@ -320,7 +320,7 @@ Alcune app generano anche i propri log:
 
 [**usbrip**](https://github.com/snovvcrash/usbrip) è un piccolo software scritto in Python 3 puro che analizza i file di log di Linux (`/var/log/syslog*` o `/var/log/messages*` a seconda della distribuzione) per costruire tabelle storiche degli eventi USB.
 
-È interessante **conoscere tutti gli USB che sono stati utilizzati** e sarà più utile se si dispone di un elenco autorizzato di USB per trovare "eventi di violazione" (l'uso di USB che non sono all'interno di quell'elenco).
+È interessante **conoscere tutti gli USB utilizzati** e sarà più utile se si dispone di un elenco autorizzato di USB per individuare "eventi di violazione" (l'uso di USB che non sono all'interno di quell'elenco).
 
 ### Installazione
 ```bash
@@ -335,17 +335,27 @@ usbrip events history --pid 0002 --vid 0e0f --user kali #Search by pid OR vid OR
 usbrip ids download #Downlaod database
 usbrip ids search --pid 0002 --vid 0e0f #Search for pid AND vid
 ```
-## Revisione degli Account Utente e delle Attività di Accesso
+Ulteriori esempi e informazioni all'interno di GitHub: [https://github.com/snovvcrash/usbrip](https://github.com/snovvcrash/usbrip)
+
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+
+\
+Utilizza [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) per creare facilmente e **automatizzare flussi di lavoro** supportati dagli strumenti della community più avanzati al mondo.\
+Ottieni l'accesso oggi:
+
+{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+
+## Esamina gli Account Utente e le Attività di Accesso
 
 Esamina i file _**/etc/passwd**_, _**/etc/shadow**_ e i **log di sicurezza** per individuare nomi o account insoliti creati e/o utilizzati in prossimità di eventi non autorizzati noti. Controlla anche possibili attacchi di forza bruta sudo.\
-Inoltre, controlla file come _**/etc/sudoers**_ e _**/etc/groups**_ per verificare privilegi inaspettati assegnati agli utenti.\
+Inoltre, controlla file come _**/etc/sudoers**_ e _**/etc/groups**_ per privilegi inaspettati assegnati agli utenti.\
 Infine, cerca account senza **password** o con password **facilmente indovinabili**.
 
 ## Esamina il File System
 
-### Analisi delle Strutture del File System nelle Indagini sui Malware
+### Analisi delle Strutture del File System nell'Investigazione di Malware
 
-Nelle indagini sugli incidenti di malware, la struttura del file system è una fonte cruciale di informazioni, rivelando sia la sequenza degli eventi che il contenuto del malware. Tuttavia, gli autori di malware stanno sviluppando tecniche per ostacolare questa analisi, come la modifica dei timestamp dei file o l'evitare il file system per lo storage dei dati.
+Nell'investigazione di incidenti legati al malware, la struttura del file system è una fonte cruciale di informazioni, rivelando sia la sequenza degli eventi che il contenuto del malware. Tuttavia, gli autori di malware stanno sviluppando tecniche per ostacolare questa analisi, come la modifica dei timestamp dei file o l'evitare il file system per lo storage dei dati.
 
 Per contrastare questi metodi anti-forensi, è essenziale:
 
@@ -354,7 +364,7 @@ Per contrastare questi metodi anti-forensi, è essenziale:
 * **Esaminare `/dev` per file atipici**, poiché tradizionalmente contiene file speciali, ma potrebbe contenere file correlati al malware.
 * **Cercare file o directory nascosti** con nomi come ".. " (punto punto spazio) o "..^G" (punto punto control-G), che potrebbero nascondere contenuti dannosi.
 * **Identificare file setuid root** utilizzando il comando: `find / -user root -perm -04000 -print` Questo trova file con permessi elevati, che potrebbero essere sfruttati dagli attaccanti.
-* **Esaminare i timestamp di cancellazione** nelle tabelle degli inode per individuare cancellazioni di file di massa, indicando potenzialmente la presenza di rootkit o trojan.
+* **Esaminare i timestamp di cancellazione** nelle tabelle degli inode per individuare cancellazioni di file di massa, indicando possibilmente la presenza di rootkit o trojan.
 * **Ispezionare gli inode consecutivi** per individuare file dannosi vicini dopo averne identificato uno, poiché potrebbero essere stati posizionati insieme.
 * **Controllare le directory binarie comuni** (_/bin_, _/sbin_) per file modificati di recente, poiché potrebbero essere stati alterati dal malware.
 ````bash
@@ -365,12 +375,12 @@ ls -laR --sort=time /bin```
 ls -lai /bin | sort -n```
 ````
 {% hint style="info" %}
-Si noti che un **attaccante** può **modificare** l'**orario** per far apparire i **file legittimi**, ma non può modificare l'**inode**. Se si scopre che un **file** indica che è stato creato e modificato allo stesso **orario** degli altri file nella stessa cartella, ma l'**inode** è **inesperatamente più grande**, allora i **timestamp di quel file sono stati modificati**.
+Si noti che un **attaccante** può **modificare** l'**orario** per far apparire i **file legittimi**, ma non può modificare l'**inode**. Se si scopre che un **file** indica che è stato creato e modificato allo **stesso orario** degli altri file nella stessa cartella, ma l'**inode** è **inesperatamente più grande**, allora i **timestamp di quel file sono stati modificati**.
 {% endhint %}
 
 ## Confrontare file di diverse versioni del filesystem
 
-### Riepilogo del Confronto tra Versioni del Filesystem
+### Riassunto del Confronto delle Versioni del Filesystem
 
 Per confrontare le versioni del filesystem e individuare le modifiche, utilizziamo comandi semplificati `git diff`:
 
@@ -392,7 +402,7 @@ git diff --no-index --diff-filter=D path/to/old_version/ path/to/new_version/
 * `D`: File eliminati
 * `M`: File modificati
 * `R`: File rinominati
-* `T`: Cambiamenti di tipo (ad esempio, file a symlink)
+* `T`: Cambiamenti di tipo (ad esempio, da file a symlink)
 * `U`: File non uniti
 * `X`: File sconosciuti
 * `B`: File corrotti
@@ -418,7 +428,7 @@ Lavori in una **azienda di sicurezza informatica**? Vuoi vedere la tua **azienda
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Usa [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) per costruire e **automatizzare facilmente flussi di lavoro** supportati dagli strumenti comunitari più avanzati al mondo.\

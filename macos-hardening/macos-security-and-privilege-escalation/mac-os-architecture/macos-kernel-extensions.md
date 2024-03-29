@@ -2,9 +2,9 @@
 
 <details>
 
-<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
 
-* Lavori per una **azienda di sicurezza informatica**? Vuoi vedere la tua **azienda pubblicizzata su HackTricks**? O vuoi accedere all'**ultima versione di PEASS o scaricare HackTricks in PDF**? Dai un'occhiata ai [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Lavori in una **azienda di sicurezza informatica**? Vuoi vedere la tua **azienda pubblicizzata su HackTricks**? O vuoi accedere all'**ultima versione di PEASS o scaricare HackTricks in PDF**? Dai un'occhiata ai [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra esclusiva collezione di [**NFT**](https://opensea.io/collection/the-peass-family)
 * Ottieni il [**merchandising ufficiale di PEASS e HackTricks**](https://peass.creator-spring.com)
 * **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) **server Discord** o al [**gruppo Telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live).
@@ -22,13 +22,13 @@ Ovviamente, è così potente che è **complicato caricare un'estensione del kern
 
 * Quando si **entra in modalità di ripristino**, le **estensioni del kernel devono essere autorizzate** a essere caricate:
 
-<figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-* L'estensione del kernel deve essere **firmata con un certificato di firma del codice del kernel**, che può essere concesso solo da Apple. Chi esaminerà in dettaglio l'azienda e i motivi per cui è necessario.
+* L'estensione del kernel deve essere **firmata con un certificato di firma del codice del kernel**, che può essere concesso solo da Apple. Chi esaminerà dettagliatamente l'azienda e i motivi per cui è necessario.
 * L'estensione del kernel deve anche essere **notarizzata**, Apple sarà in grado di controllarla per malware.
 * Quindi, l'utente **root** è l'unico che può **caricare l'estensione del kernel** e i file all'interno del pacchetto devono **appartenere a root**.
 * Durante il processo di caricamento, il pacchetto deve essere preparato in una **posizione protetta non di root**: `/Library/StagedExtensions` (richiede il permesso `com.apple.rootless.storage.KernelExtensionManagement`).
-* Infine, quando si tenta di caricarlo, l'utente riceverà una [**richiesta di conferma**](https://developer.apple.com/library/archive/technotes/tn2459/\_index.html) e, se accettata, il computer deve essere **riavviato** per caricarla.
+* Infine, quando si tenta di caricarla, l'utente riceverà una [**richiesta di conferma**](https://developer.apple.com/library/archive/technotes/tn2459/\_index.html) e, se accettata, il computer deve essere **riavviato** per caricarla.
 
 ### Processo di caricamento
 
@@ -51,9 +51,9 @@ Se **`kextd`** non è disponibile, **`kextutil`** può eseguire gli stessi contr
 
 <details>
 
-<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
 
-* Lavori per una **azienda di sicurezza informatica**? Vuoi vedere la tua **azienda pubblicizzata su HackTricks**? O vuoi accedere all'**ultima versione di PEASS o scaricare HackTricks in PDF**? Dai un'occhiata ai [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Lavori in una **azienda di sicurezza informatica**? Vuoi vedere la tua **azienda pubblicizzata su HackTricks**? O vuoi accedere all'**ultima versione di PEASS o scaricare HackTricks in PDF**? Dai un'occhiata ai [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra esclusiva collezione di [**NFT**](https://opensea.io/collection/the-peass-family)
 * Ottieni il [**merchandising ufficiale di PEASS e HackTricks**](https://peass.creator-spring.com)
 * **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) **server Discord** o al [**gruppo Telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live).

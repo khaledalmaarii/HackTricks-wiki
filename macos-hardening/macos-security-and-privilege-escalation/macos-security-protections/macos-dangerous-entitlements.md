@@ -8,9 +8,9 @@ Altri modi per supportare HackTricks:
 
 * Se desideri vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
+* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
 
@@ -34,15 +34,15 @@ Questo permesso consente di ottenere la **porta del task per qualsiasi** process
 
 ### `com.apple.security.get-task-allow`
 
-Questo permesso consente ad altri processi con il permesso **`com.apple.security.cs.debugger`** di ottenere la porta del task del processo eseguito dal binario con questo permesso e **iniettarvi codice**. Controlla [**questo per ulteriori informazioni**](../mac-os-architecture/macos-ipc-inter-process-communication/).
+Questo permesso consente ad altri processi con il permesso **`com.apple.security.cs.debugger`** di ottenere la porta del task del processo eseguito dal binario con questo permesso e **iniettare codice su di esso**. Controlla [**questo per ulteriori informazioni**](../mac-os-architecture/macos-ipc-inter-process-communication/).
 
 ### `com.apple.security.cs.debugger`
 
-Le app con il permesso Strumento di Debug possono chiamare `task_for_pid()` per recuperare una porta del task valida per app non firmate e di terze parti con il permesso `Get Task Allow` impostato su `true`. Tuttavia, anche con il permesso dello strumento di debug, un debugger **non può ottenere le porte del task** dei processi che **non hanno il permesso `Get Task Allow`**, e che sono quindi protetti da System Integrity Protection. Controlla [**questo per ulteriori informazioni**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_debugger).
+Le app con il Permesso Strumento di Debug possono chiamare `task_for_pid()` per recuperare una porta del task valida per app non firmate e di terze parti con il permesso `Get Task Allow` impostato su `true`. Tuttavia, anche con il permesso dello strumento di debug, un debugger **non può ottenere le porte del task** dei processi che **non hanno il permesso `Get Task Allow`**, e che sono quindi protetti da System Integrity Protection. Controlla [**questo per ulteriori informazioni**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_debugger).
 
 ### `com.apple.security.cs.disable-library-validation`
 
-Questo permesso consente di **caricare framework, plug-in o librerie senza essere né firmati da Apple né firmati con lo stesso ID del team** dell'eseguibile principale, quindi un attaccante potrebbe abusare di un caricamento arbitrario di librerie per iniettare codice. Controlla [**questo per ulteriori informazioni**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-library-validation).
+Questo permesso consente di **caricare framework, plug-in o librerie senza essere né firmati da Apple né firmati con lo stesso ID del Team** dell'eseguibile principale, quindi un attaccante potrebbe abusare di un caricamento arbitrario di librerie per iniettare codice. Controlla [**questo per ulteriori informazioni**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-library-validation).
 
 ### `com.apple.private.security.clear-library-validation`
 
@@ -87,7 +87,7 @@ TODO: In [**questo report**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA
 
 ### `keychain-access-groups`
 
-Questa lista di permessi **gruppi di portachiavi** a cui l'applicazione ha accesso:
+Questa lista di permessi **gruppi keychain** a cui l'applicazione ha accesso:
 ```xml
 <key>keychain-access-groups</key>
 <array>
@@ -114,7 +114,7 @@ osascript -e 'tell app "App Store" to activate' -e 'tell app "App Store" to acti
 ```
 {% endcode %}
 
-O consentire loro di eseguire **azioni arbitrarie**.
+O permettendo loro di eseguire **azioni arbitrarie**.
 
 ### **`kTCCServiceEndpointSecurityClient`**
 
@@ -122,13 +122,13 @@ Permette, tra le altre autorizzazioni, di **scrivere nel database TCC degli uten
 
 ### **`kTCCServiceSystemPolicySysAdminFiles`**
 
-Permette di **modificare** l'attributo **`NFSHomeDirectory`** di un utente che cambia il percorso della sua cartella home e quindi consente di **bypassare TCC**.
+Permette di **cambiare** l'attributo **`NFSHomeDirectory`** di un utente che cambia il percorso della sua cartella home e quindi consente di **bypassare TCC**.
 
 ### **`kTCCServiceSystemPolicyAppBundles`**
 
-Consente di modificare i file all'interno dei bundle delle app (all'interno di app.app), il che è **disabilitato per impostazione predefinita**.
+Permette di modificare i file all'interno dei bundle delle app (all'interno di app.app), il che è **disabilitato per impostazione predefinita**.
 
-<figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 È possibile verificare chi ha questo accesso in _Impostazioni di Sistema_ > _Privacy e Sicurezza_ > _Gestione App._
 
@@ -187,8 +187,8 @@ Altri modi per supportare HackTricks:
 
 * Se desideri vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
+* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e ai repository github di [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

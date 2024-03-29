@@ -2,19 +2,19 @@
 
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
 
 Altri modi per supportare HackTricks:
 
 * Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
+* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Usa [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) per creare e **automatizzare facilmente flussi di lavoro** supportati dagli strumenti della comunità più avanzati al mondo.\
@@ -29,14 +29,14 @@ Gli artefatti del browser includono vari tipi di dati memorizzati dai browser we
 Ecco un riassunto dei più comuni artefatti del browser:
 
 * **Cronologia di Navigazione**: Traccia le visite dell'utente ai siti web, utile per identificare visite a siti dannosi.
-* **Dati di Autocompletamento**: Suggerimenti basati su ricerche frequenti, offrendo approfondimenti quando combinati con la cronologia di navigazione.
+* **Dati di Autocompletamento**: Suggerimenti basati su ricerche frequenti, offrendo informazioni quando combinati con la cronologia di navigazione.
 * **Segnalibri**: Siti salvati dall'utente per un accesso rapido.
 * **Estensioni e Componenti Aggiuntivi**: Estensioni del browser o componenti aggiuntivi installati dall'utente.
-* **Cache**: Memorizza contenuti web (ad esempio, immagini, file JavaScript) per migliorare i tempi di caricamento del sito, preziosi per l'analisi forense.
+* **Cache**: Memorizza contenuti web (ad esempio, immagini, file JavaScript) per migliorare i tempi di caricamento del sito web, preziosi per l'analisi forense.
 * **Accessi**: Credenziali di accesso memorizzate.
-* **Favicons**: Icone associate ai siti web, che appaiono in schede e segnalibri, utili per informazioni aggiuntive sulle visite dell'utente.
+* **Favicons**: Icone associate ai siti web, che appaiono nelle schede e nei segnalibri, utili per informazioni aggiuntive sulle visite dell'utente.
 * **Sessioni del Browser**: Dati relativi alle sessioni del browser aperte.
-* **Download**: Registrazioni di file scaricati tramite il browser.
+* **Download**: Registrazioni dei file scaricati tramite il browser.
 * **Dati dei Moduli**: Informazioni inserite nei moduli web, salvate per suggerimenti di autocompletamento futuri.
 * **Miniature**: Immagini di anteprima dei siti web.
 * **Custom Dictionary.txt**: Parole aggiunte dall'utente al dizionario del browser.
@@ -69,9 +69,9 @@ All'interno di ciascuna cartella del profilo, è possibile trovare diversi file 
 * **logins.json**: Informazioni di accesso crittografate.
 * **key4.db** o **key3.db**: Memorizza le chiavi di crittografia per proteggere informazioni sensibili.
 
-Inoltre, verificare le impostazioni anti-phishing del browser può essere fatto cercando voci `browser.safebrowsing` in `prefs.js`, indicando se le funzionalità di navigazione sicura sono abilitate o disabilitate.
+Inoltre, controllare le impostazioni anti-phishing del browser può essere fatto cercando voci `browser.safebrowsing` in `prefs.js`, indicando se le funzionalità di navigazione sicura sono abilitate o disabilitate.
 
-Per provare a decifrare la password principale, è possibile utilizzare [https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt)\
+Per cercare di decifrare la password principale, è possibile utilizzare [https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt)\
 Con lo script e la chiamata seguenti è possibile specificare un file password per il brute force:
 
 {% code title="brute.sh" %}
@@ -123,11 +123,11 @@ Internet Explorer 11 gestisce i suoi dati e metadati in varie posizioni, aiutand
 
 ### Archiviazione dei metadati
 
-I metadati per Internet Explorer sono memorizzati in `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` (con VX che può essere V01, V16 o V24). Inoltre, il file `V01.log` potrebbe mostrare discrepanze di tempo di modifica con `WebcacheVX.data`, indicando la necessità di riparazione utilizzando `esentutl /r V01 /d`. Questi metadati, contenuti in un database ESE, possono essere recuperati e ispezionati utilizzando strumenti come photorec e [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html), rispettivamente. All'interno della tabella **Containers**, è possibile distinguere le tabelle o i contenitori specifici in cui è memorizzato ciascun segmento di dati, inclusi dettagli della cache per altri strumenti Microsoft come Skype.
+I metadati per Internet Explorer sono memorizzati in `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` (con VX che può essere V01, V16 o V24). Inoltre, il file `V01.log` potrebbe mostrare discrepanze di tempo di modifica rispetto a `WebcacheVX.data`, indicando la necessità di riparazione utilizzando `esentutl /r V01 /d`. Questi metadati, contenuti in un database ESE, possono essere recuperati e ispezionati utilizzando strumenti come photorec e [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html), rispettivamente. All'interno della tabella **Containers**, è possibile distinguere le tabelle o i contenitori specifici in cui è memorizzato ciascun segmento di dati, inclusi dettagli della cache per altri strumenti Microsoft come Skype.
 
 ### Ispezione della cache
 
-Lo strumento [IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html) consente l'ispezione della cache, richiedendo la posizione della cartella di estrazione dei dati della cache. I metadati per la cache includono nome file, directory, conteggio accessi, origine URL e timestamp che indicano i tempi di creazione, accesso, modifica e scadenza della cache.
+Lo strumento [IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html) consente l'ispezione della cache, richiedendo la posizione della cartella di estrazione dei dati della cache. I metadati per la cache includono nome file, directory, conteggio accessi, origine URL e timestamp che indicano la creazione della cache, l'accesso, la modifica e i tempi di scadenza.
 
 ### Gestione dei cookie
 
@@ -165,8 +165,8 @@ I dati di Safari sono memorizzati in `/Users/$User/Library/Safari`. I file chiav
 * **TopSites.plist**: Siti più visitati.
 * **Extensions.plist**: Elenco delle estensioni del browser Safari. Utilizzare `plutil` o `pluginkit` per recuperare.
 * **UserNotificationPermissions.plist**: Domini autorizzati a inviare notifiche push. Utilizzare `plutil` per analizzare.
-* **LastSession.plist**: Schede dell'ultima sessione. Utilizzare `plutil` per analizzare.
-* **Antiphishing integrato del browser**: Verificare utilizzando `defaults read com.apple.Safari WarnAboutFraudulentWebsites`. Una risposta di 1 indica che la funzionalità è attiva.
+* **LastSession.plist**: Schede dall'ultima sessione. Utilizzare `plutil` per analizzare.
+* **Antiphishing integrato del browser**: Verificare utilizzando `defaults read com.apple.Safari WarnAboutFraudulentWebsites`. Una risposta di 1 indica che la funzione è attiva.
 
 ## Opera
 
@@ -183,7 +183,7 @@ Questi percorsi e comandi sono cruciali per accedere e comprendere i dati di nav
 * [https://books.google.com/books?id=jfMqCgAAQBAJ\&pg=PA128\&lpg=PA128\&dq=%22This+file](https://books.google.com/books?id=jfMqCgAAQBAJ\&pg=PA128\&lpg=PA128\&dq=%22This+file)
 * **Libro: OS X Incident Response: Scripting and Analysis di Jaron Bradley pag 123**
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilizza [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) per creare e **automatizzare facilmente flussi di lavoro** supportati dagli strumenti della community più avanzati al mondo.\
@@ -194,7 +194,7 @@ Ottieni l'accesso oggi:
 <details>
 
 <summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-* Se desideri vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Se desideri vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
 * Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione esclusiva di [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

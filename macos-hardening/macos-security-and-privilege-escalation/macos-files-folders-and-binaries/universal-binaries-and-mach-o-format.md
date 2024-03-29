@@ -10,7 +10,7 @@ Altri modi per supportare HackTricks:
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
 * Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
+* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
@@ -20,7 +20,7 @@ Di solito i binari di Mac OS sono compilati come **universal binaries**. Un **un
 
 Questi binari seguono la **struttura Mach-O** che è essenzialmente composta da:
 
-* Header
+* Intestazione
 * Comandi di caricamento
 * Dati
 
@@ -47,27 +47,27 @@ uint32_t	align;		/* allineamento come potenza di 2 */
 };
 </code></pre>
 
-L'intestazione ha i byte **magic** seguiti dal **numero** di **archs** che il file **contiene** (`nfat_arch`) e ogni architettura avrà una struttura `fat_arch`.
+L'intestazione ha i byte **magic** seguiti dal **numero** di **architetture** contenute nel file (`nfat_arch`) e ogni architettura avrà una struttura `fat_arch`.
 
 Controlla con:
 
 <pre class="language-shell-session"><code class="lang-shell-session">% file /bin/ls
 /bin/ls: Mach-O universal binary with 2 architectures: [x86_64:Mach-O 64-bit executable x86_64] [arm64e:Mach-O 64-bit executable arm64e]
-/bin/ls (for architecture x86_64):	Mach-O 64-bit executable x86_64
-/bin/ls (for architecture arm64e):	Mach-O 64-bit executable arm64e
+/bin/ls (per architettura x86_64):	Mach-O 64-bit executable x86_64
+/bin/ls (per architettura arm64e):	Mach-O 64-bit executable arm64e
 
 % otool -f -v /bin/ls
-Fat headers
+Intestazioni Fat
 fat_magic FAT_MAGIC
 <strong>nfat_arch 2
-</strong><strong>architecture x86_64
+</strong><strong>architettura x86_64
 </strong>    cputype CPU_TYPE_X86_64
 cpusubtype CPU_SUBTYPE_X86_64_ALL
 capabilities 0x0
 <strong>    offset 16384
 </strong><strong>    size 72896
 </strong>    align 2^14 (16384)
-<strong>architecture arm64e
+<strong>architettura arm64e
 </strong>    cputype CPU_TYPE_ARM64
 cpusubtype CPU_SUBTYPE_ARM64E
 capabilities PTR_AUTH_VERSION USERSPACE 0
@@ -84,7 +84,7 @@ Come potresti pensare, di solito un binary universale compilato per 2 architettu
 
 ## Intestazione Mach-O
 
-L'intestazione contiene informazioni di base sul file, come byte magici per identificarlo come file Mach-O e informazioni sull'architettura di destinazione. Puoi trovarlo in: `mdfind loader.h | grep -i mach-o | grep -E "loader.h$"`
+L'intestazione contiene informazioni di base sul file, come i byte magici per identificarlo come file Mach-O e informazioni sull'architettura di destinazione. Puoi trovarlo in: `mdfind loader.h | grep -i mach-o | grep -E "loader.h$"`
 ```c
 #define	MH_MAGIC	0xfeedface	/* the mach magic number */
 #define MH_CIGAM	0xcefaedfe	/* NXSwapInt(MH_MAGIC) */
@@ -129,9 +129,9 @@ Oppure utilizzando [Mach-O View](https://sourceforge.net/projects/machoview/):
 
 ## **Comandi di caricamento Mach-O**
 
-La **disposizione del file in memoria** è specificata qui, dettagliando la **posizione della tabella dei simboli**, il contesto del thread principale all'avvio dell'esecuzione e le **librerie condivise** richieste. Vengono forniste istruzioni al caricatore dinamico **(dyld)** sul processo di caricamento del binario in memoria.
+La **disposizione del file in memoria** è specificata qui, dettagliando la **posizione della tabella dei simboli**, il contesto del thread principale all'avvio dell'esecuzione e le **librerie condivise** richieste. Sono fornite istruzioni al caricatore dinamico **(dyld)** sul processo di caricamento del binario in memoria.
 
-Viene utilizzata la struttura **load\_command**, definita nel menzionato file **`loader.h`**:
+Viene utilizzata la struttura **load\_command**, definita nel menzionato **`loader.h`**:
 ```objectivec
 struct load_command {
 uint32_t cmd;           /* type of load command */
@@ -143,12 +143,12 @@ Ci sono circa **50 diversi tipi di comandi di caricamento** che il sistema gesti
 ### **LC\_SEGMENT/LC\_SEGMENT\_64**
 
 {% hint style="success" %}
-Fondamentalmente, questo tipo di Comando di Caricamento definisce **come caricare il \_\_TEXT** (codice eseguibile) **e il \_\_DATA** (dati per il processo) **segmenti** in base agli **offset indicati nella sezione dei Dati** quando il binario viene eseguito.
+Fondamentalmente, questo tipo di Comando di Caricamento definisce **come caricare il \_\_TEXT** (codice eseguibile) **e il \_\_DATA** (dati per il processo) **segmenti** secondo gli **offset indicati nella sezione dei Dati** quando il binario viene eseguito.
 {% endhint %}
 
 Questi comandi **definiscono segmenti** che vengono **mappati** nello **spazio di memoria virtuale** di un processo quando viene eseguito.
 
-Ci sono **diversi tipi** di segmenti, come il segmento **\_\_TEXT**, che contiene il codice eseguibile di un programma, e il segmento **\_\_DATA**, che contiene dati utilizzati dal processo. Questi **segmenti sono situati nella sezione dei dati** del file Mach-O.
+Ci sono **diversi tipi** di segmenti, come il segmento **\_\_TEXT**, che contiene il codice eseguibile di un programma, e il segmento **\_\_DATA**, che contiene dati utilizzati dal processo. Questi **segmenti si trovano nella sezione dei dati** del file Mach-O.
 
 **Ogni segmento** può essere ulteriormente **diviso** in più **sezioni**. La **struttura del comando di caricamento** contiene **informazioni** su **queste sezioni** all'interno del rispettivo segmento.
 
@@ -196,7 +196,7 @@ Esempio di **intestazione di sezione**:
 
 Se si **aggiunge** l'**offset della sezione** (0x37DC) + l'**offset** in cui inizia l'**architettura**, in questo caso `0x18000` --> `0x37DC + 0x18000 = 0x1B7DC`
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 È anche possibile ottenere le **informazioni sull'intestazione** dalla **riga di comando** con:
 ```bash
@@ -214,9 +214,9 @@ Segmenti comuni caricati da questo cmd:
 - **`__DATA`**: Contiene dati che sono **leggibili** e **scrivibili** (non eseguibili)**.**
   - `__data`: Variabili globali (che sono state inizializzate)
   - `__bss`: Variabili statiche (che non sono state inizializzate)
-  - `__objc_*` (\_\_objc\_classlist, \_\_objc\_protolist, ecc.): Informazioni utilizzate dall'Objective-C runtime
+  - `__objc_*` (\_\_objc\_classlist, \_\_objc\_protolist, ecc.): Informazioni utilizzate dal runtime di Objective-C
 - **`__LINKEDIT`**: Contiene informazioni per il linker (dyld) come "voci di tabella dei simboli, stringhe e rilocazione".
-- **`__OBJC`**: Contiene informazioni utilizzate dall'Objective-C runtime. Anche se queste informazioni potrebbero essere trovate nel segmento \_\_DATA, all'interno di varie sezioni \_\_objc\_\*.
+- **`__OBJC`**: Contiene informazioni utilizzate dal runtime di Objective-C. Anche se queste informazioni potrebbero essere trovate nel segmento \_\_DATA, all'interno di varie sezioni \_\_objc\_\*.
 
 ### **`LC_MAIN`**
 
@@ -235,7 +235,7 @@ Contiene il **percorso dell'eseguibile del linker dinamico** che mappa le librer
 
 Questo comando di caricamento descrive una **dipendenza da libreria dinamica** che **istruisce** il **caricatore** (dyld) a **caricare e collegare tale libreria**. C'è un comando di caricamento LC\_LOAD\_DYLIB **per ogni libreria** richiesta dal binario Mach-O.
 
-- Questo comando di caricamento è una struttura di tipo **`dylib_command`** (che contiene una struct dylib, che descrive la libreria dinamica dipendente effettiva):
+- Questo comando di caricamento è una struttura di tipo **`dylib_command`** (che contiene una struct dylib, descrivendo la libreria dinamica dipendente effettiva):
 ```objectivec
 struct dylib_command {
 uint32_t        cmd;            /* LC_LOAD_{,WEAK_}DYLIB */
@@ -262,30 +262,30 @@ otool -L /bin/ls
 ```
 Alcune potenziali librerie correlate al malware sono:
 
-- **DiskArbitration**: Monitoraggio delle unità USB
-- **AVFoundation**: Cattura audio e video
-- **CoreWLAN**: Scansioni Wifi.
+* **DiskArbitration**: Monitoraggio delle unità USB
+* **AVFoundation:** Cattura audio e video
+* **CoreWLAN**: Scansioni Wifi.
 
 {% hint style="info" %}
-Un binario Mach-O può contenere uno o **più costruttori**, che verranno **eseguiti prima** dell'indirizzo specificato in **LC\_MAIN**.\
+Un binario Mach-O può contenere uno o **più** **costruttori**, che verranno **eseguiti** **prima** dell'indirizzo specificato in **LC\_MAIN**.\
 Gli offset di eventuali costruttori sono contenuti nella sezione **\_\_mod\_init\_func** del segmento **\_\_DATA\_CONST**.
 {% endhint %}
 
 ## **Dati Mach-O**
 
-Al centro del file si trova la regione dei dati, composta da diversi segmenti come definito nella regione dei comandi di caricamento. **Una varietà di sezioni dati può essere contenuta in ciascun segmento**, con ciascuna sezione che **contiene codice o dati** specifici per un tipo.
+Al centro del file si trova la regione dei dati, composta da diversi segmenti come definito nella regione dei comandi di caricamento. **Una varietà di sezioni dati può essere contenuta in ciascun segmento**, con ciascuna sezione **contenente codice o dati** specifici per un tipo.
 
 {% hint style="success" %}
-I dati sono essenzialmente la parte che contiene tutte le **informazioni** caricate dai comandi di caricamento **LC\_SEGMENTS\_64**
+I dati sono fondamentalmente la parte che contiene tutte le **informazioni** caricate dai comandi di caricamento **LC\_SEGMENTS\_64**
 {% endhint %}
 
 ![https://www.oreilly.com/api/v2/epubs/9781785883378/files/graphics/B05055\_02\_38.jpg](<../../../.gitbook/assets/image (507) (3).png>)
 
 Questo include:
 
-- **Tabella delle funzioni**: Che contiene informazioni sulle funzioni del programma.
-- **Tabella dei simboli**: Che contiene informazioni sulle funzioni esterne utilizzate dal binario
-- Potrebbe contenere anche funzioni interne, nomi di variabili e altro.
+* **Tabella delle funzioni:** Che contiene informazioni sulle funzioni del programma.
+* **Tabella dei simboli**: Che contiene informazioni sulle funzioni esterne utilizzate dal binario
+* Potrebbe contenere anche funzioni interne, nomi di variabili e altro.
 
 Per controllarlo, potresti utilizzare lo strumento [**Mach-O View**](https://sourceforge.net/projects/machoview/):
 

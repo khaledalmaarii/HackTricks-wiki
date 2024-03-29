@@ -8,7 +8,7 @@ Altri modi per supportare HackTricks:
 
 * Se desideri vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione esclusiva di [**NFT**](https://opensea.io/collection/the-peass-family)
+* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
@@ -18,7 +18,7 @@ Altri modi per supportare HackTricks:
 
 Apple propone anche un altro modo per autenticare se il processo di connessione ha **autorizzazioni per chiamare un metodo XPC esposto**.
 
-Quando un'applicazione ha bisogno di **eseguire azioni come utente privilegiato**, invece di eseguire l'applicazione come utente privilegiato, di solito installa come root un HelperTool come servizio XPC che potrebbe essere chiamato dall'app per eseguire tali azioni. Tuttavia, l'app che chiama il servizio dovrebbe avere abbastanza autorizzazione.
+Quando un'applicazione ha bisogno di **eseguire azioni come utente privilegiato**, invece di eseguire l'applicazione come utente privilegiato, di solito installa come root un HelperTool come servizio XPC che potrebbe essere chiamato dall'applicazione per eseguire tali azioni. Tuttavia, l'applicazione che chiama il servizio dovrebbe avere abbastanza autorizzazione.
 
 ### ShouldAcceptNewConnection sempre YES
 
@@ -47,7 +47,7 @@ Per ulteriori informazioni su come configurare correttamente questo controllo:
 
 ### Diritti dell'applicazione
 
-Tuttavia, c'è un **processo di autorizzazione in corso quando viene chiamato un metodo da HelperTool**.
+Tuttavia, vi è un **processo di autorizzazione in corso quando viene chiamato un metodo da HelperTool**.
 
 La funzione **`applicationDidFinishLaunching`** da `App/AppDelegate.m` creerà un riferimento di autorizzazione vuoto dopo che l'app è stata avviata. Questo dovrebbe sempre funzionare.\
 Successivamente, cercherà di **aggiungere alcuni diritti** a quel riferimento di autorizzazione chiamando `setupAuthorizationRights`:
@@ -106,7 +106,7 @@ assert(blockErr == errAuthorizationSuccess);
 }];
 }
 ```
-La funzione `enumerateRightsUsingBlock` è quella utilizzata per ottenere i permessi delle applicazioni, definiti in `commandInfo`:
+La funzione `enumerateRightsUsingBlock` è quella utilizzata per ottenere i permessi delle applicazioni, che sono definiti in `commandInfo`:
 ```objectivec
 static NSString * kCommandKeyAuthRightName    = @"authRightName";
 static NSString * kCommandKeyAuthRightDefault = @"authRightDefault";
@@ -188,7 +188,7 @@ Questo significa che alla fine di questo processo, le autorizzazioni dichiarate 
 
 Ci sono diversi ambiti per indicare chi può accedere a un diritto. Alcuni di essi sono definiti in [AuthorizationDB.h](https://github.com/aosm/Security/blob/master/Security/libsecurity\_authorization/lib/AuthorizationDB.h) (puoi trovarli [tutti qui](https://www.dssw.co.uk/reference/authorization-rights/)), ma in sintesi:
 
-<table><thead><tr><th width="284.3333333333333">Nome</th><th width="165">Valore</th><th>Descrizione</th></tr></thead><tbody><tr><td>kAuthorizationRuleClassAllow</td><td>allow</td><td>Chiunque</td></tr><tr><td>kAuthorizationRuleClassDeny</td><td>deny</td><td>Nessuno</td></tr><tr><td>kAuthorizationRuleIsAdmin</td><td>is-admin</td><td>L'utente corrente deve essere un amministratore (all'interno del gruppo admin)</td></tr><tr><td>kAuthorizationRuleAuthenticateAsSessionUser</td><td>authenticate-session-owner</td><td>Chiedi all'utente di autenticarsi.</td></tr><tr><td>kAuthorizationRuleAuthenticateAsAdmin</td><td>authenticate-admin</td><td>Chiedi all'utente di autenticarsi. Deve essere un amministratore (all'interno del gruppo admin)</td></tr><tr><td>kAuthorizationRightRule</td><td>rule</td><td>Specifica regole</td></tr><tr><td>kAuthorizationComment</td><td>comment</td><td>Specifica alcuni commenti aggiuntivi sul diritto</td></tr></tbody></table>
+<table><thead><tr><th width="284.3333333333333">Nome</th><th width="165">Valore</th><th>Descrizione</th></tr></thead><tbody><tr><td>kAuthorizationRuleClassAllow</td><td>allow</td><td>Chiunque</td></tr><tr><td>kAuthorizationRuleClassDeny</td><td>deny</td><td>Nessuno</td></tr><tr><td>kAuthorizationRuleIsAdmin</td><td>is-admin</td><td>L'utente corrente deve essere un amministratore (all'interno del gruppo admin)</td></tr><tr><td>kAuthorizationRuleAuthenticateAsSessionUser</td><td>authenticate-session-owner</td><td>Chiedi all'utente di autenticarsi.</td></tr><tr><td>kAuthorizationRuleAuthenticateAsAdmin</td><td>authenticate-admin</td><td>Chiedi all'utente di autenticarsi. Deve essere un amministratore (all'interno del gruppo admin)</td></tr><tr><td>kAuthorizationRightRule</td><td>rule</td><td>Specifica le regole</td></tr><tr><td>kAuthorizationComment</td><td>comment</td><td>Specifica alcuni commenti aggiuntivi sul diritto</td></tr></tbody></table>
 
 ### Verifica dei Diritti
 
@@ -261,14 +261,14 @@ security authorizationdb read com.apple.safaridriver.allow
 Puoi trovare **tutte le configurazioni dei permessi** [**qui**](https://www.dssw.co.uk/reference/authorization-rights/), ma le combinazioni che non richiedono interazione dell'utente sarebbero:
 
 1. **'authenticate-user': 'false'**
-* Questa è la chiave più diretta. Se impostata su `false`, specifica che un utente non deve fornire autenticazione per ottenere questo diritto.
+* Questo è il campo più diretto. Se impostato su `false`, specifica che un utente non deve fornire autenticazione per ottenere questo diritto.
 * Questo viene utilizzato in **combinazione con uno dei 2 seguenti o indicando un gruppo** a cui l'utente deve appartenere.
 2. **'allow-root': 'true'**
-* Se un utente sta operando come utente root (che ha permessi elevati) e questa chiave è impostata su `true`, l'utente root potrebbe potenzialmente ottenere questo diritto senza ulteriore autenticazione. Tuttavia, tipicamente, raggiungere lo stato di utente root richiede già un'autenticazione, quindi non si tratta di uno scenario "senza autenticazione" per la maggior parte degli utenti.
+* Se un utente sta operando come utente root (che ha permessi elevati) e questo campo è impostato su `true`, l'utente root potrebbe potenzialmente ottenere questo diritto senza ulteriore autenticazione. Tuttavia, tipicamente, raggiungere lo stato di utente root richiede già un'autenticazione, quindi non si tratta di uno scenario "senza autenticazione" per la maggior parte degli utenti.
 3. **'session-owner': 'true'**
 * Se impostato su `true`, il proprietario della sessione (l'utente attualmente loggato) otterrebbe automaticamente questo diritto. Ciò potrebbe bypassare ulteriori autenticazioni se l'utente è già loggato.
 4. **'shared': 'true'**
-* Questa chiave non concede diritti senza autenticazione. Invece, se impostata su `true`, significa che una volta che il diritto è stato autenticato, può essere condiviso tra più processi senza che ognuno debba ri-autenticarsi. Ma il conferimento iniziale del diritto richiederebbe comunque un'autenticazione a meno che non sia combinato con altre chiavi come `'authenticate-user': 'false'`.
+* Questo campo non concede diritti senza autenticazione. Invece, se impostato su `true`, significa che una volta che il diritto è stato autenticato, può essere condiviso tra più processi senza che ognuno debba ri-autenticarsi. Tuttavia, il conferimento iniziale del diritto richiederebbe comunque un'autenticazione a meno che non sia combinato con altri campi come `'authenticate-user': 'false'`.
 
 Puoi [**utilizzare questo script**](https://gist.github.com/carlospolop/96ecb9e385a4667b9e40b24e878652f9) per ottenere i diritti interessanti:
 ```bash
@@ -281,13 +281,13 @@ com-apple-aosnotification-findmymac-remove, com-apple-diskmanagement-reservekek,
 Rights with 'session-owner': 'true':
 authenticate-session-owner, authenticate-session-owner-or-admin, authenticate-session-user, com-apple-safari-allow-apple-events-to-run-javascript, com-apple-safari-allow-javascript-in-smart-search-field, com-apple-safari-allow-unsigned-app-extensions, com-apple-safari-install-ephemeral-extensions, com-apple-safari-show-credit-card-numbers, com-apple-safari-show-passwords, com-apple-icloud-passwordreset, com-apple-icloud-passwordreset, is-session-owner, system-identity-write-self, use-login-window-ui
 ```
-## Reversing Authorization
+## Reversing dell'Autorizzazione
 
 ### Verifica se viene utilizzato EvenBetterAuthorization
 
 Se trovi la funzione: **`[HelperTool checkAuthorization:command:]`** probabilmente il processo sta utilizzando lo schema di autorizzazione precedentemente menzionato:
 
-<figure><img src="../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Quindi, se questa funzione chiama funzioni come `AuthorizationCreateFromExternalForm`, `authorizationRightForCommand`, `AuthorizationCopyRights`, `AuhtorizationFree`, sta utilizzando [**EvenBetterAuthorizationSample**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L101-L154).
 
@@ -299,11 +299,11 @@ Successivamente, è necessario trovare lo schema del protocollo per poter stabil
 
 La funzione **`shouldAcceptNewConnection`** indica il protocollo in fase di esportazione:
 
-<figure><img src="../../../../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 In questo caso, abbiamo lo stesso di EvenBetterAuthorizationSample, [**controlla questa riga**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L94).
 
-Conoscendo il nome del protocollo utilizzato, è possibile **dumpare la sua definizione dell'intestazione** con:
+Conoscendo il nome del protocollo utilizzato, è possibile **dumpare la definizione dell'header** con:
 ```bash
 class-dump /Library/PrivilegedHelperTools/com.example.HelperTool
 
@@ -317,9 +317,9 @@ class-dump /Library/PrivilegedHelperTools/com.example.HelperTool
 @end
 [...]
 ```
-Infine, dobbiamo solo conoscere il **nome del Mach Service esposto** per stabilire una comunicazione con esso. Ci sono diversi modi per trovarlo:
+Infine, abbiamo solo bisogno di conoscere il **nome del Mach Service esposto** per stabilire una comunicazione con esso. Ci sono diversi modi per trovarlo:
 
-* Nell'**`[HelperTool init()]`** dove è possibile vedere il Mach Service in uso:
+* Nel **`[HelperTool init]`** dove è possibile vedere il Mach Service in uso:
 
 <figure><img src="../../../../../.gitbook/assets/image (4) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
@@ -431,10 +431,10 @@ NSLog(@"Finished!");
 
 Altri modi per supportare HackTricks:
 
-* Se desideri vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Se desideri vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
 * Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>

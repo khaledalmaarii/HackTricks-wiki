@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Impara l'hacking su AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking su AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team di HackTricks su AWS)</strong></a><strong>!</strong></summary>
 
 Altri modi per supportare HackTricks:
 
@@ -19,7 +19,7 @@ Altri modi per supportare HackTricks:
 * JAMF Pro: `jamf checkJSSConnection`
 * Kandji
 
-Se riesci a **compromettere le credenziali di amministrazione** per accedere alla piattaforma di gestione, potresti **potenzialmente compromettere tutti i computer** distribuendo il tuo malware nelle macchine.
+Se riesci a **compromettere le credenziali di amministratore** per accedere alla piattaforma di gestione, potresti **potenzialmente compromettere tutti i computer** distribuendo il tuo malware nelle macchine.
 
 Per il red teaming negli ambienti MacOS è altamente consigliato avere una certa comprensione di come funzionano i MDM:
 
@@ -31,7 +31,7 @@ Per il red teaming negli ambienti MacOS è altamente consigliato avere una certa
 
 Un MDM avrà il permesso di installare, interrogare o rimuovere profili, installare applicazioni, creare account amministrativi locali, impostare la password del firmware, cambiare la chiave di FileVault...
 
-Per eseguire il proprio MDM è necessario **che il tuo CSR sia firmato da un fornitore** che potresti provare a ottenere con [**https://mdmcert.download/**](https://mdmcert.download/). E per eseguire il proprio MDM per i dispositivi Apple potresti utilizzare [**MicroMDM**](https://github.com/micromdm/micromdm).
+Per eseguire il proprio MDM è necessario **avere il tuo CSR firmato da un fornitore** che potresti provare a ottenere con [**https://mdmcert.download/**](https://mdmcert.download/). E per eseguire il proprio MDM per i dispositivi Apple potresti utilizzare [**MicroMDM**](https://github.com/micromdm/micromdm).
 
 Tuttavia, per installare un'applicazione in un dispositivo registrato, è comunque necessario che sia firmata da un account sviluppatore... tuttavia, al momento dell'iscrizione al MDM il **dispositivo aggiunge il certificato SSL del MDM come CA attendibile**, quindi ora puoi firmare qualsiasi cosa.
 
@@ -49,13 +49,13 @@ Vai su una pagina come `https://<nome-azienda>.jamfcloud.com/enroll/` per vedere
 
 Potresti utilizzare lo script [**JamfSniper.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfSniper.py) per eseguire un attacco di password spraying.
 
-Inoltre, dopo aver trovato le credenziali corrette potresti essere in grado di eseguire un attacco di forza bruta su altri nomi utente con il modulo successivo:
+Inoltre, dopo aver trovato le credenziali corrette potresti essere in grado di forzare altre username con il modulo successivo:
 
 ![](<../../.gitbook/assets/image (7) (1) (1).png>)
 
 #### Autenticazione del dispositivo JAMF
 
-<figure><img src="../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Il binario **`jamf`** conteneva il segreto per aprire il portachiavi che al momento della scoperta era **condiviso** tra tutti ed era: **`jk23ucnq91jfu9aj`**.\
 Inoltre, jamf **persiste** come un **LaunchDaemon** in **`/Library/LaunchAgents/com.jamf.management.agent.plist`**
@@ -98,7 +98,7 @@ Per **impersonare la comunicazione** tra un dispositivo e JMF hai bisogno di:
 * L'**UUID** del dispositivo: `ioreg -d2 -c IOPlatformExpertDevice | awk -F" '/IOPlatformUUID/{print $(NF-1)}'`
 * Il **portachiavi JAMF** da: `/Library/Application\ Support/Jamf/JAMF.keychain` che contiene il certificato del dispositivo
 
-Con queste informazioni, **crea una VM** con l'**UUID hardware rubato** e con **SIP disabilitato**, rilascia il **portachiavi JAMF,** **intercetta** l'**agente Jamf** e ruba le sue informazioni.
+Con queste informazioni, **crea una VM** con l'**UUID hardware rubato** e con **SIP disabilitato**, rilascia il **portachiavi JAMF**, **intercetta** l'**agente Jamf** e ruba le sue informazioni.
 
 #### Furto di segreti
 
@@ -134,15 +134,15 @@ In alcune occasioni potresti trovare che il **computer MacOS è connesso a un AD
 [pentesting-kerberos-88](../../network-services-pentesting/pentesting-kerberos-88/)
 {% endcontent-ref %}
 
-Uno **strumento locale MacOS** che potrebbe aiutarti è `dscl`:
+Alcuni **strumenti locali MacOS** che potrebbero aiutarti sono `dscl`:
 ```bash
 dscl "/Active Directory/[Domain]/All Domains" ls /
 ```
-Inoltre ci sono alcuni strumenti preparati per MacOS per enumerare automaticamente l'AD e giocare con kerberos:
+Inoltre ci sono alcuni strumenti preparati per MacOS per enumerare automaticamente l'AD e interagire con kerberos:
 
-* [**Machound**](https://github.com/XMCyber/MacHound): MacHound è un'estensione dello strumento di audit Bloodhound che consente di raccogliere e ingerire le relazioni dell'Active Directory sugli host MacOS.
-* [**Bifrost**](https://github.com/its-a-feature/bifrost): Bifrost è un progetto Objective-C progettato per interagire con le API Heimdal krb5 su macOS. L'obiettivo del progetto è consentire un miglior testing della sicurezza attorno a Kerberos sui dispositivi macOS utilizzando API native senza richiedere altri framework o pacchetti nel target.
-* [**Orchard**](https://github.com/its-a-feature/Orchard): Strumento JavaScript for Automation (JXA) per enumerare l'Active Directory. 
+* [**Machound**](https://github.com/XMCyber/MacHound): MacHound è un'estensione dello strumento di audit Bloodhound che consente di raccogliere e inglobare le relazioni dell'Active Directory su host MacOS.
+* [**Bifrost**](https://github.com/its-a-feature/bifrost): Bifrost è un progetto Objective-C progettato per interagire con le API Heimdal krb5 su macOS. L'obiettivo del progetto è consentire una migliore verifica della sicurezza attorno a Kerberos su dispositivi macOS utilizzando API native senza richiedere alcun altro framework o pacchetti nel target.
+* [**Orchard**](https://github.com/its-a-feature/Orchard): Strumento JavaScript for Automation (JXA) per enumerare l'Active Directory.
 
 ### Informazioni sul Dominio
 ```bash
@@ -185,7 +185,7 @@ dscl "/Active Directory/TEST/All Domains" read "/Groups/[groupname]"
 #Domain Information
 dsconfigad -show
 ```
-Ulteriori informazioni su [https://its-a-feature.github.io/posts/2018/01/Active-Directory-Discovery-with-a-Mac/](https://its-a-feature.github.io/posts/2018/01/Active-Directory-Discovery-with-a-Mac/)
+Ulteriori informazioni in [https://its-a-feature.github.io/posts/2018/01/Active-Directory-Discovery-with-a-Mac/](https://its-a-feature.github.io/posts/2018/01/Active-Directory-Discovery-with-a-Mac/)
 
 ## Accesso al portachiavi
 
@@ -203,7 +203,7 @@ Il Red Teaming su MacOS è diverso da un Red Teaming regolare su Windows poiché
 
 ### Safari
 
-Quando un file viene scaricato in Safari, se è un file "sicuro", verrà **aperto automaticamente**. Quindi, ad esempio, se si **scarica un file zip**, verrà decompresso automaticamente:
+Quando un file viene scaricato in Safari, se è un file "sicuro", verrà **aperto automaticamente**. Quindi, ad esempio, se **scarichi un file zip**, verrà decompresso automaticamente:
 
 <figure><img src="../../.gitbook/assets/image (12) (3).png" alt=""><figcaption></figcaption></figure>
 

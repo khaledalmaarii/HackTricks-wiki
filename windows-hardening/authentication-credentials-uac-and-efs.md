@@ -7,14 +7,14 @@
 Altri modi per supportare HackTricks:
 
 * Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Ottieni il [**merchandising ufficiale PEASS & HackTricks**](https://peass.creator-spring.com)
 * Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Usa [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) per creare e **automatizzare facilmente flussi di lavoro** supportati dagli strumenti della comunità più avanzati al mondo.\
 Ottieni l'accesso oggi:
@@ -159,7 +159,7 @@ Questo metodo richiede che l'**utente vittima** stia **eseguendo** un **processo
 
 Microsoft ha sviluppato gli **Account di Servizio Gestiti dal Gruppo (gMSA)** per semplificare la gestione degli account di servizio nelle infrastrutture IT. A differenza degli account di servizio tradizionali che spesso hanno l'impostazione "**Password mai scade**" abilitata, i gMSA offrono una soluzione più sicura e gestibile:
 
-- **Gestione Automatica delle Password**: i gMSA utilizzano una password complessa di 240 caratteri che cambia automaticamente secondo la politica del dominio o del computer. Questo processo è gestito dal Key Distribution Service (KDC) di Microsoft, eliminando la necessità di aggiornamenti manuali delle password.
+- **Gestione Automatica delle Password**: i gMSA utilizzano una password complessa di 240 caratteri che cambia automaticamente in base alla policy del dominio o del computer. Questo processo è gestito dal Key Distribution Service (KDC) di Microsoft, eliminando la necessità di aggiornamenti manuali delle password.
 - **Sicurezza Potenziata**: Questi account sono immuni ai blocchi e non possono essere utilizzati per accessi interattivi, migliorando la loro sicurezza.
 - **Supporto Multi-Host**: i gMSA possono essere condivisi su più host, rendendoli ideali per servizi in esecuzione su server multipli.
 - **Capacità di Attività Pianificate**: a differenza degli account di servizio gestiti, i gMSA supportano l'esecuzione di attività pianificate.
@@ -175,7 +175,7 @@ Puoi leggere questa password con [**GMSAPasswordReader**](https://github.com/rva
 ```
 [**Trova ulteriori informazioni in questo post**](https://cube0x0.github.io/Relaying-for-gMSA/)
 
-Inoltre, controlla questa [pagina web](https://cube0x0.github.io/Relaying-for-gMSA/) su come eseguire un attacco di **relè NTLM** per **leggere** la **password** di **gMSA**.
+Inoltre, controlla questa [pagina web](https://cube0x0.github.io/Relaying-for-gMSA/) su come eseguire un attacco di **NTLM relay** per **leggere** la **password** di **gMSA**.
 
 ## LAPS
 
@@ -185,9 +185,9 @@ La **Local Administrator Password Solution (LAPS)**, disponibile per il download
 [laps.md](active-directory-methodology/laps.md)
 {% endcontent-ref %}
 
-## Modalità di linguaggio PowerShell vincolata
+## PS Constrained Language Mode
 
-La [**Modalità di linguaggio PowerShell vincolata**](https://devblogs.microsoft.com/powershell/powershell-constrained-language-mode/) **blocca molte delle funzionalità** necessarie per utilizzare PowerShell in modo efficace, come il blocco degli oggetti COM, consentendo solo tipi .NET approvati, flussi di lavoro basati su XAML, classi PowerShell e altro.
+PowerShell [**Constrained Language Mode**](https://devblogs.microsoft.com/powershell/powershell-constrained-language-mode/) **blocca molte delle funzionalità** necessarie per utilizzare PowerShell in modo efficace, come il blocco degli oggetti COM, consentendo solo tipi .NET approvati, flussi di lavoro basati su XAML, classi PowerShell e altro.
 
 ### **Controlla**
 ```powershell
@@ -212,7 +212,7 @@ C:\Windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil.exe /logfile= /LogTo
 ```
 Puoi utilizzare [**ReflectivePick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) o [**SharpPick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) per **eseguire codice Powershell** in qualsiasi processo e bypassare la modalità vincolata. Per ulteriori informazioni consulta: [https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode](https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode).
 
-## Politica di Esecuzione di PS
+## Politica di esecuzione di PS
 
 Di default è impostata su **restricted.** Principali modi per bypassare questa politica:
 ```powershell
@@ -238,7 +238,7 @@ $command = "Write-Host 'My voice is my passport, verify me.'" $bytes = [System.T
 
 È l'API che può essere utilizzata per autenticare gli utenti.
 
-Lo SSPI sarà responsabile di trovare il protocollo adeguato per due macchine che desiderano comunicare. Il metodo preferito per questo è Kerberos. Successivamente, lo SSPI negozierà quale protocollo di autenticazione verrà utilizzato; questi protocolli di autenticazione sono chiamati Provider di supporto alla sicurezza (SSP), sono situati all'interno di ciascuna macchina Windows sotto forma di DLL e entrambe le macchine devono supportare lo stesso per poter comunicare.
+Lo SSPI si occuperà di trovare il protocollo adeguato per due macchine che desiderano comunicare. Il metodo preferito per questo è Kerberos. Successivamente, lo SSPI negozierà quale protocollo di autenticazione verrà utilizzato; questi protocolli di autenticazione sono chiamati Provider di supporto alla sicurezza (SSP), sono situati all'interno di ciascuna macchina Windows sotto forma di DLL e entrambe le macchine devono supportare lo stesso per poter comunicare.
 
 ### Principali SSP
 
@@ -257,13 +257,13 @@ Lo SSPI sarà responsabile di trovare il protocollo adeguato per due macchine ch
 
 ## UAC - Controllo dell'account utente
 
-[Controllo dell'account utente (UAC)](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works) è una funzionalità che abilita un **prompt di consenso per attività elevate**.
+[User Account Control (UAC)](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works) è una funzionalità che abilita un **prompt di consenso per attività elevate**.
 
 {% content-ref url="windows-security-controls/uac-user-account-control.md" %}
 [uac-user-account-control.md](windows-security-controls/uac-user-account-control.md)
 {% endcontent-ref %}
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilizza [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) per creare e **automatizzare facilmente flussi di lavoro** supportati dagli strumenti della comunità più avanzati al mondo.\
@@ -275,11 +275,11 @@ Ottieni l'accesso oggi:
 
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking su AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Altri modi per supportare HackTricks:
 
-- Se desideri vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+- Se desideri vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF**, controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 - Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
 - Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione esclusiva di [**NFT**](https://opensea.io/collection/the-peass-family)
 - **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**

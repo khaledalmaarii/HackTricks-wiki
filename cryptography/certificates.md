@@ -6,7 +6,7 @@
 
 Altri modi per supportare HackTricks:
 
-* Se desideri vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
 * Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusivi [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -14,10 +14,10 @@ Altri modi per supportare HackTricks:
 
 </details>
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Usa [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) per creare e **automatizzare flussi di lavoro** alimentati dagli strumenti della comunità più avanzati al mondo.\
+Usa [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) per creare facilmente e **automatizzare flussi di lavoro** supportati dagli strumenti della comunità più avanzati al mondo.\
 Ottieni l'accesso oggi:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -26,7 +26,7 @@ Ottieni l'accesso oggi:
 
 Un **certificato di chiave pubblica** è un'identità digitale utilizzata in crittografia per dimostrare che qualcuno possiede una chiave pubblica. Include i dettagli della chiave, l'identità del proprietario (il soggetto) e una firma digitale da un'autorità fidata (l'emittente). Se il software si fida dell'emittente e la firma è valida, è possibile comunicare in modo sicuro con il proprietario della chiave.
 
-I certificati sono principalmente emessi da [autorità di certificazione](https://en.wikipedia.org/wiki/Certificate\_authority) (CA) in un'infrastruttura a chiave pubblica (PKI). Un altro metodo è la [rete di fiducia](https://en.wikipedia.org/wiki/Web\_of\_trust), dove gli utenti verificano direttamente le chiavi degli altri. Il formato comune per i certificati è [X.509](https://en.wikipedia.org/wiki/X.509), che può essere adattato per esigenze specifiche come descritto nella RFC 5280.
+I certificati sono principalmente emessi da [autorità di certificazione](https://en.wikipedia.org/wiki/Certificate\_authority) (CA) in un'infrastruttura a chiave pubblica (PKI). Un altro metodo è la [rete di fiducia](https://en.wikipedia.org/wiki/Web\_of\_trust), dove gli utenti verificano direttamente le chiavi degli altri. Il formato comune per i certificati è [X.509](https://en.wikipedia.org/wiki/X.509), che può essere adattato per esigenze specifiche come descritto in RFC 5280.
 
 ## Campi Comuni di x509
 
@@ -43,14 +43,14 @@ Nei certificati x509, diversi **campi** svolgono ruoli critici per garantire la 
 * **Emittente** dettaglia chi ha verificato e firmato il certificato, inclusi sottocampi simili al Soggetto per la CA.
 * Il **Periodo di Validità** è contrassegnato dai timestamp **Non Prima di** e **Non Dopo**, garantendo che il certificato non venga utilizzato prima o dopo una certa data.
 * La sezione **Chiave Pubblica**, cruciale per la sicurezza del certificato, specifica l'algoritmo, le dimensioni e altri dettagli tecnici della chiave pubblica.
-* Le **estensioni x509v3** migliorano la funzionalità del certificato, specificando **Utilizzo Chiave**, **Utilizzo Chiave Esteso**, **Nome Alternativo del Soggetto** e altre proprietà per ottimizzare l'applicazione del certificato.
+* Le **estensioni x509v3** migliorano la funzionalità del certificato, specificando **Utilizzo Chiave**, **Utilizzo Esteso Chiave**, **Nome Alternativo Soggetto** e altre proprietà per ottimizzare l'applicazione del certificato.
 
 #### **Utilizzo Chiave ed Estensioni**
 
 * **Utilizzo Chiave** identifica le applicazioni crittografiche della chiave pubblica, come firma digitale o cifratura chiave.
-* **Utilizzo Chiave Esteso** restringe ulteriormente i casi d'uso del certificato, ad esempio per l'autenticazione del server TLS.
-* **Nome Alternativo del Soggetto** e **Vincolo di Base** definiscono ulteriori nomi host coperti dal certificato e se si tratta di un certificato CA o di entità finale, rispettivamente.
-* Gli identificatori come **Identificatore Chiave Soggetto** e **Identificatore Chiave Autorità** garantiscono unicità e tracciabilità delle chiavi.
+* **Utilizzo Esteso Chiave** restringe ulteriormente i casi d'uso del certificato, ad esempio per l'autenticazione del server TLS.
+* **Nome Alternativo Soggetto** e **Vincolo di Base** definiscono ulteriori nomi host coperti dal certificato e se si tratta di un certificato CA o di entità finale, rispettivamente.
+* Gli identificatori come **Identificatore Chiave Soggetto** e **Identificatore Chiave Autorità** garantiscono l'unicità e la tracciabilità delle chiavi.
 * **Accesso alle Informazioni dell'Autorità** e **Punti di Distribuzione CRL** forniscono percorsi per verificare l'emittente CA e controllare lo stato di revoca del certificato.
 * **CT Precertificate SCTs** offrono registri di trasparenza, cruciali per la fiducia pubblica nel certificato.
 ```python
@@ -82,13 +82,13 @@ print(f"Public Key: {public_key}")
 
 La Trasparenza del Certificato aiuta a contrastare le minacce legate ai certificati garantendo che l'emissione e l'esistenza dei certificati SSL siano visibili ai proprietari di domini, alle CA e agli utenti. I suoi obiettivi sono:
 
-* Impedire alle CA di emettere certificati SSL per un dominio senza il consenso del proprietario del dominio.
-* Stabilire un sistema di audit aperto per tracciare certificati emessi per errore o in modo malevolo.
+* Impedire alle CA di rilasciare certificati SSL per un dominio senza il consenso del proprietario del dominio.
+* Stabilire un sistema di audit aperto per tracciare certificati rilasciati per errore o in modo malevolo.
 * Proteggere gli utenti dai certificati fraudolenti.
 
 #### **Log dei Certificati**
 
-I log dei certificati sono registri pubblicamente verificabili e aggiornabili solo in appendice dei certificati, mantenuti da servizi di rete. Questi log forniscono prove crittografiche a fini di audit. Sia le autorità di emissione che il pubblico possono inviare certificati a questi log o interrogarli per la verifica. Sebbene il numero esatto di server di log non sia fisso, ci si aspetta che sia inferiore a mille a livello globale. Questi server possono essere gestiti in modo indipendente da CA, ISP o da qualsiasi entità interessata.
+I log dei certificati sono registri pubblicamente verificabili e aggiornabili solo in appendice dei certificati, mantenuti da servizi di rete. Questi log forniscono prove crittografiche a fini di audit. Sia le autorità di emissione che il pubblico possono inviare certificati a questi log o interrogarli per la verifica. Sebbene il numero esatto di server di log non sia fisso, ci si aspetta che sia inferiore a mille a livello globale. Questi server possono essere gestiti in modo indipendente da CA, ISP o qualsiasi entità interessata.
 
 #### **Interrogazione**
 
@@ -103,7 +103,7 @@ Esistono formati diversi per memorizzare i certificati, ognuno con i propri casi
 * Formato più ampiamente usato per i certificati.
 * Richiede file separati per i certificati e le chiavi private, codificati in Base64 ASCII.
 * Estensioni comuni: .cer, .crt, .pem, .key.
-* Principalmente usato da server Apache e simili.
+* Principalmente usato da Apache e server simili.
 
 ### **Formato DER**
 
@@ -136,12 +136,12 @@ openssl x509 -in certificatename.cer -outform PEM -out certificatename.pem
 ```bash
 openssl x509 -outform der -in certificatename.pem -out certificatename.der
 ```
-* **DER to PEM**  
-  Convertire un certificato DER in formato PEM.
+* **DER to PEM**
 ```bash
 openssl x509 -inform der -in certificatename.der -out certificatename.pem
 ```
-* **PEM to P7B**
+* **PEM to P7B**  
+  * **PEM to P7B**
 ```bash
 openssl crl2pkcs7 -nocrl -certfile certificatename.pem -out certificatename.p7b -certfile CACert.cer
 ```
@@ -160,11 +160,21 @@ openssl pkcs12 -in certificatename.pfx -out certificatename.pem
 ```bash
 openssl pkcs12 -in certificatename.pfx -nocerts -nodes -out certificatename.pem
 ```
-2. Converti PEM in PKCS8
+2. Convert PEM to PKCS8
+
+### Convert PEM to PKCS8
+
+To convert a PEM (Privacy-Enhanced Mail) formatted file to PKCS8 (Public-Key Cryptography Standards #8) format, you can use the following OpenSSL command:
+
+```bash
+openssl pkcs8 -topk8 -inform PEM -outform DER -in private.pem -out private.pkcs8 -nocrypt
+```
+
+This command will convert the private key in the `private.pem` file from PEM format to PKCS8 format and save it in the `private.pkcs8` file.
 ```bash
 openSSL pkcs8 -in certificatename.pem -topk8 -nocrypt -out certificatename.pk8
 ```
-* **P7B to PFX** richiede anche due comandi:
+* **Da P7B a PFX** richiede anche due comandi:
 1. Converti P7B in CER
 ```bash
 openssl pkcs7 -print_certs -in certificatename.p7b -out certificatename.cer
@@ -175,7 +185,7 @@ openssl pkcs12 -export -in certificatename.cer -inkey privateKey.key -out certif
 ```
 ***
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Usa [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) per creare facilmente e **automatizzare flussi di lavoro** supportati dagli strumenti della comunità **più avanzati al mondo**.\
@@ -185,13 +195,13 @@ Ottieni l'accesso oggi:
 
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking su AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
 
 Altri modi per supportare HackTricks:
 
-* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Se desideri vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione esclusiva di [**NFT**](https://opensea.io/collection/the-peass-family)
+* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione esclusiva di [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository di Github.
 

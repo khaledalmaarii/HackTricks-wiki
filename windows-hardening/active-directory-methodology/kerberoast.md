@@ -1,9 +1,9 @@
 # Kerberoast
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Usa [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) per creare facilmente e **automatizzare flussi di lavoro** supportati dagli strumenti della comunità più avanzati al mondo.\
+Utilizza [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) per creare facilmente e **automatizzare flussi di lavoro** supportati dagli strumenti della comunità più avanzati al mondo.\
 Ottieni l'accesso oggi:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -14,8 +14,8 @@ Ottieni l'accesso oggi:
 
 Altri modi per supportare HackTricks:
 
-* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Se desideri vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale PEASS & HackTricks**](https://peass.creator-spring.com)
 * Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione esclusiva di [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
@@ -24,13 +24,13 @@ Altri modi per supportare HackTricks:
 
 ## Kerberoast
 
-Il Kerberoasting si concentra sull'acquisizione di **biglietti TGS**, in particolare quelli relativi ai servizi che operano sotto **account utente** in **Active Directory (AD)**, escludendo gli **account computer**. La crittografia di questi biglietti utilizza chiavi che provengono dalle **password degli utenti**, consentendo la possibilità di **craccare le credenziali offline**. L'uso di un account utente come servizio è indicato da una proprietà non vuota di **"ServicePrincipalName"**.
+Il Kerberoasting si concentra sull'acquisizione di **biglietti TGS**, in particolare quelli relativi ai servizi che operano con **account utente** in **Active Directory (AD)**, escludendo gli **account computer**. La crittografia di questi biglietti utilizza chiavi che derivano dalle **password degli utenti**, consentendo la possibilità di **craccare le credenziali offline**. L'uso di un account utente come servizio è indicato da una proprietà **"ServicePrincipalName"** non vuota.
 
 Per eseguire il **Kerberoasting**, è essenziale un account di dominio in grado di richiedere i **biglietti TGS**; tuttavia, questo processo non richiede **privilegi speciali**, rendendolo accessibile a chiunque abbia **credenziali di dominio valide**.
 
 ### Punti chiave:
 
-* Il **Kerberoasting** mira ai **biglietti TGS** per i **servizi degli account utente** all'interno di **AD**.
+* Il **Kerberoasting** mira ai **biglietti TGS** per i **servizi con account utente** all'interno di **AD**.
 * I biglietti crittografati con chiavi dalle **password degli utenti** possono essere **craccati offline**.
 * Un servizio è identificato da un **ServicePrincipalName** che non è nullo.
 * Non sono necessari **privilegi speciali**, solo **credenziali di dominio valide**.
@@ -38,7 +38,7 @@ Per eseguire il **Kerberoasting**, è essenziale un account di dominio in grado 
 ### **Attacco**
 
 {% hint style="warning" %}
-Gli **strumenti di Kerberoasting** di solito richiedono **`crittografia RC4`** durante l'attacco e l'inizializzazione delle richieste TGS-REQ. Questo perché **RC4 è** [**più debole**](https://www.stigviewer.com/stig/windows\_10/2017-04-28/finding/V-63795) e più facile da craccare offline utilizzando strumenti come Hashcat rispetto ad altri algoritmi di crittografia come AES-128 e AES-256.\
+Gli **strumenti di Kerberoasting** di solito richiedono la **crittografia RC4** durante l'attacco e l'inizializzazione delle richieste TGS-REQ. Ciò è dovuto al fatto che **RC4 è** [**più debole**](https://www.stigviewer.com/stig/windows\_10/2017-04-28/finding/V-63795) e più facile da craccare offline utilizzando strumenti come Hashcat rispetto ad altri algoritmi di crittografia come AES-128 e AES-256.\
 Gli hash RC4 (tipo 23) iniziano con **`$krb5tgs$23$*`** mentre quelli AES-256 (tipo 18) iniziano con **`$krb5tgs$18$*`**.
 {% endhint %}
 
@@ -60,7 +60,7 @@ adenum -d <DOMAIN.FULL> -ip <DC_IP> -u <USERNAME> -p <PASSWORD> -c
 ```
 #### Windows
 
-* **Enumerare gli utenti Kerberoastable**
+* **Enumerare gli utenti vulnerabili al Kerberoasting**
 ```powershell
 # Get Kerberoastable users
 setspn.exe -Q */* #This is a built-in binary. Focus on user accounts
@@ -107,10 +107,10 @@ Invoke-Kerberoast -OutputFormat hashcat | % { $_.Hash } | Out-File -Encoding ASC
 Quando viene richiesto un TGS, viene generato l'evento di Windows `4769 - È stata richiesta un'autorizzazione di servizio Kerberos`.
 {% endhint %}
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilizza [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) per creare facilmente e **automatizzare flussi di lavoro** supportati dagli strumenti della comunità più avanzati al mondo.\
+Usa [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) per creare facilmente e **automatizzare flussi di lavoro** supportati dagli strumenti della comunità **più avanzati al mondo**.\
 Ottieni l'accesso oggi:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -131,7 +131,7 @@ Puoi trovare **strumenti** utili per gli attacchi **kerberoast** qui: [https://g
 
 Se riscontri questo **errore** da Linux: **`Kerberos SessionError: KRB_AP_ERR_SKEW(Clock skew too great)`** è a causa dell'ora locale, è necessario sincronizzare l'host con il DC. Ci sono alcune opzioni:
 
-* `ntpdate <IP del DC>` - Deprecato da Ubuntu 16.04
+* `ntpdate <IP del DC>` - Obsoleto da Ubuntu 16.04
 * `rdate -n <IP del DC>`
 
 ### Mitigazione
@@ -140,9 +140,9 @@ Il Kerberoasting può essere condotto con un alto grado di furtività se è sfru
 
 * Il nome del servizio non dovrebbe essere **krbtgt**, poiché si tratta di una richiesta normale.
 * I nomi dei servizi che terminano con **$** dovrebbero essere esclusi per evitare di includere account macchina utilizzati per i servizi.
-* Le richieste da macchine dovrebbero essere filtrate escludendo i nomi degli account formattati come **machine@domain**.
+* Le richieste dalle macchine dovrebbero essere filtrate escludendo i nomi degli account formattati come **machine@domain**.
 * Dovrebbero essere considerate solo le richieste di ticket riuscite, identificate da un codice di errore **'0x0'**.
-* **Molto importante**, il tipo di crittografia del ticket dovrebbe essere **0x17**, che è spesso utilizzato negli attacchi di Kerberoasting.
+* **E soprattutto**, il tipo di crittografia del ticket dovrebbe essere **0x17**, che è spesso utilizzato negli attacchi di Kerberoasting.
 ```bash
 Get-WinEvent -FilterHashtable @{Logname='Security';ID=4769} -MaxEvents 1000 | ?{$_.Message.split("`n")[8] -ne 'krbtgt' -and $_.Message.split("`n")[8] -ne '*$' -and $_.Message.split("`n")[3] -notlike '*$@*' -and $_.Message.split("`n")[18] -like '*0x0*' -and $_.Message.split("`n")[17] -like "*0x17*"} | select ExpandProperty message
 ```
@@ -195,10 +195,10 @@ Altri modi per supportare HackTricks:
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Usa [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) per creare e **automatizzare facilmente flussi di lavoro** supportati dagli **strumenti della community più avanzati al mondo**.\
+Usa [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) per costruire e **automatizzare facilmente flussi di lavoro** supportati dagli **strumenti comunitari più avanzati** al mondo.\
 Ottieni l'accesso oggi:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
