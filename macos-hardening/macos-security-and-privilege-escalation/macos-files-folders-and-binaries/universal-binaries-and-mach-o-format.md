@@ -194,11 +194,11 @@ Exemplo de **cabeçalho de seção**:
 
 <figure><img src="../../../.gitbook/assets/image (6) (2).png" alt=""><figcaption></figcaption></figure>
 
-Se você **adicionar** o **deslocamento da seção** (0x37DC) + o **deslocamento** onde a **arquitetura começa**, neste caso `0x18000` --> `0x37DC + 0x18000 = 0x1B7DC`
+Se você **adicionar** o **deslocamento da seção** (0x37DC) + o **deslocamento** onde o **arquivo começa**, neste caso `0x18000` --> `0x37DC + 0x18000 = 0x1B7DC`
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Também é possível obter **informações de cabeçalho** da **linha de comando** com:
+Também é possível obter **informações de cabeçalho** a partir da **linha de comando** com:
 ```bash
 otool -lv /bin/ls
 ```
@@ -214,18 +214,18 @@ Segmentos comuns carregados por este comando:
 - **`__DATA`**: Contém dados que são **legíveis** e **graváveis** (não executáveis)**.**
   - `__data`: Variáveis globais (que foram inicializadas)
   - `__bss`: Variáveis estáticas (que não foram inicializadas)
-  - `__objc_*` (\_\_objc\_classlist, \_\_objc\_protolist, etc): Informações usadas pelo tempo de execução do Objective-C
+  - `__objc_*` (\_\_objc\_classlist, \_\_objc\_protolist, etc): Informações usadas pelo tempo de execução Objective-C
 - **`__LINKEDIT`**: Contém informações para o linker (dyld) como "entradas de tabela de símbolos, strings e realocação".
-- **`__OBJC`**: Contém informações usadas pelo tempo de execução do Objective-C. Embora essas informações também possam ser encontradas no segmento \_\_DATA, dentro de várias seções \_\_objc\_\*.
+- **`__OBJC`**: Contém informações usadas pelo tempo de execução Objective-C. Embora essas informações também possam ser encontradas no segmento \_\_DATA, dentro de várias seções \_\_objc\_\*.
 
 ### **`LC_MAIN`**
 
-Contém o ponto de entrada no **atributo entryoff**. No momento do carregamento, o **dyld** simplesmente **adiciona** esse valor à (em memória) **base do binário**, e então **salta** para esta instrução para iniciar a execução do código binário.
+Contém o ponto de entrada no atributo **entryoff**. No momento do carregamento, o **dyld** simplesmente **adiciona** esse valor à (em memória) **base do binário**, e então **salta** para esta instrução para iniciar a execução do código binário.
 
 ### **LC\_CODE\_SIGNATURE**
 
 Contém informações sobre a **assinatura de código do arquivo Mach-O**. Ele contém apenas um **deslocamento** que **aponta** para o **bloco de assinatura**. Isso geralmente está no final do arquivo.\
-No entanto, você pode encontrar algumas informações sobre esta seção neste [**post de blog**](https://davedelong.com/blog/2018/01/10/reading-your-own-entitlements/) e neste [**gists**](https://gist.github.com/carlospolop/ef26f8eb9fafd4bc22e69e1a32b81da4).
+No entanto, você pode encontrar algumas informações sobre esta seção em [**este post de blog**](https://davedelong.com/blog/2018/01/10/reading-your-own-entitlements/) e este [**gists**](https://gist.github.com/carlospolop/ef26f8eb9fafd4bc22e69e1a32b81da4).
 
 ### **LC\_LOAD\_DYLINKER**
 
@@ -301,7 +301,7 @@ size -m /bin/ls
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**

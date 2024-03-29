@@ -6,8 +6,8 @@
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
@@ -16,12 +16,12 @@ Outras maneiras de apoiar o HackTricks:
 
 ## Informações Básicas
 
-Se você não sabe o que é o Electron, você pode encontrar [**muitas informações aqui**](https://book.hacktricks.xyz/network-services-pentesting/pentesting-web/xss-to-rce-electron-desktop-apps). Mas por enquanto, saiba que o Electron roda **node**.\
+Se você não sabe o que é Electron, você pode encontrar [**muitas informações aqui**](https://book.hacktricks.xyz/network-services-pentesting/pentesting-web/xss-to-rce-electron-desktop-apps). Mas por enquanto, saiba que o Electron roda **node**.\
 E o node possui alguns **parâmetros** e **variáveis de ambiente** que podem ser usados para **fazê-lo executar outro código** além do arquivo indicado.
 
 ### Fusíveis do Electron
 
-Essas técnicas serão discutidas a seguir, mas recentemente o Electron adicionou vários **sinais de segurança para evitá-las**. Estes são os [**Fusíveis do Electron**](https://www.electronjs.org/docs/latest/tutorial/fuses) e estes são os usados para **prevenir** que aplicações Electron no macOS **carreguem código arbitrário**:
+Essas técnicas serão discutidas a seguir, mas recentemente o Electron adicionou vários **sinais de segurança para evitá-las**. Estes são os [**Fusíveis do Electron**](https://www.electronjs.org/docs/latest/tutorial/fuses) e estes são os usados para **prevenir** que aplicações Electron no macOS carreguem **código arbitrário**:
 
 * **`RunAsNode`**: Se desativado, impede o uso da variável de ambiente **`ELECTRON_RUN_AS_NODE`** para injetar código.
 * **`EnableNodeCliInspectArguments`**: Se desativado, parâmetros como `--inspect`, `--inspect-brk` não serão respeitados. Evitando assim a injeção de código.
@@ -53,14 +53,14 @@ LoadBrowserProcessSpecificV8Snapshot is Disabled
 
 Conforme mencionado na [**documentação**](https://www.electronjs.org/docs/latest/tutorial/fuses#runasnode), a configuração dos **Fusíveis do Electron** é feita dentro do **binário do Electron** que contém em algum lugar a string **`dL7pKGdnNz796PbbjQWNKmHXBZaB9tsX`**.
 
-Nos aplicativos macOS, isso geralmente está em `application.app/Contents/Frameworks/Electron Framework.framework/Electron Framework`
+Em aplicativos macOS, isso geralmente está em `application.app/Contents/Frameworks/Electron Framework.framework/Electron Framework`
 ```bash
 grep -R "dL7pKGdnNz796PbbjQWNKmHXBZaB9tsX" Slack.app/
 Binary file Slack.app//Contents/Frameworks/Electron Framework.framework/Versions/A/Electron Framework matches
 ```
-Pode carregar este arquivo em [https://hexed.it/](https://hexed.it/) e procurar pela string anterior. Após essa string, você pode ver em ASCII um número "0" ou "1" indicando se cada fusível está desativado ou ativado. Basta modificar o código hexadecimal (`0x30` é `0` e `0x31` é `1`) para **modificar os valores dos fusíveis**.
+Pode carregar este arquivo em [https://hexed.it/](https://hexed.it/) e procurar pela string anterior. Após esta string, você pode ver em ASCII um número "0" ou "1" indicando se cada fusível está desativado ou ativado. Basta modificar o código hexadecimal (`0x30` é `0` e `0x31` é `1`) para **modificar os valores dos fusíveis**.
 
-<figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Note que se você tentar **sobrescrever** o **binário do Framework Electron** dentro de um aplicativo com esses bytes modificados, o aplicativo não será executado.
 
@@ -74,7 +74,7 @@ No entanto, no momento existem 2 limitações:
 * A permissão **`kTCCServiceSystemPolicyAppBundles`** é **necessária** para modificar um Aplicativo, então por padrão isso não é mais possível.
 * O arquivo compilado **`asap`** geralmente tem os fusíveis **`embeddedAsarIntegrityValidation`** `e` **`onlyLoadAppFromAsar`** `ativados`
 
-Tornando esse caminho de ataque mais complicado (ou impossível).
+Tornando este caminho de ataque mais complicado (ou impossível).
 {% endhint %}
 
 Note que é possível contornar o requisito de **`kTCCServiceSystemPolicyAppBundles`** copiando o aplicativo para outro diretório (como **`/tmp`**), renomeando a pasta **`app.app/Contents`** para **`app.app/NotCon`**, **modificando** o arquivo **asar** com seu código **malicioso**, renomeando-o de volta para **`app.app/Contents`** e executando-o.
@@ -90,8 +90,6 @@ npx asar pack app-decomp app-new.asar
 ## RCE com `ELECTRON_RUN_AS_NODE` <a href="#electron_run_as_node" id="electron_run_as_node"></a>
 
 De acordo com [**a documentação**](https://www.electronjs.org/docs/latest/api/environment-variables#electron\_run\_as\_node), se essa variável de ambiente for definida, ela iniciará o processo como um processo Node.js normal.
-
-{% code overflow="wrap" %}
 ```bash
 # Run this
 ELECTRON_RUN_AS_NODE=1 /Applications/Discord.app/Contents/MacOS/Discord
@@ -106,7 +104,7 @@ Se o fusível **`RunAsNode`** estiver desativado, a variável de ambiente **`ELE
 
 ### Injeção a partir do Plist do Aplicativo
 
-Como [**proposto aqui**](https://www.trustedsec.com/blog/macos-injection-via-third-party-frameworks/), você pode abusar dessa variável de ambiente em um plist para manter a persistência:
+Como [**proposto aqui**](https://www.trustedsec.com/blog/macos-injection-via-third-party-frameworks/), você poderia abusar dessa variável de ambiente em um plist para manter a persistência:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -197,7 +195,7 @@ ws.connect("ws://localhost:9222/devtools/page/85976D59050BFEFDBA48204E3D865D00",
 ws.send('{\"id\": 1, \"method\": \"Network.getAllCookies\"}')
 print(ws.recv()
 ```
-No [**este post de blog**](https://hackerone.com/reports/1274695), esse debugging é abusado para fazer um chrome headless **baixar arquivos arbitrários em locais arbitrários**.
+No [**este post de blog**](https://hackerone.com/reports/1274695), esse debugging é abusado para fazer um headless chrome **baixar arquivos arbitrários em locais arbitrários**.
 
 ### Injeção a partir do Plist do Aplicativo
 
@@ -224,7 +222,7 @@ O daemon TCC do macOS não verifica a versão executada do aplicativo. Portanto,
 ## Executar Código não JS
 
 As técnicas anteriores permitirão que você execute **código JS dentro do processo do aplicativo Electron**. No entanto, lembre-se de que os **processos filhos são executados sob o mesmo perfil de sandbox** que o aplicativo pai e **herdam suas permissões do TCC**.\
-Portanto, se você deseja abusar das autorizações para acessar a câmera ou o microfone, por exemplo, você pode simplesmente **executar outro binário a partir do processo**.
+Portanto, se você deseja abusar das autorizações para acessar a câmera ou o microfone, por exemplo, você poderia simplesmente **executar outro binário a partir do processo**.
 
 ## Injeção Automática
 

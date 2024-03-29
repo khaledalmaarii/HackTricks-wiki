@@ -14,7 +14,7 @@ Outras maneiras de apoiar o HackTricks:
 
 </details>
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente com as **ferramentas comunitárias mais avançadas** do mundo.\
 Tenha Acesso Hoje:
@@ -25,8 +25,8 @@ Tenha Acesso Hoje:
 
 Uma lista branca de aplicativos é uma lista de aplicativos de software aprovados ou executáveis que podem estar presentes e ser executados em um sistema. O objetivo é proteger o ambiente de malware prejudicial e software não aprovado que não esteja alinhado com as necessidades específicas de negócios de uma organização.
 
-[AppLocker](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/applocker/what-is-applocker) é a **solução de lista branca de aplicativos** da Microsoft e dá aos administradores do sistema controle sobre **quais aplicativos e arquivos os usuários podem executar**. Ele fornece **controle granular** sobre executáveis, scripts, arquivos de instalação do Windows, DLLs, aplicativos empacotados e instaladores de aplicativos empacotados.\
-É comum para as organizações **bloquear cmd.exe e PowerShell.exe** e o acesso de escrita a determinados diretórios, **mas tudo isso pode ser contornado**.
+[AppLocker](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/applocker/what-is-applocker) é a **solução de lista branca de aplicativos** da Microsoft e dá aos administradores do sistema controle sobre **quais aplicativos e arquivos os usuários podem executar**. Ele fornece **controle granular** sobre executáveis, scripts, arquivos de instalador do Windows, DLLs, aplicativos empacotados e instaladores de aplicativos empacotados.\
+É comum para as organizações **bloquear cmd.exe e PowerShell.exe** e o acesso de gravação a determinados diretórios, **mas tudo isso pode ser contornado**.
 
 ### Verificação
 
@@ -52,18 +52,18 @@ C:\Windows\System32\spool\drivers\color
 C:\Windows\Tasks
 C:\windows\tracing
 ```
-* Comumente, binários **confiáveis** do [**"LOLBAS's"**](https://lolbas-project.github.io/) também podem ser úteis para burlar o AppLocker.
-* **Regras mal escritas também podem ser burladas**
-* Por exemplo, com **`<FilePathCondition Path="%OSDRIVE%*\allowed*"/>`**, você pode criar uma **pasta chamada `allowed`** em qualquer lugar e ela será permitida.
+* Comumente **confiáveis** [**binários do "LOLBAS"**](https://lolbas-project.github.io/) também podem ser úteis para contornar o AppLocker.
+* **Regras mal escritas também podem ser contornadas**
+* Por exemplo, **`<FilePathCondition Path="%OSDRIVE%*\allowed*"/>`**, você pode criar uma **pasta chamada `allowed`** em qualquer lugar e ela será permitida.
 * Organizações frequentemente focam em **bloquear o executável `%System32%\WindowsPowerShell\v1.0\powershell.exe`**, mas esquecem dos **outros** [**locais executáveis do PowerShell**](https://www.powershelladmin.com/wiki/PowerShell\_Executables\_File\_System\_Locations) como `%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe` ou `PowerShell_ISE.exe`.
-* **A aplicação de DLLs raramente é ativada** devido à carga adicional que pode colocar em um sistema e à quantidade de testes necessários para garantir que nada quebrará. Portanto, usar **DLLs como backdoors ajudará a burlar o AppLocker**.
-* Você pode usar [**ReflectivePick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) ou [**SharpPick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) para **executar código Powershell** em qualquer processo e burlar o AppLocker. Para mais informações, acesse: [https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode](https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode).
+* **Aplicação de DLL muito raramente ativada** devido à carga adicional que pode colocar em um sistema, e a quantidade de testes necessários para garantir que nada quebrará. Portanto, usar **DLLs como backdoors ajudará a contornar o AppLocker**.
+* Você pode usar [**ReflectivePick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) ou [**SharpPick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) para **executar código Powershell** em qualquer processo e contornar o AppLocker. Para mais informações, consulte: [https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode](https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode).
 
 ## Armazenamento de Credenciais
 
 ### Gerenciador de Contas de Segurança (SAM)
 
-Credenciais locais estão presentes neste arquivo, as senhas estão hashadas.
+As credenciais locais estão presentes neste arquivo, as senhas estão hashadas.
 
 ### Autoridade de Segurança Local (LSA) - LSASS
 
@@ -73,7 +73,7 @@ LSA será o responsável por **verificar** as credenciais fornecidas dentro do a
 
 As **credenciais** são **salvas** dentro do **processo LSASS**: tickets Kerberos, hashes NT e LM, senhas facilmente descriptografadas.
 
-### Segredos do LSA
+### Segredos LSA
 
 LSA pode salvar em disco algumas credenciais:
 
@@ -88,11 +88,11 @@ LSA pode salvar em disco algumas credenciais:
 
 ## Defender
 
-[**Microsoft Defender**](https://en.wikipedia.org/wiki/Microsoft\_Defender) é um Antivírus disponível no Windows 10 e Windows 11, e em versões do Windows Server. Ele **bloqueia** ferramentas comuns de pentesting como **`WinPEAS`**. No entanto, existem maneiras de **burlar essas proteções**.
+[**Microsoft Defender**](https://en.wikipedia.org/wiki/Microsoft\_Defender) é um Antivírus disponível no Windows 10 e Windows 11, e em versões do Windows Server. Ele **bloqueia** ferramentas comuns de pentesting como **`WinPEAS`**. No entanto, existem maneiras de **contornar essas proteções**.
 
 ### Verificação
 
-Para verificar o **status** do **Defender**, você pode executar o cmdlet PS **`Get-MpComputerStatus`** (verifique o valor de **`RealTimeProtectionEnabled`** para saber se está ativo):
+Para verificar o **status** do **Defender** você pode executar o cmdlet PS **`Get-MpComputerStatus`** (verifique o valor de **`RealTimeProtectionEnabled`** para saber se está ativo):
 
 <pre class="language-powershell"><code class="lang-powershell">PS C:\> Get-MpComputerStatus
 
@@ -163,7 +163,7 @@ A Microsoft desenvolveu as **Contas de Serviço Gerenciadas em Grupo (gMSA)** pa
 - **Segurança Aprimorada**: Essas contas são imunes a bloqueios e não podem ser usadas para logins interativos, aumentando sua segurança.
 - **Suporte a Múltiplos Hosts**: As gMSAs podem ser compartilhadas entre vários hosts, tornando-as ideais para serviços em execução em vários servidores.
 - **Capacidade de Tarefas Agendadas**: Ao contrário das contas de serviço gerenciadas, as gMSAs suportam a execução de tarefas agendadas.
-- **Gerenciamento Simplificado de SPN**: O sistema atualiza automaticamente o Nome Principal de Serviço (SPN) quando há alterações nos detalhes sAMaccount do computador ou nome DNS, simplificando o gerenciamento de SPN.
+- **Gerenciamento Simplificado de SPN**: O sistema atualiza automaticamente o Nome Principal de Serviço (SPN) quando há alterações nos detalhes do sAMaccount do computador ou nome DNS, simplificando o gerenciamento do SPN.
 
 As senhas das gMSAs são armazenadas na propriedade LDAP _**msDS-ManagedPassword**_ e são redefinidas automaticamente a cada 30 dias pelos Controladores de Domínio (DCs). Essa senha, um bloco de dados criptografados conhecido como [MSDS-MANAGEDPASSWORD\_BLOB](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-adts/a9019740-3d73-46ef-a9ae-3ea8eb86ac2e), só pode ser recuperada por administradores autorizados e pelos servidores nos quais as gMSAs estão instaladas, garantindo um ambiente seguro. Para acessar essas informações, é necessária uma conexão segura, como LDAPS, ou a conexão deve ser autenticada com 'Sealing & Secure'.
 
@@ -179,7 +179,7 @@ Também, confira esta [página da web](https://cube0x0.github.io/Relaying-for-gM
 
 ## LAPS
 
-A **Local Administrator Password Solution (LAPS)**, disponível para download na [Microsoft](https://www.microsoft.com/en-us/download/details.aspx?id=46899), permite a gestão das senhas dos administradores locais. Essas senhas, que são **aleatórias**, únicas e **alteradas regularmente**, são armazenadas centralmente no Active Directory. O acesso a essas senhas é restrito por ACLs a usuários autorizados. Com permissões suficientes concedidas, é possível ler as senhas dos administradores locais.
+A **Local Administrator Password Solution (LAPS)**, disponível para download na [Microsoft](https://www.microsoft.com/en-us/download/details.aspx?id=46899), permite o gerenciamento de senhas de administrador locais. Essas senhas, que são **aleatórias**, únicas e **alteradas regularmente**, são armazenadas centralmente no Active Directory. O acesso a essas senhas é restrito por ACLs para usuários autorizados. Com permissões suficientes concedidas, é possível ler as senhas de administração local.
 
 {% content-ref url="active-directory-methodology/laps.md" %}
 [laps.md](active-directory-methodology/laps.md)
@@ -196,12 +196,22 @@ $ExecutionContext.SessionState.LanguageMode
 ```
 ### Bypass
 
-### Ignorar
+#### UAC Bypass
+
+##### UACMe
+
+UACMe is an open-source project to **bypass** User Account Control (UAC) on Windows. It includes a number of methods to **bypass** UAC and works on all versions of Windows starting from Windows 7. UACMe can be used to **bypass** UAC by abusing built-in Windows executables such as `sdclt.exe`, `fodhelper.exe`, and `slui.exe`.
+
+#### EFS Bypass
+
+##### EFS-ADU
+
+EFS-ADU is a tool that can be used to **bypass** Encrypting File System (EFS) protections on Windows. It works by injecting a DLL into a process running with SYSTEM privileges to **bypass** EFS protections and access encrypted files. EFS-ADU can be used to **bypass** EFS on Windows 7 and later versions.
 ```powershell
 #Easy bypass
 Powershell -version 2
 ```
-No Windows atual, o Bypass não funcionará, mas você pode usar [**PSByPassCLM**](https://github.com/padovah4ck/PSByPassCLM).\
+No Windows atual, o Bypass não funcionará, mas você pode usar o [**PSByPassCLM**](https://github.com/padovah4ck/PSByPassCLM).\
 **Para compilá-lo, você pode precisar** **adicionar uma Referência** -> _Procurar_ -> _Procurar_ -> adicionar `C:\Windows\Microsoft.NET\assembly\GAC_MSIL\System.Management.Automation\v4.0_3.0.0.0\31bf3856ad364e35\System.Management.Automation.dll` e **alterar o projeto para .Net4.5**.
 
 #### Bypass direto:
@@ -259,16 +269,16 @@ O SSPI será responsável por encontrar o protocolo adequado para duas máquinas
 
 ## UAC - Controle de Conta de Usuário
 
-[Controle de Conta de Usuário (UAC)](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works) é um recurso que permite uma **solicitação de consentimento para atividades elevadas**.
+[Controle de Conta de Usuário (UAC)](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works) é um recurso que permite um **prompt de consentimento para atividades elevadas**.
 
 {% content-ref url="windows-security-controls/uac-user-account-control.md" %}
 [uac-user-account-control.md](windows-security-controls/uac-user-account-control.md)
 {% endcontent-ref %}
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente, alimentados pelas ferramentas comunitárias mais avançadas do mundo.\
+Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente com as ferramentas comunitárias mais avançadas do mundo.\
 Acesse hoje:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -285,6 +295,6 @@ Outras maneiras de apoiar o HackTricks:
 - Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 - Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 - **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-- **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+- **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

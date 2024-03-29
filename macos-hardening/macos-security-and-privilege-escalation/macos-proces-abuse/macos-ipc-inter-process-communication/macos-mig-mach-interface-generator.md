@@ -14,7 +14,7 @@ Outras maneiras de apoiar o HackTricks:
 
 </details>
 
-O MIG foi criado para **simplificar o processo de criação de código Mach IPC**. Basicamente, ele **gera o código necessário** para o servidor e o cliente se comunicarem com uma definição fornecida. Mesmo que o código gerado seja feio, um desenvolvedor só precisará importá-lo e seu código será muito mais simples do que antes.
+MIG foi criado para **simplificar o processo de criação de código Mach IPC**. Basicamente, ele **gera o código necessário** para o servidor e o cliente se comunicarem com uma definição fornecida. Mesmo que o código gerado seja feio, um desenvolvedor só precisará importá-lo e seu código será muito mais simples do que antes.
 
 ### Exemplo
 
@@ -64,15 +64,7 @@ myipc_server_routine,
 ```
 {% endtab %}
 
-{% tab title="myipcServer.h" %} 
-
-### macOS MIG (Mach Interface Generator)
-
-O macOS MIG (Mach Interface Generator) é uma ferramenta usada para gerar código C para facilitar a comunicação entre processos em sistemas baseados em Mach. Ele define interfaces de comunicação entre processos e gera código para lidar com chamadas de procedimento remoto (RPC) entre processos. Isso pode ser abusado por atacantes para realizar escalonamento de privilégios e executar código arbitrário em sistemas macOS vulneráveis.
-
-Para proteger contra abusos de MIG, é importante implementar práticas de segurança recomendadas, como restringir permissões de arquivo e garantir que apenas processos confiáveis tenham acesso aos serviços expostos por meio do MIG. Além disso, manter o sistema operacional macOS atualizado com as últimas correções de segurança pode ajudar a mitigar potenciais vulnerabilidades relacionadas ao macOS MIG. 
-
-{% endtab %}
+{% tab title="myipcServer.h" %}
 ```c
 /* Description of this subsystem, for use in direct RPC */
 extern const struct SERVERPREFmyipc_subsystem {
@@ -109,7 +101,7 @@ Na verdade, é possível identificar essa relação na struct **`subsystem_to_na
 { "Subtract", 500 }
 #endif
 ```
-Finalmente, outra função importante para fazer o servidor funcionar será **`myipc_server`**, que é aquela que realmente **chama a função** relacionada ao ID recebido:
+Finalmente, outra função importante para fazer o servidor funcionar será **`myipc_server`**, que é a que realmente **chama a função** relacionada ao ID recebido:
 
 ```c
 mig_external boolean_t myipc_server
@@ -134,17 +126,17 @@ OutHeadP->msgh_id = InHeadP->msgh_id + 100;
 OutHeadP->msgh_reserved = 0;
 
 if ((InHeadP->msgh_id > 500) || (InHeadP->msgh_id < 500) ||
-	    ((routine = SERVERPREFmyipc_subsystem.routine[InHeadP->msgh_id - 500].stub_routine) == 0)) {
-		((mig_reply_error_t *)OutHeadP)->NDR = NDR_record;
+<strong>	    ((routine = SERVERPREFmyipc_subsystem.routine[InHeadP->msgh_id - 500].stub_routine) == 0)) {
+</strong>		((mig_reply_error_t *)OutHeadP)->NDR = NDR_record;
 ((mig_reply_error_t *)OutHeadP)->RetCode = MIG_BAD_ID;
 return FALSE;
 }
-	(*routine) (InHeadP, OutHeadP);
-	return TRUE;
+<strong>	(*routine) (InHeadP, OutHeadP);
+</strong>	return TRUE;
 }
 ```
 
-Verifique as linhas anteriormente destacadas acessando a função a ser chamada por ID.
+Verifique as linhas destacadas anteriormente acessando a função a ser chamada por ID.
 
 A seguir está o código para criar um **servidor** e um **cliente** simples onde o cliente pode chamar as funções Subtrair do servidor:
 
@@ -182,43 +174,7 @@ mach_msg_server(myipc_server, sizeof(union __RequestUnion__SERVERPREFmyipc_subsy
 ```
 {% endtab %}
 
-{% tab title="myipc_client.c" %} 
-
-### macOS MIG - Mach Interface Generator
-
-O macOS MIG (Mach Interface Generator) é uma ferramenta usada para simplificar a comunicação entre processos em sistemas macOS. Ele gera código C que lida com a comunicação entre processos usando chamadas de procedimento remoto (RPC) sobre o subsistema Mach.
-
-O MIG é usado para definir interfaces de comunicação entre processos e gerar código C para lidar com a comunicação entre esses processos. Isso pode ser abusado por atacantes para realizar escalonamento de privilégios e executar código arbitrário em sistemas macOS vulneráveis.
-
-Para mitigar esse tipo de abuso, é importante restringir as permissões de comunicação entre processos e monitorar atividades suspeitas de IPC (Comunicação entre Processos) em sistemas macOS. 
-
-```c
-#include <stdio.h>
-#include <mach/mach.h>
-#include <servers/bootstrap.h>
-#include "myipc.h"
-
-int main() {
-    mach_port_t server_port;
-    kern_return_t kr;
-
-    kr = bootstrap_look_up(bootstrap_port, "com.example.myipc", &server_port);
-    if (kr != KERN_SUCCESS) {
-        printf("Failed to look up server port\n");
-        return 1;
-    }
-
-    myipc_function(server_port);
-
-    return 0;
-}
-```
-
-Neste exemplo, o cliente MIG se conecta a um servidor MIG chamado "com.example.myipc" e chama a função `myipc_function` para interagir com o servidor.
-
-Para proteger sistemas macOS contra abusos de IPC, é essencial implementar práticas de segurança adequadas e manter os sistemas atualizados com as últimas correções de segurança. 
-
-{% endtab %}
+{% tab title="myipc_client.c" %}
 ```c
 // gcc myipc_client.c myipcUser.c -o myipc_client
 
@@ -251,7 +207,7 @@ O [**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2) pode a
 ```bash
 jtool2 -d __DATA.__const myipc_server | grep MIG
 ```
-Foi mencionado anteriormente que a função que irá cuidar de **chamar a função correta dependendo do ID da mensagem recebida** era `myipc_server`. No entanto, geralmente você não terá os símbolos do binário (nomes de funções), então é interessante **ver como ela se parece decompilada**, pois sempre será muito semelhante (o código desta função é independente das funções expostas):
+Foi mencionado anteriormente que a função que irá **chamar a função correta dependendo do ID da mensagem recebida** era `myipc_server`. No entanto, geralmente você não terá os símbolos do binário (nomes de funções), então é interessante **ver como ela se parece decompilada**, pois sempre será muito semelhante (o código desta função é independente das funções expostas):
 
 {% tabs %}
 {% tab title="myipc_server decompiled 1" %}
@@ -374,9 +330,9 @@ return r0;
 
 Na verdade, se você for para a função **`0x100004000`**, encontrará o array de structs **`routine_descriptor`**. O primeiro elemento da struct é o **endereço** onde a **função** é implementada, e a **struct ocupa 0x28 bytes**, então a cada 0x28 bytes (começando do byte 0) você pode obter 8 bytes e esse será o **endereço da função** que será chamada:
 
-<figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
-
 <figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+
+<figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Esses dados podem ser extraídos [**usando este script do Hopper**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py).
 
@@ -386,7 +342,7 @@ Esses dados podem ser extraídos [**usando este script do Hopper**](https://gith
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do Telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**

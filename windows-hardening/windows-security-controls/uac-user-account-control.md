@@ -2,19 +2,19 @@
 
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking na AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Outras maneiras de apoiar o HackTricks:
 
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente com as **ferramentas comunitárias mais avançadas do mundo**.\
 Acesse hoje:
@@ -23,7 +23,7 @@ Acesse hoje:
 
 ## UAC
 
-[User Account Control (UAC)](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works) é um recurso que permite uma **solicitação de consentimento para atividades elevadas**. As aplicações possuem diferentes níveis de `integridade`, e um programa com um **alto nível** pode realizar tarefas que **potencialmente comprometam o sistema**. Quando o UAC está ativado, as aplicações e tarefas sempre **são executadas no contexto de segurança de uma conta de não administrador** a menos que um administrador autorize explicitamente essas aplicações/tarefas a terem acesso de nível de administrador para serem executadas no sistema. É um recurso de conveniência que protege os administradores de alterações não intencionais, mas não é considerado uma barreira de segurança.
+[Controle de Conta de Usuário (UAC)](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works) é um recurso que permite uma **solicitação de consentimento para atividades elevadas**. Aplicativos possuem diferentes níveis de `integridade`, e um programa com um **alto nível** pode realizar tarefas que **potencialmente comprometam o sistema**. Quando o UAC está ativado, aplicativos e tarefas sempre **são executados no contexto de segurança de uma conta de não administrador** a menos que um administrador autorize explicitamente esses aplicativos/tarefas a ter acesso de nível de administrador para serem executados no sistema. É um recurso de conveniência que protege os administradores de alterações não intencionais, mas não é considerado uma barreira de segurança.
 
 Para mais informações sobre os níveis de integridade:
 
@@ -31,29 +31,29 @@ Para mais informações sobre os níveis de integridade:
 [integrity-levels.md](../windows-local-privilege-escalation/integrity-levels.md)
 {% endcontent-ref %}
 
-Quando o UAC está em vigor, um usuário administrador recebe 2 tokens: uma chave de usuário padrão, para realizar ações regulares em nível regular, e outra com os privilégios de administrador.
+Quando o UAC está em vigor, um usuário administrador recebe 2 tokens: uma chave de usuário padrão, para realizar ações regulares em nível regular, e outra com privilégios de administrador.
 
-Esta [página](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works) discute em grande profundidade como o UAC funciona e inclui o processo de logon, experiência do usuário e arquitetura do UAC. Os administradores podem usar políticas de segurança para configurar como o UAC funciona especificamente para sua organização no nível local (usando secpol.msc), ou configurado e distribuído via Objetos de Política de Grupo (GPO) em um ambiente de domínio Active Directory. As várias configurações são discutidas em detalhes [aqui](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-security-policy-settings). Existem 10 configurações de Política de Grupo que podem ser definidas para o UAC. A tabela a seguir fornece detalhes adicionais:
+Esta [página](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works) discute em grande profundidade como o UAC funciona e inclui o processo de logon, experiência do usuário e arquitetura do UAC. Os administradores podem usar políticas de segurança para configurar como o UAC funciona especificamente para sua organização em nível local (usando secpol.msc), ou configurado e distribuído via Objetos de Política de Grupo (GPO) em um ambiente de domínio Active Directory. As várias configurações são discutidas em detalhes [aqui](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-security-policy-settings). Existem 10 configurações de Política de Grupo que podem ser definidas para o UAC. A tabela a seguir fornece detalhes adicionais:
 
-| Configuração de Política de Grupo                                                                                                                                                                                                                                                                                                                                                   | Chave do Registro           | Configuração Padrão                                          |
+| Configuração de Política de Grupo                                                                                                                                                                                                                                                                                                                                                   | Chave do Registro           | Configuração Padrão                                         |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- | ------------------------------------------------------------ |
-| [User Account Control: Admin Approval Mode for the built-in Administrator account](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-admin-approval-mode-for-the-built-in-administrator-account)                                                     | FilterAdministratorToken    | Desativado                                                   |
-| [User Account Control: Allow UIAccess applications to prompt for elevation without using the secure desktop](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-allow-uiaccess-applications-to-prompt-for-elevation-without-using-the-secure-desktop) | EnableUIADesktopToggle      | Desativado                                                   |
-| [User Account Control: Behavior of the elevation prompt for administrators in Admin Approval Mode](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-behavior-of-the-elevation-prompt-for-administrators-in-admin-approval-mode)                     | ConsentPromptBehaviorAdmin  | Solicitar consentimento para binários não-Windows            |
-| [User Account Control: Behavior of the elevation prompt for standard users](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-behavior-of-the-elevation-prompt-for-standard-users)                                                                   | ConsentPromptBehaviorUser   | Solicitar credenciais na área de trabalho segura             |
-| [User Account Control: Detect application installations and prompt for elevation](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-detect-application-installations-and-prompt-for-elevation)                                                       | EnableInstallerDetection    | Ativado (padrão para doméstico) Desativado (padrão para empresa) |
-| [User Account Control: Only elevate executables that are signed and validated](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-only-elevate-executables-that-are-signed-and-validated)                                                             | ValidateAdminCodeSignatures | Desativado                                                   |
-| [User Account Control: Only elevate UIAccess applications that are installed in secure locations](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-only-elevate-uiaccess-applications-that-are-installed-in-secure-locations)                       | EnableSecureUIAPaths        | Ativado                                                      |
-| [User Account Control: Run all administrators in Admin Approval Mode](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-run-all-administrators-in-admin-approval-mode)                                                                               | EnableLUA                   | Ativado                                                      |
-| [User Account Control: Switch to the secure desktop when prompting for elevation](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-switch-to-the-secure-desktop-when-prompting-for-elevation)                                                       | PromptOnSecureDesktop       | Ativado                                                      |
-| [User Account Control: Virtualize file and registry write failures to per-user locations](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-virtualize-file-and-registry-write-failures-to-per-user-locations)                                       | EnableVirtualization        | Ativado                                                      |
+| [Controle de Conta de Usuário: Modo de Aprovação de Administrador para a conta de Administrador integrada](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-admin-approval-mode-for-the-built-in-administrator-account)                                                     | FilterAdministratorToken    | Desativado                                                   |
+| [Controle de Conta de Usuário: Permitir que aplicativos UIAccess solicitem elevação sem usar a área de trabalho segura](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-allow-uiaccess-applications-to-prompt-for-elevation-without-using-the-secure-desktop) | EnableUIADesktopToggle      | Desativado                                                   |
+| [Controle de Conta de Usuário: Comportamento da solicitação de elevação para administradores no Modo de Aprovação de Administrador](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-behavior-of-the-elevation-prompt-for-administrators-in-admin-approval-mode)                     | ConsentPromptBehaviorAdmin  | Solicitar consentimento para binários não-Windows           |
+| [Controle de Conta de Usuário: Comportamento da solicitação de elevação para usuários padrão](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-behavior-of-the-elevation-prompt-for-standard-users)                                                                   | ConsentPromptBehaviorUser   | Solicitar credenciais na área de trabalho segura            |
+| [Controle de Conta de Usuário: Detectar instalações de aplicativos e solicitar elevação](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-detect-application-installations-and-prompt-for-elevation)                                                       | EnableInstallerDetection    | Ativado (padrão para doméstico) Desativado (padrão para empresa) |
+| [Controle de Conta de Usuário: Apenas elevar executáveis que são assinados e validados](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-only-elevate-executables-that-are-signed-and-validated)                                                             | ValidateAdminCodeSignatures | Desativado                                                   |
+| [Controle de Conta de Usuário: Apenas elevar aplicativos UIAccess que estão instalados em locais seguros](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-only-elevate-uiaccess-applications-that-are-installed-in-secure-locations)                       | EnableSecureUIAPaths        | Ativado                                                      |
+| [Controle de Conta de Usuário: Executar todos os administradores no Modo de Aprovação de Administrador](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-run-all-administrators-in-admin-approval-mode)                                                                               | EnableLUA                   | Ativado                                                      |
+| [Controle de Conta de Usuário: Alternar para a área de trabalho segura ao solicitar elevação](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-switch-to-the-secure-desktop-when-prompting-for-elevation)                                                       | PromptOnSecureDesktop       | Ativado                                                      |
+| [Controle de Conta de Usuário: Virtualizar falhas de gravação de arquivos e registro para locais por usuário](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-virtualize-file-and-registry-write-failures-to-per-user-locations)                                       | EnableVirtualization        | Ativado                                                      |
 ### Teoria de Bypass do UAC
 
 Alguns programas são **automaticamente autoelevados** se o **usuário pertencer** ao **grupo de administradores**. Esses binários possuem em seus _**Manifestos**_ a opção _**autoElevate**_ com o valor _**True**_. O binário também precisa ser **assinado pela Microsoft**.
 
-Assim, para **burlar** o **UAC** (elevar de um nível de integridade **médio** para **alto**), alguns atacantes utilizam esse tipo de binário para **executar código arbitrário** porque ele será executado a partir de um **processo de alto nível de integridade**.
+Assim, para **burlar** o **UAC** (elevar de um nível de integridade **médio** para **alto**), alguns atacantes utilizam esses binários para **executar código arbitrário**, pois ele será executado a partir de um **processo de alto nível de integridade**.
 
-Você pode **verificar** o _**Manifesto**_ de um binário usando a ferramenta _**sigcheck.exe**_ do Sysinternals. E você pode **ver** o **nível de integridade** dos processos usando o _Process Explorer_ ou _Process Monitor_ (do Sysinternals).
+Você pode **verificar** o _**Manifesto**_ de um binário usando a ferramenta _**sigcheck.exe**_ do Sysinternals. E você pode **ver** o **nível de integridade** dos processos usando o _Process Explorer_ ou o _Process Monitor_ (do Sysinternals).
 
 ### Verificar UAC
 
@@ -64,7 +64,7 @@ REG QUERY HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\
 HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System
 EnableLUA    REG_DWORD    0x1
 ```
-Se for **`1`**, então o UAC está **ativado**, se for **`0`** ou se **não existir**, então o UAC está **inativo**.
+Se for **`1`**, então o UAC está **ativado**, se for **`0`** ou **não existir**, então o UAC está **inativo**.
 
 Em seguida, verifique **qual nível** está configurado:
 ```
@@ -73,18 +73,18 @@ REG QUERY HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\
 HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System
 ConsentPromptBehaviorAdmin    REG_DWORD    0x5
 ```
-* Se **`0`** então, o UAC não irá solicitar permissão (como **desativado**)
+* Se **`0`** então, o UAC não irá solicitar (como **desativado**)
 * Se **`1`** o administrador é **solicitado a fornecer nome de usuário e senha** para executar o binário com altos privilégios (na Área de Trabalho Segura)
 * Se **`2`** (**Sempre me notificar**) o UAC sempre pedirá confirmação ao administrador quando ele tentar executar algo com altos privilégios (na Área de Trabalho Segura)
 * Se **`3`** como `1` mas não é necessário na Área de Trabalho Segura
 * Se **`4`** como `2` mas não é necessário na Área de Trabalho Segura
-* Se **`5`** (**padrão**) irá solicitar ao administrador a confirmação para executar binários não-Windows com altos privilégios
+* Se **`5`** (**padrão**) pedirá ao administrador para confirmar a execução de binários não-Windows com altos privilégios
 
 Em seguida, você deve verificar o valor de **`LocalAccountTokenFilterPolicy`**\
 Se o valor for **`0`**, então, apenas o usuário **RID 500** (**Administrador integrado**) pode realizar **tarefas de administração sem UAC**, e se for `1`, **todas as contas dentro do grupo "Administradores"** podem fazê-lo.
 
 E, finalmente, verifique o valor da chave **`FilterAdministratorToken`**\
-Se **`0`** (padrão), a **conta de Administrador integrado pode** realizar tarefas de administração remota e se **`1`** a conta integrada de Administrador **não pode** realizar tarefas de administração remota, a menos que `LocalAccountTokenFilterPolicy` seja definido como `1`.
+Se **`0`** (padrão), a **conta de Administrador integrado pode** realizar tarefas de administração remota e se **`1`** a conta de Administrador integrado **não pode** realizar tarefas de administração remota, a menos que `LocalAccountTokenFilterPolicy` seja definido como `1`.
 
 #### Resumo
 
@@ -139,7 +139,7 @@ dir \\127.0.0.1\c$\Users\Administrator\Desktop
 ```
 ### Bypass do UAC com cobalt strike
 
-As técnicas do Cobalt Strike só funcionarão se o UAC não estiver configurado em seu nível máximo de segurança.
+As técnicas do Cobalt Strike só funcionarão se o UAC não estiver configurado no seu nível máximo de segurança.
 ```bash
 # UAC bypass via token duplication
 elevate uac-token-duplication [listener_name]
@@ -160,7 +160,7 @@ Documentação e ferramenta em [https://github.com/wh0amitz/KRBUACBypass](https:
 ### Explorações de bypass do UAC
 
 [**UACME**](https://github.com/hfiref0x/UACME) que é uma **compilação** de várias explorações de bypass do UAC. Note que você precisará **compilar o UACME usando o visual studio ou msbuild**. A compilação criará vários executáveis (como `Source\Akagi\outout\x64\Debug\Akagi.exe`), você precisará saber **qual você precisa**.\
-Você deve **ter cuidado** porque alguns bypasses irão **solicitar que outros programas** alertem o **usuário** de que algo está acontecendo.
+Você deve **ter cuidado** porque alguns bypasses irão **solicitar outros programas** que irão **alertar** o **usuário** de que algo está acontecendo.
 
 UACME possui a **versão de compilação a partir da qual cada técnica começou a funcionar**. Você pode procurar por uma técnica que afete suas versões:
 ```
@@ -170,7 +170,7 @@ Major  Minor  Build  Revision
 -----  -----  -----  --------
 10     0      14393  0
 ```
-Além disso, usando [esta](https://en.wikipedia.org/wiki/Windows\_10\_version\_history) página, você obtém o lançamento do Windows `1607` a partir das versões de compilação.
+Também, usando [esta](https://en.wikipedia.org/wiki/Windows\_10\_version\_history) página você obtém o lançamento do Windows `1607` a partir das versões de compilação.
 
 #### Mais bypass do UAC
 
@@ -184,22 +184,22 @@ Você pode obter usando uma sessão **meterpreter**. Migrar para um **processo**
 
 ### Bypass do UAC com GUI
 
-Se você tiver acesso a uma **GUI, pode simplesmente aceitar o prompt do UAC** quando o receber, você realmente não precisa de um bypass. Portanto, ter acesso a uma GUI permitirá que você contorne o UAC.
+Se você tiver acesso a uma **GUI, você pode simplesmente aceitar o prompt do UAC** quando o receber, você realmente não precisa de um bypass. Portanto, ter acesso a uma GUI permitirá que você contorne o UAC.
 
-Além disso, se você obter uma sessão de GUI que alguém estava usando (potencialmente via RDP), existem **algumas ferramentas que estarão sendo executadas como administrador** de onde você poderia **executar** um **cmd** por exemplo **como administrador** diretamente sem ser solicitado novamente pelo UAC como [**https://github.com/oski02/UAC-GUI-Bypass-appverif**](https://github.com/oski02/UAC-GUI-Bypass-appverif). Isso pode ser um pouco mais **discreto**.
+Além disso, se você obter uma sessão de GUI que alguém estava usando (potencialmente via RDP) há **algumas ferramentas que estarão sendo executadas como administrador** de onde você poderia **executar** um **cmd** por exemplo **como administrador** diretamente sem ser solicitado novamente pelo UAC como [**https://github.com/oski02/UAC-GUI-Bypass-appverif**](https://github.com/oski02/UAC-GUI-Bypass-appverif). Isso pode ser um pouco mais **discreto**.
 
-### Bypass barulhento do UAC por força bruta
+### Bypass barulhento de força bruta do UAC
 
-Se você não se importa em ser barulhento, você sempre pode **executar algo como** [**https://github.com/Chainski/ForceAdmin**](https://github.com/Chainski/ForceAdmin) que **pede para elevar as permissões até que o usuário aceite**.
+Se você não se importa em ser barulhento, você sempre pode **executar algo como** [**https://github.com/Chainski/ForceAdmin**](https://github.com/Chainski/ForceAdmin) que **pede para elevar permissões até que o usuário aceite**.
 
 ### Seu próprio bypass - Metodologia básica de bypass do UAC
 
-Se você der uma olhada no **UACME**, você notará que **a maioria dos bypasses do UAC abusam de uma vulnerabilidade de Dll Hijacking** (principalmente escrevendo a dll maliciosa em _C:\Windows\System32_). [Leia isso para aprender como encontrar uma vulnerabilidade de Dll Hijacking](../windows-local-privilege-escalation/dll-hijacking.md).
+Se você der uma olhada no **UACME** você notará que **a maioria dos bypasses do UAC abusam de uma vulnerabilidade de Dll Hijacking** (principalmente escrevendo a dll maliciosa em _C:\Windows\System32_). [Leia isso para aprender como encontrar uma vulnerabilidade de Dll Hijacking](../windows-local-privilege-escalation/dll-hijacking.md).
 
-1. Encontre um binário que **autoeleve** (verifique se, quando é executado, ele é executado em um nível de integridade alto).
-2. Com o procmon, encontre eventos de "**NOME NÃO ENCONTRADO**" que podem ser vulneráveis ao **Dll Hijacking**.
+1. Encontre um binário que **autoeleve** (verifique se, quando é executado, ele roda em um nível de integridade alto).
+2. Com o procmon, encontre eventos de "**NOME NÃO ENCONTRADO**" que podem ser vulneráveis ao **DLL Hijacking**.
 3. Provavelmente você precisará **escrever** a DLL dentro de alguns **caminhos protegidos** (como C:\Windows\System32) onde você não tem permissões de escrita. Você pode contornar isso usando:
-1. **wusa.exe**: Windows 7, 8 e 8.1. Permite extrair o conteúdo de um arquivo CAB dentro de caminhos protegidos (porque essa ferramenta é executada em um nível de integridade alto).
+1. **wusa.exe**: Windows 7, 8 e 8.1. Permite extrair o conteúdo de um arquivo CAB dentro de caminhos protegidos (porque essa ferramenta é executada a partir de um nível de integridade alto).
 2. **IFileOperation**: Windows 10.
 4. Prepare um **script** para copiar sua DLL dentro do caminho protegido e executar o binário vulnerável e autoelevado.
 
@@ -207,7 +207,7 @@ Se você der uma olhada no **UACME**, você notará que **a maioria dos bypasses
 
 Consiste em observar se um **binário autoelevado** tenta **ler** do **registro** o **nome/caminho** de um **binário** ou **comando** a ser **executado** (isso é mais interessante se o binário procurar essas informações dentro do **HKCU**).
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** com as ferramentas comunitárias mais avançadas do mundo.\
 Tenha Acesso Hoje:
@@ -216,14 +216,14 @@ Tenha Acesso Hoje:
 
 <details>
 
-<summary><strong>Aprenda hacking na AWS do zero ao avançado com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking na AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
+* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

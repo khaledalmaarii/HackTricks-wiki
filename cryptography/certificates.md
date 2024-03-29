@@ -14,7 +14,7 @@ Outras maneiras de apoiar o HackTricks:
 
 </details>
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente com as ferramentas comunitárias mais avançadas do mundo.\
@@ -26,7 +26,7 @@ Acesse hoje:
 
 Um **certificado de chave pública** é um ID digital usado em criptografia para provar que alguém possui uma chave pública. Ele inclui os detalhes da chave, a identidade do proprietário (o sujeito) e uma assinatura digital de uma autoridade confiável (o emissor). Se o software confiar no emissor e a assinatura for válida, é possível uma comunicação segura com o proprietário da chave.
 
-Os certificados são principalmente emitidos por [autoridades de certificação](https://en.wikipedia.org/wiki/Certificate\_authority) (CAs) em uma configuração de [infraestrutura de chave pública](https://en.wikipedia.org/wiki/Public-key\_infrastructure) (PKI). Outro método é a [rede de confiança](https://en.wikipedia.org/wiki/Web\_of\_trust), onde os usuários verificam diretamente as chaves uns dos outros. O formato comum para certificados é [X.509](https://en.wikipedia.org/wiki/X.509), que pode ser adaptado para necessidades específicas, conforme descrito no RFC 5280.
+Os certificados são principalmente emitidos por [autoridades de certificação](https://en.wikipedia.org/wiki/Certificate\_authority) (CAs) em uma configuração de [infraestrutura de chave pública](https://en.wikipedia.org/wiki/Public-key\_infrastructure) (PKI). Outro método é a [rede de confiança](https://en.wikipedia.org/wiki/Web\_of\_trust), onde os usuários verificam diretamente as chaves uns dos outros. O formato comum para certificados é o [X.509](https://en.wikipedia.org/wiki/X.509), que pode ser adaptado para necessidades específicas, conforme descrito no RFC 5280.
 
 ## Campos Comuns do x509
 
@@ -40,8 +40,8 @@ Nos certificados x509, vários **campos** desempenham papéis críticos para gar
 * **Nome Comum (CN)**: Domínios cobertos pelo certificado.
 * **País (C)**, **Localidade (L)**, **Estado ou Província (ST, S ou P)**, **Organização (O)** e **Unidade Organizacional (OU)** fornecem detalhes geográficos e organizacionais.
 * O **Nome Distinto (DN)** encapsula a identificação completa do sujeito.
-* **Emissor** detalha quem verificou e assinou o certificado, incluindo subcampos semelhantes ao Sujeito para a CA.
-* O **Período de Validade** é marcado pelos horários **Não Antes** e **Não Depois**, garantindo que o certificado não seja usado antes ou depois de uma determinada data.
+* O **Emissor** detalha quem verificou e assinou o certificado, incluindo subcampos semelhantes ao Sujeito para a CA.
+* O **Período de Validade** é marcado pelos carimbos de **Não Antes** e **Não Depois**, garantindo que o certificado não seja usado antes ou depois de uma determinada data.
 * A seção da **Chave Pública**, crucial para a segurança do certificado, especifica o algoritmo, tamanho e outros detalhes técnicos da chave pública.
 * As **extensões x509v3** aprimoram a funcionalidade do certificado, especificando **Uso da Chave**, **Uso Estendido da Chave**, **Nome Alternativo do Sujeito** e outras propriedades para ajustar a aplicação do certificado.
 
@@ -50,7 +50,7 @@ Nos certificados x509, vários **campos** desempenham papéis críticos para gar
 * **Uso da Chave** identifica aplicações criptográficas da chave pública, como assinatura digital ou cifragem de chave.
 * **Uso Estendido da Chave** restringe ainda mais os casos de uso do certificado, por exemplo, para autenticação de servidor TLS.
 * **Nome Alternativo do Sujeito** e **Restrição Básica** definem nomes de host adicionais cobertos pelo certificado e se é um certificado de CA ou de entidade final, respectivamente.
-* Identificadores como **Identificador da Chave do Sujeito** e **Identificador da Chave da Autoridade** garantem a singularidade e rastreabilidade das chaves.
+* Identificadores como **Identificador de Chave do Sujeito** e **Identificador de Chave da Autoridade** garantem a singularidade e rastreabilidade das chaves.
 * **Acesso à Informação da Autoridade** e **Pontos de Distribuição de Lista de Revogação (CRL)** fornecem caminhos para verificar a CA emissora e verificar o status de revogação do certificado.
 * **CT Precertificate SCTs** oferecem registros de transparência, cruciais para a confiança pública no certificado.
 ```python
@@ -148,7 +148,7 @@ openssl pkcs7 -print_certs -in certificatename.p7b -out certificatename.pem
 ```
 **Conversões PFX** são cruciais para gerenciar certificados no Windows:
 
-- **PFX para PEM**
+* **PFX para PEM**
 ```bash
 openssl pkcs12 -in certificatename.pfx -out certificatename.pem
 ```
@@ -158,6 +158,14 @@ openssl pkcs12 -in certificatename.pfx -out certificatename.pem
 openssl pkcs12 -in certificatename.pfx -nocerts -nodes -out certificatename.pem
 ```
 2. Converta PEM para PKCS8
+
+Para converter um arquivo PEM para o formato PKCS8, você pode usar a ferramenta OpenSSL com o seguinte comando:
+
+```bash
+openssl pkcs8 -topk8 -inform PEM -outform DER -in chave_privada.pem -out chave_privada.pk8 -nocrypt
+```
+
+Isso irá converter a chave privada do formato PEM para o formato PKCS8.
 ```bash
 openSSL pkcs8 -in certificatename.pem -topk8 -nocrypt -out certificatename.pk8
 ```
@@ -172,7 +180,7 @@ openssl pkcs12 -export -in certificatename.cer -inkey privateKey.key -out certif
 ```
 ***
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente com as ferramentas comunitárias **mais avançadas do mundo**.\

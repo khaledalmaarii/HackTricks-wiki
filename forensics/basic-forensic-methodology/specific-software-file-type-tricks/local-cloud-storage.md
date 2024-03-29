@@ -6,15 +6,15 @@
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente com as ferramentas comunitárias mais avançadas do mundo.\
@@ -42,7 +42,7 @@ Depois de encontrar o CID, é recomendável **procurar arquivos contendo este ID
 No Windows, você pode encontrar a pasta principal do Google Drive em `\Users\<username>\AppData\Local\Google\Drive\user_default`\
 Esta pasta contém um arquivo chamado Sync\_log.log com informações como o endereço de e-mail da conta, nomes de arquivos, carimbos de data e hora, hashes MD5 dos arquivos, etc. Mesmo os arquivos excluídos aparecem nesse arquivo de log com seus respectivos MD5.
 
-O arquivo **`Cloud_graph\Cloud_graph.db`** é um banco de dados sqlite que contém a tabela **`cloud_graph_entry`**. Nesta tabela, você pode encontrar o **nome** dos **arquivos sincronizados**, tempo modificado, tamanho e o checksum MD5 dos arquivos.
+O arquivo **`Cloud_graph\Cloud_graph.db`** é um banco de dados sqlite que contém a tabela **`cloud_graph_entry`**. Nesta tabela, você pode encontrar o **nome** dos **arquivos sincronizados**, hora de modificação, tamanho e o checksum MD5 dos arquivos.
 
 Os dados da tabela do banco de dados **`Sync_config.db`** contêm o endereço de e-mail da conta, o caminho das pastas compartilhadas e a versão do Google Drive.
 
@@ -76,7 +76,7 @@ No entanto, as principais informações são:
 Além dessas informações, para descriptografar os bancos de dados, você ainda precisa de:
 
 * A **chave DPAPI criptografada**: Você pode encontrá-la no registro dentro de `NTUSER.DAT\Software\Dropbox\ks\client` (exporte esses dados como binário)
-* Os hives **`SYSTEM`** e **`SECURITY`**
+* Os enxames **`SYSTEM`** e **`SECURITY`**
 * As **chaves mestras DPAPI**: Que podem ser encontradas em `\Users\<username>\AppData\Roaming\Microsoft\Protect`
 * O **nome de usuário** e **senha** do usuário do Windows
 
@@ -90,7 +90,7 @@ O hex resultante é a chave final usada para criptografar os bancos de dados que
 ```bash
 sqlite -k <Obtained Key> config.dbx ".backup config.db" #This decompress the config.dbx and creates a clear text backup in config.db
 ```
-A base de dados **`config.dbx`** contém:
+O banco de dados **`config.dbx`** contém:
 
 - **Email**: O email do usuário
 - **usernamedisplayname**: O nome do usuário
@@ -98,22 +98,22 @@ A base de dados **`config.dbx`** contém:
 - **Host\_id: Hash** usado para autenticar na nuvem. Isso só pode ser revogado pela web.
 - **Root\_ns**: Identificador do usuário
 
-A base de dados **`filecache.db`** contém informações sobre todos os arquivos e pastas sincronizados com o Dropbox. A tabela `File_journal` é a que contém mais informações úteis:
+O banco de dados **`filecache.db`** contém informações sobre todos os arquivos e pastas sincronizados com o Dropbox. A tabela `File_journal` é a que contém mais informações úteis:
 
 - **Server\_path**: Caminho onde o arquivo está localizado dentro do servidor (esse caminho é precedido pelo `host_id` do cliente).
 - **local\_sjid**: Versão do arquivo
 - **local\_mtime**: Data de modificação
 - **local\_ctime**: Data de criação
 
-Outras tabelas dentro dessa base de dados contêm informações mais interessantes:
+Outras tabelas dentro deste banco de dados contêm informações mais interessantes:
 
 - **block\_cache**: hash de todos os arquivos e pastas do Dropbox
 - **block\_ref**: Relaciona o ID de hash da tabela `block_cache` com o ID do arquivo na tabela `file_journal`
-- **mount\_table**: Compartilhamento de pastas do Dropbox
+- **mount\_table**: Compartilhar pastas do Dropbox
 - **deleted\_fields**: Arquivos excluídos do Dropbox
 - **date\_added**
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente com as ferramentas comunitárias mais avançadas do mundo.\
@@ -130,7 +130,7 @@ Outras formas de apoiar o HackTricks:
 - Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 - Adquira o [**oficial PEASS & HackTricks swag**](https://peass.creator-spring.com)
 - Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-- **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou nos siga no Twitter 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+- **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou nos siga no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 - **Compartilhe seus truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

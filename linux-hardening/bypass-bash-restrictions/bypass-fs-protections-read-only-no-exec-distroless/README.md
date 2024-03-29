@@ -4,7 +4,7 @@
 
 <summary><strong>Aprenda hacking AWS do zero ao avançado com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras formas de apoiar o HackTricks:
+Outras maneiras de apoiar o HackTricks:
 
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
@@ -14,9 +14,9 @@ Outras formas de apoiar o HackTricks:
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Se você está interessado em uma **carreira de hacking** e hackear o inquebrável - **estamos contratando!** (_fluência em polonês escrita e falada necessária_).
+Se você está interessado em **carreira de hacking** e hackear o inquebrável - **estamos contratando!** (_fluência em polonês escrito e falado é necessária_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
@@ -67,7 +67,7 @@ Se você tiver mecanismos de script poderosos dentro da máquina, como **Python*
 Para isso, você pode facilmente usar o projeto [**fileless-elf-exec**](https://github.com/nnsee/fileless-elf-exec). Você pode passar a ele um binário e ele irá gerar um script na linguagem indicada com o **binário comprimido e codificado em b64** com as instruções para **decodificar e descomprimir** em um **fd** criado chamando a syscall `create_memfd` e uma chamada à **chamada de sistema exec** para executá-lo.
 
 {% hint style="warning" %}
-Isso não funciona em outras linguagens de script como PHP ou Node porque eles não têm nenhuma maneira **padrão de chamar chamadas de sistema brutas** de um script, então não é possível chamar `create_memfd` para criar o **fd de memória** para armazenar o binário.
+Isso não funciona em outras linguagens de script como PHP ou Node porque eles não têm nenhuma maneira **padrão de chamar chamadas de sistema** brutos de um script, então não é possível chamar `create_memfd` para criar o **fd de memória** para armazenar o binário.
 
 Além disso, criar um **fd regular** com um arquivo em `/dev/shm` não funcionará, pois você não terá permissão para executá-lo porque a **proteção no-exec** será aplicada.
 {% endhint %}
@@ -108,7 +108,7 @@ O objetivo dos contêineres distroless é **reduzir a superfície de ataque dos 
 Em um contêiner distroless, você pode **nem mesmo encontrar `sh` ou `bash`** para obter um shell regular. Você também não encontrará binários como `ls`, `whoami`, `id`... tudo o que você costuma executar em um sistema.
 
 {% hint style="warning" %}
-Portanto, você **não** poderá obter um **shell reverso** ou **enumerar** o sistema como costuma fazer.
+Portanto, você **não** será capaz de obter um **shell reverso** ou **enumerar** o sistema como costuma fazer.
 {% endhint %}
 
 No entanto, se o contêiner comprometido estiver executando, por exemplo, um aplicativo web flask, então o Python está instalado e, portanto, você pode obter um **shell reverso em Python**. Se estiver executando node, você pode obter um shell reverso em Node, e o mesmo com a maioria das **linguagens de script**.
@@ -125,7 +125,7 @@ No entanto, nesse tipo de contêineres, essas proteções geralmente existirão,
 
 Você pode encontrar **exemplos** de como **explorar algumas vulnerabilidades de RCE** para obter **shells reversos de linguagens de script** e executar binários da memória em [**https://github.com/carlospolop/DistrolessRCE**](https://github.com/carlospolop/DistrolessRCE).
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Se você está interessado em uma **carreira de hacking** e hackear o inhackeável - **estamos contratando!** (_fluência em polonês escrita e falada necessária_).
 

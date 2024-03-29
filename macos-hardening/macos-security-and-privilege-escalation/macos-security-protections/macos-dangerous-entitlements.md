@@ -38,7 +38,7 @@ Essa permissão permite que outros processos com a permissão **`com.apple.secur
 
 ### `com.apple.security.cs.debugger`
 
-Aplicativos com a Permissão da Ferramenta de Depuração podem chamar `task_for_pid()` para recuperar uma porta de tarefa válida para aplicativos não assinados e de terceiros com a permissão `Get Task Allow` definida como `true`. No entanto, mesmo com a permissão da ferramenta de depuração, um depurador **não pode obter as portas de tarefa** de processos que **não possuem a permissão `Get Task Allow`**, e que portanto são protegidos pela Proteção da Integridade do Sistema. Verifique [**este para mais informações**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_debugger).
+Aplicativos com a Permissão da Ferramenta de Depuração podem chamar `task_for_pid()` para recuperar uma porta de tarefa válida para aplicativos não assinados e de terceiros com a permissão `Get Task Allow` definida como `true`. No entanto, mesmo com a permissão da ferramenta de depuração, um depurador **não pode obter as portas de tarefa** de processos que **não têm a permissão `Get Task Allow`**, e que portanto são protegidos pela Proteção da Integridade do Sistema. Verifique [**este para mais informações**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_debugger).
 
 ### `com.apple.security.cs.disable-library-validation`
 
@@ -51,7 +51,7 @@ Verifique [**este para mais informações**](https://theevilbit.github.io/posts/
 
 ### `com.apple.security.cs.allow-dyld-environment-variables`
 
-Essa permissão permite **usar variáveis de ambiente DYLD** que poderiam ser usadas para injetar bibliotecas e código. Verifique [**este para mais informações**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-dyld-environment-variables).
+Essa permissão permite **usar variáveis de ambiente DYLD** que podem ser usadas para injetar bibliotecas e código. Verifique [**este para mais informações**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-dyld-environment-variables).
 
 ### `com.apple.private.tcc.manager` ou `com.apple.rootless.storage`.`TCC`
 
@@ -63,7 +63,7 @@ Essas permissões permitem **instalar software sem pedir permissão** ao usuári
 
 ### `com.apple.private.security.kext-management`
 
-Permissão necessária para solicitar ao **kernel que carregue uma extensão de kernel**.
+Permissão necessária para solicitar ao **kernel para carregar uma extensão de kernel**.
 
 ### **`com.apple.private.icloud-account-access`**
 
@@ -107,6 +107,8 @@ Concede permissões de **Acesso Total ao Disco**, uma das permissões mais altas
 Permite que o aplicativo envie eventos para outras aplicações que são comumente usadas para **automatizar tarefas**. Controlando outros aplicativos, ele pode abusar das permissões concedidas a esses outros aplicativos.
 
 Como fazê-los solicitar a senha do usuário:
+
+{% code overflow="wrap" %}
 ```bash
 osascript -e 'tell app "App Store" to activate' -e 'tell app "App Store" to activate' -e 'tell app "App Store" to display dialog "App Store requires your password to continue." & return & return default answer "" with icon 1 with hidden answer with title "App Store Alert"'
 ```
@@ -126,9 +128,9 @@ Permite **alterar** o atributo **`NFSHomeDirectory`** de um usuário que altera 
 
 Permite modificar arquivos dentro dos pacotes de aplicativos (dentro do app.app), o que é **desativado por padrão**.
 
-<figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-É possível verificar quem tem esse acesso em _Preferências do Sistema_ > _Privacidade e Segurança_ > _Gerenciamento de Aplicativos_.
+É possível verificar quem tem esse acesso em _Configurações do Sistema_ > _Privacidade e Segurança_ > _Gerenciamento de Aplicativos_.
 
 ### `kTCCServiceAccessibility`
 
@@ -142,10 +144,10 @@ Esta permissão permite **criar memória que é gravável e executável** passan
 
 ### `com.apple.security.cs.allow-unsigned-executable-memory`
 
-Esta permissão permite **substituir ou corrigir código C**, usar o **`NSCreateObjectFileImageFromMemory`** (que é fundamentalmente inseguro) ou usar o framework **DVDPlayback**. Verifique [**este link para mais informações**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory).
+Esta permissão permite **sobrescrever ou corrigir código C**, usar o longamente obsoleto **`NSCreateObjectFileImageFromMemory`** (que é fundamentalmente inseguro), ou usar o framework **DVDPlayback**. Verifique [**este link para mais informações**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory).
 
 {% hint style="danger" %}
-Incluir esta permissão expõe seu aplicativo a vulnerabilidades comuns em linguagens de código inseguras na memória. Considere cuidadosamente se seu aplicativo precisa dessa exceção.
+Incluir esta permissão expõe seu aplicativo a vulnerabilidades comuns em linguagens de código inseguras em relação à memória. Considere cuidadosamente se seu aplicativo precisa dessa exceção.
 {% endhint %}
 
 ### `com.apple.security.cs.disable-executable-page-protection`
@@ -153,7 +155,7 @@ Incluir esta permissão expõe seu aplicativo a vulnerabilidades comuns em lingu
 Esta permissão permite **modificar seções de seus próprios arquivos executáveis** no disco para sair forçadamente. Verifique [**este link para mais informações**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-executable-page-protection).
 
 {% hint style="danger" %}
-A Permissão de Desabilitar Proteção de Páginas Executáveis é uma permissão extrema que remove uma proteção de segurança fundamental do seu aplicativo, tornando possível para um atacante reescrever o código executável do seu aplicativo sem detecção. Prefira permissões mais restritas, se possível.
+A Permissão de Desabilitar Proteção de Memória Executável é uma permissão extrema que remove uma proteção de segurança fundamental do seu aplicativo, tornando possível para um atacante reescrever o código executável do seu aplicativo sem detecção. Prefira permissões mais restritas, se possível.
 {% endhint %}
 
 ### `com.apple.security.cs.allow-relative-library-loads`
@@ -183,7 +185,7 @@ Permitir que o processo **solicite todas as permissões do TCC**.
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
