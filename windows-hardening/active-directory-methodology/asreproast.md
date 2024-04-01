@@ -9,7 +9,7 @@
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
 * 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**上关注**我们。
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
@@ -31,7 +31,7 @@
 
 ## ASREPRoast
 
-ASREPRoast是一种安全攻击，利用缺乏**Kerberos预身份验证所需属性**的用户。基本上，这种漏洞允许攻击者向域控制器（DC）请求用户的身份验证，而无需用户的密码。然后，DC会用用户的密码派生密钥加密消息进行响应，攻击者可以尝试脱机破解以发现用户的密码。
+ASREPRoast是一种安全攻击，利用缺乏**Kerberos预身份验证所需属性**的用户。基本上，这种漏洞允许攻击者向域控制器（DC）请求用户的身份验证，而无需用户的密码。然后，DC会用用户的密码派生密钥加密的消息进行响应，攻击者可以尝试脱机破解以发现用户的密码。
 
 这种攻击的主要要求包括：
 - **缺乏Kerberos预身份验证**：目标用户必须未启用此安全功能。
@@ -70,7 +70,7 @@ Get-ASREPHash -Username VPN114user -verbose #From ASREPRoast.ps1 (https://github
 {% endcode %}
 
 {% hint style="warning" %}
-使用Rubeus进行AS-REP Roasting将生成一个加密类型为0x17且预身份验证类型为0的4768。
+使用Rubeus进行AS-REP Roasting将生成一个加密类型为0x17且预身份验证类型为0的4768事件。
 {% endhint %}
 
 ### 破解
@@ -94,18 +94,18 @@ bloodyAD -u user -p 'totoTOTOtoto1234*' -d crash.lab --host 10.100.10.5 add uac 
 ```
 {% endcode %}
 
-## 无凭证的ASreproast
-在不需要Kerberos预身份验证的用户的知识下。攻击者可以利用中间人位置捕获AS-REP数据包在网络中传输时。<br>
-[ASrepCatcher](https://github.com/Yaxxine7/ASrepCatcher)允许我们这样做。此外，该工具通过更改Kerberos协商来<ins>强制客户工作站使用RC4</ins>。
+## 无凭证的ASREProast
+攻击者可以利用中间人位置捕获AS-REP数据包，当其在网络中传输时，<ins>而无需依赖Kerberos预身份验证被禁用。</ins> 因此，它适用于VLAN上的所有用户。<br>
+[ASRepCatcher](https://github.com/Yaxxine7/ASRepCatcher)使我们能够这样做。此外，该工具通过更改Kerberos协商<ins>强制客户工作站使用RC4。</ins>
 ```bash
 # Actively acting as a proxy between the clients and the DC, forcing RC4 downgrade if supported
-ASRepCatcher.py relay -dc $DC_IP --keep-spoofing
+ASRepCatcher relay -dc $DC_IP
 
 # Disabling ARP spoofing, the mitm position must be obtained differently
-ASRepCatcher.py relay -dc $DC_IP --disable-spoofing
+ASRepCatcher relay -dc $DC_IP --disable-spoofing
 
 # Passive listening of AS-REP packets, no packet alteration
-ASrepCatcher.py listen
+ASRepCatcher listen
 ```
 ## 参考资料
 
@@ -130,14 +130,14 @@ ASrepCatcher.py listen
 
 <details>
 
-<summary><strong>从零开始成为 AWS 黑客大师，学习 AWS 黑客技术</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>从零开始学习 AWS 黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS 红队专家）</strong></a><strong>！</strong></summary>
 
 支持 HackTricks 的其他方式：
 
-* 如果您想在 HackTricks 中看到您的 **公司广告** 或 **下载 PDF 版本的 HackTricks**，请查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 如果您想看到您的 **公司在 HackTricks 中做广告** 或 **下载 PDF 版本的 HackTricks**，请查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
 * 探索 [**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 * 通过向 **HackTricks** 和 **HackTricks Cloud** 的 github 仓库提交 PR 来分享您的黑客技巧。
 
 </details>
