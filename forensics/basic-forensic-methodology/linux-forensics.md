@@ -1,22 +1,21 @@
 # Analyse Forensique Linux
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-\
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire facilement et **automatiser des workflows** alimentés par les outils communautaires les plus avancés au monde.\
-Accédez dès aujourd'hui à :
+Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks :
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
@@ -55,18 +54,18 @@ Lors de l'obtention des informations de base, vous devriez vérifier des choses 
 
 - Les **processus root** ont généralement des PIDS bas, donc si vous trouvez un processus root avec un PID élevé, vous pouvez suspecter
 - Vérifiez les **connexions enregistrées** des utilisateurs sans shell dans `/etc/passwd`
-- Vérifiez les **hachages de mots de passe** à l'intérieur de `/etc/shadow` pour les utilisateurs sans shell
+- Vérifiez les **hachages de mots de passe** dans `/etc/shadow` pour les utilisateurs sans shell
 
 ### Capture de mémoire
 
 Pour obtenir la mémoire du système en cours d'exécution, il est recommandé d'utiliser [**LiME**](https://github.com/504ensicsLabs/LiME).\
-Pour le **compiler**, vous devez utiliser le **même noyau** que celui de la machine victime.
+Pour le **compiler**, vous devez utiliser le **même noyau** que celui utilisé par la machine victime.
 
 {% hint style="info" %}
 Rappelez-vous que vous **ne pouvez pas installer LiME ou quoi que ce soit d'autre** sur la machine victime car cela apportera plusieurs modifications à celle-ci
 {% endhint %}
 
-Donc, si vous avez une version identique d'Ubuntu, vous pouvez utiliser `apt-get install lime-forensics-dkms`\
+Ainsi, si vous avez une version identique d'Ubuntu, vous pouvez utiliser `apt-get install lime-forensics-dkms`\
 Dans d'autres cas, vous devez télécharger [**LiME**](https://github.com/504ensicsLabs/LiME) depuis github et le compiler avec les en-têtes de noyau corrects. Pour **obtenir les en-têtes de noyau exacts** de la machine victime, vous pouvez simplement **copier le répertoire** `/lib/modules/<version du noyau>` sur votre machine, puis **compiler** LiME en les utilisant :
 ```bash
 make -C /lib/modules/<kernel version>/build M=$PWD
@@ -85,7 +84,7 @@ LiME peut également être utilisé pour **envoyer le vidage via le réseau** au
 #### Arrêt
 
 Tout d'abord, vous devrez **arrêter le système**. Ce n'est pas toujours une option car parfois le système sera un serveur de production que l'entreprise ne peut pas se permettre d'arrêter.\
-Il existe **2 façons** d'arrêter le système, un **arrêt normal** et un **arrêt "débrancher la prise"**. Le premier permettra aux **processus de se terminer comme d'habitude** et au **système de fichiers** d'être **synchronisé**, mais il permettra également aux éventuels **logiciels malveillants** de **détruire des preuves**. L'approche "débrancher la prise" peut entraîner **une perte d'informations** (pas beaucoup d'informations seront perdues car nous avons déjà pris une image de la mémoire) et le **logiciel malveillant n'aura aucune opportunité** d'y remédier. Par conséquent, si vous **soupçonnez** la présence d'un **logiciel malveillant**, exécutez simplement la commande **`sync`** sur le système et débranchez la prise.
+Il existe **2 façons** d'arrêter le système, un **arrêt normal** et un **arrêt "débrancher la prise"**. Le premier permettra aux **processus de se terminer comme d'habitude** et au **système de fichiers** d'être **synchronisé**, mais il permettra également à un éventuel **logiciel malveillant** de **détruire des preuves**. L'approche "débrancher la prise" peut entraîner **une perte d'informations** (pas beaucoup d'informations seront perdues car nous avons déjà pris une image de la mémoire) et le **logiciel malveillant n'aura aucune opportunité** d'intervenir. Par conséquent, si vous **soupçonnez** la présence d'un **logiciel malveillant**, exécutez simplement la commande **`sync`** sur le système et débranchez la prise.
 
 #### Prendre une image du disque
 
@@ -211,13 +210,13 @@ Accédez dès aujourd'hui :
 
 ## Récupérer les binaires en cours d'exécution supprimés
 
-Imaginez un processus qui a été exécuté à partir de /tmp/exec et supprimé. Il est possible de l'extraire
+Imaginez un processus qui a été exécuté à partir de /tmp/exec puis supprimé. Il est possible de l'extraire
 ```bash
 cd /proc/3746/ #PID with the exec file deleted
 head -1 maps #Get address of the file. It was 08048000-08049000
 dd if=mem bs=1 skip=08048000 count=1000 of=/tmp/exec2 #Recorver it
 ```
-## Inspecter les emplacements de démarrage automatique
+## Inspectez les emplacements de démarrage automatique
 
 ### Tâches planifiées
 ```bash
@@ -243,8 +242,8 @@ Chemins où un logiciel malveillant pourrait être installé en tant que service
 * Les services peuvent également être activés via **/etc/inetd.conf** ou **/etc/xinetd/**, selon la variante de Linux.
 * **/etc/systemd/system** : Un répertoire pour les scripts du système et du gestionnaire de services.
 * **/etc/systemd/system/multi-user.target.wants/** : Contient des liens vers des services qui doivent être démarrés dans un niveau d'exécution multi-utilisateurs.
-* **/usr/local/etc/rc.d/** : Pour des services personnalisés ou tiers.
-* **\~/.config/autostart/** : Pour des applications de démarrage automatique spécifiques à l'utilisateur, qui peuvent être un endroit de dissimulation pour les logiciels malveillants ciblant les utilisateurs.
+* **/usr/local/etc/rc.d/** : Pour les services personnalisés ou tiers.
+* **\~/.config/autostart/** : Pour les applications de démarrage automatique spécifiques à l'utilisateur, qui peuvent être un endroit de dissimulation pour les logiciels malveillants ciblant les utilisateurs.
 * **/lib/systemd/system/** : Fichiers d'unités par défaut à l'échelle du système fournis par les packages installés.
 
 ### Modules du Noyau
@@ -265,9 +264,9 @@ Linux utilise divers fichiers pour exécuter automatiquement des programmes lors
 
 ## Examiner les Journaux
 
-Les systèmes Linux suivent les activités des utilisateurs et les événements système à travers divers fichiers journaux. Ces journaux sont essentiels pour identifier les accès non autorisés, les infections par des logiciels malveillants et autres incidents de sécurité. Les principaux fichiers journaux incluent :
+Les systèmes Linux suivent les activités des utilisateurs et les événements système à travers divers fichiers journaux. Ces journaux sont essentiels pour identifier les accès non autorisés, les infections par des logiciels malveillants et d'autres incidents de sécurité. Les principaux fichiers journaux incluent :
 
-* **/var/log/syslog** (Debian) ou **/var/log/messages** (RedHat) : Capture les messages et activités à l'échelle du système.
+* **/var/log/syslog** (Debian) ou **/var/log/messages** (RedHat) : Capture les messages et activités système à l'échelle du système.
 * **/var/log/auth.log** (Debian) ou **/var/log/secure** (RedHat) : Enregistre les tentatives d'authentification, les connexions réussies et échouées.
 * Utilisez `grep -iE "session opened for|accepted password|new session|not in sudoers" /var/log/auth.log` pour filtrer les événements d'authentification pertinents.
 * **/var/log/boot.log** : Contient les messages de démarrage du système.
@@ -335,20 +334,20 @@ usbrip events history --pid 0002 --vid 0e0f --user kali #Search by pid OR vid OR
 usbrip ids download #Downlaod database
 usbrip ids search --pid 0002 --vid 0e0f #Search for pid AND vid
 ```
-Plus d'exemples et d'informations sur le github : [https://github.com/snovvcrash/usbrip](https://github.com/snovvcrash/usbrip)
+Plus d'exemples et d'informations sur le github: [https://github.com/snovvcrash/usbrip](https://github.com/snovvcrash/usbrip)
 
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire facilement et **automatiser des workflows** alimentés par les outils communautaires les plus avancés au monde.\
-Accédez dès aujourd'hui :
+Accédez dès aujourd'hui:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 ## Examiner les comptes d'utilisateurs et les activités de connexion
 
 Examinez les fichiers _**/etc/passwd**_, _**/etc/shadow**_ et les **logs de sécurité** à la recherche de noms ou de comptes inhabituels créés et/ou utilisés à proximité d'événements non autorisés connus. Vérifiez également les possibles attaques de force brute sudo.\
-De plus, vérifiez des fichiers tels que _**/etc/sudoers**_ et _**/etc/groups**_ pour des privilèges inattendus accordés aux utilisateurs.\
+De plus, vérifiez des fichiers comme _**/etc/sudoers**_ et _**/etc/groups**_ pour des privilèges inattendus accordés aux utilisateurs.\
 Enfin, recherchez des comptes sans **mot de passe** ou avec des mots de passe **facilement devinables**.
 
 ## Examiner le système de fichiers
@@ -357,13 +356,13 @@ Enfin, recherchez des comptes sans **mot de passe** ou avec des mots de passe **
 
 Lors d'enquêtes sur des incidents de logiciels malveillants, la structure du système de fichiers est une source d'information cruciale, révélant à la fois la séquence des événements et le contenu du logiciel malveillant. Cependant, les auteurs de logiciels malveillants développent des techniques pour entraver cette analyse, telles que la modification des horodatages des fichiers ou l'évitement du système de fichiers pour le stockage des données.
 
-Pour contrer ces méthodes anti-forensiques, il est essentiel de :
+Pour contrer ces méthodes anti-forensiques, il est essentiel de:
 
-* **Effectuer une analyse minutieuse de la chronologie** à l'aide d'outils tels que **Autopsy** pour visualiser les chronologies d'événements ou `mactime` de **Sleuth Kit** pour des données chronologiques détaillées.
+* **Effectuer une analyse minutieuse de la chronologie** en utilisant des outils comme **Autopsy** pour visualiser les chronologies d'événements ou `mactime` de **Sleuth Kit** pour des données chronologiques détaillées.
 * **Enquêter sur des scripts inattendus** dans le $PATH du système, qui pourraient inclure des scripts shell ou PHP utilisés par des attaquants.
 * **Examiner `/dev` pour des fichiers atypiques**, car il contient traditionnellement des fichiers spéciaux, mais peut contenir des fichiers liés aux logiciels malveillants.
 * **Rechercher des fichiers ou répertoires cachés** avec des noms comme ".. " (point point espace) ou "..^G" (point point contrôle-G), qui pourraient dissimuler un contenu malveillant.
-* **Identifier les fichiers setuid root** en utilisant la commande : `find / -user root -perm -04000 -print` Cela permet de trouver des fichiers avec des permissions élevées, qui pourraient être exploités par des attaquants.
+* **Identifier les fichiers setuid root** en utilisant la commande: `find / -user root -perm -04000 -print` Cela permet de trouver des fichiers avec des permissions élevées, qui pourraient être exploités par des attaquants.
 * **Vérifier les horodatages de suppression** dans les tables d'inodes pour repérer des suppressions massives de fichiers, indiquant éventuellement la présence de rootkits ou de chevaux de Troie.
 * **Inspecter les inodes consécutifs** pour repérer des fichiers malveillants à proximité après en avoir identifié un, car ils peuvent avoir été placés ensemble.
 * **Vérifier les répertoires binaires courants** (_/bin_, _/sbin_) pour des fichiers récemment modifiés, car ils pourraient avoir été altérés par des logiciels malveillants.
