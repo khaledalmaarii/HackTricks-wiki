@@ -6,7 +6,7 @@ Autres façons de soutenir HackTricks :
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
@@ -31,18 +31,18 @@ Outils matériels pour communiquer avec UART :
 
 ## Identification des ports UART
 
-UART a 4 ports : **TX** (Transmettre), **RX** (Recevoir), **Vcc** (Tension) et **GND** (Masse). Vous pourriez trouver 4 ports avec les lettres **`TX`** et **`RX`** **écrites** sur le PCB. Mais s'il n'y a pas d'indication, vous pourriez avoir besoin de les trouver vous-même en utilisant un **multimètre** ou un **analyseur logique**.
+UART a 4 ports : **TX** (Transmettre), **RX** (Recevoir), **Vcc** (Tension) et **GND** (Masse). Vous pourriez trouver 4 ports avec les lettres **`TX`** et **`RX`** **écrites** sur le PCB. Mais s'il n'y a pas d'indication, vous pourriez avoir besoin d'essayer de les trouver vous-même en utilisant un **multimètre** ou un **analyseur logique**.
 
 Avec un **multimètre** et l'appareil éteint :
 
-* Pour identifier la broche **GND**, utilisez le mode **Test de continuité**, placez la sonde noire dans la masse et testez avec la sonde rouge jusqu'à ce que vous entendiez un son du multimètre. Plusieurs broches GND peuvent être trouvées sur le PCB, donc vous pourriez avoir trouvé ou non celle appartenant à UART.
-* Pour identifier la broche **VCC**, réglez le mode **tension continue** et réglez-le sur 20 V de tension. Sonde noire sur la masse et sonde rouge sur la broche. Allumez l'appareil. Si le multimètre mesure une tension constante de 3,3 V ou 5 V, vous avez trouvé la broche Vcc. Si vous obtenez d'autres tensions, réessayez avec d'autres ports.
-* Pour identifier la broche **TX**, mode **tension continue** jusqu'à 20 V de tension, sonde noire sur la masse et sonde rouge sur la broche, et allumez l'appareil. Si vous trouvez que la tension fluctue pendant quelques secondes puis se stabilise à la valeur Vcc, vous avez probablement trouvé la broche TX. C'est parce qu'en s'allumant, il envoie quelques données de débogage.
-* La broche **RX** serait la plus proche des trois autres, elle a la plus faible fluctuation de tension et la valeur globale la plus basse de toutes les broches UART.
+* Pour identifier la broche **GND**, utilisez le mode **Test de continuité**, placez la sonde noire dans la masse et testez avec la sonde rouge jusqu'à ce que vous entendiez un son du multimètre. Plusieurs broches GND peuvent être trouvées sur le PCB, donc vous pourriez avoir trouvé ou non celle appartenant à l'UART.
+* Pour identifier la broche **VCC**, réglez le mode **tension continue** et réglez-le sur 20 V de tension. Sondez la masse avec la sonde noire et la broche avec la sonde rouge. Allumez l'appareil. Si le multimètre mesure une tension constante de 3,3 V ou 5 V, vous avez trouvé la broche Vcc. Si vous obtenez d'autres tensions, réessayez avec d'autres ports.
+* Pour identifier la broche **TX**, mode **tension continue** jusqu'à 20 V de tension, sonde noire sur la masse et sonde rouge sur la broche, et allumez l'appareil. Si vous trouvez que la tension fluctue pendant quelques secondes puis se stabilise à la valeur Vcc, vous avez probablement trouvé la broche TX. C'est parce que lors de la mise sous tension, il envoie quelques données de débogage.
+* La **broche RX** serait la plus proche des trois autres, elle a la plus faible fluctuation de tension et la valeur globale la plus basse de toutes les broches UART.
 
-Vous pouvez confondre les broches TX et RX et rien ne se passera, mais si vous confondez la masse et la broche VCC, vous pourriez endommager le circuit.
+Vous pouvez confondre les broches TX et RX et rien ne se produira, mais si vous confondez la masse et la broche VCC, vous pourriez endommager le circuit.
 
-Avec un analyseur logique :
+Dans certains appareils cibles, le port UART est désactivé par le fabricant en désactivant RX ou TX ou même les deux. Dans ce cas, il peut être utile de retracer les connexions sur la carte de circuit imprimé et de trouver un point de rupture. Un indice fort confirmant l'absence de détection de l'UART et la rupture du circuit est de vérifier la garantie de l'appareil. Si l'appareil a été expédié avec une garantie, le fabricant laisse quelques interfaces de débogage (dans ce cas, UART) et donc, doit avoir déconnecté l'UART et le reconnecterait lors du débogage. Ces broches de rupture peuvent être connectées par soudure ou fils de cavalier.
 
 ## Identification du débit binaire UART
 
@@ -52,9 +52,31 @@ La manière la plus simple d'identifier le débit binaire correct est d'examiner
 Il est important de noter que dans ce protocole, vous devez connecter le TX d'un appareil au RX de l'autre !
 {% endhint %}
 
+# Adaptateur UART CP210X vers TTY
+
+La puce CP210X est utilisée dans de nombreuses cartes de prototypage comme NodeMCU (avec esp8266) pour la communication série. Ces adaptateurs sont relativement peu coûteux et peuvent être utilisés pour se connecter à l'interface UART de la cible. L'appareil a 5 broches : 5V, GND, RXD, TXD, 3.3V. Assurez-vous de connecter la tension prise en charge par la cible pour éviter tout dommage. Enfin, connectez la broche RXD de l'adaptateur à TXD de la cible et la broche TXD de l'adaptateur à RXD de la cible.
+
+Si l'adaptateur n'est pas détecté, assurez-vous que les pilotes CP210X sont installés dans le système hôte. Une fois l'adaptateur détecté et connecté, des outils comme picocom, minicom ou screen peuvent être utilisés.
+
+Pour répertorier les appareils connectés aux systèmes Linux/MacOS :
+```
+ls /dev/
+```
+Pour une interaction de base avec l'interface UART, utilisez la commande suivante :
+```
+picocom /dev/<adapter> --baud <baudrate>
+```
+Pour minicom, utilisez la commande suivante pour le configurer :
+```
+minicom -s
+```
+Configurez les paramètres tels que le débit en bauds et le nom du périphérique dans l'option `Configuration du port série`.
+
+Après la configuration, utilisez la commande `minicom` pour commencer à obtenir la Console UART.
+
 # Bus Pirate
 
-Dans ce scénario, nous allons écouter la communication UART de l'Arduino qui envoie toutes les impressions du programme au Moniteur série.
+Dans ce scénario, nous allons intercepter la communication UART de l'Arduino qui envoie toutes les impressions du programme au Moniteur Série.
 ```bash
 # Check the modes
 UART>m
@@ -130,9 +152,9 @@ waiting a few secs to repeat....
 
 <summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
-D'autres façons de soutenir HackTricks:
+D'autres façons de soutenir HackTricks :
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
