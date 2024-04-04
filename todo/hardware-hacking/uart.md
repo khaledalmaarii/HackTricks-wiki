@@ -1,10 +1,10 @@
 <details>
 
-<summary><strong>Lernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Erlernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
@@ -15,11 +15,11 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 
 # Grundlegende Informationen
 
-UART ist ein seriöses Protokoll, das bedeutet, dass es Daten zwischen Komponenten bitweise überträgt. Im Gegensatz dazu übertragen parallele Kommunikationsprotokolle Daten gleichzeitig über mehrere Kanäle. Zu den gängigen seriellen Protokollen gehören RS-232, I2C, SPI, CAN, Ethernet, HDMI, PCI Express und USB.
+UART ist ein serielles Protokoll, das bedeutet, dass es Daten zwischen Komponenten bitweise überträgt. Im Gegensatz dazu übertragen parallele Kommunikationsprotokolle Daten gleichzeitig über mehrere Kanäle. Zu den gängigen seriellen Protokollen gehören RS-232, I2C, SPI, CAN, Ethernet, HDMI, PCI Express und USB.
 
-Im Allgemeinen wird die Leitung im Ruhezustand hochgehalten (mit einem logischen Wert von 1), während UART aktiv ist. Um den Beginn einer Datenübertragung anzuzeigen, sendet der Sender ein Startbit an den Empfänger, währenddessen das Signal niedrig gehalten wird (mit einem logischen Wert von 0). Anschließend sendet der Sender fünf bis acht Datenbits, die die eigentliche Nachricht enthalten, gefolgt von einem optionalen Paritätsbit und einem oder zwei Stoppbits (mit einem logischen Wert von 1), abhängig von der Konfiguration. Das Paritätsbit, das zur Fehlerprüfung verwendet wird, wird in der Praxis selten verwendet. Das Stoppbit (oder die Stoppbits) signalisieren das Ende der Übertragung.
+Im Allgemeinen wird die Leitung während des Leerlaufs von UART auf einem hohen Niveau gehalten (bei einem logischen Wert von 1). Anschließend sendet der Sender zur Signalisierung des Beginns einer Datenübertragung ein Startbit an den Empfänger, währenddessen das Signal auf einem niedrigen Niveau gehalten wird (bei einem logischen Wert von 0). Als Nächstes sendet der Sender fünf bis acht Datenbits mit der eigentlichen Nachricht, gefolgt von einem optionalen Paritätsbit und einem oder zwei Stoppbits (mit einem logischen Wert von 1), abhängig von der Konfiguration. Das Paritätsbit, das zur Fehlerprüfung verwendet wird, wird in der Praxis selten gesehen. Das Stoppbit (oder die Stopbits) signalisieren das Ende der Übertragung.
 
-Wir nennen die häufigste Konfiguration 8N1: acht Datenbits, keine Parität und ein Stoppbit. Wenn wir zum Beispiel den Buchstaben C oder 0x43 in ASCII in einer 8N1-UART-Konfiguration senden möchten, würden wir die folgenden Bits senden: 0 (das Startbit); 0, 1, 0, 0, 0, 0, 1, 1 (der Wert von 0x43 in binär) und 0 (das Stoppbit).
+Die häufigste Konfiguration nennen wir 8N1: acht Datenbits, keine Parität und ein Stoppbit. Wenn wir beispielsweise das Zeichen C oder 0x43 in ASCII in einer 8N1-UART-Konfiguration senden wollten, würden wir die folgenden Bits senden: 0 (das Startbit); 0, 1, 0, 0, 0, 0, 1, 1 (der Wert von 0x43 in binär) und 0 (das Stoppbit).
 
 ![](<../../.gitbook/assets/image (648) (1) (1) (1) (1).png>)
 
@@ -27,34 +27,56 @@ Hardware-Tools zur Kommunikation mit UART:
 
 * USB-zu-Seriell-Adapter
 * Adapter mit den Chips CP2102 oder PL2303
-* Mehrzweckwerkzeug wie Bus Pirate, Adafruit FT232H, Shikra oder Attify Badge
+* Mehrzweckwerkzeug wie: Bus Pirate, den Adafruit FT232H, den Shikra oder das Attify Badge
 
 ## Identifizierung von UART-Ports
 
-UART hat 4 Ports: **TX** (Transmit), **RX** (Receive), **Vcc** (Spannung) und **GND** (Ground). Sie können möglicherweise 4 Ports mit den Buchstaben **`TX`** und **`RX`** finden, die auf der Leiterplatte **geschrieben** sind. Wenn jedoch keine Kennzeichnung vorhanden ist, müssen Sie möglicherweise versuchen, sie mit einem **Multimeter** oder einem **Logikanalysator** zu finden.
+UART hat 4 Ports: **TX** (Senden), **RX** (Empfangen), **Vcc** (Spannung) und **GND** (Masse). Möglicherweise finden Sie 4 Ports mit den Buchstaben **`TX`** und **`RX`** auf der Leiterplatte. Wenn keine Kennzeichnung vorhanden ist, müssen Sie möglicherweise versuchen, sie mit einem **Multimeter** oder einem **Logikanalysator** selbst zu finden.
 
 Mit einem **Multimeter** und dem ausgeschalteten Gerät:
 
-* Um den **GND-Pin** zu identifizieren, verwenden Sie den **Durchgangstest**-Modus, setzen Sie die Rückleitung auf Masse und testen Sie mit der roten Leitung, bis Sie einen Ton vom Multimeter hören. Auf der Leiterplatte können mehrere GND-Pins gefunden werden, daher haben Sie möglicherweise den zu UART gehörenden Pin gefunden oder nicht.
-* Um den **VCC-Port** zu identifizieren, stellen Sie den **Gleichspannungsmodus** ein und stellen Sie ihn auf 20 V Spannung ein. Schwarze Sonde auf Masse und rote Sonde auf den Pin. Schalten Sie das Gerät ein. Wenn das Multimeter eine konstante Spannung von 3,3 V oder 5 V misst, haben Sie den Vcc-Pin gefunden. Wenn Sie andere Spannungen erhalten, versuchen Sie es mit anderen Ports erneut.
-* Um den **TX-Port** zu identifizieren, stellen Sie den **Gleichspannungsmodus** auf 20 V Spannung ein, schwarze Sonde auf Masse und rote Sonde auf den Pin und schalten Sie das Gerät ein. Wenn Sie feststellen, dass die Spannung einige Sekunden lang schwankt und dann den Wert von Vcc stabilisiert, haben Sie höchstwahrscheinlich den TX-Port gefunden. Dies liegt daran, dass beim Einschalten einige Debug-Daten gesendet werden.
-* Der **RX-Port** wäre der nächstgelegene zu den anderen 3, er hat die geringste Spannungsschwankung und den geringsten Gesamtwert aller UART-Pins.
+* Verwenden Sie den **Durchgangstest**-Modus, um den **GND**-Pin zu identifizieren. Platzieren Sie das hintere Messgerätekabel an Masse und testen Sie mit dem roten Kabel, bis Sie einen Ton vom Multimeter hören. Auf der Leiterplatte können mehrere GND-Pins gefunden werden, sodass Sie möglicherweise denjenigen gefunden haben, der zu UART gehört oder auch nicht.
+* Um den **VCC-Port** zu identifizieren, stellen Sie den **Gleichspannungsmodus** ein und stellen Sie ihn auf 20 V Spannung ein. Schwarze Sonde an Masse und rote Sonde am Pin. Schalten Sie das Gerät ein. Wenn das Multimeter eine konstante Spannung von entweder 3,3 V oder 5 V misst, haben Sie den Vcc-Pin gefunden. Wenn Sie andere Spannungen erhalten, versuchen Sie es mit anderen Ports erneut.
+* Um den **TX-Port** zu identifizieren, **Gleichspannungsmodus** bis zu 20 V Spannung, schwarze Sonde an Masse und rote Sonde am Pin, und schalten Sie das Gerät ein. Wenn Sie feststellen, dass die Spannung einige Sekunden lang schwankt und dann auf den Vcc-Wert stabilisiert, haben Sie höchstwahrscheinlich den TX-Port gefunden. Dies liegt daran, dass beim Einschalten einige Debug-Daten gesendet werden.
+* Der **RX-Port** wäre der nächstgelegene zu den anderen 3, er hat die geringste Spannungsschwankung und den niedrigsten Gesamtwert aller UART-Pins.
 
 Sie können die TX- und RX-Ports verwechseln und es würde nichts passieren, aber wenn Sie den GND- und den VCC-Port verwechseln, könnten Sie die Schaltung zerstören.
 
-Mit einem Logikanalysator:
+In einigen Zielgeräten ist der UART-Port vom Hersteller deaktiviert, indem RX oder TX oder sogar beides deaktiviert werden. In diesem Fall kann es hilfreich sein, die Verbindungen auf der Leiterplatte nachzuverfolgen und einen Ausbruchpunkt zu finden. Ein deutlicher Hinweis darauf, dass keine Erkennung von UART und Unterbrechung des Stromkreises vorliegt, besteht darin, die Gerätegarantie zu überprüfen. Wenn das Gerät mit einer Garantie geliefert wurde, hat der Hersteller einige Debug-Schnittstellen (in diesem Fall UART) hinterlassen und daher den UART getrennt und würde ihn wieder anschließen, während er debuggt. Diese Ausbruchspins können durch Löten oder Jumperdrähte verbunden werden.
 
 ## Identifizierung der UART-Baudrate
 
-Der einfachste Weg, die richtige Baudrate zu identifizieren, besteht darin, sich die Ausgabe des **TX-Pins anzusehen und die Daten zu lesen**. Wenn die empfangenen Daten nicht lesbar sind, wechseln Sie zur nächsten möglichen Baudrate, bis die Daten lesbar werden. Hierfür können Sie einen USB-zu-Seriell-Adapter oder ein Mehrzweckgerät wie den Bus Pirate verwenden, zusammen mit einem Hilfsskript wie [baudrate.py](https://github.com/devttys0/baudrate/). Die häufigsten Baudraten sind 9600, 38400, 19200, 57600 und 115200.
+Der einfachste Weg, die richtige Baudrate zu identifizieren, besteht darin, sich die **Ausgabe des TX-Pins anzusehen und zu versuchen, die Daten zu lesen**. Wenn die empfangenen Daten nicht lesbar sind, wechseln Sie zur nächsten möglichen Baudrate, bis die Daten lesbar werden. Sie können hierfür einen USB-zu-Seriell-Adapter oder ein Mehrzweckgerät wie Bus Pirate verwenden, gepaart mit einem Hilfsskript wie [baudrate.py](https://github.com/devttys0/baudrate/). Die häufigsten Baudraten sind 9600, 38400, 19200, 57600 und 115200.
 
 {% hint style="danger" %}
-Es ist wichtig zu beachten, dass Sie in diesem Protokoll den TX eines Geräts mit dem RX des anderen verbinden müssen!
+Es ist wichtig zu beachten, dass in diesem Protokoll der TX eines Geräts mit dem RX des anderen verbunden werden muss!
 {% endhint %}
+
+# CP210X UART zu TTY-Adapter
+
+Der CP210X-Chip wird in vielen Prototyping-Boards wie NodeMCU (mit esp8266) für die serielle Kommunikation verwendet. Diese Adapter sind relativ kostengünstig und können verwendet werden, um eine Verbindung zur UART-Schnittstelle des Ziels herzustellen. Das Gerät hat 5 Pins: 5V, GND, RXD, TXD, 3.3V. Stellen Sie sicher, dass die Spannung entsprechend dem Ziel angeschlossen ist, um Schäden zu vermeiden. Verbinden Sie schließlich den RXD-Pin des Adapters mit dem TXD des Ziels und den TXD-Pin des Adapters mit dem RXD des Ziels.
+
+Falls der Adapter nicht erkannt wird, stellen Sie sicher, dass die CP210X-Treiber im Hostsystem installiert sind. Sobald der Adapter erkannt und verbunden ist, können Tools wie picocom, minicom oder screen verwendet werden.
+
+Um die an Linux/MacOS-Systeme angeschlossenen Geräte aufzulisten:
+```
+ls /dev/
+```
+Für die grundlegende Interaktion mit der UART-Schnittstelle verwenden Sie den folgenden Befehl:
+```
+picocom /dev/<adapter> --baud <baudrate>
+```
+Für minicom verwenden Sie den folgenden Befehl, um es zu konfigurieren:
+```
+minicom -s
+```
+Konfigurieren Sie die Einstellungen wie Baudrate und Gerätename in der Option `Serielles Anschluss-Setup`.
+
+Nach der Konfiguration verwenden Sie den Befehl `minicom`, um die UART-Konsole zu starten.
 
 # Bus Pirate
 
-In diesem Szenario werden wir die UART-Kommunikation des Arduino abhören, der alle Ausgaben des Programms an den Serial Monitor sendet.
+In diesem Szenario werden wir die UART-Kommunikation des Arduino abhören, der alle Ausgaben des Programms an den Seriellen Monitor sendet.
 ```bash
 # Check the modes
 UART>m
@@ -128,14 +150,14 @@ waiting a few secs to repeat....
 ```
 <details>
 
-<summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Erlernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
 
 </details>
