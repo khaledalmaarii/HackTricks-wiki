@@ -9,7 +9,7 @@ HackTricks'ı desteklemenin diğer yolları:
 * Şirketinizi HackTricks'te **reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
 * [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family)
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)'u **takip edin**.
 * **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna **PR göndererek** paylaşın.
 
 </details>
@@ -22,20 +22,23 @@ HackTricks'ı desteklemenin diğer yolları:
 ## Temel Bilgiler
 
 ### **MDM (Mobil Cihaz Yönetimi) Genel Bakışı**
-[Mobil Cihaz Yönetimi](https://en.wikipedia.org/wiki/Mobile_device_management) (MDM), akıllı telefonlar, dizüstü bilgisayarlar ve tabletler gibi çeşitli son kullanıcı cihazlarının yönetimi için kullanılır. Özellikle Apple platformları (iOS, macOS, tvOS) için, özel özellikler, API'ler ve uygulamalar içerir. MDM'nin işleyişi, ticari olarak temin edilebilen veya açık kaynaklı olan uyumlu bir MDM sunucusuna dayanır ve [MDM Protokolü](https://developer.apple.com/enterprise/documentation/MDM-Protocol-Reference.pdf)'nü desteklemelidir. Ana noktalar şunları içerir:
 
-- Cihazlar üzerinde merkezi kontrol.
-- MDM protokolüne uyumlu bir MDM sunucusuna bağımlılık.
-- MDM sunucusunun, uzaktan veri silme veya yapılandırma yükleme gibi çeşitli komutları cihazlara iletebilme yeteneği.
+[Mobil Cihaz Yönetimi](https://en.wikipedia.org/wiki/Mobile\_device\_management) (MDM), akıllı telefonlar, dizüstü bilgisayarlar ve tabletler gibi çeşitli son kullanıcı cihazlarının yönetimi için kullanılır. Özellikle Apple platformları (iOS, macOS, tvOS) için, özel özellikler, API'ler ve uygulamalar içerir. MDM'nin işleyişi, ticari olarak temin edilebilen veya açık kaynaklı olan uyumlu bir MDM sunucusuna dayanır ve [MDM Protokolü](https://developer.apple.com/enterprise/documentation/MDM-Protocol-Reference.pdf)'nü desteklemelidir. Ana noktalar şunları içerir:
+
+* Cihazlar üzerinde merkezi kontrol.
+* MDM protokolüne uyumlu bir MDM sunucusuna bağımlılık.
+* MDM sunucusunun, uzaktan veri silme veya yapılandırma yükleme gibi çeşitli komutları cihazlara iletebilme yeteneği.
 
 ### **DEP (Cihaz Kayıt Programı) Temelleri**
-Apple tarafından sunulan [Cihaz Kayıt Programı](https://www.apple.com/business/site/docs/DEP_Guide.pdf) (DEP), iOS, macOS ve tvOS cihazları için sıfır dokunuşlu yapılandırmayı kolaylaştırarak Mobil Cihaz Yönetimi (MDM) entegrasyonunu basitleştirir. DEP, cihazların kutudan çıkar çıkmaz, kullanıcı veya yönetici müdahalesiyle minimum düzeyde, operasyonel hale gelmesini otomatikleştirir. Temel noktalar şunları içerir:
 
-- Cihazların ilk etkinleştirme sırasında önceden tanımlanmış bir MDM sunucusuna otomatik olarak kaydolmasını sağlar.
-- Öncelikle yeni cihazlar için faydalıdır, ancak yeniden yapılandırma sürecinde olan cihazlar için de uygulanabilir.
-- Cihazların hızlı bir şekilde kuruluma hazır hale gelmesini sağlayan basit bir kurulumu kolaylaştırır.
+Apple tarafından sunulan [Cihaz Kayıt Programı](https://www.apple.com/business/site/docs/DEP\_Guide.pdf) (DEP), iOS, macOS ve tvOS cihazları için sıfır dokunuşlu yapılandırmayı kolaylaştırarak Mobil Cihaz Yönetimi (MDM) entegrasyonunu basitleştirir. DEP, cihazların kutudan çıkar çıkmaz, kullanıcı veya yönetici müdahalesiyle minimum düzeyde, operasyonel hale gelmesini otomatikleştirir. Temel noktalar şunları içerir:
+
+* Cihazların ilk etkinleştirme sırasında önceden tanımlanmış bir MDM sunucusuna otomatik olarak kaydolmasını sağlar.
+* Öncelikle yeni cihazlar için faydalıdır, ancak yeniden yapılandırma sürecinde olan cihazlar için de uygulanabilir.
+* Cihazların hızlı bir şekilde kuruluma hazır hale gelmesini sağlayan basit bir kurulumu kolaylaştırır.
 
 ### **Güvenlik Düşünceleri**
+
 DEP tarafından sağlanan kayıt kolaylığının, faydalı olmasının yanı sıra güvenlik riskleri de oluşturabileceği önemlidir. MDM kaydı için yeterli koruyucu önlemler uygulanmazsa, saldırganlar bu kolaylaştırılmış süreci kullanarak kuruluşun MDM sunucusuna kurumsal bir cihaz gibi kaydolabilirler.
 
 {% hint style="danger" %}
@@ -87,7 +90,8 @@ DEP tarafından sağlanan kayıt kolaylığının, faydalı olmasının yanı s�
 
 2010'dan sonra üretilen Apple cihazlarının genellikle **12 karakterli alfasayısal** seri numaraları vardır. İlk üç rakam üretim yeri, takip eden iki rakam üretim yılı ve haftasını, bir sonraki üç rakam benzersiz bir tanımlayıcıyı ve son dört rakam model numarasını temsil eder.
 
-{% content-ref url
+\{% content-ref url
+
 ### Adım 4: DEP kontrolü - Etkinleştirme Kaydını Alma
 
 Bu sürecin bir parçası, bir kullanıcının bir Mac'i ilk kez başlattığında (veya tam bir silme işleminden sonra) gerçekleşir.
@@ -106,16 +110,16 @@ veya `sudo profiles show -type enrollment` komutunu çalıştırdığında
 **`MCTeslaConfigurationFetcher`** tarafından gerçekleştirilen Etkinleştirme Kaydını almak için birkaç adım izlenir. Bu işlem **Absinthe** adı verilen bir şifreleme kullanır.
 
 1. **Sertifika** alınır
-1. [https://iprofiles.apple.com/resource/certificate.cer](https://iprofiles.apple.com/resource/certificate.cer) adresine GET isteği gönderilir
-2. Sertifikadan durum başlatılır (**`NACInit`**)
-1. Çeşitli cihaz özel verileri kullanılır (örneğin **`IOKit`** üzerinden Seri Numarası)
-3. **Oturum anahtarı** alınır
-1. [https://iprofiles.apple.com/session](https://iprofiles.apple.com/session) adresine POST isteği gönderilir
-4. Oturum kurulur (**`NACKeyEstablishment`**)
-5. İstek yapılır
-1. Veri `{ "action": "RequestProfileConfiguration", "sn": "" }` şeklinde [https://iprofiles.apple.com/macProfile](https://iprofiles.apple.com/macProfile) adresine POST isteği gönderilir
-2. JSON verisi Absinthe kullanılarak şifrelenir (**`NACSign`**)
-3. Tüm istekler HTTPS üzerinden yapılır ve yerleşik kök sertifikalar kullanılır
+2. [https://iprofiles.apple.com/resource/certificate.cer](https://iprofiles.apple.com/resource/certificate.cer) adresine GET isteği gönderilir
+3. Sertifikadan durum başlatılır (**`NACInit`**)
+4. Çeşitli cihaz özel verileri kullanılır (örneğin **`IOKit`** üzerinden Seri Numarası)
+5. **Oturum anahtarı** alınır
+6. [https://iprofiles.apple.com/session](https://iprofiles.apple.com/session) adresine POST isteği gönderilir
+7. Oturum kurulur (**`NACKeyEstablishment`**)
+8. İstek yapılır
+9. Veri `{ "action": "RequestProfileConfiguration", "sn": "" }` şeklinde [https://iprofiles.apple.com/macProfile](https://iprofiles.apple.com/macProfile) adresine POST isteği gönderilir
+10. JSON verisi Absinthe kullanılarak şifrelenir (**`NACSign`**)
+11. Tüm istekler HTTPS üzerinden yapılır ve yerleşik kök sertifikalar kullanılır
 
 ![](<../../../.gitbook/assets/image (566).png>)
 
@@ -137,7 +141,7 @@ Yanıt, aşağıdaki gibi bazı önemli veriler içeren bir JSON sözlüğüdür
 * Cihaz kimlik sertifikası (APNS'den) kullanılarak imzalanmıştır
 * **Sertifika zinciri**, süresi dolmuş **Apple iPhone Device CA** içerir
 
-![](<../../../.gitbook/assets/image (567) (1) (2) (2) (2) (2) (2) (2) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (7).png>)
+![](https://github.com/carlospolop/hacktricks/blob/tr/.gitbook/assets/image%20\(567\)%20\(1\)%20\(2\)%20\(2\)%20\(2\)%20\(2\)%20\(2\)%20\(2\)%20\(2\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(7\).png)
 
 ### Adım 6: Profil Kurulumu
 
@@ -176,12 +180,7 @@ Genellikle, bir MDM satıcısı tarafından sağlanan **etkinleştirme profili**
 
 ### **Adım 7: MDM komutlarını dinleme**
 
-MDM check-in tamamlandıktan sonra, satıcı APNs kullanarak **bildirimler gönderebilir**
-Alındığında, **`mdmclient`** tarafından işlenir
-MDM komutlarını sorgulamak için istek **ServerURL** adresine gönderilir
-Daha önceden kurulan MDM yükü kullanılır:
-İstek için **`ServerURLPinningCertificateUUIDs`** sabitleme için
-TLS istemci sertifikası için **`IdentityCertificateUUID`** kullanılır
+MDM check-in tamamlandıktan sonra, satıcı APNs kullanarak **bildirimler gönderebilir** Alındığında, **`mdmclient`** tarafından işlenir MDM komutlarını sorgulamak için istek **ServerURL** adresine gönderilir Daha önceden kurulan MDM yükü kullanılır: İstek için **`ServerURLPinningCertificateUUIDs`** sabitleme için TLS istemci sertifikası için **`IdentityCertificateUUID`** kullanılır
 
 ## Saldırılar
 
@@ -194,11 +193,12 @@ Bu nedenle, kayıt süreci doğru şekilde korunmazsa, bu saldırganlar için te
 [enrolling-devices-in-other-organisations.md](enrolling-devices-in-other-organisations.md)
 {% endcontent-ref %}
 
-
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahraman olmak için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile öğrenin!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman olmak için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a> <strong>ile öğrenin!</strong></summary>
 
 HackTricks'i desteklemenin diğer yolları:
 
 * Şirketinizi HackTricks't
+
+</details>

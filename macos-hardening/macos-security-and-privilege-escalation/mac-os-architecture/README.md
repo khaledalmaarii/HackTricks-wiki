@@ -1,8 +1,8 @@
-# macOS Çekirdek ve Sistem Uzantıları
+# macOS Kernel & System Extensions
 
 <details>
 
-<summary><strong>AWS hackleme konusunda sıfırdan kahraman olmaya kadar öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile!</strong></summary>
+<summary><strong>AWS hackleme konusunda sıfırdan kahraman olmaya kadar öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a> <strong>ile!</strong></summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
@@ -53,8 +53,8 @@ I/O Kit, XNU çekirdeğindeki açık kaynaklı, nesne yönelimli bir **cihaz sü
 
 ### IPC - Süreçler Arası İletişim
 
-{% content-ref url="macos-ipc-inter-process-communication/" %}
-[macos-ipc-inter-process-communication](macos-ipc-inter-process-communication/)
+{% content-ref url="../macos-proces-abuse/macos-ipc-inter-process-communication/" %}
+[macos-ipc-inter-process-communication](../macos-proces-abuse/macos-ipc-inter-process-communication/)
 {% endcontent-ref %}
 
 ### Kernelcache
@@ -83,6 +83,7 @@ Genellikle aşağıdaki bileşenlerden oluşur:
 * İSTEĞE BAĞLI: Genellikle bulunmaz
 
 Çekirdekcache'i açmak için:
+
 ```bash
 # pyimg4 (https://github.com/m1stadev/PyIMG4)
 pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
@@ -90,6 +91,7 @@ pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphon
 # img4tool (https://github.com/tihmstar/img4tool
 img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
 ```
+
 #### Kernelcache Sembolleri
 
 Bazen Apple, **sembolleri** içeren **kernelcache** yayınlıyor. Bazı sembollerle birlikte firmware'leri [https://theapplewiki.com](https://theapplewiki.com/) adresinden indirebilirsiniz.
@@ -110,12 +112,15 @@ pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphon
 {% endcode %}
 
 * [**img4tool**](https://github.com/tihmstar/img4tool)
+
 ```bash
 img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
 ```
+
 **`nm -a kernelcache.release.iphone14.e | wc -l`** komutunu kullanarak çıkarılan kernelcache için sembolleri kontrol edebilirsiniz.
 
 Bununla birlikte şimdi **tüm uzantıları** veya **ilgilendiğiniz uzantıyı** çıkarabiliriz:
+
 ```bash
 # List all extensions
 kextex -l kernelcache.release.iphone14.e
@@ -128,6 +133,7 @@ kextex_all kernelcache.release.iphone14.e
 # Check the extension for symbols
 nm -a binaries/com.apple.security.sandbox | wc -l
 ```
+
 ## macOS Kernel Uzantıları
 
 macOS, **yüksek ayrıcalıklarla çalışacak olan kodlar nedeniyle Kernel Uzantılarını** (.kext) yüklemeyi oldukça kısıtlayıcıdır. Aslında, varsayılan olarak neredeyse imkansızdır (bir bypass bulunmadıkça).
@@ -158,7 +164,7 @@ HackTricks'ı desteklemenin diğer yolları:
 * **Şirketinizi HackTricks'te reklamınızı görmek veya HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
 * [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi Twitter'da** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **💬** [**Discord grubuna**](https://discord.gg/hRep4RUj7f) **veya** [**telegram grubuna**](https://t.me/peass) **katılın veya bizi Twitter'da** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)\*\* takip edin.\*\*
 * **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>

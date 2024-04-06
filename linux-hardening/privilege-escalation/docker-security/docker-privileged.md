@@ -7,8 +7,8 @@
 * Bir **cybersecurity şirketinde** çalışıyor musunuz? **Şirketinizi HackTricks'te reklamını görmek** ister misiniz? veya **PEASS'ın en son sürümüne veya HackTricks'i PDF olarak indirmek** ister misiniz? [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
 * [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family), özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
-* **Hacking hilelerinizi [hacktricks repo](https://github.com/carlospolop/hacktricks) ve [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)'ya PR göndererek paylaşın**.
+* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)'u **takip edin**.
+* **Hacking hilelerinizi** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **ve** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud)**'ya PR göndererek paylaşın**.
 
 </details>
 
@@ -21,13 +21,15 @@ Bir ayrıcalıklı konteyner çalıştırdığınızda devre dışı bıraktığ
 Ayrıcalıklı bir konteynerde, **tüm cihazlara `/dev/` üzerinden erişilebilir**. Bu nedenle, ana bilgisayarın diski **bağlayarak** kaçabilirsiniz.
 
 {% tabs %}
-{% tab title="Varsayılan konteyner içinde" %}
+{% tab title="undefined" %}
 ```bash
 # docker run --rm -it alpine sh
 ls /dev
 console  fd       mqueue   ptmx     random   stderr   stdout   urandom
 core     full     null     pts      shm      stdin    tty      zero
 ```
+{% endtab %}
+
 {% tab title="Ayrıcalıklı Konteyner İçinde" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
@@ -44,6 +46,7 @@ cpu              nbd0             pts              stdout           tty27       
 ### Salt Okunur Çekirdek Dosya Sistemleri
 
 Çekirdek dosya sistemleri, bir işlemin çekirdeğin davranışını değiştirmesini sağlayan bir mekanizma sağlar. Bununla birlikte, konteyner işlemleri için, çekirdeğe herhangi bir değişiklik yapmalarını önlemek istiyoruz. Bu nedenle, konteyner içindeki çekirdek dosya sistemlerini **salt okunur** olarak bağlarız, böylece konteyner işlemleri çekirdeği değiştiremez.
+
 ```bash
 # docker run --rm -it alpine sh
 mount | grep '(ro'
@@ -52,13 +55,11 @@ cpuset on /sys/fs/cgroup/cpuset type cgroup (ro,nosuid,nodev,noexec,relatime,cpu
 cpu on /sys/fs/cgroup/cpu type cgroup (ro,nosuid,nodev,noexec,relatime,cpu)
 cpuacct on /sys/fs/cgroup/cpuacct type cgroup (ro,nosuid,nodev,noexec,relatime,cpuacct)
 ```
-{% tab title="Ayrıcalıklı Konteyner İçinde" %}
+
 ```bash
 # docker run --rm --privileged -it alpine sh
 mount  | grep '(ro'
 ```
-{% endtab %}
-{% endtabs %}
 
 ### Çekirdek dosya sistemlerinin üzerine maskeleme
 
@@ -69,7 +70,7 @@ mount  | grep '(ro'
 {% endhint %}
 
 {% tabs %}
-{% tab title="Varsayılan konteyner içinde" %}
+{% tab title="undefined" %}
 ```bash
 # docker run --rm -it alpine sh
 mount  | grep /proc.*tmpfs
@@ -77,6 +78,8 @@ tmpfs on /proc/acpi type tmpfs (ro,relatime)
 tmpfs on /proc/kcore type tmpfs (rw,nosuid,size=65536k,mode=755)
 tmpfs on /proc/keys type tmpfs (rw,nosuid,size=65536k,mode=755)
 ```
+{% endtab %}
+
 {% tab title="Ayrıcalıklı Konteyner İçinde" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
@@ -94,7 +97,7 @@ Konteyner motorları, konteynerleri varsayılan olarak içeride ne olduğunu kon
 {% endcontent-ref %}
 
 {% tabs %}
-{% tab title="Varsayılan konteyner içinde" %}
+{% tab title="undefined" %}
 ```bash
 # docker run --rm -it alpine sh
 apk add -U libcap; capsh --print
@@ -103,6 +106,8 @@ Current: cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,ca
 Bounding set =cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap
 [...]
 ```
+{% endtab %}
+
 {% tab title="Ayrıcalıklı Konteyner İçinde" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
@@ -117,11 +122,11 @@ Bounding set =cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fset
 
 `--cap-add` allows you to add specific capabilities to a container, while `--cap-drop` allows you to drop specific capabilities. Here are some commonly used capabilities:
 
-- `SYS_ADMIN`: Allows various system administration tasks.
-- `SYS_PTRACE`: Allows tracing and debugging of processes.
-- `NET_ADMIN`: Allows network administration tasks.
-- `SYS_MODULE`: Allows loading and unloading kernel modules.
-- `SYS_RAWIO`: Allows direct access to raw I/O ports.
+* `SYS_ADMIN`: Allows various system administration tasks.
+* `SYS_PTRACE`: Allows tracing and debugging of processes.
+* `NET_ADMIN`: Allows network administration tasks.
+* `SYS_MODULE`: Allows loading and unloading kernel modules.
+* `SYS_RAWIO`: Allows direct access to raw I/O ports.
 
 To add or drop capabilities, use the following syntax:
 
@@ -143,25 +148,26 @@ docker run --cap-drop=SYS_PTRACE <image>
 ```
 
 By manipulating the capabilities of a container, you can fine-tune its permissions and restrict its access to certain system resources. This can help improve the security of your Docker environment.
+
 ```bash
 # docker run --rm -it alpine sh
 grep Seccomp /proc/1/status
 Seccomp:	2
 Seccomp_filters:	1
 ```
-{% tab title="Ayrıcalıklı Konteyner İçinde" %}
+
 ```bash
 # docker run --rm --privileged -it alpine sh
 grep Seccomp /proc/1/status
 Seccomp:	0
 Seccomp_filters:	0
 ```
-{% endtab %}
-{% endtabs %}
+
 ```bash
 # You can manually disable seccomp in docker with
 --security-opt seccomp=unconfined
 ```
+
 Ayrıca, Docker (veya diğer CRIs) bir Kubernetes kümesinde kullanıldığında, seccomp filtresi varsayılan olarak devre dışı bırakılır.
 
 ### AppArmor
@@ -171,10 +177,12 @@ Ayrıca, Docker (veya diğer CRIs) bir Kubernetes kümesinde kullanıldığında
 {% content-ref url="apparmor.md" %}
 [apparmor.md](apparmor.md)
 {% endcontent-ref %}
+
 ```bash
 # You can manually disable seccomp in docker with
 --security-opt apparmor=unconfined
 ```
+
 ### SELinux
 
 `--privileged` bayrağıyla bir konteyner çalıştırmak, **SELinux etiketlerini devre dışı bırakır** ve genellikle `unconfined` olan konteyner motorunun etiketini devralarak tam erişim sağlar. Köksüz modda `container_runtime_t` kullanılırken, kök modunda `spc_t` uygulanır.
@@ -182,10 +190,12 @@ Ayrıca, Docker (veya diğer CRIs) bir Kubernetes kümesinde kullanıldığında
 {% content-ref url="../selinux.md" %}
 [selinux.md](../selinux.md)
 {% endcontent-ref %}
+
 ```bash
 # You can manually disable selinux in docker with
 --security-opt label:disable
 ```
+
 ## Hangi Durumları Etkilemez
 
 ### Ad alanları (Namespaces)
@@ -231,7 +241,7 @@ PID   USER     TIME  COMMAND
 * **Bir siber güvenlik şirketinde mi çalışıyorsunuz**? **Şirketinizi HackTricks'te reklamını yapmak** ister misiniz? veya **PEASS'ın en son sürümüne erişmek veya HackTricks'i PDF olarak indirmek** ister misiniz? [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
 * [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzdaki özel [**NFT'leri**](https://opensea.io/collection/the-peass-family) keşfedin
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* **[💬](https://emojipedia.org/speech-balloon/) Discord grubuna** katılın veya [**telegram grubuna**](https://t.me/peass) katılın veya **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**'u takip edin**.
-* **Hacking hilelerinizi [hacktricks repo](https://github.com/carlospolop/hacktricks) ve [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)'ya PR göndererek paylaşın**.
+* [**💬**](https://emojipedia.org/speech-balloon/) **Discord grubuna** katılın veya [**telegram grubuna**](https://t.me/peass) katılın veya **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**'u takip edin**.
+* **Hacking hilelerinizi** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **ve** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud)**'ya PR göndererek paylaşın**.
 
 </details>

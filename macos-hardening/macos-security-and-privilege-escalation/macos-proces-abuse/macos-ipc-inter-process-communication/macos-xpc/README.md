@@ -1,20 +1,22 @@
 # macOS XPC
 
+## macOS XPC
+
 <details>
 
-<summary><strong>AWS hackleme becerilerini sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile!</strong></summary>
+<summary><strong>AWS hackleme becerilerini sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a> <strong>ile!</strong></summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
 * Şirketinizi HackTricks'te **reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
 * [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)'u **takip edin**.
 * **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek** paylaşın.
 
 </details>
 
-## Temel Bilgiler
+### Temel Bilgiler
 
 XPC, macOS ve iOS üzerindeki işlemler arası iletişim anlamına gelen XNU (macOS tarafından kullanılan çekirdek) İşlem İletişimi'nin kısaltmasıdır. XPC, sistemdeki farklı işlemler arasında **güvenli, asenkron yöntem çağrıları yapma** mekanizması sağlar. Bu, Apple'ın güvenlik paradigmasının bir parçası olup, her **bileşenin** yalnızca işini yapmak için gereken **izinlere sahip olduğu** ayrıcalıklı uygulamaların oluşturulmasına olanak tanır ve bu şekilde bir sürecin tehlikeye girmesinden kaynaklanabilecek potansiyel zararı sınırlar.
 
@@ -28,7 +30,7 @@ XPC'nin temel faydaları şunlardır:
 
 Tek **dezavantaj**, bir uygulamayı birkaç sürece ayırarak bunları XPC aracılığıyla iletişim kurmalarını sağlamaktır ve bu daha az verimli olabilir. Ancak günümüz sistemlerinde bunun neredeyse fark edilmez olduğu ve faydaların daha iyi olduğu söylenebilir.
 
-## Uygulama Özel XPC Hizmetleri
+### Uygulama Özel XPC Hizmetleri
 
 Bir uygulamanın XPC bileşenleri, **uygulamanın kendisi içindedir**. Örneğin, Safari'de bunları **`/Applications/Safari.app/Contents/XPCServices`** dizininde bulabilirsiniz. Bunlar **`.xpc`** uzantısına sahiptir (örneğin **`com.apple.Safari.SandboxBroker.xpc`**) ve ana ikili dosyanın içinde de bir paket olarak bulunur: `/Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/MacOS/com.apple.Safari.SandboxBroker` ve bir `Info.plist: /Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/Info.plist`
 
@@ -36,11 +38,12 @@ Bir XPC bileşeninin diğer XPC bileşenlerinden veya ana uygulama ikili dosyas�
 
 XPC hizmetleri, gerektiğinde **launchd** tarafından **başlatılır** ve tüm görevler tamamlandığında sistem kaynaklarını serbest bırakmak için **kapatılır**. **Uygulama özel XPC bileşenleri yalnızca uygulama tarafından kullanılabilir**, bu da potansiyel güvenlik açıklarına ilişkin riski azaltır.
 
-## Sistem Genelindeki XPC Hizmetleri
+### Sistem Genelindeki XPC Hizmetleri
 
 Sistem genelindeki XPC hizmetleri tüm kullanıcılara erişilebilir. Bu hizmetler, launchd veya Mach türünde olabilir ve **`/System/Library/LaunchDaemons`**, **`/Library/LaunchDaemons`**, **`/System/Library/LaunchAgents`** veya **`/Library/LaunchAgents`** gibi belirli dizinlerde bulunan plist dosyalarında **tanımlanması** gerekmektedir.
 
 Bu plist dosyalarında, hizmetin adını içeren **`MachServices`** adında bir anahtar ve ikili dosyanın yolunu içeren **`Program`** adında bir anahtar bulunur:
+
 ```xml
 cat /Library/LaunchDaemons/com.jamf.management.daemon.plist
 
@@ -74,13 +77,14 @@ cat /Library/LaunchDaemons/com.jamf.management.daemon.plist
 </dict>
 </plist>
 ```
+
 **`LaunchDameons`** içindekiler root tarafından çalıştırılır. Bu nedenle, bir yetkisiz işlem bunlardan biriyle iletişim kurabilirse, ayrıcalıkları yükseltebilir.
 
-## XPC Olay Mesajları
+### XPC Olay Mesajları
 
 Uygulamalar, farklı olay mesajlarına **abone olabilir** ve böyle olaylar gerçekleştiğinde **istenildiği zaman başlatılabilir**. Bu hizmetlerin kurulumu, **önceki dosyalarla aynı dizinlerde bulunan** ve ek bir **`LaunchEvent`** anahtarını içeren **l**aunchd plist dosyalarında yapılır.
 
-### XPC Bağlantı Süreci Kontrolü
+#### XPC Bağlantı Süreci Kontrolü
 
 Bir işlem, bir XPC bağlantısı aracılığıyla bir yöntemi çağırmaya çalıştığında, **XPC hizmeti bu işlemin bağlanmasına izin verip vermediğini kontrol etmelidir**. İşte bunu kontrol etmek için yaygın kullanılan yöntemler ve yaygın hatalar:
 
@@ -88,7 +92,7 @@ Bir işlem, bir XPC bağlantısı aracılığıyla bir yöntemi çağırmaya ça
 [macos-xpc-connecting-process-check](macos-xpc-connecting-process-check/)
 {% endcontent-ref %}
 
-## XPC Yetkilendirme
+### XPC Yetkilendirme
 
 Apple, uygulamaların **bazı hakları yapılandırmasına ve nasıl elde edileceğine** izin verir, böylece çağrılan işlem bu haklara sahipse XPC hizmetinden bir yöntemi **çağırmasına izin verilir**:
 
@@ -96,9 +100,10 @@ Apple, uygulamaların **bazı hakları yapılandırmasına ve nasıl elde edilec
 [macos-xpc-authorization.md](macos-xpc-authorization.md)
 {% endcontent-ref %}
 
-## XPC Sniffer
+### XPC Sniffer
 
 XPC mesajlarını dinlemek için [**xpcspy**](https://github.com/hot3eed/xpcspy) kullanabilirsiniz, bu da **Frida** kullanır.
+
 ```bash
 # Install
 pip3 install xpcspy
@@ -109,10 +114,11 @@ xpcspy -U -r -W <bundle-id>
 ## Using filters (i: for input, o: for output)
 xpcspy -U <prog-name> -t 'i:com.apple.*' -t 'o:com.apple.*' -r
 ```
-## XPC İletişimi C Kodu Örneği
+
+### XPC İletişimi C Kodu Örneği
 
 {% tabs %}
-{% tab title="xpc_server.c" %}
+{% tab title="undefined" %}
 ```c
 // gcc xpc_server.c -o xpc_server
 
@@ -166,7 +172,9 @@ dispatch_main();
 return 0;
 }
 ```
-{% tab title="xpc_client.c" %}
+{% endtab %}
+
+{% tab title="undefined" %}
 ```c
 // gcc xpc_client.c -o xpc_client
 
@@ -195,11 +203,15 @@ dispatch_main();
 return 0;
 }
 ```
-{% tab title="xyz.hacktricks.service.plist" %}xyz.hacktricks.service.plist dosyası, macOS'ta XPC hizmetlerini başlatmak için kullanılan bir örnek bir property list dosyasıdır. Bu dosya, bir XPC hizmetinin nasıl başlatılacağını ve hangi işlevleri yerine getireceğini tanımlar.
+{% endtab %}
+
+{% tab title="xyz.hacktricks.service.plist" %}
+xyz.hacktricks.service.plist dosyası, macOS'ta XPC hizmetlerini başlatmak için kullanılan bir örnek bir property list dosyasıdır. Bu dosya, bir XPC hizmetinin nasıl başlatılacağını ve hangi işlevleri yerine getireceğini tanımlar.
 
 Bu plist dosyasında, `Label` anahtarı, hizmetin benzersiz bir kimlik etiketi olarak kullanılacak bir dizedir. `MachServices` anahtarı, hizmetin hangi Mach servislerine erişebileceğini belirtir. `ProgramArguments` anahtarı, hizmetin çalıştırılacak uygulamanın yolu ve argümanlarını içerir.
 
 Bu plist dosyasını kullanarak, bir XPC hizmetini başlatabilir ve hizmetin sağladığı işlevleri kullanabilirsiniz. Bu, macOS'ta inter-process iletişimi sağlamak ve hizmetler arasında veri paylaşımını kolaylaştırmak için yaygın olarak kullanılan bir yöntemdir.
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
@@ -222,6 +234,7 @@ Bu plist dosyasını kullanarak, bir XPC hizmetini başlatabilir ve hizmetin sa�
 ```
 {% endtab %}
 {% endtabs %}
+
 ```bash
 # Compile the server & client
 gcc xpc_server.c -o xpc_server
@@ -241,10 +254,11 @@ sudo launchctl load /Library/LaunchDaemons/xyz.hacktricks.service.plist
 sudo launchctl unload /Library/LaunchDaemons/xyz.hacktricks.service.plist
 sudo rm /Library/LaunchDaemons/xyz.hacktricks.service.plist /tmp/xpc_server
 ```
-## XPC İletişimi Objective-C Kod Örneği
+
+### XPC İletişimi Objective-C Kod Örneği
 
 {% tabs %}
-{% tab title="oc_xpc_server.m" %}
+{% tab title="undefined" %}
 ```objectivec
 // gcc -framework Foundation oc_xpc_server.m -o oc_xpc_server
 #include <Foundation/Foundation.h>
@@ -294,7 +308,10 @@ listener.delegate = delegate;
 sleep(10); // Fake something is done and then it ends
 }
 ```
-{% tab title="oc_xpc_client.m" %}oc_xpc_client.m dosyası
+{% endtab %}
+
+{% tab title="oc_xpc_client.m" %}
+oc\_xpc\_client.m dosyası
 
 ```objective-c
 #import <Foundation/Foundation.h>
@@ -327,6 +344,7 @@ Bu örneği derlemek ve çalıştırmak için aşağıdaki adımları izleyebili
 2. Projenizi derleyin ve çalıştırın.
 
 Bu örnek, XPC istemcisi oluşturmanın temel bir örneğini sunmaktadır. Daha fazla özellik eklemek veya farklı bir XPC servisiyle iletişim kurmak için kodu özelleştirebilirsiniz.
+
 ```objectivec
 // gcc -framework Foundation oc_xpc_client.m -o oc_xpc_client
 #include <Foundation/Foundation.h>
@@ -349,7 +367,6 @@ NSLog(@"Received response: %@", response);
 return 0;
 }
 ```
-{% tab title="xyz.hacktricks.svcoc.plist" %}
 
 Bu dosya, macOS'ta XPC hizmetlerini başlatmak için kullanılan bir örnek bir önyükleme ajanıdır. XPC, farklı süreçler arasında iletişim kurmak için kullanılan bir IPC (Inter-Process Communication) mekanizmasıdır. Bu plist dosyası, bir XPC hizmetini başlatmak için gerekli olan yapılandırmayı içerir.
 
@@ -359,7 +376,6 @@ Bu plist dosyasını kullanarak, hedeflenen bir XPC hizmetini kötüye kullanabi
 
 Bu dosyanın kullanımıyla ilgili daha fazla bilgi için, macOS XPC hizmetlerini kötüye kullanma konusundaki ilgili bölüme bakabilirsiniz.
 
-{% endtab %}
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
@@ -382,25 +398,26 @@ Bu dosyanın kullanımıyla ilgili daha fazla bilgi için, macOS XPC hizmetlerin
 ```
 {% endtab %}
 {% endtabs %}
-```bash
-# Compile the server & client
-gcc -framework Foundation oc_xpc_server.m -o oc_xpc_server
-gcc -framework Foundation oc_xpc_client.m -o oc_xpc_client
 
-# Save server on it's location
-cp oc_xpc_server /tmp
+\`\`\`bash # Compile the server & client gcc -framework Foundation oc\_xpc\_server.m -o oc\_xpc\_server gcc -framework Foundation oc\_xpc\_client.m -o oc\_xpc\_client
 
-# Load daemon
-sudo cp xyz.hacktricks.svcoc.plist /Library/LaunchDaemons
-sudo launchctl load /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist
+## Save server on it's location
 
-# Call client
-./oc_xpc_client
+cp oc\_xpc\_server /tmp
 
-# Clean
-sudo launchctl unload /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist
-sudo rm /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist /tmp/oc_xpc_server
-```
+## Load daemon
+
+sudo cp xyz.hacktricks.svcoc.plist /Library/LaunchDaemons sudo launchctl load /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist
+
+## Call client
+
+./oc\_xpc\_client
+
+## Clean
+
+sudo launchctl unload /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist sudo rm /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist /tmp/oc\_xpc\_server
+
+````
 ## Dylb kodu içindeki İstemci
 
 Bu bölümde, Dylb kodu içindeki istemci hakkında bilgi verilecektir.
@@ -446,7 +463,8 @@ NSLog(@"Done!");
 
 return;
 }
-```
+````
+
 <details>
 
 <summary><strong>AWS hackleme becerilerini sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
@@ -456,7 +474,7 @@ HackTricks'ı desteklemenin diğer yolları:
 * **Şirketinizi HackTricks'te reklamını görmek isterseniz** veya **HackTricks'i PDF olarak indirmek isterseniz** [**ABONELİK PLANLARINA**](https://github.com/sponsors/carlospolop) göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
 * [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'ı takip edin**.
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**'ı takip edin**.
 * **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
 
 </details>

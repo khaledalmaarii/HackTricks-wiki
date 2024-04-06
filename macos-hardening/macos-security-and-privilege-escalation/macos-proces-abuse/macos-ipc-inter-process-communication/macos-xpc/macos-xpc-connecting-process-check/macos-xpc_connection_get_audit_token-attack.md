@@ -1,15 +1,15 @@
-# macOS xpc\_connection\_get\_audit\_token Saldırısı
+# macOS xpc\_connection\_get\_audit\_token Attack
 
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan ileri seviyeye öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile</strong>!</summary>
+<summary><strong>AWS hacklemeyi sıfırdan ileri seviyeye öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a> <strong>ile</strong>!</summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
 * **Şirketinizi HackTricks'te reklamınızı görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
 * [**The PEASS Family'yi**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin**.
+* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)\*\* takip edin\*\*.
 * **Hacking püf noktalarınızı göndererek HackTricks ve HackTricks Cloud** github depolarına PR'lar göndererek **paylaşın**.
 
 </details>
@@ -20,8 +20,8 @@ HackTricks'ı desteklemenin diğer yolları:
 
 Mach Mesajlarının ne olduğunu bilmiyorsanız, bu sayfaya bakmaya başlayın:
 
-{% content-ref url="../../../../mac-os-architecture/macos-ipc-inter-process-communication/" %}
-[macos-ipc-inter-process-communication](../../../../mac-os-architecture/macos-ipc-inter-process-communication/)
+{% content-ref url="../../" %}
+[..](../../)
 {% endcontent-ref %}
 
 Şu anda hatırlamanız gereken şey ([buradan tanım](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing)):\
@@ -51,6 +51,7 @@ Bilmeniz gereken ilginç şey şudur ki **XPC'nin soyutlaması birbirine bağlı
 Bu, sömürülebilecek iki farklı yöntemdir:
 
 1. Varyant1:
+
 * **Sömürü**, hizmet **A** ve hizmet **B'ye bağlanır**
 * Hizmet **B**, kullanıcının yapamayacağı bir **özel işlevi** hizmet **A'da** çağırabilir
 * Hizmet **A**, bir **`dispatch_async`** içinde olmadan **`xpc_connection_get_audit_token`** çağırırken **denetim belirteci**ni alır.
@@ -58,7 +59,9 @@ Bu, sömürülebilecek iki farklı yöntemdir:
 * Sömürü, **hizmet A'ya SEND hakkını hizmet B'ye geçirir**.
 * Bu nedenle svc **B**, mesajları aslında hizmet **A'ya gönderir**.
 * **Sömürü**, **özel eylemi çağırmaya çalışır**. Bir RC svc **A**, bu **eylemin yetkilendirmesini kontrol ederken svc B Denetim belirtecini üzerine yazdı** (sömürünün özel eylemi çağırma erişimine sahip olmasını sağlar).
+
 2. Varyant 2:
+
 * Hizmet **B**, kullanıcının yapamayacağı bir **özel işlevi** hizmet **A'da** çağırabilir
 * Sömürü, **hizmet A'ya bağlanır** ve hizmetten belirli bir **yanıt bekleyen bir mesaj** gönderir.
 * Sömürü, **hizmet** B'ye **bu yanıt bağlantısını** geçen bir mesaj gönderir.
@@ -71,7 +74,7 @@ Senaryo:
 * Bağlanabileceğimiz iki mach hizmeti **`A`** ve **`B`** (kum havuzu profili ve bağlantıyı kabul etmeden önce yetkilendirme denetimlerine dayalı).
 * _**A**_, **`B`**'nin geçebileceği belirli bir eylem için bir **yetkilendirme denetimi** olmalı (ancak uygulamamız yapamaz).
 * Örneğin, B bazı **ayrıcalıklara** sahipse veya **root** olarak çalışıyorsa, A'dan ayrıcalıklı bir eylemi gerçekleştirmesine izin verebilir.
-* Bu yetkilendirme denetimi için **`A`**, örneğin `dispatch_async`'den **xpc_connection_get_audit_token** çağırarak denetim belirteci alır.
+* Bu yetkilendirme denetimi için **`A`**, örneğin `dispatch_async`'den **xpc\_connection\_get\_audit\_token** çağırarak denetim belirteci alır.
 
 {% hint style="danger" %}
 Bu durumda bir saldırgan, **A'dan bir eylem gerçekleştirmesini isteyen bir sömürü** oluşturabilirken **B'nin A'ya mesaj göndermesini sağlayan bir Yarış Koşulu** tetikleyebilir. RC başarılı olduğunda, **B'nin denetim belirteci** hafızada **kopyalanırken**, **sömürünün** isteği **A tarafından işlenirken**, ayrıcalıklı eyleme **yalnızca B'nin isteyebileceği erişim verilir**.
@@ -87,9 +90,7 @@ Saldırıyı gerçekleştirmek için:
 2. `diagnosticd`'ye ikincil bir **bağlantı** oluşturun. Normal prosedürün aksine, iki yeni mach port oluşturmak ve göndermek yerine, istemci portu gönderme hakkı, `smd` bağlantısıyla ilişkilendirilen **gönderme hakkının bir kopyası ile değiştirilir**.
 3. Sonuç olarak, XPC mesajları `diagnosticd`'ye gönderilebilir, ancak `diagnosticd`'den gelen yanıtlar `smd'ye` yönlendirilir. `smd` için, kullanıcı ve `diagnosticd`'den gelen mesajların aynı bağlantıdan geldiği görünmektedir.
 
-![Sömürü sürecini tasvir eden resim](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/exploit.png)
-4. Sonraki adım, `diagnosticd`'ye seçilen bir süreci (muhtemelen kullanıcının kendi sürecini) izlemesini talimatlandırmayı içerir. Aynı anda, rutin 1004 mesajlarının `smd`'ye gönderilmesi sağlanır. Buradaki amaç, ayrıcalıklı izinlere sahip bir aracı yüklemektir.
-5. Bu eylem, `handle_bless` işlevi içinde bir yarış koşulu tetikler. Zamanlama kritiktir: `xpc_connection_get_pid` işlevi çağrısının kullanıcının sürecinin PID'sini döndürmesi gerekir (çünkü ayrıcalıklı araç kullanıcının uygulama paketinde bulunur). Ancak, `xpc_connection_get_audit_token` işlevi, özellikle `connection_is_authorized` alt rutini içinde, `diagnosticd`'ye ait olan denetim belgesine başvurmalıdır.
+![Sömürü sürecini tasvir eden resim](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/exploit.png) 4. Sonraki adım, `diagnosticd`'ye seçilen bir süreci (muhtemelen kullanıcının kendi sürecini) izlemesini talimatlandırmayı içerir. Aynı anda, rutin 1004 mesajlarının `smd`'ye gönderilmesi sağlanır. Buradaki amaç, ayrıcalıklı izinlere sahip bir aracı yüklemektir. 5. Bu eylem, `handle_bless` işlevi içinde bir yarış koşulu tetikler. Zamanlama kritiktir: `xpc_connection_get_pid` işlevi çağrısının kullanıcının sürecinin PID'sini döndürmesi gerekir (çünkü ayrıcalıklı araç kullanıcının uygulama paketinde bulunur). Ancak, `xpc_connection_get_audit_token` işlevi, özellikle `connection_is_authorized` alt rutini içinde, `diagnosticd`'ye ait olan denetim belgesine başvurmalıdır.
 
 ## Varyant 2: yanıt yönlendirme
 
@@ -115,7 +116,7 @@ Sömürü süreci aşağıdaki adımları içerir:
 
 Aşağıda açıklanan saldırı senaryosunun görsel temsili bulunmaktadır:
 
-![https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/variant2.png](../../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png)
+!\[https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/variant2.png]\(../../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png)
 
 <figure><img src="../../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/variant2.png" width="563"><figcaption></figcaption></figure>
 

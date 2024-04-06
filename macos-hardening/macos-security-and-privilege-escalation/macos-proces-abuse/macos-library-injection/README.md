@@ -1,15 +1,15 @@
-# macOS Kütüphane Enjeksiyonu
+# macOS Library Injection
 
 <details>
 
-<summary><strong>AWS hackleme becerilerini sıfırdan ileri seviyeye öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile</strong>!</summary>
+<summary><strong>AWS hackleme becerilerini sıfırdan ileri seviyeye öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a> <strong>ile</strong>!</summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
 * Şirketinizi HackTricks'te **reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
 * [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzdaki özel [**NFT'leri**](https://opensea.io/collection/the-peass-family) keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)'u **takip edin**.
 * Hacking hilelerinizi göndererek HackTricks ve HackTricks Cloud github depolarına **PR göndererek** hilelerinizi paylaşın.
 
 </details>
@@ -20,12 +20,12 @@ HackTricks'ı desteklemenin diğer yolları:
 
 ## **DYLD\_INSERT\_LIBRARIES**
 
-Bu, [**LD\_PRELOAD Linux'ta**](../../../../linux-hardening/privilege-escalation#ld\_preload) olduğu gibi bir işlemi belirli bir kütüphaneyi bir yol üzerinden yüklemek için çalıştırmak için kullanılır (eğer env değişkeni etkinse).
+Bu, [**LD\_PRELOAD Linux'ta**](../../../../linux-hardening/privilege-escalation/#ld\_preload) olduğu gibi bir işlemi belirli bir kütüphaneyi bir yol üzerinden yüklemek için çalıştırmak için kullanılır (eğer env değişkeni etkinse).
 
 Bu teknik ayrıca her uygulamanın "Info.plist" adlı bir plist dosyasına sahip olduğu ve `LSEnvironmental` adlı bir anahtar kullanarak çevresel değişkenlerin atanmasına izin veren bir ASEP tekniği olarak da kullanılabilir.
 
 {% hint style="info" %}
-2012'den beri **Apple, DYLD_INSERT_LIBRARIES'nin gücünü önemli ölçüde azaltmıştır**.
+2012'den beri **Apple, DYLD\_INSERT\_LIBRARIES'nin gücünü önemli ölçüde azaltmıştır**.
 
 Koda gidin ve **`src/dyld.cpp`'yi kontrol edin**. **`pruneEnvironmentVariables`** işlevinde **`DYLD_*`** değişkenlerinin kaldırıldığını görebilirsiniz.
 
@@ -45,7 +45,7 @@ Daha güncel sürümlerde bu mantığı **`configureProcessRestrictions`** işle
 
 Özel bir kütüphane yüklemek için, ikili dosyanın aşağıdaki yetkilendirmelerden birine sahip olması gerekir:
 
-* &#x20;[`com.apple.security.cs.disable-library-validation`](../../macos-security-protections/macos-dangerous-entitlements.md#com.apple.security.cs.disable-library-validation)
+* [`com.apple.security.cs.disable-library-validation`](../../macos-security-protections/macos-dangerous-entitlements.md#com.apple.security.cs.disable-library-validation)
 * [`com.apple.private.security.clear-library-validation`](../../macos-security-protections/macos-dangerous-entitlements.md#com.apple.private.security.clear-library-validation)
 
 veya ikili dosyanın **güçlendirilmiş çalışma zamanı bayrağı** veya **kütüphane doğrulama bayrağı** olmaması gerekir.
@@ -56,8 +56,8 @@ Ayrıca, bir kütüphane, ikili dosya ile aynı sertifika ile imzalanmışsa yü
 
 Bunu (kötüye kullanmak) nasıl yapacağınızı ve kısıtlamaları kontrol etmek için aşağıdaki bağlantıya bakın:
 
-{% content-ref url="../../macos-dyld-hijacking-and-dyld_insert_libraries.md" %}
-[macos-dyld-hijacking-and-dyld\_insert\_libraries.md](../../macos-dyld-hijacking-and-dyld\_insert\_libraries.md)
+{% content-ref url="macos-dyld-hijacking-and-dyld_insert_libraries.md" %}
+[macos-dyld-hijacking-and-dyld\_insert\_libraries.md](macos-dyld-hijacking-and-dyld\_insert\_libraries.md)
 {% endcontent-ref %}
 
 ## Dylib Kaçırma
@@ -71,7 +71,8 @@ Ancak, MacOS uygulamalarının kütüphaneleri yükleme şekli Windows'tan daha 
 
 Öncelikle, MacOS ikili dosyalarının genellikle kütüphaneleri yüklemek için **tam yolunu belirttiğini** görmek **daha yaygındır**. İkinci olarak, MacOS kütüphaneleri **$PATH** klasörlerinde aramaz.
 
-Bu işlevselliğe ilişkin **ana kod parçası**, `ImageLoader.cpp` içindeki **`ImageLoader::recursive
+Bu işlevselliğe ilişkin **ana kod parçası**, `ImageLoader.cpp` içindeki \*\*\`ImageLoader::recursive
+
 * Eğer **`LC_LOAD_DYLIB`** `@rpath/library.dylib` içeriyorsa ve **`LC_RPATH`** `/application/app.app/Contents/Framework/v1/` ve `/application/app.app/Contents/Framework/v2/` içeriyorsa, her iki klasör de `library.dylib`'i yüklemek için kullanılacak. Eğer kütüphane `[...]/v1/` içinde bulunmuyorsa ve saldırgan onu `[...]/v2/` içine yerleştirebilirse, **`LC_LOAD_DYLIB`** içindeki yol sırasına göre `library.dylib`'in yüklenmesini ele geçirebilir.
 * **Rpath yollarını ve kütüphaneleri** şu komutla ikili dosyalarda bulun: `otool -l </path/to/binary> | grep -E "LC_RPATH|LC_LOAD_DYLIB" -A 5`
 
@@ -84,7 +85,7 @@ Bu işlevselliğe ilişkin **ana kod parçası**, `ImageLoader.cpp` içindeki **
 * Bir **dylib** içinde kullanıldığında, **`@loader_path`**, **dylib**'in yolunu verir.
 {% endhint %}
 
-Bu işlevselliği kötüye kullanarak **ayrıcalıkları yükseltme** yolunun, **kök** tarafından **çalıştırılan bir uygulamanın, saldırganın yazma izinlerine sahip olduğu bir klasördeki bir kütüphaneyi aradığı nadir bir durumda olmasıdır.
+Bu işlevselliği kötüye kullanarak **ayrıcalıkları yükseltme** yolunun, **kök** tarafından \*\*çalıştırılan bir uygulamanın, saldırganın yazma izinlerine sahip olduğu bir klasördeki bir kütüphaneyi aradığı nadir bir durumda olmasıdır.
 
 {% hint style="success" %}
 Uygulamalardaki **eksik kütüphaneleri** bulmak için güzel bir **tarama aracı**, [**Dylib Hijack Scanner**](https://objective-see.com/products/dhs.html) veya bir [**CLI sürümü**](https://github.com/pandazheng/DylibHijack) kullanılabilir.\
@@ -93,8 +94,8 @@ Bu teknikle ilgili teknik ayrıntıları içeren güzel bir **rapor**, [**burada
 
 **Örnek**
 
-{% content-ref url="../../macos-dyld-hijacking-and-dyld_insert_libraries.md" %}
-[macos-dyld-hijacking-and-dyld\_insert\_libraries.md](../../macos-dyld-hijacking-and-dyld\_insert\_libraries.md)
+{% content-ref url="macos-dyld-hijacking-and-dyld_insert_libraries.md" %}
+[macos-dyld-hijacking-and-dyld\_insert\_libraries.md](macos-dyld-hijacking-and-dyld\_insert\_libraries.md)
 {% endcontent-ref %}
 
 ## Dlopen Hijacking
@@ -106,6 +107,7 @@ Dlopen hijacking saldırılarını gerçekleştirmek için **önceki Kütüphane
 **`man dlopen`**'dan:
 
 * Yol **eğik çizgi karakteri içermiyorsa** (yani sadece bir yaprak adı ise), **dlopen() arama yapar**. Eğer başlangıçta **`$DYLD_LIBRARY_PATH`** ayarlandıysa, dyld önce **o dizinde arar**. Ardından, çağıran mach-o dosyası veya ana yürütülebilir dosya bir **`LC_RPATH`** belirtiyorsa, dyld **o dizinlere bakar**. Sonra, işlem **kısıtlamasız** ise, dyld **mevcut çalışma dizininde** arar. Son olarak, eski ikili dosyalar için dyld bazı yedekler dener. Eğer başlangıçta **`$DYLD_FALLBACK_LIBRARY_PATH`** ayarlandıysa, dyld **o dizinlerde arar**, aksi takdirde dyld **`/usr/local/lib/`**'de (işlem kısıtlamasız ise) ve ardından **`/usr/lib/`**'de arar (bu bilgi **`man dlopen`**'dan alınmıştır).
+
 1. `$DYLD_LIBRARY_PATH`
 2. `LC_RPATH`
 3. `CWD` (kısıtlamasız ise)
@@ -121,6 +123,7 @@ Eğer adında eğik çizgi yoksa, bir hijacking yapmanın 2 yolu olabilir:
 {% endhint %}
 
 * Yol **bir çerçeve yolu gibi görünüyorsa** (örneğin `/stuff/foo.framework/foo`), eğer başlangıçta **`$DYLD_FRAMEWORK_PATH`** ayarlandıysa, dyld önce **o dizinde** çerçeve kısmi yolunu arar (örneğin `foo.framework/foo`). Ardından, dyld **verilen yolu olduğu gibi dener** (ilişkili yollar için mevcut çalışma dizinini kullanır). Son olarak, eski ikili dosyalar için dyld bazı yedekler dener. Eğer başlangıçta **`$DYLD_FALLBACK_FRAMEWORK_PATH`** ayarlandıysa, dyld **o dizinlerde arar**. Aksi takdirde, dyld **`/Library/Frameworks`**'de arar (MacOS'ta işlem kısıtlamasız ise), ardından **`/System/Library/Frameworks`**'de arar.
+
 1. `$DYLD_FRAMEWORK_PATH`
 2. verilen yol (ilişkili yollar için mevcut çalışma dizinini kullanır, kısıtlamasız işlemler için)
 3. `$DYLD_FALLBACK_FRAMEWORK_PATH`
@@ -134,6 +137,7 @@ Eğer bir çerçeve yolu ise, onu ele geçirmenin yolu:
 {% endhint %}
 
 * Yol **bir eğik çizgi içeriyorsa ancak bir çerçeve yolu değilse** (yani tam bir yol veya bir dylib'in kısmi yolu), dlopen() önce (ayarlandıysa) **`$DYLD_LIBRARY_PATH`** içinde (yolun yaprak kısmıyla birlikte) arar. Ardından, dyld **verilen yolu dener** (ilişkili yollar için mevcut çalışma dizinini kullanır (ancak sadece kısıtlamasız işlemler için)). Son olarak, eski ikili dosyalar için dyld bazı yedekler dener. Eğer başlangıçta **`$DYLD_FALLBACK_LIBRARY_PATH`** ayarlandıysa, dyld **o dizinlerde arar**, aksi takdirde dyld **`/usr/local/lib/`**'de (işlem kısıtlamasız ise) ve ardından **`/usr/lib/`**'de arar.
+
 1. `$DYLD_LIBRARY_PATH`
 2. verilen yol (ilişkili yollar için mevcut çalışma dizinini kullanır, kısıtlamasız işlemler için)
 3. `$DYLD_FALLBACK_LIBRARY_PATH`
@@ -146,10 +150,10 @@ Eğer adında eğik çizgi varsa ve bir çerçeve değilse, onu ele geçirmenin 
 * İkili dosya **kısıtlamasız** ise ve ardından CWD'den veya `/usr/local/lib`'den bir şey yüklemek mümkün (veya bahsedilen env değişkenlerinden birini kötüye kullanmak)
 {% endhint %}
 
-{% hint style="info" %}
 Not: Dlopen aramasını **kontrol etmek için** yapılandırma dosyaları **yoktur**.
 
-Not: Ana yürütülebilir dosya bir **set\[ug]id ikili dosyası veya yetkilendirmelerle kod imzalanmış** ise, **tüm çevre değişkenleri yok sayılır** ve yalnızca tam bir yol kullanılabilir (daha ayrıntılı bilgi için [DYLD\_INSERT\_LIBRARIES kısıtlamalarını kontrol edin](../../macos-dyld-hijacking-and-dyld\_insert\_libraries.md#check-dyld\_insert\_
+Not: Ana yürütülebilir dosya bir **set\[ug]id ikili dosyası veya yetkilendirmelerle kod imzalanmış** ise, **tüm çevre değişkenleri yok sayılır** ve yalnızca tam bir yol kullanılabilir (daha ayrıntılı bilgi için \[DYLD\_INSERT\_LIBRARIES kısıtlamalarını kontrol edin]\(../../macos-dyld-hijacking-and-dyld\_insert\_libraries.md#check-dyld\_insert\_
+
 ```c
 // gcc dlopentest.c -o dlopentest -Wl,-rpath,/tmp/test
 #include <dlfcn.h>
@@ -192,10 +196,13 @@ fprintf(stderr, "Error loading: %s\n\n\n", dlerror());
 return 0;
 }
 ```
+
 Eğer derlerseniz ve çalıştırırsanız, **her bir kütüphane nerede başarısız bir şekilde arandığını** görebilirsiniz. Ayrıca, **FS günlüklerini filtreleyebilirsiniz**:
+
 ```bash
 sudo fs_usage | grep "dlopentest"
 ```
+
 ## İlgili Yol Kaçırma
 
 Eğer bir **yetkili ikili/uygulama** (örneğin SUID veya güçlü yetkilere sahip başka bir ikili) **bir göreceli yol** kütüphanesini yüklüyorsa (örneğin `@executable_path` veya `@loader_path` kullanarak) ve **Kütüphane Doğrulama devre dışı bırakılmışsa**, saldırganın ikiliyi, saldırganın kod enjekte etmek için kütüphaneyi değiştirebileceği bir konuma taşıması mümkün olabilir.
@@ -207,12 +214,15 @@ Eğer bir **yetkili ikili/uygulama** (örneğin SUID veya güçlü yetkilere sah
 Ayrıca, bu işlev, **suid** ve **sgid** ikilileri için özellikle **`DYLD_FALLBACK_FRAMEWORK_PATH`** ve **`DYLD_FALLBACK_LIBRARY_PATH`** ortam değişkenlerini **null** olarak ayarlar.
 
 Bu işlev, aynı dosyanın **`_main`** işlevinden OSX hedef alınıyorsa aşağıdaki gibi çağrılır:
+
 ```cpp
 #if TARGET_OS_OSX
 if ( !gLinkContext.allowEnvVarsPrint && !gLinkContext.allowEnvVarsPath && !gLinkContext.allowEnvVarsSharedCache ) {
 pruneEnvironmentVariables(envp, &apple);
 ```
+
 ve bu boolean bayrakları kod içinde aynı dosyada ayarlanır:
+
 ```cpp
 #if TARGET_OS_OSX
 // support chrooting from old kernel
@@ -243,6 +253,7 @@ gLinkContext.allowClassicFallbackPaths   = !isRestricted;
 gLinkContext.allowInsertFailures         = false;
 gLinkContext.allowInterposing         	 = true;
 ```
+
 Bu temel olarak, eğer ikili dosya **suid** veya **sgid** ise, başlıklarda bir **RESTRICT** segmenti bulunuyorsa veya **CS\_RESTRICT** bayrağıyla imzalanmışsa, o zaman **`!gLinkContext.allowEnvVarsPrint && !gLinkContext.allowEnvVarsPath && !gLinkContext.allowEnvVarsSharedCache`** ifadesi doğru olacak ve çevre değişkenleri kırpılacaktır.
 
 Dikkat edilmesi gereken nokta, CS\_REQUIRE\_LV doğru ise, değişkenler kırpılmayacak ancak kütüphane doğrulaması, değişkenlerin orijinal ikili dosya ile aynı sertifikayı kullandığını kontrol edecektir.
@@ -250,6 +261,7 @@ Dikkat edilmesi gereken nokta, CS\_REQUIRE\_LV doğru ise, değişkenler kırpı
 ## Kısıtlamaları Kontrol Et
 
 ### SUID & SGID
+
 ```bash
 # Make it owned by root and suid
 sudo chown root hello
@@ -260,13 +272,16 @@ DYLD_INSERT_LIBRARIES=inject.dylib ./hello
 # Remove suid
 sudo chmod -s hello
 ```
+
 ### `__RESTRICT` Bölümü, `__restrict` Segmenti ile
 
 Bu bölümde, `__restrict` segmentiyle ilgili `__RESTRICT` bölümü yer almaktadır.
+
 ```bash
 gcc -sectcreate __RESTRICT __restrict /dev/null hello.c -o hello-restrict
 DYLD_INSERT_LIBRARIES=inject.dylib ./hello-restrict
 ```
+
 ### Sertifikaları Güçlendirme
 
 Yeni bir sertifika oluşturun ve bunu kullanarak ikili dosyayı imzalayın:
@@ -296,15 +311,18 @@ DYLD_INSERT_LIBRARIES=inject.dylib ./hello-signed # Won't work
 {% hint style="danger" %}
 Unutmayın ki, bayrakları **`0x0(none)`** ile imzalanan ikili dosyalar bile yürütüldüğünde **`CS_RESTRICT`** bayrağını dinamik olarak alabilir ve bu nedenle bu teknik onlarda çalışmayacaktır.
 
-Bir işlemin bu bayrağa sahip olup olmadığını kontrol edebilirsiniz (buradan [**csops**](https://github.com/axelexic/CSOps) alın):&#x20;
+Bir işlemin bu bayrağa sahip olup olmadığını kontrol edebilirsiniz (buradan [**csops**](https://github.com/axelexic/CSOps) alın):
+
 ```bash
 csops -status <pid>
 ```
+
 ve ardından bayrağın 0x800 etkin olup olmadığını kontrol edin.
 {% endhint %}
 
 ## Referanslar
-* [https://theevilbit.github.io/posts/dyld_insert_libraries_dylib_injection_in_macos_osx_deep_dive/](https://theevilbit.github.io/posts/dyld_insert_libraries_dylib_injection_in_macos_osx_deep_dive/)
+
+* [https://theevilbit.github.io/posts/dyld\_insert\_libraries\_dylib\_injection\_in\_macos\_osx\_deep\_dive/](https://theevilbit.github.io/posts/dyld\_insert\_libraries\_dylib\_injection\_in\_macos\_osx\_deep\_dive/)
 
 <details>
 
@@ -315,7 +333,7 @@ HackTricks'i desteklemenin diğer yolları:
 * Şirketinizi HackTricks'te **reklamınızı görmek veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI'na**](https://github.com/sponsors/carlospolop) göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
 * Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz olan [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın veya** bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'da takip edin.**
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın veya** bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**'da takip edin.**
 * **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna **PR göndererek paylaşın.**
 
 </details>

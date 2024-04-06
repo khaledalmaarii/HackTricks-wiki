@@ -1,4 +1,4 @@
-# macOS Tehlikeli Yetkiler ve TCC izinleri
+# macOS Dangerous Entitlements & TCC perms
 
 <details>
 
@@ -6,10 +6,10 @@
 
 HackTricks'ı desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na bakın(https://github.com/sponsors/carlospolop)!
-* [**Resmi PEASS & HackTricks ürünleri**]'ni alın(https://peass.creator-spring.com)
-* [**PEASS Ailesi**]'ni keşfedin(https://opensea.io/collection/the-peass-family), özel [**NFT'lerimiz**]'in bulunduğu koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin**.
+* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** \[**ABONELİK PLANLARI**]'na bakın(https://github.com/sponsors/carlospolop)!
+* \[**Resmi PEASS & HackTricks ürünleri**]'ni alın(https://peass.creator-spring.com)
+* \[**PEASS Ailesi**]'ni keşfedin(https://opensea.io/collection/the-peass-family), özel \[**NFT'lerimiz**]'in bulunduğu koleksiyonumuz
+* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)\*\* takip edin\*\*.
 * **Hacking püf noktalarınızı paylaşarak PR göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
@@ -30,11 +30,11 @@ HackTricks'ı desteklemenin diğer yolları:
 
 ### **`com.apple.system-task-ports`** (önceki adıyla `task_for_pid-allow`)
 
-Bu yetki, çekirdek hariç olmak üzere **herhangi bir** işlem için **görev bağlantı noktasını almayı** sağlar. Daha fazla bilgi için [buraya bakın](../mac-os-architecture/macos-ipc-inter-process-communication/).
+Bu yetki, çekirdek hariç olmak üzere **herhangi bir** işlem için **görev bağlantı noktasını almayı** sağlar. Daha fazla bilgi için [buraya bakın](../macos-proces-abuse/macos-ipc-inter-process-communication/).
 
 ### `com.apple.security.get-task-allow`
 
-Bu yetki, diğer işlemlerin **`com.apple.security.cs.debugger`** yetkisi ile bu yetkiye sahip olan ikili tarafından çalıştırılan işlemin görev bağlantı noktasını almasına ve üzerine kod enjekte etmesine izin verir. Daha fazla bilgi için [buraya bakın](../mac-os-architecture/macos-ipc-inter-process-communication/).
+Bu yetki, diğer işlemlerin **`com.apple.security.cs.debugger`** yetkisi ile bu yetkiye sahip olan ikili tarafından çalıştırılan işlemin görev bağlantı noktasını almasına ve üzerine kod enjekte etmesine izin verir. Daha fazla bilgi için [buraya bakın](../macos-proces-abuse/macos-ipc-inter-process-communication/).
 
 ### `com.apple.security.cs.debugger`
 
@@ -88,6 +88,7 @@ TODO: [**Bu raporda**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Updat
 ### `keychain-access-groups`
 
 Bu yetki, uygulamanın erişim sağlayabileceği **anahtarlık** gruplarını listeler:
+
 ```xml
 <key>keychain-access-groups</key>
 <array>
@@ -98,6 +99,7 @@ Bu yetki, uygulamanın erişim sağlayabileceği **anahtarlık** gruplarını li
 <string>IMCore</string>
 </array>
 ```
+
 ### **`kTCCServiceSystemPolicyAllFiles`**
 
 Tam Disk Erişimi izinlerini verir, sahip olabileceğiniz TCC'nin en yüksek izinlerinden biri.
@@ -107,10 +109,10 @@ Tam Disk Erişimi izinlerini verir, sahip olabileceğiniz TCC'nin en yüksek izi
 Uygulamanın diğer uygulamalara olaylar göndermesine izin verir, genellikle **görevleri otomatikleştirmek** için kullanılan. Diğer uygulamaları kontrol ederek, bu diğer uygulamalara verilen izinleri kötüye kullanabilir.
 
 Kullanıcıdan şifresini istemelerini sağlamak gibi:
+
 ```bash
 osascript -e 'tell app "App Store" to activate' -e 'tell app "App Store" to activate' -e 'tell app "App Store" to display dialog "App Store requires your password to continue." & return & return default answer "" with icon 1 with hidden answer with title "App Store Alert"'
 ```
-{% endcode %}
 
 Veya onları **keyfi eylemler** gerçekleştirmeye zorlamak.
 
@@ -167,12 +169,14 @@ Bu ayrıcalık, varsayılan olarak yasaklanmış olan bir nullfs dosya sistemi b
 ### `kTCCServiceAll`
 
 Bu blog yazısına göre, bu TCC izni genellikle şu formda bulunur:
+
 ```
 [Key] com.apple.private.tcc.allow-prompting
 [Value]
 [Array]
 [String] kTCCServiceAll
 ```
+
 ### **`kTCCServicePostEvent`**
 
 <details>

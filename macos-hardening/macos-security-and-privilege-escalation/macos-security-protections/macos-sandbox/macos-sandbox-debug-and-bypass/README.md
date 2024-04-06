@@ -1,15 +1,15 @@
-# macOS Sandbox Hata Ayıklama ve Atlama
+# macOS Sandbox Debug & Bypass
 
 <details>
 
-<summary><strong>AWS hackleme becerilerinizi sıfırdan ileri seviyeye taşıyın</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile</strong>!</summary>
+<summary><strong>AWS hackleme becerilerinizi sıfırdan ileri seviyeye taşıyın</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a> <strong>ile</strong>!</summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
 * Şirketinizi HackTricks'te **reklamınızı yapmak** veya HackTricks'i **PDF olarak indirmek** için [**ABONELİK PLANLARINA**](https://github.com/sponsors/carlospolop) göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
 * Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz olan [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)'u **takip edin**.
 * Hacking hilelerinizi [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR göndererek paylaşın.
 
 </details>
@@ -82,13 +82,16 @@ Sandbox sürecinden, daha az kısıtlayıcı sandbox'larda (veya hiç olmayanlar
 ### Kabuk Kodları
 
 ARM64'teki **kabuk kodları bile** `libSystem.dylib`'e bağlanmalıdır:
+
 ```bash
 ld -o shell shell.o -macosx_version_min 13.0
 ld: dynamic executables or dylibs must link with libSystem.dylib for architecture arm64
 ```
+
 ### Yetkilendirmeler
 
 Unutmayın ki, bir uygulamanın belirli bir yetkilendirmesi varsa, bazı **eylemler**in **kum havuzunda** izin verilse bile, bu durumda:
+
 ```scheme
 (when (entitlement "com.apple.security.network.client")
 (allow network-outbound (remote ip))
@@ -98,15 +101,17 @@ Unutmayın ki, bir uygulamanın belirli bir yetkilendirmesi varsa, bazı **eylem
 (global-name "com.apple.cfnetwork.cfnetworkagent")
 [...]
 ```
+
 ### Interposting Bypass
 
 Daha fazla bilgi için **Interposting** hakkında kontrol edin:
 
-{% content-ref url="../../../mac-os-architecture/macos-function-hooking.md" %}
-[macos-function-hooking.md](../../../mac-os-architecture/macos-function-hooking.md)
+{% content-ref url="../../../macos-proces-abuse/macos-function-hooking.md" %}
+[macos-function-hooking.md](../../../macos-proces-abuse/macos-function-hooking.md)
 {% endcontent-ref %}
 
 #### Sandbox'ı engellemek için `_libsecinit_initializer`'ı interpost edin
+
 ```c
 // gcc -dynamiclib interpose.c -o interpose.dylib
 
@@ -130,6 +135,7 @@ DYLD_INSERT_LIBRARIES=./interpose.dylib ./sand
 _libsecinit_initializer called
 Sandbox Bypassed!
 ```
+
 #### Sandbox'ı önlemek için `__mac_syscall`'i araya girin
 
 {% code title="interpose.c" %}
@@ -165,6 +171,7 @@ __attribute__((used)) static const struct interpose_sym interposers[] __attribut
 };
 ```
 {% endcode %}
+
 ```bash
 DYLD_INSERT_LIBRARIES=./interpose.dylib ./sand
 
@@ -176,6 +183,7 @@ __mac_syscall invoked. Policy: Quarantine, Call: 87
 __mac_syscall invoked. Policy: Sandbox, Call: 4
 Sandbox Bypassed!
 ```
+
 ### Sandbox'ı lldb ile hata ayıklama ve atlatma
 
 Sandbox ile korunması gereken bir uygulama derleyelim:
@@ -188,7 +196,6 @@ int main() {
 system("cat ~/Desktop/del.txt");
 }
 ```
-{% tab title="entitlements.xml" %}
 
 Bu dosya, bir macOS uygulamasının sandbox yetkilendirmelerini tanımlayan bir XML belgesidir. Sandbox, bir uygulamanın sistem kaynaklarına erişimini sınırlayan bir güvenlik mekanizmasıdır. Bu belge, uygulamanın hangi özelliklere ve kaynaklara erişebileceğini belirlemek için kullanılır.
 
@@ -217,15 +224,14 @@ Aşağıda, bir uygulamanın sahip olabileceği yaygın sandbox yetkilendirmeler
 
 Bu örnekte, uygulama sandbox yetkilendirmeleri için beş anahtar kullanılmıştır:
 
-- `com.apple.security.app-sandbox`: Bu anahtar, uygulamanın sandbox modunda çalışacağını belirtir.
-- `com.apple.security.files.user-selected.read-write`: Bu anahtar, kullanıcının seçtiği dosyaları okuma ve yazma yetkisi verir.
-- `com.apple.security.network.client`: Bu anahtar, uygulamanın ağ istemcisi olarak çalışmasına izin verir.
-- `com.apple.security.print`: Bu anahtar, uygulamanın yazıcıya erişmesine izin verir.
-- `com.apple.security.temporary-exception.files.absolute-path.read-write`: Bu anahtar, belirli bir dizindeki dosyaları okuma ve yazma yetkisi verir. Bu örnekte, `/Users/username/Documents/` dizini belirtilmiştir.
+* `com.apple.security.app-sandbox`: Bu anahtar, uygulamanın sandbox modunda çalışacağını belirtir.
+* `com.apple.security.files.user-selected.read-write`: Bu anahtar, kullanıcının seçtiği dosyaları okuma ve yazma yetkisi verir.
+* `com.apple.security.network.client`: Bu anahtar, uygulamanın ağ istemcisi olarak çalışmasına izin verir.
+* `com.apple.security.print`: Bu anahtar, uygulamanın yazıcıya erişmesine izin verir.
+* `com.apple.security.temporary-exception.files.absolute-path.read-write`: Bu anahtar, belirli bir dizindeki dosyaları okuma ve yazma yetkisi verir. Bu örnekte, `/Users/username/Documents/` dizini belirtilmiştir.
 
 Bu yetkilendirmeler, uygulamanın sandbox içinde çalışırken erişebileceği kaynakları ve özellikleri belirler. Bu sayede, uygulama istemeden sistem kaynaklarına zarar verme veya kullanıcının gizli verilerine erişme riskini azaltır.
 
-{% endtab %}
 ```xml
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
 <dict>
@@ -234,25 +240,19 @@ Bu yetkilendirmeler, uygulamanın sandbox içinde çalışırken erişebileceği
 </dict>
 </plist>
 ```
-{% tab title="Info.plist" %}
 
 Info.plist dosyası, macOS sandbox uygulamalarının davranışını kontrol etmek için kullanılan bir yapılandırma dosyasıdır. Bu dosya, uygulamanın izinlerini, kaynak taleplerini ve diğer güvenlik önlemlerini belirler.
 
 Aşağıda, Info.plist dosyasında bulunan bazı önemli anahtarlar ve açıklamaları verilmiştir:
 
-- `com.apple.security.app-sandbox`: Bu anahtar, uygulamanın sandbox modunda çalışmasını sağlar. Sandbox modu, uygulamanın sınırlı bir çevrede çalışmasını ve diğer uygulamalar veya sistem kaynaklarına erişimini kısıtlar.
-
-- `com.apple.security.network.client`: Bu anahtar, uygulamanın ağ istemcisi olarak çalışmasına izin verir. Bu izin olmadan uygulama ağa erişemez.
-
-- `com.apple.security.files.user-selected.read-write`: Bu anahtar, kullanıcının seçtiği dosyaları okuma ve yazma yetkisi verir. Bu izin olmadan uygulama kullanıcının dosyalarına erişemez.
-
-- `com.apple.security.files.downloads.read-write`: Bu anahtar, kullanıcının indirilen dosyaları okuma ve yazma yetkisi verir. Bu izin olmadan uygulama indirilen dosyalara erişemez.
-
-- `com.apple.security.print`: Bu anahtar, uygulamanın yazıcıya erişmesine izin verir. Bu izin olmadan uygulama yazıcıya erişemez.
+* `com.apple.security.app-sandbox`: Bu anahtar, uygulamanın sandbox modunda çalışmasını sağlar. Sandbox modu, uygulamanın sınırlı bir çevrede çalışmasını ve diğer uygulamalar veya sistem kaynaklarına erişimini kısıtlar.
+* `com.apple.security.network.client`: Bu anahtar, uygulamanın ağ istemcisi olarak çalışmasına izin verir. Bu izin olmadan uygulama ağa erişemez.
+* `com.apple.security.files.user-selected.read-write`: Bu anahtar, kullanıcının seçtiği dosyaları okuma ve yazma yetkisi verir. Bu izin olmadan uygulama kullanıcının dosyalarına erişemez.
+* `com.apple.security.files.downloads.read-write`: Bu anahtar, kullanıcının indirilen dosyaları okuma ve yazma yetkisi verir. Bu izin olmadan uygulama indirilen dosyalara erişemez.
+* `com.apple.security.print`: Bu anahtar, uygulamanın yazıcıya erişmesine izin verir. Bu izin olmadan uygulama yazıcıya erişemez.
 
 Bu anahtarlar, uygulamanın sandbox modunda çalışırken hangi kaynaklara erişebileceğini ve hangi izinlere sahip olacağını belirler. Info.plist dosyası, uygulamanın güvenlik ve gizlilik açıklarını en aza indirmek için dikkatlice yapılandırılmalıdır.
 
-{% endtab %}
 ```xml
 <plist version="1.0">
 <dict>
@@ -283,12 +283,14 @@ codesign -s <cert-name> --entitlements entitlements.xml sand
 {% hint style="danger" %}
 Uygulama, **Sandbox izin vermediği için** **`~/Desktop/del.txt`** dosyasını **okumaya çalışacak**.\
 Sandbox atlatıldığında, okuyabileceği bir dosya oluşturun:
+
 ```bash
 echo "Sandbox Bypassed" > ~/Desktop/del.txt
 ```
 {% endhint %}
 
 Uygulamayı hata ayıklamak için Sandbox'ın ne zaman yüklendiğini görmek için:
+
 ```bash
 # Load app in debugging
 lldb ./sand
@@ -365,6 +367,7 @@ Process 2517 resuming
 Sandbox Bypassed!
 Process 2517 exited with status = 0 (0x00000000)
 ```
+
 {% hint style="warning" %}
 **Sandbox atlandığında bile TCC**, kullanıcıya masaüstünden dosya okuma izni verip vermek istemediğini soracak.
 {% endhint %}
@@ -384,7 +387,7 @@ HackTricks'i desteklemenin diğer yolları:
 * Şirketinizi HackTricks'te **reklamınızı görmek veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI'na**](https://github.com/sponsors/carlospolop) göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
 * Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)'u **takip edin**.
 * **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna **PR göndererek** paylaşın.
 
 </details>

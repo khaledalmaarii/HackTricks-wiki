@@ -1,4 +1,4 @@
-# Active Directory Metodolojisi
+# Active Directory Methodology
 
 <details>
 
@@ -9,7 +9,7 @@ HackTricks'ı desteklemenin diğer yolları:
 * Şirketinizi HackTricks'te **reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
 * [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family)
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)'u **takip edin**.
 * Hacking hilelerinizi göndererek HackTricks ve HackTricks Cloud github depolarına PR göndererek **hacking hilelerinizi paylaşın**.
 
 </details>
@@ -37,8 +37,7 @@ HackTricks'ı desteklemenin diğer yolları:
 5. **Hak Yönetimi** - Telif hakkı materyallerinin izinsiz dağıtımını ve kullanımını düzenleyerek koruma sağlar.
 6. **DNS Hizmeti** - **alan adlarının** çözülmesi için önemlidir.
 
-Daha detaylı bir açıklama için şuraya bakın: [**TechTerms - Active Directory Tanımı**](https://techterms.com/definition/active_directory)
-
+Daha detaylı bir açıklama için şuraya bakın: [**TechTerms - Active Directory Tanımı**](https://techterms.com/definition/active\_directory)
 
 ### **Kerberos Kimlik Doğrulaması**
 
@@ -64,8 +63,8 @@ Eğer bir AD ortamına erişiminiz var ancak herhangi bir kimlik bilgisi/oturumu
 * `smbclient -U '%' -L //<DC IP> && smbclient -U 'guest%' -L //`
 * Bir SMB sunucusunu nasıl numaralandıracağınıza dair daha ayrıntılı bir kılavuz burada bulunabilir:
 
-{% content-ref url="../../network-services-pentesting/pentesting-smb.md" %}
-[pentesting-smb.md](../../network-services-pentesting/pentesting-smb.md)
+{% content-ref url="../../network-services-pentesting/pentesting-smb/" %}
+[pentesting-smb](../../network-services-pentesting/pentesting-smb/)
 {% endcontent-ref %}
 
 * **Ldap numaralandırma**
@@ -77,10 +76,12 @@ Eğer bir AD ortamına erişiminiz var ancak herhangi bir kimlik bilgisi/oturumu
 {% endcontent-ref %}
 
 *
+
 ### Kullanıcı numaralandırma
 
-* **Anonim SMB/LDAP numaralandırma:** [**Pentesting SMB**](../../network-services-pentesting/pentesting-smb.md) ve [**Pentesting LDAP**](../../network-services-pentesting/pentesting-ldap.md) sayfalarını kontrol edin.
+* **Anonim SMB/LDAP numaralandırma:** [**Pentesting SMB**](../../network-services-pentesting/pentesting-smb/) ve [**Pentesting LDAP**](../../network-services-pentesting/pentesting-ldap.md) sayfalarını kontrol edin.
 * **Kerbrute numaralandırma**: Bir **geçersiz kullanıcı adı istendiğinde**, sunucu **Kerberos hata** kodu olan _KRB5KDC\_ERR\_C\_PRINCIPAL\_UNKNOWN_ kullanarak yanıt verecektir, bu da bize kullanıcı adının geçersiz olduğunu belirlememizi sağlar. **Geçerli kullanıcı adları**, ya bir AS-REP yanıtında **TGT'yi** veya kullanıcının ön kimlik doğrulaması yapması gerektiğini gösteren _KRB5KDC\_ERR\_PREAUTH\_REQUIRED_ hatasını tetikleyecektir.
+
 ```bash
 ./kerbrute_linux_amd64 userenum -d lab.ropnop.com --dc 10.10.10.10 usernames.txt #From https://github.com/ropnop/kerbrute/releases
 
@@ -91,9 +92,11 @@ msf> use auxiliary/gather/kerberos_enumusers
 
 crackmapexec smb dominio.es  -u '' -p '' --users | awk '{print $4}' | uniq
 ```
+
 * **OWA (Outlook Web Access) Sunucusu**
 
 Ağda böyle bir sunucu bulduysanız, bununla ilgili olarak **kullanıcı numaralandırması yapabilirsiniz**. Örneğin, [**MailSniper**](https://github.com/dafthack/MailSniper) aracını kullanabilirsiniz:
+
 ```bash
 ipmo C:\Tools\MailSniper\MailSniper.ps1
 # Get info about the domain
@@ -105,6 +108,7 @@ Invoke-PasswordSprayOWA -ExchHostname [ip] -UserList .\valid.txt -Password Summe
 # Get addresses list from the compromised mail
 Get-GlobalAddressList -ExchHostname [ip] -UserName [domain]\[username] -Password Summer2021 -OutFile gal.txt
 ```
+
 {% hint style="warning" %}
 [**Bu GitHub deposunda**](https://github.com/danielmiessler/SecLists/tree/master/Usernames/Names) ve bu ([**istatistiksel-olasılıklı-kullanıcıadları**](https://github.com/insidetrust/statistically-likely-usernames)) listelerinde kullanıcı adlarını bulabilirsiniz.
 
@@ -171,7 +175,7 @@ Bir hesap ele geçirmek, tüm etki alanını ele geçirmeye başlamak için **b�
 * Ayrıca otomatik araçları da deneyebilirsiniz:
 * [**tomcarver16/ADSearch**](https://github.com/tomcarver16/ADSearch)
 * [**61106960/adPEAS**](https://github.com/61106960/adPEAS)
-*   **Tüm etki alanı kullanıcılarını çıkarma**
+* **Tüm etki alanı kullanıcılarını çıkarma**
 
 Windows'ta tüm etki alanı kullanıcı adlarını elde etmek çok kolaydır (`net user /domain`, `Get-DomainUser` veya `wmic useraccount get name,sid`). Linux'ta ise şunları kullanabilirsiniz: `GetADUsers.py -all -dc-ip 10.10.10.110 domain.com/username` veya `enum4linux -a -u "user" -p "password" <DC IP>`
 
@@ -186,6 +190,7 @@ Daha fazlası için:
 {% content-ref url="kerberoast.md" %}
 [kerberoast.md](kerberoast.md)
 {% endcontent-ref %}
+
 ### Uzaktan bağlantı (RDP, SSH, FTP, Win-RM, vb.)
 
 Bazı kimlik bilgilerine sahip olduktan sonra herhangi bir **makineye erişiminizin olup olmadığını** kontrol edebilirsiniz. Bu amaçla, **CrackMapExec** kullanarak farklı protokollere sahip birkaç sunucuya bağlanmayı deneyebilirsiniz, taramalarınıza göre.
@@ -199,6 +204,7 @@ Bu kitapta [**Windows'ta yerel yetki yükseltme**](../windows-local-privilege-es
 ### Geçerli Oturum Biletleri
 
 Geçerli kullanıcıda **izin verilmeyen kaynaklara erişim** sağlayan **biletler** bulmanız çok **olası değildir**, ancak kontrol edebilirsiniz:
+
 ```bash
 ## List all tickets (if not admin, only current user tickets)
 .\Rubeus.exe triage
@@ -206,6 +212,7 @@ Geçerli kullanıcıda **izin verilmeyen kaynaklara erişim** sağlayan **biletl
 .\Rubeus.exe dump /service:krbtgt /luid:<luid> /nowrap
 [IO.File]::WriteAllBytes("ticket.kirbi", [Convert]::FromBase64String("<BASE64_TICKET>"))
 ```
+
 ### NTML Relay
 
 Eğer aktif dizini numaralandırmayı başardıysanız, **daha fazla e-posta ve ağ hakkında daha iyi bir anlayışa sahip olacaksınız**. NTML [**röle saldırıları**](../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md#relay-attack)**nı** zorlayabilirsiniz.
@@ -214,7 +221,7 @@ Eğer aktif dizini numaralandırmayı başardıysanız, **daha fazla e-posta ve 
 
 Temel kimlik bilgilerine sahip olduğunuzda, AD içinde **paylaşılan ilginç dosyaları bulup bulamayacağınızı kontrol etmelisiniz**. Bunun için manuel olarak yapabilirsiniz, ancak bu çok sıkıcı ve tekrarlayan bir görevdir (ve yüzlerce belge bulursanız daha da sıkıcı olur).
 
-[**Bu bağlantıyı takip ederek kullanabileceğiniz araçlar hakkında bilgi edinin.**](../../network-services-pentesting/pentesting-smb.md#domain-shared-folders-search)
+[**Bu bağlantıyı takip ederek kullanabileceğiniz araçlar hakkında bilgi edinin.**](../../network-services-pentesting/pentesting-smb/#domain-shared-folders-search)
 
 ### NTLM Kimlik Bilgilerini Çalma
 
@@ -240,7 +247,7 @@ Bu zafiyet, herhangi bir yetkilendirilmiş kullanıcının **etki alanı denetle
 
 Umarım [AsRepRoast](asreproast.md), [Password Spraying](password-spraying.md), [Kerberoast](kerberoast.md), [Responder](../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md) dahil olmak üzere yerel bir yönetici hesabını **tehlikeye atmayı başarmışsınızdır**, [EvilSSDP](../../generic-methodologies-and-resources/pentesting-network/spoofing-ssdp-and-upnp-devices.md), [yerel ayrıcalıkları yükseltme](../windows-local-privilege-escalation/) gibi yöntemlerle.\
 Daha sonra, bellekte ve yerel olarak tüm hash'leri dökme zamanı geldi.\
-[**Farklı yollarla hash'leri elde etmek için bu sayfayı okuyun.**](broken-reference/)
+[**Farklı yollarla hash'leri elde etmek için bu sayfayı okuyun.**](https://github.com/carlospolop/hacktricks/blob/tr/windows-hardening/active-directory-methodology/broken-reference/README.md)
 
 ### Hash'i Geçir
 
@@ -267,11 +274,13 @@ Bu saldırı, yaygın Pass The Hash üzerinden NTLM protokolü yerine, kullanıc
 ### Kimlik Bilgilerini Yeniden Kullanma
 
 Bir **yerel yönetici**nin hash'ine veya parolasına sahipseniz, bunu kullanarak diğer **PC'lere yerel olarak giriş yapmayı denemelisiniz**.
+
 ```bash
 # Local Auth Spray (once you found some local admin pass or hash)
 ## --local-auth flag indicate to only try 1 time per machine
 crackmapexec smb --local-auth 10.10.10.10/23 -u administrator -H 10298e182387f9cab376ecd08491764a0 | grep +
 ```
+
 {% hint style="warning" %}
 Dikkat, bu oldukça **gürültülü** ve **LAPS** bunu **hafifletebilir**.
 {% endhint %}
@@ -326,7 +335,7 @@ Kompromize edilen kullanıcının, **bazı etki alanı nesneleri üzerinde ilgin
 Etki alanında **Spool hizmeti dinleyen** bir hizmet keşfedilirse, bunun **kötüye kullanılması** yeni kimlik bilgileri edinmek ve ayrıcalıkları **yükseltmek** için kullanılabilir.
 
 {% content-ref url="acl-persistence-abuse/" %}
-[printers-spooler-service-abuse](printers-spooler-service-abuse.md)
+[acl-persistence-abuse](acl-persistence-abuse/)
 {% endcontent-ref %}
 
 ### Üçüncü taraf oturumları kötüye kullanımı
@@ -370,24 +379,26 @@ Bir kez **Etki Alanı Yöneticisi** veya daha iyi **Kurumsal Yönetici** ayrıca
 
 [**DCSync saldırısı hakkında daha fazla bilgi burada bulunabilir**](dcsync.md).
 
-[**NTDS.dit'yi çalmak için nasıl yapılacağı hakkında daha fazla bilgi burada bulunabilir**](broken-reference/)
+[**NTDS.dit'yi çalmak için nasıl yapılacağı hakkında daha fazla bilgi burada bulunabilir**](https://github.com/carlospolop/hacktricks/blob/tr/windows-hardening/active-directory-methodology/broken-reference/README.md)
 
 ### Ayrıcalıkların Kalıcı Olarak Yükseltilmesi
 
 Önceden tartışılan bazı teknikler kalıcı olarak kullanılabilir.\
 Örneğin:
 
-*   Kullanıcıları [**Kerberoast**](kerberoast.md) saldırısına karşı savunmasız hale getirebilirsiniz.
+* Kullanıcıları [**Kerberoast**](kerberoast.md) saldırısına karşı savunmasız hale getirebilirsiniz.
 
 ```powershell
 Set-DomainObject -Identity <kullanıcıadı> -Set @{serviceprincipalname="fake/NOTHING"}r
 ```
-*   Kullanıcıları [**ASREPRoast**](asreproast.md) saldırısına karşı savunmasız hale getirebilirsiniz.
+
+* Kullanıcıları [**ASREPRoast**](asreproast.md) saldırısına karşı savunmasız hale getirebilirsiniz.
 
 ```powershell
 Set-DomainObject -Identity <kullanıcıadı> -XOR @{UserAccountControl=4194304}
 ```
-*   Bir kullanıcıya [**DCSync**](./#dcsync) ayrıcalıkları verin
+
+* Bir kullanıcıya [**DCSync**](./#dcsync) ayrıcalıkları verin
 
 ```powershell
 Add-DomainObjectAcl -TargetIdentity "DC=SUB,DC=DOMAIN,DC=LOCAL" -PrincipalIdentity bfarmer -Rights DCSync
@@ -403,7 +414,8 @@ Add-DomainObjectAcl -TargetIdentity "DC=SUB,DC=DOMAIN,DC=LOCAL" -PrincipalIdenti
 
 ### Altın Bilet
 
-**Altın Bilet saldırısı**, bir Saldırganın bir Active Directory (AD) ortamında **krbtgt hesabının NTLM hash
+**Altın Bilet saldırısı**, bir Saldırganın bir Active Directory (AD) ortamında \*\*krbtgt hesabının NTLM hash
+
 ### **Sertifikalar Alan Kalıcılığı**
 
 **Sertifikalar kullanılarak, etki alanı içinde yüksek ayrıcalıklarla kalıcılık sağlamak da mümkündür:**
@@ -452,7 +464,7 @@ Hafızadaki **LSASS**'ı değiştirerek, tüm etki alanı hesaplarına erişim s
 
 ### Özel SSP
 
-[SSP (Güvenlik Destek Sağlayıcısı) nedir öğrenin buradan.](../authentication-credentials-uac-and-efs.md#security-support-provider-interface-sspi)\
+[SSP (Güvenlik Destek Sağlayıcısı) nedir öğrenin buradan.](../authentication-credentials-uac-and-efs/#security-support-provider-interface-sspi)\
 Makineye erişim sağlamak için kullanılan kimlik bilgilerini **açık metin** olarak yakalamak için **kendi SSP'nizi** oluşturabilirsiniz.
 
 {% content-ref url="custom-ssp.md" %}
@@ -499,7 +511,8 @@ Tipik bir senaryoda, bir kullanıcının bir **güvenilen etki alanındaki** bir
 
 ### Farklı güvenler
 
-**Bir güvenin tek yönlü veya iki yönlü olabileceğini** fark etmek önemlidir. İki yönlü seçeneklerde, her iki etki alanı da birbirine güvenir, ancak **tek yönlü** güven ilişkisinde bir etki alanı **güvenilen** etki alanı olurken diğeri **güvenen** etki alanı olur. Son durumda, **güvenilen etki alanından güven
+**Bir güvenin tek yönlü veya iki yönlü olabileceğini** fark etmek önemlidir. İki yönlü seçeneklerde, her iki etki alanı da birbirine güvenir, ancak **tek yönlü** güven ilişkisinde bir etki alanı **güvenilen** etki alanı olurken diğeri **güvenen** etki alanı olur. Son durumda, \*\*güvenilen etki alanından güven
+
 #### Güven ilişkilerindeki diğer farklar
 
 * Bir güven ilişkisi aynı zamanda **geçişli** (A, B'ye güvenir, B, C'ye güvenir, o zaman A, C'ye güvenir) veya **geçişsiz** olabilir.
@@ -509,16 +522,17 @@ Tipik bir senaryoda, bir kullanıcının bir **güvenilen etki alanındaki** bir
 
 1. Güven ilişkilerini **sırala**
 2. Herhangi bir **güvenlik prensibi**nin (kullanıcı/grup/bilgisayar) **diğer etki alanının kaynaklarına erişimi** olup olmadığını kontrol et, muhtemelen ACE girişleri veya diğer etki alanının gruplarında bulunarak. **Etki alanları arasındaki ilişkilere** bak (güven ilişkisi muhtemelen bunun için oluşturuldu).
-1. Bu durumda kerberoast başka bir seçenek olabilir.
-3. Etki alanları arasında **geçiş yapabilen hesapları** **ele geçir**.
+3. Bu durumda kerberoast başka bir seçenek olabilir.
+4. Etki alanları arasında **geçiş yapabilen hesapları** **ele geçir**.
 
 Saldırganlar, başka bir etki alanındaki kaynaklara üç temel mekanizma aracılığıyla erişebilir:
 
-- **Yerel Grup Üyeliği**: Prensipaller, bir sunucudaki "Yöneticiler" grubu gibi makinelerdeki yerel gruplara eklenmiş olabilir, bu da onlara o makine üzerinde önemli bir kontrol sağlar.
-- **Yabancı Etki Alanı Grup Üyeliği**: Prensipaller ayrıca yabancı etki alanındaki grupların üyeleri olabilir. Bunun etkinliği, güvenin doğası ve grup kapsamına bağlıdır.
-- **Erişim Kontrol Listeleri (ACL'ler)**: Prensipaller, özellikle bir **DACL** içindeki **ACE'ler** olarak var olan **ACL'lerde** belirtilebilir, bu da onlara belirli kaynaklara erişim sağlar. ACL'lerin, DACL'lerin ve ACE'lerin mekaniği hakkında daha derinlemesine bilgi edinmek isteyenler için "[An ACE Up The Sleeve](https://specterops.io/assets/resources/an_ace_up_the_sleeve.pdf)" adlı beyaz kağıt çok değerli bir kaynaktır.
+* **Yerel Grup Üyeliği**: Prensipaller, bir sunucudaki "Yöneticiler" grubu gibi makinelerdeki yerel gruplara eklenmiş olabilir, bu da onlara o makine üzerinde önemli bir kontrol sağlar.
+* **Yabancı Etki Alanı Grup Üyeliği**: Prensipaller ayrıca yabancı etki alanındaki grupların üyeleri olabilir. Bunun etkinliği, güvenin doğası ve grup kapsamına bağlıdır.
+* **Erişim Kontrol Listeleri (ACL'ler)**: Prensipaller, özellikle bir **DACL** içindeki **ACE'ler** olarak var olan **ACL'lerde** belirtilebilir, bu da onlara belirli kaynaklara erişim sağlar. ACL'lerin, DACL'lerin ve ACE'lerin mekaniği hakkında daha derinlemesine bilgi edinmek isteyenler için "[An ACE Up The Sleeve](https://specterops.io/assets/resources/an\_ace\_up\_the\_sleeve.pdf)" adlı beyaz kağıt çok değerli bir kaynaktır.
 
 ### Çocuktan Ebeveyn orman ayrıcalığı yükseltme
+
 ```
 Get-DomainTrust
 
@@ -530,9 +544,11 @@ TrustDirection  : Bidirectional       --> Trust direction (2ways in this case)
 WhenCreated     : 2/19/2021 1:28:00 PM
 WhenChanged     : 2/19/2021 1:28:00 PM
 ```
+
 {% hint style="warning" %}
 **2 güvenilir anahtar** bulunmaktadır, biri _Çocuk --> Ebeveyn_ için diğeri ise _Ebeveyn_ --> _Çocuk_ için kullanılır.\
 Mevcut etki alanı tarafından kullanılan anahtarı aşağıdaki komutla alabilirsiniz:
+
 ```bash
 Invoke-Mimikatz -Command '"lsadump::trust /patch"' -ComputerName dc.my.domain.local
 Invoke-Mimikatz -Command '"lsadump::dcsync /user:dcorp\mcorp$"'
@@ -576,6 +592,7 @@ ADCS ESC5 zafiyeti, PKI nesneleri üzerinde kontrol sağlamak için kullanılır
 Bu konuda daha fazla ayrıntı [DA'dan EA'ya ESC5 ile](https://posts.specterops.io/from-da-to-ea-with-esc5-f9f045aa105c) okunabilir. ADCS olmayan senaryolarda, saldırgan gerekli bileşenleri kurma yeteneğine sahiptir, bu da [Çocuk Etki Alanı Yöneticilerinden Kurumsal Yöneticilere Yükselme](https://www.pkisolutions.com/escalating-from-child-domains-admins-to-enterprise-admins-in-5-minutes-by-abusing-ad-cs-a-follow-up/) olarak tartışılmıştır.
 
 ### Harici Orman Etki Alanı - Tek Yönlü (Gelen) veya İki Yönlü
+
 ```powershell
 Get-DomainTrust
 SourceName      : a.domain.local   --> Current domain
@@ -586,6 +603,7 @@ TrustDirection  : Inbound          --> Inboud trust
 WhenCreated     : 2/19/2021 10:50:56 PM
 WhenChanged     : 2/19/2021 10:50:56 PM
 ```
+
 Bu senaryoda, **alanınızın dışarıdan biri tarafından güvenildiği** ve size **belirlenmemiş izinler** verildiği varsayılır. İlk olarak, **alanınızın prensiplerinin dış alan üzerinde hangi erişime sahip olduğunu bulmanız** gerekmektedir ve ardından bunu sömürmeye çalışmanız gerekmektedir:
 
 {% content-ref url="external-forest-domain-oneway-inbound.md" %}
@@ -593,6 +611,7 @@ Bu senaryoda, **alanınızın dışarıdan biri tarafından güvenildiği** ve s
 {% endcontent-ref %}
 
 ### Dış Orman Alanı - Tek Yönlü (Dışarıya Doğru)
+
 ```powershell
 Get-DomainTrust -Domain current.local
 
@@ -604,6 +623,7 @@ TrustDirection  : Outbound        --> Outbound trust
 WhenCreated     : 2/19/2021 10:15:24 PM
 WhenChanged     : 2/19/2021 10:15:24 PM
 ```
+
 Bu senaryoda **alanınız**, bir **farklı alanlardan** birincil birine bazı **ayrıcalıklar** sağlamaktadır.
 
 Ancak, bir alan, güvenen alan tarafından güvenilen bir alan olduğunda, güvenilen alan, güvenilen parolayı kullanarak tahmin edilebilir bir isimle bir kullanıcı oluşturur. Bu da, güvenen alanın içine girmek için güvenen alanın içindeki bir kullanıcıya erişmek mümkün olduğu anlamına gelir ve daha fazla ayrıcalık elde etmek için onu sıralamak için:
@@ -625,13 +645,13 @@ Dahası, **kurban sabit diski bağladıysa**, saldırgan RDP oturumu sürecinden
 
 ### **SID Filtreleme:**
 
-- Orman güvenleri arasında SID geçmişi özniteliğini kullanarak yapılan saldırı riski, SID Filtreleme ile azaltılır ve bu, tüm ormanlar arası güvenlere varsayılan olarak etkinleştirilir. Bu, Microsoft'un duruşuna göre, güvenlik sınırının alan yerine orman olduğu varsayımına dayanmaktadır.
-- Ancak, bir dezavantajı vardır: SID filtreleme, uygulamaları ve kullanıcı erişimini bozabilir ve bu nedenle bazen devre dışı bırakılabilir.
+* Orman güvenleri arasında SID geçmişi özniteliğini kullanarak yapılan saldırı riski, SID Filtreleme ile azaltılır ve bu, tüm ormanlar arası güvenlere varsayılan olarak etkinleştirilir. Bu, Microsoft'un duruşuna göre, güvenlik sınırının alan yerine orman olduğu varsayımına dayanmaktadır.
+* Ancak, bir dezavantajı vardır: SID filtreleme, uygulamaları ve kullanıcı erişimini bozabilir ve bu nedenle bazen devre dışı bırakılabilir.
 
 ### **Seçici Kimlik Doğrulama:**
 
-- Ormanlar arası güvenler için, Seçici Kimlik Doğrulama kullanarak, iki ormandan gelen kullanıcıların otomatik olarak kimlik doğrulamasının yapılmaması sağlanır. Bunun yerine, kullanıcıların güvenen alan veya ormanda bulunan alanlara ve sunuculara erişmek için açık izinlere sahip olmaları gerekmektedir.
-- Bu önlemlerin, yazılabilir Yapılandırma Adlandırma Bağlamı (NC) üzerindeki istismar veya güven hesabına yönelik saldırılara karşı koruma sağlamadığını unutmak önemlidir.
+* Ormanlar arası güvenler için, Seçici Kimlik Doğrulama kullanarak, iki ormandan gelen kullanıcıların otomatik olarak kimlik doğrulamasının yapılmaması sağlanır. Bunun yerine, kullanıcıların güvenen alan veya ormanda bulunan alanlara ve sunuculara erişmek için açık izinlere sahip olmaları gerekmektedir.
+* Bu önlemlerin, yazılabilir Yapılandırma Adlandırma Bağlamı (NC) üzerindeki istismar veya güven hesabına yönelik saldırılara karşı koruma sağlamadığını unutmak önemlidir.
 
 [**ired.team'de alan güvenleri hakkında daha fazla bilgi.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/child-domain-da-to-ea-in-parent-domain)
 
@@ -641,31 +661,31 @@ Dahası, **kurban sabit diski bağladıysa**, saldırgan RDP oturumu sürecinden
 
 ## Bazı Genel Savunmalar
 
-[**Kimlik bilgilerini korumanın nasıl yapılacağı hakkında daha fazla bilgi edinin.**](../stealing-credentials/credentials-protections.md)\
+[**Kimlik bilgilerini korumanın nasıl yapılacağı hakkında daha fazla bilgi edinin.**](../stealing-credentials/credentials-protections.md)\\
 
 ### **Kimlik Bilgilerini Koruma İçin Savunma Önlemleri**
 
-- **Alan Yöneticileri Kısıtlamaları**: Alan Yöneticilerinin yalnızca Alan Denetleyicilerine giriş yapmasına izin verilmesi, diğer ana bilgisayarlarda kullanılmaması önerilir.
-- **Hizmet Hesabı Ayrıcalıkları**: Hizmetlerin Alan Yöneticisi (DA) ayrıcalıklarıyla çalıştırılmaması, güvenliği korumak için gereklidir.
-- **Geçici Ayrıcalık Sınırlaması**: DA ayrıcalıklarını gerektiren görevlerin süresi sınırlı olmalıdır. Bu, şu şekilde elde edilebilir: `Add-ADGroupMember -Identity ‘Domain Admins’ -Members newDA -MemberTimeToLive (New-TimeSpan -Minutes 20)`
+* **Alan Yöneticileri Kısıtlamaları**: Alan Yöneticilerinin yalnızca Alan Denetleyicilerine giriş yapmasına izin verilmesi, diğer ana bilgisayarlarda kullanılmaması önerilir.
+* **Hizmet Hesabı Ayrıcalıkları**: Hizmetlerin Alan Yöneticisi (DA) ayrıcalıklarıyla çalıştırılmaması, güvenliği korumak için gereklidir.
+* **Geçici Ayrıcalık Sınırlaması**: DA ayrıcalıklarını gerektiren görevlerin süresi sınırlı olmalıdır. Bu, şu şekilde elde edilebilir: `Add-ADGroupMember -Identity ‘Domain Admins’ -Members newDA -MemberTimeToLive (New-TimeSpan -Minutes 20)`
 
 ### **Aldatma Tekniklerinin Uygulanması**
 
-- Aldatma uygulamak, aldatıcı kullanıcılar veya bilgisayarlar gibi tuzaklar kurmayı içerir ve bunlar, süresi dolmayan veya Güvenilir Delege olarak işaretlenen şifreler gibi özelliklere sahip olabilir. Ayrıntılı bir yaklaşım, belirli haklara sahip kullanıcılar oluşturmayı veya bunları yüksek ayrıcalıklı gruplara eklemeyi içerir.
-- Pratik bir örnek, `Create-DecoyUser -UserFirstName user -UserLastName manager-uncommon -Password Pass@123 | DeployUserDeception -UserFlag PasswordNeverExpires -GUID d07da11f-8a3d-42b6-b0aa-76c962be719a -Verbose` gibi araçların kullanılmasıyla gerçekleştirilebilir.
-- Aldatma tekniklerinin nasıl uygulanacağı hakkında daha fazla bilgi için [GitHub'da Deploy-Deception](https://github.com/samratashok/Deploy-Deception) adresine bakabilirsiniz.
+* Aldatma uygulamak, aldatıcı kullanıcılar veya bilgisayarlar gibi tuzaklar kurmayı içerir ve bunlar, süresi dolmayan veya Güvenilir Delege olarak işaretlenen şifreler gibi özelliklere sahip olabilir. Ayrıntılı bir yaklaşım, belirli haklara sahip kullanıcılar oluşturmayı veya bunları yüksek ayrıcalıklı gruplara eklemeyi içerir.
+* Pratik bir örnek, `Create-DecoyUser -UserFirstName user -UserLastName manager-uncommon -Password Pass@123 | DeployUserDeception -UserFlag PasswordNeverExpires -GUID d07da11f-8a3d-42b6-b0aa-76c962be719a -Verbose` gibi araçların kullanılmasıyla gerçekleştirilebilir.
+* Aldatma tekniklerinin nasıl uygulanacağı hakkında daha fazla bilgi için [GitHub'da Deploy-Deception](https://github.com/samratashok/Deploy-Deception) adresine bakabilirsiniz.
 
 ### **Aldatmanın Belirlenmesi**
 
-- **Kullanıcı Nesneleri İçin**: Şüpheli göstergeler, tipik olmayan ObjectSID, seyrek oturum açma, oluşturma tarihleri ve düşük hatalı parola sayıları içerebilir.
-- **Genel Göstergeler**: Potansiyel aldatıcı nesnelerin özniteliklerini gerçek olanların öznitelikleriyle karşılaştırmak, tutarsızlıkları ortaya çıkarabilir. [HoneypotBuster](https://github.com/JavelinNetworks/HoneypotBuster) gibi araçlar, bu tür aldatmaların belirlenmesine yardımcı olabilir.
+* **Kullanıcı Nesneleri İçin**: Şüpheli göstergeler, tipik olmayan ObjectSID, seyrek oturum açma, oluşturma tarihleri ve düşük hatalı parola sayıları içerebilir.
+* **Genel Göstergeler**: Potansiyel aldatıcı nesnelerin özniteliklerini gerçek olanların öznitelikleriyle karşılaştırmak, tutarsızlıkları ortaya çıkarabilir. [HoneypotBuster](https://github.com/JavelinNetworks/HoneypotBuster) gibi araçlar, bu tür aldatmaların belirlenmesine yardımcı olabilir.
 
 ### **Algılama Sistemlerini Atlama**
 
-- **Microsoft ATA Algılama Atlama**:
-- **Kullanıcı Numaralandırma**: ATA algılama tetiklememek için Alan Denetleyicilerinde oturum numaralandırmaktan kaçınılmalıdır.
-- **Bilet Taklit**: NTLM'ye düşürülmemek için **aes** anahtarlarını bilet oluşturmak için kullanmak, algılamadan kaçınmaya yardımcı olur.
-- **DCSync Saldırıları**: ATA algılama tetiklememek için bir Alan Denetleyicisinden doğrudan yürütme yerine bir Alan Denetleyicisinden olmayan bir yerden yürütülmesi önerilir.
+* **Microsoft ATA Algılama Atlama**:
+* **Kullanıcı Numaralandırma**: ATA algılama tetiklememek için Alan Denetleyicilerinde oturum numaralandırmaktan kaçınılmalıdır.
+* **Bilet Taklit**: NTLM'ye düşürülmemek için **aes** anahtarlarını bilet oluşturmak için kullanmak, algılamadan kaçınmaya yardımcı olur.
+* **DCSync Saldırıları**: ATA algılama tetiklememek için bir Alan Denetleyicisinden doğrudan yürütme yerine bir Alan Denetleyicisinden olmayan bir yerden yürütülmesi önerilir.
 
 ## Referanslar
 
@@ -682,5 +702,7 @@ HackTricks'ı desteklemenin diğer yolları:
 * Şirketinizi HackTricks'te **reklamınızı görmek veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
 * Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz olan [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi Twitter'da takip edin 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live).
-* **Hacking hilelerinizi HackTricks ve HackTricks Cloud github depolarına PR gönder
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi Twitter'da takip edin 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live).
+* \*\*Hacking hilelerinizi HackTricks ve HackTricks Cloud github depolarına PR gönder
+
+</details>
