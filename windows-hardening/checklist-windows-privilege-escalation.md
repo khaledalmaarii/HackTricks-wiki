@@ -1,15 +1,15 @@
-# चेकलिस्ट - स्थानीय Windows विशेषाधिकार उन्नयन
+# Checklist - Local Windows Privilege Escalation
 
 <details>
 
-<summary><strong>जानें AWS हैकिंग को शून्य से हीरो तक</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> के साथ!</strong></summary>
+<summary><strong>जानें AWS हैकिंग को शून्य से हीरो तक</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a> <strong>के साथ!</strong></summary>
 
 HackTricks का समर्थन करने के अन्य तरीके:
 
 * यदि आप अपनी **कंपनी का विज्ञापन HackTricks में देखना चाहते हैं** या **HackTricks को PDF में डाउनलोड करना चाहते हैं** तो [**सदस्यता योजनाएं देखें**](https://github.com/sponsors/carlospolop)!
 * [**आधिकारिक PEASS और HackTricks स्वैग**](https://peass.creator-spring.com) प्राप्त करें
 * हमारा संग्रह [**The PEASS Family**](https://opensea.io/collection/the-peass-family) खोजें, हमारा विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) संग्रह
-* **शामिल हों** 💬 [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या हमें **ट्विटर** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)** पर फॉलो** करें।
+* **शामिल हों** 💬 [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या हमें **ट्विटर** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)\*\* पर फॉलो\*\* करें।
 * **अपने हैकिंग ट्रिक्स साझा करें, हैकट्रिक्स** को पीआर जमा करके और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github रेपो में।
 
 </details>
@@ -28,26 +28,26 @@ HackTricks का समर्थन करने के अन्य तरी�
 
 * [ ] [**सिस्टम जानकारी**](windows-local-privilege-escalation/#system-info) प्राप्त करें
 * [ ] **स्क्रिप्ट का उपयोग करके** **कर्नेल** [**शोधें**](windows-local-privilege-escalation/#version-exploits)
-* **Google का उपयोग करें** कर्नेल **शोधने** के लिए
-* **searchsploit का उपयोग करें** कर्नेल **शोधने** के लिए
-* [**एनवायरनमेंट**](windows-local-privilege-escalation/#environment) में दिलचस्प जानकारी?
-* [**PowerShell इतिहास**](windows-local-privilege-escalation/#powershell-history) में पासवर्ड?
-* [**इंटरनेट सेटिंग्स**](windows-local-privilege-escalation/#internet-settings) में दिलचस्प जानकारी?
-* [**ड्राइव्स**](windows-local-privilege-escalation/#drives)?
-* [**WSUS उत्पीड़न**](windows-local-privilege-escalation/#wsus)?
-* [**AlwaysInstallElevated**](windows-local-privilege-escalation/#alwaysinstallelevated)?
+* [ ] **Google का उपयोग करें** कर्नेल **शोधने** के लिए
+* [ ] **searchsploit का उपयोग करें** कर्नेल **शोधने** के लिए
+* [ ] [**एनवायरनमेंट**](windows-local-privilege-escalation/#environment) में दिलचस्प जानकारी?
+* [ ] [**PowerShell इतिहास**](windows-local-privilege-escalation/#powershell-history) में पासवर्ड?
+* [ ] [**इंटरनेट सेटिंग्स**](windows-local-privilege-escalation/#internet-settings) में दिलचस्प जानकारी?
+* [ ] [**ड्राइव्स**](windows-local-privilege-escalation/#drives)?
+* [ ] [**WSUS उत्पीड़न**](windows-local-privilege-escalation/#wsus)?
+* [ ] [**AlwaysInstallElevated**](windows-local-privilege-escalation/#alwaysinstallelevated)?
 
 ### [लॉगिंग/AV गणना](windows-local-privilege-escalation/#enumeration)
 
 * [**ऑडिट** ](windows-local-privilege-escalation/#audit-settings)और [**WEF** ](windows-local-privilege-escalation/#wef)सेटिंग्स जांचें
 * [**LAPS**](windows-local-privilege-escalation/#laps) जांचें
-* क्या [**WDigest** ](windows-local-privilege-escalation/#wdigest) सक्रिय है?
+* क्या [**WDigest** ](windows-local-privilege-escalation/#wdigest)सक्रिय है?
 * [**LSA संरक्षण**](windows-local-privilege-escalation/#lsa-protection)?
 * [**क्रेडेंशियल्स गार्ड**](windows-local-privilege-escalation/#credentials-guard)[?](windows-local-privilege-escalation/#cached-credentials)
 * [**कैश क्रेडेंशियल्स**](windows-local-privilege-escalation/#cached-credentials) जांचें?
-* क्या कोई [**AV**](windows-av-bypass) है?
-* [**AppLocker नीति**](authentication-credentials-uac-and-efs#applocker-policy)?
-* [**UAC**](authentication-credentials-uac-and-efs/uac-user-account-control)
+* क्या कोई [**AV**](https://github.com/carlospolop/hacktricks/blob/in/windows-hardening/windows-av-bypass/README.md) है?
+* [**AppLocker नीति**](https://github.com/carlospolop/hacktricks/blob/in/windows-hardening/authentication-credentials-uac-and-efs/README.md#applocker-policy)?
+* [**UAC**](https://github.com/carlospolop/hacktricks/blob/in/windows-hardening/authentication-credentials-uac-and-efs/uac-user-account-control/README.md)
 * [**उपयोगकर्ता विशेषाधिकार**](windows-local-privilege-escalation/#users-and-groups) जांचें
 * [**वर्तमान** उपयोगकर्ता **विशेषाधिकार**](windows-local-privilege-escalation/#users-and-groups) जांचें
 * क्या आप [**किसी विशेषाधिकार वाले समूह के सदस्य**](windows-local-privilege-escalation/#privileged-groups) हैं?
@@ -71,16 +71,17 @@ HackTricks का समर्थन करने के अन्य तरी�
 
 ### [सेवाएं](windows-local-privilege-escalation/#services)
 
-* क्या आप किसी सेवा को **संशोधित** कर सकते हैं?](windows-local-privilege-escalation#permissions)
-* क्या आप किसी सेवा द्वारा निष्पादित किए जाने वाले **बाइनरी** को **संशोधित** कर सकते हैं?](windows-local-privilege-escalation/#modify-service-binary-path)
-* क्या आप किसी सेवा के **रजिस्ट्री** को **संशोधित** कर सकते हैं?](windows-local-privilege-escalation/#services-registry-modify-permissions)
-* क्या आप किसी **अन-उद्धृत सेवा** बाइनरी **पथ** का लाभ उठा सकते हैं?](windows-local-privilege-escalation/#unquoted-service-paths)
+* क्या आप किसी सेवा को **संशोधित** कर सकते हैं?]\(windows-local-privilege-escalation#permissions)
+* क्या आप किसी सेवा द्वारा निष्पादित किए जाने वाले **बाइनरी** को **संशोधित** कर सकते हैं?]\(windows-local-privilege-escalation/#modify-service-binary-path)
+* क्या आप किसी सेवा के **रजिस्ट्री** को **संशोधित** कर सकते हैं?]\(windows-local-privilege-escalation/#services-registry-modify-permissions)
+* क्या आप किसी **अन-उद्धृत सेवा** बाइनरी **पथ** का लाभ उठा सकते हैं?]\(windows-local-privilege-escalation/#unquoted-service-paths)
 
 ### [**एप्लिकेशन्स**](windows-local-privilege-escalation/#applications)
 
 * **स्थापित एप्लिकेशन्स** पर [**लेखन अनुमतियाँ**](windows-local-privilege-escalation/#write-permissions) जांचें
 * [**स्टार्टअप एप्लिकेशन्स**](windows-local-privilege-escalation/#run-at-startup) जांचें
 * **वंलरेबल** [**ड्राइवर्स**](windows-local-privilege-escalation/#drivers) जांचें
+
 ### [DLL Hijacking](windows-local-privilege-escalation/#path-dll-hijacking)
 
 * [ ] क्या आप **PATH के किसी भी फ़ोल्डर में लिख सकते हैं**?
@@ -112,15 +113,15 @@ HackTricks का समर्थन करने के अन्य तरी�
 * [ ] कोई [**SAM और SYSTEM**](windows-local-privilege-escalation/#sam-and-system-backups) बैकअप?
 * [ ] [**क्लाउड क्रेडेंशियल्स**](windows-local-privilege-escalation/#cloud-credentials)?
 * [ ] [**McAfee SiteList.xml**](windows-local-privilege-escalation/#mcafee-sitelist.xml) फ़ाइल?
-* [**GPP पासवर्ड**](windows-local-privilege-escalation/#cached-gpp-pasword) कैश किया गया?
+* [ ] [**GPP पासवर्ड**](windows-local-privilege-escalation/#cached-gpp-pasword) कैश किया गया?
 * [ ] [**IIS वेब कॉन्फ़िग फ़ाइल में**](windows-local-privilege-escalation/#iis-web-config) पासवर्ड?
 * [ ] [**वेब लॉगों में**](windows-local-privilege-escalation/#logs) दिलचस्प जानकारी?
 * [ ] क्या आप उपयोगकर्ता से [**क्रेडेंशियल्स मांगना चाहते हैं**](windows-local-privilege-escalation/#ask-for-credentials)?
 * [ ] रीसाइकल बिन में [**क्रेडेंशियल्स**](windows-local-privilege-escalation/#credentials-in-the-recyclebin) में दिलचस्प फ़ाइलें?
 * [ ] अन्य [**रजिस्ट्री जिसमें क्रेडेंशियल्स हैं**](windows-local-privilege-escalation/#inside-the-registry)?
 * [ ] [**ब्राउज़र डेटा में**](windows-local-privilege-escalation/#browsers-history) (डीबीएस, इतिहास, बुकमार्क्स, ...)?
-* [**जेनेरिक पासवर्ड खोज**](windows-local-privilege-escalation/#generic-password-search-in-files-and-registry) फ़ाइलों और रजिस्ट्री में
-* [**पासवर्ड खोजने के लिए उपकरण**](windows-local-privilege-escalation/#tools-that-search-for-passwords)
+* [ ] [**जेनेरिक पासवर्ड खोज**](windows-local-privilege-escalation/#generic-password-search-in-files-and-registry) फ़ाइलों और रजिस्ट्री में
+* [ ] [**पासवर्ड खोजने के लिए उपकरण**](windows-local-privilege-escalation/#tools-that-search-for-passwords)
 
 ### [लीक हैंडलर्स](windows-local-privilege-escalation/#leaked-handlers)
 
@@ -138,14 +139,14 @@ HackTricks का समर्थन करने के अन्य तरी�
 
 <details>
 
-<summary><strong>जानें AWS हैकिंग को शून्य से हीरो तक</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> के साथ!</strong></summary>
+<summary><strong>जानें AWS हैकिंग को शून्य से हीरो तक</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a> <strong>के साथ!</strong></summary>
 
 HackTricks का समर्थन करने के अन्य तरीके:
 
 * यदि आप अपनी कंपनी का विज्ञापन **HackTricks** में देखना चाहते हैं या **HackTricks** को **PDF** में डाउनलोड करना चाहते हैं तो [**सब्सक्रिप्शन प्लान्स**](https://github.com/sponsors/carlospolop) देखें!
 * [**आधिकारिक PEASS & HackTricks स्वैग**](https://peass.creator-spring.com) प्राप्त करें
 * हमारे विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) कलेक्शन [**The PEASS Family**](https://opensea.io/collection/the-peass-family) खोजें
-* **शामिल हों** 💬 [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या हमें **ट्विटर** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live) पर **फ़ॉलो** करें।
+* **शामिल हों** 💬 [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या हमें **ट्विटर** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live) पर **फ़ॉलो** करें।
 * **अपने हैकिंग ट्रिक्स साझा करें** [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github रेपो में PR जमा करके।
 
 </details>
