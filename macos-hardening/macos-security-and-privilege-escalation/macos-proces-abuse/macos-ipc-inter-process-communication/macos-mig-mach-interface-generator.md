@@ -1,4 +1,4 @@
-# macOS MIG - Mach-Schnittstellengenerator
+# macOS MIG - Mach Interface Generator
 
 <details>
 
@@ -38,9 +38,11 @@ n2          :  uint32_t);
 {% endcode %}
 
 Verwenden Sie jetzt mig, um den Server- und Client-Code zu generieren, der in der Lage sein wird, miteinander zu kommunizieren, um die Subtract-Funktion aufzurufen:
+
 ```bash
 mig -header myipcUser.h -sheader myipcServer.h myipc.defs
 ```
+
 Es werden mehrere neue Dateien im aktuellen Verzeichnis erstellt.
 
 In den Dateien **`myipcServer.c`** und **`myipcServer.h`** finden Sie die Deklaration und Definition der Struktur **`SERVERPREFmyipc_subsystem`**, die im Wesentlichen die Funktion definiert, die basierend auf der empfangenen Nachrichten-ID aufgerufen werden soll (wir haben eine Startnummer von 500 angegeben):
@@ -64,11 +66,12 @@ myipc_server_routine,
 ```
 {% endtab %}
 
-{% tab title="myipcServer.h" %}### macOS MIG (Mach Interface Generator)
+{% tab title="myipcServer.h" %}
+#### macOS MIG (Mach Interface Generator)
 
 MIG (Mach Interface Generator) is a tool used in macOS for defining inter-process communication (IPC) interfaces. It generates server-side and client-side code for message-based IPC.
 
-#### Example:
+**Example:**
 
 ```c
 #include <mach/mach.h>
@@ -92,6 +95,7 @@ In the example above, `myipc_server` and `myipc_server_demux` are server-side fu
 MIG is a powerful tool that can be abused by attackers for privilege escalation and other malicious activities if not properly secured.
 
 To secure MIG interfaces, ensure proper input validation, authentication, and authorization mechanisms are in place. Additionally, restrict access to sensitive MIG-generated functions to authorized processes only.
+
 ```c
 /* Description of this subsystem, for use in direct RPC */
 extern const struct SERVERPREFmyipc_subsystem {
@@ -108,6 +112,7 @@ routine[1];
 {% endtabs %}
 
 Basierend auf der vorherigen Struktur wird die Funktion **`myipc_server_routine`** die **Nachrichten-ID** erhalten und die entsprechende Funktion zurückgeben, die aufgerufen werden soll:
+
 ```c
 mig_external mig_routine_t myipc_server_routine
 (mach_msg_header_t *InHeadP)
@@ -122,15 +127,18 @@ return 0;
 return SERVERPREFmyipc_subsystem.routine[msgh_id].stub_routine;
 }
 ```
+
 In diesem Beispiel haben wir nur 1 Funktion in den Definitionen definiert, aber wenn wir mehr Funktionen definiert hätten, wären sie innerhalb des Arrays von **`SERVERPREFmyipc_subsystem`** gewesen und die erste wäre der ID **500** zugewiesen worden, die zweite der ID **501**...
 
 Tatsächlich ist es möglich, diese Beziehung in der Struktur **`subsystem_to_name_map_myipc`** aus **`myipcServer.h`** zu identifizieren:
+
 ```c
 #ifndef subsystem_to_name_map_myipc
 #define subsystem_to_name_map_myipc \
 { "Subtract", 500 }
 #endif
 ```
+
 Schließlich wird eine weitere wichtige Funktion zur Funktionsweise des Servers **`myipc_server`** sein, die tatsächlich die mit der empfangenen ID verbundene Funktion aufruft:
 
 <pre class="language-c"><code class="lang-c">mig_external boolean_t myipc_server
@@ -169,8 +177,6 @@ return FALSE;
 
 Im Folgenden ist der Code zum Erstellen eines einfachen **Servers** und **Clients**, bei dem der Client die Funktionen vom Server abziehen kann:
 
-{% tabs %}
-{% tab title="myipc_server.c" %}
 ```c
 // gcc myipc_server.c myipcServer.c -o myipc_server
 
@@ -201,13 +207,10 @@ return 1;
 mach_msg_server(myipc_server, sizeof(union __RequestUnion__SERVERPREFmyipc_subsystem), port, MACH_MSG_TIMEOUT_NONE);
 }
 ```
-{% endtab %}
 
-{% tab title="myipc_client.c" %} 
+#### macOS IPC: Inter-Process Communication
 
-### macOS IPC: Inter-Process Communication
-
-#### macOS MIG: Mach Interface Generator
+**macOS MIG: Mach Interface Generator**
 
 Mach Interface Generator (MIG) is a tool used to define inter-process communication (IPC) interfaces for Mach-based systems like macOS. It generates client-side and server-side code for IPC communication.
 
@@ -239,9 +242,8 @@ mig myinterface.defs
 
 This will produce `myinterfaceUser.c` and `myinterfaceServer.c` files that contain the client-side and server-side code for IPC communication based on the defined interface.
 
-By using MIG, developers can easily implement IPC mechanisms in macOS applications, allowing processes to communicate and exchange data efficiently and securely. 
+By using MIG, developers can easily implement IPC mechanisms in macOS applications, allowing processes to communicate and exchange data efficiently and securely.
 
-{% endtab %}
 ```c
 // gcc myipc_client.c myipcUser.c -o myipc_client
 
@@ -266,14 +268,17 @@ printf("Port right name %d\n", port);
 USERPREFSubtract(port, 40, 2);
 }
 ```
+
 ### Binäre Analyse
 
 Da viele Binärdateien jetzt MIG verwenden, um Mach-Ports freizulegen, ist es interessant zu wissen, wie man **identifiziert, dass MIG verwendet wurde** und die **Funktionen, die MIG mit jeder Nachrichten-ID ausführt**.
 
 [**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2) kann MIG-Informationen aus einer Mach-O-Binärdatei analysieren, die die Nachrichten-ID angibt und die auszuführende Funktion identifiziert:
+
 ```bash
 jtool2 -d __DATA.__const myipc_server | grep MIG
 ```
+
 Es wurde zuvor erwähnt, dass die Funktion, die sich um **den Aufruf der richtigen Funktion je nach empfangener Nachrichten-ID kümmert**, `myipc_server` war. Normalerweise haben Sie jedoch nicht die Symbole der Binärdatei (keine Funktionsnamen), daher ist es interessant zu **überprüfen, wie der dekompilierte Code aussieht**, da er immer sehr ähnlich sein wird (der Code dieser Funktion ist unabhängig von den freigegebenen Funktionen):
 
 {% tabs %}

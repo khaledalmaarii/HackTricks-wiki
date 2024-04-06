@@ -1,4 +1,4 @@
-# macOS Gefährliche Berechtigungen & TCC-Berechtigungen
+# macOS Dangerous Entitlements & TCC perms
 
 <details>
 
@@ -30,11 +30,11 @@ Die Berechtigung **`com.apple.rootless.install`** ermöglicht es, **SIP zu umgeh
 
 ### **`com.apple.system-task-ports` (früher `task_for_pid-allow` genannt)**
 
-Diese Berechtigung ermöglicht es, den **Task-Port für jeden** Prozess außer dem Kernel zu erhalten. Überprüfen Sie [**dies für weitere Informationen**](../mac-os-architecture/macos-ipc-inter-process-communication/).
+Diese Berechtigung ermöglicht es, den **Task-Port für jeden** Prozess außer dem Kernel zu erhalten. Überprüfen Sie [**dies für weitere Informationen**](../macos-proces-abuse/macos-ipc-inter-process-communication/).
 
 ### `com.apple.security.get-task-allow`
 
-Diese Berechtigung ermöglicht es anderen Prozessen mit der Berechtigung **`com.apple.security.cs.debugger`**, den Task-Port des Prozesses, der vom Binärcode mit dieser Berechtigung ausgeführt wird, zu erhalten und **Code einzuspeisen**. Überprüfen Sie [**dies für weitere Informationen**](../mac-os-architecture/macos-ipc-inter-process-communication/).
+Diese Berechtigung ermöglicht es anderen Prozessen mit der Berechtigung **`com.apple.security.cs.debugger`**, den Task-Port des Prozesses, der vom Binärcode mit dieser Berechtigung ausgeführt wird, zu erhalten und **Code einzuspeisen**. Überprüfen Sie [**dies für weitere Informationen**](../macos-proces-abuse/macos-ipc-inter-process-communication/).
 
 ### `com.apple.security.cs.debugger`
 
@@ -88,6 +88,7 @@ TODO: In [**diesem Bericht**](https://jhftss.github.io/The-Nightmare-of-Apple-OT
 ### `keychain-access-groups`
 
 Diese Berechtigung listet die **Schlüsselbundgruppen** auf, auf die die Anwendung Zugriff hat:
+
 ```xml
 <key>keychain-access-groups</key>
 <array>
@@ -98,6 +99,7 @@ Diese Berechtigung listet die **Schlüsselbundgruppen** auf, auf die die Anwendu
 <string>IMCore</string>
 </array>
 ```
+
 ### **`kTCCServiceSystemPolicyAllFiles`**
 
 Gibt Berechtigungen für **Voller Festplattenzugriff**, eine der höchsten Berechtigungen, die Sie haben können.
@@ -107,10 +109,10 @@ Gibt Berechtigungen für **Voller Festplattenzugriff**, eine der höchsten Berec
 Ermöglicht der App, Ereignisse an andere Anwendungen zu senden, die häufig für die **Automatisierung von Aufgaben** verwendet werden. Durch die Kontrolle anderer Apps kann sie die den anderen Apps gewährten Berechtigungen missbrauchen.
 
 Indem sie sie dazu bringt, den Benutzer nach seinem Passwort zu fragen:
+
 ```bash
 osascript -e 'tell app "App Store" to activate' -e 'tell app "App Store" to activate' -e 'tell app "App Store" to display dialog "App Store requires your password to continue." & return & return default answer "" with icon 1 with hidden answer with title "App Store Alert"'
 ```
-{% endcode %}
 
 Oder sie dazu bringen, **beliebige Aktionen** auszuführen.
 
@@ -167,12 +169,14 @@ Diese Berechtigung ermöglicht das Einhängen eines nullfs-Dateisystems (standar
 ### `kTCCServiceAll`
 
 Laut diesem Blogbeitrag wird diese TCC-Berechtigung normalerweise in der Form gefunden:
+
 ```
 [Key] com.apple.private.tcc.allow-prompting
 [Value]
 [Array]
 [String] kTCCServiceAll
 ```
+
 Erlauben Sie dem Prozess, **um alle TCC-Berechtigungen zu bitten**.
 
 ### **`kTCCServicePostEvent`**

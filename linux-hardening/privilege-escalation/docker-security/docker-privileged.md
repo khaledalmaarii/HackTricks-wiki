@@ -7,8 +7,8 @@
 * Arbeiten Sie in einem **Cybersicherheitsunternehmen**? Möchten Sie Ihr **Unternehmen in HackTricks bewerben**? Oder möchten Sie Zugriff auf die **neueste Version von PEASS oder HackTricks im PDF-Format** haben? Überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* **Treten Sie der** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie mir auf **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an das [hacktricks repo](https://github.com/carlospolop/hacktricks) und das [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)** senden.
+* **Treten Sie der** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie mir auf **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an das** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **und das** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) senden.
 
 </details>
 
@@ -21,13 +21,15 @@ Wenn Sie einen Container als privilegiert ausführen, werden die folgenden Schut
 In einem privilegierten Container können alle **Geräte in `/dev/`** zugegriffen werden. Dadurch können Sie durch **Mounten** der Festplatte des Hosts **ausbrechen**.
 
 {% tabs %}
-{% tab title="Im Standardcontainer" %}
+{% tab title="undefined" %}
 ```bash
 # docker run --rm -it alpine sh
 ls /dev
 console  fd       mqueue   ptmx     random   stderr   stdout   urandom
 core     full     null     pts      shm      stdin    tty      zero
 ```
+{% endtab %}
+
 {% tab title="In einem privilegierten Container" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
@@ -46,7 +48,7 @@ cpu              nbd0             pts              stdout           tty27       
 Kernel-Dateisysteme bieten einen Mechanismus, um das Verhalten des Kernels zu ändern. Wenn es jedoch um Container-Prozesse geht, möchten wir verhindern, dass sie Änderungen am Kernel vornehmen. Daher mounten wir Kernel-Dateisysteme als **schreibgeschützt** innerhalb des Containers, um sicherzustellen, dass die Container-Prozesse den Kernel nicht ändern können.
 
 {% tabs %}
-{% tab title="Innerhalb des Standardcontainers" %}
+{% tab title="undefined" %}
 ```bash
 # docker run --rm -it alpine sh
 mount | grep '(ro'
@@ -55,6 +57,8 @@ cpuset on /sys/fs/cgroup/cpuset type cgroup (ro,nosuid,nodev,noexec,relatime,cpu
 cpu on /sys/fs/cgroup/cpu type cgroup (ro,nosuid,nodev,noexec,relatime,cpu)
 cpuacct on /sys/fs/cgroup/cpuacct type cgroup (ro,nosuid,nodev,noexec,relatime,cpuacct)
 ```
+{% endtab %}
+
 {% tab title="In einem privilegierten Container" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
@@ -72,7 +76,7 @@ Das **/proc**-Dateisystem ist selektiv beschreibbar, aber aus Sicherheitsgründe
 {% endhint %}
 
 {% tabs %}
-{% tab title="Im Standardcontainer" %}
+{% tab title="undefined" %}
 ```bash
 # docker run --rm -it alpine sh
 mount  | grep /proc.*tmpfs
@@ -80,6 +84,8 @@ tmpfs on /proc/acpi type tmpfs (ro,relatime)
 tmpfs on /proc/kcore type tmpfs (rw,nosuid,size=65536k,mode=755)
 tmpfs on /proc/keys type tmpfs (rw,nosuid,size=65536k,mode=755)
 ```
+{% endtab %}
+
 {% tab title="In einem privilegierten Container" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
@@ -97,7 +103,7 @@ Container-Engines starten Container standardmäßig mit einer **begrenzten Anzah
 {% endcontent-ref %}
 
 {% tabs %}
-{% tab title="Innerhalb des Standardcontainers" %}
+{% tab title="undefined" %}
 ```bash
 # docker run --rm -it alpine sh
 apk add -U libcap; capsh --print
@@ -106,6 +112,8 @@ Current: cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,ca
 Bounding set =cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap
 [...]
 ```
+{% endtab %}
+
 {% tab title="In einem privilegierten Container" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
@@ -147,10 +155,12 @@ Seccomp_filters:	0
 ```
 {% endtab %}
 {% endtabs %}
+
 ```bash
 # You can manually disable seccomp in docker with
 --security-opt seccomp=unconfined
 ```
+
 Auch beachten Sie, dass wenn Docker (oder andere CRIs) in einem **Kubernetes**-Cluster verwendet werden, ist der **seccomp-Filter standardmäßig deaktiviert**.
 
 ### AppArmor
@@ -160,10 +170,12 @@ Auch beachten Sie, dass wenn Docker (oder andere CRIs) in einem **Kubernetes**-C
 {% content-ref url="apparmor.md" %}
 [apparmor.md](apparmor.md)
 {% endcontent-ref %}
+
 ```bash
 # You can manually disable seccomp in docker with
 --security-opt apparmor=unconfined
 ```
+
 ### SELinux
 
 Das Ausführen eines Containers mit dem `--privileged`-Flag deaktiviert **SELinux-Labels**, wodurch es das Label des Container-Engines erbt, normalerweise `unconfined`, was vollen Zugriff ähnlich wie der Container-Engine gewährt. Im rootless-Modus wird `container_runtime_t` verwendet, während im Root-Modus `spc_t` angewendet wird.
@@ -171,10 +183,12 @@ Das Ausführen eines Containers mit dem `--privileged`-Flag deaktiviert **SELinu
 {% content-ref url="../selinux.md" %}
 [selinux.md](../selinux.md)
 {% endcontent-ref %}
+
 ```bash
 # You can manually disable selinux in docker with
 --security-opt label:disable
 ```
+
 ## Was nicht beeinflusst wird
 
 ### Namespaces
@@ -182,7 +196,7 @@ Das Ausführen eines Containers mit dem `--privileged`-Flag deaktiviert **SELinu
 Namespaces werden **NICHT von** dem `--privileged` Flag beeinflusst. Obwohl sie keine Sicherheitsbeschränkungen aktiviert haben, **sehen sie zum Beispiel nicht alle Prozesse im System oder im Host-Netzwerk**. Benutzer können einzelne Namespaces deaktivieren, indem sie die Container-Engine-Flags **`--pid=host`, `--net=host`, `--ipc=host`, `--uts=host`** verwenden.
 
 {% tabs %}
-{% tab title="Innerhalb des standardmäßigen privilegierten Containers" %}
+{% tab title="undefined" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 ps -ef
@@ -190,6 +204,8 @@ PID   USER     TIME  COMMAND
 1 root      0:00 sh
 18 root      0:00 ps -ef
 ```
+{% endtab %}
+
 {% tab title="Innerhalb des --pid=host Containers" %}
 ```bash
 # docker run --rm --privileged --pid=host -it alpine sh
@@ -218,7 +234,7 @@ Standardmäßig verwenden Container-Engines keinen Benutzernamensraum, außer f�
 * Arbeiten Sie in einem **Cybersicherheitsunternehmen**? Möchten Sie Ihr **Unternehmen in HackTricks bewerben**? Oder möchten Sie Zugriff auf die **neueste Version von PEASS erhalten oder HackTricks als PDF herunterladen**? Überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* **Treten Sie der** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie mir auf **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an das [hacktricks repo](https://github.com/carlospolop/hacktricks) und das [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)** einreichen.
+* **Treten Sie der** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie mir auf **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an das** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **und das** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) einreichen.
 
 </details>

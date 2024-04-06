@@ -1,4 +1,4 @@
-# macOS Prozessmissbrauch
+# macOS Proces Abuse
 
 <details>
 
@@ -30,16 +30,16 @@ Bei der Bibliotheksinjektion handelt es sich um eine Technik, bei der ein Angrei
 
 Beim Funktionshaken handelt es sich um das **Abfangen von Funktionsaufrufen** oder Nachrichten innerhalb eines Softwarecodes. Durch das Haken von Funktionen kann ein Angreifer das Verhalten eines Prozesses **ändern**, sensible Daten beobachten oder sogar die Kontrolle über den Ausführungsfluss übernehmen.
 
-{% content-ref url="../mac-os-architecture/macos-function-hooking.md" %}
-[macos-function-hooking.md](../mac-os-architecture/macos-function-hooking.md)
+{% content-ref url="macos-function-hooking.md" %}
+[macos-function-hooking.md](macos-function-hooking.md)
 {% endcontent-ref %}
 
 ### Interprozesskommunikation
 
 Die Interprozesskommunikation (IPC) bezieht sich auf verschiedene Methoden, mit denen separate Prozesse **Daten teilen und austauschen** können. Obwohl IPC für viele legitime Anwendungen grundlegend ist, kann sie auch missbraucht werden, um die Prozessisolierung zu umgehen, sensible Informationen preiszugeben oder nicht autorisierte Aktionen auszuführen.
 
-{% content-ref url="../mac-os-architecture/macos-ipc-inter-process-communication/" %}
-[macos-ipc-inter-process-communication](../mac-os-architecture/macos-ipc-inter-process-communication/)
+{% content-ref url="macos-ipc-inter-process-communication/" %}
+[macos-ipc-inter-process-communication](macos-ipc-inter-process-communication/)
 {% endcontent-ref %}
 
 ### Injektion von Electron-Anwendungen
@@ -110,6 +110,7 @@ Beachten Sie, dass ausführbare Dateien, die mit **`pyinstaller`** kompiliert wu
 {% hint style="danger" %}
 Insgesamt konnte ich keinen Weg finden, um Python dazu zu bringen, beliebigen Code durch den Missbrauch von Umgebungsvariablen auszuführen.\
 Die meisten Menschen installieren jedoch Python mit **Hombrew**, das Python an einem **beschreibbaren Speicherort** für den Standard-Admin-Benutzer installiert. Sie können es mit etwas wie folgendem übernehmen:
+
 ```bash
 mv /opt/homebrew/bin/python3 /opt/homebrew/bin/python3.old
 cat > /opt/homebrew/bin/python3 <<EOF
@@ -119,6 +120,7 @@ cat > /opt/homebrew/bin/python3 <<EOF
 EOF
 chmod +x /opt/homebrew/bin/python3
 ```
+
 Selbst **root** wird diesen Code ausführen, wenn Python ausgeführt wird.
 {% endhint %}
 

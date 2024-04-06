@@ -1,4 +1,4 @@
-# Writable Sys Path +Dll Hijacking Privilegierhöhung
+# Writable Sys Path +Dll Hijacking Privesc
 
 <details>
 
@@ -6,11 +6,11 @@
 
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
-- Wenn Sie Ihr Unternehmen in HackTricks bewerben möchten oder HackTricks als PDF herunterladen möchten, überprüfen Sie die [ABONNEMENTPLÄNE](https://github.com/sponsors/carlospolop)!
-- Holen Sie sich das offizielle PEASS & HackTricks-Merchandise
-- Entdecken Sie die PEASS-Familie, unsere Sammlung exklusiver NFTs
-- Treten Sie der Discord-Gruppe oder der Telegram-Gruppe bei oder folgen Sie uns auf Twitter
-- Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die HackTricks- und HackTricks Cloud-GitHub-Repositories senden.
+* Wenn Sie Ihr Unternehmen in HackTricks bewerben möchten oder HackTricks als PDF herunterladen möchten, überprüfen Sie die [ABONNEMENTPLÄNE](https://github.com/sponsors/carlospolop)!
+* Holen Sie sich das offizielle PEASS & HackTricks-Merchandise
+* Entdecken Sie die PEASS-Familie, unsere Sammlung exklusiver NFTs
+* Treten Sie der Discord-Gruppe oder der Telegram-Gruppe bei oder folgen Sie uns auf Twitter
+* Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die HackTricks- und HackTricks Cloud-GitHub-Repositories senden.
 
 </details>
 
@@ -22,8 +22,8 @@ Um dies zu erreichen, können Sie eine Dll-Hijacking-Methode missbrauchen, bei d
 
 Weitere Informationen zum Thema Dll-Hijacking finden Sie unter:
 
-{% content-ref url="../dll-hijacking.md" %}
-[dll-hijacking.md](../dll-hijacking.md)
+{% content-ref url="./" %}
+[.](./)
 {% endcontent-ref %}
 
 ## Privilegierhöhung mit Dll-Hijacking
@@ -34,7 +34,8 @@ Das erste, was Sie tun müssen, ist, einen Prozess zu identifizieren, der mit h�
 
 Das Problem in solchen Fällen ist, dass diese Prozesse wahrscheinlich bereits ausgeführt werden. Um herauszufinden, welche Dlls den Diensten fehlen, müssen Sie Procmon so schnell wie möglich starten (bevor die Prozesse geladen werden). Um fehlende .dlls zu finden, führen Sie folgende Schritte aus:
 
-- Erstellen Sie den Ordner `C:\privesc_hijacking` und fügen Sie den Pfad `C:\privesc_hijacking` zur Systempfad-Umgebungsvariable hinzu. Sie können dies manuell oder mit PS tun:
+* Erstellen Sie den Ordner `C:\privesc_hijacking` und fügen Sie den Pfad `C:\privesc_hijacking` zur Systempfad-Umgebungsvariable hinzu. Sie können dies manuell oder mit PS tun:
+
 ```powershell
 # Set the folder path to create and check events for
 $folderPath = "C:\privesc_hijacking"
@@ -51,6 +52,7 @@ $newPath = "$envPath;$folderPath"
 [Environment]::SetEnvironmentVariable("PATH", $newPath, "Machine")
 }
 ```
+
 * Starten Sie **`procmon`** und gehen Sie zu **`Optionen`** --> **`Bootprotokollierung aktivieren`** und klicken Sie auf **`OK`** in der Meldung.
 * Starten Sie dann den **Computer neu**. Wenn der Computer neu gestartet wird, beginnt **`procmon`** sofort mit der Aufzeichnung von Ereignissen.
 * Sobald **Windows** gestartet ist, führen Sie **`procmon`** erneut aus. Es wird Ihnen mitteilen, dass es ausgeführt wurde, und Sie fragen, ob Sie die Ereignisse in einer Datei speichern möchten. Sagen Sie **ja** und **speichern Sie die Ereignisse in einer Datei**.
@@ -67,7 +69,7 @@ Bei der Ausführung auf einer kostenlosen **virtuellen (VMware) Windows 11-Masch
 
 In diesem Fall sind die .exe-Dateien nutzlos, also ignorieren Sie sie. Die fehlenden DLLs stammen von:
 
-| Dienst                          | DLL                | Befehlszeile                                                        |
+| Dienst                          | DLL                | Befehlszeile                                                         |
 | ------------------------------- | ------------------ | -------------------------------------------------------------------- |
 | Aufgabenplanung (Schedule)      | WptsExtensions.dll | `C:\Windows\system32\svchost.exe -k netsvcs -p -s Schedule`          |
 | Diagnoserichtliniendienst (DPS) | Unknown.DLL        | `C:\Windows\System32\svchost.exe -k LocalServiceNoNetwork -p -s DPS` |
@@ -79,7 +81,7 @@ Nachdem ich dies gefunden hatte, fand ich diesen interessanten Blog-Beitrag, der
 
 Um also Privilegien zu **eskalierten**, werden wir die Bibliothek **WptsExtensions.dll** hijacken. Wenn wir den **Pfad** und den **Namen** haben, müssen wir nur die bösartige DLL generieren.
 
-Sie können [**eines dieser Beispiele verwenden**](../dll-hijacking.md#creating-and-compiling-dlls). Sie könnten Payloads ausführen wie: eine Reverse-Shell erhalten, einen Benutzer hinzufügen, einen Beacon ausführen...
+Sie können [**eines dieser Beispiele verwenden**](./#creating-and-compiling-dlls). Sie könnten Payloads ausführen wie: eine Reverse-Shell erhalten, einen Benutzer hinzufügen, einen Beacon ausführen...
 
 {% hint style="warning" %}
 Beachten Sie, dass **nicht alle Dienste** mit **`NT AUTHORITY\SYSTEM`** ausgeführt werden, einige werden auch mit **`NT AUTHORITY\LOCAL SERVICE`** ausgeführt, der **weniger Privilegien** hat und Sie **keinen neuen Benutzer erstellen können**, um seine Berechtigungen zu missbrauchen.\
@@ -101,7 +103,7 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 * Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen** möchten, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegramm-Gruppe**](https://t.me/peass) bei oder folgen Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegramm-Gruppe**](https://t.me/peass) bei oder folgen Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **GitHub-Repositories** senden.
 
 </details>
