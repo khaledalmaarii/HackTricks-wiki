@@ -1,4 +1,4 @@
-# Docker 보안
+# Docker Security
 
 <details>
 
@@ -9,7 +9,7 @@ HackTricks를 지원하는 다른 방법:
 * **회사를 HackTricks에서 광고**하거나 **PDF로 HackTricks 다운로드**하려면 [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
 * [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구매하세요
 * [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* **💬 [Discord 그룹](https://discord.gg/hRep4RUj7f)** 또는 [텔레그램 그룹](https://t.me/peass)에 **참여**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)를 **팔로우**하세요.
+* **💬** [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [텔레그램 그룹](https://t.me/peass)에 **참여**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)를 **팔로우**하세요.
 * **해킹 트릭을 공유하려면** [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 저장소에 PR을 제출하세요.
 
 </details>
@@ -33,10 +33,12 @@ HackTricks를 지원하는 다른 방법:
 Docker 엔진은 로컬로는 Unix 소켓을 통해, 원격으로는 HTTP를 사용하여 액세스할 수 있습니다. 원격 액세스의 경우, 기밀성, 무결성 및 인증을 보장하기 위해 HTTPS 및 **TLS**를 사용하는 것이 중요합니다.
 
 Ubuntu 시스템에서 Docker는 기본적으로 `unix:///var/run/docker.sock`에서 Unix 소켓을 수신합니다. Docker의 시작 옵션은 `/etc/default/docker`에 정의됩니다. Docker API 및 클라이언트에 원격 액세스를 활성화하려면 다음 설정을 추가하여 Docker 데몬을 HTTP 소켓으로 노출하세요:
+
 ```bash
 DOCKER_OPTS="-D -H unix:///var/run/docker.sock -H tcp://192.168.56.101:2376"
 sudo service docker restart
 ```
+
 그러나 Docker 데몬을 HTTP로 노출하는 것은 보안 문제로 인해 권장되지 않습니다. 연결을 안전하게 하려면 HTTPS를 사용하는 것이 좋습니다. 연결을 보호하는 두 가지 주요 방법이 있습니다:
 
 1. 클라이언트가 서버의 신원을 확인합니다.
@@ -61,6 +63,7 @@ sudo service docker restart
 * **`docker scan`**
 
 **`docker scan`** 명령을 사용하면 이미지 이름 또는 ID를 사용하여 기존 Docker 이미지를 스캔할 수 있습니다. 예를 들어, 다음 명령을 실행하여 hello-world 이미지를 스캔할 수 있습니다:
+
 ```bash
 docker scan hello-world
 
@@ -76,32 +79,41 @@ Licenses:          enabled
 
 Note that we do not currently have vulnerability data for your image.
 ```
+
 * [**`trivy`**](https://github.com/aquasecurity/trivy)
+
 ```bash
 trivy -q -f json <container_name>:<tag>
 ```
+
 * [**`snyk`**](https://docs.snyk.io/snyk-cli/getting-started-with-the-cli)
+
 ```bash
 snyk container test <image> --json-file-output=<output file> --severity-threshold=high
 ```
+
 * [**`clair-scanner`**](https://github.com/arminc/clair-scanner)
+
 ```bash
 clair-scanner -w example-alpine.yaml --ip YOUR_LOCAL_IP alpine:3.5
 ```
+
 ### Docker 이미지 서명
 
 도커 이미지 서명은 컨테이너에서 사용되는 이미지의 보안과 무결성을 보장합니다. 다음은 간략한 설명입니다:
 
-- **도커 콘텐츠 신뢰(Docker Content Trust)**는 이미지 서명을 관리하기 위해 The Update Framework (TUF)를 기반으로 하는 Notary 프로젝트를 활용합니다. 자세한 정보는 [Notary](https://github.com/docker/notary) 및 [TUF](https://theupdateframework.github.io)를 참조하십시오.
-- 도커 콘텐츠 신뢰를 활성화하려면 `export DOCKER_CONTENT_TRUST=1`을 설정하십시오. 이 기능은 도커 버전 1.10 이후에 기본적으로 꺼져 있습니다.
-- 이 기능을 활성화하면 서명된 이미지만 다운로드할 수 있습니다. 초기 이미지 푸시는 루트 및 태깅 키에 대한 암호를 설정해야 하며, 도커는 보안을 강화하기 위해 Yubikey도 지원합니다. 자세한 내용은 [여기](https://blog.docker.com/2015/11/docker-content-trust-yubikey/)에서 확인할 수 있습니다.
-- 콘텐츠 신뢰가 활성화된 상태에서 서명되지 않은 이미지를 가져오려고 시도하면 "No trust data for latest" 오류가 발생합니다.
-- 첫 번째 이후의 이미지 푸시에 대해 도커는 이미지에 서명하기 위해 저장소 키의 암호를 요청합니다.
+* \*\*도커 콘텐츠 신뢰(Docker Content Trust)\*\*는 이미지 서명을 관리하기 위해 The Update Framework (TUF)를 기반으로 하는 Notary 프로젝트를 활용합니다. 자세한 정보는 [Notary](https://github.com/docker/notary) 및 [TUF](https://theupdateframework.github.io)를 참조하십시오.
+* 도커 콘텐츠 신뢰를 활성화하려면 `export DOCKER_CONTENT_TRUST=1`을 설정하십시오. 이 기능은 도커 버전 1.10 이후에 기본적으로 꺼져 있습니다.
+* 이 기능을 활성화하면 서명된 이미지만 다운로드할 수 있습니다. 초기 이미지 푸시는 루트 및 태깅 키에 대한 암호를 설정해야 하며, 도커는 보안을 강화하기 위해 Yubikey도 지원합니다. 자세한 내용은 [여기](https://blog.docker.com/2015/11/docker-content-trust-yubikey/)에서 확인할 수 있습니다.
+* 콘텐츠 신뢰가 활성화된 상태에서 서명되지 않은 이미지를 가져오려고 시도하면 "No trust data for latest" 오류가 발생합니다.
+* 첫 번째 이후의 이미지 푸시에 대해 도커는 이미지에 서명하기 위해 저장소 키의 암호를 요청합니다.
 
 개인 키를 백업하려면 다음 명령을 사용하십시오:
+
 ```bash
 tar -zcvf private_keys_backup.tar.gz ~/.docker/trust/private
 ```
+
 Docker 호스트를 전환할 때는 작업을 유지하기 위해 루트 및 저장소 키를 이동해야 합니다.
 
 ***
@@ -183,15 +195,19 @@ Current: cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,ca
 
 Linux 커널 기능인 **cgroups**는 일련의 프로세스 사이에서 **cpu, 메모리, io, 네트워크 대역폭과 같은 리소스를 제한**하는 기능을 제공합니다. 도커는 특정 컨테이너에 대한 리소스 제어를 가능하게 하는 cgroup 기능을 사용하여 컨테이너를 생성할 수 있습니다.\
 다음은 사용자 공간 메모리가 500m로 제한되고, 커널 메모리가 50m로 제한되며, CPU 공유가 512로, blkioweight가 400으로 설정된 컨테이너입니다. CPU 공유는 컨테이너의 CPU 사용량을 제어하는 비율입니다. 기본값은 1024이며 0에서 1024 사이의 범위를 가집니다. CPU 리소스 충돌이 발생하는 경우 CPU 공유가 1024인 세 개의 컨테이너가 동일한 CPU 공유를 가지고 있다면 각 컨테이너는 CPU의 최대 33%를 사용할 수 있습니다. blkio-weight는 컨테이너의 IO를 제어하는 비율입니다. 기본값은 500이며 10에서 1000 사이의 범위를 가집니다.
+
 ```
 docker run -it -m 500M --kernel-memory 50M --cpu-shares 512 --blkio-weight 400 --name ubuntu1 ubuntu bash
 ```
+
 컨테이너의 cgroup을 얻으려면 다음을 수행할 수 있습니다:
+
 ```bash
 docker run -dt --rm denial sleep 1234 #Run a large sleep inside a Debian container
 ps -ef | grep 1234 #Get info about the sleep process
 ls -l /proc/<PID>/ns #Get the Group and the namespaces (some may be uniq to the hosts and some may be shred with it)
 ```
+
 더 많은 정보를 확인하려면:
 
 {% content-ref url="cgroups.md" %}
@@ -256,6 +272,7 @@ Docker에서 권한 부여 플러그인은 Docker 데몬에 대한 요청을 허
 컨테이너가 사용할 수 있는 리소스를 제대로 제한하지 않으면, 침해당한 컨테이너가 실행 중인 호스트에 DoS를 발생시킬 수 있습니다.
 
 * CPU DoS
+
 ```bash
 # stress-ng
 sudo apt-get install -y stress-ng && stress-ng --vm 1 --vm-bytes 1G --verify -t 5m
@@ -263,10 +280,13 @@ sudo apt-get install -y stress-ng && stress-ng --vm 1 --vm-bytes 1G --verify -t 
 # While loop
 docker run -d --name malicious-container -c 512 busybox sh -c 'while true; do :; done'
 ```
+
 * 대역폭 DoS
+
 ```bash
 nc -lvp 4444 >/dev/null & while true; do cat /dev/urandom | nc <target IP> 4444; done
 ```
+
 ## 흥미로운 Docker 플래그
 
 ### --privileged 플래그
@@ -284,10 +304,13 @@ nc -lvp 4444 >/dev/null & while true; do cat /dev/urandom | nc <target IP> 4444;
 공격자가 낮은 권한 사용자로 액세스를 획득한 컨테이너를 실행 중인 경우, **잘못 구성된 suid 이진 파일**이 있는 경우, 공격자는 이를 악용하여 컨테이너 내에서 **권한 상승**을 할 수 있습니다. 이로 인해 컨테이너를 탈출할 수도 있습니다.
 
 **`no-new-privileges`** 옵션을 활성화하여 컨테이너를 실행하면 이러한 권한 상승을 **방지**할 수 있습니다.
+
 ```
 docker run -it --security-opt=no-new-privileges:true nonewpriv
 ```
+
 #### 기타
+
 ```bash
 #You can manually add/drop capabilities with
 --cap-add
@@ -302,6 +325,7 @@ docker run -it --security-opt=no-new-privileges:true nonewpriv
 # You can manually disable selinux in docker with
 --security-opt label:disable
 ```
+
 더 많은 **`--security-opt`** 옵션을 확인하려면 다음을 참조하세요: [https://docs.docker.com/engine/reference/run/#security-configuration](https://docs.docker.com/engine/reference/run/#security-configuration)
 
 ## 기타 보안 고려 사항
@@ -321,10 +345,13 @@ BuildKit을 활용하기 위해 세 가지 방법으로 활성화할 수 있습�
 3. 도커 구성에서 기본적으로 활성화: `{ "features": { "buildkit": true } }`, 이후 도커 재시작.
 
 BuildKit은 `--secret` 옵션을 사용하여 빌드 시간 시크릿을 사용할 수 있도록 하며, 이러한 비밀이 이미지 빌드 캐시나 최종 이미지에 포함되지 않도록 보장합니다.
+
 ```bash
 docker build --secret my_key=my_value ,src=path/to/my_secret_file .
 ```
+
 실행 중인 컨테이너에서 필요한 비밀은 **Docker Compose와 Kubernetes**이 강력한 솔루션을 제공합니다. Docker Compose는 시크릿 파일을 지정하기 위해 서비스 정의에서 `secrets` 키를 활용하며, 이는 `docker-compose.yml` 예시에서 확인할 수 있습니다:
+
 ```yaml
 version: "3.7"
 services:
@@ -337,6 +364,7 @@ secrets:
 my_secret:
 file: ./my_secret_file.txt
 ```
+
 이 구성은 Docker Compose를 사용하여 서비스를 시작할 때 시크릿을 사용할 수 있게 합니다.
 
 Kubernetes 환경에서는 시크릿이 네이티브로 지원되며 [Helm-Secrets](https://github.com/futuresimple/helm-secrets)와 같은 도구로 더욱 효율적으로 관리할 수 있습니다. Kubernetes의 Role Based Access Controls (RBAC)는 Docker Enterprise와 유사하게 시크릿 관리 보안을 강화합니다.
@@ -360,15 +388,16 @@ Kubernetes 환경에서는 시크릿이 네이티브로 지원되며 [Helm-Secre
 * [**모든 기능을 삭제하고**](https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities) **필요한 것만 활성화하세요** (`--cap-add=...`). 많은 워크로드는 어떤 기능도 필요로 하지 않으며, 추가하면 잠재적인 공격 범위가 증가합니다.
 * **프로세스가 더 많은 권한을 얻는 것을 방지하기 위해** [**“no-new-privileges” 보안 옵션을 사용하세요**](https://raesene.github.io/blog/2019/06/01/docker-capabilities-and-no-new-privs/). 예를 들어 suid 이진 파일을 통해 권한을 더 얻는 것을 방지합니다.
 * **컨테이너에 사용 가능한 자원을 제한하세요**. 자원 제한은 머신을 서비스 거부 공격으로부터 보호할 수 있습니다.
-* **[seccomp](https://docs.docker.com/engine/security/seccomp/)**, **[AppArmor](https://docs.docker.com/engine/security/apparmor/)** **(또는 SELinux)** 프로필을 조정하여 컨테이너에서 사용 가능한 작업 및 시스템 호출을 필요한 최소한으로 제한하세요.
-* **[공식 Docker 이미지](https://docs.docker.com/docker-hub/official\_images/)를 사용하고 서명을 요구하거나 해당 이미지를 기반으로 직접 빌드하세요.** 백도어가 있는 이미지를 상속하거나 사용하지 마세요. 또한 루트 키, 패스프레이즈를 안전한 위치에 저장하세요. Docker는 UCP를 사용하여 키를 관리할 계획입니다.
+* [**seccomp**](https://docs.docker.com/engine/security/seccomp/), [**AppArmor**](https://docs.docker.com/engine/security/apparmor/) **(또는 SELinux)** 프로필을 조정하여 컨테이너에서 사용 가능한 작업 및 시스템 호출을 필요한 최소한으로 제한하세요.
+* [**공식 Docker 이미지**](https://docs.docker.com/docker-hub/official\_images/)**를 사용하고 서명을 요구하거나 해당 이미지를 기반으로 직접 빌드하세요.** 백도어가 있는 이미지를 상속하거나 사용하지 마세요. 또한 루트 키, 패스프레이즈를 안전한 위치에 저장하세요. Docker는 UCP를 사용하여 키를 관리할 계획입니다.
 * **이미지를 정기적으로 다시 빌드하여 호스트 및 이미지에 보안 패치를 적용하세요.**
 * **시크릿을 현명하게 관리하여 공격자가 액세스하기 어렵게 만드세요.**
 * **도커 데몬을 노출하는 경우 HTTPS를 사용하세요**. 클라이언트 및 서버 인증을 사용합니다.
 * **Dockerfile에서는 ADD 대신 COPY를 선호하세요**. ADD는 자동으로 압축 해제하고 URL에서 파일을 복사할 수 있습니다. COPY는 이러한 기능이 없습니다. 가능한 경우 ADD 사용을 피하여 원격 URL 및 Zip 파일을 통한 공격에 취약하지 않도록 합니다.
 * **각 마이크로 서비스에 대해 별도의 컨테이너를 사용하세요.**
 * **컨테이너 이미지를 더 작게 유지하세요.**
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 제로부터 영웅이 될 때까지 AWS 해킹을 배우세요!</summary>
+
+**htARTE (HackTricks AWS Red Team Expert)**를 통해 제로부터 영웅이 될 때까지 AWS 해킹을 배우세요!
 
 HackTricks를 지원하는 다른 방법:
 

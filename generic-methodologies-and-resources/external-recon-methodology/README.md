@@ -1,4 +1,4 @@
-# 외부 탐색 방법론
+# External Recon Methodology
 
 <details>
 
@@ -27,7 +27,7 @@ HackTricks를 지원하는 다른 방법:
 이 단계의 목표는 **주요 회사가 소유한 회사** 및 해당 회사의 **모든 자산**을 획득하는 것입니다. 이를 위해 다음을 수행할 것입니다:
 
 1. 주요 회사의 인수를 찾아 해당 범위 내의 회사를 얻습니다.
-2. 각 회사의 **ASN(있는 경우)**을 찾아 해당 회사가 소유한 IP 범위를 얻습니다.
+2. 각 회사의 \*\*ASN(있는 경우)\*\*을 찾아 해당 회사가 소유한 IP 범위를 얻습니다.
 3. 다른 항목(조직 이름, 도메인 등)을 검색하기 위해 역 whois 조회를 사용하여 첫 번째 항목과 관련된 항목을 검색합니다(이를 재귀적으로 수행할 수 있음).
 4. 다른 기술(예: shodan `org` 및 `ssl` 필터)을 사용하여 다른 자산을 검색합니다(`ssl` 트릭은 재귀적으로 수행할 수 있음).
 
@@ -41,18 +41,21 @@ HackTricks를 지원하는 다른 방법:
 
 ### **ASNs**
 
-자율 시스템 번호(**ASN**)는 **인터넷 할당 번호 기관(IANA)**에 의해 **자율 시스템(AS)**에 할당된 **고유한 번호**입니다.\
+자율 시스템 번호(**ASN**)는 \*\*인터넷 할당 번호 기관(IANA)\*\*에 의해 \*\*자율 시스템(AS)\*\*에 할당된 **고유한 번호**입니다.\
 **AS**는 외부 네트워크에 액세스하기 위한 명확히 정의된 정책을 가진 **IP 주소 블록**으로 구성되며 단일 조직에 의해 관리되지만 여러 운영자로 구성될 수 있습니다.
 
 **회사가 할당한 ASN이 있는지** 찾아 해당 **IP 범위를** 찾는 것이 흥미로울 것입니다. **범위 내의 모든 호스트에 대한 취약성 테스트**를 수행하고 해당 IP 내의 도메인을 찾아보세요.\
 [**https://bgp.he.net/**](https://bgp.he.net)에서 회사 **이름**, **IP**, 또는 **도메인**으로 검색할 수 있습니다.\
-**회사의 지역에 따라 이 링크가 더 많은 데이터를 수집하는 데 유용할 수 있습니다:** [**AFRINIC**](https://www.afrinic.net) **(아프리카),** [**Arin**](https://www.arin.net/about/welcome/region/)**(북미),** [**APNIC**](https://www.apnic.net) **(아시아),** [**LACNIC**](https://www.lacnic.net) **(중남미),** [**RIPE NCC**](https://www.ripe.net) **(유럽). 그러나 아마도 모든** 유용한 정보 **(IP 범위 및 Whois)**가 이미 첫 번째 링크에 나와 있을 것입니다.
+**회사의 지역에 따라 이 링크가 더 많은 데이터를 수집하는 데 유용할 수 있습니다:** [**AFRINIC**](https://www.afrinic.net) **(아프리카),** [**Arin**](https://www.arin.net/about/welcome/region/)**(북미),** [**APNIC**](https://www.apnic.net) **(아시아),** [**LACNIC**](https://www.lacnic.net) **(중남미),** [**RIPE NCC**](https://www.ripe.net) **(유럽). 그러나 아마도 모든** 유용한 정보 \*\*(IP 범위 및 Whois)\*\*가 이미 첫 번째 링크에 나와 있을 것입니다.
+
 ```bash
 #You can try "automate" this with amass, but it's not very recommended
 amass intel -org tesla
 amass intel -asn 8911,50313,394161
 ```
+
 또한, [**BBOT**](https://github.com/blacklanternsecurity/bbot)의 하위 도메인 열거는 스캔 마지막에 ASNs를 자동으로 집계 및 요약합니다.
+
 ```bash
 bbot -t tesla.com -f subdomain-enum
 ...
@@ -69,6 +72,7 @@ bbot -t tesla.com -f subdomain-enum
 [INFO] bbot.modules.asn: +----------+---------------------+--------------+----------------+----------------------------+-----------+
 
 ```
+
 조직의 IP 범위를 찾을 수도 있습니다. [http://asnlookup.com/](http://asnlookup.com) (무료 API 제공).\
 도메인의 IP 및 ASN을 찾을 수 있습니다. [http://ipv4info.com/](http://ipv4info.com).
 
@@ -76,7 +80,7 @@ bbot -t tesla.com -f subdomain-enum
 
 이 시점에서 **범위 내의 모든 자산을 알고 있으므로**, 허용된다면 모든 호스트에 대해 **취약점 스캐너**(Nessus, OpenVAS)를 실행할 수 있습니다.\
 또한, [**포트 스캔**](../pentesting-network/#discovering-hosts-from-the-outside)을 실행하거나 shodan과 같은 서비스를 사용하여 **열린 포트를 찾을 수 있으며 발견한 내용에 따라** 이 책에서 여러 가능한 서비스를 펜테스트하는 방법을 확인해야 합니다.\
-**또한, 기본 사용자 이름** 및 **암호 목록을 준비하고 [https://github.com/x90skysn3k/brutespray](https://github.com/x90skysn3k/brutespray)를 사용하여 서비스를 브루트포스할 수도 있습니다.
+**또한, 기본 사용자 이름** 및 \*\*암호 목록을 준비하고 [https://github.com/x90skysn3k/brutespray](https://github.com/x90skysn3k/brutespray)를 사용하여 서비스를 브루트포스할 수도 있습니다.
 
 ## 도메인
 
@@ -84,17 +88,19 @@ bbot -t tesla.com -f subdomain-enum
 
 _다음으로 제안된 기술을 사용하여 하위 도메인을 찾을 수도 있으며, 이 정보를 과소평가해서는 안 됩니다._
 
-먼저 각 회사의 **주요 도메인**(들)을 찾아야 합니다. 예를 들어, _Tesla Inc._의 경우 _tesla.com_이 될 것입니다.
+먼저 각 회사의 **주요 도메인**(들)을 찾아야 합니다. 예를 들어, \_Tesla Inc.\_의 경우 \_tesla.com\_이 될 것입니다.
 
 ### **Reverse DNS**
 
 도메인의 IP 범위를 모두 찾았다면 해당 **IP에 대한 역 DNS 조회**를 시도하여 범위 내의 더 많은 도메인을 찾을 수 있습니다. 피해자의 DNS 서버 또는 잘 알려진 DNS 서버(1.1.1.1, 8.8.8.8)를 사용해보세요.
+
 ```bash
 dnsrecon -r <DNS Range> -n <IP_DNS>   #DNS reverse of all of the addresses
 dnsrecon -d facebook.com -r 157.240.221.35/24 #Using facebooks dns
 dnsrecon -r 157.240.221.35/24 -n 1.1.1.1 #Using cloudflares dns
 dnsrecon -r 157.240.221.35/24 -n 8.8.8.8 #Using google dns
 ```
+
 ### **역 Whois (루프)**
 
 **Whois** 내부에는 **조직 이름**, **주소**, **이메일**, 전화번호 등과 같은 많은 흥미로운 **정보**가 포함되어 있습니다. 그러나 더 흥미로운 것은 **회사와 관련된 더 많은 자산을 찾을 수 있다는 것**입니다. 이를 위해 해당 필드 중 하나로 **역 Whois 조회를 수행**하면(예: 동일한 이메일이 나타나는 다른 whois 레지스트리) 회사와 관련된 더 많은 자산을 찾을 수 있습니다.\
@@ -129,19 +135,24 @@ dnsrecon -r 157.240.221.35/24 -n 8.8.8.8 #Using google dns
 ### **파비콘**
 
 우리의 대상과 관련된 도메인 및 하위 도메인을 찾을 수 있다는 것을 알고 계셨습니까? 동일한 파비콘 아이콘 해시를 찾아주는 것이 바로 [@m4ll0k2](https://twitter.com/m4ll0k2)가 만든 [favihash.py](https://github.com/m4ll0k/Bug-Bounty-Toolz/blob/master/favihash.py) 도구입니다. 사용 방법은 다음과 같습니다:
+
 ```bash
 cat my_targets.txt | xargs -I %% bash -c 'echo "http://%%/favicon.ico"' > targets.txt
 python3 favihash.py -f https://target/favicon.ico -t targets.txt -s
 ```
+
 ![favihash - 동일한 파비콘 아이콘 해시를 가진 도메인 발견](https://www.infosecmatter.com/wp-content/uploads/2020/07/favihash.jpg)
 
 간단히 말해서, favihash를 사용하면 대상과 동일한 파비콘 아이콘 해시를 가진 도메인을 발견할 수 있습니다.
 
 또한 [**이 블로그 게시물**](https://medium.com/@Asm0d3us/weaponizing-favicon-ico-for-bugbounties-osint-and-what-not-ace3c214e139)에서 설명한대로 파비콘 해시를 사용하여 기술을 검색할 수도 있습니다. 즉, 취약한 버전의 웹 기술의 파비콘 해시를 알고 있다면 shodan에서 검색하여 **더 많은 취약한 위치를 찾을 수** 있습니다:
+
 ```bash
 shodan search org:"Target" http.favicon.hash:116323821 --fields ip_str,port --separator " " | awk '{print $1":"$2}'
 ```
+
 다음은 웹 사이트의 **파비콘 해시값을 계산하는 방법**입니다:
+
 ```python
 import mmh3
 import requests
@@ -154,6 +165,7 @@ fhash = mmh3.hash(favicon)
 print(f"{url} : {fhash}")
 return fhash
 ```
+
 ### **저작권 / 고유 문자열**
 
 동일 조직 내 다른 웹 사이트 간에 공유될 수 있는 **문자열을 웹 페이지 내에서 검색**합니다. **저작권 문자열**이 좋은 예가 될 수 있습니다. 그런 다음 해당 문자열을 **Google**, 다른 **브라우저** 또는 심지어 **Shodan**에서 검색합니다: `shodan search http.html:"Copyright string"`
@@ -161,10 +173,12 @@ return fhash
 ### **CRT 시간**
 
 다음과 같은 cron 작업이 있는 것이 일반적입니다:
+
 ```bash
 # /etc/crontab
 37 13 */10 * * certbot renew --post-hook "systemctl reload nginx"
 ```
+
 ### 외 passvie Takeover
 
 클라우드 제공업체에 속하는 IP에 하위 도메인을 할당하는 것이 일반적이며 어느 순간에는 해당 IP 주소를 잃어버리지만 DNS 레코드를 제거하는 것을 잊을 수 있습니다. 따라서 클라우드(예: Digital Ocean)에서 VM을 생성하면 실제로 일부 하위 도메인을 **인수**할 수 있습니다.
@@ -206,14 +220,17 @@ _도메인이 클라이언트가 제어하지 않는 IP 내에 호스팅되는 �
 ### **DNS**
 
 **DNS** 레코드에서 **하위 도메인**을 가져오려고 합니다. 취약하다면 **Zone Transfer**를 시도해야 합니다(취약하다면 보고해야 합니다).
+
 ```bash
 dnsrecon -a -d tesla.com
 ```
+
 ### **OSINT**
 
 다량의 하위 도메인을 얻는 가장 빠른 방법은 외부 소스에서 검색하는 것입니다. 가장 많이 사용되는 **도구**는 다음과 같습니다 (더 나은 결과를 위해 API 키를 구성하세요):
 
 * [**BBOT**](https://github.com/blacklanternsecurity/bbot)
+
 ```bash
 # subdomains
 bbot -t tesla.com -f subdomain-enum
@@ -224,55 +241,77 @@ bbot -t tesla.com -f subdomain-enum -rf passive
 # subdomains + port scan + web screenshots
 bbot -t tesla.com -f subdomain-enum -m naabu gowitness -n my_scan -o .
 ```
+
 * [**Amass**](https://github.com/OWASP/Amass)
+
 ```bash
 amass enum [-active] [-ip] -d tesla.com
 amass enum -d tesla.com | grep tesla.com # To just list subdomains
 ```
+
 * [**subfinder**](https://github.com/projectdiscovery/subfinder)
+
 ```bash
 # Subfinder, use -silent to only have subdomains in the output
 ./subfinder-linux-amd64 -d tesla.com [-silent]
 ```
+
 * [**findomain**](https://github.com/Edu4rdSHL/findomain/)
+
 ```bash
 # findomain, use -silent to only have subdomains in the output
 ./findomain-linux -t tesla.com [--quiet]
 ```
+
 * [**OneForAll**](https://github.com/shmilylty/OneForAll/tree/master/docs/en-us)
+
 ```bash
 python3 oneforall.py --target tesla.com [--dns False] [--req False] [--brute False] run
 ```
+
 * [**assetfinder**](https://github.com/tomnomnom/assetfinder)
+
 ```bash
 assetfinder --subs-only <domain>
 ```
+
 * [**Sudomy**](https://github.com/Screetsec/Sudomy)
+
 ```bash
 # It requires that you create a sudomy.api file with API keys
 sudomy -d tesla.com
 ```
+
 * [**vita**](https://github.com/junnlikestea/vita)
+
 ```
 vita -d tesla.com
 ```
+
 * [**theHarvester**](https://github.com/laramies/theHarvester)
+
 ```bash
 theHarvester -d tesla.com -b "anubis, baidu, bing, binaryedge, bingapi, bufferoverun, censys, certspotter, crtsh, dnsdumpster, duckduckgo, fullhunt, github-code, google, hackertarget, hunter, intelx, linkedin, linkedin_links, n45ht, omnisint, otx, pentesttools, projectdiscovery, qwant, rapiddns, rocketreach, securityTrails, spyse, sublist3r, threatcrowd, threatminer, trello, twitter, urlscan, virustotal, yahoo, zoomeye"
 ```
+
 다른 흥미로운 도구/API가 있습니다. 하위 도메인을 직접적으로 찾는 데 특화되지 않았더라도 하위 도메인을 찾는 데 유용할 수 있습니다. 예를 들어:
 
 * [**Crobat**](https://github.com/cgboal/sonarsearch)**:** 하위 도메인을 얻기 위해 [https://sonar.omnisint.io](https://sonar.omnisint.io) API를 사용합니다.
+
 ```bash
 # Get list of subdomains in output from the API
 ## This is the API the crobat tool will use
 curl https://sonar.omnisint.io/subdomains/tesla.com | jq -r ".[]"
 ```
+
 * [**JLDC 무료 API**](https://jldc.me/anubis/subdomains/google.com)
+
 ```bash
 curl https://jldc.me/anubis/subdomains/tesla.com | jq -r ".[]"
 ```
+
 * [**RapidDNS**](https://rapiddns.io) 무료 API
+
 ```bash
 # Get Domains from rapiddns free API
 rapiddns(){
@@ -282,7 +321,9 @@ curl -s "https://rapiddns.io/subdomain/$1?full=1" \
 }
 rapiddns tesla.com
 ```
+
 * [**https://crt.sh/**](https://crt.sh)
+
 ```bash
 # Get Domains from crt free API
 crt(){
@@ -292,12 +333,16 @@ curl -s "https://crt.sh/?q=%25.$1" \
 }
 crt tesla.com
 ```
+
 * [**gau**](https://github.com/lc/gau)**:** 특정 도메인에서 AlienVault의 Open Threat Exchange, Wayback Machine 및 Common Crawl에서 알려진 URL을 가져옵니다.
+
 ```bash
 # Get subdomains from GAUs found URLs
 gau --subs tesla.com | cut -d "/" -f 3 | sort -u
 ```
+
 * [**SubDomainizer**](https://github.com/nsonaniya2010/SubDomainizer) **&** [**subscraper**](https://github.com/Cillian-Collins/subscraper): 웹을 스크랩하여 JS 파일을 찾고 거기서 하위 도메인을 추출합니다.
+
 ```bash
 # Get only subdomains from SubDomainizer
 python3 SubDomainizer.py -u https://tesla.com | grep tesla.com
@@ -305,23 +350,30 @@ python3 SubDomainizer.py -u https://tesla.com | grep tesla.com
 # Get only subdomains from subscraper, this already perform recursion over the found results
 python subscraper.py -u tesla.com | grep tesla.com | cut -d " " -f
 ```
+
 * [**Shodan**](https://www.shodan.io/)
+
 ```bash
 # Get info about the domain
 shodan domain <domain>
 # Get other pages with links to subdomains
 shodan search "http.html:help.domain.com"
 ```
+
 * [**Censys 하위 도메인 찾기**](https://github.com/christophetd/censys-subdomain-finder)
+
 ```bash
 export CENSYS_API_ID=...
 export CENSYS_API_SECRET=...
 python3 censys-subdomain-finder.py tesla.com
 ```
+
 * [**DomainTrail.py**](https://github.com/gatete/DomainTrail)
+
 ```bash
 python3 DomainTrail.py -d example.com
 ```
+
 * [**securitytrails.com**](https://securitytrails.com/)은 하위 도메인 및 IP 기록을 검색하기 위한 무료 API를 제공합니다.
 * [**chaos.projectdiscovery.io**](https://chaos.projectdiscovery.io/#/)
 
@@ -346,69 +398,93 @@ python3 DomainTrail.py -d example.com
 DNS 브루트 포스에 가장 권장되는 도구들은 다음과 같습니다:
 
 * [**massdns**](https://github.com/blechschmidt/massdns): 이 도구는 효과적인 DNS 브루트 포스를 수행한 최초의 도구였습니다. 매우 빠르지만 잘못된 양성 결과가 발생할 수 있습니다.
+
 ```bash
 sed 's/$/.domain.com/' subdomains.txt > bf-subdomains.txt
 ./massdns -r resolvers.txt -w /tmp/results.txt bf-subdomains.txt
 grep -E "tesla.com. [0-9]+ IN A .+" /tmp/results.txt
 ```
+
 * [**gobuster**](https://github.com/OJ/gobuster): 이것은 제 생각에는 1개의 리졸버를 사용하는 것 같습니다.
+
 ```
 gobuster dns -d mysite.com -t 50 -w subdomains.txt
 ```
+
 * [**shuffledns**](https://github.com/projectdiscovery/shuffledns)는 `massdns`를 감싼 것으로, 유효한 서브도메인을 활성 브루트포스를 사용하여 나열하고, 와일드카드 처리 및 쉬운 입출력 지원을 통해 서브도메인을 해결할 수 있습니다.
+
 ```
 shuffledns -d example.com -list example-subdomains.txt -r resolvers.txt
 ```
+
 * [**puredns**](https://github.com/d3mondev/puredns): 또한 `massdns`를 사용합니다.
+
 ```
 puredns bruteforce all.txt domain.com
 ```
+
 * [**aiodnsbrute**](https://github.com/blark/aiodnsbrute)은 asyncio를 사용하여 도메인 이름을 비동기적으로 무차별 대입하는 도구입니다.
+
 ```
 aiodnsbrute -r resolvers -w wordlist.txt -vv -t 1024 domain.com
 ```
+
 ### 두 번째 DNS 브루트포스 라운드
 
 오픈 소스 및 브루트 포싱을 사용하여 하위 도메인을 찾은 후, 찾은 하위 도메인의 변형을 생성하여 더 많은 도메인을 찾아볼 수 있습니다. 이를 위해 다음과 같은 여러 도구가 유용합니다:
 
 * [**dnsgen**](https://github.com/ProjectAnte/dnsgen)**:** 도메인 및 하위 도메인을 주어진 경우 순열을 생성합니다.
+
 ```bash
 cat subdomains.txt | dnsgen -
 ```
+
 * [**goaltdns**](https://github.com/subfinder/goaltdns): 주어진 도메인 및 서브도메인에서 순열을 생성합니다.
 * goaltdns 순열 **wordlist**를 [**여기**](https://github.com/subfinder/goaltdns/blob/master/words.txt)에서 얻을 수 있습니다.
+
 ```bash
 goaltdns -l subdomains.txt -w /tmp/words-permutations.txt -o /tmp/final-words-s3.txt
 ```
+
 * [**gotator**](https://github.com/Josue87/gotator)**:** 도메인 및 서브도메인을 제공하여 순열을 생성합니다. 순열 파일이 지정되지 않은 경우 gotator는 자체 파일을 사용합니다.
+
 ```
 gotator -sub subdomains.txt -silent [-perm /tmp/words-permutations.txt]
 ```
+
 * [**altdns**](https://github.com/infosec-au/altdns): 하위 도메인 순열을 생성하는 것 외에도 해결을 시도할 수 있지만 (이전에 설명된 도구를 사용하는 것이 더 좋음).
 * altdns 순열 **wordlist**를 [**여기**](https://github.com/infosec-au/altdns/blob/master/words.txt)에서 얻을 수 있습니다.
+
 ```
 altdns -i subdomains.txt -w /tmp/words-permutations.txt -o /tmp/asd3
 ```
+
 * [**dmut**](https://github.com/bp0lr/dmut): 하위 도메인의 순열, 변형 및 변경을 수행하는 또 다른 도구입니다. 이 도구는 결과를 무차별 대입할 것입니다 (DNS 와일드카드를 지원하지 않음).
 * dmut 순열 워드리스트를 [**여기**](https://raw.githubusercontent.com/bp0lr/dmut/main/words.txt)에서 얻을 수 있습니다.
+
 ```bash
 cat subdomains.txt | dmut -d /tmp/words-permutations.txt -w 100 \
 --dns-errorLimit 10 --use-pb --verbose -s /tmp/resolvers-trusted.txt
 ```
+
 * [**alterx**](https://github.com/projectdiscovery/alterx)**:** 도메인을 기반으로 하여 **지정된 패턴에 따라 새로운 잠재적인 하위 도메인 이름을 생성**하여 더 많은 하위 도메인을 발견하려고 시도합니다.
 
 #### 스마트 순열 생성
 
 * [**regulator**](https://github.com/cramppet/regulator): 자세한 정보는 이 [**포스트**](https://cramppet.github.io/regulator/index.html)를 참조하십시오. 이 도구는 **발견된 하위 도메인**에서 **주요 부분**을 가져와 섞어 더 많은 하위 도메인을 찾습니다.
+
 ```bash
 python3 main.py adobe.com adobe adobe.rules
 make_brute_list.sh adobe.rules adobe.brute
 puredns resolve adobe.brute --write adobe.valid
 ```
-* [**subzuf**](https://github.com/elceef/subzuf)**:** _subzuf_은 서브도메인 브루트포스 퍼저로, 굉장히 간단하지만 효과적인 DNS 응답 가이드 알고리즘과 결합되어 있습니다. 사용자 지정 워드리스트나 과거 DNS/TLS 레코드와 같은 입력 데이터 세트를 활용하여 더 많은 해당 도메인 이름을 정확하게 합성하고 DNS 스캔 중 수집된 정보를 기반으로 루프를 통해 더 확장합니다.
+
+* [**subzuf**](https://github.com/elceef/subzuf)**:** \_subzuf\_은 서브도메인 브루트포스 퍼저로, 굉장히 간단하지만 효과적인 DNS 응답 가이드 알고리즘과 결합되어 있습니다. 사용자 지정 워드리스트나 과거 DNS/TLS 레코드와 같은 입력 데이터 세트를 활용하여 더 많은 해당 도메인 이름을 정확하게 합성하고 DNS 스캔 중 수집된 정보를 기반으로 루프를 통해 더 확장합니다.
+
 ```
 echo www | subzuf facebook.com
 ```
+
 ### **서브도메인 발견 워크플로우**
 
 도메인에서 **서브도메인 발견을 자동화**하는 방법에 대해 작성한 블로그 포스트를 확인하세요. **Trickest workflows**를 사용하여 컴퓨터에서 수동으로 여러 도구를 실행할 필요가 없습니다:
@@ -428,6 +504,7 @@ echo www | subzuf facebook.com
 **무차별 대입**
 
 웹 서버에 숨겨진 서브도메인이 있을 것으로 의심된다면, 무차별 대입을 시도할 수 있습니다:
+
 ```bash
 ffuf -c -w /path/to/wordlist -u http://victim.com -H "Host: FUZZ.victim.com"
 
@@ -441,16 +518,19 @@ vhostbrute.py --url="example.com" --remoteip="10.1.1.15" --base="www.example.com
 #https://github.com/codingo/VHostScan
 VHostScan -t example.com
 ```
+
 {% hint style="info" %}
 이 기술을 사용하면 내부/숨겨진 엔드포인트에 액세스할 수도 있습니다.
 {% endhint %}
 
 ### **CORS 브루트 포스**
 
-가끔 유효한 도메인/서브도메인이 _**Origin**_ 헤더에 설정될 때만 헤더 _**Access-Control-Allow-Origin**_을 반환하는 페이지를 찾을 수 있습니다. 이러한 시나리오에서 이 동작을 남용하여 **새로운 서브도메인**을 **발견**할 수 있습니다.
+가끔 유효한 도메인/서브도메인이 _**Origin**_ 헤더에 설정될 때만 헤더 \_**Access-Control-Allow-Origin**\_을 반환하는 페이지를 찾을 수 있습니다. 이러한 시나리오에서 이 동작을 남용하여 **새로운 서브도메인**을 **발견**할 수 있습니다.
+
 ```bash
 ffuf -w subdomains-top1million-5000.txt -u http://10.10.10.208 -H 'Origin: http://FUZZ.crossfit.htb' -mr "Access-Control-Allow-Origin" -ignore-body
 ```
+
 ### **버킷 브루트 포스**
 
 **서브도메인**을 찾을 때 **버킷**으로 **포인팅**되는지 확인하고, 그 경우에는 [**권한을 확인**](../../network-services-pentesting/pentesting-web/buckets/)**해보세요**.\
@@ -471,7 +551,7 @@ _가끔 서브도메인이 클라이언트가 제어하지 않는 IP에 호스�
 ## IPs
 
 초기 단계에서 **일부 IP 범위, 도메인 및 서브도메인을 찾았을 수 있습니다**.\
-이제 **해당 범위에서 모든 IP**와 **도메인/서브도메인(DNS 쿼리)**을 다시 수집할 시간입니다.
+이제 **해당 범위에서 모든 IP**와 \*\*도메인/서브도메인(DNS 쿼리)\*\*을 다시 수집할 시간입니다.
 
 다음 **무료 API 서비스**를 사용하여 **도메인 및 서브도메인이 사용한 이전 IP**를 찾을 수도 있습니다. 이러한 IP는 아직 클라이언트가 소유하고 있을 수 있으며 [**CloudFlare 우회**](../../network-services-pentesting/pentesting-web/uncovering-cloudflare.md)를 찾을 수 있습니다.
 
@@ -495,10 +575,12 @@ _가끔 서브도메인이 클라이언트가 제어하지 않는 IP에 호스�
 
 [**masscan을 사용하여 웹 서버와 관련된 열린 포트를 빠르게 찾을 수 있는 빠른 방법**은 여기에서 찾을 수 있습니다](../pentesting-network/#http-port-discovery).\
 다른 웹 서버를 찾는 데 유용한 도구로 [**httprobe**](https://github.com/tomnomnom/httprobe)**,** [**fprobe**](https://github.com/theblackturtle/fprobe) 및 [**httpx**](https://github.com/projectdiscovery/httpx)가 있습니다. 도메인 목록을 전달하면 포트 80(http) 및 443(https)에 연결을 시도합니다. 추가로 다른 포트를 시도하도록 지시할 수도 있습니다.
+
 ```bash
 cat /tmp/domains.txt | httprobe #Test all domains inside the file for port 80 and 443
 cat /tmp/domains.txt | httprobe -p http:8080 -p https:8443 #Check port 80, 443 and 8080 and 8443
 ```
+
 ### **스크린샷**
 
 이제 **회사의 IP**와 **도메인** 및 **서브도메인** 중 **모든 웹 서버**를 발견했으므로 아마도 **어디서부터 시작해야 할지 모를 것**입니다. 그래서, 간단하게 시작하고 그들의 스크린샷을 찍는 것으로 시작합시다. **메인 페이지**를 살펴보기만 해도 **취약할 가능성이 높은** **이상한** 엔드포인트를 찾을 수 있습니다.
@@ -509,7 +591,7 @@ cat /tmp/domains.txt | httprobe -p http:8080 -p https:8443 #Check port 80, 443 a
 
 ## 공용 클라우드 자산
 
-회사에 속한 잠재적인 클라우드 자산을 찾으려면 해당 회사를 식별하는 키워드 목록부터 시작해야 합니다. 예를 들어, 암호화폐 회사의 경우 "crypto", "wallet", "dao", "<domain_name>", <"subdomain_names">와 같은 단어를 사용할 수 있습니다.
+회사에 속한 잠재적인 클라우드 자산을 찾으려면 해당 회사를 식별하는 키워드 목록부터 시작해야 합니다. 예를 들어, 암호화폐 회사의 경우 "crypto", "wallet", "dao", "\<domain\_name>", <"subdomain\_names">와 같은 단어를 사용할 수 있습니다.
 
 또한 **버킷에 사용되는 일반 단어들의 단어 목록**이 필요합니다:
 
@@ -519,7 +601,7 @@ cat /tmp/domains.txt | httprobe -p http:8080 -p https:8443 #Check port 80, 443 a
 
 그런 다음 해당 단어들로 **순열을 생성**해야 합니다(자세한 내용은 [**두 번째 라운드 DNS 브루트포스**](./#second-dns-bruteforce-round)를 확인하십시오).
 
-생성된 단어 목록을 사용하여 [**cloud\_enum**](https://github.com/initstring/cloud\_enum)**, [**CloudScraper**](https://github.com/jordanpotti/CloudScraper)**, [**cloudlist**](https://github.com/projectdiscovery/cloudlist) 또는 [**S3Scanner**](https://github.com/sa7mon/S3Scanner)**와 같은 도구를 사용할 수 있습니다.**
+생성된 단어 목록을 사용하여 [**cloud\_enum**](https://github.com/initstring/cloud\_enum)**,** [**CloudScraper**](https://github.com/jordanpotti/CloudScraper), [**cloudlist**](https://github.com/projectdiscovery/cloudlist) 또는 [**S3Scanner**](https://github.com/sa7mon/S3Scanner)**와 같은 도구를 사용할 수 있습니다.**
 
 클라우드 자산을 찾을 때 **AWS 버킷 이상을 찾아야** 한다는 것을 기억하십시오.
 
@@ -598,6 +680,7 @@ _일반 Google 브라우저를 사용하여 데이터베이스 전체를 실행�
 또한 다음과 같은 무료 서비스를 사용하여 **공개 저장소를 스캔**할 수 있습니다:
 
 * [**Snyk**](https://app.snyk.io/)
+
 ## [**웹 펜테스팅 방법론**](../../network-services-pentesting/pentesting-web/)
 
 **버그 헌터들이 발견한 취약점의 대다수**는 **웹 애플리케이션** 내에 존재하기 때문에, 이 시점에서 **웹 애플리케이션 테스트 방법론**에 대해 이야기하고 있습니다. 이 정보는 [**여기에서 찾을 수 있습니다**](../../network-services-pentesting/pentesting-web/).
@@ -633,7 +716,7 @@ _일반 Google 브라우저를 사용하여 데이터베이스 전체를 실행�
 
 * [**@Jhaddix**](https://twitter.com/Jhaddix)의 모든 무료 강좌, [**The Bug Hunter's Methodology v4.0 - Recon Edition**](https://www.youtube.com/watch?v=p4JgIu1mceI)와 같은 것들
 
-<figure><img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://github.com/carlospolop/hacktricks/blob/kr/.gitbook/assets/image%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1).png" alt=""><figcaption></figcaption></figure>
 
 **해킹 경력**에 관심이 있고 해킹할 수 없는 것을 해킹하고 싶다면 - **채용 중입니다!** (_유창한 폴란드어 필수_).
 

@@ -9,14 +9,14 @@ HackTricks를 지원하는 다른 방법:
 * **회사가 HackTricks에 광고되길 원하거나 PDF로 HackTricks를 다운로드하고 싶다면** [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
 * [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구매하세요
 * [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* **💬 [Discord 그룹](https://discord.gg/hRep4RUj7f)** 또는 [텔레그램 그룹](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)를 **팔로우**하세요.
+* **💬** [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [텔레그램 그룹](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)를 **팔로우**하세요.
 * **HackTricks** 및 **HackTricks Cloud** 깃허브 저장소에 PR을 제출하여 **해킹 트릭을 공유**하세요.
 
 </details>
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://github.com/carlospolop/hacktricks/blob/kr/todo/radio-hacking/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -92,23 +92,23 @@ Read를 사용하는 동안 **왼쪽 버튼**을 눌러 **구성**할 수 있습
 
 #### [지원되는 프로토콜 목록](https://docs.flipperzero.one/sub-ghz/add-new-remote) <a href="#id-3iglu" id="id-3iglu"></a>
 
-| Princeton\_433 (대부분의 정적 코드 시스템과 작동) | 433.92 | 정적  |
-| ------------------------------------------------- | ------ | ------ |
-| Nice Flo 12bit\_433                               | 433.92 | 정적  |
-| Nice Flo 24bit\_433                               | 433.92 | 정적  |
-| CAME 12bit\_433                                   | 433.92 | 정적  |
-| CAME 24bit\_433                                   | 433.92 | 정적  |
-| Linear\_300                                       | 300.00 | 정적  |
-| CAME TWEE                                         | 433.92 | 정적  |
-| Gate TX\_433                                      | 433.92 | 정적  |
-| DoorHan\_315                                      | 315.00 | 동적  |
-| DoorHan\_433                                      | 433.92 | 동적  |
-| LiftMaster\_315                                   | 315.00 | 동적  |
-| LiftMaster\_390                                   | 390.00 | 동적  |
-| Security+2.0\_310                                 | 310.00 | 동적  |
-| Security+2.0\_315                                 | 315.00 | 동적  |
-| Security+2.0\_390                                 | 390.00 | 동적  |
-### 지원되는 Sub-GHz 공급업체
+| Princeton\_433 (대부분의 정적 코드 시스템과 작동) | 433.92 | 정적 |
+| ----------------------------------- | ------ | -- |
+| Nice Flo 12bit\_433                 | 433.92 | 정적 |
+| Nice Flo 24bit\_433                 | 433.92 | 정적 |
+| CAME 12bit\_433                     | 433.92 | 정적 |
+| CAME 24bit\_433                     | 433.92 | 정적 |
+| Linear\_300                         | 300.00 | 정적 |
+| CAME TWEE                           | 433.92 | 정적 |
+| Gate TX\_433                        | 433.92 | 정적 |
+| DoorHan\_315                        | 315.00 | 동적 |
+| DoorHan\_433                        | 433.92 | 동적 |
+| LiftMaster\_315                     | 315.00 | 동적 |
+| LiftMaster\_390                     | 390.00 | 동적 |
+| Security+2.0\_310                   | 310.00 | 동적 |
+| Security+2.0\_315                   | 315.00 | 동적 |
+| Security+2.0\_390                   | 390.00 | 동적 |
+| ### 지원되는 Sub-GHz 공급업체               |        |    |
 
 [https://docs.flipperzero.one/sub-ghz/supported-vendors](https://docs.flipperzero.one/sub-ghz/supported-vendors)의 목록을 확인하세요.
 
@@ -128,7 +128,7 @@ Read를 사용하는 동안 **왼쪽 버튼**을 눌러 **구성**할 수 있습
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://github.com/carlospolop/hacktricks/blob/kr/todo/radio-hacking/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -141,7 +141,7 @@ HackTricks를 지원하는 다른 방법:
 * **회사를 HackTricks에서 광고하거나 PDF로 다운로드하려면** [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
 * [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구매하세요
 * [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)을 **팔로우**하세요.
+* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)을 **팔로우**하세요.
 * **HackTricks** 및 **HackTricks Cloud** github 저장소에 PR을 제출하여 **해킹 트릭을 공유**하세요.
 
 </details>

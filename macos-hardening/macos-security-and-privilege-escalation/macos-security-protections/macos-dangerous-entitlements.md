@@ -1,4 +1,4 @@
-# macOS 위험한 엔타이틀먼트 및 TCC 권한
+# macOS Dangerous Entitlements & TCC perms
 
 <details>
 
@@ -9,32 +9,32 @@ HackTricks를 지원하는 다른 방법:
 * **회사가 HackTricks에 광고되길 원하거나 HackTricks를 PDF로 다운로드하길 원한다면** [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
 * [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구매하세요
 * [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* **💬 [디스코드 그룹](https://discord.gg/hRep4RUj7f)** 또는 [텔레그램 그룹](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)을 **팔로우**하세요.
+* **💬** [**디스코드 그룹**](https://discord.gg/hRep4RUj7f) 또는 [텔레그램 그룹](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)을 **팔로우**하세요.
 * **HackTricks** 및 **HackTricks Cloud** 깃허브 저장소에 PR을 제출하여 **해킹 트릭을 공유**하세요.
 
 </details>
 
 {% hint style="warning" %}
-**`com.apple`**으로 시작하는 엔타이틀먼트는 **제3자에게 사용할 수 없으며**, **Apple만이 부여**할 수 있음을 유의하세요.
+\*\*`com.apple`\*\*으로 시작하는 엔타이틀먼트는 **제3자에게 사용할 수 없으며**, **Apple만이 부여**할 수 있음을 유의하세요.
 {% endhint %}
 
 ## 높음
 
 ### `com.apple.rootless.install.heritable`
 
-엔티틀먼트 **`com.apple.rootless.install.heritable`**은 **SIP 우회**를 허용합니다. 자세한 내용은 [여기를 참조하세요](macos-sip.md#com.apple.rootless.install.heritable).
+엔티틀먼트 \*\*`com.apple.rootless.install.heritable`\*\*은 **SIP 우회**를 허용합니다. 자세한 내용은 [여기를 참조하세요](macos-sip.md#com.apple.rootless.install.heritable).
 
 ### **`com.apple.rootless.install`**
 
-엔티틀먼트 **`com.apple.rootless.install`**은 **SIP 우회**를 허용합니다. 자세한 내용은 [여기를 참조하세요](macos-sip.md#com.apple.rootless.install).
+엔티틀먼트 \*\*`com.apple.rootless.install`\*\*은 **SIP 우회**를 허용합니다. 자세한 내용은 [여기를 참조하세요](macos-sip.md#com.apple.rootless.install).
 
 ### **`com.apple.system-task-ports` (이전에 `task_for_pid-allow`로 불렸음)**
 
-이 엔티틀먼트는 **커널을 제외한 모든** 프로세스의 **작업 포트를 가져올 수 있게** 합니다. 자세한 내용은 [**여기를 참조하세요**](../mac-os-architecture/macos-ipc-inter-process-communication/).
+이 엔티틀먼트는 **커널을 제외한 모든** 프로세스의 **작업 포트를 가져올 수 있게** 합니다. 자세한 내용은 [**여기를 참조하세요**](../macos-proces-abuse/macos-ipc-inter-process-communication/).
 
 ### `com.apple.security.get-task-allow`
 
-이 엔티틀먼트는 **`com.apple.security.cs.debugger`** 엔티틀먼트를 가진 다른 프로세스가 이 엔티틀먼트를 가진 이진 파일로 실행된 프로세스의 작업 포트를 가져와 **코드를 삽입**할 수 있게 합니다. 자세한 내용은 [**여기를 참조하세요**](../mac-os-architecture/macos-ipc-inter-process-communication/).
+이 엔티틀먼트는 **`com.apple.security.cs.debugger`** 엔티틀먼트를 가진 다른 프로세스가 이 엔티틀먼트를 가진 이진 파일로 실행된 프로세스의 작업 포트를 가져와 **코드를 삽입**할 수 있게 합니다. 자세한 내용은 [**여기를 참조하세요**](../macos-proces-abuse/macos-ipc-inter-process-communication/).
 
 ### `com.apple.security.cs.debugger`
 
@@ -46,7 +46,7 @@ HackTricks를 지원하는 다른 방법:
 
 ### `com.apple.private.security.clear-library-validation`
 
-이 엔티틀먼트는 **`com.apple.security.cs.disable-library-validation`**과 매우 유사하지만 **라이브러리 유효성 검사를 직접 비활성화하는 대신** 프로세스가 **`csops` 시스템 호출을 사용하여 비활성화**할 수 있게 합니다.\
+이 엔티틀먼트는 \*\*`com.apple.security.cs.disable-library-validation`\*\*과 매우 유사하지만 **라이브러리 유효성 검사를 직접 비활성화하는 대신** 프로세스가 **`csops` 시스템 호출을 사용하여 비활성화**할 수 있게 합니다.\
 자세한 내용은 [**여기를 참조하세요**](https://theevilbit.github.io/posts/com.apple.private.security.clear-library-validation/).
 
 ### `com.apple.security.cs.allow-dyld-environment-variables`
@@ -67,7 +67,7 @@ HackTricks를 지원하는 다른 방법:
 
 ### **`com.apple.private.icloud-account-access`**
 
-엔티틀먼트 **`com.apple.private.icloud-account-access`**를 통해 **`com.apple.iCloudHelper`** XPC 서비스와 통신하여 **iCloud 토큰을 제공**할 수 있습니다.
+엔티틀먼트 \*\*`com.apple.private.icloud-account-access`\*\*를 통해 **`com.apple.iCloudHelper`** XPC 서비스와 통신하여 **iCloud 토큰을 제공**할 수 있습니다.
 
 **iMovie** 및 **Garageband**에는 이 엔티틀먼트가 있었습니다.
 
@@ -88,6 +88,7 @@ TODO: [**이 보고서**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Up
 ### `keychain-access-groups`
 
 이 엔티틀먼트는 애플리케이션이 액세스할 수 있는 **키체인** 그룹 목록입니다:
+
 ```xml
 <key>keychain-access-groups</key>
 <array>
@@ -98,6 +99,7 @@ TODO: [**이 보고서**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Up
 <string>IMCore</string>
 </array>
 ```
+
 ### **`kTCCServiceSystemPolicyAllFiles`**
 
 **전체 디스크 액세스** 권한을 부여하며, 가질 수 있는 TCC에서 가장 높은 권한 중 하나입니다.
@@ -107,10 +109,10 @@ TODO: [**이 보고서**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Up
 앱이 **작업 자동화**에 일반적으로 사용되는 다른 애플리케이션에 이벤트를 보낼 수 있도록 합니다. 다른 앱을 제어하여 이러한 다른 앱에 부여된 권한을 남용할 수 있습니다.
 
 사용자에게 비밀번호를 요청하도록 만드는 것과 같은 작업을 수행할 수 있습니다:
+
 ```bash
 osascript -e 'tell app "App Store" to activate' -e 'tell app "App Store" to activate' -e 'tell app "App Store" to display dialog "App Store requires your password to continue." & return & return default answer "" with icon 1 with hidden answer with title "App Store Alert"'
 ```
-{% endcode %}
 
 또는 그들로 **임의의 작업**을 수행하게 만듭니다.
 
@@ -142,7 +144,7 @@ osascript -e 'tell app "App Store" to activate' -e 'tell app "App Store" to acti
 
 ### `com.apple.security.cs.allow-unsigned-executable-memory`
 
-이 권한은 **C 코드를 무시하거나 수정**하거나, 기본적으로 보안에 취약한 **`NSCreateObjectFileImageFromMemory`**를 사용하거나, **DVDPlayback** 프레임워크를 사용할 수 있게 합니다. 자세한 정보는 [**여기를 참조하세요**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory).
+이 권한은 **C 코드를 무시하거나 수정**하거나, 기본적으로 보안에 취약한 \*\*`NSCreateObjectFileImageFromMemory`\*\*를 사용하거나, **DVDPlayback** 프레임워크를 사용할 수 있게 합니다. 자세한 정보는 [**여기를 참조하세요**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory).
 
 {% hint style="danger" %}
 이 권한을 포함하면 앱이 메모리 안전하지 않은 코드 언어의 일반적인 취약점에 노출됩니다. 앱이 이 예외를 필요로 하는지 신중히 고려하십시오.
@@ -167,12 +169,14 @@ TODO
 ### `kTCCServiceAll`
 
 이 블로그 게시물에 따르면, 이 TCC 권한은 일반적으로 다음 형식으로 발견됩니다:
+
 ```
 [Key] com.apple.private.tcc.allow-prompting
 [Value]
 [Array]
 [String] kTCCServiceAll
 ```
+
 프로세스가 **모든 TCC 권한을 요청하도록 허용**합니다.
 
 ### **`kTCCServicePostEvent`**
@@ -186,7 +190,7 @@ HackTricks를 지원하는 다른 방법:
 * **회사를 HackTricks에서 광고하거나 HackTricks를 PDF로 다운로드**하려면 [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
 * [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구매하세요
 * [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**를 팔로우**하세요.
+* \*\*💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**를 팔로우**하세요.
 * **해킹 트릭을 공유하려면 PR을** [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 저장소에 제출하세요.
 
 </details>

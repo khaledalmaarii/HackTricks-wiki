@@ -1,4 +1,4 @@
-# 플리퍼 제로
+# Flipper Zero
 
 <details>
 
@@ -7,14 +7,14 @@
 * **사이버 보안 회사**에서 일하시나요? **회사가 HackTricks에 광고되길 원하시나요**? 또는 **PEASS의 최신 버전에 액세스하거나 HackTricks를 PDF로 다운로드**하고 싶으신가요? [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
 * [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 저희의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
 * [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 얻으세요
-* **[💬](https://emojipedia.org/speech-balloon/) [Discord 그룹](https://discord.gg/hRep4RUj7f)** 또는 [텔레그램 그룹](https://t.me/peass)에 **가입**하거나 **트위터**에서 저를 팔로우하세요 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [텔레그램 그룹](https://t.me/peass)에 **가입**하거나 **트위터**에서 저를 팔로우하세요 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **해킹 트릭을 공유하고 PR을 제출하여** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **및** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **를 사용하세요**.
 
 </details>
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://github.com/carlospolop/hacktricks/blob/kr/todo/radio-hacking/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -35,7 +35,7 @@
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://github.com/carlospolop/hacktricks/blob/kr/todo/radio-hacking/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -46,7 +46,7 @@
 * **사이버 보안 회사**에서 일하시나요? **회사가 HackTricks에 광고되길 원하시나요**? 또는 **PEASS의 최신 버전에 액세스하거나 HackTricks를 PDF로 다운로드**하고 싶으신가요? [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
 * [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 저희의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
 * [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 얻으세요
-* **[💬](https://emojipedia.org/speech-balloon/) [Discord 그룹](https://discord.gg/hRep4RUj7f)** 또는 [텔레그램 그룹](https://t.me/peass)에 **가입**하거나 **트위터**에서 저를 팔로우하세요 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [텔레그램 그룹](https://t.me/peass)에 **가입**하거나 **트위터**에서 저를 팔로우하세요 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **해킹 트릭을 공유하고 PR을 제출하여** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **및** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **를 사용하세요**.
 
 </details>

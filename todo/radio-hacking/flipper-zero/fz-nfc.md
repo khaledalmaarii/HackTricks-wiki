@@ -7,20 +7,20 @@
 * **사이버 보안 회사**에서 일하시나요? **HackTricks에서 귀사를 광고하고 싶으신가요**? 혹은 **PEASS의 최신 버전에 액세스하거나 HackTricks를 PDF로 다운로드**하고 싶으신가요? [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
 * [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 저희의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
 * [**공식 PEASS & HackTricks 스왹**](https://peass.creator-spring.com)을 받으세요
-* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **가입**하거나 **트위터** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**를 팔로우**하세요.
+* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **가입**하거나 **트위터** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**를 팔로우**하세요.
 * **해킹 요령을 공유하려면** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **및** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud)에 PR을 제출하세요.
 
 </details>
 
-## 소개 <a href="#9wrzi" id="9wrzi"></a>
+## 소개 <a href="#id-9wrzi" id="id-9wrzi"></a>
 
 RFID 및 NFC에 대한 정보는 다음 페이지를 확인하세요:
 
-{% content-ref url="../../../radio-hacking/pentesting-rfid.md" %}
-[pentesting-rfid.md](../../../radio-hacking/pentesting-rfid.md)
+{% content-ref url="../pentesting-rfid.md" %}
+[pentesting-rfid.md](../pentesting-rfid.md)
 {% endcontent-ref %}
 
-## 지원되는 NFC 카드 <a href="#9wrzi" id="9wrzi"></a>
+## 지원되는 NFC 카드 <a href="#id-9wrzi" id="id-9wrzi"></a>
 
 {% hint style="danger" %}
 NFC 카드 외에도 Flipper Zero는 여러 **Mifare** Classic 및 Ultralight 및 **NTAG**와 같은 **고주파 카드 유형**을 지원합니다.
@@ -43,7 +43,7 @@ Flipper Zero는 UID, SAK, ATQA 및 은행 카드에 저장된 데이터를 **저
 
 <figure><img src="https://cdn.flipperzero.one/Monosnap_Miro_2022-08-17_12-26-31.png?auto=format&#x26;ixlib=react-9.1.1&#x26;h=916&#x26;w=2662" alt=""><figcaption></figcaption></figure>
 
-#### 알 수 없는 카드 <a href="#37eo8" id="37eo8"></a>
+#### 알 수 없는 카드 <a href="#id-37eo8" id="id-37eo8"></a>
 
 Flipper Zero가 **NFC 카드 유형을 결정할 수 없는 경우**, UID, SAK 및 ATQA만 **읽고 저장**할 수 있습니다.
 
@@ -59,7 +59,7 @@ Flipper Zero가 **NFC 카드 유형을 결정할 수 없는 경우**, UID, SAK �
 
 ## 작업
 
-NFC에 대한 소개는 [**이 페이지**](../../../radio-hacking/pentesting-rfid.md#high-frequency-rfid-tags-13.56-mhz)를 읽으세요.
+NFC에 대한 소개는 [**이 페이지**](../pentesting-rfid.md#high-frequency-rfid-tags-13.56-mhz)를 읽으세요.
 
 ### 읽기
 
@@ -82,6 +82,7 @@ Flipper Zero가 저수준 데이터에서 카드 유형을 찾지 못하는 경�
 
 UID를 단순히 읽는 것 외에도 은행 카드에서 많은 데이터를 추출할 수 있습니다. **전체 카드 번호**(카드 앞면의 16자리), **유효 날짜**, 경우에 따라 **소유자의 이름**과 **가장 최근 거래 목록**도 얻을 수 있습니다.\
 그러나 이 방법으로 **CVV를 읽을 수는 없습니다**(카드 뒷면의 3자리). 또한 **은행 카드는 재생 공격으로부터 보호**되므로 Flipper로 복사한 후 결제를 위해 에뮬레이트하려고 해도 작동하지 않습니다.
+
 ## 참고 자료
 
 * [https://blog.flipperzero.one/rfid/](https://blog.flipperzero.one/rfid/)
@@ -93,7 +94,7 @@ UID를 단순히 읽는 것 외에도 은행 카드에서 많은 데이터를 �
 * **사이버 보안 회사**에서 일하시나요? **회사가 HackTricks에 광고되길 원하시나요**? 혹은 **PEASS의 최신 버전에 액세스하거나 HackTricks를 PDF로 다운로드**하고 싶으신가요? [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인해보세요!
 * [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견해보세요, 저희의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
 * [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 얻으세요
-* **💬** [**Discord 그룹**](https://discord.gg/hRep4RUj7f)에 **가입**하거나 [**텔레그램 그룹**](https://t.me/peass)에 가입하시거나 **트위터** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**를 팔로우**하세요.
+* **💬** [**Discord 그룹**](https://discord.gg/hRep4RUj7f)에 **가입**하거나 [**텔레그램 그룹**](https://t.me/peass)에 가입하시거나 **트위터** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**를 팔로우**하세요.
 * **해킹 트릭을 공유하고 싶으시다면** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **및** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **에 PR을 제출**하여 공유하세요.
 
 </details>

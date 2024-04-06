@@ -14,7 +14,7 @@
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://github.com/carlospolop/hacktricks/blob/kr/todo/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -31,6 +31,7 @@
 첫 번째 키를 알고 있다면 읽기 권한을 부여하고 두 번째 키를 알고 있다면 쓰기 권한을 부여하는 데 2개의 키가 유용합니다(예:).
 
 여러 공격을 수행할 수 있습니다.
+
 ```bash
 proxmark3> hf mf #List attacks
 
@@ -49,11 +50,13 @@ proxmark3> hf mf eset 01 000102030405060708090a0b0c0d0e0f # Write those bytes to
 proxmark3> hf mf eget 01 # Read block 1
 proxmark3> hf mf wrbl 01 B FFFFFFFFFFFF 000102030405060708090a0b0c0d0e0f # Write to the card
 ```
+
 Proxmark3는 **도청**과 같은 다른 작업을 수행할 수 있도록 합니다. **태그와 리더 간 통신**을 도청하여 민감한 데이터를 찾아보려고 합니다. 이 카드에서는 **암호화 작업이 약하게 사용**되어 평문과 암호문을 알고 있다면 키를 계산할 수 있습니다 (`mfkey64` 도구).
 
 ### 원시 명령어
 
 IoT 시스템은 때로는 **브랜드가 없거나 상업적이지 않은 태그**를 사용합니다. 이 경우 Proxmark3를 사용하여 태그에 **사용자 정의 원시 명령어를 보낼** 수 있습니다.
+
 ```bash
 proxmark3> hf search UID : 80 55 4b 6c ATQA : 00 04
 SAK : 08 [2]
@@ -63,22 +66,24 @@ No chinese magic backdoor command detected
 Prng detection: WEAK
 Valid ISO14443A Tag Found - Quiting Search
 ```
+
 이 정보를 사용하여 카드에 대한 정보 및 통신 방법을 검색해 볼 수 있습니다. Proxmark3를 사용하면 `hf 14a raw -p -b 7 26`와 같은 원시 명령을 보낼 수 있습니다.
 
 ### 스크립트
 
 Proxmark3 소프트웨어에는 간단한 작업을 수행하는 데 사용할 수 있는 **자동화 스크립트** 목록이 미리로드되어 있습니다. 전체 목록을 검색하려면 `script list` 명령을 사용하십시오. 그런 다음 스크립트 이름 뒤에 `script run` 명령을 사용하십시오.
+
 ```
 proxmark3> script run mfkeys
 ```
+
 **유효한 카드**의 데이터를 복사하여 **태그 판독기**를 **퍼징**하는 스크립트를 만들 수 있습니다. 그냥 **Lua 스크립트**를 작성하여 하나 이상의 **랜덤 바이트**를 **랜덤화**하고 **리더가 반복 중에 충돌하는지** 확인하십시오.
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://github.com/carlospolop/hacktricks/blob/kr/todo/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
-
 
 <details>
 

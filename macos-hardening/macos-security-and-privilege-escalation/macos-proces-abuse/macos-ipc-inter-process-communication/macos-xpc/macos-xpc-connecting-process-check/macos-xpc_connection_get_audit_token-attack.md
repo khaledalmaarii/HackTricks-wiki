@@ -1,4 +1,4 @@
-# macOS xpc\_connection\_get\_audit\_token 공격
+# macOS xpc\_connection\_get\_audit\_token Attack
 
 <details>
 
@@ -9,7 +9,7 @@ HackTricks를 지원하는 다른 방법:
 * **회사를 HackTricks에서 광고**하거나 **HackTricks를 PDF로 다운로드**하려면 [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
 * [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구입하세요
 * [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* **💬 [Discord 그룹](https://discord.gg/hRep4RUj7f)** 또는 [텔레그램 그룹](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**를 팔로우**하세요.
+* **💬** [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [텔레그램 그룹](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**를 팔로우**하세요.
 * **HackTricks** 및 **HackTricks Cloud** 깃허브 저장소로 **PR 제출**하여 **해킹 트릭을 공유**하세요.
 
 </details>
@@ -20,8 +20,8 @@ HackTricks를 지원하는 다른 방법:
 
 Mach Messages가 무엇인지 모르는 경우 다음 페이지를 확인하세요:
 
-{% content-ref url="../../../../mac-os-architecture/macos-ipc-inter-process-communication/" %}
-[macos-ipc-inter-process-communication](../../../../mac-os-architecture/macos-ipc-inter-process-communication/)
+{% content-ref url="../../" %}
+[..](../../)
 {% endcontent-ref %}
 
 일단 ([여기에서 정의](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing)):
@@ -52,14 +52,17 @@ XPC 연결이 어떻게 설정되는지 모르는 경우 확인하세요:
 이를 악용할 수 있는 두 가지 방법:
 
 1. 변형1:
+
 * **악용**은 서비스 **A**와 서비스 **B**에 **연결**합니다.
 * 서비스 **B**는 사용자가 할 수 없는 서비스 **A**에서 **특권 기능**을 호출할 수 있습니다.
-* 서비스 **A**는 **이벤트 핸들러 내부가 아닌** **`dispatch_async`**에서 **`xpc_connection_get_audit_token`**을 호출합니다.
+* 서비스 **A**는 **이벤트 핸들러 내부가 아닌** \*\*`dispatch_async`\*\*에서 \*\*`xpc_connection_get_audit_token`\*\*을 호출합니다.
 * 따라서 **다른** 메시지가 **감사 토큰을 덮어쓸 수 있습니다**. 왜냐하면 이것은 이벤트 핸들러 외부에서 비동기적으로 디스패치되기 때문입니다.
 * 악용은 **서비스 A에게 서비스 A의 SEND 권한을 전달**합니다.
 * 따라서 svc **B**는 실제로 서비스 **A**에게 **메시지를 보냅니다**.
 * **악용**은 **특권 작업을 호출**하려고 시도합니다. RC svc **A**는 이 **작업의 권한을 확인**하고 **svc B가 감사 토큰을 덮어썼기 때문에** (악용이 특권 작업을 호출할 수 있도록 함) 악용에게 액세스 권한을 부여합니다.
+
 2. 변형 2:
+
 * 서비스 **B**는 사용자가 할 수 없는 서비스 **A**에서 **특권 기능**을 호출할 수 있습니다.
 * 악용은 **서비스 A**에 연결하고 **특정 replay 포트에서 응답을 기대하는 메시지를 보내는** 서비스 A와 **두 번째 연결**을 형성합니다.
 * 악용은 **서비스 B**에게 **그 replay 포트를 전달하는** 메시지를 보냅니다.
@@ -69,16 +72,16 @@ XPC 연결이 어떻게 설정되는지 모르는 경우 확인하세요:
 
 시나리오:
 
-* 두 맥 서비스 **`A`**와 **`B`**에 연결할 수 있는데 (샌드박스 프로필 및 연결 수락 전 권한 확인에 기반함).
-* **`A`**는 **`B`**가 전달할 수 있는 특정 작업에 대한 **권한 확인**이 있어야 합니다 (하지만 우리 앱은 할 수 없음).
+* 두 맥 서비스 \*\*`A`\*\*와 \*\*`B`\*\*에 연결할 수 있는데 (샌드박스 프로필 및 연결 수락 전 권한 확인에 기반함).
+* \*\*`A`\*\*는 \*\*`B`\*\*가 전달할 수 있는 특정 작업에 대한 **권한 확인**이 있어야 합니다 (하지만 우리 앱은 할 수 없음).
 * 예를 들어, B에는 **특권**이 있거나 **루트로 실행** 중인 경우 A에 특권 작업을 수행하도록 요청할 수 있습니다.
-* 이 권한 확인을 위해 **`A`**는 **`dispatch_async`**에서 `xpc_connection_get_audit_token`을 호출하는 등 **비동기적으로** 감사 토큰을 획득합니다.
+* 이 권한 확인을 위해 \*\*`A`\*\*는 \*\*`dispatch_async`\*\*에서 `xpc_connection_get_audit_token`을 호출하는 등 **비동기적으로** 감사 토큰을 획득합니다.
 
 {% hint style="danger" %}
 이 경우 공격자는 **악용**을 트리거하여 **A에게 작업을 수행하도록 요청**하는 **악용**을 만들 수 있습니다. 이 과정에서 **B가 A에게 메시지를 보내도록** 만듭니다. RC가 **성공하면** **B의 감사 토큰이 메모리에 복사**되고 **악용**의 요청이 **A에 의해 처리**되는 동안 특권 작업에 **액세스**할 수 있게 됩니다.
 {% endhint %}
 
-이는 **`A`**가 `smd`로, **`B`**가 `diagnosticd`로 발생했습니다. smb의 함수 [`SMJobBless`](https://developer.apple.com/documentation/servicemanagement/1431078-smjobbless?language=objc)를 사용하여 새로운 특권 도우미 도구를 설치할 수 있습니다 (루트로 실행 중인 경우). **루트로 실행 중인 프로세스**가 **smd**에 연락하면 다른 확인 사항이 수행되지 않습니다.
+이는 \*\*`A`\*\*가 `smd`로, \*\*`B`\*\*가 `diagnosticd`로 발생했습니다. smb의 함수 [`SMJobBless`](https://developer.apple.com/documentation/servicemanagement/1431078-smjobbless?language=objc)를 사용하여 새로운 특권 도우미 도구를 설치할 수 있습니다 (루트로 실행 중인 경우). **루트로 실행 중인 프로세스**가 **smd**에 연락하면 다른 확인 사항이 수행되지 않습니다.
 
 따라서 서비스 **B**는 **루트로 실행**되므로 **프로세스를 모니터링**할 수 있으며, 모니터링이 시작되면 **초당 여러 메시지를 보냅니다.**
 
@@ -88,9 +91,7 @@ XPC 연결이 어떻게 설정되는지 모르는 경우 확인하세요:
 2. `diagnosticd`에 대한 보조 **연결**을 형성합니다. 일반적인 절차와 달리 두 개의 새로운 맥 포트를 생성하고 보내는 대신, 클라이언트 포트 **보내기 권한**은 `smd` 연결과 관련된 **보내기 권한의 복제본**으로 대체됩니다.
 3. 결과적으로 XPC 메시지는 `diagnosticd`로 보내지지만 `diagnosticd`의 응답은 `smd`로 리디렉션됩니다. `smd`에게는 사용자 및 `diagnosticd`의 메시지가 동일한 연결에서 발신된 것으로 보입니다.
 
-![공격 프로세스를 나타내는 이미지](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/exploit.png)
-4. 다음 단계는 `diagnosticd`에게 선택한 프로세스(사용자 자신의 프로세스일 수도 있음)의 모니터링을 시작하도록 지시하는 것입니다. 동시에 `smd`로 루틴 1004 메시지의 홍수를 보냅니다. 이 과정의 목적은 권한이 상승된 도구를 설치하는 것입니다.
-5. 이 작업은 `handle_bless` 함수 내에서 레이스 컨디션을 트리거합니다. 타이밍이 매우 중요합니다: `xpc_connection_get_pid` 함수 호출은 사용자 프로세스의 PID를 반환해야 합니다(권한이 상승된 도구가 사용자의 앱 번들에 있기 때문). 그러나 `xpc_connection_get_audit_token` 함수는 특히 `connection_is_authorized` 서브루틴 내에서 `diagnosticd`에 속한 감사 토큰을 참조해야 합니다.
+![공격 프로세스를 나타내는 이미지](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/exploit.png) 4. 다음 단계는 `diagnosticd`에게 선택한 프로세스(사용자 자신의 프로세스일 수도 있음)의 모니터링을 시작하도록 지시하는 것입니다. 동시에 `smd`로 루틴 1004 메시지의 홍수를 보냅니다. 이 과정의 목적은 권한이 상승된 도구를 설치하는 것입니다. 5. 이 작업은 `handle_bless` 함수 내에서 레이스 컨디션을 트리거합니다. 타이밍이 매우 중요합니다: `xpc_connection_get_pid` 함수 호출은 사용자 프로세스의 PID를 반환해야 합니다(권한이 상승된 도구가 사용자의 앱 번들에 있기 때문). 그러나 `xpc_connection_get_audit_token` 함수는 특히 `connection_is_authorized` 서브루틴 내에서 `diagnosticd`에 속한 감사 토큰을 참조해야 합니다.
 
 ## 변형 2: 응답 전달
 
@@ -103,20 +104,20 @@ XPC(크로스 프로세스 통신) 환경에서 이벤트 핸들러는 동시에
 
 이 취약점을 악용하기 위해 다음 설정이 필요합니다:
 
-* 두 개의 맥 서비스, **`A`**와 **`B`**, 둘 다 연결을 설정할 수 있어야 합니다.
-* 서비스 **`A`**는 **`B`**만 수행할 수 있는 특정 작업에 대한 권한 확인을 포함해야 합니다(사용자의 애플리케이션은 수행할 수 없음).
-* 서비스 **`A`**는 응답을 기대하는 메시지를 보내야 합니다.
-* 사용자는 **`B`**에게 응답할 메시지를 보낼 수 있어야 합니다.
+* 두 개의 맥 서비스, \*\*`A`\*\*와 **`B`**, 둘 다 연결을 설정할 수 있어야 합니다.
+* 서비스 \*\*`A`\*\*는 \*\*`B`\*\*만 수행할 수 있는 특정 작업에 대한 권한 확인을 포함해야 합니다(사용자의 애플리케이션은 수행할 수 없음).
+* 서비스 \*\*`A`\*\*는 응답을 기대하는 메시지를 보내야 합니다.
+* 사용자는 \*\*`B`\*\*에게 응답할 메시지를 보낼 수 있어야 합니다.
 
 악용 프로세스는 다음 단계를 포함합니다:
 
-1. 서비스 **`A`**가 응답을 기대하는 메시지를 보내기를 기다립니다.
-2. **`A`**에 직접 응답하는 대신, 응답 포트가 탈취되어 서비스 **`B`**에게 메시지를 보내는 데 사용됩니다.
-3. 이후, 금지된 작업을 포함하는 메시지가 전송되며, 이 메시지가 **`B`**의 응답과 동시에 처리될 것으로 예상됩니다.
+1. 서비스 \*\*`A`\*\*가 응답을 기대하는 메시지를 보내기를 기다립니다.
+2. \*\*`A`\*\*에 직접 응답하는 대신, 응답 포트가 탈취되어 서비스 \*\*`B`\*\*에게 메시지를 보내는 데 사용됩니다.
+3. 이후, 금지된 작업을 포함하는 메시지가 전송되며, 이 메시지가 \*\*`B`\*\*의 응답과 동시에 처리될 것으로 예상됩니다.
 
 아래는 설명된 공격 시나리오의 시각적 표현입니다:
 
-![https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/variant2.png](../../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png)
+!\[https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/variant2.png]\(../../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png)
 
 <figure><img src="../../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/variant2.png" width="563"><figcaption></figcaption></figure>
 

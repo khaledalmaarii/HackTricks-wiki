@@ -1,4 +1,4 @@
-# macOS 커널 및 시스템 확장
+# macOS Kernel & System Extensions
 
 <details>
 
@@ -9,14 +9,14 @@ HackTricks를 지원하는 다른 방법:
 * **회사가 HackTricks에 광고되길 원하거나 PDF로 HackTricks를 다운로드하길 원한다면** [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
 * [**공식 PEASS & HackTricks 굿즈**](https://peass.creator-spring.com)를 구매하세요
 * [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 저희의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* **💬 [Discord 그룹](https://discord.gg/hRep4RUj7f)** 또는 [텔레그램 그룹](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**를 팔로우**하세요.
+* **💬** [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [텔레그램 그룹](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**를 팔로우**하세요.
 * **HackTricks** 및 **HackTricks Cloud** 깃허브 저장소로 **PR 제출**하여 해킹 트릭을 공유하세요.
 
 </details>
 
 ## XNU 커널
 
-**macOS의 핵심은 XNU**로, "X is Not Unix"의 약자입니다. 이 커널은 기본적으로 **Mach 마이크로커널**(나중에 설명됨)과 **버클리 소프트웨어 배포(BSD)**의 요소로 구성됩니다. XNU는 또한 **I/O Kit이라는 시스템을 통해 커널 드라이버에 대한 플랫폼을 제공**합니다. XNU 커널은 Darwin 오픈 소스 프로젝트의 일부이며, **소스 코드가 자유롭게 접근 가능**합니다.
+**macOS의 핵심은 XNU**로, "X is Not Unix"의 약자입니다. 이 커널은 기본적으로 **Mach 마이크로커널**(나중에 설명됨)과 \*\*버클리 소프트웨어 배포(BSD)\*\*의 요소로 구성됩니다. XNU는 또한 **I/O Kit이라는 시스템을 통해 커널 드라이버에 대한 플랫폼을 제공**합니다. XNU 커널은 Darwin 오픈 소스 프로젝트의 일부이며, **소스 코드가 자유롭게 접근 가능**합니다.
 
 보안 연구원이나 Unix 개발자의 관점에서 보면, **macOS**는 우아한 GUI와 다양한 사용자 정의 애플리케이션을 갖춘 **FreeBSD** 시스템과 매우 **유사**할 수 있습니다. BSD용으로 개발된 대부분의 애플리케이션은 수정 없이 macOS에서 컴파일 및 실행될 수 있습니다. Unix 사용자에게 익숙한 명령줄 도구들이 macOS에 모두 포함되어 있기 때문입니다. 그러나 XNU 커널에는 Mach가 포함되어 있기 때문에 전통적인 Unix와 macOS 간에는 몇 가지 중요한 차이가 있으며, 이러한 차이로 인해 잠재적인 문제가 발생하거나 독특한 이점을 제공할 수 있습니다.
 
@@ -53,17 +53,17 @@ I/O Kit은 XNU 커널의 오픈 소스, 객체 지향 **장치 드라이버 프�
 
 ### IPC - 프로세스 간 통신
 
-{% content-ref url="macos-ipc-inter-process-communication/" %}
-[macos-ipc-inter-process-communication](macos-ipc-inter-process-communication/)
+{% content-ref url="../macos-proces-abuse/macos-ipc-inter-process-communication/" %}
+[macos-ipc-inter-process-communication](../macos-proces-abuse/macos-ipc-inter-process-communication/)
 {% endcontent-ref %}
 
 ### 커널캐시
 
 **커널캐시**는 XNU 커널의 **미리 컴파일되고 미리 연결된 버전**으로, 필수 장치 **드라이버** 및 **커널 확장**을 포함합니다. 이는 **압축된** 형식으로 저장되며 부팅 프로세스 중에 메모리로 압축 해제됩니다. 커널캐시는 부팅 시 동적으로 이러한 구성 요소를 로드하고 연결하는 데 소요되는 시간과 리소스를 줄여줌으로써 **빠른 부팅 시간**을 지원합니다.
 
-iOS에서는 **`/System/Library/Caches/com.apple.kernelcaches/kernelcache`**에 위치하며 macOS에서는 **`find / -name kernelcache 2>/dev/null`** 또는 **`mdfind kernelcache | grep kernelcache`**로 찾을 수 있습니다.
+iOS에서는 \*\*`/System/Library/Caches/com.apple.kernelcaches/kernelcache`\*\*에 위치하며 macOS에서는 **`find / -name kernelcache 2>/dev/null`** 또는 \*\*`mdfind kernelcache | grep kernelcache`\*\*로 찾을 수 있습니다.
 
-**`kextstat`**를 실행하여 로드된 커널 확장을 확인할 수 있습니다.
+\*\*`kextstat`\*\*를 실행하여 로드된 커널 확장을 확인할 수 있습니다.
 
 #### IMG4
 
@@ -83,6 +83,7 @@ IMG4 파일 형식은 Apple이 iOS 및 macOS 장치에서 **펌웨어 구성 요
 * 선택 사항: 일반적으로 이것은 찾을 수 없습니다
 
 커널캐시를 압축 해제하세요:
+
 ```bash
 # pyimg4 (https://github.com/m1stadev/PyIMG4)
 pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
@@ -90,6 +91,7 @@ pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphon
 # img4tool (https://github.com/tihmstar/img4tool
 img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
 ```
+
 #### 커널캐시 심볼
 
 가끔 애플은 **심볼**이 포함된 **커널캐시**를 공개합니다. [https://theapplewiki.com](https://theapplewiki.com/)의 링크를 따라가면 심볼이 포함된 펌웨어를 다운로드할 수 있습니다.
@@ -110,12 +112,15 @@ pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphon
 {% endcode %}
 
 * [**img4tool**](https://github.com/tihmstar/img4tool)
+
 ```bash
 img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
 ```
+
 다음 명령을 사용하여 추출된 커널캐시에 대한 심볼을 확인할 수 있습니다: **`nm -a kernelcache.release.iphone14.e | wc -l`**
 
 이제 우리는 **모든 익스텐션** 또는 **관심 있는 하나를 추출**할 수 있습니다:
+
 ```bash
 # List all extensions
 kextex -l kernelcache.release.iphone14.e
@@ -128,6 +133,7 @@ kextex_all kernelcache.release.iphone14.e
 # Check the extension for symbols
 nm -a binaries/com.apple.security.sandbox | wc -l
 ```
+
 ## macOS 커널 확장자
 
 macOS는 코드가 실행될 때 높은 권한으로 실행되기 때문에 **커널 확장자**(.kext)를 로드하는 것에 매우 제한적입니다. 사실, 기본적으로는 사실상 불가능합니다(우회 방법을 찾지 않는 이상).

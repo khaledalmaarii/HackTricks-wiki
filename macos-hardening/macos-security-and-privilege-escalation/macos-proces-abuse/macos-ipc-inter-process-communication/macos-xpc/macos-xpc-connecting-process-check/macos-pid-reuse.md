@@ -1,4 +1,4 @@
-# macOS PID 재사용
+# macOS PID Reuse
 
 <details>
 
@@ -9,20 +9,20 @@ HackTricks를 지원하는 다른 방법:
 * **회사를 HackTricks에서 광고하거나 HackTricks를 PDF로 다운로드**하려면 [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
 * [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 얻으세요.
 * [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요. 독점적인 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션입니다.
-* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**를** **팔로우**하세요.
+* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**를** **팔로우**하세요.
 * **Hacking 트릭을 공유하려면** [**HackTricks**](https://github.com/carlospolop/hacktricks)와 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 저장소에 PR을 제출하세요.
 
 </details>
 
 ## PID 재사용
 
-macOS **XPC 서비스**가 **PID**가 아닌 **감사 토큰**을 기반으로 호출된 프로세스를 확인하는 대신 **PID**를 확인하는 경우, PID 재사용 공격에 취약합니다. 이 공격은 **레이스 컨디션**을 기반으로 하며, **악용** 기능을 **남용**하여 **XPC** 서비스에 메시지를 **보낸 다음**에야 **`posix_spawn(NULL, target_binary, NULL, &attr, target_argv, environ)`**을 실행하여 **허용된** 이진 파일을 실행합니다.
+macOS **XPC 서비스**가 **PID**가 아닌 **감사 토큰**을 기반으로 호출된 프로세스를 확인하는 대신 **PID**를 확인하는 경우, PID 재사용 공격에 취약합니다. 이 공격은 **레이스 컨디션**을 기반으로 하며, **악용** 기능을 **남용**하여 **XPC** 서비스에 메시지를 **보낸 다음**에야 \*\*`posix_spawn(NULL, target_binary, NULL, &attr, target_argv, environ)`\*\*을 실행하여 **허용된** 이진 파일을 실행합니다.
 
 이 함수는 **허용된 이진 파일이 PID를 소유**하게 만들지만, **악성 XPC 메시지는** 그 전에 이미 **보내졌습니다**. 따라서, **XPC** 서비스가 **`posix_spawn`** 실행 후에 **PID**를 사용하여 **송신자를 인증**하고 확인하는 경우, 이것은 **권한이 있는** 프로세스에서 온 것으로 생각할 것입니다.
 
 ### 공격 예제
 
-함수 **`shouldAcceptNewConnection`** 또는 이를 호출하는 함수에서 **`processIdentifier`**를 호출하고 **`auditToken`**을 호출하지 않는 경우, 이는 **프로세스 PID**를 확인하고 감사 토큰을 확인하지 않는 것을 의미합니다.\
+함수 **`shouldAcceptNewConnection`** 또는 이를 호출하는 함수에서 \*\*`processIdentifier`\*\*를 호출하고 \*\*`auditToken`\*\*을 호출하지 않는 경우, 이는 **프로세스 PID**를 확인하고 감사 토큰을 확인하지 않는 것을 의미합니다.\
 예를 들어, 다음 이미지에서 확인할 수 있습니다 (참조에서 가져옴):
 
 <figure><img src="../../../../../../.gitbook/assets/image (4) (1) (1) (1) (2).png" alt="https://wojciechregula.blog/images/2020/04/pid.png"><figcaption></figcaption></figure>
@@ -30,10 +30,11 @@ macOS **XPC 서비스**가 **PID**가 아닌 **감사 토큰**을 기반으로 �
 다음은 공격의 2 부분을 보여주는 예제 공격입니다 (다시 한 번 참조에서 가져옴):
 
 * **여러 개의 포크를 생성**하는 부분
-* 각 포크는 메시지를 XPC 서비스에 **보낸 다음** 메시지를 보낸 후에 **`posix_spawn`**을 실행합니다.
+* 각 포크는 메시지를 XPC 서비스에 **보낸 다음** 메시지를 보낸 후에 \*\*`posix_spawn`\*\*을 실행합니다.
 
 {% hint style="danger" %}
-공격이 작동하려면 `export`` `**`OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES`**를 중요하게 설정하거나 공격 내부에 다음을 넣어야 합니다:
+공격이 작동하려면 ` export`` ` \*\*`OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES`\*\*를 중요하게 설정하거나 공격 내부에 다음을 넣어야 합니다:
+
 ```objectivec
 asm(".section __DATA,__objc_fork_ok\n"
 "empty:\n"
@@ -42,8 +43,11 @@ asm(".section __DATA,__objc_fork_ok\n"
 {% endhint %}
 
 {% tabs %}
-{% tab title="NSTasks" %}
-**`NSTasks`**를 사용하여 RC를 악용하기 위해 자식 프로세스를 실행하는 인자를 사용하는 첫 번째 옵션입니다.
+{% tab title="undefined" %}
+\*\*`NSTasks`\*\*를 사용하여 RC를 악용하기 위해 자식 프로세스를 실행하는 인자를 사용하는 첫 번째 옵션입니다.
+{% endtab %}
+
+{% tab title="undefined" %}
 ```objectivec
 // Code from https://wojciechregula.blog/post/learn-xpc-exploitation-part-2-say-no-to-the-pid/
 // gcc -framework Foundation expl.m -o expl
@@ -149,8 +153,11 @@ create_nstasks();
 return 0;
 }
 ```
+{% endtab %}
+
 {% tab title="fork" %}
-이 예제는 원시 **`fork`**를 사용하여 **PID 경쟁 조건을 이용하는 자식 프로세스를 실행**하고, 그런 다음 **하드 링크를 통해 다른 경쟁 조건을 이용**합니다.
+이 예제는 원시 \*\*`fork`\*\*를 사용하여 **PID 경쟁 조건을 이용하는 자식 프로세스를 실행**하고, 그런 다음 **하드 링크를 통해 다른 경쟁 조건을 이용**합니다.
+
 ```objectivec
 // export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 // gcc -framework Foundation expl.m -o expl
@@ -300,7 +307,7 @@ HackTricks를 지원하는 다른 방법:
 * 회사를 HackTricks에서 광고하거나 HackTricks를 PDF로 다운로드하려면 [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
 * [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 얻으세요.
 * 독점적인 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션인 [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요.
-* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)을 **팔로우**하세요.
+* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)을 **팔로우**하세요.
 * **HackTricks**와 **HackTricks Cloud** github 저장소에 PR을 제출하여 여러분의 해킹 기법을 공유하세요.
 
 </details>

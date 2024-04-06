@@ -39,6 +39,7 @@ macOS Catalina부터는 **Gatekeeper는 애플에 의해 인증**된지 여부�
 #### 서명 확인
 
 악성 코드 샘플을 확인할 때는 항상 이진 파일의 **서명을 확인**해야 합니다. 서명한 **개발자**가 이미 **악성 코드와 관련**되어 있을 수 있기 때문입니다.
+
 ```bash
 # Get signer
 codesign -vv -d /bin/ls 2>&1 | grep -E "Authority|TeamIdentifier"
@@ -55,6 +56,7 @@ spctl --assess --verbose /Applications/Safari.app
 # Sign a binary
 codesign -s <cert-name-keychain> toolsdemo
 ```
+
 ### Notarization
 
 애플의 노타리제이션 프로세스는 사용자가 잠재적으로 해로운 소프트웨어로부터 보호되는 추가적인 안전장치로 작용합니다. 이 프로세스는 개발자가 애플의 노타리 서비스에 소프트웨어를 제출하는 것을 포함하며, 이는 앱 리뷰와 혼동해서는 안 됩니다. 이 서비스는 악성 콘텐츠와 코드 서명에 관련된 잠재적인 문제를 확인하기 위해 제출된 소프트웨어를 자동으로 검토하는 시스템입니다.
@@ -68,10 +70,12 @@ codesign -s <cert-name-keychain> toolsdemo
 GateKeeper는 신뢰할 수 없는 앱의 실행을 방지하는 여러 보안 구성 요소와 동시에 하나의 구성 요소입니다.
 
 GateKeeper의 상태를 확인하는 것이 가능합니다:
+
 ```bash
 # Check the status
 spctl --status
 ```
+
 {% hint style="danger" %}
 GateKeeper 서명 검사는 **격리 속성을 가진 파일**에 대해서만 수행됩니다. 모든 파일에 대해서는 수행되지 않습니다.
 {% endhint %}
@@ -80,7 +84,8 @@ GateKeeper는 **환경 설정 및 서명**에 따라 이진 파일을 실행할 
 
 <figure><img src="../../../.gitbook/assets/image (678).png" alt=""><figcaption></figcaption></figure>
 
-이 구성을 유지하는 데이터베이스는 **`/var/db/SystemPolicy`**에 위치합니다. 다음 명령을 root로 실행하여 이 데이터베이스를 확인할 수 있습니다:
+이 구성을 유지하는 데이터베이스는 \*\*`/var/db/SystemPolicy`\*\*에 위치합니다. 다음 명령을 root로 실행하여 이 데이터베이스를 확인할 수 있습니다:
+
 ```bash
 # Open database
 sqlite3 /var/db/SystemPolicy
@@ -94,10 +99,12 @@ anchor apple generic and certificate leaf[field.1.2.840.113635.100.6.1.9] exists
 anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] exists and (certificate leaf[field.1.2.840.113635.100.6.1.14] or certificate leaf[field.1.2.840.113635.100.6.1.13]) and notarized|1|0|Notarized Developer ID
 [...]
 ```
+
 첫 번째 규칙이 "**App Store**"로 끝나고 두 번째 규칙이 "**Developer ID**"로 끝났음을 주목하세요. 그리고 이전 이미지에서는 **App Store 및 식별된 개발자로부터 앱을 실행할 수 있도록** 설정되어 있었습니다.\
 만약 그 설정을 App Store로 **변경**하면 "**Notarized Developer ID" 규칙이 사라집니다**.
 
 또한 **GKE 유형의 수천 개의 규칙**이 있습니다.
+
 ```bash
 SELECT requirement,allow,disabled,label from authority where label = 'GKE' limit 5;
 cdhash H"b40281d347dc574ae0850682f0fd1173aa2d0a39"|1|0|GKE
@@ -106,13 +113,17 @@ cdhash H"4317047eefac8125ce4d44cab0eb7b1dff29d19a"|1|0|GKE
 cdhash H"0a71962e7a32f0c2b41ddb1fb8403f3420e1d861"|1|0|GKE
 cdhash H"8d0d90ff23c3071211646c4c9c607cdb601cb18f"|1|0|GKE
 ```
-다음은 **`/var/db/SystemPolicyConfiguration/gke.bundle/Contents/Resources/gke.auth`, `/var/db/gke.bundle/Contents/Resources/gk.db`** 및 **`/var/db/gkopaque.bundle/Contents/Resources/gkopaque.db`**에서 가져온 해시입니다.
+
+다음은 **`/var/db/SystemPolicyConfiguration/gke.bundle/Contents/Resources/gke.auth`, `/var/db/gke.bundle/Contents/Resources/gk.db`** 및 \*\*`/var/db/gkopaque.bundle/Contents/Resources/gkopaque.db`\*\*에서 가져온 해시입니다.
 
 또는 이전 정보를 다음과 같이 나열할 수도 있습니다:
+
 ```bash
 sudo spctl --list
 ```
-**`spctl`**의 **`--master-disable`**와 **`--global-disable`** 옵션은 이러한 서명 검사를 완전히 **비활성화**합니다:
+
+\*\*`spctl`\*\*의 \*\*`--master-disable`\*\*와 **`--global-disable`** 옵션은 이러한 서명 검사를 완전히 **비활성화**합니다:
+
 ```bash
 # Disable GateKeeper
 spctl --global-disable
@@ -122,15 +133,19 @@ spctl --master-disable
 spctl --global-enable
 spctl --master-enable
 ```
+
 완전히 활성화되면 새로운 옵션이 나타납니다:
 
 <figure><img src="../../../.gitbook/assets/image (679).png" alt=""><figcaption></figcaption></figure>
 
 GateKeeper로 **앱이 허용될지 확인**할 수 있습니다.
+
 ```bash
 spctl --assess -v /Applications/App.app
 ```
+
 GateKeeper에 새로운 규칙을 추가하여 특정 앱의 실행을 허용할 수 있습니다. 다음과 같이 진행할 수 있습니다:
+
 ```bash
 # Check if allowed - nop
 spctl --assess -v /Applications/App.app
@@ -145,6 +160,7 @@ sudo spctl --enable --label "whitelist"
 spctl --assess -v /Applications/App.app
 /Applications/App.app: accepted
 ```
+
 ### 격리 파일
 
 애플리케이션 또는 파일을 다운로드하면 macOS의 웹 브라우저나 이메일 클라이언트와 같은 특정 애플리케이션은 다운로드한 파일에 "**격리 플래그**"라고 알려진 확장 파일 속성을 부착합니다. 이 속성은 파일을 신뢰할 수 없는 출처(인터넷)에서 가져온 것으로 표시하고 잠재적인 위험을 가질 수 있으므로 보안 조치로 작동합니다. 그러나 일부 애플리케이션은 이 속성을 부착하지 않습니다. 예를 들어, 일반적인 BitTorrent 클라이언트 소프트웨어는 이 프로세스를 우회합니다.
@@ -166,6 +182,7 @@ spctl --assess -v /Applications/App.app
 {% endhint %}
 
 다음과 같이 상태를 **확인하고 활성화/비활성화**할 수 있습니다(루트 권한 필요):
+
 ```bash
 spctl --status
 assessments enabled
@@ -174,6 +191,7 @@ spctl --enable
 spctl --disable
 #You can also allow nee identifies to execute code using the binary "spctl"
 ```
+
 다음과 같이 **파일이 격리 확장 속성을 가지고 있는지 확인**할 수도 있습니다:
 
 ```bash
@@ -181,12 +199,15 @@ xattr -p com.apple.quarantine <file_path>
 ```
 
 이 명령은 `<file_path>`에 지정된 파일의 `com.apple.quarantine` 속성을 출력합니다.
+
 ```bash
 xattr file.png
 com.apple.macl
 com.apple.quarantine
 ```
+
 **확장 속성**의 **값**을 확인하고 다음과 같이 quarantine 속성을 작성한 앱을 찾습니다.
+
 ```bash
 xattr -l portada.png
 com.apple.macl:
@@ -202,70 +223,34 @@ com.apple.quarantine: 00C1;607842eb;Brave;F643CD5F-6071-46AB-83AB-390BA944DEC5
 # Brave -- App
 # F643CD5F-6071-46AB-83AB-390BA944DEC5 -- UID assigned to the file downloaded
 ```
-실제로 프로세스는 생성하는 파일에 격리 플래그를 설정할 수 있습니다 (생성된 파일에 USER_APPROVED 플래그를 적용해 보았지만 적용되지 않았습니다):
+
+실제로 프로세스는 생성하는 파일에 격리 플래그를 설정할 수 있습니다 (생성된 파일에 USER\_APPROVED 플래그를 적용해 보았지만 적용되지 않았습니다):
 
 <details>
 
 <summary>격리 플래그 적용 소스 코드</summary>
-```c
-#include <stdio.h>
-#include <stdlib.h>
 
-enum qtn_flags {
-QTN_FLAG_DOWNLOAD = 0x0001,
-QTN_FLAG_SANDBOX = 0x0002,
-QTN_FLAG_HARD = 0x0004,
-QTN_FLAG_USER_APPROVED = 0x0040,
-};
+\`\`\`c #include #include
 
-#define qtn_proc_alloc _qtn_proc_alloc
-#define qtn_proc_apply_to_self _qtn_proc_apply_to_self
-#define qtn_proc_free _qtn_proc_free
-#define qtn_proc_init _qtn_proc_init
-#define qtn_proc_init_with_self _qtn_proc_init_with_self
-#define qtn_proc_set_flags _qtn_proc_set_flags
-#define qtn_file_alloc _qtn_file_alloc
-#define qtn_file_init_with_path _qtn_file_init_with_path
-#define qtn_file_free _qtn_file_free
-#define qtn_file_apply_to_path _qtn_file_apply_to_path
-#define qtn_file_set_flags _qtn_file_set_flags
-#define qtn_file_get_flags _qtn_file_get_flags
-#define qtn_proc_set_identifier _qtn_proc_set_identifier
+enum qtn\_flags { QTN\_FLAG\_DOWNLOAD = 0x0001, QTN\_FLAG\_SANDBOX = 0x0002, QTN\_FLAG\_HARD = 0x0004, QTN\_FLAG\_USER\_APPROVED = 0x0040, };
 
-typedef struct _qtn_proc *qtn_proc_t;
-typedef struct _qtn_file *qtn_file_t;
+\#define qtn\_proc\_alloc \_qtn\_proc\_alloc #define qtn\_proc\_apply\_to\_self \_qtn\_proc\_apply\_to\_self #define qtn\_proc\_free \_qtn\_proc\_free #define qtn\_proc\_init \_qtn\_proc\_init #define qtn\_proc\_init\_with\_self \_qtn\_proc\_init\_with\_self #define qtn\_proc\_set\_flags \_qtn\_proc\_set\_flags #define qtn\_file\_alloc \_qtn\_file\_alloc #define qtn\_file\_init\_with\_path \_qtn\_file\_init\_with\_path #define qtn\_file\_free \_qtn\_file\_free #define qtn\_file\_apply\_to\_path \_qtn\_file\_apply\_to\_path #define qtn\_file\_set\_flags \_qtn\_file\_set\_flags #define qtn\_file\_get\_flags \_qtn\_file\_get\_flags #define qtn\_proc\_set\_identifier \_qtn\_proc\_set\_identifier
 
-int qtn_proc_apply_to_self(qtn_proc_t);
-void qtn_proc_init(qtn_proc_t);
-int qtn_proc_init_with_self(qtn_proc_t);
-int qtn_proc_set_flags(qtn_proc_t, uint32_t flags);
-qtn_proc_t qtn_proc_alloc();
-void qtn_proc_free(qtn_proc_t);
-qtn_file_t qtn_file_alloc(void);
-void qtn_file_free(qtn_file_t qf);
-int qtn_file_set_flags(qtn_file_t qf, uint32_t flags);
-uint32_t qtn_file_get_flags(qtn_file_t qf);
-int qtn_file_apply_to_path(qtn_file_t qf, const char *path);
-int qtn_file_init_with_path(qtn_file_t qf, const char *path);
-int qtn_proc_set_identifier(qtn_proc_t qp, const char* bundleid);
+typedef struct \_qtn\_proc \*qtn\_proc\_t; typedef struct \_qtn\_file \*qtn\_file\_t;
+
+int qtn\_proc\_apply\_to\_self(qtn\_proc\_t); void qtn\_proc\_init(qtn\_proc\_t); int qtn\_proc\_init\_with\_self(qtn\_proc\_t); int qtn\_proc\_set\_flags(qtn\_proc\_t, uint32\_t flags); qtn\_proc\_t qtn\_proc\_alloc(); void qtn\_proc\_free(qtn\_proc\_t); qtn\_file\_t qtn\_file\_alloc(void); void qtn\_file\_free(qtn\_file\_t qf); int qtn\_file\_set\_flags(qtn\_file\_t qf, uint32\_t flags); uint32\_t qtn\_file\_get\_flags(qtn\_file\_t qf); int qtn\_file\_apply\_to\_path(qtn\_file\_t qf, const char \*path); int qtn\_file\_init\_with\_path(qtn\_file\_t qf, const char _path); int qtn\_proc\_set\_identifier(qtn\_proc\_t qp, const char_ bundleid);
 
 int main() {
 
-qtn_proc_t qp = qtn_proc_alloc();
-qtn_proc_set_identifier(qp, "xyz.hacktricks.qa");
-qtn_proc_set_flags(qp, QTN_FLAG_DOWNLOAD | QTN_FLAG_USER_APPROVED);
-qtn_proc_apply_to_self(qp);
-qtn_proc_free(qp);
+qtn\_proc\_t qp = qtn\_proc\_alloc(); qtn\_proc\_set\_identifier(qp, "xyz.hacktricks.qa"); qtn\_proc\_set\_flags(qp, QTN\_FLAG\_DOWNLOAD | QTN\_FLAG\_USER\_APPROVED); qtn\_proc\_apply\_to\_self(qp); qtn\_proc\_free(qp);
 
-FILE *fp;
-fp = fopen("thisisquarantined.txt", "w+");
-fprintf(fp, "Hello Quarantine\n");
-fclose(fp);
+FILE \*fp; fp = fopen("thisisquarantined.txt", "w+"); fprintf(fp, "Hello Quarantine\n"); fclose(fp);
 
 return 0;
 
 }
-```
+
+````
 </details>
 
 그리고 다음과 같이 그 속성을 **제거**하십시오:
@@ -273,7 +258,8 @@ return 0;
 xattr -d com.apple.quarantine portada.png
 #You can also remove this attribute from every file with
 find . -iname '*' -print0 | xargs -0 xattr -d com.apple.quarantine
-```
+````
+
 다음 명령어를 사용하여 모든 격리된 파일을 찾으세요:
 
 {% code overflow="wrap" %}
@@ -282,13 +268,13 @@ find / -exec ls -ld {} \; 2>/dev/null | grep -E "[x\-]@ " | awk '{printf $9; pri
 ```
 {% endcode %}
 
-Quarantine 정보는 LaunchServices가 관리하는 중앙 데이터베이스인 **`~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2`**에 저장됩니다.
+Quarantine 정보는 LaunchServices가 관리하는 중앙 데이터베이스인 \*\*`~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2`\*\*에 저장됩니다.
 
-#### **Quarantine.kext**
+**Quarantine.kext**
 
-커널 확장은 시스템의 커널 캐시를 통해서만 사용할 수 있습니다. 그러나 **https://developer.apple.com/**에서 **Kernel Debug Kit**을 다운로드하여 커널 확장의 심볼화된 버전을 얻을 수 있습니다.
+커널 확장은 시스템의 커널 캐시를 통해서만 사용할 수 있습니다. 그러나 \*\*https://developer.apple.com/\*\*에서 **Kernel Debug Kit**을 다운로드하여 커널 확장의 심볼화된 버전을 얻을 수 있습니다.
 
-### XProtect
+#### XProtect
 
 XProtect는 macOS에 내장된 **안티-악성코드** 기능입니다. XProtect는 알려진 악성코드 및 위험한 파일 유형의 데이터베이스와 비교하여 애플리케이션이 처음 실행되거나 수정될 때마다 해당 애플리케이션을 확인합니다. Safari, Mail, 또는 Messages와 같은 특정 앱을 통해 파일을 다운로드할 때 XProtect가 자동으로 파일을 스캔합니다. 데이터베이스에 알려진 악성코드와 일치하는 경우, XProtect는 파일 실행을 **차단하고 위협을 알립니다**.
 
@@ -311,66 +297,70 @@ XProtect는 SIP로 보호된 위치인 **/Library/Apple/System/Library/CoreServi
 * **`XProtect.bundle/Contents/Resources/XProtect.yara`**: 악성 코드를 감지하기 위한 Yara 규칙입니다.
 * **`XProtect.bundle/Contents/Resources/gk.db`**: 차단된 응용 프로그램 및 TeamID의 해시를 포함하는 SQLite3 데이터베이스입니다.
 
-XProtect와 관련된 다른 앱인 **`/Library/Apple/System/Library/CoreServices/XProtect.app`**도 있지만, 이 앱은 Gatekeeper 프로세스와 관련이 없습니다.
+XProtect와 관련된 다른 앱인 \*\*`/Library/Apple/System/Library/CoreServices/XProtect.app`\*\*도 있지만, 이 앱은 Gatekeeper 프로세스와 관련이 없습니다.
 
-### Gatekeeper가 아닌 것들
+#### Gatekeeper가 아닌 것들
 
-{% hint style="danger" %}
 Gatekeeper는 애플리케이션을 실행할 때마다 실행되는 것이 아니라, 이미 Gatekeeper에 의해 실행 및 확인된 앱을 실행할 때에만 _**AppleMobileFileIntegrity**_ (AMFI)가 실행되어 실행 가능한 코드 서명을 확인합니다.
-{% endhint %}
 
 따라서 이전에는 앱을 실행하여 Gatekeeper로 캐시한 다음 (Electron asar 또는 NIB 파일과 같은) 실행 불가능한 파일을 수정하고 다른 보호 기능이 없는 경우, 애플리케이션에 악성 추가 요소가 포함된 채로 **실행**할 수 있었습니다.
 
 그러나 이제는 macOS가 애플리케이션 번들 내의 파일 수정을 방지합니다. 따라서 [Dirty NIB](../macos-proces-abuse/macos-dirty-nib.md) 공격을 시도하면 번들을 수정할 수 없으므로 이를 악용할 수 없음을 알 수 있습니다. 예를 들어 Contents 디렉토리의 이름을 NotCon으로 변경한 다음 Gatekeeper로 앱을 캐시하기 위해 앱의 주 실행 파일을 실행하면 오류가 발생하여 실행되지 않습니다.
 
-## Gatekeeper 우회
+### Gatekeeper 우회
 
 Gatekeeper를 우회하는 방법(사용자가 무언가를 다운로드하고 Gatekeeper가 금지해야 할 때 실행되도록 만드는 방법)은 macOS에서 취약점으로 간주됩니다. 다음은 과거에 Gatekeeper 우회를 허용한 기술에 할당된 일부 CVE입니다:
 
-### [CVE-2021-1810](https://labs.withsecure.com/publications/the-discovery-of-cve-2021-1810)
+#### [CVE-2021-1810](https://labs.withsecure.com/publications/the-discovery-of-cve-2021-1810)
 
 **Archive Utility**를 사용하여 압축을 푸는 경우, **경로가 886자를 초과하는 파일**은 com.apple.quarantine 확장 속성을 받지 않습니다. 이로 인해 이러한 파일이 **Gatekeeper의** 보안 검사를 우회할 수 있게 됩니다.
 
 자세한 정보는 [**원본 보고서**](https://labs.withsecure.com/publications/the-discovery-of-cve-2021-1810)를 확인하세요.
 
-### [CVE-2021-30990](https://ronmasas.com/posts/bypass-macos-gatekeeper)
+#### [CVE-2021-30990](https://ronmasas.com/posts/bypass-macos-gatekeeper)
 
 **Automator**로 생성된 애플리케이션의 실행에 필요한 정보는 `application.app/Contents/document.wflow`에 있으며, 실행 파일에는 해당 정보가 없습니다. 실행 파일은 단순히 **Automator Application Stub**라는 일반적인 Automator 이진 파일입니다.
 
-따라서 `application.app/Contents/MacOS/Automator\ Application\ Stub`을 다른 시스템 내부의 Automator Application Stub로 심볼릭 링크로 지정하면 `document.wflow`(스크립트) 내부의 내용이 실행되며, 실제 실행 파일에는 quarantine xattr이 없으므로 Gatekeeper가 트리거되지 않습니다.&#x20;
+따라서 `application.app/Contents/MacOS/Automator\ Application\ Stub`을 다른 시스템 내부의 Automator Application Stub로 심볼릭 링크로 지정하면 `document.wflow`(스크립트) 내부의 내용이 실행되며, 실제 실행 파일에는 quarantine xattr이 없으므로 Gatekeeper가 트리거되지 않습니다.
 
 예상 위치의 예: `/System/Library/CoreServices/Automator\ Application\ Stub.app/Contents/MacOS/Automator\ Application\ Stub`
 
 자세한 정보는 [**원본 보고서**](https://ronmasas.com/posts/bypass-macos-gatekeeper)를 확인하세요.
 
-### [CVE-2022-22616](https://www.jamf.com/blog/jamf-threat-labs-safari-vuln-gatekeeper-bypass/)
+#### [CVE-2022-22616](https://www.jamf.com/blog/jamf-threat-labs-safari-vuln-gatekeeper-bypass/)
 
 이 우회에서는 압축을 시작하는 위치를 `application.app/Contents`가 아닌 `application.app`에서 시작하는 zip 파일이 생성되었습니다. 따라서 **quarantine 속성**은 `application.app/Contents`의 **모든 파일에 적용**되었지만 `application.app`에는 적용되지 않았으며, Gatekeeper가 확인하는 대상이었습니다. 따라서 `application.app`이 트리거될 때 **quarantine 속성이 없었기 때문에** Gatekeeper가 우회되었습니다.
+
 ```bash
 zip -r test.app/Contents test.zip
 ```
+
 [**원본 보고서**](https://www.jamf.com/blog/jamf-threat-labs-safari-vuln-gatekeeper-bypass/)에서 자세한 정보를 확인하세요.
 
-### [CVE-2022-32910](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-32910)
+#### [CVE-2022-32910](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-32910)
 
-이 취약점의 악용은 이전과 매우 유사하지만 구성 요소는 다릅니다. 이 경우에는 **`application.app/Contents`**에서 Apple Archive를 생성하여 **Archive Utility**에 의해 압축이 풀릴 때 **`application.app`에 대한 quarantine 속성이 설정되지 않습니다**.
+이 취약점의 악용은 이전과 매우 유사하지만 구성 요소는 다릅니다. 이 경우에는 \*\*`application.app/Contents`\*\*에서 Apple Archive를 생성하여 **Archive Utility**에 의해 압축이 풀릴 때 **`application.app`에 대한 quarantine 속성이 설정되지 않습니다**.
+
 ```bash
 aa archive -d test.app/Contents -o test.app.aar
 ```
+
 자세한 정보는 [**원본 보고서**](https://www.jamf.com/blog/jamf-threat-labs-macos-archive-utility-vulnerability/)를 확인하세요.
 
-### [CVE-2022-42821](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/)
+#### [CVE-2022-42821](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/)
 
-ACL **`writeextattr`**은 파일의 속성을 쓰지 못하도록 막을 수 있습니다:
+ACL \*\*`writeextattr`\*\*은 파일의 속성을 쓰지 못하도록 막을 수 있습니다:
+
 ```bash
 touch /tmp/no-attr
 chmod +a "everyone deny writeextattr" /tmp/no-attr
 xattr -w attrname vale /tmp/no-attr
 xattr: [Errno 13] Permission denied: '/tmp/no-attr'
 ```
+
 또한, **AppleDouble** 파일 형식은 ACE를 포함하여 파일을 복사합니다.
 
-[**소스 코드**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html)에서는 xattr인 **`com.apple.acl.text`**에 저장된 ACL 텍스트 표현이 압축 해제된 파일에 ACL로 설정됩니다. 따라서, 다른 xattr이 쓰여지지 않도록 ACL을 가진 애플리케이션을 **AppleDouble** 파일 형식으로 압축한 경우... quarantine xattr이 애플리케이션에 설정되지 않았습니다:
+[**소스 코드**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html)에서는 xattr인 \*\*`com.apple.acl.text`\*\*에 저장된 ACL 텍스트 표현이 압축 해제된 파일에 ACL로 설정됩니다. 따라서, 다른 xattr이 쓰여지지 않도록 ACL을 가진 애플리케이션을 **AppleDouble** 파일 형식으로 압축한 경우... quarantine xattr이 애플리케이션에 설정되지 않았습니다:
 
 {% code overflow="wrap" %}
 ```bash
@@ -384,17 +374,19 @@ python3 -m http.server
 추가 정보는 [**원본 보고서**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/)에서 확인할 수 있습니다.
 
 AppleArchives를 사용하여 이 취약점을 악용할 수도 있습니다:
+
 ```bash
 mkdir app
 touch app/test
 chmod +a "everyone deny write,writeattr,writeextattr" app/test
 aa archive -d app -o test.aar
 ```
-### [CVE-2023-27943](https://blog.f-secure.com/discovery-of-gatekeeper-bypass-cve-2023-27943/)
+
+#### [CVE-2023-27943](https://blog.f-secure.com/discovery-of-gatekeeper-bypass-cve-2023-27943/)
 
 구글 크롬이 macOS 내부 문제로 인해 다운로드된 파일에 **격리 속성을 설정하지 않았다**는 것이 발견되었습니다.
 
-### [CVE-2023-27951](https://redcanary.com/blog/gatekeeper-bypass-vulnerabilities/)
+#### [CVE-2023-27951](https://redcanary.com/blog/gatekeeper-bypass-vulnerabilities/)
 
 AppleDouble 파일 형식은 파일의 속성을 `._`로 시작하는 별도의 파일에 저장하여 macOS 기기 간에 파일 속성을 복사하는 데 도움이 됩니다. 그러나 AppleDouble 파일을 압축 해제한 후 `._`로 시작하는 파일에는 **격리 속성이 지정되지 않았다**는 것이 관찰되었습니다.
 
@@ -412,6 +404,7 @@ aa archive -d test/ -o test.aar
 
 게이트키퍼를 우회할 수 있도록 **격리 속성이 설정되지 않은 파일을 생성**할 수 있다면, **가능합니다.** 이 기교는 AppleDouble 이름 규칙을 사용하여 DMG 파일 응용 프로그램을 **생성**하고 격리 속성이 없는 **숨겨진** 파일에 대한 가시적인 파일을 심볼릭 링크로 생성하는 것입니다.\
 **DMG 파일이 실행**되면, 격리 속성이 없으므로 **게이트키퍼를 우회**합니다.
+
 ```bash
 # Create an app bundle with the backdoor an call it app.app
 
@@ -427,20 +420,11 @@ ln -s ._app.dmg s/app/app.dmg
 echo "[+] compressing files"
 aa archive -d s/ -o app.aar
 ```
-### Quarantine xattr 예방
+
+#### Quarantine xattr 예방
 
 ".app" 번들에서 quarantine xattr이 추가되지 않으면 실행 시 **Gatekeeper가 작동하지 않습니다**.
 
-<details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 AWS 해킹을 처음부터 전문가까지 배워보세요<strong>!</strong></summary>
-
-HackTricks를 지원하는 다른 방법:
-
-* **회사를 HackTricks에서 광고하거나 HackTricks를 PDF로 다운로드**하려면 [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 상품**](https://peass.creator-spring.com)을 구매하세요.
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요. 독점적인 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션입니다.
-* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter**에서 **팔로우**하세요 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **HackTricks**와 **HackTricks Cloud** github 저장소에 PR을 제출하여 여러분의 해킹 기법을 공유하세요.
 
 </details>

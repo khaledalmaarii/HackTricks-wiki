@@ -6,11 +6,11 @@
 
 다른 HackTricks 지원 방법:
 
-- **회사가 HackTricks에 광고되길 원하거나 HackTricks를 PDF로 다운로드하고 싶다면** [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
-- [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구매하세요
-- [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-- 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)를 **팔로우**하세요.
-- **해킹 요령을 공유하려면** [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 저장소에 PR을 제출하세요.
+* **회사가 HackTricks에 광고되길 원하거나 HackTricks를 PDF로 다운로드하고 싶다면** [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구매하세요
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
+* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)를 **팔로우**하세요.
+* **해킹 요령을 공유하려면** [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 저장소에 PR을 제출하세요.
 
 </details>
 
@@ -38,15 +38,15 @@ n2          :  uint32_t);
 {% endcode %}
 
 이제 mig를 사용하여 서버 및 클라이언트 코드를 생성하여 서로 통신하고 Subtract 함수를 호출할 수 있도록합니다:
+
 ```bash
 mig -header myipcUser.h -sheader myipcServer.h myipc.defs
 ```
+
 현재 디렉토리에 여러 새 파일이 생성됩니다.
 
 **`myipcServer.c`** 및 **`myipcServer.h`** 파일에는 기본적으로 수신된 메시지 ID에 따라 호출할 함수를 정의하는 **`SERVERPREFmyipc_subsystem`** 구조체의 선언과 정의가 포함되어 있습니다 (시작 번호로 500을 지정했습니다):
 
-{% tabs %}
-{% tab title="myipcServer.c" %}
 ```c
 /* Description of this subsystem, for use in direct RPC */
 const struct SERVERPREFmyipc_subsystem SERVERPREFmyipc_subsystem = {
@@ -62,9 +62,9 @@ myipc_server_routine,
 }
 };
 ```
-{% endtab %}
 
-{% tab title="myipcServer.h" %}서버 코드를 작성하는 헤더 파일입니다.{% endtab %}
+서버 코드를 작성하는 헤더 파일입니다.
+
 ```c
 /* Description of this subsystem, for use in direct RPC */
 extern const struct SERVERPREFmyipc_subsystem {
@@ -77,7 +77,9 @@ struct routine_descriptor	/* Array of routine descriptors */
 routine[1];
 } SERVERPREFmyipc_subsystem;
 ```
+
 기존 구조를 기반으로 **`myipc_server_routine`** 함수는 **메시지 ID**를 받아 적절한 호출할 함수를 반환합니다:
+
 ```c
 mig_external mig_routine_t myipc_server_routine
 (mach_msg_header_t *InHeadP)
@@ -92,16 +94,19 @@ return 0;
 return SERVERPREFmyipc_subsystem.routine[msgh_id].stub_routine;
 }
 ```
+
 이 예제에서는 정의된 함수가 하나뿐이지만, 더 많은 함수를 정의했다면 이들은 **`SERVERPREFmyipc_subsystem`** 배열 내에 있었을 것이며, 첫 번째 함수는 **500** ID에 할당되었을 것이고, 두 번째 함수는 **501** ID에 할당되었을 것입니다...
 
-실제로 이 관계를 **`myipcServer.h`**의 **`subsystem_to_name_map_myipc`** 구조체에서 식별하는 것이 가능합니다:
+실제로 이 관계를 \*\*`myipcServer.h`\*\*의 **`subsystem_to_name_map_myipc`** 구조체에서 식별하는 것이 가능합니다:
+
 ```c
 #ifndef subsystem_to_name_map_myipc
 #define subsystem_to_name_map_myipc \
 { "Subtract", 500 }
 #endif
 ```
-마지막으로, 서버가 작동하도록 하는 데 중요한 기능 중 하나는 **`myipc_server`**일 것입니다. 이 함수는 실제로 받은 ID에 관련된 함수를 **호출**할 것입니다:
+
+마지막으로, 서버가 작동하도록 하는 데 중요한 기능 중 하나는 \*\*`myipc_server`\*\*일 것입니다. 이 함수는 실제로 받은 ID에 관련된 함수를 **호출**할 것입니다:
 
 <pre class="language-c"><code class="lang-c">mig_external boolean_t myipc_server
 (mach_msg_header_t *InHeadP, mach_msg_header_t *OutHeadP)
@@ -139,8 +144,6 @@ return FALSE;
 
 다음은 서버와 클라이언트를 만들기 위한 코드이며, 클라이언트는 서버에서 함수를 호출할 수 있습니다. Subtract:
 
-{% tabs %}
-{% tab title="myipc_server.c" %}
 ```c
 // gcc myipc_server.c myipcServer.c -o myipc_server
 
@@ -171,9 +174,11 @@ return 1;
 mach_msg_server(myipc_server, sizeof(union __RequestUnion__SERVERPREFmyipc_subsystem), port, MACH_MSG_TIMEOUT_NONE);
 }
 ```
-{% endtab %}
 
-{% tab title="myipc_client.c" %}번역된 텍스트가 여기에 들어갑니다.
+
+
+번역된 텍스트가 여기에 들어갑니다.
+
 ```c
 // gcc myipc_client.c myipcUser.c -o myipc_client
 
@@ -198,14 +203,17 @@ printf("Port right name %d\n", port);
 USERPREFSubtract(port, 40, 2);
 }
 ```
+
 ### 이진 분석
 
 많은 이진 파일이 이제 MIG를 사용하여 mach 포트를 노출시키기 때문에, **MIG가 사용되었는지를 식별**하고 각 메시지 ID별로 **MIG가 실행하는 함수**를 알아내는 것이 흥미로울 것입니다.
 
 [**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2)는 Mach-O 이진 파일에서 MIG 정보를 구문 분석하여 메시지 ID를 나타내고 실행할 함수를 식별할 수 있습니다:
+
 ```bash
 jtool2 -d __DATA.__const myipc_server | grep MIG
 ```
+
 이전에 **수신된 메시지 ID에 따라 올바른 함수를 호출하는 함수**는 `myipc_server`라고 언급되었습니다. 그러나 일반적으로 이진 파일의 심볼(함수 이름 없음)을 가지고 있지 않으므로, **디컴파일된 모습을 확인하는 것이 흥미로울 것**입니다. 이 함수의 코드는 항상 매우 유사할 것입니다(이 함수의 코드는 노출된 함수와 독립적입니다):
 
 {% tabs %}
@@ -334,7 +342,6 @@ return r0;
 <figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 이 데이터는 [**이 Hopper 스크립트를 사용하여**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py) 추출할 수 있습니다.
+
 * **다음 Discord 그룹에 가입** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) **하거나** [**텔레그램 그룹**](https://t.me/peass) **에 가입하거나** **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live) **를 팔로우하세요**.
 * **해킹 기법을 공유하려면** [**HackTricks**](https://github.com/carlospolop/hacktricks) **및** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **깃허브 저장소에 PR을 제출하세요**.
-
-</details>
