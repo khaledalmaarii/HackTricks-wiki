@@ -1,4 +1,4 @@
-# Kernel na Vifurushi vya Mfumo wa macOS
+# macOS Kernel & System Extensions
 
 <details>
 
@@ -53,8 +53,8 @@ I/O Kit ni mfumo wa **dereva wa kifaa ulio na msimbo wa chanzo wazi**, unaoshugh
 
 ### IPC - Mawasiliano kati ya Michakato
 
-{% content-ref url="macos-ipc-inter-process-communication/" %}
-[macos-ipc-inter-process-communication](macos-ipc-inter-process-communication/)
+{% content-ref url="../macos-proces-abuse/macos-ipc-inter-process-communication/" %}
+[macos-ipc-inter-process-communication](../macos-proces-abuse/macos-ipc-inter-process-communication/)
 {% endcontent-ref %}
 
 ### Kernelcache
@@ -83,6 +83,7 @@ Kawaida inajumuisha vipengele vifuatavyo:
 * CHAGUO: Kawaida hii haipatikani
 
 Fungua Kernelcache:
+
 ```bash
 # pyimg4 (https://github.com/m1stadev/PyIMG4)
 pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
@@ -90,6 +91,7 @@ pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphon
 # img4tool (https://github.com/tihmstar/img4tool
 img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
 ```
+
 #### Alama za Kernelcache
 
 Wakati mwingine Apple hutoa **kernelcache** na **alama**. Unaweza kupakua baadhi ya firmwares zenye alama kwa kufuata viungo kwenye [https://theapplewiki.com](https://theapplewiki.com/).
@@ -110,12 +112,15 @@ pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphon
 {% endcode %}
 
 * [**img4tool**](https://github.com/tihmstar/img4tool)
+
 ```bash
 img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
 ```
+
 Unaweza kuangalia alama zilizochimbuliwa za kernelcache kwa: **`nm -a kernelcache.release.iphone14.e | wc -l`**
 
 Kwa hili sasa tunaweza **kuchimba vitu vyote vya nyongeza** au **kile unachovutiwa nacho:**
+
 ```bash
 # List all extensions
 kextex -l kernelcache.release.iphone14.e
@@ -128,6 +133,7 @@ kextex_all kernelcache.release.iphone14.e
 # Check the extension for symbols
 nm -a binaries/com.apple.security.sandbox | wc -l
 ```
+
 ## Vifurushi vya Kernel vya macOS
 
 macOS ni **muhali sana katika kupakia Vifurushi vya Kernel** (.kext) kutokana na mamlaka kubwa ambazo nambari hiyo itaendeshwa nazo. Kwa kweli, kwa chaguo-msingi ni karibu haiwezekani (isipokuwa kama njia ya kuepuka inapatikana).

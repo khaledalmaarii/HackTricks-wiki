@@ -1,4 +1,4 @@
-# macOS Gatekeeper / Karantini / XProtect
+# macOS Gatekeeper / Quarantine / XProtect
 
 <details>
 
@@ -39,6 +39,7 @@ Kuanzia macOS Catalina, **Gatekeeper pia inachunguza ikiwa programu imepata kiba
 #### Angalia Saini
 
 Unapochunguza **sampuli ya programu hasidi**, unapaswa daima **angalia saini** ya faili ya binary kwani **msanidi** aliyetoa saini inaweza tayari **kuhusishwa** na **programu hasidi**.
+
 ```bash
 # Get signer
 codesign -vv -d /bin/ls 2>&1 | grep -E "Authority|TeamIdentifier"
@@ -55,6 +56,7 @@ spctl --assess --verbose /Applications/Safari.app
 # Sign a binary
 codesign -s <cert-name-keychain> toolsdemo
 ```
+
 ### Notarization
 
 Mchakato wa kuhakiki wa Apple unatumika kama kinga ya ziada kulinda watumiaji kutokana na programu inayoweza kuwa na madhara. Inahusisha **developer kuwasilisha maombi yao kwa uchunguzi** na **Huduma ya Notary ya Apple**, ambayo haipaswi kuchanganywa na Ukaguzi wa Programu. Huduma hii ni **mfumo wa kiotomatiki** ambao huchunguza programu iliyowasilishwa kwa uwepo wa **maudhui mabaya** na masuala yoyote yanayohusiana na uthibitishaji wa nambari.
@@ -68,10 +70,12 @@ Wakati mtumiaji anapoinstall au kuzindua programu kwa mara ya kwanza, uwepo wa t
 GateKeeper ni **sehemu kadhaa za usalama** ambazo zinazuia programu zisizoaminika kuzinduliwa na pia ni **moja ya sehemu hizo**.
 
 Inawezekana kuona **hali** ya GateKeeper kwa kutumia:
+
 ```bash
 # Check the status
 spctl --status
 ```
+
 {% hint style="danger" %}
 Tafadhali kumbuka kuwa ukaguzi wa saini wa GateKeeper unafanywa tu kwa **faili zenye sifa ya Karantini**, sio kwa kila faili.
 {% endhint %}
@@ -81,6 +85,7 @@ GateKeeper itahakiki ikiwa kulingana na **mapendeleo na saini**, faili ya binary
 <figure><img src="../../../.gitbook/assets/image (678).png" alt=""><figcaption></figcaption></figure>
 
 Database ambayo inahifadhi usanidi huu iko katika **`/var/db/SystemPolicy`**. Unaweza kuangalia database hii kama root kwa kutumia:
+
 ```bash
 # Open database
 sqlite3 /var/db/SystemPolicy
@@ -94,9 +99,11 @@ anchor apple generic and certificate leaf[field.1.2.840.113635.100.6.1.9] exists
 anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] exists and (certificate leaf[field.1.2.840.113635.100.6.1.14] or certificate leaf[field.1.2.840.113635.100.6.1.13]) and notarized|1|0|Notarized Developer ID
 [...]
 ```
+
 Tafadhali angalia jinsi sheria ya kwanza ilivyomalizika katika "**App Store**" na ya pili katika "**Developer ID**" na kwamba katika picha iliyotangulia ilikuwa **imeidhinishwa kutekeleza programu kutoka kwenye Duka la App na watengenezaji waliothibitishwa**. Ikiwa **ubadilishe** mipangilio hiyo kuwa Duka la App, sheria za "**Notarized Developer ID" zitaondoka**.
 
 Pia kuna maelfu ya sheria za **aina ya GKE**:
+
 ```bash
 SELECT requirement,allow,disabled,label from authority where label = 'GKE' limit 5;
 cdhash H"b40281d347dc574ae0850682f0fd1173aa2d0a39"|1|0|GKE
@@ -105,13 +112,17 @@ cdhash H"4317047eefac8125ce4d44cab0eb7b1dff29d19a"|1|0|GKE
 cdhash H"0a71962e7a32f0c2b41ddb1fb8403f3420e1d861"|1|0|GKE
 cdhash H"8d0d90ff23c3071211646c4c9c607cdb601cb18f"|1|0|GKE
 ```
+
 Hizi ni hashi zinazotoka **`/var/db/SystemPolicyConfiguration/gke.bundle/Contents/Resources/gke.auth`, `/var/db/gke.bundle/Contents/Resources/gk.db`** na **`/var/db/gkopaque.bundle/Contents/Resources/gkopaque.db`**
 
 Au unaweza kuorodhesha habari iliyotangulia na:
+
 ```bash
 sudo spctl --list
 ```
+
 Chaguo **`--master-disable`** na **`--global-disable`** ya **`spctl`** itazima kabisa ukaguzi wa saini hizi:
+
 ```bash
 # Disable GateKeeper
 spctl --global-disable
@@ -121,15 +132,19 @@ spctl --master-disable
 spctl --global-enable
 spctl --master-enable
 ```
+
 Wakati inapowezeshwa kabisa, chaguo jipya litatokea:
 
 <figure><img src="../../../.gitbook/assets/image (679).png" alt=""><figcaption></figcaption></figure>
 
 Inawezekana **kuangalia ikiwa Programu itaruhusiwa na GateKeeper** kwa:
+
 ```bash
 spctl --assess -v /Applications/App.app
 ```
+
 Niwezekana kuongeza sheria mpya kwenye GateKeeper ili kuruhusu utekelezaji wa programu fulani kwa:
+
 ```bash
 # Check if allowed - nop
 spctl --assess -v /Applications/App.app
@@ -144,6 +159,7 @@ sudo spctl --enable --label "whitelist"
 spctl --assess -v /Applications/App.app
 /Applications/App.app: accepted
 ```
+
 ### Mafaili ya Karantini
 
 Baada ya **kupakua** programu au faili, programu maalum za macOS kama vile vivinjari vya wavuti au wateja wa barua pepe **huambatanisha sifa ya ziada ya faili**, inayojulikana kama "**bendera ya karantini**," kwenye faili iliyopakuliwa. Sifa hii inafanya kazi kama hatua ya usalama kuonyesha faili kama inayotoka kwenye chanzo ambacho hakijathibitishwa (mtandao), na inaweza kuwa na hatari. Hata hivyo, si programu zote huambatanisha sifa hii, kwa mfano, programu za wateja wa BitTorrent kawaida hupuuza mchakato huu.
@@ -165,6 +181,7 @@ Hata hivyo, faili zilizowekwa kwenye sanduku la mchanga zitakuwa na sifa hii ili
 {% endhint %}
 
 Inawezekana **kuangalia hali yake na kuwezesha/lemaza** (inahitaji mizizi) kwa:
+
 ```bash
 spctl --status
 assessments enabled
@@ -173,13 +190,17 @@ spctl --enable
 spctl --disable
 #You can also allow nee identifies to execute code using the binary "spctl"
 ```
+
 Unaweza pia **kupata kama faili ina sifa ya ziada ya karantini** na:
+
 ```bash
 xattr file.png
 com.apple.macl
 com.apple.quarantine
 ```
+
 Angalia **thamani** ya **vipengele vya ziada** na tafuta programu iliyoandika sifa ya karantini na:
+
 ```bash
 xattr -l portada.png
 com.apple.macl:
@@ -195,70 +216,34 @@ com.apple.quarantine: 00C1;607842eb;Brave;F643CD5F-6071-46AB-83AB-390BA944DEC5
 # Brave -- App
 # F643CD5F-6071-46AB-83AB-390BA944DEC5 -- UID assigned to the file downloaded
 ```
-Kwa kweli, mchakato "unaweza kuweka alama za karantini kwenye faili ambazo huziumba" (nilijaribu kuweka bendera ya USER_APPROVED kwenye faili niliyounda lakini haikuiweka):
+
+Kwa kweli, mchakato "unaweza kuweka alama za karantini kwenye faili ambazo huziumba" (nilijaribu kuweka bendera ya USER\_APPROVED kwenye faili niliyounda lakini haikuiweka):
 
 <details>
 
 <summary>Msimbo wa Chanzo wa kuweka alama za karantini</summary>
-```c
-#include <stdio.h>
-#include <stdlib.h>
 
-enum qtn_flags {
-QTN_FLAG_DOWNLOAD = 0x0001,
-QTN_FLAG_SANDBOX = 0x0002,
-QTN_FLAG_HARD = 0x0004,
-QTN_FLAG_USER_APPROVED = 0x0040,
-};
+\`\`\`c #include #include
 
-#define qtn_proc_alloc _qtn_proc_alloc
-#define qtn_proc_apply_to_self _qtn_proc_apply_to_self
-#define qtn_proc_free _qtn_proc_free
-#define qtn_proc_init _qtn_proc_init
-#define qtn_proc_init_with_self _qtn_proc_init_with_self
-#define qtn_proc_set_flags _qtn_proc_set_flags
-#define qtn_file_alloc _qtn_file_alloc
-#define qtn_file_init_with_path _qtn_file_init_with_path
-#define qtn_file_free _qtn_file_free
-#define qtn_file_apply_to_path _qtn_file_apply_to_path
-#define qtn_file_set_flags _qtn_file_set_flags
-#define qtn_file_get_flags _qtn_file_get_flags
-#define qtn_proc_set_identifier _qtn_proc_set_identifier
+enum qtn\_flags { QTN\_FLAG\_DOWNLOAD = 0x0001, QTN\_FLAG\_SANDBOX = 0x0002, QTN\_FLAG\_HARD = 0x0004, QTN\_FLAG\_USER\_APPROVED = 0x0040, };
 
-typedef struct _qtn_proc *qtn_proc_t;
-typedef struct _qtn_file *qtn_file_t;
+\#define qtn\_proc\_alloc \_qtn\_proc\_alloc #define qtn\_proc\_apply\_to\_self \_qtn\_proc\_apply\_to\_self #define qtn\_proc\_free \_qtn\_proc\_free #define qtn\_proc\_init \_qtn\_proc\_init #define qtn\_proc\_init\_with\_self \_qtn\_proc\_init\_with\_self #define qtn\_proc\_set\_flags \_qtn\_proc\_set\_flags #define qtn\_file\_alloc \_qtn\_file\_alloc #define qtn\_file\_init\_with\_path \_qtn\_file\_init\_with\_path #define qtn\_file\_free \_qtn\_file\_free #define qtn\_file\_apply\_to\_path \_qtn\_file\_apply\_to\_path #define qtn\_file\_set\_flags \_qtn\_file\_set\_flags #define qtn\_file\_get\_flags \_qtn\_file\_get\_flags #define qtn\_proc\_set\_identifier \_qtn\_proc\_set\_identifier
 
-int qtn_proc_apply_to_self(qtn_proc_t);
-void qtn_proc_init(qtn_proc_t);
-int qtn_proc_init_with_self(qtn_proc_t);
-int qtn_proc_set_flags(qtn_proc_t, uint32_t flags);
-qtn_proc_t qtn_proc_alloc();
-void qtn_proc_free(qtn_proc_t);
-qtn_file_t qtn_file_alloc(void);
-void qtn_file_free(qtn_file_t qf);
-int qtn_file_set_flags(qtn_file_t qf, uint32_t flags);
-uint32_t qtn_file_get_flags(qtn_file_t qf);
-int qtn_file_apply_to_path(qtn_file_t qf, const char *path);
-int qtn_file_init_with_path(qtn_file_t qf, const char *path);
-int qtn_proc_set_identifier(qtn_proc_t qp, const char* bundleid);
+typedef struct \_qtn\_proc \*qtn\_proc\_t; typedef struct \_qtn\_file \*qtn\_file\_t;
+
+int qtn\_proc\_apply\_to\_self(qtn\_proc\_t); void qtn\_proc\_init(qtn\_proc\_t); int qtn\_proc\_init\_with\_self(qtn\_proc\_t); int qtn\_proc\_set\_flags(qtn\_proc\_t, uint32\_t flags); qtn\_proc\_t qtn\_proc\_alloc(); void qtn\_proc\_free(qtn\_proc\_t); qtn\_file\_t qtn\_file\_alloc(void); void qtn\_file\_free(qtn\_file\_t qf); int qtn\_file\_set\_flags(qtn\_file\_t qf, uint32\_t flags); uint32\_t qtn\_file\_get\_flags(qtn\_file\_t qf); int qtn\_file\_apply\_to\_path(qtn\_file\_t qf, const char \*path); int qtn\_file\_init\_with\_path(qtn\_file\_t qf, const char _path); int qtn\_proc\_set\_identifier(qtn\_proc\_t qp, const char_ bundleid);
 
 int main() {
 
-qtn_proc_t qp = qtn_proc_alloc();
-qtn_proc_set_identifier(qp, "xyz.hacktricks.qa");
-qtn_proc_set_flags(qp, QTN_FLAG_DOWNLOAD | QTN_FLAG_USER_APPROVED);
-qtn_proc_apply_to_self(qp);
-qtn_proc_free(qp);
+qtn\_proc\_t qp = qtn\_proc\_alloc(); qtn\_proc\_set\_identifier(qp, "xyz.hacktricks.qa"); qtn\_proc\_set\_flags(qp, QTN\_FLAG\_DOWNLOAD | QTN\_FLAG\_USER\_APPROVED); qtn\_proc\_apply\_to\_self(qp); qtn\_proc\_free(qp);
 
-FILE *fp;
-fp = fopen("thisisquarantined.txt", "w+");
-fprintf(fp, "Hello Quarantine\n");
-fclose(fp);
+FILE \*fp; fp = fopen("thisisquarantined.txt", "w+"); fprintf(fp, "Hello Quarantine\n"); fclose(fp);
 
 return 0;
 
 }
-```
+
+````
 </details>
 
 Na **ondoa** sifa hiyo na:
@@ -266,7 +251,8 @@ Na **ondoa** sifa hiyo na:
 xattr -d com.apple.quarantine portada.png
 #You can also remove this attribute from every file with
 find . -iname '*' -print0 | xargs -0 xattr -d com.apple.quarantine
-```
+````
+
 Na pata faili zote zilizofungwa karantini na:
 
 {% code overflow="wrap" %}
@@ -277,11 +263,11 @@ find / -exec ls -ld {} \; 2>/dev/null | grep -E "[x\-]@ " | awk '{printf $9; pri
 
 Maelezo ya karantini pia hifadhiwa katika database kuu inayosimamiwa na LaunchServices katika **`~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2`**.
 
-#### **Quarantine.kext**
+**Quarantine.kext**
 
 Kernel extension inapatikana tu kupitia **cache ya kernel kwenye mfumo**; hata hivyo, unaweza kupakua **Kernel Debug Kit kutoka https://developer.apple.com/**, ambayo itakuwa na toleo lililosimbwa la ugani.
 
-### XProtect
+#### XProtect
 
 XProtect ni kipengele cha **kuzuia programu hasidi** kilichojengwa ndani ya macOS. XProtect **huchunguza programu yoyote wakati inapoanzishwa au kuhaririwa kwa mara ya kwanza dhidi ya database yake** ya programu hasidi inayojulikana na aina za faili hatari. Unapopakua faili kupitia programu fulani, kama vile Safari, Mail, au Messages, XProtect huchunguza faili hiyo kiotomatiki. Ikiwa inalingana na programu hasidi inayojulikana katika database yake, XProtect ita**zuia faili hiyo kutekelezwa** na kukuarifu kuhusu tishio.
 
@@ -306,61 +292,65 @@ XProtect iko kwenye eneo lililolindwa na SIP kwenye **/Library/Apple/System/Libr
 
 Tafadhali kumbuka kuwa kuna Programu nyingine katika **`/Library/Apple/System/Library/CoreServices/XProtect.app`** inayohusiana na XProtect ambayo haishiriki katika mchakato wa Gatekeeper.
 
-### Sio Gatekeeper
+#### Sio Gatekeeper
 
-{% hint style="danger" %}
 Tafadhali kumbuka kuwa Gatekeeper **haitasasishwa kila wakati** unapotekeleza programu, tu _**AppleMobileFileIntegrity**_ (AMFI) itathibitisha tu **saini za nambari zinazoweza kutekelezwa** wakati unapotekeleza programu ambayo tayari imekwisha tekelezwa na kuthibitishwa na Gatekeeper.
-{% endhint %}
 
 Kwa hivyo, hapo awali ilikuwa inawezekana kutekeleza programu ili kuichache na Gatekeeper, kisha **kubadilisha faili zisizo za utekelezaji za programu** (kama vile faili za Electron asar au NIB) na ikiwa hakuna ulinzi mwingine uliowekwa, programu ilitekelezwa na **kuongeza** zenye **uovu**.
 
 Walakini, sasa hii haiwezekani kwa sababu macOS **inazuia kubadilisha faili** ndani ya vifurushi vya programu. Kwa hivyo, ikiwa unajaribu shambulio la [Dirty NIB](../macos-proces-abuse/macos-dirty-nib.md), utagundua kuwa sasa haiwezekani kuitumia tena kwa sababu baada ya kutekeleza programu ili kuichache na Gatekeeper, hautaweza kubadilisha vifurushi. Na ikiwa unabadilisha, kwa mfano, jina la saraka ya Maudhui kuwa NotCon (kama ilivyoelezwa katika shambulio), na kisha kutekeleza programu kuu ya kuichache na Gatekeeper, itasababisha kosa na haitatekelezwa.
 
-## Mbinu za Kupita kwa Gatekeeper
+### Mbinu za Kupita kwa Gatekeeper
 
 Njia yoyote ya kuepuka Gatekeeper (kufanikiwa kufanya mtumiaji kupakua kitu na kuitekeleza wakati Gatekeeper inapaswa kuzuia) inachukuliwa kama udhaifu katika macOS. Hizi ni baadhi ya CVE zilizotengwa kwa mbinu ambazo ziliruhusu kuepuka Gatekeeper hapo awali:
 
-### [CVE-2021-1810](https://labs.withsecure.com/publications/the-discovery-of-cve-2021-1810)
+#### [CVE-2021-1810](https://labs.withsecure.com/publications/the-discovery-of-cve-2021-1810)
 
 Ilionekana kuwa ikiwa **Archive Utility** inatumika kwa kuchambua, faili zenye **njia zinazozidi wahusika 886** hazipati sifa ya ziada ya com.apple.quarantine. Hali hii kwa bahati mbaya inaruhusu faili hizo kuzunguka **ukaguzi wa usalama wa Gatekeeper**.
 
 Angalia [**ripoti ya asili**](https://labs.withsecure.com/publications/the-discovery-of-cve-2021-1810) kwa habari zaidi.
 
-### [CVE-2021-30990](https://ronmasas.com/posts/bypass-macos-gatekeeper)
+#### [CVE-2021-30990](https://ronmasas.com/posts/bypass-macos-gatekeeper)
 
 Wakati programu inaundwa na **Automator**, habari kuhusu kile inachohitaji kutekeleza iko ndani ya `application.app/Contents/document.wflow` sio kwenye faili ya utekelezaji. Faili ya utekelezaji ni tu utekelezaji wa kawaida wa Automator unaoitwa **Automator Application Stub**.
 
-Kwa hivyo, unaweza kufanya `application.app/Contents/MacOS/Automator\ Application\ Stub` **ielekeze kwa njia ya kiungo ishara kwa Automator Application Stub nyingine ndani ya mfumo** na itatekeleza kile kilicho ndani ya `document.wflow` (script yako) **bila kusababisha Gatekeeper** kwa sababu utekelezaji halisi hauna sifa ya karantini.&#x20;
+Kwa hivyo, unaweza kufanya `application.app/Contents/MacOS/Automator\ Application\ Stub` **ielekeze kwa njia ya kiungo ishara kwa Automator Application Stub nyingine ndani ya mfumo** na itatekeleza kile kilicho ndani ya `document.wflow` (script yako) **bila kusababisha Gatekeeper** kwa sababu utekelezaji halisi hauna sifa ya karantini.
 
 Mfano wa eneo lililotarajiwa: `/System/Library/CoreServices/Automator\ Application\ Stub.app/Contents/MacOS/Automator\ Application\ Stub`
 
 Angalia [**ripoti ya asili**](https://ronmasas.com/posts/bypass-macos-gatekeeper) kwa habari zaidi.
 
-### [CVE-2022-22616](https://www.jamf.com/blog/jamf-threat-labs-safari-vuln-gatekeeper-bypass/)
+#### [CVE-2022-22616](https://www.jamf.com/blog/jamf-threat-labs-safari-vuln-gatekeeper-bypass/)
 
 Katika mbinu hii ya kuepuka, faili ya zip iliumbwa na programu ilianza kubana kutoka `application.app/Contents` badala ya `application.app`. Kwa hivyo, **sifa ya karantini** ilitekelezwa kwa **faili zote kutoka `application.app/Contents`** lakini **sio kwa `application.app`**, ambayo ndiyo Gatekeeper ilikuwa ikikagua, kwa hivyo Gatekeeper ilipuuzwa kwa sababu wakati `application.app` ilipotumiwa **haikuwa na sifa ya karantini**.
+
 ```bash
 zip -r test.app/Contents test.zip
 ```
+
 Angalia [**ripoti ya asili**](https://www.jamf.com/blog/jamf-threat-labs-safari-vuln-gatekeeper-bypass/) kwa maelezo zaidi.
 
-### [CVE-2022-32910](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-32910)
+#### [CVE-2022-32910](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-32910)
 
 Hata kama sehemu ni tofauti, utumiaji wa kasoro hii ni sawa na ile ya awali. Katika kesi hii, tutazalisha Apple Archive kutoka **`application.app/Contents`** ili **`application.app` isipate sifa ya karantini** wakati inapojazwa na **Archive Utility**.
+
 ```bash
 aa archive -d test.app/Contents -o test.app.aar
 ```
+
 Angalia [**ripoti ya asili**](https://www.jamf.com/blog/jamf-threat-labs-macos-archive-utility-vulnerability/) kwa maelezo zaidi.
 
-### [CVE-2022-42821](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/)
+#### [CVE-2022-42821](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/)
 
 ACL ya **`writeextattr`** inaweza kutumika kuzuia mtu yeyote kuandika sifa katika faili:
+
 ```bash
 touch /tmp/no-attr
 chmod +a "everyone deny writeextattr" /tmp/no-attr
 xattr -w attrname vale /tmp/no-attr
 xattr: [Errno 13] Permission denied: '/tmp/no-attr'
 ```
+
 Zaidi ya hayo, muundo wa faili wa **AppleDouble** unaiga faili pamoja na ACEs zake.
 
 Katika [**msimbo wa chanzo**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html), inawezekana kuona kuwa uwakilishi wa maandishi wa ACL uliowekwa ndani ya xattr inayoitwa **`com.apple.acl.text`** utawekwa kama ACL katika faili iliyofunguliwa. Kwa hivyo, ikiwa umefunga programu katika faili ya zip kwa muundo wa **AppleDouble** na ACL ambayo inazuia xattrs nyingine kuandikwa ndani yake... xattr ya karantini haikuwekwa katika programu:
@@ -377,17 +367,19 @@ python3 -m http.server
 Angalia [**ripoti ya asili**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/) kwa maelezo zaidi.
 
 Tafadhali kumbuka kuwa hii pia inaweza kudukuliwa na AppleArchives:
+
 ```bash
 mkdir app
 touch app/test
 chmod +a "everyone deny write,writeattr,writeextattr" app/test
 aa archive -d app -o test.aar
 ```
-### [CVE-2023-27943](https://blog.f-secure.com/discovery-of-gatekeeper-bypass-cve-2023-27943/)
+
+#### [CVE-2023-27943](https://blog.f-secure.com/discovery-of-gatekeeper-bypass-cve-2023-27943/)
 
 Iligunduliwa kuwa **Google Chrome haikuweka sifa ya karantini** kwa faili zilizopakuliwa kutokana na matatizo ya ndani ya macOS.
 
-### [CVE-2023-27951](https://redcanary.com/blog/gatekeeper-bypass-vulnerabilities/)
+#### [CVE-2023-27951](https://redcanary.com/blog/gatekeeper-bypass-vulnerabilities/)
 
 Muundo wa faili za AppleDouble huhifadhi sifa za faili katika faili tofauti inayoanza na `._`, hii husaidia kuiga sifa za faili **katika mashine za macOS**. Walakini, iligundulika kuwa baada ya kufungua faili ya AppleDouble, faili inayoanza na `._` **haikuwekewa sifa ya karantini**.
 
@@ -405,6 +397,7 @@ aa archive -d test/ -o test.aar
 
 Kwa kuweza kuunda faili ambayo haitakuwa na sifa ya karantini ilikuwa **inawezekana kudukua Gatekeeper**. Hila ilikuwa **kuunda faili ya DMG ya programu** kwa kutumia utaratibu wa jina la AppleDouble (ianze na `._`) na kuunda **faili inayoonekana kama kiungo cha ishara kwa faili hii iliyofichwa** bila sifa ya karantini.\
 Wakati **faili ya dmg inatekelezwa**, kwa kuwa haina sifa ya karantini, itapita **Gatekeeper**.
+
 ```bash
 # Create an app bundle with the backdoor an call it app.app
 
@@ -420,20 +413,11 @@ ln -s ._app.dmg s/app/app.dmg
 echo "[+] compressing files"
 aa archive -d s/ -o app.aar
 ```
-### Zuia Karantini xattr
+
+#### Zuia Karantini xattr
 
 Katika kifurushi cha ".app" ikiwa karantini xattr haijaongezwa, wakati inatekelezwa **Gatekeeper haitaanzishwa**.
 
-<details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi kuwa bingwa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

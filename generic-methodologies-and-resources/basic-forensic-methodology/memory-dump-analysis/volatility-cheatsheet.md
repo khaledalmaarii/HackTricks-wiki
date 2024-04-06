@@ -9,7 +9,7 @@ Njia nyingine za kusaidia HackTricks:
 * Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
 * Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
@@ -23,18 +23,22 @@ Njia nyingine za kusaidia HackTricks:
 {% embed url="https://www.rootedcon.com/" %}
 
 Ikiwa unataka kitu **haraka na cha kushangaza** ambacho kitazindua programu-jalizi kadhaa za Volatility kwa wakati mmoja, unaweza kutumia: [https://github.com/carlospolop/autoVolatility](https://github.com/carlospolop/autoVolatility)
+
 ```bash
 python autoVolatility.py -f MEMFILE -d OUT_DIRECTORY -e /home/user/tools/volatility/vol.py # It will use the most important plugins (could use a lot of space depending on the size of the memory)
 ```
+
 ## Usanidi
 
 ### volatility3
+
 ```bash
 git clone https://github.com/volatilityfoundation/volatility3.git
 cd volatility3
 python3 setup.py install
 python3 vol.py —h
 ```
+
 #### Njia1
 
 ```bash
@@ -180,21 +184,26 @@ volatility2 -f memory_dump.vmem --profile=Win7SP1x64 hiblist
 ```
 
 Hii itaorodhesha mizizi yote ya usajili iliyokuwa ikifanya kazi wakati wa kuchukua kumbukumbu ya picha.
+
 ```
 
-{% endtab %}
-{% endtabs %}
+</div>
+
+</div>
+
 ```
+
 Download the executable from https://www.volatilityfoundation.org/26
-```
-{% tab title="Njia 2" %}
+
+````
+
+<div data-gb-custom-block data-tag="tab" data-title='Njia 2'>
+
 ```bash
 git clone https://github.com/volatilityfoundation/volatility.git
 cd volatility
 python setup.py install
-```
-{% endtab %}
-{% endtabs %}
+````
 
 ## Amri za Volatility
 
@@ -226,10 +235,13 @@ Pakiti za meza ya alama kwa mifumo ya uendeshaji mbalimbali zinapatikana kwa **k
 #### Profaili ya Nje
 
 Unaweza kupata orodha ya profaili zinazoungwa mkono kwa kufanya:
+
 ```bash
 ./volatility_2.6_lin64_standalone --info | grep "Profile"
 ```
+
 Ikiwa unataka kutumia **wasifu mpya uliopakuliwa** (kwa mfano wa linux), unahitaji kuunda muundo wa folda ifuatayo: _plugins/overlays/linux_ na kuweka ndani ya folda hii faili ya zip inayohifadhi wasifu. Kisha, pata idadi ya wasifu kwa kutumia:
+
 ```bash
 ./vol --plugins=/home/kali/Desktop/ctfs/final/plugins --info
 Volatility Foundation Volatility Framework 2.6
@@ -241,12 +253,15 @@ LinuxCentOS7_3_10_0-123_el7_x86_64_profilex64 - A Profile for Linux CentOS7_3.10
 VistaSP0x64                                   - A Profile for Windows Vista SP0 x64
 VistaSP0x86                                   - A Profile for Windows Vista SP0 x86
 ```
+
 Unaweza **kupakua maelezo ya Linux na Mac** kutoka [https://github.com/volatilityfoundation/profiles](https://github.com/volatilityfoundation/profiles)
 
 Katika kipande kilichopita unaweza kuona kuwa maelezo yanaitwa `LinuxCentOS7_3_10_0-123_el7_x86_64_profilex64`, na unaweza kuitumia kutekeleza kitu kama:
+
 ```bash
 ./vol -f file.dmp --plugins=. --profile=LinuxCentOS7_3_10_0-123_el7_x86_64_profilex64 linux_netscan
 ```
+
 #### Pata Maelezo ya Profaili
 
 ```bash
@@ -311,15 +326,18 @@ volatility -f <memory_dump> --profile=<profile> malfind
 ```
 
 Hii amri inatumika kuchunguza tabia ya programu hasidi katika faili ya kumbukumbu. Inatoa habari kama vile anwani za kumbukumbu zinazohusiana na programu hasidi na habari ya kumbukumbu inayohusiana.
+
 ```
 volatility imageinfo -f file.dmp
 volatility kdbgscan -f file.dmp
 ```
+
 #### **Tofauti kati ya imageinfo na kdbgscan**
 
 [Kutoka hapa](https://www.andreafortuna.org/2017/06/25/volatility-my-own-cheatsheet-part-1-image-identification/): Tofauti na imageinfo ambayo tu hutoa mapendekezo ya profile, **kdbgscan** imeundwa kwa ajili ya kutambua kwa uhakika profile sahihi na anwani sahihi ya KDBG (ikiwa kuna zaidi ya moja). Programu-jalizi hii inatafuta saini za KDBGHeader zinazohusiana na profile za Volatility na hufanya ukaguzi wa akili ili kupunguza matokeo sahihi ya uwongo. Uzito wa matokeo na idadi ya ukaguzi wa akili unaweza kufanywa inategemea ikiwa Volatility inaweza kupata DTB, kwa hivyo ikiwa tayari unajua profile sahihi (au ikiwa una mapendekezo ya profile kutoka imageinfo), basi hakikisha unaitumia kutoka.
 
 Daima angalia **idadi ya michakato ambayo kdbgscan imeipata**. Mara nyingine imageinfo na kdbgscan wanaweza kupata **zaidi ya moja** profile inayofaa **lakini moja sahihi itakuwa na michakato inayohusiana** (Hii ni kwa sababu ya kuchambua michakato anwani sahihi ya KDBG inahitajika)
+
 ```bash
 # GOOD
 PsActiveProcessHead           : 0xfffff800011977f0 (37 processes)
@@ -331,20 +349,23 @@ PsLoadedModuleList            : 0xfffff8000119aae0 (116 modules)
 PsActiveProcessHead           : 0xfffff800011947f0 (0 processes)
 PsLoadedModuleList            : 0xfffff80001197ac0 (0 modules)
 ```
+
 #### KDBG
 
 **KDBG**, inayojulikana kama **kernel debugger block** na Volatility, ni muhimu kwa kazi za uchunguzi zinazofanywa na Volatility na debuggers mbalimbali. Inatambulika kama `KdDebuggerDataBlock` na ina aina ya `_KDDEBUGGER_DATA64`, ina virejeleo muhimu kama `PsActiveProcessHead`. Virejeleo hivi maalum vinawezesha kuorodhesha mchakato wote, ambayo ni muhimu kwa uchambuzi kamili wa kumbukumbu.
 
 ## Taarifa za OS
+
 ```bash
 #vol3 has a plugin to give OS information (note that imageinfo from vol2 will give you OS info)
 ./vol.py -f file.dmp windows.info.Info
 ```
+
 Kifaa cha ziada `banners.Banners` kinaweza kutumika katika **vol3 kujaribu kupata bango za linux** katika kumbukumbu.
 
 ## Hashes/Passwords
 
-Chambua hash za SAM, [vyeti vilivyohifadhiwa vya kikoa](../../../windows-hardening/stealing-credentials/credentials-protections.md#cached-credentials) na [siri za lsa](../../../windows-hardening/authentication-credentials-uac-and-efs.md#lsa-secrets).
+Chambua hash za SAM, [vyeti vilivyohifadhiwa vya kikoa](../../../windows-hardening/stealing-credentials/credentials-protections.md#cached-credentials) na [siri za lsa](../../../windows-hardening/authentication-credentials-uac-and-efs/#lsa-secrets).
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -353,13 +374,14 @@ Chambua hash za SAM, [vyeti vilivyohifadhiwa vya kikoa](../../../windows-hardeni
 ./vol.py -f file.dmp windows.cachedump.Cachedump #Grab domain cache hashes inside the registry
 ./vol.py -f file.dmp windows.lsadump.Lsadump #Grab lsa secrets
 ```
-## Volatility Cheatsheet
 
-### Introduction
+### Volatility Cheatsheet
+
+#### Introduction
 
 This cheatsheet provides a quick reference guide for using Volatility, a popular open-source memory forensics framework. Volatility allows analysts to extract valuable information from memory dumps, such as running processes, network connections, and loaded modules.
 
-### Installation
+#### Installation
 
 To install Volatility, follow these steps:
 
@@ -369,46 +391,47 @@ To install Volatility, follow these steps:
 4. Extract the downloaded archive.
 5. Navigate to the extracted directory and run `python vol.py`.
 
-### Basic Commands
+#### Basic Commands
 
 Here are some basic commands to get started with Volatility:
 
-- `imageinfo`: Displays information about the memory dump, such as the operating system version and architecture.
-- `pslist`: Lists all running processes.
-- `pstree`: Displays a tree view of the running processes.
-- `netscan`: Lists all network connections.
-- `modules`: Lists all loaded modules.
-- `dlllist`: Lists all loaded DLLs.
-- `handles`: Lists all open handles.
-- `filescan`: Scans for file objects in memory.
+* `imageinfo`: Displays information about the memory dump, such as the operating system version and architecture.
+* `pslist`: Lists all running processes.
+* `pstree`: Displays a tree view of the running processes.
+* `netscan`: Lists all network connections.
+* `modules`: Lists all loaded modules.
+* `dlllist`: Lists all loaded DLLs.
+* `handles`: Lists all open handles.
+* `filescan`: Scans for file objects in memory.
 
-### Advanced Commands
+#### Advanced Commands
 
 Here are some advanced commands for more in-depth analysis:
 
-- `malfind`: Scans for common malware injection techniques.
-- `apihooks`: Lists all API hooks.
-- `ldrmodules`: Lists all loaded modules with their base addresses.
-- `vadinfo`: Displays information about the Virtual Address Descriptors (VADs).
-- `vadtree`: Displays a tree view of the VADs.
-- `cmdscan`: Scans for command-line history.
-- `consoles`: Lists all open console handles.
-- `privs`: Lists all privileges for each process.
+* `malfind`: Scans for common malware injection techniques.
+* `apihooks`: Lists all API hooks.
+* `ldrmodules`: Lists all loaded modules with their base addresses.
+* `vadinfo`: Displays information about the Virtual Address Descriptors (VADs).
+* `vadtree`: Displays a tree view of the VADs.
+* `cmdscan`: Scans for command-line history.
+* `consoles`: Lists all open console handles.
+* `privs`: Lists all privileges for each process.
 
-### Plugin Usage
+#### Plugin Usage
 
 Volatility also provides a wide range of plugins for specific analysis tasks. To use a plugin, simply run `python vol.py <plugin_name>`. Some popular plugins include:
 
-- `malfind`: Scans for common malware injection techniques.
-- `timeliner`: Extracts timeline information from memory dumps.
-- `dumpfiles`: Extracts files from memory dumps.
-- `hashdump`: Dumps password hashes from memory.
-- `svcscan`: Lists Windows services.
-- `printkey`: Prints registry keys.
+* `malfind`: Scans for common malware injection techniques.
+* `timeliner`: Extracts timeline information from memory dumps.
+* `dumpfiles`: Extracts files from memory dumps.
+* `hashdump`: Dumps password hashes from memory.
+* `svcscan`: Lists Windows services.
+* `printkey`: Prints registry keys.
 
-### Conclusion
+#### Conclusion
 
 Volatility is a powerful tool for memory forensics analysis. By using the commands and plugins provided in this cheatsheet, analysts can extract valuable information from memory dumps and gain insights into the system's state at the time of the dump.
+
 ```bash
 volatility --profile=Win7SP1x86_23418 hashdump -f file.dmp #Grab common windows hashes (SAM+SYSTEM)
 volatility --profile=Win7SP1x86_23418 cachedump -f file.dmp #Grab domain cache hashes inside the registry
@@ -420,9 +443,11 @@ volatility --profile=Win7SP1x86_23418 lsadump -f file.dmp #Grab lsa secrets
 ## Kumbukumbu ya Kumbukumbu
 
 Kumbukumbu ya kumbukumbu ya mchakato ita **chukua kila kitu** cha hali ya sasa ya mchakato. Moduli ya **procdump** itachukua tu **msimbo**.
+
 ```
 volatility -f file.dmp --profile=Win7SP1x86 memdump -p 2168 -D conhost/
 ```
+
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
 [**RootedCON**](https://www.rootedcon.com/) ni tukio muhimu zaidi la usalama wa mtandao nchini **Hispania** na moja ya muhimu zaidi barani **Ulaya**. Kwa **kukuza maarifa ya kiufundi**, mkutano huu ni mahali pa kukutana kwa wataalamu wa teknolojia na usalama wa mtandao katika kila fani.
@@ -443,13 +468,14 @@ python3 vol.py -f file.dmp windows.pstree.PsTree # Get processes tree (not hidde
 python3 vol.py -f file.dmp windows.pslist.PsList # Get process list (EPROCESS)
 python3 vol.py -f file.dmp windows.psscan.PsScan # Get hidden process list(malware)
 ```
-## Volatility Cheatsheet
 
-### Introduction
+### Volatility Cheatsheet
+
+#### Introduction
 
 This cheatsheet provides a quick reference guide for using Volatility, a popular open-source memory forensics framework. Volatility allows analysts to extract valuable information from memory dumps, such as running processes, network connections, and loaded modules.
 
-### Installation
+#### Installation
 
 To install Volatility, follow these steps:
 
@@ -459,61 +485,63 @@ To install Volatility, follow these steps:
 4. Extract the downloaded archive.
 5. Navigate to the extracted directory and run `python vol.py`.
 
-### Basic Commands
+#### Basic Commands
 
 Here are some basic commands to get started with Volatility:
 
-- `imageinfo`: Displays information about the memory dump, such as the operating system version and architecture.
-- `pslist`: Lists all running processes.
-- `pstree`: Displays a tree view of the running processes.
-- `netscan`: Lists all network connections.
-- `modules`: Lists all loaded modules.
-- `dlllist`: Lists all loaded DLLs.
-- `handles`: Lists all open handles.
-- `filescan`: Scans for file objects in memory.
-- `cmdline`: Displays the command line arguments of a process.
-- `vadinfo`: Displays information about the Virtual Address Descriptors (VADs) of a process.
+* `imageinfo`: Displays information about the memory dump, such as the operating system version and architecture.
+* `pslist`: Lists all running processes.
+* `pstree`: Displays a tree view of the running processes.
+* `netscan`: Lists all network connections.
+* `modules`: Lists all loaded modules.
+* `dlllist`: Lists all loaded DLLs.
+* `handles`: Lists all open handles.
+* `filescan`: Scans for file objects in memory.
+* `cmdline`: Displays the command line arguments of a process.
+* `vadinfo`: Displays information about the Virtual Address Descriptors (VADs) of a process.
 
-### Advanced Commands
+#### Advanced Commands
 
 Here are some advanced commands for more in-depth analysis:
 
-- `malfind`: Scans for common malware injection techniques.
-- `apihooks`: Lists all API hooks.
-- `ldrmodules`: Lists all loaded modules and their dependencies.
-- `svcscan`: Lists all Windows services.
-- `privs`: Lists the privileges of a process.
-- `ssdt`: Displays the System Service Descriptor Table (SSDT).
-- `driverirp`: Lists all IRP handlers for loaded drivers.
-- `modscan`: Scans for modules in memory.
-- `mutantscan`: Lists all mutant objects.
-- `atomscan`: Lists all atom tables.
+* `malfind`: Scans for common malware injection techniques.
+* `apihooks`: Lists all API hooks.
+* `ldrmodules`: Lists all loaded modules and their dependencies.
+* `svcscan`: Lists all Windows services.
+* `privs`: Lists the privileges of a process.
+* `ssdt`: Displays the System Service Descriptor Table (SSDT).
+* `driverirp`: Lists all IRP handlers for loaded drivers.
+* `modscan`: Scans for modules in memory.
+* `mutantscan`: Lists all mutant objects.
+* `atomscan`: Lists all atom tables.
 
-### Plugins
+#### Plugins
 
 Volatility also supports plugins, which provide additional functionality. Some popular plugins include:
 
-- `malfind`: Scans for common malware injection techniques.
-- `timeliner`: Creates a timeline of events based on process and file activity.
-- `dumpfiles`: Extracts files from memory.
-- `hivelist`: Lists the registry hives.
-- `hashdump`: Dumps password hashes from memory.
-- `shellbags`: Lists recently accessed folders.
+* `malfind`: Scans for common malware injection techniques.
+* `timeliner`: Creates a timeline of events based on process and file activity.
+* `dumpfiles`: Extracts files from memory.
+* `hivelist`: Lists the registry hives.
+* `hashdump`: Dumps password hashes from memory.
+* `shellbags`: Lists recently accessed folders.
 
-### Conclusion
+#### Conclusion
 
 Volatility is a powerful tool for memory forensics analysis. By using the commands and plugins provided in this cheatsheet, analysts can extract valuable information from memory dumps and uncover evidence of malicious activity.
+
 ```bash
 volatility --profile=PROFILE pstree -f file.dmp # Get process tree (not hidden)
 volatility --profile=PROFILE pslist -f file.dmp # Get process list (EPROCESS)
 volatility --profile=PROFILE psscan -f file.dmp # Get hidden process list(malware)
 volatility --profile=PROFILE psxview -f file.dmp # Get hidden process list
 ```
-### Dump proc
+
+#### Dump proc
 
 {% tabs %}
 {% tab title="vol3" %}
-### Dump proc
+#### Dump proc
 
 Kupata maelezo ya mchakato kutoka kwa kumbukumbu ya kufurika, tumia amri ifuatayo:
 
@@ -536,16 +564,18 @@ volatility -f memdump.mem --profile=Win7SP1x64 procdump -p 1234 -D ./output
 ```
 {% endtab %}
 {% endtabs %}
+
 ```bash
 ./vol.py -f file.dmp windows.dumpfiles.DumpFiles --pid <pid> #Dump the .exe and dlls of the process in the current directory
 ```
-## Volatility Cheatsheet
 
-### Introduction
+### Volatility Cheatsheet
+
+#### Introduction
 
 This cheatsheet provides a quick reference guide for using Volatility, a popular open-source memory forensics framework. Volatility allows analysts to extract valuable information from memory dumps, such as running processes, network connections, and loaded modules.
 
-### Installation
+#### Installation
 
 To install Volatility, follow these steps:
 
@@ -555,46 +585,47 @@ To install Volatility, follow these steps:
 4. Extract the downloaded archive.
 5. Navigate to the extracted directory and run `python vol.py`.
 
-### Basic Commands
+#### Basic Commands
 
 Here are some basic commands to get started with Volatility:
 
-- `imageinfo`: Displays information about the memory dump, such as the operating system version and architecture.
-- `pslist`: Lists all running processes.
-- `pstree`: Displays a tree view of the running processes.
-- `netscan`: Lists all network connections.
-- `modules`: Lists all loaded modules.
-- `dlllist`: Lists all loaded DLLs.
-- `handles`: Lists all open handles.
-- `filescan`: Scans for file objects in memory.
+* `imageinfo`: Displays information about the memory dump, such as the operating system version and architecture.
+* `pslist`: Lists all running processes.
+* `pstree`: Displays a tree view of the running processes.
+* `netscan`: Lists all network connections.
+* `modules`: Lists all loaded modules.
+* `dlllist`: Lists all loaded DLLs.
+* `handles`: Lists all open handles.
+* `filescan`: Scans for file objects in memory.
 
-### Advanced Commands
+#### Advanced Commands
 
 Here are some advanced commands for more in-depth analysis:
 
-- `malfind`: Scans for common malware injection techniques.
-- `apihooks`: Lists all API hooks.
-- `ldrmodules`: Lists all loaded modules with their base addresses.
-- `vadinfo`: Displays information about the Virtual Address Descriptors (VADs).
-- `vadtree`: Displays a tree view of the VADs.
-- `cmdscan`: Scans for command-line history.
-- `consoles`: Lists all open console handles.
-- `privs`: Lists all privileges for each process.
+* `malfind`: Scans for common malware injection techniques.
+* `apihooks`: Lists all API hooks.
+* `ldrmodules`: Lists all loaded modules with their base addresses.
+* `vadinfo`: Displays information about the Virtual Address Descriptors (VADs).
+* `vadtree`: Displays a tree view of the VADs.
+* `cmdscan`: Scans for command-line history.
+* `consoles`: Lists all open console handles.
+* `privs`: Lists all privileges for each process.
 
-### Plugin Usage
+#### Plugin Usage
 
 Volatility also provides a wide range of plugins for specific analysis tasks. To use a plugin, simply run `python vol.py <plugin_name>`. Some popular plugins include:
 
-- `malfind`: Scans for common malware injection techniques.
-- `timeliner`: Extracts timeline information from memory dumps.
-- `dumpfiles`: Extracts files from memory dumps.
-- `hashdump`: Dumps password hashes from memory.
-- `svcscan`: Lists Windows services.
-- `printkey`: Prints registry keys.
+* `malfind`: Scans for common malware injection techniques.
+* `timeliner`: Extracts timeline information from memory dumps.
+* `dumpfiles`: Extracts files from memory dumps.
+* `hashdump`: Dumps password hashes from memory.
+* `svcscan`: Lists Windows services.
+* `printkey`: Prints registry keys.
 
-### Conclusion
+#### Conclusion
 
 Volatility is a powerful tool for memory forensics analysis. By using the commands and plugins provided in this cheatsheet, analysts can extract valuable information from memory dumps and gain insights into the system's state at the time of the dump.
+
 ```bash
 volatility --profile=Win7SP1x86_23418 procdump --pid=3152 -n --dump-dir=. -f file.dmp
 ```
@@ -604,9 +635,11 @@ volatility --profile=Win7SP1x86_23418 procdump --pid=3152 -n --dump-dir=. -f fil
 ### Amri ya mstari wa amri
 
 Je, kuna kitu chochote kisicho cha kawaida kilichotekelezwa?
+
 ```bash
 python3 vol.py -f file.dmp windows.cmdline.CmdLine #Display process command-line arguments
 ```
+
 ## Volatility Cheatsheet
 
 ### Introduction
@@ -627,61 +660,62 @@ To install Volatility, follow these steps:
 
 Here are some basic commands to get started with Volatility:
 
-- `imageinfo`: Displays information about the memory dump, such as the operating system version and architecture.
-- `pslist`: Lists all running processes.
-- `pstree`: Displays a tree view of the running processes.
-- `netscan`: Lists all network connections.
-- `modules`: Lists all loaded modules.
-- `dlllist`: Lists all loaded DLLs.
-- `handles`: Lists all open handles.
-- `cmdline`: Displays the command line arguments of a process.
-- `filescan`: Scans for file objects in memory.
-- `dumpfiles`: Extracts files from memory.
+* `imageinfo`: Displays information about the memory dump, such as the operating system version and architecture.
+* `pslist`: Lists all running processes.
+* `pstree`: Displays a tree view of the running processes.
+* `netscan`: Lists all network connections.
+* `modules`: Lists all loaded modules.
+* `dlllist`: Lists all loaded DLLs.
+* `handles`: Lists all open handles.
+* `cmdline`: Displays the command line arguments of a process.
+* `filescan`: Scans for file objects in memory.
+* `dumpfiles`: Extracts files from memory.
 
 ### Advanced Commands
 
 Here are some advanced commands for more in-depth analysis:
 
-- `malfind`: Scans for common malware injection techniques.
-- `apihooks`: Lists all API hooks.
-- `ldrmodules`: Lists all loaded modules with their base addresses.
-- `vadinfo`: Displays information about the Virtual Address Descriptors (VADs).
-- `vaddump`: Dumps the memory of a specific VAD.
-- `vadtree`: Displays a tree view of the VADs.
-- `memmap`: Displays the memory map of the system.
-- `memdump`: Dumps the entire physical memory.
-- `strings`: Searches for ASCII and Unicode strings in memory.
+* `malfind`: Scans for common malware injection techniques.
+* `apihooks`: Lists all API hooks.
+* `ldrmodules`: Lists all loaded modules with their base addresses.
+* `vadinfo`: Displays information about the Virtual Address Descriptors (VADs).
+* `vaddump`: Dumps the memory of a specific VAD.
+* `vadtree`: Displays a tree view of the VADs.
+* `memmap`: Displays the memory map of the system.
+* `memdump`: Dumps the entire physical memory.
+* `strings`: Searches for ASCII and Unicode strings in memory.
 
 ### Plugins
 
 Volatility supports a wide range of plugins that extend its functionality. Some popular plugins include:
 
-- `malfind`: Scans for common malware injection techniques.
-- `timeliner`: Creates a timeline of system activity.
-- `dumpregistry`: Dumps the Windows registry.
-- `dumpcerts`: Dumps certificates from memory.
-- `dumpfiles`: Extracts files from memory.
-- `hivelist`: Lists the registry hives.
-- `hivedump`: Dumps a specific registry hive.
+* `malfind`: Scans for common malware injection techniques.
+* `timeliner`: Creates a timeline of system activity.
+* `dumpregistry`: Dumps the Windows registry.
+* `dumpcerts`: Dumps certificates from memory.
+* `dumpfiles`: Extracts files from memory.
+* `hivelist`: Lists the registry hives.
+* `hivedump`: Dumps a specific registry hive.
 
 ### Conclusion
 
 Volatility is a powerful tool for memory forensics analysis. By using the commands and plugins provided in this cheatsheet, analysts can extract valuable information from memory dumps and gain insights into system activity.
+
 ```bash
 volatility --profile=PROFILE cmdline -f file.dmp #Display process command-line arguments
 volatility --profile=PROFILE consoles -f file.dmp #command history by scanning for _CONSOLE_INFORMATION
 ```
-{% endtab %}
-{% endtabs %}
 
 Amri zilizotekelezwa katika `cmd.exe` zinasimamiwa na **`conhost.exe`** (au `csrss.exe` kwenye mifumo kabla ya Windows 7). Hii inamaanisha kwamba ikiwa **`cmd.exe`** inakomeshwa na mshambuliaji kabla ya kuchukua kumbukumbu ya kumbukumbu, bado inawezekana kupata historia ya amri ya kikao kutoka kwa kumbukumbu ya **`conhost.exe`**. Ili kufanya hivyo, ikiwa shughuli isiyo ya kawaida inagunduliwa ndani ya moduli za konsoli, kumbukumbu ya mchakato wa **`conhost.exe`** inapaswa kuchukuliwa. Kisha, kwa kutafuta **strings** ndani ya kumbukumbu hii, mistari ya amri iliyotumiwa katika kikao inaweza kuchimbwa.
 
 ### Mazingira
 
 Pata mazingira ya env ya kila mchakato unaoendelea. Inaweza kuwa na thamani za kuvutia.
+
 ```bash
 python3 vol.py -f file.dmp windows.envars.Envars [--pid <pid>] #Display process environment variables
 ```
+
 ## Volatility Cheatsheet
 
 ### Introduction
@@ -702,60 +736,64 @@ To install Volatility, follow these steps:
 
 Here are some basic commands to get started with Volatility:
 
-- `imageinfo`: Displays information about the memory dump, such as the operating system version and architecture.
-- `pslist`: Lists all running processes.
-- `pstree`: Displays a tree view of the running processes.
-- `netscan`: Lists all network connections.
-- `modules`: Lists all loaded modules.
-- `dlllist`: Lists all loaded DLLs.
-- `handles`: Lists all open handles.
-- `cmdline`: Displays the command line arguments of a process.
-- `filescan`: Scans for file objects in memory.
-- `dumpfiles`: Extracts files from memory.
+* `imageinfo`: Displays information about the memory dump, such as the operating system version and architecture.
+* `pslist`: Lists all running processes.
+* `pstree`: Displays a tree view of the running processes.
+* `netscan`: Lists all network connections.
+* `modules`: Lists all loaded modules.
+* `dlllist`: Lists all loaded DLLs.
+* `handles`: Lists all open handles.
+* `cmdline`: Displays the command line arguments of a process.
+* `filescan`: Scans for file objects in memory.
+* `dumpfiles`: Extracts files from memory.
 
 ### Advanced Commands
 
 Here are some advanced commands for more in-depth analysis:
 
-- `malfind`: Scans for common malware injection techniques.
-- `apihooks`: Lists all API hooks.
-- `ldrmodules`: Lists all loaded modules and their dependencies.
-- `vadinfo`: Displays information about the Virtual Address Descriptor (VAD) tree.
-- `vadtree`: Displays a tree view of the VAD tree.
-- `vaddump`: Dumps the memory range associated with a VAD node.
-- `memdump`: Dumps the entire physical memory.
-- `memmap`: Displays the memory map.
-- `memstrings`: Extracts printable strings from memory.
+* `malfind`: Scans for common malware injection techniques.
+* `apihooks`: Lists all API hooks.
+* `ldrmodules`: Lists all loaded modules and their dependencies.
+* `vadinfo`: Displays information about the Virtual Address Descriptor (VAD) tree.
+* `vadtree`: Displays a tree view of the VAD tree.
+* `vaddump`: Dumps the memory range associated with a VAD node.
+* `memdump`: Dumps the entire physical memory.
+* `memmap`: Displays the memory map.
+* `memstrings`: Extracts printable strings from memory.
 
 ### Plugins
 
 Volatility supports a wide range of plugins that extend its functionality. Some popular plugins include:
 
-- `malfind`: Scans for common malware injection techniques.
-- `timeliner`: Creates a timeline of events based on process and file activity.
-- `dumpregistry`: Dumps the Windows registry.
-- `dumpcerts`: Dumps certificates from memory.
-- `hivelist`: Lists the registry hives.
-- `hashdump`: Dumps password hashes from memory.
+* `malfind`: Scans for common malware injection techniques.
+* `timeliner`: Creates a timeline of events based on process and file activity.
+* `dumpregistry`: Dumps the Windows registry.
+* `dumpcerts`: Dumps certificates from memory.
+* `hivelist`: Lists the registry hives.
+* `hashdump`: Dumps password hashes from memory.
 
 ### Conclusion
 
 Volatility is a powerful tool for memory forensics analysis. By using the commands and plugins provided in this cheatsheet, analysts can extract valuable information from memory dumps and uncover evidence of malicious activity.
+
 ```bash
 volatility --profile=PROFILE envars -f file.dmp [--pid <pid>] #Display process environment variables
 
 volatility --profile=PROFILE -f file.dmp linux_psenv [-p <pid>] #Get env of process. runlevel var means the runlevel where the proc is initated
 ```
+
 ### Haki za Tokeni
 
 Angalia tokeni za haki katika huduma zisizotarajiwa.\
 Inaweza kuwa ya kuvutia kuorodhesha michakato inayotumia tokeni za haki.
+
 ```bash
 #Get enabled privileges of some processes
 python3 vol.py -f file.dmp windows.privileges.Privs [--pid <pid>]
 #Get all processes with interesting privileges
 python3 vol.py -f file.dmp windows.privileges.Privs | grep "SeImpersonatePrivilege\|SeAssignPrimaryPrivilege\|SeTcbPrivilege\|SeBackupPrivilege\|SeRestorePrivilege\|SeCreateTokenPrivilege\|SeLoadDriverPrivilege\|SeTakeOwnershipPrivilege\|SeDebugPrivilege"
 ```
+
 ## Volatility Cheatsheet
 
 ### Introduction
@@ -776,57 +814,58 @@ To install Volatility, follow these steps:
 
 Here are some basic commands to get started with Volatility:
 
-- `imageinfo`: Displays information about the memory dump, such as the operating system version and architecture.
-- `pslist`: Lists all running processes.
-- `pstree`: Displays a tree view of the running processes.
-- `netscan`: Lists all network connections.
-- `modules`: Lists all loaded modules.
-- `dlllist`: Lists all loaded DLLs.
-- `handles`: Lists all open handles.
-- `cmdscan`: Scans for command history in memory.
+* `imageinfo`: Displays information about the memory dump, such as the operating system version and architecture.
+* `pslist`: Lists all running processes.
+* `pstree`: Displays a tree view of the running processes.
+* `netscan`: Lists all network connections.
+* `modules`: Lists all loaded modules.
+* `dlllist`: Lists all loaded DLLs.
+* `handles`: Lists all open handles.
+* `cmdscan`: Scans for command history in memory.
 
 ### Advanced Commands
 
 Here are some advanced commands for more in-depth analysis:
 
-- `malfind`: Scans for injected or malicious code.
-- `apihooks`: Lists all API hooks.
-- `ldrmodules`: Lists all loaded modules with their base addresses.
-- `vadinfo`: Displays information about the Virtual Address Descriptors (VADs).
-- `vadtree`: Displays a tree view of the VADs.
-- `dumpfiles`: Extracts files from memory.
-- `memdump`: Dumps a specific process's memory.
+* `malfind`: Scans for injected or malicious code.
+* `apihooks`: Lists all API hooks.
+* `ldrmodules`: Lists all loaded modules with their base addresses.
+* `vadinfo`: Displays information about the Virtual Address Descriptors (VADs).
+* `vadtree`: Displays a tree view of the VADs.
+* `dumpfiles`: Extracts files from memory.
+* `memdump`: Dumps a specific process's memory.
 
 ### Plugins
 
 Volatility also supports plugins, which provide additional functionality. Some popular plugins include:
 
-- `malfind`: Scans for injected or malicious code.
-- `timeliner`: Creates a timeline of events based on process and file activity.
-- `psxview`: Displays hidden processes.
-- `svcscan`: Lists Windows services.
-- `hivelist`: Lists registry hives.
+* `malfind`: Scans for injected or malicious code.
+* `timeliner`: Creates a timeline of events based on process and file activity.
+* `psxview`: Displays hidden processes.
+* `svcscan`: Lists Windows services.
+* `hivelist`: Lists registry hives.
 
 ### Conclusion
 
 Volatility is a powerful tool for memory forensics analysis. By using the commands and plugins provided in this cheatsheet, analysts can extract valuable information from memory dumps and gain insights into system activity.
+
 ```bash
 #Get enabled privileges of some processes
 volatility --profile=Win7SP1x86_23418 privs --pid=3152 -f file.dmp | grep Enabled
 #Get all processes with interesting privileges
 volatility --profile=Win7SP1x86_23418 privs -f file.dmp | grep "SeImpersonatePrivilege\|SeAssignPrimaryPrivilege\|SeTcbPrivilege\|SeBackupPrivilege\|SeRestorePrivilege\|SeCreateTokenPrivilege\|SeLoadDriverPrivilege\|SeTakeOwnershipPrivilege\|SeDebugPrivilege"
 ```
-{% endtab %}
-{% endtabs %}
 
 ### SIDs
 
 Angalia kila SSID inayomilikiwa na mchakato.\
 Inaweza kuwa ya kuvutia kuorodhesha michakato inayotumia SSID ya mamlaka (na michakato inayotumia SSID ya huduma fulani).
+
 ```bash
 ./vol.py -f file.dmp windows.getsids.GetSIDs [--pid <pid>] #Get SIDs of processes
 ./vol.py -f file.dmp windows.getservicesids.GetServiceSIDs #Get the SID of services
 ```
+
 ## Volatility Cheatsheet
 
 ### Introduction
@@ -847,60 +886,61 @@ To install Volatility, follow these steps:
 
 Here are some basic commands to get started with Volatility:
 
-- `imageinfo`: Displays information about the memory dump, such as the operating system version and architecture.
-- `pslist`: Lists all running processes.
-- `pstree`: Displays a tree view of the running processes.
-- `netscan`: Lists all network connections.
-- `modules`: Lists all loaded modules.
-- `dlllist`: Lists all loaded DLLs.
-- `handles`: Lists all open handles.
-- `cmdline`: Displays the command line arguments of a process.
-- `filescan`: Scans for file objects in memory.
-- `dumpfiles`: Extracts files from memory.
+* `imageinfo`: Displays information about the memory dump, such as the operating system version and architecture.
+* `pslist`: Lists all running processes.
+* `pstree`: Displays a tree view of the running processes.
+* `netscan`: Lists all network connections.
+* `modules`: Lists all loaded modules.
+* `dlllist`: Lists all loaded DLLs.
+* `handles`: Lists all open handles.
+* `cmdline`: Displays the command line arguments of a process.
+* `filescan`: Scans for file objects in memory.
+* `dumpfiles`: Extracts files from memory.
 
 ### Advanced Commands
 
 Here are some advanced commands for more in-depth analysis:
 
-- `malfind`: Scans for common malware injection techniques.
-- `apihooks`: Lists all API hooks.
-- `ldrmodules`: Lists all loaded modules and their dependencies.
-- `vadinfo`: Displays information about the Virtual Address Descriptor (VAD) tree.
-- `vadtree`: Displays a tree view of the VAD tree.
-- `vaddump`: Dumps the memory range associated with a VAD node.
-- `memdump`: Dumps the entire physical memory.
-- `memmap`: Displays the memory map.
-- `memstrings`: Extracts printable strings from memory.
-- `memscan`: Scans for a specific pattern in memory.
+* `malfind`: Scans for common malware injection techniques.
+* `apihooks`: Lists all API hooks.
+* `ldrmodules`: Lists all loaded modules and their dependencies.
+* `vadinfo`: Displays information about the Virtual Address Descriptor (VAD) tree.
+* `vadtree`: Displays a tree view of the VAD tree.
+* `vaddump`: Dumps the memory range associated with a VAD node.
+* `memdump`: Dumps the entire physical memory.
+* `memmap`: Displays the memory map.
+* `memstrings`: Extracts printable strings from memory.
+* `memscan`: Scans for a specific pattern in memory.
 
 ### Plugins
 
 Volatility also supports plugins, which provide additional functionality. Some popular plugins include:
 
-- `malfind`: Scans for common malware injection techniques.
-- `timeliner`: Extracts timeline information from memory.
-- `dumpregistry`: Dumps the Windows registry.
-- `dumpcerts`: Dumps certificates from memory.
-- `dumpfiles`: Extracts files from memory.
+* `malfind`: Scans for common malware injection techniques.
+* `timeliner`: Extracts timeline information from memory.
+* `dumpregistry`: Dumps the Windows registry.
+* `dumpcerts`: Dumps certificates from memory.
+* `dumpfiles`: Extracts files from memory.
 
 To use a plugin, simply run `python vol.py -f <memory_dump> --profile=<profile> <plugin_name>`. Replace `<memory_dump>` with the path to the memory dump file, `<profile>` with the appropriate profile for the operating system, and `<plugin_name>` with the name of the plugin.
 
 ### Conclusion
 
 Volatility is a powerful tool for memory forensics analysis. This cheatsheet provides a quick reference guide for using Volatility and its various commands and plugins. With Volatility, analysts can extract valuable information from memory dumps and uncover important evidence in forensic investigations.
+
 ```bash
 volatility --profile=Win7SP1x86_23418 getsids -f file.dmp #Get the SID owned by each process
 volatility --profile=Win7SP1x86_23418 getservicesids -f file.dmp #Get the SID of each service
 ```
-{% endtab %}
-{% endtabs %}
 
 ### Vitambulisho
 
 Inatumika kujua kwa faili, funguo, nyuzi, michakato... ambayo **mchakato una vitambulisho** kwa (imefunguliwa)
+
 ```bash
 vol.py -f file.dmp windows.handles.Handles [--pid <pid>]
 ```
+
 ## Volatility Cheatsheet
 
 ### Introduction
@@ -921,42 +961,44 @@ To install Volatility, follow these steps:
 
 Here are some basic commands to get started with Volatility:
 
-- `imageinfo`: Displays information about the memory dump, such as the operating system version and architecture.
-- `pslist`: Lists all running processes.
-- `pstree`: Displays a tree view of the running processes.
-- `netscan`: Lists all network connections.
-- `modules`: Lists all loaded modules.
-- `dlllist`: Lists all loaded DLLs.
-- `handles`: Lists all open handles.
-- `filescan`: Scans for file objects in memory.
+* `imageinfo`: Displays information about the memory dump, such as the operating system version and architecture.
+* `pslist`: Lists all running processes.
+* `pstree`: Displays a tree view of the running processes.
+* `netscan`: Lists all network connections.
+* `modules`: Lists all loaded modules.
+* `dlllist`: Lists all loaded DLLs.
+* `handles`: Lists all open handles.
+* `filescan`: Scans for file objects in memory.
 
 ### Advanced Commands
 
 Here are some advanced commands for more in-depth analysis:
 
-- `malfind`: Scans for common malware injection techniques.
-- `apihooks`: Lists all API hooks.
-- `ldrmodules`: Lists all loaded modules and their corresponding memory addresses.
-- `vadinfo`: Displays information about the Virtual Address Descriptors (VADs).
-- `vadtree`: Displays a tree view of the VADs.
-- `vaddump`: Dumps the memory contents of a specific VAD.
-- `memdump`: Dumps the memory contents of a specific process.
+* `malfind`: Scans for common malware injection techniques.
+* `apihooks`: Lists all API hooks.
+* `ldrmodules`: Lists all loaded modules and their corresponding memory addresses.
+* `vadinfo`: Displays information about the Virtual Address Descriptors (VADs).
+* `vadtree`: Displays a tree view of the VADs.
+* `vaddump`: Dumps the memory contents of a specific VAD.
+* `memdump`: Dumps the memory contents of a specific process.
 
 ### Plugin Usage
 
 Volatility also provides a wide range of plugins for specific analysis tasks. To use a plugin, simply run `python vol.py <plugin_name>`. Some popular plugins include:
 
-- `malfind`: Scans for common malware injection techniques.
-- `timeliner`: Extracts timeline information from memory dumps.
-- `dumpfiles`: Extracts files from memory dumps.
-- `cmdscan`: Scans for command history in memory.
+* `malfind`: Scans for common malware injection techniques.
+* `timeliner`: Extracts timeline information from memory dumps.
+* `dumpfiles`: Extracts files from memory dumps.
+* `cmdscan`: Scans for command history in memory.
 
 ### Conclusion
 
 Volatility is a powerful tool for memory forensics analysis. By using the commands and plugins provided in this cheatsheet, analysts can extract valuable information from memory dumps and gain insights into the activities of a compromised system.
+
 ```bash
 volatility --profile=Win7SP1x86_23418 -f file.dmp handles [--pid=<pid>]
 ```
+
 ### DLLs
 
 {% tabs %}
@@ -965,13 +1007,14 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp handles [--pid=<pid>]
 ./vol.py -f file.dmp windows.dlllist.DllList [--pid <pid>] #List dlls used by each
 ./vol.py -f file.dmp windows.dumpfiles.DumpFiles --pid <pid> #Dump the .exe and dlls of the process in the current directory process
 ```
-## Volatility Cheatsheet
 
-### Introduction
+### Volatility Cheatsheet
+
+#### Introduction
 
 This cheatsheet provides a quick reference guide for using Volatility, a popular open-source memory forensics framework. Volatility allows analysts to extract valuable information from memory dumps, such as running processes, network connections, and loaded modules.
 
-### Installation
+#### Installation
 
 To install Volatility, follow these steps:
 
@@ -981,50 +1024,51 @@ To install Volatility, follow these steps:
 4. Extract the downloaded archive.
 5. Navigate to the extracted directory and run `python vol.py`.
 
-### Basic Commands
+#### Basic Commands
 
 Here are some basic commands to get started with Volatility:
 
-- `imageinfo`: Displays information about the memory dump, such as the operating system version and architecture.
-- `pslist`: Lists all running processes.
-- `pstree`: Displays a tree view of the running processes.
-- `netscan`: Lists all network connections.
-- `modules`: Lists all loaded modules.
-- `dlllist`: Lists all loaded DLLs.
-- `handles`: Lists all open handles.
-- `cmdline`: Displays the command line arguments of a process.
-- `filescan`: Scans for file objects in memory.
-- `dumpfiles`: Extracts files from memory.
+* `imageinfo`: Displays information about the memory dump, such as the operating system version and architecture.
+* `pslist`: Lists all running processes.
+* `pstree`: Displays a tree view of the running processes.
+* `netscan`: Lists all network connections.
+* `modules`: Lists all loaded modules.
+* `dlllist`: Lists all loaded DLLs.
+* `handles`: Lists all open handles.
+* `cmdline`: Displays the command line arguments of a process.
+* `filescan`: Scans for file objects in memory.
+* `dumpfiles`: Extracts files from memory.
 
-### Advanced Commands
+#### Advanced Commands
 
 Here are some advanced commands for more in-depth analysis:
 
-- `malfind`: Scans for common malware injection techniques.
-- `apihooks`: Lists all API hooks.
-- `ldrmodules`: Lists all loaded modules with their base addresses.
-- `vadinfo`: Displays information about the Virtual Address Descriptors (VADs).
-- `vaddump`: Dumps the memory of a specific VAD.
-- `vadtree`: Displays a tree view of the VADs.
-- `memmap`: Displays the memory map of the system.
-- `memdump`: Dumps the entire physical memory.
-- `strings`: Searches for ASCII and Unicode strings in memory.
+* `malfind`: Scans for common malware injection techniques.
+* `apihooks`: Lists all API hooks.
+* `ldrmodules`: Lists all loaded modules with their base addresses.
+* `vadinfo`: Displays information about the Virtual Address Descriptors (VADs).
+* `vaddump`: Dumps the memory of a specific VAD.
+* `vadtree`: Displays a tree view of the VADs.
+* `memmap`: Displays the memory map of the system.
+* `memdump`: Dumps the entire physical memory.
+* `strings`: Searches for ASCII and Unicode strings in memory.
 
-### Plugins
+#### Plugins
 
 Volatility supports a wide range of plugins that extend its functionality. Some popular plugins include:
 
-- `malfind`: Scans for common malware injection techniques.
-- `timeliner`: Creates a timeline of system activity.
-- `dumpregistry`: Dumps the Windows registry.
-- `dumpcerts`: Dumps certificates from memory.
-- `dumpfiles`: Extracts files from memory.
-- `hivelist`: Lists the registry hives.
-- `hivedump`: Dumps a specific registry hive.
+* `malfind`: Scans for common malware injection techniques.
+* `timeliner`: Creates a timeline of system activity.
+* `dumpregistry`: Dumps the Windows registry.
+* `dumpcerts`: Dumps certificates from memory.
+* `dumpfiles`: Extracts files from memory.
+* `hivelist`: Lists the registry hives.
+* `hivedump`: Dumps a specific registry hive.
 
-### Conclusion
+#### Conclusion
 
 Volatility is a powerful tool for memory forensics analysis. This cheatsheet provides a quick reference guide for using Volatility and its various commands and plugins. By leveraging Volatility's capabilities, analysts can extract valuable information from memory dumps and gain insights into system activity.
+
 ```bash
 volatility --profile=Win7SP1x86_23418 dlllist --pid=3152 -f file.dmp #Get dlls of a proc
 volatility --profile=Win7SP1x86_23418 dlldump --pid=3152 --dump-dir=. -f file.dmp #Dump dlls of a proc
@@ -1042,13 +1086,14 @@ Volatility inaruhusu sisi kuangalia ni mchakato gani kamba inamiliki.
 strings file.dmp > /tmp/strings.txt
 ./vol.py -f /tmp/file.dmp windows.strings.Strings --strings-file /tmp/strings.txt
 ```
-## Volatility Cheatsheet
 
-### Introduction
+### Volatility Cheatsheet
+
+#### Introduction
 
 This cheatsheet provides a quick reference guide for using Volatility, a popular open-source memory forensics framework. Volatility allows analysts to extract valuable information from memory dumps, such as running processes, network connections, and loaded modules.
 
-### Installation
+#### Installation
 
 To install Volatility, follow these steps:
 
@@ -1058,50 +1103,51 @@ To install Volatility, follow these steps:
 4. Extract the downloaded archive.
 5. Navigate to the extracted directory and run `python vol.py`.
 
-### Basic Commands
+#### Basic Commands
 
 Here are some basic commands to get started with Volatility:
 
-- `imageinfo`: Displays information about the memory dump, such as the operating system version and architecture.
-- `pslist`: Lists all running processes.
-- `pstree`: Displays a tree view of the running processes.
-- `netscan`: Lists all network connections.
-- `modules`: Lists all loaded modules.
-- `dlllist`: Lists all loaded DLLs.
-- `handles`: Lists all open handles.
-- `cmdline`: Displays the command line arguments of a process.
-- `filescan`: Scans for file objects in memory.
-- `dumpfiles`: Extracts files from memory.
+* `imageinfo`: Displays information about the memory dump, such as the operating system version and architecture.
+* `pslist`: Lists all running processes.
+* `pstree`: Displays a tree view of the running processes.
+* `netscan`: Lists all network connections.
+* `modules`: Lists all loaded modules.
+* `dlllist`: Lists all loaded DLLs.
+* `handles`: Lists all open handles.
+* `cmdline`: Displays the command line arguments of a process.
+* `filescan`: Scans for file objects in memory.
+* `dumpfiles`: Extracts files from memory.
 
-### Advanced Commands
+#### Advanced Commands
 
 Here are some advanced commands for more in-depth analysis:
 
-- `malfind`: Scans for common malware injection techniques.
-- `apihooks`: Lists all API hooks.
-- `ldrmodules`: Lists all loaded modules with their base addresses.
-- `vadinfo`: Displays information about the Virtual Address Descriptors (VADs).
-- `vaddump`: Dumps the memory of a specific VAD.
-- `vadtree`: Displays a tree view of the VADs.
-- `memmap`: Displays the memory map of the system.
-- `memdump`: Dumps the entire physical memory.
-- `strings`: Searches for ASCII and Unicode strings in memory.
+* `malfind`: Scans for common malware injection techniques.
+* `apihooks`: Lists all API hooks.
+* `ldrmodules`: Lists all loaded modules with their base addresses.
+* `vadinfo`: Displays information about the Virtual Address Descriptors (VADs).
+* `vaddump`: Dumps the memory of a specific VAD.
+* `vadtree`: Displays a tree view of the VADs.
+* `memmap`: Displays the memory map of the system.
+* `memdump`: Dumps the entire physical memory.
+* `strings`: Searches for ASCII and Unicode strings in memory.
 
-### Plugins
+#### Plugins
 
 Volatility supports a wide range of plugins that extend its functionality. Some popular plugins include:
 
-- `malfind`: Scans for common malware injection techniques.
-- `timeliner`: Creates a timeline of system activity.
-- `dumpregistry`: Dumps the Windows registry.
-- `dumpcerts`: Dumps certificates from memory.
-- `dumpfiles`: Extracts files from memory.
-- `hivelist`: Lists the registry hives.
-- `hivedump`: Dumps a specific registry hive.
+* `malfind`: Scans for common malware injection techniques.
+* `timeliner`: Creates a timeline of system activity.
+* `dumpregistry`: Dumps the Windows registry.
+* `dumpcerts`: Dumps certificates from memory.
+* `dumpfiles`: Extracts files from memory.
+* `hivelist`: Lists the registry hives.
+* `hivedump`: Dumps a specific registry hive.
 
-### Conclusion
+#### Conclusion
 
 Volatility is a powerful tool for memory forensics analysis. This cheatsheet provides a quick reference guide for using Volatility and its various commands and plugins. By leveraging Volatility's capabilities, analysts can extract valuable information from memory dumps and gain insights into system activity.
+
 ```bash
 strings file.dmp > /tmp/strings.txt
 volatility -f /tmp/file.dmp windows.strings.Strings --string-file /tmp/strings.txt
@@ -1120,13 +1166,14 @@ Pia inaruhusu kutafuta herufi ndani ya mchakato kwa kutumia moduli ya yarascan:
 ./vol.py -f file.dmp windows.vadyarascan.VadYaraScan --yara-rules "https://" --pid 3692 3840 3976 3312 3084 2784
 ./vol.py -f file.dmp yarascan.YaraScan --yara-rules "https://"
 ```
-## Volatility Cheatsheet
 
-### Introduction
+### Volatility Cheatsheet
+
+#### Introduction
 
 This cheatsheet provides a quick reference guide for using Volatility, a popular open-source memory forensics framework. Volatility allows analysts to extract valuable information from memory dumps, such as running processes, network connections, and loaded modules.
 
-### Installation
+#### Installation
 
 To install Volatility, follow these steps:
 
@@ -1136,51 +1183,52 @@ To install Volatility, follow these steps:
 4. Extract the downloaded archive.
 5. Navigate to the extracted directory and run `python vol.py`.
 
-### Basic Commands
+#### Basic Commands
 
 Here are some basic commands to get started with Volatility:
 
-- `imageinfo`: Displays information about the memory dump, such as the operating system version and architecture.
-- `pslist`: Lists all running processes.
-- `pstree`: Displays a tree view of the running processes.
-- `netscan`: Lists all network connections.
-- `modules`: Lists all loaded modules.
-- `dlllist`: Lists all loaded DLLs.
-- `handles`: Lists all open handles.
-- `cmdline`: Displays the command line arguments of a process.
-- `filescan`: Scans for file objects in memory.
-- `dumpfiles`: Extracts files from memory.
+* `imageinfo`: Displays information about the memory dump, such as the operating system version and architecture.
+* `pslist`: Lists all running processes.
+* `pstree`: Displays a tree view of the running processes.
+* `netscan`: Lists all network connections.
+* `modules`: Lists all loaded modules.
+* `dlllist`: Lists all loaded DLLs.
+* `handles`: Lists all open handles.
+* `cmdline`: Displays the command line arguments of a process.
+* `filescan`: Scans for file objects in memory.
+* `dumpfiles`: Extracts files from memory.
 
-### Advanced Commands
+#### Advanced Commands
 
 Here are some advanced commands for more in-depth analysis:
 
-- `malfind`: Scans for common malware injection techniques.
-- `apihooks`: Lists all API hooks.
-- `ldrmodules`: Lists all loaded modules with their base addresses.
-- `vadinfo`: Displays information about the Virtual Address Descriptors (VADs).
-- `vaddump`: Dumps the memory of a specific VAD.
-- `vadtree`: Displays a tree view of the VADs.
-- `memmap`: Displays the memory map of the system.
-- `memdump`: Dumps the entire physical memory.
-- `strings`: Searches for ASCII and Unicode strings in memory.
+* `malfind`: Scans for common malware injection techniques.
+* `apihooks`: Lists all API hooks.
+* `ldrmodules`: Lists all loaded modules with their base addresses.
+* `vadinfo`: Displays information about the Virtual Address Descriptors (VADs).
+* `vaddump`: Dumps the memory of a specific VAD.
+* `vadtree`: Displays a tree view of the VADs.
+* `memmap`: Displays the memory map of the system.
+* `memdump`: Dumps the entire physical memory.
+* `strings`: Searches for ASCII and Unicode strings in memory.
 
-### Plugins
+#### Plugins
 
 Volatility also supports plugins, which provide additional functionality. Some popular plugins include:
 
-- `malfind`: Scans for common malware injection techniques.
-- `timeliner`: Creates a timeline of system activity.
-- `dumpregistry`: Dumps the Windows registry.
-- `dumpcerts`: Dumps certificates from memory.
-- `dumpfiles`: Extracts files from memory.
-- `hivelist`: Lists the registry hives.
+* `malfind`: Scans for common malware injection techniques.
+* `timeliner`: Creates a timeline of system activity.
+* `dumpregistry`: Dumps the Windows registry.
+* `dumpcerts`: Dumps certificates from memory.
+* `dumpfiles`: Extracts files from memory.
+* `hivelist`: Lists the registry hives.
 
 To use a plugin, simply run `python vol.py -f <memory_dump> --profile=<profile> <plugin_name>`. Replace `<memory_dump>` with the path to the memory dump file, `<profile>` with the appropriate profile for the operating system, and `<plugin_name>` with the name of the plugin.
 
-### Conclusion
+#### Conclusion
 
 Volatility is a powerful tool for memory forensics analysis. This cheatsheet provides a quick reference guide for using Volatility and its various commands and plugins. By leveraging Volatility's capabilities, analysts can extract valuable information from memory dumps and gain insights into system activity.
+
 ```bash
 volatility --profile=Win7SP1x86_23418 yarascan -Y "https://" -p 3692,3840,3976,3312,3084,2784
 ```
@@ -1190,15 +1238,14 @@ volatility --profile=Win7SP1x86_23418 yarascan -Y "https://" -p 3692,3840,3976,3
 ### UserAssist
 
 **Windows** inahifadhi rekodi ya programu unazotumia kwa kutumia kipengele katika rejista kinachoitwa **UserAssist keys**. Vipengele hivi vinarekodi mara ngapi kila programu inatekelezwa na wakati ilipotekelezwa mara ya mwisho.
+
 ```bash
 ./vol.py -f file.dmp windows.registry.userassist.UserAssist
 ```
-{% tab title="vol2" %}
+
 ```
 volatility --profile=Win7SP1x86_23418 -f file.dmp userassist
 ```
-{% endtab %}
-{% endtabs %}
 
 ​
 
@@ -1210,12 +1257,11 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp userassist
 
 ## Huduma
 
-{% tabs %}
-{% tab title="vol3" %}
 ```bash
 ./vol.py -f file.dmp windows.svcscan.SvcScan #List services
 ./vol.py -f file.dmp windows.getservicesids.GetServiceSIDs #Get the SID of services
 ```
+
 ## Volatility Cheatsheet
 
 ### Introduction
@@ -1236,46 +1282,48 @@ To install Volatility, follow these steps:
 
 Here are some basic commands to get started with Volatility:
 
-- `imageinfo`: Displays information about the memory dump, such as the operating system version and architecture.
-- `pslist`: Lists all running processes.
-- `pstree`: Displays a tree view of the running processes.
-- `netscan`: Lists all network connections.
-- `modules`: Lists all loaded modules.
-- `dlllist`: Lists all loaded DLLs.
-- `handles`: Lists all open handles.
-- `cmdscan`: Scans for command history in memory.
+* `imageinfo`: Displays information about the memory dump, such as the operating system version and architecture.
+* `pslist`: Lists all running processes.
+* `pstree`: Displays a tree view of the running processes.
+* `netscan`: Lists all network connections.
+* `modules`: Lists all loaded modules.
+* `dlllist`: Lists all loaded DLLs.
+* `handles`: Lists all open handles.
+* `cmdscan`: Scans for command history in memory.
 
 ### Advanced Commands
 
 Here are some advanced commands for more in-depth analysis:
 
-- `malfind`: Scans for injected or malicious code.
-- `apihooks`: Lists all API hooks.
-- `ldrmodules`: Lists all loaded modules with their base addresses.
-- `vadinfo`: Displays information about the Virtual Address Descriptors (VADs).
-- `vadtree`: Displays a tree view of the VADs.
-- `dumpfiles`: Extracts files from memory.
-- `memdump`: Dumps a specific process's memory.
+* `malfind`: Scans for injected or malicious code.
+* `apihooks`: Lists all API hooks.
+* `ldrmodules`: Lists all loaded modules with their base addresses.
+* `vadinfo`: Displays information about the Virtual Address Descriptors (VADs).
+* `vadtree`: Displays a tree view of the VADs.
+* `dumpfiles`: Extracts files from memory.
+* `memdump`: Dumps a specific process's memory.
 
 ### Plugins
 
 Volatility also supports plugins, which provide additional functionality. Some popular plugins include:
 
-- `malfind`: Scans for injected or malicious code.
-- `timeliner`: Creates a timeline of events based on process and file activity.
-- `psxview`: Displays hidden processes.
-- `svcscan`: Lists Windows services.
-- `hivelist`: Lists registry hives.
+* `malfind`: Scans for injected or malicious code.
+* `timeliner`: Creates a timeline of events based on process and file activity.
+* `psxview`: Displays hidden processes.
+* `svcscan`: Lists Windows services.
+* `hivelist`: Lists registry hives.
 
 ### Conclusion
 
 Volatility is a powerful tool for memory forensics analysis. By using the commands and plugins provided in this cheatsheet, analysts can extract valuable information from memory dumps and gain insights into system activity.
+
 ```bash
 #Get services and binary path
 volatility --profile=Win7SP1x86_23418 svcscan -f file.dmp
 #Get name of the services and SID (slow)
 volatility --profile=Win7SP1x86_23418 getservicesids -f file.dmp
 ```
+
 ## Mtandao
 
 {% tabs %}
@@ -1284,13 +1332,14 @@ volatility --profile=Win7SP1x86_23418 getservicesids -f file.dmp
 ./vol.py -f file.dmp windows.netscan.NetScan
 #For network info of linux use volatility2
 ```
-## Volatility Cheatsheet
 
-### Introduction
+### Volatility Cheatsheet
+
+#### Introduction
 
 This cheatsheet provides a quick reference guide for using Volatility, a popular open-source memory forensics framework. Volatility allows analysts to extract valuable information from memory dumps, such as running processes, network connections, and loaded modules.
 
-### Installation
+#### Installation
 
 To install Volatility, follow these steps:
 
@@ -1300,50 +1349,51 @@ To install Volatility, follow these steps:
 4. Extract the downloaded archive.
 5. Navigate to the extracted directory and run `python vol.py`.
 
-### Basic Commands
+#### Basic Commands
 
 Here are some basic commands to get started with Volatility:
 
-- `imageinfo`: Displays information about the memory dump, such as the operating system version and architecture.
-- `pslist`: Lists all running processes.
-- `pstree`: Displays a tree view of the running processes.
-- `netscan`: Lists all network connections.
-- `modules`: Lists all loaded modules.
-- `dlllist`: Lists all loaded DLLs.
-- `handles`: Lists all open handles.
-- `cmdline`: Displays the command line arguments of a process.
-- `filescan`: Scans for file objects in memory.
-- `dumpfiles`: Extracts files from memory.
+* `imageinfo`: Displays information about the memory dump, such as the operating system version and architecture.
+* `pslist`: Lists all running processes.
+* `pstree`: Displays a tree view of the running processes.
+* `netscan`: Lists all network connections.
+* `modules`: Lists all loaded modules.
+* `dlllist`: Lists all loaded DLLs.
+* `handles`: Lists all open handles.
+* `cmdline`: Displays the command line arguments of a process.
+* `filescan`: Scans for file objects in memory.
+* `dumpfiles`: Extracts files from memory.
 
-### Advanced Commands
+#### Advanced Commands
 
 Here are some advanced commands for more in-depth analysis:
 
-- `malfind`: Scans for common malware injection techniques.
-- `apihooks`: Lists all API hooks.
-- `ldrmodules`: Lists all loaded modules with their base addresses.
-- `vadinfo`: Displays information about the Virtual Address Descriptors (VADs).
-- `vaddump`: Dumps the memory of a specific VAD.
-- `vadtree`: Displays a tree view of the VADs.
-- `memmap`: Displays the memory map of the system.
-- `memdump`: Dumps the entire physical memory.
-- `strings`: Searches for ASCII and Unicode strings in memory.
+* `malfind`: Scans for common malware injection techniques.
+* `apihooks`: Lists all API hooks.
+* `ldrmodules`: Lists all loaded modules with their base addresses.
+* `vadinfo`: Displays information about the Virtual Address Descriptors (VADs).
+* `vaddump`: Dumps the memory of a specific VAD.
+* `vadtree`: Displays a tree view of the VADs.
+* `memmap`: Displays the memory map of the system.
+* `memdump`: Dumps the entire physical memory.
+* `strings`: Searches for ASCII and Unicode strings in memory.
 
-### Plugins
+#### Plugins
 
 Volatility supports a wide range of plugins that extend its functionality. Some popular plugins include:
 
-- `malfind`: Scans for common malware injection techniques.
-- `timeliner`: Creates a timeline of system activity.
-- `dumpregistry`: Dumps the Windows registry.
-- `dumpcerts`: Dumps certificates from memory.
-- `dumpfiles`: Extracts files from memory.
-- `hivelist`: Lists the registry hives.
-- `hivedump`: Dumps a specific registry hive.
+* `malfind`: Scans for common malware injection techniques.
+* `timeliner`: Creates a timeline of system activity.
+* `dumpregistry`: Dumps the Windows registry.
+* `dumpcerts`: Dumps certificates from memory.
+* `dumpfiles`: Extracts files from memory.
+* `hivelist`: Lists the registry hives.
+* `hivedump`: Dumps a specific registry hive.
 
-### Conclusion
+#### Conclusion
 
 Volatility is a powerful tool for memory forensics analysis. This cheatsheet provides a quick reference guide for using Volatility and its various commands and plugins. By leveraging Volatility's capabilities, analysts can extract valuable information from memory dumps and gain insights into system activity.
+
 ```bash
 volatility --profile=Win7SP1x86_23418 netscan -f file.dmp
 volatility --profile=Win7SP1x86_23418 connections -f file.dmp#XP and 2003 only
@@ -1366,11 +1416,13 @@ volatility --profile=SomeLinux -f file.dmp linux_route_cache
 ### Chapisha hifadhidata zilizopo
 
 {% tabs %}
-{% tab title="vol3" %}
+{% tab title="undefined" %}
 ```bash
 ./vol.py -f file.dmp windows.registry.hivelist.HiveList #List roots
 ./vol.py -f file.dmp windows.registry.printkey.PrintKey #List roots and get initial subkeys
 ```
+{% endtab %}
+
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 -f file.dmp hivelist #List roots
@@ -1381,11 +1433,10 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp printkey #List roots and get i
 
 ### Pata thamani
 
-{% tabs %}
-{% tab title="vol3" %}
 ```bash
 ./vol.py -f file.dmp windows.registry.printkey.PrintKey --key "Software\Microsoft\Windows NT\CurrentVersion"
 ```
+
 ## Volatility Cheatsheet
 
 ### Introduction
@@ -1406,51 +1457,53 @@ To install Volatility, follow these steps:
 
 Here are some basic commands to get started with Volatility:
 
-- `imageinfo`: Displays information about the memory dump, such as the operating system version and architecture.
-- `pslist`: Lists all running processes.
-- `pstree`: Displays a tree view of the running processes.
-- `netscan`: Lists all network connections.
-- `modules`: Lists all loaded modules.
-- `dlllist`: Lists all loaded DLLs.
-- `handles`: Lists all open handles.
-- `cmdline`: Displays the command line arguments of a process.
-- `filescan`: Scans for file objects in memory.
-- `dumpfiles`: Extracts files from memory.
+* `imageinfo`: Displays information about the memory dump, such as the operating system version and architecture.
+* `pslist`: Lists all running processes.
+* `pstree`: Displays a tree view of the running processes.
+* `netscan`: Lists all network connections.
+* `modules`: Lists all loaded modules.
+* `dlllist`: Lists all loaded DLLs.
+* `handles`: Lists all open handles.
+* `cmdline`: Displays the command line arguments of a process.
+* `filescan`: Scans for file objects in memory.
+* `dumpfiles`: Extracts files from memory.
 
 ### Advanced Commands
 
 Here are some advanced commands for more in-depth analysis:
 
-- `malfind`: Scans for common malware injection techniques.
-- `apihooks`: Lists all API hooks.
-- `ldrmodules`: Lists all loaded modules with their base addresses.
-- `vadinfo`: Displays information about the Virtual Address Descriptors (VADs).
-- `vaddump`: Dumps the memory of a specific VAD.
-- `vadtree`: Displays a tree view of the VADs.
-- `memmap`: Displays the memory map of the system.
-- `memdump`: Dumps the entire physical memory.
-- `strings`: Searches for ASCII and Unicode strings in memory.
+* `malfind`: Scans for common malware injection techniques.
+* `apihooks`: Lists all API hooks.
+* `ldrmodules`: Lists all loaded modules with their base addresses.
+* `vadinfo`: Displays information about the Virtual Address Descriptors (VADs).
+* `vaddump`: Dumps the memory of a specific VAD.
+* `vadtree`: Displays a tree view of the VADs.
+* `memmap`: Displays the memory map of the system.
+* `memdump`: Dumps the entire physical memory.
+* `strings`: Searches for ASCII and Unicode strings in memory.
 
 ### Plugins
 
 Volatility supports a wide range of plugins that extend its functionality. Some popular plugins include:
 
-- `malfind`: Scans for common malware injection techniques.
-- `timeliner`: Creates a timeline of system activity.
-- `dumpregistry`: Dumps the Windows registry.
-- `hivelist`: Lists the registry hives.
-- `hashdump`: Dumps the password hashes.
-- `shellbags`: Lists the recently accessed folders.
-- `cmdscan`: Scans for command history in memory.
+* `malfind`: Scans for common malware injection techniques.
+* `timeliner`: Creates a timeline of system activity.
+* `dumpregistry`: Dumps the Windows registry.
+* `hivelist`: Lists the registry hives.
+* `hashdump`: Dumps the password hashes.
+* `shellbags`: Lists the recently accessed folders.
+* `cmdscan`: Scans for command history in memory.
 
 ### Conclusion
 
 Volatility is a powerful tool for memory forensics analysis. By using the commands and plugins provided in this cheatsheet, analysts can extract valuable information from memory dumps and uncover evidence of malicious activity.
+
 ```bash
 volatility --profile=Win7SP1x86_23418 printkey -K "Software\Microsoft\Windows NT\CurrentVersion" -f file.dmp
 # Get Run binaries registry value
 volatility -f file.dmp --profile=Win7SP1x86 printkey -o 0x9670e9d0 -K 'Software\Microsoft\Windows\CurrentVersion\Run'
 ```
+
 ### Kumbukumbu
 
 A memory dump is a snapshot of the computer's RAM at a specific point in time. It contains valuable information that can be analyzed to understand the state of the system and identify any malicious activity.
@@ -1466,32 +1519,25 @@ Volatility ni mfumo maarufu wa chanzo wazi kwa uchunguzi wa kumbukumbu. Inatoa a
 ### Basic Forensic Methodology
 
 1. Acquire the memory dump: Obtain a copy of the memory dump from the target system. This can be done using various tools and techniques, such as using a hardware write blocker or creating a memory dump from a live system.
-
-1. Pata kumbukumbu ya kumbukumbu: Pata nakala ya kumbukumbu ya kumbukumbu kutoka kwenye mfumo wa lengo. Hii inaweza kufanywa kwa kutumia zana na mbinu mbalimbali, kama vile kutumia kizuizi cha kuandika vifaa au kuunda kumbukumbu ya kumbukumbu kutoka kwenye mfumo hai.
-
-2. Analyze the memory dump: Use Volatility and its plugins to analyze the memory dump. This includes identifying running processes, open network connections, loaded modules, and other relevant information.
-
-2. Chambua kumbukumbu ya kumbukumbu: Tumia Volatility na programu-jalizi zake kuchambua kumbukumbu ya kumbukumbu. Hii ni pamoja na kutambua michakato inayofanya kazi, uhusiano wa mtandao uliofunguliwa, moduli zilizopakia, na taarifa nyingine muhimu.
-
-3. Extract useful information: Extract any relevant information from the memory dump, such as passwords, encryption keys, or evidence of malicious activity. This can be done using Volatility's plugins or by manually searching through the memory dump.
-
-3. Chota taarifa muhimu: Chota taarifa yoyote muhimu kutoka kwenye kumbukumbu ya kumbukumbu, kama vile nywila, funguo za encryption, au ushahidi wa shughuli mbaya. Hii inaweza kufanywa kwa kutumia programu-jalizi za Volatility au kwa kutafuta kwa mkono kupitia kumbukumbu ya kumbukumbu.
-
-4. Document findings: Document all findings and observations during the analysis process. This includes recording the steps taken, the tools used, and any relevant information discovered.
-
-4. Andika matokeo: Andika matokeo yote na uchunguzi wakati wa mchakato wa uchambuzi. Hii ni pamoja na kurekodi hatua zilizochukuliwa, zana zilizotumiwa, na taarifa yoyote muhimu iliyogunduliwa.
-
-5. Report and present findings: Prepare a detailed report summarizing the findings and present them to the relevant stakeholders. This report should include any recommendations for further investigation or remediation.
-
-5. Andika ripoti na toa matokeo: Andaa ripoti ya kina inayohitimisha matokeo na uwasilishe kwa wadau husika. Ripoti hii inapaswa kujumuisha mapendekezo yoyote kwa uchunguzi zaidi au urekebishaji.
+2. Pata kumbukumbu ya kumbukumbu: Pata nakala ya kumbukumbu ya kumbukumbu kutoka kwenye mfumo wa lengo. Hii inaweza kufanywa kwa kutumia zana na mbinu mbalimbali, kama vile kutumia kizuizi cha kuandika vifaa au kuunda kumbukumbu ya kumbukumbu kutoka kwenye mfumo hai.
+3. Analyze the memory dump: Use Volatility and its plugins to analyze the memory dump. This includes identifying running processes, open network connections, loaded modules, and other relevant information.
+4. Chambua kumbukumbu ya kumbukumbu: Tumia Volatility na programu-jalizi zake kuchambua kumbukumbu ya kumbukumbu. Hii ni pamoja na kutambua michakato inayofanya kazi, uhusiano wa mtandao uliofunguliwa, moduli zilizopakia, na taarifa nyingine muhimu.
+5. Extract useful information: Extract any relevant information from the memory dump, such as passwords, encryption keys, or evidence of malicious activity. This can be done using Volatility's plugins or by manually searching through the memory dump.
+6. Chota taarifa muhimu: Chota taarifa yoyote muhimu kutoka kwenye kumbukumbu ya kumbukumbu, kama vile nywila, funguo za encryption, au ushahidi wa shughuli mbaya. Hii inaweza kufanywa kwa kutumia programu-jalizi za Volatility au kwa kutafuta kwa mkono kupitia kumbukumbu ya kumbukumbu.
+7. Document findings: Document all findings and observations during the analysis process. This includes recording the steps taken, the tools used, and any relevant information discovered.
+8. Andika matokeo: Andika matokeo yote na uchunguzi wakati wa mchakato wa uchambuzi. Hii ni pamoja na kurekodi hatua zilizochukuliwa, zana zilizotumiwa, na taarifa yoyote muhimu iliyogunduliwa.
+9. Report and present findings: Prepare a detailed report summarizing the findings and present them to the relevant stakeholders. This report should include any recommendations for further investigation or remediation.
+10. Andika ripoti na toa matokeo: Andaa ripoti ya kina inayohitimisha matokeo na uwasilishe kwa wadau husika. Ripoti hii inapaswa kujumuisha mapendekezo yoyote kwa uchunguzi zaidi au urekebishaji.
 
 By following this basic forensic methodology and using tools like Volatility, you can effectively analyze memory dumps and uncover valuable information for forensic investigations.
+
 ```bash
 #Dump a hive
 volatility --profile=Win7SP1x86_23418 hivedump -o 0x9aad6148 -f file.dmp #Offset extracted by hivelist
 #Dump all hives
 volatility --profile=Win7SP1x86_23418 hivedump -f file.dmp
 ```
+
 ## Mfumo wa faili
 
 ### Kusakinisha
@@ -1501,13 +1547,14 @@ volatility --profile=Win7SP1x86_23418 hivedump -f file.dmp
 ```bash
 #See vol2
 ```
-## Volatility Cheatsheet
 
-### Introduction
+### Volatility Cheatsheet
+
+#### Introduction
 
 This cheatsheet provides a quick reference guide for using Volatility, a popular open-source memory forensics framework. Volatility allows analysts to extract valuable information from memory dumps, such as running processes, network connections, and loaded modules.
 
-### Installation
+#### Installation
 
 To install Volatility, follow these steps:
 
@@ -1517,62 +1564,66 @@ To install Volatility, follow these steps:
 4. Extract the downloaded archive.
 5. Navigate to the extracted directory and run `python vol.py`.
 
-### Basic Commands
+#### Basic Commands
 
 Here are some basic commands to get started with Volatility:
 
-- `imageinfo`: Displays information about the memory dump, such as the operating system version and architecture.
-- `pslist`: Lists all running processes.
-- `pstree`: Displays a tree view of the running processes.
-- `netscan`: Lists all network connections.
-- `modules`: Lists all loaded modules.
-- `dlllist`: Lists all loaded DLLs.
-- `handles`: Lists all open handles.
-- `cmdline`: Displays the command line arguments of a process.
-- `filescan`: Scans for file objects in memory.
-- `dumpfiles`: Extracts files from memory.
+* `imageinfo`: Displays information about the memory dump, such as the operating system version and architecture.
+* `pslist`: Lists all running processes.
+* `pstree`: Displays a tree view of the running processes.
+* `netscan`: Lists all network connections.
+* `modules`: Lists all loaded modules.
+* `dlllist`: Lists all loaded DLLs.
+* `handles`: Lists all open handles.
+* `cmdline`: Displays the command line arguments of a process.
+* `filescan`: Scans for file objects in memory.
+* `dumpfiles`: Extracts files from memory.
 
-### Advanced Commands
+#### Advanced Commands
 
 Here are some advanced commands for more in-depth analysis:
 
-- `malfind`: Scans for common malware injection techniques.
-- `apihooks`: Lists all API hooks.
-- `ldrmodules`: Lists all loaded modules with their base addresses.
-- `vadinfo`: Displays information about the Virtual Address Descriptors (VADs).
-- `vaddump`: Dumps the memory of a specific VAD.
-- `vadtree`: Displays a tree view of the VADs.
-- `memmap`: Displays the memory map of the system.
-- `memdump`: Dumps the entire physical memory.
-- `strings`: Searches for ASCII and Unicode strings in memory.
+* `malfind`: Scans for common malware injection techniques.
+* `apihooks`: Lists all API hooks.
+* `ldrmodules`: Lists all loaded modules with their base addresses.
+* `vadinfo`: Displays information about the Virtual Address Descriptors (VADs).
+* `vaddump`: Dumps the memory of a specific VAD.
+* `vadtree`: Displays a tree view of the VADs.
+* `memmap`: Displays the memory map of the system.
+* `memdump`: Dumps the entire physical memory.
+* `strings`: Searches for ASCII and Unicode strings in memory.
 
-### Plugins
+#### Plugins
 
 Volatility supports a wide range of plugins that extend its functionality. Some popular plugins include:
 
-- `malfind`: Scans for common malware injection techniques.
-- `timeliner`: Creates a timeline of system activity.
-- `dumpregistry`: Dumps the Windows registry.
-- `dumpcerts`: Dumps certificates from memory.
-- `dumpfiles`: Extracts files from memory.
-- `hivelist`: Lists the registry hives.
-- `hivedump`: Dumps a specific registry hive.
+* `malfind`: Scans for common malware injection techniques.
+* `timeliner`: Creates a timeline of system activity.
+* `dumpregistry`: Dumps the Windows registry.
+* `dumpcerts`: Dumps certificates from memory.
+* `dumpfiles`: Extracts files from memory.
+* `hivelist`: Lists the registry hives.
+* `hivedump`: Dumps a specific registry hive.
 
-### Conclusion
+#### Conclusion
 
 Volatility is a powerful tool for memory forensics analysis. By using the commands and plugins provided in this cheatsheet, analysts can extract valuable information from memory dumps and gain insights into system activity.
+
 ```bash
 volatility --profile=SomeLinux -f file.dmp linux_mount
 volatility --profile=SomeLinux -f file.dmp linux_recover_filesystem #Dump the entire filesystem (if possible)
 ```
-### Kuchunguza/kudump
+
+#### Kuchunguza/kudump
 
 {% tabs %}
-{% tab title="vol3" %}
+{% tab title="undefined" %}
 ```bash
 ./vol.py -f file.dmp windows.filescan.FileScan #Scan for files inside the dump
 ./vol.py -f file.dmp windows.dumpfiles.DumpFiles --physaddr <0xAAAAA> #Offset from previous command
 ```
+{% endtab %}
+
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 filescan -f file.dmp #Scan for files inside the dump
@@ -1583,13 +1634,16 @@ volatility --profile=SomeLinux -f file.dmp linux_enumerate_files
 volatility --profile=SomeLinux -f file.dmp linux_find_file -F /path/to/file
 volatility --profile=SomeLinux -f file.dmp linux_find_file -i 0xINODENUMBER -O /path/to/dump/file
 ```
-### Mfumo wa Faili Mkuu
+
+#### Mfumo wa Faili Mkuu
 
 {% tabs %}
-{% tab title="vol3" %}
+{% tab title="undefined" %}
 ```bash
 # I couldn't find any plugin to extract this information in volatility3
 ```
+{% endtab %}
+
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 mftparser -f file.dmp
@@ -1599,18 +1653,20 @@ volatility --profile=Win7SP1x86_23418 mftparser -f file.dmp
 
 **Mfumo wa faili wa NTFS** hutumia sehemu muhimu inayojulikana kama _master file table_ (MFT). Jedwali hili linajumuisha angalau kuingia kwa kila faili kwenye kiasi, likijumuisha MFT yenyewe pia. Maelezo muhimu kuhusu kila faili, kama vile **ukubwa, alama za wakati, ruhusa, na data halisi**, zimefungwa ndani ya kuingia za MFT au katika maeneo nje ya MFT lakini yanayotajwa na kuingia hizi. Maelezo zaidi yanaweza kupatikana katika [hati rasmi](https://docs.microsoft.com/en-us/windows/win32/fileio/master-file-table).
 
-### Vyeti/Maneno ya SSL
+#### Vyeti/Maneno ya SSL
+
 ```bash
 #vol3 allows to search for certificates inside the registry
 ./vol.py -f file.dmp windows.registry.certificates.Certificates
 ```
-## Volatility Cheatsheet
 
-### Introduction
+### Volatility Cheatsheet
+
+#### Introduction
 
 This cheatsheet provides a quick reference guide for using Volatility, a popular open-source memory forensics framework. Volatility allows analysts to extract valuable information from memory dumps, such as running processes, network connections, and loaded modules.
 
-### Installation
+#### Installation
 
 To install Volatility, follow these steps:
 
@@ -1620,56 +1676,58 @@ To install Volatility, follow these steps:
 4. Extract the downloaded archive.
 5. Navigate to the extracted directory and run `python vol.py`.
 
-### Basic Commands
+#### Basic Commands
 
 Here are some basic commands to get started with Volatility:
 
-- `imageinfo`: Displays information about the memory dump, such as the operating system version and architecture.
-- `pslist`: Lists all running processes.
-- `pstree`: Displays a tree view of the running processes.
-- `netscan`: Lists all network connections.
-- `modules`: Lists all loaded modules.
-- `dlllist`: Lists all loaded DLLs.
-- `handles`: Lists all open handles.
-- `cmdline`: Displays the command line arguments of a process.
-- `filescan`: Scans for file objects in memory.
-- `dumpfiles`: Extracts files from memory.
+* `imageinfo`: Displays information about the memory dump, such as the operating system version and architecture.
+* `pslist`: Lists all running processes.
+* `pstree`: Displays a tree view of the running processes.
+* `netscan`: Lists all network connections.
+* `modules`: Lists all loaded modules.
+* `dlllist`: Lists all loaded DLLs.
+* `handles`: Lists all open handles.
+* `cmdline`: Displays the command line arguments of a process.
+* `filescan`: Scans for file objects in memory.
+* `dumpfiles`: Extracts files from memory.
 
-### Advanced Commands
+#### Advanced Commands
 
 Here are some advanced commands for more in-depth analysis:
 
-- `malfind`: Scans for common malware injection techniques.
-- `apihooks`: Lists all API hooks.
-- `ldrmodules`: Lists all loaded modules with their base addresses.
-- `vadinfo`: Displays information about the Virtual Address Descriptors (VADs).
-- `vaddump`: Dumps the memory of a specific VAD.
-- `vadtree`: Displays a tree view of the VADs.
-- `memmap`: Displays the memory map of the system.
-- `memdump`: Dumps the entire physical memory.
-- `strings`: Searches for ASCII and Unicode strings in memory.
+* `malfind`: Scans for common malware injection techniques.
+* `apihooks`: Lists all API hooks.
+* `ldrmodules`: Lists all loaded modules with their base addresses.
+* `vadinfo`: Displays information about the Virtual Address Descriptors (VADs).
+* `vaddump`: Dumps the memory of a specific VAD.
+* `vadtree`: Displays a tree view of the VADs.
+* `memmap`: Displays the memory map of the system.
+* `memdump`: Dumps the entire physical memory.
+* `strings`: Searches for ASCII and Unicode strings in memory.
 
-### Plugins
+#### Plugins
 
 Volatility supports a wide range of plugins that extend its functionality. Some popular plugins include:
 
-- `malfind`: Scans for common malware injection techniques.
-- `timeliner`: Creates a timeline of system activity.
-- `dumpregistry`: Dumps the Windows registry.
-- `hivelist`: Lists the registry hives.
-- `hashdump`: Dumps the password hashes.
-- `shellbags`: Lists the recently accessed folders.
-- `cmdscan`: Scans for command history in memory.
+* `malfind`: Scans for common malware injection techniques.
+* `timeliner`: Creates a timeline of system activity.
+* `dumpregistry`: Dumps the Windows registry.
+* `hivelist`: Lists the registry hives.
+* `hashdump`: Dumps the password hashes.
+* `shellbags`: Lists the recently accessed folders.
+* `cmdscan`: Scans for command history in memory.
 
-### Conclusion
+#### Conclusion
 
 Volatility is a powerful tool for memory forensics analysis. By using the commands and plugins provided in this cheatsheet, analysts can extract valuable information from memory dumps and uncover evidence of malicious activity.
+
 ```bash
 #vol2 allos you to search and dump certificates from memory
 #Interesting options for this modules are: --pid, --name, --ssl
 volatility --profile=Win7SP1x86_23418 dumpcerts --dump-dir=. -f file.dmp
 ```
-## Programu hasidi
+
+### Programu hasidi
 
 {% tabs %}
 {% tab title="vol3" %}
@@ -1686,13 +1744,14 @@ volatility --profile=Win7SP1x86_23418 dumpcerts --dump-dir=. -f file.dmp
 ./vol.py -f file.dmp linux.check_modules.Check_modules #Compares module list to sysfs info, if available
 ./vol.py -f file.dmp linux.tty_check.tty_check #Checks tty devices for hooks
 ```
-## Volatility Cheatsheet
 
-### Introduction
+### Volatility Cheatsheet
+
+#### Introduction
 
 This cheatsheet provides a quick reference guide for using Volatility, a popular open-source memory forensics framework. Volatility allows analysts to extract valuable information from memory dumps, such as running processes, network connections, and loaded modules.
 
-### Installation
+#### Installation
 
 To install Volatility, follow these steps:
 
@@ -1702,47 +1761,48 @@ To install Volatility, follow these steps:
 4. Extract the downloaded archive.
 5. Navigate to the extracted directory and run `python vol.py`.
 
-### Basic Commands
+#### Basic Commands
 
 Here are some basic commands to get started with Volatility:
 
-- `imageinfo`: Displays information about the memory dump, such as the operating system version and architecture.
-- `pslist`: Lists all running processes.
-- `pstree`: Displays a tree view of the running processes.
-- `netscan`: Lists all network connections.
-- `modules`: Lists all loaded modules.
-- `dlllist`: Lists all loaded DLLs.
-- `handles`: Lists all open handles.
-- `filescan`: Scans for file objects in memory.
-- `cmdscan`: Scans for command history in memory.
+* `imageinfo`: Displays information about the memory dump, such as the operating system version and architecture.
+* `pslist`: Lists all running processes.
+* `pstree`: Displays a tree view of the running processes.
+* `netscan`: Lists all network connections.
+* `modules`: Lists all loaded modules.
+* `dlllist`: Lists all loaded DLLs.
+* `handles`: Lists all open handles.
+* `filescan`: Scans for file objects in memory.
+* `cmdscan`: Scans for command history in memory.
 
-### Advanced Commands
+#### Advanced Commands
 
 Here are some advanced commands for more in-depth analysis:
 
-- `malfind`: Scans for injected or malicious code.
-- `apihooks`: Lists all API hooks.
-- `ldrmodules`: Lists all loaded modules with their base addresses.
-- `vadinfo`: Displays information about the Virtual Address Descriptors (VADs).
-- `vadtree`: Displays a tree view of the VADs.
-- `vaddump`: Dumps the memory contents of a specific VAD.
-- `memdump`: Dumps the memory contents of a specific process.
-- `dumpfiles`: Dumps files from memory.
-- `dumpregistry`: Dumps the Windows registry from memory.
+* `malfind`: Scans for injected or malicious code.
+* `apihooks`: Lists all API hooks.
+* `ldrmodules`: Lists all loaded modules with their base addresses.
+* `vadinfo`: Displays information about the Virtual Address Descriptors (VADs).
+* `vadtree`: Displays a tree view of the VADs.
+* `vaddump`: Dumps the memory contents of a specific VAD.
+* `memdump`: Dumps the memory contents of a specific process.
+* `dumpfiles`: Dumps files from memory.
+* `dumpregistry`: Dumps the Windows registry from memory.
 
-### Plugins
+#### Plugins
 
 Volatility also supports plugins, which provide additional functionality. Some popular plugins include:
 
-- `malfind`: Scans for injected or malicious code.
-- `timeliner`: Extracts timeline information from memory.
-- `apihooks`: Lists all API hooks.
-- `cmdscan`: Scans for command history in memory.
-- `dumpcerts`: Dumps certificates from memory.
+* `malfind`: Scans for injected or malicious code.
+* `timeliner`: Extracts timeline information from memory.
+* `apihooks`: Lists all API hooks.
+* `cmdscan`: Scans for command history in memory.
+* `dumpcerts`: Dumps certificates from memory.
 
-### Conclusion
+#### Conclusion
 
 Volatility is a powerful tool for memory forensics analysis. This cheatsheet provides a quick reference guide for using Volatility and its various commands and plugins. With Volatility, analysts can extract valuable information from memory dumps to aid in investigations and incident response.
+
 ```bash
 volatility --profile=Win7SP1x86_23418 -f file.dmp malfind [-D /tmp] #Find hidden and injected code [dump each suspicious section]
 volatility --profile=Win7SP1x86_23418 -f file.dmp apihooks #Detect API hooks in process and kernel memory
@@ -1761,10 +1821,11 @@ volatility --profile=SomeLinux -f file.dmp linux_keyboard_notifiers #Keyloggers
 {% endtab %}
 {% endtabs %}
 
-### Uchunguzi kwa kutumia yara
+#### Uchunguzi kwa kutumia yara
 
 Tumia skripti hii kupakua na kuunganisha sheria zote za yara za zisizo kutoka kwenye github: [https://gist.github.com/andreafortuna/29c6ea48adf3d45a979a78763cdc7ce9](https://gist.github.com/andreafortuna/29c6ea48adf3d45a979a78763cdc7ce9)\
 Tengeneza saraka ya _**kanuni**_ na itekeleze. Hii itaunda faili iliyoitwa _**malware\_rules.yar**_ ambayo ina sheria zote za yara kwa ajili ya zisizo.
+
 ```bash
 wget https://gist.githubusercontent.com/andreafortuna/29c6ea48adf3d45a979a78763cdc7ce9/raw/4ec711d37f1b428b63bed1f786b26a0654aa2f31/malware_yara_rules.py
 mkdir rules
@@ -1774,13 +1835,14 @@ python malware_yara_rules.py
 #All
 ./vol.py -f file.dmp yarascan.YaraScan --yara-file /tmp/malware_rules.yar
 ```
-## Volatility Cheatsheet
 
-### Introduction
+### Volatility Cheatsheet
+
+#### Introduction
 
 This cheatsheet provides a quick reference guide for using Volatility, a popular open-source memory forensics framework. Volatility allows analysts to extract valuable information from memory dumps, such as running processes, network connections, and loaded modules.
 
-### Installation
+#### Installation
 
 To install Volatility, follow these steps:
 
@@ -1790,50 +1852,51 @@ To install Volatility, follow these steps:
 4. Extract the downloaded archive.
 5. Navigate to the extracted directory and run `python vol.py`.
 
-### Basic Commands
+#### Basic Commands
 
 Here are some basic commands to get started with Volatility:
 
-- `imageinfo`: Displays information about the memory dump, such as the operating system version and architecture.
-- `pslist`: Lists all running processes.
-- `pstree`: Displays a tree view of the running processes.
-- `netscan`: Lists all network connections.
-- `modules`: Lists all loaded modules.
-- `dlllist`: Lists all loaded DLLs.
-- `handles`: Lists all open handles.
-- `cmdline`: Displays the command line arguments of a process.
-- `filescan`: Scans for file objects in memory.
-- `dumpfiles`: Extracts files from memory.
+* `imageinfo`: Displays information about the memory dump, such as the operating system version and architecture.
+* `pslist`: Lists all running processes.
+* `pstree`: Displays a tree view of the running processes.
+* `netscan`: Lists all network connections.
+* `modules`: Lists all loaded modules.
+* `dlllist`: Lists all loaded DLLs.
+* `handles`: Lists all open handles.
+* `cmdline`: Displays the command line arguments of a process.
+* `filescan`: Scans for file objects in memory.
+* `dumpfiles`: Extracts files from memory.
 
-### Advanced Commands
+#### Advanced Commands
 
 Here are some advanced commands for more in-depth analysis:
 
-- `malfind`: Scans for common malware injection techniques.
-- `apihooks`: Lists all API hooks.
-- `ldrmodules`: Lists all loaded modules with their base addresses.
-- `vadinfo`: Displays information about the Virtual Address Descriptors (VADs).
-- `vaddump`: Dumps the memory of a specific VAD.
-- `vadtree`: Displays a tree view of the VADs.
-- `memmap`: Displays the memory map of the system.
-- `memdump`: Dumps the entire physical memory.
-- `strings`: Searches for ASCII and Unicode strings in memory.
+* `malfind`: Scans for common malware injection techniques.
+* `apihooks`: Lists all API hooks.
+* `ldrmodules`: Lists all loaded modules with their base addresses.
+* `vadinfo`: Displays information about the Virtual Address Descriptors (VADs).
+* `vaddump`: Dumps the memory of a specific VAD.
+* `vadtree`: Displays a tree view of the VADs.
+* `memmap`: Displays the memory map of the system.
+* `memdump`: Dumps the entire physical memory.
+* `strings`: Searches for ASCII and Unicode strings in memory.
 
-### Plugins
+#### Plugins
 
 Volatility supports a wide range of plugins that extend its functionality. Some popular plugins include:
 
-- `malfind`: Scans for common malware injection techniques.
-- `timeliner`: Creates a timeline of system activity.
-- `dumpregistry`: Dumps the Windows registry.
-- `dumpcerts`: Dumps certificates from memory.
-- `dumpfiles`: Extracts files from memory.
-- `hivelist`: Lists the registry hives.
-- `hivedump`: Dumps a specific registry hive.
+* `malfind`: Scans for common malware injection techniques.
+* `timeliner`: Creates a timeline of system activity.
+* `dumpregistry`: Dumps the Windows registry.
+* `dumpcerts`: Dumps certificates from memory.
+* `dumpfiles`: Extracts files from memory.
+* `hivelist`: Lists the registry hives.
+* `hivedump`: Dumps a specific registry hive.
 
-### Conclusion
+#### Conclusion
 
 Volatility is a powerful tool for memory forensics analysis. By using the commands and plugins provided in this cheatsheet, analysts can extract valuable information from memory dumps and uncover evidence of malicious activity.
+
 ```bash
 wget https://gist.githubusercontent.com/andreafortuna/29c6ea48adf3d45a979a78763cdc7ce9/raw/4ec711d37f1b428b63bed1f786b26a0654aa2f31/malware_yara_rules.py
 mkdir rules
@@ -1843,21 +1906,23 @@ volatility --profile=Win7SP1x86_23418 yarascan -y malware_rules.yar -f ch2.dmp |
 {% endtab %}
 {% endtabs %}
 
-## MISC
+### MISC
 
-### Vifaa vya nje
+#### Vifaa vya nje
 
 Ikiwa unataka kutumia vifaa vya nje hakikisha kuwa folda zinazohusiana na vifaa hivyo ni parameter ya kwanza iliyotumiwa.
+
 ```bash
 ./vol.py --plugin-dirs "/tmp/plugins/" [...]
 ```
-## Volatility Cheatsheet
 
-### Introduction
+### Volatility Cheatsheet
+
+#### Introduction
 
 This cheatsheet provides a quick reference guide for using Volatility, a popular open-source memory forensics framework. Volatility allows analysts to extract valuable information from memory dumps, such as running processes, network connections, and loaded modules.
 
-### Installation
+#### Installation
 
 To install Volatility, follow these steps:
 
@@ -1867,50 +1932,51 @@ To install Volatility, follow these steps:
 4. Extract the downloaded archive.
 5. Navigate to the extracted directory and run `python vol.py`.
 
-### Basic Commands
+#### Basic Commands
 
 Here are some basic commands to get started with Volatility:
 
-- `imageinfo`: Displays information about the memory dump, such as the operating system version and architecture.
-- `pslist`: Lists all running processes.
-- `pstree`: Displays a tree view of the running processes.
-- `netscan`: Lists all network connections.
-- `modules`: Lists all loaded modules.
-- `dlllist`: Lists all loaded DLLs.
-- `handles`: Lists all open handles.
-- `cmdline`: Displays the command line arguments of a process.
-- `filescan`: Scans for file objects in memory.
-- `dumpfiles`: Extracts files from memory.
+* `imageinfo`: Displays information about the memory dump, such as the operating system version and architecture.
+* `pslist`: Lists all running processes.
+* `pstree`: Displays a tree view of the running processes.
+* `netscan`: Lists all network connections.
+* `modules`: Lists all loaded modules.
+* `dlllist`: Lists all loaded DLLs.
+* `handles`: Lists all open handles.
+* `cmdline`: Displays the command line arguments of a process.
+* `filescan`: Scans for file objects in memory.
+* `dumpfiles`: Extracts files from memory.
 
-### Advanced Commands
+#### Advanced Commands
 
 Here are some advanced commands for more in-depth analysis:
 
-- `malfind`: Scans for common malware injection techniques.
-- `apihooks`: Lists all API hooks.
-- `ldrmodules`: Lists all loaded modules with their base addresses.
-- `vadinfo`: Displays information about the Virtual Address Descriptors (VADs).
-- `vaddump`: Dumps the memory of a specific VAD.
-- `vadtree`: Displays a tree view of the VADs.
-- `memmap`: Displays the memory map of the system.
-- `memdump`: Dumps the entire physical memory.
-- `strings`: Searches for ASCII and Unicode strings in memory.
+* `malfind`: Scans for common malware injection techniques.
+* `apihooks`: Lists all API hooks.
+* `ldrmodules`: Lists all loaded modules with their base addresses.
+* `vadinfo`: Displays information about the Virtual Address Descriptors (VADs).
+* `vaddump`: Dumps the memory of a specific VAD.
+* `vadtree`: Displays a tree view of the VADs.
+* `memmap`: Displays the memory map of the system.
+* `memdump`: Dumps the entire physical memory.
+* `strings`: Searches for ASCII and Unicode strings in memory.
 
-### Plugins
+#### Plugins
 
 Volatility supports a wide range of plugins that extend its functionality. Some popular plugins include:
 
-- `malfind`: Scans for common malware injection techniques.
-- `timeliner`: Creates a timeline of system activity.
-- `dumpregistry`: Dumps the Windows registry.
-- `dumpcerts`: Dumps certificates from memory.
-- `dumpfiles`: Extracts files from memory.
-- `hivelist`: Lists the registry hives.
-- `hivedump`: Dumps a specific registry hive.
+* `malfind`: Scans for common malware injection techniques.
+* `timeliner`: Creates a timeline of system activity.
+* `dumpregistry`: Dumps the Windows registry.
+* `dumpcerts`: Dumps certificates from memory.
+* `dumpfiles`: Extracts files from memory.
+* `hivelist`: Lists the registry hives.
+* `hivedump`: Dumps a specific registry hive.
 
-### Conclusion
+#### Conclusion
 
 Volatility is a powerful tool for memory forensics analysis. This cheatsheet provides a quick reference guide for using Volatility and its various commands and plugins. By leveraging Volatility's capabilities, analysts can extract valuable information from memory dumps and gain insights into system activity.
+
 ```bash
 volatilitye --plugins="/tmp/plugins/" [...]
 ```
@@ -1920,16 +1986,17 @@ volatilitye --plugins="/tmp/plugins/" [...]
 #### Autoruns
 
 Pakua kutoka [https://github.com/tomchop/volatility-autoruns](https://github.com/tomchop/volatility-autoruns)
+
 ```
 volatility --plugins=volatility-autoruns/ --profile=WinXPSP2x86 -f file.dmp autoruns
 ```
+
 ### Mutexes
 
-{% tabs %}
-{% tab title="vol3" %}
 ```
 ./vol.py -f file.dmp windows.mutantscan.MutantScan
 ```
+
 ## Volatility Cheatsheet
 
 ### Introduction
@@ -1950,50 +2017,52 @@ To install Volatility, follow these steps:
 
 Here are some basic commands to get started with Volatility:
 
-- `imageinfo`: Displays information about the memory dump, such as the operating system version and architecture.
-- `pslist`: Lists all running processes.
-- `pstree`: Displays a tree view of the running processes.
-- `netscan`: Lists all network connections.
-- `modules`: Lists all loaded modules.
-- `dlllist`: Lists all loaded DLLs.
-- `handles`: Lists all open handles.
-- `cmdline`: Displays the command line arguments of a process.
-- `filescan`: Scans for file objects in memory.
-- `dumpfiles`: Extracts files from memory.
+* `imageinfo`: Displays information about the memory dump, such as the operating system version and architecture.
+* `pslist`: Lists all running processes.
+* `pstree`: Displays a tree view of the running processes.
+* `netscan`: Lists all network connections.
+* `modules`: Lists all loaded modules.
+* `dlllist`: Lists all loaded DLLs.
+* `handles`: Lists all open handles.
+* `cmdline`: Displays the command line arguments of a process.
+* `filescan`: Scans for file objects in memory.
+* `dumpfiles`: Extracts files from memory.
 
 ### Advanced Commands
 
 Here are some advanced commands for more in-depth analysis:
 
-- `malfind`: Scans for common malware injection techniques.
-- `apihooks`: Lists all API hooks.
-- `ldrmodules`: Lists all loaded modules with their base addresses.
-- `vadinfo`: Displays information about the Virtual Address Descriptors (VADs).
-- `vaddump`: Dumps the memory of a specific VAD.
-- `vadtree`: Displays a tree view of the VADs.
-- `memmap`: Displays the memory map of the system.
-- `memdump`: Dumps the entire physical memory.
-- `strings`: Searches for ASCII and Unicode strings in memory.
+* `malfind`: Scans for common malware injection techniques.
+* `apihooks`: Lists all API hooks.
+* `ldrmodules`: Lists all loaded modules with their base addresses.
+* `vadinfo`: Displays information about the Virtual Address Descriptors (VADs).
+* `vaddump`: Dumps the memory of a specific VAD.
+* `vadtree`: Displays a tree view of the VADs.
+* `memmap`: Displays the memory map of the system.
+* `memdump`: Dumps the entire physical memory.
+* `strings`: Searches for ASCII and Unicode strings in memory.
 
 ### Plugins
 
 Volatility supports a wide range of plugins that extend its functionality. Some popular plugins include:
 
-- `malfind`: Scans for common malware injection techniques.
-- `timeliner`: Creates a timeline of system activity.
-- `dumpregistry`: Dumps the Windows registry.
-- `hivelist`: Lists the registry hives.
-- `hashdump`: Dumps the password hashes.
-- `shellbags`: Lists the recently accessed folders.
-- `cmdscan`: Scans for command history in memory.
+* `malfind`: Scans for common malware injection techniques.
+* `timeliner`: Creates a timeline of system activity.
+* `dumpregistry`: Dumps the Windows registry.
+* `hivelist`: Lists the registry hives.
+* `hashdump`: Dumps the password hashes.
+* `shellbags`: Lists the recently accessed folders.
+* `cmdscan`: Scans for command history in memory.
 
 ### Conclusion
 
 Volatility is a powerful tool for memory forensics analysis. By using the commands and plugins provided in this cheatsheet, analysts can extract valuable information from memory dumps and uncover evidence of malicious activity.
+
 ```bash
 volatility --profile=Win7SP1x86_23418 mutantscan -f file.dmp
 volatility --profile=Win7SP1x86_23418 -f file.dmp handles -p <PID> -t mutant
 ```
+
 ### Viungo ishara
 
 {% tabs %}
@@ -2001,13 +2070,14 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp handles -p <PID> -t mutant
 ```bash
 ./vol.py -f file.dmp windows.symlinkscan.SymlinkScan
 ```
-## Volatility Cheatsheet
 
-### Introduction
+### Volatility Cheatsheet
+
+#### Introduction
 
 This cheatsheet provides a quick reference guide for using Volatility, a popular open-source memory forensics framework. Volatility allows analysts to extract valuable information from memory dumps, such as running processes, network connections, and loaded modules.
 
-### Installation
+#### Installation
 
 To install Volatility, follow these steps:
 
@@ -2017,50 +2087,51 @@ To install Volatility, follow these steps:
 4. Extract the downloaded archive.
 5. Navigate to the extracted directory and run `python vol.py`.
 
-### Basic Commands
+#### Basic Commands
 
 Here are some basic commands to get started with Volatility:
 
-- `imageinfo`: Displays information about the memory dump, such as the operating system version and architecture.
-- `pslist`: Lists all running processes.
-- `pstree`: Displays a tree view of the running processes.
-- `netscan`: Lists all network connections.
-- `modules`: Lists all loaded modules.
-- `dlllist`: Lists all loaded DLLs.
-- `handles`: Lists all open handles.
-- `cmdline`: Displays the command line arguments of a process.
-- `filescan`: Scans for file objects in memory.
-- `dumpfiles`: Extracts files from memory.
+* `imageinfo`: Displays information about the memory dump, such as the operating system version and architecture.
+* `pslist`: Lists all running processes.
+* `pstree`: Displays a tree view of the running processes.
+* `netscan`: Lists all network connections.
+* `modules`: Lists all loaded modules.
+* `dlllist`: Lists all loaded DLLs.
+* `handles`: Lists all open handles.
+* `cmdline`: Displays the command line arguments of a process.
+* `filescan`: Scans for file objects in memory.
+* `dumpfiles`: Extracts files from memory.
 
-### Advanced Commands
+#### Advanced Commands
 
 Here are some advanced commands for more in-depth analysis:
 
-- `malfind`: Scans for common malware injection techniques.
-- `apihooks`: Lists all API hooks.
-- `ldrmodules`: Lists all loaded modules with their base addresses.
-- `vadinfo`: Displays information about the Virtual Address Descriptors (VADs).
-- `vaddump`: Dumps the memory of a specific VAD.
-- `vadtree`: Displays a tree view of the VADs.
-- `memmap`: Displays the memory map of the system.
-- `memdump`: Dumps the entire physical memory.
-- `strings`: Searches for ASCII and Unicode strings in memory.
+* `malfind`: Scans for common malware injection techniques.
+* `apihooks`: Lists all API hooks.
+* `ldrmodules`: Lists all loaded modules with their base addresses.
+* `vadinfo`: Displays information about the Virtual Address Descriptors (VADs).
+* `vaddump`: Dumps the memory of a specific VAD.
+* `vadtree`: Displays a tree view of the VADs.
+* `memmap`: Displays the memory map of the system.
+* `memdump`: Dumps the entire physical memory.
+* `strings`: Searches for ASCII and Unicode strings in memory.
 
-### Plugins
+#### Plugins
 
 Volatility supports a wide range of plugins that extend its functionality. Some popular plugins include:
 
-- `malfind`: Scans for common malware injection techniques.
-- `timeliner`: Creates a timeline of system activity.
-- `dumpregistry`: Dumps the Windows registry.
-- `dumpcerts`: Dumps certificates from memory.
-- `dumpfiles`: Extracts files from memory.
-- `hivelist`: Lists the registry hives.
-- `hivedump`: Dumps a specific registry hive.
+* `malfind`: Scans for common malware injection techniques.
+* `timeliner`: Creates a timeline of system activity.
+* `dumpregistry`: Dumps the Windows registry.
+* `dumpcerts`: Dumps certificates from memory.
+* `dumpfiles`: Extracts files from memory.
+* `hivelist`: Lists the registry hives.
+* `hivedump`: Dumps a specific registry hive.
 
-### Conclusion
+#### Conclusion
 
 Volatility is a powerful tool for memory forensics analysis. This cheatsheet provides a quick reference guide for using Volatility and its various commands and plugins. By leveraging Volatility's capabilities, analysts can extract valuable information from memory dumps and gain insights into system activity.
+
 ```bash
 volatility --profile=Win7SP1x86_23418 -f file.dmp symlinkscan
 ```
@@ -2070,9 +2141,11 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp symlinkscan
 ### Bash
 
 Inawezekana **kusoma historia ya bash kutoka kwenye kumbukumbu.** Unaweza pia kudump faili ya _.bash\_history_, lakini ikiwa imelemazwa utafurahi kuwa unaweza kutumia moduli hii ya volatility.
+
 ```
 ./vol.py -f file.dmp linux.bash.Bash
 ```
+
 ## Volatility Cheatsheet
 
 ### Introduction
@@ -2093,56 +2166,57 @@ To install Volatility, follow these steps:
 
 Here are some basic commands to get started with Volatility:
 
-- `imageinfo`: Displays information about the memory dump, such as the operating system version and architecture.
-- `pslist`: Lists all running processes.
-- `pstree`: Displays a tree view of the running processes.
-- `netscan`: Lists all network connections.
-- `modules`: Lists all loaded modules.
-- `dlllist`: Lists all loaded DLLs.
-- `handles`: Lists all open handles.
-- `filescan`: Scans for file objects in memory.
+* `imageinfo`: Displays information about the memory dump, such as the operating system version and architecture.
+* `pslist`: Lists all running processes.
+* `pstree`: Displays a tree view of the running processes.
+* `netscan`: Lists all network connections.
+* `modules`: Lists all loaded modules.
+* `dlllist`: Lists all loaded DLLs.
+* `handles`: Lists all open handles.
+* `filescan`: Scans for file objects in memory.
 
 ### Advanced Commands
 
 Here are some advanced commands for more in-depth analysis:
 
-- `malfind`: Scans for common malware injection techniques.
-- `apihooks`: Lists all API hooks.
-- `ldrmodules`: Lists all loaded modules with their base addresses.
-- `vadinfo`: Displays information about the Virtual Address Descriptors (VADs).
-- `vadtree`: Displays a tree view of the VADs.
-- `cmdscan`: Scans for command-line history.
-- `consoles`: Lists all open console handles.
-- `privs`: Lists all privileges for each process.
+* `malfind`: Scans for common malware injection techniques.
+* `apihooks`: Lists all API hooks.
+* `ldrmodules`: Lists all loaded modules with their base addresses.
+* `vadinfo`: Displays information about the Virtual Address Descriptors (VADs).
+* `vadtree`: Displays a tree view of the VADs.
+* `cmdscan`: Scans for command-line history.
+* `consoles`: Lists all open console handles.
+* `privs`: Lists all privileges for each process.
 
 ### Plugin Usage
 
 Volatility also provides a wide range of plugins for specific analysis tasks. To use a plugin, simply run `python vol.py <plugin_name>`. Some popular plugins include:
 
-- `malfind`: Scans for common malware injection techniques.
-- `timeliner`: Extracts timeline information from memory dumps.
-- `dumpfiles`: Extracts files from memory dumps.
-- `hashdump`: Dumps password hashes from memory.
-- `svcscan`: Lists all Windows services.
-- `printkey`: Prints the contents of a registry key.
+* `malfind`: Scans for common malware injection techniques.
+* `timeliner`: Extracts timeline information from memory dumps.
+* `dumpfiles`: Extracts files from memory dumps.
+* `hashdump`: Dumps password hashes from memory.
+* `svcscan`: Lists all Windows services.
+* `printkey`: Prints the contents of a registry key.
 
 ### Conclusion
 
 Volatility is a powerful tool for memory forensics analysis. By using the commands and plugins provided in this cheatsheet, analysts can extract valuable information from memory dumps and uncover evidence of malicious activity.
+
 ```
 volatility --profile=Win7SP1x86_23418 -f file.dmp linux_bash
 ```
+
 ### Muda
 
-{% tabs %}
-{% tab title="vol3" %}
 ```bash
 ./vol.py -f file.dmp timeLiner.TimeLiner
 ```
-{% tab title="vol2" %}
+
 ```
 volatility --profile=Win7SP1x86_23418 -f timeliner
 ```
+
 ### Madereva
 
 {% tabs %}
@@ -2150,13 +2224,14 @@ volatility --profile=Win7SP1x86_23418 -f timeliner
 ```
 ./vol.py -f file.dmp windows.driverscan.DriverScan
 ```
-## Volatility Cheatsheet
 
-### Introduction
+### Volatility Cheatsheet
+
+#### Introduction
 
 This cheatsheet provides a quick reference guide for using Volatility, a popular open-source memory forensics framework. Volatility allows analysts to extract valuable information from memory dumps, such as running processes, network connections, and loaded modules.
 
-### Installation
+#### Installation
 
 To install Volatility, follow these steps:
 
@@ -2166,48 +2241,49 @@ To install Volatility, follow these steps:
 4. Extract the downloaded archive.
 5. Navigate to the extracted directory and run `python vol.py`.
 
-### Basic Commands
+#### Basic Commands
 
 Here are some basic commands to get started with Volatility:
 
-- `imageinfo`: Displays information about the memory dump, such as the operating system version and architecture.
-- `pslist`: Lists all running processes.
-- `pstree`: Displays a tree view of the running processes.
-- `netscan`: Lists all network connections.
-- `modules`: Lists all loaded modules.
-- `dlllist`: Lists all loaded DLLs.
-- `handles`: Lists all open handles.
-- `filescan`: Scans for file objects in memory.
-- `cmdscan`: Scans for command history in memory.
+* `imageinfo`: Displays information about the memory dump, such as the operating system version and architecture.
+* `pslist`: Lists all running processes.
+* `pstree`: Displays a tree view of the running processes.
+* `netscan`: Lists all network connections.
+* `modules`: Lists all loaded modules.
+* `dlllist`: Lists all loaded DLLs.
+* `handles`: Lists all open handles.
+* `filescan`: Scans for file objects in memory.
+* `cmdscan`: Scans for command history in memory.
 
-### Advanced Commands
+#### Advanced Commands
 
 Here are some advanced commands for more in-depth analysis:
 
-- `malfind`: Scans for injected or malicious code.
-- `apihooks`: Lists all API hooks.
-- `ldrmodules`: Lists all loaded modules with their base addresses.
-- `vadinfo`: Displays information about the Virtual Address Descriptors (VADs).
-- `vadtree`: Displays a tree view of the VADs.
-- `vaddump`: Dumps the memory contents of a specific VAD.
-- `memdump`: Dumps the memory contents of a specific process.
-- `dumpfiles`: Dumps files from memory.
-- `dumpregistry`: Dumps the registry from memory.
+* `malfind`: Scans for injected or malicious code.
+* `apihooks`: Lists all API hooks.
+* `ldrmodules`: Lists all loaded modules with their base addresses.
+* `vadinfo`: Displays information about the Virtual Address Descriptors (VADs).
+* `vadtree`: Displays a tree view of the VADs.
+* `vaddump`: Dumps the memory contents of a specific VAD.
+* `memdump`: Dumps the memory contents of a specific process.
+* `dumpfiles`: Dumps files from memory.
+* `dumpregistry`: Dumps the registry from memory.
 
-### Plugins
+#### Plugins
 
 Volatility also supports plugins, which provide additional functionality. Some popular plugins include:
 
-- `malfind`: Scans for injected or malicious code.
-- `timeliner`: Creates a timeline of events based on process and file activity.
-- `psxview`: Lists hidden processes.
-- `apihooks`: Lists all API hooks.
-- `yarascan`: Scans for files matching a YARA rule.
-- `dumpcerts`: Dumps certificates from memory.
+* `malfind`: Scans for injected or malicious code.
+* `timeliner`: Creates a timeline of events based on process and file activity.
+* `psxview`: Lists hidden processes.
+* `apihooks`: Lists all API hooks.
+* `yarascan`: Scans for files matching a YARA rule.
+* `dumpcerts`: Dumps certificates from memory.
 
-### Conclusion
+#### Conclusion
 
 Volatility is a powerful tool for memory forensics analysis. This cheatsheet provides a quick reference guide for using Volatility and its various commands and plugins. With Volatility, analysts can extract valuable information from memory dumps to aid in investigations and incident response.
+
 ```bash
 volatility --profile=Win7SP1x86_23418 -f file.dmp driverscan
 ```
@@ -2215,10 +2291,12 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp driverscan
 {% endtabs %}
 
 ### Pata ubao wa kunakili
+
 ```bash
 #Just vol2
 volatility --profile=Win7SP1x86_23418 clipboard -f file.dmp
 ```
+
 ### Pata historia ya IE
 
 To get the Internet Explorer (IE) history, you can use the following command:
@@ -2232,10 +2310,12 @@ volatility -f <memory_dump> iehistory
 Replace `<memory_dump>` with the path to your memory dump file.
 
 Badilisha `<memory_dump>` na njia ya faili yako ya kumbukumbu ya kufa.
+
 ```bash
 #Just vol2
 volatility --profile=Win7SP1x86_23418 iehistory -f file.dmp
 ```
+
 ### Pata maandishi ya notepad
 
 To get the text from a notepad file, you can use the following command:
@@ -2253,37 +2333,41 @@ $ volatility -f <memory_dump_file> notepad --output=text
 ```
 
 This will display only the text content of each notepad instance found in the memory dump file.
+
 ```bash
 #Just vol2
 volatility --profile=Win7SP1x86_23418 notepad -f file.dmp
 ```
+
 ### Picha ya Skrini
+
 ```bash
 #Just vol2
 volatility --profile=Win7SP1x86_23418 screenshot -f file.dmp
 ```
+
 ### Rekodi ya Mwalimu wa Kuanza (MBR)
 
 Rekodi ya Mwalimu wa Kuanza (MBR) ni sehemu muhimu ya kwanza ya diski ngumu. Ina habari muhimu kuhusu muundo wa diski na ina jukumu muhimu katika mchakato wa kuanza mfumo wa uendeshaji. MBR ina sehemu tatu kuu:
 
 1. **Bootstrap Code**: Kanuni hii inasaidia kuanza mfumo wa uendeshaji kwa kusoma sehemu ya kwanza ya mfumo wa faili.
-
 2. **Disk Signature**: Hii ni nambari ya pekee inayotambulisha diski.
-
 3. **Partition Table**: Jedwali hili lina habari kuhusu sehemu zilizogawanywa kwenye diski, kama vile ukubwa, aina ya faili, na anwani ya kuanza.
 
 Kuchambua MBR inaweza kusaidia katika uchunguzi wa kina wa diski ngumu na kugundua shughuli za kutiliwa shaka au vitisho vya usalama.
+
 ```bash
 volatility --profile=Win7SP1x86_23418 mbrparser -f file.dmp
 ```
-**Master Boot Record (MBR)** inacheza jukumu muhimu katika kusimamia sehemu za mantiki za kumbukumbu ya uhifadhi, ambazo zimepangwa na [mifumo ya faili](https://en.wikipedia.org/wiki/File_system) tofauti. Sio tu inashikilia habari ya mpangilio wa sehemu lakini pia ina kificho kinachofanya kazi kama mzigo wa kuanza. Mzigo huu wa kuanza unaanzisha moja kwa moja mchakato wa kupakia hatua ya pili ya mfumo wa uendeshaji (angalia [mzigo wa kuanza hatua ya pili](https://en.wikipedia.org/wiki/Second-stage_boot_loader)) au inafanya kazi kwa ushirikiano na [rekodi ya mzigo wa kiasi](https://en.wikipedia.org/wiki/Volume_boot_record) (VBR) ya kila sehemu. Kwa maarifa ya kina, tazama [ukurasa wa Wikipedia wa MBR](https://en.wikipedia.org/wiki/Master_boot_record).
+
+**Master Boot Record (MBR)** inacheza jukumu muhimu katika kusimamia sehemu za mantiki za kumbukumbu ya uhifadhi, ambazo zimepangwa na [mifumo ya faili](https://en.wikipedia.org/wiki/File\_system) tofauti. Sio tu inashikilia habari ya mpangilio wa sehemu lakini pia ina kificho kinachofanya kazi kama mzigo wa kuanza. Mzigo huu wa kuanza unaanzisha moja kwa moja mchakato wa kupakia hatua ya pili ya mfumo wa uendeshaji (angalia [mzigo wa kuanza hatua ya pili](https://en.wikipedia.org/wiki/Second-stage\_boot\_loader)) au inafanya kazi kwa ushirikiano na [rekodi ya mzigo wa kiasi](https://en.wikipedia.org/wiki/Volume\_boot\_record) (VBR) ya kila sehemu. Kwa maarifa ya kina, tazama [ukurasa wa Wikipedia wa MBR](https://en.wikipedia.org/wiki/Master\_boot\_record).
 
 ## Marejeo
+
 * [https://andreafortuna.org/2017/06/25/volatility-my-own-cheatsheet-part-1-image-identification/](https://andreafortuna.org/2017/06/25/volatility-my-own-cheatsheet-part-1-image-identification/)
 * [https://scudette.blogspot.com/2012/11/finding-kernel-debugger-block.html](https://scudette.blogspot.com/2012/11/finding-kernel-debugger-block.html)
 * [https://or10nlabs.tech/cgi-sys/suspendedpage.cgi](https://or10nlabs.tech/cgi-sys/suspendedpage.cgi)
-* [https://www.aldeid.com/wiki/Windows-userassist-keys](https://www.aldeid.com/wiki/Windows-userassist-keys)
-​* [https://learn.microsoft.com/en-us/windows/win32/fileio/master-file-table](https://learn.microsoft.com/en-us/windows/win32/fileio/master-file-table)
+* [https://www.aldeid.com/wiki/Windows-userassist-keys](https://www.aldeid.com/wiki/Windows-userassist-keys) ​\* [https://learn.microsoft.com/en-us/windows/win32/fileio/master-file-table](https://learn.microsoft.com/en-us/windows/win32/fileio/master-file-table)
 * [https://answers.microsoft.com/en-us/windows/forum/all/uefi-based-pc-protective-mbr-what-is-it/0fc7b558-d8d4-4a7d-bae2-395455bb19aa](https://answers.microsoft.com/en-us/windows/forum/all/uefi-based-pc-protective-mbr-what-is-it/0fc7b558-d8d4-4a7d-bae2-395455bb19aa)
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
@@ -2301,7 +2385,7 @@ Njia nyingine za kusaidia HackTricks:
 * Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
 * Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

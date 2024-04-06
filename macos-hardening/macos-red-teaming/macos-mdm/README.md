@@ -9,7 +9,7 @@ Njia nyingine za kusaidia HackTricks:
 * Ikiwa unataka kuona **kampuni yako inatangazwa katika HackTricks** au **kupakua HackTricks katika PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
 * Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
@@ -22,20 +22,23 @@ Njia nyingine za kusaidia HackTricks:
 ## Misingi
 
 ### **Muhtasari wa MDM (Mobile Device Management)**
-[Usimamizi wa Kifaa cha Simu](https://en.wikipedia.org/wiki/Mobile_device_management) (MDM) hutumiwa kusimamia vifaa mbalimbali vya watumiaji kama simu za mkononi, kompyuta ndogo, na vidonge. Hasa kwa majukwaa ya Apple (iOS, macOS, tvOS), inajumuisha seti ya huduma maalum, APIs, na mazoea. Uendeshaji wa MDM unategemea seva ya MDM inayofaa, ambayo inapatikana kibiashara au chanzo wazi, na lazima iweze kusaidia [Itifaki ya MDM](https://developer.apple.com/enterprise/documentation/MDM-Protocol-Reference.pdf). Mambo muhimu ni pamoja na:
 
-- Udhibiti uliojumuishwa juu ya vifaa.
-- Utegemezi kwa seva ya MDM inayofuata itifaki ya MDM.
-- Uwezo wa seva ya MDM kutuma amri mbalimbali kwa vifaa, kwa mfano, kufuta data kwa mbali au usanidi wa usakinishaji.
+[Usimamizi wa Kifaa cha Simu](https://en.wikipedia.org/wiki/Mobile\_device\_management) (MDM) hutumiwa kusimamia vifaa mbalimbali vya watumiaji kama simu za mkononi, kompyuta ndogo, na vidonge. Hasa kwa majukwaa ya Apple (iOS, macOS, tvOS), inajumuisha seti ya huduma maalum, APIs, na mazoea. Uendeshaji wa MDM unategemea seva ya MDM inayofaa, ambayo inapatikana kibiashara au chanzo wazi, na lazima iweze kusaidia [Itifaki ya MDM](https://developer.apple.com/enterprise/documentation/MDM-Protocol-Reference.pdf). Mambo muhimu ni pamoja na:
+
+* Udhibiti uliojumuishwa juu ya vifaa.
+* Utegemezi kwa seva ya MDM inayofuata itifaki ya MDM.
+* Uwezo wa seva ya MDM kutuma amri mbalimbali kwa vifaa, kwa mfano, kufuta data kwa mbali au usanidi wa usakinishaji.
 
 ### **Misingi ya DEP (Programu ya Usajili wa Kifaa)**
-[Programu ya Usajili wa Kifaa](https://www.apple.com/business/site/docs/DEP_Guide.pdf) (DEP) inayotolewa na Apple inasaidia ushirikiano wa Usimamizi wa Kifaa cha Simu (MDM) kwa kusaidia usanidi wa kugusa sifuri kwa vifaa vya iOS, macOS, na tvOS. DEP inafanya usajili kuwa wa moja kwa moja, kuruhusu vifaa kuwa tayari kutumika mara tu baada ya kufunguliwa, bila kuingilia kati kwa mtumiaji au utawala. Mambo muhimu ni pamoja na:
 
-- Inawezesha vifaa kujiandikisha kiotomatiki na seva ya MDM iliyopangwa mapema baada ya kuanzishwa kwa mara ya kwanza.
-- Inafaa hasa kwa vifaa vipya, lakini pia inatumika kwa vifaa vinavyopitia upya usanidi.
-- Inarahisisha usanidi rahisi, kufanya vifaa kuwa tayari kwa matumizi ya shirika kwa haraka.
+[Programu ya Usajili wa Kifaa](https://www.apple.com/business/site/docs/DEP\_Guide.pdf) (DEP) inayotolewa na Apple inasaidia ushirikiano wa Usimamizi wa Kifaa cha Simu (MDM) kwa kusaidia usanidi wa kugusa sifuri kwa vifaa vya iOS, macOS, na tvOS. DEP inafanya usajili kuwa wa moja kwa moja, kuruhusu vifaa kuwa tayari kutumika mara tu baada ya kufunguliwa, bila kuingilia kati kwa mtumiaji au utawala. Mambo muhimu ni pamoja na:
+
+* Inawezesha vifaa kujiandikisha kiotomatiki na seva ya MDM iliyopangwa mapema baada ya kuanzishwa kwa mara ya kwanza.
+* Inafaa hasa kwa vifaa vipya, lakini pia inatumika kwa vifaa vinavyopitia upya usanidi.
+* Inarahisisha usanidi rahisi, kufanya vifaa kuwa tayari kwa matumizi ya shirika kwa haraka.
 
 ### **Uzingatiaji wa Usalama**
+
 Ni muhimu kuzingatia kuwa urahisi wa usajili uliotolewa na DEP, ingawa ni wa manufaa, pia unaweza kuleta hatari za usalama. Ikiwa hatua za kinga hazitekelezwi ipasavyo kwa usajili wa MDM, wadukuzi wanaweza kutumia mchakato huu uliofupishwa kujiandikisha kifaa chao kwenye seva ya MDM ya shirika, wakijifanya kuwa kifaa cha kampuni.
 
 {% hint style="danger" %}
@@ -86,6 +89,7 @@ Ni muhimu kuzingatia kuwa urahisi wa usajili uliotolewa na DEP, ingawa ni wa man
 ## Nambari ya Serial
 
 V
+
 ### Hatua ya 4: Ukaguzi wa DEP - Kupata Rekodi ya Ufunguzi
 
 Sehemu hii ya mchakato inatokea wakati **mtumiaji anapobootisha Mac kwa mara ya kwanza** (au baada ya kufuta kabisa)
@@ -104,16 +108,16 @@ au wakati wa kutekeleza `sudo profiles show -type enrollment`
 Inafuata hatua chache za kupata Rekodi ya Ufunguzi iliyotekelezwa na **`MCTeslaConfigurationFetcher`**. Mchakato huu hutumia encryption inayoitwa **Absinthe**
 
 1. Pata **cheti**
-1. GET [https://iprofiles.apple.com/resource/certificate.cer](https://iprofiles.apple.com/resource/certificate.cer)
-2. **Anzisha** hali kutoka kwa cheti (**`NACInit`**)
-1. Inatumia data mbalimbali maalum ya kifaa (kwa mfano **Nambari ya Serial kupitia `IOKit`**)
-3. Pata **funguo la kikao**
-1. POST [https://iprofiles.apple.com/session](https://iprofiles.apple.com/session)
-4. Anzisha kikao (**`NACKeyEstablishment`**)
-5. Fanya ombi
-1. POST kwa [https://iprofiles.apple.com/macProfile](https://iprofiles.apple.com/macProfile) ukituma data `{ "action": "RequestProfileConfiguration", "sn": "" }`
-2. Mzigo wa JSON umefichwa kwa kutumia Absinthe (**`NACSign`**)
-3. Ombi zote zinafanywa kupitia HTTPs, vyeti vya mizizi iliyojengwa ndani hutumiwa
+2. GET [https://iprofiles.apple.com/resource/certificate.cer](https://iprofiles.apple.com/resource/certificate.cer)
+3. **Anzisha** hali kutoka kwa cheti (**`NACInit`**)
+4. Inatumia data mbalimbali maalum ya kifaa (kwa mfano **Nambari ya Serial kupitia `IOKit`**)
+5. Pata **funguo la kikao**
+6. POST [https://iprofiles.apple.com/session](https://iprofiles.apple.com/session)
+7. Anzisha kikao (**`NACKeyEstablishment`**)
+8. Fanya ombi
+9. POST kwa [https://iprofiles.apple.com/macProfile](https://iprofiles.apple.com/macProfile) ukituma data `{ "action": "RequestProfileConfiguration", "sn": "" }`
+10. Mzigo wa JSON umefichwa kwa kutumia Absinthe (**`NACSign`**)
+11. Ombi zote zinafanywa kupitia HTTPs, vyeti vya mizizi iliyojengwa ndani hutumiwa
 
 ![](<../../../.gitbook/assets/image (566).png>)
 
@@ -135,7 +139,7 @@ Jibu ni kamusi ya JSON na data muhimu kama vile:
 * Imesainiwa kwa kutumia **cheti cha kitambulisho cha kifaa (kutoka APNS)**
 * **Mnyororo wa vyeti** unajumuisha **Apple iPhone Device CA** iliyopita muda wake
 
-![](<../../../.gitbook/assets/image (567) (1) (2) (2) (2) (2) (2) (2) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (7).png>)
+![](https://github.com/carlospolop/hacktricks/blob/sw/.gitbook/assets/image%20\(567\)%20\(1\)%20\(2\)%20\(2\)%20\(2\)%20\(2\)%20\(2\)%20\(2\)%20\(2\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(7\).png)
 
 ### Hatua ya 6: Usakinishaji wa Profile
 
@@ -192,7 +196,10 @@ Kwa hivyo, hii inaweza kuwa njia hatari kwa wadukuzi ikiwa mchakato wa kujiandik
 [enrolling-devices-in-other-organisations.md](enrolling-devices-in-other-organisations.md)
 {% endcontent-ref %}
 
-
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong></summary>
+
+
+
+</details>

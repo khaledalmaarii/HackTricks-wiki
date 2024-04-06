@@ -1,4 +1,4 @@
-# Njia ya kuongeza mamlaka kwa kutumia Dll Hijacking na Njia ya Sys Path Inayoweza Kuandikwa
+# Writable Sys Path +Dll Hijacking Privesc
 
 <details>
 
@@ -9,7 +9,7 @@ Njia nyingine za kusaidia HackTricks:
 * Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
 * Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
@@ -22,8 +22,8 @@ Ili kufanya hivyo, unaweza kutumia **Dll Hijacking** ambapo utaiba maktaba inayo
 
 Kwa habari zaidi kuhusu **Dll Hijacking ni nini**, angalia:
 
-{% content-ref url="../dll-hijacking.md" %}
-[dll-hijacking.md](../dll-hijacking.md)
+{% content-ref url="./" %}
+[.](./)
 {% endcontent-ref %}
 
 ## Kuongeza Mamlaka kwa Kutumia Dll Hijacking
@@ -35,6 +35,7 @@ Jambo la kwanza unahitaji kufanya ni **kutambua mchakato** unaoendesha na **maml
 Shida katika kesi hizi ni kwamba labda mchakato huo tayari unaendelea. Ili kupata Dll zinazokosekana kwenye huduma unahitaji kuzindua procmon haraka iwezekanavyo (kabla ya michakato kupakiwa). Kwa hivyo, ili kupata .dlls zinazokosekana, fanya yafuatayo:
 
 * **Tengeneza** folda `C:\privesc_hijacking` na ongeza njia `C:\privesc_hijacking` kwenye **mazingira ya Njia ya Mfumo**. Unaweza kufanya hivi **kwa mkono** au kwa kutumia **PS**:
+
 ```powershell
 # Set the folder path to create and check events for
 $folderPath = "C:\privesc_hijacking"
@@ -51,6 +52,7 @@ $newPath = "$envPath;$folderPath"
 [Environment]::SetEnvironmentVariable("PATH", $newPath, "Machine")
 }
 ```
+
 * Zindua **`procmon`** na nenda kwa **`Chaguo`** --> **`Wezesha kuingia kwenye kumbukumbu`** na bonyeza **`Sawa`** kwenye ujumbe.
 * Kisha, **zima**. Wakati kompyuta inapoanza tena, **procmon** itaanza **kurekodi** matukio mara moja.
 * Mara baada ya **Windows** kuanza, tekeleza tena **procmon**, itakuambia kuwa imekuwa ikifanya kazi na itakuuliza ikiwa unataka kuhifadhi matukio kwenye faili. Sema **ndio** na **hifadhi matukio kwenye faili**.
@@ -67,7 +69,7 @@ Nikikimbia hii kwenye **mashine ya Windows 11 ya bure (vmware)** nilipata matoke
 
 Katika kesi hii, .exe hazina maana, hivyo waipuuze, Dll zilizokosekana zilikuwa kutoka:
 
-| Huduma                         | Dll                | Mstari wa Amri                                                       |
+| Huduma                          | Dll                | Mstari wa Amri                                                       |
 | ------------------------------- | ------------------ | -------------------------------------------------------------------- |
 | Task Scheduler (Schedule)       | WptsExtensions.dll | `C:\Windows\system32\svchost.exe -k netsvcs -p -s Schedule`          |
 | Diagnostic Policy Service (DPS) | Unknown.DLL        | `C:\Windows\System32\svchost.exe -k LocalServiceNoNetwork -p -s DPS` |
@@ -79,7 +81,7 @@ Baada ya kupata hii, nilipata chapisho la blogu lenye kuvutia ambalo pia linaele
 
 Kwa hivyo, ili **kuongeza mamlaka**, tutateka maktaba ya **WptsExtensions.dll**. Tukiwa na **njia** na **jina**, tunahitaji tu **kuunda dll mbaya**.
 
-Unaweza [**jaribu kutumia moja ya mifano hii**](../dll-hijacking.md#creating-and-compiling-dlls). Unaweza kutekeleza malipo kama vile: kupata kabati la rev, kuongeza mtumiaji, kutekeleza beacon...
+Unaweza [**jaribu kutumia moja ya mifano hii**](./#creating-and-compiling-dlls). Unaweza kutekeleza malipo kama vile: kupata kabati la rev, kuongeza mtumiaji, kutekeleza beacon...
 
 {% hint style="warning" %}
 Tafadhali kumbuka kuwa **huduma zote hazitekelezwi** na **`NT AUTHORITY\SYSTEM`** baadhi pia zinatekelezwa na **`NT AUTHORITY\LOCAL SERVICE`** ambayo ina **mamlaka kidogo** na huwezi kuunda mtumiaji mpya kwa kutumia mamlaka yake.\
@@ -101,7 +103,7 @@ Njia nyingine za kusaidia HackTricks:
 * Ikiwa unataka kuona **kampuni yako inayotangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
 * Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

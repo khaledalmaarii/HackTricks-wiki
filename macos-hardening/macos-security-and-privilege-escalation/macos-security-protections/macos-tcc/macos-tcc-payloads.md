@@ -1,4 +1,4 @@
-# Mipangilio ya macOS TCC
+# macOS TCC Payloads
 
 <details>
 
@@ -9,7 +9,7 @@ Njia nyingine za kusaidia HackTricks:
 * Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
 * Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
@@ -22,6 +22,7 @@ Njia nyingine za kusaidia HackTricks:
 {% tabs %}
 {% tab title="ObjetiveC" %}
 Nakili `$HOME/Desktop` hadi `/tmp/desktop`.
+
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -57,6 +58,7 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 Nakili `$HOME/Desktop` hadi `/tmp/desktop`.
+
 ```bash
 cp -r "$HOME/Desktop" "/tmp/desktop"
 ```
@@ -69,8 +71,11 @@ cp -r "$HOME/Desktop" "/tmp/desktop"
 * **TCC**: `kTCCServiceSystemPolicyDocumentsFolder`
 
 {% tabs %}
-{% tab title="ObjetiveC" %}
+{% tab title="undefined" %}
 Nakili `$HOME/Documents` hadi `/tmp/documents`.
+{% endtab %}
+
+{% tab title="undefined" %}
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -102,8 +107,11 @@ NSLog(@"Copy completed successfully.", error);
 fclose(stderr); // Close the file stream
 }
 ```
+{% endtab %}
+
 {% tab title="Shell" %}
 Nakili `$HOME/`Documents hadi `/tmp/documents`.
+
 ```bash
 cp -r "$HOME/Documents" "/tmp/documents"
 ```
@@ -116,8 +124,11 @@ cp -r "$HOME/Documents" "/tmp/documents"
 * **TCC**: `kTCCServiceSystemPolicyDownloadsFolder`
 
 {% tabs %}
-{% tab title="ObjetiveC" %}
+{% tab title="undefined" %}
 Nakili `$HOME/Downloads` hadi `/tmp/downloads`.
+{% endtab %}
+
+{% tab title="undefined" %}
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -149,8 +160,11 @@ NSLog(@"Copy completed successfully.", error);
 fclose(stderr); // Close the file stream
 }
 ```
+{% endtab %}
+
 {% tab title="Shell" %}
 Nakili `$HOME/Downloads` kwenda `/tmp/downloads`.
+
 ```bash
 cp -r "$HOME/Downloads" "/tmp/downloads"
 ```
@@ -163,8 +177,11 @@ cp -r "$HOME/Downloads" "/tmp/downloads"
 * **TCC**: `kTCCServicePhotos`
 
 {% tabs %}
-{% tab title="ObjetiveC" %}
+{% tab title="undefined" %}
 Nakili `$HOME/Pictures/Photos Library.photoslibrary` hadi `/tmp/photos`.
+{% endtab %}
+
+{% tab title="undefined" %}
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -196,8 +213,11 @@ NSLog(@"Copy completed successfully.", error);
 fclose(stderr); // Close the file stream
 }
 ```
+{% endtab %}
+
 {% tab title="Shell" %}
 Nakili `$HOME/Pictures/Photos Library.photoslibrary` kwenda `/tmp/photos`.
+
 ```bash
 cp -r "$HOME/Pictures/Photos Library.photoslibrary" "/tmp/photos"
 ```
@@ -212,6 +232,7 @@ cp -r "$HOME/Pictures/Photos Library.photoslibrary" "/tmp/photos"
 {% tabs %}
 {% tab title="ObjetiveC" %}
 Nakili `$HOME/Library/Application Support/AddressBook` hadi `/tmp/contacts`.
+
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -247,6 +268,7 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 Nakili `$HOME/Library/Application Support/AddressBook` hadi `/tmp/contacts`.
+
 ```bash
 cp -r "$HOME/Library/Application Support/AddressBook" "/tmp/contacts"
 ```
@@ -261,6 +283,7 @@ cp -r "$HOME/Library/Application Support/AddressBook" "/tmp/contacts"
 {% tabs %}
 {% tab title="ObjectiveC" %}
 Nakili `$HOME/Library/Calendars` hadi `/tmp/calendars`.
+
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -296,6 +319,7 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 Nakili `$HOME/Library/Calendars` hadi `/tmp/calendars`.
+
 ```bash
 cp -r "$HOME/Library/Calendars" "/tmp/calendars"
 ```
@@ -308,8 +332,11 @@ cp -r "$HOME/Library/Calendars" "/tmp/calendars"
 * **TCC**: `kTCCServiceCamera`
 
 {% tabs %}
-{% tab title="ObjetiveC - Rekodi" %}
+{% tab title="undefined" %}
 Rekodi video ya sekunde 3 na iihifadhi kwenye **`/tmp/recording.mov`**
+{% endtab %}
+
+{% tab title="undefined" %}
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -385,8 +412,11 @@ VideoRecorder *videoRecorder = [[VideoRecorder alloc] init];
 fclose(stderr); // Close the file stream
 }
 ```
+{% endtab %}
+
 {% tab title="ObjectiveC - Angalia" %}
 Angalia ikiwa programu ina ufikiaji wa kamera.
+
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -420,6 +450,7 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 Chukua picha na kamera
+
 ```bash
 ffmpeg -framerate 30 -f avfoundation -i "0" -frames:v 1 /tmp/capture.jpg
 ```
@@ -434,6 +465,7 @@ ffmpeg -framerate 30 -f avfoundation -i "0" -frames:v 1 /tmp/capture.jpg
 {% tabs %}
 {% tab title="ObjetiveC - Rekodi" %}
 Rekodi sauti ya sekunde 5 na uhifadhi kwenye `/tmp/recording.m4a`
+
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -534,6 +566,7 @@ fclose(stderr); // Close the file stream
 
 {% tab title="ObjectiveC - Angalia" %}
 Angalia ikiwa programu ina ufikiaji wa kipaza sauti.
+
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -565,6 +598,7 @@ static void telegram(int argc, const char **argv) {
 
 {% tab title="Shell" %}
 Rekodi sauti ya sekunde 5 na uhifadhi kwenye `/tmp/recording.wav`
+
 ```bash
 # Check the microphones
 ffmpeg -f avfoundation -list_devices true -i ""
@@ -586,6 +620,7 @@ Ili programu ipate mahali, **Huduma za Mahali** (kutoka kwa Faragha na Usalama) 
 {% tabs %}
 {% tab title="ObjectiveC" %}
 Andika mahali katika `/tmp/logs.txt`
+
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -636,6 +671,7 @@ freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
 
 {% tab title="Shell" %}
 Pata ufikiaji wa eneo hilo
+
 ```
 ???
 ```
@@ -650,6 +686,7 @@ Pata ufikiaji wa eneo hilo
 {% tabs %}
 {% tab title="ObjectiveC" %}
 Rekodi skrini kuu kwa sekunde 5 katika `/tmp/screen.mov`
+
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -707,6 +744,7 @@ freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
 
 {% tab title="Shell" %}
 Rekodi skrini kuu kwa sekunde 5
+
 ```bash
 screencapture -V 5 /tmp/screen.mov
 ```
@@ -719,6 +757,7 @@ screencapture -V 5 /tmp/screen.mov
 * **TCC**: `kTCCServiceAccessibility`
 
 Tumia haki ya TCC kukubali udhibiti wa Finder kwa kubonyeza enter na kuepuka TCC kwa njia hiyo.
+
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <ApplicationServices/ApplicationServices.h>
@@ -769,10 +808,9 @@ usleep(100000); // 0.1 seconds
 return 0;
 }
 ```
-{% endtab %}
 
-{% tab title="Keylogger" %}
 Hifadhi funguo zilizopigwa kwenye **`/tmp/keystrokes.txt`**
+
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <ApplicationServices/ApplicationServices.h>
@@ -876,8 +914,6 @@ CFRunLoopRun();
 return 0;
 }
 ```
-{% endtab %}
-{% endtabs %}
 
 {% hint style="danger" %}
 **Uwezo wa Ufikiaji ni idhini yenye nguvu sana**, unaweza kuitumia vibaya kwa njia nyingine, kwa mfano unaweza kufanya shambulio la **keystrokes** kutoka hapo bila haja ya kuita Matukio ya Mfumo.
@@ -892,7 +928,7 @@ Njia nyingine za kusaidia HackTricks:
 * Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
 * Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

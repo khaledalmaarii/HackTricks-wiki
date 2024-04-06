@@ -1,4 +1,4 @@
-# Shambulio la xpc\_connection\_get\_audit\_token kwenye macOS
+# macOS xpc\_connection\_get\_audit\_token Attack
 
 <details>
 
@@ -20,8 +20,8 @@ Njia nyingine za kusaidia HackTricks:
 
 Ikiwa haujui ni nini Ujumbe wa Mach anza kwa kucheki ukurasa huu:
 
-{% content-ref url="../../../../mac-os-architecture/macos-ipc-inter-process-communication/" %}
-[macos-ipc-inter-process-communication](../../../../mac-os-architecture/macos-ipc-inter-process-communication/)
+{% content-ref url="../../" %}
+[..](../../)
 {% endcontent-ref %}
 
 Kwa sasa kumbuka ([ufafanuzi kutoka hapa](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing)):\
@@ -51,6 +51,7 @@ Ingawa hali iliyopita inasikika kuahidi kuna hali ambapo hii haitasababisha mata
 Mbinu mbili tofauti ambazo zinaweza kutumika kwa kudhuru:
 
 1. Variant1:
+
 * **Shambulio** linajiunga na huduma **A** na huduma **B**
 * Huduma **B** inaweza kuita **kazi ya kipekee** katika huduma **A** ambayo mtumiaji hawezi
 * Huduma **A** inaita **`xpc_connection_get_audit_token`** wakati _**si**_ ndani ya **mchambuzi wa tukio** kwa uhusiano katika **`dispatch_async`**.
@@ -58,7 +59,9 @@ Mbinu mbili tofauti ambazo zinaweza kutumika kwa kudhuru:
 * Shambulio linapitisha **huduma B haki ya KUTUMA kwa huduma A**.
 * Kwa hivyo svc **B** itakuwa **kutuma** **ujumbe** kwa huduma **A**.
 * Shambulio linajaribu **kuita** **hatua ya kipekee.** Katika RC svc **A** **inathibitisha** idhini ya **hatua** hii wakati **svc B imebadilisha Tokeni ya Ukaguzi** (ikimpa shambulio upatikanaji wa kuita hatua ya kipekee).
+
 2. Variant 2:
+
 * Huduma **B** inaweza kuita **kazi ya kipekee** katika huduma **A** ambayo mtumiaji hawezi
 * Shambulio linajiunga na **huduma A** ambayo **inatuma** shambulio ujumbe ukitarajia majibu katika **bandari ya majibu** maalum.
 * Shambulio linatuma **huduma** B ujumbe ukipitisha **ile bandari ya majibu**.
@@ -87,9 +90,7 @@ Kufanya shambulio:
 2. Unda **uhusiano wa pili** kwa `diagnosticd`. Tofauti na utaratibu wa kawaida, badala ya kuunda na kutuma mach ports mpya mbili, haki ya kutuma ya bandari ya mteja inabadilishwa na nakala ya **haki ya kutuma** inayohusishwa na uhusiano wa `smd`.
 3. Kama matokeo, ujumbe wa XPC unaweza kutumwa kwa `diagnosticd`, lakini majibu kutoka kwa `diagnosticd` yanaelekezwa tena kwa `smd`. Kwa `smd`, inaonekana kana kwamba ujumbe kutoka kwa mtumiaji na `diagnosticd` unatoka kwa uhusiano huo huo.
 
-![Picha inayoonyesha mchakato wa shambulio](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/exploit.png)
-4. Hatua inayofuata ni kuagiza `diagnosticd` kuanzisha ufuatiliaji wa mchakato uliochaguliwa (labda wa mtumiaji mwenyewe). Kwa wakati huo huo, mafuriko ya ujumbe wa kawaida wa 1004 hutumwa kwa `smd`. Lengo hapa ni kusakinisha chombo chenye mamlaka ya juu.
-5. Hatua hii inachochea hali ya mashindano ndani ya kazi ya `handle_bless`. Wakati ni muhimu: wito wa kazi ya `xpc_connection_get_pid` lazima irudishe PID ya mchakato wa mtumiaji (kwa kuwa chombo cha mamlaka kiko kwenye mfuko wa programu ya mtumiaji). Walakini, kazi ya `xpc_connection_get_audit_token`, kwa kina ndani ya subroutine ya `connection_is_authorized`, lazima itaje alama ya ukaguzi inayomilikiwa na `diagnosticd`.
+![Picha inayoonyesha mchakato wa shambulio](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/exploit.png) 4. Hatua inayofuata ni kuagiza `diagnosticd` kuanzisha ufuatiliaji wa mchakato uliochaguliwa (labda wa mtumiaji mwenyewe). Kwa wakati huo huo, mafuriko ya ujumbe wa kawaida wa 1004 hutumwa kwa `smd`. Lengo hapa ni kusakinisha chombo chenye mamlaka ya juu. 5. Hatua hii inachochea hali ya mashindano ndani ya kazi ya `handle_bless`. Wakati ni muhimu: wito wa kazi ya `xpc_connection_get_pid` lazima irudishe PID ya mchakato wa mtumiaji (kwa kuwa chombo cha mamlaka kiko kwenye mfuko wa programu ya mtumiaji). Walakini, kazi ya `xpc_connection_get_audit_token`, kwa kina ndani ya subroutine ya `connection_is_authorized`, lazima itaje alama ya ukaguzi inayomilikiwa na `diagnosticd`.
 
 ## Tofauti 2: kusonga majibu
 
@@ -115,7 +116,7 @@ Mchakato wa kutumia udhaifu huu unajumuisha hatua zifuatazo:
 
 Hapa chini ni uwakilishi wa picha wa mazingira ya shambulio lililoelezwa:
 
-![https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/variant2.png](../../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png)
+!\[https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/variant2.png]\(../../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png)
 
 <figure><img src="../../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/variant2.png" width="563"><figcaption></figcaption></figure>
 

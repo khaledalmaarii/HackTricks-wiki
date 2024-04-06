@@ -7,20 +7,20 @@
 * Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Unataka kuona **kampuni yako ikionyeshwa kwenye HackTricks**? au unataka kupata upatikanaji wa **toleo jipya la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **fuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **fuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-## Utangulizi <a href="#9wrzi" id="9wrzi"></a>
+## Utangulizi <a href="#id-9wrzi" id="id-9wrzi"></a>
 
 Kwa habari kuhusu RFID na NFC angalia ukurasa ufuatao:
 
-{% content-ref url="../../../radio-hacking/pentesting-rfid.md" %}
-[pentesting-rfid.md](../../../radio-hacking/pentesting-rfid.md)
+{% content-ref url="../pentesting-rfid.md" %}
+[pentesting-rfid.md](../pentesting-rfid.md)
 {% endcontent-ref %}
 
-## Kadi za NFC Zilizoungwa Mkono <a href="#9wrzi" id="9wrzi"></a>
+## Kadi za NFC Zilizoungwa Mkono <a href="#id-9wrzi" id="id-9wrzi"></a>
 
 {% hint style="danger" %}
 Isipokuwa kadi za NFC, Flipper Zero inaunga mkono **aina nyingine za kadi za High-frequency** kama vile **Mifare** Classic na Ultralight na **NTAG**.
@@ -43,7 +43,7 @@ Skrini ya kusoma kadi ya benkiKwa kadi za benki, Flipper Zero inaweza tu kusoma 
 
 <figure><img src="https://cdn.flipperzero.one/Monosnap_Miro_2022-08-17_12-26-31.png?auto=format&#x26;ixlib=react-9.1.1&#x26;h=916&#x26;w=2662" alt=""><figcaption></figcaption></figure>
 
-#### Kadi zisizojulikana <a href="#37eo8" id="37eo8"></a>
+#### Kadi zisizojulikana <a href="#id-37eo8" id="id-37eo8"></a>
 
 Wakati Flipper Zero inashindwa **kutambua aina ya kadi ya NFC**, basi tu **UID, SAK, na ATQA** zinaweza **kusomwa na kuokolewa**.
 
@@ -59,7 +59,7 @@ Kwa **aina za kadi za NFC B, F, na V**, Flipper Zero inaweza tu **kusoma na kuon
 
 ## Vitendo
 
-Kwa utangulizi kuhusu NFC [**soma ukurasa huu**](../../../radio-hacking/pentesting-rfid.md#high-frequency-rfid-tags-13.56-mhz).
+Kwa utangulizi kuhusu NFC [**soma ukurasa huu**](../pentesting-rfid.md#high-frequency-rfid-tags-13.56-mhz).
 
 ### Soma
 
@@ -82,6 +82,7 @@ Kwa kesi ambapo Flipper Zero hawezi kutambua aina ya kadi kutoka kwa data ya kiw
 
 Isipokuwa tu kusoma UID, unaweza kutoa data nyingi zaidi kutoka kwa kadi ya benki. Ni **kawaida kupata nambari kamili ya kadi** (nambari 16 mbele ya kadi), **tarehe ya halali**, na kwa baadhi ya visa hata **jina la mmiliki** pamoja na orodha ya **shughuli za hivi karibuni**.\
 Hata hivyo, **hauwezi kusoma CVV kwa njia hii** (nambari 3 nyuma ya kadi). Pia **kadi za benki zinalindwa kutokana na mashambulizi ya kurudia**, hivyo kuiga na kujaribu kuiga kulipia kitu hakitafanikiwa.
+
 ## Marejeo
 
 * [https://blog.flipperzero.one/rfid/](https://blog.flipperzero.one/rfid/)
@@ -93,7 +94,7 @@ Hata hivyo, **hauwezi kusoma CVV kwa njia hii** (nambari 3 nyuma ya kadi). Pia *
 * Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, ungependa kuona **kampuni yako ikionekana kwenye HackTricks**? au ungependa kupata upatikanaji wa **toleo jipya la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **nifuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **nifuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
