@@ -1,4 +1,4 @@
-# 检查表 - 本地Windows权限提升
+# Checklist - Local Windows Privilege Escalation
 
 <details>
 
@@ -9,14 +9,14 @@
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
 * 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -35,7 +35,7 @@
 * [ ] [**Internet设置**](windows-local-privilege-escalation/#internet-settings)中有趣的信息？
 * [ ] [**驱动器**](windows-local-privilege-escalation/#drives)？
 * [ ] [**WSUS漏洞**](windows-local-privilege-escalation/#wsus)？
-* [**AlwaysInstallElevated**](windows-local-privilege-escalation/#alwaysinstallelevated)？
+* [ ] [**AlwaysInstallElevated**](windows-local-privilege-escalation/#alwaysinstallelevated)？
 
 ### [日志/AV枚举](windows-local-privilege-escalation/#enumeration)
 
@@ -45,17 +45,17 @@
 * [ ] [**LSA保护**](windows-local-privilege-escalation/#lsa-protection)？
 * [ ] [**凭据保护**](windows-local-privilege-escalation/#credentials-guard)[?](windows-local-privilege-escalation/#cached-credentials)
 * [ ] [**缓存凭据**](windows-local-privilege-escalation/#cached-credentials)？
-* [ ] 检查是否有任何[**AV**](windows-av-bypass)
-* [ ] [**AppLocker策略**](authentication-credentials-uac-and-efs#applocker-policy)？
-* [ ] [**UAC**](authentication-credentials-uac-and-efs/uac-user-account-control)
+* [ ] 检查是否有任何[**AV**](https://github.com/carlospolop/hacktricks/blob/cn/windows-hardening/windows-av-bypass/README.md)
+* [ ] [**AppLocker策略**](https://github.com/carlospolop/hacktricks/blob/cn/windows-hardening/authentication-credentials-uac-and-efs/README.md#applocker-policy)？
+* [ ] [**UAC**](https://github.com/carlospolop/hacktricks/blob/cn/windows-hardening/authentication-credentials-uac-and-efs/uac-user-account-control/README.md)
 * [ ] [**用户权限**](windows-local-privilege-escalation/#users-and-groups)
 * [ ] 检查[**当前**用户**权限**](windows-local-privilege-escalation/#users-and-groups)
 * [ ] 您是否是任何特权组的[**成员**](windows-local-privilege-escalation/#privileged-groups)？
-* [ ] 检查是否启用了以下任何令牌](windows-local-privilege-escalation/#token-manipulation)：**SeImpersonatePrivilege, SeAssignPrimaryPrivilege, SeTcbPrivilege, SeBackupPrivilege, SeRestorePrivilege, SeCreateTokenPrivilege, SeLoadDriverPrivilege, SeTakeOwnershipPrivilege, SeDebugPrivilege** ?
-* [**用户会话**](windows-local-privilege-escalation/#logged-users-sessions)？
-* 检查[**用户主目录**](windows-local-privilege-escalation/#home-folders)（访问？）
-* 检查[**密码策略**](windows-local-privilege-escalation/#password-policy)
-* [**剪贴板**](windows-local-privilege-escalation/#get-the-content-of-the-clipboard)中有什么？
+* [ ] 检查是否启用了以下任何令牌]\(windows-local-privilege-escalation/#token-manipulation)：**SeImpersonatePrivilege, SeAssignPrimaryPrivilege, SeTcbPrivilege, SeBackupPrivilege, SeRestorePrivilege, SeCreateTokenPrivilege, SeLoadDriverPrivilege, SeTakeOwnershipPrivilege, SeDebugPrivilege** ?
+* [ ] [**用户会话**](windows-local-privilege-escalation/#logged-users-sessions)？
+* [ ] 检查[**用户主目录**](windows-local-privilege-escalation/#home-folders)（访问？）
+* [ ] 检查[**密码策略**](windows-local-privilege-escalation/#password-policy)
+* [ ] [**剪贴板**](windows-local-privilege-escalation/#get-the-content-of-the-clipboard)中有什么？
 
 ### [网络](windows-local-privilege-escalation/#network)
 
@@ -71,16 +71,17 @@
 
 ### [服务](windows-local-privilege-escalation/#services)
 
-* [您能否**修改任何服务**？](windows-local-privilege-escalation#permissions)
+* [您能否**修改任何服务**？](windows-local-privilege-escalation/#permissions)
 * [您能否**修改**任何**服务**执行的**二进制文件**？](windows-local-privilege-escalation/#modify-service-binary-path)
 * [您能否**修改**任何**服务**的**注册表**？](windows-local-privilege-escalation/#services-registry-modify-permissions)
-* 您能否利用任何**未加引号的服务**二进制**路径**？](windows-local-privilege-escalation/#unquoted-service-paths)
+* 您能否利用任何**未加引号的服务**二进制**路径**？]\(windows-local-privilege-escalation/#unquoted-service-paths)
 
 ### [**应用程序**](windows-local-privilege-escalation/#applications)
 
 * **写入**[**已安装应用程序**](windows-local-privilege-escalation/#write-permissions)的权限
 * [**启动应用程序**](windows-local-privilege-escalation/#run-at-startup)
 * **易受攻击的**[**驱动程序**](windows-local-privilege-escalation/#drivers)
+
 ### [DLL劫持](windows-local-privilege-escalation/#path-dll-hijacking)
 
 * [ ] 你可以**在PATH中的任何文件夹中写入**吗？
@@ -132,7 +133,7 @@
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -145,7 +146,7 @@
 * 如果您想在HackTricks中看到您的**公司广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
 * 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFT](https://opensea.io/collection/the-peass-family)收藏品
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live) 上**关注**我们。
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live) 上**关注**我们。
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>

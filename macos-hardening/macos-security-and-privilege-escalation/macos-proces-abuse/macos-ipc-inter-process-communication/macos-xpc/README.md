@@ -30,17 +30,18 @@ XPC的主要好处包括：
 
 ## 特定应用程序的XPC服务
 
-应用程序的XPC组件位于**应用程序本身内部**。例如，在Safari中，您可以在**`/Applications/Safari.app/Contents/XPCServices`**找到它们。它们有扩展名**`.xpc`**（如**`com.apple.Safari.SandboxBroker.xpc`**），并且**也是包含主二进制文件的包**：`/Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/MacOS/com.apple.Safari.SandboxBroker` 和 `Info.plist: /Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/Info.plist`
+应用程序的XPC组件位于**应用程序本身内部**。例如，在Safari中，您可以在\*\*`/Applications/Safari.app/Contents/XPCServices`**找到它们。它们有扩展名**`.xpc`**（如**`com.apple.Safari.SandboxBroker.xpc`**），并且**也是包含主二进制文件的包\*\*：`/Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/MacOS/com.apple.Safari.SandboxBroker` 和 `Info.plist: /Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/Info.plist`
 
-正如您可能在想的，一个**XPC组件将具有不同的权利和权限**，与其他XPC组件或主应用程序二进制文件不同。除非XPC服务在其**Info.plist**文件中配置了[**JoinExistingSession**](https://developer.apple.com/documentation/bundleresources/information_property_list/xpcservice/joinexistingsession)设置为“True”。在这种情况下，XPC服务将在**与调用它的应用程序相同的安全会话中运行**。
+正如您可能在想的，一个**XPC组件将具有不同的权利和权限**，与其他XPC组件或主应用程序二进制文件不同。除非XPC服务在其**Info.plist**文件中配置了[**JoinExistingSession**](https://developer.apple.com/documentation/bundleresources/information\_property\_list/xpcservice/joinexistingsession)设置为“True”。在这种情况下，XPC服务将在**与调用它的应用程序相同的安全会话中运行**。
 
 XPC服务由**launchd**在需要时**启动**，并在所有任务**完成**后**关闭**，以释放系统资源。**特定应用程序的XPC组件只能由应用程序使用**，从而降低了潜在漏洞相关风险。
 
 ## 系统范围的XPC服务
 
-系统范围的XPC服务对所有用户都可访问。这些服务，无论是launchd还是Mach类型，都需要在指定目录中的plist文件中**定义**，例如**`/System/Library/LaunchDaemons`**、**`/Library/LaunchDaemons`**、**`/System/Library/LaunchAgents`**或**`/Library/LaunchAgents`**。
+系统范围的XPC服务对所有用户都可访问。这些服务，无论是launchd还是Mach类型，都需要在指定目录中的plist文件中**定义**，例如\*\*`/System/Library/LaunchDaemons`**、**`/Library/LaunchDaemons`**、**`/System/Library/LaunchAgents`**或**`/Library/LaunchAgents`\*\*。
 
-这些plist文件将有一个名为**`MachServices`**的键，带有服务的名称，以及一个名为**`Program`**的键，带有二进制文件的路径：
+这些plist文件将有一个名为\*\*`MachServices`**的键，带有服务的名称，以及一个名为**`Program`\*\*的键，带有二进制文件的路径：
+
 ```xml
 cat /Library/LaunchDaemons/com.jamf.management.daemon.plist
 
@@ -74,6 +75,7 @@ cat /Library/LaunchDaemons/com.jamf.management.daemon.plist
 </dict>
 </plist>
 ```
+
 **`LaunchDameons`** 中的服务是由 root 运行的。因此，如果一个非特权进程能够与其中一个服务通信，它可能能够提升权限。
 
 ## XPC 事件消息
@@ -99,6 +101,7 @@ cat /Library/LaunchDaemons/com.jamf.management.daemon.plist
 ## XPC 嗅探器
 
 要嗅探 XPC 消息，你可以使用 [**xpcspy**](https://github.com/hot3eed/xpcspy)，它使用了 **Frida**。
+
 ```bash
 # Install
 pip3 install xpcspy
@@ -109,6 +112,7 @@ xpcspy -U -r -W <bundle-id>
 ## Using filters (i: for input, o: for output)
 xpcspy -U <prog-name> -t 'i:com.apple.*' -t 'o:com.apple.*' -r
 ```
+
 ## XPC 通信 C 语言示例
 
 {% tabs %}
@@ -220,10 +224,15 @@ return 0;
 </dict>
 </plist>
 ```
+
 ```
-{% endtab %}
-{% endtabs %}
+
+</div>
+
+</div>
+
 ```
+
 ```bash
 # Compile the server & client
 gcc xpc_server.c -o xpc_server
@@ -243,7 +252,8 @@ sudo launchctl load /Library/LaunchDaemons/xyz.hacktricks.service.plist
 sudo launchctl unload /Library/LaunchDaemons/xyz.hacktricks.service.plist
 sudo rm /Library/LaunchDaemons/xyz.hacktricks.service.plist /tmp/xpc_server
 ```
-## XPC 通信 Objective-C 代码示例
+
+### XPC 通信 Objective-C 代码示例
 
 {% tabs %}
 {% tab title="oc_xpc_server.m" %}
@@ -346,25 +356,26 @@ return 0;
 ```
 {% endtab %}
 {% endtabs %}
-```bash
-# Compile the server & client
-gcc -framework Foundation oc_xpc_server.m -o oc_xpc_server
-gcc -framework Foundation oc_xpc_client.m -o oc_xpc_client
 
-# Save server on it's location
-cp oc_xpc_server /tmp
+\`\`\`bash # Compile the server & client gcc -framework Foundation oc\_xpc\_server.m -o oc\_xpc\_server gcc -framework Foundation oc\_xpc\_client.m -o oc\_xpc\_client
 
-# Load daemon
-sudo cp xyz.hacktricks.svcoc.plist /Library/LaunchDaemons
-sudo launchctl load /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist
+## Save server on it's location
 
-# Call client
-./oc_xpc_client
+cp oc\_xpc\_server /tmp
 
-# Clean
-sudo launchctl unload /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist
-sudo rm /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist /tmp/oc_xpc_server
-```
+## Load daemon
+
+sudo cp xyz.hacktricks.svcoc.plist /Library/LaunchDaemons sudo launchctl load /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist
+
+## Call client
+
+./oc\_xpc\_client
+
+## Clean
+
+sudo launchctl unload /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist sudo rm /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist /tmp/oc\_xpc\_server
+
+````
 ## 客户端在 Dylb 代码内
 ```objectivec
 // gcc -dynamiclib -framework Foundation oc_xpc_client.m -o oc_xpc_client.dylib
@@ -398,7 +409,8 @@ NSLog(@"Done!");
 
 return;
 }
-```
+````
+
 <details>
 
 <summary><strong>从零开始学习AWS黑客攻击直至成为专家，通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>！</strong></summary>
@@ -412,3 +424,5 @@ return;
 * **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
+{% endtab %}
+{% endtabs %}

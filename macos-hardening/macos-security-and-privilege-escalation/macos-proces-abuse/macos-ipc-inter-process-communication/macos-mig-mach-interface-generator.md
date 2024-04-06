@@ -1,4 +1,4 @@
-# macOS MIG - Mach接口生成器
+# macOS MIG - Mach Interface Generator
 
 <details>
 
@@ -6,11 +6,11 @@
 
 支持HackTricks的其他方式：
 
-- 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-- 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-- 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-- **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-- 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
@@ -38,12 +38,15 @@ n2          :  uint32_t);
 {% endcode %}
 
 现在使用 mig 生成服务器和客户端代码，这些代码将能够相互通信以调用 Subtract 函数：
+
 ```bash
 mig -header myipcUser.h -sheader myipcServer.h myipc.defs
 ```
+
 在当前目录中将创建几个新文件。
 
-在文件**`myipcServer.c`**和**`myipcServer.h`**中，您可以找到结构**`SERVERPREFmyipc_subsystem`**的声明和定义，该结构基本上定义了根据接收到的消息ID调用的函数（我们指定了起始编号为500）：
+在文件\*\*`myipcServer.c`**和**`myipcServer.h`**中，您可以找到结构**`SERVERPREFmyipc_subsystem`\*\*的声明和定义，该结构基本上定义了根据接收到的消息ID调用的函数（我们指定了起始编号为500）：
+
 ```c
 /* Description of this subsystem, for use in direct RPC */
 const struct SERVERPREFmyipc_subsystem SERVERPREFmyipc_subsystem = {
@@ -59,9 +62,9 @@ myipc_server_routine,
 }
 };
 ```
-{% endtab %}
 
-{% tab title="myipcServer.h" %}在`myipcServer.h`文件中，我们定义了一个名为`myipcServer`的类，该类包含了处理Mach RPC请求的方法。{% endtab %}
+在\`myipcServer.h\`文件中，我们定义了一个名为\`myipcServer\`的类，该类包含了处理Mach RPC请求的方法。
+
 ```c
 /* Description of this subsystem, for use in direct RPC */
 extern const struct SERVERPREFmyipc_subsystem {
@@ -74,7 +77,9 @@ struct routine_descriptor	/* Array of routine descriptors */
 routine[1];
 } SERVERPREFmyipc_subsystem;
 ```
-根据前面的结构，函数**`myipc_server_routine`**将获取**消息ID**并返回要调用的适当函数：
+
+根据前面的结构，函数\*\*`myipc_server_routine`**将获取**消息ID\*\*并返回要调用的适当函数：
+
 ```c
 mig_external mig_routine_t myipc_server_routine
 (mach_msg_header_t *InHeadP)
@@ -89,16 +94,19 @@ return 0;
 return SERVERPREFmyipc_subsystem.routine[msgh_id].stub_routine;
 }
 ```
-在这个例子中，我们只在定义中定义了一个函数，但如果我们定义了更多函数，它们将位于**`SERVERPREFmyipc_subsystem`**数组内，第一个函数将被分配给ID **500**，第二个函数将被分配给ID **501**...
 
-实际上，可以在**`myipcServer.h`**中的**`subsystem_to_name_map_myipc`**结构中识别这种关系：
+在这个例子中，我们只在定义中定义了一个函数，但如果我们定义了更多函数，它们将位于\*\*`SERVERPREFmyipc_subsystem`\*\*数组内，第一个函数将被分配给ID **500**，第二个函数将被分配给ID **501**...
+
+实际上，可以在\*\*`myipcServer.h`**中的**`subsystem_to_name_map_myipc`\*\*结构中识别这种关系：
+
 ```c
 #ifndef subsystem_to_name_map_myipc
 #define subsystem_to_name_map_myipc \
 { "Subtract", 500 }
 #endif
 ```
-最后，使服务器工作的另一个重要函数将是**`myipc_server`**，这个函数实际上会**调用**与接收到的id相关联的函数：
+
+最后，使服务器工作的另一个重要函数将是\*\*`myipc_server`**，这个函数实际上会**调用\*\*与接收到的id相关联的函数：
 
 <pre class="language-c"><code class="lang-c">mig_external boolean_t myipc_server
 (mach_msg_header_t *InHeadP, mach_msg_header_t *OutHeadP)
@@ -136,8 +144,6 @@ return FALSE;
 
 以下是创建一个简单**服务器**和**客户端**的代码，其中客户端可以调用服务器的Subtract函数：
 
-{% tabs %}
-{% tab title="myipc_server.c" %}
 ```c
 // gcc myipc_server.c myipcServer.c -o myipc_server
 
@@ -168,9 +174,9 @@ return 1;
 mach_msg_server(myipc_server, sizeof(union __RequestUnion__SERVERPREFmyipc_subsystem), port, MACH_MSG_TIMEOUT_NONE);
 }
 ```
-{% endtab %}
 
-{% tab title="myipc_client.c" %}
+
+
 ```c
 // gcc myipc_client.c myipcUser.c -o myipc_client
 
@@ -195,14 +201,17 @@ printf("Port right name %d\n", port);
 USERPREFSubtract(port, 40, 2);
 }
 ```
+
 ### 二进制分析
 
 由于许多二进制文件现在使用MIG来公开mach端口，了解如何**识别使用了MIG**以及MIG在每个消息ID上执行的**功能**是很有趣的。
 
 [**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2)可以从Mach-O二进制文件中解析MIG信息，指示消息ID并识别要执行的函数：
+
 ```bash
 jtool2 -d __DATA.__const myipc_server | grep MIG
 ```
+
 先前提到负责根据接收到的消息ID调用正确函数的函数是`myipc_server`。然而，通常情况下你不会有二进制文件的符号（函数名称），因此有趣的是**查看反编译后的样子**，因为它总是非常相似的（此函数的代码与暴露的函数无关）：
 
 {% tabs %}
@@ -211,13 +220,13 @@ jtool2 -d __DATA.__const myipc_server | grep MIG
 var_10 = arg0;
 var_18 = arg1;
 // 初始指令以找到正确的函数指针
-*(int32_t *)var_18 = *(int32_t *)var_10 & 0x1f;
+*(int32_t *)var_18 = *(int32_t *)var_10 &#x26; 0x1f;
 *(int32_t *)(var_18 + 0x8) = *(int32_t *)(var_10 + 0x8);
 *(int32_t *)(var_18 + 0x4) = 0x24;
 *(int32_t *)(var_18 + 0xc) = 0x0;
 *(int32_t *)(var_18 + 0x14) = *(int32_t *)(var_10 + 0x14) + 0x64;
 *(int32_t *)(var_18 + 0x10) = 0x0;
-if (*(int32_t *)(var_10 + 0x14) <= 0x1f4 && *(int32_t *)(var_10 + 0x14) >= 0x1f4) {
+if (*(int32_t *)(var_10 + 0x14) &#x3C;= 0x1f4 &#x26;&#x26; *(int32_t *)(var_10 + 0x14) >= 0x1f4) {
 rax = *(int32_t *)(var_10 + 0x14);
 // 调用sign_extend_64以帮助识别此函数
 // 这将在rax中存储需要调用的调用指针
@@ -258,7 +267,7 @@ stack[-8] = r30;
 var_10 = arg0;
 var_18 = arg1;
 // 初始指令以找到正确的函数指针
-*(int32_t *)var_18 = *(int32_t *)var_10 & 0x1f | 0x0;
+*(int32_t *)var_18 = *(int32_t *)var_10 &#x26; 0x1f | 0x0;
 *(int32_t *)(var_18 + 0x8) = *(int32_t *)(var_10 + 0x8);
 *(int32_t *)(var_18 + 0x4) = 0x24;
 *(int32_t *)(var_18 + 0xc) = 0x0;
@@ -267,19 +276,19 @@ var_18 = arg1;
 r8 = *(int32_t *)(var_10 + 0x14);
 r8 = r8 - 0x1f4;
 if (r8 > 0x0) {
-if (CPU_FLAGS & G) {
+if (CPU_FLAGS &#x26; G) {
 r8 = 0x1;
 }
 }
-if ((r8 & 0x1) == 0x0) {
+if ((r8 &#x26; 0x1) == 0x0) {
 r8 = *(int32_t *)(var_10 + 0x14);
 r8 = r8 - 0x1f4;
-if (r8 < 0x0) {
-if (CPU_FLAGS & L) {
+if (r8 &#x3C; 0x0) {
+if (CPU_FLAGS &#x26; L) {
 r8 = 0x1;
 }
 }
-if ((r8 & 0x1) == 0x0) {
+if ((r8 &#x26; 0x1) == 0x0) {
 r8 = *(int32_t *)(var_10 + 0x14);
 // 0x1f4 = 500（起始ID）
 <strong>                    r8 = r8 - 0x1f4;
@@ -288,13 +297,13 @@ r8 = *(r8 + 0x8);
 var_20 = r8;
 r8 = r8 - 0x0;
 if (r8 != 0x0) {
-if (CPU_FLAGS & NE) {
+if (CPU_FLAGS &#x26; NE) {
 r8 = 0x1;
 }
 }
 // 与前一个版本相同的if else
 // 检查地址0x100004040（函数地址数组）的使用
-<strong>                    if ((r8 & 0x1) == 0x0) {
+<strong>                    if ((r8 &#x26; 0x1) == 0x0) {
 </strong><strong>                            *(var_18 + 0x18) = **0x100004000;
 </strong>                            *(int32_t *)(var_18 + 0x20) = 0xfffffed1;
 var_4 = 0x0;
@@ -324,14 +333,13 @@ return r0;
 {% endtab %}
 {% endtabs %}
 
-实际上，如果你转到函数**`0x100004000`**，你会找到**`routine_descriptor`**结构体的数组。结构体的第一个元素是**函数实现的地址**，**结构体占用0x28字节**，因此每0x28字节（从字节0开始）你可以获得8字节，这将是将被调用的**函数的地址**：
+实际上，如果你转到函数\*\*`0x100004000`**，你会找到**`routine_descriptor`**结构体的数组。结构体的第一个元素是**函数实现的地址\*\*，**结构体占用0x28字节**，因此每0x28字节（从字节0开始）你可以获得8字节，这将是将被调用的**函数的地址**：
 
 <figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 <figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 这些数据可以通过[**使用此Hopper脚本**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py)提取。
+
 * **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) **和** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **github 仓库提交 PR 来分享您的黑客技巧。**
-
-</details>

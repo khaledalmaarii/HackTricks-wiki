@@ -1,4 +1,4 @@
-# macOS危险的授权和TCC权限
+# macOS Dangerous Entitlements & TCC perms
 
 <details>
 
@@ -15,30 +15,30 @@
 </details>
 
 {% hint style="warning" %}
-请注意，以**`com.apple`**开头的授权仅供Apple授予，第三方无法使用。
+请注意，以\*\*`com.apple`\*\*开头的授权仅供Apple授予，第三方无法使用。
 {% endhint %}
 
 ## 高级
 
 ### `com.apple.rootless.install.heritable`
 
-授权**`com.apple.rootless.install.heritable`**允许**绕过SIP**。查看[此处了解更多信息](macos-sip.md#com.apple.rootless.install.heritable)。
+授权\*\*`com.apple.rootless.install.heritable`**允许**绕过SIP\*\*。查看[此处了解更多信息](macos-sip.md#com.apple.rootless.install.heritable)。
 
 ### **`com.apple.rootless.install`**
 
-授权**`com.apple.rootless.install`**允许**绕过SIP**。查看[此处了解更多信息](macos-sip.md#com.apple.rootless.install)。
+授权\*\*`com.apple.rootless.install`**允许**绕过SIP\*\*。查看[此处了解更多信息](macos-sip.md#com.apple.rootless.install)。
 
 ### **`com.apple.system-task-ports`（先前称为`task_for_pid-allow`）**
 
-此授权允许获取除内核外的任何进程的**任务端口**。查看[**此处了解更多信息**](../mac-os-architecture/macos-ipc-inter-process-communication/)。
+此授权允许获取除内核外的任何进程的**任务端口**。查看[**此处了解更多信息**](../macos-proces-abuse/macos-ipc-inter-process-communication/)。
 
 ### `com.apple.security.get-task-allow`
 
-此授权允许具有**`com.apple.security.cs.debugger`**授权的其他进程获取由具有此授权的二进制运行的进程的任务端口，并对其进行**代码注入**。查看[**此处了解更多信息**](../mac-os-architecture/macos-ipc-inter-process-communication/)。
+此授权允许具有\*\*`com.apple.security.cs.debugger`**授权的其他进程获取由具有此授权的二进制运行的进程的任务端口，并对其进行**代码注入\*\*。查看[**此处了解更多信息**](../macos-proces-abuse/macos-ipc-inter-process-communication/)。
 
 ### `com.apple.security.cs.debugger`
 
-具有调试工具授权的应用程序可以调用`task_for_pid()`来检索未签名和第三方应用程序的有效任务端口，其中`Get Task Allow`授权设置为`true`。然而，即使具有调试工具授权，调试器**无法获取**没有**`Get Task Allow`**授权的进程的任务端口，因此受到系统完整性保护的保护。查看[**此处了解更多信息**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_debugger)。
+具有调试工具授权的应用程序可以调用`task_for_pid()`来检索未签名和第三方应用程序的有效任务端口，其中`Get Task Allow`授权设置为`true`。然而，即使具有调试工具授权，调试器**无法获取**没有\*\*`Get Task Allow`\*\*授权的进程的任务端口，因此受到系统完整性保护的保护。查看[**此处了解更多信息**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_debugger)。
 
 ### `com.apple.security.cs.disable-library-validation`
 
@@ -46,7 +46,7 @@
 
 ### `com.apple.private.security.clear-library-validation`
 
-此授权与**`com.apple.security.cs.disable-library-validation`**非常相似，但**不是直接禁用**库验证，而是允许进程**调用`csops`系统调用来禁用它**。\
+此授权与\*\*`com.apple.security.cs.disable-library-validation`**非常相似，但**不是直接禁用**库验证，而是允许进程**调用`csops`系统调用来禁用它\*\*。\
 查看[**此处了解更多信息**](https://theevilbit.github.io/posts/com.apple.private.security.clear-library-validation/)。
 
 ### `com.apple.security.cs.allow-dyld-environment-variables`
@@ -57,7 +57,7 @@
 
 根据[**此博客**](https://objective-see.org/blog/blog\_0x4C.html) **和** [**此博客**](https://wojciechregula.blog/post/play-the-music-and-bypass-tcc-aka-cve-2020-29621/)，这些授权允许**修改** **TCC** 数据库。
 
-### **`system.install.apple-software`**和**`system.install.apple-software.standar-user`**
+### **`system.install.apple-software`和`system.install.apple-software.standar-user`**
 
 这些授权允许**在不请求用户权限的情况下安装软件**，这对于**特权升级**可能有帮助。
 
@@ -67,7 +67,7 @@
 
 ### **`com.apple.private.icloud-account-access`**
 
-授权**`com.apple.private.icloud-account-access`**可以与**`com.apple.iCloudHelper`** XPC服务通信，该服务将**提供iCloud令牌**。
+授权\*\*`com.apple.private.icloud-account-access`**可以与**`com.apple.iCloudHelper`\*\* XPC服务通信，该服务将**提供iCloud令牌**。
 
 **iMovie**和**Garageband**具有此授权。
 
@@ -88,6 +88,7 @@
 ### `keychain-access-groups`
 
 此授权列出应用程序可以访问的**钥匙串**组。
+
 ```xml
 <key>keychain-access-groups</key>
 <array>
@@ -98,6 +99,7 @@
 <string>IMCore</string>
 </array>
 ```
+
 ### **`kTCCServiceSystemPolicyAllFiles`**
 
 提供**完全磁盘访问**权限，这是您可以拥有的TCC最高权限之一。
@@ -107,10 +109,10 @@
 允许应用程序向其他常用于**自动化任务**的应用程序发送事件。控制其他应用程序，可以滥用授予这些其他应用程序的权限。
 
 比如让它们要求用户输入密码：
+
 ```bash
 osascript -e 'tell app "App Store" to activate' -e 'tell app "App Store" to activate' -e 'tell app "App Store" to display dialog "App Store requires your password to continue." & return & return default answer "" with icon 1 with hidden answer with title "App Store Alert"'
 ```
-{% endcode %}
 
 或让它们执行**任意操作**。
 
@@ -167,12 +169,14 @@ osascript -e 'tell app "App Store" to activate' -e 'tell app "App Store" to acti
 ### `kTCCServiceAll`
 
 根据这篇博文，这个 TCC 权限通常以以下形式找到：
+
 ```
 [Key] com.apple.private.tcc.allow-prompting
 [Value]
 [Array]
 [String] kTCCServiceAll
 ```
+
 允许进程**请求所有TCC权限**。
 
 ### **`kTCCServicePostEvent`**
@@ -187,6 +191,6 @@ osascript -e 'tell app "App Store" to activate' -e 'tell app "App Store" to acti
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
 * 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
 * **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。 
+* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>

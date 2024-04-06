@@ -1,4 +1,4 @@
-# macOS内核与系统扩展
+# macOS Kernel & System Extensions
 
 <details>
 
@@ -6,11 +6,11 @@
 
 支持HackTricks的其他方式：
 
-- 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-- 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-- 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFT](https://opensea.io/collection/the-peass-family)收藏品
-- **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-- 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFT](https://opensea.io/collection/the-peass-family)收藏品
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
@@ -32,12 +32,12 @@ Mach是一个**微内核**，旨在**兼容UNIX**。其关键设计原则之一�
 
 XNU **内核**还**整合**了大量源自**FreeBSD**项目的代码。这些代码与Mach一起作为内核的一部分运行在相同的地址空间中。但是，XNU内部的FreeBSD代码可能与原始FreeBSD代码有很大不同，因为必须对其进行修改以确保与Mach的兼容性。FreeBSD对许多内核操作做出贡献，包括：
 
-- 进程管理
-- 信号处理
-- 基本安全机制，包括用户和组管理
-- 系统调用基础设施
-- TCP/IP堆栈和套接字
-- 防火墙和数据包过滤
+* 进程管理
+* 信号处理
+* 基本安全机制，包括用户和组管理
+* 系统调用基础设施
+* TCP/IP堆栈和套接字
+* 防火墙和数据包过滤
 
 理解BSD和Mach之间的交互可能会很复杂，因为它们具有不同的概念框架。例如，BSD使用进程作为其基本执行单元，而Mach基于线程运行。在XNU中，通过**将每个BSD进程与包含一个Mach线程的Mach任务相关联**来协调这种差异。当使用BSD的fork()系统调用时，内核中的BSD代码使用Mach函数创建任务和线程结构。
 
@@ -53,17 +53,17 @@ I/O Kit是XNU内核中的一个开源、面向对象的**设备驱动程序框�
 
 ### IPC - 进程间通信
 
-{% content-ref url="macos-ipc-inter-process-communication/" %}
-[macos-ipc-inter-process-communication](macos-ipc-inter-process-communication/)
+{% content-ref url="../macos-proces-abuse/macos-ipc-inter-process-communication/" %}
+[macos-ipc-inter-process-communication](../macos-proces-abuse/macos-ipc-inter-process-communication/)
 {% endcontent-ref %}
 
 ### Kernelcache
 
 **Kernelcache**是XNU内核的**预编译和预链接版本**，以及必要的设备**驱动程序**和**内核扩展**。它以**压缩**格式存储，并在引导过程中解压缩到内存中。Kernelcache通过提供一个准备就绪的内核版本和关键驱动程序，减少了在引导时动态加载和链接这些组件所需的时间和资源，从而实现**更快的启动时间**。
 
-在iOS中，它位于**`/System/Library/Caches/com.apple.kernelcaches/kernelcache`**，在macOS中，您可以使用**`find / -name kernelcache 2>/dev/null`**或**`mdfind kernelcache | grep kernelcache`**找到它。
+在iOS中，它位于\*\*`/System/Library/Caches/com.apple.kernelcaches/kernelcache`**，在macOS中，您可以使用**`find / -name kernelcache 2>/dev/null`**或**`mdfind kernelcache | grep kernelcache`\*\*找到它。
 
-可以运行**`kextstat`**来检查加载的内核扩展。
+可以运行\*\*`kextstat`\*\*来检查加载的内核扩展。
 
 #### IMG4
 
@@ -71,18 +71,19 @@ IMG4文件格式是苹果在其iOS和macOS设备中使用的容器格式，用�
 
 通常由以下组件组成：
 
-- **有效载荷（IM4P）**：
-  - 通常是压缩的（LZFSE4、LZSS等）
-  - 可选加密
-- **清单（IM4M）**：
-  - 包含签名
-  - 附加键/值字典
-- **恢复信息（IM4R）**：
-  - 也称为APNonce
-  - 防止某些更新的重放
-  - 可选：通常找不到
+* **有效载荷（IM4P）**：
+  * 通常是压缩的（LZFSE4、LZSS等）
+  * 可选加密
+* **清单（IM4M）**：
+  * 包含签名
+  * 附加键/值字典
+* **恢复信息（IM4R）**：
+  * 也称为APNonce
+  * 防止某些更新的重放
+  * 可选：通常找不到
 
 解压Kernelcache:
+
 ```bash
 # pyimg4 (https://github.com/m1stadev/PyIMG4)
 pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
@@ -90,6 +91,7 @@ pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphon
 # img4tool (https://github.com/tihmstar/img4tool
 img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
 ```
+
 #### 内核缓存符号
 
 有时苹果会发布带有符号的**内核缓存**。您可以通过访问[https://theapplewiki.com](https://theapplewiki.com/)上的链接下载带有符号的一些固件。
@@ -99,7 +101,7 @@ img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
 这些是您可以从[**https://ipsw.me/**](https://ipsw.me/)下载的苹果**固件**。在其他文件中，它将包含**内核缓存**。\
 要**提取**文件，您只需将其解压缩。
 
-提取固件后，您将获得一个类似于：**`kernelcache.release.iphone14`**的文件。它采用**IMG4**格式，您可以使用以下工具提取有趣的信息：
+提取固件后，您将获得一个类似于：**`kernelcache.release.iphone14`的文件。它采用IMG4**格式，您可以使用以下工具提取有趣的信息：
 
 * [**pyimg4**](https://github.com/m1stadev/PyIMG4)
 
@@ -110,12 +112,15 @@ pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphon
 {% endcode %}
 
 * [**img4tool**](https://github.com/tihmstar/img4tool)
+
 ```bash
 img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
 ```
+
 您可以使用以下命令检查提取的内核缓存中的符号：**`nm -a kernelcache.release.iphone14.e | wc -l`**
 
 有了这个，现在我们可以**提取所有的扩展**或者**您感兴趣的一个：**
+
 ```bash
 # List all extensions
 kextex -l kernelcache.release.iphone14.e
@@ -128,6 +133,7 @@ kextex_all kernelcache.release.iphone14.e
 # Check the extension for symbols
 nm -a binaries/com.apple.security.sandbox | wc -l
 ```
+
 ## macOS内核扩展
 
 macOS对加载内核扩展（.kext）非常严格，因为该代码将以高特权运行。实际上，默认情况下几乎不可能加载内核扩展（除非找到了绕过方法）。

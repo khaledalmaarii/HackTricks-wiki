@@ -1,4 +1,4 @@
-# macOS xpc\_connection\_get\_audit\_token 攻击
+# macOS xpc\_connection\_get\_audit\_token Attack
 
 <details>
 
@@ -20,12 +20,12 @@
 
 如果您不知道什么是Mach消息，请查看此页面：
 
-{% content-ref url="../../../../mac-os-architecture/macos-ipc-inter-process-communication/" %}
-[macos-ipc-inter-process-communication](../../../../mac-os-architecture/macos-ipc-inter-process-communication/)
+{% content-ref url="../../" %}
+[..](../../)
 {% endcontent-ref %}
 
 目前要记住的是（[定义来自此处](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing)）：\
-Mach消息通过一个_mach端口_发送，这是内置在mach内核中的**单接收器，多发送器通信**通道。**多个进程可以向mach端口发送消息**，但在任何时候**只有一个进程可以从中读取**。就像文件描述符和套接字一样，mach端口由内核分配和管理，进程只看到一个整数，它们可以用来指示内核它们想要使用哪个mach端口。
+Mach消息通过一个\_mach端口\_发送，这是内置在mach内核中的**单接收器，多发送器通信**通道。**多个进程可以向mach端口发送消息**，但在任何时候**只有一个进程可以从中读取**。就像文件描述符和套接字一样，mach端口由内核分配和管理，进程只看到一个整数，它们可以用来指示内核它们想要使用哪个mach端口。
 
 ## XPC连接
 
@@ -51,14 +51,17 @@ Mach消息通过一个_mach端口_发送，这是内置在mach内核中的**单�
 这可能会利用的两种不同方法：
 
 1. 变体1：
+
 * **利用**连接到服务**A**和服务**B**
 * 服务**B**可以调用服务**A**中用户无法执行的**特权功能**
-* 服务**A**在**不在****事件处理程序**中调用**`xpc_connection_get_audit_token`**。
+* 服务**A**在**不在\*\*\*\*事件处理程序**中调用\*\*`xpc_connection_get_audit_token`\*\*。
 * 因此，**不同的**消息可能会**覆盖审计令牌**，因为它是在事件处理程序之外异步调度的。
 * 攻击将**向服务A传递SEND权限**。
 * 因此，svc **B**实际上将**发送**消息到服务**A**。
-* **利用**尝试**调用****特权操作**。在RC svc **A** **检查**此**操作**的授权，而**svc B覆盖了审计令牌**（使攻击获得调用特权操作的权限）。
+* **利用**尝试**调用\*\*\*\*特权操作**。在RC svc **A** **检查**此**操作**的授权，而**svc B覆盖了审计令牌**（使攻击获得调用特权操作的权限）。
+
 2. 变体2：
+
 * 服务**B**可以调用服务**A**中用户无法执行的**特权功能**
 * 利用与**服务A**建立连接，**发送**期望响应的消息到特定**回复端口**。
 * 利用向**服务**B发送消息，传递**该回复端口**。
@@ -68,18 +71,18 @@ Mach消息通过一个_mach端口_发送，这是内置在mach内核中的**单�
 
 场景：
 
-* 两个我们都可以连接的mach服务**`A`**和**`B`**（基于沙箱配置文件和接受连接前的授权检查）。
-* _**A**_必须对**`B`**可以通过的特定操作进行**授权检查**（但我们的应用程序不能）。
+* 两个我们都可以连接的mach服务\*\*`A`**和**`B`\*\*（基于沙箱配置文件和接受连接前的授权检查）。
+* \_**A**\_必须对\*\*`B`**可以通过的特定操作进行**授权检查\*\*（但我们的应用程序不能）。
 * 例如，如果B具有某些**授权**或以**root**身份运行，则可能允许其要求A执行特权操作。
-* 对于此授权检查，**`A`**通过异步方式获取审计令牌，例如通过从**`dispatch_async`**调用`xpc_connection_get_audit_token`。
+* 对于此授权检查，\*\*`A`**通过异步方式获取审计令牌，例如通过从**`dispatch_async`\*\*调用`xpc_connection_get_audit_token`。
 
 {% hint style="danger" %}
 在这种情况下，攻击者可以触发**竞争条件**，制作一个**请求A执行操作**的**利用**，同时让**B发送消息到`A`**。当RC**成功**时，**B**的**审计令牌**将被复制到内存中，**同时**我们**利用**的请求正在被**A处理**，使其能够访问只有**B**可以请求的特权操作。
 {% endhint %}
 
-这发生在**`A`**作为`smd`，**`B`**作为`diagnosticd`的情况下。函数[`SMJobBless`](https://developer.apple.com/documentation/servicemanagement/1431078-smjobbless?language=objc)从smb中可以用作安装新的特权助手工具（作为**root**）。如果以**root**身份运行的进程联系**smd**，将不会执行其他检查。
+这发生在\*\*`A`**作为`smd`，**`B`**作为`diagnosticd`的情况下。函数**[**`SMJobBless`**](https://developer.apple.com/documentation/servicemanagement/1431078-smjobbless?language=objc)**从smb中可以用作安装新的特权助手工具（作为**root\*\*）。如果以**root**身份运行的进程联系**smd**，将不会执行其他检查。
 
-因此，服务**B**是**`diagnosticd`**，因为它以**root**身份运行，可用于**监视**进程，因此一旦监视开始，它将**每秒发送多个消息。**
+因此，服务**B**是\*\*`diagnosticd`**，因为它以**root**身份运行，可用于**监视**进程，因此一旦监视开始，它将**每秒发送多个消息。\*\*
 
 执行攻击的步骤：
 
@@ -87,9 +90,7 @@ Mach消息通过一个_mach端口_发送，这是内置在mach内核中的**单�
 2. 形成到`diagnosticd`的次要**连接**。与正常程序相反，不是创建并发送两个新的mach端口，而是用与`smd`连接关联的**发送权限**的副本替换客户端端口发送权限。
 3. 结果，XPC消息可以被分派到`diagnosticd`，但`diagnosticd`的响应被重新路由到`smd`。对于`smd`，似乎来自用户和`diagnosticd`的消息都是来自同一连接。
 
-![描绘攻击过程的图像](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/exploit.png)
-4. 下一步涉及指示`diagnosticd`启动对所选进程（可能是用户自己的进程）的监视。同时，向`smd`发送一连串的常规1004消息。这里的意图是安装一个具有提升权限的工具。
-5. 这个操作触发了`handle_bless`函数内的竞争条件。时机至关重要：`xpc_connection_get_pid`函数调用必须返回用户进程的PID（因为特权工具位于用户的应用程序包中）。然而，`xpc_connection_get_audit_token`函数，特别是在`connection_is_authorized`子例程内，必须引用属于`diagnosticd`的审计令牌。
+![描绘攻击过程的图像](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/exploit.png) 4. 下一步涉及指示`diagnosticd`启动对所选进程（可能是用户自己的进程）的监视。同时，向`smd`发送一连串的常规1004消息。这里的意图是安装一个具有提升权限的工具。 5. 这个操作触发了`handle_bless`函数内的竞争条件。时机至关重要：`xpc_connection_get_pid`函数调用必须返回用户进程的PID（因为特权工具位于用户的应用程序包中）。然而，`xpc_connection_get_audit_token`函数，特别是在`connection_is_authorized`子例程内，必须引用属于`diagnosticd`的审计令牌。
 
 ## 变种2：回复转发
 
@@ -102,20 +103,20 @@ Mach消息通过一个_mach端口_发送，这是内置在mach内核中的**单�
 
 要利用这个漏洞，需要以下设置：
 
-* 两个名为**`A`**和**`B`**的mach服务，两者都可以建立连接。
-* 服务**`A`**应包含一个授权检查，用于执行只有**`B`**可以执行的特定操作（用户的应用程序无法执行）。
-* 服务**`A`**应发送一条期望回复的消息。
-* 用户可以向**`B`**发送一条它将会回复的消息。
+* 两个名为\*\*`A`**和**`B`\*\*的mach服务，两者都可以建立连接。
+* 服务\*\*`A`**应包含一个授权检查，用于执行只有**`B`\*\*可以执行的特定操作（用户的应用程序无法执行）。
+* 服务\*\*`A`\*\*应发送一条期望回复的消息。
+* 用户可以向\*\*`B`\*\*发送一条它将会回复的消息。
 
 利用过程包括以下步骤：
 
-1. 等待服务**`A`**发送一条期望回复的消息。
-2. 不直接回复**`A`**，而是劫持回复端口并用于向服务**`B`**发送一条消息。
-3. 随后，发送涉及被禁止操作的消息，期望它将与**`B`**的回复同时处理。
+1. 等待服务\*\*`A`\*\*发送一条期望回复的消息。
+2. 不直接回复\*\*`A`**，而是劫持回复端口并用于向服务**`B`\*\*发送一条消息。
+3. 随后，发送涉及被禁止操作的消息，期望它将与\*\*`B`\*\*的回复同时处理。
 
 下面是描述的攻击场景的可视化表示：
 
-![https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/variant2.png](../../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png)
+!\[https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/variant2.png]\(../../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png)
 
 <figure><img src="../../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/variant2.png" width="563"><figcaption></figcaption></figure>
 

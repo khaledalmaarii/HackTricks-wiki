@@ -1,4 +1,4 @@
-# Active Directory方法论
+# Active Directory Methodology
 
 <details>
 
@@ -9,7 +9,7 @@
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 * 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFT](https://opensea.io/collection/the-peass-family)收藏品
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
@@ -28,7 +28,7 @@
 4. **树** – 共享一个公共根域的域的分组。
 5. **森林** – Active Directory组织结构的最高层，由多个通过**信任关系**相互连接的树组成。
 
-**Active Directory域服务（AD DS）**涵盖了网络中的集中管理和通信所必需的一系列服务。这些服务包括：
+\*\*Active Directory域服务（AD DS）\*\*涵盖了网络中的集中管理和通信所必需的一系列服务。这些服务包括：
 
 1. **域服务** – 集中存储数据并管理**用户**和**域**之间的交互，包括**认证**和**搜索**功能。
 2. **证书服务** – 管理安全**数字证书**的创建、分发和管理。
@@ -37,8 +37,7 @@
 5. **权限管理** – 通过监管未经授权的分发和使用来帮助保护版权材料。
 6. **DNS服务** – 对于**域名**的解析至关重要。
 
-有关更详细的解释，请查看：[**TechTerms - Active Directory定义**](https://techterms.com/definition/active_directory)
-
+有关更详细的解释，请查看：[**TechTerms - Active Directory定义**](https://techterms.com/definition/active\_directory)
 
 ### **Kerberos认证**
 
@@ -64,8 +63,8 @@
 * `smbclient -U '%' -L //<DC IP> && smbclient -U 'guest%' -L //`
 * 可以在此找到有关如何枚举SMB服务器的更详细指南：
 
-{% content-ref url="../../network-services-pentesting/pentesting-smb.md" %}
-[pentesting-smb.md](../../network-services-pentesting/pentesting-smb.md)
+{% content-ref url="../../network-services-pentesting/pentesting-smb/" %}
+[pentesting-smb](../../network-services-pentesting/pentesting-smb/)
 {% endcontent-ref %}
 
 * **枚举LDAP**
@@ -82,15 +81,16 @@
 * 通过[**暴露带有evil-S的虚假UPnP服务**](../../generic-methodologies-and-resources/pentesting-network/spoofing-ssdp-and-upnp-devices.md)[**SDP**](https://medium.com/@nickvangilder/exploiting-multifunction-printers-during-a-penetration-test-engagement-28d3840d8856)收集凭证
 * [**OSINT**](https://book.hacktricks.xyz/external-recon-methodology)：
 * 从内部文档、社交媒体、域环境内的服务（主要是Web）以及公开可用的地方提取公司员工的用户名/姓名。
-* 如果找到公司员工的完整姓名，可以尝试不同的AD**用户名约定（**[**阅读此内容**](https://activedirectorypro.com/active-directory-user-naming-convention/)）。最常见的约定有：_NameSurname_、_Name.Surname_、_NamSur_（每个字母3个）、_Nam.Sur_、_NSurname_、_N.Surname_、_SurnameName_、_Surname.Name_、_SurnameN_、_Surname.N_、3个_随机字母和3个随机数字_（abc123）。
+* 如果找到公司员工的完整姓名，可以尝试不同的AD**用户名约定（**[**阅读此内容**](https://activedirectorypro.com/active-directory-user-naming-convention/)）。最常见的约定有：_NameSurname_、_Name.Surname_、_NamSur_（每个字母3个）、_Nam.Sur_、_NSurname_、_N.Surname_、_SurnameName_、_Surname.Name_、_SurnameN_、_Surname.N_、3个\_随机字母和3个随机数字\_（abc123）。
 * 工具：
 * [w0Tx/generate-ad-username](https://github.com/w0Tx/generate-ad-username)
 * [urbanadventurer/username-anarchy](https://github.com/urbanadventurer/username-anarchy)
 
 ### 用户枚举
 
-* **匿名SMB/LDAP枚举：** 查看[**渗透测试SMB**](../../network-services-pentesting/pentesting-smb.md)和[**渗透测试LDAP**](../../network-services-pentesting/pentesting-ldap.md)页面。
-* **Kerbrute枚举**：当请求一个**无效的用户名**时，服务器将使用_Kerberos错误_代码_KRB5KDC\_ERR\_C\_PRINCIPAL\_UNKNOWN_进行响应，从而使我们能够确定用户名无效。**有效的用户名**将在_AS-REP_响应中产生_TGT_，或者产生错误_KRB5KDC\_ERR\_PREAUTH\_REQUIRED_，表明用户需要执行预身份验证。
+* **匿名SMB/LDAP枚举：** 查看[**渗透测试SMB**](../../network-services-pentesting/pentesting-smb/)和[**渗透测试LDAP**](../../network-services-pentesting/pentesting-ldap.md)页面。
+* **Kerbrute枚举**：当请求一个**无效的用户名**时，服务器将使用\_Kerberos错误\_代码\_KRB5KDC\_ERR\_C\_PRINCIPAL\_UNKNOWN\_进行响应，从而使我们能够确定用户名无效。**有效的用户名**将在\_AS-REP\_响应中产生\_TGT\_，或者产生错误\_KRB5KDC\_ERR\_PREAUTH\_REQUIRED\_，表明用户需要执行预身份验证。
+
 ```bash
 ./kerbrute_linux_amd64 userenum -d lab.ropnop.com --dc 10.10.10.10 usernames.txt #From https://github.com/ropnop/kerbrute/releases
 
@@ -101,9 +101,11 @@ msf> use auxiliary/gather/kerberos_enumusers
 
 crackmapexec smb dominio.es  -u '' -p '' --users | awk '{print $4}' | uniq
 ```
+
 * **OWA (Outlook Web Access) 服务器**
 
 如果在网络中找到了这些服务器，您还可以对其执行**用户枚举**。例如，您可以使用工具[**MailSniper**](https://github.com/dafthack/MailSniper)：
+
 ```bash
 ipmo C:\Tools\MailSniper\MailSniper.ps1
 # Get info about the domain
@@ -115,6 +117,7 @@ Invoke-PasswordSprayOWA -ExchHostname [ip] -UserList .\valid.txt -Password Summe
 # Get addresses list from the compromised mail
 Get-GlobalAddressList -ExchHostname [ip] -UserName [domain]\[username] -Password Summer2021 -OutFile gal.txt
 ```
+
 {% hint style="warning" %}
 您可以在[**此 GitHub 存储库**](https://github.com/danielmiessler/SecLists/tree/master/Usernames/Names)和这个([**statistically-likely-usernames**](https://github.com/insidetrust/statistically-likely-usernames))中找到用户名列表。
 
@@ -147,7 +150,7 @@ Get-GlobalAddressList -ExchHostname [ip] -UserName [domain]\[username] -Password
 
 ### 窃取 NTLM 凭证
 
-如果您可以使用**空用户或访客用户**访问其他计算机或共享，您可以**放置文件**（如 SCF 文件），如果某种方式访问了这些文件，将会**触发对您的 NTML 认证**，以便您可以**窃取****NTLM 挑战**以破解它：
+如果您可以使用**空用户或访客用户**访问其他计算机或共享，您可以**放置文件**（如 SCF 文件），如果某种方式访问了这些文件，将会**触发对您的 NTML 认证**，以便您可以**窃取\*\*\*\*NTLM 挑战**以破解它：
 
 {% content-ref url="../ntlm/places-to-steal-ntlm-creds.md" %}
 [places-to-steal-ntlm-creds.md](../ntlm/places-to-steal-ntlm-creds.md)
@@ -176,12 +179,12 @@ Get-GlobalAddressList -ExchHostname [ip] -UserName [domain]\[username] -Password
 * **其他自动化的 AD 枚举工具有：**[**AD Explorer**](bloodhound.md#ad-explorer)**、**[**ADRecon**](bloodhound.md#adrecon)**、**[**Group3r**](bloodhound.md#group3r)**、**[**PingCastle**](bloodhound.md#pingcastle)**。**
 * [**AD 的 DNS 记录**](ad-dns-records.md)可能包含有趣的信息。
 * 一个您可以使用的具有 GUI 的**工具**来枚举目录是来自**SysInternal** Suite 的**AdExplorer.exe**。
-* 您还可以使用**ldapsearch**在 LDAP 数据库中搜索以查找字段_userPassword_和_unixUserPassword_中的凭证，甚至是_Description_。参见[PayloadsAllTheThings 上的 AD 用户评论中的密码](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Active%20Directory%20Attack.md#password-in-ad-user-comment)以获取其他方法。
+* 您还可以使用**ldapsearch**在 LDAP 数据库中搜索以查找字段\_userPassword\_和\_unixUserPassword\_中的凭证，甚至是\_Description\_。参见[PayloadsAllTheThings 上的 AD 用户评论中的密码](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Active%20Directory%20Attack.md#password-in-ad-user-comment)以获取其他方法。
 * 如果您使用**Linux**，您还可以使用[**pywerview**](https://github.com/the-useless-one/pywerview)枚举域。
 * 您还可以尝试自动化工具，如：
 * [**tomcarver16/ADSearch**](https://github.com/tomcarver16/ADSearch)
 * [**61106960/adPEAS**](https://github.com/61106960/adPEAS)
-*   **提取所有域用户**
+* **提取所有域用户**
 
 从 Windows（`net user /domain`，`Get-DomainUser`或`wmic useraccount get name,sid`）很容易获取所有域用户名。在 Linux 中，您可以使用：`GetADUsers.py -all -dc-ip 10.10.10.110 domain.com/username`或`enum4linux -a -u "user" -p "password" <DC IP>`
 
@@ -210,6 +213,7 @@ Kerberoasting 包括获取与用户帐户绑定的服务使用的**TGS 票证**�
 ### 当前会话票证
 
 当前用户的**票证**中很**不可能**会发现**允许访问**意外资源的权限，但您可以检查：
+
 ```bash
 ## List all tickets (if not admin, only current user tickets)
 .\Rubeus.exe triage
@@ -217,6 +221,7 @@ Kerberoasting 包括获取与用户帐户绑定的服务使用的**TGS 票证**�
 .\Rubeus.exe dump /service:krbtgt /luid:<luid> /nowrap
 [IO.File]::WriteAllBytes("ticket.kirbi", [Convert]::FromBase64String("<BASE64_TICKET>"))
 ```
+
 ### NTML Relay
 
 如果你已经枚举了活动目录，你将拥有更多的电子邮件和对网络的更好理解。你可能能够强制进行 NTML 中继攻击。
@@ -225,7 +230,7 @@ Kerberoasting 包括获取与用户帐户绑定的服务使用的**TGS 票证**�
 
 现在你已经有了一些基本凭证，你应该检查是否可以在活动目录中找到任何共享的有趣文件。你可以手动执行此操作，但这是一项非常乏味重复的任务（尤其是如果你发现需要检查数百个文档）。
 
-[**点击此链接了解可使用的工具。**](../../network-services-pentesting/pentesting-smb.md#domain-shared-folders-search)
+[**点击此链接了解可使用的工具。**](../../network-services-pentesting/pentesting-smb/#domain-shared-folders-search)
 
 ### 窃取 NTLM 凭证
 
@@ -251,7 +256,7 @@ Kerberoasting 包括获取与用户帐户绑定的服务使用的**TGS 票证**�
 
 希望你已经成功妥协了一些本地管理员帐户，使用 AsRepRoast、Password Spraying、Kerberoast、Responder 包括中继、EvilSSDP、本地权限提升等方法。\
 然后，是时候在内存和本地转储所有哈希了。\
-[**阅读此页面了解获取哈希的不同方法。**](broken-reference/)
+[**阅读此页面了解获取哈希的不同方法。**](https://github.com/carlospolop/hacktricks/blob/cn/windows-hardening/active-directory-methodology/broken-reference/README.md)
 
 ### 传递哈希
 
@@ -278,11 +283,13 @@ Kerberoasting 包括获取与用户帐户绑定的服务使用的**TGS 票证**�
 ### 凭证重用
 
 如果你有本地管理员的哈希或密码，你应该尝试使用它在其他计算机上进行本地登录。
+
 ```bash
 # Local Auth Spray (once you found some local admin pass or hash)
 ## --local-auth flag indicate to only try 1 time per machine
 crackmapexec smb --local-auth 10.10.10.10/23 -u administrator -H 10298e182387f9cab376ecd08491764a0 | grep +
 ```
+
 {% hint style="warning" %}
 请注意，这可能会**嘈杂**，而**LAPS**可以**减轻**这种情况。
 {% endhint %}
@@ -337,12 +344,12 @@ crackmapexec smb --local-auth 10.10.10.10/23 -u administrator -H 10298e182387f9c
 发现域中有一个**监听 Spool 服务**的服务可能会被**滥用**以**获取新凭证**和**提升权限**。
 
 {% content-ref url="acl-persistence-abuse/" %}
-[printers-spooler-service-abuse](printers-spooler-service-abuse.md)
+[acl-persistence-abuse](acl-persistence-abuse/)
 {% endcontent-ref %}
 
 ### 第三方会话滥用
 
-如果**其他用户****访问****受损**的计算机，可以**从内存中收集凭证**，甚至**在其进程中注入信标**以冒充他们。\
+如果**其他用户访问受损**的计算机，可以**从内存中收集凭证**，甚至**在其进程中注入信标**以冒充他们。\
 通常用户将通过 RDP 访问系统，因此您可以在这里执行一些关于第三方 RDP 会话的攻击：
 
 {% content-ref url="rdp-sessions-abuse.md" %}
@@ -381,24 +388,26 @@ crackmapexec smb --local-auth 10.10.10.10/23 -u administrator -H 10298e182387f9c
 
 [**有关 DCSync 攻击的更多信息，请参阅此处**](dcsync.md)。
 
-[**有关如何窃取 NTDS.dit 的更多信息，请参阅此处**](broken-reference/)
+[**有关如何窃取 NTDS.dit 的更多信息，请参阅此处**](https://github.com/carlospolop/hacktricks/blob/cn/windows-hardening/active-directory-methodology/broken-reference/README.md)
 
 ### 特权升级作为持久性
 
 之前讨论过的一些技术可以用于持久性。\
 例如，您可以：
 
-*   使用户容易受到 [**Kerberoast**](kerberoast.md) 的攻击
+* 使用户容易受到 [**Kerberoast**](kerberoast.md) 的攻击
 
 ```powershell
 Set-DomainObject -Identity <username> -Set @{serviceprincipalname="fake/NOTHING"}r
 ```
-*   使用户容易受到 [**ASREPRoast**](asreproast.md) 的攻击
+
+* 使用户容易受到 [**ASREPRoast**](asreproast.md) 的攻击
 
 ```powershell
 Set-DomainObject -Identity <username> -XOR @{UserAccountControl=4194304}
 ```
-*   授予用户 [**DCSync**](./#dcsync) 权限
+
+* 授予用户 [**DCSync**](./#dcsync) 权限
 
 ```powershell
 Add-DomainObjectAcl -TargetIdentity "DC=SUB,DC=DOMAIN,DC=LOCAL" -PrincipalIdentity bfarmer -Rights DCSync
@@ -486,7 +495,7 @@ Active Directory 中的 **AdminSDHolder** 对象通过在这些组上应用标�
 
 ### 自定义 SSP
 
-[了解什么是 SSP（安全支持提供程序）请点击此处。](../authentication-credentials-uac-and-efs.md#security-support-provider-interface-sspi)\
+[了解什么是 SSP（安全支持提供程序）请点击此处。](../authentication-credentials-uac-and-efs/#security-support-provider-interface-sspi)\
 您可以创建**自己的 SSP** 以**以明文**捕获用于访问计算机的**凭据**。
 
 {% content-ref url="custom-ssp.md" %}
@@ -540,6 +549,7 @@ Active Directory 中的 **AdminSDHolder** 对象通过在这些组上应用标�
 **不同的信任关系**
 
 * **父子信任**：这是同一森林中常见的设置，其中子域自动与其父域建立双向传递信任。基本上，这意味着认证
+
 ```
 Get-DomainTrust
 
@@ -551,9 +561,11 @@ TrustDirection  : Bidirectional       --> Trust direction (2ways in this case)
 WhenCreated     : 2/19/2021 1:28:00 PM
 WhenChanged     : 2/19/2021 1:28:00 PM
 ```
+
 {% hint style="warning" %}
 有**2个受信任的密钥**，一个用于 _Child --> Parent_，另一个用于 _Parent_ --> _Child_。\
 您可以使用以下命令查看当前域使用的密钥：
+
 ```bash
 Invoke-Mimikatz -Command '"lsadump::trust /patch"' -ComputerName dc.my.domain.local
 Invoke-Mimikatz -Command '"lsadump::dcsync /user:dcorp\mcorp$"'
@@ -597,6 +609,7 @@ ADCS ESC5漏洞旨在控制公钥基础设施（PKI）对象，以创建一个�
 有关更多详细信息，请阅读[From DA to EA with ESC5](https://posts.specterops.io/from-da-to-ea-with-esc5-f9f045aa105c)。在缺乏ADCS的情况下，攻击者有能力设置必要的组件，如[从子域管理员升级为企业管理员](https://www.pkisolutions.com/escalating-from-child-domains-admins-to-enterprise-admins-in-5-minutes-by-abusing-ad-cs-a-follow-up/)中所讨论的。
 
 ### 外部森林域 - 单向（入站）或双向
+
 ```powershell
 Get-DomainTrust
 SourceName      : a.domain.local   --> Current domain
@@ -607,6 +620,7 @@ TrustDirection  : Inbound          --> Inboud trust
 WhenCreated     : 2/19/2021 10:50:56 PM
 WhenChanged     : 2/19/2021 10:50:56 PM
 ```
+
 在这种情况下，**您的域受到外部域的信任**，使您对其拥有**未确定的权限**。您需要找出**您的域的哪些主体对外部域具有哪些访问权限**，然后尝试利用它：
 
 {% content-ref url="external-forest-domain-oneway-inbound.md" %}
@@ -614,6 +628,7 @@ WhenChanged     : 2/19/2021 10:50:56 PM
 {% endcontent-ref %}
 
 ### 外部森林域 - 单向（出站）
+
 ```powershell
 Get-DomainTrust -Domain current.local
 
@@ -625,6 +640,7 @@ TrustDirection  : Outbound        --> Outbound trust
 WhenCreated     : 2/19/2021 10:15:24 PM
 WhenChanged     : 2/19/2021 10:15:24 PM
 ```
+
 在这种情况下，**您的域**正在向来自**不同域**的主体授予一些**特权**。
 
 然而，当受信任的域信任信任域时，受信任的域会创建一个使用**受信任密码**作为密码的**可预测名称**的用户。这意味着可以**访问信任域中的用户**以进入受信任域进行枚举并尝试提升更多特权：
@@ -646,13 +662,13 @@ WhenChanged     : 2/19/2021 10:15:24 PM
 
 ### **SID 过滤:**
 
-- 通过SID过滤来减轻跨森林信任中利用SID历史属性的攻击风险，SID过滤在所有森林信任上默认激活。这是基于一个假设，即考虑到森林而不是域，将森林视为安全边界，符合微软的立场。
-- 然而，有一个问题：SID过滤可能会干扰应用程序和用户访问，导致偶尔禁用。
+* 通过SID过滤来减轻跨森林信任中利用SID历史属性的攻击风险，SID过滤在所有森林信任上默认激活。这是基于一个假设，即考虑到森林而不是域，将森林视为安全边界，符合微软的立场。
+* 然而，有一个问题：SID过滤可能会干扰应用程序和用户访问，导致偶尔禁用。
 
 ### **选择性身份验证:**
 
-- 对于森林间的信任，使用选择性身份验证确保来自两个森林的用户不会自动验证。相反，需要为用户访问信任域或森林内的域和服务器授予明确权限。
-- 需要注意的是，这些措施并不能防止对可写配置命名上下文（NC）的利用或对信任帐户的攻击。
+* 对于森林间的信任，使用选择性身份验证确保来自两个森林的用户不会自动验证。相反，需要为用户访问信任域或森林内的域和服务器授予明确权限。
+* 需要注意的是，这些措施并不能防止对可写配置命名上下文（NC）的利用或对信任帐户的攻击。
 
 [**有关域信任的更多信息，请访问ired.team。**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/child-domain-da-to-ea-in-parent-domain)
 
@@ -662,32 +678,31 @@ WhenChanged     : 2/19/2021 10:15:24 PM
 
 ## 一些常规防御措施
 
-[**了解如何保护凭据的更多信息。**](../stealing-credentials/credentials-protections.md)\
+[**了解如何保护凭据的更多信息。**](../stealing-credentials/credentials-protections.md)\\
 
 ### **保护凭据的防御措施**
 
-- **域管理员限制**: 建议只允许域管理员登录域控制器，避免在其他主机上使用他们。
-- **服务帐户特权**: 服务不应以域管理员（DA）特权运行，以保持安全性。
-- **临时特权限制**: 对于需要DA特权的任务，其持续时间应受限制。可以通过以下方式实现：`Add-ADGroupMember -Identity ‘Domain Admins’ -Members newDA -MemberTimeToLive (New-TimeSpan -Minutes 20)`
+* **域管理员限制**: 建议只允许域管理员登录域控制器，避免在其他主机上使用他们。
+* **服务帐户特权**: 服务不应以域管理员（DA）特权运行，以保持安全性。
+* **临时特权限制**: 对于需要DA特权的任务，其持续时间应受限制。可以通过以下方式实现：`Add-ADGroupMember -Identity ‘Domain Admins’ -Members newDA -MemberTimeToLive (New-TimeSpan -Minutes 20)`
 
 ### **实施欺骗技术**
 
-- 实施欺骗技术涉及设置陷阱，如虚假用户或计算机，具有诸如不过期或标记为可委派的密码等功能。详细方法包括创建具有特定权限的用户或将其添加到高特权组中。
-- 一个实际的例子涉及使用工具：`Create-DecoyUser -UserFirstName user -UserLastName manager-uncommon -Password Pass@123 | DeployUserDeception -UserFlag PasswordNeverExpires -GUID d07da11f-8a3d-42b6-b0aa-76c962be719a -Verbose`
-- 有关部署欺骗技术的更多信息，请访问[GitHub上的Deploy-Deception](https://github.com/samratashok/Deploy-Deception)。
+* 实施欺骗技术涉及设置陷阱，如虚假用户或计算机，具有诸如不过期或标记为可委派的密码等功能。详细方法包括创建具有特定权限的用户或将其添加到高特权组中。
+* 一个实际的例子涉及使用工具：`Create-DecoyUser -UserFirstName user -UserLastName manager-uncommon -Password Pass@123 | DeployUserDeception -UserFlag PasswordNeverExpires -GUID d07da11f-8a3d-42b6-b0aa-76c962be719a -Verbose`
+* 有关部署欺骗技术的更多信息，请访问[GitHub上的Deploy-Deception](https://github.com/samratashok/Deploy-Deception)。
 
 ### **识别欺骗**
 
-- **对于用户对象**: 可疑指标包括非典型的ObjectSID、不经常的登录、创建日期和低错误密码计数。
-- **一般指标**: 将潜在的虚假对象的属性与真实对象的属性进行比较，可以揭示不一致之处。像[HoneypotBuster](https://github.com/JavelinNetworks/HoneypotBuster)这样的工具可以帮助识别这种欺骗。
+* **对于用户对象**: 可疑指标包括非典型的ObjectSID、不经常的登录、创建日期和低错误密码计数。
+* **一般指标**: 将潜在的虚假对象的属性与真实对象的属性进行比较，可以揭示不一致之处。像[HoneypotBuster](https://github.com/JavelinNetworks/HoneypotBuster)这样的工具可以帮助识别这种欺骗。
 
 ### **绕过检测系统**
 
-- **Microsoft ATA检测绕过**:
-- **用户枚举**: 避免在域控制器上进行会话枚举以防止ATA检测。
-- **票据冒充**: 利用**aes**密钥进行票据创建有助于通过不降级为NTLM来避免检测。
-- **DCSync攻击**: 建议从非域控制器执行以避免ATA检测，因为直接从域控制器执行会触发警报。
-
+* **Microsoft ATA检测绕过**:
+* **用户枚举**: 避免在域控制器上进行会话枚举以防止ATA检测。
+* **票据冒充**: 利用**aes**密钥进行票据创建有助于通过不降级为NTLM来避免检测。
+* **DCSync攻击**: 建议从非域控制器执行以避免ATA检测，因为直接从域控制器执行会触发警报。
 
 ## 参考资料
 
@@ -704,7 +719,7 @@ WhenChanged     : 2/19/2021 10:15:24 PM
 * 如果您想在HackTricks中看到您的**公司广告**或**下载PDF版HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
 * 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**上关注**我们。
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**上关注**我们。
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>

