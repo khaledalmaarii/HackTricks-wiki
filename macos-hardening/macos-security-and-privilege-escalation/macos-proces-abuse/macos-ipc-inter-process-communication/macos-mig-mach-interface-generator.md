@@ -1,4 +1,4 @@
-# macOS MIG - Gerador de Interface Mach
+# macOS MIG - Mach Interface Generator
 
 <details>
 
@@ -6,11 +6,11 @@
 
 Outras maneiras de apoiar o HackTricks:
 
-- Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-- Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-- Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-- **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-- **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 
@@ -38,15 +38,15 @@ n2          :  uint32_t);
 {% endcode %}
 
 Agora use o mig para gerar o código do servidor e do cliente que serão capazes de se comunicar entre si para chamar a função Subtract:
+
 ```bash
 mig -header myipcUser.h -sheader myipcServer.h myipc.defs
 ```
+
 Vários novos arquivos serão criados no diretório atual.
 
 Nos arquivos **`myipcServer.c`** e **`myipcServer.h`** você pode encontrar a declaração e definição da struct **`SERVERPREFmyipc_subsystem`**, que basicamente define a função a ser chamada com base no ID da mensagem recebida (indicamos um número inicial de 500):
 
-{% tabs %}
-{% tab title="myipcServer.c" %}
 ```c
 /* Description of this subsystem, for use in direct RPC */
 const struct SERVERPREFmyipc_subsystem SERVERPREFmyipc_subsystem = {
@@ -62,9 +62,9 @@ myipc_server_routine,
 }
 };
 ```
-{% endtab %}
 
-{% tab title="myipcServer.h" %}
+
+
 ```c
 /* Description of this subsystem, for use in direct RPC */
 extern const struct SERVERPREFmyipc_subsystem {
@@ -77,7 +77,9 @@ struct routine_descriptor	/* Array of routine descriptors */
 routine[1];
 } SERVERPREFmyipc_subsystem;
 ```
+
 Com base na estrutura anterior, a função **`myipc_server_routine`** receberá o **ID da mensagem** e retornará a função apropriada a ser chamada:
+
 ```c
 mig_external mig_routine_t myipc_server_routine
 (mach_msg_header_t *InHeadP)
@@ -92,15 +94,18 @@ return 0;
 return SERVERPREFmyipc_subsystem.routine[msgh_id].stub_routine;
 }
 ```
+
 Neste exemplo, apenas definimos 1 função nas definições, mas se tivéssemos definido mais funções, elas estariam dentro do array de **`SERVERPREFmyipc_subsystem`** e a primeira teria sido atribuída ao ID **500**, a segunda ao ID **501**...
 
 Na verdade, é possível identificar essa relação na struct **`subsystem_to_name_map_myipc`** do arquivo **`myipcServer.h`**:
+
 ```c
 #ifndef subsystem_to_name_map_myipc
 #define subsystem_to_name_map_myipc \
 { "Subtract", 500 }
 #endif
 ```
+
 Finalmente, outra função importante para fazer o servidor funcionar será **`myipc_server`**, que é a que realmente **chama a função** relacionada ao ID recebido:
 
 ```c
@@ -140,8 +145,6 @@ Verifique as linhas destacadas anteriormente acessando a função a ser chamada 
 
 A seguir está o código para criar um **servidor** e um **cliente** simples onde o cliente pode chamar as funções Subtrair do servidor:
 
-{% tabs %}
-{% tab title="myipc_server.c" %}
 ```c
 // gcc myipc_server.c myipcServer.c -o myipc_server
 
@@ -172,9 +175,9 @@ return 1;
 mach_msg_server(myipc_server, sizeof(union __RequestUnion__SERVERPREFmyipc_subsystem), port, MACH_MSG_TIMEOUT_NONE);
 }
 ```
-{% endtab %}
 
-{% tab title="myipc_client.c" %}
+
+
 ```c
 // gcc myipc_client.c myipcUser.c -o myipc_client
 
@@ -199,14 +202,17 @@ printf("Port right name %d\n", port);
 USERPREFSubtract(port, 40, 2);
 }
 ```
+
 ### Análise Binária
 
 Como muitos binários agora usam MIG para expor portas mach, é interessante saber como **identificar que o MIG foi usado** e as **funções que o MIG executa** com cada ID de mensagem.
 
 O [**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2) pode analisar informações do MIG de um binário Mach-O indicando o ID da mensagem e identificando a função a ser executada:
+
 ```bash
 jtool2 -d __DATA.__const myipc_server | grep MIG
 ```
+
 Foi mencionado anteriormente que a função que irá **chamar a função correta dependendo do ID da mensagem recebida** era `myipc_server`. No entanto, geralmente você não terá os símbolos do binário (nomes de funções), então é interessante **ver como ela se parece decompilada**, pois sempre será muito semelhante (o código desta função é independente das funções expostas):
 
 {% tabs %}
@@ -215,13 +221,13 @@ Foi mencionado anteriormente que a função que irá **chamar a função correta
 var_10 = arg0;
 var_18 = arg1;
 // Instruções iniciais para encontrar os ponteiros de função apropriados
-*(int32_t *)var_18 = *(int32_t *)var_10 & 0x1f;
+*(int32_t *)var_18 = *(int32_t *)var_10 &#x26; 0x1f;
 *(int32_t *)(var_18 + 0x8) = *(int32_t *)(var_10 + 0x8);
 *(int32_t *)(var_18 + 0x4) = 0x24;
 *(int32_t *)(var_18 + 0xc) = 0x0;
 *(int32_t *)(var_18 + 0x14) = *(int32_t *)(var_10 + 0x14) + 0x64;
 *(int32_t *)(var_18 + 0x10) = 0x0;
-if (*(int32_t *)(var_10 + 0x14) <= 0x1f4 && *(int32_t *)(var_10 + 0x14) >= 0x1f4) {
+if (*(int32_t *)(var_10 + 0x14) &#x3C;= 0x1f4 &#x26;&#x26; *(int32_t *)(var_10 + 0x14) >= 0x1f4) {
 rax = *(int32_t *)(var_10 + 0x14);
 // Chamada para sign_extend_64 que pode ajudar a identificar esta função
 // Isso armazena em rax o ponteiro para a chamada que precisa ser feita
@@ -262,7 +268,7 @@ stack[-8] = r30;
 var_10 = arg0;
 var_18 = arg1;
 // Instruções iniciais para encontrar os ponteiros de função apropriados
-*(int32_t *)var_18 = *(int32_t *)var_10 & 0x1f | 0x0;
+*(int32_t *)var_18 = *(int32_t *)var_10 &#x26; 0x1f | 0x0;
 *(int32_t *)(var_18 + 0x8) = *(int32_t *)(var_10 + 0x8);
 *(int32_t *)(var_18 + 0x4) = 0x24;
 *(int32_t *)(var_18 + 0xc) = 0x0;
@@ -271,19 +277,19 @@ var_18 = arg1;
 r8 = *(int32_t *)(var_10 + 0x14);
 r8 = r8 - 0x1f4;
 if (r8 > 0x0) {
-if (CPU_FLAGS & G) {
+if (CPU_FLAGS &#x26; G) {
 r8 = 0x1;
 }
 }
-if ((r8 & 0x1) == 0x0) {
+if ((r8 &#x26; 0x1) == 0x0) {
 r8 = *(int32_t *)(var_10 + 0x14);
 r8 = r8 - 0x1f4;
-if (r8 < 0x0) {
-if (CPU_FLAGS & L) {
+if (r8 &#x3C; 0x0) {
+if (CPU_FLAGS &#x26; L) {
 r8 = 0x1;
 }
 }
-if ((r8 & 0x1) == 0x0) {
+if ((r8 &#x26; 0x1) == 0x0) {
 r8 = *(int32_t *)(var_10 + 0x14);
 // 0x1f4 = 500 (o ID de início)
 <strong>                    r8 = r8 - 0x1f4;
@@ -292,13 +298,13 @@ r8 = *(r8 + 0x8);
 var_20 = r8;
 r8 = r8 - 0x0;
 if (r8 != 0x0) {
-if (CPU_FLAGS & NE) {
+if (CPU_FLAGS &#x26; NE) {
 r8 = 0x1;
 }
 }
 // Mesmo se else que na versão anterior
 // Verifique o uso do endereço 0x100004040 (array de endereços de funções)
-<strong>                    if ((r8 & 0x1) == 0x0) {
+<strong>                    if ((r8 &#x26; 0x1) == 0x0) {
 </strong><strong>                            *(var_18 + 0x18) = **0x100004000;
 </strong>                            *(int32_t *)(var_18 + 0x20) = 0xfffffed1;
 var_4 = 0x0;

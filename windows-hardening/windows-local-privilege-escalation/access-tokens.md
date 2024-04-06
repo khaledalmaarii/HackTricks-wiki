@@ -1,4 +1,4 @@
-# Tokens de Acesso
+# Access Tokens
 
 <details>
 
@@ -7,7 +7,7 @@
 * Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
@@ -17,6 +17,7 @@
 Cada **usuário logado** no sistema **possui um token de acesso com informações de segurança** para aquela sessão de logon. O sistema cria um token de acesso quando o usuário faz o logon. **Cada processo executado** em nome do usuário **possui uma cópia do token de acesso**. O token identifica o usuário, os grupos do usuário e os privilégios do usuário. Um token também contém um SID de logon (Identificador de Segurança) que identifica a sessão de logon atual.
 
 Você pode ver essas informações executando `whoami /all`
+
 ```
 whoami /all
 
@@ -60,22 +61,27 @@ SeUndockPrivilege             Remove computer from docking station Disabled
 SeIncreaseWorkingSetPrivilege Increase a process working set       Disabled
 SeTimeZonePrivilege           Change the time zone                 Disabled
 ```
+
 ### Administrador local
 
 Quando um administrador local faz login, **dois tokens de acesso são criados**: Um com direitos de administrador e outro com direitos normais. **Por padrão**, quando esse usuário executa um processo, o **token com direitos normais é utilizado**. Quando esse usuário tenta **executar** algo **como administrador** ("Executar como Administrador", por exemplo), o **UAC** será usado para solicitar permissão.\
-Se você quiser [**saber mais sobre o UAC, leia esta página**](../authentication-credentials-uac-and-efs.md#uac)**.**
+Se você quiser [**saber mais sobre o UAC, leia esta página**](../authentication-credentials-uac-and-efs/#uac)**.**
 
 ### Impersonação de usuário de credenciais
 
 Se você tiver **credenciais válidas de qualquer outro usuário**, você pode **criar** uma **nova sessão de logon** com essas credenciais:
+
 ```
 runas /user:domain\username cmd.exe
 ```
+
 O **token de acesso** também possui uma **referência** das sessões de logon dentro do **LSASS**, isso é útil se o processo precisa acessar alguns objetos da rede.\
 Você pode iniciar um processo que **usa credenciais diferentes para acessar serviços de rede** usando:
+
 ```
 runas /user:domain\username /netonly cmd.exe
 ```
+
 Isso é útil se você tiver credenciais úteis para acessar objetos na rede, mas essas credenciais não são válidas dentro do host atual, pois serão usadas apenas na rede (no host atual, os privilégios do seu usuário atual serão usados).
 
 ### Tipos de tokens
@@ -83,12 +89,11 @@ Isso é útil se você tiver credenciais úteis para acessar objetos na rede, ma
 Existem dois tipos de tokens disponíveis:
 
 * **Token Primário**: Serve como uma representação das credenciais de segurança de um processo. A criação e associação de tokens primários com processos são ações que requerem privilégios elevados, enfatizando o princípio da separação de privilégios. Tipicamente, um serviço de autenticação é responsável pela criação do token, enquanto um serviço de logon lida com sua associação com o shell do sistema operacional do usuário. Vale ressaltar que os processos herdam o token primário de seu processo pai na criação.
-
 * **Token de Impersonação**: Capacita uma aplicação de servidor a adotar temporariamente a identidade do cliente para acessar objetos seguros. Esse mecanismo é estratificado em quatro níveis de operação:
-- **Anônimo**: Concede acesso ao servidor semelhante ao de um usuário não identificado.
-- **Identificação**: Permite que o servidor verifique a identidade do cliente sem utilizá-la para acesso a objetos.
-- **Impersonação**: Permite que o servidor opere sob a identidade do cliente.
-- **Delegação**: Semelhante à Impersonação, mas inclui a capacidade de estender essa suposição de identidade a sistemas remotos com os quais o servidor interage, garantindo a preservação das credenciais.
+* **Anônimo**: Concede acesso ao servidor semelhante ao de um usuário não identificado.
+* **Identificação**: Permite que o servidor verifique a identidade do cliente sem utilizá-la para acesso a objetos.
+* **Impersonação**: Permite que o servidor opere sob a identidade do cliente.
+* **Delegação**: Semelhante à Impersonação, mas inclui a capacidade de estender essa suposição de identidade a sistemas remotos com os quais o servidor interage, garantindo a preservação das credenciais.
 
 #### Impersonate Tokens
 
@@ -98,8 +103,8 @@ Usando o módulo _**incognito**_ do metasploit, se você tiver privilégios sufi
 
 Saiba quais **privilégios do token podem ser abusados para escalar privilégios:**
 
-{% content-ref url="privilege-escalation-abusing-tokens/" %}
-[privilege-escalation-abusing-tokens](privilege-escalation-abusing-tokens/)
+{% content-ref url="privilege-escalation-abusing-tokens.md" %}
+[privilege-escalation-abusing-tokens.md](privilege-escalation-abusing-tokens.md)
 {% endcontent-ref %}
 
 Dê uma olhada em [**todos os possíveis privilégios do token e algumas definições nesta página externa**](https://github.com/gtworek/Priv2Admin).
@@ -115,7 +120,7 @@ Saiba mais sobre tokens nestes tutoriais: [https://medium.com/@seemant.bisht24/u
 * Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? ou quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

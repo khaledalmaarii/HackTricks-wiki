@@ -1,4 +1,4 @@
-# Binários universais do macOS e Formato Mach-O
+# macOS Universal binaries & Mach-O Format
 
 <details>
 
@@ -85,6 +85,7 @@ Como você pode estar pensando, geralmente um binário universal compilado para 
 ## **Cabeçalho Mach-O**
 
 O cabeçalho contém informações básicas sobre o arquivo, como bytes mágicos para identificá-lo como um arquivo Mach-O e informações sobre a arquitetura de destino. Você pode encontrá-lo em: `mdfind loader.h | grep -i mach-o | grep -E "loader.h$"`
+
 ```c
 #define	MH_MAGIC	0xfeedface	/* the mach magic number */
 #define MH_CIGAM	0xcefaedfe	/* NXSwapInt(MH_MAGIC) */
@@ -111,11 +112,13 @@ uint32_t	flags;		/* flags */
 uint32_t	reserved;	/* reserved */
 };
 ```
+
 **Tipos de Arquivos**:
 
 * MH\_EXECUTE (0x2): Executável Mach-O padrão
 * MH\_DYLIB (0x6): Uma biblioteca dinâmica Mach-O (ou seja, .dylib)
 * MH\_BUNDLE (0x8): Um pacote Mach-O (ou seja, .bundle)
+
 ```bash
 # Checking the mac header of a binary
 otool -arch arm64e -hv /bin/ls
@@ -123,6 +126,7 @@ Mach header
 magic  cputype cpusubtype  caps    filetype ncmds sizeofcmds      flags
 MH_MAGIC_64    ARM64          E USR00     EXECUTE    19       1728   NOUNDEFS DYLDLINK TWOLEVEL PIE
 ```
+
 Ou usando [Mach-O View](https://sourceforge.net/projects/machoview/):
 
 <figure><img src="../../../.gitbook/assets/image (4) (1) (4).png" alt=""><figcaption></figcaption></figure>
@@ -132,12 +136,14 @@ Ou usando [Mach-O View](https://sourceforge.net/projects/machoview/):
 O **layout do arquivo na memória** é especificado aqui, detalhando a **localização da tabela de símbolos**, o contexto da thread principal no início da execução e as **bibliotecas compartilhadas** necessárias. Instruções são fornecidas ao carregador dinâmico **(dyld)** sobre o processo de carregamento do binário na memória.
 
 O uso da estrutura **load\_command**, definida no mencionado **`loader.h`**:
+
 ```objectivec
 struct load_command {
 uint32_t cmd;           /* type of load command */
 uint32_t cmdsize;       /* total size of command in bytes */
 };
 ```
+
 Existem cerca de **50 tipos diferentes de comandos de carga** que o sistema trata de forma diferente. Os mais comuns são: `LC_SEGMENT_64`, `LC_LOAD_DYLINKER`, `LC_MAIN`, `LC_LOAD_DYLIB` e `LC_CODE_SIGNATURE`.
 
 ### **LC\_SEGMENT/LC\_SEGMENT\_64**
@@ -174,6 +180,7 @@ Exemplo de cabeçalho de segmento:
 <figure><img src="../../../.gitbook/assets/image (2) (2) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Este cabeçalho define o **número de seções cujos cabeçalhos aparecem após** ele:
+
 ```c
 struct section_64 { /* for 64-bit architectures */
 char		sectname[16];	/* name of this section */
@@ -190,6 +197,7 @@ uint32_t	reserved2;	/* reserved (for count or sizeof) */
 uint32_t	reserved3;	/* reserved */
 };
 ```
+
 Exemplo de **cabeçalho de seção**:
 
 <figure><img src="../../../.gitbook/assets/image (6) (2).png" alt=""><figcaption></figcaption></figure>
@@ -199,24 +207,26 @@ Se você **adicionar** o **deslocamento da seção** (0x37DC) + o **deslocamento
 <figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Também é possível obter **informações de cabeçalho** a partir da **linha de comando** com:
+
 ```bash
 otool -lv /bin/ls
 ```
+
 Segmentos comuns carregados por este comando:
 
-- **`__PAGEZERO`:** Instrui o kernel a **mapear** o **endereço zero** para que ele **não possa ser lido, escrito ou executado**. As variáveis maxprot e minprot na estrutura são definidas como zero para indicar que não há **direitos de leitura-escrita-execução nesta página**.
-- Essa alocação é importante para **mitigar vulnerabilidades de referência de ponteiro nulo**.
-- **`__TEXT`**: Contém **código executável** com permissões de **leitura** e **execução** (não gravável)**.** Seções comuns deste segmento:
-  - `__text`: Código binário compilado
-  - `__const`: Dados constantes
-  - `__cstring`: Constantes de string
-  - `__stubs` e `__stubs_helper`: Envolvidos durante o processo de carregamento de biblioteca dinâmica
-- **`__DATA`**: Contém dados que são **legíveis** e **graváveis** (não executáveis)**.**
-  - `__data`: Variáveis globais (que foram inicializadas)
-  - `__bss`: Variáveis estáticas (que não foram inicializadas)
-  - `__objc_*` (\_\_objc\_classlist, \_\_objc\_protolist, etc): Informações usadas pelo tempo de execução Objective-C
-- **`__LINKEDIT`**: Contém informações para o linker (dyld) como "entradas de tabela de símbolos, strings e realocação".
-- **`__OBJC`**: Contém informações usadas pelo tempo de execução Objective-C. Embora essas informações também possam ser encontradas no segmento \_\_DATA, dentro de várias seções \_\_objc\_\*.
+* **`__PAGEZERO`:** Instrui o kernel a **mapear** o **endereço zero** para que ele **não possa ser lido, escrito ou executado**. As variáveis maxprot e minprot na estrutura são definidas como zero para indicar que não há **direitos de leitura-escrita-execução nesta página**.
+* Essa alocação é importante para **mitigar vulnerabilidades de referência de ponteiro nulo**.
+* **`__TEXT`**: Contém **código executável** com permissões de **leitura** e **execução** (não gravável)**.** Seções comuns deste segmento:
+  * `__text`: Código binário compilado
+  * `__const`: Dados constantes
+  * `__cstring`: Constantes de string
+  * `__stubs` e `__stubs_helper`: Envolvidos durante o processo de carregamento de biblioteca dinâmica
+* **`__DATA`**: Contém dados que são **legíveis** e **graváveis** (não executáveis)**.**
+  * `__data`: Variáveis globais (que foram inicializadas)
+  * `__bss`: Variáveis estáticas (que não foram inicializadas)
+  * `__objc_*` (\_\_objc\_classlist, \_\_objc\_protolist, etc): Informações usadas pelo tempo de execução Objective-C
+* **`__LINKEDIT`**: Contém informações para o linker (dyld) como "entradas de tabela de símbolos, strings e realocação".
+* **`__OBJC`**: Contém informações usadas pelo tempo de execução Objective-C. Embora essas informações também possam ser encontradas no segmento \_\_DATA, dentro de várias seções \_\_objc\_\*.
 
 ### **`LC_MAIN`**
 
@@ -235,7 +245,8 @@ Contém o **caminho para o executável do link dinâmico** que mapeia biblioteca
 
 Este comando de carregamento descreve uma **dependência de biblioteca dinâmica** que **instrui** o **carregador** (dyld) a **carregar e vincular essa biblioteca**. Há um comando de carregamento LC\_LOAD\_DYLIB **para cada biblioteca** que o binário Mach-O requer.
 
-- Este comando de carregamento é uma estrutura do tipo **`dylib_command`** (que contém uma struct dylib, descrevendo a biblioteca dinâmica dependente real):
+* Este comando de carregamento é uma estrutura do tipo **`dylib_command`** (que contém uma struct dylib, descrevendo a biblioteca dinâmica dependente real):
+
 ```objectivec
 struct dylib_command {
 uint32_t        cmd;            /* LC_LOAD_{,WEAK_}DYLIB */
@@ -250,9 +261,11 @@ uint32_t current_version;           /* library's current version number */
 uint32_t compatibility_version;     /* library's compatibility vers number*/
 };
 ```
+
 ![](<../../../.gitbook/assets/image (558).png>)
 
 Você também pode obter essas informações a partir da linha de comando com:
+
 ```bash
 otool -L /bin/ls
 /bin/ls:
@@ -260,11 +273,12 @@ otool -L /bin/ls
 /usr/lib/libncurses.5.4.dylib (compatibility version 5.4.0, current version 5.4.0)
 /usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1319.0.0)
 ```
+
 Algumas bibliotecas potencialmente relacionadas a malware são:
 
-- **DiskArbitration**: Monitorando unidades USB
-- **AVFoundation:** Captura de áudio e vídeo
-- **CoreWLAN**: Escaneamentos de Wifi.
+* **DiskArbitration**: Monitorando unidades USB
+* **AVFoundation:** Captura de áudio e vídeo
+* **CoreWLAN**: Escaneamentos de Wifi.
 
 {% hint style="info" %}
 Um binário Mach-O pode conter um ou **mais** **construtores**, que serão **executados** **antes** do endereço especificado em **LC\_MAIN**.\
@@ -279,22 +293,24 @@ No cerne do arquivo está a região de dados, composta por vários segmentos con
 Os dados são basicamente a parte que contém todas as **informações** carregadas pelos comandos de carga **LC\_SEGMENTS\_64**
 {% endhint %}
 
-![https://www.oreilly.com/api/v2/epubs/9781785883378/files/graphics/B05055\_02\_38.jpg](<../../../.gitbook/assets/image (507) (3).png>)
+![https://www.oreilly.com/api/v2/epubs/9781785883378/files/graphics/B05055\_02\_38.jpg](<../../../.gitbook/assets/image (507) (3) (1).png>)
 
 Isso inclui:
 
-- **Tabela de funções:** Que contém informações sobre as funções do programa.
-- **Tabela de símbolos**: Que contém informações sobre a função externa usada pelo binário
-- Também pode conter funções internas, nomes de variáveis e mais.
+* **Tabela de funções:** Que contém informações sobre as funções do programa.
+* **Tabela de símbolos**: Que contém informações sobre a função externa usada pelo binário
+* Também pode conter funções internas, nomes de variáveis e mais.
 
 Para verificar, você pode usar a ferramenta [**Mach-O View**](https://sourceforge.net/projects/machoview/):
 
-<figure><img src="../../../.gitbook/assets/image (2) (1) (4).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
 
 Ou a partir da linha de comando:
+
 ```bash
 size -m /bin/ls
 ```
+
 <details>
 
 <summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>

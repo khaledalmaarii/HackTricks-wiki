@@ -1,4 +1,4 @@
-# Abuso de Processos no macOS
+# macOS Proces Abuse
 
 <details>
 
@@ -30,16 +30,16 @@ A Injeção de Biblioteca é uma técnica na qual um atacante **força um proces
 
 O Hooking de Funções envolve **interceptar chamadas de função** ou mensagens dentro de um código de software. Ao enganchar funções, um atacante pode **modificar o comportamento** de um processo, observar dados sensíveis ou até mesmo obter controle sobre o fluxo de execução.
 
-{% content-ref url="../mac-os-architecture/macos-function-hooking.md" %}
-[macos-function-hooking.md](../mac-os-architecture/macos-function-hooking.md)
+{% content-ref url="macos-function-hooking.md" %}
+[macos-function-hooking.md](macos-function-hooking.md)
 {% endcontent-ref %}
 
 ### Comunicação entre Processos
 
 A Comunicação entre Processos (IPC) refere-se a diferentes métodos pelos quais processos separados **compartilham e trocam dados**. Embora o IPC seja fundamental para muitas aplicações legítimas, ele também pode ser mal utilizado para subverter o isolamento de processos, vazar informações sensíveis ou realizar ações não autorizadas.
 
-{% content-ref url="../mac-os-architecture/macos-ipc-inter-process-communication/" %}
-[macos-ipc-inter-process-communication](../mac-os-architecture/macos-ipc-inter-process-communication/)
+{% content-ref url="macos-ipc-inter-process-communication/" %}
+[macos-ipc-inter-process-communication](macos-ipc-inter-process-communication/)
 {% endcontent-ref %}
 
 ### Injeção em Aplicações Electron
@@ -107,19 +107,7 @@ Outras variáveis de ambiente, como **`PYTHONPATH`** e **`PYTHONHOME`**, também
 
 Observe que executáveis compilados com **`pyinstaller`** não usarão essas variáveis ambientais, mesmo que estejam sendo executados usando um Python incorporado.
 
-{% hint style="danger" %}
-No geral, não consegui encontrar uma maneira de fazer o Python executar código arbitrário abusando de variáveis de ambiente.\
-No entanto, a maioria das pessoas instala o Python usando o **Hombrew**, que instalará o Python em um **local gravável** para o usuário administrador padrão. Você pode se apropriar disso com algo como:
-```bash
-mv /opt/homebrew/bin/python3 /opt/homebrew/bin/python3.old
-cat > /opt/homebrew/bin/python3 <<EOF
-#!/bin/bash
-# Extra hijack code
-/opt/homebrew/bin/python3.old "$@"
-EOF
-chmod +x /opt/homebrew/bin/python3
-```
-Até mesmo **root** executará este código ao executar python.
+No geral, não consegui encontrar uma maneira de fazer o Python executar código arbitrário abusando de variáveis de ambiente.\ No entanto, a maioria das pessoas instala o Python usando o \*\*Hombrew\*\*, que instalará o Python em um \*\*local gravável\*\* para o usuário administrador padrão. Você pode se apropriar disso com algo como: \`\`\`bash mv /opt/homebrew/bin/python3 /opt/homebrew/bin/python3.old cat > /opt/homebrew/bin/python3 <
 
 ## Detecção
 

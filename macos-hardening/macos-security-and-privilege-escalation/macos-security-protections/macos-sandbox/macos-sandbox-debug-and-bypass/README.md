@@ -1,4 +1,4 @@
-# Depuração e Bypass do Sandbox do macOS
+# macOS Sandbox Debug & Bypass
 
 <details>
 
@@ -9,7 +9,7 @@ Outras formas de apoiar o HackTricks:
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
@@ -77,18 +77,21 @@ Se a partir do processo em sandbox você conseguir **comprometer outros processo
 [**Esta pesquisa**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/) descobriu 2 maneiras de contornar o Sandbox. Como o sandbox é aplicado a partir do espaço do usuário quando a biblioteca **libSystem** é carregada. Se um binário pudesse evitar carregá-lo, ele nunca seria colocado em sandbox:
 
 * Se o binário fosse **completamente compilado estaticamente**, ele poderia evitar carregar essa biblioteca.
-* Se o **binário não precisasse carregar nenhuma biblioteca** (porque o linker também está em libSystem), ele não precisaria carregar libSystem.&#x20;
+* Se o **binário não precisasse carregar nenhuma biblioteca** (porque o linker também está em libSystem), ele não precisaria carregar libSystem.
 
 ### Shellcodes
 
 Observe que **mesmo shellcodes** em ARM64 precisam ser vinculados em `libSystem.dylib`:
+
 ```bash
 ld -o shell shell.o -macosx_version_min 13.0
 ld: dynamic executables or dylibs must link with libSystem.dylib for architecture arm64
 ```
+
 ### Privilégios
 
 Note que mesmo que algumas **ações** possam ser **permitidas pelo sandbox** se um aplicativo tiver um **privilégio específico**, como em:
+
 ```scheme
 (when (entitlement "com.apple.security.network.client")
 (allow network-outbound (remote ip))
@@ -98,15 +101,17 @@ Note que mesmo que algumas **ações** possam ser **permitidas pelo sandbox** se
 (global-name "com.apple.cfnetwork.cfnetworkagent")
 [...]
 ```
+
 ### Bypass de Interposição
 
 Para obter mais informações sobre **Interposição**, consulte:
 
-{% content-ref url="../../../mac-os-architecture/macos-function-hooking.md" %}
-[macos-function-hooking.md](../../../mac-os-architecture/macos-function-hooking.md)
+{% content-ref url="../../../macos-proces-abuse/macos-function-hooking.md" %}
+[macos-function-hooking.md](../../../macos-proces-abuse/macos-function-hooking.md)
 {% endcontent-ref %}
 
 #### Interpor `_libsecinit_initializer` para evitar a sandbox
+
 ```c
 // gcc -dynamiclib interpose.c -o interpose.dylib
 
@@ -130,6 +135,7 @@ DYLD_INSERT_LIBRARIES=./interpose.dylib ./sand
 _libsecinit_initializer called
 Sandbox Bypassed!
 ```
+
 #### Interceptar `__mac_syscall` para evitar a Sandbox
 
 {% code title="interpose.c" %}
@@ -165,6 +171,7 @@ __attribute__((used)) static const struct interpose_sym interposers[] __attribut
 };
 ```
 {% endcode %}
+
 ```bash
 DYLD_INSERT_LIBRARIES=./interpose.dylib ./sand
 
@@ -176,25 +183,21 @@ __mac_syscall invoked. Policy: Quarantine, Call: 87
 __mac_syscall invoked. Policy: Sandbox, Call: 4
 Sandbox Bypassed!
 ```
+
 ### Depurar e burlar o Sandbox com lldb
 
 Vamos compilar uma aplicação que deve estar em sandbox:
 
-{% tabs %}
-{% tab title="sand.c" %}
 ```c
 #include <stdlib.h>
 int main() {
 system("cat ~/Desktop/del.txt");
 }
 ```
-{% endtab %}
 
-{% tab title="entitlements.xml" %} 
+### macOS Sandbox Debug and Bypass
 
-## macOS Sandbox Debug and Bypass
-
-### Debugging the Sandbox
+#### Debugging the Sandbox
 
 To debug the macOS sandbox, you can use the `sandbox-exec` tool with the `-D` flag to enable debug mode. This will print detailed information about the sandbox operations being performed.
 
@@ -202,11 +205,12 @@ To debug the macOS sandbox, you can use the `sandbox-exec` tool with the `-D` fl
 sandbox-exec -D
 ```
 
-### Bypassing the Sandbox
+#### Bypassing the Sandbox
 
 To bypass the macOS sandbox, you can use various techniques such as exploiting vulnerabilities in the sandbox profile, abusing entitlements, or injecting code into a process to disable sandbox restrictions.
 
 It is important to note that bypassing the macOS sandbox is a serious security risk and should only be done for research or testing purposes in controlled environments.
+
 ```xml
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
 <dict>
@@ -215,23 +219,19 @@ It is important to note that bypassing the macOS sandbox is a serious security r
 </dict>
 </plist>
 ```
-{% endtab %}
 
-{% tab title="Info.plist" %} 
+### Info.plist
 
-## Info.plist
+O arquivo `Info.plist` contém as configurações de sandboxing para um aplicativo macOS. Ele define as permissões e restrições de acesso que o aplicativo terá ao sistema e a outros recursos. Ao modificar este arquivo, é possível ajustar as restrições de segurança impostas ao aplicativo, potencialmente permitindo a execução de ações não autorizadas. É importante revisar e validar as configurações do `Info.plist` para garantir que o aplicativo esteja devidamente protegido contra possíveis violações de segurança.
 
-O arquivo `Info.plist` contém as configurações de sandboxing para um aplicativo macOS. Ele define as permissões e restrições de acesso que o aplicativo terá ao sistema e a outros recursos. Ao modificar este arquivo, é possível ajustar as restrições de segurança impostas ao aplicativo, potencialmente permitindo a execução de ações não autorizadas. É importante revisar e validar as configurações do `Info.plist` para garantir que o aplicativo esteja devidamente protegido contra possíveis violações de segurança. 
+#### Bypassing Sandbox Restrictions
 
-### Bypassing Sandbox Restrictions
+Existem técnicas avançadas que podem ser usadas para contornar as restrições de sandboxing e obter acesso não autorizado a recursos do sistema. Os desenvolvedores e administradores de segurança devem estar cientes dessas técnicas e implementar medidas adicionais para mitigar possíveis vulnerabilidades de sandboxing.
 
-Existem técnicas avançadas que podem ser usadas para contornar as restrições de sandboxing e obter acesso não autorizado a recursos do sistema. Os desenvolvedores e administradores de segurança devem estar cientes dessas técnicas e implementar medidas adicionais para mitigar possíveis vulnerabilidades de sandboxing. 
+#### Debugging Sandbox Violations
 
-### Debugging Sandbox Violations
+Ao encontrar violações de sandboxing em um aplicativo, é importante realizar uma análise detalhada para identificar a causa raiz do problema. O uso de ferramentas de depuração e monitoramento pode ajudar a rastrear e corrigir violações de sandboxing de forma eficaz. Certifique-se de revisar regularmente os logs de sandboxing para identificar e resolver quaisquer problemas de segurança em potencial.
 
-Ao encontrar violações de sandboxing em um aplicativo, é importante realizar uma análise detalhada para identificar a causa raiz do problema. O uso de ferramentas de depuração e monitoramento pode ajudar a rastrear e corrigir violações de sandboxing de forma eficaz. Certifique-se de revisar regularmente os logs de sandboxing para identificar e resolver quaisquer problemas de segurança em potencial. 
-
-{% endtab %}
 ```xml
 <plist version="1.0">
 <dict>
@@ -242,8 +242,6 @@ Ao encontrar violações de sandboxing em um aplicativo, é importante realizar 
 </dict>
 </plist>
 ```
-{% endtab %}
-{% endtabs %}
 
 Em seguida, compile o aplicativo:
 
@@ -262,12 +260,14 @@ codesign -s <cert-name> --entitlements entitlements.xml sand
 {% hint style="danger" %}
 O aplicativo tentará **ler** o arquivo **`~/Desktop/del.txt`**, o qual a **Sandbox não permitirá**.\
 Crie um arquivo lá, pois uma vez que a Sandbox for burlada, o aplicativo poderá lê-lo:
+
 ```bash
 echo "Sandbox Bypassed" > ~/Desktop/del.txt
 ```
 {% endhint %}
 
 Vamos depurar a aplicação para ver quando o Sandbox é carregado:
+
 ```bash
 # Load app in debugging
 lldb ./sand
@@ -344,6 +344,7 @@ Process 2517 resuming
 Sandbox Bypassed!
 Process 2517 exited with status = 0 (0x00000000)
 ```
+
 {% hint style="warning" %}
 **Mesmo com o Sandbox sendo burlado, o TCC** perguntará ao usuário se ele deseja permitir que o processo leia arquivos da área de trabalho.
 {% endhint %}
@@ -363,7 +364,7 @@ Outras maneiras de apoiar o HackTricks:
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**oficial PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

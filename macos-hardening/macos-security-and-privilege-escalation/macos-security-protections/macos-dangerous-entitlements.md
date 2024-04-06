@@ -1,4 +1,4 @@
-# macOS Entitlements Perigosos e Permissões TCC
+# macOS Dangerous Entitlements & TCC perms
 
 <details>
 
@@ -30,11 +30,11 @@ A permissão **`com.apple.rootless.install`** permite **burlar o SIP**. Verifiqu
 
 ### **`com.apple.system-task-ports` (anteriormente chamado `task_for_pid-allow`)**
 
-Essa permissão permite obter a **porta de tarefa para qualquer** processo, exceto o kernel. Verifique [**este para mais informações**](../mac-os-architecture/macos-ipc-inter-process-communication/).
+Essa permissão permite obter a **porta de tarefa para qualquer** processo, exceto o kernel. Verifique [**este para mais informações**](../macos-proces-abuse/macos-ipc-inter-process-communication/).
 
 ### `com.apple.security.get-task-allow`
 
-Essa permissão permite que outros processos com a permissão **`com.apple.security.cs.debugger`** obtenham a porta de tarefa do processo executado pelo binário com essa permissão e **injetem código nele**. Verifique [**este para mais informações**](../mac-os-architecture/macos-ipc-inter-process-communication/).
+Essa permissão permite que outros processos com a permissão **`com.apple.security.cs.debugger`** obtenham a porta de tarefa do processo executado pelo binário com essa permissão e **injetem código nele**. Verifique [**este para mais informações**](../macos-proces-abuse/macos-ipc-inter-process-communication/).
 
 ### `com.apple.security.cs.debugger`
 
@@ -88,6 +88,7 @@ TODO: Em [**este relatório**](https://jhftss.github.io/The-Nightmare-of-Apple-O
 ### `keychain-access-groups`
 
 Esta lista de permissões os grupos de **keychain** aos quais o aplicativo tem acesso:
+
 ```xml
 <key>keychain-access-groups</key>
 <array>
@@ -98,6 +99,7 @@ Esta lista de permissões os grupos de **keychain** aos quais o aplicativo tem a
 <string>IMCore</string>
 </array>
 ```
+
 ### **`kTCCServiceSystemPolicyAllFiles`**
 
 Concede permissões de **Acesso Total ao Disco**, uma das permissões mais altas do TCC que você pode ter.
@@ -169,12 +171,14 @@ Esta permissão permite montar um sistema de arquivos nullfs (proibido por padr�
 ### `kTCCServiceAll`
 
 De acordo com este post de blog, esta permissão do TCC geralmente é encontrada na forma:
+
 ```
 [Key] com.apple.private.tcc.allow-prompting
 [Value]
 [Array]
 [String] kTCCServiceAll
 ```
+
 Permitir que o processo **solicite todas as permissões do TCC**.
 
 ### **`kTCCServicePostEvent`**

@@ -94,7 +94,7 @@ Fique informado sobre os novos bug bounties lançados e atualizações cruciais 
 
 ### [SerpApi](https://serpapi.com/)
 
-<figure><img src=".gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
 
 A SerpApi oferece APIs em tempo real rápidas e fáceis para **acessar resultados de mecanismos de busca**. Eles raspam mecanismos de busca, lidam com proxies, resolvem captchas e analisam todos os dados estruturados ricos para você.
 
@@ -131,6 +131,7 @@ Outra coisa legal sobre a WebSec é que, ao contrário da média da indústria, 
 Além do acima, a WebSec também é uma **apoiadora comprometida do HackTricks.**
 
 {% embed url="https://www.youtube.com/watch?v=Zq2JycGDCPM" %}
+
 ## Licença e Aviso Legal
 
 **Verifique-os em:**

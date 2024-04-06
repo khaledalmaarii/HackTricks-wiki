@@ -1,4 +1,4 @@
-# Metodologia do Active Directory
+# Active Directory Methodology
 
 <details>
 
@@ -9,7 +9,7 @@ Outras formas de apoiar o HackTricks:
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe suas dicas de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
@@ -37,8 +37,7 @@ Conceitos-chave dentro do **Active Directory** incluem:
 5. **Gerenciamento de Direitos** – Auxilia na proteção de material protegido por direitos autorais, regulando sua distribuição e uso não autorizado.
 6. **Serviço DNS** – Crucial para a resolução de **nomes de domínio**.
 
-Para uma explicação mais detalhada, consulte: [**TechTerms - Definição do Active Directory**](https://techterms.com/definition/active_directory)
-
+Para uma explicação mais detalhada, consulte: [**TechTerms - Definição do Active Directory**](https://techterms.com/definition/active\_directory)
 
 ### **Autenticação Kerberos**
 
@@ -64,8 +63,8 @@ Se você apenas tem acesso a um ambiente AD, mas não possui credenciais/sessõe
 * `smbclient -U '%' -L //<DC IP> && smbclient -U 'guest%' -L //`
 * Um guia mais detalhado sobre como enumerar um servidor SMB pode ser encontrado aqui:
 
-{% content-ref url="../../network-services-pentesting/pentesting-smb.md" %}
-[pentesting-smb.md](../../network-services-pentesting/pentesting-smb.md)
+{% content-ref url="../../network-services-pentesting/pentesting-smb/" %}
+[pentesting-smb](../../network-services-pentesting/pentesting-smb/)
 {% endcontent-ref %}
 
 * **Enumerar Ldap**
@@ -89,8 +88,9 @@ Se você apenas tem acesso a um ambiente AD, mas não possui credenciais/sessõe
 
 ### Enumeração de Usuários
 
-* **Enumeração anônima de SMB/LDAP:** Consulte as páginas de [**pentesting SMB**](../../network-services-pentesting/pentesting-smb.md) e [**pentesting LDAP**](../../network-services-pentesting/pentesting-ldap.md).
+* **Enumeração anônima de SMB/LDAP:** Consulte as páginas de [**pentesting SMB**](../../network-services-pentesting/pentesting-smb/) e [**pentesting LDAP**](../../network-services-pentesting/pentesting-ldap.md).
 * **Enumeração Kerbrute**: Quando um **nome de usuário inválido é solicitado**, o servidor responderá usando o código de erro do Kerberos _KRB5KDC\_ERR\_C\_PRINCIPAL\_UNKNOWN_, permitindo-nos determinar que o nome de usuário era inválido. **Nomes de usuário válidos** resultarão ou no **TGT em uma resposta AS-REP** ou no erro _KRB5KDC\_ERR\_PREAUTH\_REQUIRED_, indicando que o usuário precisa realizar pré-autenticação.
+
 ```bash
 ./kerbrute_linux_amd64 userenum -d lab.ropnop.com --dc 10.10.10.10 usernames.txt #From https://github.com/ropnop/kerbrute/releases
 
@@ -101,9 +101,11 @@ msf> use auxiliary/gather/kerberos_enumusers
 
 crackmapexec smb dominio.es  -u '' -p '' --users | awk '{print $4}' | uniq
 ```
+
 * **Servidor OWA (Outlook Web Access)**
 
 Se você encontrou um desses servidores na rede, também pode realizar **enumeração de usuários contra ele**. Por exemplo, você poderia usar a ferramenta [**MailSniper**](https://github.com/dafthack/MailSniper):
+
 ```bash
 ipmo C:\Tools\MailSniper\MailSniper.ps1
 # Get info about the domain
@@ -115,6 +117,7 @@ Invoke-PasswordSprayOWA -ExchHostname [ip] -UserList .\valid.txt -Password Summe
 # Get addresses list from the compromised mail
 Get-GlobalAddressList -ExchHostname [ip] -UserName [domain]\[username] -Password Summer2021 -OutFile gal.txt
 ```
+
 {% hint style="warning" %}
 Você pode encontrar listas de nomes de usuário em [**este repositório do github**](https://github.com/danielmiessler/SecLists/tree/master/Usernames/Names) e neste ([**statistically-likely-usernames**](https://github.com/insidetrust/statistically-likely-usernames)).
 
@@ -181,7 +184,7 @@ Com relação ao [**ASREPRoast**](asreproast.md), agora você pode encontrar tod
 * Você também pode tentar ferramentas automatizadas como:
 * [**tomcarver16/ADSearch**](https://github.com/tomcarver16/ADSearch)
 * [**61106960/adPEAS**](https://github.com/61106960/adPEAS)
-*   **Extraindo todos os usuários do domínio**
+* **Extraindo todos os usuários do domínio**
 
 É muito fácil obter todos os nomes de usuário do domínio no Windows (`net user /domain`, `Get-DomainUser` ou `wmic useraccount get name,sid`). No Linux, você pode usar: `GetADUsers.py -all -dc-ip 10.10.10.110 domain.com/username` ou `enum4linux -a -u "user" -p "password" <DC IP>`
 
@@ -210,6 +213,7 @@ Há uma página completa neste livro sobre [**escalação de privilégios local 
 ### Tickets da Sessão Atual
 
 É muito **improvável** que você encontre **tickets** no usuário atual **dando permissão para acessar** recursos inesperados, mas você pode verificar:
+
 ```bash
 ## List all tickets (if not admin, only current user tickets)
 .\Rubeus.exe triage
@@ -217,6 +221,7 @@ Há uma página completa neste livro sobre [**escalação de privilégios local 
 .\Rubeus.exe dump /service:krbtgt /luid:<luid> /nowrap
 [IO.File]::WriteAllBytes("ticket.kirbi", [Convert]::FromBase64String("<BASE64_TICKET>"))
 ```
+
 ### NTML Relay
 
 Se você conseguiu enumerar o active directory, terá **mais e-mails e uma melhor compreensão da rede**. Você pode ser capaz de forçar ataques de **retransmissão NTML**.
@@ -225,7 +230,7 @@ Se você conseguiu enumerar o active directory, terá **mais e-mails e uma melho
 
 Agora que você tem algumas credenciais básicas, você deve verificar se consegue **encontrar** arquivos **interessantes sendo compartilhados dentro do AD**. Você poderia fazer isso manualmente, mas é uma tarefa muito entediante e repetitiva (ainda mais se encontrar centenas de documentos para verificar).
 
-[**Siga este link para aprender sobre ferramentas que você poderia usar.**](../../network-services-pentesting/pentesting-smb.md#domain-shared-folders-search)
+[**Siga este link para aprender sobre ferramentas que você poderia usar.**](../../network-services-pentesting/pentesting-smb/#domain-shared-folders-search)
 
 ### Roubar Credenciais NTLM
 
@@ -251,7 +256,7 @@ Essa vulnerabilidade permitia que qualquer usuário autenticado **comprometesse 
 
 Esperançosamente, você conseguiu **comprometer alguma conta de administrador local** usando [AsRepRoast](asreproast.md), [Password Spraying](password-spraying.md), [Kerberoast](kerberoast.md), [Responder](../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md) incluindo retransmissão, [EvilSSDP](../../generic-methodologies-and-resources/pentesting-network/spoofing-ssdp-and-upnp-devices.md), [escalando privilégios localmente](../windows-local-privilege-escalation/).\
 Então, é hora de despejar todos os hashes na memória e localmente.\
-[**Leia esta página sobre diferentes maneiras de obter os hashes.**](broken-reference/)
+[**Leia esta página sobre diferentes maneiras de obter os hashes.**](https://github.com/carlospolop/hacktricks/blob/pt/windows-hardening/active-directory-methodology/broken-reference/README.md)
 
 ### Pass the Hash
 
@@ -278,11 +283,13 @@ No método de ataque **Pass The Ticket (PTT)**, os atacantes **roubam o ticket d
 ### Reutilização de Credenciais
 
 Se você tiver o **hash** ou **senha** de um **administrador local**, você deve tentar **fazer login localmente** em outros **PCs** com ele.
+
 ```bash
 # Local Auth Spray (once you found some local admin pass or hash)
 ## --local-auth flag indicate to only try 1 time per machine
 crackmapexec smb --local-auth 10.10.10.10/23 -u administrator -H 10298e182387f9cab376ecd08491764a0 | grep +
 ```
+
 {% hint style="warning" %}
 Note que isso é bastante **ruidoso** e o **LAPS** poderia **mitigar** isso.
 {% endhint %}
@@ -337,7 +344,7 @@ O usuário comprometido pode ter alguns **privilégios interessantes sobre algun
 Descobrir um **serviço de Spool** ouvindo dentro do domínio pode ser **abusado** para **adquirir novas credenciais** e **elevar privilégios**.
 
 {% content-ref url="acl-persistence-abuse/" %}
-[printers-spooler-service-abuse](printers-spooler-service-abuse.md)
+[acl-persistence-abuse](acl-persistence-abuse/)
 {% endcontent-ref %}
 
 ### Abuso de Sessões de Terceiros
@@ -381,24 +388,26 @@ Uma vez que você obtém privilégios de **Administrador de Domínio** ou até m
 
 [**Mais informações sobre o ataque DCSync podem ser encontradas aqui**](dcsync.md).
 
-[**Mais informações sobre como roubar o NTDS.dit podem ser encontradas aqui**](broken-reference/)
+[**Mais informações sobre como roubar o NTDS.dit podem ser encontradas aqui**](https://github.com/carlospolop/hacktricks/blob/pt/windows-hardening/active-directory-methodology/broken-reference/README.md)
 
 ### Privesc como Persistência
 
 Algumas das técnicas discutidas anteriormente podem ser usadas para persistência.\
 Por exemplo, você poderia:
 
-*   Tornar usuários vulneráveis ao [**Kerberoast**](kerberoast.md)
+* Tornar usuários vulneráveis ao [**Kerberoast**](kerberoast.md)
 
 ```powershell
 Set-DomainObject -Identity <nome de usuário> -Set @{serviceprincipalname="falso/NADA"}r
 ```
-*   Tornar usuários vulneráveis ao [**ASREPRoast**](asreproast.md)
+
+* Tornar usuários vulneráveis ao [**ASREPRoast**](asreproast.md)
 
 ```powershell
 Set-DomainObject -Identity <nome de usuário> -XOR @{UserAccountControl=4194304}
 ```
-*   Conceder privilégios de [**DCSync**](./#dcsync) a um usuário
+
+* Conceder privilégios de [**DCSync**](./#dcsync) a um usuário
 
 ```powershell
 Add-DomainObjectAcl -TargetIdentity "DC=SUB,DC=DOMÍNIO,DC=LOCAL" -PrincipalIdentity bfarmer -Rights DCSync
@@ -466,7 +475,7 @@ Você poderia **dar** algumas **permissões especiais** a um **usuário** sobre 
 
 {% content-ref url="acl-persistence-abuse/" %}
 [acl-persistence-abuse](acl-persistence-abuse/)
-{% endcontent-ref % %}
+{% endcontent-ref %}
 
 ### Descritores de Segurança
 
@@ -486,7 +495,7 @@ Alterar o **LSASS** na memória para estabelecer uma **senha universal**, conced
 
 ### SSP Personalizado
 
-[Saiba o que é um SSP (Provedor de Suporte de Segurança) aqui.](../authentication-credentials-uac-and-efs.md#security-support-provider-interface-sspi)\
+[Saiba o que é um SSP (Provedor de Suporte de Segurança) aqui.](../authentication-credentials-uac-and-efs/#security-support-provider-interface-sspi)\
 Você pode criar seu **próprio SSP** para **capturar** em **texto claro** as **credenciais** usadas para acessar a máquina.\\
 
 {% content-ref url="custom-ssp.md" %}
@@ -531,7 +540,6 @@ Em um cenário típico, se um usuário pretende acessar um serviço em um **dom�
 6. DC2 verifica o TGT inter-reino usando sua chave de confiança compartilhada e, se válido, emite um **Ticket Granting Service (TGS)** para o servidor no Domínio 2 que o cliente deseja acessar.
 7. Finalmente, o cliente apresenta este TGS ao servidor, que é criptografado com o hash da conta do servidor, para obter acesso ao serviço no Domínio 2.
 
-
 ### Diferentes confianças
 
 É importante notar que **uma confiança pode ser de 1 via ou de 2 vias**. Nas opções de 2 vias, ambos os domínios confiarão um no outro, mas na relação de confiança de **1 via**, um dos domínios será o domínio confiável e o outro o domínio confiante. Neste último caso, **você só poderá acessar recursos dentro do domínio confiante a partir do confiável**.
@@ -542,6 +550,7 @@ Se o Domínio A confia no Domínio B, A é o domínio confiante e B é o domíni
 
 * **Confianças Pai-Filho**: Esta é uma configuração comum dentro da mesma floresta, onde um domínio filho automaticamente tem uma confiança de duas vias transitiva com seu domínio pai. Essencialmente, isso significa que as solicitações de autenticação podem fluir sem problemas entre o pai e o filho.
 * **Confianças de Link Cruzado**: Chamadas de "confianças de atalho", essas são estabelecidas entre domínios filhos para acelerar os processos de referência. Em florestas complexas, as referências de autenticação geralmente têm
+
 ```
 Get-DomainTrust
 
@@ -553,9 +562,11 @@ TrustDirection  : Bidirectional       --> Trust direction (2ways in this case)
 WhenCreated     : 2/19/2021 1:28:00 PM
 WhenChanged     : 2/19/2021 1:28:00 PM
 ```
+
 {% hint style="warning" %}
 Existem **2 chaves confiáveis**, uma para _Filho --> Pai_ e outra para _Pai_ --> _Filho_.\
 Você pode verificar a que está sendo usada pelo domínio atual com:
+
 ```bash
 Invoke-Mimikatz -Command '"lsadump::trust /patch"' -ComputerName dc.my.domain.local
 Invoke-Mimikatz -Command '"lsadump::dcsync /user:dcorp\mcorp$"'
@@ -599,6 +610,7 @@ A vulnerabilidade ADCS ESC5 visa o controle sobre objetos de Infraestrutura de C
 Mais detalhes sobre isso podem ser lidos em [De DA para EA com ESC5](https://posts.specterops.io/from-da-to-ea-with-esc5-f9f045aa105c). Em cenários sem ADCS, o atacante tem a capacidade de configurar os componentes necessários, conforme discutido em [Escalando de Administradores de Domínio Filho para Administradores de Empresa](https://www.pkisolutions.com/escalating-from-child-domains-admins-to-enterprise-admins-in-5-minutes-by-abusing-ad-cs-a-follow-up/).
 
 ### Domínio Externo da Floresta - Unidirecional (Entrada) ou bidirecional
+
 ```powershell
 Get-DomainTrust
 SourceName      : a.domain.local   --> Current domain
@@ -609,6 +621,7 @@ TrustDirection  : Inbound          --> Inboud trust
 WhenCreated     : 2/19/2021 10:50:56 PM
 WhenChanged     : 2/19/2021 10:50:56 PM
 ```
+
 Neste cenário **seu domínio é confiável** por um externo, dando a você **permissões indeterminadas** sobre ele. Você precisará descobrir **quais princípios do seu domínio têm acesso sobre o domínio externo** e então tentar explorá-lo:
 
 {% content-ref url="external-forest-domain-oneway-inbound.md" %}
@@ -616,6 +629,7 @@ Neste cenário **seu domínio é confiável** por um externo, dando a você **pe
 {% endcontent-ref %}
 
 ### Domínio da Floresta Externa - Apenas um Sentido (Saída)
+
 ```powershell
 Get-DomainTrust -Domain current.local
 
@@ -627,6 +641,7 @@ TrustDirection  : Outbound        --> Outbound trust
 WhenCreated     : 2/19/2021 10:15:24 PM
 WhenChanged     : 2/19/2021 10:15:24 PM
 ```
+
 Neste cenário, **seu domínio** está **confiando** alguns **privilégios** a um principal de um **domínio diferente**.
 
 No entanto, quando um **domínio é confiado** pelo domínio confiante, o domínio confiado **cria um usuário** com um **nome previsível** que usa como **senha a senha confiada**. O que significa que é possível **acessar um usuário do domínio confiante para entrar no confiado** para enumerá-lo e tentar escalar mais privilégios:
@@ -648,13 +663,13 @@ Além disso, se a **vítima montou seu disco rígido**, a partir do processo da 
 
 ### **Filtragem de SID:**
 
-- O risco de ataques aproveitando o atributo de histórico de SID em confianças entre florestas é mitigado pela Filtragem de SID, que é ativada por padrão em todas as confianças entre florestas. Isso é fundamentado na suposição de que as confianças dentro da floresta são seguras, considerando a floresta, em vez do domínio, como a fronteira de segurança, conforme a posição da Microsoft.
-- No entanto, há um porém: a filtragem de SID pode interromper aplicativos e acesso de usuários, levando à sua desativação ocasional.
+* O risco de ataques aproveitando o atributo de histórico de SID em confianças entre florestas é mitigado pela Filtragem de SID, que é ativada por padrão em todas as confianças entre florestas. Isso é fundamentado na suposição de que as confianças dentro da floresta são seguras, considerando a floresta, em vez do domínio, como a fronteira de segurança, conforme a posição da Microsoft.
+* No entanto, há um porém: a filtragem de SID pode interromper aplicativos e acesso de usuários, levando à sua desativação ocasional.
 
 ### **Autenticação Seletiva:**
 
-- Para confianças entre florestas, empregar a Autenticação Seletiva garante que os usuários das duas florestas não sejam autenticados automaticamente. Em vez disso, permissões explícitas são necessárias para que os usuários acessem domínios e servidores dentro do domínio ou floresta confiante.
-- É importante observar que essas medidas não protegem contra a exploração do Contexto de Nomes de Configuração gravável (NC) ou ataques à conta de confiança.
+* Para confianças entre florestas, empregar a Autenticação Seletiva garante que os usuários das duas florestas não sejam autenticados automaticamente. Em vez disso, permissões explícitas são necessárias para que os usuários acessem domínios e servidores dentro do domínio ou floresta confiante.
+* É importante observar que essas medidas não protegem contra a exploração do Contexto de Nomes de Configuração gravável (NC) ou ataques à conta de confiança.
 
 [**Mais informações sobre confianças de domínio em ired.team.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/child-domain-da-to-ea-in-parent-domain)
 
@@ -664,32 +679,31 @@ Além disso, se a **vítima montou seu disco rígido**, a partir do processo da 
 
 ## Algumas Defesas Gerais
 
-[**Saiba mais sobre como proteger credenciais aqui.**](../stealing-credentials/credentials-protections.md)\
+[**Saiba mais sobre como proteger credenciais aqui.**](../stealing-credentials/credentials-protections.md)\\
 
 ### **Medidas Defensivas para Proteção de Credenciais**
 
-- **Restrições de Administradores de Domínio**: É recomendável que os Administradores de Domínio só possam fazer login em Controladores de Domínio, evitando seu uso em outros hosts.
-- **Privilégios de Conta de Serviço**: Os serviços não devem ser executados com privilégios de Administrador de Domínio (DA) para manter a segurança.
-- **Limitação Temporal de Privilégios**: Para tarefas que exigem privilégios de DA, sua duração deve ser limitada. Isso pode ser alcançado por: `Add-ADGroupMember -Identity ‘Domain Admins’ -Members newDA -MemberTimeToLive (New-TimeSpan -Minutes 20)`
+* **Restrições de Administradores de Domínio**: É recomendável que os Administradores de Domínio só possam fazer login em Controladores de Domínio, evitando seu uso em outros hosts.
+* **Privilégios de Conta de Serviço**: Os serviços não devem ser executados com privilégios de Administrador de Domínio (DA) para manter a segurança.
+* **Limitação Temporal de Privilégios**: Para tarefas que exigem privilégios de DA, sua duração deve ser limitada. Isso pode ser alcançado por: `Add-ADGroupMember -Identity ‘Domain Admins’ -Members newDA -MemberTimeToLive (New-TimeSpan -Minutes 20)`
 
 ### **Implementando Técnicas de Engano**
 
-- Implementar engano envolve armar armadilhas, como usuários ou computadores falsos, com recursos como senhas que não expiram ou são marcadas como Confiáveis para Delegação. Uma abordagem detalhada inclui criar usuários com direitos específicos ou adicioná-los a grupos de alto privilégio.
-- Um exemplo prático envolve o uso de ferramentas como: `Create-DecoyUser -UserFirstName user -UserLastName manager-uncommon -Password Pass@123 | DeployUserDeception -UserFlag PasswordNeverExpires -GUID d07da11f-8a3d-42b6-b0aa-76c962be719a -Verbose`
-- Mais sobre a implementação de técnicas de engano pode ser encontrado em [Deploy-Deception no GitHub](https://github.com/samratashok/Deploy-Deception).
+* Implementar engano envolve armar armadilhas, como usuários ou computadores falsos, com recursos como senhas que não expiram ou são marcadas como Confiáveis para Delegação. Uma abordagem detalhada inclui criar usuários com direitos específicos ou adicioná-los a grupos de alto privilégio.
+* Um exemplo prático envolve o uso de ferramentas como: `Create-DecoyUser -UserFirstName user -UserLastName manager-uncommon -Password Pass@123 | DeployUserDeception -UserFlag PasswordNeverExpires -GUID d07da11f-8a3d-42b6-b0aa-76c962be719a -Verbose`
+* Mais sobre a implementação de técnicas de engano pode ser encontrado em [Deploy-Deception no GitHub](https://github.com/samratashok/Deploy-Deception).
 
 ### **Identificando Engano**
 
-- **Para Objetos de Usuário**: Indicadores suspeitos incluem ObjectSID atípico, logons infrequentes, datas de criação e baixas contagens de senhas incorretas.
-- **Indicadores Gerais**: Comparar atributos de objetos de engano potenciais com os de objetos genuínos pode revelar inconsistências. Ferramentas como [HoneypotBuster](https://github.com/JavelinNetworks/HoneypotBuster) podem ajudar a identificar tais enganos.
+* **Para Objetos de Usuário**: Indicadores suspeitos incluem ObjectSID atípico, logons infrequentes, datas de criação e baixas contagens de senhas incorretas.
+* **Indicadores Gerais**: Comparar atributos de objetos de engano potenciais com os de objetos genuínos pode revelar inconsistências. Ferramentas como [HoneypotBuster](https://github.com/JavelinNetworks/HoneypotBuster) podem ajudar a identificar tais enganos.
 
 ### **Burlando Sistemas de Detecção**
 
-- **Burla de Detecção do Microsoft ATA**:
-- **Enumeração de Usuários**: Evitar a enumeração de sessão em Controladores de Domínio para evitar a detecção do ATA.
-- **Impersonação de Ticket**: Utilizar chaves **aes** para a criação de tickets ajuda a evitar a detecção ao não rebaixar para NTLM.
-- **Ataques DCSync**: Executar a partir de um não-Controlador de Domínio para evitar a detecção do ATA é aconselhável, pois a execução direta de um Controlador de Domínio acionará alertas.
-
+* **Burla de Detecção do Microsoft ATA**:
+* **Enumeração de Usuários**: Evitar a enumeração de sessão em Controladores de Domínio para evitar a detecção do ATA.
+* **Impersonação de Ticket**: Utilizar chaves **aes** para a criação de tickets ajuda a evitar a detecção ao não rebaixar para NTLM.
+* **Ataques DCSync**: Executar a partir de um não-Controlador de Domínio para evitar a detecção do ATA é aconselhável, pois a execução direta de um Controlador de Domínio acionará alertas.
 
 ## Referências
 
@@ -706,7 +720,7 @@ Outras maneiras de apoiar o HackTricks:
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
