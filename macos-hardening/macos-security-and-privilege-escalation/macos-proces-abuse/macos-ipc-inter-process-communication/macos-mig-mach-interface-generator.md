@@ -1,4 +1,4 @@
-# macOS MIG - Генератор інтерфейсу Mach
+# macOS MIG - Mach Interface Generator
 
 <details>
 
@@ -38,9 +38,11 @@ n2          :  uint32_t);
 {% endcode %}
 
 Тепер використовуйте mig для генерації коду сервера та клієнта, які зможуть спілкуватися між собою, щоб викликати функцію Subtract:
+
 ```bash
 mig -header myipcUser.h -sheader myipcServer.h myipc.defs
 ```
+
 Кілька нових файлів буде створено в поточному каталозі.
 
 У файлах **`myipcServer.c`** та **`myipcServer.h`** ви можете знайти декларацію та визначення структури **`SERVERPREFmyipc_subsystem`**, яка в основному визначає функцію для виклику на основі отриманого ідентифікатора повідомлення (ми вказали початковий номер 500):
@@ -64,7 +66,8 @@ myipc_server_routine,
 ```
 {% endtab %}
 
-{% tab title="myipcServer.h" %}### macOS MIG (Mach Interface Generator)
+{% tab title="myipcServer.h" %}
+#### macOS MIG (Mach Interface Generator)
 
 MIG is a tool used to define inter-process communication (IPC) interfaces for Mach-based systems like macOS. It generates server-side code to handle messages sent between processes.
 
@@ -107,6 +110,7 @@ int main()
 In this example, `myipc_server` is the function that handles incoming messages. The server registers itself with a bootstrap port and then starts the MIG server loop using `mach_msg_server`.
 
 By understanding and manipulating MIG servers, an attacker could potentially abuse IPC mechanisms to escalate privileges or perform other malicious actions on a macOS system.
+
 ```c
 /* Description of this subsystem, for use in direct RPC */
 extern const struct SERVERPREFmyipc_subsystem {
@@ -123,6 +127,7 @@ routine[1];
 {% endtabs %}
 
 На основі попередньої структури функція **`myipc_server_routine`** отримає **ідентифікатор повідомлення** та поверне відповідну функцію для виклику:
+
 ```c
 mig_external mig_routine_t myipc_server_routine
 (mach_msg_header_t *InHeadP)
@@ -137,15 +142,18 @@ return 0;
 return SERVERPREFmyipc_subsystem.routine[msgh_id].stub_routine;
 }
 ```
+
 У цьому прикладі ми визначили лише 1 функцію в визначеннях, але якби ми визначили більше функцій, вони були б у масиві **`SERVERPREFmyipc_subsystem`**, і перша була б призначена для ID **500**, друга для ID **501**...
 
 Фактично, можна ідентифікувати цей зв'язок у структурі **`subsystem_to_name_map_myipc`** з **`myipcServer.h`**:
+
 ```c
 #ifndef subsystem_to_name_map_myipc
 #define subsystem_to_name_map_myipc \
 { "Subtract", 500 }
 #endif
 ```
+
 Нарешті, ще одна важлива функція для роботи сервера буде **`myipc_server`**, яка фактично **викликає функцію**, пов'язану з отриманим ідентифікатором:
 
 <pre class="language-c"><code class="lang-c">mig_external boolean_t myipc_server
@@ -184,8 +192,6 @@ return FALSE;
 
 У наступному код для створення простого **сервера** та **клієнта**, де клієнт може викликати функції від сервера:
 
-{% tabs %}
-{% tab title="myipc_server.c" %}
 ```c
 // gcc myipc_server.c myipcServer.c -o myipc_server
 
@@ -216,9 +222,9 @@ return 1;
 mach_msg_server(myipc_server, sizeof(union __RequestUnion__SERVERPREFmyipc_subsystem), port, MACH_MSG_TIMEOUT_NONE);
 }
 ```
-{% endtab %}
 
-{% tab title="myipc_client.c" %}
+
+
 ```c
 // gcc myipc_client.c myipcUser.c -o myipc_client
 
@@ -243,14 +249,17 @@ printf("Port right name %d\n", port);
 USERPREFSubtract(port, 40, 2);
 }
 ```
+
 ### Аналіз бінарних файлів
 
 Оскільки багато бінарних файлів зараз використовують MIG для виходу на зв'язок з портами mach, цікаво знати, як **визначити, що був використаний MIG** та **функції, які виконує MIG** з кожним ідентифікатором повідомлення.
 
 [**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2) може розбирати інформацію MIG з бінарного файлу Mach-O, вказуючи ідентифікатор повідомлення та ідентифікуючи функцію для виконання:
+
 ```bash
 jtool2 -d __DATA.__const myipc_server | grep MIG
 ```
+
 Було зазначено, що функція, яка буде відповідати за **виклик правильної функції в залежності від отриманого ідентифікатора повідомлення**, - це `myipc_server`. Однак, зазвичай у вас не буде символів бінарного файлу (назв функцій), тому цікаво **перевірити, як виглядає декомпільована версія**, оскільки вона завжди буде дуже схожа (код цієї функції незалежний від викладених функцій):
 
 {% tabs %}
@@ -391,3 +400,5 @@ return r0;
 * Дізнайтеся про [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **і** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв на GitHub.**
+
+</details>

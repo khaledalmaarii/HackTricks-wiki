@@ -1,4 +1,4 @@
-# Чек-лист - Локальне підвищення привілеїв в Windows
+# Checklist - Local Windows Privilege Escalation
 
 <details>
 
@@ -9,14 +9,14 @@
 * Якщо ви хочете побачити вашу **компанію рекламовану на HackTricks** або **завантажити HackTricks у PDF-форматі**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
 * Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
 * Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи телеграм**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи телеграм**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **та** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв на GitHub**.
 
 </details>
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -35,27 +35,27 @@
 * [ ] Цікава інформація в [**налаштуваннях Інтернету**](windows-local-privilege-escalation/#internet-settings)?
 * [ ] [**Диски**](windows-local-privilege-escalation/#drives)?
 * [ ] [**Експлойт WSUS**](windows-local-privilege-escalation/#wsus)?
-* [**AlwaysInstallElevated**](windows-local-privilege-escalation/#alwaysinstallelevated)?
+* [ ] [**AlwaysInstallElevated**](windows-local-privilege-escalation/#alwaysinstallelevated)?
 
 ### [Перелік/перелік AV](windows-local-privilege-escalation/#enumeration)
 
-* [ ] Перевірити [**налаштування Audit** ](windows-local-privilege-escalation/#audit-settings)та [**WEF** ](windows-local-privilege-escalation/#wef)
+* [ ] Перевірити [**налаштування Audit** ](windows-local-privilege-escalation/#audit-settings)та [**WEF**](windows-local-privilege-escalation/#wef)
 * [ ] Перевірити [**LAPS**](windows-local-privilege-escalation/#laps)
-* [ ] Перевірити, чи активний [**WDigest** ](windows-local-privilege-escalation/#wdigest)
+* [ ] Перевірити, чи активний [**WDigest**](windows-local-privilege-escalation/#wdigest)
 * [ ] [**LSA Protection**](windows-local-privilege-escalation/#lsa-protection)?
 * [ ] [**Захист від облікових даних**](windows-local-privilege-escalation/#credentials-guard)[?](windows-local-privilege-escalation/#cached-credentials)
 * [ ] [**Кешовані облікові дані**](windows-local-privilege-escalation/#cached-credentials)?
-* [ ] Перевірити, чи є який-небудь [**AV**](windows-av-bypass)
-* [ ] [**Політика AppLocker**](authentication-credentials-uac-and-efs#applocker-policy)?
-* [**UAC**](authentication-credentials-uac-and-efs/uac-user-account-control)
-* [**Привілеї користувача**](windows-local-privilege-escalation/#users-and-groups)
-* Перевірити [**поточні** привілеї користувача **privileges**](windows-local-privilege-escalation/#users-and-groups)
-* Чи ви є [**членом будь-якої привілейованої групи**](windows-local-privilege-escalation/#privileged-groups)?
-* Перевірити, чи увімкнені [які-небудь з цих токенів](windows-local-privilege-escalation/#token-manipulation): **SeImpersonatePrivilege, SeAssignPrimaryPrivilege, SeTcbPrivilege, SeBackupPrivilege, SeRestorePrivilege, SeCreateTokenPrivilege, SeLoadDriverPrivilege, SeTakeOwnershipPrivilege, SeDebugPrivilege** ?
-* [**Сесії користувачів**](windows-local-privilege-escalation/#logged-users-sessions)?
-* Перевірити[ **домашні сторінки користувачів**](windows-local-privilege-escalation/#home-folders) (доступ?)
-* Перевірити [**Політику паролів**](windows-local-privilege-escalation/#password-policy)
-* Що знаходиться[ **в буфері обміну**](windows-local-privilege-escalation/#get-the-content-of-the-clipboard)?
+* [ ] Перевірити, чи є який-небудь [**AV**](https://github.com/carlospolop/hacktricks/blob/ua/windows-hardening/windows-av-bypass/README.md)
+* [ ] [**Політика AppLocker**](https://github.com/carlospolop/hacktricks/blob/ua/windows-hardening/authentication-credentials-uac-and-efs/README.md#applocker-policy)?
+* [ ] [**UAC**](https://github.com/carlospolop/hacktricks/blob/ua/windows-hardening/authentication-credentials-uac-and-efs/uac-user-account-control/README.md)
+* [ ] [**Привілеї користувача**](windows-local-privilege-escalation/#users-and-groups)
+* [ ] Перевірити [**поточні** привілеї користувача **privileges**](windows-local-privilege-escalation/#users-and-groups)
+* [ ] Чи ви є [**членом будь-якої привілейованої групи**](windows-local-privilege-escalation/#privileged-groups)?
+* [ ] Перевірити, чи увімкнені [які-небудь з цих токенів](windows-local-privilege-escalation/#token-manipulation): **SeImpersonatePrivilege, SeAssignPrimaryPrivilege, SeTcbPrivilege, SeBackupPrivilege, SeRestorePrivilege, SeCreateTokenPrivilege, SeLoadDriverPrivilege, SeTakeOwnershipPrivilege, SeDebugPrivilege** ?
+* [ ] [**Сесії користувачів**](windows-local-privilege-escalation/#logged-users-sessions)?
+* [ ] Перевірити[ **домашні сторінки користувачів**](windows-local-privilege-escalation/#home-folders) (доступ?)
+* [ ] Перевірити [**Політику паролів**](windows-local-privilege-escalation/#password-policy)
+* [ ] Що знаходиться[ **в буфері обміну**](windows-local-privilege-escalation/#get-the-content-of-the-clipboard)?
 
 ### [Мережа](windows-local-privilege-escalation/#network)
 
@@ -71,7 +71,7 @@
 
 ### [Служби](windows-local-privilege-escalation/#services)
 
-* [Чи можете ви **змінити будь-яку службу**?](windows-local-privilege-escalation#permissions)
+* [Чи можете ви **змінити будь-яку службу**?](windows-local-privilege-escalation/#permissions)
 * [Чи можете ви **змінити** **бінарний файл**, який **виконується** будь-якою **службою**?](windows-local-privilege-escalation/#modify-service-binary-path)
 * [Чи можете ви **змінити** **реєстр** будь-якої **служби**?](windows-local-privilege-escalation/#services-registry-modify-permissions)
 * [Чи можете ви скористатися будь-яким **неправильним шляхом бінарного файлу служби**?](windows-local-privilege-escalation/#unquoted-service-paths)
@@ -81,6 +81,7 @@
 * **Права на запис** [**встановлених додатків**](windows-local-privilege-escalation/#write-permissions)
 * [**Додатки запуску**](windows-local-privilege-escalation/#run-at-startup)
 * **Вразливі** [**Драйвери**](windows-local-privilege-escalation/#drivers)
+
 ### [DLL Hijacking](windows-local-privilege-escalation/#path-dll-hijacking)
 
 * [ ] Чи можна **записувати в будь-яку теку всередині PATH**?
@@ -119,8 +120,8 @@
 * [ ] Цікаві [**файли в кошику**](windows-local-privilege-escalation/#credentials-in-the-recyclebin)?
 * [ ] Інші [**реєстри, що містять облікові дані**](windows-local-privilege-escalation/#inside-the-registry)?
 * [ ] У [**даних браузера**](windows-local-privilege-escalation/#browsers-history) (бази даних, історія, закладки, ...)?
-* [**Загальний пошук паролів**](windows-local-privilege-escalation/#generic-password-search-in-files-and-registry) в файлах та реєстрі
-* [**Інструменти**](windows-local-privilege-escalation/#tools-that-search-for-passwords) для автоматичного пошуку паролів
+* [ ] [**Загальний пошук паролів**](windows-local-privilege-escalation/#generic-password-search-in-files-and-registry) в файлах та реєстрі
+* [ ] [**Інструменти**](windows-local-privilege-escalation/#tools-that-search-for-passwords) для автоматичного пошуку паролів
 
 ### [Витікання обробників](windows-local-privilege-escalation/#leaked-handlers)
 
@@ -132,7 +133,7 @@
 
 **Спробуйте групу безпеки Try Hard**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -145,7 +146,7 @@
 * Якщо ви хочете побачити вашу **компанію рекламовану в HackTricks** або **завантажити HackTricks у PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
 * Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
 * Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Поділіться своїми хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв GitHub.
 
 </details>

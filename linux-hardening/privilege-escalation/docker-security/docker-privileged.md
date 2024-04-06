@@ -7,8 +7,8 @@
 * Ви працюєте в **кібербезпеці компанії**? Хочете побачити вашу **компанію рекламовану на HackTricks**? або хочете мати доступ до **останньої версії PEASS або завантажити HackTricks у PDF**? Перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
 * Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
 * Отримайте [**офіційний PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Приєднуйтесь до** [**💬**](https://emojipedia.org/speech-balloon/) [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за мною на **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до [репозиторію hacktricks](https://github.com/carlospolop/hacktricks) та [репозиторію hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Приєднуйтесь до** [**💬**](https://emojipedia.org/speech-balloon/) [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за мною на **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**репозиторію hacktricks**](https://github.com/carlospolop/hacktricks) **та** [**репозиторію hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -40,9 +40,11 @@ core             mqueue           ptmx             stdin            tty26       
 cpu              nbd0             pts              stdout           tty27            tty47            ttyS0
 [...]
 ```
-### Файлові системи ядра лише для читання
+
+#### Файлові системи ядра лише для читання
 
 Файлові системи ядра надають механізм для процесу зміни поведінки ядра. Однак, коли мова йде про процеси контейнера, ми хочемо запобігти їм вносити будь-які зміни до ядра. Тому ми монтуємо файлові системи ядра як **тільки для читання** всередині контейнера, забезпечуючи, що процеси контейнера не можуть змінювати ядро.
+
 ```bash
 # docker run --rm -it alpine sh
 mount | grep '(ro'
@@ -58,7 +60,8 @@ cpuacct on /sys/fs/cgroup/cpuacct type cgroup (ro,nosuid,nodev,noexec,relatime,c
 # docker run --rm --privileged -it alpine sh
 mount  | grep '(ro'
 ```
-### Маскування файлових систем ядра
+
+#### Маскування файлових систем ядра
 
 Файлова система **/proc** є вибірково записуваною, але з метою безпеки певні частини захищені від запису та читання шляхом накладання на них **tmpfs**, що гарантує, що процеси контейнера не зможуть отримати доступ до чутливих областей.
 
@@ -85,13 +88,14 @@ mount  | grep /proc.*tmpfs
 {% endtab %}
 {% endtabs %}
 
-### Linux можливості
+#### Linux можливості
 
 Двигуни контейнерів запускають контейнери з **обмеженою кількістю можливостей**, щоб контролювати те, що відбувається всередині контейнера за замовчуванням. **Привілейовані** мають **всі** **можливості** доступні. Щоб дізнатися більше про можливості, прочитайте:
 
 {% content-ref url="../linux-capabilities.md" %}
 [linux-capabilities.md](../linux-capabilities.md)
 {% endcontent-ref %}
+
 ```bash
 # docker run --rm -it alpine sh
 apk add -U libcap; capsh --print
@@ -123,27 +127,26 @@ Bounding set =cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fset
 {% content-ref url="seccomp.md" %}
 [seccomp.md](seccomp.md)
 {% endcontent-ref %}
+
 ```bash
 # docker run --rm -it alpine sh
 grep Seccomp /proc/1/status
 Seccomp:	2
 Seccomp_filters:	1
 ```
-{% endtab %}
 
-{% tab title="Усередині привілейованого контейнера" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 grep Seccomp /proc/1/status
 Seccomp:	0
 Seccomp_filters:	0
 ```
-{% endtab %}
-{% endtabs %}
+
 ```bash
 # You can manually disable seccomp in docker with
 --security-opt seccomp=unconfined
 ```
+
 Також слід зауважити, що коли Docker (або інші CRIs) використовуються в кластері Kubernetes, фільтр **seccomp вимкнений за замовчуванням**
 
 ### AppArmor
@@ -153,10 +156,12 @@ Seccomp_filters:	0
 {% content-ref url="apparmor.md" %}
 [apparmor.md](apparmor.md)
 {% endcontent-ref %}
+
 ```bash
 # You can manually disable seccomp in docker with
 --security-opt apparmor=unconfined
 ```
+
 ### SELinux
 
 Запуск контейнера з флагом `--privileged` вимикає **мітки SELinux**, що призводить до успадкування мітки контейнерним двигуном, зазвичай `unconfined`, надаючи повний доступ, схожий на контейнерний двигун. У режимі без кореня використовується `container_runtime_t`, тоді як у режимі кореня застосовується `spc_t`.
@@ -164,10 +169,12 @@ Seccomp_filters:	0
 {% content-ref url="../selinux.md" %}
 [selinux.md](../selinux.md)
 {% endcontent-ref %}
+
 ```bash
 # You can manually disable selinux in docker with
 --security-opt label:disable
 ```
+
 ## Чого Не Впливає
 
 ### Простори Імен
@@ -213,7 +220,7 @@ PID   USER     TIME  COMMAND
 * Ви працюєте в **кібербезпеці**? Хочете побачити вашу **компанію в рекламі на HackTricks**? або хочете мати доступ до **останньої версії PEASS або завантажити HackTricks у PDF**? Перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
 * Дізнайтеся про [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
 * Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* **Приєднуйтесь до** [**💬**](https://emojipedia.org/speech-balloon/) [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за мною на **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до [репозиторію hacktricks](https://github.com/carlospolop/hacktricks) та [репозиторію hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Приєднуйтесь до** [**💬**](https://emojipedia.org/speech-balloon/) [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за мною на **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**репозиторію hacktricks**](https://github.com/carlospolop/hacktricks) **та** [**репозиторію hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

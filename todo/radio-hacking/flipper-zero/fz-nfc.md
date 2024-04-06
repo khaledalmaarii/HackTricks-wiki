@@ -7,20 +7,20 @@
 * Працюєте в **кібербезпеці?** Хочете, щоб ваша **компанія рекламувалася на HackTricks**? або хочете мати доступ до **останньої версії PEASS або завантажити HackTricks у PDF**? Перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
 * Дізнайтеся про [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
 * Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* **Приєднуйтесь до** [**💬**](https://emojipedia.org/speech-balloon/) [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за мною на **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Приєднуйтесь до** [**💬**](https://emojipedia.org/speech-balloon/) [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за мною на **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Поділіться своїми хакерськими трюками, надсилайте PR до** [**репозиторію hacktricks**](https://github.com/carlospolop/hacktricks) **та** [**репозиторію hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-## Вступ <a href="#9wrzi" id="9wrzi"></a>
+## Вступ <a href="#id-9wrzi" id="id-9wrzi"></a>
 
 Для інформації про RFID та NFC перевірте наступну сторінку:
 
-{% content-ref url="../../../radio-hacking/pentesting-rfid.md" %}
-[pentesting-rfid.md](../../../radio-hacking/pentesting-rfid.md)
+{% content-ref url="../pentesting-rfid.md" %}
+[pentesting-rfid.md](../pentesting-rfid.md)
 {% endcontent-ref %}
 
-## Підтримувані NFC-карти <a href="#9wrzi" id="9wrzi"></a>
+## Підтримувані NFC-карти <a href="#id-9wrzi" id="id-9wrzi"></a>
 
 {% hint style="danger" %}
 Крім NFC-карт Flipper Zero підтримує **інший тип високочастотних карт**, таких як кілька **Mifare** Classic та Ultralight та **NTAG**.
@@ -43,7 +43,7 @@ Flipper Zero може лише читати UID, SAK, ATQA та збережен
 
 <figure><img src="https://cdn.flipperzero.one/Monosnap_Miro_2022-08-17_12-26-31.png?auto=format&#x26;ixlib=react-9.1.1&#x26;h=916&#x26;w=2662" alt=""><figcaption></figcaption></figure>
 
-#### Невідомі карти <a href="#37eo8" id="37eo8"></a>
+#### Невідомі карти <a href="#id-37eo8" id="id-37eo8"></a>
 
 Коли Flipper Zero **не може визначити тип NFC-карти**, тоді можна **читати тільки UID, SAK та ATQA** та **зберігати** їх.
 
@@ -59,7 +59,7 @@ Flipper Zero може лише читати UID, SAK, ATQA та збережен
 
 ## Дії
 
-Для вступу щодо NFC [**прочитайте цю сторінку**](../../../radio-hacking/pentesting-rfid.md#high-frequency-rfid-tags-13.56-mhz).
+Для вступу щодо NFC [**прочитайте цю сторінку**](../pentesting-rfid.md#high-frequency-rfid-tags-13.56-mhz).
 
 ### Читати
 
@@ -82,6 +82,7 @@ Flipper Zero може **читати NFC-карти**, проте він **не 
 
 Крім простого читання UID, ви можете витягти багато інших даних з банківської карти. Можливо **отримати повний номер карти** (16 цифр на передній стороні карти), **дату дії**, а в деяких випадках навіть **ім'я власника** разом із списком **останніх транзакцій**.\
 Однак **CVV таким чином не можна прочитати** (3 цифри на задній стороні карти). Також **банківські карти захищені від атак повторення**, тому копіювання її за допомогою Flipper і спроба емуляції для оплати чогось не працюватиме.
+
 ## Посилання
 
 * [https://blog.flipperzero.one/rfid/](https://blog.flipperzero.one/rfid/)
@@ -93,7 +94,7 @@ Flipper Zero може **читати NFC-карти**, проте він **не 
 * Ви працюєте в **кібербезпеці компанії**? Хочете, щоб ваша **компанія рекламувалася на HackTricks**? або ви хочете мати доступ до **останньої версії PEASS або завантажити HackTricks у форматі PDF**? Перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
 * Відкрийте [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
 * Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* **Приєднуйтесь до** [**💬**](https://emojipedia.org/speech-balloon/) [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за мною на **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Приєднуйтесь до** [**💬**](https://emojipedia.org/speech-balloon/) [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за мною на **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Поділіться своїми хакерськими трюками, надсилайте PR до** [**репозиторію hacktricks**](https://github.com/carlospolop/hacktricks) **та** [**репозиторію hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

