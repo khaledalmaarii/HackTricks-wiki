@@ -1,4 +1,4 @@
-# Permessi pericolosi di macOS e autorizzazioni TCC
+# macOS Dangerous Entitlements & TCC perms
 
 <details>
 
@@ -30,11 +30,11 @@ Il permesso **`com.apple.rootless.install`** consente di **bypassare SIP**. Cont
 
 ### **`com.apple.system-task-ports` (precedentemente chiamato `task_for_pid-allow`)**
 
-Questo permesso consente di ottenere la **porta del task per qualsiasi** processo, tranne il kernel. Controlla [**questo per ulteriori informazioni**](../mac-os-architecture/macos-ipc-inter-process-communication/).
+Questo permesso consente di ottenere la **porta del task per qualsiasi** processo, tranne il kernel. Controlla [**questo per ulteriori informazioni**](../macos-proces-abuse/macos-ipc-inter-process-communication/).
 
 ### `com.apple.security.get-task-allow`
 
-Questo permesso consente ad altri processi con il permesso **`com.apple.security.cs.debugger`** di ottenere la porta del task del processo eseguito dal binario con questo permesso e **iniettare codice su di esso**. Controlla [**questo per ulteriori informazioni**](../mac-os-architecture/macos-ipc-inter-process-communication/).
+Questo permesso consente ad altri processi con il permesso **`com.apple.security.cs.debugger`** di ottenere la porta del task del processo eseguito dal binario con questo permesso e **iniettare codice su di esso**. Controlla [**questo per ulteriori informazioni**](../macos-proces-abuse/macos-ipc-inter-process-communication/).
 
 ### `com.apple.security.cs.debugger`
 
@@ -88,6 +88,7 @@ TODO: In [**questo report**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA
 ### `keychain-access-groups`
 
 Questa lista di permessi **gruppi keychain** a cui l'applicazione ha accesso:
+
 ```xml
 <key>keychain-access-groups</key>
 <array>
@@ -98,6 +99,7 @@ Questa lista di permessi **gruppi keychain** a cui l'applicazione ha accesso:
 <string>IMCore</string>
 </array>
 ```
+
 ### **`kTCCServiceSystemPolicyAllFiles`**
 
 Concede le autorizzazioni per l'**Accesso completo al disco**, una delle autorizzazioni più elevate di TCC che puoi avere.
@@ -169,12 +171,14 @@ Questo entitlement consente di montare un file system nullfs (vietato per impost
 ### `kTCCServiceAll`
 
 Secondo questo post sul blog, questa autorizzazione TCC di solito si trova nella forma:
+
 ```
 [Key] com.apple.private.tcc.allow-prompting
 [Value]
 [Array]
 [String] kTCCServiceAll
 ```
+
 Consenti al processo di **richiedere tutti i permessi TCC**.
 
 ### **`kTCCServicePostEvent`**

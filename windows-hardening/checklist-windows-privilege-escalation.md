@@ -1,4 +1,4 @@
-# Checklist - Escalazione dei privilegi locali di Windows
+# Checklist - Local Windows Privilege Escalation
 
 <details>
 
@@ -9,14 +9,14 @@ Altri modi per supportare HackTricks:
 * Se desideri vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
 * Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -35,26 +35,26 @@ Altri modi per supportare HackTricks:
 * [ ] Informazioni interessanti nelle [**impostazioni Internet**](windows-local-privilege-escalation/#internet-settings)?
 * [ ] [**Unità**](windows-local-privilege-escalation/#drives)?
 * [ ] [**Exploit WSUS**](windows-local-privilege-escalation/#wsus)?
-* [**AlwaysInstallElevated**](windows-local-privilege-escalation/#alwaysinstallelevated)?
+* [ ] [**AlwaysInstallElevated**](windows-local-privilege-escalation/#alwaysinstallelevated)?
 
 ### [Enumerazione Logging/AV](windows-local-privilege-escalation/#enumeration)
 
-* [ ] Controllare le impostazioni di [**Audit** ](windows-local-privilege-escalation/#audit-settings)e [**WEF** ](windows-local-privilege-escalation/#wef)
+* [ ] Controllare le impostazioni di [**Audit** ](windows-local-privilege-escalation/#audit-settings)e [**WEF**](windows-local-privilege-escalation/#wef)
 * [ ] Controllare se [**WDigest** ](windows-local-privilege-escalation/#wdigest)è attivo
 * [ ] [**Protezione LSA**](windows-local-privilege-escalation/#lsa-protection)?
 * [ ] [**Guardia delle credenziali**](windows-local-privilege-escalation/#credentials-guard)[?](windows-local-privilege-escalation/#cached-credentials)
 * [ ] [**Credenziali memorizzate**](windows-local-privilege-escalation/#cached-credentials)?
-* [ ] Controllare se c'è qualche [**AV**](windows-av-bypass)
-* [ ] [**Politica AppLocker**](authentication-credentials-uac-and-efs#applocker-policy)?
-* [**UAC**](authentication-credentials-uac-and-efs/uac-user-account-control)
-* [**Privilegi utente**](windows-local-privilege-escalation/#users-and-groups)?
-* Controllare i [**privilegi utente attuali**](windows-local-privilege-escalation/#users-and-groups)
-* Sei [**membro di qualche gruppo privilegiato**](windows-local-privilege-escalation/#privileged-groups)?
-* Controllare se hai abilitato [alcuni di questi token](windows-local-privilege-escalation/#token-manipulation): **SeImpersonatePrivilege, SeAssignPrimaryPrivilege, SeTcbPrivilege, SeBackupPrivilege, SeRestorePrivilege, SeCreateTokenPrivilege, SeLoadDriverPrivilege, SeTakeOwnershipPrivilege, SeDebugPrivilege** ?
-* [**Sessioni utenti**](windows-local-privilege-escalation/#logged-users-sessions)?
-* Controllare [**le home degli utenti**](windows-local-privilege-escalation/#home-folders) (accesso?)
-* Controllare la [**Politica delle password**](windows-local-privilege-escalation/#password-policy)
-* Cosa c'è [**negli Appunti**](windows-local-privilege-escalation/#get-the-content-of-the-clipboard)?
+* [ ] Controllare se c'è qualche [**AV**](https://github.com/carlospolop/hacktricks/blob/it/windows-hardening/windows-av-bypass/README.md)
+* [ ] [**Politica AppLocker**](https://github.com/carlospolop/hacktricks/blob/it/windows-hardening/authentication-credentials-uac-and-efs/README.md#applocker-policy)?
+* [ ] [**UAC**](https://github.com/carlospolop/hacktricks/blob/it/windows-hardening/authentication-credentials-uac-and-efs/uac-user-account-control/README.md)
+* [ ] [**Privilegi utente**](windows-local-privilege-escalation/#users-and-groups)?
+* [ ] Controllare i [**privilegi utente attuali**](windows-local-privilege-escalation/#users-and-groups)
+* [ ] Sei [**membro di qualche gruppo privilegiato**](windows-local-privilege-escalation/#privileged-groups)?
+* [ ] Controllare se hai abilitato [alcuni di questi token](windows-local-privilege-escalation/#token-manipulation): **SeImpersonatePrivilege, SeAssignPrimaryPrivilege, SeTcbPrivilege, SeBackupPrivilege, SeRestorePrivilege, SeCreateTokenPrivilege, SeLoadDriverPrivilege, SeTakeOwnershipPrivilege, SeDebugPrivilege** ?
+* [ ] [**Sessioni utenti**](windows-local-privilege-escalation/#logged-users-sessions)?
+* [ ] Controllare [**le home degli utenti**](windows-local-privilege-escalation/#home-folders) (accesso?)
+* [ ] Controllare la [**Politica delle password**](windows-local-privilege-escalation/#password-policy)
+* [ ] Cosa c'è [**negli Appunti**](windows-local-privilege-escalation/#get-the-content-of-the-clipboard)?
 
 ### [Rete](windows-local-privilege-escalation/#network)
 
@@ -70,7 +70,7 @@ Altri modi per supportare HackTricks:
 
 ### [Servizi](windows-local-privilege-escalation/#services)
 
-* [Puoi **modificare qualche servizio**?](windows-local-privilege-escalation#permissions)
+* [Puoi **modificare qualche servizio**?](windows-local-privilege-escalation/#permissions)
 * [Puoi **modificare** il **binario** eseguito da un **servizio**?](windows-local-privilege-escalation/#modify-service-binary-path)
 * [Puoi **modificare** il **registro** di un **servizio**?](windows-local-privilege-escalation/#services-registry-modify-permissions)
 * Puoi approfittare di qualche **percorso binario di servizio non quotato**? (windows-local-privilege-escalation/#unquoted-service-paths)
@@ -80,6 +80,7 @@ Altri modi per supportare HackTricks:
 * **Autorizzazioni di scrittura sulle applicazioni installate** (windows-local-privilege-escalation/#write-permissions)
 * [**Applicazioni di avvio**](windows-local-privilege-escalation/#run-at-startup)
 * **Driver** [**Vulnerabili**](windows-local-privilege-escalation/#drivers)
+
 ### [DLL Hijacking](windows-local-privilege-escalation/#path-dll-hijacking)
 
 * [ ] Puoi **scrivere in qualsiasi cartella all'interno del PATH**?
@@ -131,7 +132,7 @@ Altri modi per supportare HackTricks:
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -144,7 +145,7 @@ Altri modi per supportare HackTricks:
 * Se desideri vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale PEASS & HackTricks**](https://peass.creator-spring.com)
 * Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusivi [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository di Github.
 
 </details>

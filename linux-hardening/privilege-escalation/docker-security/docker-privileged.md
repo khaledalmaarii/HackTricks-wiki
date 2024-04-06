@@ -7,8 +7,8 @@
 * Lavori in una **azienda di sicurezza informatica**? Vuoi vedere la tua **azienda pubblicizzata in HackTricks**? O vuoi avere accesso all'**ultima versione di PEASS o scaricare HackTricks in PDF**? Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR al [repo hacktricks](https://github.com/carlospolop/hacktricks) e al [repo hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR al** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **e al** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -21,7 +21,7 @@ Quando esegui un container come privilegiato, queste sono le protezioni che disa
 In un container privilegiato, tutti i **dispositivi possono essere accessibili in `/dev/`**. Pertanto, è possibile **evadere** montando il disco dell'host.
 
 {% tabs %}
-{% tab title="All'interno del container predefinito" %}
+{% tab title="All" %}
 ```bash
 # docker run --rm -it alpine sh
 ls /dev
@@ -30,7 +30,7 @@ core     full     null     pts      shm      stdin    tty      zero
 ```
 {% endtab %}
 
-{% tab title="All'interno del container privilegiato" %}
+{% tab title="All" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 ls /dev
@@ -48,7 +48,7 @@ cpu              nbd0             pts              stdout           tty27       
 I sistemi di file del kernel forniscono un meccanismo per un processo per modificare il comportamento del kernel. Tuttavia, quando si tratta di processi del contenitore, vogliamo impedire loro di apportare modifiche al kernel. Pertanto, montiamo i sistemi di file del kernel come **sola lettura** all'interno del contenitore, garantendo che i processi del contenitore non possano modificare il kernel.
 
 {% tabs %}
-{% tab title="All'interno del contenitore predefinito" %}
+{% tab title="undefined" %}
 ```bash
 # docker run --rm -it alpine sh
 mount | grep '(ro'
@@ -57,7 +57,9 @@ cpuset on /sys/fs/cgroup/cpuset type cgroup (ro,nosuid,nodev,noexec,relatime,cpu
 cpu on /sys/fs/cgroup/cpu type cgroup (ro,nosuid,nodev,noexec,relatime,cpu)
 cpuacct on /sys/fs/cgroup/cpuacct type cgroup (ro,nosuid,nodev,noexec,relatime,cpuacct)
 ```
-{% tab title="All'interno del container privilegiato" %}
+{% endtab %}
+
+{% tab title="All" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 mount  | grep '(ro'
@@ -74,7 +76,7 @@ Il file system **/proc** è selettivamente scrivibile ma, per motivi di sicurezz
 {% endhint %}
 
 {% tabs %}
-{% tab title="All'interno del contenitore predefinito" %}
+{% tab title="undefined" %}
 ```bash
 # docker run --rm -it alpine sh
 mount  | grep /proc.*tmpfs
@@ -82,7 +84,9 @@ tmpfs on /proc/acpi type tmpfs (ro,relatime)
 tmpfs on /proc/kcore type tmpfs (rw,nosuid,size=65536k,mode=755)
 tmpfs on /proc/keys type tmpfs (rw,nosuid,size=65536k,mode=755)
 ```
-{% tab title="All'interno del container privilegiato" %}
+{% endtab %}
+
+{% tab title="All" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 mount  | grep /proc.*tmpfs
@@ -99,7 +103,7 @@ I motori dei container avviano i container con un **numero limitato di capabilit
 {% endcontent-ref %}
 
 {% tabs %}
-{% tab title="All'interno del container predefinito" %}
+{% tab title="undefined" %}
 ```bash
 # docker run --rm -it alpine sh
 apk add -U libcap; capsh --print
@@ -108,7 +112,9 @@ Current: cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,ca
 Bounding set =cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap
 [...]
 ```
-{% tab title="All'interno del container privilegiato" %}
+{% endtab %}
+
+{% tab title="All" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 apk add -U libcap; capsh --print
@@ -131,7 +137,7 @@ Bounding set =cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fset
 {% endcontent-ref %}
 
 {% tabs %}
-{% tab title="All'interno del contenitore predefinito" %}
+{% tab title="All" %}
 ```bash
 # docker run --rm -it alpine sh
 grep Seccomp /proc/1/status
@@ -140,7 +146,7 @@ Seccomp_filters:	1
 ```
 {% endtab %}
 
-{% tab title="All'interno del container privilegiato" %}
+{% tab title="All" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 grep Seccomp /proc/1/status
@@ -149,10 +155,12 @@ Seccomp_filters:	0
 ```
 {% endtab %}
 {% endtabs %}
+
 ```bash
 # You can manually disable seccomp in docker with
 --security-opt seccomp=unconfined
 ```
+
 Inoltre, nota che quando Docker (o altri CRIs) vengono utilizzati in un cluster **Kubernetes**, il filtro **seccomp è disabilitato per impostazione predefinita**.
 
 ### AppArmor
@@ -162,10 +170,12 @@ Inoltre, nota che quando Docker (o altri CRIs) vengono utilizzati in un cluster 
 {% content-ref url="apparmor.md" %}
 [apparmor.md](apparmor.md)
 {% endcontent-ref %}
+
 ```bash
 # You can manually disable seccomp in docker with
 --security-opt apparmor=unconfined
 ```
+
 ### SELinux
 
 L'esecuzione di un container con il flag `--privileged` disabilita le **etichette SELinux**, facendo sì che erediti l'etichetta del motore del container, di solito `unconfined`, concedendo pieno accesso simile al motore del container. In modalità senza privilegi, viene utilizzato `container_runtime_t`, mentre in modalità root viene applicato `spc_t`.
@@ -173,10 +183,12 @@ L'esecuzione di un container con il flag `--privileged` disabilita le **etichett
 {% content-ref url="../selinux.md" %}
 [selinux.md](../selinux.md)
 {% endcontent-ref %}
+
 ```bash
 # You can manually disable selinux in docker with
 --security-opt label:disable
 ```
+
 ## Cosa non viene influenzato
 
 ### Namespaces
@@ -184,7 +196,7 @@ L'esecuzione di un container con il flag `--privileged` disabilita le **etichett
 I namespace **NON sono influenzati** dal flag `--privileged`. Anche se non hanno abilitate le restrizioni di sicurezza, **non vedono tutti i processi del sistema o la rete dell'host, ad esempio**. Gli utenti possono disabilitare i singoli namespace utilizzando i flag `--pid=host`, `--net=host`, `--ipc=host`, `--uts=host` dei motori dei container.
 
 {% tabs %}
-{% tab title="All'interno di un container privilegiato predefinito" %}
+{% tab title="undefined" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 ps -ef
@@ -192,7 +204,9 @@ PID   USER     TIME  COMMAND
 1 root      0:00 sh
 18 root      0:00 ps -ef
 ```
-{% tab title="All'interno del container --pid=host" %}
+{% endtab %}
+
+{% tab title="All" %}
 ```bash
 # docker run --rm --privileged --pid=host -it alpine sh
 ps -ef
@@ -220,7 +234,7 @@ PID   USER     TIME  COMMAND
 * Lavori in una **azienda di sicurezza informatica**? Vuoi vedere la tua **azienda pubblicizzata in HackTricks**? O vuoi avere accesso all'**ultima versione di PEASS o scaricare HackTricks in PDF**? Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR al repository [hacktricks](https://github.com/carlospolop/hacktricks) e al repository [hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR al repository** [**hacktricks**](https://github.com/carlospolop/hacktricks) **e al repository** [**hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

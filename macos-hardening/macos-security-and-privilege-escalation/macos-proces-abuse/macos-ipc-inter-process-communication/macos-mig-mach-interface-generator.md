@@ -1,4 +1,4 @@
-# macOS MIG - Generatore di Interfacce Mach
+# macOS MIG - Mach Interface Generator
 
 <details>
 
@@ -38,15 +38,15 @@ n2          :  uint32_t);
 {% endcode %}
 
 Ora usa mig per generare il codice server e client che saranno in grado di comunicare tra loro per chiamare la funzione Sottrai:
+
 ```bash
 mig -header myipcUser.h -sheader myipcServer.h myipc.defs
 ```
+
 Verranno creati diversi nuovi file nella directory corrente.
 
 Nei file **`myipcServer.c`** e **`myipcServer.h`** puoi trovare la dichiarazione e la definizione della struttura **`SERVERPREFmyipc_subsystem`**, che definisce fondamentalmente la funzione da chiamare in base all'ID del messaggio ricevuto (abbiamo indicato un numero iniziale di 500):
 
-{% tabs %}
-{% tab title="myipcServer.c" %}
 ```c
 /* Description of this subsystem, for use in direct RPC */
 const struct SERVERPREFmyipc_subsystem SERVERPREFmyipc_subsystem = {
@@ -62,9 +62,9 @@ myipc_server_routine,
 }
 };
 ```
-{% endtab %}
 
-{% tab title="myipcServer.h" %}Traduzione{% endtab %}
+Traduzione
+
 ```c
 /* Description of this subsystem, for use in direct RPC */
 extern const struct SERVERPREFmyipc_subsystem {
@@ -77,10 +77,9 @@ struct routine_descriptor	/* Array of routine descriptors */
 routine[1];
 } SERVERPREFmyipc_subsystem;
 ```
-{% endtab %}
-{% endtabs %}
 
 Basandosi sulla struttura precedente, la funzione **`myipc_server_routine`** otterrà l'**ID del messaggio** e restituirà la funzione corretta da chiamare:
+
 ```c
 mig_external mig_routine_t myipc_server_routine
 (mach_msg_header_t *InHeadP)
@@ -95,15 +94,18 @@ return 0;
 return SERVERPREFmyipc_subsystem.routine[msgh_id].stub_routine;
 }
 ```
+
 In questo esempio abbiamo definito solo 1 funzione nelle definizioni, ma se avessimo definito più funzioni, sarebbero state all'interno dell'array di **`SERVERPREFmyipc_subsystem`** e la prima sarebbe stata assegnata all'ID **500**, la seconda all'ID **501**...
 
 In realtà è possibile identificare questa relazione nella struttura **`subsystem_to_name_map_myipc`** da **`myipcServer.h`**:
+
 ```c
 #ifndef subsystem_to_name_map_myipc
 #define subsystem_to_name_map_myipc \
 { "Subtract", 500 }
 #endif
 ```
+
 Infine, un'altra funzione importante per far funzionare il server sarà **`myipc_server`**, che è quella che effettivamente **chiama la funzione** relativa all'id ricevuto:
 
 <pre class="language-c"><code class="lang-c">mig_external boolean_t myipc_server
@@ -142,8 +144,6 @@ Controlla le righe evidenziate in precedenza per accedere alla funzione da chiam
 
 Di seguito è riportato il codice per creare un semplice **server** e **client** in cui il client può chiamare le funzioni Sottrai dal server:
 
-{% tabs %}
-{% tab title="myipc_server.c" %}
 ```c
 // gcc myipc_server.c myipcServer.c -o myipc_server
 
@@ -174,9 +174,9 @@ return 1;
 mach_msg_server(myipc_server, sizeof(union __RequestUnion__SERVERPREFmyipc_subsystem), port, MACH_MSG_TIMEOUT_NONE);
 }
 ```
-{% endtab %}
 
-{% tab title="myipc_client.c" %}
+
+
 ```c
 // gcc myipc_client.c myipcUser.c -o myipc_client
 
@@ -201,14 +201,17 @@ printf("Port right name %d\n", port);
 USERPREFSubtract(port, 40, 2);
 }
 ```
+
 ### Analisi Binaria
 
 Poiché molti binari utilizzano ora MIG per esporre le porte mach, è interessante sapere come **identificare che è stato utilizzato MIG** e le **funzioni che MIG esegue** con ciascun ID messaggio.
 
 [**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2) può analizzare le informazioni MIG da un binario Mach-O indicando l'ID del messaggio e identificando la funzione da eseguire:
+
 ```bash
 jtool2 -d __DATA.__const myipc_server | grep MIG
 ```
+
 È stato precedentemente menzionato che la funzione che si occuperà di **chiamare la funzione corretta a seconda dell'ID del messaggio ricevuto** era `myipc_server`. Tuttavia, di solito non si avranno i simboli del binario (nessun nome di funzione), quindi è interessante **controllare come appare decompilato**, poiché sarà sempre molto simile (il codice di questa funzione è indipendente dalle funzioni esposte):
 
 {% tabs %}
@@ -217,13 +220,13 @@ jtool2 -d __DATA.__const myipc_server | grep MIG
 var_10 = arg0;
 var_18 = arg1;
 // Istruzioni iniziali per trovare i puntatori di funzione corretti
-*(int32_t *)var_18 = *(int32_t *)var_10 & 0x1f;
+*(int32_t *)var_18 = *(int32_t *)var_10 &#x26; 0x1f;
 *(int32_t *)(var_18 + 0x8) = *(int32_t *)(var_10 + 0x8);
 *(int32_t *)(var_18 + 0x4) = 0x24;
 *(int32_t *)(var_18 + 0xc) = 0x0;
 *(int32_t *)(var_18 + 0x14) = *(int32_t *)(var_10 + 0x14) + 0x64;
 *(int32_t *)(var_18 + 0x10) = 0x0;
-if (*(int32_t *)(var_10 + 0x14) <= 0x1f4 && *(int32_t *)(var_10 + 0x14) >= 0x1f4) {
+if (*(int32_t *)(var_10 + 0x14) &#x3C;= 0x1f4 &#x26;&#x26; *(int32_t *)(var_10 + 0x14) >= 0x1f4) {
 rax = *(int32_t *)(var_10 + 0x14);
 // Chiamata a sign_extend_64 che può aiutare a identificare questa funzione
 // Questo memorizza in rax il puntatore alla chiamata che deve essere effettuata
@@ -264,7 +267,7 @@ stack[-8] = r30;
 var_10 = arg0;
 var_18 = arg1;
 // Istruzioni iniziali per trovare i puntatori di funzione corretti
-*(int32_t *)var_18 = *(int32_t *)var_10 & 0x1f | 0x0;
+*(int32_t *)var_18 = *(int32_t *)var_10 &#x26; 0x1f | 0x0;
 *(int32_t *)(var_18 + 0x8) = *(int32_t *)(var_10 + 0x8);
 *(int32_t *)(var_18 + 0x4) = 0x24;
 *(int32_t *)(var_18 + 0xc) = 0x0;
@@ -273,19 +276,19 @@ var_18 = arg1;
 r8 = *(int32_t *)(var_10 + 0x14);
 r8 = r8 - 0x1f4;
 if (r8 > 0x0) {
-if (CPU_FLAGS & G) {
+if (CPU_FLAGS &#x26; G) {
 r8 = 0x1;
 }
 }
-if ((r8 & 0x1) == 0x0) {
+if ((r8 &#x26; 0x1) == 0x0) {
 r8 = *(int32_t *)(var_10 + 0x14);
 r8 = r8 - 0x1f4;
-if (r8 < 0x0) {
-if (CPU_FLAGS & L) {
+if (r8 &#x3C; 0x0) {
+if (CPU_FLAGS &#x26; L) {
 r8 = 0x1;
 }
 }
-if ((r8 & 0x1) == 0x0) {
+if ((r8 &#x26; 0x1) == 0x0) {
 r8 = *(int32_t *)(var_10 + 0x14);
 // 0x1f4 = 500 (l'ID di partenza)
 <strong>                    r8 = r8 - 0x1f4;
@@ -294,13 +297,13 @@ r8 = *(r8 + 0x8);
 var_20 = r8;
 r8 = r8 - 0x0;
 if (r8 != 0x0) {
-if (CPU_FLAGS & NE) {
+if (CPU_FLAGS &#x26; NE) {
 r8 = 0x1;
 }
 }
 // Stesso if else della versione precedente
 // Controlla l'uso dell'indirizzo 0x100004040 (array degli indirizzi delle funzioni)
-<strong>                    if ((r8 & 0x1) == 0x0) {
+<strong>                    if ((r8 &#x26; 0x1) == 0x0) {
 </strong><strong>                            *(var_18 + 0x18) = **0x100004000;
 </strong>                            *(int32_t *)(var_18 + 0x20) = 0xfffffed1;
 var_4 = 0x0;
@@ -349,3 +352,5 @@ Altri modi per supportare HackTricks:
 * Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **repository di Github.**
+
+</details>

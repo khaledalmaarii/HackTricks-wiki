@@ -7,20 +7,20 @@
 * Lavori in una **azienda di sicurezza informatica**? Vuoi vedere la **tua azienda pubblicizzata su HackTricks**? o vuoi avere accesso all'**ultima versione del PEASS o scaricare HackTricks in PDF**? Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione esclusiva di [**NFT**](https://opensea.io/collection/the-peass-family)
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Condividi i tuoi trucchi di hacking inviando PR al** [**repo di hacktricks**](https://github.com/carlospolop/hacktricks) **e al** [**repo di hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-## Introduzione <a href="#9wrzi" id="9wrzi"></a>
+## Introduzione <a href="#id-9wrzi" id="id-9wrzi"></a>
 
 Per informazioni su RFID e NFC, controlla la seguente pagina:
 
-{% content-ref url="../../../radio-hacking/pentesting-rfid.md" %}
-[pentesting-rfid.md](../../../radio-hacking/pentesting-rfid.md)
+{% content-ref url="../pentesting-rfid.md" %}
+[pentesting-rfid.md](../pentesting-rfid.md)
 {% endcontent-ref %}
 
-## Schede NFC supportate <a href="#9wrzi" id="9wrzi"></a>
+## Schede NFC supportate <a href="#id-9wrzi" id="id-9wrzi"></a>
 
 {% hint style="danger" %}
 Oltre alle schede NFC, Flipper Zero supporta **altro tipo di schede ad alta frequenza** come diverse schede **Mifare** Classic e Ultralight e **NTAG**.
@@ -43,7 +43,7 @@ Schermata di lettura della carta bancariaPer le carte bancarie, Flipper Zero pu�
 
 <figure><img src="https://cdn.flipperzero.one/Monosnap_Miro_2022-08-17_12-26-31.png?auto=format&#x26;ixlib=react-9.1.1&#x26;h=916&#x26;w=2662" alt=""><figcaption></figcaption></figure>
 
-#### Schede sconosciute <a href="#37eo8" id="37eo8"></a>
+#### Schede sconosciute <a href="#id-37eo8" id="id-37eo8"></a>
 
 Quando Flipper Zero è **incapace di determinare il tipo di scheda NFC**, allora solo un **UID, SAK e ATQA** possono essere **letti e salvati**.
 
@@ -59,7 +59,7 @@ Per le **schede NFC di tipo B, F e V**, Flipper Zero può solo **leggere e visua
 
 ## Azioni
 
-Per una introduzione su NFC [**leggi questa pagina**](../../../radio-hacking/pentesting-rfid.md#high-frequency-rfid-tags-13.56-mhz).
+Per una introduzione su NFC [**leggi questa pagina**](../pentesting-rfid.md#high-frequency-rfid-tags-13.56-mhz).
 
 ### Lettura
 
@@ -82,6 +82,7 @@ Nel caso in cui Flipper Zero non sia in grado di trovare il tipo di scheda dai d
 
 Oltre a leggere semplicemente l'UID, puoi estrarre molti altri dati da una carta bancaria. È possibile **ottenere il numero completo della carta** (i 16 cifre sul fronte della carta), la **data di validità** e in alcuni casi persino il **nome del proprietario** insieme a un elenco delle **transazioni più recenti**.\
 Tuttavia, **non puoi leggere il CVV in questo modo** (i 3 numeri sul retro della carta). Inoltre, **le carte bancarie sono protette dagli attacchi di replay**, quindi copiarle con Flipper e poi cercare di emularle per pagare qualcosa non funzionerà.
+
 ## Riferimenti
 
 * [https://blog.flipperzero.one/rfid/](https://blog.flipperzero.one/rfid/)
@@ -93,7 +94,7 @@ Tuttavia, **non puoi leggere il CVV in questo modo** (i 3 numeri sul retro della
 * Lavori in una **azienda di sicurezza informatica**? Vuoi vedere la **tua azienda pubblicizzata su HackTricks**? o vuoi avere accesso all'**ultima versione del PEASS o scaricare HackTricks in PDF**? Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Condividi i tuoi trucchi di hacking inviando PR al** [**repo di hacktricks**](https://github.com/carlospolop/hacktricks) **e al** [**repo di hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

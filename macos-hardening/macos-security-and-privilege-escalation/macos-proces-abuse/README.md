@@ -1,4 +1,4 @@
-# Abuso dei processi su macOS
+# macOS Proces Abuse
 
 <details>
 
@@ -30,16 +30,16 @@ L'iniezione di libreria è una tecnica in cui un attaccante **costringe un proce
 
 Il Hooking di Funzioni coinvolge l'**intercettazione delle chiamate alle funzioni** o dei messaggi all'interno di un codice software. Mediante il hooking delle funzioni, un attaccante può **modificare il comportamento** di un processo, osservare dati sensibili o addirittura ottenere il controllo sul flusso di esecuzione.
 
-{% content-ref url="../mac-os-architecture/macos-function-hooking.md" %}
-[macos-function-hooking.md](../mac-os-architecture/macos-function-hooking.md)
+{% content-ref url="macos-function-hooking.md" %}
+[macos-function-hooking.md](macos-function-hooking.md)
 {% endcontent-ref %}
 
 ### Comunicazione tra Processi
 
 La Comunicazione tra Processi (IPC) si riferisce a diversi metodi con cui processi separati **condividono e scambiano dati**. Sebbene l'IPC sia fondamentale per molte applicazioni legittime, può anche essere abusato per eludere l'isolamento dei processi, rivelare informazioni sensibili o eseguire azioni non autorizzate.
 
-{% content-ref url="../mac-os-architecture/macos-ipc-inter-process-communication/" %}
-[macos-ipc-inter-process-communication](../mac-os-architecture/macos-ipc-inter-process-communication/)
+{% content-ref url="macos-ipc-inter-process-communication/" %}
+[macos-ipc-inter-process-communication](macos-ipc-inter-process-communication/)
 {% endcontent-ref %}
 
 ### Iniezione nelle Applicazioni Electron
@@ -110,6 +110,7 @@ Nota che gli eseguibili compilati con **`pyinstaller`** non utilizzeranno queste
 {% hint style="danger" %}
 In generale, non ho trovato un modo per far eseguire a Python codice arbitrario abusando delle variabili d'ambiente.\
 Tuttavia, la maggior parte delle persone installa Python usando **Hombrew**, che installerà Python in una **posizione scrivibile** per l'utente amministratore predefinito. Puoi dirottarlo con qualcosa del genere:
+
 ```bash
 mv /opt/homebrew/bin/python3 /opt/homebrew/bin/python3.old
 cat > /opt/homebrew/bin/python3 <<EOF
@@ -119,6 +120,7 @@ cat > /opt/homebrew/bin/python3 <<EOF
 EOF
 chmod +x /opt/homebrew/bin/python3
 ```
+
 Anche **root** eseguirà questo codice quando si esegue python.
 {% endhint %}
 

@@ -1,4 +1,4 @@
-# Attacco xpc\_connection\_get\_audit\_token su macOS
+# macOS xpc\_connection\_get\_audit\_token Attack
 
 <details>
 
@@ -20,8 +20,8 @@ Altri modi per supportare HackTricks:
 
 Se non sai cosa sono i messaggi Mach, inizia controllando questa pagina:
 
-{% content-ref url="../../../../mac-os-architecture/macos-ipc-inter-process-communication/" %}
-[macos-ipc-inter-process-communication](../../../../mac-os-architecture/macos-ipc-inter-process-communication/)
+{% content-ref url="../../" %}
+[..](../../)
 {% endcontent-ref %}
 
 Per il momento ricorda che ([definizione da qui](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing)):\
@@ -51,6 +51,7 @@ Anche se la situazione precedente sembra promettente, ci sono alcuni scenari in 
 Due diversi metodi con cui ciò potrebbe essere sfruttabile:
 
 1. Variante 1:
+
 * **L'exploit si connette** al servizio **A** e al servizio **B**
 * Il servizio **B** può chiamare una **funzionalità privilegiata** in servizio **A** che l'utente non può
 * Il servizio **A** chiama **`xpc_connection_get_audit_token`** mentre _**non**_ è all'interno dell'**handler di evento** per una connessione in un **`dispatch_async`**.
@@ -58,7 +59,9 @@ Due diversi metodi con cui ciò potrebbe essere sfruttabile:
 * L'exploit passa a **servizio B il diritto di invio a servizio A**.
 * Quindi svc **B** invierà effettivamente i **messaggi** a servizio **A**.
 * L'**exploit** cerca di **chiamare l'azione privilegiata**. In un RC svc **A** **controlla** l'autorizzazione di questa **azione** mentre **svc B sovrascrive il Token di Audit** (dando all'exploit l'accesso per chiamare l'azione privilegiata).
+
 2. Variante 2:
+
 * Il servizio **B** può chiamare una **funzionalità privilegiata** in servizio **A** che l'utente non può
 * L'exploit si connette con **servizio A** che **invia** all'exploit un **messaggio che si aspetta una risposta** in una specifica **porta di risposta**.
 * L'exploit invia al **servizio** B un messaggio passando **quella porta di risposta**.
@@ -87,9 +90,7 @@ Per eseguire l'attacco:
 2. Forma una secondaria **connessione** a `diagnosticd`. Contrariamente alla procedura normale, anziché creare e inviare due nuove porte mach, il diritto di invio della porta client viene sostituito con una duplicata del **diritto di invio** associato alla connessione `smd`.
 3. Di conseguenza, i messaggi XPC possono essere inviati a `diagnosticd`, ma le risposte da `diagnosticd` vengono dirottate su `smd`. Per `smd`, sembra che i messaggi sia dall'utente che da `diagnosticd` provengano dalla stessa connessione.
 
-![Immagine che raffigura il processo di exploit](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/exploit.png)
-4. Il passo successivo prevede di istruire `diagnosticd` ad avviare il monitoraggio di un processo scelto (potenzialmente quello dell'utente). Contestualmente, viene inviata una serie di messaggi di routine 1004 a `smd`. L'intento qui è quello di installare uno strumento con privilegi elevati.
-5. Questa azione attiva una condizione di gara all'interno della funzione `handle_bless`. Il tempismo è cruciale: la chiamata alla funzione `xpc_connection_get_pid` deve restituire il PID del processo dell'utente (poiché lo strumento privilegiato risiede nel bundle dell'applicazione dell'utente). Tuttavia, la funzione `xpc_connection_get_audit_token`, specificamente all'interno della subroutine `connection_is_authorized`, deve fare riferimento al token di audit appartenente a `diagnosticd`.
+![Immagine che raffigura il processo di exploit](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/exploit.png) 4. Il passo successivo prevede di istruire `diagnosticd` ad avviare il monitoraggio di un processo scelto (potenzialmente quello dell'utente). Contestualmente, viene inviata una serie di messaggi di routine 1004 a `smd`. L'intento qui è quello di installare uno strumento con privilegi elevati. 5. Questa azione attiva una condizione di gara all'interno della funzione `handle_bless`. Il tempismo è cruciale: la chiamata alla funzione `xpc_connection_get_pid` deve restituire il PID del processo dell'utente (poiché lo strumento privilegiato risiede nel bundle dell'applicazione dell'utente). Tuttavia, la funzione `xpc_connection_get_audit_token`, specificamente all'interno della subroutine `connection_is_authorized`, deve fare riferimento al token di audit appartenente a `diagnosticd`.
 
 ## Variante 2: inoltro delle risposte
 
@@ -115,7 +116,7 @@ Il processo di sfruttamento comporta i seguenti passaggi:
 
 Di seguito è riportata una rappresentazione visiva dello scenario di attacco descritto:
 
-![https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/variant2.png](../../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png)
+!\[https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/variant2.png]\(../../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png)
 
 <figure><img src="../../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/variant2.png" width="563"><figcaption></figcaption></figure>
 

