@@ -7,8 +7,8 @@
 * Pracujesz w **firmie zajmującej się cyberbezpieczeństwem**? Chcesz zobaczyć swoją **firmę reklamowaną w HackTricks**? A może chcesz mieć dostęp do **najnowszej wersji PEASS lub pobrać HackTricks w formacie PDF**? Sprawdź [**PLAN SUBSKRYPCYJNY**](https://github.com/sponsors/carlospolop)!
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Dołącz do** [**💬**](https://emojipedia.org/speech-balloon/) [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** mnie na **Twitterze** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do repozytorium [hacktricks](https://github.com/carlospolop/hacktricks) i [hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Dołącz do** [**💬**](https://emojipedia.org/speech-balloon/) [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** mnie na **Twitterze** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do repozytorium** [**hacktricks**](https://github.com/carlospolop/hacktricks) **i** [**hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -21,13 +21,15 @@ Kiedy uruchamiasz kontener jako uprzywilejowany, wyłączasz następujące zabez
 W kontenerze uprzywilejowanym wszystkie **urządzenia są dostępne w `/dev/`**. Dlatego można **ujść** przez **zamontowanie** dysku hosta.
 
 {% tabs %}
-{% tab title="Wewnątrz domyślnego kontenera" %}
+{% tab title="undefined" %}
 ```bash
 # docker run --rm -it alpine sh
 ls /dev
 console  fd       mqueue   ptmx     random   stderr   stdout   urandom
 core     full     null     pts      shm      stdin    tty      zero
 ```
+{% endtab %}
+
 {% tab title="Wewnątrz kontenera z uprawnieniami" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
@@ -46,7 +48,7 @@ cpu              nbd0             pts              stdout           tty27       
 System calls are the interface between user space and the kernel. By filtering system calls, we can restrict the actions that container processes can perform. Docker provides a feature called **seccomp** that allows us to filter system calls and define a whitelist of allowed system calls for container processes.
 
 {% tabs %}
-{% tab title="Inside default container" %}
+{% tab title="undefined" %}
 ```bash
 # docker run --rm -it alpine sh
 mount | grep '(ro'
@@ -55,6 +57,8 @@ cpuset on /sys/fs/cgroup/cpuset type cgroup (ro,nosuid,nodev,noexec,relatime,cpu
 cpu on /sys/fs/cgroup/cpu type cgroup (ro,nosuid,nodev,noexec,relatime,cpu)
 cpuacct on /sys/fs/cgroup/cpuacct type cgroup (ro,nosuid,nodev,noexec,relatime,cpuacct)
 ```
+{% endtab %}
+
 {% tab title="Wewnątrz kontenera z uprawnieniami" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
@@ -72,7 +76,7 @@ System plików **/proc** jest selektywnie zapisywalny, ale dla bezpieczeństwa n
 {% endhint %}
 
 {% tabs %}
-{% tab title="Wewnątrz domyślnego kontenera" %}
+{% tab title="undefined" %}
 ```bash
 # docker run --rm -it alpine sh
 mount  | grep /proc.*tmpfs
@@ -80,6 +84,8 @@ tmpfs on /proc/acpi type tmpfs (ro,relatime)
 tmpfs on /proc/kcore type tmpfs (rw,nosuid,size=65536k,mode=755)
 tmpfs on /proc/keys type tmpfs (rw,nosuid,size=65536k,mode=755)
 ```
+{% endtab %}
+
 {% tab title="Wewnątrz kontenera z uprawnieniami" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
@@ -97,7 +103,7 @@ Silniki kontenerów uruchamiają kontenery z **ograniczoną liczbą uprawnień**
 {% endcontent-ref %}
 
 {% tabs %}
-{% tab title="Wewnątrz domyślnego kontenera" %}
+{% tab title="undefined" %}
 ```bash
 # docker run --rm -it alpine sh
 apk add -U libcap; capsh --print
@@ -106,6 +112,8 @@ Current: cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,ca
 Bounding set =cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap
 [...]
 ```
+{% endtab %}
+
 {% tab title="Wewnątrz kontenera z uprawnieniami" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
@@ -129,13 +137,15 @@ Możesz manipulować dostępnymi możliwościami dla kontenera bez uruchamiania 
 {% endcontent-ref %}
 
 {% tabs %}
-{% tab title="Wewnątrz domyślnego kontenera" %}
+{% tab title="undefined" %}
 ```bash
 # docker run --rm -it alpine sh
 grep Seccomp /proc/1/status
 Seccomp:	2
 Seccomp_filters:	1
 ```
+{% endtab %}
+
 {% tab title="Wewnątrz kontenera z uprawnieniami" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
@@ -145,10 +155,12 @@ Seccomp_filters:	0
 ```
 {% endtab %}
 {% endtabs %}
+
 ```bash
 # You can manually disable seccomp in docker with
 --security-opt seccomp=unconfined
 ```
+
 Dodatkowo, należy zauważyć, że gdy Docker (lub inne CRIs) jest używany w klastrze **Kubernetes**, filtr **seccomp** jest domyślnie wyłączony.
 
 ### AppArmor
@@ -158,10 +170,12 @@ Dodatkowo, należy zauważyć, że gdy Docker (lub inne CRIs) jest używany w kl
 {% content-ref url="apparmor.md" %}
 [apparmor.md](apparmor.md)
 {% endcontent-ref %}
+
 ```bash
 # You can manually disable seccomp in docker with
 --security-opt apparmor=unconfined
 ```
+
 ### SELinux
 
 Uruchomienie kontenera z flagą `--privileged` wyłącza **etykiety SELinux**, powodując dziedziczenie etykiety silnika kontenera, zwykle `unconfined`, co daje pełny dostęp podobny do silnika kontenera. W trybie bez uprawnień roota używane jest `container_runtime_t`, podczas gdy w trybie roota stosowane jest `spc_t`.
@@ -169,10 +183,12 @@ Uruchomienie kontenera z flagą `--privileged` wyłącza **etykiety SELinux**, p
 {% content-ref url="../selinux.md" %}
 [selinux.md](../selinux.md)
 {% endcontent-ref %}
+
 ```bash
 # You can manually disable selinux in docker with
 --security-opt label:disable
 ```
+
 ## Co nie ma wpływu
 
 ### Przestrzenie nazw
@@ -180,7 +196,7 @@ Uruchomienie kontenera z flagą `--privileged` wyłącza **etykiety SELinux**, p
 Przestrzenie nazw **NIE są dotknięte** flagą `--privileged`. Chociaż nie mają włączonych ograniczeń bezpieczeństwa, **nie widzą wszystkich procesów w systemie ani sieci hosta, na przykład**. Użytkownicy mogą wyłączyć poszczególne przestrzenie nazw, używając flag kontenerów silników **`--pid=host`, `--net=host`, `--ipc=host`, `--uts=host`**.
 
 {% tabs %}
-{% tab title="Wewnątrz domyślnego kontenera z uprawnieniami" %}
+{% tab title="undefined" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 ps -ef
@@ -188,6 +204,8 @@ PID   USER     TIME  COMMAND
 1 root      0:00 sh
 18 root      0:00 ps -ef
 ```
+{% endtab %}
+
 {% tab title="Wewnątrz kontenera --pid=host" %}
 ```bash
 # docker run --rm --privileged --pid=host -it alpine sh
@@ -216,7 +234,7 @@ PID   USER     TIME  COMMAND
 * Pracujesz w **firmie zajmującej się cyberbezpieczeństwem**? Chcesz zobaczyć **reklamę swojej firmy w HackTricks**? A może chcesz mieć dostęp do **najnowszej wersji PEASS lub pobrać HackTricks w formacie PDF**? Sprawdź [**PLAN SUBSKRYPCJI**](https://github.com/sponsors/carlospolop)!
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Dołącz do** [**💬**](https://emojipedia.org/speech-balloon/) [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** mnie na **Twitterze** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR do repozytorium [hacktricks](https://github.com/carlospolop/hacktricks) i [hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Dołącz do** [**💬**](https://emojipedia.org/speech-balloon/) [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** mnie na **Twitterze** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR do repozytorium** [**hacktricks**](https://github.com/carlospolop/hacktricks) **i** [**hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

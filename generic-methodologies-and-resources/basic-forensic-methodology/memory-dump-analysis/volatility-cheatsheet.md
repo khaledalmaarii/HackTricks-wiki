@@ -1,4 +1,4 @@
-# Volatility - Przegląd
+# Volatility - CheatSheet
 
 <details>
 
@@ -9,7 +9,7 @@ Inne sposoby wsparcia HackTricks:
 * Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCJI**](https://github.com/sponsors/carlospolop)!
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
@@ -23,18 +23,22 @@ Inne sposoby wsparcia HackTricks:
 {% embed url="https://www.rootedcon.com/" %}
 
 Jeśli chcesz czegoś **szybkiego i szalonego**, co uruchomi kilka wtyczek Volatility równolegle, możesz użyć: [https://github.com/carlospolop/autoVolatility](https://github.com/carlospolop/autoVolatility)
+
 ```bash
 python autoVolatility.py -f MEMFILE -d OUT_DIRECTORY -e /home/user/tools/volatility/vol.py # It will use the most important plugins (could use a lot of space depending on the size of the memory)
 ```
+
 ## Instalacja
 
 ### volatility3
+
 ```bash
 git clone https://github.com/volatilityfoundation/volatility3.git
 cd volatility3
 python3 setup.py install
 python3 vol.py —h
 ```
+
 #### Metoda 1: Analiza obrazu pamięci
 
 1. Uruchomienie Volatility:
@@ -440,17 +444,16 @@ volatility -f <plik_obrazu_pamięci> --profile=<profil> connscan -p <PID_procesu
 ```
 
 68. Wyświetlanie listy połąc
+
 ```
 Download the executable from https://www.volatilityfoundation.org/26
 ```
-{% tab title="Metoda 2" %}
+
 ```bash
 git clone https://github.com/volatilityfoundation/volatility.git
 cd volatility
 python setup.py install
 ```
-{% endtab %}
-{% endtabs %}
 
 ## Polecenia Volatility
 
@@ -482,10 +485,13 @@ Pakiety tabel symboli dla różnych systemów operacyjnych są dostępne do **po
 #### Profil zewnętrzny
 
 Możesz uzyskać listę obsługiwanych profili wykonując:
+
 ```bash
 ./volatility_2.6_lin64_standalone --info | grep "Profile"
 ```
+
 Jeśli chcesz użyć **nowego profilu, który pobrałeś** (na przykład profilu linuxowego), musisz utworzyć strukturę folderów: _plugins/overlays/linux_ i umieścić w tym folderze plik zip zawierający profil. Następnie, uzyskaj numer profilu, używając:
+
 ```bash
 ./vol --plugins=/home/kali/Desktop/ctfs/final/plugins --info
 Volatility Foundation Volatility Framework 2.6
@@ -497,12 +503,15 @@ LinuxCentOS7_3_10_0-123_el7_x86_64_profilex64 - A Profile for Linux CentOS7_3.10
 VistaSP0x64                                   - A Profile for Windows Vista SP0 x64
 VistaSP0x86                                   - A Profile for Windows Vista SP0 x86
 ```
+
 Możesz **pobrać profile Linuxa i Maca** z [https://github.com/volatilityfoundation/profiles](https://github.com/volatilityfoundation/profiles)
 
 W poprzednim fragmencie możesz zobaczyć, że profil nazywa się `LinuxCentOS7_3_10_0-123_el7_x86_64_profilex64`, i możesz go użyć do wykonania czegoś takiego jak:
+
 ```bash
 ./vol -f file.dmp --plugins=. --profile=LinuxCentOS7_3_10_0-123_el7_x86_64_profilex64 linux_netscan
 ```
+
 #### Odkryj profil
 
 ```plaintext
@@ -672,9 +681,10 @@ volatility -f <memory_dump> printkey -K <registry_key> -o <offset> --output=txt 
 ```plaintext
 volatility -f <memory_dump> printkey -K <registry_key> -o <offset> --output=txt -D <output_directory> --output-file=<output_file> --output-append --output-unicode --output-raw --output-hex --output-utf8 --output-utf16 --output-utf16le --output-utf16be --output-utf32 --output-utf32le --output-utf32be --output-utf7 --output-utf1 --output-utf3 --output-utf5 --output-utf9 --output-utf11 --output-utf13 --output-utf15 --output-utf17 --output-utf19 --output-utf21 --output-utf23 --output-utf25 --output-utf27 --output
 ```
-volatility imageinfo -f file.dmp
-volatility kdbgscan -f file.dmp
-```
+
+volatility imageinfo -f file.dmp volatility kdbgscan -f file.dmp
+
+````
 #### **Różnice między imageinfo a kdbgscan**
 
 [Z **tego miejsca**](https://www.andreafortuna.org/2017/06/25/volatility-my-own-cheatsheet-part-1-image-identification/): W przeciwieństwie do imageinfo, które po prostu sugeruje profile, **kdbgscan** został zaprojektowany w celu pozytywnego zidentyfikowania poprawnego profilu i poprawnego adresu KDBG (jeśli istnieje wiele). Ten plugin skanuje sygnatury nagłówka KDBGHeader powiązane z profilami Volatility i stosuje testy poprawności, aby zredukować fałszywe wyniki. Liczba wypisywanych informacji i liczba testów poprawności, które można przeprowadzić, zależy od tego, czy Volatility może znaleźć DTB, więc jeśli już znasz poprawny profil (lub jeśli masz sugestię profilu z imageinfo), upewnij się, że go używasz.
@@ -684,67 +694,97 @@ Zawsze spójrz na **liczbę procesów, które znalazł kdbgscan**. Czasami image
 # GOOD
 PsActiveProcessHead           : 0xfffff800011977f0 (37 processes)
 PsLoadedModuleList            : 0xfffff8000119aae0 (116 modules)
-```
+````
 
 ```bash
 # BAD
 PsActiveProcessHead           : 0xfffff800011947f0 (0 processes)
 PsLoadedModuleList            : 0xfffff80001197ac0 (0 modules)
 ```
+
 #### KDBG
 
 **Kernel Debugger Block**, zwany **KDBG** przez Volatility, jest kluczowy dla zadań forensycznych wykonywanych przez Volatility i różne debuggery. Zidentyfikowany jako `KdDebuggerDataBlock` i typu `_KDDEBUGGER_DATA64`, zawiera istotne odwołania, takie jak `PsActiveProcessHead`. To konkretne odwołanie wskazuje na głowę listy procesów, umożliwiając wylistowanie wszystkich procesów, co jest podstawowe dla dokładnej analizy pamięci.
 
 ## Informacje o systemie operacyjnym
+
 ```bash
 #vol3 has a plugin to give OS information (note that imageinfo from vol2 will give you OS info)
 ./vol.py -f file.dmp windows.info.Info
 ```
+
 Wtyczka `banners.Banners` może być użyta w **vol3 do próby znalezienia banerów Linux** w dumpie.
 
 ## Skróty/Hasła
 
-Wyodrębnij skróty SAM, [buforowane poświadczenia domeny](../../../windows-hardening/stealing-credentials/credentials-protections.md#cached-credentials) i [tajemnice LSA](../../../windows-hardening/authentication-credentials-uac-and-efs.md#lsa-secrets).
+Wyodrębnij skróty SAM, [buforowane poświadczenia domeny](../../../windows-hardening/stealing-credentials/credentials-protections.md#cached-credentials) i [tajemnice LSA](../../../windows-hardening/authentication-credentials-uac-and-efs/#lsa-secrets).
 
 {% tabs %}
-{% tab title="vol3" %}
+{% tab title="undefined" %}
 ```bash
 ./vol.py -f file.dmp windows.hashdump.Hashdump #Grab common windows hashes (SAM+SYSTEM)
 ./vol.py -f file.dmp windows.cachedump.Cachedump #Grab domain cache hashes inside the registry
 ./vol.py -f file.dmp windows.lsadump.Lsadump #Grab lsa secrets
 ```
-{% tab title="vol2" %}
+{% endtab %}
+
+{% tab title="undefined" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 hashdump -f file.dmp #Grab common windows hashes (SAM+SYSTEM)
 volatility --profile=Win7SP1x86_23418 cachedump -f file.dmp #Grab domain cache hashes inside the registry
 volatility --profile=Win7SP1x86_23418 lsadump -f file.dmp #Grab lsa secrets
 ```
-## Zrzut pamięci
+{% endtab %}
 
+{% tab title="undefined" %}
+### Zrzut pamięci
+{% endtab %}
+
+{% tab title="undefined" %}
 Zrzut pamięci procesu **wydobędzie wszystko** dotyczące bieżącego stanu procesu. Moduł **procdump** wydobędzie tylko **kod**.
+{% endtab %}
+
+{% tab title="undefined" %}
 ```
 volatility -f file.dmp --profile=Win7SP1x86 memdump -p 2168 -D conhost/
 ```
-<figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
+{% endtab %}
 
+{% tab title="undefined" %}
+<img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt="" data-size="original">
+{% endtab %}
+
+{% tab title="undefined" %}
 [**RootedCON**](https://www.rootedcon.com/) to najważniejsze wydarzenie związane z cyberbezpieczeństwem w **Hiszpanii** i jedno z najważniejszych w **Europie**. Mając na celu promowanie wiedzy technicznej, ten kongres jest gorącym punktem spotkań dla profesjonalistów technologii i cyberbezpieczeństwa we wszystkich dziedzinach.
+{% endtab %}
 
+{% tab title="undefined" %}
 {% embed url="https://www.rootedcon.com/" %}
+{% endtab %}
 
-## Procesy
+{% tab title="undefined" %}
+### Procesy
+{% endtab %}
 
-### Wyświetlanie procesów
+{% tab title="undefined" %}
+#### Wyświetlanie procesów
+{% endtab %}
 
+{% tab title="undefined" %}
 Spróbuj znaleźć **podejrzane** procesy (po nazwie) lub **niespodziewane** procesy potomne (na przykład cmd.exe jako proces potomny iexplorer.exe).\
 Może być interesujące porównanie wyników polecenia pslist z wynikami polecenia psscan w celu zidentyfikowania ukrytych procesów.
+{% endtab %}
 
+{% tab title="undefined" %}
 {% tabs %}
-{% tab title="vol3" %}
+{% tab title="undefined" %}
 ```bash
 python3 vol.py -f file.dmp windows.pstree.PsTree # Get processes tree (not hidden)
 python3 vol.py -f file.dmp windows.pslist.PsList # Get process list (EPROCESS)
 python3 vol.py -f file.dmp windows.psscan.PsScan # Get hidden process list(malware)
 ```
+{% endtab %}
+
 {% tab title="vol2" %}
 ```bash
 volatility --profile=PROFILE pstree -f file.dmp # Get process tree (not hidden)
@@ -754,170 +794,278 @@ volatility --profile=PROFILE psxview -f file.dmp # Get hidden process list
 ```
 {% endtab %}
 {% endtabs %}
+{% endtab %}
 
-### Dump proc
+{% tab title="undefined" %}
+#### Dump proc
+{% endtab %}
 
+{% tab title="undefined" %}
 {% tabs %}
-{% tab title="vol3" %}
+{% tab title="undefined" %}
+**Dump all processes**
+{% endtab %}
 
-#### Dump all processes
-
+{% tab title="undefined" %}
 ```bash
 volatility -f <memory_dump> --profile=<profile> procdump --dump-dir=<output_directory>
 ```
+{% endtab %}
 
-#### Dump specific process by PID
+{% tab title="undefined" %}
+**Dump specific process by PID**
+{% endtab %}
 
+{% tab title="undefined" %}
 ```bash
 volatility -f <memory_dump> --profile=<profile> procdump --pid=<pid> --dump-dir=<output_directory>
 ```
+{% endtab %}
 
-#### Dump specific process by name
+{% tab title="undefined" %}
+**Dump specific process by name**
+{% endtab %}
 
+{% tab title="undefined" %}
 ```bash
 volatility -f <memory_dump> --profile=<profile> procdump --name=<process_name> --dump-dir=<output_directory>
 ```
+{% endtab %}
 
-#### Dump specific process by name and parent process name
+{% tab title="undefined" %}
+**Dump specific process by name and parent process name**
+{% endtab %}
 
+{% tab title="undefined" %}
 ```bash
 volatility -f <memory_dump> --profile=<profile> procdump --name=<process_name> --parent-name=<parent_process_name> --dump-dir=<output_directory>
 ```
+{% endtab %}
 
-#### Dump specific process by name and parent process PID
+{% tab title="undefined" %}
+**Dump specific process by name and parent process PID**
+{% endtab %}
 
+{% tab title="undefined" %}
 ```bash
 volatility -f <memory_dump> --profile=<profile> procdump --name=<process_name> --parent-pid=<parent_process_pid> --dump-dir=<output_directory>
 ```
+{% endtab %}
 
-#### Dump specific process by name and parent process name and parent process PID
+{% tab title="undefined" %}
+**Dump specific process by name and parent process name and parent process PID**
+{% endtab %}
 
+{% tab title="undefined" %}
 ```bash
 volatility -f <memory_dump> --profile=<profile> procdump --name=<process_name> --parent-name=<parent_process_name> --parent-pid=<parent_process_pid> --dump-dir=<output_directory>
 ```
+{% endtab %}
 
-#### Dump specific process by name and parent process name and parent process PID and grandparent process name
+{% tab title="undefined" %}
+**Dump specific process by name and parent process name and parent process PID and grandparent process name**
+{% endtab %}
 
+{% tab title="undefined" %}
 ```bash
 volatility -f <memory_dump> --profile=<profile> procdump --name=<process_name> --parent-name=<parent_process_name> --parent-pid=<parent_process_pid> --grandparent-name=<grandparent_process_name> --dump-dir=<output_directory>
 ```
+{% endtab %}
 
-#### Dump specific process by name and parent process name and parent process PID and grandparent process name and grandparent process PID
+{% tab title="undefined" %}
+**Dump specific process by name and parent process name and parent process PID and grandparent process name and grandparent process PID**
+{% endtab %}
 
+{% tab title="undefined" %}
 ```bash
 volatility -f <memory_dump> --profile=<profile> procdump --name=<process_name> --parent-name=<parent_process_name> --parent-pid=<parent_process_pid> --grandparent-name=<grandparent_process_name> --grandparent-pid=<grandparent_process_pid> --dump-dir=<output_directory>
 ```
+{% endtab %}
 
-#### Dump specific process by name and parent process name and parent process PID and grandparent process name and grandparent process PID and great-grandparent process name
+{% tab title="undefined" %}
+**Dump specific process by name and parent process name and parent process PID and grandparent process name and grandparent process PID and great-grandparent process name**
+{% endtab %}
 
+{% tab title="undefined" %}
 ```bash
 volatility -f <memory_dump> --profile=<profile> procdump --name=<process_name> --parent-name=<parent_process_name> --parent-pid=<parent_process_pid> --grandparent-name=<grandparent_process_name> --grandparent-pid=<grandparent_process_pid> --greatgrandparent-name=<greatgrandparent_process_name> --dump-dir=<output_directory>
 ```
+{% endtab %}
 
-#### Dump specific process by name and parent process name and parent process PID and grandparent process name and grandparent process PID and great-grandparent process name and great-grandparent process PID
+{% tab title="undefined" %}
+**Dump specific process by name and parent process name and parent process PID and grandparent process name and grandparent process PID and great-grandparent process name and great-grandparent process PID**
+{% endtab %}
 
+{% tab title="undefined" %}
 ```bash
 volatility -f <memory_dump> --profile=<profile> procdump --name=<process_name> --parent-name=<parent_process_name> --parent-pid=<parent_process_pid> --grandparent-name=<grandparent_process_name> --grandparent-pid=<grandparent_process_pid> --greatgrandparent-name=<greatgrandparent_process_name> --greatgrandparent-pid=<greatgrandparent_process_pid> --dump-dir=<output_directory>
 ```
+{% endtab %}
 
-#### Dump specific process by name and parent process name and parent process PID and grandparent process name and grandparent process PID and great-grandparent process name and great-grandparent process PID and ancestor process name
+{% tab title="undefined" %}
+**Dump specific process by name and parent process name and parent process PID and grandparent process name and grandparent process PID and great-grandparent process name and great-grandparent process PID and ancestor process name**
+{% endtab %}
 
+{% tab title="undefined" %}
 ```bash
 volatility -f <memory_dump> --profile=<profile> procdump --name=<process_name> --parent-name=<parent_process_name> --parent-pid=<parent_process_pid> --grandparent-name=<grandparent_process_name> --grandparent-pid=<grandparent_process_pid> --greatgrandparent-name=<greatgrandparent_process_name> --greatgrandparent-pid=<greatgrandparent_process_pid> --ancestor-name=<ancestor_process_name> --dump-dir=<output_directory>
 ```
+{% endtab %}
 
-#### Dump specific process by name and parent process name and parent process PID and grandparent process name and grandparent process PID and great-grandparent process name and great-grandparent process PID and ancestor process name and ancestor process PID
+{% tab title="undefined" %}
+**Dump specific process by name and parent process name and parent process PID and grandparent process name and grandparent process PID and great-grandparent process name and great-grandparent process PID and ancestor process name and ancestor process PID**
+{% endtab %}
 
+{% tab title="undefined" %}
 ```bash
 volatility -f <memory_dump> --profile=<profile> procdump --name=<process_name> --parent-name=<parent_process_name> --parent-pid=<parent_process_pid> --grandparent-name=<grandparent_process_name> --grandparent-pid=<grandparent_process_pid> --greatgrandparent-name=<greatgrandparent_process_name> --greatgrandparent-pid=<greatgrandparent_process_pid> --ancestor-name=<ancestor_process_name> --ancestor-pid=<ancestor_process_pid> --dump-dir=<output_directory>
 ```
+{% endtab %}
 
-#### Dump specific process by name and parent process name and parent process PID and grandparent process name and grandparent process PID and great-grandparent process name and great-grandparent process PID and ancestor process name and ancestor process PID and sibling process name
+{% tab title="undefined" %}
+**Dump specific process by name and parent process name and parent process PID and grandparent process name and grandparent process PID and great-grandparent process name and great-grandparent process PID and ancestor process name and ancestor process PID and sibling process name**
+{% endtab %}
 
+{% tab title="undefined" %}
 ```bash
 volatility -f <memory_dump> --profile=<profile> procdump --name=<process_name> --parent-name=<parent_process_name> --parent-pid=<parent_process_pid> --grandparent-name=<grandparent_process_name> --grandparent-pid=<grandparent_process_pid> --greatgrandparent-name=<greatgrandparent_process_name> --greatgrandparent-pid=<greatgrandparent_process_pid> --ancestor-name=<ancestor_process_name> --ancestor-pid=<ancestor_process_pid> --sibling-name=<sibling_process_name> --dump-dir=<output_directory>
 ```
+{% endtab %}
 
-#### Dump specific process by name and parent process name and parent process PID and grandparent process name and grandparent process PID and great-grandparent process name and great-grandparent process PID and ancestor process name and ancestor process PID and sibling process name and sibling process PID
+{% tab title="undefined" %}
+**Dump specific process by name and parent process name and parent process PID and grandparent process name and grandparent process PID and great-grandparent process name and great-grandparent process PID and ancestor process name and ancestor process PID and sibling process name and sibling process PID**
+{% endtab %}
 
+{% tab title="undefined" %}
 ```bash
 volatility -f <memory_dump> --profile=<profile> procdump --name=<process_name> --parent-name=<parent_process_name> --parent-pid=<parent_process_pid> --grandparent-name=<grandparent_process_name> --grandparent-pid=<grandparent_process_pid> --greatgrandparent-name=<greatgrandparent_process_name> --greatgrandparent-pid=<greatgrandparent_process_pid> --ancestor-name=<ancestor_process_name> --ancestor-pid=<ancestor_process_pid> --sibling-name=<sibling_process_name> --sibling-pid=<sibling_process_pid> --dump-dir=<output_directory>
 ```
+{% endtab %}
 
-#### Dump specific process by name and parent process name and parent process PID and grandparent process name and grandparent process PID and great-grandparent process name and great-grandparent process PID and ancestor process name and ancestor process PID and sibling process name and sibling process PID and child process name
+{% tab title="undefined" %}
+**Dump specific process by name and parent process name and parent process PID and grandparent process name and grandparent process PID and great-grandparent process name and great-grandparent process PID and ancestor process name and ancestor process PID and sibling process name and sibling process PID and child process name**
+{% endtab %}
 
+{% tab title="undefined" %}
 ```bash
 volatility -f <memory_dump> --profile=<profile> procdump --name=<process_name> --parent-name=<parent_process_name> --parent-pid=<parent_process_pid> --grandparent-name=<grandparent_process_name> --grandparent-pid=<grandparent_process_pid> --greatgrandparent-name=<greatgrandparent_process_name> --greatgrandparent-pid=<greatgrandparent_process_pid> --ancestor-name=<ancestor_process_name> --ancestor-pid=<ancestor_process_pid> --sibling-name=<sibling_process_name> --sibling-pid=<sibling_process_pid> --child-name=<child_process_name> --dump-dir=<output_directory>
 ```
+{% endtab %}
 
-#### Dump specific process by name and parent process name and parent process PID and grandparent process name and grandparent process PID and great-grandparent process name and great-grandparent process PID and ancestor process name and ancestor process PID and sibling process name and sibling process PID and child process name and child process PID
+{% tab title="undefined" %}
+**Dump specific process by name and parent process name and parent process PID and grandparent process name and grandparent process PID and great-grandparent process name and great-grandparent process PID and ancestor process name and ancestor process PID and sibling process name and sibling process PID and child process name and child process PID**
+{% endtab %}
 
+{% tab title="undefined" %}
 ```bash
 volatility -f <memory_dump> --profile=<profile> procdump --name=<process_name> --parent-name=<parent_process_name> --parent-pid=<parent_process_pid> --grandparent-name=<grandparent_process_name> --grandparent-pid=<grandparent_process_pid> --greatgrandparent-name=<greatgrandparent_process_name> --greatgrandparent-pid=<greatgrandparent_process_pid> --ancestor-name=<ancestor_process_name> --ancestor-pid=<ancestor_process_pid> --sibling-name=<sibling_process_name> --sibling-pid=<sibling_process_pid> --child-name=<child_process_name> --child-pid=<child_process_pid> --dump-dir=<output_directory>
 ```
+{% endtab %}
 
-#### Dump specific process by name and parent process name and parent process PID and grandparent process name and grandparent process PID and great-grandparent process name and great-grandparent process PID and ancestor process name and ancestor process PID and sibling process name and sibling process PID and child process name and child process PID and grandchild process name
+{% tab title="undefined" %}
+**Dump specific process by name and parent process name and parent process PID and grandparent process name and grandparent process PID and great-grandparent process name and great-grandparent process PID and ancestor process name and ancestor process PID and sibling process name and sibling process PID and child process name and child process PID and grandchild process name**
+{% endtab %}
 
+{% tab title="undefined" %}
 ```bash
 volatility -f <memory_dump> --profile=<profile> procdump --name=<process_name> --parent-name=<parent_process_name> --parent-pid=<parent_process_pid> --grandparent-name=<grandparent_process_name> --grandparent-pid=<grandparent_process_pid> --greatgrandparent-name=<greatgrandparent_process_name> --greatgrandparent-pid=<greatgrandparent_process_pid> --ancestor-name=<ancestor_process_name> --ancestor-pid=<ancestor_process_pid> --sibling-name=<sibling_process_name> --sibling-pid=<sibling_process_pid> --child-name=<child_process_name> --child-pid=<child_process_pid> --grandchild-name=<grandchild_process_name> --dump-dir=<output_directory>
 ```
+{% endtab %}
 
-#### Dump specific process by name and parent process name and parent process PID and grandparent process name and grandparent process PID and great-grandparent process name and great-grandparent process PID and ancestor process name and ancestor process PID and sibling process name and sibling process PID and child process name and child process PID and grandchild process name and grandchild process PID
+{% tab title="undefined" %}
+**Dump specific process by name and parent process name and parent process PID and grandparent process name and grandparent process PID and great-grandparent process name and great-grandparent process PID and ancestor process name and ancestor process PID and sibling process name and sibling process PID and child process name and child process PID and grandchild process name and grandchild process PID**
+{% endtab %}
 
+{% tab title="undefined" %}
 ```bash
 volatility -f <memory_dump> --profile=<profile> procdump --name=<process_name> --parent-name=<parent_process_name> --parent-pid=<parent_process_pid> --grandparent-name=<grandparent_process_name> --grandparent-pid=<grandparent_process_pid> --greatgrandparent-name=<greatgrandparent_process_name> --greatgrandparent-pid=<greatgrandparent_process_pid> --ancestor-name=<ancestor_process_name> --ancestor-pid=<ancestor_process_pid> --sibling-name=<sibling_process_name> --sibling-pid=<sibling_process_pid> --child-name=<child_process_name> --child-pid=<child_process_pid> --grandchild-name=<grandchild_process_name> --grandchild-pid=<grandchild_process_pid> --dump-dir=<output_directory>
 ```
+{% endtab %}
 
-#### Dump specific process by name and parent process name and parent process PID and grandparent process name and grandparent process PID and great-grandparent process name and great-grandparent process PID and ancestor process name and ancestor process PID and sibling process name and sibling process PID and child process name and child process PID and grandchild process name and grandchild process PID and great-grandchild process name
+{% tab title="undefined" %}
+**Dump specific process by name and parent process name and parent process PID and grandparent process name and grandparent process PID and great-grandparent process name and great-grandparent process PID and ancestor process name and ancestor process PID and sibling process name and sibling process PID and child process name and child process PID and grandchild process name and grandchild process PID and great-grandchild process name**
+{% endtab %}
 
+{% tab title="undefined" %}
 ```bash
 volatility -f <memory_dump> --profile=<profile> procdump --name=<process_name> --parent-name=<parent_process_name> --parent-pid=<parent_process_pid> --grandparent-name=<grandparent_process_name> --grandparent-pid=<grandparent_process_pid> --greatgrandparent-name=<greatgrandparent_process_name> --greatgrandparent-pid=<greatgrandparent_process_pid> --ancestor-name=<ancestor_process_name> --ancestor-pid=<ancestor_process_pid> --sibling-name=<sibling_process_name> --sibling-pid=<sibling_process_pid> --child-name=<child_process_name> --child-pid=<child_process_pid> --grandchild-name=<grandchild_process_name> --grandchild-pid=<grandchild_process_pid> --greatgrandchild-name=<greatgrandchild_process_name> --dump-dir=<output_directory>
 ```
+{% endtab %}
 
-#### Dump specific process by name and parent process name and parent process PID and grandparent process name and grandparent process PID and great-grandparent process name and great-grandparent process PID and ancestor process name and ancestor process PID and sibling process name and sibling process PID and child process name and child process PID and grandchild process name and grandchild process PID and great-grandchild process name and great-grandchild process PID and ancestor process name
+{% tab title="undefined" %}
+**Dump specific process by name and parent process name and parent process PID and grandparent process name and grandparent process PID and great-grandparent process name and great-grandparent process PID and ancestor process name and ancestor process PID and sibling process name and sibling process PID and child process name and child process PID and grandchild process name and grandchild process PID and great-grandchild process name and great-grandchild process PID and ancestor process name**
+{% endtab %}
 
+{% tab title="undefined" %}
 ```bash
 volatility -f <memory_dump> --profile=<profile> procdump --name=<process_name> --parent-name=<parent_process_name> --parent-pid=<parent_process_pid> --grandparent-name=<grandparent_process_name> --grandparent-pid=<grandparent_process_pid> --greatgrandparent-name=<greatgrandparent_process_name> --greatgrandparent-pid=<greatgrandparent_process_pid> --ancestor-name=<ancestor_process_name> --ancestor-pid=<ancestor_process_pid> --sibling-name=<sibling_process_name> --sibling-pid=<sibling_process_pid> --child-name=<child_process_name> --child-pid=<child_process_pid> --grandchild-name=<grandchild_process_name> --grandchild-pid=<grandchild_process_pid> --greatgrandchild-name=<greatgrandchild_process_name> --ancestor-name=<ancestor_process_name> --dump-dir=<output_directory>
 ```
+{% endtab %}
 
-#### Dump specific process by name and parent process name and parent process PID and grandparent process name and grandparent process PID and great-grandparent process name and great-grandparent process PID and ancestor process name and ancestor process PID and sibling process name and sibling process PID and child process name and child process PID and grandchild process name and grandchild process PID and great-grandchild process name and great-grandchild process PID and ancestor process name and ancestor process PID
+{% tab title="undefined" %}
+**Dump specific process by name and parent process name and parent process PID and grandparent process name and grandparent process PID and great-grandparent process name and great-grandparent process PID and ancestor process name and ancestor process PID and sibling process name and sibling process PID and child process name and child process PID and grandchild process name and grandchild process PID and great-grandchild process name and great-grandchild process PID and ancestor process name and ancestor process PID**
+{% endtab %}
 
+{% tab title="undefined" %}
 ```bash
 volatility -f <memory_dump> --profile=<profile> procdump --name=<process_name> --parent-name=<parent_process_name> --parent-pid=<parent_process_pid> --grandparent-name=<grandparent_process_name> --grandparent-pid=<grandparent_process_pid> --greatgrandparent-name=<greatgrandparent_process_name> --greatgrandparent-pid=<greatgrandparent_process_pid> --ancestor-name=<ancestor_process_name> --ancestor-pid=<ancestor_process_pid> --sibling-name=<sibling_process_name> --sibling-pid=<sibling_process_pid> --child-name=<child_process_name> --child-pid=<child_process_pid> --grandchild-name=<grandchild_process_name> --grandchild-pid=<grandchild_process_pid> --greatgrandchild-name=<greatgrandchild_process_name> --ancestor-name=<ancestor_process_name> --ancestor-pid=<ancestor_process_pid> --dump-dir=<output_directory>
 ```
+{% endtab %}
 
-#### Dump specific process by name and parent process name and parent process PID and grandparent process name and grandparent process PID and great-grandparent process name and great-grandparent process PID and ancestor process name and ancestor process PID and sibling process name and sibling process PID and child process name and child process PID and grandchild process name and grandchild process PID and great-grandchild process name and great-grandchild process PID and ancestor process name and ancestor process PID and sibling process name
+{% tab title="undefined" %}
+**Dump specific process by name and parent process name and parent process PID and grandparent process name and grandparent process PID and great-grandparent process name and great-grandparent process PID and ancestor process name and ancestor process PID and sibling process name and sibling process PID and child process name and child process PID and grandchild process name and grandchild process PID and great-grandchild process name and great-grandchild process PID and ancestor process name and ancestor process PID and sibling process name**
+{% endtab %}
 
+{% tab title="undefined" %}
 ```bash
 volatility -f <memory_dump> --profile=<profile> procdump --name=<process_name> --parent-name=<parent_process_name> --parent-pid=<parent_process_pid> --grandparent-name=<grandparent_process_name> --grandparent-pid=<grandparent_process_pid> --greatgrandparent-name=<greatgrandparent_process_name> --greatgrandparent-pid=<greatgrandparent_process_pid> --ancestor-name=<ancestor_process_name> --ancestor-pid=<ancestor_process_pid> --sibling-name=<sibling_process_name> --sibling-pid=<sibling_process_pid> --child-name=<child_process_name> --child-pid=<child_process_pid> --grandchild-name=<grandchild_process_name> --grandchild-pid=<grandchild_process_pid> --greatgrandchild-name=<greatgrandchild_process_name> --ancestor-name=<ancestor_process_name> --ancestor-pid=<ancestor_process_pid> --sibling-name=<sibling_process_name> --dump-dir=<output_directory>
 ```
+{% endtab %}
 
-#### Dump specific process by name and parent process name and parent process PID and grandparent process name and grandparent process PID and great-grandparent process name and great-grandparent process PID and ancestor process name and ancestor process PID and sibling process name and sibling process PID and child process name and child process PID and grandchild process name and grandchild process PID and great-grandchild process name and great-grandchild process PID and ancestor process name and ancestor process PID and sibling process name and sibling process PID
+{% tab title="undefined" %}
+**Dump specific process by name and parent process name and parent process PID and grandparent process name and grandparent process PID and great-grandparent process name and great-grandparent process PID and ancestor process name and ancestor process PID and sibling process name and sibling process PID and child process name and child process PID and grandchild process name and grandchild process PID and great-grandchild process name and great-grandchild process PID and ancestor process name and ancestor process PID and sibling process name and sibling process PID**
+{% endtab %}
 
+{% tab title="undefined" %}
 ```bash
 volatility -f <memory_dump> --profile=<profile> procdump --name=<process_name> --parent-name=<parent_process_name> --parent-pid=<parent_process_pid> --grandparent-name=<grandparent_process_name> --grandparent-pid=<grandparent_process_pid> --greatgrandparent-name=<greatgrandparent_process_name> --greatgrandparent-pid=<greatgrandparent_process_pid> --ancestor-name=<ancestor_process_name> --ancestor-pid=<ancestor_process_pid> --sibling-name=<sibling_process_name> --sibling-pid=<sibling_process_pid> --child-name=<child_process_name> --child-pid=<child_process_pid> --grandchild-name=<grandchild_process_name> --grandchild-pid=<grandchild_process_pid> --greatgrandchild-name=<greatgrandchild_process_name> --ancestor-name=<ancestor_process_name> --ancestor-pid=<ancestor_process_pid> --sibling-name=<sibling_process_name> --sibling-pid=<sibling_process_pid> --dump-dir=<output_directory>
 ```
+{% endtab %}
 
-#### Dump specific process by name and parent process name and parent process PID and grandparent process name and grandparent process PID and great-grandparent process name and great-grandparent process PID and ancestor process name and ancestor process PID and sibling process name and sibling process PID and child process name and child process PID and grandchild process name and grandchild process PID and great-grandchild process name and great-grandchild process PID and ancestor process name and ancestor process PID and sibling process name and sibling process PID and child process name
+{% tab title="undefined" %}
+**Dump specific process by name and parent process name and parent process PID and grandparent process name and grandparent process PID and great-grandparent process name and great-grandparent process PID and ancestor process name and ancestor process PID and sibling process name and sibling process PID and child process name and child process PID and grandchild process name and grandchild process PID and great-grandchild process name and great-grandchild process PID and ancestor process name and ancestor process PID and sibling process name and sibling process PID and child process name**
+{% endtab %}
 
-```bash
+{% tab title="undefined" %}
+````bash
 volatility -f <memory_dump> --profile=<profile> procdump --name=<process_name> --parent-name=<parent_process_name> --parent-pid=<parent_process_pid> --grandparent-name=<
 ```bash
 ./vol.py -f file.dmp windows.dumpfiles.DumpFiles --pid <pid> #Dump the .exe and dlls of the process in the current directory
-```
+````
+{% endtab %}
+
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 procdump --pid=3152 -n --dump-dir=. -f file.dmp
 ```
 {% endtab %}
 {% endtabs %}
+{% endtab %}
 
-### Wiersz poleceń
+{% tab title="undefined" %}
+#### Wiersz poleceń
+{% endtab %}
 
+{% tab title="undefined" %}
 Czy coś podejrzanego zostało wykonane?
+{% endtab %}
+
+{% tab title="undefined" %}
 ```bash
 python3 vol.py -f file.dmp windows.cmdline.CmdLine #Display process command-line arguments
 ```
+{% endtab %}
+
 {% tab title="vol2" %}
 ```bash
 volatility --profile=PROFILE cmdline -f file.dmp #Display process command-line arguments
@@ -933,10 +1081,12 @@ Polecenia wykonane w `cmd.exe` są zarządzane przez **`conhost.exe`** (lub `csr
 Pobierz zmienne środowiskowe każdego działającego procesu. Mogą być tam interesujące wartości.
 
 {% tabs %}
-{% tab title="vol3" %}
+{% tab title="undefined" %}
 ```bash
 python3 vol.py -f file.dmp windows.envars.Envars [--pid <pid>] #Display process environment variables
 ```
+{% endtab %}
+
 {% tab title="vol2" %}
 ```bash
 volatility --profile=PROFILE envars -f file.dmp [--pid <pid>] #Display process environment variables
@@ -950,21 +1100,20 @@ volatility --profile=PROFILE -f file.dmp linux_psenv [-p <pid>] #Get env of proc
 
 Sprawdź, czy w nieoczekiwanych usługach występują tokeny uprawnień.\
 Być może warto jest wymienić procesy korzystające z pewnego uprzywilejowanego tokenu.
+
 ```bash
 #Get enabled privileges of some processes
 python3 vol.py -f file.dmp windows.privileges.Privs [--pid <pid>]
 #Get all processes with interesting privileges
 python3 vol.py -f file.dmp windows.privileges.Privs | grep "SeImpersonatePrivilege\|SeAssignPrimaryPrivilege\|SeTcbPrivilege\|SeBackupPrivilege\|SeRestorePrivilege\|SeCreateTokenPrivilege\|SeLoadDriverPrivilege\|SeTakeOwnershipPrivilege\|SeDebugPrivilege"
 ```
-{% tab title="vol2" %}
+
 ```bash
 #Get enabled privileges of some processes
 volatility --profile=Win7SP1x86_23418 privs --pid=3152 -f file.dmp | grep Enabled
 #Get all processes with interesting privileges
 volatility --profile=Win7SP1x86_23418 privs -f file.dmp | grep "SeImpersonatePrivilege\|SeAssignPrimaryPrivilege\|SeTcbPrivilege\|SeBackupPrivilege\|SeRestorePrivilege\|SeCreateTokenPrivilege\|SeLoadDriverPrivilege\|SeTakeOwnershipPrivilege\|SeDebugPrivilege"
 ```
-{% endtab %}
-{% endtabs %}
 
 ### SIDs
 
@@ -972,11 +1121,13 @@ Sprawdź każde SSID posiadane przez proces.\
 Może być interesujące wymienić procesy korzystające z SID uprawnień (oraz procesy korzystające z pewnego SID usługi).
 
 {% tabs %}
-{% tab title="vol3" %}
+{% tab title="undefined" %}
 ```bash
 ./vol.py -f file.dmp windows.getsids.GetSIDs [--pid <pid>] #Get SIDs of processes
 ./vol.py -f file.dmp windows.getservicesids.GetServiceSIDs #Get the SID of services
 ```
+{% endtab %}
+
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 getsids -f file.dmp #Get the SID owned by each process
@@ -988,24 +1139,25 @@ volatility --profile=Win7SP1x86_23418 getservicesids -f file.dmp #Get the SID of
 ### Uchwyty
 
 Przydatne do sprawdzenia, do których innych plików, kluczy, wątków, procesów... **proces ma uchwyt** (jest otwarty)
+
 ```bash
 vol.py -f file.dmp windows.handles.Handles [--pid <pid>]
 ```
-{% tab title="vol2" %}
+
 ```bash
 volatility --profile=Win7SP1x86_23418 -f file.dmp handles [--pid=<pid>]
 ```
-{% endtab %}
-{% endtabs %}
 
 ### Biblioteki DLL
 
 {% tabs %}
-{% tab title="vol3" %}
+{% tab title="undefined" %}
 ```bash
 ./vol.py -f file.dmp windows.dlllist.DllList [--pid <pid>] #List dlls used by each
 ./vol.py -f file.dmp windows.dumpfiles.DumpFiles --pid <pid> #Dump the .exe and dlls of the process in the current directory process
 ```
+{% endtab %}
+
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 dlllist --pid=3152 -f file.dmp #Get dlls of a proc
@@ -1019,11 +1171,13 @@ volatility --profile=Win7SP1x86_23418 dlldump --pid=3152 --dump-dir=. -f file.dm
 Volatility pozwala nam sprawdzić, do którego procesu należy dany ciąg znaków.
 
 {% tabs %}
-{% tab title="vol3" %}
+{% tab title="undefined" %}
 ```bash
 strings file.dmp > /tmp/strings.txt
 ./vol.py -f /tmp/file.dmp windows.strings.Strings --strings-file /tmp/strings.txt
 ```
+{% endtab %}
+
 {% tab title="vol2" %}
 ```bash
 strings file.dmp > /tmp/strings.txt
@@ -1038,11 +1192,13 @@ strings 3532.dmp > strings_file
 Pozwala również na wyszukiwanie ciągów znaków wewnątrz procesu za pomocą modułu yarascan:
 
 {% tabs %}
-{% tab title="vol3" %}
+{% tab title="undefined" %}
 ```bash
 ./vol.py -f file.dmp windows.vadyarascan.VadYaraScan --yara-rules "https://" --pid 3692 3840 3976 3312 3084 2784
 ./vol.py -f file.dmp yarascan.YaraScan --yara-rules "https://"
 ```
+{% endtab %}
+
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 yarascan -Y "https://" -p 3692,3840,3976,3312,3084,2784
@@ -1053,15 +1209,14 @@ volatility --profile=Win7SP1x86_23418 yarascan -Y "https://" -p 3692,3840,3976,3
 ### UserAssist
 
 **Windows** śledzi programy, które uruchamiasz za pomocą funkcji w rejestrze o nazwie **klucze UserAssist**. Te klucze rejestru zapisują, ile razy każdy program został uruchomiony i kiedy ostatnio był uruchamiany.
+
 ```bash
 ./vol.py -f file.dmp windows.registry.userassist.UserAssist
 ```
-{% tab title="vol2" %}
+
 ```
 volatility --profile=Win7SP1x86_23418 -f file.dmp userassist
 ```
-{% endtab %}
-{% endtabs %}
 
 ​
 
@@ -1074,25 +1229,33 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp userassist
 ## Usługi
 
 {% tabs %}
-{% tab title="vol3" %}
+{% tab title="undefined" %}
 ```bash
 ./vol.py -f file.dmp windows.svcscan.SvcScan #List services
 ./vol.py -f file.dmp windows.getservicesids.GetServiceSIDs #Get the SID of services
 ```
-{% tab title="vol2" %}
+{% endtab %}
+
+{% tab title="undefined" %}
 ```bash
 #Get services and binary path
 volatility --profile=Win7SP1x86_23418 svcscan -f file.dmp
 #Get name of the services and SID (slow)
 volatility --profile=Win7SP1x86_23418 getservicesids -f file.dmp
 ```
-{% tab title="vol3" %}## Sieć
-
 {% endtab %}
+
+{% tab title="vol3" %}
+### Sieć
+{% endtab %}
+
+{% tab title="undefined" %}
 ```bash
 ./vol.py -f file.dmp windows.netscan.NetScan
 #For network info of linux use volatility2
 ```
+{% endtab %}
+
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 netscan -f file.dmp
@@ -1116,11 +1279,13 @@ volatility --profile=SomeLinux -f file.dmp linux_route_cache
 ### Wyświetl dostępne hives
 
 {% tabs %}
-{% tab title="vol3" %}
+{% tab title="undefined" %}
 ```bash
 ./vol.py -f file.dmp windows.registry.hivelist.HiveList #List roots
 ./vol.py -f file.dmp windows.registry.printkey.PrintKey #List roots and get initial subkeys
 ```
+{% endtab %}
+
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 -f file.dmp hivelist #List roots
@@ -1132,10 +1297,12 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp printkey #List roots and get i
 ### Uzyskaj wartość
 
 {% tabs %}
-{% tab title="vol3" %}
+{% tab title="undefined" %}
 ```bash
 ./vol.py -f file.dmp windows.registry.printkey.PrintKey --key "Software\Microsoft\Windows NT\CurrentVersion"
 ```
+{% endtab %}
+
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 printkey -K "Software\Microsoft\Windows NT\CurrentVersion" -f file.dmp
@@ -1146,21 +1313,25 @@ volatility -f file.dmp --profile=Win7SP1x86 printkey -o 0x9670e9d0 -K 'Software\
 {% endtabs %}
 
 ### Zrzut pamięci
+
 ```bash
 #Dump a hive
 volatility --profile=Win7SP1x86_23418 hivedump -o 0x9aad6148 -f file.dmp #Offset extracted by hivelist
 #Dump all hives
 volatility --profile=Win7SP1x86_23418 hivedump -f file.dmp
 ```
+
 ## System plików
 
 ### Montowanie
 
 {% tabs %}
-{% tab title="vol3" %}
+{% tab title="undefined" %}
 ```bash
 #See vol2
 ```
+{% endtab %}
+
 {% tab title="vol2" %}
 ```bash
 volatility --profile=SomeLinux -f file.dmp linux_mount
@@ -1172,11 +1343,13 @@ volatility --profile=SomeLinux -f file.dmp linux_recover_filesystem #Dump the en
 ### Skanowanie/zrzut
 
 {% tabs %}
-{% tab title="vol3" %}
+{% tab title="undefined" %}
 ```bash
 ./vol.py -f file.dmp windows.filescan.FileScan #Scan for files inside the dump
 ./vol.py -f file.dmp windows.dumpfiles.DumpFiles --physaddr <0xAAAAA> #Offset from previous command
 ```
+{% endtab %}
+
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 filescan -f file.dmp #Scan for files inside the dump
@@ -1193,30 +1366,49 @@ volatility --profile=SomeLinux -f file.dmp linux_find_file -i 0xINODENUMBER -O /
 ### Master File Table
 
 {% tabs %}
-{% tab title="vol3" %}
+{% tab title="undefined" %}
+**MFT Parser**
+{% endtab %}
 
-#### MFT Parser
-
+{% tab title="undefined" %}
 The MFT parser plugin in Volatility allows you to analyze the Master File Table (MFT) in a memory dump. The MFT is a database that stores information about files and directories on an NTFS file system. By analyzing the MFT, you can gather valuable information such as file names, creation dates, modification dates, and file sizes.
+{% endtab %}
 
+{% tab title="undefined" %}
 To use the MFT parser plugin, you need to specify the address of the MFT in the memory dump. You can find this address by running the `mftparser` command with the `--info` option. This will display information about the MFT, including its address.
+{% endtab %}
 
+{% tab title="undefined" %}
 Once you have the MFT address, you can run the `mftparser` command with the `--mft` option followed by the MFT address. This will parse the MFT and display the information stored in it.
+{% endtab %}
 
+{% tab title="undefined" %}
 Here is an example of how to use the MFT parser plugin:
+{% endtab %}
 
+{% tab title="undefined" %}
 ```
 volatility -f memory.dmp --profile=Win7SP1x64 mftparser --mft 0x12345678
 ```
+{% endtab %}
 
+{% tab title="undefined" %}
 Replace `memory.dmp` with the path to your memory dump file, `Win7SP1x64` with the appropriate profile for your memory dump, and `0x12345678` with the address of the MFT.
+{% endtab %}
 
-#### MFT Parser Output
+{% tab title="undefined" %}
+**MFT Parser Output**
+{% endtab %}
 
+{% tab title="undefined" %}
 The output of the MFT parser plugin includes information about each file and directory in the MFT. This information is displayed in a tabular format, with columns for the file name, creation date, modification date, and file size.
+{% endtab %}
 
+{% tab title="undefined" %}
 Here is an example of the output:
+{% endtab %}
 
+{% tab title="undefined" %}
 ```
 File Name    Creation Date       Modification Date    File Size
 -----------  ------------------  ------------------  ---------
@@ -1224,35 +1416,62 @@ file1.txt    2020-01-01 10:00   2020-01-02 15:30    1024 bytes
 file2.txt    2020-01-03 12:00   2020-01-04 09:45    2048 bytes
 directory1   2020-01-05 09:00   2020-01-06 14:20    -
 ```
+{% endtab %}
 
+{% tab title="undefined" %}
 In this example, there are two files (`file1.txt` and `file2.txt`) and one directory (`directory1`) in the MFT. The file names, creation dates, modification dates, and file sizes are displayed for each entry.
+{% endtab %}
 
-#### MFT Parser Options
+{% tab title="undefined" %}
+**MFT Parser Options**
+{% endtab %}
 
+{% tab title="undefined" %}
 The MFT parser plugin supports several options that allow you to customize its behavior. Here are some of the most commonly used options:
+{% endtab %}
 
-- `--output`: Specifies the format of the output. The default format is tabular, but you can also choose to output the results in CSV or JSON format.
-- `--output-file`: Specifies the file to which the output should be written. By default, the output is displayed on the screen, but you can redirect it to a file using this option.
-- `--filter`: Specifies a filter to apply to the MFT entries. You can use this option to only display entries that match a specific criteria, such as a certain file name or file size.
+{% tab title="undefined" %}
+* `--output`: Specifies the format of the output. The default format is tabular, but you can also choose to output the results in CSV or JSON format.
+* `--output-file`: Specifies the file to which the output should be written. By default, the output is displayed on the screen, but you can redirect it to a file using this option.
+* `--filter`: Specifies a filter to apply to the MFT entries. You can use this option to only display entries that match a specific criteria, such as a certain file name or file size.
+{% endtab %}
 
+{% tab title="undefined" %}
 For a complete list of options, you can run the `mftparser` command with the `--help` option.
+{% endtab %}
 
-#### MFT Parser Example
+{% tab title="undefined" %}
+**MFT Parser Example**
+{% endtab %}
 
+{% tab title="undefined" %}
 Here is an example of how to use the MFT parser plugin with some of the options mentioned above:
+{% endtab %}
 
+{% tab title="undefined" %}
 ```
 volatility -f memory.dmp --profile=Win7SP1x64 mftparser --mft 0x12345678 --output csv --output-file mft.csv --filter "file size > 1000"
 ```
+{% endtab %}
 
+{% tab title="undefined" %}
 This command will parse the MFT at address `0x12345678` in the memory dump file `memory.dmp` using the `Win7SP1x64` profile. It will output the results in CSV format and write them to the file `mft.csv`. It will also only display entries with a file size greater than 1000 bytes.
+{% endtab %}
 
-#### Conclusion
+{% tab title="undefined" %}
+**Conclusion**
+{% endtab %}
 
+{% tab title="undefined" %}
 The MFT parser plugin in Volatility is a powerful tool for analyzing the Master File Table in a memory dump. By using this plugin, you can extract valuable information about files and directories, such as file names, creation dates, modification dates, and file sizes. This information can be useful for forensic analysis and investigation purposes.
+{% endtab %}
+
+{% tab title="undefined" %}
 ```bash
 # I couldn't find any plugin to extract this information in volatility3
 ```
+{% endtab %}
+
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 mftparser -f file.dmp
@@ -1265,21 +1484,28 @@ System plików **NTFS** wykorzystuje kluczowy komponent znany jako _master file 
 ### Klucze/Certyfikaty SSL
 
 {% tabs %}
-{% tab title="vol3" %}
+{% tab title="undefined" %}
 ```bash
 #vol3 allows to search for certificates inside the registry
 ./vol.py -f file.dmp windows.registry.certificates.Certificates
 ```
-{% tab title="vol2" %}
+{% endtab %}
+
+{% tab title="undefined" %}
 ```bash
 #vol2 allos you to search and dump certificates from memory
 #Interesting options for this modules are: --pid, --name, --ssl
 volatility --profile=Win7SP1x86_23418 dumpcerts --dump-dir=. -f file.dmp
 ```
-## Złośliwe oprogramowanie
+{% endtab %}
 
+{% tab title="undefined" %}
+### Złośliwe oprogramowanie
+{% endtab %}
+
+{% tab title="undefined" %}
 {% tabs %}
-{% tab title="vol3" %}
+{% tab title="undefined" %}
 ```bash
 ./vol.py -f file.dmp windows.malfind.Malfind [--dump] #Find hidden and injected code, [dump each suspicious section]
 #Malfind will search for suspicious structures related to malware
@@ -1293,6 +1519,8 @@ volatility --profile=Win7SP1x86_23418 dumpcerts --dump-dir=. -f file.dmp
 ./vol.py -f file.dmp linux.check_modules.Check_modules #Compares module list to sysfs info, if available
 ./vol.py -f file.dmp linux.tty_check.tty_check #Checks tty devices for hooks
 ```
+{% endtab %}
+
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 -f file.dmp malfind [-D /tmp] #Find hidden and injected code [dump each suspicious section]
@@ -1311,11 +1539,18 @@ volatility --profile=SomeLinux -f file.dmp linux_keyboard_notifiers #Keyloggers
 ```
 {% endtab %}
 {% endtabs %}
+{% endtab %}
 
-### Skanowanie za pomocą yara
+{% tab title="undefined" %}
+#### Skanowanie za pomocą yara
+{% endtab %}
 
+{% tab title="undefined" %}
 Użyj tego skryptu, aby pobrać i połączyć wszystkie zasady malware yara z githuba: [https://gist.github.com/andreafortuna/29c6ea48adf3d45a979a78763cdc7ce9](https://gist.github.com/andreafortuna/29c6ea48adf3d45a979a78763cdc7ce9)\
 Utwórz katalog _**rules**_ i go uruchom. Spowoduje to utworzenie pliku o nazwie _**malware\_rules.yar**_, który zawiera wszystkie zasady yara dla malware.
+{% endtab %}
+
+{% tab title="undefined" %}
 ```bash
 wget https://gist.githubusercontent.com/andreafortuna/29c6ea48adf3d45a979a78763cdc7ce9/raw/4ec711d37f1b428b63bed1f786b26a0654aa2f31/malware_yara_rules.py
 mkdir rules
@@ -1325,6 +1560,8 @@ python malware_yara_rules.py
 #All
 ./vol.py -f file.dmp yarascan.YaraScan --yara-file /tmp/malware_rules.yar
 ```
+{% endtab %}
+
 {% tab title="vol2" %}
 ```bash
 wget https://gist.githubusercontent.com/andreafortuna/29c6ea48adf3d45a979a78763cdc7ce9/raw/4ec711d37f1b428b63bed1f786b26a0654aa2f31/malware_yara_rules.py
@@ -1340,29 +1577,32 @@ volatility --profile=Win7SP1x86_23418 yarascan -y malware_rules.yar -f ch2.dmp |
 ### Wtyczki zewnętrzne
 
 Jeśli chcesz używać wtyczek zewnętrznych, upewnij się, że foldery związane z wtyczkami są pierwszym parametrem używanym.
+
 ```bash
 ./vol.py --plugin-dirs "/tmp/plugins/" [...]
 ```
-{% tab title="vol2" %}
+
 ```bash
 volatilitye --plugins="/tmp/plugins/" [...]
 ```
-{% endtab %}
-{% endtabs %}
 
 #### Autoruns
 
 Pobierz go z [https://github.com/tomchop/volatility-autoruns](https://github.com/tomchop/volatility-autoruns)
+
 ```
 volatility --plugins=volatility-autoruns/ --profile=WinXPSP2x86 -f file.dmp autoruns
 ```
+
 ### Mutexy
 
 {% tabs %}
-{% tab title="vol3" %}
+{% tab title="undefined" %}
 ```
 ./vol.py -f file.dmp windows.mutantscan.MutantScan
 ```
+{% endtab %}
+
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 mutantscan -f file.dmp
@@ -1374,10 +1614,12 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp handles -p <PID> -t mutant
 ### Symlinki
 
 {% tabs %}
-{% tab title="vol3" %}
+{% tab title="undefined" %}
 ```bash
 ./vol.py -f file.dmp windows.symlinkscan.SymlinkScan
 ```
+{% endtab %}
+
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 -f file.dmp symlinkscan
@@ -1388,23 +1630,24 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp symlinkscan
 ### Bash
 
 Możliwe jest **odczytanie historii poleceń bash z pamięci.** Można również wyeksportować plik _.bash\_history_, ale jeśli jest on wyłączony, będziesz zadowolony, że możesz skorzystać z tego modułu w narzędziu Volatility.
+
 ```
 ./vol.py -f file.dmp linux.bash.Bash
 ```
-{% tab title="vol2" %}
+
 ```
 volatility --profile=Win7SP1x86_23418 -f file.dmp linux_bash
 ```
-{% endtab %}
-{% endtabs %}
 
 ### Harmonogram
 
 {% tabs %}
-{% tab title="vol3" %}
+{% tab title="undefined" %}
 ```bash
 ./vol.py -f file.dmp timeLiner.TimeLiner
 ```
+{% endtab %}
+
 {% tab title="vol2" %}
 ```
 volatility --profile=Win7SP1x86_23418 -f timeliner
@@ -1415,10 +1658,12 @@ volatility --profile=Win7SP1x86_23418 -f timeliner
 ### Sterowniki
 
 {% tabs %}
-{% tab title="vol3" %}
+{% tab title="undefined" %}
 ```
 ./vol.py -f file.dmp windows.driverscan.DriverScan
 ```
+{% endtab %}
+
 {% tab title="vol2" %}
 ```bash
 volatility --profile=Win7SP1x86_23418 -f file.dmp driverscan
@@ -1427,10 +1672,12 @@ volatility --profile=Win7SP1x86_23418 -f file.dmp driverscan
 {% endtabs %}
 
 ### Pobierz schowek
+
 ```bash
 #Just vol2
 volatility --profile=Win7SP1x86_23418 clipboard -f file.dmp
 ```
+
 ### Pobierz historię przeglądarki Internet Explorer
 
 ```bash
@@ -2243,12 +2490,13 @@ volatility -f <memory_dump> --profile=<profile> iebho
 
 ### Get IE toolbars
 
-```bash
+````bash
 volatility -f <memory_dump> --profile=<
 ```bash
 #Just vol2
 volatility --profile=Win7SP1x86_23418 iehistory -f file.dmp
-```
+````
+
 ### Pobierz tekst z notatnika
 
 ```bash
@@ -2422,15 +2670,19 @@ volatility -f memory_dump.mem filescan
 ```bash
 volatility -f memory_dump.mem dumpfiles -Q 0x0000000001a2b3c4 -D .
 ```
+
 ```bash
 #Just vol2
 volatility --profile=Win7SP1x86_23418 notepad -f file.dmp
 ```
+
 ### Zrzut ekranu
+
 ```bash
 #Just vol2
 volatility --profile=Win7SP1x86_23418 screenshot -f file.dmp
 ```
+
 ### Master Boot Record (MBR)
 
 ### Rekord głównego rozruchowego (MBR)
@@ -2454,17 +2706,19 @@ Podczas analizy śledczej badanie MBR może dostarczyć cennych informacji na te
 Volatility provides several plugins that can be used to analyze the MBR in a memory dump. These plugins can extract information about the partition table, boot loader code, and other relevant data.
 
 Volatility udostępnia kilka wtyczek, które można użyć do analizy MBR w dumpie pamięci. Te wtyczki mogą wyodrębnić informacje dotyczące tabeli partycji, kodu programu rozruchowego i innych istotnych danych.
+
 ```bash
 volatility --profile=Win7SP1x86_23418 mbrparser -f file.dmp
 ```
-**Master Boot Record (MBR)** odgrywa kluczową rolę w zarządzaniu logicznymi partycjami nośnika pamięci, które są strukturalnie zorganizowane z różnymi [systemami plików](https://en.wikipedia.org/wiki/File_system). Nie tylko przechowuje informacje o układzie partycji, ale także zawiera kod wykonywalny działający jako ładowacz rozruchowy. Ten ładowacz rozruchowy albo bezpośrednio inicjuje proces drugiego etapu ładowania systemu operacyjnego (patrz [ładowacz drugiego etapu](https://en.wikipedia.org/wiki/Second-stage_boot_loader)), albo współpracuje z [rekordem rozruchowym woluminu](https://en.wikipedia.org/wiki/Volume_boot_record) (VBR) każdej partycji. Aby uzyskać szczegółowe informacje, odwołaj się do strony [Wikipedia MBR](https://en.wikipedia.org/wiki/Master_boot_record).
+
+**Master Boot Record (MBR)** odgrywa kluczową rolę w zarządzaniu logicznymi partycjami nośnika pamięci, które są strukturalnie zorganizowane z różnymi [systemami plików](https://en.wikipedia.org/wiki/File\_system). Nie tylko przechowuje informacje o układzie partycji, ale także zawiera kod wykonywalny działający jako ładowacz rozruchowy. Ten ładowacz rozruchowy albo bezpośrednio inicjuje proces drugiego etapu ładowania systemu operacyjnego (patrz [ładowacz drugiego etapu](https://en.wikipedia.org/wiki/Second-stage\_boot\_loader)), albo współpracuje z [rekordem rozruchowym woluminu](https://en.wikipedia.org/wiki/Volume\_boot\_record) (VBR) każdej partycji. Aby uzyskać szczegółowe informacje, odwołaj się do strony [Wikipedia MBR](https://en.wikipedia.org/wiki/Master\_boot\_record).
 
 ## Odwołania
+
 * [https://andreafortuna.org/2017/06/25/volatility-my-own-cheatsheet-part-1-image-identification/](https://andreafortuna.org/2017/06/25/volatility-my-own-cheatsheet-part-1-image-identification/)
 * [https://scudette.blogspot.com/2012/11/finding-kernel-debugger-block.html](https://scudette.blogspot.com/2012/11/finding-kernel-debugger-block.html)
 * [https://or10nlabs.tech/cgi-sys/suspendedpage.cgi](https://or10nlabs.tech/cgi-sys/suspendedpage.cgi)
-* [https://www.aldeid.com/wiki/Windows-userassist-keys](https://www.aldeid.com/wiki/Windows-userassist-keys)
-​* [https://learn.microsoft.com/en-us/windows/win32/fileio/master-file-table](https://learn.microsoft.com/en-us/windows/win32/fileio/master-file-table)
+* [https://www.aldeid.com/wiki/Windows-userassist-keys](https://www.aldeid.com/wiki/Windows-userassist-keys) ​\* [https://learn.microsoft.com/en-us/windows/win32/fileio/master-file-table](https://learn.microsoft.com/en-us/windows/win32/fileio/master-file-table)
 * [https://answers.microsoft.com/en-us/windows/forum/all/uefi-based-pc-protective-mbr-what-is-it/0fc7b558-d8d4-4a7d-bae2-395455bb19aa](https://answers.microsoft.com/en-us/windows/forum/all/uefi-based-pc-protective-mbr-what-is-it/0fc7b558-d8d4-4a7d-bae2-395455bb19aa)
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
@@ -2482,7 +2736,7 @@ Inne sposoby wsparcia HackTricks:
 * Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCJI**](https://github.com/sponsors/carlospolop)!
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Podziel się swoimi trikami hakerskimi, przesyłając PR do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

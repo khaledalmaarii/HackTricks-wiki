@@ -9,7 +9,7 @@ Inne sposoby wsparcia HackTricks:
 * Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
@@ -22,8 +22,8 @@ Aby to zrobić, możesz wykorzystać **Hijacking Dll**, gdzie przejmujesz biblio
 
 Aby uzyskać więcej informacji na temat **czym jest Hijacking Dll**, sprawdź:
 
-{% content-ref url="../dll-hijacking.md" %}
-[dll-hijacking.md](../dll-hijacking.md)
+{% content-ref url="./" %}
+[.](./)
 {% endcontent-ref %}
 
 ## Podwyższanie uprawnień za pomocą Hijacking Dll
@@ -32,9 +32,10 @@ Aby uzyskać więcej informacji na temat **czym jest Hijacking Dll**, sprawdź:
 
 Pierwszą rzeczą, którą musisz zrobić, to **zidentyfikować proces**, który działa z **większymi uprawnieniami** niż ty i próbuje **załadować Dll z System Path**, w którym możesz pisać.
 
-Problem w tych przypadkach polega na tym, że prawdopodobnie te procesy już działają. Aby dowiedzieć się, które Dll są brakujące dla usług, musisz uruchomić procmon tak szybko, jak to możliwe (przed załadowaniem procesów). Więc, aby znaleźć brakujące .dll, wykonaj: 
+Problem w tych przypadkach polega na tym, że prawdopodobnie te procesy już działają. Aby dowiedzieć się, które Dll są brakujące dla usług, musisz uruchomić procmon tak szybko, jak to możliwe (przed załadowaniem procesów). Więc, aby znaleźć brakujące .dll, wykonaj:
 
 * **Utwórz** folder `C:\privesc_hijacking` i dodaj ścieżkę `C:\privesc_hijacking` do **zmiennej środowiskowej System Path**. Możesz to zrobić **ręcznie** lub za pomocą **PS**:
+
 ```powershell
 # Set the folder path to create and check events for
 $folderPath = "C:\privesc_hijacking"
@@ -51,6 +52,7 @@ $newPath = "$envPath;$folderPath"
 [Environment]::SetEnvironmentVariable("PATH", $newPath, "Machine")
 }
 ```
+
 * Uruchom **`procmon`** i przejdź do **`Opcje`** --> **`Włącz logowanie rozruchu`** i kliknij **`OK`** w okienku dialogowym.
 * Następnie **zrestartuj** komputer. Po ponownym uruchomieniu **`procmon`** rozpocznie **rejestrację** zdarzeń.
 * Gdy system **Windows** zostanie uruchomiony, uruchom ponownie **`procmon`**. Program poinformuje Cię, że działał i zapyta, czy chcesz zapisać zdarzenia w pliku. Odpowiedz **tak** i **zapisz zdarzenia w pliku**.
@@ -67,11 +69,11 @@ Uruchamiając to na darmowej **wirtualnej maszynie (vmware) z systemem Windows 1
 
 W tym przypadku pliki .exe są bezużyteczne, więc je zignoruj. Brakujące biblioteki DLL pochodziły z:
 
-| Usługa                         | DLL                | Wiersz polecenia                                                     |
-| ------------------------------- | ------------------ | -------------------------------------------------------------------- |
-| Harmonogram zadań (Schedule)       | WptsExtensions.dll | `C:\Windows\system32\svchost.exe -k netsvcs -p -s Schedule`          |
+| Usługa                               | DLL                | Wiersz polecenia                                                     |
+| ------------------------------------ | ------------------ | -------------------------------------------------------------------- |
+| Harmonogram zadań (Schedule)         | WptsExtensions.dll | `C:\Windows\system32\svchost.exe -k netsvcs -p -s Schedule`          |
 | Usługa polityki diagnostycznej (DPS) | Unknown.DLL        | `C:\Windows\System32\svchost.exe -k LocalServiceNoNetwork -p -s DPS` |
-| ???                             | SharedRes.dll      | `C:\Windows\system32\svchost.exe -k UnistackSvcGroup`                |
+| ???                                  | SharedRes.dll      | `C:\Windows\system32\svchost.exe -k UnistackSvcGroup`                |
 
 Po znalezieniu tego, natknąłem się na interesujący post na blogu, który również wyjaśnia, jak [**wykorzystać WptsExtensions.dll do eskalacji uprawnień**](https://juggernaut-sec.com/dll-hijacking/#Windows\_10\_Phantom\_DLL\_Hijacking\_-\_WptsExtensionsdll). To właśnie **teraz zamierzamy zrobić**.
 
@@ -79,7 +81,7 @@ Po znalezieniu tego, natknąłem się na interesujący post na blogu, który ró
 
 Aby **przywileje** zostały **podniesione**, przechwycimy bibliotekę **WptsExtensions.dll**. Mając **ścieżkę** i **nazwę**, musimy tylko **wygenerować złośliwą bibliotekę DLL**.
 
-Możesz [**spróbować użyć jednego z tych przykładów**](../dll-hijacking.md#creating-and-compiling-dlls). Możesz uruchomić payloady takie jak: zdobądź powłokę rev, dodaj użytkownika, wykonaj beacon...
+Możesz [**spróbować użyć jednego z tych przykładów**](./#creating-and-compiling-dlls). Możesz uruchomić payloady takie jak: zdobądź powłokę rev, dodaj użytkownika, wykonaj beacon...
 
 {% hint style="warning" %}
 Zauważ, że **nie wszystkie usługi są uruchamiane** z kontem **`NT AUTHORITY\SYSTEM`**, niektóre są również uruchamiane z kontem **`NT AUTHORITY\LOCAL SERVICE`**, które ma **mniej uprawnień**, i nie będziesz w stanie utworzyć nowego użytkownika, wykorzystując jego uprawnienia.\
@@ -101,7 +103,7 @@ Inne sposoby wsparcia HackTricks:
 * Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCYJNY**](https://github.com/sponsors/carlospolop)!
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podziel się swoimi trikami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) **i** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **na GitHubie**.
 
 </details>
