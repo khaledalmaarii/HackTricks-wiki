@@ -7,20 +7,20 @@
 * Werk jy by 'n **cybersekuriteitsmaatskappy**? Wil jy jou **maatskappy geadverteer sien in HackTricks**? of wil jy toegang hê tot die **nuutste weergawe van die PEASS of laai HackTricks af in PDF-formaat**? Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
 * Kry die [**amptelike PEASS & HackTricks-klere**](https://peass.creator-spring.com)
-* **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou haktruuks deur PR's in te dien by die** [**hacktricks-opslag**](https://github.com/carlospolop/hacktricks) **en** [**hacktricks-cloud-opslag**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-## Inleiding <a href="#9wrzi" id="9wrzi"></a>
+## Inleiding <a href="#id-9wrzi" id="id-9wrzi"></a>
 
 Vir inligting oor RFID en NFC, kyk na die volgende bladsy:
 
-{% content-ref url="../../../radio-hacking/pentesting-rfid.md" %}
-[pentesting-rfid.md](../../../radio-hacking/pentesting-rfid.md)
+{% content-ref url="../pentesting-rfid.md" %}
+[pentesting-rfid.md](../pentesting-rfid.md)
 {% endcontent-ref %}
 
-## Ondersteunde NFC-kaarte <a href="#9wrzi" id="9wrzi"></a>
+## Ondersteunde NFC-kaarte <a href="#id-9wrzi" id="id-9wrzi"></a>
 
 {% hint style="danger" %}
 Afgesien van NFC-kaarte ondersteun Flipper Zero **ander tipe Hoëfrekwensie-kaarte** soos verskeie **Mifare** Classic en Ultralight en **NTAG**.
@@ -43,7 +43,7 @@ BankkaartleesskermVir bankkaarte kan Flipper Zero slegs data lees **sonder om di
 
 <figure><img src="https://cdn.flipperzero.one/Monosnap_Miro_2022-08-17_12-26-31.png?auto=format&#x26;ixlib=react-9.1.1&#x26;h=916&#x26;w=2662" alt=""><figcaption></figcaption></figure>
 
-#### Onbekende kaarte <a href="#37eo8" id="37eo8"></a>
+#### Onbekende kaarte <a href="#id-37eo8" id="id-37eo8"></a>
 
 Wanneer Flipper Zero **nie in staat is om die tipe NFC-kaart te bepaal nie**, kan slegs 'n **UID, SAK, en ATQA** gelees en gestoor word.
 
@@ -59,7 +59,7 @@ Vir **NFC-kaarte tipes B, F, en V**, kan Flipper Zero slegs 'n UID **lees en ver
 
 ## Aksies
 
-Vir 'n inleiding oor NFC [**lees hierdie bladsy**](../../../radio-hacking/pentesting-rfid.md#high-frequency-rfid-tags-13.56-mhz).
+Vir 'n inleiding oor NFC [**lees hierdie bladsy**](../pentesting-rfid.md#high-frequency-rfid-tags-13.56-mhz).
 
 ### Lees
 
@@ -82,6 +82,7 @@ In die geval Flipper Zero nie in staat is om die tipe kaart vanuit die lae vlak 
 
 Afgesien van bloot die UID te lees, kan jy baie meer data uit 'n bankkaart onttrek. Dit is moontlik om die **volledige kaartnommer** (die 16 syfers aan die voorkant van die kaart), **geldigheidsdatum**, en in sommige gevalle selfs die **eienaar se naam** saam met 'n lys van die **mees onlangse transaksies** te kry.\
 Tog **kan jy nie die CVV op hierdie manier lees nie** (die 3 syfers aan die agterkant van die kaart). Bankkaarte is ook **beskerm teen herhaalaanvalle**, so om dit met Flipper te kopieer en dan te probeer na boots om vir iets te betaal, sal nie werk nie.
+
 ## Verwysings
 
 * [https://blog.flipperzero.one/rfid/](https://blog.flipperzero.one/rfid/)
@@ -93,7 +94,7 @@ Tog **kan jy nie die CVV op hierdie manier lees nie** (die 3 syfers aan die agte
 * Werk jy in 'n **cybersekerheidsmaatskappy**? Wil jy jou **maatskappy geadverteer sien in HackTricks**? of wil jy toegang hê tot die **nuutste weergawe van die PEASS of HackTricks aflaai in PDF-formaat**? Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou haktruuks deur PR's in te dien by die** [**hacktricks-opslag**](https://github.com/carlospolop/hacktricks) **en** [**hacktricks-cloud-opslag**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

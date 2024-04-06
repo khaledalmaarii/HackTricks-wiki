@@ -1,4 +1,4 @@
-# Kontrolelys - Plaaslike Windows Voorregverhoging
+# Checklist - Local Windows Privilege Escalation
 
 <details>
 
@@ -9,14 +9,14 @@ Ander maniere om HackTricks te ondersteun:
 * As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -35,7 +35,7 @@ Ander maniere om HackTricks te ondersteun:
 * [ ] Interessante inligting in [**Internetinstellings**](windows-local-privilege-escalation/#internet-settings)?
 * [ ] [**Skywe**](windows-local-privilege-escalation/#drives)?
 * [ ] [**WSUS-uitbuiting**](windows-local-privilege-escalation/#wsus)?
-* [**AlwaysInstallElevated**](windows-local-privilege-escalation/#alwaysinstallelevated)?
+* [ ] [**AlwaysInstallElevated**](windows-local-privilege-escalation/#alwaysinstallelevated)?
 
 ### [Logging/AV opname](windows-local-privilege-escalation/#enumeration)
 
@@ -45,17 +45,17 @@ Ander maniere om HackTricks te ondersteun:
 * [ ] [**LSA-beskerming**](windows-local-privilege-escalation/#lsa-protection)?
 * [ ] [**Legitimasiewag**](windows-local-privilege-escalation/#credentials-guard)[?](windows-local-privilege-escalation/#cached-credentials)
 * [ ] [**Gekasheerde Legitimasie**](windows-local-privilege-escalation/#cached-credentials)?
-* [ ] Kontroleer of enige [**AV**](windows-av-bypass)
-* [**AppLocker-beleid**](authentication-credentials-uac-and-efs#applocker-policy)?
-* [**UAC**](authentication-credentials-uac-and-efs/uac-user-account-control)
-* [**Gebruikersvoorregte**](windows-local-privilege-escalation/#users-and-groups)
-* Kontroleer [**huidige** gebruiker **voorregte**](windows-local-privilege-escalation/#users-and-groups)
-* Is jy 'n [**lid van enige bevoorregte groep**](windows-local-privilege-escalation/#privileged-groups)?
-* Kontroleer of jy enige van hierdie tokens geaktiveer het: **SeImpersonatePrivilege, SeAssignPrimaryPrivilege, SeTcbPrivilege, SeBackupPrivilege, SeRestorePrivilege, SeCreateTokenPrivilege, SeLoadDriverPrivilege, SeTakeOwnershipPrivilege, SeDebugPrivilege** ?
-* [**Gebruikersessies**](windows-local-privilege-escalation/#logged-users-sessions)?
-* Kontroleer[ **gebruikershuise**](windows-local-privilege-escalation/#home-folders) (toegang?)
-* Kontroleer [**Wagwoordbeleid**](windows-local-privilege-escalation/#password-policy)
-* Wat is[ **binne die Knipbord**](windows-local-privilege-escalation/#get-the-content-of-the-clipboard)?
+* [ ] Kontroleer of enige [**AV**](https://github.com/carlospolop/hacktricks/blob/af/windows-hardening/windows-av-bypass/README.md)
+* [ ] [**AppLocker-beleid**](https://github.com/carlospolop/hacktricks/blob/af/windows-hardening/authentication-credentials-uac-and-efs/README.md#applocker-policy)?
+* [ ] [**UAC**](https://github.com/carlospolop/hacktricks/blob/af/windows-hardening/authentication-credentials-uac-and-efs/uac-user-account-control/README.md)
+* [ ] [**Gebruikersvoorregte**](windows-local-privilege-escalation/#users-and-groups)
+* [ ] Kontroleer [**huidige** gebruiker **voorregte**](windows-local-privilege-escalation/#users-and-groups)
+* [ ] Is jy 'n [**lid van enige bevoorregte groep**](windows-local-privilege-escalation/#privileged-groups)?
+* [ ] Kontroleer of jy enige van hierdie tokens geaktiveer het: **SeImpersonatePrivilege, SeAssignPrimaryPrivilege, SeTcbPrivilege, SeBackupPrivilege, SeRestorePrivilege, SeCreateTokenPrivilege, SeLoadDriverPrivilege, SeTakeOwnershipPrivilege, SeDebugPrivilege** ?
+* [ ] [**Gebruikersessies**](windows-local-privilege-escalation/#logged-users-sessions)?
+* [ ] Kontroleer[ **gebruikershuise**](windows-local-privilege-escalation/#home-folders) (toegang?)
+* [ ] Kontroleer [**Wagwoordbeleid**](windows-local-privilege-escalation/#password-policy)
+* [ ] Wat is[ **binne die Knipbord**](windows-local-privilege-escalation/#get-the-content-of-the-clipboard)?
 
 ### [Netwerk](windows-local-privilege-escalation/#network)
 
@@ -71,7 +71,7 @@ Ander maniere om HackTricks te ondersteun:
 
 ### [Dienste](windows-local-privilege-escalation/#services)
 
-* [Kan jy enige diens **verander**?](windows-local-privilege-escalation#permissions)
+* [Kan jy enige diens **verander**?](windows-local-privilege-escalation/#permissions)
 * [Kan jy die **binêre** wat deur enige **diens** **uitgevoer** word, **verander**?](windows-local-privilege-escalation/#modify-service-binary-path)
 * [Kan jy die **register** van enige **diens** **verander**?](windows-local-privilege-escalation/#services-registry-modify-permissions)
 * [Kan jy voordeel trek uit enige **ongekwoteerde diens** binêre **pad**?](windows-local-privilege-escalation/#unquoted-service-paths)
@@ -81,6 +81,7 @@ Ander maniere om HackTricks te ondersteun:
 * **Skryf** [**regte op geïnstalleerde toepassings**](windows-local-privilege-escalation/#write-permissions)
 * [**Begin Toepassings**](windows-local-privilege-escalation/#run-at-startup)
 * **Kwesbare** [**Drywers**](windows-local-privilege-escalation/#drivers)
+
 ### [DLL Hijacking](windows-local-privilege-escalation/#path-dll-hijacking)
 
 * [ ] Kan jy **in enige folder binne die PAD skryf**?
@@ -132,7 +133,7 @@ Ander maniere om HackTricks te ondersteun:
 
 **Probeer Hard Sekuriteitsgroep**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -145,7 +146,7 @@ Ander maniere om HackTricks te ondersteun:
 * As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kontroleer die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>

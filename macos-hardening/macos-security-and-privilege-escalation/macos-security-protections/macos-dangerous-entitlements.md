@@ -1,4 +1,4 @@
-# macOS Gevaarlike Toestemmings & TCC-permissies
+# macOS Dangerous Entitlements & TCC perms
 
 <details>
 
@@ -30,11 +30,11 @@ Die toestemming **`com.apple.rootless.install`** maak dit moontlik om **SIP te o
 
 ### **`com.apple.system-task-ports` (voorheen genoem `task_for_pid-allow`)**
 
-Hierdie toestemming maak dit moontlik om die **taakpoort vir enige** proses te kry, behalwe die kernel. Kyk [**hier vir meer inligting**](../mac-os-architecture/macos-ipc-inter-process-communication/).
+Hierdie toestemming maak dit moontlik om die **taakpoort vir enige** proses te kry, behalwe die kernel. Kyk [**hier vir meer inligting**](../macos-proces-abuse/macos-ipc-inter-process-communication/).
 
 ### `com.apple.security.get-task-allow`
 
-Hierdie toestemming maak dit vir ander prosesse met die **`com.apple.security.cs.debugger`** toestemming moontlik om die taakpoort van die proses wat deur die binêre lêer met hierdie toestemming uitgevoer word, te kry en **kode daarop in te spuit**. Kyk [**hier vir meer inligting**](../mac-os-architecture/macos-ipc-inter-process-communication/).
+Hierdie toestemming maak dit vir ander prosesse met die **`com.apple.security.cs.debugger`** toestemming moontlik om die taakpoort van die proses wat deur die binêre lêer met hierdie toestemming uitgevoer word, te kry en **kode daarop in te spuit**. Kyk [**hier vir meer inligting**](../macos-proces-abuse/macos-ipc-inter-process-communication/).
 
 ### `com.apple.security.cs.debugger`
 
@@ -88,6 +88,7 @@ TODO: In [**hierdie verslag**](https://jhftss.github.io/The-Nightmare-of-Apple-O
 ### `keychain-access-groups`
 
 Hierdie toestemming lys **sleutelhangergroepe** waarop die aansoek toegang het:
+
 ```xml
 <key>keychain-access-groups</key>
 <array>
@@ -98,6 +99,7 @@ Hierdie toestemming lys **sleutelhangergroepe** waarop die aansoek toegang het:
 <string>IMCore</string>
 </array>
 ```
+
 ### **`kTCCServiceSystemPolicyAllFiles`**
 
 Gee **Volle Skyftoegang** toestemmings, een van die hoogste TCC-toestemmings wat jy kan hê.
@@ -169,12 +171,14 @@ Hierdie toestemming laat toe om 'n nullfs-lêersisteem te koppel (standaard verb
 ### `kTCCServiceAll`
 
 Volgens hierdie blogpos, hierdie TCC-toestemming word gewoonlik gevind in die vorm:
+
 ```
 [Key] com.apple.private.tcc.allow-prompting
 [Value]
 [Array]
 [String] kTCCServiceAll
 ```
+
 Laat die proses toe om **vir al die TCC-toestemmings te vra**.
 
 ### **`kTCCServicePostEvent`**

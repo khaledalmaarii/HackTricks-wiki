@@ -1,4 +1,4 @@
-# Skryfbare Sys-pad + Dll Hijacking Privesc
+# Writable Sys Path +Dll Hijacking Privesc
 
 <details>
 
@@ -9,7 +9,7 @@ Ander maniere om HackTricks te ondersteun:
 * As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repos.
 
 </details>
@@ -22,8 +22,8 @@ Om dit te doen, kan jy 'n **Dll Hijacking** misbruik waar jy 'n biblioteek wat d
 
 Vir meer inligting oor **wat Dll Hijacking is**, kyk:
 
-{% content-ref url="../dll-hijacking.md" %}
-[dll-hijacking.md](../dll-hijacking.md)
+{% content-ref url="./" %}
+[.](./)
 {% endcontent-ref %}
 
 ## Privesc met Dll Hijacking
@@ -35,6 +35,7 @@ Die eerste ding wat jy nodig het, is om 'n proses te **identifiseer** wat met **
 Die probleem in hierdie gevalle is dat hierdie prosesse waarskynlik alreeds loop. Om uit te vind watter Dlls die dienste kortkom, moet jy procmon so gou moontlik begin (voordat die prosesse gelaai word). Om ontbrekende .dlls te vind, doen die volgende:
 
 * **Skep** die vouer `C:\privesc_hijacking` en voeg die pad `C:\privesc_hijacking` by die **Sisteempad-omgewingsveranderlike**. Jy kan dit **handmatig** doen of met **PS**:
+
 ```powershell
 # Set the folder path to create and check events for
 $folderPath = "C:\privesc_hijacking"
@@ -51,6 +52,7 @@ $newPath = "$envPath;$folderPath"
 [Environment]::SetEnvironmentVariable("PATH", $newPath, "Machine")
 }
 ```
+
 * Begin deur **`procmon`** te open en gaan na **`Options`** --> **`Enable boot logging`** en druk **`OK`** in die venster.
 * Herlaai dan die rekenaar. Wanneer die rekenaar herlaai is, sal **`procmon`** begin om gebeure op te neem.
 * Wanneer Windows begin het, voer **`procmon`** weer uit. Dit sal jou vertel dat dit aan die loop was en sal jou vra of jy die gebeure in 'n lêer wil stoor. Sê **ja** en stoor die gebeure in 'n lêer.
@@ -67,11 +69,11 @@ Toe ek dit op 'n gratis virtuele (vmware) Windows 11-masjien uitgevoer het, het 
 
 In hierdie geval is die .exe nutteloos, ignoreer hulle. Die gemiste DLLs was vanaf:
 
-| Diens                          | Dll                | CMD-lyn                                                             |
-| ------------------------------- | ------------------ | -------------------------------------------------------------------- |
+| Diens                          | Dll                | CMD-lyn                                                              |
+| ------------------------------ | ------------------ | -------------------------------------------------------------------- |
 | Taakbeplanner (Schedule)       | WptsExtensions.dll | `C:\Windows\system32\svchost.exe -k netsvcs -p -s Schedule`          |
 | Diagnostiese beleiddiens (DPS) | Unknown.DLL        | `C:\Windows\System32\svchost.exe -k LocalServiceNoNetwork -p -s DPS` |
-| ???                             | SharedRes.dll      | `C:\Windows\system32\svchost.exe -k UnistackSvcGroup`                |
+| ???                            | SharedRes.dll      | `C:\Windows\system32\svchost.exe -k UnistackSvcGroup`                |
 
 Nadat ek dit gevind het, het ek hierdie interessante blogpos gevind wat ook verduidelik hoe om [**WptsExtensions.dll te misbruik vir bevoorregte toegang**](https://juggernaut-sec.com/dll-hijacking/#Windows\_10\_Phantom\_DLL\_Hijacking\_-\_WptsExtensionsdll). Dit is wat ons **nou gaan doen**.
 
@@ -79,7 +81,7 @@ Nadat ek dit gevind het, het ek hierdie interessante blogpos gevind wat ook verd
 
 Om dus bevoorregte toegang te verkry, gaan ons die biblioteek **WptsExtensions.dll** kap. Met die **pad** en die **naam** hoef ons net die skadelike dll te **genereer**.
 
-Jy kan [**enige van hierdie voorbeelde probeer**](../dll-hijacking.md#creating-and-compiling-dlls). Jy kan payloads uitvoer soos: 'n omgekeerde skul, 'n gebruiker byvoeg, 'n beacon uitvoer...
+Jy kan [**enige van hierdie voorbeelde probeer**](./#creating-and-compiling-dlls). Jy kan payloads uitvoer soos: 'n omgekeerde skul, 'n gebruiker byvoeg, 'n beacon uitvoer...
 
 {% hint style="warning" %}
 Let daarop dat **nie al die dienste uitgevoer word** met **`NT AUTHORITY\SYSTEM`** nie, sommige word ook uitgevoer met **`NT AUTHORITY\LOCAL SERVICE`** wat minder bevoorregting het en jy sal nie 'n nuwe gebruiker kan skep om sy regte te misbruik nie.\
@@ -101,7 +103,7 @@ Ander maniere om HackTricks te ondersteun:
 * As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks in PDF aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks-uitrusting**](https://peass.creator-spring.com)
 * Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>

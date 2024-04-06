@@ -1,4 +1,4 @@
-# macOS Kernel & Sisteemuitbreidings
+# macOS Kernel & System Extensions
 
 <details>
 
@@ -53,8 +53,8 @@ Die I/O Kit is 'n oopbron, objekgeoriënteerde **toestelbestuurder-raamwerk** in
 
 ### IPC - Interproseskommunikasie
 
-{% content-ref url="macos-ipc-inter-process-communication/" %}
-[macos-ipc-inter-process-communication](macos-ipc-inter-process-communication/)
+{% content-ref url="../macos-proces-abuse/macos-ipc-inter-process-communication/" %}
+[macos-ipc-inter-process-communication](../macos-proces-abuse/macos-ipc-inter-process-communication/)
 {% endcontent-ref %}
 
 ### Kernelcache
@@ -83,6 +83,7 @@ Dit bestaan gewoonlik uit die volgende komponente:
 * FAKULTATIEF: Gewoonlik word dit nie gevind nie
 
 Dekomprimeer die Kernelcache:
+
 ```bash
 # pyimg4 (https://github.com/m1stadev/PyIMG4)
 pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
@@ -90,6 +91,7 @@ pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphon
 # img4tool (https://github.com/tihmstar/img4tool
 img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
 ```
+
 #### Kernelcache Simbole
 
 Soms publiseer Apple **kernelcache** met **simbole**. Jy kan sommige firmwares met simbole aflaai deur die skakels op [https://theapplewiki.com](https://theapplewiki.com/) te volg.
@@ -110,12 +112,15 @@ pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphon
 {% endcode %}
 
 * [**img4tool**](https://github.com/tihmstar/img4tool)
+
 ```bash
 img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
 ```
+
 Jy kan die uitgepakte kernelcache vir simbole nagaan met: **`nm -a kernelcache.release.iphone14.e | wc -l`**
 
 Met hierdie kan ons nou **alle uitbreidings** of die **een waarin jy belangstel, onttrek:**
+
 ```bash
 # List all extensions
 kextex -l kernelcache.release.iphone14.e
@@ -128,6 +133,7 @@ kextex_all kernelcache.release.iphone14.e
 # Check the extension for symbols
 nm -a binaries/com.apple.security.sandbox | wc -l
 ```
+
 ## macOS Kernel-uitbreidings
 
 macOS is **baie beperkend om Kernel-uitbreidings** (.kext) te laai vanweë die hoë voorregte waarmee kode sal hardloop. Eintlik is dit by verstek feitlik onmoontlik (tensy 'n omweg gevind word).

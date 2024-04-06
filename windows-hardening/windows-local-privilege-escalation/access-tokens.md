@@ -1,4 +1,4 @@
-# Toegangstokens
+# Access Tokens
 
 <details>
 
@@ -7,7 +7,7 @@
 * Werk jy in 'n **cybersecurity-maatskappy**? Wil jy jou **maatskappy adverteer in HackTricks**? Of wil jy toegang hê tot die **nuutste weergawe van die PEASS of laai HackTricks in PDF af**? Kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
 * Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou hacktruuks deur PR's in te dien by die** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **en** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
@@ -17,6 +17,7 @@
 Elke **gebruiker wat aangemeld is** op die stelsel **besit 'n toegangstoken met sekuriteitsinligting** vir daardie aanmeldsessie. Die stelsel skep 'n toegangstoken wanneer die gebruiker aanmeld. **Elke proses wat uitgevoer word** namens die gebruiker **het 'n kopie van die toegangstoken**. Die token identifiseer die gebruiker, die gebruiker se groepe, en die gebruiker se voorregte. 'n Token bevat ook 'n aanmeld-SID (Security Identifier) wat die huidige aanmeldsessie identifiseer.
 
 Jy kan hierdie inligting sien deur `whoami /all` uit te voer.
+
 ```
 whoami /all
 
@@ -60,6 +61,7 @@ SeUndockPrivilege             Remove computer from docking station Disabled
 SeIncreaseWorkingSetPrivilege Increase a process working set       Disabled
 SeTimeZonePrivilege           Change the time zone                 Disabled
 ```
+
 of deur _Process Explorer_ van Sysinternals te gebruik (kies proses en toegang "Security" tabblad):
 
 ![](<../../.gitbook/assets/image (321).png>)
@@ -67,19 +69,23 @@ of deur _Process Explorer_ van Sysinternals te gebruik (kies proses en toegang "
 ### Plaaslike administrateur
 
 Wanneer 'n plaaslike administrateur aanmeld, word **twee toegangstokens geskep**: Een met administratiewe regte en 'n ander met normale regte. **Standaard**, wanneer hierdie gebruiker 'n proses uitvoer, word die een met **gewone** (nie-administratiewe) **regte gebruik**. Wanneer hierdie gebruiker iets probeer **uitvoer** as administrateur ("Run as Administrator" byvoorbeeld), sal die **UAC** gebruik word om vir toestemming te vra.\
-As jy meer wil [**leer oor die UAC, lees hierdie bladsy**](../authentication-credentials-uac-and-efs.md#uac)**.**
+As jy meer wil [**leer oor die UAC, lees hierdie bladsy**](../authentication-credentials-uac-and-efs/#uac)**.**
 
 ### Gebruikersimpersonasie van geloofsbriewe
 
 As jy **geldige geloofsbriewe van enige ander gebruiker** het, kan jy 'n **nuwe aanmeldsessie** skep met daardie geloofsbriewe:
+
 ```
 runas /user:domain\username cmd.exe
 ```
+
 Die **toegangsteken** het ook 'n **verwysing** na die aanmeldsessies binne die **LSASS**, dit is nuttig as die proses toegang tot sekere netwerkobjekte benodig.\
 Jy kan 'n proses lanceer wat **verskillende geloofsbriewe gebruik om toegang tot netwerkdienste te verkry** deur die volgende te doen:
+
 ```
 runas /user:domain\username /netonly cmd.exe
 ```
+
 Dit is nuttig as jy nuttige geloofsbriewe het om toegang tot voorwerpe in die netwerk te verkry, maar daardie geloofsbriewe is nie geldig binne die huidige gasheer nie, aangesien dit slegs in die netwerk gebruik sal word (in die huidige gasheer sal jou huidige gebruikersbevoegdhede gebruik word).
 
 ### Tipes tokens
@@ -87,12 +93,11 @@ Dit is nuttig as jy nuttige geloofsbriewe het om toegang tot voorwerpe in die ne
 Daar is twee tipes tokens beskikbaar:
 
 * **Primêre Token**: Dit dien as 'n verteenwoordiging van 'n proses se sekuriteitsgeloofsbriewe. Die skepping en assosiasie van primêre tokens met prosesse is aksies wat verhoogde bevoegdhede vereis en die beginsel van bevoegdheidsskeiding beklemtoon. Tipies is 'n outentiseringsdiens verantwoordelik vir token-skepping, terwyl 'n aanmeldingsdiens dit hanteer met die assosiasie daarvan met die gebruiker se bedryfstelsel-skulp. Dit is die moeite werd om op te merk dat prosesse die primêre token van hul ouerproses by skepping erf.
-
 * **Impersonation Token**: Gee 'n bedieningsprogram die vermoë om tydelik die identiteit van die kliënt oor te neem om veilige voorwerpe te benader. Hierdie meganisme is verdeel in vier vlakke van werking:
-- **Anoniem**: Verleen bedieningstoegang soortgelyk aan dié van 'n ongeïdentifiseerde gebruiker.
-- **Identifikasie**: Stel die bedieningsprogram in staat om die identiteit van die kliënt te verifieer sonder om dit vir voorwerptoegang te gebruik.
-- **Impersonasie**: Maak dit vir die bedieningsprogram moontlik om onder die identiteit van die kliënt te werk.
-- **Delegasie**: Soortgelyk aan Impersonasie, maar sluit die vermoë in om hierdie identiteitsaannames na afgeleë stelsels uit te brei waarmee die bedieningsprogram interaksie het, om geloofsbewaring te verseker.
+* **Anoniem**: Verleen bedieningstoegang soortgelyk aan dié van 'n ongeïdentifiseerde gebruiker.
+* **Identifikasie**: Stel die bedieningsprogram in staat om die identiteit van die kliënt te verifieer sonder om dit vir voorwerptoegang te gebruik.
+* **Impersonasie**: Maak dit vir die bedieningsprogram moontlik om onder die identiteit van die kliënt te werk.
+* **Delegasie**: Soortgelyk aan Impersonasie, maar sluit die vermoë in om hierdie identiteitsaannames na afgeleë stelsels uit te brei waarmee die bedieningsprogram interaksie het, om geloofsbewaring te verseker.
 
 #### Impersonate Tokens
 
@@ -102,8 +107,8 @@ Met behulp van die _**incognito**_ module van metasploit kan jy, as jy genoeg be
 
 Leer watter **token bevoegdhede misbruik kan word om bevoegdhede te eskaleer:**
 
-{% content-ref url="privilege-escalation-abusing-tokens/" %}
-[privilege-escalation-abusing-tokens](privilege-escalation-abusing-tokens/)
+{% content-ref url="privilege-escalation-abusing-tokens.md" %}
+[privilege-escalation-abusing-tokens.md](privilege-escalation-abusing-tokens.md)
 {% endcontent-ref %}
 
 Neem 'n kykie na [**al die moontlike token bevoegdhede en sommige definisies op hierdie eksterne bladsy**](https://github.com/gtworek/Priv2Admin).
@@ -119,7 +124,7 @@ Leer meer oor tokens in hierdie tutoriale: [https://medium.com/@seemant.bisht24/
 * Werk jy in 'n **cybersekuriteitsmaatskappy**? Wil jy jou **maatskappy adverteer in HackTricks**? Of wil jy toegang hê tot die **nuutste weergawe van die PEASS of laai HackTricks in PDF af**? Kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
 * Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou haktruuks deur PR's in te dien by die** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **en** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

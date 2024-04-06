@@ -1,4 +1,4 @@
-# macOS xpc\_connection\_get\_audit\_token Aanval
+# macOS xpc\_connection\_get\_audit\_token Attack
 
 <details>
 
@@ -20,8 +20,8 @@ Ander maniere om HackTricks te ondersteun:
 
 As jy nie weet wat Mach-boodskappe is nie, begin deur hierdie bladsy te kyk:
 
-{% content-ref url="../../../../mac-os-architecture/macos-ipc-inter-process-communication/" %}
-[macos-ipc-inter-process-communication](../../../../mac-os-architecture/macos-ipc-inter-process-communication/)
+{% content-ref url="../../" %}
+[..](../../)
 {% endcontent-ref %}
 
 Vir die oomblik, onthou dat ([definisie vanaf hier](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing)):\
@@ -51,6 +51,7 @@ Alhoewel die vorige situasie belowend klink, is daar enkele scenario's waar dit 
 Twee verskillende metodes waardeur dit uitgebuit kan word:
 
 1. Variant1:
+
 * **Exploit verbind** met diens **A** en diens **B**
 * Diens **B** kan 'n **bevoorregte funksionaliteit** in diens **A** aanroep wat die gebruiker nie kan nie
 * Diens **A** roep **`xpc_connection_get_audit_token`** aan terwyl _**nie**_ binne die **gebeurtenishanterer** vir 'n verbinding in 'n **`dispatch_async`** nie.
@@ -58,7 +59,9 @@ Twee verskillende metodes waardeur dit uitgebuit kan word:
 * Die aanval gee **diens B die STUUR-reg aan diens A**.
 * Dus sal diens **B** eintlik die **boodskappe** na diens **A stuur**.
 * Die **aanval** probeer om die **bevoorregte aksie aan te roep.** In 'n RC diens **A** **kontroleer** die magtiging van hierdie **aksie** terwyl **diens B die Oudit-token oorskryf** het (wat die aanval toegang gee om die bevoorregte aksie aan te roep).
+
 2. Variant 2:
+
 * Diens **B** kan 'n **bevoorregte funksionaliteit** in diens **A** aanroep wat die gebruiker nie kan nie
 * Aanval verbind met **diens A** wat die aanval 'n **boodskap stuur wat 'n antwoord verwag** in 'n spesifieke **herhaalpoort**.
 * Aanval stuur **diens** B 'n boodskap wat **daardie antwoordpoort** deurgee.
@@ -87,9 +90,7 @@ Om die aanval uit te voer:
 2. Vorm 'n sekondêre **verbinding** met `diagnosticd`. In teenstelling met die normale prosedure, in plaas daarvan om twee nuwe mach-poorte te skep en te stuur, word die kliëntpoort-stuurreg vervang met 'n duplicaat van die **stuurreg** wat geassosieer word met die `smd`-verbinding.
 3. As gevolg hiervan kan XPC-boodskappe na `diagnosticd` gestuur word, maar antwoorde van `diagnosticd` word na `smd` omgelei. Vir `smd` lyk dit asof die boodskappe van beide die gebruiker en `diagnosticd` van dieselfde verbinding afkomstig is.
 
-![Beeld wat die aanvalproses uitbeeld](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/exploit.png)
-4. Die volgende stap behels om `diagnosticd` te instrueer om die monitering van 'n gekose proses te begin (moontlik die gebruiker se eie). Gelyktydig word 'n vloed van gereelde 1004-boodskappe gestuur na `smd`. Die doel hier is om 'n instrument met verhoogde voorregte te installeer.
-5. Hierdie aksie veroorsaak 'n wedloopstoestand binne die `handle_bless`-funksie. Die tydsberekening is krities: die `xpc_connection_get_pid`-funksieoproep moet die PID van die gebruiker se proses teruggee (aangesien die bevoorregte instrument in die gebruiker se toepassingsbundel woon). Die `xpc_connection_get_audit_token`-funksie, spesifiek binne die `connection_is_authorized`-subroetine, moet egter verwys na die oudit-token wat aan `diagnosticd` behoort.
+![Beeld wat die aanvalproses uitbeeld](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/exploit.png) 4. Die volgende stap behels om `diagnosticd` te instrueer om die monitering van 'n gekose proses te begin (moontlik die gebruiker se eie). Gelyktydig word 'n vloed van gereelde 1004-boodskappe gestuur na `smd`. Die doel hier is om 'n instrument met verhoogde voorregte te installeer. 5. Hierdie aksie veroorsaak 'n wedloopstoestand binne die `handle_bless`-funksie. Die tydsberekening is krities: die `xpc_connection_get_pid`-funksieoproep moet die PID van die gebruiker se proses teruggee (aangesien die bevoorregte instrument in die gebruiker se toepassingsbundel woon). Die `xpc_connection_get_audit_token`-funksie, spesifiek binne die `connection_is_authorized`-subroetine, moet egter verwys na die oudit-token wat aan `diagnosticd` behoort.
 
 ## Variante 2: antwoord deurstuur
 

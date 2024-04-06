@@ -9,7 +9,7 @@ Ander maniere om HackTricks te ondersteun:
 * As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
@@ -22,20 +22,23 @@ Ander maniere om HackTricks te ondersteun:
 ## Basiese beginsels
 
 ### **MDM (Mobile Device Management) Oorsig**
-[Mobile Device Management](https://en.wikipedia.org/wiki/Mobile_device_management) (MDM) word gebruik om verskeie eindgebruikerstoestelle soos slimfone, draagbare rekenaars en tablette te bestuur. Veral vir Apple se platforms (iOS, macOS, tvOS) behels dit 'n stel gespesialiseerde funksies, API's en praktyke. Die werking van MDM steun op 'n verenigbare MDM-bediener, wat of kommersieel beskikbaar is of oopbron is, en moet die [MDM-protokol](https://developer.apple.com/enterprise/documentation/MDM-Protocol-Reference.pdf) ondersteun. Sleutelpunte sluit in:
 
-- Gekentraliseerde beheer oor toestelle.
-- Afhanklikheid van 'n MDM-bediener wat die MDM-protokol nakom.
-- Die vermoë van die MDM-bediener om verskeie opdragte na toestelle te stuur, byvoorbeeld verwydering van afgelewerde data of konfigurasie-installasie.
+[Mobile Device Management](https://en.wikipedia.org/wiki/Mobile\_device\_management) (MDM) word gebruik om verskeie eindgebruikerstoestelle soos slimfone, draagbare rekenaars en tablette te bestuur. Veral vir Apple se platforms (iOS, macOS, tvOS) behels dit 'n stel gespesialiseerde funksies, API's en praktyke. Die werking van MDM steun op 'n verenigbare MDM-bediener, wat of kommersieel beskikbaar is of oopbron is, en moet die [MDM-protokol](https://developer.apple.com/enterprise/documentation/MDM-Protocol-Reference.pdf) ondersteun. Sleutelpunte sluit in:
+
+* Gekentraliseerde beheer oor toestelle.
+* Afhanklikheid van 'n MDM-bediener wat die MDM-protokol nakom.
+* Die vermoë van die MDM-bediener om verskeie opdragte na toestelle te stuur, byvoorbeeld verwydering van afgelewerde data of konfigurasie-installasie.
 
 ### **Basiese beginsels van DEP (Device Enrollment Program)**
-Die [Device Enrollment Program](https://www.apple.com/business/site/docs/DEP_Guide.pdf) (DEP) wat deur Apple aangebied word, vereenvoudig die integrasie van Mobile Device Management (MDM) deur outomatiese konfigurasie vir iOS-, macOS- en tvOS-toestelle te fasiliteer. DEP outomatiseer die registrasieproses, sodat toestelle reguit uit die boks gebruik kan word, met minimale gebruikers- of administratiewe ingryping. Belangrike aspekte sluit in:
 
-- Stel toestelle in staat om outomaties by 'n voorafbepaalde MDM-bediener te registreer by aanvanklike aktivering.
-- Hoofsaaklik voordelig vir splinternuwe toestelle, maar ook toepaslik vir toestelle wat herkonfigurasie ondergaan.
-- Vereenvoudig 'n maklike opstelling, sodat toestelle vinnig gereed is vir organisatoriese gebruik.
+Die [Device Enrollment Program](https://www.apple.com/business/site/docs/DEP\_Guide.pdf) (DEP) wat deur Apple aangebied word, vereenvoudig die integrasie van Mobile Device Management (MDM) deur outomatiese konfigurasie vir iOS-, macOS- en tvOS-toestelle te fasiliteer. DEP outomatiseer die registrasieproses, sodat toestelle reguit uit die boks gebruik kan word, met minimale gebruikers- of administratiewe ingryping. Belangrike aspekte sluit in:
+
+* Stel toestelle in staat om outomaties by 'n voorafbepaalde MDM-bediener te registreer by aanvanklike aktivering.
+* Hoofsaaklik voordelig vir splinternuwe toestelle, maar ook toepaslik vir toestelle wat herkonfigurasie ondergaan.
+* Vereenvoudig 'n maklike opstelling, sodat toestelle vinnig gereed is vir organisatoriese gebruik.
 
 ### **Veiligheidsoorwegings**
+
 Dit is belangrik om daarop te let dat die maklike registrasie wat deur DEP gebied word, terwyl dit voordelig is, ook sekuriteitsrisiko's kan inhou. As beskermingsmaatreëls nie behoorlik afgedwing word vir MDM-registrasie nie, kan aanvallers hierdie vereenvoudigde proses benut om hul toestel op die organisasie se MDM-bediener te registreer en as 'n korporatiewe toestel voor te gee.
 
 {% hint style="danger" %}
@@ -94,6 +97,7 @@ Apple-toestelle wat na 2010 vervaardig is, het oor die algemeen **12-karakter al
 ## Stappe vir inskrywing en bestuur
 
 1. Ske
+
 ### Stap 4: DEP kontrole - Kry die Aktiveringsrekord
 
 Hierdie deel van die proses gebeur wanneer 'n **gebruiker 'n Mac vir die eerste keer opstart** (of na 'n volledige uitvee)
@@ -112,16 +116,16 @@ of wanneer die `sudo profiles show -type enrollment` uitgevoer word
 Dit volg 'n paar stappe om die Aktiveringsrekord uit te voer deur **`MCTeslaConfigurationFetcher`**. Hierdie proses maak gebruik van 'n versleuteling genaamd **Absinthe**
 
 1. Kry **sertifikaat**
-1. Kry [https://iprofiles.apple.com/resource/certificate.cer](https://iprofiles.apple.com/resource/certificate.cer)
-2. **Inisialiseer** toestand vanaf sertifikaat (**`NACInit`**)
-1. Gebruik verskillende toestel-spesifieke data (bv. **Serienommer via `IOKit`**)
-3. Kry **sessiesleutel**
-1. POST [https://iprofiles.apple.com/session](https://iprofiles.apple.com/session)
-4. Stel die sessie op (**`NACKeyEstablishment`**)
-5. Doen die versoek
-1. POST na [https://iprofiles.apple.com/macProfile](https://iprofiles.apple.com/macProfile) en stuur die data `{ "action": "RequestProfileConfiguration", "sn": "" }`
-2. Die JSON-lading word versleutel met Absinthe (**`NACSign`**)
-3. Alle versoek word oor HTTPs gestuur, ingeboude rootsertifikate word gebruik
+2. Kry [https://iprofiles.apple.com/resource/certificate.cer](https://iprofiles.apple.com/resource/certificate.cer)
+3. **Inisialiseer** toestand vanaf sertifikaat (**`NACInit`**)
+4. Gebruik verskillende toestel-spesifieke data (bv. **Serienommer via `IOKit`**)
+5. Kry **sessiesleutel**
+6. POST [https://iprofiles.apple.com/session](https://iprofiles.apple.com/session)
+7. Stel die sessie op (**`NACKeyEstablishment`**)
+8. Doen die versoek
+9. POST na [https://iprofiles.apple.com/macProfile](https://iprofiles.apple.com/macProfile) en stuur die data `{ "action": "RequestProfileConfiguration", "sn": "" }`
+10. Die JSON-lading word versleutel met Absinthe (**`NACSign`**)
+11. Alle versoek word oor HTTPs gestuur, ingeboude rootsertifikate word gebruik
 
 ![](<../../../.gitbook/assets/image (566).png>)
 
@@ -143,7 +147,7 @@ Die respons is 'n JSON-woordeboek met belangrike data soos:
 * Onderteken met die **toestelidentiteitsertifikaat (van APNS)**
 * **Sertifikaatketting** sluit verstreke **Apple iPhone Device CA** in
 
-![](<../../../.gitbook/assets/image (567) (1) (2) (2) (2) (2) (2) (2) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (7).png>)
+![](https://github.com/carlospolop/hacktricks/blob/af/.gitbook/assets/image%20\(567\)%20\(1\)%20\(2\)%20\(2\)%20\(2\)%20\(2\)%20\(2\)%20\(2\)%20\(2\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(7\).png)
 
 ### Stap 6: Profielinstallasie
 

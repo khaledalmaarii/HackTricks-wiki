@@ -1,4 +1,4 @@
-# macOS Biblioteekinspuiting
+# macOS Library Injection
 
 <details>
 
@@ -9,7 +9,7 @@ Ander maniere om HackTricks te ondersteun:
 * As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-opslagplekke.
 
 </details>
@@ -20,7 +20,7 @@ Die kode van **dyld is oopbron** en kan gevind word by [https://opensource.apple
 
 ## **DYLD\_INSERT\_LIBRARIES**
 
-Dit is soos die [**LD\_PRELOAD op Linux**](../../../../linux-hardening/privilege-escalation#ld\_preload). Dit maak dit moontlik om 'n proses aan te dui wat uitgevoer gaan word om 'n spesifieke biblioteek van 'n pad te laai (as die omgewingsveranderlike geaktiveer is).
+Dit is soos die [**LD\_PRELOAD op Linux**](../../../../linux-hardening/privilege-escalation/#ld\_preload). Dit maak dit moontlik om 'n proses aan te dui wat uitgevoer gaan word om 'n spesifieke biblioteek van 'n pad te laai (as die omgewingsveranderlike geaktiveer is).
 
 Hierdie tegniek kan ook **gebruik word as 'n ASEP-tegniek** aangesien elke geïnstalleerde toepassing 'n plist genaamd "Info.plist" het wat die **toewysing van omgewingsveranderlikes** moontlik maak deur gebruik te maak van 'n sleutel genaamd `LSEnvironmental`.
 
@@ -45,7 +45,7 @@ Selfs as die binêre lêer die **`DYLD_INSERT_LIBRARIES`** omgewingsveranderlike
 
 Om 'n aangepaste biblioteek te laai, moet die binêre lêer een van die volgende toekennings hê:
 
-* &#x20;[`com.apple.security.cs.disable-library-validation`](../../macos-security-protections/macos-dangerous-entitlements.md#com.apple.security.cs.disable-library-validation)
+* [`com.apple.security.cs.disable-library-validation`](../../macos-security-protections/macos-dangerous-entitlements.md#com.apple.security.cs.disable-library-validation)
 * [`com.apple.private.security.clear-library-validation`](../../macos-security-protections/macos-dangerous-entitlements.md#com.apple.private.security.clear-library-validation)
 
 of die binêre lêer **moet nie** die **gehardloop-tyd-vlag** of die **biblioteekvalideringsvlag** hê nie.
@@ -56,8 +56,8 @@ Jy kan ook 'n biblioteek laai as dit **onderteken is met dieselfde sertifikaat a
 
 Vind 'n voorbeeld van hoe om dit (mis)tebruik en die beperkings te kontroleer in:
 
-{% content-ref url="../../macos-dyld-hijacking-and-dyld_insert_libraries.md" %}
-[macos-dyld-hijacking-and-dyld\_insert\_libraries.md](../../macos-dyld-hijacking-and-dyld\_insert\_libraries.md)
+{% content-ref url="macos-dyld-hijacking-and-dyld_insert_libraries.md" %}
+[macos-dyld-hijacking-and-dyld\_insert\_libraries.md](macos-dyld-hijacking-and-dyld\_insert\_libraries.md)
 {% endcontent-ref %}
 
 ## Dylib-hacking
@@ -97,8 +97,8 @@ Die manier om voorregte te verhoog deur hierdie funksionaliteit te misbruik, sou
 
 **Voorbeeld**
 
-{% content-ref url="../../macos-dyld-hijacking-and-dyld_insert_libraries.md" %}
-[macos-dyld-hijacking-and-dyld\_insert\_libraries.md](../../macos-dyld-hijacking-and-dyld\_insert\_libraries.md)
+{% content-ref url="macos-dyld-hijacking-and-dyld_insert_libraries.md" %}
+[macos-dyld-hijacking-and-dyld\_insert\_libraries.md](macos-dyld-hijacking-and-dyld\_insert\_libraries.md)
 {% endcontent-ref %}
 
 ## Dlopen Hijacking
@@ -109,7 +109,8 @@ Onthou dat **vorige Biblioteekvalideringsbeperkings ook van toepassing is** om D
 
 Vanaf **`man dlopen`**:
 
-* Wanneer die pad **nie 'n sku
+* Wanneer die pad \*\*nie 'n sku
+
 ```c
 // gcc dlopentest.c -o dlopentest -Wl,-rpath,/tmp/test
 #include <dlfcn.h>
@@ -152,10 +153,13 @@ fprintf(stderr, "Error loading: %s\n\n\n", dlerror());
 return 0;
 }
 ```
+
 As jy dit saamstel en uitvoer, kan jy sien **waar elke biblioteek onsuksesvol gesoek is**. Jy kan ook **die FS-logboeke filter**:
+
 ```bash
 sudo fs_usage | grep "dlopentest"
 ```
+
 ## Relatiewe Pad Kaping
 
 As 'n **bevoorregte binêre toepassing** (soos 'n SUID of 'n binêre toepassing met kragtige toestemmings) 'n relatiewe pad biblioteek laai (byvoorbeeld deur gebruik te maak van `@executable_path` of `@loader_path`) en Biblioteekvalidering gedeaktiveer is, kan dit moontlik wees om die binêre toepassing na 'n plek te skuif waar die aanvaller die relatiewe pad biblioteek kan wysig en dit misbruik om kode in die proses in te spuit.
@@ -167,12 +171,15 @@ In die lêer `dyld-dyld-832.7.1/src/dyld2.cpp` is dit moontlik om die funksie **
 Dit sal ook spesifiek die omgewingsveranderlikes **`DYLD_FALLBACK_FRAMEWORK_PATH`** en **`DYLD_FALLBACK_LIBRARY_PATH`** nul stel vir **suid** en **sgid** binêre toepassings.
 
 Hierdie funksie word vanuit die **`_main`** funksie van dieselfde lêer geroep as dit op OSX gemik word, soos hier:
+
 ```cpp
 #if TARGET_OS_OSX
 if ( !gLinkContext.allowEnvVarsPrint && !gLinkContext.allowEnvVarsPath && !gLinkContext.allowEnvVarsSharedCache ) {
 pruneEnvironmentVariables(envp, &apple);
 ```
+
 en daardie booleaanse vlae word in dieselfde lêer in die kode ingestel:
+
 ```cpp
 #if TARGET_OS_OSX
 // support chrooting from old kernel
@@ -203,13 +210,15 @@ gLinkContext.allowClassicFallbackPaths   = !isRestricted;
 gLinkContext.allowInsertFailures         = false;
 gLinkContext.allowInterposing         	 = true;
 ```
+
 Dit beteken basies dat as die binêre lêer **suid** of **sgid** is, of 'n **RESTRICT** segment in die koppe het, of onderteken is met die **CS\_RESTRICT** vlag, dan is **`!gLinkContext.allowEnvVarsPrint && !gLinkContext.allowEnvVarsPath && !gLinkContext.allowEnvVarsSharedCache`** waar en word die omgewingsveranderlikes uitgesny.
 
-Let daarop dat as CS\_REQUIRE\_LV waar is, sal die veranderlikes nie uitgesny word nie, maar die biblioteekvalidering sal nagaan of hulle dieselfde sertifikaat as die oorspronklike binêre lêer gebruik. 
+Let daarop dat as CS\_REQUIRE\_LV waar is, sal die veranderlikes nie uitgesny word nie, maar die biblioteekvalidering sal nagaan of hulle dieselfde sertifikaat as die oorspronklike binêre lêer gebruik.
 
 ## Kontroleer Beperkings
 
 ### SUID & SGID
+
 ```bash
 # Make it owned by root and suid
 sudo chown root hello
@@ -220,6 +229,7 @@ DYLD_INSERT_LIBRARIES=inject.dylib ./hello
 # Remove suid
 sudo chmod -s hello
 ```
+
 ### Afdeling `__RESTRICT` met segment `__restrict`
 
 In macOS, the `__RESTRICT` section is a special section in the Mach-O binary format that is used to mark memory regions as restricted. This section is typically used to protect sensitive code or data from being modified or accessed by unauthorized processes.
@@ -231,10 +241,12 @@ By leveraging the `__RESTRICT` section and the `__restrict` segment, developers 
 It is important to note that the `__RESTRICT` section and the `__restrict` segment are not foolproof and should not be solely relied upon for securing an application. They should be used in conjunction with other security measures, such as proper input validation, secure coding practices, and regular security updates.
 
 Overall, the `__RESTRICT` section with the `__restrict` segment provides a valuable security feature in macOS that can help protect critical code and data from unauthorized access or modification.
+
 ```bash
 gcc -sectcreate __RESTRICT __restrict /dev/null hello.c -o hello-restrict
 DYLD_INSERT_LIBRARIES=inject.dylib ./hello-restrict
 ```
+
 ### Geharde uitvoering
 
 Skep 'n nuwe sertifikaat in die Sleutelbos en gebruik dit om die binêre lêer te onderteken:
@@ -264,15 +276,18 @@ DYLD_INSERT_LIBRARIES=inject.dylib ./hello-signed # Won't work
 {% hint style="danger" %}
 Let daarop dat selfs as daar bineêre lêers is wat onderteken is met vlae **`0x0(none)`**, kan hulle dinamies die **`CS_RESTRICT`** vlag kry wanneer hulle uitgevoer word en daarom sal hierdie tegniek nie in hulle werk nie.
 
-Jy kan nagaan of 'n pros hierdie vlag het met (kry [**csops hier**](https://github.com/axelexic/CSOps)):&#x20;
+Jy kan nagaan of 'n pros hierdie vlag het met (kry [**csops hier**](https://github.com/axelexic/CSOps)):
+
 ```bash
 csops -status <pid>
 ```
+
 en dan kontroleer of die vlag 0x800 geaktiveer is.
 {% endhint %}
 
 ## Verwysings
-* [https://theevilbit.github.io/posts/dyld_insert_libraries_dylib_injection_in_macos_osx_deep_dive/](https://theevilbit.github.io/posts/dyld_insert_libraries_dylib_injection_in_macos_osx_deep_dive/)
+
+* [https://theevilbit.github.io/posts/dyld\_insert\_libraries\_dylib\_injection\_in\_macos\_osx\_deep\_dive/](https://theevilbit.github.io/posts/dyld\_insert\_libraries\_dylib\_injection\_in\_macos\_osx\_deep\_dive/)
 
 <details>
 
@@ -283,7 +298,7 @@ Ander maniere om HackTricks te ondersteun:
 * As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repos.
 
 </details>

