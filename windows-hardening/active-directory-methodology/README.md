@@ -1,4 +1,4 @@
-# Μεθοδολογία Active Directory
+# Active Directory Methodology
 
 <details>
 
@@ -9,7 +9,7 @@
 * Αν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
@@ -28,11 +28,13 @@
 4. **Δέντρο** - Ένας ομαδοποιημένος συνδυασμός τομέων που μοιράζονται έναν κοινό ριζικό τομέα.
 5. **Δάσος** - Η κορυφή της οργανωτικής δομής στο Active Directory, αποτελούμενη από αρκετά δέντρα με **σχέσεις εμπιστοσύνης** μεταξύ τους.
 
-Οι **Υπηρεσίες Τομέα Ενε
+Οι \*\*Υπηρεσίες Τομέα Ενε
+
 ### Απαρίθμηση χρηστών
 
-* **Ανώνυμη απαρίθμηση SMB/LDAP:** Ελέγξτε τις σελίδες [**pentesting SMB**](../../network-services-pentesting/pentesting-smb.md) και [**pentesting LDAP**](../../network-services-pentesting/pentesting-ldap.md).
+* **Ανώνυμη απαρίθμηση SMB/LDAP:** Ελέγξτε τις σελίδες [**pentesting SMB**](../../network-services-pentesting/pentesting-smb/) και [**pentesting LDAP**](../../network-services-pentesting/pentesting-ldap.md).
 * **Απαρίθμηση με το Kerbrute**: Όταν ζητείται ένα **μη έγκυρο όνομα χρήστη**, ο διακομιστής θα απαντήσει χρησιμοποιώντας τον κωδικό σφάλματος Kerberos _KRB5KDC\_ERR\_C\_PRINCIPAL\_UNKNOWN_, επιτρέποντάς μας να καθορίσουμε ότι το όνομα χρήστη ήταν μη έγκυρο. **Έγκυρα ονόματα χρηστών** θα προκαλέσουν είτε την απόκτηση του **TGT σε μια απάντηση AS-REP** είτε το σφάλμα _KRB5KDC\_ERR\_PREAUTH\_REQUIRED_, που υποδηλώνει ότι ο χρήστης πρέπει να εκτελέσει προ-πιστοποίηση.
+
 ```bash
 ./kerbrute_linux_amd64 userenum -d lab.ropnop.com --dc 10.10.10.10 usernames.txt #From https://github.com/ropnop/kerbrute/releases
 
@@ -43,9 +45,11 @@ msf> use auxiliary/gather/kerberos_enumusers
 
 crackmapexec smb dominio.es  -u '' -p '' --users | awk '{print $4}' | uniq
 ```
+
 * **Διακομιστής OWA (Outlook Web Access)**
 
 Εάν βρείτε έναν από αυτούς τους διακομιστές στο δίκτυο, μπορείτε επίσης να πραγματοποιήσετε **απαρίθμηση χρηστών εναντίον του**. Για παράδειγμα, μπορείτε να χρησιμοποιήσετε το εργαλείο [**MailSniper**](https://github.com/dafthack/MailSniper):
+
 ```bash
 ipmo C:\Tools\MailSniper\MailSniper.ps1
 # Get info about the domain
@@ -57,6 +61,7 @@ Invoke-PasswordSprayOWA -ExchHostname [ip] -UserList .\valid.txt -Password Summe
 # Get addresses list from the compromised mail
 Get-GlobalAddressList -ExchHostname [ip] -UserName [domain]\[username] -Password Summer2021 -OutFile gal.txt
 ```
+
 {% hint style="warning" %}
 Μπορείτε να βρείτε λίστες ονομάτων χρηστών στο [**αποθετήριο github αυτό**](https://github.com/danielmiessler/SecLists/tree/master/Usernames/Names) και σε αυτό ([**statistically-likely-usernames**](https://github.com/insidetrust/statistically-likely-usernames)).
 
@@ -100,6 +105,7 @@ Get-GlobalAddressList -ExchHostname [ip] -UserName [domain]\[username] -Password
 Για αυτήν τη φάση, θα πρέπει να έχετε **παραβιάσει τα διαπιστευτήρια ή μια συνεδρία ενός έγκυρου λογαριασμού τομέα**. Εάν έχετε ορισμένα έγκυρα διαπιστευτήρια ή ένα κέλυφος ως χρήστης τομέα, **θα πρέπει να θυμάστε ότι οι επιλογές που δόθηκαν προηγουμένως είναι ακόμα επιλογές για να παραβιάσετε άλλους χρήστες**.
 
 Πριν ξεκινή
+
 ### Απομακρυσμένη σύνδεση (RDP, SSH, FTP, Win-RM, κλπ)
 
 Αφού αποκτήσετε ορισμένα διαπιστευτήρια, μπορείτε να ελέγξετε εάν έχετε πρόσβαση σε οποιοδήποτε **μηχάνημα**. Για το σκοπό αυτό, μπορείτε να χρησιμοποιήσετε το **CrackMapExec** για να προσπαθήσετε να συνδεθείτε σε διάφορους διακομιστές με διάφορα πρωτόκολλα, ανάλογα με τις σαρώσεις θυρών σας.
@@ -113,6 +119,7 @@ Get-GlobalAddressList -ExchHostname [ip] -UserName [domain]\[username] -Password
 ### Τρέχοντα εισιτήρια συνεδρίας
 
 Είναι πολύ **απίθανο** να βρείτε **εισιτήρια** στον τρέχοντα χρήστη που σας δίνουν άδεια πρόσβασης σε αναπάντεχους πόρους, αλλά μπορείτε να το ελέγξετε:
+
 ```bash
 ## List all tickets (if not admin, only current user tickets)
 .\Rubeus.exe triage
@@ -120,6 +127,7 @@ Get-GlobalAddressList -ExchHostname [ip] -UserName [domain]\[username] -Password
 .\Rubeus.exe dump /service:krbtgt /luid:<luid> /nowrap
 [IO.File]::WriteAllBytes("ticket.kirbi", [Convert]::FromBase64String("<BASE64_TICKET>"))
 ```
+
 ### NTML Relay
 
 Εάν καταφέρετε να απαριθμήσετε το ενεργό κατάλογο, θα έχετε **περισσότερα emails και καλύτερη κατανόηση του δικτύου**. Μπορείτε να προσπαθήσετε να εκτελέσετε επιθέσεις [**NTML relay**](../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md#relay-attack)**.**
@@ -128,7 +136,7 @@ Get-GlobalAddressList -ExchHostname [ip] -UserName [domain]\[username] -Password
 
 Τώρα που έχετε μερικά βασικά διαπιστευτήρια, πρέπει να ελέγξετε αν μπορείτε να **βρείτε** οποιαδήποτε **ενδιαφέροντα αρχεία που κοινοποιούνται μέσα στον AD**. Μπορείτε να το κάνετε χειροκίνητα, αλλά είναι μια πολύ βαρετή επαναλαμβανόμενη εργασία (και ακόμα περισσότερο αν βρείτε εκατοντάδες εγγράφων που πρέπει να ελέγξετε).
 
-[**Ακολουθήστε αυτόν τον σύνδεσμο για να μάθετε για εργαλεία που μπορείτε να χρησιμοποιήσετε.**](../../network-services-pentesting/pentesting-smb.md#domain-shared-folders-search)
+[**Ακολουθήστε αυτόν τον σύνδεσμο για να μάθετε για εργαλεία που μπορείτε να χρησιμοποιήσετε.**](../../network-services-pentesting/pentesting-smb/#domain-shared-folders-search)
 
 ### Κλοπή NTLM Creds
 
@@ -154,7 +162,7 @@ Get-GlobalAddressList -ExchHostname [ip] -UserName [domain]\[username] -Password
 
 Ελπίζουμε ότι καταφέρατε να **θέσετε σε κίνδυνο κάποιο τοπικό λογαριασμό διαχειριστή** χρησιμοποιώντας το [AsRepRoast](asreproast.md), [Password Spraying](password-spraying.md), [Kerberoast](kerberoast.md), [Responder](../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md) συμπεριλαμβανομένης της ανακατεύθυνσης, [EvilSSDP](../../generic-methodologies-and-resources/pentesting-network/spoofing-ssdp-and-upnp-devices.md), [ανέλιξη προνομιακών δικαιωμάτων τοπικά](../windows-local-privilege-escalation/).\
 Στη συνέχεια, είναι καιρός να αντλήσετε όλους τους κατακερματισμένους κωδικούς από τη μνήμη και τοπικά.\
-[**Διαβάστε αυτήν τη σελίδα για διάφορους τρόπους απόκτησης των κατακερματισμένων κωδικών.**](broken-reference/)
+[**Διαβάστε αυτήν τη σελίδα για διάφορους τρόπους απόκτησης των κατακερματισμένων κωδικών.**](https://github.com/carlospolop/hacktricks/blob/gr/windows-hardening/active-directory-methodology/broken-reference/README.md)
 
 ### Περάστε τον κατακερματισμένο κωδικό
 
@@ -173,11 +181,13 @@ Get-GlobalAddressList -ExchHostname [ip] -UserName [domain]\[username] -Password
 ### Περάστε το εισιτήριο
 
 Στη μέθοδο επίθεσης **Pass The Ticket (PTT)**, οι επιτιθέμενοι **κλέβουν το εισιτήριο πιστοποίησης ενός χρήστη** αντί για τον κωδικό πρόσβασης ή τις τιμές κατακερματισμένων κωδικών. Το κλεμμένο εισιτ
+
 ```bash
 # Local Auth Spray (once you found some local admin pass or hash)
 ## --local-auth flag indicate to only try 1 time per machine
 crackmapexec smb --local-auth 10.10.10.10/23 -u administrator -H 10298e182387f9cab376ecd08491764a0 | grep +
 ```
+
 {% hint style="warning" %}
 Να σημειωθεί ότι αυτό είναι αρκετά **θορυβώδες** και το **LAPS** θα το **περιορίσει**.
 {% endhint %}
@@ -229,7 +239,8 @@ crackmapexec smb --local-auth 10.10.10.10/23 -u administrator -H 10298e182387f9c
 
 ### Κατάχρηση υπηρεσίας Printer Spooler
 
-Η ανακάλυψη μιας **υπηρεσίας Spool που ακο
+Η ανακάλυψη μιας \*\*υπηρεσίας Spool που ακο
+
 ### **Μόνιμη Παραμονή Πιστοποιητικών Τομέα**
 
 **Χρησιμοποιώντας πιστοποιητικά είναι επίσης δυνατή η μόνιμη παραμονή με υψηλά προνόμια εντός του τομέα:**
@@ -278,8 +289,9 @@ crackmapexec smb --local-auth 10.10.10.10/23 -u administrator -H 10298e182387f9c
 
 ### Προσαρμοσμένο SSP
 
-[Μάθετε τι είναι ένα SSP (Security Support Provider) εδώ.](../authentication-credentials-uac-and-efs.md#security-support-provider-interface-sspi)\
+[Μάθετε τι είναι ένα SSP (Security Support Provider) εδώ.](../authentication-credentials-uac-and-efs/#security-support-provider-interface-sspi)\
 Μπορείτε να δημιουργήσετε το **δικό σας SSP** για να **καταγράψετε** σε **καθαρό κείμενο** τα **διαπιστευτήρια** που χρησιμοποι
+
 #### Άλλες διαφορές στις **εμπιστευτικές σχέσεις**
 
 * Μια εμπιστευτική σχέση μπορεί επίσης να είναι **μεταβατική** (Α εμπιστεύεται Β, Β εμπιστεύεται Γ, τότε Α εμπιστεύεται Γ) ή **μη μεταβατική**.
@@ -289,16 +301,17 @@ crackmapexec smb --local-auth 10.10.10.10/23 -u administrator -H 10298e182387f9c
 
 1. **Απαριθμήστε** τις εμπιστευτικές σχέσεις
 2. Ελέγξτε αν οποιοδήποτε **ασφαλές υποκείμενο** (χρήστης/ομάδα/υπολογιστής) έχει **πρόσβαση** σε πόρους του **άλλου τομέα**, ίσως μέσω καταχωρήσεων ACE ή είναι μέλος ομάδων του άλλου τομέα. Αναζητήστε **σχέσεις ανάμεσα σε τομέα** (η εμπιστοσύνη δημιουργήθηκε πιθανότατα γι' αυτό).
-1. Σε αυτήν την περίπτωση, μια εναλλακτική λύση θα μπορούσε να είναι η επίθεση kerberoast.
-3. **Παραβίαση** των **λογαριασμών** που μπορούν να **μετακινηθούν** μέσω των τομέων.
+3. Σε αυτήν την περίπτωση, μια εναλλακτική λύση θα μπορούσε να είναι η επίθεση kerberoast.
+4. **Παραβίαση** των **λογαριασμών** που μπορούν να **μετακινηθούν** μέσω των τομέων.
 
 Οι επιτιθέμενοι μπορούν να έχουν πρόσβαση σε πόρους σε άλλο τομέα μέσω τριών κύριων μηχανισμών:
 
-- **Μέληση σε Τοπικές Ομάδες**: Τα υποκείμενα μπορεί να προστεθούν σε τοπικές ομάδες σε μηχανήματα, όπως η ομάδα "Διαχειριστές" σε έναν διακομιστή, παρέχοντάς τους σημαντικό έλεγχο πάνω σε αυτό το μηχάνημα.
-- **Μέληση σε Ομάδες Ξένου Τομέα**: Τα υποκείμενα μπορεί επίσης να είναι μέλη ομάδων εντός του ξένου τομέα. Ωστόσο, η αποτελεσματικότητα αυτής της μεθόδου εξαρτάται από τη φύση της εμπιστοσύνης και την έκταση της ομάδας.
-- **Λίστες Ελέγχου Πρόσβασης (ACLs)**: Τα υποκείμενα μπορεί να καθορίζονται σε μια **ACL**, ιδιαίτερα ως οντότητες σε **ACEs** εντός μιας **DACL**, παρέχοντάς τους πρόσβαση σε συγκεκριμένους πόρους. Για όσους θέλουν να εμβαθύνουν στη μηχανική των ACLs, DACLs και ACEs, το άρθρο με τίτλο "[An ACE Up The Sleeve](https://specterops.io/assets/resources/an_ace_up_the_sleeve.pdf)" είναι ένα ανεκτίμητο εργαλείο.
+* **Μέληση σε Τοπικές Ομάδες**: Τα υποκείμενα μπορεί να προστεθούν σε τοπικές ομάδες σε μηχανήματα, όπως η ομάδα "Διαχειριστές" σε έναν διακομιστή, παρέχοντάς τους σημαντικό έλεγχο πάνω σε αυτό το μηχάνημα.
+* **Μέληση σε Ομάδες Ξένου Τομέα**: Τα υποκείμενα μπορεί επίσης να είναι μέλη ομάδων εντός του ξένου τομέα. Ωστόσο, η αποτελεσματικότητα αυτής της μεθόδου εξαρτάται από τη φύση της εμπιστοσύνης και την έκταση της ομάδας.
+* **Λίστες Ελέγχου Πρόσβασης (ACLs)**: Τα υποκείμενα μπορεί να καθορίζονται σε μια **ACL**, ιδιαίτερα ως οντότητες σε **ACEs** εντός μιας **DACL**, παρέχοντάς τους πρόσβαση σε συγκεκριμένους πόρους. Για όσους θέλουν να εμβαθύνουν στη μηχανική των ACLs, DACLs και ACEs, το άρθρο με τίτλο "[An ACE Up The Sleeve](https://specterops.io/assets/resources/an\_ace\_up\_the\_sleeve.pdf)" είναι ένα ανεκτίμητο εργαλείο.
 
 ### Ανέβασμα δικαιωμάτων δάσους από παιδί σε γονέα
+
 ```
 Get-DomainTrust
 
@@ -310,9 +323,11 @@ TrustDirection  : Bidirectional       --> Trust direction (2ways in this case)
 WhenCreated     : 2/19/2021 1:28:00 PM
 WhenChanged     : 2/19/2021 1:28:00 PM
 ```
+
 {% hint style="warning" %}
 Υπάρχουν **2 αξιόπιστα κλειδιά**, ένα για _Παιδί --> Γονέας_ και ένα άλλο για _Γονέας_ --> _Παιδί_.\
 Μπορείτε να βρείτε αυτό που χρησιμοποιείται από τον τρέχοντα τομέα με την εντολή:
+
 ```bash
 Invoke-Mimikatz -Command '"lsadump::trust /patch"' -ComputerName dc.my.domain.local
 Invoke-Mimikatz -Command '"lsadump::dcsync /user:dcorp\mcorp$"'
@@ -356,6 +371,7 @@ Invoke-Mimikatz -Command '"lsadump::dcsync /user:dcorp\mcorp$"'
 Περισσότερες λεπτομέρειες για αυτό μπορούν να βρεθούν στο [Από DA σε EA με το ESC5](https://posts.specterops.io/from-da-to-ea-with-esc5-f9f045aa105c). Σε περιπτώσεις που λείπει το ADCS, ο επιτιθέμενος έχει τη δυνατότητα να δημιουργήσει τα απαραίτητα στοιχεία, όπως συζητήθηκε στο [Αναβάθμιση από Child Domain Admins σε Enterprise Admins](https://www.pkisolutions.com/escalating-from-child-domains-admins-to-enterprise-admins-in-5-minutes-by-abusing-ad-cs-a-follow-up/).
 
 ### Εξωτερικός τομέας δάσους - Μονόδρομος (εισερχόμενος) ή διπλής κατεύθυνσης
+
 ```powershell
 Get-DomainTrust
 SourceName      : a.domain.local   --> Current domain
@@ -366,6 +382,7 @@ TrustDirection  : Inbound          --> Inboud trust
 WhenCreated     : 2/19/2021 10:50:56 PM
 WhenChanged     : 2/19/2021 10:50:56 PM
 ```
+
 Σε αυτό το σενάριο, **το τομέας σας εμπιστεύεται** από έναν εξωτερικό τομέα, παρέχοντάς σας **απροσδιόριστα δικαιώματα** πάνω του. Θα πρέπει να βρείτε **ποιοι πρωταρχικοί του τομέα έχουν πρόσβαση στον εξωτερικό τομέα** και στη συνέχεια να προσπαθήσετε να το εκμεταλλευτείτε:
 
 {% content-ref url="external-forest-domain-oneway-inbound.md" %}
@@ -373,6 +390,7 @@ WhenChanged     : 2/19/2021 10:50:56 PM
 {% endcontent-ref %}
 
 ### Εξωτερικός Δασικός Τομέας - Μονόδρομος (Εξερχόμενος)
+
 ```powershell
 Get-DomainTrust -Domain current.local
 
@@ -384,6 +402,7 @@ TrustDirection  : Outbound        --> Outbound trust
 WhenCreated     : 2/19/2021 10:15:24 PM
 WhenChanged     : 2/19/2021 10:15:24 PM
 ```
+
 Σε αυτό το σενάριο, **το domain σας** εμπιστεύεται ορισμένα **προνόμια** σε έναν χρήστη από ένα **διαφορετικό domain**.
 
 Ωστόσο, όταν ένα **domain εμπιστεύεται** το εμπιστευόμενο domain, το εμπιστευόμενο domain **δημιουργεί έναν χρήστη** με ένα **προβλέψιμο όνομα** που χρησιμοποιεί ως **κωδικό πρόσβασης τον εμπιστευόμενο κωδικό**. Αυτό σημαίνει ότι είναι δυνατόν να **αποκτηθεί πρόσβαση σε έναν χρήστη από το εμπιστεύον domain για να μπει στο εμπιστευόμενο** και να το απαριθμήσει και να προσπαθήσει να αναβαθμίσει περισσότερα προνόμια:
@@ -405,13 +424,13 @@ WhenChanged     : 2/19/2021 10:15:24 PM
 
 ### **Φιλτράρισμα SID:**
 
-- Ο κίνδυνος επιθέσεων που εκμεταλλεύονται το χαρακτηριστικό ιστορικού SID σε εμπιστοσύνη μεταξύ δασών αντιμετωπίζεται με το φιλτράρισμα SID, το οποίο είναι ενεργοποιημένο από προεπιλογή σε όλες τις εμπιστοσύνες μεταξύ δασών. Αυτό βασίζεται στην υπόθεση ότι οι εμπιστοσύνες εντός του ίδιου δάσους είναι ασφαλείς, λαμβάνοντας υπόψη το δάσος, αντί για το domain, ως το όριο ασφαλείας σύμφωνα με τη θέση της Microsoft.
-- Ωστόσο, υπάρχει ένα πρόβλημα: Το φιλτράρισμα SID μπορεί να διακόψει εφαρμογές και πρόσβαση χρηστών, με αποτέλεσμα να απενεργοποιείται περιοδικά.
+* Ο κίνδυνος επιθέσεων που εκμεταλλεύονται το χαρακτηριστικό ιστορικού SID σε εμπιστοσύνη μεταξύ δασών αντιμετωπίζεται με το φιλτράρισμα SID, το οποίο είναι ενεργοποιημένο από προεπιλογή σε όλες τις εμπιστοσύνες μεταξύ δασών. Αυτό βασίζεται στην υπόθεση ότι οι εμπιστοσύνες εντός του ίδιου δάσους είναι ασφαλείς, λαμβάνοντας υπόψη το δάσος, αντί για το domain, ως το όριο ασφαλείας σύμφωνα με τη θέση της Microsoft.
+* Ωστόσο, υπάρχει ένα πρόβλημα: Το φιλτράρισμα SID μπορεί να διακόψει εφαρμογές και πρόσβαση χρηστών, με αποτέλεσμα να απενεργοποιείται περιοδικά.
 
 ### **Εκλεκτή Πιστοποίηση:**
 
-- Για εμπιστοσύνες μεταξύ δασών, η χρήση της Εκλεκτής Πιστοποίησης εξασφαλίζει ότι οι χρήστες από τα δύο δάση δεν πιστοποιούνται αυτόματα. Αντ' αυτού, απαιτούνται ρητές άδειες για τους χρήστες για να έχουν πρόσβαση σε domain και διακομιστές εντός του εμπιστευόμενου domain ή δάσους.
-- Σημαντικό είναι να σημειωθεί ότι αυτά τα μέτρα δεν προστατεύουν από την εκμετάλλευση του εγγράφου ρυθμίσεων Configuration Naming Context (NC) ή από επιθέσεις στον λογαριασμό εμπιστοσύνης.
+* Για εμπιστοσύνες μεταξύ δασών, η χρήση της Εκλεκτής Πιστοποίησης εξασφαλίζει ότι οι χρήστες από τα δύο δάση δεν πιστοποιούνται αυτόματα. Αντ' αυτού, απαιτούνται ρητές άδειες για τους χρήστες για να έχουν πρόσβαση σε domain και διακομιστές εντός του εμπιστευόμενου domain ή δάσους.
+* Σημαντικό είναι να σημειωθεί ότι αυτά τα μέτρα δεν προστατεύουν από την εκμετάλλευση του εγγράφου ρυθμίσεων Configuration Naming Context (NC) ή από επιθέσεις στον λογαριασμό εμπιστοσύνης.
 
 [**Περισσότερες πληροφορίες για τις εμπιστοσύνες domain στο ired.team.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/child-domain-da-to-ea-in-parent-domain)
 
@@ -421,4 +440,4 @@ WhenChanged     : 2/19/2021 10:15:24 PM
 
 ## Ορισμένες Γενικές Άμυνες
 
-[**Μάθετε περισσότερα για το πώς να προστατεύετε τα διαπιστευ
+\[\*\*Μάθετε περισσότερα για το πώς να προστατεύετε τα διαπιστευ

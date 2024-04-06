@@ -1,4 +1,4 @@
-# Επαναχρησιμοποίηση PID στο macOS
+# macOS PID Reuse
 
 <details>
 
@@ -9,7 +9,7 @@
 * Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
@@ -33,7 +33,8 @@
 * **Κάθε διακλάδωση** θα **στείλει** το **φορτίο** στο XPC service ενώ εκτελεί το **`posix_spawn`** αμέσως μετά την αποστολή του μηνύματος.
 
 {% hint style="danger" %}
-Για να λειτουργήσει η εκμετάλλευση, είναι σημαντικό να `export`` `**`OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES`** ή να το τοποθετήσετε μέσα στην εκμετάλλευση:
+Για να λειτουργήσει η εκμετάλλευση, είναι σημαντικό να ` export`` `` `**`OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES`** ή να το τοποθετήσετε μέσα στην εκμετάλλευση:
+
 ```objectivec
 asm(".section __DATA,__objc_fork_ok\n"
 "empty:\n"
@@ -42,8 +43,11 @@ asm(".section __DATA,__objc_fork_ok\n"
 {% endhint %}
 
 {% tabs %}
-{% tab title="NSTasks" %}
+{% tab title="undefined" %}
 Πρώτη επιλογή χρησιμοποιώντας το **`NSTasks`** και το όρισμα για να εκκινήσετε τα παιδιά προκειμένου να εκμεταλλευτείτε το RC
+{% endtab %}
+
+{% tab title="undefined" %}
 ```objectivec
 // Code from https://wojciechregula.blog/post/learn-xpc-exploitation-part-2-say-no-to-the-pid/
 // gcc -framework Foundation expl.m -o expl
@@ -149,8 +153,11 @@ create_nstasks();
 return 0;
 }
 ```
+{% endtab %}
+
 {% tab title="fork" %}
 Αυτό το παράδειγμα χρησιμοποιεί έναν απλό **`fork`** για να εκκινήσει **παιδιά που θα εκμεταλλευτούν τον ανταγωνισμό των PID** και στη συνέχεια θα εκμεταλλευτούν **έναν άλλο ανταγωνισμό μέσω ενός σκληρού συνδέσμου (Hard link):**
+
 ```objectivec
 // export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 // gcc -framework Foundation expl.m -o expl
@@ -300,7 +307,7 @@ return 0;
 * Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>

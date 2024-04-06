@@ -1,4 +1,4 @@
-# Κατάχρηση Διεργασιών στο macOS
+# macOS Proces Abuse
 
 <details>
 
@@ -30,16 +30,16 @@
 
 Η Αγκάληση Συνάρτησης περιλαμβάνει το **εμπλέκοντας κλήσεις συναρτήσεων** ή μηνύματα μέσα σε κώδικα λογισμικού. Με την αγκάληση συναρτήσεων, ένας επιτιθέμενος μπορεί να **τροποποιήσει τη συμπεριφορά** μιας διεργασίας, να παρατηρήσει ευαίσθητα δεδομένα ή ακόμη και να αποκτήσει έλεγχο επί της ροής εκτέλεσης.
 
-{% content-ref url="../mac-os-architecture/macos-function-hooking.md" %}
-[macos-function-hooking.md](../mac-os-architecture/macos-function-hooking.md)
+{% content-ref url="macos-function-hooking.md" %}
+[macos-function-hooking.md](macos-function-hooking.md)
 {% endcontent-ref %}
 
 ### Επικοινωνία Μεταξύ Διεργασιών
 
 Η Επικοινωνία Μεταξύ Διεργασιών (IPC) αναφέρεται σε διάφορες μεθόδους με τις οποίες ξεχωριστές διεργασίες **μοιράζονται και ανταλλάσσουν δεδομένα**. Ενώ η IPC είναι θεμελιώδης για πολλές νόμιμες εφαρμογές, μπορεί επίσης να καταχρηστεί για να υπονομεύσει την απομόνωση διεργασιών, να διαρρεύσει ευαίσθητες πληροφορίες ή να εκτελέσει μη εξουσιοδοτημένες ενέργειες.
 
-{% content-ref url="../mac-os-architecture/macos-ipc-inter-process-communication/" %}
-[macos-ipc-inter-process-communication](../mac-os-architecture/macos-ipc-inter-process-communication/)
+{% content-ref url="macos-ipc-inter-process-communication/" %}
+[macos-ipc-inter-process-communication](macos-ipc-inter-process-communication/)
 {% endcontent-ref %}
 
 ### Ενσωμάτωση Εφαρμογών Electron
@@ -106,6 +106,7 @@
 Άλλες μεταβλητές περιβάλλοντος όπως **`PYTHONPATH`** και **`PYTHONHOME`** μπορεί επίσης να είναι χρήσιμες για να κάνετε μια εντολή Python να εκτελέσει αυθαίρετο κώδικα.
 
 Σημειώστε ότι τα εκτελέσι
+
 ```bash
 mv /opt/homebrew/bin/python3 /opt/homebrew/bin/python3.old
 cat > /opt/homebrew/bin/python3 <<EOF
@@ -115,6 +116,7 @@ cat > /opt/homebrew/bin/python3 <<EOF
 EOF
 chmod +x /opt/homebrew/bin/python3
 ```
+
 ## Ανίχνευση
 
 ### Shield

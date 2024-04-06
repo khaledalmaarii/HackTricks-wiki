@@ -16,7 +16,7 @@
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://github.com/carlospolop/hacktricks/blob/gr/todo/radio-hacking/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -30,7 +30,7 @@
 
 ## Υλικό Sub-GHz <a href="#kfpn7" id="kfpn7"></a>
 
-Το Flipper Zero διαθέτει ενσωματωμένο υπο-1 GHz μοντούλο βασισμένο σε ένα [﻿](https://www.st.com/en/nfc/st25r3916.html#overview)﻿τσιπ CC1101](https://www.ti.com/lit/ds/symlink/cc1101.pdf) και μια ραδιοκεραία (η μέγιστη εμβέλεια είναι 50 μέτρα). Τόσο το τσιπ CC1101 όσο και η κεραία είναι σχεδιασμένα να λειτουργούν σε συχνότητες στα εύρη 300-348 MHz, 387-464 MHz και 779-928 MHz.
+Το Flipper Zero διαθέτει ενσωματωμένο υπο-1 GHz μοντούλο βασισμένο σε ένα [﻿](https://www.st.com/en/nfc/st25r3916.html#overview)﻿τσιπ CC1101]\(https://www.ti.com/lit/ds/symlink/cc1101.pdf) και μια ραδιοκεραία (η μέγιστη εμβέλεια είναι 50 μέτρα). Τόσο το τσιπ CC1101 όσο και η κεραία είναι σχεδιασμένα να λειτουργούν σε συχνότητες στα εύρη 300-348 MHz, 387-464 MHz και 779-928 MHz.
 
 <figure><img src="../../../.gitbook/assets/image (1) (8) (1).png" alt=""><figcaption></figcaption></figure>
 
@@ -90,7 +90,8 @@
 Προσθέστε σήματα από μια ρυθμισμένη λίστα πρωτοκόλλων
 {% endhint %}
 
-#### Λίστα των [υποστηριζόμενων πρωτοκόλλων](https://docs.flipperzero.one/sub-ghz/add-new-remote) <a href="#id-3iglu" id="id-3iglu
+#### Λίστα των [υποστηριζόμενων πρωτοκόλλων](https://docs.flipperzero.one/sub-ghz/add-new-remote) \<a href="#id-3iglu" id="id-3iglu
+
 ### Υποστηριζόμενοι προμηθευτές Sub-GHz
 
 Ελέγξτε τη λίστα στο [https://docs.flipperzero.one/sub-ghz/supported-vendors](https://docs.flipperzero.one/sub-ghz/supported-vendors)
@@ -111,7 +112,7 @@
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://github.com/carlospolop/hacktricks/blob/gr/todo/radio-hacking/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 

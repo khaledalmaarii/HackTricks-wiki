@@ -1,4 +1,4 @@
-# Εκμετάλλευση επικίνδυνης διαδρομής Sys + Dll Hijacking
+# Writable Sys Path +Dll Hijacking Privesc
 
 <details>
 
@@ -9,7 +9,7 @@
 * Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
@@ -22,8 +22,8 @@
 
 Για περισσότερες πληροφορίες σχετικά με το **τι είναι η Διαδρομή Dll Hijacking** ελέγξτε:
 
-{% content-ref url="../dll-hijacking.md" %}
-[dll-hijacking.md](../dll-hijacking.md)
+{% content-ref url="./" %}
+[.](./)
 {% endcontent-ref %}
 
 ## Ανέβασμα δικαιωμάτων με Dll Hijacking
@@ -32,9 +32,10 @@
 
 Το πρώτο πράγμα που χρειάζεστε είναι να **αναγνωρίσετε μια διεργασία** που εκτελείται με **περισσότερα δικαιώματα** από εσάς και προσπαθεί να **φορτώσει μια Dll από τη Διαδρομή Συστήματος** στην οποία μπορείτε να γράψετε.
 
-Το πρόβλημα σε αυτές τις περιπτώσεις είναι ότι πιθανόν αυτές οι διεργασίες ήδη εκτελούνται. Για να βρείτε ποιες Dll λείπουν από τις υπηρεσίες που χρειάζεστε, πρέπει να εκκινήσετε το procmon το συντομότερο δυνατόν (πριν φορτωθούν οι διεργασίες). Έτσι, για να βρείτε τις λείπουσες .dlls, κάντε τα εξής: 
+Το πρόβλημα σε αυτές τις περιπτώσεις είναι ότι πιθανόν αυτές οι διεργασίες ήδη εκτελούνται. Για να βρείτε ποιες Dll λείπουν από τις υπηρεσίες που χρειάζεστε, πρέπει να εκκινήσετε το procmon το συντομότερο δυνατόν (πριν φορτωθούν οι διεργασίες). Έτσι, για να βρείτε τις λείπουσες .dlls, κάντε τα εξής:
 
 * **Δημιουργήστε** τον φάκελο `C:\privesc_hijacking` και προσθέστε τη διαδρομή `C:\privesc_hijacking` στη **μεταβλητή περιβάλλοντος System Path**. Μπορείτε να το κάνετε **χειροκίνητα** ή με **PS**:
+
 ```powershell
 # Set the folder path to create and check events for
 $folderPath = "C:\privesc_hijacking"
@@ -51,6 +52,7 @@ $newPath = "$envPath;$folderPath"
 [Environment]::SetEnvironmentVariable("PATH", $newPath, "Machine")
 }
 ```
+
 * Εκκινήστε το **`procmon`** και πηγαίνετε στις **`Επιλογές`** --> **`Ενεργοποίηση καταγραφής εκκίνησης`** και πατήστε **`ΟΚ`** στην ειδοποίηση.
 * Στη συνέχεια, **επανεκκινήστε**. Όταν ο υπολογιστής επανεκκινηθεί, το **`procmon`** θα αρχίσει να καταγράφει γεγονότα αμέσως.
 * Μόλις ξεκινήσει τα **Windows**, εκτελέστε ξανά το **`procmon`**, θα σας πει ότι έχει τρέξει και θα σας **ζητήσει αν θέλετε να αποθηκεύσετε** τα γεγονότα σε ένα αρχείο. Πείτε **ναι** και **αποθηκεύστε τα γεγονότα σε ένα αρχείο**.
@@ -67,7 +69,7 @@ $newPath = "$envPath;$folderPath"
 
 Σε αυτήν την περίπτωση, τα .exe είναι άχρηστα, οι λείπουσες DLLs ήταν από:
 
-| Υπηρεσία                       | Dll                | Εντολή CMD                                                          |
+| Υπηρεσία                        | Dll                | Εντολή CMD                                                           |
 | ------------------------------- | ------------------ | -------------------------------------------------------------------- |
 | Task Scheduler (Schedule)       | WptsExtensions.dll | `C:\Windows\system32\svchost.exe -k netsvcs -p -s Schedule`          |
 | Diagnostic Policy Service (DPS) | Unknown.DLL        | `C:\Windows\System32\svchost.exe -k LocalServiceNoNetwork -p -s DPS` |
@@ -79,7 +81,7 @@ $newPath = "$envPath;$folderPath"
 
 Έτσι, για να **αναβαθμίσετε τα προνόμια**, θα καταχραστούμε τη βιβλιοθήκη **WptsExtensions.dll**. Έχοντας τη **διαδρομή** και το **όνομα**, απλά χρειάζεται να **δημιουργήσουμε την κακόβουλη dll**.
 
-Μπορείτε [**να δοκιμάσετε οποιοδήποτε από αυτά τα παραδείγματα**](../dll-hijacking.md#creating-and-compiling-dlls). Μπορείτε να εκτελέσετε φορτία όπως: να λάβετε ένα αντίστροφο κέλυφος, να προσθέσετε ένα χρήστη, να εκτελέσετε ένα beacon...
+Μπορείτε [**να δοκιμάσετε οποιοδήποτε από αυτά τα παραδείγματα**](./#creating-and-compiling-dlls). Μπορείτε να εκτελέσετε φορτία όπως: να λάβετε ένα αντίστροφο κέλυφος, να προσθέσετε ένα χρήστη, να εκτελέσετε ένα beacon...
 
 {% hint style="warning" %}
 Σημειώστε ότι **όχι όλες οι υπηρεσίες τρέχουν** με **`NT AUTHORITY\SYSTEM`**, κάποιες τρέχουν επίσης με **`NT AUTHORITY\LOCAL SERVICE`** που έχει **λιγότερα προνόμια** και δεν θα μπορέσετε να δημιουργήσετε ένα νέο χρήστη καταχρώντας τα δικαιώματά του.\
@@ -98,4 +100,6 @@ $newPath = "$envPath;$folderPath"
 
 Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
 
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF**, ελέγξτε τα [**ΣΧΕΔ
+* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF**, ελέγξτε τα \[\*\*ΣΧΕΔ
+
+</details>

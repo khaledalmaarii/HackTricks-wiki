@@ -1,4 +1,4 @@
-# Λίστα ελέγχου - Εκμετάλλευση Προνομίων σε Τοπικό Σύστημα Windows
+# Checklist - Local Windows Privilege Escalation
 
 <details>
 
@@ -9,7 +9,7 @@
 * Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια στο GitHub.
 
 </details>
@@ -35,24 +35,24 @@
 * [ ] Ενδιαφέρουσες πληροφορίες στις [**ρυθμίσεις Internet**](windows-local-privilege-escalation/#internet-settings)?
 * [ ] [**Δίσκοι**](windows-local-privilege-escalation/#drives)?
 * [ ] [**Εκμετάλλευση WSUS**](windows-local-privilege-escalation/#wsus)?
-* [**Πάντα Εγκατεστημένος**](windows-local-privilege-escalation/#alwaysinstallelevated)?
+* [ ] [**Πάντα Εγκατεστημένος**](windows-local-privilege-escalation/#alwaysinstallelevated)?
 
 ### [Καταγραφή/Αποφυγή AV](windows-local-privilege-escalation/#enumeration)
 
-* [ ] Ελέγξτε τις [**ρυθμίσεις Ελέγχου** ](windows-local-privilege-escalation/#audit-settings)και του [**WEF** ](windows-local-privilege-escalation/#wef)
+* [ ] Ελέγξτε τις [**ρυθμίσεις Ελέγχου** ](windows-local-privilege-escalation/#audit-settings)και του [**WEF**](windows-local-privilege-escalation/#wef)
 * [ ] Ελέγξτε το [**LAPS**](windows-local-privilege-escalation/#laps)
 * [ ] Ελέγξτε αν το [**WDigest** ](windows-local-privilege-escalation/#wdigest)είναι ενεργό
 * [ ] [**Προστασία LSA**](windows-local-privilege-escalation/#lsa-protection)?
 * [ ] [**Φύλαξη Διαπιστευτηρίων**](windows-local-privilege-escalation/#credentials-guard)[?](windows-local-privilege-escalation/#cached-credentials)
 * [ ] [**Κρυφά Διαπιστευτήρια**](windows-local-privilege-escalation/#cached-credentials)?
-* [ ] Ελέγξτε αν υπάρχει κάποιο [**AV**](windows-av-bypass)
-* [ ] [**Πολιτική AppLocker**](authentication-credentials-uac-and-efs#applocker-policy)?
-* [ ] [**UAC**](authentication-credentials-uac-and-efs/uac-user-account-control)
+* [ ] Ελέγξτε αν υπάρχει κάποιο [**AV**](https://github.com/carlospolop/hacktricks/blob/gr/windows-hardening/windows-av-bypass/README.md)
+* [ ] [**Πολιτική AppLocker**](https://github.com/carlospolop/hacktricks/blob/gr/windows-hardening/authentication-credentials-uac-and-efs/README.md#applocker-policy)?
+* [ ] [**UAC**](https://github.com/carlospolop/hacktricks/blob/gr/windows-hardening/authentication-credentials-uac-and-efs/uac-user-account-control/README.md)
 * [ ] [**Προνόμια Χρηστών**](windows-local-privilege-escalation/#users-and-groups)
 * [ ] Ελέγξτε τα [**τρέχοντα** προνόμια χρήστη](windows-local-privilege-escalation/#users-and-groups)
 * [ ] Είστε [**μέλος κάποιας προνομιούχας ομάδας**](windows-local-privilege-escalation/#privileged-groups);
 * [ ] Ελέγξτε αν έχετε ενεργοποιημένα [κάποια από αυτά τα διακριτικά](windows-local-privilege-escalation/#token-manipulation): **SeImpersonatePrivilege, SeAssignPrimaryPrivilege, SeTcbPrivilege, SeBackupPrivilege, SeRestorePrivilege, SeCreateTokenPrivilege, SeLoadDriverPrivilege, SeTakeOwnershipPrivilege, SeDebugPrivilege** ?
-* [**Συνεδρίες Χρηστών**](windows-local-privilege-escalation/#logged-users-sessions)?
+* [ ] [**Συνεδρίες Χρηστών**](windows-local-privilege-escalation/#logged-users-sessions)?
 * [ ] Ελέγξτε τα [**σπίτια χρηστών**](windows-local-privilege-escalation/#home-folders) (πρόσβαση;)
 * [ ] Ελέγξτε τη [**Πολιτική Κωδικών**](windows-local-privilege-escalation/#password-policy)
 * [ ] Τι υπάρχει [**μέσα στο Πρόχειρο**](windows-local-privilege-escalation/#get-the-content-of-the-clipboard);
@@ -71,16 +71,17 @@
 
 ### [Υπηρεσίες](windows-local-privilege-escalation/#services)
 
-* [ ] [Μπορείτε να **τροποποιήσετε κάποια υπηρεσία**;](windows-local-privilege-escalation#permissions)
+* [ ] [Μπορείτε να **τροποποιήσετε κάποια υπηρεσία**;](windows-local-privilege-escalation/#permissions)
 * [ ] [Μπορείτε να **τροποποιήσετε** το **εκτελούμενο** που **εκτελείται** από κάποια **υπηρεσία**;](windows-local-privilege-escalation/#modify-service-binary-path)
 * [ ] [Μπορείτε να **τροποποιήσετε** το **μητρώο** μιας **υπηρεσίας**;](windows-local-privilege-escalation/#services-registry-modify-permissions)
 * [ ] [Μπορείτε να εκμεταλλευτείτε κάποιο **μη-περιγραμμένο εκτελέσιμο μονοπάτι υπηρεσίας**;](windows-local-privilege-escalation/#unquoted-service-paths)
 
 ### [**Εφαρμογές**](windows-local-privilege-escalation/#applications)
 
-* [ ] **Δικαιώματα εγγραφής σε εγκατεστημένες εφαρμογές**](windows-local-privilege-escalation/#write-permissions)
+* [ ] **Δικαιώματα εγγραφής σε εγκατεστημένες εφαρμογές**]\(windows-local-privilege-escalation/#write-permissions)
 * [ ] [**Εφαρμογές Εκκίνησης**](windows-local-privilege-escalation/#run-at-startup)
-* **Ευάλωτοι** [**Οδηγοί**](windows-local-privilege-escalation/#drivers)
+* [ ] **Ευάλωτοι** [**Οδηγοί**](windows-local-privilege-escalation/#drivers)
+
 ### [Διαρροή DLL](windows-local-privilege-escalation/#path-dll-hijacking)
 
 * [ ] Μπορείτε **να γράψετε σε οποιονδήποτε φάκελο μέσα στο PATH**;
@@ -112,15 +113,15 @@
 * [ ] Οποιαδήποτε αντίγραφα ασφαλείας [**SAM & SYSTEM**](windows-local-privilege-escalation/#sam-and-system-backups);
 * [ ] [**Διαπιστευτήρια Cloud**](windows-local-privilege-escalation/#cloud-credentials);
 * [ ] Αρχείο [**McAfee SiteList.xml**](windows-local-privilege-escalation/#mcafee-sitelist.xml);
-* [**Κρυφός κωδικός GPP**](windows-local-privilege-escalation/#cached-gpp-pasword);
-* Κωδικός σε [**αρχείο ρυθμίσεων IIS Web**](windows-local-privilege-escalation/#iis-web-config);
-* Ενδιαφέρουσες πληροφορίες σε [**καταγραφές ιστού**](windows-local-privilege-escalation/#logs);
-* Θέλετε να [**ζητήσετε διαπιστευτήρια**](windows-local-privilege-escalation/#ask-for-credentials) από τον χρήστη;
-* Ενδιαφέρουσες [**αρχεία μέσα στον Κάδο Ανακύκλωσης**](windows-local-privilege-escalation/#credentials-in-the-recyclebin);
-* Άλλες [**καταχωρήσεις που περιέχουν διαπιστευτήρια**](windows-local-privilege-escalation/#inside-the-registry);
-* Μέσα στα [**δεδομένα του προγράμματος περιήγησης**](windows-local-privilege-escalation/#browsers-history) (βάσεις δεδομένων, ιστορικό, σελιδοδείκτες, ...);
-* [**Γενική αναζήτηση κωδικών πρόσβασης**](windows-local-privilege-escalation/#generic-password-search-in-files-and-registry) σε αρχεία και καταχωρήσεις;
-* [**Εργαλεία**](windows-local-privilege-escalation/#tools-that-search-for-passwords) για αυτόματη αναζήτηση κωδικών πρόσβασης
+* [ ] [**Κρυφός κωδικός GPP**](windows-local-privilege-escalation/#cached-gpp-pasword);
+* [ ] Κωδικός σε [**αρχείο ρυθμίσεων IIS Web**](windows-local-privilege-escalation/#iis-web-config);
+* [ ] Ενδιαφέρουσες πληροφορίες σε [**καταγραφές ιστού**](windows-local-privilege-escalation/#logs);
+* [ ] Θέλετε να [**ζητήσετε διαπιστευτήρια**](windows-local-privilege-escalation/#ask-for-credentials) από τον χρήστη;
+* [ ] Ενδιαφέρουσες [**αρχεία μέσα στον Κάδο Ανακύκλωσης**](windows-local-privilege-escalation/#credentials-in-the-recyclebin);
+* [ ] Άλλες [**καταχωρήσεις που περιέχουν διαπιστευτήρια**](windows-local-privilege-escalation/#inside-the-registry);
+* [ ] Μέσα στα [**δεδομένα του προγράμματος περιήγησης**](windows-local-privilege-escalation/#browsers-history) (βάσεις δεδομένων, ιστορικό, σελιδοδείκτες, ...);
+* [ ] [**Γενική αναζήτηση κωδικών πρόσβασης**](windows-local-privilege-escalation/#generic-password-search-in-files-and-registry) σε αρχεία και καταχωρήσεις;
+* [ ] [**Εργαλεία**](windows-local-privilege-escalation/#tools-that-search-for-passwords) για αυτόματη αναζήτηση κωδικών πρόσβασης
 
 ### [Διαρροή Χειριστών](windows-local-privilege-escalation/#leaked-handlers)
 
@@ -145,7 +146,7 @@
 * Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια στο GitHub.
 
 </details>

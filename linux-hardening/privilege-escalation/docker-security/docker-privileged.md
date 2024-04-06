@@ -7,8 +7,8 @@
 * Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks**; Ή θέλετε να έχετε πρόσβαση στην **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε μορφή PDF**; Ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Ανακαλύψτε την [**Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Συμμετάσχετε** στην [**💬**](https://emojipedia.org/speech-balloon/) [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στο [αποθετήριο hacktricks](https://github.com/carlospolop/hacktricks) και [αποθετήριο hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Συμμετάσχετε** στην [**💬**](https://emojipedia.org/speech-balloon/) [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στο** [**αποθετήριο hacktricks**](https://github.com/carlospolop/hacktricks) **και** [**αποθετήριο hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -21,13 +21,15 @@
 Σε ένα privileged container, όλες οι **συσκευές μπορούν να προσπελαστούν στο `/dev/`**. Επομένως, μπορείτε να **δραπετεύσετε** προσαρτώντας το δίσκο του host.
 
 {% tabs %}
-{% tab title="Μέσα στο προεπιλεγμένο container" %}
+{% tab title="undefined" %}
 ```bash
 # docker run --rm -it alpine sh
 ls /dev
 console  fd       mqueue   ptmx     random   stderr   stdout   urandom
 core     full     null     pts      shm      stdin    tty      zero
 ```
+{% endtab %}
+
 {% tab title="Μέσα σε ένα Προνομιούχο Εμπορευματοκιβώτιο" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
@@ -44,6 +46,7 @@ cpu              nbd0             pts              stdout           tty27       
 ### Ανάγνωση μόνο των αρχείων συστήματος του πυρήνα
 
 Τα αρχεία συστήματος του πυρήνα παρέχουν ένα μηχανισμό για ένα διεργασία να τροποποιήσει τη συμπεριφορά του πυρήνα. Ωστόσο, όσον αφορά τις διεργασίες ενός εμπορεύματος, θέλουμε να τους εμποδίσουμε από το να κάνουν οποιεσδήποτε αλλαγές στον πυρήνα. Για τον λόγο αυτό, προσαρτούμε τα αρχεία συστήματος του πυρήνα ως **μόνο για ανάγνωση** μέσα στο εμπόρευμα, εξασφαλίζοντας ότι οι διεργασίες του εμπορεύματος δεν μπορούν να τροποποιήσουν τον πυρήνα.
+
 ```bash
 # docker run --rm -it alpine sh
 mount | grep '(ro'
@@ -52,13 +55,11 @@ cpuset on /sys/fs/cgroup/cpuset type cgroup (ro,nosuid,nodev,noexec,relatime,cpu
 cpu on /sys/fs/cgroup/cpu type cgroup (ro,nosuid,nodev,noexec,relatime,cpu)
 cpuacct on /sys/fs/cgroup/cpuacct type cgroup (ro,nosuid,nodev,noexec,relatime,cpuacct)
 ```
-{% tab title="Μέσα σε ένα Προνομιούχο Εμπορευματοκιβώτιο" %}
+
 ```bash
 # docker run --rm --privileged -it alpine sh
 mount  | grep '(ro'
 ```
-{% endtab %}
-{% endtabs %}
 
 ### Μάσκαρε τα αρχεία συστήματος πυρήνα
 
@@ -69,7 +70,7 @@ mount  | grep '(ro'
 {% endhint %}
 
 {% tabs %}
-{% tab title="Μέσα στο προεπιλεγμένο εμπόρευμα" %}
+{% tab title="undefined" %}
 ```bash
 # docker run --rm -it alpine sh
 mount  | grep /proc.*tmpfs
@@ -77,6 +78,8 @@ tmpfs on /proc/acpi type tmpfs (ro,relatime)
 tmpfs on /proc/kcore type tmpfs (rw,nosuid,size=65536k,mode=755)
 tmpfs on /proc/keys type tmpfs (rw,nosuid,size=65536k,mode=755)
 ```
+{% endtab %}
+
 {% tab title="Μέσα σε ένα Προνομιούχο Εμπορευματοκιβώτιο" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
@@ -94,7 +97,7 @@ mount  | grep /proc.*tmpfs
 {% endcontent-ref %}
 
 {% tabs %}
-{% tab title="Μέσα στο προεπιλεγμένο container" %}
+{% tab title="undefined" %}
 ```bash
 # docker run --rm -it alpine sh
 apk add -U libcap; capsh --print
@@ -103,6 +106,8 @@ Current: cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,ca
 Bounding set =cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap
 [...]
 ```
+{% endtab %}
+
 {% tab title="Μέσα σε ένα Προνομιούχο Εμπορευματοκιβώτιο" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
@@ -126,13 +131,15 @@ Bounding set =cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fset
 {% endcontent-ref %}
 
 {% tabs %}
-{% tab title="Μέσα στο προεπιλεγμένο container" %}
+{% tab title="undefined" %}
 ```bash
 # docker run --rm -it alpine sh
 grep Seccomp /proc/1/status
 Seccomp:	2
 Seccomp_filters:	1
 ```
+{% endtab %}
+
 {% tab title="Μέσα σε ένα Προνομιούχο Εμπορευματοκιβώτιο" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
@@ -142,10 +149,12 @@ Seccomp_filters:	0
 ```
 {% endtab %}
 {% endtabs %}
+
 ```bash
 # You can manually disable seccomp in docker with
 --security-opt seccomp=unconfined
 ```
+
 Επίσης, σημειώστε ότι όταν το Docker (ή άλλα CRIs) χρησιμοποιούνται σε ένα **Kubernetes** cluster, ο **φίλτρος seccomp είναι απενεργοποιημένος από προεπιλογή**.
 
 ### AppArmor
@@ -155,10 +164,12 @@ Seccomp_filters:	0
 {% content-ref url="apparmor.md" %}
 [apparmor.md](apparmor.md)
 {% endcontent-ref %}
+
 ```bash
 # You can manually disable seccomp in docker with
 --security-opt apparmor=unconfined
 ```
+
 ### SELinux
 
 Η εκτέλεση ενός container με την σημαία `--privileged` απενεργοποιεί τις **ετικέτες SELinux**, προκαλώντας την κληρονομική λήψη της ετικέτας της μηχανής του container, συνήθως `unconfined`, παρέχοντας πλήρη πρόσβαση παρόμοια με τη μηχανή του container. Στη λειτουργία χωρίς ρίζες, χρησιμοποιείται το `container_runtime_t`, ενώ στη λειτουργία ρίζας εφαρμόζεται το `spc_t`.
@@ -166,10 +177,12 @@ Seccomp_filters:	0
 {% content-ref url="../selinux.md" %}
 [selinux.md](../selinux.md)
 {% endcontent-ref %}
+
 ```bash
 # You can manually disable selinux in docker with
 --security-opt label:disable
 ```
+
 ## Τι δεν επηρεάζεται
 
 ### Ονοματοχώροι
@@ -177,7 +190,7 @@ Seccomp_filters:	0
 Οι ονοματοχώροι **ΔΕΝ επηρεάζονται** από την σημαία `--privileged`. Αν και δεν έχουν ενεργοποιημένους περιορισμούς ασφαλείας, **δεν βλέπουν όλες τις διεργασίες στο σύστημα ή το δίκτυο του οικοδεσπότη, για παράδειγμα**. Οι χρήστες μπορούν να απενεργοποιήσουν μεμονωμένους ονοματοχώρους χρησιμοποιώντας τις σημαίες `--pid=host`, `--net=host`, `--ipc=host`, `--uts=host` των μηχανισμών εκτέλεσης των εμπορευματοκιβωτίων.
 
 {% tabs %}
-{% tab title="Μέσα σε προνομιούχο προεπιλεγμένο εμπορευματοκιβώτιο" %}
+{% tab title="undefined" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 ps -ef
@@ -185,6 +198,8 @@ PID   USER     TIME  COMMAND
 1 root      0:00 sh
 18 root      0:00 ps -ef
 ```
+{% endtab %}
+
 {% tab title="Μέσα στον επιλεγμένο --pid=host Container" %}
 ```bash
 # docker run --rm --privileged --pid=host -it alpine sh
@@ -213,7 +228,7 @@ PID   USER     TIME  COMMAND
 * Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks**; Ή θέλετε να έχετε πρόσβαση στην **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε μορφή PDF**; Ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Ανακαλύψτε την [**Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Εγγραφείτε στην** [**💬**](https://emojipedia.org/speech-balloon/) [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στο [αποθετήριο hacktricks](https://github.com/carlospolop/hacktricks) και [αποθετήριο hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Εγγραφείτε στην** [**💬**](https://emojipedia.org/speech-balloon/) [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στο** [**αποθετήριο hacktricks**](https://github.com/carlospolop/hacktricks) **και** [**αποθετήριο hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

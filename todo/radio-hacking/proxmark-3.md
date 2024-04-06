@@ -14,7 +14,7 @@
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://github.com/carlospolop/hacktricks/blob/gr/todo/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -31,6 +31,7 @@
 Τα 2 κλειδιά είναι χρήσιμα για να δώσουν άδειες για ανάγνωση αν γνωρίζετε το πρώτο και για εγγραφή αν γνωρίζετε το δεύτερο (για παράδειγμα).
 
 Μπορούν να πραγματοποιηθούν πολλές επιθέσεις
+
 ```bash
 proxmark3> hf mf #List attacks
 
@@ -49,11 +50,13 @@ proxmark3> hf mf eset 01 000102030405060708090a0b0c0d0e0f # Write those bytes to
 proxmark3> hf mf eget 01 # Read block 1
 proxmark3> hf mf wrbl 01 B FFFFFFFFFFFF 000102030405060708090a0b0c0d0e0f # Write to the card
 ```
+
 Το Proxmark3 επιτρέπει την εκτέλεση άλλων ενεργειών όπως **ακρόαση** μιας **επικοινωνίας Tag προς Reader** για να προσπαθήσετε να βρείτε ευαίσθητα δεδομένα. Σε αυτήν την κάρτα μπορείτε απλώς να καταγράψετε την επικοινωνία και να υπολογίσετε το χρησιμοποιούμενο κλειδί επειδή οι **κρυπτογραφικές λειτουργίες που χρησιμοποιούνται είναι αδύναμες** και γνωρίζοντας το κείμενο και το κρυπτοκείμενο μπορείτε να το υπολογίσετε (εργαλείο `mfkey64`).
 
 ### Ακατέργαστες Εντολές
 
 Συστήματα IoT μερικές φορές χρησιμοποιούν **μη επωνυμασμένες ή μη εμπορικές ετικέτες**. Σε αυτήν την περίπτωση, μπορείτε να χρησιμοποιήσετε το Proxmark3 για να στείλετε προσαρμοσμένες **ακατέργαστες εντολές στις ετικέτες**.
+
 ```bash
 proxmark3> hf search UID : 80 55 4b 6c ATQA : 00 04
 SAK : 08 [2]
@@ -63,22 +66,24 @@ No chinese magic backdoor command detected
 Prng detection: WEAK
 Valid ISO14443A Tag Found - Quiting Search
 ```
+
 Με αυτές τις πληροφορίες μπορείτε να προσπαθήσετε να αναζητήσετε πληροφορίες σχετικά με την κάρτα και τον τρόπο επικοινωνίας μαζί της. Το Proxmark3 επιτρέπει την αποστολή ωμών εντολών όπως: `hf 14a raw -p -b 7 26`
 
 ### Σενάρια
 
 Το λογισμικό Proxmark3 διαθέτει μια προφορτωμένη λίστα **σεναρίων αυτοματισμού** που μπορείτε να χρησιμοποιήσετε για την εκτέλεση απλών εργασιών. Για να ανακτήσετε την πλήρη λίστα, χρησιμοποιήστε την εντολή `script list`. Στη συνέχεια, χρησιμοποιήστε την εντολή `script run`, ακολουθούμενη από το όνομα του σεναρίου:
+
 ```
 proxmark3> script run mfkeys
 ```
+
 Μπορείτε να δημιουργήσετε ένα σενάριο για **fuzzing αναγνωστών ετικετών**, έτσι ώστε να αντιγράψετε τα δεδομένα ενός **έγκυρου καρτών** και να γράψετε ένα **Lua script** που **τυχαιοποιεί** έναν ή περισσότερους τυχαίους **bytes** και ελέγχει αν ο **αναγνώστης κρασάρει** με οποιαδήποτε επανάληψη.
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://github.com/carlospolop/hacktricks/blob/gr/todo/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
-
 
 <details>
 

@@ -1,4 +1,4 @@
-# Χώρος ονομάτων Mount
+# Mount Namespace
 
 <details>
 
@@ -9,7 +9,7 @@
 * Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
@@ -32,9 +32,11 @@
 ### Δημιουργία διαφορετικών Χώρων Ονομάτων
 
 #### Εντολή CLI
+
 ```bash
 sudo unshare -m [--mount-proc] /bin/bash
 ```
+
 Με την προσάρτηση μιας νέας περίπτωσης του αρχείου `/proc` εάν χρησιμοποιήσετε την παράμετρο `--mount-proc`, εξασφαλίζετε ότι ο νέος περιβάλλοντος προσάρτησης έχει μια **ακριβή και απομονωμένη προβολή των πληροφοριών διεργασίας που είναι συγκεκριμένες για αυτό το περιβάλλον**.
 
 <details>
@@ -44,22 +46,27 @@ sudo unshare -m [--mount-proc] /bin/bash
 Όταν το `unshare` εκτελείται χωρίς την επιλογή `-f`, συναντάται ένα σφάλμα λόγω του τρόπου με τον οποίο το Linux χειρίζεται τα νέα PID (Process ID) namespaces. Τα κύρια στοιχεία και η λύση παρουσιάζονται παρακάτω:
 
 1. **Εξήγηση του προβλήματος**:
-- Ο πυρήνας του Linux επιτρέπει σε μια διεργασία να δημιουργήσει νέα namespaces χρησιμοποιώντας την κλήση συστήματος `unshare`. Ωστόσο, η διεργασία που προκαλεί τη δημιουργία ενός νέου PID namespace (αναφέρεται ως "διεργασία unshare") δεν εισέρχεται στο νέο namespace, μόνο οι διεργασίες παιδιά της.
-- Η εκτέλεση `%unshare -p /bin/bash%` ξεκινά το `/bin/bash` στην ίδια διεργασία με το `unshare`. Ως αποτέλεσμα, το `/bin/bash` και οι διεργασίες παιδιά του βρίσκονται στο αρχικό PID namespace.
-- Η πρώτη διεργασία παιδί του `/bin/bash` στο νέο namespace γίνεται PID 1. Όταν αυτή η διεργασία τερματίζει, ενεργοποιείται η εκκαθάριση του namespace αν δεν υπάρχουν άλλες διεργασίες, καθώς το PID 1 έχει τον ειδικό ρόλο της υιοθέτησης ορφανών διεργασιών. Ο πυρήνας του Linux θα απενεργοποιήσει στη συνέχεια την εκχώρηση PID σε αυτό το namespace.
+
+* Ο πυρήνας του Linux επιτρέπει σε μια διεργασία να δημιουργήσει νέα namespaces χρησιμοποιώντας την κλήση συστήματος `unshare`. Ωστόσο, η διεργασία που προκαλεί τη δημιουργία ενός νέου PID namespace (αναφέρεται ως "διεργασία unshare") δεν εισέρχεται στο νέο namespace, μόνο οι διεργασίες παιδιά της.
+* Η εκτέλεση `%unshare -p /bin/bash%` ξεκινά το `/bin/bash` στην ίδια διεργασία με το `unshare`. Ως αποτέλεσμα, το `/bin/bash` και οι διεργασίες παιδιά του βρίσκονται στο αρχικό PID namespace.
+* Η πρώτη διεργασία παιδί του `/bin/bash` στο νέο namespace γίνεται PID 1. Όταν αυτή η διεργασία τερματίζει, ενεργοποιείται η εκκαθάριση του namespace αν δεν υπάρχουν άλλες διεργασίες, καθώς το PID 1 έχει τον ειδικό ρόλο της υιοθέτησης ορφανών διεργασιών. Ο πυρήνας του Linux θα απενεργοποιήσει στη συνέχεια την εκχώρηση PID σε αυτό το namespace.
 
 2. **Συνέπεια**:
-- Η έξοδος του PID 1 σε ένα νέο namespace οδηγεί στην απενεργοποίηση της σημαίας `PIDNS_HASH_ADDING`. Αυτό έχει ως αποτέλεσμα την αποτυχία της συνάρτησης `alloc_pid` να δεσμεύσει ένα νέο PID κατά τη δημιουργία μιας νέας διεργασίας, παράγοντας το σφάλμα "Cannot allocate memory".
+
+* Η έξοδος του PID 1 σε ένα νέο namespace οδηγεί στην απενεργοποίηση της σημαίας `PIDNS_HASH_ADDING`. Αυτό έχει ως αποτέλεσμα την αποτυχία της συνάρτησης `alloc_pid` να δεσμεύσει ένα νέο PID κατά τη δημιουργία μιας νέας διεργασίας, παράγοντας το σφάλμα "Cannot allocate memory".
 
 3. **Λύση**:
-- Το πρόβλημα μπορεί να επιλυθεί χρησιμοποιώντας την επιλογή `-f` με το `unshare`. Αυτή η επιλογή κάνει το `unshare` να δημιουργήσει ένα νέο διεργασία μετά τη δημιουργία του νέου PID namespace.
-- Εκτελώντας `%unshare -fp /bin/bash%` εξασφαλίζεται ότι η εντολή `unshare` ίδια γίνεται PID 1 στο νέο namespace. Το `/bin/bash` και οι διεργασίες παιδιά του περιορίζονται στο νέο αυτό namespace, αποτρέποντας την πρόωρη έξοδο του PID 1 και επιτρέποντας την κανονική εκχώρηση PID.
+
+* Το πρόβλημα μπορεί να επιλυθεί χρησιμοποιώντας την επιλογή `-f` με το `unshare`. Αυτή η επιλογή κάνει το `unshare` να δημιουργήσει ένα νέο διεργασία μετά τη δημιουργία του νέου PID namespace.
+* Εκτελώντας `%unshare -fp /bin/bash%` εξασφαλίζεται ότι η εντολή `unshare` ίδια γίνεται PID 1 στο νέο namespace. Το `/bin/bash` και οι διεργασίες παιδιά του περιορίζονται στο νέο αυτό namespace, αποτρέποντας την πρόωρη έξοδο του PID 1 και επιτρέποντας την κανονική εκχώρηση PID.
 
 Εξασφαλίζοντας ότι το `unshare` εκτελείται με τη σημαία `-f`, το νέο PID namespace διατηρείται σωστά, επιτρέποντας στο `/bin/bash` και τις υποδιεργασίες του να λειτουργούν χωρίς να αντιμετωπίζουν το σφάλμα δέσμευσης μνήμης.
+
 ```bash
 docker run -ti --name ubuntu1 -v /usr:/ubuntu1 ubuntu bash
 ```
-### &#x20;Ελέγξτε σε ποιο namespace βρίσκεται η διεργασία σας
+
+#### Ελέγξτε σε ποιο namespace βρίσκεται η διεργασία σας
 
 To check which namespace your process is in, you can use the following command:
 
@@ -68,31 +75,34 @@ cat /proc/$$/mountinfo | grep "ns"
 ```
 
 This command will display the mount namespace information for your process.
+
 ```bash
 ls -l /proc/self/ns/mnt
 lrwxrwxrwx 1 root root 0 Apr  4 20:30 /proc/self/ns/mnt -> 'mnt:[4026531841]'
 ```
-### Βρείτε όλα τα Mount namespaces
+
+#### Βρείτε όλα τα Mount namespaces
 
 {% code overflow="wrap" %}
+```
+```
+{% endcode %}
+
 ```bash
 sudo find /proc -maxdepth 3 -type l -name mnt -exec readlink {} \; 2>/dev/null | sort -u
 # Find the processes with an specific namespace
 sudo find /proc -maxdepth 3 -type l -name mnt -exec ls -l  {} \; 2>/dev/null | grep <ns-number>
 ```
-{% code %}
 
-### Εισέρχονται μέσα σε ένα Mount namespace
-
-{% endcode %}
-```bash
-nsenter -m TARGET_PID --pid /bin/bash
 ```
-Επίσης, μπορείτε να **εισέλθετε σε ένα άλλο namespace διεργασίας μόνο αν είστε root**. Και **δεν μπορείτε** να **εισέλθετε** σε άλλο namespace **χωρίς έναν περιγραφέα** που να δείχνει προς αυτό (όπως `/proc/self/ns/mnt`).
+```
 
-Επειδή οι νέες προσαρτήσεις είναι προσβάσιμες μόνο εντός του namespace, είναι δυνατόν ένα namespace να περιέχει ευαίσθητες πληροφορίες που μπορούν να προσπελαστούν μόνο από αυτό. 
+\`\`\`bash nsenter -m TARGET\_PID --pid /bin/bash \`\`\` Επίσης, μπορείτε να \*\*εισέλθετε σε ένα άλλο namespace διεργασίας μόνο αν είστε root\*\*. Και \*\*δεν μπορείτε\*\* να \*\*εισέλθετε\*\* σε άλλο namespace \*\*χωρίς έναν περιγραφέα\*\* που να δείχνει προς αυτό (όπως \`/proc/self/ns/mnt\`).
 
-### Προσάρτηση κάτι
+Επειδή οι νέες προσαρτήσεις είναι προσβάσιμες μόνο εντός του namespace, είναι δυνατόν ένα namespace να περιέχει ευαίσθητες πληροφορίες που μπορούν να προσπελαστούν μόνο από αυτό.
+
+#### Προσάρτηση κάτι
+
 ```bash
 # Generate new mount ns
 unshare -m /bin/bash
@@ -106,20 +116,9 @@ ls /tmp/mount_ns_example/test # Exists
 mount | grep tmpfs # Cannot see "tmpfs on /tmp/mount_ns_example"
 ls /tmp/mount_ns_example/test # Doesn't exist
 ```
-## Αναφορές
+
+### Αναφορές
+
 * [https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory](https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory)
-
-
-<details>
-
-<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΠΛΑΝΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>

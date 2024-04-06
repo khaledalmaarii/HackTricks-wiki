@@ -1,4 +1,4 @@
-# macOS MIG - Ο Παραγωγός Διεπαφής Mach
+# macOS MIG - Mach Interface Generator
 
 <details>
 
@@ -38,9 +38,11 @@ n2          :  uint32_t);
 {% endcode %}
 
 Τώρα χρησιμοποιήστε το mig για να δημιουργήσετε τον κώδικα εξυπηρετητή και πελάτη που θα μπορούν να επικοινωνούν μεταξύ τους για να καλέσουν τη λειτουργία Subtract:
+
 ```bash
 mig -header myipcUser.h -sheader myipcServer.h myipc.defs
 ```
+
 Θα δημιουργηθούν αρκετά νέα αρχεία στον τρέχοντα κατάλογο.
 
 Στα αρχεία **`myipcServer.c`** και **`myipcServer.h`** μπορείτε να βρείτε τη δήλωση και τον ορισμό της δομής **`SERVERPREFmyipc_subsystem`**, η οποία ουσιαστικά ορίζει τη συνάρτηση που θα κληθεί με βάση το αναγνωριστικό μηνύματος που λαμβάνεται (καθορίσαμε έναν αρχικό αριθμό 500):
@@ -64,7 +66,9 @@ myipc_server_routine,
 ```
 {% endtab %}
 
-{% tab title="myipcServer.h" %}Ορισμός των συναρτήσεων που υλοποιούνται από τον server. %}
+{% tab title="myipcServer.h" %}
+Ορισμός των συναρτήσεων που υλοποιούνται από τον server. %\}
+
 ```c
 /* Description of this subsystem, for use in direct RPC */
 extern const struct SERVERPREFmyipc_subsystem {
@@ -81,6 +85,7 @@ routine[1];
 {% endtabs %}
 
 Βασισμένο στην προηγούμενη δομή, η συνάρτηση **`myipc_server_routine`** θα λάβει το **ID μηνύματος** και θα επιστρέψει την κατάλληλη συνάρτηση προς κλήση:
+
 ```c
 mig_external mig_routine_t myipc_server_routine
 (mach_msg_header_t *InHeadP)
@@ -95,15 +100,18 @@ return 0;
 return SERVERPREFmyipc_subsystem.routine[msgh_id].stub_routine;
 }
 ```
+
 Σε αυτό το παράδειγμα έχουμε ορίσει μόνο 1 λειτουργία στις ορισμούς, αλλά αν είχαμε ορίσει περισσότερες λειτουργίες, θα βρίσκονταν μέσα στον πίνακα του **`SERVERPREFmyipc_subsystem`** και η πρώτη θα είχε ανατεθεί στο ID **500**, η δεύτερη στο ID **501**...
 
 Πράγματι, είναι δυνατό να αναγνωριστεί αυτή η σχέση στη δομή **`subsystem_to_name_map_myipc`** από το **`myipcServer.h`**:
+
 ```c
 #ifndef subsystem_to_name_map_myipc
 #define subsystem_to_name_map_myipc \
 { "Subtract", 500 }
 #endif
 ```
+
 Τέλος, μια άλλη σημαντική λειτουργία για τη λειτουργία του διακομιστή θα είναι το **`myipc_server`**, το οποίο είναι αυτό που θα καλέσει πραγματικά τη σχετική **συνάρτηση** που αφορά το ληφθέν αναγνωριστικό:
 
 <pre class="language-c"><code class="lang-c">mig_external boolean_t myipc_server
@@ -142,8 +150,6 @@ return FALSE;
 
 Παρακάτω είναι ο κώδικας για τη δημιουργία ενός απλού **διακομιστή** και **πελάτη** όπου ο πελάτης μπορεί να καλέσει τις λειτουργίες Αφαίρεση από το διακομιστή:
 
-{% tabs %}
-{% tab title="myipc_server.c" %}
 ```c
 // gcc myipc_server.c myipcServer.c -o myipc_server
 
@@ -174,9 +180,7 @@ return 1;
 mach_msg_server(myipc_server, sizeof(union __RequestUnion__SERVERPREFmyipc_subsystem), port, MACH_MSG_TIMEOUT_NONE);
 }
 ```
-{% endtab %}
 
-{% tab title="myipc_client.c" %} {% endtab %}
 ```c
 // gcc myipc_client.c myipcUser.c -o myipc_client
 
@@ -201,14 +205,17 @@ printf("Port right name %d\n", port);
 USERPREFSubtract(port, 40, 2);
 }
 ```
+
 ### Ανάλυση Δυαδικών Αρχείων
 
 Καθώς πολλά δυαδικά αρχεία χρησιμοποιούν πλέον το MIG για να αποκαλύπτουν θύρες mach, είναι ενδιαφέρον να γνωρίζουμε πώς να **αναγνωρίζουμε ότι χρησιμοποιήθηκε το MIG** και τις **λειτουργίες που εκτελεί το MIG** με κάθε αναγνωριστικό μηνύματος.
 
 Το [**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2) μπορεί να αναλύει πληροφορίες MIG από ένα δυαδικό αρχείο Mach-O, ενδεικτικά του αναγνωριστικού μηνύματος και της αναγνώρισης της λειτουργίας προς εκτέλεση:
+
 ```bash
 jtool2 -d __DATA.__const myipc_server | grep MIG
 ```
+
 Ήδη αναφέρθηκε ότι η λειτουργία που θα αναλάβει το **κάλεσμα της σωστής λειτουργίας ανάλογα με το αναγνωριστικό μηνύματος που λαμβάνεται** ήταν η `myipc_server`. Ωστόσο, συνήθως δεν θα έχετε τα σύμβολα του δυαδικού (καμία ονομασία λειτουργιών), επομένως είναι ενδιαφέρον να **ελέγξετε πώς φαίνεται αποσυναρμολογημένο** καθώς θα είναι πάντα πολύ παρόμοιο (ο κώδικας αυτής της λειτουργίας είναι ανεξάρτητος από τις εκτεθειμένες λειτουργίες):
 
 {% tabs %}
@@ -337,7 +344,6 @@ return r0;
 <figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Αυτά τα δεδομένα μπορούν να εξαχθούν [**χρησιμοποιώντας αυτό το σενάριο Hopper**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py).
+
 * **Συμμετέχετε** στο 💬 [**Ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή το [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια στο github.
-
-</details>

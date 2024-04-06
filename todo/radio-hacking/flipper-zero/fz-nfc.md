@@ -7,20 +7,20 @@
 * Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks**; ή θέλετε να έχετε πρόσβαση στην **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε PDF**; Ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Ανακαλύψτε τη [**Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Εγγραφείτε** στη [**💬**](https://emojipedia.org/speech-balloon/) [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα τηλεγράφου**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Εγγραφείτε** στη [**💬**](https://emojipedia.org/speech-balloon/) [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα τηλεγράφου**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στο** [**αποθετήριο hacktricks**](https://github.com/carlospolop/hacktricks) **και** [**αποθετήριο hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-## Εισαγωγή <a href="#9wrzi" id="9wrzi"></a>
+## Εισαγωγή <a href="#id-9wrzi" id="id-9wrzi"></a>
 
 Για πληροφορίες σχετικά με τα RFID και NFC ελέγξτε την ακόλουθη σελίδα:
 
-{% content-ref url="../../../radio-hacking/pentesting-rfid.md" %}
-[pentesting-rfid.md](../../../radio-hacking/pentesting-rfid.md)
+{% content-ref url="../pentesting-rfid.md" %}
+[pentesting-rfid.md](../pentesting-rfid.md)
 {% endcontent-ref %}
 
-## Υποστηριζόμενες κάρτες NFC <a href="#9wrzi" id="9wrzi"></a>
+## Υποστηριζόμενες κάρτες NFC <a href="#id-9wrzi" id="id-9wrzi"></a>
 
 {% hint style="danger" %}
 Εκτός από τις κάρτες NFC, το Flipper Zero υποστηρίζει **άλλους τύπους καρτών υψηλής συχνότητας** όπως διάφορες κάρτες **Mifare** Classic και Ultralight και **NTAG**.
@@ -43,7 +43,7 @@
 
 <figure><img src="https://cdn.flipperzero.one/Monosnap_Miro_2022-08-17_12-26-31.png?auto=format&#x26;ixlib=react-9.1.1&#x26;h=916&#x26;w=2662" alt=""><figcaption></figcaption></figure>
 
-#### Άγνωστες κάρτες <a href="#37eo8" id="37eo8"></a>
+#### Άγνωστες κάρτες <a href="#id-37eo8" id="id-37eo8"></a>
 
 Όταν το Flipper Zero **δεν μπορεί να καθορίσει τον τύπο της κάρτας NFC**, τότε μόνο ένα **UID, SAK και ATQA** μπορούν να **διαβαστούν και αποθηκευτούν**.
 
@@ -59,7 +59,7 @@
 
 ## Ενέργειες
 
-Για μια εισαγωγή σχετικά με τα NFC [**διαβάστε αυτήν τη σελίδα**](../../../radio-hacking/pentesting-rfid.md#high-frequency-rfid-tags-13.56-mhz).
+Για μια εισαγωγή σχετικά με τα NFC [**διαβάστε αυτήν τη σελίδα**](../pentesting-rfid.md#high-frequency-rfid-tags-13.56-mhz).
 
 ### Διάβασμα
 
@@ -81,7 +81,8 @@
 #### Τραπεζικές Κάρτες EMV (PayPass, payWave, Apple Pay, Google Pay) <a href="#emv-bank-cards-paypass-paywave-apple-pay-google-pay" id="emv-bank-cards-paypass-paywave-apple-pay-google-pay"></a>
 
 Εκτός από το απλό διάβασμα του UID, μπορείτε να εξάγετε πολλά περισσότερα δεδομένα από μια τραπεζική κάρτα. Είναι δυνατόν να **πάρετε τον πλήρη αριθμό της κάρτας** (τα 16 ψηφία στο μπροστινό μέρος της κάρτας), την **ημερομηνία λήξης**, και σε κάποιες περιπτώσεις ακόμα και το **όνομα του ιδιοκτήτη** μαζί με μια λίστα των **πιο πρόσφατων συναλλαγών**.\
-Ωστόσο, **δεν μπορείτε να διαβάσετε το CVV με αυτόν τον τρό
+Ωστόσο, \*\*δεν μπορείτε να διαβάσετε το CVV με αυτόν τον τρό
+
 ## Αναφορές
 
 * [https://blog.flipperzero.one/rfid/](https://blog.flipperzero.one/rfid/)
@@ -93,7 +94,7 @@
 * Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε τη **εταιρεία σας να διαφημίζεται στο HackTricks**; ή θέλετε να έχετε πρόσβαση στη **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε μορφή PDF**; Ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Ανακαλύψτε την [**Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Εγγραφείτε στη** [**💬**](https://emojipedia.org/speech-balloon/) [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα τηλεγράφημα**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Εγγραφείτε στη** [**💬**](https://emojipedia.org/speech-balloon/) [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα τηλεγράφημα**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στο** [**αποθετήριο hacktricks**](https://github.com/carlospolop/hacktricks) **και** [**αποθετήριο hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

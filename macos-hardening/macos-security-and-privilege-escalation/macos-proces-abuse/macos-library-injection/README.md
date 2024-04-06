@@ -1,4 +1,4 @@
-# Εισαγωγή Βιβλιοθήκης στο macOS
+# macOS Library Injection
 
 <details>
 
@@ -9,7 +9,7 @@
 * Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Εγγραφείτε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs** στα αποθετήρια [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) στο github.
 
 </details>
@@ -20,11 +20,10 @@
 
 ## **DYLD\_INSERT\_LIBRARIES**
 
-Αυτό είναι παρόμοιο με το [**LD\_PRELOAD στο Linux**](../../../../linux-hardening/privilege-escalation#ld\_preload). Επιτρέπει να υποδείξετε σε ένα διεργασία που θα εκτελεστεί να φορτώσει μια συγκεκριμένη βιβλιοθήκη από ένα δρομολόγιο (εάν η μεταβλητή περιβάλλοντος είναι ενεργοποιημένη)
+Αυτό είναι παρόμοιο με το [**LD\_PRELOAD στο Linux**](../../../../linux-hardening/privilege-escalation/#ld\_preload). Επιτρέπει να υποδείξετε σε ένα διεργασία που θα εκτελεστεί να φορτώσει μια συγκεκριμένη βιβλιοθήκη από ένα δρομολόγιο (εάν η μεταβλητή περιβάλλοντος είναι ενεργοποιημένη)
 
 Αυτή η τεχνική μπορεί επίσης να χρησιμοποιηθεί ως τεχνική ASEP καθώς κάθε εγκατεστημένη εφαρμογή έχει ένα plist με το όνομα "Info.plist" που επιτρέπει την ανάθεση περιβαλλοντικών μεταβλητών χρησιμοποιώντας ένα κλειδί με το όνομα `LSEnvironmental`.
 
-{% hint style="info" %}
 Από το 2012, η Apple έχει μειώσει δραστικά την ισχύ του `DYLD_INSERT_LIBRARIES`.
 
 Μεταβείτε στον κώδικα και ελέγξτε το `src/dyld.cpp`. Στη συνάρτηση `pruneEnvironmentVariables` μπορείτε να δείτε ότι οι μεταβλητές `DYLD_*` αφαιρούνται.
@@ -37,6 +36,7 @@
 * Ελέγξτε τους εντοπισμούς ενός δυαδικού με: `codesign -dv --entitlements :- </path/to/bin>`
 
 Σε πιο ενημερωμένες εκδόσεις μπορείτε να βρείτε αυτήν τη λογική στο δεύτερο μέρος της συνάρτησης `configureProcessRestrictions`. Ωστόσο, αυτό που εκτελείται σε νεότερες εκδόσεις είναι οι αρχικοί έλεγχοι της συνάρτησης (μπορείτε να αφαιρέσετε τα ifs που σχετίζοντ
+
 * Εάν το **`LC_LOAD_DYLIB`** περιέχει `@rpath/library.dylib` και το **`LC_RPATH`** περιέχει `/application/app.app/Contents/Framework/v1/` και `/application/app.app/Contents/Framework/v2/`. Και οι δύο φάκελοι θα χρησιμοποιηθούν για να φορτωθεί το `library.dylib`**.** Εάν η βιβλιοθήκη δεν υπάρχει στον φάκελο `[...]/v1/` και ο επιτιθέμενος μπορεί να την τοποθετήσει εκεί για να αποκτήσει τον έλεγχο της φόρτωσης της βιβλιοθήκης στον φάκελο `[...]/v2/` καθώς ακολουθείται η σειρά των διαδρομών στο **`LC_LOAD_DYLIB`**.
 * **Βρείτε τις διαδρομές rpath και τις βιβλιοθήκες** στα δυαδικά αρχεία με: `otool -l </path/to/binary> | grep -E "LC_RPATH|LC_LOAD_DYLIB" -A 5`
 
@@ -58,8 +58,8 @@
 
 **Παράδειγμα**
 
-{% content-ref url="../../macos-dyld-hijacking-and-dyld_insert_libraries.md" %}
-[macos-dyld-hijacking-and-dyld\_insert\_libraries.md](../../macos-dyld-hijacking-and-dyld\_insert\_libraries.md)
+{% content-ref url="macos-dyld-hijacking-and-dyld_insert_libraries.md" %}
+[macos-dyld-hijacking-and-dyld\_insert\_libraries.md](macos-dyld-hijacking-and-dyld\_insert\_libraries.md)
 {% endcontent-ref %}
 
 ## Dlopen Hijacking
@@ -71,11 +71,13 @@
 Από το **`man dlopen`**:
 
 * Όταν η διαδρομή **δεν περιέχει τον χαρακτήρα κάθετος** (δηλαδή είναι απλά ένα όνομα φακέλου), το dlopen() θα κάνει αναζήτηση. Εάν το **`$DYLD_LIBRARY_PATH`** ήταν ορισμένο κατά την εκκίνηση, το dyld θα ψάξει πρώτα σε αυτόν τον φάκελο. Στη συνέχεια, εάν το καλούντα Mach-O αρχείο ή το κύριο εκτελέσιμο καθορίζουν ένα **`LC_RPATH`**, τότε το dyld θα ψάξει σε αυτούς τους φακέλους. Στη συνέχεια, εάν η διεργασία είναι **απεριόριστη**, το dyld θα αναζητήσει στον **τρέχοντα φάκελο εργασίας**. Τέλος, για παλαιότερα δυαδικά αρχεία, το dyld θα δοκιμάσει μερικές εναλλακτικές λύσεις. Εάν το **`$DYLD_FALLBACK_LIBRARY_PATH`** ήταν ορισμένο κατά την εκκίνηση, το dyld θα αναζητήσει σε αυτούς τους φακέλους, διαφορετικά, το dyld θα ψάξει στο **`/usr/local/lib/`** (εάν η διεργασία είναι απεριόριστη), και στη συνέχεια στο **`/usr/lib/`** (αυτές οι πληροφορίες προήλθαν από το **`man dlopen`**).
+
 1. `$DYLD_LIBRARY_PATH`
 2. `LC_RPATH`
 3. `CWD`(εάν είναι απεριόριστη)
 4. `$DYLD_FALLBACK_LIBRARY_PATH`
 5. `/usr/local/lib/` (εάν είναι απεριό
+
 ```c
 // gcc dlopentest.c -o dlopentest -Wl,-rpath,/tmp/test
 #include <dlfcn.h>
@@ -118,10 +120,13 @@ fprintf(stderr, "Error loading: %s\n\n\n", dlerror());
 return 0;
 }
 ```
+
 Εάν το μεταγλωττίσετε και το εκτελέσετε, μπορείτε να δείτε **πού αναζητήθηκε ανεπιτυχώς κάθε βιβλιοθήκη**. Επίσης, μπορείτε να **φιλτράρετε τα αρχεία καταγραφής του συστήματος αρχείων**:
+
 ```bash
 sudo fs_usage | grep "dlopentest"
 ```
+
 ## Απάτη με σχετική διαδρομή
 
 Εάν ένα **προνομιούχο δυαδικό/εφαρμογή** (όπως ένα SUID ή κάποιο δυαδικό με ισχυρά entitlements) φορτώνει μια βιβλιοθήκη με **σχετική διαδρομή** (για παράδειγμα χρησιμοποιώντας `@executable_path` ή `@loader_path`) και έχει απενεργοποιημένο τον έλεγχο της βιβλιοθήκης, είναι δυνατόν να μετακινηθεί το δυαδικό σε μια τοποθεσία όπου ο επιτιθέμενος μπορεί να **τροποποιήσει τη φορτωμένη βιβλιοθήκη με τη σχετική διαδρομή** και να την καταχραστεί για να εισαγάγει κώδικα στη διεργασία.
@@ -133,12 +138,15 @@ sudo fs_usage | grep "dlopentest"
 Επίσης, θα ορίσει σε **null** ειδικά τις μεταβλητές περιβάλλοντος **`DYLD_FALLBACK_FRAMEWORK_PATH`** και **`DYLD_FALLBACK_LIBRARY_PATH`** για δυαδικά με **suid** και **sgid**.
 
 Αυτή η συνάρτηση καλείται από τη συνάρτηση **`_main`** του ίδιου αρχείου εάν στοχεύει σε OSX ως εξής:
+
 ```cpp
 #if TARGET_OS_OSX
 if ( !gLinkContext.allowEnvVarsPrint && !gLinkContext.allowEnvVarsPath && !gLinkContext.allowEnvVarsSharedCache ) {
 pruneEnvironmentVariables(envp, &apple);
 ```
+
 και αυτές οι λογικές σημαίες ορίζονται στον ίδιο αρχείο στον κώδικα:
+
 ```cpp
 #if TARGET_OS_OSX
 // support chrooting from old kernel
@@ -169,6 +177,7 @@ gLinkContext.allowClassicFallbackPaths   = !isRestricted;
 gLinkContext.allowInsertFailures         = false;
 gLinkContext.allowInterposing         	 = true;
 ```
+
 Αυτό σημαίνει ότι αν το δυαδικό αρχείο είναι **suid** ή **sgid**, ή έχει ένα τμήμα **RESTRICT** στις κεφαλίδες ή έχει υπογραφεί με τη σημαία **CS\_RESTRICT**, τότε το **`!gLinkContext.allowEnvVarsPrint && !gLinkContext.allowEnvVarsPath && !gLinkContext.allowEnvVarsSharedCache`** είναι αληθές και οι μεταβλητές περιβάλλοντος αφαιρούνται.
 
 Σημειώστε ότι αν το CS\_REQUIRE\_LV είναι αληθές, τότε οι μεταβλητές δεν θα αφαιρεθούν, αλλά ο έλεγχος επικύρωσης βιβλιοθήκης θα ελέγξει αν χρησιμοποιούν το ίδιο πιστοποιητικό με το αρχικό δυαδικό αρχείο.
@@ -176,6 +185,7 @@ gLinkContext.allowInterposing         	 = true;
 ## Έλεγχος Περιορισμών
 
 ### SUID & SGID
+
 ```bash
 # Make it owned by root and suid
 sudo chown root hello
@@ -186,6 +196,7 @@ DYLD_INSERT_LIBRARIES=inject.dylib ./hello
 # Remove suid
 sudo chmod -s hello
 ```
+
 ### Ενότητα `__RESTRICT` με τον τομέα `__restrict`
 
 The `__RESTRICT` section is a segment in macOS that is used to restrict access to certain libraries and prevent unauthorized code execution. This section is specifically designed to enhance the security of the operating system by limiting the privileges of processes.
@@ -195,10 +206,12 @@ When a library is placed in the `__RESTRICT` section, it means that only privile
 By utilizing the `__RESTRICT` section, macOS ensures that only trusted processes can interact with critical libraries, reducing the risk of privilege escalation and unauthorized access.
 
 To summarize, the `__RESTRICT` section in macOS plays a crucial role in enhancing the security of the operating system by restricting access to certain libraries and preventing unauthorized code execution.
+
 ```bash
 gcc -sectcreate __RESTRICT __restrict /dev/null hello.c -o hello-restrict
 DYLD_INSERT_LIBRARIES=inject.dylib ./hello-restrict
 ```
+
 ### Ενισχυμένη εκτέλεση
 
 Δημιουργήστε ένα νέο πιστοποιητικό στο Keychain και χρησιμοποιήστε το για να υπογράψετε το δυαδικό αρχείο:
@@ -228,15 +241,18 @@ DYLD_INSERT_LIBRARIES=inject.dylib ./hello-signed # Won't work
 {% hint style="danger" %}
 Σημειώστε ότι ακόμα και αν υπάρχουν δυαδικά αρχεία με υπογραφή με σημαίες **`0x0(none)`**, μπορούν να αποκτήσουν δυναμικά τη σημαία **`CS_RESTRICT`** κατά την εκτέλεσή τους και, συνεπώς, αυτή η τεχνική δεν θα λειτουργήσει σε αυτά.
 
-Μπορείτε να ελέγξετε αν ένα proc έχει αυτήν τη σημαία με (πάρτε [**εδώ το csops**](https://github.com/axelexic/CSOps)):&#x20;
+Μπορείτε να ελέγξετε αν ένα proc έχει αυτήν τη σημαία με (πάρτε [**εδώ το csops**](https://github.com/axelexic/CSOps)):
+
 ```bash
 csops -status <pid>
 ```
+
 και στη συνέχεια ελέγξτε εάν η σημαία 0x800 είναι ενεργοποιημένη.
 {% endhint %}
 
 ## Αναφορές
-* [https://theevilbit.github.io/posts/dyld_insert_libraries_dylib_injection_in_macos_osx_deep_dive/](https://theevilbit.github.io/posts/dyld_insert_libraries_dylib_injection_in_macos_osx_deep_dive/)
+
+* [https://theevilbit.github.io/posts/dyld\_insert\_libraries\_dylib\_injection\_in\_macos\_osx\_deep\_dive/](https://theevilbit.github.io/posts/dyld\_insert\_libraries\_dylib\_injection\_in\_macos\_osx\_deep\_dive/)
 
 <details>
 
@@ -247,7 +263,7 @@ csops -status <pid>
 * Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΠΑΚΕΤΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>

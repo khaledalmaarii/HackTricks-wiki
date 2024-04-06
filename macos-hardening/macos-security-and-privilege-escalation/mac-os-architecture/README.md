@@ -1,4 +1,4 @@
-# Πυρήνας & Επεκτάσεις Συστήματος macOS
+# macOS Kernel & System Extensions
 
 <details>
 
@@ -53,13 +53,14 @@
 
 ### IPC - Επικοινωνία Μεταξύ Διεργασιών
 
-{% content-ref url="macos-ipc-inter-process-communication/" %}
-[macos-ipc-inter-process-communication](macos-ipc-inter-process-communication/)
+{% content-ref url="../macos-proces-abuse/macos-ipc-inter-process-communication/" %}
+[macos-ipc-inter-process-communication](../macos-proces-abuse/macos-ipc-inter-process-communication/)
 {% endcontent-ref %}
 
 ### Kernelcache
 
-Το **kernelcache** είναι μια **προ-μεταγλωττισμένη και προ-συνδεδεμένη έκδοση του πυρήνα XNU
+Το **kernelcache** είναι μια \*\*προ-μεταγλωττισμένη και προ-συνδεδεμένη έκδοση του πυρήνα XNU
+
 ```bash
 # pyimg4 (https://github.com/m1stadev/PyIMG4)
 pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
@@ -67,6 +68,7 @@ pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphon
 # img4tool (https://github.com/tihmstar/img4tool
 img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
 ```
+
 #### Σύμβολα Kernelcache
 
 Κάποιες φορές η Apple κυκλοφορεί **kernelcache** με **σύμβολα**. Μπορείτε να κατεβάσετε μερικά firmwares με σύμβολα ακολουθώντας τους συνδέσμους στο [https://theapplewiki.com](https://theapplewiki.com/).
@@ -87,12 +89,15 @@ pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphon
 {% endcode %}
 
 * [**img4tool**](https://github.com/tihmstar/img4tool)
+
 ```bash
 img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
 ```
+
 Μπορείτε να ελέγξετε τα σύμβολα που εξήχθησαν από τον πυρήνα με: **`nm -a kernelcache.release.iphone14.e | wc -l`**
 
 Με αυτό τώρα μπορούμε **να εξάγουμε όλες τις επεκτάσεις** ή τη **μία που σας ενδιαφέρει:**
+
 ```bash
 # List all extensions
 kextex -l kernelcache.release.iphone14.e
@@ -105,6 +110,7 @@ kextex_all kernelcache.release.iphone14.e
 # Check the extension for symbols
 nm -a binaries/com.apple.security.sandbox | wc -l
 ```
+
 ## macOS Επεκτάσεις Πυρήνα
 
 Το macOS είναι **υπερβολικά περιοριστικό στο να φορτώσει Επεκτάσεις Πυρήνα** (.kext) λόγω των υψηλών προνομίων που θα εκτελεστεί ο κώδικας. Πράγματι, από προεπιλογή είναι σχεδόν αδύνατο (εκτός αν βρεθεί ένας τρόπος παράκαμψης).

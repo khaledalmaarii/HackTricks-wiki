@@ -1,4 +1,4 @@
-# Επικίνδυνα Entitlements & Άδειες TCC στο macOS
+# macOS Dangerous Entitlements & TCC perms
 
 <details>
 
@@ -30,11 +30,11 @@
 
 ### **`com.apple.system-task-ports` (προηγουμένως ονομαζόμενο `task_for_pid-allow`)**
 
-Αυτό το entitlement επιτρέπει την ανάκτηση της **task port για οποιηδήποτε** διεργασία, εκτός από τον πυρήνα. Ελέγξτε [**αυτό για περισσότερες πληροφορίες**](../mac-os-architecture/macos-ipc-inter-process-communication/).
+Αυτό το entitlement επιτρέπει την ανάκτηση της **task port για οποιηδήποτε** διεργασία, εκτός από τον πυρήνα. Ελέγξτε [**αυτό για περισσότερες πληροφορίες**](../macos-proces-abuse/macos-ipc-inter-process-communication/).
 
 ### `com.apple.security.get-task-allow`
 
-Αυτό το entitlement επιτρέπει σε άλλες διεργασίες με το entitlement **`com.apple.security.cs.debugger`** να ανακτήσουν την task port της διεργασίας που εκτελείται από το δυαδικό με αυτό το entitlement και να **ενσωματώσουν κώδικα σε αυτήν**. Ελέγξτε [**αυτό για περισσότερες πληροφορίες**](../mac-os-architecture/macos-ipc-inter-process-communication/).
+Αυτό το entitlement επιτρέπει σε άλλες διεργασίες με το entitlement **`com.apple.security.cs.debugger`** να ανακτήσουν την task port της διεργασίας που εκτελείται από το δυαδικό με αυτό το entitlement και να **ενσωματώσουν κώδικα σε αυτήν**. Ελέγξτε [**αυτό για περισσότερες πληροφορίες**](../macos-proces-abuse/macos-ipc-inter-process-communication/).
 
 ### `com.apple.security.cs.debugger`
 
@@ -88,6 +88,7 @@ TODO: Στην [**αυτή την αναφορά**](https://jhftss.github.io/The
 ### `keychain-access-groups`
 
 Αυτό το entitlement καταλογίζει τα **ομάδες keychain** στις οποίες έχει πρόσβαση η εφαρμογή:
+
 ```xml
 <key>keychain-access-groups</key>
 <array>
@@ -98,6 +99,7 @@ TODO: Στην [**αυτή την αναφορά**](https://jhftss.github.io/The
 <string>IMCore</string>
 </array>
 ```
+
 ### **`kTCCServiceSystemPolicyAllFiles`**
 
 Παρέχει δικαιώματα **Πλήρης Πρόσβαση Δίσκου**, ένα από τα υψηλότερα δικαιώματα TCC που μπορεί να έχει κάποιος.
@@ -107,10 +109,10 @@ TODO: Στην [**αυτή την αναφορά**](https://jhftss.github.io/The
 Επιτρέπει στην εφαρμογή να στέλνει συμβάντα σε άλλες εφαρμογές που χρησιμοποιούνται συχνά για **αυτοματοποίηση εργασιών**. Ελέγχοντας άλλες εφαρμογές, μπορεί να καταχραστεί τα δικαιώματα που έχουν χορηγηθεί σε αυτές τις εφαρμογές.
 
 Όπως να τις κάνει να ζητήσουν από τον χρήστη τον κωδικό πρόσβασής του:
+
 ```bash
 osascript -e 'tell app "App Store" to activate' -e 'tell app "App Store" to activate' -e 'tell app "App Store" to display dialog "App Store requires your password to continue." & return & return default answer "" with icon 1 with hidden answer with title "App Store Alert"'
 ```
-{% endcode %}
 
 Ή να τους κάνει να εκτελέσουν **αυθαίρετες ενέργειες**.
 
@@ -167,12 +169,14 @@ TODO
 ### `kTCCServiceAll`
 
 Σύμφωνα με αυτήν την ανάρτηση στο blog, αυτή η άδεια TCC συνήθως βρίσκεται στη μορφή:
+
 ```
 [Key] com.apple.private.tcc.allow-prompting
 [Value]
 [Array]
 [String] kTCCServiceAll
 ```
+
 Να επιτρέπεται στη διαδικασία να **ζητήσει όλες τις άδειες TCC**.
 
 ### **`kTCCServicePostEvent`**

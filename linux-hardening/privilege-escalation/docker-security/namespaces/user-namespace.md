@@ -1,4 +1,4 @@
-# Ονοματοχώρος Χρήστη
+# User Namespace
 
 <details>
 
@@ -9,7 +9,7 @@
 * Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
@@ -32,9 +32,11 @@
 ### Δημιουργία διαφορετικών Ονοματοχώρων
 
 #### Εντολή CLI
+
 ```bash
 sudo unshare -U [--mount-proc] /bin/bash
 ```
+
 Με την προσάρτηση μιας νέας περίπτωσης του αρχείου `/proc` εάν χρησιμοποιήσετε την παράμετρο `--mount-proc`, εξασφαλίζετε ότι ο νέος περιβάλλοντος προβολής έχει μια **ακριβή και απομονωμένη προβολή των πληροφοριών διεργασίας που είναι συγκεκριμένες για αυτό το περιβάλλον**.
 
 <details>
@@ -44,39 +46,50 @@ sudo unshare -U [--mount-proc] /bin/bash
 Όταν το `unshare` εκτελείται χωρίς την επιλογή `-f`, συναντάται ένα σφάλμα λόγω του τρόπου με τον οποίο το Linux χειρίζεται τα νέα PID (Process ID) namespaces. Τα κύρια στοιχεία και η λύση παρουσιάζονται παρακάτω:
 
 1. **Εξήγηση του προβλήματος**:
-- Ο πυρήνας του Linux επιτρέπει σε μια διεργασία να δημιουργήσει νέα namespaces χρησιμοποιώντας την κλήση συστήματος `unshare`. Ωστόσο, η διεργασία που προκαλεί τη δημιουργία ενός νέου PID namespace (αναφέρεται ως "διεργασία unshare") δεν εισέρχεται στο νέο namespace, μόνο οι παιδικές διεργασίες της.
-- Η εκτέλεση της εντολής `%unshare -p /bin/bash%` ξεκινά το `/bin/bash` στην ίδια διεργασία με το `unshare`. Ως αποτέλεσμα, το `/bin/bash` και οι παιδικές διεργασίες του βρίσκονται στο αρχικό PID namespace.
-- Η πρώτη παιδική διεργασία του `/bin/bash` στο νέο namespace γίνεται PID 1. Όταν αυτή η διεργασία τερματίζει, ενεργοποιείται η εκκαθάριση του namespace αν δεν υπάρχουν άλλες διεργασίες, καθώς το PID 1 έχει τον ειδικό ρόλο της υιοθέτησης ορφανών διεργασιών. Ο πυρήνας του Linux θα απενεργοποιήσει στη συνέχεια την εκχώρηση PID σε αυτό το namespace.
+
+* Ο πυρήνας του Linux επιτρέπει σε μια διεργασία να δημιουργήσει νέα namespaces χρησιμοποιώντας την κλήση συστήματος `unshare`. Ωστόσο, η διεργασία που προκαλεί τη δημιουργία ενός νέου PID namespace (αναφέρεται ως "διεργασία unshare") δεν εισέρχεται στο νέο namespace, μόνο οι παιδικές διεργασίες της.
+* Η εκτέλεση της εντολής `%unshare -p /bin/bash%` ξεκινά το `/bin/bash` στην ίδια διεργασία με το `unshare`. Ως αποτέλεσμα, το `/bin/bash` και οι παιδικές διεργασίες του βρίσκονται στο αρχικό PID namespace.
+* Η πρώτη παιδική διεργασία του `/bin/bash` στο νέο namespace γίνεται PID 1. Όταν αυτή η διεργασία τερματίζει, ενεργοποιείται η εκκαθάριση του namespace αν δεν υπάρχουν άλλες διεργασίες, καθώς το PID 1 έχει τον ειδικό ρόλο της υιοθέτησης ορφανών διεργασιών. Ο πυρήνας του Linux θα απενεργοποιήσει στη συνέχεια την εκχώρηση PID σε αυτό το namespace.
 
 2. **Συνέπεια**:
-- Η έξοδος του PID 1 σε ένα νέο namespace οδηγεί στην απενεργοποίηση της σημαίας `PIDNS_HASH_ADDING`. Αυτό έχει ως αποτέλεσμα την αποτυχία της συνάρτησης `alloc_pid` να δεσμεύσει ένα νέο PID κατά τη δημιουργία μιας νέας διεργασίας, παράγοντας το σφάλμα "Cannot allocate memory".
+
+* Η έξοδος του PID 1 σε ένα νέο namespace οδηγεί στην απενεργοποίηση της σημαίας `PIDNS_HASH_ADDING`. Αυτό έχει ως αποτέλεσμα την αποτυχία της συνάρτησης `alloc_pid` να δεσμεύσει ένα νέο PID κατά τη δημιουργία μιας νέας διεργασίας, παράγοντας το σφάλμα "Cannot allocate memory".
 
 3. **Λύση**:
-- Το πρόβλημα μπορεί να επιλυθεί χρησιμοποιώντας την επιλογή `-f` με το `unshare`. Αυτή η επιλογή κάνει το `unshare` να δημιουργήσει ένα νέο διεργασία μετά τη δημιουργία του νέου PID namespace.
-- Εκτελώντας `%unshare -fp /bin/bash%` εξασφαλίζεται ότι η εντολή `unshare` ίδια γίνεται PID 1 στο νέο namespace. Το `/bin/bash` και οι παιδικές διεργασίες του περιορίζονται στο νέο αυτό namespace, αποτρέποντας την πρόωρη έξοδο του PID 1 και επιτρέποντας την κανονική εκχώρηση PID.
+
+* Το πρόβλημα μπορεί να επιλυθεί χρησιμοποιώντας την επιλογή `-f` με το `unshare`. Αυτή η επιλογή κάνει το `unshare` να δημιουργήσει ένα νέο διεργασία μετά τη δημιουργία του νέου PID namespace.
+* Εκτελώντας `%unshare -fp /bin/bash%` εξασφαλίζεται ότι η εντολή `unshare` ίδια γίνεται PID 1 στο νέο namespace. Το `/bin/bash` και οι παιδικές διεργασίες του περιορίζονται στο νέο αυτό namespace, αποτρέποντας την πρόωρη έξοδο του PID 1 και επιτρέποντας την κανονική εκχώρηση PID.
 
 Εξασφαλίζοντας ότι το `unshare` εκτελείται με τη σημαία `-f`, το νέο PID namespace διατηρείται σωστά, επιτρέποντας στο `/bin/bash` και στις υποδιεργασίες του να λειτουργούν χωρίς να αντιμετωπίζουν το σφάλμα δέσμευσης μνήμης.
+
 ```bash
 docker run -ti --name ubuntu1 -v /usr:/ubuntu1 ubuntu bash
 ```
+
 Για να χρησιμοποιήσετε το user namespace, ο δαίμονας του Docker πρέπει να ξεκινήσει με την επιλογή **`--userns-remap=default`** (Στο Ubuntu 14.04, αυτό μπορεί να γίνει τροποποιώντας το αρχείο `/etc/default/docker` και στη συνέχεια εκτελώντας `sudo service docker restart`)
 
-### &#x20;Ελέγξτε σε ποιο namespace βρίσκεται η διεργασία σας
+#### Ελέγξτε σε ποιο namespace βρίσκεται η διεργασία σας
+
 ```bash
 ls -l /proc/self/ns/user
 lrwxrwxrwx 1 root root 0 Apr  4 20:57 /proc/self/ns/user -> 'user:[4026531837]'
 ```
+
 Είναι δυνατόν να ελέγξετε τον χάρτη χρήστη από το container του Docker με την εντολή:
+
 ```bash
 cat /proc/self/uid_map
 0          0 4294967295  --> Root is root in host
 0     231072      65536  --> Root is 231072 userid in host
 ```
+
 Ή από τον κεντρικό υπολογιστή με:
+
 ```bash
 cat /proc/<pid>/uid_map
 ```
-### Βρείτε όλους τους χώρους ονομάτων χρηστών
+
+#### Βρείτε όλους τους χώρους ονομάτων χρηστών
 
 {% code overflow="wrap" %}
 ```bash
@@ -86,29 +99,30 @@ sudo find /proc -maxdepth 3 -type l -name user -exec ls -l  {} \; 2>/dev/null | 
 ```
 {% endcode %}
 
-### Εισέλθετε μέσα σε ένα χώρο ονομάτων χρήστη
+#### Εισέλθετε μέσα σε ένα χώρο ονομάτων χρήστη
 
 To enter inside a User namespace, follow these steps:
 
 1. Ανοίξτε ένα τερματικό και εκτελέστε την εντολή `unshare -r bash`. Αυτή η εντολή θα δημιουργήσει ένα νέο χώρο ονομάτων χρήστη και θα εκτελέσει ένα νέο αντίγραφο του τερματικού shell μέσα σε αυτόν.
-
 2. Τώρα είστε μέσα στον νέο χώρο ονομάτων χρήστη. Μπορείτε να εκτελέσετε εντολές με τα δικαιώματα του χρήστη που ανήκει σε αυτόν τον χώρο ονομάτων.
-
 3. Για να επιστρέψετε στον αρχικό χώρο ονομάτων χρήστη, απλά εκτελέστε την εντολή `exit`.
 
 Με αυτόν τον τρόπο, μπορείτε να εξερευνήσετε και να εκτελέσετε εντολές με διαφορετικά δικαιώματα χρήστη, εντός ενός απομονωμένου χώρου ονομάτων.
+
 ```bash
 nsenter -U TARGET_PID --pid /bin/bash
 ```
+
 Επίσης, μπορείτε να **εισέλθετε μόνο σε ένα άλλο namespace διεργασίας αν είστε root**. Και **δεν μπορείτε** να **εισέλθετε** σε άλλο namespace **χωρίς έναν δείκτη** που να δείχνει σε αυτό (όπως `/proc/self/ns/user`).
 
-### Δημιουργία νέου User namespace (με αντιστοιχίσεις)
+#### Δημιουργία νέου User namespace (με αντιστοιχίσεις)
 
 {% code overflow="wrap" %}
 ```bash
 unshare -U [--map-user=<uid>|<name>] [--map-group=<gid>|<name>] [--map-root-user] [--map-current-user]
 ```
 {% endcode %}
+
 ```bash
 # Container
 sudo unshare -U /bin/bash
@@ -118,38 +132,19 @@ nobody@ip-172-31-28-169:/home/ubuntu$ #Check how the user is nobody
 ps -ef | grep bash # The user inside the host is still root, not nobody
 root       27756   27755  0 21:11 pts/10   00:00:00 /bin/bash
 ```
-### Ανάκτηση Δυνατοτήτων
+
+#### Ανάκτηση Δυνατοτήτων
 
 Στην περίπτωση των user namespaces, **όταν δημιουργείται ένα νέο user namespace, η διεργασία που εισέρχεται στο namespace αυτό αποκτά ένα πλήρες σύνολο δυνατοτήτων μέσα σε αυτό το namespace**. Αυτές οι δυνατότητες επιτρέπουν στη διεργασία να εκτελεί προνομιούχες λειτουργίες, όπως **προσάρτηση** **αρχείων συστήματος**, δημιουργία συσκευών ή αλλαγή κυριότητας αρχείων, αλλά **μόνο μέσα στο πλαίσιο του user namespace της**.
 
 Για παράδειγμα, όταν έχετε τη δυνατότητα `CAP_SYS_ADMIN` μέσα σε ένα user namespace, μπορείτε να εκτελέσετε λειτουργίες που συνήθως απαιτούν αυτή τη δυνατότητα, όπως η προσάρτηση αρχείων συστήματος, αλλά μόνο μέσα στο πλαίσιο του user namespace σας. Οι λειτουργίες που εκτελείτε με αυτή τη δυνατότητα δεν θα επηρεάσουν το σύστημα του κεντρικού υπολογιστή ή άλλα namespaces.
 
-{% hint style="warning" %}
 Επομένως, ακόμα κι αν η απόκτηση μιας νέας διεργασίας μέσα σε ένα νέο User namespace **θα σας δώσει όλες τις δυνατότητες πίσω** (CapEff: 000001ffffffffff), στην πραγματικότητα μπορείτε **να χρησιμοποιήσετε μόνο αυτές που σχετίζονται με το namespace** (π.χ. προσάρτηση) αλλά όχι όλες. Έτσι, αυτό καθαυτό δεν είναι αρκετό για να δραπετεύσετε από ένα Docker container.
-{% endhint %}
-```bash
-# There are the syscalls that are filtered after changing User namespace with:
-unshare -UmCpf  bash
 
-Probando: 0x067 . . . Error
-Probando: 0x070 . . . Error
-Probando: 0x074 . . . Error
-Probando: 0x09b . . . Error
-Probando: 0x0a3 . . . Error
-Probando: 0x0a4 . . . Error
-Probando: 0x0a7 . . . Error
-Probando: 0x0a8 . . . Error
-Probando: 0x0aa . . . Error
-Probando: 0x0ab . . . Error
-Probando: 0x0af . . . Error
-Probando: 0x0b0 . . . Error
-Probando: 0x0f6 . . . Error
-Probando: 0x12c . . . Error
-Probando: 0x130 . . . Error
-Probando: 0x139 . . . Error
-Probando: 0x140 . . . Error
-Probando: 0x141 . . . Error
-Probando: 0x143 . . . Error
+\`\`\`bash # There are the syscalls that are filtered after changing User namespace with: unshare -UmCpf bash
+
+Probando: 0x067 . . . Error Probando: 0x070 . . . Error Probando: 0x074 . . . Error Probando: 0x09b . . . Error Probando: 0x0a3 . . . Error Probando: 0x0a4 . . . Error Probando: 0x0a7 . . . Error Probando: 0x0a8 . . . Error Probando: 0x0aa . . . Error Probando: 0x0ab . . . Error Probando: 0x0af . . . Error Probando: 0x0b0 . . . Error Probando: 0x0f6 . . . Error Probando: 0x12c . . . Error Probando: 0x130 . . . Error Probando: 0x139 . . . Error Probando: 0x140 . . . Error Probando: 0x141 . . . Error Probando: 0x143 . . . Error
+
 ```
 ## Αναφορές
 * [https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory](https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory)
@@ -165,5 +160,8 @@ Probando: 0x143 . . . Error
 * Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+
+</details>
+```
 
 </details>

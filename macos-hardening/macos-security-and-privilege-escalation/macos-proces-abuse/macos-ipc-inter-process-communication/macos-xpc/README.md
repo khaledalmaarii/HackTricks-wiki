@@ -1,5 +1,7 @@
 # macOS XPC
 
+## macOS XPC
+
 <details>
 
 <summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
@@ -9,12 +11,12 @@
 * Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs** στα αποθετήρια [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) στο github.
 
 </details>
 
-## Βασικές Πληροφορίες
+### Βασικές Πληροφορίες
 
 Το XPC, που σημαίνει XNU (το πυρήνας που χρησιμοποιείται από το macOS) Inter-Process Communication, είναι ένα πλαίσιο για **επικοινωνία μεταξύ διεργασιών** στο macOS και το iOS. Το XPC παρέχει ένα μηχανισμό για την πραγματοποίηση **ασφαλών, ασύγχρονων κλήσεων μεθόδων μεταξύ διαφορετικών διεργασιών** στο σύστημα. Αποτελεί μέρος του ασφαλούς παραδείγματος της Apple, επιτρέποντας την **δημιουργία εφαρμογών με διαχωρισμένα προνόμια**, όπου κάθε **συνιστώσα** λειτουργεί με **μόνο τα δικαιώματα που χρειάζεται** για να εκτελέσει την εργασία της, περιορίζοντας έτσι την πιθανή ζημιά από μια παραβιασμένη διεργασία.
 
@@ -28,13 +30,14 @@
 
 Το μόνο **μειονέκτημα** είναι ότι η **διαχωρισμένη εφαρμογή σε πολλές διεργασίες** που επικοινωνούν μέσω XPC είναι **λιγότερο αποδοτική**. Ωστόσο, στα σημερινά συστήματα αυτό δεν είναι σχεδόν αντιληπτό και τα οφέλη είναι μεγαλύτερα.
 
-## Εφαρμογές Ειδικές XPC
+### Εφαρμογές Ειδικές XPC
 
 Οι συνιστώσες XPC μιας εφαρμογής βρίσκονται **μέσα στην ίδια την εφαρμογή**. Για παράδειγμα, στο Safari μπορείτε να τις βρείτε στο **`/Applications/Safari.app/Contents/XPCServices`**. Έχουν την κατάληξη **`.xpc`** (όπως **`com.apple.Safari.SandboxBroker.xpc`**) και είναι **επίσης δέσμες** με τον κύριο δυαδικό αρχείο μέσα σε αυτό: `/Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/MacOS/com.apple.Safari.SandboxBroker` και ένα `Info.plist: /Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/Info.plist`
 
 Όπως μπορείτε να σκεφτείτε, μια **συνιστώσα XPC θα έχει διαφορετικά δικαιώματα και προνόμια** από τις άλλες συνιστώσες XPC ή το κύριο δυαδικό αρχείο της εφαρμογής. ΕΚΤΟΣ αν ένα XPC service έχει ρυθμιστεί με την [**JoinExistingSession**](https://developer.apple.com/documentation/bundleresources/information\_property\_list/xpcservice/joinexistingsession) να έχει την τιμή "True" στο αρχείο **Info.plist** του. Σε αυτήν την περίπτωση, το XPC service θα εκτελείται στην **ίδια ασφαλή συνεδρία με την εφαρμογή** που το κάλεσε.
 
-Τα XPC services **ξεκινούν** από τον **launchd** όταν απαιτούνται και **τερματίζονται** όταν ολοκληρώνονται όλες οι εργασίες για να απελευθερωθούν οι πόροι του συστήματος. **Οι εφαρμογές μπορούν να χρησιμοποι
+Τα XPC services **ξεκινούν** από τον **launchd** όταν απαιτούνται και **τερματίζονται** όταν ολοκληρώνονται όλες οι εργασίες για να απελευθερωθούν οι πόροι του συστήματος. \*\*Οι εφαρμογές μπορούν να χρησιμοποι
+
 ```xml
 cat /Library/LaunchDaemons/com.jamf.management.daemon.plist
 
@@ -68,13 +71,14 @@ cat /Library/LaunchDaemons/com.jamf.management.daemon.plist
 </dict>
 </plist>
 ```
+
 Αυτά που βρίσκονται στο **`LaunchDameons`** τρέχουν από τον ριζικό χρήστη. Έτσι, αν ένα μη προνομιούχο διεργασία μπορεί να επικοινωνήσει με ένα από αυτά, μπορεί να αναβαθμίσει τα δικαιώματά του.
 
-## Μηνύματα XPC Event
+### Μηνύματα XPC Event
 
 Οι εφαρμογές μπορούν να **εγγραφούν** σε διάφορα **μηνύματα γεγονότων**, επιτρέποντάς τους να εκτελούνται κατά παραγγελία όταν συμβούν τέτοια γεγονότα. Η ρύθμιση για αυτές τις υπηρεσίες γίνεται σε αρχεία **plist του launchd**, που βρίσκονται στους **ίδιους καταλόγους με τα προηγούμενα** και περιέχουν ένα επιπλέον κλειδί **`LaunchEvent`**.
 
-### Έλεγχος Σύνδεσης Διεργασίας XPC
+#### Έλεγχος Σύνδεσης Διεργασίας XPC
 
 Όταν μια διεργασία προσπαθεί να καλέσει μια μέθοδο μέσω μιας σύνδεσης XPC, η **XPC υπηρεσία πρέπει να ελέγξει αν η διεργασία αυτή έχει άδεια να συνδεθεί**. Εδώ παρουσιάζονται οι συνηθισμένοι τρόποι ελέγχου και οι συνηθισμένες παγίδες:
 
@@ -82,7 +86,7 @@ cat /Library/LaunchDaemons/com.jamf.management.daemon.plist
 [macos-xpc-connecting-process-check](macos-xpc-connecting-process-check/)
 {% endcontent-ref %}
 
-## Εξουσιοδότηση XPC
+### Εξουσιοδότηση XPC
 
 Η Apple επιτρέπει επίσης στις εφαρμογές να **διαμορφώσουν ορισμένα δικαιώματα και τον τρόπο απόκτησής τους**, έτσι ώστε αν η καλούσα διεργασία τα έχει, θα **επιτρέπεται να καλέσει μια μέθοδο** από την XPC υπηρεσία:
 
@@ -90,9 +94,10 @@ cat /Library/LaunchDaemons/com.jamf.management.daemon.plist
 [macos-xpc-authorization.md](macos-xpc-authorization.md)
 {% endcontent-ref %}
 
-## XPC Sniffer
+### XPC Sniffer
 
 Για να καταγράψετε τα μηνύματα XPC, μπορείτε να χρησιμοποιήσετε το [**xpcspy**](https://github.com/hot3eed/xpcspy), το οποίο χρησιμοποιεί το **Frida**.
+
 ```bash
 # Install
 pip3 install xpcspy
@@ -103,10 +108,11 @@ xpcspy -U -r -W <bundle-id>
 ## Using filters (i: for input, o: for output)
 xpcspy -U <prog-name> -t 'i:com.apple.*' -t 'o:com.apple.*' -r
 ```
-## Παράδειγμα κώδικα C για επικοινωνία XPC
+
+### Παράδειγμα κώδικα C για επικοινωνία XPC
 
 {% tabs %}
-{% tab title="xpc_server.c" %}
+{% tab title="undefined" %}
 ```c
 // gcc xpc_server.c -o xpc_server
 
@@ -160,8 +166,9 @@ dispatch_main();
 return 0;
 }
 ```
-{% tab title="xpc_client.c" %}
+{% endtab %}
 
+{% tab title="xpc_client.c" %}
 ```c
 #include <stdio.h>
 #include <xpc/xpc.h>
@@ -197,6 +204,7 @@ The `xpc_connection_resume` function starts the connection and allows events to 
 The `sleep` function is used to keep the program running for 10 seconds before releasing the connection with `xpc_release`.
 
 This is just a basic example to demonstrate the usage of XPC in macOS. In a real-world scenario, you would typically perform more complex operations and handle different types of events.
+
 ```c
 // gcc xpc_client.c -o xpc_client
 
@@ -225,7 +233,6 @@ dispatch_main();
 return 0;
 }
 ```
-{% tab title="xyz.hacktricks.service.plist" %}
 
 Το αρχείο `xyz.hacktricks.service.plist` περιέχει τις ρυθμίσεις για ένα XPC service στο macOS. Το XPC (Inter-Process Communication) είναι ένα μηχανισμός που επιτρέπει την επικοινωνία μεταξύ διαφορετικών διεργασιών στο macOS. Αυτό το αρχείο περιέχει πληροφορίες για το πώς θα εκτελεστεί το XPC service και ποιες δικαιώματα θα έχει.
 
@@ -235,7 +242,6 @@ return 0;
 
 Για περισσότερες πληροφορίες σχετικά με το πώς να εκμεταλλευτείτε το XPC service στο macOS, ανατρέξτε στο αντίστοιχο κεφάλαιο του βιβλίου.
 
-{% endtab %}
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
@@ -258,6 +264,7 @@ return 0;
 ```
 {% endtab %}
 {% endtabs %}
+
 ```bash
 # Compile the server & client
 gcc xpc_server.c -o xpc_server
@@ -277,10 +284,11 @@ sudo launchctl load /Library/LaunchDaemons/xyz.hacktricks.service.plist
 sudo launchctl unload /Library/LaunchDaemons/xyz.hacktricks.service.plist
 sudo rm /Library/LaunchDaemons/xyz.hacktricks.service.plist /tmp/xpc_server
 ```
-## Παράδειγμα κώδικα XPC επικοινωνίας Objective-C
+
+### Παράδειγμα κώδικα XPC επικοινωνίας Objective-C
 
 {% tabs %}
-{% tab title="oc_xpc_server.m" %}
+{% tab title="undefined" %}
 ```objectivec
 // gcc -framework Foundation oc_xpc_server.m -o oc_xpc_server
 #include <Foundation/Foundation.h>
@@ -330,6 +338,8 @@ listener.delegate = delegate;
 sleep(10); // Fake something is done and then it ends
 }
 ```
+{% endtab %}
+
 {% tab title="oc_xpc_client.m" %}
 ```objectivec
 // gcc -framework Foundation oc_xpc_client.m -o oc_xpc_client
@@ -353,28 +363,26 @@ NSLog(@"Received response: %@", response);
 return 0;
 }
 ```
-{% tab title="xyz.hacktricks.svcoc.plist" %}
 
 Το αρχείο `xyz.hacktricks.svcoc.plist` περιέχει τις ρυθμίσεις για την εκτέλεση του `xyz.hacktricks.svcoc` στο macOS. Αυτό το αρχείο παρέχει πληροφορίες για το πώς ο επιθετικός μπορεί να εκμεταλλευτεί το XPC για να αποκτήσει προνόμια στο σύστημα.
 
 Για να εκμεταλλευτεί ένα XPC, ο επιθετικός πρέπει να ανακαλύψει τον κατάλληλο κώδικα XPC και να τον εκμεταλλευτεί για να εκτελέσει κακόβουλο κώδικα. Αυτό μπορεί να γίνει με τη χρήση εργαλείων όπως το `xpcproxy` ή το `xpcd`. Ο επιθετικός μπορεί να εκμεταλλευτεί το XPC για να αποκτήσει προνόμια χρησιμοποιώντας μια από τις παρακάτω μεθόδους:
 
-- Εκμετάλλευση ευπάθειας στον κώδικα XPC για να εκτελέσει κακόβουλο κώδικα.
-- Εκμετάλλευση ευπάθειας στην ανάγνωση/εγγραφή μνήμης για να αποκτήσει πρόσβαση σε ευαίσθητες πληροφορίες.
-- Εκμετάλλευση ευπάθειας στην ανάγνωση/εγγραφή αρχείων για να αποκτήσει πρόσβαση σε ευαίσθητα δεδομένα.
+* Εκμετάλλευση ευπάθειας στον κώδικα XPC για να εκτελέσει κακόβουλο κώδικα.
+* Εκμετάλλευση ευπάθειας στην ανάγνωση/εγγραφή μνήμης για να αποκτήσει πρόσβαση σε ευαίσθητες πληροφορίες.
+* Εκμετάλλευση ευπάθειας στην ανάγνωση/εγγραφή αρχείων για να αποκτήσει πρόσβαση σε ευαίσθητα δεδομένα.
 
 Ο επιθετικός μπορεί επίσης να εκμεταλλευτεί το XPC για να εκτελέσει κακόβουλο κώδικα σε ένα εξωτερικό σύστημα, χρησιμοποιώντας την απομακρυσμένη εκτέλεση κώδικα XPC.
 
 Για να προστατευθείτε από τις επιθέσεις XPC, μπορείτε να εφαρμόσετε τις παρακάτω μεθόδους ασφάλειας:
 
-- Ελέγξτε την αυθεντικότητα των XPC που εκτελούνται στο σύστημά σας.
-- Περιορίστε τα δικαιώματα πρόσβασης των XPC.
-- Εφαρμόστε μέτρα ασφαλείας για την ανάγνωση/εγγραφή μνήμης και αρχείων από τα XPC.
-- Ενημερώστε το σύστημά σας με τις τελευταίες ενημερώσεις ασφαλείας.
+* Ελέγξτε την αυθεντικότητα των XPC που εκτελούνται στο σύστημά σας.
+* Περιορίστε τα δικαιώματα πρόσβασης των XPC.
+* Εφαρμόστε μέτρα ασφαλείας για την ανάγνωση/εγγραφή μνήμης και αρχείων από τα XPC.
+* Ενημερώστε το σύστημά σας με τις τελευταίες ενημερώσεις ασφαλείας.
 
 Αυτές οι προφυλάξεις μπορούν να βοηθήσουν στην αποτροπή των επιθέσεων XPC και στην προστασία του συστήματός σας από προνόμια εκτελέσιμου κώδικα.
 
-{% endtab %}
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
@@ -397,25 +405,26 @@ return 0;
 ```
 {% endtab %}
 {% endtabs %}
-```bash
-# Compile the server & client
-gcc -framework Foundation oc_xpc_server.m -o oc_xpc_server
-gcc -framework Foundation oc_xpc_client.m -o oc_xpc_client
 
-# Save server on it's location
-cp oc_xpc_server /tmp
+\`\`\`bash # Compile the server & client gcc -framework Foundation oc\_xpc\_server.m -o oc\_xpc\_server gcc -framework Foundation oc\_xpc\_client.m -o oc\_xpc\_client
 
-# Load daemon
-sudo cp xyz.hacktricks.svcoc.plist /Library/LaunchDaemons
-sudo launchctl load /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist
+## Save server on it's location
 
-# Call client
-./oc_xpc_client
+cp oc\_xpc\_server /tmp
 
-# Clean
-sudo launchctl unload /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist
-sudo rm /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist /tmp/oc_xpc_server
-```
+## Load daemon
+
+sudo cp xyz.hacktricks.svcoc.plist /Library/LaunchDaemons sudo launchctl load /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist
+
+## Call client
+
+./oc\_xpc\_client
+
+## Clean
+
+sudo launchctl unload /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist sudo rm /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist /tmp/oc\_xpc\_server
+
+````
 ## Πελάτης μέσα σε κώδικα Dylb
 
 Ο παρακάτω κώδικας παρουσιάζει έναν πελάτη που εκτελείται μέσα σε έναν κώδικα Dylb.
@@ -446,7 +455,7 @@ int main(int argc, char *argv[]) {
     dlclose(handle);
     return 0;
 }
-```
+````
 
 Ο παραπάνω κώδικας φορτώνει δυναμικά τη βιβλιοθήκη `libadd.dylib` και καλεί τη συνάρτηση `add` που βρίσκεται μέσα σε αυτήν. Η συνάρτηση `add` πραγματοποιεί την πρόσθεση δύο αριθμών και επιστρέφει το αποτέλεσμα. Το αποτέλεσμα εκτυπώνεται στην οθόνη.
 
@@ -459,6 +468,7 @@ gcc -shared -o libadd.dylib add.c
 ```
 
 Αφού δημιουργήσετε τη βιβλιοθήκη, μπορείτε να μεταγλωττίσετε και να εκτελέσετε τον παραπάνω κώδικα.
+
 ```objectivec
 // gcc -dynamiclib -framework Foundation oc_xpc_client.m -o oc_xpc_client.dylib
 // gcc injection example:
@@ -492,6 +502,7 @@ NSLog(@"Done!");
 return;
 }
 ```
+
 <details>
 
 <summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
@@ -501,7 +512,7 @@ return;
 * Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>

