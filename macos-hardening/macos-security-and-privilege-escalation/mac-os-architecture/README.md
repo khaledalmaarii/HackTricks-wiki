@@ -1,4 +1,4 @@
-# macOS Kernel & Sistemska proširenja
+# macOS Kernel & System Extensions
 
 <details>
 
@@ -53,8 +53,8 @@ I/O Kit je open-source, objektno orijentisani **framework za drajvere uređaja**
 
 ### IPC - Međuprocesna komunikacija
 
-{% content-ref url="macos-ipc-inter-process-communication/" %}
-[macos-ipc-inter-process-communication](macos-ipc-inter-process-communication/)
+{% content-ref url="../macos-proces-abuse/macos-ipc-inter-process-communication/" %}
+[macos-ipc-inter-process-communication](../macos-proces-abuse/macos-ipc-inter-process-communication/)
 {% endcontent-ref %}
 
 ### Kernelcache
@@ -83,6 +83,7 @@ Obično je sastavljen od sledećih komponenti:
 * OPCIONALNO: Obično se ovo ne nalazi
 
 Dekompresujte Kernelcache:
+
 ```bash
 # pyimg4 (https://github.com/m1stadev/PyIMG4)
 pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
@@ -90,6 +91,7 @@ pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphon
 # img4tool (https://github.com/tihmstar/img4tool
 img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
 ```
+
 #### Simboli kernel keša
 
 Ponekad Apple objavljuje **kernel keš** sa **simbolima**. Možete preuzeti neke firmvere sa simbolima prateći linkove na [https://theapplewiki.com](https://theapplewiki.com/).
@@ -110,12 +112,15 @@ pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphon
 {% endcode %}
 
 * [**img4tool**](https://github.com/tihmstar/img4tool)
+
 ```bash
 img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
 ```
+
 Možete proveriti izvučeni kernelcache za simbole sa: **`nm -a kernelcache.release.iphone14.e | wc -l`**
 
 Sada možemo **izvući sve ekstenzije** ili **onu koja vas zanima:**
+
 ```bash
 # List all extensions
 kextex -l kernelcache.release.iphone14.e
@@ -128,6 +133,7 @@ kextex_all kernelcache.release.iphone14.e
 # Check the extension for symbols
 nm -a binaries/com.apple.security.sandbox | wc -l
 ```
+
 ## macOS Kernel ekstenzije
 
 macOS je **izuzetno restriktivan kada je u pitanju učitavanje Kernel ekstenzija** (.kext) zbog visokih privilegija pod kojima će se kod izvršavati. Zapravo, podrazumevano je praktično nemoguće (osim ako se ne pronađe način zaobilaženja).

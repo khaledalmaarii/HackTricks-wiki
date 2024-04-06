@@ -7,20 +7,20 @@
 * Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks**? ili želite da imate pristup **najnovijoj verziji PEASS-a ili preuzmete HackTricks u PDF formatu**? Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova** [**hacktricks repou**](https://github.com/carlospolop/hacktricks) **i** [**hacktricks-cloud repou**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-## Uvod <a href="#9wrzi" id="9wrzi"></a>
+## Uvod <a href="#id-9wrzi" id="id-9wrzi"></a>
 
 Za informacije o RFID i NFC proverite sledeću stranicu:
 
-{% content-ref url="../../../radio-hacking/pentesting-rfid.md" %}
-[pentesting-rfid.md](../../../radio-hacking/pentesting-rfid.md)
+{% content-ref url="../pentesting-rfid.md" %}
+[pentesting-rfid.md](../pentesting-rfid.md)
 {% endcontent-ref %}
 
-## Podržane NFC kartice <a href="#9wrzi" id="9wrzi"></a>
+## Podržane NFC kartice <a href="#id-9wrzi" id="id-9wrzi"></a>
 
 {% hint style="danger" %}
 Osim NFC kartica, Flipper Zero podržava **druge vrste kartica visoke frekvencije** kao što su nekoliko **Mifare** Classic i Ultralight i **NTAG**.
@@ -43,7 +43,7 @@ Ekran čitanja bankarske karticeZa bankarske kartice, Flipper Zero može samo pr
 
 <figure><img src="https://cdn.flipperzero.one/Monosnap_Miro_2022-08-17_12-26-31.png?auto=format&#x26;ixlib=react-9.1.1&#x26;h=916&#x26;w=2662" alt=""><figcaption></figcaption></figure>
 
-#### Nepoznate kartice <a href="#37eo8" id="37eo8"></a>
+#### Nepoznate kartice <a href="#id-37eo8" id="id-37eo8"></a>
 
 Kada Flipper Zero **nije u mogućnosti da odredi tip NFC kartice**, tada se može pročitati i sačuvati samo **UID, SAK i ATQA**.
 
@@ -59,7 +59,7 @@ Za **NFC kartice tipova B, F i V**, Flipper Zero može samo **pročitati i prika
 
 ## Akcije
 
-Za uvod o NFC-u [**pročitajte ovu stranicu**](../../../radio-hacking/pentesting-rfid.md#high-frequency-rfid-tags-13.56-mhz).
+Za uvod o NFC-u [**pročitajte ovu stranicu**](../pentesting-rfid.md#high-frequency-rfid-tags-13.56-mhz).
 
 ### Čitanje
 
@@ -82,6 +82,7 @@ U slučaju da Flipper Zero nije sposoban da pronađe tip kartice iz podataka nis
 
 Osim što jednostavno čita UID, možete izvući mnogo više podataka sa bankarske kartice. Moguće je **dobiti puni broj kartice** (16 cifara na prednjoj strani kartice), **datum važenja**, a u nekim slučajevima čak i **ime vlasnika** zajedno sa listom **najnovijih transakcija**.\
 Međutim, **ne možete pročitati CVV na ovaj način** (3 cifre na poleđini kartice). Takođe, **bankarske kartice su zaštićene od napada ponovnog reprodukovanja**, tako da kopiranje sa Flipperom i zatim pokušaj emuliranja za plaćanje neće raditi.
+
 ## Reference
 
 * [https://blog.flipperzero.one/rfid/](https://blog.flipperzero.one/rfid/)
@@ -93,7 +94,7 @@ Međutim, **ne možete pročitati CVV na ovaj način** (3 cifre na poleđini kar
 * Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks**? ili želite pristupiti **najnovijoj verziji PEASS-a ili preuzeti HackTricks u PDF formatu**? Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili **telegram grupi** ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili **telegram grupi** ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova** [**hacktricks repozitorijumu**](https://github.com/carlospolop/hacktricks) **i** [**hacktricks-cloud repozitorijumu**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

@@ -1,4 +1,4 @@
-# Napad na xpc\_connection\_get\_audit\_token na macOS-u
+# macOS xpc\_connection\_get\_audit\_token Attack
 
 <details>
 
@@ -20,8 +20,8 @@ Drugi načini podrške HackTricks-u:
 
 Ako ne znate šta su Mach poruke, počnite sa proverom ove stranice:
 
-{% content-ref url="../../../../mac-os-architecture/macos-ipc-inter-process-communication/" %}
-[macos-ipc-inter-process-communication](../../../../mac-os-architecture/macos-ipc-inter-process-communication/)
+{% content-ref url="../../" %}
+[..](../../)
 {% endcontent-ref %}
 
 Za sada zapamtite da ([definicija sa ovog linka](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing)):\
@@ -51,6 +51,7 @@ Iako prethodna situacija zvuči obećavajuće, postoje scenariji u kojima to ne�
 Dva različita načina na koje ovo može biti iskorišćeno:
 
 1. Varijanta 1:
+
 * **Eksploit** se **povezuje** sa servisom **A** i servisom **B**
 * Servis **B** može pozvati **privilegovanu funkcionalnost** u servisu **A koju korisnik ne može**
 * Servis **A** poziva **`xpc_connection_get_audit_token`** dok _**nije**_ unutar **rukovalaca događajima** za vezu u **`dispatch_async`**.
@@ -58,7 +59,9 @@ Dva različita načina na koje ovo može biti iskorišćeno:
 * Eksploit prosleđuje **servisu B SEND pravo ka servisu A**.
 * Dakle, svc **B** će zapravo **slati** **poruke** servisu **A**.
 * **Eksploit** pokušava da **pozove privilegovanu akciju**. U RC svc **A** **proverava** autorizaciju ove **akcije** dok je **svc B prepisao Audit token** (dajući eksploatatoru pristup pozivanju privilegovane akcije).
+
 2. Varijanta 2:
+
 * Servis **B** može pozvati **privilegovanu funkcionalnost** u servisu **A koju korisnik ne može**
 * Eksploit se povezuje sa **servisom A** koji **šalje** eksploatatoru **poruku očekujući odgovor** na određenom **replay** **portu**.
 * Eksploit šalje **servisu B poruku prosleđujući** taj replay port.
@@ -87,9 +90,7 @@ Za izvođenje napada:
 2. Formirajte sekundarnu **vezu** sa `diagnosticd`. Suprotno normalnom postupku, umesto stvaranja i slanja dva nova mach porta, pravo slanja klijentskog porta se zamenjuje sa duplikatom **send prava** povezanog sa vezom `smd`.
 3. Kao rezultat, XPC poruke mogu biti prosleđene `diagnosticd`, ali odgovori od `diagnosticd` se preusmeravaju na `smd`. Za `smd`, izgleda kao da poruke od korisnika i `diagnosticd` potiču iz iste veze.
 
-![Slika koja prikazuje proces eksploatacije](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/exploit.png)
-4. Sledeći korak uključuje instrukciju `diagnosticd`-u da započne praćenje odabranog procesa (potencijalno korisnikovog). Istovremeno, šalje se poplava rutinskih poruka 1004 ka `smd`. Cilj je instalirati alat sa povišenim privilegijama.
-5. Ova akcija pokreće trku stanja unutar funkcije `handle_bless`. Vreme je ključno: poziv funkcije `xpc_connection_get_pid` mora vratiti PID korisnikovog procesa (jer privilegovani alat se nalazi u korisnikovom paketu aplikacije). Međutim, funkcija `xpc_connection_get_audit_token`, posebno unutar podrutine `connection_is_authorized`, mora se odnositi na audit token koji pripada `diagnosticd`-u.
+![Slika koja prikazuje proces eksploatacije](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/exploit.png) 4. Sledeći korak uključuje instrukciju `diagnosticd`-u da započne praćenje odabranog procesa (potencijalno korisnikovog). Istovremeno, šalje se poplava rutinskih poruka 1004 ka `smd`. Cilj je instalirati alat sa povišenim privilegijama. 5. Ova akcija pokreće trku stanja unutar funkcije `handle_bless`. Vreme je ključno: poziv funkcije `xpc_connection_get_pid` mora vratiti PID korisnikovog procesa (jer privilegovani alat se nalazi u korisnikovom paketu aplikacije). Međutim, funkcija `xpc_connection_get_audit_token`, posebno unutar podrutine `connection_is_authorized`, mora se odnositi na audit token koji pripada `diagnosticd`-u.
 
 ## Varijanta 2: prosleđivanje odgovora
 
@@ -115,7 +116,7 @@ Proces iskorišćavanja ove ranjivosti uključuje sledeće korake:
 
 Ispod je vizuelna reprezentacija opisanog scenarija napada:
 
-![https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/variant2.png](../../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png)
+!\[https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/variant2.png]\(../../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png)
 
 <figure><img src="../../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/variant2.png" width="563"><figcaption></figcaption></figure>
 

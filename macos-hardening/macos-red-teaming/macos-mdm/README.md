@@ -9,7 +9,7 @@ Drugi načini podrške HackTricks-u:
 * Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** Proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
@@ -22,20 +22,23 @@ Drugi načini podrške HackTricks-u:
 ## Osnove
 
 ### **Pregled MDM (Mobile Device Management)**
-[Mobile Device Management](https://en.wikipedia.org/wiki/Mobile_device_management) (MDM) se koristi za upravljanje različitim uređajima krajnjih korisnika kao što su pametni telefoni, prenosni računari i tableti. Posebno za Apple platforme (iOS, macOS, tvOS), uključuje set specijalizovanih funkcija, API-ja i praksi. Funkcionisanje MDM-a zavisi od kompatibilnog MDM servera, koji može biti komercijalno dostupan ili open-source, i mora podržavati [MDM protokol](https://developer.apple.com/enterprise/documentation/MDM-Protocol-Reference.pdf). Ključni elementi uključuju:
 
-- Centralizovana kontrola nad uređajima.
-- Zavisnost od MDM servera koji se pridržava MDM protokola.
-- Mogućnost MDM servera da šalje različite komande uređajima, na primer, daljinsko brisanje podataka ili instalacija konfiguracije.
+[Mobile Device Management](https://en.wikipedia.org/wiki/Mobile\_device\_management) (MDM) se koristi za upravljanje različitim uređajima krajnjih korisnika kao što su pametni telefoni, prenosni računari i tableti. Posebno za Apple platforme (iOS, macOS, tvOS), uključuje set specijalizovanih funkcija, API-ja i praksi. Funkcionisanje MDM-a zavisi od kompatibilnog MDM servera, koji može biti komercijalno dostupan ili open-source, i mora podržavati [MDM protokol](https://developer.apple.com/enterprise/documentation/MDM-Protocol-Reference.pdf). Ključni elementi uključuju:
+
+* Centralizovana kontrola nad uređajima.
+* Zavisnost od MDM servera koji se pridržava MDM protokola.
+* Mogućnost MDM servera da šalje različite komande uređajima, na primer, daljinsko brisanje podataka ili instalacija konfiguracije.
 
 ### **Osnove DEP (Device Enrollment Program)**
-[Device Enrollment Program](https://www.apple.com/business/site/docs/DEP_Guide.pdf) (DEP) koji nudi Apple olakšava integraciju Mobile Device Management (MDM) omogućavajući konfiguraciju bez dodira za iOS, macOS i tvOS uređaje. DEP automatizuje proces registracije, omogućavajući uređajima da budu operativni odmah po izlasku iz kutije, sa minimalnom intervencijom korisnika ili administratora. Ključni aspekti uključuju:
 
-- Omogućava uređajima da se automatski registruju kod predefinisanog MDM servera prilikom prvog aktiviranja.
-- Pretežno korisno za potpuno nove uređaje, ali se takođe može primeniti i na uređaje koji se ponovno konfigurišu.
-- Olakšava jednostavnu instalaciju, čime se uređaji brzo pripremaju za organizacionu upotrebu.
+[Device Enrollment Program](https://www.apple.com/business/site/docs/DEP\_Guide.pdf) (DEP) koji nudi Apple olakšava integraciju Mobile Device Management (MDM) omogućavajući konfiguraciju bez dodira za iOS, macOS i tvOS uređaje. DEP automatizuje proces registracije, omogućavajući uređajima da budu operativni odmah po izlasku iz kutije, sa minimalnom intervencijom korisnika ili administratora. Ključni aspekti uključuju:
+
+* Omogućava uređajima da se automatski registruju kod predefinisanog MDM servera prilikom prvog aktiviranja.
+* Pretežno korisno za potpuno nove uređaje, ali se takođe može primeniti i na uređaje koji se ponovno konfigurišu.
+* Olakšava jednostavnu instalaciju, čime se uređaji brzo pripremaju za organizacionu upotrebu.
 
 ### **Bezbednosno razmatranje**
+
 Važno je napomenuti da, iako je olakšana registracija putem DEP-a korisna, može predstavljati i bezbednosne rizike. Ako se ne primenjuju adekvatne zaštitne mere prilikom registracije putem MDM-a, napadači mogu iskoristiti ovaj pojednostavljeni proces da registruju svoj uređaj na MDM serveru organizacije, predstavljajući se kao korporativni uređaj.
 
 {% hint style="danger" %}
@@ -89,7 +92,10 @@ Apple uređaji proizvedeni posle 2010. godine obično imaju **12-znakovne alfanu
 
 {% content-ref url="macos-serial-number.md" %}
 [macos-serial-number.md](macos-serial-number.md)
-{% endcontent-ref
+{% endcontent-ref %}
+
+[macos-serial-number.md](macos-serial-number.md) \{% endcontent-ref
+
 ### Korak 4: Provera DEP registracije - Dobijanje aktivacionog zapisa
 
 Ovaj deo procesa se odvija kada **korisnik prvi put pokrene Mac** (ili nakon potpunog brisanja)
@@ -108,16 +114,16 @@ ili kada se izvrši `sudo profiles show -type enrollment`
 Sledi nekoliko koraka za dobijanje aktivacionog zapisa koji se izvodi pomoću **`MCTeslaConfigurationFetcher`**. Ovaj proces koristi enkripciju nazvanu **Absinthe**
 
 1. Preuzimanje **sertifikata**
-1. GET [https://iprofiles.apple.com/resource/certificate.cer](https://iprofiles.apple.com/resource/certificate.cer)
-2. **Inicijalizacija** stanja iz sertifikata (**`NACInit`**)
-1. Koristi različite podatke specifične za uređaj (npr. **serijski broj putem `IOKit`**)
-3. Preuzimanje **sesijskog ključa**
-1. POST [https://iprofiles.apple.com/session](https://iprofiles.apple.com/session)
-4. Uspostavljanje sesije (**`NACKeyEstablishment`**)
-5. Slanje zahteva
-1. POST na [https://iprofiles.apple.com/macProfile](https://iprofiles.apple.com/macProfile) šaljući podatke `{ "action": "RequestProfileConfiguration", "sn": "" }`
-2. JSON payload je enkriptovan pomoću Absinthe-a (**`NACSign`**)
-3. Svi zahtevi se šalju preko HTTPs, koriste se ugrađeni korenski sertifikati
+2. GET [https://iprofiles.apple.com/resource/certificate.cer](https://iprofiles.apple.com/resource/certificate.cer)
+3. **Inicijalizacija** stanja iz sertifikata (**`NACInit`**)
+4. Koristi različite podatke specifične za uređaj (npr. **serijski broj putem `IOKit`**)
+5. Preuzimanje **sesijskog ključa**
+6. POST [https://iprofiles.apple.com/session](https://iprofiles.apple.com/session)
+7. Uspostavljanje sesije (**`NACKeyEstablishment`**)
+8. Slanje zahteva
+9. POST na [https://iprofiles.apple.com/macProfile](https://iprofiles.apple.com/macProfile) šaljući podatke `{ "action": "RequestProfileConfiguration", "sn": "" }`
+10. JSON payload je enkriptovan pomoću Absinthe-a (**`NACSign`**)
+11. Svi zahtevi se šalju preko HTTPs, koriste se ugrađeni korenski sertifikati
 
 ![](<../../../.gitbook/assets/image (566).png>)
 
@@ -139,7 +145,7 @@ Odgovor je JSON rečnik sa nekim važnim podacima kao što su:
 * Potpisano pomoću **sertifikata identiteta uređaja (iz APNS-a)**
 * **Lanac sertifikata** uključuje istekli **Apple iPhone Device CA**
 
-![](<../../../.gitbook/assets/image (567) (1) (2) (2) (2) (2) (2) (2) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (7).png>)
+![](https://github.com/carlospolop/hacktricks/blob/rs/.gitbook/assets/image%20\(567\)%20\(1\)%20\(2\)%20\(2\)%20\(2\)%20\(2\)%20\(2\)%20\(2\)%20\(2\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(7\).png)
 
 ### Korak 6: Instalacija profila
 
@@ -196,7 +202,6 @@ Stoga, ovo može biti opasan ulaz za napadače ako proces upisa nije pravilno za
 [enrolling-devices-in-other-organisations.md](enrolling-devices-in-other-organisations.md)
 {% endcontent-ref %}
 
-
 <details>
 
 <summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
@@ -206,3 +211,5 @@ Drugi načini podrške HackTricks-u:
 * Ako želite da vidite **oglašavanje vaše kompanije u HackTricks-u** ili **preuzmete HackTricks u PDF formatu** Pogledajte [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju eks
+
+</details>

@@ -1,4 +1,4 @@
-# Writable Sys Path + Dll Hijacking Privesc
+# Writable Sys Path +Dll Hijacking Privesc
 
 <details>
 
@@ -9,7 +9,7 @@ Drugi načini podrške HackTricks-u:
 * Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
@@ -22,8 +22,8 @@ Da biste to uradili, možete iskoristiti **Dll Hijacking** gde ćete **preuzeti 
 
 Za više informacija o **šta je Dll Hijacking** proverite:
 
-{% content-ref url="../dll-hijacking.md" %}
-[dll-hijacking.md](../dll-hijacking.md)
+{% content-ref url="./" %}
+[.](./)
 {% endcontent-ref %}
 
 ## Povećanje privilegija pomoću Dll Hijacking-a
@@ -35,6 +35,7 @@ Prva stvar koju trebate uraditi je da **identifikujete proces** koji se izvršav
 Problem u ovim slučajevima je što su ti procesi verovatno već pokrenuti. Da biste pronašli koji Dll-ovi nedostaju servisima, trebate pokrenuti procmon što je pre moguće (pre nego što se procesi učitaju). Dakle, da biste pronašli nedostajuće .dll-ove, uradite sledeće:
 
 * **Kreirajte** folder `C:\privesc_hijacking` i dodajte putanju `C:\privesc_hijacking` u **System Path env promenljivu**. To možete uraditi **ručno** ili sa **PS**:
+
 ```powershell
 # Set the folder path to create and check events for
 $folderPath = "C:\privesc_hijacking"
@@ -51,6 +52,7 @@ $newPath = "$envPath;$folderPath"
 [Environment]::SetEnvironmentVariable("PATH", $newPath, "Machine")
 }
 ```
+
 * Pokrenite **`procmon`** i idite na **`Options`** --> **`Enable boot logging`** i pritisnite **`OK`** u prozoru za potvrdu.
 * Zatim, **ponovo pokrenite** računar. Kada se računar ponovo pokrene, **`procmon`** će početi **snimanje** događaja odmah.
 * Kada se **Windows** pokrene, ponovo pokrenite **`procmon`**, reći će vam da je već pokrenut i pitati vas da li želite da sačuvate događaje u datoteci. Recite **da** i **sačuvajte događaje u datoteku**.
@@ -67,7 +69,7 @@ Pokretanjem ovoga na besplatnoj **virtuelnoj (vmware) Windows 11 mašini** dobio
 
 U ovom slučaju, .exe su beskorisni, pa ih zanemarite, propušteni DLL-ovi su bili od:
 
-| Servis                         | DLL                | CMD linija                                                           |
+| Servis                          | DLL                | CMD linija                                                           |
 | ------------------------------- | ------------------ | -------------------------------------------------------------------- |
 | Task Scheduler (Schedule)       | WptsExtensions.dll | `C:\Windows\system32\svchost.exe -k netsvcs -p -s Schedule`          |
 | Diagnostic Policy Service (DPS) | Unknown.DLL        | `C:\Windows\System32\svchost.exe -k LocalServiceNoNetwork -p -s DPS` |
@@ -79,7 +81,7 @@ Nakon pronalaska ovoga, pronašao sam ovaj zanimljiv blog post koji takođe obja
 
 Dakle, da bismo **povećali privilegije**, preuzećemo kontrolu nad bibliotekom **WptsExtensions.dll**. Imajući **putanju** i **ime**, samo trebamo **generisati zlonamernu DLL**.
 
-Možete [**pokušati koristiti neki od ovih primera**](../dll-hijacking.md#creating-and-compiling-dlls). Možete pokrenuti payload-ove kao što su: dobijanje reverznog šela, dodavanje korisnika, izvršavanje bekon...
+Možete [**pokušati koristiti neki od ovih primera**](./#creating-and-compiling-dlls). Možete pokrenuti payload-ove kao što su: dobijanje reverznog šela, dodavanje korisnika, izvršavanje bekon...
 
 {% hint style="warning" %}
 Imajte na umu da **nije svaki servis pokrenut** sa **`NT AUTHORITY\SYSTEM`**, neki se pokreću i sa **`NT AUTHORITY\LOCAL SERVICE`**, koji ima **manje privilegija**, i nećete moći da kreirate novog korisnika i zloupotrebite njegove dozvole.\
@@ -101,7 +103,7 @@ Drugi načini podrške HackTricks-u:
 * Ako želite da vidite **vašu kompaniju reklamiranu u HackTricks-u** ili **preuzmete HackTricks u PDF formatu**, pogledajte [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>

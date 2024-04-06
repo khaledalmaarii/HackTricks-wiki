@@ -1,4 +1,4 @@
-# macOS Gatekeeper / Karantin / XProtect
+# macOS Gatekeeper / Quarantine / XProtect
 
 <details>
 
@@ -39,6 +39,7 @@ Počevši od macOS Catalina, **Gatekeeper takođe proverava da li je aplikacija 
 #### Provera potpisa
 
 Kada proveravate neki **uzorak zlonamernog softvera**, uvek biste trebali **proveriti potpis** binarnog koda, jer se **razvijac** koji ga je potpisao može već **povezivati** sa **zlonamernim softverom**.
+
 ```bash
 # Get signer
 codesign -vv -d /bin/ls 2>&1 | grep -E "Authority|TeamIdentifier"
@@ -55,6 +56,7 @@ spctl --assess --verbose /Applications/Safari.app
 # Sign a binary
 codesign -s <cert-name-keychain> toolsdemo
 ```
+
 ### Notarizacija
 
 Apple-ov proces notarizacije služi kao dodatna zaštita korisnika od potencijalno štetnog softvera. Uključuje **razvojničko podnošenje njihove aplikacije na pregled** od strane **Apple-ove Notary usluge**, koja se ne sme mešati sa pregledom aplikacija. Ova usluga je **automatizovani sistem** koji detaljno pregleda podneti softver u potrazi za **zlonamernim sadržajem** i mogućim problemima sa potpisivanjem koda.
@@ -68,10 +70,12 @@ Prilikom prvog instaliranja ili pokretanja softvera od strane korisnika, postoja
 GateKeeper je i **nekoliko komponenti za bezbednost** koje sprečavaju izvršavanje nepouzdanih aplikacija i takođe **jedna od tih komponenti**.
 
 Moguće je videti **status** GateKeeper-a pomoću:
+
 ```bash
 # Check the status
 spctl --status
 ```
+
 {% hint style="danger" %}
 Napomena da se provjere potpisa GateKeeper-a vrše samo nad **datotekama sa karantenskim atributom**, a ne nad svakom datotekom.
 {% endhint %}
@@ -81,6 +85,7 @@ GateKeeper će provjeriti da li se prema **postavkama i potpisu** može izvršit
 <figure><img src="../../../.gitbook/assets/image (678).png" alt=""><figcaption></figcaption></figure>
 
 Baza podataka koja čuva ovu konfiguraciju nalazi se u **`/var/db/SystemPolicy`**. Možete provjeriti ovu bazu podataka kao root korisnik koristeći:
+
 ```bash
 # Open database
 sqlite3 /var/db/SystemPolicy
@@ -94,10 +99,12 @@ anchor apple generic and certificate leaf[field.1.2.840.113635.100.6.1.9] exists
 anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] exists and (certificate leaf[field.1.2.840.113635.100.6.1.14] or certificate leaf[field.1.2.840.113635.100.6.1.13]) and notarized|1|0|Notarized Developer ID
 [...]
 ```
+
 Primetite kako se pravilo završava sa "**App Store**", a drugo sa "**Developer ID**", i da je u prethodnoj slici omogućeno izvršavanje aplikacija sa App Store-a i identifikovanih programera.\
 Ako **izmenite** tu postavku na App Store, pravila za "**Notarized Developer ID**" će nestati.
 
 Takođe postoje hiljade pravila tipa GKE:
+
 ```bash
 SELECT requirement,allow,disabled,label from authority where label = 'GKE' limit 5;
 cdhash H"b40281d347dc574ae0850682f0fd1173aa2d0a39"|1|0|GKE
@@ -106,13 +113,17 @@ cdhash H"4317047eefac8125ce4d44cab0eb7b1dff29d19a"|1|0|GKE
 cdhash H"0a71962e7a32f0c2b41ddb1fb8403f3420e1d861"|1|0|GKE
 cdhash H"8d0d90ff23c3071211646c4c9c607cdb601cb18f"|1|0|GKE
 ```
+
 Ovo su heševi koji potiču iz **`/var/db/SystemPolicyConfiguration/gke.bundle/Contents/Resources/gke.auth`, `/var/db/gke.bundle/Contents/Resources/gk.db`** i **`/var/db/gkopaque.bundle/Contents/Resources/gkopaque.db`**
 
 Ili možete navesti prethodne informacije sa:
+
 ```bash
 sudo spctl --list
 ```
+
 Opcije **`--master-disable`** i **`--global-disable`** alata **`spctl`** će potpuno **onemogućiti** ove provere potpisa:
+
 ```bash
 # Disable GateKeeper
 spctl --global-disable
@@ -122,15 +133,19 @@ spctl --master-disable
 spctl --global-enable
 spctl --master-enable
 ```
+
 Kada je potpuno omogućeno, pojaviće se nova opcija:
 
 <figure><img src="../../../.gitbook/assets/image (679).png" alt=""><figcaption></figcaption></figure>
 
 Moguće je **proveriti da li će aplikacija biti dozvoljena od strane GateKeeper-a** pomoću:
+
 ```bash
 spctl --assess -v /Applications/App.app
 ```
+
 Moguće je dodati nove pravila u GateKeeper kako bi se omogućilo izvršavanje određenih aplikacija sa:
+
 ```bash
 # Check if allowed - nop
 spctl --assess -v /Applications/App.app
@@ -145,6 +160,7 @@ sudo spctl --enable --label "whitelist"
 spctl --assess -v /Applications/App.app
 /Applications/App.app: accepted
 ```
+
 ### Karantin fajlovi
 
 Prilikom **preuzimanja** aplikacije ili fajla, određene macOS **aplikacije** kao što su web pregledači ili email klijenti **dodaju prošireni atribut fajla**, poznat kao "**karantin oznaka**", preuzetom fajlu. Ovaj atribut služi kao sigurnosna mera koja označava fajl kao dolazeći sa nepouzdanih izvora (internet) i potencijalno nosi rizike. Međutim, ne sve aplikacije dodaju ovaj atribut, na primer, uobičajeni BitTorrent klijenti obično zaobilaze ovaj proces.
@@ -166,6 +182,7 @@ Međutim, fajlovi koji su sandbox-ovani će imati ovaj atribut postavljen za sva
 {% endhint %}
 
 Moguće je **proveriti njegov status i omogućiti/onemogućiti** (potreban je root pristup) sa:
+
 ```bash
 spctl --status
 assessments enabled
@@ -174,13 +191,17 @@ spctl --enable
 spctl --disable
 #You can also allow nee identifies to execute code using the binary "spctl"
 ```
+
 Takođe možete **pronaći da li datoteka ima prošireni atribut karantina** pomoću:
+
 ```bash
 xattr file.png
 com.apple.macl
 com.apple.quarantine
 ```
+
 Proverite **vrednost** **proširenih** **atributa** i saznajte koja je aplikacija napisala karantinski atribut pomoću:
+
 ```bash
 xattr -l portada.png
 com.apple.macl:
@@ -196,70 +217,34 @@ com.apple.quarantine: 00C1;607842eb;Brave;F643CD5F-6071-46AB-83AB-390BA944DEC5
 # Brave -- App
 # F643CD5F-6071-46AB-83AB-390BA944DEC5 -- UID assigned to the file downloaded
 ```
-Zapravo, proces "može postaviti karantinske oznake na datoteke koje kreira" (pokušao sam primeniti oznaku USER_APPROVED na kreiranu datoteku, ali nije je primenio):
+
+Zapravo, proces "može postaviti karantinske oznake na datoteke koje kreira" (pokušao sam primeniti oznaku USER\_APPROVED na kreiranu datoteku, ali nije je primenio):
 
 <details>
 
 <summary>Izvorni kod primene karantinskih oznaka</summary>
-```c
-#include <stdio.h>
-#include <stdlib.h>
 
-enum qtn_flags {
-QTN_FLAG_DOWNLOAD = 0x0001,
-QTN_FLAG_SANDBOX = 0x0002,
-QTN_FLAG_HARD = 0x0004,
-QTN_FLAG_USER_APPROVED = 0x0040,
-};
+\`\`\`c #include #include
 
-#define qtn_proc_alloc _qtn_proc_alloc
-#define qtn_proc_apply_to_self _qtn_proc_apply_to_self
-#define qtn_proc_free _qtn_proc_free
-#define qtn_proc_init _qtn_proc_init
-#define qtn_proc_init_with_self _qtn_proc_init_with_self
-#define qtn_proc_set_flags _qtn_proc_set_flags
-#define qtn_file_alloc _qtn_file_alloc
-#define qtn_file_init_with_path _qtn_file_init_with_path
-#define qtn_file_free _qtn_file_free
-#define qtn_file_apply_to_path _qtn_file_apply_to_path
-#define qtn_file_set_flags _qtn_file_set_flags
-#define qtn_file_get_flags _qtn_file_get_flags
-#define qtn_proc_set_identifier _qtn_proc_set_identifier
+enum qtn\_flags { QTN\_FLAG\_DOWNLOAD = 0x0001, QTN\_FLAG\_SANDBOX = 0x0002, QTN\_FLAG\_HARD = 0x0004, QTN\_FLAG\_USER\_APPROVED = 0x0040, };
 
-typedef struct _qtn_proc *qtn_proc_t;
-typedef struct _qtn_file *qtn_file_t;
+\#define qtn\_proc\_alloc \_qtn\_proc\_alloc #define qtn\_proc\_apply\_to\_self \_qtn\_proc\_apply\_to\_self #define qtn\_proc\_free \_qtn\_proc\_free #define qtn\_proc\_init \_qtn\_proc\_init #define qtn\_proc\_init\_with\_self \_qtn\_proc\_init\_with\_self #define qtn\_proc\_set\_flags \_qtn\_proc\_set\_flags #define qtn\_file\_alloc \_qtn\_file\_alloc #define qtn\_file\_init\_with\_path \_qtn\_file\_init\_with\_path #define qtn\_file\_free \_qtn\_file\_free #define qtn\_file\_apply\_to\_path \_qtn\_file\_apply\_to\_path #define qtn\_file\_set\_flags \_qtn\_file\_set\_flags #define qtn\_file\_get\_flags \_qtn\_file\_get\_flags #define qtn\_proc\_set\_identifier \_qtn\_proc\_set\_identifier
 
-int qtn_proc_apply_to_self(qtn_proc_t);
-void qtn_proc_init(qtn_proc_t);
-int qtn_proc_init_with_self(qtn_proc_t);
-int qtn_proc_set_flags(qtn_proc_t, uint32_t flags);
-qtn_proc_t qtn_proc_alloc();
-void qtn_proc_free(qtn_proc_t);
-qtn_file_t qtn_file_alloc(void);
-void qtn_file_free(qtn_file_t qf);
-int qtn_file_set_flags(qtn_file_t qf, uint32_t flags);
-uint32_t qtn_file_get_flags(qtn_file_t qf);
-int qtn_file_apply_to_path(qtn_file_t qf, const char *path);
-int qtn_file_init_with_path(qtn_file_t qf, const char *path);
-int qtn_proc_set_identifier(qtn_proc_t qp, const char* bundleid);
+typedef struct \_qtn\_proc \*qtn\_proc\_t; typedef struct \_qtn\_file \*qtn\_file\_t;
+
+int qtn\_proc\_apply\_to\_self(qtn\_proc\_t); void qtn\_proc\_init(qtn\_proc\_t); int qtn\_proc\_init\_with\_self(qtn\_proc\_t); int qtn\_proc\_set\_flags(qtn\_proc\_t, uint32\_t flags); qtn\_proc\_t qtn\_proc\_alloc(); void qtn\_proc\_free(qtn\_proc\_t); qtn\_file\_t qtn\_file\_alloc(void); void qtn\_file\_free(qtn\_file\_t qf); int qtn\_file\_set\_flags(qtn\_file\_t qf, uint32\_t flags); uint32\_t qtn\_file\_get\_flags(qtn\_file\_t qf); int qtn\_file\_apply\_to\_path(qtn\_file\_t qf, const char \*path); int qtn\_file\_init\_with\_path(qtn\_file\_t qf, const char _path); int qtn\_proc\_set\_identifier(qtn\_proc\_t qp, const char_ bundleid);
 
 int main() {
 
-qtn_proc_t qp = qtn_proc_alloc();
-qtn_proc_set_identifier(qp, "xyz.hacktricks.qa");
-qtn_proc_set_flags(qp, QTN_FLAG_DOWNLOAD | QTN_FLAG_USER_APPROVED);
-qtn_proc_apply_to_self(qp);
-qtn_proc_free(qp);
+qtn\_proc\_t qp = qtn\_proc\_alloc(); qtn\_proc\_set\_identifier(qp, "xyz.hacktricks.qa"); qtn\_proc\_set\_flags(qp, QTN\_FLAG\_DOWNLOAD | QTN\_FLAG\_USER\_APPROVED); qtn\_proc\_apply\_to\_self(qp); qtn\_proc\_free(qp);
 
-FILE *fp;
-fp = fopen("thisisquarantined.txt", "w+");
-fprintf(fp, "Hello Quarantine\n");
-fclose(fp);
+FILE \*fp; fp = fopen("thisisquarantined.txt", "w+"); fprintf(fp, "Hello Quarantine\n"); fclose(fp);
 
 return 0;
 
 }
-```
+
+````
 </details>
 
 I uklonite taj atribut sa:
@@ -267,7 +252,8 @@ I uklonite taj atribut sa:
 xattr -d com.apple.quarantine portada.png
 #You can also remove this attribute from every file with
 find . -iname '*' -print0 | xargs -0 xattr -d com.apple.quarantine
-```
+````
+
 I pronađite sve karantinovane datoteke sa:
 
 {% code overflow="wrap" %}
@@ -278,11 +264,11 @@ find / -exec ls -ld {} \; 2>/dev/null | grep -E "[x\-]@ " | awk '{printf $9; pri
 
 Informacije o karantinu takođe se čuvaju u centralnoj bazi podataka koju upravlja LaunchServices u **`~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2`**.
 
-#### **Quarantine.kext**
+**Quarantine.kext**
 
 Kernel ekstenzija je dostupna samo putem **kernel keša na sistemu**; međutim, _možete_ preuzeti **Kernel Debug Kit sa https://developer.apple.com/**, koji će sadržati simbolizovanu verziju ekstenzije.
 
-### XProtect
+#### XProtect
 
 XProtect je ugrađena funkcija **anti-malware** u macOS-u. XProtect **proverava svaku aplikaciju kada se prvi put pokrene ili izmeni u odnosu na svoju bazu podataka** poznatih malvera i nesigurnih tipova fajlova. Kada preuzmete fajl putem određenih aplikacija, kao što su Safari, Mail ili Messages, XProtect automatski skenira fajl. Ako se poklapa sa nekim poznatim malverom u svojoj bazi podataka, XProtect će **sprečiti pokretanje fajla** i upozoriti vas na pretnju.
 
@@ -307,27 +293,25 @@ XProtect se nalazi na SIP zaštićenoj lokaciji na **/Library/Apple/System/Libra
 
 Napomena da postoji još jedna aplikacija u **`/Library/Apple/System/Library/CoreServices/XProtect.app`** koja je povezana sa XProtect-om, ali nije uključena u Gatekeeper proces.
 
-### Ne Gatekeeper
+#### Ne Gatekeeper
 
-{% hint style="danger" %}
 Imajte na umu da Gatekeeper **se ne izvršava svaki put** kada pokrenete aplikaciju, samo će _**AppleMobileFileIntegrity**_ (AMFI) **proveriti potpise izvršnog koda** kada pokrenete aplikaciju koja je već pokrenuta i proverena od strane Gatekeeper-a.
-{% endhint %}
 
 Prethodno je bilo moguće pokrenuti aplikaciju da bi se keširala sa Gatekeeper-om, a zatim **izmeniti neizvršne fajlove aplikacije** (poput Electron asar ili NIB fajlova) i ako nisu postojale druge zaštite, aplikacija bi bila **izvršena** sa **zlonamernim** dodacima.
 
 Međutim, sada to nije moguće jer macOS **sprečava izmenu fajlova** unutar paketa aplikacija. Dakle, ako pokušate napad [Dirty NIB](../macos-proces-abuse/macos-dirty-nib.md), primetićete da više nije moguće zloupotrebiti ga jer nakon pokretanja aplikacije da biste je keširali sa Gatekeeper-om, nećete moći da izmenite paket. Ako, na primer, promenite ime direktorijuma Contents u NotCon (kako je naznačeno u eksploitu) i zatim pokrenete glavni binarni fajl aplikacije da biste je keširali sa Gatekeeper-om, izazvaće grešku i neće se izvršiti.
 
-## Bypass-ovi Gatekeeper-a
+### Bypass-ovi Gatekeeper-a
 
 Svaki način zaobilaženja Gatekeeper-a (uspevajući da naterate korisnika da preuzme nešto i izvrši ga kada bi Gatekeeper trebao da to zabrani) smatra se ranjivošću u macOS-u. Ovo su neki CVE-ovi dodeljeni tehnikama koje su u prošlosti omogućavale zaobilaženje Gatekeeper-a:
 
-### [CVE-2021-1810](https://labs.withsecure.com/publications/the-discovery-of-cve-2021-1810)
+#### [CVE-2021-1810](https://labs.withsecure.com/publications/the-discovery-of-cve-2021-1810)
 
 Primećeno je da ako se koristi **Archive Utility** za ekstrakciju, fajlovi sa **putanjama dužim od 886 karaktera** ne dobijaju prošireni atribut com.apple.quarantine. Ova situacija nenamerno omogućava tim fajlovima da **zaobiđu sigurnosne provere Gatekeeper-a**.
 
 Pogledajte [**originalni izveštaj**](https://labs.withsecure.com/publications/the-discovery-of-cve-2021-1810) za više informacija.
 
-### [CVE-2021-30990](https://ronmasas.com/posts/bypass-macos-gatekeeper)
+#### [CVE-2021-30990](https://ronmasas.com/posts/bypass-macos-gatekeeper)
 
 Kada se aplikacija kreira sa **Automator-om**, informacije o tome šta je potrebno za njeno izvršavanje nalaze se u `application.app/Contents/document.wflow`, a ne u izvršnom fajlu. Izvršni fajl je samo generički Automator binarni fajl nazvan **Automator Application Stub**.
 
@@ -337,31 +321,37 @@ Primer očekivane lokacije: `/System/Library/CoreServices/Automator\ Application
 
 Pogledajte [**originalni izveštaj**](https://ronmasas.com/posts/bypass-macos-gatekeeper) za više informacija.
 
-### [CVE-2022-22616](https://www.jamf.com/blog/jamf-threat-labs-safari-vuln-gatekeeper-bypass/)
+#### [CVE-2022-22616](https://www.jamf.com/blog/jamf-threat-labs-safari-vuln-gatekeeper-bypass/)
 
 U ovom zaobilaženju je kreiran zip fajl sa aplikacijom koji počinje sa kompresijom od `application.app/Contents`, umesto od `application.app`. Stoga je **karantinski atribut** primenjen na sve **fajlove iz `application.app/Contents`**, ali **ne na `application.app`**, što je Gatekeeper proveravao, pa je Gatekeeper zaobiđen jer kada je `application.app` pokrenut, **nije imao karantinski atribut**.
+
 ```bash
 zip -r test.app/Contents test.zip
 ```
+
 Proverite [**originalni izveštaj**](https://www.jamf.com/blog/jamf-threat-labs-safari-vuln-gatekeeper-bypass/) za više informacija.
 
-### [CVE-2022-32910](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-32910)
+#### [CVE-2022-32910](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-32910)
 
 Čak i ako su komponente različite, iskorišćavanje ove ranjivosti je vrlo slično prethodnoj. U ovom slučaju ćemo generisati Apple arhiv iz **`application.app/Contents`** tako da **`application.app` neće dobiti karantinski atribut** kada se dekompresuje pomoću **Archive Utility**.
+
 ```bash
 aa archive -d test.app/Contents -o test.app.aar
 ```
+
 Proverite [**originalni izveštaj**](https://www.jamf.com/blog/jamf-threat-labs-macos-archive-utility-vulnerability/) za više informacija.
 
-### [CVE-2022-42821](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/)
+#### [CVE-2022-42821](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/)
 
 ACL **`writeextattr`** može se koristiti da se spreči bilo ko da upiše atribut u datoteku:
+
 ```bash
 touch /tmp/no-attr
 chmod +a "everyone deny writeextattr" /tmp/no-attr
 xattr -w attrname vale /tmp/no-attr
 xattr: [Errno 13] Permission denied: '/tmp/no-attr'
 ```
+
 Osim toga, **AppleDouble** format datoteke kopira datoteku zajedno sa njenim ACE-ovima.
 
 U [**izvornom kodu**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) je moguće videti da se ACL tekstualna reprezentacija koja je smeštena unutar xattr-a nazvanog **`com.apple.acl.text`** će biti postavljena kao ACL u dekompresovanoj datoteci. Dakle, ako ste kompresovali aplikaciju u zip datoteku sa **AppleDouble** formatom datoteke sa ACL-om koji sprečava pisanje drugih xattr-a na nju... karantinski xattr nije postavljen u aplikaciji:
@@ -378,17 +368,19 @@ python3 -m http.server
 Proverite [**originalni izveštaj**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/) za više informacija.
 
 Imajte na umu da se ovo takođe može iskoristiti pomoću AppleArchives:
+
 ```bash
 mkdir app
 touch app/test
 chmod +a "everyone deny write,writeattr,writeextattr" app/test
 aa archive -d app -o test.aar
 ```
-### [CVE-2023-27943](https://blog.f-secure.com/discovery-of-gatekeeper-bypass-cve-2023-27943/)
+
+#### [CVE-2023-27943](https://blog.f-secure.com/discovery-of-gatekeeper-bypass-cve-2023-27943/)
 
 Otkriveno je da **Google Chrome nije postavljao atribut karantina** na preuzete datoteke zbog nekih internih problema u macOS-u.
 
-### [CVE-2023-27951](https://redcanary.com/blog/gatekeeper-bypass-vulnerabilities/)
+#### [CVE-2023-27951](https://redcanary.com/blog/gatekeeper-bypass-vulnerabilities/)
 
 Formati datoteka AppleDouble čuvaju atribute datoteke u posebnoj datoteci koja počinje sa `._`, što pomaže u kopiranju atributa datoteke **između macOS mašina**. Međutim, primijećeno je da nakon dekompresije AppleDouble datoteke, datoteka koja počinje sa `._` **nije dobila atribut karantina**.
 
@@ -405,6 +397,7 @@ aa archive -d test/ -o test.aar
 {% endcode %}
 
 Moguće je bilo zaobići Gatekeeper tako što se napravi datoteka koja neće imati postavljen atribut karantina. Trik je bio da se napravi aplikacija DMG datoteke koristeći AppleDouble konvenciju imena (početi sa `._`) i napraviti vidljivu datoteku kao simboličku vezu ka ovoj skrivenoj datoteci bez atributa karantina. Kada se izvrši DMG datoteka, pošto nema atribut karantina, zaobići će Gatekeeper.
+
 ```bash
 # Create an app bundle with the backdoor an call it app.app
 
@@ -420,20 +413,11 @@ ln -s ._app.dmg s/app/app.dmg
 echo "[+] compressing files"
 aa archive -d s/ -o app.aar
 ```
-### Sprječavanje karantenskog xattr-a
+
+#### Sprječavanje karantenskog xattr-a
 
 U paketu ".app" ako karantenski xattr nije dodan, prilikom izvršavanja **Gatekeeper neće biti pokrenut**.
 
-<details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Drugi načini podrške HackTricks-u:
-
-* Ako želite vidjeti **oglašavanje vaše kompanije u HackTricks-u** ili **preuzeti HackTricks u PDF formatu** provjerite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podijelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>

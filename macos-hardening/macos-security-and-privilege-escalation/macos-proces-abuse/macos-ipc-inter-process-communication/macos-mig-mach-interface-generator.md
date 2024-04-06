@@ -1,4 +1,4 @@
-# macOS MIG - Mach Interfejs Generator
+# macOS MIG - Mach Interface Generator
 
 <details>
 
@@ -38,15 +38,15 @@ n2          :  uint32_t);
 {% endcode %}
 
 Sada koristite mig da generišete server i klijentski kod koji će moći da komuniciraju međusobno kako bi pozvali Subtract funkciju:
+
 ```bash
 mig -header myipcUser.h -sheader myipcServer.h myipc.defs
 ```
+
 Napraviće se nekoliko novih datoteka u trenutnom direktorijumu.
 
 U datotekama **`myipcServer.c`** i **`myipcServer.h`** možete pronaći deklaraciju i definiciju strukture **`SERVERPREFmyipc_subsystem`**, koja u osnovi definiše funkciju koja će se pozvati na osnovu primljenog ID-ja poruke (označili smo početni broj 500):
 
-{% tabs %}
-{% tab title="myipcServer.c" %}
 ```c
 /* Description of this subsystem, for use in direct RPC */
 const struct SERVERPREFmyipc_subsystem SERVERPREFmyipc_subsystem = {
@@ -62,15 +62,12 @@ myipc_server_routine,
 }
 };
 ```
-{% endtab %}
 
-{% tab title="myipcServer.h" %} 
-
-### macOS MIG (Mach Interface Generator)
+#### macOS MIG (Mach Interface Generator)
 
 MIG (Mach Interface Generator) is a tool used to define inter-process communication (IPC) for macOS. It generates client and server-side code for message-based IPC. MIG is commonly used in macOS for system services and kernel extensions.
 
-#### Example of a MIG definition file:
+**Example of a MIG definition file:**
 
 ```c
 routine myipc_sample_routine {
@@ -88,11 +85,10 @@ routine myipc_sample_routine {
 
 In the example above, `myipc_sample_routine` is a MIG routine that defines the structure of the message for inter-process communication.
 
-MIG simplifies the development of IPC mechanisms in macOS by automatically generating the necessary code for message passing between processes. This automation helps in reducing errors and streamlining the IPC implementation process. 
+MIG simplifies the development of IPC mechanisms in macOS by automatically generating the necessary code for message passing between processes. This automation helps in reducing errors and streamlining the IPC implementation process.
 
-By understanding how MIG works, security researchers can analyze and identify potential vulnerabilities in macOS IPC mechanisms and enhance the overall security posture of the system. 
+By understanding how MIG works, security researchers can analyze and identify potential vulnerabilities in macOS IPC mechanisms and enhance the overall security posture of the system.
 
-{% endtab %}
 ```c
 /* Description of this subsystem, for use in direct RPC */
 extern const struct SERVERPREFmyipc_subsystem {
@@ -105,7 +101,9 @@ struct routine_descriptor	/* Array of routine descriptors */
 routine[1];
 } SERVERPREFmyipc_subsystem;
 ```
+
 Na osnovu prethodne strukture, funkcija **`myipc_server_routine`** će dobiti **ID poruke** i vratiti odgovarajuću funkciju koja treba da se pozove:
+
 ```c
 mig_external mig_routine_t myipc_server_routine
 (mach_msg_header_t *InHeadP)
@@ -120,15 +118,18 @@ return 0;
 return SERVERPREFmyipc_subsystem.routine[msgh_id].stub_routine;
 }
 ```
+
 U ovom primeru smo definisali samo 1 funkciju u definicijama, ali da smo definisali više funkcija, bile bi unutar niza **`SERVERPREFmyipc_subsystem`** i prva bi bila dodeljena ID-u **500**, druga ID-u **501**...
 
 Zapravo je moguće identifikovati ovu vezu u strukturi **`subsystem_to_name_map_myipc`** iz **`myipcServer.h`**:
+
 ```c
 #ifndef subsystem_to_name_map_myipc
 #define subsystem_to_name_map_myipc \
 { "Subtract", 500 }
 #endif
 ```
+
 Konačno, još jedna važna funkcija koja će omogućiti rad servera biće **`myipc_server`**, koja će zapravo **pozvati funkciju** povezanu sa primljenim ID-om:
 
 <pre class="language-c"><code class="lang-c">mig_external boolean_t myipc_server
@@ -167,8 +168,6 @@ Proverite prethodno istaknute linije pristupa funkciji koju treba pozvati prema 
 
 U nastavku je kod za kreiranje jednostavnog **servera** i **klijenta** gde klijent može pozvati funkcije Oduzimanje sa servera:
 
-{% tabs %}
-{% tab title="myipc_server.c" %}
 ```c
 // gcc myipc_server.c myipcServer.c -o myipc_server
 
@@ -199,9 +198,9 @@ return 1;
 mach_msg_server(myipc_server, sizeof(union __RequestUnion__SERVERPREFmyipc_subsystem), port, MACH_MSG_TIMEOUT_NONE);
 }
 ```
-{% endtab %}
 
-{% tab title="myipc_client.c" %}
+
+
 ```c
 // gcc myipc_client.c myipcUser.c -o myipc_client
 
@@ -226,14 +225,17 @@ printf("Port right name %d\n", port);
 USERPREFSubtract(port, 40, 2);
 }
 ```
+
 ### Analiza binarnih fajlova
 
 Pošto mnogi binarni fajlovi sada koriste MIG za izlaganje mach portova, interesantno je znati kako **identifikovati da je MIG korišćen** i **funkcije koje MIG izvršava** sa svakim ID-jem poruke.
 
 [**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2) može parsirati MIG informacije iz Mach-O binarnog fajla, pokazujući ID poruke i identifikujući funkciju za izvršavanje:
+
 ```bash
 jtool2 -d __DATA.__const myipc_server | grep MIG
 ```
+
 Ranije je pomenuto da će funkcija koja će se brinuti o **pozivanju odgovarajuće funkcije u zavisnosti od primljenog ID poruke** biti `myipc_server`. Međutim, obično nećete imati simbole binarnog koda (imenovanje funkcija), pa je zanimljivo **proveriti kako izgleda dekompilirano** jer će uvek biti vrlo slično (kod ove funkcije je nezavisan od izloženih funkcija):
 
 {% tabs %}

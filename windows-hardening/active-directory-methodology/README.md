@@ -1,4 +1,4 @@
-# Metodologija Active Directory
+# Active Directory Methodology
 
 <details>
 
@@ -9,7 +9,7 @@ Drugi načini podrške HackTricks-u:
 * Ako želite da vidite **vašu kompaniju oglašenu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
@@ -37,8 +37,7 @@ Ključni koncepti unutar **Active Directory**-ja uključuju:
 5. **Upravljanje pravima** - Pomaže u zaštiti autorskih materijala regulisanjem neovlašćene distribucije i upotrebe.
 6. **DNS usluga** - Ključna za razrešavanje **imenovanja domena**.
 
-Za detaljnije objašnjenje pogledajte: [**TechTerms - Definicija Active Directory-ja**](https://techterms.com/definition/active_directory)
-
+Za detaljnije objašnjenje pogledajte: [**TechTerms - Definicija Active Directory-ja**](https://techterms.com/definition/active\_directory)
 
 ### **Kerberos autentifikacija**
 
@@ -64,8 +63,8 @@ Ako imate pristup okruženju AD-a, ali nemate akreditacije/sesije, možete:
 * `smbclient -U '%' -L //<DC IP> && smbclient -U 'guest%' -L //`
 * Detaljniji vodič o tome kako nabrojati SMB server možete pronaći ovde:
 
-{% content-ref url="../../network-services-pentesting/pentesting-smb.md" %}
-[pentesting-smb.md](../../network-services-pentesting/pentesting-smb.md)
+{% content-ref url="../../network-services-pentesting/pentesting-smb/" %}
+[pentesting-smb](../../network-services-pentesting/pentesting-smb/)
 {% endcontent-ref %}
 
 * **Nabrojavanje LDAP-a**
@@ -76,11 +75,13 @@ Ako imate pristup okruženju AD-a, ali nemate akreditacije/sesije, možete:
 [pentesting-ldap.md](../../network-services-pentesting/pentesting-ldap.md)
 {% endcontent-ref %}
 
-* **Trovanje mreže
+* \*\*Trovanje mreže
+
 ### Enumeracija korisnika
 
-* **Anonimna SMB/LDAP enumeracija:** Pogledajte stranice [**pentesting SMB**](../../network-services-pentesting/pentesting-smb.md) i [**pentesting LDAP**](../../network-services-pentesting/pentesting-ldap.md).
+* **Anonimna SMB/LDAP enumeracija:** Pogledajte stranice [**pentesting SMB**](../../network-services-pentesting/pentesting-smb/) i [**pentesting LDAP**](../../network-services-pentesting/pentesting-ldap.md).
 * **Kerbrute enumeracija**: Kada se zahteva **nevažeće korisničko ime**, server će odgovoriti koristeći **Kerberos grešku** sa kodom _KRB5KDC\_ERR\_C\_PRINCIPAL\_UNKNOWN_, što nam omogućava da utvrdimo da je korisničko ime nevažeće. **Validna korisnička imena** će izazvati ili **TGT u AS-REP** odgovoru ili grešku _KRB5KDC\_ERR\_PREAUTH\_REQUIRED_, što ukazuje da je korisniku potrebno izvršiti pre-authentication.
+
 ```bash
 ./kerbrute_linux_amd64 userenum -d lab.ropnop.com --dc 10.10.10.10 usernames.txt #From https://github.com/ropnop/kerbrute/releases
 
@@ -91,9 +92,11 @@ msf> use auxiliary/gather/kerberos_enumusers
 
 crackmapexec smb dominio.es  -u '' -p '' --users | awk '{print $4}' | uniq
 ```
+
 * **OWA (Outlook Web Access) Server**
 
 Ako pronađete jedan od ovih servera u mreži, takođe možete izvršiti **enumeraciju korisnika protiv njega**. Na primer, možete koristiti alat [**MailSniper**](https://github.com/dafthack/MailSniper):
+
 ```bash
 ipmo C:\Tools\MailSniper\MailSniper.ps1
 # Get info about the domain
@@ -105,6 +108,7 @@ Invoke-PasswordSprayOWA -ExchHostname [ip] -UserList .\valid.txt -Password Summe
 # Get addresses list from the compromised mail
 Get-GlobalAddressList -ExchHostname [ip] -UserName [domain]\[username] -Password Summer2021 -OutFile gal.txt
 ```
+
 {% hint style="warning" %}
 Možete pronaći liste korisničkih imena u [**ovom github repozitorijumu**](https://github.com/danielmiessler/SecLists/tree/master/Usernames/Names) \*\*\*\* i ovom ([**statistically-likely-usernames**](https://github.com/insidetrust/statistically-likely-usernames)).
 
@@ -171,7 +175,7 @@ Kompromitacija naloga je **veliki korak za početak kompromitovanja celog domena
 * Takođe možete isprobati automatizovane alate kao:
 * [**tomcarver16/ADSearch**](https://github.com/tomcarver16/ADSearch)
 * [**61106960/adPEAS**](https://github.com/61106960/adPEAS)
-*   **Izdvajanje svih korisnika domena**
+* **Izdvajanje svih korisnika domena**
 
 Veoma je jednostavno dobiti sva korisnička imena domena iz Windowsa (`net user /domain`, `Get-DomainUser` ili `wmic useraccount get name,sid`). Na Linuxu možete koristiti: `GetADUsers.py -all -dc-ip 10.10.10.110 domain.com/username` ili `enum4linux -a -u "user" -p "password" <DC IP>`
 
@@ -186,6 +190,7 @@ Više o tome u:
 {% content-ref url="kerberoast.md" %}
 [kerberoast.md](kerberoast.md)
 {% endcontent-ref %}
+
 ### Udaljena veza (RDP, SSH, FTP, Win-RM, itd)
 
 Kada ste dobili neke akreditive, možete proveriti da li imate pristup bilo kojem **računaru**. Za to možete koristiti **CrackMapExec** da biste pokušali da se povežete na nekoliko servera sa različitim protokolima, u skladu sa skeniranjem portova.
@@ -199,6 +204,7 @@ U ovom priručniku postoji cela stranica o [**lokalnom eskaliranju privilegija u
 ### Trenutne sesijske karte
 
 Vrlo je **malo verovatno** da ćete pronaći **karte** u trenutnom korisniku koje vam daju dozvolu za pristup **neočekivanim resursima**, ali možete proveriti:
+
 ```bash
 ## List all tickets (if not admin, only current user tickets)
 .\Rubeus.exe triage
@@ -206,6 +212,7 @@ Vrlo je **malo verovatno** da ćete pronaći **karte** u trenutnom korisniku koj
 .\Rubeus.exe dump /service:krbtgt /luid:<luid> /nowrap
 [IO.File]::WriteAllBytes("ticket.kirbi", [Convert]::FromBase64String("<BASE64_TICKET>"))
 ```
+
 ### NTML Relay
 
 Ako ste uspeli da nabrojite aktivni direktorijum, imaćete **više emailova i bolje razumevanje mreže**. Možda ćete moći da izvršite napade **NTML preusmeravanja**.
@@ -214,7 +221,7 @@ Ako ste uspeli da nabrojite aktivni direktorijum, imaćete **više emailova i bo
 
 Sada kada imate neke osnovne podatke za prijavu, trebali biste proveriti da li možete **pronaći** bilo **koje zanimljive datoteke koje se dele unutar AD**. To možete uraditi ručno, ali to je veoma dosadan i ponavljajući zadatak (posebno ako pronađete stotine dokumenata koje treba proveriti).
 
-[**Pratite ovaj link da biste saznali o alatima koje možete koristiti.**](../../network-services-pentesting/pentesting-smb.md#domain-shared-folders-search)
+[**Pratite ovaj link da biste saznali o alatima koje možete koristiti.**](../../network-services-pentesting/pentesting-smb/#domain-shared-folders-search)
 
 ### Krađa NTLM podataka za prijavu
 
@@ -240,7 +247,7 @@ Ova ranjivost omogućava svakom autentifikovanom korisniku da **ugrozi kontroler
 
 Nadamo se da ste uspeli da **ugrozite neki lokalni administratorski** nalog koristeći [AsRepRoast](asreproast.md), [Password Spraying](password-spraying.md), [Kerberoast](kerberoast.md), [Responder](../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md) uključujući preusmeravanje, [EvilSSDP](../../generic-methodologies-and-resources/pentesting-network/spoofing-ssdp-and-upnp-devices.md), [escalating privileges locally](../windows-local-privilege-escalation/).\
 Onda je vreme da izvučete sve heševe iz memorije i lokalno.\
-[**Pročitajte ovu stranicu o različitim načinima dobijanja heševa.**](broken-reference/)
+[**Pročitajte ovu stranicu o različitim načinima dobijanja heševa.**](https://github.com/carlospolop/hacktricks/blob/rs/windows-hardening/active-directory-methodology/broken-reference/README.md)
 
 ### Pass the Hash
 
@@ -267,11 +274,13 @@ U metodi napada **Pass The Ticket (PTT)**, napadači **kradu autentifikacioni ti
 ### Ponovna upotreba podataka za prijavu
 
 Ako imate **heš** ili **lozinku** lokalnog **administratora**, trebali biste pokušati da se **prijavite lokalno** na druge **računare** sa tim podacima.
+
 ```bash
 # Local Auth Spray (once you found some local admin pass or hash)
 ## --local-auth flag indicate to only try 1 time per machine
 crackmapexec smb --local-auth 10.10.10.10/23 -u administrator -H 10298e182387f9cab376ecd08491764a0 | grep +
 ```
+
 {% hint style="warning" %}
 Napomena da je ovo prilično **buka** i **LAPS** bi to **umirio**.
 {% endhint %}
@@ -326,7 +335,7 @@ Kompromitovani korisnik može imati neke **interesantne privilegije nad nekim ob
 Otkrivanje **Službe štampača koja osluškuje** unutar domena može biti **zloupotrebljeno** za **dobijanje novih akreditacija** i **povišenje privilegija**.
 
 {% content-ref url="acl-persistence-abuse/" %}
-[printers-spooler-service-abuse](printers-spooler-service-abuse.md)
+[acl-persistence-abuse](acl-persistence-abuse/)
 {% endcontent-ref %}
 
 ### Zloupotreba sesija trećih strana
@@ -370,24 +379,26 @@ Kada dobijete privilegije **Administratora domena** ili čak bolje **Enterprise 
 
 [**Više informacija o DCSync napadu možete pronaći ovde**](dcsync.md).
 
-[**Više informacija o tome kako ukrasti NTDS.dit možete pronaći ovde**](broken-reference/)
+[**Više informacija o tome kako ukrasti NTDS.dit možete pronaći ovde**](https://github.com/carlospolop/hacktricks/blob/rs/windows-hardening/active-directory-methodology/broken-reference/README.md)
 
 ### Povišenje privilegija kao trajna infekcija
 
 Neke od tehnika koje su prethodno razmatrane mogu se koristiti za trajnu infekciju.\
 Na primer, možete:
 
-*   Učiniti korisnike ranjivim na [**Kerberoast**](kerberoast.md)
+* Učiniti korisnike ranjivim na [**Kerberoast**](kerberoast.md)
 
 ```powershell
 Set-DomainObject -Identity <korisničko_ime> -Set @{serviceprincipalname="fake/NOTHING"}r
 ```
-*   Učiniti korisnike ranjivim na [**ASREPRoast**](asreproast.md)
+
+* Učiniti korisnike ranjivim na [**ASREPRoast**](asreproast.md)
 
 ```powershell
 Set-DomainObject -Identity <korisničko_ime> -XOR @{UserAccountControl=4194304}
 ```
-*   Dodeliti privilegije [**DCSync**](./#dcsync) korisniku
+
+* Dodeliti privilegije [**DCSync**](./#dcsync) korisniku
 
 ```powershell
 Add-DomainObjectAcl -TargetIdentity "DC=SUB,DC=DOMAIN,DC=LOCAL" -PrincipalIdentity bfarmer -Rights DCSync
@@ -413,7 +424,8 @@ Kada napadač dobije ovaj hash, može kreirati **TGT-ove** za bilo koji nalog ko
 
 ### Diamond Ticket
 
-Ovo su kao zlatni tiketi koji su falsifikovani na način koji **zaobilazi uobičajene
+Ovo su kao zlatni tiketi koji su falsifikovani na način koji \*\*zaobilazi uobičajene
+
 ### **Persistencija domena putem sertifikata**
 
 **Korišćenjem sertifikata takođe je moguće ostvariti perzistenciju sa visokim privilegijama unutar domena:**
@@ -462,7 +474,7 @@ Izmenite **LSASS** u memoriji da biste uspostavili **univerzalnu lozinku**, koja
 
 ### Prilagođeni SSP
 
-[Saznajte šta je SSP (Security Support Provider) ovde.](../authentication-credentials-uac-and-efs.md#security-support-provider-interface-sspi)\
+[Saznajte šta je SSP (Security Support Provider) ovde.](../authentication-credentials-uac-and-efs/#security-support-provider-interface-sspi)\
 Možete kreirati **sopstveni SSP** da biste **uhvatili** u **čistom tekstu** **akreditive** koji se koriste za pristup mašini.\\
 
 {% content-ref url="custom-ssp.md" %}
@@ -507,12 +519,12 @@ U tipičnom scenariju, ako korisnik želi da pristupi usluzi u **poverenom domen
 6. DC2 proverava inter-realm TGT koristeći deljeni povereni ključ i, ako je validan, izdaje **Ticket Granting Service (TGS)** za server u Domen 2 kojem klijent želi da pristupi.
 7. Na kraju, klijent predstavlja ovaj TGS serveru, koji je šifrovan sa hashom naloga servera, kako bi dobio pristup usluzi u Domen 2.
 
-
 ### Različita poverenja
 
 Važno je primetiti da **poverenje može biti jednosmerno ili dvosmerno**. U dvosmernim opcijama, oba domena će međusobno verovati, ali u slučaju **jednosmernog** poverenja jedan od domena će biti **povereni** domen, a drugi **poverljivi** domen. U poslednjem slučaju, **samo ćete moći pristupiti resursima unutar poverljivog domena iz poverenog domena**.
 
 Ako Domen A ver
+
 #### Ostale razlike u **poverljivim odnosima**
 
 * Poverljivi odnos može biti i **tranzitivan** (A veruje B, B veruje C, onda A veruje C) ili **netranzitivan**.
@@ -527,11 +539,12 @@ Ako Domen A ver
 
 Napadači mogu pristupiti resursima u drugoj domeni putem tri osnovna mehanizma:
 
-- **Članstvo u lokalnoj grupi**: Principali mogu biti dodati u lokalne grupe na računarima, kao što je grupa "Administratori" na serveru, što im omogućava značajnu kontrolu nad tim računarom.
-- **Članstvo u grupi strane domene**: Principali takođe mogu biti članovi grupa unutar strane domene. Međutim, efikasnost ovog metoda zavisi od prirode poverenja i opsega grupe.
-- **Kontrolne liste pristupa (ACL)**: Principali mogu biti navedeni u ACL-u, posebno kao entiteti u ACE-ovima unutar DACL-a, što im omogućava pristup određenim resursima. Za one koji žele dublje da se upuste u mehaniku ACL-a, DACL-a i ACE-ova, bela knjiga pod nazivom "[An ACE Up The Sleeve](https://specterops.io/assets/resources/an_ace_up_the_sleeve.pdf)" je neprocenjiv resurs.
+* **Članstvo u lokalnoj grupi**: Principali mogu biti dodati u lokalne grupe na računarima, kao što je grupa "Administratori" na serveru, što im omogućava značajnu kontrolu nad tim računarom.
+* **Članstvo u grupi strane domene**: Principali takođe mogu biti članovi grupa unutar strane domene. Međutim, efikasnost ovog metoda zavisi od prirode poverenja i opsega grupe.
+* **Kontrolne liste pristupa (ACL)**: Principali mogu biti navedeni u ACL-u, posebno kao entiteti u ACE-ovima unutar DACL-a, što im omogućava pristup određenim resursima. Za one koji žele dublje da se upuste u mehaniku ACL-a, DACL-a i ACE-ova, bela knjiga pod nazivom "[An ACE Up The Sleeve](https://specterops.io/assets/resources/an\_ace\_up\_the\_sleeve.pdf)" je neprocenjiv resurs.
 
 ### Eskalacija privilegija od deteta do roditelja u šumi
+
 ```
 Get-DomainTrust
 
@@ -543,9 +556,11 @@ TrustDirection  : Bidirectional       --> Trust direction (2ways in this case)
 WhenCreated     : 2/19/2021 1:28:00 PM
 WhenChanged     : 2/19/2021 1:28:00 PM
 ```
+
 {% hint style="warning" %}
 Postoje **2 pouzdane ključeve**, jedan za _Dete --> Roditelj_ i drugi za _Roditelj_ --> _Dete_.\
 Možete pronaći onaj koji se koristi od strane trenutne domene pomoću:
+
 ```bash
 Invoke-Mimikatz -Command '"lsadump::trust /patch"' -ComputerName dc.my.domain.local
 Invoke-Mimikatz -Command '"lsadump::dcsync /user:dcorp\mcorp$"'
@@ -589,6 +604,7 @@ ADCS ESC5 ranjivost cilja kontrolu nad objektima javnog ključa infrastrukture (
 Više detalja o ovome možete pročitati u [From DA to EA with ESC5](https://posts.specterops.io/from-da-to-ea-with-esc5-f9f045aa105c). U scenarijima u kojima nema ADCS-a, napadač ima mogućnost da postavi neophodne komponente, kao što je opisano u [Escalating from Child Domain Admins to Enterprise Admins](https://www.pkisolutions.com/escalating-from-child-domains-admins-to-enterprise-admins-in-5-minutes-by-abusing-ad-cs-a-follow-up/).
 
 ### Spoljni šumski domen - Jednosmerni (ulazni) ili dvosmerni
+
 ```powershell
 Get-DomainTrust
 SourceName      : a.domain.local   --> Current domain
@@ -599,6 +615,7 @@ TrustDirection  : Inbound          --> Inboud trust
 WhenCreated     : 2/19/2021 10:50:56 PM
 WhenChanged     : 2/19/2021 10:50:56 PM
 ```
+
 U ovom scenariju **vaš domen je poveren** od strane spoljnog domena, što vam daje **nepoznate dozvole** nad njim. Morate pronaći **koji principali vašeg domena imaju pristup spoljnom domenu** i zatim pokušati iskoristiti to:
 
 {% content-ref url="external-forest-domain-oneway-inbound.md" %}
@@ -606,6 +623,7 @@ U ovom scenariju **vaš domen je poveren** od strane spoljnog domena, što vam d
 {% endcontent-ref %}
 
 ### Spoljni šumski domen - Jednosmerno (izlazno)
+
 ```powershell
 Get-DomainTrust -Domain current.local
 
@@ -617,6 +635,7 @@ TrustDirection  : Outbound        --> Outbound trust
 WhenCreated     : 2/19/2021 10:15:24 PM
 WhenChanged     : 2/19/2021 10:15:24 PM
 ```
+
 U ovom scenariju, **vaš domen** poverava neke **privilegije** principalu iz **drugih domena**.
 
 Međutim, kada je **domein poveren** od strane poverljivog domena, povereni domen **kreira korisnika** sa **predvidljivim imenom** koji koristi kao **lozinku poverljivu lozinku**. To znači da je moguće **pristupiti korisniku iz poverljivog domena da bi se ušlo u povereni domen** kako bi se izvršila enumeracija i pokušalo da se dobiju više privilegija:
@@ -638,13 +657,13 @@ Osim toga, ako je **žrtva montirala svoj hard disk**, iz procesa RDP sesije nap
 
 ### **SID filtriranje:**
 
-- Rizik od napada koji koriste atribut SID istorije preko šumskih poverenja umanjuje SID filtriranje, koje je podrazumevano aktivirano na svim međušumskim poverenjima. Ovo se zasniva na pretpostavci da su unutaršumska poverenja sigurna, uzimajući u obzir šumu, a ne domen, kao granicu bezbednosti prema stavu Microsoft-a.
-- Međutim, postoji kvaka: SID filtriranje može poremetiti aplikacije i korisnički pristup, što dovodi do povremenog deaktiviranja.
+* Rizik od napada koji koriste atribut SID istorije preko šumskih poverenja umanjuje SID filtriranje, koje je podrazumevano aktivirano na svim međušumskim poverenjima. Ovo se zasniva na pretpostavci da su unutaršumska poverenja sigurna, uzimajući u obzir šumu, a ne domen, kao granicu bezbednosti prema stavu Microsoft-a.
+* Međutim, postoji kvaka: SID filtriranje može poremetiti aplikacije i korisnički pristup, što dovodi do povremenog deaktiviranja.
 
 ### **Selektivna autentifikacija:**
 
-- Za međušumska poverenja, primena selektivne autentifikacije osigurava da se korisnici iz dve šume ne autentifikuju automatski. Umesto toga, potrebne su eksplicitne dozvole korisnicima da pristupe domenima i serverima unutar poverljivog domena ili šume.
-- Važno je napomenuti da ove mere ne štite od iskorišćavanja upisivog Configuration Naming Context (NC) ili napada na nalog za poverenje.
+* Za međušumska poverenja, primena selektivne autentifikacije osigurava da se korisnici iz dve šume ne autentifikuju automatski. Umesto toga, potrebne su eksplicitne dozvole korisnicima da pristupe domenima i serverima unutar poverljivog domena ili šume.
+* Važno je napomenuti da ove mere ne štite od iskorišćavanja upisivog Configuration Naming Context (NC) ili napada na nalog za poverenje.
 
 [**Više informacija o poverenju domena na ired.team.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/child-domain-da-to-ea-in-parent-domain)
 
@@ -654,32 +673,31 @@ Osim toga, ako je **žrtva montirala svoj hard disk**, iz procesa RDP sesije nap
 
 ## Neke opšte odbrane
 
-[**Saznajte više o zaštiti akreditiva ovde.**](../stealing-credentials/credentials-protections.md)\
+[**Saznajte više o zaštiti akreditiva ovde.**](../stealing-credentials/credentials-protections.md)\\
 
 ### **Odbrambene mere za zaštitu akreditiva**
 
-- **Ograničenja domenskih administratora**: Preporučuje se da domenski administratori mogu se prijaviti samo na kontrolere domena, izbegavajući njihovu upotrebu na drugim hostovima.
-- **Privilegije servisnih naloga**: Servisi ne bi trebali da se pokreću sa privilegijama domenskog administratora (DA) kako bi se održala bezbednost.
-- **Vremensko ograničenje privilegija**: Za zadatke koji zahtevaju privilegije domenskog administratora, njihovo trajanje treba ograničiti. To se može postići pomoću: `Add-ADGroupMember -Identity ‘Domain Admins’ -Members newDA -MemberTimeToLive (New-TimeSpan -Minutes 20)`
+* **Ograničenja domenskih administratora**: Preporučuje se da domenski administratori mogu se prijaviti samo na kontrolere domena, izbegavajući njihovu upotrebu na drugim hostovima.
+* **Privilegije servisnih naloga**: Servisi ne bi trebali da se pokreću sa privilegijama domenskog administratora (DA) kako bi se održala bezbednost.
+* **Vremensko ograničenje privilegija**: Za zadatke koji zahtevaju privilegije domenskog administratora, njihovo trajanje treba ograničiti. To se može postići pomoću: `Add-ADGroupMember -Identity ‘Domain Admins’ -Members newDA -MemberTimeToLive (New-TimeSpan -Minutes 20)`
 
 ### **Implementacija tehnika obmane**
 
-- Implementacija obmane podrazumeva postavljanje zamki, poput lažnih korisnika ili računara, sa funkcijama kao što su lozinke koje ne ističu ili su označene kao pouzdane za delegaciju. Detaljan pristup uključuje kreiranje korisnika sa određenim pravima ili njihovo dodavanje u grupe visokih privilegija.
-- Praktičan primer uključuje korišćenje alata kao što je: `Create-DecoyUser -UserFirstName user -UserLastName manager-uncommon -Password Pass@123 | DeployUserDeception -UserFlag PasswordNeverExpires -GUID d07da11f-8a3d-42b6-b0aa-76c962be719a -Verbose`
-- Više o implementaciji tehnika obmane može se pronaći na [Deploy-Deception na GitHub-u](https://github.com/samratashok/Deploy-Deception).
+* Implementacija obmane podrazumeva postavljanje zamki, poput lažnih korisnika ili računara, sa funkcijama kao što su lozinke koje ne ističu ili su označene kao pouzdane za delegaciju. Detaljan pristup uključuje kreiranje korisnika sa određenim pravima ili njihovo dodavanje u grupe visokih privilegija.
+* Praktičan primer uključuje korišćenje alata kao što je: `Create-DecoyUser -UserFirstName user -UserLastName manager-uncommon -Password Pass@123 | DeployUserDeception -UserFlag PasswordNeverExpires -GUID d07da11f-8a3d-42b6-b0aa-76c962be719a -Verbose`
+* Više o implementaciji tehnika obmane može se pronaći na [Deploy-Deception na GitHub-u](https://github.com/samratashok/Deploy-Deception).
 
 ### **Identifikacija obmane**
 
-- **Za korisničke objekte**: Sumnjivi pokazatelji uključuju atipičan ObjectSID, retke prijave, datume kreiranja i nizak broj loših lozinki.
-- **Opšti pokazatelji**: Upoređivanje atributa potencijalnih lažnih objekata sa atributima stvarnih objekata može otkriti neusaglašenosti. Alati poput [HoneypotBuster](https://github.com/JavelinNetworks/HoneypotBuster) mogu pomoći u identifikaciji takvih obmana.
+* **Za korisničke objekte**: Sumnjivi pokazatelji uključuju atipičan ObjectSID, retke prijave, datume kreiranja i nizak broj loših lozinki.
+* **Opšti pokazatelji**: Upoređivanje atributa potencijalnih lažnih objekata sa atributima stvarnih objekata može otkriti neusaglašenosti. Alati poput [HoneypotBuster](https://github.com/JavelinNetworks/HoneypotBuster) mogu pomoći u identifikaciji takvih obmana.
 
 ### **Bypassing sistema za detekciju**
 
-- **Bypass detekcije Microsoft ATA**:
-- **Enumeracija korisnika**: Izbeći enumeraciju sesija na kontrolerima domena kako bi se sprečila detekcija ATA.
-- **Impersonacija tiketa**: Korišćenje **aes** ključeva za kreiranje tiketa pomaže izbegavanju detekcije tako što se ne vrši degradacija na NTLM.
-- **DCSync napadi**: Preporučuje se izvršavanje sa ne-Domain Controllera kako bi se izbegla detekcija ATA, jer direktno izvršavanje sa Domain Controllera će izazvati upozorenja.
-
+* **Bypass detekcije Microsoft ATA**:
+* **Enumeracija korisnika**: Izbeći enumeraciju sesija na kontrolerima domena kako bi se sprečila detekcija ATA.
+* **Impersonacija tiketa**: Korišćenje **aes** ključeva za kreiranje tiketa pomaže izbegavanju detekcije tako što se ne vrši degradacija na NTLM.
+* **DCSync napadi**: Preporučuje se izvršavanje sa ne-Domain Controllera kako bi se izbegla detekcija ATA, jer direktno izvršavanje sa Domain Controllera će izazvati upozorenja.
 
 ## Reference
 
@@ -696,7 +714,7 @@ Drugi načini da podržite HackTricks:
 * Ako želite da vidite **vašu kompaniju oglašenu u HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>

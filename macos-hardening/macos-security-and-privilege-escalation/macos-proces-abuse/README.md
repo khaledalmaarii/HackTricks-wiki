@@ -1,4 +1,4 @@
-# Zloupotreba procesa na macOS-u
+# macOS Proces Abuse
 
 <details>
 
@@ -30,16 +30,16 @@ Ubacivanje biblioteke je tehnika u kojoj napadač **prisiljava proces da učita 
 
 Hakovanje funkcija podrazumeva **interceptovanje poziva funkcija** ili poruka unutar softverskog koda. Hakovanjem funkcija, napadač može **modifikovati ponašanje** procesa, posmatrati osetljive podatke ili čak preuzeti kontrolu nad tokom izvršenja.
 
-{% content-ref url="../mac-os-architecture/macos-function-hooking.md" %}
-[macos-function-hooking.md](../mac-os-architecture/macos-function-hooking.md)
+{% content-ref url="macos-function-hooking.md" %}
+[macos-function-hooking.md](macos-function-hooking.md)
 {% endcontent-ref %}
 
 ### Komunikacija Između Procesa
 
 Komunikacija između procesa (IPC) odnosi se na različite metode kojima odvojeni procesi **doležu i razmenjuju podatke**. Iako je IPC fundamentalan za mnoge legitimne aplikacije, može biti zloupotrebljen da zaobiđe izolaciju procesa, procure osetljive informacije ili izvrši neovlaštene akcije.
 
-{% content-ref url="../mac-os-architecture/macos-ipc-inter-process-communication/" %}
-[macos-ipc-inter-process-communication](../mac-os-architecture/macos-ipc-inter-process-communication/)
+{% content-ref url="macos-ipc-inter-process-communication/" %}
+[macos-ipc-inter-process-communication](macos-ipc-inter-process-communication/)
 {% endcontent-ref %}
 
 ### Ubacivanje Elektronskih Aplikacija
@@ -107,9 +107,10 @@ Druge env promenljive poput **`PYTHONPATH`** i **`PYTHONHOME`** takođe mogu bit
 
 Imajte na umu da izvršni fajlovi kompajlirani sa **`pyinstaller`** neće koristiti ove env promenljive čak i ako se izvršavaju koristeći ugrađeni python.
 
-{% hint style="opasnost" %}
+{% hint style="info" %}
 U suštini, nisam uspeo da pronađem način da nateram python da izvrši proizvoljni kod zloupotrebom env promenljivih.\
 Međutim, većina ljudi instalira python koristeći **Hombrew**, koji će instalirati python na **zapisivu lokaciju** za podrazumevanog admin korisnika. Možete ga preuzeti nečim poput:
+
 ```bash
 mv /opt/homebrew/bin/python3 /opt/homebrew/bin/python3.old
 cat > /opt/homebrew/bin/python3 <<EOF
@@ -119,6 +120,7 @@ cat > /opt/homebrew/bin/python3 <<EOF
 EOF
 chmod +x /opt/homebrew/bin/python3
 ```
+
 Čak će i **root** pokrenuti ovaj kod prilikom pokretanja pythona.
 {% endhint %}
 
