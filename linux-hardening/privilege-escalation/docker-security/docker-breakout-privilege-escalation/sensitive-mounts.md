@@ -8,26 +8,30 @@
 
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFTs](https://opensea.io/collection/the-peass-family)系列
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFT](https://opensea.io/collection/the-peass-family)收藏品
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
-未经适当命名空间隔离的`/proc`和`/sys`的暴露会带来重大安全风险，包括扩大攻击面和信息泄露。这些目录包含敏感文件，如果配置不当或被未经授权的用户访问，可能导致容器逃逸、主机修改或提供有助于进一步攻击的信息。例如，不正确地挂载`-v /proc:/host/proc`可能会绕过AppArmor保护，因为其基于路径的特性，使`/host/proc`无保护。
+<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
 
-**您可以在** [**https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts**](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts)** **找到每个潜在漏洞的更多详细信息。**
+{% embed url="https://websec.nl/" %}
+
+未经适当命名空间隔离的`/proc`和`/sys`的暴露会引入重大安全风险，包括扩大攻击面和信息泄露。这些目录包含敏感文件，如果配置不当或被未经授权的用户访问，可能导致容器逃逸、主机修改或提供有助于进一步攻击的信息。例如，不正确地挂载`-v /proc:/host/proc`可能绕过AppArmor保护，因为其基于路径的特性，使`/host/proc`无保护。
+
+**您可以在** [**https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts**](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts)** **中找到每个潜在漏洞的更多详细信息。
 
 ## procfs漏洞
 
 ### `/proc/sys`
 
-该目录允许通过`sysctl(2)`修改内核变量，并包含几个相关子目录：
+此目录允许访问以修改内核变量，通常通过`sysctl(2)`进行，包含几个相关子目录：
 
 #### **`/proc/sys/kernel/core_pattern`**
 
 * 在[core(5)](https://man7.org/linux/man-pages/man5/core.5.html)中描述。
-* 允许定义在生成核心文件时执行的程序，前128个字节作为参数。如果文件以管道`|`开头，可能导致代码执行。
+* 允许定义一个程序，在核心文件生成时使用前128个字节作为参数执行。如果文件以管道`|`开头，这可能导致代码执行。
 *   **测试和利用示例**：
 
 ```bash
@@ -50,7 +54,7 @@ ls -l $(cat /proc/sys/kernel/modprobe) # 检查对modprobe的访问权限
 #### **`/proc/sys/vm/panic_on_oom`**
 
 * 在[proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html)中引用。
-* 一个全局标志，控制OOM条件发生时内核是崩溃还是调用OOM killer。
+* 一个全局标志，控制当发生OOM条件时内核是崩溃还是调用OOM killer。
 
 #### **`/proc/sys/fs`**
 
@@ -84,12 +88,12 @@ echo b > /proc/sysrq-trigger # 重启主机
 #### **`/proc/kmsg`**
 
 * 显示内核环形缓冲区消息。
-* 可帮助内核利用、地址泄漏和提供敏感系统信息。
+* 可以帮助内核利用、地址泄漏和提供敏感系统信息。
 
 #### **`/proc/kallsyms`**
 
 * 列出内核导出的符号及其地址。
-* 对于内核利用开发至关重要，特别是为了克服KASLR。
+* 对于内核利用开发至关重要，特别是用于克服KASLR。
 * 地址信息受`kptr_restrict`设置为`1`或`2`的限制。
 * 详细信息请参阅[proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html)。
 
@@ -104,7 +108,7 @@ echo b > /proc/sysrq-trigger # 重启主机
 * 以ELF核心格式表示系统的物理内存。
 * 读取可能泄露主机系统和其他容器的内存内容。
 * 大文件大小可能导致读取问题或软件崩溃。
-* 详细用法请参阅[2019年转储/proc/kcore](https://schlafwandler.github.io/posts/dumping-/proc/kcore/)。
+* 在[2019年转储/proc/kcore](https://schlafwandler.github.io/posts/dumping-/proc/kcore/)中详细介绍了用法。
 
 #### **`/proc/kmem`**
 
@@ -138,7 +142,7 @@ echo b > /proc/sysrq-trigger # 重启主机
 
 echo "#!/bin/sh" > /evil-helper echo "ps > /output" >> /evil-helper chmod +x /evil-helper
 
-## 从OverlayFS挂载中找到容器的主机路径
+## 从OverlayFS挂载的容器中查找主机路径
 
 host\_path=$(sed -n 's/._\perdir=(\[^,]_).\*/\1/p' /etc/mtab)
 
@@ -163,8 +167,8 @@ cat /output %%%
 
 #### **`/sys/kernel/security`**
 
-* 包含 `securityfs` 接口，允许配置 Linux 安全模块如 AppArmor。
-* 访问可能使容器禁用其 MAC 系统。
+* 包含 `securityfs` 接口，允许配置类似 AppArmor 的 Linux 安全模块。
+* 访问可能使容器能够禁用其 MAC 系统。
 
 #### **`/sys/firmware/efi/vars` 和 `/sys/firmware/efi/efivars`**
 
@@ -182,16 +186,20 @@ cat /output %%%
 * [Understanding and Hardening Linux Containers](https://research.nccgroup.com/wp-content/uploads/2020/07/ncc\_group\_understanding\_hardening\_linux\_containers-1-1.pdf)
 * [Abusing Privileged and Unprivileged Linux Containers](https://www.nccgroup.com/globalassets/our-research/us/whitepapers/2016/june/container\_whitepaper.pdf)
 
+<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://websec.nl/" %}
+
 <details>
 
-<summary><strong>从零开始学习 AWS 黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>从零开始学习 AWS 黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS 红队专家）</strong></a><strong>！</strong></summary>
 
 支持 HackTricks 的其他方式：
 
-* 如果您想在 HackTricks 中看到您的 **公司广告** 或 **下载 PDF 版本的 HackTricks**，请查看 [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* 如果您想在 HackTricks 中看到您的 **公司广告** 或 **下载 PDF 版本的 HackTricks**，请查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* 探索 [**PEASS Family**](https://opensea.io/collection/the-peass-family)，我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** 上关注我们**。
-* 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享您的黑客技巧。 
+* 探索 [**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享您的黑客技巧。
 
 </details>
