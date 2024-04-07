@@ -4,7 +4,7 @@
 
 <summary><strong>Aprenda hacking na AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras maneiras de apoiar o HackTricks:
+Outras formas de apoiar o HackTricks:
 
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
@@ -14,18 +14,22 @@ Outras maneiras de apoiar o HackTricks:
 
 </details>
 
+<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://websec.nl/" %}
+
 ## Conceitos Básicos de Delegação Restrita Baseada em Recursos
 
-Isso é semelhante à [Delegação Restrita](constrained-delegation.md) básica, mas **em vez** de conceder permissões a um **objeto para se fazer passar por qualquer usuário em relação a um serviço**. A Delegação Restrita Baseada em Recursos **define no objeto quem pode se fazer passar por qualquer usuário em relação a ele**.
+Isso é semelhante à [Delegação Restrita](constrained-delegation.md) básica, mas **em vez** de conceder permissões a um **objeto** para **fingir ser qualquer usuário em relação a um serviço**. A Delegação Restrita Baseada em Recursos **define no objeto quem pode fingir ser qualquer usuário em relação a ele**.
 
-Neste caso, o objeto restrito terá um atributo chamado _**msDS-AllowedToActOnBehalfOfOtherIdentity**_ com o nome do usuário que pode se fazer passar por qualquer outro usuário em relação a ele.
+Neste caso, o objeto restrito terá um atributo chamado _**msDS-AllowedToActOnBehalfOfOtherIdentity**_ com o nome do usuário que pode fingir ser qualquer outro usuário em relação a ele.
 
-Outra diferença importante desta Delegação Restrita para as outras delegações é que qualquer usuário com **permissões de escrita sobre uma conta de máquina** (_GenericAll/GenericWrite/WriteDacl/WriteProperty/etc_) pode definir o _**msDS-AllowedToActOnBehalfOfOtherIdentity**_ (Nas outras formas de Delegação, era necessário ter privilégios de administrador de domínio).
+Outra diferença importante desta Delegação Restrita para as outras delegações é que qualquer usuário com **permissões de escrita sobre uma conta de máquina** (_GenericAll/GenericWrite/WriteDacl/WriteProperty/etc_) pode definir o _**msDS-AllowedToActOnBehalfOfOtherIdentity**_ (Nas outras formas de Delegação, você precisava de privilégios de administrador de domínio).
 
 ### Novos Conceitos
 
-Na Delegação Restrita foi mencionado que a flag **`TrustedToAuthForDelegation`** dentro do valor _userAccountControl_ do usuário é necessária para realizar um **S4U2Self**. Mas isso não é totalmente verdade.\
-A realidade é que mesmo sem esse valor, você pode realizar um **S4U2Self** contra qualquer usuário se você for um **serviço** (tiver um SPN), mas, se você **tiver `TrustedToAuthForDelegation`**, o TGS retornado será **Encaminhável** e se você **não tiver** essa flag, o TGS retornado **não** será **Encaminhável**.
+Na Delegação Restrita foi dito que a bandeira **`TrustedToAuthForDelegation`** dentro do valor _userAccountControl_ do usuário é necessária para realizar um **S4U2Self**. Mas isso não é completamente verdade.\
+A realidade é que mesmo sem esse valor, você pode realizar um **S4U2Self** contra qualquer usuário se você for um **serviço** (tiver um SPN), mas, se você **tiver `TrustedToAuthForDelegation`**, o TGS retornado será **Encaminhável** e se você **não tiver** essa bandeira, o TGS retornado **não** será **Encaminhável**.
 
 No entanto, se o **TGS** usado em **S4U2Proxy** **NÃO for Encaminhável** tentar abusar de uma **Delegação Restrita básica** **não funcionará**. Mas se você estiver tentando explorar uma **delegação restrita baseada em recursos, funcionará** (isso não é uma vulnerabilidade, é um recurso, aparentemente).
 
@@ -35,13 +39,13 @@ No entanto, se o **TGS** usado em **S4U2Proxy** **NÃO for Encaminhável** tenta
 
 Suponha que o atacante já tenha **privilégios equivalentes de escrita sobre o computador da vítima**.
 
-1. O atacante **compromete** uma conta que tenha um **SPN** ou **cria um** (“Serviço A”). Observe que **qualquer** _Usuário Administrador_ sem nenhum outro privilégio especial pode **criar** até 10 **objetos de Computador (**_**MachineAccountQuota**_**)** e definir um **SPN**. Assim, o atacante pode simplesmente criar um objeto de Computador e definir um SPN.
-2. O atacante **abusa de seu privilégio de ESCRITA** sobre o computador da vítima (ServiçoB) para configurar **delegação restrita baseada em recursos para permitir que o ServiçoA se faça passar por qualquer usuário** em relação a esse computador da vítima (ServiçoB).
+1. O atacante **compromete** uma conta que tenha um **SPN** ou **cria um** (“Serviço A”). Observe que **qualquer** _Usuário Administrador_ sem nenhum outro privilégio especial pode **criar** até 10 **objetos de Computador (**_**MachineAccountQuota**_**)** e definir um **SPN**. Portanto, o atacante pode simplesmente criar um objeto de Computador e definir um SPN.
+2. O atacante **abusa de seu privilégio de ESCRITA** sobre o computador da vítima (ServiçoB) para configurar **delegação restrita baseada em recursos para permitir que o ServiçoA finja ser qualquer usuário** em relação a esse computador da vítima (ServiçoB).
 3. O atacante usa o Rubeus para realizar um **ataque S4U completo** (S4U2Self e S4U2Proxy) do Serviço A para o Serviço B para um usuário **com acesso privilegiado ao Serviço B**.
 1. S4U2Self (da conta comprometida/criada com SPN): Solicita um **TGS do Administrador para mim** (Não Encaminhável).
 2. S4U2Proxy: Usa o **TGS não Encaminhável** do passo anterior para solicitar um **TGS** do **Administrador** para o **host da vítima**.
-3. Mesmo se você estiver usando um TGS não Encaminhável, como está explorando a delegação restrita baseada em recursos, funcionará.
-4. O atacante pode **passar o ticket** e **se fazer passar** pelo usuário para obter **acesso ao ServiçoB da vítima**.
+3. Mesmo se você estiver usando um TGS não Encaminhável, como você está explorando a delegação restrita baseada em recursos, funcionará.
+4. O atacante pode **passar o ticket** e **fingir ser** o usuário para obter **acesso ao ServiçoB da vítima**.
 
 Para verificar o _**MachineAccountQuota**_ do domínio, você pode usar:
 ```powershell
@@ -59,7 +63,7 @@ New-MachineAccount -MachineAccount SERVICEA -Password $(ConvertTo-SecureString '
 # Check if created
 Get-DomainComputer SERVICEA
 ```
-### Configurando a Delegação Restrita Baseada em Recursos
+### Configurando a **Delegação Restrita Baseada em Recursos**
 
 **Usando o módulo PowerShell do Active Directory**
 ```powershell
@@ -128,14 +132,18 @@ Saiba mais sobre os [**tickets de serviço disponíveis aqui**](silver-ticket.md
 * [https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/resource-based-constrained-delegation-ad-computer-object-take-over-and-privilged-code-execution#modifying-target-computers-ad-object](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/resource-based-constrained-delegation-ad-computer-object-take-over-and-privilged-code-execution#modifying-target-computers-ad-object)
 * [https://stealthbits.com/blog/resource-based-constrained-delegation-abuse/](https://stealthbits.com/blog/resource-based-constrained-delegation-abuse/)
 
+<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://websec.nl/" %}
+
 <details>
 
 <summary><strong>Aprenda hacking na AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**oficial PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
