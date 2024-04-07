@@ -1,25 +1,22 @@
+# I2C
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi mtaalam wa timu nyekundu wa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
+## Bus Pirate
 
-
-
-
-
-# Bus Pirate
-
-Ili kujaribu ikiwa Bus Pirate inafanya kazi, unganisha +5V na VPU na 3.3V na ADC na ufikie Bus Pirate (kwa kutumia Tera Term kwa mfano) na tumia amri `~`:
+Ili kuthibitisha kuwa Bus Pirate inafanya kazi, unganisha +5V na VPU na 3.3V na ADC kisha ufikie Bus Pirate (Kwa kutumia Tera Term kwa mfano) na tumia amri `~`:
 ```bash
 # Use command
 HiZ>~
@@ -58,18 +55,18 @@ Any key to exit
 #Press space
 Found 0 errors.
 ```
-Kama unavyoona katika mstari wa amri uliopita, ilisema kwamba haikupata makosa yoyote. Hii ni muhimu sana kujua kwamba inafanya kazi baada ya kununua au baada ya kuflash firmware.
+Kama unavyoona katika mstari wa amri uliopita ilisema kwamba ilipata makosa 0. Hii ni muhimu sana kujua kwamba inafanya kazi baada ya kununua au baada ya kuflash firmware.
 
-Kuunganisha na Bus Pirate unaweza kufuata nyaraka:
+Kuunganisha na pirate wa basi unaweza kufuata nyaraka:
 
-![](<../../.gitbook/assets/image (307) (2).png>)
+![](<../../.gitbook/assets/image (481).png>)
 
-Katika kesi hii, nitaunganisha na EPROM: ATMEL901 24C256 PU27:
+Katika kesi hii ninaenda kuunganisha kwenye EPROM: ATMEL901 24C256 PU27:
 
-![](<../../.gitbook/assets/image (465) (2) (1).png>)
+![](<../../.gitbook/assets/image (961).png>)
 
-Kuzungumza na Bus Pirate, nilitumia Tera Term iliyounganishwa na bandari ya COM ya Bus Pirate na Mipangilio --> Bandari ya Serial --> Kasi ya 115200.\
-Katika mawasiliano yafuatayo, unaweza kupata jinsi ya kujiandaa Bus Pirate kuzungumza I2C na jinsi ya kuandika na kusoma kutoka kwenye kumbukumbu (Maoni yanaonekana kwa kutumia "#", usitegemee sehemu hiyo katika mawasiliano):
+Kuzungumza na pirate wa basi nilitumia Tera Term iliyounganishwa kwenye bandari ya COM ya pirate bus na Setup --> Serial Port --> Kasi ya 115200.\
+Katika mawasiliano yafuatayo unaweza kupata jinsi ya kujiandaa pirate wa basi kuzungumza I2C na jinsi ya kuandika na kusoma kutoka kwenye kumbukumbu (Maoni huonekana kwa kutumia "#", usitarajie sehemu hiyo katika mawasiliano):
 ```bash
 # Check communication with buspirate
 i
@@ -168,11 +165,11 @@ WRITE: 0xA1 ACK
 READ: 0x42  ACK 0x42  ACK 0x42  ACK 0x20  ACK 0x48  ACK 0x69  ACK 0x20  ACK 0x44  ACK 0x72  ACK 0x65  ACK 0x67  ACK 0x21  ACK 0x20  ACK 0x41  ACK 0x41  ACK 0x41  ACK 0x00  ACK 0xFF  ACK 0xFF  ACK 0xFF
 NACK
 ```
-## Sniffer
+### Sniffer
 
-Katika hali hii, tutasikiliza mawasiliano ya I2C kati ya arduino na EPROM iliyotangulia, unahitaji tu kuunganisha vifaa vyote na kisha kuunganisha bus pirate kwenye pini za SCL, SDA na GND:
+Katika hali hii tutakuwa tunasikiliza mawasiliano ya I2C kati ya arduino na EPROM iliyotangulia, unahitaji tu kuwasiliana na vifaa vyote na kisha unganisha pirate wa basi kwenye pins za SCL, SDA na GND:
 
-![](<../../.gitbook/assets/image (201) (2) (1).png>)
+![](<../../.gitbook/assets/image (163).png>)
 ```bash
 I2C>m
 1. HiZ
@@ -220,14 +217,14 @@ Any key to exit
 ```
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>

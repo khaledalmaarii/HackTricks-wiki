@@ -1,18 +1,18 @@
-# Kutumia MSSQL kwa Uvunjaji wa AD
+# Kutumia MSSQL kwenye AD
 
 <details>
 
-<summary><strong>Jifunze kuhusu kuvamia AWS kutoka mwanzo hadi kuwa shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi mtaalamu na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalamu wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Unataka kuona **kampuni yako ikionekana kwenye HackTricks**? au unataka kupata upatikanaji wa **toleo jipya la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Unataka kuona **kampuni yako ikionekana kwenye HackTricks**? au unataka kupata upatikanaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **nifuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kuvamia kwa kuwasilisha PRs kwenye [repo ya hacktricks](https://github.com/carlospolop/hacktricks) na [repo ya hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **nifuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-## **Uorodheshaji / Ugunduzi wa MSSQL**
+## **Uthibitishaji / Ugunduzi wa MSSQL**
 
 Moduli ya powershell [PowerUpSQL](https://github.com/NetSPI/PowerUpSQL) ni muhimu sana katika kesi hii.
 ```powershell
@@ -74,11 +74,13 @@ Invoke-SQLOSCmd -Instance "srv.sub.domain.local,1433" -Command "whoami" -RawResu
 ```
 ### Mbinu za Msingi za Kudukua MSSQL
 
-**Angalia kwenye ukurasa uliotajwa katika sehemu ifuatayo jinsi ya kufanya hivi kwa mikono.**
+{% content-ref url="../../network-services-pentesting/pentesting-mssql-microsoft-sql-server/" %}
+[pentesting-mssql-microsoft-sql-server](../../network-services-pentesting/pentesting-mssql-microsoft-sql-server/)
+{% endcontent-ref %}
 
-## Viungo Vinavyoaminika vya MSSQL
+## Viungo Vilivyothibitishwa vya MSSQL
 
-Ikiwa kipengee cha MSSQL kinaaminika (kiungo cha database) na kipengee kingine cha MSSQL. Ikiwa mtumiaji ana mamlaka juu ya database iliyothibitishwa, ataweza **kutumia uhusiano wa kuaminika kutekeleza maswali pia kwenye kipengee kingine**. Viungo hivi vinaweza kuunganishwa na kufikia hatua ambapo mtumiaji anaweza kupata database iliyo na mipangilio isiyosahihishwa ambapo anaweza kutekeleza amri.
+Ikiwa kipengee cha MSSQL kinaaminika (kiungo cha database) na kipengee kingine cha MSSQL. Ikiwa mtumiaji ana mamlaka juu ya database iliyothibitishwa, ataweza **kutumia uhusiano wa kuaminika kutekeleza maswali pia kwenye kipengee kingine**. Viungo hivi vinaweza kuunganishwa na kufikia hatua ambapo mtumiaji anaweza kupata database iliyo na mipangilio isiyosahihi ambapo anaweza kutekeleza amri.
 
 **Viungo kati ya databases hufanya kazi hata kati ya uaminifu wa misitu.**
 
@@ -122,24 +124,24 @@ Unaweza kwa urahisi kuchunguza viungo vinavyoaminika kwa kutumia metasploit.
 msf> use exploit/windows/mssql/mssql_linkcrawler
 [msf> set DEPLOY true] #Set DEPLOY to true if you want to abuse the privileges to obtain a meterpreter session
 ```
-### Kumbuka kwamba metasploit itajaribu kutumia tu kazi ya `openquery()` katika MSSQL (kwa hivyo, ikiwa huwezi kutekeleza amri na `openquery()` utahitaji kujaribu njia ya `EXECUTE` **kwa mkono** kutekeleza amri, angalia zaidi hapa chini.)
+### Kujua Viungo Vinavyoweza Kuaminika
+
+Tambua kuwa metasploit itajaribu kutumia tu kazi ya `openquery()` katika MSSQL (kwa hivyo, ikiwa huwezi kutekeleza amri na `openquery()` utahitaji kujaribu njia ya `EXECUTE` **kwa mkono** kutekeleza amri, angalia zaidi hapa chini.)
 
 ### Kwa Mkono - Openquery()
 
-Kutoka kwa **Linux** unaweza kupata kabati la konsoli la MSSQL na **sqsh** na **mssqlclient.py.**
+Kutoka kwa **Linux** unaweza kupata kabati la koni la MSSQL na **sqsh** na **mssqlclient.py.**
 
 Kutoka kwa **Windows** unaweza pia kupata viungo na kutekeleza amri kwa mkono ukitumia **mteja wa MSSQL kama** [**HeidiSQL**](https://www.heidisql.com)
 
-_Aingie kwa kutumia uthibitisho wa Windows:_
+_Ingia ukitumia uthibitisho wa Windows:_
 
-![](<../../.gitbook/assets/image (167) (1).png>) 
-
-#### Pata Viungo Vinavyoweza Kuthibitishwa
+![](<../../.gitbook/assets/image (805).png>)
 ```sql
 select * from master..sysservers;
 EXEC sp_linkedservers;
 ```
-![](<../../.gitbook/assets/image (168).png>)
+![](<../../.gitbook/assets/image (713).png>)
 
 #### Tekeleza maswali katika kiungo kinachoweza kuaminika
 
@@ -148,10 +150,10 @@ Tekeleza maswali kupitia kiungo (mfano: pata viungo zaidi katika kifaa kipya kin
 select * from openquery("dcorp-sql1", 'select * from master..sysservers')
 ```
 {% hint style="warning" %}
-Angalia mahali ambapo alama za nukuu mbili na moja zinatumika, ni muhimu kutumia kwa njia hiyo.
+Angalia mahali ambapo alama za nukuu mbili na moja hutumiwa, ni muhimu kutumia hizo njia.
 {% endhint %}
 
-![](<../../.gitbook/assets/image (169).png>)
+![](<../../.gitbook/assets/image (640).png>)
 
 Unaweza kuendelea mnyororo huu wa viungo vilivyothibitishwa milele kwa mkono.
 ```sql
@@ -173,6 +175,6 @@ EXECUTE('EXECUTE(''sp_addsrvrolemember ''''hacker'''' , ''''sysadmin'''' '') AT 
 
 **Mtumiaji wa ndani wa MSSQL** kawaida ana aina maalum ya mamlaka inayoitwa **`SeImpersonatePrivilege`**. Hii inaruhusu akaunti hiyo "kujifanya kuwa mteja baada ya uwakilishi".
 
-Stratejia ambayo waandishi wengi wamebuni ni kulazimisha huduma ya SYSTEM kujithibitisha kwa huduma ya mwongozo au mtu katikati ambayo mshambuliaji anajenga. Huduma hii ya mwongozo inaweza kujifanya kuwa huduma ya SYSTEM wakati inajaribu kujithibitisha.
+Stratejia ambayo waandishi wengi wamebuni ni kulazimisha huduma ya SYSTEM kujithibitisha kwa huduma ya kijanja au ya kati ambayo mkaidi hujenga. Huduma hii ya mkaidi inaweza kujifanya kuwa huduma ya SYSTEM wakati inajaribu kujithibitisha. 
 
 [SweetPotato](https://github.com/CCob/SweetPotato) ina mkusanyiko wa njia hizi mbalimbali ambazo zinaweza kutekelezwa kupitia amri ya `execute-assembly` ya Beacon.

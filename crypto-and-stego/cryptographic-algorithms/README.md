@@ -4,129 +4,142 @@
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kuvamia AWS kutoka mwanzo hadi mtaalamu na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za kuvamia kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
 ## Kutambua Algorithms
 
-Ikiwa unakuta nambari **inatumia mabadiliko ya kulia na kushoto, xors na shughuli za hisabati kadhaa** ni uwezekano mkubwa kuwa ni utekelezaji wa **algorithm ya kriptografia**. Hapa tutaelezea njia kadhaa za **kutambua algorithm inayotumiwa bila kuhitaji kurejesha hatua kwa hatua**.
+Ikiwa unakutana na msimbo **ukiwa na mabadiliko ya haki na kushoto, xors na shughuli kadhaa za hisabati** ni uwezekano mkubwa kwamba ni utekelezaji wa **algorithm ya kriptografia**. Hapa tutaelezea njia kadhaa za **kutambua algorithm inayotumiwa bila kuhitaji kugeuza kila hatua**.
 
-### API functions
+### Vipengele vya API
 
 **CryptDeriveKey**
 
-Ikiwa kazi hii inatumika, unaweza kupata **algorithm inayotumiwa** kwa kuangalia thamani ya parameter ya pili:
+Ikiwa kazi hii inatumika, unaweza kugundua ni **algorithm gani inatumika** kwa kuangalia thamani ya parameter ya pili:
 
-![](<../../.gitbook/assets/image (375) (1) (1) (1) (1).png>)
+![](<../../.gitbook/assets/image (153).png>)
 
 Angalia hapa jedwali la algorithms inayowezekana na thamani zao zilizopewa: [https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id](https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id)
 
 **RtlCompressBuffer/RtlDecompressBuffer**
 
-Inapunguza na kurejesha data iliyopewa.
+Inakandamiza na kufyatua data iliyopewa.
 
 **CryptAcquireContext**
 
-Kutoka [nyaraka](https://learn.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-cryptacquirecontexta): Kazi ya **CryptAcquireContext** hutumiwa kupata kushughulikia kwa chombo fulani cha ufungaji ndani ya mtoaji fulani wa huduma ya kriptografia (CSP). **Kushughulikia hili lililopokelewa hutumiwa katika wito wa kazi za CryptoAPI** ambazo hutumia CSP iliyochaguliwa.
+Kutoka [kwenye nyaraka](https://learn.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-cryptacquirecontexta): Kazi ya **CryptAcquireContext** hutumiwa kupata kushikilia kwa chombo maalum cha funguo ndani ya mtoaji maalum wa huduma ya kriptografia (CSP). **Kushikilia hiki kilichorudiwa hutumiwa katika wito wa kazi za CryptoAPI** zinazotumia CSP iliyochaguliwa.
 
 **CryptCreateHash**
 
-Inaanzisha kuhesabu hash ya mtiririko wa data. Ikiwa kazi hii inatumika, unaweza kupata **algorithm inayotumiwa** kwa kuangalia thamani ya parameter ya pili:
+Inaanzisha kuhesabu ya data. Ikiwa kazi hii inatumika, unaweza kugundua ni **algorithm gani inatumika** kwa kuangalia thamani ya parameter ya pili:
 
-![](<../../.gitbook/assets/image (376).png>)
+![](<../../.gitbook/assets/image (546).png>)
 
 \
 Angalia hapa jedwali la algorithms inayowezekana na thamani zao zilizopewa: [https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id](https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id)
 
-### Constants za Nambari
+### Vipengele vya Msimbo
 
-Marafiki mara nyingi ni rahisi kutambua algorithm kutokana na ukweli kwamba inahitaji kutumia thamani maalum na ya kipekee.
+Maranyingi ni rahisi kutambua algorithm kwa sababu inahitaji kutumia thamani maalum na ya kipekee.
 
-![](<../../.gitbook/assets/image (370).png>)
+![](<../../.gitbook/assets/image (830).png>)
 
-Ikiwa utatafuta kwa sababu ya kwanza kwenye Google hii ndio unayopata:
+Ikiwa utatafuta kwa thamani ya kwanza kwenye Google hii ndio unayopata:
 
-![](<../../.gitbook/assets/image (371).png>)
+![](<../../.gitbook/assets/image (526).png>)
 
-Kwa hivyo, unaweza kudhani kuwa kazi iliyopasuliwa ni **sha256 calculator.**\
-Unaweza kutafuta moja ya marafiki wengine na utapata (labda) matokeo sawa.
+Hivyo, unaweza kudhani kuwa kazi iliyodecompiled ni **mchambuzi wa sha256.**\
+Unaweza kutafuta moja ya thamani nyingine na utapata (labda) matokeo sawa.
 
-### habari ya data
+### Taarifa za Data
 
-Ikiwa nambari haina kikwazo kikubwa, inaweza kuwa **inapakia habari kutoka sehemu ya .data**.\
-Unaweza kupata data hiyo, **kikundi cha dword cha kwanza** na utafute kwenye Google kama tulivyofanya katika sehemu iliyotangulia:
+Ikiwa msimbo haujai thamani muhimu inaweza kuwa **inapakia taarifa kutoka sehemu ya .data**.\
+Unaweza kupata data hiyo, **kundi la neno la kwanza** na kutafuta kwenye Google kama tulivyofanya katika sehemu iliyotangulia:
 
-![](<../../.gitbook/assets/image (372).png>)
+![](<../../.gitbook/assets/image (528).png>)
 
-Katika kesi hii, ikiangalia **0xA56363C6** unaweza kupata kuwa inahusiana na **meza za algorithm za AES**.
+Katika kesi hii, ukichunguza **0xA56363C6** unaweza kugundua kuwa inahusiana na **meza za algorithm ya AES**.
 
 ## RC4 **(Kriptografia ya Symmetric)**
 
-### Tabia
+### Sifa
 
 Ina sehemu 3 kuu:
 
-* **Hatua ya Uanzishaji/**: Inaunda **meza ya thamani kutoka 0x00 hadi 0xFF** (jumla ya 256bytes, 0x100). Meza hii kawaida huitwa **Substitution Box** (au SBox).
-* **Hatua ya Kuchanganya**: Itapita **kupitia meza** iliyoandaliwa hapo awali (mzunguko wa 0x100, tena) ikibadilisha kila thamani na **baiti za nusu-random**. Ili kuunda byte hizi za nusu-random, RC4 **ufunguo hutumiwa**. Vipengele vya RC4 vinaweza kuwa **kati ya 1 na 256 bytes kwa urefu**, ingawa kawaida inapendekezwa kuwa juu ya 5 bytes. Kawaida, vipengele vya RC4 ni 16 bytes kwa urefu.
-* **Hatua ya XOR**: Hatimaye, maandishi wazi au maandishi ya siri yana **XORed na thamani zilizoandaliwa hapo awali**. Kazi ya kusimbua na kusimbua ni sawa. Kwa hivyo, mzunguko kupitia byte 256 zilizoandaliwa hapo awali utafanywa mara nyingi kama inavyohitajika. Hii kawaida inatambuliwa katika nambari iliyopasuliwa na **%256 (mod 256)**.
+* **Hatua ya Uanzishaji/**: Inaunda **meza ya thamani kutoka 0x00 hadi 0xFF** (jumla ya 256bytes, 0x100). Meza hii mara nyingi huitwa **Substitution Box** (au SBox).
+* **Hatua ya Kuchanganya**: Itapita **meza** iliyoundwa hapo awali (mzunguko wa 0x100, tena) ikibadilisha kila thamani na **baiti za nusu-random**. Ili kuunda byte hizi za nusu-random, **funguo wa RC4 unatumika**. **Funguo za RC4** zinaweza kuwa **kati ya 1 na 256 bytes kwa urefu**, hata hivyo kawaida inapendekezwa iwe zaidi ya 5 bytes. Kawaida, funguo za RC4 ni urefu wa 16 bytes.
+* **Hatua ya XOR**: Mwishowe, maandishi ya wazi au maandishi ya siri yanafanyiwa **XOR na thamani zilizoundwa hapo awali**. Kazi ya kufichua na kufichua ni sawa. Kwa hili, mzunguko kupitia bytes 256 zilizoundwa utafanyika mara nyingi kama inavyohitajika. Hii kawaida inatambulika katika msimbo uliodecompiled na **%256 (mod 256)**.
 
 {% hint style="info" %}
-**Ili kutambua RC4 katika nambari iliyopasuliwa/iliyopasuliwa unaweza kuangalia kwa mizunguko 2 ya ukubwa wa 0x100 (kwa kutumia ufunguo) na kisha XOR ya data ya kuingiza na thamani 256 zilizoandaliwa hapo awali katika mizunguko 2 labda kwa kutumia %256 (mod 256)**
+**Ili kutambua RC4 katika msimbo uliopanguliwa/uliochambuliwa unaweza kuangalia kwa mizunguko 2 ya saizi ya 0x100 (ikiwa na matumizi ya funguo) na kisha XOR ya data ya kuingia na thamani 256 zilizoundwa hapo awali katika mizunguko 2 labda kutumia %256 (mod 256)**
 {% endhint %}
 
-### **Hatua ya Uanzishaji/Substitution Box:** (Angalia nambari 256 inayotumiwa kama kuhesabu na jinsi 0 inavyoandikwa mahali pa herufi 256)
+### **Hatua ya Uanzishaji/Substitution Box:** (Tazama nambari 256 iliyotumiwa kama kuhesabu na jinsi 0 inavyoandikwa kila mahali kati ya herufi 256)
 
-![](<../../.gitbook/assets/image (377).png>)
+![](<../../.gitbook/assets/image (581).png>)
 
 ### **Hatua ya Kuchanganya:**
 
-![](<../../.gitbook/assets/image (378).png>)
+![](<../../.gitbook/assets/image (832).png>)
 
 ### **Hatua ya XOR:**
 
-![](<../../.gitbook/assets/image (379).png>)
+![](<../../.gitbook/assets/image (901).png>)
 
 ## **AES (Kriptografia ya Symmetric)**
 
-### **Tabia**
+### **Sifa**
 
 * Matumizi ya **meza za kubadilisha na meza za kutafuta**
-* Inawezekana **kutofautisha AES kwa sababu ya matumizi ya thamani maalum za meza za kutafuta** (thamani za kudumu). _Kumbuka kwamba **thamani ya kudumu** inaweza **kuhifadhiwa** kwenye binary **au kuundwa**_ _**kwa kudumu**._
-* **Ufunguo wa kusimbua** lazima uwe **unaweza kugawanywa** na **16** (kawaida 32B) na kawaida IV ya 16B hutumiwa.
+* Inawezekana **kutofautisha AES kutokana na matumizi ya thamani maalum za meza za kutafuta** (thamani za kudumu). _Tafadhali kumbuka kuwa **thamani ya kudumu** inaweza kuwa **imehifadhiwa** kwenye binary **au kuundwa**_ _**kwa njia ya kudumu**._
+* **Funguo la kufichua** lazima liwe **linaweza kugawanywa** na **16** (kawaida 32B) na kawaida IV ya 16B hutumiwa.
 
-### SBox constants
+### Thamani za SBox
 
-![](<../../.gitbook/assets/image (380).png>)
+![](<../../.gitbook/assets/image (205).png>)
 
 ## Nyoka **(Kriptografia ya Symmetric)**
 
+### Sifa
+
+* Ni nadra kupata zisizo zinazotumia lakini kuna mifano (Ursnif)
+* Rahisi kutambua ikiwa algorithm ni Nyoka au la kulingana na urefu wake (kazi ndefu sana)
+
+### Kutambua
+
+Katika picha ifuatayo angalia jinsi thamani ya kudumu **0x9E3779B9** inavyotumiwa (tambua kuwa thamani hii pia hutumiwa na algorithms zingine za kriptografia kama **TEA** -Tiny Encryption Algorithm).\
+Pia angalia **ukubwa wa mzunguko** (**132**) na **idadi ya operesheni za XOR** katika maagizo ya **uchambuzi** na katika mfano wa **msimbo**:
+
+![](<../../.gitbook/assets/image (544).png>)
+
+Kama ilivyotajwa awali, msimbo huu unaweza kuonekana ndani ya chombo chochote cha kuchambua kama **kazi ndefu sana** kwani **hakuna kuruka** ndani yake. Msimbo uliochambuliwa unaweza kuonekana kama ifuatavyo:
+
+![](<../../.gitbook/assets/image (510).png>)
+
+Hivyo, ni rahisi kutambua algorithm hii kwa kuangalia **nambari ya kichawi** na **XORs za awali**, kuona **kazi ndefu sana** na **kulinganisha** baadhi ya **maagizo** ya kazi ndefu **na utekelezaji** (kama vile kushift kushoto kwa 7 na kuzungusha kushoto kwa 22).
+## RSA **(Ufumaji wa Asimetriki)**
+
 ### Tabia
 
-* Ni nadra kupata programu hasidi inayoitumia lakini kuna mifano (Ursnif)
-* Rahisi kut
-## RSA **(Asymmetric Crypt)**
-
-### Tabia
-
-* Ngumu zaidi kuliko algorithmu za symmetric
-* Hakuna constants! (utekelezaji wa desturi ni vigumu kubaini)
-* KANAL (mtambuzi wa crypto) hushindwa kuonyesha viashiria vya RSA kwani inategemea constants.
+* Ngumu zaidi kuliko algorithmi za symmetric
+* Hakuna constants! (utekelezaji wa desturi ni mgumu kugundua)
+* KANAL (mchambuzi wa crypto) hushindwa kuonyesha viashiria kwenye RSA kwani inategemea constants.
 
 ### Kutambua kwa kulinganisha
 
-![](<../../.gitbook/assets/image (383).png>)
+![](<../../.gitbook/assets/image (1110).png>)
 
 * Katika mstari wa 11 (kushoto) kuna `+7) >> 3` ambayo ni sawa na mstari wa 35 (kulia): `+7) / 8`
-* Mstari wa 12 (kushoto) unachunguza ikiwa `modulus_len < 0x040` na katika mstari wa 36 (kulia) inachunguza ikiwa `inputLen+11 > modulusLen`
+* Mstari wa 12 (kushoto) unachunguza ikiwa `modulus_len < 0x040` na kwenye mstari wa 36 (kulia) inachunguza ikiwa `inputLen+11 > modulusLen`
 
 ## MD5 & SHA (hash)
 
@@ -139,58 +152,44 @@ Ina sehemu 3 kuu:
 
 **Init**
 
-Unaweza kutambua zote mbili kwa kuchunguza constants. Kumbuka kuwa sha\_init ina constant 1 ambayo MD5 haina:
+Unaweza kutambua zote mbili kwa kuchunguza constants. Kumbuka kwamba sha\_init ina constant 1 ambayo MD5 haina:
 
-![](<../../.gitbook/assets/image (385).png>)
+![](<../../.gitbook/assets/image (403).png>)
 
 **MD5 Transform**
 
-Tazama matumizi ya constants zaidi
+Tambua matumizi ya constants zaidi
 
-![](<../../.gitbook/assets/image (253) (1) (1) (1).png>)
+![](<../../.gitbook/assets/image (253) (1) (1).png>)
 
 ## CRC (hash)
 
-* Ndogo na yenye ufanisi zaidi kwani kazi yake ni kupata mabadiliko ya bahati katika data
-* Hutumia lookup tables (hivyo unaweza kutambua constants)
+* Ndogo na yenye ufanisi zaidi kwani kazi yake ni kupata mabadiliko ya bahati mbaya katika data
+* Hutumia meza za kutafuta (hivyo unaweza kutambua constants)
 
 ### Kutambua
 
-Angalia **constants za lookup table**:
+Angalia **constants za meza za kutafuta**:
+
+![](<../../.gitbook/assets/image (505).png>)
+
+Algorithmi ya hash ya CRC inaonekana kama:
 
 ![](<../../.gitbook/assets/image (387).png>)
 
-Algorithmu ya hash ya CRC inaonekana kama:
-
-![](<../../.gitbook/assets/image (386).png>)
-
-## APLib (Compression)
+## APLib (Ufupishaji)
 
 ### Tabia
 
 * Hakuna constants zinazoweza kutambulika
-* Unaweza kujaribu kuandika algorithmu kwa python na kutafuta vitu sawa mtandaoni
+* Unaweza jaribu kuandika algorithmi hiyo kwa python na kutafuta vitu sawa mtandaoni
 
 ### Kutambua
 
-Grafu ni kubwa sana:
+Grafu ni kubwa:
 
 ![](<../../.gitbook/assets/image (207) (2) (1).png>)
 
-Angalia **ulinganisho wa 3 ili kutambua**:
+Angalia **malinganisho 3 kuitambua**:
 
-![](<../../.gitbook/assets/image (384).png>)
-
-<details>
-
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au **kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
+![](<../../.gitbook/assets/image (427).png>)

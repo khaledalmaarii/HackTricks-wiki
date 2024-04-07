@@ -2,19 +2,19 @@
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi kuwa shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
-## Online Hashes DBs
+## Dbs za Hashes Mtandaoni
 
 * _**Tafuta kwenye Google**_
 * [http://hashtoolkit.com/reverse-hash?hash=4d186321c1a7f0f354b297e8914ab240](http://hashtoolkit.com/reverse-hash?hash=4d186321c1a7f0f354b297e8914ab240)
@@ -28,26 +28,26 @@ Njia nyingine za kusaidia HackTricks:
 * [https://hashkiller.co.uk/Cracker/MD5](https://hashkiller.co.uk/Cracker/MD5)
 * [https://www.md5online.org/md5-decrypt.html](https://www.md5online.org/md5-decrypt.html)
 
-## Magic Autosolvers
+## Vifaa vya Kiotomatiki vya Ufumbuzi wa Siri
 
 * [**https://github.com/Ciphey/Ciphey**](https://github.com/Ciphey/Ciphey)
-* [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/) (Moduli ya Magic)
+* [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/) (Moduli ya Uchawi)
 * [https://github.com/dhondta/python-codext](https://github.com/dhondta/python-codext)
 * [https://www.boxentriq.com/code-breaking](https://www.boxentriq.com/code-breaking)
 
-## Encoders
+## Wajumuishaji
 
-Kwa kawaida, data iliyofichwa inaweza kubadilishwa na rasilimali hizi 2:
+Data nyingi iliyohifadhiwa inaweza kufumbuliwa na rasilimali hizi 2:
 
 * [https://www.dcode.fr/tools-list](https://www.dcode.fr/tools-list)
 * [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/)
 
-### Substitution Autosolvers
+### Vifaa vya Kiotomatiki vya Badilishaji
 
 * [https://www.boxentriq.com/code-breaking/cryptogram](https://www.boxentriq.com/code-breaking/cryptogram)
 * [https://quipqiup.com/](https://quipqiup.com) - Nzuri sana!
 
-#### Caesar - ROTx Autosolvers
+#### Wajumuishaji wa Caesar - ROTx
 
 * [https://www.nayuki.io/page/automatic-caesar-cipher-breaker-javascript](https://www.nayuki.io/page/automatic-caesar-cipher-breaker-javascript)
 
@@ -55,9 +55,9 @@ Kwa kawaida, data iliyofichwa inaweza kubadilishwa na rasilimali hizi 2:
 
 * [http://rumkin.com/tools/cipher/atbash.php](http://rumkin.com/tools/cipher/atbash.php)
 
-### Base Encodings Autosolver
+### Vifaa vya Kiotomatiki vya Msingi wa Kodi
 
-Angalia misingi yote hii na: [https://github.com/dhondta/python-codext](https://github.com/dhondta/python-codext)
+Angalia misingi hii yote na: [https://github.com/dhondta/python-codext](https://github.com/dhondta/python-codext)
 
 * **Ascii85**
 * `BQ%]q@psCd@rH0l`
@@ -100,7 +100,12 @@ Angalia misingi yote hii na: [https://github.com/dhondta/python-codext](https://
 * **Base91** \[_A-Za-z0-9!#$%&()\*+,./:;<=>?@\[]^\_\`{|}\~"_]
 * `frDg[*jNN!7&BQM`
 * **Base100** \[]
-* `👟👦👣👘👚👘👩
+* `👟👦👣👘👚👘👩👘👚👦👣👘`
+* **Base122** \[]
+* `4F ˂r0Xmvc`
+* **ATOM-128** \[_/128GhIoPQROSTeUbADfgHijKLM+n0pFWXY456xyzB7=39VaqrstJklmNuZvwcdEC_]
+* `MIc3KiXa+Ihz+lrXMIc3KbCC`
+* **HAZZ15** \[_HNO4klm6ij9n+J2hyf0gzA8uvwDEq3X1Q7ZKeFrWcVTts/MRGYbdxSo=ILaUpPBC5_]
 * `DmPsv8J7qrlKEoY7`
 * **MEGAN35** \[_3G-Ub=c-pW-Z/12+406-9Vaq-zA-F5_]
 * `kLD8iwKsigSalLJ5`
@@ -130,16 +135,10 @@ Angalia misingi yote hii na: [https://github.com/dhondta/python-codext](https://
 * [http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html) - 404 Dead: [https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html)
 
 ### Morse
-
-* [http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html) - 404 Mfu: [https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html)
 ```
 .... --- .-.. -.-. .- .-. .- -.-. --- .-.. .-
 ```
 * [http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html](http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html) - 404 Dead: [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/)
-
-### UUencoder
-
-* [http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html](http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html) - 404 Mfu: [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/)
 
 ### UUencoder
 ```
@@ -153,8 +152,6 @@ end
 * [http://www.webutils.pl/index.php?idx=uu](http://www.webutils.pl/index.php?idx=uu)
 
 ### XXEncoder
-
-XXEncoder ni kifaa kinachotumiwa kubadilisha data kuwa muundo mwingine ambao ni vigumu kusoma. Inaweza kutumika kuficha habari nyeti au kubadilisha data ili kuepuka uchunguzi. Kwa mfano, inaweza kutumika kubadilisha faili ya maandishi kuwa muundo wa Base64 ili kuficha maudhui yake halisi. Kwa kawaida, XXEncoder hutumiwa katika mazingira ya usalama na uchunguzi wa kina.
 ```
 begin 644 webutils_pl
 hG2xAEIVDH236Hol-G2xAEIVDH236Hol-G2xAEIVDH236Hol-G2xAEIVDH236
@@ -164,12 +161,6 @@ end
 * [www.webutils.pl/index.php?idx=xx](https://github.com/carlospolop/hacktricks/tree/bf578e4c5a955b4f6cdbe67eb4a543e16a3f848d/crypto/www.webutils.pl/index.php?idx=xx)
 
 ### YEncoder
-
-YEncoder ni njia ya kubadilisha data kuwa muundo wa ASCII. Inatumika mara nyingi katika ujumbe wa barua pepe na kwenye mitandao ya zamani ya Usenet. YEncoder inachukua data ya binary na kuiweka katika muundo wa ASCII ili iweze kutumwa kwa urahisi kupitia njia za mawasiliano ambazo zinaweza kuharibu data ya binary.
-
-YEncoder inafanya hivyo kwa kuchukua kila byte ya data ya binary na kuiweka katika muundo wa ASCII kwa kutumia kanuni maalum. Kanuni hii inahusisha kubadilisha kila byte kuwa kifungu cha ASCII kinachowakilisha thamani ya byte hiyo. Kwa mfano, byte ya 0x41 itabadilishwa kuwa kifungu cha ASCII kinachowakilisha herufi "A".
-
-Kwa kubadilisha data ya binary kuwa muundo wa ASCII, YEncoder inaruhusu data hiyo kutumwa kupitia njia za mawasiliano ambazo zinaweza kuharibu data ya binary, kama vile barua pepe au mitandao ya zamani ya Usenet. Wakati data inapokelewa upande wa pili, YDecoder hutumiwa kubadilisha tena muundo wa ASCII kuwa data ya binary ya awali.
 ```
 =ybegin line=128 size=28 name=webutils_pl
 ryvkryvkryvkryvkryvkryvkryvk
@@ -178,8 +169,6 @@ ryvkryvkryvkryvkryvkryvkryvk
 * [http://www.webutils.pl/index.php?idx=yenc](http://www.webutils.pl/index.php?idx=yenc)
 
 ### BinHex
-
-BinHex ni mfumo wa uandishi wa faili ambao hutumiwa kubadilisha data ya binary kuwa maandishi yanayoweza kusomwa. Inatumika sana katika uhamishaji wa faili kwenye mitandao ya zamani. Mfumo huu unatumia msimbo wa hexadecimal kuwakilisha data ya binary. Kwa kawaida, faili za BinHex zina ugani wa ".hqx".
 ```
 (This file must be converted with BinHex 4.0)
 :#hGPBR9dD@acAh"X!$mr2cmr2cmr!!!!!!!8!!!!!-ka5%p-38K26%&)6da"5%p
@@ -188,8 +177,6 @@ BinHex ni mfumo wa uandishi wa faili ambao hutumiwa kubadilisha data ya binary k
 * [http://www.webutils.pl/index.php?idx=binhex](http://www.webutils.pl/index.php?idx=binhex)
 
 ### ASCII85
-
-ASCII85 ni mbinu ya kubadilisha data ya binary kuwa maandishi ya ASCII. Mbinu hii inatumika katika uwanja wa usalama wa mtandao na uhandisi wa nyuma. Inaweza kutumika kuficha data au kubadilisha data ya binary kuwa muundo unaoweza kusomwa na binadamu. Mbinu hii inatumika mara nyingi katika CTFs na shughuli za udukuzi.
 ```
 <~85DoF85DoF85DoF85DoF85DoF85DoF~>
 ```
@@ -199,7 +186,7 @@ ASCII85 ni mbinu ya kubadilisha data ya binary kuwa maandishi ya ASCII. Mbinu hi
 ```
 drnajapajrna
 ```
-* [https://www.geocachingtoolbox.com/index.php?lang=sw\&page=dvorakKeyboard](https://www.geocachingtoolbox.com/index.php?lang=sw\&page=dvorakKeyboard)
+* [https://www.geocachingtoolbox.com/index.php?lang=en\&page=dvorakKeyboard](https://www.geocachingtoolbox.com/index.php?lang=en\&page=dvorakKeyboard)
 
 ### A1Z26
 
@@ -207,34 +194,34 @@ Barua kwa thamani zao za nambari
 ```
 8 15 12 1 3 1 18 1 3 15 12 1
 ```
-### Ufungaji wa Chanzo cha Affine
+### Kifaa cha Affine Chomeka
 
-Barua hadi nambari `(ax+b)%26` (_a_ na _b_ ni funguo na _x_ ni barua) na matokeo kurudi kwa barua
+Barua kwenda nambari `(ax+b)%26` (_a_ na _b_ ni funguo na _x_ ni barua) na matokeo rudisha kwa barua
 ```
 krodfdudfrod
 ```
 ### Msimbo wa SMS
 
-**Multitap** [inabadilisha herufi](https://www.dcode.fr/word-letter-change) kwa nambari zinazorudiwa zilizofafanuliwa na nambari ya ufunguo inayolingana kwenye [kibodi ya simu](https://www.dcode.fr/phone-keypad-cipher) (Hali hii hutumiwa wakati wa kuandika SMS).\
+**Multitap** [badilisha herufi](https://www.dcode.fr/word-letter-change) kwa nambari zinazorudiwa zilizofafanuliwa na nambari ya ufunguo inayolingana kwenye kibodi ya simu ya mkononi ([keypad](https://www.dcode.fr/phone-keypad-cipher)) (Hali hii hutumiwa wakati wa kuandika SMS).\
 Kwa mfano: 2=A, 22=B, 222=C, 3=D...\
 Unaweza kutambua msimbo huu kwa sababu utaona\*\* nambari kadhaa zinazorudiwa\*\*.
 
-Unaweza kufichua msimbo huu kwa kutumia: [https://www.dcode.fr/multitap-abc-cipher](https://www.dcode.fr/multitap-abc-cipher)
+Unaweza kufichua msimbo huu hapa: [https://www.dcode.fr/multitap-abc-cipher](https://www.dcode.fr/multitap-abc-cipher)
 
 ### Msimbo wa Bacon
 
-Badilisha kila herufi kwa As au Bs nne (au 1s na 0s)
+Badilisha kila herufi kwa As au Bs 4 (au 1s na 0s)
 ```
 00111 01101 01010 00000 00010 00000 10000 00000 00010 01101 01010 00000
 AABBB ABBAB ABABA AAAAA AAABA AAAAA BAAAA AAAAA AAABA ABBAB ABABA AAAAA
 ```
-### Alama za Kukimbia
+### Alama
 
 ![](../.gitbook/assets/runes.jpg)
 
 ## Ufupishaji
 
-**Raw Deflate** na **Raw Inflate** (unaweza kupata zote mbili katika Cyberchef) zinaweza kufupisha na kurejesha data bila vichwa.
+**Raw Deflate** na **Raw Inflate** (unaweza kupata zote katika Cyberchef) zinaweza kufupisha na kufufua data bila vichwa.
 
 ## Crypto Rahisi
 
@@ -244,13 +231,13 @@ AABBB ABBAB ABABA AAAAA AAABA AAAAA BAAAA AAAAA AAABA ABBAB ABABA AAAAA
 
 ### Bifid
 
-Inahitajika neno muhimu
+Neno la msingi linahitajika
 ```
 fgaargaamnlunesuneoa
 ```
 ### Vigenere
 
-Inahitajika neno muhimu
+Neno la msingi linahitajika
 ```
 wodsyoidrods
 ```
@@ -262,7 +249,7 @@ wodsyoidrods
 
 ### Fernet
 
-2 herufi za msingi 64 (ishara na ufunguo)
+2 mizunguko ya msingi64 (tokeni na ufunguo)
 ```
 Token:
 gAAAAABWC9P7-9RsxTz_dwxh9-O2VUB7Ih8UCQL1_Zk4suxnkCvb26Ie4i8HSUJ4caHZuiNtjLl3qfmCv_fS3_VpjL7HxCz7_Q==
@@ -274,7 +261,7 @@ Key:
 
 ### Kugawanya Siri ya Samir
 
-Siri inagawanywa katika sehemu X na ili kuirejesha unahitaji sehemu Y (_Y <=X_).
+Siri inagawanywa katika sehemu X na ili kuipata unahitaji sehemu Y (_Y <=X_).
 ```
 8019f8fa5879aa3e07858d08308dc1a8b45
 80223035713295bddf0b0bd1b10a5340b89
@@ -295,14 +282,14 @@ Siri inagawanywa katika sehemu X na ili kuirejesha unahitaji sehemu Y (_Y <=X_).
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kuvamia AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kuvamia kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>

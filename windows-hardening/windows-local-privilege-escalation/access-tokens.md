@@ -1,23 +1,22 @@
-# Access Tokens
+# Vitambulisho vya Kufikia
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi kuwa bingwa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi mtaalamu na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalamu wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, ungependa kuona **kampuni yako ikionekana katika HackTricks**? Au ungependa kupata ufikiaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa muundo wa PDF**? Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **nifuatilie** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Unataka kuona **kampuni yako ikionekana kwenye HackTricks**? au unataka kupata upatikanaji wa **toleo jipya la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **nifuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-## Vitambulisho vya Upatikanaji
+## Vitambulisho vya Kufikia
 
-Kila **mtumiaji aliyeingia** kwenye mfumo **ana kitambulisho cha upatikanaji chenye habari za usalama** kwa kikao hicho cha kuingia. Mfumo hujenga kitambulisho cha upatikanaji wakati mtumiaji anaingia kwenye mfumo. **Kila mchakato unaoendeshwa** kwa niaba ya mtumiaji **una nakala ya kitambulisho cha upatikanaji**. Kitambulisho hicho kinamtambulisha mtumiaji, vikundi vya mtumiaji, na mamlaka za mtumiaji. Kitambulisho pia kinajumuisha SID ya kuingia (Kitambulisho cha Usalama) ambayo inamtambulisha kikao cha kuingia cha sasa.
+Kila **mtumiaji aliyeingia** kwenye mfumo **ana vitambulisho vya kufikia na habari za usalama** kwa kikao hicho cha kuingia. Mfumo hutoa kitambulisho cha kufikia wakati mtumiaji anaingia. **Kila mchakato unaoendeshwa** kwa niaba ya mtumiaji **una nakala ya kitambulisho cha kufikia**. Kitambulisho hicho huchambua mtumiaji, vikundi vya mtumiaji, na mamlaka ya mtumiaji. Kitambulisho pia kina SID ya kuingia (Kitambulisho cha Usalama) kinachoidhinisha kikao cha kuingia cha sasa.
 
-Unaweza kuona habari hii kwa kutekeleza `whoami /all`
-
+Unaweza kuona habari hii ukitekeleza `whoami /all`
 ```
 whoami /all
 
@@ -61,70 +60,53 @@ SeUndockPrivilege             Remove computer from docking station Disabled
 SeIncreaseWorkingSetPrivilege Increase a process working set       Disabled
 SeTimeZonePrivilege           Change the time zone                 Disabled
 ```
+or using _Process Explorer_ from Sysinternals (select process and access"Security" tab):
 
-au tumia _Process Explorer_ kutoka Sysinternals (chagua mchakato na ufikie kichupo cha "Usalama"):
+![](<../../.gitbook/assets/image (769).png>)
 
-![](<../../.gitbook/assets/image (321).png>)
+### Msimamizi wa eneo
 
-### Msimamizi wa ndani
-
-Wakati msimamizi wa ndani anapoingia, **vitambulisho viwili vya ufikiaji** vinatengenezwa: Kimoja chenye haki za msimamizi na kingine chenye haki za kawaida. **Kwa chaguo-msingi**, wakati mtumiaji huyu anatekeleza mchakato, kile chenye haki za **kawaida** (si msimamizi) **kitatumika**. Wakati mtumiaji huyu anapojaribu **kutekeleza** kitu **kama msimamizi** ("Tekeleza kama Msimamizi" kwa mfano), **UAC** itatumika kuomba idhini.\
+Wakati msimamizi wa eneo anapoingia, **vitambulisho viwili vya ufikiaji** huanzishwa: Kimoja chenye haki za msimamizi na kingine chenye haki za kawaida. **Kwa chaguo-msingi**, wakati mtumiaji huyu anatekeleza mchakato, kile chenye **haki za kawaida (si msimamizi)** hutumiwa. Wakati mtumiaji huyu anajaribu **kutekeleza** kitu **kama msimamizi** ("Tekeleza kama Msimamizi" kwa mfano) **UAC** itatumika kuomba idhini.\
 Ikiwa unataka [**kujifunza zaidi kuhusu UAC soma ukurasa huu**](../authentication-credentials-uac-and-efs/#uac)**.**
 
 ### Uigizaji wa mtumiaji wa vitambulisho
 
-Ikiwa una **vitambulisho halali vya mtumiaji mwingine yeyote**, unaweza **kuunda** kikao kipya cha kuingia kwa kutumia vitambulisho hivyo:
-
+Ikiwa una **vitambulisho halali vya mtumiaji mwingine**, unaweza **kuunda** kikao kipya cha kuingia kwa kutumia vitambulisho hivyo:
 ```
 runas /user:domain\username cmd.exe
 ```
-
-**Kitambulisho cha ufikiaji** pia kina **marejeleo** ya vikao vya kuingia ndani ya **LSASS**, hii ni muhimu ikiwa mchakato unahitaji kupata baadhi ya vitu vya mtandao.\
+**Tokeni ya ufikiaji** pia ina **marejeleo** ya vikao vya kuingia ndani ya **LSASS**, hii ni muhimu ikiwa mchakato unahitaji kupata baadhi ya vitu vya mtandao.\
 Unaweza kuzindua mchakato ambao **unatumia sifa tofauti za kufikia huduma za mtandao** kwa kutumia:
-
 ```
 runas /user:domain\username /netonly cmd.exe
 ```
+Hii ni muhimu ikiwa una sifa muhimu za kupata vitu kwenye mtandao lakini sifa hizo si halali ndani ya mwenyeji wa sasa kwani zitatumika tu kwenye mtandao (katika mwenyeji wa sasa, sifa zako za mtumiaji wa sasa zitatumika).
 
-Hii ni muhimu ikiwa una sifa muhimu za kupata vitu katika mtandao lakini sifa hizo hazifai ndani ya mwenyeji wa sasa kwani zitatumika tu katika mtandao (katika mwenyeji wa sasa, sifa za mtumiaji wako wa sasa zitatumika).
+### Aina za Vyeti
 
-### Aina za alama za ufikiaji
+Kuna aina mbili za vyeti zilizopo:
 
-Kuna aina mbili za alama za ufikiaji zinazopatikana:
+* **Cheti Kuu**: Hufanya kama uwakilishi wa sifa za usalama za mchakato. Uundaji na uunganishaji wa vyeti vya msingi na michakato ni vitendo vinavyohitaji mamlaka ya juu, kusisitiza kanuni ya kutenganisha mamlaka. Kwa kawaida, huduma ya uthibitishaji inahusika na uundaji wa cheti, wakati huduma ya kuingia inashughulikia uhusishaji wake na kabati la mfumo wa mtumiaji. Ni muhimu kutambua kwamba michakato huirithi cheti kuu cha mchakato wao wa mzazi wakati wa uundaji.
+* **Cheti cha Uigizaji**: Humpa programu ya seva uwezo wa kuchukua kitambulisho cha mteja kwa muda ili kupata vitu salama. Mfumo huu umegawanywa katika viwango vinne vya uendeshaji:
+  * **Anonim**: Hutoa ufikiaji wa seva kama wa mtumiaji asiyejulikana.
+  * **Utambuzi**: Inaruhusu seva kuthibitisha kitambulisho cha mteja bila kutumia kwa ufikiaji wa vitu.
+  * **Uigizaji**: Inawezesha seva kufanya kazi chini ya kitambulisho cha mteja.
+  * **Uteuzi**: Kama Uigizaji lakini inajumuisha uwezo wa kupanua dhana hii ya kitambulisho kwa mifumo ya mbali ambayo seva inashirikiana nayo, ikisimamia uhifadhi wa sifa.
 
-* **Alama Kuu**: Inatumika kama uwakilishi wa sifa za usalama za mchakato. Uundaji na uunganishaji wa alama kuu na michakato ni hatua zinazohitaji mamlaka ya juu, zikisisitiza kanuni ya kutenganisha mamlaka. Kawaida, huduma ya uwakili inahusika na uundaji wa alama, wakati huduma ya kuingia inashughulikia uunganishaji wake na kifaa cha uendeshaji cha mtumiaji. Ni muhimu kutambua kuwa michakato inarithi alama kuu ya mchakato wao wa mzazi wakati wa uundaji.
-* **Alama ya Udanganyifu**: Inaruhusu programu ya seva kuiga kitambulisho cha mteja kwa muda ili kupata vitu salama. Mfumo huu umegawanywa katika viwango vinne vya uendeshaji:
-* **Anonimasi**: Inaruhusu ufikiaji wa seva kama mtumiaji asiyejulikana.
-* **Utambulisho**: Inaruhusu seva kuthibitisha kitambulisho cha mteja bila kuitumia kwa ufikiaji wa vitu.
-* **Udanganyifu**: Inawezesha seva kufanya kazi chini ya kitambulisho cha mteja.
-* **Uteuzi**: Kama Udanganyifu lakini inajumuisha uwezo wa kueneza dhana hii ya kitambulisho kwa mifumo ya mbali ambayo seva inashirikiana nayo, ikisimamia uhifadhi wa sifa.
+#### Uigize Vyeti
 
-#### Udanganyifu wa Alama
+Kwa kutumia moduli ya _**incognito**_ ya metasploit ikiwa una mamlaka za kutosha unaweza kwa urahisi **kuorodhesha** na **kuigiza** vyeti vingine **.** Hii inaweza kuwa muhimu kufanya **vitendo kana kwamba wewe ni mtumiaji mwingine**. Unaweza pia **kupandisha vyeo** kwa kutumia mbinu hii.
 
-Kwa kutumia moduli ya _**incognito**_ ya metasploit ikiwa una mamlaka ya kutosha, unaweza kwa urahisi **kuorodhesha** na **kudanganya** alama nyingine. Hii inaweza kuwa na manufaa kufanya **vitendo kana kwamba wewe ni mtumiaji mwingine**. Pia unaweza **kuongeza mamlaka** na mbinu hii.
+### Vyeo vya Mamlaka
 
-### Mamlaka ya Alama
-
-Jifunze ni **mamlaka gani ya alama yanaweza kutumiwa kwa kuongeza mamlaka:**
+Jifunze ni **vyeo vya mamlaka** vipi vinaweza kutumiwa vibaya kwa ajili ya kupandisha vyeo:
 
 {% content-ref url="privilege-escalation-abusing-tokens.md" %}
 [privilege-escalation-abusing-tokens.md](privilege-escalation-abusing-tokens.md)
 {% endcontent-ref %}
 
-Angalia [**mamlaka zote za alama zinazowezekana na ufafanuzi fulani kwenye ukurasa huu wa nje**](https://github.com/gtworek/Priv2Admin).
+Tazama [**vyeo vyote vya mamlaka vinavyowezekana na baadhi ya ufafanuzi kwenye ukurasa huu wa nje**](https://github.com/gtworek/Priv2Admin).
 
 ## Marejeo
 
-Jifunze zaidi kuhusu alama katika mafunzo haya: [https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa](https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa) na [https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)
-
-<details>
-
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-* Je! Unafanya kazi katika **kampuni ya usalama wa mtandao**? Je! Unataka kuona **kampuni yako inatangazwa katika HackTricks**? au unataka kupata upatikanaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **nifuate** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
-
-</details>
+Jifunze zaidi kuhusu vyeti katika mafunzo haya: [https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa](https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa) na [https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)

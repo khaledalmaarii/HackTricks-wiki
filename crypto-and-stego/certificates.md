@@ -2,19 +2,19 @@
 
 <details>
 
-<summary><strong>Jifunze kuhusu udukuzi wa AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
 
 \
 Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kutumia mifumo ya kazi** kwa kutumia zana za jamii za **juu zaidi** ulimwenguni.\
@@ -22,11 +22,11 @@ Pata Ufikiaji Leo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-## Vyeti ni nini
+## Ni Nini Cheti
 
-**Cheti cha muhimu cha umma** ni kitambulisho cha dijiti kinachotumiwa katika kriptografia kuthibitisha kwamba mtu fulani anamiliki funguo ya umma. Cheti hicho kinajumuisha maelezo ya funguo, utambulisho wa mmiliki (mada), na saini ya dijiti kutoka kwa mamlaka iliyosadikika (mwanzilishi). Ikiwa programu inaamini mwanzilishi na saini ni halali, mawasiliano salama na mmiliki wa funguo inawezekana.
+**Cheti cha muhimu cha umma** ni kitambulisho cha kidijitali kinachotumiwa katika kriptografia kuthibitisha kuwa mtu fulani anamiliki funguo ya umma. Cheti hicho kinajumuisha maelezo ya funguo, utambulisho wa mmiliki (mada), na saini ya kidijitali kutoka kwa mamlaka iliyosadikika (mwanzilishi). Ikiwa programu inaamini mwanzilishi na saini ni halali, mawasiliano salama na mmiliki wa funguo ni wezekana.
 
-Vyeti kwa kawaida hutolewa na [mamlaka ya vyeti](https://en.wikipedia.org/wiki/Certificate\_authority) (CAs) katika muundo wa [miundombinu ya funguo ya umma](https://en.wikipedia.org/wiki/Public-key\_infrastructure) (PKI). Njia nyingine ni [wavuti ya imani](https://en.wikipedia.org/wiki/Web\_of\_trust), ambapo watumiaji wanathibitisha moja kwa moja funguo za wengine. Muundo wa kawaida wa vyeti ni [X.509](https://en.wikipedia.org/wiki/X.509), ambao unaweza kubadilishwa kulingana na mahitaji maalum kama ilivyoelezwa katika RFC 5280.
+Vyeti kwa kawaida hutolewa na [mamlaka za vyeti](https://en.wikipedia.org/wiki/Certificate\_authority) (CAs) katika mfumo wa [miundombinu ya funguo za umma](https://en.wikipedia.org/wiki/Public-key\_infrastructure) (PKI). Njia nyingine ni [wavuti ya imani](https://en.wikipedia.org/wiki/Web\_of\_trust), ambapo watumiaji wanathibitisha moja kwa moja funguo za wenzao. Muundo wa kawaida wa vyeti ni [X.509](https://en.wikipedia.org/wiki/X.509), ambao unaweza kubadilishwa kulingana na mahitaji maalum kama ilivyoelezwa katika RFC 5280.
 
 ## Sehemu za Kawaida za x509
 
@@ -37,21 +37,21 @@ Katika vyeti vya x509, **sehemu** kadhaa zina jukumu muhimu katika kuhakikisha u
 * Nambari ya **Toleo** inaashiria toleo la muundo wa x509.
 * Nambari ya **Serial** inatambulisha kipekee cheti ndani ya mfumo wa Mamlaka ya Cheti (CA), hasa kwa kufuatilia kufutwa.
 * Sehemu ya **Mada** inawakilisha mmiliki wa cheti, ambaye anaweza kuwa mashine, mtu binafsi, au shirika. Inajumuisha utambulisho wa kina kama:
-* **Jina la Kawaida (CN)**: Anwani za kikoa zilizofunikwa na cheti.
+* **Jina la Kawaida (CN)**: Anwani zinazofunikwa na cheti.
 * **Nchi (C)**, **Eneo (L)**, **Jimbo au Mkoa (ST, S, au P)**, **Shirika (O)**, na **Kitengo cha Shirika (OU)** hutoa maelezo ya kijiografia na ya shirika.
-* **Jina la Kipekee (DN)** linafunga utambulisho kamili wa mada.
-* **Mwanzilishi** anaelezea ni nani aliyethibitisha na kusaini cheti, pamoja na sehemu kama hizo za Mada kwa CA.
-* **Kipindi cha Uhalali** kimeashiriwa na alama za **Sio Kabla** na **Sio Baada ya** kuhakikisha cheti halitumiwi kabla au baada ya tarehe fulani.
-* Sehemu ya **Funguo ya Umma**, muhimu kwa usalama wa cheti, inabainisha algorithm, saizi, na maelezo mengine ya kiufundi ya funguo ya umma.
-* **Vipanuzi vya x509v3** huongeza utendaji wa cheti, kuelekeza **Matumizi ya Funguo**, **Matumizi ya Funguo Yaliyopanuliwa**, **Jina Mbadala la Mada**, na mali nyingine kufafanua matumizi ya cheti.
+* **Jina la Kipekee (DN)** linajumuisha utambulisho kamili wa mada.
+* **Mwanzilishi** anaelezea ni nani aliyethibitisha na kusaini cheti, pamoja na sehemu sawa na Mada kwa CA.
+* **Kipindi cha Uhalali** kimeashiriwa na mihuri ya **Sio Kabla** na **Sio Baada ya**, ikisimamia cheti kutotumiwa kabla au baada ya tarehe fulani.
+* Sehemu ya **Funguo ya Umma**, muhimu kwa usalama wa cheti, inabainisha algorithm, ukubwa, na maelezo mengine ya kiufundi ya funguo ya umma.
+* **Vipanuzi vya x509v3** huongeza utendaji wa cheti, ikibainisha **Matumizi ya Funguo**, **Matumizi ya Funguo Yaliyopanuliwa**, **Jina Mbadala la Mada**, na mali nyingine kufafanua matumizi ya cheti.
 
 #### **Matumizi ya Funguo na Vipanuzi**
 
-* **Matumizi ya Funguo** inatambua matumizi ya kriptografia ya funguo ya umma, kama saini ya dijiti au kuficha funguo.
+* **Matumizi ya Funguo** inatambua matumizi ya kriptografia ya funguo ya umma, kama saini ya kidijitali au kuficha funguo.
 * **Matumizi Yaliyopanuliwa ya Funguo** inapunguza zaidi matumizi ya cheti, k.m., kwa uwakilishi wa seva ya TLS.
-* **Jina Mbadala la Mada** na **Kizuizi cha Msingi** hufafanua anwani za ziada zilizofunikwa na cheti na ikiwa ni cheti cha CA au mwisho wa mwili, mtawalia.
+* **Jina Mbadala la Mada** na **Kizuizi cha Msingi** hufafanua anwani za ziada zinazofunikwa na cheti na ikiwa ni cheti cha CA au mwisho-mwisho, mtawalia.
 * Vitambulisho kama **Kitambulisho cha Funguo cha Mada** na **Kitambulisho cha Funguo cha Mamlaka** hakikisha upekee na ufuatiliaji wa funguo.
-* **Maelezo ya Kufikia Mamlaka** na **Vipindi vya Usambazaji wa CRL** hutoa njia za kuthibitisha CA inayotoa na kuangalia hali ya kufutwa kwa cheti.
+* **Maelezo ya Upatikanaji wa Mamlaka** na **Njia za Usambazaji wa CRL** hutoa njia za kuthibitisha CA inayotoa na kuangalia hali ya kufutwa kwa cheti.
 * **CT Precertificate SCTs** hutoa magogo ya uwazi, muhimu kwa imani ya umma kwa cheti.
 ```python
 # Example of accessing and using x509 certificate fields programmatically:
@@ -74,53 +74,59 @@ print(f"Issuer: {issuer}")
 print(f"Subject: {subject}")
 print(f"Public Key: {public_key}")
 ```
-### **Tofauti kati ya OCSP na CRL Distribution Points**
+### **Tofauti kati ya OCSP na Pointi za Usambazaji wa CRL**
 
-**OCSP** (**RFC 2560**) inahusisha mteja na mwitikiaji kufanya kazi pamoja kuchunguza ikiwa cheti cha kielektroniki cha funguo ya umma kimebatilishwa, bila haja ya kupakua **CRL** kamili. Mbinu hii ni ufanisi zaidi kuliko **CRL** ya jadi, ambayo hutoa orodha ya nambari za mfululizo za vyeti vilivyobatilishwa lakini inahitaji kupakua faili kubwa inayowezekana. CRLs inaweza kujumuisha hadi viingilio 512. Maelezo zaidi yanapatikana [hapa](https://www.arubanetworks.com/techdocs/ArubaOS%206\_3\_1\_Web\_Help/Content/ArubaFrameStyles/CertRevocation/About\_OCSP\_and\_CRL.htm).
+**OCSP** (**RFC 2560**) inahusisha mteja na mwitikiaji kufanya kazi pamoja kuthibitisha ikiwa cheti cha kielektroniki cha funguo ya umma kimebatilishwa, bila haja ya kupakua **CRL** kamili. Mbinu hii ni ufanisi zaidi kuliko **CRL** ya jadi, ambayo hutoa orodha ya nambari za mfululizo za vyeti vilivyobatilishwa lakini inahitaji kupakua faili kubwa inayowezekana. CRL inaweza kujumuisha hadi viingilio 512. Maelezo zaidi yanapatikana [hapa](https://www.arubanetworks.com/techdocs/ArubaOS%206\_3\_1\_Web\_Help/Content/ArubaFrameStyles/CertRevocation/About\_OCSP\_and\_CRL.htm).
 
-### **Nini ni Certificate Transparency**
+### **Nini ni Uwazi wa Cheti**
 
-Certificate Transparency husaidia kupambana na vitisho vinavyohusiana na vyeti kwa kuhakikisha utoaji na uwepo wa vyeti vya SSL unaweza kuonekana na wamiliki wa kikoa, CAs, na watumiaji. Malengo yake ni:
+Uwazi wa Cheti husaidia kupambana na vitisho vinavyohusiana na vyeti kwa kuhakikisha utoaji na uwepo wa vyeti vya SSL unaweza kuonekana na wamiliki wa kikoa, CAs, na watumiaji. Malengo yake ni:
 
 * Kuzuia CAs kutoa vyeti vya SSL kwa kikoa bila idhini ya mmiliki wa kikoa.
-* Kuweka mfumo wa ukaguzi wazi kufuatilia vyeti vilivyotolewa kimakosa au kwa nia mbaya.
+* Kuweka mfumo wa ukaguzi wazi kufuatilia vyeti vilivyotolewa kwa makosa au kwa nia mbaya.
 * Kulinda watumiaji dhidi ya vyeti vya udanganyifu.
 
-#### **Rekodi za Cheti**
+#### **Kumbukumbu za Cheti**
 
-Rekodi za cheti ni rekodi za vyeti zinazoweza kukaguliwa hadharani, zisizoweza kubadilishwa, zinazohifadhiwa na huduma za mtandao. Rekodi hizi hutoa uthibitisho wa kryptografia kwa madhumuni ya ukaguzi. Mamlaka za utoaji na umma wanaweza kuwasilisha vyeti kwa rekodi hizi au kuzitafuta kwa uthibitisho. Ingawa idadi kamili ya seva za rekodi haijafungwa, inatarajiwa kuwa chini ya elfu moja kimataifa. Seva hizi zinaweza kusimamiwa kivyake na CAs, ISPs, au taasisi yoyote inayohusika.
+Kumbukumbu za cheti ni rekodi zinazoweza kukaguliwa hadharani, zisizoweza kubadilishwa za vyeti, zinazosimamiwa na huduma za mtandao. Kumbukumbu hizi hutoa uthibitisho wa kryptografia kwa madhumuni ya ukaguzi. Mamlaka za utoaji na umma wanaweza kuwasilisha vyeti kwa kumbukumbu hizi au kuyauliza kwa uthibitisho. Ingawa idadi kamili ya seva za kumbukumbu haijafungwa, inatarajiwa kuwa chini ya elfu moja kimataifa. Seva hizi zinaweza kusimamiwa kivyake na CAs, ISPs, au taasisi yoyote inayohusika.
 
 #### **Utafutaji**
 
-Kutafuta rekodi za Certificate Transparency kwa kikoa chochote, tembelea [https://crt.sh/](https://crt.sh).
+Ili kutafuta kumbukumbu za Uwazi wa Cheti kwa kikoa chochote, tembelea [https://crt.sh/](https://crt.sh).
 
 ## **Miundo**
 
 ### **Muundo wa PEM**
 
 * Muundo unaotumiwa sana kwa vyeti.
-* Unahitaji faili tofauti kwa vyeti na funguo za faragha, zilizoandikwa kwa Base64 ASCII.
+* Unahitaji faili tofauti kwa vyeti na funguo za siri, zilizoandikwa kwa Base64 ASCII.
 * Vipanuzi vya kawaida: .cer, .crt, .pem, .key.
 * Kutumika hasa na seva za Apache na zingine zinazofanana.
 
 ### **Muundo wa DER**
 
 * Muundo wa binary wa vyeti.
-* Haujumuishi taarifa za "BEGIN/END CERTIFICATE" zilizo katika faili za PEM.
+* Haujajumuisha taarifa za "ANZA/ISHA CHETI" zilizopatikana kwenye faili za PEM.
 * Vipanuzi vya kawaida: .cer, .der.
 * Mara nyingi hutumiwa na majukwaa ya Java.
 
 ### **Muundo wa P7B/PKCS#7**
 
-* Uhifadhiwa kwa Base64 ASCII, na vipanuzi .p7b au .p7c.
-* Una vyeti tu na vyeti vya mnyororo, bila funguo ya faragha.
+* Imehifadhiwa kwa Base64 ASCII, na vipanuzi .p7b au .p7c.
+* Ina vyeti tu na vyeti vya mnyororo, ikiondoa funguo ya siri.
 * Inaungwa mkono na Microsoft Windows na Java Tomcat.
 
 ### **Muundo wa PFX/P12/PKCS#12**
 
-* Muundo wa binary unaofunga vyeti vya seva, vyeti vya kati, na funguo za faragha katika faili moja.
+* Muundo wa binary unaofunga vyeti vya seva, vyeti vya kati, na funguo za siri katika faili moja.
 * Vipanuzi: .pfx, .p12.
-* Kutumika hasa kwenye Windows kwa uingizaji na kuuza vyeti.
+* Kutumika hasa kwenye Windows kwa uingizaji na usafirishaji wa vyeti.
+
+### **Kubadilisha Miundo**
+
+**Mabadiliko ya PEM** ni muhimu kwa utangamano:
+
+* **x509 kwenda PEM**
 ```bash
 openssl x509 -in certificatename.cer -outform PEM -out certificatename.pem
 ```
@@ -142,7 +148,7 @@ openssl pkcs7 -print_certs -in certificatename.p7b -out certificatename.pem
 ```
 **Ubadilishaji wa PFX** ni muhimu kwa usimamizi wa vyeti kwenye Windows:
 
-* **PFX hadi PEM**
+* **PFX kwenda PEM**
 ```bash
 openssl pkcs12 -in certificatename.pfx -out certificatename.pem
 ```
@@ -151,13 +157,7 @@ openssl pkcs12 -in certificatename.pfx -out certificatename.pem
 ```bash
 openssl pkcs12 -in certificatename.pfx -nocerts -nodes -out certificatename.pem
 ```
-### 2. Badilisha PEM kuwa PKCS8
-
-Ili kubadilisha faili ya PEM kwenda PKCS8, unaweza kutumia zana kama OpenSSL. Kutumia amri ifuatayo:
-
-```bash
-openssl pkcs8 -topk8 -inform PEM -outform DER -in key.pem -out key.pk8 -nocrypt
-```
+2. Badilisha PEM kuwa PKCS8
 ```bash
 openSSL pkcs8 -in certificatename.pem -topk8 -nocrypt -out certificatename.pk8
 ```
@@ -166,16 +166,16 @@ openSSL pkcs8 -in certificatename.pem -topk8 -nocrypt -out certificatename.pk8
 ```bash
 openssl pkcs7 -print_certs -in certificatename.p7b -out certificatename.cer
 ```
-2. Geuza CER na Private Key kuwa PFX
+2. Badilisha CER na Private Key kuwa PFX
 ```bash
 openssl pkcs12 -export -in certificatename.cer -inkey privateKey.key -out certificatename.pfx -certfile cacert.cer
 ```
 ***
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
 
 \
-Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kutumia** mifumo ya kazi kwa urahisi ikiwa na zana za **jamii za juu zaidi** duniani.\
+Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kutumia workflows** kwa urahisi zinazotumia zana za jamii **zilizoendelea zaidi** duniani.\
 Pata Ufikiaji Leo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -186,10 +186,10 @@ Pata Ufikiaji Leo:
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

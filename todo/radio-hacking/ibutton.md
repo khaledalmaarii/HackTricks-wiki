@@ -6,45 +6,45 @@
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako inatangazwa katika HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
 ## Utangulizi
 
-iButton ni jina la kawaida kwa funguo ya kitambulisho ya elektroniki iliyopakwa katika **chombo cha umbo la sarafu**. Pia inaitwa **Dallas Touch** Memory au kumbukumbu ya mawasiliano. Ingawa mara nyingi inaitwa vibaya kama funguo "magnetiki", hakuna kitu **cha kuvuta umeme** ndani yake. Kwa kweli, kuna chip ndogo kamili inayofanya kazi kwa itifaki ya dijiti iliyofichwa ndani.
+iButton ni jina la kawaida la ufunguo wa utambulisho wa elektroniki uliowekwa kwenye **chombo cha metali chenye umbo la sarafu**. Pia huitwa **Dallas Touch** Memory au kumbukumbu ya mawasiliano. Ingawa mara nyingi huitwa kimakosa kama ufunguo "wenye sumaku", hakuna **kitu cha sumaku** ndani yake. Kwa kweli, kuna **chipu kamili** inayofanya kazi kwa itifaki ya dijiti iliyofichwa ndani yake.
 
-<figure><img src="../../.gitbook/assets/image (19).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (912).png" alt=""><figcaption></figcaption></figure>
 
 ### Ni nini iButton? <a href="#what-is-ibutton" id="what-is-ibutton"></a>
 
-Kawaida, iButton inamaanisha umbo la kimwili la funguo na kusoma - sarafu ya pande zote na mawasiliano mawili. Kwa fremu inayozunguka, kuna mabadiliko mengi kutoka kwa kawaida ya kawaida ya plastiki na shimo hadi pete, mapambo, nk.
+Kawaida, iButton inamaanisha umbo la kimwili la ufunguo na msomaji - sarafu ya mviringo yenye mawasiliano mawili. Kwa fremu inayomzunguka, kuna mabadiliko mengi kutoka kwa kizuizi cha plastiki cha kawaida chenye shimo hadi pete, vipendanti, n.k.
 
-<figure><img src="../../.gitbook/assets/image (23) (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1075).png" alt=""><figcaption></figcaption></figure>
 
-Funguo inapofikia kusoma, **mawasiliano yanagusa** na funguo inapata nguvu ya **kupeleka** kitambulisho chake. Mara nyingi funguo **haikusomwa** mara moja kwa sababu **PSD ya mawasiliano ya intercom ni kubwa** kuliko inavyopaswa kuwa. Kwa hivyo mipaka ya nje ya funguo na kusoma haiwezi kugusa. Ikiwa ndivyo ilivyo, utalazimika kubonyeza funguo juu ya moja ya kuta za kusoma.
+Wakati ufunguo unapofika kwa msomaji, **mawasiliano hukutana** na ufunguo hupata nguvu ya **kuhamisha** kitambulisho chake. Mara nyingine ufunguo **hausomwi** mara moja kwa sababu **PSD ya mawasiliano ya intercom ni kubwa** kuliko inavyopaswa kuwa. Kwa hivyo mipaka ya nje ya ufunguo na msomaji haziwezi kugusana. Ikiwa ndivyo, utalazimika kubonyeza ufunguo juu ya moja ya kuta za msomaji.
 
-<figure><img src="../../.gitbook/assets/image (21) (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (287).png" alt=""><figcaption></figcaption></figure>
 
-### **Itifaki ya 1-Wire** <a href="#1-wire-protocol" id="1-wire-protocol"></a>
+### **Itifaki ya 1-Wire** <a href="#id-1-wire-protocol" id="id-1-wire-protocol"></a>
 
-Funguo za Dallas hubadilishana data kwa kutumia itifaki ya 1-wire. Kwa kuwa na mawasiliano moja tu kwa uhamisho wa data (!!) kwa pande zote, kutoka kwa bwana kwenda kwa mtumwa na kinyume chake. Itifaki ya 1-wire inafanya kazi kulingana na mfano wa Bwana-Mtumwa. Katika muundo huu, Bwana daima huanzisha mawasiliano na Mtumwa anafuata maagizo yake.
+Vifunguo vya Dallas hubadilishana data kwa kutumia itifaki ya 1-wire. Kwa mawasiliano ya data (!!) kwa pande zote mbili, kutoka kwa bwana kwenda kwa mtumwa na kinyume chake, kwa kutumia mawasiliano moja tu. Itifaki ya 1-wire hufanya kazi kulingana na mfano wa Bwana-Mtumwa. Katika mtandao huu, Bwana daima huanzisha mawasiliano na Mtumwa anafuata maagizo yake.
 
-Funguo (Mtumwa) inapowasiliana na intercom (Bwana), chip ndani ya funguo huzinduliwa, ikipata nguvu kutoka kwa intercom, na funguo huanzishwa. Baada ya hapo, intercom inaomba kitambulisho cha funguo. Baadaye, tutachunguza mchakato huu kwa undani zaidi.
+Wakati ufunguo (Mtumwa) unapowasiliana na intercom (Bwana), chipu ndani ya ufunguo huzimwa, ikipata nguvu kutoka kwa intercom, na ufunguo huanzishwa. Baada ya hapo intercom inaomba kitambulisho cha ufunguo. Kisha tutachunguza mchakato huu kwa undani zaidi.
 
-Flipper inaweza kufanya kazi kama Bwana na Mtumwa. Katika hali ya kusoma funguo, Flipper hufanya kazi kama kusoma hii ni kusema inafanya kazi kama Bwana. Na katika hali ya kuiga funguo, flipper inajifanya kuwa funguo, iko katika hali ya Mtumwa.
+Flipper inaweza kufanya kazi kama Bwana au Mtumwa. Katika hali ya kusoma ufunguo, Flipper hufanya kazi kama msomaji yaani inafanya kazi kama Bwana. Na katika hali ya kujifanya ufunguo, flipper inajifanya kuwa ufunguo, iko katika hali ya Mtumwa.
 
-### Funguo za Dallas, Cyfral & Metakom
+### Vifunguo vya Dallas, Cyfral & Metakom
 
-Kwa habari juu ya jinsi funguo hizi zinafanya kazi, angalia ukurasa [https://blog.flipperzero.one/taming-ibutton/](https://blog.flipperzero.one/taming-ibutton/)
+Kwa habari kuhusu jinsi vifunguo hivi vinavyofanya kazi angalia ukurasa [https://blog.flipperzero.one/taming-ibutton/](https://blog.flipperzero.one/taming-ibutton/)
 
 ### Mashambulizi
 
-Funguo za iButton zinaweza kushambuliwa na Flipper Zero:
+iButtons wanaweza kushambuliwa na Flipper Zero:
 
 {% content-ref url="flipper-zero/fz-ibutton.md" %}
 [fz-ibutton.md](flipper-zero/fz-ibutton.md)
@@ -52,7 +52,7 @@ Funguo za iButton zinaweza kushambuliwa na Flipper Zero:
 
 ## Marejeo
 
-* [https://blog.flipperzero.one/taming-ibutton/](https://blog.flipperzero.one/taming-ibutton/)
+* [https://blog.flipperzero.one/taming-ibutton/](https://blog.flipperzero.one/taming-ibutton/) 
 
 <details>
 
@@ -60,10 +60,10 @@ Funguo za iButton zinaweza kushambuliwa na Flipper Zero:
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako inatangazwa katika HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>

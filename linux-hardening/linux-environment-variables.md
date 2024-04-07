@@ -2,21 +2,21 @@
 
 <details>
 
-<summary><strong>Jifunze kuhusu udukuzi wa AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
 * Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
-**Kikundi cha Usalama cha Try Hard**
+**Kikundi cha Usalama cha Kujitahidi**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -31,7 +31,7 @@ Unaweza kuunda mazingira ya kitaifa kwa kikao chako cha sasa kwa kufanya:
 export MYGLOBAL="hello world"
 echo $MYGLOBAL #Prints: hello world
 ```
-Hii variable itapatikana kwenye vikao vyako vya sasa na michakato yake ya watoto.
+Hii variable itapatikana na vikao vyako vya sasa na michakato yake ya watoto.
 
 Unaweza **kuondoa** variable kwa kufanya:
 ```bash
@@ -53,39 +53,39 @@ printenv
 cat /proc/$$/environ
 cat /proc/`python -c "import os; print(os.getppid())"`/environ
 ```
-## Mipangilio ya kawaida
+## Vipimo vya kawaida
 
 Kutoka: [https://geek-university.com/linux/common-environment-variables/](https://geek-university.com/linux/common-environment-variables/)
 
-* **DISPLAY** – kiolesura kinachotumiwa na **X**. Kwa kawaida, hii huwekwa kama **:0.0**, ambayo inamaanisha kiolesura cha kwanza kwenye kompyuta ya sasa.
+* **DISPLAY** – kiolesura kinachotumiwa na **X**. Kipimo hiki kawaida huwekwa kama **:0.0**, ambayo inamaanisha kiolesura cha kwanza kwenye kompyuta ya sasa.
 * **EDITOR** – mhariri wa maandishi unaopendelewa na mtumiaji.
-* **HISTFILESIZE** – idadi kubwa ya mistari inayoweza kuwepo kwenye faili ya historia.
-* **HISTSIZE** – Idadi ya mistari inayoongezwa kwenye faili ya historia wakati mtumiaji anapomaliza kikao chake.
+* **HISTFILESIZE** – idadi kubwa ya mistari inayojumuishwa kwenye faili ya historia.
+* **HISTSIZE** – Idadi ya mistari inayoongezwa kwenye faili ya historia wakati mtumiaji anamaliza kipindi chake.
 * **HOME** – saraka yako ya nyumbani.
 * **HOSTNAME** – jina la mwenyeji wa kompyuta.
 * **LANG** – lugha yako ya sasa.
-* **MAIL** – mahali pa sanduku la barua pepe la mtumiaji. Kawaida **/var/spool/mail/USER**.
+* **MAIL** – eneo la sanduku la barua pepe la mtumiaji. Kawaida **/var/spool/mail/USER**.
 * **MANPATH** – orodha ya saraka za kutafuta kurasa za mwongozo.
 * **OSTYPE** – aina ya mfumo wa uendeshaji.
 * **PS1** – ishara ya amri ya msingi katika bash.
-* **PATH** – hifadhi njia ya saraka zote zinazoshikilia faili za binary unazotaka kutekeleza kwa kuzitaja kwa jina la faili na sio kwa njia ya kihusishi au kamili.
+* **PATH** – hifadhi njia ya saraka zote zinazoshikilia faili za binary unazotaka kutekeleza kwa kutoa jina la faili na sio njia ya kihusishi au kamili.
 * **PWD** – saraka ya kazi ya sasa.
 * **SHELL** – njia ya kabu ya amri ya sasa (kwa mfano, **/bin/bash**).
 * **TERM** – aina ya terminal ya sasa (kwa mfano, **xterm**).
 * **TZ** – eneo lako la muda.
 * **USER** – jina lako la mtumiaji la sasa.
 
-## Mipangilio ya kuvutia kwa udukuzi
+## Vipimo vya kuvutia kwa udukuzi
 
 ### **HISTFILESIZE**
 
-Badilisha **thamani ya kipengele hiki kuwa 0**, ili unapomaliza **kikao chako** faili ya **historia** (\~/.bash\_history) **itaondolewa**.
+Badilisha **thamani ya kipimo hiki kuwa 0**, hivyo unapomaliza **kipindi chako** faili ya **historia** (\~/.bash\_history) **itafutwa**.
 ```bash
 export HISTFILESIZE=0
 ```
 ### **HISTSIZE**
 
-**Badilisha thamani ya kigezo hiki iwe 0**, ili unapomaliza **kikao chako** amri yoyote isiongezwe kwenye **faili ya historia** (\~/.bash\_history).
+**Badilisha thamani ya kigezo hiki iwe 0**, ili unapomaliza kipindi chako cha **kikao** amri yoyote isiongezwe kwenye **faili ya historia** (\~/.bash\_history).
 ```bash
 export HISTSIZE=0
 ```
@@ -96,7 +96,7 @@ Mchakato utatumia **proxy** iliyotangazwa hapa kuunganisha kwenye mtandao kupiti
 export http_proxy="http://10.10.10.10:8080"
 export https_proxy="http://10.10.10.10:8080"
 ```
-### SSL_CERT_FILE & SSL_CERT_DIR
+### SSL\_CERT\_FILE & SSL\_CERT\_DIR
 
 Mchakato utaamini vyeti vilivyoorodheshwa katika **mazingira haya ya mazingira**.
 ```bash
@@ -105,42 +105,42 @@ export SSL_CERT_DIR=/path/to/ca-certificates
 ```
 ### PS1
 
-**Badilisha jinsi dirisha lako la amri linavyoonekana.**
+**Badilisha jinsi kivinjari chako kinavyoonekana.**
 
 [**Hii ni mfano**](https://gist.github.com/carlospolop/43f7cd50f3deea972439af3222b68808)
 
 Mizizi:
 
-![](<../.gitbook/assets/image (87).png>)
+![](<../.gitbook/assets/image (894).png>)
 
 Mtumiaji wa kawaida:
 
-![](<../.gitbook/assets/image (88).png>)
+![](<../.gitbook/assets/image (737).png>)
 
 Kazi moja, mbili na tatu zilizowekwa nyuma:
 
-![](<../.gitbook/assets/image (89).png>)
+![](<../.gitbook/assets/image (142).png>)
 
 Kazi moja iliyowekwa nyuma, moja imezuiliwa na amri ya mwisho haikumalizika kwa usahihi:
 
-![](<../.gitbook/assets/image (90).png>)
+![](<../.gitbook/assets/image (712).png>)
 
-**Kikundi cha Usalama cha Kujitahidi Kwa Bidii**
+**Kikundi cha Usalama cha Kujaribu Kwa Bidii**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kuvamia AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Ikiwa unataka kuona **kampuni yako ikionekana katika HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za kuvamia kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>

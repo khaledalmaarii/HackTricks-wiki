@@ -1,72 +1,69 @@
-# Uchambuzi wa Kumbukumbu ya Kufuja
+# Uchambuzi wa Kumbukumbu ya Kumbukumbu
 
 <details>
 
-<summary><strong>Jifunze kuhusu kufuja AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, ungependa kuona **kampuni yako ikionekana katika HackTricks**? Au ungependa kupata **toleo jipya zaidi la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Je! Unafanya kazi katika **kampuni ya usalama wa mtandao**? Unataka kuona **kampuni yako ikitangazwa kwenye HackTricks**? au unataka kupata upatikanaji wa **toleo jipya la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **nifuatilie** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kufuja kwa kuwasilisha PR kwenye [repo ya hacktricks](https://github.com/carlospolop/hacktricks) na [repo ya hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **nifuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) ni tukio muhimu zaidi la usalama wa mtandao nchini **Hispania** na moja ya muhimu zaidi barani **Ulaya**. Kwa **kukuza maarifa ya kiufundi**, mkutano huu ni sehemu ya kukutana kwa wataalamu wa teknolojia na usalama wa mtandao katika kila uwanja.
+[**RootedCON**](https://www.rootedcon.com/) ni tukio muhimu zaidi la usalama wa mtandao nchini **Hispania** na moja ya muhimu zaidi barani **Ulaya**. Kwa ** lengo la kukuza maarifa ya kiufundi**, kongamano hili ni mahali pa kukutana kwa wataalamu wa teknolojia na usalama wa mtandao katika kila nidhamu.
 
 {% embed url="https://www.rootedcon.com/" %}
 
-## Kuanza
+## Anza
 
 Anza **kutafuta** **programu hasidi** ndani ya pcap. Tumia **zana** zilizotajwa katika [**Uchambuzi wa Programu Hasidi**](../malware-analysis.md).
 
-## [Volatility](../../../generic-methodologies-and-resources/basic-forensic-methodology/memory-dump-analysis/volatility-cheatsheet.md)
+## [Volatility](volatility-cheatsheet.md)
 
-**Volatility ni mfumo wa chanzo wazi kuu kwa uchambuzi wa kumbukumbu ya kufuja**. Zana hii ya Python inachambua kumbukumbu za vyanzo vya nje au VMware VMs, ikigundua data kama michakato na nywila kulingana na maelezo ya OS ya kumbukumbu. Inaweza kupanuliwa na programu-jalizi, ikifanya iweze kutumika kwa uchunguzi wa kufuja.
+**Volatility ni mfumo wa chanzo wazi kuu kwa uchambuzi wa kumbukumbu ya kumbukumbu**. Zana hii ya Python inachambua dumisha kutoka vyanzo vya nje au VMware VMs, ikigundua data kama michakato na nywila kulingana na wasifu wa OS wa dumisha. Inaweza kupanuliwa na programu-jalizi, ikifanya iwe nyeti sana kwa uchunguzi wa kihalifu.
 
-**[Pata hapa karatasi ya kumbukumbu](../../../generic-methodologies-and-resources/basic-forensic-methodology/memory-dump-analysis/volatility-cheatsheet.md)**
+[**Pata hapa karatasi ya kufanya kazi**](volatility-cheatsheet.md)
 
+## Ripoti ya Kuporomoka kwa Dumisha la Mini
 
-## Ripoti ya Kufuja ya Kufa kwa Mini
+Wakati dumisha ni dogo (KB chache tu, labda MB chache), basi labda ni ripoti ya kuporomoka kwa dumisha la mini na sio dumisha la kumbukumbu.
 
-Wakati kumbukumbu ni ndogo (tu KB chache, labda MB chache) basi inawezekana kuwa ni ripoti ya kufa kwa mini na sio kumbukumbu ya kufuja.
+![](<../../../.gitbook/assets/image (529).png>)
 
-![](<../../../.gitbook/assets/image (216).png>)
+Ikiwa una Visual Studio imewekwa, unaweza kufungua faili hii na kufunga habari za msingi kama jina la mchakato, usanifu, habari ya kipekee na moduli zinazotekelezwa:
 
-Ikiwa una Visual Studio imewekwa, unaweza kufungua faili hii na kuunganisha habari za msingi kama jina la mchakato, muundo, habari ya kipekee na moduli zinazotekelezwa:
+![](<../../../.gitbook/assets/image (260).png>)
 
-![](<../../../.gitbook/assets/image (217).png>)
+Unaweza pia kupakia kipekee na kuona maagizo yaliyofanywa upya
 
-Pia unaweza kupakia kipekee na kuona maagizo yaliyofafanuliwa
+![](<../../../.gitbook/assets/image (139).png>)
 
-![](<../../../.gitbook/assets/image (219).png>)
+![](<../../../.gitbook/assets/image (607).png>)
 
-![](<../../../.gitbook/assets/image (218) (1).png>)
+Walakini, Visual Studio sio zana bora kufanya uchambuzi wa kina wa dumisha.
 
-Hata hivyo, Visual Studio sio zana bora ya kufanya uchambuzi wa kina wa kufuja.
-
-Unapaswa **kuifungua** kwa kutumia **IDA** au **Radare** kuiangalia kwa **kina**.
-
-
+Unapaswa **kulifungua** kwa kutumia **IDA** au **Radare** kwa ukaguzi wa **kina**.
 
 ​
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) ni tukio muhimu zaidi la usalama wa mtandao nchini **Hispania** na moja ya muhimu zaidi barani **Ulaya**. Kwa **kukuza maarifa ya kiufundi**, mkutano huu ni sehemu ya kukutana kwa wataalamu wa teknolojia na usalama wa mtandao katika kila uwanja.
+[**RootedCON**](https://www.rootedcon.com/) ni tukio muhimu zaidi la usalama wa mtandao nchini **Hispania** na moja ya muhimu zaidi barani **Ulaya**. Kwa **lengo la kukuza maarifa ya kiufundi**, kongamano hili ni mahali pa kukutana kwa wataalamu wa teknolojia na usalama wa mtandao katika kila nidhamu.
 
 {% embed url="https://www.rootedcon.com/" %}
 
 <details>
 
-<summary><strong>Jifunze kuhusu kufuja AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, ungependa kuona **kampuni yako ikionekana katika HackTricks**? Au ungependa kupata **toleo jipya zaidi la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Je! Unafanya kazi katika **kampuni ya usalama wa mtandao**? Unataka kuona **kampuni yako ikitangazwa kwenye HackTricks**? au unataka kupata upatikanaji wa **toleo jipya la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **nifuatilie** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kufuja kwa kuwasilisha PR kwenye [repo ya hacktricks](https://github.com/carlospolop/hacktricks) na [repo ya hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **nifuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

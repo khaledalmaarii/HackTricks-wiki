@@ -1,60 +1,61 @@
+# UART
+
 <details>
 
-<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
 * Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
-
-# Taarifa Msingi
+## Taarifa Msingi
 
 UART ni itifaki ya mfululizo, ambayo inamaanisha inahamisha data kati ya vipengele biti moja kwa wakati. Tofauti na itifaki za mawasiliano ya wima hupitisha data kwa wakati mmoja kupitia njia nyingi. Itifaki za mfululizo za kawaida ni pamoja na RS-232, I2C, SPI, CAN, Ethernet, HDMI, PCI Express, na USB.
 
-Kwa ujumla, mstari unashikiliwa juu (kwa thamani ya mantiki 1) wakati UART iko katika hali ya kupumzika. Kisha, kwa kusudi la kuashiria mwanzo wa uhamishaji wa data, mtumaji hutoa biti ya kuanza kwa mpokeaji, wakati ambao ishara inashikiliwa chini (kwa thamani ya mantiki 0). Kisha, mtumaji hutoa biti tano hadi nane za data zinazohusisha ujumbe halisi, ikifuatiwa na biti ya ukaguzi wa hitilafu na biti moja au mbili za kusimamisha (zenye thamani ya mantiki 1), kulingana na usanidi. Biti ya ukaguzi wa hitilafu, inayotumiwa kwa ukaguzi wa hitilafu, mara nyingi haionekani katika vitendo. Biti ya kusimamisha (au biti) inaashiria mwisho wa uhamishaji.
+Kwa ujumla, mstari unashikiliwa juu (kwa thamani ya mantiki 1) wakati UART iko katika hali ya kupumzika. Kisha, kwa kusudi la kuashiria mwanzo wa uhamisho wa data, mtumaji hutoa biti ya kuanza kwa mpokeaji, wakati ambapo ishara inashikiliwa chini (kwa thamani ya mantiki 0). Kisha, mtumaji hutoa biti tano hadi nane za data zinazoleta ujumbe halisi, ikifuatiwa na biti ya ukaguzi wa hitilafu na biti moja au mbili za kusimamisha (zenye thamani ya mantiki 1), kulingana na usanidi. Biti ya ukaguzi wa hitilafu, inayotumiwa kwa ukaguzi wa hitilafu, mara nyingi haionekani katika vitendo. Biti ya kusimamisha (au biti) inaashiria mwisho wa uhamisho.
 
 Tuitie usanidi wa kawaida zaidi 8N1: biti nane za data, hakuna ukaguzi wa hitilafu, na biti moja ya kusimamisha. Kwa mfano, ikiwa tunataka kutuma herufi C, au 0x43 katika ASCII, katika usanidi wa UART wa 8N1, tungepeleka biti zifuatazo: 0 (biti ya kuanza); 0, 1, 0, 0, 0, 0, 1, 1 (thamani ya 0x43 katika tarakilishi), na 0 (biti ya kusimamisha).
 
-![](<../../.gitbook/assets/image (648) (1) (1) (1) (1).png>)
+![](<../../.gitbook/assets/image (761).png>)
 
 Vyombo vya vifaa vya mawasiliano na UART:
 
 * Kigeuzi cha USB-kwa-mfululizo
-* Vigeuzi vyenye chips za CP2102 au PL2303
+* Vipachikizi vyenye chips za CP2102 au PL2303
 * Zana ya matumizi mengi kama: Pirate ya Bus, Adafruit FT232H, Shikra, au Bajeti ya Attify
 
-## Kutambua Bandari za UART
+### Kutambua Bandari za UART
 
-UART ina bandari 4: **TX**(Tuma), **RX**(Pokea), **Vcc**(Voltage), na **GND**(Ground). Unaweza kupata bandari 4 zenye herufi za **`TX`** na **`RX`** **zilizoandikwa** kwenye PCB. Lakini ikiwa hakuna ishara, unaweza kuhitaji kujaribu kuzipata mwenyewe kwa kutumia **multimeter** au **analyzer ya mantiki**.
+UART ina bandari 4: **TX**(Tuma), **RX**(Pokea), **Vcc**(Voltage), na **GND**(Ground). Unaweza kupata bandari 4 zenye herufi za **`TX`** na **`RX`** **zilizoandikwa** kwenye PCB. Lakini ikiwa hakuna ishara, unaweza kujaribu kuzipata mwenyewe kwa kutumia **multimeter** au **analyzer ya mantiki**.
 
 Kwa **multimeter** na kifaa kimezimwa:
 
-* Kutambua pin ya **GND** tumia mode ya **Majaribio ya Uendelezaji**, weka kichwa cha nyuma kwenye ardhi na jaribu na kichwa chekundu mpaka usikie sauti kutoka kwa multimeter. Pins kadhaa za GND zinaweza kupatikana kwenye PCB, kwa hivyo unaweza kuwa umepata au hujapata ile inayomilikiwa na UART.
-* Kutambua **bandari ya VCC**, weka mode ya **volts ya DC** na iweke hadi 20 V ya voltage. Kichwa cheusi kwenye ardhi na kichwa chekundu kwenye pin. Washa kifaa. Ikiwa multimeter inapima voltage ya kudumu ya 3.3 V au 5 V, umepata pin ya Vcc. Ikiwa unapata voltages zingine, jaribu tena na bandari zingine.
-* Kutambua **TX** **bandari**, **mode ya voltage ya DC** hadi 20 V ya voltage, kichwa cheusi kwenye ardhi, na kichwa chekundu kwenye pin, na uweke kifaa. Ikiwa unagundua voltage inabadilika kwa sekunde chache na kisha inadhibitika kwa thamani ya Vcc, labda umepata bandari ya TX. Hii ni kwa sababu wakati wa kuwasha, inatuma data fulani ya uchunguzi.
+* Kutambua pin ya **GND** tumia mode ya **Majaribio ya Uendelezaji**, weka kamba ya nyuma kwenye ardhi na jaribu na ile nyekundu mpaka usikie sauti kutoka kwa multimeter. Pins kadhaa za GND zinaweza kupatikana kwenye PCB, kwa hivyo unaweza kuwa umepata au hujapata ile inayomilikiwa na UART.
+* Kutambua **bandari ya VCC**, weka mode ya **volts ya DC** na iweke hadi 20 V ya voltage. Kamba nyeusi kwenye ardhi na kamba nyekundu kwenye pin. Washa kifaa. Ikiwa multimeter inapima voltage ya kudumu ya 3.3 V au 5 V, umepata pin ya Vcc. Ikiwa unapata voltages nyingine, jaribu na bandari zingine.
+* Kutambua **TX** **bandari**, **mode ya voltage ya DC** hadi 20 V ya voltage, kamba nyeusi kwenye ardhi, na kamba nyekundu kwenye pin, na uweke kifaa. Ikiwa unagundua voltage inabadilika kwa sekunde chache kisha inadhibitika kwa thamani ya Vcc, labda umepata bandari ya TX. Hii ni kwa sababu wakati wa kuwasha, inatuma data fulani ya uchunguzi.
 * **Bandari ya RX** itakuwa ile karibu zaidi na zingine 3, ina mabadiliko madogo ya voltage na thamani ya chini zaidi ya jumla ya pini zote za UART.
 
 Unaweza kuchanganya bandari za TX na RX na hakuna kitakachotokea, lakini ikiwa unachanganya GND na bandari ya VCC unaweza kuharibu mzunguko.
 
-Kwenye vifaa vingine vya lengo, bandari ya UART inaweza kuwa imelemazwa na mtengenezaji kwa kulemaza RX au TX au hata zote mbili. Katika kesi hiyo, inaweza kuwa na manufaa kufuatilia mawasiliano kwenye bodi ya mzunguko na kupata sehemu ya kuvunja. Kiashiria kikali kuhusu kuthibitisha kutokuwepo kwa kugundua UART na kuvunjika kwa mzunguko ni kuangalia dhamana ya kifaa. Ikiwa kifaa kimepelekwa na dhamana fulani, mtengenezaji huacha vipengele vya uchunguzi (katika kesi hii, UART) na hivyo, lazima awe ameunganisha UART na ataiunganisha tena wakati wa kutatua hitilafu. Pins hizi za kuvunja zinaweza kuunganishwa kwa kusodolewa au nyaya za jumper.
+Kwenye vifaa vya lengo fulani, bandari ya UART inaweza kuwa imelemazwa na mtengenezaji kwa kulemaza RX au TX au hata zote mbili. Katika kesi hiyo, inaweza kuwa na manufaa kufuatilia mawasiliano kwenye bodi ya mzunguko na kupata sehemu ya kuvunja. Kiashiria kikali kuhusu kuthibitisha kutokuwepo kwa kugundua UART na kuvunjika kwa mzunguko ni kuangalia dhamana ya kifaa. Ikiwa kifaa kimepelekwa na dhamana fulani, mtengenezaji huacha vipengele vya uchunguzi (katika kesi hii, UART) na hivyo, lazima awe ameondoa UART na ataiunganisha tena wakati wa kutatua hitilafu. Pins hizi za kuvunja zinaweza kuunganishwa kwa kusodolewa au nyaya za jumper.
 
-## Kutambua Kasi ya Baud ya UART
+### Kutambua Kasi ya Baud ya UART
 
-Njia rahisi ya kutambua kasi sahihi ya baud ni kuangalia **matokeo ya pin ya TX na kujaribu kusoma data**. Ikiwa data unayopokea haiwezi kusomwa, badilisha kwa kasi ya baud inayowezekana inayofuata hadi data iweze kusomwa. Unaweza kutumia kigeuzi cha USB-kwa-mfululizo au kifaa cha matumizi mengi kama Bus Pirate kufanya hivi, pamoja na script ya msaidizi, kama [baudrate.py](https://github.com/devttys0/baudrate/). Kasi za baud za kawaida ni 9600, 38400, 19200, 57600, na 115200.
+Njia rahisi ya kutambua kasi sahihi ya baud ni kutazama **matokeo ya pin ya TX na kujaribu kusoma data**. Ikiwa data unayopokea haiwezi kusomwa, badilisha kwa kasi ya baud inayowezekana inayofuata hadi data iweze kusomwa. Unaweza kutumia kigeuzi cha USB-kwa-mfululizo au kifaa cha matumizi mengi kama Bus Pirate kufanya hivi, pamoja na script msaidizi, kama vile [baudrate.py](https://github.com/devttys0/baudrate/). Kasi za baud za kawaida ni 9600, 38400, 19200, 57600, na 115200.
 
 {% hint style="danger" %}
 Ni muhimu kutambua kwamba katika itifaki hii unahitaji kuunganisha TX ya kifaa kimoja na RX ya kingine!
 {% endhint %}
 
-# Kigeuzi cha CP210X UART kwenda TTY
+## Kigeuzi cha CP210X UART kwenda TTY
 
-Chip ya CP210X hutumiwa kwenye bodi nyingi za prototyping kama NodeMCU (na esp8266) kwa Mawasiliano ya Mfululizo. Vigeuzi hivi ni vya bei rahisi na vinaweza kutumika kuunganisha kwenye kiolesura cha UART cha lengo. Kifaa kina pins 5: 5V, GND, RXD, TXD, 3.3V. Hakikisha kuunganisha voltage kama inavyoungwa mkono na lengo ili kuepuka uharibifu wowote. Hatimaye unganisha pin ya RXD ya Kigeuzi kwa TXD ya lengo na pin ya TXD ya Kigeuzi kwa RXD ya lengo.
+Chip ya CP210X hutumiwa kwenye bodi nyingi za prototyping kama NodeMCU (na esp8266) kwa Mawasiliano ya Mfululizo. Vipachikizi hivi ni vya bei nafuu na vinaweza kutumika kuunganisha kwenye kiolesura cha UART cha lengo. Kifaa kina pins 5: 5V, GND, RXD, TXD, 3.3V. Hakikisha kuunganisha voltage kama inavyoungwa mkono na lengo ili kuepuka uharibifu wowote. Hatimaye unganisha pin ya RXD ya Kigeuzi kwa TXD ya lengo na pin ya TXD ya Kigeuzi kwa RXD ya lengo.
 
 Ikiwa kigeuzi hakigunduliwi, hakikisha madereva ya CP210X yamefungwa kwenye mfumo wa mwenyeji. Mara tu kigeuzi kinapogunduliwa na kuunganishwa, zana kama picocom, minicom au screen zinaweza kutumika.
 
@@ -70,13 +71,13 @@ Kwa minicom, tumia amri ifuatayo kuiboresha:
 ```
 minicom -s
 ```
-Sakinisha mipangilio kama baudrate na jina la kifaa katika chaguo la `Serial port setup`.
+Configure mazingira kama baudrate na jina la kifaa katika chaguo la `Serial port setup`.
 
 Baada ya usanidi, tumia amri `minicom` kuanza kupata Konsoli ya UART.
 
-# Bus Pirate
+## Bus Pirate
 
-Katika hali hii, tunakusudia kuchunguza mawasiliano ya UART ya Arduino ambayo inatuma maandishi yote ya programu kwa Serial Monitor.
+Katika hali hii tunakusudia kunasa mawasiliano ya UART ya Arduino ambayo inatuma maandishi yote ya programu kwa Serial Monitor.
 ```bash
 # Check the modes
 UART>m
@@ -157,7 +158,7 @@ Njia nyingine za kusaidia HackTricks:
 * Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>

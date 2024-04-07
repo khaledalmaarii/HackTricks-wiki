@@ -4,11 +4,11 @@
 
 <summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Unataka kuona **kampuni yako ikitangazwa kwenye HackTricks**? au unataka kupata upatikanaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Unataka kuona **kampuni yako ikionekana kwenye HackTricks**? au unataka kupata upatikanaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* Pata [**swagi rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **nifuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye [repo ya hacktricks](https://github.com/carlospolop/hacktricks) na [repo ya hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **fuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -49,7 +49,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Ingiza ili ufikie anwani (ikiashiria machapisho)
+### Ingiza ili ufikie anwani (ikiashiria prints)
 ```python
 # If you don't know the address you want to recah, but you know it's printing something
 # You can also indicate that info
@@ -210,9 +210,9 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-Katika kesi hii, kuingia ilichukuliwa na `scanf("%u %u")` na thamani `"1 1"` ilitolewa, hivyo thamani **`0x00000001`** ya stack inatoka kwa **mara ya mtumiaji**. Unaweza kuona jinsi thamani hizi zinaanza katika `$ebp - 8`. Kwa hivyo, katika kanuni tunayo **kupunguza 8 bytes kwa `$esp` (kama wakati huo `$ebp` na `$esp` walikuwa na thamani sawa)** na kisha tumeboresha BVS.
+Katika kesi hii, kuingia ilichukuliwa na `scanf("%u %u")` na thamani `"1 1"` ilitolewa, kwa hivyo thamani **`0x00000001`** ya stack inatoka kwa **kuingia mtumiaji**. Unaweza kuona jinsi thamani hizi zinaanza katika `$ebp - 8`. Kwa hivyo, katika kanuni tumepunguza **bytes 8 kwa `$esp` (kama wakati huo `$ebp` na `$esp` walikuwa na thamani sawa)** na kisha tukaipush BVS.
 
-![](<../../../.gitbook/assets/image (614).png>)
+![](<../../../.gitbook/assets/image (133).png>)
 
 ### Thamani za Kumbukumbu za Stati (Vipimo vya Kimataifa)
 ```python
@@ -334,7 +334,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Uigaji wa Faili
+### Uigizaji wa Faili
 ```python
 #In this challenge a password is read from a file and we want to simulate its content
 
@@ -416,8 +416,8 @@ Tafadhali kumbuka kwamba faili ya ishara inaweza pia kuwa na data ya kudumu iliy
 ### Kutumia Vizuizi
 
 {% hint style="info" %}
-Maranyingi shughuli rahisi za binadamu kama kulinganisha maneno 2 yenye urefu wa 16 **herufi kwa herufi** (mzunguko), **gharama** sana kwa **angr** kwa sababu inahitaji kuzalisha matawi **kwa kiwango cha kipekee** kwa sababu inazalisha tawi 1 kwa kila ikiwa: `2^16`\
-Hivyo basi, ni rahisi zaidi **kuuliza angr irudi kwenye hatua ya awali** (ambapo sehemu ngumu halisi ilishafanywa) na **kuweka vizuizi hivyo kwa mkono**.
+Maranyingi shughuli za binadamu rahisi kama kulinganisha maneno 2 yenye urefu wa 16 **herufi kwa herufi** (mzunguko), **gharama** sana kwa **angr** kwa sababu inahitaji kuzalisha matawi **kwa kiasi kikubwa** kwa sababu inazalisha tawi 1 kwa kila ikiwa: `2^16`\
+Hivyo basi, ni rahisi **kuuliza angr irudi kwenye hatua ya awali** (ambapo sehemu ngumu halisi ilishafanywa) na **kuweka vizuizi hivyo kwa mkono**.
 {% endhint %}
 ```python
 # After perform some complex poperations to the input the program checks
@@ -752,7 +752,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Programu za Statiči
+### Programu za Statisiki
 ```python
 # This challenge is the exact same as the first challenge, except that it was
 # compiled as a static binary. Normally, Angr automatically replaces standard
@@ -821,12 +821,12 @@ main(sys.argv)
 ```
 <details>
 
-<summary><strong>Jifunze kuhusu kuvamia AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Unataka kuona **kampuni yako ikitangazwa kwenye HackTricks**? au unataka kupata upatikanaji wa **toleo jipya la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Unataka kuona **kampuni yako ikitangazwa kwenye HackTricks**? au unataka kupata upatikanaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **fuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kuvamia kwa kuwasilisha PRs kwenye [repo ya hacktricks](https://github.com/carlospolop/hacktricks) na [repo ya hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **nifuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

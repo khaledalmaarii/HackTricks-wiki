@@ -2,61 +2,61 @@
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
 * Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
 ## Mchakato wa kupakia Sandbox
 
-<figure><img src="../../../../../.gitbook/assets/image (2) (1) (2).png" alt=""><figcaption><p>Picha kutoka <a href="http://newosxbook.com/files/HITSB.pdf">http://newosxbook.com/files/HITSB.pdf</a></p></figcaption></figure>
+<figure><img src="../../../../../.gitbook/assets/image (898).png" alt=""><figcaption><p>Picha kutoka <a href="http://newosxbook.com/files/HITSB.pdf">http://newosxbook.com/files/HITSB.pdf</a></p></figcaption></figure>
 
-Katika picha hapo juu, inawezekana kuona **jinsi sandbox itakavyopakiwa** wakati programu na ruhusa ya **`com.apple.security.app-sandbox`** inaendeshwa.
+Katika picha iliyopita ni wazi kuona **jinsi sandbox itakavyopakiwa** wakati programu yenye ruhusa ya **`com.apple.security.app-sandbox`** inapoendeshwa.
 
-Msimbaji atalazimisha `/usr/lib/libSystem.B.dylib` kuunganishwa na binary.
+Mkuzaji atalinganisha `/usr/lib/libSystem.B.dylib` na binary.
 
-Kisha, **`libSystem.B`** itaita kazi zingine kadhaa hadi **`xpc_pipe_routine`** itatuma ruhusa za programu kwa **`securityd`**. Securityd itachunguza ikiwa mchakato unapaswa kuwekwa karantini ndani ya Sandbox, na ikiwa ndivyo, itawekwa karantini.\
-Hatimaye, sandbox itaamilishwa kwa wito wa **`__sandbox_ms`** ambayo itaita **`__mac_syscall`**.
+Kisha, **`libSystem.B`** itaita kazi zingine kadhaa hadi **`xpc_pipe_routine`** itakapowatuma ruhusa za programu kwa **`securityd`**. Securityd itachunguza ikiwa mchakato unapaswa kuwekwa karantini ndani ya Sandbox, na ikiwa ndivyo, itawekwa karantini.\
+Hatimaye, sandbox itaamilishwa kwa wito wa **`__sandbox_ms`** ambao utaita **`__mac_syscall`**.
 
-## Mbinu za Kupita
+## Mabwawa Yanayowezekana
 
-### Kupita kizuizi cha karantini
+### Kupitisha sifa ya karantini
 
-**Faili zinazoundwa na michakato ya sandbox** zinaongezewa **kizuizi cha karantini** ili kuzuia kutoroka kwa sandbox. Walakini, ikiwa unaweza **kuunda folda ya `.app` bila kizuizi cha karantini** ndani ya programu iliyosandukwa, unaweza kufanya faili ya programu ielekeze kwa **`/bin/bash`** na kuongeza baadhi ya mazingira katika **plist** ili kutumia **`open`** kuzindua programu mpya bila kizuizi cha sandbox.
+**Faili zinazoundwa na michakato iliyowekwa kwenye sandbox** zinaongezewa **sifa ya karantini** ili kuzuia kutoroka kwa sandbox. Walakini, ikiwa utaweza **kuunda folda ya `.app` bila sifa ya karantini** ndani ya programu iliyowekwa kwenye sandbox, unaweza kufanya faili ya mfungu wa programu ielekeze kwa **`/bin/bash`** na kuongeza baadhi ya mazingira katika **plist** kutumia **`open`** kuzindua programu mpya bila sandbox.
 
 Hii ndio iliyofanywa katika [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)**.**
 
 {% hint style="danger" %}
-Kwa hivyo, kwa sasa, ikiwa unaweza tu kuunda folda na jina linalomalizika na **`.app`** bila kizuizi cha karantini, unaweza kutoroka kwenye sandbox kwa sababu macOS inachunguza tu kizuizi cha karantini katika folda ya **`.app`** na katika **kutekelezwa kuu** (na tutaelekeza kutekelezwa kuu kwa **`/bin/bash`**).
+Kwa hivyo, kwa sasa, ikiwa unaweza tu kuunda folda yenye jina linalomalizika kwa **`.app`** bila sifa ya karantini, unaweza kutoroka kwa sandbox kwa sababu macOS inachunguza tu **sifa ya karantini** katika **folda ya `.app`** na katika **mfungu wa programu** (na tutaelekeza mfungu wa programu kwa **`/bin/bash`**).
 
-Tafadhali kumbuka kuwa ikiwa mfuko wa .app tayari umepewa idhini ya kukimbia (ina xttr ya karantini na bendera ya kuruhusiwa kukimbia), unaweza pia kuitumia vibaya... isipokuwa sasa huwezi kuandika ndani ya mafungu ya **`.app`** isipokuwa una baadhi ya ruhusa za TCC zenye mamlaka (ambazo hautakuwa nazo ndani ya sandbox ya juu).
+Tafadhali kumbuka kwamba ikiwa mfungu wa .app tayari umepewa idhini ya kukimbia (ina xttr ya karantini na bendera ya kuruhusiwa kukimbia), unaweza pia kuitumia... isipokuwa sasa huwezi kuandika ndani ya **folda za `.app`** isipokuwa una ruhusa za TCC za kipekee (ambazo hautakuwa nazo ndani ya sandbox ya juu).
 {% endhint %}
 
-### Kutumia Uwezo wa Kufungua
+### Kutumia Kazi ya Kufungua
 
-Katika [**mifano ya hivi karibuni ya kuepuka sandbox ya Word**](macos-office-sandbox-bypasses.md#word-sandbox-bypass-via-login-items-and-.zshenv) inaweza kuonekana jinsi **kazi ya wazi** inaweza kutumiwa vibaya kuepuka sandbox.
+Katika [**mifano ya mwisho ya kutoroka kwa sandbox ya Word**](macos-office-sandbox-bypasses.md#word-sandbox-bypass-via-login-items-and-.zshenv) inaweza kuonekana jinsi **kazi ya `open`** inaweza kutumiwa vibaya kutoroka kwa sandbox.
 
 {% content-ref url="macos-office-sandbox-bypasses.md" %}
 [macos-office-sandbox-bypasses.md](macos-office-sandbox-bypasses.md)
 {% endcontent-ref %}
 
-### Mawakala ya Kuzindua / Daemons
+### Mawakala/Maemoni ya Kuzindua
 
-Hata ikiwa programu inakusudiwa kuwa na sandbox (`com.apple.security.app-sandbox`), inawezekana kuipitisha sandbox ikiwa itatekelezwa kutoka kwa Mwakilishi wa Kuzindua (`~/Library/LaunchAgents`) kwa mfano.\
-Kama ilivyoelezwa katika [**chapisho hili**](https://www.vicarius.io/vsociety/posts/cve-2023-26818-sandbox-macos-tcc-bypass-w-telegram-using-dylib-injection-part-2-3?q=CVE-2023-26818), ikiwa unataka kupata uthabiti na programu ambayo imefungwa kwenye sandbox unaweza kuifanya iweze kutekelezwa kiotomatiki kama Mwakilishi wa Kuzindua na labda kuingiza msimbo mbaya kupitia mazingira ya DyLib.
+Hata ikiwa programu inakusudiwa kuwa kwenye sandbox (`com.apple.security.app-sandbox`), inawezekana kutoroka kwa sandbox ikiwa itatekelezwa kutoka kwa Mwakilishi wa Kuzindua (`~/Library/LaunchAgents`) kwa mfano.\
+Kama ilivyoelezwa katika [**chapisho hili**](https://www.vicarius.io/vsociety/posts/cve-2023-26818-sandbox-macos-tcc-bypass-w-telegram-using-dylib-injection-part-2-3?q=CVE-2023-26818), ikiwa unataka kupata uthabiti na programu iliyowekwa kwenye sandbox unaweza kufanya iweze kutekelezwa moja kwa moja kama Mwakilishi wa Kuzindua na labda kuingiza msimbo wa uovu kupitia mazingira ya DyLib.
 
 ### Kutumia Maeneo ya Kuanza Kiotomatiki
 
-Ikiwa mchakato wa sandbox unaweza **kuandika** mahali ambapo **baadaye programu isiyosandukwa itatekeleza binary**, itaweza **kutoroka tu kwa kuweka** binary hapo. Mfano mzuri wa maeneo kama haya ni `~/Library/LaunchAgents` au `/System/Library/LaunchDaemons`.
+Ikiwa mchakato uliowekwa kwenye sandbox unaweza **kuandika** mahali ambapo **baadaye programu isiyowekwa kwenye sandbox itakayotekelezwa binary**, itaweza **kutoroka kwa kuweka** hapo binary. Mfano mzuri wa maeneo kama haya ni `~/Library/LaunchAgents` au `/System/Library/LaunchDaemons`.
 
-Kwa hili unaweza hata kuhitaji **hatua 2**: Kufanya mchakato na sandbox **yenye ruhusa zaidi** (`file-read*`, `file-write*`) itekeleze nambari yako ambayo itaandika mahali ambapo itatekelezwa **bila kizuizi cha sandbox**.
+Kwa hili unaweza hata kuhitaji **hatua 2**: Kufanya mchakato na **sandbox yenye ruhusa zaidi** (`file-read*`, `file-write*`) itekeleze msimbo wako ambao utaandika mahali ambapo itatekelezwa **bila sandbox**.
 
 Angalia ukurasa huu kuhusu **Maeneo ya Kuanza Kiotomatiki**:
 
@@ -66,32 +66,29 @@ Angalia ukurasa huu kuhusu **Maeneo ya Kuanza Kiotomatiki**:
 
 ### Kutumia michakato mingine
 
-Ikiwa kutoka kwa mchakato wa sandbox unaweza **kuathiri michakato mingine** inayofanya kazi katika sanduku zenye kizuizi kidogo (au hakuna), utaweza kutoroka kwenye sanduku zao:
+Ikiwa kutoka kwa mchakato wa sandbox unaweza **kuathiri michakato mingine** inayotekelezwa katika mabwawa ya mchanga yenye vikwazo vichache (au hakuna), utaweza kutoroka kwa mabwawa yao ya mchanga:
 
 {% content-ref url="../../../macos-proces-abuse/" %}
 [macos-proces-abuse](../../../macos-proces-abuse/)
 {% endcontent-ref %}
 
-### Kukusanya Statically & Kuunganisha Kwa Kudumu
+### Kukusanya Statically & Kufunga Kwa Kudumu
 
-[Utafiti huu](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/) uligundua njia 2 za kuepuka Sandbox. Kwa sababu sandbox inatumika kutoka kwa userland wakati maktaba ya **libSystem** inapakia. Ikiwa binary inaweza kuepuka kupakia, kamwe haitapata sandbox:
+[**Utafiti huu**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/) uligundua njia 2 za kutoroka kwa Sandbox. Kwa sababu sandbox inatekelezwa kutoka kwa userland wakati maktaba ya **libSystem** inapopakiwa. Ikiwa binary inaweza kuepuka kupakia, kamwe haitapata sandbox:
 
-* Ikiwa binary imekamilika **imekusanywa kwa njia ya kustatiki**, inaweza kuepuka kupakia maktaba hiyo.
+* Ikiwa binary ilikuwa **imekamilika kufungwa kwa kudumu**, inaweza kuepuka kupakia maktaba hiyo.
 * Ikiwa **binary haitahitaji kupakia maktaba yoyote** (kwa sababu linker pia iko katika libSystem), haitahitaji kupakia libSystem.
 
 ### Shellcodes
 
-Tafadhali kumbuka kuwa **hata shellcodes** katika ARM64 inahitaji kuunganishwa na `libSystem.dylib`:
-
+Tafadhali kumbuka kwamba **hata shellcodes** katika ARM64 inahitaji kuunganishwa katika `libSystem.dylib`:
 ```bash
 ld -o shell shell.o -macosx_version_min 13.0
 ld: dynamic executables or dylibs must link with libSystem.dylib for architecture arm64
 ```
+### Haki za Kibali
 
-### Haki za Kustahiki
-
-Tafadhali kumbuka kwamba hata kama baadhi ya **vitendo** vinaweza kuruhusiwa na **sandbox**, ikiwa programu ina **haki za kustahiki** maalum, kama vile:
-
+Tafadhali kumbuka kwamba hata kama baadhi ya **vitendo** vinaweza kuruhusiwa na **sandbox** ikiwa programu ina **haki maalum**, kama vile:
 ```scheme
 (when (entitlement "com.apple.security.network.client")
 (allow network-outbound (remote ip))
@@ -101,17 +98,15 @@ Tafadhali kumbuka kwamba hata kama baadhi ya **vitendo** vinaweza kuruhusiwa na 
 (global-name "com.apple.cfnetwork.cfnetworkagent")
 [...]
 ```
-
 ### Kupitisha Kizuizi
 
-Kwa habari zaidi kuhusu **Kupitisha Kizuizi**, angalia:
+Kwa habari zaidi kuhusu **Kupitisha Kizuizi**, tazama:
 
 {% content-ref url="../../../macos-proces-abuse/macos-function-hooking.md" %}
 [macos-function-hooking.md](../../../macos-proces-abuse/macos-function-hooking.md)
 {% endcontent-ref %}
 
-#### Kupitisha `_libsecinit_initializer` ili kuzuia kizuizi cha sanduku
-
+#### Kupitisha `_libsecinit_initializer` ili kuzuia sanduku ya mchanga
 ```c
 // gcc -dynamiclib interpose.c -o interpose.dylib
 
@@ -135,8 +130,7 @@ DYLD_INSERT_LIBRARIES=./interpose.dylib ./sand
 _libsecinit_initializer called
 Sandbox Bypassed!
 ```
-
-#### Interpost `__mac_syscall` kuzuia Sandbox
+#### Interpost `__mac_syscall` kuzuia Sanduku la Mchanga
 
 {% code title="interpose.c" %}
 ```c
@@ -171,7 +165,6 @@ __attribute__((used)) static const struct interpose_sym interposers[] __attribut
 };
 ```
 {% endcode %}
-
 ```bash
 DYLD_INSERT_LIBRARIES=./interpose.dylib ./sand
 
@@ -183,10 +176,9 @@ __mac_syscall invoked. Policy: Quarantine, Call: 87
 __mac_syscall invoked. Policy: Sandbox, Call: 4
 Sandbox Bypassed!
 ```
+### Kurekebisha na Kupita kizuizi cha Sandbox na lldb
 
-### Kurekebisha na kuzunguka Sanduku na lldb
-
-Tengeneza programu ambayo inapaswa kuwa na sanduku:
+Tujenge programu ambayo inapaswa kuwa na kizuizi cha sandbox:
 
 {% tabs %}
 {% tab title="sand.c" %}
@@ -196,52 +188,30 @@ int main() {
 system("cat ~/Desktop/del.txt");
 }
 ```
+{% endtab %}
+
+{% tab title="entitlements.xml" %} 
+
+### Mipangilio ya Kibali
+
+Faili hii inaorodhesha vibali vyote vinavyohitajika na programu ili kufanya kazi kwenye mchakato wa sandbox. Unaweza kuhariri faili hii ili kubadilisha au kuongeza vibali vinavyohitajika. Kumbuka kwamba kuhariri vibali kunaweza kusababisha programu kushindwa kufanya kazi vizuri au kukiuka usalama wa sandbox. Jihadharini na mabadiliko unayofanya. 
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>com.apple.security.app-sandbox</key>
-    <true/>
-    <key>com.apple.security.network.client</key>
-    <true/>
-    <key>com.apple.security.files.user-selected.read-write</key>
-    <true/>
-    <key>com.apple.security.files.user-selected.read-only</key>
-    <true/>
-    <key>com.apple.security.files.downloads.read-write</key>
-    <true/>
-    <key>com.apple.security.files.downloads.read-only</key>
-    <true/>
-    <key>com.apple.security.files.all</key>
-    <true/>
-    <key>com.apple.security.print</key>
-    <true/>
-    <key>com.apple.security.temporary-exception.apple-events</key>
-    <array>
-        <string>com.apple.dt.Xcode</string>
-    </array>
+	<key>com.apple.security.network.client</key>
+	<true/>
+	<key>com.apple.security.files.user-selected.read-write</key>
+	<true/>
 </dict>
 </plist>
 ```
 
-This is an example of an entitlements.xml file used in macOS sandboxing. The entitlements.xml file specifies the permissions and privileges granted to an application running in a sandboxed environment.
+Katika mfano huu, programu inahitaji vibali vya kufanya mawasiliano na mtandao na kusoma/kuandika faili ambazo mtumiaji amechagua. 
 
-In this example, the following entitlements are granted:
-
-* `com.apple.security.app-sandbox`: Enables the application to run in a sandbox.
-* `com.apple.security.network.client`: Allows the application to make network connections.
-* `com.apple.security.files.user-selected.read-write`: Grants read and write access to files selected by the user.
-* `com.apple.security.files.user-selected.read-only`: Grants read-only access to files selected by the user.
-* `com.apple.security.files.downloads.read-write`: Grants read and write access to downloaded files.
-* `com.apple.security.files.downloads.read-only`: Grants read-only access to downloaded files.
-* `com.apple.security.files.all`: Grants access to all files.
-* `com.apple.security.print`: Allows the application to print.
-* `com.apple.security.temporary-exception.apple-events`: Grants temporary exception for Apple events to the specified application (in this case, Xcode).
-
-These entitlements define the boundaries and permissions for the application, ensuring that it operates within the constraints of the sandbox while still allowing necessary functionality.
-
+{% endtab %}
 ```xml
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
 <dict>
@@ -252,7 +222,18 @@ These entitlements define the boundaries and permissions for the application, en
 ```
 {% endtab %}
 
-{% tab title="Info.plist" %}
+{% tab title="Info.plist" %} 
+
+### Mipangilio ya Info.plist
+
+Faili ya Info.plist inaweza kubadilishwa ili kuzuia sandboxing kwa programu. Unaweza kufanya hivyo kwa kubadilisha thamani ya `com.apple.security.app-sandbox` kuwa `NO`. Hii itaruhusu programu kufanya kazi bila ya kizuizi cha sandbox. Kumbuka kuwa hii inaweza kupunguza usalama wa mfumo wako. 
+
+```xml
+<key>com.apple.security.app-sandbox</key>
+<false/>
+```
+
+{% endtab %}
 ```xml
 <plist version="1.0">
 <dict>
@@ -266,7 +247,7 @@ These entitlements define the boundaries and permissions for the application, en
 {% endtab %}
 {% endtabs %}
 
-Kisha kamilisha programu:
+Kisha unda programu:
 
 {% code overflow="wrap" %}
 ```bash
@@ -282,15 +263,13 @@ codesign -s <cert-name> --entitlements entitlements.xml sand
 
 {% hint style="danger" %}
 Programu itajaribu **kusoma** faili **`~/Desktop/del.txt`**, ambayo **Sandbox haitaruhusu**.\
-Tengeneza faili hapo kwa sababu mara baada ya kuzidi kizuizi cha Sandbox, itaweza kuisoma:
-
+Unda faili hapo kwani mara tu Sandbox itakapopuuzwa, itaweza kuisoma:
 ```bash
 echo "Sandbox Bypassed" > ~/Desktop/del.txt
 ```
 {% endhint %}
 
-Hebu tafuta hitilafu katika programu ili uone wakati Sanduku la Usalama linapakia:
-
+Hebu tuangalie kwa karibu programu ili tuone lini Sanduku la Mchanga linapakia:
 ```bash
 # Load app in debugging
 lldb ./sand
@@ -367,9 +346,8 @@ Process 2517 resuming
 Sandbox Bypassed!
 Process 2517 exited with status = 0 (0x00000000)
 ```
-
 {% hint style="warning" %}
-**Hata baada ya kusaidiwa na Sanduku, TCC** itamuuliza mtumiaji ikiwa anataka kuruhusu mchakato kusoma faili kutoka kwenye desktop
+**Hata baada ya kufanikiwa kukiuka Sanduku la mchanga, TCC** itamuuliza mtumiaji ikiwa anataka kuruhusu mchakato kusoma faili kutoka kwenye desktop
 {% endhint %}
 
 ## Marejeo
@@ -380,14 +358,14 @@ Process 2517 exited with status = 0 (0x00000000)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>

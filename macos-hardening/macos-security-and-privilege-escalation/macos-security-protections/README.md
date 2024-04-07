@@ -1,22 +1,22 @@
-# Ulinzi wa macOS
+# Kinga ya Usalama wa macOS
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu udukuzi wa AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalamu wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
 ## Gatekeeper
 
-Gatekeeper kawaida hutumiwa kurejelea **Quarantine + Gatekeeper + XProtect**, moduli 3 za usalama za macOS ambazo zitajaribu **kuzuia watumiaji kutoka kwa kutekeleza programu inayoweza kuwa na nia mbaya iliyopakuliwa**.
+Gatekeeper kawaida hutumiwa kumaanisha mchanganyiko wa **Karantini + Gatekeeper + XProtect**, moduli 3 za usalama za macOS ambazo zitajaribu **kuzuia watumiaji kutoka kutekeleza programu inayoweza kuwa mbaya iliyopakuliwa**.
 
 Maelezo zaidi katika:
 
@@ -24,9 +24,9 @@ Maelezo zaidi katika:
 [macos-gatekeeper.md](macos-gatekeeper.md)
 {% endcontent-ref %}
 
-## Mipaka ya Mchakato
+## Vizuizi vya Mchakato
 
-### SIP - Ulinzi wa Uadilifu wa Mfumo
+### SIP - Ulinzi wa Mfumo wa Integriteti
 
 {% content-ref url="macos-sip.md" %}
 [macos-sip.md](macos-sip.md)
@@ -34,52 +34,52 @@ Maelezo zaidi katika:
 
 ### Sanduku la Mchanga
 
-Sandbox ya MacOS **inapunguza matumizi** yanayoendesha ndani ya sanduku la mchanga kwa **vitendo vilivyoidhinishwa vilivyoelezwa katika wasifu wa Sanduku la Mchanga** programu inayoendesha nayo. Hii husaidia kuhakikisha kwamba **programu itakuwa ikifikia rasilimali zinazotarajiwa tu**.
+Sanduku la MacOS **linapunguza maombi** yanayoendesha ndani ya sanduku la mchanga kwa **vitendo vilivyoidhinishwa katika wasifu wa Sanduku** programu inayoendeshwa nayo. Hii husaidia kuhakikisha kwamba **programu itakuwa ikifikia rasilimali zilizotarajiwa tu**.
 
 {% content-ref url="macos-sandbox/" %}
 [macos-sandbox](macos-sandbox/)
 {% endcontent-ref %}
 
-### TCC - **Uwazi, Ridhaa, na Udhibiti**
+### TCC - **Transparency, Consent, and Control**
 
-**TCC (Uwazi, Ridhaa, na Udhibiti)** ni mfumo wa usalama. Imeundwa kusimamia **ruhusa** za programu, hasa kwa kudhibiti ufikiaji wao kwa vipengele nyeti. Hii ni pamoja na mambo kama **huduma za eneo, mawasiliano, picha, kipaza sauti, kamera, upatikanaji, na ufikiaji kamili wa diski**. TCC inahakikisha kuwa programu zinaweza kufikia vipengele hivi baada ya kupata ridhaa wazi kutoka kwa mtumiaji, hivyo kuimarisha faragha na udhibiti wa data ya kibinafsi.
+**TCC (Transparency, Consent, and Control)** ni mfumo wa usalama. Imetengenezwa kwa lengo la **kusimamia ruhusa** za programu, hasa kwa kudhibiti upatikanaji wao wa vipengele nyeti. Hii ni pamoja na mambo kama **huduma za eneo, mawasiliano, picha, kipaza sauti, kamera, upatikanaji wa uwezo, na upatikanaji kamili wa diski**. TCC inahakikisha kuwa programu zinaweza kupata vipengele hivi baada ya kupata idhini ya wazi kutoka kwa mtumiaji, hivyo kuimarisha faragha na udhibiti wa data ya kibinafsi.
 
 {% content-ref url="macos-tcc/" %}
 [macos-tcc](macos-tcc/)
 {% endcontent-ref %}
 
-### Vizuizi vya Kuzindua/Mazingira & Hifadhi ya Uaminifu
+### Vizuizi vya Kuanzisha/Mazingira & Cache ya Kuaminika
 
-Vizuizi vya kuzindua katika macOS ni kipengele cha usalama cha **kudhibiti kuanzishwa kwa mchakato** kwa kufafanua **nani anaweza kuzindua** mchakato, **jinsi gani**, na **kutoka wapi**. Ilianzishwa katika macOS Ventura, inagawanya programu za mfumo katika vikundi vya vizuizi ndani ya **hifadhi ya uaminifu**. Kila faili ya kutekelezwa ina seti ya **kanuni** kwa ajili ya **uzinduzi wake**, ikiwa ni pamoja na vizuizi vya **ndani**, **wazazi**, na **wajibu**. Iliyopanuliwa kwa programu za watu wa tatu kama Vizuizi vya **Mazingira** katika macOS Sonoma, vipengele hivi husaidia kupunguza uwezekano wa udanganyifu wa mfumo kwa kudhibiti hali za kuzindua mchakato.
+Vizuizi vya kuanzisha katika macOS ni kipengele cha usalama cha **kusimamia kuanzisha kwa mchakato** kwa kufafanua **nani anaweza kuanzisha** mchakato, **vipi**, na **kutoka wapi**. Ilianzishwa katika macOS Ventura, wanachambua programu za mfumo katika makundi ya vizuizi ndani ya **cache ya kuaminika**. Kila faili ya binari ina **mipangilio** iliyowekwa kwa **kuanzisha kwake**, ikiwa ni pamoja na vizuizi vya **kujitegemea**, **wazazi**, na **wajibu**. Kupanuliwa kwa programu za mtu wa tatu kama Vizuizi vya **Mazingira** katika macOS Sonoma, vipengele hivi husaidia kupunguza uwezekano wa kudanganywa kwa mfumo kwa kusimamia hali za kuanzisha mchakato.
 
 {% content-ref url="macos-launch-environment-constraints.md" %}
 [macos-launch-environment-constraints.md](macos-launch-environment-constraints.md)
 {% endcontent-ref %}
 
-## MRT - Zana ya Kuondoa Programu Hasidi
+## MRT - Zana ya Kuondoa Programu hasidi
 
-Zana ya Kuondoa Programu Hasidi (MRT) ni sehemu nyingine ya miundombinu ya usalama ya macOS. Kama jina linavyopendekeza, kazi kuu ya MRT ni **kuondoa programu hasidi inayojulikana kutoka kwenye mifumo iliyoambukizwa**.
+Zana ya Kuondoa Programu hasidi (MRT) ni sehemu nyingine ya miundombinu ya usalama ya macOS. Kama jina linavyopendekeza, kazi kuu ya MRT ni **kuondoa programu hasidi inayojulikana kutoka kwenye mifumo iliyoambukizwa**.
 
-Baada ya programu hasidi kugunduliwa kwenye Mac (kwa kutumia XProtect au njia nyingine), MRT inaweza kutumika kwa **kuondoa programu hasidi** kiotomatiki. MRT inafanya kazi kimya kimya nyuma ya pazia na kawaida inaendeshwa wakati mfumo unapofanyiwa sasisho au wakati ufafanuzi mpya wa programu hasidi unapakuliwa (inavyoonekana sheria ambazo MRT ina kugundua programu hasidi zipo ndani ya faili ya kutekelezwa).
+Maradhi ya programu hasidi yakiwa yamegunduliwa kwenye Mac (au na XProtect au kwa njia nyingine yoyote), MRT inaweza kutumika kiotomatiki **kuondoa programu hasidi**. MRT hufanya kazi kimya kimya nyuma na kawaida hufanya kazi wakati mfumo unaposasishwa au wakati ufafanuzi mpya wa programu hasidi unapakuliwa (inaonekana sheria ambazo MRT ina kugundua programu hasidi zimo ndani ya faili ya binari).
 
 Wakati XProtect na MRT zote ni sehemu ya hatua za usalama za macOS, zinafanya kazi tofauti:
 
-* **XProtect** ni zana ya kuzuia. **Inachunguza faili wanapopakuliwa** (kupitia programu fulani), na ikiwa inagundua aina yoyote ya programu hasidi inayojulikana, **inazuia faili kufunguliwa**, hivyo kuzuia programu hasidi kuambukiza mfumo wako kwanza.
-* **MRT**, kwa upande mwingine, ni **zana ya kurekebisha**. Inafanya kazi baada ya programu hasidi kugunduliwa kwenye mfumo, na lengo la kuondoa programu hasidi ili kusafisha mfumo.
+* **XProtect** ni zana ya kuzuia. **Huchunguza faili wakati zinapopakuliwa** (kupitia programu fulani), na ikiwa inagundua aina yoyote ya programu hasidi inayojulikana, **inasitisha faili kufunguliwa**, hivyo kuzuia programu hasidi kuingia kwenye mfumo wako kwanza.
+* **MRT**, kwa upande mwingine, ni **zana ya kurekebisha**. Inafanya kazi baada ya programu hasidi kugunduliwa kwenye mfumo, lengo likiwa ni kuondoa programu hasidi ili kusafisha mfumo.
 
 Programu ya MRT iko katika **`/Library/Apple/System/Library/CoreServices/MRT.app`**
 
 ## Usimamizi wa Kazi za Nyuma
 
-**macOS** sasa **inatoa tahadhari** kila wakati zana inatumia **njia inayojulikana kuendelea na utekelezaji wa nambari** (kama Vipengele vya Kuingia, Daemons...), ili mtumiaji ajue vizuri **programu gani inaendelea**.
+**macOS** sasa **inatoa tahadhari** kila wakati zana inatumia **njia inayojulikana ya kudumisha utekelezaji wa nambari** (kama Vipengele vya Kuingia, Daemons...), hivyo mtumiaji anajua vizuri **ni programu gani inayodumisha**.
 
-<figure><img src="../../../.gitbook/assets/image (711).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1180).png" alt=""><figcaption></figcaption></figure>
 
-Hii inafanya kazi na **daemon** iliyoko katika `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Versions/A/Resources/backgroundtaskmanagementd` na **agent** katika `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Support/BackgroundTaskManagementAgent.app`
+Hii inaendeshwa na **daemon** iliyoko katika `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Versions/A/Resources/backgroundtaskmanagementd` na **agent** katika `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Support/BackgroundTaskManagementAgent.app`
 
-Njia **`backgroundtaskmanagementd`** inajua kitu kimefungwa katika saraka ya kudumu ni kwa **kupata FSEvents** na kuunda **wahusika** kwa hizo.
+Njia **`backgroundtaskmanagementd`** inajua kitu kimefungwa katika folda ya kudumu ni kwa **kupata FSEvents** na kuunda **wahudumu** kwa hivyo.
 
-Zaidi ya hayo, kuna faili ya plist ambayo ina **programu maarufu** inayodumu mara kwa mara inayosimamiwa na apple iliyoko: `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Versions/A/Resources/attributions.plist`
+Zaidi ya hayo, kuna faili ya plist inayohifadhi **programu zinazojulikana** ambazo mara nyingi zinadumisha zinazosimamiwa na apple zilizoko: `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Versions/A/Resources/attributions.plist`
 ```json
 [...]
 "us.zoom.ZoomDaemon" => {
@@ -97,31 +97,31 @@ Zaidi ya hayo, kuna faili ya plist ambayo ina **programu maarufu** inayodumu mar
 ```
 ### Uchambuzi
 
-Inawezekana **kuchambua** vitu vyote vilivyowekwa kwenye historia ya nyuma kwa kutumia zana ya Apple cli:
+Inawezekana **kuorodhesha** vipengele vyote vilivyowekwa vinavyotumia zana ya Apple cli:
 ```bash
 # The tool will always ask for the users password
 sfltool dumpbtm
 ```
-Zaidi ya hayo, pia niwezekano wa kuorodhesha habari hii na [**DumpBTM**](https://github.com/objective-see/DumpBTM).
+Zaidi ya hayo, pia niwezekano wa kuorodhesha habari hii kwa [**DumpBTM**](https://github.com/objective-see/DumpBTM).
 ```bash
 # You need to grant the Terminal Full Disk Access for this to work
 chmod +x dumpBTM
 xattr -rc dumpBTM # Remove quarantine attr
 ./dumpBTM
 ```
-Habari hii inahifadhiwa katika **`/private/var/db/com.apple.backgroundtaskmanagement/BackgroundItems-v4.btm`** na Terminal inahitaji FDA.
+Taarifa hii inahifadhiwa katika **`/private/var/db/com.apple.backgroundtaskmanagement/BackgroundItems-v4.btm`** na Terminal inahitaji FDA.
 
-### Kuchezea na BTM
+### Kuharibu BTM
 
-Wakati upyaji mpya unapatikana, tukio la aina ya **`ES_EVENT_TYPE_NOTIFY_BTM_LAUNCH_ITEM_ADD`** hutokea. Kwa hivyo, njia yoyote ya **kuzuia** tukio hili kutumwa au **mawakala kutoa tahadhari** kwa mtumiaji itasaidia mshambuliaji kuvuka BTM.
+Wakati uthabiti mpya unapopatikana tukio la aina ya **`ES_EVENT_TYPE_NOTIFY_BTM_LAUNCH_ITEM_ADD`**. Kwa hivyo, njia yoyote ya **kuzuia** tukio hili kutumwa au **mawakala kumuarifu** mtumiaji itasaidia mshambuliaji kufanya _**kipaumbele**_ cha BTM.
 
-* **Kurejesha database**: Kukimbia amri ifuatayo kutarejesha database (inapaswa kuijenga upya kutoka mwanzo), hata hivyo, kwa sababu fulani, baada ya kukimbia hii, **hakuna upyaji mpya utakaoonywa hadi mfumo unapoanza tena**.
+* **Kurejesha upya database**: Kukimbia amri ifuatayo kutarejesha upya database (inapaswa kujengwa upya kutoka mwanzoni), hata hivyo, kwa sababu fulani, baada ya kukimbia hii, **uthabiti mpya hautaarifiwa hadi mfumo uanzishwe tena**.
 * **root** inahitajika.
 ```bash
 # Reset the database
 sfltool resettbtm
 ```
-* **Acha Mawakala**: Inawezekana kutuma ishara ya kuacha kwa mawakala ili **isiwafahamishe mtumiaji** wakati ugunduzi mpya unapatikana.
+* **Acha Mawakala**: Inawezekana kutuma ishara ya kuacha kwa mawakala ili usiweze kumuarifu mtumiaji wakati upekuzi mpya unapopatikana.
 ```bash
 # Get PID
 pgrep BackgroundTaskManagementAgent
@@ -134,9 +134,9 @@ kill -SIGSTOP 1011
 ps -o state 1011
 T
 ```
-* **Bug**: Ikiwa **mchakato uliounda uthabiti unakamilika haraka baada yake**, daemon itajaribu **kupata habari** kuhusu hilo, **kushindwa**, na **haitaweza kutuma tukio** linaloonyesha kuwa kitu kipya kinadumu.
+* **Kosa**: Ikiwa **mchakato uliounda uthabiti unakoma haraka baada ya hapo**, daemon itajaribu **kupata habari** kuhusu hiyo, **kushindwa**, na **hautaweza kutuma tukio** linaloonyesha kuwa kitu kipya kinaendelea kuwepo.
 
-Marejeo na **habari zaidi kuhusu BTM**:
+Marejeo na **mambo zaidi kuhusu BTM**:
 
 * [https://youtu.be/9hjUmT031tc?t=26481](https://youtu.be/9hjUmT031tc?t=26481)
 * [https://www.patreon.com/posts/new-developer-77420730?l=fr](https://www.patreon.com/posts/new-developer-77420730?l=fr)
@@ -144,14 +144,14 @@ Marejeo na **habari zaidi kuhusu BTM**:
 
 <details>
 
-<summary><strong>Jifunze kuhusu udukuzi wa AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
