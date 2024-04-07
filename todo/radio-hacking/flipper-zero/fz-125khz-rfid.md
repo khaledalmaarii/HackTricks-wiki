@@ -14,6 +14,11 @@ Inne sposoby wsparcia HackTricks:
 
 </details>
 
+<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://websec.nl/" %}
+
+
 ## Wprowadzenie
 
 Aby uzyskać więcej informacji na temat działania tagów 125kHz, sprawdź:
@@ -31,7 +36,7 @@ Aby uzyskać więcej informacji na temat tych rodzajów tagów, [**przeczytaj to
 Próbuje **odczytać** informacje z karty. Następnie może je **emulować**.
 
 {% hint style="warning" %}
-Zauważ, że niektóre domofony próbują się chronić przed kopiowaniem kluczy, wysyłając polecenie zapisu przed odczytem. Jeśli zapis się powiedzie, tag ten uważany jest za fałszywy. Kiedy Flipper emuluje RFID, czytnik nie może go odróżnić od oryginalnego, więc takie problemy nie występują.
+Zauważ, że niektóre domofony próbują się chronić przed kopiowaniem kluczy, wysyłając polecenie zapisu przed odczytem. Jeśli zapis się powiedzie, ten tag jest uważany za fałszywy. Kiedy Flipper emuluje RFID, czytnik nie może go odróżnić od oryginalnego, więc takie problemy nie występują.
 {% endhint %}
 
 ### Dodaj ręcznie
@@ -44,8 +49,8 @@ Czasami, gdy dostajesz kartę, znajdziesz ID (lub jego część) napisane na kar
 
 * **EM Marin**
 
-Na przykład w tej karcie EM-Marin na fizycznej karcie można **odczytać ostatnie 3 z 5 bajtów w sposób czytelny**.\
-Pozostałe 2 można złamać metodą brute-force, jeśli nie można ich odczytać z karty.
+Na przykład w tej karcie EM-Marin na fizycznej karcie można **odczytać ostatnie 3 z 5 bajtów w czytelny sposób**.\
+Pozostałe 2 można złamać siłowo, jeśli nie można ich odczytać z karty.
 
 <figure><img src="../../../.gitbook/assets/image (101).png" alt=""><figcaption></figcaption></figure>
 
@@ -59,9 +64,14 @@ To samo dzieje się w tej karcie HID, gdzie tylko 2 z 3 bajtów można znaleźć
 
 Po **skopiowaniu** karty lub **ręcznym wprowadzeniu** ID można ją **emulować** za pomocą Flipper Zero lub **zapisać** na rzeczywistej karcie.
 
-## Referencje
+## Odnośniki
 
 * [https://blog.flipperzero.one/rfid/](https://blog.flipperzero.one/rfid/)
+
+<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://websec.nl/" %}
+
 
 <details>
 
