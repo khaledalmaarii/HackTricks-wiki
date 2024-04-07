@@ -2,43 +2,43 @@
 
 <details>
 
-<summary><strong>AWS hackleme becerilerinizi sıfırdan kahraman seviyesine yükseltin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>ile</strong>!</summary>
+<summary><strong>AWS hackleme konusunda sıfırdan kahramana kadar öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
-* Şirketinizi **HackTricks'te reklamını görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz olan [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
+* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**Resmi PEASS & HackTricks ürünlerini alın**](https://peass.creator-spring.com)
+* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Hacking püf noktalarınızı göndererek HackTricks ve HackTricks Cloud** github depolarına PR'lar gönderin.
 
 </details>
 
 ## Giriş
 
-iButton, **bir madeni para şeklindeki metal bir kap** içinde paketlenmiş bir elektronik kimlik anahtarı için genel bir isimdir. Ayrıca **Dallas Touch** Memory veya temas belleği olarak da adlandırılır. Sıklıkla yanlış bir şekilde "manyetik" bir anahtar olarak adlandırılır, ancak içinde **hiçbir manyetik** şey yoktur. Aslında, bir dijital protokol üzerinde çalışan tam teşekküllü bir **mikroçip** içine gizlenmiştir.
+iButton, **bir madeni para şeklindeki metal bir kapta paketlenmiş** bir elektronik kimlik anahtarı için genel bir addır. Ayrıca **Dallas Touch** Memory veya temas belleği olarak da adlandırılır. Sıklıkla "manyetik" bir anahtar olarak yanlışlıkla adlandırılmasına rağmen, içinde **hiçbir manyetik şey yoktur**. Aslında, dijital bir protokol üzerinde çalışan tam teşekküllü bir **mikroçip** içindedir.
 
-<figure><img src="../../.gitbook/assets/image (19).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (912).png" alt=""><figcaption></figcaption></figure>
 
 ### iButton Nedir? <a href="#what-is-ibutton" id="what-is-ibutton"></a>
 
-Genellikle, iButton, anahtarın ve okuyucunun fiziksel formunu - iki temas noktalı yuvarlak bir madeni para şeklinde - ima eder. Onu çevreleyen çerçeve için, en yaygın plastik tutucu ile delikten halkalara, kolyelere vb. birçok farklılık vardır.
+Genellikle, iButton, anahtarın fiziksel formunu ve okuyucuyu ima eder - iki temas noktası olan yuvarlak bir madeni para. Çevresini saran çerçeve için en yaygın plastik tutucu ile halka, kolye vb. gibi birçok varyasyon bulunmaktadır.
 
-<figure><img src="../../.gitbook/assets/image (23) (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1075).png" alt=""><figcaption></figcaption></figure>
 
-Anahtar okuyucuya ulaştığında, **temas noktaları birbirine dokunur** ve anahtar, kimliğini **iletmek** için güçlendirilir. Bazen anahtar **hemen okunmaz**, çünkü bir interkomun **temas PSD'si** olması gerektiğinden daha büyüktür. Bu durumda, anahtarın dış konturları ve okuyucu birbirine dokunamaz. Eğer durum buysa, anahtarı okuyucunun duvarlarından biri üzerine bastırmalısınız.
+Anahtar okuyucuya ulaştığında, **temaslar birbirine dokunur** ve anahtar güçlendirilirerek kimliğini **iletmeye** başlar. Bazen anahtar **hemen okunmaz** çünkü bir apartman dairesinin **kontak PSD'si** olması gerektiğinden daha büyüktür. Bu durumda, anahtarın ve okuyucunun dış konturları temas edemez. Bu durumda, anahtarı okuyucunun duvarlarından biri üzerine bastırmak zorunda kalacaksınız.
 
-<figure><img src="../../.gitbook/assets/image (21) (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (287).png" alt=""><figcaption></figcaption></figure>
 
-### **1-Wire protokolü** <a href="#1-wire-protocol" id="1-wire-protocol"></a>
+### **1-Wire protokolü** <a href="#id-1-wire-protocol" id="id-1-wire-protocol"></a>
 
-Dallas anahtarları, 1-wire protokolünü kullanarak veri alışverişi yapar. Veri transferi için sadece bir temas noktası (!!) vardır, hem ana makineden köleye hem de köleden ana makineye. 1-wire protokolü, Ana Makine-Köle modeline göre çalışır. Bu topolojide, Ana Makine her zaman iletişimi başlatır ve Köle talimatlarını takip eder.
+Dallas anahtarları, 1-wire protokolünü kullanarak veri alışverişi yapar. Veri transferi için sadece bir temas noktası (!!) bulunur, hem anahtardan ana bilgisayara hem de ters yönde. 1-wire protokolü, Master-Slave modeline göre çalışır. Bu topolojide, Master her zaman iletişimi başlatır ve Slave talimatlarını izler.
 
-Anahtar (Köle), interkom (Ana Makine) ile temas ettiğinde, anahtarın içindeki çip, interkom tarafından beslenerek açılır ve anahtar başlatılır. Bundan sonra interkom, anahtar kimliğini isteyebilir. Şimdi, bu sürece daha detaylı bir şekilde bakacağız.
+Anahtar (Slave) okuyucuya (Master) temas ettiğinde, anahtarın içindeki çip açılır, okuyucu tarafından güçlendirilir ve anahtar başlatılır. Bundan sonra okuyucu, anahtar kimliğini talep eder. Bundan sonra bu süreci daha detaylı olarak inceleyeceğiz.
 
-Flipper hem Ana Makine hem de Köle modlarında çalışabilir. Anahtar okuma modunda, Flipper bir okuyucu olarak çalışır, yani bir Ana Makine gibi çalışır. Anahtar taklit modunda, flipper bir anahtar gibi davranır, yani Köle modundadır.
+Flipper hem Master hem de Slave modlarında çalışabilir. Anahtar okuma modunda, Flipper bir okuyucu olarak çalışır yani Master olarak çalışır. Ve anahtar emülasyon modunda, flipper bir anahtar gibi davranır, yani Slave modundadır.
 
-### Dallas, Cyfral ve Metakom anahtarları
+### Dallas, Cyfral & Metakom anahtarları
 
 Bu anahtarların nasıl çalıştığı hakkında bilgi için [https://blog.flipperzero.one/taming-ibutton/](https://blog.flipperzero.one/taming-ibutton/) sayfasını kontrol edin.
 
@@ -53,17 +53,3 @@ iButton'lar Flipper Zero ile saldırıya uğrayabilir:
 ## Referanslar
 
 * [https://blog.flipperzero.one/taming-ibutton/](https://blog.flipperzero.one/taming-ibutton/)
-
-<details>
-
-<summary><strong>AWS hackleme becerilerinizi sıfırdan kahraman seviyesine yükseltin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>ile</strong>!</summary>
-
-HackTricks'ı desteklemenin diğer yolları:
-
-* Şirketinizi **HackTricks'te reklamını görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz olan [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
-
-</details>

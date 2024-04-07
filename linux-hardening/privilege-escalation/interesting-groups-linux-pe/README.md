@@ -7,10 +7,10 @@
 HackTricks'ı desteklemenin diğer yolları:
 
 * **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na göz atın (https://github.com/sponsors/carlospolop)!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'da takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**Resmi PEASS & HackTricks ürünleri**]'ni alın (https://peass.creator-spring.com)
+* [**The PEASS Ailesi**]'ni keşfedin (https://opensea.io/collection/the-peass-family), özel [**NFT'ler**] koleksiyonumuz (https://opensea.io/collection/the-peass-family)
+* **Katılın** 💬 [**Discord grubuna**] (https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**] veya bizi **Twitter** 🐦 [**@carlospolopm**] (https://twitter.com/hacktricks\_live)** takip edin.**
+* **Hacking püf noktalarınızı göndererek HackTricks** (https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**] (https://github.com/carlospolop/hacktricks-cloud) github depolarına PR gönderin.
 
 </details>
 
@@ -18,7 +18,7 @@ HackTricks'ı desteklemenin diğer yolları:
 
 ### **PE - Yöntem 1**
 
-**Bazen**, **varsayılan olarak (veya bazı yazılımların ihtiyaç duyması nedeniyle)** **/etc/sudoers** dosyasının içinde bu satırlardan bazılarını bulabilirsiniz:
+**Bazen**, **varsayılan olarak (veya bazı yazılımların ihtiyacı olduğu için)** **/etc/sudoers** dosyasında bu satırlardan bazılarını bulabilirsiniz:
 ```bash
 # Allow members of group sudo to execute any command
 %sudo	ALL=(ALL:ALL) ALL
@@ -43,7 +43,7 @@ Bu genellikle **polkit politikası** içindeki gruplardır. Bu politika temelde 
 ```bash
 cat /etc/polkit-1/localauthority.conf.d/*
 ```
-Burada hangi grupların **pkexec**'i **ve varsayılan olarak** bazı Linux dağıtımlarında **sudo** ve **admin** gruplarının göründüğünü bulacaksınız.
+Burada, hangi grupların **pkexec**'i **varsayılan olarak** çalıştırmasına izin verildiğini bulacaksınız ve bazı Linux dağıtımlarında **sudo** ve **admin** gruplarının göründüğünü göreceksiniz.
 
 **Root olmak için şunu çalıştırabilirsiniz**:
 ```bash
@@ -78,9 +78,9 @@ pkttyagent --process <PID of session1> #Step 2, attach pkttyagent to session1
 ```
 %wheel	ALL=(ALL:ALL) ALL
 ```
-Bu, **wheel grubuna ait olan herhangi bir kullanıcının sudo olarak herhangi bir şeyi yürütebileceği anlamına gelir**.
+Bu, **wheel grubuna ait olan herhangi bir kullanıcının sudo olarak herhangi bir şeyi çalıştırabileceği anlamına gelir**.
 
-Bu durumda, **root olmak için sadece şunu yürütmeniz yeterlidir**:
+Bu durumda, **root olmak için sadece şunu çalıştırabilirsiniz**:
 ```
 sudo su
 ```
@@ -90,9 +90,9 @@ sudo su
 ```
 -rw-r----- 1 root shadow 1824 Apr 26 19:10 /etc/shadow
 ```
-## İlginç Gruplar
+## Personel Grubu
 
-**staff**: Kullanıcılara kök ayrıcalıklarına ihtiyaç duymadan sistemde yerel değişiklikler yapma izni verir (`/usr/local`) (not olarak `/usr/local/bin` içindeki yürütülebilir dosyalar, aynı isme sahip `/bin` ve `/usr/bin` içindeki yürütülebilir dosyaları "geçersiz kılabilir"). İzleme/güvenlik ile daha fazla ilgili olan "adm" grubu ile karşılaştırın. [\[kaynak\]](https://wiki.debian.org/SystemGroups)
+**staff**: Kullanıcılara kök ayrıcalıklarına ihtiyaç duymadan sistemde yerel değişiklikler yapma izni verir (`/usr/local`) (not olarak, `/usr/local/bin` dizinindeki yürütülebilir dosyalar, aynı isme sahip `/bin` ve `/usr/bin` dizinlerindeki yürütülebilir dosyaları "geçersiz kılabilir"). İzleme/güvenlik ile daha fazla ilgili olan "adm" grubu ile karşılaştırın. [\[kaynak\]](https://wiki.debian.org/SystemGroups)
 
 Debian dağıtımlarında, `$PATH` değişkeni, ayrıcalıklı kullanıcı olup olmadığınıza bakılmaksızın `/usr/local/`'in en yüksek öncelikle çalıştırılacağını gösterir.
 ```bash
@@ -162,11 +162,11 @@ Dikkat edin ki debugfs kullanarak ayrıca **dosya yazabilirsiniz**. Örneğin `/
 debugfs -w /dev/sda1
 debugfs:  dump /tmp/asd1.txt /tmp/asd2.txt
 ```
-Ancak, **root'a ait dosyaları yazmaya çalışırsanız** (`/etc/shadow` veya `/etc/passwd` gibi) "**İzin Reddedildi**" hatası alırsınız.
+Ancak, eğer **root'a ait dosyaları yazmaya** çalışırsanız (örneğin `/etc/shadow` veya `/etc/passwd`) "**İzin Reddedildi**" hatası alırsınız.
 
 ## Video Grubu
 
-`w` komutunu kullanarak **sisteme kimin oturum açtığını bulabilirsiniz** ve aşağıdaki gibi bir çıktı gösterecektir:
+`w` komutunu kullanarak **sisteme kimin oturum açtığını** bulabilirsiniz ve aşağıdaki gibi bir çıktı gösterecektir:
 ```bash
 USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
 yossi    tty1                      22:16    5:13m  0.05s  0.04s -bash
@@ -174,30 +174,30 @@ moshe    pts/1    10.10.14.44      02:53   24:07   0.06s  0.06s /bin/bash
 ```
 **tty1**, kullanıcının makinedeki bir terminalde **fiziksel olarak oturum açtığı** anlamına gelir.
 
-**video grubu**, ekran çıktısını görüntüleme iznine sahiptir. Temelde ekranları gözlemleyebilirsiniz. Bunun için ekrandaki mevcut görüntüyü ham veri olarak **almanız** ve ekranın kullandığı çözünürlüğü almanız gerekir. Ekran verisi `/dev/fb0`'da kaydedilebilir ve bu ekranın çözünürlüğünü `/sys/class/graphics/fb0/virtual_size` üzerinde bulabilirsiniz.
+**video grubu**, ekran çıktısını görüntüleme iznine sahiptir. Temelde ekranları gözlemleyebilirsiniz. Bunun için ekranın mevcut görüntüsünü ham veri olarak **almanız** ve ekranın kullandığı çözünürlüğü almanız gerekir. Ekran verisi `/dev/fb0`'da kaydedilebilir ve bu ekranın çözünürlüğünü `/sys/class/graphics/fb0/virtual_size` üzerinde bulabilirsiniz.
 ```bash
 cat /dev/fb0 > /tmp/screen.raw
 cat /sys/class/graphics/fb0/virtual_size
 ```
 **Raw görüntüyü** açmak için **GIMP** kullanabilirsiniz, \*\*`screen.raw` \*\* dosyasını seçin ve dosya türünü **Ham görüntü verisi** olarak seçin:
 
-![](<../../../.gitbook/assets/image (287) (1).png>)
+![](<../../../.gitbook/assets/image (460).png>)
 
-Ardından Genişlik ve Yüksekliği ekranda kullanılanlara göre değiştirin ve farklı Görüntü Türlerini kontrol edin (ve ekranda daha iyi gösterenini seçin):
+Ardından Genişlik ve Yüksekliği ekranda kullanılanlara ayarlayın ve farklı Görüntü Türlerini kontrol edin (ve ekranda daha iyi gösterenini seçin):
 
-![](<../../../.gitbook/assets/image (288).png>)
+![](<../../../.gitbook/assets/image (314).png>)
 
-## Root Grubu
+## Kök Grubu
 
-Varsayılan olarak **root grubunun üyelerinin**, **hakları yükseltmek** için kullanılabilecek **bazı hizmet** yapılandırma dosyalarını veya bazı **kütüphane** dosyalarını **değiştirebileceği** görünüyor...
+Varsayılan olarak **kök grubun üyelerinin**, **bazı hizmet yapılandırma dosyalarını** veya **bazı kütüphane dosyalarını** veya **diğer ilginç şeyleri** değiştirmeye erişimi olabileceği görünüyor ve bu, ayrıcalıkları yükseltmek için kullanılabilir...
 
-**Root üyelerinin hangi dosyaları değiştirebileceğini kontrol edin**:
+**Kök üyelerin hangi dosyaları değiştirebileceğini kontrol edin**:
 ```bash
 find / -group root -perm -g=w 2>/dev/null
 ```
 ## Docker Grubu
 
-Makinenin kök dosya sistemini bir örneğin birimine bağlayabilirsiniz, böylece örnek başladığında hemen o birime bir `chroot` yükler. Bu size etkili bir şekilde makinede kök erişimi sağlar.
+Bir örneğin birimine **ana makinenin kök dosya sistemini bir birimin hacmine bağlayabilirsiniz**, böylece örnek başladığında hemen o birime bir `chroot` yüklenir. Bu size etkili bir şekilde makinede kök erişimi sağlar.
 ```bash
 docker image #Get images from the docker service
 
@@ -209,6 +209,20 @@ echo 'toor:$1$.ZcF5ts0$i4k6rQYzeegUkacRCvfxC0:0:0:root:/root:/bin/sh' >> /etc/pa
 #Ifyou just want filesystem and network access you can startthe following container:
 docker run --rm -it --pid=host --net=host --privileged -v /:/mnt <imagename> chroot /mnt bashbash
 ```
+## ilginç Gruplar
+
+Son olarak, önerilerden hiçbirini beğenmediyseniz veya bir nedenle çalışmıyorsa (docker api firewall?) her zaman şu şekilde açıklanan şekilde **bir ayrıcalıklı konteyner çalıştırabilir ve ondan kaçabilirsiniz**:
+
+{% content-ref url="../docker-security/" %}
+[docker-security](../docker-security/)
+{% endcontent-ref %}
+
+Docker soketi üzerinde yazma izinleriniz varsa [**docker soketini kötüye kullanarak ayrıcalıkları yükseltme hakkında bu yazıyı okuyun**](../#writable-docker-socket)**.**
+
+{% embed url="https://github.com/KrustyHack/docker-privilege-escalation" %}
+
+{% embed url="https://fosterelli.co/privilege-escalation-via-docker.html" %}
+
 ## lxc/lxd Grubu
 
 {% content-ref url="./" %}
@@ -217,10 +231,10 @@ docker run --rm -it --pid=host --net=host --privileged -v /:/mnt <imagename> chr
 
 ## Adm Grubu
 
-Genellikle **`adm`** grubunun **üyeleri** _/var/log/_ dizininde bulunan **log** dosyalarını **okuma iznine** sahiptir.\
-Bu nedenle, bu gruptaki bir kullanıcıyı ele geçirdiyseniz kesinlikle **loglara bakmalısınız**.
+Genellikle **`adm`** grubunun **üyeleri** _/var/log/_ içindeki **logları okuma** izinlerine sahiptir.\
+Bu nedenle, bu gruptaki bir kullanıcıyı ele geçirdiyseniz **loglara mutlaka bir göz atmalısınız**.
 
 ## Auth Grubu
 
-OpenBSD içinde **auth** grubu genellikle _**/etc/skey**_ ve _**/var/db/yubikey**_ dizinlerine yazma iznine sahiptir.\
-Bu izinler, aşağıdaki saldırıyı kullanarak **kök ayrıcalıklarına yükseltilebilir**: [https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot](https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot)
+OpenBSD içinde **auth** grubu genellikle _**/etc/skey**_ ve _**/var/db/yubikey**_ klasörlerine yazma iznine sahip olabilir.\
+Bu izinler, aşağıdaki açığı kullanarak kök ayrıcalıklarına **yükseltilebilir**: [https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot](https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot)

@@ -1,21 +1,21 @@
-# macOS Dangerous Entitlements & TCC perms
+# macOS Tehlikeli Yetkiler ve TCC izinleri
 
 <details>
 
-<summary><strong>Sıfırdan kahraman olmak için AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary><strong>Sıfırdan kahraman olmak için AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile!</strong></summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** \[**ABONELİK PLANLARI**]'na bakın(https://github.com/sponsors/carlospolop)!
-* \[**Resmi PEASS & HackTricks ürünleri**]'ni alın(https://peass.creator-spring.com)
-* \[**PEASS Ailesi**]'ni keşfedin(https://opensea.io/collection/the-peass-family), özel \[**NFT'lerimiz**]'in bulunduğu koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)\*\* takip edin\*\*.
+* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na bakın(https://github.com/sponsors/carlospolop)!
+* [**Resmi PEASS & HackTricks ürünleri**]'ni alın(https://peass.creator-spring.com)
+* [**PEASS Ailesi**]'ni keşfedin(https://opensea.io/collection/the-peass-family), özel [**NFT'lerimiz**]'in koleksiyonu
+* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
 * **Hacking püf noktalarınızı paylaşarak PR göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
 
 {% hint style="warning" %}
-**`com.apple`** ile başlayan yetkiler üçüncü taraflar için mevcut değildir, yalnızca Apple bunları verebilir.
+**`com.apple`** ile başlayan yetkiler üçüncü taraflar için mevcut değildir, yalnızca Apple tarafından verilebilir.
 {% endhint %}
 
 ## Yüksek
@@ -30,7 +30,7 @@ HackTricks'ı desteklemenin diğer yolları:
 
 ### **`com.apple.system-task-ports`** (önceki adıyla `task_for_pid-allow`)
 
-Bu yetki, çekirdek hariç olmak üzere **herhangi bir** işlem için **görev bağlantı noktasını almayı** sağlar. Daha fazla bilgi için [buraya bakın](../macos-proces-abuse/macos-ipc-inter-process-communication/).
+Bu yetki, çekirdek hariç **herhangi bir** işlem için **görev bağlantı noktasını almayı** sağlar. Daha fazla bilgi için [buraya bakın](../macos-proces-abuse/macos-ipc-inter-process-communication/).
 
 ### `com.apple.security.get-task-allow`
 
@@ -42,7 +42,7 @@ Hata Ayıklama Aracı Yetkisi olan uygulamalar, `Get Task Allow` yetkisi `true` 
 
 ### `com.apple.security.cs.disable-library-validation`
 
-Bu yetki, Apple tarafından imzalanmış veya ana yürütülebilir dosya ile aynı Takım Kimliği ile imzalanmamış olan çerçeveleri, eklentileri veya kütüphaneleri **yüklemeye izin verir**, bu nedenle bir saldırgan bazı keyfi kütüphane yüklemelerini kod enjekte etmek için kullanabilir. Daha fazla bilgi için [buraya bakın](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-library-validation).
+Bu yetki, Apple tarafından imzalanmış veya ana yürütülebilir dosya ile aynı Takım Kimliği ile imzalanmamış çerçeveleri, eklentileri veya kütüphaneleri **yüklemeye izin verir**, bu nedenle bir saldırgan bazı keyfi kütüphane yüklemelerini kod enjekte etmek için kullanabilir. Daha fazla bilgi için [buraya bakın](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-library-validation).
 
 ### `com.apple.private.security.clear-library-validation`
 
@@ -51,7 +51,7 @@ Daha fazla bilgi için [buraya bakın](https://theevilbit.github.io/posts/com.ap
 
 ### `com.apple.security.cs.allow-dyld-environment-variables`
 
-Bu yetki, kütüphane ve kod enjekte etmek için kullanılabilecek **DYLD çevresel değişkenlerini kullanmaya** izin verir. Daha fazla bilgi için [buraya bakın](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-dyld-environment-variables).
+Bu yetki, kütüphane ve kod enjekte etmek için kullanılabilecek **DYLD çevre değişkenlerini kullanmaya** izin verir. Daha fazla bilgi için [buraya bakın](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-dyld-environment-variables).
 
 ### `com.apple.private.tcc.manager` veya `com.apple.rootless.storage`.`TCC`
 
@@ -59,7 +59,7 @@ Bu yetki, kütüphane ve kod enjekte etmek için kullanılabilecek **DYLD çevre
 
 ### **`system.install.apple-software`** ve **`system.install.apple-software.standar-user`**
 
-Bu yetkiler, kullanıcıdan izin istemeden **yazılım yüklemeye** izin verir, bu da bir **yetki yükseltmesi** için faydalı olabilir.
+Bu yetkiler, kullanıcıdan izin istemeden **yazılım yüklemeye** izin verir, bu da **bir ayrıcalık yükseltmesi** için faydalı olabilir.
 
 ### `com.apple.private.security.kext-management`
 
@@ -67,11 +67,11 @@ Bu yetkiler, kullanıcıdan izin istemeden **yazılım yüklemeye** izin verir, 
 
 ### **`com.apple.private.icloud-account-access`**
 
-**`com.apple.private.icloud-account-access`** yetkisi, **`com.apple.iCloudHelper`** XPC hizmetiyle iletişim kurmayı sağlar ve bu da **iCloud belgelerini sağlar**.
+**`com.apple.private.icloud-account-access`** yetkisi, **`com.apple.iCloudHelper`** XPC hizmeti ile iletişim kurmayı ve **iCloud belgelerini sağlamayı** mümkün kılar.
 
 **iMovie** ve **Garageband** bu yetkiye sahipti.
 
-Bu yetkiden **iCloud belgelerini almak** için yapılan saldırı hakkında daha fazla **bilgi** için şu konuşmayı inceleyin: [**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=\_6e2LhmxVc0)
+Bu yetkiden **icloud belgelerini almak** için yapılan saldırı hakkında daha fazla **bilgi** için şu konuşmayı inceleyin: [**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=\_6e2LhmxVc0)
 
 ### `com.apple.private.tcc.manager.check-by-audit-token`
 
@@ -87,8 +87,7 @@ TODO: [**Bu raporda**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Updat
 
 ### `keychain-access-groups`
 
-Bu yetki, uygulamanın erişim sağlayabileceği **anahtarlık** gruplarını listeler:
-
+Bu yetki, uygulamanın erişim sağladığı **anahtarlık** gruplarını listeler:
 ```xml
 <key>keychain-access-groups</key>
 <array>
@@ -99,42 +98,39 @@ Bu yetki, uygulamanın erişim sağlayabileceği **anahtarlık** gruplarını li
 <string>IMCore</string>
 </array>
 ```
-
 ### **`kTCCServiceSystemPolicyAllFiles`**
 
 Tam Disk Erişimi izinlerini verir, sahip olabileceğiniz TCC'nin en yüksek izinlerinden biri.
 
 ### **`kTCCServiceAppleEvents`**
 
-Uygulamanın diğer uygulamalara olaylar göndermesine izin verir, genellikle **görevleri otomatikleştirmek** için kullanılan. Diğer uygulamaları kontrol ederek, bu diğer uygulamalara verilen izinleri kötüye kullanabilir.
+Uygulamanın, genellikle **görevleri otomatikleştirmek** için kullanılan diğer uygulamalara olaylar göndermesine izin verir. Diğer uygulamaları kontrol ederek, bu diğer uygulamalara verilen izinleri kötüye kullanabilir.
 
 Kullanıcıdan şifresini istemelerini sağlamak gibi:
-
 ```bash
 osascript -e 'tell app "App Store" to activate' -e 'tell app "App Store" to activate' -e 'tell app "App Store" to display dialog "App Store requires your password to continue." & return & return default answer "" with icon 1 with hidden answer with title "App Store Alert"'
 ```
-
-Veya onları **keyfi eylemler** gerçekleştirmeye zorlamak.
+{% endcode %}
 
 ### **`kTCCServiceEndpointSecurityClient`**
 
-İzinler arasında, **kullanıcıların TCC veritabanına yazma** izni verir.
+Bu, diğer izinler arasında, **kullanıcıların TCC veritabanına yazma** izni verir.
 
 ### **`kTCCServiceSystemPolicySysAdminFiles`**
 
-Kullanıcının ev klasör yolunu değiştiren ve dolayısıyla **TCC'yi atlamasına izin veren** bir kullanıcı **`NFSHomeDirectory`** özniteliğini **değiştirmeye** izin verir.
+Bu, bir kullanıcının ev klasörü yolunu değiştiren ve dolayısıyla **TCC'yi atlamasına izin veren** bir kullanıcının **`NFSHomeDirectory`** özniteliğini **değiştirmeye** izin verir.
 
 ### **`kTCCServiceSystemPolicyAppBundles`**
 
-Varsayılan olarak **yasaklanmış olan** uygulama paketleri içindeki dosyaları değiştirmeye izin verir.
+Varsayılan olarak **yasaklanmış olan** uygulama paketleri içindeki dosyaları değiştirmeye izin verir (uygulama.app içinde).
 
-<figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (28).png" alt=""><figcaption></figcaption></figure>
 
 Bu erişime kimin sahip olduğunu kontrol etmek mümkündür: _Sistem Ayarları_ > _Gizlilik ve Güvenlik_ > _Uygulama Yönetimi._
 
 ### `kTCCServiceAccessibility`
 
-İşlem, **macOS erişilebilirlik özelliklerini kötüye kullanabilir**, Bu da örneğin tuş vuruşları yapabilmesi demektir. Bu nedenle Finder gibi bir uygulamayı kontrol etme erişimini isteyebilir ve bu izinle iletişim kutusunu onaylayabilir.
+İşlem, macOS erişilebilirlik özelliklerini **kötüye kullanabilir**, bu da örneğin tuş vuruşları yapabilmesi demektir. Bu nedenle Finder gibi bir uygulamayı kontrol etme erişimini isteyebilir ve bu izinle iletişim kutusunu onaylayabilir.
 
 ## Orta
 
@@ -144,7 +140,7 @@ Bu ayrıcalık, `mmap()` sistem işlevine `MAP_JIT` bayrağını geçirerek **ya
 
 ### `com.apple.security.cs.allow-unsigned-executable-memory`
 
-Bu ayrıcalık, **C kodunu geçersiz kılmaya veya yamamaya**, uzun süredir kullanılmayan **`NSCreateObjectFileImageFromMemory`**'ı (temelde güvensiz olan) kullanmaya veya **DVDPlayback** çerçevesini kullanmaya izin verir. Daha fazla bilgi için [**buraya bakın**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory).
+Bu ayrıcalık, C kodunu **geçersiz kılmaya veya yamamaya**, uzun süredir kullanılmayan **`NSCreateObjectFileImageFromMemory`**'yi (temelde güvensiz olan) kullanmaya veya **DVDPlayback** çerçevesini kullanmaya izin verir. Daha fazla bilgi için [**buraya bakın**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory).
 
 {% hint style="danger" %}
 Bu ayrıcalığı eklemek, uygulamanızı bellek güvensiz kod dillerinde yaygın güvenlik açıklarına maruz bırakır. Uygulamanızın bu istisnaya ihtiyaç duyup duymadığını dikkatlice düşünün.
@@ -155,7 +151,7 @@ Bu ayrıcalığı eklemek, uygulamanızı bellek güvensiz kod dillerinde yaygı
 Bu ayrıcalık, **kendi yürütülebilir dosyalarının bölümlerini** diskte değiştirmeye izin verir. Daha fazla bilgi için [**buraya bakın**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-executable-page-protection).
 
 {% hint style="danger" %}
-Yürütülebilir Bellek Koruma Ayrıcalığını Devre Dışı Bırakma Ayrıcalığı, uygulamanızdan temel bir güvenlik korumasını kaldırarak, uygulamanızın yürütülebilir kodunu bir saldırganın tespit edilmeden yeniden yazmasını mümkün kılar. Mümkünse daha dar ayrıcalıkları tercih edin.
+Devre Dışı Bırakılabilir Yürütülebilir Sayfa Koruma Ayrıcalığı, uygulamanızdan temel bir güvenlik korumasını kaldırarak, bir saldırganın uygulamanızın yürütülebilir kodunu algılanmadan yeniden yazmasını mümkün kılar. Mümkünse daha dar ayrıcalıkları tercih edin.
 {% endhint %}
 
 ### `com.apple.security.cs.allow-relative-library-loads`
@@ -164,31 +160,29 @@ TODO
 
 ### `com.apple.private.nullfs_allow`
 
-Bu ayrıcalık, varsayılan olarak yasaklanmış olan bir nullfs dosya sistemi bağlamasına izin verir. Araç: [**mount\_nullfs**](https://github.com/JamaicanMoose/mount\_nullfs/tree/master).
+Bu ayrıcalık, bir nullfs dosya sistemi bağlamaya izin verir (varsayılan olarak yasaktır). Araç: [**mount\_nullfs**](https://github.com/JamaicanMoose/mount\_nullfs/tree/master).
 
 ### `kTCCServiceAll`
 
 Bu blog yazısına göre, bu TCC izni genellikle şu formda bulunur:
-
 ```
 [Key] com.apple.private.tcc.allow-prompting
 [Value]
 [Array]
 [String] kTCCServiceAll
 ```
-
 ### **`kTCCServicePostEvent`**
 
 <details>
 
-<summary><strong>Aktif sürecin **tüm TCC izinlerini istemesine** izin verin.</strong></summary>
+<summary><strong>Tüm TCC izinlerini istemek için işleme izin verin</strong></summary>
 
 Diğer HackTricks'i destekleme yolları:
 
-* Şirketinizi **HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family'yi**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**'ı takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* Şirketinizi HackTricks'te reklamını görmek veya HackTricks'i PDF olarak indirmek istiyorsanız [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**Resmi PEASS & HackTricks ürünleri**](https://peass.creator-spring.com)'ni edinin
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)'u takip edin.
+* Hacking püf noktalarınızı paylaşarak PR'lar göndererek [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>

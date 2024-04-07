@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Sıfırdan kahraman olmaya kadar AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile</strong></summary>
+<summary><strong>Sıfırdan kahramana kadar AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile</strong></summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
@@ -10,11 +10,11 @@ HackTricks'ı desteklemenin diğer yolları:
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
 * [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
 * **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarınızı göndererek HackTricks** ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR göndererek paylaşın.
+* **Hacking püf noktalarınızı paylaşarak PR göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
 
 \
 [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kullanarak dünyanın **en gelişmiş topluluk araçları** tarafından desteklenen **iş akışlarını kolayca oluşturun ve otomatikleştirin**.\
@@ -26,13 +26,13 @@ Bugün Erişim Alın:
 
 Bir **genel anahtar sertifikası**, birinin genel anahtarı sahibi olduğunu kanıtlamak için kriptografi alanında kullanılan dijital bir kimliktir. Anahtarın ayrıntılarını, sahibin kimliğini (konuyu) ve güvenilir bir otoriteden (veren) dijital imzayı içerir. Yazılım, vereni güvenirse ve imza geçerliyse, anahtar sahibiyle güvenli iletişim mümkündür.
 
-Sertifikalar genellikle [sertifika otoriteleri](https://en.wikipedia.org/wiki/Certificate\_authority) (CA'lar) tarafından [genel anahtar altyapısı](https://en.wikipedia.org/wiki/Public-key\_infrastructure) (PKI) kurulumunda verilir. Başka bir yöntem ise [güven ağı](https://en.wikipedia.org/wiki/Web\_of\_trust)dir, burada kullanıcılar doğrudan birbirlerinin anahtarlarını doğrular. Sertifikalar için yaygın format [X.509](https://en.wikipedia.org/wiki/X.509)'dur ve RFC 5280'de belirtildiği gibi belirli ihtiyaçlara uygun olarak uyarlanabilir.
+Sertifikalar genellikle [sertifika otoriteleri](https://en.wikipedia.org/wiki/Certificate\_authority) (CA'lar) tarafından [genel anahtar altyapısı](https://en.wikipedia.org/wiki/Public-key\_infrastructure) (PKI) kurulumunda verilir. Başka bir yöntem ise [güven ağı](https://en.wikipedia.org/wiki/Web\_of\_trust) yöntemidir, burada kullanıcılar doğrudan birbirlerinin anahtarlarını doğrular. Sertifikalar için yaygın format [X.509](https://en.wikipedia.org/wiki/X.509)'dur ve RFC 5280'de belirtildiği gibi belirli ihtiyaçlara uygun olarak uyarlanabilir.
 
 ## x509 Ortak Alanlar
 
 ### **x509 Sertifikalarındaki Ortak Alanlar**
 
-x509 sertifikalarında, sertifikanın geçerliliğini ve güvenliğini sağlamada kritik roller oynayan birkaç **alan** bulunmaktadır. İşte bu alanların ayrıntıları:
+x509 sertifikalarında, sertifikanın geçerliliğini ve güvenliğini sağlamak için birkaç **alan** kritik roller oynar. İşte bu alanların ayrıntıları:
 
 * **Sürüm Numarası**, x509 formatının sürümünü belirtir.
 * **Seri Numarası**, sertifikayı benzersiz bir şekilde tanımlar, genellikle iptal takibi için bir Sertifika Otoritesi'nin (CA) sistemi içinde.
@@ -49,7 +49,7 @@ x509 sertifikalarında, sertifikanın geçerliliğini ve güvenliğini sağlamad
 
 * **Anahtar Kullanımı**, genel anahtarın kriptografik uygulamalarını tanımlar, örneğin dijital imza veya anahtar şifreleme.
 * **Genişletilmiş Anahtar Kullanımı**, sertifikanın kullanım durumlarını daha da daraltır, örneğin TLS sunucu kimlik doğrulaması için.
-* **Konu Alternatif Adı** ve **Temel Kısıtlama**, sertifika tarafından kapsanan ek ana bilgisayar adlarını ve sertifikanın bir CA mı yoksa son varlık sertifikası mı olduğunu belirler.
+* **Konu Alternatif Adı** ve **Temel Kısıtlama**, sertifika tarafından kapsanan ek ana bilgisayar adlarını ve sertifikanın bir CA mı yoksa son kullanıcı sertifikası mı olduğunu belirler.
 * **Konu Anahtar Kimliği** ve **Yetki Anahtar Kimliği**, anahtarların benzersizliğini ve izlenebilirliğini sağlar.
 * **Yetki Bilgi Erişimi** ve **CRL Dağıtım Noktaları**, sertifikayı veren CA'yı doğrulamak için yollar sağlar ve sertifika iptal durumunu kontrol etmek için yollar sağlar.
 * **CT Ön Sertifika SCT'leri**, sertifikaya olan kamu güveni için önemli olan şeffaflık günlüklerini sunar.
@@ -76,23 +76,23 @@ print(f"Public Key: {public_key}")
 ```
 ### **OCSP ve CRL Dağıtım Noktaları Arasındaki Fark**
 
-**OCSP** (**RFC 2560**), bir istemci ve yanıtlayıcının birlikte çalışarak dijital genel anahtar sertifikasının iptal edilip edilmediğini kontrol etmesini sağlar, tam **CRL**'yi indirmeye gerek olmadan. Bu yöntem, potansiyel olarak büyük bir dosyayı indirmeyi gerektiren geleneksel **CRL**'den daha verimlidir. CRL'ler en fazla 512 giriş içerebilir. Daha fazla ayrıntı [burada](https://www.arubanetworks.com/techdocs/ArubaOS%206\_3\_1\_Web\_Help/Content/ArubaFrameStyles/CertRevocation/About\_OCSP\_and\_CRL.htm).
+**OCSP** (**RFC 2560**), bir istemci ve yanıtlayıcının birlikte çalışarak dijital genel anahtar sertifikasının iptal edilip edilmediğini kontrol etmesini sağlar, tam **CRL**'yi indirmeye gerek kalmadan. Bu yöntem, potansiyel olarak büyük bir dosya indirmeyi gerektiren geleneksel **CRL**'den daha verimlidir. CRL'ler en fazla 512 giriş içerebilir. Daha fazla ayrıntı [burada](https://www.arubanetworks.com/techdocs/ArubaOS%206\_3\_1\_Web\_Help/Content/ArubaFrameStyles/CertRevocation/About\_OCSP\_and\_CRL.htm) bulunabilir.
 
 ### **Sertifika Şeffaflığı Nedir**
 
-Sertifika Şeffaflığı, SSL sertifikalarının verilmesi ve varlığının alan sahipleri, CA'lar ve kullanıcılara görünür olmasını sağlayarak sertifika ile ilgili tehditlerle mücadeleye yardımcı olur. Amaçları şunlardır:
+Sertifika Şeffaflığı, SSL sertifikalarının verilmesi ve varlığının alan sahipleri, CA'lar ve kullanıcılar tarafından görülebilir olmasını sağlayarak sertifika ile ilgili tehditlerle mücadeleye yardımcı olur. Amaçları şunlardır:
 
 * CA'ların alan sahibinin bilgisi olmadan bir alan için SSL sertifikaları vermesini engellemek.
 * Yanlışlıkla veya kötü niyetle verilen sertifikaları izlemek için açık bir denetim sistemi oluşturmak.
 * Kullanıcıları sahte sertifikalara karşı korumak.
 
-#### **Sertifika Kayıtları**
+#### **Sertifika Günlükleri**
 
-Sertifika kayıtları, ağ hizmetleri tarafından tutulan, herkese açık olarak denetlenebilir, yalnızca eklemeye izin veren sertifikaların kayıtlarıdır. Bu kayıtlar denetim amaçları için kriptografik kanıtlar sağlar. Hem verme yetkilileri hem de halk, bu kayıtlara sertifikaları gönderebilir veya doğrulama için sorgulayabilir. Log sunucularının tam sayısı sabit değildir, küresel olarak binin altında olması beklenir. Bu sunucular, CA'lar, ISS'ler veya ilgili herhangi bir kuruluş tarafından bağımsız olarak yönetilebilir.
+Sertifika günlükleri, ağ hizmetleri tarafından tutulan, herkese açık olarak denetlenebilir, yalnızca eklemeye izin veren sertifikaların kayıtlarıdır. Bu günlükler, denetim amaçları için kriptografik kanıtlar sağlar. Hem verme yetkilileri hem de halk, bu günlüklere sertifikaları gönderebilir veya doğrulama için sorgulayabilir. Günlük sunucularının kesin sayısı sabit değildir, küresel olarak binin altında olması beklenir. Bu sunucular, CA'lar, ISS'ler veya ilgili herhangi bir varlık tarafından bağımsız olarak yönetilebilir.
 
 #### **Sorgu**
 
-Herhangi bir alan için Sertifika Şeffaflığı kayıtlarını keşfetmek için [https://crt.sh/](https://crt.sh) adresini ziyaret edin.
+Herhangi bir alan için Sertifika Şeffaflığı günlüklerini keşfetmek için [https://crt.sh/](https://crt.sh) adresini ziyaret edin.
 
 ## **Formatlar**
 
@@ -120,17 +120,17 @@ Herhangi bir alan için Sertifika Şeffaflığı kayıtlarını keşfetmek için
 
 * Sunucu sertifikalarını, ara sertifikaları ve özel anahtarları tek bir dosyada kapsayan ikili bir formattır.
 * Uzantılar: .pfx, .p12.
-* Genellikle Windows'ta sertifika içe ve dışa aktarma işlemleri için kullanılır.
+* Genellikle Windows'ta sertifika içe ve dışa aktarmak için kullanılır.
 
 ### **Format Dönüşümleri**
 
 **PEM dönüşümleri**, uyumluluk için önemlidir:
 
-* **x509 to PEM**
+* **x509'tan PEM'e**
 ```bash
 openssl x509 -in certificatename.cer -outform PEM -out certificatename.pem
 ```
-* **PEM'den DER'a**
+* **PEM'i DER'e dönüştürme**
 ```bash
 openssl x509 -outform der -in certificatename.pem -out certificatename.der
 ```
@@ -152,7 +152,7 @@ openssl pkcs7 -print_certs -in certificatename.p7b -out certificatename.pem
 ```bash
 openssl pkcs12 -in certificatename.pfx -out certificatename.pem
 ```
-* **PFX'i PKCS#8'e** dönüştürmek iki adımdan oluşur:
+* **PFX to PKCS#8** iki adımdan oluşur:
 1. PFX'i PEM'e dönüştürün
 ```bash
 openssl pkcs12 -in certificatename.pfx -nocerts -nodes -out certificatename.pem
@@ -166,7 +166,7 @@ openssl pkcs8 -topk8 -inform PEM -outform DER -in private.pem -out private.pkcs8
 openSSL pkcs8 -in certificatename.pem -topk8 -nocrypt -out certificatename.pk8
 ```
 * **P7B'yi PFX'e** dönüştürmek için iki komut gereklidir:
-1. P7B'yi CER'e dönüştürün
+1. P7B'yi CER'e dönüştürün.
 ```bash
 openssl pkcs7 -print_certs -in certificatename.p7b -out certificatename.cer
 ```
@@ -176,24 +176,24 @@ openssl pkcs12 -export -in certificatename.cer -inkey privateKey.key -out certif
 ```
 ***
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) kullanarak dünyanın en gelişmiş topluluk araçlarıyla desteklenen **otomatik iş akışlarını** kolayca oluşturun ve otomatikleştirin.\
+[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kullanarak dünyanın en gelişmiş topluluk araçlarıyla desteklenen **otomatik iş akışlarını** kolayca oluşturun ve otomatikleştirin.\
 Bugün Erişim Alın:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 <details>
 
-<summary><strong>Sıfırdan kahraman olmaya kadar AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Sıfırdan kahramana kadar AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family'yi**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**'da takip edin.**
-* **Hacking püf noktalarınızı göndererek HackTricks** ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR'lar göndererek paylaşın.
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)'da takip edin**
+* **Hacking püf noktalarınızı göndererek HackTricks** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR'lar gönderin.
 
 </details>

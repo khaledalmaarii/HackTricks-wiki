@@ -2,42 +2,42 @@
 
 <details>
 
-<summary><strong>AWS hackleme becerilerini sıfırdan ileri seviyeye öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan ileri seviyeye öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile</strong></summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamınızı görmek veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINA**](https://github.com/sponsors/carlospolop) göz atın!
+* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'ı takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna **PR göndererek paylaşın**.
+* [**The PEASS Family'yi**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* **💬 [Discord grubumuza](https://discord.gg/hRep4RUj7f) katılın veya [telegram grubuna](https://t.me/peass) katılın veya bizi Twitter'da** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Hacking püf noktalarınızı paylaşarak** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR göndererek katkıda bulunun.
 
 </details>
 
 ## Temel Bilgiler
 
-**Grand Central Dispatch (GCD)**, macOS ve iOS'ta bulunan bir teknolojidir. Apple tarafından geliştirilen bu teknoloji, çok çekirdekli donanımda eşzamanlı (çoklu iş parçacıklı) yürütme için uygulama desteğini optimize etmektedir.
+**Grand Central Dispatch (GCD)**, aynı zamanda **libdispatch** olarak da bilinir, macOS ve iOS'te mevcuttur. Apple tarafından geliştirilen bir teknolojidir ve çok çekirdekli donanımlarda eşzamanlı (çoklu iş parçacıklı) yürütme için uygulama desteğini optimize etmek amacıyla geliştirilmiştir.
 
-**GCD**, uygulamanızın **blok nesneleri** şeklinde **görevleri** **FIFO kuyruklarına** gönderebileceği ve yönetebileceği bir yapı sağlar. Gönderilen bloklar, sistem tarafından tamamen yönetilen bir thread havuzunda yürütülür. GCD, görevleri yürütmek için thread'ler oluşturur ve bu görevleri kullanılabilir çekirdeklerde çalıştırmak için zamanlama yapar.
+**GCD**, uygulamanızın **görevleri** **blok nesneleri** şeklinde **göndermesi** için ve **FIFO kuyruklarını** sağlamak ve yönetmek için kullanılır. Gönderilen bloklar, sistem tarafından tamamen yönetilen bir **iş parçacığı havuzunda** yürütülür. GCD, görevleri yürütmek için iş parçacıkları oluşturur ve bu görevleri mevcut çekirdeklere çalışacak şekilde planlar.
 
 {% hint style="success" %}
-Özetlemek gerekirse, **paralel olarak** kodu **yürütmek** için işlemler, kod bloklarını GCD'ye gönderebilir ve GCD bu kodun yürütmesiyle ilgilenir. Bu nedenle, işlemler yeni thread'ler oluşturmaz; **GCD, kendi thread havuzuyla verilen kodu yürütür**.
+Özetle, **paralel olarak kodu yürütmek** için işlemler, kod bloklarını **GCD'ye gönderebilir** ve GCD bu kodları yürütir. Bu nedenle, işlemler yeni iş parçacıkları oluşturmaz; **GCD, kendi iş parçacığı havuzuyla verilen kodu yürütir**.
 {% endhint %}
 
-Bu, paralel yürütme yönetimini başarıyla yönetmek için çok yardımcı olur, işlemlerin oluşturduğu thread sayısını büyük ölçüde azaltır ve paralel yürütme işlemini optimize eder. Bu, **büyük paralelizm** gerektiren görevler (brute-force?) veya ana thread'i bloke etmemesi gereken görevler için çok uygundur: Örneğin, iOS'taki ana thread, UI etkileşimlerini yönetir, bu nedenle uygulamanın takılmasına neden olabilecek herhangi bir diğer işlev (arama yapma, web'e erişme, dosya okuma...) bu şekilde yönetilir.
+Bu, paralel yürütümü başarılı bir şekilde yönetmek için çok yardımcı olur, işlemlerin oluşturduğu iş parçacığı sayısını büyük ölçüde azaltır ve paralel yürütümü optimize eder. Bu, **büyük paralelizm** gerektiren görevler (kaba kuvvet?) veya ana iş parçacığını bloke etmemesi gereken görevler için çok uygundur: Örneğin, iOS'taki ana iş parçacığı UI etkileşimlerini yönetir, bu nedenle uygulamanın donmasına neden olabilecek herhangi bir işlev (arama, web'e erişim, dosya okuma...) bu şekilde yönetilir.
 
 ## Objective-C
 
-Objective-C'de, bir bloğun paralel olarak yürütülmesi için farklı işlevler bulunmaktadır:
+Objetive-C'de kodun paralel olarak yürütülmesi için farklı işlevler bulunmaktadır:
 
-* [**dispatch\_async**](https://developer.apple.com/documentation/dispatch/1453057-dispatch\_async): Bir bloğu asenkron olarak bir dispatch kuyruğunda yürütmek için gönderir ve hemen döner.
-* [**dispatch\_sync**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync): Bir blok nesnesini yürütmek için gönderir ve bu blok yürütüldükten sonra döner.
-* [**dispatch\_once**](https://developer.apple.com/documentation/dispatch/1447169-dispatch\_once): Bir blok nesnesini bir uygulamanın ömrü boyunca yalnızca bir kez yürütür.
-* [**dispatch\_async\_and\_wait**](https://developer.apple.com/documentation/dispatch/3191901-dispatch\_async\_and\_wait): Bir iş öğesini yürütmek için gönderir ve yalnızca işlem tamamlandıktan sonra döner. [**`dispatch_sync`**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync)'in aksine, bu işlev, bloğu yürütürken kuyruğun tüm özelliklerine saygı duyar.
+* [**dispatch\_async**](https://developer.apple.com/documentation/dispatch/1453057-dispatch\_async): Bir kod bloğunu eşzamansız olarak bir dağıtım kuyruğunda yürütmek için gönderir ve hemen döner.
+* [**dispatch\_sync**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync): Bir kod bloğunu yürütmek için gönderir ve o blok yürütüldükten sonra döner.
+* [**dispatch\_once**](https://developer.apple.com/documentation/dispatch/1447169-dispatch\_once): Bir uygulamanın ömrü boyunca yalnızca bir kez bir kod bloğunu yürütür.
+* [**dispatch\_async\_and\_wait**](https://developer.apple.com/documentation/dispatch/3191901-dispatch\_async\_and\_wait): Bir iş öğesini yürütmek için gönderir ve yalnızca o işlem yürütüldükten sonra döner. [**`dispatch_sync`**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync)'den farklı olarak, bu işlev, kuyruğun tüm özelliklerine saygı duyar ve bloğu yürütürken bu özellikleri dikkate alır.
 
-Bu işlevler, şu parametreleri bekler: [**`dispatch_queue_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_queue\_t) **`queue,`** [**`dispatch_block_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_block\_t) **`block`**
+Bu işlevler şu parametreleri bekler: [**`dispatch_queue_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_queue\_t) **`queue,`** [**`dispatch_block_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_block\_t) **`block`**
 
-Bu, bir Blok'un **struct**'udur:
+Bu, bir Blok'un **yapısıdır**:
 ```c
 struct Block {
 void *isa; // NSConcreteStackBlock,...
@@ -48,7 +48,7 @@ struct BlockDescriptor *descriptor;
 // captured variables go here
 };
 ```
-Ve **`dispatch_async`** ile **paralelizm** kullanmanın bir örneği aşağıda verilmiştir:
+Ve **`dispatch_async`** kullanarak **paralelizm** kullanımına dair bir örnek:
 ```objectivec
 #import <Foundation/Foundation.h>
 
@@ -80,8 +80,8 @@ return 0;
 ```
 ## Swift
 
-**`libswiftDispatch`**, C ile yazılmış olan Grand Central Dispatch (GCD) çerçevesine Swift bağlantıları sağlayan bir kütüphanedir.\
-**`libswiftDispatch`** kütüphanesi, C GCD API'lerini daha Swift dostu bir arayüzde sarmalar ve Swift geliştiricilerinin GCD ile çalışmasını daha kolay ve sezgisel hale getirir.
+**`libswiftDispatch`** is a library that provides **Swift bindings** to the Grand Central Dispatch (GCD) framework which is originally written in C.\
+The **`libswiftDispatch`** library wraps the C GCD APIs in a more Swift-friendly interface, making it easier and more intuitive for Swift developers to work with GCD.
 
 * **`DispatchQueue.global().sync{ ... }`**
 * **`DispatchQueue.global().async{ ... }`**
@@ -89,7 +89,7 @@ return 0;
 * **`async await`**
 * **`var (data, response) = await URLSession.shared.data(from: URL(string: "https://api.example.com/getData"))`**
 
-**Kod örneği**:
+**Code example**:
 ```swift
 import Foundation
 
@@ -118,7 +118,7 @@ sleep(1)  // Simulate a long-running task
 ```
 ## Frida
 
-Aşağıdaki Frida betiği, birkaç `dispatch` işlevine **hook yapmak** ve sıra adını, geri izlemeyi ve bloğu çıkarmak için kullanılabilir: [**https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js**](https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js)
+Aşağıdaki Frida betiği, birkaç `dispatch` fonksiyonuna **hook yapmak** ve sıra adını, geri izlemeyi ve bloğu çıkarmak için kullanılabilir: [**https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js**](https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js)
 ```bash
 frida -U <prog_name> -l libdispatch.js
 
@@ -133,42 +133,28 @@ Backtrace:
 ```
 ## Ghidra
 
-Ghidra şu anda ObjectiveC **`dispatch_block_t`** yapısını veya **`swift_dispatch_block`** yapısını anlamıyor.
+Şu anda Ghidra, ne ObjectiveC **`dispatch_block_t`** yapısını, ne de **`swift_dispatch_block`** yapısını anlamıyor.
 
-Bu nedenle, onları anlaması için sadece **bildirmeniz** gerekebilir:
+Bu nedenle, onları anlamasını istiyorsanız, sadece **bildirmeniz gerekebilir**:
 
-<figure><img src="../../.gitbook/assets/image (688).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1157).png" alt="" width="563"><figcaption></figcaption></figure>
 
-<figure><img src="../../.gitbook/assets/image (690).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1159).png" alt="" width="563"><figcaption></figcaption></figure>
 
-<figure><img src="../../.gitbook/assets/image (691).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1160).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Ardından, kodun içinde kullanıldığı bir yeri **bulun**:
+Ardından, kodun içinde **kullanıldığı yeri bulun**:
 
 {% hint style="success" %}
-Yapının kullanıldığını nasıl anlayabileceğinizi anlamak için "block" ile yapılan tüm referansları dikkate alın.
+Yapıyı nasıl kullanıldığını anlamak için "block" ile yapılan tüm referanslara dikkat edin.
 {% endhint %}
 
-<figure><img src="../../.gitbook/assets/image (692).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1161).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Değişkenin üzerine sağ tıklayın -> Değişkeni Yeniden Türle ve bu durumda **`swift_dispatch_block`**'u seçin:
 
-<figure><img src="../../.gitbook/assets/image (693).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1162).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Ghidra otomatik olarak her şeyi yeniden yazacaktır:
 
-<figure><img src="../../.gitbook/assets/image (694).png" alt="" width="563"><figcaption></figcaption></figure>
-
-<details>
-
-<summary><strong>AWS hackleme konusunda sıfırdan kahraman olmak için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>'ı öğrenin!</strong></summary>
-
-HackTricks'i desteklemenin diğer yolları:
-
-* Şirketinizi HackTricks'te **tanıtmak veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz olan [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'da takip edin.**
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna **PR göndererek** paylaşın.
-
-</details>
+<figure><img src="../../.gitbook/assets/image (1163).png" alt="" width="563"><figcaption></figcaption></figure>

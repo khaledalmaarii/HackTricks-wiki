@@ -2,177 +2,195 @@
 
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> ile sıfırdan kahramana kadar AWS hacklemeyi öğrenin<strong>!</strong></summary>
+<summary><strong>A'dan Z'ye AWS hackleme becerilerini öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile!</strong></summary>
 
-HackTricks'ı desteklemenin diğer yolları:
+HackTricks'i desteklemenin diğer yolları:
 
-* Şirketinizi HackTricks'te **reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)'ı **takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek** paylaşın.
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* **Bize katılın** 💬 [**Discord grubunda**](https://discord.gg/hRep4RUj7f) veya [**telegram grubunda**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin**.
+* **Hacking püf noktalarınızı göndererek HackTricks ve HackTricks Cloud** github depolarına PR göndererek paylaşın.
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (377).png" alt=""><figcaption></figcaption></figure>
 
-Deneyimli hackerlar ve ödül avcılarıyla iletişim kurmak için [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) sunucusuna katılın!
+Deneyimli hackerlar ve ödül avcıları ile iletişim kurmak için [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) sunucusuna katılın!
 
 **Hacking İçgörüleri**\
-Hacking'in heyecanına ve zorluklarına dalmış içeriklerle etkileşim kurun
+Hacking'in heyecanını ve zorluklarını inceleyen içeriklerle etkileşime girin
 
 **Gerçek Zamanlı Hack Haberleri**\
-Hızlı tempolu hacking dünyasını gerçek zamanlı haberler ve içgörülerle takip edin
+Hızla değişen hacking dünyasını gerçek zamanlı haberler ve içgörülerle takip edin
 
 **En Son Duyurular**\
-Yeni ödül avcıları başlatmaları ve önemli platform güncellemeleri hakkında bilgi edinin
+Yeni ödül avı başlatmaları ve önemli platform güncellemeleri hakkında bilgi sahibi olun
 
-**Bize katılın** [**Discord**](https://discord.com/invite/N3FrSbmwdy) ve bugün en iyi hackerlarla işbirliği yapmaya başlayın!
+**Bize katılın** [**Discord**](https://discord.com/invite/N3FrSbmwdy) ve bugün en iyi hackerlarla işbirliğine başlayın!
 
 ### **Linux yerel yetki yükseltme vektörlerini aramak için en iyi araç:** [**LinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS)
 
-### [Sistem Bilgisi](privilege-escalation/#sistem-bilgisi)
+### [Sistem Bilgileri](privilege-escalation/#system-information)
 
-* [ ] **İşletim sistemi bilgisini** alın
+* [ ] **İşletim sistemi bilgilerini alın**
 * [ ] [**PATH**](privilege-escalation/#path)'i kontrol edin, herhangi bir **yazılabilir klasör** var mı?
-* [ ] [**Çevre değişkenlerini**](privilege-escalation/#env-info) kontrol edin, herhangi bir hassas ayrıntı var mı?
-* [ ] [**Kernel açıklarını**](privilege-escalation/#kernel-exploits) (DirtyCow gibi) **betikler kullanarak** arayın
-* [ ] [**sudo sürümünün** zafiyetli olup olmadığını](privilege-escalation/#sudo-version) **kontrol edin**
+* [ ] [**Çevre değişkenlerini**](privilege-escalation/#env-info) kontrol edin, herhangi bir hassas detay var mı?
+* [ ] [**Kernel açıkları**](privilege-escalation/#kernel-exploits) arayın, betikler kullanarak (DirtyCow?)
+* [ ] [**sudo sürümünün zafiyetli olup olmadığını** kontrol edin](privilege-escalation/#sudo-version)
 * [ ] [**Dmesg** imza doğrulaması başarısız oldu](privilege-escalation/#dmesg-signature-verification-failed)
 * [ ] Daha fazla sistem enum (tarih, sistem istatistikleri, cpu bilgisi, yazıcılar](privilege-escalation/#more-system-enumeration))
-* [ ] [Daha fazla savunma](privilege-escalation/#enumerate-possible-defenses) sıralayın
+* [ ] [Daha fazla savunma önlemi sıralayın](privilege-escalation/#enumerate-possible-defenses)
 
-### [Sürücüler](privilege-escalation/#sürücüler)
+### [Sürücüler](privilege-escalation/#drives)
 
-* [ ] Bağlı olan sürücüleri **listele**
-* [ ] Bağlı olmayan bir sürücü var mı?
-* [ ] fstab'da herhangi bir kimlik bilgisi var mı?
+* [ ] **Bağlı sürücüleri listele**
+* [ ] **Bağlı olmayan sürücü var mı?**
+* [ ] **fstab'da kimlik bilgileri var mı?**
 
-### [**Yüklü Yazılım**](privilege-escalation/#yüklü-yazılım)
+### [**Yüklü Yazılım**](privilege-escalation/#installed-software)
 
-* [ ] **Yararlı yazılım** kontrol edin
-* [ ] [**Zafiyetli yazılım**](privilege-escalation/#vulnerable-software-installed) kontrol edin
+* [ ] **Yüklü** [**yararlı yazılımı**](privilege-escalation/#useful-software) kontrol edin
+* [ ] **Yüklü** [**zafiyetli yazılımı**](privilege-escalation/#vulnerable-software-installed) kontrol edin
 
-### [İşlemler](privilege-escalation/#işlemler)
+### [İşlemler](privilege-escalation/#processes)
 
-* [ ] Bilinmeyen bir yazılım çalışıyor mu?
-* [ ] Yazılım, sahip olması gereken **yetkilerden daha fazla yetkiye sahip** mi?
-* [ ] Çalışan işlemlerin **açıklarını arayın** (özellikle çalışan sürüm için)
-* [ ] Çalışan herhangi bir işlemin **yürütülebilir dosyasını değiştirebilir misiniz**?
-* [ ] İşlemleri **izleyin** ve sık sık çalışan ilginç bir işlem var mı kontrol edin.
-* [ ] Bazı ilginç **işlem belleğini** (şifrelerin kaydedilebileceği yer) **okuyabilir misiniz**?
+* [ ] **Bilinmeyen yazılım çalışıyor mu**?
+* [ ] **Sahip olması gereken yetkilerden fazlasına sahip çalışan yazılım var mı**?
+* [ ] Çalışan işlemlerin **açıklarını arayın** (özellikle çalışan sürüm).
+* [ ] Herhangi bir çalışan işlemin **ikili dosyasını değiştirebilir misiniz**?
+* [ ] **İşlemleri izleyin** ve sık sık çalışan ilginç bir işlem var mı kontrol edin.
+* [ ] Bazı ilginç **işlem belleğini okuyabilir misiniz** (şifrelerin kaydedilmiş olabileceği yer)?
 
-### [Zamanlanmış/Cron görevleri?](privilege-escalation/#zamanlanmış-görevler)
+### [Zamanlanmış/Cron işleri?](privilege-escalation/#scheduled-jobs)
 
-* [ ] Bir cron tarafından [**PATH**](privilege-escalation/#cron-path) değiştiriliyor mu ve içine **yazabilirsiniz** mi?
-* [ ] Bir cron görevinde [**joker karakteri**](privilege-escalation/#cron-using-a-script-with-a-wildcard-wildcard-injection) var mı?
-* [ ] **Yürütülen** veya **değiştirilebilir klasörde** bulunan bir [**değiştirilebilir betik**](privilege-escalation/#cron-script-overwriting-and-symlink) var mı?
+* [ ] [**PATH** ](privilege-escalation/#cron-path) bir cron tarafından değiştiriliyor mu ve içine **yazabilir** misiniz?
+* [ ] Bir cron işinde [**joker karakter** ](privilege-escalation/#cron-using-a-script-with-a-wildcard-wildcard-injection)var mı?
+* [ ] **Yürütülen** veya **değiştirilebilir klasörde bulunan** [**değiştirilebilir betik** ](privilege-escalation/#cron-script-overwriting-and-symlink) tespit ettiniz mi?
 * [ ] Bazı **betiklerin** çok **sık sık yürütüldüğünü** (her 1, 2 veya 5 dakikada bir) tespit ettiniz mi?
 
-### [Servisler](privilege-escalation/#servisler)
+### [Servisler](privilege-escalation/#services)
 
-* [ ] Yazılabilir bir **.service** dosyası var mı?
-* [ ] Bir **servis** tarafından yürütülen bir **yazılabilir ikili** var mı?
-* [ ] Systemd PATH'deki bir **yazılabilir klasör** var mı?
+* [ ] Herhangi bir **yazılabilir .service** dosyası var mı?
+* [ ] Bir **servis** tarafından yürütülen **yazılabilir ikili** var mı?
+* [ ] Systemd PATH içinde **yazılabilir klasör** var mı?
 
-### [Zamanlayıcılar](privilege-escalation/#zamanlayıcılar)
+### [Zamanlayıcılar](privilege-escalation/#timers)
 
-* [ ] Yazılabilir bir **zamanlayıcı** var mı?
+* [ ] Herhangi bir **yazılabilir zamanlayıcı** var mı?
 
-### [Soketler](privilege-escalation/#soketler)
+### [Soketler](privilege-escalation/#sockets)
 
-* [ ] Yazılabilir bir **.socket** dosyası var mı?
-* [ ] Herhangi bir soketle **iletişim kurabilir misiniz**?
-* [ ] İlginç bilgiler içeren **HTTP soketleri** var mı?
+* [ ] Herhangi bir **yazılabilir .socket** dosyası var mı?
+* Herhangi bir **soketle iletişim kurabilir misiniz**?
+* **İlginç bilgiler içeren** **HTTP soketleri** var mı?
 
 ### [D-Bus](privilege-escalation/#d-bus)
 
-* [ ] Herhangi bir **D-Bus** iletişimi yapabilir misiniz?
+* [ ] Herhangi bir **D-Bus ile iletişim kurabilir misiniz**?
 
-### [Ağ](privilege-escalation/#ağ)
+### [Ağ](privilege-escalation/#network)
 
-* Bulunduğunuz yeri belirlemek için ağı sıralayın
-* Makine içinde bir kabuk almadan önce **erişemediğiniz açık portlar** var mı?
-* `tcpdump` kullanarak trafiği **dinleyebilir misiniz**?
+* Nerede olduğunuzu bilmek için ağı sıralayın
+* Makine içinde bir kabuk almadan önce erişemediğiniz **açık portlar** var mı?
+* `tcpdump` kullanarak **trafiği izleyebilir misiniz**?
 
-### [Kullanıcılar](privilege-escalation/#kullanıcılar)
+### [Kullanıcılar](privilege-escalation/#users)
 
-* Genel kullanıcı/grupları **sıralayın**
-* **Çok büyük bir UID**'niz var mı? Makine **savunmasız** mı?
-* Üye olduğunuz bir grup sayesinde **yetkileri yükseltebilir misiniz**?
+* Genel kullanıcı/gruplar **sıralaması**
+* **Çok büyük bir UID'niz** var mı? **Makine** **savunmasız** mı?
+* Bir gruba ait olduğunuz için **yetkileri yükseltebilir misiniz**?
 * **Pano** verileri?
-* Parola Politikası?
-* Daha önce keşfettiğ
-### [Yetenekler](privilege-escalation/#yetenekler)
+* Şifre Politikası?
+* Daha önce keşfettiğiniz her **bilinen şifreyi kullanarak** her olası **kullanıcıyla giriş yapmayı deneyin**. Şifresiz de giriş yapmayı deneyin.
 
-* [ ] Herhangi bir ikili dosyanın **beklenmedik bir yeteneği** var mı?
+### [Yazılabilir PATH](privilege-escalation/#writable-path-abuses)
+
+* Eğer PATH içinde **bir klasöre yazma izniniz varsa** yetkileri yükseltebilirsiniz
+
+### [SUDO ve SUID komutları](privilege-escalation/#sudo-and-suid)
+
+* **sudo ile herhangi bir komutu çalıştırabilir misiniz**? ROOT olarak OKUMA, YAZMA veya YÜRÜTME yapabilir misiniz? ([**GTFOBins**](https://gtfobins.github.io))
+* **SUID ikili dosyaları** sömürülebilir mi? ([**GTFOBins**](https://gtfobins.github.io))
+* [**sudo** komutları **yol** tarafından **sınırlı mıdır**? kısıtlamaları **atlayabilir misiniz**](privilege-escalation/#sudo-execution-bypassing-paths)?
+* [**Belirtilmemiş sudo/SUID ikili dosyası**](privilege-escalation/#sudo-command-suid-binary-without-command-path)?
+* [**Yol belirtilen SUID ikili dosyası**](privilege-escalation/#suid-binary-with-command-path)? Atlatma
+* [**LD\_PRELOAD açığı**](privilege-escalation/#ld\_preload)
+* Yazılabilir bir klasörden [**SUID ikili dosyasına .so kütüphanesinin eksikliği**](privilege-escalation/#suid-binary-so-injection) var mı?
+* [**SUDO belirteçleri mevcut mu**](privilege-escalation/#reusing-sudo-tokens)? [**SUDO belirteci oluşturabilir misiniz**](privilege-escalation/#var-run-sudo-ts-less-than-username-greater-than)?
+* [**sudoers dosyalarını okuyabilir veya değiştirebilir misiniz**](privilege-escalation/#etc-sudoers-etc-sudoers-d)?
+* [**/etc/ld.so.conf.d/**'yi **değiştirebilir misiniz**](privilege-escalation/#etc-ld-so-conf-d)?
+* [**OpenBSD DOAS**](privilege-escalation/#doas) komutu
+### [Yetenekler](privilege-escalation/#capabilities)
+
+* [ ] Herhangi bir ikili dosya **beklenmeyen yetkiye** sahip mi?
 
 ### [ACL'ler](privilege-escalation/#acls)
 
-* [ ] Herhangi bir dosyanın **beklenmedik bir ACL'si** var mı?
+* [ ] Herhangi bir dosya **beklenmeyen ACL'ye** sahip mi?
 
-### [Açık Kabuk Oturumları](privilege-escalation/#açık-kabuk-oturumları)
+### [Açık Shell oturumları](privilege-escalation/#open-shell-sessions)
 
 * [ ] **screen**
 * [ ] **tmux**
 
 ### [SSH](privilege-escalation/#ssh)
 
-* [ ] **Debian** [**OpenSSL Tahmin Edilebilir PRNG - CVE-2008-0166**](privilege-escalation/#debian-openssl-tahmin-edilebilir-prng-cve-2008-0166)
-* [ ] [**SSH İlginç yapılandırma değerleri**](privilege-escalation/#ssh-ilginç-yapılandırma-değerleri)
+* [ ] **Debian** [**OpenSSL Tahmin Edilebilir PRNG - CVE-2008-0166**](privilege-escalation/#debian-openssl-predictable-prng-cve-2008-0166)
+* [ ] [**SSH İlginç yapılandırma değerleri**](privilege-escalation/#ssh-interesting-configuration-values)
 
-### [İlginç Dosyalar](privilege-escalation/#ilginç-dosyalar)
+### [İlginç Dosyalar](privilege-escalation/#interesting-files)
 
 * [ ] **Profil dosyaları** - Hassas veri okunabilir mi? Privesc'e yazılabilir mi?
 * [ ] **passwd/shadow dosyaları** - Hassas veri okunabilir mi? Privesc'e yazılabilir mi?
-* [ ] Hassas veri içeren yaygın olarak ilginç klasörleri kontrol edin
-* [ ] **Garip Konum/Sahipli dosyalar**, yürütülebilir dosyalara erişiminiz olabilir veya değiştirebilirsiniz
-* [ ] Son dakikalarda **değiştirilmiş**
+* [ ] Hassas veri için ilginç klasörleri kontrol edin
+* [ ] **Garip Konum/Sahip dosyalar,** erişiminiz olabilir veya yürütülebilir dosyaları değiştirebilirsiniz
+* [ ] Son dakikalarda **Değiştirildi**
 * [ ] **Sqlite DB dosyaları**
 * [ ] **Gizli dosyalar**
-* [ ] **PATH'teki Script/Binary'ler**
+* [ ] **Komut Yolu'ndaki** **Betik/Binaryler**
 * [ ] **Web dosyaları** (şifreler?)
-* [ ] **Yedeklemeler**?
+* [ ] **Yedekler**?
 * [ ] **Şifre içeren bilinen dosyalar**: **Linpeas** ve **LaZagne** kullanın
 * [ ] **Genel arama**
 
-### [**Yazılabilir Dosyalar**](privilege-escalation/#yazılabilir-dosyalar)
+### [**Yazılabilir Dosyalar**](privilege-escalation/#writable-files)
 
-* [ ] **Python kütüphanesini** değiştirerek keyfi komutlar çalıştırabilir misiniz?
-* [ ] **Günlük dosyalarını** değiştirebilir misiniz? **Logtotten** saldırısı
+* [ ] **Python kütüphanesini** değiştirerek keyfi komutlar çalıştırılabilir mi?
+* [ ] **Log dosyalarını** değiştirebilir misiniz? **Logtotten** saldırısı
 * [ ] **/etc/sysconfig/network-scripts/**'i değiştirebilir misiniz? Centos/Redhat saldırısı
 * [ ] [**ini, int.d, systemd veya rc.d dosyalarına yazabilir misiniz**](privilege-escalation/#init-init-d-systemd-and-rc-d)?
 
-### [**Diğer hileler**](privilege-escalation/#diğer-hileler)
+### [**Diğer hileler**](privilege-escalation/#other-tricks)
 
-* [ ] **Yetkileri yükseltmek için NFS'yi** kötüye kullanabilir misiniz? (privilege-escalation/#nfs-privilege-escalation)
-* [ ] **Kısıtlayıcı bir kabuktan kaçmanız gerekiyor mu**? (privilege-escalation/#escaping-from-restricted-shells)
+* [ ] **Ayrıcalıkları yükseltmek için NFS'yi** **kötüye kullanabilir misiniz**](privilege-escalation/#nfs-privilege-escalation)?
+* [ ] **Kısıtlayıcı bir kabuktan kaçmanız gerekiyor mu**](privilege-escalation/#escaping-from-restricted-shells)?
 
-<figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (377).png" alt=""><figcaption></figcaption></figure>
 
-Deneyimli hackerlar ve ödül avcıları ile iletişim kurmak için [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) sunucusuna katılın!
+[**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) sunucusuna katılın ve deneyimli hackerlar ve hata avcıları ile iletişim kurun!
 
 **Hacking İçgörüleri**\
-Hacking'in heyecanına ve zorluklarına dalmış içeriklerle etkileşim kurun
+Hacking'in heyecanını ve zorluklarını inceleyen içeriklerle etkileşime girin
 
 **Gerçek Zamanlı Hack Haberleri**\
 Hızlı tempolu hacking dünyasını gerçek zamanlı haberler ve içgörülerle takip edin
 
 **En Son Duyurular**\
-Yeni ödül avı başlatmaları ve önemli platform güncellemeleri hakkında bilgi sahibi olun
+Yeni hata avcılıklarını ve önemli platform güncellemelerini takip edin
 
-Bugün en iyi hackerlarla işbirliği yapmak için [**Discord**](https://discord.com/invite/N3FrSbmwdy) adresimize katılın!
+**Bize katılın** [**Discord**](https://discord.com/invite/N3FrSbmwdy) ve bugün en iyi hackerlarla işbirliği yapmaya başlayın!
 
 <details>
 
 <summary><strong>Sıfırdan kahraman olmak için AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-HackTricks'i desteklemenin diğer yolları:
+HackTricks'ı desteklemenin diğer yolları:
 
-* Şirketinizi HackTricks'te **reklam vermek veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* Özel [**NFT'lerden oluşan**](https://opensea.io/collection/the-peass-family) koleksiyonumuz olan [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
-* **💬 Discord grubuna** (https://discord.gg/hRep4RUj7f) veya **telegram grubuna** (https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**'da** takip edin.
-* **Hacking hilelerinizi paylaşarak** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR göndererek katkıda bulunun.
+* [**The PEASS Family'yi**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* **💬 [Discord grubuna](https://discord.gg/hRep4RUj7f) veya [telegram gruba](https://t.me/peass) katılın veya** Twitter'da 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'ı takip edin.**
+* **Hacking hilelerinizi paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>

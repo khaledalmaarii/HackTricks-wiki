@@ -6,17 +6,17 @@
 
 HackTricks'i desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na göz atın (https://github.com/sponsors/carlospolop)!
-* [**Resmi PEASS & HackTricks ürünleri**]'ni edinin (https://peass.creator-spring.com)
-* [**PEASS Ailesi**]'ni keşfedin (https://opensea.io/collection/the-peass-family), özel [**NFT'ler**]'imiz koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**'da takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR göndererek HackTricks** (https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına.
+* **Şirketinizi HackTricks'te reklamınızı görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na göz atın (https://github.com/sponsors/carlospolop)!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'da takip edin.**
+* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
 
 **Try Hard Güvenlik Grubu**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -33,7 +33,7 @@ echo $MYGLOBAL #Prints: hello world
 ```
 Bu değişken mevcut oturumlarınız ve onun alt süreçleri tarafından erişilebilir olacaktır.
 
-Değişkeni **kaldırmak** için şunu yapabilirsiniz:
+Değişkeni kaldırmak için şunu yapabilirsiniz:
 ```bash
 unset MYGLOBAL
 ```
@@ -61,15 +61,15 @@ cat /proc/`python -c "import os; print(os.getppid())"`/environ
 
 Kaynak: [https://geek-university.com/linux/common-environment-variables/](https://geek-university.com/linux/common-environment-variables/)
 
-* **DISPLAY** – **X** tarafından kullanılan ekran. Bu değişken genellikle **:0.0** olarak ayarlanır, bu da mevcut bilgisayardaki ilk ekranı temsil eder.
+* **DISPLAY** – **X** tarafından kullanılan ekran. Bu değişken genellikle **:0.0** olarak ayarlanır, bu da mevcut bilgisayardaki ilk ekrandır.
 * **EDITOR** – kullanıcının tercih ettiği metin düzenleyici.
-* **HISTFILESIZE** – geçmiş dosyasında bulunan maksimum satır sayısı.
+* **HISTFILESIZE** – geçmiş dosyasında bulunan satırların maksimum sayısı.
 * **HISTSIZE** – Kullanıcı oturumu sona erdiğinde geçmiş dosyasına eklenen satır sayısı.
 * **HOME** – ev dizininiz.
 * **HOSTNAME** – bilgisayarın ana bilgisayarı.
 * **LANG** – mevcut diliniz.
 * **MAIL** – kullanıcının posta havuzunun konumu. Genellikle **/var/spool/mail/USER**.
-* **MANPATH** – kılavuz sayfalarını aramak için kullanılan dizinlerin listesi.
+* **MANPATH** – manuel sayfaları aramak için kullanılan dizinlerin listesi.
 * **OSTYPE** – işletim sistemi türü.
 * **PS1** – bash'teki varsayılan komut istemi.
 * **PATH** – yürütmek istediğiniz ikili dosyaların bulunduğu tüm dizinlerin yolu, dosyanın adını belirterek yürütmek istediğiniz dosyanın adını belirtmek yerine göreli veya mutlak yol belirtmeden.
@@ -83,55 +83,55 @@ Kaynak: [https://geek-university.com/linux/common-environment-variables/](https:
 
 ### **HISTFILESIZE**
 
-Bu değişkenin **değerini 0 olarak değiştirin**, böylece oturumunuzu sonlandırdığınızda geçmiş dosyası (\~/.bash\_history) **silinecektir**.
+Bu değişkenin **değerini 0** olarak değiştirin, böylece oturumunuzu sonlandırdığınızda geçmiş dosyası (\~/.bash\_history) **silinecektir**.
 ```bash
 export HISTFILESIZE=0
 ```
 ### **HISTSIZE**
 
-Bu değişkenin değerini 0 olarak değiştirin, böylece oturumunuzu sonlandırdığınızda herhangi bir komut **geçmiş dosyasına** (\~/.bash\_history) eklenmeyecektir.
+Bu değişkenin **değerini 0 yapın**, böylece oturumunuzu **sonlandırdığınızda** herhangi bir komut **geçmiş dosyasına** (\~/.bash\_history) eklenmeyecektir.
 ```bash
 export HISTSIZE=0
 ```
 ### http\_proxy & https\_proxy
 
-İşlemler, internete bağlanmak için burada belirtilen **proxy**'yi kullanacaktır **http veya https** üzerinden.
+İşlemler, internete bağlanmak için burada belirtilen **proxy**'yi kullanacaklar.
 ```bash
 export http_proxy="http://10.10.10.10:8080"
 export https_proxy="http://10.10.10.10:8080"
 ```
 ### SSL_CERT_FILE & SSL_CERT_DIR
 
-**Bu ortam değişkenlerinde** belirtilen sertifikalara işlemler güvenecektir.
+**Bu çevre değişkenlerinde** belirtilen sertifikalara işlemler güvenecektir.
 ```bash
 export SSL_CERT_FILE=/path/to/ca-bundle.pem
 export SSL_CERT_DIR=/path/to/ca-certificates
 ```
 ### PS1
 
-Prompt görünümünü değiştirin.
+Promptunuzu nasıl gözükeceğini değiştirin.
 
 [**Bu bir örnektir**](https://gist.github.com/carlospolop/43f7cd50f3deea972439af3222b68808)
 
 Root:
 
-![](<../.gitbook/assets/image (87).png>)
+![](<../.gitbook/assets/image (894).png>)
 
 Normal kullanıcı:
 
-![](<../.gitbook/assets/image (88).png>)
+![](<../.gitbook/assets/image (737).png>)
 
 Bir, iki ve üç arka planda çalışan işler:
 
-![](<../.gitbook/assets/image (89).png>)
+![](<../.gitbook/assets/image (142).png>)
 
 Bir arka planda çalışan iş, bir durdurulan iş ve son komut doğru bir şekilde tamamlanmadı:
 
-![](<../.gitbook/assets/image (90).png>)
+![](<../.gitbook/assets/image (712).png>)
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -141,10 +141,10 @@ Bir arka planda çalışan iş, bir durdurulan iş ve son komut doğru bir şeki
 
 HackTricks'i desteklemenin diğer yolları:
 
-* Şirketinizi **HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na (https://github.com/sponsors/carlospolop) göz atın!
+* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)** takip edin.**
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu
+* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)'da **takip edin**.
 * **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>

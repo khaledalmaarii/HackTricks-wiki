@@ -2,30 +2,30 @@
 
 <details>
 
-<summary><strong>AWS hackleme becerilerini sıfırdan ileri seviyeye öğrenmek için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>'ı öğrenin!</strong></summary>
+<summary><strong>AWS hackleme konusunda sıfırdan kahramana kadar öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamını görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna **PR göndererek** paylaşın.
+* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na göz atın (https://github.com/sponsors/carlospolop)!
+* [**Resmi PEASS & HackTricks ürünleri**](https://peass.creator-spring.com)'ni edinin
+* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'da **takip edin**.
+* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
 
 ## Nasıl Çalıştığı Açıklaması
 
-Kullanıcı adı ve ya şifre veya hash bilinen ana bilgisayarlarda WMI kullanarak işlemler açılabilir. Wmiexec tarafından WMI kullanılarak komutlar yürütülür ve yarı etkileşimli bir kabuk deneyimi sağlanır.
+Kullanıcı adı ve ya şifre veya hash bilinen ana bilgisayarlarda WMI kullanılarak işlemler açılabilir. Wmiexec tarafından WMI kullanılarak komutlar yürütülür ve yarı etkileşimli bir kabuk deneyimi sağlanır.
 
-**dcomexec.py:** Farklı DCOM uç noktalarını kullanarak, bu komut dosyası wmiexec.py'ye benzer yarı etkileşimli bir kabuk sunar ve özellikle ShellBrowserWindow DCOM nesnesini kullanır. Şu anda MMC20. Uygulama, Shell Pencereleri ve Shell Tarayıcı Penceresi nesnelerini desteklemektedir. (kaynak: [Hacking Articles](https://www.hackingarticles.in/beginners-guide-to-impacket-tool-kit-part-1/))
+**dcomexec.py:** Farklı DCOM uç noktalarını kullanarak, bu betik wmiexec.py'ye benzer yarı etkileşimli bir kabuk sunar, özellikle ShellBrowserWindow DCOM nesnesini kullanır. Şu anda MMC20'yi destekler. Uygulama, Shell Windows ve Shell Browser Window nesneleri. (kaynak: [Hacking Articles](https://www.hackingarticles.in/beginners-guide-to-impacket-tool-kit-part-1/))
 
 ## WMI Temelleri
 
 ### Ad Alanı
 
-Dizin tarzında hiyerarşiye sahip olan WMI'nın en üst düzey konteyneri \root'dur ve altında ad alanları olarak adlandırılan ek dizinler düzenlenir.
-Ad alanlarını listelemek için kullanılan komutlar:
+Dizin tarzında bir hiyerarşiye sahip olan WMI'nın en üst düzey konteyneri \root'dur, altında ad alanları olarak düzenlenen ek dizinler bulunur.
+Ad alanlarını listelemek için komutlar:
 ```bash
 # Retrieval of Root namespaces
 gwmi -namespace "root" -Class "__Namespace" | Select Name
@@ -36,20 +36,20 @@ Get-WmiObject -Class "__Namespace" -Namespace "Root" -List -Recurse 2> $null | s
 # Listing of namespaces within "root\cimv2"
 Get-WmiObject -Class "__Namespace" -Namespace "root\cimv2" -List -Recurse 2> $null | select __Namespace | sort __Namespace
 ```
-Bir isim alanındaki sınıflar aşağıdaki şekilde listelenebilir:
+Bir namespace içindeki sınıflar şu şekilde listelenebilir:
 ```bash
 gwmwi -List -Recurse # Defaults to "root\cimv2" if no namespace specified
 gwmi -Namespace "root/microsoft" -List -Recurse
 ```
 ### **Sınıflar**
 
-Bir WMI sınıf adını, örneğin win32\_process'i ve bulunduğu ad alanını bilmek, herhangi bir WMI işlemi için önemlidir.
-`win32` ile başlayan sınıfları listelemek için kullanılan komutlar:
+Bir WMI sınıf adını, örneğin win32\_process, ve bulunduğu ad alanını bilmek herhangi bir WMI işlemi için hayati öneme sahiptir.
+`win32` ile başlayan sınıfları listelemek için komutlar:
 ```bash
 Get-WmiObject -Recurse -List -class win32* | more # Defaults to "root\cimv2"
 gwmi -Namespace "root/microsoft" -List -Recurse -Class "MSFT_MpComput*"
 ```
-Bir sınıfın çağrılması:
+Sınıfın çağrılması:
 ```bash
 # Defaults to "root/cimv2" when namespace isn't specified
 Get-WmiObject -Class win32_share
@@ -57,7 +57,7 @@ Get-WmiObject -Namespace "root/microsoft/windows/defender" -Class MSFT_MpCompute
 ```
 ### Yöntemler
 
-Yöntemler, WMI sınıflarının bir veya daha fazla yürütülebilir işlevleridir ve çalıştırılabilirler.
+Yöntemler, WMI sınıflarının bir veya daha fazla yürütülebilir işlevini temsil eder ve çalıştırılabilir.
 ```bash
 # Class loading, method listing, and execution
 $c = [wmiclass]"win32_share"
@@ -71,9 +71,9 @@ Invoke-WmiMethod -Class win32_share -Name Create -ArgumentList @($null, "Descrip
 ```
 ## WMI Numaralandırma
 
-### WMI Hizmet Durumu
+### WMI Servisi Durumu
 
-WMI hizmetinin çalışıp çalışmadığını doğrulamak için kullanılan komutlar:
+WMI servisinin çalışır durumda olup olmadığını doğrulamak için kullanılan komutlar:
 ```bash
 # WMI service status check
 Get-Service Winmgmt
@@ -83,7 +83,7 @@ net start | findstr "Instrumentation"
 ```
 ### Sistem ve İşlem Bilgileri
 
-WMI aracılığıyla sistem ve işlem bilgileri toplama:
+WMI aracılığıyla sistem ve işlem bilgilerini toplama:
 ```bash
 Get-WmiObject -ClassName win32_operatingsystem | select * | more
 Get-WmiObject win32_process | Select Name, Processid
@@ -97,15 +97,17 @@ wmic useraccount list /format:list
 wmic group list /format:list
 wmic sysaccount list /format:list
 ```
-### **El ile Uzaktan WMI Sorgulama**
+### **Elle Uzaktan WMI Sorgulama**
 
-Uzaktaki bir makinede yerel yöneticilerin veya oturum açmış kullanıcıların gizli bir şekilde belirlenmesi, özel WMI sorguları aracılığıyla mümkündür. `wmic`, ayrıca birden fazla düğümde komutları eşzamanlı olarak yürütmek için bir metin dosyasından okuma desteği sağlar.
+Uzaktan belirli bilgilere, örneğin yerel yöneticilere veya oturum açmış kullanıcılara WMI üzerinden sorgu yapmak, dikkatli komut oluşturma ile mümkündür.
 
-Empire ajanı gibi bir işlemi uzaktan WMI üzerinde yürütmek için aşağıdaki komut yapısı kullanılır ve başarılı yürütme "0" dönüş değeri ile gösterilir:
+Uzaktan bir makinedeki yerel yöneticileri gizlice tanımlamak ve oturum açmış kullanıcıları belirlemek belirli WMI sorguları aracılığıyla gerçekleştirilebilir. `wmic`, ayrıca birden fazla düğümde komutları aynı anda yürütmek için bir metin dosyasından okumayı da destekler.
+
+WMI üzerinden bir işlemi, örneğin bir Empire ajanı dağıtmayı uzaktan yürütmek için aşağıdaki komut yapısı kullanılır ve başarılı yürütme "0" dönüş değeri ile gösterilir:
 ```bash
 wmic /node:hostname /user:user path win32_process call create "empire launcher string here"
 ```
-Bu süreç, WMI'nın uzaktan yürütme ve sistem numaralandırma yeteneklerini göstererek, hem sistem yönetimi hem de penetrasyon testi için kullanışlı olduğunu vurgular.
+Bu süreç, WMI'ın uzaktan yürütme ve sistem numaralandırma yeteneklerini göstererek, hem sistem yönetimi hem de penetrasyon testi için kullanışlılığını vurgular.
 
 
 ## Referanslar
@@ -123,14 +125,14 @@ SharpLateral redwmi HOSTNAME C:\\Users\\Administrator\\Desktop\\malware.exe
 
 <details>
 
-<summary><strong>AWS hackleme becerilerini sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary><strong>Sıfırdan kahramana kadar AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
-* Şirketinizi HackTricks'te **reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'ı takip edin**.
-* Hacking hilelerinizi [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR göndererek paylaşın.
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'da **takip edin**.**
+* **Hacking püf noktalarınızı paylaşarak PR göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
