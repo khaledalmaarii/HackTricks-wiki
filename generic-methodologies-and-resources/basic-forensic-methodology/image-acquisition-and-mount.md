@@ -1,16 +1,20 @@
-# Akvizicija slike i montiranje
+# Akvizicija slike i montaža
 
 <details>
 
 <summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Da li radite u **cybersecurity kompaniji**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks-u**? Ili želite da imate pristup **najnovijoj verziji PEASS-a ili preuzmete HackTricks u PDF formatu**? Proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks**? ili želite pristupiti **najnovijoj verziji PEASS-a ili preuzeti HackTricks u PDF formatu**? Proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
+* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitter-u** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na [hacktricks repo](https://github.com/carlospolop/hacktricks) i [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova u [hacktricks repozitorijum](https://github.com/carlospolop/hacktricks) i [hacktricks-cloud repozitorijum](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
+
+<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://websec.nl/" %}
 
 ## Akvizicija
 
@@ -20,8 +24,6 @@
 dd if=/dev/sdb of=disk.img
 ```
 ### dcfldd
-
-dcfldd je napredni alat za kopiranje i konverziju slika. On pruža dodatne funkcionalnosti u odnosu na standardni dd alat, kao što su mogućnost prikaza napretka kopiranja, automatsko generisanje kontrolnih suma i mogućnost rada sa više izvora i odredišta istovremeno. Ovaj alat je veoma koristan prilikom akvizicije slika i kopiranja podataka sa oštećenih medija.
 ```bash
 #Raw copy with hashes along the way (more secur as it checks hashes while it's copying the data)
 dcfldd if=<subject device> of=<image file> bs=512 hash=<algorithm> hashwindow=<chunk size> hashlog=<hash file>
@@ -54,9 +56,9 @@ ewfacquire /dev/sdb
 ```
 ## Montiranje
 
-### Nekoliko vrsta
+### Više vrsta
 
-U **Windows**-u možete pokušati koristiti besplatnu verziju Arsenal Image Mounter-a ([https://arsenalrecon.com/downloads/](https://arsenalrecon.com/downloads/)) za **montiranje forenzičke slike**.
+Na **Windows** operativnom sistemu možete pokušati koristiti besplatnu verziju Arsenal Image Mounter alata ([https://arsenalrecon.com/downloads/](https://arsenalrecon.com/downloads/)) za **montiranje forenzičke slike**.
 
 ### Sirova
 ```bash
@@ -68,16 +70,6 @@ evidence.img: Linux rev 1.0 ext4 filesystem data, UUID=1031571c-f398-4bfb-a414-b
 mount evidence.img /mnt
 ```
 ### EWF
-
-EWF (EnCase Evidence File) je popularan format za snimanje slika dokaza. Ovaj format omogućava snimanje slike diska sa svim sektorima, uključujući i neiskorišćene sektore. EWF format takođe podržava kompresiju slike kako bi se smanjila veličina fajla.
-
-Da biste izvršili akviziciju slike diska u EWF formatu, možete koristiti alate kao što su EnCase, FTK Imager ili ewfacquire. Ovi alati omogućavaju snimanje slike diska u EWF formatu sa svim relevantnim metapodacima.
-
-Kada je slika diska snimljena u EWF formatu, možete je montirati kao virtualni disk kako biste pristupili podacima. Za montiranje EWF slike možete koristiti alate kao što su Arsenal Image Mounter, OSFMount ili FTK Imager.
-
-Montiranje EWF slike omogućava vam pregledavanje i analizu podataka na disku bez potrebe za fizičkim pristupom originalnom disku. Ovo je korisno u forenzičkim istraživanjima, jer omogućava sigurno rukovanje dokazima i sprečava moguće oštećenje originalnog diska.
-
-Važno je napomenuti da prilikom akvizicije slike diska u EWF formatu treba biti pažljiv kako bi se osigurala integritet dokaza. Takođe, treba voditi računa o pravilnom rukovanju i čuvanju EWF slike kako bi se očuvala njena autentičnost i integritet.
 ```bash
 #Get file type
 file evidence.E01
@@ -98,8 +90,8 @@ To je Windows aplikacija za montiranje volumena. Možete je preuzeti ovde [https
 
 ### Greške
 
-* **`cannot mount /dev/loop0 read-only`** u ovom slučaju trebate koristiti zastavice **`-o ro,norecovery`**
-* **`wrong fs type, bad option, bad superblock on /dev/loop0, missing codepage or helper program, or other error.`** u ovom slučaju montiranje nije uspelo jer je offset fajl sistema različit od offseta slike diska. Morate pronaći veličinu sektora i početni sektor:
+* **`cannot mount /dev/loop0 read-only`** u ovom slučaju morate koristiti zastave **`-o ro,norecovery`**
+* **`wrong fs type, bad option, bad superblock on /dev/loop0, missing codepage or helper program, or other error.`** u ovom slučaju montiranje nije uspelo jer je offset fajl sistema drugačiji od offseta disk slike. Morate pronaći veličinu sektora i početni sektor:
 ```bash
 fdisk -l disk.img
 Disk disk.img: 102 MiB, 106954648 bytes, 208896 sectors
@@ -112,18 +104,22 @@ Disk identifier: 0x00495395
 Device        Boot Start    End Sectors  Size Id Type
 disk.img1       2048 208895  206848  101M  1 FAT12
 ```
-Imajte na umu da je veličina sektora **512**, a početak je **2048**. Zatim montirajte sliku na sledeći način:
+Imajte na umu da je veličina sektora **512** i početak je **2048**. Zatim montirajte sliku na ovaj način:
 ```bash
 mount disk.img /mnt -o ro,offset=$((2048*512))
 ```
+<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://websec.nl/" %}
+
 <details>
 
 <summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Da li radite u **cybersecurity kompaniji**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks-u**? Ili želite da imate pristup **najnovijoj verziji PEASS-a ili preuzmete HackTricks u PDF formatu**? Proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks**? ili želite pristup **najnovijoj verziji PEASS-a ili preuzimanje HackTricks-a u PDF formatu**? Proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
+* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitter-u** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na [hacktricks repo](https://github.com/carlospolop/hacktricks) i [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili **telegram grupi** ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova u [hacktricks repozitorijum](https://github.com/carlospolop/hacktricks) i [hacktricks-cloud repozitorijum](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
