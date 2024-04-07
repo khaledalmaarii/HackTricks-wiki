@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Nauka hakowania AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 
@@ -16,19 +16,19 @@ Inne sposoby wsparcia HackTricks:
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 ***
 
-## Narzędzia do wycinania i odzyskiwania
+## Narzędzia do wycinania i odzyskiwania danych
 
 Więcej narzędzi na [https://github.com/Claudio-C/awesome-datarecovery](https://github.com/Claudio-C/awesome-datarecovery)
 
 ### Autopsy
 
-Najczęściej używanym narzędziem w dziedzinie kryminalistyki do wyodrębniania plików z obrazów jest [**Autopsy**](https://www.autopsy.com/download/). Pobierz go, zainstaluj i spraw, aby przetworzył plik w celu znalezienia "ukrytych" plików. Zauważ, że Autopsy jest przeznaczony do obsługi obrazów dysków i innych rodzajów obrazów, ale nie prostych plików.
+Najczęściej używanym narzędziem do ekstrakcji plików z obrazów jest [**Autopsy**](https://www.autopsy.com/download/). Pobierz go, zainstaluj i spraw, aby przetworzył plik w celu znalezienia "ukrytych" plików. Zauważ, że Autopsy jest przeznaczony do obsługi obrazów dysków i innych rodzajów obrazów, ale nie prostych plików.
 
 ### Binwalk <a href="#binwalk" id="binwalk"></a>
 
@@ -43,7 +43,7 @@ binwalk --dd ".*" file #Displays and extracts all files from the given file
 ```
 ### Foremost
 
-Innym powszechnie stosowanym narzędziem do znajdowania ukrytych plików jest **foremost**. Konfigurację foremost można znaleźć w pliku `/etc/foremost.conf`. Jeśli chcesz wyszukać określone pliki, odkomentuj je. Jeśli nic nie odkomentujesz, foremost będzie przeszukiwał domyślnie skonfigurowane typy plików.
+Innym często używanym narzędziem do znajdowania ukrytych plików jest **foremost**. Konfigurację foremost można znaleźć w pliku `/etc/foremost.conf`. Jeśli chcesz wyszukać określone pliki, odkomentuj je. Jeśli nic nie odkomentujesz, foremost będzie przeszukiwał domyślnie skonfigurowane typy plików.
 ```bash
 sudo apt-get install foremost
 foremost -v -i file.img -o output
@@ -70,24 +70,24 @@ Możesz go znaleźć pod adresem [https://www.cgsecurity.org/wiki/TestDisk\_Down
 
 Posiada wersje z interfejsem graficznym i wiersza poleceń. Możesz wybrać **typy plików**, które chcesz, aby PhotoRec wyszukał.
 
-![](<../../../.gitbook/assets/image (524).png>)
+![](<../../../.gitbook/assets/image (239).png>)
 
 ### binvis
 
-Sprawdź [kod](https://code.google.com/archive/p/binvis/) oraz [narzędzie na stronie internetowej](https://binvis.io/#/).
+Sprawdź [kod](https://code.google.com/archive/p/binvis/) oraz [stronę narzędzia](https://binvis.io/#/).
 
 #### Funkcje BinVis
 
-* Wizualizator **struktury** plików
+* Wizualizator **struktury** z aktywnym widokiem
 * Wiele wykresów dla różnych punktów skupienia
 * Skupienie na fragmentach próbki
-* **Wykrywanie ciągów i zasobów**, w plikach wykonywalnych PE lub ELF, np.
-* Pozyskiwanie **wzorców** do kryptografii plików
+* **Widok ciągów i zasobów**, w plikach wykonywalnych PE lub ELF, np.
+* Uzyskiwanie **wzorców** do kryptografii plików
 * **Wykrywanie** algorytmów pakowania lub kodowania
 * **Identyfikacja** steganografii poprzez wzorce
 * **Wizualne** porównywanie binarne
 
-BinVis to doskonały **punkt wyjścia do zapoznania się z nieznanym celem** w scenariuszu black-boxing.
+BinVis to świetny **punkt wyjścia do zapoznania się z nieznanym celem** w scenariuszu black-boxing.
 
 ## Konkretne narzędzia do odzyskiwania danych
 
@@ -104,13 +104,13 @@ Możesz użyć narzędzia wiersza poleceń systemu Linux **pdftotext**, aby prze
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 <details>
 
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Dowiedz się, jak hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 

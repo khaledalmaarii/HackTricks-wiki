@@ -6,7 +6,7 @@
 
 Inne sposoby wsparcia HackTricks:
 
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
@@ -16,16 +16,16 @@ Inne sposoby wsparcia HackTricks:
 
 ## Jak to działa - wyjaśnienie
 
-Procesy można otworzyć na hostach, gdzie znane są nazwa użytkownika oraz hasło lub skrót za pomocą WMI. Polecenia są wykonywane za pomocą WMI przez Wmiexec, zapewniając pół-interaktywne doświadczenie powłoki.
+Procesy mogą być uruchamiane na hostach, gdzie znane są nazwa użytkownika oraz hasło lub skrót za pomocą WMI. Polecenia są wykonywane za pomocą WMI przez Wmiexec, zapewniając pół-interaktywne doświadczenie powłoki.
 
-**dcomexec.py:** Wykorzystując różne punkty końcowe DCOM, ten skrypt oferuje pół-interaktywną powłokę podobną do wmiexec.py, szczególnie wykorzystując obiekt DCOM ShellBrowserWindow. Obecnie obsługuje aplikację MMC20, obiekty Shell Windows i Shell Browser Window. (źródło: [Hacking Articles](https://www.hackingarticles.in/beginners-guide-to-impacket-tool-kit-part-1/))
+**dcomexec.py:** Korzystając z różnych punktów końcowych DCOM, ten skrypt oferuje pół-interaktywną powłokę podobną do wmiexec.py, wykorzystując specjalnie obiekt DCOM ShellBrowserWindow. Obecnie obsługuje aplikację MMC20, okna powłoki i obiekty okna przeglądarki powłoki. (źródło: [Hacking Articles](https://www.hackingarticles.in/beginners-guide-to-impacket-tool-kit-part-1/))
 
 ## Podstawy WMI
 
-### Przestrzeń nazw
+### Przestrzeń nazwowa
 
-WMI jest strukturalnie zorganizowane w hierarchii przypominającej katalogi. Głównym kontenerem WMI jest \root, pod którym organizowane są dodatkowe katalogi, zwane przestrzeniami nazw.
-Polecenia do wyświetlania przestrzeni nazw:
+Zorganizowana w hierarchii stylu katalogu, głównym kontenerem WMI jest \root, pod którym zorganizowane są dodatkowe katalogi, zwane przestrzeniami nazw.
+Polecenia do listowania przestrzeni nazw:
 ```bash
 # Retrieval of Root namespaces
 gwmi -namespace "root" -Class "__Namespace" | Select Name
@@ -57,7 +57,7 @@ Get-WmiObject -Namespace "root/microsoft/windows/defender" -Class MSFT_MpCompute
 ```
 ### Metody
 
-Metody, które są jedną lub więcej wykonywalnymi funkcjami klas WMI, mogą być uruchamiane.
+Metody, które są jedną lub więcej wykonywalnych funkcji klas WMI, mogą być uruchamiane.
 ```bash
 # Class loading, method listing, and execution
 $c = [wmiclass]"win32_share"
@@ -73,7 +73,7 @@ Invoke-WmiMethod -Class win32_share -Name Create -ArgumentList @($null, "Descrip
 
 ### Status usługi WMI
 
-Polecenia służące do sprawdzenia, czy usługa WMI jest działająca:
+Polecenia do sprawdzenia, czy usługa WMI działa poprawnie:
 ```bash
 # WMI service status check
 Get-Service Winmgmt
@@ -99,19 +99,19 @@ wmic sysaccount list /format:list
 ```
 ### **Ręczne zdalne zapytania WMI**
 
-Możliwe jest dyskretne identyfikowanie lokalnych administratorów na zdalnej maszynie oraz zalogowanych użytkowników za pomocą konkretnych zapytań WMI. Polecenie `wmic` obsługuje również odczytywanie z pliku tekstowego w celu wykonania poleceń na wielu węzłach jednocześnie.
+Skryte zidentyfikowanie lokalnych administratorów na zdalnej maszynie oraz zalogowanych użytkowników można osiągnąć poprzez konkretne zapytania WMI. `wmic` obsługuje również odczytywanie z pliku tekstowego w celu wykonania poleceń na wielu węzłach jednocześnie.
 
-Aby zdalnie uruchomić proces za pomocą WMI, na przykład wdrożyć agenta Empire, stosuje się następującą strukturę polecenia, a udane wykonanie jest wskazywane przez wartość zwrotną "0":
+Aby zdalnie wykonać proces za pomocą WMI, na przykład wdrożyć agenta Empire, stosuje się następującą strukturę polecenia, a udane wykonanie jest wskazywane przez wartość zwrotną "0":
 ```bash
 wmic /node:hostname /user:user path win32_process call create "empire launcher string here"
 ```
-Ten proces ilustruje zdolność WMI do zdalnego wykonywania i wyliczania systemu, podkreślając jego użyteczność zarówno dla administracji systemem, jak i testowania penetracyjnego.
+Ten proces ilustruje zdolności WMI do zdalnego wykonywania poleceń i wyliczania systemu, podkreślając jego użyteczność zarówno dla administracji systemem, jak i testów penetracyjnych.
 
 
-## Odwołania
+## Referencje
 * [https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-3-wmi-and-winrm/](https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/)
 
-## Automatyczne narzędzia
+## Narzędzia automatyczne
 
 * [**SharpLateral**](https://github.com/mertdas/SharpLateral):
 
@@ -127,10 +127,10 @@ SharpLateral redwmi HOSTNAME C:\\Users\\Administrator\\Desktop\\malware.exe
 
 Inne sposoby wsparcia HackTricks:
 
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCJI**](https://github.com/sponsors/carlospolop)!
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na githubie.
 
 </details>

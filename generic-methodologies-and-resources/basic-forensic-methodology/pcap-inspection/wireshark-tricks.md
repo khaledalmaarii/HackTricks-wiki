@@ -1,6 +1,6 @@
-# Sztuczki z Wiresharkiem
+# Sztuczki z Wireshark
 
-## Sztuczki z Wiresharkiem
+## Sztuczki z Wireshark
 
 <details>
 
@@ -8,15 +8,15 @@
 
 Inne sposoby wsparcia HackTricks:
 
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) **i** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **repozytoriów GitHub.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
 
 </details>
 
-## Popraw swoje umiejętności z Wiresharkiem
+## Popraw swoje umiejętności z Wireshark
 
 ### Tutoriale
 
@@ -31,115 +31,115 @@ Następujące tutoriale są niesamowite do nauki kilku fajnych podstawowych sztu
 
 **Informacje eksperta**
 
-Klikając na _**Analyze** --> **Expert Information**_ będziesz mieć **przegląd** tego, co dzieje się w analizowanych pakietach:
+Klikając na _**Analyze** --> **Expert Information**_ będziesz mieć **przegląd** tego, co dzieje się w **analizowanych** pakietach:
 
-![](<../../../.gitbook/assets/image (570).png>)
+![](<../../../.gitbook/assets/image (253).png>)
 
 **Rozwiązane adresy**
 
-Pod _**Statistics --> Resolved Addresses**_ można znaleźć wiele **informacji**, które zostały "**rozwiązane**" przez Wireshark, takie jak port/transport do protokołu, MAC do producenta, itp. Ważne jest, aby wiedzieć, co jest zaangażowane w komunikację.
+Pod _**Statistics --> Resolved Addresses**_ znajdziesz kilka **informacji**, które zostały "**rozwiązane**" przez Wireshark, takie jak port/transport do protokołu, MAC do producenta, itp. Ważne jest, aby wiedzieć, co jest zaangażowane w komunikacji.
 
-![](<../../../.gitbook/assets/image (571).png>)
+![](<../../../.gitbook/assets/image (890).png>)
 
 **Hierarchia protokołów**
 
-Pod _**Statistics --> Protocol Hierarchy**_ można znaleźć **protokoły** **zaangażowane** w komunikację oraz dane na ich temat.
+Pod _**Statistics --> Protocol Hierarchy**_ znajdziesz **protokoły** zaangażowane w komunikacji oraz dane na ich temat.
 
-![](<../../../.gitbook/assets/image (572).png>)
+![](<../../../.gitbook/assets/image (583).png>)
 
 **Konwersacje**
 
-Pod _**Statistics --> Conversations**_ można znaleźć **podsumowanie konwersacji** w komunikacji oraz dane na ich temat.
+Pod _**Statistics --> Conversations**_ znajdziesz **podsumowanie konwersacji** w komunikacji oraz dane na ich temat.
 
-![](<../../../.gitbook/assets/image (573).png>)
+![](<../../../.gitbook/assets/image (450).png>)
 
 **Punkty końcowe**
 
-Pod _**Statistics --> Endpoints**_ można znaleźć **podsumowanie punktów końcowych** w komunikacji oraz dane na ich temat.
+Pod _**Statistics --> Endpoints**_ znajdziesz **podsumowanie punktów końcowych** w komunikacji oraz dane na ich temat.
 
-![](<../../../.gitbook/assets/image (575).png>)
+![](<../../../.gitbook/assets/image (893).png>)
 
 **Informacje DNS**
 
-Pod _**Statistics --> DNS**_ można znaleźć statystyki dotyczące przechwyconych żądań DNS.
+Pod _**Statistics --> DNS**_ znajdziesz statystyki dotyczące przechwyconych żądań DNS.
 
-![](<../../../.gitbook/assets/image (577).png>)
+![](<../../../.gitbook/assets/image (1060).png>)
 
 **Wykres I/O**
 
-Pod _**Statistics --> I/O Graph**_ można znaleźć **wykres komunikacji**.
+Pod _**Statistics --> I/O Graph**_ znajdziesz **wykres komunikacji**.
 
-![](<../../../.gitbook/assets/image (574).png>)
+![](<../../../.gitbook/assets/image (989).png>)
 
 ### Filtrowanie
 
-Tutaj można znaleźć filtr Wiresharka w zależności od protokołu: [https://www.wireshark.org/docs/dfref/](https://www.wireshark.org/docs/dfref/)\
+Tutaj znajdziesz filtry Wireshark w zależności od protokołu: [https://www.wireshark.org/docs/dfref/](https://www.wireshark.org/docs/dfref/)\
 Inne interesujące filtry:
 
 * `(http.request or ssl.handshake.type == 1) and !(udp.port eq 1900)`
 * Ruch HTTP i początkowy ruch HTTPS
 * `(http.request or ssl.handshake.type == 1 or tcp.flags eq 0x0002) and !(udp.port eq 1900)`
-* Ruch HTTP i początkowy ruch HTTPS + TCP SYN
+* Ruch HTTP i początkowy ruch HTTPS + SYN TCP
 * `(http.request or ssl.handshake.type == 1 or tcp.flags eq 0x0002 or dns) and !(udp.port eq 1900)`
-* Ruch HTTP i początkowy ruch HTTPS + TCP SYN + żądania DNS
+* Ruch HTTP i początkowy ruch HTTPS + SYN TCP + żądania DNS
 
 ### Wyszukiwanie
 
-Jeśli chcesz **wyszukać** **zawartość** w **pakietach** sesji, naciśnij _CTRL+f_. Możesz dodać nowe warstwy do głównego paska informacji (Nr, Czas, Źródło, itp.) naciskając prawy przycisk myszy, a następnie przycisk edycji kolumny.
+Jeśli chcesz **wyszukać** **treść** w **pakietach** sesji, naciśnij _CTRL+f_. Możesz dodać nowe warstwy do głównego paska informacji (Nr, Czas, Źródło, itp.) naciskając prawy przycisk, a następnie edytuj kolumnę.
 
 ### Darmowe laboratoria pcap
 
-**Ćwicz z darmowymi wyzwaniami na stronie: [https://www.malware-traffic-analysis.net/](https://www.malware-traffic-analysis.net)**
+**Ćwicz z darmowymi wyzwaniami na:** [**https://www.malware-traffic-analysis.net/**](https://www.malware-traffic-analysis.net)
 
-## Identyfikowanie domen
+## Identyfikacja domen
 
 Możesz dodać kolumnę, która pokazuje nagłówek Host HTTP:
 
-![](<../../../.gitbook/assets/image (403).png>)
+![](<../../../.gitbook/assets/image (635).png>)
 
 I kolumnę, która dodaje nazwę serwera z inicjującego połączenia HTTPS (**ssl.handshake.type == 1**):
 
 ![](<../../../.gitbook/assets/image (408) (1).png>)
 
-## Identyfikowanie lokalnych nazw hostów
+## Identyfikacja nazw lokalnych hostów
 
 ### Z DHCP
 
-W bieżącym Wiresharku zamiast `bootp` musisz wyszukać `DHCP`
+W bieżącym Wiresharku zamiast `bootp` musisz szukać `DHCP`
 
-![](<../../../.gitbook/assets/image (404).png>)
+![](<../../../.gitbook/assets/image (1010).png>)
 
 ### Z NBNS
 
-![](<../../../.gitbook/assets/image (405).png>)
+![](<../../../.gitbook/assets/image (1000).png>)
 
-## Odszyfrowywanie TLS
+## Deszyfrowanie TLS
 
-### Odszyfrowywanie ruchu https za pomocą prywatnego klucza serwera
+### Deszyfrowanie ruchu https za pomocą prywatnego klucza serwera
 
-_edit>preference>protocol>ssl>_
+_edytuj>preferencje>protokół>ssl>_
 
-![](<../../../.gitbook/assets/image (98).png>)
+![](<../../../.gitbook/assets/image (1100).png>)
 
-Naciśnij _Edit_ i dodaj wszystkie dane serwera i klucza prywatnego (_IP, Port, Protokół, Plik klucza i hasło_)
+Naciśnij _Edytuj_ i dodaj wszystkie dane serwera oraz klucza prywatnego (_IP, Port, Protokół, Plik klucza i hasło_)
 
-### Odszyfrowywanie ruchu https za pomocą symetrycznych kluczy sesji
+### Deszyfrowanie ruchu https za pomocą kluczy sesji symetrycznych
 
-Zarówno Firefox, jak i Chrome mają możliwość rejestrowania kluczy sesji TLS, które można użyć z Wiresharkiem do odszyfrowania ruchu TLS. Pozwala to na dogłębną analizę bezpiecznej komunikacji. Więcej informacji na temat wykonywania tego odszyfrowania można znaleźć w przewodniku na stronie [Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/).
+Zarówno Firefox, jak i Chrome mają możliwość rejestrowania kluczy sesji TLS, które można użyć z Wiresharkiem do deszyfrowania ruchu TLS. Pozwala to na dogłębną analizę komunikacji zabezpieczonej. Więcej szczegółów na temat wykonywania tego deszyfrowania można znaleźć w przewodniku na stronie [Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/).
 
-Aby to wykryć, wyszukaj w środowisku zmienną `SSLKEYLOGFILE`
+Aby wykryć to, wyszukaj w środowisku zmienną `SSLKEYLOGFILE`
 
-Plik z udostępnionymi kluczami będzie wyglądał tak:
+Plik współdzielonych kluczy będzie wyglądał tak:
 
-![](<../../../.gitbook/assets/image (99).png>)
+![](<../../../.gitbook/assets/image (817).png>)
 
-Aby zaimportować to do wiresharka, przejdź do \_edit > preference > protocol > ssl > i zaimportuj go w (Pre)-Master-Secret log filename:
+Aby zaimportować to do Wiresharka, przejdź do \_edytuj > preferencje > protokół > ssl > i zaimportuj to w (Pre)-Master-Secret log filename:
 
-![](<../../../.gitbook/assets/image (100).png>)
+![](<../../../.gitbook/assets/image (986).png>)
 
 ## Komunikacja ADB
 
-Wyodrębnij plik APK z komunikacji ADB, w której został wysłany plik APK:
+Wyodrębnij plik APK z komunikacji ADB, w której przesłano plik APK:
 ```python
 from scapy.all import *
 
@@ -172,10 +172,10 @@ f.close()
 
 Inne sposoby wsparcia HackTricks:
 
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCJI**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
+* Kup [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

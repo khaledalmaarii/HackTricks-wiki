@@ -1,25 +1,22 @@
+# I2C
+
 <details>
 
 <summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCJI**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
+* Kup [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
 
 </details>
 
+## Bus Pirate
 
-
-
-
-
-# Bus Pirate
-
-Aby sprawdzić, czy Bus Pirate działa, połącz +5V z VPU i 3.3V z ADC, a następnie uzyskaj dostęp do Bus Pirate (na przykład za pomocą Tera Term) i użyj polecenia `~`:
+Aby przetestować działanie Bus Pirate, połącz +5V z VPU i 3.3V z ADC, a następnie uzyskaj dostęp do Bus Pirate (na przykład za pomocą Tera Term) i użyj polecenia `~`:
 ```bash
 # Use command
 HiZ>~
@@ -58,18 +55,18 @@ Any key to exit
 #Press space
 Found 0 errors.
 ```
-Jak widać w poprzedniej linii poleceń, napisano, że nie znaleziono żadnych błędów. Jest to bardzo przydatne, aby wiedzieć, czy urządzenie działa po zakupie lub po wgraniu oprogramowania.
+Jak widać w poprzedniej linii poleceń, zostało powiedziane, że nie znaleziono żadnych błędów. Jest to bardzo przydatne, aby wiedzieć, że działa po zakupie lub po wgraniu oprogramowania.
 
 Aby połączyć się z bus pirate, możesz postępować zgodnie z dokumentacją:
 
-![](<../../.gitbook/assets/image (307) (2).png>)
+![](<../../.gitbook/assets/image (481).png>)
 
-W tym przypadku będę się łączyć z EPROM-em: ATMEL901 24C256 PU27:
+W tym przypadku zamierzam połączyć się z EPROM-em: ATMEL901 24C256 PU27:
 
-![](<../../.gitbook/assets/image (465) (2) (1).png>)
+![](<../../.gitbook/assets/image (961).png>)
 
-Do rozmowy z bus pirate użyłem programu Tera Term, podłączając się do portu COM bus pirate za pomocą ustawień --> Port szeregowy --> Prędkość 115200.\
-W poniższej komunikacji znajdziesz informacje, jak przygotować bus pirate do rozmowy przez I2C oraz jak zapisywać i odczytywać dane z pamięci (Komentarze są oznaczone znakiem "#", nie oczekuj tego fragmentu w komunikacji):
+Aby porozmawiać z bus pirate, użyłem Tera Term podłączonego do portu COM pirata z ustawieniami --> Port szeregowy --> Prędkość 115200.\
+W następnej komunikacji znajdziesz, jak przygotować bus pirate do rozmowy I2C oraz jak pisać i czytać z pamięci (Komentarze pojawiają się za pomocą "#", nie oczekuj, że ta część będzie w komunikacji):
 ```bash
 # Check communication with buspirate
 i
@@ -168,11 +165,11 @@ WRITE: 0xA1 ACK
 READ: 0x42  ACK 0x42  ACK 0x42  ACK 0x20  ACK 0x48  ACK 0x69  ACK 0x20  ACK 0x44  ACK 0x72  ACK 0x65  ACK 0x67  ACK 0x21  ACK 0x20  ACK 0x41  ACK 0x41  ACK 0x41  ACK 0x00  ACK 0xFF  ACK 0xFF  ACK 0xFF
 NACK
 ```
-## Sniffer
+### Sniffer
 
-W tym scenariuszu będziemy podsłuchiwać komunikację I2C między Arduino a poprzednim EPROM-em. Wystarczy połączyć oba urządzenia, a następnie podłączyć bus pirate do pinów SCL, SDA i GND:
+W tym scenariuszu zamierzamy podsłuchać komunikację I2C między arduino a poprzednim EPROM-em, wystarczy połączyć oba urządzenia, a następnie podłączyć bus pirate do pinów SCL, SDA i GND:
 
-![](<../../.gitbook/assets/image (201) (2) (1).png>)
+![](<../../.gitbook/assets/image (163).png>)
 ```bash
 I2C>m
 1. HiZ
@@ -224,10 +221,10 @@ Any key to exit
 
 Inne sposoby wsparcia HackTricks:
 
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCJI**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
+* Kup [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

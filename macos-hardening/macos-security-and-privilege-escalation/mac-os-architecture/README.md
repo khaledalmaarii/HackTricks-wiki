@@ -1,4 +1,4 @@
-# macOS Kernel & System Extensions
+# Jądro macOS i Rozszerzenia Systemu
 
 <details>
 
@@ -16,11 +16,11 @@ Inne sposoby wsparcia HackTricks:
 
 ## Jądro XNU
 
-**Rdzeniem macOS jest XNU**, co oznacza "X is Not Unix". To jądro składa się z **mikrojądra Mach** (o którym będzie mowa później), **oraz** elementów z dystrybucji oprogramowania Berkeley Software Distribution (**BSD**). XNU zapewnia również platformę dla **sterowników jądra poprzez system o nazwie I/O Kit**. Jądro XNU jest częścią projektu open source Darwin, co oznacza, że **jego kod źródłowy jest dostępny bezpłatnie**.
+**Rdzeniem macOS jest XNU**, co oznacza "X is Not Unix". To jądro składa się z **mikrojądra Mach** (o którym będzie mowa później), **oraz** elementów z dystrybucji oprogramowania Berkeley Software Distribution (**BSD**). XNU zapewnia platformę dla **sterowników jądra poprzez system o nazwie I/O Kit**. Jądro XNU jest częścią projektu open source Darwin, co oznacza, że **jego kod źródłowy jest dostępny bezpłatnie**.
 
-Z perspektywy badacza bezpieczeństwa lub dewelopera Unixa, **macOS** może wydawać się dość **podobne** do systemu **FreeBSD** z eleganckim interfejsem graficznym i szeregiem niestandardowych aplikacji. Większość aplikacji opracowanych dla BSD skompiluje się i uruchomi na macOS bez konieczności modyfikacji, ponieważ narzędzia wiersza poleceń znane użytkownikom Unixa są obecne w macOS. Jednakże, ponieważ jądro XNU zawiera Mach, istnieją istotne różnice między tradycyjnym systemem przypominającym Unixa a macOS, co może powodować potencjalne problemy lub zapewniać unikalne korzyści.
+Z perspektywy badacza bezpieczeństwa lub dewelopera Unix, **macOS** może wydawać się dość **podobne** do systemu **FreeBSD** z eleganckim interfejsem graficznym i szeregiem niestandardowych aplikacji. Większość aplikacji opracowanych dla BSD skompiluje się i uruchomi na macOS bez konieczności modyfikacji, ponieważ narzędzia wiersza poleceń znane użytkownikom Unix są obecne w macOS. Jednakże, ponieważ jądro XNU zawiera Mach, istnieją istotne różnice między tradycyjnym systemem przypominającym Unix a macOS, które mogą powodować potencjalne problemy lub zapewniać unikalne korzyści.
 
-Open source wersja XNU: [https://opensource.apple.com/source/xnu/](https://opensource.apple.com/source/xnu/)
+Open source wersji XNU: [https://opensource.apple.com/source/xnu/](https://opensource.apple.com/source/xnu/)
 
 ### Mach
 
@@ -39,13 +39,13 @@ Jądro XNU **również zawiera** znaczną ilość kodu pochodzącego z projektu 
 * Stos TCP/IP i gniazda
 * Zapora sieciowa i filtrowanie pakietów
 
-Zrozumienie interakcji między BSD a Mach może być skomplikowane ze względu na ich różne ramy koncepcyjne. Na przykład BSD używa procesów jako swojej fundamentalnej jednostki wykonawczej, podczas gdy Mach działa na podstawie wątków. Ta rozbieżność jest pogodzona w XNU poprzez **powiązanie każdego procesu BSD z zadaniem Mach**, które zawiera dokładnie jeden wątek Macha. Gdy używane jest wywołanie systemowe fork() BSD, kod BSD w jądrze używa funkcji Macha do utworzenia struktury zadania i wątku.
+Zrozumienie interakcji między BSD a Mach może być skomplikowane ze względu na ich różne ramy konceptualne. Na przykład BSD używa procesów jako swojej fundamentalnej jednostki wykonawczej, podczas gdy Mach działa na podstawie wątków. Ta rozbieżność jest pogodzona w XNU poprzez **powiązanie każdego procesu BSD z zadaniem Mach**, które zawiera dokładnie jeden wątek Macha. Gdy używane jest wywołanie systemowe fork() BSD, kod BSD w jądrze używa funkcji Macha do utworzenia struktury zadania i wątku.
 
 Ponadto, **Mach i BSD utrzymują różne modele bezpieczeństwa**: **model bezpieczeństwa Macha** opiera się na **prawach portów**, podczas gdy model bezpieczeństwa BSD działa na podstawie **własności procesu**. Różnice między tymi dwoma modelami czasami prowadziły do podatności na eskalację uprawnień lokalnych. Oprócz typowych wywołań systemowych, istnieją również **pułapki Macha, które pozwalają programom przestrzeni użytkownika na interakcję z jądrem**. Te różne elementy razem tworzą wielowymiarową, hybrydową architekturę jądra macOS.
 
 ### I/O Kit - Sterowniki
 
-I/O Kit to otwarty, obiektowy **framework sterowników urządzeń** w jądrze XNU, obsługujący **dynamicznie ładowane sterowniki urządzeń**. Umożliwia dodawanie modułowego kodu do jądra w locie, obsługując różnorodny sprzęt.
+I/O Kit to otwarty, obiektowy **framework sterowników urządzeń** w jądrze XNU, obsługujący **dynamicznie ładowane sterowniki urządzeń**. Pozwala na dodawanie modułowego kodu do jądra w locie, obsługując różnorodny sprzęt.
 
 {% content-ref url="macos-iokit.md" %}
 [macos-iokit.md](macos-iokit.md)
@@ -59,7 +59,7 @@ I/O Kit to otwarty, obiektowy **framework sterowników urządzeń** w jądrze XN
 
 ### Kernelcache
 
-**Kernelcache** to **przedskompilowana i przedpołączona wersja jądra XNU**, wraz z niezbędnymi **sterownikami urządzeń** i **rozszerzeniami jądra**. Jest przechowywany w formacie **skompresowanym** i jest dekompresowany do pamięci podczas procesu uruchamiania systemu. Kernelcache ułatwia **szybsze uruchamianie** poprzez posiadanie gotowej do uruchomienia wersji jądra i istotnych sterowników, zmniejszając czas i zasoby, które w przeciwnym razie zostałyby wykorzystane na dynamiczne ładowanie i łączenie tych komponentów podczas uruchamiania systemu.
+**Kernelcache** to **przedskompilowana i przedpołączona wersja jądra XNU**, wraz z niezbędnymi **sterownikami urządzeń** i **rozszerzeniami jądra**. Jest przechowywany w formacie **skompresowanym** i jest dekompresowany do pamięci podczas procesu uruchamiania systemu. Kernelcache ułatwia **szybsze uruchamianie** poprzez posiadanie gotowej do uruchomienia wersji jądra i istotnych sterowników, co redukuje czas i zasoby, które w przeciwnym razie zostałyby wykorzystane na dynamiczne ładowanie i łączenie tych komponentów podczas uruchamiania.
 
 W iOS znajduje się w **`/System/Library/Caches/com.apple.kernelcaches/kernelcache`**, a w macOS można go znaleźć za pomocą **`find / -name kernelcache 2>/dev/null`** lub **`mdfind kernelcache | grep kernelcache`**
 
@@ -67,7 +67,7 @@ Można uruchomić **`kextstat`** aby sprawdzić załadowane rozszerzenia jądra.
 
 #### IMG4
 
-Format pliku IMG4 to format kontenera używany przez Apple w swoich urządzeniach iOS i macOS do bezpiecznego **przechowywania i weryfikacji komponentów oprogramowania** (takich jak **kernelcache**). Format IMG4 zawiera nagłówek i kilka tagów, które zawierają różne części danych, w tym rzeczywistą ładunek (jak jądro lub bootloader), sygnaturę oraz zestaw właściwości manifestu. Format obsługuje weryfikację kryptograficzną, pozwalając urządzeniu potwierdzić autentyczność i integralność komponentu oprogramowania przed jego wykonaniem.
+Format pliku IMG4 to format kontenera używany przez Apple w swoich urządzeniach iOS i macOS do bezpiecznego **przechowywania i weryfikacji komponentów oprogramowania** (takich jak **kernelcache**). Format IMG4 zawiera nagłówek i kilka tagów, które zawierają różne części danych, w tym rzeczywisty ładunek (jak jądro lub bootloader), sygnaturę i zestaw właściwości manifestu. Format obsługuje weryfikację kryptograficzną, pozwalając urządzeniu potwierdzić autentyczność i integralność komponentu oprogramowania przed jego wykonaniem.
 
 Zazwyczaj składa się z następujących składników:
 
@@ -83,7 +83,6 @@ Zazwyczaj składa się z następujących składników:
 * OPCJONALNIE: Zazwyczaj tego nie ma
 
 Dekompresuj Kernelcache:
-
 ```bash
 # pyimg4 (https://github.com/m1stadev/PyIMG4)
 pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
@@ -91,17 +90,16 @@ pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphon
 # img4tool (https://github.com/tihmstar/img4tool
 img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
 ```
+#### Symbole kernelcache
 
-#### Symbole jądra
-
-Czasami Apple wydaje **kernelcache** z **symbolami**. Możesz pobrać niektóre oprogramowania z symbolami, przechodząc do linków na [https://theapplewiki.com](https://theapplewiki.com/).
+Czasami Apple udostępnia **kernelcache** z **symbolami**. Możesz pobrać niektóre oprogramowania z symbolami, przechodząc do linków na [https://theapplewiki.com](https://theapplewiki.com/).
 
 ### IPSW
 
-To są oprogramowania Apple, które można pobrać z [**https://ipsw.me/**](https://ipsw.me/). Oprócz innych plików zawiera **kernelcache**.\
+Są to oprogramowania Apple, które można pobrać z [**https://ipsw.me/**](https://ipsw.me/). Oprócz innych plików zawiera **kernelcache**.\
 Aby **wyodrębnić** pliki, wystarczy je po prostu **rozpakować**.
 
-Po wyodrębnieniu oprogramowania otrzymasz plik o nazwie: **`kernelcache.release.iphone14`**. Jest w formacie **IMG4**, ciekawe informacje można wyodrębnić za pomocą:
+Po rozpakowaniu oprogramowania otrzymasz plik o nazwie: **`kernelcache.release.iphone14`**. Jest w formacie **IMG4**, interesujące informacje można wyodrębnić za pomocą:
 
 * [**pyimg4**](https://github.com/m1stadev/PyIMG4)
 
@@ -112,15 +110,12 @@ pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphon
 {% endcode %}
 
 * [**img4tool**](https://github.com/tihmstar/img4tool)
-
 ```bash
 img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
 ```
-
 Możesz sprawdzić wyodrębnione symbole jądra za pomocą: **`nm -a kernelcache.release.iphone14.e | wc -l`**
 
-Dzięki temu możemy teraz **wyodrębnić wszystkie rozszerzenia** lub **to, które cię interesuje:**
-
+Dzięki temu możemy teraz **wyodrębnić wszystkie rozszerzenia** lub to, **które cię interesuje:**
 ```bash
 # List all extensions
 kextex -l kernelcache.release.iphone14.e
@@ -133,7 +128,6 @@ kextex_all kernelcache.release.iphone14.e
 # Check the extension for symbols
 nm -a binaries/com.apple.security.sandbox | wc -l
 ```
-
 ## Rozszerzenia jądra macOS
 
 macOS jest **bardzo restrykcyjny w kwestii ładowania rozszerzeń jądra** (.kext) ze względu na wysokie uprawnienia, z którymi kod będzie uruchamiany. Faktycznie, domyślnie jest to praktycznie niemożliwe (chyba że zostanie znalezione obejście).

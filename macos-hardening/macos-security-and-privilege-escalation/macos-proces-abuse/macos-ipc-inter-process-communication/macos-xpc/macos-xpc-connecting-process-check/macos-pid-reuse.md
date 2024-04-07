@@ -1,40 +1,39 @@
-# macOS PID Reuse
+# Ponowne wykorzystanie PID w macOS
 
 <details>
 
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Zacznij od zera i stań się ekspertem od hakowania AWS dzięki</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCJI**](https://github.com/sponsors/carlospolop)!
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) **i** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **repozytoriów GitHub**.
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
 
 </details>
 
-## Wykorzystanie ponownego użycia PID
+## Ponowne wykorzystanie PID
 
-Gdy usługa **XPC** w systemie macOS sprawdza wywołany proces na podstawie **PID** a nie na podstawie **tokena audytu**, jest podatna na atak wykorzystujący ponowne użycie PID. Atak ten opiera się na **warunku wyścigu**, w którym **exploit** wysyła wiadomości do usługi **XPC**, **nadużywając** funkcjonalności, a następnie wykonuje **`posix_spawn(NULL, target_binary, NULL, &attr, target_argv, environ)`** z **dozwolonym** plikiem binarnym.
+Kiedy usługa **XPC w macOS** sprawdza wywołany proces na podstawie **PID** a nie na podstawie **tokena audytu**, jest podatna na atak związany z ponownym wykorzystaniem PID. Atak ten opiera się na **warunku wyścigu**, w którym **exploit** wysyła **wiadomości do usługi XPC**, nadużywając funkcjonalności, a zaraz potem wykonuje **`posix_spawn(NULL, target_binary, NULL, &attr, target_argv, environ)`** z dozwolonym plikiem binarnym.
 
-Ta funkcja sprawi, że **dozwolony plik binarny przejmie PID**, ale **złośliwa wiadomość XPC zostanie wysłana** tuż przed tym. Jeśli usługa **XPC** używa **PID** do **uwierzytelniania** nadawcy i sprawdza go **PO** wykonaniu **`posix_spawn`**, będzie myślała, że pochodzi od **autoryzowanego** procesu.
+Ta funkcja sprawi, że **dozwolony plik binarny przejmie PID**, ale **złośliwa wiadomość XPC została wysłana** tuż przed tym. Dlatego jeśli usługa **XPC** używa **PID** do **uwierzytelniania nadawcy** i sprawdza go **PO** wykonaniu **`posix_spawn`**, będzie sądzić, że pochodzi ona od **autoryzowanego** procesu.
 
-### Przykład wykorzystania
+### Przykład exploitu
 
-Jeśli znajdziesz funkcję **`shouldAcceptNewConnection`** lub funkcję wywoływaną przez nią, która wywołuje **`processIdentifier`** i nie wywołuje **`auditToken`**, to prawdopodobnie oznacza, że **weryfikuje PID procesu**, a nie token audytu.\
-Na przykład na tym obrazie (pochodzącym z odniesienia):
+Jeśli znajdziesz funkcję **`shouldAcceptNewConnection`** lub funkcję wywoływaną przez nią, która wywołuje **`processIdentifier`** i nie wywołuje **`auditToken`**, to bardzo prawdopodobne, że weryfikuje PID procesu, a nie token audytu.\
+Na przykład w tym obrazie (pochodzącym z odniesienia):
 
-<figure><img src="../../../../../../.gitbook/assets/image (4) (1) (1) (1) (2).png" alt="https://wojciechregula.blog/images/2020/04/pid.png"><figcaption></figcaption></figure>
+<figure><img src="../../../../../../.gitbook/assets/image (303).png" alt="https://wojciechregula.blog/images/2020/04/pid.png"><figcaption></figcaption></figure>
 
-Sprawdź ten przykładowy exploit (ponownie pochodzący z odniesienia), aby zobaczyć dwie części exploitu:
+Sprawdź ten przykładowy exploit (ponownie, pochodzący z odniesienia), aby zobaczyć 2 części exploitu:
 
-* Jedna, która **generuje wiele forków**
-* **Każdy fork** będzie **wysyłał** **payload** do usługi XPC, jednocześnie wykonując **`posix_spawn`** zaraz po wysłaniu wiadomości.
+* Jedna, która **generuje kilka forków**
+* **Każdy fork** będzie **wysyłał** **ładunek** do usługi XPC, jednocześnie wykonując **`posix_spawn`** zaraz po wysłaniu wiadomości.
 
 {% hint style="danger" %}
-Aby exploit działał, ważne jest, aby ` export`` `` `**`OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES`** lub umieścić wewnątrz exploita:
-
+Aby exploit działał, ważne jest, aby ` export`` `` `**`OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES`** lub umieścić wewnątrz exploitu:
 ```objectivec
 asm(".section __DATA,__objc_fork_ok\n"
 "empty:\n"
@@ -43,11 +42,8 @@ asm(".section __DATA,__objc_fork_ok\n"
 {% endhint %}
 
 {% tabs %}
-{% tab title="undefined" %}
+{% tab title="NSTasks" %}
 Pierwsza opcja korzystająca z **`NSTasks`** i argumentu do uruchomienia procesów potomnych w celu wykorzystania RC
-{% endtab %}
-
-{% tab title="undefined" %}
 ```objectivec
 // Code from https://wojciechregula.blog/post/learn-xpc-exploitation-part-2-say-no-to-the-pid/
 // gcc -framework Foundation expl.m -o expl
@@ -156,8 +152,7 @@ return 0;
 {% endtab %}
 
 {% tab title="fork" %}
-Ten przykład wykorzystuje surowe **`fork`** do uruchomienia **dzieci, które wykorzystają wyścig PID i następnie wykorzystają inną wyścigową sytuację za pomocą twardego dowiązania:**
-
+Ten przykład używa surowego **`fork`** do uruchomienia **dzieci, które będą wykorzystywać wyścig PID** a następnie wykorzystują **inną sytuację wyścigową poprzez twardy link:**
 ```objectivec
 // export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 // gcc -framework Foundation expl.m -o expl
@@ -290,9 +285,6 @@ pwned = true;
 return 0;
 }
 ```
-{% endtab %}
-{% endtabs %}
-
 ## Referencje
 
 * [https://wojciechregula.blog/post/learn-xpc-exploitation-part-2-say-no-to-the-pid/](https://wojciechregula.blog/post/learn-xpc-exploitation-part-2-say-no-to-the-pid/)
@@ -304,10 +296,10 @@ return 0;
 
 Inne sposoby wsparcia HackTricks:
 
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCJI**](https://github.com/sponsors/carlospolop)!
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi trikami hakerskimi, przesyłając PR do** [**HackTricks**](https://github.com/carlospolop/hacktricks) **i** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **na GitHubie.**
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
 
 </details>

@@ -1,37 +1,37 @@
-# Bezpieczeństwo i eskalacja uprawnień w macOS
+# Bezpieczeństwo i Eskalacja Uprawnień w macOS
 
 <details>
 
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Zacznij naukę hakowania AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCJI**](https://github.com/sponsors/carlospolop)!
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się swoimi sztuczkami hakowania, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (377).png" alt=""><figcaption></figcaption></figure>
 
 Dołącz do serwera [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy), aby komunikować się z doświadczonymi hakerami i łowcami nagród za błędy!
 
-**Wgląd w hakerstwo**\
-Zajmuj się treściami, które zagłębiają się w emocje i wyzwania hakerstwa
+**Spojrzenie na Hakowanie**\
+Zajmij się treściami, które zagłębiają się w emocje i wyzwania hakowania
 
-**Aktualności na żywo z hakerstwa**\
-Bądź na bieżąco z szybkim tempem świata hakerstwa dzięki aktualnym wiadomościom i wglądom
+**Aktualności z Hakowania na Żywo**\
+Bądź na bieżąco z szybkim tempem świata hakowania dzięki aktualnościom i spojrzeniom na żywo
 
-**Najnowsze ogłoszenia**\
-Bądź na bieżąco z najnowszymi programami nagród za błędy i ważnymi aktualizacjami platformy
+**Najnowsze Ogłoszenia**\
+Bądź na bieżąco z najnowszymi programami nagród za błędy i istotnymi aktualizacjami platform
 
 **Dołącz do nas na** [**Discordzie**](https://discord.com/invite/N3FrSbmwdy) i zacznij współpracować z najlepszymi hakerami już dziś!
 
 ## Podstawy macOS
 
-Jeśli nie znasz się na macOS, powinieneś zacząć od nauki podstaw macOS:
+Jeśli nie znasz systemu macOS, powinieneś zacząć od nauki podstaw macOS:
 
 * Specjalne **pliki i uprawnienia macOS:**
 
@@ -39,7 +39,7 @@ Jeśli nie znasz się na macOS, powinieneś zacząć od nauki podstaw macOS:
 [macos-files-folders-and-binaries](macos-files-folders-and-binaries/)
 {% endcontent-ref %}
 
-* Wspólne **użytkownicy macOS**
+* Typowi **użytkownicy macOS**
 
 {% content-ref url="macos-users.md" %}
 [macos-users.md](macos-users.md)
@@ -57,24 +57,24 @@ Jeśli nie znasz się na macOS, powinieneś zacząć od nauki podstaw macOS:
 [mac-os-architecture](mac-os-architecture/)
 {% endcontent-ref %}
 
-* Wspólne usługi i protokoły **sieciowe macOS**
+* Typowe usługi i protokoły **sieciowe macOS**
 
 {% content-ref url="macos-protocols.md" %}
 [macos-protocols.md](macos-protocols.md)
 {% endcontent-ref %}
 
 * **Open Source** macOS: [https://opensource.apple.com/](https://opensource.apple.com/)
-* Aby pobrać `tar.gz`, zmień adres URL, na przykład [https://opensource.apple.com/**source**/dyld/](https://opensource.apple.com/source/dyld/) na [https://opensource.apple.com/**tarballs**/dyld/**dyld-852.2.tar.gz**](https://opensource.apple.com/tarballs/dyld/dyld-852.2.tar.gz)
+* Aby pobrać `tar.gz`, zmień adres URL, na przykład z [https://opensource.apple.com/**source**/dyld/](https://opensource.apple.com/source/dyld/) na [https://opensource.apple.com/**tarballs**/dyld/**dyld-852.2.tar.gz**](https://opensource.apple.com/tarballs/dyld/dyld-852.2.tar.gz)
 
-### macOS MDM
+### MDM w macOS
 
-W firmach **systemy macOS** są prawdopodobnie zarządzane za pomocą MDM. Dlatego z perspektywy atakującego ważne jest, aby wiedzieć, **jak to działa**:
+W firmach systemy **macOS** są prawdopodobnie zarządzane za pomocą MDM. Dlatego z perspektywy atakującego ważne jest poznanie **jak to działa**:
 
 {% content-ref url="../macos-red-teaming/macos-mdm/" %}
 [macos-mdm](../macos-red-teaming/macos-mdm/)
 {% endcontent-ref %}
 
-### macOS - Inspekcja, debugowanie i fuzzing
+### macOS - Inspekcja, Debugowanie i Fuzzing
 
 {% content-ref url="macos-apps-inspecting-debugging-and-fuzzing/" %}
 [macos-apps-inspecting-debugging-and-fuzzing](macos-apps-inspecting-debugging-and-fuzzing/)
@@ -86,29 +86,27 @@ W firmach **systemy macOS** są prawdopodobnie zarządzane za pomocą MDM. Dlate
 [macos-security-protections](macos-security-protections/)
 {% endcontent-ref %}
 
-## Powierzchnia ataku
+## Powierzchnia Ataku
 
-### Uprawnienia plików
+### Uprawnienia Plików
 
-Jeśli **proces działający jako root zapisuje** plik, który może być kontrolowany przez użytkownika, użytkownik może go wykorzystać do **eskalacji uprawnień**.\
+Jeśli **proces działający jako root zapisuje** plik, który może być kontrolowany przez użytkownika, użytkownik może wykorzystać to do **eskalacji uprawnień**.\
 Może to wystąpić w następujących sytuacjach:
 
-* Plik używany był już utworzony przez użytkownika (należy do użytkownika)
-* Plik używany jest zapisywalny przez użytkownika z powodu grupy
-* Plik używany znajduje się w katalogu należącym do użytkownika (użytkownik może utworzyć plik)
-* Plik używany znajduje się w katalogu należącym do roota, ale użytkownik ma do niego dostęp zapisu z powodu grupy (użytkownik może utworzyć plik)
+* Plik, który został użyty, został już utworzony przez użytkownika (należy do użytkownika)
+* Plik, który został użyty, jest zapisywalny przez użytkownika z powodu grupy
+* Plik, który został użyty, znajduje się w katalogu należącym do użytkownika (użytkownik mógł utworzyć plik)
+* Plik, który został użyty, znajduje się w katalogu należącym do roota, ale użytkownik ma do niego dostęp zapisu z powodu grupy (użytkownik mógł utworzyć plik)
 
-Możliwość **utworzenia pliku**, który będzie **używany przez roota**, pozwala użytkownikowi na **wykorzystanie jego zawartości** lub nawet tworzenie **symlinków/hardlinków**, aby wskazywać go w inne miejsce.
+Mając możliwość **utworzenia pliku**, który będzie **używany przez roota**, użytkownik może **skorzystać z jego zawartości** lub nawet utworzyć **symlinki/hardlinki**, aby wskazywać go w inne miejsce.
 
-Przy tego rodzaju podatności nie zapomnij **sprawdzić podatnych instalatorów `.pkg`**:
+Dla tego rodzaju podatności nie zapomnij sprawdzić podatnych instalatorów `.pkg`:
 
 {% content-ref url="macos-files-folders-and-binaries/macos-installers-abuse.md" %}
 [macos-installers-abuse.md](macos-files-folders-and-binaries/macos-installers-abuse.md)
 {% endcontent-ref %}
 
-
-
-### Rozszerzenie pliku i obsługa aplikacji przez schemat URL
+### Rozszerzenie Pliku i Obsługa Aplikacji przez schematy URL
 
 Dziwne aplikacje zarejestrowane przez rozszerzenia plików mogą być wykorzystane, a różne aplikacje mogą być zarejestrowane do otwierania określonych protokołów
 
@@ -116,24 +114,24 @@ Dziwne aplikacje zarejestrowane przez rozszerzenia plików mogą być wykorzysta
 [macos-file-extension-apps.md](macos-file-extension-apps.md)
 {% endcontent-ref %}
 
-## macOS TCC / Eskalacja uprawnień SIP
+## Eskalacja Uprawnień TCC / SIP w macOS
 
-W macOS **aplikacje i pliki binarne mogą mieć uprawnienia** do dostępu do folderów lub ustawień, które czynią je bardziej uprzywilejowanymi niż inne.
+W macOS **aplikacje i binaria mogą mieć uprawnienia** do dostępu do folderów lub ustawień, które czynią je bardziej uprzywilejowane niż inne.
 
-Dlatego atakujący, który chce skutecznie skompromitować maszynę macOS, będzie musiał **eskalować swoje uprawnienia TCC** (lub nawet **omijać SIP**, w zależności od swoich potrzeb).
+Dlatego atakujący, który chce skutecznie skompromitować maszynę z macOS, będzie musiał **eskalować swoje uprawnienia TCC** (lub nawet **obejść SIP**, w zależności od swoich potrzeb).
 
-Te uprawnienia zwykle są udzielane w formie **uprawnień**, z którymi aplikacja jest podpisana, lub aplikacja może poprosić o dostęp i po **zatwierdzeniu przez użytkownika** można je znaleźć w **bazach danych TCC**. Inny sposób, w jaki proces może uzyskać te uprawnienia, to być **dzieckiem procesu** z tymi **uprawnieniami**, ponieważ zwykle są one **dziedziczone**.
+Te uprawnienia zazwyczaj są udzielane w postaci **uprawnień**, z którymi aplikacja jest podpisana, lub aplikacja może poprosić o pewne dostępy, a po **zatwierdzeniu ich przez użytkownika** mogą być one znalezione w **bazach danych TCC**. Inny sposób, w jaki proces może uzyskać te uprawnienia, to być **dzieckiem procesu** z tymi **uprawnieniami**, ponieważ zazwyczaj są one **dziedziczone**.
 
-Przejdź do tych linków, aby znaleźć różne sposoby [**eskalacji uprawnień w TCC**](macos-security-protections/macos-tcc/#tcc-privesc-and-bypasses), [**omijania TCC**](macos-security-protections/macos-tcc/macos-tcc-bypasses/) i jak w przeszłości [**omijano SIP**](macos-security-protections/macos-sip.md#sip-bypasses).
+Przejdź pod te linki, aby znaleźć różne sposoby na [**eskalację uprawnień w TCC**](macos-security-protections/macos-tcc/#tcc-privesc-and-bypasses), na [**obejście TCC**](macos-security-protections/macos-tcc/macos-tcc-bypasses/) oraz jak w przeszłości [**SIP został obejścia**](macos-security-protections/macos-sip.md#sip-bypasses).
 
-## Tradycyjna eskalacja uprawnień w macOS
+## Tradycyjna Eskalacja Uprawnień w macOS
 
-Oczywiście z perspektywy zespołów czerwonych warto również zainteresować się eskalacją do roota. Sprawdź poniższy post, aby uzyskać kilka wskazówek:
+Oczywiście z perspektywy zespołów czerwonych powinieneś być również zainteresowany eskalacją do roota. Sprawdź poniższy post, aby uzyskać kilka wskazówek:
 
 {% content-ref url="macos-privilege-escalation.md" %}
 [macos-privilege-escalation.md](macos-privilege-escalation.md)
 {% endcontent-ref %}
-## Odwołania
+## Odnośniki
 
 * [**OS X Incident Response: Scripting and Analysis**](https://www.amazon.com/OS-Incident-Response-Scripting-Analysis-ebook/dp/B01FHOHHVS)
 * [**https://taomm.org/vol1/analysis.html**](https://taomm.org/vol1/analysis.html)
@@ -141,31 +139,31 @@ Oczywiście z perspektywy zespołów czerwonych warto również zainteresować s
 * [**https://assets.sentinelone.com/c/sentinal-one-mac-os-?x=FvGtLJ**](https://assets.sentinelone.com/c/sentinal-one-mac-os-?x=FvGtLJ)
 * [**https://www.youtube.com/watch?v=vMGiplQtjTY**](https://www.youtube.com/watch?v=vMGiplQtjTY)
 
-<figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (377).png" alt=""><figcaption></figcaption></figure>
 
 Dołącz do serwera [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy), aby komunikować się z doświadczonymi hakerami i łowcami błędów!
 
-**Wnioski z Hackingu**\
-Zajmuj się treściami, które zagłębiają się w emocje i wyzwania związane z hakowaniem
+**Spojrzenie na Hacking**\
+Zanurz się w treściach, które zgłębiają emocje i wyzwania związane z hakerstwem
 
-**Aktualności na żywo z Hackingu**\
-Bądź na bieżąco z szybkim tempem świata hakowania dzięki aktualnym wiadomościom i spostrzeżeniom
+**Aktualności z Hackingu na Żywo**\
+Bądź na bieżąco z szybkim tempem świata hakerstwa dzięki aktualnościom i spojrzeniom na żywo
 
-**Najnowsze ogłoszenia**\
-Bądź na bieżąco z najnowszymi programami bug bounty i ważnymi aktualizacjami platformy
+**Najnowsze Ogłoszenia**\
+Bądź na bieżąco z najnowszymi programami bug bounty i istotnymi aktualizacjami platform
 
 **Dołącz do nas na** [**Discordzie**](https://discord.com/invite/N3FrSbmwdy) i zacznij współpracować z najlepszymi hakerami już dziś!
 
 <details>
 
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Dowiedz się, jak hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCJI**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCYJNY**](https://github.com/sponsors/carlospolop)!
+* Kup [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
 
 </details>

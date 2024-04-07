@@ -1,83 +1,67 @@
-# Podczerwień
+# Jak działa podczerwień <a href="#jak-działa-port-podczerwieni" id="jak-działa-port-podczerwieni"></a>
 
-<details>
+**Światło podczerwone jest niewidoczne dla ludzi**. Długość fali podczerwieni wynosi od **0,7 do 1000 mikronów**. Piloty do domu używają sygnału podczerwonego do transmisji danych i działają w zakresie długości fali od 0,75 do 1,4 mikrona. Mikrokontroler w pilocie sprawia, że dioda podczerwona migocze z określoną częstotliwością, zamieniając sygnał cyfrowy w sygnał podczerwony.
 
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Inne sposoby wsparcia HackTricks:
-
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCJI**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
-
-</details>
-
-## Jak działa podczerwień <a href="#jak-działa-port-podczerwieni" id="jak-działa-port-podczerwieni"></a>
-
-**Światło podczerwone jest niewidoczne dla ludzi**. Długość fali podczerwieni wynosi od **0,7 do 1000 mikronów**. Piloty do domowych urządzeń używają sygnału podczerwonego do transmisji danych i działają w zakresie długości fali od 0,75 do 1,4 mikrona. Mikrokontroler w pilocie powoduje migotanie diody podczerwonej z określoną częstotliwością, zamieniając sygnał cyfrowy w sygnał podczerwony.
-
-Do odbierania sygnałów podczerwonych używa się **fotoodbiornika**. Przetwarza on światło podczerwone na impulsy napięciowe, które są już **sygnałami cyfrowymi**. Zazwyczaj w odbiorniku znajduje się **filtr ciemnego światła**, który przepuszcza **tylko pożądaną długość fali** i eliminuje szum.
+Do odbierania sygnałów podczerwonych używa się **fotoodbiornika**. **Konwertuje on światło podczerwone na impulsy napięcia**, które są już **sygnałami cyfrowymi**. Zazwyczaj w odbiorniku znajduje się **filtr światła ciemnego**, który przepuszcza **tylko pożądaną długość fali** i eliminuje szum.
 
 ### Różnorodność protokołów podczerwieni <a href="#różnorodność-protokołów-podczerwieni" id="różnorodność-protokołów-podczerwieni"></a>
 
-Protokoły podczerwieni różnią się w trzech czynnikach:
+Protokoły podczerwieni różnią się pod względem 3 czynników:
 
 * kodowanie bitów
 * struktura danych
-* częstotliwość nośna - często w zakresie od 36 do 38 kHz
+* częstotliwość nośna — często w zakresie 36 do 38 kHz
 
 #### Sposoby kodowania bitów <a href="#sposoby-kodowania-bitów" id="sposoby-kodowania-bitów"></a>
 
 **1. Kodowanie odległości impulsów**
 
-Bity są kodowane przez modulację czasu trwania przerwy między impulsami. Szerokość samego impulsu jest stała.
+Bity są kodowane poprzez modulację czasu trwania przestrzeni między impulsami. Szerokość samego impulsu jest stała.
 
-<figure><img src="../../.gitbook/assets/image (16).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (292).png" alt=""><figcaption></figcaption></figure>
 
 **2. Kodowanie szerokości impulsu**
 
-Bity są kodowane przez modulację szerokości impulsu. Szerokość przerwy po serii impulsów jest stała.
+Bity są kodowane poprzez modulację szerokości impulsu. Szerokość przestrzeni po wybuchu impulsu jest stała.
 
-<figure><img src="../../.gitbook/assets/image (29) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (279).png" alt=""><figcaption></figcaption></figure>
 
-**3. Kodowanie fazowe**
+**3. Kodowanie fazy**
 
-Jest również znane jako kodowanie Manchester. Wartość logiczna jest określana przez polarność przejścia między serią impulsów a przerwą. "Przerwa na serię impulsów" oznacza logiczne "0", "seria impulsów na przerwę" oznacza logiczne "1".
+Jest również znane jako kodowanie Manchester. Wartość logiczna jest określana przez polaryzację przejścia między wybuchem impulsu a przestrzenią. "Przejście z przestrzeni na wybuch impulsu" oznacza logiczne "0", a "wybuch impulsu na przestrzeń" oznacza logiczne "1".
 
-<figure><img src="../../.gitbook/assets/image (25).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (631).png" alt=""><figcaption></figcaption></figure>
 
 **4. Kombinacja powyższych i innych egzotycznych**
 
 {% hint style="info" %}
-Istnieją protokoły podczerwieni, które **starają się stać uniwersalnymi** dla kilku typów urządzeń. Najbardziej znane to RC5 i NEC. Niestety, najbardziej znane **nie oznacza najczęstsze**. W moim otoczeniu spotkałem tylko dwa pilota NEC i żadnego pilota RC5.
+Istnieją protokoły podczerwieni, które **starają się stać uniwersalne** dla kilku rodzajów urządzeń. Najbardziej znane to RC5 i NEC. Niestety, najbardziej znane **nie oznacza najbardziej powszechne**. W moim otoczeniu spotkałem tylko dwa pilota NEC i żadnego pilota RC5.
 
-Producenci uwielbiają używać swoich własnych unikalnych protokołów podczerwieni, nawet w ramach tego samego zakresu urządzeń (na przykład dekodery telewizyjne). Dlatego pilota z różnych firm, a czasem nawet z różnych modeli tej samej firmy, nie można używać z innymi urządzeniami tego samego typu.
+Producenci lubią używać swoich unikalnych protokołów podczerwieni, nawet w obrębie tego samego rodzaju urządzeń (na przykład dekodery TV). Dlatego pilota z różnych firm, a czasami z różnych modeli tej samej firmy, nie można używać z innymi urządzeniami tego samego typu.
 {% endhint %}
 
-### Badanie sygnału podczerwonego
+### Badanie sygnału podczerwieni
 
-Najbardziej niezawodnym sposobem zobaczenia, jak wygląda sygnał podczerwony z pilota, jest użycie oscyloskopu. Nie demoduluje on ani nie odwraca otrzymanego sygnału, po prostu wyświetla go "tak jak jest". Jest to przydatne do testowania i debugowania. Przedstawię oczekiwany sygnał na przykładzie protokołu podczerwonego NEC.
+Najbardziej niezawodnym sposobem zobaczenia, jak wygląda sygnał podczerwony z pilota, jest użycie oscyloskopu. Nie demoduluje on ani nie odwraca otrzymanego sygnału, po prostu wyświetla go "tak jak jest". Jest to przydatne do testowania i debugowania. Pokażę oczekiwany sygnał na przykładzie protokołu podczerwieni NEC.
 
-<figure><img src="../../.gitbook/assets/image (18) (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (232).png" alt=""><figcaption></figcaption></figure>
 
 Zazwyczaj na początku zakodowanego pakietu znajduje się preambuła. Pozwala to odbiornikowi określić poziom wzmocnienia i tło. Istnieją również protokoły bez preambuły, na przykład Sharp.
 
-Następnie przesyłane są dane. Struktura, preambuła i sposób kodowania bitów są określone przez konkretny protokół.
+Następnie przesyłane są dane. Struktura, preambuła i metoda kodowania bitów są określone przez konkretny protokół.
 
-**Protokół podczerwony NEC** zawiera krótką komendę i kod powtórzenia, który jest wysyłany podczas naciśnięcia przycisku. Zarówno komenda, jak i kod powtórzenia mają tę samą preambułę na początku.
+Protokół podczerwieni **NEC** zawiera krótki kod i kod powtórzenia, który jest wysyłany podczas naciśnięcia przycisku. Zarówno kod, jak i kod powtórzenia mają tę samą preambułę na początku.
 
-**Komenda NEC**, oprócz preambuły, składa się z bajtu adresu i bajtu numeru komendy, dzięki którym urządzenie rozumie, co należy wykonać. Bajty adresu i numeru komendy są zduplikowane z odwróconymi wartościami, aby sprawdzić integralność transmisji. Na końcu komendy znajduje się dodatkowy bit stopu.
+Kod **NEC** składa się, oprócz preambuły, z bajtu adresu i bajtu numeru komendy, dzięki którym urządzenie rozumie, co ma wykonać. Bajty adresu i numeru komendy są zduplikowane z wartościami odwrotnymi, aby sprawdzić integralność transmisji. Na końcu komendy znajduje się dodatkowy bit stopu.
 
-**Kod powtórzenia** ma "1" po preambule, który jest bitem stopu.
+Kod **powtórzenia** ma "1" po preambule, co oznacza bit stopu.
 
-Dla logicznych "0" i "1" NEC używa kodowania odległości impulsów: najpierw przesyłana jest seria impulsów, po której następuje przerwa, jej długość określa wartość bitu.
+Dla logicznych "0" i "1" **NEC** używa kodowania odległości impulsów: najpierw przesyłany jest wybuch impulsu, po którym następuje pauza, której długość określa wartość bitu.
 
 ### Klimatyzatory
 
-W przeciwieństwie do innych pilotów, **klimatyzatory nie przesyłają tylko kodu naciśniętego przycisku**. Przesyłają również **wszystkie informacje** po naciśnięciu przycisku, aby zapewnić **synchronizację urządzenia klimatyzacyjnego i pilota**.\
-Dzięki temu zapobiegnie się temu, że urządzenie ustawione na 20ºC zostanie zwiększone do 21ºC za pomocą jednego pilota, a następnie, gdy zostanie użyty inny pilot, który wciąż ma temperaturę ustawioną na 20ºC, zwiększy temperaturę do 21ºC (a nie do 22ºC, myśląc że jest w 21ºC).
+W przeciwieństwie do innych pilotów, **klimatyzatory nie przesyłają tylko kodu naciśniętego przycisku**. Przesyłają również **wszystkie informacje** po naciśnięciu przycisku, aby zapewnić **synchronizację między urządzeniem klimatyzacyjnym a pilotem**.\
+Dzięki temu unikniemy sytuacji, w której urządzenie ustawione na 20ºC zostanie zwiększone do 21ºC za pomocą jednego pilota, a następnie, gdy użyty zostanie inny pilot, który nadal ma temperaturę ustawioną na 20ºC, zwiększy on temperaturę, "zwiększając" ją do 21ºC (a nie do 22ºC, myśląc, że jest w 21ºC).
 
 ### Ataki
 
@@ -87,6 +71,6 @@ Możesz zaatakować podczerwień za pomocą Flipper Zero:
 [fz-infrared.md](flipper-zero/fz-infrared.md)
 {% endcontent-ref %}
 
-## Odwołania
+## Referencje
 
-* [https://blog.flip
+* [https://blog.flipperzero.one/infrared/](https://blog.flipperzero.one/infrared/)

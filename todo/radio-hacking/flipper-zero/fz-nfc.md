@@ -28,8 +28,8 @@ Oprócz kart NFC Flipper Zero obsługuje **inne typy kart o wysokiej częstotliw
 
 Nowe typy kart NFC zostaną dodane do listy obsługiwanych kart. Flipper Zero obsługuje następujące **typy kart NFC typu A** (ISO 14443A):
 
-* ﻿**Karty bankowe (EMV)** — tylko odczytaj UID, SAK i ATQA bez zapisywania.
-* ﻿**Nieznane karty** — odczytaj (UID, SAK, ATQA) i emuluj UID.
+* ﻿**Karty bankowe (EMV)** — tylko odczytuje UID, SAK i ATQA bez zapisywania.
+* ﻿**Nieznane karty** — odczytuje (UID, SAK, ATQA) i emuluje UID.
 
 Dla **kart NFC typu B, typu F i typu V**, Flipper Zero jest w stanie odczytać UID bez zapisywania go.
 
@@ -45,7 +45,7 @@ Ekran odczytu kart bankowychDla kart bankowych, Flipper Zero może jedynie odczy
 
 #### Nieznane karty <a href="#id-37eo8" id="id-37eo8"></a>
 
-Kiedy Flipper Zero jest **niezdolny do określenia typu karty NFC**, wtedy tylko **UID, SAK i ATQA** mogą być **odczytane i zapisane**.
+Kiedy Flipper Zero jest **niezdolny do określenia typu karty NFC**, wtedy można jedynie **odczytać i zapisać** UID, SAK i ATQA.
 
 Ekran odczytu nieznanej karty NFCDla nieznanych kart NFC, Flipper Zero może emulować jedynie UID.
 
@@ -59,30 +59,29 @@ Dla **kart NFC typu B, F i V**, Flipper Zero może jedynie **odczytać i wyświe
 
 ## Działania
 
-Dla wprowadzenia do NFC [**przeczytaj tę stronę**](../pentesting-rfid.md#high-frequency-rfid-tags-13.56-mhz).
+Dla wprowadzenia w temat NFC [**przeczytaj tę stronę**](../pentesting-rfid.md#high-frequency-rfid-tags-13.56-mhz).
 
 ### Odczyt
 
-Flipper Zero może **odczytywać karty NFC**, jednakże **nie rozumie wszystkich protokołów** opartych na ISO 14443. Jednakże, ponieważ **UID to atrybut na niskim poziomie**, możesz znaleźć się w sytuacji, gdy **UID jest już odczytane, ale protokół transferu danych na wysokim poziomie jest nadal nieznany**. Możesz odczytywać, emulować i ręcznie wprowadzać UID za pomocą Flippera dla czytników prymitywnych, które używają UID do autoryzacji.
+Flipper Zero może **odczytywać karty NFC**, jednakże **nie rozumie wszystkich protokołów** opartych na ISO 14443. Ponieważ jednak **UID to atrybut na niskim poziomie**, możesz znaleźć się w sytuacji, gdy **UID jest już odczytane, ale protokół transferu danych na wysokim poziomie jest nadal nieznany**. Możesz odczytywać, emulować i ręcznie wprowadzać UID za pomocą Flippera dla czytników prymitywnych, które używają UID do autoryzacji.
 
 #### Odczytanie UID VS Odczytanie Danych Wewnątrz <a href="#reading-the-uid-vs-reading-the-data-inside" id="reading-the-uid-vs-reading-the-data-inside"></a>
 
-<figure><img src="../../../.gitbook/assets/image (26).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (214).png" alt=""><figcaption></figcaption></figure>
 
-W Flipperze, odczyt tagów 13,56 MHz można podzielić na dwie części:
+W Flipperze odczyt tagów 13,56 MHz można podzielić na dwie części:
 
-* **Odczyt na niskim poziomie** — odczytuje tylko UID, SAK i ATQA. Flipper próbuje zgadnąć protokół na wysokim poziomie na podstawie tych danych odczytanych z karty. Nie można być pewnym w 100%, ponieważ jest to tylko założenie oparte na pewnych czynnikach.
-* **Odczyt na wysokim poziomie** — odczytuje dane z pamięci karty za pomocą określonego protokołu na wysokim poziomie. Byłoby to odczytywanie danych na Mifare Ultralight, odczytywanie sektorów z Mifare Classic lub odczytywanie atrybutów karty z PayPass/Apple Pay.
+* **Odczyt na niskim poziomie** — odczytuje jedynie UID, SAK i ATQA. Flipper próbuje zgadnąć protokół na wysokim poziomie na podstawie tych danych odczytanych z karty. Nie można być w 100% pewnym, ponieważ jest to tylko założenie oparte na określonych czynnikach.
+* **Odczyt na wysokim poziomie** — odczytuje dane z pamięci karty za pomocą określonego protokołu na wysokim poziomie. Byłoby to odczytanie danych z Mifare Ultralight, odczytanie sektorów z Mifare Classic lub odczytanie atrybutów karty z PayPass/Apple Pay.
 
 ### Odczytanie Konkretne
 
-W przypadku gdy Flipper Zero nie jest w stanie określić typu karty na podstawie danych na niskim poziomie, w `Dodatkowe Działania` możesz wybrać `Odczytaj Konkretny Typ Karty` i **ręcznie** **określić typ karty, którą chcesz odczytać**.
+W przypadku gdy Flipper Zero nie jest w stanie określić typu karty na podstawie danych na niskim poziomie, w `Dodatkowe Działania` można wybrać `Odczytaj Konkretny Typ Karty` i **ręcznie** **określić typ karty, który chcesz odczytać**.
 
 #### Karty Bankowe EMV (PayPass, payWave, Apple Pay, Google Pay) <a href="#emv-bank-cards-paypass-paywave-apple-pay-google-pay" id="emv-bank-cards-paypass-paywave-apple-pay-google-pay"></a>
 
 Oprócz zwykłego odczytu UID, można wyciągnąć znacznie więcej danych z karty bankowej. Możliwe jest **uzyskanie pełnego numeru karty** (16 cyfr na przodzie karty), **daty ważności** oraz w niektórych przypadkach nawet **imię właściciela** wraz z listą **najnowszych transakcji**.\
-Jednakże **nie można w ten sposób odczytać CVV** (3 cyfry na odwrocie karty). Ponadto **karty bankowe są chronione przed atakami typu replay**, więc skopiowanie jej za pomocą Flippera i próba emulacji do zapłacenia czegoś nie zadziała.
-
+Jednak **nie można w ten sposób odczytać CVV** (3 cyfry na odwrocie karty). Ponadto **karty bankowe są chronione przed atakami typu replay**, więc skopiowanie jej za pomocą Flippera i próba emulacji do zapłacenia czegoś nie zadziała.
 ## Odnośniki
 
 * [https://blog.flipperzero.one/rfid/](https://blog.flipperzero.one/rfid/)

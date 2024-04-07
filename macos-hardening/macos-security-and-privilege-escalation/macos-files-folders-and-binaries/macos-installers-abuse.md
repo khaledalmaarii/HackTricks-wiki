@@ -10,13 +10,13 @@ Inne sposoby wsparcia HackTricks:
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakowania, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na githubie.
+* **Podziel się swoimi sztuczkami hakowania, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
 
 </details>
 
 ## Podstawowe informacje o Pkg
 
-Plik instalatora macOS (znany również jako plik `.pkg`) to format pliku używany przez macOS do **dystrybucji oprogramowania**. Te pliki są jak **pudełko, które zawiera wszystko, czego potrzebuje** kawałek oprogramowania do poprawnej instalacji i działania.
+Plik **pakietu instalacyjnego macOS** (znany również jako plik `.pkg`) to format pliku używany przez macOS do **dystrybucji oprogramowania**. Te pliki są jak **pudełko zawierające wszystko, czego potrzebuje** kawałek oprogramowania do poprawnej instalacji i uruchomienia.
 
 Sam plik pakietu to archiwum, które przechowuje **hierarchię plików i katalogów, które zostaną zainstalowane na docelowym** komputerze. Może również zawierać **skrypty** do wykonywania zadań przed i po instalacji, takie jak konfigurowanie plików konfiguracyjnych lub czyszczenie starych wersji oprogramowania.
 
@@ -24,10 +24,10 @@ Sam plik pakietu to archiwum, które przechowuje **hierarchię plików i katalog
 
 <figure><img src="../../../.gitbook/assets/Pasted Graphic.png" alt="https://www.youtube.com/watch?v=iASSG0_zobQ"><figcaption></figcaption></figure>
 
-* **Dystrybucja (xml)**: Dostosowania (tytuł, tekst powitalny...) i skrypt/sprawdzanie instalacji
+* **Dystrybucja (xml)**: Dostosowania (tytuł, tekst powitalny...) i skrypt/sprawdzenia instalacji
 * **PackageInfo (xml)**: Informacje, wymagania instalacji, lokalizacja instalacji, ścieżki do skryptów do uruchomienia
 * **Spis materiałów (bom)**: Lista plików do zainstalowania, aktualizacji lub usunięcia z uprawnieniami do plików
-* **Zawartość (archiwum CPIO gzip)**: Pliki do zainstalowania w `install-location` z PackageInfo
+* **Zasób (archiwum CPIO gzip)**: Pliki do zainstalowania w `install-location` z PackageInfo
 * **Skrypty (archiwum CPIO gzip)**: Skrypty przed i po instalacji oraz więcej zasobów wypakowanych do tymczasowego katalogu do wykonania.
 
 ### Dekompresja
@@ -44,7 +44,7 @@ xar -xf "/path/to/package.pkg"
 cat Scripts | gzip -dc | cpio -i
 cpio -i < Scripts
 ```
-Aby zwizualizować zawartość instalatora bez ręcznego dekompresowania, można również skorzystać z darmowego narzędzia [**Suspicious Package**](https://mothersruin.com/software/SuspiciousPackage/).
+Aby zwizualizować zawartość instalatora bez ręcznego dekompresowania, można również użyć darmowego narzędzia [**Suspicious Package**](https://mothersruin.com/software/SuspiciousPackage/).
 
 ## Podstawowe informacje o plikach DMG
 
@@ -52,25 +52,25 @@ Pliki DMG, czyli Obrazy Dysków Apple, to format pliku używany przez macOS firm
 
 ### Hierarchia
 
-<figure><img src="../../../.gitbook/assets/image (12) (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (222).png" alt=""><figcaption></figcaption></figure>
 
-Hierarchia pliku DMG może być różna w zależności od zawartości. Jednakże, dla plików DMG aplikacji, zazwyczaj podąża ona za tą strukturą:
+Hierarchia pliku DMG może być różna w zależności od zawartości. Jednakże, dla aplikacji DMG, zazwyczaj podąża ona za tą strukturą:
 
-* Poziom Główny: To jest główny katalog obrazu dysku. Zazwyczaj zawiera aplikację i ewentualnie odnośnik do folderu Aplikacje.
-* Aplikacja (.app): To jest właściwa aplikacja. W macOS aplikacja to zazwyczaj pakiet zawierający wiele indywidualnych plików i folderów tworzących aplikację.
-* Odnośnik do Aplikacji: To jest skrót do folderu Aplikacje w macOS. Ma to ułatwić instalację aplikacji. Możesz przeciągnąć plik .app na ten skrót, aby zainstalować aplikację.
+* Poziom główny: To jest korzeń obrazu dysku. Zazwyczaj zawiera aplikację i ewentualnie odnośnik do folderu Aplikacje.
+* Aplikacja (.app): To jest właściwa aplikacja. W macOS aplikacja jest zazwyczaj pakietem zawierającym wiele indywidualnych plików i folderów, które tworzą aplikację.
+* Odnośnik do Aplikacji: To jest skrót do folderu Aplikacje w macOS. Ma to na celu ułatwienie instalacji aplikacji. Możesz przeciągnąć plik .app na ten skrót, aby zainstalować aplikację.
 
 ## Eskalacja uprawnień poprzez nadużycie pkg
 
 ### Wykonywanie z publicznych katalogów
 
-Jeśli skrypt instalacyjny przed lub po instalacji wykonuje się na przykład z **`/var/tmp/Installerutil`**, a atakujący może kontrolować ten skrypt, może on eskalować uprawnienia za każdym razem, gdy zostanie wykonany. Lub inny podobny przykład:
+Jeśli skrypt instalacji przed lub po instalacji wykonuje się na przykład z **`/var/tmp/Installerutil`**, a atakujący może kontrolować ten skrypt, może on eskalować uprawnienia za każdym razem, gdy zostanie wykonany. Lub inny podobny przykład:
 
 <figure><img src="../../../.gitbook/assets/Pasted Graphic 5.png" alt="https://www.youtube.com/watch?v=iASSG0_zobQ"><figcaption></figcaption></figure>
 
 ### AuthorizationExecuteWithPrivileges
 
-Jest to [publiczna funkcja](https://developer.apple.com/documentation/security/1540038-authorizationexecutewithprivileg), którą kilka instalatorów i aktualizatorów wywołuje, aby **wykonać coś jako root**. Ta funkcja przyjmuje **ścieżkę** do **pliku**, który ma być **wykonany** jako parametr, jednakże, jeśli atakujący mógłby **zmodyfikować** ten plik, będzie mógł **nadużyć** jego wykonanie jako root do **eskalacji uprawnień**.
+To jest [publiczna funkcja](https://developer.apple.com/documentation/security/1540038-authorizationexecutewithprivileg), którą kilka instalatorów i aktualizatorów będzie wywoływać, aby **wykonać coś jako root**. Ta funkcja przyjmuje **ścieżkę** do **pliku**, który ma być **wykonany** jako parametr, jednakże, jeśli atakujący mógłby **zmodyfikować** ten plik, będzie mógł **nadużyć** jego wykonanie z uprawnieniami root do **eskalacji uprawnień**.
 ```bash
 # Breakpoint in the function to check wich file is loaded
 (lldb) b AuthorizationExecuteWithPrivileges
@@ -92,7 +92,7 @@ Możliwe jest po prostu wygenerowanie pliku **`.pkg`** z **skryptami przed i po 
 
 Możliwe jest dodanie tagów **`<script>`** w pliku **distribution xml** pakietu, a ten kod zostanie wykonany i może **wykonywać polecenia** za pomocą **`system.run`**:
 
-<figure><img src="../../../.gitbook/assets/image (14).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1040).png" alt=""><figcaption></figcaption></figure>
 
 ## Odnośniki
 

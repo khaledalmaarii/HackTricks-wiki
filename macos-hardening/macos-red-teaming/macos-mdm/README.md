@@ -6,7 +6,7 @@
 
 Inne sposoby wsparcia HackTricks:
 
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -23,175 +23,191 @@ Inne sposoby wsparcia HackTricks:
 
 ### **Przegląd MDM (Mobile Device Management)**
 
-[Mobile Device Management](https://en.wikipedia.org/wiki/Mobile\_device\_management) (MDM) jest wykorzystywane do zarządzania różnymi urządzeniami końcowymi, takimi jak smartfony, laptopy i tablety. Szczególnie dla platform Apple (iOS, macOS, tvOS) obejmuje zestaw specjalistycznych funkcji, interfejsów API i praktyk. Działanie MDM opiera się na kompatybilnym serwerze MDM, który jest dostępny komercyjnie lub jako oprogramowanie open-source i musi obsługiwać [Protokół MDM](https://developer.apple.com/enterprise/documentation/MDM-Protocol-Reference.pdf). Kluczowe punkty obejmują:
+[Zarządzanie urządzeniami mobilnymi](https://en.wikipedia.org/wiki/Mobile\_device\_management) (MDM) jest wykorzystywane do zarządzania różnymi urządzeniami końcowymi, takimi jak smartfony, laptopy i tablety. Szczególnie dla platform Apple (iOS, macOS, tvOS) obejmuje zestaw specjalistycznych funkcji, interfejsów API i praktyk. Działanie MDM opiera się na kompatybilnym serwerze MDM, który jest dostępny komercyjnie lub jako oprogramowanie open-source, i musi obsługiwać [Protokół MDM](https://developer.apple.com/enterprise/documentation/MDM-Protocol-Reference.pdf). Kluczowe punkty obejmują:
 
-* Skoncentrowana kontrola nad urządzeniami.
+* Zcentralizowana kontrola nad urządzeniami.
 * Zależność od serwera MDM, który przestrzega protokołu MDM.
-* Możliwość wysyłania różnych poleceń do urządzeń przez serwer MDM, na przykład zdalne usuwanie danych lub instalacja konfiguracji.
+* Zdolność serwera MDM do wysyłania różnych poleceń do urządzeń, na przykład zdalne usuwanie danych lub instalację konfiguracji.
 
 ### **Podstawy DEP (Device Enrollment Program)**
 
-[Device Enrollment Program](https://www.apple.com/business/site/docs/DEP\_Guide.pdf) (DEP) oferowany przez Apple ułatwia integrację Mobile Device Management (MDM), umożliwiając konfigurację urządzeń bez konieczności interwencji użytkownika lub administratora. DEP automatyzuje proces rejestracji, umożliwiając urządzeniom natychmiastowe uruchomienie po wyjęciu z pudełka, z minimalnym zaangażowaniem użytkownika lub administratora. Istotne aspekty obejmują:
+[Program rejestracji urządzeń](https://www.apple.com/business/site/docs/DEP\_Guide.pdf) (DEP) oferowany przez Apple ułatwia integrację Mobile Device Management (MDM), umożliwiając konfigurację bezdotykową dla urządzeń iOS, macOS i tvOS. DEP automatyzuje proces rejestracji, umożliwiając urządzeniom być gotowym do użycia od razu po wyjęciu z pudełka, z minimalnym udziałem użytkownika lub administratora. Istotne aspekty obejmują:
 
-* Pozwala urządzeniom na samodzielne zarejestrowanie się na predefiniowanym serwerze MDM podczas pierwszej aktywacji.
-* Przede wszystkim korzystne dla nowych urządzeń, ale także stosowane dla urządzeń poddawanych rekonfiguracji.
-* Ułatwia prostą konfigurację, dzięki czemu urządzenia są gotowe do użycia w organizacji szybko.
+* Umożliwia urządzeniom automatyczną rejestrację w predefiniowanym serwerze MDM podczas początkowej aktywacji.
+* Przede wszystkim korzystne dla zupełnie nowych urządzeń, ale także stosowalne dla urządzeń poddawanych rekonfiguracji.
+* Ułatwia prostą konfigurację, sprawiając, że urządzenia są gotowe do użytku organizacyjnego szybko.
 
-### **Uwagi dotyczące bezpieczeństwa**
+### **Rozważania dotyczące bezpieczeństwa**
 
-Należy zauważyć, że łatwość rejestracji zapewniana przez DEP, choć korzystna, może również wiązać się z ryzykiem bezpieczeństwa. Jeśli nie są odpowiednio egzekwowane środki ochrony podczas rejestracji MDM, atakujący mogą wykorzystać ten uproszczony proces, aby zarejestrować swoje urządzenie na serwerze MDM organizacji, podszywając się pod urządzenie korporacyjne.
+Należy zauważyć, że łatwość rejestracji zapewniana przez DEP, choć korzystna, może również stanowić ryzyko bezpieczeństwa. Jeśli środki ochronne nie są odpowiednio egzekwowane podczas rejestracji w MDM, atakujący mogą wykorzystać ten uproszczony proces, aby zarejestrować swoje urządzenie na serwerze MDM organizacji, podszywając się pod urządzenie korporacyjne.
 
 {% hint style="danger" %}
-**Ostrzeżenie o bezpieczeństwie**: Uproszczona rejestracja DEP może potencjalnie umożliwić nieautoryzowaną rejestrację urządzenia na serwerze MDM organizacji, jeśli nie są wdrożone odpowiednie zabezpieczenia.
+**Alert bezpieczeństwa**: Uproszczona rejestracja w DEP może potencjalnie umożliwić nieautoryzowaną rejestrację urządzenia na serwerze MDM organizacji, jeśli nie są wdrożone odpowiednie zabezpieczenia.
 {% endhint %}
 
 ### Podstawy Co to jest SCEP (Simple Certificate Enrolment Protocol)?
 
 * Relatywnie stary protokół, stworzony przed rozpowszechnieniem się TLS i HTTPS.
-* Daje klientom standaryzowany sposób wysyłania **żądania podpisania certyfikatu** (CSR) w celu uzyskania certyfikatu. Klient prosi serwer o podpisanie certyfikatu.
+* Zapewnia klientom standaryzowany sposób wysyłania **żądania podpisania certyfikatu** (CSR) w celu uzyskania certyfikatu. Klient prosi serwer o podpisanie certyfikatu.
 
-### Czym są profile konfiguracji (znane również jako mobileconfigs)?
+### Co to są Profile konfiguracji (znane również jako mobileconfigs)?
 
-* Oficjalny sposób Apple na **ustawianie/wymuszanie konfiguracji systemu**.
+* Oficjalny sposób Apple na **ustawianie/wymuszanie konfiguracji systemu.**
 * Format pliku, który może zawierać wiele ładunków.
 * Oparte na listach właściwości (rodzaj XML).
-* "mogą być podpisane i zaszyfrowane w celu potwierdzenia ich pochodzenia, zapewnienia integralności i ochrony ich zawartości." Podstawy — Strona 70, iOS Security Guide, styczeń 2018.
+* „mogą być podpisane i zaszyfrowane, aby zweryfikować ich pochodzenie, zapewnić integralność i chronić ich zawartość.” Podstawy — Strona 70, Przewodnik po zabezpieczeniach iOS, styczeń 2018.
 
 ## Protokoły
 
 ### MDM
 
-* Połączenie APNs (**serwery Apple**) + RESTful API (**serwery dostawców MDM**)
-* **Komunikacja** odbywa się między **urządzeniem** a serwerem związanym z **produktem zarządzania urządzeniami**.
-* **Polecenia** są dostarczane z serwera MDM do urządzenia w formie **słowników zakodowanych w formacie plist**.
-* Wszystko odbywa się przez **HTTPS**. Serwery MDM mogą być (i zazwyczaj są) przypinane.
-* Apple przyznaje dostawcy MDM **certyfikat APNs** do uwierzytelniania.
+* Kombinacja APNs (**serwery Apple**) + RESTful API (**serwery dostawców MDM**)
+* **Komunikacja** zachodzi między **urządzeniem** a serwerem związanych z **produktem zarządzania urządzeniami**
+* **Polecenia** dostarczane z MDM do urządzenia w formie **słowników kodowanych w plist**
+* Wszystko przez **HTTPS**. Serwery MDM mogą być (i zazwyczaj są) przypięte.
+* Apple przyznaje dostawcy MDM certyfikat **APNs** do uwierzytelniania
 
 ### DEP
 
-* **3 interfejsy API**: 1 dla sprzedawców, 1 dla dostawców MDM, 1 dla tożsamości urządzenia (nieudokumentowane):
-* Tak zwane [API "usługi chmurowej" DEP](https://developer.apple.com/enterprise/documentation/MDM-Protocol-Reference.pdf). Jest to używane przez serwery MDM do powiązania profili DEP z konkretnymi urządzeniami.
-* [API DEP używane przez autoryzowanych sprzedawców Apple](https://applecareconnect.apple.com/api-docs/depuat/html/WSImpManual.html) do rejestracji urządzeń, sprawdzania statusu rejestracji i sprawdzania statusu transakcji.
-* Nieudokumentowane prywatne API DEP. Jest to używane przez urządzenia Apple do żądania swojego profilu DEP. W systemie macOS za komunikację za pomocą tego interfejsu odpowiada plik binarny `cloudconfigurationd`.
-* Bardziej nowoczesne i oparte na **JSON** (w przeciwieństwie do plist).
-* Apple przyznaje dostawcy MDM **token OAuth**.
+* **3 interfejsy API**: 1 dla sprzedawców, 1 dla dostawców MDM, 1 dla tożsamości urządzenia (nieudokumentowany):
+* Tak zwane [API „usługi chmury” DEP](https://developer.apple.com/enterprise/documentation/MDM-Protocol-Reference.pdf). Jest to używane przez serwery MDM do powiązania profili DEP z konkretnymi urządzeniami.
+* [API DEP używane przez autoryzowanych sprzedawców Apple](https://applecareconnect.apple.com/api-docs/depuat/html/WSImpManual.html) do rejestracji urządzeń, sprawdzania statusu rejestracji i statusu transakcji.
+* Nieudokumentowane prywatne API DEP. Jest to używane przez urządzenia Apple do żądania swojego profilu DEP. Na macOS, binarny `cloudconfigurationd` jest odpowiedzialny za komunikację za pomocą tego API.
+* Bardziej nowoczesne i oparte na **JSON** (w przeciwieństwie do plist)
+* Apple przyznaje dostawcy MDM token **OAuth**
 
-**API "usługi chmurowej" DEP**
+**API „usługi chmury” DEP**
 
 * RESTful
-* synchronizuje rekordy urządzeń z Apple na serwer MDM
-* synchronizuje "profile DEP" z serwera MDM do Apple (dostarczane przez Apple do urządzenia w późniejszym czasie)
+* synchronizacja rekordów urządzeń z Apple do serwera MDM
+* synchronizacja „profili DEP” do Apple z serwera MDM (dostarczone przez Apple do urządzenia w późniejszym czasie)
 * Profil DEP zawiera:
-* Adres URL serwera dostawcy MDM
-* Dodatkowe zaufane certyfikaty dla adresu URL serwera (opcjonalne przypinanie)
+* URL serwera dostawcy MDM
+* Dodatkowe zaufane certyfikaty dla adresu URL serwera (opcjonalne przypięcie)
 * Dodatkowe ustawienia (np. które ekrany pominąć w Asystencie konfiguracji)
 
 ## Numer seryjny
 
-Urządzenia Apple wyprodukowane po 2010 roku zazwyczaj mają **12-znakowe alfanumeryczne** numery seryjne, gdzie **pierwsze trzy cyfry oznaczają miejsce produkcji**, kolejne **dwie** wskazują **rok** i **tydzień** produkcji, następne **trzy** cyfry stanowią **unikalny identyfikator**, a **ostatnie** **cztery** cyfry reprezentują **numer modelu**.
+Urządzenia Apple wyprodukowane po 2010 roku zazwyczaj mają **12-znakowe alfanumeryczne** numery seryjne, gdzie **pierwsze trzy cyfry reprezentują lokalizację produkcji**, kolejne **dwie** wskazują **rok** i **tydzień** produkcji, następne **trzy** cyfry to **unikalny** **identyfikator**, a **ostatnie** **cztery** cyfry reprezentują **numer modelu**.
 
-\{% content-ref
+{% content-ref url="macos-serial-number.md" %}
+[macos-serial-number.md](macos-serial-number.md)
+{% endcontent-ref %}
 
-### Krok 4: Sprawdzanie DEP - Uzyskiwanie Rekordu Aktywacji
+## Kroki do rejestracji i zarządzania
 
-Ten etap procesu występuje, gdy **użytkownik uruchamia Maca po raz pierwszy** (lub po pełnym wymazaniu)
+1. Tworzenie rekordu urządzenia (Sprzedawca, Apple): Tworzony jest rekord dla nowego urządzenia
+2. Przypisanie rekordu urządzenia (Klient): Urządzenie jest przypisywane do serwera MDM
+3. Synchronizacja rekordu urządzenia (Dostawca MDM): MDM synchronizuje rekordy urządzeń i przesyła profile DEP do Apple
+4. Sprawdzenie DEP (Urządzenie): Urządzenie otrzymuje swój profil DEP
+5. Pobranie profilu (Urządzenie)
+6. Instalacja profilu (Urządzenie) a. w tym ładunki MDM, SCEP i root CA
+7. Wydanie polecenia MDM (Urządzenie)
 
-![](<../../../.gitbook/assets/image (568).png>)
+![](<../../../.gitbook/assets/image (691).png>)
 
-lub podczas wykonywania polecenia `sudo profiles show -type enrollment`
+Plik `/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/PrivateFrameworks/ConfigurationProfiles.framework/ConfigurationProfiles.tbd` eksportuje funkcje, które można uznać za **wysokopoziomowe "kroki"** procesu rejestracji.
+### Krok 4: Sprawdzenie DEP - Pobranie Rekordu Aktywacji
 
-* Sprawdzenie, czy urządzenie jest włączone do DEP
-* Rekord aktywacji to wewnętrzna nazwa **"profilu" DEP**
-* Rozpoczyna się od momentu, gdy urządzenie jest podłączone do Internetu
+Ten etap procesu zachodzi, gdy **użytkownik uruchamia Maca po raz pierwszy** (lub po całkowitym wymazaniu)
+
+![](<../../../.gitbook/assets/image (1041).png>)
+
+lub podczas wykonywania `sudo profiles show -type enrollment`
+
+* Określenie, **czy urządzenie jest włączone do DEP**
+* Rekord Aktywacji to wewnętrzna nazwa dla **profilu DEP**
+* Rozpoczyna się od razu po podłączeniu urządzenia do Internetu
 * Sterowane przez **`CPFetchActivationRecord`**
-* Realizowane przez **`cloudconfigurationd`** za pośrednictwem XPC. **"Asystent konfiguracji"** (gdy urządzenie jest uruchamiane po raz pierwszy) lub polecenie **`profiles`** skontaktuje się z tym demonem, aby pobrać rekord aktywacji.
+* Wdrożone przez **`cloudconfigurationd`** za pomocą XPC. **"Asystent konfiguracji**" (gdy urządzenie jest uruchamiane po raz pierwszy) lub polecenie **`profiles`** będzie **kontaktować się z tym demonem** w celu pobrania rekordu aktywacji.
 * LaunchDaemon (zawsze działa jako root)
 
-Następuje kilka kroków w celu uzyskania Rekordu Aktywacji, wykonywanych przez **`MCTeslaConfigurationFetcher`**. Proces ten wykorzystuje szyfrowanie o nazwie **Absinthe**
+Następuje kilka kroków w celu uzyskania Rekordu Aktywacji wykonywanego przez **`MCTeslaConfigurationFetcher`**. Ten proces wykorzystuje szyfrowanie o nazwie **Absinthe**
 
 1. Pobierz **certyfikat**
-2. GET [https://iprofiles.apple.com/resource/certificate.cer](https://iprofiles.apple.com/resource/certificate.cer)
-3. **Zainicjuj** stan na podstawie certyfikatu (**`NACInit`**)
-4. Wykorzystuje różne dane specyficzne dla urządzenia (np. **Numer seryjny za pomocą `IOKit`**)
-5. Pobierz **klucz sesji**
-6. POST [https://iprofiles.apple.com/session](https://iprofiles.apple.com/session)
-7. Ustanów sesję (**`NACKeyEstablishment`**)
-8. Wyślij żądanie
-9. POST do [https://iprofiles.apple.com/macProfile](https://iprofiles.apple.com/macProfile), wysyłając dane `{ "action": "RequestProfileConfiguration", "sn": "" }`
-10. Dane JSON są szyfrowane za pomocą Absinthe (**`NACSign`**)
-11. Wszystkie żądania są realizowane przez HTTPs, używane są wbudowane certyfikaty root
+1. GET [https://iprofiles.apple.com/resource/certificate.cer](https://iprofiles.apple.com/resource/certificate.cer)
+2. **Zainicjuj** stan z certyfikatu (**`NACInit`**)
+1. Wykorzystuje różne dane specyficzne dla urządzenia (np. **Numer seryjny za pomocą `IOKit`**)
+3. Pobierz **klucz sesji**
+1. POST [https://iprofiles.apple.com/session](https://iprofiles.apple.com/session)
+4. Ustanów sesję (**`NACKeyEstablishment`**)
+5. Wyślij żądanie
+1. POST do [https://iprofiles.apple.com/macProfile](https://iprofiles.apple.com/macProfile) wysyłając dane `{ "action": "RequestProfileConfiguration", "sn": "" }`
+2. Ładunek JSON jest szyfrowany za pomocą Absinthe (**`NACSign`**)
+3. Wszystkie żądania są przesyłane przez HTTPs, używane są wbudowane certyfikaty root
 
-![](<../../../.gitbook/assets/image (566).png>)
+![](<../../../.gitbook/assets/image (566) (1).png>)
 
-Odpowiedź to słownik JSON zawierający kilka ważnych danych, takich jak:
+Odpowiedź to słownik JSON z ważnymi danymi, takimi jak:
 
-* **url**: Adres URL hosta dostawcy MDM dla profilu aktywacji
+* **url**: URL hosta dostawcy MDM dla profilu aktywacji
 * **anchor-certs**: Tablica certyfikatów DER używanych jako zaufane kotwice
 
-### **Krok 5: Pobieranie profilu**
+### **Krok 5: Pobieranie Profilu**
 
-![](<../../../.gitbook/assets/image (567).png>)
+![](<../../../.gitbook/assets/image (441).png>)
 
-* Wysyłane jest żądanie pod adres **url podany w profilu DEP**.
-* Jeśli są dostępne, używane są **certyfikaty kotwicowe** do **oceny zaufania**.
+* Żądanie wysłane do **url podanego w profilu DEP**.
+* **Certyfikaty kotwicowe** są używane do **oceny zaufania**, jeśli są dostarczone.
 * Przypomnienie: właściwość **anchor\_certs** profilu DEP
 * **Żądanie to prosty plik .plist** z identyfikacją urządzenia
-* Przykłady: **UDID, wersja systemu operacyjnego**.
-* Podpisane przy użyciu **certyfikatu tożsamości urządzenia (z APNS)**
-* Łańcuch certyfikatów zawiera wygasłe **Apple iPhone Device CA**
+* Przykłady: **UDID, wersja OS**.
+* Podpisany CMS, zakodowany w DER
+* Podpisany za pomocą **certyfikatu tożsamości urządzenia (z APNS)**
+* **Łańcuch certyfikatów** zawiera wygasły **Apple iPhone Device CA**
 
-![](https://github.com/carlospolop/hacktricks/blob/pl/.gitbook/assets/image%20\(567\)%20\(1\)%20\(2\)%20\(2\)%20\(2\)%20\(2\)%20\(2\)%20\(2\)%20\(2\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(1\)%20\(7\).png)
+![](<../../../.gitbook/assets/image (567) (1) (2) (2) (2) (2) (2) (2) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (2) (2).png>)
 
-### Krok 6: Instalacja profilu
+### Krok 6: Instalacja Profilu
 
 * Po pobraniu, **profil jest przechowywany w systemie**
 * Ten krok rozpoczyna się automatycznie (jeśli w **asystencie konfiguracji**)
 * Sterowane przez **`CPInstallActivationProfile`**
-* Realizowane przez mdmclient za pośrednictwem XPC
+* Wdrożone przez mdmclient za pomocą XPC
 * LaunchDaemon (jako root) lub LaunchAgent (jako użytkownik), w zależności od kontekstu
-* Profile konfiguracyjne mają wiele ładunków do zainstalowania
+* Profile konfiguracji mają wiele ładunków do zainstalowania
 * Framework ma architekturę opartą na wtyczkach do instalowania profili
 * Każdy typ ładunku jest powiązany z wtyczką
-* Może to być XPC (w frameworku) lub klasyczne Cocoa (w ManagedClient.app)
+* Może być XPC (w frameworku) lub klasyczne Cocoa (w ManagedClient.app)
 * Przykład:
-* Ładunki certyfikatów używają usługi CertificateService.xpc
+* Ładunki certyfikatów używają CertificateService.xpc
 
-Zazwyczaj **profil aktywacji** dostarczony przez dostawcę MDM będzie zawierał następujące ładunki:
+Zazwyczaj **profil aktywacji** dostarczony przez dostawcę MDM będzie **zawierał następujące ładunki**:
 
-* `com.apple.mdm`: do **zarejestrowania** urządzenia w MDM
+* `com.apple.mdm`: do **zapisania** urządzenia w MDM
 * `com.apple.security.scep`: do bezpiecznego dostarczenia **certyfikatu klienta** do urządzenia.
-* `com.apple.security.pem`: do **instalacji zaufanych certyfikatów CA** w System Keychain urządzenia.
-* Instalowanie ładunku MDM równoważnego **sprawdzaniu MDM w dokumentacji**
-* Ładunek **zawiera kluczowe właściwości**:
+* `com.apple.security.pem`: do **zainstalowania zaufanych certyfikatów CA** w Systemowym Keychain urządzenia.
+* Instalacja ładunku MDM równoważna z **kontrolą MDM w dokumentacji**
+* Ładunek zawiera **kluczowe właściwości**:
 *
-* Adres URL sprawdzania MDM (**`CheckInURL`**)
-* Adres URL odpytywania poleceń MDM (**`ServerURL`**) + temat APNs do jego wywołania
-* Aby zainstalować ładunek MDM, wysyłane jest żądanie pod adres **`CheckInURL`**
-* Realizowane w **`mdmclient`**
+* URL Kontroli MDM (**`CheckInURL`**)
+* URL Odpytywania Komend MDM (**`ServerURL`**) + temat APNs do jego wywołania
+* Aby zainstalować ładunek MDM, żądanie jest wysyłane do **`CheckInURL`**
+* Wdrożone w **`mdmclient`**
 * Ładunek MDM może zależeć od innych ładunków
-* Pozwala na **przypisanie żądań do określonych certyfikatów**:
+* Pozwala na **przypisanie żądań do konkretnych certyfikatów**:
 * Właściwość: **`CheckInURLPinningCertificateUUIDs`**
 * Właściwość: **`ServerURLPinningCertificateUUIDs`**
-* Dostarczane za pomocą ładunku PEM
+* Dostarczone za pomocą ładunku PEM
 * Pozwala na przypisanie urządzenia do certyfikatu tożsamości:
 * Właściwość: IdentityCertificateUUID
-* Dostarczane za pomocą ładunku SCEP
+* Dostarczone za pomocą ładunku SCEP
 
 ### **Krok 7: Nasłuchiwanie poleceń MDM**
 
-* Po zakończeniu sprawdzania MDM, dostawca może **wysyłać powiadomienia push za pomocą APNs**
-* Po otrzymaniu powiadomienia, obsługiwane przez **`mdmclient`**
-* Aby odpytywać o polecenia MDM, wysyłane jest żądanie pod adres ServerURL
+* Po zakończeniu kontroli MDM, dostawca może **wysyłać powiadomienia push za pomocą APNs**
+* Po otrzymaniu, obsługiwane przez **`mdmclient`**
+* Aby odpytać o polecenia MDM, żądanie jest wysyłane do ServerURL
 * Wykorzystuje wcześniej zainstalowany ładunek MDM:
-* **`ServerURLPinningCertificateUUIDs`** do przypinania żądania
+* **`ServerURLPinningCertificateUUIDs`** do przypięcia żądania
 * **`IdentityCertificateUUID`** do certyfikatu klienta TLS
 
 ## Ataki
 
-### Rejestrowanie urządzeń w innych organizacjach
+### Zapisywanie Urządzeń w Innych Organizacjach
 
-Jak wcześniej wspomniano, aby spróbować zarejestrować urządzenie w organizacji, **wystarczy numer seryjny należący do tej organizacji**. Po zarejestrowaniu urządzenia wiele organizacji zainstaluje na nim wrażliwe dane: certyfikaty, aplikacje, hasła WiFi, konfiguracje VPN [i tak dalej](https://developer.apple.com/enterprise/documentation/Configuration-Profile-Reference.pdf).\
-Dlatego może to być niebezpieczne wejście dla atakujących, jeśli proces rejestracji nie jest odpowiednio chroniony:
+Jak wcześniej wspomniano, aby spróbować zapisać urządzenie do organizacji, **wystarczy numer seryjny należący do tej Organizacji**. Gdy urządzenie zostanie zapisane, kilka organizacji zainstaluje wrażliwe dane na nowym urządzeniu: certyfikaty, aplikacje, hasła WiFi, konfiguracje VPN [i inne](https://developer.apple.com/enterprise/documentation/Configuration-Profile-Reference.pdf).\
+Dlatego może to być niebezpieczne wejście dla atakujących, jeśli proces zapisu nie jest odpowiednio chroniony:
 
 {% content-ref url="enrolling-devices-in-other-organisations.md" %}
 [enrolling-devices-in-other-organisations.md](enrolling-devices-in-other-organisations.md)
@@ -203,6 +219,10 @@ Dlatego może to być niebezpieczne wejście dla atakujących, jeśli proces rej
 
 Inne sposoby wsparcia HackTricks:
 
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**,
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
+* Kup [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

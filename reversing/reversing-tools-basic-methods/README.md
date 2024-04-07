@@ -9,14 +9,14 @@ Inne sposoby wsparcia HackTricks:
 * Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Kup [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
 
 </details>
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -45,16 +45,16 @@ Oprogramowanie:
 
 ### [dotPeek](https://www.jetbrains.com/decompiler/)
 
-dotPeek to dekompilator, który **dekompiluje i analizuje wiele formatów**, w tym **biblioteki** (.dll), **pliki metadanych systemu Windows** (.winmd) i **pliki wykonywalne** (.exe). Po dekompilacji zestawu można zapisać jako projekt Visual Studio (.csproj).
+dotPeek to dekompilator, który **dekompiluje i analizuje wiele formatów**, w tym **biblioteki** (.dll), pliki metadanych systemu Windows (.winmd) i **pliki wykonywalne** (.exe). Po dekompilacji zestawu można go zapisać jako projekt Visual Studio (.csproj).
 
 Zaletą jest to, że jeśli utracony kod źródłowy wymaga przywrócenia z archiwalnego zestawu, ta czynność może zaoszczędzić czas. Ponadto dotPeek zapewnia wygodną nawigację po zdekompilowanym kodzie, co czyni go jednym z doskonałych narzędzi do **analizy algorytmów Xamarin.**
 
 ### [.NET Reflector](https://www.red-gate.com/products/reflector/)
 
-Dzięki kompleksowemu modelowi dodatków i interfejsowi API rozszerzającemu narzędzie, .NET Reflector oszczędza czas i upraszcza rozwój. Przejrzyjmy mnogość usług inżynierii wstecznej, które oferuje to narzędzie:
+Z kompleksowym modelem dodatków i interfejsem API rozszerzającym narzędzie, .NET Reflector oszczędza czas i upraszcza rozwój. Przejrzyjmy mnogość usług inżynierii wstecznej, które oferuje to narzędzie:
 
 * Zapewnia wgląd w sposób przepływu danych przez bibliotekę lub komponent
-* Zapewnia wgląd w implementację i użycie języków i platform .NET
+* Zapewnia wgląd w implementację i użycie języków i frameworków .NET
 * Znajduje funkcjonalności nieudokumentowane i nieujawnione, aby uzyskać więcej z używanych interfejsów API i technologii.
 * Znajduje zależności i różne zestawy
 * Namierza dokładne miejsce błędów w twoim kodzie, komponentach innych firm i bibliotekach.
@@ -62,8 +62,8 @@ Dzięki kompleksowemu modelowi dodatków i interfejsowi API rozszerzającemu nar
 
 ### [ILSpy](https://github.com/icsharpcode/ILSpy) & [dnSpy](https://github.com/dnSpy/dnSpy/releases)
 
-[Plugin ILSpy dla Visual Studio Code](https://github.com/icsharpcode/ilspy-vscode): Możesz go mieć w dowolnym systemie operacyjnym (możesz zainstalować go bezpośrednio z VSCode, nie trzeba pobierać z git. Kliknij **Extensions** i **szukaj ILSpy**).\
-Jeśli musisz **dekompilować**, **modyfikować** i **ponownie kompilować**, możesz użyć [**dnSpy**](https://github.com/dnSpy/dnSpy/releases) lub aktywnie rozwijanej gałęzi, [**dnSpyEx**](https://github.com/dnSpyEx/dnSpy/releases). (**Kliknij prawym przyciskiem -> Modify Method** aby zmienić coś wewnątrz funkcji).
+[Wtyczka ILSpy dla Visual Studio Code](https://github.com/icsharpcode/ilspy-vscode): Możesz ją mieć w dowolnym systemie operacyjnym (możesz zainstalować ją bezpośrednio z VSCode, nie trzeba pobierać z git. Kliknij **Extensions** i **szukaj ILSpy**).\
+Jeśli musisz **dekompilować**, **modyfikować** i **ponownie kompilować**, możesz użyć [**dnSpy**](https://github.com/dnSpy/dnSpy/releases) lub aktywnie rozwijanej gałęzi, [**dnSpyEx**](https://github.com/dnSpyEx/dnSpy/releases). (Kliknij prawym przyciskiem myszy -> **Modify Method** aby zmienić coś wewnątrz funkcji).
 
 ### Logowanie DNSpy
 
@@ -79,7 +79,7 @@ Aby debugować kod za pomocą DNSpy, musisz:
 
 Po pierwsze, zmień **Atrybuty zestawu** związane z **debugowaniem**:
 
-![](<../../.gitbook/assets/image (278).png>)
+![](<../../.gitbook/assets/image (970).png>)
 ```aspnet
 [assembly: Debuggable(DebuggableAttribute.DebuggingModes.IgnoreSymbolStoreSequencePoints)]
 ```
@@ -92,13 +92,13 @@ DebuggableAttribute.DebuggingModes.EnableEditAndContinue)]
 ```
 I kliknij **skompiluj**:
 
-![](<../../.gitbook/assets/image (314) (1) (1).png>)
+![](<../../.gitbook/assets/image (314) (1).png>)
 
 Następnie zapisz nowy plik za pomocą _**Plik >> Zapisz moduł...**_:
 
-![](<../../.gitbook/assets/image (279).png>)
+![](<../../.gitbook/assets/image (599).png>)
 
-Jest to konieczne, ponieważ jeśli tego nie zrobisz, podczas **uruchamiania** kodu zostanie zastosowanych kilka **optymalizacji**, co może spowodować, że podczas debugowania **punkt przerwania nie zostanie osiągnięty** lub niektóre **zmienne nie istnieją**.
+Jest to konieczne, ponieważ jeśli tego nie zrobisz, podczas **uruchamiania** kodu zostanie zastosowanych kilka **optymalizacji** i może się zdarzyć, że podczas debugowania **punkt przerwania nie zostanie osiągnięty** lub niektóre **zmienne nie istnieją**.
 
 Następnie, jeśli twoja aplikacja .NET jest **uruchamiana** przez **IIS**, możesz ją **ponownie uruchomić** za pomocą:
 ```
@@ -106,25 +106,25 @@ iisreset /noforce
 ```
 Następnie, aby rozpocząć debugowanie, należy zamknąć wszystkie otwarte pliki i w zakładce **Debug** wybrać opcję **Attach to Process...**:
 
-![](<../../.gitbook/assets/image (280).png>)
+![](<../../.gitbook/assets/image (315).png>)
 
 Następnie wybierz **w3wp.exe**, aby dołączyć do serwera **IIS** i kliknij **attach**:
 
-![](<../../.gitbook/assets/image (281).png>)
+![](<../../.gitbook/assets/image (110).png>)
 
 Teraz, gdy debugujemy proces, nadszedł czas, aby go zatrzymać i załadować wszystkie moduły. Najpierw kliknij _Debug >> Break All_, a następnie kliknij _**Debug >> Windows >> Modules**_:
 
-![](<../../.gitbook/assets/image (286).png>)
+![](<../../.gitbook/assets/image (129).png>)
 
-![](<../../.gitbook/assets/image (283).png>)
+![](<../../.gitbook/assets/image (831).png>)
 
 Kliknij dowolny moduł w **Modules** i wybierz **Open All Modules**:
 
-![](<../../.gitbook/assets/image (284).png>)
+![](<../../.gitbook/assets/image (919).png>)
 
 Kliknij prawym przyciskiem myszy dowolny moduł w **Assembly Explorer** i wybierz **Sort Assemblies**:
 
-![](<../../.gitbook/assets/image (285).png>)
+![](<../../.gitbook/assets/image (336).png>)
 
 ## Dekompilator Java
 
@@ -139,28 +139,28 @@ Kliknij prawym przyciskiem myszy dowolny moduł w **Assembly Explorer** i wybier
 * Wybierz debugger **Windbg**
 * Wybierz "**Suspend on library load/unload**"
 
-![](<../../.gitbook/assets/image (135).png>)
+![](<../../.gitbook/assets/image (865).png>)
 
 * Skonfiguruj **parametry** wykonania, podając **ścieżkę do pliku DLL** i funkcję, którą chcesz wywołać:
 
-![](<../../.gitbook/assets/image (136).png>)
+![](<../../.gitbook/assets/image (701).png>)
 
 Następnie, gdy rozpoczniesz debugowanie, **wykonanie zostanie zatrzymane po załadowaniu każdego DLL**, a gdy rundll32 załaduje twoje DLL, wykonanie zostanie zatrzymane.
 
-Ale jak uzyskać dostęp do kodu załadowanego DLL? Korzystając z tej metody, nie wiem jak.
+Ale jak uzyskać dostęp do kodu DLL, który został załadowany? Korzystając z tej metody, nie wiem jak.
 
 ### Korzystanie z x64dbg/x32dbg
 
 * **Załaduj rundll32** (64 bity w C:\Windows\System32\rundll32.exe i 32 bity w C:\Windows\SysWOW64\rundll32.exe)
-* **Zmień linię poleceń** ( _File --> Change Command Line_ ) i ustaw ścieżkę do pliku DLL i funkcję, którą chcesz wywołać, na przykład: "C:\Windows\SysWOW64\rundll32.exe" "Z:\shared\Cybercamp\rev2\\\14.ridii\_2.dll",DLLMain
+* **Zmień linię poleceń** ( _File --> Change Command Line_ ) i ustaw ścieżkę do pliku DLL oraz funkcję, którą chcesz wywołać, na przykład: "C:\Windows\SysWOW64\rundll32.exe" "Z:\shared\Cybercamp\rev2\\\14.ridii\_2.dll",DLLMain
 * Zmień _Options --> Settings_ i wybierz "**DLL Entry**".
-* Następnie **rozpocznij wykonanie**, debugger zatrzyma się przy każdym głównym punkcie DLL, w pewnym momencie zatrzymasz się w **DLL Entry twojego DLL**. Następnie wyszukaj miejsca, w których chcesz ustawić punkt przerwania.
+* Następnie **rozpocznij wykonanie**, debugger zatrzyma się przy każdym głównym elemencie DLL, w pewnym momencie zatrzymasz się w **wejściu DLL twojego DLL**. Następnie wyszukaj miejsca, w których chcesz ustawić punkt przerwania.
 
 Zauważ, że gdy wykonanie zostanie zatrzymane z jakiegokolwiek powodu w win64dbg, możesz zobaczyć **w jakim kodzie się znajdujesz** patrząc na **górę okna win64dbg**:
 
-![](<../../.gitbook/assets/image (137).png>)
+![](<../../.gitbook/assets/image (839).png>)
 
-Następnie, patrząc na to, możesz zobaczyć, kiedy wykonanie zostało zatrzymane w interesującym cię DLL.
+Następnie, patrząc na to, możesz zobaczyć, kiedy wykonanie zostało zatrzymane w DLL, które chcesz debugować.
 
 ## Aplikacje GUI / Gry wideo
 
@@ -190,34 +190,34 @@ Możesz znaleźć nieco zmodyfikowaną wersję Blobrunner pod następującym lin
 
 ### Debugowanie shellkodu za pomocą jmp2it
 
-[**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4)jest bardzo podobny do blobrunner. **Przydzieli** **shellkod** w przestrzeni pamięci i rozpocznie **wieczną pętlę**. Następnie musisz **dołączyć debugger** do procesu, **rozpocząć działanie, poczekać 2-5 sekund i nacisnąć stop**, aby znaleźć się w **wiecznej pętli**. Przejdź do następnej instrukcji wiecznej pętli, która będzie wywołaniem do shellkodu, a ostatecznie będziesz wykonywać shellkod.
+[**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4)jest bardzo podobny do blobrunner. **Przydzieli** **shellkod** w przestrzeni pamięci i rozpocznie **wieczną pętlę**. Następnie musisz **dołączyć debugger** do procesu, **rozpocząć działanie, poczekać 2-5 sekund i nacisnąć stop**, a znajdziesz się w **wiecznej pętli**. Przejdź do następnej instrukcji wiecznej pętli, ponieważ będzie to wywołanie shellkodu, a ostatecznie będziesz wykonywać shellkod.
 
-![](<../../.gitbook/assets/image (397).png>)
+![](<../../.gitbook/assets/image (506).png>)
 
 Możesz pobrać skompilowaną wersję [jmp2it ze strony wydań](https://github.com/adamkramer/jmp2it/releases/).
 
 ### Debugowanie shellkodu za pomocą Cutter
 
-[**Cutter**](https://github.com/rizinorg/cutter/releases/tag/v1.12.0) to interfejs graficzny radare. Za pomocą Cuttera możesz emulować shellkod i dynamicznie go analizować.
+[**Cutter**](https://github.com/rizinorg/cutter/releases/tag/v1.12.0) to GUI radare. Za pomocą Cuttera możesz emulować shellkod i dynamicznie go analizować.
 
-Zauważ, że Cutter pozwala na "Otwarcie pliku" i "Otwarcie shellkodu". W moim przypadku, gdy otworzyłem shellkod jako plik, został on poprawnie zdekompilowany, ale gdy otworzyłem go jako shellkod, nie:
+Zauważ, że Cutter pozwala na "Otwarcie pliku" i "Otwarcie shellkodu". W moim przypadku, gdy otworzyłem shellkod jako plik, został poprawnie zdekompilowany, ale gdy otworzyłem go jako shellkod, nie:
 
-![](<../../.gitbook/assets/image (400).png>)
+![](<../../.gitbook/assets/image (559).png>)
 
 Aby rozpocząć emulację w wybranym miejscu, ustaw tam punkt przerwania, a Cutter automatycznie rozpocznie emulację od tego miejsca:
 
-![](<../../.gitbook/assets/image (399).png>)
+![](<../../.gitbook/assets/image (586).png>)
 
-![](<../../.gitbook/assets/image (401).png>)
+![](<../../.gitbook/assets/image (384).png>)
 
-Możesz zobaczyć stos na przykład w postaci zrzutu szesnastkowego:
+Możesz zobaczyć stos na przykład w postaci wydruku szesnastkowego:
 
-![](<../../.gitbook/assets/image (402).png>)
+![](<../../.gitbook/assets/image (183).png>)
 
-### Deobfuskacja shellkodu i uzyskiwanie funkcji wykonywanych
+### Rozszyfrowywanie shellkodu i uzyskiwanie funkcji wykonywanych
 
 Spróbuj [**scdbg**](http://sandsprite.com/blogs/index.php?uid=7\&pid=152).\
-Program wskaże, które funkcje wykorzystuje shellkod i czy shellkod jest **dekodowany** w pamięci.
+Pokaże ci, które funkcje używa shellkod i czy shellkod jest **dekodowany** w pamięci.
 ```bash
 scdbg.exe -f shellcode # Get info
 scdbg.exe -f shellcode -r #show analysis report at end of run
@@ -226,24 +226,24 @@ scdbg.exe -f shellcode -d #Dump decoded shellcode
 scdbg.exe -f shellcode /findsc #Find offset where starts
 scdbg.exe -f shellcode /foff 0x0000004D #Start the executing in that offset
 ```
-scDbg posiada również graficzny uruchamiacz, w którym można wybrać żądane opcje i wykonać shellcode
+scDbg posiada również graficzny uruchamiacz, w którym możesz wybrać opcje, których chcesz użyć i wykonać shellcode
 
-![](<../../.gitbook/assets/image (398).png>)
+![](<../../.gitbook/assets/image (255).png>)
 
-Opcja **Create Dump** spowoduje zrzucenie ostatecznego shellcode, jeśli w pamięci dynamicznie zostaną dokonane jakiekolwiek zmiany w shellcode (przydatne do pobrania zdekodowanego shellcode). **Start offset** może być przydatny do uruchomienia shellcode w określonym przesunięciu. Opcja **Debug Shell** jest przydatna do debugowania shellcode za pomocą terminala scDbg (jednak uważam, że któreś z opcji wyjaśnionych wcześniej są lepsze w tej kwestii, ponieważ będziesz mógł użyć Ida lub x64dbg).
+Opcja **Create Dump** spowoduje zrzucenie ostatecznego shellcode, jeśli jakakolwiek zmiana zostanie dokonana dynamicznie w pamięci shellcode (przydatne do pobrania zdekodowanego shellcode). **Start offset** może być przydatny do uruchomienia shellcode w określonym przesunięciu. Opcja **Debug Shell** jest przydatna do debugowania shellcode za pomocą terminala scDbg (jednak uważam, że każda z opcji wyjaśnionych wcześniej jest lepsza w tej kwestii, ponieważ będziesz mógł użyć Ida lub x64dbg).
 
-### Rozkładanie za pomocą CyberChef
+### Rozkładanie na części za pomocą CyberChef
 
-Prześlij plik ze swoim shellcodem jako dane wejściowe i użyj następującego przepisu, aby go zdekompilować: [https://gchq.github.io/CyberChef/#recipe=To\_Hex('Space',0)Disassemble\_x86('32','Full%20x86%20architecture',16,0,true,true)](https://gchq.github.io/CyberChef/#recipe=To\_Hex\('Space',0\)Disassemble\_x86\('32','Full%20x86%20architecture',16,0,true,true\))
+Prześlij plik shellcode jako dane wejściowe i użyj następującego przepisu, aby go zdekompilować: [https://gchq.github.io/CyberChef/#recipe=To\_Hex('Space',0)Disassemble\_x86('32','Full%20x86%20architecture',16,0,true,true)](https://gchq.github.io/CyberChef/#recipe=To\_Hex\('Space',0\)Disassemble\_x86\('32','Full%20x86%20architecture',16,0,true,true\))
 
 ## [Movfuscator](https://github.com/xoreaxeaxeax/movfuscator)
 
-Ten obfuskator **modyfikuje wszystkie instrukcje dla `mov`** (tak, naprawdę fajne). Wykorzystuje również przerwania do zmiany przepływów wykonania. Aby uzyskać więcej informacji na temat jego działania:
+Ten obfuskator **modyfikuje wszystkie instrukcje dla `mov`** (tak, naprawdę fajne). Wykorzystuje również przerwania do zmiany przepływów wykonań. Aby uzyskać więcej informacji na temat jego działania:
 
 * [https://www.youtube.com/watch?v=2VF\_wPkiBJY](https://www.youtube.com/watch?v=2VF\_wPkiBJY)
 * [https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas\_2015\_the\_movfuscator.pdf](https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas\_2015\_the\_movfuscator.pdf)
 
-Jeśli masz szczęście, [demovfuscator](https://github.com/kirschju/demovfuscator) zdeobfuskuje binarny plik. Ma kilka zależności.
+Jeśli masz szczęście, [demovfuscator](https://github.com/kirschju/demovfuscator) zdeobfuskuje plik binarny. Ma kilka zależności
 ```
 apt-get install libcapstone-dev
 apt-get install libz3-dev
@@ -256,26 +256,26 @@ Jeśli bierzesz udział w **CTF, ta metoda znajdowania flagi** może być bardzo
 
 Aby znaleźć **punkt wejścia**, wyszukaj funkcje za pomocą `::main` jak w:
 
-![](<../../.gitbook/assets/image (612).png>)
+![](<../../.gitbook/assets/image (1077).png>)
 
-W tym przypadku plik binarny nosił nazwę authenticator, więc jest dość oczywiste, że to jest interesująca funkcja główna.\
+W tym przypadku plik binarny nazywał się authenticator, więc jest dość oczywiste, że to jest interesująca funkcja główna.\
 Mając **nazwę** **funkcji**, które są wywoływane, wyszukaj je w **Internecie**, aby dowiedzieć się o ich **wejściach** i **wyjściach**.
 
 ## **Delphi**
 
-Dla skompilowanych plików binarnych Delphi można użyć [https://github.com/crypto2011/IDR](https://github.com/crypto2011/IDR)
+Dla skompilowanych binariów Delphi można użyć [https://github.com/crypto2011/IDR](https://github.com/crypto2011/IDR)
 
-Jeśli musisz odwrócić binarny plik Delphi, sugeruję użycie wtyczki IDA [https://github.com/Coldzer0/IDA-For-Delphi](https://github.com/Coldzer0/IDA-For-Delphi)
+Jeśli musisz zreversować binarny plik Delphi, sugeruję użycie wtyczki IDA [https://github.com/Coldzer0/IDA-For-Delphi](https://github.com/Coldzer0/IDA-For-Delphi)
 
 Wystarczy nacisnąć **ATL+f7** (importuj wtyczkę python w IDA) i wybierz wtyczkę python.
 
-Ta wtyczka będzie wykonywać binarny plik i dynamicznie rozwiązywać nazwy funkcji na początku debugowania. Po rozpoczęciu debugowania ponownie naciśnij przycisk Start (zielony lub f9), a przerwa zostanie ustawiona na początku prawdziwego kodu.
+Ta wtyczka uruchomi binarny plik i dynamicznie rozwiąże nazwy funkcji na początku debugowania. Po rozpoczęciu debugowania ponownie naciśnij przycisk Start (zielony lub f9), a przerwa zostanie osiągnięta na początku rzeczywistego kodu.
 
 Jest to również bardzo interesujące, ponieważ jeśli naciśniesz przycisk w aplikacji graficznej, debugger zatrzyma się w funkcji wykonywanej przez ten przycisk.
 
 ## Golang
 
-Jeśli musisz odwrócić binarny plik Golang, sugeruję użycie wtyczki IDA [https://github.com/sibears/IDAGolangHelper](https://github.com/sibears/IDAGolangHelper)
+Jeśli musisz zreversować binarny plik Golang, sugeruję użycie wtyczki IDA [https://github.com/sibears/IDAGolangHelper](https://github.com/sibears/IDAGolangHelper)
 
 Wystarczy nacisnąć **ATL+f7** (importuj wtyczkę python w IDA) i wybierz wtyczkę python.
 
@@ -285,8 +285,8 @@ To rozwiąże nazwy funkcji.
 
 Na tej stronie znajdziesz, jak uzyskać kod pythona z binarnego pliku skompilowanego w formacie ELF/EXE:
 
-{% content-ref url="../../forensics/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md" %}
-[.pyc.md](../../forensics/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md)
+{% content-ref url="../../generic-methodologies-and-resources/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md" %}
+[.pyc.md](../../generic-methodologies-and-resources/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md)
 {% endcontent-ref %}
 
 ## GBA - Game Body Advance
@@ -315,9 +315,9 @@ DOWN = 128
 R = 256
 L = 256
 ```
-Więc w tego rodzaju programie interesującą częścią będzie **sposób, w jaki program traktuje dane wprowadzone przez użytkownika**. W adresie **0x4000130** znajdziesz często spotykaną funkcję: **KEYINPUT**.
+Więc w tego rodzaju programie interesującą częścią będzie **sposób, w jaki program traktuje dane wejściowe użytkownika**. W adresie **0x4000130** znajdziesz często spotykaną funkcję: **KEYINPUT**.
 
-![](<../../.gitbook/assets/image (579).png>)
+![](<../../.gitbook/assets/image (444).png>)
 
 Na poprzednim obrazku możesz zobaczyć, że funkcja jest wywoływana z **FUN\_080015a8** (adresy: _0x080015fa_ i _0x080017ac_).
 
@@ -384,10 +384,41 @@ DAT_030000d8 = DAT_030000d8 + 0x3a;
 ```
 W poprzednim kodzie można zobaczyć, że porównujemy **uVar1** (miejsce, gdzie znajduje się **wartość naciśniętego przycisku**) z pewnymi wartościami:
 
-* Po pierwsze, porównujemy go z **wartością 4** (przycisk **SELECT**): W tym wyzwaniu ten przycisk czyści ekran.
-* Następnie porównujemy go z **wartością 8** (przycisk **START**): W tym wyzwaniu sprawdzane jest, czy kod jest poprawny, aby uzyskać flagę.
+* Po pierwsze, porównujemy go z **wartością 4** (przycisk **SELECT**): W wyzwaniu ten przycisk czyści ekran.
+* Następnie porównujemy go z **wartością 8** (przycisk **START**): W wyzwaniu sprawdzane jest, czy kod jest poprawny, aby uzyskać flagę.
 * W tym przypadku zmienna **`DAT_030000d8`** jest porównywana z 0xf3, a jeśli wartość jest taka sama, wykonywany jest pewien kod.
-* W pozostałych przypadkach sprawdzane jest **cont** (`DAT_030000d4`). Jest to **cont**, ponieważ dodaje 1 zaraz po wpisaniu kodu.\
-Jeśli jest mniejszy niż 8, wykonywane są działania polegające na **dodawaniu** wartości do zmiennej **`DAT_030000d8`** (w zasadzie dodawane są wartości naciśniętych klawiszy do tej zmiennej, dopóki cont jest mniejszy niż 8).
+* W pozostałych przypadkach sprawdzane jest **cont (`DAT_030000d4`)**. Jest to cont, ponieważ dodaje 1 zaraz po wpisaniu kodu.\
+Jeśli jest mniejszy niż 8, coś związanego z **dodawaniem** wartości do **`DAT_030000d8`** jest wykonywane (w zasadzie dodawane są wartości naciśniętych klawiszy do tej zmiennej, dopóki cont jest mniejszy niż 8).
 
-W tym wyzwaniu, znając wartości przycisków, musisz **nacisnąć kombinację o długości mniejszej niż 8, tak aby wynikowe dodawanie było równe 0xf3.**
+Więc w tym wyzwaniu, znając wartości przycisków, musisz **nacisnąć kombinację o długości mniejszej niż 8, aby wynikowe dodawanie było równe 0xf3.**
+
+**Odnośnik do tego samouczka:** [**https://exp.codes/Nostalgia/**](https://exp.codes/Nostalgia/)
+
+## Game Boy
+
+{% embed url="https://www.youtube.com/watch?v=VVbRe7wr3G4" %}
+
+## Kursy
+
+* [https://github.com/0xZ0F/Z0FCourse\_ReverseEngineering](https://github.com/0xZ0F/Z0FCourse\_ReverseEngineering)
+* [https://github.com/malrev/ABD](https://github.com/malrev/ABD) (Deobfuskacja binarna)
+
+**Try Hard Security Group**
+
+<figure><img src="../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+<details>
+
+<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+
+Inne sposoby wsparcia HackTricks:
+
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
+* Kup oficjalne [**gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>

@@ -2,21 +2,21 @@
 
 <details>
 
-<summary><strong>Nauka hakerskiego ataku na AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Nauka hakowania AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 
 * Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Kup [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**Grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
+* **Dołącz do** 💬 [**Grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się swoimi sztuczkami hakowania, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
 
 </details>
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -45,7 +45,7 @@ LOCAL="my local"
 echo $LOCAL
 unset LOCAL
 ```
-## Lista bieżących zmiennych
+## Wyświetlanie bieżących zmiennych
 ```bash
 set
 env
@@ -60,7 +60,7 @@ Z: [https://geek-university.com/linux/common-environment-variables/](https://gee
 * **DISPLAY** – wyświetlacz używany przez **X**. Zmienna ta zazwyczaj jest ustawiona na **:0.0**, co oznacza pierwszy wyświetlacz na bieżącym komputerze.
 * **EDITOR** – preferowany edytor tekstu użytkownika.
 * **HISTFILESIZE** – maksymalna liczba linii zawartych w pliku historii.
-* **HISTSIZE** – Liczba linii dodawanych do pliku historii po zakończeniu sesji użytkownika.
+* **HISTSIZE** – Liczba linii dodanych do pliku historii po zakończeniu sesji użytkownika.
 * **HOME** – katalog domowy.
 * **HOSTNAME** – nazwa hosta komputera.
 * **LANG** – bieżący język.
@@ -91,7 +91,7 @@ export HISTSIZE=0
 ```
 ### http\_proxy & https\_proxy
 
-Procesy będą korzystać z zadeklarowanego tutaj **serwera proxy** do połączenia z internetem za pośrednictwem protokołów **http lub https**.
+Procesy będą korzystać z zadeklarowanego tutaj **serwera proxy** do połączenia z internetem za pośrednictwem **http lub https**.
 ```bash
 export http_proxy="http://10.10.10.10:8080"
 export https_proxy="http://10.10.10.10:8080"
@@ -111,23 +111,23 @@ Zmień wygląd swojego wiersza poleceń.
 
 Root:
 
-![](<../.gitbook/assets/image (87).png>)
+![](<../.gitbook/assets/image (894).png>)
 
 Zwykły użytkownik:
 
-![](<../.gitbook/assets/image (88).png>)
+![](<../.gitbook/assets/image (737).png>)
 
 Jeden, dwa i trzy procesy w tle:
 
-![](<../.gitbook/assets/image (89).png>)
+![](<../.gitbook/assets/image (142).png>)
 
 Jeden proces w tle, jeden zatrzymany i ostatnie polecenie nie zakończyło się poprawnie:
 
-![](<../.gitbook/assets/image (90).png>)
+![](<../.gitbook/assets/image (712).png>)
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -140,7 +140,7 @@ Inne sposoby wsparcia HackTricks:
 * Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Dołącz do** 💬 [**Grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

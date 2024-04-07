@@ -26,7 +26,7 @@ Inne sposoby wsparcia HackTricks:
 
 ### **Binwalk**
 
-Narzędzie do wyszukiwania ukrytych plików i danych osadzonych w plikach binarnych. Jest instalowane za pomocą `apt`, a jego źródło jest dostępne na [GitHub](https://github.com/ReFirmLabs/binwalk).
+Narzędzie do wyszukiwania ukrytych plików i danych osadzonych w plikach binarnych. Instalowane za pomocą `apt`, a jego źródło jest dostępne na [GitHub](https://github.com/ReFirmLabs/binwalk).
 ```bash
 binwalk file # Displays the embedded data
 binwalk -e file # Extracts the data
@@ -34,13 +34,13 @@ binwalk --dd ".*" file # Extracts all data
 ```
 ### **Foremost**
 
-Odzyskuje pliki na podstawie ich nagłówków i stop. Przydatne dla obrazów png. Zainstaluj za pomocą `apt` z źródłem na [GitHub](https://github.com/korczis/foremost).
+Odzyskuje pliki na podstawie ich nagłówków i stóp, przydatne dla obrazów png. Zainstaluj za pomocą `apt` z kodem źródłowym na [GitHub](https://github.com/korczis/foremost).
 ```bash
 foremost -i file # Extracts data
 ```
 ### **Exiftool**
 
-Pomaga wyświetlać metadane pliku, dostępny [tutaj](https://www.sno.phy.queensu.ca/~phil/exiftool/).
+Pomaga wyświetlać metadane pliku, dostępny [tutaj](https://www.sno.phy.queensu.ca/\~phil/exiftool/).
 ```bash
 exiftool file # Shows the metadata
 ```
@@ -116,11 +116,11 @@ zsteg specjalizuje się w odkrywaniu ukrytych danych w plikach PNG i BMP. Instal
 **Polecenia:**
 
 * `zsteg -a plik` stosuje wszystkie metody wykrywania na pliku.
-* `zsteg -E plik` określa ładunek dla ekstrakcji danych.
+* `zsteg -E plik` określa ładunek do ekstrakcji danych.
 
 ### **StegoVeritas i Stegsolve**
 
-**stegoVeritas** sprawdza metadane, wykonuje transformacje obrazu i stosuje brutalną siłę LSB, między innymi. Użyj `stegoveritas.py -h` dla pełnej listy opcji i `stegoveritas.py stego.jpg` aby wykonać wszystkie sprawdzenia.
+**stegoVeritas** sprawdza metadane, wykonuje transformacje obrazu, stosuje siłowe łamanie LSB i inne funkcje. Użyj `stegoveritas.py -h` aby uzyskać pełną listę opcji oraz `stegoveritas.py stego.jpg` aby wykonać wszystkie sprawdzenia.
 
 **Stegsolve** stosuje różne filtry kolorów, aby ujawnić ukryte teksty lub wiadomości w obrazach. Jest dostępny na [GitHubie](https://github.com/eugenekolo/sec-tools/tree/master/stego/stegsolve/stegsolve).
 
@@ -143,7 +143,7 @@ pngcheck stego.png
 ```
 ### **Dodatkowe narzędzia do analizy obrazów**
 
-Dla dalszego eksplorowania, rozważ odwiedzenie:
+Dla dalszego zgłębiania tematu, rozważ odwiedzenie:
 
 * [Magic Eye Solver](http://magiceye.ecksdee.co.uk/)
 * [Analiza poziomu błędów obrazu](https://29a.ch/sandbox/2012/imageerrorlevelanalysis/)
@@ -157,7 +157,7 @@ Dla dalszego eksplorowania, rozważ odwiedzenie:
 
 ### **Steghide (JPEG, BMP, WAV, AU)**
 
-Steghide to wszechstronne narzędzie przeznaczone do ukrywania danych w plikach JPEG, BMP, WAV i AU. Szczegółowe instrukcje znajdują się w [dokumentacji trików steganograficznych](stego-tricks.md#steghide).
+Steghide to wszechstronne narzędzie przeznaczone do ukrywania danych w plikach JPEG, BMP, WAV i AU. Szczegółowe instrukcje znajdują się w [dokumentacji sztuczek steganograficznych](stego-tricks.md#steghide).
 
 ### **Stegpy (PNG, BMP, GIF, WebP, WAV)**
 
@@ -165,13 +165,13 @@ To narzędzie jest kompatybilne z różnymi formatami, w tym PNG, BMP, GIF, WebP
 
 ### **ffmpeg**
 
-ffmpeg jest kluczowy do oceny integralności plików dźwiękowych, podkreślając szczegółowe informacje i wskazując wszelkie niezgodności.
+ffmpeg jest niezbędny do oceny integralności plików dźwiękowych, podkreślając szczegółowe informacje i wskazując wszelkie niezgodności.
 ```bash
 ffmpeg -v info -i stego.mp3 -f null -
 ```
 ### **WavSteg (WAV)**
 
-WavSteg doskonale sprawdza się w ukrywaniu i wydobywaniu danych w plikach WAV, korzystając z strategii najmniej znaczącego bitu. Jest dostępny na [GitHub](https://github.com/ragibson/Steganography#WavSteg). Komendy obejmują:
+WavSteg doskonale ukrywa i wydobywa dane w plikach WAV, używając strategii najmniej znaczącego bitu. Jest dostępny na [GitHub](https://github.com/ragibson/Steganography#WavSteg). Polecenia obejmują:
 ```bash
 python3 WavSteg.py -r -b 1 -s soundfile -o outputfile
 
@@ -183,24 +183,28 @@ Deepsound umożliwia szyfrowanie i wykrywanie informacji w plikach dźwiękowych
 
 ### **Sonic Visualizer**
 
-Niezastąpione narzędzie do wizualnej i analitycznej inspekcji plików audio, Sonic Visualizer może ujawnić ukryte elementy niewykrywalne innymi środkami. Odwiedź [oficjalną stronę internetową](https://www.sonicvisualiser.org/) po więcej informacji.
+Niezastąpione narzędzie do wizualnej i analitycznej inspekcji plików dźwiękowych, Sonic Visualizer może ujawnić ukryte elementy niewykrywalne innymi środkami. Odwiedź [oficjalną stronę internetową](https://www.sonicvisualiser.org/) po więcej informacji.
 
 ### **DTMF Tones - Sygnały wybierania**
 
-Wykrywanie sygnałów DTMF w plikach audio można osiągnąć za pomocą narzędzi online, takich jak [ten detektor DTMF](https://unframework.github.io/dtmf-detect/) i [DialABC](http://dialabc.com/sound/detect/index.html).
+Wykrywanie sygnałów DTMF w plikach dźwiękowych można osiągnąć za pomocą narzędzi online, takich jak [ten detektor DTMF](https://unframework.github.io/dtmf-detect/) i [DialABC](http://dialabc.com/sound/detect/index.html).
 
 ## **Inne Techniki**
 
 ### **Długość Binarna SQRT - Kod QR**
 
-Dane binarne, które dają liczbę całkowitą po podniesieniu do kwadratu, mogą reprezentować kod QR. Użyj tego fragmentu do sprawdzenia:
+Dane binarne, które dają liczbę całkowitą po podniesieniu do kwadratu, mogą reprezentować kod QR. Skorzystaj z tego fragmentu, aby sprawdzić:
 ```python
 import math
 math.sqrt(2500) #50
 ```
-### **Tłumaczenie Braille'a**
+### **Tłumaczenie na język polski**
 
-Do tłumaczenia Braille'a użyj [Tłumacza Braille'a Branah](https://www.branah.com/braille-translator).
+Do konwersji z binarnego na obraz, sprawdź [dcode](https://www.dcode.fr/binary-image). Aby odczytać kody QR, skorzystaj z [tego czytnika kodów kreskowych online](https://online-barcode-reader.inliteresearch.com/).
+
+### **Tłumaczenie na alfabet Braille'a**
+
+Do tłumaczenia na alfabet Braille'a, [Tłumacz Braille'a Branah](https://www.branah.com/braille-translator) to doskonałe narzędzie.
 
 ## **Referencje**
 
@@ -215,7 +219,7 @@ Do tłumaczenia Braille'a użyj [Tłumacza Braille'a Branah](https://www.branah.
 
 <details>
 
-<summary><strong>Zacznij od zera i zostań ekspertem AWS z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Zacznij od zera i zostań ekspertem w hakowaniu AWS z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 

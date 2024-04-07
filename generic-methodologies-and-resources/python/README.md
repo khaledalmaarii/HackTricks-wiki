@@ -14,7 +14,7 @@ Inne sposoby wsparcia HackTricks:
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
 
 \
 Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) do łatwego tworzenia i **automatyzacji workflowów** zasilanych przez **najbardziej zaawansowane** narzędzia społeczności.\
@@ -30,7 +30,7 @@ Otrzymaj dostęp już dziś:
 * [**Podstawowa składnia żądań sieciowych w Pythonie**](web-requests.md)
 * [**Podstawowa składnia i biblioteki Pythona**](basic-python.md)
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
 
 \
 Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) do łatwego tworzenia i **automatyzacji workflowów** zasilanych przez **najbardziej zaawansowane** narzędzia społeczności.\

@@ -7,24 +7,24 @@
 Inne sposoby wsparcia HackTricks:
 
 * Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Kup [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
+* **Podziel się swoimi sztuczkami hakowania, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
 
 \
-Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), aby łatwo tworzyć i **automatyzować przepływy pracy** z wykorzystaniem najbardziej **zaawansowanych narzędzi społecznościowych** na świecie.\
-Zdobądź dostęp już dziś:
+Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), aby łatwo tworzyć i **automatyzować zadania** przy użyciu najbardziej zaawansowanych narzędzi społeczności.\
+Otrzymaj dostęp już dziś:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 ## Artefakty przeglądarek <a href="#id-3def" id="id-3def"></a>
 
-Artefakty przeglądarek obejmują różne rodzaje danych przechowywanych przez przeglądarki internetowe, takie jak historia nawigacji, zakładki i dane pamięci podręcznej. Te artefakty są przechowywane w określonych folderach w systemie operacyjnym, różniących się pod względem lokalizacji i nazwy w zależności od przeglądarki, ale zazwyczaj przechowujących podobne rodzaje danych.
+Artefakty przeglądarek obejmują różne rodzaje danych przechowywanych przez przeglądarki internetowe, takie jak historia nawigacji, zakładki i dane pamięci podręcznej. Te artefakty są przechowywane w określonych folderach w systemie operacyjnym, różniących się pod względem lokalizacji i nazwy w różnych przeglądarkach, ale zazwyczaj przechowujących podobne typy danych.
 
 Oto podsumowanie najczęstszych artefaktów przeglądarek:
 
@@ -36,7 +36,7 @@ Oto podsumowanie najczęstszych artefaktów przeglądarek:
 * **Logowania**: Przechowywane dane logowania.
 * **Favicons**: Ikony związane z witrynami, pojawiające się w kartach i zakładkach, przydatne do uzyskania dodatkowych informacji o wizytach użytkownika.
 * **Sesje przeglądarki**: Dane związane z otwartymi sesjami przeglądarki.
-* **Pobrania**: Rejestry plików pobranych za pomocą przeglądarki.
+* **Pobrania**: Rejestracje plików pobranych za pomocą przeglądarki.
 * **Dane formularza**: Informacje wprowadzone w formularzach internetowych, zapisane do przyszłych sugestii autouzupełniania.
 * **Miniatury**: Podglądy stron internetowych.
 * **Custom Dictionary.txt**: Słowa dodane przez użytkownika do słownika przeglądarki.
@@ -49,12 +49,12 @@ Firefox organizuje dane użytkownika w profilach, przechowywanych w określonych
 * **MacOS**: `/Users/$USER/Library/Application Support/Firefox/Profiles/`
 * **Windows**: `%userprofile%\AppData\Roaming\Mozilla\Firefox\Profiles\`
 
-Plik `profiles.ini` w tych katalogach wymienia profile użytkownika. Dane każdego profilu są przechowywane w folderze o nazwie zmiennych `Path` w `profiles.ini`, znajdującym się w tym samym katalogu co `profiles.ini`. Jeśli brakuje folderu profilu, może on zostać usunięty.
+Plik `profiles.ini` w tych katalogach wymienia profile użytkownika. Dane każdego profilu są przechowywane w folderze o nazwie zmiennych `Path` w `profiles.ini`, znajdującym się w tym samym katalogu co `profiles.ini`. Jeśli brakuje folderu profilu, może to oznaczać, że został usunięty.
 
 W każdym folderze profilu można znaleźć kilka ważnych plików:
 
-* **places.sqlite**: Przechowuje historię, zakładki i pobrania. Narzędzia takie jak [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html) w systemie Windows mogą uzyskać dostęp do danych historycznych.
-* Użyj konkretnych zapytań SQL do wyodrębnienia informacji o historii i pobranych plikach.
+* **places.sqlite**: Przechowuje historię, zakładki i pobrania. Narzędzia takie jak [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html) w systemie Windows mogą uzyskać dostęp do danych historii.
+* Użyj konkretnych zapytań SQL do wydobycia informacji o historii i pobranych plikach.
 * **bookmarkbackups**: Zawiera kopie zapasowe zakładek.
 * **formhistory.sqlite**: Przechowuje dane formularzy internetowych.
 * **handlers.json**: Zarządza obsługą protokołów.
@@ -69,9 +69,9 @@ W każdym folderze profilu można znaleźć kilka ważnych plików:
 * **logins.json**: Zaszyfrowane informacje logowania.
 * **key4.db** lub **key3.db**: Przechowuje klucze szyfrowania do zabezpieczania poufnych informacji.
 
-Dodatkowo, sprawdzenie ustawień anty-phishing przeglądarki można wykonać, wyszukując wpisy `browser.safebrowsing` w `prefs.js`, wskazujące, czy funkcje bezpiecznego przeglądania są włączone czy wyłączone.
+Dodatkowo, sprawdzenie ustawień anty-phishing przeglądarki można wykonać, szukając wpisów `browser.safebrowsing` w `prefs.js`, wskazujących, czy funkcje bezpiecznego przeglądania są włączone czy wyłączone.
 
-Aby spróbować odszyfrować główne hasło, można skorzystać z [https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt)\
+Aby spróbować odszyfrować główne hasło, można użyć [https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt)\
 Z poniższym skryptem i wywołaniem można określić plik hasła do ataku brutalnej siły:
 
 {% code title="brute.sh" %}
@@ -87,7 +87,7 @@ done < $passfile
 ```
 {% endcode %}
 
-![](<../../../.gitbook/assets/image (417).png>)
+![](<../../../.gitbook/assets/image (689).png>)
 
 ## Google Chrome
 
@@ -99,15 +99,15 @@ Google Chrome przechowuje profile użytkownika w określonych lokalizacjach w za
 
 W tych katalogach większość danych użytkownika można znaleźć w folderach **Default/** lub **ChromeDefaultData/**. Poniższe pliki przechowują istotne dane:
 
-* **History**: Zawiera adresy URL, pobrania i słowa kluczowe wyszukiwania. Na systemie Windows można użyć [ChromeHistoryView](https://www.nirsoft.net/utils/chrome\_history\_view.html) do odczytania historii. Kolumna "Typ przejścia" ma różne znaczenia, w tym kliknięcia użytkownika w linki, wpisane adresy URL, przesłane formularze i przeładowania strony.
+* **History**: Zawiera adresy URL, pobrania i słowa kluczowe wyszukiwania. Na systemie Windows można użyć [ChromeHistoryView](https://www.nirsoft.net/utils/chrome\_history\_view.html) do odczytania historii. Kolumna "Typ przejścia" ma różne znaczenia, w tym kliknięcia użytkownika w linki, wpisane adresy URL, przesłane formularze i odświeżenia strony.
 * **Cookies**: Przechowuje pliki cookie. Do inspekcji dostępne jest narzędzie [ChromeCookiesView](https://www.nirsoft.net/utils/chrome\_cookies\_view.html).
-* **Cache**: Przechowuje dane w pamięci podręcznej. Użytkownicy systemu Windows mogą skorzystać z [ChromeCacheView](https://www.nirsoft.net/utils/chrome\_cache\_view.html) do inspekcji.
+* **Cache**: Przechowuje dane z pamięci podręcznej. Użytkownicy systemu Windows mogą skorzystać z [ChromeCacheView](https://www.nirsoft.net/utils/chrome\_cache\_view.html) do inspekcji.
 * **Zakładki**: Zakładki użytkownika.
 * **Web Data**: Zawiera historię formularzy.
 * **Favicons**: Przechowuje ikony stron internetowych.
 * **Login Data**: Zawiera dane logowania, takie jak nazwy użytkowników i hasła.
 * **Aktualna sesja**/**Aktualne karty**: Dane dotyczące bieżącej sesji przeglądania i otwartych kart.
-* **Ostatnia sesja**/**Ostatnie karty**: Informacje o aktywnych stronach podczas ostatniej sesji przed zamknięciem przeglądarki Chrome.
+* **Ostatnia sesja**/**Ostatnie karty**: Informacje o aktywnych stronach podczas ostatniej sesji przed zamknięciem Chrome.
 * **Rozszerzenia**: Katalogi dla rozszerzeń i dodatków przeglądarki.
 * **Miniaturki**: Przechowuje miniaturki stron internetowych.
 * **Preferencje**: Plik bogaty w informacje, zawierający ustawienia dla wtyczek, rozszerzeń, wyskakujących okien, powiadomień i innych.
@@ -127,15 +127,15 @@ Metadane dla Internet Explorera są przechowywane w `%userprofile%\Appdata\Local
 
 ### Inspekcja pamięci podręcznej
 
-Narzędzie [IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html) umożliwia inspekcję pamięci podręcznej, wymagając lokalizacji folderu z ekstrakcją danych pamięci podręcznej. Metadane pamięci podręcznej obejmują nazwę pliku, katalog, liczbę dostępów, pochodzenie URL i znaczniki czasu wskazujące czasy tworzenia, dostępu, modyfikacji i wygaśnięcia pamięci podręcznej.
+Narzędzie [IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html) umożliwia inspekcję pamięci podręcznej, wymagając lokalizacji folderu z ekstrakcją danych pamięci podręcznej. Metadane pamięci podręcznej obejmują nazwę pliku, katalog, liczbę dostępów, pochodzenie URL i znaczniki czasowe wskazujące na utworzenie, dostęp, modyfikację i wygaśnięcie pamięci podręcznej.
 
 ### Zarządzanie plikami cookie
 
-Pliki cookie można badać za pomocą [IECookiesView](https://www.nirsoft.net/utils/iecookies.html), a metadane obejmują nazwy, adresy URL, liczby dostępów i różne szczegóły związane z czasem. Trwałe pliki cookie są przechowywane w `%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies`, a pliki sesji w pamięci.
+Pliki cookie można badać za pomocą [IECookiesView](https://www.nirsoft.net/utils/iecookies.html), a metadane obejmują nazwy, adresy URL, liczbę dostępów i różne szczegóły związane z czasem. Trwałe pliki cookie są przechowywane w `%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies`, a pliki sesji w pamięci.
 
 ### Szczegóły pobierania
 
-Metadane pobierania są dostępne za pomocą [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html), a konkretne kontenery przechowują dane, takie jak URL, typ pliku i lokalizację pobierania. Fizyczne pliki można znaleźć w `%userprofile%\Appdata\Roaming\Microsoft\Windows\IEDownloadHistory`.
+Metadane pobierania są dostępne za pomocą [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html), a konkretne kontenery przechowują dane, takie jak URL, typ pliku i lokalizację pobierania. Fizyczne pliki można znaleźć pod `%userprofile%\Appdata\Roaming\Microsoft\Windows\IEDownloadHistory`.
 
 ### Historia przeglądania
 
@@ -159,7 +159,7 @@ Microsoft Edge przechowuje dane użytkownika w `%userprofile%\Appdata\Local\Pack
 
 Dane Safari są przechowywane w `/Users/$User/Library/Safari`. Kluczowe pliki to:
 
-* **History.db**: Zawiera tabele `history_visits` i `history_items` z adresami URL i znacznikami czasu wizyt. Użyj `sqlite3` do zapytań.
+* **History.db**: Zawiera tabele `history_visits` i `history_items` z adresami URL i znacznikami czasowymi wizyt. Użyj `sqlite3` do zapytań.
 * **Downloads.plist**: Informacje o pobranych plikach.
 * **Bookmarks.plist**: Przechowuje adresy URL zakładek.
 * **TopSites.plist**: Najczęściej odwiedzane strony.
@@ -172,7 +172,7 @@ Dane Safari są przechowywane w `/Users/$User/Library/Safari`. Kluczowe pliki to
 
 Dane Opery znajdują się w `/Users/$USER/Library/Application Support/com.operasoftware.Opera` i mają format historii i pobierania podobny do Chrome'a.
 
-* **Wbudowana ochrona przed phishingiem przeglądarki**: Sprawdź, czy `fraud_protection_enabled` w pliku Preferencje jest ustawione na `true` za pomocą `grep`.
+* **Wbudowana ochrona przed phishingiem przeglądarki**: Sprawdź, czy `fraud_protection_enabled` w pliku Preferencji jest ustawione na `true` za pomocą `grep`.
 
 Te ścieżki i polecenia są kluczowe do dostępu i zrozumienia danych przeglądania przechowywanych przez różne przeglądarki internetowe.
 
@@ -183,23 +183,21 @@ Te ścieżki i polecenia są kluczowe do dostępu i zrozumienia danych przegląd
 * [https://books.google.com/books?id=jfMqCgAAQBAJ\&pg=PA128\&lpg=PA128\&dq=%22This+file](https://books.google.com/books?id=jfMqCgAAQBAJ\&pg=PA128\&lpg=PA128\&dq=%22This+file)
 * **Książka: OS X Incident Response: Scripting and Analysis By Jaron Bradley strona 123**
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
 
 \
 Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) do łatwego tworzenia i **automatyzacji prac** z wykorzystaniem najbardziej zaawansowanych narzędzi społeczności na świecie.\
-Zdobądź dostęp już dziś:
+Otrzymaj dostęp już dziś:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 <details>
 
-<summary><strong>Zacznij od zera i zostań ekspertem w hakowaniu AWS dzięki</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Inne sposoby wsparcia HackTricks:
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
+<summary><strong>Dowiedz się, jak hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCYJNY**](https://github.com/sponsors/carlospolop)!
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na githubie.
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
 
 </details>

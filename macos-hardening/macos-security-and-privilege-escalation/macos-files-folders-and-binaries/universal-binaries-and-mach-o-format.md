@@ -10,21 +10,21 @@ Inne sposoby wsparcia HackTricks:
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
 
 </details>
 
 ## Podstawowe informacje
 
-Binaria w systemie macOS zazwyczaj są kompilowane jako **uniwersalne pliki wykonywalne**. **Uniwersalny plik wykonywalny** może **obsługiwać wiele architektur w tym samym pliku**.
+Binaria w systemie Mac OS zazwyczaj są kompilowane jako **uniwersalne pliki wykonywalne**. **Uniwersalny plik wykonywalny** może **obsługiwać wiele architektur w tym samym pliku**.
 
-Te binaria stosują **strukturę Mach-O**, która składa się z:
+Te pliki wykonywalne stosują **strukturę Mach-O**, która składa się z:
 
 * Nagłówka
 * Komend ładowania
 * Danych
 
-![https://alexdremov.me/content/images/2022/10/6XLCD.gif](<../../../.gitbook/assets/image (559).png>)
+![https://alexdremov.me/content/images/2022/10/6XLCD.gif](<../../../.gitbook/assets/image (467).png>)
 
 ## Nagłówek Fat
 
@@ -78,7 +78,7 @@ capabilities PTR_AUTH_VERSION USERSPACE 0
 
 lub używając narzędzia [Mach-O View](https://sourceforge.net/projects/machoview/):
 
-<figure><img src="../../../.gitbook/assets/image (5) (1) (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1091).png" alt=""><figcaption></figcaption></figure>
 
 Jak możesz sobie wyobrazić, zazwyczaj uniwersalny plik skompilowany dla 2 architektur **podwaja rozmiar** w porównaniu z plikiem skompilowanym tylko dla 1 architektury.
 
@@ -125,7 +125,7 @@ MH_MAGIC_64    ARM64          E USR00     EXECUTE    19       1728   NOUNDEFS DY
 ```
 Lub używając [Mach-O View](https://sourceforge.net/projects/machoview/):
 
-<figure><img src="../../../.gitbook/assets/image (4) (1) (4).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1130).png" alt=""><figcaption></figcaption></figure>
 
 ## **Polecenia ładowania Mach-O**
 
@@ -138,12 +138,12 @@ uint32_t cmd;           /* type of load command */
 uint32_t cmdsize;       /* total size of command in bytes */
 };
 ```
-Istnieje około **50 różnych typów poleceń ładowania**, które system obsługuje w inny sposób. Najczęstsze z nich to: `LC_SEGMENT_64`, `LC_LOAD_DYLINKER`, `LC_MAIN`, `LC_LOAD_DYLIB` i `LC_CODE_SIGNATURE`.
+Istnieje około **50 różnych rodzajów poleceń ładowania**, które system obsługuje w inny sposób. Najczęstsze z nich to: `LC_SEGMENT_64`, `LC_LOAD_DYLINKER`, `LC_MAIN`, `LC_LOAD_DYLIB` i `LC_CODE_SIGNATURE`.
 
 ### **LC\_SEGMENT/LC\_SEGMENT\_64**
 
 {% hint style="success" %}
-W zasadzie ten rodzaj polecenia ładowania definiuje **sposób ładowania segmentów \_\_TEXT** (kod wykonywalny) **i \_\_DATA** (dane procesu) **zgodnie z przesunięciami wskazanymi w sekcji danych** podczas wykonywania binarnego pliku.
+W zasadzie ten rodzaj polecenia ładowania definiuje, **jak załadować segmenty \_\_TEXT** (kod wykonywalny) **i \_\_DATA** (dane procesu) **zgodnie z przesunięciami wskazanymi w sekcji danych** podczas wykonywania binarnego pliku.
 {% endhint %}
 
 Te polecenia **definiują segmenty**, które są **mapowane** do **przestrzeni pamięci wirtualnej** procesu podczas jego wykonywania.
@@ -171,9 +171,9 @@ int32_t		initprot;	/* początkowa ochrona VM */
 
 Przykład nagłówka segmentu:
 
-<figure><img src="../../../.gitbook/assets/image (2) (2) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1123).png" alt=""><figcaption></figcaption></figure>
 
-Ten nagłówek definiuje **liczbę sekcji, których nagłówki pojawiają się po** nim:
+Ten nagłówek definiuje **liczbę sekcji, których nagłówki po nim występują**:
 ```c
 struct section_64 { /* for 64-bit architectures */
 char		sectname[16];	/* name of this section */
@@ -192,31 +192,32 @@ uint32_t	reserved3;	/* reserved */
 ```
 Przykład **nagłówka sekcji**:
 
-<figure><img src="../../../.gitbook/assets/image (6) (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1105).png" alt=""><figcaption></figcaption></figure>
 
 Jeśli **dodasz** **przesunięcie sekcji** (0x37DC) + **przesunięcie**, gdzie **arch zaczyna się**, w tym przypadku `0x18000` --> `0x37DC + 0x18000 = 0x1B7DC`
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (698).png" alt=""><figcaption></figcaption></figure>
 
-Możliwe jest również uzyskanie informacji o **nagłówkach** z **wiersza poleceń** za pomocą:
+Możliwe jest również uzyskanie **informacji o nagłówkach** z **wiersza poleceń** za pomocą:
 ```bash
 otool -lv /bin/ls
 ```
+```markdown
 Wspólne segmenty ładowane przez tę komendę:
 
-- **`__PAGEZERO`:** Instruuje jądro, aby **mapowało** **adres zero**, dzięki czemu **nie można go odczytać, zapisać ani wykonać**. Zmienne maxprot i minprot w strukturze są ustawione na zero, co oznacza, że na tej stronie **nie ma praw do odczytu-zapisu-wykonania**.
-- Ta alokacja jest ważna dla **zmniejszenia podatności na odwołania do wskaźników NULL**.
-- **`__TEXT`**: Zawiera **wykonywalny** **kod** z uprawnieniami **do odczytu** i **wykonania** (bez możliwości zapisu)**.** Wspólne sekcje tego segmentu:
-  - `__text`: Skompilowany kod binarny
-  - `__const`: Dane stałe
-  - `__cstring`: Stałe ciągi znaków
-  - `__stubs` i `__stubs_helper`: Zaangażowane podczas procesu dynamicznego ładowania bibliotek
-- **`__DATA`**: Zawiera dane, które są **do odczytu** i **zapisu** (bez możliwości wykonania)**.**
-  - `__data`: Zmienne globalne (zainicjowane)
-  - `__bss`: Zmienne statyczne (niezainicjowane)
-  - `__objc_*` (\_\_objc\_classlist, \_\_objc\_protolist, itp.): Informacje używane przez środowisko uruchomieniowe Objective-C
-- **`__LINKEDIT`**: Zawiera informacje dla linkera (dyld), takie jak "wpisy do tabel symboli, ciągów i relokacji."
-- **`__OBJC`**: Zawiera informacje używane przez środowisko uruchomieniowe Objective-C. Chociaż te informacje mogą być również znalezione w segmencie \_\_DATA, w różnych sekcjach \_\_objc\_\*.
+* **`__PAGEZERO`:** Instruuje jądro, aby **mapowało** **adres zero**, więc **nie można go odczytać, zapisać ani wykonać**. Zmienne maxprot i minprot w strukturze są ustawione na zero, aby wskazać, że na tej stronie **nie ma praw do odczytu-zapisu-wykonania**.
+* Ta alokacja jest ważna do **zmniejszenia podatności na odwołania do wskaźników NULL**.
+* **`__TEXT`**: Zawiera **wykonywalny** **kod** z uprawnieniami **do odczytu** i **wykonania** (bez możliwości zapisu)**.** Wspólne sekcje tego segmentu:
+* `__text`: Skompilowany kod binarny
+* `__const`: Dane stałe
+* `__cstring`: Stałe ciągi znaków
+* `__stubs` i `__stubs_helper`: Zaangażowane podczas procesu dynamicznego ładowania bibliotek
+* **`__DATA`**: Zawiera dane, które są **do odczytu** i **zapisu** (bez możliwości wykonania)**.**
+* `__data`: Zmienne globalne (które zostały zainicjowane)
+* `__bss`: Zmienne statyczne (które nie zostały zainicjowane)
+* `__objc_*` (\_\_objc\_classlist, \_\_objc\_protolist, itp.): Informacje używane przez środowisko uruchomieniowe Objective-C
+* **`__LINKEDIT`**: Zawiera informacje dla linkera (dyld) takie jak "wpisy tabeli symboli, ciągów i relokacji."
+* **`__OBJC`**: Zawiera informacje używane przez środowisko uruchomieniowe Objective-C. Chociaż te informacje mogą być również znalezione w segmencie \_\_DATA, w różnych sekcjach \_\_objc\_\*.
 
 ### **`LC_MAIN`**
 
@@ -229,13 +230,14 @@ Jednak informacje na temat tej sekcji można znaleźć w [**tym wpisie na blogu*
 
 ### **LC\_LOAD\_DYLINKER**
 
-Zawiera **ścieżkę do dynamicznego łącznika wykonywalnego**, który mapuje współdzielone biblioteki do przestrzeni adresowej procesu. **Wartość zawsze jest ustawiona na `/usr/lib/dyld`**. Warto zauważyć, że w macOS mapowanie dylibów odbywa się w **trybie użytkownika**, a nie w trybie jądra.
+Zawiera **ścieżkę do wykonywalnego dynamicznego linkera**, który mapuje współdzielone biblioteki do przestrzeni adresowej procesu. **Wartość zawsze jest ustawiona na `/usr/lib/dyld`**. Warto zauważyć, że w macOS mapowanie dylibów odbywa się w **trybie użytkownika**, a nie w trybie jądra.
 
 ### **`LC_LOAD_DYLIB`**
 
 Ta komenda ładowania opisuje zależność od **dynamicznej** **biblioteki**, która **instruuje** **ładowacz** (dyld) do **załadowania i połączenia tej biblioteki**. Istnieje komenda ładowania LC\_LOAD\_DYLIB **dla każdej biblioteki**, którą wymaga plik Mach-O.
 
-- Ta komenda ładowania jest strukturą typu **`dylib_command`** (która zawiera strukturę dylib, opisującą rzeczywistą zależną dynamiczną bibliotekę):
+* Ta komenda ładowania jest strukturą typu **`dylib_command`** (która zawiera strukturę dylib, opisującą rzeczywistą zależną dynamiczną bibliotekę):
+```
 ```objectivec
 struct dylib_command {
 uint32_t        cmd;            /* LC_LOAD_{,WEAK_}DYLIB */
@@ -262,7 +264,7 @@ Potencjalne biblioteki związane z złośliwym oprogramowaniem to:
 
 - **DiskArbitration**: Monitorowanie dysków USB
 - **AVFoundation:** Przechwytywanie dźwięku i obrazu
-- **CoreWLAN**: Skanowanie sieci WiFi.
+- **CoreWLAN**: Skanowanie sieci Wifi.
 
 {% hint style="info" %}
 Binarny Mach-O może zawierać jeden lub **więcej konstruktorów**, które zostaną **wykonane przed** adresem określonym w **LC\_MAIN**.\
@@ -271,7 +273,7 @@ Przesunięcia dowolnych konstruktorów są przechowywane w sekcji **\_\_mod\_ini
 
 ## **Dane Mach-O**
 
-W centrum pliku znajduje się region danych, który składa się z kilku segmentów określonych w regionie poleceń ładowania. **W każdym segmencie może być umieszczona różnorodność sekcji danych**, z każdą sekcją **zawierającą kod lub dane** specyficzne dla danego typu.
+W centrum pliku znajduje się region danych, który składa się z kilku segmentów zdefiniowanych w regionie poleceń ładowania. **W każdym segmencie może być przechowywanych wiele sekcji danych**, z każda sekcją **zawierającą kod lub dane** specyficzne dla danego typu.
 
 {% hint style="success" %}
 Dane to w zasadzie część zawierająca wszystkie **informacje**, które są ładowane przez polecenia ładowania **LC\_SEGMENTS\_64**
@@ -287,7 +289,7 @@ Obejmuje to:
 
 Aby to sprawdzić, można skorzystać z narzędzia [**Mach-O View**](https://sourceforge.net/projects/machoview/):
 
-<figure><img src="../../../.gitbook/assets/image (2) (1) (4).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1117).png" alt=""><figcaption></figcaption></figure>
 
 Lub z wiersza poleceń:
 ```bash
@@ -299,10 +301,10 @@ size -m /bin/ls
 
 Inne sposoby wsparcia HackTricks:
 
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF** sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Kup [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną na HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
+* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na githubie.
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
 
 </details>

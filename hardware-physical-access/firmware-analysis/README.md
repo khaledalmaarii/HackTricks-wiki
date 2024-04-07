@@ -1,4 +1,4 @@
-# Firmware Analysis
+# Analiza oprogramowania układowego
 
 <details>
 
@@ -6,24 +6,24 @@
 
 Inne sposoby wsparcia HackTricks:
 
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCJI**](https://github.com/sponsors/carlospolop)!
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
 
 </details>
 
 ## **Wprowadzenie**
 
-Oprogramowanie układowe to niezbędne oprogramowanie, które umożliwia urządzeniom prawidłowe działanie poprzez zarządzanie i ułatwianie komunikacji między komponentami sprzętu a oprogramowaniem, z którym użytkownicy współpracują. Jest przechowywane w pamięci stałej, zapewniając, że urządzenie może uzyskać dostęp do istotnych instrukcji od momentu włączenia zasilania, co prowadzi do uruchomienia systemu operacyjnego. Badanie i ewentualna modyfikacja oprogramowania układowego to kluczowy krok w identyfikacji podatności na zagrożenia.
+Oprogramowanie układowe to istotne oprogramowanie umożliwiające urządzeniom poprawne działanie poprzez zarządzanie i ułatwianie komunikacji między komponentami sprzętowymi a oprogramowaniem, z którym użytkownicy wchodzą w interakcje. Jest przechowywane w pamięci stałej, zapewniając urządzeniu dostęp do istotnych instrukcji od momentu włączenia zasilania, co prowadzi do uruchomienia systemu operacyjnego. Badanie i ewentualna modyfikacja oprogramowania układowego to kluczowy krok w identyfikowaniu podatności na ataki.
 
 ## **Zbieranie informacji**
 
-**Zbieranie informacji** to kluczowy początkowy krok w zrozumieniu budowy urządzenia i technologii, które wykorzystuje. Proces ten polega na gromadzeniu danych dotyczących:
+**Zbieranie informacji** to kluczowy początkowy krok w zrozumieniu budowy urządzenia i technologii, które wykorzystuje. Proces ten obejmuje zbieranie danych na temat:
 
-* Architektury procesora i systemu operacyjnego, na którym działa
-* Szczegółów dotyczących ładowania systemu
+* Architektury CPU i systemu operacyjnego, który uruchamia
+* Szczegółów bootloadera
 * Układu sprzętowego i kart katalogowych
 * Metryk kodu źródłowego i lokalizacji źródeł
 * Zewnętrznych bibliotek i typów licencji
@@ -31,28 +31,27 @@ Oprogramowanie układowe to niezbędne oprogramowanie, które umożliwia urządz
 * Diagramów architektonicznych i przepływu
 * Oceny bezpieczeństwa i zidentyfikowanych podatności
 
-W tym celu narzędzia **open-source intelligence (OSINT)** są niezwykle cenne, podobnie jak analiza dostępnych komponentów oprogramowania open-source za pomocą procesów manualnych i automatycznych. Narzędzia takie jak [Coverity Scan](https://scan.coverity.com) i [Semmle’s LGTM](https://lgtm.com/#explore) oferują bezpłatną analizę statyczną, która może być wykorzystana do znalezienia potencjalnych problemów.
+W tym celu narzędzia **open-source intelligence (OSINT)** są nieocenione, podobnie jak analiza dostępnych składników oprogramowania open-source za pomocą procesów manualnych i zautomatyzowanych. Narzędzia takie jak [Coverity Scan](https://scan.coverity.com) i [Semmle’s LGTM](https://lgtm.com/#explore) oferują bezpłatną analizę statyczną, którą można wykorzystać do znalezienia potencjalnych problemów.
 
 ## **Pobieranie oprogramowania układowego**
 
-Pobieranie oprogramowania układowego można przeprowadzić na różne sposoby, z różnym stopniem skomplikowania:
+Uzyskanie oprogramowania układowego można podejść na różne sposoby, z różnym stopniem złożoności:
 
-* **Bezpośrednio** od źródła (programistów, producentów)
-* **Budowanie** go na podstawie dostarczonych instrukcji
+* **Bezpośrednio** od źródła (deweloperów, producentów)
+* **Budowanie** go z dostarczonych instrukcji
 * **Pobieranie** z oficjalnych stron wsparcia
-* Wykorzystywanie zapytań **Google dork** do wyszukiwania hostowanego oprogramowania układowego
+* Wykorzystanie zapytań **Google dork** do znalezienia hostowanych plików oprogramowania układowego
 * Bezpośredni dostęp do **przechowywania w chmurze** za pomocą narzędzi takich jak [S3Scanner](https://github.com/sa7mon/S3Scanner)
 * Przechwytywanie **aktualizacji** za pomocą technik man-in-the-middle
-* **Wyodrębnianie** z urządzenia za pomocą połączeń takich jak **UART**, **JTAG** lub **PICit**
-* **Przechwytywanie** żądań aktualizacji w ramach komunikacji urządzenia
-* Identyfikowanie i wykorzystywanie **zadanych punktów aktualizacji**
+* **Wyodrębnianie** z urządzenia poprzez połączenia takie jak **UART**, **JTAG** lub **PICit**
+* **Podglądanie** żądań aktualizacji w komunikacji urządzenia
+* Identyfikowanie i korzystanie z **zahardcodowanych punktów końcowych aktualizacji**
 * **Dumpowanie** z bootloadera lub sieci
-* **Usuwanie i odczytywanie** układu pamięci, gdy wszystko inne zawiedzie, za pomocą odpowiednich narzędzi sprzętowych
+* **Usuwanie i odczytywanie** chipa pamięci, gdy wszystko inne zawodzi, za pomocą odpowiednich narzędzi sprzętowych
 
 ## Analiza oprogramowania układowego
 
-Teraz, gdy **masz oprogramowanie układowe**, musisz wyodrębnić z niego informacje, aby wiedzieć, jak je przetwarzać. Możesz użyć różnych narzędzi do tego celu:
-
+Teraz, gdy **masz oprogramowanie układowe**, musisz wyodrębnić informacje na jego temat, aby wiedzieć, jak je traktować. Różne narzędzia, których możesz użyć do tego:
 ```bash
 file <bin>
 strings -n8 <bin>
@@ -61,8 +60,7 @@ hexdump -C -n 512 <bin> > hexdump.out
 hexdump -C <bin> | head # might find signatures in header
 fdisk -lu <bin> #lists a drives partition and filesystems if multiple
 ```
-
-Jeśli nie znajdziesz wiele za pomocą tych narzędzi, sprawdź **entropię** obrazu za pomocą polecenia `binwalk -E <bin>`. Jeśli entropia jest niska, to mało prawdopodobne, że jest zaszyfrowany. Jeśli entropia jest wysoka, to prawdopodobnie jest zaszyfrowany (lub skompresowany w jakiś sposób).
+Jeśli nie znajdziesz wiele za pomocą tych narzędzi, sprawdź **entropię** obrazu za pomocą `binwalk -E <bin>`, jeśli entropia jest niska, to prawdopodobnie nie jest zaszyfrowany. Jeśli entropia jest wysoka, jest prawdopodobnie zaszyfrowany (lub skompresowany w jakiś sposób).
 
 Ponadto, możesz użyć tych narzędzi do wyodrębnienia **plików osadzonych w oprogramowaniu układowym**:
 
@@ -70,17 +68,16 @@ Ponadto, możesz użyć tych narzędzi do wyodrębnienia **plików osadzonych w 
 [file-data-carving-recovery-tools.md](../../generic-methodologies-and-resources/basic-forensic-methodology/partitions-file-systems-carving/file-data-carving-recovery-tools.md)
 {% endcontent-ref %}
 
-Lub [**binvis.io**](https://binvis.io/#/) ([kod](https://code.google.com/archive/p/binvis/)) do analizy pliku.
+Lub [**binvis.io**](https://binvis.io/#/) ([kod](https://code.google.com/archive/p/binvis/)) do inspekcji pliku.
 
-### Uzyskiwanie systemu plików
+### Pobieranie Systemu Plików
 
-Z pomocą wcześniej wspomnianych narzędzi, takich jak `binwalk -ev <bin>`, powinieneś być w stanie **wyodrębnić system plików**.\
-Binwalk zazwyczaj wyodrębnia go do **folderu o nazwie typu systemu plików**, który zazwyczaj jest jednym z następujących: squashfs, ubifs, romfs, rootfs, jffs2, yaffs2, cramfs, initramfs.
+Dzięki wcześniej wspomnianym narzędziom, takim jak `binwalk -ev <bin>`, powinieneś być w stanie **wyodrębnić system plików**.\
+Binwalk zazwyczaj wyodrębnia go do **folderu nazwanego tak jak typ systemu plików**, który zazwyczaj jest jednym z następujących: squashfs, ubifs, romfs, rootfs, jffs2, yaffs2, cramfs, initramfs.
 
-#### Ręczne wyodrębnianie systemu plików
+#### Ręczne Wyodrębnianie Systemu Plików
 
-Czasami binwalk **nie posiada magicznego bajtu systemu plików w swoich sygnaturach**. W takich przypadkach użyj binwalka, aby **znaleźć przesunięcie systemu plików i wyodrębnić skompresowany system plików** z pliku binarnego, a następnie **ręcznie wyodrębnij** system plików zgodnie z jego typem, korzystając z poniższych kroków.
-
+Czasami binwalk **nie będzie miał magicznego bajtu systemu plików w swoich sygnaturach**. W takich przypadkach użyj binwalka, aby **znaleźć przesunięcie systemu plików i wydobyć skompresowany system plików** z pliku binarnego, a następnie **ręcznie wyodrębnij** system plików zgodnie z jego typem, korzystając z poniższych kroków.
 ```
 $ binwalk DIR850L_REVB.bin
 
@@ -92,9 +89,7 @@ DECIMAL HEXADECIMAL DESCRIPTION
 1704052 0x1A0074 PackImg section delimiter tag, little endian size: 32256 bytes; big endian size: 8257536 bytes
 1704084 0x1A0094 Squashfs filesystem, little endian, version 4.0, compression:lzma, size: 8256900 bytes, 2688 inodes, blocksize: 131072 bytes, created: 2016-07-12 02:28:41
 ```
-
-Uruchom poniższą komendę **dd**, wycinając system plików Squashfs.
-
+Uruchom poniższą komendę **dd** wycinając system plików Squashfs.
 ```
 $ dd if=DIR850L_REVB.bin bs=1 skip=1704084 of=dir.squashfs
 
@@ -104,8 +99,7 @@ $ dd if=DIR850L_REVB.bin bs=1 skip=1704084 of=dir.squashfs
 
 8257536 bytes (8.3 MB, 7.9 MiB) copied, 12.5777 s, 657 kB/s
 ```
-
-Alternatywnie, można również uruchomić następujące polecenie.
+Alternatywnie można również uruchomić następujące polecenie.
 
 `$ dd if=DIR850L_REVB.bin bs=1 skip=$((0x1A0094)) of=dir.squashfs`
 
@@ -113,7 +107,7 @@ Alternatywnie, można również uruchomić następujące polecenie.
 
 `$ unsquashfs dir.squashfs`
 
-Pliki będą znajdować się w katalogu "`squashfs-root`" po wykonaniu powyższych poleceń.
+Pliki znajdą się w katalogu "`squashfs-root`" po wykonaniu powyższych poleceń.
 
 * Pliki archiwum CPIO
 
@@ -131,12 +125,11 @@ Pliki będą znajdować się w katalogu "`squashfs-root`" po wykonaniu powyższy
 
 ## Analiza Firmware
 
-Po uzyskaniu firmware'u ważne jest jego rozłożenie na części w celu zrozumienia jego struktury i potencjalnych podatności. Proces ten polega na wykorzystaniu różnych narzędzi do analizy i wydobycia wartościowych danych z obrazu firmware'u.
+Po uzyskaniu firmware'u konieczne jest jego analizowanie w celu zrozumienia struktury i potencjalnych podatności. Proces ten polega na wykorzystaniu różnych narzędzi do analizy i wydobycia wartościowych danych z obrazu firmware'u.
 
-### Narzędzia do początkowej analizy
+### Narzędzia do Analizy Początkowej
 
-Dostępny jest zestaw poleceń do wstępnej analizy pliku binarnego (o nazwie `<bin>`). Te polecenia pomagają w identyfikacji typów plików, wydobyciu ciągów znaków, analizie danych binarnych oraz zrozumieniu szczegółów partycji i systemu plików:
-
+Zestaw poleceń jest dostarczany do wstępnej inspekcji pliku binarnego (nazwanego `<bin>`). Te polecenia pomagają zidentyfikować typy plików, wydobywać ciągi znaków, analizować dane binarne oraz zrozumieć szczegóły partycji i systemu plików:
 ```bash
 file <bin>
 strings -n8 <bin>
@@ -145,101 +138,90 @@ hexdump -C -n 512 <bin> > hexdump.out
 hexdump -C <bin> | head #useful for finding signatures in the header
 fdisk -lu <bin> #lists partitions and filesystems, if there are multiple
 ```
+Aby ocenić stan szyfrowania obrazu, sprawdzana jest **entropia** za pomocą `binwalk -E <bin>`. Niska entropia sugeruje brak szyfrowania, podczas gdy wysoka entropia wskazuje na możliwe szyfrowanie lub kompresję.
 
-Aby ocenić stan szyfrowania obrazu, sprawdzana jest **entropia** za pomocą polecenia `binwalk -E <bin>`. Niska entropia sugeruje brak szyfrowania, podczas gdy wysoka entropia wskazuje możliwe szyfrowanie lub kompresję.
-
-Aby wyodrębnić **osadzone pliki**, zaleca się korzystanie z narzędzi i zasobów takich jak dokumentacja **file-data-carving-recovery-tools** oraz **binvis.io** do inspekcji plików.
+Do wyodrębniania **osadzonych plików** zaleca się korzystanie z narzędzi i zasobów takich jak dokumentacja **file-data-carving-recovery-tools** oraz **binvis.io** do inspekcji plików.
 
 ### Wyodrębnianie systemu plików
 
-Zwykle za pomocą polecenia `binwalk -ev <bin>` można wyodrębnić system plików, często do katalogu o nazwie odpowiadającej typowi systemu plików (np. squashfs, ubifs). Jednak gdy **binwalk** nie rozpoznaje typu systemu plików z powodu braku magicznych bajtów, konieczne jest ręczne wyodrębnienie. Polega to na użyciu polecenia `binwalk` do zlokalizowania przesunięcia systemu plików, a następnie polecenia `dd` do wyodrębnienia systemu plików:
-
+Za pomocą `binwalk -ev <bin>` zazwyczaj można wyodrębnić system plików, często do katalogu nazwanego zgodnie z typem systemu plików (np. squashfs, ubifs). Jednak gdy **binwalk** nie rozpoznaje typu systemu plików z powodu braku magicznych bajtów, konieczne jest ręczne wyodrębnienie. Polega to na użyciu `binwalk` do zlokalizowania przesunięcia systemu plików, a następnie polecenia `dd` do wyodrębnienia systemu plików:
 ```bash
 $ binwalk DIR850L_REVB.bin
 
 $ dd if=DIR850L_REVB.bin bs=1 skip=1704084 of=dir.squashfs
 ```
-
-Następnie, w zależności od typu systemu plików (np. squashfs, cpio, jffs2, ubifs), używane są różne polecenia do ręcznego wyodrębnienia zawartości.
-
 ### Analiza systemu plików
 
-Po wyodrębnieniu systemu plików rozpoczyna się poszukiwanie podatności. Zwraca się uwagę na niebezpieczne demony sieciowe, wbudowane poświadczenia, punkty końcowe interfejsów API, funkcje serwera aktualizacji, niekompilowany kod, skrypty startowe i skompilowane pliki binarne do analizy offline.
+Po wyodrębnieniu systemu plików rozpoczyna się poszukiwanie luk w zabezpieczeniach. Uwaga jest skupiona na niezabezpieczonych demonach sieciowych, stałych poświadczeniach, punktach końcowych interfejsu API, funkcjach serwera aktualizacji, nie skompilowanym kodzie, skryptach uruchamiania oraz skompilowanych binariach do analizy offline.
 
-**Kluczowe lokalizacje** i **elementy** do sprawdzenia to:
+**Kluczowe lokalizacje** i **elementy** do sprawdzenia obejmują:
 
-* **etc/shadow** i **etc/passwd** dla poświadczeń użytkowników
-* Certyfikaty SSL i klucze w **etc/ssl**
-* Pliki konfiguracyjne i skryptowe pod kątem potencjalnych podatności
-* Wbudowane pliki binarne do dalszej analizy
-* Wspólne serwery internetowe i pliki binarne urządzeń IoT
+- **etc/shadow** i **etc/passwd** dla poświadczeń użytkowników
+- Certyfikaty SSL i klucze w **etc/ssl**
+- Pliki konfiguracyjne i skryptowe pod kątem potencjalnych podatności
+- Osadzone binaria do dalszej analizy
+- Powszechne serwery WWW urządzeń IoT i binaria
 
 Kilka narzędzi pomaga w odkrywaniu poufnych informacji i podatności w systemie plików:
 
-* [**LinPEAS**](https://github.com/carlospolop/PEASS-ng) i [**Firmwalker**](https://github.com/craigz28/firmwalker) do wyszukiwania poufnych informacji
-* [**The Firmware Analysis and Comparison Tool (FACT)**](https://github.com/fkie-cad/FACT\_core) do kompleksowej analizy oprogramowania układowego
-* [**FwAnalyzer**](https://github.com/cruise-automation/fwanalyzer), [**ByteSweep**](https://gitlab.com/bytesweep/bytesweep), [**ByteSweep-go**](https://gitlab.com/bytesweep/bytesweep-go) i [**EMBA**](https://github.com/e-m-b-a/emba) do analizy statycznej i dynamicznej
+- [**LinPEAS**](https://github.com/carlospolop/PEASS-ng) i [**Firmwalker**](https://github.com/craigz28/firmwalker) do wyszukiwania poufnych informacji
+- [**The Firmware Analysis and Comparison Tool (FACT)**](https://github.com/fkie-cad/FACT\_core) do kompleksowej analizy oprogramowania układowego
+- [**FwAnalyzer**](https://github.com/cruise-automation/fwanalyzer), [**ByteSweep**](https://gitlab.com/bytesweep/bytesweep), [**ByteSweep-go**](https://gitlab.com/bytesweep/bytesweep-go) i [**EMBA**](https://github.com/e-m-b-a/emba) do analizy statycznej i dynamicznej
 
-### Sprawdzanie zabezpieczeń skompilowanych plików binarnych
+### Sprawdzanie zabezpieczeń skompilowanych binariów
 
-Zarówno kod źródłowy, jak i skompilowane pliki binarne znalezione w systemie plików muszą być dokładnie przeanalizowane pod kątem podatności. Narzędzia takie jak **checksec.sh** dla plików binarnych Unix i **PESecurity** dla plików binarnych Windows pomagają zidentyfikować niezabezpieczone pliki binarne, które mogą być wykorzystane w ataku.
+Zarówno kod źródłowy, jak i skompilowane binaria znalezione w systemie plików muszą być dokładnie przeanalizowane pod kątem podatności. Narzędzia takie jak **checksec.sh** dla binariów Unix oraz **PESecurity** dla binariów Windows pomagają zidentyfikować niezabezpieczone binaria, które mogą być wykorzystane.
 
-## Emulowanie oprogramowania układowego dla analizy dynamicznej
+## Emulowanie oprogramowania układowego do analizy dynamicznej
 
-Proces emulowania oprogramowania układowego umożliwia **analizę dynamiczną** działania urządzenia lub poszczególnego programu. Ta metoda może napotykać trudności zależne od sprzętu lub architektury, ale przeniesienie systemu plików głównego lub konkretnych plików binarnych do urządzenia o takiej samej architekturze i kolejności bajtów, takiego jak Raspberry Pi, lub do wirtualnej maszyny z wcześniej skonfigurowanym oprogramowaniem, może ułatwić dalsze testowanie.
+Proces emulowania oprogramowania układowego umożliwia **analizę dynamiczną** działania urządzenia lub pojedynczego programu. Ten podejście może napotkać wyzwania związane z zależnościami sprzętowymi lub architektonicznymi, ale przeniesienie systemu plików głównego lub określonych binariów do urządzenia o pasującej architekturze i kolejności bajtów, takiego jak Raspberry Pi, lub do wirtualnej maszyny zainstalowanej wcześniej, może ułatwić dalsze testowanie.
 
-### Emulowanie poszczególnych plików binarnych
+### Emulowanie pojedynczych binariów
 
 Przy badaniu pojedynczych programów istotne jest zidentyfikowanie kolejności bajtów i architektury CPU programu.
 
 #### Przykład z architekturą MIPS
 
-Aby emulować plik binarny o architekturze MIPS, można użyć polecenia:
-
+Aby emulować binaria z architekturą MIPS, można użyć polecenia:
 ```bash
 file ./squashfs-root/bin/busybox
 ```
-
-Aby zainstalować niezbędne narzędzia do emulacji:
-
+I do zainstalowania niezbędnych narzędzi do emulacji:
 ```bash
 sudo apt-get install qemu qemu-user qemu-user-static qemu-system-arm qemu-system-mips qemu-system-x86 qemu-utils
 ```
+### Emulacja architektury ARM
 
-Dla architektury MIPS (big-endian) używany jest emulator `qemu-mips`, a dla binarnych plików little-endian wybiera się emulator `qemu-mipsel`.
-
-#### Emulacja architektury ARM
-
-Dla binarnych plików ARM proces jest podobny, z wykorzystaniem emulatora `qemu-arm` do emulacji.
+Dla binarnych plików ARM proces jest podobny, z użyciem emulatora `qemu-arm` do emulacji.
 
 ### Emulacja pełnego systemu
 
-Narzędzia takie jak [Firmadyne](https://github.com/firmadyne/firmadyne), [Firmware Analysis Toolkit](https://github.com/attify/firmware-analysis-toolkit) i inne ułatwiają pełną emulację firmware, automatyzując proces i pomagając w analizie dynamicznej.
+Narzędzia takie jak [Firmadyne](https://github.com/firmadyne/firmadyne), [Firmware Analysis Toolkit](https://github.com/attify/firmware-analysis-toolkit) i inne ułatwiają pełną emulację oprogramowania układowego, automatyzując proces i pomagając w analizie dynamicznej.
 
 ## Analiza dynamiczna w praktyce
 
-W tym etapie do analizy używa się rzeczywistego lub emulowanego środowiska urządzenia. Ważne jest utrzymanie dostępu do powłoki systemu operacyjnego i systemu plików. Emulacja może nie doskonale odwzorowywać interakcje sprzętowe, co czasami wymaga ponownego uruchomienia emulacji. Analiza powinna obejmować ponowne sprawdzenie systemu plików, wykorzystanie wystawionych stron internetowych i usług sieciowych oraz badanie podatności bootloadera. Testy integralności firmware są kluczowe dla identyfikacji potencjalnych podatności na backdoor.
+W tym etapie używane jest środowisko rzeczywiste lub emulowane urządzenia do analizy. Istotne jest utrzymanie dostępu do powłoki systemu operacyjnego i systemu plików. Emulacja może nie doskonale odwzorowywać interakcji sprzętowych, co wymaga czasami ponownego uruchomienia emulacji. Analiza powinna ponownie przejrzeć system plików, wykorzystać wystawione strony internetowe i usługi sieciowe oraz badać podatności bootloadera. Testy integralności oprogramowania układowego są kluczowe dla identyfikacji potencjalnych podatności na tylne drzwi.
 
 ## Techniki analizy w czasie rzeczywistym
 
-Analiza w czasie rzeczywistym polega na interakcji z procesem lub plikiem binarnym w jego środowisku operacyjnym, przy użyciu narzędzi takich jak gdb-multiarch, Frida i Ghidra do ustawiania punktów przerwania i identyfikowania podatności poprzez fuzzing i inne techniki.
+Analiza w czasie rzeczywistym polega na interakcji z procesem lub plikiem binarnym w jego środowisku operacyjnym, używając narzędzi takich jak gdb-multiarch, Frida i Ghidra do ustawiania punktów przerwania i identyfikowania podatności poprzez testowanie losowe i inne techniki.
 
 ## Eksploatacja binarna i dowód koncepcji
 
-Aby opracować dowód koncepcji dla zidentyfikowanych podatności, konieczne jest głębokie zrozumienie architektury docelowej i programowania w językach niskiego poziomu. Ochrona czasu wykonywania binarnego w systemach wbudowanych jest rzadka, ale gdy występuje, mogą być konieczne techniki takie jak Return Oriented Programming (ROP).
+Rozwinięcie PoC dla zidentyfikowanych podatności wymaga głębokiego zrozumienia architektury docelowej i programowania w językach niskiego poziomu. Ochrony czasu wykonania binarnego w systemach wbudowanych są rzadkie, ale gdy występują, mogą być konieczne techniki takie jak Return Oriented Programming (ROP).
 
-## Przygotowane systemy operacyjne do analizy firmware
+## Przygotowane systemy operacyjne do analizy oprogramowania układowego
 
-Systemy operacyjne takie jak [AttifyOS](https://github.com/adi0x90/attifyos) i [EmbedOS](https://github.com/scriptingxss/EmbedOS) zapewniają prekonfigurowane środowiska do testowania bezpieczeństwa firmware, wyposażone w niezbędne narzędzia.
+Systemy operacyjne takie jak [AttifyOS](https://github.com/adi0x90/attifyos) i [EmbedOS](https://github.com/scriptingxss/EmbedOS) zapewniają prekonfigurowane środowiska do testów bezpieczeństwa oprogramowania układowego, wyposażone w niezbędne narzędzia.
 
-## Przygotowane systemy operacyjne do analizy firmware
+## Przygotowane systemy operacyjne do analizy oprogramowania układowego
 
-* [**AttifyOS**](https://github.com/adi0x90/attifyos): AttifyOS to dystrybucja przeznaczona do przeprowadzania oceny bezpieczeństwa i testów penetracyjnych urządzeń Internetu Rzeczy (IoT). Oszczędza dużo czasu, dostarczając prekonfigurowane środowisko z załadowanymi wszystkimi niezbędnymi narzędziami.
-* [**EmbedOS**](https://github.com/scriptingxss/EmbedOS): System operacyjny do testowania bezpieczeństwa wbudowanego oparty na Ubuntu 18.04, wyposażony w narzędzia do testowania bezpieczeństwa firmware.
+* [**AttifyOS**](https://github.com/adi0x90/attifyos): AttifyOS to dystrybucja przeznaczona do przeprowadzania oceny bezpieczeństwa i testów penetracyjnych urządzeń Internetu Rzeczy (IoT). Oszczędza czas, dostarczając prekonfigurowane środowisko z wszystkimi niezbędnymi narzędziami.
+* [**EmbedOS**](https://github.com/scriptingxss/EmbedOS): System operacyjny do testów bezpieczeństwa wbudowany w Ubuntu 18.04, załadowany narzędziami do testowania bezpieczeństwa oprogramowania układowego.
 
-## Podatne firmware do ćwiczeń
+## Podatne oprogramowanie układowe do praktyki
 
-Aby ćwiczyć odkrywanie podatności w firmware, można użyć następujących projektów podatnych firmware jako punktu wyjścia.
+Aby ćwiczyć odkrywanie podatności w oprogramowaniu układowym, użyj następujących projektów podatnego oprogramowania układowego jako punktu wyjścia.
 
 * OWASP IoTGoat
 * [https://github.com/OWASP/IoTGoat](https://github.com/OWASP/IoTGoat)
@@ -254,7 +236,7 @@ Aby ćwiczyć odkrywanie podatności w firmware, można użyć następujących p
 * Damn Vulnerable IoT Device (DVID)
 * [https://github.com/Vulcainreo/DVID](https://github.com/Vulcainreo/DVID)
 
-## Odwołania
+## Referencje
 
 * [https://scriptingxss.gitbook.io/firmware-security-testing-methodology/](https://scriptingxss.gitbook.io/firmware-security-testing-methodology/)
 * [Practical IoT Hacking: The Definitive Guide to Attacking the Internet of Things](https://www.amazon.co.uk/Practical-IoT-Hacking-F-Chantzis/dp/1718500904)
@@ -262,17 +244,3 @@ Aby ćwiczyć odkrywanie podatności w firmware, można użyć następujących p
 ## Szkolenia i certyfikaty
 
 * [https://www.attify-store.com/products/offensive-iot-exploitation](https://www.attify-store.com/products/offensive-iot-exploitation)
-
-<details>
-
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Inne sposoby wsparcia HackTricks:
-
-* Jeśli chcesz zobaczyć **reklamę swojej firmy w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCJI**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi trikami hakerskimi, przesyłając PR do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>

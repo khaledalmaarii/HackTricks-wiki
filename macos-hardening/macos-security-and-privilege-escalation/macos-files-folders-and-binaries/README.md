@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Nauka hakowania AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Zacznij od zera i stań się ekspertem od hakowania AWS dzięki</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 
@@ -10,7 +10,7 @@ Inne sposoby wsparcia HackTricks:
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakowania, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
 
 </details>
 
@@ -60,9 +60,9 @@ macOS przechowuje informacje takie jak hasła w kilku miejscach:
 ## Specyficzne Rozszerzenia OS X
 
 * **`.dmg`**: Pliki obrazów dysków Apple są bardzo częste dla instalatorów.
-* **`.kext`**: Musi przestrzegać określonej struktury i jest to wersja sterownika dla OS X. (jest to pakiet)
+* **`.kext`**: Musi spełniać określoną strukturę i jest to wersja sterownika dla OS X (jest to pakiet).
 * **`.plist`**: Znany również jako lista właściwości, przechowuje informacje w formacie XML lub binarnym.
-* Może być XML lub binarny. Binarny można odczytać za pomocą:
+* Może być XML lub binarny. Binarne można odczytać za pomocą:
 * `defaults read config.plist`
 * `/usr/libexec/PlistBuddy -c print config.plsit`
 * `plutil -p ~/Library/Preferences/com.apple.screensaver.plist`
@@ -86,11 +86,11 @@ Pakiet to **katalog**, który **wygląda jak obiekt w Finderze** (przykładem pa
 
 ## Współdzielona Pamięć Dyld
 
-Na macOS (i iOS) wszystkie wspólne biblioteki systemowe, takie jak ramki i dyliby, są **łączone w pojedynczy plik**, zwany **współdzieloną pamięcią dyld**. Poprawia to wydajność, ponieważ kod może być ładowany szybciej.
+Na macOS (i iOS) wszystkie współdzielone biblioteki systemowe, takie jak ramki i dyliby, są **łączone w pojedynczy plik**, zwany **współdzieloną pamięcią dyld**. Poprawia to wydajność, ponieważ kod może być ładowany szybciej.
 
 Podobnie jak współdzielona pamięć dyld, jądro i rozszerzenia jądra również są kompilowane do pamięci podręcznej jądra, która jest ładowana podczas uruchamiania systemu.
 
-Aby wyodrębnić biblioteki z pojedynczego pliku współdzielonej pamięci dylib, można było użyć binarnego [dyld\_shared\_cache\_util](https://www.mbsplugins.de/files/dyld\_shared\_cache\_util-dyld-733.8.zip), który obecnie może nie działać, ale można również użyć [**dyldextractor**](https://github.com/arandomdev/dyldextractor):
+Aby wyodrębnić biblioteki z pojedynczego pliku współdzielonej pamięci dyld, można było użyć binariów [dyld\_shared\_cache\_util](https://www.mbsplugins.de/files/dyld\_shared\_cache\_util-dyld-733.8.zip), które obecnie mogą nie działać, ale można również użyć [**dyldextractor**](https://github.com/arandomdev/dyldextractor):
 
 {% code overflow="wrap" %}
 ```bash
@@ -112,7 +112,7 @@ W systemie iOS możesz je znaleźć w **`/System/Library/Caches/com.apple.dyld/`
 Zauważ, że nawet jeśli narzędzie `dyld_shared_cache_util` nie działa, możesz przekazać **współdzielony plik dyld do Hoppera** i Hopper będzie w stanie zidentyfikować wszystkie biblioteki i pozwolić ci **wybrać, którą chcesz zbadać**:
 {% endhint %}
 
-<figure><img src="../../../.gitbook/assets/image (680).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1149).png" alt="" width="563"><figcaption></figcaption></figure>
 
 ## Specjalne uprawnienia plików
 
@@ -127,38 +127,38 @@ Istnieją pewne flagi, które można ustawić w plikach, które sprawią, że pl
 * **`uchg`**: Znana jako flaga **uchange** uniemożliwi **dokonanie jakiejkolwiek zmiany** lub usunięcie **pliku**. Aby ją ustawić, wykonaj: `chflags uchg plik.txt`
 * Użytkownik root może **usunąć flagę** i zmodyfikować plik
 * **`restricted`**: Ta flaga sprawia, że plik jest **chroniony przez SIP** (nie można dodać tej flagi do pliku).
-* **`Sticky bit`**: Jeśli katalog ma ustawiony bit sticky, **tylko** właściciel katalogu lub root może zmienić nazwę lub usunąć pliki. Zazwyczaj jest to ustawione w katalogu /tmp, aby zapobiec zwykłym użytkownikom usuwania lub przenoszenia plików innych użytkowników.
+* **`Sticky bit`**: Jeśli katalog ma ustawiony bit sticky, **tylko** właściciel katalogu lub root może zmienić nazwę lub usunąć pliki. Zazwyczaj jest to ustawione w katalogu /tmp, aby zapobiec zwykłym użytkownikom usuwanie lub przenoszenie plików innych użytkowników.
 
 Wszystkie flagi można znaleźć w pliku `sys/stat.h` (znajdź go za pomocą `mdfind stat.h | grep stat.h`) i są:
 
-* `UF_SETTABLE` 0x0000ffff: Maska flag, które można zmieniać właścicielowi.
+* `UF_SETTABLE` 0x0000ffff: Maska flag, które można zmienić właścicielowi.
 * `UF_NODUMP` 0x00000001: Nie zapisuj pliku.
-* `UF_IMMUTABLE` 0x00000002: Plik nie może być zmieniany.
-* `UF_APPEND` 0x00000004: Zapisywanie do pliku może być tylko dodawane.
+* `UF_IMMUTABLE` 0x00000002: Plik nie może być zmieniony.
+* `UF_APPEND` 0x00000004: Zapisywanie do pliku może odbywać się tylko przez dodawanie.
 * `UF_OPAQUE` 0x00000008: Katalog jest nieprzezroczysty w stosunku do unii.
 * `UF_COMPRESSED` 0x00000020: Plik jest skompresowany (niektóre systemy plików).
 * `UF_TRACKED` 0x00000040: Brak powiadomień o usuwaniu/zmianie nazwy dla plików z tą flagą.
 * `UF_DATAVAULT` 0x00000080: Wymagane uprawnienie do odczytu i zapisu.
-* `UF_HIDDEN` 0x00008000: Wskazówka, że ten element nie powinien być wyświetlany w interfejsie graficznym.
+* `UF_HIDDEN` 0x00008000: Wskazuje, że ten element nie powinien być wyświetlany w interfejsie GUI.
 * `SF_SUPPORTED` 0x009f0000: Maska flag obsługiwanych przez superużytkownika.
-* `SF_SETTABLE` 0x3fff0000: Maska flag zmienialnych przez superużytkownika.
+* `SF_SETTABLE` 0x3fff0000: Maska flag, które można zmienić przez superużytkownika.
 * `SF_SYNTHETIC` 0xc0000000: Maska flag systemowych tylko do odczytu.
 * `SF_ARCHIVED` 0x00010000: Plik jest zarchiwizowany.
-* `SF_IMMUTABLE` 0x00020000: Plik nie może być zmieniany.
-* `SF_APPEND` 0x00040000: Zapisywanie do pliku może być tylko dodawane.
+* `SF_IMMUTABLE` 0x00020000: Plik nie może być zmieniony.
+* `SF_APPEND` 0x00040000: Zapisywanie do pliku może odbywać się tylko przez dodawanie.
 * `SF_RESTRICTED` 0x00080000: Wymagane uprawnienie do zapisu.
-* `SF_NOUNLINK` 0x00100000: Element nie może być usunięty, zmieniony nazwy ani zamontowany.
-* `SF_FIRMLINK` 0x00800000: Plik jest łączem stałym.
+* `SF_NOUNLINK` 0x00100000: Element nie może być usunięty, zmieniony lub zamontowany.
+* `SF_FIRMLINK` 0x00800000: Plik jest łącza stałego.
 * `SF_DATALESS` 0x40000000: Plik jest obiektem bez danych.
 
 ### **ACL plików**
 
-ACL plików zawiera **ACE** (wpisy kontroli dostępu), w których można przypisać bardziej **dokładne uprawnienia** różnym użytkownikom.
+ACL plików zawiera **ACE** (wpisy kontroli dostępu), gdzie można przypisać bardziej **dokładne uprawnienia** różnym użytkownikom.
 
 Możliwe jest nadanie **katalogowi** tych uprawnień: `list`, `search`, `add_file`, `add_subdirectory`, `delete_child`, `delete_child`.\
 A plikowi: `read`, `write`, `append`, `execute`.
 
-Gdy plik zawiera ACL, zobaczysz **"+" podczas wyświetlania uprawnień, jak w**:
+Gdy plik zawiera ACL, zobaczysz **"+" podczas listowania uprawnień, jak w**:
 ```bash
 ls -ld Movies
 drwx------+   7 username  staff     224 15 Apr 19:42 Movies
@@ -175,7 +175,7 @@ ls -RAle / 2>/dev/null | grep -E -B1 "\d: "
 ```
 ### Rozszerzone atrybuty
 
-Rozszerzone atrybuty posiadają nazwę i wartość oraz mogą być widoczne za pomocą `ls -@` i manipulowane za pomocą polecenia `xattr`. Niektóre wspólne rozszerzone atrybuty to:
+Rozszerzone atrybuty mają nazwę i dowolną wartość, można je zobaczyć za pomocą `ls -@` i manipulować za pomocą polecenia `xattr`. Niektóre wspólne rozszerzone atrybuty to:
 
 - `com.apple.resourceFork`: Zgodność z zasobami. Widoczne także jako `filename/..namedfork/rsrc`
 - `com.apple.quarantine`: MacOS: Mechanizm kwarantanny Gatekeepera (III/6)
@@ -186,7 +186,7 @@ Rozszerzone atrybuty posiadają nazwę i wartość oraz mogą być widoczne za p
 - `com.apple.logd.metadata`: Używane przez logd w plikach w `/var/db/diagnostics`
 - `com.apple.genstore.*`: Przechowywanie generacyjne (`/.DocumentRevisions-V100` w głównym katalogu systemu plików)
 - `com.apple.rootless`: MacOS: Używane przez System Integrity Protection do oznaczania pliku (III/10)
-- `com.apple.uuidb.boot-uuid`: Oznaczenia boot epochs przez logd z unikalnym UUID
+- `com.apple.uuidb.boot-uuid`: Oznaczenia logd epok uruchomień z unikalnym UUID
 - `com.apple.decmpfs`: MacOS: Transparentna kompresja plików (II/7)
 - `com.apple.cprotect`: \*OS: Dane szyfrowania na poziomie pliku (III/11)
 - `com.apple.installd.*`: \*OS: Metadane używane przez installd, np. `installType`, `uniqueInstallID`
@@ -212,9 +212,9 @@ find / -type f -exec ls -ld {} \; 2>/dev/null | grep -E "[x\-]@ " | awk '{printf
 ```
 ### decmpfs
 
-Atrybut rozszerzony `com.apple.decmpfs` wskazuje, że plik jest przechowywany zaszyfrowany, `ls -l` będzie raportować **rozmiar 0** a skompresowane dane znajdują się w tym atrybucie. Za każdym razem, gdy plik jest dostępny, zostanie zdekodowany w pamięci.
+Atrybut rozszerzony `com.apple.decmpfs` wskazuje, że plik jest przechowywany zaszyfrowany, `ls -l` będzie raportować **rozmiar 0** a skompresowane dane znajdują się w tym atrybucie. Za każdym razem, gdy plik jest dostępny, zostanie zdeszyfrowany w pamięci.
 
-Ten atrybut można zobaczyć za pomocą `ls -lO` oznaczonego jako skompresowany, ponieważ skompresowane pliki są również oznaczone flagą `UF_COMPRESSED`. Jeśli skompresowany plik zostanie usunięty, ta flaga z `chflags nocompressed </ścieżka/do/pliku>`, system nie będzie wiedział, że plik był skompresowany i dlatego nie będzie mógł go zdekompresować i uzyskać dostępu do danych (będzie myślał, że jest pusty).
+Ten atrybut można zobaczyć za pomocą `ls -lO` oznaczonego jako skompresowany, ponieważ skompresowane pliki są również oznaczone flagą `UF_COMPRESSED`. Jeśli skompresowany plik zostanie usunięty z tą flagą `chflags nocompressed </ścieżka/do/pliku>`, system nie będzie wiedział, że plik był skompresowany i dlatego nie będzie w stanie go zdekompresować i uzyskać dostępu do danych (będzie myślał, że jest pusty).
 
 Narzędzie afscexpand może być użyte do wymuszenia dekompresji pliku.
 
@@ -234,10 +234,10 @@ Binaria systemu Mac OS zazwyczaj są kompilowane jako **uniwersalne binaria**. *
 
 ## Pliki kategorii ryzyka w systemie Mac OS
 
-Katalog `/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/System` to miejsce, gdzie przechowywane są informacje o **ryzyku związanym z różnymi rozszerzeniami plików**. Ten katalog kategoryzuje pliki na różne poziomy ryzyka, wpływając na to, w jaki sposób Safari traktuje te pliki po pobraniu. Kategorie te to:
+Katalog `/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/System` to miejsce, gdzie przechowywane są informacje o **ryzyku związanym z różnymi rozszerzeniami plików**. Ten katalog kategoryzuje pliki na różne poziomy ryzyka, wpływając na to, w jaki sposób Safari traktuje te pliki po pobraniu. Kategorie są następujące:
 
 * **LSRiskCategorySafe**: Pliki w tej kategorii są uważane za **całkowicie bezpieczne**. Safari automatycznie otworzy te pliki po pobraniu.
-* **LSRiskCategoryNeutral**: Te pliki nie wyświetlają żadnych ostrzeżeń i **nie są automatycznie otwierane** przez Safari.
+* **LSRiskCategoryNeutral**: Te pliki nie wyświetlają żadnych ostrzeżeń i nie są **automatycznie otwierane** przez Safari.
 * **LSRiskCategoryUnsafeExecutable**: Pliki w tej kategorii **wywołują ostrzeżenie**, wskazując, że plik jest aplikacją. Jest to środek bezpieczeństwa mający na celu poinformowanie użytkownika.
 * **LSRiskCategoryMayContainUnsafeExecutable**: Ta kategoria jest przeznaczona dla plików, takich jak archiwa, które mogą zawierać plik wykonywalny. Safari **wywoła ostrzeżenie**, chyba że może zweryfikować, że wszystkie zawartości są bezpieczne lub neutralne.
 

@@ -1,20 +1,20 @@
-# Zewnętrzna domena lasu - jednokierunkowa (wychodząca)
+# Zewnętrzna domena lasu - Jednokierunkowy (wychodzący)
 
 <details>
 
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Nauka hakowania AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCJI**](https://github.com/sponsors/carlospolop)!
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Dołącz do** 💬 [**Grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się swoimi sztuczkami hakowania, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
 
 </details>
 
-W tym scenariuszu **twoja domena** ufa pewnym **uprawnieniom** dla podmiotu z **innych domen**.
+W tym scenariuszu **twoja domena** udziela **pewnych uprawnień** podmiotowi z **innych domen**.
 
 ## Wyliczanie
 
@@ -42,41 +42,41 @@ MemberDistinguishedName : CN=S-1-5-21-1028541967-2937615241-1935644758-1115,CN=F
 ```
 ## Atak na konto zaufania
 
-Istnieje podatność na bezpieczeństwo, gdy zostanie ustanowione zaufanie między dwoma domenami, tutaj określanymi jako domena **A** i domena **B**, gdzie domena **B** rozszerza swoje zaufanie do domeny **A**. W tej konfiguracji tworzone jest specjalne konto w domenie **A** dla domeny **B**, które odgrywa kluczową rolę w procesie uwierzytelniania między dwiema domenami. To konto, powiązane z domeną **B**, jest wykorzystywane do szyfrowania biletów dostępu do usług między domenami.
+Istnieje podatność na atak, gdy relacja zaufania jest ustanowiona między dwoma domenami, zidentyfikowanymi tutaj jako domena **A** i domena **B**, gdzie domena **B** rozszerza swoje zaufanie do domeny **A**. W tej konfiguracji specjalne konto jest tworzone w domenie **A** dla domeny **B**, które odgrywa kluczową rolę w procesie uwierzytelniania między dwiema domenami. To konto, powiązane z domeną **B**, jest wykorzystywane do szyfrowania biletów umożliwiających dostęp do usług między domenami.
 
-Kluczowym aspektem do zrozumienia jest to, że hasło i skrót tego specjalnego konta można wyodrębnić z kontrolera domeny w domenie **A** za pomocą narzędzia wiersza poleceń. Polecenie do wykonania tej czynności to:
+Kluczowym aspektem do zrozumienia tutaj jest to, że hasło i skrót tego specjalnego konta mogą być wyodrębnione z kontrolera domeny w domenie **A** za pomocą narzędzia wiersza poleceń. Polecenie do wykonania tej czynności to:
 ```powershell
 Invoke-Mimikatz -Command '"lsadump::trust /patch"' -ComputerName dc.my.domain.local
 ```
-Ta ekstrakcja jest możliwa, ponieważ konto, zidentyfikowane za pomocą znaku **$** po nazwie, jest aktywne i należy do grupy "Domain Users" w domenie **A**, co oznacza dziedziczenie uprawnień związanych z tą grupą. Pozwala to osobom uwierzytelniać się w domenie **A** za pomocą poświadczeń tego konta.
+To wydobycie jest możliwe, ponieważ konto, zidentyfikowane za pomocą **$** po swojej nazwie, jest aktywne i należy do grupy "Domain Users" domeny **A**, co oznacza dziedziczenie uprawnień związanych z tą grupą. Pozwala to osobom uwierzytelniać się w domenie **A** za pomocą poświadczeń tego konta.
 
-**Ostrzeżenie:** Możliwe jest wykorzystanie tej sytuacji do zdobycia punktu zaczepienia w domenie **A** jako użytkownik, choć z ograniczonymi uprawnieniami. Jednak ten dostęp wystarcza do przeprowadzenia enumeracji w domenie **A**.
+**Ostrzeżenie:** Możliwe jest wykorzystanie tej sytuacji do uzyskania punktu zaczepienia w domenie **A** jako użytkownik, chociaż z ograniczonymi uprawnieniami. Jednak ten dostęp wystarcza do przeprowadzenia enumeracji w domenie **A**.
 
-W scenariuszu, w którym `ext.local` jest domeną ufającą, a `root.local` jest domeną zaufaną, zostanie utworzone konto użytkownika o nazwie `EXT$` w `root.local`. Za pomocą odpowiednich narzędzi możliwe jest wydobywanie kluczy zaufania Kerberos, ujawniających poświadczenia `EXT$` w `root.local`. Polecenie do osiągnięcia tego celu to:
+W scenariuszu, gdzie `ext.local` jest domeną ufającą, a `root.local` jest domeną zaufaną, konto użytkownika o nazwie `EXT$` zostanie utworzone w `root.local`. Za pomocą konkretnych narzędzi możliwe jest wydobycie kluczy zaufania Kerberos, ujawniając poświadczenia `EXT$` w `root.local`. Polecenie do osiągnięcia tego to:
 ```bash
 lsadump::trust /patch
 ```
-Następnie można użyć wyodrębnionego klucza RC4 do uwierzytelnienia jako `root.local\EXT$` w `root.local` za pomocą innego polecenia narzędzia:
+Następnie można użyć wydobytego klucza RC4 do uwierzytelnienia jako `root.local\EXT$` w `root.local` za pomocą innego polecenia narzędzia:
 ```bash
 .\Rubeus.exe asktgt /user:EXT$ /domain:root.local /rc4:<RC4> /dc:dc.root.local /ptt
 ```
-Ten krok uwierzytelniania otwiera możliwość wyliczenia i nawet wykorzystania usług w `root.local`, takich jak atak Kerberoast w celu wydobycia poświadczeń konta usługi przy użyciu:
+To uwierzytelnienie otwiera możliwość wyliczenia, a nawet wykorzystania usług w `root.local`, takich jak przeprowadzenie ataku Kerberoast w celu wydobycia poświadczeń konta usługi za pomocą:
 ```bash
 .\Rubeus.exe kerberoast /user:svc_sql /domain:root.local /dc:dc.root.local
 ```
-### Pozyskiwanie hasła zaufania w postaci tekstu jawnego
+### Pozyskiwanie hasła zaufania w tekście jawnym
 
-W poprzednim etapie użyto hasha zaufania zamiast **hasła w postaci tekstu jawnego** (które również zostało **wydobyte za pomocą mimikatz**).
+W poprzednim przepływie użyto hasha zaufania zamiast **hasła w tekście jawnym** (które również zostało **wydobyte przez mimikatz**).
 
-Hasło w postaci tekstu jawnego można uzyskać, konwertując wynik \[ CLEAR ] z mimikatz z postaci szesnastkowej i usuwając bajty zerowe '\x00':
+Hasło w tekście jawnym można uzyskać, konwertując wynik \[ CLEAR ] z mimikatz z szesnastkowego i usuwając bajty null ' \x00 ':
 
-![](<../../.gitbook/assets/image (2) (1) (2) (1).png>)
+![](<../../.gitbook/assets/image (935).png>)
 
-Czasami podczas tworzenia relacji zaufania, użytkownik musi wpisać hasło zaufania. W tej demonstracji klucz to oryginalne hasło zaufania, które jest czytelne dla człowieka. Ponieważ klucz cykluje (co 30 dni), hasło w postaci tekstu jawnego nie będzie czytelne dla człowieka, ale nadal technicznie użyteczne.
+Czasami podczas tworzenia relacji zaufania, użytkownik musi wpisać hasło dla zaufania. W tej demonstracji kluczem jest oryginalne hasło zaufania i dlatego jest czytelne dla ludzi. Ponieważ klucz cykluje (co 30 dni), hasło w tekście jawnym nie będzie czytelne dla ludzi, ale technicznie nadal użyteczne.
 
-Hasło w postaci tekstu jawnego można użyć do wykonywania regularnej autoryzacji jako konto zaufania, jako alternatywa dla żądania TGT przy użyciu tajnego klucza Kerberos konta zaufania. Tutaj, zapytanie root.local z ext.local dla członków Domain Admins:
+Hasło w tekście jawnym można użyć do wykonywania regularnej autoryzacji jako konta zaufania, alternatywnie do żądania TGT za pomocą tajnego klucza Kerberosa konta zaufania. Tutaj, zapytanie root.local z ext.local o członków Administratorów domeny:
 
-![](<../../.gitbook/assets/image (1) (1) (1) (2).png>)
+![](<../../.gitbook/assets/image (789).png>)
 
 ## Referencje
 
@@ -88,10 +88,10 @@ Hasło w postaci tekstu jawnego można użyć do wykonywania regularnej autoryza
 
 Inne sposoby wsparcia HackTricks:
 
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCJI**](https://github.com/sponsors/carlospolop)!
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Dołącz do** 💬 [**Grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

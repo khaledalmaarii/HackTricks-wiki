@@ -1,4 +1,4 @@
-# Lokalne przechowywanie w chmurze
+# Lokalne Przechowywanie W Chmurze
 
 <details>
 
@@ -10,39 +10,39 @@ Inne sposoby wsparcia HackTricks:
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
 
 \
-Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), aby łatwo tworzyć i **automatyzować przepływy pracy** z wykorzystaniem najbardziej zaawansowanych narzędzi społeczności.\
-Otrzymaj dostęp już dziś:
+Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), aby łatwo tworzyć i **automatyzować przepływy pracy** zasilane przez najbardziej zaawansowane narzędzia społeczności na świecie.\
+Zdobądź Dostęp Dziś:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 ## OneDrive
 
-W systemie Windows folder OneDrive znajduje się w `\Users\<nazwa_użytkownika>\AppData\Local\Microsoft\OneDrive`. Wewnątrz folderu `logs\Personal` można znaleźć plik `SyncDiagnostics.log`, który zawiera pewne interesujące dane dotyczące zsynchronizowanych plików:
+W systemie Windows, folder OneDrive znajduje się w `\Users\<nazwa_użytkownika>\AppData\Local\Microsoft\OneDrive`. Wewnątrz folderu `logs\Personal` można znaleźć plik `SyncDiagnostics.log`, który zawiera pewne interesujące dane dotyczące zsynchronizowanych plików:
 
 * Rozmiar w bajtach
 * Data utworzenia
 * Data modyfikacji
 * Liczba plików w chmurze
 * Liczba plików w folderze
-* **CID**: Unikalny identyfikator użytkownika OneDrive
+* **CID**: Unikalne ID użytkownika OneDrive
 * Czas generowania raportu
 * Rozmiar dysku twardego systemu operacyjnego
 
-Gdy już znajdziesz CID, zaleca się **wyszukiwanie plików zawierających ten identyfikator**. Możesz natrafić na pliki o nazwach: _**\<CID>.ini**_ i _**\<CID>.dat**_, które mogą zawierać interesujące informacje, takie jak nazwy plików zsynchronizowanych z OneDrive.
+Gdy już znajdziesz CID, zaleca się **wyszukiwanie plików zawierających to ID**. Możesz znaleźć pliki o nazwach: _**\<CID>.ini**_ i _**\<CID>.dat**_, które mogą zawierać interesujące informacje, takie jak nazwy plików zsynchronizowanych z OneDrive.
 
 ## Google Drive
 
-W systemie Windows główny folder Google Drive znajduje się w `\Users\<nazwa_użytkownika>\AppData\Local\Google\Drive\user_default`\
+W systemie Windows, główny folder Google Drive znajduje się w `\Users\<nazwa_użytkownika>\AppData\Local\Google\Drive\user_default`\
 Ten folder zawiera plik o nazwie Sync\_log.log z informacjami, takimi jak adres e-mail konta, nazwy plików, znaczniki czasu, skróty MD5 plików, itp. Nawet usunięte pliki pojawiają się w tym pliku dziennika z odpowiadającymi im skrótami MD5.
 
-Plik **`Cloud_graph\Cloud_graph.db`** to baza danych sqlite, która zawiera tabelę **`cloud_graph_entry`**. W tej tabeli znajdziesz **nazwę** **zsynchronizowanych** **plików**, czas modyfikacji, rozmiar i sumę kontrolną MD5 plików.
+Plik **`Cloud_graph\Cloud_graph.db`** to baza danych sqlite, która zawiera tabelę **`cloud_graph_entry`**. W tej tabeli można znaleźć **nazwę** **zsynchronizowanych** **plików**, czas modyfikacji, rozmiar i sumę kontrolną MD5 plików.
 
 Dane tabeli bazy danych **`Sync_config.db`** zawierają adres e-mail konta, ścieżkę folderów udostępnionych i wersję Google Drive.
 
@@ -77,13 +77,13 @@ Oprócz tych informacji, aby odszyfrować bazy danych, potrzebujesz:
 
 * **Zaszyfrowany klucz DPAPI**: Możesz go znaleźć w rejestrze wewnątrz `NTUSER.DAT\Software\Dropbox\ks\client` (wyeksportuj te dane jako binarne)
 * Szyfrowane klucze główne DPAPI: Które można znaleźć w `\Users\<nazwa_użytkownika>\AppData\Roaming\Microsoft\Protect`
-* **Nazwę użytkownika** i **hasło** użytkownika systemu Windows
+* Nazwę użytkownika i hasło użytkownika systemu Windows
 
 Następnie możesz użyć narzędzia [**DataProtectionDecryptor**](https://nirsoft.net/utils/dpapi\_data\_decryptor.html)**:**
 
-![](<../../../.gitbook/assets/image (448).png>)
+![](<../../../.gitbook/assets/image (440).png>)
 
-Jeśli wszystko pójdzie zgodnie z oczekiwaniami, narzędzie wskaże **klucz główny**, który musisz **użyć do odzyskania oryginalnego**. Aby odzyskać oryginalny klucz, po prostu użyj tego [przepisu cyber\_chef](https://gchq.github.io/CyberChef/#recipe=Derive\_PBKDF2\_key\(%7B'option':'Hex','string':'98FD6A76ECB87DE8DAB4623123402167'%7D,128,1066,'SHA1',%7B'option':'Hex','string':'0D638C092E8B82FC452883F95F355B8E'%7D\) wpisując klucz główny jako "hasło" w przepisie.
+Jeśli wszystko pójdzie zgodnie z oczekiwaniami, narzędzie wskaże **klucz główny**, który musisz **użyć do odzyskania oryginalnego**. Aby odzyskać oryginalny, po prostu użyj tego [przepisu cyber\_chef](https://gchq.github.io/CyberChef/#recipe=Derive\_PBKDF2\_key\(%7B'option':'Hex','string':'98FD6A76ECB87DE8DAB4623123402167'%7D,128,1066,'SHA1',%7B'option':'Hex','string':'0D638C092E8B82FC452883F95F355B8E'%7D\) wpisując klucz główny jako "hasło" w przepisie.
 
 Wynikowy szesnastkowy kod to ostateczny klucz używany do szyfrowania baz danych, które można odszyfrować za pomocą:
 ```bash
@@ -91,10 +91,10 @@ sqlite -k <Obtained Key> config.dbx ".backup config.db" #This decompress the con
 ```
 Baza danych **`config.dbx`** zawiera:
 
-- **Email**: Email użytkownika
+- **Email**: Adres e-mail użytkownika
 - **usernamedisplayname**: Nazwa użytkownika
 - **dropbox\_path**: Ścieżka, gdzie znajduje się folder Dropbox
-- **Host\_id: Hash** używany do uwierzytelnienia w chmurze. Można go wycofać tylko z poziomu sieci.
+- **Host\_id: Hash** używany do uwierzytelniania w chmurze. Można go wycofać tylko z poziomu sieci.
 - **Root\_ns**: Identyfikator użytkownika
 
 Baza danych **`filecache.db`** zawiera informacje o wszystkich plikach i folderach zsynchronizowanych z Dropbox. Tabela `File_journal` zawiera najbardziej przydatne informacje:
@@ -112,7 +112,7 @@ Inne tabele w tej bazie danych zawierają bardziej interesujące informacje:
 - **deleted\_fields**: Usunięte pliki Dropbox
 - **date\_added**
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
 
 \
 Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), aby łatwo tworzyć i **automatyzować zadania** przy użyciu najbardziej zaawansowanych narzędzi społeczności na świecie.\
@@ -122,7 +122,7 @@ Zdobądź dostęp już dziś:
 
 <details>
 
-<summary><strong>Zacznij od zera i zostań ekspertem AWS w dziedzinie hakerskiej z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Dowiedz się, jak hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 

@@ -6,38 +6,38 @@
 
 Inne sposoby wsparcia HackTricks:
 
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
 ## Podstawowe informacje
 
-**Grand Central Dispatch (GCD)**, znany również jako **libdispatch**, jest dostępny zarówno w systemie macOS, jak i iOS. Jest to technologia opracowana przez Apple, która optymalizuje obsługę aplikacji dla równoczesnego (wielowątkowego) wykonywania na sprzęcie wielordzeniowym.
+**Grand Central Dispatch (GCD),** znany również jako **libdispatch**, jest dostępny zarówno w macOS, jak i iOS. Jest to technologia opracowana przez Apple do optymalizacji obsługi aplikacji dla równoczesnego (wielowątkowego) wykonywania na sprzęcie wielordzeniowym.
 
-**GCD** dostarcza i zarządza **kolejkami FIFO**, do których aplikacja może **przesyłać zadania** w postaci **bloków kodu**. Bloki przesłane do kolejek dystrybucji są **wykonywane na puli wątków** w pełni zarządzanej przez system. GCD automatycznie tworzy wątki do wykonywania zadań w kolejkach dystrybucji i planuje te zadania do uruchomienia na dostępnych rdzeniach.
+**GCD** dostarcza i zarządza **kolejkami FIFO**, do których twoja aplikacja może **przesyłać zadania** w postaci **bloków kodu**. Bloki przesłane do kolejek dystrybucji są **wykonywane na puli wątków** w pełni zarządzanej przez system. GCD automatycznie tworzy wątki do wykonywania zadań w kolejkach dystrybucji i harmonogramuje te zadania do uruchomienia na dostępnych rdzeniach.
 
 {% hint style="success" %}
-Podsumowując, aby wykonać kod **równolegle**, procesy mogą wysyłać **bloki kodu do GCD**, który zajmie się ich wykonaniem. Dlatego procesy nie tworzą nowych wątków; **GCD wykonuje podany kod za pomocą własnej puli wątków**.
+Podsumowując, aby wykonać kod **równolegle**, procesy mogą wysyłać **bloki kodu do GCD**, który zajmie się ich wykonaniem. Dlatego procesy nie tworzą nowych wątków; **GCD wykonuje dany kod za pomocą własnej puli wątków**.
 {% endhint %}
 
-Jest to bardzo pomocne w skutecznym zarządzaniu równoczesnym wykonywaniem, znacznie redukując liczbę wątków tworzonych przez procesy i optymalizując równoczesne wykonywanie. Jest to idealne rozwiązanie dla zadań, które wymagają **dużej równoległości** (np. łamanie haseł?) lub dla zadań, które nie powinny blokować głównego wątku: na przykład główny wątek w systemie iOS obsługuje interakcje z interfejsem użytkownika, więc wszelkie inne funkcje, które mogą spowodować zawieszenie aplikacji (wyszukiwanie, dostęp do sieci, odczyt pliku...), są obsługiwane w ten sposób.
+Jest to bardzo pomocne do skutecznego zarządzania równoczesnym wykonywaniem, znacznie zmniejszając liczbę wątków tworzonych przez procesy i optymalizując równoległe wykonanie. Jest to idealne rozwiązanie dla zadań wymagających **dużej równoległości** (łamanie haseł?) lub dla zadań, które nie powinny blokować głównego wątku: Na przykład główny wątek w iOS obsługuje interakcje z interfejsem użytkownika, więc wszelkie inne funkcjonalności, które mogłyby zawiesić aplikację (wyszukiwanie, dostęp do sieci, odczyt pliku...) są obsługiwane w ten sposób.
 
 ## Objective-C
 
-W Objective-C istnieją różne funkcje do wysyłania bloku kodu do równoczesnego wykonania:
+W Objetive-C istnieją różne funkcje do wysyłania bloku do wykonania równolegle:
 
 * [**dispatch\_async**](https://developer.apple.com/documentation/dispatch/1453057-dispatch\_async): Przesyła blok do asynchronicznego wykonania w kolejce dystrybucji i natychmiast zwraca.
-* [**dispatch\_sync**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync): Przesyła blok do wykonania i zwraca po zakończeniu wykonania tego bloku.
-* [**dispatch\_once**](https://developer.apple.com/documentation/dispatch/1447169-dispatch\_once): Wykonuje blok tylko raz przez cały czas działania aplikacji.
-* [**dispatch\_async\_and\_wait**](https://developer.apple.com/documentation/dispatch/3191901-dispatch\_async\_and\_wait): Przesyła element pracy do wykonania i zwraca dopiero po zakończeniu jego wykonania. W przeciwieństwie do [**`dispatch_sync`**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync), ta funkcja respektuje wszystkie atrybuty kolejki podczas wykonywania bloku.
+* [**dispatch\_sync**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync): Przesyła obiekt bloku do wykonania i zwraca po zakończeniu tego bloku.
+* [**dispatch\_once**](https://developer.apple.com/documentation/dispatch/1447169-dispatch\_once): Wykonuje obiekt bloku tylko raz przez cały czas życia aplikacji.
+* [**dispatch\_async\_and\_wait**](https://developer.apple.com/documentation/dispatch/3191901-dispatch\_async\_and\_wait): Przesyła element roboczy do wykonania i zwraca dopiero po zakończeniu jego wykonania. W przeciwieństwie do [**`dispatch_sync`**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync), ta funkcja respektuje wszystkie atrybuty kolejki podczas wykonywania bloku.
 
 Te funkcje oczekują tych parametrów: [**`dispatch_queue_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_queue\_t) **`queue,`** [**`dispatch_block_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_block\_t) **`block`**
 
-Oto **struktura bloku**:
+Oto **struktura Bloku**:
 ```c
 struct Block {
 void *isa; // NSConcreteStackBlock,...
@@ -48,7 +48,7 @@ struct BlockDescriptor *descriptor;
 // captured variables go here
 };
 ```
-A oto przykład użycia **równoległości** za pomocą **`dispatch_async`**:
+Oto przykład użycia **równoległości** z **`dispatch_async`**:
 ```objectivec
 #import <Foundation/Foundation.h>
 
@@ -80,8 +80,8 @@ return 0;
 ```
 ## Swift
 
-**`libswiftDispatch`** to biblioteka, która zapewnia **powiązania Swift** do frameworka Grand Central Dispatch (GCD), który jest pierwotnie napisany w języku C.\
-Biblioteka **`libswiftDispatch`** opakowuje interfejsy C GCD w bardziej przyjazny dla Swifta interfejs, ułatwiając programistom Swift pracę z GCD.
+**`libswiftDispatch`** to biblioteka dostarczająca **powiązania Swift** do frameworku Grand Central Dispatch (GCD), który jest pierwotnie napisany w języku C.\
+Biblioteka **`libswiftDispatch`** owija interfejsy API C GCD w bardziej przyjazny dla języka Swift sposób, ułatwiając i bardziej intuicyjnie dla programistów Swift pracować z GCD.
 
 * **`DispatchQueue.global().sync{ ... }`**
 * **`DispatchQueue.global().async{ ... }`**
@@ -118,7 +118,7 @@ sleep(1)  // Simulate a long-running task
 ```
 ## Frida
 
-Poniższy skrypt Frida może być używany do **haczenia w kilka funkcji `dispatch`** i wydobycia nazwy kolejki, śladu wywołań oraz bloku: [**https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js**](https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js)
+Następujący skrypt Frida może być użyty do **hookowania kilku funkcji `dispatch`** i wydobycia nazwy kolejki, śladu stosu i bloku: [**https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js**](https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js)
 ```bash
 frida -U <prog_name> -l libdispatch.js
 
@@ -133,40 +133,28 @@ Backtrace:
 ```
 ## Ghidra
 
-Obecnie Ghidra nie rozumie struktury **`dispatch_block_t`** w ObjectiveC ani struktury **`swift_dispatch_block`**.
+Obecnie Ghidra nie rozumie ani struktury **`dispatch_block_t`** w ObjectiveC, ani struktury **`swift_dispatch_block`**.
 
-Jeśli chcesz, aby je zrozumiał, możesz je po prostu **zadeklarować**:
+Jeśli chcesz, aby je zrozumiał, po prostu możesz je **zadeklarować**:
 
-<figure><img src="../../.gitbook/assets/image (688).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1157).png" alt="" width="563"><figcaption></figcaption></figure>
 
-<figure><img src="../../.gitbook/assets/image (690).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1159).png" alt="" width="563"><figcaption></figcaption></figure>
 
-<figure><img src="../../.gitbook/assets/image (691).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1160).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Następnie znajdź miejsce w kodzie, gdzie są **używane**:
 
 {% hint style="success" %}
-Zwróć uwagę na wszystkie odwołania do "block", aby zrozumieć, jak można ustalić, że struktura jest używana.
+Zauważ wszystkie odniesienia do "block", aby zrozumieć, jak można ustalić, że struktura jest używana.
 {% endhint %}
 
-Kliknij prawym przyciskiem myszy na zmienną -> Zmień typ zmiennej i wybierz w tym przypadku **`swift_dispatch_block`**:
+<figure><img src="../../.gitbook/assets/image (1161).png" alt="" width="563"><figcaption></figcaption></figure>
 
-<figure><img src="../../.gitbook/assets/image (693).png" alt="" width="563"><figcaption></figcaption></figure>
+Kliknij prawym przyciskiem na zmienną -> Zmień typ zmiennej i wybierz w tym przypadku **`swift_dispatch_block`**:
+
+<figure><img src="../../.gitbook/assets/image (1162).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Ghidra automatycznie przepisze wszystko:
 
-<figure><img src="../../.gitbook/assets/image (694).png" alt="" width="563"><figcaption></figcaption></figure>
-
-<details>
-
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Inne sposoby wsparcia HackTricks:
-
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCYJNY**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
+<figure><img src="../../.gitbook/assets/image (1163).png" alt="" width="563"><figcaption></figcaption></figure>

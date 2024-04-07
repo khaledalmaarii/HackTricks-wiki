@@ -14,14 +14,14 @@ Inne sposoby wsparcia HackTricks:
 
 </details>
 
-## Nadużywanie MDMów
+## Nadużywanie MDM
 
 * JAMF Pro: `jamf checkJSSConnection`
 * Kandji
 
 Jeśli uda ci się **skompromitować dane uwierzytelniające administratora** w celu uzyskania dostępu do platformy zarządzania, możesz **potencjalnie skompromitować wszystkie komputery**, rozpowszechniając złośliwe oprogramowanie na maszynach.
 
-W przypadku red teamingu w środowiskach MacOS zaleca się posiadanie pewnego zrozumienia działania MDMów:
+Podczas red teamingu w środowiskach MacOS zaleca się posiadanie pewnego zrozumienia działania MDM:
 
 {% content-ref url="macos-mdm/" %}
 [macos-mdm](macos-mdm/)
@@ -29,35 +29,35 @@ W przypadku red teamingu w środowiskach MacOS zaleca się posiadanie pewnego zr
 
 ### Wykorzystanie MDM jako C2
 
-MDM będzie miał uprawnienia do instalowania, zapytywania lub usuwania profili, instalowania aplikacji, tworzenia kont administratora lokalnie, ustawiania hasła firmware, zmiany klucza FileVault...
+MDM będzie miał uprawnienia do instalowania, zapytywania lub usuwania profili, instalowania aplikacji, tworzenia kont administratora lokalnego, ustawiania hasła firmware, zmiany klucza FileVault...
 
-Aby uruchomić własne MDM, musisz **podpisać swój CSR przez dostawcę**, którego możesz spróbować uzyskać za pomocą [**https://mdmcert.download/**](https://mdmcert.download/). Aby uruchomić własne MDM dla urządzeń Apple, możesz użyć [**MicroMDM**](https://github.com/micromdm/micromdm).
+Aby uruchomić własne MDM, musisz **podpisać swoje CSR przez dostawcę**, którego możesz spróbować uzyskać za pomocą [**https://mdmcert.download/**](https://mdmcert.download/). Aby uruchomić własne MDM dla urządzeń Apple, możesz użyć [**MicroMDM**](https://github.com/micromdm/micromdm).
 
 Jednakże, aby zainstalować aplikację na zarejestrowanym urządzeniu, nadal musi ona być podpisana przez konto dewelopera... jednakże, po zarejestrowaniu w MDM, **urządzenie dodaje certyfikat SSL MDM jako zaufany CA**, więc teraz możesz podpisywać cokolwiek.
 
-Aby zarejestrować urządzenie w MDM, musisz zainstalować plik **`mobileconfig`** jako root, który może być dostarczony za pomocą pliku **pkg** (możesz go skompresować w zip i po pobraniu z safari zostanie zdekompresowany).
+Aby zarejestrować urządzenie w MDM, musisz zainstalować plik **`mobileconfig`** jako root, który może być dostarczony za pomocą pliku **pkg** (możesz go skompresować w zip, a po pobraniu z safari zostanie zdekompresowany).
 
 **Agent Mythic Orthrus** wykorzystuje tę technikę.
 
 ### Nadużywanie JAMF PRO
 
-JAMF może uruchamiać **skrypty niestandardowe** (skrypty opracowane przez administratora systemu), **natywne ładunki** (tworzenie kont lokalnych, ustawianie hasła EFI, monitorowanie plików/procesów...) i **MDM** (konfiguracje urządzenia, certyfikaty urządzenia...).
+JAMF może uruchamiać **skrypty niestandardowe** (skrypty opracowane przez sysadmina), **natywne ładunki** (tworzenie kont lokalnych, ustawianie hasła EFI, monitorowanie plików/procesów...) i **MDM** (konfiguracje urządzenia, certyfikaty urządzenia...).
 
 #### Samozapis JAMF
 
 Przejdź do strony takiej jak `https://<nazwa-firmy>.jamfcloud.com/enroll/`, aby sprawdzić, czy mają włączone **samozapisywanie**. Jeśli tak, może **poprosić o dane uwierzytelniające do dostępu**.
 
-Możesz użyć skryptu [**JamfSniper.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfSniper.py) do przeprowadzenia ataku na hasło metodą "password spraying".
+Możesz użyć skryptu [**JamfSniper.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfSniper.py), aby przeprowadzić atak polegający na rozpylaniu haseł.
 
 Ponadto, po znalezieniu odpowiednich danych uwierzytelniających, możesz być w stanie przeprowadzić atak brutalnej siły na inne nazwy użytkowników za pomocą następującego formularza:
 
-![](<../../.gitbook/assets/image (7) (1) (1).png>)
+![](<../../.gitbook/assets/image (104).png>)
 
 #### Uwierzytelnianie urządzenia JAMF
 
-<figure><img src="../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (164).png" alt=""><figcaption></figcaption></figure>
 
-Binarny plik **`jamf`** zawierał sekret do otwarcia keychain, który w momencie odkrycia był **udostępniany** wszystkim i był to: **`jk23ucnq91jfu9aj`**.\
+Binarny **`jamf`** zawierał sekret do otwarcia keychain, który w momencie odkrycia był **udostępniony** wszystkim i był to: **`jk23ucnq91jfu9aj`**.\
 Ponadto, jamf **utrzymuje się** jako **LaunchDaemon** w **`/Library/LaunchAgents/com.jamf.management.agent.plist`**
 
 #### Przejęcie urządzenia JAMF
@@ -94,21 +94,21 @@ Aby **podrobić komunikację** między urządzeniem a JMF, potrzebujesz:
 * **UUID** urządzenia: `ioreg -d2 -c IOPlatformExpertDevice | awk -F" '/IOPlatformUUID/{print $(NF-1)}'`
 * **Klucz JAMF** z: `/Library/Application\ Support/Jamf/JAMF.keychain`, który zawiera certyfikat urządzenia
 
-Mając te informacje, **utwórz wirtualną maszynę** z **ukradzionym** sprzętowym **UUID** oraz z wyłączonym **SIP**, wrzuć **klucz JAMF**, **zahacz** agenta Jamf i skradnij jego informacje.
+Mając te informacje, **utwórz wirtualną maszynę** z **ukradzionym** sprzętowym **UUID** oraz z wyłączonym **SIP**, upuść **klucz JAMF**, **zahacz** agenta Jamf i ukradnij jego informacje.
 
 #### Kradzież sekretów
 
-<figure><img src="../../.gitbook/assets/image (11).png" alt=""><figcaption><p>a</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1022).png" alt=""><figcaption><p>a</p></figcaption></figure>
 
-Możesz również monitorować lokalizację `/Library/Application Support/Jamf/tmp/` w poszukiwaniu **skryptów niestandardowych**, które administratorzy chcieliby wykonać za pośrednictwem Jamf, ponieważ są one **umieszczane tutaj, uruchamiane i usuwane**. Te skrypty **mogą zawierać dane uwierzytelniające**.
+Możesz również monitorować lokalizację `/Library/Application Support/Jamf/tmp/` w poszukiwaniu **skryptów niestandardowych**, które administratorzy chcieliby wykonać za pośrednictwem Jamf, ponieważ są one **umieszczane tutaj, uruchamiane i usuwane**. Te skrypty **mogą zawierać poświadczenia**.
 
-Jednakże **dane uwierzytelniające** mogą być przekazywane do tych skryptów jako **parametry**, dlatego musisz monitorować `ps aux | grep -i jamf` (nawet bez uprawnień roota).
+Jednakże, **poświadczenia** mogą być przekazywane do tych skryptów jako **parametry**, dlatego musisz monitorować `ps aux | grep -i jamf` (nawet bez uprawnień roota).
 
 Skrypt [**JamfExplorer.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfExplorer.py) może nasłuchiwać na dodawanie nowych plików i nowych argumentów procesu.
 
 ### Zdalny dostęp do macOS
 
-Oraz o "specjalnych" **protokołach sieciowych** w **MacOS**:
+A także o "specjalnych" **protokołach sieciowych** w **MacOS**:
 
 {% content-ref url="../macos-security-and-privilege-escalation/macos-protocols.md" %}
 [macos-protocols.md](../macos-security-and-privilege-escalation/macos-protocols.md)
@@ -130,7 +130,7 @@ W niektórych przypadkach zauważysz, że **komputer z MacOS jest podłączony d
 [pentesting-kerberos-88](../../network-services-pentesting/pentesting-kerberos-88/)
 {% endcontent-ref %}
 
-Pewne **lokalne narzędzie MacOS**, które może ci pomóc, to `dscl`:
+Pewne **lokalne narzędzie MacOS**, które również może ci pomóc, to `dscl`:
 ```bash
 dscl "/Active Directory/[Domain]/All Domains" ls /
 ```
@@ -157,8 +157,8 @@ Na przykład, informacje o użytkowniku o nazwie _mark_ są przechowywane w _/va
 
 Oprócz korzystania z krawędzi HasSession i AdminTo, **MacHound dodaje trzy nowe krawędzie** do bazy danych Bloodhound:
 
-- **CanSSH** - podmiot uprawniony do łączenia się przez SSH z hostem
-- **CanVNC** - podmiot uprawniony do łączenia się przez VNC z hostem
+- **CanSSH** - podmiot uprawniony do SSH na hosta
+- **CanVNC** - podmiot uprawniony do VNC na hosta
 - **CanAE** - podmiot uprawniony do wykonywania skryptów AppleEvent na hoście
 ```bash
 #User enumeration
@@ -185,7 +185,7 @@ Więcej informacji można znaleźć pod adresem [https://its-a-feature.github.io
 
 ## Dostęp do Keychain
 
-Keychain prawdopodobnie zawiera wrażliwe informacje, które, jeśli uzyskane bez generowania monitu, mogą pomóc w przeprowadzeniu ćwiczenia czerwonej drużyny:
+Keychain prawdopodobnie zawiera wrażliwe informacje, które w przypadku uzyskania dostępu bez generowania monitu mogą pomóc w przeprowadzeniu ćwiczenia czerwonej drużyny:
 
 {% content-ref url="macos-keychain.md" %}
 [macos-keychain.md](macos-keychain.md)
@@ -193,15 +193,15 @@ Keychain prawdopodobnie zawiera wrażliwe informacje, które, jeśli uzyskane be
 
 ## Usługi zewnętrzne
 
-Red Teaming na MacOS różni się od standardowego Red Teamingu na Windowsie, ponieważ zazwyczaj **MacOS jest zintegrowany z kilkoma zewnętrznymi platformami bezpośrednio**. Powszechną konfiguracją MacOS jest dostęp do komputera za pomocą **synchronizowanych pośrednictwem OneLogin poświadczeń oraz dostęp do kilku zewnętrznych usług** (takich jak github, aws...) za pośrednictwem OneLogin.
+Czerwona drużyna MacOS różni się od zwykłej czerwonej drużyny Windows, ponieważ zazwyczaj **MacOS jest zintegrowany z kilkoma zewnętrznymi platformami bezpośrednio**. Powszechną konfiguracją MacOS jest dostęp do komputera za pomocą **synchronizowanych pośrednictwem OneLogin poświadczeń oraz dostęp do kilku zewnętrznych usług** (takich jak github, aws...) za pośrednictwem OneLogin.
 
-## Różne techniki Red Team
+## Różne techniki czerwonej drużyny
 
 ### Safari
 
-Gdy plik jest pobierany w Safari, jeśli jest to "bezpieczny" plik, zostanie **automatycznie otwarty**. Na przykład, jeśli **pobierasz plik zip**, zostanie on automatycznie rozpakowany:
+Gdy plik jest pobierany w Safari, jeśli jest to "bezpieczny" plik, zostanie **automatycznie otwarty**. Na przykład, jeśli **pobierasz plik zip**, zostanie automatycznie rozpakowany:
 
-<figure><img src="../../.gitbook/assets/image (12) (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (223).png" alt=""><figcaption></figcaption></figure>
 
 ## Odnośniki
 

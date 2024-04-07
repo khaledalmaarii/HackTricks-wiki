@@ -2,17 +2,17 @@
 
 <details>
 
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Nauka hakowania AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Pracujesz w **firmie zajmującej się cyberbezpieczeństwem**? Chcesz zobaczyć, jak Twoja **firma jest reklamowana w HackTricks**? A może chcesz mieć dostęp do **najnowszej wersji PEASS lub pobrać HackTricks w formacie PDF**? Sprawdź [**PLAN SUBSKRYPCYJNY**](https://github.com/sponsors/carlospolop)!
+* Czy pracujesz w **firmie z branży cyberbezpieczeństwa**? Chcesz zobaczyć swoją **firmę reklamowaną na HackTricks**? lub chcesz mieć dostęp do **najnowszej wersji PEASS lub pobrać HackTricks w formacie PDF**? Sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Dołącz do** [**💬**](https://emojipedia.org/speech-balloon/) [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** mnie na **Twitterze** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do repozytorium [hacktricks](https://github.com/carlospolop/hacktricks) i [hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Dołącz do** [**💬**](https://emojipedia.org/speech-balloon/) [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** mnie na **Twitterze** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się swoimi sztuczkami hakowania, przesyłając PR-y do** [**repozytorium hacktricks**](https://github.com/carlospolop/hacktricks) **i** [**repozytorium hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-## [Esolangs Wiki](https://esolangs.org/wiki/Main\_Page)
+## [Wiki Esolangs](https://esolangs.org/wiki/Main\_Page)
 
 Sprawdź tę wiki, aby znaleźć więcej języków ezoterycznych
 
@@ -25,7 +25,7 @@ Sprawdź tę wiki, aby znaleźć więcej języków ezoterycznych
 
 ## npiet
 
-![](<../.gitbook/assets/image (146).png>)
+![](<../.gitbook/assets/image (688).png>)
 
 [https://www.bertnase.de/npiet/npiet-execute.php](https://www.bertnase.de/npiet/npiet-execute.php)
 
@@ -62,27 +62,7 @@ Whisper my world
 
 ## PETOOH
 
-PETOOH jest esoterycznym językiem programowania, który został stworzony przez Olega Mazonkę w 2006 roku. Jego nazwa pochodzi od rosyjskiego słowa "петух", które oznacza "kogut". Język ten jest oparty na idei komunikacji za pomocą dźwięków, które przypominają odgłosy wydawane przez koguty.
-
-### Składnia
-
-PETOOH składa się z trzech podstawowych instrukcji:
-
-1. "kokoko" - inkrementuje wartość bieżącej komórki pamięci
-2. "kudah" - dekrementuje wartość bieżącej komórki pamięci
-3. "kukarek" - wypisuje wartość bieżącej komórki pamięci jako znak ASCII
-
-Dodatkowo, PETOOH posiada instrukcje warunkowe:
-
-1. "kud" - przechodzi do następnej instrukcji, jeśli wartość bieżącej komórki pamięci jest równa zero
-2. "kok" - przechodzi do następnej instrukcji, jeśli wartość bieżącej komórki pamięci jest różna od zera
-
-### Przykład
-
-Poniżej znajduje się przykład programu PETOOH, który inkrementuje wartość komórki pamięci o 1 i wypisuje jej wartość jako znak ASCII:
-
-```
-kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko kokoko
+PETOOH to język programowania, który został stworzony w 2006 roku i jest inspirowany działaniem komórek mózgowych. W tym języku programowania instrukcje są reprezentowane przez dźwięki, a pamięć programu jest reprezentowana przez długość dźwięku.
 ```
 KoKoKoKoKoKoKoKoKoKo Kud-Kudah
 KoKoKoKoKoKoKoKo kudah kO kud-Kudah Kukarek kudah
@@ -96,10 +76,10 @@ Kukarek
 
 <summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Pracujesz w **firmie zajmującej się cyberbezpieczeństwem**? Chcesz zobaczyć, jak Twoja **firma jest reklamowana w HackTricks**? A może chcesz mieć dostęp do **najnowszej wersji PEASS lub pobrać HackTricks w formacie PDF**? Sprawdź [**PLAN SUBSKRYPCYJNY**](https://github.com/sponsors/carlospolop)!
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family).
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com).
-* **Dołącz do** [**💬**](https://emojipedia.org/speech-balloon/) [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** mnie na **Twitterze** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do repozytorium [hacktricks](https://github.com/carlospolop/hacktricks) i [hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Czy pracujesz w **firmie z branży cyberbezpieczeństwa**? Chcesz zobaczyć swoją **firmę reklamowaną na HackTricks**? lub chcesz mieć dostęp do **najnowszej wersji PEASS lub pobrać HackTricks w formacie PDF**? Sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
+* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
+* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Dołącz do** [**💬**](https://emojipedia.org/speech-balloon/) [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** mnie na **Twitterze** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**repozytorium hacktricks**](https://github.com/carlospolop/hacktricks) **i** [**repozytorium hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

@@ -1,23 +1,22 @@
-# Access Tokens
+# Token dostępu
 
 <details>
 
 <summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Pracujesz w **firmie zajmującej się cyberbezpieczeństwem**? Chcesz zobaczyć swoją **firmę reklamowaną w HackTricks**? A może chcesz mieć dostęp do **najnowszej wersji PEASS lub pobrać HackTricks w formacie PDF**? Sprawdź [**PLAN SUBSKRYPCJI**](https://github.com/sponsors/carlospolop)!
+* Czy pracujesz w **firmie zajmującej się cyberbezpieczeństwem**? Chcesz zobaczyć, jak Twoja **firma jest reklamowana na HackTricks**? lub chcesz mieć dostęp do **najnowszej wersji PEASS lub pobrać HackTricks w formacie PDF**? Sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Dołącz do** [**💬**](https://emojipedia.org/speech-balloon/) [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** mnie na **Twitterze** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR do** [**repozytorium hacktricks**](https://github.com/carlospolop/hacktricks) **i** [**repozytorium hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**repozytorium hacktricks**](https://github.com/carlospolop/hacktricks) **i** [**repozytorium hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-## Tokeny dostępu
+## Token dostępu
 
-Każdy **zalogowany użytkownik** na systemie **posiada token dostępu z informacjami o zabezpieczeniach** dla tej sesji logowania. System tworzy token dostępu, gdy użytkownik się loguje. **Każdy proces wykonany** w imieniu użytkownika **ma kopię tokenu dostępu**. Token identyfikuje użytkownika, grupy użytkownika i uprawnienia użytkownika. Token zawiera również SID logowania (Security Identifier), który identyfikuje bieżącą sesję logowania.
+Każdy **zalogowany użytkownik** systemu **posiada token dostępu z informacjami o zabezpieczeniach** dla tej sesji logowania. System tworzy token dostępu podczas logowania użytkownika. **Każdy proces wykonany** w imieniu użytkownika **ma kopię tokenu dostępu**. Token identyfikuje użytkownika, grupy użytkownika oraz uprawnienia użytkownika. Token zawiera również SID logowania (Security Identifier), który identyfikuje bieżącą sesję logowania.
 
 Możesz zobaczyć te informacje wykonując polecenie `whoami /all`
-
 ```
 whoami /all
 
@@ -61,70 +60,53 @@ SeUndockPrivilege             Remove computer from docking station Disabled
 SeIncreaseWorkingSetPrivilege Increase a process working set       Disabled
 SeTimeZonePrivilege           Change the time zone                 Disabled
 ```
+lub używając _Process Explorer_ z Sysinternals (wybierz proces i przejdź do zakładki "Bezpieczeństwo"):
 
-lub używając _Process Explorer_ z Sysinternals (wybierz proces i przejdź do zakładki "Security"):
-
-![](<../../.gitbook/assets/image (321).png>)
+![](<../../.gitbook/assets/image (769).png>)
 
 ### Lokalny administrator
 
-Kiedy lokalny administrator loguje się, **tworzone są dwa tokeny dostępu**: jeden z uprawnieniami administratora i drugi z normalnymi uprawnieniami. **Domyślnie**, gdy ten użytkownik uruchamia proces, używany jest token z **zwykłymi** (nieadministrator) **uprawnieniami**. Gdy ten użytkownik próbuje **wykonać** cokolwiek **jako administrator** (np. "Uruchom jako administrator"), zostanie użyty **UAC**, aby poprosić o zgodę.\
+Kiedy zaloguje się lokalny administrator, **tworzone są dwa tokeny dostępu**: Jeden z uprawnieniami administratora i drugi z uprawnieniami normalnego użytkownika. **Domyślnie**, gdy ten użytkownik uruchamia proces, używany jest ten z **zwykłymi** (nieadministrator) **uprawnieniami**. Gdy ten użytkownik próbuje **wykonać** cokolwiek **jako administrator** (na przykład "Uruchom jako administrator"), **UAC** zostanie użyty do poproszenia o zgodę.\
 Jeśli chcesz [**dowiedzieć się więcej o UAC, przeczytaj tę stronę**](../authentication-credentials-uac-and-efs/#uac)**.**
 
-### Impersonacja użytkownika z użyciem poświadczeń
+### Impersonacja użytkownika z poświadczeniami
 
-Jeśli masz **ważne poświadczenia innego użytkownika**, możesz **utworzyć nową sesję logowania** z tymi poświadczeniami:
-
+Jeśli masz **ważne poświadczenia innego użytkownika**, możesz **utworzyć** nową **sesję logowania** z tymi poświadczeniami:
 ```
 runas /user:domain\username cmd.exe
 ```
-
-**Token dostępu** ma również **odwołanie** do sesji logowania wewnątrz **LSASS**, co jest przydatne, jeśli proces musi uzyskać dostęp do niektórych obiektów sieciowych.\
-Możesz uruchomić proces, który **korzysta z innych poświadczeń do dostępu do usług sieciowych** za pomocą:
-
+Token dostępu ma również odniesienie do sesji logowania wewnątrz LSASS, co jest przydatne, jeśli proces musi uzyskać dostęp do pewnych obiektów sieciowych.\
+Możesz uruchomić proces, który używa innych poświadczeń do uzyskiwania dostępu do usług sieciowych za pomocą:
 ```
 runas /user:domain\username /netonly cmd.exe
 ```
+To jest przydatne, jeśli masz użyteczne poświadczenia dostępu do obiektów w sieci, ale te poświadczenia nie są ważne w bieżącym hoście, ponieważ będą używane tylko w sieci (w bieżącym hoście będą używane twoje bieżące uprawnienia użytkownika).
 
-To jest przydatne, jeśli masz użyteczne poświadczenia dostępu do obiektów w sieci, ale te poświadczenia nie są ważne wewnątrz bieżącego hosta, ponieważ będą one używane tylko w sieci (w bieżącym hoście będą używane twoje bieżące uprawnienia użytkownika).
-
-### Rodzaje tokenów
+### Typy tokenów
 
 Dostępne są dwa rodzaje tokenów:
 
-* **Token podstawowy**: Służy jako reprezentacja poświadczeń bezpieczeństwa procesu. Tworzenie i powiązywanie tokenów podstawowych z procesami to działania, które wymagają podwyższonych uprawnień, podkreślając zasadę separacji uprawnień. Zazwyczaj za tworzenie tokenów odpowiada usługa uwierzytelniania, podczas gdy usługa logowania zajmuje się ich powiązaniem z powłoką systemu operacyjnego użytkownika. Warto zauważyć, że procesy dziedziczą token podstawowy swojego procesu nadrzędnego podczas tworzenia.
-* **Token personifikacji**: Umożliwia aplikacji serwerowej tymczasowe przyjęcie tożsamości klienta w celu uzyskania dostępu do bezpiecznych obiektów. Ten mechanizm jest warstwowo podzielony na cztery poziomy działania:
-* **Anonimowy**: Zapewnia dostęp serwera podobny do dostępu niezidentyfikowanego użytkownika.
-* **Identyfikacja**: Pozwala serwerowi zweryfikować tożsamość klienta bez wykorzystywania jej do dostępu do obiektów.
-* **Personifikacja**: Umożliwia serwerowi działanie w ramach tożsamości klienta.
-* **Delegacja**: Podobne do personifikacji, ale obejmuje możliwość rozszerzenia tego założenia tożsamości na zdalne systemy, z którymi serwer współdziała, zapewniając zachowanie poświadczeń.
+* **Token podstawowy**: Służy jako reprezentacja poświadczeń bezpieczeństwa procesu. Tworzenie i powiązanie tokenów podstawowych z procesami to działania wymagające podwyższonych uprawnień, podkreślając zasadę separacji uprawnień. Zazwyczaj usługa uwierzytelniania jest odpowiedzialna za tworzenie tokenów, podczas gdy usługa logowania zajmuje się ich powiązaniem z powłoką systemu operacyjnego użytkownika. Warto zauważyć, że procesy dziedziczą token podstawowy swojego procesu nadrzędnego podczas tworzenia.
+* **Token impersonacji**: Umożliwia aplikacji serwerowej tymczasowe przyjęcie tożsamości klienta w celu uzyskania dostępu do bezpiecznych obiektów. Ten mechanizm jest warstwowany na cztery poziomy działania:
+  * **Anonimowy**: Zapewnia dostęp serwera podobny do tego, jaki ma niezidentyfikowany użytkownik.
+  * **Identyfikacja**: Pozwala serwerowi zweryfikować tożsamość klienta bez jej wykorzystywania do dostępu do obiektów.
+  * **Impersonacja**: Umożliwia serwerowi działanie pod tożsamością klienta.
+  * **Delegacja**: Podobna do Impersonacji, ale obejmuje możliwość rozszerzenia tego przyjęcia tożsamości na zdalne systemy, z którymi serwer współdziała, zapewniając zachowanie poświadczeń.
 
-#### Personifikacja tokenów
+#### Impersonacja tokenów
 
-Korzystając z modułu _**incognito**_ w metasploicie, jeśli masz wystarczające uprawnienia, możesz łatwo **wyświetlić** i **personifikować** inne **tokeny**. Może to być przydatne do wykonywania **działań tak, jakbyś był innym użytkownikiem**. Możesz również **podwyższyć uprawnienia** za pomocą tej techniki.
+Korzystając z modułu _**incognito**_ w metasploicie, jeśli masz wystarczające uprawnienia, możesz łatwo **wyświetlić** i **impersonować** inne **tokeny**. Może to być przydatne do **wykonywania działań tak, jakbyś był innym użytkownikiem**. Możesz również **eskalować uprawnienia** za pomocą tej techniki.
 
 ### Uprawnienia tokenów
 
-Dowiedz się, które **uprawnienia tokenów mogą być wykorzystane do podwyższania uprawnień:**
+Dowiedz się, które **uprawnienia tokenów mogą być wykorzystane do eskalacji uprawnień:**
 
 {% content-ref url="privilege-escalation-abusing-tokens.md" %}
 [privilege-escalation-abusing-tokens.md](privilege-escalation-abusing-tokens.md)
 {% endcontent-ref %}
 
-Zapoznaj się z [**wszystkimi możliwymi uprawnieniami tokenów i niektórymi definicjami na tej zewnętrznej stronie**](https://github.com/gtworek/Priv2Admin).
+Zajrzyj na [**wszystkie możliwe uprawnienia tokenów i definicje na tej zewnętrznej stronie**](https://github.com/gtworek/Priv2Admin).
 
 ## Odnośniki
 
-Dowiedz się więcej o tokenach w tych samouczkach: [https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa](https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa) i [https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)
-
-<details>
-
-<summary><strong>Dowiedz się o hakowaniu AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-* Czy pracujesz w **firmie zajmującej się cyberbezpieczeństwem**? Chcesz zobaczyć swoją **firmę reklamowaną w HackTricks**? A może chcesz mieć dostęp do **najnowszej wersji PEASS lub pobrać HackTricks w formacie PDF**? Sprawdź [**PLAN SUBSKRYPCJI**](https://github.com/sponsors/carlospolop)!
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* Uzyskaj [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Dołącz do** [**💬**](https://emojipedia.org/speech-balloon/) [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** mnie na **Twitterze** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR do repozytorium** [**hacktricks**](https://github.com/carlospolop/hacktricks) **i** [**hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
-
-</details>
+Dowiedz się więcej o tokenach w tych samouczkach: [https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa](https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa) oraz [https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)
