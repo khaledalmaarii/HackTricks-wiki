@@ -14,6 +14,11 @@ Njia nyingine za kusaidia HackTricks:
 
 </details>
 
+<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://websec.nl/" %}
+
+
 ## Utangulizi
 
 Kwa habari zaidi kuhusu jinsi vitambulisho vya 125kHz vinavyofanya kazi angalia:
@@ -24,23 +29,23 @@ Kwa habari zaidi kuhusu jinsi vitambulisho vya 125kHz vinavyofanya kazi angalia:
 
 ## Vitendo
 
-Kwa habari zaidi kuhusu aina hizi za vitambulisho [**soma utangulizi huu**](../pentesting-rfid.md#aina-za-vitambulisho-vya-rfid-za-frekwensi-ndogo-125khz).
+Kwa habari zaidi kuhusu aina hizi za vitambulisho [**soma utangulizi huu**](../pentesting-rfid.md#low-frequency-rfid-tags-125khz).
 
 ### Soma
 
-Jaribu **kusoma** habari ya kadi. Kisha unaweza **kuiga**.
+Jaribu **kusoma** habari ya kadi. Kisha inaweza **kuiga**.
 
 {% hint style="warning" %}
-Tafadhali kumbuka kuwa baadhi ya intercoms hujaribu kujilinda kutokana na nakala za funguo kwa kutuma amri ya kuandika kabla ya kusoma. Ikiwa andiko linafaulu, kadi hiyo inachukuliwa kuwa bandia. Wakati Flipper inaiga RFID hakuna njia ya msomaji kutofautisha kati yake na ile ya asili, hivyo hakuna matatizo kama hayo yanatokea.
+Tafadhali kumbuka kuwa baadhi ya intercoms hujaribu kujilinda kutokana na nakala za funguo kwa kutuma amri ya kuandika kabla ya kusoma. Ikiwa andiko linafaulu, kadi hiyo inachukuliwa kuwa bandia. Wakati Flipper inaiga RFID hakuna njia ya msomaji kutofautisha kati yake na ile ya asili, hivyo matatizo kama hayo hayatokei.
 {% endhint %}
 
-### Ongeza Kwa Mikono
+### Ongeza Kwa Mkono
 
-Unaweza kuunda **kadi bandia kwenye Flipper Zero ikionyesha data** uliyoingiza kwa mikono kisha kuiga.
+Unaweza kuunda **kadi bandia kwenye Flipper Zero ikionyesha data** uliyoingiza kwa mkono na kisha kuiga.
 
 #### Vitambulisho kwenye kadi
 
-Wakati mwingine, unapopata kadi utapata kitambulisho (au sehemu) yake imeandikwa kwenye kadi inayoonekana.
+Wakati mwingine, unapopata kadi utapata kitambulisho (au sehemu) chake kimeandikwa kwenye kadi inayoonekana.
 
 * **EM Marin**
 
@@ -57,11 +62,16 @@ Hali kama hiyo hutokea kwenye kadi hii ya HID ambapo ni 2 kati ya 3 ya byte zina
 
 ### Iga/Andika
 
-Baada ya **kukopi** kadi au **kuingiza** kitambulisho **kwa mikono** inawezekana ku**iga** kwa Flipper Zero au **kuandika** kwenye kadi halisi.
+Baada ya **kunakili** kadi au **kuingiza** kitambulisho **kwa mkono** inawezekana **kuiga** kwa Flipper Zero au **kuandika** kwenye kadi halisi.
 
 ## Marejeo
 
 * [https://blog.flipperzero.one/rfid/](https://blog.flipperzero.one/rfid/)
+
+<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://websec.nl/" %}
+
 
 <details>
 

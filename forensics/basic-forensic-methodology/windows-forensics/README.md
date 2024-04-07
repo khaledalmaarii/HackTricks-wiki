@@ -1,52 +1,56 @@
-# Windows Vitu
+# Vitu vya Windows
 
-## Windows Vitu
+## Vitu vya Windows
 
 <details>
 
-<summary><strong>Jifunze kuhusu kuhack AWS kutoka mwanzo hadi kuwa bingwa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
 * Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
-## Vitu vya Kawaida vya Windows
+<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
 
-### Arifa za Windows 10
+{% embed url="https://websec.nl/" %}
 
-Katika njia `\Users\<jina_la_mtumiaji>\AppData\Local\Microsoft\Windows\Notifications` unaweza kupata database `appdb.dat` (kabla ya Windows anniversary) au `wpndatabase.db` (baada ya Windows Anniversary).
+## Vitu vya Kizazi cha Windows
 
-Ndani ya database hii ya SQLite, unaweza kupata meza ya `Notification` na arifa zote (katika muundo wa XML) ambazo zinaweza kuwa na data muhimu.
+### Taarifa za Windows 10
 
-### Timeline
+Katika njia `\Users\<jina la mtumiaji>\AppData\Local\Microsoft\Windows\Notifications` unaweza kupata database `appdb.dat` (kabla ya Windows anniversary) au `wpndatabase.db` (baada ya Windows Anniversary).
 
-Timeline ni sifa ya Windows ambayo hutoa **historia ya mfululizo** ya kurasa za wavuti zilizotembelewa, hati zilizohaririwa, na programu zilizotekelezwa.
+Ndani ya database hii ya SQLite, unaweza kupata meza ya `Notification` na taarifa zote za arifa (katika muundo wa XML) ambazo zinaweza kuwa na data muhimu.
 
-Database iko katika njia `\Users\<jina_la_mtumiaji>\AppData\Local\ConnectedDevicesPlatform\<id>\ActivitiesCache.db`. Database hii inaweza kufunguliwa na chombo cha SQLite au na chombo [**WxTCmd**](https://github.com/EricZimmerman/WxTCmd) **ambacho huzalisha faili 2 ambazo zinaweza kufunguliwa na chombo** [**TimeLine Explorer**](https://ericzimmerman.github.io/#!index.md).
+### Muda
 
-### ADS (Alternate Data Streams)
+Muda ni sifa ya Windows inayotoa **historia ya mfululizo** ya kurasa za wavuti zilizotembelewa, nyaraka zilizohaririwa, na programu zilizotekelezwa.
 
-Faili zilizopakuliwa zinaweza kuwa na **ADS Zone.Identifier** inayoonyesha **jinsi** ilivyopakuliwa kutoka kwenye mtandao wa ndani, mtandao, nk. Programu fulani (kama vivinjari) kawaida huweka **habari zaidi** kama vile **URL** ambapo faili ilipakuliwa kutoka.
+Database iko katika njia `\Users\<jina la mtumiaji>\AppData\Local\ConnectedDevicesPlatform\<id>\ActivitiesCache.db`. Database hii inaweza kufunguliwa na zana ya SQLite au na zana [**WxTCmd**](https://github.com/EricZimmerman/WxTCmd) **ambayo inazalisha faili 2 ambazo zinaweza kufunguliwa na zana** [**TimeLine Explorer**](https://ericzimmerman.github.io/#!index.md).
+
+### ADS (Vijia vya Data Badala)
+
+Faili zilizopakuliwa zinaweza kuwa na **ADS Zone.Identifier** inayoonyesha **jinsi** ilivyopakuliwa kutoka kwenye mtandao wa ndani, mtandao, n.k. Programu fulani (kama vivinjari) kawaida huingiza **habari zaidi** kama **URL** ambapo faili ilipakuliwa.
 
 ## **Nakala za Faili**
 
-### Recycle Bin
+### Bakuli la Takataka
 
-Katika Vista/Win7/Win8/Win10 **Recycle Bin** inaweza kupatikana kwenye saraka **`$Recycle.bin`** kwenye mizizi ya diski (`C:\$Recycle.bin`).\
-Wakati faili inafutwa kwenye saraka hii, faili 2 maalum zinaundwa:
+Katika Vista/Win7/Win8/Win10 **Bakuli la Takataka** linaweza kupatikana katika folda **`$Recycle.bin`** kwenye mizizi ya diski (`C:\$Recycle.bin`).\
+Wakati faili inapofutwa katika folda hii, faili 2 maalum huzalishwa:
 
-* `$I{id}`: Taarifa za faili (tarehe ya kufutwa}
+* `$I{id}`: Taarifa ya faili (tarehe ya wakati ilifutwa}
 * `$R{id}`: Yaliyomo ya faili
 
 ![](<../../../.gitbook/assets/image (486).png>)
 
-Ukiwa na faili hizi, unaweza kutumia chombo [**Rifiuti**](https://github.com/abelcheung/rifiuti2) kupata anwani halisi ya faili zilizofutwa na tarehe ambayo ilifutwa (tumia `rifiuti-vista.exe` kwa Vista - Win10).
+Ukiwa na faili hizi unaweza kutumia zana [**Rifiuti**](https://github.com/abelcheung/rifiuti2) kupata anwani ya asili ya faili zilizofutwa na tarehe iliyofutwa (tumia `rifiuti-vista.exe` kwa Vista – Win10).
 ```
 .\rifiuti-vista.exe C:\Users\student\Desktop\Recycle
 ```
@@ -54,75 +58,73 @@ Ukiwa na faili hizi, unaweza kutumia chombo [**Rifiuti**](https://github.com/abe
 
 ### Nakala za Kivuli za Kiasi
 
-Kivuli cha Kiasi ni teknolojia iliyojumuishwa katika Microsoft Windows ambayo inaweza kuunda nakala za **hifadhi** au picha za faili au kiasi cha kompyuta, hata wakati zinatumika.
+Kivuli cha Nakala ni teknolojia iliyojumuishwa katika Microsoft Windows inayoweza kuunda **nakala za rudufu** au picha za faili au kiasi cha kompyuta, hata wakati zinatumika.
 
-Nakala hizo za hifadhi kawaida zipo katika `\System Volume Information` kutoka kwenye mizizi ya mfumo wa faili na jina linajumuisha **UIDs** zilizoonyeshwa katika picha ifuatayo:
+Nakala hizi za rudufu kawaida zinapatikana katika `\System Volume Information` kutoka kwa mzizi wa mfumo wa faili na jina linaundwa na **UIDs** zilizoonyeshwa katika picha ifuatayo:
 
 ![](<../../../.gitbook/assets/image (520).png>)
 
-Kwa kufunga picha ya uchunguzi na **ArsenalImageMounter**, zana ya [**ShadowCopyView**](https://www.nirsoft.net/utils/shadow\_copy\_view.html) inaweza kutumika kuangalia nakala ya kivuli na hata **kuchambua faili** kutoka kwenye nakala za hifadhi ya kivuli.
+Kwa kufunga picha ya uchunguzi kwa kutumia **ArsenalImageMounter**, zana [**ShadowCopyView**](https://www.nirsoft.net/utils/shadow\_copy\_view.html) inaweza kutumika kuangalia nakala ya kivuli na hata **kutoa faili** kutoka kwa nakala za rudufu za kivuli.
 
 ![](<../../../.gitbook/assets/image (521).png>)
 
-Kuingia kwenye usajili `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\BackupRestore` kuna faili na funguo **ambazo hazitahifadhiwa**:
+Kuingia kwa usajili `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\BackupRestore` ina faili na funguo **za kutofanya rudufu**:
 
 ![](<../../../.gitbook/assets/image (522).png>)
 
 Usajili `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\VSS` pia una habari ya usanidi kuhusu `Nakala za Kivuli za Kiasi`.
 
-### Faili za Kiotomatiki za Ofisi
+### Faili za Kiotomatiki za Ofisi Zilizohifadhiwa
 
-Unaweza kupata faili za kiotomatiki za ofisi katika: `C:\Usuarios\\AppData\Roaming\Microsoft{Excel|Word|Powerpoint}\`
+Unaweza kupata faili zilizohifadhiwa kiotomatiki za ofisi katika: `C:\Usuarios\\AppData\Roaming\Microsoft{Excel|Word|Powerpoint}\`
 
-## Vitu vya Shell
+## Vitu vya Kifaa cha Shell
 
-Kipengele cha shell ni kipengele ambacho kina habari juu ya jinsi ya kupata faili nyingine.
+Kipengee cha kifaa cha shell ni kipengee kinachojumuisha habari juu ya jinsi ya kupata faili nyingine.
 
 ### Nyaraka za Hivi Karibuni (LNK)
 
-Windows **kwa moja kwa moja** **huunda** viungo hivi vya **njia za mkato** wakati mtumiaji **anapofungua, kutumia au kuunda faili** katika:
+Windows **kwa kiotomatiki** **huunda** hizi **viunganishi** wakati mtumiaji **anapofungua, kutumia au kuunda faili** katika:
 
 * Win7-Win10: `C:\Users\\AppData\Roaming\Microsoft\Windows\Recent\`
 * Ofisi: `C:\Users\\AppData\Roaming\Microsoft\Office\Recent\`
 
-Unapounda saraka, kiungo kwa saraka hiyo, kwa saraka ya mzazi, na kwa saraka ya babu pia huundwa.
+Wakati saraka inapoundwa, kiungo kwa saraka, kwa saraka ya mzazi, na kwa babu wa saraka pia huundwa.
 
-Faili za kiungo zilizoundwa kiotomatiki hizi **zina habari kuhusu asili** kama ikiwa ni **faili** **au** saraka, **nyakati za MAC** za faili hiyo, **habari ya kiasi** ambapo faili imehifadhiwa, na **saraka ya faili ya lengo**. Habari hii inaweza kuwa na manufaa katika kurejesha faili hizo ikiwa zimeondolewa.
+Faili hizi za viungo zilizoundwa kiotomatiki **zina habari kuhusu asili** kama ikiwa ni **faili** **au** saraka, **nyakati za MAC** za faili hiyo, **habari ya kiasi** ambapo faili imewekwa na **saraka ya faili ya lengo**. Habari hii inaweza kuwa muhimu kwa kupona faili hizo ikiwa zimeondolewa.
 
-Pia, **tarehe ya kuundwa ya faili ya kiungo** ni wakati wa kwanza faili ya asili ilipotumiwa **kwa mara ya kwanza** na **tarehe** **iliyobadilishwa** ya faili ya kiungo ni **wakati wa mwisho** faili ya asili iliyotumiwa.
+Pia, **tarehe ya kuundwa kwa faili ya kiungo** ni **wakati wa kwanza** faili ya asili ilikuwa **imetumiwa kwanza** na **tarehe iliyobadilishwa** ya faili ya kiungo ni **wakati wa mwisho** faili ya asili ilikuwa imeitumiwa.
 
-Kuangalia faili hizi, unaweza kutumia [**LinkParser**](http://4discovery.com/our-tools/).
+Kuangalia faili hizi unaweza kutumia [**LinkParser**](http://4discovery.com/our-tools/).
 
-Katika zana hii utapata **seti 2** za alama za wakati:
+Katika zana hii utapata **seti 2** za alama za muda:
 
 * **Seti ya Kwanza:**
-1. Tarehe ya Kubadilishwa ya Faili
-2. Tarehe ya Kufikia Faili
-3. Tarehe ya Kuunda Faili
+1. Tarehe ya Kubadilishwa kwa Faili
+2. Tarehe ya Kufikia kwa Faili
+3. Tarehe ya Kuundwa kwa Faili
 * **Seti ya Pili:**
-1. Tarehe ya Kubadilishwa ya Kiungo
-2. Tarehe ya Kufikia Kiungo
-3. Tarehe ya Kuunda Kiungo.
+1. Tarehe ya Kubadilishwa kwa Kiungo
+2. Tarehe ya Kufikia kwa Kiungo
+3. Tarehe ya Kuundwa kwa Kiungo.
 
-Seti ya kwanza ya alama za wakati inahusiana na **alama za wakati za faili yenyewe**. Seti ya pili inahusiana na **alama za wakati za faili iliyolinkishwa**.
+Seti ya kwanza ya alama za muda inahusiana na **alama za muda za faili yenyewe**. Seti ya pili inahusiana na **alama za muda za faili iliyounganishwa**.
 
 Unaweza kupata habari sawa kwa kutumia zana ya Windows CLI: [**LECmd.exe**](https://github.com/EricZimmerman/LECmd)
 ```
 LECmd.exe -d C:\Users\student\Desktop\LNKs --csv C:\Users\student\Desktop\LNKs
 ```
-Katika kesi hii, habari itahifadhiwa ndani ya faili ya CSV.
-
 ### Jumplists
 
-Hizi ni faili za hivi karibuni ambazo zinaonyeshwa kwa kila programu. Ni orodha ya **faili za hivi karibuni zilizotumiwa na programu** ambayo unaweza kufikia kwenye kila programu. Zinaweza kuundwa **kiotomatiki au kuwa desturi**.
+Hizi ni faili za hivi karibuni zilizoonyeshwa kwa kila programu. Ni orodha ya **faili za hivi karibuni zilizotumiwa na programu** ambayo unaweza kufikia kwenye kila programu. Zinaweza kuundwa **kiotomatiki au kuwa za kawaida**.
 
-Jumplists zilizoundwa kiotomatiki zimehifadhiwa katika `C:\Users\{username}\AppData\Roaming\Microsoft\Windows\Recent\AutomaticDestinations\`. Jumplists zina majina yanayofuata muundo `{id}.autmaticDestinations-ms` ambapo ID ya awali ni ID ya programu.
+**Jumplists** zilizoundwa kiotomatiki zimehifadhiwa kwenye `C:\Users\{username}\AppData\Roaming\Microsoft\Windows\Recent\AutomaticDestinations\`. Jumplists hizo zinaitwa kufuatia muundo `{id}.autmaticDestinations-ms` ambapo ID ya awali ni ID ya programu.
 
-Jumplists desturi zimehifadhiwa katika `C:\Users\{username}\AppData\Roaming\Microsoft\Windows\Recent\CustomDestination\` na zinaundwa na programu kawaida kwa sababu kitu **muhimu** kimefanyika na faili (labda imepewa alama kama pendwa).
+Jumplists za kawaida zimehifadhiwa kwenye `C:\Users\{username}\AppData\Roaming\Microsoft\Windows\Recent\CustomDestination\` na huundwa na programu kawaida kwa sababu kitu **muhimu** kimetokea na faili (labda imepewa alama ya kupendwa).
 
-Muda wa **kuundwa** kwa jumplist yoyote unaonyesha **wakati wa kwanza faili ilipofikiwa** na muda wa **kubadilishwa mara ya mwisho**.
+**Muda wa kuundwa** wa jumplist yoyote unaonyesha **wakati wa kwanza faili ilipofikiwa** na **muda wa kuhaririwa mara ya mwisho**.
 
-Unaweza kuangalia jumplists kwa kutumia [**JumplistExplorer**](https://ericzimmerman.github.io/#!index.md).
+Unaweza kukagua jumplists kwa kutumia [**JumplistExplorer**](https://ericzimmerman.github.io/#!index.md).
 
 ![](<../../../.gitbook/assets/image (474).png>)
 
@@ -130,96 +132,100 @@ Unaweza kuangalia jumplists kwa kutumia [**JumplistExplorer**](https://ericzimme
 
 ### Shellbags
 
-[**Fuata kiungo hiki kujifunza ni nini shellbags.**](interesting-windows-registry-keys.md#shellbags)
+[Tafadhali fuata kiungo hiki kujifunza ni nini shellbags.](interesting-windows-registry-keys.md#shellbags)
 
 ## Matumizi ya USB za Windows
 
-Inawezekana kutambua kuwa kifaa cha USB kilitumiwa kutokana na uundaji wa:
+Inawezekana kutambua kuwa kifaa cha USB kilichotumiwa kutokana na uundaji wa:
 
-* Folda ya Hivi Karibuni ya Windows
-* Folda ya Hivi Karibuni ya Microsoft Office
+* Folda za Hivi Karibuni za Windows
+* Folda za Hivi Karibuni za Microsoft Office
 * Jumplists
 
-Tafadhali kumbuka kuwa baadhi ya faili za LNK badala ya kuonyesha njia ya asili, zinaelekeza kwenye folda ya WPDNSE:
+Tafadhali kumbuka kuwa baadhi ya faili za LNK badala ya kuashiria njia ya asili, zinaashiria kwenye folda ya WPDNSE:
 
 ![](<../../../.gitbook/assets/image (476).png>)
 
-Faili katika folda ya WPDNSE ni nakala ya faili za asili, kwa hivyo hazitadumu baada ya kuanza upya kwa PC na GUID inachukuliwa kutoka kwa shellbag.
+Faili katika folda ya WPDNSE ni nakala ya zile za asili, hivyo hazitadumu baada ya kuanzisha upya PC na GUID inachukuliwa kutoka kwa shellbag.
 
 ### Taarifa za Usajili
 
-[Angalia ukurasa huu ili kujifunza](interesting-windows-registry-keys.md#usb-information) ni funguo gani za usajili zina habari muhimu kuhusu vifaa vilivyounganishwa kupitia USB.
+[Angalia ukurasa huu kujifunza](interesting-windows-registry-keys.md#usb-information) ni funguo zipi za usajili zina taarifa muhimu kuhusu vifaa vilivyounganishwa vya USB.
 
 ### setupapi
 
-Angalia faili `C:\Windows\inf\setupapi.dev.log` ili kupata alama za wakati kuhusu wakati uhusiano wa USB ulifanyika (tafuta `Section start`).
+Angalia faili `C:\Windows\inf\setupapi.dev.log` kupata alama za wakati kuhusu wakati uhusiano wa USB ulifanyika (tafuta `Section start`).
 
-![](<../../../.gitbook/assets/image (477) (2) (2) (2) (2) (2) (2) (2) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (14).png>)
+![](<../../../.gitbook/assets/image (477) (2) (2) (2) (2) (2) (2) (2) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (14).png>)
 
 ### USB Detective
 
-[**USBDetective**](https://usbdetective.com) inaweza kutumika kupata habari kuhusu vifaa vya USB vilivyowahi kuunganishwa kwenye picha.
+[**USBDetective**](https://usbdetective.com) inaweza kutumika kupata taarifa kuhusu vifaa vya USB vilivyokuwa vimeunganishwa kwenye picha.
 
 ![](<../../../.gitbook/assets/image (483).png>)
 
-### Usafi wa Plug and Play
+### Kusafisha Plug and Play
 
-Kazi iliyopangwa inayojulikana kama 'Usafi wa Plug and Play' imeundwa kwa kusafisha toleo zilizopitwa na wakati za madereva. Kinyume na madhumuni yake ya kuhifadhi toleo la hivi karibuni la mfuko wa dereva, vyanzo vya mtandaoni vinapendekeza pia inalenga madereva ambayo hayajatumika kwa siku 30. Kwa hivyo, madereva kwa vifaa vinavyoweza kuondolewa ambavyo havijaunganishwa katika siku 30 zinaweza kufutwa.
+Kazi iliyopangwa inayojulikana kama 'Kusafisha Plug and Play' imeundwa kimsingi kwa ajili ya kuondoa toleo za zamani za madereva. Tofauti na lengo lake lililoelezwa la kuhifadhi toleo la karibuni la pakiti ya dereva, vyanzo vya mtandaoni vinapendekeza pia inalenga madereva ambayo hayajatumika kwa siku 30. Kwa hivyo, madereva kwa vifaa vinavyoweza kuondolewa ambavyo havijakuwa vimeunganishwa katika siku 30 zilizopita zinaweza kuwa chini ya kufutwa.
 
-Kazi hiyo iko katika njia ifuatayo:
+Kazi hiyo iko kwenye njia ifuatayo:
 `C:\Windows\System32\Tasks\Microsoft\Windows\Plug and Play\Plug and Play Cleanup`.
 
-Picha inayoonyesha maudhui ya kazi inapatikana:
+Picha inayoonyesha maudhui ya kazi hiyo imepatikana:
 ![](https://2.bp.blogspot.com/-wqYubtuR_W8/W19bV5S9XyI/AAAAAAAANhU/OHsBDEvjqmg9ayzdNwJ4y2DKZnhCdwSMgCLcBGAs/s1600/xml.png)
 
 **Vipengele muhimu na Mipangilio ya Kazi:**
-- **pnpclean.dll**: DLL hii inahusika na mchakato halisi wa usafi.
-- **UseUnifiedSchedulingEngine**: Imewekwa kuwa `TRUE`, ikionyesha matumizi ya injini ya jumla ya ratiba ya kazi.
+- **pnpclean.dll**: DLL hii inahusika na mchakato halisi wa kusafisha.
+- **UseUnifiedSchedulingEngine**: Imewekwa kuwa `TRUE`, ikionyesha matumizi ya injini ya kawaida ya kupangia kazi.
 - **MaintenanceSettings**:
-- **Kipindi ('P1M')**: Inaelekeza Meneja wa Kazi kuanzisha kazi ya usafi kila mwezi wakati wa matengenezo ya kiotomatiki ya kawaida.
-- **Mwisho wa Muda ('P2M')**: Inaagiza Meneja wa Kazi, ikiwa kazi inashindwa kwa miezi miwili mfululizo, kutekeleza kazi wakati wa matengenezo ya dharura ya kiotomatiki.
+- **Kipindi ('P1M')**: Inaelekeza Meneja wa Kazi kuanzisha kazi ya kusafisha kila mwezi wakati wa matengenezo ya kiotomatiki ya kawaida.
+- **Mwisho wa Muda ('P2M')**: Inaagiza Meneja wa Kazi, ikiwa kazi itashindwa kwa miezi miwili mfululizo, kutekeleza kazi wakati wa matengenezo ya dharura ya kiotomatiki.
 
-Usanidi huu unahakikisha matengenezo na usafi wa kawaida wa madereva, na utoaji wa kujaribu tena kazi ikiwa kuna kushindwa mfululizo.
+Usanidi huu unahakikisha matengenezo ya kawaida na kusafisha ya madereva, na utoaji wa kujaribu tena kazi katika kesi ya kushindwa mfululizo.
 
 **Kwa habari zaidi angalia:** [**https://blog.1234n6.com/2018/07/windows-plug-and-play-cleanup.html**](https://blog.1234n6.com/2018/07/windows-plug-and-play-cleanup.html)
 
 ## Barua pepe
 
-Barua pepe zina sehemu **2 za kuvutia: Vichwa na maudhui** ya barua pepe. Katika **vichwa** unaweza kupata habari kama:
+Barua pepe zina sehemu **2 za kuvutia: Vichwa vya habari na maudhui** ya barua pepe. Katika **vichwa vya habari** unaweza kupata habari kama:
 
 * **Nani** alituma barua pepe (anwani ya barua pepe, IP, seva za barua pepe ambazo zimeelekeza barua pepe)
-* **Lini** barua pepe iliyotumwa
+* **Lini** barua pepe ilitumwa
 
-Pia, ndani ya vichwa vya `References` na `In-Reply-To` unaweza kupata kitambulisho cha ujumbe:
+Pia, ndani ya vichwa vya habari vya `References` na `In-Reply-To` unaweza kupata ID za ujumbe:
 
 ![](<../../../.gitbook/assets/image (484).png>)
 
 ### Programu ya Barua pepe ya Windows
 
-Programu hii inahifadhi barua pepe katika HTML au maandishi. Unaweza kupata barua pepe ndani ya folda za ndani za `\Users\<username>\AppData\Local\Comms\Unistore\data\3\`. Barua pepe zimehifadhiwa na kipengee cha `.dat`.
+Programu hii huihifadhi barua pepe kwa HTML au maandishi. Unaweza kupata barua pepe ndani ya vijisehemu ndani ya `\Users\<username>\AppData\Local\Comms\Unistore\data\3\`. Barua pepe zimehifadhiwa kwa kipengele cha `.dat`.
 
 **Metadata** ya barua pepe na **mawasiliano** yanaweza kupatikana ndani ya **database ya EDB**: `\Users\<username>\AppData\Local\Comms\UnistoreDB\store.vol`
 
-**Badilisha kipengee** cha faili kutoka `.vol` hadi `.edb` na unaweza kutumia zana [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html) kuifungua. Ndani ya meza ya `Message` unaweza kuona barua pepe.
+**Badilisha kipengele** cha faili kutoka `.vol` hadi `.edb` na unaweza kutumia zana [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html) kuifungua. Ndani ya meza ya `Message` unaweza kuona barua pepe.
 
 ### Microsoft Outlook
 
-Wakati seva za Exchange au wateja wa Outlook wanapotumika, kutakuwa na vichwa vya MAPI:
+Wakati seva za Exchange au wateja wa Outlook wanapotumika kutakuwa na vichwa vya MAPI:
 
-* `Mapi-Client-Submit-Time`: Wakati wa mfumo wakati barua pepe iliyotumwa
-* `Mapi-Conversation-Index`: Idadi ya ujumbe wa watoto wa mazungumzo na alama ya wakati ya kila ujumbe wa mazungumzo
+* `Mapi-Client-Submit-Time`: Wakati wa mfumo wakati barua pepe ilipotumwa
+* `Mapi-Conversation-Index`: Idadi ya ujumbe wa watoto wa mjadala na alama ya wakati ya kila ujumbe wa mjadala
 * `Mapi-Entry-ID`: Kitambulisho cha ujumbe.
-* `Mappi-Message-Flags` na `Pr_last_Verb-Executed`: Habari kuhusu mteja wa MAPI (ujumbe umesomwa? haujasomwa? umesasishwa? umeelekezwa? nje ya ofisi?)
+* `Mappi-Message-Flags` na `Pr_last_Verb-Executed`: Taarifa kuhusu mteja wa MAPI (ujumbe umesomwa? haujasomwa? umejibiwa? umepelekwa upya? nje ya ofisi?)
 
-Katika mteja wa Microsoft Outlook, ujumbe wote uliotumwa/ulipopokelewa, data ya mawasiliano, na data ya kalenda zimehifadhiwa katika faili ya PST katika:
+Katika mteja wa Microsoft Outlook, ujumbe uliotumwa/kupokelewa, data za mawasiliano, na data ya kalenda zimehifadhiwa kwenye faili ya PST katika:
 
 * `%USERPROFILE%\Local Settings\Application Data\Microsoft\Outlook` (WinXP)
 * `%USERPROFILE%\AppData\Local\Microsoft\Outlook`
 
-Njia ya usajili `HKEY_CURRENT_USER\Software\Microsoft\WindowsNT
+Njia ya usajili `HKEY_CURRENT_USER\Software\Microsoft\WindowsNT\CurrentVersion\Windows Messaging Subsystem\Profiles\Outlook` inaonyesha faili inayotumiwa.
+
+Unaweza kufungua faili ya PST kwa kutumia zana [**Kernel PST Viewer**](https://www.nucleustechnologies.com/es/visor-de-pst.html).
+
+![](<../../../.gitbook/assets/image (485).png>)
 ### Faili za Microsoft Outlook OST
 
-Faili ya **OST** inazalishwa na Microsoft Outlook wakati inapowekwa na **IMAP** au seva ya **Exchange**, ikihifadhi habari sawa na faili ya PST. Faili hii inasawazishwa na seva, ikihifadhi data kwa **miezi 12 iliyopita** hadi **ukubwa wa juu wa 50GB**, na iko katika saraka ile ile na faili ya PST. Ili kuona faili ya OST, [**Mtazamaji wa OST wa Kernel**](https://www.nucleustechnologies.com/ost-viewer.html) inaweza kutumika.
+Faili ya **OST** inazalishwa na Microsoft Outlook wakati inaundwa na **IMAP** au seva ya **Exchange**, ikihifadhi habari sawa na faili ya PST. Faili hii inasawazishwa na seva, ikihifadhi data kwa **miezi 12 iliyopita** hadi **ukubwa wa juu wa 50GB**, na iko katika saraka ile ile na faili ya PST. Ili kuona faili ya OST, [**Mtazamaji wa OST wa Kernel**](https://www.nucleustechnologies.com/ost-viewer.html) inaweza kutumika.
 
 ### Kupata Viambatisho
 
@@ -230,47 +236,47 @@ Viambatisho vilivyopotea vinaweza kupatikana kutoka:
 
 ### Faili za Thunderbird MBOX
 
-**Thunderbird** hutumia faili za **MBOX** kuhifadhi data, zilizoko katika `\Users\%USERNAME%\AppData\Roaming\Thunderbird\Profiles`.
+**Thunderbird** hutumia faili za **MBOX** kuhifadhi data, zilizoko kwenye `\Users\%USERNAME%\AppData\Roaming\Thunderbird\Profiles`.
 
 ### Vielelezo vya Picha
 
 - **Windows XP na 8-8.1**: Kufikia saraka na vielelezo huzalisha faili ya `thumbs.db` inayohifadhi hakikisho za picha, hata baada ya kufutwa.
-- **Windows 7/10**: `thumbs.db` inaundwa wakati inafikiwa kupitia mtandao kupitia njia ya UNC.
-- **Windows Vista na toleo jipya**: Hakikisho za vielelezo vimehifadhiwa katika `%userprofile%\AppData\Local\Microsoft\Windows\Explorer` na faili zinaitwa **thumbcache\_xxx.db**. [**Thumbsviewer**](https://thumbsviewer.github.io) na [**ThumbCache Viewer**](https://thumbcacheviewer.github.io) ni zana za kuona faili hizi.
+- **Windows 7/10**: `thumbs.db` inaundwa wakati inafikiwa kwa mtandao kupitia njia ya UNC.
+- **Windows Vista na mpya**: Hakikisho za vielelezo zimejumuishwa katika `%userprofile%\AppData\Local\Microsoft\Windows\Explorer` na faili zinaitwa **thumbcache\_xxx.db**. [**Thumbsviewer**](https://thumbsviewer.github.io) na [**ThumbCache Viewer**](https://thumbcacheviewer.github.io) ni zana za kuona faili hizi.
 
-### Habari za Usajili wa Windows
+### Taarifa za Usajili wa Windows
 
-Usajili wa Windows, ukihifadhi data kubwa ya shughuli za mfumo na mtumiaji, inapatikana katika faili zifuatazo:
+Usajili wa Windows, ukihifadhi data kubwa ya shughuli za mfumo na mtumiaji, imejumuishwa katika faili zifuatazo:
 
-- `%windir%\System32\Config` kwa funguo za chini za `HKEY_LOCAL_MACHINE`.
+- `%windir%\System32\Config` kwa funguo za chini za `HKEY_LOCAL_MACHINE` mbalimbali.
 - `%UserProfile%{User}\NTUSER.DAT` kwa `HKEY_CURRENT_USER`.
-- Windows Vista na toleo jipya hufanya nakala rudufu ya faili za usajili za `HKEY_LOCAL_MACHINE` katika `%Windir%\System32\Config\RegBack\`.
-- Kwa kuongezea, habari za utekelezaji wa programu zimehifadhiwa katika `%UserProfile%\{User}\AppData\Local\Microsoft\Windows\USERCLASS.DAT` kuanzia Windows Vista na Windows 2008 Server.
+- Windows Vista na toleo jipya hufanya nakala za faili za usajili za `HKEY_LOCAL_MACHINE` katika `%Windir%\System32\Config\RegBack\`.
+- Aidha, taarifa za utekelezaji wa programu zimehifadhiwa katika `%UserProfile%\{User}\AppData\Local\Microsoft\Windows\USERCLASS.DAT` kutoka Windows Vista na Windows 2008 Server kuendelea.
 
 ### Zana
 
 Baadhi ya zana ni muhimu kuchambua faili za usajili:
 
-* **Mhariri wa Usajili**: Imewekwa katika Windows. Ni kiolesura cha GUI cha kupitia usajili wa Windows wa kikao cha sasa.
-* [**Mchunguzi wa Usajili**](https://ericzimmerman.github.io/#!index.md): Inakuwezesha kupakia faili ya usajili na kuzunguka kupitia hiyo kwa kutumia GUI. Pia ina Vialamisho vinavyobainisha funguo zenye habari muhimu.
-* [**RegRipper**](https://github.com/keydet89/RegRipper3.0): Tena, ina GUI inayoruhusu kuzunguka kupitia usajili uliopakiwa na pia ina programu-jalizi ambazo zinaonyesha habari muhimu ndani ya usajili uliopakiwa.
-* [**Windows Registry Recovery**](https://www.mitec.cz/wrr.html): Programu nyingine ya GUI inayoweza kuchambua habari muhimu kutoka kwa usajili uliopakiwa.
+* **Mhariri wa Usajili**: Imeboreshwa kwenye Windows. Ni GUI ya kutembea kupitia usajili wa Windows wa kikao cha sasa.
+* [**Mchunguzi wa Usajili**](https://ericzimmerman.github.io/#!index.md): Inakuruhusu kupakia faili ya usajili na kutembea kupitia hiyo kwa GUI. Pia ina Vialamisho vinavyoonyesha funguo zenye habari muhimu.
+* [**RegRipper**](https://github.com/keydet89/RegRipper3.0): Tena, ina GUI inayoruhusu kutembea kupitia usajili uliopakiwa na pia ina programu-jalizi zinazoonyesha habari muhimu ndani ya usajili uliopakiwa.
+* [**Windows Registry Recovery**](https://www.mitec.cz/wrr.html): Programu nyingine ya GUI inayoweza kutoa habari muhimu kutoka kwa usajili uliopakiwa.
 
 ### Kurejesha Kipengele Kilichofutwa
 
-Wakati funguo inafutwa, inaashiria hivyo, lakini mpaka nafasi inayochukuliwa inahitajika, haitaondolewa. Kwa hivyo, kwa kutumia zana kama **Mchunguzi wa Usajili**, ni inawezekana kurejesha funguo hizi zilizofutwa.
+Wakati funguo inafutwa, inaashiria hivyo, lakini mpaka nafasi inayochukua inahitajika, haitaondolewa. Kwa hivyo, kutumia zana kama **Mchunguzi wa Usajili** inawezekana kurejesha funguo hizi zilizofutwa.
 
-### Wakati wa Kuandika Mwisho
+### Muda wa Mwisho wa Kuandika
 
-Kila Funguo-Kitu kina **muda** unaonyesha wakati uliopita ulibadilishwa.
+Kila Funguo-Kitu kina **muda** unaonyesha wakati wa mwisho uliobadilishwa.
 
 ### SAM
 
 Faili/hive ya **SAM** ina **watumiaji, vikundi na nywila za watumiaji** za mfumo.
 
-Katika `SAM\Domains\Account\Users` unaweza kupata jina la mtumiaji, RID, kuingia mwisho, kuingia kushindwa mwisho, hesabu ya kuingia, sera ya nywila na wakati akaunti iliumbwa. Ili kupata **nywila** unahitaji pia faili/hive ya **SYSTEM**.
+Katika `SAM\Domains\Account\Users` unaweza kupata jina la mtumiaji, RID, kuingia mwisho, kuingia kushindwa mwisho, kuhesabu kuingia, sera ya nywila na wakati akaunti ilianzishwa. Ili kupata **nywila** unahitaji pia faili/hive ya **SYSTEM**.
 
-### Vitambulisho Vinavyovutia katika Usajili wa Windows
+### Viingilio Vyenye Kuvutia katika Usajili wa Windows
 
 {% content-ref url="interesting-windows-registry-keys.md" %}
 [interesting-windows-registry-keys.md](interesting-windows-registry-keys.md)
@@ -280,25 +286,25 @@ Katika `SAM\Domains\Account\Users` unaweza kupata jina la mtumiaji, RID, kuingia
 
 ### Mchakato wa Msingi wa Windows
 
-Katika [chapisho hili](https://jonahacks.medium.com/investigating-common-windows-processes-18dee5f97c1d) unaweza kujifunza kuhusu michakato ya kawaida ya Windows ili kugundua tabia za shaka.
+Katika [chapisho hili](https://jonahacks.medium.com/investigating-common-windows-processes-18dee5f97c1d) unaweza kujifunza kuhusu mchakato wa kawaida wa Windows ili kugundua tabia za shaka.
 
-### Programu Zilizotekelezwa Hivi Karibuni za Windows
+### Programu za Hivi Karibuni za Windows
 
-Ndani ya usajili wa `NTUSER.DAT` katika njia `Software\Microsoft\Current Version\Search\RecentApps` unaweza kupata funguo za ziada na habari kuhusu **programu iliyotekelezwa**, **wakati wa mwisho** iliyotekelezwa, na **idadi ya mara** iliyozinduliwa.
+Ndani ya usajili wa `NTUSER.DAT` katika njia `Software\Microsoft\Current Version\Search\RecentApps` unaweza kupata funguo za ziada na habari kuhusu **programu iliyotekelezwa**, **wakati wa mwisho** ilitekelezwa, na **idadi ya mara** iliyozinduliwa.
 
-### BAM (Background Activity Moderator)
+### BAM (Msimamizi wa Shughuli za Nyuma)
 
-Unaweza kufungua faili ya `SYSTEM` na mhariri wa usajili na ndani ya njia `SYSTEM\CurrentControlSet\Services\bam\UserSettings\{SID}` unaweza kupata habari kuhusu **programu zilizotekelezwa na kila mtumiaji** (zingatia `{SID}` katika njia) na **wakati gani** zilitekelezwa (wakati uko ndani ya thamani ya Data ya usajili).
+Unaweza kufungua faili ya `SYSTEM` na mhariri wa usajili na ndani ya njia `SYSTEM\CurrentControlSet\Services\bam\UserSettings\{SID}` unaweza kupata habari kuhusu **programu zilizotekelezwa na kila mtumiaji** (kumbuka `{SID}` katika njia) na **wakati** walitekelezwa (wakati uko ndani ya thamani ya data ya usajili).
 
 ### Windows Prefetch
 
-Prefetching ni mbinu inayoruhusu kompyuta kupata kimya-kimya **rasilimali zinazohitajika ili kuonyesha yaliyomo** ambayo mtumiaji **anaweza kufikia hivi karibuni** ili rasilimali ziweze kupatikana haraka.
+Prefetching ni mbinu inayoruhusu kompyuta kupakua kimya-kimya **rasilimali zinazohitajika kuonyesha maudhui** ambayo mtumiaji **anaweza kupata karibu siku zijazo** ili rasilimali ziweze kupatikana haraka.
 
-Windows prefetch inajumuisha kuunda **hifadhi za programu zilizotekelezwa** ili ziweze kupakia haraka. Hifadhi hizi zinaundwa kama faili za `.pf` katika njia: `C:\Windows\Prefetch`. Kuna kikomo cha faili 128 katika XP/VISTA/WIN7 na faili 1024 katika Win8/Win10.
+Windows prefetch inajumuisha kuunda **hifadhi za programu zilizotekelezwa** ili ziweze kupakia haraka. Hifadhi hizi zinaundwa kama faili za `.pf` ndani ya njia: `C:\Windows\Prefetch`. Kuna kikomo cha faili 128 katika XP/VISTA/WIN7 na faili 1024 katika Win8/Win10.
 
-Jina la faili linaundwa kama `{jina_la_programu}-{hash}.pf` (hash inategemea njia na hoja za kutekelezwa). Katika W10 faili hizi zimefupishwa. Tafadhali kumbuka kuwa uwepo wa faili pekee unaonyesha kwamba **programu ilitekelezwa** wakati fulani.
+Jina la faili linaundwa kama `{jina_la_programu}-{hash}.pf` (hash inategemea njia na hoja za programu). Katika W10 faili hizi zimepakwa. Tafadhali kumbuka kuwa uwepo wa faili pekee unaonyesha kwamba **programu ilitekelezwa** wakati fulani.
 
-Faili ya `C:\Windows\Prefetch\Layout.ini` ina **majina ya saraka za faili zilizopakuliwa mapema**. Faili hii ina **habari kuhusu idadi ya utekelezaji**, **tarehe** za utekelezaji, na **faili** **zilizofunguliwa** na programu.
+Faili ya `C:\Windows\Prefetch\Layout.ini` ina **majina ya saraka za faili zilizopakuliwa mapema**. Faili hii ina **habari kuhusu idadi ya utekelezaji**, **tarehe** za utekelezaji na **faili** **zilizofunguliwa** na programu.
 
 Kutazama faili hizi unaweza kutumia zana [**PEcmd.exe**](https://github.com/EricZimmerman/PECmd):
 ```bash
@@ -308,168 +314,192 @@ Kutazama faili hizi unaweza kutumia zana [**PEcmd.exe**](https://github.com/Eric
 
 ### Superprefetch
 
-**Superprefetch** ina lengo kama prefetch, **kuwezesha programu kufunguka haraka** kwa kutabiri ni programu gani itakayofunguliwa baadaye. Hata hivyo, haitoi huduma ya prefetch.\
+**Superprefetch** ina lengo kama prefetch, **kuwezesha programu kupakia haraka** kwa kutabiri ni nini kitakachopakiwa baadaye. Hata hivyo, haitoi huduma ya prefetch.\
 Huduma hii itazalisha faili za database katika `C:\Windows\Prefetch\Ag*.db`.
 
-Katika hizi database unaweza kupata **jina** la **programu**, **idadi** ya **utekelezaji**, **faili** **zilizofunguliwa**, **kiasi** **cha ufikivu**, **njia kamili**, **muda** na **muda wa alama**.
+Katika hizi database unaweza kupata **jina** la **programu**, **idadi** ya **utekelezaji**, **faili** **zilizofunguliwa**, **upatikanaji** wa **kiasi**, **njia kamili**, **muda** na **muda wa alama**.
 
 Unaweza kupata habari hii kwa kutumia zana [**CrowdResponse**](https://www.crowdstrike.com/resources/community-tools/crowdresponse/).
 
 ### SRUM
 
-**System Resource Usage Monitor** (SRUM) **inachunguza** **rasilimali** **zilizotumiwa** **na mchakato**. Ilianza katika W8 na hifadhi data katika database ya ESE iliyo katika `C:\Windows\System32\sru\SRUDB.dat`.
+**System Resource Usage Monitor** (SRUM) **inachunguza** **rasilimali** **zilizotumiwa** **na mchakato**. Ilianza katika W8 na hifadhi data katika database ya ESE iliyoko `C:\Windows\System32\sru\SRUDB.dat`.
 
 Inatoa habari ifuatayo:
 
 * AppID na Njia
 * Mtumiaji aliyetekeleza mchakato
-* Herufi zilizotumwa
-* Herufi zilizopokelewa
-* Kiolesura cha Mtandao
-* Muda wa uhusiano
-* Muda wa mchakato
+* Bytes Zilizotumwa
+* Bytes Zilizopokelewa
+* Interface ya Mtandao
+* Muda wa Uunganisho
+* Muda wa Mchakato
 
-Habari hii inasasishwa kila baada ya dakika 60.
+Habari hii hupitiwa kila baada ya dakika 60.
 
-Unaweza kupata data kutoka kwenye faili hii kwa kutumia zana [**srum\_dump**](https://github.com/MarkBaggett/srum-dump).
+Unaweza kupata data kutoka faili hii kwa kutumia zana [**srum\_dump**](https://github.com/MarkBaggett/srum-dump).
 ```bash
 .\srum_dump.exe -i C:\Users\student\Desktop\SRUDB.dat -t SRUM_TEMPLATE.xlsx -o C:\Users\student\Desktop\srum
 ```
 ### AppCompatCache (ShimCache)
 
-**AppCompatCache**, inayojulikana pia kama **ShimCache**, ni sehemu ya **Application Compatibility Database** iliyoendelezwa na **Microsoft** kushughulikia matatizo ya utangamano wa programu. Sehemu hii ya mfumo inarekodi vipande mbalimbali vya metadata ya faili, ambavyo ni pamoja na:
+**AppCompatCache**, inayojulikana pia kama **ShimCache**, ni sehemu ya **Application Compatibility Database** iliyoendelezwa na **Microsoft** kushughulikia matatizo ya utangamano wa programu. Kipengele hiki cha mfumo hurekodi vipande mbalimbali vya metadata ya faili, ambavyo ni pamoja na:
 
 - Njia kamili ya faili
 - Ukubwa wa faili
-- Wakati wa Mwisho wa Kubadilishwa chini ya **$Standard\_Information** (SI)
-- Wakati wa Mwisho wa Kuboreshwa wa ShimCache
+- Muda wa Mwisho wa Kubadilishwa chini ya **$Standard\_Information** (SI)
+- Muda wa Mwisho wa Kusasishwa wa ShimCache
 - Bendera ya Utekelezaji wa Mchakato
 
-Data kama hiyo imehifadhiwa ndani ya usajili katika maeneo maalum kulingana na toleo la mfumo wa uendeshaji:
+Data kama hiyo hifadhiwa ndani ya usajili katika maeneo maalum kulingana na toleo la mfumo wa uendeshaji:
 
-- Kwa XP, data imehifadhiwa chini ya `SYSTEM\CurrentControlSet\Control\SessionManager\Appcompatibility\AppcompatCache` na uwezo wa kuingiza vitu 96.
-- Kwa Server 2003, pamoja na toleo la Windows 2008, 2012, 2016, 7, 8, na 10, njia ya uhifadhi ni `SYSTEM\CurrentControlSet\Control\SessionManager\AppcompatCache\AppCompatCache`, ikiruhusu vitu 512 na 1024 mtawaliwa.
+- Kwa XP, data hifadhiwa chini ya `SYSTEM\CurrentControlSet\Control\SessionManager\Appcompatibility\AppcompatCache` na uwezo wa kuingiza vipengele 96.
+- Kwa Server 2003, pamoja na toleo za Windows 2008, 2012, 2016, 7, 8, na 10, njia ya kuhifadhi ni `SYSTEM\CurrentControlSet\Control\SessionManager\AppcompatCache\AppCompatCache`, ikiruhusu kuingiza vipengele 512 na 1024, mtawalia.
 
-Ili kuchambua habari iliyohifadhiwa, inapendekezwa kutumia zana ya [**AppCompatCacheParser**](https://github.com/EricZimmerman/AppCompatCacheParser).
+Kutafsiri habari iliyohifadhiwa, zana ya [**AppCompatCacheParser**](https://github.com/EricZimmerman/AppCompatCacheParser) inapendekezwa kutumika.
 
 ![](<../../../.gitbook/assets/image (488).png>)
 
 ### Amcache
 
-Faili ya **Amcache.hve** ni msingi wa usajili ambao unaorodhesha maelezo kuhusu programu ambazo zimefanywa kwenye mfumo. Kawaida inapatikana kwenye `C:\Windows\AppCompat\Programas\Amcache.hve`.
+Faili ya **Amcache.hve** ni msingi wa usajili unaorekodi maelezo kuhusu programu zilizotekelezwa kwenye mfumo. Kawaida hupatikana kwenye `C:\Windows\AppCompat\Programas\Amcache.hve`.
 
-Faili hii inajulikana kwa kuhifadhi rekodi za michakato iliyotekelezwa hivi karibuni, ikiwa ni pamoja na njia za faili za kutekelezwa na hashi zao za SHA1. Habari hii ni muhimu kwa kufuatilia shughuli za programu kwenye mfumo.
+Faili hii inajulikana kwa kuhifadhi rekodi za michakato iliyotekelezwa hivi karibuni, ikiwa ni pamoja na njia za faili za kutekelezeka na hash zao za SHA1. Taarifa hii ni muhimu kwa kufuatilia shughuli za programu kwenye mfumo.
 
-Ili kuchambua na kuchanganua data kutoka kwenye faili ya **Amcache.hve**, unaweza kutumia zana ya [**AmcacheParser**](https://github.com/EricZimmerman/AmcacheParser). Amri ifuatayo ni mfano wa jinsi ya kutumia AmcacheParser kuchambua maudhui ya faili ya **Amcache.hve** na kutoa matokeo katika muundo wa CSV:
+Kutolea nje na kuchambua data kutoka kwa **Amcache.hve**, zana ya [**AmcacheParser**](https://github.com/EricZimmerman/AmcacheParser) inaweza kutumika. Amri ifuatayo ni mfano wa jinsi ya kutumia AmcacheParser kutafsiri maudhui ya faili ya **Amcache.hve** na kutoa matokeo kwa muundo wa CSV:
 ```bash
 AmcacheParser.exe -f C:\Users\genericUser\Desktop\Amcache.hve --csv C:\Users\genericUser\Desktop\outputFolder
 ```
-Miongoni mwa faili za CSV zilizozalishwa, `Amcache_Unassociated file entries` ni muhimu sana kwa sababu inatoa habari kamili kuhusu faili zisizohusishwa.
+Miongoni mwa faili za CSV zilizozalishwa, `Amcache_Unassociated file entries` ni muhimu sana kutokana na habari tajiri inayotoa kuhusu viingilio vya faili visivyo husishwa.
 
-Faili ya CVS yenye kuvutia zaidi ni `Amcache_Unassociated file entries`.
+Faili ya CVS yenye kuvutia zaidi iliyozalishwa ni `Amcache_Unassociated file entries`.
 
 ### RecentFileCache
 
-Kipengele hiki kinaweza kupatikana tu katika W7 kwenye `C:\Windows\AppCompat\Programs\RecentFileCache.bcf` na ina habari kuhusu utekelezaji wa hivi karibuni wa baadhi ya programu.
+Saraka hii inaweza kupatikana tu katika W7 kwenye `C:\Windows\AppCompat\Programs\RecentFileCache.bcf` na ina habari kuhusu utekelezaji wa hivi karibuni wa baadhi ya binaries.
 
-Unaweza kutumia zana [**RecentFileCacheParse**](https://github.com/EricZimmerman/RecentFileCacheParser) kuipasua faili.
+Unaweza kutumia zana [**RecentFileCacheParse**](https://github.com/EricZimmerman/RecentFileCacheParser) kuchambua faili.
 
 ### Kazi zilizopangwa
 
-Unaweza kuzitoa kutoka `C:\Windows\Tasks` au `C:\Windows\System32\Tasks` na kuzisoma kama XML.
+Unaweza kuzitoa kutoka `C:\Windows\Tasks` au `C:\Windows\System32\Tasks` na kusoma kama XML.
 
 ### Huduma
 
-Unaweza kuzipata katika usajili chini ya `SYSTEM\ControlSet001\Services`. Unaweza kuona ni nini kitatekelezwa na lini.
+Unaweza kuzipata kwenye usajili chini ya `SYSTEM\ControlSet001\Services`. Unaweza kuona nini kitatekelezwa na lini.
 
 ### **Duka la Windows**
 
 Programu zilizosakinishwa zinaweza kupatikana katika `\ProgramData\Microsoft\Windows\AppRepository\`\
-Hifadhidata hii ina **logi** na **kila programu iliyosakinishwa** kwenye mfumo ndani ya hifadhidata **`StateRepository-Machine.srd`**.
+Hifadhi hii ina **logi** na **kila programu iliyosakinishwa** kwenye mfumo ndani ya hifadhidata **`StateRepository-Machine.srd`**.
 
-Ndani ya jedwali la Programu katika hifadhidata hii, ni sawa kupata safu: "Kitambulisho cha Programu", "Nambari ya Pakiti", na "Jina la Kuonyesha". Safu hizi zina habari kuhusu programu zilizosakinishwa na zinaweza kupatikana ikiwa programu fulani zilifutwa kwa sababu vitambulisho vya programu zilizosakinishwa vinapaswa kuwa vya mfululizo.
+Ndani ya jedwali la Programu katika hifadhidata hii, ni pamoja na vitengo: "Kitambulisho cha Programu", "Nambari ya Pakiti", na "Jina la Kuonyesha". Vitengo hivi vina habari kuhusu programu zilizosakinishwa awali na zilizosakinishwa na inaweza kupatikana ikiwa baadhi ya programu zilisakinushwa kwa sababu vitambulisho vya programu zilizosakinishwa vinapaswa kuwa vya mfululizo.
 
-Pia ni sawa kupata **programu iliyosakinishwa** ndani ya njia ya usajili: `Software\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Applications\`\
-Na **programu zilizofutwa** katika: `Software\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Deleted\`
+Pia ni **kupata programu iliyosakinishwa** ndani ya njia ya usajili: `Software\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Applications\`\
+Na **programu zilizosakinushwa** katika: `Software\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Deleted\`
 
 ## Matukio ya Windows
 
-Habari zinazoonekana ndani ya matukio ya Windows ni:
+Habari inayoonekana ndani ya matukio ya Windows ni:
 
 * Kilichotokea
 * Muda (UTC + 0)
 * Watumiaji waliohusika
-* Wenyewe waliohusika (jina la mwenyeji, IP)
-* Mali zilizofikiwa (faili, folda, printer, huduma)
+* Wenyeji waliohusika (jina la mwenyeji, IP)
+* Mali zilizopatikana (faili, folda, printa, huduma)
 
-Magogo yapo katika `C:\Windows\System32\config` kabla ya Windows Vista na katika `C:\Windows\System32\winevt\Logs` baada ya Windows Vista. Kabla ya Windows Vista, magogo ya matukio yalikuwa katika muundo wa binary na baada yake, yako katika muundo wa **XML** na hutumia kifaa cha **.evtx**.
+Vipakuli viko katika `C:\Windows\System32\config` kabla ya Windows Vista na katika `C:\Windows\System32\winevt\Logs` baada ya Windows Vista. Kabla ya Windows Vista, vipakuli vya matukio vilikuwa katika muundo wa binary na baada yake, wako katika **muundo wa XML** na hutumia kifaa cha **.evtx**.
 
-Mahali pa faili za matukio yanaweza kupatikana katika usajili wa SYSTEM katika **`HKLM\SYSTEM\CurrentControlSet\services\EventLog\{Application|System|Security}`**
+Mahali pa faili za matukio zinaweza kupatikana katika usajili wa SYSTEM katika **`HKLM\SYSTEM\CurrentControlSet\services\EventLog\{Application|System|Security}`**
 
-Yaweza kuonekana kutoka kwenye Tazama Matukio ya Windows (**`eventvwr.msc`**) au kwa kutumia zana nyingine kama [**Event Log Explorer**](https://eventlogxp.com) **au** [**Evtx Explorer/EvtxECmd**](https://ericzimmerman.github.io/#!index.md)**.**
+Zinaweza kuonekana kutoka kwa Mwangalizi wa Matukio ya Windows (**`eventvwr.msc`**) au kwa zana zingine kama [**Mwangalizi wa Matukio**](https://eventlogxp.com) **au** [**Mwangalizi wa Evtx/EvtxECmd**](https://ericzimmerman.github.io/#!index.md)**.**
 
-## Kuelewa Kumbukumbu za Matukio ya Usalama ya Windows
+## Kuelewa Kuingiza Matukio ya Usalama ya Windows
 
-Matukio ya ufikiaji hurekodiwa katika faili ya usanidi wa usalama iliyoko kwenye `C:\Windows\System32\winevt\Security.evtx`. Ukubwa wa faili hii unaweza kubadilishwa, na unapofikia uwezo wake, matukio ya zamani hufutwa. Matukio yaliyorekodiwa ni pamoja na kuingia na kutoka kwa watumiaji, hatua za watumiaji, na mabadiliko ya mipangilio ya usalama, pamoja na ufikiaji wa faili, folda, na mali zilizoshirikiwa.
+Matukio ya ufikiaji hurekodiwa katika faili ya usanidi wa usalama iliyoko kwenye `C:\Windows\System32\winevt\Security.evtx`. Ukubwa wa faili hii unaweza kurekebishwa, na unapofikia uwezo wake, matukio ya zamani hufutwa. Matukio yaliyorekodiwa ni pamoja na kuingia na kutoka kwa watumiaji, hatua za watumiaji, na mabadiliko kwenye mipangilio ya usalama, pamoja na ufikiaji wa mali kama faili, folda, na mali zilizoshirikiwa.
 
-### Vitambulisho vya Matukio Muhimu kwa Uthibitishaji wa Mtumiaji:
+### Vitambulisho muhimu vya Matukio ya Usajili wa Watumiaji:
 
-- **Tukio la Kitambulisho 4624**: Inaonyesha mtumiaji aliyethibitishwa kwa mafanikio.
-- **Tukio la Kitambulisho 4625**: Inaonyesha kushindwa kwa uthibitishaji.
-- **Vitambulisho vya Matukio 4634/4647**: Inawakilisha matukio ya kuingia na kutoka kwa mtumiaji.
-- **Tukio la Kitambulisho 4672**: Inaonyesha kuingia kwa mtumiaji na mamlaka ya usimamizi.
+- **Tukio la 4624**: Inaonyesha mafanikio ya kuingia kwa mtumiaji.
+- **Tukio la 4625**: Inaashiria kushindwa kwa kuingia.
+- **Matukio ya 4634/4647**: Yanawakilisha matukio ya kutoka kwa mtumiaji.
+- **Tukio la 4672**: Linabainisha kuingia na mamlaka ya usimamizi.
 
-#### Aina za ziada ndani ya Tukio la Kitambulisho 4634/4647:
+#### Aina za Ndani ndani ya Tukio la 4634/4647:
 
-- **Mwingiliano (2)**: Kuingia moja kwa moja ya mtumiaji.
+- **Mwingiliano (2)**: Kuingia moja kwa moja kwa mtumiaji.
 - **Mtandao (3)**: Kufikia folda zilizoshirikiwa.
-- **Kundi (4)**: Utekelezaji wa michakato ya kundi.
+- **Batch (4)**: Utekelezaji wa michakato ya batch.
 - **Huduma (5)**: Kuzindua huduma.
-- **Mandaraka (6)**: Uthibitishaji wa mandaraka.
-- **Kufungua (7)**: Kufungua skrini kwa kutumia nenosiri.
-- **Mtandao wa Wazi (8)**: Uhamisho wa nenosiri wazi, mara nyingi kutoka kwa IIS.
-- **Vyeti Vipya (9)**: Matumizi ya vitambulisho tofauti kwa ufikiaji.
-- **Mwingiliano wa Mbali (10)**: Kuingia kwa mbali kwenye desktop au huduma za terminal.
-- **Mwingiliano wa Akiba (11)**: Kuingia na vitambulisho vya akiba bila mawasiliano na kudhibiti kikoa.
-- **Mwingiliano wa Mbali wa Akiba (12)**: Kuingia kwa mbali na vitambulisho vya akiba.
-- **Kufungua kwa Akiba (13)**: Kufungua kwa kutumia vitambulisho vya akiba.
+- **Mwakilishi (6)**: Uthibitishaji wa mwakilishi.
+- **Kufungua (7)**: Skrini iliyofunguliwa kwa nenosiri.
+- **Mtandao wa Wazi (8)**: Uhamishaji wa nenosiri wazi, mara nyingi kutoka kwa IIS.
+- **Vibali Vipya (9)**: Matumizi ya vibali tofauti kwa ufikiaji.
+- **Mwingiliano wa Mbali (10)**: Kuingia kwa mbali kwenye dawati au huduma za terminali.
+- **Mwingiliano wa Akiba (11)**: Kuingia na vibali vilivyohifadhiwa bila mawasiliano na kituo cha upelekaji wa kikoa.
+- **Mwingiliano wa Mbali wa Akiba (12)**: Kuingia kwa mbali na vibali vilivyohifadhiwa.
+- **Kufungua kwa Akiba (13)**: Kufungua kwa vibali vilivyohifadhiwa.
 
-#### Vyeti vya Hali na Hali za Ziada kwa Tukio la Kitambulisho 4625:
+#### Vigezo vya Hali na Hali za Ndani kwa Tukio la 4625:
 
 - **0xC0000064**: Jina la mtumiaji halipo - Inaweza kuashiria shambulio la uchunguzi wa majina ya watumiaji.
-- **0xC000006A**: Jina sahihi la mtumiaji lakini nenosiri sio sahihi - Inaweza kuwa jaribio la kuhesabu au kuvunja nenosiri.
-- **0xC0000234**: Akaunti ya mtumiaji imefungwa - Inaweza kufuata shambulio la kuhesabu kwa kuingia mara nyingi kwa kushindwa.
-- **0xC0000072**: Akaunti imelemazwa - Jaribio lisiloruhusiwa la kufikia akaunti zilizolemazwa.
-- **0xC000006F**: Kuingia nje ya muda ulioruhusiwa - Inaonyesha jaribio la kufikia nje ya masaa ya kuingia yaliyowekwa, inaweza kuwa ishara ya ufikiaji usioruhusiwa.
+- **0xC000006A**: Jina sahihi la mtumiaji lakini nenosiri lisilo sahihi - Jaribio la kudhanisha au kujaribu kuvunja nenosiri.
+- **0xC0000234**: Akaunti ya mtumiaji imefungwa - Inaweza kufuata shambulio la kujaribu kuvunja nenosiri na kusababisha kuingia mara nyingi isiyofanikiwa.
+- **0xC0000072**: Akaunti imelemazwa - Jaribio lisiloruhusiwa la kupata akaunti zilizolemazwa.
+- **0xC000006F**: Kuingia nje ya muda ulioruhusiwa - Inaonyesha jaribio la kupata nje ya masaa ya kuingia yaliyowekwa, ishara inayoweza kuashiria ufikiaji usioruhusiwa.
 - **0xC0000070**: Ukiukaji wa vikwazo vya kituo cha kazi - Inaweza kuwa jaribio la kuingia kutoka eneo lisiloruhusiwa.
-- **0xC0000193**: Akaunti imeisha muda wake - Jaribio la kufikia akaunti za watumiaji zilizopita muda wake.
+- **0xC0000193**: Akaunti imeisha muda wake - Jaribio la kupata na akaunti za watumiaji zilizomaliza muda.
 - **0xC0000071**: Nenosiri limeisha muda wake - Jaribio la kuingia na nywila zilizopitwa na wakati.
-- **0xC0000133**: Matatizo ya usawazishaji wa muda - Tofauti kubwa ya muda kati ya mteja na seva inaweza kuwa ishara ya mashambulizi ya hali ya juu kama vile pass-the-ticket.
-- **0xC0000224**: Inahitajika mabadiliko ya lazima ya nenosiri - Mabadiliko ya mara kwa mara ya lazima yanaweza kuashiria jaribio la kudhoofisha usalama wa akaunti.
-- **0xC0000225**: Inaonyesha hitilafu ya mfumo badala ya shida ya usalama.
-- **0xC000015b**: Amezuiliwa aina ya kuingia - Jaribio la kufikia na aina ya kuingia isiyoruhusiwa, kama mtumiaji anayejaribu kutekeleza kuingia kwa huduma.
+- **0xC0000133**: Matatizo ya usawazishaji wa muda - Tofauti kubwa za muda kati ya mteja na seva zinaweza kuwa ishara ya mashambulizi ya hali ya juu kama vile pass-the-ticket.
+- **0xC0000224**: Inahusu hitilafu ya mfumo badala ya suala la usalama.
+- **0xC0000225**: Inaonyesha hitilafu ya mfumo badala ya suala la usalama.
+- **0xC000015b**: Amezuiliwa aina ya kuingia - Jaribio la kupata na aina isiyoruhusiwa ya kuingia, kama mtumiaji anayejaribu kutekeleza kuingia kwa huduma.
 
-#### Tukio la Kitambulisho 4616:
-- **Mabadiliko ya Muda**: Kubadilisha muda wa mfumo, inaweza kuficha mfululizo wa
+#### Tukio la 4616:
+- **Mabadiliko ya Muda**: Kubadilisha muda wa mfumo, inaweza kuficha mstari wa matukio.
+
+#### Tukio la 6005 na 6006:
+- **Kuanza na Kuzima kwa Mfumo**: Tukio la 6005 linaonyesha kuanza kwa mfumo, wakati Tukio la 6006 linamaanisha kuzimwa kwake.
+
+#### Tukio la 1102:
+- **Kufuta Kumbukumbu**: Kufuta kumbukumbu za usalama, ambayo mara nyingi ni ishara ya kuficha shughuli haramu.
+
+#### Matukio kwa Kufuatilia Kifaa cha USB:
+- **20001 / 20003 / 10000**: Uunganisho wa kifaa cha USB mara ya kwanza.
+- **10100**: Sasisho la dereva la USB.
+- **Tukio la 112**: Wakati wa kuingiza kifaa cha USB.
+
+Kwa mifano ya vitendo kuhusu kusimuliza aina hizi za kuingia na fursa za kudondosha vibali, tazama [mwongozo kamili wa Altered Security](https://www.alteredsecurity.com/post/fantastic-windows-logon-types-and-where-to-find-credentials-in-them).
+
+Maelezo ya matukio, ikiwa ni pamoja na vigezo vya hali na hali za ndani, hutoa ufahamu zaidi kuhusu sababu za matukio, hasa yanayojulikana katika Tukio la 4625.
+
+### Kurejesha Matukio ya Windows
+
+Ili kuongeza nafasi za kurejesha Matukio ya Windows yaliyofutwa, ni vyema kuzima kompyuta ya shaka kwa kuzima moja kwa moja. **Bulk_extractor**, zana ya kurejesha ikilenga kifaa cha `.evtx`, inapendekezwa kujaribu kurejesha matukio kama hayo.
+
+### Kutambua Mashambulizi ya Kawaida kupitia Matukio ya Windows
+
+Kwa mwongozo kamili wa kutumia Vitambulisho vya Matukio ya Windows kutambua mashambulizi ya mtandao ya kawaida, tembelea [Red Team Recipe](https://redteamrecipe.com/event-codes/).
+
+#### Mashambulizi ya Kuvunja Nguvu
+
+Yanaweza kutambulika na rekodi nyingi za Tukio la 4625, ikifuatiwa na Tukio la 4624 ikiwa shambulio linafanikiwa.
+
+#### Mabadiliko ya Muda
+
+Yaliyorekodiwa na Tukio la 4616, mabadiliko ya muda wa mfumo yanaweza kufanya uchambuzi wa kiforensiki kuwa mgumu.
+
+#### Kufuatilia Kifaa cha USB
+
+Matukio muhimu ya Mfumo kwa kufuatilia kifaa cha USB ni pamoja na 20001/20003/10000 kwa matumizi ya kwanza, 10100 kwa sasisho za dereva, na Tukio la 112 kutoka kwa DeviceSetupManager kwa alama za wakati wa kuingiza.
 #### Matukio ya Nguvu ya Mfumo
 
-Tukio la ID ya 6005 linaashiria kuanza kwa mfumo, wakati Tukio la ID ya 6006 linamaanisha kuzima.
+Tukio la 6005 linaashiria kuanza kwa mfumo, wakati Tukio la 6006 linamaanisha kuzimwa.
 
 #### Kufuta Kumbukumbu
 
-Tukio la Usalama la ID ya 1102 linasema kufutwa kwa kumbukumbu, tukio muhimu kwa uchambuzi wa kisayansi. 
+Usalama wa Tukio la 1102 unamaanisha kufutwa kwa kumbukumbu, tukio muhimu kwa uchambuzi wa kiforensiki.
 
+<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
 
-<details>
-
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
-
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
-
-</details>
+{% embed url="https://websec.nl/" %}

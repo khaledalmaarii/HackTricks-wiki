@@ -1,18 +1,23 @@
-# Kutumia MSSQL kwenye AD
+# Kudanganya AD MSSQL
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi mtaalamu na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalamu wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Unataka kuona **kampuni yako ikionekana kwenye HackTricks**? au unataka kupata upatikanaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Je! Unafanya kazi katika **kampuni ya usalama wa mtandao**? Je! Unataka kuona **kampuni yako ikionekana kwenye HackTricks**? au unataka kupata upatikanaji wa **toleo jipya la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Pata [**swagi rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **nifuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-## **Uthibitishaji / Ugunduzi wa MSSQL**
+<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://websec.nl/" %}
+
+
+## **Uorodheshaji / Ugunduzi wa MSSQL**
 
 Moduli ya powershell [PowerUpSQL](https://github.com/NetSPI/PowerUpSQL) ni muhimu sana katika kesi hii.
 ```powershell
@@ -51,7 +56,7 @@ Get-SQLInstanceDomain | Get-SQLServerInfo -Verbose
 # Get DBs, test connections and get info in oneliner
 Get-SQLInstanceDomain | Get-SQLConnectionTest | ? { $_.Status -eq "Accessible" } | Get-SQLServerInfo
 ```
-## Kutumia MSSQL Kwa Msingi
+## Matumizi Makuu ya MSSQL
 
 ### Kufikia DB
 ```powershell
@@ -78,9 +83,9 @@ Invoke-SQLOSCmd -Instance "srv.sub.domain.local,1433" -Command "whoami" -RawResu
 [pentesting-mssql-microsoft-sql-server](../../network-services-pentesting/pentesting-mssql-microsoft-sql-server/)
 {% endcontent-ref %}
 
-## Viungo Vilivyothibitishwa vya MSSQL
+## Viungo Vinavyoaminika vya MSSQL
 
-Ikiwa kipengee cha MSSQL kinaaminika (kiungo cha database) na kipengee kingine cha MSSQL. Ikiwa mtumiaji ana mamlaka juu ya database iliyothibitishwa, ataweza **kutumia uhusiano wa kuaminika kutekeleza maswali pia kwenye kipengee kingine**. Viungo hivi vinaweza kuunganishwa na kufikia hatua ambapo mtumiaji anaweza kupata database iliyo na mipangilio isiyosahihi ambapo anaweza kutekeleza amri.
+Ikiwa kipengee cha MSSQL kinaaminika (kiungo cha database) na kipengee kingine cha MSSQL. Ikiwa mtumiaji ana mamlaka juu ya database iliyothibitishwa, ataweza **kutumia uhusiano wa kuaminika kutekeleza maswali pia kwenye kipengee kingine**. Viungo hivi vinaweza kuunganishwa na kwa wakati fulani mtumiaji anaweza kupata database iliyo na usanidi mbaya ambapo anaweza kutekeleza amri.
 
 **Viungo kati ya databases hufanya kazi hata kati ya uaminifu wa misitu.**
 
@@ -130,7 +135,7 @@ Tambua kuwa metasploit itajaribu kutumia tu kazi ya `openquery()` katika MSSQL (
 
 ### Kwa Mkono - Openquery()
 
-Kutoka kwa **Linux** unaweza kupata kabati la koni la MSSQL na **sqsh** na **mssqlclient.py.**
+Kutoka kwa **Linux** unaweza kupata kabati la konsoli la MSSQL na **sqsh** na **mssqlclient.py.**
 
 Kutoka kwa **Windows** unaweza pia kupata viungo na kutekeleza amri kwa mkono ukitumia **mteja wa MSSQL kama** [**HeidiSQL**](https://www.heidisql.com)
 
@@ -150,7 +155,7 @@ Tekeleza maswali kupitia kiungo (mfano: pata viungo zaidi katika kifaa kipya kin
 select * from openquery("dcorp-sql1", 'select * from master..sysservers')
 ```
 {% hint style="warning" %}
-Angalia mahali ambapo alama za nukuu mbili na moja hutumiwa, ni muhimu kutumia hizo njia.
+Angalia mahali ambapo alama za nukuu mbili na moja zinatumika, ni muhimu kutumia hizo njia.
 {% endhint %}
 
 ![](<../../.gitbook/assets/image (640).png>)
@@ -175,6 +180,22 @@ EXECUTE('EXECUTE(''sp_addsrvrolemember ''''hacker'''' , ''''sysadmin'''' '') AT 
 
 **Mtumiaji wa ndani wa MSSQL** kawaida ana aina maalum ya mamlaka inayoitwa **`SeImpersonatePrivilege`**. Hii inaruhusu akaunti hiyo "kujifanya kuwa mteja baada ya uwakilishi".
 
-Stratejia ambayo waandishi wengi wamebuni ni kulazimisha huduma ya SYSTEM kujithibitisha kwa huduma ya kijanja au ya kati ambayo mkaidi hujenga. Huduma hii ya mkaidi inaweza kujifanya kuwa huduma ya SYSTEM wakati inajaribu kujithibitisha. 
+Stratejia ambayo waandishi wengi wamebuni ni kulazimisha huduma ya SYSTEM kujithibitisha kwa huduma ya udanganyifu au ya kati ambayo mkaidi hujenga. Huduma hii ya udanganyifu inaweza kujifanya kuwa huduma ya SYSTEM wakati inajaribu kujithibitisha.
 
 [SweetPotato](https://github.com/CCob/SweetPotato) ina mkusanyiko wa njia hizi mbalimbali ambazo zinaweza kutekelezwa kupitia amri ya `execute-assembly` ya Beacon.
+
+<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://websec.nl/" %}
+
+<details>
+
+<summary><strong>Jifunze kuhusu kuvamia AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+
+* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, unataka kuona **kampuni yako ikitangazwa kwenye HackTricks**? au unataka kupata upatikanaji wa **toleo jipya la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **nifuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwenye** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+
+</details>
