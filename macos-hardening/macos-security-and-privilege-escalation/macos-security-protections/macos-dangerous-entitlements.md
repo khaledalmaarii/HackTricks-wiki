@@ -1,4 +1,4 @@
-# macOS Dangerous Entitlements & TCC perms
+# macOS Opasna Ovlašćenja & TCC dozvole
 
 <details>
 
@@ -8,7 +8,7 @@ Drugi načini podrške HackTricks-u:
 
 * Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**Porodiču PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* Otkrijte [**Porodičnu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
@@ -18,15 +18,15 @@ Drugi načini podrške HackTricks-u:
 Imajte na umu da ovlašćenja koja počinju sa **`com.apple`** nisu dostupna trećim licima, samo ih Apple može odobriti.
 {% endhint %}
 
-## Visoko
+## Visok
 
 ### `com.apple.rootless.install.heritable`
 
-Ovlašćenje **`com.apple.rootless.install.heritable`** omogućava **zaobilazak SIP-a**. Proverite [ovde za više informacija](macos-sip.md#com.apple.rootless.install.heritable).
+Ovlašćenje **`com.apple.rootless.install.heritable`** omogućava da se **zaobiđe SIP**. Proverite [ovde za više informacija](macos-sip.md#com.apple.rootless.install.heritable).
 
 ### **`com.apple.rootless.install`**
 
-Ovlašćenje **`com.apple.rootless.install`** omogućava **zaobilazak SIP-a**. Proverite [ovde za više informacija](macos-sip.md#com.apple.rootless.install).
+Ovlašćenje **`com.apple.rootless.install`** omogućava da se **zaobiđe SIP**. Proverite [ovde za više informacija](macos-sip.md#com.apple.rootless.install).
 
 ### **`com.apple.system-task-ports` (ranije nazvano `task_for_pid-allow`)**
 
@@ -42,11 +42,11 @@ Aplikacije sa ovlašćenjem za Alat za Debugovanje mogu pozvati `task_for_pid()`
 
 ### `com.apple.security.cs.disable-library-validation`
 
-Ovo ovlašćenje omogućava **učitavanje okvira, dodataka ili biblioteka bez potpisa od strane Apple-a ili potpisanog istim Team ID-em** kao glavni izvršni fajl, tako da napadač može zloupotrebiti neko proizvoljno učitavanje biblioteke da ubaci kod. Proverite [**ovde za više informacija**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-library-validation).
+Ovo ovlašćenje omogućava **učitavanje frameworka, plug-ina ili biblioteka bez potpisa od strane Apple-a ili potpisanog istim Team ID-em** kao glavni izvršni fajl, tako da napadač može zloupotrebiti neko proizvoljno učitavanje biblioteke da ubaci kod. Proverite [**ovde za više informacija**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-library-validation).
 
 ### `com.apple.private.security.clear-library-validation`
 
-Ovo ovlašćenje je vrlo slično **`com.apple.security.cs.disable-library-validation`** ali **umesto** direktnog onemogućavanja validacije biblioteke, omogućava procesu da **pozove `csops` sistemski poziv da je onemogući**.\
+Ovo ovlašćenje je veoma slično **`com.apple.security.cs.disable-library-validation`** ali **umesto** direktnog onemogućavanja validacije biblioteke, omogućava procesu da **pozove `csops` sistemski poziv da je onemogući**.\
 Proverite [**ovde za više informacija**](https://theevilbit.github.io/posts/com.apple.private.security.clear-library-validation/).
 
 ### `com.apple.security.cs.allow-dyld-environment-variables`
@@ -87,8 +87,7 @@ TODO: U [**ovom izveštaju**](https://jhftss.github.io/The-Nightmare-of-Apple-OT
 
 ### `keychain-access-groups`
 
-Ovo ovlašćenje nabraja **grupe ključeva** kojima aplikacija ima pristup:
-
+Ovo ovlašćenje nabraja **keychain** grupe kojima aplikacija ima pristup:
 ```xml
 <key>keychain-access-groups</key>
 <array>
@@ -99,7 +98,6 @@ Ovo ovlašćenje nabraja **grupe ključeva** kojima aplikacija ima pristup:
 <string>IMCore</string>
 </array>
 ```
-
 ### **`kTCCServiceSystemPolicyAllFiles`**
 
 Daje dozvole za **Pristup celom disku**, jednu od najviših dozvola koje možete imati u TCC-u.
@@ -109,10 +107,10 @@ Daje dozvole za **Pristup celom disku**, jednu od najviših dozvola koje možete
 Omogućava aplikaciji slanje događaja drugim aplikacijama koje se često koriste za **automatizaciju zadataka**. Kontrolišući druge aplikacije, može zloupotrebiti dozvole koje su date tim drugim aplikacijama.
 
 Na primer, može ih naterati da zatraže korisnikovu lozinku:
-
 ```bash
 osascript -e 'tell app "App Store" to activate' -e 'tell app "App Store" to activate' -e 'tell app "App Store" to display dialog "App Store requires your password to continue." & return & return default answer "" with icon 1 with hidden answer with title "App Store Alert"'
 ```
+{% endcode %}
 
 Ili ih naterati da izvrše **proizvoljne radnje**.
 
@@ -126,11 +124,11 @@ Dozvoljava **promenu** atributa **`NFSHomeDirectory`** korisnika koji menja puta
 
 ### **`kTCCServiceSystemPolicyAppBundles`**
 
-Dozvoljava modifikaciju fajlova unutar aplikativnih paketa (unutar app.app), što je **podrazumevano zabranjeno**.
+Dozvoljava modifikaciju fajlova unutar aplikacija (unutar app.app), što je **podrazumevano zabranjeno**.
 
-<figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (28).png" alt=""><figcaption></figcaption></figure>
 
-Moguće je proveriti ko ima ovaj pristup u _Sistemskim postavkama_ > _Privatnost & Bezbednost_ > _Upravljanje aplikacijama_.
+Moguće je proveriti ko ima ovaj pristup u _System Settings_ > _Privacy & Security_ > _App Management._
 
 ### `kTCCServiceAccessibility`
 
@@ -140,11 +138,11 @@ Proces će moći da **zloupotrebi macOS funkcije pristupačnosti**, što znači 
 
 ### `com.apple.security.cs.allow-jit`
 
-Ova dozvola omogućava da se **kreira memorija koja je upisiva i izvršna** prolaskom `MAP_JIT` zastave ka `mmap()` sistemskoj funkciji. Proverite [**ovde za više informacija**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-jit).
+Ova dozvola omogućava **kreiranje memorije koja je zapisiva i izvršna** prolaskom `MAP_JIT` zastave kroz `mmap()` sistemsku funkciju. Proverite [**ovde za više informacija**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-jit).
 
 ### `com.apple.security.cs.allow-unsigned-executable-memory`
 
-Ova dozvola omogućava **zamenu ili zakrpu C koda**, korišćenje dugo zastarelog **`NSCreateObjectFileImageFromMemory`** (što je fundamentalno nesigurno), ili korišćenje **DVDPlayback** okvira. Proverite [**ovde za više informacija**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory).
+Ova dozvola omogućava **zamenu ili zakrpu C koda**, korišćenje dugo zastarelog **`NSCreateObjectFileImageFromMemory`** (što je suštinski nesigurno), ili korišćenje **DVDPlayback** okvira. Proverite [**ovde za više informacija**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory).
 
 {% hint style="danger" %}
 Uključivanje ove dozvole izlaže vašu aplikaciju uobičajenim ranjivostima u jezicima sa kodom koji nije siguran za memoriju. Pažljivo razmislite da li vaša aplikacija zahteva ovaj izuzetak.
@@ -152,10 +150,10 @@ Uključivanje ove dozvole izlaže vašu aplikaciju uobičajenim ranjivostima u j
 
 ### `com.apple.security.cs.disable-executable-page-protection`
 
-Ova dozvola omogućava da se **modifikuju sekcije sopstvenih izvršnih fajlova** na disku kako bi se silom izašlo. Proverite [**ovde za više informacija**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-executable-page-protection).
+Ova dozvola omogućava **modifikaciju sekcija sopstvenih izvršnih fajlova** na disku da bi se prinudno izašlo. Proverite [**ovde za više informacija**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-executable-page-protection).
 
 {% hint style="danger" %}
-Dozvola za Onemogućavanje Zaštite Izvršne Memorije je ekstremna dozvola koja uklanja osnovnu sigurnosnu zaštitu iz vaše aplikacije, čime se omogućava napadaču da prepiše izvršni kod vaše aplikacije bez otkrivanja. Preferirajte uže dozvole ako je moguće.
+Dozvola za Onemogućavanje Zaštite Izvršne Memorije je ekstremna dozvola koja uklanja osnovnu sigurnosnu zaštitu iz vaše aplikacije, čime se omogućava napadaču da prepiše izvršni kod vaše aplikacije bez otkrivanja. Preferirajte uža ovlašćenja ako je moguće.
 {% endhint %}
 
 ### `com.apple.security.cs.allow-relative-library-loads`
@@ -169,14 +167,12 @@ Ova dozvola omogućava montiranje nullfs fajl sistema (podrazumevano zabranjeno)
 ### `kTCCServiceAll`
 
 Prema ovom blog postu, ova TCC dozvola obično se nalazi u obliku:
-
 ```
 [Key] com.apple.private.tcc.allow-prompting
 [Value]
 [Array]
 [String] kTCCServiceAll
 ```
-
 Dozvoli procesu da **zatraži sve TCC dozvole**.
 
 ### **`kTCCServicePostEvent`**
@@ -187,7 +183,7 @@ Dozvoli procesu da **zatraži sve TCC dozvole**.
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJE**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**

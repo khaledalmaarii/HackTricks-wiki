@@ -4,10 +4,10 @@
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks suvenir**](https://peass.creator-spring.com)
+* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
@@ -15,17 +15,17 @@ Drugi načini podrške HackTricks-u:
 
 # Osnovna linija
 
-Osnovna linija se sastoji od snimanja trenutnog stanja određenih delova sistema kako bi se **uporedilo sa budućim stanjem i istakle promene**.
+Osnovna linija se sastoji od uzimanja snimka određenih delova sistema kako bi se **uporedila sa budućim stanjem i istakle promene**.
 
-Na primer, možete izračunati i sačuvati heš svake datoteke na fajl sistemu kako biste saznali koje su datoteke izmenjene.\
-Ovo se takođe može uraditi sa kreiranim korisničkim nalozima, pokrenutim procesima, pokrenutim servisima i bilo čim drugim što se ne bi trebalo mnogo ili uopšte ne bi trebalo menjati.
+Na primer, možete izračunati i sačuvati heš svake datoteke na fajl sistemu kako biste mogli da saznate koje datoteke su izmenjene.\
+Ovo se takođe može uraditi sa kreiranim korisničkim nalozima, pokrenutim procesima, pokrenutim servisima i bilo čime drugim što se ne bi trebalo mnogo menjati, ili uopšte.
 
-## Praćenje integriteta datoteka
+## Praćenje Integriteta Datoteka
 
-Praćenje integriteta datoteka (FIM) je kritična bezbednosna tehnika koja štiti IT okruženja i podatke praćenjem promena u datotekama. Uključuje dva ključna koraka:
+Praćenje Integriteta Datoteka (FIM) je kritična bezbednosna tehnika koja štiti IT okruženja i podatke praćenjem promena u datotekama. Uključuje dva ključna koraka:
 
-1. **Upoređivanje sa osnovnom linijom:** Uspostavite osnovnu liniju koristeći atribute datoteka ili kriptografske kontrolne sume (poput MD5 ili SHA-2) za buduća upoređivanja radi otkrivanja izmena.
-2. **Obaveštenje o promeni u realnom vremenu:** Dobijajte trenutna upozorenja kada se datoteke pristupaju ili menjaju, obično putem proširenja jezgra operativnog sistema.
+1. **Upoređivanje Osnovne Linije:** Ustanovite osnovnu liniju koristeći atribute datoteka ili kriptografske provere (poput MD5 ili SHA-2) za buduće poređenje radi otkrivanja modifikacija.
+2. **Obaveštenje o Promenama u Realnom Vremenu:** Dobijanje trenutnih obaveštenja kada se datoteke pristupaju ili menjaju, obično putem proširenja jezgra OS-a.
 
 ## Alati
 
@@ -43,10 +43,10 @@ Praćenje integriteta datoteka (FIM) je kritična bezbednosna tehnika koja štit
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks suvenir**](https://peass.creator-spring.com)
+* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>

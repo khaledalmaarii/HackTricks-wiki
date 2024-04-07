@@ -8,7 +8,7 @@ Drugi načini podrške HackTricks-u:
 
 * Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJSTVO**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**Porodičnu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
@@ -18,11 +18,11 @@ Drugi načini podrške HackTricks-u:
 
 Apple takođe predlaže još jedan način za autentifikaciju da li povezani proces ima **dozvole da pozove izloženu XPC metodu**.
 
-Kada aplikacija treba da **izvrši akcije kao privilegovani korisnik**, umesto pokretanja aplikacije kao privilegovani korisnik, obično instalira kao root HelperTool kao XPC servis koji može biti pozvan iz aplikacije da izvrši te akcije. Međutim, aplikacija koja poziva servis treba imati dovoljno autorizacije.
+Kada aplikacija treba da **izvrši akcije kao privilegovani korisnik**, umesto pokretanja aplikacije kao privilegovani korisnik, obično instalira kao root HelperTool kao XPC servis koji može biti pozvan iz aplikacije da izvrši te akcije. Međutim, aplikacija koja poziva servis treba da ima dovoljno autorizacije.
 
 ### ShouldAcceptNewConnection uvek YES
 
-Primer se može pronaći u [EvenBetterAuthorizationSample](https://github.com/brenwell/EvenBetterAuthorizationSample). U `App/AppDelegate.m` pokušava da se **poveže** sa **HelperTool**-om. A u `HelperTool/HelperTool.m` funkcija **`shouldAcceptNewConnection`** **neće proveravati** nijedan od prethodno navedenih zahteva. Uvek će vraćati YES:
+Primer se može pronaći u [EvenBetterAuthorizationSample](https://github.com/brenwell/EvenBetterAuthorizationSample). U `App/AppDelegate.m` pokušava da se **poveže** sa **HelperTool**-om. A u `HelperTool/HelperTool.m` funkcija **`shouldAcceptNewConnection`** **neće proveriti** nijedan od prethodno navedenih zahteva. Uvek će vraćati YES:
 ```objectivec
 - (BOOL)listener:(NSXPCListener *)listener shouldAcceptNewConnection:(NSXPCConnection *)newConnection
 // Called by our XPC listener when a new connection comes in.  We configure the connection
@@ -184,7 +184,7 @@ block(authRightName, authRightDefault, authRightDesc);
 }];
 }
 ```
-Ovo znači da će na kraju ovog procesa, dozvole deklarisane unutar `commandInfo` biti sačuvane u `/var/db/auth.db`. Primetite kako tamo možete pronaći za **svaku metodu** koja će **zahtevati autentikaciju**, **ime dozvole** i **`kCommandKeyAuthRightDefault`**. Ovaj poslednji **ukazuje ko može dobiti ovu dozvolu**.
+Ovo znači da će na kraju ovog procesa, dozvole deklarisane unutar `commandInfo` biti sačuvane u `/var/db/auth.db`. Primetite kako tamo možete pronaći za **svaku metodu** koja će **zahtevati autentifikaciju**, **ime dozvole** i **`kCommandKeyAuthRightDefault`**. Ovaj poslednji **ukazuje ko može dobiti ovu dozvolu**.
 
 Postoje različiti opsezi koji ukazuju ko može pristupiti dozvoli. Neki od njih su definisani u [AuthorizationDB.h](https://github.com/aosm/Security/blob/master/Security/libsecurity\_authorization/lib/AuthorizationDB.h) (sve ih možete pronaći [ovde](https://www.dssw.co.uk/reference/authorization-rights/)), ali ukratko:
 
@@ -192,7 +192,7 @@ Postoje različiti opsezi koji ukazuju ko može pristupiti dozvoli. Neki od njih
 
 ### Provera Dozvola
 
-U `HelperTool/HelperTool.m` funkcija **`readLicenseKeyAuthorization`** proverava da li je pozivaoc ovlašćen da **izvrši takvu metodu** pozivajući funkciju **`checkAuthorization`**. Ova funkcija će proveriti da li **authData** poslat od strane pozivajućeg procesa ima **ispravan format** i zatim će proveriti **šta je potrebno da se dobije dozvola** za pozivanje određene metode. Ako sve prođe dobro, **vraćena `error` će biti `nil`**:
+U `HelperTool/HelperTool.m` funkcija **`readLicenseKeyAuthorization`** proverava da li je pozivaoc ovlašćen da **izvrši takvu metodu** pozivajući funkciju **`checkAuthorization`**. Ova funkcija će proveriti da li je **authData** poslat od strane pozivajućeg procesa u **ispravnom formatu** i zatim će proveriti **šta je potrebno da se dobije dozvola** za pozivanje određene metode. Ako sve prođe dobro, **vraćena `error` će biti `nil`**:
 ```objectivec
 - (NSError *)checkAuthorization:(NSData *)authData command:(SEL)command
 {
@@ -261,10 +261,10 @@ security authorizationdb read com.apple.safaridriver.allow
 Sve konfiguracije dozvola možete pronaći [ovde](https://www.dssw.co.uk/reference/authorization-rights/), ali kombinacije koje ne zahtevaju korisničku interakciju su:
 
 1. **'authenticate-user': 'false'**
-* Ovo je najdirektniji ključ. Ako je postavljen na `false`, označava da korisnik ne mora pružiti autentikaciju da bi dobio ovo pravo.
+* Ovo je najdirektniji ključ. Ako je postavljen na `false`, specificira da korisnik ne mora pružiti autentikaciju da bi dobio ovo pravo.
 * Ovo se koristi u **kombinaciji sa jednim od 2 ispod ili označavanjem grupe** kojoj korisnik mora pripadati.
 2. **'allow-root': 'true'**
-* Ako korisnik radi kao root korisnik (koji ima povišene dozvole) i ovaj ključ je postavljen na `true`, root korisnik potencijalno može dobiti ovo pravo bez dodatne autentikacije. Međutim, obično je potrebna autentikacija da bi se došlo do statusa root korisnika, pa ovo nije "bez autentikacije" scenarij za većinu korisnika.
+* Ako korisnik radi kao root korisnik (koji ima povišene dozvole) i ovaj ključ je postavljen na `true`, root korisnik potencijalno može dobiti ovo pravo bez dodatne autentikacije. Međutim, obično, dostizanje statusa root korisnika već zahteva autentikaciju, pa ovo nije "bez autentikacije" scenarij za većinu korisnika.
 3. **'session-owner': 'true'**
 * Ako je postavljen na `true`, vlasnik sesije (trenutno prijavljeni korisnik) automatski bi dobio ovo pravo. Ovo može zaobići dodatnu autentikaciju ako je korisnik već prijavljen.
 4. **'shared': 'true'**
@@ -281,15 +281,15 @@ com-apple-aosnotification-findmymac-remove, com-apple-diskmanagement-reservekek,
 Rights with 'session-owner': 'true':
 authenticate-session-owner, authenticate-session-owner-or-admin, authenticate-session-user, com-apple-safari-allow-apple-events-to-run-javascript, com-apple-safari-allow-javascript-in-smart-search-field, com-apple-safari-allow-unsigned-app-extensions, com-apple-safari-install-ephemeral-extensions, com-apple-safari-show-credit-card-numbers, com-apple-safari-show-passwords, com-apple-icloud-passwordreset, com-apple-icloud-passwordreset, is-session-owner, system-identity-write-self, use-login-window-ui
 ```
-## Revertovanje autorizacije
+## Reversiranje autorizacije
 
 ### Provera da li se koristi EvenBetterAuthorization
 
-Ako pronađete funkciju: **`[HelperTool checkAuthorization:command:]`**, verovatno proces koristi prethodno pomenutu šemu za autorizaciju:
+Ako pronađete funkciju: **`[HelperTool checkAuthorization:command:]`**, verovatno je da proces koristi prethodno pomenutu šemu za autorizaciju:
 
-<figure><img src="../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../../.gitbook/assets/image (39).png" alt=""><figcaption></figcaption></figure>
 
-Zatim, ako ova funkcija poziva funkcije poput `AuthorizationCreateFromExternalForm`, `authorizationRightForCommand`, `AuthorizationCopyRights`, `AuhtorizationFree`, koristi [**EvenBetterAuthorizationSample**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L101-L154).
+Ako ova funkcija poziva funkcije poput `AuthorizationCreateFromExternalForm`, `authorizationRightForCommand`, `AuthorizationCopyRights`, `AuhtorizationFree`, koristi [**EvenBetterAuthorizationSample**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L101-L154).
 
 Proverite **`/var/db/auth.db`** da biste videli da li je moguće dobiti dozvole za pozivanje neke privilegovane radnje bez interakcije korisnika.
 
@@ -299,9 +299,9 @@ Zatim, trebate pronaći šemu protokola kako biste mogli uspostaviti komunikacij
 
 Funkcija **`shouldAcceptNewConnection`** ukazuje na izvođenje protokola:
 
-<figure><img src="../../../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../../.gitbook/assets/image (41).png" alt=""><figcaption></figcaption></figure>
 
-U ovom slučaju, imamo isto kao i u EvenBetterAuthorizationSample, [**proverite ovu liniju**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L94).
+U ovom slučaju, imamo isto kao u EvenBetterAuthorizationSample, [**proverite ovu liniju**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L94).
 
 Znajući ime korišćenog protokola, moguće je **izbaciti definiciju njegovog zaglavlja** sa:
 ```bash
@@ -321,7 +321,7 @@ Na kraju, samo treba da znamo **ime izložene Mach usluge** kako bismo uspostavi
 
 * U **`[HelperTool init()]`** gde možete videti Mach uslugu koja se koristi:
 
-<figure><img src="../../../../../.gitbook/assets/image (4) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../../.gitbook/assets/image (38).png" alt=""><figcaption></figcaption></figure>
 
 * U launchd plist-u:
 ```xml
@@ -341,7 +341,7 @@ cat /Library/LaunchDaemons/com.example.HelperTool.plist
 U ovom primeru je kreirano:
 
 * Definicija protokola sa funkcijama
-* Prazna autentifikacija za korišćenje zahteva za pristup
+* Prazna autentifikacija koja se koristi za traženje pristupa
 * Povezivanje sa XPC servisom
 * Poziv funkcije ako je povezivanje bilo uspešno
 ```objectivec
@@ -431,7 +431,7 @@ NSLog(@"Finished!");
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**

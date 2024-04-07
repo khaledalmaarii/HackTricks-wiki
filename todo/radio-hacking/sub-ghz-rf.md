@@ -6,79 +6,90 @@
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
-## Garažna vrata
+## Garažna Vrata
 
-Otvorivači garažnih vrata obično rade na frekvencijama u opsegu od 300-190 MHz, pri čemu su najčešće frekvencije 300 MHz, 310 MHz, 315 MHz i 390 MHz. Ovaj frekvencijski opseg se često koristi za otvorivače garažnih vrata jer je manje zagušen od drugih frekvencijskih opsega i manje je verovatno da će doživeti smetnje od drugih uređaja.
+Otvorivači garažnih vrata obično rade na frekvencijama u opsegu od 300-190 MHz, pri čemu su najčešće korištene frekvencije 300 MHz, 310 MHz, 315 MHz i 390 MHz. Ovaj frekvencijski opseg se često koristi za otvarače garažnih vrata jer je manje zagušen od drugih frekvencijskih opsega i manje je verovatno da će doživeti smetnje od drugih uređaja.
 
-## Vrata automobila
+## Vrata Automobila
 
-Većina daljinskih upravljača za ključeve automobila radi na frekvencijama **315 MHz ili 433 MHz**. Ovo su obe radio frekvencije i koriste se u različitim aplikacijama. Glavna razlika između ove dve frekvencije je da 433 MHz ima veći domet od 315 MHz. To znači da je 433 MHz bolji za aplikacije koje zahtevaju veći domet, kao što je daljinsko zaključavanje vrata.\
-U Evropi se obično koristi 433.92 MHz, a u SAD-u i Japanu je to 315 MHz.
+Većina daljinskih upravljača za automobile radi na frekvencijama od **315 MHz ili 433 MHz**. Ovo su oba radio frekvencije i koriste se u različitim aplikacijama. Glavna razlika između ove dve frekvencije je što 433 MHz ima veći domet od 315 MHz. To znači da je 433 MHz bolji za aplikacije koje zahtevaju veći domet, poput daljinskog otključavanja vrata.\
+U Evropi se često koristi 433.92 MHz, a u SAD-u i Japanu je to 315 MHz.
 
-## **Brute-force napad**
+## **Napad Brute-force**
 
-<figure><img src="../../.gitbook/assets/image (4) (3) (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1081).png" alt=""><figcaption></figcaption></figure>
 
-Ako umesto slanja svakog koda 5 puta (slanje na ovaj način kako bi se osiguralo da prijemnik dobije signal), samo jednom pošaljete, vreme se smanjuje na 6 minuta:
+Ako umesto slanja svakog koda 5 puta (poslato na ovaj način da bi se osiguralo da prijemnik dobije) pošaljete samo jednom, vreme se smanjuje na 6 minuta:
 
-<figure><img src="../../.gitbook/assets/image (1) (1) (2) (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (616).png" alt=""><figcaption></figcaption></figure>
 
-i ako **uklonite period čekanja od 2 ms** između signala, vreme se može smanjiti na 3 minuta.
+i ako **uklonite period čekanja od 2 ms** između signala, možete **smanjiti vreme na 3 minuta**.
 
-Osim toga, korišćenjem De Brojnovog niza (način da se smanji broj bitova potrebnih za slanje svih potencijalnih binarnih brojeva za brute force), ovo vreme se smanjuje na samo 8 sekundi:
+Osim toga, korišćenjem De Bruijn sekvence (način za smanjenje broja bitova potrebnih za slanje svih potencijalnih binarnih brojeva za brute force) ovo **vreme se smanjuje na samo 8 sekundi**:
 
-<figure><img src="../../.gitbook/assets/image (5) (2) (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (580).png" alt=""><figcaption></figcaption></figure>
 
 Primer ovog napada je implementiran na [https://github.com/samyk/opensesame](https://github.com/samyk/opensesame)
 
-Zahtevanje **preambule će sprečiti De Brojnov niz** optimizaciju i **promenljivi kodovi će sprečiti ovaj napad** (pretpostavljajući da je kod dovoljno dug da ne može biti brute force-an).
+Zahtevanje **preambule će izbeći De Bruijn sekvencu** optimizaciju i **rolling kodovi će sprečiti ovaj napad** (pretpostavljajući da je kod dovoljno dug da ne može biti brute-force-an).
 
 ## Napad na Sub-GHz
 
-Da biste napali ove signale sa Flipper Zero proverite:
+Za napad na ove signale sa Flipper Zero proverite:
 
 {% content-ref url="flipper-zero/fz-sub-ghz.md" %}
 [fz-sub-ghz.md](flipper-zero/fz-sub-ghz.md)
 {% endcontent-ref %}
 
-## Zaštita od promenljivih kodova
+## Zaštita Rolling Kodova
 
 Automatski otvarači garažnih vrata obično koriste bežični daljinski upravljač za otvaranje i zatvaranje garažnih vrata. Daljinski upravljač **šalje radio frekvencijski (RF) signal** otvaraču garažnih vrata, koji aktivira motor za otvaranje ili zatvaranje vrata.
 
-Moguće je da neko koristi uređaj poznat kao "code grabber" da presretne RF signal i zabeleži ga za kasniju upotrebu. Ovo se naziva **replay napad**. Da bi se sprečio ovaj tip napada, mnogi moderni otvarači garažnih vrata koriste sigurniju metodu enkripcije poznatu kao **sistem promenljivih kodova**.
+Moguće je da neko koristi uređaj poznat kao grabilica koda da presretne RF signal i snimi ga za kasniju upotrebu. Ovo je poznato kao **napad ponovnog reprodukovanja**. Da bi se sprečio ovaj tip napada, mnogi moderni otvarači garažnih vrata koriste sigurniju enkripciju poznatu kao sistem **rolling koda**.
 
-RF signal se obično prenosi koristeći promenljivi kod, što znači da se kod menja pri svakoj upotrebi. To otežava nekome da presretne signal i koristi ga za neovlašćeni pristup garaži.
+**RF signal se obično prenosi korišćenjem rolling koda**, što znači da se kod menja pri svakom korišćenju. Ovo čini **teškim** za nekoga da **presretne** signal i **koristi** ga za dobijanje **neovlašćenog** pristupa garaži.
 
-U sistemu promenljivih kodova, daljinski upravljač i otvarač garažnih vrata imaju **deljeni algoritam** koji **generiše novi kod** svaki put kada se daljinski upravljač koristi. Otvarač garažnih vrata će odgovoriti samo na **ispravan kod**, što znači da je mnogo teže nekome da neovlašćeno pristupi garaži samo presretanjem koda.
+U sistemu rolling koda, daljinski upravljač i otvarač garažnih vrata imaju **deljeni algoritam** koji **generiše novi kod** svaki put kada se daljinski upravljač koristi. Otvarač garažnih vrata će odgovoriti samo na **ispravan kod**, čineći mnogo teže nekome da dobije neovlašćen pristup garaži samo snimanjem koda.
 
-### **Napad na izgubljenu vezu**
+### **Napad Nedostajuće Veze**
 
-U osnovi, slušate dugme i **presrećete signal dok je daljinski van dometa** uređaja (na primer automobila ili garaže). Zatim se pomerite do uređaja i **koristite presretnuti kod da ga otvorite**.
+U osnovi, slušate dugme i **snimite signal dok je daljinski van dometa** uređaja (recimo automobila ili garaže). Zatim se pomerite do uređaja i **koristite snimljeni kod da ga otvorite**.
 
-### Napad potpunog blokiranja veze
+### Napad Potpunog Blokiranja Veze
 
-Napadač može **blokirati signal blizu vozila ili prijemnika** tako da **prijemnik ne može "čuti" kod**, a kada se to dogodi, jednostavno možete **presnimiti i reprodukovati** kod kada prestanete sa blokiranjem.
+Napadač bi mogao **blokirati signal blizu vozila ili prijemnika** tako da **prijemnik zapravo ne može 'čuti' kod**, i kada se to dogodi, jednostavno možete **snimiti i reprodukovati** kod kada prestanete sa blokiranjem.
 
-Žrtva će u nekom trenutku koristiti **ključeve da zaključa automobil**, ali tada će napad imati **zabeležen dovoljan broj "zatvori vrata" kodova** koji se nadaju da bi mogli biti ponovo poslati da otvore vrata (možda će biti potrebna **promena frekvencije** jer postoje automobili koji koriste iste kodove za otvaranje i zatvaranje, ali slušaju oba komanda na različitim frekvencijama).
+Žrtva će u nekom trenutku koristiti **ključeve da zaključa automobil**, ali će napad **snimiti dovoljno "zatvori vrata" kodova** koji se nadaju da bi mogli biti ponovo poslati da otvore vrata (možda će biti potrebna **promena frekvencije** jer postoje automobili koji koriste iste kodove za otvaranje i zatvaranje, ali slušaju oba komanda na različitim frekvencijama).
 
 {% hint style="warning" %}
-**Blokiranje funkcioniše**, ali je primetno jer ako **osoba koja zaključava automobil jednostavno proveri vrata** da se uveri da su zaključana, primetiće da je automobil otključan. Dodatno, ako su svesni takvih napada, mogu čak i da primete da vrata nikada nisu proizvela zvuk **zaključavanja** ili da se **svetla** automobila nisu upalila kada su pritisnuli dugme "zaključavanje".
+**Blokiranje radi**, ali je primetno jer ako **osoba zaključava automobil jednostavno proverava vrata** da bi se uverila da su zaključana, primetiće da je automobil otključan. Dodatno, ako su svesni takvih napada, čak bi mogli čuti da vrata nikada nisu napravila zvuk zaključavanja ili da svetla na automobilu nikada nisu trepnula kada su pritisnuli dugme za 'zaključavanje'.
 {% endhint %}
 
-### **Napad na presretanje koda (poznat kao 'RollJam')**
+### **Napad Grabljenja Koda (poznat kao ‘RollJam’)**
 
-Ovo je nešto **skrivenija tehnika blokiranja**. Napadač će blokirati signal, tako da kada žrtva pokuša da zaključa vrata, to neće uspeti, ali napadač će **zabeležiti ovaj kod**. Zatim, žrtva će **ponovo pokušati da zaključa automobil** pritiskom na dugme i automobil će **zabele
-### Napad na ometanje zvučnog alarma
+Ovo je sofisticiranija tehnika blokiranja. Napadač će blokirati signal, tako da kada žrtva pokuša da zaključa vrata, to neće uspeti, ali napadač će **snimiti ovaj kod**. Zatim, žrtva će **ponovo pokušati da zaključa automobil** pritiskom na dugme i automobil će **snimiti ovaj drugi kod**.\
+Odmah nakon toga, **napadač može poslati prvi kod** i **automobil će se zaključati** (žrtva će misliti da je drugo pritiskanje zatvorilo vrata). Zatim, napadač će moći da **pošalje drugi ukradeni kod da otvori** automobil (pretpostavljajući da se **"zatvori automobil" kod takođe može koristiti za otvaranje**). Možda će biti potrebna promena frekvencije (jer postoje automobili koji koriste iste kodove za otvaranje i zatvaranje, ali slušaju oba komanda na različitim frekvencijama).
 
-Testiranje protiv naknadno instaliranog sistema sa kodom koji se menja na automobilu, **slanje istog koda dva puta** odmah **aktivira alarm** i imobilajzer pružajući jedinstvenu priliku za **uslugu odbijanja**. Ironično, način **onemogućavanja alarma** i imobilajzera je **pritisak** na **daljinski upravljač**, pružajući napadaču mogućnost **kontinuiranog izvođenja napada odbijanja usluge**. Ili kombinujte ovaj napad sa **prethodnim da biste dobili više kodova**, jer bi žrtva želela da zaustavi napad što je pre moguće.
+Napadač može **blokirati prijemnik automobila, a ne svoj prijemnik** jer ako prijemnik automobila sluša na primer širokopojasnu frekvenciju od 1 MHz, napadač neće **blokirati tačnu frekvenciju koju koristi daljinski upravljač već** blisku u tom spektru, dok će **prijemnik napadača slušati u manjem opsegu** gde može čuti signal daljinskog upravljača **bez blokiranja signala**.
+
+{% hint style="warning" %}
+Drugi implementacije viđene u specifikacijama pokazuju da je **rolling kod deo** ukupnog poslatog koda. Na primer, kod koji se šalje je **ključ od 24 bita** gde su prva **12 rolling kod**, drugih 8 su **komanda** (kao što je zaključavanje ili otključavanje) i poslednjih 4 je **checksum**. Vozila koja implementiraju ovaj tip su takođe prirodno podložna jer napadač jednostavno treba da zameni segment rolling koda kako bi mogao **koristiti bilo koji rolling kod na obema frekvencijama**.
+{% endhint %}
+
+{% hint style="danger" %}
+Imajte na umu da ako žrtva pošalje treći kod dok napadač šalje prvi, prvi i drugi kod će biti nevažeći.
+{% endhint %}
+### Napad na isključivanje alarma zvučnog signala
+
+Testiranje protiv sistema sa kodom koji se menja nakon svake upotrebe, instaliranog na automobilu, **slanje istog koda dva puta** odmah je **aktiviralo alarm** i imobilizator pružajući jedinstvenu **mogućnost odbijanja usluge**. Ironično, način **isključivanja alarma** i imobilizatora bio je **pritisak** na **daljinski**, pružajući napadaču mogućnost da **kontinuirano izvodi DoS napad**. Ili kombinujte ovaj napad sa **prethodnim** kako biste dobili više kodova, jer bi žrtva želela da zaustavi napad što je pre moguće.
 
 ## Reference
 
@@ -93,10 +104,10 @@ Testiranje protiv naknadno instaliranog sistema sa kodom koji se menja na automo
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu u HackTricks-u** ili **preuzmete HackTricks u PDF formatu**, proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje trikove hakovanja slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili **telegram grupi** ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>

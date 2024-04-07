@@ -6,17 +6,17 @@
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
 ## Uvod
 
-Za više informacija o tome kako 125kHz oznake funkcionišu, pogledajte:
+Za više informacija o tome kako rade 125kHz oznake pogledajte:
 
 {% content-ref url="../pentesting-rfid.md" %}
 [pentesting-rfid.md](../pentesting-rfid.md)
@@ -28,36 +28,36 @@ Za više informacija o ovim vrstama oznaka [**pročitajte ovaj uvod**](../pentes
 
 ### Čitanje
 
-Pokušava **čitanje** informacija sa kartice. Zatim ih može **emulirati**.
+Pokušava da **pročita** informacije sa kartice. Zatim ih može **emulirati**.
 
 {% hint style="warning" %}
-Imajte na umu da neki interfoni pokušavaju da se zaštite od dupliranja ključeva slanjem komande za pisanje pre čitanja. Ako pisanje uspe, ta oznaka se smatra lažnom. Kada Flipper emulira RFID, čitač nema načina da je razlikuje od originalne, pa se takvi problemi ne javljaju.
+Imajte na umu da neki interfoni pokušavaju da se zaštite od dupliciranja ključeva slanjem komande za pisanje pre čitanja. Ako pisanje uspe, ta oznaka se smatra lažnom. Kada Flipper emulira RFID, čitač nema načina da je razlikuje od originalne, pa se takvi problemi ne javljaju.
 {% endhint %}
 
-### Ručno dodavanje
+### Dodavanje Ručno
 
-Možete kreirati **lažne kartice u Flipper Zero uređaju tako što ćete ručno uneti podatke** i zatim ih emulirati.
+Možete kreirati **lažne kartice u Flipper Zero uređaju navodeći podatke** ručno, a zatim ih emulirati.
 
 #### ID-ovi na karticama
 
-Ponekad, kada dobijete karticu, možete videti ID (ili deo ID-a) napisan na kartici.
+Ponekad, kada dobijete karticu, možete pronaći ID (ili deo) napisan na kartici.
 
 * **EM Marin**
 
-Na primer, na ovoj EM-Marin kartici je moguće **pročitati poslednja 3 od 5 bajtova u čistom obliku**.\
-Preostala 2 bajta mogu se probiti ako ih ne možete pročitati sa kartice.
+Na primer, na ovoj EM-Marin kartici na fizičkoj kartici je moguće **pročitati poslednja 3 od 5 bajtova jasno**.\
+Preostala 2 se mogu probati silom ako ih ne možete pročitati sa kartice.
 
-<figure><img src="../../../.gitbook/assets/image (30).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (101).png" alt=""><figcaption></figcaption></figure>
 
 * **HID**
 
-Isto se dešava i na ovoj HID kartici gde samo 2 od 3 bajta mogu biti pronađena odštampana na kartici.
+Isto se dešava na ovoj HID kartici gde su samo 2 od 3 bajta štampana na kartici
 
-<figure><img src="../../../.gitbook/assets/image (15) (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1011).png" alt=""><figcaption></figcaption></figure>
 
-### Emulacija/Pisanje
+### Emuliranje/Pisanje
 
-Nakon **kopiranja** kartice ili **ručnog unosa** ID-a, moguće je **emulirati** ga sa Flipper Zero uređajem ili ga **upisati** na pravu karticu.
+Nakon što se **kopira** kartica ili se ID **unese ručno**, moguće je **emulirati** je sa Flipper Zero uređajem ili je **zapisati** na pravu karticu.
 
 ## Reference
 
@@ -69,10 +69,10 @@ Nakon **kopiranja** kartice ili **ručnog unosa** ID-a, moguće je **emulirati**
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>

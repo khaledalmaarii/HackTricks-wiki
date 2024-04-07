@@ -1,4 +1,4 @@
-# macOS sistemski ekstenzije
+# macOS Sistemski ekstenzije
 
 <details>
 
@@ -6,84 +6,84 @@
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJSTVO**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
-## Sistemski ekstenzije / Endpoint Security okvir
+## Sistemski ekstenzije / Okvir za bezbednost krajnjih tačaka
 
-Za razliku od Kernel ekstenzija, **sistemski ekstenzije se izvršavaju u korisničkom prostoru** umesto u kernel prostoru, smanjujući rizik od pada sistema zbog neispravnosti ekstenzija.
+Za razliku od Kernel ekstenzija, **Sistemski ekstenzije se izvršavaju u korisničkom prostoru** umesto u jezgrovnom prostoru, smanjujući rizik od pada sistema zbog neispravnosti ekstenzije.
 
-<figure><img src="../../../.gitbook/assets/image (1) (3) (1) (1).png" alt="https://knight.sc/images/system-extension-internals-1.png"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (603).png" alt="https://knight.sc/images/system-extension-internals-1.png"><figcaption></figcaption></figure>
 
 Postoje tri vrste sistemskih ekstenzija: **DriverKit** ekstenzije, **Network** ekstenzije i **Endpoint Security** ekstenzije.
 
-### **DriverKit ekstenzije**
+### **DriverKit Ekstenzije**
 
-DriverKit je zamena za kernel ekstenzije koje **pružaju podršku za hardver**. Omogućava da drajveri uređaja (poput USB, serijskih, NIC i HID drajvera) rade u korisničkom prostoru umesto u kernel prostoru. DriverKit okvir uključuje **verzije određenih I/O Kit klasa u korisničkom prostoru**, a kernel prosleđuje normalne I/O Kit događaje u korisnički prostor, pružajući sigurnije okruženje za rad ovih drajvera.
+DriverKit je zamena za kernel ekstenzije koje **pružaju podršku za hardver**. Omogućava drajverima uređaja (kao što su USB, serijski, NIC i HID drajveri) da se izvršavaju u korisničkom prostoru umesto u jezgrovnom prostoru. DriverKit okvir uključuje **verzije određenih I/O Kit klasa u korisničkom prostoru**, a jezgro prosleđuje normalne događaje I/O Kit-a u korisnički prostor, nudeći sigurnije okruženje za izvršavanje ovih drajvera.
 
-### **Network ekstenzije**
+### **Network Ekstenzije**
 
-Network ekstenzije omogućavaju prilagođavanje mrežnih ponašanja. Postoji nekoliko vrsta Network ekstenzija:
+Network ekstenzije omogućavaju prilagođavanje mrežnih ponašanja. Postoje nekoliko vrsta Network ekstenzija:
 
-* **App Proxy**: Koristi se za kreiranje VPN klijenta koji implementira protokol VPN-a usmeren na tokove (flows) umesto na pojedinačne pakete.
-* **Packet Tunnel**: Koristi se za kreiranje VPN klijenta koji implementira protokol VPN-a usmeren na pakete umesto na tokove.
+* **App Proxy**: Koristi se za kreiranje VPN klijenta koji implementira protokol VPN-a orijentisan na tok, prilagođen protokol. To znači da upravlja mrežnim saobraćajem na osnovu veza (ili tokova) umesto pojedinačnih paketa.
+* **Packet Tunnel**: Koristi se za kreiranje VPN klijenta koji implementira protokol VPN-a orijentisan na paket, prilagođen protokol. To znači da upravlja mrežnim saobraćajem na osnovu pojedinačnih paketa.
 * **Filter Data**: Koristi se za filtriranje mrežnih "tokova". Može pratiti ili menjati mrežne podatke na nivou toka.
 * **Filter Packet**: Koristi se za filtriranje pojedinačnih mrežnih paketa. Može pratiti ili menjati mrežne podatke na nivou paketa.
 * **DNS Proxy**: Koristi se za kreiranje prilagođenog DNS provajdera. Može se koristiti za praćenje ili menjanje DNS zahteva i odgovora.
 
-## Endpoint Security okvir
+## Okvir za bezbednost krajnjih tačaka
 
-Endpoint Security je okvir koji je Apple obezbedio u macOS-u i pruža skup API-ja za sistemsku bezbednost. Namijenjen je **bezbednosnim dobavljačima i programerima za izgradnju proizvoda koji mogu pratiti i kontrolisati aktivnosti sistema** kako bi identifikovali i zaštitili se od zlonamernih aktivnosti.
+Endpoint Security je okvir koji pruža Apple u macOS-u koji pruža skup API-ja za sistemsku bezbednost. Namijenjen je za korišćenje od strane **sigurnosnih prodavaca i programera za izgradnju proizvoda koji mogu pratiti i kontrolisati aktivnosti sistema** kako bi identifikovali i zaštitili se od zlonamernih aktivnosti.
 
-Ovaj okvir pruža **kolekciju API-ja za praćenje i kontrolu aktivnosti sistema**, kao što su izvršavanje procesa, događaji sistema datotečnog sistema, mreže i kernela.
+Ovaj okvir pruža **kolekciju API-ja za praćenje i kontrolu aktivnosti sistema**, kao što su izvršavanje procesa, događaji sistema datoteka, mrežni i jezgrovni događaji.
 
-Srž ovog okvira je implementirana u kernelu, kao Kernel ekstenzija (KEXT) smeštena na **`/System/Library/Extensions/EndpointSecurity.kext`**. Ova KEXT se sastoji od nekoliko ključnih komponenti:
+Srce ovog okvira je implementirano u jezgru, kao Kernel ekstenzija (KEXT) smeštena na **`/System/Library/Extensions/EndpointSecurity.kext`**. Ova KEXT se sastoji od nekoliko ključnih komponenti:
 
-* **EndpointSecurityDriver**: Ovo deluje kao "ulazna tačka" za kernel ekstenziju. To je glavna tačka interakcije između OS-a i Endpoint Security okvira.
+* **EndpointSecurityDriver**: Deluje kao "ulazna tačka" za kernel ekstenziju. To je glavna tačka interakcije između OS-a i Endpoint Security okvira.
 * **EndpointSecurityEventManager**: Ova komponenta je odgovorna za implementaciju kernel kuka. Kernel kuke omogućavaju okviru da prati događaje sistema presretanjem sistemskih poziva.
-* **EndpointSecurityClientManager**: Ovo upravlja komunikacijom sa klijentima u korisničkom prostoru, prateći koji klijenti su povezani i trebaju primati obaveštenja o događajima.
-* **EndpointSecurityMessageManager**: Ovo šalje poruke i obaveštenja o događajima klijentima u korisničkom prostoru.
+* **EndpointSecurityClientManager**: Upravlja komunikacijom sa korisničkim prostorom klijenata, prateći koji klijenti su povezani i trebaju primati obaveštenja o događajima.
+* **EndpointSecurityMessageManager**: Šalje poruke i obaveštenja o događajima korisničkom prostoru klijenata.
 
-Događaji koje Endpoint Security okvir može pratiti su kategorisani u:
+Dogadjaji koje Endpoint Security okvir može pratiti su kategorizovani u:
 
 * Događaji datoteka
 * Događaji procesa
 * Događaji soketa
-* Događaji kernela (poput učitavanja/isključivanja kernel ekstenzije ili otvaranja I/O Kit uređaja)
+* Jezgrovni događaji (kao što su učitavanje/isključivanje kernel ekstenzije ili otvaranje I/O Kit uređaja)
 
-### Arhitektura Endpoint Security okvira
+### Arhitektura Okvira za bezbednost krajnjih tačaka
 
-<figure><img src="../../../.gitbook/assets/image (3) (8).png" alt="https://www.youtube.com/watch?v=jaVkpM1UqOs"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1065).png" alt="https://www.youtube.com/watch?v=jaVkpM1UqOs"><figcaption></figcaption></figure>
 
-**Komunikacija u korisničkom prostoru** sa Endpoint Security okvirom se odvija putem klase IOUserClient. Koriste se dve različite podklase, u zavisnosti od vrste pozivaoca:
+**Komunikacija sa korisničkim prostorom** sa Endpoint Security okvirom se odvija putem klase IOUserClient. Koriste se dve različite podklase, u zavisnosti od vrste pozivaoca:
 
-* **EndpointSecurityDriverClient**: Ovo zahteva `com.apple.private.endpoint-security.manager` dozvolu, koju poseduje samo sistemski proces `endpointsecurityd`.
-* **EndpointSecurityExternalClient**: Ovo zahteva `com.apple.developer.endpoint-security.client` dozvolu. Ovo bi obično koristio sigurnosni softver treće strane koji treba da komunicira sa Endpoint Security okvirom.
+* **EndpointSecurityDriverClient**: Zahteva `com.apple.private.endpoint-security.manager` ovlašćenje, koje poseduje samo sistemski proces `endpointsecurityd`.
+* **EndpointSecurityExternalClient**: Zahteva `com.apple.developer.endpoint-security.client` ovlašćenje. Ovo bi obično koristio sigurnosni softver treće strane koji treba da interaguje sa Endpoint Security okvirom.
 
-Endpoint Security ekstenzije:**`libEndpointSecurity.dylib`** je C biblioteka koju sistemski ekstenzije koriste za komunikaciju sa kernelom. Ova biblioteka koristi I/O Kit (`IOKit`) za komunikaciju sa Endpoint Security KEXT-om.
+Endpoint Security Ekstenzije:**`libEndpointSecurity.dylib`** je C biblioteka koju sistemski ekstenzije koriste za komunikaciju sa jezgrom. Ova biblioteka koristi I/O Kit (`IOKit`) za komunikaciju sa Endpoint Security KEXT-om.
 
-**`endpointsecurityd`** je ključni sistemski daemon koji je uključen u upravljanje i pokretanje sistemskih ekstenzija za bezbednost, posebno tokom ranog procesa pokretanja. Samo sistemski ekstenzije označene sa **`NSEndpointSecurityEarlyBoot`** u svom `Info.plist` fajlu dobijaju ovaj tretman ranog pokretanja.
+**`endpointsecurityd`** je ključni sistemski demon koji je uključen u upravljanje i pokretanje sistemskih ekstenzija za bezbednost krajnjih tačaka, posebno tokom ranog procesa pokretanja. **Samo sistemski ekstenzije** označene sa **`NSEndpointSecurityEarlyBoot`** u njihovom `Info.plist` fajlu dobijaju ovaj tretman ranog pokretanja.
 
-Još jedan sistemski daemon, **`sysextd`**, **validira sistemskie ekstenzije** i premješta ih na odgovarajuća sistemsko mesto. Zatim traži odgovarajućem daemonu da učita ekstenziju. **`SystemExtensions.framework`** je odgovoran za aktiviranje i deaktiviranje sistemskih ekstenzija.
+Još jedan sistemski demon, **`sysextd`**, **validira sistemskie ekstenzije** i premješta ih na odgovarajuće lokacije u sistemu. Zatim traži odgovarajućem demonu da učita ekstenziju. **`SystemExtensions.framework`** je odgovoran za aktiviranje i deaktiviranje sistemskih ekstenzija.
 
-## Zaobilaženje ESF
+## Zaobilazak ESF
 
-ESF se koristi od strane sigurnosnih alata koji će pokušati da otkriju red timera, pa je svaka informacija o tome kako se to može izbeći zanimljiva.
+ESF se koristi od strane sigurnosnih alata koji će pokušati da otkriju red timera, pa bilo kakve informacije o tome kako se to može izbeći zvuče interesantno.
 
 ### CVE-2021-30965
 
-Stvar je u tome da sigurnosna aplikacija mora imati **dozvole za pun pristup disku**. Dakle, ako napadač može to ukloniti, može sprečiti pokretanje softvera:
+Stvar je u tome da sigurnosna aplikacija mora imati **Dozvole za pun pristup disku**. Dakle, ako napadač može ukloniti to, može sprečiti softver da se pokrene:
 ```bash
 tccutil reset All
 ```
-Za **više informacija** o ovom zaobilazenju i srodnim, pogledajte predavanje [#OBTS v5.0: "Achillesova peta EndpointSecurity" - Fitzl Csaba](https://www.youtube.com/watch?v=lQO7tvNCoTI)
+Za **više informacija** o ovom zaobilazenju i srodnim proverite predavanje [#OBTS v5.0: "Achillesova peta EndpointSecurity" - Fitzl Csaba](https://www.youtube.com/watch?v=lQO7tvNCoTI)
 
-Na kraju je ovo popravljeno davanjem nove dozvole **`kTCCServiceEndpointSecurityClient`** aplikaciji za sigurnost koju upravlja **`tccd`**, tako da `tccutil` neće brisati njene dozvole i sprečavaće je da se pokrene.
+Na kraju je ovo rešeno davanjem nove dozvole **`kTCCServiceEndpointSecurityClient`** aplikaciji za bezbednost koju upravlja **`tccd`** tako da `tccutil` neće očistiti njene dozvole sprečavajući je da se pokrene.
 
 ## Reference
 
@@ -96,10 +96,10 @@ Na kraju je ovo popravljeno davanjem nove dozvole **`kTCCServiceEndpointSecurity
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu u HackTricks-u** ili **preuzmete HackTricks u PDF formatu**, proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>

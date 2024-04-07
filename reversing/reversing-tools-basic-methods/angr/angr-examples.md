@@ -7,8 +7,8 @@
 * Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks**? ili želite pristup **najnovijoj verziji PEASS ili preuzimanje HackTricks u PDF formatu**? Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na [hacktricks repozitorijum](https://github.com/carlospolop/hacktricks) i [hacktricks-cloud repozitorijum](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**hacktricks repozitorijum**](https://github.com/carlospolop/hacktricks) **i** [**hacktricks-cloud repozitorijum**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -16,7 +16,7 @@
 Ako program koristi `scanf` da dobije **više vrednosti odjednom sa standardnog ulaza** morate generisati stanje koje počinje posle **`scanf`**.
 {% endhint %}
 
-Kodovi preuzeti sa [https://github.com/jakespringer/angr_ctf](https://github.com/jakespringer/angr_ctf)
+Kodovi preuzeti sa [https://github.com/jakespringer/angr\_ctf](https://github.com/jakespringer/angr\_ctf)
 
 ### Unos za dostizanje adrese (navođenje adrese)
 ```python
@@ -214,7 +214,7 @@ main(sys.argv)
 ```
 U ovom scenariju, unos je uzet sa `scanf("%u %u")` i vrednost `"1 1"` je data, tako da vrednosti **`0x00000001`** sa steka dolaze od **korisničkog unosa**. Možete videti kako ove vrednosti počinju na `$ebp - 8`. Stoga, u kodu smo **oduzeli 8 bajtova od `$esp` (kako su u tom trenutku `$ebp` i `$esp` imali istu vrednost)** a zatim smo gurnuli BVS.
 
-![](<../../../.gitbook/assets/image (614).png>)
+![](<../../../.gitbook/assets/image (133).png>)
 
 ### Staticne vrednosti memorije (Globalne promenljive)
 ```python
@@ -418,7 +418,7 @@ Imajte na umu da simbolička datoteka takođe može sadržati konstantne podatke
 ### Primenjivanje ograničenja
 
 {% hint style="info" %}
-Ponekad jednostavne ljudske operacije poput poređenja 2 reči dužine 16 **karaktera po karakter** (petlja), **mnogo koštaju** **angr** jer mora generisati grane **eksponencijalno** jer generiše 1 granu po uslovu: `2^16`\
+Ponekad jednostavne ljudske operacije poput poređenja 2 reči dužine 16 **karaktera po karakter** (petlja), **mnogo koštaju** **angr** jer mora generisati grane **eksponencijalno** jer generiše 1 granu po if-u: `2^16`\
 Stoga je lakše **zatražiti od angr-a da se vrati na prethodnu tačku** (gde je već obavljen stvarno težak deo) i **postaviti ta ograničenja ručno**.
 {% endhint %}
 ```python
@@ -492,16 +492,16 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 {% hint style="danger" %}
-U nekim scenarijima možete aktivirati **veritesting**, što će spojiti slične stanja, kako bi se sačuvale beskorisne grane i pronašlo rešenje: `simulation = project.factory.simgr(initial_state, veritesting=True)`
+U nekim scenarijima možete aktivirati **veritesting**, što će spojiti slične status, kako bi se sačuvale beskorisne grane i pronašlo rešenje: `simulation = project.factory.simgr(initial_state, veritesting=True)`
 {% endhint %}
 
 {% hint style="info" %}
-Još nešto što možete uraditi u ovim scenarijima je **hookovanje funkcije kako bi angru pružili nešto što može lakše da razume**.
+Još nešto što možete uraditi u ovim scenarijima je **hookovanje funkcije dajući angr-u nešto što može lakše razumeti**.
 {% endhint %}
 
 ### Menadžeri simulacije
 
-Neki menadžeri simulacije mogu biti korisniji od drugih. U prethodnom primeru postojao je problem jer je bilo mnogo korisnih grana koje su kreirane. Ovde će **veritesting** tehnika spojiti te grane i pronaći rešenje.\
+Neki menadžeri simulacije mogu biti korisniji od drugih. U prethodnom primeru postojao je problem jer je stvoreno mnogo korisnih grana. Ovde će **veritesting** tehnika spojiti te grane i pronaći rešenje.\
 Ovaj menadžer simulacije takođe može biti aktiviran sa: `simulation = project.factory.simgr(initial_state, veritesting=True)`
 ```python
 import angr
@@ -825,10 +825,10 @@ main(sys.argv)
 
 <summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Da li radite u **kompaniji za sajber bezbednost**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks-u**? ili želite pristupiti **najnovijoj verziji PEASS-a ili preuzeti HackTricks u PDF formatu**? Proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
+* Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks**? ili želite pristupiti **najnovijoj verziji PEASS ili preuzeti HackTricks u PDF formatu**? Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova u [hacktricks repozitorijum](https://github.com/carlospolop/hacktricks) i [hacktricks-cloud repozitorijum](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**hacktricks repozitorijum**](https://github.com/carlospolop/hacktricks) **i** [**hacktricks-cloud repozitorijum**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

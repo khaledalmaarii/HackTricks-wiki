@@ -1,22 +1,23 @@
+# SeImpersonate od Visokog do Sistema
+
 <details>
 
 <summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
+### Kod
 
-## Kod
-
-Sledeći kod preuzet sa [ovde](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962). Omogućava **navođenje ID-a procesa kao argumenta** i CMD **pokrenut kao korisnik** navedenog procesa će biti pokrenut.\
-Pokretanjem u procesu visokog integriteta možete **navesti PID procesa koji se izvršava kao System** (kao što su winlogon, wininit) i izvršiti cmd.exe kao sistem.
+Sledeći kod sa [ovde](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962). Omogućava **navođenje ID procesa kao argumenta** i CMD **pokretanje kao korisnik** navedenog procesa će biti pokrenuto.\
+Pokretanje u procesu Visoke Integriteta možete **navesti PID procesa koji se izvršava kao Sistem** (kao što su winlogon, wininit) i izvršiti cmd.exe kao sistem.
 ```cpp
 impersonateuser.exe 1234
 ```
@@ -151,11 +152,9 @@ printf("[-] CreateProcessWithTokenW Error: %i\n", GetLastError());
 return 0;
 }
 ```
-{% endcode %}
+### Greška
 
-## Greška
-
-U nekim slučajevima, kada pokušate da se predstavite kao System, može se desiti da ne uspete i da se prikaže sledeći izlaz:
+U nekim slučajevima možete pokušati da se predstavite kao Sistem i neće uspeti, prikazujući izlaz kao u sledećem primeru:
 ```cpp
 [+] OpenProcess() success!
 [+] OpenProcessToken() success!
@@ -166,7 +165,7 @@ U nekim slučajevima, kada pokušate da se predstavite kao System, može se desi
 [-] CreateProcessWithTokenW Return Code: 0
 [-] CreateProcessWithTokenW Error: 1326
 ```
-To znači da čak i ako radite na nivou visokog integriteta, **nemate dovoljno dozvola**.\
+Ovo znači da čak i ako radite na nivou visokog integriteta **nemate dovoljno dozvola**.\
 Proverimo trenutne administratorske dozvole nad procesima `svchost.exe` pomoću **proces explorer-a** (ili možete koristiti i process hacker):
 
 1. Izaberite proces `svchost.exe`
@@ -176,28 +175,12 @@ Proverimo trenutne administratorske dozvole nad procesima `svchost.exe` pomoću 
 5. Izaberite "Administrators" i kliknite na "Edit"
 6. Kliknite na "Show advanced permissions"
 
-![](<../../.gitbook/assets/image (322).png>)
+![](<../../.gitbook/assets/image (434).png>)
 
-Prethodna slika sadrži sve privilegije koje "Administrators" ima nad izabranim procesom (kao što možete videti, u slučaju `svchost.exe` imaju samo privilegije "Query").
+Prethodna slika sadrži sve privilegije koje "Administrators" imaju nad izabranim procesom (kao što možete videti u slučaju `svchost.exe` imaju samo privilegije "Query")
 
-Pogledajte privilegije koje "Administrators" ima nad `winlogon.exe`:
+Pogledajte privilegije koje "Administrators" imaju nad `winlogon.exe`:
 
-![](<../../.gitbook/assets/image (323).png>)
+![](<../../.gitbook/assets/image (1099).png>)
 
-Unutar tog procesa, "Administrators" može "Read Memory" i "Read Permissions", što verovatno omogućava administratorima da se predstave kao token koji koristi ovaj proces.
-
-
-
-<details>
-
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Drugi načini da podržite HackTricks:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu**, proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
-
-</details>
+Unutar tog procesa "Administrators" mogu "Read Memory" i "Read Permissions" što verovatno omogućava Administratorima da se predstave kao token koji koristi ovaj proces.

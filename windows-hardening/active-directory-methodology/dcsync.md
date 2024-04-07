@@ -1,9 +1,9 @@
 # DCSync
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
 
 \
-Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da biste lako kreirali i **automatizovali radne tokove** pokretane najnaprednijim alatima zajednice.\
+Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da biste lako izgradili i **automatizovali radne tokove** pokretane najnaprednijim alatima zajednice na svetu.\
 Pristupite danas:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -14,7 +14,7 @@ Pristupite danas:
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** Proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** Proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -24,11 +24,11 @@ Drugi načini podrške HackTricks-u:
 
 ## DCSync
 
-Dozvola **DCSync** implicira posedovanje ovih dozvola nad samim domenom: **DS-Replication-Get-Changes**, **Replicating Directory Changes All** i **Replicating Directory Changes In Filtered Set**.
+Dozvola **DCSync** podrazumeva posedovanje ovih dozvola nad samim domenom: **DS-Replication-Get-Changes**, **Replicating Directory Changes All** i **Replicating Directory Changes In Filtered Set**.
 
 **Važne napomene o DCSync-u:**
 
-* **DCSync napad simulira ponašanje kontrolera domena i traži od drugih kontrolera domena da repliciraju informacije** koristeći protokol za udaljenu replikaciju direktorijuma (MS-DRSR). Budući da je MS-DRSR validna i neophodna funkcija Active Directory-ja, ne može se isključiti ili onemogućiti.
+* **DCSync napad simulira ponašanje kontrolera domena i traži od drugih kontrolera domena da replikuju informacije** koristeći protokol za udaljenu replikaciju direktorijuma (MS-DRSR). Budući da je MS-DRSR validna i neophodna funkcija Active Directory-ja, ne može se isključiti ili onemogućiti.
 * Podrazumevano, samo grupe **Domain Admins, Enterprise Admins, Administrators i Domain Controllers** imaju potrebne privilegije.
 * Ako su lozinke bilo kog naloga sačuvane sa reverzibilnom enkripcijom, opcija u Mimikatz-u omogućava vraćanje lozinke u čistom tekstu
 
@@ -53,27 +53,27 @@ secretsdump.py -just-dc <user>:<password>@<ipaddress> -outputfile dcsync_hashes
 
 * jednu sa **NTLM heševima**
 * jednu sa **Kerberos ključevima**
-* jednu sa lozinkama u obliku čistog teksta iz NTDS-a za naloge postavljene sa [**reversible encryption**](https://docs.microsoft.com/en-us/windows/security/threat-protection/security-policy-settings/store-passwords-using-reversible-encryption) omogućenim. Možete dobiti korisnike sa reverzibilnom enkripcijom pomoću
+* jednu sa lozinkama u obliku čistog teksta iz NTDS-a za sve naloge postavljene sa [**reversible encryption**](https://docs.microsoft.com/en-us/windows/security/threat-protection/security-policy-settings/store-passwords-using-reversible-encryption) omogućenim. Možete dobiti korisnike sa reversible encryption pomoću
 
 ```powershell
 Get-DomainUser -Identity * | ? {$_.useraccountcontrol -like '*ENCRYPTED_TEXT_PWD_ALLOWED*'} |select samaccountname,useraccountcontrol
 ```
 
-### Upornost
+### Persistencija
 
 Ako ste admin domena, možete dodeliti ova ovlašćenja bilo kom korisniku uz pomoć `powerview`:
 ```powershell
 Add-ObjectAcl -TargetDistinguishedName "dc=dollarcorp,dc=moneycorp,dc=local" -PrincipalSamAccountName username -Rights DCSync -Verbose
 ```
-Zatim možete **proveriti da li je korisnik pravilno dodeljen** 3 privilegije tražeći ih u izlazu (trebalo bi da možete videti imena privilegija unutar polja "ObjectType"):
+Zatim možete **proveriti da li je korisnik pravilno dodeljen** 3 privilegije tražeći ih u izlazu (trebalo bi da vidite imena privilegija unutar polja "ObjectType"):
 ```powershell
 Get-ObjectAcl -DistinguishedName "dc=dollarcorp,dc=moneycorp,dc=local" -ResolveGUIDs | ?{$_.IdentityReference -match "student114"}
 ```
 ### Mitigacija
 
-* Sigurnosni događaj ID 4662 (Potrebno je omogućiti reviziju politike za objekat) – Izvršena je operacija na objektu
-* Sigurnosni događaj ID 5136 (Potrebno je omogućiti reviziju politike za objekat) – Modifikovan je objekat u direktorijumskoj usluzi
-* Sigurnosni događaj ID 4670 (Potrebno je omogućiti reviziju politike za objekat) – Dozvole na objektu su promenjene
+* Sigurnosni događaj ID 4662 (Potrebno je omogućiti politiku revizije za objekat) - Izvršena je operacija na objektu
+* Sigurnosni događaj ID 5136 (Potrebno je omogućiti politiku revizije za objekat) - Modifikovan je objekat u direktorijumskoj usluzi
+* Sigurnosni događaj ID 4670 (Potrebno je omogućiti politiku revizije za objekat) - Dozvole na objektu su promenjene
 * AD ACL Skener - Kreirajte i uporedite izveštaje o ACL-ovima. [https://github.com/canix1/ADACLScanner](https://github.com/canix1/ADACLScanner)
 
 ## Reference
@@ -95,10 +95,10 @@ Drugi načini podrške HackTricks-u:
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
 
 \
 Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da lako kreirate i **automatizujete radne tokove** pokretane najnaprednijim alatima zajednice na svetu.\
-Pristupite danas:
+Dobijte pristup danas:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

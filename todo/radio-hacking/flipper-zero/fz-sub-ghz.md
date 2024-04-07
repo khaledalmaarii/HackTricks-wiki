@@ -10,13 +10,13 @@ Drugi načini podrške HackTricks-u:
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* **Podelite svoje hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -26,13 +26,13 @@ Drugi načini podrške HackTricks-u:
 
 Flipper Zero može **primaljivati i emitovati radio frekvencije u opsegu od 300-928 MHz** sa svojim ugrađenim modulom, koji može čitati, čuvati i emulirati daljinske upravljače. Ovi upravljači se koriste za interakciju sa kapijama, rampama, radio bravama, prekidačima daljinskog upravljanja, bežičnim zvonoima za vrata, pametnim svetlima i još mnogo toga. Flipper Zero vam može pomoći da saznate da li je vaša bezbednost ugrožena.
 
-<figure><img src="../../../.gitbook/assets/image (3) (2) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (711).png" alt=""><figcaption></figcaption></figure>
 
 ## Sub-GHz hardver <a href="#kfpn7" id="kfpn7"></a>
 
 Flipper Zero ima ugrađeni sub-1 GHz modul zasnovan na [﻿](https://www.st.com/en/nfc/st25r3916.html#overview)﻿[CC1101 čipu](https://www.ti.com/lit/ds/symlink/cc1101.pdf) i radio anteni (maksimalni domet je 50 metara). Kako CC1101 čip tako i antena su dizajnirani da rade na frekvencijama u opsezima od 300-348 MHz, 387-464 MHz i 779-928 MHz.
 
-<figure><img src="../../../.gitbook/assets/image (1) (8) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (920).png" alt=""><figcaption></figcaption></figure>
 
 ## Radnje
 
@@ -54,17 +54,17 @@ Da biste odredili frekvenciju daljinskog upravljača, uradite sledeće:
 ### Čitanje
 
 {% hint style="info" %}
-Pronađite informacije o korišćenoj frekvenciji (takođe još jedan način da se pronađe korišćena frekvencija)
+Pronađite informacije o korišćenoj frekvenciji (takođe još jedan način da saznate koja frekvencija se koristi)
 {% endhint %}
 
-Opcija **Čitanje** **sluša na konfigurisanoj frekvenciji** na naznačenoj modulaciji: 433.92 AM prema podrazumevanim postavkama. Ako se **nešto pronađe** prilikom čitanja, **informacije se prikazuju** na ekranu. Ove informacije mogu biti korisne za replikaciju signala u budućnosti.
+Opcija **Čitanje** **sluša na konfigurisanoj frekvenciji** na naznačenoj modulaciji: 433.92 AM po podrazumevanim postavkama. Ako se **nešto pronađe** prilikom čitanja, **informacije se prikazuju** na ekranu. Ove informacije mogu biti korisne za replikaciju signala u budućnosti.
 
-Dok se koristi Čitanje, moguće je pritisnuti **levo dugme** i **konfigurisati ga**.\
+Dok se koristi Čitanje, moguće je pritisnuti **levi taster** i **konfigurisati ga**.\
 Trenutno ima **4 modulacije** (AM270, AM650, FM328 i FM476), i **nekoliko relevantnih frekvencija** je sačuvano:
 
-<figure><img src="../../../.gitbook/assets/image (28).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (944).png" alt=""><figcaption></figcaption></figure>
 
-Možete postaviti **bilo koju koja vas zanima**, međutim, ako niste sigurni koja frekvencija bi mogla biti korišćena od strane daljinskog upravljača koji imate, **postavite Hopping na ON** (Isključeno po podrazumevanim postavkama), i pritisnite dugme nekoliko puta dok Flipper ne uhvati signal i pruži vam informacije koje su vam potrebne da postavite frekvenciju.
+Možete postaviti **bilo koju koja vas zanima**, međutim, ako niste sigurni koja frekvencija bi mogla biti ona koju koristi daljinski upravljač koji imate, **postavite Hopping na ON** (Isključeno po podrazumevanim postavkama), i pritisnite dugme nekoliko puta dok Flipper ne uhvati i pruži vam informacije koje su vam potrebne da postavite frekvenciju.
 
 {% hint style="danger" %}
 Prebacivanje između frekvencija traje neko vreme, stoga signali koji se prenose u trenutku prebacivanja mogu biti propušteni. Za bolji prijem signala, postavite fiksnu frekvenciju određenu Analizatorom frekvencija.
@@ -73,12 +73,12 @@ Prebacivanje između frekvencija traje neko vreme, stoga signali koji se prenose
 ### **Čitanje sirovih podataka**
 
 {% hint style="info" %}
-Ukradite (i ponovo reprodukujte) signal na konfigurisanoj frekvenciji
+Ukradite (i ponovite) signal na konfigurisanoj frekvenciji
 {% endhint %}
 
 Opcija **Čitanje sirovih podataka** **snima signale** poslate na slušajućoj frekvenciji. Ovo se može koristiti za **ukradanje** signala i **ponovno slanje**.
 
-Podrazumevano, **Čitanje sirovih podataka je takođe na 433.92 u AM650**, ali ako ste sa opcijom Čitanje pronašli da vas zanima signal na **drugoj frekvenciji/modulaciji, takođe to možete izmeniti** pritiskom na levo dugme (dok ste unutar opcije Čitanje sirovih podataka).
+Podrazumevano, **Čitanje sirovih podataka je takođe na 433.92 u AM650**, ali ako ste sa opcijom Čitanje pronašli da vas zanima signal na **drugoj frekvenciji/modulaciji, takođe je možete promeniti** pritiskom na levo dugme (dok ste unutar opcije Čitanje sirovih podataka).
 
 ### Brute-Force
 
@@ -92,22 +92,22 @@ Dodajte signale iz konfigurisane liste protokola
 
 #### Lista [podržanih protokola](https://docs.flipperzero.one/sub-ghz/add-new-remote) <a href="#id-3iglu" id="id-3iglu"></a>
 
-| Princeton\_433 (radi sa većinom statičkih kodnih sistema) | 433.92 | Statički |
-| -------------------------------------------------------- | ------ | -------- |
-| Nice Flo 12bit\_433                                    | 433.92 | Statički |
-| Nice Flo 24bit\_433                                    | 433.92 | Statički |
-| CAME 12bit\_433                                        | 433.92 | Statički |
-| CAME 24bit\_433                                        | 433.92 | Statički |
-| Linear\_300                                            | 300.00 | Statički |
-| CAME TWEE                                              | 433.92 | Statički |
-| Gate TX\_433                                           | 433.92 | Statički |
-| DoorHan\_315                                           | 315.00 | Dinamički |
-| DoorHan\_433                                           | 433.92 | Dinamički |
-| LiftMaster\_315                                        | 315.00 | Dinamički |
-| LiftMaster\_390                                        | 390.00 | Dinamički |
-| Security+2.0\_310                                      | 310.00 | Dinamički |
-| Security+2.0\_315                                      | 315.00 | Dinamički |
-| Security+2.0\_390                                      | 390.00 | Dinamički |
+| Princeton\_433 (radi sa većinom statičkih kodnih sistema) | 433.92 | Statički  |
+| -------------------------------------------------------- | ------ | --------- |
+| Nice Flo 12bit\_433                                      | 433.92 | Statički  |
+| Nice Flo 24bit\_433                                      | 433.92 | Statički  |
+| CAME 12bit\_433                                          | 433.92 | Statički  |
+| CAME 24bit\_433                                          | 433.92 | Statički  |
+| Linear\_300                                              | 300.00 | Statički  |
+| CAME TWEE                                                | 433.92 | Statički  |
+| Gate TX\_433                                             | 433.92 | Statički  |
+| DoorHan\_315                                             | 315.00 | Dinamički |
+| DoorHan\_433                                             | 433.92 | Dinamički |
+| LiftMaster\_315                                          | 315.00 | Dinamički |
+| LiftMaster\_390                                          | 390.00 | Dinamički |
+| Security+2.0\_310                                        | 310.00 | Dinamički |
+| Security+2.0\_315                                        | 315.00 | Dinamički |
+| Security+2.0\_390                                        | 390.00 | Dinamički |
 ### Podržani prodavci Sub-GHz
 
 Proverite listu na [https://docs.flipperzero.one/sub-ghz/supported-vendors](https://docs.flipperzero.one/sub-ghz/supported-vendors)
@@ -128,7 +128,7 @@ Dobijte dBm vrednosti sačuvanih frekvencija
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 

@@ -16,7 +16,7 @@ Drugi načini podrške HackTricks-u:
 
 ## Poređenje hijerarhije fajlova
 
-* **/Applications**: Instalirane aplikacije bi trebalo da budu ovde. Svi korisnici će imati pristup njima.
+* **/Applications**: Instalirane aplikacije treba da budu ovde. Svi korisnici će imati pristup njima.
 * **/bin**: Binarni fajlovi komandne linije
 * **/cores**: Ako postoji, koristi se za čuvanje core dump-ova
 * **/dev**: Sve se tretira kao fajl pa možete videti hardverske uređaje ovde.
@@ -24,7 +24,7 @@ Drugi načini podrške HackTricks-u:
 * **/Library**: Mnogo poddirektorijuma i fajlova vezanih za postavke, keš i logove se mogu naći ovde. Postoji Library folder u root-u i u direktorijumu svakog korisnika.
 * **/private**: Nedokumentovano, ali mnogi pomenuti folderi su simboličke veze ka privatnom direktorijumu.
 * **/sbin**: Bitni sistemski binarni fajlovi (vezani za administraciju)
-* **/System**: Fajl za pokretanje OS X-a. Trebalo bi da pronađete uglavnom samo Apple specifične fajlove ovde (ne treće strane).
+* **/System**: Fajl za pokretanje OS X-a. Trebalo bi da ovde uglavnom pronađete samo Apple specifične fajlove (ne treće strane).
 * **/tmp**: Fajlovi se brišu nakon 3 dana (to je soft link ka /private/tmp)
 * **/Users**: Matični direktorijum za korisnike.
 * **/usr**: Konfiguracioni i sistemski binarni fajlovi
@@ -112,7 +112,7 @@ Na iOS-u ih možete pronaći u **`/System/Library/Caches/com.apple.dyld/`**.
 Imajte na umu da čak i ako alat `dyld_shared_cache_util` ne radi, možete proslediti **deljeni dyld binarni fajl Hopper-u** i Hopper će moći da identifikuje sve biblioteke i omogući vam da **izaberete koju** želite da istražite:
 {% endhint %}
 
-<figure><img src="../../../.gitbook/assets/image (680).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1149).png" alt="" width="563"><figcaption></figcaption></figure>
 
 ## Posebna Dozvola za Fajlove
 
@@ -122,12 +122,12 @@ U **folderu**, **čitanje** omogućava da ga **listate**, **pisanje** omogućava
 
 ### Modifikatori zastavica
 
-Postoje neke zastavice koje se mogu postaviti u fajlovima koje će promeniti ponašanje fajla. Možete **proveriti zastavice** fajlova unutar direktorijuma sa `ls -lO /putanja/direktorijum`
+Postoje neke zastavice koje se mogu postaviti u fajlovima koje će promeniti ponašanje fajla. Možete **proveriti zastavice** fajlova unutar direktorijuma sa `ls -lO /putanja/direktorijuma`
 
-* **`uchg`**: Poznata kao **uchange** zastavica će **sprečiti bilo koju akciju** menjanja ili brisanja **fajla**. Da je postavite uradite: `chflags uchg file.txt`
-* Korisnik sa root privilegijama može **ukloniti zastavicu** i izmeniti fajl
+* **`uchg`**: Poznat kao **uchange** flag će **sprečiti bilo koju akciju** promene ili brisanja **fajla**. Da biste ga postavili uradite: `chflags uchg file.txt`
+* Korisnik root može **ukloniti zastavicu** i izmeniti fajl
 * **`restricted`**: Ova zastavica čini da fajl bude **zaštićen od SIP-a** (ne možete dodati ovu zastavicu fajlu).
-* **`Sticky bit`**: Ako je direktorijum sa sticky bitom, **samo** vlasnik direktorijuma ili root mogu **preimenovati ili obrisati** fajlove. Obično se postavlja na /tmp direktorijum da bi se sprečilo obične korisnike da brišu ili premeštaju fajlove drugih korisnika.
+* **`Sticky bit`**: Ako je direktorijum sa sticky bitom, **samo** vlasnik direktorijuma ili root mogu da **preimenuju ili obrišu** fajlove. Obično se postavlja na /tmp direktorijum da bi se sprečilo obične korisnike da brišu ili premeštaju fajlove drugih korisnika.
 
 Sve zastavice se mogu pronaći u fajlu `sys/stat.h` (pronađite ga koristeći `mdfind stat.h | grep stat.h`) i to su:
 
@@ -156,7 +156,7 @@ Sve zastavice se mogu pronaći u fajlu `sys/stat.h` (pronađite ga koristeći `m
 Fajl **ACLs** sadrže **ACE** (Access Control Entries) gde se mogu dodeliti **detaljnije dozvole** različitim korisnicima.
 
 Moguće je dodeliti **direktorijumu** ove dozvole: `list`, `search`, `add_file`, `add_subdirectory`, `delete_child`, `delete_child`.\
-A fajlu: `read`, `write`, `append`, `execute`.
+I fajlu: `read`, `write`, `append`, `execute`.
 
 Kada fajl sadrži ACLs, videćete **"+" kada nabrajate dozvole kao u**:
 ```bash
@@ -181,11 +181,11 @@ Prošireni atributi imaju ime i željenu vrednost, mogu se videti korišćenjem 
 - `com.apple.quarantine`: MacOS: mehanizam karantina Gatekeeper-a (III/6)
 - `metadata:*`: MacOS: razni metapodaci, kao što su `_backup_excludeItem`, ili `kMD*`
 - `com.apple.lastuseddate` (#PS): Datum poslednje upotrebe datoteke
-- `com.apple.FinderInfo`: MacOS: Informacije Finder-a (npr. boje oznaka)
-- `com.apple.TextEncoding`: Određuje tekstualno kodiranje ASCII tekstualnih datoteka
+- `com.apple.FinderInfo`: MacOS: Informacije Finder-a (npr. boja oznaka)
+- `com.apple.TextEncoding`: Specificira enkodiranje teksta ASCII datoteka
 - `com.apple.logd.metadata`: Korišćeno od strane logd na datotekama u `/var/db/diagnostics`
 - `com.apple.genstore.*`: Generacijsko skladištenje (`/.DocumentRevisions-V100` u korenu fajl sistema)
-- `com.apple.rootless`: MacOS: Korišćeno od strane Sistema zaštite integriteta za obeležavanje datoteke (III/10)
+- `com.apple.rootless`: MacOS: Korišćeno od strane Sistema zaštite integriteta za obeležavanje datoteka (III/10)
 - `com.apple.uuidb.boot-uuid`: Obeležavanje boot epoha sa jedinstvenim UUID-om od strane logd-a
 - `com.apple.decmpfs`: MacOS: Transparentna kompresija fajlova (II/7)
 - `com.apple.cprotect`: \*OS: Podaci o šifrovanju po datoteci (III/11)
@@ -193,7 +193,7 @@ Prošireni atributi imaju ime i željenu vrednost, mogu se videti korišćenjem 
 
 ### Resursne Viljuške | macOS ADS
 
-Ovo je način da se dobiju **Alternativni podaci u toku u MacOS** mašinama. Možete sačuvati sadržaj unutar proširenog atributa nazvanog **com.apple.ResourceFork** unutar datoteke tako što ćete ga sačuvati u **file/..namedfork/rsrc**.
+Ovo je način da se dobiju **Alternativni podaci u MacOS** mašinama. Možete sačuvati sadržaj unutar proširenog atributa nazvanog **com.apple.ResourceFork** unutar datoteke tako što ćete ga sačuvati u **file/..namedfork/rsrc**.
 ```bash
 echo "Hello" > a.txt
 echo "Hello Mac ADS" > a.txt/..namedfork/rsrc
@@ -214,9 +214,9 @@ find / -type f -exec ls -ld {} \; 2>/dev/null | grep -E "[x\-]@ " | awk '{printf
 
 Prošireni atribut `com.apple.decmpfs` ukazuje da je datoteka pohranjena šifrovano, `ls -l` će prijaviti **veličinu 0** i komprimirani podaci su unutar ovog atributa. Svaki put kada se datoteka pristupi, biće dešifrovana u memoriji.
 
-Ovaj atribut može se videti sa `ls -lO` označen kao komprimiran jer su komprimirane datoteke takođe označene zastavicom `UF_COMPRESSED`. Ako se komprimirana datoteka ukloni ova zastavica sa `chflags nocompressed </putanja/do/datoteke>`, sistem neće znati da je datoteka bila komprimirana i stoga neće moći da dekomprimuje i pristupi podacima (misliće da je zapravo prazna).
+Ovaj atribut može se videti sa `ls -lO` označen kao komprimiran jer su komprimirane datoteke takođe označene zastavicom `UF_COMPRESSED`. Ako se komprimirana datoteka ukloni ova zastavica sa `chflags nocompressed </putanja/do/datoteke>`, sistem neće znati da je datoteka bila komprimirana i stoga neće moći da dekompresuje i pristupi podacima (misliće da je zapravo prazna).
 
-Alat afscexpand može se koristiti za prisilno dekomprimiranje datoteke.
+Alat afscexpand može se koristiti za prinudno dekompresovanje datoteke.
 
 ## **Univerzalne binarne datoteke &** Mach-o Format
 
@@ -232,7 +232,7 @@ Binarne datoteke Mac OS obično su kompajlirane kao **univerzalne binarne datote
 [macos-memory-dumping.md](macos-memory-dumping.md)
 {% endcontent-ref %}
 
-## Kategorija rizičnih datoteka Mac OS
+## Kategorija rizika datoteka Mac OS
 
 Direktorijum `/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/System` je mesto gde su smeštene informacije o **riziku povezanom sa različitim ekstenzijama datoteka**. Ovaj direktorijum kategorizuje datoteke u različite nivoe rizika, što utiče na to kako Safari obrađuje ove datoteke prilikom preuzimanja. Kategorije su sledeće:
 
@@ -243,7 +243,7 @@ Direktorijum `/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/S
 
 ## Log datoteke
 
-* **`$HOME/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2`**: Sadrži informacije o preuzetim datotekama, poput URL adrese sa koje su preuzete.
+* **`$HOME/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2`**: Sadrži informacije o preuzetim datotekama, poput URL-a sa kog su preuzete.
 * **`/var/log/system.log`**: Glavni log OSX sistema. com.apple.syslogd.plist je odgovoran za izvršavanje sistemskog logovanja (možete proveriti da li je onemogućen traženjem "com.apple.syslogd" u `launchctl list`.
 * **`/private/var/log/asl/*.asl`**: Ovo su Apple System Logs koji mogu sadržati zanimljive informacije.
 * **`$HOME/Library/Preferences/com.apple.recentitems.plist`**: Čuva nedavno pristupljene datoteke i aplikacije putem "Finder"-a.

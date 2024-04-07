@@ -4,37 +4,37 @@
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJEM**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
 
-# Rezime napada
+# Summary of the attack
 
-Zamislite server koji **potpisuje** neke **podatke** tako što **dodaje** tajni ključ na neke poznate čiste tekstualne podatke, a zatim hešira te podatke. Ako znate:
+Zamislite server koji **potpisuje** neke **podatke** tako što **dodaje** **tajnu vrednost** na neke poznate čiste tekstualne podatke, a zatim hešira te podatke. Ako znate:
 
-* **Dužinu tajnog ključa** (ovo se takođe može probiti iz datog opsega dužine)
+* **Dužinu tajne** (ovo takođe može biti probijeno iz datog opsega dužine)
 * **Čiste tekstualne podatke**
-* **Algoritam (i da je ranjiv na ovaj napad)**
+* **Algoritam (i ranjiv je na ovaj napad)**
 * **Padding je poznat**
-* Obično se koristi podrazumevani, pa ako su ispunjena i prethodna 3 zahteva, ovo takođe važi
-* Padding varira u zavisnosti od dužine tajnog ključa+podataka, zbog čega je potrebna dužina tajnog ključa
+* Obično se koristi podrazumevani, pa ako su ispunjeni i ostala 3 zahteva, i ovaj je
+* Padding varira u zavisnosti od dužine tajne+podataka, zbog čega je potrebna dužina tajne
 
-Tada je moguće da **napadač** doda **podatke** i **generiše** validan **potpis** za **prethodne podatke + dodate podatke**.
+Onda je moguće da **napadač** **doda** **podatke** i **generiše** validan **potpis** za **prethodne podatke + dodate podatke**.
 
 ## Kako?
 
-Osnovno ranjivi algoritmi generišu hešove tako što prvo **heširaju blok podataka**, a zatim, **iz** prethodno **kreiranog** heša (stanja), **dodaju sledeći blok podataka** i **heširaju ga**.
+Osnovno, ranjivi algoritmi generišu heševe tako što prvo **heširaju blok podataka**, a zatim, **iz** prethodno kreiranog **heša** (stanja), dodaju **sledeći blok podataka** i **heširaju ga**.
 
-Zamislite da je tajni ključ "tajna" i podaci su "podaci", MD5 od "tajnapodaci" je 6036708eba0d11f6ef52ad44e8b74d5b.\
+Zatim, zamislite da je tajna "tajna" i podaci su "podaci", MD5 od "tajnapodaci" je 6036708eba0d11f6ef52ad44e8b74d5b.\
 Ako napadač želi da doda string "dodatak" može:
 
-* Generisati MD5 od 64 "A"-a
-* Promeniti stanje prethodno inicijalizovanog heša na 6036708eba0d11f6ef52ad44e8b74d5b
+* Generisati MD5 od 64 "A"
+* Promeniti stanje prethodno inicijalizovanog heša u 6036708eba0d11f6ef52ad44e8b74d5b
 * Dodati string "dodatak"
 * Završiti heširanje i rezultujući heš će biti **validan za "tajna" + "podaci" + "padding" + "dodatak"**
 
@@ -44,7 +44,7 @@ Ako napadač želi da doda string "dodatak" može:
 
 ## Reference
 
-Ovaj napad je dobro objašnjen na [https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks](https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks)
+Ovaj napad možete pronaći dobro objašnjen na [https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks](https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks)
 
 
 <details>
@@ -53,10 +53,10 @@ Ovaj napad je dobro objašnjen na [https://blog.skullsecurity.org/2012/everythin
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJEM**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>

@@ -26,7 +26,7 @@ Sam paket fajl je arhiva koja drži **hijerarhiju fajlova i direktorijuma koji �
 
 * **Distribucija (xml)**: Prilagođavanja (naslov, tekst dobrodošlice...) i skripte/provere instalacije
 * **PackageInfo (xml)**: Informacije, zahtevi za instalaciju, lokacija instalacije, putanje do skripti za pokretanje
-* **Račun materijala (bom)**: Lista fajlova za instalaciju, ažuriranje ili uklanjanje sa dozvolama za fajlove
+* **Bilans materijala (bom)**: Lista fajlova za instalaciju, ažuriranje ili uklanjanje sa dozvolama za fajlove
 * **Payload (CPIO arhiva gzip kompresovana)**: Fajlovi za instalaciju na `install-location` iz PackageInfo
 * **Skripte (CPIO arhiva gzip kompresovana)**: Pre i post instalacione skripte i dodatni resursi izdvojeni u privremeni direktorijum za izvršenje.
 
@@ -50,15 +50,15 @@ DMG datoteke, ili Apple Disk Images, su format datoteka koji koristi macOS kompa
 
 ### Hijerarhija
 
-<figure><img src="../../../.gitbook/assets/image (12) (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (222).png" alt=""><figcaption></figcaption></figure>
 
-Hijerarhija DMG datoteke može biti različita u zavisnosti od sadržaja. Međutim, za aplikacione DMG datoteke, obično prati ovu strukturu:
+Hijerarhija DMG datoteke može biti različita u zavisnosti od sadržaja. Međutim, za aplikacije u DMG formatu, obično prati ovu strukturu:
 
-- Gornji nivo: Ovo je koren disk slike. Često sadrži aplikaciju i eventualno link ka folderu Aplikacije.
+- Gornji nivo: Ovo je koren disk slike. Često sadrži aplikaciju i možda link ka folderu Aplikacije.
 - Aplikacija (.app): Ovo je stvarna aplikacija. U macOS-u, aplikacija je obično paket koji sadrži mnogo pojedinačnih fajlova i foldera koji čine aplikaciju.
-- Link ka Aplikacijama: Ovo je prečica do foldera Aplikacije u macOS-u. Svrha ovoga je da vam olakša instalaciju aplikacije. Možete prevući .app fajl na ovu prečicu da instalirate aplikaciju.
+- Link ka Aplikacijama: Ovo je prečica do foldera Aplikacije u macOS-u. Svrha ovoga je da vam olakša instalaciju aplikacije. Možete prevući .app fajl na ovu prečicu da biste instalirali aplikaciju.
 
-## Privilegije preko zloupotrebe pkg-a
+## Eskalacija privilegija putem zloupotrebe pkg-a
 
 ### Izvršavanje iz javnih direktorijuma
 
@@ -90,7 +90,7 @@ Moguće je jednostavno generisati **`.pkg`** fajl sa **pre i post-install skript
 
 Moguće je dodati **`<script>`** tagove u **distribution xml** fajl paketa i taj kod će biti izvršen i može **izvršiti komande** koristeći **`system.run`**:
 
-<figure><img src="../../../.gitbook/assets/image (14).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1040).png" alt=""><figcaption></figcaption></figure>
 
 ## Reference
 

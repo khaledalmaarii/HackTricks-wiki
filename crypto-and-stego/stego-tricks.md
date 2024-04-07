@@ -6,11 +6,11 @@
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJE**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJSTVO**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* **Podelite svoje hakeračke trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
@@ -32,7 +32,7 @@ binwalk file # Displays the embedded data
 binwalk -e file # Extracts the data
 binwalk --dd ".*" file # Extracts all data
 ```
-### **Foremost**
+### **Pre svega**
 
 Vraća datoteke na osnovu njihovih zaglavlja i podnožja, korisno za png slike. Instalira se putem `apt` sa izvorom na [GitHub-u](https://github.com/korczis/foremost).
 ```bash
@@ -46,7 +46,7 @@ exiftool file # Shows the metadata
 ```
 ### **Exiv2**
 
-Slično kao exiftool, za pregled metapodataka. Instalira se putem `apt`, izvorni kod na [GitHub-u](https://github.com/Exiv2/exiv2), i ima [zvaničnu veb stranicu](http://www.exiv2.org/).
+Slično kao exiftool, za pregled metapodataka. Instalabilan putem `apt`, izvorni kod na [GitHub-u](https://github.com/Exiv2/exiv2), i ima [zvaničnu veb lokaciju](http://www.exiv2.org/).
 ```bash
 exiv2 file # Shows the metadata
 ```
@@ -70,7 +70,7 @@ strings -e B -n 6 file # 32bit strings (big-endian)
 ```
 ### **Poređenje (cmp)**
 
-Korisno za upoređivanje modifikovanog fajla sa originalnom verzijom pronađenom online.
+Korisno za poređenje modifikovanog fajla sa originalnom verzijom pronađenom online.
 ```bash
 cmp original.jpg stego.jpg -b -l
 ```
@@ -88,20 +88,20 @@ Nevidljivi znakovi u navodno praznim prostorima mogu sakriti informacije. Da bis
 ```bash
 ./magick identify -verbose stego.jpg
 ```
-Da biste pokušali popraviti oštećenu sliku, dodavanje metapodataka u komentaru može pomoći:
+Da biste pokušali popravku oštećene slike, dodavanje metapodataka u komentar može pomoći:
 ```bash
 ./magick mogrify -set comment 'Extraneous bytes removed' stego.jpg
 ```
 ### **Steghide za skrivanje podataka**
 
-Steghide olakšava skrivanje podataka unutar `JPEG, BMP, WAV i AU` datoteka, sposoban je za ugradnju i izvlačenje šifrovanih podataka. Instalacija je jednostavna korišćenjem `apt`, a njen [izvorni kod je dostupan na GitHub-u](https://github.com/StefanoDeVuono/steghide).
+Steghide olakšava skrivanje podataka unutar `JPEG, BMP, WAV i AU` datoteka, sposoban je da ugradi i izvuče šifrovane podatke. Instalacija je jednostavna korišćenjem `apt`, a njen [izvorni kod je dostupan na GitHub-u](https://github.com/StefanoDeVuono/steghide).
 
 **Komande:**
 
 * `steghide info file` otkriva da li datoteka sadrži skrivene podatke.
 * `steghide extract -sf file [--passphrase password]` izvlači skrivene podatke, lozinka je opcionalna.
 
-Za web bazirano izvlačenje, posetite [ovaj veb sajt](https://futureboy.us/stegano/decinput.html).
+Za web bazirano izvlačenje, posetite [ovaj sajt](https://futureboy.us/stegano/decinput.html).
 
 **Bruteforce napad sa Stegcracker-om:**
 
@@ -109,13 +109,13 @@ Za web bazirano izvlačenje, posetite [ovaj veb sajt](https://futureboy.us/stega
 ```bash
 stegcracker <file> [<wordlist>]
 ```
-### **zsteg za PNG i BMP datoteke**
+### **zsteg za PNG i BMP fajlove**
 
-zsteg se specijalizuje za otkrivanje skrivenih podataka u PNG i BMP datotekama. Instalacija se vrši putem `gem install zsteg`, a izvor možete pronaći na [GitHub-u](https://github.com/zed-0xff/zsteg).
+zsteg se specijalizuje za otkrivanje skrivenih podataka u PNG i BMP fajlovima. Instalacija se vrši putem `gem install zsteg`, sa [izvorom na GitHub-u](https://github.com/zed-0xff/zsteg).
 
 **Komande:**
 
-* `zsteg -a file` primenjuje sve metode detekcije na datoteku.
+* `zsteg -a file` primenjuje sve metode detekcije na fajlu.
 * `zsteg -E file` specificira payload za ekstrakciju podataka.
 
 ### **StegoVeritas i Stegsolve**
@@ -126,19 +126,19 @@ zsteg se specijalizuje za otkrivanje skrivenih podataka u PNG i BMP datotekama. 
 
 ### **FFT za Otkrivanje Skrivenog Sadržaja**
 
-Tehnike brze Furijeove transformacije (FFT) mogu otkriti skriveni sadržaj u slikama. Korisni resursi uključuju:
+Tehnike Brze Furijeove Transformacije (FFT) mogu otkriti skriveni sadržaj u slikama. Korisni resursi uključuju:
 
 * [EPFL Demo](http://bigwww.epfl.ch/demo/ip/demos/FFT/)
 * [Ejectamenta](https://www.ejectamenta.com/Fourifier-fullscreen/)
 * [FFTStegPic na GitHub-u](https://github.com/0xcomposure/FFTStegPic)
 
-### **Stegpy za Audio i Image Datoteke**
+### **Stegpy za Audio i Image Fajlove**
 
-Stegpy omogućava ugradnju informacija u slikovne i audio datoteke, podržavajući formate poput PNG, BMP, GIF, WebP i WAV. Dostupan je na [GitHub-u](https://github.com/dhsdshdhk/stegpy).
+Stegpy omogućava ugradnju informacija u image i audio fajlove, podržavajući formate poput PNG, BMP, GIF, WebP i WAV. Dostupan je na [GitHub-u](https://github.com/dhsdshdhk/stegpy).
 
-### **Pngcheck za Analizu PNG Datoteka**
+### **Pngcheck za Analizu PNG Fajlova**
 
-Za analizu PNG datoteka ili proveru njihove autentičnosti, koristite:
+Za analizu PNG fajlova ili proveru njihove autentičnosti, koristite:
 ```bash
 apt-get install pngcheck
 pngcheck stego.png
@@ -163,17 +163,17 @@ Steghide je svestran alat dizajniran za skrivanje podataka u JPEG, BMP, WAV i AU
 
 ### **Stegpy (PNG, BMP, GIF, WebP, WAV)**
 
-Ovaj alat je kompatibilan sa različitim formatima uključujući PNG, BMP, GIF, WebP i WAV. Za više informacija, pogledajte [odeljak o Stegpy-u](stego-tricks.md#stegpy-png-bmp-gif-webp-wav).
+Ovaj alat je kompatibilan sa različitim formatima uključujući PNG, BMP, GIF, WebP i WAV. Za više informacija, pogledajte [odeljak Stegpy](stego-tricks.md#stegpy-png-bmp-gif-webp-wav).
 
 ### **ffmpeg**
 
-ffmpeg je ključan za procenu integriteta audio datoteka, ističući detaljne informacije i otkrivajući eventualne neslaganja.
+ffmpeg je ključan za procenu integriteta audio datoteka, ističući detaljne informacije i otkrivanje bilo kakvih neslaganja.
 ```bash
 ffmpeg -v info -i stego.mp3 -f null -
 ```
 ### **WavSteg (WAV)**
 
-WavSteg se ističe u skrivanju i izvlačenju podataka unutar WAV fajlova koristeći strategiju najmanje značajnog bita. Dostupan je na [GitHub](https://github.com/ragibson/Steganography#WavSteg). Komande uključuju:
+WavSteg se ističe u skrivanju i izvlačenju podataka unutar WAV fajlova koristeći strategiju najmanje značajnog bita. Dostupan je na [GitHub-u](https://github.com/ragibson/Steganography#WavSteg). Komande uključuju:
 ```bash
 python3 WavSteg.py -r -b 1 -s soundfile -o outputfile
 
@@ -191,7 +191,7 @@ Neprocenjiv alat za vizuelnu i analitičku inspekciju audio fajlova, Sonic Visua
 
 Detekcija DTMF tonova u audio fajlovima može se postići korišćenjem online alata poput [ovog DTMF detektora](https://unframework.github.io/dtmf-detect/) i [DialABC](http://dialabc.com/sound/detect/index.html).
 
-## **Other Techniques**
+## **Druge Tehnike**
 
 ### **Binary Length SQRT - QR Code**
 

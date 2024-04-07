@@ -4,23 +4,23 @@
 
 <summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Da li radite u **cybersecurity kompaniji**? Želite da vidite vašu **kompaniju reklamiranu na HackTricks-u**? Ili želite pristup **poslednjoj verziji PEASS-a ili preuzimanje HackTricks-a u PDF formatu**? Pogledajte [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu ekskluzivnu kolekciju [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* Nabavite [**zvanični PEASS i HackTricks swag**](https://peass.creator-spring.com)
-* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) **Discord grupi** ili [**Telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitter-u** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live).
-* **Podelite svoje hakovanje trikova slanjem PR-a na** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **i** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Da li radite u **kompaniji za sajber bezbednost**? Želite da vidite svoju **kompaniju reklamiranu na HackTricks-u**? Ili želite pristup **poslednjoj verziji PEASS-a ili preuzimanje HackTricks-a u PDF formatu**? Pogledajte [**PLANOVE ZA ČLANSTVO**](https://github.com/sponsors/carlospolop)!
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu ekskluzivnu kolekciju [**NFT-a**](https://opensea.io/collection/the-peass-family)
+* Nabavite **zvanični PEASS i HackTricks** [**swag**](https://peass.creator-spring.com)
+* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) **Discord grupi** ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live).
+* **Podelite svoje hakovanje trikova slanjem PR-a na** [**hacktricks repozitorijum**](https://github.com/carlospolop/hacktricks) **i** [**hacktricks-cloud repozitorijum**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
 ## Osnovne informacije
 
-IO Kit je open-source, objektno-orijentisani **framework za upravljače uređaja** u XNU kernelu, koji se bavi **dinamički učitanim upravljačima uređaja**. Omogućava dodavanje modularnog koda u kernel u hodu, podržavajući različiti hardver.
+IO Kit je open-source, objektno orijentisani **framework za drajvere uređaja** u XNU kernelu, koji upravlja **dinamički učitanim drajverima uređaja**. Omogućava dodavanje modularnog koda u kernel "on-the-fly", podržavajući različit hardver.
 
-IOKit upravljači će u osnovi **izvoziti funkcije iz kernela**. Ovi tipovi parametara funkcija su **unapred definisani** i verifikovani. Osim toga, slično kao i XPC, IOKit je samo još jedan sloj **iznad Mach poruka**.
+IOKit drajveri će uglavnom **izvoziti funkcije iz kernela**. Tipovi parametara ovih funkcija su **unapred definisani** i provereni. Osim toga, slično kao XPC, IOKit je samo još jedan sloj na **vrhu Mach poruka**.
 
-**IOKit XNU kernel kod** je otvoren od strane Apple-a na [https://github.com/apple-oss-distributions/xnu/tree/main/iokit](https://github.com/apple-oss-distributions/xnu/tree/main/iokit). Osim toga, IOKit komponente u korisničkom prostoru su takođe otvorenog koda [https://github.com/opensource-apple/IOKitUser](https://github.com/opensource-apple/IOKitUser).
+**IOKit XNU kernel kod** je otvoren od strane Apple-a na [https://github.com/apple-oss-distributions/xnu/tree/main/iokit](https://github.com/apple-oss-distributions/xnu/tree/main/iokit). Takođe, IOKit komponente u korisničkom prostoru su takođe otvorene [https://github.com/opensource-apple/IOKitUser](https://github.com/opensource-apple/IOKitUser).
 
-Međutim, **nijedan IOKit upravljač** nije otvorenog koda. U svakom slučaju, povremeno se može pojaviti izdanje upravljača sa simbolima koji olakšavaju njegovo debagovanje. Pogledajte kako **dobiti ekstenzije upravljača iz firmware-a ovde**](./#ipsw)**.
+Međutim, **nijedan IOKit drajver** nije otvorenog koda. U svakom slučaju, povremeno se može desiti da izdanje drajvera dođe sa simbolima koji olakšavaju njegovo debugiranje. Proverite kako **dobiti proširenja drajvera iz firmware-a ovde**](./#ipsw)**.
 
 Napisan je u **C++**. Možete dobiti demangle C++ simbole sa:
 ```bash
@@ -33,19 +33,19 @@ __ZN16IOUserClient202222dispatchExternalMethodEjP31IOExternalMethodArgumentsOpaq
 IOUserClient2022::dispatchExternalMethod(unsigned int, IOExternalMethodArgumentsOpaque*, IOExternalMethodDispatch2022 const*, unsigned long, OSObject*, void*)
 ```
 {% hint style="danger" %}
-IOKit **izložene funkcije** mogu izvršiti **dodatne sigurnosne provjere** kada klijent pokuša pozvati funkciju, ali napomena da aplikacije obično su **ograničene** sandboxom s kojim IOKit funkcijama mogu komunicirati.
+IOKit **izložene funkcije** mogu izvršiti **dodatne sigurnosne provere** kada klijent pokuša da pozove funkciju, ali imajte na umu da aplikacije obično su **ograničene** od strane **peska-boksa** sa kojim IOKit funkcijama mogu da interaguju.
 {% endhint %}
 
 ## Drajveri
 
-U macOS-u se nalaze u:
+Na macOS-u se nalaze u:
 
 * **`/System/Library/Extensions`**
-* KEXT datoteke ugrađene u operativni sistem OS X.
+* KEXT fajlovi ugrađeni u OS X operativni sistem.
 * **`/Library/Extensions`**
-* KEXT datoteke instalirane od strane softvera trećih strana.
+* KEXT fajlovi instalirani od strane softvera trećih strana
 
-U iOS-u se nalaze u:
+Na iOS-u se nalaze u:
 
 * **`/System/Library/Extensions`**
 ```bash
@@ -65,48 +65,48 @@ Index Refs Address            Size       Wired      Name (Version) UUID <Linked 
 9    2 0xffffff8003317000 0xe000     0xe000     com.apple.kec.Libm (1) 6C1342CC-1D74-3D0F-BC43-97D5AD38200A <5>
 10   12 0xffffff8003544000 0x92000    0x92000    com.apple.kec.corecrypto (11.1) F5F1255F-6552-3CF4-A9DB-D60EFDEB4A9A <8 7 6 5 3 1>
 ```
-Do broja 9 navedeni drajveri se **učitavaju na adresi 0**. To znači da oni nisu pravi drajveri već **deo jezgra i ne mogu se isključiti**.
+Do broja 9 navedeni drajveri su **učitani na adresi 0**. To znači da to nisu pravi drajveri već **deo jezgra i ne mogu se isključiti**.
 
-Da biste pronašli određene ekstenzije, možete koristiti:
+Kako biste pronašli određene ekstenzije, možete koristiti:
 ```bash
 kextfind -bundle-id com.apple.iokit.IOReportFamily #Search by full bundle-id
 kextfind -bundle-id -substring IOR #Search by substring in bundle-id
 ```
-Da biste učitali i isključili kernel ekstenzije, uradite sledeće:
+Da biste učitali i isključili proširenja jezgra, uradite sledeće:
 ```bash
 kextload com.apple.iokit.IOReportFamily
 kextunload com.apple.iokit.IOReportFamily
 ```
 ## IORegistry
 
-**IORegistry** je ključni deo IOKit okvira u macOS i iOS koji služi kao baza podataka za prikazivanje konfiguracije i stanja hardvera sistema. To je **hijerarhijska kolekcija objekata koja predstavlja sav hardver i drajvere** učitane na sistemu, kao i njihove međusobne odnose.&#x20;
+**IORegistry** je ključni deo IOKit okvira u macOS-u i iOS-u koji služi kao baza podataka za predstavljanje konfiguracije hardvera i stanja sistema. To je **hijerarhijska kolekcija objekata koja predstavlja sav hardver i drajvere** učitane na sistemu, kao i njihove međusobne odnose.
 
-IORegistry možete dobiti koristeći CLI **`ioreg`** da biste ga pregledali iz konzole (posebno korisno za iOS).
+IORegistry možete dobiti koristeći CLI **`ioreg`** kako biste ga pregledali iz konzole (posebno korisno za iOS).
 ```bash
 ioreg -l #List all
 ioreg -w 0 #Not cut lines
 ioreg -p <plane> #Check other plane
 ```
-Možete preuzeti **`IORegistryExplorer`** sa **Xcode Additional Tools** sa [**https://developer.apple.com/download/all/**](https://developer.apple.com/download/all/) i pregledati **macOS IORegistry** kroz **grafički** interfejs.
+Možete preuzeti **`IORegistryExplorer`** iz **Dodatnih alata za Xcode** sa [**https://developer.apple.com/download/all/**](https://developer.apple.com/download/all/) i pregledati **macOS IORegistry** kroz **grafički** interfejs.
 
-<figure><img src="../../../.gitbook/assets/image (695).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1164).png" alt="" width="563"><figcaption></figcaption></figure>
 
-U IORegistryExplorer-u, "planes" se koriste za organizovanje i prikaz odnosa između različitih objekata u IORegistry-ju. Svaki plane predstavlja određenu vrstu odnosa ili određeni prikaz hardvera i konfiguracije drajvera sistema. Evo nekih uobičajenih planes-a sa kojima možete da se susretnete u IORegistryExplorer-u:
+U IORegistryExplorer-u, "ravni" se koriste za organizovanje i prikaz odnosa između različitih objekata u IORegistry-ju. Svaka ravan predstavlja određenu vrstu odnosa ili određeni prikaz hardvera i konfiguracije drajvera sistema. Evo nekih od uobičajenih ravni sa kojima možete naići u IORegistryExplorer-u:
 
-1. **IOService Plane**: Ovo je najopštiji plane, prikazuje objekte servisa koji predstavljaju drajvere i nub-ove (komunikacione kanale između drajvera). Prikazuje odnos između provajdera i klijenata ovih objekata.
-2. **IODeviceTree Plane**: Ovaj plane predstavlja fizičke veze između uređaja kako su povezani sa sistemom. Često se koristi za vizualizaciju hijerarhije uređaja povezanih preko magistrala poput USB-a ili PCI-a.
-3. **IOPower Plane**: Prikazuje objekte i njihove odnose u smislu upravljanja napajanjem. Može prikazati koji objekti utiču na stanje napajanja drugih, što je korisno za otklanjanje problema vezanih za napajanje.
-4. **IOUSB Plane**: Posebno fokusiran na USB uređaje i njihove odnose, prikazuje hijerarhiju USB hubova i povezanih uređaja.
-5. **IOAudio Plane**: Ovaj plane služi za prikazivanje audio uređaja i njihovih odnosa unutar sistema.
+1. **IOService Ravan**: Ovo je najopštija ravan, prikazuje servisne objekte koji predstavljaju drajvere i nubove (kanale komunikacije između drajvera). Prikazuje odnose između pružalaca i klijenata između ovih objekata.
+2. **IODeviceTree Ravan**: Ova ravan predstavlja fizičke veze između uređaja kako su povezani sa sistemom. Često se koristi za vizualizaciju hijerarhije uređaja povezanih putem busova poput USB-a ili PCI-a.
+3. **IOPower Ravan**: Prikazuje objekte i njihove odnose u smislu upravljanja snagom. Može pokazati koji objekti utiču na stanje snage drugih, korisno za otklanjanje problema povezanih sa snagom.
+4. **IOUSB Ravan**: Specifično fokusirana na USB uređaje i njihove odnose, prikazujući hijerarhiju USB hubova i povezanih uređaja.
+5. **IOAudio Ravan**: Ova ravan služi za predstavljanje audio uređaja i njihovih odnosa unutar sistema.
 6. ...
 
 ## Primer koda za komunikaciju sa drajverom
 
-Sledeći kod se povezuje sa IOKit servisom `"YourServiceNameHere"` i poziva funkciju unutar selektora 0. Za to:
+Sledeći kod se povezuje sa IOKit servisom `"ImeVašegServisaOvde"` i poziva funkciju unutar selektora 0. Za to:
 
-* prvo se poziva **`IOServiceMatching`** i **`IOServiceGetMatchingServices`** da bi se dobio servis.
-* Zatim se uspostavlja veza pozivom **`IOServiceOpen`**.
-* Na kraju se poziva funkcija sa **`IOConnectCallScalarMethod`** koja označava selektor 0 (selektor je broj koji je dodeljen funkciji koju želite da pozovete).
+* prvo poziva **`IOServiceMatching`** i **`IOServiceGetMatchingServices`** da dobije servis.
+* Zatim uspostavlja vezu pozivajući **`IOServiceOpen`**.
+* I na kraju poziva funkciju sa **`IOConnectCallScalarMethod`** navodeći selektor 0 (selektor je broj koji je dodeljen funkciji koju želite da pozovete).
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <IOKit/IOKitLib.h>
@@ -165,21 +165,23 @@ Postoje **druge** funkcije koje se mogu koristiti za pozivanje IOKit funkcija os
 
 ## Reversing driver entrypoint
 
-Možete ih dobiti, na primer, iz [**firmware slike (ipsw)**](./#ipsw). Zatim je učitajte u svoj omiljeni dekompajler.
+Možete ih dobiti, na primer, iz [**firmver slike (ipsw)**](./#ipsw). Zatim je učitajte u svoj omiljeni dekompajler.
 
-Možete početi dekompajlirati funkciju **`externalMethod`** jer je to funkcija drajvera koja će primati poziv i pozivati odgovarajuću funkciju:
+Možete početi dekompajlirati funkciju **`externalMethod`** jer je ovo funkcija drajvera koja će primati poziv i pozivati odgovarajuću funkciju:
 
-<figure><img src="../../../.gitbook/assets/image (696).png" alt="" width="315"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1165).png" alt="" width="315"><figcaption></figcaption></figure>
 
-<figure><img src="../../../.gitbook/assets/image (697).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1166).png" alt=""><figcaption></figcaption></figure>
 
-Taj užasan poziv znači:
+Ovaj užasni poziv demangle znači:
+
+{% code overflow="wrap" %}
 ```cpp
 IOUserClient2022::dispatchExternalMethod(unsigned int, IOExternalMethodArgumentsOpaque*, IOExternalMethodDispatch2022 const*, unsigned long, OSObject*, void*)
 ```
 {% endcode %}
 
-Primetite kako je u prethodnoj definiciji propustio parametar **`self`**, ispravna definicija bi bila:
+Primetite kako u prethodnoj definiciji nedostaje parametar **`self`**, dobra definicija bi bila:
 
 {% code overflow="wrap" %}
 ```cpp
@@ -195,48 +197,36 @@ OSObject * target, void * reference)
 ```
 Sa ovim informacijama možete prepraviti Ctrl+Desno -> `Uredi potpis funkcije` i postaviti poznate tipove:
 
-<figure><img src="../../../.gitbook/assets/image (702).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1171).png" alt=""><figcaption></figcaption></figure>
 
-Novi dekompilirani kod će izgledati ovako:
+Novi dekompajlirani kod će izgledati ovako:
 
-<figure><img src="../../../.gitbook/assets/image (703).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1172).png" alt=""><figcaption></figcaption></figure>
 
-Za sledeći korak trebamo definisati strukturu **`IOExternalMethodDispatch2022`**. To je open source na [https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176](https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176), možete je definisati:
+Za sledeći korak moramo imati definisanu strukturu **`IOExternalMethodDispatch2022`**. To je otvorenog koda na [https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176](https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176), možete je definisati:
 
-<figure><img src="../../../.gitbook/assets/image (698).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1167).png" alt=""><figcaption></figcaption></figure>
 
 Sada, prateći `(IOExternalMethodDispatch2022 *)&sIOExternalMethodArray` možete videti puno podataka:
 
-<figure><img src="../../../.gitbook/assets/image (704).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1173).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Promenite tip podataka u **`IOExternalMethodDispatch2022:`**
 
-<figure><img src="../../../.gitbook/assets/image (705).png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1174).png" alt="" width="375"><figcaption></figcaption></figure>
 
 nakon promene:
 
-<figure><img src="../../../.gitbook/assets/image (707).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1176).png" alt="" width="563"><figcaption></figcaption></figure>
 
-I kako sada znamo, tu imamo **niz od 7 elemenata** (proverite konačni dekompilirani kod), kliknite da biste napravili niz od 7 elemenata:
+I sada, pošto znamo da imamo **niz od 7 elemenata** (proverite konačni dekompajlirani kod), kliknite da biste kreirali niz od 7 elemenata:
 
-<figure><img src="../../../.gitbook/assets/image (708).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1177).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Nakon što je niz kreiran, možete videti sve izvezene funkcije:
 
-<figure><img src="../../../.gitbook/assets/image (709).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1178).png" alt=""><figcaption></figcaption></figure>
 
 {% hint style="success" %}
-Ako se sećate, da biste **pozvali** **izvezenu** funkciju iz korisničkog prostora, ne morate pozivati ime funkcije, već **broj selektora**. Ovde možete videti da je selektor **0** funkcija **`initializeDecoder`**, selektor **1** je **`startDecoder`**, selektor **2** je **`initializeEncoder`**...
+Ako se sećate, da biste **pozvali** izvezenu funkciju iz korisničkog prostora, ne morate nazvati funkciju, već **broj selektora**. Ovde možete videti da je selektor **0** funkcija **`initializeDecoder`**, selektor **1** je **`startDecoder`**, selektor **2** **`initializeEncoder`**...
 {% endhint %}
-
-<details>
-
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-* Da li radite u **cybersecurity kompaniji**? Želite da vidite svoju **kompaniju reklamiranu na HackTricks-u**? Ili želite pristup **poslednjoj verziji PEASS-a ili preuzimanje HackTricks-a u PDF formatu**? Pogledajte [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu ekskluzivnu kolekciju [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* Nabavite [**zvanični PEASS i HackTricks swag**](https://peass.creator-spring.com)
-* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) **Discord grupi** ili [**Telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitter-u** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live).
-* **Podelite svoje hakovanje trikova slanjem PR-a** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **i** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
-
-</details>

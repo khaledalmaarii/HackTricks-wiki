@@ -1,23 +1,20 @@
+# I2C
+
 <details>
 
 <summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJSTVO**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
-
-
-
-
-
-# Bus Pirate
+## Bus Pirate
 
 Da biste testirali da li Bus Pirate radi, povežite +5V sa VPU i 3.3V sa ADC i pristupite Bus Pirate-u (na primer, koristeći Tera Term) i koristite komandu `~`:
 ```bash
@@ -58,18 +55,18 @@ Any key to exit
 #Press space
 Found 0 errors.
 ```
-Kao što možete videti u prethodnoj komandnoj liniji, navedeno je da nije pronađena nijedna greška. Ovo je veoma korisno da biste znali da uređaj radi nakon kupovine ili nakon ažuriranja firmware-a.
+Kao što možete videti u prethodnoj komandnoj liniji, navedeno je da nije pronađena nijedna greška. Veoma je korisno znati da uređaj radi nakon kupovine ili ažuriranja firmware-a.
 
-Da biste se povezali sa Bus Pirate-om, možete pratiti dokumentaciju:
+Za povezivanje sa Bus Pirate uređajem možete pratiti dokumentaciju:
 
-![](<../../.gitbook/assets/image (307) (2).png>)
+![](<../../.gitbook/assets/image (481).png>)
 
 U ovom slučaju, povezaću se sa EPROM-om: ATMEL901 24C256 PU27:
 
-![](<../../.gitbook/assets/image (465) (2) (1).png>)
+![](<../../.gitbook/assets/image (961).png>)
 
-Da bih razgovarao sa Bus Pirate-om, koristio sam Tera Term povezan sa COM portom Bus Pirate-a sa podešavanjem --> Serial Port --> Brzina 115200.\
-U sledećoj komunikaciji možete pronaći kako pripremiti Bus Pirate za razgovor preko I2C i kako pisati i čitati iz memorije (Komentari se koriste sa "#", ne očekujte taj deo u komunikaciji):
+Za komunikaciju sa Bus Pirate uređajem koristio sam Tera Term povezan sa COM portom Bus Pirate uređaja sa podešavanjem --> Serial Port --> Brzina 115200.\
+U sledećoj komunikaciji možete pronaći kako pripremiti Bus Pirate uređaj za komunikaciju preko I2C i kako pisati i čitati iz memorije (Komentari se pojavljuju koristeći "#", ne očekujte taj deo u komunikaciji):
 ```bash
 # Check communication with buspirate
 i
@@ -168,11 +165,11 @@ WRITE: 0xA1 ACK
 READ: 0x42  ACK 0x42  ACK 0x42  ACK 0x20  ACK 0x48  ACK 0x69  ACK 0x20  ACK 0x44  ACK 0x72  ACK 0x65  ACK 0x67  ACK 0x21  ACK 0x20  ACK 0x41  ACK 0x41  ACK 0x41  ACK 0x00  ACK 0xFF  ACK 0xFF  ACK 0xFF
 NACK
 ```
-## Snifer
+### Snifer
 
-U ovom scenariju ćemo snimati I2C komunikaciju između arduina i prethodnog EPROM-a, samo trebate povezati oba uređaja i zatim povezati bus pirate sa SCL, SDA i GND pinovima:
+U ovom scenariju ćemo špijunirati I2C komunikaciju između arduina i prethodnog EPROM-a, samo treba da povežete oba uređaja, a zatim povežete bus pirate sa SCL, SDA i GND pinovima:
 
-![](<../../.gitbook/assets/image (201) (2) (1).png>)
+![](<../../.gitbook/assets/image (163).png>)
 ```bash
 I2C>m
 1. HiZ
@@ -222,12 +219,12 @@ Any key to exit
 
 <summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Drugi načini podrške HackTricks-u:
+Drugi načini da podržite HackTricks:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>

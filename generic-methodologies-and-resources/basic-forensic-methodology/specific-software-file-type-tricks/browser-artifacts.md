@@ -14,10 +14,10 @@ Drugi načini podrške HackTricks-u:
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
 
 \
-Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da lako kreirate i **automatizujete radne tokove** uz pomoć najnaprednijih alata zajednice.\
+Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da lako kreirate i **automatizujete radne tokove** uz pomoć najnaprednijih alata zajednice na svetu.\
 Pristupite danas:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -33,8 +33,8 @@ Evo sažetka najčešćih artifakata pregledača:
 * **Obeleživači**: Sajtovi koje je korisnik sačuvao radi brzog pristupa.
 * **Proširenja i dodaci**: Proširenja pregledača ili dodaci instalirani od strane korisnika.
 * **Keš**: Čuva veb sadržaj (npr. slike, JavaScript fajlove) radi poboljšanja vremena učitavanja sajtova, vredno za forenzičku analizu.
-* **Prijave**: Sačuvane prijavne informacije.
-* **Favikoni**: Ikone povezane sa sajtovima, prikazuju se u tabovima i obeleživačima, korisne za dodatne informacije o posetama korisnika.
+* **Prijavljivanja**: Sačuvane prijavne informacije.
+* **Faviconi**: Ikone povezane sa sajtovima, prikazuju se u tabovima i obeleživačima, korisne za dodatne informacije o posetama korisnika.
 * **Sesije pregledača**: Podaci vezani za otvorene sesije pregledača.
 * **Preuzimanja**: Zapisi fajlova preuzetih putem pregledača.
 * **Podaci o obrascima**: Informacije unete u veb obrasce, sačuvane za buduće predloge automatskog popunjavanja.
@@ -49,7 +49,7 @@ Firefox organizuje korisničke podatke unutar profila, čuvajući ih na specifi�
 * **MacOS**: `/Users/$USER/Library/Application Support/Firefox/Profiles/`
 * **Windows**: `%userprofile%\AppData\Roaming\Mozilla\Firefox\Profiles\`
 
-Fajl `profiles.ini` unutar ovih direktorijuma navodi korisničke profile. Podaci svakog profila se čuvaju u fascikli nazvanoj prema promenljivoj `Path` unutar `profiles.ini`, smeštenoj u istom direktorijumu kao i sam `profiles.ini`. Ako nedostaje fascikla profila, možda je obrisana.
+Fajl `profiles.ini` unutar ovih direktorijuma navodi korisničke profile. Podaci svakog profila se čuvaju u fascikli nazvanoj prema promenljivoj `Path` unutar `profiles.ini`, koja se nalazi u istom direktorijumu kao i sam `profiles.ini`. Ako nedostaje fascikla profila, možda je obrisana.
 
 Unutar svake fascikle profila, možete pronaći nekoliko važnih fajlova:
 
@@ -57,19 +57,19 @@ Unutar svake fascikle profila, možete pronaći nekoliko važnih fajlova:
 * Koristite specifične SQL upite za izvlačenje informacija o istoriji i preuzimanjima.
 * **bookmarkbackups**: Sadrži rezervne kopije obeleživača.
 * **formhistory.sqlite**: Čuva podatke o veb obrascima.
-* **handlers.json**: Upravljači protokolima.
+* **handlers.json**: Upravljači protokola.
 * **persdict.dat**: Prilagođene reči rečnika.
 * **addons.json** i **extensions.sqlite**: Informacije o instaliranim dodacima i proširenjima.
 * **cookies.sqlite**: Čuvanje kolačića, sa [MZCookiesView](https://www.nirsoft.net/utils/mzcv.html) dostupnim za inspekciju na Windows-u.
 * **cache2/entries** ili **startupCache**: Keš podaci, pristupačni putem alata poput [MozillaCacheView](https://www.nirsoft.net/utils/mozilla\_cache\_viewer.html).
-* **favicons.sqlite**: Čuva favikone.
+* **favicons.sqlite**: Čuva favicon-e.
 * **prefs.js**: Korisnička podešavanja i preferencije.
 * **downloads.sqlite**: Starija baza preuzimanja, sada integrisana u places.sqlite.
-* **thumbnails**: Slike pregleda veb sajtova.
+* **thumbnails**: Slike pregledača.
 * **logins.json**: Šifrovane prijavne informacije.
 * **key4.db** ili **key3.db**: Čuva ključeve za šifrovanje osetljivih informacija.
 
-Dodatno, provera anti-phishing podešavanja pregledača može se obaviti pretragom unosa `browser.safebrowsing` u `prefs.js`, što ukazuje da li su funkcije sigurnog pregledanja omogućene ili onemogućene.
+Dodatno, provera postavki protiv fišinga pregledača može se obaviti pretragom unosa `browser.safebrowsing` u `prefs.js`, što ukazuje da li su funkcije sigurnog pregledanja omogućene ili onemogućene.
 
 Za pokušaj dešifrovanja glavne lozinke, možete koristiti [https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt)\
 Pomoću sledećeg skripta i poziva možete specificirati fajl sa lozinkom za brute force:
@@ -93,16 +93,16 @@ Google Chrome čuva korisničke profile na specifičnim lokacijama zavisno od op
 - **Windows**: `C:\Users\XXX\AppData\Local\Google\Chrome\User Data\`
 - **MacOS**: `/Users/$USER/Library/Application Support/Google/Chrome/`
 
-U ovim direktorijumima, većina korisničkih podataka se može pronaći u fasciklama **Default/** ili **ChromeDefaultData/**. Sledeći fajlovi sadrže značajne podatke:
+U ovim direktorijumima, većina korisničkih podataka može se pronaći u fasciklama **Default/** ili **ChromeDefaultData/**. Sledeći fajlovi sadrže značajne podatke:
 
-- **History**: Sadrži URL-ove, preuzimanja i ključne reči pretrage. Na Windows-u, [ChromeHistoryView](https://www.nirsoft.net/utils/chrome\_history\_view.html) se može koristiti za čitanje istorije. Kolona "Transition Type" ima različita značenja, uključujući klikove korisnika na linkove, unete URL-ove, podnesene forme i osvežavanja stranica.
+- **History**: Sadrži URL-ove, preuzimanja i ključne reči pretrage. Na Windows-u, [ChromeHistoryView](https://www.nirsoft.net/utils/chrome\_history\_view.html) se može koristiti za čitanje istorije. Kolona "Transition Type" ima različita značenja, uključujući klikove korisnika na linkove, unete URL-ove, podneske formi i osvežavanja stranica.
 - **Cookies**: Čuva kolačiće. Za inspekciju, dostupan je [ChromeCookiesView](https://www.nirsoft.net/utils/chrome\_cookies\_view.html).
 - **Cache**: Čuva keširane podatke. Windows korisnici mogu koristiti [ChromeCacheView](https://www.nirsoft.net/utils/chrome\_cache\_view.html) za inspekciju.
 - **Bookmarks**: Korisnički obeleživači.
 - **Web Data**: Sadrži istoriju formi.
 - **Favicons**: Čuva favikone veb sajtova.
 - **Login Data**: Uključuje podatke za prijavljivanje poput korisničkih imena i lozinki.
-- **Current Session**/**Current Tabs**: Podaci o trenutnoj sesiji pregledanja i otvorenim tabovima.
+- **Current Session**/**Current Tabs**: Podaci o trenutnoj sesiji pretraživanja i otvorenim tabovima.
 - **Last Session**/**Last Tabs**: Informacije o sajtovima aktivnim tokom poslednje sesije pre nego što je Chrome zatvoren.
 - **Extensions**: Direktorijumi za proširenja i dodatke pregledača.
 - **Thumbnails**: Čuva sličice veb sajtova.
@@ -119,7 +119,7 @@ Internet Explorer 11 upravlja svojim podacima i metapodacima na različitim loka
 
 ### Čuvanje metapodataka
 
-Metapodaci za Internet Explorer se čuvaju u `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` (sa VX koji može biti V01, V16 ili V24). Pored toga, fajl `V01.log` može pokazati razlike u vremenu modifikacije u odnosu na `WebcacheVX.data`, što ukazuje na potrebu popravke korišćenjem `esentutl /r V01 /d`. Ovi metapodaci, smešteni u ESE bazi podataka, mogu biti obnovljeni i inspektovani korišćenjem alata poput photorec i [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html), redom. Unutar tabele **Containers**, može se razlikovati specifične tabele ili kontejneri gde je smešten svaki segment podataka, uključujući detalje keša za druge Microsoft alate poput Skype-a.
+Metapodaci za Internet Explorer se čuvaju u `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` (pri čemu je VX V01, V16 ili V24). Uz to, fajl `V01.log` može pokazati razlike u vremenu modifikacije u odnosu na `WebcacheVX.data`, što ukazuje na potrebu popravke korišćenjem `esentutl /r V01 /d`. Ovi metapodaci, smešteni u ESE bazi podataka, mogu se obnoviti i pregledati korišćenjem alata poput photorec i [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html), redom. Unutar tabele **Containers**, moguće je razlikovati specifične tabele ili kontejnere gde je smešten svaki segment podataka, uključujući detalje keša za druge Microsoft alate poput Skype-a.
 
 ### Inspekcija keša
 
@@ -133,13 +133,13 @@ Kolačiće možete istražiti korišćenjem [IECookiesView](https://www.nirsoft.
 
 Metapodaci o preuzimanjima su dostupni putem [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html), pri čemu specifični kontejneri čuvaju podatke poput URL-a, tipa fajla i lokacije preuzimanja. Fizički fajlovi se mogu pronaći pod `%userprofile%\Appdata\Roaming\Microsoft\Windows\IEDownloadHistory`.
 
-### Istorija pregledanja
+### Istorija pretraživanja
 
-Za pregled istorije pregledanja, može se koristiti [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html), zahtevajući lokaciju izdvojenih fajlova istorije i konfiguraciju za Internet Explorer. Metapodaci ovde uključuju vreme modifikacije i pristupa, zajedno sa brojem pristupa. Fajlovi istorije se nalaze u `%userprofile%\Appdata\Local\Microsoft\Windows\History`.
+Za pregled istorije pretraživanja, može se koristiti [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html), zahtevajući lokaciju izdvojenih fajlova istorije i konfiguraciju za Internet Explorer. Metapodaci ovde uključuju vreme modifikacije i pristupa, zajedno sa brojem pristupa. Fajlovi istorije se nalaze u `%userprofile%\Appdata\Local\Microsoft\Windows\History`.
 
 ### Uneti URL-ovi
 
-Uneti URL-ovi i vremena njihovog korišćenja se čuvaju u registru pod `NTUSER.DAT` na `Software\Microsoft\InternetExplorer\TypedURLs` i `Software\Microsoft\InternetExplorer\TypedURLsTime`, prateći poslednjih 50 URL-ova unetih od strane korisnika i njihova poslednja vremena unosa.
+Uneti URL-ovi i vremena njihovog korišćenja se čuvaju u registru pod `NTUSER.DAT` na lokaciji `Software\Microsoft\InternetExplorer\TypedURLs` i `Software\Microsoft\InternetExplorer\TypedURLsTime`, prateći poslednjih 50 URL-ova unetih od strane korisnika i njihova poslednja vremena unosa.
 
 ## Microsoft Edge
 
@@ -166,11 +166,11 @@ Podaci Safari pregledača se čuvaju na lokaciji `/Users/$User/Library/Safari`. 
 
 ## Opera
 
-Podaci Operinog pregledača se nalaze u `/Users/$USER/Library/Application Support/com.operasoftware.Opera` i dele format za istoriju i preuzimanja sa Chrome-om.
+Podaci Operinog pregledača se nalaze u `/Users/$USER/Library/Application Support/com.operasoftware.Opera` i dele format istorije i preuzimanja sa Chrome-om.
 
 - **Ugrađena anti-phishing za pregledač**: Proverite da li je `fraud_protection_enabled` u fajlu Preferences postavljen na `true` korišćenjem `grep`.
 
-Ove putanje i komande su ključne za pristupanje i razumevanje podataka o pregledanju čuvanih od strane različitih veb pregledača.
+Ove putanje i komande su ključne za pristupanje i razumevanje podataka o pretraživanju čuvanih od strane različitih veb pregledača.
 
 ## Reference
 
@@ -178,7 +178,7 @@ Ove putanje i komande su ključne za pristupanje i razumevanje podataka o pregle
 - [https://www.sentinelone.com/labs/macos-incident-response-part-3-system-manipulation/](https://www.sentinelone.com/labs/macos-incident-response-part-3-system-manipulation/)
 - [https://books.google.com/books?id=jfMqCgAAQBAJ\&pg=PA128\&lpg=PA128\&dq=%22This+file](https://books.google.com/books?id=jfMqCgAAQBAJ\&pg=PA128\&lpg=PA128\&dq=%22This+file)
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
 
 \
 Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da lako kreirate i **automatizujete radne tokove** uz pomoć najnaprednijih alata zajednice.\
@@ -189,7 +189,7 @@ Pristupite danas:
 <details>
 
 <summary><strong>Naučite hakovanje AWS-a od početnika do stručnjaka sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks suvenir**](https://peass.creator-spring.com)
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
