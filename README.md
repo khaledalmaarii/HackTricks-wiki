@@ -44,7 +44,7 @@ Możesz sprawdzić ich **blog** na [**https://blog.stmcyber.com**](https://blog.
 
 **Intigriti** to **najlepsza w Europie** platforma do etycznego hakingu i **bug bounty**.
 
-**Wskazówka dotycząca bug bounty**: **zarejestruj się** w **Intigriti**, platformie **bug bounty** stworzonej przez hakerów, dla hakerów! Dołącz do nas na [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) już dziś i zacznij zarabiać nagrody do **100 000 dolarów**!
+**Wskazówka dotycząca bug bounty**: **Zarejestruj się** w **Intigriti**, platformie **bug bounty** stworzonej przez hakerów, dla hakerów! Dołącz do nas na [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) już dziś i zacznij zarabiać nagrody do **100 000 dolarów**!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
@@ -96,11 +96,11 @@ Bądź na bieżąco z najnowszymi programami bug bounty i istotnymi aktualizacja
 
 <figure><img src=".gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
-SerpApi oferuje szybkie i łatwe interfejsy API w czasie rzeczywistym do **dostępu do wyników wyszukiwania w wyszukiwarkach**. Scrapują wyszukiwarki, obsługują proxy, rozwiązują captchy i analizują wszystkie bogate dane strukturalne za Ciebie.
+SerpApi oferuje szybkie i łatwe interfejsy API w czasie rzeczywistym do **dostępu do wyników wyszukiwania w wyszukiwarkach**. Przeszukują one wyszukiwarki, obsługują proxy, rozwiązują captchy i analizują wszystkie bogate dane strukturalne za Ciebie.
 
-Subskrypcja jednego z planów SerpApi obejmuje dostęp do ponad 50 różnych interfejsów API do scrapowania różnych wyszukiwarek, w tym Google, Bing, Baidu, Yahoo, Yandex i innych.
+Subskrypcja jednego z planów SerpApi obejmuje dostęp do ponad 50 różnych interfejsów API do przeszukiwania różnych wyszukiwarek, w tym Google, Bing, Baidu, Yahoo, Yandex i innych.
 
-W przeciwieństwie do innych dostawców, SerpApi nie ogranicza się do scrapowania wyników organicznych. Odpowiedzi SerpApi zawsze zawierają wszystkie reklamy, obrazy i filmy w linii, grafiki wiedzy oraz inne elementy i funkcje obecne w wynikach wyszukiwania.
+W przeciwieństwie do innych dostawców, SerpApi nie ogranicza się tylko do przeszukiwania wyników organicznych. Odpowiedzi SerpApi zawsze zawierają wszystkie reklamy, obrazy i filmy wstawione, grafiki wiedzy i inne elementy i funkcje obecne w wynikach wyszukiwania.
 
 Obecni klienci SerpApi to m.in. Apple, Shopify i GrubHub.
 
@@ -126,14 +126,14 @@ Możesz **założyć darmowe konto** [**tutaj**](https://serpapi.com/users/sign\
 
 WebSec to firma **wszystko w jednym**, co oznacza, że robią wszystko; Testowanie penetracyjne, Audyty bezpieczeństwa, Szkolenia z świadomości, Kampanie phishingowe, Przeglądy kodu, Rozwój exploitów, Outsourcing ekspertów ds. bezpieczeństwa i wiele więcej.
 
-Inną fajną rzeczą dotyczącą WebSec jest to, że w przeciwieństwie do średniej branżowej, WebSec jest **bardzo pewny swoich umiejętności**, do tego stopnia, że **gwarantuje najlepsze jakościowe wyniki**, jak to stwierdzają na swojej stronie "**Jeśli nie możemy tego zhakować, nie płacisz!**". Aby uzyskać więcej informacji, zajrzyj na ich [**stronę internetową**](https://websec.nl/en/) i [**blog**](https://websec.nl/blog/)!
+Inną fajną rzeczą dotyczącą WebSec jest to, że w przeciwieństwie do średniej branżowej, WebSec jest **bardzo pewny swoich umiejętności**, do tego stopnia, że **gwarantuje najlepsze wyniki jakościowe**, jak to stwierdzają na swojej stronie "**Jeśli nie możemy tego zhakować, nie płacisz!**". Aby uzyskać więcej informacji, zajrzyj na ich [**stronę internetową**](https://websec.nl/en/) i [**blog**](https://websec.nl/blog/)!
 
 Oprócz powyższego WebSec jest również **zaangażowanym zwolennikiem HackTricks.**
 
 {% embed url="https://www.youtube.com/watch?v=Zq2JycGDCPM" %}
 ## Licencja i Oświadczenie
 
-**Sprawdź je w:**
+Sprawdź je tutaj:
 
 {% content-ref url="welcome/hacktricks-values-and-faq.md" %}
 [hacktricks-values-and-faq.md](welcome/hacktricks-values-and-faq.md)
@@ -141,14 +141,14 @@ Oprócz powyższego WebSec jest również **zaangażowanym zwolennikiem HackTric
 
 <details>
 
-<summary><strong>Zacznij od zera i zostań ekspertem AWS dzięki</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 
 * Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Kup [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na githubie.
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
