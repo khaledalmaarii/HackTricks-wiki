@@ -20,7 +20,7 @@ Pour commencer, suivez cette page où vous trouverez le **flux typique** que **v
 
 <figure><img src=".gitbook/assets/stm (1).png" alt=""><figcaption></figcaption></figure>
 
-[**STM Cyber**](https://www.stmcyber.com) est une excellente entreprise de cybersécurité dont le slogan est **PIRATER L'IMPENSABLE**. Ils effectuent leurs propres recherches et développent leurs propres outils de piratage pour **offrir plusieurs services précieux en cybersécurité** comme les tests d'intrusion, les équipes Red et la formation.
+[**STM Cyber**](https://www.stmcyber.com) est une excellente entreprise de cybersécurité dont le slogan est **PIRATER L'IMPENSABLE**. Ils réalisent leurs propres recherches et développent leurs propres outils de piratage pour **offrir plusieurs services précieux en cybersécurité** comme les tests d'intrusion, les équipes Red et la formation.
 
 Vous pouvez consulter leur **blog** sur [**https://blog.stmcyber.com**](https://blog.stmcyber.com)
 
@@ -32,7 +32,7 @@ Vous pouvez consulter leur **blog** sur [**https://blog.stmcyber.com**](https://
 
 <figure><img src=".gitbook/assets/image (42).png" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com) est l'événement le plus pertinent en matière de cybersécurité en **Espagne** et l'un des plus importants en **Europe**. Avec pour **mission de promouvoir les connaissances techniques**, ce congrès est un point de rencontre bouillonnant pour les professionnels de la technologie et de la cybersécurité dans chaque discipline.
+[**RootedCON**](https://www.rootedcon.com) est l'événement le plus pertinent en cybersécurité en **Espagne** et l'un des plus importants en **Europe**. Avec pour **mission de promouvoir les connaissances techniques**, ce congrès est un point de rencontre bouillonnant pour les professionnels de la technologie et de la cybersécurité dans chaque discipline.
 
 {% embed url="https://www.rootedcon.com/" %}
 
@@ -42,9 +42,9 @@ Vous pouvez consulter leur **blog** sur [**https://blog.stmcyber.com**](https://
 
 <figure><img src=".gitbook/assets/image (44).png" alt=""><figcaption></figcaption></figure>
 
-**Intigriti** est la plateforme de **bug bounty** et de **piratage éthique n°1 en Europe.**
+**Intigriti** est la plateforme de **chasse aux bugs** et de **piratage éthique n°1 en Europe.**
 
-**Astuce de bug bounty** : **inscrivez-vous** sur **Intigriti**, une **plateforme de bug bounty premium créée par des pirates, pour des pirates** ! Rejoignez-nous sur [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) aujourd'hui et commencez à gagner des primes allant jusqu'à **100 000 $** !
+**Astuce de chasse aux bugs** : **inscrivez-vous** sur **Intigriti**, une **plateforme de chasse aux bugs premium créée par des pirates, pour des pirates** ! Rejoignez-nous sur [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) aujourd'hui et commencez à gagner des primes allant jusqu'à **100 000 $** !
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
@@ -69,24 +69,19 @@ Accédez dès aujourd'hui :
 
 Rejoignez le serveur [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) pour communiquer avec des pirates expérimentés et des chasseurs de primes !
 
-**Perspectives de Piratage**\
-Engagez-vous avec du contenu qui explore le frisson et les défis du piratage
-
-**Actualités de Piratage en Temps Réel**\
-Restez informé sur le monde du piratage à rythme rapide grâce aux actualités et perspectives en temps réel
-
-**Dernières Annonces**\
-Restez informé des derniers bug bounties lancés et des mises à jour cruciales de la plateforme
+* **Perspectives de Piratage :** Impliquez-vous dans du contenu qui explore l'excitation et les défis du piratage
+* **Actualités de Piratage en Temps Réel :** Restez informé sur le monde du piratage à rythme rapide grâce aux actualités et perspectives en temps réel
+* **Dernières Annonces :** Restez informé des dernières primes de bugs lancées et des mises à jour cruciales de la plateforme
 
 **Rejoignez-nous sur** [**Discord**](https://discord.com/invite/N3FrSbmwdy) et commencez à collaborer avec les meilleurs pirates dès aujourd'hui !
 
 ***
 
-### [Pentest-Tools.com](https://pentest-tools.com/) - La trousse à outils essentielle pour les tests de pénétration
+### [Pentest-Tools.com](https://pentest-tools.com/) - La trousse à outils essentielle de test de pénétration
 
 <figure><img src=".gitbook/assets/image (12).png" alt=""><figcaption></figcaption></figure>
 
-**Configuration instantanément disponible pour l'évaluation des vulnérabilités et les tests de pénétration**. Exécutez un test de pénétration complet de n'importe où avec plus de 20 outils et fonctionnalités allant de la reconnaissance aux rapports. Nous ne remplaçons pas les testeurs de pénétration - nous développons des outils personnalisés, des modules de détection et d'exploitation pour leur donner plus de temps pour creuser plus profondément, ouvrir des shells et s'amuser.
+**Configuration instantanément disponible pour l'évaluation des vulnérabilités et les tests de pénétration**. Exécutez un test de pénétration complet de n'importe où avec plus de 20 outils et fonctionnalités allant de la reconnaissance au reporting. Nous ne remplaçons pas les testeurs de pénétration - nous développons des outils personnalisés, des modules de détection et d'exploitation pour leur donner plus de temps pour creuser plus profondément, ouvrir des shells et s'amuser.
 
 {% embed url="https://pentest-tools.com/" %}
 
@@ -96,16 +91,13 @@ Restez informé des derniers bug bounties lancés et des mises à jour cruciales
 
 <figure><img src=".gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
-SerpApi propose des API en temps réel rapides et faciles pour **accéder aux résultats des moteurs de recherche**. Ils extraient les moteurs de recherche, gèrent les proxies, résolvent les captchas et analysent toutes les données structurées riches pour vous.
+SerpApi propose des API rapides et faciles en temps réel pour **accéder aux résultats des moteurs de recherche**. Ils extraient les moteurs de recherche, gèrent les proxies, résolvent les captchas et analysent toutes les données structurées riches pour vous.
 
-Un abonnement à l'un des plans de SerpApi comprend l'accès à plus de 50 API différentes pour extraire différents moteurs de recherche, y compris Google, Bing, Baidu, Yahoo, Yandex, et plus encore.
+Un abonnement à l'un des plans de SerpApi inclut l'accès à plus de 50 API différentes pour extraire différents moteurs de recherche, y compris Google, Bing, Baidu, Yahoo, Yandex, et plus encore.\
+Contrairement à d'autres fournisseurs, **SerpApi ne se contente pas d'extraire les résultats organiques**. Les réponses de SerpApi incluent systématiquement toutes les annonces, les images et vidéos intégrées, les graphiques de connaissances et autres éléments et fonctionnalités présents dans les résultats de recherche.
 
-Contrairement à d'autres fournisseurs, SerpApi ne se contente pas d'extraire les résultats organiques. Les réponses de SerpApi incluent systématiquement toutes les annonces, les images et vidéos intégrées, les graphiques de connaissances et autres éléments et fonctionnalités présents dans les résultats de recherche.
-
-Les clients actuels de SerpApi incluent Apple, Shopify et GrubHub.
-
-Pour plus d'informations, consultez leur [blog](https://serpapi.com/blog/)**,** ou essayez un exemple dans leur [**bac à sable**](https://serpapi.com/playground)**.**
-
+Les clients actuels de SerpApi incluent **Apple, Shopify et GrubHub**.\
+Pour plus d'informations, consultez leur [**blog**](https://serpapi.com/blog/)**,** ou essayez un exemple dans leur [**bac à sable**](https://serpapi.com/playground)**.**\
 Vous pouvez **créer un compte gratuit** [**ici**](https://serpapi.com/users/sign\_up)**.**
 
 ***
@@ -120,17 +112,17 @@ Vous pouvez **créer un compte gratuit** [**ici**](https://serpapi.com/users/sig
 
 ### [WebSec](https://websec.nl/)
 
-<figure><img src=".gitbook/assets/websec (1).svg" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
 
 [**WebSec**](https://websec.nl) est une entreprise de cybersécurité professionnelle basée à **Amsterdam** qui aide à **protéger** les entreprises **du monde entier** contre les dernières menaces en matière de cybersécurité en fournissant des services de **sécurité offensive** avec une **approche moderne**.
 
-WebSec est une entreprise de sécurité **tout-en-un**, ce qui signifie qu'ils font tout ; Tests d'intrusion, Audits de sécurité, Formations en sensibilisation, Campagnes de phishing, Revue de code, Développement d'exploits, Externalisation d'experts en sécurité et bien plus encore.
+WebSec est une **entreprise de sécurité tout-en-un** ce qui signifie qu'ils font tout ; Tests d'intrusion, Audits de sécurité, Formations en sensibilisation, Campagnes de phishing, Revue de code, Développement d'exploits, Externalisation d'experts en sécurité et bien plus encore.
 
-Une autre chose cool à propos de WebSec est que contrairement à la moyenne de l'industrie, WebSec est **très confiant dans ses compétences**, à tel point qu'ils **garantissent les meilleurs résultats de qualité**, il est indiqué sur leur site web "**Si nous ne pouvons pas le pirater, vous ne le payez pas !**". Pour plus d'informations, consultez leur [**site web**](https://websec.nl/en/) et leur [**blog**](https://websec.nl/blog/)!
+Une autre chose cool à propos de WebSec est que contrairement à la moyenne de l'industrie, WebSec est **très confiant dans ses compétences**, à tel point qu'ils **garantissent les meilleurs résultats de qualité**, il est indiqué sur leur site "**Si nous ne pouvons pas le pirater, vous ne le payez pas !**". Pour plus d'informations, consultez leur [**site web**](https://websec.nl/en/) et leur [**blog**](https://websec.nl/blog/)!
 
 En plus de ce qui précède, WebSec est également un **supporter engagé de HackTricks.**
 
-{% embed url="https://www.youtube.com/watch?v=Zq2JycGDCPM" %}
+<figure><img src=".gitbook/assets/websec (1).svg" alt=""><figcaption></figcaption></figure>
 ## Licence & Avertissement
 
 Consultez-les ici :
@@ -149,6 +141,6 @@ Autres façons de soutenir HackTricks :
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
