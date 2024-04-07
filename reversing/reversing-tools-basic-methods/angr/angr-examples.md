@@ -2,23 +2,23 @@
 
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Werk jy in 'n **cybersekerheidsmaatskappy**? Wil jy jou **maatskappy geadverteer sien in HackTricks**? of wil jy toegang hê tot die **nuutste weergawe van die PEASS of HackTricks aflaai in PDF**? Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* Werk jy by 'n **cybersekuriteitsmaatskappy**? Wil jy jou **maatskappy geadverteer sien in HackTricks**? of wil jy toegang hê tot die **nuutste weergawe van die PEASS of HackTricks aflaai in PDF**? Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die [hacktricks-opslag](https://github.com/carlospolop/hacktricks) en [hacktricks-cloud-opslag](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Deel jou haktruuks deur PR's in te dien by die** [**hacktricks-opslag**](https://github.com/carlospolop/hacktricks) **en** [**hacktricks-cloud-opslag**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
 {% hint style="info" %}
-As die program `scanf` gebruik om **verskeie waardes gelyktydig vanaf stdin te kry**, moet jy 'n toestand genereer wat begin ná die **`scanf`**.
+As die program `scanf` gebruik om **verskeie waardes gelyktydig vanaf stdin te kry** moet jy 'n toestand genereer wat begin ná die **`scanf`**.
 {% endhint %}
 
-Kodes geneem van [https://github.com/jakespringer/angr_ctf](https://github.com/jakespringer/angr_ctf)
+Kodes geneem van [https://github.com/jakespringer/angr\_ctf](https://github.com/jakespringer/angr\_ctf)
 
-### Invoer om adres te bereik (wat die adres aandui)
+### Inset om adres te bereik (wat die adres aandui)
 ```python
 import angr
 import sys
@@ -214,7 +214,7 @@ main(sys.argv)
 ```
 In hierdie scenario is die inset geneem met `scanf("%u %u")` en die waarde `"1 1"` is gegee, so die waardes **`0x00000001`** van die stapel kom van die **gebruiker inset**. Jy kan sien hoe hierdie waardes begin in `$ebp - 8`. Daarom het ons in die kode **8 byte van `$esp` afgetrek (soos op daardie oomblik `$ebp` en `$esp` dieselfde waarde gehad het)** en toe het ons die BVS gedruk.
 
-![](<../../../.gitbook/assets/image (614).png>)
+![](<../../../.gitbook/assets/image (133).png>)
 
 ### Statische Geheue waardes (Globale veranderlikes)
 ```python
@@ -392,7 +392,7 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 {% hint style="info" %}
-Let wel dat die simboliese lêer ook konstante data kan bevat wat saamgevoeg is met simboliese data:
+Let daarop dat die simboliese lêer ook konstante data kan bevat wat saamgevoeg is met simboliese data:
 ```python
 # Hello world, my name is John.
 # ^                       ^
@@ -413,10 +413,12 @@ Let wel dat die simboliese lêer ook konstante data kan bevat wat saamgevoeg is 
 # stored.
 # (!)
 ```
+{% endhint %}
+
 ### Toepassing van Beperkings
 
 {% hint style="info" %}
-Soms kos eenvoudige menslike operasies soos die vergelyking van 2 woorde van lengte 16 **karakter vir karakter** (lus), baie vir 'n **angr** omdat dit takke **eksponensieel** moet genereer omdat dit 1 tak per if genereer: `2^16`\
+Soms kos eenvoudige menslike operasies soos die vergelyking van 2 woorde van lengte 16 **karakter vir karakter** (lus), **baie vir 'n** angr omdat dit takke **eksponensieel** moet genereer omdat dit 1 tak per if genereer: `2^16`\
 Daarom is dit makliker om **angr te vra om na 'n vorige punt te gaan** (waar die werklike moeilike deel reeds gedoen is) en om daardie beperkings handmatig in te stel.
 {% endhint %}
 ```python
@@ -490,11 +492,11 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 {% hint style="danger" %}
-In sommige scenarios kan jy **veritesting** aktiveer, wat soortgelyke statusse sal saamvoeg, om onnodige takke te spaar en die oplossing te vind: `simulation = project.factory.simgr(initial_state, veritesting=True)`
+In sommige scenario's kan jy **veritesting** aktiveer, wat soortgelyke toestande sal saamvoeg, om onnodige takke te spaar en die oplossing te vind: `simulation = project.factory.simgr(initial_state, veritesting=True)`
 {% endhint %}
 
 {% hint style="info" %}
-'n Ander ding wat jy in hierdie scenarios kan doen, is om die funksie te **hook om angr iets te gee wat dit makliker kan verstaan**.
+'n Ander ding wat jy in hierdie scenario's kan doen, is om die funksie te **hook** om angr iets te gee wat dit makliker kan verstaan.
 {% endhint %}
 
 ### Simulasiebestuurders
@@ -538,7 +540,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Hooking/Omleiding van een oproep na 'n funksie
+### Hooking/Deur een oproep na 'n funksie
 ```python
 # This level performs the following computations:
 #
@@ -819,14 +821,14 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-<besonderhede>
+<details>
 
-<opsomming><sterk>Leer AWS-hacking vanaf nul tot held met</sterk> <a href="https://training.hacktricks.xyz/courses/arte"><sterk>htARTE (HackTricks AWS Red Team Expert)</sterk></a><sterk>!</sterk></opsomming>
+<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Werk jy in 'n **cybersekuriteitsmaatskappy**? Wil jy jou **maatskappy geadverteer sien in HackTricks**? of wil jy toegang hê tot die **nuutste weergawe van die PEASS of laai HackTricks in PDF af**? Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* Werk jy by 'n **cybersekuriteitsmaatskappy**? Wil jy jou **maatskappy geadverteer sien in HackTricks**? of wil jy toegang hê tot die **nuutste weergawe van die PEASS of laai HackTricks af in PDF-formaat**? Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die [hacktricks-opslag](https://github.com/carlospolop/hacktricks) en [hacktricks-cloud-opslag](https://github.com/carlospolop/hacktricks-cloud)**.
+* Kry die [**amptelike PEASS & HackTricks-klere**](https://peass.creator-spring.com)
+* **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Deel jou haktruuks deur PR's in te dien by die** [**hacktricks-opslag**](https://github.com/carlospolop/hacktricks) **en** [**hacktricks-cloud-opslag**](https://github.com/carlospolop/hacktricks-cloud).
 
-</besonderhede>
+</details>

@@ -1,4 +1,4 @@
-# Eksterne Bosveld Domein - Eenrigting (Uitgaande)
+# Eksterne Bos Domein - Eenrigting (Uitgaande)
 
 <details>
 
@@ -6,15 +6,15 @@
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repos.
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
 
-In hierdie scenario **vertrou jou domein** sekere **voorregte** toe aan 'n **beginsel van 'n ander domein**.
+In hierdie scenario **vertrou jou domein** sekere **voorregte** toe aan 'n beginsel van 'n **verskillende domein**.
 
 ## Opname
 
@@ -42,41 +42,41 @@ MemberDistinguishedName : CN=S-1-5-21-1028541967-2937615241-1935644758-1115,CN=F
 ```
 ## Vertrouensrekening Aanval
 
-'n Sekuriteitskwesbaarheid bestaan wanneer 'n vertrouensverhouding tussen twee domeine, hier geïdentifiseer as domein **A** en domein **B**, opgerig word waar domein **B** sy vertroue na domein **A** uitbrei. In hierdie opset word 'n spesiale rekening in domein **A** vir domein **B** geskep, wat 'n kritieke rol speel in die verifikasieproses tussen die twee domeine. Hierdie rekening, wat verband hou met domein **B**, word gebruik om kaartjies te enkripteer vir toegang tot dienste oor die domeine.
+'n Sekuriteitskwesbaarheid bestaan wanneer 'n vertrouensverhouding gevestig word tussen twee domeine, hier geïdentifiseer as domein **A** en domein **B**, waar domein **B** sy vertroue na domein **A** uitbrei. In hierdie opstelling word 'n spesiale rekening geskep in domein **A** vir domein **B**, wat 'n kritieke rol speel in die verifikasieproses tussen die twee domeine. Hierdie rekening, geassosieer met domein **B**, word gebruik om kaartjies te enkripteer vir die toegang tot dienste regoor die domeine.
 
-Die kritieke aspek om hier te verstaan, is dat die wagwoord en has van hierdie spesiale rekening uit 'n Domeinbeheerder in domein **A** geëkstraheer kan word met behulp van 'n opdraglyn-hulpmiddel. Die opdrag om hierdie aksie uit te voer is:
+Die kritieke aspek om hier te verstaan is dat die wagwoord en has van hierdie spesiale rekening uit 'n Domeinbeheerder in domein **A** geëkstraheer kan word met behulp van 'n opdraglynwerktuig. Die opdrag om hierdie aksie uit te voer is:
 ```powershell
 Invoke-Mimikatz -Command '"lsadump::trust /patch"' -ComputerName dc.my.domain.local
 ```
-Hierdie onttrekking is moontlik omdat die rekening, geïdentifiseer met 'n **$** na sy naam, aktief is en behoort tot die "Domain Users" groep van domein **A**, en dus die toestemmings wat met hierdie groep geassosieer word, erf. Dit stel individue in staat om teen domein **A** te verifieer met behulp van die geloofsbriewe van hierdie rekening.
+Hierdie uittreksel is moontlik omdat die rekening, geïdentifiseer met 'n **$** na sy naam, aktief is en behoort tot die "Domain Users" groep van domein **A**, en dus erfporsies wat met hierdie groep geassosieer word. Dit maak dit vir individue moontlik om teen domein **A** te verifieer deur die geloofsbriewe van hierdie rekening te gebruik.
 
-**Waarskuwing:** Dit is moontlik om van hierdie situasie gebruik te maak om 'n voet in die deur te kry in domein **A** as 'n gebruiker, alhoewel met beperkte toestemmings. Hierdie toegang is egter voldoende om opname op domein **A** uit te voer.
+**Waarskuwing:** Dit is moontlik om hierdie situasie te benut om 'n voet in domein **A** as 'n gebruiker te kry, alhoewel met beperkte regte. Hierdie toegang is egter voldoende om opname op domein **A** uit te voer.
 
-In 'n scenario waar `ext.local` die vertrouende domein is en `root.local` die vertroude domein is, sal 'n gebruikersrekening met die naam `EXT$` binne `root.local` geskep word. Deur spesifieke gereedskap te gebruik, is dit moontlik om die Kerberos-vertrouensleutels te dump, wat die geloofsbriewe van `EXT$` in `root.local` onthul. Die opdrag om dit te bereik is:
+In 'n scenario waar `ext.local` die vertrouende domein is en `root.local` die vertroude domein is, sou 'n gebruikersrekening genaamd `EXT$` binne `root.local` geskep word. Deur spesifieke gereedskap te gebruik, is dit moontlik om die Kerberos-vertrouensleutels te dump, wat die geloofsbriewe van `EXT$` in `root.local` onthul. Die bevel om dit te bereik is:
 ```bash
 lsadump::trust /patch
 ```
-Volgens hierdie metode kan die geëkstraeerde RC4-sleutel gebruik word om as `root.local\EXT$` te verifieer binne `root.local` deur 'n ander opdrag te gebruik:
+Volgens hierdie, kan die geëkstraeerde RC4-sleutel gebruik word om as `root.local\EXT$` te verifieer binne `root.local` deur 'n ander gereedskapopdrag:
 ```bash
 .\Rubeus.exe asktgt /user:EXT$ /domain:root.local /rc4:<RC4> /dc:dc.root.local /ptt
 ```
-Hierdie verifikasie stap maak dit moontlik om dienste binne `root.local` te ondersoek en selfs uit te buit, soos om 'n Kerberoast aanval uit te voer om diensrekeninggelde te onttrek deur gebruik te maak van:
+Hierdie verifikasie stap maak dit moontlik om dienste binne `root.local` te ontleed en selfs te benut, soos die uitvoer van 'n Kerberoast-aanval om diensrekeninggelde te onttrek met behulp van:
 ```bash
 .\Rubeus.exe kerberoast /user:svc_sql /domain:root.local /dc:dc.root.local
 ```
-### Versameling van duidelike vertrouwenswagwoord
+### Versameling van teksvertrouwenswagwoord
 
-In die vorige stroom is die vertrouenshash gebruik in plaas van die **duidelike teks wagwoord** (wat ook deur mimikatz **uitgelek** is).
+In die vorige stroom is die vertrouenswagwoord gebruik in plaas van die **duidelike teks wagwoord** (wat ook **gedump is deur mimikatz**).
 
-Die duidelike wagwoord kan verkry word deur die \[ CLEAR ] uitset van mimikatz van heksadesimale na teks om te skakel en nulbyte '\x00' te verwyder:
+Die duidelike wagwoord kan verkry word deur die \[ CLEAR ] uitset van mimikatz vanaf heksadesimaal te omskep en nulbyte ' \x00 ' te verwyder:
 
-![](<../../.gitbook/assets/image (2) (1) (2) (1).png>)
+![](<../../.gitbook/assets/image (935).png>)
 
-Soms, wanneer 'n vertrouensverhouding geskep word, moet 'n wagwoord deur die gebruiker ingetik word vir die vertroue. In hierdie demonstrasie is die sleutel die oorspronklike vertrouenswagwoord en dus leesbaar vir mense. Aangesien die sleutel siklies is (30 dae), sal die duidelike teks nie leesbaar wees nie, maar tegnies steeds bruikbaar.
+Soms, wanneer 'n vertrouensverhouding geskep word, moet 'n wagwoord deur die gebruiker vir die vertroue getik word. In hierdie demonstrasie is die sleutel die oorspronklike vertrouenswagwoord en dus menslik leesbaar. Aangesien die sleutel siklus (30 dae) is, sal die duidelike teks nie menslik leesbaar wees nie, maar tegnies nog steeds bruikbaar.
 
-Die duidelike wagwoord kan gebruik word om gereelde verifikasie uit te voer as die vertroue-rekening, as 'n alternatief vir die aanvra van 'n TGT deur die Kerberos-geheime sleutel van die vertroue-rekening te gebruik. Hier word navraag gedoen na root.local vanaf ext.local vir lede van Domain Admins:
+Die duidelike wagwoord kan gebruik word om gereelde verifikasie uit te voer as die vertrouensrekening, 'n alternatief vir die versoek van 'n TGT deur die Kerberos-geheim sleutel van die vertrouensrekening te gebruik. Hier, navraag root.local vanaf ext.local vir lede van Domain Admins:
 
-![](<../../.gitbook/assets/image (1) (1) (1) (2).png>)
+![](<../../.gitbook/assets/image (789).png>)
 
 ## Verwysings
 
@@ -84,14 +84,14 @@ Die duidelike wagwoord kan gebruik word om gereelde verifikasie uit te voer as d
 
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kontroleer die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>

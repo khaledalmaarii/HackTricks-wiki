@@ -1,4 +1,4 @@
-# macOS Kernel & System Extensions
+# macOS Kernel & Sisteemuitbreidings
 
 <details>
 
@@ -16,7 +16,7 @@ Ander maniere om HackTricks te ondersteun:
 
 ## XNU Kernel
 
-Die **kern van macOS is XNU**, wat staan vir "X is Not Unix". Hierdie kernel bestaan fundamenteel uit die **Mach mikrokernel** (wat later bespreek sal word), **en** elemente van Berkeley Software Distribution (**BSD**). XNU bied ook 'n platform vir **kernbestuurders deur 'n stelsel genaamd die I/O Kit**. Die XNU-kernel is deel van die Darwin oopbronprojek, wat beteken **sy bronkode is vrylik toeganklik**.
+Die **kern van macOS is XNU**, wat staan vir "X is Not Unix". Hierdie kernel is fundamenteel saamgestel uit die **Mach mikrokernel** (wat later bespreek sal word), **en** elemente van die Berkeley Software Distribution (**BSD**). XNU bied ook 'n platform vir **kernbestuurders deur 'n stelsel genaamd die I/O Kit**. Die XNU-kernel is deel van die Darwin oopbronprojek, wat beteken **sy bronkode is vrylik toeganklik**.
 
 Vanuit die oogpunt van 'n sekuriteitsnavorsers of 'n Unix-ontwikkelaar, **kan macOS** redelik **soortgelyk voel** aan 'n **FreeBSD**-sisteem met 'n elegante GUI en 'n verskeidenheid aangepaste toepassings. Die meeste toepassings wat vir BSD ontwikkel is, sal op macOS kompileer en loop sonder dat aanpassings nodig is, aangesien die opdraglynwerktuie wat bekend is aan Unix-gebruikers almal teenwoordig is in macOS. Tog, omdat die XNU-kernel Mach inkorporeer, is daar enkele beduidende verskille tussen 'n tradisionele Unix-soortgelyke stelsel en macOS, en hierdie verskille kan potensiële probleme veroorsaak of unieke voordele bied.
 
@@ -24,9 +24,9 @@ Oopbronweergawe van XNU: [https://opensource.apple.com/source/xnu/](https://open
 
 ### Mach
 
-Mach is 'n **mikrokernel** wat ontwerp is om **UNIX-kompatibel** te wees. Een van sy sleutelontwerpbeginsels was om die hoeveelheid **kode** wat in die **kern**-ruimte hardloop, te **minimeer** en eerder baie tipiese kernfunksies, soos lêersisteem, netwerke, en I/O, toe te laat om as gebruikersvlaktake te **hardloop**.
+Mach is 'n **mikrokernel** wat ontwerp is om **UNIX-kompatibel** te wees. Een van sy sleutelontwerpbeginsels was om die hoeveelheid **kode** wat in die **kern**-ruimte hardloop, te **minimeer** en eerder baie tipiese kernfunksies, soos lêersisteem, netwerk en I/O, toe te laat om as gebruikersvlaktake te **hardloop**.
 
-In XNU is Mach **verantwoordelik vir baie van die kritieke laevlak-operasies** wat 'n kernel tipies hanteer, soos prosessorbeplanning, multitasking, en virtuele geheuebestuur.
+In XNU is Mach **verantwoordelik vir baie van die kritieke laevlak-operasies** wat 'n kernel tipies hanteer, soos prosessorbeplanning, multitasking en virtuele geheuebestuur.
 
 ### BSD
 
@@ -37,15 +37,15 @@ Die XNU **kernel** inkorporeer ook 'n aansienlike hoeveelheid kode wat afgelei i
 * Basiese sekuriteitsmeganismes, insluitend gebruiker- en groepbestuur
 * Stelseloproep-infrastruktuur
 * TCP/IP-stapel en sokkels
-* Vuurwal en pakkiefiltrasie
+* Brandmuur en pakkiefiltrasie
 
 Die begrip van die interaksie tussen BSD en Mach kan kompleks wees, as gevolg van hul verskillende konseptuele raamwerke. Byvoorbeeld, BSD gebruik prosesse as sy fundamentele uitvoerende eenheid, terwyl Mach op drade gebaseer is. Hierdie teenstrydigheid word in XNU versoen deur **elke BSD-proses te assosieer met 'n Mach-taak** wat presies een Mach-draad bevat. Wanneer BSD se fork()-stelseloproep gebruik word, gebruik die BSD-kode binne die kernel Mach-funksies om 'n taak- en 'n draadstruktuur te skep.
 
-Verder **handhaaf Mach en BSD elk 'n verskillende sekuriteitsmodel**: **Mach se** sekuriteitsmodel is gebaseer op **poortregte**, terwyl BSD se sekuriteitsmodel opereer op grond van **proses-eienaarskap**. Verskille tussen hierdie twee modelle het soms gelei tot plaaslike voorreg-escalasie-kwesbaarhede. Afgesien van tipiese stelseloproepe, is daar ook **Mach-valle wat gebruikersruimteprogramme toelaat om met die kernel te interaksieer**. Hierdie verskillende elemente vorm saam die veelsydige, hibriede argitektuur van die macOS-kernel.
+Verder **handhaaf Mach en BSD elk 'n verskillende sekuriteitsmodel**: **Mach se** sekuriteitsmodel is gebaseer op **poortregte**, terwyl BSD se sekuriteitsmodel opereer op grond van **prosesbeheer**. Verskille tussen hierdie twee modelle het soms gelei tot plaaslike voorreg-escalatie-kwesbaarhede. Afgesien van tipiese stelseloproepe, is daar ook **Mach-valle wat gebruikersruimteprogramme toelaat om met die kernel te interaksieer**. Hierdie verskillende elemente vorm saam die veelsydige, hibriede argitektuur van die macOS-kernel.
 
 ### I/O Kit - Bestuurders
 
-Die I/O Kit is 'n oopbron, objekgeoriënteerde **toestelbestuurder-raamwerk** in die XNU-kernel, wat **dinamies gelaaide toestelbestuurders** hanteer. Dit maak dit moontlik om modulêre kode op die vlieg by die kernel te voeg, wat 'n verskeidenheid hardeware ondersteun.
+Die I/O Kit is 'n oopbron, objekgeoriënteerde **toestelbestuurder-raamwerk** in die XNU-kernel, wat **dinamies gelaaide toestelbestuurders** hanteer. Dit maak dit moontlik om modulêre kode by die kernel by te voeg terwyl dit loop, wat 'n verskeidenheid hardeware ondersteun.
 
 {% content-ref url="macos-iokit.md" %}
 [macos-iokit.md](macos-iokit.md)
@@ -67,7 +67,7 @@ Dit is moontlik om **`kextstat`** uit te voer om die gelaai kernuitbreidings te 
 
 #### IMG4
 
-Die IMG4-lêerformaat is 'n houerformaat wat deur Apple in sy iOS- en macOS-toestelle gebruik word vir die veilige **berg en verifieer van firmware**-komponente (soos **kernelcache**). Die IMG4-formaat sluit 'n kopstuk en verskeie etikette in wat verskillende stukke data insluit, insluitend die werklike vrag (soos 'n kernel of beginlaaiers), 'n handtekening, en 'n stel manifesteienskappe. Die formaat ondersteun kriptografiese verifikasie, wat die toestel in staat stel om die egtheid en integriteit van die firmware-komponent te bevestig voordat dit uitgevoer word.
+Die IMG4-lêerformaat is 'n houerformaat wat deur Apple in sy iOS- en macOS-toestelle gebruik word vir veilige **berg en verifieer van firmware**-komponente (soos **kernelcache**). Die IMG4-formaat sluit 'n kop en verskeie etikette in wat verskillende stukke data insluit, insluitend die werklike vrag (soos 'n kernel of aansitter), 'n handtekening, en 'n stel manifesteienskappe. Die formaat ondersteun kriptografiese verifikasie, wat die toestel in staat stel om die egtheid en integriteit van die firmware-komponent te bevestig voordat dit uitgevoer word.
 
 Dit bestaan gewoonlik uit die volgende komponente:
 
@@ -83,7 +83,6 @@ Dit bestaan gewoonlik uit die volgende komponente:
 * FAKULTATIEF: Gewoonlik word dit nie gevind nie
 
 Dekomprimeer die Kernelcache:
-
 ```bash
 # pyimg4 (https://github.com/m1stadev/PyIMG4)
 pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
@@ -91,7 +90,6 @@ pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphon
 # img4tool (https://github.com/tihmstar/img4tool
 img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
 ```
-
 #### Kernelcache Simbole
 
 Soms publiseer Apple **kernelcache** met **simbole**. Jy kan sommige firmwares met simbole aflaai deur die skakels op [https://theapplewiki.com](https://theapplewiki.com/) te volg.
@@ -112,15 +110,12 @@ pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphon
 {% endcode %}
 
 * [**img4tool**](https://github.com/tihmstar/img4tool)
-
 ```bash
 img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
 ```
-
 Jy kan die uitgepakte kernelcache vir simbole nagaan met: **`nm -a kernelcache.release.iphone14.e | wc -l`**
 
-Met hierdie kan ons nou **alle uitbreidings** of die **een waarin jy belangstel, onttrek:**
-
+Met hierdie kan ons nou **alle uitbreidings** uithaal of die **een waarin jy belangstel:**
 ```bash
 # List all extensions
 kextex -l kernelcache.release.iphone14.e
@@ -133,7 +128,6 @@ kextex_all kernelcache.release.iphone14.e
 # Check the extension for symbols
 nm -a binaries/com.apple.security.sandbox | wc -l
 ```
-
 ## macOS Kernel-uitbreidings
 
 macOS is **baie beperkend om Kernel-uitbreidings** (.kext) te laai vanweë die hoë voorregte waarmee kode sal hardloop. Eintlik is dit by verstek feitlik onmoontlik (tensy 'n omweg gevind word).

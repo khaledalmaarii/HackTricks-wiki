@@ -6,7 +6,7 @@
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kontroleer die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -24,7 +24,7 @@ Hierdie bineêre lêers volg die **Mach-O-struktuur** wat basies bestaan uit:
 * Laai-opdragte
 * Data
 
-![https://alexdremov.me/content/images/2022/10/6XLCD.gif](<../../../.gitbook/assets/image (559).png>)
+![https://alexdremov.me/content/images/2022/10/6XLCD.gif](<../../../.gitbook/assets/image (467).png>)
 
 ## Vet Kop
 
@@ -78,13 +78,13 @@ vermoëns PTR_AUTH_VERSION USERSPACE 0
 
 of deur die [Mach-O View](https://sourceforge.net/projects/machoview/) gereedskap te gebruik:
 
-<figure><img src="../../../.gitbook/assets/image (5) (1) (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1091).png" alt=""><figcaption></figcaption></figure>
 
 Soos jy dalk dink, verdubbel 'n universele bineêre wat vir 2 argitekture saamgestel is, gewoonlik die grootte van een wat net vir 1 argitektuur saamgestel is.
 
 ## **Mach-O Kop**
 
-Die kop bevat basiese inligting oor die lêer, soos die magiese byte om dit as 'n Mach-O-lêer te identifiseer en inligting oor die teikenargitektuur. Jy kan dit vind in: `mdfind loader.h | grep -i mach-o | grep -E "loader.h$"`
+Die kop bevat basiese inligting oor die lêer, soos magiese byte om dit as 'n Mach-O-lêer te identifiseer en inligting oor die teikenargitektuur. Jy kan dit vind in: `mdfind loader.h | grep -i mach-o | grep -E "loader.h$"`
 ```c
 #define	MH_MAGIC	0xfeedface	/* the mach magic number */
 #define MH_CIGAM	0xcefaedfe	/* NXSwapInt(MH_MAGIC) */
@@ -114,8 +114,8 @@ uint32_t	reserved;	/* reserved */
 **Lêertipes**:
 
 * MH\_EXECUTE (0x2): Standaard Mach-O-uitvoerbaar
-* MH\_DYLIB (0x6): 'n Mach-O dinamies gekoppelde biblioteek (d.w.s. .dylib)
-* MH\_BUNDLE (0x8): 'n Mach-O-bundel (d.w.s. .bundle)
+* MH\_DYLIB (0x6): 'n Mach-O dinamiese gekoppelde biblioteek (d.w.s. .dylib)
+* MH\_BUNDLE (0x8): 'n Mach-O bondel (d.w.s. .bundle)
 ```bash
 # Checking the mac header of a binary
 otool -arch arm64e -hv /bin/ls
@@ -123,9 +123,9 @@ Mach header
 magic  cputype cpusubtype  caps    filetype ncmds sizeofcmds      flags
 MH_MAGIC_64    ARM64          E USR00     EXECUTE    19       1728   NOUNDEFS DYLDLINK TWOLEVEL PIE
 ```
-Of deur [Mach-O View](https://sourceforge.net/projects/machoview/) te gebruik:
+Of deur [Mach-O View](https://sourceforge.net/projects/machoview/):
 
-<figure><img src="../../../.gitbook/assets/image (4) (1) (4).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1130).png" alt=""><figcaption></figcaption></figure>
 
 ## **Mach-O Laai-opdragte**
 
@@ -152,7 +152,7 @@ Daar is **verskillende tipes** segmente, soos die **\_\_TEXT** segment, wat die 
 
 **Elke segment** kan verder verdeel word in verskeie **seksies**. Die **laai-opdragstruktuur** bevat **inligting** oor **hierdie seksies** binne die betrokke segment.
 
-In die kop vind jy eers die **segmentkop**:
+In die kop vind jy die **segmentkop**:
 
 <pre class="language-c"><code class="lang-c">struct segment_command_64 { /* vir 64-bis-argitekture */
 uint32_t	cmd;		/* LC_SEGMENT_64 */
@@ -171,7 +171,7 @@ int32_t		initprot;	/* aanvanklike VM-beskerming */
 
 Voorbeeld van segmentkop:
 
-<figure><img src="../../../.gitbook/assets/image (2) (2) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1123).png" alt=""><figcaption></figcaption></figure>
 
 Hierdie kop definieer die **aantal seksies waarvan die koppe daarna verskyn**:
 ```c
@@ -190,13 +190,13 @@ uint32_t	reserved2;	/* reserved (for count or sizeof) */
 uint32_t	reserved3;	/* reserved */
 };
 ```
-Voorbeeld van **seksie-kop**:
+Voorbeeld van **seksie kop**:
 
-<figure><img src="../../../.gitbook/assets/image (6) (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1105).png" alt=""><figcaption></figcaption></figure>
 
-As jy die **seksie-offset** (0x37DC) **byvoeg** by die **offset** waar die **argitektuur begin**, in hierdie geval `0x18000` --> `0x37DC + 0x18000 = 0x1B7DC`
+As jy die **seksie offset** (0x37DC) + die **offset** waar die **arg begin**, in hierdie geval `0x18000` byvoeg --> `0x37DC + 0x18000 = 0x1B7DC`
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (698).png" alt=""><figcaption></figcaption></figure>
 
 Dit is ook moontlik om **koppe-inligting** van die **opdraglyn** te kry met:
 ```bash
@@ -205,8 +205,8 @@ otool -lv /bin/ls
 Gemeenskaplike segmente wat deur hierdie cmd gelaai word:
 
 - **`__PAGEZERO`:** Dit instrueer die kernel om die **adres nul** te **kaart** sodat dit **nie gelees, geskryf of uitgevoer kan word nie**. Die maxprot en minprot veranderlikes in die struktuur word na nul ingestel om aan te dui dat daar **geen lees-skuif-uitvoer regte op hierdie bladsy** is.
-- Hierdie toewysing is belangrik om **NULL-aanwyservaringskwakbaarhede te versag**.
-- **`__TEXT`**: Bevat **uitvoerbare** **kode** met **lees** en **uitvoer** toestemmings (nie skryfbare)**.** Gemeenskaplike dele van hierdie segment:
+- Hierdie toewysing is belangrik om **NULL-aanwyservulnerabiliteite te verminder**.
+- **`__TEXT`**: Bevat **uitvoerbare** **kode** met **lees** en **uitvoer** regte (nie skryfbare)**.** Gemeenskaplike dele van hierdie segment:
 - `__text`: Opgestelde binêre kode
 - `__const`: Konstante data
 - `__cstring`: String konstantes
@@ -214,9 +214,9 @@ Gemeenskaplike segmente wat deur hierdie cmd gelaai word:
 - **`__DATA`**: Bevat data wat **leesbaar** en **skryfbaar** is (nie uitvoerbaar)**.**
 - `__data`: Globale veranderlikes (wat geïnisialiseer is)
 - `__bss`: Statiese veranderlikes (wat nie geïnisialiseer is nie)
-- `__objc_*` (\_\_objc\_classlist, \_\_objc\_protolist, ens): Inligting wat deur die Objective-C-uitvoertyd gebruik word
-- **`__LINKEDIT`**: Bevat inligting vir die koppelaar (dyld) soos, "simbool, string, en herlokasie tabelle inskrywings."
-- **`__OBJC`**: Bevat inligting wat deur die Objective-C-uitvoertyd gebruik word. Alhoewel hierdie inligting ook in die \_\_DATA segment gevind kan word, binne verskeie in \_\_objc\_\* afdelings.
+- `__objc_*` (\_\_objc\_classlist, \_\_objc\_protolist, ens.): Inligting wat deur die Objective-C runtime gebruik word
+- **`__LINKEDIT`**: Bevat inligting vir die koppelaar (dyld) soos "simbool, string, en herlokasie tabelle inskrywings."
+- **`__OBJC`**: Bevat inligting wat deur die Objective-C runtime gebruik word. Alhoewel hierdie inligting ook in die \_\_DATA segment gevind kan word, binne verskeie in \_\_objc\_\* afdelings.
 
 ### **`LC_MAIN`**
 
@@ -229,7 +229,7 @@ Nietemin, kan jy enige inligting oor hierdie afdeling vind in [**hierdie blogpos
 
 ### **LC\_LOAD\_DYLINKER**
 
-Bevat die **pad na die dinamiese koppelvlakuitvoerbare lêer** wat gedeelde biblioteke in die prosesadresruimte kaart. Die **waarde is altyd ingestel op `/usr/lib/dyld`**. Dit is belangrik om in ag te neem dat in macOS, gebeur die dylib-kaart in **gebruikermodus**, nie in kernelmodus nie.
+Bevat die **pad na die dinamiese koppelaar uitvoerbare lêer** wat gedeelde biblioteke in die prosesadresruimte kaart. Die **waarde is altyd ingestel op `/usr/lib/dyld`**. Dit is belangrik om in ag te neem dat in macOS, gebeur die dylib-kaart in **gebruikermodus**, nie in kernelmodus nie.
 
 ### **`LC_LOAD_DYLIB`**
 
@@ -250,7 +250,7 @@ uint32_t current_version;           /* library's current version number */
 uint32_t compatibility_version;     /* library's compatibility vers number*/
 };
 ```
-![](<../../../.gitbook/assets/image (558).png>)
+![](<../../../.gitbook/assets/image (483).png>)
 
 Jy kan ook hierdie inligting kry van die opdraggelynbalk met:
 ```bash
@@ -267,7 +267,7 @@ Sommige potensiële kwaadwillige biblioteke is:
 * **CoreWLAN**: Wifi-skanderings.
 
 {% hint style="info" %}
-'n Mach-O binêre lêer kan een of **meer konstruksies** bevat wat **uitgevoer sal word voor** die adres gespesifiseer in **LC\_MAIN**.\
+'n Mach-O binêre lêer kan een of **meer konstruksies** bevat wat **uitgevoer sal word voor** die adres wat in **LC\_MAIN** gespesifiseer is.\
 Die verskuiwings van enige konstruksies word in die **\_\_mod\_init\_func** afdeling van die **\_\_DATA\_CONST** segment gehou.
 {% endhint %}
 
@@ -287,9 +287,9 @@ Dit sluit in:
 * **Simbooltabel**: Wat inligting oor die eksterne funksie bevat wat deur die binêre gebruik word
 * Dit kan ook interne funksie, veranderlike name en meer bevat.
 
-Om dit te kontroleer, kan jy die [**Mach-O View**](https://sourceforge.net/projects/machoview/) gereedskap gebruik:
+Om dit te kontroleer kan jy die [**Mach-O View**](https://sourceforge.net/projects/machoview/) gereedskap gebruik:
 
-<figure><img src="../../../.gitbook/assets/image (2) (1) (4).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1117).png" alt=""><figcaption></figcaption></figure>
 
 Of vanaf die opdraglyn:
 ```bash
@@ -301,7 +301,7 @@ size -m /bin/ls
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**

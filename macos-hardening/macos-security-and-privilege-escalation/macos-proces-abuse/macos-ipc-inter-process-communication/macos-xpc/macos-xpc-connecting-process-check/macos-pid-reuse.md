@@ -4,36 +4,36 @@
 
 <summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Andere manieren om HackTricks te ondersteunen:
+Ander maniere om HackTricks te ondersteun:
 
-* Als je je **bedrijf geadverteerd wilt zien in HackTricks** of **HackTricks wilt downloaden in PDF**, bekijk dan de [**ABONNEMENTSPAKKETTEN**](https://github.com/sponsors/carlospolop)!
-* Koop de [**officiële PEASS & HackTricks-merchandise**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), onze collectie exclusieve [**NFT's**](https://opensea.io/collection/the-peass-family)
-* **Sluit je aan bij de** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of de [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel je hacktrucs door PR's in te dienen bij de** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repos.
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kontroleer die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
 
 ## PID Hergebruik
 
-Wanneer een macOS **XPC-service** de opgeroepen proces controleert op basis van de **PID** en niet op basis van de **audit token**, is het kwetsbaar voor een PID hergebruik-aanval. Deze aanval is gebaseerd op een **raceconditie** waarbij een **exploit** berichten naar de XPC-service zal sturen en de functionaliteit **misbruikt**, en vervolgens **`posix_spawn(NULL, target_binary, NULL, &attr, target_argv, environ)`** uitvoert met de **toegestane** binair.
+Wanneer 'n macOS **XPC-diens** die geroepte proses op grond van die **PID** en nie die **oudit-token** nie, nagaan, is dit vatbaar vir 'n PID-hergebruikaanval. Hierdie aanval is gebaseer op 'n **wedren-toestand** waar 'n **uitbuiting** boodskappe na die XPC-diens **stuur** wat die funksionaliteit **misbruik** en net **daarna** die uitvoering van **`posix_spawn(NULL, teiken_binêre, NULL, &attr, teiken_argv, omgewing)`** met die **toegelate** binêre uitvoer.
 
-Deze functie zorgt ervoor dat de **toegestane binair de PID bezit**, maar het **kwaadaardige XPC-bericht zou net daarvoor zijn verzonden**. Dus als de **XPC-service** de **PID** gebruikt om de afzender te **authenticeren** en deze controleert **NA** de uitvoering van **`posix_spawn`**, zal het denken dat het afkomstig is van een **geautoriseerd** proces.
+Hierdie funksie sal die **toegelate binêre die PID laat besit**, maar die **skadelike XPC-boodskap sou net voorheen gestuur wees**. Dus, as die **XPC**-diens die **PID** gebruik om die sender te **verifieer** en dit **NA** die uitvoering van **`posix_spawn`** nagaan, sal dit dink dit kom van 'n **geautriseerde** proses.
 
-### Voorbeeld van een exploit
+### Uitbuitingvoorbeeld
 
-Als je de functie **`shouldAcceptNewConnection`** vindt of een functie die deze aanroept en **`processIdentifier`** aanroept en niet **`auditToken`** aanroept. Dan betekent dit hoogstwaarschijnlijk dat het de proces-PID verifieert en niet de audit token.\
-Zoals bijvoorbeeld in deze afbeelding (afkomstig van de referentie):
+As jy die funksie **`shouldAcceptNewConnection`** vind of 'n funksie wat deur dit geroep word wat **`processIdentifier`** noem en nie **`auditToken`** noem nie. Dit beteken hoogstwaarskynlik dat dit die proses-PID **verifieer** en nie die oudit-token nie.\
+Soos byvoorbeeld in hierdie afbeelding (geneem van die verwysing):
 
-<figure><img src="../../../../../../.gitbook/assets/image (4) (1) (1) (1) (2).png" alt="https://wojciechregula.blog/images/2020/04/pid.png"><figcaption></figcaption></figure>
+<figure><img src="../../../../../../.gitbook/assets/image (303).png" alt="https://wojciechregula.blog/images/2020/04/pid.png"><figcaption></figcaption></figure>
 
-Bekijk deze voorbeeldexploit (ook afkomstig van de referentie) om de 2 delen van de exploit te zien:
+Kyk na hierdie voorbeeld van 'n uitbuiting (weer geneem van die verwysing) om die 2 dele van die uitbuiting te sien:
 
-* Een deel dat **verschillende forks genereert**
-* **Elke fork** zal het **payload** naar de XPC-service **sturen** terwijl het net na het verzenden van het bericht **`posix_spawn`** uitvoert.
+* Een wat **verskeie vurke genereer**
+* **Elke vurk** sal die **lading** na die XPC-diens **stuur** terwyl dit **`posix_spawn`** net na die boodskap stuur.
 
 {% hint style="danger" %}
-Om de exploit te laten werken, is het belangrijk om `export`` `**`OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES`** of om dit binnen de exploit te plaatsen:
+Vir die uitbuiting om te werk, is dit belangrik om ` export`` `` `**`OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES`** of om binne die uitbuiting te plaas:
 ```objectivec
 asm(".section __DATA,__objc_fork_ok\n"
 "empty:\n"
@@ -43,7 +43,7 @@ asm(".section __DATA,__objc_fork_ok\n"
 
 {% tabs %}
 {% tab title="NSTasks" %}
-Eerste opsie deur gebruik te maak van **`NSTasks`** en argument om die kinders te lanceer om die RC te misbruik
+Eerste opsie om **`NSTasks`** en argument te gebruik om die kinders te lanceer om die RC te benut
 ```objectivec
 // Code from https://wojciechregula.blog/post/learn-xpc-exploitation-part-2-say-no-to-the-pid/
 // gcc -framework Foundation expl.m -o expl
@@ -152,7 +152,7 @@ return 0;
 {% endtab %}
 
 {% tab title="fork" %}
-Hierdie voorbeeld maak gebruik van 'n rou **`fork`** om **kinders te lanceer wat die PID-wedren-toestand sal uitbuit** en dan **'n ander wedren-toestand via 'n Hard link sal uitbuit:**
+Hierdie voorbeeld maak gebruik van 'n rou **`fork`** om **kinders te begin wat die PID-wedlooptoestand sal uitbuit** en dan **'n ander wedlooptoestand via 'n Hard koppeling sal uitbuit:**
 ```objectivec
 // export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 // gcc -framework Foundation expl.m -o expl
@@ -295,14 +295,14 @@ return 0;
 
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repos.
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>

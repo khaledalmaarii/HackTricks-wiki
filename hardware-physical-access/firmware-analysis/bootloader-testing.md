@@ -1,24 +1,24 @@
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat**, kyk na die [**SUBSKRIPSIEPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kontroleer die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-opslagplekke.
+* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
 
-Die volgende stappe word aanbeveel vir die wysiging van toestelopstartkonfigurasies en opstartlaaiers soos U-boot:
+Die volgende stappe word aanbeveel vir die wysiging van toestel-opstartkonfigurasies en opstellers soos U-boot:
 
-1. **Kry toegang tot die opstartlaaier se tolkshell**:
-- Druk tydens opstart "0", spasie, of ander geïdentifiseerde "sielkodes" om toegang tot die opstartlaaier se tolkshell te verkry.
+1. **Toegang tot die Opstellers se Interpreter-skoot**:
+- Druk tydens opstart "0", spasie, of ander geïdentifiseerde "towenaarkodes" om toegang te verkry tot die opstellers se interpreter-skoot.
 
-2. **Wysig opstartargumente**:
-- Voer die volgende opdragte uit om '`init=/bin/sh`' by die opstartargumente te voeg, wat die uitvoering van 'n skelopdrag moontlik maak:
+2. **Wysig Opstartargumente**:
+- Voer die volgende bevele uit om '`init=/bin/sh`' by die opstartargumente aan te heg, wat die uitvoering van 'n skel bevel moontlik maak:
 %%%
 #printenv
 #setenv bootargs=console=ttyS0,115200 mem=63M root=/dev/mtdblock3 mtdparts=sflash:<partitiionInfo> rootfstype=<fstype> hasEeprom=0 5srst=0 init=/bin/sh
@@ -38,18 +38,18 @@ Die volgende stappe word aanbeveel vir die wysiging van toestelopstartkonfiguras
 %%%
 
 4. **Maak gebruik van `ubootwrite.py`**:
-- Gebruik `ubootwrite.py` om die U-boot-beeld te skryf en 'n gewysigde firmware te stuur om root-toegang te verkry.
+- Gebruik `ubootwrite.py` om die U-boot beeld te skryf en 'n gewysigde firmware te stuur om worteltoegang te verkry.
 
-5. **Kontroleer foutopsporingsfunksies**:
-- Verifieer of foutopsporingsfunksies soos oordrewe logboekinskrywings, die laai van willekeurige kerns, of die opstart vanaf onbetroubare bronne geaktiveer is.
+5. **Kontroleer die Foutopsporingskenmerke**:
+- Verifieer of foutopsporingskenmerke soos oordrewe logboekinskrywings, die laai van willekeurige kerns, of die opstart vanaf onbetroubare bronne geaktiveer is.
 
-6. **Versigtige hardeware-inmenging**:
-- Wees versigtig wanneer jy een pen aan die grond verbind en interaksie hê met SPI- of NAND-flitskypleiers tydens die toestel se opstartvolgorde, veral voordat die kernel ontspan. Raadpleeg die NAND-flitskypleier se datablad voordat jy pennaaldjies kortsluit.
+6. **Versigtige Hardeware-Interferensie**:
+- Wees versigtig wanneer jy een pen aan die grond koppel en interaksie hê met SPI- of NAND-flitskyple tydens die toestel se opstartvolgorde, veral voordat die kernel dekomprimeer. Raadpleeg die NAND-flitskyple se datablad voordat jy penne kortsluit.
 
-7. **Stel 'n skelm DHCP-bediener op**:
-- Stel 'n skelm DHCP-bediener op met skadelike parameters vir 'n toestel om tydens 'n PXE-opstart in te neem. Maak gebruik van hulpmiddels soos Metasploit se (MSF) DHCP-hulpbediener. Wysig die 'FILENAME'-parameter met opdraginskrywings soos `'a";/bin/sh;#'` om insetvalidering vir toestelopstartprosedures te toets.
+7. **Stel 'n Skelm DHCP-bediener op**:
+- Stel 'n skelm DHCP-bediener op met skadelike parameters vir 'n toestel om tydens 'n PXE-opstart in te neem. Maak gebruik van gereedskap soos Metasploit se (MSF) DHCP-hulpbediener. Wysig die 'FILENAME'-parameter met bevelinspuitingsbevele soos `'a";/bin/sh;#'` om insetvalidering vir toestel-opstartprosedures te toets.
 
-**Opmerking**: Die stappe wat fisieke interaksie met toestelpenne behels (*gemerk met asterisk) moet met uiterste versigtigheid benader word om skade aan die toestel te voorkom.
+**Nota**: Die stappe wat fisiese interaksie met toestelpenne behels (*gemerk met sterre) moet met uiterste versigtigheid benader word om skade aan die toestel te voorkom.
 
 
 ## Verwysings
@@ -58,14 +58,14 @@ Die volgende stappe word aanbeveel vir die wysiging van toestelopstartkonfiguras
 
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat**, kyk na die [**SUBSKRIPSIEPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kontroleer die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-opslagplekke.
+* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>

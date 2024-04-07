@@ -2,71 +2,68 @@
 
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Werk jy in 'n **cybersecurity-maatskappy**? Wil jy jou **maatskappy adverteer in HackTricks**? Of wil jy toegang hê tot die **nuutste weergawe van die PEASS of laai HackTricks af in PDF-formaat**? Kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacking-truuks deur PR's in te dien by die [hacktricks repo](https://github.com/carlospolop/hacktricks) en [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Werk jy by 'n **cybersekerheidsmaatskappy**? Wil jy jou **maatskappy geadverteer sien in HackTricks**? of wil jy toegang hê tot die **nuutste weergawe van die PEASS of HackTricks aflaai in PDF-formaat**? Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
+* Kry die [**amptelike PEASS & HackTricks-klere**](https://peass.creator-spring.com)
+* **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Deel jou haktruuks deur PR's in te dien by die** [**hacktricks-opslag**](https://github.com/carlospolop/hacktricks) **en** [**hacktricks-cloud-opslag**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) is die mees relevante kuberveiligheidsevenement in **Spanje** en een van die belangrikste in **Europa**. Met **die missie om tegniese kennis te bevorder**, is hierdie kongres 'n kookpunt vir tegnologie- en kuberveiligheidspesialiste in elke dissipline.
+[**RootedCON**](https://www.rootedcon.com/) is die mees relevante sibersekerheidgebeurtenis in **Spanje** en een van die belangrikste in **Europa**. Met **die missie om tegniese kennis te bevorder**, is hierdie kongres 'n kookpunt vir tegnologie- en sibersekerheidsprofessionals in elke dissipline.
 
 {% embed url="https://www.rootedcon.com/" %}
 
 ## Begin
 
-Begin met **soek na malware** binne die pcap. Gebruik die **gereedskap** wat genoem word in [**Malware-analise**](../malware-analysis.md).
+Begin met **soek** vir **malware** binne die pcap. Gebruik die **gereedskap** wat genoem word in [**Malware-analise**](../malware-analysis.md).
 
-## [Volatility](../../../generic-methodologies-and-resources/basic-forensic-methodology/memory-dump-analysis/volatility-cheatsheet.md)
+## [Volatility](volatility-cheatsheet.md)
 
-**Volatility is die belangrikste oopbron-raamwerk vir geheue dump-analise**. Hierdie Python-gereedskap analiseer damps van eksterne bronne of VMware-VM's en identifiseer data soos prosesse en wagwoorde gebaseer op die dump se bedryfstelselprofiel. Dit is uitbreidbaar met plugins, wat dit baie veelsydig maak vir forensiese ondersoeke.
+**Volatility is die belangrikste oopbronraamwerk vir geheue dump-analise**. Hierdie Python-gereedskap analiseer damps van eksterne bronne of VMware VM's, identifiseer data soos prosesse en wagwoorde gebaseer op die OS-profiel van die dump. Dit is uitbreibaar met bykomstighede, wat dit baie veelsydig maak vir forensiese ondersoeke.
 
-**[Vind hier 'n spiekbrief](../../../generic-methodologies-and-resources/basic-forensic-methodology/memory-dump-analysis/volatility-cheatsheet.md)**
+[**Vind hier 'n spiekbrief**](volatility-cheatsheet.md)
 
+## Mini dump-kraakverslag
 
-## Mini dump-ongelukverslag
+Wanneer die dump klein is (net 'n paar KB, miskien 'n paar MB) is dit waarskynlik 'n mini dump-kraakverslag en nie 'n geheue dump nie.
 
-Wanneer die dump klein is (net 'n paar KB, dalk 'n paar MB), is dit waarskynlik 'n mini dump-ongelukverslag en nie 'n geheue-dump nie.
+![](<../../../.gitbook/assets/image (529).png>)
 
-![](<../../../.gitbook/assets/image (216).png>)
+As jy Visual Studio geïnstalleer het, kan jy hierdie lêer oopmaak en 'n paar basiese inligting soos prosesnaam, argitektuur, uitsonderingsinligting en modules wat uitgevoer word, bind:
 
-As jy Visual Studio geïnstalleer het, kan jy hierdie lêer oopmaak en 'n paar basiese inligting soos prosesnaam, argitektuur, uitsonderingsinligting en uitgevoerde modules bind:
+![](<../../../.gitbook/assets/image (260).png>)
 
-![](<../../../.gitbook/assets/image (217).png>)
+Jy kan ook die uitsondering laai en die gedekomponeerde instruksies sien
 
-Jy kan ook die uitsondering laai en die gedekompileerde instruksies sien
+![](<../../../.gitbook/assets/image (139).png>)
 
-![](<../../../.gitbook/assets/image (219).png>)
+![](<../../../.gitbook/assets/image (607).png>)
 
-![](<../../../.gitbook/assets/image (218) (1).png>)
+Hoe dan ook, Visual Studio is nie die beste gereedskap om 'n analise van die diepte van die dump uit te voer nie.
 
-In elk geval is Visual Studio nie die beste gereedskap om 'n diepte-analise van die dump uit te voer nie.
-
-Jy moet dit **oopmaak** met behulp van **IDA** of **Radare** om dit in **diepte** te ondersoek.
-
-
+Jy moet dit **open** met **IDA** of **Radare** om dit in **diepte** te ondersoek.
 
 ​
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) is die mees relevante kuberveiligheidsevenement in **Spanje** en een van die belangrikste in **Europa**. Met **die missie om tegniese kennis te bevorder**, is hierdie kongres 'n kookpunt vir tegnologie- en kuberveiligheidspesialiste in elke dissipline.
+[**RootedCON**](https://www.rootedcon.com/) is die mees relevante sibersekerheidgebeurtenis in **Spanje** en een van die belangrikste in **Europa**. Met **die missie om tegniese kennis te bevorder**, is hierdie kongres 'n kookpunt vir tegnologie- en sibersekerheidsprofessionals in elke dissipline.
 
 {% embed url="https://www.rootedcon.com/" %}
 
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Werk jy in 'n **cybersecurity-maatskappy**? Wil jy jou **maatskappy adverteer in HackTricks**? Of wil jy toegang hê tot die **nuutste weergawe van die PEASS of laai HackTricks af in PDF-formaat**? Kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacking-truuks deur PR's in te dien by die [hacktricks repo](https://github.com/carlospolop/hacktricks) en [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Werk jy by 'n **cybersekerheidsmaatskappy**? Wil jy jou **maatskappy geadverteer sien in HackTricks**? of wil jy toegang hê tot die **nuutste weergawe van die PEASS of HackTricks aflaai in PDF-formaat**? Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
+* Kry die [**amptelike PEASS & HackTricks-klere**](https://peass.creator-spring.com)
+* **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Deel jou haktruuks deur PR's in te dien by die** [**hacktricks-opslag**](https://github.com/carlospolop/hacktricks) **en** [**hacktricks-cloud-opslag**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

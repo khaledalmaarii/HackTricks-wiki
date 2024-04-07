@@ -2,30 +2,30 @@
 
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kontroleer die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
 
-## Hoe dit werk verduidelik
+## Hoe Dit Werk Word Verduidelik
 
-Prosesse kan geopen word op gasheer-rekenaars waar die gebruikersnaam en óf wagwoord óf hasj bekend is deur die gebruik van WMI. Opdragte word uitgevoer met behulp van WMI deur Wmiexec, wat 'n semi-interaktiewe skulpervaring bied.
+Prosesse kan op gasheer-rekenaars geopen word waar die gebruikersnaam en óf wagwoord of hasj bekend is deur die gebruik van WMI. Opdragte word uitgevoer met behulp van WMI deur Wmiexec, wat 'n semi-interaktiewe skilervaring bied.
 
-**dcomexec.py:** Deur gebruik te maak van verskillende DCOM-eindpunte, bied hierdie skrip 'n semi-interaktiewe skulp soortgelyk aan wmiexec.py, wat spesifiek gebruik maak van die ShellBrowserWindow DCOM-voorwerp. Dit ondersteun tans MMC20. Toepassing, Skulpvensters en Skulpblaaivenster-voorwerpe. (bron: [Hacking Articles](https://www.hackingarticles.in/beginners-guide-to-impacket-tool-kit-part-1/))
+**dcomexec.py:** Deur verskillende DCOM-eindpunte te benut, bied hierdie skrip 'n semi-interaktiewe skil soortgelyk aan wmiexec.py, wat spesifiek die ShellBrowserWindow DCOM-voorwerp benut. Dit ondersteun tans MMC20. Toepassing, Skelmuurvensters, en Skelblaaier-venster-voorwerpe. (bron: [Hacking Articles](https://www.hackingarticles.in/beginners-guide-to-impacket-tool-kit-part-1/))
 
-## WMI Fundamentele beginsels
+## WMI Fundamentele Beginsels
 
 ### Naamruimte
 
-Gestruktureer in 'n gidsstyl-hierargie, is WMI se topvlakhouer \root, waarby addisionele gidslyne, bekend as naamruimtes, georganiseer is.
-Opdragte om naamruimtes te lys:
+Gestruktureer in 'n gidsstyl-hierargie, is WMI se topvlakhouer \root, waarby addisionele gidse, bekend as name spaces, georganiseer is.
+Opdragte om name spaces te lys:
 ```bash
 # Retrieval of Root namespaces
 gwmi -namespace "root" -Class "__Namespace" | Select Name
@@ -36,20 +36,20 @@ Get-WmiObject -Class "__Namespace" -Namespace "Root" -List -Recurse 2> $null | s
 # Listing of namespaces within "root\cimv2"
 Get-WmiObject -Class "__Namespace" -Namespace "root\cimv2" -List -Recurse 2> $null | select __Namespace | sort __Namespace
 ```
-Klasse binne 'n namespace kan gelys word deur die volgende te gebruik:
+Klasse binne 'n namespace kan gelys word deur gebruik te maak van:
 ```bash
 gwmwi -List -Recurse # Defaults to "root\cimv2" if no namespace specified
 gwmi -Namespace "root/microsoft" -List -Recurse
 ```
 ### **Klasse**
 
-Om 'n WMI-klassenaam te ken, soos win32\_process, en die namespace waarin dit voorkom, is van kritieke belang vir enige WMI-operasie.
+Om 'n WMI-klasnaam te ken, soos win32\_process, en die namespace waarin dit bestaan, is noodsaaklik vir enige WMI-operasie.
 Opdragte om klasse te lys wat begin met `win32`:
 ```bash
 Get-WmiObject -Recurse -List -class win32* | more # Defaults to "root\cimv2"
 gwmi -Namespace "root/microsoft" -List -Recurse -Class "MSFT_MpComput*"
 ```
-Roep van 'n klas aan:
+Aanroeping van 'n klas:
 ```bash
 # Defaults to "root/cimv2" when namespace isn't specified
 Get-WmiObject -Class win32_share
@@ -71,7 +71,7 @@ Invoke-WmiMethod -Class win32_share -Name Create -ArgumentList @($null, "Descrip
 ```
 ## WMI Enumerasie
 
-### WMI Diensstatus
+### WMI Diens Status
 
 Opdragte om te verifieer of die WMI-diens operasioneel is:
 ```bash
@@ -81,9 +81,9 @@ Get-Service Winmgmt
 # Via CMD
 net start | findstr "Instrumentation"
 ```
-### Stelsel- en Prosesinligting
+### Stelsel- en Prosesherinligting
 
-Versamel stelsel- en prosesinligting deur middel van WMI:
+Inligting oor stelsels en prosesse word deur WMI ingesamel:
 ```bash
 Get-WmiObject -ClassName win32_operatingsystem | select * | more
 Get-WmiObject win32_process | Select Name, Processid
@@ -97,15 +97,15 @@ wmic useraccount list /format:list
 wmic group list /format:list
 wmic sysaccount list /format:list
 ```
-### **Handmatige Afstands-WMI-navrae**
+### **Handmatige Afgeleë WMI-navrae**
 
-Stiekeme identifikasie van plaaslike administrateurs op 'n afgeleë masjien en aangemelde gebruikers kan bereik word deur spesifieke WMI-navrae. `wmic` ondersteun ook lees van 'n tekslêer om op meerdere nodusse gelyktydig opdragte uit te voer.
+Heimlike identifikasie van plaaslike admins op 'n afgeleë rekenaar en aangemelde gebruikers kan bereik word deur spesifieke WMI-navrae. `wmic` ondersteun ook lees vanaf 'n tekslêer om op meerdere nodes gelyktydig opdragte uit te voer.
 
-Om 'n proses oor WMI afstandelik uit te voer, soos die implementering van 'n Empire-agent, word die volgende opdragskrustruktuur gebruik, met suksesvolle uitvoering aangedui deur 'n terugkeerwaarde van "0":
+Om 'n proses oor WMI afgeleë uit te voer, soos die implementering van 'n Empire-agent, word die volgende opdragstruktuur gebruik, met suksesvolle uitvoering aangedui deur 'n terugvoerwaarde van "0":
 ```bash
 wmic /node:hostname /user:user path win32_process call create "empire launcher string here"
 ```
-Hierdie proses illustreer WMI se vermoë om op afstand uitgevoer te word en stelselopname, en beklemtoon sy bruikbaarheid vir beide stelseladministrasie en penetrasietoetsing.
+Hierdie proses illustreer WMI se vermoë vir afgeleë uitvoering en stelselopsomming, wat sy nuttigheid vir beide stelseladministrasie en indringingstoetsing beklemtoon.
 
 
 ## Verwysings
@@ -123,14 +123,14 @@ SharpLateral redwmi HOSTNAME C:\\Users\\Administrator\\Desktop\\malware.exe
 
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kontroleer die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-opslagplekke.
+* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag. 
 
 </details>

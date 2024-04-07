@@ -1,60 +1,60 @@
-# macOS Library Injection
+# macOS Biblioteekinspuiting
 
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kontroleer die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-opslagplekke.
+* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
 
 {% hint style="danger" %}
-Die kode van **dyld is oopbron** en kan gevind word by [https://opensource.apple.com/source/dyld/](https://opensource.apple.com/source/dyld/) en kan afgelaai word as 'n tar met behulp van 'n **URL soos** [https://opensource.apple.com/tarballs/dyld/dyld-852.2.tar.gz](https://opensource.apple.com/tarballs/dyld/dyld-852.2.tar.gz)
+Die kode van **dyld is oopbron** en kan gevind word op [https://opensource.apple.com/source/dyld/](https://opensource.apple.com/source/dyld/) en kan afgelaai word as 'n tar deur 'n **URL soos** [https://opensource.apple.com/tarballs/dyld/dyld-852.2.tar.gz](https://opensource.apple.com/tarballs/dyld/dyld-852.2.tar.gz)
 {% endhint %}
 
 ## **DYLD\_INSERT\_LIBRARIES**
 
-Dit is soos die [**LD\_PRELOAD op Linux**](../../../../linux-hardening/privilege-escalation/#ld\_preload). Dit maak dit moontlik om 'n proses aan te dui wat uitgevoer gaan word om 'n spesifieke biblioteek van 'n pad te laai (as die omgewingsveranderlike geaktiveer is).
+Dit is soos die [**LD\_PRELOAD op Linux**](../../../../linux-hardening/privilege-escalation/#ld\_preload). Dit maak dit moontlik om 'n proses aan te dui wat uitgevoer gaan word om 'n spesifieke biblioteek van 'n pad te laai (as die omgewingsveranderlike geaktiveer is)
 
-Hierdie tegniek kan ook **gebruik word as 'n ASEP-tegniek** aangesien elke geïnstalleerde toepassing 'n plist genaamd "Info.plist" het wat die **toewysing van omgewingsveranderlikes** moontlik maak deur gebruik te maak van 'n sleutel genaamd `LSEnvironmental`.
+Hierdie tegniek kan ook **gebruik word as 'n ASEP-tegniek** aangesien elke geïnstalleerde toepassing 'n plist genaamd "Info.plist" het wat die **toewysing van omgewingsveranderlikes** moontlik maak deur 'n sleutel genaamd `LSEnvironmental`.
 
 {% hint style="info" %}
-Vanaf 2012 het **Apple die krag van die `DYLD_INSERT_LIBRARIES` drasties verminder**.
+Aangesien 2012 het **Apple drasties die krag van die** **`DYLD_INSERT_LIBRARIES`** **verminder**.
 
 Gaan na die kode en **kyk na `src/dyld.cpp`**. In die funksie **`pruneEnvironmentVariables`** kan jy sien dat **`DYLD_*`** veranderlikes verwyder word.
 
-In die funksie **`processRestricted`** word die rede vir die beperking gestel. Deur daardie kode te ondersoek, kan jy sien dat die redes is:
+In die funksie **`processRestricted`** word die rede vir die beperking gestel. Deur daardie kode te kontroleer, kan jy sien dat die redes is:
 
 * Die binêre lêer is `setuid/setgid`
-* Die bestaan van 'n `__RESTRICT/__restrict`-afdeling in die macho-binêre.
-* Die sagteware het toekennings (gehardloop-tyd) sonder die [`com.apple.security.cs.allow-dyld-environment-variables`](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-dyld-environment-variables) toekennings
-* Kontroleer **toekennings** van 'n binêre lêer met: `codesign -dv --entitlements :- </path/to/bin>`
+* Bestaan van `__RESTRICT/__restrict` afdeling in die macho-binêre.
+* Die sagteware het toestemmings (gehardlooptyd) sonder [`com.apple.security.cs.allow-dyld-environment-variables`](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-dyld-environment-variables) toestemming
+* Kontroleer **toestemmings** van 'n binêre met: `codesign -dv --entitlements :- </path/to/bin>`
 
-In meer opgedateerde weergawes kan jy hierdie logika vind in die tweede deel van die funksie **`configureProcessRestrictions`.** Wat egter in nuwer weergawes uitgevoer word, is die **begin van die funksie** (jy kan die ifs wat verband hou met iOS of simulasie verwyder, aangesien dit nie in macOS gebruik sal word nie.
+In meer opgedateerde weergawes kan jy hierdie logika vind in die tweede deel van die funksie **`configureProcessRestrictions`.** Wat egter in nuwer weergawes uitgevoer word, is die **begin kontroles van die funksie** (jy kan die ifs verwyder wat verband hou met iOS of simulasie aangesien dit nie in macOS gebruik sal word nie.
 {% endhint %}
 
 ### Biblioteekvalidering
 
-Selfs as die binêre lêer die **`DYLD_INSERT_LIBRARIES`** omgewingsveranderlike toelaat, sal dit nie 'n aangepaste biblioteek laai as die binêre lêer die handtekening van die biblioteek kontroleer nie.
+Selfs as die binêre lêer toelaat om die **`DYLD_INSERT_LIBRARIES`** omgewingsveranderlike te gebruik, as die binêre lêer die handtekening van die biblioteek nagaan om dit te laai, sal dit nie 'n aangepaste een laai nie.
 
-Om 'n aangepaste biblioteek te laai, moet die binêre lêer een van die volgende toekennings hê:
+Om 'n aangepaste biblioteek te laai, moet die binêre lêer een van die volgende toestemmings hê:
 
 * [`com.apple.security.cs.disable-library-validation`](../../macos-security-protections/macos-dangerous-entitlements.md#com.apple.security.cs.disable-library-validation)
 * [`com.apple.private.security.clear-library-validation`](../../macos-security-protections/macos-dangerous-entitlements.md#com.apple.private.security.clear-library-validation)
 
-of die binêre lêer **moet nie** die **gehardloop-tyd-vlag** of die **biblioteekvalideringsvlag** hê nie.
+of die binêre lêer **moet nie** die **gehardlooptyd-vlag** of die **biblioteekvalideringsvlag** hê nie.
 
-Jy kan nagaan of 'n binêre lêer **gehardloop-tyd** het met `codesign --display --verbose <bin>` deur die vlag runtime in **`CodeDirectory`** te kontroleer, soos: **`CodeDirectory v=20500 size=767 flags=0x10000(runtime) hashes=13+7 location=embedded`**
+Jy kan nagaan of 'n binêre lêer **gehardlooptyd** het met `codesign --display --verbose <bin>` deur die vlag runtime in **`CodeDirectory`** te kontroleer soos: **`CodeDirectory v=20500 size=767 flags=0x10000(runtime) hashes=13+7 location=embedded`**
 
 Jy kan ook 'n biblioteek laai as dit **onderteken is met dieselfde sertifikaat as die binêre lêer**.
 
-Vind 'n voorbeeld van hoe om dit (mis)tebruik en die beperkings te kontroleer in:
+Vind 'n voorbeeld oor hoe om hierdie tegniek te (mis)bruik en kontroleer die beperkings in:
 
 {% content-ref url="macos-dyld-hijacking-and-dyld_insert_libraries.md" %}
 [macos-dyld-hijacking-and-dyld\_insert\_libraries.md](macos-dyld-hijacking-and-dyld\_insert\_libraries.md)
@@ -63,36 +63,57 @@ Vind 'n voorbeeld van hoe om dit (mis)tebruik en die beperkings te kontroleer in
 ## Dylib-hacking
 
 {% hint style="danger" %}
-Onthou dat **vorige biblioteekvalideringsbeperkings ook van toepassing is** om Dylib-hacking-aanvalle uit te voer.
+Onthou dat **vorige Biblioteekvalideringsbeperkings ook van toepassing is** om Dylib-hakkingaanvalle uit te voer.
 {% endhint %}
 
-Soos in Windows kan jy in MacOS ook **dylibs kaap** om **toepassings** **arbitrêre kodes** te laat **uitvoer** (wel, eintlik mag dit nie moontlik wees vir 'n gewone gebruiker nie, aangesien jy 'n TCC-toestemming nodig mag hê om binne 'n `.app`-pakket te skryf en 'n biblioteek te kaap).\
-Die manier waarop **MacOS-toepassings** biblioteke **laai**, is egter **meer beperk** as in Windows. Dit beteken dat **kwaadwillige** ontwikkelaars steeds hierdie tegniek vir **steelsheid** kan gebruik, maar die waarskynlikheid om dit te **misbruik om voorregte te verhoog, is baie laer**.
+Soos in Windows, in MacOS kan jy ook **dylibs kaap** om **toepassings** **willekeurige kode te laat uitvoer** (wel, eintlik vanaf 'n gewone gebruiker mag dit nie moontlik wees nie aangesien jy 'n TCC-toestemming nodig mag hê om binne 'n `.app`-bundel te skryf en 'n biblioteek te kaap).\
+Nietemin, die manier waarop **MacOS-toepassings** biblioteke **laai** is **meer beperk** as in Windows. Dit impliseer dat **malware-ontwikkelaars** steeds hierdie tegniek vir **steelsheid** kan gebruik, maar die waarskynlikheid om hierdie tegniek te **misbruik om voorregte te eskaleer is baie laer**.
 
-Eerstens is dit **meer algemeen** om te vind dat **MacOS-binêre lêers die volledige pad** na die biblioteke aandui wat gelaai moet word. En tweedens **soek MacOS nooit** in die **$PATH**-velde vir biblioteke nie.
+Eerstens is dit **meer algemeen** om te vind dat **MacOS-binêre lêers die volledige pad aandui** na die biblioteke wat gelaai moet word. En tweedens, **soek MacOS nooit** in die lêers van die **$PATH** vir biblioteke.
 
-Die **hoofgedeelte** van die **kode** wat met hierdie funksionaliteit verband hou, is in **`ImageLoader::recursiveLoadLibraries`** in `ImageLoader.cpp`.
+Die **hoofgedeelte** van die **kode** wat verband hou met hierdie funksionaliteit is in **`ImageLoader::recursiveLoadLibraries`** in `ImageLoader.cpp`.
 
-Daar is **4 verskillende opdragopdragte** wat 'n macho-binêre lêer kan gebruik om biblioteke te laai:
+Daar is **4 verskillende kopbevele** wat 'n macho-binêre kan gebruik om biblioteke te laai:
 
-* Die **`LC_LOAD_DYLIB`**-opdrag is die algemene opdrag om 'n
-* As **`LC_LOAD_DYLIB`** bevat `@rpath/library.dylib` en **`LC_RPATH`** bevat `/application/app.app/Contents/Framework/v1/` en `/application/app.app/Contents/Framework/v2/`. Beide mappe sal gebruik word om `library.dylib` te laai. As die biblioteek nie in `[...]/v1/` bestaan nie en die aanvaller dit daar kan plaas om die laai van die biblioteek in `[...]/v2/` te kap, aangesien die volgorde van paaie in **`LC_LOAD_DYLIB`** gevolg word.
-* **Vind rpath-paaie en biblioteke** in binnerwerke met: `otool -l </path/to/binary> | grep -E "LC_RPATH|LC_LOAD_DYLIB" -A 5`
+* **`LC_LOAD_DYLIB`**-bevel is die algemene bevel om 'n dylib te laai.
+* **`LC_LOAD_WEAK_DYLIB`**-bevel werk soos die vorige een, maar as die dylib nie gevind word nie, gaan die uitvoering voort sonder enige fout.
+* **`LC_REEXPORT_DYLIB`**-bevel prokureer (of heruitvoer) die simbole van 'n ander biblioteek.
+* **`LC_LOAD_UPWARD_DYLIB`**-bevel word gebruik wanneer twee biblioteke van mekaar afhanklik is (dit word 'n _opwaartse afhanklikheid_ genoem).
+
+Daar is egter **2 soorte dylib-hakking**:
+
+* **Ontbrekende swak gekoppelde biblioteke**: Dit beteken dat die toepassing sal probeer om 'n biblioteek te laai wat nie bestaan nie, gekonfigureer met **LC\_LOAD\_WEAK\_DYLIB**. Dan, **as 'n aanvaller 'n dylib plaas waar dit verwag word, sal dit gelaai word**.
+* Die feit dat die skakel "swak" is, beteken dat die toepassing sal bly loop selfs as die biblioteek nie gevind word nie.
+* Die **kode verband** met hierdie is in die funksie `ImageLoaderMachO::doGetDependentLibraries` van `ImageLoaderMachO.cpp` waar `lib->required` slegs `false` is wanneer `LC_LOAD_WEAK_DYLIB` waar is.
+* **Vind swak gekoppelde biblioteke** in binêre lêers met (jy het later 'n voorbeeld van hoe om kaapbiblioteke te skep):
+* ```bash
+otool -l </path/to/bin> | grep LC_LOAD_WEAK_DYLIB -A 5 cmd LC_LOAD_WEAK_DYLIB
+cmdsize 56
+name /var/tmp/lib/libUtl.1.dylib (offset 24)
+time stamp 2 Wed Jun 21 12:23:31 1969
+current version 1.0.0
+compatibility version 1.0.0
+```
+* **Gekonfigureer met @rpath**: Mach-O-binêre lêers kan die bevele **`LC_RPATH`** en **`LC_LOAD_DYLIB`** hê. Gebaseer op die **waardes** van daardie bevele, gaan biblioteke vanuit **verskillende lêers** gelaai word.
+* **`LC_RPATH`** bevat die paaie van sekere lêers wat gebruik word om biblioteke deur die binêre lêer te laai.
+* **`LC_LOAD_DYLIB`** bevat die pad na spesifieke biblioteke om te laai. Hierdie paaie kan **`@rpath`** bevat, wat deur die waardes in **`LC_RPATH`** vervang sal word. As daar verskeie paaie in **`LC_RPATH`** is, sal elkeen gebruik word om die te laai biblioteek te soek. Voorbeeld:
+* As **`LC_LOAD_DYLIB`** `@rpath/library.dylib` bevat en **`LC_RPATH`** `/application/app.app/Contents/Framework/v1/` en `/application/app.app/Contents/Framework/v2/` bevat. Beide mappe sal gebruik word om `library.dylib` te laai. As die biblioteek nie in `[...]/v1/` bestaan nie en 'n aanvaller dit daar kan plaas om die laai van die biblioteek in `[...]/v2/` te kap, aangesien die volgorde van paaie in **`LC_LOAD_DYLIB`** gevolg word.
+* **Vind rpath-paaie en biblioteke** in bineêre lêers met: `otool -l </path/to/binary> | grep -E "LC_RPATH|LC_LOAD_DYLIB" -A 5`
 
 {% hint style="info" %}
 **`@executable_path`**: Is die **pad** na die gids wat die **hoof uitvoerbare lêer** bevat.
 
-**`@loader_path`**: Is die **pad** na die **gids** wat die **Mach-O binêre** bevat wat die laaibestuursopdrag bevat.
+**`@loader_path`**: Is die **pad** na die **gids** wat die **Mach-O binêre lêer** bevat wat die laai-opdrag bevat.
 
-* Wanneer dit in 'n uitvoerbare gebruik word, is **`@loader_path`** effektief dieselfde as **`@executable_path`**.
+* Wanneer dit in 'n uitvoerbare lêer gebruik word, is **`@loader_path`** effektief dieselfde as **`@executable_path`**.
 * Wanneer dit in 'n **dylib** gebruik word, gee **`@loader_path`** die **pad** na die **dylib**.
 {% endhint %}
 
-Die manier om voorregte te verhoog deur hierdie funksionaliteit te misbruik, sou wees in die seldsame geval dat 'n toepassing wat deur root uitgevoer word, op soek is na 'n biblioteek in 'n gids waar die aanvaller skryfregte het.
+Die manier om **voorregte te eskaleer** deur hierdie funksionaliteit te misbruik, sou in die seldsame geval wees dat 'n **toepassing** wat deur **root** uitgevoer word, op soek is na 'n sekere **biblioteek in 'n sekere gids waar die aanvaller skryfregte het.**
 
 {% hint style="success" %}
-'n Goeie **skandeerder** om ontbrekende biblioteke in programme te vind, is [**Dylib Hijack Scanner**](https://objective-see.com/products/dhs.html) of 'n [**CLI-weergawe**](https://github.com/pandazheng/DylibHijack).\
-'n Goeie **verslag met tegniese besonderhede** oor hierdie tegniek kan [**hier**](https://www.virusbulletin.com/virusbulletin/2015/03/dylib-hijacking-os-x) gevind word.
+'n Goeie **skenner** om **ontbrekende biblioteke** in toepassings te vind is [**Dylib Hijack Scanner**](https://objective-see.com/products/dhs.html) of 'n [**CLI weergawe**](https://github.com/pandazheng/DylibHijack).\
+'n Goeie **verslag met tegniese besonderhede** oor hierdie tegniek kan gevind word [**hier**](https://www.virusbulletin.com/virusbulletin/2015/03/dylib-hijacking-os-x).
 {% endhint %}
 
 **Voorbeeld**
@@ -104,13 +125,12 @@ Die manier om voorregte te verhoog deur hierdie funksionaliteit te misbruik, sou
 ## Dlopen Hijacking
 
 {% hint style="danger" %}
-Onthou dat **vorige Biblioteekvalideringsbeperkings ook van toepassing is** om Dlopen-hakingsaanvalle uit te voer.
+Onthou dat **vorige Biblioteekvalideringsbeperkings ook van toepassing is** om Dlopen-hyjacking-aanvalle uit te voer.
 {% endhint %}
 
 Vanaf **`man dlopen`**:
 
-* Wanneer die pad \*\*nie 'n sku
-
+* Wanneer die pad **geen sku
 ```c
 // gcc dlopentest.c -o dlopentest -Wl,-rpath,/tmp/test
 #include <dlfcn.h>
@@ -153,33 +173,27 @@ fprintf(stderr, "Error loading: %s\n\n\n", dlerror());
 return 0;
 }
 ```
-
-As jy dit saamstel en uitvoer, kan jy sien **waar elke biblioteek onsuksesvol gesoek is**. Jy kan ook **die FS-logboeke filter**:
-
+As jy dit saamstel en uitvoer, kan jy sien **waar elke biblioteek tevergeefs gesoek is**. Ook kan jy **die FS-logboeke filter**:
 ```bash
 sudo fs_usage | grep "dlopentest"
 ```
+## Relatiewe Pad Ontvoering
 
-## Relatiewe Pad Kaping
-
-As 'n **bevoorregte binêre toepassing** (soos 'n SUID of 'n binêre toepassing met kragtige toestemmings) 'n relatiewe pad biblioteek laai (byvoorbeeld deur gebruik te maak van `@executable_path` of `@loader_path`) en Biblioteekvalidering gedeaktiveer is, kan dit moontlik wees om die binêre toepassing na 'n plek te skuif waar die aanvaller die relatiewe pad biblioteek kan wysig en dit misbruik om kode in die proses in te spuit.
+Indien 'n **bevoorregte binêre toepassing** (soos 'n SUID of 'n binêre toepassing met kragtige toestemmings) 'n relatiewe pad biblioteek laai (byvoorbeeld deur `@executable_path` of `@loader_path` te gebruik) en **Biblioteekvalidasie gedeaktiveer** is, kan dit moontlik wees om die binêre toepassing na 'n plek te skuif waar die aanvaller die relatiewe pad biblioteek kan **verander**, en dit misbruik om kode in die proses in te spuit.
 
 ## Snoei `DYLD_*` en `LD_LIBRARY_PATH` omgewingsveranderlikes
 
-In die lêer `dyld-dyld-832.7.1/src/dyld2.cpp` is dit moontlik om die funksie **`pruneEnvironmentVariables`** te vind, wat enige omgewingsveranderlike wat begin met `DYLD_` en `LD_LIBRARY_PATH=` sal verwyder.
+In die lêer `dyld-dyld-832.7.1/src/dyld2.cpp` is dit moontlik om die funksie **`pruneEnvironmentVariables`** te vind, wat enige omgewingsveranderlike wat met `DYLD_` **begin** en **`LD_LIBRARY_PATH=`** sal verwyder.
 
-Dit sal ook spesifiek die omgewingsveranderlikes **`DYLD_FALLBACK_FRAMEWORK_PATH`** en **`DYLD_FALLBACK_LIBRARY_PATH`** nul stel vir **suid** en **sgid** binêre toepassings.
+Dit sal ook spesifiek die omgewingsveranderlikes **`DYLD_FALLBACK_FRAMEWORK_PATH`** en **`DYLD_FALLBACK_LIBRARY_PATH`** vir **suid** en **sgid** binêre toepassings na **nul** stel.
 
-Hierdie funksie word vanuit die **`_main`** funksie van dieselfde lêer geroep as dit op OSX gemik word, soos hier:
-
+Hierdie funksie word vanaf die **`_main`** funksie van dieselfde lêer geroep as dit op OSX gemik word, soos hier:
 ```cpp
 #if TARGET_OS_OSX
 if ( !gLinkContext.allowEnvVarsPrint && !gLinkContext.allowEnvVarsPath && !gLinkContext.allowEnvVarsSharedCache ) {
 pruneEnvironmentVariables(envp, &apple);
 ```
-
-en daardie booleaanse vlae word in dieselfde lêer in die kode ingestel:
-
+en daardie boole-vlakke word in dieselfde lêer in die kode ingestel:
 ```cpp
 #if TARGET_OS_OSX
 // support chrooting from old kernel
@@ -210,15 +224,13 @@ gLinkContext.allowClassicFallbackPaths   = !isRestricted;
 gLinkContext.allowInsertFailures         = false;
 gLinkContext.allowInterposing         	 = true;
 ```
+Dit beteken basies dat as die binêre lêer **suid** of **sgid** is, of 'n **RESTRICT** segment in die koppe het, of onderteken is met die **CS\_RESTRICT** vlag, dan is **`!gLinkContext.allowEnvVarsPrint && !gLinkContext.allowEnvVarsPath && !gLinkContext.allowEnvVarsSharedCache`** waar en word die omgewingsveranderlikes gesnoei.
 
-Dit beteken basies dat as die binêre lêer **suid** of **sgid** is, of 'n **RESTRICT** segment in die koppe het, of onderteken is met die **CS\_RESTRICT** vlag, dan is **`!gLinkContext.allowEnvVarsPrint && !gLinkContext.allowEnvVarsPath && !gLinkContext.allowEnvVarsSharedCache`** waar en word die omgewingsveranderlikes uitgesny.
-
-Let daarop dat as CS\_REQUIRE\_LV waar is, sal die veranderlikes nie uitgesny word nie, maar die biblioteekvalidering sal nagaan of hulle dieselfde sertifikaat as die oorspronklike binêre lêer gebruik.
+Let daarop dat as CS\_REQUIRE\_LV waar is, sal die veranderlikes nie gesnoei word nie, maar die biblioteekvalidering sal nagaan of hulle dieselfde sertifikaat as die oorspronklike binêre lêer gebruik. 
 
 ## Kontroleer Beperkings
 
 ### SUID & SGID
-
 ```bash
 # Make it owned by root and suid
 sudo chown root hello
@@ -229,27 +241,14 @@ DYLD_INSERT_LIBRARIES=inject.dylib ./hello
 # Remove suid
 sudo chmod -s hello
 ```
-
 ### Afdeling `__RESTRICT` met segment `__restrict`
-
-In macOS, the `__RESTRICT` section is a special section in the Mach-O binary format that is used to mark memory regions as restricted. This section is typically used to protect sensitive code or data from being modified or accessed by unauthorized processes.
-
-The `__RESTRICT` section is implemented using the `__restrict` segment, which is a memory protection mechanism provided by the macOS kernel. When a process attempts to access or modify memory within the `__RESTRICT` section, the kernel will enforce strict access controls and prevent unauthorized actions.
-
-By leveraging the `__RESTRICT` section and the `__restrict` segment, developers can enhance the security of their macOS applications by restricting access to critical code and data. This can help prevent privilege escalation attacks and unauthorized modifications to sensitive information.
-
-It is important to note that the `__RESTRICT` section and the `__restrict` segment are not foolproof and should not be solely relied upon for securing an application. They should be used in conjunction with other security measures, such as proper input validation, secure coding practices, and regular security updates.
-
-Overall, the `__RESTRICT` section with the `__restrict` segment provides a valuable security feature in macOS that can help protect critical code and data from unauthorized access or modification.
-
 ```bash
 gcc -sectcreate __RESTRICT __restrict /dev/null hello.c -o hello-restrict
 DYLD_INSERT_LIBRARIES=inject.dylib ./hello-restrict
 ```
+### Geharde hardloop
 
-### Geharde uitvoering
-
-Skep 'n nuwe sertifikaat in die Sleutelbos en gebruik dit om die binêre lêer te onderteken:
+Skep 'n nuwe sertifikaat in die Sleutelhang en gebruik dit om die binêre lêer te onderteken:
 
 {% code overflow="wrap" %}
 ```bash
@@ -277,28 +276,23 @@ DYLD_INSERT_LIBRARIES=inject.dylib ./hello-signed # Won't work
 Let daarop dat selfs as daar bineêre lêers is wat onderteken is met vlae **`0x0(none)`**, kan hulle dinamies die **`CS_RESTRICT`** vlag kry wanneer hulle uitgevoer word en daarom sal hierdie tegniek nie in hulle werk nie.
 
 Jy kan nagaan of 'n pros hierdie vlag het met (kry [**csops hier**](https://github.com/axelexic/CSOps)):
-
 ```bash
 csops -status <pid>
 ```
-
-en dan kontroleer of die vlag 0x800 geaktiveer is.
-{% endhint %}
-
 ## Verwysings
 
 * [https://theevilbit.github.io/posts/dyld\_insert\_libraries\_dylib\_injection\_in\_macos\_osx\_deep\_dive/](https://theevilbit.github.io/posts/dyld\_insert\_libraries\_dylib\_injection\_in\_macos\_osx\_deep\_dive/)
 
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repos.
+* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>

