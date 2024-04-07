@@ -14,7 +14,11 @@ Outras maneiras de apoiar o HackTricks:
 
 </details>
 
-A exposição de `/proc` e `/sys` sem isolamento adequado de namespace introduz riscos significativos de segurança, incluindo aumento da superfície de ataque e divulgação de informações. Esses diretórios contêm arquivos sensíveis que, se mal configurados ou acessados por um usuário não autorizado, podem levar à fuga do contêiner, modificação do host ou fornecer informações que auxiliam em ataques adicionais. Por exemplo, montar incorretamente `-v /proc:/host/proc` pode contornar a proteção do AppArmor devido à sua natureza baseada em caminho, deixando `/host/proc` desprotegido.
+<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://websec.nl/" %}
+
+A exposição de `/proc` e `/sys` sem isolamento de namespace adequado introduz riscos significativos de segurança, incluindo aumento da superfície de ataque e divulgação de informações. Esses diretórios contêm arquivos sensíveis que, se mal configurados ou acessados por um usuário não autorizado, podem levar à fuga do contêiner, modificação do host ou fornecer informações que auxiliam em ataques adicionais. Por exemplo, montar incorretamente `-v /proc:/host/proc` pode contornar a proteção do AppArmor devido à sua natureza baseada em caminho, deixando `/host/proc` desprotegido.
 
 **Você pode encontrar mais detalhes de cada vulnerabilidade potencial em** [**https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts**](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts)**.**
 
@@ -22,7 +26,7 @@ A exposição de `/proc` e `/sys` sem isolamento adequado de namespace introduz 
 
 ### `/proc/sys`
 
-Este diretório permite acesso para modificar variáveis do kernel, geralmente via `sysctl(2)`, e contém vários subdiretórios de preocupação:
+Este diretório permite acesso para modificar variáveis do kernel, geralmente via `sysctl(2)`, e contém vários subdiretórios de interesse:
 
 #### **`/proc/sys/kernel/core_pattern`**
 
@@ -31,10 +35,10 @@ Este diretório permite acesso para modificar variáveis do kernel, geralmente v
 *   **Exemplo de Teste e Exploração**:
 
 ```bash
-[ -w /proc/sys/kernel/core_pattern ] && echo Yes # Testa acesso de escrita
+[ -w /proc/sys/kernel/core_pattern ] && echo Yes # Testar acesso de escrita
 cd /proc/sys/kernel
-echo "|$overlay/shell.sh" > core_pattern # Define manipulador personalizado
-sleep 5 && ./crash & # Aciona o manipulador
+echo "|$overlay/shell.sh" > core_pattern # Definir manipulador personalizado
+sleep 5 && ./crash & # Acionar manipulador
 ```
 
 #### **`/proc/sys/kernel/modprobe`**
@@ -44,7 +48,7 @@ sleep 5 && ./crash & # Aciona o manipulador
 *   **Exemplo de Verificação de Acesso**:
 
 ```bash
-ls -l $(cat /proc/sys/kernel/modprobe) # Verifica acesso ao modprobe
+ls -l $(cat /proc/sys/kernel/modprobe) # Verificar acesso ao modprobe
 ```
 
 #### **`/proc/sys/vm/panic_on_oom`**
@@ -96,14 +100,14 @@ echo b > /proc/sysrq-trigger # Reinicia o host
 #### **`/proc/[pid]/mem`**
 
 * Interface com o dispositivo de memória do kernel `/dev/mem`.
-* Historicamente vulnerável a ataques de escalada de privilégios.
+* Historicamente vulnerável a ataques de escalonamento de privilégios.
 * Mais em [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
 
 #### **`/proc/kcore`**
 
 * Representa a memória física do sistema no formato de core ELF.
 * A leitura pode vazar conteúdos de memória do host e de outros contêineres.
-* O tamanho grande do arquivo pode levar a problemas de leitura ou falhas de software.
+* O tamanho do arquivo grande pode levar a problemas de leitura ou travamentos de software.
 * Uso detalhado em [Despejando /proc/kcore em 2019](https://schlafwandler.github.io/posts/dumping-/proc/kcore/).
 
 #### **`/proc/kmem`**
@@ -119,7 +123,7 @@ echo b > /proc/sysrq-trigger # Reinicia o host
 #### **`/proc/sched_debug`**
 
 * Retorna informações de agendamento de processos, contornando as proteções do namespace PID.
-* Expõe nomes de processos, IDs e identificadores de cgroups.
+* Expõe nomes de processos, IDs e identificadores de cgroup.
 
 #### **`/proc/[pid]/mountinfo`**
 
@@ -134,7 +138,7 @@ echo b > /proc/sysrq-trigger # Reinicia o host
 * Escrever em `/sys/kernel/uevent_helper` pode executar scripts arbitrários ao acionar `uevents`.
 *   **Exemplo de Exploração**: %%%bash
 
-## Cria uma carga útil
+## Cria um payload
 
 echo "#!/bin/sh" > /evil-helper echo "ps > /output" >> /evil-helper chmod +x /evil-helper
 
@@ -181,6 +185,10 @@ cat /output %%%
 * [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts)
 * [Compreensão e Reforço de Contêineres Linux](https://research.nccgroup.com/wp-content/uploads/2020/07/ncc\_group\_understanding\_hardening\_linux\_containers-1-1.pdf)
 * [Abusando de Contêineres Linux Privilegiados e Não Privilegiados](https://www.nccgroup.com/globalassets/our-research/us/whitepapers/2016/june/container\_whitepaper.pdf)
+
+<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://websec.nl/" %}
 
 <details>
 
