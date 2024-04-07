@@ -20,7 +20,7 @@ _Hacktricks logos & motion design by_ [_@ppiernacho_](https://www.instagram.com/
 
 <figure><img src=".gitbook/assets/stm (1).png" alt=""><figcaption></figcaption></figure>
 
-[**STM Cyber**](https://www.stmcyber.com) 是一家出色的网络安全公司，其口号是**HACK THE UNHACKABLE**。他们进行自己的研究并开发自己的黑客工具，以提供像渗透测试、红队和培训等多种有价值的网络安全服务。
+[**STM Cyber**](https://www.stmcyber.com) 是一家出色的网络安全公司，其口号是**HACK THE UNHACKABLE**。他们进行自己的研究并开发自己的黑客工具，以提供诸如渗透测试、红队和培训等多种有价值的网络安全服务。
 
 您可以在[**https://blog.stmcyber.com**](https://blog.stmcyber.com)查看他们的**博客**。
 
@@ -30,9 +30,9 @@ _Hacktricks logos & motion design by_ [_@ppiernacho_](https://www.instagram.com/
 
 ### [RootedCON](https://www.rootedcon.com/)
 
-<figure><img src=".gitbook/assets/image (4) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (42).png" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com) 是**西班牙**最重要的网络安全活动之一，也是**欧洲**最重要的之一。作为促进技术知识的使命，这个大会是技术和网络安全专业人士在各个领域的热点会议。
+[**RootedCON**](https://www.rootedcon.com) 是西班牙最重要的网络安全活动之一，也是欧洲最重要的之一。作为促进技术知识的使命，这个大会是技术和网络安全专业人士在各个领域的热点会议。
 
 {% embed url="https://www.rootedcon.com/" %}
 
@@ -40,11 +40,11 @@ _Hacktricks logos & motion design by_ [_@ppiernacho_](https://www.instagram.com/
 
 ### [Intigriti](https://www.intigriti.com)
 
-<figure><img src=".gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (44).png" alt=""><figcaption></figcaption></figure>
 
-**Intigriti** 是**欧洲第一**的道德黑客和**漏洞悬赏平台**。
+**Intigriti** 是欧洲排名第一的道德黑客和**漏洞赏金平台**。
 
-**漏洞悬赏提示**：**注册** Intigriti，这是一个由黑客创建的高级**漏洞悬赏平台**！立即加入我们的[**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks)，开始赚取高达**$100,000**的悬赏！
+**漏洞赏金提示**：**注册** Intigriti，这是一个由黑客创建的高级**漏洞赏金平台**！立即加入我们，访问 [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks)，开始赚取高达**$100,000**的赏金！
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
@@ -52,10 +52,10 @@ _Hacktricks logos & motion design by_ [_@ppiernacho_](https://www.instagram.com/
 
 ### [Trickest](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)
 
-<figure><img src=".gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
 
 \
-使用 [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) 轻松构建和**自动化工作流程**，使用世界上**最先进**的社区工具。
+使用 [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) 可轻松构建和**自动化工作流程**，使用全球**最先进**的社区工具。
 
 立即获取访问权限：
 
@@ -65,18 +65,18 @@ _Hacktricks logos & motion design by_ [_@ppiernacho_](https://www.instagram.com/
 
 ### [HACKENPROOF](https://bit.ly/3xrrDrL)
 
-<figure><img src=".gitbook/assets/image (5) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (47).png" alt=""><figcaption></figcaption></figure>
 
-加入[**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) 服务器，与经验丰富的黑客和漏洞赏金猎人交流！
+加入 [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) 服务器，与经验丰富的黑客和漏洞赏金猎人交流！
 
 **黑客见解**\
-参与深入探讨黑客的刺激和挑战的内容
+参与深入探讨黑客的刺激和挑战
 
 **实时黑客新闻**\
-通过实时新闻和见解及时了解快节奏的黑客世界
+通过实时新闻和见解保持对快节奏黑客世界的了解
 
 **最新公告**\
-通过最新的漏洞悬赏发布和重要平台更新保持信息更新
+通过最新的漏洞赏金发布和重要平台更新保持信息更新
 
 **加入我们的** [**Discord**](https://discord.com/invite/N3FrSbmwdy)，立即与顶尖黑客合作！
 
@@ -84,9 +84,9 @@ _Hacktricks logos & motion design by_ [_@ppiernacho_](https://www.instagram.com/
 
 ### [Pentest-Tools.com](https://pentest-tools.com/) - 专业渗透测试工具包
 
-<figure><img src=".gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (12).png" alt=""><figcaption></figcaption></figure>
 
-**即时可用的漏洞评估和渗透测试设置**。从侦察到报告，使用 20 多种工具和功能在任何地方运行完整的渗透测试。我们不取代渗透测试人员 - 我们开发自定义工具、检测和利用模块，让他们有更多时间深入挖掘、弹出 shell 并享受乐趣。
+**即时提供漏洞评估和渗透测试设置**。使用 20 多种工具和功能从侦察到报告运行完整的渗透测试。我们不取代渗透测试人员 - 我们开发定制工具、检测和利用模块，让他们有更多时间深入挖掘、弹出 shell 并享受乐趣。
 
 {% embed url="https://pentest-tools.com/" %}
 
@@ -96,7 +96,7 @@ _Hacktricks logos & motion design by_ [_@ppiernacho_](https://www.instagram.com/
 
 <figure><img src=".gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
-SerpApi 提供快速简便的实时 API，用于**访问搜索引擎结果**。他们抓取搜索引擎，处理代理，解决验证码，并为您解析所有丰富的结构化数据。
+SerpApi 提供快速简便的实时 API，用于**访问搜索引擎结果**。他们抓取搜索引擎、处理代理、解决验证码，并为您解析所有丰富的结构化数据。
 
 订阅 SerpApi 的计划之一，即可访问 50 多个不同的 API，用于抓取不同搜索引擎的数据，包括 Google、Bing、百度、雅虎、Yandex 等。
 
@@ -122,7 +122,7 @@ SerpApi 提供快速简便的实时 API，用于**访问搜索引擎结果**。�
 
 <figure><img src=".gitbook/assets/websec (1).svg" alt=""><figcaption></figcaption></figure>
 
-[**WebSec**](https://websec.nl) 是一家位于**阿姆斯特丹**的专业网络安全公司，通过提供**现代**方法的**攻击性安全服务**，帮助**全球各地的企业**抵御最新的网络安全威胁。
+[**WebSec**](https://websec.nl) 是一家总部位于阿姆斯特丹的专业网络安全公司，通过提供**现代**方法的**攻击性安全服务**，帮助**全球各地的企业**抵御最新的网络安全威胁。
 
 WebSec 是一家**全方位的安全公司**，意味着他们全面覆盖；渗透测试、**安全**审计、意识培训、钓鱼活动、代码审查、利用开发、安全专家外包等。
 
@@ -133,7 +133,7 @@ WebSec 的另一个很酷的地方是，与行业平均水平不同，WebSec 对
 {% embed url="https://www.youtube.com/watch?v=Zq2JycGDCPM" %}
 ## 许可证和免责声明
 
-**查看详情：**
+请查看：
 
 {% content-ref url="welcome/hacktricks-values-and-faq.md" %}
 [hacktricks-values-and-faq.md](welcome/hacktricks-values-and-faq.md)
@@ -141,14 +141,14 @@ WebSec 的另一个很酷的地方是，与行业平均水平不同，WebSec 对
 
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习 AWS 黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS 红队专家）</strong></a><strong>！</strong></summary>
 
 支持 HackTricks 的其他方式：
 
-* 如果您想在 HackTricks 中看到您的**公司广告**或**下载 HackTricks 的 PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 如果您想看到您的**公司在 HackTricks 中做广告**或**下载 HackTricks 的 PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* 探索[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在 **Twitter** 上关注我们 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**。**
-* 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享您的黑客技巧。 
+* 探索[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFT**](https://opensea.io/collection/the-peass-family)收藏品
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** 上关注我们**。
+* 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享您的黑客技巧。
 
 </details>
