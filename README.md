@@ -20,7 +20,7 @@ _Hacktricks logos & motion design by_ [_@ppiernacho_](https://www.instagram.com/
 
 <figure><img src=".gitbook/assets/stm (1).png" alt=""><figcaption></figcaption></figure>
 
-[**STM Cyber**](https://www.stmcyber.com) 是一家出色的网络安全公司，其口号是**HACK THE UNHACKABLE**。他们进行自己的研究并开发自己的黑客工具，以提供诸如渗透测试、红队和培训等多种有价值的网络安全服务。
+[**STM Cyber**](https://www.stmcyber.com) 是一家出色的网络安全公司，其口号是**HACK THE UNHACKABLE**。他们进行自己的研究并开发自己的黑客工具，以提供诸如渗透测试、红队和培训等多个有价值的网络安全服务。
 
 您可以在[**https://blog.stmcyber.com**](https://blog.stmcyber.com)查看他们的**博客**。
 
@@ -69,14 +69,9 @@ _Hacktricks logos & motion design by_ [_@ppiernacho_](https://www.instagram.com/
 
 加入 [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) 服务器，与经验丰富的黑客和漏洞赏金猎人交流！
 
-**黑客见解**\
-参与深入探讨黑客的刺激和挑战
-
-**实时黑客新闻**\
-通过实时新闻和见解保持对快节奏黑客世界的了解
-
-**最新公告**\
-通过最新的漏洞赏金发布和重要平台更新保持信息更新
+* **黑客见解：**参与深入探讨黑客的刺激和挑战的内容
+* **实时黑客新闻：**通过实时新闻和见解保持对快节奏黑客世界的了解
+* **最新公告：**通过最新的漏洞赏金发布和重要平台更新保持信息更新
 
 **加入我们的** [**Discord**](https://discord.com/invite/N3FrSbmwdy)，立即与顶尖黑客合作！
 
@@ -86,7 +81,7 @@ _Hacktricks logos & motion design by_ [_@ppiernacho_](https://www.instagram.com/
 
 <figure><img src=".gitbook/assets/image (12).png" alt=""><figcaption></figcaption></figure>
 
-**即时提供漏洞评估和渗透测试设置**。使用 20 多种工具和功能从侦察到报告运行完整的渗透测试。我们不取代渗透测试人员 - 我们开发定制工具、检测和利用模块，让他们有更多时间深入挖掘、弹出 shell 并享受乐趣。
+**即时可用的漏洞评估和渗透测试设置**。使用从侦察到报告的 20 多种工具和功能从任何地方运行完整的渗透测试。我们不取代渗透测试人员 - 我们开发定制工具、检测和利用模块，让他们有更多时间深入挖掘、弹出 shell 并享受乐趣。
 
 {% embed url="https://pentest-tools.com/" %}
 
@@ -98,14 +93,11 @@ _Hacktricks logos & motion design by_ [_@ppiernacho_](https://www.instagram.com/
 
 SerpApi 提供快速简便的实时 API，用于**访问搜索引擎结果**。他们抓取搜索引擎、处理代理、解决验证码，并为您解析所有丰富的结构化数据。
 
-订阅 SerpApi 的计划之一，即可访问 50 多个不同的 API，用于抓取不同搜索引擎的数据，包括 Google、Bing、百度、雅虎、Yandex 等。
+订阅 SerpApi 的计划之一，即可访问 50 多个不同的 API，用于抓取不同搜索引擎的数据，包括 Google、Bing、百度、雅虎、Yandex 等。\
+与其他提供商不同，**SerpApi 不仅仅抓取有机结果**。SerpApi 的响应始终包括所有广告、内联图像和视频、知识图谱以及搜索结果中存在的其他元素和功能。
 
-与其他提供商不同，SerpApi 不仅仅抓取有机结果。SerpApi 的响应始终包括所有广告、内联图像和视频、知识图谱以及搜索结果中存在的其他元素和功能。
-
-当前的 SerpApi 客户包括 Apple、Shopify 和 GrubHub。
-
-欲了解更多信息，请查看他们的[博客](https://serpapi.com/blog/)**，**或在他们的[**playground**](https://serpapi.com/playground)**中尝试示例**。
-
+当前的 SerpApi 客户包括**苹果、Shopify 和 GrubHub**。\
+欲了解更多信息，请查看他们的[**博客**](https://serpapi.com/blog/)**，**或在他们的[**游乐场**](https://serpapi.com/playground)**中尝试示例**。\
 您可以在[**此处**](https://serpapi.com/users/sign\_up)**创建免费帐户**。
 
 ***
@@ -120,7 +112,7 @@ SerpApi 提供快速简便的实时 API，用于**访问搜索引擎结果**。�
 
 ### [WebSec](https://websec.nl/)
 
-<figure><img src=".gitbook/assets/websec (1).svg" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
 
 [**WebSec**](https://websec.nl) 是一家总部位于阿姆斯特丹的专业网络安全公司，通过提供**现代**方法的**攻击性安全服务**，帮助**全球各地的企业**抵御最新的网络安全威胁。
 
@@ -130,8 +122,8 @@ WebSec 的另一个很酷的地方是，与行业平均水平不同，WebSec 对
 
 除了上述内容，WebSec 还是 HackTricks 的**忠实支持者**。
 
-{% embed url="https://www.youtube.com/watch?v=Zq2JycGDCPM" %}
-## 许可证和免责声明
+<figure><img src=".gitbook/assets/websec (1).svg" alt=""><figcaption></figcaption></figure>
+## 许可证 & 免责声明
 
 请查看：
 
@@ -145,10 +137,10 @@ WebSec 的另一个很酷的地方是，与行业平均水平不同，WebSec 对
 
 支持 HackTricks 的其他方式：
 
-* 如果您想看到您的**公司在 HackTricks 中做广告**或**下载 HackTricks 的 PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 如果您想在 HackTricks 中看到您的**公司广告**或**下载 HackTricks 的 PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* 探索[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFT**](https://opensea.io/collection/the-peass-family)收藏品
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** 上关注我们**。
+* 探索[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们独家[**NFT**](https://opensea.io/collection/the-peass-family)收藏品
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在 **Twitter** 上关注我们 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**。**
 * 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享您的黑客技巧。
 
 </details>
