@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Altri modi per supportare HackTricks:
 
@@ -10,11 +10,15 @@ Altri modi per supportare HackTricks:
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
 * Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
+* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository di Github.
 
 </details>
 
-L'esposizione di `/proc` e `/sys` senza un'adeguata isolamento dei namespace introduce rischi significativi per la sicurezza, tra cui l'ingrandimento della superficie di attacco e la divulgazione di informazioni. Queste directory contengono file sensibili che, se configurati in modo errato o accessibili da un utente non autorizzato, possono portare alla fuga del container, alla modifica dell'host o fornire informazioni che facilitano ulteriori attacchi. Ad esempio, il montaggio non corretto di `-v /proc:/host/proc` può eludere la protezione di AppArmor a causa della sua natura basata sul percorso, lasciando `/host/proc` non protetto.
+<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://websec.nl/" %}
+
+L'esposizione di `/proc` e `/sys` senza un'adeguata isolamento dei namespace introduce rischi significativi per la sicurezza, tra cui l'ingrandimento della superficie di attacco e la divulgazione di informazioni. Queste directory contengono file sensibili che, se configurati in modo errato o accessibili da un utente non autorizzato, possono portare alla fuga del container, alla modifica dell'host o fornire informazioni che facilitano ulteriori attacchi. Ad esempio, il montaggio non corretto di `-v /proc:/host/proc` può aggirare la protezione di AppArmor a causa della sua natura basata sul percorso, lasciando `/host/proc` non protetto.
 
 **Puoi trovare ulteriori dettagli su ciascuna vulnerabilità potenziale in** [**https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts**](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts)**.**
 
@@ -60,9 +64,9 @@ ls -l $(cat /proc/sys/kernel/modprobe) # Controlla l'accesso a modprobe
 #### **`/proc/sys/fs/binfmt_misc`**
 
 * Consente di registrare interpreti per formati binari non nativi in base al loro numero magico.
-* Può portare a un'escalation dei privilegi o all'accesso alla shell di root se `/proc/sys/fs/binfmt_misc/register` è scrivibile.
+* Può portare a escalation dei privilegi o accesso alla shell di root se `/proc/sys/fs/binfmt_misc/register` è scrivibile.
 * Esploito e spiegato in modo dettagliato:
-* [Rootkit fai-da-te tramite binfmt\_misc](https://github.com/toffan/binfmt\_misc)
+* [Rootkit da pover'uomo tramite binfmt\_misc](https://github.com/toffan/binfmt\_misc)
 * Tutorial approfondito: [Link al video](https://www.youtube.com/watch?v=WBC7hhgMvQQ)
 
 ### Altri in `/proc`
@@ -89,7 +93,7 @@ echo b > /proc/sysrq-trigger # Riavvia l'host
 #### **`/proc/kallsyms`**
 
 * Elenca i simboli esportati dal kernel e i loro indirizzi.
-* Essenziale per lo sviluppo di exploit del kernel, specialmente per superare il KASLR.
+* Fondamentale per lo sviluppo di exploit del kernel, specialmente per superare il KASLR.
 * Le informazioni sugli indirizzi sono limitate con `kptr_restrict` impostato su `1` o `2`.
 * Dettagli in [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
 
@@ -119,7 +123,7 @@ echo b > /proc/sysrq-trigger # Riavvia l'host
 #### **`/proc/sched_debug`**
 
 * Restituisce informazioni sulla pianificazione dei processi, aggirando le protezioni dello spazio dei PID.
-* Espone nomi dei processi, ID e identificatori dei cgroup.
+* Espone nomi dei processi, ID e identificatori cgroup.
 
 #### **`/proc/[pid]/mountinfo`**
 
@@ -130,8 +134,8 @@ echo b > /proc/sysrq-trigger # Riavvia l'host
 
 #### **`/sys/kernel/uevent_helper`**
 
-* Usato per gestire gli `uevent` dei dispositivi del kernel.
-* Scrivere su `/sys/kernel/uevent_helper` può eseguire script arbitrari al verificarsi degli `uevent`.
+* Usato per gestire i `uevent` dei dispositivi del kernel.
+* Scrivere su `/sys/kernel/uevent_helper` può eseguire script arbitrari al verificarsi dei `uevent`.
 *   **Esempio di exploit**: %%%bash
 
 ## Crea un payload
@@ -163,8 +167,8 @@ cat /output %%%
 
 #### **`/sys/kernel/security`**
 
-* Contiene l'interfaccia `securityfs`, consentendo la configurazione dei Moduli di Sicurezza Linux come AppArmor.
-* L'accesso potrebbe consentire a un contenitore di disabilitare il suo sistema MAC.
+* Contiene l'interfaccia `securityfs`, permettendo la configurazione dei Moduli di Sicurezza Linux come AppArmor.
+* L'accesso potrebbe consentire a un container di disabilitare il suo sistema MAC.
 
 #### **`/sys/firmware/efi/vars` e `/sys/firmware/efi/efivars`**
 
@@ -181,6 +185,10 @@ cat /output %%%
 * [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts)
 * [Understanding and Hardening Linux Containers](https://research.nccgroup.com/wp-content/uploads/2020/07/ncc\_group\_understanding\_hardening\_linux\_containers-1-1.pdf)
 * [Abusing Privileged and Unprivileged Linux Containers](https://www.nccgroup.com/globalassets/our-research/us/whitepapers/2016/june/container\_whitepaper.pdf)
+
+<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://websec.nl/" %}
 
 <details>
 
