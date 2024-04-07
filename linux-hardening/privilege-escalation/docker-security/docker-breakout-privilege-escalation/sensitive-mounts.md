@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahramana öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan ileri seviyeye öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile!</strong></summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
@@ -10,11 +10,15 @@ HackTricks'ı desteklemenin diğer yolları:
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
 * [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
 * **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* **Hacking püf noktalarınızı paylaşarak PR'ler göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
 
-Doğru namespace izolasyonu olmadan `/proc` ve `/sys`'in maruz kalması, saldırı yüzeyinin genişlemesi ve bilgi sızdırma gibi ciddi güvenlik risklerini beraberinde getirir. Bu dizinler, yanlış yapılandırılmış veya yetkisiz bir kullanıcı tarafından erişilen hassas dosyalar içerir ve bu da konteyner kaçışına, ana bilgisayarın değiştirilmesine veya daha fazla saldırıya yardımcı olacak bilgilerin sağlanmasına yol açabilir. Örneğin, `-v /proc:/host/proc` şeklinde yanlış bağlama yapılması, yol tabanlı doğası nedeniyle AppArmor korumasını atlayabilir ve `/host/proc`'u korumasız bırakabilir.
+<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://websec.nl/" %}
+
+Doğru namespace izolasyonu olmadan `/proc` ve `/sys`'in maruz kalması, saldırı yüzeyinin genişlemesi ve bilgi sızdırma gibi ciddi güvenlik risklerini beraberinde getirir. Bu dizinler, yanlış yapılandırılmış veya yetkisiz bir kullanıcı tarafından erişilen hassas dosyaları içerir ve bu da konteyner kaçışına, ana bilgisayarın değiştirilmesine veya daha fazla saldırıya yardımcı olacak bilgilerin sağlanmasına yol açabilir. Örneğin, `-v /proc:/host/proc` şeklinde yanlış bağlama yapılması, yol tabanlı doğası nedeniyle AppArmor korumasını atlayabilir ve `/host/proc`'u korumasız bırakabilir.
 
 **Her potansiyel zafiyetin daha fazla ayrıntısını** [**https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts**](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts)** adresinde bulabilirsiniz.**
 
@@ -22,13 +26,13 @@ Doğru namespace izolasyonu olmadan `/proc` ve `/sys`'in maruz kalması, saldır
 
 ### `/proc/sys`
 
-Bu dizin, genellikle `sysctl(2)` aracılığıyla çekirdek değişkenlerini değiştirmeye izin verir ve endişe kaynağı olan birkaç alt dizini içerir:
+Bu dizin, genellikle `sysctl(2)` aracılığıyla çekirdek değişkenlerini değiştirme izni verir ve endişe kaynağı olan birkaç alt dizini içerir:
 
 #### **`/proc/sys/kernel/core_pattern`**
 
 * [core(5)](https://man7.org/linux/man-pages/man5/core.5.html) adresinde açıklanmıştır.
-* İlk 128 baytı argümanlar olarak alan bir programın çekirdek dosyası oluşturulduğunda çalıştırılmasına izin verir. Dosya bir boru `|` ile başlıyorsa kod yürütme olabilir.
-*   **Test ve Sömürü Örneği**:
+* Çekirdek dosyası oluşturulduğunda ilk 128 baytı argüman olarak alan bir programın tanımlanmasına izin verir. Dosya bir pipe `|` ile başlıyorsa kod yürütme olabilir.
+*   **Test Etme ve Sömürü Örneği**:
 
 ```bash
 [ -w /proc/sys/kernel/core_pattern ] && echo Yes # Yazma erişimini test et
@@ -50,7 +54,7 @@ ls -l $(cat /proc/sys/kernel/modprobe) # modprobe erişimini kontrol et
 #### **`/proc/sys/vm/panic_on_oom`**
 
 * [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html) adresinde referans gösterilmiştir.
-* Bir OOM durumu meydana geldiğinde çekirdeğin çökmesini veya OOM öldürücüyü çağırmasını kontrol eden genel bir bayrak.
+* Bir OOM durumu meydana geldiğinde çekirdeğin çökmesini veya OOM öldürücüyü çağırmasını kontrol eden global bir bayrak.
 
 #### **`/proc/sys/fs`**
 
@@ -60,12 +64,12 @@ ls -l $(cat /proc/sys/kernel/modprobe) # modprobe erişimini kontrol et
 #### **`/proc/sys/fs/binfmt_misc`**
 
 * Sihirli sayılarına dayalı olmayan ikili biçimler için yorumlayıcıları kaydetmeye izin verir.
-* `/proc/sys/fs/binfmt_misc/register` yazılabilirse ayrıcalık yükseltmesine veya kök kabuk erişimine yol açabilir.
-* İlgili sömürü ve açıklama:
+* `/proc/sys/fs/binfmt_misc/register` yazılabilirse ayrıcalık yükseltmesine veya kök kabuğu erişimine yol açabilir.
+* İlgili saldırı ve açıklama:
 * [binfmt\_misc ile yoksul adamın kök kiti](https://github.com/toffan/binfmt\_misc)
 * Detaylı öğretici: [Video bağlantısı](https://www.youtube.com/watch?v=WBC7hhgMvQQ)
 
-### Diğerleri `/proc` içinde
+### Diğerleri `/proc` İçinde
 
 #### **`/proc/config.gz`**
 
@@ -90,30 +94,30 @@ echo b > /proc/sysrq-trigger # Ana bilgisayarı yeniden başlatır
 
 * Çekirdek dışa aktarılan sembolleri ve adreslerini listeler.
 * Özellikle KASLR'yi aşmak için çekirdek saldırı geliştirme için temel öneme sahiptir.
-* Adres bilgileri `kptr_restrict`'in `1` veya `2` olarak ayarlandığında kısıtlanır.
+* Adres bilgileri `kptr_restrict`'in `1` veya `2` olarak ayarlanmasıyla sınırlıdır.
 * Detaylar [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html) adresinde bulunabilir.
 
 #### **`/proc/[pid]/mem`**
 
 * Çekirdek bellek cihazı `/dev/mem` ile etkileşim sağlar.
 * Tarihsel olarak ayrıcalık yükseltme saldırılarına karşı savunmasızdır.
-* Daha fazla bilgi için [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html) adresine bakabilirsiniz.
+* Daha fazlası [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html) adresinde bulunabilir.
 
 #### **`/proc/kcore`**
 
-* Sistemin fiziksel belleğini ELF çekirdek formatında temsil eder.
+* Sistemin fiziksel belleğini ELF çekirdek biçiminde temsil eder.
 * Okuma, ana bilgisayar sistemi ve diğer konteynerlerin bellek içeriğini sızdırabilir.
 * Büyük dosya boyutu okuma sorunlarına veya yazılım çökmelerine yol açabilir.
-* Detaylı kullanım [2019'da /proc/kcore'un Dökülmesi](https://schlafwandler.github.io/posts/dumping-/proc/kcore/) adresinde bulunabilir.
+* Detaylı kullanım [2019'da /proc/kcore Dökme](https://schlafwandler.github.io/posts/dumping-/proc/kcore/) adresinde bulunabilir.
 
 #### **`/proc/kmem`**
 
-* `/dev/kmem` için alternatif arayüz, çekirdek sanal belleğini temsil eder.
+* Çekirdek sanal belleği temsil eden `/dev/kmem` için alternatif arayüz.
 * Okuma ve yazma izni verir, dolayısıyla çekirdek belleğinin doğrudan değiştirilmesine olanak tanır.
 
 #### **`/proc/mem`**
 
-* `/dev/mem` için alternatif arayüz, fiziksel belleği temsil eder.
+* Fiziksel belleği temsil eden `/dev/mem` için alternatif arayüz.
 * Okuma ve yazma izni verir, tüm belleğin değiştirilmesi sanal adreslerin fiziksel adreslere çözülmesini gerektirir.
 
 #### **`/proc/sched_debug`**
@@ -123,7 +127,7 @@ echo b > /proc/sysrq-trigger # Ana bilgisayarı yeniden başlatır
 
 #### **`/proc/[pid]/mountinfo`**
 
-* İşlem montaj ad alanındaki bağlantı noktaları hakkında bilgi sağlar.
+* İşlem montaj adalanındaki bağlantı noktaları hakkında bilgi sağlar.
 * Konteyner `rootfs` veya görüntünün konumunu açığa çıkarır.
 
 ### `/sys` Zafiyetleri
@@ -169,7 +173,7 @@ cat /output %%%
 #### **`/sys/firmware/efi/vars` ve `/sys/firmware/efi/efivars`**
 
 * NVRAM'daki EFI değişkenleriyle etkileşim için arayüzler sunar.
-* Yanlış yapılandırma veya kötüye kullanım, tuğla haline getirilmiş dizüstü bilgisayarlar veya başlatılamayan ana bilgisayar makinelerine yol açabilir.
+* Yanlış yapılandırma veya kötüye kullanım, tuğla gibi olan dizüstü bilgisayarlar veya başlatılamayan ana bilgisayar makinelerine yol açabilir.
 
 #### **`/sys/kernel/debug`**
 
@@ -181,3 +185,21 @@ cat /output %%%
 * [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts)
 * [Understanding and Hardening Linux Containers](https://research.nccgroup.com/wp-content/uploads/2020/07/ncc\_group\_understanding\_hardening\_linux\_containers-1-1.pdf)
 * [Abusing Privileged and Unprivileged Linux Containers](https://www.nccgroup.com/globalassets/our-research/us/whitepapers/2016/june/container\_whitepaper.pdf)
+
+<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://websec.nl/" %}
+
+<details>
+
+<summary><strong>AWS hacklemeyi sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile!</strong></summary>
+
+HackTricks'ı desteklemenin diğer yolları:
+
+* Şirketinizi HackTricks'te **tanıtmak istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**The PEASS Family'yi**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin**.
+* **Hacking püf noktalarınızı paylaşarak PR'ler göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+
+</details>
