@@ -14,7 +14,11 @@ Ander maniere om HackTricks te ondersteun:
 
 </details>
 
-Die blootstelling van `/proc` en `/sys` sonder behoorlike naamsruimte-isolasie stel beduidende sekuriteitsrisiko's bloot, insluitend vergroting van die aanvalsoppervlak en inligtingsoffening. Hierdie gids bevat sensitiewe lêers wat, indien verkeerd geconfigureer of deur 'n ongemagtigde gebruiker benader, kan lei tot die ontsnapping van die houer, aanpassing van die gasheer, of die voorsiening van inligting wat verdere aanvalle kan ondersteun. Byvoorbeeld, die verkeerde montering van `-v /proc:/host/proc` kan AppArmor-beskerming omseil as gevolg van sy pad-gebaseerde aard, wat `/host/proc` onbeskerm agterlaat.
+<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://websec.nl/" %}
+
+Die blootstelling van `/proc` en `/sys` sonder behoorlike naamsruimte-isolasie stel beduidende sekuriteitsrisiko's bloot, insluitend aanvaloppervlakvergroting en inligtingsoffergawe. Hierdie gids bevat sensitiewe lêers wat, indien verkeerd geconfigureer of deur 'n ongemagtigde gebruiker benader, kan lei tot die ontsnapping van die houer, aanpassing van die gasheer, of inligting kan verskaf wat verdere aanvalle kan ondersteun. Byvoorbeeld, die verkeerde montering van `-v /proc:/host/proc` kan AppArmor-beskerming omseil as gevolg van sy padgebaseerde aard, wat `/host/proc` onbeskerm agterlaat.
 
 **Jy kan verdere besonderhede van elke potensiële kwesbaarheid vind in** [**https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts**](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts)**.**
 
@@ -60,10 +64,10 @@ ls -l $(cat /proc/sys/kernel/modprobe) # Kontroleer toegang tot modprobe
 #### **`/proc/sys/fs/binfmt_misc`**
 
 * Maak dit moontlik om tolke vir nie-inheemse binêre formate te registreer op grond van hul toorgetal.
-* Kan lei tot bevoorregte eskalasie of toegang tot die root-skoot as `/proc/sys/fs/binfmt_misc/register` skryfbaar is.
-* Relevant uitbuiting en verduideliking:
+* Kan lei tot bevoorregte eskalasie of toegang tot die wortelskelpunt as `/proc/sys/fs/binfmt_misc/register` skryfbaar is.
+* Relevant uitbuit en verduideliking:
 * [Armoedige man se rootkit via binfmt\_misc](https://github.com/toffan/binfmt\_misc)
-* Diepgaande handleiding: [Video skakel](https://www.youtube.com/watch?v=WBC7hhgMvQQ)
+* Diepgaande handleiding: [Video-skakel](https://www.youtube.com/watch?v=WBC7hhgMvQQ)
 
 ### Ander in `/proc`
 
@@ -89,13 +93,13 @@ echo b > /proc/sysrq-trigger # Herlaai die gasheer
 #### **`/proc/kallsyms`**
 
 * Lys kernel-uitgevoerde simbole en hul adresse.
-* Essensieel vir die ontwikkeling van kernel-uitbuitings, veral vir die oorkom van KASLR.
+* Essensieel vir kernel-uitbuitontwikkeling, veral vir die oorkom van KASLR.
 * Adresinligting is beperk met `kptr_restrict` ingestel op `1` of `2`.
 * Besonderhede in [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
 
 #### **`/proc/[pid]/mem`**
 
-* Koppel met die kernelgeheue-toestel `/dev/mem`.
+* Skakel met die kernelgeheue-toestel `/dev/mem`.
 * Histories vatbaar vir bevoorregte eskalasie-aanvalle.
 * Meer oor [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
 
@@ -118,12 +122,12 @@ echo b > /proc/sysrq-trigger # Herlaai die gasheer
 
 #### **`/proc/sched_debug`**
 
-* Gee prosesbeplanningsinligting terug, om PID-naamsruimtebeskerming te omseil.
+* Gee prosesbeplanningsinligting terug, wat PID-naamsruimtebeskerming omseil.
 * Stel prosesname, ID's, en cgroup-identifiseerders bloot.
 
 #### **`/proc/[pid]/mountinfo`**
 
-* Verskaf inligting oor koppelplekke in die proses se koppelnaamruimte.
+* Verskaf inligting oor koppelvlakpunte in die proses se koppelvlaknaamsruimte.
 * Stel die ligging van die houer `rootfs` of beeld bloot.
 
 ### `/sys` Kwesbaarhede
@@ -138,7 +142,7 @@ echo b > /proc/sysrq-trigger # Herlaai die gasheer
 
 echo "#!/bin/sh" > /evil-helper echo "ps > /output" >> /evil-helper chmod +x /evil-helper
 
-## Vind gasheerpad vanaf OverlayFS-koppelvlak vir houer
+## Vind gasheerpad vanaf OverlayFS-koppelpunt vir houer
 
 host\_path=$(sed -n 's/._\perdir=(\[^,]_).\*/\1/p' /etc/mtab)
 
@@ -182,15 +186,19 @@ cat /output %%%
 * [Begrip en Versterking van Linux Houers](https://research.nccgroup.com/wp-content/uploads/2020/07/ncc\_group\_understanding\_hardening\_linux\_containers-1-1.pdf)
 * [Misbruik van Bevoorregte en Onbevoorregte Linux Houers](https://www.nccgroup.com/globalassets/our-research/us/whitepapers/2016/june/container\_whitepaper.pdf)
 
+<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://websec.nl/" %}
+
 <details>
 
 <summary><strong>Leer AWS hak van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy wil sien jou **maatskappy geadverteer in HackTricks** of **laai HackTricks in PDF af** Kyk na die [**SUBSKRIPSIEPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy wil sien jou **maatskappy geadverteer in HackTricks** of **laai HackTricks af in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou haktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 

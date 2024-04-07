@@ -2,92 +2,95 @@
 
 <details>
 
-<summary><strong>Leer AWS hack van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS hak vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Werk jy in 'n **cybersecurity maatskappy**? Wil jy jou **maatskappy adverteer in HackTricks**? Of wil jy toegang hê tot die **nuutste weergawe van die PEASS of laai HackTricks af in PDF**? Kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Werk jy by 'n **cybersekerheidsmaatskappy**? Wil jy jou **maatskappy geadverteer sien in HackTricks**? of wil jy toegang hê tot die **nuutste weergawe van die PEASS of laai HackTricks af in PDF-formaat**? Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacktruuks deur PRs in te dien by die** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **en** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* **Deel jou haktruuks deur PR's in te dien by die** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **en** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
+<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://websec.nl/" %}
+
+
 ## Inleiding
 
-Die Kerberos "Dubbele Hop" probleem ontstaan wanneer 'n aanvaller probeer om **Kerberos-verifikasie oor twee** **hoppe** te gebruik, byvoorbeeld deur gebruik te maak van **PowerShell**/**WinRM**.
+Die Kerberos "Dubbele Hop" probleem kom voor wanneer 'n aanvaller probeer om **Kerberos-verifikasie oor twee** **hops** te gebruik, byvoorbeeld deur **PowerShell**/**WinRM** te gebruik.
 
-Wanneer 'n **verifikasie** plaasvind deur middel van **Kerberos**, word **volmagte** **nie in die geheue gestoor nie**. Daarom sal jy nie volmagte van die gebruiker op die rekenaar vind nie, selfs al voer hy prosesse uit.
+Wanneer 'n **verifikasie** plaasvind deur middel van **Kerberos**, word **geloofsbriewe** **nie** in die **geheue gestoor nie**. Daarom sal jy as jy mimikatz hardloop, nie die geloofsbriewe van die gebruiker op die masjien vind nie, selfs al hardloop hy prosesse.
 
-Dit is omdat hierdie die stappe is wanneer jy met Kerberos verbind:
+Dit is omdat wanneer jy met Kerberos verbind, hierdie die stappe is:
 
-1. Gebruiker1 voorsien volmagte en die **domeinbeheerder** gee 'n Kerberos **TGT** aan Gebruiker1.
+1. Gebruiker1 voorsien geloofsbriewe en die **domeinbeheerder** gee 'n Kerberos **TGT** aan Gebruiker1 terug.
 2. Gebruiker1 gebruik die **TGT** om 'n **dienskaartjie** aan te vra om met Server1 te **verbind**.
 3. Gebruiker1 **verbind** met **Server1** en voorsien die **dienskaartjie**.
-4. **Server1** het nie die volmagte van Gebruiker1 of die **TGT** van Gebruiker1 in die geheue gestoor nie. Daarom kan Gebruiker1 vanaf Server1 nie op 'n tweede bediener aanmeld nie.
+4. **Server1** het nie die **geloofsbriewe** van Gebruiker1 in die geheue nie, of die **TGT** van Gebruiker1 nie. Daarom, wanneer Gebruiker1 van Server1 probeer om na 'n tweede bediener in te teken, kan hy **nie geïdentifiseer** word nie.
 
 ### Onbeperkte Delegasie
 
-As **onbeperkte delegasie** geaktiveer is op die rekenaar, sal dit nie gebeur nie, omdat die **Bediener** 'n **TGT** van elke gebruiker wat dit benader, sal **kry**. Verder kan jy waarskynlik die Domeinbeheerder **kompromitteer** as onbeperkte delegasie gebruik word.\
-[**Meer inligting in die bladsy oor onbeperkte delegasie**](unconstrained-delegation.md).
+As **onbeperkte delegasie** geaktiveer is op die rekenaar, sal dit nie gebeur nie, aangesien die **Bediener** 'n **TGT** van elke gebruiker wat dit benader, sal **kry**. Verder, as onbeperkte delegasie gebruik word, kan jy waarskynlik die Domeinbeheerder **kompromitteer**.\
+[**Meer inligting in die bladsy oor onbeperkte delegasie**](onconstrained-delegation.md).
 
 ### CredSSP
 
-'n Ander manier om hierdie probleem te vermy, wat [**merkwaardig onveilig**](https://docs.microsoft.com/en-us/powershell/module/microsoft.wsman.management/enable-wsmancredssp?view=powershell-7) is, is **Credential Security Support Provider**. Volgens Microsoft:
+'n Ander manier om hierdie probleem te vermy wat [**veral onveilig is**](https://docs.microsoft.com/en-us/powershell/module/microsoft.wsman.management/enable-wsmancredssp?view=powershell-7) is **Credential Security Support Provider**. Van Microsoft:
 
-> CredSSP-verifikasie delegeer die gebruikersvolmagte van die plaaslike rekenaar na 'n afgeleë rekenaar. Hierdie praktyk verhoog die veiligheidsrisiko van die afgeleë bedryf. As die afgeleë rekenaar gekompromitteer word, kan die volmagte wat daaraan oorgedra word, gebruik word om die netwerksessie te beheer.
+> CredSSP-verifikasie delegeer die gebruikersgelde vanaf die plaaslike rekenaar na 'n afgeleë rekenaar. Hierdie praktyk verhoog die sekuriteitsrisiko van die afgeleë operasie. As die afgeleë rekenaar gekompromitteer is, kan die gelde wat daaraan oorgedra word, gebruik word om die netwerksessie te beheer.
 
-Dit word sterk aanbeveel dat **CredSSP** gedeaktiveer word op produksiestelsels, sensitiewe netwerke en soortgelyke omgewings weens veiligheidskwessies. Om vas te stel of **CredSSP** geaktiveer is, kan die `Get-WSManCredSSP` opdrag uitgevoer word. Hierdie opdrag maak dit moontlik om die **status van CredSSP te kontroleer** en kan selfs op afstand uitgevoer word, mits **WinRM** geaktiveer is.
+Dit word sterk aanbeveel dat **CredSSP** gedeaktiveer word op produksiestelsels, sensitiewe netwerke, en soortgelyke omgewings weens sekuriteitskwessies. Om te bepaal of **CredSSP** geaktiveer is, kan die `Get-WSManCredSSP` bevel uitgevoer word. Hierdie bevel maak die **kontrole van CredSSP-status** moontlik en kan selfs op afstand uitgevoer word, mits **WinRM** geaktiveer is.
 ```powershell
 Invoke-Command -ComputerName bizintel -Credential ta\redsuit -ScriptBlock {
 Get-WSManCredSSP
 }
 ```
-## Oplossings
+## Oorkomings
 
-### Invoke Commando
+### Roep Opdrag Aan
 
-Om die dubbele hop-probleem aan te spreek, word 'n metode voorgestel wat 'n geneste `Invoke-Command` gebruik. Dit los die probleem nie direk op nie, maar bied 'n omweg sonder om spesiale konfigurasies te benodig. Die benadering maak dit moontlik om 'n bevel (`hostname`) op 'n sekondêre bediener uit te voer deur middel van 'n PowerShell-bevel wat uitgevoer word vanaf 'n aanvallende masjien of deur middel van 'n voorheen gevestigde PS-sessie met die eerste bediener. Hier is hoe dit gedoen word:
+Om die dubbele hup probleem aan te spreek, word 'n metode voorgestel wat 'n geneste `Invoke-Command` insluit. Dit los die probleem nie direk op nie, maar bied 'n oorkoming sonder om spesiale konfigurasies nodig te hê. Die benadering maak dit moontlik om 'n opdrag (`hostname`) op 'n sekondêre bediener uit te voer deur 'n PowerShell-opdrag wat vanaf 'n aanvanklike aanvallende masjien uitgevoer word of deur 'n voorheen gevestigde PS-Sessie met die eerste bediener. Hier is hoe dit gedoen word:
 ```powershell
 $cred = Get-Credential ta\redsuit
 Invoke-Command -ComputerName bizintel -Credential $cred -ScriptBlock {
 Invoke-Command -ComputerName secdev -Credential $cred -ScriptBlock {hostname}
 }
 ```
-Alternatiewelik word daar voorgestel om 'n PS-sessie met die eerste bediener te vestig en die `Invoke-Command` met behulp van `$cred` uit te voer om take te sentraliseer.
-
 ### Registreer PSSession-konfigurasie
 
-'n Oplossing om die dubbele hop-probleem te omseil, behels die gebruik van `Register-PSSessionConfiguration` met `Enter-PSSession`. Hierdie metode vereis 'n ander benadering as `evil-winrm` en maak dit moontlik om 'n sessie te hê wat nie deur die dubbele hop-beperking geraak word nie.
+'n Oplossing om die dubbele hop-probleem te omseil, behels die gebruik van `Register-PSSessionConfiguration` met `Enter-PSSession`. Hierdie metode vereis 'n ander benadering as `evil-winrm` en maak 'n sessie moontlik wat nie deur die dubbele hop-beperking geraak word nie.
 ```powershell
 Register-PSSessionConfiguration -Name doublehopsess -RunAsCredential domain_name\username
 Restart-Service WinRM
 Enter-PSSession -ConfigurationName doublehopsess -ComputerName <pc_name> -Credential domain_name\username
 klist
 ```
-### Portstuur
+### PortForwarding
 
-Vir plaaslike administrateurs op 'n tussenliggende teiken, maak portstuur dit moontlik dat versoek na 'n finale bediener gestuur word. Deur `netsh` te gebruik, kan 'n reël vir portstuur bygevoeg word, tesame met 'n Windows-firewallreël om die doorgestuurde poort toe te laat.
+Vir plaaslike administrateurs op 'n tussenliggende teiken, maak poort deurstuur dit moontlik dat versoek na 'n finale bediener gestuur word. Deur `netsh` te gebruik, kan 'n reël vir poort deurstuur bygevoeg word, saam met 'n Windows-firewallreël om die deurgestuurde poort toe te laat.
 ```bash
 netsh interface portproxy add v4tov4 listenport=5446 listenaddress=10.35.8.17 connectport=5985 connectaddress=10.35.8.23
 netsh advfirewall firewall add rule name=fwd dir=in action=allow protocol=TCP localport=5446
 ```
 #### winrs.exe
 
-`winrs.exe` kan gebruik word om WinRM-versoeke deur te stuur, moontlik as 'n minder opspoorbare opsie as PowerShell-monitoring 'n bekommernis is. Die opdrag hieronder demonstreer die gebruik daarvan:
+`winrs.exe` kan gebruik word om WinRM-versoeke deur te stuur, moontlik as 'n minder opspoorbare opsie as PowerShell-monitoring 'n bekommernis is. Die onderstaande bevel demonstreer die gebruik daarvan:
 ```bash
 winrs -r:http://bizintel:5446 -u:ta\redsuit -p:2600leet hostname
 ```
 ### OpenSSH
 
-Die installering van OpenSSH op die eerste bediener maak 'n omweg vir die dubbele-hop-probleem moontlik, veral nuttig vir springboksgevalle. Hierdie metode vereis die installering en opstel van OpenSSH vir Windows via die opdraglyn. Wanneer dit gekonfigureer is vir wagwoordverifikasie, maak dit dit moontlik vir die tussenliggende bediener om 'n TGT namens die gebruiker te verkry.
+Die installering van OpenSSH op die eerste bediener maak 'n omweg vir die dubbele hupprobleem moontlik, veral nuttig vir springkas-skenarios. Hierdie metode vereis CLI-installasie en opstelling van OpenSSH vir Windows. Wanneer dit ingestel is vir Wagwoordverifikasie, maak dit dit moontlik vir die bemiddelende bediener om 'n TGT namens die gebruiker te verkry.
 
 #### OpenSSH-installasiestappe
 
-1. Laai die nuutste OpenSSH-vrystelling zip af en skuif dit na die teikenserver.
-2. Pak die lêer uit en voer die `Install-sshd.ps1` skrip uit.
-3. Voeg 'n vuremuur-reël by om poort 22 oop te maak en verifieer dat SSH-dienste loop.
+1. Laai die nuutste OpenSSH vrystelling zip af en skuif dit na die teikenserver.
+2. Pak die lêer uit en hardloop die `Install-sshd.ps1` skripsie.
+3. Voeg 'n firewall-reël by om poort 22 oop te maak en verifieer dat SSH-diens hardloop.
 
-Om `Connection reset` foute op te los, moet toestemmings moontlik opgedateer word om almal lees- en uitvoerregte op die OpenSSH-gids toe te laat.
+Om `Verbindingsreset` foute op te los, mag toestemmings bygewerk moet word om almal lees- en uitvoertoegang tot die OpenSSH-gids toe te laat.
 ```bash
 icacls.exe "C:\Users\redsuit\Documents\ssh\OpenSSH-Win64" /grant Everyone:RX /T
 ```
@@ -98,14 +101,18 @@ icacls.exe "C:\Users\redsuit\Documents\ssh\OpenSSH-Win64" /grant Everyone:RX /T
 * [https://learn.microsoft.com/en-gb/archive/blogs/sergey\_babkins\_blog/another-solution-to-multi-hop-powershell-remoting](https://learn.microsoft.com/en-gb/archive/blogs/sergey\_babkins\_blog/another-solution-to-multi-hop-powershell-remoting)
 * [https://4sysops.com/archives/solve-the-powershell-multi-hop-problem-without-using-credssp/](https://4sysops.com/archives/solve-the-powershell-multi-hop-problem-without-using-credssp/)
 
+<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://websec.nl/" %}
+
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Werk jy in 'n **cybersecurity-maatskappy**? Wil jy jou **maatskappy adverteer in HackTricks**? Of wil jy toegang hê tot die **nuutste weergawe van die PEASS of laai HackTricks in PDF af**? Kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Werk jy in 'n **cybersecurity-maatskappy**? Wil jy jou **maatskappy geadverteer sien in HackTricks**? of wil jy toegang hê tot die **nuutste weergawe van die PEASS of HackTricks aflaai in PDF-formaat**? Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
+* Kry die [**amptelike PEASS & HackTricks-klere**](https://peass.creator-spring.com)
 * **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacking-truuks deur PR's in te dien by die** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **en** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* **Deel jou haktruuks deur PR's in te dien by die** [**hacktricks-opslag**](https://github.com/carlospolop/hacktricks) **en** [**hacktricks-cloud-opslag**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

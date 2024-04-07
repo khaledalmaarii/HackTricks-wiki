@@ -9,36 +9,39 @@
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou haktruuks deur PR's in te dien by die** [**hacktricks-opslag**](https://github.com/carlospolop/hacktricks) **en** [**hacktricks-cloud-opslag**](https://github.com/carlospolop/hacktricks-cloud)
-*
-* .
 
 </details>
+
+<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://websec.nl/" %}
+
 
 ## Gatekeeper
 
 **Gatekeeper** is 'n sekuriteitsfunksie wat ontwikkel is vir Mac-bedryfstelsels, ontwerp om te verseker dat gebruikers slegs **vertroude sagteware** op hul stelsels **hardloop**. Dit funksioneer deur die **validering van sagteware** wat 'n gebruiker aflaai en probeer oopmaak van **bronne buite die App Store**, soos 'n program, 'n invoegtoepassing, of 'n installeerderpakket.
 
-Die sleutelmeganisme van Gatekeeper lê in sy **verifikasieproses**. Dit kontroleer of die afgelaaide sagteware **deur 'n erkenbare ontwikkelaar onderteken** is, wat die egtheid van die sagteware verseker. Verder bepaal dit of die sagteware **deur Apple genoteer** is, wat bevestig dat dit vry is van bekende skadelike inhoud en nie na genotifiseer te wees, verander is nie.
+Die sleutelmeganisme van Gatekeeper lê in sy **verifikasieproses**. Dit kontroleer of die afgelaaide sagteware **deur 'n erkenbare ontwikkelaar onderteken** is, wat die egtheid van die sagteware verseker. Verder bepaal dit of die sagteware **deur Apple genoteer** is, wat bevestig dat dit vry is van bekende skadelike inhoud en nie na notering verander is nie.
 
-Daarbenewens versterk Gatekeeper gebruikersbeheer en -sekuriteit deur gebruikers te **vra om die oopmaak van afgelaaide sagteware goed te keur** vir die eerste keer. Hierdie beskerming help voorkom dat gebruikers moontlik skadelike uitvoerbare kode per ongeluk hardloop wat hulle vir onskadelike databestande kon hou.
+Daarbenewens versterk Gatekeeper gebruikersbeheer en -sekuriteit deur gebruikers te **vra om die oopmaak van afgelaaide sagteware goed te keur** vir die eerste keer. Hierdie beskerming help voorkom dat gebruikers per ongeluk potensieel skadelike uitvoerbare kode hardloop wat hulle dalk vir 'n onskadelike databestand gehou het.
 
 ### Aansoekhandtekeninge
 
-Aansoekhandtekeninge, ook bekend as kodehandtekeninge, is 'n kritieke komponent van Apple se sekuriteitsinfrastruktuur. Dit word gebruik om die identiteit van die sagteware-skrywer (die ontwikkelaar) te **verifieer** en om te verseker dat die kode nie sedert die laaste ondertekening verander is nie.
+Aansoekhandtekeninge, ook bekend as kodehandtekeninge, is 'n kritieke komponent van Apple se sekuriteitsinfrastruktuur. Dit word gebruik om die identiteit van die sagteware-skrywer (die ontwikkelaar) te **verifieer** en om te verseker dat die kode nie verander is sedert dit laas onderteken is nie.
 
 So werk dit:
 
-1. **Onderteken die Aansoek:** Wanneer 'n ontwikkelaar gereed is om hul aansoek te versprei, **onderteken hulle die aansoek met 'n privaatsleutel**. Hierdie privaatsleutel is geassosieer met 'n **sertifikaat wat Apple aan die ontwikkelaar uitreik** wanneer hulle inskryf vir die Apple-ontwikkelaarsprogram. Die ondertekeningsproses behels die skep van 'n kriptografiese hasj van alle dele van die aansoek en die versleuteling van hierdie hasj met die ontwikkelaar se privaatsleutel.
-2. **Versprei die Aansoek:** Die ondertekende aansoek word dan saam met die ontwikkelaar se sertifikaat, wat die ooreenstemmende openbare sleutel bevat, aan gebruikers versprei.
-3. **Verifieer die Aansoek:** Wanneer 'n gebruiker die aansoek aflaai en probeer hardloop, gebruik hul Mac-bedryfstelsel die openbare sleutel van die ontwikkelaar se sertifikaat om die hasj te dekripteer. Dit bereken dan die hasj opnuut op grond van die huidige toestand van die aansoek en vergelyk dit met die dekripteerde hasj. As hulle ooreenstem, beteken dit dat **die aansoek nie gewysig is nie** sedert die ontwikkelaar dit onderteken het, en die stelsel laat die aansoek toe om te hardloop.
+1. **Die Aansoek Onderteken:** Wanneer 'n ontwikkelaar gereed is om hul aansoek te versprei, **onderteken hulle die aansoek met 'n privaatsleutel**. Hierdie privaatsleutel is geassosieer met 'n **sertifikaat wat Apple aan die ontwikkelaar uitreik** wanneer hulle inskryf vir die Apple-ontwikkelaarsprogram. Die ondertekeningsproses behels die skep van 'n kriptografiese hasj van alle dele van die aansoek en die versleuteling van hierdie hasj met die ontwikkelaar se privaatsleutel.
+2. **Die Aansoek Versprei:** Die ondertekende aansoek word dan saam met die ontwikkelaar se sertifikaat, wat die ooreenstemmende openbare sleutel bevat, aan gebruikers versprei.
+3. **Die Aansoek Verifieer:** Wanneer 'n gebruiker die aansoek aflaai en probeer hardloop, gebruik hul Mac-bedryfstelsel die openbare sleutel van die ontwikkelaar se sertifikaat om die hasj te ontsluit. Dit bereken dan die hasj opnuut op grond van die huidige toestand van die aansoek en vergelyk dit met die ontslote hasj. As hulle ooreenstem, beteken dit dat **die aansoek nie gewysig is** sedert die ontwikkelaar dit onderteken het nie, en die stelsel laat die aansoek toe om te hardloop.
 
-Aansoekhandtekeninge is 'n noodsaaklike deel van Apple se Gatekeeper-tegnologie. Wanneer 'n gebruiker probeer om 'n aansoek wat van die internet afgelaai is, **oop te maak**, verifieer Gatekeeper die aansoekhandtekening. As dit onderteken is met 'n sertifikaat wat deur Apple aan 'n bekende ontwikkelaar uitgereik is en die kode nie verander is nie, laat Gatekeeper die aansoek toe om te hardloop. Andersins blokkeer dit die aansoek en waarsku die gebruiker.
+Aansoekhandtekeninge is 'n essensiële deel van Apple se Gatekeeper-tegnologie. Wanneer 'n gebruiker probeer om **'n aansoek wat van die internet af afgelaai is, oop te maak**, verifieer Gatekeeper die aansoekhandtekening. As dit met 'n sertifikaat wat deur Apple aan 'n bekende ontwikkelaar uitgereik is, onderteken is en die kode nie verander is nie, laat Gatekeeper die aansoek toe om te hardloop. Andersins blokkeer dit die aansoek en waarsku die gebruiker.
 
-Vanaf macOS Catalina **kontroleer Gatekeeper ook of die aansoek deur Apple genoteer is**, wat 'n ekstra laag van sekuriteit toevoeg. Die noteringsproses kontroleer die aansoek vir bekende sekuriteitsprobleme en skadelike kode, en as hierdie kontroles slaag, voeg Apple 'n kaartjie by die aansoek wat Gatekeeper kan verifieer.
+Vanaf macOS Catalina **kontroleer Gatekeeper ook of die aansoek deur Apple genoteer is**, wat 'n ekstra laag van sekuriteit toevoeg. Die noteringsproses kontroleer die aansoek vir bekende sekuriteitskwessies en skadelike kode, en as hierdie kontroles slaag, voeg Apple 'n kaartjie by die aansoek wat Gatekeeper kan verifieer.
 
 #### Kontroleer Handtekeninge
 
-Wanneer jy 'n **malwaremonster** kontroleer, moet jy altyd die handtekening van die binêre lêer **kontroleer**, aangesien die **ontwikkelaar** wat dit onderteken het, moontlik reeds met **malware verband hou**.
+Wanneer jy 'n **malwaremonster** ondersoek, moet jy altyd die handtekening van die binêre lêer **kontroleer**, aangesien die **ontwikkelaar** wat dit onderteken het, moontlik reeds met **malware verband hou**.
 ```bash
 # Get signer
 codesign -vv -d /bin/ls 2>&1 | grep -E "Authority|TeamIdentifier"
@@ -61,11 +64,11 @@ Apple se notariseringproses dien as 'n addisionele beskermingsmaatreël om gebru
 
 Indien die sagteware hierdie inspeksie **slaag sonder om enige bekommernisse te veroorsaak**, genereer die Notary-diens 'n notariseringstiket. Die ontwikkelaar moet hierdie tikkie dan aan hul sagteware **heg**, 'n proses wat bekend staan as 'stapling.' Verder word die notariseringstiket ook aanlyn gepubliseer waar Gatekeeper, Apple se sekuriteitstegnologie, dit kan bereik.
 
-Met die gebruiker se eerste installasie of uitvoering van die sagteware, **informeer die bestaan van die notariseringstiket** - of dit nou aan die uitvoerbare lêer geheg is of aanlyn gevind word - Gatekeeper dat die sagteware deur Apple genotariseer is. As gevolg hiervan vertoon Gatekeeper 'n beskrywende boodskap in die aanvanklike aanvangsdialog, wat aandui dat die sagteware deur Apple vir skadelike inhoud nagegaan is. Hierdie proses verhoog dus die gebruiker se vertroue in die veiligheid van die sagteware wat hulle op hul stelsels installeer of uitvoer.
+Met die gebruiker se eerste installasie of uitvoering van die sagteware, **informeer die bestaan van die notariseringstiket - of dit aan die uitvoerbare lêer geheg is of aanlyn gevind word - Gatekeeper dat die sagteware deur Apple genotariseer is**. As gevolg hiervan wys Gatekeeper 'n beskrywende boodskap in die aanvanklike aanvangsdialoog, wat aandui dat die sagteware deur Apple vir skadelike inhoud nagegaan is. Hierdie proses verbeter dus die gebruiker se vertroue in die sekuriteit van die sagteware wat hulle op hul stelsels installeer of uitvoer.
 
 ### Enumerating GateKeeper
 
-GateKeeper is **verskeie sekuriteitskomponente** wat voorkom dat onbetroubare programme uitgevoer word en is ook **een van die komponente**.
+GateKeeper is beide, **verskeie sekuriteitskomponente** wat voorkom dat onbetroubare programme uitgevoer word en ook **een van die komponente**.
 
 Dit is moontlik om die **status** van GateKeeper te sien met:
 ```bash
@@ -73,10 +76,10 @@ Dit is moontlik om die **status** van GateKeeper te sien met:
 spctl --status
 ```
 {% hint style="danger" %}
-Let daarop dat GateKeeper-handtekeningkontroles slegs op **lêers met die Quarantine-eienskap** uitgevoer word, nie op elke lêer nie.
+Let wel dat GateKeeper-handtekeningkontroles slegs op lêers met die Quarantine-eienskap uitgevoer word, nie op elke lêer nie.
 {% endhint %}
 
-GateKeeper sal nagaan of 'n binêre lêer uitgevoer kan word volgens die **voorkeure & die handtekening**:
+GateKeeper sal nagaan of 'n binêre lêer uitgevoer kan word volgens die voorkeure en die handtekening:
 
 <figure><img src="../../../.gitbook/assets/image (1147).png" alt=""><figcaption></figcaption></figure>
 
@@ -94,7 +97,7 @@ anchor apple generic and certificate leaf[field.1.2.840.113635.100.6.1.9] exists
 anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] exists and (certificate leaf[field.1.2.840.113635.100.6.1.14] or certificate leaf[field.1.2.840.113635.100.6.1.13]) and notarized|1|0|Notarized Developer ID
 [...]
 ```
-Merk op hoe die eerste reël geëindig het in "**App Store**" en die tweede een in "**Developer ID**" en dat dit in die vorige afbeelding **geaktiveer was om programme van die App Store en geïdentifiseerde ontwikkelaars uit te voer**. As jy daardie instelling na App Store **verander**, sal die "**Notarized Developer ID" reëls verdwyn**.
+Merk op hoe die eerste reël geëindig het in "**App Store**" en die tweede een in "**Developer ID**" en dat dit in die vorige afbeelding **ingestel was om programme van die App Store en geïdentifiseerde ontwikkelaars uit te voer**. As jy daardie instelling na App Store **verander**, sal die "**Notarized Developer ID" reëls verdwyn**.
 
 Daar is ook duisende reëls van **tipe GKE**:
 ```bash
@@ -105,7 +108,7 @@ cdhash H"4317047eefac8125ce4d44cab0eb7b1dff29d19a"|1|0|GKE
 cdhash H"0a71962e7a32f0c2b41ddb1fb8403f3420e1d861"|1|0|GKE
 cdhash H"8d0d90ff23c3071211646c4c9c607cdb601cb18f"|1|0|GKE
 ```
-Dit is hashs wat afkomstig is van **`/var/db/SystemPolicyConfiguration/gke.bundle/Contents/Resources/gke.auth`, `/var/db/gke.bundle/Contents/Resources/gk.db`** en **`/var/db/gkopaque.bundle/Contents/Resources/gkopaque.db`**
+Hierdie is hashs wat afkomstig is van **`/var/db/SystemPolicyConfiguration/gke.bundle/Contents/Resources/gke.auth`, `/var/db/gke.bundle/Contents/Resources/gk.db`** en **`/var/db/gkopaque.bundle/Contents/Resources/gkopaque.db`**
 
 Of jy kan die vorige inligting lys met:
 ```bash
@@ -144,24 +147,24 @@ sudo spctl --enable --label "whitelist"
 spctl --assess -v /Applications/App.app
 /Applications/App.app: accepted
 ```
-### Karantynlêers
+### Karantyn van Lêers
 
-Met die aflaai van 'n toepassing of lêer, heg spesifieke macOS-toepassings soos webblaaier of e-poskliënte 'n uitgebreide lêereienskap aan, algemeen bekend as die "**karantynvlag**," aan die afgelaaide lêer. Hierdie eienskap tree op as 'n sekuriteitsmaatreël om die lêer te merk as afkomstig van 'n onbetroubare bron (die internet), en moontlik risiko's te dra. Nie alle toepassings heg egter hierdie eienskap aan nie, byvoorbeeld, algemene BitTorrent-klient sagteware verbygaan gewoonlik hierdie proses.
+Met die aflaai van 'n aansoek of lêer, heg spesifieke macOS-aansoeke soos webblaaier of e-poskliënte 'n uitgebreide lêereienskap aan, algemeen bekend as die "**karantynvlag**," aan die afgelaaide lêer. Hierdie eienskap tree op as 'n sekuriteitsmaatreël om die lêer te merk as afkomstig van 'n onbetroubare bron (die internet) en moontlik risiko's te dra. Nie alle aansoeke heg egter hierdie eienskap nie, byvoorbeeld, algemene BitTorrent-klient sagteware verbygaan gewoonlik hierdie proses.
 
 **Die teenwoordigheid van 'n karantynvlag dui macOS se Gatekeeper-sekuriteitsfunksie aan wanneer 'n gebruiker probeer om die lêer uit te voer**.
 
 In die geval waar die **karantynvlag nie teenwoordig is** (soos met lêers wat via sommige BitTorrent-kliënte afgelaai is), mag Gatekeeper se **kontroles nie uitgevoer word nie**. Gebruikers moet dus versigtig wees wanneer hulle lêers van minder veilige of onbekende bronne oopmaak.
 
 {% hint style="info" %}
-**Die geldigheid** van kodesignatures nagaan is 'n **hulpbron-intensiewe** proses wat die genereer van kriptografiese **hase** van die kode en al sy gebundelde bronne insluit. Verder behels die nagaan van sertifikaatgeldigheid 'n **aanlynkontrole** na Apple se bedieners om te sien of dit herroep is nadat dit uitgereik is. Om hierdie redes is 'n volledige kodesignatuur- en notariseringskontrole **onprakties om elke keer uit te voer wanneer 'n toepassing geopen word**.
+**Die geldigheid** van kodesignatures nagaan is 'n **hulpbron-intensiewe** proses wat die genereer van kriptografiese **hase** van die kode en al sy gebundelde bronne insluit. Verder behels die nagaan van sertifikaatgeldigheid 'n **aanlynkontrole** na Apple se bedieners om te sien of dit herroep is nadat dit uitgereik is. Om hierdie redes is 'n volledige kodesignatuur- en notariseringskontrole **onprakties om elke keer uit te voer wanneer 'n aansoek geopen word**.
 
-Daarom word hierdie kontroles **slegs uitgevoer wanneer toepassings met die gekwarantynvlag uitgevoer word**.
+Daarom word hierdie kontroles **slegs uitgevoer wanneer aansoeke met die gekwarantynvlag uitgevoer word**.
 {% endhint %}
 
 {% hint style="warning" %}
-Hierdie eienskap moet **deur die toepassing wat die lêer skep/aflaai** ingestel word.
+Hierdie eienskap moet **deur die aansoek wat die lêer skep/aflaai** ingestel word.
 
-Tog sal lêers wat gesandbox is hierdie eienskap aan elke lêer wat hulle skep, instel. En nie-gesandboxte programme kan dit self instel, of die [**LSFileQuarantineEnabled**](https://developer.apple.com/documentation/bundleresources/information\_property\_list/lsfilequarantineenabled?language=objc) sleutel in die **Info.plist** spesifiseer wat die stelsel die `com.apple.quarantine` uitgebreide eienskap op die geskepte lêers sal laat instel,
+Tog sal lêers wat gesandbox is hierdie eienskap aan elke lêer wat hulle skep, instel. En nie-gesandboxte programme kan dit self instel, of die [**LSFileQuarantineEnabled**](https://developer.apple.com/documentation/bundleresources/information\_property\_list/lsfilequarantineenabled?language=objc) sleutel in die **Info.plist** spesifiseer wat die stelsel die `com.apple.quarantine` uitgebreide eienskap op die lêers wat geskep is, sal laat instel.
 {% endhint %}
 
 Dit is moontlik om **die status te kontroleer en in/uit te skakel** (root benodig) met:
@@ -173,13 +176,13 @@ spctl --enable
 spctl --disable
 #You can also allow nee identifies to execute code using the binary "spctl"
 ```
-Jy kan ook **vind of 'n lêer die karantyn uitgebreide kenmerk het** met:
+Jy kan ook **vind of 'n lêer die karantyn uitgebreide attribuut het** met:
 ```bash
 xattr file.png
 com.apple.macl
 com.apple.quarantine
 ```
-Kontroleer die **waarde** van die **uitgebreide** **kenmerke** en vind uit watter app die karantyn kenmerk geskryf het met:
+Kontroleer die **waarde** van die **uitgebreide** **kenmerke** en vind uit watter app die karantynkenmerk geskryf het met:
 ```bash
 xattr -l portada.png
 com.apple.macl:
@@ -283,7 +286,7 @@ Die kernuitbreiding is slegs beskikbaar deur die **kernkas op die stelsel**; jy 
 
 ### XProtect
 
-XProtect is 'n ingeboude **anti-malware**-funksie in macOS. XProtect **kontroleer enige toepassing wanneer dit vir die eerste keer uitgevoer of gewysig word teen sy databasis** van bekende malware en onveilige lêertipes. Wanneer jy 'n lêer aflaai deur sekere programme, soos Safari, Mail, of Messages, skandeer XProtect die lêer outomaties. As dit enige bekende malware in sy databasis pas, sal XProtect die lêer **verhoed om uit te voer** en jou waarsku oor die bedreiging.
+XProtect is 'n ingeboude **teen-malware**-funksie in macOS. XProtect **kontroleer enige toepassing wanneer dit vir die eerste keer geopen of gewysig word teen sy databasis** van bekende malware en onveilige lêertipes. Wanneer jy 'n lêer aflaai deur sekere programme, soos Safari, Mail, of Messages, skandeer XProtect die lêer outomaties. As dit enige bekende malware in sy databasis pas, sal XProtect die lêer **verhoed om uit te voer** en jou waarsku oor die bedreiging.
 
 Die XProtect-databasis word **gereeld opgedateer** deur Apple met nuwe malware-definisies, en hierdie opdaterings word outomaties afgelaai en geïnstalleer op jou Mac. Dit verseker dat XProtect altyd op datum is met die nuutste bekende bedreigings.
 
@@ -297,10 +300,10 @@ system_profiler SPInstallHistoryDataType 2>/dev/null | grep -A 4 "XProtectPlistC
 ```
 {% endcode %}
 
-XProtect is geleë op 'n SIP-beskermde plek by **/Library/Apple/System/Library/CoreServices/XProtect.bundle** en binne die bundel kan jy inligting vind oor hoe XProtect gebruik word:
+XProtect is geleë op 'n SIP-beskermde plek by **/Library/Apple/System/Library/CoreServices/XProtect.bundle** en binne die bundel kan jy inligting vind wat XProtect gebruik:
 
 - **`XProtect.bundle/Contents/Resources/LegacyEntitlementAllowlist.plist`**: Laat kodes met daardie cdhashes toe om erfenisbevoegdhede te gebruik.
-- **`XProtect.bundle/Contents/Resources/XProtect.meta.plist`**: Lys van plugins en uitbreidings wat nie toegelaat word om te laai via BundleID en TeamID of wat 'n minimum weergawe aandui.
+- **`XProtect.bundle/Contents/Resources/XProtect.meta.plist`**: Lys van plugins en uitbreidings wat verbied word om te laai via BundleID en TeamID of wat 'n minimum weergawe aandui.
 - **`XProtect.bundle/Contents/Resources/XProtect.yara`**: Yara-reëls om malware op te spoor.
 - **`XProtect.bundle/Contents/Resources/gk.db`**: SQLite3-databasis met hashe van geblokkeerde aansoeke en TeamIDs.
 
@@ -309,26 +312,26 @@ Let daarop dat daar 'n ander Toep in **`/Library/Apple/System/Library/CoreServic
 ### Nie Gatekeeper
 
 {% hint style="danger" %}
-Let daarop dat Gatekeeper **nie elke keer uitgevoer word** wanneer jy 'n aansoek uitvoer nie, net _**AppleMobileFileIntegrity**_ (AMFI) sal slegs **uitvoerbare kodes se handtekeninge verifieer** wanneer jy 'n aansoek uitvoer wat reeds deur Gatekeeper uitgevoer en geverifieer is.
+Let daarop dat Gatekeeper **nie elke keer uitgevoer word** wanneer jy 'n toepassing uitvoer nie, net _**AppleMobileFileIntegrity**_ (AMFI) sal slegs **uitvoerbare kodesignature** verifieer wanneer jy 'n toep uitvoer wat reeds deur Gatekeeper uitgevoer en geverifieer is.
 {% endhint %}
 
-Dit was dus voorheen moontlik om 'n aansoek uit te voer om dit met Gatekeeper te kash, dan **nie-uitvoerbare lêers van die aansoek te wysig** (soos Electron asar of NIB-lêers) en as geen ander beskermingsmaatreëls in plek was nie, is die aansoek met die **skadelike** byvoegings **uitgevoer**.
+Daarom was dit voorheen moontlik om 'n toepassing uit te voer om dit met Gatekeeper te kash, dan **nie-uitvoerbare lêers van die toepassing te wysig** (soos Electron asar of NIB-lêers) en as geen ander beskerming in plek was nie, is die toepassing met die **skadelike** byvoegings **uitgevoer**.
 
-Dit is egter nou nie moontlik nie omdat macOS **verhoed dat lêers binne aansoekbundels gewysig word nie**. Dus, as jy die [Dirty NIB](../macos-proces-abuse/macos-dirty-nib.md) aanval probeer, sal jy vind dat dit nie meer moontlik is om dit te misbruik nie omdat nadat jy die aansoek uitvoer om dit met Gatekeeper te kash, sal jy nie die bundel kan wysig nie. En as jy byvoorbeeld die naam van die Inhoud-gids na NotCon verander (soos aangedui in die uitbuiting), en dan die hoof binêre van die aansoek uitvoer om dit met Gatekeeper te kash, sal dit 'n fout veroorsaak en nie uitvoer nie.
+Dit is egter nou nie moontlik nie omdat macOS voorkom dat lêers binne toepassingsbundels gewysig word nie. Dus, as jy die [Dirty NIB](../macos-proces-abuse/macos-dirty-nib.md) aanval probeer, sal jy vind dat dit nie meer moontlik is om dit te misbruik nie omdat nadat jy die toep uitvoer om dit met Gatekeeper te kash, sal jy nie die bundel kan wysig nie. En as jy byvoorbeeld die naam van die Inhoud-gids na NotCon verander (soos aangedui in die uitbuiting), en dan die hoofbinêre van die toep uitvoer om dit met Gatekeeper te kash, sal dit 'n fout veroorsaak en nie uitvoer nie.
 
 ## Gatekeeper Oorbruggings
 
-Enige manier om Gatekeeper te oorbrug (om die gebruiker te laat iets aflaai en uitvoer wanneer Gatekeeper dit moet verbied) word as 'n kwesbaarheid in macOS beskou. Hierdie is enkele CVE's wat toegewys is aan tegnieke wat in die verlede toegelaat het om Gatekeeper te oorbrug:
+Enige manier om Gatekeeper te oorbrug (om die gebruiker te laat iets aflaai en uitvoer wanneer Gatekeeper dit moet verbied) word as 'n kwesbaarheid in macOS beskou. Hierdie is enkele CVE's wat toegeken is aan tegnieke wat in die verlede toegelaat het om Gatekeeper te oorbrug:
 
 ### [CVE-2021-1810](https://labs.withsecure.com/publications/the-discovery-of-cve-2021-1810)
 
-Daar is waargeneem dat as die **Archive Utility** vir ekstraksie gebruik word, ontvang lêers met **paaie wat 886 karakters oorskry** nie die com.apple.quarantine verlengde kenmerk nie. Hierdie situasie laat hierdie lêers onbedoeld toe om Gatekeeper se sekuriteitskontroles te **omseil**.
+Daar is waargeneem dat as die **Archive Utility** vir ekstraksie gebruik word, lêers met **paaie wat 886 karakters oorskry** nie die com.apple.quarantine verlengde kenmerk ontvang nie. Hierdie situasie laat hierdie lêers onbedoeld toe om Gatekeeper se sekuriteitskontroles te **omseil**.
 
 Kyk na die [**oorspronklike verslag**](https://labs.withsecure.com/publications/the-discovery-of-cve-2021-1810) vir meer inligting.
 
 ### [CVE-2021-30990](https://ronmasas.com/posts/bypass-macos-gatekeeper)
 
-Wanneer 'n aansoek geskep word met **Automator**, is die inligting oor wat dit nodig het om uit te voer binne `application.app/Contents/document.wflow` en nie in die uitvoerbare nie. Die uitvoerbare is net 'n generiese Automator-binêre genaamd **Automator Application Stub**.
+Wanneer 'n toepassing geskep word met **Automator**, is die inligting oor wat dit nodig het om uit te voer binne `application.app/Contents/document.wflow` en nie in die uitvoerbare nie. Die uitvoerbare is net 'n generiese Automator-binêre genaamd **Automator Application Stub**.
 
 Daarom kon jy maak dat `application.app/Contents/MacOS/Automator\ Application\ Stub` **na 'n simboliese skakel na 'n ander Automator Application Stub binne die stelsel wys** en dit sal uitvoer wat binne `document.wflow` is (jou skripsie) **sonder om Gatekeeper te aktiveer** omdat die werklike uitvoerbare nie die karantyn xattr het nie.
 
@@ -338,7 +341,7 @@ Kyk na die [**oorspronklike verslag**](https://ronmasas.com/posts/bypass-macos-g
 
 ### [CVE-2022-22616](https://www.jamf.com/blog/jamf-threat-labs-safari-vuln-gatekeeper-bypass/)
 
-In hierdie oorbrugging is 'n zip-lêer geskep met 'n aansoek wat begin om te komprimeer vanaf `application.app/Contents` in plaas van `application.app`. Daarom is die **karantynkenmerk** toegepas op al die **lêers vanaf `application.app/Contents`** maar **nie op `application.app` nie**, wat is waarop Gatekeeper gekyk het, dus is Gatekeeper oorbrug omdat toe `application.app` geaktiveer is, het dit **nie die karantynkenmerk gehad nie.**
+In hierdie oorbrugging is 'n zip-lêer geskep met 'n toep wat begin om te komprimeer vanaf `application.app/Contents` in plaas van `application.app`. Daarom is die **karantynkenmerk** toegepas op al die **lêers vanaf `application.app/Contents`** maar **nie op `application.app` nie**, wat is waar Gatekeeper na gekyk het, dus is Gatekeeper oorbrug omdat toe `application.app` geaktiveer is, het dit **nie die karantynkenmerk gehad nie.**
 ```bash
 zip -r test.app/Contents test.zip
 ```
@@ -346,7 +349,7 @@ Kyk na die [**oorspronklike verslag**](https://www.jamf.com/blog/jamf-threat-lab
 
 ### [CVE-2022-32910](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-32910)
 
-Selfs al is die komponente verskillend, is die uitbuiting van hierdie kwesbaarheid baie soortgelyk aan die vorige een. In hierdie geval sal ons 'n Apple-argief genereer vanaf **`application.app/Contents`** sodat **`application.app` nie die karantyn-attribuut sal kry** wanneer dit gedekomprimeer word deur **Archive Utility**.
+Selfs al is die komponente verskillend, is die uitbuiting van hierdie kwesbaarheid baie soortgelyk aan die vorige een. In hierdie geval sal ons 'n Apple-argief genereer vanaf **`application.app/Contents`** sodat **`application.app` nie die karantyn-attribuut sal kry** wanneer dit deur **Archive Utility** uitgepak word.
 ```bash
 aa archive -d test.app/Contents -o test.app.aar
 ```
@@ -363,7 +366,7 @@ xattr: [Errno 13] Permission denied: '/tmp/no-attr'
 ```
 Verder kopieer die **AppleDouble** lêerformaat 'n lêer saam met sy ACEs.
 
-In die [**bronkode**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) is dit moontlik om te sien dat die ACL-teksverteenwoordiging wat binne die xattr genaamd **`com.apple.acl.text`** gestoor word, as ACL in die gedekomprimeerde lêer ingestel gaan word. Dus, as jy 'n aansoek in 'n zip-lêer met die **AppleDouble** lêerformaat saam met 'n ACL wat voorkom dat ander xattrs daarin geskryf kan word, saamgedruk het... die karantyn xattr was nie in die aansoek ingestel nie:
+In die [**bronkode**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) is dit moontlik om te sien dat die ACL-teksverteenwoordiging wat binne die xattr genaamd **`com.apple.acl.text`** gestoor word, as ACL in die gedekomprimeerde lêer ingestel gaan word. Dus, as jy 'n aansoek in 'n zip-lêer met die **AppleDouble** lêerformaat saam met 'n ACL wat voorkom dat ander xattrs daarin geskryf word, saamgedruk het... die karantyn xattr was nie in die aansoek ingestel nie:
 ```bash
 chmod +a "everyone deny write,writeattr,writeextattr" /tmp/test
 ditto -c -k test test.zip
@@ -387,7 +390,7 @@ Dit is ontdek dat **Google Chrome nie die karantyn attribuut instel** vir afgela
 
 ### [CVE-2023-27951](https://redcanary.com/blog/gatekeeper-bypass-vulnerabilities/)
 
-AppleDouble lêerformate stoor die eienskappe van 'n lêer in 'n aparte lêer wat begin met `._`, dit help om lêereienskappe **oor macOS-toestelle te kopieer**. Dit is egter opgemerk dat nadat 'n AppleDouble lêer uitgepak is, die lêer wat begin met `._` **nie die karantyn attribuut gekry het nie**.
+AppleDouble lêerformate stoor die eienskappe van 'n lêer in 'n aparte lêer wat begin met `._`, dit help om lêer eienskappe **oor macOS-toestelle te kopieer**. Dit is egter opgemerk dat nadat 'n AppleDouble lêer gedekomprimeer is, die lêer wat begin met `._` **nie die karantyn attribuut gekry het nie**.
 
 {% code overflow="wrap" %}
 ```bash
@@ -401,8 +404,8 @@ aa archive -d test/ -o test.aar
 ```
 {% endcode %}
 
-Om 'n lêer te kan skep sonder die karantynkenmerk wat ingestel is, was dit **moontlik om Gatekeeper te omseil.** Die truuk was om 'n DMG-lêer-toepassing te skep deur die AppleDouble-naamkonvensie te gebruik (begin dit met `._`) en 'n **sigbare lêer as 'n simboolskakel na hierdie versteekte** lêer sonder die karantynkenmerk te skep.\
-Wanneer die **dmg-lêer uitgevoer word**, sal dit weens die ontbrekende karantynkenmerk **Gatekeeper omseil.**
+Om 'n lêer te kan skep sonder die karantynkenmerk, was dit **moontlik om Gatekeeper te omseil.** Die truuk was om 'n DMG-lêer-toepassing te skep met die AppleDouble-naamkonvensie (begin dit met `._`) en 'n **sigbare lêer as 'n simboolskakel na hierdie** verskuilde lêer sonder die karantynkenmerk te skep.\
+Wanneer die **dmg-lêer uitgevoer word**, sal dit **Gatekeeper omseil** omdat dit nie 'n karantynkenmerk het nie.
 ```bash
 # Create an app bundle with the backdoor an call it app.app
 
@@ -420,4 +423,23 @@ aa archive -d s/ -o app.aar
 ```
 ### Voorkom Quarantine xattr
 
-In 'n ".app" bundel, as die quarantine xattr nie daaraan toegevoeg is nie, sal **Gatekeeper nie geaktiveer word** wanneer dit uitgevoer word.
+In 'n ".app" bundel, as die quarantine xattr nie daaraan toegevoeg word nie, sal **Gatekeeper nie geaktiveer word** wanneer dit uitgevoer word.
+
+<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://websec.nl/" %}
+
+
+<details>
+
+<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+
+Ander maniere om HackTricks te ondersteun:
+
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+
+</details>
