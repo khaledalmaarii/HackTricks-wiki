@@ -16,11 +16,11 @@ Inne sposoby wsparcia HackTricks:
 
 ## Podstawowe informacje
 
-UART to protokół szeregowy, co oznacza, że przesyła dane między komponentami po jednym bicie na raz. W przeciwieństwie do tego, protokoły komunikacji równoległej przesyłają dane jednocześnie przez wiele kanałów. Powszechne protokoły szeregowe obejmują RS-232, I2C, SPI, CAN, Ethernet, HDMI, PCI Express i USB.
+UART to protokół szeregowy, co oznacza, że przesyła dane między komponentami po jednym bicie na raz. W przeciwieństwie do tego, równoległe protokoły komunikacyjne przesyłają dane jednocześnie przez wiele kanałów. Powszechne protokoły szeregowe obejmują RS-232, I2C, SPI, CAN, Ethernet, HDMI, PCI Express i USB.
 
-Generalnie linia jest utrzymywana na wysokim poziomie (o wartości logicznej 1), gdy UART jest w stanie bezczynności. Następnie, aby sygnalizować rozpoczęcie transferu danych, nadajnik wysyła bit startu do odbiornika, podczas którego sygnał jest utrzymywany na niskim poziomie (o wartości logicznej 0). Następnie nadajnik wysyła pięć do ośmiu bitów danych zawierających rzeczywistą wiadomość, a następnie opcjonalny bit parzystości i jeden lub dwa bity stopu (o wartości logicznej 1), w zależności od konfiguracji. Bit parzystości, używany do sprawdzania błędów, rzadko jest widoczny w praktyce. Bit(y) stopu oznaczają koniec transmisji.
+Zazwyczaj linia jest utrzymywana na wysokim poziomie (o wartości logicznej 1), gdy UART znajduje się w stanie bezczynności. Następnie, aby sygnalizować rozpoczęcie transferu danych, nadajnik wysyła bit startowy do odbiornika, podczas którego sygnał jest utrzymywany na niskim poziomie (o wartości logicznej 0). Następnie nadajnik wysyła pięć do ośmiu bitów danych zawierających rzeczywistą wiadomość, a następnie opcjonalny bit parzystości i jeden lub dwa bity stopu (o wartości logicznej 1), w zależności od konfiguracji. Bit parzystości, używany do sprawdzania błędów, rzadko jest widoczny w praktyce. Bit(y) stopu oznaczają koniec transmisji.
 
-Najczęściej stosowaną konfigurację nazywamy 8N1: osiem bitów danych, brak bitu parzystości i jeden bit stopu. Na przykład, jeśli chcielibyśmy wysłać znak C, czyli 0x43 w ASCII, w konfiguracji UART 8N1, wysłalibyśmy następujące bity: 0 (bit startu); 0, 1, 0, 0, 0, 0, 1, 1 (wartość 0x43 w systemie binarnym) i 0 (bit stopu).
+Najczęściej stosowaną konfigurację nazywamy 8N1: osiem bitów danych, brak bitu parzystości i jeden bit stopu. Na przykład, jeśli chcielibyśmy wysłać znak C, czyli 0x43 w ASCII, w konfiguracji UART 8N1, wysłalibyśmy następujące bity: 0 (bit startowy); 0, 1, 0, 0, 0, 0, 1, 1 (wartość 0x43 w systemie binarnym) i 0 (bit stopu).
 
 ![](<../../.gitbook/assets/image (761).png>)
 
@@ -38,12 +38,12 @@ Z **multimetrem** i wyłączonym urządzeniem:
 
 * Aby zidentyfikować pin **GND**, użyj trybu **Testu ciągłości**, umieść tylną sondę w uziemieniu i przetestuj czerwoną sondą, aż usłyszysz dźwięk z multimetru. Na PCB można znaleźć kilka pinów GND, więc możesz znaleźć lub nie ten należący do UART.
 * Aby zidentyfikować port **VCC**, ustaw tryb **napięcia stałego** i ustaw go na 20 V napięcia. Czarna sonda na uziemieniu, a czerwona sonda na pinie. Włącz urządzenie. Jeśli multimetr mierzy stałe napięcie 3,3 V lub 5 V, znalazłeś pin Vcc. Jeśli otrzymasz inne napięcia, spróbuj z innymi portami.
-* Aby zidentyfikować port **TX**, tryb **napięcia stałego** do 20 V napięcia, czarna sonda na uziemieniu, a czerwona sonda na pinie, i włącz urządzenie. Jeśli napięcie zmienia się przez kilka sekund, a następnie ustabilizuje się na wartości Vcc, najprawdopodobniej znalazłeś port TX. Dzieje się tak, ponieważ podczas włączania wysyła pewne dane diagnostyczne.
-* Port **RX** będzie najbliższy pozostałym 3, ma najmniejsze wahania napięcia i najniższą ogólną wartość ze wszystkich pinów UART.
+* Aby zidentyfikować port **TX**, tryb **napięcia stałego** do 20 V napięcia, czarna sonda na uziemieniu, czerwona sonda na pinie, a urządzenie włączone. Jeśli napięcie zmienia się przez kilka sekund, a następnie ustabilizuje się na wartości Vcc, najprawdopodobniej znalazłeś port TX. Dzieje się tak, ponieważ podczas włączania wysyła pewne dane diagnostyczne.
+* Port **RX** będzie najbliższy pozostałym 3, ma najmniejsze wahania napięcia i najniższą wartość ogólną ze wszystkich pinów UART.
 
 Możesz pomylić porty TX i RX i nic się nie stanie, ale jeśli pomyliłbyś port GND z portem VCC, możesz uszkodzić obwód.
 
-W niektórych urządzeniach docelowych port UART jest wyłączony przez producenta poprzez wyłączenie RX lub TX lub nawet obu. W takim przypadku pomocne może być śledzenie połączeń na płycie drukowanej i znalezienie punktu rozgałęzienia. Silnym wskazówką potwierdzającą brak wykrycia UART i przerwanie obwodu jest sprawdzenie gwarancji urządzenia. Jeśli urządzenie zostało dostarczone z jakąś gwarancją, producent pozostawia pewne interfejsy diagnostyczne (w tym przypadku UART) i dlatego musiał odłączyć UART i ponownie go podłączyć podczas debugowania. Te piny rozgałęzienia można połączyć przez lutowanie lub przewody mostkujące.
+W niektórych urządzeniach docelowych port UART jest wyłączony przez producenta poprzez wyłączenie RX lub TX lub nawet oba. W takim przypadku pomocne może być śledzenie połączeń na płycie drukowanej i znalezienie punktu rozgałęzienia. Silnym wskazaniem potwierdzającym brak wykrycia UART i przerwania obwodu jest sprawdzenie gwarancji urządzenia. Jeśli urządzenie zostało dostarczone z jakąś gwarancją, producent pozostawia pewne interfejsy diagnostyczne (w tym przypadku UART) i dlatego musiał odłączyć UART i ponownie go podłączyć podczas debugowania. Te piny rozgałęzienia można połączyć przez lutowanie lub przewody mostkujące.
 
 ### Identyfikacja szybkości transmisji UART
 
@@ -73,7 +73,15 @@ minicom -s
 ```
 Skonfiguruj ustawienia takie jak szybkość transmisji (baudrate) i nazwę urządzenia w opcji `Konfiguracja portu szeregowego`.
 
-Po skonfigurowaniu, użyj polecenia `minicom`, aby rozpocząć korzystanie z Konsoli UART.
+Po skonfigurowaniu użyj polecenia `minicom`, aby uruchomić konsolę UART.
+
+## UART za pośrednictwem Arduino UNO R3 (Płytki z wymiennym układem Atmel 328p)
+
+W przypadku braku dostępności adapterów UART Serial to USB, można użyć Arduino UNO R3 z szybkim hackiem. Ponieważ Arduino UNO R3 jest zazwyczaj dostępny wszędzie, może to zaoszczędzić dużo czasu.
+
+Arduino UNO R3 ma wbudowany adapter USB do szeregowego na płycie. Aby uzyskać połączenie UART, wystarczy wyjąć mikrokontroler Atmel 328p z płytki. Ten hack działa na wariantach Arduino UNO R3, w których układ Atmel 328p nie jest przylutowany do płytki (używana jest wersja SMD). Połącz pin RX Arduino (Pin cyfrowy 0) z pinem TX interfejsu UART oraz pin TX Arduino (Pin cyfrowy 1) z pinem RX interfejsu UART.
+
+W końcu zaleca się korzystanie z Arduino IDE, aby uzyskać Konsolę Szeregową. W sekcji `narzędzia` w menu wybierz opcję `Konsola szeregowa` i ustaw szybkość transmisji zgodnie z interfejsem UART.
 
 ## Bus Pirate
 
@@ -151,14 +159,14 @@ waiting a few secs to repeat....
 ```
 <details>
 
-<summary><strong>Nauka hakowania AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF** sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Kup [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakowania, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
