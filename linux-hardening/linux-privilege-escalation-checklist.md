@@ -1,4 +1,4 @@
-# Checklist - Élévation de privilèges Linux
+# Liste de vérification - Élévation de privilèges Linux
 
 <details>
 
@@ -8,13 +8,13 @@ Autres façons de soutenir HackTricks :
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (377).png" alt=""><figcaption></figcaption></figure>
 
 Rejoignez le serveur [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) pour communiquer avec des pirates expérimentés et des chasseurs de primes !
 
@@ -37,8 +37,8 @@ Restez informé des dernières primes de bugs lancées et des mises à jour cruc
 * [ ] Vérifier le [**CHEMIN**](privilege-escalation/#path), un **dossier inscriptible** ?
 * [ ] Vérifier les [**variables d'environnement**](privilege-escalation/#env-info), des détails sensibles ?
 * [ ] Rechercher des [**exploits du noyau**](privilege-escalation/#kernel-exploits) **en utilisant des scripts** (DirtyCow ?)
-* [ ] **Vérifier** si la version de [**sudo est vulnérable**](privilege-escalation/#sudo-version)
-* [ ] [**Échec de la vérification de la signature Dmesg**](privilege-escalation/#dmesg-signature-verification-failed)
+* [ ] **Vérifier** si la [**version de sudo est vulnérable**](privilege-escalation/#sudo-version)
+* [ ] [Échec de la vérification de la signature de Dmesg](privilege-escalation/#dmesg-signature-verification-failed)
 * [ ] Plus d'énumération système ([date, statistiques système, infos CPU, imprimantes](privilege-escalation/#more-system-enumeration))
 * [ ] [Énumérer plus de défenses](privilege-escalation/#enumerate-possible-defenses)
 
@@ -60,11 +60,11 @@ Restez informé des dernières primes de bugs lancées et des mises à jour cruc
 * [ ] Rechercher des **exploits des processus en cours d'exécution** (surtout la version en cours d'exécution).
 * [ ] Pouvez-vous **modifier le binaire** de n'importe quel processus en cours d'exécution ?
 * [ ] **Surveiller les processus** et vérifier si un processus intéressant s'exécute fréquemment.
-* [ ] Pouvez-vous **lire** une partie de la **mémoire du processus** intéressante (où des mots de passe pourraient être enregistrés) ?
+* [ ] Pouvez-vous **lire** une partie intéressante de la **mémoire du processus** (où des mots de passe pourraient être enregistrés) ?
 
 ### [Tâches planifiées/Cron jobs ?](privilege-escalation/#scheduled-jobs)
 
-* [ ] Le [**CHEMIN** ](privilege-escalation/#cron-path)est-il modifié par un cron et vous pouvez **écrire** dedans ?
+* [ ] Le [**CHEMIN** ](privilege-escalation/#cron-path)est-il modifié par un cron et pouvez-vous **écrire** dedans ?
 * [ ] Un [**joker** ](privilege-escalation/#cron-using-a-script-with-a-wildcard-wildcard-injection)dans une tâche cron ?
 * [ ] Un [**script modifiable** ](privilege-escalation/#cron-script-overwriting-and-symlink)est-il **exécuté** ou se trouve-t-il dans un **dossier modifiable** ?
 * [ ] Avez-vous détecté qu'un **script** pourrait être ou est **exécuté très **fréquemment**](privilege-escalation/#frequent-cron-jobs) ? (toutes les 1, 2 ou 5 minutes)
@@ -92,7 +92,7 @@ Restez informé des dernières primes de bugs lancées et des mises à jour cruc
 ### [Réseau](privilege-escalation/#network)
 
 * [ ] Énumérer le réseau pour savoir où vous vous trouvez
-* [ ] **Ports ouverts auxquels vous n'aviez pas accès** avant d'obtenir un shell à l'intérieur de la machine ?
+* [ ] **Ports ouverts auxquels vous n'aviez pas accès avant** d'obtenir un shell à l'intérieur de la machine ?
 * [ ] Pouvez-vous **capturer le trafic** en utilisant `tcpdump` ?
 
 ### [Utilisateurs](privilege-escalation/#users)
@@ -120,78 +120,77 @@ Restez informé des dernières primes de bugs lancées et des mises à jour cruc
 * [ ] [**Jetons SUDO disponibles**](privilege-escalation/#reusing-sudo-tokens) ? [**Pouvez-vous créer un jeton SUDO**](privilege-escalation/#var-run-sudo-ts-less-than-username-greater-than) ?
 * [ ] Pouvez-vous [**lire ou modifier les fichiers sudoers**](privilege-escalation/#etc-sudoers-etc-sudoers-d) ?
 * [ ] Pouvez-vous [**modifier /etc/ld.so.conf.d/**](privilege-escalation/#etc-ld-so-conf-d) ?
-* [ ] Commande [**OpenBSD DOAS**](privilege-escalation/#doas)
-
+* [**OpenBSD DOAS**](privilege-escalation/#doas) command
 ### [Capacités](privilege-escalation/#capabilities)
 
-* [ ] Un binaire a-t-il une **capacité inattendue** ?
+* [ ] Est-ce qu'un binaire possède une **capacité inattendue**?
 
 ### [ACLs](privilege-escalation/#acls)
 
-* [ ] Un fichier a-t-il un **ACL inattendu** ?
+* [ ] Est-ce qu'un fichier possède un **ACL inattendu**?
 
-### [Sessions shell ouvertes](privilege-escalation/#open-shell-sessions)
+### [Sessions Shell ouvertes](privilege-escalation/#open-shell-sessions)
 
 * [ ] **screen**
 * [ ] **tmux**
 
 ### [SSH](privilege-escalation/#ssh)
 
-* [ ] **Debian** [**OpenSSL PRNG Prévisible - CVE-2008-0166**](privilege-escalation/#debian-openssl-predictable-prng-cve-2008-0166)
-* [**Valeurs de configuration SSH intéressantes**](privilege-escalation/#ssh-interesting-configuration-values)
+* [ ] **Debian** [**OpenSSL Predictable PRNG - CVE-2008-0166**](privilege-escalation/#debian-openssl-predictable-prng-cve-2008-0166)
+* [ ] [**Valeurs de configuration SSH intéressantes**](privilege-escalation/#ssh-interesting-configuration-values)
 
 ### [Fichiers intéressants](privilege-escalation/#interesting-files)
 
 * [ ] **Fichiers de profil** - Lire des données sensibles ? Écrire pour l'élévation de privilèges ?
-* [ ] Fichiers **passwd/shadow** - Lire des données sensibles ? Écrire pour l'élévation de privilèges ?
+* [ ] **Fichiers passwd/shadow** - Lire des données sensibles ? Écrire pour l'élévation de privilèges ?
 * [ ] **Vérifier les dossiers couramment intéressants** pour des données sensibles
-* [ ] **Emplacement étrange/Fichiers possédés**, auxquels vous pourriez avoir accès ou modifier des fichiers exécutables
+* [ ] **Emplacement étrange/Fichiers possédés,** auxquels vous pourriez avoir accès ou modifier des fichiers exécutables
 * [ ] **Modifié** dans les dernières minutes
-* [ ] Fichiers **Bases de données Sqlite**
+* [ ] **Fichiers de base de données SQLite**
 * [ ] **Fichiers cachés**
-* [ ] **Script/Binaires dans le CHEMIN**
+* [ ] **Scripts/Binaires dans le PATH**
 * [ ] **Fichiers Web** (mots de passe ?)
 * [ ] **Sauvegardes** ?
-* [ ] **Fichiers connus contenant des mots de passe** : Utilisez **Linpeas** et **LaZagne**
+* [ ] **Fichiers connus contenant des mots de passe**: Utilisez **Linpeas** et **LaZagne**
 * [ ] **Recherche générique**
 
 ### [**Fichiers inscriptibles**](privilege-escalation/#writable-files)
 
 * [ ] **Modifier une bibliothèque Python** pour exécuter des commandes arbitraires ?
-* [ ] Pouvez-vous **modifier les fichiers journaux** ? Exploitation **Logtotten**
+* [ ] Pouvez-vous **modifier des fichiers journaux** ? Exploitation de **Logtotten**
 * [ ] Pouvez-vous **modifier /etc/sysconfig/network-scripts/** ? Exploitation Centos/Redhat
-* [ ] Pouvez-vous [**écrire dans des fichiers ini, int.d, systemd ou rc.d**](privilege-escalation/#init-init-d-systemd-and-rc-d) ?
+* [ ] Pouvez-vous [**écrire dans des fichiers ini, int.d, systemd ou rc.d**](privilege-escalation/#init-init-d-systemd-and-rc-d)?
 
 ### [**Autres astuces**](privilege-escalation/#other-tricks)
 
-* [ ] Pouvez-vous **abuser de NFS pour élever les privilèges**](privilege-escalation/#nfs-privilege-escalation) ?
-* [ ] Devez-vous [**échapper à un shell restrictif**](privilege-escalation/#escaping-from-restricted-shells) ?
+* [ ] Pouvez-vous [**abuser de NFS pour escalader les privilèges**](privilege-escalation/#nfs-privilege-escalation)?
+* [ ] Devez-vous [**échapper à un shell restrictif**](privilege-escalation/#escaping-from-restricted-shells)?
 
-<figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (377).png" alt=""><figcaption></figcaption></figure>
 
-Rejoignez le serveur [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) pour communiquer avec des pirates expérimentés et des chasseurs de primes !
+Rejoignez le serveur [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) pour communiquer avec des hackers expérimentés et des chasseurs de bugs !
 
-**Perspectives de piratage**\
-Engagez-vous avec du contenu qui explore le frisson et les défis du piratage
+**Perspectives de Hacking**\
+Engagez-vous avec du contenu qui explore l'excitation et les défis du hacking
 
-**Actualités de piratage en temps réel**\
-Restez informé du monde du piratage en évolution rapide grâce à des actualités et des informations en temps réel
+**Actualités de Hacking en Temps Réel**\
+Restez à jour avec le monde du hacking en évolution rapide grâce aux actualités et aux informations en temps réel
 
-**Dernières annonces**\
+**Dernières Annonces**\
 Restez informé des dernières primes de bugs lancées et des mises à jour cruciales de la plateforme
 
-**Rejoignez-nous sur** [**Discord**](https://discord.com/invite/N3FrSbmwdy) et commencez à collaborer avec les meilleurs pirates dès aujourd'hui !
+**Rejoignez-nous sur** [**Discord**](https://discord.com/invite/N3FrSbmwdy) et commencez à collaborer avec les meilleurs hackers dès aujourd'hui !
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks :
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF** Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez vos astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

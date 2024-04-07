@@ -9,7 +9,7 @@ Autres façons de soutenir HackTricks :
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
@@ -34,19 +34,19 @@ Les protocoles infrarouges diffèrent selon 3 facteurs :
 
 Les bits sont encodés en modulant la durée de l'espace entre les impulsions. La largeur de l'impulsion elle-même est constante.
 
-<figure><img src="../../.gitbook/assets/image (16).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (292).png" alt=""><figcaption></figcaption></figure>
 
 **2. Encodage de la largeur d'impulsion**
 
-Les bits sont encodés en modulant la largeur de l'impulsion. La largeur de l'espace après l'impulsion est constante.
+Les bits sont encodés en modulant la largeur de l'impulsion. La largeur de l'espace après la rafale d'impulsions est constante.
 
-<figure><img src="../../.gitbook/assets/image (29) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (279).png" alt=""><figcaption></figcaption></figure>
 
 **3. Encodage de phase**
 
-Il est également connu sous le nom d'encodage Manchester. La valeur logique est définie par la polarité de la transition entre l'impulsion et l'espace. "Espace vers impulsion" représente la logique "0", "impulsion vers espace" représente la logique "1".
+Il est également connu sous le nom d'encodage Manchester. La valeur logique est définie par la polarité de la transition entre la rafale d'impulsions et l'espace. "Espace vers rafale d'impulsions" représente la logique "0", "rafale d'impulsions vers espace" représente la logique "1".
 
-<figure><img src="../../.gitbook/assets/image (25).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (631).png" alt=""><figcaption></figcaption></figure>
 
 **4. Combinaison des précédents et autres exotiques**
 
@@ -58,11 +58,11 @@ Les fabricants aiment utiliser leurs propres protocoles infrarouges uniques, mê
 
 ### Exploration d'un signal infrarouge
 
-La manière la plus fiable de voir à quoi ressemble le signal infrarouge de la télécommande est d'utiliser un oscilloscope. Il ne démodule ni n'inverse le signal reçu, il est simplement affiché "tel quel". Cela est utile pour les tests et le débogage. Je montrerai le signal attendu sur l'exemple du protocole infrarouge NEC.
+La manière la plus fiable de voir à quoi ressemble le signal infrarouge de la télécommande est d'utiliser un oscilloscope. Il ne démodule ni n'inverse le signal reçu, il l'affiche tel quel. Cela est utile pour les tests et le débogage. Je montrerai le signal attendu sur l'exemple du protocole infrarouge NEC.
 
-<figure><img src="../../.gitbook/assets/image (18) (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (232).png" alt=""><figcaption></figcaption></figure>
 
-Généralement, il y a un préambule au début d'un paquet encodé. Cela permet au récepteur de déterminer le niveau de gain et l'arrière-plan. Il existe également des protocoles sans préambule, par exemple, Sharp.
+Habituellement, il y a un préambule au début d'un paquet encodé. Cela permet au récepteur de déterminer le niveau de gain et l'arrière-plan. Il existe également des protocoles sans préambule, par exemple, Sharp.
 
 Ensuite, les données sont transmises. La structure, le préambule et la méthode d'encodage des bits sont déterminés par le protocole spécifique.
 
@@ -76,8 +76,8 @@ Pour les logiques "0" et "1", NEC utilise l'Encodage de la Distance d'Impulsion 
 
 ### Climatiseurs
 
-Contrairement aux autres télécommandes, **les climatiseurs ne transmettent pas seulement le code du bouton pressé**. Ils **transmettent également toutes les informations** lorsqu'un bouton est pressé pour s'assurer que la **machine climatisée et la télécommande sont synchronisées**.\
-Cela évitera qu'une machine réglée à 20ºC ne soit augmentée à 21ºC avec une télécommande, puis qu'une autre télécommande, qui a toujours la température à 20ºC, soit utilisée pour augmenter davantage la température, elle "l'augmentera" à 21ºC (et non à 22ºC en pensant qu'elle est à 21ºC).
+Contrairement aux autres télécommandes, **les climatiseurs ne transmettent pas seulement le code du bouton pressé**. Ils transmettent également **toutes les informations** lorsqu'un bouton est pressé pour s'assurer que la **machine climatisée et la télécommande sont synchronisées**.\
+Cela évitera qu'une machine réglée à 20ºC ne soit augmentée à 21ºC avec une télécommande, puis lorsqu'une autre télécommande, qui a toujours la température à 20ºC, est utilisée pour augmenter davantage la température, elle l'augmentera à 21ºC (et non à 22ºC en pensant qu'elle est à 21ºC).
 
 ### Attaques
 
@@ -100,7 +100,7 @@ Autres façons de soutenir HackTricks :
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>

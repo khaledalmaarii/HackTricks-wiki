@@ -14,7 +14,7 @@
 
 ## Informations de base
 
-Le Kit d'E/S est un **cadre de pilote de périphérique orienté objet** open source dans le noyau XNU, gère les **pilotes de périphériques chargés dynamiquement**. Il permet d'ajouter du code modulaire au noyau à la volée, prenant en charge du matériel divers.
+L'IO Kit est un **cadre de pilote de périphérique** orienté objet open source dans le noyau XNU, qui gère les **pilotes de périphériques chargés dynamiquement**. Il permet d'ajouter du code modulaire au noyau à la volée, prenant en charge du matériel divers.
 
 Les pilotes IOKit **exportent essentiellement des fonctions du noyau**. Les types de paramètres de ces fonctions sont **prédéfinis** et vérifiés. De plus, tout comme XPC, IOKit est juste une autre couche **au-dessus des messages Mach**.
 
@@ -72,14 +72,14 @@ Pour trouver des extensions spécifiques, vous pouvez utiliser :
 kextfind -bundle-id com.apple.iokit.IOReportFamily #Search by full bundle-id
 kextfind -bundle-id -substring IOR #Search by substring in bundle-id
 ```
-Pour charger et décharger les extensions de noyau, faites :
+Pour charger et décharger des extensions de noyau, faites :
 ```bash
 kextload com.apple.iokit.IOReportFamily
 kextunload com.apple.iokit.IOReportFamily
 ```
 ## IORegistry
 
-Le **IORegistry** est une partie cruciale du framework IOKit dans macOS et iOS qui sert de base de données pour représenter la configuration matérielle et l'état du système. C'est une **collection hiérarchique d'objets qui représentent tout le matériel et les pilotes** chargés sur le système, ainsi que leurs relations mutuelles. 
+Le **IORegistry** est une partie cruciale du framework IOKit dans macOS et iOS qui sert de base de données pour représenter la configuration matérielle et l'état du système. C'est une **collection hiérarchique d'objets qui représentent tout le matériel et les pilotes** chargés sur le système, ainsi que leurs relations mutuelles.
 
 Vous pouvez obtenir l'IORegistry en utilisant la commande **`ioreg`** pour l'inspecter depuis la console (particulièrement utile pour iOS).
 ```bash
@@ -87,14 +87,14 @@ ioreg -l #List all
 ioreg -w 0 #Not cut lines
 ioreg -p <plane> #Check other plane
 ```
-Vous pouvez télécharger **`IORegistryExplorer`** depuis les **Outils Additionnels Xcode** sur [**https://developer.apple.com/download/all/**](https://developer.apple.com/download/all/) et inspecter le **IORegistry de macOS** à travers une interface **graphique**.
+Vous pouvez télécharger **`IORegistryExplorer`** depuis les **Outils Additionnels Xcode** sur [**https://developer.apple.com/download/all/**](https://developer.apple.com/download/all/) et inspecter le **IORegistry macOS** à travers une interface **graphique**.
 
-<figure><img src="../../../.gitbook/assets/image (695).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1164).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Dans IORegistryExplorer, les "planes" sont utilisés pour organiser et afficher les relations entre différents objets dans l'IORegistry. Chaque plane représente un type spécifique de relation ou une vue particulière de la configuration matérielle et des pilotes du système. Voici quelques-uns des planes courants que vous pourriez rencontrer dans IORegistryExplorer :
 
 1. **Plane IOService** : Il s'agit du plane le plus général, affichant les objets de service qui représentent les pilotes et les nœuds (canaux de communication entre les pilotes). Il montre les relations fournisseur-client entre ces objets.
-2. **Plane IODeviceTree** : Ce plane représente les connexions physiques entre les appareils tels qu'ils sont attachés au système. Il est souvent utilisé pour visualiser la hiérarchie des appareils connectés via des bus comme l'USB ou le PCI.
+2. **Plane IODeviceTree** : Ce plane représente les connexions physiques entre les appareils tels qu'ils sont attachés au système. Il est souvent utilisé pour visualiser la hiérarchie des appareils connectés via des bus comme USB ou PCI.
 3. **Plane IOPower** : Affiche les objets et leurs relations en termes de gestion de l'alimentation. Il peut montrer quels objets affectent l'état d'alimentation des autres, utile pour le débogage des problèmes liés à l'alimentation.
 4. **Plane IOUSB** : Spécifiquement axé sur les appareils USB et leurs relations, montrant la hiérarchie des concentrateurs USB et des appareils connectés.
 5. **Plane IOAudio** : Ce plane est pour représenter les appareils audio et leurs relations au sein du système.
@@ -106,7 +106,7 @@ Le code suivant se connecte au service IOKit `"VotreNomDeServiceIci"` et appelle
 
 * il appelle d'abord **`IOServiceMatching`** et **`IOServiceGetMatchingServices`** pour obtenir le service.
 * Il établit ensuite une connexion en appelant **`IOServiceOpen`**.
-* Et il appelle enfin une fonction avec **`IOConnectCallScalarMethod`** en indiquant le sélecteur 0 (le sélecteur est le numéro attribué à la fonction que vous souhaitez appeler).
+* Et enfin, il appelle une fonction avec **`IOConnectCallScalarMethod`** en indiquant le sélecteur 0 (le sélecteur est le numéro attribué à la fonction que vous souhaitez appeler).
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <IOKit/IOKitLib.h>
@@ -169,9 +169,9 @@ Vous pourriez obtenir ceux-ci par exemple à partir d'une [**image du micrologic
 
 Vous pourriez commencer à décompiler la fonction **`externalMethod`** car c'est la fonction du pilote qui recevra l'appel et appellera la fonction correcte :
 
-<figure><img src="../../../.gitbook/assets/image (696).png" alt="" width="315"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1165).png" alt="" width="315"><figcaption></figcaption></figure>
 
-<figure><img src="../../../.gitbook/assets/image (697).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1166).png" alt=""><figcaption></figcaption></figure>
 
 Cet appel horrible démêlé signifie :
 
@@ -189,7 +189,7 @@ IOUserClient2022::dispatchExternalMethod(self, unsigned int, IOExternalMethodArg
 ```
 {% endcode %}
 
-En réalité, vous pouvez trouver la définition réelle sur [https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/Kernel/IOUserClient.cpp#L6388](https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/Kernel/IOUserClient.cpp#L6388):
+En fait, vous pouvez trouver la définition réelle dans [https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/Kernel/IOUserClient.cpp#L6388](https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/Kernel/IOUserClient.cpp#L6388):
 ```cpp
 IOUserClient2022::dispatchExternalMethod(uint32_t selector, IOExternalMethodArgumentsOpaque *arguments,
 const IOExternalMethodDispatch2022 dispatchArray[], size_t dispatchArrayCount,
@@ -197,35 +197,35 @@ OSObject * target, void * reference)
 ```
 Avec ces informations, vous pouvez réécrire Ctrl+Right -> `Modifier la signature de la fonction` et définir les types connus :
 
-<figure><img src="../../../.gitbook/assets/image (702).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1171).png" alt=""><figcaption></figcaption></figure>
 
 Le nouveau code décomplié ressemblera à ceci :
 
-<figure><img src="../../../.gitbook/assets/image (703).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1172).png" alt=""><figcaption></figcaption></figure>
 
-Pour l'étape suivante, nous devons avoir défini la structure **`IOExternalMethodDispatch2022`**. Elle est open source dans [https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176](https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176), vous pouvez la définir :
+Pour l'étape suivante, nous devons avoir défini la structure **`IOExternalMethodDispatch2022`**. Elle est open source sur [https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176](https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176), vous pouvez la définir :
 
-<figure><img src="../../../.gitbook/assets/image (698).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1167).png" alt=""><figcaption></figcaption></figure>
 
 Maintenant, en suivant `(IOExternalMethodDispatch2022 *)&sIOExternalMethodArray`, vous pouvez voir beaucoup de données :
 
-<figure><img src="../../../.gitbook/assets/image (704).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1173).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Changez le type de données en **`IOExternalMethodDispatch2022:`**
 
-<figure><img src="../../../.gitbook/assets/image (705).png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1174).png" alt="" width="375"><figcaption></figcaption></figure>
 
 après le changement :
 
-<figure><img src="../../../.gitbook/assets/image (707).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1176).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Et comme nous le savons maintenant, nous avons un **tableau de 7 éléments** (vérifiez le code décomplié final), cliquez pour créer un tableau de 7 éléments :
+Et maintenant que nous avons un **tableau de 7 éléments** (vérifiez le code décomplié final), cliquez pour créer un tableau de 7 éléments :
 
-<figure><img src="../../../.gitbook/assets/image (708).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1177).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Une fois le tableau créé, vous pouvez voir toutes les fonctions exportées :
 
-<figure><img src="../../../.gitbook/assets/image (709).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1178).png" alt=""><figcaption></figcaption></figure>
 
 {% hint style="success" %}
 Si vous vous souvenez, pour **appeler** une fonction **exportée** depuis l'espace utilisateur, nous n'avons pas besoin d'appeler le nom de la fonction, mais le **numéro de sélecteur**. Ici, vous pouvez voir que le sélecteur **0** est la fonction **`initializeDecoder`**, le sélecteur **1** est **`startDecoder`**, le sélecteur **2** **`initializeEncoder`**...

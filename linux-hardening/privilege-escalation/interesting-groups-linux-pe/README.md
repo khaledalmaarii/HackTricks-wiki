@@ -2,14 +2,14 @@
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks :
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
@@ -78,7 +78,7 @@ pkttyagent --process <PID of session1> #Step 2, attach pkttyagent to session1
 ```
 %wheel	ALL=(ALL:ALL) ALL
 ```
-Cela signifie que **tout utilisateur appartenant au groupe wheel peut exécuter n'importe quoi en tant que sudo**.
+Cela signifie que **tout utilisateur appartenant au groupe wheel peut exécuter n'importe quelle commande en tant que sudo**.
 
 Si c'est le cas, pour **devenir root, vous pouvez simplement exécuter**:
 ```
@@ -94,7 +94,7 @@ Alors, lisez le fichier et essayez de **craquer quelques hachages**.
 
 ## Groupe du personnel
 
-**staff**: Permet aux utilisateurs d'ajouter des modifications locales au système (`/usr/local`) sans avoir besoin de privilèges root (notez que les exécutables dans `/usr/local/bin` sont dans la variable PATH de n'importe quel utilisateur, et ils peuvent "remplacer" les exécutables dans `/bin` et `/usr/bin` portant le même nom). Comparez avec le groupe "adm", qui est plus lié à la surveillance/sécurité. [\[source\]](https://wiki.debian.org/SystemGroups)
+**staff**: Permet aux utilisateurs d'ajouter des modifications locales au système (`/usr/local`) sans avoir besoin de privilèges root (notez que les exécutables dans `/usr/local/bin` sont dans la variable PATH de n'importe quel utilisateur, et ils peuvent "remplacer" les exécutables dans `/bin` et `/usr/bin` avec le même nom). Comparez avec le groupe "adm", qui est plus lié à la surveillance/sécurité. [\[source\]](https://wiki.debian.org/SystemGroups)
 
 Dans les distributions debian, la variable `$PATH` montre que `/usr/local/` sera exécuté avec la plus haute priorité, que vous soyez un utilisateur privilégié ou non.
 ```bash
@@ -106,7 +106,7 @@ $ echo $PATH
 ```
 Si nous pouvons pirater certains programmes dans `/usr/local`, nous pouvons facilement obtenir les droits root.
 
-Pirater le programme `run-parts` est un moyen facile d'obtenir les droits root, car la plupart des programmes exécuteront un `run-parts` (comme crontab, lors de la connexion ssh).
+Pirater le programme `run-parts` est un moyen facile d'obtenir les droits root, car la plupart des programmes exécuteront un `run-parts` (comme cron, lors de la connexion ssh).
 ```bash
 $ cat /etc/crontab | grep run-parts
 17 *    * * *   root    cd / && run-parts --report /etc/cron.hourly
@@ -164,7 +164,7 @@ Notez qu'en utilisant debugfs, vous pouvez également **écrire des fichiers**. 
 debugfs -w /dev/sda1
 debugfs:  dump /tmp/asd1.txt /tmp/asd2.txt
 ```
-Cependant, si vous essayez de **modifier des fichiers appartenant à root** (comme `/etc/shadow` ou `/etc/passwd`), vous obtiendrez une erreur "**Permission denied**".
+Cependant, si vous essayez de **écrire des fichiers appartenant à root** (comme `/etc/shadow` ou `/etc/passwd`), vous obtiendrez une erreur "**Permission refusée**".
 
 ## Groupe Vidéo
 
@@ -183,17 +183,17 @@ cat /sys/class/graphics/fb0/virtual_size
 ```
 Pour **ouvrir** l'**image brute**, vous pouvez utiliser **GIMP**, sélectionnez le fichier \*\*`screen.raw` \*\* et sélectionnez comme type de fichier **Données d'image brute** :
 
-![](<../../../.gitbook/assets/image (287) (1).png>)
+![](<../../../.gitbook/assets/image (460).png>)
 
-Ensuite, modifiez la largeur et la hauteur pour celles utilisées à l'écran et vérifiez différents types d'images (et sélectionnez celui qui affiche le mieux l'écran) :
+Ensuite, modifiez la largeur et la hauteur pour celles utilisées sur l'écran et vérifiez différents types d'images (et sélectionnez celui qui affiche le mieux l'écran) :
 
-![](<../../../.gitbook/assets/image (288).png>)
+![](<../../../.gitbook/assets/image (314).png>)
 
 ## Groupe Root
 
-Il semble qu'en **tant que membres du groupe root**, ils pourraient avoir accès à la **modification** de certains fichiers de configuration de **services** ou de certains fichiers de **bibliothèques** ou **d'autres choses intéressantes** qui pourraient être utilisées pour escalader les privilèges...
+Il semble qu'en **tant que membres du groupe root**, il pourrait être possible d'avoir accès pour **modifier** certains fichiers de configuration de **services** ou certains fichiers de **bibliothèques** ou **d'autres éléments intéressants** qui pourraient être utilisés pour escalader les privilèges...
 
-**Vérifiez quels fichiers les membres du root peuvent modifier** :
+**Vérifiez quels fichiers les membres du groupe root peuvent modifier** :
 ```bash
 find / -group root -perm -g=w 2>/dev/null
 ```
@@ -213,24 +213,16 @@ docker run --rm -it --pid=host --net=host --privileged -v /:/mnt <imagename> chr
 ```
 ## Groupe lxc/lxd
 
-Si vous n'aimez aucune des suggestions précédentes, ou si elles ne fonctionnent pas pour une raison quelconque (pare-feu api docker ?), vous pouvez toujours essayer de **exécuter un conteneur privilégié et de vous échapper** comme expliqué ici :
-
-{% content-ref url="../docker-security/" %}
-[docker-security](../docker-security/)
+{% content-ref url="./" %}
+[.](./)
 {% endcontent-ref %}
-
-Si vous avez des autorisations d'écriture sur le socket docker, lisez [**cet article sur comment escalader les privilèges en abusant du socket docker**](../#writable-docker-socket)**.**
-
-{% embed url="https://github.com/KrustyHack/docker-privilege-escalation" %}
-
-{% embed url="https://fosterelli.co/privilege-escalation-via-docker.html" %}
 
 ## Groupe Adm
 
-Généralement, les **membres** du groupe **`adm`** ont des autorisations pour **lire les fichiers journaux** situés dans _/var/log/_.\
+En général, les **membres** du groupe **`adm`** ont des autorisations pour **lire les fichiers journaux** situés dans _/var/log/_.\
 Par conséquent, si vous avez compromis un utilisateur de ce groupe, vous devriez certainement **consulter les journaux**.
 
 ## Groupe Auth
 
-À l'intérieur d'OpenBSD, le groupe **auth** peut généralement écrire dans les dossiers _**/etc/skey**_ et _**/var/db/yubikey**_ s'ils sont utilisés.\
-Ces autorisations peuvent être abusées avec l'exploit suivant pour **escalader les privilèges** vers root : [https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot](https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot)
+Dans OpenBSD, le groupe **auth** peut généralement écrire dans les dossiers _**/etc/skey**_ et _**/var/db/yubikey**_ s'ils sont utilisés.\
+Ces autorisations peuvent être exploitées avec l'exploit suivant pour **escalader les privilèges** vers root: [https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot](https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot)

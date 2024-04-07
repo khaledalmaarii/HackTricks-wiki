@@ -2,21 +2,21 @@
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks :
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
 **Groupe de sécurité Try Hard**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -48,7 +48,7 @@ unset LOCAL
 ## Liste des variables actuelles
 
 ```bash
-printenv
+$ printenv
 ```
 ```bash
 set
@@ -63,12 +63,12 @@ cat /proc/`python -c "import os; print(os.getppid())"`/environ
 
 * **DISPLAY** – l'affichage utilisé par **X**. Cette variable est généralement définie sur **:0.0**, ce qui signifie le premier affichage sur l'ordinateur actuel.
 * **EDITOR** – l'éditeur de texte préféré de l'utilisateur.
-* **HISTFILESIZE** – le nombre maximal de lignes contenues dans le fichier d'historique.
+* **HISTFILESIZE** – le nombre maximum de lignes contenues dans le fichier d'historique.
 * **HISTSIZE** – Nombre de lignes ajoutées au fichier d'historique lorsque l'utilisateur termine sa session.
 * **HOME** – votre répertoire personnel.
 * **HOSTNAME** – le nom d'hôte de l'ordinateur.
 * **LANG** – votre langue actuelle.
-* **MAIL** – l'emplacement du répertoire de courrier de l'utilisateur. Généralement **/var/spool/mail/USER**.
+* **MAIL** – l'emplacement du répertoire de messagerie de l'utilisateur. Généralement **/var/spool/mail/USER**.
 * **MANPATH** – la liste des répertoires à rechercher pour les pages de manuel.
 * **OSTYPE** – le type de système d'exploitation.
 * **PS1** – l'invite par défaut dans bash.
@@ -89,7 +89,7 @@ export HISTFILESIZE=0
 ```
 ### **HISTSIZE**
 
-Changez la **valeur de cette variable à 0**, ainsi lorsque vous **terminez votre session** aucun commande ne sera ajoutée au **fichier d'historique** (\~/.bash\_history).
+Changez la **valeur de cette variable à 0**, ainsi lorsque vous **terminez votre session**, aucune commande ne sera ajoutée au **fichier d'historique** (\~/.bash\_history).
 ```bash
 export HISTSIZE=0
 ```
@@ -115,23 +115,23 @@ Modifiez l'apparence de votre invite de commande.
 
 Root:
 
-![](<../.gitbook/assets/image (87).png>)
+![](<../.gitbook/assets/image (894).png>)
 
 Utilisateur régulier:
 
-![](<../.gitbook/assets/image (88).png>)
+![](<../.gitbook/assets/image (737).png>)
 
 Un, deux et trois emplois en arrière-plan:
 
-![](<../.gitbook/assets/image (89).png>)
+![](<../.gitbook/assets/image (142).png>)
 
 Un travail en arrière-plan, un arrêté et la dernière commande n'a pas fini correctement:
 
-![](<../.gitbook/assets/image (90).png>)
+![](<../.gitbook/assets/image (712).png>)
 
 **Groupe de sécurité Try Hard**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -144,7 +144,7 @@ Autres façons de soutenir HackTricks:
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF** Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>

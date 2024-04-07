@@ -7,8 +7,8 @@
 * Travaillez-vous dans une **entreprise de cybersécurité**? Vous voulez voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR au** [**dépôt hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**dépôt hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -62,12 +62,12 @@ SeTimeZonePrivilege           Change the time zone                 Disabled
 ```
 ou en utilisant _Process Explorer_ de Sysinternals (sélectionnez le processus et accédez à l'onglet "Sécurité") :
 
-![](<../../.gitbook/assets/image (321).png>)
+![](<../../.gitbook/assets/image (769).png>)
 
 ### Administrateur local
 
 Lorsqu'un administrateur local se connecte, **deux jetons d'accès sont créés** : un avec des droits d'administrateur et un autre avec des droits normaux. **Par défaut**, lorsque cet utilisateur exécute un processus, celui avec des **droits normaux (non administrateur) est utilisé**. Lorsque cet utilisateur essaie d'**exécuter** quelque chose **en tant qu'administrateur** (par exemple, "Exécuter en tant qu'administrateur"), l'**UAC** sera utilisé pour demander la permission.\
-Si vous souhaitez [**en savoir plus sur l'UAC, lisez cette page**](../authentication-credentials-uac-and-efs.md#uac)**.**
+Si vous souhaitez [**en savoir plus sur l'UAC, lisez cette page**](../authentication-credentials-uac-and-efs/#uac)**.**
 
 ### Impersonation d'utilisateur avec des informations d'identification
 
@@ -80,19 +80,18 @@ Vous pouvez lancer un processus qui **utilise des informations d'identification 
 ```
 runas /user:domain\username /netonly cmd.exe
 ```
-Cela est utile si vous avez des informations d'identification utiles pour accéder à des objets dans le réseau mais que ces informations d'identification ne sont pas valides à l'intérieur de l'hôte actuel car elles ne seront utilisées que dans le réseau (dans l'hôte actuel, vos privilèges utilisateur actuels seront utilisés).
+Cela est utile si vous avez des informations d'identification utiles pour accéder à des objets dans le réseau mais que ces informations d'identification ne sont pas valides à l'intérieur de l'hôte actuel car elles ne seront utilisées que dans le réseau (dans l'hôte actuel, les privilèges de votre utilisateur actuel seront utilisés).
 
 ### Types de jetons
 
 Il existe deux types de jetons disponibles :
 
 * **Jeton principal** : Il sert de représentation des informations d'identification de sécurité d'un processus. La création et l'association de jetons principaux avec des processus sont des actions qui nécessitent des privilèges élevés, mettant en avant le principe de séparation des privilèges. En général, un service d'authentification est responsable de la création du jeton, tandis qu'un service de connexion gère son association avec l'interpréteur de commandes de l'utilisateur. Il convient de noter que les processus héritent du jeton principal de leur processus parent lors de leur création.
-
 * **Jeton d'usurpation** : Permet à une application serveur d'adopter temporairement l'identité du client pour accéder à des objets sécurisés. Ce mécanisme est stratifié en quatre niveaux d'opération :
-- **Anonyme** : Accorde à un serveur un accès similaire à celui d'un utilisateur non identifié.
-- **Identification** : Permet au serveur de vérifier l'identité du client sans l'utiliser pour accéder aux objets.
-- **Usurpation** : Permet au serveur de fonctionner sous l'identité du client.
-- **Délégation** : Similaire à l'Usurpation mais inclut la capacité d'étendre cette supposition d'identité aux systèmes distants avec lesquels le serveur interagit, garantissant la préservation des informations d'identification.
+  * **Anonyme** : Accorde à un serveur un accès similaire à celui d'un utilisateur non identifié.
+  * **Identification** : Permet au serveur de vérifier l'identité du client sans l'utiliser pour accéder aux objets.
+  * **Usurpation** : Permet au serveur de fonctionner sous l'identité du client.
+  * **Délégation** : Similaire à l'Usurpation mais inclut la capacité d'étendre cette supposition d'identité aux systèmes distants avec lesquels le serveur interagit, garantissant la préservation des informations d'identification.
 
 #### Usurper des jetons
 
@@ -102,12 +101,12 @@ En utilisant le module _**incognito**_ de Metasploit, si vous avez suffisamment 
 
 Apprenez quels **privilèges des jetons peuvent être abusés pour escalader les privilèges :**
 
-{% content-ref url="privilege-escalation-abusing-tokens/" %}
-[privilege-escalation-abusing-tokens](privilege-escalation-abusing-tokens/)
+{% content-ref url="privilege-escalation-abusing-tokens.md" %}
+[privilege-escalation-abusing-tokens.md](privilege-escalation-abusing-tokens.md)
 {% endcontent-ref %}
 
 Jetez un œil à [**tous les privilèges de jetons possibles et quelques définitions sur cette page externe**](https://github.com/gtworek/Priv2Admin).
 
 ## Références
 
-Apprenez-en plus sur les jetons dans ces tutoriels : [https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa](https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa) et [https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)
+Apprenez-en davantage sur les jetons dans ces tutoriels : [https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa](https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa) et [https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)

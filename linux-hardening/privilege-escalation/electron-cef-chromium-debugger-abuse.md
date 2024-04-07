@@ -9,14 +9,14 @@ Autres façons de soutenir HackTricks :
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
 ## Informations de base
 
-[D'après la documentation](https://origin.nodejs.org/ru/docs/guides/debugging-getting-started) : Lorsqu'il est lancé avec l'option `--inspect`, un processus Node.js écoute un client de débogage. Par **défaut**, il écoutera à l'hôte et au port **`127.0.0.1:9229`**. Chaque processus se voit également attribuer un **UUID** **unique**.
+[D'après la documentation](https://origin.nodejs.org/ru/docs/guides/debugging-getting-started) : Lorsqu'il est lancé avec l'option `--inspect`, un processus Node.js écoute un client de débogage. Par **défaut**, il écoutera sur l'hôte et le port **`127.0.0.1:9229`**. Chaque processus se voit également attribuer un **UUID** **unique**.
 
 Les clients de l'inspecteur doivent connaître et spécifier l'adresse de l'hôte, le port et l'UUID pour se connecter. Une URL complète ressemblera à quelque chose comme `ws://127.0.0.1:9229/0f2c936f-b1cd-4ac9-aab3-f63b0f33d55e`.
 
@@ -40,7 +40,7 @@ Lorsque vous démarrez un processus inspecté, quelque chose comme ceci apparaî
 Debugger ending on ws://127.0.0.1:9229/45ea962a-29dd-4cdd-be08-a6827840553d
 For help, see: https://nodejs.org/en/docs/inspector
 ```
-Les processus basés sur **CEF** (**Chromium Embedded Framework**) comme ont besoin d'utiliser le paramètre : `--remote-debugging-port=9222` pour ouvrir le **débogueur** (les protections SSRF restent très similaires). Cependant, au lieu d'accorder une session de **débogage** **NodeJS**, ils communiqueront avec le navigateur en utilisant le [**Chrome DevTools Protocol**](https://chromedevtools.github.io/devtools-protocol/), c'est une interface pour contrôler le navigateur, mais il n'y a pas de RCE direct.
+Les processus basés sur **CEF** (**Chromium Embedded Framework**) comme ont besoin d'utiliser le paramètre : `--remote-debugging-port=9222` pour ouvrir le **débogueur** (les protections SSRF restent très similaires). Cependant, au lieu d'accorder une session de **débogage** **NodeJS**, ils communiqueront avec le navigateur en utilisant le [**Chrome DevTools Protocol**](https://chromedevtools.github.io/devtools-protocol/), c'est une interface pour contrôler le navigateur, mais il n'y a pas d'exécution de code à distance directe.
 
 Lorsque vous démarrez un navigateur en mode débogage, quelque chose comme ceci apparaîtra :
 ```
@@ -69,7 +69,7 @@ Ceci est utile dans les conteneurs car **arrêter le processus et en démarrer u
 
 Pour se connecter à un navigateur **basé sur Chromium**, les URL `chrome://inspect` ou `edge://inspect` peuvent être utilisées pour Chrome ou Edge, respectivement. En cliquant sur le bouton Configurer, il faut s'assurer que l'**hôte cible et le port** sont correctement répertoriés. L'image montre un exemple d'Exécution de Code à Distance (RCE) :
 
-![](<../../.gitbook/assets/image (620) (1).png>)
+![](<../../.gitbook/assets/image (671).png>)
 
 En utilisant la **ligne de commande**, vous pouvez vous connecter à un debugger/inspecteur avec :
 ```bash
@@ -94,10 +94,10 @@ Notez que les exploits **RCE de NodeJS ne fonctionneront pas** s'ils sont connec
 ## RCE dans le débogueur/inspecteur NodeJS
 
 {% hint style="info" %}
-Si vous êtes ici pour savoir comment obtenir **RCE à partir d'une XSS dans Electron, veuillez consulter cette page.**
+Si vous êtes ici pour savoir comment obtenir une **RCE à partir d'une XSS dans Electron, veuillez consulter cette page.**
 {% endhint %}
 
-Quelques moyens courants d'obtenir **RCE** lorsque vous pouvez **vous connecter** à un inspecteur Node sont d'utiliser quelque chose comme (il semble que cela **ne fonctionnera pas dans une connexion au protocole Chrome DevTools**):
+Quelques moyens courants d'obtenir une **RCE** lorsque vous pouvez **vous connecter** à un inspecteur Node sont d'utiliser quelque chose comme (il semble que cela **ne fonctionnera pas dans une connexion au protocole Chrome DevTools**):
 ```javascript
 process.mainModule.require('child_process').exec('calc')
 window.appshell.app.openURLInDefaultBrowser("c:/windows/system32/calc.exe")
@@ -107,11 +107,11 @@ Browser.open(JSON.stringify({url: "c:\\windows\\system32\\calc.exe"}))
 ## Charges utiles du protocole Chrome DevTools
 
 Vous pouvez consulter l'API ici : [https://chromedevtools.github.io/devtools-protocol/](https://chromedevtools.github.io/devtools-protocol/)\
-Dans cette section, je vais simplement répertorier les choses intéressantes que je trouve que les gens ont utilisées pour exploiter ce protocole.
+Dans cette section, je vais simplement répertorier des choses intéressantes que j'ai trouvées et que les gens ont utilisées pour exploiter ce protocole.
 
 ### Injection de paramètres via des liens profonds
 
-Dans le [**CVE-2021-38112**](https://rhinosecuritylabs.com/aws/cve-2021-38112-aws-workspaces-rce/) Rhino Security a découvert qu'une application basée sur CEF **enregistrait un URI personnalisé** dans le système (workspaces://) qui recevait l'URI complet et ensuite **lançait l'application basée sur CEF** avec une configuration partiellement construite à partir de cet URI.
+Dans le [**CVE-2021-38112**](https://rhinosecuritylabs.com/aws/cve-2021-38112-aws-workspaces-rce/), Rhino Security a découvert qu'une application basée sur CEF avait **enregistré un URI personnalisé** dans le système (workspaces://) qui recevait l'URI complet, puis **lançait l'application basée sur CEF** avec une configuration partiellement construite à partir de cet URI.
 
 Il a été découvert que les paramètres de l'URI étaient décodés en URL et utilisés pour lancer l'application de base CEF, permettant à un utilisateur d'**injecter** le drapeau **`--gpu-launcher`** dans la **ligne de commande** et d'exécuter des choses arbitraires.
 
@@ -133,7 +133,7 @@ downloadPath: '/code/'
 }
 }));
 ```
-### RCE et exfiltration de données via Webdriver
+### RCE et exfiltration de Webdriver
 
 Selon cet article : [https://medium.com/@knownsec404team/counter-webdriver-from-bot-to-rce-b5bfb309d148](https://medium.com/@knownsec404team/counter-webdriver-from-bot-to-rce-b5bfb309d148), il est possible d'obtenir une RCE et d'exfiltrer des pages internes à partir de theriver.
 
@@ -141,7 +141,7 @@ Selon cet article : [https://medium.com/@knownsec404team/counter-webdriver-from-
 
 Dans un environnement réel et **après avoir compromis** un PC utilisateur utilisant un navigateur basé sur Chrome/Chromium, vous pourriez lancer un processus Chrome avec le **débogage activé et rediriger le port de débogage** pour y accéder. De cette manière, vous pourrez **inspecter tout ce que la victime fait avec Chrome et voler des informations sensibles**.
 
-La méthode furtive consiste à **mettre fin à chaque processus Chrome** puis à appeler quelque chose comme
+La manière furtive consiste à **mettre fin à chaque processus Chrome** puis à appeler quelque chose comme
 ```bash
 Start-Process "Chrome" "--remote-debugging-port=9222 --restore-last-session"
 ```
@@ -167,7 +167,7 @@ Autres façons de soutenir HackTricks:
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

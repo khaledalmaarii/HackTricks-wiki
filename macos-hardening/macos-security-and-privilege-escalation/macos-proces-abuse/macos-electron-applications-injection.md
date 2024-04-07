@@ -21,15 +21,15 @@ Et node a certains **paramètres** et **variables d'environnement** qui peuvent 
 
 ### Fusibles Electron
 
-Ces techniques seront discutées ensuite, mais récemment, Electron a ajouté plusieurs **drapeaux de sécurité pour les prévenir**. Ceux-ci sont les [**Fusibles Electron**](https://www.electronjs.org/docs/latest/tutorial/fuses) et ceux-ci sont utilisés pour **empêcher** les applications Electron sur macOS de **charger un code arbitraire** :
+Ces techniques seront discutées ensuite, mais récemment, Electron a ajouté plusieurs **drapeaux de sécurité pour les prévenir**. Ce sont les [**Fusibles Electron**](https://www.electronjs.org/docs/latest/tutorial/fuses) et ceux-ci sont utilisés pour **empêcher** les applications Electron sur macOS de **charger un code arbitraire** :
 
 - **`RunAsNode`** : S'il est désactivé, il empêche l'utilisation de la variable d'environnement **`ELECTRON_RUN_AS_NODE`** pour injecter du code.
 - **`EnableNodeCliInspectArguments`** : S'il est désactivé, des paramètres comme `--inspect`, `--inspect-brk` ne seront pas respectés. Évitant ainsi l'injection de code.
-- **`EnableEmbeddedAsarIntegrityValidation`** : S'il est activé, le fichier **`asar`** chargé sera **validé** par macOS. Empêchant ainsi l'injection de code en modifiant le contenu de ce fichier.
+- **`EnableEmbeddedAsarIntegrityValidation`** : S'il est activé, le fichier **`asar`** chargé sera validé par macOS. Empêchant ainsi l'injection de code en modifiant le contenu de ce fichier.
 - **`OnlyLoadAppFromAsar`** : S'il est activé, au lieu de rechercher le chargement dans l'ordre suivant : **`app.asar`**, **`app`** et enfin **`default_app.asar`**. Il vérifiera et utilisera uniquement app.asar, garantissant ainsi que lorsqu'il est **combiné** avec le fusible **`embeddedAsarIntegrityValidation`**, il est **impossible** de **charger un code non validé**.
 - **`LoadBrowserProcessSpecificV8Snapshot`** : S'il est activé, le processus du navigateur utilise le fichier appelé `browser_v8_context_snapshot.bin` pour son instantané V8.
 
-Un autre fusible intéressant qui ne préviendra pas l'injection de code est :
+Un autre fusible intéressant qui n'empêchera pas l'injection de code est :
 
 - **EnableCookieEncryption** : S'il est activé, le stockage des cookies sur le disque est chiffré à l'aide de clés de cryptographie au niveau du système d'exploitation.
 
@@ -51,16 +51,16 @@ LoadBrowserProcessSpecificV8Snapshot is Disabled
 ```
 ### Modification des Fusibles Electron
 
-Comme le [**document mentionne**](https://www.electronjs.org/docs/latest/tutorial/fuses#runasnode), la configuration des **Fusibles Electron** est configurée à l'intérieur du **binaire Electron** qui contient quelque part la chaîne **`dL7pKGdnNz796PbbjQWNKmHXBZaB9tsX`**.
+Comme le [**mentionnent les documents**](https://www.electronjs.org/docs/latest/tutorial/fuses#runasnode), la configuration des **Fusibles Electron** est configurée à l'intérieur du **binaire Electron** qui contient quelque part la chaîne **`dL7pKGdnNz796PbbjQWNKmHXBZaB9tsX`**.
 
 Dans les applications macOS, cela se trouve généralement dans `application.app/Contents/Frameworks/Electron Framework.framework/Electron Framework`
 ```bash
 grep -R "dL7pKGdnNz796PbbjQWNKmHXBZaB9tsX" Slack.app/
 Binary file Slack.app//Contents/Frameworks/Electron Framework.framework/Versions/A/Electron Framework matches
 ```
-Vous pouvez charger ce fichier dans [https://hexed.it/](https://hexed.it/) et rechercher la chaîne précédente. Après cette chaîne, vous pouvez voir en ASCII un nombre "0" ou "1" indiquant si chaque fusible est désactivé ou activé. Modifiez simplement le code hexadécimal (`0x30` est `0` et `0x31` est `1`) pour **modifier les valeurs des fusibles**.
+Vous pouvez charger ce fichier sur [https://hexed.it/](https://hexed.it/) et rechercher la chaîne précédente. Après cette chaîne, vous pouvez voir en ASCII un nombre "0" ou "1" indiquant si chaque fusible est désactivé ou activé. Modifiez simplement le code hexadécimal (`0x30` est `0` et `0x31` est `1`) pour **modifier les valeurs des fusibles**.
 
-<figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (31).png" alt=""><figcaption></figcaption></figure>
 
 Notez que si vous essayez de **remplacer** le **binaire du framework Electron** à l'intérieur d'une application avec ces octets modifiés, l'application ne se lancera pas.
 
@@ -74,10 +74,10 @@ Cependant, actuellement, il y a 2 limitations :
 * L'autorisation **`kTCCServiceSystemPolicyAppBundles`** est **nécessaire** pour modifier une application, donc par défaut cela n'est plus possible.
 * Le fichier compilé **`asap`** a généralement les fusibles **`embeddedAsarIntegrityValidation`** `et` **`onlyLoadAppFromAsar`** `activés`
 
-Ce qui rend ce chemin d'attaque plus compliqué (ou impossible).
+Cela rend ce chemin d'attaque plus compliqué (ou impossible).
 {% endhint %}
 
-Notez qu'il est possible de contourner l'exigence de **`kTCCServiceSystemPolicyAppBundles`** en copiant l'application dans un autre répertoire (comme **`/tmp`**), en renommant le dossier **`app.app/Contents`** en **`app.app/NotCon`**, en **modifiant** le fichier **asar** avec votre code **malveillant**, en le renommant en **`app.app/Contents`** et en l'exécutant.
+Notez qu'il est possible de contourner l'exigence de **`kTCCServiceSystemPolicyAppBundles`** en copiant l'application dans un autre répertoire (comme **`/tmp`**), en renommant le dossier **`app.app/Contents`** en **`app.app/NotCon`**, **en modifiant** le fichier **asar** avec votre code **malveillant**, en le renommant en **`app.app/Contents`** et en l'exécutant.
 
 Vous pouvez extraire le code du fichier asar avec :
 ```bash
@@ -101,12 +101,12 @@ require('child_process').execSync('/System/Applications/Calculator.app/Contents/
 {% endcode %}
 
 {% hint style="danger" %}
-Si le fusible **`RunAsNode`** est désactivé, la variable d'environnement **`ELECTRON_RUN_AS_NODE`** sera ignorée et cela ne fonctionnera pas.
+Si le fusible **`RunAsNode`** est désactivé, la variable d'environnement **`ELECTRON_RUN_AS_NODE`** sera ignorée, et cela ne fonctionnera pas.
 {% endhint %}
 
 ### Injection depuis le fichier Plist de l'application
 
-Comme [**proposé ici**](https://www.trustedsec.com/blog/macos-injection-via-third-party-frameworks/), vous pourriez abuser de cette variable d'environnement dans un fichier plist pour maintenir la persistance :
+Comme [**proposé ici**](https://www.trustedsec.com/blog/macos-injection-via-third-party-frameworks/), vous pourriez abuser de cette variable d'environnement dans un plist pour maintenir la persistance :
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -197,7 +197,7 @@ ws.connect("ws://localhost:9222/devtools/page/85976D59050BFEFDBA48204E3D865D00",
 ws.send('{\"id\": 1, \"method\": \"Network.getAllCookies\"}')
 print(ws.recv()
 ```
-Dans [**cet article de blog**](https://hackerone.com/reports/1274695), ce débogage est exploité pour faire en sorte que Chrome headless **télécharge des fichiers arbitraires dans des emplacements arbitraires**.
+Dans [**cet article de blog**](https://hackerone.com/reports/1274695), ce débogage est exploité pour faire en sorte que **Chrome sans interface télécharge des fichiers arbitraires dans des emplacements arbitraires**.
 
 ### Injection à partir du fichier Plist de l'application
 
@@ -223,7 +223,7 @@ Le démon TCC de macOS ne vérifie pas la version exécutée de l'application. D
 
 ## Exécution de code non JS
 
-Les techniques précédentes vous permettront d'exécuter **du code JS à l'intérieur du processus de l'application Electron**. Cependant, rappelez-vous que les **processus enfants s'exécutent sous le même profil de bac à sable** que l'application parente et **héritent de leurs autorisations TCC**.\
+Les techniques précédentes vous permettront d'exécuter **du code JS dans le processus de l'application Electron**. Cependant, rappelez-vous que les **processus enfants s'exécutent sous le même profil de bac à sable** que l'application parente et **héritent de leurs autorisations TCC**.\
 Par conséquent, si vous souhaitez abuser des autorisations pour accéder à la caméra ou au microphone par exemple, vous pourriez simplement **exécuter un autre binaire à partir du processus**.
 
 ## Injection automatique
@@ -274,7 +274,7 @@ Shell binding requested. Check `nc 127.0.0.1 12345`
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge HackTricks AWS)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks:
 

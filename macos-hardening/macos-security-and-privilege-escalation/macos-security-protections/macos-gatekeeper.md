@@ -1,4 +1,4 @@
-# macOS Gatekeeper / Quarantaine / XProtect
+# macOS Gatekeeper / Quarantine / XProtect
 
 <details>
 
@@ -8,7 +8,7 @@
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR au** [**dépôt hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**dépôt hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud)
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud)
 *
 * .
 
@@ -78,7 +78,7 @@ Notez que les vérifications de signature de GateKeeper ne sont effectuées que 
 
 GateKeeper vérifiera si, selon les **préférences et la signature**, un binaire peut être exécuté :
 
-<figure><img src="../../../.gitbook/assets/image (678).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1147).png" alt=""><figcaption></figcaption></figure>
 
 La base de données qui conserve cette configuration est située dans **`/var/db/SystemPolicy`**. Vous pouvez vérifier cette base de données en tant que root avec :
 ```bash
@@ -95,7 +95,7 @@ anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] exists an
 [...]
 ```
 Notez comment la première règle s'est terminée par "**App Store**" et la deuxième par "**Developer ID**" et que dans l'image précédente, il était **activé pour exécuter des applications de l'App Store et des développeurs identifiés**.\
-Si vous **modifiez** ce paramètre en App Store, les règles "**Notarized Developer ID**" disparaîtront.
+Si vous **modifiez** ce paramètre pour l'App Store, les règles "**Notarized Developer ID**" disparaîtront.
 
 Il y a aussi des milliers de règles de **type GKE**:
 ```bash
@@ -124,7 +124,7 @@ spctl --master-enable
 ```
 Lorsqu'il est complètement activé, une nouvelle option apparaîtra :
 
-<figure><img src="../../../.gitbook/assets/image (679).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1148).png" alt=""><figcaption></figcaption></figure>
 
 Il est possible de **vérifier si une application sera autorisée par GateKeeper** avec :
 ```bash
@@ -147,7 +147,7 @@ spctl --assess -v /Applications/App.app
 ```
 ### Fichiers en quarantaine
 
-Lors du **téléchargement** d'une application ou d'un fichier, des **applications macOS** spécifiques telles que les navigateurs web ou les clients de messagerie **attachent un attribut de fichier étendu**, communément appelé le "**drapeau de quarantaine**," au fichier téléchargé. Cet attribut agit comme une mesure de sécurité pour **marquer le fichier** comme provenant d'une source non fiable (Internet) et potentiellement risqué. Cependant, toutes les applications n'attachent pas cet attribut, par exemple, les logiciels clients BitTorrent courants contournent généralement ce processus.
+Lors du **téléchargement** d'une application ou d'un fichier, des **applications macOS** spécifiques telles que les navigateurs web ou les clients de messagerie **attachent un attribut de fichier étendu**, communément appelé le "**drapeau de quarantaine**", au fichier téléchargé. Cet attribut agit comme une mesure de sécurité pour **marquer le fichier** comme provenant d'une source non fiable (Internet) et potentiellement porteur de risques. Cependant, toutes les applications n'attachent pas cet attribut, par exemple, les logiciels clients BitTorrent courants contournent généralement ce processus.
 
 **La présence d'un drapeau de quarantaine signale la fonction de sécurité Gatekeeper de macOS lorsque l'utilisateur tente d'exécuter le fichier**.
 
@@ -165,7 +165,7 @@ Cet attribut doit être **défini par l'application créant/téléchargeant** le
 Cependant, les fichiers qui sont sandboxés auront cet attribut défini pour chaque fichier qu'ils créent. Et les applications non sandboxées peuvent le définir elles-mêmes, ou spécifier la clé [**LSFileQuarantineEnabled**](https://developer.apple.com/documentation/bundleresources/information\_property\_list/lsfilequarantineenabled?language=objc) dans le fichier **Info.plist** qui fera que le système définira l'attribut étendu `com.apple.quarantine` sur les fichiers créés.
 {% endhint %}
 
-Il est possible de **vérifier son statut et d'activer/désactiver** (nécessite les droits d'administrateur) avec :
+Il est possible de **vérifier son statut et d'activer/désactiver** (nécessite des droits d'administrateur) avec :
 ```bash
 spctl --status
 assessments enabled
@@ -196,11 +196,11 @@ com.apple.quarantine: 00C1;607842eb;Brave;F643CD5F-6071-46AB-83AB-390BA944DEC5
 # Brave -- App
 # F643CD5F-6071-46AB-83AB-390BA944DEC5 -- UID assigned to the file downloaded
 ```
-En fait, un processus "pourrait définir des drapeaux de quarantaine pour les fichiers qu'il crée" (j'ai essayé d'appliquer le drapeau USER\_APPROVED à un fichier créé mais il ne l'applique pas) :
+En fait, un processus "pourrait définir des drapeaux de quarantaine pour les fichiers qu'il crée" (j'ai essayé d'appliquer le drapeau USER\_APPROVED dans un fichier créé mais il ne l'applique pas) :
 
 <details>
 
-<summary>Code source pour appliquer les drapeaux de quarantaine</summary>
+<summary>Code source appliquer les drapeaux de quarantaine</summary>
 ```c
 #include <stdio.h>
 #include <stdlib.h>
@@ -268,7 +268,7 @@ xattr -d com.apple.quarantine portada.png
 #You can also remove this attribute from every file with
 find . -iname '*' -print0 | xargs -0 xattr -d com.apple.quarantine
 ```
-Et trouver tous les fichiers mis en quarantaine avec :
+Et trouvez tous les fichiers mis en quarantaine avec :
 
 {% code overflow="wrap" %}
 ```bash
@@ -300,10 +300,10 @@ system_profiler SPInstallHistoryDataType 2>/dev/null | grep -A 4 "XProtectPlistC
 
 XProtect est situé dans un emplacement protégé par SIP à **/Library/Apple/System/Library/CoreServices/XProtect.bundle** et à l'intérieur du bundle, vous pouvez trouver les informations que XProtect utilise :
 
-- **`XProtect.bundle/Contents/Resources/LegacyEntitlementAllowlist.plist`** : Autorise le code avec ces cdhashes à utiliser des autorisations héritées.
-- **`XProtect.bundle/Contents/Resources/XProtect.meta.plist`** : Liste des plugins et extensions qui sont interdits de chargement via BundleID et TeamID ou indiquant une version minimale.
-- **`XProtect.bundle/Contents/Resources/XProtect.yara`** : Règles Yara pour détecter les logiciels malveillants.
-- **`XProtect.bundle/Contents/Resources/gk.db`** : Base de données SQLite3 avec les hachages des applications bloquées et des TeamIDs.
+* **`XProtect.bundle/Contents/Resources/LegacyEntitlementAllowlist.plist`** : Autorise le code avec ces cdhashes à utiliser des autorisations héritées.
+* **`XProtect.bundle/Contents/Resources/XProtect.meta.plist`** : Liste des plugins et extensions qui sont interdits de chargement via BundleID et TeamID ou indiquant une version minimale.
+* **`XProtect.bundle/Contents/Resources/XProtect.yara`** : Règles Yara pour détecter les logiciels malveillants.
+* **`XProtect.bundle/Contents/Resources/gk.db`** : Base de données SQLite3 avec les hachages des applications bloquées et des TeamIDs.
 
 Notez qu'il y a une autre application dans **`/Library/Apple/System/Library/CoreServices/XProtect.app`** liée à XProtect qui n'est pas impliquée dans le processus de Gatekeeper.
 
@@ -315,7 +315,7 @@ Notez que Gatekeeper **n'est pas exécuté à chaque fois** que vous exécutez u
 
 Par conséquent, il était auparavant possible d'exécuter une application pour la mettre en cache avec Gatekeeper, puis **modifier des fichiers non exécutables de l'application** (comme les fichiers Electron asar ou NIB) et si aucune autre protection n'était en place, l'application était **exécutée** avec les **ajouts malveillants**.
 
-Cependant, cela n'est plus possible car macOS **empêche la modification des fichiers** à l'intérieur des bundles d'applications. Ainsi, si vous essayez l'attaque [Dirty NIB](../macos-proces-abuse/macos-dirty-nib.md), vous constaterez qu'il n'est plus possible de l'exploiter car après avoir exécuté l'application pour la mettre en cache avec Gatekeeper, vous ne pourrez pas modifier le bundle. Et si vous changez par exemple le nom du répertoire Contents en NotCon (comme indiqué dans l'exploit), puis exécutez le binaire principal de l'application pour le mettre en cache avec Gatekeeper, une erreur se produira et l'application ne s'exécutera pas.
+Cependant, maintenant cela n'est plus possible car macOS **empêche la modification des fichiers** à l'intérieur des bundles d'applications. Ainsi, si vous essayez l'attaque [Dirty NIB](../macos-proces-abuse/macos-dirty-nib.md), vous constaterez qu'il n'est plus possible de l'exploiter car après avoir exécuté l'application pour la mettre en cache avec Gatekeeper, vous ne pourrez pas modifier le bundle. Et si vous changez par exemple le nom du répertoire Contents en NotCon (comme indiqué dans l'exploit), puis exécutez le binaire principal de l'application pour la mettre en cache avec Gatekeeper, une erreur se produira et l'application ne s'exécutera pas.
 
 ## Contournements de Gatekeeper
 
@@ -329,9 +329,9 @@ Consultez le [**rapport original**](https://labs.withsecure.com/publications/the
 
 ### [CVE-2021-30990](https://ronmasas.com/posts/bypass-macos-gatekeeper)
 
-Lorsqu'une application est créée avec **Automator**, les informations sur ce dont elle a besoin pour s'exécuter se trouvent dans `application.app/Contents/document.wflow` et non dans l'exécutable. L'exécutable est simplement un binaire Automator générique appelé **Stub d'Application Automator**.
+Lorsqu'une application est créée avec **Automator**, les informations sur ce dont elle a besoin pour s'exécuter se trouvent dans `application.app/Contents/document.wflow` et non dans l'exécutable. L'exécutable est simplement un binaire Automator générique appelé **Stub d'application Automator**.
 
-Par conséquent, vous pourriez faire en sorte que `application.app/Contents/MacOS/Automator\ Application\ Stub` **pointe avec un lien symbolique vers un autre Stub d'Application Automator dans le système** et il exécutera ce qui se trouve dans `document.wflow` (votre script) **sans déclencher Gatekeeper** car l'exécutable réel n'a pas l'attribut de quarantaine.&#x20;
+Par conséquent, vous pourriez faire en sorte que `application.app/Contents/MacOS/Automator\ Application\ Stub` **pointe avec un lien symbolique vers un autre Stub d'application Automator dans le système** et il exécutera ce qui se trouve dans `document.wflow` (votre script) **sans déclencher Gatekeeper** car l'exécutable réel n'a pas l'attribut de quarantaine.
 
 Exemple de l'emplacement attendu : `/System/Library/CoreServices/Automator\ Application\ Stub.app/Contents/MacOS/Automator\ Application\ Stub`
 
@@ -339,7 +339,7 @@ Consultez le [**rapport original**](https://ronmasas.com/posts/bypass-macos-gate
 
 ### [CVE-2022-22616](https://www.jamf.com/blog/jamf-threat-labs-safari-vuln-gatekeeper-bypass/)
 
-Dans ce contournement, un fichier zip a été créé avec une application commençant à compresser à partir de `application.app/Contents` au lieu de `application.app`. Par conséquent, l'**attribut de quarantaine** a été appliqué à tous les **fichiers de `application.app/Contents`** mais **pas à `application.app`**, c'est ce que Gatekeeper vérifiait, donc Gatekeeper a été contourné car lorsque `application.app` était déclenché, il **n'avait pas l'attribut de quarantaine.**
+Dans ce contournement, un fichier zip a été créé avec une application commençant à compresser à partir de `application.app/Contents` au lieu de `application.app`. Par conséquent, l'**attribut de quarantaine** a été appliqué à tous les **fichiers de `application.app/Contents`** mais **pas à `application.app`**, c'est ce que Gatekeeper vérifiait, donc Gatekeeper a été contourné car lorsque `application.app` était déclenché, il **n'avait pas l'attribut de quarantaine**.
 ```bash
 zip -r test.app/Contents test.zip
 ```
@@ -355,16 +355,16 @@ Consultez le [**rapport original**](https://www.jamf.com/blog/jamf-threat-labs-m
 
 ### [CVE-2022-42821](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/)
 
-Le ACL **`writeextattr`** peut être utilisé pour empêcher quiconque d'écrire un attribut dans un fichier :
+L'ACL **`writeextattr`** peut être utilisé pour empêcher quiconque d'écrire un attribut dans un fichier :
 ```bash
 touch /tmp/no-attr
 chmod +a "everyone deny writeextattr" /tmp/no-attr
 xattr -w attrname vale /tmp/no-attr
 xattr: [Errno 13] Permission denied: '/tmp/no-attr'
 ```
-De plus, le format de fichier **AppleDouble** copie un fichier incluant ses ACEs.
+De plus, le format de fichier **AppleDouble** copie un fichier y compris ses ACEs.
 
-Dans le [**code source**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html), il est possible de voir que la représentation textuelle de la liste de contrôle d'accès (ACL) stockée à l'intérieur de l'attribut étendu appelé **`com.apple.acl.text`** va être définie comme ACL dans le fichier décompressé. Ainsi, si vous compressez une application dans un fichier zip avec le format de fichier **AppleDouble** contenant une ACL qui empêche l'écriture d'autres attributs étendus... l'attribut d'isolement (quarantine xattr) ne sera pas défini dans l'application:
+Dans le [**code source**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html), il est possible de voir que la représentation textuelle de l'ACL stockée à l'intérieur de l'attribut étendu appelé **`com.apple.acl.text`** va être définie comme ACL dans le fichier décompressé. Ainsi, si vous compressez une application dans un fichier zip avec le format de fichier **AppleDouble** avec un ACL qui empêche l'écriture d'autres xattrs... l'attribut de quarantaine n'est pas défini dans l'application:
 ```bash
 chmod +a "everyone deny write,writeattr,writeextattr" /tmp/test
 ditto -c -k test test.zip
@@ -375,7 +375,7 @@ python3 -m http.server
 
 Consultez le [**rapport original**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/) pour plus d'informations.
 
-Notez que cela pourrait également être exploité avec AppleArchives :
+Notez que cela pourrait également être exploité avec AppleArchives:
 ```bash
 mkdir app
 touch app/test
@@ -421,4 +421,4 @@ aa archive -d s/ -o app.aar
 ```
 ### Empêcher la quarantaine xattr
 
-Dans un bundle ".app", si le xattr de quarantaine n'est pas ajouté, **Gatekeeper ne sera pas déclenché** lors de son exécution.
+Dans un bundle ".app", si le xattr de quarantaine n'est pas ajouté, **Gatekeeper ne sera pas déclenché**.

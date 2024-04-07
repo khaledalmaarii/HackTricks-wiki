@@ -9,12 +9,12 @@ Autres façons de soutenir HackTricks :
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (377).png" alt=""><figcaption></figcaption></figure>
 
 Rejoignez le serveur [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) pour communiquer avec des pirates expérimentés et des chasseurs de primes !
 
@@ -22,7 +22,7 @@ Rejoignez le serveur [**HackenProof Discord**](https://discord.com/invite/N3FrSb
 Engagez-vous avec du contenu qui explore le frisson et les défis du piratage
 
 **Actualités de piratage en temps réel**\
-Restez à jour avec le monde du piratage en temps réel grâce aux actualités et aux informations
+Restez à jour avec le monde du piratage en évolution rapide grâce aux actualités et aux informations en temps réel
 
 **Dernières annonces**\
 Restez informé des dernières primes de bugs lancées et des mises à jour cruciales de la plateforme
@@ -31,13 +31,13 @@ Restez informé des dernières primes de bugs lancées et des mises à jour cruc
 
 ## ASREPRoast
 
-ASREPRoast est une attaque de sécurité qui exploite les utilisateurs qui ne disposent pas de l'**attribut requis de pré-authentification Kerberos**. Essentiellement, cette vulnérabilité permet aux attaquants de demander une authentification pour un utilisateur auprès du contrôleur de domaine (DC) sans avoir besoin du mot de passe de l'utilisateur. Le DC répond ensuite avec un message chiffré avec la clé dérivée du mot de passe de l'utilisateur, que les attaquants peuvent tenter de craquer hors ligne pour découvrir le mot de passe de l'utilisateur.
+ASREPRoast est une attaque de sécurité qui exploite les utilisateurs qui ne disposent pas de l'**attribut requis de pré-authentification Kerberos**. Essentiellement, cette vulnérabilité permet aux attaquants de demander une authentification pour un utilisateur auprès du Contrôleur de Domaine (DC) sans avoir besoin du mot de passe de l'utilisateur. Le DC répond ensuite avec un message chiffré avec la clé dérivée du mot de passe de l'utilisateur, que les attaquants peuvent tenter de craquer hors ligne pour découvrir le mot de passe de l'utilisateur.
 
 Les principaux prérequis pour cette attaque sont :
-- **Absence de pré-authentification Kerberos** : Les utilisateurs ciblés ne doivent pas avoir cette fonctionnalité de sécurité activée.
-- **Connexion au contrôleur de domaine (DC)** : Les attaquants ont besoin d'accéder au DC pour envoyer des demandes et recevoir des messages chiffrés.
-- **Compte de domaine facultatif** : Avoir un compte de domaine permet aux attaquants d'identifier plus efficacement les utilisateurs vulnérables grâce à des requêtes LDAP. Sans un tel compte, les attaquants doivent deviner les noms d'utilisateur.
 
+* **Absence de pré-authentification Kerberos** : Les utilisateurs ciblés ne doivent pas avoir cette fonctionnalité de sécurité activée.
+* **Connexion au Contrôleur de Domaine (DC)** : Les attaquants ont besoin d'accéder au DC pour envoyer des demandes et recevoir des messages chiffrés.
+* **Compte de domaine facultatif** : Avoir un compte de domaine permet aux attaquants d'identifier plus efficacement les utilisateurs vulnérables grâce à des requêtes LDAP. Sans un tel compte, les attaquants doivent deviner les noms d'utilisateur.
 
 #### Énumération des utilisateurs vulnérables (nécessite des informations d'identification de domaine)
 
@@ -80,7 +80,7 @@ hashcat -m 18200 --force -a 0 hashes.asreproast passwords_kerb.txt
 ```
 ### Persistance
 
-Forcer **preauth** non requis pour un utilisateur pour lequel vous avez les autorisations **GenericAll** (ou les autorisations pour écrire des propriétés):
+Forcer **preauth** non requis pour un utilisateur pour lequel vous avez les permissions **GenericAll** (ou les permissions pour écrire des propriétés):
 
 {% code title="Utilisation de Windows" %}
 ```bash
@@ -95,8 +95,9 @@ bloodyAD -u user -p 'totoTOTOtoto1234*' -d crash.lab --host 10.100.10.5 add uac 
 {% endcode %}
 
 ## ASREProast sans identifiants
-Un attaquant peut utiliser une position de l'homme du milieu pour capturer des paquets AS-REP alors qu'ils traversent le réseau <ins>sans avoir besoin de désactiver l'authentification préalable de Kerberos.</ins> Cela fonctionne donc pour tous les utilisateurs sur le VLAN.<br>
-[ASRepCatcher](https://github.com/Yaxxine7/ASRepCatcher) nous permet de le faire. De plus, l'outil <ins>force les postes de travail clients à utiliser RC4</ins> en modifiant la négociation Kerberos.
+
+Un attaquant peut utiliser une position de l'homme du milieu pour capturer des paquets AS-REP lorsqu'ils traversent le réseau sans avoir besoin de désactiver l'authentification préalable de Kerberos. Cela fonctionne donc pour tous les utilisateurs sur le VLAN.\
+[ASRepCatcher](https://github.com/Yaxxine7/ASRepCatcher) nous permet de le faire. De plus, l'outil force les postes de travail clients à utiliser RC4 en modifiant la négociation Kerberos.
 ```bash
 # Actively acting as a proxy between the clients and the DC, forcing RC4 downgrade if supported
 ASRepCatcher relay -dc $DC_IP
@@ -113,7 +114,7 @@ ASRepCatcher listen
 
 ***
 
-<figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (377).png" alt=""><figcaption></figcaption></figure>
 
 Rejoignez le serveur [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) pour communiquer avec des hackers expérimentés et des chasseurs de primes en bugs !
 
@@ -137,7 +138,7 @@ Autres façons de soutenir HackTricks:
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF** Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

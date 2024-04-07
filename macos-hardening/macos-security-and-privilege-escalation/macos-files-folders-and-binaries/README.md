@@ -38,7 +38,7 @@ Autres façons de soutenir HackTricks:
 * Les applications **installées** sont généralement installées dans `/Applications` ou dans `~/Applications`
 * Les **données de l'application** peuvent être trouvées dans `/Library/Application Support` pour les applications s'exécutant en tant que root et `~/Library/Application Support` pour les applications s'exécutant en tant qu'utilisateur.
 * Les **daemons** d'applications tierces qui **doivent s'exécuter en tant que root** sont généralement situés dans `/Library/PrivilegedHelperTools/`
-* Les applications **sandboxed** sont mappées dans le dossier `~/Library/Containers`. Chaque application a un dossier nommé selon l'ID de bundle de l'application (`com.apple.Safari`).
+* Les applications **sandbox** sont mappées dans le dossier `~/Library/Containers`. Chaque application a un dossier nommé selon l'ID de bundle de l'application (`com.apple.Safari`).
 * Le **noyau** est situé dans `/System/Library/Kernels/kernel`
 * Les **extensions de noyau d'Apple** sont situées dans `/System/Library/Extensions`
 * Les **extensions de noyau tierces** sont stockées dans `/Library/Extensions`
@@ -112,9 +112,9 @@ Sur iOS, vous pouvez les trouver dans **`/System/Library/Caches/com.apple.dyld/`
 Notez que même si l'outil `dyld_shared_cache_util` ne fonctionne pas, vous pouvez passer le **binaire dyld partagé à Hopper** et Hopper pourra identifier toutes les bibliothèques et vous permettre de **sélectionner celle que** vous souhaitez examiner :
 {% endhint %}
 
-<figure><img src="../../../.gitbook/assets/image (680).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1149).png" alt="" width="563"><figcaption></figcaption></figure>
 
-## Autorisations de fichiers spéciales
+## Autorisations spéciales de fichiers
 
 ### Autorisations de dossier
 
@@ -122,7 +122,7 @@ Dans un **dossier**, **lire** permet de **lister**, **écrire** permet de **supp
 
 ### Modificateurs de drapeaux
 
-Certains drapeaux peuvent être définis dans les fichiers pour modifier leur comportement. Vous pouvez **vérifier les drapeaux** des fichiers à l'intérieur d'un répertoire avec `ls -lO /chemin/répertoire`
+Il existe des drapeaux qui peuvent être définis dans les fichiers et qui feront que le fichier se comportera différemment. Vous pouvez **vérifier les drapeaux** des fichiers à l'intérieur d'un répertoire avec `ls -lO /chemin/répertoire`
 
 * **`uchg`** : Connu sous le nom de drapeau **uchange** empêchera toute action de changer ou de supprimer le **fichier**. Pour le définir : `chflags uchg fichier.txt`
 * L'utilisateur root pourrait **supprimer le drapeau** et modifier le fichier
@@ -153,7 +153,7 @@ Tous les drapeaux peuvent être trouvés dans le fichier `sys/stat.h` (trouvez-l
 
 ### **Listes de contrôle d'accès aux fichiers (ACL)**
 
-Les **ACL** de fichiers contiennent des **ACE** (entrées de contrôle d'accès) où des autorisations plus **granulaires** peuvent être attribuées à différents utilisateurs.
+Les **ACL** de fichiers contiennent des **ACE** (entrées de contrôle d'accès) où des permissions plus **granulaires** peuvent être attribuées à différents utilisateurs.
 
 Il est possible d'accorder à un **répertoire** ces autorisations : `liste`, `recherche`, `ajouter_fichier`, `ajouter_sous-répertoire`, `supprimer_enfant`, `supprimer_enfant`.\
 Et à un **fichier** : `lire`, `écrire`, `ajouter`, `exécuter`.
@@ -177,7 +177,7 @@ ls -RAle / 2>/dev/null | grep -E -B1 "\d: "
 
 Les attributs étendus ont un nom et une valeur souhaitée, et peuvent être visualisés en utilisant `ls -@` et manipulés en utilisant la commande `xattr`. Certains attributs étendus courants sont :
 
-- `com.apple.resourceFork` : Compatibilité de la fourche de ressources. Visible également sous la forme `filename/..namedfork/rsrc`
+- `com.apple.resourceFork` : Compatibilité de la fourche de ressources. Visible également sous `filename/..namedfork/rsrc`
 - `com.apple.quarantine` : MacOS : Mécanisme de quarantaine de Gatekeeper (III/6)
 - `metadata:*` : MacOS : diverses métadonnées, telles que `_backup_excludeItem`, ou `kMD*`
 - `com.apple.lastuseddate` (#PS) : Date d'utilisation du fichier
@@ -216,7 +216,7 @@ find / -type f -exec ls -ld {} \; 2>/dev/null | grep -E "[x\-]@ " | awk '{printf
 
 L'attribut étendu `com.apple.decmpfs` indique que le fichier est stocké crypté, `ls -l` rapportera une **taille de 0** et les données compressées sont à l'intérieur de cet attribut. Chaque fois que le fichier est accédé, il sera déchiffré en mémoire.
 
-Cet attribut peut être vu avec `ls -lO` indiqué comme compressé car les fichiers compressés sont également marqués avec le drapeau `UF_COMPRESSED`. Si un fichier compressé est supprimé avec ce drapeau `chflags nocompressed </chemin/vers/fichier>`, le système ne saura pas que le fichier était compressé et donc il ne pourra pas le décompresser et accéder aux données (il pensera qu'il est en fait vide).
+Cet attribut peut être vu avec `ls -lO` indiqué comme compressé car les fichiers compressés sont également marqués avec le drapeau `UF_COMPRESSED`. Si un fichier compressé est supprimé, ce drapeau avec `chflags nocompressed </chemin/vers/fichier>`, le système ne saura pas que le fichier était compressé et donc il ne pourra pas le décompresser et accéder aux données (il pensera qu'il est en fait vide).
 
 L'outil afscexpand peut être utilisé pour forcer la décompression d'un fichier.
 
@@ -246,24 +246,10 @@ Le répertoire `/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources
 ## Fichiers journaux
 
 * **`$HOME/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2`** : Contient des informations sur les fichiers téléchargés, comme l'URL à partir de laquelle ils ont été téléchargés.
-* **`/var/log/system.log`** : Principal journal des systèmes OSX. com.apple.syslogd.plist est responsable de l'exécution du journalisation système (vous pouvez vérifier s'il est désactivé en recherchant "com.apple.syslogd" dans `launchctl list`.
+* **`/var/log/system.log`** : Journal principal des systèmes OSX. com.apple.syslogd.plist est responsable de l'exécution du journal système (vous pouvez vérifier s'il est désactivé en recherchant "com.apple.syslogd" dans `launchctl list`.
 * **`/private/var/log/asl/*.asl`** : Ce sont les journaux système Apple qui peuvent contenir des informations intéressantes.
 * **`$HOME/Library/Preferences/com.apple.recentitems.plist`** : Stocke les fichiers et applications récemment consultés via "Finder".
 * **`$HOME/Library/Preferences/com.apple.loginitems.plsit`** : Stocke les éléments à lancer au démarrage du système.
-* **`$HOME/Library/Logs/DiskUtility.log`** : Fichier journal de l'application DiskUtility (informations sur les lecteurs, y compris les clés USB).
+* **`$HOME/Library/Logs/DiskUtility.log`** : Fichier journal pour l'application DiskUtility (informations sur les lecteurs, y compris les clés USB).
 * **`/Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist`** : Données sur les points d'accès sans fil.
 * **`/private/var/db/launchd.db/com.apple.launchd/overrides.plist`** : Liste des démons désactivés.
-
-<details>
-
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Autres façons de soutenir HackTricks :
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez** 💬 le groupe Discord](https://discord.gg/hRep4RUj7f) ou le groupe [**telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>

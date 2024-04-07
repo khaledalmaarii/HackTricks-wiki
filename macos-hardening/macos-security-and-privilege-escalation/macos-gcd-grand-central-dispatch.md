@@ -9,7 +9,7 @@ Autres façons de soutenir HackTricks :
 - Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 - Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 - Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-- **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 - **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
@@ -24,7 +24,7 @@ Autres façons de soutenir HackTricks :
 En résumé, pour exécuter du code en **parallèle**, les processus peuvent envoyer des **blocs de code à GCD**, qui se chargera de leur exécution. Par conséquent, les processus ne créent pas de nouveaux threads ; **GCD exécute le code donné avec son propre pool de threads**.
 {% endhint %}
 
-Cela est très utile pour gérer avec succès l'exécution parallèle, réduisant considérablement le nombre de threads que les processus créent et optimisant l'exécution parallèle. Cela est idéal pour les tâches qui nécessitent une **grande parallélisme** (force brute ?) ou pour les tâches qui ne doivent pas bloquer le thread principal : par exemple, le thread principal sur iOS gère les interactions UI, donc toute autre fonctionnalité qui pourrait faire planter l'application (recherche, accès à un site web, lecture d'un fichier...) est gérée de cette manière.
+Cela est très utile pour gérer avec succès l'exécution parallèle, réduisant considérablement le nombre de threads que les processus créent et optimisant l'exécution parallèle. C'est idéal pour les tâches qui nécessitent une **grande parallélisme** (force brute ?) ou pour les tâches qui ne doivent pas bloquer le thread principal : par exemple, le thread principal sur iOS gère les interactions UI, donc toute autre fonctionnalité qui pourrait faire planter l'application (recherche, accès à un site web, lecture d'un fichier...) est gérée de cette manière.
 
 ## Objective-C
 
@@ -118,7 +118,7 @@ sleep(1)  // Simulate a long-running task
 ```
 ## Frida
 
-Le script Frida suivant peut être utilisé pour **s'accrocher à plusieurs fonctions `dispatch`** et extraire le nom de la file d'attente, la trace de la pile et le bloc : [**https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js**](https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js)
+Le script Frida suivant peut être utilisé pour **s'interférer dans plusieurs fonctions `dispatch`** et extraire le nom de la file d'attente, la trace de la pile et le bloc : [**https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js**](https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js)
 ```bash
 frida -U <prog_name> -l libdispatch.js
 
@@ -137,11 +137,11 @@ Actuellement, Ghidra ne comprend ni la structure ObjectiveC **`dispatch_block_t`
 
 Donc, si vous voulez qu'il les comprenne, vous pouvez simplement les **déclarer** :
 
-<figure><img src="../../.gitbook/assets/image (688).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1157).png" alt="" width="563"><figcaption></figcaption></figure>
 
-<figure><img src="../../.gitbook/assets/image (690).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1159).png" alt="" width="563"><figcaption></figcaption></figure>
 
-<figure><img src="../../.gitbook/assets/image (691).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1160).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Ensuite, trouvez un endroit dans le code où ils sont **utilisés** :
 
@@ -149,12 +149,12 @@ Ensuite, trouvez un endroit dans le code où ils sont **utilisés** :
 Notez toutes les références à "block" pour comprendre comment vous pourriez déterminer que la structure est utilisée.
 {% endhint %}
 
-<figure><img src="../../.gitbook/assets/image (692).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1161).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Cliquez avec le bouton droit sur la variable -> Retype Variable et sélectionnez dans ce cas **`swift_dispatch_block`** :
 
-<figure><img src="../../.gitbook/assets/image (693).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1162).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Ghidra réécrira automatiquement tout :
 
-<figure><img src="../../.gitbook/assets/image (694).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1163).png" alt="" width="563"><figcaption></figcaption></figure>

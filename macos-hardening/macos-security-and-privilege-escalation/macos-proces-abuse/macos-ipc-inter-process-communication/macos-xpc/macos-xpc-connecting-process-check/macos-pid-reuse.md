@@ -8,8 +8,8 @@ Autres façons de soutenir HackTricks :
 
 - Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 - Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-- Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-- **Rejoignez** 💬 le groupe Discord](https://discord.gg/hRep4RUj7f) ou le [groupe Telegram](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [@carlospolopm](https://twitter.com/carlospolopm)**.**
+- Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
+- **Rejoignez** 💬 le groupe Discord](https://discord.gg/hRep4RUj7f) ou le [groupe Telegram](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [@carlospolopm](https://twitter.com/hacktricks\_live)**.**
 - **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
@@ -18,22 +18,22 @@ Autres façons de soutenir HackTricks :
 
 Lorsqu'un service **XPC macOS** vérifie le processus appelé en fonction du **PID** et non du **jeton d'audit**, il est vulnérable à une attaque de réutilisation de PID. Cette attaque est basée sur une **condition de course** où une **exploitation** va **envoyer des messages au service XPC** en **abusant** de la fonctionnalité et juste **après**, exécuter **`posix_spawn(NULL, binaire_cible, NULL, &attr, argv_cible, environ)`** avec le binaire **autorisé**.
 
-Cette fonction fera en sorte que le **binaire autorisé possède le PID**, mais le **message XPC malveillant aura été envoyé** juste avant. Ainsi, si le service **XPC** utilise le **PID** pour **authentifier** l'expéditeur et le vérifie **APRÈS** l'exécution de **`posix_spawn`**, il pensera qu'il provient d'un processus **autorisé**.
+Cette fonction fera en sorte que le binaire **autorisé possède le PID**, mais le message XPC malveillant aura été envoyé juste avant. Ainsi, si le service **XPC** utilise le **PID** pour **authentifier** l'expéditeur et le vérifie **APRÈS** l'exécution de **`posix_spawn`**, il pensera qu'il provient d'un processus **autorisé**.
 
 ### Exemple d'exploitation
 
-Si vous trouvez la fonction **`shouldAcceptNewConnection`** ou une fonction appelée par celle-ci appelant **`processIdentifier`** et ne faisant pas appel à **`auditToken`**, il est très probable qu'elle **vérifie le PID du processus** et non le jeton d'audit.\
+Si vous trouvez la fonction **`shouldAcceptNewConnection`** ou une fonction appelée par celle-ci appelant **`processIdentifier`** et ne faisant pas appel à **`auditToken`**, il est très probable qu'elle vérifie le PID du processus et non le jeton d'audit.\
 Comme par exemple dans cette image (prise de la référence) :
 
-<figure><img src="../../../../../../.gitbook/assets/image (4) (1) (1) (1) (2).png" alt="https://wojciechregula.blog/images/2020/04/pid.png"><figcaption></figcaption></figure>
+<figure><img src="../../../../../../.gitbook/assets/image (303).png" alt="https://wojciechregula.blog/images/2020/04/pid.png"><figcaption></figcaption></figure>
 
 Vérifiez cet exemple d'exploitation (encore une fois, tiré de la référence) pour voir les 2 parties de l'exploit :
 
-- Une qui **génère plusieurs forks**
+- Celui qui **génère plusieurs forks**
 - **Chaque fork** enverra la **charge utile** au service XPC tout en exécutant **`posix_spawn`** juste après l'envoi du message.
 
 {% hint style="danger" %}
-Pour que l'exploit fonctionne, il est important d'`exporter` **`OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES`** ou de le mettre à l'intérieur de l'exploit :
+Pour que l'exploit fonctionne, il est important d'`exporter` **`OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES`** ou de l'inclure dans l'exploit :
 ```objectivec
 asm(".section __DATA,__objc_fork_ok\n"
 "empty:\n"
@@ -302,7 +302,7 @@ Autres façons de soutenir HackTricks :
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

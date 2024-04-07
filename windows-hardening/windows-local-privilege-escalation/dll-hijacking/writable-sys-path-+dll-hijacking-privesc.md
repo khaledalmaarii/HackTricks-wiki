@@ -9,8 +9,8 @@ Autres façons de soutenir HackTricks :
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
@@ -18,19 +18,19 @@ Autres façons de soutenir HackTricks :
 
 Si vous découvrez que vous pouvez **écrire dans un dossier de chemin système** (notez que cela ne fonctionnera pas si vous pouvez écrire dans un dossier de chemin utilisateur), il est possible que vous puissiez **escalader les privilèges** dans le système.
 
-Pour ce faire, vous pouvez abuser d'un **Hijacking de Dll** où vous allez **détourner une bibliothèque en cours de chargement** par un service ou un processus avec **plus de privilèges** que les vôtres, et parce que ce service charge une Dll qui n'existe probablement même pas dans tout le système, il va essayer de la charger à partir du chemin système où vous pouvez écrire.
+Pour ce faire, vous pouvez abuser d'un **Hijacking de Dll** où vous allez **détourner une bibliothèque chargée** par un service ou un processus avec **plus de privilèges** que les vôtres, et parce que ce service charge une Dll qui n'existe probablement même pas dans tout le système, il va essayer de la charger à partir du chemin système où vous pouvez écrire.
 
-Pour plus d'informations sur **ce qu'est le Dll Hijacking**, consultez :
+Pour plus d'informations sur **ce qu'est le Hijacking de Dll**, consultez :
 
-{% content-ref url="../dll-hijacking.md" %}
-[dll-hijacking.md](../dll-hijacking.md)
+{% content-ref url="./" %}
+[.](./)
 {% endcontent-ref %}
 
 ## Privilège d'escalade avec Dll Hijacking
 
 ### Trouver une Dll manquante
 
-La première chose dont vous avez besoin est d'**identifier un processus** s'exécutant avec **plus de privilèges** que les vôtres qui tente de **charger une Dll à partir du chemin système** dans lequel vous pouvez écrire.
+La première chose dont vous avez besoin est d'**identifier un processus** s'exécutant avec **plus de privilèges** que vous qui tente de **charger une Dll à partir du chemin système** dans lequel vous pouvez écrire.
 
 Le problème dans ces cas est que probablement ces processus sont déjà en cours d'exécution. Pour trouver quelles Dll manquent aux services, vous devez lancer procmon dès que possible (avant le chargement des processus). Ainsi, pour trouver les .dll manquantes, faites :
 
@@ -57,15 +57,15 @@ $newPath = "$envPath;$folderPath"
 * **Après** la **génération du fichier**, **fermez** la fenêtre **`procmon`** ouverte et **ouvrez le fichier des événements**.
 * Ajoutez ces **filtres** et vous trouverez toutes les DLL que certains **processus ont tenté de charger** à partir du dossier Chemin système inscriptible :
 
-<figure><img src="../../../.gitbook/assets/image (18).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (942).png" alt=""><figcaption></figcaption></figure>
 
 ### DLLs manquantes
 
 En exécutant ceci dans une **machine virtuelle (vmware) Windows 11** gratuite, j'ai obtenu ces résultats :
 
-<figure><img src="../../../.gitbook/assets/image (253).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (604).png" alt=""><figcaption></figcaption></figure>
 
-Dans ce cas, les .exe sont inutiles, ignorez-les, les DLL manquantes provenaient de :
+Dans ce cas, les .exe sont inutiles, alors ignorez-les, les DLL manquantes provenaient de :
 
 | Service                         | Dll                | Ligne de commande                                                   |
 | ------------------------------- | ------------------ | -------------------------------------------------------------------- |
@@ -79,7 +79,7 @@ Après avoir trouvé cela, j'ai trouvé ce billet de blog intéressant qui expli
 
 Donc, pour **élever les privilèges**, nous allons détourner la bibliothèque **WptsExtensions.dll**. Ayant le **chemin** et le **nom**, nous devons simplement **générer la DLL malveillante**.
 
-Vous pouvez [**essayer d'utiliser l'un de ces exemples**](../dll-hijacking.md#creating-and-compiling-dlls). Vous pourriez exécuter des charges utiles telles que : obtenir un shell inversé, ajouter un utilisateur, exécuter un beacon...
+Vous pouvez [**essayer d'utiliser l'un de ces exemples**](./#creating-and-compiling-dlls). Vous pourriez exécuter des charges utiles telles que : obtenir un shell inversé, ajouter un utilisateur, exécuter un beacon...
 
 {% hint style="warning" %}
 Notez que **tous les services ne sont pas exécutés** avec **`NT AUTHORITY\SYSTEM`**, certains sont également exécutés avec **`NT AUTHORITY\LOCAL SERVICE`** qui a **moins de privilèges** et vous **ne pourrez pas créer un nouvel utilisateur** pour abuser de ses autorisations.\

@@ -37,7 +37,7 @@ n2          :  uint32_t);
 ```
 {% endcode %}
 
-Maintenant, utilisez mig pour générer le code serveur et client qui pourra communiquer entre eux pour appeler la fonction Subtract :
+Maintenant, utilisez mig pour générer le code serveur et client qui pourra communiquer entre eux pour appeler la fonction Soustraire :
 ```bash
 mig -header myipcUser.h -sheader myipcServer.h myipc.defs
 ```
@@ -66,17 +66,9 @@ myipc_server_routine,
 
 {% tab title="myipcServer.h" %} 
 
-```c
-#include <mach/mach.h>
-#include <servers/bootstrap.h>
-#include "myipcServer.h"
+### macOS MIG (Mach Interface Generator)
 
-kern_return_t myipcregister(mach_port_t *server_port);
-kern_return_t myipcunregister(mach_port_t server_port);
-kern_return_t myipcrequest(mach_port_t server_port, int request, int *response);
-```
-
-{% endtab %}
+Le générateur d'interface Mach (MIG) est un outil utilisé pour simplifier le processus de communication entre les processus sur macOS. Il génère des fonctions pour envoyer et recevoir des messages entre les processus en utilisant le framework Mach. Cela peut être exploité par des attaquants pour escalader les privilèges en manipulant les appels système générés par MIG. Il est important de sécuriser correctement les services utilisant MIG pour éviter les abus et les attaques de privilèges.
 ```c
 /* Description of this subsystem, for use in direct RPC */
 extern const struct SERVERPREFmyipc_subsystem {
@@ -150,7 +142,7 @@ return FALSE;
 }
 </code></pre>
 
-Vérifiez les lignes précédemment mises en évidence en accédant à la fonction à appeler par ID.
+Vérifiez les lignes précédemment surlignées en accédant à la fonction à appeler par ID.
 
 Voici le code pour créer un **serveur** et un **client** simples où le client peut appeler les fonctions Subtract du serveur :
 
@@ -198,21 +190,21 @@ mach_msg_server(myipc_server, sizeof(union __RequestUnion__SERVERPREFmyipc_subsy
 
 int main() {
     mach_port_t bootstrap_port;
-    kern_return_t err;
-
-    err = task_get_bootstrap_port(mach_task_self(), &bootstrap_port);
-    if (err != KERN_SUCCESS) {
+    kern_return_t kr = task_get_bootstrap_port(mach_task_self(), &bootstrap_port);
+    if (kr != KERN_SUCCESS) {
         printf("Failed to get bootstrap port\n");
         return 1;
     }
 
-    err = myipc_register(bootstrap_port);
-    if (err != KjsonERN_SUCCESS) {
-        printf("Failed to register myipc service\n");
+    myipc_args_t args = { 1, 2 };
+    myipc_rval_t retval;
+    kr = myipc_call(bootstrap_port, &args, &retval);
+    if (kr != KERN_SUCCESS) {
+        printf("Failed to call myipc\n");
         return 1;
     }
 
-    printf("myipc service registered successfully\n");
+    printf("Result: %d\n", retval.result);
 
     return 0;
 }
@@ -251,7 +243,7 @@ Comme de nombreux binaires utilisent désormais MIG pour exposer des ports mach,
 ```bash
 jtool2 -d __DATA.__const myipc_server | grep MIG
 ```
-Il a été mentionné précédemment que la fonction qui se chargera **d'appeler la fonction correcte en fonction de l'ID du message reçu** était `myipc_server`. Cependant, vous n'aurez généralement pas les symboles du binaire (pas de noms de fonctions), il est donc intéressant de **vérifier à quoi ressemble le décompilé** car il sera toujours très similaire (le code de cette fonction est indépendant des fonctions exposées) :
+Il a été mentionné précédemment que la fonction qui se chargera de **appeler la fonction correcte en fonction de l'ID du message reçu** était `myipc_server`. Cependant, vous n'aurez généralement pas les symboles du binaire (pas de noms de fonctions), il est donc intéressant de **vérifier à quoi cela ressemble décompilé** car cela sera toujours très similaire (le code de cette fonction est indépendant des fonctions exposées) :
 
 {% tabs %}
 {% tab title="myipc_server décompilé 1" %}
@@ -273,7 +265,7 @@ rax = *(int32_t *)(var_10 + 0x14);
 // 0x1f4 = 500 (l'ID de départ)
 <strong>            rax = *(sign_extend_64(rax - 0x1f4) * 0x28 + 0x100004040);
 </strong>            var_20 = rax;
-// Si - sinon, le si renvoie faux, tandis que le sinon appelle la bonne fonction et renvoie vrai
+// If - else, le if retourne false, tandis que le else appelle la bonne fonction et retourne true
 <strong>            if (rax == 0x0) {
 </strong>                    *(var_18 + 0x18) = **_NDR_record;
 *(int32_t *)(var_18 + 0x20) = 0xfffffffffffffed1;
@@ -297,7 +289,7 @@ return rax;
 {% endtab %}
 
 {% tab title="myipc_server décompilé 2" %}
-Il s'agit de la même fonction décompilée dans une version gratuite différente de Hopper :
+C'est la même fonction décompilée dans une version Hopper gratuite différente :
 
 <pre class="language-c"><code class="lang-c">int _myipc_server(int arg0, int arg1) {
 r31 = r31 - 0x40;
@@ -340,7 +332,7 @@ if (CPU_FLAGS &#x26; NE) {
 r8 = 0x1;
 }
 }
-// Même si sinon que dans la version précédente
+// Même if else que dans la version précédente
 // Vérifiez l'utilisation de l'adresse 0x100004040 (tableau d'adresses de fonctions)
 <strong>                    if ((r8 &#x26; 0x1) == 0x0) {
 </strong><strong>                            *(var_18 + 0x18) = **0x100004000;
@@ -374,12 +366,11 @@ return r0;
 
 En fait, si vous allez à la fonction **`0x100004000`**, vous trouverez le tableau des structures **`routine_descriptor`**. Le premier élément de la structure est l'**adresse** où la **fonction** est implémentée, et la **structure prend 0x28 octets**, donc tous les 0x28 octets (à partir de l'octet 0) vous pouvez obtenir 8 octets et ce sera l'**adresse de la fonction** qui sera appelée :
 
-<figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (32).png" alt=""><figcaption></figcaption></figure>
 
-<figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (33).png" alt=""><figcaption></figcaption></figure>
 
 Ces données peuvent être extraites [**en utilisant ce script Hopper**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py).
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) **et** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **dépôts GitHub.**
 
 </details>

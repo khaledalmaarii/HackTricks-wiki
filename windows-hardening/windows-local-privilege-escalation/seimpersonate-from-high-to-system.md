@@ -1,22 +1,23 @@
+# SeImpersonate de Haut à Système
+
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks :
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 
-
-## Code
+### Code
 
 Le code suivant provient de [ici](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962). Il permet de **indiquer un ID de processus en argument** et une CMD **s'exécutant en tant qu'utilisateur** du processus indiqué sera exécutée.\
-En exécutant dans un processus à haute intégrité, vous pouvez **indiquer l'ID de processus d'un processus s'exécutant en tant que Système** (comme winlogon, wininit) et exécuter un cmd.exe en tant que système.
+En exécutant dans un processus de haute intégrité, vous pouvez **indiquer l'ID du processus s'exécutant en tant que Système** (comme winlogon, wininit) et exécuter un cmd.exe en tant que système.
 ```cpp
 impersonateuser.exe 1234
 ```
@@ -153,7 +154,7 @@ return 0;
 ```
 {% endcode %}
 
-## Erreur
+### Erreur
 
 Dans certains cas, vous pouvez essayer de vous faire passer pour le Système et cela ne fonctionnera pas, affichant une sortie comme celle-ci :
 ```cpp
@@ -166,7 +167,7 @@ Dans certains cas, vous pouvez essayer de vous faire passer pour le Système et 
 [-] CreateProcessWithTokenW Return Code: 0
 [-] CreateProcessWithTokenW Error: 1326
 ```
-Cela signifie que même si vous exécutez à un niveau d'intégrité élevé **vous n'avez pas suffisamment de permissions**.\
+Cela signifie que même si vous exécutez avec un niveau d'intégrité élevé **vous n'avez pas suffisamment de permissions**.\
 Vérifions les autorisations actuelles de l'administrateur sur les processus `svchost.exe` avec **Process Explorer** (ou vous pouvez également utiliser Process Hacker) :
 
 1. Sélectionnez un processus `svchost.exe`
@@ -176,12 +177,12 @@ Vérifions les autorisations actuelles de l'administrateur sur les processus `sv
 5. Sélectionnez "Administrateurs" et cliquez sur "Modifier"
 6. Cliquez sur "Afficher les autorisations avancées"
 
-![](<../../.gitbook/assets/image (322).png>)
+![](<../../.gitbook/assets/image (434).png>)
 
-L'image précédente contient tous les privilèges que les "Administrateurs" ont sur le processus sélectionné (comme vous pouvez le voir dans le cas de `svchost.exe`, ils n'ont que des privilèges de "Requête")
+L'image précédente contient tous les privilèges que les "Administrateurs" ont sur le processus sélectionné (comme vous pouvez le voir dans le cas de `svchost.exe`, ils n'ont que des privilèges de "Consultation")
 
 Voyez les privilèges que les "Administrateurs" ont sur `winlogon.exe` :
 
-![](<../../.gitbook/assets/image (323).png>)
+![](<../../.gitbook/assets/image (1099).png>)
 
 À l'intérieur de ce processus, les "Administrateurs" peuvent "Lire la mémoire" et "Lire les autorisations", ce qui leur permet probablement d'usurper le jeton utilisé par ce processus.

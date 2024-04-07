@@ -2,24 +2,24 @@
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert Red Team AWS HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks :
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (377).png" alt=""><figcaption></figcaption></figure>
 
 Rejoignez le serveur [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) pour communiquer avec des pirates expérimentés et des chasseurs de primes !
 
 **Perspectives de piratage**\
-Engagez-vous avec du contenu qui explore les défis et l'excitation du piratage
+Engagez-vous avec du contenu qui explore le frisson et les défis du piratage
 
 **Actualités de piratage en temps réel**\
 Restez informé du monde du piratage en évolution rapide grâce à des actualités et des perspectives en temps réel
@@ -57,7 +57,7 @@ Si vous n'êtes pas familier avec macOS, vous devriez commencer par apprendre le
 [mac-os-architecture](mac-os-architecture/)
 {% endcontent-ref %}
 
-* Services et protocoles réseau courants de macOS
+* Services et protocoles réseau **courants de macOS**
 
 {% content-ref url="macos-protocols.md" %}
 [macos-protocols.md](macos-protocols.md)
@@ -68,13 +68,13 @@ Si vous n'êtes pas familier avec macOS, vous devriez commencer par apprendre le
 
 ### MacOS MDM
 
-Dans les entreprises, les systèmes macOS sont très probablement gérés avec un MDM. Par conséquent, du point de vue d'un attaquant, il est intéressant de savoir comment cela fonctionne :
+Dans les entreprises, les systèmes **macOS** sont très probablement gérés avec un MDM. Par conséquent, du point de vue d'un attaquant, il est intéressant de savoir **comment cela fonctionne** :
 
 {% content-ref url="../macos-red-teaming/macos-mdm/" %}
 [macos-mdm](../macos-red-teaming/macos-mdm/)
 {% endcontent-ref %}
 
-### MacOS - Inspection, débogage et fuzzing
+### MacOS - Inspection, Débogage et Fuzzing
 
 {% content-ref url="macos-apps-inspecting-debugging-and-fuzzing/" %}
 [macos-apps-inspecting-debugging-and-fuzzing](macos-apps-inspecting-debugging-and-fuzzing/)
@@ -88,9 +88,9 @@ Dans les entreprises, les systèmes macOS sont très probablement gérés avec u
 
 ## Surface d'attaque
 
-### Autorisations de fichiers
+### Autorisations de fichier
 
-Si un **processus s'exécutant en tant que root écrit** un fichier pouvant être contrôlé par un utilisateur, l'utilisateur pourrait en abuser pour **escalader les privilèges**.\
+Si un **processus s'exécutant en tant que root écrit** un fichier contrôlable par un utilisateur, l'utilisateur pourrait en abuser pour **élever ses privilèges**.\
 Cela pourrait se produire dans les situations suivantes :
 
 * Le fichier utilisé a déjà été créé par un utilisateur (appartenant à l'utilisateur)
@@ -100,15 +100,13 @@ Cela pourrait se produire dans les situations suivantes :
 
 Pouvoir **créer un fichier** qui va être **utilisé par root**, permet à un utilisateur de **profiter de son contenu** ou même de créer des **liens symboliques/hardlinks** pour le pointer vers un autre endroit.
 
-Pour ce type de vulnérabilités, n'oubliez pas de **vérifier les installateurs `.pkg`** vulnérables :
+Pour ce type de vulnérabilités, n'oubliez pas de **vérifier les installateurs `.pkg` vulnérables** :
 
 {% content-ref url="macos-files-folders-and-binaries/macos-installers-abuse.md" %}
 [macos-installers-abuse.md](macos-files-folders-and-binaries/macos-installers-abuse.md)
 {% endcontent-ref %}
 
-
-
-### Extension de fichier et gestionnaires d'applications de schéma d'URL
+### Extension de fichier & gestionnaires d'applications de schéma d'URL
 
 Des applications étranges enregistrées par des extensions de fichier pourraient être abusées et différentes applications peuvent être enregistrées pour ouvrir des protocoles spécifiques
 
@@ -122,9 +120,9 @@ Dans macOS, les **applications et binaires peuvent avoir des autorisations** pou
 
 Par conséquent, un attaquant qui souhaite compromettre avec succès une machine macOS devra **élever ses privilèges TCC** (ou même **contourner SIP**, selon ses besoins).
 
-Ces privilèges sont généralement accordés sous forme d'**autorisations** avec lesquelles l'application est signée, ou l'application pourrait demander certains accès et après que l'utilisateur les a approuvés, ils peuvent être trouvés dans les **bases de données TCC**. Une autre façon pour un processus d'obtenir ces privilèges est d'être un **enfant d'un processus** avec ces **privilèges** car ils sont généralement **hérités**.
+Ces privilèges sont généralement accordés sous forme de **droits** avec lesquels l'application est signée, ou l'application peut demander certains accès et après que l'utilisateur les a **approuvés**, ils peuvent être trouvés dans les **bases de données TCC**. Une autre façon pour un processus d'obtenir ces privilèges est d'être un **enfant d'un processus** avec ces **privilèges** car ils sont généralement **hérités**.
 
-Suivez ces liens pour trouver différentes façons d'**élever les privilèges dans TCC**](macos-security-protections/macos-tcc/#tcc-privesc-and-bypasses), de [**contourner TCC**](macos-security-protections/macos-tcc/macos-tcc-bypasses/) et comment dans le passé [**SIP a été contourné**](macos-security-protections/macos-sip.md#sip-bypasses).
+Suivez ces liens pour trouver différentes façons d'**élever les privilèges dans TCC** (macos-security-protections/macos-tcc/#tcc-privesc-and-bypasses), de **contourner TCC** (macos-security-protections/macos-tcc/macos-tcc-bypasses/) et comment dans le passé le **SIP a été contourné** (macos-security-protections/macos-sip.md#sip-bypasses).
 
 ## Élévation de privilèges traditionnelle sur macOS
 
@@ -133,7 +131,6 @@ Bien sûr, du point de vue des équipes rouges, vous devriez également être in
 {% content-ref url="macos-privilege-escalation.md" %}
 [macos-privilege-escalation.md](macos-privilege-escalation.md)
 {% endcontent-ref %}
-
 ## Références
 
 * [**OS X Incident Response: Scripting and Analysis**](https://www.amazon.com/OS-Incident-Response-Scripting-Analysis-ebook/dp/B01FHOHHVS)
@@ -142,31 +139,31 @@ Bien sûr, du point de vue des équipes rouges, vous devriez également être in
 * [**https://assets.sentinelone.com/c/sentinal-one-mac-os-?x=FvGtLJ**](https://assets.sentinelone.com/c/sentinal-one-mac-os-?x=FvGtLJ)
 * [**https://www.youtube.com/watch?v=vMGiplQtjTY**](https://www.youtube.com/watch?v=vMGiplQtjTY)
 
-<figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (377).png" alt=""><figcaption></figcaption></figure>
 
-Rejoignez le serveur [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) pour communiquer avec des pirates expérimentés et des chasseurs de primes !
+Rejoignez le serveur [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) pour communiquer avec des hackers expérimentés et des chasseurs de primes en bugs !
 
-**Perspectives de piratage**\
-Engagez-vous avec du contenu qui explore les défis et l'excitation du piratage
+**Perspectives sur le Hacking**\
+Engagez-vous avec du contenu qui explore les sensations et les défis du hacking
 
-**Actualités de piratage en temps réel**\
-Restez informé du monde du piratage en évolution rapide grâce à des actualités et des perspectives en temps réel
+**Actualités de Hacking en Temps Réel**\
+Restez à jour avec le monde du hacking en évolution rapide grâce aux actualités et aux analyses en temps réel
 
-**Dernières annonces**\
+**Dernières Annonces**\
 Restez informé des dernières primes de bugs lancées et des mises à jour cruciales de la plateforme
 
-**Rejoignez-nous sur** [**Discord**](https://discord.com/invite/N3FrSbmwdy) et commencez à collaborer avec les meilleurs pirates dès aujourd'hui !
+**Rejoignez-nous sur** [**Discord**](https://discord.com/invite/N3FrSbmwdy) et commencez à collaborer avec les meilleurs hackers dès aujourd'hui !
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert Red Team AWS HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks :
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
