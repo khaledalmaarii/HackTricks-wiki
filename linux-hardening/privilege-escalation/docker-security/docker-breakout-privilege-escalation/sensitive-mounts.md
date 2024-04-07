@@ -7,14 +7,18 @@
 HackTricks를 지원하는 다른 방법:
 
 * **회사가 HackTricks에 광고되길 원하거나 PDF로 HackTricks 다운로드**하려면 [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구매하세요
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* **💬 [Discord 그룹](https://discord.gg/hRep4RUj7f)** 또는 [텔레그램 그룹](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**를 팔로우**하세요.
-* **해킹 트릭을 공유하려면 PR을** [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 저장소에 제출하세요.
+* [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구입하세요
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 우리의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
+* **💬 [디스코드 그룹](https://discord.gg/hRep4RUj7f)** 또는 [텔레그램 그룹](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**를 팔로우**하세요.
+* **HackTricks** 및 **HackTricks Cloud** 깃허브 저장소에 PR을 제출하여 **해킹 트릭을 공유**하세요.
 
 </details>
 
-적절한 네임스페이스 격리 없이 `/proc` 및 `/sys`가 노출되면 공격 표면이 확대되고 정보 노출과 같은 중요한 보안 위험이 발생할 수 있습니다. 이러한 디렉토리에는 민감한 파일이 포함되어 있으며, 잘못 구성되거나 무단으로 액세스되면 컨테이너 탈출, 호스트 수정 또는 추가 공격을 돕는 정보 제공이 가능합니다. 예를 들어, `-v /proc:/host/proc`를 잘못 마운트하면 경로 기반의 특성으로 인해 AppArmor 보호를 우회할 수 있어 `/host/proc`가 보호되지 않게 됩니다.
+<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://websec.nl/" %}
+
+적절한 네임스페이스 격리 없이 `/proc` 및 `/sys`가 노출되면 공격 표면 확대 및 정보 노출을 포함한 중요한 보안 위험이 발생합니다. 이러한 디렉토리에는 민감한 파일이 포함되어 있으며, 잘못 구성되거나 무단으로 액세스되면 컨테이너 탈출, 호스트 수정 또는 추가 공격을 돕는 정보 제공이 가능합니다. 예를 들어, `-v /proc:/host/proc`를 잘못 마운트하면 경로 기반의 특성으로 인해 AppArmor 보호를 우회할 수 있어 `/host/proc`가 보호되지 않게 됩니다.
 
 **각 잠재적인 취약점에 대한 자세한 내용은** [**https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts**](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts)**에서 찾을 수 있습니다.**
 
@@ -27,7 +31,7 @@ HackTricks를 지원하는 다른 방법:
 #### **`/proc/sys/kernel/core_pattern`**
 
 * [core(5)](https://man7.org/linux/man-pages/man5/core.5.html)에 설명되어 있음.
-* 첫 128바이트를 인수로 사용하여 코어 파일 생성 시 실행할 프로그램을 정의할 수 있습니다. 파일이 `|`로 시작하면 코드 실행이 가능합니다.
+* 첫 128바이트가 인수로 사용되는 코어 파일 생성 시 실행할 프로그램을 정의할 수 있습니다. 파일이 파이프 `|`로 시작하면 코드 실행으로 이어질 수 있습니다.
 *   **테스트 및 악용 예시**:
 
 ```bash
@@ -39,7 +43,7 @@ sleep 5 && ./crash & # 핸들러 트리거
 
 #### **`/proc/sys/kernel/modprobe`**
 
-* [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html)에 자세히 기술되어 있음.
+* [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html)에 자세히 설명되어 있음.
 * 커널 모듈 로더의 경로를 포함하며, 커널 모듈을 로드할 때 호출됩니다.
 *   **액세스 확인 예시**:
 
@@ -60,7 +64,7 @@ ls -l $(cat /proc/sys/kernel/modprobe) # modprobe 액세스 확인
 #### **`/proc/sys/fs/binfmt_misc`**
 
 * 매직 넘버에 따라 비네이티브 바이너리 형식의 해석기를 등록할 수 있습니다.
-* `/proc/sys/fs/binfmt_misc/register`가 쓰기 가능하면 권한 상승 또는 루트 쉘 액세스가 가능합니다.
+* `/proc/sys/fs/binfmt_misc/register`가 쓰기 가능하면 권한 상승 또는 루트 쉘 액세스로 이어질 수 있습니다.
 * 관련 악용 및 설명:
 * [binfmt\_misc를 통한 Poor man's rootkit](https://github.com/toffan/binfmt\_misc)
 * 깊이 있는 자습서: [비디오 링크](https://www.youtube.com/watch?v=WBC7hhgMvQQ)
@@ -88,9 +92,9 @@ echo b > /proc/sysrq-trigger # 호스트 재부팅
 
 #### **`/proc/kallsyms`**
 
-* 커널 내보낸 심볼과 그들의 주소를 나열합니다.
+* 커널 내보낸 심볼과 그 주소를 나열합니다.
 * 특히 KASLR을 극복하기 위해 커널 악용 개발에 필수적입니다.
-* `kptr_restrict`가 `1` 또는 `2`로 설정된 경우 주소 정보가 제한됩니다.
+* 주소 정보는 `kptr_restrict`가 `1` 또는 `2`로 설정되어 제한됩니다.
 * [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html)에 자세한 내용이 있습니다.
 
 #### **`/proc/[pid]/mem`**
@@ -104,7 +108,7 @@ echo b > /proc/sysrq-trigger # 호스트 재부팅
 * ELF 코어 형식으로 시스템의 물리적 메모리를 나타냅니다.
 * 읽기는 호스트 시스템 및 다른 컨테이너의 메모리 내용을 누출할 수 있습니다.
 * 큰 파일 크기는 읽기 문제나 소프트웨어 충돌로 이어질 수 있습니다.
-* 2019년 [Dumping /proc/kcore](https://schlafwandler.github.io/posts/dumping-/proc/kcore/)에서 자세한 사용법을 확인할 수 있습니다.
+* 2019년에 `/proc/kcore` 덤프에 대한 자세한 사용법은 [Dumping /proc/kcore in 2019](https://schlafwandler.github.io/posts/dumping-/proc/kcore/)에서 확인할 수 있습니다.
 
 #### **`/proc/kmem`**
 
@@ -114,7 +118,7 @@ echo b > /proc/sysrq-trigger # 호스트 재부팅
 #### **`/proc/mem`**
 
 * 물리적 메모리를 나타내는 `/dev/mem`의 대체 인터페이스입니다.
-* 모든 메모리의 읽기 및 쓰기를 허용하며, 모든 메모리 수정에는 가상 주소를 물리 주소로 변환해야 합니다.
+* 읽기 및 쓰기를 허용하며, 모든 메모리의 수정에는 가상 주소를 물리 주소로 변환해야 합니다.
 
 #### **`/proc/sched_debug`**
 
@@ -164,16 +168,16 @@ cat /output %%%
 #### **`/sys/kernel/security`**
 
 * `securityfs` 인터페이스를 포함하며, AppArmor와 같은 Linux Security Modules의 구성을 허용합니다.
-* 액세스 권한을 통해 컨테이너가 MAC 시스템을 비활성화할 수 있습니다.
+* 액세스는 컨테이너가 MAC 시스템을 비활성화할 수 있게 할 수 있습니다.
 
 #### **`/sys/firmware/efi/vars` and `/sys/firmware/efi/efivars`**
 
 * NVRAM의 EFI 변수와 상호 작용하기 위한 인터페이스를 노출합니다.
-* 잘못된 구성 또는 악용으로 인해 브릭된 노트북이나 부팅할 수 없는 호스트 머신으로 이어질 수 있습니다.
+* 잘못된 구성 또는 악용은 브릭된 노트북이나 부팅할 수 없는 호스트 머신으로 이어질 수 있습니다.
 
 #### **`/sys/kernel/debug`**
 
-* `debugfs`는 커널에 대한 "규칙 없는" 디버깅 인터페이스를 제공합니다.
+* `debugfs`는 커널에 대한 "규칙 없음" 디버깅 인터페이스를 제공합니다.
 * 제한이 없는 성격으로 인한 보안 문제의 역사가 있습니다.
 
 ### References
@@ -181,6 +185,10 @@ cat /output %%%
 * [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts)
 * [Understanding and Hardening Linux Containers](https://research.nccgroup.com/wp-content/uploads/2020/07/ncc\_group\_understanding\_hardening\_linux\_containers-1-1.pdf)
 * [Abusing Privileged and Unprivileged Linux Containers](https://www.nccgroup.com/globalassets/our-research/us/whitepapers/2016/june/container\_whitepaper.pdf)
+
+<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://websec.nl/" %}
 
 <details>
 

