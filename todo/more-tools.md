@@ -12,6 +12,10 @@ Autres façons de soutenir HackTricks :
 
 </details>
 
+<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://websec.nl/" %}
+
 
 # BlueTeam
 
@@ -51,24 +55,23 @@ Autres façons de soutenir HackTricks :
 * [https://github.com/spinkham/skipfish](https://github.com/spinkham/skipfish)
 * [https://github.com/blark/aiodnsbrute](https://github.com/blark/aiodnsbrute) : Force brute de noms de domaine de manière asynchrone
 * [https://crt.sh/?q=%.yahoo.com](https://crt.sh/?q=%.yahoo.com) : Force brute de sous-domaines
-* [https://github.com/tomnomnom/httprobe](https://github.com/tomnomnom/httprobe): Vérifiez si les serveurs Web d'un domaine sont accessibles
+* [https://github.com/tomnomnom/httprobe](https://github.com/tomnomnom/httprobe): Vérifiez si les serveurs web d'un domaine sont accessibles
 * [https://github.com/aboul3la/Sublist3r](https://github.com/aboul3la/Sublist3r) : Découverte de sous-domaines
 * [https://github.com/gwen001/github-search/blob/master/github-subdomains.py](https://github.com/gwen001/github-search/blob/master/github-subdomains.py) : Découverte de sous-domaines dans github
 * [https://github.com/robertdavidgraham/masscan](https://github.com/robertdavidgraham/masscan) : Balayage rapide des ports
 * [https://github.com/Threezh1/JSFinder](https://github.com/Threezh1/JSFinder) : Sous-domaines et URLs à partir de fichiers JS sur un site web
-* [https://github.com/C1h2e1/MyFuzzingDict](https://github.com/C1h2e1/MyFuzzingDict) : Dictionnaire de fichiers Web
+* [https://github.com/C1h2e1/MyFuzzingDict](https://github.com/C1h2e1/MyFuzzingDict) : Dictionnaire de fichiers web
 * [https://github.com/TypeError/Bookmarks/blob/master/README.md](https://github.com/TypeError/Bookmarks/blob/master/README.md) : Extension Burp pour éviter des dizaines d'onglets répétés
 * [https://github.com/hakluke/hakrawler](https://github.com/hakluke/hakrawler) : Obtenir des ressources
 * [https://github.com/izo30/google-dorker](https://github.com/izo30/google-dorker) : Google dorks
-* [https://github.com/sehno/Bug-bounty/blob/master/bugbounty\_checklist.md](https://github.com/sehno/Bug-bounty/blob/master/bugbounty\_checklist.md) : Liste de contrôle Web BugBounty
+* [https://github.com/sehno/Bug-bounty/blob/master/bugbounty\_checklist.md](https://github.com/sehno/Bug-bounty/blob/master/bugbounty\_checklist.md) : Liste de contrôle BugBounty web
 * [https://github.com/Naategh/dom-red](https://github.com/Naategh/dom-red) : Vérifiez une liste de domaines contre les redirections ouvertes
 * [https://github.com/prodigysml/Dr.-Watson](https://github.com/prodigysml/Dr.-Watson) : Plugin Burp, analyse hors ligne pour découvrir des domaines, sous-domaines et IPs
 * [https://github.com/hahwul/WebHackersWeapons](https://github.com/hahwul/WebHackersWeapons): Liste de différents outils
 * [https://github.com/gauravnarwani97/Trishul](https://github.com/gauravnarwani97/Trishul) : Plugin BurpSuite pour trouver des vulnérabilités (SQLi, XSS, SSTI)
 * [https://github.com/fransr/postMessage-tracker](https://github.com/fransr/postMessage-tracker) : Extension Chrome pour suivre les fonctions de post-messages
 * [https://github.com/Quitten/Autorize](https://github.com/Quitten/Autorize) : Tests d'authentification automatiques (supprime les cookies et essaie d'envoyer la requête)
-* [https://github.com/pikpikcu/xrcross](https://github.com/pikpikcu/xrcross): XRCross est une Reconstruction, Scanner et un outil pour les tests de pénétration / BugBounty. Cet outil a été conçu pour tester les vulnérabilités (XSS|SSRF|CORS|SSTI|IDOR|RCE|LFI|SQLI)
-
+* [https://github.com/pikpikcu/xrcross](https://github.com/pikpikcu/xrcross): XRCross est un outil de reconstruction, de balayage et de test de pénétration / BugBounty. Cet outil a été conçu pour tester les vulnérabilités (XSS|SSRF|CORS|SSTI|IDOR|RCE|LFI|SQLI)
 # Windows
 
 * [https://github.com/Mr-Un1k0d3r/PoisonHandler](https://github.com/Mr-Un1k0d3r/PoisonHandler) : Mouvements latéraux
@@ -76,7 +79,7 @@ Autres façons de soutenir HackTricks :
 * [https://gist.github.com/netbiosX/ee35fcd3722e401a38136cff7b751d79](https://gist.github.com/netbiosX/ee35fcd3722e401a38136cff7b751d79) ([https://pentestlab.blog/2020/01/13/persistence-image-file-execution-options-injection/](https://pentestlab.blog/2020/01/13/persistence-image-file-execution-options-injection/)): Persistance
 * [https://github.com/odzhan/injection](https://github.com/odzhan/injection) : Techniques d'injection de processus Windows
 * [https://github.com/BankSecurity/Red\_Team](https://github.com/BankSecurity/Red\_Team) : Scripts de l'équipe rouge
-* [https://github.com/l0ss/Grouper2](https://github.com/l0ss/Grouper2) : trouver des configurations de sécurité incorrectes dans la stratégie de groupe Active Directory.
+* [https://github.com/l0ss/Grouper2](https://github.com/l0ss/Grouper2) : trouver des mauvaises configurations de sécurité dans la stratégie de groupe Active Directory.
 * [https://www.wietzebeukema.nl/blog/powershell-obfuscation-using-securestring](https://www.wietzebeukema.nl/blog/powershell-obfuscation-using-securestring) : Obfuscation Securestring
 * [https://pentestlab.blog/2020/02/24/parent-pid-spoofing/](https://pentestlab.blog/2020/02/24/parent-pid-spoofing/) : Spoofing du PID parent
 * [https://github.com/the-xentropy/xencrypt](https://github.com/the-xentropy/xencrypt) : Chiffrer les charges utiles Powershell
@@ -98,7 +101,7 @@ Post-crème :
 * [https://blog.mindedsecurity.com/2018/09/pentesting-iot-devices-part-1-static.html](https://blog.mindedsecurity.com/2018/09/pentesting-iot-devices-part-1-static.html)
 * [https://blog.mindedsecurity.com/2018/10/pentesting-iot-devices-part-2-dynamic.html](https://blog.mindedsecurity.com/2018/10/pentesting-iot-devices-part-2-dynamic.html)
 
-Comment extraire un firmware si vous ne le trouvez pas en ligne : [https://www.youtube.com/watch?v=Kxvpbu9STU4](https://www.youtube.com/watch?v=Kxvpbu9STU4)
+Comment extraire un firmware si on ne le trouve pas en ligne : [https://www.youtube.com/watch?v=Kxvpbu9STU4](https://www.youtube.com/watch?v=Kxvpbu9STU4)
 
 Voici un firmware avec des vulnérabilités à analyser : [https://github.com/scriptingxss/IoTGoat](https://github.com/scriptingxss/IoTGoat)
 
@@ -125,7 +128,25 @@ et voici la méthodologie OWASP pour analyser les firmwares : [https://github.co
 * [https://github.com/random-robbie/keywords/blob/master/keywords.txt](https://github.com/random-robbie/keywords/blob/master/keywords.txt) : Mots-clés
 * [https://github.com/ElevenPaths/HomePWN](https://github.com/ElevenPaths/HomePWN) : Piratage IoT (Wifi, BLE, SSDP, MDNS)
 * [https://github.com/rackerlabs/scantron](https://github.com/rackerlabs/scantron) : automatisation du scan
-* [https://github.com/doyensec/awesome-electronjs-hacking](https://github.com/doyensec/awesome-electronjs-hacking) : Cette liste vise à couvrir les sujets liés à la sécurité Electron.js.
+* [https://github.com/doyensec/awesome-electronjs-hacking](https://github.com/doyensec/awesome-electronjs-hacking) : Cette liste vise à couvrir les sujets liés à la sécurité d'Electron.js.
 * [https://github.com/serain/bbrecon](https://github.com/serain/bbrecon) : Infos sur les programmes BB
+
+
+<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://websec.nl/" %}
+
+
+<details>
+
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+
+Autres façons de soutenir HackTricks :
+
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF** Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>

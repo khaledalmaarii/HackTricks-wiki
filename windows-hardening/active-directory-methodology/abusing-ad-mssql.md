@@ -1,20 +1,25 @@
-# Abus AD MSSQL
+# Abus de l'AD MSSQL
 
 <details>
 
 <summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 * Travaillez-vous dans une **entreprise de cybersécurité**? Voulez-vous voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
+<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://websec.nl/" %}
+
+
 ## **Énumération / Découverte MSSQL**
 
-Le module powershell [PowerUpSQL](https://github.com/NetSPI/PowerUpSQL) est très utile dans ce cas.
+Le module PowerShell [PowerUpSQL](https://github.com/NetSPI/PowerUpSQL) est très utile dans ce cas.
 ```powershell
 Import-Module .\PowerupSQL.psd1
 ```
@@ -80,9 +85,9 @@ Invoke-SQLOSCmd -Instance "srv.sub.domain.local,1433" -Command "whoami" -RawResu
 
 ## Liens de confiance MSSQL
 
-Si une instance MSSQL est approuvée (lien de base de données) par une autre instance MSSQL. Si l'utilisateur a des privilèges sur la base de données approuvée, il pourra **utiliser la relation de confiance pour exécuter des requêtes également dans l'autre instance**. Ces liens de confiance peuvent être enchaînés et à un certain point, l'utilisateur pourrait être en mesure de trouver une base de données mal configurée où il peut exécuter des commandes.
+Si une instance MSSQL est approuvée (lien de base de données) par une autre instance MSSQL. Si l'utilisateur a des privilèges sur la base de données approuvée, il pourra **utiliser la relation de confiance pour exécuter des requêtes également dans l'autre instance**. Ces confiances peuvent être enchaînées et à un certain point, l'utilisateur pourrait être en mesure de trouver une base de données mal configurée où il peut exécuter des commandes.
 
-**Les liens entre les bases de données fonctionnent même à travers les relations de forêt.**
+**Les liens entre les bases de données fonctionnent même à travers les confiances inter-forêts.**
 
 ### Abus de Powershell
 ```powershell
@@ -134,7 +139,7 @@ Depuis **Windows**, vous pourriez également trouver les liens et exécuter des 
 
 _Connexion en utilisant l'authentification Windows:_
 
-![](<../../.gitbook/assets/image (805).png>) 
+![](<../../.gitbook/assets/image (805).png>)
 
 #### Trouver des liens de confiance
 ```sql
@@ -173,8 +178,25 @@ EXECUTE('EXECUTE(''sp_addsrvrolemember ''''hacker'''' , ''''sysadmin'''' '') AT 
 ```
 ## Élévation locale des privilèges
 
-L'utilisateur local **MSSQL** a généralement un type de privilège spécial appelé **`SeImpersonatePrivilege`**. Cela permet au compte d' "usurper l'identité d'un client après authentification".
+L'utilisateur local **MSSQL** a généralement un type de privilège spécial appelé **`SeImpersonatePrivilege`**. Cela permet au compte d'**"usurper un client après authentification"**.
 
-Une stratégie que de nombreux auteurs ont développée consiste à forcer un service **SYSTEM** à s'authentifier auprès d'un service malveillant ou de type homme du milieu que l'attaquant crée. Ce service malveillant peut alors usurper l'identité du service **SYSTEM** pendant qu'il tente de s'authentifier.
+Une stratégie que de nombreux auteurs ont développée consiste à forcer un service **SYSTEM** à s'authentifier auprès d'un service malveillant ou de l'homme du milieu que l'attaquant crée. Ce service malveillant peut alors usurper le service **SYSTEM** pendant qu'il tente de s'authentifier.
 
 [SweetPotato](https://github.com/CCob/SweetPotato) propose une collection de ces différentes techniques qui peuvent être exécutées via la commande `execute-assembly` de Beacon.
+
+
+<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://websec.nl/" %}
+
+<details>
+
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+
+* Travaillez-vous dans une **entreprise de cybersécurité**? Voulez-vous voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+
+</details>

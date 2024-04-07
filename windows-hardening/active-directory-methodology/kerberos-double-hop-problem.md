@@ -4,7 +4,7 @@
 
 <summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité**? Vous souhaitez voir votre **entreprise annoncée dans HackTricks**? ou souhaitez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Travaillez-vous dans une **entreprise de cybersécurité**? Vous voulez voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
@@ -12,18 +12,22 @@
 
 </details>
 
+<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://websec.nl/" %}
+
 ## Introduction
 
-Le problème du "double saut" Kerberos survient lorsqu'un attaquant tente d'utiliser **l'authentification Kerberos à travers deux** **sauts**, par exemple en utilisant **PowerShell**/**WinRM**.
+Le problème du "double saut" Kerberos survient lorsqu'un attaquant tente d'utiliser **l'authentification Kerberos sur deux** **sauts**, par exemple en utilisant **PowerShell**/**WinRM**.
 
 Lorsqu'une **authentification** se produit via **Kerberos**, les **informations d'identification** ne sont pas mises en cache en **mémoire**. Par conséquent, si vous exécutez mimikatz, vous ne trouverez pas les informations d'identification de l'utilisateur sur la machine même s'il exécute des processus.
 
 Cela est dû au fait que lors de la connexion avec Kerberos, les étapes suivantes sont suivies :
 
-1. L'utilisateur fournit des informations d'identification et le **contrôleur de domaine** renvoie un **TGT** Kerberos à l'utilisateur.
-2. L'utilisateur utilise le **TGT** pour demander un **ticket de service** pour se **connecter** au Serveur1.
-3. L'utilisateur se **connecte** au **Serveur1** et fournit le **ticket de service**.
-4. Le **Serveur1** n'a pas les **informations d'identification** de l'utilisateur en cache ni le **TGT** de l'utilisateur. Par conséquent, lorsque l'utilisateur de Serveur1 tente de se connecter à un deuxième serveur, il **ne peut pas s'authentifier**.
+1. L'utilisateur 1 fournit des informations d'identification et le **contrôleur de domaine** renvoie un **TGT** Kerberos à l'utilisateur 1.
+2. L'utilisateur 1 utilise le **TGT** pour demander un **ticket de service** pour se **connecter** au Serveur 1.
+3. L'utilisateur 1 se **connecte** au **Serveur 1** et fournit le **ticket de service**.
+4. Le **Serveur 1** n'a pas les **informations d'identification** de l'utilisateur 1 en cache ni le **TGT** de l'utilisateur 1. Par conséquent, lorsque l'utilisateur 1 du Serveur 1 tente de se connecter à un deuxième serveur, il **ne peut pas s'authentifier**.
 
 ### Délégation non contrainte
 
@@ -53,9 +57,9 @@ Invoke-Command -ComputerName bizintel -Credential $cred -ScriptBlock {
 Invoke-Command -ComputerName secdev -Credential $cred -ScriptBlock {hostname}
 }
 ```
-### Enregistrement de la configuration de la session PSSession
+### Enregistrement de la configuration de la session PS
 
-Une solution pour contourner le problème du double saut implique l'utilisation de `Register-PSSessionConfiguration` avec `Enter-PSSession`. Cette méthode nécessite une approche différente de celle d'`evil-winrm` et permet une session qui ne souffre pas de la limitation du double saut.
+Une solution pour contourner le problème du double saut consiste à utiliser `Register-PSSessionConfiguration` avec `Enter-PSSession`. Cette méthode nécessite une approche différente de celle d'`evil-winrm` et permet une session qui ne souffre pas de la limitation du double saut.
 ```powershell
 Register-PSSessionConfiguration -Name doublehopsess -RunAsCredential domain_name\username
 Restart-Service WinRM
@@ -64,7 +68,7 @@ klist
 ```
 ### PortForwarding
 
-Pour les administrateurs locaux sur une cible intermédiaire, le port forwarding permet d'envoyer des requêtes vers un serveur final. En utilisant `netsh`, une règle peut être ajoutée pour le port forwarding, ainsi qu'une règle de pare-feu Windows pour autoriser le port redirigé.
+Pour les administrateurs locaux sur une cible intermédiaire, le port forwarding permet d'envoyer des requêtes à un serveur final. En utilisant `netsh`, une règle peut être ajoutée pour le port forwarding, ainsi qu'une règle de pare-feu Windows pour autoriser le port redirigé.
 ```bash
 netsh interface portproxy add v4tov4 listenport=5446 listenaddress=10.35.8.17 connectport=5985 connectaddress=10.35.8.23
 netsh advfirewall firewall add rule name=fwd dir=in action=allow protocol=TCP localport=5446
@@ -85,7 +89,7 @@ L'installation d'OpenSSH sur le premier serveur permet de contourner le problèm
 2. Décompressez et exécutez le script `Install-sshd.ps1`.
 3. Ajoutez une règle de pare-feu pour ouvrir le port 22 et vérifiez que les services SSH sont en cours d'exécution.
 
-Pour résoudre les erreurs de `Réinitialisation de la connexion`, les autorisations peuvent nécessiter une mise à jour pour permettre à tout le monde d'avoir un accès en lecture et en exécution sur le répertoire OpenSSH.
+Pour résoudre les erreurs de `réinitialisation de connexion`, les autorisations peuvent nécessiter une mise à jour pour permettre à tout le monde d'avoir un accès en lecture et en exécution sur le répertoire OpenSSH.
 ```bash
 icacls.exe "C:\Users\redsuit\Documents\ssh\OpenSSH-Win64" /grant Everyone:RX /T
 ```
@@ -96,12 +100,16 @@ icacls.exe "C:\Users\redsuit\Documents\ssh\OpenSSH-Win64" /grant Everyone:RX /T
 * [https://learn.microsoft.com/en-gb/archive/blogs/sergey\_babkins\_blog/another-solution-to-multi-hop-powershell-remoting](https://learn.microsoft.com/en-gb/archive/blogs/sergey\_babkins\_blog/another-solution-to-multi-hop-powershell-remoting)
 * [https://4sysops.com/archives/solve-the-powershell-multi-hop-problem-without-using-credssp/](https://4sysops.com/archives/solve-the-powershell-multi-hop-problem-without-using-credssp/)
 
+<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://websec.nl/" %}
+
 <details>
 
 <summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 * Travaillez-vous dans une **entreprise de cybersécurité**? Voulez-vous voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**dépôt hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**dépôt hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
