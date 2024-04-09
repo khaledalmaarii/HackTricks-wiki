@@ -20,7 +20,7 @@ Başlamak için, bir veya daha fazla **makineyi pentest ettiğinizde izlemeniz g
 
 <figure><img src=".gitbook/assets/stm (1).png" alt=""><figcaption></figcaption></figure>
 
-[**STM Cyber**](https://www.stmcyber.com), sloganı **HACK THE UNHACKABLE** olan harika bir siber güvenlik şirketidir. Kendi araştırmalarını yapar ve kendi hackleme araçlarını geliştirirler ve pentesting, Kırmızı Takımlar ve eğitim gibi birçok değerli siber güvenlik hizmeti sunarlar.
+[**STM Cyber**](https://www.stmcyber.com), sloganı **HACK THE UNHACKABLE** olan harika bir siber güvenlik şirketidir. Kendi araştırmalarını yapar ve kendi hacking araçlarını geliştirirler ve pentesting, Kırmızı Takımlar ve eğitim gibi **çeşitli değerli siber güvenlik hizmetleri sunarlar**.
 
 Bloglarını [**https://blog.stmcyber.com**](https://blog.stmcyber.com) adresinden kontrol edebilirsiniz.
 
@@ -32,7 +32,7 @@ Bloglarını [**https://blog.stmcyber.com**](https://blog.stmcyber.com) adresind
 
 <figure><img src=".gitbook/assets/image (42).png" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com), İspanya'daki en ilgili siber güvenlik etkinliği ve Avrupa'daki en önemlilerden biridir. Teknik bilgiyi teşvik etme misyonuyla, bu kongre, teknoloji ve siber güvenlik profesyonelleri için bir buluşma noktasıdır.
+[**RootedCON**](https://www.rootedcon.com), **İspanya**'daki en ilgili siber güvenlik etkinliği ve **Avrupa**'nın en önemlilerinden biridir. **Teknik bilgiyi teşvik etme misyonu** ile bu kongre, teknoloji ve siber güvenlik profesyonelleri için bir buluşma noktasıdır.
 
 {% embed url="https://www.rootedcon.com/" %}
 
@@ -42,9 +42,9 @@ Bloglarını [**https://blog.stmcyber.com**](https://blog.stmcyber.com) adresind
 
 <figure><img src=".gitbook/assets/image (44).png" alt=""><figcaption></figcaption></figure>
 
-**Intigriti**, Avrupa'nın #1 etik hackleme ve **ödül avı platformudur.**
+**Intigriti**, **Avrupa'nın #1** etik hacking ve **ödül avı platformudur**.
 
-**Ödül avı ipucu**: **Intigriti'ye** kaydolun, hackerlar tarafından oluşturulan premium bir **ödül avı platformu**! Bugün [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) adresinde bize katılın ve **100.000 $'a kadar ödüller kazanmaya başlayın!**
+**Ödül avı ipucu**: **Intigriti'ye kaydolun**, hackerlar tarafından oluşturulan bir premium **ödül avı platformuna katılın**! Bugün [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) adresinden bize katılın ve **100.000 $'a kadar ödüller kazanmaya başlayın**!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
@@ -55,7 +55,7 @@ Bloglarını [**https://blog.stmcyber.com**](https://blog.stmcyber.com) adresind
 <figure><img src=".gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
 
 \
-Dünyanın en gelişmiş topluluk araçları tarafından desteklenen **iş akışlarını kolayca oluşturmak ve otomatikleştirmek** için [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kullanın.
+Dünyanın **en gelişmiş** topluluk araçları tarafından desteklenen **iş akışlarını kolayca oluşturmak ve otomatikleştirmek** için [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kullanın.
 
 Bugün Erişim Alın:
 
@@ -69,11 +69,11 @@ Bugün Erişim Alın:
 
 Deneyimli hackerlar ve ödül avcıları ile iletişim kurmak için [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) sunucusuna katılın!
 
-* **Hackleme İpuçları:** Hackleme heyecanını ve zorluklarını inceleyen içeriklerle etkileşime girin
-* **Gerçek Zamanlı Hack Haberleri:** Hızlı tempolu hackleme dünyasını gerçek zamanlı haberler ve içgörülerle takip edin
-* **En Son Duyurular:** Yeni ödül avlarının başlatılması ve önemli platform güncellemeleri hakkında bilgi sahibi olun
+* **Hacking Insights:** Hacklemenin heyecanını ve zorluklarını inceleyen içeriklerle etkileşime girin
+* **Gerçek Zamanlı Hack Haberleri:** Hızlı tempolu hackleme dünyasında gerçek zamanlı haberler ve içgörülerle güncel kalın
+* **En Son Duyurular:** Yeni ödül avlarının başlatılması ve önemli platform güncellemeleri hakkında bilgili olun
 
-Bugün [**Discord**](https://discord.com/invite/N3FrSbmwdy) adresinde bize katılın ve en iyi hackerlarla işbirliği yapmaya başlayın!
+Bugün [**Discord**](https://discord.com/invite/N3FrSbmwdy) adresinde bize katılın ve bugün en iyi hackerlarla işbirliği yapmaya başlayın!
 
 ***
 
@@ -81,7 +81,7 @@ Bugün [**Discord**](https://discord.com/invite/N3FrSbmwdy) adresinde bize katı
 
 <figure><img src=".gitbook/assets/image (12).png" alt=""><figcaption></figcaption></figure>
 
-**Anında kullanılabilir zafiyet değerlendirme ve penetrasyon testi** kurulumu. 20'den fazla araç ve özellikle tam bir pentest çalıştırın, keşiften raporlamaya kadar uzanan özellikler. Pentester'ları değiştirmiyoruz - onlara daha derinlemesine kazma, kabuklar açma ve eğlenme zamanı kazandırmak için özel araçlar, tespit ve istismar modülleri geliştiriyoruz.
+**Vulnerability assessment & penetration testing için anında kullanılabilir kurulum**. 20'den fazla araç ve özellikle tam bir pentest çalıştırın. Pentester'ları değiştirmiyoruz - onlara daha derinlemesine kazma, kabuklar açma ve eğlenme zamanı kazandırmak için özel araçlar, tespit ve istismar modülleri geliştiriyoruz.
 
 {% embed url="https://pentest-tools.com/" %}
 
@@ -93,7 +93,7 @@ Bugün [**Discord**](https://discord.com/invite/N3FrSbmwdy) adresinde bize katı
 
 SerpApi, **arama motoru sonuçlarına erişmek** için hızlı ve kolay gerçek zamanlı API'lar sunar. Arama motorlarını kazır, proxy'leri yönetir, captcha'ları çözer ve sizin için tüm zengin yapılandırılmış verileri ayrıştırır.
 
-SerpApi'nin planlarından birine abone olmak, Google, Bing, Baidu, Yahoo, Yandex ve daha fazlasını içeren farklı arama motorlarını kazımak için 50'den fazla farklı API'ye erişim sağlar.\
+SerpApi'nin planlarından birine abone olmak, Google, Bing, Baidu, Yahoo, Yandex ve daha fazlası dahil olmak üzere farklı arama motorlarını kazımak için 50'den fazla farklı API'ye erişim sağlar.\
 Diğer sağlayıcılardan farklı olarak, **SerpApi sadece organik sonuçları kazımaz**. SerpApi yanıtları tutarlı bir şekilde tüm reklamları, iç içe resimleri ve videoları, bilgi grafiklerini ve arama sonuçlarında bulunan diğer unsurları ve özellikleri içerir.
 
 Mevcut SerpApi müşterileri arasında **Apple, Shopify ve GrubHub** bulunmaktadır.\
@@ -112,17 +112,17 @@ Daha fazla bilgi için [**bloglarını**](https://serpapi.com/blog/) kontrol edi
 
 ### [WebSec](https://websec.nl/)
 
-<figure><img src=".gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
-
-[**WebSec**](https://websec.nl), **modern** bir yaklaşımla işletmeleri **dünya çapında** en son siber güvenlik tehditlerine karşı koruyan Amsterdam merkezli profesyonel bir siber güvenlik şirketidir.
-
-WebSec, Pentesting, **Güvenlik** Denetimleri, Farkındalık Eğitimleri, Phishing Kampanyaları, Kod İncelemesi, Sızma Geliştirme, Güvenlik Uzmanları Dış Kaynak Kullanımı ve çok daha fazlasını sağlayarak **her şeyi yapan bir güvenlik şirketidir.**
-
-WebSec hakkında başka harika bir şey de, endüstri ortalamasının aksine WebSec'in **becerilerine çok güvendiği**, web sitelerinde "**Eğer hackleyemezsek, ödeme yapmazsınız!**" şeklinde belirtildiği kadarıyla en iyi kalite sonuçlarını garanti etmesidir. Daha fazla bilgi için [**web sitelerine**](https://websec.nl/en/) ve [**bloglarına**](https://websec.nl/blog/) göz atın!
-
-Yukarıdakilere ek olarak, WebSec aynı zamanda HackTricks'in **kararlı destekçisidir.**
-
 <figure><img src=".gitbook/assets/websec (1).svg" alt=""><figcaption></figcaption></figure>
+
+**Amsterdam** merkezli profesyonel bir siber güvenlik şirketi olan [**WebSec**](https://websec.nl), **modern** bir yaklaşımla işletmeleri **dünya çapında** en son siber güvenlik tehditlerine karşı korumaya yardımcı olur.
+
+WebSec, Pentesting, **Güvenlik** Denetimleri, Farkındalık Eğitimleri, Phishing Kampanyaları, Kod İncelemesi, Sızma Geliştirme, Güvenlik Uzmanları Dış Kaynak Kullanımı ve çok daha fazlasını sağlayarak **her şeyi yapan bir güvenlik şirketidir**.
+
+WebSec hakkında başka harika bir şey de, endüstri ortalamasının aksine WebSec'in becerilerine **çok güvendiği**, web sitelerinde "**Eğer hackleyemezsek, ödeme yapmazsınız!**" şeklinde belirtildiği kadarıyla en iyi kalite sonuçları garanti etmesidir. Daha fazla bilgi için [**web sitelerine**](https://websec.nl/en/) ve [**bloglarına**](https://websec.nl/blog/) göz atın!
+
+Yukarıdakilere ek olarak, WebSec aynı zamanda HackTricks'in **kararlı destekçisidir**.
+
+{% embed url="https://www.youtube.com/watch?v=Zq2JycGDCPM" %}
 ## Lisans ve Feragatname
 
 Onları kontrol et:
@@ -135,12 +135,12 @@ Onları kontrol et:
 
 <summary><strong>Sıfırdan kahraman olmaya kadar AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-HackTricks'i desteklemenin diğer yolları:
+HackTricks'ı desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na bakın(https://github.com/sponsors/carlospolop)!
-* [**Resmi PEASS & HackTricks ürünlerini alın**](https://peass.creator-spring.com)
-* [**The PEASS Family**]'yi keşfedin(https://opensea.io/collection/the-peass-family), özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.** takip edin
-* **Hacking püf noktalarınızı göndererek HackTricks ve HackTricks Cloud github depolarına PR göndererek paylaşın.**
+* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'da takip edin.**
+* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
