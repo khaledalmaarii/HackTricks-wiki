@@ -44,7 +44,7 @@ Du kannst ihren **Blog** unter [**https://blog.stmcyber.com**](https://blog.stmc
 
 **Intigriti** ist die **Nummer 1 in Europa** für ethisches Hacken und **Bug-Bounty-Plattform**.
 
-**Bug-Bounty-Tipp**: **Melde dich an** bei **Intigriti**, einer Premium-**Bug-Bounty-Plattform, die von Hackern für Hacker** erstellt wurde! Schließe dich uns noch heute unter [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) an und verdiene Prämien von bis zu **100.000 $**!
+**Bug-Bounty-Tipp**: **Melde dich an** bei **Intigriti**, einer Premium-**Bug-Bounty-Plattform, die von Hackern für Hacker erstellt wurde**! Trete uns noch heute unter [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) bei und verdiene Prämien von bis zu **100.000 $**!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
@@ -55,7 +55,7 @@ Du kannst ihren **Blog** unter [**https://blog.stmcyber.com**](https://blog.stmc
 <figure><img src=".gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
 
 \
-Verwende [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um mühelos Workflows zu erstellen und zu **automatisieren**, die von den weltweit **fortschrittlichsten** Community-Tools unterstützt werden.
+Verwende [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um einfach Workflows zu erstellen und zu **automatisieren**, die von den weltweit **fortschrittlichsten** Community-Tools unterstützt werden.
 
 Erhalte noch heute Zugriff:
 
@@ -81,7 +81,7 @@ Trete dem [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) Serve
 
 <figure><img src=".gitbook/assets/image (12).png" alt=""><figcaption></figcaption></figure>
 
-**Sofort einsatzbereite Einrichtung für Schwachstellenbewertung & Penetrationstests**. Führe einen vollständigen Pentest von überall aus mit 20+ Tools & Funktionen durch, die von der Aufklärung bis zum Bericht reichen. Wir ersetzen keine Pentester - wir entwickeln benutzerdefinierte Tools, Erkennungs- & Exploit-Module, um ihnen etwas Zeit zu geben, tiefer zu graben, Shells zu öffnen und Spaß zu haben.
+**Sofortige Einrichtung für Schwachstellenbewertung & Penetrationstests**. Führe einen vollständigen Penetrationstest von überall aus mit 20+ Tools & Funktionen durch, die von der Aufklärung bis zum Bericht reichen. Wir ersetzen keine Pentester - wir entwickeln benutzerdefinierte Tools, Erkennungs- & Exploit-Module, um ihnen etwas Zeit zu geben, tiefer zu graben, Shells zu öffnen und Spaß zu haben.
 
 {% embed url="https://pentest-tools.com/" %}
 
@@ -93,12 +93,12 @@ Trete dem [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) Serve
 
 SerpApi bietet schnelle und einfache Echtzeit-APIs zum **Zugriff auf Suchmaschinenergebnisse**. Sie durchsuchen Suchmaschinen, handhaben Proxies, lösen Captchas und analysieren alle strukturierten Daten für dich.
 
-Ein Abonnement für einen der SerpApi-Pläne umfasst den Zugriff auf über 50 verschiedene APIs zum Scraping verschiedener Suchmaschinen, einschließlich Google, Bing, Baidu, Yahoo, Yandex und mehr.\
+Ein Abonnement für einen der SerpApi-Pläne beinhaltet den Zugriff auf über 50 verschiedene APIs zum Scraping verschiedener Suchmaschinen, einschließlich Google, Bing, Baidu, Yahoo, Yandex und mehr.\
 Im Gegensatz zu anderen Anbietern **scraped SerpApi nicht nur organische Ergebnisse**. SerpApi-Antworten enthalten konsistent alle Anzeigen, Inline-Bilder und -Videos, Wissensgraphen und andere Elemente und Funktionen, die in den Suchergebnissen vorhanden sind.
 
 Aktuelle SerpApi-Kunden sind **Apple, Shopify und GrubHub**.\
 Für weitere Informationen besuche ihren [**Blog**](https://serpapi.com/blog/)**,** oder probiere ein Beispiel in ihrem [**Spielplatz**](https://serpapi.com/playground)**.**\
-Du kannst **hier ein kostenloses Konto erstellen** [**hier**](https://serpapi.com/users/sign\_up)**.**
+Du kannst **hier ein kostenloses Konto** [**erstellen**](https://serpapi.com/users/sign\_up)**.**
 
 ***
 
@@ -112,17 +112,17 @@ Du kannst **hier ein kostenloses Konto erstellen** [**hier**](https://serpapi.co
 
 ### [WebSec](https://websec.nl/)
 
-<figure><img src=".gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/websec (1).svg" alt=""><figcaption></figcaption></figure>
 
 [**WebSec**](https://websec.nl) ist ein professionelles Cybersicherheitsunternehmen mit Sitz in **Amsterdam**, das Unternehmen auf der ganzen Welt vor den neuesten Cybersicherheitsbedrohungen schützt, indem es **offensive Sicherheitsdienste** mit einem **modernen** Ansatz bietet.
 
 WebSec ist ein **All-in-One-Sicherheitsunternehmen**, das bedeutet, dass sie alles machen; Pentesting, **Sicherheits**-Audits, Awareness-Schulungen, Phishing-Kampagnen, Code-Reviews, Exploit-Entwicklung, Sicherheitsexperten-Outsourcing und vieles mehr.
 
-Eine weitere coole Sache an WebSec ist, dass sie im Gegensatz zum Branchendurchschnitt sehr zuversichtlich in ihren Fähigkeiten sind, so sehr, dass sie die besten Qualitätsresultate garantieren, wie es auf ihrer Website heißt "**Wenn wir es nicht hacken können, zahlst du nicht!**". Für weitere Informationen schau dir ihre [**Website**](https://websec.nl/en/) und ihren [**Blog**](https://websec.nl/blog/) an!
+Eine weitere coole Sache an WebSec ist, dass sie im Gegensatz zum Branchendurchschnitt sehr zuversichtlich in ihren Fähigkeiten sind, so sehr, dass sie die besten Qualitätsresultate garantieren, es steht auf ihrer Website "**Wenn wir es nicht hacken können, zahlst du nicht!**". Für weitere Informationen schau dir ihre [**Website**](https://websec.nl/en/) und ihren [**Blog**](https://websec.nl/blog/) an!
 
 Zusätzlich zu dem oben Genannten ist WebSec auch ein **engagierter Unterstützer von HackTricks.**
 
-<figure><img src=".gitbook/assets/websec (1).svg" alt=""><figcaption></figcaption></figure>
+{% embed url="https://www.youtube.com/watch?v=Zq2JycGDCPM" %}
 ## Lizenz & Haftungsausschluss
 
 Überprüfen Sie diese in:
