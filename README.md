@@ -42,7 +42,7 @@ Você pode conferir o **blog** deles em [**https://blog.stmcyber.com**](https://
 
 <figure><img src=".gitbook/assets/image (44).png" alt=""><figcaption></figcaption></figure>
 
-**Intigriti** é a plataforma de ethical hacking e **bug bounty número 1 da Europa.**
+**Intigriti** é a plataforma de **bug bounty** e **ethical hacking número 1 da Europa.**
 
 Dica de bug bounty: **cadastre-se** no **Intigriti**, uma plataforma premium de **bug bounty criada por hackers, para hackers**! Junte-se a nós em [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) hoje e comece a ganhar recompensas de até **$100.000**!
 
@@ -112,17 +112,17 @@ Você pode **criar uma conta gratuita** [**aqui**](https://serpapi.com/users/sig
 
 ### [WebSec](https://websec.nl/)
 
-<figure><img src=".gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/websec (1).svg" alt=""><figcaption></figcaption></figure>
 
-[**WebSec**](https://websec.nl) é uma empresa de cibersegurança profissional sediada em **Amsterdã** que ajuda a **proteger** empresas **em todo o mundo** contra as últimas ameaças de cibersegurança, fornecendo serviços de **segurança ofensiva** com uma abordagem **moderna**.
+[**WebSec**](https://websec.nl) é uma empresa de cibersegurança profissional sediada em **Amsterdã** que ajuda a **proteger** empresas **em todo o mundo** contra as últimas ameaças de cibersegurança, fornecendo serviços de **segurança ofensiva** com uma **abordagem moderna**.
 
-A WebSec é uma **empresa de segurança completa**, o que significa que eles fazem de tudo; Pentesting, Auditorias de Segurança, Treinamentos de Conscientização, Campanhas de Phishing, Revisão de Código, Desenvolvimento de Exploits, Terceirização de Especialistas em Segurança e muito mais.
+A WebSec é uma empresa de segurança **tudo-em-um**, o que significa que eles fazem de tudo; Pentesting, Auditorias de Segurança, Treinamentos de Conscientização, Campanhas de Phishing, Revisão de Código, Desenvolvimento de Exploits, Terceirização de Especialistas em Segurança e muito mais.
 
-Outra coisa legal sobre a WebSec é que, ao contrário da média da indústria, a WebSec é **muito confiante em suas habilidades**, a ponto de **garantir os melhores resultados de qualidade**, como declarado em seu site "**Se não conseguirmos hackear, você não paga!**". Para mais informações, dê uma olhada em seu [**site**](https://websec.nl/en/) e [**blog**](https://websec.nl/blog/)!
+Outra coisa legal sobre a WebSec é que, ao contrário da média da indústria, a WebSec tem **muita confiança em suas habilidades**, a ponto de **garantir os melhores resultados de qualidade**, como declarado em seu site "**Se não conseguirmos hackear, você não paga!**". Para mais informações, dê uma olhada em seu [**site**](https://websec.nl/en/) e [**blog**](https://websec.nl/blog/)!
 
 Além do acima, a WebSec também é um **apoiador comprometido do HackTricks.**
 
-<figure><img src=".gitbook/assets/websec (1).svg" alt=""><figcaption></figcaption></figure>
+{% embed url="https://www.youtube.com/watch?v=Zq2JycGDCPM" %}
 ## Licença e Aviso Legal
 
 Verifique em:
