@@ -2,19 +2,19 @@
 
 <details>
 
-<summary><strong>Jifunze kuhusu kuvamia AWS kutoka mwanzo hadi mtaalamu na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalamu wa Timu Nyekundu ya HackTricks AWS)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kuvamia AWS kutoka mwanzo hadi mtaalamu na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kuvamia kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za kuvamia kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
@@ -37,8 +37,8 @@ Direktori hii inaruhusu upatikanaji wa kubadilisha vipimo vya kernel, kawaida ku
 ```bash
 [ -w /proc/sys/kernel/core_pattern ] && echo Yes # Jaribu upatikanaji wa kuandika
 cd /proc/sys/kernel
-echo "|$overlay/shell.sh" > core_pattern # Weka kichujio cha desturi
-sleep 5 && ./crash & # Kuzindua kichujio
+echo "|$overlay/shell.sh" > core_pattern # Weka kikandamizi cha desturi
+sleep 5 && ./crash & # Kuzindua kikandamizi
 ```
 
 #### **`/proc/sys/kernel/modprobe`**
@@ -54,7 +54,7 @@ ls -l $(cat /proc/sys/kernel/modprobe) # Angalia upatikanaji wa modprobe
 #### **`/proc/sys/vm/panic_on_oom`**
 
 * Inatajwa katika [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
-* Bendera ya ulimwengu inayodhibiti ikiwa kernel inapata kosa la kumbukumbu au inaita OOM killer wakati hali ya OOM inatokea.
+* Bendera ya ulimwengu inayodhibiti ikiwa kernel inapaniki au inaita OOM killer wakati hali ya OOM inatokea.
 
 #### **`/proc/sys/fs`**
 
@@ -65,7 +65,7 @@ ls -l $(cat /proc/sys/kernel/modprobe) # Angalia upatikanaji wa modprobe
 
 * Inaruhusu kusajili wachambuzi kwa muundo wa binary usio wa asili kulingana na nambari zao za uchawi.
 * Inaweza kusababisha upandishaji wa kiwango cha ruhusa au ufikiaji wa kabati ya mizizi ikiwa `/proc/sys/fs/binfmt_misc/register` inaweza kuandikwa.
-* Uvamizi na maelezo yanayofaa:
+* Uvamizi na maelezo yanapatikana:
 * [Rootkit ya maskini kupitia binfmt\_misc](https://github.com/toffan/binfmt\_misc)
 * Mafunzo ya kina: [Kiungo cha Video](https://www.youtube.com/watch?v=WBC7hhgMvQQ)
 
@@ -78,16 +78,16 @@ ls -l $(cat /proc/sys/kernel/modprobe) # Angalia upatikanaji wa modprobe
 
 #### **`/proc/sysrq-trigger`**
 
-* Inaruhusu kuita amri za Sysrq, ikisababisha upya wa haraka wa mfumo au hatua nyingine muhimu.
+* Inaruhusu kuita amri za Sysrq, ikisababisha kuzimwa mara moja kwa mfumo au hatua nyingine muhimu.
 *   **Mfano wa Kuzima Mwenyeji**:
 
 ```bash
-echo b > /proc/sysrq-trigger # Inazima mwenyeji
+echo b > /proc/sysrq-trigger # Kuzima mwenyeji
 ```
 
 #### **`/proc/kmsg`**
 
-* Inafichua ujumbe wa mzunguko wa kernel.
+* Inafichua ujumbe wa pete ya kernel.
 * Inaweza kusaidia katika uvamizi wa kernel, kuvuja kwa anwani, na kutoa habari nyeti ya mfumo.
 
 #### **`/proc/kallsyms`**
@@ -100,30 +100,30 @@ echo b > /proc/sysrq-trigger # Inazima mwenyeji
 #### **`/proc/[pid]/mem`**
 
 * Inashirikiana na kifaa cha kumbukumbu ya kernel `/dev/mem`.
-* Kihistoria imekuwa hatarini kwa mashambulizi ya upandishaji wa kiwango cha ruhusa.
+* Zamani ilikuwa dhaifu kwa mashambulizi ya upandishaji wa kiwango cha ruhusa.
 * Zaidi katika [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
 
 #### **`/proc/kcore`**
 
 * Inawakilisha kumbukumbu halisi ya mfumo katika muundo wa msingi wa ELF.
-* Kusoma kunaweza kufichua kumbukumbu ya mwenyeji na yaliyomo kwenye kumbukumbu za kontena zingine.
-* Ukubwa mkubwa wa faili unaweza kusababisha matatizo ya kusoma au kuharibika kwa programu.
+* Kusoma inaweza kufichua kumbukumbu ya mwenyeji na maudhui ya kumbukumbu ya kontena zingine.
+* Ukubwa mkubwa wa faili unaweza kusababisha matatizo ya kusoma au kuzimia kwa programu.
 * Matumizi ya kina katika [Kudondosha /proc/kcore mnamo 2019](https://schlafwandler.github.io/posts/dumping-/proc/kcore/).
 
 #### **`/proc/kmem`**
 
-* Kiolesura mbadala kwa `/dev/kmem`, ikionyesha kumbukumbu ya kernel ya kivirtuali.
-* Inaruhusu kusoma na kuandika, hivyo kuhariri moja kwa moja kumbukumbu ya kernel.
+* Kiolesura mbadala kwa `/dev/kmem`, ikionyesha kumbukumbu ya virtual ya kernel.
+* Inaruhusu kusoma na kuandika, hivyo kubadilisha moja kwa moja kumbukumbu ya kernel.
 
 #### **`/proc/mem`**
 
 * Kiolesura mbadala kwa `/dev/mem`, ikionyesha kumbukumbu halisi.
-* Inaruhusu kusoma na kuandika, mabadiliko ya kumbukumbu yote yanahitaji kutatua anwani za kivirutuali hadi halisi.
+* Inaruhusu kusoma na kuandika, mabadiliko ya kumbukumbu yote yanahitaji kutatua anwani za virtual hadi halisi.
 
 #### **`/proc/sched_debug`**
 
 * Inarudi taarifa za ratiba ya mchakato, ikipuuza ulinzi wa nafasi ya PID.
-* Inafichua majina ya mchakato, vitambulisho vya ID, na kitambulisho cha cgroup.
+* Inafichua majina ya mchakato, vitambulisho vya ID, na vitambulisho vya cgroup.
 
 #### **`/proc/[pid]/mountinfo`**
 
@@ -138,23 +138,23 @@ echo b > /proc/sysrq-trigger # Inazima mwenyeji
 * Kuandika kwa `/sys/kernel/uevent_helper` kunaweza kutekeleza hati za kubahatisha wakati wa kichocheo cha `uevent`.
 *   **Mfano wa Uvamizi**: %%%bash
 
-## Unda mzigo
+### Inajenga mzigo
 
 echo "#!/bin/sh" > /evil-helper echo "ps > /output" >> /evil-helper chmod +x /evil-helper
 
-## Pata njia ya mwenyeji kutoka kwa mlima wa OverlayFS kwa kontena
+### Inapata njia ya mwenyeji kutoka kwa kufunga OverlayFS kwa kontena
 
-njia\_ya\_mwenyeji=$(sed -n 's/._\perdir=(\[^,]_).\*/\1/p' /etc/mtab)
+njia_ya_mwenyeji=$(sed -n 's/._\perdir=(\[^,]_).\*/\1/p' /etc/mtab)
 
-## Weka uevent\_helper kwa msaidizi wa kudanganya
+### Inaweka uevent\_helper kwa msaidizi wa hatari
 
-echo "$njia\_ya\_mwenyeji/evil-helper" > /sys/kernel/uevent\_helper
+echo "$njia_ya_mwenyeji/evil-helper" > /sys/kernel/uevent_helper
 
-## Kichocheo cha uevent
+### Inachochea uevent
 
 echo change > /sys/class/mem/null/uevent
 
-## Soma matokeo
+### Inasoma matokeo
 
 cat /output %%%
 #### **`/sys/class/thermal`**
@@ -184,15 +184,15 @@ cat /output %%%
 
 * [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts)
 * [Kuelewa na Kufanya Linux Containers Kuwa Imara](https://research.nccgroup.com/wp-content/uploads/2020/07/ncc\_group\_understanding\_hardening\_linux\_containers-1-1.pdf)
-* [Kutumia Vibaya Linux Containers Zenye Mamlaka na Zisizo na Mamlaka](https://www.nccgroup.com/globalassets/our-research/us/whitepapers/2016/june/container\_whitepaper.pdf)
+* [Kutumia Vibaya Kontena za Linux zenye Mamlaka na Zisizo na Mamlaka](https://www.nccgroup.com/globalassets/our-research/us/whitepapers/2016/june/container\_whitepaper.pdf)
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
 <details>
 
-<summary><strong>Jifunze kuhusu kuvunja AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
@@ -200,6 +200,6 @@ Njia nyingine za kusaidia HackTricks:
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kuvamia kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

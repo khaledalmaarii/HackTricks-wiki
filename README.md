@@ -20,11 +20,11 @@ Ili kuanza, fuata ukurasa huu ambapo utapata **mtiririko wa kawaida** ambao **un
 
 <figure><img src=".gitbook/assets/stm (1).png" alt=""><figcaption></figcaption></figure>
 
-[**STM Cyber**](https://www.stmcyber.com) ni kampuni kubwa ya usalama wa mtandao ambayo kauli mbiu yao ni **KUDUKUA LISILOWEZEKANA**. Wao hufanya utafiti wao wenyewe na kutengeneza zana zao za kudukua ili **kutoa huduma muhimu za usalama wa mtandao** kama upimaji wa kuingilia, Timu Nyekundu na mafunzo.
+[**STM Cyber**](https://www.stmcyber.com) ni kampuni kubwa ya usalama wa mtandao ambayo kauli yao mbiu ni **KUDUKUA LISILOWEZEKANA**. Wao hufanya utafiti wao wenyewe na kutengeneza zana zao za kudukua ili **kutoa huduma muhimu za usalama wa mtandao** kama upimaji wa kuingilia, Timu Nyekundu na mafunzo.
 
-Unaweza kuangalia **blogi yao** kwenye [**https://blog.stmcyber.com**](https://blog.stmcyber.com)
+Unaweza kuangalia **blogi** yao kwenye [**https://blog.stmcyber.com**](https://blog.stmcyber.com)
 
-**STM Cyber** pia inasaidia miradi ya chanzo wazi ya usalama wa mtandao kama HackTricks :)
+**STM Cyber** pia hutoa msaada kwa miradi ya chanzo wazi ya usalama wa mtandao kama HackTricks :)
 
 ***
 
@@ -32,7 +32,7 @@ Unaweza kuangalia **blogi yao** kwenye [**https://blog.stmcyber.com**](https://b
 
 <figure><img src=".gitbook/assets/image (42).png" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com) ni tukio muhimu zaidi la usalama wa mtandao nchini **Hispania** na moja ya muhimu zaidi barani **Ulaya**. Kwa ** lengo la kukuza maarifa ya kiufundi**, kongamano hili ni mahali pa kukutana kwa wataalamu wa teknolojia na usalama wa mtandao katika kila nidhamu.
+[**RootedCON**](https://www.rootedcon.com) ni tukio muhimu zaidi la usalama wa mtandao nchini **Hispania** na moja ya muhimu zaidi barani **Ulaya**. Kwa lengo la kukuza maarifa ya kiufundi, kongamano hili ni mahali pa kukutana kwa wataalamu wa teknolojia na usalama wa mtandao katika kila nidhamu.
 
 {% embed url="https://www.rootedcon.com/" %}
 
@@ -44,7 +44,7 @@ Unaweza kuangalia **blogi yao** kwenye [**https://blog.stmcyber.com**](https://b
 
 **Intigriti** ni jukwaa la kwanza la kudukua kwa maadili barani Ulaya na **bug bounty**.
 
-**Mbinu ya bug bounty**: **jiandikishe** kwa **Intigriti**, jukwaa la **bug bounty** la hali ya juu lililoanzishwa na wadukuzi, kwa wadukuzi! Jiunge nasi kwenye [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) leo, na anza kupata zawadi hadi **$100,000**!
+**Mbinu ya Bug bounty**: **jiandikishe** kwa **Intigriti**, jukwaa la **bug bounty** la malipo ya juu lililoanzishwa na wadukuzi, kwa wadukuzi! Jiunge nasi kwenye [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) leo, na anza kupata zawadi hadi **$100,000**!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
@@ -55,7 +55,7 @@ Unaweza kuangalia **blogi yao** kwenye [**https://blog.stmcyber.com**](https://b
 <figure><img src=".gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
 
 \
-Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kutumia mifumo ya kazi** kwa kutumia zana za jamii za **juu zaidi** duniani.
+Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kutumia kiotomatiki mchakato** zinazotumia zana za jamii za **juu zaidi** duniani.
 
 Pata Ufikiaji Leo:
 
@@ -81,7 +81,7 @@ Jiunge na seva ya [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwd
 
 <figure><img src=".gitbook/assets/image (12).png" alt=""><figcaption></figcaption></figure>
 
-**Usanidi wa papo hapo kwa tathmini ya udhaifu & upimaji wa kuingilia**. Tekeleza upimaji kamili kutoka mahali popote na zana na vipengele zaidi ya 20 vinavyoanzia uchunguzi hadi ripoti. Hatuchukui nafasi ya wapimaji wa kuingilia - tunatengeneza zana za desturi, ugunduzi & moduli za kutumia ili kuwarudishia muda wa kuchimba kina, kuvunja makompyuta, na kufurahi.
+**Usanidi wa papo hapo wa upimaji wa mapungufu ya usalama & upimaji wa kuingilia**. Tekeleza upimaji kamili kutoka mahali popote na zana na vipengele zaidi ya 20 vinavyoanzia uchunguzi hadi ripoti. Hatuchukui nafasi ya wapimaji wa kuingilia - tunatengeneza zana za desturi, ugunduzi & moduli za kutumia kutoa muda zaidi wa kuchimba kina, kuvunja makompyuta, na kufurahi.
 
 {% embed url="https://pentest-tools.com/" %}
 
@@ -91,13 +91,13 @@ Jiunge na seva ya [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwd
 
 <figure><img src=".gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
-SerpApi inatoa APIs za haraka na rahisi za wakati halisi za **kufikia matokeo ya injini za utaftaji**. Wao huchimba injini za utaftaji, kushughulikia proksi, kutatua captchas, na kuchambua data iliyopangwa kwa utajiri kwako.
+SerpApi inatoa APIs za haraka na rahisi za wakati halisi za **kufikia matokeo ya injini za utaftaji**. Wao huchimba injini za utaftaji, kushughulikia proksi, kutatua captchas, na kuchambua data iliyopangwa kwa utajiri kwa niaba yako.
 
-Usajili kwa moja ya mipango ya SerpApi ni pamoja na ufikiaji wa zaidi ya APIs 50 tofauti za kuchimba injini za utaftaji tofauti, ikiwa ni pamoja na Google, Bing, Baidu, Yahoo, Yandex, na zingine.\
-Tofauti na watoa huduma wengine, **SerpApi huchimba matokeo ya asili tu**. Majibu ya SerpApi mara kwa mara yanajumuisha matangazo yote, picha na video za ndani, grafu za maarifa, na vipengele vingine vilivyopo katika matokeo ya utaftaji.
+Usajili kwa moja ya mipango ya SerpApi ni pamoja na ufikiaji wa zaidi ya APIs 50 tofauti za kuchimba injini za utaftaji, ikiwa ni pamoja na Google, Bing, Baidu, Yahoo, Yandex, na zingine.\
+Tofauti na watoa huduma wengine, **SerpApi huchimba matokeo ya asili tu**. Majibu ya SerpApi mara kwa mara hujumuisha matangazo yote, picha na video za ndani, grafu za maarifa, na vipengele vingine vilivyopo katika matokeo ya utaftaji.
 
 Wateja wa sasa wa SerpApi ni pamoja na **Apple, Shopify, na GrubHub**.\
-Kwa habari zaidi tembelea [**blogi yao**](https://serpapi.com/blog/)**,** au jaribu mfano kwenye [**uwanja wao wa michezo**](https://serpapi.com/playground)**.**\
+Kwa habari zaidi tembelea [**blogi**](https://serpapi.com/blog/)**,** au jaribu mfano kwenye [**uwanja wa michezo**](https://serpapi.com/playground)**.**\
 Unaweza **kuunda akaunti ya bure** [**hapa**](https://serpapi.com/users/sign\_up)**.**
 
 ***
@@ -112,20 +112,20 @@ Unaweza **kuunda akaunti ya bure** [**hapa**](https://serpapi.com/users/sign\_up
 
 ### [WebSec](https://websec.nl/)
 
-<figure><img src=".gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
-
-[**WebSec**](https://websec.nl) ni kampuni ya usalama wa mtandao ya kitaalamu iliyoanzishwa huko **Amsterdam** ambayo husaidia **kulinda** biashara **ulimwenguni kote** dhidi ya vitisho vya usalama wa mtandao vya hivi karibuni kwa kutoa huduma za **usalama wa kuingilia** kwa njia **ya kisasa**.
-
-WebSec ni **kampuni ya usalama ya kila kitu mmoja** ambayo inamaanisha wanafanya yote; Upimaji wa Kuingilia, Ukaguzi wa Usalama, Mafunzo ya Uelewa, Kampeni za Udukuzi, Ukaguzi wa Kanuni, Maendeleo ya Udukuzi, Kutuma Wataalamu wa Usalama na mengi zaidi.
-
-Jambo lingine zuri kuhusu WebSec ni kwamba tofauti na wastani wa tasnia WebSec ni **imara sana katika ujuzi wao**, kwa kiwango ambacho wanahakikisha matokeo bora zaidi ya ubora, inasemwa kwenye tovuti yao "**Ikiwa hatuwezi kudukua, Hulipi!**". Kwa habari zaidi tazama [**tovuti yao**](https://websec.nl/en/) na [**blogi**](https://websec.nl/blog/)!
-
-Mbali na WebSec hapo juu pia ni **mchangiaji aliyejitolea wa HackTricks.**
-
 <figure><img src=".gitbook/assets/websec (1).svg" alt=""><figcaption></figcaption></figure>
+
+[**WebSec**](https://websec.nl) ni kampuni ya usalama wa mtandao ya kitaalamu iliyoanzishwa huko **Amsterdam** ambayo husaidia kulinda biashara **ulimwenguni kote** dhidi ya vitisho vya usalama wa mtandao vya hivi karibuni kwa kutoa huduma za **usalama wa kuingilia** kwa njia **ya kisasa**.
+
+WebSec ni kampuni ya usalama ya kila kitu; Wanafanya yote; Upimaji wa Kuingilia, Ukaguzi wa Usalama, Mafunzo ya Uelewa, Kampeni za Udukuzi, Ukaguzi wa Kanuni, Maendeleo ya Udukuzi, Kutuma Wataalamu wa Usalama na mengi zaidi.
+
+Jambo lingine zuri kuhusu WebSec ni kwamba tofauti na wastani wa tasnia, WebSec ni **imara sana katika ujuzi wao**, kwa kiwango ambacho wanahakikisha matokeo bora zaidi, inasemwa kwenye tovuti yao "**Ikiwa hatuwezi kudukua, Hulipi!**". Kwa habari zaidi tazama [**tovuti**](https://websec.nl/en/) na [**blogi**](https://websec.nl/blog/) yao!
+
+Mbali na hayo, WebSec pia ni **mchangiaji aliyejitolea wa HackTricks.**
+
+{% embed url="https://www.youtube.com/watch?v=Zq2JycGDCPM" %}
 ## Leseni & Disclaimer
 
-Angalia hapa:
+Angalia hizi:
 
 {% content-ref url="welcome/hacktricks-values-and-faq.md" %}
 [hacktricks-values-and-faq.md](welcome/hacktricks-values-and-faq.md)
