@@ -37,13 +37,13 @@ UART a 4 ports : **TX** (Transmettre), **RX** (Recevoir), **Vcc** (Tension) et *
 Avec un **multimètre** et l'appareil éteint :
 
 * Pour identifier la broche **GND**, utilisez le mode **Test de continuité**, placez la sonde noire dans la masse et testez avec la sonde rouge jusqu'à ce que vous entendiez un son du multimètre. Plusieurs broches GND peuvent être trouvées sur le PCB, donc vous pourriez avoir trouvé ou non celle appartenant à UART.
-* Pour identifier le port **VCC**, réglez le mode **tension continue** et réglez-le sur 20 V de tension. Sondez la masse avec la sonde noire et la broche avec la sonde rouge, puis allumez l'appareil. Si le multimètre mesure une tension constante de 3,3 V ou 5 V, vous avez trouvé la broche Vcc. Si vous obtenez d'autres tensions, réessayez avec d'autres ports.
-* Pour identifier le port **TX**, mode **tension continue** jusqu'à 20 V de tension, sonde noire sur la masse et sonde rouge sur la broche, puis allumez l'appareil. Si vous constatez que la tension fluctue pendant quelques secondes puis se stabilise à la valeur Vcc, vous avez probablement trouvé le port TX. C'est parce qu'en s'allumant, il envoie quelques données de débogage.
+* Pour identifier le port **VCC**, réglez le mode **tension continue** et réglez-le sur 20 V de tension. Sondez la masse avec la sonde noire et la broche avec la sonde rouge. Allumez l'appareil. Si le multimètre mesure une tension constante de 3,3 V ou 5 V, vous avez trouvé la broche Vcc. Si vous obtenez d'autres tensions, réessayez avec d'autres ports.
+* Pour identifier le port **TX**, mode **tension continue** jusqu'à 20 V de tension, sonde noire sur la masse et sonde rouge sur la broche, et allumez l'appareil. Si vous trouvez que la tension fluctue pendant quelques secondes puis se stabilise à la valeur Vcc, vous avez probablement trouvé le port TX. C'est parce que lors de la mise sous tension, il envoie quelques données de débogage.
 * Le port **RX** serait le plus proche des trois autres, il a la plus faible fluctuation de tension et la valeur globale la plus basse de toutes les broches UART.
 
 Vous pouvez confondre les ports TX et RX et rien ne se passera, mais si vous confondez la masse et la broche VCC, vous pourriez endommager le circuit.
 
-Dans certains appareils cibles, le port UART est désactivé par le fabricant en désactivant RX ou TX ou même les deux. Dans ce cas, il peut être utile de retracer les connexions sur la carte de circuit imprimé et de trouver un point de rupture. Un indice fort confirmant l'absence de détection de l'UART et la rupture du circuit est de vérifier la garantie de l'appareil. Si l'appareil a été expédié avec une garantie, le fabricant laisse quelques interfaces de débogage (dans ce cas, UART) et donc, doit avoir déconnecté l'UART et le reconnecterait lors du débogage. Ces broches de rupture peuvent être connectées par soudure ou fils de cavalier.
+Dans certains appareils cibles, le port UART est désactivé par le fabricant en désactivant RX ou TX ou même les deux. Dans ce cas, il peut être utile de retracer les connexions sur la carte de circuit imprimé et de trouver un point de rupture. Un indice fort confirmant l'absence de détection de l'UART et la rupture du circuit est de vérifier la garantie de l'appareil. Si l'appareil a été expédié avec une garantie, le fabricant laisse quelques interfaces de débogage (dans ce cas, UART) et donc, doit avoir déconnecté l'UART et le reconnecterait pendant le débogage. Ces broches de rupture peuvent être connectées par soudure ou fils de cavalier.
 
 ### Identification du débit binaire UART
 
@@ -53,7 +53,7 @@ La manière la plus simple d'identifier le débit binaire correct est d'examiner
 Il est important de noter que dans ce protocole, vous devez connecter le TX d'un appareil au RX de l'autre !
 {% endhint %}
 
-## Adaptateur UART vers TTY CP210X
+## Adaptateur UART CP210X vers TTY
 
 La puce CP210X est utilisée dans de nombreuses cartes de prototypage comme NodeMCU (avec esp8266) pour la communication série. Ces adaptateurs sont relativement peu coûteux et peuvent être utilisés pour se connecter à l'interface UART de la cible. L'appareil a 5 broches : 5V, GND, RXD, TXD, 3.3V. Assurez-vous de connecter la tension prise en charge par la cible pour éviter tout dommage. Enfin, connectez la broche RXD de l'adaptateur à TXD de la cible et la broche TXD de l'adaptateur à RXD de la cible.
 
@@ -77,7 +77,7 @@ Après la configuration, utilisez la commande `minicom` pour démarrer la consol
 
 ## UART Via Arduino UNO R3 (Cartes à puce Atmel 328p amovibles)
 
-Si les adaptateurs UART Serial to USB ne sont pas disponibles, l'Arduino UNO R3 peut être utilisé avec une astuce rapide. Comme l'Arduino UNO R3 est généralement disponible partout, cela peut faire gagner beaucoup de temps.
+Si les adaptateurs UART Serial vers USB ne sont pas disponibles, l'Arduino UNO R3 peut être utilisé avec une astuce rapide. Comme l'Arduino UNO R3 est généralement disponible partout, cela peut faire gagner beaucoup de temps.
 
 L'Arduino UNO R3 possède un adaptateur USB vers série intégré sur la carte elle-même. Pour obtenir une connexion UART, il suffit de retirer la puce microcontrôleur Atmel 328p de la carte. Cette astuce fonctionne sur les variantes de l'Arduino UNO R3 ayant l'Atmel 328p non soudé sur la carte (la version CMS est utilisée). Connectez la broche RX de l'Arduino (Broche numérique 0) à la broche TX de l'interface UART et la broche TX de l'Arduino (Broche numérique 1) à la broche RX de l'interface UART.
 
@@ -85,7 +85,7 @@ Enfin, il est recommandé d'utiliser l'IDE Arduino pour obtenir la console séri
 
 ## Bus Pirate
 
-Dans ce scénario, nous allons intercepter la communication UART de l'Arduino qui envoie toutes les impressions du programme au Moniteur Série.
+Dans ce scénario, nous allons intercepter la communication UART de l'Arduino qui envoie toutes les impressions du programme au Moniteur série.
 ```bash
 # Check the modes
 UART>m
@@ -157,16 +157,42 @@ Escritura inicial completada:
 AAA Hi Dreg! AAA
 waiting a few secs to repeat....
 ```
+## Extraction de Firmware avec la Console UART
+
+La console UART offre un excellent moyen de travailler avec le firmware sous-jacent dans l'environnement d'exécution. Cependant, lorsque l'accès à la console UART est en lecture seule, cela peut introduire de nombreuses contraintes. Dans de nombreux appareils embarqués, le firmware est stocké dans des EEPROM et exécuté dans des processeurs ayant une mémoire volatile. Par conséquent, le firmware est conservé en lecture seule car le firmware d'origine lors de la fabrication se trouve à l'intérieur de l'EEPROM lui-même et tout nouveau fichier serait perdu en raison de la mémoire volatile. Ainsi, l'extraction du firmware est un effort précieux lors du travail avec des firmwares embarqués.
+
+Il existe de nombreuses façons de le faire et la section SPI couvre les méthodes pour extraire le firmware directement de l'EEPROM avec divers appareils. Bien qu'il soit recommandé d'essayer d'abord d'extraire le firmware avec UART, car l'extraction du firmware avec des appareils physiques et des interactions externes peut être risquée.
+
+L'extraction du firmware à partir de la console UART nécessite d'abord d'obtenir l'accès aux chargeurs d'amorçage. De nombreux fabricants populaires utilisent <b>uboot</b> (Universal Bootloader) comme chargeur d'amorçage pour charger Linux. Par conséquent, il est nécessaire d'obtenir l'accès à <b>uboot</b>.
+
+Pour accéder au chargeur d'amorçage <b>boot</b>, connectez le port UART à l'ordinateur et utilisez l'un des outils de console série tout en maintenant l'alimentation du dispositif déconnectée. Une fois la configuration prête, appuyez sur la touche Entrée et maintenez-la enfoncée. Enfin, connectez l'alimentation au dispositif et laissez-le démarrer.
+
+Cela interrompra le chargement de <b>uboot</b> et affichera un menu. Il est recommandé de comprendre les commandes de <b>uboot</b> et d'utiliser le menu d'aide pour les répertorier. Il pourrait s'agir de la commande `help`. Comme différents fabricants utilisent différentes configurations, il est nécessaire de les comprendre séparément.
+
+Généralement, la commande pour extraire le firmware est :
+```
+md
+```
+qui signifie "dump de mémoire". Cela va afficher le contenu de la mémoire (EEPROM) à l'écran. Il est recommandé de journaliser la sortie de la console série avant de commencer la procédure pour capturer le dump de mémoire.
+
+Enfin, supprimez simplement toutes les données inutiles du fichier journal et enregistrez le fichier sous le nom `nomfichier.rom` et utilisez binwalk pour extraire le contenu :
+```
+binwalk -e <filename.rom>
+```
+Cela listera les contenus possibles de l'EEPROM selon les signatures trouvées dans le fichier hexadécimal.
+
+Cependant, il est nécessaire de noter que ce n'est pas toujours le cas que le <b>uboot</b> soit déverrouillé même s'il est utilisé. Si la touche Entrée ne fait rien, vérifiez les différentes touches comme la touche Espace, etc. Si le chargeur d'amorçage est verrouillé et n'est pas interrompu, cette méthode ne fonctionnera pas. Pour vérifier si <b>uboot</b> est le chargeur d'amorçage pour le périphérique, vérifiez la sortie sur la console UART lors du démarrage du périphérique. Il pourrait mentionner <b>uboot</b> lors du démarrage.
+
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge HackTricks AWS)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
-Autres façons de soutenir HackTricks :
+Autres façons de soutenir HackTricks:
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
