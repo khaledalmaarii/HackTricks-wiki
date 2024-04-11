@@ -8,9 +8,9 @@ Altri modi per supportare HackTricks:
 
 * Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
+* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
 
@@ -30,24 +30,24 @@ Strumenti hardware per comunicare con UART:
 * Adattatori con chip CP2102 o PL2303
 * Strumento multipurpose come: Bus Pirate, l'Adafruit FT232H, lo Shikra o l'Attify Badge
 
-### Identificazione delle Porte UART
+### Identificare le Porte UART
 
-UART ha 4 porte: **TX**(Trasmetti), **RX**(Ricevi), **Vcc**(Tensione) e **GND**(Terra). Potresti trovare 4 porte con le lettere **`TX`** e **`RX`** **scritte** sulla PCB. Ma se non c'è nessuna indicazione, potresti dover cercare di trovarle tu stesso usando un **multimetro** o un **analizzatore logico**.
+UART ha 4 porte: **TX**(Trasmetti), **RX**(Ricevi), **Vcc**(Tensione) e **GND**(Terra). Potresti trovare 4 porte con le lettere **`TX`** e **`RX`** **scritte** sulla PCB. Ma se non c'è alcuna indicazione, potresti dover cercare di trovarle tu stesso utilizzando un **multimetro** o un **analizzatore logico**.
 
 Con un **multimetro** e il dispositivo spento:
 
-* Per identificare il pin **GND** utilizza la modalità **Test di continuità**, posiziona il morsetto posteriore a terra e testa con quello rosso fino a sentire un suono dal multimetro. Sul PCB possono essere presenti diversi pin GND, quindi potresti aver trovato o meno quello relativo a UART.
-* Per identificare la porta **VCC**, imposta la modalità **tensione DC** e impostala fino a 20 V di tensione. Morsetto nero a terra e morsetto rosso sul pin. Accendi il dispositivo. Se il multimetro misura una tensione costante di 3,3 V o 5 V, hai trovato il pin Vcc. Se ottieni altre tensioni, riprova con altri pin.
+* Per identificare il pin **GND** utilizza la modalità **Test di continuità**, posiziona il morsetto posteriore a terra e testa con quello rosso fino a quando non senti un suono dal multimetro. Sulla PCB possono essere presenti diversi pin GND, quindi potresti aver trovato o meno quello appartenente a UART.
+* Per identificare la porta **VCC**, imposta la modalità **tensione DC** e impostala fino a 20 V di tensione. Morsetto nero a terra e morsetto rosso sul pin. Accendi il dispositivo. Se il multimetro misura una tensione costante di 3,3 V o 5 V, hai trovato il pin Vcc. Se ottieni altre tensioni, riprova con altre porte.
 * Per identificare la porta **TX**, modalità **tensione DC** fino a 20 V di tensione, morsetto nero a terra e morsetto rosso sul pin, e accendi il dispositivo. Se trovi che la tensione fluttua per alcuni secondi e poi si stabilizza al valore di Vcc, hai probabilmente trovato la porta TX. Questo perché quando si accende, invia alcuni dati di debug.
 * La porta **RX** sarebbe la più vicina alle altre 3, ha la minore fluttuazione di tensione e il valore complessivo più basso di tutti i pin UART.
 
 Puoi confondere i pin TX e RX e non succederebbe nulla, ma se confondi il pin GND e il pin VCC potresti bruciare il circuito.
 
-In alcuni dispositivi target, la porta UART è disabilitata dal produttore disabilitando RX o TX o addirittura entrambi. In tal caso, può essere utile tracciare le connessioni nella scheda del circuito e trovare un punto di breakout. Un forte suggerimento per confermare la mancata rilevazione di UART e la rottura del circuito è controllare la garanzia del dispositivo. Se il dispositivo è stato spedito con una qualche garanzia, il produttore lascia alcune interfacce di debug (in questo caso, UART) e quindi, deve aver scollegato l'UART e lo ricollegherebbe durante il debug. Questi pin di breakout possono essere collegati saldando o con fili jumper.
+In alcuni dispositivi target, la porta UART è disabilitata dal produttore disabilitando RX o TX o addirittura entrambi. In tal caso, può essere utile tracciare le connessioni nella scheda del circuito e trovare un punto di breakout. Un forte suggerimento per confermare la mancata rilevazione di UART e la rottura del circuito è controllare la garanzia del dispositivo. Se il dispositivo è stato spedito con una qualche garanzia, il produttore lascia alcune interfacce di debug (in questo caso, UART) e quindi, deve aver scollegato l'UART e lo ricollegherebbe durante il debug. Questi pin di breakout possono essere collegati saldando o con jumper.
 
-### Identificazione del Baud Rate UART
+### Identificare il Baud Rate UART
 
-Il modo più semplice per identificare il baud rate corretto è guardare l'**output del pin TX e provare a leggere i dati**. Se i dati che ricevi non sono leggibili, passa al prossimo baud rate possibile fino a quando i dati diventano leggibili. Puoi utilizzare un adattatore USB-seriale o un dispositivo multipurpose come Bus Pirate per fare ciò, abbinato a uno script di supporto, come [baudrate.py](https://github.com/devttys0/baudrate/). I baud rate più comuni sono 9600, 38400, 19200, 57600 e 115200.
+Il modo più semplice per identificare il baud rate corretto è guardare l'**output del pin TX e provare a leggere i dati**. Se i dati che ricevi non sono leggibili, passa al prossimo baud rate possibile fino a quando i dati diventano leggibili. Puoi utilizzare un adattatore USB-seriale o un dispositivo multipurpose come Bus Pirate per fare ciò, abbinato a uno script di aiuto, come [baudrate.py](https://github.com/devttys0/baudrate/). I baud rate più comuni sono 9600, 38400, 19200, 57600 e 115200.
 
 {% hint style="danger" %}
 È importante notare che in questo protocollo è necessario collegare il TX di un dispositivo al RX dell'altro!
@@ -55,7 +55,7 @@ Il modo più semplice per identificare il baud rate corretto è guardare l'**out
 
 ## Adattatore UART CP210X a TTY
 
-Il Chip CP210X è utilizzato in molti prototipi come NodeMCU (con esp8266) per la comunicazione seriale. Questi adattatori sono relativamente economici e possono essere utilizzati per connettersi all'interfaccia UART del target. Il dispositivo ha 5 pin: 5V, GND, RXD, TXD, 3.3V. Assicurati di collegare la tensione supportata dal target per evitare danni. Infine, collega il pin RXD dell'Adattatore al TXD del target e il pin TXD dell'Adattatore al RXD del target.
+Il Chip CP210X è utilizzato in molti prototipi come NodeMCU (con esp8266) per la Comunicazione Seriale. Questi adattatori sono relativamente economici e possono essere utilizzati per connettersi all'interfaccia UART del target. Il dispositivo ha 5 pin: 5V, GND, RXD, TXD, 3.3V. Assicurati di collegare la tensione supportata dal target per evitare danni. Infine, collega il pin RXD dell'Adattatore al TXD del target e il pin TXD dell'Adattatore al RXD del target.
 
 Nel caso in cui l'adattatore non venga rilevato, assicurati che i driver CP210X siano installati nel sistema host. Una volta che l'adattatore è rilevato e collegato, possono essere utilizzati strumenti come picocom, minicom o screen.
 
@@ -75,11 +75,11 @@ Configura le impostazioni come il baudrate e il nome del dispositivo nell'opzion
 
 Dopo la configurazione, utilizza il comando `minicom` per avviare la Console UART.
 
-## UART tramite Arduino UNO R3 (schede con chip Atmel 328p rimovibile)
+## UART tramite Arduino UNO R3 (schede chip Atmel 328p rimovibili)
 
 Nel caso in cui gli adattatori UART Serial to USB non siano disponibili, è possibile utilizzare Arduino UNO R3 con un rapido hack. Poiché Arduino UNO R3 è di solito disponibile ovunque, questo può risparmiare molto tempo.
 
-Arduino UNO R3 ha un adattatore USB to Serial integrato sulla scheda stessa. Per ottenere la connessione UART, basta staccare il chip microcontrollore Atmel 328p dalla scheda. Questo hack funziona su varianti di Arduino UNO R3 che non hanno il chip Atmel 328p saldato sulla scheda (viene utilizzata la versione SMD). Collega il pin RX di Arduino (Pin Digitale 0) al pin TX dell'interfaccia UART e il pin TX di Arduino (Pin Digitale 1) al pin RX dell'interfaccia UART.
+Arduino UNO R3 ha un adattatore USB a seriale integrato sulla scheda stessa. Per ottenere la connessione UART, basta staccare il chip microcontrollore Atmel 328p dalla scheda. Questo hack funziona su varianti di Arduino UNO R3 che non hanno saldato il chip Atmel 328p sulla scheda (viene utilizzata la versione SMD). Collega il pin RX di Arduino (Pin Digitale 0) al pin TX dell'Interfaccia UART e il pin TX di Arduino (Pin Digitale 1) al pin RX dell'interfaccia UART.
 
 Infine, è consigliabile utilizzare Arduino IDE per ottenere la Console Seriale. Nella sezione `strumenti` nel menu, seleziona l'opzione `Console Seriale` e imposta il baud rate in base all'interfaccia UART.
 
@@ -157,16 +157,42 @@ Escritura inicial completada:
 AAA Hi Dreg! AAA
 waiting a few secs to repeat....
 ```
+## Dumping Firmware with UART Console
+
+La console UART fornisce un ottimo modo per lavorare con il firmware sottostante nell'ambiente di runtime. Ma quando l'accesso alla console UART è in sola lettura, potrebbe introdurre molti vincoli. In molti dispositivi embedded, il firmware è memorizzato in EEPROM e eseguito in processori che hanno memoria volatile. Pertanto, il firmware viene mantenuto in sola lettura poiché il firmware originale durante la produzione è all'interno della stessa EEPROM e qualsiasi nuovo file verrebbe perso a causa della memoria volatile. Pertanto, il dump del firmware è uno sforzo prezioso durante il lavoro con i firmware embedded.
+
+Ci sono molti modi per farlo e la sezione SPI copre metodi per estrarre il firmware direttamente dalla EEPROM con vari dispositivi. Anche se è consigliabile provare prima a fare il dump del firmware con UART poiché fare il dump del firmware con dispositivi fisici e interazioni esterne può essere rischioso.
+
+Il dump del firmware dalla console UART richiede prima di tutto di ottenere l'accesso ai bootloader. Molti fornitori popolari utilizzano <b>uboot</b> (Universal Bootloader) come loro bootloader per caricare Linux. Pertanto, è necessario ottenere l'accesso a <b>uboot</b>.
+
+Per accedere al bootloader, collegare la porta UART al computer e utilizzare uno qualsiasi degli strumenti di console seriale e mantenere disconnesso l'alimentatore del dispositivo. Una volta che la configurazione è pronta, premere il tasto Invio e tenerlo premuto. Infine, collegare l'alimentatore al dispositivo e lasciarlo avviare.
+
+Fare ciò interromperà <b>uboot</b> dal caricamento e fornirà un menu. È consigliabile comprendere i comandi di <b>uboot</b> e utilizzare il menu di aiuto per elencarli. Questo potrebbe essere il comando `help`. Poiché i diversi fornitori utilizzano diverse configurazioni, è necessario capirle separatamente.
+
+Di solito, il comando per fare il dump del firmware è:
+```
+md
+```
+che sta per "dump di memoria". Questo dump della memoria (Contenuto EEPROM) verrà visualizzato sullo schermo. Si consiglia di registrare l'output della Console Seriale prima di avviare la procedura per catturare il dump di memoria.
+
+Infine, eliminare tutti i dati non necessari dal file di registro e memorizzare il file come `nomefile.rom` e utilizzare binwalk per estrarre i contenuti:
+```
+binwalk -e <filename.rom>
+```
+Questo elencherà i possibili contenuti dall'EEPROM in base alle firme trovate nel file esadecimale.
+
+Anche se è necessario notare che non è sempre il caso che l'<b>uboot</b> sia sbloccato anche se viene utilizzato. Se il tasto Invio non fa nulla, controllare se ci sono tasti diversi come il tasto Spazio, ecc. Se il bootloader è bloccato e non viene interrotto, questo metodo non funzionerà. Per verificare se <b>uboot</b> è il bootloader del dispositivo, controllare l'output sulla Console UART durante l'avvio del dispositivo. Potrebbe menzionare <b>uboot</b> durante l'avvio.
+
 <details>
 
-<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Altri modi per supportare HackTricks:
 
-* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Se desideri vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
+* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di Github.
+* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository di Github.
 
 </details>
