@@ -9,31 +9,31 @@ Drugi načini podrške HackTricks-u:
 * Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**Porodičnu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
 ## Ponovna upotreba PID-a
 
-Kada macOS **XPC servis** proverava pozvani proces na osnovu **PID-a** a ne na osnovu **audit tokena**, podložan je napadu ponovne upotrebe PID-a. Ovaj napad se zasniva na **trci stanja** gde će **exploit** slati poruke XPC servisu **zloupotrebljavajući** funkcionalnost i odmah nakon toga izvršiti **`posix_spawn(NULL, ciljni_binarni_fajl, NULL, &attr, ciljni_argv, environ)`** sa **dozvoljenim** binarnim fajlom.
+Kada macOS **XPC servis** proverava pozvani proces na osnovu **PID-a** a ne na osnovu **audit tokena**, podložan je napadu ponovne upotrebe PID-a. Ovaj napad se zasniva na **trci stanja** gde će **eksploit** slati poruke XPC servisu **zloupotrebljavajući** funkcionalnost i odmah nakon toga izvršiti **`posix_spawn(NULL, ciljni_binarni_fajl, NULL, &attr, ciljni_argv, environ)`** sa **dozvoljenim** binarnim fajlom.
 
 Ova funkcija će učiniti da **dozvoljeni binarni fajl preuzme PID** ali će **zlonamerna XPC poruka biti poslata** upravo pre toga. Dakle, ako XPC servis **koristi PID** za **autentifikaciju** pošiljaoca i proverava ga **POSLE** izvršenja **`posix_spawn`**, misliće da dolazi od **ovlašćenog** procesa.
 
-### Primer exploit-a
+### Primer eksploatacije
 
-Ako pronađete funkciju **`shouldAcceptNewConnection`** ili funkciju koju poziva **koja poziva** **`processIdentifier`** a ne poziva **`auditToken`**. Visoko je verovatno da proverava PID procesa, a ne audit token.\
+Ako pronađete funkciju **`shouldAcceptNewConnection`** ili funkciju koju poziva **pozivajući** **`processIdentifier`** a ne poziva **`auditToken`**. Visoko je verovatno da proverava PID procesa, a ne audit token.\
 Na primer, kao što je prikazano na ovoj slici (preuzeto iz reference):
 
 <figure><img src="../../../../../../.gitbook/assets/image (303).png" alt="https://wojciechregula.blog/images/2020/04/pid.png"><figcaption></figcaption></figure>
 
-Proverite ovaj primer exploit-a (ponovo, preuzet iz reference) da biste videli 2 dela exploit-a:
+Proverite ovaj primer eksploatacije (ponovo, preuzet iz reference) da biste videli 2 dela eksploatacije:
 
 * Jedan koji **generiše nekoliko forkova**
 * **Svaki fork** će **poslati** **payload** XPC servisu dok izvršava **`posix_spawn`** odmah nakon slanja poruke.
 
 {% hint style="danger" %}
-Da bi exploit radio važno je ` export`` `` `**`OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES`** ili staviti unutar exploit-a:
+Da bi eksploatacija radila, važno je ` export`` `` `**`OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES`** ili staviti unutar eksploatacije:
 ```objectivec
 asm(".section __DATA,__objc_fork_ok\n"
 "empty:\n"
@@ -43,7 +43,7 @@ asm(".section __DATA,__objc_fork_ok\n"
 
 {% tabs %}
 {% tab title="NSTasks" %}
-Prva opcija je korišćenje **`NSTasks`** i argumenata za pokretanje podprocesa kako bi se iskoristila RC.
+Prva opcija je korišćenje **`NSTasks`** i argumenata za pokretanje potomaka kako bi se iskoristio RC
 ```objectivec
 // Code from https://wojciechregula.blog/post/learn-xpc-exploitation-part-2-say-no-to-the-pid/
 // gcc -framework Foundation expl.m -o expl
@@ -285,6 +285,10 @@ pwned = true;
 return 0;
 }
 ```
+## Ostali primeri
+
+* [https://gergelykalman.com/why-you-shouldnt-use-a-commercial-vpn-amateur-hour-with-windscribe.html](https://gergelykalman.com/why-you-shouldnt-use-a-commercial-vpn-amateur-hour-with-windscribe.html)
+
 ## Reference
 
 * [https://wojciechregula.blog/post/learn-xpc-exploitation-part-2-say-no-to-the-pid/](https://wojciechregula.blog/post/learn-xpc-exploitation-part-2-say-no-to-the-pid/)
@@ -296,7 +300,7 @@ return 0;
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
