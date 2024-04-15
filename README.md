@@ -20,11 +20,11 @@ Aby zacząć, przejdź do tej strony, gdzie znajdziesz **typowy przepływ**, kt�
 
 <figure><img src=".gitbook/assets/stm (1).png" alt=""><figcaption></figcaption></figure>
 
-[**STM Cyber**](https://www.stmcyber.com) to świetna firma zajmująca się cyberbezpieczeństwem, której hasłem jest **HACKUJ TO, CO NIEMOŻLIWE**. Przeprowadzają własne badania i rozwijają własne narzędzia do **oferowania kilku wartościowych usług z zakresu cyberbezpieczeństwa**, takich jak testowanie penetracyjne, zespoły Red oraz szkolenia.
+[**STM Cyber**](https://www.stmcyber.com) to doskonała firma zajmująca się cyberbezpieczeństwem, której hasłem jest **HACKUJ TO, CO NIEMOŻLIWE DO ZHAKOWANIA**. Przeprowadzają własne badania i rozwijają własne narzędzia do **oferowania kilku wartościowych usług z zakresu cyberbezpieczeństwa**, takich jak testowanie penetracyjne, zespoły Red oraz szkolenia.
 
 Możesz sprawdzić ich **blog** na [**https://blog.stmcyber.com**](https://blog.stmcyber.com)
 
-**STM Cyber** wspiera również projekty open source z zakresu cyberbezpieczeństwa, takie jak HackTricks :)
+**STM Cyber** wspiera również projekty open source z dziedziny cyberbezpieczeństwa, takie jak HackTricks :)
 
 ***
 
@@ -42,7 +42,7 @@ Możesz sprawdzić ich **blog** na [**https://blog.stmcyber.com**](https://blog.
 
 <figure><img src=".gitbook/assets/image (44).png" alt=""><figcaption></figcaption></figure>
 
-**Intigriti** to **najlepsza w Europie** platforma do etycznego hakingu i **bug bounty**.
+**Intigriti** to **najlepsza w Europie** platforma do etycznego hakowania i **bug bounty**.
 
 **Wskazówka dotycząca bug bounty**: **Zarejestruj się** w **Intigriti**, platformie **bug bounty** stworzonej przez hakerów, dla hakerów! Dołącz do nas na [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) już dziś i zacznij zarabiać nagrody do **100 000 dolarów**!
 
@@ -69,8 +69,8 @@ Zdobądź dostęp już dziś:
 
 Dołącz do serwera [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy), aby komunikować się z doświadczonymi hakerami i łowcami bug bounty!
 
-* **Wgląd w Hacking:** Zaangażuj się w treści dotyczące emocji i wyzwań związanych z hakingiem
-* **Aktualności z Hackingu na Żywo:** Bądź na bieżąco z szybkim tempem świata hakingu dzięki aktualnościom i wglądom w czasie rzeczywistym
+* **Wgląd w Hacking:** Zaangażuj się w treści, które zagłębiają się w emocje i wyzwania hakowania
+* **Aktualności Hackingu na Żywo:** Bądź na bieżąco z szybkim tempem świata hakowania dzięki aktualnościom i wglądom w czasie rzeczywistym
 * **Najnowsze Ogłoszenia:** Bądź na bieżąco z najnowszymi programami bug bounty i istotnymi aktualizacjami platformy
 
 **Dołącz do nas na** [**Discordzie**](https://discord.com/invite/N3FrSbmwdy) i zacznij współpracować z najlepszymi hakerami już dziś!
@@ -81,7 +81,7 @@ Dołącz do serwera [**HackenProof Discord**](https://discord.com/invite/N3FrSbm
 
 <figure><img src=".gitbook/assets/image (12).png" alt=""><figcaption></figcaption></figure>
 
-**Natychmiastowa dostępność konfiguracji do oceny podatności i testów penetracyjnych**. Uruchom pełny test penetracyjny z dowolnego miejsca za pomocą ponad 20 narzędzi i funkcji, które obejmują rozpoznanie i raportowanie. Nie zastępujemy testerów penetracyjnych - rozwijamy niestandardowe narzędzia, moduły wykrywania i eksploatacji, aby umożliwić im zagłębianie się głębiej, przejmowanie powłok i dobrą zabawę.
+**Natychmiastowa dostępność konfiguracji do oceny podatności i testów penetracyjnych**. Uruchom pełny test penetracyjny z dowolnego miejsca za pomocą ponad 20 narzędzi i funkcji, które obejmują rozpoznanie i raportowanie. Nie zastępujemy testerów penetracyjnych - rozwijamy niestandardowe narzędzia, moduły wykrywania i eksploatacji, aby umożliwić im zagłębianie się głębiej, przebijanie się przez powłoki i dobrą zabawę.
 
 {% embed url="https://pentest-tools.com/" %}
 
@@ -89,16 +89,16 @@ Dołącz do serwera [**HackenProof Discord**](https://discord.com/invite/N3FrSbm
 
 ### [SerpApi](https://serpapi.com/)
 
-<figure><img src=".gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
 
-SerpApi oferuje szybkie i łatwe interfejsy API w czasie rzeczywistym do **dostępu do wyników wyszukiwania w wyszukiwarkach**. Scrapują one wyszukiwarki, obsługują proxy, rozwiązują captchy i analizują wszystkie bogate dane strukturalne za Ciebie.
+SerpApi oferuje szybkie i łatwe interfejsy API w czasie rzeczywistym do **dostępu do wyników wyszukiwania w wyszukiwarkach**. Skrobają one wyniki wyszukiwania, obsługują proxy, rozwiązują captchy i analizują wszystkie bogate dane strukturalne za Ciebie.
 
-Subskrypcja jednego z planów SerpApi obejmuje dostęp do ponad 50 różnych interfejsów API do scrapowania różnych wyszukiwarek, w tym Google, Bing, Baidu, Yahoo, Yandex i inne.\
-W przeciwieństwie do innych dostawców, **SerpApi nie ogranicza się tylko do scrapowania wyników organicznych**. Odpowiedzi SerpApi zawsze zawierają wszystkie reklamy, obrazy i filmy wstawione, grafiki wiedzy oraz inne elementy i funkcje obecne w wynikach wyszukiwania.
+Subskrypcja jednego z planów SerpApi obejmuje dostęp do ponad 50 różnych interfejsów API do skrobania różnych wyszukiwarek, w tym Google, Bing, Baidu, Yahoo, Yandex i innych.\
+W przeciwieństwie do innych dostawców, **SerpApi nie skrobie tylko organicznych wyników**. Odpowiedzi SerpApi konsekwentnie zawierają wszystkie reklamy, obrazy i filmy w linii, grafiki wiedzy oraz inne elementy i funkcje obecne w wynikach wyszukiwania.
 
-Aktualni klienci SerpApi to **Apple, Shopify i GrubHub**.\
+Obecni klienci SerpApi to **Apple, Shopify i GrubHub**.\
 Aby uzyskać więcej informacji, sprawdź ich [**blog**](https://serpapi.com/blog/)**,** lub wypróbuj przykład w ich [**placu zabaw**](https://serpapi.com/playground)**.**\
-Możesz **założyć darmowe konto** [**tutaj**](https://serpapi.com/users/sign\_up)**.**
+Możesz **utworzyć darmowe konto** [**tutaj**](https://serpapi.com/users/sign\_up)**.**
 
 ***
 
@@ -118,7 +118,7 @@ Możesz **założyć darmowe konto** [**tutaj**](https://serpapi.com/users/sign\
 
 WebSec to firma **wszystko w jednym**, co oznacza, że robią wszystko; Testowanie penetracyjne, Audyty bezpieczeństwa, Szkolenia z świadomości, Kampanie phishingowe, Przeglądy kodu, Rozwój exploitów, Outsourcing ekspertów ds. bezpieczeństwa i wiele więcej.
 
-Inną fajną rzeczą dotyczącą WebSec jest to, że w przeciwieństwie do średniej branżowej, WebSec jest **bardzo pewny swoich umiejętności**, do tego stopnia, że gwarantuje najlepsze jakościowe wyniki, jak to stwierdzają na swojej stronie "**Jeśli nie możemy tego zhakować, nie płacisz za to!**". Aby uzyskać więcej informacji, zajrzyj na ich [**stronę internetową**](https://websec.nl/en/) i [**blog**](https://websec.nl/blog/)!
+Inną fajną rzeczą dotyczącą WebSec jest to, że w przeciwieństwie do średniej branżowej, WebSec jest **bardzo pewny swoich umiejętności**, do tego stopnia, że gwarantuje najlepsze jakościowe wyniki, jak to stwierdza na ich stronie "**Jeśli nie możemy tego zhakować, nie płacisz za to!**". Aby uzyskać więcej informacji, zajrzyj na ich [**stronę internetową**](https://websec.nl/en/) i [**blog**](https://websec.nl/blog/)!
 
 Oprócz powyższego WebSec jest również **zaangażowanym zwolennikiem HackTricks.**
 
@@ -141,6 +141,6 @@ Inne sposoby wsparcia HackTricks:
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
