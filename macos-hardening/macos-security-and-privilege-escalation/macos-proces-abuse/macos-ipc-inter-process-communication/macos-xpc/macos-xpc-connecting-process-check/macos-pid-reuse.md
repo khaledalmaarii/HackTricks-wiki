@@ -1,40 +1,39 @@
-# macOS PID Reuse
+# Επαναχρησιμοποίηση PID στο macOS
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Ειδικός Red Team του HackTricks AWS)</strong></a><strong>!</strong></summary>
 
 Άλλοι τρόποι υποστήριξης του HackTricks:
 
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* **Εγγραφείτε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs** στα αποθετήρια του [**HackTricks**](https://github.com/carlospolop/hacktricks) και του [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) στο GitHub.
 
 </details>
 
 ## Επαναχρησιμοποίηση PID
 
-Όταν ένα **XPC service** στο macOS ελέγχει την καλούμενη διεργασία βασισμένο στο **PID** και όχι στο **audit token**, είναι ευάλωτο σε επίθεση επαναχρησιμοποίησης PID. Αυτή η επίθεση βασίζεται σε μια **συνθήκη ανταγωνισμού** όπου ένα **εκμεταλλευτικό πρόγραμμα** θα στείλει μηνύματα στο XPC service **καταχρώντας** τη λειτουργικότητα και μετά θα εκτελέσει **`posix_spawn(NULL, target_binary, NULL, &attr, target_argv, environ)`** με το επιτρεπόμενο δυαδικό αρχείο.
+Όταν ένα **XPC service** στο macOS ελέγχει την καλούμενη διεργασία βασιζόμενο στο **PID** και όχι στο **αναγνωριστικό ελέγχου**, είναι ευάλωτο σε επίθεση επαναχρησιμοποίησης PID. Αυτή η επίθεση βασίζεται σε μια **συνθήκη ανταγωνισμού** όπου ένα **εκμεταλλευτικό πρόγραμμα** θα στείλει μηνύματα στην υπηρεσία XPC **καταχρώμενο** τη λειτουργικότητα και αμέσως μετά, θα εκτελέσει **`posix_spawn(NULL, target_binary, NULL, &attr, target_argv, environ)`** με το επιτρεπόμενο δυαδικό αρχείο.
 
-Αυτή η συνάρτηση θα καταστήσει το επιτρεπόμενο δυαδικό αρχείο να κατέχει το PID, αλλά το κακόβουλο μήνυμα XPC θα έχει ήδη σταλεί πριν από αυτό. Έτσι, εάν το XPC service χρησιμοποιεί το PID για να επαληθεύσει τον αποστολέα και το ελέγχει ΜΕΤΑ την εκτέλεση του **`posix_spawn`**, θα πιστέψει ότι προέρχεται από μια εξουσιοδοτημένη διεργασία.
+Αυτή η λειτουργία θα κάνει το επιτρεπόμενο δυαδικό αρχείο να κατέχει το PID, αλλά το κακόβουλο μήνυμα XPC θα έχει σταλεί λίγο πριν. Έτσι, αν η υπηρεσία XPC χρησιμοποιεί το PID για τον έλεγχο του αποστολέα και το ελέγχει **ΜΕΤΑ** την εκτέλεση του **`posix_spawn`**, θα νομίζει ότι προέρχεται από μια **εξουσιοδοτημένη** διεργασία.
 
 ### Παράδειγμα εκμετάλλευσης
 
-Εάν βρείτε τη συνάρτηση **`shouldAcceptNewConnection`** ή μια συνάρτηση που καλεί τη **`processIdentifier`** και δεν καλεί τη **`auditToken`**, είναι πολύ πιθανό ότι ελέγχει το PID της διεργασίας και όχι το audit token.\
-Όπως για παράδειγμα σε αυτήν την εικόνα (που έχει ληφθεί από την αναφορά):
+Αν βρείτε τη λειτουργία **`shouldAcceptNewConnection`** ή μια λειτουργία που καλεί την **`processIdentifier`** και δεν καλεί το **`auditToken`**. Είναι πολύ πιθανό ότι ελέγχει το PID της διεργασίας και όχι το αναγνωριστικό ελέγχου.\
+Όπως για παράδειγμα σε αυτήν την εικόνα (ληφθείσα από την αναφορά):
 
-<figure><img src="../../../../../../.gitbook/assets/image (4) (1) (1) (1) (2).png" alt="https://wojciechregula.blog/images/2020/04/pid.png"><figcaption></figcaption></figure>
+<figure><img src="../../../../../../.gitbook/assets/image (303).png" alt="https://wojciechregula.blog/images/2020/04/pid.png"><figcaption></figcaption></figure>
 
-Ελέγξτε αυτήν την εκμετάλλευση παραδείγματος (ξανά, που έχει ληφθεί από την αναφορά) για να δείτε τα 2 μέρη της εκμετάλλευσης:
+Ελέγξτε αυτήν την εκμετάλλευση παραδείγματος (και πάλι, ληφθείσα από την αναφορά) για να δείτε τα 2 μέρη της εκμετάλλευσης:
 
-* Ένα που **δημιουργεί πολλαπλές διακλαδώσεις**
-* **Κάθε διακλάδωση** θα **στείλει** το **φορτίο** στο XPC service ενώ εκτελεί το **`posix_spawn`** αμέσως μετά την αποστολή του μηνύματος.
+* Ένα που **δημιουργεί αρκετές διακλαδώσεις**
+* **Κάθε διακλάδωση** θα **στείλει** το **φορτίο** στην υπηρεσία XPC ενώ εκτελεί το **`posix_spawn`** αμέσως μετά την αποστολή του μηνύματος.
 
 {% hint style="danger" %}
-Για να λειτουργήσει η εκμετάλλευση, είναι σημαντικό να ` export`` `` `**`OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES`** ή να το τοποθετήσετε μέσα στην εκμετάλλευση:
-
+Για να λειτουργήσει η εκμετάλλευση, είναι σημαντικό να ` εξαγάγετε`` `` `**`OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES`** ή να το τοποθετήσετε μέσα στην εκμετάλλευση:
 ```objectivec
 asm(".section __DATA,__objc_fork_ok\n"
 "empty:\n"
@@ -43,11 +42,8 @@ asm(".section __DATA,__objc_fork_ok\n"
 {% endhint %}
 
 {% tabs %}
-{% tab title="undefined" %}
-Πρώτη επιλογή χρησιμοποιώντας το **`NSTasks`** και το όρισμα για να εκκινήσετε τα παιδιά προκειμένου να εκμεταλλευτείτε το RC
-{% endtab %}
-
-{% tab title="undefined" %}
+{% tab title="NSTasks" %}
+Πρώτη επιλογή χρησιμοποιώντας **`NSTasks`** και ορίζοντας το όρισμα για να εκκινήσετε τα παιδιά προκειμένου να εκμεταλλευτείτε το RC
 ```objectivec
 // Code from https://wojciechregula.blog/post/learn-xpc-exploitation-part-2-say-no-to-the-pid/
 // gcc -framework Foundation expl.m -o expl
@@ -156,8 +152,7 @@ return 0;
 {% endtab %}
 
 {% tab title="fork" %}
-Αυτό το παράδειγμα χρησιμοποιεί έναν απλό **`fork`** για να εκκινήσει **παιδιά που θα εκμεταλλευτούν τον ανταγωνισμό των PID** και στη συνέχεια θα εκμεταλλευτούν **έναν άλλο ανταγωνισμό μέσω ενός σκληρού συνδέσμου (Hard link):**
-
+Αυτό το παράδειγμα χρησιμοποιεί έναν ωμό **`fork`** για να εκκινήσει **παιδιά που θα εκμεταλλευτούν τον ανταγωνισμό των PID** και στη συνέχεια θα εκμεταλλευτούν **έναν άλλο ανταγωνισμό μέσω ενός σκληρού συνδέσμου:**
 ```objectivec
 // export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 // gcc -framework Foundation expl.m -o expl
@@ -293,6 +288,10 @@ return 0;
 {% endtab %}
 {% endtabs %}
 
+## Άλλα παραδείγματα
+
+* [https://gergelykalman.com/why-you-shouldnt-use-a-commercial-vpn-amateur-hour-with-windscribe.html](https://gergelykalman.com/why-you-shouldnt-use-a-commercial-vpn-amateur-hour-with-windscribe.html)
+
 ## Αναφορές
 
 * [https://wojciechregula.blog/post/learn-xpc-exploitation-part-2-say-no-to-the-pid/](https://wojciechregula.blog/post/learn-xpc-exploitation-part-2-say-no-to-the-pid/)
@@ -300,14 +299,14 @@ return 0;
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
+Άλλοι τρόποι υποστήριξης του HackTricks:
 
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Ανακαλύψτε [**Την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε** 💬 στην ομάδα [**Discord**](https://discord.gg/hRep4RUj7f) ή στην ομάδα [**telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια στο GitHub.
 
 </details>
