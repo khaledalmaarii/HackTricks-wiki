@@ -1,4 +1,4 @@
-# Réutilisation de PID macOS
+# Réutilisation de PID
 
 <details>
 
@@ -8,7 +8,7 @@ Autres façons de soutenir HackTricks :
 
 - Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 - Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-- Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
+- Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 - **Rejoignez** 💬 le groupe Discord](https://discord.gg/hRep4RUj7f) ou le [groupe Telegram](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [@carlospolopm](https://twitter.com/hacktricks\_live)**.**
 - **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
@@ -16,9 +16,9 @@ Autres façons de soutenir HackTricks :
 
 ## Réutilisation de PID
 
-Lorsqu'un service **XPC macOS** vérifie le processus appelé en fonction du **PID** et non du **jeton d'audit**, il est vulnérable à une attaque de réutilisation de PID. Cette attaque est basée sur une **condition de course** où une **exploitation** va **envoyer des messages au service XPC** en **abusant** de la fonctionnalité et juste **après**, exécuter **`posix_spawn(NULL, binaire_cible, NULL, &attr, argv_cible, environ)`** avec le binaire **autorisé**.
+Lorsqu'un service **XPC** macOS vérifie le processus appelé en fonction du **PID** et non du **jeton d'audit**, il est vulnérable à une attaque de réutilisation de PID. Cette attaque est basée sur une **condition de course** où une **exploitation** va **envoyer des messages au service XPC** en **abusant** de la fonctionnalité et juste **après**, exécuter **`posix_spawn(NULL, binaire_cible, NULL, &attr, argv_cible, environ)`** avec le binaire **autorisé**.
 
-Cette fonction fera en sorte que le binaire **autorisé possède le PID**, mais le message XPC malveillant aura été envoyé juste avant. Ainsi, si le service **XPC** utilise le **PID** pour **authentifier** l'expéditeur et le vérifie **APRÈS** l'exécution de **`posix_spawn`**, il pensera qu'il provient d'un processus **autorisé**.
+Cette fonction fera en sorte que le **binaire autorisé possède le PID**, mais le **message XPC malveillant aura été envoyé** juste avant. Ainsi, si le service **XPC** utilise le **PID** pour **authentifier** l'expéditeur et le vérifie **APRÈS** l'exécution de **`posix_spawn`**, il pensera qu'il provient d'un processus **autorisé**.
 
 ### Exemple d'exploitation
 
@@ -29,11 +29,11 @@ Comme par exemple dans cette image (prise de la référence) :
 
 Vérifiez cet exemple d'exploitation (encore une fois, tiré de la référence) pour voir les 2 parties de l'exploit :
 
-- Celui qui **génère plusieurs forks**
+- Une qui **génère plusieurs forks**
 - **Chaque fork** enverra la **charge utile** au service XPC tout en exécutant **`posix_spawn`** juste après l'envoi du message.
 
 {% hint style="danger" %}
-Pour que l'exploit fonctionne, il est important d'`exporter` **`OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES`** ou de l'inclure dans l'exploit :
+Pour que l'exploit fonctionne, il est important d'`exporter`` `` `**`OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES`** ou de le mettre à l'intérieur de l'exploit :
 ```objectivec
 asm(".section __DATA,__objc_fork_ok\n"
 "empty:\n"
@@ -288,6 +288,10 @@ return 0;
 {% endtab %}
 {% endtabs %}
 
+## Autres exemples
+
+* [https://gergelykalman.com/why-you-shouldnt-use-a-commercial-vpn-amateur-hour-with-windscribe.html](https://gergelykalman.com/why-you-shouldnt-use-a-commercial-vpn-amateur-hour-with-windscribe.html)
+
 ## Références
 
 * [https://wojciechregula.blog/post/learn-xpc-exploitation-part-2-say-no-to-the-pid/](https://wojciechregula.blog/post/learn-xpc-exploitation-part-2-say-no-to-the-pid/)
@@ -295,14 +299,14 @@ return 0;
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Autres façons de soutenir HackTricks :
+Autres façons de soutenir HackTricks:
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
