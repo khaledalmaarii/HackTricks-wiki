@@ -1,4 +1,4 @@
-# Bypass delle protezioni del file system: sola lettura / no-exec / Distroless
+# Bypass protezioni FS: sola lettura / no-exec / Distroless
 
 <details>
 
@@ -6,15 +6,15 @@
 
 Altri modi per supportare HackTricks:
 
-* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale PEASS & HackTricks**](https://peass.creator-spring.com)
 * Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository di Github.
+* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Se sei interessato alla **carriera nell'hacking** e vuoi hackerare l'inviolabile - **stiamo assumendo!** (_richiesta competenza polacca scritta e parlata_).
 
@@ -27,7 +27,7 @@ Nei seguenti video puoi trovare le tecniche menzionate in questa pagina spiegate
 * [**DEF CON 31 - Esplorazione della manipolazione della memoria Linux per furtività ed evasione**](https://www.youtube.com/watch?v=poHirez8jk4)
 * [**Intrusioni furtive con DDexec-ng & in-memory dlopen() - HackTricks Track 2023**](https://www.youtube.com/watch?v=VM\_gjjiARaU)
 
-## Scenario di sola lettura / no-exec
+## Scenario sola lettura / no-exec
 
 È sempre più comune trovare macchine Linux montate con **protezione del file system in sola lettura (ro)**, specialmente nei container. Questo perché eseguire un container con file system in sola lettura è semplice come impostare **`readOnlyRootFilesystem: true`** nel `securitycontext`:
 
@@ -79,7 +79,7 @@ Inoltre, creare un **fd regolare** con un file in `/dev/shm` non funzionerà, po
 Pertanto, **controllando il codice assembly** che viene eseguito dal processo, puoi scrivere uno **shellcode** e "mutare" il processo per **eseguire qualsiasi codice arbitrario**.
 
 {% hint style="success" %}
-**DDexec / EverythingExec** ti permetterà di caricare ed **eseguire** il tuo **proprio shellcode** o **qualsiasi binario** dalla **memoria**.
+**DDexec / EverythingExec** ti permetterà di caricare ed **eseguire** il tuo **shellcode** o **qualsiasi binario** dalla **memoria**.
 {% endhint %}
 ```bash
 # Basic example
@@ -93,7 +93,7 @@ Per ulteriori informazioni su questa tecnica, controlla su Github o:
 
 ### MemExec
 
-[**Memexec**](https://github.com/arget13/memexec) è il passo successivo naturale di DDexec. Si tratta di un **shellcode demonizzato di DDexec**, quindi ogni volta che si desidera **eseguire un binario diverso** non è necessario riavviare DDexec, è sufficiente eseguire il codice shell di memexec tramite la tecnica DDexec e quindi **comunicare con questo demone per passare nuovi binari da caricare ed eseguire**.
+[**Memexec**](https://github.com/arget13/memexec) è il passo successivo naturale di DDexec. È un **shellcode demonizzato di DDexec**, quindi ogni volta che si desidera **eseguire un binario diverso** non è necessario riavviare DDexec, è sufficiente eseguire il codice shell memexec tramite la tecnica DDexec e quindi **comunicare con questo demone per passare nuovi binari da caricare ed eseguire**.
 
 Puoi trovare un esempio su come utilizzare **memexec per eseguire binari da un reverse shell PHP** in [https://github.com/arget13/memexec/blob/main/a.php](https://github.com/arget13/memexec/blob/main/a.php).
 
@@ -117,7 +117,7 @@ In un container Distroless potresti **non trovare nemmeno `sh` o `bash`** per ot
 Pertanto, **non** sarai in grado di ottenere una **shell inversa** o **enumerare** il sistema come fai di solito.
 {% endhint %}
 
-Tuttavia, se il container compromesso sta eseguendo ad esempio un'applicazione web Flask, allora Python è installato e quindi puoi ottenere una **shell inversa Python**. Se sta eseguendo Node, puoi ottenere una shell inversa di Node, e lo stesso con la maggior parte dei **linguaggi di scripting**.
+Tuttavia, se il container compromesso sta eseguendo ad esempio un'applicazione web Flask, allora Python è installato e quindi puoi ottenere una **shell inversa Python**. Se sta eseguendo node, puoi ottenere una shell inversa di Node, e lo stesso con la maggior parte dei **linguaggi di scripting**.
 
 {% hint style="success" %}
 Utilizzando il linguaggio di scripting potresti **enumerare il sistema** sfruttando le capacità del linguaggio.
@@ -131,7 +131,7 @@ Tuttavia, in questo tipo di container queste protezioni di solito esistono, ma p
 
 Puoi trovare **esempi** su come **sfruttare alcune vulnerabilità RCE** per ottenere **shell inverse di linguaggi di scripting** ed eseguire binari dalla memoria in [**https://github.com/carlospolop/DistrolessRCE**](https://github.com/carlospolop/DistrolessRCE).
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Se sei interessato a una **carriera nell'hacking** e vuoi hackerare l'inviolabile - **stiamo assumendo!** (_richiesta competenza in polacco scritto e parlato_).
 
@@ -139,7 +139,7 @@ Se sei interessato a una **carriera nell'hacking** e vuoi hackerare l'inviolabil
 
 <details>
 
-<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Altri modi per supportare HackTricks:
 

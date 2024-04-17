@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking su AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
 
 Altri modi per supportare HackTricks:
 
@@ -14,9 +14,9 @@ Altri modi per supportare HackTricks:
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Se sei interessato alla **carriera dell'hacking** e vuoi hackerare l'inviolabile - **stiamo assumendo!** (_richiesta competenza polacca scritta e parlata_).
+Se sei interessato a una **carriera nell'hacking** e a violare l'inviolabile - **stiamo assumendo!** (_richiesta competenza polacca scritta e parlata_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
@@ -24,17 +24,17 @@ Se sei interessato alla **carriera dell'hacking** e vuoi hackerare l'inviolabile
 
 > Ti è stato detto che tutto ciò che appartiene a un'azienda è nel perimetro, e vuoi capire cosa possiede effettivamente questa azienda.
 
-L'obiettivo di questa fase è ottenere tutte le **aziende possedute dall'azienda principale** e quindi tutti gli **asset** di queste aziende. Per farlo, faremo quanto segue:
+L'obiettivo di questa fase è ottenere tutte le **aziende di proprietà dell'azienda principale** e quindi tutti gli **asset** di queste aziende. Per farlo, faremo quanto segue:
 
 1. Trovare le acquisizioni dell'azienda principale, questo ci darà le aziende nel perimetro.
-2. Trovare l'ASN (se presente) di ogni azienda, questo ci darà gli intervalli IP posseduti da ciascuna azienda.
+2. Trovare l'ASN (se presente) di ciascuna azienda, questo ci darà gli intervalli IP di proprietà di ciascuna azienda.
 3. Utilizzare ricerche whois inverse per cercare altre voci (nomi di organizzazioni, domini...) correlati al primo (questo può essere fatto in modo ricorsivo).
 4. Utilizzare altre tecniche come i filtri shodan `org` e `ssl` per cercare altri asset (il trucco `ssl` può essere fatto in modo ricorsivo).
 
 ### **Acquisizioni**
 
-Innanzitutto, dobbiamo sapere quali **altre aziende sono possedute dall'azienda principale**.\
-Una opzione è visitare [https://www.crunchbase.com/](https://www.crunchbase.com), **cercare** l'**azienda principale**, e **cliccare** su "**acquisizioni**". Lì vedrai altre aziende acquisite dalla principale.\
+Innanzitutto, dobbiamo sapere quali **altre aziende sono di proprietà dell'azienda principale**.\
+Un'opzione è visitare [https://www.crunchbase.com/](https://www.crunchbase.com), **cercare** l'**azienda principale**, e **cliccare** su "**acquisizioni**". Lì vedrai altre aziende acquisite dalla principale.\
 Un'altra opzione è visitare la pagina **Wikipedia** dell'azienda principale e cercare **acquisizioni**.
 
 > Ok, a questo punto dovresti conoscere tutte le aziende nel perimetro. Scopriamo come trovare i loro asset.
@@ -74,9 +74,9 @@ Puoi trovare l'IP e l'ASN di un dominio utilizzando [http://ipv4info.com/](http:
 
 ### **Ricerca di vulnerabilità**
 
-A questo punto conosciamo **tutte le risorse all'interno del perimetro**, quindi se ti è consentito potresti avviare uno scanner di **vulnerabilità** (Nessus, OpenVAS) su tutti gli host.\
-Inoltre, potresti avviare alcuni [**scansione delle porte**](../pentesting-network/#discovering-hosts-from-the-outside) **o utilizzare servizi come** shodan **per trovare** porte aperte **e in base a ciò che trovi dovresti** consultare questo libro su come testare la penetrazione di diversi servizi possibili in esecuzione.\
-**Inoltre, potrebbe valere la pena menzionare che puoi anche preparare alcuni elenchi di** nomi utente predefiniti **e** password **e provare a** forzare i servizi con [https://github.com/x90skysn3k/brutespray](https://github.com/x90skysn3k/brutespray).
+A questo punto conosciamo **tutte le risorse all'interno del perimetro**, quindi se ti è consentito potresti avviare uno **scanner di vulnerabilità** (Nessus, OpenVAS) su tutti gli host.\
+Inoltre, potresti eseguire alcuni [**scansione delle porte**](../pentesting-network/#discovering-hosts-from-the-outside) **o utilizzare servizi come** shodan **per trovare** porte aperte **e in base a ciò che trovi dovresti** consultare questo libro su come testare la penetrazione di diversi servizi possibili in esecuzione.\
+**Inoltre, potrebbe valere la pena menzionare che puoi anche preparare alcune** liste di nomi utente **e** password **predefinite e provare a** forzare i servizi con [https://github.com/x90skysn3k/brutespray](https://github.com/x90skysn3k/brutespray).
 
 ## Domini
 
@@ -88,7 +88,7 @@ Innanzitutto dovresti cercare il(i) **dominio(i) principale** di ciascuna aziend
 
 ### **DNS inverso**
 
-Dato che hai trovato tutti gli intervalli di IP dei domini, potresti provare a eseguire **ricerche DNS inverse** su quegli **IP per trovare più domini all'interno del perimetro**. Prova a utilizzare alcuni server DNS della vittima o alcuni server DNS ben noti (1.1.1.1, 8.8.8.8)
+Dato che hai trovato tutti gli intervalli di IP dei domini, potresti provare a eseguire **ricerche DNS inverse** su quegli **IP per trovare altri domini all'interno del perimetro**. Prova a utilizzare alcuni server DNS della vittima o alcuni server DNS ben noti (1.1.1.1, 8.8.8.8)
 ```bash
 dnsrecon -r <DNS Range> -n <IP_DNS>   #DNS reverse of all of the addresses
 dnsrecon -d facebook.com -r 157.240.221.35/24 #Using facebooks dns
@@ -121,7 +121,7 @@ Puoi anche eseguire una scoperta automatica reverse whois con [amass](https://gi
 Se trovi lo **stesso ID dello stesso tracker** in 2 pagine diverse, puoi supporre che **entrambe le pagine** siano **gestite dallo stesso team**.\
 Ad esempio, se vedi lo stesso **ID di Google Analytics** o lo stesso **ID di Adsense** su diverse pagine.
 
-Ci sono alcune pagine e strumenti che ti permettono di cercare tramite questi tracker e altri:
+Ci sono alcune pagine e strumenti che ti permettono di cercare tramite questi tracker e altro ancora:
 
 * [**Udon**](https://github.com/dhn/udon)
 * [**BuiltWith**](https://builtwith.com)
@@ -131,7 +131,7 @@ Ci sono alcune pagine e strumenti che ti permettono di cercare tramite questi tr
 
 ### **Favicon**
 
-Sapevi che possiamo trovare domini e sottodomini correlati al nostro obiettivo cercando lo stesso hash dell'icona favicon? Questo è esattamente ciò che fa lo strumento [favihash.py](https://github.com/m4ll0k/Bug-Bounty-Toolz/blob/master/favihash.py) creato da [@m4ll0k2](https://twitter.com/m4ll0k2). Ecco come usarlo:
+Sapevi che possiamo trovare domini correlati e sottodomini al nostro obiettivo cercando lo stesso hash dell'icona favicon? Questo è esattamente ciò che fa lo strumento [favihash.py](https://github.com/m4ll0k/Bug-Bounty-Toolz/blob/master/favihash.py) creato da [@m4ll0k2](https://twitter.com/m4ll0k2). Ecco come usarlo:
 ```bash
 cat my_targets.txt | xargs -I %% bash -c 'echo "http://%%/favicon.ico"' > targets.txt
 python3 favihash.py -f https://target/favicon.ico -t targets.txt -s
@@ -140,7 +140,7 @@ python3 favihash.py -f https://target/favicon.ico -t targets.txt -s
 
 In poche parole, favihash ci permetterà di scoprire i domini che hanno lo stesso hash dell'icona favicon del nostro obiettivo.
 
-Inoltre, è possibile cercare tecnologie utilizzando l'hash del favicon come spiegato in [**questo post del blog**](https://medium.com/@Asm0d3us/weaponizing-favicon-ico-for-bugbounties-osint-and-what-not-ace3c214e139). Ciò significa che se si conosce l'**hash del favicon di una versione vulnerabile di una tecnologia web**, è possibile cercare in shodan e **trovare altri luoghi vulnerabili**:
+Inoltre, è possibile cercare tecnologie utilizzando l'hash dell'icona favicon come spiegato in [**questo post del blog**](https://medium.com/@Asm0d3us/weaponizing-favicon-ico-for-bugbounties-osint-and-what-not-ace3c214e139). Ciò significa che se si conosce l'**hash dell'icona favicon di una versione vulnerabile di una tecnologia web**, è possibile cercare in shodan e **trovare più luoghi vulnerabili**:
 ```bash
 shodan search org:"Target" http.favicon.hash:116323821 --fields ip_str,port --separator " " | awk '{print $1":"$2}'
 ```
@@ -179,13 +179,13 @@ Puoi utilizzare un sito web come [https://dmarc.live/info/google.com](https://dm
 
 ### **Assunzione passiva**
 
-Apparentemente è comune che le persone assegnino sottodomini a IP che appartengono a fornitori di servizi cloud e a un certo punto **perdano quell'indirizzo IP ma dimentichino di rimuovere il record DNS**. Pertanto, semplicemente **creando una VM** in un cloud (come Digital Ocean) in realtà **assumerai alcuni sottodomini**.
+Apparentemente è comune che le persone assegnino sottodomini a IP che appartengono a fornitori di servizi cloud e a un certo punto **perdono quel indirizzo IP ma dimenticano di rimuovere il record DNS**. Pertanto, semplicemente **creando una VM** in un cloud (come Digital Ocean) in realtà **assumerai alcuni sottodomini**.
 
-[**Questo post**](https://kmsec.uk/blog/passive-takeover/) spiega una storia a riguardo e propone uno script che **crea una VM in DigitalOcean**, **ottiene** l'**IPv4** della nuova macchina e **cerca in Virustotal i record dei sottodomini** che vi puntano.
+Questo [**post**](https://kmsec.uk/blog/passive-takeover/) spiega una storia a riguardo e propone uno script che **crea una VM in DigitalOcean**, **ottiene** l'**IPv4** della nuova macchina e **cerca in Virustotal i record dei sottodomini** che vi puntano.
 
 ### **Altri metodi**
 
-**Nota che puoi utilizzare questa tecnica per scoprire più nomi di dominio ogni volta che ne trovi uno nuovo.**
+**Nota che puoi utilizzare questa tecnica per scoprire più nomi di dominio ogni volta che trovi un nuovo dominio.**
 
 **Shodan**
 
@@ -211,7 +211,7 @@ _Nota che a volte il dominio è ospitato all'interno di un IP che non è control
 
 ## Sottodomini
 
-> Conosciamo tutte le aziende all'interno dello scope, tutti gli asset di ciascuna azienda e tutti i domini correlati alle aziende.
+> Conosciamo tutte le aziende all'interno dell'ambito, tutti gli asset di ciascuna azienda e tutti i domini correlati alle aziende.
 
 È ora di trovare tutti i possibili sottodomini di ciascun dominio trovato.
 
@@ -221,7 +221,7 @@ Nota che alcuni degli strumenti e delle tecniche per trovare domini possono aiut
 
 ### **DNS**
 
-Proviamo a ottenere **sottodomini** dai **record DNS**. Dovremmo anche provare per **Zone Transfer** (Se vulnerabile, dovresti segnalarlo).
+Proviamo a ottenere i **sottodomini** dai **record DNS**. Dovremmo anche provare per il **trasferimento di zona** (se vulnerabile, dovresti segnalarlo).
 ```bash
 dnsrecon -a -d tesla.com
 ```
@@ -308,7 +308,7 @@ curl -s "https://crt.sh/?q=%25.$1" \
 }
 crt tesla.com
 ```
-* [**gau**](https://github.com/lc/gau)**:** recupera gli URL conosciuti da AlienVault's Open Threat Exchange, il Wayback Machine e Common Crawl per un determinato dominio.
+* [**gau**](https://github.com/lc/gau)**:** recupera gli URL conosciuti dall'Open Threat Exchange di AlienVault, dal Wayback Machine e dal Common Crawl per un determinato dominio.
 ```bash
 # Get subdomains from GAUs found URLs
 gau --subs tesla.com | cut -d "/" -f 3 | sort -u
@@ -328,7 +328,7 @@ shodan domain <domain>
 # Get other pages with links to subdomains
 shodan search "http.html:help.domain.com"
 ```
-* [**Censys subdomain finder**](https://github.com/christophetd/censys-subdomain-finder)
+* [**Trova sotto dominio di Censys**](https://github.com/christophetd/censys-subdomain-finder)
 ```bash
 export CENSYS_API_ID=...
 export CENSYS_API_SECRET=...
@@ -341,7 +341,7 @@ python3 DomainTrail.py -d example.com
 * [**securitytrails.com**](https://securitytrails.com/) offre una API gratuita per cercare sottodomini e la cronologia degli IP
 * [**chaos.projectdiscovery.io**](https://chaos.projectdiscovery.io/#/)
 
-Questo progetto offre gratuitamente tutti i sottodomini correlati ai programmi di bug bounty. Puoi accedere a questi dati anche utilizzando [chaospy](https://github.com/dr-0x0x/chaospy) o accedere allo scope utilizzato da questo progetto [https://github.com/projectdiscovery/chaos-public-program-list](https://github.com/projectdiscovery/chaos-public-program-list)
+Questo progetto offre gratuitamente tutti i sottodomini relativi ai programmi di bug bounty. Puoi accedere a questi dati anche utilizzando [chaospy](https://github.com/dr-0x0x/chaospy) o accedere allo scope utilizzato da questo progetto [https://github.com/projectdiscovery/chaos-public-program-list](https://github.com/projectdiscovery/chaos-public-program-list)
 
 Puoi trovare un confronto di molti di questi strumenti qui: [https://blog.blacklanternsecurity.com/p/subdomain-enumeration-tool-face-off](https://blog.blacklanternsecurity.com/p/subdomain-enumeration-tool-face-off)
 
@@ -361,7 +361,7 @@ E anche gli IP dei buoni risolutori DNS. Per generare un elenco di risolutori DN
 
 Gli strumenti più raccomandati per il brute-force DNS sono:
 
-* [**massdns**](https://github.com/blechschmidt/massdns): Questo è stato il primo strumento che ha eseguito un efficace brute-force DNS. È molto veloce ma è soggetto a falsi positivi.
+* [**massdns**](https://github.com/blechschmidt/massdns): Questo è stato il primo strumento che ha eseguito un efficace brute-force DNS. È molto veloce ma è incline ai falsi positivi.
 ```bash
 sed 's/$/.domain.com/' subdomains.txt > bf-subdomains.txt
 ./massdns -r resolvers.txt -w /tmp/results.txt bf-subdomains.txt
@@ -371,7 +371,7 @@ grep -E "tesla.com. [0-9]+ IN A .+" /tmp/results.txt
 ```
 gobuster dns -d mysite.com -t 50 -w subdomains.txt
 ```
-* [**shuffledns**](https://github.com/projectdiscovery/shuffledns) è un wrapper attorno a `massdns`, scritto in go, che ti permette di enumerare sottodomini validi utilizzando la forza bruta attiva, nonché risolvere sottodomini con gestione dei wildcard e supporto facile input-output.
+* [**shuffledns**](https://github.com/projectdiscovery/shuffledns) è un wrapper attorno a `massdns`, scritto in go, che ti permette di enumerare sottodomini validi utilizzando la forza bruta attiva, oltre a risolvere sottodomini con gestione dei wildcard e supporto facile input-output.
 ```
 shuffledns -d example.com -list example-subdomains.txt -r resolvers.txt
 ```
@@ -392,7 +392,7 @@ Dopo aver trovato sottodomini utilizzando fonti aperte e brute-forcing, potresti
 cat subdomains.txt | dnsgen -
 ```
 * [**goaltdns**](https://github.com/subfinder/goaltdns): Date i domini e i sottodomini generano permutazioni.
-* È possibile ottenere la lista di permutazioni di **wordlist** di goaltdns [**qui**](https://github.com/subfinder/goaltdns/blob/master/words.txt).
+* È possibile ottenere la lista di permutazioni di goaltdns **wordlist** [**qui**](https://github.com/subfinder/goaltdns/blob/master/words.txt).
 ```bash
 goaltdns -l subdomains.txt -w /tmp/words-permutations.txt -o /tmp/final-words-s3.txt
 ```
@@ -400,13 +400,13 @@ goaltdns -l subdomains.txt -w /tmp/words-permutations.txt -o /tmp/final-words-s3
 ```
 gotator -sub subdomains.txt -silent [-perm /tmp/words-permutations.txt]
 ```
-* [**altdns**](https://github.com/infosec-au/altdns): Oltre a generare permutazioni di sottodomini, può anche provare a risolverli (ma è meglio utilizzare gli strumenti precedentemente commentati).
+* [**altdns**](https://github.com/infosec-au/altdns): Oltre a generare le permutazioni dei sottodomini, può anche provare a risolverli (ma è meglio utilizzare gli strumenti precedentemente commentati).
 * È possibile ottenere la **wordlist** delle permutazioni di altdns [**qui**](https://github.com/infosec-au/altdns/blob/master/words.txt).
 ```
 altdns -i subdomains.txt -w /tmp/words-permutations.txt -o /tmp/asd3
 ```
 * [**dmut**](https://github.com/bp0lr/dmut): Un altro strumento per eseguire permutazioni, mutazioni e alterazioni dei sottodomini. Questo strumento forzerà il risultato (non supporta il wild card dns).
-* È possibile ottenere la lista di parole per le permutazioni di dmut [**qui**](https://raw.githubusercontent.com/bp0lr/dmut/main/words.txt).
+* Puoi ottenere la lista di parole per le permutazioni di dmut [**qui**](https://raw.githubusercontent.com/bp0lr/dmut/main/words.txt).
 ```bash
 cat subdomains.txt | dmut -d /tmp/words-permutations.txt -w 100 \
 --dns-errorLimit 10 --use-pb --verbose -s /tmp/resolvers-trusted.txt
@@ -427,21 +427,21 @@ echo www | subzuf facebook.com
 ```
 ### **Flusso di scoperta dei sottodomini**
 
-Controlla questo post sul blog che ho scritto su come **automatizzare la scoperta dei sottodomini** da un dominio utilizzando **i workflow di Trickest** in modo da non dover avviare manualmente un mucchio di strumenti sul mio computer:
+Controlla questo post sul blog che ho scritto su come **automatizzare la scoperta dei sottodomini** da un dominio utilizzando **i workflow di Trickest** in modo da non dover avviare manualmente una serie di strumenti sul mio computer:
 
 {% embed url="https://trickest.com/blog/full-subdomain-discovery-using-workflow/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 {% embed url="https://trickest.com/blog/full-subdomain-brute-force-discovery-using-workflow/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-### **VHosts / Host virtuali**
+### **VHosts / Virtual Hosts**
 
-Se hai trovato un indirizzo IP contenente **una o più pagine web** appartenenti a sottodomini, potresti provare a **trovare altri sottodomini con siti web su quell'IP** cercando in **fonti OSINT** per domini in un IP o **forzando i nomi di dominio VHost in quell'IP**.
+Se hai trovato un indirizzo IP contenente **una o più pagine web** appartenenti a sottodomini, potresti provare a **trovare altri sottodomini con pagine web in quell'IP** cercando in **fonti OSINT** per domini in un IP o **forzando i nomi di dominio VHost in quell'IP**.
 
 #### OSINT
 
 Puoi trovare alcuni **VHost in IP utilizzando** [**HostHunter**](https://github.com/SpiderLabs/HostHunter) **o altri API**.
 
-**Forza bruta**
+**Forza Bruta**
 
 Se sospetti che alcuni sottodomini possano essere nascosti in un server web, potresti provare a forzarli:
 ```bash
@@ -479,7 +479,7 @@ Puoi **monitorare** se vengono creati **nuovi sottodomini** di un dominio monito
 ### **Ricerca di vulnerabilità**
 
 Controlla possibili [**takeover di sottodomini**](../../pentesting-web/domain-subdomain-takeover.md#subdomain-takeover).\
-Se il **sottodominio** sta puntando a un **bucket S3**, [**controlla le autorizzazioni**](../../network-services-pentesting/pentesting-web/buckets/).
+Se il **sottodominio** punta a un **bucket S3**, [**controlla le autorizzazioni**](../../network-services-pentesting/pentesting-web/buckets/).
 
 Se trovi un **sottodominio con un IP diverso** da quelli già trovati nella scoperta degli asset, dovresti eseguire una **scansione di vulnerabilità di base** (usando Nessus o OpenVAS) e una [**scansione delle porte**](../pentesting-network/#discovering-hosts-from-the-outside) con **nmap/masscan/shodan**. A seconda dei servizi in esecuzione, puoi trovare in **questo libro alcuni trucchi per "attaccarli"**.\
 _Nota che a volte il sottodominio è ospitato all'interno di un IP che non è controllato dal cliente, quindi non è nel perimetro, fai attenzione._
@@ -507,10 +507,10 @@ Puoi anche controllare i domini che puntano a un indirizzo IP specifico utilizza
 
 Nei passaggi precedenti probabilmente hai già eseguito un **riconoscimento degli IP e dei domini scoperti**, quindi potresti **già aver trovato tutti i possibili server web**. Tuttavia, se non lo hai fatto, vedremo ora alcuni **trucchi veloci per cercare server web** all'interno del perimetro.
 
-Si noti che questo sarà **orientato alla scoperta delle app web**, quindi dovresti **eseguire la scansione di vulnerabilità** e **delle porte** anche (**se consentito** dal perimetro).
+Si noti che questo sarà **orientato alla scoperta delle app web**, quindi dovresti **eseguire la scansione di vulnerabilità** e **di porte** anche (**se consentito** dal perimetro).
 
 Un **metodo rapido** per scoprire le **porte aperte** relative ai **server web** utilizzando [**masscan può essere trovato qui**](../pentesting-network/#http-port-discovery).\
-Un altro strumento utile per cercare server web è [**httprobe**](https://github.com/tomnomnom/httprobe)**,** [**fprobe**](https://github.com/theblackturtle/fprobe) e [**httpx**](https://github.com/projectdiscovery/httpx). Basta passare un elenco di domini e cercherà di connettersi alla porta 80 (http) e 443 (https). Inoltre, puoi indicare di provare altre porte:
+Un altro strumento utile per cercare server web è [**httprobe**](https://github.com/tomnomnom/httprobe)**,** [**fprobe**](https://github.com/theblackturtle/fprobe) e [**httpx**](https://github.com/projectdiscovery/httpx). Basta passare un elenco di domini e proverà a connettersi alla porta 80 (http) e 443 (https). Inoltre, puoi indicare di provare altre porte:
 ```bash
 cat /tmp/domains.txt | httprobe #Test all domains inside the file for port 80 and 443
 cat /tmp/domains.txt | httprobe -p http:8080 -p https:8443 #Check port 80, 443 and 8080 and 8443
@@ -525,9 +525,9 @@ Inoltre, potresti poi utilizzare [**eyeballer**](https://github.com/BishopFox/ey
 
 ## Risorse Cloud Pubbliche
 
-Per trovare potenziali risorse cloud appartenenti a un'azienda dovresti **iniziare con un elenco di parole chiave che identificano quell'azienda**. Ad esempio, per una società di criptovalute potresti usare parole come: `"crypto", "wallet", "dao", "<nome_dominio>", <"nomi_sottodomini">`.
+Per trovare potenziali risorse cloud appartenenti a un'azienda dovresti **iniziare con un elenco di parole chiave che identificano quell'azienda**. Ad esempio, per una società di criptovalute potresti utilizzare parole come: `"crypto", "wallet", "dao", "<nome_dominio>", <"nomi_sottodomini">`.
 
-Avrai anche bisogno di liste di parole comuni usate nei bucket:
+Avrai anche bisogno di liste di parole **comuni utilizzate nei bucket**:
 
 * [https://raw.githubusercontent.com/cujanovic/goaltdns/master/words.txt](https://raw.githubusercontent.com/cujanovic/goaltdns/master/words.txt)
 * [https://raw.githubusercontent.com/infosec-au/altdns/master/words.txt](https://raw.githubusercontent.com/infosec-au/altdns/master/words.txt)
@@ -545,7 +545,7 @@ Se trovi cose come **bucket aperti o funzioni cloud esposte** dovresti **acceder
 
 ## Email
 
-Con i **domini** e i **sottodomini** all'interno del perimetro hai praticamente tutto ciò di cui **hai bisogno per iniziare a cercare email**. Questi sono gli **API** e gli **strumenti** che hanno funzionato meglio per me per trovare le email di un'azienda:
+Con i **domini** e i **sottodomini** nel perimetro hai praticamente tutto ciò di cui **hai bisogno per iniziare a cercare email**. Questi sono gli **API** e gli **strumenti** che hanno funzionato meglio per me per trovare le email di un'azienda:
 
 * [**theHarvester**](https://github.com/laramies/theHarvester) - con API
 * API di [**https://hunter.io/**](https://hunter.io/) (versione gratuita)
@@ -554,7 +554,7 @@ Con i **domini** e i **sottodomini** all'interno del perimetro hai praticamente 
 
 ### **Ricerca di vulnerabilità**
 
-Le email saranno utili in seguito per **forzare l'accesso ai log e ai servizi di autenticazione web** (come SSH). Inoltre, sono necessarie per i **phishing**. Inoltre, questi API ti daranno ancora più **informazioni sulla persona** dietro l'email, che è utile per la campagna di phishing.
+Le email saranno utili in seguito per **forzare l'accesso ai login web e ai servizi di autenticazione** (come SSH). Inoltre, sono necessarie per i **phishing**. Inoltre, questi API ti forniranno ancora più **informazioni sulla persona** dietro l'email, che è utile per la campagna di phishing.
 
 ## Fughe di Credenziali
 
@@ -565,11 +565,11 @@ Con i **domini**, i **sottodomini** e le **email** puoi iniziare a cercare crede
 
 ### **Ricerca di vulnerabilità**
 
-Se trovi **credenziali trapelate valide**, è una vittoria molto facile.
+Se trovi **credenziali trapelate** valide, è una vittoria molto facile.
 
 ## Fughe di Segreti
 
-Le fughe di credenziali sono legate agli hack di aziende in cui è stata **trapelata e venduta informazione sensibile**. Tuttavia, le aziende potrebbero essere colpite da **altre fughe** le cui informazioni non sono in quei database:
+Le fughe di credenziali sono correlate a violazioni di aziende in cui è stata **trapelata e venduta informazioni sensibili**. Tuttavia, le aziende potrebbero essere colpite da **altre fughe** le cui informazioni non sono in quei database:
 
 ### Fughe su Github
 
@@ -588,7 +588,7 @@ Controlla anche questa **pagina** per potenziali **dork su github** che potresti
 
 ### Fughe su Paste
 
-A volte gli attaccanti o semplicemente i lavoratori **pubblicheranno contenuti aziendali in un sito di paste**. Questo potrebbe o potrebbe non contenere **informazioni sensibili**, ma è molto interessante cercarlo.\
+A volte gli attaccanti o semplicemente i lavoratori **pubblicheranno contenuti aziendali su un sito di paste**. Questo potrebbe o potrebbe non contenere **informazioni sensibili**, ma è molto interessante cercarlo.\
 Puoi utilizzare lo strumento [**Pastos**](https://github.com/carlospolop/Pastos) per cercare contemporaneamente in più di 80 siti di paste.
 
 ### Dork di Google
@@ -599,7 +599,7 @@ _Nota che gli strumenti che si aspettano di eseguire l'intero database utilizzan
 
 ### **Ricerca di vulnerabilità**
 
-Se trovi **credenziali trapelate valide** o token API, è una vittoria molto facile.
+Se trovi **credenziali trapelate** valide o token API, è una vittoria molto facile.
 
 ## Vulnerabilità del Codice Pubblico
 
@@ -618,7 +618,7 @@ Ci sono anche servizi gratuiti che ti consentono di **scansionare i repository p
 
 La **maggior parte delle vulnerabilità** trovate dai cacciatori di bug risiede all'interno delle **applicazioni web**, quindi a questo punto vorrei parlare di una **metodologia di test delle applicazioni web**, e puoi [**trovare queste informazioni qui**](../../network-services-pentesting/pentesting-web/).
 
-Voglio anche fare una menzione speciale alla sezione [**Strumenti open source di scannerizzazione automatica web**](../../network-services-pentesting/pentesting-web/#automatic-scanners), poiché, se non ci si deve aspettare che trovino vulnerabilità molto sensibili, sono utili per implementarle nei **workflow per avere alcune informazioni web iniziali.**
+Vorrei anche fare una menzione speciale alla sezione [**Strumenti open source di scannerizzazione automatica web**](../../network-services-pentesting/pentesting-web/#automatic-scanners), poiché, se non ci si deve aspettare che trovino vulnerabilità molto sensibili, sono utili per implementarle nei **workflow per avere alcune informazioni web iniziali.**
 
 ## Riepilogo
 
@@ -649,9 +649,9 @@ Ci sono diversi strumenti là fuori che eseguiranno parte delle azioni proposte 
 
 * Tutti i corsi gratuiti di [**@Jhaddix**](https://twitter.com/Jhaddix) come [**The Bug Hunter's Methodology v4.0 - Recon Edition**](https://www.youtube.com/watch?v=p4JgIu1mceI)
 
-<figure><img src="../../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Se sei interessato a una **carriera nell'hacking** e a hackerare l'inattaccabile - **stiamo assumendo!** (_richiesta competenza in polacco scritto e parlato_).
+Se sei interessato a una **carriera nell'hacking** e ad hackerare l'inattaccabile - **stiamo assumendo!** (_richiesta competenza nella lingua polacca scritta e parlata_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
