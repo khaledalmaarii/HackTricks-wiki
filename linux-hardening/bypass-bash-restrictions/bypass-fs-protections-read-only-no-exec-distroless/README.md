@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks :
 
@@ -14,9 +14,9 @@ Autres façons de soutenir HackTricks :
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Si vous êtes intéressé par une **carrière en piratage** et pirater l'impossible - **nous recrutons !** (_maîtrise du polonais écrit et parlé requis_).
+Si vous êtes intéressé par une **carrière en piratage** et pirater l'impossible - **nous recrutons !** (_polonais écrit et parlé couramment requis_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
@@ -24,7 +24,7 @@ Si vous êtes intéressé par une **carrière en piratage** et pirater l'impossi
 
 Dans les vidéos suivantes, vous trouverez les techniques mentionnées sur cette page expliquées plus en détail :
 
-* [**DEF CON 31 - Exploration de la manipulation de la mémoire Linux pour la furtivité et l'évasion**](https://www.youtube.com/watch?v=poHirez8jk4)
+* [**DEF CON 31 - Exploration de la manipulation de la mémoire Linux pour la discrétion et l'évasion**](https://www.youtube.com/watch?v=poHirez8jk4)
 * [**Intrusions furtives avec DDexec-ng & in-memory dlopen() - HackTricks Track 2023**](https://www.youtube.com/watch?v=VM\_gjjiARaU)
 
 ## Scénario lecture seule / pas d'exécution
@@ -44,7 +44,7 @@ securityContext:
 </strong>    command: ["sh", "-c", "while true; do sleep 1000; done"]
 </code></pre>
 
-Cependant, même si le système de fichiers est monté en ro, **`/dev/shm`** restera inscriptible, donc nous pouvons écrire sur le disque. Cependant, ce dossier sera **monté avec une protection no-exec**, donc si vous téléchargez un binaire ici, vous **ne pourrez pas l'exécuter**.
+Cependant, même si le système de fichiers est monté en ro, **`/dev/shm`** restera inscriptible, donc il est faux de dire que nous ne pouvons rien écrire sur le disque. Cependant, ce dossier sera **monté avec une protection no-exec**, donc si vous téléchargez un binaire ici, vous **ne pourrez pas l'exécuter**.
 
 {% hint style="warning" %}
 D'un point de vue d'équipe rouge, cela rend **compliqué le téléchargement et l'exécution** de binaires qui ne sont pas déjà présents dans le système (comme des portes dérobées ou des outils d'énumération comme `kubectl`).
@@ -52,7 +52,7 @@ D'un point de vue d'équipe rouge, cela rend **compliqué le téléchargement et
 
 ## Contournement le plus simple : Scripts
 
-Notez que j'ai mentionné les binaires, vous pouvez **exécuter n'importe quel script** tant que l'interpréteur est présent dans la machine, comme un **script shell** si `sh` est présent ou un **script Python** si `python` est installé.
+Notez que j'ai mentionné les binaires, vous pouvez **exécuter n'importe quel script** tant que l'interpréteur est présent dans la machine, comme un **script shell** si `sh` est présent ou un **script python** si `python` est installé.
 
 Cependant, cela ne suffit pas pour exécuter votre porte dérobée binaire ou d'autres outils binaires dont vous pourriez avoir besoin d'exécuter.
 
@@ -93,9 +93,9 @@ Pour plus d'informations sur cette technique, consultez le Github ou :
 
 ### MemExec
 
-[**Memexec**](https://github.com/arget13/memexec) est la prochaine étape naturelle de DDexec. C'est un **shellcode demonisé DDexec**, donc chaque fois que vous voulez **exécuter un binaire différent**, vous n'avez pas besoin de relancer DDexec, vous pouvez simplement exécuter le shellcode memexec via la technique DDexec et ensuite **communiquer avec ce démon pour transmettre de nouveaux binaires à charger et exécuter**.
+[**Memexec**](https://github.com/arget13/memexec) est la prochaine étape naturelle de DDexec. C'est un **démon de shellcode DDexec**, donc chaque fois que vous voulez **exécuter un binaire différent**, vous n'avez pas besoin de relancer DDexec, vous pouvez simplement exécuter le shellcode memexec via la technique DDexec et ensuite **communiquer avec ce démon pour transmettre de nouveaux binaires à charger et exécuter**.
 
-Vous pouvez trouver un exemple de l'utilisation de **memexec pour exécuter des binaires à partir d'un shell PHP inversé** dans [https://github.com/arget13/memexec/blob/main/a.php](https://github.com/arget13/memexec/blob/main/a.php).
+Vous pouvez trouver un exemple de **comment utiliser memexec pour exécuter des binaires à partir d'un shell PHP inversé** dans [https://github.com/arget13/memexec/blob/main/a.php](https://github.com/arget13/memexec/blob/main/a.php).
 
 ### Memdlopen
 
@@ -107,7 +107,7 @@ Dans un but similaire à DDexec, la technique [**memdlopen**](https://github.com
 
 Les conteneurs Distroless contiennent uniquement les **composants strictement nécessaires pour exécuter une application ou un service spécifique**, tels que des bibliothèques et des dépendances d'exécution, mais excluent des composants plus importants comme un gestionnaire de paquets, un shell ou des utilitaires système.
 
-Le but des conteneurs Distroless est de **réduire la surface d'attaque des conteneurs en éliminant les composants inutiles** et en minimisant le nombre de vulnérabilités exploitables.
+L'objectif des conteneurs Distroless est de **réduire la surface d'attaque des conteneurs en éliminant les composants inutiles** et en minimisant le nombre de vulnérabilités exploitables.
 
 ### Shell Inversé
 
@@ -129,11 +129,11 @@ S'il n'y a **pas de protections `lecture seule/sans exécution`**, vous pourriez
 Cependant, dans ce type de conteneurs, ces protections existent généralement, mais vous pourriez utiliser les **techniques d'exécution en mémoire précédentes pour les contourner**.
 {% endhint %}
 
-Vous pouvez trouver des **exemples** sur la façon d'**exploiter certaines vulnérabilités RCE** pour obtenir des **shells inversés de langages de script** et exécuter des binaires en mémoire dans [**https://github.com/carlospolop/DistrolessRCE**](https://github.com/carlospolop/DistrolessRCE).
+Vous pouvez trouver des **exemples** sur **comment exploiter certaines vulnérabilités RCE** pour obtenir des **shells inversés de langages de script** et exécuter des binaires en mémoire dans [**https://github.com/carlospolop/DistrolessRCE**](https://github.com/carlospolop/DistrolessRCE).
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Si vous êtes intéressé par une **carrière en piratage** et pirater l'impossible - **nous recrutons !** (_maîtrise du polonais à l'écrit et à l'oral requise_).
+Si vous êtes intéressé par une **carrière en piratage** et pirater l'impossible - **nous recrutons !** (_maîtrise du polonais écrit et parlé requis_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
