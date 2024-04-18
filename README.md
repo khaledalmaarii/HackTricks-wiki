@@ -5,10 +5,10 @@
 _Hacktricks Logos & Motion Design von_ [_@ppiernacho_](https://www.instagram.com/ppieranacho/)_._
 
 {% hint style="success" %}
-**Willkommen im Wiki, wo du jeden Hack-Trick/Technik/was auch immer finden wirst, den ich aus CTFs, realen Apps, Forschungsarbeiten und Nachrichten gelernt habe.**
+**Willkommen im Wiki, wo du jeden Hack-Trick/Technik/ was auch immer finden wirst, den ich aus CTFs, realen Apps, Forschungsarbeiten und Nachrichten gelernt habe.**
 {% endhint %}
 
-Um loszulegen, folge dieser Seite, auf der du den **typischen Ablauf** findest, den **du befolgen solltest, wenn du** ein oder mehrere **Maschinen pentesten möchtest:**
+Um loszulegen, folge dieser Seite, auf der du den **typischen Ablauf** findest, den **du befolgen solltest, wenn du** ein oder mehrere **Maschinen pentestest:**
 
 {% content-ref url="generic-methodologies-and-resources/pentesting-methodology.md" %}
 [pentesting-methodology.md](generic-methodologies-and-resources/pentesting-methodology.md)
@@ -44,7 +44,7 @@ Du kannst ihren **Blog** unter [**https://blog.stmcyber.com**](https://blog.stmc
 
 **Intigriti** ist die **Nummer 1 in Europa** für ethisches Hacken und **Bug-Bounty-Plattform**.
 
-**Bug-Bounty-Tipp**: **Melde dich an** bei **Intigriti**, einer Premium-**Bug-Bounty-Plattform, die von Hackern für Hacker erstellt wurde**! Trete uns noch heute unter [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) bei und beginne, Prämien von bis zu **100.000 $** zu verdienen!
+**Bug-Bounty-Tipp**: **Melde dich an** bei **Intigriti**, einer Premium-**Bug-Bounty-Plattform, die von Hackern für Hacker erstellt wurde**! Trete uns noch heute unter [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) bei und verdiene Prämien von bis zu **100.000 $**!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
@@ -71,13 +71,13 @@ Trete dem [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) Serve
 
 * **Hacking-Einblicke:** Beschäftige dich mit Inhalten, die sich mit dem Nervenkitzel und den Herausforderungen des Hackens befassen
 * **Echtzeit-Hack-News:** Bleibe mit der schnelllebigen Hacking-Welt durch Echtzeitnachrichten und Einblicke auf dem Laufenden
-* **Neueste Ankündigungen:** Bleibe über die neuesten Bug-Bounties und wichtigen Plattformupdates informiert
+* **Neueste Ankündigungen:** Bleibe über die neuesten Bug-Bounties und wichtige Plattformupdates informiert
 
-**Trete uns bei** auf [**Discord**](https://discord.com/invite/N3FrSbmwdy) und beginne noch heute mit Top-Hackern zusammenzuarbeiten!
+**Trete uns bei auf** [**Discord**](https://discord.com/invite/N3FrSbmwdy) und beginne noch heute mit Top-Hackern zusammenzuarbeiten!
 
 ***
 
-### [Pentest-Tools.com](https://pentest-tools.com/) - Das unverzichtbare Penetrationstest-Toolkit
+### [Pentest-Tools.com](https://pentest-tools.com/) - Das essentielle Penetrationstest-Toolkit
 
 <figure><img src=".gitbook/assets/image (12).png" alt=""><figcaption></figcaption></figure>
 
@@ -94,11 +94,11 @@ Trete dem [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) Serve
 SerpApi bietet schnelle und einfache Echtzeit-APIs zum **Zugriff auf Suchmaschinenergebnisse**. Sie durchsuchen Suchmaschinen, handhaben Proxies, lösen Captchas und analysieren alle strukturierten Daten für dich.
 
 Ein Abonnement für einen der Pläne von SerpApi umfasst den Zugriff auf über 50 verschiedene APIs zum Scraping verschiedener Suchmaschinen, einschließlich Google, Bing, Baidu, Yahoo, Yandex und mehr.\
-Im Gegensatz zu anderen Anbietern **schabt SerpApi nicht nur organische Ergebnisse**. SerpApi-Antworten enthalten konsistent alle Anzeigen, Inline-Bilder und -Videos, Wissensgraphen und andere Elemente und Funktionen, die in den Suchergebnissen vorhanden sind.
+Im Gegensatz zu anderen Anbietern **scraped SerpApi nicht nur organische Ergebnisse**. SerpApi-Antworten enthalten konsistent alle Anzeigen, Inline-Bilder und Videos, Wissensgraphen und andere Elemente und Funktionen, die in den Suchergebnissen vorhanden sind.
 
 Aktuelle SerpApi-Kunden sind **Apple, Shopify und GrubHub**.\
 Für weitere Informationen besuche ihren [**Blog**](https://serpapi.com/blog/)**,** oder probiere ein Beispiel in ihrem [**Spielplatz**](https://serpapi.com/playground)**.**\
-Du kannst ein **kostenloses Konto erstellen** [**hier**](https://serpapi.com/users/sign\_up)**.**
+Du kannst **hier ein kostenloses Konto erstellen** [**hier**](https://serpapi.com/users/sign\_up)**.**
 
 ***
 
@@ -123,21 +123,21 @@ Eine weitere coole Sache an WebSec ist, dass sie im Gegensatz zum Branchendurchs
 Zusätzlich zu dem oben Genannten ist WebSec auch ein **engagierter Unterstützer von HackTricks.**
 
 {% embed url="https://www.youtube.com/watch?v=Zq2JycGDCPM" %}
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) ist eine von **Dark Web** angetriebene Suchmaschine, die **kostenlose** Funktionen bietet, um zu überprüfen, ob ein Unternehmen oder seine Kunden von **Stealer-Malware** **kompromittiert** wurden.
+[**WhiteIntel**](https://whiteintel.io) ist eine von **Dark Web** angetriebene Suchmaschine, die kostenlose Funktionen bietet, um zu überprüfen, ob ein Unternehmen oder seine Kunden von **Stealer-Malware** **kompromittiert** wurden.
 
-Das Hauptziel von WhiteIntel ist es, Kontoübernahmen und Ransomware-Angriffe zu bekämpfen, die durch informationsstehlende Malware verursacht werden.
+Das Hauptziel von WhiteIntel ist es, Kontoübernahmen und Ransomware-Angriffe aufgrund von informationsstehlender Malware zu bekämpfen.
 
-Sie können ihre Website besuchen und ihre Suchmaschine **kostenlos** ausprobieren unter:
+Sie können ihre Website besuchen und ihre Suchmaschine kostenlos ausprobieren unter:
 
 {% embed url="https://whiteintel.io" %}
 
 ## Lizenz & Haftungsausschluss
 
-Überprüfen Sie sie unter:
+Besuchen Sie sie unter:
 
 {% content-ref url="welcome/hacktricks-values-and-faq.md" %}
 [hacktricks-values-and-faq.md](welcome/hacktricks-values-and-faq.md)
@@ -149,10 +149,10 @@ Sie können ihre Website besuchen und ihre Suchmaschine **kostenlos** ausprobier
 
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen** möchten oder **HackTricks als PDF herunterladen** möchten, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositories einreichen.
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
 
 </details>

@@ -2,11 +2,11 @@
 
 <details>
 
-<summary><strong>Erlernen Sie AWS-Hacking von Null auf Heldenniveau mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Erlernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* Wenn Sie Ihr **Unternehmen in HackTricks bewerben** oder **HackTricks im PDF-Format herunterladen** möchten, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
@@ -14,21 +14,21 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 
 </details>
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) ist eine von **Dark Web** angetriebene Suchmaschine, die **kostenlose** Funktionen bietet, um zu überprüfen, ob ein Unternehmen oder seine Kunden von **Stealer-Malware**n **kompromittiert** wurden.
 
 Das Hauptziel von WhiteIntel ist es, Kontoübernahmen und Ransomware-Angriffe aufgrund von informationsstehlender Malware zu bekämpfen.
 
-Sie können ihre Website besuchen und ihre Suchmaschine **kostenlos** ausprobieren unter:
+Sie können ihre Website besuchen und ihre Engine **kostenlos** ausprobieren unter:
 
 {% embed url="https://whiteintel.io" %}
 
 ---
 
-### Standardbenutzer
+### Gemeinsame Benutzer
 
 *   **Daemon**: Benutzer, der für Systemdaemons reserviert ist. Die Standard-Daemon-Kontonamen beginnen normalerweise mit einem "\_":
 
@@ -50,6 +50,6 @@ for i in "${state[@]}"; do sysadminctl -"${i}" status; done;
 ### Benutzerberechtigungen
 
 * **Standardbenutzer:** Der einfachste Benutzer. Dieser Benutzer benötigt Berechtigungen, die von einem Administrator erteilt werden, wenn er versucht, Software zu installieren oder andere fortgeschrittene Aufgaben auszuführen. Sie können dies nicht eigenständig tun.
-* **Admin-Benutzer**: Ein Benutzer, der die meiste Zeit als Standardbenutzer arbeitet, aber auch root-Aktionen wie die Installation von Software und andere administrative Aufgaben ausführen darf. Alle Benutzer, die zur Admin-Gruppe gehören, erhalten **Zugriff auf root über die sudoers-Datei**.
+* **Admin-Benutzer**: Ein Benutzer, der die meiste Zeit als Standardbenutzer arbeitet, aber auch berechtigt ist, Root-Aktionen wie die Installation von Software und andere administrative Aufgaben auszuführen. Alle Benutzer, die zur Admin-Gruppe gehören, erhalten **über die sudoers-Datei Zugriff auf Root**.
 * **Root**: Root ist ein Benutzer, der fast jede Aktion ausführen darf (es gibt Einschränkungen durch Schutzmechanismen wie die System Integrity Protection).
-* Zum Beispiel kann root keine Datei im Verzeichnis `/System` ablegen.
+* Zum Beispiel kann Root keine Datei im Verzeichnis `/System` ablegen.

