@@ -1,6 +1,4 @@
-# Trikovi za Wireshark
-
-## Trikovi za Wireshark
+# Trikovi sa Wireshark-om
 
 <details>
 
@@ -10,11 +8,25 @@ Drugi načini podrške HackTricks-u:
 
 * Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**Porodiču PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+
+### [WhiteIntel](https://whiteintel.io)
+
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+
+[**WhiteIntel**](https://whiteintel.io) je **dark-web** pretraživač koji nudi **besplatne** funkcionalnosti za proveru da li je kompanija ili njeni korisnici **kompromitovani** od strane **malvera za krađu podataka**.
+
+Primarni cilj WhiteIntel-a je borba protiv preuzimanja naloga i napada ransomvera koji proizilaze iz malvera za krađu informacija.
+
+Možete posetiti njihovu veb stranicu i isprobati njihovu mašinu za **besplatno** na:
+
+{% embed url="https://whiteintel.io" %}
+
+---
 
 ## Unapredite svoje veštine sa Wireshark-om
 
@@ -37,13 +49,13 @@ Klikom na _**Analyze** --> **Expert Information**_ dobićete **pregled** onoga �
 
 **Rešene adrese**
 
-Pod _**Statistics --> Resolved Addresses**_ možete pronaći nekoliko **informacija** koje je Wireshark "**rešio**" kao što su port/transport do protokola, MAC do proizvođača, itd. Korisno je znati šta je uključeno u komunikaciju.
+Pod _**Statistics --> Resolved Addresses**_ možete pronaći nekoliko **informacija** koje je wireshark "**rešio**" kao što su port/transport do protokola, MAC do proizvođača, itd. Korisno je znati šta je uključeno u komunikaciju.
 
 ![](<../../../.gitbook/assets/image (890).png>)
 
 **Hijerarhija protokola**
 
-Pod _**Statistics --> Protocol Hierarchy**_ možete pronaći **protokole** koji su **uključeni** u komunikaciju i podatke o njima.
+Pod _**Statistics --> Protocol Hierarchy**_ možete pronaći **protokole** koji su **učestvovali** u komunikaciji i podatke o njima.
 
 ![](<../../../.gitbook/assets/image (583).png>)
 
@@ -73,7 +85,7 @@ Pod _**Statistics --> I/O Graph**_ možete pronaći **grafikon komunikacije**.
 
 ### Filteri
 
-Ovde možete pronaći Wireshark filtere u zavisnosti od protokola: [https://www.wireshark.org/docs/dfref/](https://www.wireshark.org/docs/dfref/)\
+Ovde možete pronaći wireshark filtere u zavisnosti od protokola: [https://www.wireshark.org/docs/dfref/](https://www.wireshark.org/docs/dfref/)\
 Drugi interesantni filteri:
 
 * `(http.request or ssl.handshake.type == 1) and !(udp.port eq 1900)`
@@ -85,7 +97,7 @@ Drugi interesantni filteri:
 
 ### Pretraga
 
-Ako želite da **pretražujete** **sadržaj** unutar **paketa** sesija pritisnite _CTRL+f_. Možete dodati nove slojeve glavnoj informacionoj traci (Br., Vreme, Izvor, itd.) pritiskom na desno dugme, a zatim na uređivanje kolone.
+Ako želite da **pretražujete** **sadržaj** unutar **paketa** sesija pritisnite _CTRL+f_. Možete dodati nove slojeve u glavnu informacionu traku (Br., Vreme, Izvor, itd.) pritiskom na desno dugme, a zatim na uređivanje kolone.
 
 ### Besplatne pcap laboratorije
 
@@ -113,9 +125,9 @@ U trenutnom Wireshark-u umesto `bootp` treba da tražite `DHCP`
 
 ![](<../../../.gitbook/assets/image (1000).png>)
 
-## Dekripcija TLS
+## Dekriptovanje TLS-a
 
-### Dekripcija https saobraćaja sa privatnim ključem servera
+### Dekriptovanje https saobraćaja sa privatnim ključem servera
 
 _izmeni>postavke>protokol>ssl>_
 
@@ -123,20 +135,19 @@ _izmeni>postavke>protokol>ssl>_
 
 Pritisnite _Izmeni_ i dodajte sve podatke servera i privatnog ključa (_IP, Port, Protokol, Datoteka ključa i lozinka_)
 
-### Dekripcija https saobraćaja sa simetričnim sesijskim ključevima
+### Dekriptovanje https saobraćaja sa simetričnim sesijskim ključevima
 
-Kako Firefox tako i Chrome imaju mogućnost da beleže TLS sesijske ključeve, koji se mogu koristiti sa Wireshark-om za dekripciju TLS saobraćaja. Ovo omogućava dublju analizu sigurnih komunikacija. Više detalja o tome kako izvršiti ovu dekripciju možete pronaći u vodiču na [Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/).
+Kako Firefox tako i Chrome imaju mogućnost da beleže TLS sesijske ključeve, koji se mogu koristiti sa Wireshark-om za dekriptovanje TLS saobraćaja. Ovo omogućava dublju analizu sigurnih komunikacija. Više detalja o tome kako izvršiti ovu dekripciju možete pronaći u vodiču na [Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/).
 
-Da biste ovo detektovali, pretražite okruženje za promenljivu `SSLKEYLOGFILE`
+Da biste ovo otkrili, pretražite okruženje za promenljivu `SSLKEYLOGFILE`
 
 Datoteka deljenih ključeva će izgledati ovako:
 
 ![](<../../../.gitbook/assets/image (817).png>)
 
-Da biste ovo uvezali u Wireshark idite na \_izmeni > postavke > protokol > ssl > i uvezite ga u (Pre)-Master-Secret log naziv datoteke:
+Da biste ovo uvezli u wireshark idite na \_izmeni > postavke > protokol > ssl > i uvezite je u (Pre)-Master-Secret log filename:
 
 ![](<../../../.gitbook/assets/image (986).png>)
-
 ## ADB komunikacija
 
 Izvucite APK iz ADB komunikacije gde je APK poslat:
@@ -166,16 +177,29 @@ f = open('all_bytes.data', 'w+b')
 f.write(all_bytes)
 f.close()
 ```
+### [WhiteIntel](https://whiteintel.io)
+
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+
+[**WhiteIntel**](https://whiteintel.io) je pretraživač pokretan **dark webom** koji nudi **besplatne** funkcionalnosti za proveru da li je kompanija ili njeni korisnici **ugroženi** od **malvera koji krade podatke**.
+
+Njihov primarni cilj WhiteIntela je borba protiv preuzimanja naloga i napada ransomvera koji proizilaze iz malvera koji krade informacije.
+
+Možete posetiti njihovu veb lokaciju i isprobati njihovu mašinu za **besplatno** na:
+
+{% embed url="https://whiteintel.io" %}
+
+
 <details>
 
 <summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJE**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* **Podelite svoje hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>

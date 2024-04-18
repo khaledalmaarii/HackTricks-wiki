@@ -4,7 +4,7 @@
 
 <summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks**? ili želite pristup **najnovijoj verziji PEASS ili preuzimanje HackTricks u PDF formatu**? Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks**? ili želite pristup **najnovijoj verziji PEASS-a ili preuzimanje HackTricks-a u PDF formatu**? Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -12,15 +12,15 @@
 
 </details>
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) je pretraživač pokretan **dark web-om** koji nudi **besplatne** funkcionalnosti za proveru da li je kompanija ili njeni korisnici **kompromitovani** od strane **malvera za krađu podataka**.
 
-Primarni cilj WhiteIntela je borba protiv preuzimanja naloga i napada ransomvera koji proizilaze iz malvera za krađu informacija.
+Primarni cilj WhiteIntela je borba protiv preuzimanja naloga i napada ransomware-a koji proizilaze iz malvera za krađu informacija.
 
-Možete posetiti njihovu veb lokaciju i isprobati njihovu mašinu za **besplatno** na:
+Možete posetiti njihovu veb stranicu i isprobati njihovu mašinu za **besplatno** na:
 
 {% embed url="https://whiteintel.io" %}
 
@@ -28,7 +28,7 @@ Možete posetiti njihovu veb lokaciju i isprobati njihovu mašinu za **besplatno
 
 ## Pristupni tokeni
 
-Svaki **korisnik prijavljen** na sistem **poseduje pristupni token sa bezbednosnim informacijama** za tu sesiju prijavljivanja. Sistem kreira pristupni token kada se korisnik prijavi. **Svaki proces izvršen** u ime korisnika **ima kopiju pristupnog tokena**. Token identifikuje korisnika, grupe korisnika i privilegije korisnika. Token takođe sadrži SID prijave (Security Identifier) koji identifikuje trenutnu sesiju prijavljivanja.
+Svaki **korisnik prijavljen** na sistem **poseduje pristupni token sa informacijama o bezbednosti** za tu sesiju prijavljivanja. Sistem kreira pristupni token kada se korisnik prijavi. **Svaki proces izvršen** u ime korisnika **ima kopiju pristupnog tokena**. Token identifikuje korisnika, grupe korisnika i privilegije korisnika. Token takođe sadrži SID prijave (Security Identifier) koji identifikuje trenutnu sesiju prijavljivanja.
 
 Možete videti ove informacije izvršavanjem `whoami /all`
 ```
@@ -85,31 +85,31 @@ Ako imate **validne pristupne podatke bilo kog drugog korisnika**, možete **kre
 ```
 runas /user:domain\username cmd.exe
 ```
-**Pristupni token** takođe ima **referencu** sesija prijavljivanja unutar **LSASS**, što je korisno ako proces treba da pristupi nekim objektima na mreži.\
+**Pristupni token** takođe ima **referencu** na sesije prijavljivanja unutar **LSASS**, što je korisno ako proces treba da pristupi nekim objektima na mreži.\
 Možete pokrenuti proces koji **koristi različite akreditive za pristup mrežnim uslugama** koristeći:
 ```
 runas /user:domain\username /netonly cmd.exe
 ```
-Ovo je korisno ako imate korisne akreditive za pristup objektima u mreži, ali ti akreditivi nisu važeći unutar trenutnog računara jer će se koristiti samo u mreži (u trenutnom računaru će se koristiti vaši trenutni korisnički privilegiji).
+Ovo je korisno ako imate korisne akreditive za pristup objektima u mreži, ali ti akreditivi nisu važeći unutar trenutnog hosta jer će se koristiti samo u mreži (u trenutnom hostu će se koristiti vaše trenutne korisničke privilegije).
 
 ### Vrste tokena
 
 Postoje dva tipa dostupnih tokena:
 
-* **Primarni token**: Služi kao reprezentacija sigurnosnih akreditiva procesa. Kreiranje i povezivanje primarnih tokena sa procesima su radnje koje zahtevaju povišene privilegije, ističući princip razdvajanja privilegija. Tipično, servis za autentifikaciju je odgovoran za kreiranje tokena, dok servis za prijavljivanje upravlja njegovim povezivanjem sa korisnikovim operativnim sistemom. Važno je napomenuti da procesi nasleđuju primarni token svog roditeljskog procesa pri kreiranju.
-* **Token za personifikaciju**: Omogućava serverskoj aplikaciji da privremeno preuzme identitet klijenta radi pristupa sigurnim objektima. Ovaj mehanizam je slojevito podeljen na četiri nivoa operacija:
+* **Primarni token**: Služi kao reprezentacija sigurnosnih akreditiva procesa. Kreiranje i povezivanje primarnih tokena sa procesima su radnje koje zahtevaju povišene privilegije, naglašavajući princip razdvajanja privilegija. Tipično, servis za autentifikaciju je odgovoran za kreiranje tokena, dok servis za prijavljivanje upravlja njegovim povezivanjem sa korisnikovim operativnim sistemom. Važno je napomenuti da procesi nasleđuju primarni token svog roditeljskog procesa prilikom kreiranja.
+* **Token za oponašanje**: Omogućava serverskoj aplikaciji da privremeno preuzme identitet klijenta radi pristupa sigurnim objektima. Ovaj mehanizam je stratifikovan u četiri nivoa operacija:
   * **Anoniman**: Dodeljuje pristup serveru sličan pristupu nepoznatog korisnika.
   * **Identifikacija**: Omogućava serveru da proveri identitet klijenta bez korišćenja za pristup objektima.
-  * **Personifikacija**: Omogućava serveru da radi pod identitetom klijenta.
-  * **Delegacija**: Slično kao Personifikacija, ali uključuje mogućnost proširenja ovog pretpostavljanja identiteta na udaljene sisteme sa kojima server interaguje, obezbeđujući očuvanje akreditiva.
+  * **Oponašanje**: Omogućava serveru da radi pod identitetom klijenta.
+  * **Delegacija**: Slično oponašanju, ali uključuje mogućnost proširenja ovog pretpostavljanja identiteta na udaljene sisteme sa kojima server interaguje, obezbeđujući očuvanje akreditiva.
 
-#### Personifikacija tokena
+#### Oponašanje tokena
 
-Korišćenjem _**incognito**_ modula metasploita, ako imate dovoljno privilegija, možete lako **listati** i **personifikovati** druge **tokene**. Ovo može biti korisno za izvođenje **akcija kao da ste drugi korisnik**. Takođe možete **povišiti privilegije** ovom tehnikom.
+Korišćenjem modula _**incognito**_ u metasploit-u, ako imate dovoljno privilegija, možete lako **izlistati** i **oponašati** druge **tokene**. Ovo može biti korisno za izvođenje **akcija kao da ste drugi korisnik**. Takođe možete **povišiti privilegije** ovom tehnikom.
 
 ### Privilegije tokena
 
-Saznajte koje **privilegije tokena mogu biti zloupotrebljene radi povišenja privilegija:**
+Saznajte koje **privilegije tokena mogu biti zloupotrebljene za povišenje privilegija:**
 
 {% content-ref url="privilege-escalation-abusing-tokens.md" %}
 [privilege-escalation-abusing-tokens.md](privilege-escalation-abusing-tokens.md)
@@ -122,15 +122,15 @@ Pogledajte [**sve moguće privilegije tokena i neke definicije na ovoj spoljnoj 
 Saznajte više o tokenima u ovim tutorijalima: [https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa](https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa) i [https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)
 
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) je pretraživač pokretan **dark web-om** koji nudi **besplatne** funkcionalnosti za proveru da li je kompanija ili njeni korisnici **ugroženi** od **malvera koji kradu informacije**.
+[**WhiteIntel**](https://whiteintel.io) je pretraživač na **dark vebu** koji nudi **besplatne** funkcionalnosti za proveru da li je kompanija ili njeni korisnici **kompromitovani** od strane **malvera koji krade informacije**.
 
-Primarni cilj WhiteIntela je borba protiv preuzimanja naloga i napada ransomware-a koji proizilaze iz malvera koji kradu informacije.
+Primarni cilj WhiteIntela je borba protiv preuzimanja naloga i napada ransomvera koji proizilaze iz malvera koji krade informacije.
 
-Možete posetiti njihovu veb lokaciju i isprobati njihov pretraživač **besplatno** na:
+Možete posetiti njihovu veb lokaciju i isprobati njihovu mašinu za **besplatno** na:
 
 {% embed url="https://whiteintel.io" %}
 
@@ -138,10 +138,10 @@ Možete posetiti njihovu veb lokaciju i isprobati njihov pretraživač **besplat
 
 <summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li videti svoju **kompaniju reklamiranu na HackTricks**? ili želite imati pristup **najnovijoj verziji PEASS ili preuzeti HackTricks u PDF formatu**? Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks**? ili želite da imate pristup **najnovijoj verziji PEASS ili preuzmete HackTricks u PDF-u**? Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) **Discord grupi**](https://discord.gg/hRep4RUj7f) ili **telegram grupi** ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **i** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* **Podelite svoje hakovanje trikova slanjem PR-ova na** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **i** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

@@ -6,7 +6,7 @@
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJSTVO**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
@@ -14,13 +14,13 @@ Drugi načini podrške HackTricks-u:
 
 </details>
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) je **dark-web** pretraživač koji nudi **besplatne** funkcionalnosti za proveru da li je kompanija ili njeni korisnici **kompromitovani** od strane **malvera za krađu podataka**.
+[**WhiteIntel**](https://whiteintel.io) je pretraživač pokretan **dark-web-om** koji nudi **besplatne** funkcionalnosti za proveru da li je kompanija ili njeni korisnici **kompromitovani** od strane **malvera koji krade informacije**.
 
-Njihov primarni cilj WhiteIntela je borba protiv preuzimanja naloga i napada ransomware-a koji proizilaze iz malvera za krađu informacija.
+Primarni cilj WhiteIntel-a je borba protiv preuzimanja naloga i napada ransomware-a koji proizilaze iz malvera koji krade informacije.
 
 Možete posetiti njihovu veb stranicu i isprobati njihovu mašinu za **besplatno** na:
 
@@ -44,26 +44,26 @@ for i in "${state[@]}"; do sysadminctl -"${i}" status; done;
 ```
 {% endcode %}
 
-* **Niko**: Procesi se izvršavaju sa ovim korisnikom kada su minimalne dozvole potrebne
+* **Niko**: Procesi se izvršavaju sa ovim korisnikom kada su potrebne minimalne dozvole
 * **Root**
 
-### Korisničke privilegije
+### Privilegije Korisnika
 
-* **Standardni korisnik**: Najosnovniji korisnik. Ovaj korisnik treba dozvole koje mu dodeljuje admin korisnik kada pokušava da instalira softver ili obavi druge napredne zadatke. Ne može to samostalno uraditi.
-* **Admin korisnik**: Korisnik koji većinu vremena funkcioniše kao standardni korisnik, ali mu je takođe dozvoljeno da obavlja radnje root korisnika, kao što je instalacija softvera i druge administrativne zadatke. Svi korisnici koji pripadaju admin grupi **dobijaju pristup root korisniku putem sudoers fajla**.
-* **Root**: Root je korisnik koji je dozvoljen da obavlja skoro svaku radnju (postoje ograničenja nametnuta zaštitom poput Sistemskog Integriteta).
+* **Standardni Korisnik**: Najosnovniji korisnik. Ovaj korisnik treba dozvole koje mu dodeljuje admin korisnik kada pokušava da instalira softver ili obavi druge napredne zadatke. Nije u mogućnosti da to uradi samostalno.
+* **Admin Korisnik**: Korisnik koji većinu vremena funkcioniše kao standardni korisnik, ali mu je takođe dozvoljeno da obavlja root akcije kao što je instalacija softvera i druge administrativne zadatke. Svi korisnici koji pripadaju admin grupi **dobijaju pristup root-u putem sudoers fajla**.
+* **Root**: Root je korisnik koji je dozvoljen da obavlja skoro svaku akciju (postoje ograničenja nametnuta zaštitom poput Sistemskog Integriteta).
 * Na primer, root neće moći da postavi fajl unutar `/System`
 
 <details>
 
 <summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Drugi načini podrške HackTricks-u:
+Drugi načini da podržite HackTricks:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** Proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** Proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>

@@ -6,7 +6,7 @@
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJSTVO**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
@@ -14,13 +14,13 @@ Drugi načini podrške HackTricks-u:
 
 </details>
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) je **dark-web** pretraživač koji nudi **besplatne** funkcionalnosti za proveru da li je kompanija ili njeni korisnici **kompromitovani** od strane **malvera za krađu podataka**.
+[**WhiteIntel**](https://whiteintel.io) je **dark-web** pretraživač koji nudi **besplatne** funkcionalnosti za proveru da li je kompanija ili njeni korisnici **kompromitovani** od strane **stealer malvera**.
 
-Primarni cilj WhiteIntel-a je borba protiv preuzimanja naloga i napada ransomvera koji proizilaze iz malvera za krađu informacija.
+Primarni cilj WhiteIntel-a je borba protiv preuzimanja naloga i napada ransomware-a koji proizilaze iz malvera za krađu informacija.
 
 Možete posetiti njihovu veb lokaciju i isprobati njihovu mašinu za **besplatno** na:
 
@@ -30,7 +30,7 @@ Možete posetiti njihovu veb lokaciju i isprobati njihovu mašinu za **besplatno
 
 ## Osnovne informacije
 
-AppArmor je **kernel unapređenje dizajnirano da ograniči resurse dostupne programima putem profila po programu**, efikasno implementirajući obaveznu kontrolu pristupa (MAC) povezivanjem atributa kontrole pristupa direktno sa programima umesto sa korisnicima. Ovaj sistem funkcioniše tako što **učitava profile u kernel**, obično tokom pokretanja, a ovi profili određuju koje resurse program može da pristupi, kao što su mrežne veze, pristup sirovim soketima i dozvole za datoteke.
+AppArmor je **kernel unapređenje dizajnirano da ograniči resurse dostupne programima putem profila po programu**, efikasno implementirajući obaveznu kontrolu pristupa (MAC) povezivanjem atributa kontrole pristupa direktno sa programima umesto sa korisnicima. Ovaj sistem funkcioniše **učitavanjem profila u kernel**, obično tokom pokretanja, a ovi profili određuju koje resurse program može da pristupi, kao što su mrežne veze, pristup sirovim soketima i dozvole za datoteke.
 
 Postoje dva operativna moda za AppArmor profile:
 
@@ -63,13 +63,13 @@ aa-mergeprof  #used to merge the policies
 ```
 ## Kreiranje profila
 
-* Da biste naznačili pogođeni izvršni fajl, dozvoljeni su **apsolutni putevi i džokere** (za pretragu fajlova) za specificiranje fajlova.
-* Za označavanje pristupa koji će binarni fajl imati nad **fajlovima**, mogu se koristiti sledeće **kontrole pristupa**:
+* Da biste naznačili pogođeni izvršni fajl, dozvoljeni su **apsolutni putevi i džokeri** (za globiranje fajlova) za specificiranje fajlova.
+* Za naznačavanje pristupa koji će binarni fajl imati nad **fajlovima**, mogu se koristiti sledeće **kontrole pristupa**:
   * **r** (čitanje)
   * **w** (pisanje)
-  * **m** (mapiranje u memoriju kao izvršiv)
-  * **k** (zaključavanje fajla)
-  * **l** (kreiranje tvrdih linkova)
+  * **m** (mapiranje memorije kao izvršiv)
+  * **k** (zaključavanje fajlova)
+  * **l** (kreiranje čvrstih linkova)
   * **ix** (za izvršavanje drugog programa sa novim programom koji nasleđuje pravila)
   * **Px** (izvršavanje pod drugim profilom, nakon čišćenja okruženja)
   * **Cx** (izvršavanje pod djetetovim profilom, nakon čišćenja okruženja)
@@ -79,7 +79,7 @@ aa-mergeprof  #used to merge the policies
 
 ### aa-genprof
 
-Da biste olakšali kreiranje profila, apparmor vam može pomoći. Moguće je da **apparmor ispita akcije koje izvršni fajl obavlja, a zatim vam dozvoli da odlučite koje akcije želite dozvoliti ili zabraniti**.\
+Da biste olakšali kreiranje profila, možete koristiti apparmor. Moguće je da **apparmor inspekcijom akcija koje izvršava binarni fajl, omogući vam da odlučite koje akcije želite dozvoliti ili zabraniti**.\
 Samo treba da pokrenete:
 ```bash
 sudo aa-genprof /path/to/binary
@@ -88,10 +88,10 @@ Zatim, u drugoj konzoli izvršite sve radnje koje binarni fajl obično izvršava
 ```bash
 /path/to/binary -a dosomething
 ```
-Zatim, u prvom konzoli pritisnite "**s**", a zatim u zabeleženim akcijama naznačite da li želite da ignorišete, dozvolite ili nešto drugo. Kada završite, pritisnite "**f**" i novi profil će biti kreiran u _/etc/apparmor.d/path.to.binary_
+Zatim, u prvom konzoli pritisnite "**s**", a zatim u zabeleženim akcijama naznačite da li želite da ignorišete, dozvolite ili šta god drugo. Kada završite, pritisnite "**f**" i novi profil će biti kreiran u _/etc/apparmor.d/path.to.binary_
 
 {% hint style="info" %}
-Koristeći strelice možete izabrati šta želite da dozvolite/odbijete/nešto drugo
+Koristeći strelice možete izabrati da li želite da dozvolite/odbijete/šta god drugo
 {% endhint %}
 
 ### aa-easyprof
@@ -122,7 +122,7 @@ sudo aa-easyprof /path/to/binary
 }
 ```
 {% hint style="info" %}
-Imajte na umu da podrazumevano u kreiranom profilu ništa nije dozvoljeno, tako da je sve zabranjeno. Morate dodati linije poput `/etc/passwd r,` da biste omogućili binarno čitanje `/etc/passwd` na primer.
+Imajte na umu da prema podrazumevanom profilu ništa nije dozvoljeno, tako da je sve zabranjeno. Morate dodati linije poput `/etc/passwd r,` da biste omogućili binarno čitanje `/etc/passwd`, na primer.
 {% endhint %}
 
 Zatim možete **primeniti** novi profil sa
@@ -131,7 +131,7 @@ sudo apparmor_parser -a /etc/apparmor.d/path.to.binary
 ```
 ### Modifikovanje profila iz logova
 
-Sledeći alat će pročitati logove i pitati korisnika da li želi da dozvoli neke od detektovanih zabranjenih akcija:
+Sledeći alat će pročitati logove i pitati korisnika da li želi da dozvoli neke od detektovanih zabranjenih radnji:
 ```bash
 sudo aa-logprof
 ```
@@ -147,14 +147,14 @@ apparmor_parser -C /etc/apparmor.d/profile.name #Load a new profile in complain 
 apparmor_parser -r /etc/apparmor.d/profile.name #Replace existing profile
 apparmor_parser -R /etc/apparmor.d/profile.name #Remove profile
 ```
-## Dnevnici
+## Zapisi
 
-Primeri **AUDIT** i **DENIED** dnevnika iz _/var/log/audit/audit.log_ izvršnog fajla **`service_bin`**:
+Primer **AUDIT** i **DENIED** zapisa iz _/var/log/audit/audit.log_ datoteke izvršne datoteke **`service_bin`**:
 ```bash
 type=AVC msg=audit(1610061880.392:286): apparmor="AUDIT" operation="getattr" profile="/bin/rcat" name="/dev/pts/1" pid=954 comm="service_bin" requested_mask="r" fsuid=1000 ouid=1000
 type=AVC msg=audit(1610061880.392:287): apparmor="DENIED" operation="open" profile="/bin/rcat" name="/etc/hosts" pid=954 comm="service_bin" requested_mask="r" denied_mask="r" fsuid=1000 ouid=0
 ```
-Takođe možete dobiti ove informacije koristeći:
+Možete dobiti ove informacije i korišćenjem:
 ```bash
 sudo aa-notify -s 1 -v
 Profile: /bin/service_bin
@@ -172,9 +172,9 @@ Logfile: /var/log/audit/audit.log
 AppArmor denials: 2 (since Wed Jan  6 23:51:08 2021)
 For more information, please see: https://wiki.ubuntu.com/DebuggingApparmor
 ```
-## Apparmor u Docker-u
+## Apparmor u Dockeru
 
-Primetite kako je profil **docker-profile** u docker-u učitan podrazumevano:
+Primetite kako je profil **docker-profile** u dockeru podrazumevano učitan:
 ```bash
 sudo aa-status
 apparmor module is loaded.
@@ -195,18 +195,18 @@ Podrazumevani **Apparmor docker-default profil** generiše se sa [https://github
 **docker-default profil sažetak**:
 
 * **Pristup** svim **mrežama**
-* Nijedna **sposobnost** nije definisana (Međutim, neke sposobnosti dolaze iz uključivanja osnovnih osnovnih pravila tj. #include \<abstractions/base>)
-* **Pisanje** u bilo koji **/proc** fajl nije **dozvoljeno**
-* Ostali **poddirektorijumi**/**fajlovi** od /**proc** i /**sys** su **odbijeni** pristup za čitanje/pisanje/zaključavanje/povezivanje/izvršavanje
-* **Montiranje** nije **dozvoljeno**
-* **Ptrace** se može pokrenuti samo na procesu koji je ograničen istim **apparmor profilom**
+* Nijedna **sposobnost** nije definisana (Međutim, neke sposobnosti dolaze iz osnovnih pravila uključujući osnovna pravila baze, tj. #include \<abstractions/base>)
+* **Pisanje** u bilo koji **/proc** fajl **nije dozvoljeno**
+* Ostali **poddirektorijumi**/**fajlovi** /**proc** i /**sys** su **odbijeni** pristup za čitanje/pisanje/zaključavanje/povezivanje/izvršavanje
+* **Montiranje** nije dozvoljeno
+* **Ptrace** se može izvršiti samo na procesu koji je ograničen istim **apparmor profilom**
 
 Kada **pokrenete docker kontejner** trebalo bi da vidite sledeći izlaz:
 ```bash
 1 processes are in enforce mode.
 docker-default (825)
 ```
-Napomena da će **apparmor čak blokirati privilegije mogućnosti** dodeljene kontejneru po podrazumevanim vrednostima. Na primer, moći će **blokirati dozvolu za pisanje unutar /proc čak i ako je SYS\_ADMIN mogućnost dodeljena** jer apparmor profil za docker podrazumevano odbija ovaj pristup:
+Imajte na umu da će **apparmor čak blokirati privilegije mogućnosti** dodeljene kontejneru po podrazumevanim vrednostima. Na primer, moći će **blokirati dozvolu za pisanje unutar /proc čak i ako je SYS\_ADMIN mogućnost dodeljena** jer apparmor profil za docker podrazumevano odbija ovaj pristup:
 ```bash
 docker run -it --cap-add SYS_ADMIN --security-opt seccomp=unconfined ubuntu /bin/bash
 echo "" > /proc/stat
@@ -225,7 +225,7 @@ Napomena da možete **dodati/ukloniti** **sposobnosti** kontejneru (ovo će i da
 * `--cap-drop=ALL --cap-add=SYS_PTRACE` uklanja sve sposobnosti i daje samo `SYS_PTRACE`
 
 {% hint style="info" %}
-Obično, kada **otkrijete** da imate **privilegovanu sposobnost** dostupnu **unutar** **docker** kontejnera **ali** deo **eksploatacije ne funkcioniše**, to će biti zato što docker **apparmor to sprečava**.
+Obično, kada **otkrijete** da imate **privilegovanu sposobnost** dostupnu **unutar** **docker** kontejnera **ali** deo **eksploatacije ne funkcioniše**, to će biti zato što će docker **apparmor to sprečavati**.
 {% endhint %}
 
 ### Primer
@@ -240,7 +240,7 @@ Da bismo aktivirali profil, potrebno je uraditi sledeće:
 ```
 sudo apparmor_parser -r -W mydocker
 ```
-Da bismo naveli profile, možemo koristiti sledeću komandu. Komanda ispod navela je moj novi AppArmor profil.
+Da biste naveli profile, možete koristiti sledeću komandu. Komanda ispod prikazuje moj novi AppArmor profil.
 ```
 $ sudo apparmor_status  | grep mydocker
 mydocker
@@ -266,9 +266,9 @@ find /etc/apparmor.d/ -name "*lowpriv*" -maxdepth 1 2>/dev/null
 
 U čudnom slučaju možete **izmeniti apparmor docker profil i ponovo ga učitati.** Mogli biste ukloniti ograničenja i ih "zaobići".
 
-### AppArmor Bypass putem Shebang
+### AppArmor Shebang Bypass
 
-U [**ovom bug-u**](https://bugs.launchpad.net/apparmor/+bug/1911431) možete videti primer kako **čak i ako sprečavate perl da se pokreće sa određenim resursima**, ako jednostavno kreirate shell skriptu **specifikujući** u prvom redu **`#!/usr/bin/perl`** i **izvršite fajl direktno**, moći ćete da izvršite šta god želite. Na primer:
+U [**ovom bug-u**](https://bugs.launchpad.net/apparmor/+bug/1911431) možete videti primer kako **čak i ako sprečavate perl da se pokrene sa određenim resursima**, ako jednostavno kreirate shell skriptu **specifikujući** u prvom redu **`#!/usr/bin/perl`** i **izvršite fajl direktno**, moći ćete izvršiti šta god želite. Na primer:
 ```perl
 echo '#!/usr/bin/perl
 use POSIX qw(strftime);
@@ -278,15 +278,15 @@ exec "/bin/sh"' > /tmp/test.pl
 chmod +x /tmp/test.pl
 /tmp/test.pl
 ```
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) je pretraživač pokrenut na **dark webu** koji nudi **besplatne** funkcionalnosti za proveru da li je kompanija ili njeni korisnici **ugroženi** od **malvera koji krade podatke**.
+[**WhiteIntel**](https://whiteintel.io) je pretraživač pokretan **dark web-om** koji nudi **besplatne** funkcionalnosti za proveru da li je kompanija ili njeni korisnici **ugroženi** od **malvera koji krade informacije**.
 
 Njihov primarni cilj WhiteIntela je borba protiv preuzimanja naloga i napada ransomvera koji proizilaze iz malvera koji krade informacije.
 
-Možete posetiti njihovu veb lokaciju i isprobati njihovu mašinu za pretragu **besplatno** na:
+Možete posetiti njihovu veb lokaciju i isprobati njihovu mašinu za **besplatno** na:
 
 {% embed url="https://whiteintel.io" %}
 
@@ -296,7 +296,7 @@ Možete posetiti njihovu veb lokaciju i isprobati njihovu mašinu za pretragu **
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**

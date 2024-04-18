@@ -6,7 +6,7 @@
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
@@ -14,15 +14,15 @@ Drugi načini podrške HackTricks-u:
 
 </details>
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) je pretraživač pokretan **dark-web-om** koji nudi **besplatne** funkcionalnosti za proveru da li je kompanija ili njeni korisnici **kompromitovani** od strane **malvera za krađu podataka**.
+[**WhiteIntel**](https://whiteintel.io) je **dark-web** pretraživač koji nudi **besplatne** funkcionalnosti za proveru da li je kompanija ili njeni korisnici **kompromitovani** od strane **malvera za krađu podataka**.
 
-Primarni cilj WhiteIntel-a je borba protiv preuzimanja naloga i napada ransomware-a koji proizilaze iz malvera za krađu informacija.
+Primarni cilj WhiteIntela je borba protiv preuzimanja naloga i napada ransomware-a koji proizilaze iz malvera za krađu informacija.
 
-Možete posetiti njihovu veb lokaciju i isprobati njihovu mašinu za **besplatno** na:
+Možete posetiti njihovu veb stranicu i isprobati njihovu mašinu za **besplatno** na:
 
 {% embed url="https://whiteintel.io" %}
 
@@ -36,21 +36,21 @@ Fajlovi zamene, poput `/private/var/vm/swapfile0`, služe kao **keš kada je fiz
 
 ### Hibernate slika
 
-Fajl lociran na `/private/var/vm/sleepimage` je ključan tokom **hibernacionog režima**. **Podaci iz memorije se čuvaju u ovom fajlu kada OS X hibernira**. Po buđenju računara, sistem povlači podatke iz memorije iz ovog fajla, omogućavajući korisniku da nastavi gde je stao.
+Fajl koji se nalazi na lokaciji `/private/var/vm/sleepimage` je ključan tokom **hibernacionog režima**. **Podaci iz memorije se čuvaju u ovom fajlu kada OS X hibernira**. Po buđenju računara, sistem povlači podatke iz memorije iz ovog fajla, omogućavajući korisniku da nastavi gde je stao.
 
 Važno je napomenuti da je na modernim MacOS sistemima ovaj fajl obično enkriptovan iz sigurnosnih razloga, što otežava oporavak.
 
-* Da biste proverili da li je enkripcija omogućena za sleepimage, može se pokrenuti komanda `sysctl vm.swapusage`. Ovo će pokazati da li je fajl enkriptovan.
+* Da biste proverili da li je enkripcija omogućena za sleepimage, možete pokrenuti komandu `sysctl vm.swapusage`. Ovo će pokazati da li je fajl enkriptovan.
 
 ### Logovi pritiska na memoriju
 
-Još jedan važan fajl povezan sa memorijom na MacOS sistemima su **logovi pritiska na memoriju**. Ovi logovi se nalaze u `/var/log` i sadrže detaljne informacije o korišćenju memorije sistema i događajima pritiska na memoriju. Mogu biti posebno korisni za dijagnostikovanje problema povezanih sa memorijom ili razumevanje kako sistem upravlja memorijom tokom vremena.
+Još jedan važan fajl povezan sa memorijom u MacOS sistemima su **logovi pritiska na memoriju**. Ovi logovi se nalaze u `/var/log` i sadrže detaljne informacije o korišćenju memorije sistema i događajima pritiska na memoriju. Mogu biti posebno korisni za dijagnostikovanje problema povezanih sa memorijom ili razumevanje kako sistem upravlja memorijom tokom vremena.
 
 ## Dumpovanje memorije sa osxpmem
 
-Da biste dumpovali memoriju na MacOS mašini, možete koristiti [**osxpmem**](https://github.com/google/rekall/releases/download/v1.5.1/osxpmem-2.1.post4.zip).
+Da biste dumpovali memoriju na MacOS mašini možete koristiti [**osxpmem**](https://github.com/google/rekall/releases/download/v1.5.1/osxpmem-2.1.post4.zip).
 
-**Napomena**: Sledeće instrukcije će raditi samo za Mac računare sa Intel arhitekturom. Ovaj alat je sada arhiviran, a poslednje izdanje je bilo 2017. Binarni fajl preuzet korišćenjem instrukcija ispod cilja Intel čipove jer Apple Silicon nije postojao 2017. Možda je moguće kompajlirati binarni fajl za arm64 arhitekturu, ali ćete morati sami da probate.
+**Napomena**: Sledeće instrukcije će raditi samo za Mac računare sa Intel arhitekturom. Ovaj alat je sada arhiviran, a poslednje izdanje je bilo 2017. Binarni fajl preuzet korišćenjem instrukcija ispod cilja Intel čipove jer Apple Silicon nije postojao 2017. Možda je moguće kompajlirati binarni fajl za arm64 arhitekturu, ali to ćete morati sami da probate.
 ```bash
 #Dump raw format
 sudo osxpmem.app/osxpmem --format raw -o /tmp/dump_mem
@@ -65,9 +65,9 @@ sudo kextutil "/tmp/MacPmem.kext"
 #Allow the kext in "Security & Privacy --> General"
 sudo osxpmem.app/osxpmem --format raw -o /tmp/dump_mem
 ```
-**Drugi problemi** mogu biti rešeni **omogućavanjem učitavanja kext-a** u "Sigurnost i privatnost --> Opšte", jednostavno ga **omogućite**.
+**Drugi problemi** mogu biti rešeni **omogućavanjem učitavanja kext-a** u "Bezbednost i privatnost --> Opšte", jednostavno ga **omogućite**.
 
-Takođe možete koristiti ovaj **jednolinijski** kod za preuzimanje aplikacije, učitavanje kext-a i ispraznjenje memorije:
+Takođe možete koristiti ovaj **oneliner** da preuzmete aplikaciju, učitate kext i izvršite dump memorije:
 
 {% code overflow="wrap" %}
 ```bash
@@ -76,15 +76,15 @@ cd /tmp; wget https://github.com/google/rekall/releases/download/v1.5.1/osxpmem-
 ```
 {% endcode %}
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) je pretraživač pokrenut na **dark webu** koji nudi **besplatne** funkcionalnosti za proveru da li je kompanija ili njeni korisnici **ugroženi** od **malvera koji krade informacije**.
+[**WhiteIntel**](https://whiteintel.io) je pretraživač pokretan **dark web-om** koji nudi **besplatne** funkcionalnosti za proveru da li je kompanija ili njeni korisnici **ugroženi** od **malvera koji krade informacije**.
 
-Njihov primarni cilj WhiteIntela je borba protiv preuzimanja naloga i napada ransomvera koji proizilaze iz malvera koji krade informacije.
+Njihov primarni cilj WhiteIntela je borba protiv preuzimanja naloga i napada ransomvera koji proizilaze iz malvera koji kradu informacije.
 
-Možete posetiti njihovu veb lokaciju i isprobati njihovu mašinu za **besplatno** na:
+Možete posetiti njihovu veb lokaciju i isprobati njihov pretraživač **besplatno** na:
 
 {% embed url="https://whiteintel.io" %}
 
@@ -94,9 +94,9 @@ Možete posetiti njihovu veb lokaciju i isprobati njihovu mašinu za **besplatno
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJSTVO**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Podelite svoje hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
