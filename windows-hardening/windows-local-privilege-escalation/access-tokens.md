@@ -12,9 +12,23 @@
 
 </details>
 
+## WhiteIntel
+
+<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+
+[**WhiteIntel**](https://whiteintel.io) is 'n **donkerweb**-aangedrewe soekenjin wat **gratis** funksies bied om te kontroleer of 'n maatskappy of sy kliënte deur **steelmalware** gekompromitteer is.
+
+Die primêre doel van WhiteIntel is om rekeningoorneem te bekamp en lospryse-aanvalle te voorkom wat voortspruit uit inligtingsteelmalware.
+
+Jy kan hul webwerf besoek en hul enjin **gratis** probeer by:
+
+{% embed url="https://whiteintel.io" %}
+
+---
+
 ## Toegangstokens
 
-Elke **gebruiker wat ingeteken is** op die stelsel **beskik oor 'n toegangstoken met sekuriteitsinligting** vir daardie intekensessie. Die stelsel skep 'n toegangstoken wanneer die gebruiker inteken. **Elke proses wat uitgevoer word** namens die gebruiker **het 'n kopie van die toegangstoken**. Die token identifiseer die gebruiker, die gebruiker se groepe, en die gebruiker se voorregte. 'n Token bevat ook 'n intekensid (Security Identifier) wat die huidige intekensessie identifiseer.
+Elke **gebruiker wat ingeteken** is op die stelsel **het 'n toegangstoken met sekuriteitsinligting** vir daardie intekensessie. Die stelsel skep 'n toegangstoken wanneer die gebruiker inteken. **Elke proses wat uitgevoer word** namens die gebruiker **het 'n kopie van die toegangstoken**. Die token identifiseer die gebruiker, die gebruiker se groepe, en die gebruiker se voorregte. 'n Token bevat ook 'n intekensid (Sekuriteitsidentifiseerder) wat die huidige intekensessie identifiseer.
 
 Jy kan hierdie inligting sien deur `whoami /all` uit te voer.
 ```
@@ -65,9 +79,9 @@ SeTimeZonePrivilege           Change the time zone                 Disabled
 Wanneer 'n plaaslike administrateur aanmeld, **word twee toegangstokens geskep**: Een met administrateursregte en die ander met normale regte. **Standaard** word die een met **gewone** (nie-administrateur) **regte gebruik** wanneer hierdie gebruiker 'n proses uitvoer. Wanneer hierdie gebruiker iets probeer **uitvoer as administrateur** ("Uitvoer as Administrateur" byvoorbeeld), sal die **UAC** gebruik word om vir toestemming te vra.\
 As jy meer wil leer oor die UAC, [**lees hierdie bladsy**](../authentication-credentials-uac-and-efs/#uac)**.**
 
-### Gebruikersimpersonasie van geloofsbriewe
+### Gelde gebruiker simulasie
 
-As jy **geldige geloofsbriewe van enige ander gebruiker** het, kan jy 'n **nuwe aanmeldsessie skep** met daardie geloofsbriewe:
+As jy **geldige geloofsbriewe van enige ander gebruiker** het, kan jy 'n **nuwe aanmeldsessie** skep met daardie geloofsbriewe:
 ```
 runas /user:domain\username cmd.exe
 ```
@@ -83,15 +97,15 @@ Dit is nuttig as jy nuttige geloofsbriewe het om voorwerpe in die netwerk te ben
 Daar is twee tipes tokens beskikbaar:
 
 * **Primêre Token**: Dit dien as 'n verteenwoordiging van 'n proses se sekuriteitsgelde. Die skepping en assosiasie van primêre tokens met prosesse is aksies wat verhoogde bevoegdhede vereis, wat die beginsel van bevoegdheidsskeiding beklemtoon. Tipies is 'n verifikasiediens verantwoordelik vir token-skepping, terwyl 'n aanmeldingsdiens dit hanteer met die gebruiker se bedryfstelselshell. Dit is die moeite werd om op te let dat prosesse die primêre token van hul ouerproses by skepping erf.
-* **Impersonation Token**: Gee 'n bedienerprogram die vermoë om tydelik die identiteit van die klient aan te neem vir die benadering van veilige voorwerpe. Hierdie meganisme is verdeel in vier vlakke van werking:
-  * **Anoniem**: Verleen bedienertoegang soortgelyk aan dié van 'n ongeïdentifiseerde gebruiker.
-  * **Identifikasie**: Laat die bediener toe om die klient se identiteit te verifieer sonder om dit vir voorwerptoegang te gebruik.
+* **Impersonation Token**: Gee 'n bediener-toepassing die vermoë om tydelik die identiteit van die klient aan te neem vir die benadering van veilige voorwerpe. Hierdie meganisme is verdeel in vier vlakke van werking:
+  * **Anoniem**: Verleen bediener-toegang soortgelyk aan dié van 'n ongeïdentifiseerde gebruiker.
+  * **Identifikasie**: Laat die bediener toe om die klient se identiteit te verifieer sonder om dit vir voorwerpstoegang te gebruik.
   * **Impersonation**: Stel die bediener in staat om onder die klient se identiteit te werk.
-  * **Delegasie**: Soortgelyk aan Impersonation, maar sluit die vermoë in om hierdie identiteitsaannames na afgeleë stelsels uit te brei waarmee die bediener interaksie het, om geloofsbriewe te behou.
+  * **Delegasie**: Soortgelyk aan Impersonation, maar sluit die vermoë in om hierdie identiteitsaanneming na afgeleë stelsels uit te brei waarmee die bediener interaksie het, om geloofsbriewe te behou.
 
 #### Impersonate Tokens
 
-Deur die _**incognito**_ module van metasploit te gebruik as jy genoeg bevoegdhede het, kan jy maklik **lys** en **impersonate** ander **tokens**. Dit kan nuttig wees om **handelinge uit te voer asof jy die ander gebruiker was**. Jy kan ook **bevoegdhede eskaleer** met hierdie tegniek.
+Deur die _**incognito**_ module van metasploit te gebruik as jy genoeg bevoegdhede het, kan jy maklik ander **tokens** **lys** en **impersonate**. Dit kan nuttig wees om **handelinge uit te voer asof jy die ander gebruiker was**. Jy kan ook **bevoegdhede eskaleer** met hierdie tegniek.
 
 ### Token Bevoegdhede
 
@@ -101,8 +115,33 @@ Leer watter **token bevoegdhede misbruik kan word om bevoegdhede te eskaleer:**
 [privilege-escalation-abusing-tokens.md](privilege-escalation-abusing-tokens.md)
 {% endcontent-ref %}
 
-Neem 'n kyk na [**al die moontlike token bevoegdhede en enkele definisies op hierdie eksterne bladsy**](https://github.com/gtworek/Priv2Admin).
+Neem 'n kykie na [**al die moontlike token bevoegdhede en enkele definisies op hierdie eksterne bladsy**](https://github.com/gtworek/Priv2Admin).
 
 ## Verwysings
 
 Leer meer oor tokens in hierdie tutoriale: [https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa](https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa) en [https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)
+
+
+## WhiteIntel
+
+<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+
+[**WhiteIntel**](https://whiteintel.io) is 'n **donker-web** aangedrewe soekenjin wat **gratis** funksies bied om te kontroleer of 'n maatskappy of sy kliënte deur **steel-malware** **gekompromiteer** is.
+
+Die primêre doel van WhiteIntel is om rekening-oorneemings en losgeldaanvalle te bekamp wat voortspruit uit inligtingsteel-malware.
+
+Jy kan hul webwerf besoek en hul enjin **gratis** probeer by:
+
+{% embed url="https://whiteintel.io" %}
+
+<details>
+
+<summary><strong>Leer AWS hak vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+
+* Werk jy in 'n **cybersekuriteitsmaatskappy**? Wil jy jou **maatskappy geadverteer sien in HackTricks**? of wil jy toegang hê tot die **nuutste weergawe van die PEASS of HackTricks aflaai in PDF-formaat**? Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Deel jou haktruuks deur PR's in te dien by die** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **en** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+
+</details>

@@ -12,8 +12,22 @@
 
 </details>
 
+## WhiteIntel
+
+<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+
+[**WhiteIntel**](https://whiteintel.io) is 'n **donkerweb**-aangedrewe soekenjin wat **gratis** funksies bied om te kontroleer of 'n maatskappy of sy kliënte deur **steelmalware** gekompromitteer is.
+
+Die primêre doel van WhiteIntel is om rekening-oorneem en lospryse-aanvalle te beveg wat voortspruit uit inligtingsteelmalware.
+
+Jy kan hul webwerf besoek en hul enjin **gratis** probeer by:
+
+{% embed url="https://whiteintel.io" %}
+
+---
+
 {% hint style="warning" %}
-**JuicyPotato werk nie** op Windows Server 2019 en Windows 10 bou 1809 en later nie. Nietemin, [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato) kan gebruik word om dieselfde voorregte te benut en `NT AUTHORITY\SYSTEM` vlak toegang te verkry. _**Kyk:**_
+**JuicyPotato werk nie** op Windows Server 2019 en Windows 10 bou 1809 en later nie. Nietemin kan [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato) gebruik word om dieselfde voorregte te benut en `NT AUTHORITY\SYSTEM` vlaktoegang te verkry. _**Kyk:**_
 {% endhint %}
 
 {% content-ref url="roguepotato-and-printspoofer.md" %}
@@ -22,89 +36,45 @@
 
 ## Juicy Potato (misbruik van die goue voorregte) <a href="#juicy-potato-abusing-the-golden-privileges" id="juicy-potato-abusing-the-golden-privileges"></a>
 
-_'n Gesuikerde weergawe van_ [_RottenPotatoNG_](https://github.com/breenmachine/RottenPotatoNG)_, met 'n bietjie sap, d.w.s.  **'n Ander Plaaslike Voorregverhogingshulpmiddel, van 'n Windows-diensrekening tot NT AUTHORITY\SYSTEM**_
+_'n Gesuikerde weergawe van_ [_RottenPotatoNG_](https://github.com/breenmachine/RottenPotatoNG)_, met 'n bietjie sap, d.w.s. **'n ander plaaslike voorregskapingstool, van 'n Windows-diensrekening na NT AUTHORITY\SYSTEM**_
 
 #### Jy kan juicypotato aflaai van [https://ci.appveyor.com/project/ohpe/juicy-potato/build/artifacts](https://ci.appveyor.com/project/ohpe/juicy-potato/build/artifacts)
 
 ### Opsomming <a href="#summary" id="summary"></a>
 
-[**Van juicy-potato Leesmy**](https://github.com/ohpe/juicy-potato/blob/master/README.md Norris translation Af
+[**Van juicy-potato Leesmy**](https://github.com/ohpe/juicy-potato/blob/master/README.md)**:**
 
+[RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG) en sy [variant](https://github.com/decoder-it/lonelypotato) benut die voorregskapingketting gebaseer op [`BITS`](https://msdn.microsoft.com/en-us/library/windows/desktop/bb968799\(v=vs.85\).aspx) [diens](https://github.com/breenmachine/RottenPotatoNG/blob/4eefb0dd89decb9763f2bf52c7a067440a9ec1f0/RottenPotatoEXE/MSFRottenPotato/MSFRottenPotato.cpp#L126) met die MiTM-luisteraar op `127.0.0.1:6666` en wanneer jy `SeImpersonate` of `SeAssignPrimaryToken` voorregte het. Tydens 'n Windows-bouhersiening het ons 'n opstelling gevind waar `BITS` opsetlik uitgeskakel was en poort `6666` geneem was.
 
+Ons het besluit om [RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG) te bewapen: **Sê hallo aan Juicy Potato**.
 
+> Vir die teorie, sien [Rotten Potato - Voorregskaping van Diensrekeninge na SYSTEM](https://foxglovesecurity.com/2016/09/26/rotten-potato-privilege-escalation-from-service-accounts-to-system/) en volg die ketting van skakels en verwysings.
 
+Ons het ontdek dat, behalwe `BITS`, daar 'n paar COM-bedienerse is wat ons kan misbruik. Hulle moet net:
 
+1. installeerbaar wees deur die huidige gebruiker, normaalweg 'n "diensgebruiker" wat impersonasievoorregte het
+2. die `IMarshal`-koppelvlak implementeer
+3. as 'n verhewe gebruiker loop (SYSTEM, Administrateur, ...)
 
+Na 'n bietjie toetsing het ons 'n uitgebreide lys van [interessante CLSID's](http://ohpe.it/juicy-potato/CLSID/) op verskeie Windows-weergawes verkry en getoets.
 
+### Sappige besonderhede <a href="#juicy-details" id="juicy-details"></a>
 
+JuicyPotato laat jou toe om:
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- Travelprivacy
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- TravelA A Est
+* **Teiken CLSID** _kies enige CLSID wat jy wil._ [_Hier_](http://ohpe.it/juicy-potato/CLSID/) _kan jy die lys georganiseer volgens OS vind._
+* **COM Luisterpoort** _definieer die COM luisterpoort wat jy verkies (in plaas van die gemarshalleerde hardgekooide 6666)_
+* **COM Luister IP-adres** _bind die bediener aan enige IP_
+* **Proseskeuringsmodus** _afhangende van die geïmpersonaliseerde gebruiker se voorregte kan jy kies uit:_
+* `CreateProcessWithToken` (benodig `SeImpersonate`)
+* `CreateProcessAsUser` (benodig `SeAssignPrimaryToken`)
+* `beide`
+* **Proses om te begin** _begin 'n uitvoerbare lêer of skrifleer as die uitbuiting slaag_
+* **Prosesargument** _pas die beginproses-argumente aan_
+* **RPC-bedieneradres** _vir 'n sluipende benadering kan jy aanmeld by 'n eksterne RPC-bediener_
+* **RPC-bedienerpoort** _nuttig as jy wil aanmeld by 'n eksterne bediener en die firewall poort `135` blokkeer..._
+* **TOETS-modus** _hoofsaaklik vir toetsdoeleindes, d.w.s. toetsing van CLSIDs. Dit skep die DCOM en druk die gebruiker van token. Sien_ [_hier vir toetsing_](http://ohpe.it/juicy-potato/Test/)
+### Gebruik <a href="#usage" id="usage"></a>
 ```
 T:\>JuicyPotato.exe
 JuicyPotato v0.1
@@ -168,7 +138,7 @@ Dikwels werk die standaard CLSID wat JuicyPotato gebruik **nie** en misluk die u
 
 Eerstens, sal jy 'n paar uitvoerbare lêers benodig buite juicypotato.exe.
 
-Laai [Join-Object.ps1](https://github.com/ohpe/juicy-potato/blob/master/CLSID/utils/Join-Object.ps1) af en laai dit in jou PS-sessie, en laai [GetCLSID.ps1](https://github.com/ohpe/juicy-potato/blob/master/CLSID/GetCLSID.ps1) af en voer dit uit. Daardie skripsie sal 'n lys van moontlike CLSIDs skep om te toets.
+Laai [Join-Object.ps1](https://github.com/ohpe/juicy-potato/blob/master/CLSID/utils/Join-Object.ps1) af en laai dit in jou PS-sessie, en laai dan [GetCLSID.ps1](https://github.com/ohpe/juicy-potato/blob/master/CLSID/GetCLSID.ps1) af en voer dit uit. Daardie skripsie sal 'n lys van moontlike CLSIDs skep om te toets.
 
 Laai dan [test\_clsid.bat ](https://github.com/ohpe/juicy-potato/blob/master/Test/test\_clsid.bat)(verander die pad na die CLSID-lys en na die juicypotato-uitvoerbare lêer) af en voer dit uit. Dit sal begin om elke CLSID te probeer, en **wanneer die poortnommer verander, sal dit beteken dat die CLSID gewerk het**.
 
@@ -178,12 +148,24 @@ Laai dan [test\_clsid.bat ](https://github.com/ohpe/juicy-potato/blob/master/Tes
 
 * [https://github.com/ohpe/juicy-potato/blob/master/README.md](https://github.com/ohpe/juicy-potato/blob/master/README.md)
 
+## WhiteIntel
+
+<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+
+[**WhiteIntel**](https://whiteintel.io) is 'n **dark-web** aangedrewe soekenjin wat **gratis** funksies bied om te kontroleer of 'n maatskappy of sy kliënte deur **diefstal-malware** gekompromitteer is.
+
+Hul primêre doel van WhiteIntel is om rekening-oorneemings en lospryse-aanvalle te beveg wat voortspruit uit inligtingsteel-malware.
+
+Jy kan hul webwerf besoek en hul enjin **gratis** probeer by:
+
+{% embed url="https://whiteintel.io" %}
+
 <details>
 
 <summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 * Werk jy in 'n **cybersekuriteitsmaatskappy**? Wil jy jou **maatskappy geadverteer sien in HackTricks**? of wil jy toegang hê tot die **nuutste weergawe van die PEASS of HackTricks aflaai in PDF-formaat**? Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Kry die [**amptelike PEASS & HackTricks-klere**](https://peass.creator-spring.com)
 * **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou haktruuks deur PR's in te dien by die** [**hacktricks-opslag**](https://github.com/carlospolop/hacktricks) **en** [**hacktricks-cloud-opslag**](https://github.com/carlospolop/hacktricks-cloud).
