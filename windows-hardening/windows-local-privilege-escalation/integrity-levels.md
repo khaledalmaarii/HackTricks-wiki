@@ -14,30 +14,44 @@ Inne sposoby wsparcia HackTricks:
 
 </details>
 
+### [WhiteIntel](https://whiteintel.io)
+
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+
+[**WhiteIntel**](https://whiteintel.io) to wyszukiwarka zasilana przez **dark web**, która oferuje **darmowe** funkcje sprawdzania, czy firma lub jej klienci zostali **skompromitowani** przez **złośliwe oprogramowanie kradnące dane**.
+
+Ich głównym celem jest zwalczanie przejęć kont i ataków ransomware wynikających z złośliwego oprogramowania kradnącego informacje.
+
+Możesz odwiedzić ich stronę internetową i wypróbować ich silnik **za darmo** pod adresem:
+
+{% embed url="https://whiteintel.io" %}
+
+---
+
 ## Poziomy integralności
 
-W systemach Windows Vista i nowszych, wszystkie chronione elementy posiadają etykietę **poziomu integralności**. Domyślnie większość plików i kluczy rejestru otrzymuje "średni" poziom integralności, z wyjątkiem określonych folderów i plików, do których Internet Explorer 7 może zapisywać na niskim poziomie integralności. Domyślne zachowanie polega na nadawaniu procesom uruchamianym przez standardowych użytkowników poziomu integralności średniego, podczas gdy usługi zazwyczaj działają na poziomie integralności systemu. Etykieta wysokiej integralności chroni katalog główny.
+W systemach Windows Vista i nowszych, wszystkie chronione elementy posiadają etykietę **poziomu integralności**. Ten układ przypisuje głównie "średni" poziom integralności plikom i kluczom rejestru, z wyjątkiem określonych folderów i plików, do których Internet Explorer 7 może zapisywać na niskim poziomie integralności. Domyślne zachowanie polega na tym, że procesy uruchamiane przez standardowych użytkowników mają średni poziom integralności, podczas gdy usługi zazwyczaj działają na poziomie integralności systemu. Etykieta wysokiej integralności chroni katalog główny.
 
 Kluczową zasadą jest to, że obiekty nie mogą być modyfikowane przez procesy o niższym poziomie integralności niż poziom obiektu. Poziomy integralności to:
 
-* **Niezaufany**: Ten poziom jest dla procesów z anonimowymi logowaniami. %%%Przykład: Chrome%%%
-* **Niski**: Głównie dla interakcji internetowych, zwłaszcza w trybie chronionym Internet Explorera, wpływający na powiązane pliki i procesy oraz niektóre foldery, takie jak **Tymczasowy folder internetowy**. Procesy o niskim poziomie integralności mają znaczne ograniczenia, w tym brak dostępu do zapisu w rejestrze i ograniczony dostęp do zapisu w profilu użytkownika.
+* **Nieufny**: Ten poziom jest dla procesów z anonimowymi logowaniami. %%%Przykład: Chrome%%%
+* **Niski**: Głównie dla interakcji internetowych, zwłaszcza w trybie chronionym Internet Explorera, wpływający na powiązane pliki i procesy oraz niektóre foldery, takie jak **Tymczasowy folder internetowy**. Procesy o niskim poziomie integralności stoją przed znacznymi ograniczeniami, w tym brakiem dostępu do zapisu w rejestrze i ograniczonym dostępem do zapisu w profilu użytkownika.
 * **Średni**: Domyślny poziom dla większości działań, przypisany do standardowych użytkowników i obiektów bez określonych poziomów integralności. Nawet członkowie grupy Administratorzy działają domyślnie na tym poziomie.
 * **Wysoki**: Zarezerwowany dla administratorów, umożliwiający im modyfikowanie obiektów na niższych poziomach integralności, w tym tych na poziomie wysokim.
-* **Systemowy**: Najwyższy poziom operacyjny dla jądra systemu Windows i podstawowych usług, niedostępny nawet dla administratorów, zapewniający ochronę istotnych funkcji systemowych.
+* **Systemowy**: Najwyższy poziom operacyjny dla jądra systemu Windows i podstawowych usług, niedostępny nawet dla administratorów, zapewniający ochronę istotnych funkcji systemu.
 * **Instalatora**: Wyjątkowy poziom stojący ponad wszystkimi innymi, umożliwiający obiektom na tym poziomie odinstalowanie dowolnego innego obiektu.
 
-Możesz uzyskać poziom integralności procesu za pomocą **Process Explorer** z **Sysinternals**, uzyskując dostęp do **właściwości** procesu i przeglądając kartę "**Bezpieczeństwo**":
+Możesz uzyskać poziom integralności procesu za pomocą **Process Explorer** z **Sysinternals**, uzyskując dostęp do **właściwości** procesu i przeglądając zakładkę "**Bezpieczeństwo**":
 
 ![](<../../.gitbook/assets/image (821).png>)
 
-Możesz także sprawdzić swoją **bieżącą integralność** za pomocą `whoami /groups`
+Możesz także sprawdzić swój **bieżący poziom integralności** za pomocą `whoami /groups`
 
 ![](<../../.gitbook/assets/image (322).png>)
 
 ### Poziomy integralności w systemie plików
 
-Obiekt w systemie plików może wymagać **minimalnego wymaganego poziomu integralności**, a jeśli proces nie spełnia tego poziomu integralności, nie będzie mógł z nim współdziałać.\
+Obiekt w systemie plików może wymagać **minimalnego wymaganego poziomu integralności**, a jeśli proces nie ma tego poziomu integralności, nie będzie mógł z nim współdziałać.\
 Na przykład, stwórzmy **zwykły plik z konsoli użytkownika i sprawdźmy uprawnienia**:
 ```
 echo asd >asd.txt
@@ -93,10 +107,38 @@ Teraz, gdy uruchomię `cmd-low.exe`, **uruchomi się na niskim poziomie integral
 
 ![](<../../.gitbook/assets/image (310).png>)
 
-Dla ciekawskich, jeśli przypiszesz wysoki poziom integralności do pliku binarnego (`icacls C:\Windows\System32\cmd-high.exe /setintegritylevel high`), nie będzie on uruchamiany automatycznie z wysokim poziomem integralności (jeśli wywołasz go z poziomu integralności średniego - domyślnie uruchomi się na poziomie integralności średnim).
+Dla ciekawskich, jeśli przypiszesz wysoki poziom integralności do pliku binarnego (`icacls C:\Windows\System32\cmd-high.exe /setintegritylevel high`), nie będzie on uruchamiany automatycznie z wysokim poziomem integralności (jeśli wywołasz go z poziomu integralności średniego - domyślnie - uruchomi się na poziomie integralności średnim).
 
 ### Poziomy Integralności w Procesach
 
-Nie wszystkie pliki i foldery mają minimalny poziom integralności, **ale wszystkie procesy działają na określonym poziomie integralności**. Podobnie jak w przypadku systemu plików, **jeśli proces chce pisać w innym procesie, musi mieć co najmniej ten sam poziom integralności**. Oznacza to, że proces o niskim poziomie integralności nie może otworzyć uchwytu z pełnym dostępem do procesu o poziomie integralności średnim.
+Nie wszystkie pliki i foldery mają minimalny poziom integralności, **ale wszystkie procesy działają na określonym poziomie integralności**. Podobnie jak w przypadku systemu plików, **jeśli proces chce zapisywać w innym procesie, musi mieć co najmniej ten sam poziom integralności**. Oznacza to, że proces o niskim poziomie integralności nie może otworzyć uchwytu z pełnym dostępem do procesu o poziomie integralności średnim.
 
 Ze względu na ograniczenia omówione w tej i poprzedniej sekcji, z punktu widzenia bezpieczeństwa zawsze **zaleca się uruchamianie procesu na jak najniższym poziomie integralności**.
+
+
+### [WhiteIntel](https://whiteintel.io)
+
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+
+[**WhiteIntel**](https://whiteintel.io) to wyszukiwarka zasilana przez **dark web**, która oferuje **darmowe** funkcje do sprawdzania, czy firma lub jej klienci nie zostali **skompromitowani** przez **złośliwe oprogramowanie kradnące dane**.
+
+Ich głównym celem jest zwalczanie przejęć kont i ataków ransomware wynikających z złośliwego oprogramowania kradnącego informacje.
+
+Możesz odwiedzić ich stronę internetową i wypróbować ich silnik **za darmo** pod adresem:
+
+{% embed url="https://whiteintel.io" %}
+
+
+<details>
+
+<summary><strong>Dowiedz się, jak hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+
+Inne sposoby wsparcia HackTricks:
+
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCYJNY**](https://github.com/sponsors/carlospolop)!
+* Kup [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+
+</details>

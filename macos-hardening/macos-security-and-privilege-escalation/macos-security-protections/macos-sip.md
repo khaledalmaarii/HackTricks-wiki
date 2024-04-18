@@ -6,24 +6,26 @@
 
 Inne sposoby wsparcia HackTricks:
 
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCYJNY**](https://github.com/sponsors/carlospolop)!
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**Grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
-## **Podstawowe informacje**
+### [WhiteIntel](https://whiteintel.io)
 
-**System Integrity Protection (SIP)** w macOS to mechanizm zaprojektowany w celu zapobiegania nawet najbardziej uprzywilejowanym użytkownikom dokonywania nieautoryzowanych zmian w kluczowych folderach systemowych. Ta funkcja odgrywa kluczową rolę w utrzymaniu integralności systemu, ograniczając działania takie jak dodawanie, modyfikowanie lub usuwanie plików w chronionych obszarach. Główne foldery chronione przez SIP obejmują:
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+
+[**WhiteIntel**](https://whiteintel.io) to mechanizm w macOS zaprojektowany w celu zapobiegania nawet najbardziej uprzywilejowanym użytkownikom dokonywania nieautoryzowanych zmian w kluczowych folderach systemowych. Ta funkcja odgrywa kluczową rolę w utrzymaniu integralności systemu, ograniczając działania takie jak dodawanie, modyfikowanie lub usuwanie plików w chronionych obszarach. Główne foldery chronione przez SIP to:
 
 * **/System**
 * **/bin**
 * **/sbin**
 * **/usr**
 
-Zasady regulujące zachowanie SIP są określone w pliku konfiguracyjnym znajdującym się w **`/System/Library/Sandbox/rootless.conf`**. W tym pliku ścieżki poprzedzone gwiazdką (\*) są oznaczone jako wyjątki od zwykle rygorystycznych ograniczeń SIP.
+Zasady regulujące zachowanie SIP są określone w pliku konfiguracyjnym znajdującym się w **`/System/Library/Sandbox/rootless.conf`**. W tym pliku ścieżki poprzedzone gwiazdką (\*) są oznaczone jako wyjątki od zasadnych restrykcji SIP.
 
 Rozważ poniższy przykład:
 ```javascript
@@ -39,7 +41,7 @@ Aby sprawdzić, czy katalog lub plik jest chroniony przez SIP, można użyć pol
 ls -lOd /usr/libexec/cups
 drwxr-xr-x  11 root  wheel  sunlnk 352 May 13 00:29 /usr/libexec/cups
 ```
-W tym przypadku flaga **`sunlnk`** oznacza, że katalog `/usr/libexec/cups` **nie może zostać usunięty**, chociaż pliki wewnątrz niego mogą być tworzone, modyfikowane lub usuwane.
+W tym przypadku flaga **`sunlnk`** oznacza, że sam katalog `/usr/libexec/cups` **nie może zostać usunięty**, chociaż pliki wewnątrz niego mogą być tworzone, modyfikowane lub usuwane.
 
 Z drugiej strony:
 ```bash
@@ -78,17 +80,17 @@ csrutil enable --without debug
 ### Inne Ograniczenia
 
 * **Zakaz ładowania niepodpisanych rozszerzeń jądra** (kexts), zapewniając, że tylko zweryfikowane rozszerzenia współdziałają z jądrem systemowym.
-* **Zapobiega debugowaniu** procesów systemowych macOS, zabezpieczając podstawowe składniki systemu przed nieautoryzowanym dostępem i modyfikacją.
-* **Zakłóca narzędzia** takie jak dtrace w inspekcji procesów systemowych, dalszo chroniąc integralność działania systemu.
+* **Uniemożliwia debugowanie** procesów systemowych macOS, zabezpieczając podstawowe komponenty systemu przed nieautoryzowanym dostępem i modyfikacją.
+* **Zakłóca narzędzia** takie jak dtrace w inspekcji procesów systemowych, dodatkowo chroniąc integralność działania systemu.
 
-[**Dowiedz się więcej o informacjach SIP w tej prezentacji**](https://www.slideshare.net/i0n1c/syscan360-stefan-esser-os-x-el-capitan-sinking-the-ship)**.**
+[**Dowiedz się więcej o informacjach dotyczących SIP w tej prezentacji**](https://www.slideshare.net/i0n1c/syscan360-stefan-esser-os-x-el-capitan-sinking-the-ship)**.**
 
 ## Ominiecie SIP
 
 Ominięcie SIP umożliwia atakującemu:
 
 * **Dostęp do danych użytkownika**: Odczytanie wrażliwych danych użytkownika, takich jak poczta, wiadomości i historia przeglądania w Safari, we wszystkich kontach użytkowników.
-* **Ominięcie TCC**: Bezpośrednie manipulowanie bazą danych TCC (Transparency, Consent, and Control) w celu udzielenia nieautoryzowanego dostępu do kamery internetowej, mikrofonu i innych zasobów.
+* **Ominięcie TCC**: Bezpośrednia manipulacja bazą danych TCC (Transparency, Consent, and Control) w celu udzielenia nieautoryzowanego dostępu do kamery internetowej, mikrofonu i innych zasobów.
 * **Ustanowienie trwałości**: Umieszczenie złośliwego oprogramowania w chronionych przez SIP lokalizacjach, sprawiając, że jest ono odporne na usunięcie, nawet przy uprawnieniach root. Obejmuje to również potencjalną ingerencję w Narzędzie do Usuwania Złośliwego Oprogramowania (MRT).
 * **Ładowanie Rozszerzeń Jądra**: Pomimo dodatkowych zabezpieczeń, ominięcie SIP upraszcza proces ładowania niepodpisanych rozszerzeń jądra.
 
@@ -98,7 +100,7 @@ Ominięcie SIP umożliwia atakującemu:
 
 ### Nieistniejący plik SIP
 
-Potencjalną luką jest to, że jeśli plik jest określony w **`rootless.conf` ale obecnie nie istnieje**, może zostać utworzony. Złośliwe oprogramowanie mogłoby wykorzystać to do **ustanowienia trwałości** w systemie. Na przykład złośliwy program mógłby utworzyć plik .plist w `/System/Library/LaunchDaemons`, jeśli jest wymieniony w `rootless.conf`, ale nie istnieje.
+Potencjalną luką jest to, że jeśli plik jest określony w **`rootless.conf` ale obecnie nie istnieje**, może zostać utworzony. Złośliwe oprogramowanie mogłoby wykorzystać to do **ustanowienia trwałości** w systemie. Na przykład złośliwy program mógłby utworzyć plik .plist w `/System/Library/LaunchDaemons`, jeśli jest on wymieniony w `rootless.conf`, ale nie istnieje.
 
 ### com.apple.rootless.install.heritable
 
@@ -108,30 +110,30 @@ Uprawnienie **`com.apple.rootless.install.heritable`** pozwala na ominięcie SIP
 
 #### Shrootless
 
-[**Badacze z tego wpisu na blogu**](https://www.microsoft.com/en-us/security/blog/2021/10/28/microsoft-finds-new-macos-vulnerability-shrootless-that-could-bypass-system-integrity-protection/) odkryli podatność w mechanizmie Ochrony Integralności Systemu (SIP) macOS, zwaną podatnością 'Shrootless'. Ta podatność koncentruje się wokół demona **`system_installd`**, który ma uprawnienie **`com.apple.rootless.install.heritable`**, pozwalające na ominięcie restrykcji systemu plików SIP przez dowolne z jego procesów potomnych.
+[**Badacze z tego wpisu na blogu**](https://www.microsoft.com/en-us/security/blog/2021/10/28/microsoft-finds-new-macos-vulnerability-shrootless-that-could-bypass-system-integrity-protection/) odkryli lukę w mechanizmie Ochrony Integralności Systemu (SIP) macOS, zwaną luką 'Shrootless'. Ta luka koncentruje się wokół demona **`system_installd`**, który ma uprawnienie **`com.apple.rootless.install.heritable`**, pozwalające każdemu z jego procesów potomnych na ominięcie restrykcji systemu plików SIP.
 
 Demon **`system_installd`** zainstaluje pakiety podpisane przez **Apple**.
 
-Badacze odkryli, że podczas instalacji pakietu podpisanego przez Apple (.pkg), **`system_installd`** **uruchamia** wszystkie **skrypty po instalacji** zawarte w pakiecie. Te skrypty są wykonywane przez domyślną powłokę, **`zsh`**, która automatycznie **uruchamia** polecenia z pliku **`/etc/zshenv`**, jeśli istnieje, nawet w trybie nieinteraktywnym. To zachowanie mogłoby zostać wykorzystane przez atakujących: poprzez stworzenie złośliwego pliku `/etc/zshenv` i oczekiwanie na to, aż **`system_installd` wywoła `zsh`**, mogliby wykonać dowolne operacje na urządzeniu.
+Badacze odkryli, że podczas instalacji pakietu podpisanego przez Apple (.pkg), **`system_installd`** **uruchamia** wszystkie **skrypty po instalacji** zawarte w pakiecie. Te skrypty są wykonywane przez domyślną powłokę, **`zsh`**, która automatycznie **uruchamia** polecenia z pliku **`/etc/zshenv`**, jeśli istnieje, nawet w trybie nieinteraktywnym. To zachowanie mogło zostać wykorzystane przez atakujących: tworząc złośliwy plik `/etc/zshenv` i czekając na to, aż **`system_installd` wywoła `zsh`**, mogliby wykonać dowolne operacje na urządzeniu.
 
-Ponadto odkryto, że **`/etc/zshenv` mogło być używane jako ogólna technika ataku**, nie tylko do ominięcia SIP. Każdy profil użytkownika ma plik `~/.zshenv`, który zachowuje się tak samo jak `/etc/zshenv`, ale nie wymaga uprawnień root. Ten plik mógłby być wykorzystany jako mechanizm trwałości, uruchamiający się za każdym razem, gdy `zsh` się uruchamia, lub jako mechanizm podnoszenia uprawnień. Jeśli użytkownik administrujący podniesie uprawnienia do roota używając `sudo -s` lub `sudo <polecenie>`, plik `~/.zshenv` zostanie uruchomiony, efektywnie podnosząc uprawnienia do roota.
+Ponadto odkryto, że **`/etc/zshenv` mogło być używane jako ogólna technika ataku**, nie tylko do ominięcia SIP. Każdy profil użytkownika ma plik `~/.zshenv`, który zachowuje się tak samo jak `/etc/zshenv`, ale nie wymaga uprawnień roota. Ten plik mógłby być wykorzystany jako mechanizm trwałości, uruchamiający się za każdym razem, gdy `zsh` się uruchamia, lub jako mechanizm podnoszenia uprawnień. Jeśli użytkownik administrujący podniesie się do roota używając `sudo -s` lub `sudo <polecenie>`, plik `~/.zshenv` zostanie uruchomiony, efektywnie podnosząc uprawnienia do roota.
 
 #### [**CVE-2022-22583**](https://perception-point.io/blog/technical-analysis-cve-2022-22583/)
 
-W [**CVE-2022-22583**](https://perception-point.io/blog/technical-analysis-cve-2022-22583/) odkryto, że ten sam proces **`system_installd`** nadal mógł być wykorzystywany, ponieważ umieszczał **skrypt po instalacji w losowo nazwanym folderze chronionym przez SIP wewnątrz `/tmp`**. Rzecz w tym, że **`/tmp` sam w sobie nie jest chroniony przez SIP**, więc było możliwe **zamontowanie** obrazu wirtualnego na nim, a następnie **instalator** umieściłby tam **skrypt po instalacji**, **odmontował** obraz wirtualny, **ponownie utworzył** wszystkie **foldery** i **dodał** skrypt **po instalacji** z **payloadem** do wykonania.
+W [**CVE-2022-22583**](https://perception-point.io/blog/technical-analysis-cve-2022-22583/) odkryto, że ten sam proces **`system_installd`** nadal mógł być wykorzystany, ponieważ umieszczał **skrypt po instalacji w losowo nazwanym folderze chronionym przez SIP wewnątrz `/tmp`**. Rzecz w tym, że **`/tmp` sam w sobie nie jest chroniony przez SIP**, więc było możliwe **zamontowanie** obrazu wirtualnego na nim, a następnie **instalator** umieściłby tam **skrypt po instalacji**, **odmontował** obraz wirtualny, **ponownie utworzył** wszystkie **foldery** i **dodał** skrypt **po instalacji** z **payloadem** do wykonania.
 
 #### [narzędzie fsck\_cs](https://www.theregister.com/2016/03/30/apple\_os\_x\_rootless/)
 
-Zidentyfikowano podatność, w której **`fsck_cs`** został wprowadzony w błąd, aby uszkodzić istotny plik, ze względu na jego zdolność do śledzenia **linków symbolicznych**. Konkretnie, atakujący stworzyli link od _`/dev/diskX`_ do pliku `/System/Library/Extensions/AppleKextExcludeList.kext/Contents/Info.plist`. Wykonanie **`fsck_cs`** na _`/dev/diskX`_ doprowadziło do uszkodzenia `Info.plist`. Integralność tego pliku jest kluczowa dla Ochrony Integralności Systemu (SIP), która kontroluje ładowanie rozszerzeń jądra. Po uszkodzeniu, zdolność SIP do zarządzania wykluczeniami jądra jest zagrożona.
+Zidentyfikowano lukę, w której **`fsck_cs`** został wprowadzony w błąd, aby uszkodzić istotny plik, ze względu na jego zdolność do śledzenia **linków symbolicznych**. Konkretnie, atakujący stworzyli link od _`/dev/diskX`_ do pliku `/System/Library/Extensions/AppleKextExcludeList.kext/Contents/Info.plist`. Wykonanie **`fsck_cs`** na _`/dev/diskX`_ doprowadziło do uszkodzenia `Info.plist`. Integralność tego pliku jest kluczowa dla Ochrony Integralności Systemu (SIP), która kontroluje ładowanie rozszerzeń jądra. Po uszkodzeniu, zdolność SIP do zarządzania wykluczeniami jądra jest zagrożona.
 
-Polecenia do wykorzystania tej podatności to:
+Polecenia do wykorzystania tej luki to:
 ```bash
 ln -s /System/Library/Extensions/AppleKextExcludeList.kext/Contents/Info.plist /dev/diskX
 fsck_cs /dev/diskX 1>&-
 touch /Library/Extensions/
 reboot
 ```
-Wykorzystanie tej podatności ma poważne konsekwencje. Plik `Info.plist`, zwykle odpowiedzialny za zarządzanie uprawnieniami do rozszerzeń jądra, staje się nieskuteczny. Obejmuje to niemożność czarnolistowania określonych rozszerzeń, takich jak `AppleHWAccess.kext`. W rezultacie, z mechanizmem kontroli SIP wyłączonym, to rozszerzenie może być załadowane, co umożliwia nieautoryzowany dostęp do odczytu i zapisu w pamięci RAM systemu.
+Wykorzystanie tej podatności ma poważne konsekwencje. Plik `Info.plist`, zwykle odpowiedzialny za zarządzanie uprawnieniami do rozszerzeń jądra, staje się nieskuteczny. Obejmuje to niemożność czarnolistowania określonych rozszerzeń, takich jak `AppleHWAccess.kext`. W rezultacie, przy mechanizmie kontroli SIP wyłączonym, to rozszerzenie może być załadowane, co umożliwia nieautoryzowany dostęp do odczytu i zapisu w pamięci RAM systemu.
 
 #### [Montowanie nad chronionymi folderami SIP](https://www.slideshare.net/i0n1c/syscan360-stefan-esser-os-x-el-capitan-sinking-the-ship)
 
@@ -142,21 +144,21 @@ mkdir evil
 hdiutil create -srcfolder evil evil.dmg
 hdiutil attach -mountpoint /System/Library/Snadbox/ evil.dmg
 ```
-#### [Bypass upgradera (2016)](https://objective-see.org/blog/blog\_0x14.html)
+#### [Upgrader bypass (201)](https://objective-see.org/blog/blog\_0x14.html)
 
-System jest ustawiony na rozruch z wbudowanego obrazu dysku instalacyjnego w `Install macOS Sierra.app` w celu aktualizacji systemu operacyjnego, wykorzystując narzędzie `bless`. Użyta komenda jest następująca:
+System jest ustawiony na rozruch z wbudowanego obrazu dysku instalatora w `Install macOS Sierra.app` w celu aktualizacji systemu operacyjnego, wykorzystując narzędzie `bless`. Użyta komenda jest następująca:
 ```bash
 /usr/sbin/bless -setBoot -folder /Volumes/Macintosh HD/macOS Install Data -bootefi /Volumes/Macintosh HD/macOS Install Data/boot.efi -options config="\macOS Install Data\com.apple.Boot" -label macOS Installer
 ```
-Bezpieczeństwo tego procesu może zostać naruszone, jeśli atakujący zmieni obraz aktualizacji (`InstallESD.dmg`) przed uruchomieniem. Strategia polega na zastąpieniu dynamicznego ładowacza (dyld) złośliwą wersją (`libBaseIA.dylib`). Ta zamiana powoduje wykonanie kodu atakującego podczas inicjowania instalatora.
+Bezpieczeństwo tego procesu może zostać naruszone, jeśli atakujący zmieni obraz aktualizacji (`InstallESD.dmg`) przed uruchomieniem. Strategia polega na zastąpieniu dynamicznego ładowacza (dyld) złośliwą wersją (`libBaseIA.dylib`). Ta zamiana skutkuje wykonaniem kodu atakującego podczas inicjowania instalatora.
 
-Kod atakującego przejmuje kontrolę podczas procesu aktualizacji, wykorzystując zaufanie systemu do instalatora. Atak polega na zmianie obrazu `InstallESD.dmg` za pomocą metody swizzling, szczególnie kierując się do metody `extractBootBits`. Pozwala to na wstrzyknięcie złośliwego kodu przed użyciem obrazu dysku.
+Kod atakującego przejmuje kontrolę podczas procesu aktualizacji, wykorzystując zaufanie systemu do instalatora. Atak polega na zmianie obrazu `InstallESD.dmg` poprzez metodę swizzling, szczególnie kierując się metodą `extractBootBits`. Pozwala to na wstrzyknięcie złośliwego kodu przed użyciem obrazu dysku.
 
-Co więcej, w `InstallESD.dmg` znajduje się `BaseSystem.dmg`, który służy jako system plików główny kodu aktualizacji. Wstrzyknięcie dynamicznej biblioteki pozwala złośliwemu kodowi działać w procesie zdolnym do zmiany plików na poziomie systemu operacyjnego, znacząco zwiększając potencjał kompromitacji systemu.
+Co więcej, w `InstallESD.dmg` znajduje się `BaseSystem.dmg`, który służy jako system plików główny kodu aktualizacji. Wstrzyknięcie dynamicznej biblioteki pozwala złośliwemu kodowi działać w procesie zdolnym do modyfikacji plików na poziomie systemu operacyjnego, znacząco zwiększając potencjał kompromitacji systemu.
 
 #### [systemmigrationd (2023)](https://www.youtube.com/watch?v=zxZesAN-TEk)
 
-W tej prezentacji z [**DEF CON 31**](https://www.youtube.com/watch?v=zxZesAN-TEk) pokazano, jak **`systemmigrationd`** (który może ominąć SIP) wykonuje skrypt **bash** i **perl**, które mogą być nadużywane za pomocą zmiennych środowiskowych **`BASH_ENV`** i **`PERL5OPT`**.
+W tej prezentacji z [**DEF CON 31**](https://www.youtube.com/watch?v=zxZesAN-TEk) pokazano, jak **`systemmigrationd`** (który może ominąć SIP) wykonuje skrypt **bash** i **perl**, które mogą być nadużyte za pomocą zmiennych środowiskowych **`BASH_ENV`** i **`PERL5OPT`**.
 
 ### **com.apple.rootless.install**
 
@@ -175,8 +177,8 @@ Uszczelnione migawki systemu to funkcja wprowadzona przez Apple w **macOS Big Su
 Oto bardziej szczegółowe spojrzenie:
 
 1. **System niemutowalny**: Uszczelnione migawki systemu sprawiają, że wolumin systemowy macOS jest "niemutowalny", co oznacza, że nie można go modyfikować. Zapobiega to nieautoryzowanym lub przypadkowym zmianom w systemie, które mogłyby zagrażać bezpieczeństwu lub stabilności systemu.
-2. **Aktualizacje oprogramowania systemowego**: Podczas instalowania aktualizacji lub uaktualnień macOS tworzy nową migawkę systemu. Wolumin startowy macOS używa wtedy **APFS (Apple File System)** do przełączenia się na tę nową migawkę. Cały proces stosowania aktualizacji staje się bezpieczniejszy i bardziej niezawodny, ponieważ system zawsze może powrócić do poprzedniej migawki, jeśli coś pójdzie nie tak podczas aktualizacji.
-3. **Separacja danych**: W połączeniu z koncepcją separacji woluminów Danych i Systemu wprowadzoną w macOS Catalina, funkcja Uszczelnionych Migawek Systemu zapewnia, że wszystkie dane i ustawienia są przechowywane na oddzielnym woluminie "**Danych**". Ta separacja sprawia, że dane są niezależne od systemu, co upraszcza proces aktualizacji systemu i zwiększa bezpieczeństwo systemu.
+2. **Aktualizacje oprogramowania systemowego**: Podczas instalowania aktualizacji lub uaktualnień macOS tworzona jest nowa migawka systemu. Wolumin startowy macOS używa wtedy **APFS (Apple File System)** do przełączenia się na tę nową migawkę. Cały proces stosowania aktualizacji staje się bezpieczniejszy i bardziej niezawodny, ponieważ system zawsze może powrócić do poprzedniej migawki, jeśli coś pójdzie nie tak podczas aktualizacji.
+3. **Rozdzielanie danych**: W połączeniu z koncepcją rozdzielania woluminu danych i systemu wprowadzoną w macOS Catalina, funkcja uszczelnionych migawek systemu zapewnia, że wszystkie dane i ustawienia są przechowywane na oddzielnym woluminie "**Dane**". Ta separacja sprawia, że dane są niezależne od systemu, co upraszcza proces aktualizacji systemu i zwiększa bezpieczeństwo systemu.
 
 Pamiętaj, że te migawki są automatycznie zarządzane przez macOS i nie zajmują dodatkowej przestrzeni na dysku, dzięki możliwościom współdzielenia przestrzeni w APFS. Ważne jest również zauważenie, że te migawki różnią się od **migawek Time Machine**, które są dostępnymi dla użytkownika kopiami zapasowymi całego systemu.
 
@@ -188,7 +190,7 @@ Polecenie **`diskutil apfs list`** wyświetla **szczegóły woluminów APFS** i 
 |   ====================================================
 |   Odwołanie do kontenera APFS:     dysk3
 |   Rozmiar (pojemność maksymalna):  494384795648 B (494,4 GB)
-|   Pojemność używana przez woluminy:  219214536704 B (219,2 GB) (użyto 44,3%)
+|   Pojemność używana przez woluminy: 219214536704 B (219,2 GB) (użyto 44,3%)
 |   Pojemność nieprzydzielona:       275170258944 B (275,2 GB) (wolne 55,7%)
 |   |
 |   +-&#x3C; Magazyn fizyczny dysku0s2 86D4B7EC-6FA5-4042-93A7-D3766A222EBE
@@ -214,7 +216,7 @@ Polecenie **`diskutil apfs list`** wyświetla **szczegóły woluminów APFS** i 
 +-> Wolumin dysku3s5 281959B7-07A1-4940-BDDF-6419360F3327
 |   ---------------------------------------------------
 |   Wolumin APFS Dysk (Rola):   dysk3s5 (Dane)
-|   Nazwa:                      Macintosh HD - Dane (bez rozróżniania wielkości liter)
+|   Nazwa:                      Macintosh HD - Data (bez rozróżniania wielkości liter)
 <strong>    |   Punkt montowania:               /System/Volumes/Data
 </strong><strong>    |   Pojemność zużyta:         412071784448 B (412,1 GB)
 </strong>    |   Uszczelniony:                    Nie
@@ -231,13 +233,25 @@ csrutil authenticated-root status
 Authenticated Root status: enabled
 ```
 Ponadto, dysk migawkowy jest również zamontowany jako **tylko do odczytu**:
-```
+```bash
 mount
 /dev/disk3s1s1 on / (apfs, sealed, local, read-only, journaled)
 ```
+### [WhiteIntel](https://whiteintel.io)
+
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+
+[**WhiteIntel**](https://whiteintel.io) to wyszukiwarka zasilana przez **dark web**, która oferuje **darmowe** funkcje do sprawdzenia, czy firma lub jej klienci nie zostali **skompromitowani** przez **złośliwe oprogramowanie kradnące informacje**.
+
+Ich głównym celem WhiteIntel jest zwalczanie przejęć kont i ataków ransomware wynikających z złośliwego oprogramowania kradnącego informacje.
+
+Możesz odwiedzić ich stronę internetową i wypróbować ich silnik za **darmo** pod adresem:
+
+{% embed url="https://whiteintel.io" %}
+
 <details>
 
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Dowiedz się, jak hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 
@@ -245,6 +259,6 @@ Inne sposoby wsparcia HackTricks:
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakowania, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
