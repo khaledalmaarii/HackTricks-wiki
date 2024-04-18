@@ -2,25 +2,25 @@
 
 <details>
 
-<summary><strong>Μάθετε να χακάρετε το AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Ειδικός Red Team του HackTricks AWS)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Άλλοι τρόποι υποστήριξης του HackTricks:
 
-* Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα κόλπα χάκερ σας υποβάλλοντας PRs** στα [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* **Εγγραφείτε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs** στα [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του GitHub.
 
 </details>
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) είναι μια μηχανή αναζήτησης που τροφοδοτείται από το **dark web** και προσφέρει **δωρεάν** λειτουργίες για να ελέγξετε αν μια εταιρεία ή οι πελάτες της έχουν **διαρρεύσει** από **κλέφτες κακόβουλων λογισμικών**.
 
-Ο βασικός στόχος του WhiteIntel είναι η καταπολέμηση των αναλήψεων λογαριασμών και των επιθέσεων ransomware που προκύπτουν από κακόβουλα λογισμικά που κλέβουν πληροφορίες.
+Ο κύριος στόχος του WhiteIntel είναι η καταπολέμηση των αποκλεισμών λογαριασμών και των επιθέσεων με αντάλλαγμα λύτρων που προκύπτουν από κακόβουλα λογισμικά που κλέβουν πληροφορίες.
 
 Μπορείτε να ελέγξετε τον ιστότοπό τους και να δοκιμάσετε τη μηχανή τους δωρεάν στο:
 
@@ -48,20 +48,20 @@
 
 ### Επιθέσεις Direct Memory Access (DMA)
 
-Το **INCEPTION** είναι ένα εργαλείο σχεδιασμένο για τη **φυσική διαχείριση μνήμης** μέσω DMA, συμβατό με διεπαφές όπως **FireWire** και **Thunderbolt**. Επιτρέπει την παράκαμψη των διαδικασιών σύνδεσης εισόδου πατώντας τη μνήμη για να αποδεχτεί οποιονδήποτε κωδικό πρόσβασης. Ωστόσο, δεν είναι αποτελεσματικό ενάντια σε συστήματα **Windows 10**.
+Το **INCEPTION** είναι ένα εργαλείο σχεδιασμένο για τη **φυσική διαχείριση μνήμης** μέσω DMA, συμβατό με διεπαφές όπως **FireWire** και **Thunderbolt**. Επιτρέπει την παράκαμψη διαδικασιών σύνδεσης με την τροποποίηση της μνήμης για να αποδεχτεί οποιονδήποτε κωδικό πρόσβασης. Ωστόσο, δεν είναι αποτελεσματικό ενάντια σε συστήματα **Windows 10**.
 
 ### Live CD/USB για Πρόσβαση στο Σύστημα
 
-Η αλλαγή δυαδικών συστήματος όπως το **_sethc.exe_** ή το **_Utilman.exe_** με ένα αντίγραφο του **_cmd.exe_** μπορεί να παρέχει ένα παράθυρο εντολών με δικαιώματα συστήματος. Εργαλεία όπως το **chntpw** μπορούν να χρησιμοποιηθούν για την επεξεργασία του αρχείου **SAM** μιας εγκατάστασης Windows, επιτρέποντας αλλαγές κωδικού πρόσβασης.
+Η αλλαγή των δυαδικών αρχείων του συστήματος όπως το **_sethc.exe_** ή το **_Utilman.exe_** με ένα αντίγραφο του **_cmd.exe_** μπορεί να παρέχει ένα παράθυρο εντολών με δικαιώματα συστήματος. Εργαλεία όπως το **chntpw** μπορούν να χρησιμοποιηθούν για την επεξεργασία του αρχείου **SAM** μιας εγκατάστασης Windows, επιτρέποντας αλλαγές κωδικού πρόσβασης.
 
-Το **Kon-Boot** είναι ένα εργαλείο που διευκολύνει τη σύνδεση σε συστήματα Windows χωρίς να γνωρίζετε τον κωδικό πρόσβασης με την προσωρινή τροποποίηση του πυρήνα Windows ή του UEFI. Περισσότερες πληροφορίες μπορούν να βρεθούν στο [https://www.raymond.cc](https://www.raymond.cc/blog/login-to-windows-administrator-and-linux-root-account-without-knowing-or-changing-current-password/).
+Το **Kon-Boot** είναι ένα εργαλείο που διευκολύνει τη σύνδεση σε συστήματα Windows χωρίς να γνωρίζετε τον κωδικό πρόσβασης με την προσωρινή τροποποίηση του πυρήνα των Windows ή του UEFI. Περισσότερες πληροφορίες μπορούν να βρεθούν στο [https://www.raymond.cc](https://www.raymond.cc/blog/login-to-windows-administrator-and-linux-root-account-without-knowing-or-changing-current-password/).
 
 ### Χειρισμός Χαρακτηριστικών Ασφαλείας Windows
 
 #### Συντομεύσεις Εκκίνησης και Ανάκτησης
 
 - **Supr**: Πρόσβαση στις ρυθμίσεις του BIOS.
-- **F8**: Εισαγωγή στη λειτουργία Ανάκτησης.
+- **F8**: Είσοδος στη λειτουργία Ανάκτησης.
 - Πατώντας το **Shift** μετά το banner των Windows μπορεί να παρακάμψει την αυτόματη σύνδεση.
 
 #### Συσκευές BAD USB
@@ -74,4 +74,4 @@
 
 ### Παράκαμψη Κρυπτογράφησης BitLocker
 
-Η κρυπτογράφηση BitLocker μπορεί ενδεχομένως να παρακαμφθεί αν ο **κωδικός ανάκτησης** βρεθεί μέσα σε ένα αρχείο ανάκτησης μνήμης (**MEMORY.DMP**). Εργαλεία όπως το **Elcomsoft Forensic Disk Decryptor** ή το **Passware Kit Forensic** μπορούν να χρη
+Η κρυπτογράφηση BitLocker μπορεί ενδεχομένως να παρακαμφθεί αν ο **κωδικός ανάκτησης** βρεθεί μέσα σε ένα αρχείο ανάκτησης μνήμης (**MEMORY.DMP**). Εργαλεία όπως το **Elcomsoft Forensic Disk Decryptor
