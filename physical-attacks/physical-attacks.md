@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi mtaalamu na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalamu wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
@@ -14,13 +14,13 @@ Njia nyingine za kusaidia HackTricks:
 
 </details>
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) ni injini ya utaftaji inayotumia **dark-web** ambayo inatoa huduma za **bure** za kuangalia ikiwa kampuni au wateja wake wameathiriwa na **malware za wizi**.
 
-Lengo kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulio ya ransomware yanayotokana na malware za kuiba habari.
+Lengo kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulizi ya ransomware yanayotokana na malware za kuiba habari.
 
 Unaweza kutembelea tovuti yao na kujaribu injini yao **bure** kwa:
 
@@ -38,7 +38,7 @@ Katika hali ambapo nenosiri la BIOS halijulikani, kulipiga **mara tatu** kwa kaw
 
 ### Usalama wa UEFI
 
-Kwa mifumo ya kisasa inayotumia **UEFI** badala ya BIOS za jadi, zana **chipsec** inaweza kutumika kuchambua na kurekebisha mipangilio ya UEFI, ikiwa ni pamoja na kulemaza **Secure Boot**. Hii inaweza kufanywa kwa amri ifuatayo:
+Kwa mifumo ya kisasa inayotumia **UEFI** badala ya BIOS ya jadi, zana ya **chipsec** inaweza kutumika kuchambua na kurekebisha mipangilio ya UEFI, ikiwa ni pamoja na kulemaza **Secure Boot**. Hii inaweza kufanywa kwa amri ifuatayo:
 
 `python chipsec_main.py -module exploits.secure.boot.pk`
 
@@ -52,21 +52,21 @@ RAM inahifadhi data kwa muda mfupi baada ya umeme kukatwa, kawaida kwa muda wa *
 
 ### CD/USB ya Moja kwa Moja kwa Upatikanaji wa Mfumo
 
-Kubadilisha faili za mfumo kama **_sethc.exe_** au **_Utilman.exe_** na nakala ya **_cmd.exe_** inaweza kutoa dirisha la amri lenye mamlaka ya mfumo. Zana kama **chntpw** inaweza kutumika kuhariri faili ya **SAM** ya usanidi wa Windows, kuruhusu mabadiliko ya nenosiri.
+Kubadilisha faili za mfumo kama **_sethc.exe_** au **_Utilman.exe_** na nakala ya **_cmd.exe_** inaweza kutoa dirisha la amri lenye mamlaka ya mfumo. Zana kama **chntpw** zinaweza kutumika kuhariri faili ya **SAM** ya usanidi wa Windows, kuruhusu mabadiliko ya nenosiri.
 
 **Kon-Boot** ni zana inayorahisisha kuingia kwenye mifumo ya Windows bila kujua nenosiri kwa muda kwa kurekebisha muda mfupi wa Windows au UEFI. Taarifa zaidi inaweza kupatikana kwenye [https://www.raymond.cc](https://www.raymond.cc/blog/login-to-windows-administrator-and-linux-root-account-without-knowing-or-changing-current-password/).
 
 ### Kushughulikia Vipengele vya Usalama vya Windows
 
-#### Vielekezo vya Kuanza na Kurejesha
+#### Vifunguo vya Kuanzisha na Kurejesha
 
 - **Supr**: Kufikia mipangilio ya BIOS.
 - **F8**: Ingia kwenye hali ya Kurejesha.
-- Kupiga **Shift** baada ya bendera ya Windows kunaweza kuepuka kuingia moja kwa moja.
+- Kupiga **Shift** baada ya bendera ya Windows kunaweza kuzidi kiotomatiki.
 
 #### Vifaa vya BAD USB
 
-Vifaa kama **Rubber Ducky** na **Teensyduino** hutumika kama majukwaa ya kuunda vifaa vya **USB mbaya**, vinavyoweza kutekeleza malipo yaliyopangwa mapema wakati vinapounganishwa kwenye kompyuta ya lengo.
+Vifaa kama **Rubber Ducky** na **Teensyduino** hutumika kama majukwaa ya kuunda vifaa vya **USB mbaya**, vinavyoweza kutekeleza malipo yaliyopangwa awali wakati vinapounganishwa kwenye kompyuta ya lengo.
 
 #### Nakala ya Kivuli cha Kiasi
 
@@ -76,6 +76,32 @@ Mamlaka ya msimamizi inaruhusu uundaji wa nakala za faili nyeti, ikiwa ni pamoja
 
 Ufichaji wa BitLocker unaweza kupitishwa ikiwa **nenosiri la urejeshaji** linapatikana ndani ya faili ya dumpu ya kumbukumbu (**MEMORY.DMP**). Zana kama **Elcomsoft Forensic Disk Decryptor** au **Passware Kit Forensic** zinaweza kutumika kwa madhumuni haya.
 
-### Uhandisi wa Kijamii kwa Kuongeza Funguo za Uokoaji
+### Uhandisi wa Kijamii kwa Kuongeza Funguo la Uokoaji
 
-Funguo mpya za urejeshaji wa BitLocker zinaweza kuongezwa kupitia mbinu za uhandisi wa kijamii, kuwashawishi watumiaji kutekeleza amri ambayo inaongeza funguo mpya za urejeshaji zilizoundwa na sifuri, hivyo kusahilisha mchakato wa kufichua.
+Funguo mpya la uokoaji wa BitLocker linaweza kuongezwa kupitia mbinu za uhandisi wa kijamii, kuwashawishi watumiaji kutekeleza amri ambayo inaongeza funguo mpya la uokoaji linaloundwa na sifuri, hivyo kufanya mchakato wa kufichua kuwa rahisi.
+
+### [WhiteIntel](https://whiteintel.io)
+
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+
+[**WhiteIntel**](https://whiteintel.io) ni injini ya utaftaji inayotumia **dark-web** ambayo inatoa huduma za **bure** za kuangalia ikiwa kampuni au wateja wake wameathiriwa na **malware za wizi**.
+
+Lengo kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulizi ya ransomware yanayotokana na malware za kuiba habari.
+
+Unaweza kutembelea tovuti yao na kujaribu injini yao **bure** kwa:
+
+{% embed url="https://whiteintel.io" %}
+
+<details>
+
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi mtaalamu na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalamu wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+
+Njia nyingine za kusaidia HackTricks:
+
+* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+
+</details>

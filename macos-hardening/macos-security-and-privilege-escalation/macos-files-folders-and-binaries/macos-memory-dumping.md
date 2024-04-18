@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu udukuzi wa AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
@@ -10,17 +10,17 @@ Njia nyingine za kusaidia HackTricks:
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) ni injini ya utaftaji inayotumia **dark-web** ambayo inatoa **huduma za bure** za kuangalia ikiwa kampuni au wateja wake wameathiriwa na **malware za kuiba**.
+[**WhiteIntel**](https://whiteintel.io) ni injini ya utaftaji inayotumia **dark-web** ambayo inatoa huduma za **bure** za kuangalia ikiwa kampuni au wateja wake wameathiriwa na **malware za wizi**.
 
-Lengo kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulio ya ransomware yanayotokana na malware za kuiba taarifa.
+Lengo kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulio ya ransomware yanayotokana na malware za wizi wa habari.
 
 Unaweza kutembelea tovuti yao na kujaribu injini yao **bure** kwa:
 
@@ -32,25 +32,25 @@ Unaweza kutembelea tovuti yao na kujaribu injini yao **bure** kwa:
 
 ### Faili za Kubadilishana
 
-Faili za kubadilishana, kama vile `/private/var/vm/swapfile0`, hutumika kama **akiba wakati kumbukumbu ya kimwili imejaa**. Wakati hakuna nafasi zaidi katika kumbukumbu ya kimwili, data yake inahamishwa kwenye faili ya kubadilishana na kisha kurudishwa kwenye kumbukumbu ya kimwili kama inavyohitajika. Inaweza kuwepo faili nyingi za kubadilishana, zenye majina kama swapfile0, swapfile1, na kadhalika.
+Faili za kubadilishana, kama vile `/private/var/vm/swapfile0`, hutumika kama **cache wakati kumbukumbu ya kimwili imejaa**. Wakati hakuna nafasi tena kwenye kumbukumbu ya kimwili, data yake inahamishwa kwenye faili ya kubadilishana na kisha kurudishwa kwenye kumbukumbu ya kimwili kama inavyohitajika. Inaweza kuwepo faili nyingi za kubadilishana, zenye majina kama swapfile0, swapfile1, na kadhalika.
 
 ### Picha ya Kulala
 
-Faili iliyoko kwenye `/private/var/vm/sleepimage` ni muhimu wakati wa **hali ya kulala**. **Data kutoka kumbukumbu inahifadhiwa kwenye faili hii wakati OS X inalala**. Wakati wa kuamsha kompyuta, mfumo unapata data ya kumbukumbu kutoka kwenye faili hii, kuruhusu mtumiaji kuendelea pale walipoishia.
+Faili iliyoko kwenye `/private/var/vm/sleepimage` ni muhimu wakati wa **hali ya kulala**. **Data kutoka kumbukumbu inahifadhiwa kwenye faili hii wakati OS X inalala**. Kwa kuamsha kompyuta, mfumo unapata data ya kumbukumbu kutoka kwenye faili hii, kuruhusu mtumiaji kuendelea pale walipoishia.
 
 Ni muhimu kutambua kwamba kwenye mifumo ya MacOS ya kisasa, faili hii kawaida imefichwa kwa sababu za usalama, ikifanya kupona kuwa ngumu.
 
 * Ili kuthibitisha ikiwa uchawi umewezeshwa kwa sleepimage, amri `sysctl vm.swapusage` inaweza kutumika. Hii itaonyesha ikiwa faili imefichwa.
 
-### Kumbukumbu ya Shinikizo la Kumbukumbu
+### Kumbukumbu za Shinikizo la Kumbukumbu
 
-Faili nyingine muhimu inayohusiana na kumbukumbu kwenye mifumo ya MacOS ni **kumbukumbu ya shinikizo la kumbukumbu**. Kumbukumbu hizi ziko katika `/var/log` na zina habari za kina kuhusu matumizi ya kumbukumbu ya mfumo na matukio ya shinikizo. Zinaweza kuwa muhimu hasa kwa kugundua masuala yanayohusiana na kumbukumbu au kuelewa jinsi mfumo unavyosimamia kumbukumbu kwa muda.
+Faili nyingine muhimu inayohusiana na kumbukumbu kwenye mifumo ya MacOS ni **kumbukumbu za shinikizo la kumbukumbu**. Kumbukumbu hizi ziko katika `/var/log` na zina habari za kina kuhusu matumizi ya kumbukumbu ya mfumo na matukio ya shinikizo. Zinaweza kuwa muhimu hasa kwa kugundua masuala yanayohusiana na kumbukumbu au kuelewa jinsi mfumo unavyosimamia kumbukumbu kwa muda.
 
 ## Kudondosha kumbukumbu na osxpmem
 
 Ili kudondosha kumbukumbu kwenye kompyuta ya MacOS unaweza kutumia [**osxpmem**](https://github.com/google/rekall/releases/download/v1.5.1/osxpmem-2.1.post4.zip).
 
-**Maelezo**: Maelekezo yafuatayo yatafanya kazi kwa Macs zenye muundo wa Intel tu. Zana hii sasa imehifadhiwa na toleo la mwisho lilikuwa mwaka 2017. Binari iliyopakuliwa kwa kutumia maelekezo yaliyotolewa inalenga chips za Intel kwani Apple Silicon haikuwepo mwaka 2017. Inaweza kuwa inawezekana kuchakata binari kwa muundo wa arm64 lakini utalazimika kujaribu mwenyewe.
+**Maelezo**: Maelekezo yafuatayo yatafanya kazi kwa Macs zenye muundo wa Intel tu. Zana hii sasa imehifadhiwa na toleo la mwisho lilikuwa mwaka 2017. Binari iliyopakuliwa kwa kutumia maelekezo yaliyotolewa hapa inalenga chips za Intel kwani Apple Silicon haikuwepo mwaka 2017. Inaweza kuwa inawezekana kuchakata binari kwa muundo wa arm64 lakini utalazimika kujaribu mwenyewe.
 ```bash
 #Dump raw format
 sudo osxpmem.app/osxpmem --format raw -o /tmp/dump_mem
@@ -76,9 +76,9 @@ cd /tmp; wget https://github.com/google/rekall/releases/download/v1.5.1/osxpmem-
 ```
 {% endcode %}
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) ni injini ya utaftaji inayotumia **dark-web** ambayo inatoa huduma za **bure** za kuangalia ikiwa kampuni au wateja wake wameathiriwa na **malwares za kuiba**.
 

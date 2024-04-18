@@ -2,25 +2,25 @@
 
 <details>
 
-<summary><strong>Jifunze kuhack AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
 * Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) ni injini ya utaftaji inayotumia **dark-web** ambayo inatoa huduma za **bure** kuchunguza ikiwa kampuni au wateja wake wame **vamiwa** na **malware za wizi**.
+[**WhiteIntel**](https://whiteintel.io) ni injini ya utaftaji inayotumia **dark-web** ambayo inatoa huduma za **bure** za kuangalia ikiwa kampuni au wateja wake wameathiriwa na **malware za wizi**.
 
-Lengo kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulio ya ransomware yanayotokana na malware za kuiba habari.
+Lengo kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulio ya ransomware yanayotokana na malware za kuiba taarifa.
 
 Unaweza kutembelea tovuti yao na kujaribu injini yao **bure** kwa:
 
@@ -30,12 +30,12 @@ Unaweza kutembelea tovuti yao na kujaribu injini yao **bure** kwa:
 
 ## Taarifa Msingi
 
-AppArmor ni **uboreshaji wa kernel ulioundwa kuzuia rasilimali zilizopo kwa programu kupitia maelezo ya kila programu**, ikitekeleza Udhibiti wa Kufikia wa Lazima (MAC) kwa kufunga sifa za kudhibiti upatikanaji moja kwa moja kwa programu badala ya watumiaji. Mfumo huu hufanya kazi kwa **kupakia maelezo ya kila programu kwenye kernel**, kawaida wakati wa kuanza, na maelezo haya yanadhibiti ni rasilimali gani programu inaweza kupata, kama vile uhusiano wa mtandao, ufikiaji wa soketi za moja kwa moja, na ruhusa za faili.
+AppArmor ni **uboreshaji wa kernel ulioundwa kuzuia rasilimali zilizopo kwa programu kupitia maelezo ya programu, kutekeleza Udhibiti wa Kufikia wa Lazima (MAC) kwa kuunganisha sifa za kudhibiti upatikanaji moja kwa moja kwa programu badala ya watumiaji.** Mfumo huu hufanya kazi kwa **kupakia maelezo ya programu kwenye kernel**, kawaida wakati wa kuanza, na maelezo haya yanadhibiti ni rasilimali gani programu inaweza kupata, kama vile uhusiano wa mtandao, ufikiaji wa soketi za moja kwa moja, na ruhusa za faili.
 
 Kuna njia mbili za uendeshaji kwa maelezo ya AppArmor:
 
-- **Hali ya Utekelezaji**: Hali hii inatekeleza sera zilizoelezwa ndani ya maelezo, ikizuia vitendo vinavyokiuka sera hizi na kuingiza jaribio lolote la kukiuka kupitia mifumo kama syslog au auditd.
-- **Hali ya Malalamiko**: Tofauti na hali ya utekelezaji, hali ya malalamiko haikazi vitendo vinavyokwenda kinyume na sera za maelezo. Badala yake, inaingiza jaribio hizi kama uvunjaji wa sera bila kutekeleza vizuizi.
+- **Hali ya Utekelezaji**: Hali hii inatekeleza sera zilizoelezwa ndani ya maelezo, kuzuia vitendo vinavyokiuka sera hizi na kuingiza jaribio lolote la kukiuka kupitia mifumo kama syslog au auditd.
+- **Hali ya Malalamiko**: Tofauti na hali ya utekelezaji, hali ya malalamiko haikatazi vitendo vinavyokwenda kinyume na sera za maelezo. Badala yake, inaingiza jaribio hizi kama uvunjaji wa sera bila kutekeleza vizuizi.
 
 ### Vipengele vya AppArmor
 
@@ -44,12 +44,12 @@ Kuna njia mbili za uendeshaji kwa maelezo ya AppArmor:
 - **Mchambuzi**: Hupakia sera kwenye kernel kwa utekelezaji au kuripoti.
 - **Zana**: Hizi ni programu za mode ya mtumiaji zinazotoa kiolesura cha kuingiliana na kusimamia AppArmor.
 
-### Njia ya Maelezo
+### Njia za Maelezo
 
 Maelezo ya Apparmor kawaida hufutwa katika _**/etc/apparmor.d/**_\
-Kwa `sudo aa-status` utaweza kuorodhesha programu zilizozuiwa na maelezo fulani. Ikiwa unaweza kubadilisha herufi "/" kwa kipindi cha njia ya kila programu iliyoorodheshwa utapata jina la maelezo ya apparmor ndani ya folda iliyotajwa.
+Kwa `sudo aa-status` utaweza kuorodhesha programu ambazo zinazuiliwa na maelezo fulani. Ikiwa unaweza kubadilisha herufi "/" kwa mshale wa njia ya kila programu iliyoorodheshwa na utapata jina la maelezo ya apparmor ndani ya folda iliyotajwa.
 
-Kwa mfano, maelezo ya **apparmor** kwa _/usr/bin/man_ itapatikana katika _/etc/apparmor.d/usr.bin.man_
+Kwa mfano, maelezo ya **apparmor** kwa _/usr/bin/man_ yatakuwa yamehifadhiwa katika _/etc/apparmor.d/usr.bin.man_
 
 ### Amri
 ```bash
@@ -63,32 +63,32 @@ aa-mergeprof  #used to merge the policies
 ```
 ## Kuunda wasifu
 
-* Ili kuelezea programu inayohusika, **njia kamili na manyoya** huruhusiwa (kwa ajili ya kutambua faili) kwa kufafanua faili.
-* Ili kuelezea ufikiaji ambao programu itakuwa nayo juu ya **faili** inaweza kutumika **udhibiti wa ufikiaji** zifuatazo:
-* **r** (kusoma)
-* **w** (kuandika)
-* **m** (ramani ya kumbukumbu kama inayoweza kutekelezwa)
-* **k** (kufunga faili)
-* **l** (kuunda viungo vya ngumu)
-* **ix** (kutekeleza programu nyingine na programu mpya kurithi sera)
-* **Px** (kutekeleza chini ya wasifu mwingine, baada ya kusafisha mazingira)
-* **Cx** (kutekeleza chini ya wasifu wa mtoto, baada ya kusafisha mazingira)
-* **Ux** (kutekeleza bila kizuizi, baada ya kusafisha mazingira)
+* Ili kuelezea kielelezo kilichoathiriwa, **njia kamili na manyoya** huruhusiwa (kwa ajili ya kufanya mchanganyiko wa faili) kwa kufafanua faili.
+* Ili kuelezea ufikiaji ambao programu ya binary itakuwa nayo juu ya **faili** inaweza kutumika **udhibiti wa ufikiaji** zifuatazo:
+  * **r** (soma)
+  * **w** (andika)
+  * **m** (ramani ya kumbukumbu kama inayoweza kutekelezwa)
+  * **k** (kufunga faili)
+  * **l** (kuunda viungo vya ngumu)
+  * **ix** (kutekeleza programu nyingine na programu mpya kurithi sera)
+  * **Px** (kutekeleza chini ya wasifu mwingine, baada ya kusafisha mazingira)
+  * **Cx** (kutekeleza chini ya wasifu wa mtoto, baada ya kusafisha mazingira)
+  * **Ux** (kutekeleza bila kizuizi, baada ya kusafisha mazingira)
 * **Viarasa** vinaweza kutajwa katika maelezo na vinaweza kubadilishwa kutoka nje ya wasifu. Kwa mfano: @{PROC} na @{HOME} (ongeza #include \<tunables/global> kwenye faili ya wasifu)
-* **Mipangilio ya kukataa inasaidia kubadilisha viwango vya kuruhusu**.
+* **Mipangilio ya kukataa inasaidia kubadilisha viarasa vya kuruhusu**.
 
 ### aa-genprof
 
-Ili kuanza kwa urahisi kuunda wasifu, apparmor inaweza kukusaidia. Ni rahisi kufanya **apparmor ichunguze vitendo vinavyofanywa na programu na kisha kuruhusu au kukataa vitendo**.\
-Unahitaji tu kukimbia:
+Ili kuanza kwa urahisi kuunda wasifu, apparmor inaweza kukusaidia. Ni rahisi kufanya **apparmor ichunguze vitendo vilivyofanywa na binary na kisha kuruhusu au kukataa vitendo unavyotaka**.\
+Unachohitaji kufanya ni kukimbia:
 ```bash
 sudo aa-genprof /path/to/binary
 ```
-Kisha, kwenye konsoli tofauti tekeleza hatua zote ambazo kawaida programu ya binary itatekeleza:
+Kisha, kwenye konsoli tofauti fanya vitendo vyote ambavyo kawaida binary itafanya:
 ```bash
 /path/to/binary -a dosomething
 ```
-Kisha, katika console ya kwanza bonyeza "**s**" na kisha katika hatua zilizorekodiwa eleza ikiwa unataka kusahau, kuruhusu, au chochote. Ukimaliza bonyeza "**f**" na wasifu mpya utaundwa katika _/etc/apparmor.d/path.to.binary_
+Kisha, kwenye konsoli ya kwanza bonyeza "**s**" na kisha kwenye hatua zilizorekodiwa eleza ikiwa unataka kupuuza, kuruhusu, au chochote. Ukimaliza bonyeza "**f**" na wasifu mpya utaundwa katika _/etc/apparmor.d/path.to.binary_
 
 {% hint style="info" %}
 Kwa kutumia mishale unaweza kuchagua unachotaka kuruhusu/kukataa/chochote
@@ -96,7 +96,7 @@ Kwa kutumia mishale unaweza kuchagua unachotaka kuruhusu/kukataa/chochote
 
 ### aa-easyprof
 
-Unaweza pia kuunda kiolezo cha wasifu wa apparmor wa binary na:
+Unaweza pia kuunda kiolezo cha wasifu wa apparmor wa binary kwa:
 ```bash
 sudo aa-easyprof /path/to/binary
 # vim:syntax=apparmor
@@ -125,7 +125,7 @@ sudo aa-easyprof /path/to/binary
 Tafadhali elewa kwamba kwa chaguo-msingi katika wasifu ulioundwa hakuna kitu kilichoruhusiwa, kwa hivyo kila kitu kimekataliwa. Utahitaji kuongeza mistari kama `/etc/passwd r,` kuruhusu kusoma faili ya binary `/etc/passwd` kwa mfano.
 {% endhint %}
 
-Unaweza kisha **kutekeleza** wasifu mpya na
+Unaweza kisha **kuimarisha** wasifu mpya na
 ```bash
 sudo apparmor_parser -a /etc/apparmor.d/path.to.binary
 ```
@@ -174,7 +174,7 @@ For more information, please see: https://wiki.ubuntu.com/DebuggingApparmor
 ```
 ## Apparmor katika Docker
 
-Tafadhali kumbuka jinsi wasifu **docker-profile** wa docker unavyopakiwa kwa chaguo-msingi:
+Tafadhali angalia jinsi wasifu **docker-profile** wa docker unavyopakiwa kwa chaguo-msingi:
 ```bash
 sudo aa-status
 apparmor module is loaded.
@@ -197,7 +197,7 @@ Kwa chaguo-msingi **Profaili ya Apparmor ya docker-default** inatengenezwa kutok
 - **Upatikanaji** wa mtandao wote
 - **Uwezo wowote** haujatambuliwa (Hata hivyo, baadhi ya uwezo utatoka kwa kuingiza sheria za msingi kama vile #include \<abstractions/base>)
 - **Kuandika** kwenye faili yoyote ya **/proc** **hairuhusiwi**
-- **Vidirisha vingine**/**faili** vya /**proc** na /**sys** **vinakatazwa** upatikanaji wa kusoma/kuandika/kufunga/kuunganisha/kutekeleza
+- **Vidirisha vingine**/**faili** vya /**proc** na /**sys** vinaruhusiwa kusoma/kuandika/kufunga/kuunganisha/kutekeleza
 - **Kufunga** **hairuhusiwi**
 - **Ptrace** inaweza kufanywa kwenye mchakato ambao umefungwa na **profaili ile ile ya apparmor**
 
@@ -216,13 +216,13 @@ Unahitaji **kulemaza apparmor** ili kupita vizuizi vyake:
 ```bash
 docker run -it --cap-add SYS_ADMIN --security-opt seccomp=unconfined --security-opt apparmor=unconfined ubuntu /bin/bash
 ```
-Tafadhali kumbuka kwamba kwa chaguo-msingi **AppArmor** pia **itazuia kontena kufunga** folda kutoka ndani hata na uwezo wa SYS\_ADMIN.
+Tafadhali kumbuka kwamba kwa chaguo-msingi **AppArmor** pia **itazuia kontena kufanya uwezo wa kufunga** folda kutoka ndani hata na uwezo wa SYS\_ADMIN.
 
 Tafadhali kumbuka unaweza **kuongeza/kuondoa** **uwezo** kwa kontena ya docker (hii bado itazuiliwa na njia za ulinzi kama **AppArmor** na **Seccomp**):
 
-- `--cap-add=SYS_ADMIN` inapeana uwezo wa `SYS_ADMIN`
-- `--cap-add=ALL` inapeana uwezo wote
-- `--cap-drop=ALL --cap-add=SYS_PTRACE` inaondoa uwezo wote na inapeana tu `SYS_PTRACE`
+- `--cap-add=SYS_ADMIN` inatoa uwezo wa `SYS_ADMIN`
+- `--cap-add=ALL` inatoa uwezo wote
+- `--cap-drop=ALL --cap-add=SYS_PTRACE` inaondoa uwezo wote na kutoa tu `SYS_PTRACE`
 
 {% hint style="info" %}
 Kawaida, unapopata kwamba una **uwezo wa kipekee** uliopo **ndani** ya **kontena ya docker** lakini sehemu fulani ya **kudukua haifanyi kazi**, hii ni kwa sababu **apparmor ya docker itakuwa inazuia**.
@@ -236,7 +236,7 @@ Ili kufafanua utendaji wa AppArmor, niliunda wasifu mpya wa Docker "mydocker" na
 ```
 deny /etc/* w,   # deny write for all files directly in /etc (not in a subdir)
 ```
-Ili kuanzisha wasifu, tunahitaji kufanya yafuatayo:
+Ili kuamsha wasifu, tunahitaji kufanya yafuatayo:
 ```
 sudo apparmor_parser -r -W mydocker
 ```
@@ -262,13 +262,15 @@ Kisha, unaweza kukimbia mstari ufuatao **kupata wasifu sahihi unao tumika**:
 ```bash
 find /etc/apparmor.d/ -name "*lowpriv*" -maxdepth 1 2>/dev/null
 ```
-### Kizuizi cha AppArmor Docker Bypass2
+Katika kesi ya ajabu unaweza **kurekebisha wasifu wa apparmor wa docker na kuuweka upya.** Unaweza kuondoa vizuizi na "kuvuka" yao.
 
-**AppArmor inategemea njia**, hii inamaanisha kwamba hata kama inaweza **kulinda** faili ndani ya saraka kama **`/proc`** ikiwa unaweza **kuweka jinsi kontena itakavyotekelezwa**, unaweza **kumount** saraka ya proc ya mwenyeji ndani ya **`/host/proc`** na **hakitakuwa chini ya ulinzi wa AppArmor tena**.
+### Kuvuka AppArmor ya Docker2
 
-### Kizuizi cha Shebang cha AppArmor
+**AppArmor inategemea njia**, hii inamaanisha hata kama inaweza **kulinda** faili ndani ya saraka kama **`/proc`** ikiwa unaweza **kuweka jinsi kontena itakavyotekelezwa**, unaweza **kufunga** saraka ya proc ya mwenyeji ndani ya **`/mwenyeji/proc`** na **hakitakuwa tena kilinziwa na AppArmor**.
 
-Katika [**kosa hili**](https://bugs.launchpad.net/apparmor/+bug/1911431) unaweza kuona mfano wa jinsi **hata kama unazuia perl kutumika na rasilimali fulani**, ikiwa tu unajenga script ya shell **ukiainisha** kwenye mstari wa kwanza **`#!/usr/bin/perl`** na **kutekeleza faili moja kwa moja**, utaweza kutekeleza chochote unachotaka. K.m.:
+### Kuvuka Shebang ya AppArmor
+
+Katika [**kosa hili**](https://bugs.launchpad.net/apparmor/+bug/1911431) unaweza kuona mfano wa jinsi **hata kama unazuia perl kutumika na rasilimali fulani**, ikiwa tu unajenga script ya shel **ukiainisha** kwenye mstari wa kwanza **`#!/usr/bin/perl`** na **utekelezi faili moja kwa moja**, utaweza kutekeleza chochote unachotaka. K.m.:
 ```perl
 echo '#!/usr/bin/perl
 use POSIX qw(strftime);
@@ -278,9 +280,9 @@ exec "/bin/sh"' > /tmp/test.pl
 chmod +x /tmp/test.pl
 /tmp/test.pl
 ```
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) ni injini ya utaftaji inayotumia **dark-web** ambayo inatoa huduma za **bure** za kuangalia ikiwa kampuni au wateja wake wameathiriwa na **malware za kuiba**.
 
@@ -297,9 +299,9 @@ Unaweza kutembelea tovuti yao na kujaribu injini yao kwa **bure** kwa:
 Njia nyingine za kusaidia HackTricks:
 
 * Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
