@@ -1,26 +1,26 @@
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team 전문가)로부터 AWS 해킹을 처음부터 전문가까지 배우세요</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team 전문가)로부터 AWS 해킹을 처음부터 전문가까지 배우세요</strong></summary>
 
 HackTricks를 지원하는 다른 방법:
 
-* **회사가 HackTricks에 광고되길 원하거나** **HackTricks를 PDF로 다운로드하고 싶다면** [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* **회사가 HackTricks에 광고되길 원하거나 PDF로 HackTricks를 다운로드하고 싶다면** [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
 * [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구매하세요
 * [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* **💬 [Discord 그룹](https://discord.gg/hRep4RUj7f)** 또는 [**텔레그램 그룹**](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)을 **팔로우**하세요.
+* **💬 [Discord 그룹](https://discord.gg/hRep4RUj7f)** 또는 [텔레그램 그룹](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)을 **팔로우**하세요.
 * **해킹 트릭을 공유하려면** [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 저장소로 PR을 제출하세요.
 
 </details>
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io)은 **다크 웹**을 활용한 검색 엔진으로, **무료** 기능을 제공하여 회사나 고객이 **스틸러 악성 소프트웨어**에 의해 **침해**되었는지 확인할 수 있습니다.
+[**WhiteIntel**](https://whiteintel.io)은 **다크 웹**을 활용한 검색 엔진으로, 회사나 고객이 **스틸러 악성 코드**에 의해 **침해**되었는지 무료로 확인할 수 있는 기능을 제공합니다.
 
-WhiteIntel의 주요 목표는 정보 도난 악성 소프트웨어로 인한 계정 탈취 및 랜섬웨어 공격을 막는 것입니다.
+WhiteIntel의 주요 목표는 정보 도난 악성 코드로 인한 계정 탈취 및 랜섬웨어 공격을 막는 것입니다.
 
-그들의 웹사이트를 확인하고 **무료**로 엔진을 시험해 볼 수 있습니다:
+그들의 웹사이트를 방문하고 무료로 엔진을 시험해 볼 수 있습니다:
 
 {% embed url="https://whiteintel.io" %}
 
@@ -39,7 +39,7 @@ WhiteIntel의 주요 목표는 정보 도난 악성 소프트웨어로 인한 �
 
 다음을 확인해야 합니다:
 
-* 파일 수정 또는 생성
+* 파일 수정 또는 새 파일 생성
 * 심볼릭 링크 생성
 * 제한된 영역에 액세스
 * 다른 앱 실행
@@ -54,7 +54,7 @@ WhiteIntel의 주요 목표는 정보 도난 악성 소프트웨어로 인한 �
 
 ### \*NIX __
 
-_bash, sh, zsh..._ 더 많은 정보는 여기에서 확인할 수 있습니다: [https://gtfobins.github.io/](https://gtfobins.github.io)
+_bash, sh, zsh..._ 여기에서 더 많은 것을 찾을 수 있습니다: [https://gtfobins.github.io/](https://gtfobins.github.io)
 
 # Windows
 
@@ -127,14 +127,14 @@ _bash, sh, zsh..._ 더 많은 정보는 여기에서 확인할 수 있습니다:
 
 * 왼쪽에서 오른쪽으로 스와이프하여 모든 열린 창을 볼 수 있으며 KIOSK 앱을 최소화하고 전체 OS에 직접 액세스할 수 있습니다.
 * 오른쪽에서 왼쪽으로 스와이프하여 작업 센터를 열고 KIOSK 앱을 최소화하고 전체 OS에 직접 액세스할 수 있습니다.
-* 위쪽 가장자리에서 스와이프하여 전체 화면 모드로 열린 앱의 타이틀 바를 표시할 수 있습니다.
-* 아래쪽에서 위쪽으로 스와이프하여 전체 화면 앱에서 작업 표시줄을 표시할 수 있습니다.
+* 위쪽 가장자리에서 스와이프하여 전체 화면 모드로 열린 앱의 타이틀 바를 표시합니다.
+* 아래쪽에서 위쪽으로 스와이프하여 전체 화면 앱에서 작업 표시줄을 표시합니다.
 
-## 인터넷 익스플로러 트릭
+## 인터넷 익스플로러 팁
 
 ### '이미지 툴바'
 
-클릭하면 이미지 상단 왼쪽에 나타나는 툴바입니다. 저장, 인쇄, 메일 보내기, 탐색기에서 "내 사진" 열기 등이 가능합니다. Kiosk는 인터넷 익스플로러를 사용해야 합니다.
+클릭하면 이미지 상단 왼쪽에 나타나는 툴바입니다. 저장, 인쇄, 메일 보내기, 탐색기에서 "내 사진" 열기 등이 가능합니다. 키오스크는 인터넷 익스플로러를 사용해야 합니다.
 
 ### 쉘 프로토콜
 
@@ -181,16 +181,16 @@ JavaScript를 사용하여 공통 대화 상자를 만들고 파일 탐색기에
 ## 제스처 및 버튼
 
 * 네 손가락으로 위로 스와이프 / 홈 버튼을 두 번 탭: 멀티태스크 보기 및 앱 변경
-* 네 손가락으로 한쪽으로 스와이프: 다음/이전 앱으로 변경
-* 다섯 손가락으로 화면을 집어넣기 / 홈 버튼을 터치 / 화면 아래쪽에서 위쪽으로 빠르게 스와이프하여 위로 이동: 홈에 액세스
-* 화면 아래쪽에서 손가락으로 1-2인치 위로 느리게 스와이프: 독이 나타납니다.
-* 화면 상단에서 손가락으로 아래로 스와이프: 알림 보기
-* 화면 오른쪽 상단에서 손가락으로 아래로 스와이프: iPad Pro의 제어 센터 보기
-* 화면 왼쪽에서 손가락으로 1-2인치 스와이프: 오늘 보기 보기
-* 화면 중앙에서 빠르게 오른쪽이나 왼쪽으로 손가락으로 스와이프: 다음/이전 앱으로 변경
+* 네 손가락 또는 다섯 손가락으로 한쪽으로 스와이프: 다음/이전 앱으로 변경
+* 다섯 손가락으로 화면을 집어넣거나 홈 버튼을 터치하거나 화면 하단에서 위쪽으로 빠르게 스와이프: 홈에 액세스
+* 한 손가락으로 화면 하단에서 1-2인치 위로 느리게 스와이프: 독이 나타납니다.
+* 한 손가락으로 화면 상단에서 아래로 스와이프: 알림 보기
+* 한 손가락으로 화면 오른쪽 상단에서 아래로 스와이프: iPad Pro의 제어 센터 보기
+* 화면 왼쪽에서 한 손가락으로 1-2인치 스와이프: 오늘 보기 보기
+* 화면 중앙에서 빠르게 오른쪽이나 왼쪽으로 한 손가락으로 스와이프: 다음/이전 앱으로 변경
 * iPad 오른쪽 상단의 전원/잠금/취침 버튼을 누르고 오른쪽으로 슬라이드하여 전원을 끕니다: 전원 끄기
-* iPad 오른쪽 상단의 전원/잠금/취침 버튼을 누르고 홈 버튼을 몇 초 동안 누릅니다: 강제 전원 끄기
-* iPad 오른쪽 상단의 전원/잠금/취침 버튼을 누르고 홈 버튼을 빠르게 누릅니다: 화면 하단 왼쪽에 팝업되는 스크린샷을 찍습니다. 두 버튼을 동시에 매우 짧게 누르면 몇 초 동안 누르는 것처럼 강제 전원이 꺼집니다.
+* iPad 오른쪽 상단의 전원/잠금/취침 버튼을 누르고 홈 버튼을 몇 초 동안 누릅니다: 강제 종료
+* iPad 오른쪽 상단의 전원/잠금/취침 버튼을 누르고 홈 버튼을 빠르게 누릅니다: 화면 하단 왼쪽에 팝업되는 스크린샷을 찍습니다. 두 버튼을 동시에 매우 짧게 누르면 몇 초 동안 강제 종료됩니다.
 
 ## 바로 가기
 
@@ -214,15 +214,15 @@ iPad 키보드 또는 USB 키보드 어댑터가 있어야 합니다. 애플리�
 이 바로 가기는 iPad의 시각적 설정 및 소리 설정에 따라 다릅니다.
 
 | 바로 가기 | 동작              |
-| -------- | ----------------- |
-| F1       | 화면 어둡게 하기   |
-| F2       | 화면 밝게 하기     |
-| F7       | 이전 곡으로 이동   |
-| F8       | 재생/일시정지      |
-| F9       | 다음 곡으로 이동   |
+| -------- | ------------------ |
+| F1       | 화면 어둡게 하기    |
+| F2       | 화면 밝게 하기      |
+| F7       | 이전 곡으로 돌아가기 |
+| F8       | 재생/일시정지       |
+| F9       | 다음 곡으로 건너뛰기 |
 | F10      | 음소거             |
-| F11      | 볼륨 감소          |
-| F12      | 볼륨 증가          |
+| F11      | 볼륨 낮추기        |
+| F12      | 볼륨 높이기        |
 | ⌘ Space  | 사용 가능한 언어 목록 표시; 선택하려면 다시 스페이스 바를 탭합니다. |
 
 ### iPad 탐색
@@ -241,7 +241,7 @@ iPad 키보드 또는 USB 키보드 어댑터가 있어야 합니다. 애플리�
 | ^⌥H (Control-Option-H)                             | 홈 버튼                                               |
 | ^⌥H H (Control-Option-H-H)                         | 멀티태스크 바 표시                                    |
 | ^⌥I (Control-Option-i)                             | 항목 선택기                                           |
-| Escape                                             | 뒤로 가기                                             |
+| Escape                                             | 뒤로 버튼                                             |
 | → (오른쪽 화살표)                                    | 다음 항목                                             |
 | ← (왼쪽 화살표)                                      | 이전 항목                                             |
 | ↑↓ (위 화살표, 아래 화살표)                          | 선택한 항목을 동시에 탭하기                          |
@@ -251,7 +251,7 @@ iPad 키보드 또는 USB 키보드 어댑터가 있어야 합니다. 애플리�
 | ^⌥S (Control-Option-S)                             | VoiceOver 음성 켜기/끄기                            |
 | ⌘⇧⇥ (Command-Shift-Tab)                            | 이전 앱으로 전환                                      |
 | ⌘⇥ (Command-Tab)                                   | 원래 앱으로 전환                                      |
-| ←+→, 그런 다음 Option + ← 또는 Option+→                   | 독을 통해 탐색                                        |
+| ←+→, 그리고 Option + ← 또는 Option+→                   | 독을 통해 탐색                                        |
 ### Safari 단축키
 
 | 단축키                | 동작                                             |
@@ -259,26 +259,26 @@ iPad 키보드 또는 USB 키보드 어댑터가 있어야 합니다. 애플리�
 | ⌘L (Command-L)          | 위치 열기                                        |
 | ⌘T                      | 새 탭 열기                                       |
 | ⌘W                      | 현재 탭 닫기                                     |
-| ⌘R                      | 현재 탭 새로고침                                |
+| ⌘R                      | 현재 탭 새로 고침                               |
 | ⌘.                      | 현재 탭 로딩 중지                               |
 | ^⇥                      | 다음 탭으로 전환                                 |
 | ^⇧⇥ (Control-Shift-Tab) | 이전 탭으로 이동                                 |
-| ⌘L                      | 텍스트 입력/URL 필드 선택하여 수정하기          |
+| ⌘L                      | 텍스트 입력/URL 필드 선택하여 수정             |
 | ⌘⇧T (Command-Shift-T)   | 마지막으로 닫은 탭 열기 (여러 번 사용 가능)     |
-| ⌘\[                     | 브라우징 기록에서 이전 페이지로 이동             |
-| ⌘]                      | 브라우징 기록에서 다음 페이지로 이동             |
+| ⌘\[                     | 브라우징 기록에서 이전 페이지로 이동            |
+| ⌘]                      | 브라우징 기록에서 다음 페이지로 이동            |
 | ⌘⇧R                     | 리더 모드 활성화                                 |
 
 ### 메일 단축키
 
 | 단축키                   | 동작                       |
 | -------------------------- | ---------------------------- |
-| ⌘L                         | 위치 열기                    |
-| ⌘T                         | 새 탭 열기                   |
+| ⌘L                         | 위치 열기                   |
+| ⌘T                         | 새 탭 열기                  |
 | ⌘W                         | 현재 탭 닫기                |
-| ⌘R                         | 현재 탭 새로고침          |
-| ⌘.                         | 현재 탭 로딩 중지       |
-| ⌘⌥F (Command-Option/Alt-F) | 메일함에서 검색           |
+| ⌘R                         | 현재 탭 새로 고침          |
+| ⌘.                         | 현재 탭 로딩 중지          |
+| ⌘⌥F (Command-Option/Alt-F) | 메일함에서 검색             |
 
 # 참고 자료
 
@@ -288,15 +288,15 @@ iPad 키보드 또는 USB 키보드 어댑터가 있어야 합니다. 애플리�
 * [http://www.iphonehacks.com/2018/03/ipad-keyboard-shortcuts.html](http://www.iphonehacks.com/2018/03/ipad-keyboard-shortcuts.html)
 
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io)은 **다크 웹**을 활용한 검색 엔진으로, 회사나 고객이 **스틸러 악성 코드**에 의해 **침해**당했는지 확인할 수 있는 **무료** 기능을 제공합니다.
+[**WhiteIntel**](https://whiteintel.io)은 **다크 웹**을 활용한 검색 엔진으로, 회사나 고객이 **스틸러 악성 코드**에 의해 **침해**당했는지 무료로 확인할 수 있는 기능을 제공합니다.
 
 WhiteIntel의 주요 목표는 정보를 도난하는 악성 코드로 인한 계정 탈취 및 랜섬웨어 공격에 대항하는 것입니다.
 
-그들의 웹사이트를 방문하여 **무료**로 엔진을 사용해 볼 수 있습니다:
+그들의 웹사이트를 방문하여 엔진을 **무료로** 사용해 볼 수 있습니다:
 
 {% embed url="https://whiteintel.io" %}
 
@@ -309,7 +309,7 @@ HackTricks를 지원하는 다른 방법:
 * **HackTricks에 귀사를 광고하거나 PDF로 다운로드하려면** [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
 * [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구입하세요
 * [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* **💬 [디스코드 그룹](https://discord.gg/hRep4RUj7f)** 또는 [텔레그램 그룹](https://t.me/peass)에 가입하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)를 팔로우하세요.
-* **HackTricks 및 HackTricks Cloud** 깃허브 저장소에 PR을 제출하여 해킹 트릭을 공유하세요.
+* **💬 [디스코드 그룹](https://discord.gg/hRep4RUj7f)** 또는 [**텔레그램 그룹**](https://t.me/peass)에 가입하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**를 팔로우하세요.**
+* **해킹 트릭을 공유하려면** [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃헙 저장소에 PR을 제출하세요.
 
 </details>
