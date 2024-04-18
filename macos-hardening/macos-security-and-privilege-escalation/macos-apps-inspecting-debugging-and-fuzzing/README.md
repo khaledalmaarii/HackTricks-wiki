@@ -2,17 +2,31 @@
 
 <details>
 
-<summary><strong>Sıfırdan kahraman olana kadar AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahramana öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile!</strong></summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* **Şirketinizi HackTricks'te reklamınızı görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na göz atın (https://github.com/sponsors/carlospolop)!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* [**The PEASS Family**]'yi (https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**]'i (https://opensea.io/collection/the-peass-family) içeren koleksiyonumuz
 * **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR göndererek HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* **Hacking püf noktalarınızı paylaşarak PR göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
+
+### [WhiteIntel](https://whiteintel.io)
+
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+
+[**WhiteIntel**](https://whiteintel.io), bir şirketin veya müşterilerinin **hırsız kötü amaçlı yazılımlar** tarafından **kompromize edilip edilmediğini** kontrol etmek için **ücretsiz** işlevler sunan **dark-web** destekli bir arama motorudur.
+
+WhiteIntel'in başlıca amacı, bilgi çalan kötü amaçlı yazılımlardan kaynaklanan hesap ele geçirmeleri ve fidye saldırılarıyla mücadele etmektir.
+
+Websitesini ziyaret edebilir ve motorlarını **ücretsiz** deneyebilirsiniz:
+
+{% embed url="https://whiteintel.io" %}
+
+---
 
 ## Statik Analiz
 
@@ -34,7 +48,7 @@ objdump --disassemble-symbols=_hello --x86-asm-syntax=intel toolsdemo #Disassemb
 ```
 ### jtool2
 
-Bu araç, **codesign**, **otool** ve **objdump** için bir **yedek** olarak kullanılabilir ve birkaç ek özellik sunar. [**Buradan indirebilirsiniz**](http://www.newosxbook.com/tools/jtool.html) veya `brew` ile kurabilirsiniz.
+Bu araç, **codesign**, **otool** ve **objdump** için bir **yedek** olarak kullanılabilir ve birkaç ek özellik sunar. [**Buradan indirebilirsiniz**](http://www.newosxbook.com/tools/jtool.html) veya `brew` ile yükleyebilirsiniz.
 ```bash
 # Install
 brew install --cask jtool2
@@ -54,7 +68,7 @@ jtool2 -d __DATA.__const myipc_server | grep MIG
 ### Codesign / ldid
 
 {% hint style="danger" %}
-**`Codesign`**, macOS'ta bulunabilirken **`ldid`**, iOS'ta bulunabilir.
+**`Codesign`**, macOS'ta bulunurken **`ldid`**, iOS'ta bulunur.
 {% endhint %}
 ```bash
 # Get signer
@@ -84,7 +98,7 @@ ldid -S/tmp/entl.xml <binary>
 ```
 ### SuspiciousPackage
 
-[**SuspiciousPackage**](https://mothersruin.com/software/SuspiciousPackage/get.html) kurulum dosyaları olan **.pkg** dosyalarını incelemek ve içeriğini kurulum yapmadan önce görmek için faydalı bir araçtır.\
+[**SuspiciousPackage**](https://mothersruin.com/software/SuspiciousPackage/get.html) şüpheli **.pkg** dosyalarını (kurulum dosyalarını) incelemek ve içeriğini kurmadan önce görmek için faydalı bir araçtır.\
 Bu kurulum dosyaları genellikle kötü amaçlı yazılım yazarlarının **kötü amaçlı yazılımı sürdürmek** için genellikle kötüye kullanılan `preinstall` ve `postinstall` bash betiklerine sahiptir.
 
 ### hdiutil
@@ -98,12 +112,12 @@ hdiutil attach ~/Downloads/Firefox\ 58.0.2.dmg
 #### Metadata
 
 {% hint style="danger" %}
-Objective-C ile yazılan programlar, [Mach-O ikili dosyalarına](../macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md) derlendiğinde sınıf bildirimlerini **saklar**. Bu sınıf bildirimleri şunları içerir:
+Objective-C ile yazılan programlar, [Mach-O ikili dosyalarına](../macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md) derlendiğinde sınıf bildirimlerini **saklarlar**. Bu sınıf bildirimleri şunları içerir:
+{% endhint %}
 
-* Sınıfın adı
+* Sınıfı
 * Sınıf metodları
 * Sınıf örnek değişkenleri
-{% endhint %}
 
 Bu bilgilere [**class-dump**](https://github.com/nygard/class-dump) kullanarak erişebilirsiniz:
 ```bash
@@ -111,14 +125,14 @@ class-dump Kindle.app
 ```
 #### Fonksiyon çağrısı
 
-Bir binary dosyasında bir fonksiyon çağrıldığında ve bu binary Objective-C kullandığında, derlenmiş kod o fonksiyonu çağırmak yerine **`objc_msgSend`**'i çağıracaktır. Bu fonksiyon ise son fonksiyonu çağıracaktır:
+Bir binary dosyasında bir fonksiyon çağrıldığında ve bu binary Objective-C kullandığında, derlenmiş kod bu fonksiyonu çağırmak yerine **`objc_msgSend`**'i çağıracaktır. Bu fonksiyon, nihai fonksiyonu çağıracaktır:
 
 ![](<../../../.gitbook/assets/image (302).png>)
 
 Bu fonksiyonun beklediği parametreler şunlardır:
 
-- İlk parametre (**self**), "mesajı alacak olan sınıf örneğine işaret eden bir işaretçi"dir. Daha basitçe ifade etmek gerekirse, bu, yöntemin çağrıldığı nesnedir. Eğer yöntem bir sınıf yöntemi ise, bu, sınıf nesnesinin bir örneği olacaktır, bir örnek yöntem için ise self, bir nesne olarak sınıfın örneğine işaret edecektir.
-- İkinci parametre (**op**), "mesajı işleyen yöntemin seçicisidir". Daha basitçe ifade etmek gerekirse, bu sadece yöntemin **adıdır**.
+- İlk parametre (**self**), "mesajı alacak sınıf örneğine işaret eden bir işaretçi"dir. Daha basitçe söylemek gerekirse, bu, yöntemin çağrıldığı nesnedir. Eğer yöntem bir sınıf yöntemi ise, bu, sınıf nesnesinin bir örneği olacaktır, bir örnek yöntem için ise self, bir nesne olarak sınıfın örneğine işaret edecektir.
+- İkinci parametre, (**op**), "mesajı işleyen yöntemin seçicisi"dir. Yine, daha basitçe söylemek gerekirse, bu sadece **yöntemin adıdır**.
 - Geri kalan parametreler, yöntem tarafından gereken **değerlerdir** (op).
 
 Bu bilgilere **ARM64'te `lldb` ile kolayca nasıl ulaşılacağını** bu sayfada görebilirsiniz:
@@ -132,18 +146,18 @@ x64:
 | **Argüman**       | **Register**                                                    | **(için) objc\_msgSend**                              |
 | ----------------- | --------------------------------------------------------------- | ---------------------------------------------------- |
 | **1. argüman**    | **rdi**                                                         | **self: yöntemin çağrıldığı nesne**                  |
-| **2. argüman**    | **rsi**                                                         | **op: yöntemin adı**                                |
-| **3. argüman**    | **rdx**                                                         | **yönteme gönderilen 1. argüman**                    |
-| **4. argüman**    | **rcx**                                                         | **yönteme gönderilen 2. argüman**                    |
-| **5. argüman**    | **r8**                                                          | **yönteme gönderilen 3. argüman**                    |
-| **6. argüman**    | **r9**                                                          | **yönteme gönderilen 4. argüman**                    |
-| **7. ve sonrası** | <p><strong>rsp+</strong><br><strong>(yığın üzerinde)</strong></p> | **yönteme gönderilen 5. ve sonrası argüman**         |
+| **2. argüman**    | **rsi**                                                         | **op: yöntemin adı**                                 |
+| **3. argüman**    | **rdx**                                                         | **Yönteme gönderilen 1. argüman**                    |
+| **4. argüman**    | **rcx**                                                         | **Yönteme gönderilen 2. argüman**                    |
+| **5. argüman**    | **r8**                                                          | **Yönteme gönderilen 3. argüman**                    |
+| **6. argüman**    | **r9**                                                          | **Yönteme gönderilen 4. argüman**                    |
+| **7. ve sonraki** | <p><strong>rsp+</strong><br><strong>(yığın üzerinde)</strong></p> | **Yönteme gönderilen 5. ve sonraki argümanlar**       |
 
 ### Swift
 
-Swift binary dosyalarıyla, Objective-C uyumluluğu olduğundan, bazen [class-dump](https://github.com/nygard/class-dump/) kullanarak deklarasyonları çıkarabilirsiniz ancak her zaman mümkün olmayabilir.
+Swift binary dosyalarıyla, Objective-C uyumluluğu olduğundan bazen [class-dump](https://github.com/nygard/class-dump/) kullanarak deklarasyonları çıkarabilirsiniz, ancak her zaman değil.
 
-**`jtool -l`** veya **`otool -l`** komut satırları ile **`__swift5`** ön ekini taşıyan birkaç bölüm bulunabilir:
+**`jtool -l`** veya **`otool -l`** komut satırları ile **`__swift5`** öneki ile başlayan birkaç bölüm bulunabilir:
 ```bash
 jtool2 -l /Applications/Stocks.app/Contents/MacOS/Stocks
 LC 00: LC_SEGMENT_64              Mem: 0x000000000-0x100000000    __PAGEZERO
@@ -155,9 +169,9 @@ Mem: 0x100027064-0x1000274cc        __TEXT.__swift5_fieldmd
 Mem: 0x1000274cc-0x100027608        __TEXT.__swift5_capture
 [...]
 ```
-Bu bölümde depolanan bilgiler hakkında daha fazla bilgiye [bu blog yazısında](https://knight.sc/reverse%20engineering/2019/07/17/swift-metadata.html) ulaşabilirsiniz.
+Ayrıca, bu bölümde depolanan bilgiler hakkında daha fazla bilgiye [bu blog yazısında](https://knight.sc/reverse%20engineering/2019/07/17/swift-metadata.html) ulaşabilirsiniz.
 
-Ayrıca, **Swift ikili dosyalarında semboller olabilir** (örneğin kütüphaneler, işlevlerine çağrı yapılabilmesi için sembollerin depolanması gerekebilir). **Semboller genellikle işlev adı ve özniteliği hakkında bilgi içerir ve karmaşık bir şekilde bulunurlar, bu nedenle çok faydalıdırlar ve orijinal adı alabilen "**demanglers"** bulunmaktadır:
+Ayrıca, **Swift ikili dosyalarının sembolleri olabilir** (örneğin, kütüphanelerin işlevlerine çağrı yapılabilmesi için sembollerin depolanması gerekir). **Semboller genellikle işlev adı ve özniteliği hakkında bilgi içerir ve çirkin bir şekilde saklanır, bu nedenle çok yararlıdır ve orijinal adı alabilen "**demanglers"** bulunmaktadır:
 ```bash
 # Ghidra plugin
 https://github.com/ghidraninja/ghidra_scripts/blob/master/swift_demangler.py
@@ -167,9 +181,9 @@ swift demangle
 ```
 ### Paketlenmiş ikili dosyalar
 
-* Yüksek entropi kontrolü yapın
-* Dizeleri kontrol edin (anlaşılabilir bir dize yoksa, paketlenmiş olabilir)
-* MacOS için UPX paketleyici bir "\_\_XHDR" adında bir bölüm oluşturur
+- Yüksek entropi kontrol edin
+- Dizeleri kontrol edin (anlaşılabilir bir dize yoksa, paketlenmiş olabilir)
+- MacOS için UPX paketleyici "\_\_XHDR" adında bir bölüm oluşturur
 
 ## Dinamik Analiz
 
@@ -185,21 +199,21 @@ MacOS'ta **sistem ikililerini** (örneğin `cloudconfigurationd`) **enstrümaniz
 
 MacOS, bir uygulama çalıştırılırken **ne yaptığını anlamaya çalışırken** çok yararlı olabilecek birçok günlük oluşturur.
 
-Ayrıca, bazı günlükler, **kullanıcı** veya **bilgisayar** **tanımlanabilir** bilgileri **gizlemek** için `<private>` etiketini içerecektir. Bununla birlikte, bu bilgileri açıklamak için bir sertifika **yüklenebilir**. [**Buradan**](https://superuser.com/questions/1532031/how-to-show-private-data-in-macos-unified-log) açıklamaları takip edin.
+Ayrıca, bazı günlüklerin, **kullanıcı** veya **bilgisayar** **tanımlanabilir** bilgileri **gizlemek** için `<private>` etiketini içereceğini unutmayın. Bununla birlikte, bu bilgileri açıklamak için bir sertifika **yüklenebilir**. [**Buradan**](https://superuser.com/questions/1532031/how-to-show-private-data-in-macos-unified-log) açıklamaları takip edin.
 
 ### Hopper
 
 #### Sol panel
 
-Hopper'ın sol panelinde ikilinin sembolleri (**Etiketler**), prosedürlerin ve fonksiyonların listesi (**Proc**) ve dizeler (**Str**) görülebilir. Bunlar, Mac-O dosyasının çeşitli bölümlerinde tanımlanan dizelerdir (_cstring veya_ `objc_methname` gibi).
+Hopper'ın sol panelinde ikilinin sembolleri (**Etiketler**), prosedürlerin ve fonksiyonların listesi (**Proc**) ve dizeler (**Str**) görülebilir. Bunlar tüm dizeler değildir, ancak Mac-O dosyasının çeşitli bölümlerinde tanımlananlar (örneğin _cstring veya `objc_methname`)dır.
 
 #### Orta panel
 
-Orta panelde **dizilmiş kodu** görebilirsiniz. Ve **ham** bir şekilde, **grafik** olarak, **derlenmiş** ve **ikili** olarak görebilirsiniz, ilgili simgeye tıklayarak:
+Orta panelde **dizilmiş kodu** görebilirsiniz. Ve bunu **ham**, **grafik**, **derlenmiş** ve **ikili** olarak görebilirsiniz, ilgili simgeye tıklayarak:
 
 <figure><img src="../../../.gitbook/assets/image (340).png" alt=""><figcaption></figcaption></figure>
 
-Bir kod nesnesine sağ tıklayarak **o nesneye referansları** görebilir veya hatta adını değiştirebilirsiniz (bu, derlenmiş yalancı kodda çalışmaz):
+Bir kod nesnesine sağ tıklayarak **o nesneye referanslara/ondan referanslara** bakabilir veya adını değiştirebilirsiniz (bu, derlenmiş yalancı kodda çalışmaz):
 
 <figure><img src="../../../.gitbook/assets/image (1114).png" alt=""><figcaption></figcaption></figure>
 
@@ -207,18 +221,18 @@ Ayrıca, **orta aşağıda python komutları yazabilirsiniz**.
 
 #### Sağ panel
 
-Sağ panelde **gezinme geçmişi** (şu anki duruma nasıl geldiğinizi bilmeniz için) gibi ilginç bilgileri, bu işlevi **çağıran tüm işlevleri** ve bu işlevin **çağırdığı tüm işlevleri** görebileceğiniz **çağrı grafiği**ni ve **yerel değişkenler** bilgilerini görebilirsiniz.
+Sağ panelde **gezinme geçmişi** (şu anki duruma nasıl geldiğinizi bilmeniz için) gibi ilginç bilgileri, bu işlevi çağıran tüm işlevleri ve bu işlevin çağırdığı tüm işlevleri görebileceğiniz **çağrı grafiği**ni ve **yerel değişkenler** bilgilerini görebilirsiniz.
 
 ### dtrace
 
-Kullanıcılara uygulamalara son derece **düşük seviyede erişim** sağlar ve kullanıcılara **programları izleme** ve hatta **çalışma akışlarını değiştirme** olanağı sağlar. Dtrace, **çekirdeğin her yerine yerleştirilen** ve sistem çağrılarının başlangıcı ve sonu gibi konumlarda bulunan **probeleri** kullanır.
+Kullanıcılara uygulamalara son derece **düşük seviyede erişim** sağlar ve kullanıcılara **programları izleme** ve hatta **çalışma akışlarını değiştirme** olanağı sağlar. Dtrace, çekirdeğin her yerine yerleştirilen **probeleri** kullanır ve bu yerler arasında sistem çağrılarının başlangıcı ve sonu gibi yerler bulunur.
 
-DTrace, her sistem çağrısı için bir prob oluşturmak için **`dtrace_probe_create`** işlevini kullanır. Bu probeler, her sistem çağrısının **giriş ve çıkış noktasında tetiklenebilir**. DTrace ile etkileşim, yalnızca kök kullanıcılar için kullanılabilen /dev/dtrace üzerinden gerçekleşir.
+DTrace, her sistem çağrısı için bir prob oluşturmak için **`dtrace_probe_create`** işlevini kullanır. Bu probeler, her sistem çağrısının **giriş ve çıkış noktasında ateşlenebilir**. DTrace ile etkileşim /dev/dtrace üzerinden gerçekleşir ve yalnızca kök kullanıcılar için kullanılabilir.
 
 {% hint style="success" %}
 SIP korumasını tamamen devre dışı bırakmadan Dtrace'ı etkinleştirmek için kurtarma modunda şunu çalıştırabilirsiniz: `csrutil enable --without dtrace`
 
-Ayrıca **derlediğiniz** ikilileri **`dtrace`** veya **`dtruss`** ile çalıştırabilirsiniz.
+Ayrıca **derlediğiniz ikilileri** **`dtrace`** veya **`dtruss`** edebilirsiniz.
 {% endhint %}
 
 Dtrace'ın mevcut probeleri şu şekilde alınabilir:
@@ -231,15 +245,15 @@ ID   PROVIDER            MODULE                          FUNCTION NAME
 43    profile                                                     profile-97
 44    profile                                                     profile-199
 ```
-Sonda bulunan prob adı dört bölümden oluşur: sağlayıcı, modül, işlev ve ad (`fbt:mach_kernel:ptrace:entry`). Adın bazı bölümlerini belirtmezseniz, Dtrace o bölümü joker karakter olarak uygular.
+Sonda adı dört bölümden oluşur: sağlayıcı, modül, işlev ve ad (`fbt:mach_kernel:ptrace:entry`). Adın bazı bölümlerini belirtmezseniz, Dtrace o bölümü joker karakter olarak uygular.
 
-Probları etkinleştirmek ve ateşlendiklerinde ne tür işlemlerin gerçekleştirileceğini belirtmek için D dilini kullanmamız gerekecek.
+Probeleri etkinleştirmek ve ateşlendiklerinde ne tür işlemlerin gerçekleştirileceğini belirtmek için D dilini kullanmamız gerekecek.
 
 Daha detaylı bir açıklama ve daha fazla örnek [https://illumos.org/books/dtrace/chp-intro.html](https://illumos.org/books/dtrace/chp-intro.html) adresinde bulunabilir.
 
 #### Örnekler
 
-**DTrace komut dosyalarını** listelemek için `man -k dtrace` komutunu çalıştırın. Örnek: `sudo dtruss -n binary`
+**DTrace betikleri** listelemek için `man -k dtrace` komutunu çalıştırın. Örnek: `sudo dtruss -n binary`
 
 * Satır içi
 ```bash
@@ -291,13 +305,13 @@ dtruss -c -p 1000 #get syscalls of PID 1000
 ```
 ### ktrace
 
-Bunu **SIP etkinleştirilmiş bile olsa** kullanabilirsiniz.
+Bunu **SIP etkinleştirilmiş olsa bile** kullanabilirsiniz.
 ```bash
 ktrace trace -s -S -t c -c ls | grep "ls("
 ```
 ### ProcessMonitor
 
-[**ProcessMonitor**](https://objective-see.com/products/utilities.html#ProcessMonitor), bir işlemin gerçekleştirdiği işlemlerle ilgili olarak işlemi denetlemek için çok kullanışlı bir araçtır (örneğin, bir işlemin hangi yeni işlemleri oluşturduğunu izlemek).
+[**ProcessMonitor**](https://objective-see.com/products/utilities.html#ProcessMonitor), bir işlemin gerçekleştirdiği işlemlerle ilgili kontrol etmek için çok kullanışlı bir araçtır (örneğin, bir işlemin hangi yeni işlemleri oluşturduğunu izlemek).
 
 ### SpriteTree
 
@@ -308,11 +322,11 @@ Mac'inizi **`sudo eslogger fork exec rename create > cap.json`** gibi bir komutl
 
 ### FileMonitor
 
-[**FileMonitor**](https://objective-see.com/products/utilities.html#FileMonitor), dosya etkinliklerini (oluşturma, değiştirme ve silme gibi) izlemeyi sağlayarak bu tür etkinlikler hakkında detaylı bilgi sağlar.
+[**FileMonitor**](https://objective-see.com/products/utilities.html#FileMonitor), dosya olaylarını (oluşturma, değiştirme ve silme gibi) izlemeyi sağlayarak bu olaylar hakkında detaylı bilgi sağlar.
 
 ### Crescendo
 
-[**Crescendo**](https://github.com/SuprHackerSteve/Crescendo), Microsoft Sysinternal’s _Procmon_ 'dan Windows kullanıcılarının tanıdığı görünüm ve hisse sahip GUI bir araçtır. Bu araç, çeşitli olay türlerinin kaydedilmesine izin verir ve durdurulmasına olanak tanır, bu olayları dosya, işlem, ağ vb. gibi kategorilere göre filtrelemeye olanak tanır ve kaydedilen olayları json formatında kaydetme işlevselliğini sağlar.
+[**Crescendo**](https://github.com/SuprHackerSteve/Crescendo), Microsoft Sysinternal’s _Procmon_ 'dan Windows kullanıcılarının tanıdığı görünüm ve hisse sahip GUI bir araçtır. Bu araç, çeşitli olay türlerinin kaydedilmesine izin verir, bu olayları dosya, işlem, ağ vb. gibi kategorilere göre filtrelemeye olanak tanır ve kaydedilen olayları json formatında kaydetme işlevselliği sağlar.
 
 ### Apple Instruments
 
@@ -338,25 +352,25 @@ Ayrıca ikili işlemleri **virustotal**'a karşı kontrol eder ve ikili hakkınd
 
 ### lldb
 
-**lldb**, macOS ikili **hata ayıklama** için de facto aracıdır.
+**lldb**, macOS ikili dosya hata ayıklama için de facto araçtır.
 ```bash
 lldb ./malware.bin
 lldb -p 1122
 lldb -n malware.bin
 lldb -n malware.bin --waitfor
 ```
-Intel lezzetini lldb kullanırken ayarlayabilirsiniz, aşağıdaki satırı içeren **`.lldbinit`** adında bir dosya oluşturarak ev klasörünüzde:
+Intel lezzetini ayarlayabilirsiniz, aşağıdaki satırı içeren **`.lldbinit`** adında bir dosya oluşturarak ev klasörünüzde lldb kullanırken:
 ```bash
 settings set target.x86-disassembly-flavor intel
 ```
 {% hint style="warning" %}
-lldb içinde, bir işlemi `process save-core` ile dump edin.
+lldb içinde, bir işlemi `process save-core` ile dump edin
 {% endhint %}
 
-<table data-header-hidden><thead><tr><th width="225"></th><th></th></tr></thead><tbody><tr><td><strong>(lldb) Komut</strong></td><td><strong>Açıklama</strong></td></tr><tr><td><strong>run (r)</strong></td><td>Çalıştırmayı başlatır, işlem bir kırılma noktasına ulaşana veya işlem sona erene kadar devam eder.</td></tr><tr><td><strong>continue (c)</strong></td><td>Hata ayıklanan işlemin yürütmesine devam eder.</td></tr><tr><td><strong>nexti (n / ni)</strong></td><td>Sonraki talimatı yürütür. Bu komut fonksiyon çağrılarını atlar.</td></tr><tr><td><strong>stepi (s / si)</strong></td><td>Sonraki talimatı yürütür. nexti komutunun aksine, bu komut fonksiyon çağrılarına girer.</td></tr><tr><td><strong>finish (f)</strong></td><td>Geçerli fonksiyondaki kalan talimatları yürütür ve duraklar.</td></tr><tr><td><strong>control + c</strong></td><td>Yürütmeyi duraklatır. Eğer işlem çalıştırılmış (r) veya devam ettirilmiş (c) ise, işlemi şu anda nerede yürüttüğünü duraklatır.</td></tr><tr><td><strong>breakpoint (b)</strong></td><td><p>b main #Main fonksiyonu çağrıldığında</p><p>b &#x3C;binname>`main #Belirtilen binin ana fonksiyonu</p><p>b set -n main --shlib &#x3C;lib_name> #Belirtilen binin ana fonksiyonu</p><p>b -[NSDictionary objectForKey:]</p><p>b -a 0x0000000100004bd9</p><p>br l #Kırılma noktası listesi</p><p>br e/dis &#x3C;num> #Kırılma noktasını etkinleştir/devre dışı bırak</p><p>breakpoint delete &#x3C;num></p></td></tr><tr><td><strong>help</strong></td><td><p>help breakpoint #Kırılma noktası komutunun yardımını al</p><p>help memory write #Belleğe yazma yardımını al</p></td></tr><tr><td><strong>reg</strong></td><td><p>reg read</p><p>reg read $rax</p><p>reg read $rax --format &#x3C;<a href="https://lldb.llvm.org/use/variable.html#type-format">format</a>></p><p>reg write $rip 0x100035cc0</p></td></tr><tr><td><strong>x/s &#x3C;reg/bellek adresi></strong></td><td>Belleği null-terminalli bir dize olarak görüntüler.</td></tr><tr><td><strong>x/i &#x3C;reg/bellek adresi></strong></td><td>Belleği derleme talimatı olarak görüntüler.</td></tr><tr><td><strong>x/b &#x3C;reg/bellek adresi></strong></td><td>Belleği bayt olarak görüntüler.</td></tr><tr><td><strong>print object (po)</strong></td><td><p>Bu, parametre tarafından referans edilen nesneyi yazdırır</p><p>po $raw</p><p><code>{</code></p><p><code>dnsChanger = {</code></p><p><code>"affiliate" = "";</code></p><p><code>"blacklist_dns" = ();</code></p><p>Apple'ın Objective-C API'lerinin çoğu veya yöntemleri nesneler döndürür, bu nedenle "print object" (po) komutuyla görüntülenmelidir. Eğer po anlamlı bir çıktı üretmiyorsa <code>x/b</code> kullanın</p></td></tr><tr><td><strong>memory</strong></td><td>Belleği oku 0x000....<br>Belleği oku $x0+0xf2a<br>Belleğe yaz 0x100600000 -s 4 0x41414141 #O adrese AAAA yaz<br>Belleğe yaz -f s $rip+0x11f+7 "AAAA" #Adrese AAAA yaz</td></tr><tr><td><strong>disassembly</strong></td><td><p>dis #Geçerli fonksiyonu derler</p><p>dis -n &#x3C;funcname> #Fonksiyonu derler</p><p>dis -n &#x3C;funcname> -b &#x3C;basename> #Fonksiyonu derler<br>dis -c 6 #6 satırı derler<br>dis -c 0x100003764 -e 0x100003768 # Bir adresten diğerine kadar<br>dis -p -c 4 # Geçerli adresin başlangıcında derleme</p></td></tr><tr><td><strong>parray</strong></td><td>parray 3 (char **)$x1 # x1 reg içindeki 3 bileşenli diziyi kontrol et</td></tr></tbody></table>
+<table data-header-hidden><thead><tr><th width="225"></th><th></th></tr></thead><tbody><tr><td><strong>(lldb) Komut</strong></td><td><strong>Açıklama</strong></td></tr><tr><td><strong>run (r)</strong></td><td>Çalıştırmayı başlatır, işlem bir kırılma noktasına ulaşana veya işlem sona erene kadar devam eder.</td></tr><tr><td><strong>continue (c)</strong></td><td>Hata ayıklanan işlemin yürütmesine devam eder.</td></tr><tr><td><strong>nexti (n / ni)</strong></td><td>Sonraki talimatı yürütür. Bu komut, işlev çağrılarını atlar.</td></tr><tr><td><strong>stepi (s / si)</strong></td><td>Sonraki talimatı yürütür. nexti komutunun aksine, bu komut işlev çağrılarına girer.</td></tr><tr><td><strong>finish (f)</strong></td><td>Geçerli işlevde kalan talimatları yürütür, döner ve durur.</td></tr><tr><td><strong>control + c</strong></td><td>Yürütümü duraklatır. Eğer işlem çalıştırılmış (r) veya devam ettirilmiş (c) ise, bu işlemi duraklatır...şu anda nerede yürütüldüğüne bakılmaksızın.</td></tr><tr><td><strong>breakpoint (b)</strong></td><td><p>b main #Main fonksiyonu çağrıldığında</p><p>b &#x3C;binname>`main #Belirtilen bin dosyasının ana fonksiyonu</p><p>b set -n main --shlib &#x3C;lib_name> #Belirtilen bin dosyasının ana fonksiyonu</p><p>b -[NSDictionary objectForKey:]</p><p>b -a 0x0000000100004bd9</p><p>br l #Kırılma noktası listesi</p><p>br e/dis &#x3C;num> #Kırılma noktasını etkinleştir/devre dışı bırak</p><p>breakpoint delete &#x3C;num></p></td></tr><tr><td><strong>help</strong></td><td><p>help breakpoint #Kırılma noktası komutunun yardımını al</p><p>help memory write #Belleğe yazma yardımını al</p></td></tr><tr><td><strong>reg</strong></td><td><p>reg read</p><p>reg read $rax</p><p>reg read $rax --format &#x3C;<a href="https://lldb.llvm.org/use/variable.html#type-format">format</a>></p><p>reg write $rip 0x100035cc0</p></td></tr><tr><td><strong>x/s &#x3C;reg/memory address</strong></td><td>Belleği null-ile sonlandırılmış bir dize olarak görüntüler.</td></tr><tr><td><strong>x/i &#x3C;reg/memory address</strong></td><td>Belleği montaj talimatı olarak görüntüler.</td></tr><tr><td><strong>x/b &#x3C;reg/memory address</strong></td><td>Belleği bayt olarak görüntüler.</td></tr><tr><td><strong>print object (po)</strong></td><td><p>Bu, parametre tarafından referans edilen nesneyi yazdıracaktır</p><p>po $raw</p><p><code>{</code></p><p><code>dnsChanger = {</code></p><p><code>"affiliate" = "";</code></p><p><code>"blacklist_dns" = ();</code></p><p>Apple'ın Objective-C API'lerinin çoğu veya yöntemleri nesneler döndürür, bu nedenle "print object" (po) komutuyla görüntülenmelidir. Eğer po anlamlı bir çıktı üretmiyorsa <code>x/b</code> kullanın</p></td></tr><tr><td><strong>memory</strong></td><td>Belleği oku 0x000....<br>Belleği oku $x0+0xf2a<br>Belleğe yaz 0x100600000 -s 4 0x41414141 #O adrese AAAA yaz<br>Belleğe yaz -f s $rip+0x11f+7 "AAAA" #Adrese AAAA yaz</td></tr><tr><td><strong>disassembly</strong></td><td><p>dis #Geçerli fonksiyonu disas</p><p>dis -n &#x3C;funcname> #Fonksiyonu disas</p><p>dis -n &#x3C;funcname> -b &#x3C;basename> #Fonksiyonu disas<br>dis -c 6 #6 satırı disas<br>dis -c 0x100003764 -e 0x100003768 # Bir adresten diğerine<br>dis -p -c 4 # Geçerli adresle başlayarak disas</p></td></tr><tr><td><strong>parray</strong></td><td>parray 3 (char **)$x1 # x1 reg içindeki 3 bileşenli diziyi kontrol et</td></tr></tbody></table>
 
 {% hint style="info" %}
-**`objc_sendMsg`** fonksiyonu çağrıldığında, **rsi** kaydı **metodun adını** null-terminalli ("C") bir dize olarak tutar. lldb üzerinden adı yazdırmak için:
+**`objc_sendMsg`** fonksiyonu çağrıldığında, **rsi** kaydı **metodun adını** null-ile sonlandırılmış ("C") bir dize olarak tutar. lldb üzerinden adı yazdırmak için:
 
 `(lldb) x/s $rsi: 0x1000f1576: "startMiningWithPort:password:coreCount:slowMemory:currency:"`
 
@@ -370,15 +384,15 @@ lldb içinde, bir işlemi `process save-core` ile dump edin.
 
 #### VM tespiti
 
-* **`sysctl hw.model`** komutu, **ana bilgisayar MacOS** ise "Mac" döndürür, farklı bir şey döndürürse bir VM olduğunu gösterir.
+* **`sysctl hw.model`** komutu, **ana bilgisayar MacOS ise** "Mac" döndürür, farklı bir şey döndürürse bir VM olduğunu gösterir.
 * Bazı kötü amaçlı yazılımlar, bir VM olup olmadığını tespit etmek için **`hw.logicalcpu`** ve **`hw.physicalcpu`** değerleriyle oynar.
 * Bazı kötü amaçlı yazılımlar, MAC adresine (00:50:56) dayanarak makinenin **VMware** tabanlı olup olmadığını da **tespit edebilir**.
-* Basit bir kodla **bir işlemin hata ayıklanıp ayıklanmadığını** kontrol etmek de mümkündür:
+* Basit bir kodla, bir işlemin hata ayıklanıp ayıklanmadığını kontrol edebilirsiniz:
 * `if(P_TRACED == (info.kp_proc.p_flag & P_TRACED)){ //işlem hata ayıklanıyor }`
-* Ayrıca **`ptrace`** sistem çağrısını **`PT_DENY_ATTACH`** bayrağı ile çağırabilir. Bu, bir hata ayıklamanın eklenmesini ve izlenmesini **engeller**.
+* Ayrıca **`ptrace`** sistem çağrısını **`PT_DENY_ATTACH`** bayrağı ile çağırabilirsiniz. Bu, bir hata ayıklamanın eklenmesini ve izlenmesini **engeller**.
 * **`sysctl`** veya **`ptrace`** fonksiyonunun **ithal edilip edilmediğini** kontrol edebilirsiniz (ancak kötü amaçlı yazılım bunu dinamik olarak da ithal edebilir)
 * Bu yazıda belirtildiği gibi, “[Anti-Hata Ayıklama Tekniklerini Yenme: macOS ptrace varyantları](https://alexomara.com/blog/defeating-anti-debug-techniques-macos-ptrace-variants/)” :\
-“_Process # exited with **status = 45 (0x0000002d)** mesajı genellikle hata ayıklama hedefinin **PT\_DENY\_ATTACH** kullandığının belirtisidir_”
+“_Mesaj Process # çıkış yaptı **durum = 45 (0x0000002d)** genellikle hata ayıklama hedefinin **PT\_DENY\_ATTACH** kullandığının açık bir işaretidir_”
 ## Fuzzing
 
 ### [ReportCrash](https://ss64.com/osx/reportcrash.html)
@@ -407,7 +421,7 @@ MacOS'ta fuzzing yaparken Mac'in uyumasına izin vermemek önemlidir:
 
 #### SSH Bağlantısı Kesme
 
-SSH bağlantısı üzerinden fuzzing yaparken oturumun gün içinde gitmeyeceğinden emin olmak önemlidir. Bu nedenle sshd\_config dosyasını aşağıdaki gibi değiştirin:
+SSH bağlantısı aracılığıyla fuzzing yaparken oturumun gün sonuna gitmediğinden emin olmak önemlidir. Bu nedenle sshd\_config dosyasını aşağıdaki gibi değiştirin:
 
 * TCPKeepAlive Yes
 * ClientAliveInterval 0
@@ -418,7 +432,7 @@ sudo launchctl load -w /System/Library/LaunchDaemons/ssh.plist
 ```
 ### Dahili İşleyiciler
 
-Belirli bir şema veya protokolü işlemeden sorumlu olan uygulamanın hangisi olduğunu nasıl bulabileceğinizi öğrenmek için aşağıdaki sayfaya göz atın:
+Belirli bir şema veya protokolü **işleme yetkisine sahip olan uygulamayı nasıl bulabileceğinizi** öğrenmek için aşağıdaki sayfaya göz atın:
 
 {% content-ref url="../macos-file-extension-apps.md" %}
 [macos-file-extension-apps.md](../macos-file-extension-apps.md)
@@ -426,15 +440,13 @@ Belirli bir şema veya protokolü işlemeden sorumlu olan uygulamanın hangisi o
 
 ### Ağ İşlemlerini Sıralama
 
-Ağ verilerini yöneten işlemleri bulmak ilginçtir:
+Bu, ağ verilerini yöneten işlemleri bulmak için ilginçtir:
 ```bash
 dtrace -n 'syscall::recv*:entry { printf("-> %s (pid=%d)", execname, pid); }' >> recv.log
 #wait some time
 sort -u recv.log > procs.txt
 cat procs.txt
 ```
-Veya `netstat` veya `lsof` kullanın
-
 ### Libgmalloc
 
 <figure><img src="../../../.gitbook/assets/Pasted Graphic 14.png" alt=""><figcaption></figcaption></figure>
@@ -443,6 +455,8 @@ Veya `netstat` veya `lsof` kullanın
 ```bash
 lldb -o "target create `which some-binary`" -o "settings set target.env-vars DYLD_INSERT_LIBRARIES=/usr/lib/libgmalloc.dylib" -o "run arg1 arg2" -o "bt" -o "reg read" -o "dis -s \$pc-32 -c 24 -m -F intel" -o "quit"
 ```
+{% endcode %}
+
 ### Fuzzers
 
 #### [AFL++](https://github.com/AFLplusplus/AFLplusplus)
@@ -451,9 +465,11 @@ CLI araçları için çalışır
 
 #### [Litefuzz](https://github.com/sec-tools/litefuzz)
 
-macOS GUI araçları ile "**sadece çalışır"**. Bazı macOS uygulamalarının benzersiz dosya adları, doğru uzantılar gibi belirli gereksinimleri olabilir, dosyaları sandbox'tan okuma ihtiyacı olabilir (`~/Library/Containers/com.apple.Safari/Data`)...
+macOS GUI araçları ile "**sadece çalışır"**. Bazı macOS uygulamalarının benzersiz dosya adları, doğru uzantılar, kum havuzundan dosyaları okuma gereksinimleri gibi belirli gereksinimleri olabilir (`~/Library/Containers/com.apple.Safari/Data`)...
 
 Bazı örnekler:
+
+{% code overflow="wrap" %}
 ```bash
 # iBooks
 litefuzz -l -c "/System/Applications/Books.app/Contents/MacOS/Books FUZZ" -i files/epub -o crashes/ibooks -t /Users/test/Library/Containers/com.apple.iBooksX/Data/tmp -x 10 -n 100000 -ez
@@ -493,16 +509,29 @@ litefuzz -s -a tcp://localhost:5900 -i input/screenshared-session --reportcrash 
 * [**https://taomm.org/vol1/analysis.html**](https://taomm.org/vol1/analysis.html)
 * [**The Art of Mac Malware: The Guide to Analyzing Malicious Software**](https://taomm.org/)
 
+
+### [WhiteIntel](https://whiteintel.io)
+
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+
+[**WhiteIntel**](https://whiteintel.io) is a **dark-web** fueled search engine that offers **free** functionalities to check if a company or its customers have been **compromised** by **stealer malwares**.
+
+Their primary goal of WhiteIntel is to combat account takeovers and ransomware attacks resulting from information-stealing malware.
+
+You can check their website and try their engine for **free** at:
+
+{% embed url="https://whiteintel.io" %}
+
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman olmaya öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamınızı görmek veya HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu görün
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi Twitter'da** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR'ler göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* **Şirketinizi HackTricks'te reklamınızı görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**Resmi PEASS & HackTricks ürünlerini alın**](https://peass.creator-spring.com)
+* [**The PEASS Family'yi keşfedin**](https://opensea.io/collection/the-peass-family), özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin
+* **💬 [Discord grubuna katılın](https://discord.gg/hRep4RUj7f)** veya [telegram grubuna katılın](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
