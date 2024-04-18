@@ -6,7 +6,7 @@
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
@@ -14,9 +14,9 @@ Outras maneiras de apoiar o HackTricks:
 
 </details>
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) é um mecanismo de busca alimentado pela **dark web** que oferece funcionalidades **gratuitas** para verificar se uma empresa ou seus clientes foram **comprometidos** por **malwares roubadores**.
 
@@ -42,13 +42,13 @@ Para sistemas modernos que usam **UEFI** em vez do BIOS tradicional, a ferrament
 
 `python chipsec_main.py -module exploits.secure.boot.pk`
 
-### Análise de RAM e Ataques de Cold Boot
+### Análise de RAM e Ataques de Boot Frio
 
 A RAM retém dados brevemente após o corte de energia, geralmente por **1 a 2 minutos**. Essa persistência pode ser estendida para **10 minutos** aplicando substâncias frias, como nitrogênio líquido. Durante esse período prolongado, um **dump de memória** pode ser criado usando ferramentas como **dd.exe** e **volatility** para análise.
 
 ### Ataques de Acesso Direto à Memória (DMA)
 
-**INCEPTION** é uma ferramenta projetada para **manipulação física de memória** por meio de DMA, compatível com interfaces como **FireWire** e **Thunderbolt**. Ele permite a bypassar procedimentos de login, patcheando a memória para aceitar qualquer senha. No entanto, é ineficaz contra sistemas **Windows 10**.
+**INCEPTION** é uma ferramenta projetada para **manipulação física de memória** por meio de DMA, compatível com interfaces como **FireWire** e **Thunderbolt**. Ele permite a passagem por procedimentos de login, patcheando a memória para aceitar qualquer senha. No entanto, é ineficaz contra sistemas **Windows 10**.
 
 ### Live CD/USB para Acesso ao Sistema
 
@@ -62,7 +62,7 @@ Alterar binários do sistema como **_sethc.exe_** ou **_Utilman.exe_** com uma c
 
 - **Supr**: Acessar configurações do BIOS.
 - **F8**: Entrar no modo de Recuperação.
-- Pressionar **Shift** após o banner do Windows pode ignorar a autenticação automática.
+- Pressionar **Shift** após o banner do Windows pode ignorar o autologon.
 
 #### Dispositivos BAD USB
 

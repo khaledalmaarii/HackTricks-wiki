@@ -12,9 +12,9 @@
 
 </details>
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) é um mecanismo de busca alimentado pela **dark web** que oferece funcionalidades **gratuitas** para verificar se uma empresa ou seus clientes foram **comprometidos** por **malwares roubadores**.
 
@@ -76,7 +76,7 @@ SeTimeZonePrivilege           Change the time zone                 Disabled
 ```
 ### Administrador local
 
-Quando um administrador local faz login, **dois tokens de acesso são criados**: Um com direitos de administrador e outro com direitos normais. **Por padrão**, quando esse usuário executa um processo, o token com **direitos regulares** (não administrador) **é utilizado**. Quando esse usuário tenta **executar** algo **como administrador** ("Executar como Administrador", por exemplo), o **UAC** será usado para solicitar permissão.\
+Quando um administrador local faz login, **dois tokens de acesso são criados**: Um com direitos de administrador e outro com direitos normais. **Por padrão**, quando esse usuário executa um processo, o com **direitos normais (não administrador) é utilizado**. Quando esse usuário tenta **executar** algo **como administrador** ("Executar como Administrador", por exemplo), o **UAC** será usado para solicitar permissão.\
 Se você quiser [**saber mais sobre o UAC, leia esta página**](../authentication-credentials-uac-and-efs/#uac)**.**
 
 ### Impersonação de usuário de credenciais
@@ -85,7 +85,7 @@ Se você tiver **credenciais válidas de qualquer outro usuário**, você pode *
 ```
 runas /user:domain\username cmd.exe
 ```
-O **token de acesso** também possui uma **referência** das sessões de logon dentro do **LSASS**, isso é útil se o processo precisa acessar alguns objetos da rede.\
+O **token de acesso** também possui uma **referência** das sessões de logon dentro do **LSASS**, isso é útil se o processo precisar acessar alguns objetos da rede.\
 Você pode iniciar um processo que **usa credenciais diferentes para acessar serviços de rede** usando:
 ```
 runas /user:domain\username /netonly cmd.exe
@@ -107,30 +107,30 @@ Existem dois tipos de tokens disponíveis:
 
 Usando o módulo _**incognito**_ do metasploit, se você tiver privilégios suficientes, pode facilmente **listar** e **impersonar** outros **tokens**. Isso pode ser útil para realizar **ações como se você fosse o outro usuário**. Você também pode **escalar privilégios** com essa técnica.
 
-### Privilégios do Token
+### Privilégios de Token
 
-Saiba quais **privilégios do token podem ser abusados para escalar privilégios:**
+Saiba quais **privilégios de token podem ser abusados para escalar privilégios:**
 
 {% content-ref url="privilege-escalation-abusing-tokens.md" %}
 [privilege-escalation-abusing-tokens.md](privilege-escalation-abusing-tokens.md)
 {% endcontent-ref %}
 
-Dê uma olhada em [**todos os possíveis privilégios do token e algumas definições nesta página externa**](https://github.com/gtworek/Priv2Admin).
+Dê uma olhada em [**todos os possíveis privilégios de token e algumas definições nesta página externa**](https://github.com/gtworek/Priv2Admin).
 
 ## Referências
 
 Saiba mais sobre tokens nestes tutoriais: [https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa](https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa) e [https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)
 
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) é um mecanismo de busca alimentado pela **dark web** que oferece funcionalidades **gratuitas** para verificar se uma empresa ou seus clientes foram **comprometidos** por **malwares de roubo**.
 
 O principal objetivo do WhiteIntel é combater tomadas de contas e ataques de ransomware resultantes de malwares de roubo de informações.
 
-Você pode verificar o site deles e experimentar o mecanismo gratuitamente em:
+Você pode acessar o site deles e experimentar o mecanismo gratuitamente em:
 
 {% embed url="https://whiteintel.io" %}
 
@@ -141,7 +141,7 @@ Você pode verificar o site deles e experimentar o mecanismo gratuitamente em:
 * Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

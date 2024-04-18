@@ -8,27 +8,27 @@ Outras formas de apoiar o HackTricks:
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) é um mecanismo de busca alimentado pela **dark web** que oferece funcionalidades **gratuitas** para verificar se uma empresa ou seus clientes foram **comprometidos** por **malwares de roubo**.
 
 O principal objetivo do WhiteIntel é combater tomadas de conta de contas e ataques de ransomware resultantes de malwares de roubo de informações.
 
-Você pode verificar o site deles e experimentar o mecanismo gratuitamente em:
+Você pode verificar o site deles e experimentar o mecanismo de busca de forma **gratuita** em:
 
 {% embed url="https://whiteintel.io" %}
 
 ---
 
-# Verificar possíveis ações dentro da aplicação GUI
+# Verifique possíveis ações dentro da aplicação GUI
 
-**Diálogos Comuns** são aquelas opções de **salvar um arquivo**, **abrir um arquivo**, selecionar uma fonte, uma cor... A maioria deles **oferecerá uma funcionalidade completa do Explorer**. Isso significa que você poderá acessar funcionalidades do Explorer se puder acessar essas opções:
+**Diálogos Comuns** são aquelas opções de **salvar um arquivo**, **abrir um arquivo**, selecionar uma fonte, uma cor... A maioria deles **oferecerá uma funcionalidade completa do Explorador**. Isso significa que você poderá acessar funcionalidades do Explorador se puder acessar essas opções:
 
 * Fechar/Fechar como
 * Abrir/Abrir com
@@ -63,9 +63,9 @@ _bash, sh, zsh..._ Mais aqui: [https://gtfobins.github.io/](https://gtfobins.git
 * **Variáveis de ambiente**: Existem muitas variáveis de ambiente que apontam para algum caminho
 * **Outros protocolos**: _about:, data:, ftp:, file:, mailto:, news:, res:, telnet:, view-source:_
 * **Links simbólicos**
-* **Atalhos**: CTRL+N (abrir nova sessão), CTRL+R (Executar Comandos), CTRL+SHIFT+ESC (Gerenciador de Tarefas),  Windows+E (abrir explorer), CTRL-B, CTRL-I (Favoritos), CTRL-H (Histórico), CTRL-L, CTRL-O (Diálogo Arquivo/Abrir), CTRL-P (Diálogo Imprimir), CTRL-S (Salvar Como)
+* **Atalhos**: CTRL+N (abrir nova sessão), CTRL+R (Executar Comandos), CTRL+SHIFT+ESC (Gerenciador de Tarefas),  Windows+E (abrir explorador), CTRL-B, CTRL-I (Favoritos), CTRL-H (Histórico), CTRL-L, CTRL-O (Diálogo Arquivo/Abrir), CTRL-P (Diálogo Imprimir), CTRL-S (Salvar Como)
 * Menu Administrativo Oculto: CTRL-ALT-F8, CTRL-ESC-F9
-* **URIs de Shell**: _shell:Ferramentas Administrativas, shell:Bibliotecas de Documentos, shell:Bibliotecas, shell:Perfis de Usuários, shell:Pessoal, shell:Pasta de Pesquisa, shell:Sistema, shell:Locais de Rede, shell:Enviar para, shell:Perfis de Usuários, shell:Ferramentas Administrativas Comuns, shell:Meu Computador, shell:Internet_
+* **URIs de Shell**: _shell:Ferramentas Administrativas, shell:BibliotecadeDocumentos, shell:Bibliotecas, shell:PerfisdeUsuários, shell:Pessoal, shell:PastaPesquisashell:Sistema, shell:LocaisdeRede, shell:EnviarPara, shell:PerfisdeUsuários, shell:Ferramentas Administrativas Comuns, shell:MeuComputador, shell:Internet_
 * **Caminhos UNC**: Caminhos para se conectar a pastas compartilhadas. Você deve tentar se conectar ao C$ da máquina local ("\\\127.0.0.1\c$\Windows\System32")
 * **Mais caminhos UNC:**
 
@@ -84,7 +84,7 @@ _bash, sh, zsh..._ Mais aqui: [https://gtfobins.github.io/](https://gtfobins.git
 ## Baixe Seus Binários
 
 Console: [https://sourceforge.net/projects/console/](https://sourceforge.net/projects/console/)\
-Explorer: [https://sourceforge.net/projects/explorerplus/files/Explorer%2B%2B/](https://sourceforge.net/projects/explorerplus/files/Explorer%2B%2B/)\
+Explorador: [https://sourceforge.net/projects/explorerplus/files/Explorer%2B%2B/](https://sourceforge.net/projects/explorerplus/files/Explorer%2B%2B/)\
 Editor de Registro: [https://sourceforge.net/projects/uberregedit/](https://sourceforge.net/projects/uberregedit/)
 
 ## Acessando o sistema de arquivos pelo navegador
@@ -108,7 +108,7 @@ Editor de Registro: [https://sourceforge.net/projects/uberregedit/](https://sour
 * Teclas de Filtro – Mantenha o SHIFT direito pressionado por 12 segundos
 * WINDOWS+F1 – Pesquisa do Windows
 * WINDOWS+D – Mostrar Área de Trabalho
-* WINDOWS+E – Abrir o Explorador do Windows
+* WINDOWS+E – Abrir Explorador do Windows
 * WINDOWS+R – Executar
 * WINDOWS+U – Centro de Facilidade de Acesso
 * WINDOWS+F – Pesquisar
@@ -123,16 +123,16 @@ Editor de Registro: [https://sourceforge.net/projects/uberregedit/](https://sour
 * CTRL+N – Internet Explorer – Nova Página
 * CTRL+O – Abrir Arquivo
 * CTRL+S – Salvar CTRL+N – Nova RDP / Citrix
-## Swipes
+## Deslizes
 
 * Deslize da esquerda para a direita para ver todas as janelas abertas, minimizando o aplicativo KIOSK e acessando todo o sistema operacional diretamente;
-* Deslize da direita para a esquerda para abrir o Centro de Ação, minimizando o aplicativo KIOSK e acessando todo o sistema operacional diretamente;
+* Deslize da direita para a esquerda para abrir o Centro de Ações, minimizando o aplicativo KIOSK e acessando todo o sistema operacional diretamente;
 * Deslize de cima para baixo para tornar a barra de título visível para um aplicativo aberto em modo de tela cheia;
 * Deslize de baixo para cima para mostrar a barra de tarefas em um aplicativo em tela cheia.
 
 ## Truques do Internet Explorer
 
-### 'Barra de Ferramentas de Imagem'
+### 'Barra de Imagem'
 
 É uma barra de ferramentas que aparece no canto superior esquerdo da imagem quando clicada. Você poderá Salvar, Imprimir, Enviar por e-mail, Abrir "Minhas Imagens" no Explorer. O Kiosk precisa estar usando o Internet Explorer.
 
@@ -145,13 +145,13 @@ Digite esses URLs para obter uma visualização do Explorer:
 * `shell:Bibliotecas`
 * `shell:PerfisUsuários`
 * `shell:Pessoal`
-* `shell:PastaInícioPesquisa`
+* `shell:PastaPesquisa`
 * `shell:PastaLocaisRede`
 * `shell:EnviarPara`
 * `shell:PerfisUsuários`
 * `shell:FerramentasAdministrativasComuns`
 * `shell:MeuComputador`
-* `shell:PastaInternet`
+* `shell:Internet`
 * `Shell:Perfil`
 * `Shell:ArquivosProgramas`
 * `Shell:Sistema`
@@ -166,7 +166,7 @@ Digite esses URLs para obter uma visualização do Explorer:
 
 Verifique esta página para mais informações: [https://www.howtohaven.com/system/show-file-extensions-in-windows-explorer.shtml](https://www.howtohaven.com/system/show-file-extensions-in-windows-explorer.shtml)
 
-# Truques de Navegadores
+# Truques dos Navegadores
 
 Backup de versões iKat:
 
@@ -184,7 +184,7 @@ Fonte: https://medium.com/@Rend_/give-me-a-browser-ill-give-you-a-shell-de19811d
 
 * Deslize de um lado para o outro com quatro ou cinco dedos: Para mudar para o próximo/último aplicativo
 
-* Belisque a tela com cinco dedos / Toque no botão Início / Deslize para cima com 1 dedo da parte inferior da tela em um movimento rápido para cima: Para acessar a Página Inicial
+* Belisque a tela com cinco dedos / Toque no botão Início / Deslize para cima com 1 dedo da parte inferior da tela em um movimento rápido para cima: Para acessar a Tela Inicial
 
 * Deslize um dedo da parte inferior da tela apenas 1-2 polegadas (devagar): O dock aparecerá
 
@@ -196,7 +196,7 @@ Fonte: https://medium.com/@Rend_/give-me-a-browser-ill-give-you-a-shell-de19811d
 
 * Deslize rapidamente 1 dedo do centro da tela para a direita ou esquerda: Para mudar para o próximo/último aplicativo
 
-* Pressione e segure o botão Liga/Desliga no canto superior direito do iPad + Mova o controle deslizante Deslizar para desligar todo o caminho para a direita: Para desligar
+* Pressione e segure o botão Liga/Desliga no canto superior direito do iPad + Mova o controle deslizante Deslizar para desligar completamente para a direita: Para desligar
 
 * Pressione o botão Liga/Desliga no canto superior direito do iPad e o botão Início por alguns segundos: Para forçar um desligamento completo
 
@@ -229,7 +229,7 @@ Esses atalhos são para as configurações visuais e de som, dependendo do uso d
 | F2       | Aumentar Brilho da Tela                                                                |
 | F7       | Voltar uma música                                                                  |
 | F8       | Reproduzir/Pausar                                                                     |
-| F9       | Avançar música                                                                      |
+| F9       | Pular música                                                                      |
 | F10      | Silenciar                                                                           |
 | F11      | Diminuir volume                                                                |
 | F12      | Aumentar volume                                                                |
@@ -239,22 +239,22 @@ Esses atalhos são para as configurações visuais e de som, dependendo do uso d
 
 | Atalho                                           | Ação                                                  |
 | -------------------------------------------------- | ------------------------------------------------------- |
-| ⌘H                                                 | Ir para a Página Inicial                                              |
-| ⌘⇧H (Command-Shift-H)                              | Ir para a Página Inicial                                              |
-| ⌘ (Espaço)                                          | Abrir o Spotlight                                          |
+| ⌘H                                                 | Ir para a Tela Inicial                                              |
+| ⌘⇧H (Command-Shift-H)                              | Ir para a Tela Inicial                                              |
+| ⌘ (Espaço)                                          | Abrir Spotlight                                          |
 | ⌘⇥ (Command-Tab)                                   | Listar os últimos dez aplicativos usados                                 |
 | ⌘\~                                                | Ir para o último aplicativo                                       |
-| ⌘⇧3 (Command-Shift-3)                              | Captura de tela (aparece no canto inferior esquerdo para salvar ou agir sobre ela) |
-| ⌘⇧4                                                | Captura de tela e abertura no editor                    |
+| ⌘⇧3 (Command-Shift-3)                              | Capturar tela (aparece no canto inferior esquerdo para salvar ou agir sobre ela) |
+| ⌘⇧4                                                | Capturar tela e abri-la no editor                    |
 | Pressionar e segurar ⌘                                   | Lista de atalhos disponíveis para o aplicativo                 |
-| ⌘⌥D (Command-Option/Alt-D)                         | Mostra o dock                                      |
+| ⌘⌥D (Command-Option/Alt-D)                         | Mostrar o dock                                      |
 | ^⌥H (Control-Option-H)                             | Botão Início                                             |
-| ^⌥H H (Control-Option-H-H)                         | Mostra a barra de multitarefa                                      |
+| ^⌥H H (Control-Option-H-H)                         | Mostrar barra de multitarefa                                      |
 | ^⌥I (Control-Option-i)                             | Seletor de item                                            |
 | Escape                                             | Botão Voltar                                             |
 | → (Seta para a Direita)                                    | Próximo item                                               |
 | ← (Seta para a Esquerda)                                     | Item anterior                                           |
-| ↑↓ (Seta para Cima, Seta para Baixo)                          | Toque simultaneamente no item selecionado                        |
+| ↑↓ (Seta para Cima, Seta para Baixo)                          | Toque simultâneo no item selecionado                        |
 | ⌥ ↓ (Opção-Seta para Baixo)                            | Rolagem para baixo                                             |
 | ⌥↑ (Opção-Seta para Cima)                               | Rolagem para cima                                               |
 | ⌥← ou ⌥→ (Opção-Seta para a Esquerda ou Opção-Seta para a Direita) | Rolagem para a esquerda ou direita                                    |
@@ -264,31 +264,31 @@ Esses atalhos são para as configurações visuais e de som, dependendo do uso d
 | ←+→, depois Opção + ← ou Opção+→                   | Navegar pelo Dock                                   |
 ### Atalhos do Safari
 
-| Atalho                  | Ação                                           |
-| ----------------------- | ---------------------------------------------- |
-| ⌘L (Command-L)          | Abrir Localização                              |
-| ⌘T                      | Abrir uma nova aba                             |
-| ⌘W                      | Fechar a aba atual                             |
+| Atalho                | Ação                                           |
+| ----------------------- | ------------------------------------------------ |
+| ⌘L (Command-L)          | Abrir Localização                                    |
+| ⌘T                      | Abrir uma nova aba                                   |
+| ⌘W                      | Fechar a aba atual                            |
 | ⌘R                      | Atualizar a aba atual                          |
-| ⌘.                      | Parar o carregamento da aba atual              |
-| ^⇥                      | Alternar para a próxima aba                   |
-| ^⇧⇥ (Control-Shift-Tab) | Mover para a aba anterior                      |
-| ⌘L                      | Selecionar o campo de texto/URL para modificá-lo |
+| ⌘.                      | Parar o carregamento da aba atual                     |
+| ^⇥                      | Alternar para a próxima aba                           |
+| ^⇧⇥ (Control-Shift-Tab) | Mover para a aba anterior                         |
+| ⌘L                      | Selecionar o campo de texto/URL para modificá-lo     |
 | ⌘⇧T (Command-Shift-T)   | Abrir a última aba fechada (pode ser usado várias vezes) |
-| ⌘\[                     | Voltar uma página no histórico de navegação   |
-| ⌘]                      | Avançar uma página no histórico de navegação  |
-| ⌘⇧R                     | Ativar o Modo Leitor                           |
+| ⌘\[                     | Voltar uma página no histórico de navegação      |
+| ⌘]                      | Avançar uma página no histórico de navegação   |
+| ⌘⇧R                     | Ativar o Modo Leitor                             |
 
 ### Atalhos do Mail
 
 | Atalho                   | Ação                       |
-| ------------------------ | -------------------------- |
-| ⌘L                       | Abrir Localização          |
-| ⌘T                       | Abrir uma nova aba         |
-| ⌘W                       | Fechar a aba atual         |
-| ⌘R                       | Atualizar a aba atual      |
-| ⌘.                       | Parar o carregamento da aba atual |
-| ⌘⌥F (Command-Option/Alt-F) | Pesquisar na sua caixa de correio |
+| -------------------------- | ---------------------------- |
+| ⌘L                         | Abrir Localização                |
+| ⌘T                         | Abrir uma nova aba               |
+| ⌘W                         | Fechar a aba atual        |
+| ⌘R                         | Atualizar a aba atual      |
+| ⌘.                         | Parar o carregamento da aba atual |
+| ⌘⌥F (Command-Option/Alt-F) | Pesquisar na sua caixa de correio       |
 
 # Referências
 
@@ -298,13 +298,13 @@ Esses atalhos são para as configurações visuais e de som, dependendo do uso d
 * [http://www.iphonehacks.com/2018/03/ipad-keyboard-shortcuts.html](http://www.iphonehacks.com/2018/03/ipad-keyboard-shortcuts.html)
 
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) é um mecanismo de busca alimentado pela **dark web** que oferece funcionalidades **gratuitas** para verificar se uma empresa ou seus clientes foram **comprometidos** por **malwares de roubo**.
+[**WhiteIntel**](https://whiteintel.io) é um mecanismo de busca alimentado pela **dark web** que oferece funcionalidades **gratuitas** para verificar se uma empresa ou seus clientes foram **comprometidos** por **malwares ladrões**.
 
-O objetivo principal do WhiteIntel é combater invasões de contas e ataques de ransomware resultantes de malwares de roubo de informações.
+O objetivo principal do WhiteIntel é combater invasões de contas e ataques de ransomware resultantes de malwares que roubam informações.
 
 Você pode acessar o site deles e experimentar o mecanismo gratuitamente em:
 
@@ -319,7 +319,7 @@ Outras maneiras de apoiar o HackTricks:
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou nos siga no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

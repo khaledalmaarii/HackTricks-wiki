@@ -12,10 +12,23 @@ Outras maneiras de apoiar o HackTricks:
 
 </details>
 
+### [WhiteIntel](https://whiteintel.io)
+
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+
+[**WhiteIntel**](https://whiteintel.io) é um mecanismo de busca alimentado pela **dark web** que oferece funcionalidades **gratuitas** para verificar se uma empresa ou seus clientes foram **comprometidos** por **malwares stealer**.
+
+O principal objetivo do WhiteIntel é combater a apropriação de contas e ataques de ransomware resultantes de malwares que roubam informações.
+
+Você pode verificar o site deles e experimentar o mecanismo de busca deles de forma **gratuita** em:
+
+{% embed url="https://whiteintel.io" %}
+
+---
 
 Se você tiver um pcap com dados sendo **exfiltrados pelo DNSCat** (sem usar criptografia), você pode encontrar o conteúdo exfiltrado.
 
-Você só precisa saber que os **primeiros 9 bytes** não são dados reais, mas estão relacionados com a **comunicação C\&C**:
+Você só precisa saber que os **primeiros 9 bytes** não são dados reais, mas estão relacionados à **comunicação C\&C**:
 ```python
 from scapy.all import rdpcap, DNSQR, DNSRR
 import struct

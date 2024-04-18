@@ -10,13 +10,13 @@ Outras maneiras de apoiar o HackTricks:
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) é um mecanismo de busca alimentado pela **dark web** que oferece funcionalidades **gratuitas** para verificar se uma empresa ou seus clientes foram **comprometidos** por **malwares de roubo**.
 
@@ -50,24 +50,24 @@ UART possui 4 portas: **TX**(Transmitir), **RX**(Receber), **Vcc**(Tensão) e **
 
 Com um **multímetro** e o dispositivo desligado:
 
-* Para identificar o pino **GND**, use o modo de **Teste de Continuidade**, coloque o fio de retorno no terra e teste com o fio vermelho até ouvir um som do multímetro. Vários pinos GND podem ser encontrados no PCB, então você pode ter encontrado ou não o que pertence à UART.
-* Para identificar a porta **VCC**, configure o modo de **tensão contínua** e ajuste-o para 20 V de tensão. Sonda preta no terra e sonda vermelha no pino. Ligue o dispositivo. Se o multímetro medir uma tensão constante de 3,3 V ou 5 V, você encontrou o pino Vcc. Se você obter outras tensões, tente com outros pinos.
+* Para identificar o pino **GND**, use o modo de **Teste de Continuidade**, coloque o fio de retorno no terra e teste com o fio vermelho até ouvir um som do multímetro. Vários pinos GND podem ser encontrados no PCB, então você pode ter encontrado ou não o pertencente à UART.
+* Para identificar a porta **VCC**, configure o modo de **tensão contínua** e ajuste-o para 20 V de tensão. Sonda preta no terra e sonda vermelha no pino. Ligue o dispositivo. Se o multímetro medir uma tensão constante de 3,3 V ou 5 V, você encontrou o pino Vcc. Se você obter outras tensões, tente com outras portas.
 * Para identificar a porta **TX**, **modo de tensão contínua** até 20 V de tensão, sonda preta no terra e sonda vermelha no pino, e ligue o dispositivo. Se você encontrar a tensão flutuando por alguns segundos e depois estabilizando no valor de Vcc, você provavelmente encontrou a porta TX. Isso ocorre porque ao ligar, ele envia alguns dados de depuração.
-* A **porta RX** seria a mais próxima das outras 3, tem a menor flutuação de tensão e o valor geral mais baixo de todos os pinos UART.
+* A **porta RX** seria a mais próxima das outras 3, tem a menor flutuação de tensão e o menor valor geral de todos os pinos UART.
 
 Você pode confundir as portas TX e RX e nada acontecerá, mas se confundir o GND e a porta VCC, você pode danificar o circuito.
 
-Em alguns dispositivos-alvo, a porta UART é desativada pelo fabricante desativando RX ou TX ou até mesmo ambos. Nesse caso, pode ser útil rastrear as conexões na placa de circuito e encontrar algum ponto de interrupção. Uma forte dica sobre a confirmação da não detecção da UART e a interrupção do circuito é verificar a garantia do dispositivo. Se o dispositivo foi enviado com alguma garantia, o fabricante deixa algumas interfaces de depuração (neste caso, UART) e, portanto, deve ter desconectado a UART e a conectaria novamente durante a depuração. Esses pinos de interrupção podem ser conectados por soldagem ou fios jumper.
+Em alguns dispositivos-alvo, a porta UART é desativada pelo fabricante desativando RX ou TX ou até mesmo ambos. Nesse caso, pode ser útil rastrear as conexões na placa de circuito e encontrar algum ponto de interrupção. Uma forte dica sobre a confirmação de não detecção de UART e interrupção do circuito é verificar a garantia do dispositivo. Se o dispositivo foi enviado com alguma garantia, o fabricante deixa algumas interfaces de depuração (neste caso, UART) e, portanto, deve ter desconectado a UART e a conectaria novamente durante a depuração. Esses pinos de interrupção podem ser conectados por soldagem ou fios jumper.
 
 ### Identificando a Taxa de Baud UART
 
-A maneira mais fácil de identificar a taxa de baud correta é olhar a **saída do pino TX e tentar ler os dados**. Se os dados que você receber não forem legíveis, mude para a próxima taxa de baud possível até que os dados se tornem legíveis. Você pode usar um adaptador USB-para-serial ou um dispositivo multipropósito como Bus Pirate para fazer isso, emparelhado com um script auxiliar, como [baudrate.py](https://github.com/devttys0/baudrate/). As taxas de baud mais comuns são 9600, 38400, 19200, 57600 e 115200.
+A maneira mais fácil de identificar a taxa de baud correta é olhar para a **saída do pino TX e tentar ler os dados**. Se os dados que você receber não forem legíveis, mude para a próxima taxa de baud possível até que os dados se tornem legíveis. Você pode usar um adaptador USB-para-serial ou um dispositivo multipropósito como Bus Pirate para fazer isso, emparelhado com um script auxiliar, como [baudrate.py](https://github.com/devttys0/baudrate/). As taxas de baud mais comuns são 9600, 38400, 19200, 57600 e 115200.
 
 {% hint style="danger" %}
 É importante observar que neste protocolo você precisa conectar o TX de um dispositivo ao RX do outro!
 {% endhint %}
 
-## Adaptador CP210X UART para TTY
+## Adaptador UART CP210X para TTY
 
 O Chip CP210X é usado em muitas placas de prototipagem como NodeMCU (com esp8266) para Comunicação Serial. Esses adaptadores são relativamente baratos e podem ser usados para se conectar à interface UART do alvo. O dispositivo possui 5 pinos: 5V, GND, RXD, TXD, 3.3V. Certifique-se de conectar a tensão suportada pelo alvo para evitar danos. Finalmente, conecte o pino RXD do Adaptador ao TXD do alvo e o pino TXD do Adaptador ao RXD do alvo.
 
@@ -85,15 +85,15 @@ Para o minicom, use o seguinte comando para configurá-lo:
 ```
 minicom -s
 ```
-Configure as configurações, como a taxa de transmissão e o nome do dispositivo na opção `Configuração da porta serial`.
+Configure as configurações, como a taxa de transmissão (baudrate) e o nome do dispositivo na opção `Configuração da porta serial`.
 
 Após a configuração, use o comando `minicom` para iniciar o Console UART.
 
-## UART Via Arduino UNO R3 (Placas de Chip Atmel 328p Removíveis)
+## UART Via Arduino UNO R3 (Placas com Chip Atmel 328p Removível)
 
 Caso os adaptadores UART Serial para USB não estejam disponíveis, o Arduino UNO R3 pode ser usado com um hack rápido. Como o Arduino UNO R3 geralmente está disponível em qualquer lugar, isso pode economizar muito tempo.
 
-O Arduino UNO R3 possui um adaptador USB para Serial integrado na própria placa. Para obter a conexão UART, basta retirar o chip microcontrolador Atmel 328p da placa. Este hack funciona em variantes do Arduino UNO R3 que não possuem o Atmel 328p soldado na placa (a versão SMD é usada nele). Conecte o pino RX do Arduino (Pino Digital 0) ao pino TX da Interface UART e o pino TX do Arduino (Pino Digital 1) ao pino RX da interface UART.
+O Arduino UNO R3 possui um adaptador USB para Serial integrado na própria placa. Para obter a conexão UART, basta remover o chip microcontrolador Atmel 328p da placa. Este hack funciona em variantes do Arduino UNO R3 que não possuem o Atmel 328p soldado na placa (versão SMD é usada nele). Conecte o pino RX do Arduino (Pino Digital 0) ao pino TX da Interface UART e o pino TX do Arduino (Pino Digital 1) ao pino RX da interface UART.
 
 Por fim, é recomendado usar o Arduino IDE para obter o Console Serial. Na seção `ferramentas` no menu, selecione a opção `Console Serial` e defina a taxa de transmissão conforme a interface UART.
 
@@ -173,40 +173,40 @@ waiting a few secs to repeat....
 ```
 ## Despejando Firmware com Console UART
 
-A Console UART fornece uma ótima maneira de trabalhar com o firmware subjacente em um ambiente de tempo de execução. Mas quando o acesso à Console UART é somente leitura, pode introduzir muitas restrições. Em muitos dispositivos embarcados, o firmware é armazenado em EEPROMs e executado em processadores que possuem memória volátil. Portanto, o firmware é mantido somente leitura, uma vez que o firmware original durante a fabricação está dentro da EEPROM em si e quaisquer novos arquivos seriam perdidos devido à memória volátil. Portanto, despejar o firmware é um esforço valioso ao trabalhar com firmwares embarcados.
+A Console UART fornece uma ótima maneira de trabalhar com o firmware subjacente em um ambiente de tempo de execução. Mas quando o acesso à Console UART é somente leitura, pode introduzir muitas restrições. Em muitos dispositivos embarcados, o firmware é armazenado em EEPROMs e executado em processadores que possuem memória volátil. Portanto, o firmware é mantido somente leitura, uma vez que o firmware original durante a fabricação está dentro da própria EEPROM e quaisquer novos arquivos seriam perdidos devido à memória volátil. Portanto, despejar o firmware é um esforço valioso ao trabalhar com firmwares embarcados.
 
 Existem muitas maneiras de fazer isso e a seção SPI abrange métodos para extrair o firmware diretamente da EEPROM com vários dispositivos. Embora seja recomendado primeiro tentar despejar o firmware com UART, uma vez que despejar o firmware com dispositivos físicos e interações externas pode ser arriscado.
 
 Despejar o firmware da Console UART requer primeiro obter acesso aos bootloaders. Muitos fornecedores populares utilizam o <b>uboot</b> (Universal Bootloader) como seu bootloader para carregar o Linux. Portanto, é necessário obter acesso ao <b>uboot</b>.
 
-Para obter acesso ao bootloader <b>boot</b>, conecte a porta UART ao computador e use qualquer uma das ferramentas de Console Serial e mantenha a alimentação do dispositivo desconectada. Uma vez que a configuração estiver pronta, pressione a tecla Enter e mantenha pressionada. Por fim, conecte a alimentação ao dispositivo e deixe-o inicializar.
+Para obter acesso ao bootloader de inicialização, conecte a porta UART ao computador e use qualquer uma das ferramentas de Console Serial e mantenha a alimentação do dispositivo desconectada. Uma vez que a configuração esteja pronta, pressione a tecla Enter e mantenha pressionada. Por fim, conecte a alimentação ao dispositivo e deixe-o inicializar.
 
-Fazendo isso, interromperá o <b>uboot</b> de carregar e fornecerá um menu. É recomendado entender os comandos do <b>uboot</b> e usar o menu de ajuda para listá-los. Isso pode ser o comando `help`. Como diferentes fornecedores usam configurações diferentes, é necessário entender cada um deles separadamente.
+Fazendo isso, você interromperá o <b>uboot</b> de carregar e fornecerá um menu. É recomendado entender os comandos do <b>uboot</b> e usar o menu de ajuda para listá-los. Isso pode ser o comando `help`. Como diferentes fornecedores usam configurações diferentes, é necessário entender cada um separadamente.
 
 Normalmente, o comando para despejar o firmware é:
 ```
 md
 ```
-que significa "despejo de memória". Isso irá despejar a memória (Conteúdo da EEPROM) na tela. É recomendável registrar a saída do Console Serial antes de iniciar o procedimento para capturar o despejo de memória.
+que significa "despejo de memória". Isso irá despejar a memória (Conteúdo da EEPROM) na tela. É recomendado registrar a saída do Console Serial antes de iniciar o procedimento para capturar o despejo de memória.
 
-Por fim, basta remover todos os dados desnecessários do arquivo de log e armazenar o arquivo como `nome_do_arquivo.rom` e usar o binwalk para extrair o conteúdo:
+Por fim, apenas remova todos os dados desnecessários do arquivo de log e armazene o arquivo como `nome_do_arquivo.rom` e use o binwalk para extrair o conteúdo:
 ```
 binwalk -e <filename.rom>
 ```
 Isso irá listar os possíveis conteúdos da EEPROM conforme as assinaturas encontradas no arquivo hex.
 
-Embora seja necessário observar que nem sempre é o caso de que o <b>uboot</b> está desbloqueado mesmo que esteja sendo usado. Se a tecla Enter não fizer nada, verifique outras teclas como a tecla de Espaço, etc. Se o bootloader estiver bloqueado e não for interrompido, este método não funcionará. Para verificar se o <b>uboot</b> é o bootloader do dispositivo, verifique a saída no Console UART durante a inicialização do dispositivo. Pode mencionar o <b>uboot</b> durante a inicialização.
+Embora seja necessário observar que nem sempre é o caso de que o <b>uboot</b> está desbloqueado mesmo que esteja sendo usado. Se a tecla Enter não fizer nada, verifique outras teclas como a tecla Space, etc. Se o bootloader estiver bloqueado e não for interrompido, este método não funcionará. Para verificar se o <b>uboot</b> é o bootloader do dispositivo, verifique a saída no Console UART durante a inicialização do dispositivo. Pode mencionar o <b>uboot</b> durante a inicialização.
 
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) é um mecanismo de busca alimentado pela **dark web** que oferece funcionalidades **gratuitas** para verificar se uma empresa ou seus clientes foram **comprometidos** por **malwares ladrões**.
 
-O objetivo principal do WhiteIntel é combater invasões de contas e ataques de ransomware resultantes de malwares que roubam informações.
+O objetivo principal do WhiteIntel é combater tomadas de contas e ataques de ransomware resultantes de malwares que roubam informações.
 
-Você pode verificar o site deles e experimentar o mecanismo gratuitamente em:
+Você pode verificar o site deles e experimentar o mecanismo de busca de forma **gratuita** em:
 
 {% embed url="https://whiteintel.io" %}
 
@@ -221,6 +221,6 @@ Outras maneiras de apoiar o HackTricks:
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe seus truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
