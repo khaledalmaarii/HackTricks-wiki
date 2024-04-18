@@ -4,17 +4,31 @@
 
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
 
 支持HackTricks的其他方式：
 
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFT](https://opensea.io/collection/the-peass-family)收藏品
+* 探索[**PEASS Family**](https://opensea.io/collection/the-peass-family)，我们的独家[NFTs](https://opensea.io/collection/the-peass-family)系列
 * **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
+
+## WhiteIntel
+
+<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+
+[**WhiteIntel**](https://whiteintel.io)是一个由**暗网**支持的搜索引擎，提供**免费**功能，用于检查公司或其客户是否受到**窃取恶意软件**的**侵害**。
+
+WhiteIntel的主要目标是打击由信息窃取恶意软件导致的账户劫持和勒索软件攻击。
+
+您可以访问他们的网站并免费尝试他们的引擎：
+
+{% embed url="https://whiteintel.io" %}
+
+---
 
 ## 提升您的Wireshark技能
 
@@ -31,13 +45,13 @@
 
 **专家信息**
 
-点击 _**Analyze** --> **Expert Information**_ 您将获得对**分析**的数据包的**概述**：
+单击 _**Analyze** --> **Expert Information**_ 您将获得对已**分析**数据包中发生的情况的**概述**：
 
 ![](<../../../.gitbook/assets/image (570).png>)
 
-**解析地址**
+**已解析地址**
 
-在 _**Statistics --> Resolved Addresses**_ 下，您可以找到Wireshark解析的一些信息，如端口/传输到协议，MAC到制造商等。了解通信中涉及的内容是很有趣的。
+在 _**Statistics --> Resolved Addresses**_ 下，您可以找到Wireshark已经“**解析**”的一些信息，如端口/传输到协议，MAC地址到制造商等。了解通信中涉及的内容是很有趣的。
 
 ![](<../../../.gitbook/assets/image (571).png>)
 
@@ -85,19 +99,19 @@
 
 ### 搜索
 
-如果您想在会话的数据包中**搜索**内容，请按下CTRL+f。您可以通过按右键然后编辑列来向主信息栏添加新层（编号、时间、来源等）。
+如果您想在会话的数据包中**搜索**内容，请按下_Ctrl+f_。您可以通过按右键然后编辑列来向主信息栏添加新层（编号、时间、来源等）。
 
 ### 免费的pcap实验室
 
-**练习免费挑战：[https://www.malware-traffic-analysis.net/](https://www.malware-traffic-analysis.net)**
+**通过免费挑战练习：[https://www.malware-traffic-analysis.net/](https://www.malware-traffic-analysis.net)**
 
 ## 识别域名
 
-您可以添加一个显示Host HTTP标头的列：
+您可以添加一个显示Host HTTP头的列：
 
 ![](<../../../.gitbook/assets/image (403).png>)
 
-以及添加一个从初始HTTPS连接中添加服务器名称的列（**ssl.handshake.type == 1**）：
+以及添加一个从发起的HTTPS连接中添加服务器名称的列（**ssl.handshake.type == 1**）：
 
 ![](<../../../.gitbook/assets/image (408) (1).png>)
 
@@ -117,11 +131,11 @@
 
 ### 使用服务器私钥解密https流量
 
-_edit>preference>protocol>ssl>_
+_编辑>首选项>协议>ssl>_
 
 ![](<../../../.gitbook/assets/image (98).png>)
 
-点击_Edit_，然后添加服务器和私钥的所有数据（_IP、端口、协议、密钥文件和密码_）
+点击_编辑_，添加服务器和私钥的所有数据（_IP、端口、协议、密钥文件和密码_）
 
 ### 使用对称会话密钥解密https流量
 
@@ -129,14 +143,13 @@ Firefox和Chrome都可以记录TLS会话密钥，这些密钥可以与Wireshark�
 
 要检测此内容，请在环境中搜索变量`SSLKEYLOGFILE`
 
-共享密钥文件如下所示：
+共享密钥文件看起来像这样：
 
 ![](<../../../.gitbook/assets/image (99).png>)
 
-要将其导入Wireshark，请转到_edit > preference > protocol > ssl > 并将其导入到（Pre）-Master-Secret日志文件名中：
+要将此导入Wireshark，请转到\_编辑 > 首选项 > 协议 > ssl > 并将其导入到（Pre）-Master-Secret日志文件名：
 
 ![](<../../../.gitbook/assets/image (100).png>)
-
 ## ADB通信
 
 从发送APK的ADB通信中提取APK：
@@ -166,16 +179,28 @@ f = open('all_bytes.data', 'w+b')
 f.write(all_bytes)
 f.close()
 ```
+## WhiteIntel
+
+<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+
+[**WhiteIntel**](https://whiteintel.io) 是一个由**暗网**支持的搜索引擎，提供**免费**功能，用于检查公司或其客户是否受到**窃取恶意软件**的**侵害**。
+
+WhiteIntel的主要目标是打击由窃取信息恶意软件导致的账户劫持和勒索软件攻击。
+
+您可以访问他们的网站并免费尝试他们的引擎：
+
+{% embed url="https://whiteintel.io" %}
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
 
-其他支持HackTricks的方式：
+支持HackTricks的其他方式：
 
-* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 如果您想在HackTricks中看到您的**公司广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索我们的独家[**NFTs**]收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**。**
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>

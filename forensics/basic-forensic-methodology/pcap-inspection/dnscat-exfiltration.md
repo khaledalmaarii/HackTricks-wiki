@@ -1,6 +1,6 @@
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
 
 支持HackTricks的其他方式：
 
@@ -12,10 +12,23 @@
 
 </details>
 
+## WhiteIntel
 
-如果您有包含通过DNSCat**进行数据外泄的pcap文件**（未使用加密），您可以找到外泄的内容。
+<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
-您只需要知道**前9个字节**不是真实数据，而是与**C\&C通信**相关的。
+[**WhiteIntel**](https://whiteintel.io) 是一个由**暗网**支持的搜索引擎，提供**免费**功能，用于检查公司或其客户是否受到**窃取恶意软件**的**侵害**。
+
+WhiteIntel的主要目标是打击由信息窃取恶意软件导致的账户劫持和勒索软件攻击。
+
+您可以访问他们的网站并免费尝试他们的引擎：
+
+{% embed url="https://whiteintel.io" %}
+
+---
+
+如果您有包含通过**DNSCat**进行**数据外泄**的pcap文件（未使用加密），您可以找到外泄的内容。
+
+您只需要知道**前9个字节**不是真实数据，而是与**C\&C通信**相关的内容：
 ```python
 from scapy.all import rdpcap, DNSQR, DNSRR
 import struct
@@ -39,12 +52,12 @@ last = qry
 
 
 有一个与Python3配合使用的脚本: [https://github.com/josemlwdf/DNScat-Decoder](https://github.com/josemlwdf/DNScat-Decoder)
-```
+```bash
 python3 dnscat_decoder.py sample.pcap bad_domain
 ```
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
 
 其他支持HackTricks的方式：
 

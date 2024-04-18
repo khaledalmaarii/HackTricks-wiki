@@ -4,24 +4,38 @@
 
 <summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
 
-支持HackTricks的其他方式：
+其他支持HackTricks的方式：
 
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
 * 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
+## WhiteIntel
+
+<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+
+[**WhiteIntel**](https://whiteintel.io) 是一个由**暗网**支持的搜索引擎，提供**免费**功能，用于检查公司或其客户是否受到**窃取恶意软件**的**侵害**。
+
+WhiteIntel的主要目标是打击由窃取信息恶意软件导致的账户劫持和勒索软件攻击。
+
+您可以访问他们的网站并免费尝试他们的引擎：
+
+{% embed url="https://whiteintel.io" %}
+
+---
+
 ## 基本信息
 
-AppArmor是一种**内核增强功能，旨在通过每个程序的配置文件限制程序可用资源**，有效地实现强制访问控制（MAC），将访问控制属性直接绑定到程序而不是用户。该系统通过**将配置文件加载到内核**来运行，通常在启动时进行，这些配置文件规定了程序可以访问的资源，如网络连接、原始套接字访问和文件权限。
+AppArmor是一个**内核增强程序，旨在通过每个程序的配置文件限制程序可用的资源**，有效地实现强制访问控制（MAC），将访问控制属性直接绑定到程序而不是用户。该系统通过**将配置文件加载到内核中**来运行，通常在启动时进行，这些配置文件规定了程序可以访问的资源，例如网络连接、原始套接字访问和文件权限。
 
 AppArmor配置文件有两种操作模式：
 
-- **强制模式**：该模式积极执行配置文件中定义的策略，阻止违反这些策略的操作，并通过诸如syslog或auditd等系统记录任何试图违反这些策略的行为。
-- **投诉模式**：与强制模式不同，投诉模式不会阻止违反配置文件策略的操作。相反，它会将这些尝试记录为策略违规，而不强制执行限制。
+- **强制模式**：该模式积极执行配置文件中定义的策略，阻止违反这些策略的操作，并通过诸如syslog或auditd等系统记录任何试图违反这些策略的尝试。
+- **投诉模式**：与强制模式不同，投诉模式不会阻止违反配置文件策略的操作。相反，它将这些尝试记录为策略违规，而不强制执行限制。
 
 ### AppArmor组件
 
@@ -33,9 +47,9 @@ AppArmor配置文件有两种操作模式：
 ### 配置文件路径
 
 AppArmor配置文件通常保存在_**/etc/apparmor.d/**_中\
-使用`sudo aa-status`命令，您将能够列出受某些配置文件限制的二进制文件。如果您可以将每个列出的二进制文件的路径中的斜杠“/”更改为一个点，您将获得所提到文件夹中AppArmor配置文件的名称。
+使用`sudo aa-status`命令，您将能够列出受某个配置文件限制的二进制文件。如果您可以将每个列出的二进制文件的路径中的斜杠“/”更改为一个点，您将获得所提到文件夹中AppArmor配置文件的名称。
 
-例如，_usr/bin/man_的**apparmor**配置文件将位于_/etc/apparmor.d/usr.bin.man_中。
+例如，_usr/bin/man_的**apparmor**配置文件将位于_/etc/apparmor.d/usr.bin.man_中
 
 ### 命令
 ```bash
@@ -59,14 +73,14 @@ aa-mergeprof  #used to merge the policies
 * **ix**（使用新程序继承策略执行另一个程序）
 * **Px**（在清理环境后在另一个配置文件下执行）
 * **Cx**（在清理环境后在子配置文件下执行）
-* **Ux**（在清理环境后执行无限制）
+* **Ux**（在清理环境后执行无限制操作）
 * **变量**可以在配置文件中定义，并且可以从配置文件外部进行操作。例如：@{PROC} 和 @{HOME}（在配置文件中添加 #include \<tunables/global>）
 * **拒绝规则支持覆盖允许规则**。
 
 ### aa-genprof
 
-要轻松开始创建一个配置文件，可以使用 apparmor。可以让**apparmor检查二进制文件执行的操作，然后让您决定要允许还是拒绝哪些操作**。\
-只需运行：
+为了轻松开始创建一个配置文件，apparmor 可以帮助您。可以让**apparmor 检查二进制文件执行的操作，然后让您决定要允许还是拒绝哪些操作**。\
+只需要运行：
 ```bash
 sudo aa-genprof /path/to/binary
 ```
@@ -74,10 +88,10 @@ sudo aa-genprof /path/to/binary
 ```bash
 /path/to/binary -a dosomething
 ```
-然后，在第一个控制台中按下“**s**”，然后在记录的操作中指示您想要忽略、允许或其他操作。完成后按“**f**”，新配置文件将被创建在 _/etc/apparmor.d/path.to.binary_
+然后，在第一个控制台中按下 "**s**"，然后在记录的操作中指示您想要忽略、允许或其他操作。完成后按下 "**f**"，新配置文件将被创建在 _/etc/apparmor.d/path.to.binary_
 
 {% hint style="info" %}
-使用箭头键可以选择您想要允许/拒绝/其他的内容
+使用箭头键，您可以选择要允许/拒绝/其他的内容
 {% endhint %}
 
 ### aa-easyprof
@@ -108,7 +122,7 @@ sudo aa-easyprof /path/to/binary
 }
 ```
 {% hint style="info" %}
-请注意，默认情况下，在创建的配置文件中，什么都不允许，因此一切都被拒绝。您需要添加类似 `/etc/passwd r,` 这样的行来允许二进制文件读取 `/etc/passwd` 。
+请注意，默认情况下，在创建的配置文件中，什么都不允许，因此一切都被拒绝。您需要添加类似 `/etc/passwd r,` 这样的行来允许例如二进制文件读取 `/etc/passwd`。
 {% endhint %}
 
 然后，您可以使用以下命令**强制执行**新配置文件：
@@ -117,7 +131,7 @@ sudo apparmor_parser -a /etc/apparmor.d/path.to.binary
 ```
 ### 从日志修改配置文件
 
-以下工具将读取日志，并询问用户是否允许一些检测到的禁止操作：
+以下工具将读取日志，并询问用户是否要允许一些检测到的禁止操作：
 ```bash
 sudo aa-logprof
 ```
@@ -135,7 +149,7 @@ apparmor_parser -R /etc/apparmor.d/profile.name #Remove profile
 ```
 ## 日志
 
-来自 _/var/log/audit/audit.log_ 的 **`service_bin`** 可执行文件的 **AUDIT** 和 **DENIED** 日志示例：
+来自 _/var/log/audit/audit.log_ 的 **AUDIT** 和 **DENIED** 日志示例，针对可执行文件 **`service_bin`**：
 ```bash
 type=AVC msg=audit(1610061880.392:286): apparmor="AUDIT" operation="getattr" profile="/bin/rcat" name="/dev/pts/1" pid=954 comm="service_bin" requested_mask="r" fsuid=1000 ouid=1000
 type=AVC msg=audit(1610061880.392:287): apparmor="DENIED" operation="open" profile="/bin/rcat" name="/etc/hosts" pid=954 comm="service_bin" requested_mask="r" denied_mask="r" fsuid=1000 ouid=0
@@ -183,35 +197,35 @@ docker-default
 - 允许访问所有**网络**
 - 没有定义**任何权限**（但是，一些权限将来自于包含基本基础规则，即 #include \<abstractions/base>）
 - **不允许**写入任何 **/proc** 文件
-- 其他 /**proc** 和 /**sys** 的**子目录**/**文件** **禁止**读取/写入/锁定/链接/执行访问
+- 其他 /**proc** 和 /**sys** 的**子目录**/**文件** **拒绝**读取/写入/锁定/链接/执行访问
 - **不允许**挂载
-- **Ptrace** 只能在受 **相同 apparmor profile 限制**的进程上运行
+- **Ptrace** 只能在由**相同的 apparmor profile** 限制的进程上运行
 
 一旦您**运行一个 docker 容器**，您应该看到以下输出：
 ```bash
 1 processes are in enforce mode.
 docker-default (825)
 ```
-请注意，**apparmor 甚至会默认阻止容器被授予的特权权限**。例如，即使授予了 SYS\_ADMIN 权限，它也可以**阻止写入 /proc 目录的权限**，因为默认情况下 docker apparmor 配置文件拒绝了这种访问：
+请注意，**apparmor 默认会阻止容器被授予的 capabilities 权限**。例如，即使授予了 SYS_ADMIN capability，它也可以**阻止在 /proc 目录内写入的权限**，因为默认情况下 docker apparmor profile 拒绝了这种访问：
 ```bash
 docker run -it --cap-add SYS_ADMIN --security-opt seccomp=unconfined ubuntu /bin/bash
 echo "" > /proc/stat
 sh: 1: cannot create /proc/stat: Permission denied
 ```
-你需要**禁用AppArmor**来绕过其限制：
+您需要**禁用AppArmor**以绕过其限制：
 ```bash
 docker run -it --cap-add SYS_ADMIN --security-opt seccomp=unconfined --security-opt apparmor=unconfined ubuntu /bin/bash
 ```
 请注意，默认情况下**AppArmor**也会**禁止容器从内部挂载**文件夹，即使具有SYS_ADMIN权限也是如此。
 
-请注意，您可以向docker容器**添加/移除****权限**（这仍将受到诸如**AppArmor**和**Seccomp**之类的保护方法的限制）：
+请注意，您可以向docker容器**添加/删除****权限**（这仍将受到诸如**AppArmor**和**Seccomp**之类的保护方法的限制）：
 
 - `--cap-add=SYS_ADMIN` 给予`SYS_ADMIN`权限
 - `--cap-add=ALL` 给予所有权限
 - `--cap-drop=ALL --cap-add=SYS_PTRACE` 撤销所有权限，仅给予`SYS_PTRACE`权限
 
 {% hint style="info" %}
-通常，当您**发现**在**docker**容器**内部**有**特权权限**可用，但某些部分的**利用**无法正常工作时，这是因为docker的**AppArmor将阻止它**。
+通常，当您**发现**在**docker**容器**内**有**特权权限**可用，但某些**利用**的部分**无法正常工作**时，这是因为docker的**apparmor会阻止**它。
 {% endhint %}
 
 ### 示例
@@ -238,7 +252,7 @@ chmod: /etc/hostname: Permission denied
 ```
 ### AppArmor Docker Bypass1
 
-您可以使用以下命令找到运行容器的**AppArmor配置文件**：
+您可以使用以下命令查找运行容器的 **AppArmor配置文件**：
 ```bash
 docker inspect 9d622d73a614 | grep lowpriv
 "AppArmorProfile": "lowpriv",
@@ -254,7 +268,7 @@ find /etc/apparmor.d/ -name "*lowpriv*" -maxdepth 1 2>/dev/null
 
 ### AppArmor Shebang Bypass
 
-在[**这个漏洞**](https://bugs.launchpad.net/apparmor/+bug/1911431)中，你可以看到一个例子，即使你正在阻止perl使用某些资源，如果你只是创建一个shell脚本，在第一行**指定**为**`#!/usr/bin/perl`**，然后**直接执行该文件**，你将能够执行任何你想要的东西。例如：
+在[**这个漏洞**](https://bugs.launchpad.net/apparmor/+bug/1911431)中，你可以看到一个例子，即使你正在阻止perl使用某些资源运行，如果你只是创建一个shell脚本，在第一行**指定**`#!/usr/bin/perl`，然后**直接执行该文件**，你就可以执行任何你想要的东西。例如：
 ```perl
 echo '#!/usr/bin/perl
 use POSIX qw(strftime);
@@ -264,16 +278,28 @@ exec "/bin/sh"' > /tmp/test.pl
 chmod +x /tmp/test.pl
 /tmp/test.pl
 ```
+## WhiteIntel
+
+<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+
+[**WhiteIntel**](https://whiteintel.io) 是一个由**暗网**推动的搜索引擎，提供**免费**功能，用于检查公司或其客户是否受到**窃取恶意软件**的**侵害**。
+
+WhiteIntel的主要目标是打击由窃取信息恶意软件导致的账户劫持和勒索软件攻击。
+
+您可以访问他们的网站并免费尝试他们的引擎：
+
+{% embed url="https://whiteintel.io" %}
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
 
-其他支持HackTricks的方式：
+支持HackTricks的其他方式：
 
-* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 如果您想在HackTricks中看到您的**公司广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 发现我们的独家[**NFTs**]收藏品，[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我的 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>

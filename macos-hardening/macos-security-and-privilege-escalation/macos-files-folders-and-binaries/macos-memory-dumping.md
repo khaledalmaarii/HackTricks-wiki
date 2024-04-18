@@ -8,21 +8,35 @@
 
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品
 * **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
+## WhiteIntel
+
+<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+
+[**WhiteIntel**](https://whiteintel.io) 是一个由**暗网**支持的搜索引擎，提供免费功能，用于检查公司或其客户是否受到**窃取恶意软件**的**侵害**。
+
+WhiteIntel的主要目标是打击由信息窃取恶意软件导致的账户劫持和勒索软件攻击。
+
+您可以访问他们的网站并免费尝试他们的引擎：
+
+{% embed url="https://whiteintel.io" %}
+
+---
+
 ## 内存遗留物
 
 ### 交换文件
 
-交换文件，例如`/private/var/vm/swapfile0`，在物理内存已满时充当**缓存**。当物理内存没有足够空间时，数据会被转移到交换文件中，然后根据需要重新转移到物理内存中。可能会存在多个交换文件，名称类似于swapfile0、swapfile1等。
+交换文件，例如`/private/var/vm/swapfile0`，在物理内存已满时充当**缓存**。当物理内存没有足够空间时，数据会转移到交换文件，然后根据需要重新转移到物理内存。可能存在多个交换文件，名称类似于swapfile0、swapfile1等。
 
 ### 休眠镜像
 
-位于`/private/var/vm/sleepimage`的文件在**休眠模式**期间至关重要。**当OS X休眠时，内存中的数据存储在此文件中**。唤醒计算机时，系统会从此文件中检索内存数据，使用户可以继续之前的操作。
+位于`/private/var/vm/sleepimage`的文件在**休眠模式**期间至关重要。**当OS X休眠时，内存中的数据存储在此文件中**。唤醒计算机时，系统会从此文件中检索内存数据，使用户可以继续上次的操作。
 
 值得注意的是，在现代MacOS系统上，出于安全原因，此文件通常是加密的，使恢复变得困难。
 
@@ -30,7 +44,7 @@
 
 ### 内存压力日志
 
-MacOS系统中另一个重要的与内存相关的文件是**内存压力日志**。这些日志位于`/var/log`中，包含有关系统内存使用情况和压力事件的详细信息。它们对于诊断与内存相关的问题或了解系统如何随时间管理内存非常有用。
+MacOS系统中另一个重要的与内存相关的文件是**内存压力日志**。这些日志位于`/var/log`中，包含有关系统内存使用情况和压力事件的详细信息。它们对诊断与内存相关的问题或了解系统如何随时间管理内存非常有用。
 
 ## 使用osxpmem转储内存
 
@@ -60,7 +74,17 @@ sudo osxpmem.app/osxpmem --format raw -o /tmp/dump_mem
 sudo su
 cd /tmp; wget https://github.com/google/rekall/releases/download/v1.5.1/osxpmem-2.1.post4.zip; unzip osxpmem-2.1.post4.zip; chown -R root:wheel osxpmem.app/MacPmem.kext; kextload osxpmem.app/MacPmem.kext; osxpmem.app/osxpmem --format raw -o /tmp/dump_mem
 ```
-{% endcode %}
+## WhiteIntel
+
+<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+
+[**WhiteIntel**](https://whiteintel.io) 是一个由**暗网**支持的搜索引擎，提供免费功能，用于检查公司或其客户是否受到**窃取恶意软件**的**侵害**。
+
+WhiteIntel的主要目标是打击由信息窃取恶意软件导致的账户劫持和勒索软件攻击。
+
+您可以访问他们的网站并免费尝试他们的引擎：
+
+{% embed url="https://whiteintel.io" %}
 
 <details>
 
@@ -68,10 +92,10 @@ cd /tmp; wget https://github.com/google/rekall/releases/download/v1.5.1/osxpmem-
 
 支持HackTricks的其他方式：
 
-* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 如果您想在HackTricks中看到您的**公司广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFT](https://opensea.io/collection/the-peass-family)收藏品
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
