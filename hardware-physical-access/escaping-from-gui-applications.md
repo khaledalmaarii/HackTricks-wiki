@@ -2,7 +2,7 @@
 
 <summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Autres façons de soutenir HackTricks :
+D'autres façons de soutenir HackTricks :
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
@@ -12,9 +12,9 @@ Autres façons de soutenir HackTricks :
 
 </details>
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) est un moteur de recherche alimenté par le **dark web** qui offre des fonctionnalités **gratuites** pour vérifier si une entreprise ou ses clients ont été **compromis** par des **logiciels malveillants voleurs**.
 
@@ -46,7 +46,7 @@ Vous devriez vérifier si vous pouvez :
 
 ## Exécution de commandes
 
-Peut-être **en utilisant une option `Ouvrir avec`** vous pouvez ouvrir/exécuter une sorte de shell.
+Peut-être qu'en utilisant l'option `Ouvrir avec`, vous pouvez ouvrir/exécuter une sorte de shell.
 
 ### Windows
 
@@ -63,11 +63,11 @@ _bash, sh, zsh..._ Plus ici : [https://gtfobins.github.io/](https://gtfobins.git
 * **Variables d'environnement** : Il y a beaucoup de variables d'environnement qui pointent vers un chemin
 * **Autres protocoles** : _about:, data:, ftp:, file:, mailto:, news:, res:, telnet:, view-source:_
 * **Liens symboliques**
-* **Raccourcis** : CTRL+N (ouvrir une nouvelle session), CTRL+R (Exécuter des commandes), CTRL+SHIFT+ESC (Gestionnaire des tâches),  Windows+E (ouvrir l'explorateur), CTRL-B, CTRL-I (Favoris), CTRL-H (Historique), CTRL-L, CTRL-O (Fichier/Ouvrir la boîte de dialogue), CTRL-P (Boîte de dialogue d'impression), CTRL-S (Enregistrer sous)
+* **Raccourcis** : CTRL+N (ouvrir une nouvelle session), CTRL+R (Exécuter des commandes), CTRL+SHIFT+ESC (Gestionnaire des tâches), Windows+E (ouvrir l'explorateur), CTRL-B, CTRL-I (Favoris), CTRL-H (Historique), CTRL-L, CTRL-O (Fichier/Ouvrir la boîte de dialogue), CTRL-P (Boîte de dialogue d'impression), CTRL-S (Enregistrer sous)
 * Menu administratif caché : CTRL-ALT-F8, CTRL-ESC-F9
-* **URI Shell** : _shell:Outils administratifs, shell:Bibliothèques de documents, shell:Bibliothèques, shell:Profils d'utilisateurs, shell:Personnel, shell:Dossier de recherche, shell:Système, shell:Réseau, shell:Envoyer vers, shell:Profils d'utilisateurs, shell:Outils administratifs communs, shell:Ordinateur, shell:Internet_
+* **URI Shell** : _shell:Outils administratifs, shell:Bibliothèques de documents, shell:Bibliothèques, shell:Profils d'utilisateurs, shell:Personnel, shell:Dossier de recherche, shell:Système, shell:Réseau, shell:Envoyer à, shell:Profils d'utilisateurs, shell:Outils administratifs communs, shell:Poste de travail, shell:Internet_
 * **Chemins UNC** : Chemins pour se connecter à des dossiers partagés. Vous devriez essayer de vous connecter au C$ de la machine locale ("\\\127.0.0.1\c$\Windows\System32")
-* **Autres chemins UNC** :
+* **Autres chemins UNC :**
 
 | UNC                       | UNC            | UNC                  |
 | ------------------------- | -------------- | -------------------- |
@@ -101,10 +101,10 @@ Explorateur : [https://sourceforge.net/projects/explorerplus/files/Explorer%2B%2
 
 ## Raccourcis
 
-* Touches collantes – Appuyez sur SHIFT 5 fois
-* Touches de souris – SHIFT+ALT+NUMLOCK
+* Sticky Keys – Appuyez sur SHIFT 5 fois
+* Mouse Keys – SHIFT+ALT+NUMLOCK
 * Contraste élevé – SHIFT+ALT+PRINTSCN
-* Touches de basculement – Maintenez NUMLOCK enfoncé pendant 5 secondes
+* Touche de bascule – Maintenez NUMLOCK enfoncé pendant 5 secondes
 * Touches de filtre – Maintenez la touche droite SHIFT enfoncée pendant 12 secondes
 * WINDOWS+F1 – Recherche Windows
 * WINDOWS+D – Afficher le bureau
@@ -141,7 +141,7 @@ C'est une barre d'outils qui apparaît en haut à gauche de l'image lorsqu'elle 
 Tapez ces URL pour obtenir une vue de l'Explorateur :
 
 * `shell:Outils d'administration`
-* `shell:Bibliothèques de documents`
+* `shell:Bibliothèque de documents`
 * `shell:Bibliothèques`
 * `shell:ProfilsUtilisateurs`
 * `shell:Personnel`
@@ -182,7 +182,7 @@ Source : https://medium.com/@Rend_/give-me-a-browser-ill-give-you-a-shell-de1981
 
 * Balayez vers le haut avec quatre (ou cinq) doigts / Double-tapez sur le bouton Accueil : Pour afficher la vue multitâche et changer d'application
 
-* Balayez d'un côté ou de l'autre avec quatre ou cinq doigts : Pour passer à l'application suivante/précédente
+* Balayez d'un côté ou de l'autre avec quatre ou cinq doigts : Pour changer vers l'application suivante/précédente
 
 * Pincez l'écran avec cinq doigts / Touchez le bouton Accueil / Balayez vers le haut avec 1 doigt depuis le bas de l'écran en un mouvement rapide vers le haut : Pour accéder à l'Accueil
 
@@ -194,7 +194,7 @@ Source : https://medium.com/@Rend_/give-me-a-browser-ill-give-you-a-shell-de1981
 
 * Balayez avec 1 doigt depuis la gauche de l'écran sur 1-2 pouces : Pour voir la vue Aujourd'hui
 
-* Balayez rapidement avec 1 doigt du centre de l'écran vers la droite ou la gauche : Pour passer à l'application suivante/précédente
+* Balayez rapidement avec 1 doigt depuis le centre de l'écran vers la droite ou la gauche : Pour changer vers l'application suivante/précédente
 
 * Maintenez enfoncé le bouton Marche/Arrêt en haut à droite de l'iPad + Déplacez le curseur Éteindre tout à droite : Pour éteindre
 
@@ -243,9 +243,9 @@ Ces raccourcis sont pour les paramètres visuels et sonores, en fonction de l'ut
 | ⌘⇧H (Commande-Majuscule-H)                          | Aller à l'Accueil                                       |
 | ⌘ (Espace)                                          | Ouvrir Spotlight                                        |
 | ⌘⇥ (Commande-Tabulation)                            | Liste des dix dernières applications utilisées          |
-| ⌘\~                                                 | Aller à la dernière application                        |
+| ⌘\~                                                | Aller à la dernière application                        |
 | ⌘⇧3 (Commande-Majuscule-3)                          | Capture d'écran (apparaît en bas à gauche pour enregistrer ou agir dessus) |
-| ⌘⇧4                                               | Capture d'écran et l'ouvrir dans l'éditeur               |
+| ⌘⇧4                                                | Capture d'écran et l'ouvrir dans l'éditeur              |
 | Maintenir enfoncé ⌘                                 | Liste des raccourcis disponibles pour l'application     |
 | ⌘⌥D (Commande-Option/Alt-D)                        | Faire apparaître le dock                                |
 | ^⌥H (Contrôle-Option-H)                            | Bouton Accueil                                         |
@@ -254,7 +254,7 @@ Ces raccourcis sont pour les paramètres visuels et sonores, en fonction de l'ut
 | Échap                                              | Bouton Retour                                         |
 | → (Flèche droite)                                  | Élément suivant                                       |
 | ← (Flèche gauche)                                  | Élément précédent                                     |
-| ↑↓ (Flèche vers le haut, Flèche vers le bas)       | Appuyer simultanément sur l'élément sélectionné        |
+| ↑↓ (Flèche vers le haut, flèche vers le bas)       | Appuyer simultanément sur l'élément sélectionné         |
 | ⌥ ↓ (Option-Flèche vers le bas)                    | Faire défiler vers le bas                             |
 | ⌥↑ (Option-Flèche vers le haut)                    | Faire défiler vers le haut                            |
 | ⌥← ou ⌥→ (Option-Flèche gauche ou Option-Flèche droite) | Faire défiler vers la gauche ou la droite           |
@@ -266,29 +266,29 @@ Ces raccourcis sont pour les paramètres visuels et sonores, en fonction de l'ut
 
 | Raccourci               | Action                                           |
 | ----------------------- | ------------------------------------------------ |
-| ⌘L (Commande-L)         | Ouvrir l'emplacement                              |
+| ⌘L (Command-L)          | Ouvrir l'emplacement                              |
 | ⌘T                      | Ouvrir un nouvel onglet                            |
-| ⌘W                      | Fermer l'onglet actuel                             |
+| ⌘W                      | Fermer l'onglet actuel                            |
 | ⌘R                      | Actualiser l'onglet actuel                        |
 | ⌘.                      | Arrêter le chargement de l'onglet actuel           |
 | ^⇥                      | Passer à l'onglet suivant                          |
-| ^⇧⇥ (Contrôle-Shift-Tab) | Aller à l'onglet précédent                        |
+| ^⇧⇥ (Control-Shift-Tab) | Aller à l'onglet précédent                        |
 | ⌘L                      | Sélectionner le champ de texte/URL pour le modifier|
-| ⌘⇧T (Commande-Shift-T)  | Ouvrir le dernier onglet fermé (peut être utilisé plusieurs fois) |
+| ⌘⇧T (Command-Shift-T)   | Ouvrir le dernier onglet fermé (peut être utilisé plusieurs fois) |
 | ⌘\[                     | Revenir en arrière dans l'historique de navigation |
-| ⌘]                      | Aller en avant dans l'historique de navigation     |
-| ⌘⇧R                    | Activer le mode Lecteur                            |
+| ⌘]                      | Aller en avant dans l'historique de navigation    |
+| ⌘⇧R                     | Activer le mode Lecteur                            |
 
 ### Raccourcis Mail
 
 | Raccourci                   | Action                       |
 | -------------------------- | ---------------------------- |
 | ⌘L                         | Ouvrir l'emplacement         |
-| ⌘T                         | Ouvrir un nouvel onglet      |
+| ⌘T                         | Ouvrir un nouvel onglet       |
 | ⌘W                         | Fermer l'onglet actuel       |
 | ⌘R                         | Actualiser l'onglet actuel   |
 | ⌘.                         | Arrêter le chargement de l'onglet actuel |
-| ⌘⌥F (Commande-Option/Alt-F) | Rechercher dans votre boîte de réception |
+| ⌘⌥F (Command-Option/Alt-F) | Rechercher dans votre boîte de réception |
 
 # Références
 
@@ -298,15 +298,15 @@ Ces raccourcis sont pour les paramètres visuels et sonores, en fonction de l'ut
 * [http://www.iphonehacks.com/2018/03/ipad-keyboard-shortcuts.html](http://www.iphonehacks.com/2018/03/ipad-keyboard-shortcuts.html)
 
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) est un moteur de recherche alimenté par le **dark web** qui offre des fonctionnalités **gratuites** pour vérifier si une entreprise ou ses clients ont été **compromis** par des **malwares voleurs**.
+[**WhiteIntel**](https://whiteintel.io) est un moteur de recherche alimenté par le **dark web** qui offre des fonctionnalités **gratuites** pour vérifier si une entreprise ou ses clients ont été **compromis** par des **logiciels malveillants voleurs**.
 
-Le but principal de WhiteIntel est de lutter contre les prises de contrôle de compte et les attaques de ransomware résultant de malwares volant des informations.
+Le but principal de WhiteIntel est de lutter contre les prises de contrôle de compte et les attaques de ransomware résultant de logiciels malveillants volant des informations.
 
-Vous pouvez consulter leur site web et essayer leur moteur **gratuitement** sur :
+Vous pouvez consulter leur site Web et essayer leur moteur gratuitement sur :
 
 {% embed url="https://whiteintel.io" %}
 
@@ -319,7 +319,7 @@ Autres façons de soutenir HackTricks :
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez** 💬 le groupe Discord](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Rejoignez** 💬 le groupe Discord](https://discord.gg/hRep4RUj7f) ou le [groupe Telegram](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

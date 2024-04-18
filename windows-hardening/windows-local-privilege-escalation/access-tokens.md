@@ -8,13 +8,13 @@
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR au** [**dépôt hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**dépôt hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) est un moteur de recherche alimenté par le **dark web** qui offre des fonctionnalités **gratuites** pour vérifier si une entreprise ou ses clients ont été **compromis** par des **logiciels malveillants voleurs**.
 
@@ -28,7 +28,7 @@ Vous pouvez consulter leur site Web et essayer leur moteur **gratuitement** sur 
 
 ## Jetons d'accès
 
-Chaque **utilisateur connecté** au système **détient un jeton d'accès avec des informations de sécurité** pour cette session de connexion. Le système crée un jeton d'accès lorsque l'utilisateur se connecte. **Chaque processus exécuté** au nom de l'utilisateur **dispose d'une copie du jeton d'accès**. Le jeton identifie l'utilisateur, les groupes de l'utilisateur et les privilèges de l'utilisateur. Un jeton contient également un SID de connexion (Security Identifier) qui identifie la session de connexion actuelle.
+Chaque **utilisateur connecté** au système **détient un jeton d'accès avec des informations de sécurité** pour cette session de connexion. Le système crée un jeton d'accès lorsque l'utilisateur se connecte. **Chaque processus exécuté** au nom de l'utilisateur **a une copie du jeton d'accès**. Le jeton identifie l'utilisateur, les groupes de l'utilisateur et les privilèges de l'utilisateur. Un jeton contient également un SID de connexion (Security Identifier) qui identifie la session de connexion actuelle.
 
 Vous pouvez voir ces informations en exécutant `whoami /all`
 ```
@@ -94,18 +94,16 @@ Vous pouvez lancer un processus qui **utilise des informations d'identification 
 ```
 runas /user:domain\username /netonly cmd.exe
 ```
-Cela est utile si vous avez des informations d'identification utiles pour accéder à des objets dans le réseau mais que ces informations d'identification ne sont pas valides à l'intérieur de l'hôte actuel car elles ne seront utilisées que dans le réseau (dans l'hôte actuel, vos privilèges utilisateur actuels seront utilisés).
-
 ### Types de jetons
 
 Il existe deux types de jetons disponibles :
 
-* **Jeton principal** : Il sert de représentation des informations d'identification de sécurité d'un processus. La création et l'association de jetons principaux avec des processus sont des actions qui nécessitent des privilèges élevés, mettant en avant le principe de séparation des privilèges. En général, un service d'authentification est responsable de la création du jeton, tandis qu'un service de connexion gère son association avec l'interpréteur de commandes de l'utilisateur. Il est à noter que les processus héritent du jeton principal de leur processus parent lors de leur création.
-* **Jeton d'usurpation** : Permet à une application serveur d'adopter temporairement l'identité du client pour accéder à des objets sécurisés. Ce mécanisme est stratifié en quatre niveaux d'opération :
-  * **Anonyme** : Accorde à un serveur un accès similaire à celui d'un utilisateur non identifié.
-  * **Identification** : Permet au serveur de vérifier l'identité du client sans l'utiliser pour accéder aux objets.
-  * **Usurpation** : Permet au serveur de fonctionner sous l'identité du client.
-  * **Délégation** : Similaire à l'Usurpation mais inclut la capacité d'étendre cette supposition d'identité aux systèmes distants avec lesquels le serveur interagit, assurant la préservation des informations d'identification.
+- **Jeton principal** : Il sert de représentation des informations d'identification de sécurité d'un processus. La création et l'association de jetons principaux avec des processus sont des actions qui nécessitent des privilèges élevés, mettant en avant le principe de séparation des privilèges. En général, un service d'authentification est responsable de la création du jeton, tandis qu'un service de connexion gère son association avec l'interface système de l'utilisateur. Il est à noter que les processus héritent du jeton principal de leur processus parent lors de leur création.
+- **Jeton d'usurpation** : Permet à une application serveur d'adopter temporairement l'identité du client pour accéder à des objets sécurisés. Ce mécanisme est stratifié en quatre niveaux d'opération :
+  - **Anonyme** : Accorde à un serveur un accès similaire à celui d'un utilisateur non identifié.
+  - **Identification** : Permet au serveur de vérifier l'identité du client sans l'utiliser pour accéder aux objets.
+  - **Usurpation** : Permet au serveur de fonctionner sous l'identité du client.
+  - **Délégation** : Similaire à l'Usurpation, mais inclut la capacité d'étendre cette supposition d'identité aux systèmes distants avec lesquels le serveur interagit, assurant la préservation des informations d'identification.
 
 #### Usurper des jetons
 
@@ -123,18 +121,17 @@ Jetez un œil à [**tous les privilèges de jetons possibles et quelques défini
 
 ## Références
 
-En savoir plus sur les jetons dans ces tutoriels : [https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa](https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa) et [https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)
+Apprenez-en davantage sur les jetons dans ces tutoriels : [https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa](https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa) et [https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)
 
+### [WhiteIntel](https://whiteintel.io)
 
-## WhiteIntel
-
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) est un moteur de recherche alimenté par le **dark web** qui offre des fonctionnalités **gratuites** pour vérifier si une entreprise ou ses clients ont été **compromis** par des **logiciels malveillants voleurs**.
 
-Le but principal de WhiteIntel est de lutter contre les prises de contrôle de compte et les attaques de ransomware résultant de logiciels malveillants voleurs d'informations.
+L'objectif principal de WhiteIntel est de lutter contre les prises de contrôle de compte et les attaques de ransomware résultant de logiciels malveillants voleurs d'informations.
 
-Vous pouvez consulter leur site web et essayer leur moteur **gratuitement** sur :
+Vous pouvez consulter leur site Web et essayer leur moteur **gratuitement** sur :
 
 {% embed url="https://whiteintel.io" %}
 

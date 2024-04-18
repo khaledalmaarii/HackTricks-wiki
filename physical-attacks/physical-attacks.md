@@ -9,14 +9,14 @@ Autres façons de soutenir HackTricks :
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) est un moteur de recherche alimenté par le **dark web** qui offre des fonctionnalités **gratuites** pour vérifier si une entreprise ou ses clients ont été **compromis** par des **logiciels malveillants voleurs**.
 
@@ -30,15 +30,15 @@ Vous pouvez consulter leur site Web et essayer leur moteur **gratuitement** sur 
 
 ## Récupération du mot de passe du BIOS et sécurité du système
 
-La **réinitialisation du BIOS** peut être réalisée de plusieurs manières. La plupart des cartes mères incluent une **pile** qui, lorsqu'elle est retirée pendant environ **30 minutes**, réinitialisera les paramètres du BIOS, y compris le mot de passe. Alternativement, un **cavalier sur la carte mère** peut être ajusté pour réinitialiser ces paramètres en connectant des broches spécifiques.
+La réinitialisation du BIOS peut être réalisée de plusieurs manières. La plupart des cartes mères incluent une **pile** qui, lorsqu'elle est retirée pendant environ **30 minutes**, réinitialisera les paramètres du BIOS, y compris le mot de passe. Alternativement, un **cavalier sur la carte mère** peut être ajusté pour réinitialiser ces paramètres en connectant des broches spécifiques.
 
-Dans les situations où les ajustements matériels ne sont pas possibles ou pratiques, des **outils logiciels** offrent une solution. Exécuter un système à partir d'un **Live CD/USB** avec des distributions comme **Kali Linux** donne accès à des outils comme **_killCmos_** et **_CmosPWD_**, qui peuvent aider à la récupération du mot de passe du BIOS.
+Dans les situations où les ajustements matériels ne sont pas possibles ou pratiques, des **outils logiciels** offrent une solution. Exécuter un système à partir d'un **Live CD/USB** avec des distributions comme **Kali Linux** donne accès à des outils comme **_killCmos_** et **_CmosPWD_**, qui peuvent aider à récupérer le mot de passe du BIOS.
 
 Dans les cas où le mot de passe du BIOS est inconnu, le saisir incorrectement **trois fois** entraînera généralement un code d'erreur. Ce code peut être utilisé sur des sites Web comme [https://bios-pw.org](https://bios-pw.org) pour potentiellement récupérer un mot de passe utilisable.
 
 ### Sécurité UEFI
 
-Pour les systèmes modernes utilisant l'**UEFI** au lieu du BIOS traditionnel, l'outil **chipsec** peut être utilisé pour analyser et modifier les paramètres UEFI, y compris la désactivation du **Secure Boot**. Cela peut être accompli avec la commande suivante :
+Pour les systèmes modernes utilisant **UEFI** au lieu du BIOS traditionnel, l'outil **chipsec** peut être utilisé pour analyser et modifier les paramètres UEFI, y compris la désactivation du **Secure Boot**. Cela peut être accompli avec la commande suivante :
 
 `python chipsec_main.py -module exploits.secure.boot.pk`
 
@@ -52,7 +52,7 @@ La RAM conserve les données brièvement après la coupure de l'alimentation, g�
 
 ### Live CD/USB pour l'accès au système
 
-Changer les binaires système comme **_sethc.exe_** ou **_Utilman.exe_** avec une copie de **_cmd.exe_** peut fournir une invite de commande avec des privilèges système. Des outils comme **chntpw** peuvent être utilisés pour modifier le fichier **SAM** d'une installation Windows, permettant des changements de mot de passe.
+Changer les binaires système comme **_sethc.exe_** ou **_Utilman.exe_** par une copie de **_cmd.exe_** peut fournir une invite de commande avec des privilèges système. Des outils comme **chntpw** peuvent être utilisés pour modifier le fichier **SAM** d'une installation Windows, permettant des changements de mot de passe.
 
 **Kon-Boot** est un outil qui facilite la connexion aux systèmes Windows sans connaître le mot de passe en modifiant temporairement le noyau Windows ou l'UEFI. Plus d'informations peuvent être trouvées sur [https://www.raymond.cc](https://www.raymond.cc/blog/login-to-windows-administrator-and-linux-root-account-without-knowing-or-changing-current-password/).
 
@@ -70,7 +70,7 @@ Des périphériques comme **Rubber Ducky** et **Teensyduino** servent de platefo
 
 #### Copie d'ombre de volume
 
-Les privilèges administratifs permettent la création de copies de fichiers sensibles, y compris le fichier **SAM**, via PowerShell.
+Les privilèges d'administrateur permettent la création de copies de fichiers sensibles, y compris le fichier **SAM**, via PowerShell.
 
 ### Contournement du chiffrement BitLocker
 
@@ -78,4 +78,30 @@ Le chiffrement BitLocker peut potentiellement être contourné si le **mot de pa
 
 ### Ingénierie sociale pour l'ajout de clé de récupération
 
-Une nouvelle clé de récupération BitLocker peut être ajoutée grâce à des tactiques d'ingénierie sociale, convaincant un utilisateur d'exécuter une commande qui ajoute une nouvelle clé de récupération composée de zéros, simplifiant ainsi le processus de déchiffrement.
+Une nouvelle clé de récupération BitLocker peut être ajoutée grâce à des tactiques d'ingénierie sociale, en convaincant un utilisateur d'exécuter une commande qui ajoute une nouvelle clé de récupération composée de zéros, simplifiant ainsi le processus de déchiffrement.
+
+### [WhiteIntel](https://whiteintel.io)
+
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+
+[**WhiteIntel**](https://whiteintel.io) est un moteur de recherche alimenté par le **dark web** qui offre des fonctionnalités **gratuites** pour vérifier si une entreprise ou ses clients ont été **compromis** par des **logiciels malveillants voleurs**.
+
+Le but principal de WhiteIntel est de lutter contre les prises de contrôle de compte et les attaques de ransomware résultant de logiciels malveillants volant des informations.
+
+Vous pouvez consulter leur site Web et essayer leur moteur **gratuitement** sur :
+
+{% embed url="https://whiteintel.io" %}
+
+<details>
+
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+
+Autres façons de soutenir HackTricks :
+
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+
+</details>
