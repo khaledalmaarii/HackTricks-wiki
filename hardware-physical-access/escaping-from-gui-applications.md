@@ -12,10 +12,23 @@ Autres façons de soutenir HackTricks :
 
 </details>
 
+## WhiteIntel
+
+<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+
+[**WhiteIntel**](https://whiteintel.io) est un moteur de recherche alimenté par le **dark web** qui offre des fonctionnalités **gratuites** pour vérifier si une entreprise ou ses clients ont été **compromis** par des **logiciels malveillants voleurs**.
+
+Le but principal de WhiteIntel est de lutter contre les prises de contrôle de compte et les attaques de ransomware résultant de logiciels malveillants voleurs d'informations.
+
+Vous pouvez consulter leur site Web et essayer leur moteur **gratuitement** sur :
+
+{% embed url="https://whiteintel.io" %}
+
+---
 
 # Vérifier les actions possibles à l'intérieur de l'application GUI
 
-Les **Dialogues courants** sont ces options de **sauvegarde d'un fichier**, **ouverture d'un fichier**, sélection d'une police, d'une couleur... La plupart d'entre eux **offriront une fonctionnalité d'Explorateur complète**. Cela signifie que vous pourrez accéder aux fonctionnalités de l'Explorateur si vous pouvez accéder à ces options :
+Les **Dialogues courants** sont ces options de **sauvegarde d'un fichier**, **ouverture d'un fichier**, sélection d'une police, d'une couleur... La plupart d'entre eux offriront une fonctionnalité d'Explorateur complète. Cela signifie que vous pourrez accéder aux fonctionnalités de l'Explorateur si vous pouvez accéder à ces options :
 
 * Fermer/Fermer comme
 * Ouvrir/Ouvrir avec
@@ -50,11 +63,11 @@ _bash, sh, zsh..._ Plus ici : [https://gtfobins.github.io/](https://gtfobins.git
 * **Variables d'environnement** : Il y a beaucoup de variables d'environnement qui pointent vers un chemin
 * **Autres protocoles** : _about:, data:, ftp:, file:, mailto:, news:, res:, telnet:, view-source:_
 * **Liens symboliques**
-* **Raccourcis** : CTRL+N (ouvrir une nouvelle session), CTRL+R (Exécuter des commandes), CTRL+SHIFT+ESC (Gestionnaire des tâches),  Windows+E (ouvrir l'explorateur), CTRL-B, CTRL-I (Favoris), CTRL-H (Historique), CTRL-L, CTRL-O (Boîte de dialogue Fichier/Ouvrir), CTRL-P (Boîte de dialogue Imprimer), CTRL-S (Enregistrer sous)
+* **Raccourcis** : CTRL+N (ouvrir une nouvelle session), CTRL+R (Exécuter des commandes), CTRL+SHIFT+ESC (Gestionnaire des tâches),  Windows+E (ouvrir l'explorateur), CTRL-B, CTRL-I (Favoris), CTRL-H (Historique), CTRL-L, CTRL-O (Fichier/Ouvrir la boîte de dialogue), CTRL-P (Boîte de dialogue d'impression), CTRL-S (Enregistrer sous)
 * Menu administratif caché : CTRL-ALT-F8, CTRL-ESC-F9
 * **URI Shell** : _shell:Outils administratifs, shell:Bibliothèques de documents, shell:Bibliothèques, shell:Profils d'utilisateurs, shell:Personnel, shell:Dossier de recherche, shell:Système, shell:Réseau, shell:Envoyer vers, shell:Profils d'utilisateurs, shell:Outils administratifs communs, shell:Ordinateur, shell:Internet_
 * **Chemins UNC** : Chemins pour se connecter à des dossiers partagés. Vous devriez essayer de vous connecter au C$ de la machine locale ("\\\127.0.0.1\c$\Windows\System32")
-* **Autres chemins UNC :**
+* **Autres chemins UNC** :
 
 | UNC                       | UNC            | UNC                  |
 | ------------------------- | -------------- | -------------------- |
@@ -127,8 +140,8 @@ C'est une barre d'outils qui apparaît en haut à gauche de l'image lorsqu'elle 
 
 Tapez ces URL pour obtenir une vue de l'Explorateur :
 
-* `shell:Outils administratifs`
-* `shell:Bibliothèque de documents`
+* `shell:Outils d'administration`
+* `shell:Bibliothèques de documents`
 * `shell:Bibliothèques`
 * `shell:ProfilsUtilisateurs`
 * `shell:Personnel`
@@ -136,7 +149,7 @@ Tapez ces URL pour obtenir une vue de l'Explorateur :
 * `shell:DossierLieuxRéseau`
 * `shell:EnvoyerVers`
 * `shell:ProfilsUtilisateurs`
-* `shell:Outils administratifs communs`
+* `shell:Outils d'administration communs`
 * `shell:PosteTravail`
 * `shell:DossierInternet`
 * `Shell:Profil`
@@ -191,7 +204,7 @@ Source : https://medium.com/@Rend_/give-me-a-browser-ill-give-you-a-shell-de1981
 
 ## Raccourcis
 
-Vous devriez avoir un clavier iPad ou un adaptateur de clavier USB. Seuls les raccourcis pouvant aider à s'échapper de l'application seront présentés ici.
+Vous devriez avoir un clavier iPad ou un adaptateur de clavier USB. Seuls les raccourcis pouvant aider à s'échapper de l'application seront affichés ici.
 
 | Touche | Nom          |
 | ------ | ------------ |
@@ -214,9 +227,9 @@ Ces raccourcis sont pour les paramètres visuels et sonores, en fonction de l'ut
 | --------- | ------------------------------------------------------------------------------ |
 | F1        | Diminuer la luminosité de l'écran                                              |
 | F2        | Augmenter la luminosité de l'écran                                              |
-| F7        | Revenir à la chanson précédente                                                |
+| F7        | Revenir en arrière d'une chanson                                                |
 | F8        | Lecture/pause                                                                   |
-| F9        | Piste suivante                                                                  |
+| F9        | Piste suivante                                                                 |
 | F10       | Muet                                                                           |
 | F11       | Diminuer le volume                                                              |
 | F12       | Augmenter le volume                                                             |
@@ -230,9 +243,9 @@ Ces raccourcis sont pour les paramètres visuels et sonores, en fonction de l'ut
 | ⌘⇧H (Commande-Majuscule-H)                          | Aller à l'Accueil                                       |
 | ⌘ (Espace)                                          | Ouvrir Spotlight                                        |
 | ⌘⇥ (Commande-Tabulation)                            | Liste des dix dernières applications utilisées          |
-| ⌘\~                                                | Aller à la dernière application                        |
+| ⌘\~                                                 | Aller à la dernière application                        |
 | ⌘⇧3 (Commande-Majuscule-3)                          | Capture d'écran (apparaît en bas à gauche pour enregistrer ou agir dessus) |
-| ⌘⇧4                                                | Capture d'écran et l'ouvrir dans l'éditeur              |
+| ⌘⇧4                                               | Capture d'écran et l'ouvrir dans l'éditeur               |
 | Maintenir enfoncé ⌘                                 | Liste des raccourcis disponibles pour l'application     |
 | ⌘⌥D (Commande-Option/Alt-D)                        | Faire apparaître le dock                                |
 | ^⌥H (Contrôle-Option-H)                            | Bouton Accueil                                         |
@@ -247,24 +260,24 @@ Ces raccourcis sont pour les paramètres visuels et sonores, en fonction de l'ut
 | ⌥← ou ⌥→ (Option-Flèche gauche ou Option-Flèche droite) | Faire défiler vers la gauche ou la droite           |
 | ^⌥S (Contrôle-Option-S)                            | Activer ou désactiver la synthèse vocale VoiceOver     |
 | ⌘⇧⇥ (Commande-Majuscule-Tabulation)                | Passer à l'application précédente                      |
-| ⌘⇥ (Commande-Tabulation)                           | Revenir à l'application d'origine                      |
+| ⌘⇥ (Commande-Tabulation)                           | Revenir à l'application d'origine                       |
 | ←+→, puis Option + ← ou Option+→                   | Naviguer dans le Dock                                  |
 ### Raccourcis Safari
 
 | Raccourci               | Action                                           |
 | ----------------------- | ------------------------------------------------ |
-| ⌘L (Command-L)          | Ouvrir l'emplacement                              |
-| ⌘T                      | Ouvrir un nouvel onglet                           |
-| ⌘W                      | Fermer l'onglet actuel                            |
+| ⌘L (Commande-L)         | Ouvrir l'emplacement                              |
+| ⌘T                      | Ouvrir un nouvel onglet                            |
+| ⌘W                      | Fermer l'onglet actuel                             |
 | ⌘R                      | Actualiser l'onglet actuel                        |
-| ⌘.                      | Arrêter le chargement de l'onglet actuel          |
-| ^⇥                      | Passer à l'onglet suivant                         |
-| ^⇧⇥ (Control-Shift-Tab) | Aller à l'onglet précédent                        |
+| ⌘.                      | Arrêter le chargement de l'onglet actuel           |
+| ^⇥                      | Passer à l'onglet suivant                          |
+| ^⇧⇥ (Contrôle-Shift-Tab) | Aller à l'onglet précédent                        |
 | ⌘L                      | Sélectionner le champ de texte/URL pour le modifier|
-| ⌘⇧T (Command-Shift-T)   | Ouvrir le dernier onglet fermé (peut être utilisé plusieurs fois) |
-| ⌘\[                     | Revenir à la page précédente dans l'historique de navigation |
-| ⌘]                      | Aller à la page suivante dans l'historique de navigation |
-| ⌘⇧R                     | Activer le mode Lecteur                            |
+| ⌘⇧T (Commande-Shift-T)  | Ouvrir le dernier onglet fermé (peut être utilisé plusieurs fois) |
+| ⌘\[                     | Revenir en arrière dans l'historique de navigation |
+| ⌘]                      | Aller en avant dans l'historique de navigation     |
+| ⌘⇧R                    | Activer le mode Lecteur                            |
 
 ### Raccourcis Mail
 
@@ -275,7 +288,7 @@ Ces raccourcis sont pour les paramètres visuels et sonores, en fonction de l'ut
 | ⌘W                         | Fermer l'onglet actuel       |
 | ⌘R                         | Actualiser l'onglet actuel   |
 | ⌘.                         | Arrêter le chargement de l'onglet actuel |
-| ⌘⌥F (Command-Option/Alt-F) | Rechercher dans votre boîte de réception |
+| ⌘⌥F (Commande-Option/Alt-F) | Rechercher dans votre boîte de réception |
 
 # Références
 
@@ -285,16 +298,28 @@ Ces raccourcis sont pour les paramètres visuels et sonores, en fonction de l'ut
 * [http://www.iphonehacks.com/2018/03/ipad-keyboard-shortcuts.html](http://www.iphonehacks.com/2018/03/ipad-keyboard-shortcuts.html)
 
 
+## WhiteIntel
+
+<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+
+[**WhiteIntel**](https://whiteintel.io) est un moteur de recherche alimenté par le **dark web** qui offre des fonctionnalités **gratuites** pour vérifier si une entreprise ou ses clients ont été **compromis** par des **malwares voleurs**.
+
+Le but principal de WhiteIntel est de lutter contre les prises de contrôle de compte et les attaques de ransomware résultant de malwares volant des informations.
+
+Vous pouvez consulter leur site web et essayer leur moteur **gratuitement** sur :
+
+{% embed url="https://whiteintel.io" %}
+
 <details>
 
 <summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Autres façons de soutenir HackTricks:
+Autres façons de soutenir HackTricks :
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez** 💬 le groupe Discord](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
