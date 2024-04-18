@@ -4,19 +4,33 @@
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
-## Boresha ujuzi wako wa Wireshark
+## WhiteIntel
+
+<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+
+[**WhiteIntel**](https://whiteintel.io) ni injini ya utaftaji inayotumia **dark-web** ambayo inatoa huduma za **bure** za kuangalia ikiwa kampuni au wateja wake wameathiriwa na **malware za wizi**.
+
+Lengo kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulio ya ransomware yanayotokana na malware za kuiba habari.
+
+Unaweza kutembelea tovuti yao na kujaribu injini yao **bure** hapa:
+
+{% embed url="https://whiteintel.io" %}
+
+---
+
+## Boresha Ujuzi wako wa Wireshark
 
 ### Mafunzo
 
@@ -29,7 +43,7 @@ Mafunzo yafuatayo ni mazuri kujifunza mbinu za msingi za kushangaza:
 
 ### Taarifa Zilizochambuliwa
 
-**Taarifa za Wataalamu**
+**Taarifa za Mtaalam**
 
 Kwa kubonyeza _**Analyze** --> **Expert Information**_ utapata **muhtasari** wa kinachoendelea kwenye pakiti zilizochambuliwa:
 
@@ -37,11 +51,11 @@ Kwa kubonyeza _**Analyze** --> **Expert Information**_ utapata **muhtasari** wa 
 
 **Anwani Zilizotatuliwa**
 
-Chini ya _**Statistics --> Resolved Addresses**_ unaweza kupata taarifa kadhaa ambazo zilitatuliwa na wireshark kama vile bandari/usalama hadi itifaki, MAC hadi mtengenezaji, nk. Ni muhimu kujua ni nini kinahusika katika mawasiliano.
+Chini ya _**Statistics --> Resolved Addresses**_ unaweza kupata taarifa kadhaa zilizotatuliwa na wireshark kama vile bandari/mtandao hadi itifaki, MAC hadi mtengenezaji, n.k. Ni muhimu kujua ni nini kinahusika katika mawasiliano.
 
 ![](<../../../.gitbook/assets/image (571).png>)
 
-**Muundo wa Itifaki**
+**Mfumo wa Itifaki**
 
 Chini ya _**Statistics --> Protocol Hierarchy**_ unaweza kupata **itifaki** zinazohusika katika mawasiliano na data kuhusu hizo.
 
@@ -55,7 +69,7 @@ Chini ya _**Statistics --> Conversations**_ unaweza kupata **muhtasari wa mazung
 
 **Vipengele vya Mwisho**
 
-Chini ya _**Statistics --> Endpoints**_ unaweza kupata **muhtasari wa vipengele vya mwisho** katika mawasiliano na data kuhusu kila kimoja.
+Chini ya _**Statistics --> Endpoints**_ unaweza kupata **muhtasari wa vipengele vya mwisho** katika mawasiliano na data kuhusu kila moja.
 
 ![](<../../../.gitbook/assets/image (575).png>)
 
@@ -67,13 +81,13 @@ Chini ya _**Statistics --> DNS**_ unaweza kupata takwimu kuhusu ombi la DNS lili
 
 **Grafu ya I/O**
 
-Chini ya _**Statistics --> I/O Graph**_ unaweza kupata **grafu ya mawasiliano**.
+Chini ya _**Statistics --> I/O Graph**_ unaweza kupata **grafu ya mawasiliano.**
 
 ![](<../../../.gitbook/assets/image (574).png>)
 
 ### Vichujio
 
-Hapa unaweza kupata vichujio vya wireshark kulingana na itifaki: [https://www.wireshark.org/docs/dfref/](https://www.wireshark.org/docs/dfref/)\
+Hapa unaweza kupata kichujio cha wireshark kulingana na itifaki: [https://www.wireshark.org/docs/dfref/](https://www.wireshark.org/docs/dfref/)\
 Vichujio vingine vya kuvutia:
 
 * `(http.request or ssl.handshake.type == 1) and !(udp.port eq 1900)`
@@ -81,23 +95,23 @@ Vichujio vingine vya kuvutia:
 * `(http.request or ssl.handshake.type == 1 or tcp.flags eq 0x0002) and !(udp.port eq 1900)`
 * Trafiki ya HTTP na HTTPS ya awali + TCP SYN
 * `(http.request or ssl.handshake.type == 1 or tcp.flags eq 0x0002 or dns) and !(udp.port eq 1900)`
-* Trafiki ya HTTP na HTTPS ya awali + TCP SYN + ombi za DNS
+* Trafiki ya HTTP na HTTPS ya awali + TCP SYN + Ombi za DNS
 
 ### Tafuta
 
-Ikiwa unataka **kutafuta** **maudhui** ndani ya **pakiti** za vikao bonyeza _CTRL+f_. Unaweza kuongeza safu mpya kwenye mstari wa habari kuu (Nambari, Wakati, Chanzo, nk.) kwa kubonyeza kitufe cha kulia na kisha kuhariri safu.
+Ikiwa unataka **tafuta** **maudhui** ndani ya **pakiti** za vikao bonyeza _CTRL+f_. Unaweza kuongeza safu mpya kwenye bar ya habari kuu (Namba, Wakati, Chanzo, n.k.) kwa kubonyeza kitufe cha kulia na kisha hariri safu.
 
-### Maabara za pcap za bure
+### Maabara za pcap za Bure
 
-**Jifunze kwa vitendo na changamoto za bure za: [https://www.malware-traffic-analysis.net/](https://www.malware-traffic-analysis.net)**
+**Jifunze na changamoto za bure za: [https://www.malware-traffic-analysis.net/](https://www.malware-traffic-analysis.net)**
 
-## Kutambua Kikoa
+## Kutambua Domains
 
-Unaweza kuongeza safu inayoonyesha kichwa cha mwenyeji wa HTTP:
+Unaweza kuongeza safu inayoonyesha Kichwa cha HTTP cha Mwenyeji:
 
 ![](<../../../.gitbook/assets/image (403).png>)
 
-Na safu ambayo inaongeza jina la seva kutoka kwa uhusiano wa HTTPS unaosababisha (**ssl.handshake.type == 1**):
+Na safu inayoongeza jina la Seva kutoka kwa muunganisho wa HTTPS wa kuanzisha (**ssl.handshake.type == 1**):
 
 ![](<../../../.gitbook/assets/image (408) (1).png>)
 
@@ -105,7 +119,7 @@ Na safu ambayo inaongeza jina la seva kutoka kwa uhusiano wa HTTPS unaosababisha
 
 ### Kutoka kwa DHCP
 
-Kwenye Wireshark ya sasa badala ya `bootp` unahitaji kutafuta `DHCP`
+Katika Wireshark ya sasa badala ya `bootp` unahitaji kutafuta `DHCP`
 
 ![](<../../../.gitbook/assets/image (404).png>)
 
@@ -117,29 +131,28 @@ Kwenye Wireshark ya sasa badala ya `bootp` unahitaji kutafuta `DHCP`
 
 ### Kufichua trafiki ya https na ufunguo binafsi wa seva
 
-_edit>preference>protocol>ssl>_
+_badilisha>mapendeleo>itifaki>ssl>_
 
 ![](<../../../.gitbook/assets/image (98).png>)
 
-Bonyeza _Edit_ na ongeza data yote ya seva na ufunguo binafsi (_IP, Port, Itifaki, Faili ya ufunguo na nenosiri_)
+Bonyeza _Hariri_ na ongeza data yote ya seva na ufunguo binafsi (_IP, Bandari, Itifaki, Faili ya Ufunguo na nenosiri_)
 
 ### Kufichua trafiki ya https na funguo za kikao za usawa
 
-Firefox na Chrome zote zina uwezo wa kurekodi funguo za kikao za TLS, ambazo zinaweza kutumika na Wireshark kufichua trafiki ya TLS. Hii inaruhusu uchambuzi wa kina wa mawasiliano salama. Maelezo zaidi juu ya jinsi ya kufanya ufichuzi huu yanaweza kupatikana kwenye mwongozo kwenye [Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/).
+Firefox na Chrome zote zina uwezo wa kurekodi funguo za kikao za TLS, ambazo zinaweza kutumika na Wireshark kufichua trafiki ya TLS. Hii inaruhusu uchambuzi wa kina wa mawasiliano salama. Maelezo zaidi kuhusu jinsi ya kufanya ufichuzi huu yanaweza kupatikana kwenye mwongozo kwenye [Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/).
 
-Ili kugundua hii, tafuta ndani ya mazingira kwa kwenye kipengele cha `SSLKEYLOGFILE`
+Ili kugundua hii, tafuta ndani ya mazingira kwa kivinjari `SSLKEYLOGFILE`
 
-Faili ya funguo zilizoshirikiwa itaonekana kama hii:
+Faili ya funguo za pamoja itaonekana kama hii:
 
 ![](<../../../.gitbook/assets/image (99).png>)
 
-Ili kuimporti hii kwenye wireshark nenda kwa \_edit > preference > protocol > ssl > na iingize kwenye (Pre)-Master-Secret log filename:
+Kuagiza hii kwenye wireshark enda kwa \_hariri > mapendeleo > itifaki > ssl > na iagize kwenye (Pre)-Master-Secret log filename:
 
 ![](<../../../.gitbook/assets/image (100).png>)
-
 ## Mawasiliano ya ADB
 
-Changanua APK kutoka kwa mawasiliano ya ADB ambapo APK ilitumwa:
+Chambua APK kutoka kwenye mawasiliano ya ADB ambapo APK ilitumwa:
 ```python
 from scapy.all import *
 
@@ -166,16 +179,28 @@ f = open('all_bytes.data', 'w+b')
 f.write(all_bytes)
 f.close()
 ```
+## WhiteIntel
+
+<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+
+[**WhiteIntel**](https://whiteintel.io) ni injini ya utaftaji inayotumia **dark-web** ambayo inatoa huduma za **bure** za kuangalia ikiwa kampuni au wateja wake wameathiriwa na **malware za kuiba**.
+
+Lengo kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulio ya ransomware yanayotokana na malware za kuiba taarifa.
+
+Unaweza kutembelea tovuti yao na kujaribu injini yao kwa **bure** kwa:
+
+{% embed url="https://whiteintel.io" %}
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

