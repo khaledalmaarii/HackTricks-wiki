@@ -12,11 +12,11 @@
 
 </details>
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) 是一个由**暗网**支持的搜索引擎，提供免费功能，用于检查公司或其客户是否受到**窃取恶意软件**的侵害。
+[**WhiteIntel**](https://whiteintel.io)是一个由**暗网**支持的搜索引擎，提供免费功能，用于检查公司或其客户是否受到**窃取恶意软件**的侵害。
 
 WhiteIntel的主要目标是打击由信息窃取恶意软件导致的账户劫持和勒索软件攻击。
 
@@ -28,7 +28,7 @@ WhiteIntel的主要目标是打击由信息窃取恶意软件导致的账户劫�
 
 # 攻击摘要
 
-想象一个服务器正在通过**将一个** **秘密** **附加**到一些已知明文数据上然后对该数据进行哈希来**签名**数据。如果您知道：
+想象一个服务器正在通过**将一个** **秘密** **附加**到一些已知明文数据上然后对该数据进行哈希来**签名**一些**数据**。如果您知道：
 
 * **秘密的长度**（这也可以从给定长度范围内进行暴力破解）
 * **明文数据**
@@ -39,9 +39,9 @@ WhiteIntel的主要目标是打击由信息窃取恶意软件导致的账户劫�
 
 那么，攻击者可以**附加数据**并为**先前数据+附加数据**生成有效的**签名**。
 
-## 如何实现？
+## 如何？
 
-基本上，易受攻击的算法通过首先**对数据块进行哈希**，然后，**从**先前创建的**哈希**（状态）开始，它们**添加下一个数据块**并**对其进行哈希**。
+基本上，易受攻击的算法首先通过**对数据块进行哈希处理**，然后，**从**先前创建的**哈希**（状态）开始，它们**添加下一个数据块**并**对其进行哈希处理**。
 
 然后，想象秘密是"secret"，数据是"data"，"secretdata"的MD5是6036708eba0d11f6ef52ad44e8b74d5b。\
 如果攻击者想要附加字符串"append"，他可以：
@@ -49,7 +49,7 @@ WhiteIntel的主要目标是打击由信息窃取恶意软件导致的账户劫�
 * 生成64个"A"的MD5
 * 将先前初始化的哈希状态更改为6036708eba0d11f6ef52ad44e8b74d5b
 * 附加字符串"append"
-* 完成哈希，生成的哈希将是**对"secret" + "data" + "填充" + "append"**有效的哈希
+* 完成哈希处理，生成的哈希将是一个**对"secret" + "data" + "填充" + "append"**有效的哈希
 
 ## **工具**
 
@@ -57,13 +57,13 @@ WhiteIntel的主要目标是打击由信息窃取恶意软件导致的账户劫�
 
 ## 参考资料
 
-您可以在[https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks](https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks)中找到对此攻击的很好解释。
+您可以在[https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks](https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks)中找到对此攻击的很好解释
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) 是一个由**暗网**支持的搜索引擎，提供免费功能，用于检查公司或其客户是否受到**窃取恶意软件**的侵害。
+[**WhiteIntel**](https://whiteintel.io)是一个由**暗网**支持的搜索引擎，提供免费功能，用于检查公司或其客户是否受到**窃取恶意软件**的侵害。
 
 WhiteIntel的主要目标是打击由信息窃取恶意软件导致的账户劫持和勒索软件攻击。
 

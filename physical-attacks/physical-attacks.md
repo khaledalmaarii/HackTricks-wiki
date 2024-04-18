@@ -14,11 +14,11 @@
 
 </details>
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) 是一个由**暗网**支持的搜索引擎，提供免费功能，用于检查公司或其客户是否受到**窃取恶意软件**的侵害。
+[**WhiteIntel**](https://whiteintel.io)是一个由**暗网**支持的搜索引擎，提供免费功能，用于检查公司或其客户是否受到**窃取恶意软件**的侵害。
 
 WhiteIntel的主要目标是打击由信息窃取恶意软件导致的账户劫持和勒索软件攻击。
 
@@ -30,11 +30,11 @@ WhiteIntel的主要目标是打击由信息窃取恶意软件导致的账户劫�
 
 ## BIOS密码恢复和系统安全
 
-**重置BIOS**可以通过多种方式实现。大多数主板包括一个**电池**，将其拔出约**30分钟**后，将重置BIOS设置，包括密码。或者，可以通过调整主板上的**跳线**连接特定引脚来重置这些设置。
+**重置BIOS**可以通过多种方式实现。大多数主板包括一个**电池**，将其拔下约**30分钟**后，将重置BIOS设置，包括密码。或者，可以通过调整主板上的**跳线**连接特定引脚来重置这些设置。
 
-在无法进行硬件调整或不切实际的情况下，**软件工具**提供了解决方案。使用像**Kali Linux**这样的发行版从**Live CD/USB**运行系统可以访问工具，如**_killCmos_**和**_CmosPWD_**，这些工具可以帮助恢复BIOS密码。
+在无法或不实用进行硬件调整的情况下，**软件工具**提供了解决方案。使用像**Kali Linux**这样的发行版从**Live CD/USB**运行系统可以访问工具，如**_killCmos_**和**_CmosPWD_**，这些工具可以帮助恢复BIOS密码。
 
-在不知道BIOS密码的情况下，连续**三次**输入错误密码通常会导致错误代码。此代码可用于类似[https://bios-pw.org](https://bios-pw.org)的网站，以潜在地检索可用密码。
+在不知道BIOS密码的情况下，连续**三次**输入错误密码通常会导致错误代码。可以将此代码用于类似[https://bios-pw.org](https://bios-pw.org)的网站，以潜在地检索可用密码。
 
 ### UEFI安全
 
@@ -44,17 +44,17 @@ WhiteIntel的主要目标是打击由信息窃取恶意软件导致的账户劫�
 
 ### RAM分析和冷启动攻击
 
-RAM在断电后会短暂保留数据，通常为**1到2分钟**。通过应用液氮等冷却物质，可以将此持续时间延长至**10分钟**。在此延长期间，可以使用像**dd.exe**和**volatility**这样的工具创建**内存转储**进行分析。
+RAM在断电后会短暂保留数据，通常为**1到2分钟**。通过应用液氮等冷却物质，可以将此持续时间延长至**10分钟**。在此延长期间，可以使用工具如**dd.exe**和**volatility**创建**内存转储**进行分析。
 
 ### 直接内存访问（DMA）攻击
 
 **INCEPTION**是一种通过DMA进行物理内存操作的工具，兼容接口如**FireWire**和**Thunderbolt**。它允许通过修补内存以接受任何密码来绕过登录程序。但是，它对**Windows 10**系统无效。
 
-### Live CD/USB用于系统访问
+### 用于系统访问的Live CD/USB
 
 更改系统二进制文件，如**_sethc.exe_**或**_Utilman.exe_**，使用**_cmd.exe_**的副本可以提供具有系统特权的命令提示符。可以使用诸如**chntpw**之类的工具来编辑Windows安装的**SAM**文件，从而允许更改密码。
 
-**Kon-Boot**是一种工具，通过临时修改Windows内核或UEFI，可以帮助登录Windows系统而无需知道密码。更多信息请访问[https://www.raymond.cc](https://www.raymond.cc/blog/login-to-windows-administrator-and-linux-root-account-without-knowing-or-changing-current-password/)。
+**Kon-Boot**是一种工具，通过临时修改Windows内核或UEFI，可以帮助登录Windows系统而无需知道密码。更多信息可以在[https://www.raymond.cc](https://www.raymond.cc/blog/login-to-windows-administrator-and-linux-root-account-without-knowing-or-changing-current-password/)找到。
 
 ### 处理Windows安全功能
 
@@ -66,7 +66,7 @@ RAM在断电后会短暂保留数据，通常为**1到2分钟**。通过应用�
 
 #### BAD USB设备
 
-像**Rubber Ducky**和**Teensyduino**这样的设备可用作创建**恶意USB**设备的平台，能够在连接到目标计算机时执行预定义的载荷。
+类似**Rubber Ducky**和**Teensyduino**的设备可用作创建**恶意USB**设备的平台，能够在连接到目标计算机时执行预定义的载荷。
 
 #### 卷影复制
 
@@ -76,6 +76,6 @@ RAM在断电后会短暂保留数据，通常为**1到2分钟**。通过应用�
 
 如果在内存转储文件（**MEMORY.DMP**）中找到**恢复密码**，则可能可以绕过BitLocker加密。可以利用工具如**Elcomsoft Forensic Disk Decryptor**或**Passware Kit Forensic**来实现此目的。
 
-### 社会工程学用于添加恢复密钥
+### 通过社会工程学添加恢复密钥
 
 可以通过社会工程学策略添加新的BitLocker恢复密钥，说服用户执行一个命令，该命令添加由零组成的新恢复密钥，从而简化解密过程。

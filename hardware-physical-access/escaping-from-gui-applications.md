@@ -4,19 +4,19 @@
 
 支持HackTricks的其他方式：
 
-* 如果您想在HackTricks中看到您的**公司广告**或**下载PDF版HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品
 * **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io)是一个由**暗网**支持的搜索引擎，提供**免费**功能，用于检查公司或其客户是否受到**窃取恶意软件**的**侵害**。
+[**WhiteIntel**](https://whiteintel.io)是一个由**暗网**推动的搜索引擎，提供免费功能，用于检查公司或其客户是否受到**窃取恶意软件**的**侵害**。
 
 WhiteIntel的主要目标是打击由信息窃取恶意软件导致的账户劫持和勒索软件攻击。
 
@@ -28,7 +28,7 @@ WhiteIntel的主要目标是打击由信息窃取恶意软件导致的账户劫�
 
 # 检查GUI应用程序内的可能操作
 
-**常见对话框**是那些**保存文件**、**打开文件**、选择字体、颜色等选项。大多数情况下，这些对话框将**提供完整的资源管理器功能**。这意味着如果您可以访问这些选项，则可以访问资源管理器功能：
+**常见对话框**是那些**保存文件**、**打开文件**、选择字体、颜色等选项。大多数情况下，这些选项将**提供完整的资源管理器功能**。这意味着如果您可以访问这些选项，则可以访问资源管理器功能：
 
 * 关闭/关闭为
 * 打开/打开方式
@@ -67,7 +67,7 @@ _bash, sh, zsh..._ 更多信息请查看：[https://gtfobins.github.io/](https:/
 * 隐藏的管理菜单：CTRL-ALT-F8，CTRL-ESC-F9
 * **Shell URI**：_shell:Administrative Tools, shell:DocumentsLibrary, shell:Librariesshell:UserProfiles, shell:Personal, shell:SearchHomeFolder, shell:Systemshell:NetworkPlacesFolder, shell:SendTo, shell:UsersProfiles, shell:Common Administrative Tools, shell:MyComputerFolder, shell:InternetFolder_
 * **UNC路径**：连接到共享文件夹的路径。您应该尝试连接到本地计算机的C$（"\\\127.0.0.1\c$\Windows\System32"）
-* **更多UNC路径:**
+* **更多UNC路径：**
 
 | UNC                       | UNC            | UNC                  |
 | ------------------------- | -------------- | -------------------- |
@@ -186,7 +186,7 @@ _bash, sh, zsh..._ 更多信息请查看：[https://gtfobins.github.io/](https:/
 
 * 用五个手指捏屏幕/触摸主页按钮/从屏幕底部向上快速滑动一个手指：访问主屏幕
 
-* 用一个手指从屏幕底部向下缓慢滑动1-2英寸：会出现底栏
+* 用一个手指从屏幕底部向上缓慢滑动1-2英寸：会出现底栏
 
 * 用一个手指从屏幕顶部向下滑动：查看通知
 
@@ -196,28 +196,28 @@ _bash, sh, zsh..._ 更多信息请查看：[https://gtfobins.github.io/](https:/
 
 * 用一个手指快速从屏幕中心向左或向右滑动：切换到下一个/上一个应用程序
 
-* 按住iPad右上角的开/关/睡眠按钮并将“滑动以关机”滑块全部向右滑动：关机
+* 按住iPad右上角的开/关/睡眠按钮并将“滑动以关机”滑块全部向右移动：关机
 
 * 按住iPad右上角的开/关/睡眠按钮和主页按钮几秒钟：强制硬关机
 
-* 快速按下iPad右上角的开/关/睡眠按钮和主页按钮：拍摄屏幕截图，截图将弹出在显示屏左下角。同时短暂按下两个按钮，如果您按住几秒钟，将执行强制关机。
+* 快速按下iPad右上角的开/关/睡眠按钮和主页按钮：拍摄屏幕截图，截图将弹出在显示屏左下角。同时短按两个按钮，如果您按住几秒钟，将执行硬关机。
 
 ## 快捷键
 
 您应该有一个iPad键盘或USB键盘适配器。这里只显示可帮助退出应用程序的快捷键。
 
-| 按键 | 名称         |
+| 键   | 名称         |
 | --- | ------------ |
-| ⌘   | 命令      |
-| ⌥   | 选项（Alt） |
+| ⌘   | Command      |
+| ⌥   | Option (Alt) |
 | ⇧   | Shift        |
-| ↩   | 返回       |
+| ↩   | Return       |
 | ⇥   | Tab          |
-| ^   | 控制      |
-| ←   | 左箭头   |
-| →   | 右箭头  |
-| ↑   | 上箭头     |
-| ↓   | 下箭头   |
+| ^   | Control      |
+| ←   | Left Arrow   |
+| →   | Right Arrow  |
+| ↑   | Up Arrow     |
+| ↓   | Down Arrow   |
 
 ### 系统快捷键
 
@@ -225,33 +225,33 @@ _bash, sh, zsh..._ 更多信息请查看：[https://gtfobins.github.io/](https:/
 
 | 快捷键 | 动作                                                                         |
 | -------- | ------------------------------------------------------------------------------ |
-| F1       | 降低屏幕亮度                                                                    |
-| F2       | 增加屏幕亮度                                                                |
+| F1       | 调暗屏幕                                                                    |
+| F2       | 调亮屏幕                                                                |
 | F7       | 后退一首歌                                                                  |
 | F8       | 播放/暂停                                                                     |
 | F9       | 跳过歌曲                                                                      |
 | F10      | 静音                                                                           |
 | F11      | 降低音量                                                                |
 | F12      | 增加音量                                                                |
-| ⌘ 空格  | 显示可用语言列表；要选择一个，再次点击空格键。 |
+| ⌘ Space  | 显示可用语言列表；要选择一种语言，请再次点击空格键。 |
 
 ### iPad 导航
 
 | 快捷键                                           | 动作                                                  |
 | -------------------------------------------------- | ------------------------------------------------------- |
-| ⌘H                                                 | 前往主屏幕                                              |
-| ⌘⇧H (Command-Shift-H)                              | 前往主屏幕                                              |
+| ⌘H                                                 | 转到主屏幕                                              |
+| ⌘⇧H (Command-Shift-H)                              | 转到主屏幕                                              |
 | ⌘ (Space)                                          | 打开Spotlight                                          |
 | ⌘⇥ (Command-Tab)                                   | 列出最近使用的十个应用程序                                 |
 | ⌘\~                                                | 转到上一个应用程序                                       |
 | ⌘⇧3 (Command-Shift-3)                              | 截图（悬停在左下角以保存或对其进行操作） |
 | ⌘⇧4                                                | 截图并在编辑器中打开                    |
-| 按住⌘                                   | 应用程序可用的快捷键列表                 |
+| 按住⌘                                   | 应用程序可用快捷键列表                 |
 | ⌘⌥D (Command-Option/Alt-D)                         | 弹出底栏                                      |
 | ^⌥H (Control-Option-H)                             | 主页按钮                                             |
 | ^⌥H H (Control-Option-H-H)                         | 显示多任务栏                                      |
 | ^⌥I (Control-Option-i)                             | 项目选择器                                            |
-| 退出                                             | 返回按钮                                             |
+| Escape                                             | 返回按钮                                             |
 | → (右箭头)                                    | 下一个项目                                               |
 | ← (左箭头)                                     | 上一个项目                                           |
 | ↑↓ (上箭头, 下箭头)                          | 同时点击选定的项目                        |
@@ -262,7 +262,7 @@ _bash, sh, zsh..._ 更多信息请查看：[https://gtfobins.github.io/](https:/
 | ⌘⇧⇥ (Command-Shift-Tab)                            | 切换到上一个应用程序                              |
 | ⌘⇥ (Command-Tab)                                   | 切换回原始应用程序                         |
 | ←+→, 然后Option + ← 或 Option+→                   | 通过底栏导航                                   |
-### Safari快捷键
+### Safari shortcuts
 
 | 快捷键                | 动作                                           |
 | ----------------------- | ------------------------------------------------ |
@@ -277,9 +277,9 @@ _bash, sh, zsh..._ 更多信息请查看：[https://gtfobins.github.io/](https:/
 | ⌘⇧T (Command-Shift-T)   | 打开最后关闭的标签（可多次使用） |
 | ⌘\[                     | 在浏览历史记录中返回一页      |
 | ⌘]                      | 在浏览历史记录中前进一页   |
-| ⌘⇧R                     | 激活阅读器模式                             |
+| ⌘⇧R                     | 激活阅读模式                             |
 
-### 邮件快捷键
+### Mail shortcuts
 
 | 快捷键                   | 动作                       |
 | -------------------------- | ---------------------------- |
@@ -290,7 +290,7 @@ _bash, sh, zsh..._ 更多信息请查看：[https://gtfobins.github.io/](https:/
 | ⌘.                         | 停止加载当前标签 |
 | ⌘⌥F (Command-Option/Alt-F) | 在邮箱中搜索       |
 
-# 参考资料
+# References
 
 * [https://www.macworld.com/article/2975857/6-only-for-ipad-gestures-you-need-to-know.html](https://www.macworld.com/article/2975857/6-only-for-ipad-gestures-you-need-to-know.html)
 * [https://www.tomsguide.com/us/ipad-shortcuts,news-18205.html](https://www.tomsguide.com/us/ipad-shortcuts,news-18205.html)
@@ -298,11 +298,11 @@ _bash, sh, zsh..._ 更多信息请查看：[https://gtfobins.github.io/](https:/
 * [http://www.iphonehacks.com/2018/03/ipad-keyboard-shortcuts.html](http://www.iphonehacks.com/2018/03/ipad-keyboard-shortcuts.html)
 
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io)是一个由**暗网**推动的搜索引擎，提供**免费**功能，用于检查公司或其客户是否受到**窃取恶意软件**的**侵害**。
+[**WhiteIntel**](https://whiteintel.io) 是一款由**暗网**推动的搜索引擎，提供**免费**功能，用于检查公司或其客户是否受到**窃取恶意软件**的**侵害**。
 
 WhiteIntel的主要目标是打击由信息窃取恶意软件导致的账户劫持和勒索软件攻击。
 
@@ -318,7 +318,7 @@ WhiteIntel的主要目标是打击由信息窃取恶意软件导致的账户劫�
 
 * 如果您想在HackTricks中看到您的**公司广告**或**下载PDF版HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 发现[**PEASS Family**](https://opensea.io/collection/the-peass-family)，我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFT](https://opensea.io/collection/the-peass-family)收藏品
 * **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**上关注**我们。
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
