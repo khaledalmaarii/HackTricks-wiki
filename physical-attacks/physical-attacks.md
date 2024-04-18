@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Impara l'hacking su AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking su AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
 
 Altri modi per supportare HackTricks:
 
@@ -14,13 +14,13 @@ Altri modi per supportare HackTricks:
 
 </details>
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) è un motore di ricerca alimentato dal **dark web** che offre funzionalità **gratuite** per verificare se un'azienda o i suoi clienti sono stati **compromessi** da **malware ruba-informazioni**.
 
-Il loro obiettivo principale di WhiteIntel è contrastare le violazioni degli account e gli attacchi ransomware derivanti da malware che rubano informazioni.
+Il loro obiettivo principale di WhiteIntel è combattere i takeover degli account e gli attacchi ransomware derivanti da malware che rubano informazioni.
 
 Puoi visitare il loro sito web e provare il loro motore **gratuitamente** su:
 
@@ -38,43 +38,43 @@ Nei casi in cui la password del BIOS è sconosciuta, inserirla in modo errato **
 
 ### Sicurezza UEFI
 
-Per i sistemi moderni che utilizzano **UEFI** invece del BIOS tradizionale, lo strumento **chipsec** può essere utilizzato per analizzare e modificare le impostazioni UEFI, inclusa la disabilitazione del **Secure Boot**. Questo può essere realizzato con il seguente comando:
+Per i sistemi moderni che utilizzano **UEFI** invece del tradizionale BIOS, lo strumento **chipsec** può essere utilizzato per analizzare e modificare le impostazioni UEFI, inclusa la disabilitazione del **Secure Boot**. Questo può essere realizzato con il seguente comando:
 
 `python chipsec_main.py -module exploits.secure.boot.pk`
 
 ### Analisi RAM e Attacchi Cold Boot
 
-La RAM conserva i dati brevemente dopo il taglio dell'alimentazione, di solito per **1 o 2 minuti**. Questa persistenza può essere estesa a **10 minuti** applicando sostanze fredde, come azoto liquido. Durante questo periodo prolungato, può essere creato un **dump di memoria** utilizzando strumenti come **dd.exe** e **volatility** per l'analisi.
+La RAM conserva i dati brevemente dopo che l'alimentazione viene interrotta, di solito per **1 o 2 minuti**. Questa persistenza può essere estesa a **10 minuti** applicando sostanze fredde, come azoto liquido. Durante questo periodo prolungato, può essere creato un **dump di memoria** utilizzando strumenti come **dd.exe** e **volatility** per l'analisi.
 
 ### Attacchi Direct Memory Access (DMA)
 
-**INCEPTION** è uno strumento progettato per la **manipolazione fisica della memoria** tramite DMA, compatibile con interfacce come **FireWire** e **Thunderbolt**. Consente di bypassare le procedure di accesso patchando la memoria per accettare qualsiasi password. Tuttavia, è inefficace contro i sistemi **Windows 10**.
+**INCEPTION** è uno strumento progettato per la **manipolazione della memoria fisica** tramite DMA, compatibile con interfacce come **FireWire** e **Thunderbolt**. Consente di bypassare le procedure di accesso patchando la memoria per accettare qualsiasi password. Tuttavia, è inefficace contro i sistemi **Windows 10**.
 
 ### Live CD/USB per l'Accesso al Sistema
 
 La modifica dei binari di sistema come **_sethc.exe_** o **_Utilman.exe_** con una copia di **_cmd.exe_** può fornire un prompt dei comandi con privilegi di sistema. Strumenti come **chntpw** possono essere utilizzati per modificare il file **SAM** di un'installazione di Windows, consentendo modifiche alle password.
 
-**Kon-Boot** è uno strumento che facilita l'accesso ai sistemi Windows senza conoscere la password modificando temporaneamente il kernel di Windows o UEFI. Ulteriori informazioni sono disponibili su [https://www.raymond.cc](https://www.raymond.cc/blog/login-to-windows-administrator-and-linux-root-account-without-knowing-or-changing-current-password/).
+**Kon-Boot** è uno strumento che facilita l'accesso ai sistemi Windows senza conoscere la password modificando temporaneamente il kernel di Windows o UEFI. Ulteriori informazioni possono essere trovate su [https://www.raymond.cc](https://www.raymond.cc/blog/login-to-windows-administrator-and-linux-root-account-without-knowing-or-changing-current-password/).
 
 ### Gestione delle Funzionalità di Sicurezza di Windows
 
 #### Scorciatoie di Avvio e Ripristino
 
-- **Supr**: Accesso alle impostazioni del BIOS.
-- **F8**: Entra in modalità di ripristino.
-- Premere **Shift** dopo il banner di Windows può ignorare l'autologon.
+- **Supr**: Accedere alle impostazioni del BIOS.
+- **F8**: Entrare in modalità di ripristino.
+- Premere **Shift** dopo il banner di Windows può bypassare l'autologon.
 
 #### Dispositivi BAD USB
 
-Dispositivi come **Rubber Ducky** e **Teensyduino** fungono da piattaforme per la creazione di dispositivi **bad USB**, in grado di eseguire payload predefiniti quando collegati a un computer di destinazione.
+Dispositivi come **Rubber Ducky** e **Teensyduino** fungono da piattaforme per la creazione di dispositivi **bad USB**, capaci di eseguire payload predefiniti quando collegati a un computer di destinazione.
 
 #### Copia Shadow del Volume
 
 I privilegi di amministratore consentono la creazione di copie di file sensibili, inclusi il file **SAM**, tramite PowerShell.
 
-### Bypass dell'Encryptazione BitLocker
+### Bypassare la Crittografia BitLocker
 
-L'encryptazione BitLocker può potenzialmente essere bypassata se la **password di ripristino** viene trovata all'interno di un file di dump di memoria (**MEMORY.DMP**). Strumenti come **Elcomsoft Forensic Disk Decryptor** o **Passware Kit Forensic** possono essere utilizzati per questo scopo.
+La crittografia BitLocker può potenzialmente essere bypassata se la **password di ripristino** viene trovata all'interno di un file di dump di memoria (**MEMORY.DMP**). Strumenti come **Elcomsoft Forensic Disk Decryptor** o **Passware Kit Forensic** possono essere utilizzati per questo scopo.
 
 ### Ingegneria Sociale per l'Aggiunta della Chiave di Ripristino
 

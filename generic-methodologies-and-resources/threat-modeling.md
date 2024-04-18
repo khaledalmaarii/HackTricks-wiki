@@ -1,8 +1,8 @@
 # Modellazione delle Minacce
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) è un motore di ricerca alimentato dal **dark web** che offre funzionalità **gratuite** per verificare se un'azienda o i suoi clienti sono stati **compromessi** da **malware ruba-informazioni**.
 
@@ -16,18 +16,18 @@ Puoi visitare il loro sito web e provare il loro motore **gratuitamente** su:
 
 ## Modellazione delle Minacce
 
-Benvenuti alla guida completa di HackTricks sulla Modellazione delle Minacce! Imbarcati in un'esplorazione di questo aspetto critico della sicurezza informatica, dove identifichiamo, comprendiamo e pianifichiamo contro le potenziali vulnerabilità in un sistema. Questo thread serve come guida passo dopo passo ricca di esempi reali, software utile e spiegazioni facili da comprendere. Ideale sia per i principianti che per i professionisti esperti che desiderano rafforzare le loro difese di sicurezza informatica.
+Benvenuti alla guida completa di HackTricks sulla Modellazione delle Minacce! Imbarcati in un'esplorazione di questo aspetto critico della sicurezza informatica, dove identifichiamo, comprendiamo e pianifichiamo contro le potenziali vulnerabilità in un sistema. Questo thread serve come guida passo dopo passo ricca di esempi reali, software utile e spiegazioni facili da comprendere. Ideale sia per i principianti che per i professionisti esperti che desiderano rafforzare le loro difese informatiche.
 
 ### Scenari Comunemente Utilizzati
 
-1. **Sviluppo Software**: Come parte del Ciclo di Vita dello Sviluppo Software Sicuro (SSDLC), la modellazione delle minacce aiuta nell'**identificare potenziali fonti di vulnerabilità** nelle fasi iniziali dello sviluppo.
+1. **Sviluppo Software**: Come parte del Ciclo di Vita dello Sviluppo Software Sicuro (SSDLC), la modellazione delle minacce aiuta nell'**identificare potenziali fonti di vulnerabilità** nelle prime fasi dello sviluppo.
 2. **Penetration Testing**: Il framework Penetration Testing Execution Standard (PTES) richiede la **modellazione delle minacce per comprendere le vulnerabilità del sistema** prima di effettuare il test.
 
 ### Modello delle Minacce in Breve
 
-Un Modello delle Minacce è tipicamente rappresentato come un diagramma, un'immagine o qualche altra forma di illustrazione visiva che rappresenta l'architettura pianificata o l'implementazione esistente di un'applicazione. Ha somiglianze con un **diagramma di flusso dati**, ma la distinzione chiave risiede nel suo design orientato alla sicurezza.
+Un Modello delle Minacce è tipicamente rappresentato come un diagramma, un'immagine o qualche altra forma di illustrazione visiva che rappresenta l'architettura pianificata o l'implementazione esistente di un'applicazione. Assomiglia a un **diagramma di flusso dei dati**, ma la distinzione chiave risiede nel suo design orientato alla sicurezza.
 
-I modelli delle minacce spesso presentano elementi contrassegnati in rosso, simboleggiando potenziali vulnerabilità, rischi o barriere. Per semplificare il processo di identificazione dei rischi, viene impiegata la triade CIA (Confidenzialità, Integrità, Disponibilità), che costituisce la base di molte metodologie di modellazione delle minacce, con STRIDE che è una delle più comuni. Tuttavia, la metodologia scelta può variare a seconda del contesto e dei requisiti specifici.
+I modelli delle minacce spesso presentano elementi contrassegnati in rosso, simboleggiando potenziali vulnerabilità, rischi o barriere. Per semplificare il processo di identificazione dei rischi, viene impiegato il triade CIA (Confidenzialità, Integrità, Disponibilità), che costituisce la base di molte metodologie di modellazione delle minacce, con STRIDE come una delle più comuni. Tuttavia, la metodologia scelta può variare a seconda del contesto e dei requisiti specifici.
 
 ### La Triade CIA
 
@@ -52,7 +52,7 @@ Ci sono diversi strumenti e soluzioni software disponibili che possono **aiutare
 
 ### [SpiderSuite](https://github.com/3nock/SpiderSuite)
 
-Un avanzato web spider/crawler GUI multi-piattaforma per professionisti della sicurezza informatica. Spider Suite può essere utilizzato per il mapping e l'analisi della superficie di attacco.
+Un avanzato web spider/crawler GUI multi-piattaforma con molteplici funzionalità per i professionisti della sicurezza informatica. Spider Suite può essere utilizzato per il mapping e l'analisi della superficie di attacco.
 
 **Utilizzo**
 
@@ -66,7 +66,7 @@ Un avanzato web spider/crawler GUI multi-piattaforma per professionisti della si
 
 ### [OWASP Threat Dragon](https://github.com/OWASP/threat-dragon/releases)
 
-Un progetto open-source di OWASP, Threat Dragon è sia un'applicazione web che desktop che include la creazione di diagrammi di sistema e un motore di regole per generare automaticamente minacce/mitigazioni.
+Un progetto open-source di OWASP, Threat Dragon è sia un'applicazione web che desktop che include il diagramma di sistema e un motore di regole per generare automaticamente minacce/mitigazioni.
 
 **Utilizzo**
 
@@ -102,7 +102,7 @@ Solo una breve spiegazione sulle entità:
 
 5. Crea una Minaccia (Passaggio 1)
 
-Prima devi scegliere il livello a cui desideri aggiungere una minaccia
+Prima devi scegliere lo strato a cui desideri aggiungere una minaccia
 
 <figure><img src="../.gitbook/assets/3_threatmodel_chose-threat-layer.jpg" alt=""><figcaption></figcaption></figure>
 
@@ -121,16 +121,16 @@ Ora il tuo modello finito dovrebbe assomigliare a qualcosa del genere. E così s
 <figure><img src="../.gitbook/assets/threat_model_finished.jpg" alt=""><figcaption></figcaption></figure>
 ### [Strumento di Threat Modeling di Microsoft](https://aka.ms/threatmodelingtool)
 
-Si tratta di uno strumento gratuito di Microsoft che aiuta a individuare minacce nella fase di progettazione dei progetti software. Utilizza la metodologia STRIDE ed è particolarmente adatto a coloro che sviluppano sulla piattaforma Microsoft.
+Si tratta di uno strumento gratuito di Microsoft che aiuta a individuare minacce nella fase di progettazione dei progetti software. Utilizza la metodologia STRIDE ed è particolarmente adatto per coloro che sviluppano sulla piattaforma Microsoft.
 
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) è un motore di ricerca alimentato dal **dark web** che offre funzionalità **gratuite** per verificare se un'azienda o i suoi clienti sono stati **compromessi** da **malware ruba-informazioni**.
 
-Il loro obiettivo principale è contrastare gli attacchi di takeover degli account e ransomware derivanti da malware che rubano informazioni.
+Il loro obiettivo principale è contrastare le violazioni degli account e gli attacchi ransomware derivanti da malware che rubano informazioni.
 
 Puoi visitare il loro sito web e provare il loro motore **gratuitamente** su:
 

