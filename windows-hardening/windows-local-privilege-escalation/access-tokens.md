@@ -12,13 +12,13 @@
 
 </details>
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) is 'n **donkerweb**-aangedrewe soekenjin wat **gratis** funksies bied om te kontroleer of 'n maatskappy of sy kliënte deur **steelmalware** gekompromitteer is.
 
-Die primêre doel van WhiteIntel is om rekeningoorneem te bekamp en lospryse-aanvalle te voorkom wat voortspruit uit inligtingsteelmalware.
+Die primêre doel van WhiteIntel is om rekeningoorneem te bekamp en lospryse aanvalle as gevolg van inligtingsteelmalware te voorkom.
 
 Jy kan hul webwerf besoek en hul enjin **gratis** probeer by:
 
@@ -28,9 +28,9 @@ Jy kan hul webwerf besoek en hul enjin **gratis** probeer by:
 
 ## Toegangstokens
 
-Elke **gebruiker wat ingeteken** is op die stelsel **het 'n toegangstoken met sekuriteitsinligting** vir daardie intekensessie. Die stelsel skep 'n toegangstoken wanneer die gebruiker inteken. **Elke proses wat uitgevoer word** namens die gebruiker **het 'n kopie van die toegangstoken**. Die token identifiseer die gebruiker, die gebruiker se groepe, en die gebruiker se voorregte. 'n Token bevat ook 'n intekensid (Sekuriteitsidentifiseerder) wat die huidige intekensessie identifiseer.
+Elke **gebruiker wat ingeteken is** op die stelsel **het 'n toegangstoken met sekuriteitsinligting** vir daardie intekensessie. Die stelsel skep 'n toegangstoken wanneer die gebruiker inteken. **Elke proses wat uitgevoer word** namens die gebruiker **het 'n kopie van die toegangstoken**. Die token identifiseer die gebruiker, die gebruiker se groepe, en die gebruiker se voorregte. 'n Token bevat ook 'n intekensid (Sekuriteitsidentifiseerder) wat die huidige intekensessie identifiseer.
 
-Jy kan hierdie inligting sien deur `whoami /all` uit te voer.
+Jy kan hierdie inligting sien deur `whoami /all` uit te voer
 ```
 whoami /all
 
@@ -74,12 +74,16 @@ SeUndockPrivilege             Remove computer from docking station Disabled
 SeIncreaseWorkingSetPrivilege Increase a process working set       Disabled
 SeTimeZonePrivilege           Change the time zone                 Disabled
 ```
+of deur _Process Explorer_ van Sysinternals te gebruik (kies proses en toegang "Sekuriteit" lappie):
+
+![](<../../.gitbook/assets/image (769).png>)
+
 ### Plaaslike administrateur
 
-Wanneer 'n plaaslike administrateur aanmeld, **word twee toegangstokens geskep**: Een met administrateursregte en die ander met normale regte. **Standaard** word die een met **gewone** (nie-administrateur) **regte gebruik** wanneer hierdie gebruiker 'n proses uitvoer. Wanneer hierdie gebruiker iets probeer **uitvoer as administrateur** ("Uitvoer as Administrateur" byvoorbeeld), sal die **UAC** gebruik word om vir toestemming te vra.\
+Wanneer 'n plaaslike administrateur aanmeld, **word twee toegangstokens geskep**: Een met administrateursregte en die ander met normale regte. **Standaard**, wanneer hierdie gebruiker 'n proses uitvoer, word die een met **gewone** (nie-administrateur) **regte gebruik**. Wanneer hierdie gebruiker iets probeer **uitvoer** as administrateur ("Uitvoer as Administrateur" byvoorbeeld) sal die **UAC** gebruik word om vir toestemming te vra.\
 As jy meer wil leer oor die UAC, [**lees hierdie bladsy**](../authentication-credentials-uac-and-efs/#uac)**.**
 
-### Gelde gebruiker simulasie
+### Geldeenhede gebruiker impersonation
 
 As jy **geldige geloofsbriewe van enige ander gebruiker** het, kan jy 'n **nuwe aanmeldsessie** skep met daardie geloofsbriewe:
 ```
@@ -90,7 +94,7 @@ Jy kan 'n proses begin wat **verskillende geloofsbriewe gebruik vir die toegang 
 ```
 runas /user:domain\username /netonly cmd.exe
 ```
-Dit is nuttig as jy nuttige geloofsbriewe het om voorwerpe in die netwerk te benader, maar daardie geloofsbriewe is nie geldig binne die huidige gasheer nie, aangesien hulle slegs in die netwerk gebruik sal word (in die huidige gasheer sal jou huidige gebruikersbevoegdhede gebruik word).
+Hierdie is nuttig as jy nuttige geloofsbriewe het om voorwerpe in die netwerk te benader, maar daardie geloofsbriewe is nie geldig binne die huidige gasheer nie, aangesien hulle slegs in die netwerk gebruik sal word (in die huidige gasheer sal jou huidige gebruikersbevoegdhede gebruik word).
 
 ### Tipes tokens
 
@@ -101,7 +105,7 @@ Daar is twee tipes tokens beskikbaar:
   * **Anoniem**: Verleen bediener-toegang soortgelyk aan dié van 'n ongeïdentifiseerde gebruiker.
   * **Identifikasie**: Laat die bediener toe om die klient se identiteit te verifieer sonder om dit vir voorwerpstoegang te gebruik.
   * **Impersonation**: Stel die bediener in staat om onder die klient se identiteit te werk.
-  * **Delegasie**: Soortgelyk aan Impersonation, maar sluit die vermoë in om hierdie identiteitsaanneming na afgeleë stelsels uit te brei waarmee die bediener interaksie het, om geloofsbriewe te behou.
+  * **Delegasie**: Soortgelyk aan Impersonation, maar sluit die vermoë in om hierdie identiteitsaannames na afgeleë stelsels uit te brei waarmee die bediener interaksie het, om geloofsbriewe te behou.
 
 #### Impersonate Tokens
 
@@ -115,20 +119,20 @@ Leer watter **token bevoegdhede misbruik kan word om bevoegdhede te eskaleer:**
 [privilege-escalation-abusing-tokens.md](privilege-escalation-abusing-tokens.md)
 {% endcontent-ref %}
 
-Neem 'n kykie na [**al die moontlike token bevoegdhede en enkele definisies op hierdie eksterne bladsy**](https://github.com/gtworek/Priv2Admin).
+Neem 'n kyk na [**al die moontlike token bevoegdhede en 'n paar definisies op hierdie eksterne bladsy**](https://github.com/gtworek/Priv2Admin).
 
 ## Verwysings
 
 Leer meer oor tokens in hierdie tutoriale: [https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa](https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa) en [https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)
 
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) is 'n **donker-web** aangedrewe soekenjin wat **gratis** funksies bied om te kontroleer of 'n maatskappy of sy kliënte deur **steel-malware** **gekompromiteer** is.
+[**WhiteIntel**](https://whiteintel.io) is 'n **donker-web** aangedrewe soekenjin wat **gratis** funksies bied om te kontroleer of 'n maatskappy of sy kliënte deur **steel-malware** **gekompromitteer** is.
 
-Die primêre doel van WhiteIntel is om rekening-oorneemings en losgeldaanvalle te bekamp wat voortspruit uit inligtingsteel-malware.
+Die primêre doel van WhiteIntel is om rekening-oorneem te bekamp en losgeldware-aanvalle te voorkom wat voortspruit uit inligtingsteel-malware.
 
 Jy kan hul webwerf besoek en hul enjin **gratis** probeer by:
 
@@ -136,7 +140,7 @@ Jy kan hul webwerf besoek en hul enjin **gratis** probeer by:
 
 <details>
 
-<summary><strong>Leer AWS hak vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS hak van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 * Werk jy in 'n **cybersekuriteitsmaatskappy**? Wil jy jou **maatskappy geadverteer sien in HackTricks**? of wil jy toegang hê tot die **nuutste weergawe van die PEASS of HackTricks aflaai in PDF-formaat**? Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)

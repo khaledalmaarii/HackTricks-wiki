@@ -1,7 +1,5 @@
 # Wireshark truuks
 
-## Wireshark truuks
-
 <details>
 
 <summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
@@ -12,9 +10,23 @@ Ander maniere om HackTricks te ondersteun:
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* **Deel jou haktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
+
+### [WhiteIntel](https://whiteintel.io)
+
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+
+[**WhiteIntel**](https://whiteintel.io) is 'n **dark-web** aangedrewe soekenjin wat **gratis** funksies bied om te kyk of 'n maatskappy of sy kliënte deur **steel-malware** gekompromitteer is.
+
+Die primêre doel van WhiteIntel is om rekening-oorneem te beveg en losgeldaanvalle te voorkom wat voortspruit uit inligtingsteel-malware.
+
+Jy kan hul webwerf besoek en hul enjin **gratis** probeer by:
+
+{% embed url="https://whiteintel.io" %}
+
+---
 
 ## Verbeter jou Wireshark-vaardighede
 
@@ -29,9 +41,9 @@ Die volgende tutoriale is wonderlik om 'n paar koel basiese truuks te leer:
 
 ### Geanaliseerde Inligting
 
-**Kennerinligting**
+**Ekspertinligting**
 
-Deur te klik op _**Analiseer** --> **Kennerinligting**_ sal jy 'n **oorsig** kry van wat in die **geanaliseerde** pakkies gebeur:
+Deur te klik op _**Analiseer** --> **Ekspertinligting**_ sal jy 'n **oorhoofse siening** hê van wat in die geanaliseerde pakkies gebeur:
 
 ![](<../../../.gitbook/assets/image (253).png>)
 
@@ -41,9 +53,9 @@ Onder _**Statistiek --> Opgeloste Adresse**_ kan jy verskeie **inligting** vind 
 
 ![](<../../../.gitbook/assets/image (890).png>)
 
-**Protokol Hiërargie**
+**Protokolhiërargie**
 
-Onder _**Statistiek --> Protokol Hiërargie**_ kan jy die **protokolle** vind wat betrokke is by die kommunikasie en inligting daaroor.
+Onder _**Statistiek --> Protokolhiërargie**_ kan jy die **protokolle** vind wat betrokke is by die kommunikasie en inligting daaroor.
 
 ![](<../../../.gitbook/assets/image (583).png>)
 
@@ -65,15 +77,15 @@ Onder _**Statistiek --> DNS**_ kan jy statistieke vind oor die DNS-versoek wat v
 
 ![](<../../../.gitbook/assets/image (1060).png>)
 
-**I/O Grafiek**
+**I/O-grafiek**
 
-Onder _**Statistiek --> I/O Grafiek**_ kan jy 'n **grafiek van die kommunikasie** vind.
+Onder _**Statistiek --> I/O-grafiek**_ kan jy 'n **grafiek van die kommunikasie** vind.
 
 ![](<../../../.gitbook/assets/image (989).png>)
 
 ### Filters
 
-Hier kan jy Wireshark-filter vind afhangende van die protokol: [https://www.wireshark.org/docs/dfref/](https://www.wireshark.org/docs/dfref/)\
+Hier kan jy Wireshark-filters vind afhangende van die protokol: [https://www.wireshark.org/docs/dfref/](https://www.wireshark.org/docs/dfref/)\
 Ander interessante filters:
 
 * `(http.request or ssl.handshake.type == 1) and !(udp.port eq 1900)`
@@ -97,7 +109,7 @@ Jy kan 'n kolom byvoeg wat die Gas HTTP-kop wys:
 
 ![](<../../../.gitbook/assets/image (635).png>)
 
-En 'n kolom wat die Bedienernaam byvoeg van 'n inisieerende HTTPS-verbinding (**ssl.handshake.type == 1**):
+En 'n kolom wat die Bedienernaam by 'n inisieerende HTTPS-verbinding byvoeg (**ssl.handshake.type == 1**):
 
 ![](<../../../.gitbook/assets/image (408) (1).png>)
 
@@ -125,21 +137,20 @@ Druk _Wysig_ en voeg al die data van die bediener en die privaatsleutel by (_IP,
 
 ### Ontsleutel https-verkeer met simmetriese sessiesleutels
 
-Beide Firefox en Chrome het die vermoë om TLS-sessiesleutels te log, wat met Wireshark gebruik kan word om TLS-verkeer te ontsluit. Dit maak in-diepte analise van veilige kommunikasie moontlik. Meer besonderhede oor hoe om hierdie ontsleuteling uit te voer, kan gevind word in 'n gids by [Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/).
+Beide Firefox en Chrome het die vermoë om TLS-sessiesleutels te log, wat met Wireshark gebruik kan word om TLS-verkeer te ontsluit. Dit maak diepgaande analise van veilige kommunikasie moontlik. Meer besonderhede oor hoe om hierdie ontsleuteling uit te voer, kan gevind word in 'n gids by [Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/).
 
 Om dit op te spoor, soek binne die omgewing vir die veranderlike `SSLKEYLOGFILE`
 
-'n Lêer van gedeelde sleutels sal soos volg lyk:
+'N Lêer van gedeelde sleutels sal soos volg lyk:
 
 ![](<../../../.gitbook/assets/image (817).png>)
 
-Om dit in Wireshark in te voer, gaan na \_wysig > voorkeur > protokol > ssl > en voer dit in (Pre)-Master-Secret log lêernaam:
+Om dit in Wireshark in te voer, gaan na \_wysig > voorkeur > protokol > ssl > en voer dit in by (Pre)-Master-Secret log-lêernaam:
 
 ![](<../../../.gitbook/assets/image (986).png>)
-
 ## ADB kommunikasie
 
-Ontgin 'n APK van 'n ADB-kommunikasie waar die APK gestuur is:
+Haal 'n APK uit 'n ADB kommunikasie waar die APK gestuur is:
 ```python
 from scapy.all import *
 
@@ -166,16 +177,29 @@ f = open('all_bytes.data', 'w+b')
 f.write(all_bytes)
 f.close()
 ```
+### [WhiteIntel](https://whiteintel.io)
+
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+
+[**WhiteIntel**](https://whiteintel.io) is 'n **dark-web** aangedrewe soekenjin wat **gratis** funksies bied om te kontroleer of 'n maatskappy of sy kliënte deur **diefstal malware** **gekompromiteer** is.
+
+Hul primêre doel van WhiteIntel is om rekening-oorneemings en lospryse-aanvalle te beveg wat voortspruit uit inligting-diefstal malware.
+
+Jy kan hul webwerf besoek en hul enjin **gratis** probeer by:
+
+{% embed url="https://whiteintel.io" %}
+
+
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS hak vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslaan.
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel jou haktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>

@@ -12,13 +12,13 @@ Ander maniere om HackTricks te ondersteun:
 
 </details>
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) is 'n **dark-web** aangedrewe soekenjin wat **gratis** funksies bied om te kontroleer of 'n maatskappy of sy kliënte deur **steelmalware** gekompromitteer is.
+[**WhiteIntel**](https://whiteintel.io) is 'n **dark-web** aangedrewe soekenjin wat **gratis** funksies bied om te kyk of 'n maatskappy of sy kliënte deur **steel-malware** gekompromitteer is.
 
-Die primêre doel van WhiteIntel is om rekening-oorneem en lospryse-aanvalle te beveg wat voortspruit uit inligtingsteelmalware.
+Die primêre doel van WhiteIntel is om rekening-oorneeminge en losprysaanvalle te beveg wat voortspruit uit inligtingsteel-malware.
 
 Jy kan hul webwerf besoek en hul enjin **gratis** probeer by:
 
@@ -26,7 +26,7 @@ Jy kan hul webwerf besoek en hul enjin **gratis** probeer by:
 
 ---
 
-# Kontroleer vir moontlike aksies binne die GUI-toepassing
+# Kyk vir moontlike aksies binne die GUI-toepassing
 
 **Gewone Dialoë** is daardie opsies om 'n lêer te **stoor**, 'n lêer te **open**, 'n lettertipe te kies, 'n kleur te kies... Die meeste van hulle sal 'n volledige Verkenner-funksionaliteit **aanbied**. Dit beteken dat jy Verkenner-funksionaliteite kan gebruik as jy hierdie opsies kan gebruik:
 
@@ -37,7 +37,7 @@ Jy kan hul webwerf besoek en hul enjin **gratis** probeer by:
 * Soek
 * Skandeer
 
-Jy moet nagaan of jy kan:
+Jy moet kyk of jy kan:
 
 * Wysig of nuwe lêers skep
 * Simboliese skakels skep
@@ -46,7 +46,7 @@ Jy moet nagaan of jy kan:
 
 ## Opdraguitvoering
 
-Miskien kan jy **deur 'n `Open met`**-opsie** 'n soort van skul uitvoer.
+Miskien kan jy **deur 'n `Open met`**-opsie** 'n soort van skel uitvoer.
 
 ### Windows
 
@@ -63,9 +63,9 @@ _bash, sh, zsh..._ Meer hier: [https://gtfobins.github.io/](https://gtfobins.git
 * **Omgevingsveranderlikes**: Daar is baie omgevingsveranderlikes wat na 'n sekere pad wys
 * **Ander protokolle**: _about:, data:, ftp:, file:, mailto:, news:, res:, telnet:, view-source:_
 * **Simboliese skakels**
-* **Kortpaaie**: CTRL+N (nuwe sessie oopmaak), CTRL+R (Opdragte uitvoer), CTRL+SHIFT+ESC (Taakbestuurder),  Windows+E (Verkenner oopmaak), CTRL-B, CTRL-I (Gunstelinge), CTRL-H (Geskiedenis), CTRL-L, CTRL-O (Lêer/Oop Dialoog), CTRL-P (Druk Dialoog), CTRL-S (Stoor As)
+* **Kortpaaie**: CTRL+N (open nuwe sessie), CTRL+R (Voer Opdragte uit), CTRL+SHIFT+ESC (Taakbestuurder),  Windows+E (open verkenner), CTRL-B, CTRL-I (Gunstelinge), CTRL-H (Geskiedenis), CTRL-L, CTRL-O (Lêer/Open Dialoog), CTRL-P (Druk Dialoog), CTRL-S (Stoor As)
 * Versteekte Administratiewe kieslys: CTRL-ALT-F8, CTRL-ESC-F9
-* **Skulpad-URI's**: _shell:Administrative Tools, shell:DocumentsLibrary, shell:Librariesshell:UserProfiles, shell:Personal, shell:SearchHomeFolder, shell:Systemshell:NetworkPlacesFolder, shell:SendTo, shell:UsersProfiles, shell:Common Administrative Tools, shell:MyComputerFolder, shell:InternetFolder_
+* **Skel-URI's**: _shell:Administrative Tools, shell:DocumentsLibrary, shell:Librariesshell:UserProfiles, shell:Personal, shell:SearchHomeFolder, shell:Systemshell:NetworkPlacesFolder, shell:SendTo, shell:UsersProfiles, shell:Common Administrative Tools, shell:MyComputerFolder, shell:InternetFolder_
 * **UNC-paaie**: Paaie om aan gedeelde lêers te koppel. Jy moet probeer om aan die C$ van die plaaslike masjien te koppel ("\\\127.0.0.1\c$\Windows\System32")
 * **Meer UNC-paaie:**
 
@@ -85,7 +85,7 @@ _bash, sh, zsh..._ Meer hier: [https://gtfobins.github.io/](https://gtfobins.git
 
 Konsol: [https://sourceforge.net/projects/console/](https://sourceforge.net/projects/console/)\
 Verkenner: [https://sourceforge.net/projects/explorerplus/files/Explorer%2B%2B/](https://sourceforge.net/projects/explorerplus/files/Explorer%2B%2B/)\
-Registreerredigeerder: [https://sourceforge.net/projects/uberregedit/](https://sourceforge.net/projects/uberregedit/)
+Registerredigeerder: [https://sourceforge.net/projects/uberregedit/](https://sourceforge.net/projects/uberregedit/)
 
 ## Toegang tot lêersisteem vanaf die blaaier
 
@@ -110,7 +110,7 @@ Registreerredigeerder: [https://sourceforge.net/projects/uberregedit/](https://s
 * WINDOWS+D – Wys Skerm
 * WINDOWS+E – Lanceer Windows Verkenner
 * WINDOWS+R – Hardloop
-* WINDOWS+U – Gerief van Toegang Sentrum
+* WINDOWS+U – Gerieflikheidsentrum
 * WINDOWS+F – Soek
 * SHIFT+F10 – Konteks Menu
 * CTRL+SHIFT+ESC – Taakbestuurder
@@ -121,41 +121,41 @@ Registreerredigeerder: [https://sourceforge.net/projects/uberregedit/](https://s
 * CTRL+H – Internet Explorer Geskiedenis
 * CTRL+T – Internet Explorer – Nuwe Bladsy
 * CTRL+N – Internet Explorer – Nuwe Bladsy
-* CTRL+O – Lêer Oop
+* CTRL+O – Maak Lêer Oop
 * CTRL+S – Stoor CTRL+N – Nuwe RDP / Citrix
 ## Swaai
 
-* Swaai van die linkerkant na regs om al die oop Vensters te sien, wat die KIOSK-program minimaliseer en direkte toegang tot die hele bedryfstelsel gee;
-* Swaai van die regterkant na links om die Aksiesentrum oop te maak, wat die KIOSK-program minimaliseer en direkte toegang tot die hele bedryfstelsel gee;
-* Swaai van die boonste kant af om die titelbalk sigbaar te maak vir 'n program wat in volledige skermmodus geopen is;
+* Swaai van die linkerkant na regs om al die oop vensters te sien, om die KIOSK-program te minimaliseer en direk toegang tot die hele bedryfstelsel te verkry;
+* Swaai van die regterkant na links om die Aksiesentrum oop te maak, om die KIOSK-program te minimaliseer en direk toegang tot die hele bedryfstelsel te verkry;
+* Swaai van die boonste kant in om die titelbalk sigbaar te maak vir 'n program wat in volledige skermmodus oopgemaak is;
 * Swaai van onder af op om die taakbalk in 'n program met volledige skerm te wys.
 
 ## Internet Explorer Truuks
 
 ### 'Beeldwerkstafel'
 
-Dit is 'n werkstafel wat op die boonste linkerkant van die beeld verskyn as dit geklik word. Jy sal in staat wees om te Stoor, Druk, Mailto, "My Pictures" in Explorer oop te maak. Die Kiosk moet Internet Explorer gebruik.
+Dit is 'n werkstafel wat op die boonste linkerkant van die beeld verskyn as dit geklik word. Jy sal in staat wees om te Stoor, Druk, Stuur 'n e-pos, "My Afbeeldings" in Verkenner oop te maak. Die Kiosk moet Internet Explorer gebruik.
 
 ### Skulprotokol
 
 Tik hierdie URL's om 'n Verkenner-aansig te verkry:
 
-* `shell:Administrative Tools`
-* `shell:DocumentsLibrary`
-* `shell:Libraries`
-* `shell:UserProfiles`
-* `shell:Personal`
-* `shell:SearchHomeFolder`
-* `shell:NetworkPlacesFolder`
-* `shell:SendTo`
-* `shell:UserProfiles`
-* `shell:Common Administrative Tools`
-* `shell:MyComputerFolder`
-* `shell:InternetFolder`
-* `Shell:Profile`
-* `Shell:ProgramFiles`
-* `Shell:System`
-* `Shell:ControlPanelFolder`
+* `shell:Administratiewe Gereedskap`
+* `shell:DokumenteBiblioteek`
+* `shell:Biblioteke`
+* `shell:Gebruikersprofiel`
+* `shell:Persoonlik`
+* `shell:SoekTuisvouer`
+* `shell:NetwerkPlekkeVouer`
+* `shell:StuurAan`
+* `shell:Gebruikersprofiel`
+* `shell:Gemeenskaplike Administratiewe Gereedskap`
+* `shell:MyRekenaarVouer`
+* `shell:InternetVouer`
+* `Shell:Profiel`
+* `Shell:ProgramLêers`
+* `Shell:Sisteem`
+* `Shell:BeheerpaneelVouer`
 * `Shell:Windows`
 * `shell:::{21EC2020-3AEA-1069-A2DD-08002B30309D}` --> Beheerpaneel
 * `shell:::{20D04FE0-3AEA-1069-A2D8-08002B30309D}` --> My Rekenaar
@@ -173,34 +173,34 @@ Maak 'n rugsteun vir iKat-weergawes:
 [http://swin.es/k/](http://swin.es/k/)\
 [http://www.ikat.kronicd.net/](http://www.ikat.kronicd.net)\
 
-Skep 'n algemene dialoog met behulp van JavaScript en kry toegang tot die lêerontdekker: `document.write('<input/type=file>')`
+Skep 'n algemene dialoog met behulp van JavaScript en kry toegang tot lêerontdekker: `document.write('<input/type=file>')`
 Bron: https://medium.com/@Rend_/give-me-a-browser-ill-give-you-a-shell-de19811defa0
 
 # iPad
 
 ## Gebare en knoppies
 
-* Swaai op met vier (of vyf) vingers / Dubbelklik op die Huis-knoppie: Om die multitask-aansig te sien en Program te verander
+* Swaai op met vier (of vyf) vingers / Dubbelklik op die Tuis-knoppie: Om die multitask-aansig te sien en Program te verander
 
-* Swaai een kant toe of die ander met vier of vyf vingers: Om na die volgende/laaste Program te verander
+* Swaai een kant of die ander met vier of vyf vingers: Om na die volgende/vorige Program te verander
 
-* Knyp die skerm met vyf vingers / Raak die Huis-knoppie aan / Swaai op met 1 vinger van onder af na die bokant van die skerm in 'n vinnige beweging na bo: Om by die Huis te kom
+* Knyp die skerm met vyf vingers / Raak die Tuis-knoppie aan / Swaai op met 1 vinger van onder af na die bokant van die skerm in 'n vinnige beweging na bo: Om Tuis te bereik
 
-* Swaai met een vinger van onder af na die bokant van die skerm net 1-2 duim (stadig): Die dok sal verskyn
+* Swaai een vinger van onder af net 1-2 duim (stadig): Die dok sal verskyn
 
 * Swaai af van die bokant van die vertoning met 1 vinger: Om jou kennisgewings te sien
 
-* Swaai met 1 vinger af van die bokant-regterhoek van die skerm: Om die beheersentrum van die iPad Pro te sien
+* Swaai af met 1 vinger na die boonste regterhoek van die skerm: Om die beheersentrum van die iPad Pro te sien
 
 * Swaai 1 vinger van die linkerkant van die skerm 1-2 duim: Om die Vandag-aansig te sien
 
-* Swaai vinnig 1 vinger van die middel van die skerm na regs of links: Om na die volgende/laaste Program te verander
+* Swaai vinnig 1 vinger van die middel van die skerm na regs of links: Om na die volgende/vorige Program te verander
 
-* Druk en hou die Aan/**Af**/Slaap-knoppie aan die boonste regterhoek van die **iPad +** Skuif die Skuif na **krag af** skyf heeltemal na regs: Om af te skakel
+* Druk en hou die Aan/**Af**/Slaap-knoppie aan die boonste regterhoek van die **iPad +** Skuif die Skyf na **krag af** skyf heeltemal na regs: Om af te skakel
 
-* Druk die Aan/**Af**/Slaap-knoppie aan die boonste regterhoek van die **iPad en die Huis-knoppie vir 'n paar sekondes**: Om krag af te dwing
+* Druk die Aan/**Af**/Slaap-knoppie aan die boonste regterhoek van die **iPad en die Tuis-knoppie vir 'n paar sekondes**: Om 'n krag af te dwing
 
-* Druk die Aan/**Af**/Slaap-knoppie aan die boonste regterhoek van die **iPad en die Huis-knoppie vinnig**: Om 'n skermkiekie te neem wat in die linksonder van die vertoning sal verskyn. Druk beide knoppies gelyktydig vir 'n kort tydjie in asof jy hulle 'n paar sekondes vas hou, sal 'n krag af gedwing word.
+* Druk die Aan/**Af**/Slaap-knoppie aan die boonste regterhoek van die **iPad en die Tuis-knoppie vinnig**: Om 'n skermkiekie te neem wat in die onder linkerkant van die vertoning sal verskyn. Druk beide knoppies gelyktydig baie kort in, asof jy hulle 'n paar sekondes vas hou, sal 'n krag af gedwing word.
 
 ## Kortpaaie
 
@@ -239,16 +239,16 @@ Hierdie kortpaaie is vir die visuele instellings en klankinstellings, afhangende
 
 | Kortpaaie                                           | Aksie                                                  |
 | -------------------------------------------------- | ------------------------------------------------------- |
-| ⌘H                                                 | Gaan na die Huis                                              |
-| ⌘⇧H (Bevel-Shift-H)                              | Gaan na die Huis                                              |
+| ⌘H                                                 | Gaan na Tuis                                              |
+| ⌘⇧H (Bevel-Shift-H)                              | Gaan na Tuis                                              |
 | ⌘ (Spasie)                                          | Maak Spotlight oop                                          |
 | ⌘⇥ (Bevel-Tab)                                   | Lys van laaste tien gebruikte programme                                 |
 | ⌘\~                                                | Gaan na die laaste Program                                       |
-| ⌘⇧3 (Bevel-Shift-3)                              | Skermkiekie (hang in die linksonder om dit te stoor of daarop te reageer) |
+| ⌘⇧3 (Bevel-Shift-3)                              | Skermkiekie (bly in die onder linkerkant om dit te stoor of daarop te reageer) |
 | ⌘⇧4                                                | Skermkiekie en maak dit oop in die redigeerder                    |
 | Druk en hou ⌘                                   | Lys van beskikbare kortpaaie vir die Program                 |
 | ⌘⌥D (Bevel-Opsie/Alt-D)                         | Bring die dok op                                      |
-| ^⌥H (Beheer-Opsie-H)                             | Huis-knoppie                                             |
+| ^⌥H (Beheer-Opsie-H)                             | Tuis-knoppie                                             |
 | ^⌥H H (Beheer-Opsie-H-H)                         | Wys multitask-balk                                      |
 | ^⌥I (Beheer-Opsie-i)                             | Itemkieser                                            |
 | Ontsnapping                                             | Terugknoppie                                             |
@@ -266,18 +266,18 @@ Hierdie kortpaaie is vir die visuele instellings en klankinstellings, afhangende
 
 | Snelkoppeling           | Aksie                                            |
 | ----------------------- | ------------------------------------------------ |
-| ⌘L (Command-L)          | Open Ligging                                     |
-| ⌘T                      | Maak 'n nuwe lappie oop                          |
-| ⌘W                      | Maak die huidige lappie toe                      |
-| ⌘R                      | Verfris die huidige lappie                       |
-| ⌘.                      | Stop die laai van die huidige lappie             |
-| ^⇥                      | Skakel na die volgende lappie                    |
-| ^⇧⇥ (Control-Shift-Tab) | Beweeg na die vorige lappie                      |
-| ⌘L                      | Kies die teks invoer/URL-veld om dit te wysig    |
+| ⌘L (Command-L)          | Open Ligging                                      |
+| ⌘T                      | Maak 'n nuwe lappie oop                           |
+| ⌘W                      | Maak die huidige lappie toe                       |
+| ⌘R                      | Verfris die huidige lappie                        |
+| ⌘.                      | Stop die laai van die huidige lappie              |
+| ^⇥                      | Skakel na die volgende lappie                     |
+| ^⇧⇥ (Control-Shift-Tab) | Beweeg na die vorige lappie                       |
+| ⌘L                      | Kies die teks invoer/URL-veld om dit te wysig     |
 | ⌘⇧T (Command-Shift-T)   | Maak die laaste geslote lappie oop (kan verskeie kere gebruik word) |
 | ⌘\[                     | Gaan een bladsy terug in jou blaai-geskiedenis   |
 | ⌘]                      | Gaan een bladsy vorentoe in jou blaai-geskiedenis |
-| ⌘⇧R                     | Aktiveer Leeser-modus                            |
+| ⌘⇧R                     | Aktiveer Leesermodus                              |
 
 ### Poskantoor snelkoppelinge
 
@@ -298,15 +298,15 @@ Hierdie kortpaaie is vir die visuele instellings en klankinstellings, afhangende
 * [http://www.iphonehacks.com/2018/03/ipad-keyboard-shortcuts.html](http://www.iphonehacks.com/2018/03/ipad-keyboard-shortcuts.html)
 
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) is 'n **donker-web** aangedrewe soekenjin wat **gratis** funksies bied om te kontroleer of 'n maatskappy of sy kliënte deur **diewe malware** gekompromitteer is.
+[**WhiteIntel**](https://whiteintel.io) is a **dark-web** fueled search engine that offers **free** functionalities to check if a company or its customers have been **compromised** by **stealer malwares**.
 
-Hul primêre doel van WhiteIntel is om rekening-oorneem en losprysaanvalle te beveg wat voortspruit uit inligtingsteel-malware.
+Their primary goal of WhiteIntel is to combat account takeovers and ransomware attacks resulting from information-stealing malware.
 
-Jy kan hul webwerf besoek en hul enjin **gratis** probeer by:
+You can check their website and try their engine for **free** at:
 
 {% embed url="https://whiteintel.io" %}
 

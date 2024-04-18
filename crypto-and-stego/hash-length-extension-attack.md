@@ -12,15 +12,15 @@ Ander maniere om HackTricks te ondersteun:
 
 </details>
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) is 'n **dark-web** aangedrewe soekenjin wat **gratis** funksies bied om te kontroleer of 'n maatskappy of sy kliënte deur **diewe-malware** gekompromitteer is.
+[**WhiteIntel**](https://whiteintel.io) is 'n **dark-web** aangedrewe soekenjin wat **gratis** funksies bied om te kontroleer of 'n maatskappy of sy kliënte deur **diefstal-malware** gekompromitteer is.
 
-Die primêre doel van WhiteIntel is om rekening-oorneeminge en lospryse-aanvalle te beveg wat voortspruit uit inligtingsteel-malware.
+Die primêre doel van WhiteIntel is om rekening-oorneem en lospryse-aanvalle te beveg wat voortspruit uit inligting-diefstal-malware.
 
-Jy kan hul webwerf besoek en hul enjin vir **gratis** probeer by:
+Jy kan hul webwerf besoek en hul enjin **gratis** probeer by:
 
 {% embed url="https://whiteintel.io" %}
 
@@ -59,15 +59,15 @@ As 'n aanvaller die string "byvoeg" wil byvoeg, kan hy:
 
 Jy kan hierdie aanval goed verduidelik vind in [https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks](https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks)
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) is 'n **dark-web** aangedrewe soekenjin wat **gratis** funksies bied om te kontroleer of 'n maatskappy of sy kliënte deur **diewe-malware** gekompromitteer is.
+[**WhiteIntel**](https://whiteintel.io) is 'n **dark-web** aangedrewe soekenjin wat **gratis** funksies bied om te kontroleer of 'n maatskappy of sy kliënte deur **diefstal-malware** gekompromitteer is.
 
-Die primêre doel van WhiteIntel is om rekening-oorneeminge en lospryse-aanvalle te beveg wat voortspruit uit inligtingsteel-malware.
+Die primêre doel van WhiteIntel is om rekening-oorneem en lospryse-aanvalle te beveg wat voortspruit uit inligting-diefstal-malware.
 
-Jy kan hul webwerf besoek en hul enjin vir **gratis** probeer by:
+Jy kan hul webwerf besoek en hul enjin **gratis** probeer by:
 
 {% embed url="https://whiteintel.io" %}
 

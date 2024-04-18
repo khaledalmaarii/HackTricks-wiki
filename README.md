@@ -5,7 +5,7 @@
 _Hacktricks logo's & bewegingsontwerp deur_ [_@ppiernacho_](https://www.instagram.com/ppieranacho/)_._
 
 {% hint style="success" %}
-**Welkom by die wiki waar jy elke haktruc/tegniek/enigiets sal vind wat ek geleer het van CTF's, werklike toepassings, navorsing en nuus.**
+**Welkom by die wiki waar jy elke haktruk/tegniek/enigiets sal vind wat ek geleer het van CTF's, werklike toepassings, navorsing en nuus.**
 {% endhint %}
 
 Om te begin, volg hierdie bladsy waar jy die **tipiese vloei** sal vind wat **jy moet volg wanneer jy pentesting** op een of meer **masjiene:**
@@ -14,7 +14,7 @@ Om te begin, volg hierdie bladsy waar jy die **tipiese vloei** sal vind wat **jy
 [pentesting-methodology.md](generic-methodologies-and-resources/pentesting-methodology.md)
 {% endcontent-ref %}
 
-## Korporatiewe Borgsponsors
+## Korporatiewe Borgs
 
 ### [STM Cyber](https://www.stmcyber.com)
 
@@ -70,7 +70,7 @@ Kry Vandag Toegang:
 Sluit aan by [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) bediener om met ervare hackers en foutbeloningsjagters te kommunikeer!
 
 * **Hakinsigte:** Raak betrokke by inhoud wat die opwinding en uitdagings van hakken ondersoek
-* **Nuus oor Hack in Werklikheid:** Bly op hoogte van die vinnige tempo van die hakwêreld deur middel van werklike nuus en insigte
+* **Nuus oor Hack in Werklikheid:** Bly op hoogte van die vinnige tempo van die hakwêreld deur werklike nuus en insigte
 * **Nuutste Aankondigings:** Bly ingelig met die nuutste foutbelonings wat bekendgestel word en kritieke platformopdaterings
 
 **Sluit by ons aan op** [**Discord**](https://discord.com/invite/N3FrSbmwdy) en begin vandag saamwerk met top hackers!
@@ -94,7 +94,7 @@ Sluit aan by [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) be
 SerpApi bied vinnige en maklike regstreekse API's aan om **soekengineresultate** te **ontsluit**. Hulle skraap soekengines, hanteer proksi's, los captchas op, en ontled al die ryk gestruktureerde data vir jou.
 
 'n Subskripsie op een van SerpApi se planne sluit toegang tot meer as 50 verskillende API's in vir skraping van verskillende soekengines, insluitend Google, Bing, Baidu, Yahoo, Yandex, en meer.\
-In teenstelling met ander verskaffers, **skraap SerpApi nie net organiese resultate nie**. SerpApi-respons sluit konsekwent alle advertensies, inline beelde en video's, kennisgrafieke, en ander elemente en kenmerke in wat teenwoordig is in die soekresultate.
+In teenstelling met ander verskaffers, **skraap SerpApi nie net organiese resultate nie**. SerpApi-responsies sluit konsekwent alle advertensies, inline beelde en video's, kennisgrafieke, en ander elemente en kenmerke in wat teenwoordig is in die soekresultate.
 
 Huidige SerpApi-klante sluit **Apple, Shopify, en GrubHub** in.\
 Vir meer inligting, kyk na hul [**blog**](https://serpapi.com/blog/)**,** of probeer 'n voorbeeld in hul [**speelgrond**](https://serpapi.com/playground)**.**\
@@ -114,24 +114,30 @@ Jy kan **'n gratis rekening skep** [**hier**](https://serpapi.com/users/sign\_up
 
 <figure><img src=".gitbook/assets/websec (1).svg" alt=""><figcaption></figcaption></figure>
 
-[**WebSec**](https://websec.nl) is 'n professionele siberbeveiligingsmaatskappy gebaseer in **Amsterdam** wat besighede **oor die hele wêreld beskerm** teen die nuutste siberbeveiligingsdreigings deur **aanvallende-siberdienste** met 'n **moderne** benadering te bied.
+[**WebSec**](https://websec.nl) is 'n professionele siberbeveiligingsmaatskappy gebaseer in **Amsterdam** wat besighede **oor die hele wêreld beskerm** teen die nuutste siberbeveiligingsdreigings deur **aanvallende-sikkerheidsdienste** met 'n **moderne** benadering te bied.
 
-WebSec is 'n **alles-in-een siberbeveiligingsmaatskappy** wat beteken dat hulle alles doen; Pentesting, **Siber** Ouditse, Bewustheidsopleiding, Hengelkampanjes, Kodeoordrag, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling, Uitbuitingsontwikkeling
-## WhiteIntel
+WebSec is 'n **alles-in-een siberbeveiligingsmaatskappy** wat beteken dat hulle alles doen; Pentesting, **Sikkerheids** Ouditse, Bewustheidsopleiding, Hengelveldtogte, Kodeoordrag, Uitbuitontwikkeling, Sikkerheidkundiges Uitbesteding en baie meer.
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+'n Ander koel ding oor WebSec is dat anders as die bedryfsgemiddelde WebSec **baie selfversekerd is in hul vaardighede**, tot so 'n mate dat hulle die beste kwaliteitsresultate waarborg, dit staan op hul webwerf "**As ons dit nie kan hak nie, betaal jy dit nie!**". Vir meer inligting kyk na hul [**webwerf**](https://websec.nl/en/) en [**blog**](https://websec.nl/blog/)!
 
-[**WhiteIntel**](https://whiteintel.io) is a **dark-web** fueled search engine that offers **free** functionalities to check if a company or its customers have been **compromised** by **stealer malwares**.
+Bo en behalwe die bogenoemde is WebSec ook 'n **toegewyde ondersteuner van HackTricks.**
 
-Hul primêre doel van WhiteIntel is om rekening-oorneemings en lospryse-aanvalle te beveg wat voortspruit uit inligtingsteel-malware.
+{% embed url="https://www.youtube.com/watch?v=Zq2JycGDCPM" %}
+### [WhiteIntel](https://whiteintel.io)
 
-Jy kan hul webwerf besoek en hul enjin vir **gratis** probeer by:
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+
+[**WhiteIntel**](https://whiteintel.io) is 'n **dark-web** aangedrewe soekenjin wat **gratis** funksies bied om te kontroleer of 'n maatskappy of sy kliënte deur **steelmalware** **gekompromiteer** is.
+
+Hul primêre doel van WhiteIntel is om rekening-oorneemings en lospryse-aanvalle te beveg wat voortspruit uit inligtingsteelmalware.
+
+Jy kan hul webwerf besoek en hul enjin **gratis** probeer by:
 
 {% embed url="https://whiteintel.io" %}
 
-## License & Disclaimer
+## Lisensie & Vrywaring
 
-Kyk hulle in:
+Kyk na hulle in:
 
 {% content-ref url="welcome/hacktricks-values-and-faq.md" %}
 [hacktricks-values-and-faq.md](welcome/hacktricks-values-and-faq.md)
@@ -139,7 +145,7 @@ Kyk hulle in:
 
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Ander maniere om HackTricks te ondersteun:
 

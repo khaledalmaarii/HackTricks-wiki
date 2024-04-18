@@ -6,7 +6,7 @@
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kontroleer die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
@@ -14,13 +14,13 @@ Ander maniere om HackTricks te ondersteun:
 
 </details>
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) is 'n **dark-web** aangedrewe soekenjin wat **gratis** funksies bied om te kontroleer of 'n maatskappy of sy kliënte deur **steelmalware** gekompromitteer is.
+[**WhiteIntel**](https://whiteintel.io) is 'n **dark-web** aangedrewe soekenjin wat **gratis** funksies bied om te kontroleer of 'n maatskappy of sy kliënte deur **steel-malware** gekompromitteer is.
 
-Die primêre doel van WhiteIntel is om rekening-oorneemings en lospryse-aanvalle te beveg wat voortspruit uit inligtingsteelmalware.
+Die primêre doel van WhiteIntel is om rekening-oorneem te bekamp en lospryse-aanvalle te voorkom wat voortspruit uit inligtingsteel-malware.
 
 Jy kan hul webwerf besoek en hul enjin **gratis** probeer by:
 
@@ -30,9 +30,9 @@ Jy kan hul webwerf besoek en hul enjin **gratis** probeer by:
 
 ## Basiese Inligting
 
-AppArmor is 'n **kernel-verbetering ontwerp om die hulpbronne wat beskikbaar is vir programme deur per-program profiele te beperk**, wat effektief Verpligte Toegangsbeheer (MAC) implementeer deur toegangsbeheer-eienskappe direk aan programme te koppel in plaas van gebruikers. Hierdie stelsel werk deur **profiele in die kernel te laai**, gewoonlik tydens opstart, en hierdie profiele bepaal watter hulpbronne 'n program kan benader, soos netwerkverbindinge, rou sokkeltoegang, en lêertoestemmings.
+AppArmor is 'n **kernel-verbetering ontwerp om die hulpbronne wat beskikbaar is vir programme deur per-program profiele te beperk**, wat effektief Verpligte Toegangsbeheer (MAC) implementeer deur toegangsbeheer-eienskappe direk aan programme te koppel in plaas van aan gebruikers. Hierdie stelsel werk deur **profiele in die kernel te laai**, gewoonlik tydens opstart, en hierdie profiele bepaal watter hulpbronne 'n program kan benader, soos netwerkverbindinge, raw socket-toegang, en lêertoestemmings.
 
-Daar is twee bedryfsmodusse vir AppArmor-profiels:
+Daar is twee bedryfsmodusse vir AppArmor-profiele:
 
 - **Afdwingingsmodus**: Hierdie modus dwing aktief die beleide wat binne die profiel gedefinieer is, blokkeer aksies wat hierdie beleide oortree en log enige pogings om dit te breek deur stelsels soos syslog of auditd.
 - **Klaagmodus**: Anders as afdwingingsmodus, blokkeer klaagmodus nie aksies wat teen die profiel se beleide ingaan nie. Dit log eerder hierdie pogings as beleidoortredings sonder om beperkings af te dwing.
@@ -40,14 +40,14 @@ Daar is twee bedryfsmodusse vir AppArmor-profiels:
 ### Komponente van AppArmor
 
 - **Kernelmodule**: Verantwoordelik vir die afdwinging van beleide.
-- **Beleide**: Spesifiseer die reëls en beperkings vir programgedrag en hulpbronbenadering.
+- **Beleide**: Spesifiseer die reëls en beperkings vir programgedrag en hulpbron-toegang.
 - **Parser**: Laai beleide in die kernel vir afdwinging of verslagdoening.
-- **Hulpprogramme**: Dit is gebruikersmodusprogramme wat 'n koppelvlak bied vir interaksie met en bestuur van AppArmor.
+- **Hulpprogramme**: Dit is gebruikersmodus-programme wat 'n koppelvlak bied vir interaksie met en bestuur van AppArmor.
 
 ### Profiele-pad
 
-Apparmor-profiels word gewoonlik gestoor in _**/etc/apparmor.d/**_\
-Met `sudo aa-status` sal jy in staat wees om die bineêre lêers te lys wat deur 'n profiel beperk word. As jy die karakter "/" vir 'n punt van die pad van elke gelysde bineêre lêer kan verander, sal jy die naam van die apparmor-profiel binne die genoemde vouer kry.
+Apparmor-profiele word gewoonlik gestoor in _**/etc/apparmor.d/**_\
+Met `sudo aa-status` kan jy die bineêre lêers lys wat deur 'n profiel beperk word. As jy die karakter "/" vir 'n punt van die pad van elke gelysde bineêre lêer kan verander, sal jy die naam van die apparmor-profiel binne die genoemde vouer kry.
 
 Byvoorbeeld, 'n **apparmor**-profiel vir _/usr/bin/man_ sal geleë wees in _/etc/apparmor.d/usr.bin.man_
 
@@ -63,8 +63,8 @@ aa-mergeprof  #used to merge the policies
 ```
 ## Skep 'n profiel
 
-* Om die geaffekteerde uitvoerbare lêer aan te dui, word **absolute paaie en wildcards** toegelaat (vir lêer globbing) vir die spesifisering van lêers.
-* Om die toegang aan te dui wat die binêre lêer oor **lêers** sal hê, kan die volgende **toegangsbeheer** gebruik word:
+* Om die geaffekteerde uitvoerbare lêer aan te dui, word **absolute paaie en wildcards** toegelaat (vir lêer globbing) om lêers te spesifiseer.
+* Om die toegang wat die binêre lêer oor **lêers** sal hê aan te dui, kan die volgende **toegangsbeheer** gebruik word:
 * **r** (lees)
 * **w** (skryf)
 * **m** (geheuekaart as uitvoerbare lêer)
@@ -79,7 +79,7 @@ aa-mergeprof  #used to merge the policies
 
 ### aa-genprof
 
-Om maklik te begin met die skep van 'n profiel, kan apparmor jou help. Dit is moontlik om **apparmor die aksies wat deur 'n binêre lêer uitgevoer word, te laat inspekteer en dan te besluit watter aksies jy wil toelaat of weier**.\
+Om maklik te begin met die skep van 'n profiel, kan apparmor jou help. Dit is moontlik om **apparmor die aksies wat deur 'n binêre lêer uitgevoer word te laat ondersoek en dan te besluit watter aksies jy wil toelaat of weier**.\
 Jy hoef net die volgende uit te voer:
 ```bash
 sudo aa-genprof /path/to/binary
@@ -91,7 +91,7 @@ Dan, in 'n ander konsole, voer al die aksies uit wat die binêre lêer gewoonlik
 Dan, druk in die eerste konsole "**s**" en dui dan in die opgeneemde aksies aan of jy wil ignoreer, toelaat, of watookal. Wanneer jy klaar is, druk "**f**" en die nuwe profiel sal geskep word in _/etc/apparmor.d/path.to.binary_
 
 {% hint style="info" %}
-Met die pyltjiesleutels kan jy kies wat jy wil toelaat/weier/watookal
+Met die pyltoets kan jy kies wat jy wil toelaat/weier/watookal
 {% endhint %}
 
 ### aa-easyprof
@@ -122,7 +122,7 @@ sudo aa-easyprof /path/to/binary
 }
 ```
 {% hint style="info" %}
-Let daarop dat standaard in 'n geskepte profiel niks toegelaat word nie, dus word alles ontken. Jy sal lyne soos `/etc/passwd r,` moet byvoeg om die binêre lees `/etc/passwd` byvoorbeeld toe te laat.
+Let daarop dat standaard in 'n geskepte profiel niks toegelaat word nie, dus word alles ontken. Jy sal reëls soos `/etc/passwd r,` moet byvoeg om die binêre lees `/etc/passwd` byvoorbeeld toe te laat.
 {% endhint %}
 
 Jy kan dan die nuwe profiel **afdwing** met
@@ -131,7 +131,7 @@ sudo apparmor_parser -a /etc/apparmor.d/path.to.binary
 ```
 ### Wysiging van 'n profiel vanaf logboeke
 
-Die volgende instrument sal die logboeke lees en die gebruiker vra of hy sommige van die opgespoorde verbode aksies wil toelaat:
+Die volgende instrument sal die logboeke lees en die gebruiker vra of hy van die opgespoorde verbode aksies wil toelaat:
 ```bash
 sudo aa-logprof
 ```
@@ -192,7 +192,7 @@ docker-default
 ```
 Standaard word die **Apparmor docker-standaardprofiel** gegenereer vanaf [https://github.com/moby/moby/tree/master/profiles/apparmor](https://github.com/moby/moby/tree/master/profiles/apparmor)
 
-**docker-standaardprofiel Opsomming**:
+**Docker-standaardprofiel Opsomming**:
 
 * **Toegang** tot alle **netwerke**
 * Geen **vermoë** is gedefinieer (Tog sal sommige vermoëns kom vanaf die insluiting van basiese basisreëls, d.w.s. #include \<abstractions/base>)
@@ -206,7 +206,7 @@ Sodra jy 'n **docker houer uitvoer**, behoort jy die volgende uitset te sien:
 1 processes are in enforce mode.
 docker-default (825)
 ```
-Merk op dat **apparmor selfs bevoegdhede-voorregte sal blokkeer** wat standaard aan die houer toegeken is. Byvoorbeeld, dit sal in staat wees om **toestemming om binne /proc te skryf te blokkeer selfs as die SYS\_ADMIN bevoegdheid toegeken is** omdat die standaard docker apparmor profiel hierdie toegang ontken:
+Merk op dat **apparmor selfs bevoegdhede-privileges sal blokkeer** wat standaard aan die houer toegeken is. Byvoorbeeld, dit sal in staat wees om **toestemming om binne /proc te skryf te blokkeer selfs as die SYS\_ADMIN bevoegdheid toegeken is** omdat die standaard docker apparmor profiel hierdie toegang ontken:
 ```bash
 docker run -it --cap-add SYS_ADMIN --security-opt seccomp=unconfined ubuntu /bin/bash
 echo "" > /proc/stat
@@ -252,7 +252,7 @@ chmod: /etc/hostname: Permission denied
 ```
 ### AppArmor Docker Omgang1
 
-Jy kan vind watter **apparmor profiel 'n houer** gebruik deur:
+Jy kan vind watter **apparmor-profiel 'n houer laat loop** deur te gebruik:
 ```bash
 docker inspect 9d622d73a614 | grep lowpriv
 "AppArmorProfile": "lowpriv",
@@ -262,13 +262,13 @@ Dan kan jy die volgende lyn hardloop om **die presiese profiel wat gebruik word 
 ```bash
 find /etc/apparmor.d/ -name "*lowpriv*" -maxdepth 1 2>/dev/null
 ```
-### AppArmor Docker Omskip2
+### AppArmor Docker Omskakeling2
 
-**AppArmor is pad-gebaseer**, dit beteken dat selfs al mag dit dalk **lêers binne 'n gids soos** `/proc` **beskerm**, as jy kan **konfigureer hoe die houer uitgevoer gaan word**, kan jy die proc-gids van die gasheer binne **`/host/proc`** **aankoppel** en dit **sal nie meer deur AppArmor beskerm word nie**.
+**AppArmor is pad-gebaseer**, dit beteken dat selfs al mag dit dalk lêers binne 'n gids soos **`/proc`** beskerm, as jy **kan opstel hoe die houer gaan loop**, kan jy die proc-gids van die gasheer binne **`/host/proc`** koppel en dit **sal nie meer deur AppArmor beskerm word nie**.
 
-### AppArmor Shebang Omskip
+### AppArmor Shebang Omskakeling
 
-In [**hierdie fout**](https://bugs.launchpad.net/apparmor/+bug/1911431) kan jy 'n voorbeeld sien van hoe **selfs al voorkom jy dat perl met sekere hulpbronne uitgevoer word**, as jy net 'n skalie-skripsie **skep wat** in die eerste lyn **`#!/usr/bin/perl`** **spesifiseer** en jy **voer die lêer direk uit**, sal jy in staat wees om enigiets uit te voer. Byvoorbeeld:
+In [**hierdie fout**](https://bugs.launchpad.net/apparmor/+bug/1911431) kan jy 'n voorbeeld sien van hoe **selfs al voorkom jy dat perl met sekere hulpbronne uitgevoer word**, as jy net 'n skalie-skripsie skep met **spesifiseer** in die eerste lyn **`#!/usr/bin/perl`** en jy **voer die lêer direk uit**, sal jy in staat wees om enigiets uit te voer. Byvoorbeeld:
 ```perl
 echo '#!/usr/bin/perl
 use POSIX qw(strftime);
@@ -278,15 +278,15 @@ exec "/bin/sh"' > /tmp/test.pl
 chmod +x /tmp/test.pl
 /tmp/test.pl
 ```
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) is 'n **dark-web** aangedrewe soekenjin wat **gratis** funksies bied om te kontroleer of 'n maatskappy of sy kliënte deur **steel-malware** **gekompromiteer** is.
+[**WhiteIntel**](https://whiteintel.io) is 'n **dark-web** aangedrewe soekenjin wat **gratis** funksies bied om te kontroleer of 'n maatskappy of sy kliënte deur **diewe malware** gekompromitteer is.
 
 Hul primêre doel van WhiteIntel is om rekening-oorneemings en lospryse-aanvalle te beveg wat voortspruit uit inligtingsteel-malware.
 
-Jy kan hul webwerf besoek en hul enjin vir **gratis** probeer by:
+Jy kan hul webwerf besoek en hul enjin **gratis** probeer by:
 
 {% embed url="https://whiteintel.io" %}
 

