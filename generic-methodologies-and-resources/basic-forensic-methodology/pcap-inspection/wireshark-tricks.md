@@ -1,26 +1,38 @@
 # Wireshark ipuçları
 
-## Wireshark ipuçları
-
 <details>
 
-<summary><strong>AWS hackleme konusunda sıfırdan kahramana kadar öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile!</strong></summary>
+<summary><strong>Sıfırdan kahraman olmak için AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na göz atın (https://github.com/sponsors/carlospolop)!
-* [**Resmi PEASS & HackTricks ürünleri**]'ni edinin (https://peass.creator-spring.com)
-* [**The PEASS Family**]'yi keşfedin (https://opensea.io/collection/the-peass-family), özel [**NFT'lerimiz**]'in koleksiyonu
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking ipuçlarınızı paylaşarak PR'lar göndererek HackTricks** (https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* **Şirketinizi HackTricks'te reklamınızı görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na göz atın (https://github.com/sponsors/carlospolop)!
+* [**Resmi PEASS & HackTricks ürünleri**](https://peass.creator-spring.com) edinin
+* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'da takip edin.**
+* **Hacking ipuçlarınızı paylaşın, PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına.
 
 </details>
+
+### [WhiteIntel](https://whiteintel.io)
+
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+
+[**WhiteIntel**](https://whiteintel.io) **karanlık ağ** destekli bir arama motorudur ve şirketin veya müşterilerinin **hırsız kötü amaçlı yazılımlar** tarafından **kompromize edilip edilmediğini** kontrol etmek için **ücretsiz** işlevler sunar.
+
+WhiteIntel'in başlıca amacı, bilgi çalan kötü amaçlı yazılımlardan kaynaklanan hesap ele geçirmeleri ve fidye yazılımı saldırılarıyla mücadele etmektir.
+
+Websitesini ziyaret edebilir ve motorlarını **ücretsiz** deneyebilirsiniz:
+
+{% embed url="https://whiteintel.io" %}
+
+---
 
 ## Wireshark becerilerinizi geliştirin
 
 ### Eğitimler
 
-Aşağıdaki eğitimler bazı harika temel ipuçları öğrenmek için harikadır:
+Aşağıdaki eğitimler, bazı harika temel ipuçları öğrenmek için harikadır:
 
 * [https://unit42.paloaltonetworks.com/unit42-customizing-wireshark-changing-column-display/](https://unit42.paloaltonetworks.com/unit42-customizing-wireshark-changing-column-display/)
 * [https://unit42.paloaltonetworks.com/using-wireshark-display-filter-expressions/](https://unit42.paloaltonetworks.com/using-wireshark-display-filter-expressions/)
@@ -31,13 +43,13 @@ Aşağıdaki eğitimler bazı harika temel ipuçları öğrenmek için harikadı
 
 **Uzman Bilgiler**
 
-_Analyze_ --> _Expert Information_ üzerine tıkladığınızda, **analiz edilen** paketlerde neler olduğuna dair bir **genel bakış** elde edersiniz:
+_Analyze_ --> **Expert Information**'a tıklayarak **analiz edilen** paketlerde neler olduğuna dair bir **genel bakış** elde edersiniz:
 
 ![](<../../../.gitbook/assets/image (253).png>)
 
 **Çözülen Adresler**
 
-_Statistics --> Çözülen Adresler_ altında, wireshark tarafından çözülen birçok **bilgiyi** bulabilirsiniz, örneğin port/taşıma protokolüne, MAC adresinden üreticiye vb. İletişimde neyin etkilendiğini bilmek ilginçtir.
+_Statistics --> Çözülen Adresler_ altında, wireshark tarafından **çözülen** birçok **bilgiyi** bulabilirsiniz, örneğin port/taşıma protokolüne, MAC adresinden üreticiye vb. İletişimde neyin etkilendiğini bilmek ilginçtir.
 
 ![](<../../../.gitbook/assets/image (890).png>)
 
@@ -67,7 +79,7 @@ _Statistics --> DNS_ altında, yakalanan DNS isteği hakkında istatistikler bul
 
 **I/O Grafik**
 
-_Statistics --> I/O Grafik_ altında, bir **iletişim grafiğini** bulabilirsiniz.
+_Statistics --> I/O Grafik_ altında, iletişimin bir **grafikini** bulabilirsiniz.
 
 ![](<../../../.gitbook/assets/image (989).png>)
 
@@ -85,7 +97,7 @@ Diğer ilginç filtreler:
 
 ### Arama
 
-Oturumların paketlerindeki **içerik** için **arama** yapmak istiyorsanız _CTRL+f_ tuşuna basın. Ana bilgi çubuğuna yeni katmanlar ekleyebilirsiniz (No., Zaman, Kaynak, vb.) sağ tıkladıktan sonra sütunu düzenleyerek.
+Oturumların paketlerindeki **içeriği aramak** istiyorsanız _CTRL+f_ tuşuna basın. Ana bilgi çubuğuna yeni katmanlar ekleyebilirsiniz (No., Zaman, Kaynak, vb.) sağ tıkladıktan sonra sütunu düzenleyerek.
 
 ### Ücretsiz pcap laboratuvarları
 
@@ -93,7 +105,7 @@ Oturumların paketlerindeki **içerik** için **arama** yapmak istiyorsanız _CT
 
 ## Alanları Tanımlama
 
-HTTP başlığı Host'u gösteren bir sütun ekleyebilirsiniz:
+Host HTTP başlığını gösteren bir sütun ekleyebilirsiniz:
 
 ![](<../../../.gitbook/assets/image (635).png>)
 
@@ -125,7 +137,7 @@ _Düzenle_ düğmesine basın ve sunucunun ve özel anahtarın tüm verilerini e
 
 ### Simetrik oturum anahtarları ile https trafiğini çözme
 
-Hem Firefox hem de Chrome, Wireshark'ın TLS trafiğini çözmek için kullanabileceği TLS oturum anahtarlarını kaydetme yeteneğine sahiptir. Bu, güvenli iletişimin detaylı analizine olanak tanır. Bu şifre çözümünü nasıl gerçekleştireceğinizle ilgili daha fazla bilgiye [Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/) adresindeki bir kılavuzda bulunabilir.
+Hem Firefox hem de Chrome, Wireshark'ın TLS trafiğini çözmek için kullanabileceği TLS oturum anahtarlarını kaydetme yeteneğine sahiptir. Bu, güvenli iletişimin detaylı analizine olanak tanır. Bu şifre çözümünü nasıl gerçekleştireceğinizle ilgili daha fazla bilgiyi [Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/) rehberinde bulabilirsiniz.
 
 Bunu tespit etmek için ortam içinde `SSLKEYLOGFILE` değişkenini arayın
 
@@ -133,13 +145,12 @@ Paylaşılan anahtarlar dosyası şuna benzer olacaktır:
 
 ![](<../../../.gitbook/assets/image (817).png>)
 
-Bunu wireshark'a içe aktarmak için \_düzenle > tercih > protokol > ssl > ve (Pre)-Master-Secret log dosya adına içe aktarın:
+Bunu Wireshark'a içe aktarmak için \_düzenle > tercih > protokol > ssl > gidin ve (Ön)-Anahtar-Gizli günlük dosya adına içe aktarın:
 
 ![](<../../../.gitbook/assets/image (986).png>)
+## ADB iletişimi
 
-## ADB ile iletişim
-
-APK'nın gönderildiği bir ADB iletişiminden APK çıkarma:
+APK'nın gönderildiği bir ADB iletişiminden APK çıkarın:
 ```python
 from scapy.all import *
 
@@ -166,16 +177,29 @@ f = open('all_bytes.data', 'w+b')
 f.write(all_bytes)
 f.close()
 ```
+### [WhiteIntel](https://whiteintel.io)
+
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+
+[**WhiteIntel**](https://whiteintel.io), şirketin veya müşterilerinin **hırsız kötü amaçlı yazılımlar** tarafından **kompromize edilip edilmediğini** kontrol etmek için **ücretsiz** işlevler sunan **dark-web** destekli bir arama motorudur.
+
+WhiteIntel'in başlıca amacı, bilgi çalan kötü amaçlı yazılımlardan kaynaklanan hesap ele geçirmeleri ve fidye yazılımı saldırılarıyla mücadele etmektir.
+
+Websitesini ziyaret edebilir ve motorlarını **ücretsiz** deneyebilirsiniz:
+
+{% embed url="https://whiteintel.io" %}
+
+
 <details>
 
-<summary><strong>Sıfırdan kahraman olmaya kadar AWS hacklemeyi öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahramana öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'da takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**The PEASS Family'yi**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi Twitter'da 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Hacking püf noktalarınızı göndererek HackTricks ve HackTricks Cloud** github depolarına PR'lar göndererek paylaşın.
 
 </details>
