@@ -4,26 +4,40 @@
 
 <summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras formas de apoiar o HackTricks:
+Outras maneiras de apoiar o HackTricks:
 
 * Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 
+### [WhiteIntel](https://whiteintel.io)
+
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+
+[**WhiteIntel**](https://whiteintel.io) é um mecanismo de busca alimentado pela **dark web** que oferece funcionalidades **gratuitas** para verificar se uma empresa ou seus clientes foram **comprometidos** por **malwares de roubo**.
+
+O principal objetivo do WhiteIntel é combater tomadas de contas e ataques de ransomware resultantes de malwares de roubo de informações.
+
+Você pode verificar o site deles e experimentar o mecanismo gratuitamente em:
+
+{% embed url="https://whiteintel.io" %}
+
+---
+
 ## **Informações Básicas**
 
-**Proteção da Integridade do Sistema (SIP)** no macOS é um mecanismo projetado para evitar que até mesmo os usuários mais privilegiados façam alterações não autorizadas em pastas-chave do sistema. Essa funcionalidade desempenha um papel crucial na manutenção da integridade do sistema, restringindo ações como adicionar, modificar ou excluir arquivos em áreas protegidas. As principais pastas protegidas pelo SIP incluem:
+**Proteção de Integridade do Sistema (SIP)** no macOS é um mecanismo projetado para impedir até mesmo os usuários mais privilegiados de fazer alterações não autorizadas em pastas-chave do sistema. Essa funcionalidade desempenha um papel crucial na manutenção da integridade do sistema, restringindo ações como adicionar, modificar ou excluir arquivos em áreas protegidas. As principais pastas protegidas pelo SIP incluem:
 
 * **/System**
 * **/bin**
 * **/sbin**
 * **/usr**
 
-As regras que governam o comportamento do SIP são definidas no arquivo de configuração localizado em **`/System/Library/Sandbox/rootless.conf`**. Dentro deste arquivo, os caminhos prefixados com um asterisco (*) são considerados exceções às restrições rigorosas do SIP.
+As regras que regem o comportamento do SIP são definidas no arquivo de configuração localizado em **`/System/Library/Sandbox/rootless.conf`**. Dentro deste arquivo, os caminhos prefixados com um asterisco (\*) são designados como exceções às restrições rigorosas do SIP.
 
 Considere o exemplo abaixo:
 ```javascript
@@ -32,7 +46,7 @@ Considere o exemplo abaixo:
 * /usr/local
 * /usr/share/man
 ```
-Este trecho implica que, embora o SIP geralmente proteja o diretório **`/usr`**, existem subdiretórios específicos (`/usr/libexec/cups`, `/usr/local` e `/usr/share/man`) onde modificações são permitidas, conforme indicado pelo asterisco (*) precedendo seus caminhos.
+Este trecho implica que, embora o SIP geralmente proteja o diretório **`/usr`**, existem subdiretórios específicos (`/usr/libexec/cups`, `/usr/local` e `/usr/share/man`) nos quais modificações são permitidas, conforme indicado pelo asterisco (\*) precedendo seus caminhos.
 
 Para verificar se um diretório ou arquivo está protegido pelo SIP, você pode usar o comando **`ls -lOd`** para verificar a presença da marca **`restricted`** ou **`sunlnk`**. Por exemplo:
 ```bash
@@ -57,13 +71,13 @@ Além disso, se um arquivo contiver o atributo estendido **`com.apple.rootless`*
 * Modificar variáveis NVRAM
 * Permitir a depuração do kernel
 
-As opções são mantidas na variável nvram como um bitflag (`csr-active-config` no Intel e `lp-sip0` é lido a partir da Árvore de Dispositivos inicializada para ARM). Você pode encontrar as bandeiras no código-fonte do XNU em `csr.sh`:
+As opções são mantidas na variável nvram como um bitflag (`csr-active-config` no Intel e `lp-sip0` é lido da Árvore de Dispositivos inicializados para ARM). Você pode encontrar as bandeiras no código-fonte do XNU em `csr.sh`:
 
-<figure><img src="../../../.gitbook/assets/image (720).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1189).png" alt=""><figcaption></figcaption></figure>
 
 ### Status do SIP
 
-Você pode verificar se o SIP está habilitado em seu sistema com o seguinte comando:
+Você pode verificar se o SIP está ativado em seu sistema com o seguinte comando:
 ```bash
 csrutil status
 ```
@@ -77,20 +91,20 @@ csrutil enable --without debug
 ```
 ### Outras Restrições
 
-- **Impede o carregamento de extensões de kernel não assinadas** (kexts), garantindo que apenas extensões verificadas interajam com o kernel do sistema.
-- **Previne a depuração** dos processos do sistema macOS, protegendo os componentes principais do sistema contra acesso e modificação não autorizados.
-- **Inibe ferramentas** como dtrace de inspecionar processos do sistema, protegendo ainda mais a integridade da operação do sistema.
+* **Impede o carregamento de extensões de kernel não assinadas** (kexts), garantindo que apenas extensões verificadas interajam com o kernel do sistema.
+* **Previne a depuração** dos processos do sistema macOS, protegendo os componentes principais do sistema contra acesso e modificação não autorizados.
+* **Inibe ferramentas** como o dtrace de inspecionar processos do sistema, protegendo ainda mais a integridade da operação do sistema.
 
-**[Saiba mais sobre as informações do SIP nesta palestra](https://www.slideshare.net/i0n1c/syscan360-stefan-esser-os-x-el-capitan-sinking-the-ship).**
+[**Saiba mais sobre as informações do SIP nesta palestra**](https://www.slideshare.net/i0n1c/syscan360-stefan-esser-os-x-el-capitan-sinking-the-ship)**.**
 
 ## Contornos do SIP
 
 Contornar o SIP permite a um atacante:
 
-- **Acessar Dados do Usuário**: Ler dados sensíveis do usuário, como e-mails, mensagens e histórico do Safari de todas as contas de usuário.
-- **Bypass do TCC**: Manipular diretamente o banco de dados TCC (Transparência, Consentimento e Controle) para conceder acesso não autorizado à webcam, microfone e outros recursos.
-- **Estabelecer Persistência**: Colocar malware em locais protegidos pelo SIP, tornando-o resistente à remoção, mesmo com privilégios de root. Isso também inclui a possibilidade de manipular a Ferramenta de Remoção de Malware (MRT).
-- **Carregar Extensões de Kernel**: Embora existam salvaguardas adicionais, contornar o SIP simplifica o processo de carregar extensões de kernel não assinadas.
+* **Acessar Dados do Usuário**: Ler dados sensíveis do usuário, como e-mails, mensagens e histórico do Safari de todas as contas de usuário.
+* **Burlar o TCC**: Manipular diretamente o banco de dados TCC (Transparência, Consentimento e Controle) para conceder acesso não autorizado à webcam, microfone e outros recursos.
+* **Estabelecer Persistência**: Colocar malware em locais protegidos pelo SIP, tornando-o resistente à remoção, mesmo com privilégios de root. Isso também inclui a possibilidade de manipular a Ferramenta de Remoção de Malware (MRT).
+* **Carregar Extensões de Kernel**: Embora existam salvaguardas adicionais, contornar o SIP simplifica o processo de carregar extensões de kernel não assinadas.
 
 ### Pacotes de Instalador
 
@@ -133,7 +147,6 @@ reboot
 ```
 A exploração dessa vulnerabilidade tem implicações graves. O arquivo `Info.plist`, normalmente responsável por gerenciar permissões para extensões de kernel, se torna ineficaz. Isso inclui a incapacidade de listar certas extensões, como `AppleHWAccess.kext`. Consequentemente, com o mecanismo de controle do SIP desativado, essa extensão pode ser carregada, concedendo acesso não autorizado de leitura e gravação à RAM do sistema.
 
-
 #### [Montar sobre pastas protegidas pelo SIP](https://www.slideshare.net/i0n1c/syscan360-stefan-esser-os-x-el-capitan-sinking-the-ship)
 
 Foi possível montar um novo sistema de arquivos sobre **pastas protegidas pelo SIP para burlar a proteção**.
@@ -149,12 +162,11 @@ O sistema está configurado para inicializar a partir de uma imagem de disco do 
 ```bash
 /usr/sbin/bless -setBoot -folder /Volumes/Macintosh HD/macOS Install Data -bootefi /Volumes/Macintosh HD/macOS Install Data/boot.efi -options config="\macOS Install Data\com.apple.Boot" -label macOS Installer
 ```
-A segurança desse processo pode ser comprometida se um atacante alterar a imagem de atualização (`InstallESD.dmg`) antes do boot. A estratégia envolve substituir um carregador dinâmico (dyld) por uma versão maliciosa (`libBaseIA.dylib`). Essa substituição resulta na execução do código do atacante quando o instalador é iniciado.
+A segurança deste processo pode ser comprometida se um atacante alterar a imagem de atualização (`InstallESD.dmg`) antes de inicializar. A estratégia envolve substituir um carregador dinâmico (dyld) por uma versão maliciosa (`libBaseIA.dylib`). Essa substituição resulta na execução do código do atacante quando o instalador é iniciado.
 
 O código do atacante ganha controle durante o processo de atualização, explorando a confiança do sistema no instalador. O ataque continua alterando a imagem `InstallESD.dmg` por meio de swizzling de método, direcionando especialmente o método `extractBootBits`. Isso permite a injeção de código malicioso antes que a imagem do disco seja utilizada.
 
 Além disso, dentro do `InstallESD.dmg`, há um `BaseSystem.dmg`, que serve como sistema de arquivos raiz do código de atualização. Injetar uma biblioteca dinâmica nisso permite que o código malicioso opere dentro de um processo capaz de alterar arquivos de nível de sistema, aumentando significativamente o potencial de comprometimento do sistema.
-
 
 #### [systemmigrationd (2023)](https://www.youtube.com/watch?v=zxZesAN-TEk)
 
@@ -176,8 +188,8 @@ Os Instantâneos do Sistema Lacrados são um recurso introduzido pela Apple no *
 
 Aqui está uma visão mais detalhada:
 
-1. **Sistema Imutável**: Os Instantâneos do Sistema Lacrados tornam o volume do sistema macOS "imutável", o que significa que ele não pode ser modificado. Isso impede quaisquer alterações não autorizadas ou acidentais no sistema que possam comprometer a segurança ou a estabilidade do sistema.
-2. **Atualizações de Software do Sistema**: Quando você instala atualizações ou upgrades do macOS, o macOS cria um novo instantâneo do sistema. O volume de inicialização do macOS então usa o **APFS (Apple File System)** para alternar para esse novo instantâneo. Todo o processo de aplicação de atualizações se torna mais seguro e confiável, pois o sistema sempre pode reverter para o instantâneo anterior se algo der errado durante a atualização.
+1. **Sistema Imutável**: Os Instantâneos do Sistema Lacrados tornam o volume do sistema do macOS "imutável", o que significa que ele não pode ser modificado. Isso impede quaisquer alterações não autorizadas ou acidentais no sistema que possam comprometer a segurança ou a estabilidade do sistema.
+2. **Atualizações de Software do Sistema**: Quando você instala atualizações ou upgrades do macOS, o macOS cria um novo instantâneo do sistema. O volume de inicialização do macOS então usa o **APFS (Apple File System)** para alternar para este novo instantâneo. Todo o processo de aplicação de atualizações se torna mais seguro e confiável, pois o sistema sempre pode reverter para o instantâneo anterior se algo der errado durante a atualização.
 3. **Separação de Dados**: Em conjunto com o conceito de separação de volumes de Dados e Sistema introduzido no macOS Catalina, o recurso de Instantâneos do Sistema Lacrados garante que todos os seus dados e configurações sejam armazenados em um volume "**Dados**" separado. Essa separação torna seus dados independentes do sistema, o que simplifica o processo de atualizações do sistema e aprimora a segurança do sistema.
 
 Lembre-se de que esses instantâneos são gerenciados automaticamente pelo macOS e não ocupam espaço adicional em seu disco, graças às capacidades de compartilhamento de espaço do APFS. Também é importante observar que esses instantâneos são diferentes dos **instantâneos do Time Machine**, que são backups acessíveis pelo usuário de todo o sistema.
@@ -188,42 +200,42 @@ O comando **`diskutil apfs list`** lista os **detalhes dos volumes APFS** e sua 
 
 <pre><code>+-- Container disk3 966B902E-EDBA-4775-B743-CF97A0556A13
 |   ====================================================
-|   APFS Container Reference:     disk3
-|   Size (Capacity Ceiling):      494384795648 B (494.4 GB)
-|   Capacity In Use By Volumes:   219214536704 B (219.2 GB) (44.3% used)
-|   Capacity Not Allocated:       275170258944 B (275.2 GB) (55.7% free)
+|   Referência do Container APFS:     disk3
+|   Tamanho (Capacidade Máxima):      494384795648 B (494,4 GB)
+|   Capacidade Usada Pelos Volumes:   219214536704 B (219,2 GB) (44,3% usado)
+|   Capacidade Não Alocada:           275170258944 B (275,2 GB) (55,7% livre)
 |   |
-|   +-&#x3C; Physical Store disk0s2 86D4B7EC-6FA5-4042-93A7-D3766A222EBE
+|   +-&#x3C; Armazenamento Físico disk0s2 86D4B7EC-6FA5-4042-93A7-D3766A222EBE
 |   |   -----------------------------------------------------------
-|   |   APFS Physical Store Disk:   disk0s2
-|   |   Size:                       494384795648 B (494.4 GB)
+|   |   Disco de Armazenamento Físico APFS:   disk0s2
+|   |   Tamanho:                             494384795648 B (494,4 GB)
 |   |
 |   +-> Volume disk3s1 7A27E734-880F-4D91-A703-FB55861D49B7
 |   |   ---------------------------------------------------
-<strong>|   |   APFS Volume Disk (Role):   disk3s1 (System)
-</strong>|   |   Name:                      Macintosh HD (Case-insensitive)
-<strong>|   |   Mount Point:               /System/Volumes/Update/mnt1
-</strong>|   |   Capacity Consumed:         12819210240 B (12.8 GB)
-|   |   Sealed:                    Broken
-|   |   FileVault:                 Yes (Unlocked)
-|   |   Encrypted:                 No
+<strong>|   |   Disco do Volume APFS (Função):   disk3s1 (Sistema)
+</strong>|   |   Nome:                            Macintosh HD (Não diferencia maiúsculas de minúsculas)
+<strong>|   |   Ponto de Montagem:               /System/Volumes/Update/mnt1
+</strong>|   |   Capacidade Consumida:           12819210240 B (12,8 GB)
+|   |   Lacrado:                          Quebrado
+|   |   FileVault:                       Sim (Desbloqueado)
+|   |   Criptografado:                   Não
 |   |   |
-|   |   Snapshot:                  FAA23E0C-791C-43FF-B0E7-0E1C0810AC61
-|   |   Snapshot Disk:             disk3s1s1
-<strong>|   |   Snapshot Mount Point:      /
-</strong><strong>|   |   Snapshot Sealed:           Yes
+|   |   Instantâneo:                    FAA23E0C-791C-43FF-B0E7-0E1C0810AC61
+|   |   Disco do Instantâneo:           disk3s1s1
+<strong>|   |   Ponto de Montagem do Instantâneo:    /
+</strong><strong>|   |   Instantâneo Lacrado:                 Sim
 </strong>[...]
 +-> Volume disk3s5 281959B7-07A1-4940-BDDF-6419360F3327
 |   ---------------------------------------------------
-|   APFS Volume Disk (Role):   disk3s5 (Data)
-|   Name:                      Macintosh HD - Data (Case-insensitive)
-<strong>    |   Mount Point:               /System/Volumes/Data
-</strong><strong>    |   Capacity Consumed:         412071784448 B (412.1 GB)
-</strong>    |   Sealed:                    No
-|   FileVault:                 Yes (Unlocked)
+|   Disco do Volume APFS (Função):   disk3s5 (Dados)
+|   Nome:                            Macintosh HD - Data (Não diferencia maiúsculas de minúsculas)
+<strong>    |   Ponto de Montagem:               /System/Volumes/Data
+</strong><strong>    |   Capacidade Consumida:           412071784448 B (412,1 GB)
+</strong>    |   Lacrado:                          Não
+|   FileVault:                       Sim (Desbloqueado)
 </code></pre>
 
-No output anterior, é possível ver que as **localizações acessíveis pelo usuário** estão montadas em `/System/Volumes/Data`.
+No output anterior, é possível ver que **locais acessíveis pelo usuário** estão montados em `/System/Volumes/Data`.
 
 Além disso, o **instantâneo do volume do sistema macOS** está montado em `/` e está **lacrado** (assinado criptograficamente pelo sistema operacional). Portanto, se o SIP for contornado e modificado, o **sistema não inicializará mais**.
 
@@ -233,10 +245,22 @@ csrutil authenticated-root status
 Authenticated Root status: enabled
 ```
 Além disso, o disco de snapshot também é montado como **somente leitura**:
-```
+```bash
 mount
 /dev/disk3s1s1 on / (apfs, sealed, local, read-only, journaled)
 ```
+### [WhiteIntel](https://whiteintel.io)
+
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+
+[**WhiteIntel**](https://whiteintel.io) é um mecanismo de busca alimentado pela **dark web** que oferece funcionalidades **gratuitas** para verificar se uma empresa ou seus clientes foram **comprometidos** por **malwares stealers**.
+
+O principal objetivo do WhiteIntel é combater tomadas de conta e ataques de ransomware resultantes de malwares que roubam informações.
+
+Você pode acessar o site deles e experimentar o mecanismo gratuitamente em:
+
+{% embed url="https://whiteintel.io" %}
+
 <details>
 
 <summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
@@ -246,7 +270,7 @@ Outras maneiras de apoiar o HackTricks:
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
