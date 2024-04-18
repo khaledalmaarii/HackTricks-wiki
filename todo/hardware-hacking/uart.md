@@ -10,19 +10,19 @@ Inne sposoby wsparcia HackTricks:
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) to **dark-web**-owy silnik wyszukiwania, który oferuje **darmowe** funkcje sprawdzania, czy firma lub jej klienci zostali **skompromitowani** przez **złośliwe oprogramowanie kradnące informacje**.
+[**WhiteIntel**](https://whiteintel.io) to silnik wyszukiwania zasilany **dark webem**, który oferuje **darmowe** funkcje sprawdzania, czy firma lub jej klienci zostali **skompromitowani** przez **złośliwe oprogramowanie kradnące informacje**.
 
 Ich głównym celem WhiteIntel jest zwalczanie przejęć kont i ataków ransomware wynikających z oprogramowania kradnącego informacje.
 
-Możesz sprawdzić ich stronę internetową i wypróbować ich silnik **za darmo** pod adresem:
+Możesz sprawdzić ich stronę internetową i wypróbować ich silnik za **darmo** pod adresem:
 
 {% embed url="https://whiteintel.io" %}
 
@@ -32,9 +32,9 @@ Możesz sprawdzić ich stronę internetową i wypróbować ich silnik **za darmo
 
 UART to protokół szeregowy, co oznacza, że przesyła dane między komponentami po jednym bicie na raz. W przeciwieństwie do tego, protokoły komunikacji równoległej przesyłają dane jednocześnie przez wiele kanałów. Powszechne protokoły szeregowe obejmują RS-232, I2C, SPI, CAN, Ethernet, HDMI, PCI Express i USB.
 
-Zazwyczaj linia jest utrzymywana na wysokim poziomie (na wartości logicznej 1), gdy UART jest w stanie bezczynności. Następnie, aby sygnalizować rozpoczęcie transferu danych, nadajnik wysyła bit startowy do odbiornika, podczas którego sygnał jest utrzymywany na niskim poziomie (na wartości logicznej 0). Następnie nadajnik wysyła pięć do ośmiu bitów danych zawierających rzeczywistą wiadomość, a następnie opcjonalny bit parzystości i jeden lub dwa bity stopu (o wartości logicznej 1), w zależności od konfiguracji. Bit parzystości, używany do sprawdzania błędów, rzadko jest widoczny w praktyce. Bit(y) stopu oznaczają koniec transmisji.
+Zazwyczaj linia jest utrzymywana na wysokim poziomie (o wartości logicznej 1), gdy UART jest w stanie bezczynności. Następnie, aby sygnalizować rozpoczęcie transferu danych, nadajnik wysyła bit startu do odbiornika, podczas którego sygnał jest utrzymywany na niskim poziomie (o wartości logicznej 0). Następnie nadajnik wysyła pięć do ośmiu bitów danych zawierających rzeczywistą wiadomość, a następnie opcjonalny bit parzystości i jeden lub dwa bity stopu (o wartości logicznej 1), w zależności od konfiguracji. Bit parzystości, używany do sprawdzania błędów, rzadko jest widoczny w praktyce. Bit stopu (lub bity) oznaczają koniec transmisji.
 
-Najczęściej spotykaną konfigurację nazywamy 8N1: osiem bitów danych, brak bitu parzystości i jeden bit stopu. Na przykład, jeśli chcielibyśmy wysłać znak C, czyli 0x43 w ASCII, w konfiguracji UART 8N1, wysłalibyśmy następujące bity: 0 (bit startowy); 0, 1, 0, 0, 0, 0, 1, 1 (wartość 0x43 w systemie binarnym) i 0 (bit stopu).
+Najczęściej spotykaną konfigurację nazywamy 8N1: osiem bitów danych, brak bitu parzystości i jeden bit stopu. Na przykład, jeśli chcielibyśmy wysłać znak C, czyli 0x43 w ASCII, w konfiguracji UART 8N1, wysłalibyśmy następujące bity: 0 (bit startu); 0, 1, 0, 0, 0, 0, 1, 1 (wartość 0x43 w systemie binarnym) i 0 (bit stopu).
 
 ![](<../../.gitbook/assets/image (761).png>)
 
@@ -50,18 +50,18 @@ UART ma 4 porty: **TX**(Transmit), **RX**(Receive), **Vcc**(Voltage) i **GND**(G
 
 Z **multimetrem** i wyłączonym urządzeniem:
 
-* Aby zidentyufikować pin **GND**, użyj trybu **Testu ciągłości**, umieść tylną sondę w uziemieniu i przetestuj czerwoną sondą, aż usłyszysz dźwięk z multimetru. Na PCB można znaleźć kilka pinów GND, więc możesz znaleźć lub nie ten należący do UART.
+* Aby zidentyfikować pin **GND**, użyj trybu **Testu ciągłości**, umieść tylną sondę w uziemieniu i przetestuj czerwoną sondą, aż usłyszysz dźwięk z multimetru. Na PCB można znaleźć kilka pinów GND, więc możesz znaleźć lub nie ten należący do UART.
 * Aby zidentyfikować port **VCC**, ustaw tryb **napięcia stałego** i ustaw go na 20 V napięcia. Czarna sonda na uziemieniu, a czerwona sonda na pinie. Włącz urządzenie. Jeśli multimetr mierzy stałe napięcie 3,3 V lub 5 V, znalazłeś pin Vcc. Jeśli otrzymasz inne napięcia, spróbuj z innymi portami.
 * Aby zidentyfikować port **TX**, tryb **napięcia stałego** do 20 V napięcia, czarna sonda na uziemieniu, a czerwona sonda na pinie, i włącz urządzenie. Jeśli napięcie zmienia się przez kilka sekund, a następnie ustabilizuje się na wartości Vcc, najprawdopodobniej znalazłeś port TX. Dzieje się tak, ponieważ podczas włączania wysyła pewne dane diagnostyczne.
-* Port **RX** będzie najbliższy pozostałym 3, ma najniższe wahania napięcia i najniższą wartość ogólną ze wszystkich pinów UART.
+* Port **RX** będzie najbliższy pozostałym 3, ma najniższe wahania napięcia i najniższą ogólną wartość ze wszystkich pinów UART.
 
-Możesz pomylić porty TX i RX i nic się nie stanie, ale jeśli pomyliłbyś GND z portem VCC, możesz uszkodzić obwód.
+Możesz pomylić porty TX i RX i nic się nie stanie, ale jeśli pomyliłbyś port GND z portem VCC, możesz uszkodzić obwód.
 
 W niektórych urządzeniach docelowych port UART jest wyłączony przez producenta poprzez wyłączenie RX lub TX lub nawet obu. W takim przypadku pomocne może być śledzenie połączeń na płycie drukowanej i znalezienie punktu rozgałęzienia. Silnym wskazówką potwierdzającą brak wykrycia UART i przerwanie obwodu jest sprawdzenie gwarancji urządzenia. Jeśli urządzenie zostało dostarczone z jakąś gwarancją, producent pozostawia pewne interfejsy diagnostyczne (w tym przypadku UART) i dlatego musiał odłączyć UART i ponownie podłączyć go podczas debugowania. Te piny rozgałęzienia można połączyć przez lutowanie lub przewody mostkujące.
 
 ### Identyfikacja szybkości transmisji UART
 
-Najłatwiejszym sposobem zidentyfikowania poprawnej szybkości transmisji jest spojrzenie na **wyjście pinu TX i próba odczytania danych**. Jeśli otrzymywane dane nie są czytelne, przełącz się na kolejną możliwą szybkość transmisji, aż dane staną się czytelne. Możesz użyć adaptera USB-do-szeregowy lub urządzenia wielofunkcyjnego, takiego jak Bus Pirate, w połączeniu z pomocniczym skryptem, takim jak [baudrate.py](https://github.com/devttys0/baudrate/). Najczęstsze szybkości transmisji to 9600, 38400, 19200, 57600 i 115200.
+Najprostszym sposobem zidentyfikowania poprawnej szybkości transmisji jest spojrzenie na **wyjście pinu TX i próba odczytania danych**. Jeśli otrzymywane dane nie są czytelne, przełącz się na następną możliwą szybkość transmisji, aż dane staną się czytelne. Możesz użyć adaptera USB-do-szeregowy lub urządzenia wielofunkcyjnego, takiego jak Bus Pirate, w połączeniu z pomocniczym skryptem, takim jak [baudrate.py](https://github.com/devttys0/baudrate/). Najczęstsze szybkości transmisji to 9600, 38400, 19200, 57600 i 115200.
 
 {% hint style="danger" %}
 Ważne jest zauważenie, że w tym protokole musisz połączyć TX jednego urządzenia z RX drugiego!
@@ -87,7 +87,7 @@ minicom -s
 ```
 Skonfiguruj ustawienia takie jak szybkość transmisji (baudrate) i nazwę urządzenia w opcji `Konfiguracja portu szeregowego`.
 
-Po skonfigurowaniu użyj polecenia `minicom`, aby rozpocząć korzystanie z konsoli UART.
+Po skonfigurowaniu, użyj polecenia `minicom`, aby rozpocząć korzystanie z konsoli UART.
 
 ## UART za pośrednictwem Arduino UNO R3 (Płytki z wymiennym układem Atmel 328p)
 
@@ -99,7 +99,7 @@ W końcu zaleca się korzystanie z Arduino IDE, aby uzyskać Konsolę Szeregową
 
 ## Bus Pirate
 
-W tym scenariuszu zamierzamy podsłuchać komunikację UART Arduino, która wysyła wszystkie wydruki programu do Monitora Szeregowego.
+W tym scenariuszu będziemy podsłuchiwać komunikację UART Arduino, która wysyła wszystkie wydruki programu do Monitora Szeregowego.
 ```bash
 # Check the modes
 UART>m
@@ -173,40 +173,40 @@ waiting a few secs to repeat....
 ```
 ## Zrzucanie oprogramowania układowego za pomocą konsoli UART
 
-Konsola UART zapewnia doskonały sposób pracy z oprogramowaniem układowym w środowisku uruchomieniowym. Jednak gdy dostęp do konsoli UART jest tylko do odczytu, może to wprowadzić wiele ograniczeń. W wielu urządzeniach wbudowanych oprogramowanie układowe jest przechowywane w pamięci EEPROM i wykonywane w procesorach posiadających pamięć ulotną. Dlatego oprogramowanie układowe jest przechowywane w trybie tylko do odczytu, ponieważ oryginalne oprogramowanie układowe podczas produkcji znajduje się w samej pamięci EEPROM, a jakiekolwiek nowe pliki mogą zostać utracone z powodu pamięci ulotnej. Dlatego zrzucanie oprogramowania układowego jest cennym wysiłkiem podczas pracy z oprogramowaniem wbudowanym.
+Konsola UART zapewnia doskonały sposób pracy z oprogramowaniem układowym w środowisku uruchomieniowym. Jednak gdy dostęp do konsoli UART jest tylko do odczytu, może to wprowadzić wiele ograniczeń. W wielu urządzeniach wbudowanych oprogramowanie układowe jest przechowywane w pamięci EEPROM i wykonywane w procesorach posiadających pamięć ulotną. Dlatego oprogramowanie układowe jest przechowywane w trybie tylko do odczytu, ponieważ oryginalne oprogramowanie układowe podczas produkcji znajduje się w samej pamięci EEPROM, a nowe pliki mogą zostać utracone z powodu pamięci ulotnej. Dlatego zrzucanie oprogramowania układowego jest cennym wysiłkiem podczas pracy z oprogramowaniem wbudowanym.
 
-Istnieje wiele sposobów, aby to zrobić, a sekcja SPI obejmuje metody wydobycia oprogramowania bezpośrednio z pamięci EEPROM za pomocą różnych urządzeń. Niemniej jednak zaleca się najpierw spróbować zrzucić oprogramowanie układowe za pomocą UART, ponieważ zrzucanie oprogramowania układowego za pomocą fizycznych urządzeń i interakcji zewnętrznych może być ryzykowne.
+Istnieje wiele sposobów, aby to zrobić, a sekcja SPI obejmuje metody wydobycia oprogramowania bezpośrednio z pamięci EEPROM za pomocą różnych urządzeń. Chociaż zaleca się najpierw spróbować zrzucić oprogramowanie układowe za pomocą UART, ponieważ zrzucanie oprogramowania układowego za pomocą urządzeń fizycznych i interakcji zewnętrznych może być ryzykowne.
 
-Zrzucanie oprogramowania z konsoli UART wymaga najpierw uzyskania dostępu do bootloaderów. Wielu popularnych producentów korzysta z <b>uboot</b> (Uniwersalny Bootloader) jako swojego bootloadera do ładowania systemu Linux. Dlatego uzyskanie dostępu do <b>uboot</b> jest konieczne.
+Zrzucanie oprogramowania z konsoli UART wymaga najpierw uzyskania dostępu do bootloaderów. Wielu popularnych dostawców korzysta z <b>uboot</b> (Uniwersalny Bootloader) jako swojego bootloadera do ładowania systemu Linux. Dlatego uzyskanie dostępu do <b>uboot</b> jest konieczne.
 
 Aby uzyskać dostęp do bootloadera <b>boot</b>, podłącz port UART do komputera i użyj dowolnego narzędzia konsoli szeregowej, a zasilanie urządzenia pozostaw odłączone. Gdy konfiguracja jest gotowa, naciśnij klawisz Enter i przytrzymaj go. Na koniec podłącz zasilanie do urządzenia i pozwól mu się uruchomić.
 
-Działanie to przerwie ładowanie <b>uboot</b> i spowoduje pojawienie się menu. Zaleca się zrozumienie poleceń <b>uboot</b> i skorzystanie z menu pomocy, aby je wyświetlić. Może to być polecenie `help`. Ponieważ różni producenci używają różnych konfiguracji, konieczne jest zrozumienie każdej z nich osobno.
+Działanie to przerwie ładowanie <b>uboot</b> i spowoduje pojawienie się menu. Zaleca się zrozumienie poleceń <b>uboot</b> i skorzystanie z menu pomocy, aby je wyświetlić. Może to być polecenie `help`. Ponieważ różni dostawcy używają różnych konfiguracji, konieczne jest zrozumienie każdej z nich osobno.
 
 Zazwyczaj poleceniem do zrzucenia oprogramowania układowego jest:
 ```
 md
 ```
-który oznacza "zrzut pamięci". Spowoduje to wyświetlenie zawartości pamięci (EEPROM) na ekranie. Zaleca się zalogowanie wyników konsoli szeregowej przed rozpoczęciem procedury w celu przechwycenia zrzutu pamięci.
+który oznacza "zrzut pamięci". Spowoduje to wyświetlenie zawartości pamięci (EEPROM) na ekranie. Zaleca się zapisanie danych z konsoli szeregowej przed rozpoczęciem procedury, aby przechwycić zrzut pamięci.
 
-Na koniec, po prostu usuń całe zbędne dane z pliku dziennika i zapisz plik jako `nazwapliku.rom` oraz użyj narzędzia binwalk do wyodrębnienia zawartości:
+W końcu, po prostu usuń całe zbędne dane z pliku dziennika i zapisz plik jako `nazwapliku.rom` oraz użyj narzędzia binwalk do wyodrębnienia zawartości:
 ```
 binwalk -e <filename.rom>
 ```
-To wyświetli możliwe zawartości z EEPROM zgodnie z sygnaturami znalezionymi w pliku szesnastkowym.
+To spis możliwych zawartości z EEPROM zgodnie z sygnaturami znalezionymi w pliku szesnastkowym.
 
-Należy jednak zauważyć, że nie zawsze <b>uboot</b> jest odblokowany, nawet jeśli jest używany. Jeśli klawisz Enter nic nie robi, sprawdź inne klawisze, takie jak klawisz Spacji, itp. Jeśli bootloader jest zablokowany i nie zostanie przerwany, ta metoda nie zadziała. Aby sprawdzić, czy <b>uboot</b> jest bootloaderem urządzenia, sprawdź wyjście na konsoli UART podczas uruchamiania urządzenia. Może wspominać <b>uboot</b> podczas uruchamiania.
+Należy jednak zauważyć, że nie zawsze <b>uboot</b> jest odblokowany, nawet jeśli jest używany. Jeśli klawisz Enter nic nie robi, sprawdź inne klawisze, takie jak klawisz Spacji, itp. Jeśli bootloader jest zablokowany i nie zostanie przerwany, ta metoda nie zadziała. Aby sprawdzić, czy <b>uboot</b> jest bootloaderem urządzenia, sprawdź wynik na konsoli UART podczas uruchamiania urządzenia. Może wspominać o <b>uboot</b> podczas uruchamiania.
 
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) to wyszukiwarka zasilana **dark-web**, która oferuje **bezpłatne** funkcje do sprawdzania, czy firma lub jej klienci zostali **skompromitowani** przez **złośliwe oprogramowanie kradnące informacje**.
+[**WhiteIntel**](https://whiteintel.io) to wyszukiwarka zasilana **dark-web**, która oferuje **darmowe** funkcje do sprawdzania, czy firma lub jej klienci nie zostali **skompromitowani** przez **złośliwe oprogramowanie kradnące informacje**.
 
-Ich głównym celem WhiteIntel jest zwalczanie przejęć kont i ataków ransomware wynikających z oprogramowania kradnącego informacje.
+Ich głównym celem WhiteIntel jest zwalczanie przejęć kont i ataków ransomware wynikających z złośliwego oprogramowania kradnącego informacje.
 
-Możesz sprawdzić ich stronę internetową i wypróbować ich silnik **bezpłatnie** pod adresem:
+Możesz sprawdzić ich stronę internetową i wypróbować ich silnik **za darmo** pod adresem:
 
 {% embed url="https://whiteintel.io" %}
 
@@ -221,6 +221,6 @@ Inne sposoby wsparcia HackTricks:
 * Kup [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na githubie.
 
 </details>

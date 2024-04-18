@@ -1,14 +1,14 @@
 # Modelowanie zagrożeń
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) to wyszukiwarka zasilana przez **dark web**, która oferuje **darmowe** funkcje do sprawdzenia, czy firma lub jej klienci zostali **skompromitowani** przez **złośliwe oprogramowanie kradnące dane**.
+[**WhiteIntel**](https://whiteintel.io) to wyszukiwarka zasilana **dark webem**, która oferuje **darmowe** funkcje sprawdzania, czy firma lub jej klienci zostali **skompromitowani** przez **złośliwe oprogramowanie kradzieżowe**.
 
-Głównym celem WhiteIntel jest zwalczanie przejęć kont i ataków ransomware wynikających z oprogramowania kradnącego informacje.
+Głównym celem WhiteIntel jest zwalczanie przejęć kont i ataków ransomware wynikających z oprogramowania kradzieżowego.
 
-Możesz odwiedzić ich stronę internetową i wypróbować ich silnik **za darmo** pod adresem:
+Możesz sprawdzić ich stronę internetową i wypróbować ich silnik **za darmo** pod adresem:
 
 {% embed url="https://whiteintel.io" %}
 
@@ -16,18 +16,18 @@ Możesz odwiedzić ich stronę internetową i wypróbować ich silnik **za darmo
 
 ## Modelowanie zagrożeń
 
-Witaj w kompleksowym przewodniku HackTricks na temat modelowania zagrożeń! Wyrusz w podróż po tym kluczowym aspekcie cyberbezpieczeństwa, gdzie identyfikujemy, rozumiemy i strategizujemy przeciwko potencjalnym podatnościom w systemie. Ten wątek służy jako przewodnik krok po kroku, wypełniony przykładami z życia wziętymi, pomocnym oprogramowaniem i łatwymi do zrozumienia wyjaśnieniami. Idealny zarówno dla początkujących, jak i doświadczonych praktyków, którzy chcą wzmocnić swoje obronne środki cyberbezpieczeństwa.
+Witaj w kompleksowym przewodniku HackTricks na temat modelowania zagrożeń! Wyrusz w podróż po tym kluczowym aspekcie cyberbezpieczeństwa, gdzie identyfikujemy, rozumiemy i strategizujemy przeciwko potencjalnym podatnościom w systemie. Ten wątek służy jako przewodnik krok po kroku, wypełniony przykładami z rzeczywistego świata, pomocnym oprogramowaniem i łatwymi do zrozumienia wyjaśnieniami. Idealny zarówno dla początkujących, jak i doświadczonych praktyków, którzy chcą wzmocnić swoje obronne środki cyberbezpieczeństwa.
 
 ### Powszechne scenariusze
 
 1. **Rozwój oprogramowania**: W ramach Bezpiecznego Cyklu Życia Rozwoju Oprogramowania (SSDLC), modelowanie zagrożeń pomaga w **identyfikowaniu potencjalnych źródeł podatności** we wczesnych etapach rozwoju.
-2. **Testowanie penetracyjne**: Ramy Standardu Wykonania Testów Penetracyjnych (PTES) wymagają **modelowania zagrożeń do zrozumienia podatności systemu** przed przeprowadzeniem testu.
+2. **Testowanie penetracyjne**: Ramy Standardu Wykonania Testów Penetracyjnych (PTES) wymagają **modelowania zagrożeń w celu zrozumienia podatności systemu** przed przeprowadzeniem testu.
 
 ### Model zagrożeń w pigułce
 
-Model zagrożeń jest zazwyczaj przedstawiany jako diagram, obraz lub inna forma wizualizacji, która przedstawia zaplanowaną architekturę lub istniejącą budowę aplikacji. Przypomina diagram przepływu danych, ale kluczowa różnica polega na jego zorientowanym na bezpieczeństwo projekcie.
+Model zagrożeń jest zazwyczaj przedstawiany jako diagram, obraz lub inna forma wizualizacji, która przedstawia planowaną architekturę lub istniejącą budowę aplikacji. Przypomina **diagram przepływu danych**, ale kluczowa różnica polega na jego zorientowanym na bezpieczeństwo projekcie.
 
-Modele zagrożeń często zawierają elementy oznaczone na czerwono, symbolizujące potencjalne podatności, ryzyka lub bariery. Aby usprawnić proces identyfikacji ryzyka, wykorzystywana jest triada CIA (Confidentiality, Integrity, Availability), stanowiąca podstawę wielu metod modelowania zagrożeń, przy czym STRIDE jest jednym z najczęściej stosowanych. Jednak wybrana metodologia może się różnić w zależności od konkretnego kontekstu i wymagań.
+Modele zagrożeń często zawierają elementy oznaczone na czerwono, symbolizujące potencjalne podatności, ryzyka lub bariery. Aby usprawnić proces identyfikacji ryzyka, wykorzystywana jest triada CIA (Confidentiality, Integrity, Availability), stanowiąca podstawę wielu metodologii modelowania zagrożeń, przy czym STRIDE jest jedną z najczęściej stosowanych. Jednak wybrana metodologia może się różnić w zależności od konkretnego kontekstu i wymagań.
 
 ### Triada CIA
 
@@ -39,16 +39,16 @@ Triada CIA to powszechnie uznany model w dziedzinie bezpieczeństwa informacji, 
 
 ### Metodologie modelowania zagrożeń
 
-1. **STRIDE**: Opracowany przez Microsoft, STRIDE to akronim od **Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service i Elevation of Privilege**. Każda kategoria reprezentuje rodzaj zagrożenia, a ta metodyka jest powszechnie stosowana we wczesnej fazie projektowania programu lub systemu do identyfikacji potencjalnych zagrożeń.
-2. **DREAD**: Jest to kolejna metodyka od Microsoftu używana do oceny ryzyka zidentyfikowanych zagrożeń. DREAD oznacza **Damage potential, Reproducibility, Exploitability, Affected users i Discoverability**. Każdy z tych czynników jest oceniany, a wynik jest wykorzystywany do priorytetyzacji zidentyfikowanych zagrożeń.
-3. **PASTA** (Process for Attack Simulation and Threat Analysis): To siedmiostopniowa, **zorientowana na ryzyko** metodyka. Obejmuje definiowanie i identyfikowanie celów bezpieczeństwa, tworzenie zakresu technicznego, dekompozycję aplikacji, analizę zagrożeń, analizę podatności oraz ocenę ryzyka/priorytetów.
+1. **STRIDE**: Opracowany przez Microsoft, STRIDE to akronim od **Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service i Elevation of Privilege**. Każda kategoria reprezentuje rodzaj zagrożenia, a ta metodyka jest powszechnie stosowana we wczesnej fazie projektowania programu lub systemu w celu identyfikacji potencjalnych zagrożeń.
+2. **DREAD**: Jest to inna metodyka od Microsoftu używana do oceny ryzyka zidentyfikowanych zagrożeń. DREAD oznacza **Damage potential, Reproducibility, Exploitability, Affected users i Discoverability**. Każdy z tych czynników jest oceniany, a wynik jest wykorzystywany do priorytetyzacji zidentyfikowanych zagrożeń.
+3. **PASTA** (Process for Attack Simulation and Threat Analysis): To siedmiostopniowa, **zorientowana na ryzyko** metodyka. Obejmuje określanie i identyfikowanie celów bezpieczeństwa, tworzenie zakresu technicznego, dekompozycję aplikacji, analizę zagrożeń, analizę podatności oraz ocenę ryzyka/priorytetów.
 4. **Trike**: Jest to metodyka oparta na ryzyku, która skupia się na obronie zasobów. Rozpoczyna się od perspektywy **zarządzania ryzykiem** i analizuje zagrożenia i podatności w tym kontekście.
-5. **VAST** (Visual, Agile, and Simple Threat modeling): To podejście ma na celu być bardziej dostępne i integrować się z środowiskami rozwoju Agile. Łączy elementy z innych metodologii i skupia się na **wizualnych reprezentacjach zagrożeń**.
+5. **VAST** (Visual, Agile i Simple Threat modeling): To podejście ma na celu być bardziej dostępne i integrować się z środowiskami rozwoju Agile. Łączy elementy z innych metodologii i skupia się na **wizualnych reprezentacjach zagrożeń**.
 6. **OCTAVE** (Operationally Critical Threat, Asset, and Vulnerability Evaluation): Opracowany przez CERT Coordination Center, ten framework jest ukierunkowany na **ocenę ryzyka organizacyjnego, a nie konkretnych systemów ani oprogramowania**.
 
 ## Narzędzia
 
-Dostępne są różne narzędzia i rozwiązania programowe, które mogą **pomóc** w tworzeniu i zarządzaniu modelami zagrożeń. Oto kilka, które warto rozważyć.
+Dostępne są różne narzędzia i rozwiązania oprogramowania, które mogą **pomóc** w tworzeniu i zarządzaniu modelami zagrożeń. Oto kilka, które warto rozważyć.
 
 ### [SpiderSuite](https://github.com/3nock/SpiderSuite)
 
@@ -74,7 +74,7 @@ Projekt open-source od OWASP, Threat Dragon to zarówno aplikacja internetowa, j
 
 <figure><img src="../.gitbook/assets/create_new_project_1.jpg" alt=""><figcaption></figcaption></figure>
 
-Czasami może wyglądać to tak:
+Czasami może to wyglądać tak:
 
 <figure><img src="../.gitbook/assets/1_threatmodel_create_project.jpg" alt=""><figcaption></figcaption></figure>
 
@@ -92,13 +92,13 @@ Możesz użyć narzędzi takich jak SpiderSuite Crawler, aby dać Ci inspirację
 
 <figure><img src="../.gitbook/assets/0_basic_threat_model.jpg" alt=""><figcaption></figcaption></figure>
 
-Krótka wyjaśnienie dotyczące jednostek:
+Trochę wyjaśnienia na temat jednostek:
 
 * Proces (Sama jednostka, taka jak serwer WWW lub funkcjonalność sieciowa)
 * Aktor (Osoba, taka jak Odwiedzający stronę internetową, Użytkownik lub Administrator)
 * Linia przepływu danych (Wskaźnik interakcji)
 * Granica zaufania (Różne segmenty sieciowe lub zakresy.)
-* Magazyn (Miejsca, w których przechowywane są dane, takie jak bazy danych)
+* Sklep (Miejsca, w których przechowywane są dane, takie jak bazy danych)
 
 5. Utwórz Zagrożenie (Krok 1)
 
@@ -121,16 +121,16 @@ Teraz Twój ukończony model powinien wyglądać mniej więcej tak. I tak tworzy
 <figure><img src="../.gitbook/assets/threat_model_finished.jpg" alt=""><figcaption></figcaption></figure>
 ### [Microsoft Threat Modeling Tool](https://aka.ms/threatmodelingtool)
 
-Jest to darmowe narzędzie od Microsoftu, które pomaga w znajdowaniu zagrożeń na etapie projektowania projektów oprogramowania. Wykorzystuje metodologię STRIDE i jest szczególnie odpowiednie dla tych, którzy rozwijają na platformie Microsoft.
+To jest darmowe narzędzie od Microsoftu, które pomaga w znajdowaniu zagrożeń na etapie projektowania oprogramowania. Wykorzystuje metodologię STRIDE i jest szczególnie odpowiednie dla tych, którzy rozwijają na platformie Microsoft.
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) to wyszukiwarka zasilana **dark webem**, która oferuje **darmowe** funkcje do sprawdzania, czy firma lub jej klienci nie zostali **skompromitowani** przez **złośliwe oprogramowanie kradnące dane**.
+[**WhiteIntel**](https://whiteintel.io) to wyszukiwarka zasilana przez **dark web**, która oferuje **darmowe** funkcje do sprawdzania, czy firma lub jej klienci zostali **skompromitowani** przez **złośliwe oprogramowanie kradnące dane**.
 
 Ich głównym celem WhiteIntel jest zwalczanie przejęć kont i ataków ransomware wynikających z złośliwego oprogramowania kradnącego informacje.
 
-Możesz sprawdzić ich stronę internetową i wypróbować ich silnik **za darmo** pod adresem:
+Możesz odwiedzić ich stronę internetową i wypróbować ich silnik **za darmo** pod adresem:
 
 {% embed url="https://whiteintel.io" %}

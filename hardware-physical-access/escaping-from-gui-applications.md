@@ -12,15 +12,15 @@ Inne sposoby wsparcia HackTricks:
 
 </details>
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) to wyszukiwarka zasilana przez **dark web**, która oferuje **darmowe** funkcje sprawdzania, czy firma lub jej klienci zostali **skompromitowani** przez **złośliwe oprogramowanie kradnące informacje**.
+[**WhiteIntel**](https://whiteintel.io) to **dark-webowy** silnik wyszukiwania oferujący **darmowe** funkcje sprawdzania, czy firma lub jej klienci nie zostali **skompromitowani** przez **złośliwe oprogramowanie kradnące informacje**.
 
 Ich głównym celem WhiteIntel jest zwalczanie przejęć kont i ataków ransomware wynikających z złośliwego oprogramowania kradnącego informacje.
 
-Możesz sprawdzić ich stronę internetową i wypróbować ich silnik za **darmo** pod adresem:
+Możesz sprawdzić ich stronę internetową i wypróbować ich silnik **za darmo** pod adresem:
 
 {% embed url="https://whiteintel.io" %}
 
@@ -28,7 +28,7 @@ Możesz sprawdzić ich stronę internetową i wypróbować ich silnik za **darmo
 
 # Sprawdź możliwe działania w aplikacji GUI
 
-**Dialogi ogólne** to opcje takie jak **zapisywanie pliku**, **otwieranie pliku**, wybieranie czcionki, koloru... Większość z nich będzie **oferować pełną funkcjonalność Exploratora**. Oznacza to, że będziesz mógł uzyskać dostęp do funkcji Exploratora, jeśli będziesz mógł uzyskać dostęp do tych opcji:
+**Dialogi ogólne** to opcje takie jak **zapisywanie pliku**, **otwieranie pliku**, wybieranie czcionki, koloru... Większość z nich **oferuje pełną funkcjonalność Eksploratora**. Oznacza to, że będziesz mógł uzyskać dostęp do funkcji Eksploratora, jeśli będziesz mógł uzyskać dostęp do tych opcji:
 
 * Zamknij/Zamknij jako
 * Otwórz/Otwórz za pomocą
@@ -40,8 +40,8 @@ Możesz sprawdzić ich stronę internetową i wypróbować ich silnik za **darmo
 Powinieneś sprawdzić, czy możesz:
 
 * Modyfikować lub tworzyć nowe pliki
-* Tworzyć dowiązania symboliczne
-* Uzyskać dostęp do ograniczonych obszarów
+* Tworzyć łącza symboliczne
+* Uzyskać dostęp do obszarów ograniczonych
 * Wykonywać inne aplikacje
 
 ## Wykonanie polecenia
@@ -50,7 +50,7 @@ Być może **korzystając z opcji `Otwórz za pomocą`** możesz otworzyć/wywo�
 
 ### Windows
 
-Na przykład _cmd.exe, command.com, Powershell/Powershell ISE, mmc.exe, at.exe, taskschd.msc..._ znajdź więcej binarnych plików, które można użyć do wykonywania poleceń (i wykonywania nieoczekiwanych działań) tutaj: [https://lolbas-project.github.io/](https://lolbas-project.github.io)
+Na przykład _cmd.exe, command.com, Powershell/Powershell ISE, mmc.exe, at.exe, taskschd.msc..._ znajdziesz więcej binarnych plików, które można użyć do wykonywania poleceń (i wykonywania nieoczekiwanych działań) tutaj: [https://lolbas-project.github.io/](https://lolbas-project.github.io)
 
 ### \*NIX __
 
@@ -62,11 +62,11 @@ _bash, sh, zsh..._ Więcej tutaj: [https://gtfobins.github.io/](https://gtfobins
 
 * **Zmienne środowiskowe**: Istnieje wiele zmiennych środowiskowych wskazujących na pewną ścieżkę
 * **Inne protokoły**: _about:, data:, ftp:, file:, mailto:, news:, res:, telnet:, view-source:_
-* **Dowiązania symboliczne**
+* **Łącza symboliczne**
 * **Skróty klawiszowe**: CTRL+N (otwórz nową sesję), CTRL+R (Wykonaj polecenia), CTRL+SHIFT+ESC (Menedżer zadań),  Windows+E (otwórz eksplorator), CTRL-B, CTRL-I (Ulubione), CTRL-H (Historia), CTRL-L, CTRL-O (Plik/Otwórz dialog), CTRL-P (Dialog drukowania), CTRL-S (Zapisz jako)
 * Ukryte menu administracyjne: CTRL-ALT-F8, CTRL-ESC-F9
 * **URI powłoki**: _shell:Administrative Tools, shell:DocumentsLibrary, shell:Librariesshell:UserProfiles, shell:Personal, shell:SearchHomeFolder, shell:Systemshell:NetworkPlacesFolder, shell:SendTo, shell:UsersProfiles, shell:Common Administrative Tools, shell:MyComputerFolder, shell:InternetFolder_
-* **Ścieżki UNC**: Ścieżki do łączenia się z udostępnionymi folderami. Spróbuj połączyć się z C$ lokalnej maszyny ("\\\127.0.0.1\c$\Windows\System32")
+* **Ścieżki UNC**: Ścieżki do łączenia z udostępnionymi folderami. Spróbuj połączyć się z C$ lokalnej maszyny ("\\\127.0.0.1\c$\Windows\System32")
 * **Więcej ścieżek UNC:**
 
 | UNC                       | UNC            | UNC                  |
@@ -99,7 +99,7 @@ Edytor rejestru: [https://sourceforge.net/projects/uberregedit/](https://sourcef
 | %TEMP%              | %SYSTEMDRIVE%     | %SYSTEMROOT%       | %APPDATA%           |
 | %HOMEDRIVE%         | %HOMESHARE        |                    | <p><br></p>         |
 
-## Skróty
+## Skróty klawiszowe
 
 * Sticky Keys – Naciśnij SHIFT 5 razy
 * Mouse Keys – SHIFT+ALT+NUMLOCK
@@ -123,18 +123,18 @@ Edytor rejestru: [https://sourceforge.net/projects/uberregedit/](https://sourcef
 * CTRL+N – Internet Explorer – Nowa strona
 * CTRL+O – Otwórz plik
 * CTRL+S – Zapisz CTRL+N – Nowe RDP / Citrix
-## Swajpy
+## Swipy
 
-* Swajp z lewej strony na prawo, aby zobaczyć wszystkie otwarte okna, minimalizując aplikację KIOSK i uzyskując bezpośredni dostęp do całego systemu operacyjnego;
-* Swajp z prawej strony na lewą, aby otworzyć Centrum akcji, minimalizując aplikację KIOSK i uzyskując bezpośredni dostęp do całego systemu operacyjnego;
-* Swajp z górnej krawędzi, aby sprawić, że pasek tytułu będzie widoczny dla aplikacji otwartej w trybie pełnoekranowym;
-* Swajp w górę z dołu, aby pokazać pasek zadań w aplikacji pełnoekranowej.
+* Przesuń palcem z lewej strony na prawą, aby zobaczyć wszystkie otwarte okna, minimalizując aplikację KIOSK i uzyskując bezpośredni dostęp do całego systemu operacyjnego;
+* Przesuń palcem z prawej strony na lewą, aby otworzyć Centrum akcji, minimalizując aplikację KIOSK i uzyskując bezpośredni dostęp do całego systemu operacyjnego;
+* Przesuń palcem z górnej krawędzi, aby sprawić, że pasek tytułu będzie widoczny dla aplikacji otwartej w trybie pełnoekranowym;
+* Przesuń palcem w górę z dołu, aby pokazać pasek zadań w aplikacji pełnoekranowej.
 
-## Triki z Internet Explorer
+## Triki z Internet Explorera
 
 ### 'Pasek narzędzi obrazu'
 
-To pasek narzędzi, który pojawia się w lewym górnym rogu obrazu po kliknięciu. Będziesz mógł zapisać, wydrukować, wysłać e-mailem, otworzyć "Moje obrazy" w Eksploratorze. Kiosk musi korzystać z przeglądarki Internet Explorer.
+To pasek narzędzi, który pojawia się w lewym górnym rogu obrazu po jego kliknięciu. Będziesz mógł zapisać, wydrukować, wysłać e-mailem, otworzyć "Moje obrazy" w Eksploratorze. Kiosk musi korzystać z przeglądarki Internet Explorer.
 
 ### Protokół powłoki
 
@@ -146,7 +146,7 @@ Wpisz te adresy URL, aby uzyskać widok Eksploratora:
 * `shell:ProfileUżytkownika`
 * `shell:Osobiste`
 * `shell:FolderDomowyWyszukiwania`
-* `shell:FolderMiejscSieciowych`
+* `shell:MiejscaSieciowe`
 * `shell:WyślijDo`
 * `shell:ProfileUżytkownika`
 * `shell:Wspólne narzędzia administracyjne`
@@ -180,31 +180,31 @@ Utwórz wspólny dialog za pomocą JavaScript i uzyskaj dostęp do eksploratora 
 
 ## Gesty i przyciski
 
-* Swajp w górę czterema (lub pięcioma) palcami / Podwójne stuknięcie przycisku Home: Aby zobaczyć widok wielozadaniowy i zmienić aplikację
+* Przesuń w górę czterema (lub pięcioma) palcami / Podwójne stuknięcie przycisku Home: Aby zobaczyć widok wielozadaniowy i zmienić aplikację
 
-* Swajp w jedną lub drugą stronę czterema lub pięcioma palcami: Aby przejść do następnej/poprzedniej aplikacji
+* Przesuń palcem w jedną lub drugą stronę czterema lub pięcioma palcami: Aby przejść do następnej/poprzedniej aplikacji
 
-* Szczypnięcie ekranu pięcioma palcami / Dotknięcie przycisku Home / Swajp w górę jednym palcem z dołu ekranu w szybkim ruchu do góry: Aby uzyskać dostęp do ekranu głównego
+* Szczyp palcem ekran z pięcioma palcami / Dotknij przycisku Home / Przesuń w górę jednym palcem z dolnej krawędzi ekranu w szybkim ruchu do góry: Aby uzyskać dostęp do ekranu głównego
 
-* Swajp jednym palcem z dołu ekranu zaledwie 1-2 cali (wolno): Pojawi się dół
+* Przesuń palcem z dolnej krawędzi ekranu zaledwie 1-2 cali (wolno): Doker się pojawi
 
-* Swajp w dół z góry ekranu jednym palcem: Aby zobaczyć powiadomienia
+* Przesuń w dół z górnej krawędzi ekranu jednym palcem: Aby zobaczyć powiadomienia
 
-* Swajp w dół jednym palcem w prawym górnym rogu ekranu: Aby zobaczyć centrum sterowania iPad Pro
+* Przesuń w dół jednym palcem w prawym górnym rogu ekranu: Aby zobaczyć centrum sterowania iPad Pro
 
-* Swajp jednym palcem z lewej krawędzi ekranu 1-2 cali: Aby zobaczyć widok Dzisiaj
+* Przesuń palcem z lewej krawędzi ekranu 1-2 cali: Aby zobaczyć widok dzisiejszy
 
-* Szybki swajp jednym palcem z centrum ekranu w prawo lub w lewo: Aby przejść do następnej/poprzedniej aplikacji
+* Szybko przesuń palcem z centrum ekranu w prawo lub w lewo: Aby przejść do następnej/poprzedniej aplikacji
 
-* Naciśnij i przytrzymaj przycisk Wł/Wył/Sen w prawym górnym rogu iPada + Przesuń suwak WYŁ do końca w prawo: Aby wyłączyć zasilanie
+* Naciśnij i przytrzymaj przycisk Wł/Wył/Sen w prawym górnym rogu iPada + Przesuń suwak Wyłącz do końca w prawo: Aby wyłączyć zasilanie
 
-* Naciśnij przycisk Wł/Wył/Sen w prawym górnym rogu iPada i przycisk Home przez kilka sekund: Aby wymusić twardy reset
+* Naciśnij przycisk Wł/Wył/Sen w prawym górnym rogu iPada i przycisk Home przez kilka sekund: Aby wymusić twardy wyłącznik
 
-* Naciśnij przycisk Wł/Wył/Sen w prawym górnym rogu iPada i przycisk Home szybko: Aby zrobić zrzut ekranu, który pojawi się w lewym dolnym rogu ekranu. Naciśnij oba przyciski jednocześnie bardzo krótko, jakbyś je przytrzymywał kilka sekund, aby wykonać twardy reset.
+* Naciśnij przycisk Wł/Wył/Sen w prawym górnym rogu iPada i przycisk Home szybko: Aby zrobić zrzut ekranu, który pojawi się w lewym dolnym rogu ekranu. Naciśnij oba przyciski jednocześnie bardzo krótko, jeśli przytrzymasz je przez kilka sekund, zostanie wykonane twarde wyłączenie
 
 ## Skróty klawiszowe
 
-Powinieneś mieć klawiaturę iPad lub adapter klawiatury USB. Tutaj zostaną pokazane tylko skróty, które mogą pomóc uciec z aplikacji.
+Powinieneś mieć klawiaturę iPad lub adapter klawiatury USB. Tylko skróty, które mogą pomóc uciec z aplikacji, zostaną tutaj pokazane.
 
 | Klawisz | Nazwa         |
 | --- | ------------ |
@@ -227,7 +227,7 @@ Te skróty są dla ustawień wizualnych i dźwiękowych, w zależności od użyt
 | -------- | ------------------------------------------------------------------------------ |
 | F1       | Przyciemnij ekran                                                                    |
 | F2       | Rozjaśnij ekran                                                                |
-| F7       | Wróć do poprzedniego utworu muzycznego                                                                  |
+| F7       | Wróć do poprzedniego utworu                                                                  |
 | F8       | Odtwórz/zatrzymaj                                                                     |
 | F9       | Pomijaj utwór                                                                      |
 | F10      | Wycisz                                                                           |
@@ -242,12 +242,12 @@ Te skróty są dla ustawień wizualnych i dźwiękowych, w zależności od użyt
 | ⌘H                                                 | Przejdź do ekranu głównego                                              |
 | ⌘⇧H (Command-Shift-H)                              | Przejdź do ekranu głównego                                              |
 | ⌘ (Spacja)                                          | Otwórz Spotlight                                          |
-| ⌘⇥ (Command-Tab)                                   | Wyświetl ostatnio używane dziesięć aplikacji                                 |
+| ⌘⇥ (Command-Tab)                                   | Wyświetl ostatnie dziesięć używanych aplikacji                                 |
 | ⌘\~                                                | Przejdź do ostatniej aplikacji                                       |
-| ⌘⇧3 (Command-Shift-3)                              | Zrób zrzut ekranu (pojawia się w lewym dolnym rogu do zapisania lub działania na nim) |
-| ⌘⇧4                                                | Zrób zrzut ekranu i otwórz go w edytorze                    |
+| ⌘⇧3 (Command-Shift-3)                              | Zrzut ekranu (pojawia się w lewym dolnym rogu do zapisania lub działania na nim) |
+| ⌘⇧4                                                | Zrzut ekranu i otwórz go w edytorze                    |
 | Przytrzymaj ⌘                                   | Lista dostępnych skrótów dla aplikacji                 |
-| ⌘⌥D (Command-Option/Alt-D)                         | Wywołuje dół                                      |
+| ⌘⌥D (Command-Option/Alt-D)                         | Wywołuje doker                                      |
 | ^⌥H (Control-Option-H)                             | Przycisk ekranu głównego                                             |
 | ^⌥H H (Control-Option-H-H)                         | Pokaż pasek wielozadaniowy                                      |
 | ^⌥I (Control-Option-i)                             | Wybór elementu                                            |
@@ -261,18 +261,18 @@ Te skróty są dla ustawień wizualnych i dźwiękowych, w zależności od użyt
 | ^⌥S (Control-Option-S)                             | Włącz lub wyłącz mowę VoiceOver                         |
 | ⌘⇧⇥ (Command-Shift-Tab)                            | Przełącz się do poprzedniej aplikacji                              |
 | ⌘⇥ (Command-Tab)                                   | Wróć do pierwotnej aplikacji                         |
-| ←+→, potem Opcja + ← lub Opcja+→                   | Nawiguj przez dok                                   |
+| ←+→, potem Opcja + ← or Opcja+→                   | Nawiguj przez Doker                                   |
 ### Skróty klawiszowe Safari
 
 | Skrót                | Działanie                                      |
 | --------------------- | ---------------------------------------------- |
 | ⌘L (Command-L)       | Otwórz lokalizację                             |
-| ⌘T                   | Otwórz nową kartę                              |
-| ⌘W                   | Zamknij bieżącą kartę                          |
+| ⌘T                   | Otwórz nową kartę                               |
+| ⌘W                   | Zamknij bieżącą kartę                           |
 | ⌘R                   | Odśwież bieżącą kartę                          |
-| ⌘.                   | Zatrzymaj ładowanie bieżącej karty             |
+| ⌘.                   | Zatrzymaj ładowanie bieżącej karty              |
 | ^⇥                   | Przełącz się na następną kartę                 |
-| ^⇧⇥ (Control-Shift-Tab) | Przejdź do poprzedniej karty                  |
+| ^⇧⇥ (Control-Shift-Tab) | Przejdź do poprzedniej karty                   |
 | ⌘L                   | Wybierz pole tekstowe/URL do modyfikacji       |
 | ⌘⇧T (Command-Shift-T) | Otwórz ostatnio zamkniętą kartę (można użyć kilka razy) |
 | ⌘\[                  | Wróć do poprzedniej strony w historii przeglądania |
@@ -298,13 +298,13 @@ Te skróty są dla ustawień wizualnych i dźwiękowych, w zależności od użyt
 * [http://www.iphonehacks.com/2018/03/ipad-keyboard-shortcuts.html](http://www.iphonehacks.com/2018/03/ipad-keyboard-shortcuts.html)
 
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) to wyszukiwarka zasilana **dark-web**, która oferuje **darmowe** funkcje sprawdzania, czy firma lub jej klienci zostali **skompromitowani** przez **złośliwe oprogramowanie kradnące informacje**.
+[**WhiteIntel**](https://whiteintel.io) to wyszukiwarka zasilana **dark-web**, która oferuje **darmowe** funkcje sprawdzania, czy firma lub jej klienci nie zostali **skompromitowani** przez **złośliwe oprogramowanie kradnące informacje**.
 
-Ich głównym celem jest zwalczanie przejęć kont i ataków ransomware wynikających z złośliwego oprogramowania kradnącego informacje.
+Głównym celem WhiteIntel jest zwalczanie przejęć kont i ataków ransomware wynikających z złośliwego oprogramowania kradnącego informacje.
 
 Możesz odwiedzić ich stronę internetową i wypróbować ich silnik za **darmo** pod adresem:
 
@@ -316,10 +316,10 @@ Możesz odwiedzić ich stronę internetową i wypróbować ich silnik za **darmo
 
 Inne sposoby wsparcia HackTricks:
 
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCYJNY**](https://github.com/sponsors/carlospolop)!
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

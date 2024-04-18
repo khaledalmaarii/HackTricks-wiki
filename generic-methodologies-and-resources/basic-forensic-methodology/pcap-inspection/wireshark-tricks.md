@@ -1,14 +1,12 @@
 # Sztuczki z Wireshark
 
-## Sztuczki z Wireshark
-
 <details>
 
 <summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną na HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -16,7 +14,21 @@ Inne sposoby wsparcia HackTricks:
 
 </details>
 
-## Popraw swoje umiejętności z Wireshark
+### [WhiteIntel](https://whiteintel.io)
+
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+
+[**WhiteIntel**](https://whiteintel.io) to silnik wyszukiwania zasilany **dark webem**, który oferuje **darmowe** funkcje sprawdzania, czy firma lub jej klienci zostali **skompromitowani** przez **złośliwe oprogramowanie kradnące informacje**.
+
+Ich głównym celem WhiteIntel jest zwalczanie przejęć kont i ataków ransomware wynikających z złośliwego oprogramowania kradnącego informacje.
+
+Możesz sprawdzić ich stronę internetową i wypróbować ich silnik **za darmo** pod adresem:
+
+{% embed url="https://whiteintel.io" %}
+
+---
+
+## Doskonalenie umiejętności z Wireshark
 
 ### Tutoriale
 
@@ -31,19 +43,19 @@ Następujące tutoriale są niesamowite do nauki kilku fajnych podstawowych sztu
 
 **Informacje eksperta**
 
-Klikając na _**Analyze** --> **Expert Information**_ będziesz mieć **przegląd** tego, co dzieje się w **analizowanych** pakietach:
+Klikając na _**Analyze** --> **Expert Information**_ otrzymasz **przegląd** tego, co dzieje się w analizowanych pakietach:
 
 ![](<../../../.gitbook/assets/image (253).png>)
 
 **Rozwiązane adresy**
 
-Pod _**Statistics --> Resolved Addresses**_ znajdziesz kilka **informacji**, które zostały "**rozwiązane**" przez Wireshark, takie jak port/transport do protokołu, MAC do producenta, itp. Ważne jest, aby wiedzieć, co jest zaangażowane w komunikacji.
+Pod _**Statistics --> Resolved Addresses**_ znajdziesz kilka **informacji**, które zostały "**rozwiązane**" przez Wireshark, takie jak port/transport do protokołu, MAC do producenta, itp. Interesujące jest poznanie, co jest zaangażowane w komunikacji.
 
 ![](<../../../.gitbook/assets/image (890).png>)
 
 **Hierarchia protokołów**
 
-Pod _**Statistics --> Protocol Hierarchy**_ znajdziesz **protokoły** zaangażowane w komunikacji oraz dane na ich temat.
+Pod _**Statistics --> Protocol Hierarchy**_ znajdziesz **protokoły** **zaangażowane** w komunikacji oraz dane na ich temat.
 
 ![](<../../../.gitbook/assets/image (583).png>)
 
@@ -85,7 +97,7 @@ Inne interesujące filtry:
 
 ### Wyszukiwanie
 
-Jeśli chcesz **wyszukać** **treść** w **pakietach** sesji, naciśnij _CTRL+f_. Możesz dodać nowe warstwy do głównego paska informacji (Nr, Czas, Źródło, itp.) naciskając prawy przycisk, a następnie edytuj kolumnę.
+Jeśli chcesz **wyszukać** **treść** w **pakietach** sesji, naciśnij _CTRL+f_. Możesz dodać nowe warstwy do głównego paska informacji (Nr, Czas, Źródło, itp.) naciskając prawym przyciskiem myszy, a następnie edytuj kolumnę.
 
 ### Darmowe laboratoria pcap
 
@@ -125,7 +137,7 @@ Naciśnij _Edytuj_ i dodaj wszystkie dane serwera oraz klucza prywatnego (_IP, P
 
 ### Deszyfrowanie ruchu https za pomocą kluczy sesji symetrycznych
 
-Zarówno Firefox, jak i Chrome mają możliwość rejestrowania kluczy sesji TLS, które można użyć z Wiresharkiem do deszyfrowania ruchu TLS. Pozwala to na dogłębną analizę komunikacji zabezpieczonej. Więcej szczegółów na temat wykonywania tego deszyfrowania można znaleźć w przewodniku na stronie [Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/).
+Zarówno Firefox, jak i Chrome mają możliwość rejestrowania kluczy sesji TLS, które można użyć z Wiresharkiem do deszyfrowania ruchu TLS. Pozwala to na dogłębną analizę bezpiecznych komunikacji. Więcej szczegółów na temat wykonania tego deszyfrowania można znaleźć w przewodniku na stronie [Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/).
 
 Aby wykryć to, wyszukaj w środowisku zmienną `SSLKEYLOGFILE`
 
@@ -136,10 +148,9 @@ Plik współdzielonych kluczy będzie wyglądał tak:
 Aby zaimportować to do Wiresharka, przejdź do \_edytuj > preferencje > protokół > ssl > i zaimportuj to w (Pre)-Master-Secret log filename:
 
 ![](<../../../.gitbook/assets/image (986).png>)
-
 ## Komunikacja ADB
 
-Wyodrębnij plik APK z komunikacji ADB, w której przesłano plik APK:
+Wyodrębnij plik APK z komunikacji ADB, w której został wysłany plik APK:
 ```python
 from scapy.all import *
 
@@ -166,9 +177,22 @@ f = open('all_bytes.data', 'w+b')
 f.write(all_bytes)
 f.close()
 ```
+### [WhiteIntel](https://whiteintel.io)
+
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+
+[**WhiteIntel**](https://whiteintel.io) to wyszukiwarka zasilana przez **dark web**, która oferuje **darmowe** funkcje do sprawdzenia, czy firma lub jej klienci nie zostali **skompromitowani** przez **złośliwe oprogramowanie kradnące informacje**.
+
+Ich głównym celem WhiteIntel jest zwalczanie przejęć kont i ataków ransomware wynikających z złośliwego oprogramowania kradnącego informacje.
+
+Możesz odwiedzić ich stronę internetową i wypróbować ich silnik za **darmo** pod adresem:
+
+{% embed url="https://whiteintel.io" %}
+
+
 <details>
 
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Dowiedz się, jak hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 

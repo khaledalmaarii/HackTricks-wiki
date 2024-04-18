@@ -10,19 +10,19 @@ Inne sposoby wsparcia HackTricks:
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
 
 </details>
 
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) to **dark-web**-owy silnik wyszukiwania, który oferuje **darmowe** funkcje sprawdzania, czy firma lub jej klienci zostali **skompromitowani** przez **złośliwe oprogramowanie kradnące dane**.
+[**WhiteIntel**](https://whiteintel.io) to **dark-web**owy silnik wyszukiwania, który oferuje **darmowe** funkcje sprawdzania, czy firma lub jej klienci zostali **skompromitowani** przez **złośliwe oprogramowanie kradnące dane**.
 
 Ich głównym celem WhiteIntel jest zwalczanie przejęć kont i ataków ransomware wynikających z złośliwego oprogramowania kradnącego informacje.
 
-Możesz sprawdzić ich stronę internetową i wypróbować ich silnik **za darmo** pod adresem:
+Możesz sprawdzić ich stronę internetową i wypróbować ich silnik za **darmo** pod adresem:
 
 {% embed url="https://whiteintel.io" %}
 
@@ -32,22 +32,22 @@ Możesz sprawdzić ich stronę internetową i wypróbować ich silnik **za darmo
 
 AppArmor to **usprawnienie jądra zaprojektowane do ograniczania zasobów dostępnych dla programów poprzez profile dla poszczególnych programów**, efektywnie wprowadzające Kontrolę Dostępu Ograniczonego (MAC), wiążąc atrybuty kontroli dostępu bezpośrednio z programami, a nie z użytkownikami. Ten system działa poprzez **ładowanie profili do jądra**, zazwyczaj podczas uruchamiania, a te profile określają, do jakich zasobów program może uzyskać dostęp, takich jak połączenia sieciowe, dostęp do gniazd surowych i uprawnienia plików.
 
-Istnieją dwa tryby pracy profili AppArmor:
+Istnieją dwa tryby operacyjne profili AppArmor:
 
-- **Tryb Egzekwowania**: Ten tryb aktywnie egzekwuje zdefiniowane w profilu zasady, blokując działania, które naruszają te zasady, i rejestrując wszelkie próby ich naruszenia za pośrednictwem systemów takich jak syslog lub auditd.
+- **Tryb Egzekwowania**: Ten tryb aktywnie egzekwuje zasady zdefiniowane w profilu, blokując działania, które naruszają te zasady, i rejestrując wszelkie próby ich naruszenia za pośrednictwem systemów takich jak syslog lub auditd.
 - **Tryb Skargi**: W odróżnieniu od trybu egzekwowania, tryb skargi nie blokuje działań sprzecznych z zasadami profilu. Zamiast tego rejestruje te próby jako naruszenia zasad bez egzekwowania ograniczeń.
 
 ### Składniki AppArmor
 
 - **Moduł jądra**: Odpowiada za egzekwowanie zasad.
-- **Profile**: Określają zasady i ograniczenia zachowania programu oraz dostępu do zasobów.
-- **Parser**: Ładuje profile do jądra w celu egzekwowania lub raportowania.
+- **Zasady**: Określają reguły i ograniczenia zachowania programu oraz dostępu do zasobów.
+- **Parser**: Ładuje zasady do jądra w celu egzekwowania lub raportowania.
 - **Narzędzia**: Są to programy w trybie użytkownika, które zapewniają interfejs do interakcji z AppArmor i zarządzania nim.
 
-### Ścieżka profili
+### Ścieżki profili
 
 Profile AppArmor zazwyczaj są zapisywane w _**/etc/apparmor.d/**_\
-Za pomocą `sudo aa-status` będziesz mógł wyświetlić listę binarnych plików, które są ograniczone przez jakiś profil. Jeśli zmienisz znak "/" na kropkę w ścieżce każdego wymienionego binarnego pliku, otrzymasz nazwę profilu apparmor w wymienionym folderze.
+Za pomocą `sudo aa-status` będziesz mógł wyświetlić listę binarnych plików, które są ograniczone przez jakiś profil. Jeśli zmienisz znak "/" na kropkę w ścieżce każdego wymienionego binarnego pliku, otrzymasz nazwę profilu apparmor wewnątrz wspomnianego folderu.
 
 Na przykład profil **apparmor** dla _/usr/bin/man_ będzie znajdował się w _/etc/apparmor.d/usr.bin.man_
 
@@ -79,12 +79,12 @@ aa-mergeprof  #used to merge the policies
 
 ### aa-genprof
 
-Aby łatwo rozpocząć tworzenie profilu, apparmor może ci pomóc. Możliwe jest **spowodowanie, że apparmor przeanalizuje działania wykonywane przez binarkę, a następnie pozwoli ci zdecydować, które działania chcesz zezwolić lub zabronić**.\
+Aby łatwo rozpocząć tworzenie profilu, apparmor może ci pomóc. Możliwe jest **zlecanie apparmorowi inspekcji działań wykonywanych przez binarkę, a następnie decydowanie, które działania chcesz zezwolić lub zabronić**.\
 Wystarczy uruchomić:
 ```bash
 sudo aa-genprof /path/to/binary
 ```
-Następnie w innej konsoli wykonaj wszystkie czynności, które zwykle wykonuje binarny plik:
+Następnie w innej konsoli wykonaj wszystkie czynności, które zwykle wykonuje plik binarny:
 ```bash
 /path/to/binary -a dosomething
 ```
@@ -149,7 +149,7 @@ apparmor_parser -R /etc/apparmor.d/profile.name #Remove profile
 ```
 ## Dzienniki
 
-Przykład **AUDIT** i **DENIED** logów z _/var/log/audit/audit.log_ dla wykonywalnego pliku **`service_bin`**:
+Przykład logów **AUDIT** i **DENIED** z pliku _/var/log/audit/audit.log_ dla wykonywalnego pliku **`service_bin`**:
 ```bash
 type=AVC msg=audit(1610061880.392:286): apparmor="AUDIT" operation="getattr" profile="/bin/rcat" name="/dev/pts/1" pid=954 comm="service_bin" requested_mask="r" fsuid=1000 ouid=1000
 type=AVC msg=audit(1610061880.392:287): apparmor="DENIED" operation="open" profile="/bin/rcat" name="/etc/hosts" pid=954 comm="service_bin" requested_mask="r" denied_mask="r" fsuid=1000 ouid=0
@@ -195,7 +195,7 @@ Domyślny profil **Apparmor docker-default** jest generowany z [https://github.c
 **Podsumowanie profilu docker-default**:
 
 * **Dostęp** do całej **sieci**
-* **Nie zdefiniowano** żadnych **uprawnień** (Jednakże, niektóre uprawnienia zostaną dostarczone poprzez włączenie podstawowych reguł bazowych, tj. #include \<abstractions/base>)
+* **Nie zdefiniowano żadnych uprawnień** (Jednakże, niektóre uprawnienia zostaną uwzględnione poprzez włączenie podstawowych reguł bazowych, np. #include \<abstractions/base>)
 * **Zapisywanie** do dowolnego pliku **/proc** jest **nie dozwolone**
 * Inne **podkatalogi**/**pliki** z /**proc** i /**sys** mają **zabroniony** dostęp do odczytu/zapisu/blokady/linkowania/wykonania
 * **Montowanie** jest **nie dozwolone**
@@ -206,7 +206,7 @@ Po **uruchomieniu kontenera dockerowego** powinieneś zobaczyć następujący wy
 1 processes are in enforce mode.
 docker-default (825)
 ```
-Zauważ, że **apparmor zablokuje nawet przyznane domyślnie uprawnienia do możliwości** kontenera. Na przykład, będzie w stanie **zablokować uprawnienie do zapisu wewnątrz /proc nawet jeśli przyznano uprawnienie SYS\_ADMIN**, ponieważ domyślny profil apparmor dla dockera blokuje ten dostęp:
+Zauważ, że **apparmor zablokuje nawet uprawnienia capabilities** nadane kontenerowi domyślnie. Na przykład, będzie w stanie **zablokować uprawnienie do zapisu wewnątrz /proc nawet jeśli uprawnienie SYS\_ADMIN jest nadane**, ponieważ domyślny profil apparmor dla dockera odrzuca ten dostęp:
 ```bash
 docker run -it --cap-add SYS_ADMIN --security-opt seccomp=unconfined ubuntu /bin/bash
 echo "" > /proc/stat
@@ -218,14 +218,14 @@ docker run -it --cap-add SYS_ADMIN --security-opt seccomp=unconfined --security-
 ```
 Zauważ, że domyślnie **AppArmor** również **zabrania kontenerowi montowania** folderów od wewnątrz nawet z uprawnieniami SYS\_ADMIN.
 
-Zauważ, że możesz **dodać/usunąć** **uprawnienia** do kontenera dockerowego (to nadal będzie ograniczone przez metody ochrony takie jak **AppArmor** i **Seccomp**):
+Zauważ, że możesz **dodawać/usuwać** **uprawnienia** do kontenera dockerowego (to nadal będzie ograniczone przez metody ochrony takie jak **AppArmor** i **Seccomp**):
 
 * `--cap-add=SYS_ADMIN` dodaje uprawnienie `SYS_ADMIN`
 * `--cap-add=ALL` dodaje wszystkie uprawnienia
 * `--cap-drop=ALL --cap-add=SYS_PTRACE` usuwa wszystkie uprawnienia i dodaje tylko `SYS_PTRACE`
 
 {% hint style="info" %}
-Zazwyczaj, gdy **zauważysz**, że masz **uprawnienie zwiększające** dostępne **wewnątrz** kontenera **dockerowego**, **ale** część **eksploatacji nie działa**, może to być spowodowane tym, że **AppArmor docker** uniemożliwia to.
+Zazwyczaj, gdy **zauważysz**, że masz **uprawnienie zwiększone** dostępne **wewnątrz** kontenera **dockerowego, ale** część **eksploitacji nie działa**, może to być spowodowane tym, że **AppArmor docker** to **blokuje**.
 {% endhint %}
 
 ### Przykład
@@ -250,7 +250,7 @@ Jak pokazano poniżej, otrzymujemy błąd podczas próby zmiany „/etc/”, pon
 $ docker run --rm -it --security-opt apparmor:mydocker -v ~/haproxy:/localhost busybox chmod 400 /etc/hostname
 chmod: /etc/hostname: Permission denied
 ```
-### Bypass AppArmor Docker1
+### Bypass1 AppArmor Docker
 
 Możesz sprawdzić, który **profil apparmor uruchamia kontener** za pomocą:
 ```bash
@@ -262,11 +262,11 @@ Następnie możesz uruchomić poniższą komendę, aby **znaleźć dokładny pro
 ```bash
 find /etc/apparmor.d/ -name "*lowpriv*" -maxdepth 1 2>/dev/null
 ```
-### AppArmor Docker Bypass2
+### Bypass 2 zabezpieczeń AppArmor Docker
 
-**AppArmor działa na podstawie ścieżek**, oznacza to, że nawet jeśli **chroni** pliki wewnątrz katalogu takiego jak **`/proc`**, jeśli możesz **skonfigurować sposób uruchamiania kontenera**, możesz **zamontować** katalog proc z hosta wewnątrz **`/host/proc`** i **już nie będzie on chroniony przez AppArmor**.
+**AppArmor działa na podstawie ścieżek**, co oznacza, że nawet jeśli **chroni** pliki wewnątrz katalogu **`/proc`**, jeśli możesz **skonfigurować sposób uruchamiania kontenera**, możesz **zamontować** katalog proc z hosta wewnątrz **`/host/proc`**, a nie będzie on już chroniony przez AppArmor.
 
-### AppArmor Shebang Bypass
+### Bypass Shebang w AppArmor
 
 W [**tym błędzie**](https://bugs.launchpad.net/apparmor/+bug/1911431) możesz zobaczyć przykład, jak **nawet jeśli uniemożliwiasz uruchomienie perla z pewnymi zasobami**, jeśli po prostu utworzysz skrypt powłoki **określając** w pierwszej linii **`#!/usr/bin/perl`** i **uruchomisz plik bezpośrednio**, będziesz mógł wykonać cokolwiek chcesz. Na przykład:
 ```perl
@@ -278,21 +278,21 @@ exec "/bin/sh"' > /tmp/test.pl
 chmod +x /tmp/test.pl
 /tmp/test.pl
 ```
-## WhiteIntel
+### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) to wyszukiwarka zasilana przez **dark web**, która oferuje **darmowe** funkcje do sprawdzenia, czy firma lub jej klienci zostali **skompromitowani** przez **złośliwe oprogramowanie kradnące informacje**.
+[**WhiteIntel**](https://whiteintel.io) to wyszukiwarka zasilana przez **dark web**, która oferuje **darmowe** funkcje do sprawdzenia, czy firma lub jej klienci zostali **skompromitowani** przez **złośliwe oprogramowanie kradnące dane**.
 
 Ich głównym celem WhiteIntel jest zwalczanie przejęć kont i ataków ransomware wynikających z złośliwego oprogramowania kradnącego informacje.
 
-Możesz sprawdzić ich stronę internetową i wypróbować ich silnik za **darmo** pod adresem:
+Możesz odwiedzić ich stronę internetową i wypróbować ich silnik za **darmo** pod adresem:
 
 {% embed url="https://whiteintel.io" %}
 
 <details>
 
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Dowiedz się, jak hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 
@@ -300,6 +300,6 @@ Inne sposoby wsparcia HackTricks:
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na githubie.
 
 </details>
