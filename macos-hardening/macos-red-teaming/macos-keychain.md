@@ -6,64 +6,78 @@
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju oglašenu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
+## WhiteIntel
+
+<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+
+[**WhiteIntel**](https://whiteintel.io) je **dark-web** pretraživač koji nudi **besplatne** funkcionalnosti za proveru da li je kompanija ili njeni korisnici **kompromitovani** od strane **malvera za krađu podataka**.
+
+Primarni cilj WhiteIntela je borba protiv preuzimanja naloga i napada ransomware-a koji proizilaze iz malvera za krađu informacija.
+
+Možete posetiti njihovu veb stranicu i isprobati njihovu mašinu za **besplatno** na:
+
+{% embed url="https://whiteintel.io" %}
+
+---
+
 ## Glavni Keychain-ovi
 
-* **User Keychain** (`~/Library/Keychains/login.keycahin-db`), koji se koristi za čuvanje **korisničkih kredencijala** kao što su lozinke aplikacija, internet lozinke, korisnički generisani sertifikati, mrežne lozinke i korisnički generisani javni/privatni ključevi.
-* **System Keychain** (`/Library/Keychains/System.keychain`), koji čuva **sistemski kredencijali** kao što su WiFi lozinke, sistemski root sertifikati, sistemski privatni ključevi i lozinke aplikacija sistema.
+* **Ključnik korisnika** (`~/Library/Keychains/login.keycahin-db`), koji se koristi za čuvanje **specifičnih za korisnika kredencijala** poput lozinki aplikacija, internet lozinki, korisničkih generisanih sertifikata, mrežnih lozinki i korisničkih generisanih javnih/privatnih ključeva.
+* **Sistemski Keychain** (`/Library/Keychains/System.keychain`), koji čuva **sistemski kredencijali** kao što su WiFi lozinke, sistemski root sertifikati, sistemski privatni ključevi i sistemski lozinke aplikacija.
 
-### Pristup lozinki Keychain-a
+### Pristup Lozinki Keychain-a
 
-Ove datoteke, iako nemaju inherentnu zaštitu i mogu biti **preuzete**, su šifrovane i zahtevaju **korisničku lozinku u plaintext-u za dešifrovanje**. Alat kao što je [**Chainbreaker**](https://github.com/n0fate/chainbreaker) može se koristiti za dešifrovanje.
+Ovi fajlovi, iako nemaju inherentnu zaštitu i mogu biti **preuzeti**, su enkriptovani i zahtevaju **korisničku plaintext lozinku za dešifrovanje**. Alat poput [**Chainbreaker**](https://github.com/n0fate/chainbreaker) može se koristiti za dešifrovanje.
 
-## Zaštita unosa u Keychain-u
+## Zaštita Unosa u Keychain-u
 
-### ACLs
+### ACL-ovi
 
-Svaki unos u Keychain-u je regulisan **Access Control Listama (ACLs)** koje određuju ko može izvršiti različite akcije na unosu Keychain-a, uključujući:
+Svaki unos u keychain-u upravlja se **Access Control Listama (ACL-ovima)** koji određuju ko može izvršiti različite akcije na unosu u keychain-u, uključujući:
 
 * **ACLAuhtorizationExportClear**: Dozvoljava nosiocu da dobije čisti tekst tajne.
 * **ACLAuhtorizationExportWrapped**: Dozvoljava nosiocu da dobije šifrovan čisti tekst sa drugom pruženom lozinkom.
 * **ACLAuhtorizationAny**: Dozvoljava nosiocu da izvrši bilo koju akciju.
 
-ACLs su dalje praćene **listom pouzdanih aplikacija** koje mogu izvršiti ove akcije bez upita. To može biti:
+ACL-ovi su dodatno praćeni **listom pouzdanih aplikacija** koje mogu izvršiti ove akcije bez upozorenja. To može biti:
 
 * &#x20;**N`il`** (nije potrebna autorizacija, **svi su pouzdani**)
-* Prazna **lista** (nije pouzdan niko)
+* Prazna lista (**niko nije pouzdan**)
 * **Lista** specifičnih **aplikacija**.
 
-Takođe, unos može sadržati ključ **`ACLAuthorizationPartitionID`**, koji se koristi za identifikaciju **teamid, apple** i **cdhash**.
+Takođe, unos može sadržati ključ **`ACLAuthorizationPartitionID`,** koji se koristi za identifikaciju **teamid, apple,** i **cdhash.**
 
-* Ako je naveden **teamid**, tada da bi se **pristupio vrednosti unosa** bez **upita**, korišćena aplikacija mora imati **isti teamid**.
-* Ako je naveden **apple**, aplikacija mora biti **potpisana** od strane **Apple-a**.
-* Ako je naznačen **cdhash**, onda aplikacija mora imati određeni **cdhash**.
+* Ako je **teamid** naveden, tada da bi se **pristupio vrednosti unosa** bez **upita** korišćena aplikacija mora imati **isti teamid**.
+* Ako je naveden **apple**, tada aplikacija mora biti **potpisana** od strane **Apple-a**.
+* Ako je naveden **cdhash**, tada aplikacija mora imati specifičan **cdhash**.
 
-### Kreiranje unosa u Keychain-u
+### Kreiranje Unosa u Keychain-u
 
-Kada se **novi unos** kreira koristeći **`Keychain Access.app`**, primenjuju se sledeća pravila:
+Kada se **novi** **unos** kreira koristeći **`Keychain Access.app`**, primenjuju se sledeća pravila:
 
 * Sve aplikacije mogu šifrovati.
-* **Nijedna aplikacija** ne može izvoziti/dešifrovati (bez upita korisnika).
+* **Nijedna aplikacija** ne može izvoziti/dešifrovati (bez upozorenja korisnika).
 * Sve aplikacije mogu videti proveru integriteta.
-* Nijedna aplikacija ne može menjati ACLs.
+* Nijedna aplikacija ne može menjati ACL-ove.
 * **PartitionID** je postavljen na **`apple`**.
 
-Kada **aplikacija kreira unos u Keychain-u**, pravila su malo drugačija:
+Kada **aplikacija kreira unos u keychain-u**, pravila su malo drugačija:
 
 * Sve aplikacije mogu šifrovati.
-* Samo **kreirajuća aplikacija** (ili bilo koja druga eksplicitno dodata aplikacija) može izvoziti/dešifrovati (bez upita korisnika).
+* Samo **kreirajuća aplikacija** (ili bilo koje druge eksplicitno dodate aplikacije) mogu izvoziti/dešifrovati (bez upozorenja korisnika).
 * Sve aplikacije mogu videti proveru integriteta.
-* Nijedna aplikacija ne može menjati ACLs.
+* Nijedna aplikacija ne može menjati ACL-ove.
 * **PartitionID** je postavljen na **`teamid:[ovde_teamID]`**.
 
-## Pristup Keychain-u
+## Pristupanje Keychain-u
 
 ### `security`
 ```bash
@@ -79,58 +93,70 @@ security set-generic-password-parition-list -s "test service" -a "test acount" -
 ### API-ji
 
 {% hint style="success" %}
-**Enumeracija i ispisivanje** tajni u **ključnom lancu** koje **neće generisati upit** mogu se obaviti pomoću alata [**LockSmith**](https://github.com/its-a-feature/LockSmith)
+**Enumeracija i iskopavanje** tajni **keychain-a** koje **neće generisati upitnik** mogu se obaviti pomoću alata [**LockSmith**](https://github.com/its-a-feature/LockSmith)
 {% endhint %}
 
-Izlistajte i dobijte **informacije** o svakom unosu u ključni lanac:
+Lista i dobijanje **informacija** o svakom unosu u keychain:
 
 * API **`SecItemCopyMatching`** daje informacije o svakom unosu i postoje neki atributi koje možete postaviti prilikom korišćenja:
-* **`kSecReturnData`**: Ako je tačno, pokušaće da dešifruje podatke (postavite na netačno da biste izbegli potencijalne upite)
-* **`kSecReturnRef`**: Dobijte i referencu na stavku u ključnom lancu (postavite na tačno ako kasnije vidite da možete dešifrovati bez upita)
-* **`kSecReturnAttributes`**: Dobijte metapodatke o unosima
+* **`kSecReturnData`**: Ako je tačno, pokušaće da dešifruje podatke (postavite na lažno da biste izbegli potencijalne iskačuće prozore)
+* **`kSecReturnRef`**: Dobijanje reference na stavku u keychain-u (postavite na tačno u slučaju da kasnije vidite da možete dešifrovati bez iskačućeg prozora)
+* **`kSecReturnAttributes`**: Dobijanje metapodataka o unosima
 * **`kSecMatchLimit`**: Koliko rezultata vratiti
-* **`kSecClass`**: Kakav unos u ključnom lancu
+* **`kSecClass`**: Kakav je unos u keychain-u
 
-Dobijte **ACL-ove** svakog unosa:
+Dobijanje **ACL-ova** svakog unosa:
 
-* Pomoću API-ja **`SecAccessCopyACLList`** možete dobiti **ACL za stavku u ključnom lancu**, i vratiće listu ACL-ova (poput `ACLAuhtorizationExportClear` i drugih prethodno pomenutih) gde svaka lista ima:
+* Pomoću API-ja **`SecAccessCopyACLList`** možete dobiti **ACL za stavku u keychain-u**, i vratiće listu ACL-ova (kao što su `ACLAuhtorizationExportClear` i ostali prethodno pomenuti) gde svaka lista ima:
 * Opis
-* **Lista pouzdanih aplikacija**. To može biti:
+* **Lista pouzdanih aplikacija**. Ovo može biti:
 * Aplikacija: /Applications/Slack.app
 * Binarna datoteka: /usr/libexec/airportd
 * Grupa: group://AirPort
 
-Izvezi podatke:
+Izvoz podataka:
 
-* API **`SecKeychainItemCopyContent`** dobija tekstualni oblik
-* API **`SecItemExport`** izvozi ključeve i sertifikate, ali može biti potrebno postaviti lozinke da biste izvezli sadržaj šifrovan
+* API **`SecKeychainItemCopyContent`** dobija tekstualne podatke
+* API **`SecItemExport`** izvozi ključeve i sertifikate ali može biti potrebno postaviti lozinke za izvoz šifrovanih sadržaja
 
-I ovo su **zahtevi** da biste mogli **izvoziti tajnu bez upita**:
+I ovo su **zahtevi** da biste mogli **izvesti tajnu bez upitnika**:
 
-* Ako je navedeno **1+ pouzdanih** aplikacija:
+* Ako je **1+ pouzdanih** aplikacija navedeno:
 * Potrebne su odgovarajuće **autorizacije** (**`Nil`**, ili biti **deo** dozvoljene liste aplikacija u autorizaciji za pristup tajnim informacijama)
 * Potrebno je da potpis koda odgovara **PartitionID**
-* Potrebno je da potpis koda odgovara potpisu jedne **pouzdane aplikacije** (ili biti član odgovarajuće KeychainAccessGroup)
+* Potrebno je da potpis koda odgovara onom od jedne **pouzdane aplikacije** (ili biti član odgovarajuće KeychainAccessGroup)
 * Ako su **sve aplikacije pouzdane**:
 * Potrebne su odgovarajuće **autorizacije**
 * Potrebno je da potpis koda odgovara **PartitionID**
 * Ako nema **PartitionID**, onda ovo nije potrebno
 
 {% hint style="danger" %}
-Dakle, ako je navedena **1 aplikacija**, morate **ubaciti kod u tu aplikaciju**.
+Stoga, ako je navedena **1 aplikacija**, potrebno je **ubaciti kod u tu aplikaciju**.
 
-Ako je navedeno **apple** u **partitionID**, možete pristupiti tome pomoću **`osascript`**, tako da sve što veruje svim aplikacijama sa apple u partitionID. **`Python`** takođe može biti korišćen za ovo.
+Ako je **apple** naznačen u **partitionID**, možete pristupiti tome pomoću **`osascript`** tako da sve što veruje svim aplikacijama sa apple u partitionID. **`Python`** takođe može biti korišćen za ovo.
 {% endhint %}
 
 ### Dva dodatna atributa
 
-* **Nevidljivo**: To je boolean oznaka za **sakrivanje** unosa iz aplikacije **UI** Keychain
+* **Nevidljivo**: To je boolean oznaka za **sakrivanje** unosa iz **UI** Keychain aplikacije
 * **Opšte**: Služi za čuvanje **metapodataka** (tako da NIJE ŠIFROVANO)
-* Microsoft je čuvao sve osvežavajuće tokene za pristup osetljivim krajnjim tačkama u obliku običnog teksta.
+* Microsoft je čuvao sve osvežene tokene za pristup osetljivim krajnjim tačkama u običnom tekstu.
 
 ## Reference
 
 * [**#OBTS v5.0: "Lock Picking the macOS Keychain" - Cody Thomas**](https://www.youtube.com/watch?v=jKE1ZW33JpY)
+
+## WhiteIntel
+
+<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+
+[**WhiteIntel**](https://whiteintel.io) je pretraživač na **dark vebu** koji nudi **besplatne** funkcionalnosti za proveru da li je kompanija ili njeni korisnici kompromitovani od strane **kradljivih malvera**.
+
+Primarni cilj WhiteIntela je borba protiv preuzimanja naloga i napada ransomvera koji proizilaze iz malvera za krađu informacija.
+
+Možete posetiti njihovu veb lokaciju i isprobati njihov pretraživač **besplatno** na:
+
+{% embed url="https://whiteintel.io" %}
 
 <details>
 
@@ -138,10 +164,10 @@ Ako je navedeno **apple** u **partitionID**, možete pristupiti tome pomoću **`
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu u HackTricks-u** ili **preuzmete HackTricks u PDF formatu** Pogledajte [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>

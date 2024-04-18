@@ -6,76 +6,76 @@
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
-## Obnova BIOS lozinke i sistemsko obezbeđenje
+## WhiteIntel
 
-**Resetovanje BIOS-a** može se postići na nekoliko načina. Većina matičnih ploča uključuje **bateriju** koja, kada se ukloni oko **30 minuta**, će resetovati BIOS podešavanja, uključujući i lozinku. Alternativno, **jumper na matičnoj ploči** može se podesiti da resetuje ova podešavanja povezivanjem određenih pinova.
+<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
 
-U situacijama kada hardverske izmene nisu moguće ili praktične, **softverski alati** nude rešenje. Pokretanje sistema sa **Live CD/USB** distribucijama kao što je **Kali Linux** omogućava pristup alatima poput **_killCmos_** i **_CmosPWD_**, koji mogu pomoći u obnovi BIOS lozinke.
+[**WhiteIntel**](https://whiteintel.io) je pretraživački motor pokretan **dark web-om** koji nudi **besplatne** funkcionalnosti za proveru da li je kompanija ili njeni korisnici **kompromitovani** od strane **kradljivih malvera**.
 
-U slučajevima kada je BIOS lozinka nepoznata, unošenje lozinke netačno **tri puta** obično rezultira greškom. Ovaj kod se može koristiti na veb sajtovima poput [https://bios-pw.org](https://bios-pw.org) kako bi se potencijalno dobio upotrebljiva lozinka.
+Njihov primarni cilj WhiteIntela je borba protiv preuzimanja naloga i napada ransomware-a koji proizilaze iz malvera za krađu informacija.
+
+Možete posetiti njihovu veb lokaciju i isprobati njihov motor **besplatno** na:
+
+{% embed url="https://whiteintel.io" %}
+
+---
+
+## Obnova BIOS lozinke i bezbednost sistema
+
+**Resetovanje BIOS-a** može se postići na nekoliko načina. Većina matičnih ploča uključuje **bateriju** koja, kada se ukloni oko **30 minuta**, će resetovati BIOS postavke, uključujući lozinku. Alternativno, **jumper na matičnoj ploči** može se podesiti da resetuje ove postavke povezivanjem određenih pinova.
+
+Za situacije kada hardverske prilagodbe nisu moguće ili praktične, **softverski alati** nude rešenje. Pokretanje sistema sa **Live CD/USB** sa distribucijama poput **Kali Linux** omogućava pristup alatima poput **_killCmos_** i **_CmosPWD_**, koji mogu pomoći u obnovi BIOS lozinke.
+
+U slučajevima kada je BIOS lozinka nepoznata, unošenje je pogrešno **tri puta** obično rezultira kodom greške. Taj kod se može koristiti na veb lokacijama poput [https://bios-pw.org](https://bios-pw.org) kako bi se potencijalno pronašla upotrebljiva lozinka.
 
 ### UEFI bezbednost
 
-Za moderne sisteme koji koriste **UEFI** umesto tradicionalnog BIOS-a, alat **chipsec** se može koristiti za analizu i modifikaciju UEFI podešavanja, uključujući onemogućavanje **Secure Boot**-a. To se može postići sledećom komandom:
+Za moderne sisteme koji koriste **UEFI** umesto tradicionalnog BIOS-a, alat **chipsec** može se koristiti za analizu i modifikaciju UEFI postavki, uključujući onemogućavanje **Secure Boot**-a. To se može postići sledećom komandom:
 
 `python chipsec_main.py -module exploits.secure.boot.pk`
 
-### Analiza RAM-a i napadi sa hladnim startom
+### Analiza RAM-a i napadi hladnog podizanja sistema
 
-RAM zadržava podatke kratko vreme nakon isključivanja napajanja, obično **1 do 2 minuta**. Ova postojanost se može produžiti na **10 minuta** primenom hladnih supstanci, poput tečnog azota. Tokom ovog produženog perioda, može se napraviti **damp memorije** korišćenjem alata poput **dd.exe** i **volatility** za analizu.
+RAM zadržava podatke nakratko nakon isključivanja napajanja, obično **1 do 2 minuta**. Ova postojanost se može produžiti na **10 minuta** primenom hladnih supstanci, poput tečnog azota. Tokom ovog produženog perioda, može se napraviti **damp memorije** koristeći alate poput **dd.exe** i **volatility** za analizu.
 
-### Napadi sa direktnim pristupom memoriji (DMA)
+### Napadi direktnog pristupa memoriji (DMA)
 
-**INCEPTION** je alat dizajniran za **fizičku manipulaciju memorijom** putem DMA, kompatibilan sa interfejsima poput **FireWire**-a i **Thunderbolt**-a. Omogućava zaobilaženje postupka prijavljivanja tako što menja memoriju da prihvati bilo koju lozinku. Međutim, neefikasan je protiv sistema sa **Windows 10**.
+**INCEPTION** je alat dizajniran za **fizičku manipulaciju memorije** putem DMA, kompatibilan sa interfejsima poput **FireWire**-a i **Thunderbolt**-a. Omogućava zaobilazak postupaka prijave patchovanjem memorije da prihvati bilo koju lozinku. Međutim, neefikasan je protiv sistema **Windows 10**.
 
 ### Live CD/USB za pristup sistemu
 
-Promena sistemskih binarnih fajlova poput **_sethc.exe_** ili **_Utilman.exe_** sa kopijom **_cmd.exe_** može obezbediti komandnu liniju sa sistemskim privilegijama. Alati poput **chntpw** mogu se koristiti za uređivanje **SAM** fajla Windows instalacije, što omogućava promenu lozinki.
+Menjanje sistemskih binarnih datoteka poput **_sethc.exe_** ili **_Utilman.exe_** sa kopijom **_cmd.exe_** može pružiti komandnu liniju sa sistemskim privilegijama. Alati poput **chntpw** mogu se koristiti za uređivanje **SAM** datoteke Windows instalacije, omogućavajući promene lozinke.
 
 **Kon-Boot** je alat koji olakšava prijavljivanje na Windows sisteme bez poznavanja lozinke privremeno modifikujući Windows kernel ili UEFI. Više informacija možete pronaći na [https://www.raymond.cc](https://www.raymond.cc/blog/login-to-windows-administrator-and-linux-root-account-without-knowing-or-changing-current-password/).
 
-### Rad sa Windows bezbednosnim funkcijama
+### Postupanje sa Windows bezbednosnim funkcijama
 
-#### Prečice za pokretanje i oporavak
+#### Prečice za podizanje i oporavak
 
-- **Supr**: Pristup BIOS podešavanjima.
+- **Supr**: Pristup BIOS postavkama.
 - **F8**: Ulazak u režim oporavka.
-- Pritisak na **Shift** nakon Windows banera može zaobići automatsko prijavljivanje.
+- Pritiskanje **Shift** nakon Windows banera može zaobići automatsko prijavljivanje.
 
-#### Loši USB uređaji (BAD USB)
+#### Uređaji sa lošim USB-om
 
-Uređaji poput **Rubber Ducky**-ja i **Teensyduino**-a služe kao platforme za kreiranje **loših USB** uređaja, sposobnih za izvršavanje unapred definisanih payload-a kada su povezani sa ciljnim računarom.
+Uređaji poput **Rubber Ducky**-a i **Teensyduino**-a služe kao platforme za kreiranje uređaja sa **lošim USB-om**, sposobnih za izvršavanje unapred definisanih payload-a kada su povezani sa ciljanim računarom.
 
-#### Kopiranje senzitivnih fajlova pomoću Volume Shadow Copy
+#### Kopiranje senki zapisa
 
-Administrator privilegije omogućavaju kreiranje kopija osetljivih fajlova, uključujući **SAM** fajl, putem PowerShell-a.
+Administrator privilegije omogućavaju kreiranje kopija osetljivih datoteka, uključujući **SAM** datoteku, putem PowerShell-a.
 
-### Zaobilaženje BitLocker enkripcije
+### Zaobilazak BitLocker šifrovanja
 
-BitLocker enkripcija može potencijalno biti zaobiđena ako se **recovery password** pronađe unutar fajla sa dump-om memorije (**MEMORY.DMP**). Alati poput **Elcomsoft Forensic Disk Decryptor**-a ili **Passware Kit Forensic**-a mogu se koristiti u tu svrhu.
+BitLocker šifrovanje potencijalno može biti zaobiđeno ako se **ključ za oporavak** pronađe unutar datoteke sa dump-om memorije (**MEMORY.DMP**). Alati poput **Elcomsoft Forensic Disk Decryptor**-a ili **Passware Kit Forensic**-a mogu se koristiti u tu svrhu.
 
 ### Društveno inženjering za dodavanje ključa za oporavak
 
-Novi BitLocker ključ za oporavak može se dodati putem taktika društvenog inženjeringa, ubedljivanjem korisnika da izvrši komandu koja dodaje novi ključ za oporavak sastavljen od nula, čime se pojednostavljuje proces dešifrovanja. 
-
-<details>
-
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
-
-</details>
+Novi BitLocker ključ za oporavak može se dodati putem taktika društvenog inženjeringa, ubedivši korisnika da izvrši komandu koja dodaje novi ključ za oporavak sastavljen od nula, čime se pojednostavljuje proces dešifrovanja.
