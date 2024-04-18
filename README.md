@@ -20,11 +20,11 @@ Per iniziare, segui questa pagina dove troverai il **flusso tipico** che **dovre
 
 <figure><img src=".gitbook/assets/stm (1).png" alt=""><figcaption></figcaption></figure>
 
-[**STM Cyber**](https://www.stmcyber.com) è una grande azienda di cybersecurity il cui slogan è **HACK THE UNHACKABLE**. Svolgono la propria ricerca e sviluppano i propri strumenti di hacking per **offrire diversi servizi di sicurezza informatica** come pentesting, Red teams e formazione.
+[**STM Cyber**](https://www.stmcyber.com) è una grande azienda di cybersecurity il cui slogan è **HACK THE UNHACKABLE**. Svolgono la propria ricerca e sviluppano i propri strumenti di hacking per **offrire diversi servizi di cybersecurity** come pentesting, Red teams e formazione.
 
 Puoi controllare il loro **blog** su [**https://blog.stmcyber.com**](https://blog.stmcyber.com)
 
-**STM Cyber** supporta anche progetti open source di sicurezza informatica come HackTricks :)
+**STM Cyber** supporta anche progetti open source di cybersecurity come HackTricks :)
 
 ***
 
@@ -32,7 +32,7 @@ Puoi controllare il loro **blog** su [**https://blog.stmcyber.com**](https://blo
 
 <figure><img src=".gitbook/assets/image (42).png" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com) è l'evento di sicurezza informatica più rilevante in **Spagna** e uno dei più importanti in **Europa**. Con **la missione di promuovere la conoscenza tecnica**, questo congresso è un punto di incontro bollente per professionisti della tecnologia e della sicurezza informatica in ogni disciplina.
+[**RootedCON**](https://www.rootedcon.com) è l'evento di cybersecurity più rilevante in **Spagna** e uno dei più importanti in **Europa**. Con **la missione di promuovere la conoscenza tecnica**, questo congresso è un punto di incontro bollente per i professionisti della tecnologia e della cybersecurity in ogni disciplina.
 
 {% embed url="https://www.rootedcon.com/" %}
 
@@ -114,18 +114,30 @@ Puoi **creare un account gratuito** [**qui**](https://serpapi.com/users/sign\_up
 
 <figure><img src=".gitbook/assets/websec (1).svg" alt=""><figcaption></figcaption></figure>
 
-[**WebSec**](https://websec.nl) è una società di sicurezza informatica professionale con sede ad **Amsterdam** che aiuta a **proteggere** le imprese **di tutto il mondo** contro le ultime minacce alla sicurezza informatica fornendo servizi di **sicurezza offensiva** con un **approccio moderno**.
+[**WebSec**](https://websec.nl) è una società di cybersecurity professionale con sede ad **Amsterdam** che aiuta a **proteggere** le imprese **di tutto il mondo** contro le ultime minacce di cybersecurity fornendo servizi di **offensive-security** con un **approccio moderno**.
 
-WebSec è una società di sicurezza **all-in-one**, il che significa che fanno tutto; Pentesting, **Auditing di Sicurezza**, Formazioni sulla Consapevolezza, Campagne di Phishing, Revisione del Codice, Sviluppo di Exploit, Outsourcing di Esperti di Sicurezza e molto altro.
+WebSec è una società di sicurezza **all-in-one**, il che significa che fanno tutto; Pentesting, Audit di Sicurezza, Formazioni sulla Consapevolezza, Campagne di Phishing, Revisione del Codice, Sviluppo di Exploit, Outsourcing di Esperti di Sicurezza e molto altro.
 
 Un'altra cosa interessante su WebSec è che, a differenza della media del settore, WebSec è **molto sicura delle proprie competenze**, al punto che **garantisce i migliori risultati di qualità**, si legge sul loro sito web "**Se non possiamo hackerarlo, non lo paghi!**". Per ulteriori informazioni dai un'occhiata al loro [**sito web**](https://websec.nl/en/) e [**blog**](https://websec.nl/blog/)!
 
 Oltre a quanto sopra, WebSec è anche un **sostenitore impegnato di HackTricks.**
 
 {% embed url="https://www.youtube.com/watch?v=Zq2JycGDCPM" %}
+## WhiteIntel
+
+<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+
+[**WhiteIntel**](https://whiteintel.io) è un motore di ricerca alimentato dal **dark web** che offre funzionalità **gratuite** per verificare se un'azienda o i suoi clienti sono stati **compromessi** da **malware ruba-informazioni**.
+
+Il loro obiettivo principale di WhiteIntel è combattere i takeover di account e gli attacchi ransomware derivanti da malware che rubano informazioni.
+
+Puoi visitare il loro sito web e provare il loro motore gratuitamente su:
+
+{% embed url="https://whiteintel.io" %}
+
 ## Licenza e Avvertenza
 
-Controllale in:
+Controllali su:
 
 {% content-ref url="welcome/hacktricks-values-and-faq.md" %}
 [hacktricks-values-and-faq.md](welcome/hacktricks-values-and-faq.md)
@@ -133,14 +145,14 @@ Controllale in:
 
 <details>
 
-<summary><strong>Impara l'hacking su AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Altri modi per supportare HackTricks:
 
-* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione esclusiva di [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository di github.
+* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
