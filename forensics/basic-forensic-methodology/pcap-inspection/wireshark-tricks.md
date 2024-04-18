@@ -16,6 +16,20 @@ Outras maneiras de apoiar o HackTricks:
 
 </details>
 
+## WhiteIntel
+
+<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+
+[**WhiteIntel**](https://whiteintel.io) é um mecanismo de busca alimentado pela **dark web** que oferece funcionalidades **gratuitas** para verificar se uma empresa ou seus clientes foram **comprometidos** por **malwares de roubo**.
+
+O principal objetivo do WhiteIntel é combater a apropriação de contas e ataques de ransomware resultantes de malwares de roubo de informações.
+
+Você pode verificar o site deles e experimentar o mecanismo gratuitamente em:
+
+{% embed url="https://whiteintel.io" %}
+
+---
+
 ## Melhore suas habilidades no Wireshark
 
 ### Tutoriais
@@ -73,7 +87,7 @@ Em _**Statistics --> I/O Graph**_ você pode encontrar um **gráfico da comunica
 
 ### Filtros
 
-Aqui você pode encontrar filtro do wireshark dependendo do protocolo: [https://www.wireshark.org/docs/dfref/](https://www.wireshark.org/docs/dfref/)\
+Aqui você pode encontrar filtros do wireshark dependendo do protocolo: [https://www.wireshark.org/docs/dfref/](https://www.wireshark.org/docs/dfref/)\
 Outros filtros interessantes:
 
 * `(http.request or ssl.handshake.type == 1) and !(udp.port eq 1900)`
@@ -85,7 +99,7 @@ Outros filtros interessantes:
 
 ### Pesquisa
 
-Se você deseja **pesquisar** por **conteúdo** dentro dos **pacotes** das sessões, pressione _CTRL+f_. Você pode adicionar novas camadas à barra de informações principal (No., Time, Source, etc.) pressionando o botão direito e, em seguida, editar a coluna.
+Se você deseja **pesquisar** por **conteúdo** dentro dos **pacotes** das sessões, pressione _CTRL+f_. Você pode adicionar novas camadas à barra de informações principal (No., Time, Source, etc.) pressionando o botão direito e depois editar a coluna.
 
 ### Laboratórios pcap gratuitos
 
@@ -136,10 +150,9 @@ Um arquivo de chaves compartilhadas terá este aspecto:
 Para importar isso no wireshark, vá para \_edit > preference > protocol > ssl > e importe em (Pre)-Master-Secret log filename:
 
 ![](<../../../.gitbook/assets/image (100).png>)
-
 ## Comunicação ADB
 
-Extraia um APK de uma comunicação ADB onde o APK foi enviado:
+Extrair um APK de uma comunicação ADB onde o APK foi enviado:
 ```python
 from scapy.all import *
 
@@ -166,16 +179,28 @@ f = open('all_bytes.data', 'w+b')
 f.write(all_bytes)
 f.close()
 ```
+## WhiteIntel
+
+<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+
+[**WhiteIntel**](https://whiteintel.io) é um mecanismo de busca alimentado pela **dark web** que oferece funcionalidades **gratuitas** para verificar se uma empresa ou seus clientes foram **comprometidos** por **malwares stealers**.
+
+O principal objetivo do WhiteIntel é combater a apropriação de contas e ataques de ransomware resultantes de malwares que roubam informações.
+
+Você pode acessar o site deles e experimentar o mecanismo gratuitamente em:
+
+{% embed url="https://whiteintel.io" %}
+
 <details>
 
 <summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

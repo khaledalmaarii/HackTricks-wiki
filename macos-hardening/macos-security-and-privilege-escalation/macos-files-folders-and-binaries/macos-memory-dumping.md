@@ -1,4 +1,4 @@
-# Dumping de Memória no macOS
+# Dump de Memória do macOS
 
 <details>
 
@@ -14,6 +14,20 @@ Outras maneiras de apoiar o HackTricks:
 
 </details>
 
+## WhiteIntel
+
+<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+
+[**WhiteIntel**](https://whiteintel.io) é um mecanismo de busca alimentado pela **dark web** que oferece funcionalidades **gratuitas** para verificar se uma empresa ou seus clientes foram **comprometidos** por **malwares de roubo**.
+
+O principal objetivo do WhiteIntel é combater tomadas de conta e ataques de ransomware resultantes de malwares de roubo de informações.
+
+Você pode verificar o site deles e experimentar o mecanismo gratuitamente em:
+
+{% embed url="https://whiteintel.io" %}
+
+---
+
 ## Artefatos de Memória
 
 ### Arquivos de Troca
@@ -22,19 +36,19 @@ Arquivos de troca, como `/private/var/vm/swapfile0`, servem como **caches quando
 
 ### Imagem de Hibernação
 
-O arquivo localizado em `/private/var/vm/sleepimage` é crucial durante o **modo de hibernação**. **Os dados da memória são armazenados neste arquivo quando o macOS hiberna**. Ao acordar o computador, o sistema recupera os dados da memória deste arquivo, permitindo que o usuário continue de onde parou.
+O arquivo localizado em `/private/var/vm/sleepimage` é crucial durante o **modo de hibernação**. **Dados da memória são armazenados neste arquivo quando o OS X hiberna**. Ao acordar o computador, o sistema recupera os dados da memória deste arquivo, permitindo que o usuário continue de onde parou.
 
-Vale ressaltar que nos sistemas macOS modernos, este arquivo geralmente é criptografado por motivos de segurança, tornando a recuperação difícil.
+Vale ressaltar que nos sistemas MacOS modernos, este arquivo é tipicamente criptografado por motivos de segurança, tornando a recuperação difícil.
 
 * Para verificar se a criptografia está ativada para o sleepimage, o comando `sysctl vm.swapusage` pode ser executado. Isso mostrará se o arquivo está criptografado.
 
 ### Logs de Pressão de Memória
 
-Outro arquivo importante relacionado à memória em sistemas macOS é o **log de pressão de memória**. Esses logs estão localizados em `/var/log` e contêm informações detalhadas sobre o uso de memória do sistema e eventos de pressão. Eles podem ser particularmente úteis para diagnosticar problemas relacionados à memória ou entender como o sistema gerencia a memória ao longo do tempo.
+Outro arquivo importante relacionado à memória em sistemas MacOS são os **logs de pressão de memória**. Esses logs estão localizados em `/var/log` e contêm informações detalhadas sobre o uso de memória do sistema e eventos de pressão. Eles podem ser particularmente úteis para diagnosticar problemas relacionados à memória ou entender como o sistema gerencia a memória ao longo do tempo.
 
-## Dumping de memória com osxpmem
+## Dump de memória com osxpmem
 
-Para fazer o dumping de memória em uma máquina macOS, você pode usar [**osxpmem**](https://github.com/google/rekall/releases/download/v1.5.1/osxpmem-2.1.post4.zip).
+Para fazer o dump de memória em uma máquina MacOS, você pode usar [**osxpmem**](https://github.com/google/rekall/releases/download/v1.5.1/osxpmem-2.1.post4.zip).
 
 **Nota**: As instruções a seguir funcionarão apenas para Macs com arquitetura Intel. Esta ferramenta está arquivada e o último lançamento foi em 2017. O binário baixado usando as instruções abaixo tem como alvo chips Intel, pois o Apple Silicon não existia em 2017. Pode ser possível compilar o binário para a arquitetura arm64, mas você terá que tentar por conta própria.
 ```bash
@@ -62,6 +76,18 @@ cd /tmp; wget https://github.com/google/rekall/releases/download/v1.5.1/osxpmem-
 ```
 {% endcode %}
 
+## WhiteIntel
+
+<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+
+[**WhiteIntel**](https://whiteintel.io) é um mecanismo de busca alimentado pela **dark web** que oferece funcionalidades **gratuitas** para verificar se uma empresa ou seus clientes foram **comprometidos** por **malwares stealers**.
+
+O principal objetivo do WhiteIntel é combater tomadas de conta e ataques de ransomware resultantes de malwares que roubam informações.
+
+Você pode acessar o site deles e experimentar o mecanismo gratuitamente em:
+
+{% embed url="https://whiteintel.io" %}
+
 <details>
 
 <summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
@@ -72,6 +98,6 @@ Outras maneiras de apoiar o HackTricks:
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe seus truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

