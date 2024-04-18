@@ -4,17 +4,31 @@
 
 <summary><strong>Sıfırdan kahraman olmaya kadar AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
-* **Bir siber güvenlik şirketinde mi çalışıyorsunuz**? **Şirketinizi HackTricks'te reklam görmek ister misiniz**? ya da **PEASS'ın en son sürümüne erişmek veya HackTricks'i PDF olarak indirmek ister misiniz**? [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **Bir siber güvenlik şirketinde mi çalışıyorsunuz? Şirketinizin HackTricks'te reklamını görmek ister misiniz? ya da PEASS'ın en son sürümüne erişmek veya HackTricks'i PDF olarak indirmek ister misiniz? [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
 * [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* **Katılın** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) ya da [**telegram grubuna**](https://t.me/peass) veya **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**'ı takip edin**.
-* **Hacking püf noktalarınızı göndererek PR'ler aracılığıyla paylaşın** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **ve** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya beni **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**'da takip edin.**
+* **Hacking püf noktalarınızı göndererek PR'ler oluşturarak** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **ve** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **paylaşın.**
 
 </details>
 
+## WhiteIntel
+
+<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+
+[**WhiteIntel**](https://whiteintel.io) **karanlık ağ** destekli bir arama motorudur ve şirketin veya müşterilerinin **hırsız kötü amaçlı yazılımlar** tarafından **kompromize edilip edilmediğini kontrol etmek için ücretsiz** işlevler sunar.
+
+WhiteIntel'in başlıca amacı, bilgi çalan kötü amaçlı yazılımlardan kaynaklanan hesap ele geçirmeleri ve fidye yazılımı saldırılarıyla mücadele etmektir.
+
+Websitesini ziyaret edebilir ve motorlarını **ücretsiz** deneyebilirsiniz:
+
+{% embed url="https://whiteintel.io" %}
+
+---
+
 ## Erişim Jetonları
 
-**Sisteme giriş yapan her kullanıcı**, o oturum için **güvenlik bilgileri içeren bir erişim jetonuna sahiptir**. Sistem, kullanıcı oturum açtığında bir erişim jetonu oluşturur. **Kullanıcı adına yürütülen her işlem**, erişim jetonunun bir kopyasına sahiptir. Jeton, kullanıcıyı, kullanıcının gruplarını ve kullanıcının ayrıcalıklarını tanımlar. Bir jeton ayrıca, mevcut oturumu tanımlayan bir oturum açma SID'si (Güvenlik Tanımlayıcısı) içerir.
+**Sisteme giriş yapan her kullanıcı**, o oturum için güvenlik bilgileri içeren bir erişim jetonuna sahiptir. Kullanıcı oturum açtığında sistem bir erişim jetonu oluşturur. **Kullanıcı adına yürütülen her işlem**, erişim jetonunun bir kopyasına sahiptir. Jeton, kullanıcıyı, kullanıcının gruplarını ve kullanıcının ayrıcalıklarını tanımlar. Bir jeton ayrıca, mevcut oturumu tanımlayan bir oturum açma SID'si (Güvenlik Kimliği) içerir.
 
 Bu bilgileri `whoami /all` komutunu çalıştırarak görebilirsiniz.
 ```
@@ -65,7 +79,7 @@ SeTimeZonePrivilege           Change the time zone                 Disabled
 Bir yerel yönetici oturum açtığında, **iki erişim belirteci oluşturulur**: Bir tanesi yönetici haklarına sahipken diğeri normal haklara sahiptir. **Varsayılan olarak**, bu kullanıcı bir işlemi yürüttüğünde **normal** (yönetici olmayan) **haklara sahip olan kullanılır**. Bu kullanıcı bir şeyi **yönetici olarak yürütmeye çalıştığında** ("Yönetici olarak çalıştır" örneğin) **UAC** izni için sorulacaktır.\
 Eğer [**UAC hakkında daha fazla bilgi edinmek istiyorsanız bu sayfayı okuyun**](../authentication-credentials-uac-and-efs/#uac)**.**
 
-### Kimlik kullanıcı taklit etme
+### Kimlik kullanıcı taklidi
 
 Eğer **başka bir kullanıcının geçerli kimlik bilgilerine sahipseniz**, bu kimlik bilgileriyle bir **yeni oturum açma oturumu oluşturabilirsiniz**:
 ```
@@ -76,18 +90,18 @@ Ağ hizmetlerine erişmek için **farklı kimlik bilgileri kullanan bir işlem b
 ```
 runas /user:domain\username /netonly cmd.exe
 ```
-Bu, ağdaki nesnelere erişmek için kullanışlı kimlik bilgileriniz varsa ancak bu kimlik bilgileri geçerli ana makinede kullanılmıyorsa (çünkü yalnızca ağda kullanılacaklar), kullanışlıdır (mevcut ana makinede mevcut kullanıcı ayrıcalıkları kullanılacaktır).
+Bu, ağdaki nesnelere erişmek için kullanışlı kimlik bilgileriniz varsa ancak bu kimlik bilgileri geçerli ana makinede geçerli değilse (çünkü yalnızca ağda kullanılacaklar), kullanışlıdır (mevcut ana makinede mevcut kullanıcı ayrıcalıkları kullanılacaktır).
 
 ### Kimlik Bilgilerinin Türleri
 
 Mevcut iki tür kimlik bilgisi vardır:
 
-* **Birincil Kimlik Bilgisi**: Bir işlemin güvenlik kimlik bilgilerinin bir temsili olarak hizmet eder. Birincil kimlik bilgisinin oluşturulması ve işlemlerle ilişkilendirilmesi, ayrıcalık ayrımı ilkesini vurgulayan yükseltilmiş ayrıcalıklar gerektiren eylemlerdir. Genellikle, kimlik doğrulama hizmeti kimlik bilgisi oluştururken, oturum açma hizmeti kullanıcının işletim sistemi kabuğuyla ilişkilendirir. İşlemlerin oluşturulduğunda, işlemler ebeveyn işleminin birincil kimlik bilgisini miras alırlar.
+* **Birincil Kimlik Bilgisi**: Bir işlemin güvenlik kimlik bilgilerinin bir temsili olarak hizmet eder. Birincil kimlik bilgisinin oluşturulması ve işlemlerle ilişkilendirilmesi, ayrıcalık ayrımı ilkesini vurgulayan yükseltilmiş ayrıcalıklar gerektiren eylemlerdir. Genellikle, bir kimlik doğrulama servisi kimlik bilgisi oluştururken, bir oturum açma servisi kullanıcının işletim sistemi kabuğuyla ilişkilendirir. İşlemlerin oluşturulduğunda, işlemler ebeveyn işleminin birincil kimlik bilgisini devralırlar.
 * **Taklit Kimlik Bilgisi**: Bir sunucu uygulamasının geçici olarak güvenli nesnelere erişmek için istemcinin kimliğini benimsemesine olanak tanır. Bu mekanizma dört seviyede işler:
   * **Anonim**: Sunucuya kimliği belirsiz bir kullanıcı gibi erişim sağlar.
-  * **Tanımlama**: Sunucunun nesne erişimi için kullanmadan istemcinin kimliğini doğrulamasına izin verir.
+  * **Tanımlama**: Sunucunun nesnelere erişim için kullanmadan istemcinin kimliğini doğrulamasına izin verir.
   * **Taklit**: Sunucunun istemcinin kimliği altında çalışmasını sağlar.
-  * **Delege**: Taklit ile benzerdir ancak bu kimlik varsayımını sunucunun etkileşimde bulunduğu uzak sistemlere genişletme yeteneğini içerir, kimlik korumasını sağlar.
+  * **Delege**: Taklit ile benzerdir ancak sunucunun etkileşimde bulunduğu uzak sistemlere bu kimlik varsayımını genişletme yeteneğini içerir, kimlik bilgisinin korunmasını sağlar.
 
 #### Kimlik Bilgilerini Taklit Etme
 
@@ -101,8 +115,33 @@ Metasploit'in _**incognito**_ modülünü kullanarak yeterli ayrıcalıklara sah
 [privilege-escalation-abusing-tokens.md](privilege-escalation-abusing-tokens.md)
 {% endcontent-ref %}
 
-[**Tüm olası kimlik bilgisi ayrıcalıklarına ve bazı tanımlamalara bu harici sayfada göz atın**](https://github.com/gtworek/Priv2Admin).
+[**Tüm olası kimlik bilgisi ayrıcalıklarını ve bazı tanımlamaları bu harici sayfada inceleyin**](https://github.com/gtworek/Priv2Admin).
 
 ## Referanslar
 
 Bu öğreticilerde kimlik bilgileri hakkında daha fazla bilgi edinin: [https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa](https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa) ve [https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)
+
+
+## WhiteIntel
+
+<figure><img src=".gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+
+[**WhiteIntel**](https://whiteintel.io), **karanlık ağ** destekli bir arama motorudur ve şirketin veya müşterilerinin **hırsız kötü amaçlı yazılımlar** tarafından **kompromize edilip edilmediğini kontrol etmek için ücretsiz** işlevsellikler sunar.
+
+WhiteIntel'in asıl amacı, bilgi çalan kötü amaçlı yazılımlardan kaynaklanan hesap ele geçirmeleri ve fidye saldırılarıyla mücadele etmektir.
+
+Websitesini ziyaret edebilir ve motorlarını **ücretsiz** deneyebilirsiniz:
+
+{% embed url="https://whiteintel.io" %}
+
+<details>
+
+<summary><strong>Sıfırdan kahraman olmak için AWS hackleme hakkında bilgi edinin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+
+* **Bir ** **cybersecurity şirketinde mi çalışıyorsunuz? Şirketinizi HackTricks'te görmek ister misiniz? veya PEASS'ın en son sürümüne erişmek veya HackTricks'i PDF olarak indirmek ister misiniz? [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**The PEASS Ailesi**](https://opensea.io/collection/the-peass-family)'ni keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* [**Resmi PEASS & HackTricks ürünlerini alın**](https://peass.creator-spring.com)
+* **[💬](https://emojipedia.org/speech-balloon/) Discord grubuna** katılın veya [telegram grubuna](https://t.me/peass) katılın veya **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**'u takip edin.**
+* **Hacking püf noktalarınızı göndererek HackTricks repo**'suna ve **hacktricks-cloud repo**'ya PR'lar göndererek paylaşın.
+
+</details>
