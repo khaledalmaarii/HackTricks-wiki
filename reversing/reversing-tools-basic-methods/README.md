@@ -4,9 +4,9 @@
 
 <summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras formas de apoiar o HackTricks:
+Outras maneiras de apoiar o HackTricks:
 
-* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -16,7 +16,7 @@ Outras formas de apoiar o HackTricks:
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -47,23 +47,23 @@ Software:
 
 dotPeek é um decompilador que **descompila e examina múltiplos formatos**, incluindo **bibliotecas** (.dll), arquivos de metadados do Windows (.winmd) e **executáveis** (.exe). Uma vez descompilada, uma montagem pode ser salva como um projeto do Visual Studio (.csproj).
 
-O mérito aqui é que se um código-fonte perdido requer restauração de uma montagem legada, esta ação pode economizar tempo. Além disso, o dotPeek fornece navegação útil por todo o código descompilado, tornando-o uma das ferramentas perfeitas para **análise de algoritmos Xamarin.**
+O mérito aqui é que se um código-fonte perdido requer restauração de uma montagem legada, essa ação pode economizar tempo. Além disso, o dotPeek fornece navegação útil por todo o código descompilado, tornando-o uma das ferramentas perfeitas para **análise de algoritmos Xamarin.**
 
 ### [.NET Reflector](https://www.red-gate.com/products/reflector/)
 
-Com um modelo abrangente de complementos e uma API que estende a ferramenta para atender às suas necessidades exatas, o .NET Reflector economiza tempo e simplifica o desenvolvimento. Vamos dar uma olhada na infinidade de serviços de engenharia reversa que esta ferramenta oferece:
+Com um modelo abrangente de complementos e uma API que estende a ferramenta para atender às suas necessidades exatas, o .NET Reflector economiza tempo e simplifica o desenvolvimento. Vamos dar uma olhada na infinidade de serviços de engenharia reversa que essa ferramenta oferece:
 
 * Fornece uma visão de como os dados fluem por uma biblioteca ou componente
 * Fornece insights sobre a implementação e uso de idiomas e estruturas .NET
-* Encontra funcionalidades não documentadas e não expostas para obter mais das APIs e tecnologias utilizadas.
+* Encontra funcionalidades não documentadas e não expostas para obter mais das APIs e tecnologias usadas.
 * Encontra dependências e diferentes montagens
-* Localiza exatamente a origem de erros em seu código, componentes de terceiros e bibliotecas.
+* Localiza exatamente a origem dos erros em seu código, componentes de terceiros e bibliotecas.
 * Depura o código-fonte de todo o código .NET com o qual você trabalha.
 
 ### [ILSpy](https://github.com/icsharpcode/ILSpy) & [dnSpy](https://github.com/dnSpy/dnSpy/releases)
 
 [Plugin ILSpy para Visual Studio Code](https://github.com/icsharpcode/ilspy-vscode): Você pode tê-lo em qualquer SO (você pode instalá-lo diretamente do VSCode, sem precisar baixar o git. Clique em **Extensões** e **pesquise ILSpy**).\
-Se você precisar **descompilar**, **modificar** e **recompilar** novamente, você pode usar [**dnSpy**](https://github.com/dnSpy/dnSpy/releases) ou um fork ativamente mantido dele, [**dnSpyEx**](https://github.com/dnSpyEx/dnSpy/releases). (**Clique com o botão direito -> Modificar Método** para alterar algo dentro de uma função).
+Se você precisa **descompilar**, **modificar** e **recompilar** novamente, você pode usar [**dnSpy**](https://github.com/dnSpy/dnSpy/releases) ou um fork ativamente mantido dele, [**dnSpyEx**](https://github.com/dnSpyEx/dnSpy/releases). (**Clique com o botão direito -> Modificar Método** para alterar algo dentro de uma função).
 
 ### Registro do DNSpy
 
@@ -75,11 +75,11 @@ File.AppendAllText(path, "Password: " + password + "\n");
 ```
 ### Depuração do DNSpy
 
-Para depurar o código usando o DNSpy, você precisa:
+Para depurar código usando o DNSpy, você precisa:
 
-Primeiro, altere os **atributos do Assembly** relacionados à **depuração**:
+Primeiro, alterar os **atributos da Assembleia** relacionados à **depuração**:
 
-![](<../../.gitbook/assets/image (278).png>)
+![](<../../.gitbook/assets/image (970).png>)
 ```aspnet
 [assembly: Debuggable(DebuggableAttribute.DebuggingModes.IgnoreSymbolStoreSequencePoints)]
 ```
@@ -92,13 +92,13 @@ DebuggableAttribute.DebuggingModes.EnableEditAndContinue)]
 ```
 E clique em **compilar**:
 
-![](<../../.gitbook/assets/image (314) (1) (1).png>)
+![](<../../.gitbook/assets/image (314) (1).png>)
 
 Em seguida, salve o novo arquivo via _**Arquivo >> Salvar módulo...**_:
 
-![](<../../.gitbook/assets/image (279).png>)
+![](<../../.gitbook/assets/image (599).png>)
 
-Isso é necessário porque se você não fizer isso, durante a **execução** várias **otimizações** serão aplicadas ao código e pode ser possível que ao depurar um **ponto de interrupção nunca seja atingido** ou algumas **variáveis não existam**.
+Isso é necessário porque se você não fizer isso, durante a **execução** várias **otimizações** serão aplicadas ao código e poderia ser possível que ao depurar um **ponto de interrupção nunca seja atingido** ou algumas **variáveis não existam**.
 
 Então, se sua aplicação .NET está sendo **executada** pelo **IIS**, você pode **reiniciá-la** com:
 ```
@@ -106,25 +106,25 @@ iisreset /noforce
 ```
 Em seguida, para começar a depuração, você deve fechar todos os arquivos abertos e dentro da **Guia de Depuração** selecionar **Anexar ao Processo...**:
 
-![](<../../.gitbook/assets/image (280).png>)
+![](<../../.gitbook/assets/image (315).png>)
 
 Em seguida, selecione **w3wp.exe** para anexar ao **servidor IIS** e clique em **anexar**:
 
-![](<../../.gitbook/assets/image (281).png>)
+![](<../../.gitbook/assets/image (110).png>)
 
 Agora que estamos depurando o processo, é hora de pará-lo e carregar todos os módulos. Primeiro clique em _Depurar >> Parar Tudo_ e depois clique em _**Depurar >> Janelas >> Módulos**_:
 
-![](<../../.gitbook/assets/image (286).png>)
+![](<../../.gitbook/assets/image (129).png>)
 
-![](<../../.gitbook/assets/image (283).png>)
+![](<../../.gitbook/assets/image (831).png>)
 
 Clique em qualquer módulo em **Módulos** e selecione **Abrir Todos os Módulos**:
 
-![](<../../.gitbook/assets/image (284).png>)
+![](<../../.gitbook/assets/image (919).png>)
 
 Clique com o botão direito em qualquer módulo no **Explorador de Assemblies** e clique em **Ordenar Assemblies**:
 
-![](<../../.gitbook/assets/image (285).png>)
+![](<../../.gitbook/assets/image (336).png>)
 
 ## Decompilador Java
 
@@ -137,28 +137,28 @@ Clique com o botão direito em qualquer módulo no **Explorador de Assemblies** 
 
 * **Carregar rundll32** (64 bits em C:\Windows\System32\rundll32.exe e 32 bits em C:\Windows\SysWOW64\rundll32.exe)
 * Selecione o depurador **Windbg**
-* Selecione "**Suspender na carga/descarga de biblioteca**"
+* Selecione "**Suspender na carga/descarga da biblioteca**"
 
-![](<../../.gitbook/assets/image (135).png>)
+![](<../../.gitbook/assets/image (865).png>)
 
 * Configure os **parâmetros** da execução colocando o **caminho para a DLL** e a função que deseja chamar:
 
-![](<../../.gitbook/assets/image (136).png>)
+![](<../../.gitbook/assets/image (701).png>)
 
 Então, ao iniciar a depuração, a execução será interrompida quando cada DLL for carregada, então, quando o rundll32 carregar sua DLL, a execução será interrompida.
 
-Mas, como você pode chegar ao código da DLL que foi carregada? Usando este método, não sei como.
+Mas, como você pode chegar ao código da DLL que foi carregada? Usando este método, eu não sei como.
 
 ### Usando x64dbg/x32dbg
 
 * **Carregar rundll32** (64 bits em C:\Windows\System32\rundll32.exe e 32 bits em C:\Windows\SysWOW64\rundll32.exe)
 * **Alterar a Linha de Comando** ( _Arquivo --> Alterar Linha de Comando_ ) e definir o caminho da dll e a função que deseja chamar, por exemplo: "C:\Windows\SysWOW64\rundll32.exe" "Z:\shared\Cybercamp\rev2\\\14.ridii\_2.dll",DLLMain
-* Altere _Opções --> Configurações_ e selecione "**Entrada de DLL**".
-* Em seguida, **inicie a execução**, o depurador irá parar em cada dll principal, em algum momento você irá **parar na Entrada da DLL da sua dll**. A partir daí, basta procurar os pontos onde deseja colocar um ponto de interrupção.
+* Alterar _Opções --> Configurações_ e selecionar "**Entrada de DLL**".
+* Em seguida, **iniciar a execução**, o depurador irá parar em cada dll principal, em algum momento você irá **parar na Entrada da DLL do seu dll**. A partir daí, basta procurar os pontos onde deseja colocar um ponto de interrupção.
 
-Observe que quando a execução é interrompida por qualquer motivo no win64dbg, você pode ver **em qual código está** olhando no **topo da janela do win64dbg**:
+Observe que quando a execução é interrompida por qualquer motivo no win64dbg, você pode ver **em qual código você está** olhando no **topo da janela do win64dbg**:
 
-![](<../../.gitbook/assets/image (137).png>)
+![](<../../.gitbook/assets/image (839).png>)
 
 Então, olhando para isso, você pode ver quando a execução foi interrompida na dll que deseja depurar.
 
@@ -169,6 +169,10 @@ Então, olhando para isso, você pode ver quando a execução foi interrompida n
 {% content-ref url="cheat-engine.md" %}
 [cheat-engine.md](cheat-engine.md)
 {% endcontent-ref %}
+
+[**PiNCE**](https://github.com/korcankaraokcu/PINCE) é uma ferramenta de engenharia reversa/front-end para o GNU Project Debugger (GDB), focada em jogos. No entanto, pode ser usada para qualquer coisa relacionada à engenharia reversa.
+
+[**Decompiler Explorer**](https://dogbolt.org/) é uma interface web para vários decompiladores. Este serviço web permite comparar a saída de diferentes decompiladores em executáveis pequenos.
 
 ## ARM & MIPS
 
@@ -192,32 +196,32 @@ Você pode encontrar uma versão ligeiramente modificada do Blobrunner no seguin
 
 [**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4)é muito semelhante ao blobrunner. Ele irá **alocar** o **shellcode** dentro de um espaço de memória e iniciar um **loop eterno**. Em seguida, você precisa **anexar o depurador** ao processo, **iniciar, esperar 2-5 segundos e pressionar parar** e você se encontrará dentro do **loop eterno**. Pule para a próxima instrução do loop eterno, pois será uma chamada para o shellcode, e finalmente você se encontrará executando o shellcode.
 
-![](<../../.gitbook/assets/image (397).png>)
+![](<../../.gitbook/assets/image (506).png>)
 
 Você pode baixar uma versão compilada do [jmp2it na página de lançamentos](https://github.com/adamkramer/jmp2it/releases/).
 
 ### Depurando shellcode usando Cutter
 
-[**Cutter**](https://github.com/rizinorg/cutter/releases/tag/v1.12.0) é a GUI do radare. Usando o cutter, você pode emular o shellcode e inspecioná-lo dinamicamente.
+[**Cutter**](https://github.com/rizinorg/cutter/releases/tag/v1.12.0) é a GUI do radare. Usando o Cutter, você pode emular o shellcode e inspecioná-lo dinamicamente.
 
-Observe que o Cutter permite "Abrir Arquivo" e "Abrir Shellcode". No meu caso, quando abri o shellcode como arquivo, ele o descompilou corretamente, mas quando o abri como shellcode, não:
+Observe que o Cutter permite "Abrir Arquivo" e "Abrir Shellcode". No meu caso, quando abri o shellcode como um arquivo, ele o descompilou corretamente, mas quando o abri como um shellcode, não:
 
-![](<../../.gitbook/assets/image (400).png>)
+![](<../../.gitbook/assets/image (559).png>)
 
-Para iniciar a emulação no local desejado, defina um bp lá e aparentemente o cutter iniciará automaticamente a emulação a partir dali:
+Para iniciar a emulação no local desejado, defina um bp lá e aparentemente o Cutter iniciará automaticamente a emulação a partir desse ponto:
 
-![](<../../.gitbook/assets/image (399).png>)
+![](<../../.gitbook/assets/image (586).png>)
 
-![](<../../.gitbook/assets/image (401).png>)
+![](<../../.gitbook/assets/image (384).png>)
 
 Você pode ver a pilha, por exemplo, dentro de um despejo hexadecimal:
 
-![](<../../.gitbook/assets/image (402).png>)
+![](<../../.gitbook/assets/image (183).png>)
 
 ### Desofuscando shellcode e obtendo funções executadas
 
 Você deve tentar [**scdbg**](http://sandsprite.com/blogs/index.php?uid=7\&pid=152).\
-Ele informará coisas como **quais funções** o shellcode está usando e se o shellcode está se **decodificando** na memória.
+Ele irá informar coisas como **quais funções** o shellcode está usando e se o shellcode está **decodificando** a si mesmo na memória.
 ```bash
 scdbg.exe -f shellcode # Get info
 scdbg.exe -f shellcode -r #show analysis report at end of run
@@ -228,17 +232,17 @@ scdbg.exe -f shellcode /foff 0x0000004D #Start the executing in that offset
 ```
 scDbg também conta com um iniciador gráfico onde você pode selecionar as opções desejadas e executar o shellcode
 
-![](<../../.gitbook/assets/image (398).png>)
+![](<../../.gitbook/assets/image (255).png>)
 
 A opção **Create Dump** irá despejar o shellcode final se alguma alteração for feita dinamicamente no shellcode na memória (útil para baixar o shellcode decodificado). O **start offset** pode ser útil para iniciar o shellcode em um deslocamento específico. A opção **Debug Shell** é útil para depurar o shellcode usando o terminal scDbg (no entanto, considero qualquer uma das opções explicadas anteriormente melhor para este assunto, pois você poderá usar o Ida ou x64dbg).
 
 ### Desmontagem usando o CyberChef
 
-Faça upload do seu arquivo de shellcode como entrada e use a seguinte receita para descompilá-lo: [https://gchq.github.io/CyberChef/#recipe=To\_Hex('Space',0)Disassemble\_x86('32','Full%20x86%20architecture',16,0,true,true)](https://gchq.github.io/CyberChef/#recipe=To\_Hex\('Space',0\)Disassemble\_x86\('32','Full%20x86%20architecture',16,0,true,true\))
+Carregue seu arquivo de shellcode como entrada e use a seguinte receita para descompilá-lo: [https://gchq.github.io/CyberChef/#recipe=To\_Hex('Space',0)Disassemble\_x86('32','Full%20x86%20architecture',16,0,true,true)](https://gchq.github.io/CyberChef/#recipe=To\_Hex\('Space',0\)Disassemble\_x86\('32','Full%20x86%20architecture',16,0,true,true\))
 
 ## [Movfuscator](https://github.com/xoreaxeaxeax/movfuscator)
 
-Este ofuscador **modifica todas as instruções para `mov`** (sim, muito legal). Ele também usa interrupções para alterar os fluxos de execução. Para mais informações sobre como funciona:
+Este ofuscador **modifica todas as instruções para `mov`** (sim, muito legal). Ele também usa interrupções para alterar os fluxos de execução. Para mais informações sobre como ele funciona:
 
 * [https://www.youtube.com/watch?v=2VF\_wPkiBJY](https://www.youtube.com/watch?v=2VF\_wPkiBJY)
 * [https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas\_2015\_the\_movfuscator.pdf](https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas\_2015\_the\_movfuscator.pdf)
@@ -256,7 +260,7 @@ Se estiver participando de um **CTF, essa solução alternativa para encontrar a
 
 Para encontrar o **ponto de entrada**, pesquise as funções por `::main` como em:
 
-![](<../../.gitbook/assets/image (612).png>)
+![](<../../.gitbook/assets/image (1077).png>)
 
 Neste caso, o binário foi chamado de autenticador, então é bastante óbvio que esta é a função principal interessante.\
 Tendo o **nome** das **funções** sendo chamadas, pesquise sobre elas na **Internet** para aprender sobre suas **entradas** e **saídas**.
@@ -285,8 +289,8 @@ Isso resolverá os nomes das funções.
 
 Nesta página, você pode encontrar como obter o código Python de um binário compilado ELF/EXE:
 
-{% content-ref url="../../forensics/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md" %}
-[.pyc.md](../../forensics/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md)
+{% content-ref url="../../generic-methodologies-and-resources/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md" %}
+[.pyc.md](../../generic-methodologies-and-resources/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md)
 {% endcontent-ref %}
 
 ## GBA - Game Body Advance
@@ -315,11 +319,11 @@ DOWN = 128
 R = 256
 L = 256
 ```
-Portanto, neste tipo de programa, a parte interessante será **como o programa trata a entrada do usuário**. No endereço **0x4000130** você encontrará a função comumente encontrada: **KEYINPUT**.
+Portanto, neste tipo de programa, a parte interessante será **como o programa trata a entrada do usuário**. No endereço **0x4000130**, você encontrará a função comumente encontrada: **KEYINPUT**.
 
-![](<../../.gitbook/assets/image (579).png>)
+![](<../../.gitbook/assets/image (444).png>)
 
-Na imagem anterior, você pode ver que a função é chamada de **FUN\_080015a8** (endereços: _0x080015fa_ e _0x080017ac_).
+Na imagem anterior, você pode ver que a função é chamada de **FUN_080015a8** (endereços: _0x080015fa_ e _0x080017ac_).
 
 Nessa função, após algumas operações de inicialização (sem importância alguma):
 ```c
@@ -387,9 +391,9 @@ No código anterior, você pode ver que estamos comparando **uVar1** (o local on
 - Primeiro, é comparado com o **valor 4** (botão **SELECT**): No desafio, este botão limpa a tela.
 - Em seguida, é comparado com o **valor 8** (botão **START**): No desafio, isso verifica se o código é válido para obter a bandeira.
 - Neste caso, a variável **`DAT_030000d8`** é comparada com 0xf3 e se o valor for o mesmo, algum código é executado.
-- Em todos os outros casos, é verificado um contador (`DAT_030000d4`). É um contador porque está adicionando 1 logo após entrar no código. Se for menor que 8, algo que envolve **adicionar** valores a **`DAT_030000d8`** é feito (basicamente está adicionando os valores dos botões pressionados nesta variável, desde que o contador seja menor que 8).
+- Em todos os outros casos, é verificado um cont (`DAT_030000d4`). É um cont porque está adicionando 1 logo após entrar no código. Se for menor que 8, algo que envolve **adicionar** valores a **`DAT_030000d8`** é feito (basicamente está adicionando os valores dos botões pressionados nesta variável, desde que o cont seja menor que 8).
 
-Portanto, neste desafio, conhecendo os valores dos botões, você precisava **pressionar uma combinação com um comprimento menor que 8, de modo que a adição resultante seja 0xf3**.
+Portanto, neste desafio, conhecendo os valores dos botões, você precisava **pressionar uma combinação com um comprimento menor que 8 para que a adição resultante seja 0xf3**.
 
 **Referência para este tutorial:** [**https://exp.codes/Nostalgia/**](https://exp.codes/Nostalgia/)
 
@@ -404,7 +408,7 @@ Portanto, neste desafio, conhecendo os valores dos botões, você precisava **pr
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -415,9 +419,9 @@ Portanto, neste desafio, conhecendo os valores dos botões, você precisava **pr
 Outras maneiras de apoiar o HackTricks:
 
 - Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-- Obtenha [**produtos oficiais PEASS & HackTricks**](https://peass.creator-spring.com)
-- Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+- Obtenha o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+- Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 - **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-- **Compartilhe seus truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+- **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
