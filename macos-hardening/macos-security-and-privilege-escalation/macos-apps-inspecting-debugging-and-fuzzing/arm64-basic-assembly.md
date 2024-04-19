@@ -26,46 +26,46 @@ U ARMv8 arhitekturi, nivoi izvršenja, poznati kao Nivoi izuzetaka (ELs), defini
 * EL1 ima više privilegija od EL0 i može pristupiti sistemskim resursima, ali uz određena ograničenja radi očuvanja integriteta sistema.
 3. **EL2 - Režim hipervizora**:
 * Ovaj nivo se koristi za virtualizaciju. Hipervizor koji radi na EL2 može upravljati sa više operativnih sistema (svaki u svom EL1) koji se izvršavaju na istom fizičkom hardveru.
-* EL2 pruža funkcije za izolaciju i kontrolu virtualizovanih okruženja.
+* EL2 pruža funkcionalnosti za izolaciju i kontrolu virtualizovanih okruženja.
 4. **EL3 - Režim sigurnosnog monitora**:
-* Ovo je najprivilegovaniji nivo i često se koristi za sigurno pokretanje sistema i poverljiva okruženja izvršenja.
+* Ovo je najprivilegovaniji nivo i često se koristi za sigurno pokretanje sistema i poverljiva izvršna okruženja.
 * EL3 može upravljati i kontrolisati pristupe između sigurnih i nesigurnih stanja (kao što su sigurno pokretanje, poverljivi OS, itd.).
 
-Korišćenje ovih nivoa omogućava strukturisan i siguran način upravljanja različitim aspektima sistema, od korisničkih aplikacija do najprivilegovanijeg sistemskog softvera. ARMv8 pristup nivoima privilegija pomaže u efikasnoj izolaciji različitih komponenti sistema, čime se poboljšava sigurnost i pouzdanost sistema.
+Korišćenje ovih nivoa omogućava struktuiran i siguran način upravljanja različitim aspektima sistema, od korisničkih aplikacija do najprivilegovanijeg sistemskog softvera. ARMv8 pristup nivoima privilegija pomaže u efikasnoj izolaciji različitih komponenti sistema, čime se poboljšava sigurnost i pouzdanost sistema.
 
 ## **Registri (ARM64v8)**
 
 ARM64 ima **31 registar opšte namene**, označenih kao `x0` do `x30`. Svaki može čuvati vrednost od **64 bita** (8 bajtova). Za operacije koje zahtevaju samo vrednosti od 32 bita, isti registri mogu se pristupiti u režimu od 32 bita koristeći imena w0 do w30.
 
-1. **`x0`** do **`x7`** - Ovi se obično koriste kao registri za prolazak i prosleđivanje parametara podrutinama.
+1. **`x0`** do **`x7`** - Ovi se obično koriste kao registri za prolazak parametara podrutinama.
 * **`x0`** takođe nosi povratne podatke funkcije.
-2. **`x8`** - U Linux jezgru, `x8` se koristi kao broj sistema poziva za `svc` instrukciju. **U macOS-u se koristi x16!**
+2. **`x8`** - U Linux jezgru, `x8` se koristi kao broj sistema poziva za `svc` instrukciju. **Na macOS-u se koristi x16!**
 3. **`x9`** do **`x15`** - Dodatni privremeni registri, često korišćeni za lokalne promenljive.
 4. **`x16`** i **`x17`** - **Registri za unutarproceduralne pozive**. Privremeni registri za neposredne vrednosti. Koriste se i za indirektne pozive funkcija i PLT (Procedure Linkage Table) stubove.
-* **`x16`** se koristi kao **broj sistema poziva** za **`svc`** instrukciju u **macOS-u**.
-5. **`x18`** - **Registar platforme**. Može se koristiti kao registar opšte namene, ali na nekim platformama, ovaj registar je rezervisan za platformski specifične svrhe: Pokazivač na trenutni blok okruženja niti u Windows-u, ili pokazivač na trenutno **izvršavajuću strukturu zadatka u jezgru Linux-a**.
+* **`x16`** se koristi kao **broj sistema poziva** za **`svc`** instrukciju na **macOS-u**.
+5. **`x18`** - **Registar platforme**. Može se koristiti kao registar opšte namene, ali na nekim platformama, ovaj registar je rezervisan za platformski specifične svrhe: Pokazivač na trenutni blok okruženja niti u Windows-u, ili da pokaže na trenutno **izvršavajuću strukturu zadatka u jezgru Linux-a**.
 6. **`x19`** do **`x28`** - Ovo su registri sačuvani za pozvane funkcije. Funkcija mora sačuvati vrednosti ovih registara za svog pozivaoca, tako da se čuvaju na steku i vraćaju pre povratka pozivaocu.
 7. **`x29`** - **Pokazivač okvira** za praćenje okvira steka. Kada se kreira novi okvir steka jer je funkcija pozvana, **`x29`** registar se **čuva na steku** i nova adresa okvira (**adresa `sp`**) se **čuva u ovom registru**.
 * Ovaj registar takođe može se koristiti kao **registar opšte namene**, iako se obično koristi kao referenca na **lokalne promenljive**.
 8. **`x30`** ili **`lr`**- **Registar linka**. Čuva **adresu povratka** kada se izvrši `BL` (Branch with Link) ili `BLR` (Branch with Link to Register) instrukcija čuvajući vrednost **`pc`** u ovom registru.
 * Može se koristiti kao i svaki drugi registar.
-* Ako trenutna funkcija namerava pozvati novu funkciju i time prepisati `lr`, čuvaće je na steku na početku, ovo je epilog (`stp x29, x30 , [sp, #-48]; mov x29, sp` -> Čuvanje `fp` i `lr`, generisanje prostora i dobijanje novog `fp`) i vraćaće je na kraju, ovo je prolog (`ldp x29, x30, [sp], #48; ret` -> Vraćanje `fp` i `lr` i povratak).
+* Ako trenutna funkcija namerava da pozove novu funkciju i time prepisati `lr`, čuvaće je na steku na početku, ovo je epilog (`stp x29, x30 , [sp, #-48]; mov x29, sp` -> Čuvanje `fp` i `lr`, generisanje prostora i dobijanje novog `fp`) i vraćaće je na kraju, ovo je prolog (`ldp x29, x30, [sp], #48; ret` -> Vraćanje `fp` i `lr` i povratak).
 9. **`sp`** - **Pokazivač steka**, koristi se za praćenje vrha steka.
 * Vrednost **`sp`** uvek treba da bude održavana na bar **quadword** **poravnanju** ili može doći do greške poravnanja.
-10. **`pc`** - **Brojač programa**, koji pokazuje na sledeću instrukciju. Ovaj registar se može ažurirati samo putem generisanja izuzetaka, povratka izuzetaka i skokova. Jedine obične instrukcije koje mogu čitati ovaj registar su instrukcije skoka sa linkom (BL, BLR) za čuvanje adrese **`pc`** u **`lr`** (Registar linka).
-11. **`xzr`** - **Registar nula**. Takođe nazvan **`wzr`** u svom obliku registra od **32** bita. Može se koristiti za lako dobijanje vrednosti nula (uobičajena operacija) ili za obavljanje poređenja koristeći **`subs`** kao **`subs XZR, Xn, #10`** čuvajući rezultirajuće podatke nigde (u **`xzr`**).
+10. **`pc`** - **Brojač programa**, koji pokazuje na sledeću instrukciju. Ovaj registar može se ažurirati samo kroz generacije izuzetaka, povratke izuzetaka i grane. Jedine obične instrukcije koje mogu čitati ovaj registar su instrukcije grane sa linkom (BL, BLR) za čuvanje adrese **`pc`** u **`lr`** (Registar linka).
+11. **`xzr`** - **Registar nule**. Takođe nazvan **`wzr`** u svom obliku registra od **32** bita. Može se koristiti za lako dobijanje vrednosti nule (uobičajena operacija) ili za obavljanje poređenja koristeći **`subs`** kao **`subs XZR, Xn, #10`** čuvajući rezultujuće podatke nigde (u **`xzr`**).
 
-**`Wn`** registri su **32-bitna** verzija **`Xn`** registra.
+**`Wn`** registri su **32bit** verzija **`Xn`** registra.
 
 ### SIMD i Registri za plutanje sa pokretnim zarezom
 
 Pored toga, postoje još **32 registra dužine 128 bita** koji se mogu koristiti u optimizovanim operacijama jedne instrukcije sa više podataka (SIMD) i za obavljanje aritmetike sa pokretnim zarezom. Oni se nazivaju Vn registri iako mogu raditi i u **64**-bitnom, **32**-bitnom, **16**-bitnom i **8**-bitnom režimu, tada se nazivaju **`Qn`**, **`Dn`**, **`Sn`**, **`Hn`** i **`Bn`**.
-### Sistemski registri
+### Registri sistema
 
-**Postoje stotine sistemskih registara**, takođe nazvanih registri sa posebnom svrhom (SPR), koriste se za **praćenje** i **kontrolu** **ponašanja procesora**.\
-Mogu se samo čitati ili postavljati korišćenjem posebne instrukcije **`mrs`** i **`msr`**.
+**Postoje stotine sistema registara**, takođe nazvanih registri specijalne namene (SPR), koji se koriste za **praćenje** i **kontrolu** **ponašanja procesora**.\
+Mogu se samo čitati ili postavljati korišćenjem posvećene specijalne instrukcije **`mrs`** i **`msr`**.
 
-Posebni registri **`TPIDR_EL0`** i **`TPIDDR_EL0`** često se nalaze prilikom reverznog inženjeringa. Sufiks `EL0` označava **minimalni izuzetak** iz kojeg se registar može pristupiti (u ovom slučaju EL0 je redovni nivo izuzetka (privilegija) sa kojim se izvršavaju redovni programi).\
+Specijalni registri **`TPIDR_EL0`** i **`TPIDDR_EL0`** često se nalaze prilikom reverznog inženjeringa. Sufiks `EL0` označava **minimalni izuzetak** iz kojeg se registar može pristupiti (u ovom slučaju EL0 je redovni nivo izuzetka (privilegija) sa kojim se izvršavaju redovni programi).\
 Često se koriste za čuvanje **bazne adrese regiona memorije za lokalno skladištenje niti**. Obično je prvi čitljiv i zapisiv za programe koji se izvršavaju u EL0, ali drugi se može čitati iz EL0 i pisati iz EL1 (kao kernel).
 
 * `mrs x0, TPIDR_EL0 ; Čitanje TPIDR_EL0 u x0`
@@ -73,38 +73,38 @@ Posebni registri **`TPIDR_EL0`** i **`TPIDDR_EL0`** često se nalaze prilikom re
 
 ### **PSTATE**
 
-**PSTATE** sadrži nekoliko procesnih komponenti serijalizovanih u operativnom sistemu vidljiv **`SPSR_ELx`** poseban registar, gde je X **nivo dozvole izazvanog** izuzetka (ovo omogućava vraćanje stanja procesa kada izuzetak završi).\
+**PSTATE** sadrži nekoliko procesnih komponenti serijalizovanih u operativnom sistemu vidljiv **`SPSR_ELx`** specijalni registar, gde je X **nivo dozvole izazvanog** izuzetka (ovo omogućava vraćanje stanja procesa kada izuzetak završi).\
 Ovo su pristupačna polja:
 
 <figure><img src="../../../.gitbook/assets/image (1193).png" alt=""><figcaption></figcaption></figure>
 
-* **`N`**, **`Z`**, **`C`** i **`V`** zastave uslova:
+* Zastave uslova **`N`**, **`Z`**, **`C`** i **`V`**:
 * **`N`** znači da je operacija dala negativan rezultat
 * **`Z`** znači da je operacija dala nulu
-* **`C`** znači da je operacija prenesena
-* **`V`** znači da je operacija dala prekoračenje sa znakom:
+* **`C`** znači da je operacija izvršena
+* **`V`** znači da je operacija dala potpisano prekoračenje:
 * Zbir dva pozitivna broja daje negativan rezultat.
 * Zbir dva negativna broja daje pozitivan rezultat.
-* Pri oduzimanju, kada se od manjeg pozitivnog broja oduzme veći negativni broj (ili obrnuto), i rezultat ne može biti predstavljen unutar opsega datog veličinom bita.
-* Očigledno, procesor ne zna da li je operacija sa znakom ili ne, pa će proveriti C i V u operacijama i ukazati na prenos ako se dogodio u slučaju da je bio sa znakom ili bez znaka.
+* Pri oduzimanju, kada se od manjeg pozitivnog broja oduzme veći negativan broj (ili obrnuto), i rezultat ne može biti predstavljen unutar opsega datog veličinom bita.
+* Očigledno je da procesor ne zna da li je operacija potpisana ili ne, pa će proveriti C i V u operacijama i ukazati na prenos ako se dogodio u slučaju da je bio potpisan ili nepotpisan.
 
 {% hint style="warning" %}
 Nisu sve instrukcije ažuriraju ove zastave. Neke poput **`CMP`** ili **`TST`** to rade, a druge koje imaju sufiks s poput **`ADDS`** takođe to rade.
 {% endhint %}
 
-* Trenutna zastava **širine registra (`nRW`)**: Ako zastava ima vrednost 0, program će se izvršavati u AArch64 stanju izvršenja nakon nastavka.
+* Zastava trenutne **širine registra (`nRW`)**: Ako zastava ima vrednost 0, program će se izvršavati u AArch64 stanju izvršenja nakon nastavka.
 * Trenutni **nivo izuzetka** (**`EL`**): Redovan program koji se izvršava u EL0 imaće vrednost 0
-* Zastava za **jedno korakovanje** (**`SS`**): Koristi se od strane debagera za jedno korakovanje postavljanjem SS zastave na 1 unutar **`SPSR_ELx`** putem izuzetka. Program će izvršiti korak i izdati izuzetak jednog koraka.
-* Zastava za **nevažeći izuzetak** (**`IL`**): Koristi se za označavanje kada privilegovani softver izvrši nevažeći prenos nivoa izuzetka, ova zastava se postavlja na 1 i procesor pokreće izuzetak nevažećeg stanja.
+* Zastava za **jedan korak** (**`SS`**): Koristi se od strane debagera za jednokorakno izvršavanje postavljanjem SS zastave na 1 unutar **`SPSR_ELx`** putem izuzetka. Program će izvršiti korak i izdati izuzetak jednog koraka.
+* Zastava za stanje **nevažećeg izuzetka** (**`IL`**): Koristi se za označavanje kada privilegovani softver izvrši nevažeći prenos nivoa izuzetka, ova zastava se postavlja na 1 i procesor pokreće izuzetak nevažećeg stanja.
 * Zastave **`DAIF`**: Ove zastave omogućavaju privilegovanom programu selektivno maskiranje određenih spoljnih izuzetaka.
-* Ako je **`A`** 1 to znači da će biti pokrenuti **asinhroni prekidi**. **`I`** konfiguriše odgovor na spoljne hardverske **zahteve za prekidima** (IRQs). i F je povezan sa **brzim zahtevima za prekidima** (FIRs).
-* Zastave za **izbor pokazivača steka (`SPS`)**: Privilegovani programi koji se izvršavaju u EL1 i više mogu da prebacuju između korišćenja svog sopstvenog registra pokazivača steka i korisničkog modela (npr. između `SP_EL1` i `EL0`). Ovo prebacivanje se vrši upisivanjem u poseban registar **`SPSel`**. Ovo se ne može uraditi iz EL0.
+* Ako je **`A`** 1 to znači da će biti pokrenuti **asinhroni prekidi**. **`I`** konfiguriše odgovor na spoljne hardverske **zahteve za prekidima** (IRQ), a F je povezano sa **brzim zahtevima za prekidima** (FIR).
+* Zastave za izbor pokazivača steka (**`SPS`**): Privilegovani programi koji se izvršavaju u EL1 i više mogu da prelaze između korišćenja svog registra pokazivača steka i korisničkog modela (npr. između `SP_EL1` i `EL0`). Ovo prebacivanje se vrši upisivanjem u specijalni registar **`SPSel`**. Ovo se ne može uraditi iz EL0.
 
 ## **Konvencija pozivanja (ARM64v8)**
 
-ARM64 konvencija pozivanja specificira da se **prva osam parametara** funkcije prosleđuju u registre **`x0` do `x7`**. **Dodatni** parametri se prosleđuju na **stek**. Povratna vrednost se vraća u registru **`x0`**, ili u **`x1`** takođe **ako je duža od 128 bita**. Registri **`x19`** do **`x30`** i **`sp`** moraju biti **sačuvani** tokom poziva funkcije.
+ARM64 konvencija pozivanja specificira da se **prvih osam parametara** funkcije prosleđuju u registrima **`x0` do `x7`**. **Dodatni** parametri se prosleđuju na **steku**. Povratna vrednost se prosleđuje nazad u registru **`x0`**, ili u **`x1`** takođe **ako je dužine 128 bita**. Registri **`x19`** do **`x30`** i **`sp`** moraju biti **sačuvani** tokom poziva funkcije.
 
-Prilikom čitanja funkcije u sklopu, potražite **prolog funkcije i epilog**. **Prolog** obično uključuje **čuvanje pokazivača okvira (`x29`)**, **postavljanje** novog **pokazivača okvira**, i **dodeljivanje prostora steka**. **Epilog** obično uključuje **vraćanje sačuvanog pokazivača okvira** i **izlazak** iz funkcije.
+Prilikom čitanja funkcije u sklopu, potražite **prolog funkcije i epilog**. **Prolog** obično uključuje **čuvanje pokazivača okvira (`x29`)**, **postavljanje** novog **pokazivača okvira**, i **dodeljivanje prostora steka**. **Epilog** obično uključuje **obnavljanje sačuvanog pokazivača okvira** i **izlazak** iz funkcije.
 
 ### Konvencija pozivanja u Swift-u
 
@@ -119,17 +119,17 @@ ARM64 instrukcije generalno imaju **format `opcode dst, src1, src2`**, gde je **
 * **`ldr`**: **Učitavanje** vrednosti iz **memorije** u **registar**.
 * Primer: `ldr x0, [x1]` — Ovo učitava vrednost sa lokacije memorije na koju pokazuje `x1` u `x0`.
 * **Mod sa pomerajem**: Pomeraj koji utiče na pokazivač je naznačen, na primer:
-* `ldr x2, [x1, #8]`, ovo će učitati u x2 vrednost iz x1 + 8
+* `ldr x2, [x1, #8]`, ovo će učitati u x2 vrednost sa x1 + 8
 * &#x20;`ldr x2, [x0, x1, lsl #2]`, ovo će učitati u x2 objekat iz niza x0, sa pozicije x1 (indeks) \* 4
-* **Mod pre-indeksa**: Ovo će primeniti izračunavanja na početni, dobiti rezultat i takođe sačuvati novi početak u početnom.
+* **Mod pre indeksa**: Ovo će primeniti izračunavanja na početni, dobiti rezultat i takođe sačuvati novi početak u početnom.
 * `ldr x2, [x1, #8]!`, ovo će učitati `x1 + 8` u `x2` i sačuvati u x1 rezultat `x1 + 8`
-* `str lr, [sp, #-4]!`, Sačuvajte registar linka u sp i ažurirajte registar sp
-* **Mod post-indeksa**: Slično prethodnom, ali se pristupa memoriji i zatim se izračunava i čuva pomeraj.
+* `str lr, [sp, #-4]!`, Sačuvajte registar link u sp i ažurirajte registar sp
+* **Mod posle indeksa**: Slično prethodnom, ali se pristupa memoriji i zatim se izračunava i čuva pomeraj.
 * `ldr x0, [x1], #8`, učitaj `x1` u `x0` i ažuriraj x1 sa `x1 + 8`
 * **Adresa relativna prema PC registru**: U ovom slučaju adresa za učitavanje se računa relativno u odnosu na PC registar
 * `ldr x1, =_start`, Ovo će učitati adresu gde počinje simbol `_start` u x1 u odnosu na trenutni PC.
 * **`str`**: **Čuvanje** vrednosti iz **registra** u **memoriju**.
-* Primer: `str x0, [x1]` — Ovo čuva vrednost iz `x0` na lokaciju memorije na koju pokazuje `x1`.
+* Primer: `str x0, [x1]` — Ovo smešta vrednost iz `x0` na lokaciju memorije na koju pokazuje `x1`.
 * **`ldp`**: **Učitavanje para registara**. Ova instrukcija **učitava dva registra** iz **uzastopnih lokacija memorije**. Adresa memorije se obično formira dodavanjem pomeraja vrednosti u drugom registru.
 * Primer: `ldp x0, x1, [x2]` — Ovo učitava `x0` i `x1` sa lokacija memorije na `x2` i `x2 + 8`, redom.
 * **`stp`**: **Čuvanje para registara**. Ova instrukcija **čuva dva registra** na **uzastopnim lokacijama memorije**. Adresa memorije se obično formira dodavanjem pomeraja vrednosti u drugom registru.
@@ -141,10 +141,10 @@ ARM64 instrukcije generalno imaju **format `opcode dst, src1, src2`**, gde je **
 * Xn2 -> Operand 1
 * Xn3 | #imm -> Operand 2 (registar ili neposredno)
 * \[pomeraj #N | RRX\] -> Izvrši pomeraj ili pozovi RRX
-* Primer: `add x0, x1, x2` — Ovo dodaje vrednosti u `x1` i `x2` i čuva rezultat u `x0`.
+* Primer: `add x0, x1, x2` — Ovo sabira vrednosti u `x1` i `x2` i čuva rezultat u `x0`.
 * `add x5, x5, #1, lsl #12` — Ovo je jednako 4096 (jedan pomeraj 12 puta) -> 1 0000 0000 0000 0000
 * **`adds`** Ovo izvršava `add` i ažurira zastave
-* **`sub`**: **Oduzmi** vrednosti dva registra i sačuvaj rezultat u registru.
+* **`sub`**: **Oduzmi** vrednosti dva registra i čuvaj rezultat u registru.
 * Proveri **sintaksu za `add`**.
 * Primer: `sub x0, x1, x2` — Ovo oduzima vrednost u `x2` od `x1` i čuva rezultat u `x0`.
 * **`subs`** Ovo je kao sub ali ažurira zastavu
@@ -156,9 +156,9 @@ ARM64 instrukcije generalno imaju **format `opcode dst, src1, src2`**, gde je **
 * **Logički pomeraj levo**: Dodaj 0 sa kraja pomerajući ostale bitove unapred (množi n puta sa 2)
 * **Logički pomeraj desno**: Dodaj 1 sa početka pomerajući ostale bitove unazad (deli n puta sa 2 u neoznačenom obliku)
 * **Aritmetički pomeraj desno**: Kao **`lsr`**, ali umesto dodavanja 0 ako je najznačajniji bit 1, \*\*dodaju se 1 (\*\*deli n puta sa 2 u označenom obliku)
-* **Rotacija udesno**: Kao **`lsr`** ali šta god je uklonjeno sa desne strane, dodaje se na levo
+* **Rotacija udesno**: Kao **`lsr`** ali šta god je uklonjeno sa desne strane se dodaje na levo
 * **Rotacija udesno sa proširenjem**: Kao **`ror`**, ali sa zastavicom prenosa kao "najznačajnijim bitom". Tako da se zastavica prenosa pomera na bit 31 i uklonjeni bit na zastavicu prenosa.
-* **`bfm`**: **Pomeraj bitova**, ove operacije **kopiraju bitove `0...n`** iz vrednosti i smeštaju ih na pozicije **`m..m+n`**. **`#s`** određuje **najlevlji bit** poziciju i **`#r`** količinu **rotacije udesno**.
+* **`bfm`**: **Pomeraj bitova**, ove operacije **kopiraju bitove `0...n`** iz vrednosti i smeštaju ih na pozicije **`m..m+n`**. **`#s`** određuje **najlevlji bit** poziciju i **`#r`** količinu rotacije udesno.
 * Pomeraj bitova: `BFM Xd, Xn, #r`
 * Pomeraj bitova sa znakom: `SBFM Xd, Xn, #r, #s`
 * Pomeraj bitova bez znaka: `UBFM Xd, Xn, #r, #s`
@@ -166,14 +166,14 @@ ARM64 instrukcije generalno imaju **format `opcode dst, src1, src2`**, gde je **
 * **`BFI X1, X2, #3, #4`** Umetni 4 bita iz X2 od 3. bita X1
 * **`BFXIL X1, X2, #3, #4`** Izdvoji od 3. bita X2 četiri bita i kopiraj ih u X1
 * **`SBFIZ X1, X2, #3, #4`** Proširi znakom 4 bita iz X2 i umetni ih u X1 počevši od bita 3, nulirajući desne bitove
-* **`SBFX X1, X2, #3, #4`** Izdvaja 4 bita počevši od bita 3 iz X2, proširuje znakom i smešta rezultat u X1
+* **`SBFX X1, X2, #3, #4`** Izdvaja 4 bita počevši od bita 3 iz X2, proširuje znakom ih i smešta rezultat u X1
 * **`UBFIZ X1, X2, #3, #4`** Proširuje nulama 4 bita iz X2 i umetni ih u X1 počevši od bita 3, nulirajući desne bitove
 * **`UBFX X1, X2, #3, #4`** Izdvaja 4 bita počevši od bita 3 iz X2 i smešta nulirani rezultat u X1.
 * **Proširi znak na X:** Proširuje znak (ili dodaje samo 0 u neoznačenom obliku) vrednosti kako bi se mogle izvršiti operacije sa njom:
-* **`SXTB X1, W2`** Proširuje znak bajta **iz W2 u X1** (`W2` je polovina `X2`) da popuni 64 bita
-* **`SXTH X1, W2`** Proširuje znak 16-bitnog broja **iz W2 u X1** da popuni 64 bita
-* **`SXTW X1, W2`** Proširuje znak bajta **iz W2 u X1** da popuni 64 bita
-* **`UXTB X1, W2`** Dodaje 0 (neoznačeno) bajtu **iz W2 u X1** da popuni 64 bita
+* **`SXTB X1, W2`** Proširuje znak bajta **od W2 do X1** (`W2` je polovina `X2`) da popuni 64 bita
+* **`SXTH X1, W2`** Proširuje znak 16-bitnog broja **od W2 do X1** da popuni 64 bita
+* **`SXTW X1, W2`** Proširuje znak bajta **od W2 do X1** da popuni 64 bita
+* **`UXTB X1, W2`** Dodaje 0 (neoznačeno) bajtu **od W2 do X1** da popuni 64 bita
 * **`extr`:** Izdvaja bitove iz određenog **para registara konkateniranih**.
 * Primer: `EXTR W3, W2, W1, #3` Ovo će **konkatenirati W1+W2** i uzeti **od bita 3 iz W2 do bita 3 iz W1** i smestiti u W3.
 * **`cmp`**: **Uporedi** dva registra i postavi uslovne zastave. To je **alias za `subs`** postavljajući odredišni registar na nulu. Korisno za proveru da li je `m == n`.
@@ -182,7 +182,7 @@ ARM64 instrukcije generalno imaju **format `opcode dst, src1, src2`**, gde je **
 * **`cmn`**: **Uporedi negativno** operande. U ovom slučaju je to **alias za `adds`** i podržava istu sintaksu. Korisno za proveru da li je `m == -n`.
 * **`ccmp`**: Uslovno poređenje, to je poređenje koje će se izvršiti samo ako je prethodno poređenje bilo tačno i posebno će postaviti nzcv bitove.
 * `cmp x1, x2; ccmp x3, x4, 0, NE; blt _func` -> ako x1 != x2 i x3 < x4, skoči na funkciju
-* To je zato što će se **`ccmp`** izvršiti samo ako je **prethodni `cmp` bio `NE`**, ako nije, bitovi `nzcv` će biti postavljeni na 0 (što neće zadovoljiti `blt` poređenje).
+* To je zato što će se **`ccmp`** izvršiti samo ako je **prethodni `cmp` bio `NE`**, ako nije bitovi `nzcv` će biti postavljeni na 0 (što neće zadovoljiti `blt` poređenje).
 * Ovo se takođe može koristiti kao `ccmn` (isto ali negativno, kao `cmp` vs `cmn`).
 * **`tst`**: Proverava da li su vrednosti uporedbe oba 1 (radi kao i ANDS bez smeštanja rezultata bilo gde). Korisno je proveriti registar sa vrednošću i proveriti da li su bilo koji bitovi registra naznačeni u vrednosti 1.
 * Primer: `tst X1, #7` Proveri da li su bilo koji od poslednja 3 bita X1 jednaki 1
@@ -200,17 +200,17 @@ ARM64 instrukcije generalno imaju **format `opcode dst, src1, src2`**, gde je **
 * **`b.<uslov>`**: Uslovni skokovi
 * **`b.eq`**: **Skok ako je jednako**, zasnovan na prethodnoj `cmp` instrukciji.
 * Primer: `b.eq oznaka` — Ako je prethodna `cmp` instrukcija pronašla dve jednake vrednosti, skoči na `oznaka`.
-* **`b.ne`**: **Skok ako nije jednako**. Ova instrukcija proverava uslovne zastave (koje su postavljene prethodnom instrukcijom poređenja), i ako upoređene vrednosti nisu jednake, preskače do oznake ili adrese.
-* Primer: Nakon `cmp x0, x1` instrukcije, `b.ne label` — Ako vrednosti u `x0` i `x1` nisu jednake, preskače do `label`.
-* **`cbz`**: **Uporedi i skoči ako je nula**. Ova instrukcija upoređuje registar sa nulom, i ako su jednaki, preskače do oznake ili adrese.
-* Primer: `cbz x0, label` — Ako je vrednost u `x0` nula, preskače do `label`.
-* **`cbnz`**: **Uporedi i skoči ako nije nula**. Ova instrukcija upoređuje registar sa nulom, i ako nisu jednaki, preskače do oznake ili adrese.
-* Primer: `cbnz x0, label` — Ako je vrednost u `x0` različita od nule, preskače do `label`.
-* **`tbnz`**: Testiraj bit i skoči ako nije nula
+* **`b.ne`**: **Branch if Not Equal**. Ova instrukcija proverava uslovne zastave (koje su postavljene od strane prethodne instrukcije poređenja), i ako upoređene vrednosti nisu jednake, prelazi na oznaku ili adresu.
+* Primer: Nakon instrukcije `cmp x0, x1`, `b.ne label` — Ako vrednosti u `x0` i `x1` nisu jednake, prelazi na `label`.
+* **`cbz`**: **Uporedi i pređi na nulu**. Ova instrukcija upoređuje registar sa nulom, i ako su jednaki, prelazi na oznaku ili adresu.
+* Primer: `cbz x0, label` — Ako je vrednost u `x0` nula, prelazi na `label`.
+* **`cbnz`**: **Uporedi i pređi na ne-nulu**. Ova instrukcija upoređuje registar sa nulom, i ako nisu jednaki, prelazi na oznaku ili adresu.
+* Primer: `cbnz x0, label` — Ako je vrednost u `x0` različita od nule, prelazi na `label`.
+* **`tbnz`**: Testiraj bit i pređi na nenula
 * Primer: `tbnz x0, #8, label`
-* **`tbz`**: Testiraj bit i skoči ako je nula
+* **`tbz`**: Testiraj bit i pređi na nulu
 * Primer: `tbz x0, #8, label`
-* **Uslovne selektne operacije**: Ovo su operacije čije ponašanje varira u zavisnosti od uslovnih bitova.
+* **Uslovne operacije izbora**: Ovo su operacije čije ponašanje varira u zavisnosti od uslovnih bitova.
 * `csel Xd, Xn, Xm, cond` -> `csel X0, X1, X2, EQ` -> Ako je tačno, X0 = X1, ako nije, X0 = X2
 * `csinc Xd, Xn, Xm, cond` -> Ako je tačno, Xd = Xn, ako nije, Xd = Xm + 1
 * `cinc Xd, Xn, cond` -> Ako je tačno, Xd = Xn + 1, ako nije, Xd = Xn
@@ -222,22 +222,22 @@ ARM64 instrukcije generalno imaju **format `opcode dst, src1, src2`**, gde je **
 * `csetm Xd, Xn, Xm, cond` -> Ako je tačno, Xd = \<svi 1>, ako nije, Xd = 0
 * **`adrp`**: Izračunava **adresu stranice simbola** i smešta je u registar.
 * Primer: `adrp x0, symbol` — Ovo izračunava adresu stranice `symbol` i smešta je u `x0`.
-* **`ldrsw`**: **Učitava** potpisanu **32-bitnu** vrednost iz memorije i **proširuje je na 64** bita.
+* **`ldrsw`**: **Učitaj** potpisanu **32-bitnu** vrednost iz memorije i **proširi je na 64** bita.
 * Primer: `ldrsw x0, [x1]` — Ovo učitava potpisanu 32-bitnu vrednost sa lokacije u memoriji na koju pokazuje `x1`, proširuje je na 64 bita i smešta je u `x0`.
-* **`stur`**: **Čuva vrednost registra na lokaciji u memoriji**, koristeći ofset od drugog registra.
-* Primer: `stur x0, [x1, #4]` — Ovo smešta vrednost iz `x0` na adresu u memoriji koja je 4 bajta veća od adrese u `x1`.
-* **`svc`** : Napravi **sistemski poziv**. Ovo označava "Supervizorski poziv". Kada procesor izvrši ovu instrukciju, prelazi iz korisničkog režima u režim jezgra i skače na određenu lokaciju u memoriji gde se nalazi kod za **obradu sistemskog poziva jezgra**.
+* **`stur`**: **Smešta vrednost registra na lokaciju u memoriji**, koristeći pomak od drugog registra.
+* Primer: `stur x0, [x1, #4]` — Ovo smešta vrednost iz `x0` na adresu u memoriji koja je 4 bajta veća od adrese trenutno u `x1`.
+* **`svc`** : Napravi **sistemski poziv**. Ovo označava "Supervizorski poziv". Kada procesor izvrši ovu instrukciju, **prelazi iz korisničkog režima u režim jezgra** i prelazi na određenu lokaciju u memoriji gde se nalazi kod za **obradu sistemskog poziva jezgra**.
 *   Primer:
 
 ```armasm
-mov x8, 93  ; Učitava broj sistema za izlazak (93) u registar x8.
-mov x0, 0   ; Učitava kod statusa izlaska (0) u registar x0.
+mov x8, 93  ; Učitaj broj sistema za izlaz (93) u registar x8.
+mov x0, 0   ; Učitaj kod statusa izlaza (0) u registar x0.
 svc 0       ; Napravi sistemski poziv.
 ```
 
 ### **Prolog funkcije**
 
-1. **Sačuvaj registar linka i pokazivač okvira na steku**:
+1. **Sačuvaj registar linka i pokazivač okvira na stek**:
 
 {% code overflow="wrap" %}
 ```armasm
@@ -251,7 +251,7 @@ stp x29, x30, [sp, #-16]!  ; store pair x29 and x30 to the stack and decrement t
 ### **Epilog funkcije**
 
 1. **Dealocirajte lokalne promenljive (ako su alocirane)**: `add sp, sp, <size>`
-2. **Vratite registar linka i pokazivač okvira**:
+2. **Vratite registar veze i pokazivač okvira**:
 
 {% code overflow="wrap" %}
 ```armasm
@@ -263,12 +263,12 @@ ldp x29, x30, [sp], #16  ; load pair x29 and x30 from the stack and increment th
 
 ## Stanje izvršenja AARCH32
 
-Armv8-A podržava izvršenje 32-bitnih programa. **AArch32** može izvršavati jedan od **dva skupa instrukcija**: **`A32`** i **`T32`** i može prelaziti između njih putem **`interworking`**-a.\
+Armv8-A podržava izvršenje 32-bitnih programa. **AArch32** može raditi u jednom od **dva skupa instrukcija**: **`A32`** i **`T32`** i može prelaziti između njih putem **`međusobnog rada`**.\
 **Privilegovani** 64-bitni programi mogu zakazati **izvršenje 32-bitnih** programa izvršavanjem transfera nivoa izuzetka na niže privilegovani 32-bitni program.\
-Napomena da se prelazak sa 64-bitnog na 32-bitni dešava sa nižim nivoom izuzetka (na primer, 64-bitni program u EL1 pokreće program u EL0). Ovo se postiže postavljanjem **bita 4 od** **`SPSR_ELx`** specijalnog registra **na 1** kada je `AArch32` procesna nit spremna za izvršenje, a ostatak `SPSR_ELx` čuva **`AArch32`** programe CPSR. Zatim, privilegovani proces poziva instrukciju **`ERET`** kako bi procesor prešao u **`AArch32`** ulazeći u A32 ili T32 u zavisnosti od CPSR-a\*\*.\*\*
+Napomena da se prelazak sa 64-bitnog na 32-bitni dešava sa nižim nivoom izuzetka (na primer, 64-bitni program u EL1 pokreće program u EL0). Ovo se postiže postavljanjem **bita 4 od** **`SPSR_ELx`** specijalnog registra **na 1** kada je `AArch32` procesna nit spremna za izvršenje i ostatak `SPSR_ELx` čuva **`AArch32`** programe CPSR. Zatim, privilegovani proces poziva instrukciju **`ERET`** tako da procesor prelazi u **`AArch32`** ulazeći u A32 ili T32 u zavisnosti od CPSR\*\*.\*\*
 
-**`Interworking`** se dešava korišćenjem bitova J i T CPSR-a. `J=0` i `T=0` znači **`A32`** i `J=0` i `T=1` znači **T32**. Ovo se u osnovi prevodi na postavljanje **najnižeg bita na 1** kako bi se naznačilo da je skup instrukcija T32.\
-Ovo se postavlja tokom **interworking grana instrukcija,** ali se takođe može postaviti direktno i drugim instrukcijama kada je PC postavljen kao registar odredišta. Primer:
+**`Međusobni rad`** se dešava korišćenjem bitova J i T u CPSR. `J=0` i `T=0` znači **`A32`** i `J=0` i `T=1` znači **T32**. Ovo se u osnovi prevodi na postavljanje **najnižeg bita na 1** da bi se naznačilo da je skup instrukcija T32.\
+Ovo se postavlja tokom **instrukcija grana međusobnog rada,** ali može biti postavljeno direktno i drugim instrukcijama kada je PC postavljen kao registar odredišta. Primer:
 
 Još jedan primer:
 ```armasm
@@ -287,12 +287,12 @@ Postoje 16 registara od 32 bita (r0-r15). **Od r0 do r14** mogu se koristiti za 
 
 - **`r15`**: Brojač programa (uvek). Sadrži adresu sledeće instrukcije. U A32 trenutno + 8, u T32, trenutno + 4.
 - **`r11`**: Pokazivač okvira
-- **`r12`**: Registar unutarproceduralnog poziva
+- **`r12`**: Registar za unutarproceduralne pozive
 - **`r13`**: Pokazivač steka
-- **`r14`**: Registar veze
+- **`r14`**: Registar za povezivanje
 
 Osim toga, registri se čuvaju u **`bankovnim registrima`**. To su mesta koja čuvaju vrednosti registara omogućavajući **brzo prebacivanje konteksta** u rukovanju izuzecima i privilegovanim operacijama kako bi se izbegla potreba za ručnim čuvanjem i vraćanjem registara svaki put.\
-Ovo se postiže **čuvanjem stanja procesora od `CPSR` do `SPSR`** režima procesora u koji se preuzima izuzetak. Prilikom povratka iz izuzetka, **`CPSR`** se obnavlja iz **`SPSR`**.
+To se postiže **čuvanjem stanja procesora od `CPSR` do `SPSR`** režima procesora u koji se preuzima izuzetak. Prilikom povratka izuzetka, **`CPSR`** se obnavlja iz **`SPSR`**.
 
 ### CPSR - Trenutni registar statusa programa
 
@@ -308,19 +308,19 @@ Polja su podeljena u neke grupe:
 #### Registar statusa programa aplikacije (APSR)
 
 - Zastavice **`N`**, **`Z`**, **`C`**, **`V`** (kao i u AArch64)
-- Zastava **`Q`**: Postavlja se na 1 kada se **desi zasićenje celog broja** tokom izvršenja specijalizovane aritmetičke instrukcije. Kada se jednom postavi na **`1`**, zadržavaće vrednost dok se ručno ne postavi na 0. Osim toga, ne postoji nijedna instrukcija koja implicitno proverava njenu vrednost, to se mora uraditi čitanjem ručno.
-- **`GE`** (Veće ili jednako) zastave: Koriste se u SIMD (Jedna instrukcija, više podataka) operacijama, poput "paralelnog sabiranja" i "paralelnog oduzimanja". Ove operacije omogućavaju obradu više podataka u jednoj instrukciji.
+- Zastava **`Q`**: Postavlja se na 1 kada se tokom izvršenja specijalizovane zasićene aritmetičke instrukcije dogodi **celobrojno zasićenje**. Kada se jednom postavi na **`1`**, zadržaće vrednost dok se ručno ne postavi na 0. Osim toga, ne postoji nijedna instrukcija koja implicitno proverava njenu vrednost, to se mora uraditi čitanjem ručno.
+- **`GE`** (Veće ili jednako) zastave: Koriste se u SIMD (Jedna instrukcija, više podataka) operacijama, poput "paralelnog sabiranja" i "paralelnog oduzimanja". Ove operacije omogućavaju obradu više tačaka podataka u jednoj instrukciji.
 
-Na primer, instrukcija **`UADD8`** **sabira četiri para bajtova** (iz dva 32-bitna operanda) paralelno i čuva rezultate u 32-bitnom registru. Zatim **postavlja `GE` zastave u `APSR`** na osnovu ovih rezultata. Svaka GE zastava odgovara jednom od dodavanja bajtova, ukazujući da li je dodavanje za taj par bajtova **prekoračilo**.
+Na primer, instrukcija **`UADD8`** **sabira četiri para bajtova** (iz dva 32-bitna operanda) paralelno i čuva rezultate u 32-bitnom registru. Zatim **postavlja `GE` zastave u `APSR`** na osnovu ovih rezultata. Svaka GE zastava odgovara jednom od sabiranja bajtova, ukazujući da li je sabiranje za taj par bajtova **prekoračilo**.
 
-Instrukcija **`SEL`** koristi ove GE zastave za izvođenje uslovnih radnji.
+Instrukcija **`SEL`** koristi ove GE zastave za obavljanje uslovnih radnji.
 
 #### Registri stanja izvršenja
 
-- Bitovi **`J`** i **`T`**: **`J`** treba da bude 0 i ako je **`T`** 0 koristi se skup instrukcija A32, a ako je 1, koristi se T32.
+- Bitovi **`J`** i **`T`**: **`J`** treba da bude 0, a ako je **`T`** 0 koristi se skup instrukcija A32, a ako je 1, koristi se T32.
 - Registar stanja bloka IT (`ITSTATE`): To su bitovi od 10-15 i 25-26. Čuvaju uslove za instrukcije unutar grupe sa prefiksom **`IT`**.
 - Bit **`E`**: Označava **endianness**.
-- Bitovi moda i maska izuzetka (0-4): Određuju trenutno stanje izvršenja. Peti označava da li program radi kao 32-bitni (1) ili 64-bitni (0). Ostala 4 predstavljaju **trenutni korišćeni režim izuzetka** (kada se desi izuzetak i rukuje se njime). Broj postavljen **označava trenutni prioritet** u slučaju da se desi još jedan izuzetak dok se ovaj rukuje.
+- Bitovi režima i maski izuzetaka (0-4): Određuju trenutno stanje izvršenja. Peti označava da li program radi kao 32-bitni (1) ili 64-bitni (0). Ostala 4 predstavljaju **režim izuzetka koji se trenutno koristi** (kada se dogodi izuzetak i rukuje se). Postavljeni broj označava **trenutni prioritet** u slučaju da se drugi izuzetak aktivira dok se ovaj rukuje.
 
 <figure><img src="../../../.gitbook/assets/image (1197).png" alt=""><figcaption></figcaption></figure>
 
@@ -349,7 +349,7 @@ dyldex -e libsystem_kernel.dylib /System/Library/Caches/com.apple.dyld/dyld_shar
 {% endcode %}
 
 {% hint style="success" %}
-Ponekad je lakše proveriti **dekompilovani** kod iz **`libsystem_kernel.dylib`** **nego** proveravati **izvorni kod** jer je kod nekoliko sistemskih poziva (BSD i Mach) generisan putem skripti (proverite komentare u izvornom kodu), dok u dylib datoteci možete videti šta se poziva.
+Ponekad je lakše proveriti **dekompilovani** kod iz **`libsystem_kernel.dylib`** **nego** proveravati **izvorni kod** jer je kod nekoliko sistemskih poziva (BSD i Mach) generisan putem skripti (proverite komentare u izvornom kodu), dok u dylib datoteci možete pronaći šta se poziva.
 {% endhint %}
 
 ### machdep pozivi
@@ -358,13 +358,13 @@ XNU podržava još jednu vrstu poziva nazvanih zavisnih od mašine. Broj ovih po
 
 ### comm stranica
 
-Ovo je stranica memorije vlasništvo jezgra koja je mapirana u adresni prostor svakog korisničkog procesa. Namena joj je da ubrza prelazak iz režima korisnika u prostor jezgra brže nego korišćenjem sistemskih poziva za jezgrene usluge koje se toliko koriste da bi taj prelazak bio veoma neefikasan.
+Ovo je stranica memorije vlasništvo jezgra koja je mapirana u adresni prostor svakog korisničkog procesa. Namijenjena je ubrzanju prelaska iz korisničkog moda u prostor jezgra brže nego korišćenjem sistemskih poziva za jezgrene usluge koje se toliko koriste da bi taj prelazak bio veoma neefikasan.
 
 Na primer, poziv `gettimeofdate` čita vrednost `timeval` direktno sa comm stranice.
 
 ### objc\_msgSend
 
-Veoma je često naći ovu funkciju korišćenu u Objective-C ili Swift programima. Ova funkcija omogućava pozivanje metode objekta Objective-C.
+Veoma je često pronaći ovu funkciju korišćenu u Objective-C ili Swift programima. Ova funkcija omogućava pozivanje metode objekta Objective-C.
 
 Parametri ([više informacija u dokumentaciji](https://developer.apple.com/documentation/objectivec/1456712-objc\_msgsend)):
 
@@ -372,7 +372,7 @@ Parametri ([više informacija u dokumentaciji](https://developer.apple.com/docum
 * x1: op -> Selektor metode
 * x2... -> Ostali argumenti pozvane metode
 
-Dakle, ako postavite prekidnu tačku pre grananja ka ovoj funkciji, lako možete saznati šta je pozvano u lldb-u sa (u ovom primeru objekat poziva objekat iz `NSConcreteTask` koji će pokrenuti komandu):
+Dakle, ako postavite prekidnu tačku pre grananja ka ovoj funkciji, lako možete pronaći šta je pozvano u lldb-u sa (u ovom primeru objekat poziva objekat iz `NSConcreteTask` koji će pokrenuti komandu):
 ```
 (lldb) po $x0
 <NSConcreteTask: 0x1052308e0>
@@ -401,14 +401,21 @@ ld -o shell shell.o -syslibroot $(xcrun -sdk macosx --show-sdk-path) -lSystem
 ```
 Da izvučemo bajtove:
 ```bash
-# Code from https://github.com/daem0nc0re/macOS_ARM64_Shellcode/blob/master/helper/extract.sh
+# Code from https://github.com/daem0nc0re/macOS_ARM64_Shellcode/blob/b729f716aaf24cbc8109e0d94681ccb84c0b0c9e/helper/extract.sh
 for c in $(objdump -d "s.o" | grep -E '[0-9a-f]+:' | cut -f 1 | cut -d : -f 2) ; do
 echo -n '\\x'$c
 done
 ```
-<detalji>
+Za novije macOS:
+```bash
+# Code from https://github.com/daem0nc0re/macOS_ARM64_Shellcode/blob/fc0742e9ebaf67c6a50f4c38d59459596e0a6c5d/helper/extract.sh
+for s in $(objdump -d "s.o" | grep -E '[0-9a-f]+:' | cut -f 1 | cut -d : -f 2) ; do
+echo -n $s | awk '{for (i = 7; i > 0; i -= 2) {printf "\\x" substr($0, i, 2)}}'
+done
+```
+<details>
 
-<sumiraj> C kod za testiranje shell koda </sumiraj>
+<summary>C kod za testiranje shell koda</summary>
 ```c
 // code from https://github.com/daem0nc0re/macOS_ARM64_Shellcode/blob/master/helper/loader.c
 // gcc loader.c -o loader
@@ -456,7 +463,7 @@ return 0;
 ```
 </details>
 
-#### Školjka
+#### Shell
 
 Preuzeto sa [**ovde**](https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/shell.s) i objašnjeno.
 
@@ -754,11 +761,11 @@ svc  #0x1337
 
 <summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Drugi načini podrške HackTricks-u:
+Drugi načini da podržite HackTricks:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJE**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJSTVO**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
