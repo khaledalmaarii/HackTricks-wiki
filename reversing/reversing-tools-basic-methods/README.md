@@ -6,7 +6,7 @@
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kontroleer die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -14,7 +14,7 @@ Ander maniere om HackTricks te ondersteun:
 
 </details>
 
-**Probeer Hard Security Group**
+**Try Hard Security Group**
 
 <figure><img src="../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
@@ -57,17 +57,17 @@ Met 'n omvattende invoegmodel en 'n API wat die hulpmiddel uitbrei om by jou pre
 * Gee insig in die implementering en gebruik van .NET-tale en -raamwerke
 * Vind ongedokumenteerde en onblootgestelde funksionaliteit om meer uit die gebruikte API's en tegnologieë te kry.
 * Vind afhanklikhede en verskillende samestellings
-* Spoor die presiese plek van foute in jou kode, derdeparty-komponente en biblioteke af.
+* Spoor die presiese ligging van foute in jou kode, derdeparty-komponente en biblioteke af.
 * Foutopsporing in die bron van al die .NET-kode waarmee jy werk.
 
 ### [ILSpy](https://github.com/icsharpcode/ILSpy) & [dnSpy](https://github.com/dnSpy/dnSpy/releases)
 
-[ILSpy-inprop vir Visual Studio Code](https://github.com/icsharpcode/ilspy-vscode): Jy kan dit hê op enige bedryfstelsel (jy kan dit direk vanaf VSCode installeer, geen behoefte om die git af te laai nie. Klik op **Uitbreidings** en **soek ILSpy**).\
-As jy moet **decompileer**, **verander** en **herkompilier** weer kan jy [**dnSpy**](https://github.com/dnSpy/dnSpy/releases) of 'n aktief onderhoude vurk daarvan, [**dnSpyEx**](https://github.com/dnSpyEx/dnSpy/releases) gebruik. (**Regsklik -> Wysig Metode** om iets binne 'n funksie te verander).
+[ILSpy-inprop vir Visual Studio Code](https://github.com/icsharpcode/ilspy-vscode): Jy kan dit hê op enige bedryfstelsel (jy kan dit direk vanaf VSCode installeer, geen nodigheid om die git af te laai nie. Klik op **Uitbreidings** en **soek ILSpy**).\
+As jy moet **decompileer**, **verander** en **herkompilier** weer kan jy [**dnSpy**](https://github.com/dnSpy/dnSpy/releases) gebruik of 'n aktief onderhoude vurk daarvan, [**dnSpyEx**](https://github.com/dnSpyEx/dnSpy/releases). (**Regsklik -> Wysig Metode** om iets binne 'n funksie te verander).
 
 ### DNSpy Logging
 
-Om **DNSpy 'n paar inligting in 'n lêer te laat log**, kan jy hierdie snipper gebruik:
+Om **DNSpy 'n paar inligting in 'n lêer te laat log**, kan jy hierdie snipper:
 ```cs
 using System.IO;
 path = "C:\\inetpub\\temp\\MyTest2.txt";
@@ -83,7 +83,7 @@ Eerstens, verander die **Monteer eienskappe** wat verband hou met **foutopsporin
 ```aspnet
 [assembly: Debuggable(DebuggableAttribute.DebuggingModes.IgnoreSymbolStoreSequencePoints)]
 ```
-Na:
+Aan:
 ```
 [assembly: Debuggable(DebuggableAttribute.DebuggingModes.Default |
 DebuggableAttribute.DebuggingModes.DisableOptimizations |
@@ -98,13 +98,13 @@ Berg dan die nuwe lêer op via _**File >> Stoor module...**_:
 
 ![](<../../.gitbook/assets/image (599).png>)
 
-Dit is noodsaaklik omdat as jy dit nie doen nie, sal verskeie **optimaliserings** tydens **uitvoering** op die kode toegepas word en dit moontlik wees dat terwyl jy 'n **breekpunt** aan die **debugging** is nooit bereik word of sommige **veranderlikes** nie bestaan nie.
+Dit is noodsaaklik omdat as jy dit nie doen nie, sal verskeie **optimaliserings** tydens **uitvoering** op die kode toegepas word en dit moontlik wees dat tydens die **foutopsporing** 'n **afkap-punt nooit bereik** word of sommige **veranderlikes nie bestaan nie**.
 
-Dan, as jou .NET-toepassing deur **IIS** **uitgevoer** word, kan jy dit **herlaai** met:
+Dan, as jou .NET-toepassing deur **IIS** uitgevoer word, kan jy dit **herlaai** met:
 ```
 iisreset /noforce
 ```
-Dan, om te begin met foutopsporing, moet jy al die geopende lêers sluit en binne die **Foutopsporingskaart** kies **Heg aan proses...**:
+Dan, om te begin met foutopsporing moet jy alle geopende lêers sluit en binne die **Foutopsporings**-tabblad **Heg aan Proses...** kies:
 
 ![](<../../.gitbook/assets/image (315).png>)
 
@@ -112,17 +112,17 @@ Kies dan **w3wp.exe** om aan die **IIS-bediener** te heg en klik **heg aan**:
 
 ![](<../../.gitbook/assets/image (110).png>)
 
-Nou dat ons die proses foutopsporing, is dit tyd om dit te stop en al die modules te laai. Klik eers op _Fout >> Breek Alles af_ en dan klik op _**Fout >> Vensters >> Modules**_:
+Nou dat ons die proses foutopspoor, is dit tyd om dit te stop en al die modules te laai. Klik eers op _Foutopsporing >> Breek Alles_ en dan op _**Foutopsporing >> Vensters >> Modules**_:
 
 ![](<../../.gitbook/assets/image (129).png>)
 
 ![](<../../.gitbook/assets/image (831).png>)
 
-Klik op enige module op **Modules** en kies **Maak Alle Modules Oop**:
+Klik op enige module in **Modules** en kies **Maak Alle Modules Oop**:
 
 ![](<../../.gitbook/assets/image (919).png>)
 
-Regsklik op enige module in **Monteerontleder** en klik **Sorteer Modules**:
+Regsklik op enige module in **Monteerder Verkenner** en kies **Sorteer Modules**:
 
 ![](<../../.gitbook/assets/image (336).png>)
 
@@ -133,10 +133,10 @@ Regsklik op enige module in **Monteerontleder** en klik **Sorteer Modules**:
 
 ## Foutopsporing DLL's
 
-### Met behulp van IDA
+### Gebruik van IDA
 
 * **Laai rundll32** (64-bits in C:\Windows\System32\rundll32.exe en 32-bits in C:\Windows\SysWOW64\rundll32.exe)
-* Kies **Windbg** foutopsporer
+* Kies **Windbg** foutopspoorger
 * Kies "**Onderbreek by biblioteek laai/ontlaai**"
 
 ![](<../../.gitbook/assets/image (865).png>)
@@ -147,14 +147,14 @@ Regsklik op enige module in **Monteerontleder** en klik **Sorteer Modules**:
 
 Dan, wanneer jy begin met foutopsporing, sal die uitvoering gestop word wanneer elke DLL gelaai word, dan, wanneer rundll32 jou DLL laai, sal die uitvoering gestop word.
 
-Maar, hoe kan jy by die kode van die gelaai DLL kom? Met hierdie metode, weet ek nie hoe nie.
+Maar, hoe kan jy by die kode van die DLL wat gelaai is, kom? Met hierdie metode weet ek nie hoe nie.
 
-### Met behulp van x64dbg/x32dbg
+### Gebruik van x64dbg/x32dbg
 
 * **Laai rundll32** (64-bits in C:\Windows\System32\rundll32.exe en 32-bits in C:\Windows\SysWOW64\rundll32.exe)
 * **Verander die Opdraglyn** ( _Lêer --> Verander Opdraglyn_ ) en stel die pad van die dll en die funksie wat jy wil roep in, byvoorbeeld: "C:\Windows\SysWOW64\rundll32.exe" "Z:\shared\Cybercamp\rev2\\\14.ridii\_2.dll",DLLMain
-* Verander _Opsies --> Instellings_ en kies "**DLL Inskrywing**".
-* Begin dan die uitvoering, die foutopsporer sal stop by elke dll-hoof, op 'n stadium sal jy **stop in die dll Inskrywing van jou dll**. Van daar af, soek net na die punte waar jy 'n breekpunt wil plaas.
+* Verander _Opsies --> Instellings_ en kies "**DLL Ingang**".
+* Begin dan met die uitvoering, die foutopspoorger sal by elke dll-hoofstop, op 'n stadium sal jy **stop in die dll Ingang van jou dll**. Van daar af, soek net na die punte waar jy 'n breekpunt wil plaas.
 
 Let daarop dat wanneer die uitvoering om enige rede in win64dbg gestop word, kan jy sien **in watter kode jy is** deur na die **bo van die win64dbg-venster** te kyk:
 
@@ -170,6 +170,10 @@ Dan, deur na hierdie te kyk, kan jy sien wanneer die uitvoering in die dll wat j
 [cheat-engine.md](cheat-engine.md)
 {% endcontent-ref %}
 
+[**PiNCE**](https://github.com/korcankaraokcu/PINCE) is 'n voorsteinde/omgekeerde ingenieurswese hulpmiddel vir die GNU Project Foutopspoorger (GDB), gefokus op speletjies. Dit kan egter vir enige omgekeerde-ingenieurswese verwante dinge gebruik word
+
+[**Decompiler Explorer**](https://dogbolt.org/) is 'n web voorsteinde vir 'n aantal decompilers. Hierdie webdiens laat jou toe om die uitset van verskillende decompilers op klein uitvoerbare lêers te vergelyk.
+
 ## ARM & MIPS
 
 {% embed url="https://github.com/nongiach/arm_now" %}
@@ -179,10 +183,10 @@ Dan, deur na hierdie te kyk, kan jy sien wanneer die uitvoering in die dll wat j
 ### Foutopsporing van 'n shellkode met blobrunner
 
 [**Blobrunner**](https://github.com/OALabs/BlobRunner) sal die **shellkode** binne 'n geheue-ruimte toewys, sal jou die **geheue-adres** aandui waar die shellkode toegewys is en sal die uitvoering **stop**.\
-Dan moet jy 'n foutopsporer (Ida of x64dbg) aan die proses heg en 'n **breekpunt by die aangeduide geheue-adres** plaas en die uitvoering hervat. Op hierdie manier sal jy die shellkode foutopspoor.
+Dan moet jy 'n foutopspoorger (Ida of x64dbg) aan die proses heg en 'n **breekpunt by die aangeduide geheue-adres** plaas en die uitvoering **hervat**. Op hierdie manier sal jy die shellkode foutopspoor.
 
 Die github-bladsy met vrystellings bevat zip-lêers wat die saamgestelde vrystellings bevat: [https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)\
-Jy kan 'n effens gewysigde weergawe van Blobrunner vind by die volgende skakel. Om dit saam te stel, skep net 'n C/C++-projek in Visual Studio Code, kopieer en plak die kode en bou dit.
+Jy kan 'n effens gewysigde weergawe van Blobrunner in die volgende skakel vind. Om dit saam te stel, **skep net 'n C/C++-projek in Visual Studio Code, kopieer en plak die kode en bou dit**.
 
 {% content-ref url="blobrunner.md" %}
 [blobrunner.md](blobrunner.md)
@@ -190,17 +194,17 @@ Jy kan 'n effens gewysigde weergawe van Blobrunner vind by die volgende skakel. 
 
 ### Foutopsporing van 'n shellkode met jmp2it
 
-[**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4) is baie soortgelyk aan blobrunner. Dit sal die **shellkode** binne 'n geheue-ruimte toewys en 'n **ewige lus** begin. Jy moet dan die foutopsporer aan die proses heg, **begin speel wag 2-5 sekondes en druk stop** en jy sal jouself binne die **ewige lus** vind. Spring na die volgende instruksie van die ewige lus aangesien dit 'n oproep na die shellkode sal wees, en uiteindelik sal jy vind dat jy die shellkode uitvoer.
+[**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4) is baie soortgelyk aan blobrunner. Dit sal die **shellkode** binne 'n geheue-ruimte toewys en 'n **ewige lus** begin. Jy moet dan die foutopspoorger aan die proses heg, **begin speel wag 2-5 sekondes en druk stop** en jy sal jouself binne die **ewige lus** vind. Spring na die volgende instruksie van die ewige lus aangesien dit 'n oproep na die shellkode sal wees, en uiteindelik sal jy vind dat jy die shellkode uitvoer.
 
 ![](<../../.gitbook/assets/image (506).png>)
 
 Jy kan 'n saamgestelde weergawe van [jmp2it binne die vrystellingsbladsy aflaai](https://github.com/adamkramer/jmp2it/releases/).
 
-### Foutopsporing van shellkode met Cutter
+### Foutopsporing van 'n shellkode met Cutter
 
 [**Cutter**](https://github.com/rizinorg/cutter/releases/tag/v1.12.0) is die GUI van radare. Met cutter kan jy die shellkode emuleer en dit dinamies inspekteer.
 
-Let daarop dat Cutter jou toelaat om "Lêer Oop te maak" en "Shellkode Oop te maak". In my geval, toe ek die shellkode as 'n lêer oopgemaak het, het dit dit korrek ontleed, maar toe ek dit as 'n shellkode oopgemaak het, het dit nie:
+Let daarop dat Cutter jou toelaat om "Lêer Oop te Maak" en "Shellkode Oop te Maak". In my geval, toe ek die shellkode as 'n lêer oopgemaak het, het dit dit korrek ontsleutel, maar toe ek dit as 'n shellkode oopgemaak het, het dit nie:
 
 ![](<../../.gitbook/assets/image (559).png>)
 
@@ -210,14 +214,14 @@ Om die emulasie te begin op die plek waar jy wil, stel 'n bp daar en blykbaar sa
 
 ![](<../../.gitbook/assets/image (384).png>)
 
-Jy kan die stok byvoorbeeld sien binne 'n heksdump:
+Jy kan die stoor byvoorbeeld sien binne 'n heksdump:
 
 ![](<../../.gitbook/assets/image (183).png>)
 
 ### Ontsleuteling van shellkode en verkryging van uitgevoerde funksies
 
-Jy moet **scdbg** probeer ([http://sandsprite.com/blogs/index.php?uid=7\&pid=152](http://sandsprite.com/blogs/index.php?uid=7\&pid=152)).\
-Dit sal jou dinge soos **watter funksies** die shellkode gebruik en of die shellkode in geheue **dekodering** is, vertel.
+Jy moet **scdbg** probeer ([**scdbg**](http://sandsprite.com/blogs/index.php?uid=7\&pid=152)).\
+Dit sal vir jou dinge soos **watter funksies** die shellkode gebruik en of die shellkode in geheue **ontsleutel**.
 ```bash
 scdbg.exe -f shellcode # Get info
 scdbg.exe -f shellcode -r #show analysis report at end of run
@@ -226,19 +230,19 @@ scdbg.exe -f shellcode -d #Dump decoded shellcode
 scdbg.exe -f shellcode /findsc #Find offset where starts
 scdbg.exe -f shellcode /foff 0x0000004D #Start the executing in that offset
 ```
-scDbg het ook 'n grafiese lêer waar jy die opsies wat jy wil kies en die shellcode kan uitvoer
+scDbg het ook 'n grafiese aanlooper waar jy die opsies wat jy wil kies en die shellcode kan uitvoer
 
 ![](<../../.gitbook/assets/image (255).png>)
 
-Die **Skep Dump**-opsie sal die finale shellcode dump as enige verandering aan die shellcode dinamies in die geheue gedoen word (nuttig om die gedekodeerde shellcode af te laai). Die **begin offset** kan nuttig wees om die shellcode by 'n spesifieke offset te begin. Die **Debug Shell**-opsie is nuttig om die shellcode te ontleed deur die scDbg-terminal te gebruik (ek vind egter enige van die opsies wat voorheen verduidelik is beter vir hierdie aangeleentheid aangesien jy Ida of x64dbg kan gebruik).
+Die **Skep Dump** opsie sal die finale shellcode dump as enige verandering aan die shellcode dinamies in die geheue gedoen word (nuttig om die gedekodeerde shellcode af te laai). Die **begin offset** kan nuttig wees om die shellcode te begin by 'n spesifieke offset. Die **Debug Shell** opsie is nuttig om die shellcode te debug deur die scDbg-terminal te gebruik (ek vind egter enige van die opsies wat voorheen verduidelik is beter vir hierdie aangeleentheid aangesien jy Ida of x64dbg kan gebruik).
 
-### Ontleed met CyberChef
+### Ontsassembling met CyberChef
 
-Laai jou shellcode-lêer as insette op en gebruik die volgende resep om dit te ontleed: [https://gchq.github.io/CyberChef/#recipe=To\_Hex('Space',0)Disassemble\_x86('32','Full%20x86%20architecture',16,0,true,true)](https://gchq.github.io/CyberChef/#recipe=To\_Hex\('Space',0\)Disassemble\_x86\('32','Full%20x86%20architecture',16,0,true,true\))
+Laai jou shellcode-lêer as inset en gebruik die volgende resep om dit te dekomponeer: [https://gchq.github.io/CyberChef/#recipe=To\_Hex('Space',0)Disassemble\_x86('32','Full%20x86%20architecture',16,0,true,true)](https://gchq.github.io/CyberChef/#recipe=To\_Hex\('Space',0\)Disassemble\_x86\('32','Full%20x86%20architecture',16,0,true,true\))
 
 ## [Movfuscator](https://github.com/xoreaxeaxeax/movfuscator)
 
-Hierdie obfuskator **verander al die instruksies vir `mov`**(ja, regtig cool). Dit gebruik ook onderbrekings om uitvoeringsvloeie te verander. Vir meer inligting oor hoe dit werk:
+Hierdie obfuskator **verander al die instruksies vir `mov`**(ja, regtig cool). Dit maak ook gebruik van onderbrekings om uitvoervloeie te verander. Vir meer inligting oor hoe dit werk:
 
 * [https://www.youtube.com/watch?v=2VF\_wPkiBJY](https://www.youtube.com/watch?v=2VF\_wPkiBJY)
 * [https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas\_2015\_the\_movfuscator.pdf](https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas\_2015\_the\_movfuscator.pdf)
@@ -254,12 +258,12 @@ As jy 'n **CTF speel, kan hierdie omweg om die vlag te vind** baie nuttig wees: 
 
 ## Rust
 
-Om die **inskryfpunt** te vind, soek vir die funksies deur `::main` soos in:
+Om die **inskryfpunt** te vind, soek die funksies deur `::main` soos in:
 
 ![](<../../.gitbook/assets/image (1077).png>)
 
-In hierdie geval is die binêre lêer genoem authenticator, so dit is redelik duidelik dat dit die interessante hooffunksie is.\
-Met die **naam** van die **funksies** wat opgeroep word, soek vir hulle op die **Internet** om meer te leer oor hul **insette** en **uitsette**.
+In hierdie geval was die binêre lêer genoem authenticator, so dit is redelik duidelik dat dit die interessante hooffunksie is.\
+Met die **naam** van die **funksies** wat opgeroep word, soek na hulle op die **Internet** om meer te leer oor hul **inskrywings** en **uitsette**.
 
 ## **Delphi**
 
@@ -283,7 +287,7 @@ Dit sal die name van die funksies oplos.
 
 ## Saamgestelde Python
 
-Op hierdie bladsy kan jy vind hoe om die python-kode te kry van 'n ELF/EXE python saamgestelde binêre lêer:
+Op hierdie bladsy kan jy vind hoe om die python-kode uit 'n ELF/EXE python-saamgestelde binêre lêer te kry:
 
 {% content-ref url="../../generic-methodologies-and-resources/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md" %}
 [.pyc.md](../../generic-methodologies-and-resources/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md)
@@ -291,7 +295,7 @@ Op hierdie bladsy kan jy vind hoe om die python-kode te kry van 'n ELF/EXE pytho
 
 ## GBA - Game Body Advance
 
-As jy die **binêre** van 'n GBA-spel kry, kan jy verskillende gereedskap gebruik om dit te **emuleer** en **foutopsporing**:
+As jy die **binêre** van 'n GBA-speletjie kry, kan jy verskillende gereedskap gebruik om dit te **emuleer** en **foutopsporing**:
 
 * [**no$gba**](https://problemkaputt.de/gba.htm) (_Laai die foutopsporingsweergawe af_) - Bevat 'n foutopspoorprogram met 'n koppelvlak
 * [**mgba** ](https://mgba.io)- Bevat 'n CLI-foutopspoorprogram
@@ -315,7 +319,7 @@ DOWN = 128
 R = 256
 L = 256
 ```
-Dus, in hierdie soort program, sal die interessante deel wees **hoe die program die gebruiker se insette hanteer**. In die adres **0x4000130** sal jy die algemeen gevonde funksie vind: **KEYINPUT**.
+So, in hierdie soort program, sal die interessante deel wees **hoe die program die gebruiker se insette hanteer**. In die adres **0x4000130** sal jy die algemeen gevonde funksie vind: **KEYINPUT**.
 
 ![](<../../.gitbook/assets/image (444).png>)
 
@@ -384,11 +388,11 @@ DAT_030000d8 = DAT_030000d8 + 0x3a;
 ```
 In die vorige kode kan jy sien dat ons **uVar1** (die plek waar die **waarde van die gedrukte knoppie** is) vergelyk met sekere waardes:
 
-- Eerstens, dit word vergelyk met die **waarde 4** (**SELECT** knoppie): In die uitdaging maak hierdie knoppie die skerm skoon
+- Eerstens, word dit vergelyk met die **waarde 4** (**SELECT** knoppie): In die uitdaging maak hierdie knoppie die skerm skoon
 - Dan word dit vergelyk met die **waarde 8** (**START** knoppie): In die uitdaging word hierdie knoppie gebruik om te kyk of die kode geldig is om die vlag te kry.
 - In hierdie geval word die var **`DAT_030000d8`** vergelyk met 0xf3 en as die waarde dieselfde is, word sekere kode uitgevoer.
-- In enige ander gevalle word sekere kont (`DAT_030000d4`) nagegaan. Dit is 'n kont omdat dit 1 byvoeg net nadat die kode ingegaan is.\
-As minder as 8 iets wat **waarde byvoeg** aan \*\*`DAT_030000d8` \*\* gedoen (basies word die waardes van die gedrukte knoppies by hierdie veranderlike bygevoeg solank die kont minder as 8 is).
+- In enige ander gevalle word daar na 'n kont (`DAT_030000d4`) gekyk. Dit is 'n kont omdat dit 1 byvoeg net nadat die kode ingegaan is.\
+As minder as 8 iets wat die byvoeging van waardes aan \*\*`DAT_030000d8` \*\* behels, gedoen word (basies word die waardes van die gedrukte knoppies by hierdie veranderlike gevoeg solank die kont minder as 8 is).
 
 Dus, in hierdie uitdaging, deur die waardes van die knoppies te ken, moes jy **'n kombinasie indruk met 'n lengte kleiner as 8 waarvan die resulterende byvoeging 0xf3 is.**
 
@@ -403,7 +407,7 @@ Dus, in hierdie uitdaging, deur die waardes van die knoppies te ken, moes jy **'
 * [https://github.com/0xZ0F/Z0FCourse\_ReverseEngineering](https://github.com/0xZ0F/Z0FCourse\_ReverseEngineering)
 * [https://github.com/malrev/ABD](https://github.com/malrev/ABD) (Binêre deobfuscation)
 
-**Probeer Hard Security Groep**
+**Try Hard Security Group**
 
 <figure><img src="../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
@@ -415,10 +419,10 @@ Dus, in hierdie uitdaging, deur die waardes van die knoppies te ken, moes jy **'
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy wil sien jou **maatskappy geadverteer in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
