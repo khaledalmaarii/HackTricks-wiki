@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks :
 
@@ -73,7 +73,7 @@ using System.IO;
 path = "C:\\inetpub\\temp\\MyTest2.txt";
 File.AppendAllText(path, "Password: " + password + "\n");
 ```
-### Débogage DNSpy
+### Débogage de DNSpy
 
 Pour déboguer du code en utilisant DNSpy, vous devez :
 
@@ -164,11 +164,15 @@ Ensuite, en regardant cela, vous pouvez voir quand l'exécution a été arrêté
 
 ## Applications GUI / Jeux vidéo
 
-[**Cheat Engine**](https://www.cheatengine.org/downloads.php) est un programme utile pour trouver où les valeurs importantes sont enregistrées dans la mémoire d'un jeu en cours d'exécution et les modifier. Plus d'informations dans :
+[**Cheat Engine**](https://www.cheatengine.org/downloads.php) est un programme utile pour trouver où sont enregistrées les valeurs importantes à l'intérieur de la mémoire d'un jeu en cours d'exécution et les modifier. Plus d'informations dans :
 
 {% content-ref url="cheat-engine.md" %}
 [cheat-engine.md](cheat-engine.md)
 {% endcontent-ref %}
+
+[**PiNCE**](https://github.com/korcankaraokcu/PINCE) est un outil d'ingénierie inverse/front-end pour le Débogueur du Projet GNU (GDB), axé sur les jeux. Cependant, il peut être utilisé pour tout ce qui concerne l'ingénierie inverse.
+
+[**Decompiler Explorer**](https://dogbolt.org/) est une interface web pour plusieurs décompilateurs. Ce service web vous permet de comparer la sortie de différents décompilateurs sur de petits exécutables.
 
 ## ARM & MIPS
 
@@ -178,7 +182,7 @@ Ensuite, en regardant cela, vous pouvez voir quand l'exécution a été arrêté
 
 ### Débogage d'un shellcode avec blobrunner
 
-[**Blobrunner**](https://github.com/OALabs/BlobRunner) va **allouer** le **shellcode** dans un espace mémoire, vous indiquer l'**adresse mémoire** où le shellcode a été alloué et **arrêter** l'exécution.\
+[**Blobrunner**](https://github.com/OALabs/BlobRunner) va **allouer** le **shellcode** dans un espace mémoire, va **indiquer** l'**adresse mémoire** où le shellcode a été alloué et va **arrêter** l'exécution.\
 Ensuite, vous devez **attacher un débogueur** (Ida ou x64dbg) au processus et mettre un **point d'arrêt à l'adresse mémoire indiquée** et **reprendre** l'exécution. De cette manière, vous déboguerez le shellcode.
 
 La page des versions github contient des zips contenant les versions compilées : [https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)\
@@ -190,7 +194,7 @@ Vous pouvez trouver une version légèrement modifiée de Blobrunner dans le lie
 
 ### Débogage d'un shellcode avec jmp2it
 
-[**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4) est très similaire à blobrunner. Il va **allouer** le **shellcode** dans un espace mémoire et démarrer une **boucle éternelle**. Vous devez ensuite **attacher le débogueur** au processus, **démarrer, attendre 2-5 secondes et appuyer sur stop** et vous vous retrouverez dans la **boucle éternelle**. Sautez vers l'instruction suivante de la boucle éternelle car ce sera un appel au shellcode, et enfin vous vous retrouverez à exécuter le shellcode.
+[**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4)est très similaire à blobrunner. Il va **allouer** le **shellcode** dans un espace mémoire, et démarrer une **boucle éternelle**. Vous devez ensuite **attacher le débogueur** au processus, **démarrer, attendre 2-5 secondes et appuyer sur stop** et vous vous retrouverez dans la **boucle éternelle**. Sautez vers l'instruction suivante de la boucle éternelle car ce sera un appel au shellcode, et enfin vous vous retrouverez à exécuter le shellcode.
 
 ![](<../../.gitbook/assets/image (506).png>)
 
@@ -198,7 +202,7 @@ Vous pouvez télécharger une version compilée de [jmp2it sur la page des versi
 
 ### Débogage de shellcode avec Cutter
 
-[**Cutter**](https://github.com/rizinorg/cutter/releases/tag/v1.12.0) est l'interface graphique de radare. Avec Cutter, vous pouvez émuler le shellcode et l'inspecter dynamiquement.
+[**Cutter**](https://github.com/rizinorg/cutter/releases/tag/v1.12.0) est l'interface graphique de radare. En utilisant Cutter, vous pouvez émuler le shellcode et l'inspecter dynamiquement.
 
 Notez que Cutter vous permet d'"Ouvrir un fichier" et d'"Ouvrir un shellcode". Dans mon cas, lorsque j'ai ouvert le shellcode en tant que fichier, il l'a décompilé correctement, mais lorsque je l'ai ouvert en tant que shellcode, il ne l'a pas fait :
 
@@ -217,7 +221,7 @@ Vous pouvez voir la pile par exemple dans un dump hexadécimal :
 ### Désembrouillage du shellcode et obtention des fonctions exécutées
 
 Vous devriez essayer [**scdbg**](http://sandsprite.com/blogs/index.php?uid=7\&pid=152).\
-Il vous indiquera quelles fonctions le shellcode utilise et si le shellcode se **décrypte** en mémoire.
+Il vous dira quelles fonctions le shellcode utilise et si le shellcode se **décrypte** en mémoire.
 ```bash
 scdbg.exe -f shellcode # Get info
 scdbg.exe -f shellcode -r #show analysis report at end of run
@@ -226,7 +230,7 @@ scdbg.exe -f shellcode -d #Dump decoded shellcode
 scdbg.exe -f shellcode /findsc #Find offset where starts
 scdbg.exe -f shellcode /foff 0x0000004D #Start the executing in that offset
 ```
-scDbg dispose également d'un lanceur graphique où vous pouvez sélectionner les options souhaitées et exécuter le shellcode
+scDbg dispose également d'un lanceur graphique où vous pouvez sélectionner les options que vous souhaitez et exécuter le shellcode
 
 ![](<../../.gitbook/assets/image (255).png>)
 
@@ -234,7 +238,7 @@ L'option **Créer un dump** va générer le shellcode final si des modifications
 
 ### Désassemblage en utilisant CyberChef
 
-Téléchargez votre fichier shellcode en tant qu'entrée et utilisez la recette suivante pour le décompiler: [https://gchq.github.io/CyberChef/#recipe=To\_Hex('Space',0)Disassemble\_x86('32','Full%20x86%20architecture',16,0,true,true)](https://gchq.github.io/CyberChef/#recipe=To\_Hex\('Space',0\)Disassemble\_x86\('32','Full%20x86%20architecture',16,0,true,true\))
+Téléchargez votre fichier de shellcode en tant qu'entrée et utilisez la recette suivante pour le décompiler: [https://gchq.github.io/CyberChef/#recipe=To\_Hex('Space',0)Disassemble\_x86('32','Full%20x86%20architecture',16,0,true,true)](https://gchq.github.io/CyberChef/#recipe=To\_Hex\('Space',0\)Disassemble\_x86\('32','Full%20x86%20architecture',16,0,true,true\))
 
 ## [Movfuscator](https://github.com/xoreaxeaxeax/movfuscator)
 
@@ -250,7 +254,7 @@ apt-get install libz3-dev
 ```
 Et [installez keystone](https://github.com/keystone-engine/keystone/blob/master/docs/COMPILE-NIX.md) (`apt-get install cmake; mkdir build; cd build; ../make-share.sh; make install`)
 
-Si vous participez à un **CTF, cette astuce pour trouver le drapeau** pourrait être très utile: [https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html](https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html)
+Si vous participez à un **CTF, cette astuce pour trouver le drapeau** pourrait être très utile : [https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html](https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html)
 
 ## Rust
 
@@ -269,7 +273,7 @@ Si vous devez inverser un binaire Delphi, je vous suggère d'utiliser le plugin 
 
 Appuyez simplement sur **ATL+f7** (importez le plugin python dans IDA) et sélectionnez le plugin python.
 
-Ce plugin exécutera le binaire et résoudra dynamiquement les noms de fonction au début du débogage. Après le démarrage du débogage, appuyez à nouveau sur le bouton Démarrer (le bouton vert ou f9) et un point d'arrêt sera atteint au début du code réel.
+Ce plugin exécutera le binaire et résoudra dynamiquement les noms de fonctions au début du débogage. Après le démarrage du débogage, appuyez à nouveau sur le bouton Démarrer (le bouton vert ou f9) et un point d'arrêt sera atteint au début du code réel.
 
 C'est également très intéressant car si vous appuyez sur un bouton dans l'application graphique, le débogueur s'arrêtera dans la fonction exécutée par ce bouton.
 
@@ -283,7 +287,7 @@ Cela résoudra les noms des fonctions.
 
 ## Python compilé
 
-Sur cette page, vous pouvez trouver comment obtenir le code python à partir d'un binaire python compilé ELF/EXE :
+Sur cette page, vous pouvez trouver comment obtenir le code python à partir d'un binaire compilé ELF/EXE python :
 
 {% content-ref url="../../generic-methodologies-and-resources/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md" %}
 [.pyc.md](../../generic-methodologies-and-resources/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md)
@@ -321,7 +325,7 @@ Donc, dans ce type de programme, la partie intéressante sera **comment le progr
 
 Dans l'image précédente, vous pouvez voir que la fonction est appelée depuis **FUN\_080015a8** (adresses : _0x080015fa_ et _0x080017ac_).
 
-Dans cette fonction, après quelques opérations d'initialisation (sans importance particulière) :
+Dans cette fonction, après quelques opérations d'initialisation (sans aucune importance) :
 ```c
 void FUN_080015a8(void)
 
@@ -354,7 +358,7 @@ uVar2 = DAT_030004dc;
 uVar1 = *puVar6;
 if ((uVar1 & DAT_030004da & ~uVar4) != 0) {
 ```
-Le dernier if vérifie si **`uVar4`** est dans les **dernières clés** et n'est pas la clé actuelle, également appelée relâchement d'un bouton (la clé actuelle est stockée dans **`uVar1`**).
+Le dernier if vérifie si **`uVar4`** se trouve dans les **dernières clés** et n'est pas la clé actuelle, également appelée relâchement d'un bouton (la clé actuelle est stockée dans **`uVar1`**).
 ```c
 if (uVar1 == 4) {
 DAT_030000d4 = 0;
@@ -382,13 +386,13 @@ FUN_08000864();
 if (uVar1 == 0x10) {
 DAT_030000d8 = DAT_030000d8 + 0x3a;
 ```
-Dans le code précédent, vous pouvez voir que nous comparons **uVar1** (l'endroit où se trouve **la valeur du bouton pressé**) avec certaines valeurs :
+Dans le code précédent, vous pouvez voir que nous comparons **uVar1** (l'endroit où se trouve la **valeur du bouton pressé**) avec certaines valeurs :
 
 * Tout d'abord, il est comparé avec la **valeur 4** (bouton **SELECT**) : Dans le défi, ce bouton efface l'écran.
 * Ensuite, il est comparé avec la **valeur 8** (bouton **START**) : Dans le défi, cela vérifie si le code est valide pour obtenir le drapeau.
-* Dans ce cas, la variable **`DAT_030000d8`** est comparée avec 0xf3 et si la valeur est la même, un certain code est exécuté.
-* Dans tous les autres cas, un cont (`DAT_030000d4`) est vérifié. C'est un cont car il ajoute 1 juste après être entré dans le code.\
-Si c'est inférieur à 8, quelque chose qui implique **l'ajout** de valeurs à **`DAT_030000d8`** est fait (essentiellement, il ajoute les valeurs des touches pressées dans cette variable tant que le cont est inférieur à 8).
+* Dans ce cas, la variable **`DAT_030000d8`** est comparée à 0xf3 et si la valeur est la même, un certain code est exécuté.
+* Dans tous les autres cas, un certain cont (`DAT_030000d4`) est vérifié. C'est un cont car il ajoute 1 juste après avoir entré le code.\
+Si moins de 8, quelque chose qui implique d'**ajouter** des valeurs à **`DAT_030000d8`** est fait (essentiellement, il ajoute les valeurs des touches pressées dans cette variable tant que le cont est inférieur à 8).
 
 Ainsi, dans ce défi, en connaissant les valeurs des boutons, vous deviez **appuyer sur une combinaison d'une longueur inférieure à 8 pour que l'addition résultante soit 0xf3**.
 
