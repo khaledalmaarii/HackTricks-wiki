@@ -6,15 +6,15 @@
 
 Autres façons de soutenir HackTricks :
 
-- Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-- Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-- Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-- **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-- **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 
-## **Introduction à x64**
+## **Introduction to x64**
 
 x64, également connu sous le nom de x86-64, est une architecture de processeur 64 bits principalement utilisée dans les ordinateurs de bureau et les serveurs. Issu de l'architecture x86 produite par Intel et adoptée ultérieurement par AMD sous le nom AMD64, c'est l'architecture prédominante dans les ordinateurs personnels et les serveurs d'aujourd'hui.
 
@@ -24,7 +24,7 @@ x64 étend l'architecture x86, avec **16 registres généraux** étiquetés `rax
 
 1. **`rax`** - Traditionnellement utilisé pour les **valeurs de retour** des fonctions.
 2. **`rbx`** - Souvent utilisé comme **registre de base** pour les opérations mémoire.
-3. **`rcx`** - Communément utilisé pour les **compteurs de boucle**.
+3. **`rcx`** - Couramment utilisé pour les **compteurs de boucle**.
 4. **`rdx`** - Utilisé dans divers rôles, y compris les opérations arithmétiques étendues.
 5. **`rbp`** - **Pointeur de base** pour le cadre de la pile.
 6. **`rsp`** - **Pointeur de pile**, suivant le sommet de la pile.
@@ -35,10 +35,10 @@ x64 étend l'architecture x86, avec **16 registres généraux** étiquetés `rax
 
 La convention d'appel x64 varie selon les systèmes d'exploitation. Par exemple :
 
-- **Windows** : Les quatre premiers **paramètres** sont passés dans les registres **`rcx`**, **`rdx`**, **`r8`**, et **`r9`**. Les paramètres supplémentaires sont poussés sur la pile. La valeur de retour est dans **`rax`**.
-- **System V (couramment utilisé dans les systèmes de type UNIX)** : Les six premiers **paramètres entiers ou pointeurs** sont passés dans les registres **`rdi`**, **`rsi`**, **`rdx`**, **`rcx`**, **`r8`**, et **`r9`**. La valeur de retour est également dans **`rax`**.
+* **Windows** : Les quatre premiers **paramètres** sont passés dans les registres **`rcx`**, **`rdx`**, **`r8`**, et **`r9`**. Les paramètres supplémentaires sont poussés sur la pile. La valeur de retour est dans **`rax`**.
+* **System V (couramment utilisé dans les systèmes de type UNIX)** : Les six premiers **paramètres entiers ou pointeurs** sont passés dans les registres **`rdi`**, **`rsi`**, **`rdx`**, **`rcx`**, **`r8`**, et **`r9`**. La valeur de retour est également dans **`rax`**.
 
-Si la fonction a plus de six entrées, les **autres seront passées sur la pile**. **RSP**, le pointeur de pile, doit être **aligné sur 16 octets**, ce qui signifie que l'adresse à laquelle il pointe doit être divisible par 16 avant tout appel. Cela signifie qu'en général, nous devrions nous assurer que RSP est correctement aligné dans notre shellcode avant d'effectuer un appel de fonction. Cependant, en pratique, les appels système fonctionnent souvent même si cette exigence n'est pas respectée.
+Si la fonction a plus de six entrées, **le reste sera passé sur la pile**. **RSP**, le pointeur de pile, doit être **aligné sur 16 octets**, ce qui signifie que l'adresse à laquelle il pointe doit être divisible par 16 avant tout appel. Cela signifie qu'en général, nous devrions nous assurer que RSP est correctement aligné dans notre shellcode avant d'effectuer un appel de fonction. Cependant, en pratique, les appels système fonctionnent souvent même si cette exigence n'est pas respectée.
 
 ### Convention d'appel en Swift
 
@@ -46,24 +46,24 @@ Swift a sa propre **convention d'appel** que l'on peut trouver dans [**https://g
 
 ### **Instructions courantes**
 
-Les instructions x64 ont un ensemble riche, maintenant la compatibilité avec les anciennes instructions x86 et introduisant de nouvelles.
+Les instructions x64 ont un ensemble riche, maintenant la compatibilité avec les instructions x86 antérieures et en introduisant de nouvelles.
 
-- **`mov`** : **Déplacer** une valeur d'un **registre** ou d'un **emplacement mémoire** à un autre.
-  - Exemple : `mov rax, rbx` — Déplace la valeur de `rbx` vers `rax`.
-- **`push`** et **`pop`** : Pousser ou retirer des valeurs de/de la **pile**.
-  - Exemple : `push rax` — Pousse la valeur de `rax` sur la pile.
-  - Exemple : `pop rax` — Retire la valeur supérieure de la pile dans `rax`.
-- **`add`** et **`sub`** : Opérations d'**addition** et de **soustraction**.
-  - Exemple : `add rax, rcx` — Ajoute les valeurs dans `rax` et `rcx` en stockant le résultat dans `rax`.
-- **`mul`** et **`div`** : Opérations de **multiplication** et de **division**. Remarque : elles ont des comportements spécifiques concernant l'utilisation des opérandes.
-- **`call`** et **`ret`** : Utilisés pour **appeler** et **revenir des fonctions**.
-- **`int`** : Utilisé pour déclencher une **interruption logicielle**. Par exemple, `int 0x80` était utilisé pour les appels système dans Linux x86 32 bits.
-- **`cmp`** : **Comparer** deux valeurs et définir les indicateurs du CPU en fonction du résultat.
-  - Exemple : `cmp rax, rdx` — Compare `rax` à `rdx`.
-- **`je`, `jne`, `jl`, `jge`, ...** : Instructions de **saut conditionnel** qui modifient le flux de contrôle en fonction des résultats d'un `cmp` ou d'un test précédent.
-  - Exemple : Après une instruction `cmp rax, rdx`, `je label` — Saute à `label` si `rax` est égal à `rdx`.
-- **`syscall`** : Utilisé pour les **appels système** dans certains systèmes x64 (comme les Unix modernes).
-- **`sysenter`** : Une instruction d'**appel système** optimisée sur certaines plateformes.
+* **`mov`** : **Déplacer** une valeur d'un **registre** ou d'un **emplacement mémoire** à un autre.
+* Exemple : `mov rax, rbx` — Déplace la valeur de `rbx` vers `rax`.
+* **`push`** et **`pop`** : Pousser ou retirer des valeurs de/de la **pile**.
+* Exemple : `push rax` — Pousse la valeur de `rax` sur la pile.
+* Exemple : `pop rax` — Retire la valeur supérieure de la pile dans `rax`.
+* **`add`** et **`sub`** : Opérations d'**addition** et de **soustraction**.
+* Exemple : `add rax, rcx` — Ajoute les valeurs dans `rax` et `rcx` en stockant le résultat dans `rax`.
+* **`mul`** et **`div`** : Opérations de **multiplication** et de **division**. Remarque : elles ont des comportements spécifiques concernant l'utilisation des opérandes.
+* **`call`** et **`ret`** : Utilisés pour **appeler** et **revenir des fonctions**.
+* **`int`** : Utilisé pour déclencher une **interruption logicielle**. Par exemple, `int 0x80` était utilisé pour les appels système dans Linux x86 32 bits.
+* **`cmp`** : **Comparer** deux valeurs et définir les indicateurs du CPU en fonction du résultat.
+* Exemple : `cmp rax, rdx` — Compare `rax` à `rdx`.
+* **`je`, `jne`, `jl`, `jge`, ...** : Instructions de **saut conditionnel** qui modifient le flux de contrôle en fonction des résultats d'un `cmp` ou d'un test précédent.
+* Exemple : Après une instruction `cmp rax, rdx`, `je label` — Saute à `label` si `rax` est égal à `rdx`.
+* **`syscall`** : Utilisé pour les **appels système** dans certains systèmes x64 (comme Unix moderne).
+* **`sysenter`** : Une instruction d'**appel système** optimisée sur certaines plateformes.
 
 ### **Prologue de fonction**
 
@@ -76,7 +76,6 @@ Les instructions x64 ont un ensemble riche, maintenant la compatibilité avec le
 1. **Déplacer le pointeur de base actuel vers le pointeur de pile** : `mov rsp, rbp` (désallouer les variables locales)
 2. **Retirer l'ancien pointeur de base de la pile** : `pop rbp` (restaure le pointeur de base de l'appelant)
 3. **Retourner** : `ret` (retourne le contrôle à l'appelant)
-
 ## macOS
 
 ### appels système
@@ -90,7 +89,7 @@ Il existe différentes classes d'appels système, vous pouvez les [**trouver ici
 #define SYSCALL_CLASS_DIAG	4	/* Diagnostics */
 #define SYSCALL_CLASS_IPC	5	/* Mach IPC */
 ```
-Ensuite, vous pouvez trouver le numéro de chaque appel système [**à cette URL**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/bsd/kern/syscalls.master)**:**
+Ensuite, vous pouvez trouver le numéro de chaque appel système [**dans cette URL**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/bsd/kern/syscalls.master)**:**
 ```c
 0	AUE_NULL	ALL	{ int nosys(void); }   { indirect syscall }
 1	AUE_EXIT	ALL	{ void exit(int rval); }
@@ -107,13 +106,13 @@ Ensuite, vous pouvez trouver le numéro de chaque appel système [**à cette URL
 12	AUE_CHDIR	ALL	{ int chdir(user_addr_t path); }
 [...]
 ```
-Donc, pour appeler l'appel système `open` (**5**) de la classe **Unix/BSD**, vous devez ajouter `0x2000000`:
+Donc, pour appeler l'appel système `open` (**5**) de la classe **Unix/BSD**, vous devez ajouter `0x2000000` :
 
 Ainsi, le numéro de l'appel système pour appeler open serait `0x2000005`
 
 ### Shellcodes
 
-Pour compiler:
+Pour compiler :
 
 {% code overflow="wrap" %}
 ```bash
@@ -126,7 +125,7 @@ Pour extraire les octets :
 
 {% code overflow="wrap" %}
 ```bash
-# Code from https://github.com/daem0nc0re/macOS_ARM64_Shellcode/blob/master/helper/extract.sh
+# Code from https://github.com/daem0nc0re/macOS_ARM64_Shellcode/blob/b729f716aaf24cbc8109e0d94681ccb84c0b0c9e/helper/extract.sh
 for c in $(objdump -d "shell.o" | grep -E '[0-9a-f]+:' | cut -f 1 | cut -d : -f 2) ; do
 echo -n '\\x'$c
 done
@@ -224,9 +223,12 @@ pop     rax               ; pop it to RAX
 bts     rax, 25           ; set the 25th bit to 1 (to add 0x2000000 without using null bytes)
 syscall
 ```
+{% endtab %}
+{% endtabs %}
+
 #### Lire avec cat
 
-Le but est d'exécuter `execve("/bin/cat", ["/bin/cat", "/etc/passwd"], NULL)`, donc le deuxième argument (x1) est un tableau de paramètres (ce qui signifie en mémoire une pile d'adresses).
+L'objectif est d'exécuter `execve("/bin/cat", ["/bin/cat", "/etc/passwd"], NULL)`, donc le deuxième argument (x1) est un tableau de paramètres (ce qui signifie en mémoire une pile d'adresses).
 ```armasm
 bits 64
 section .text
@@ -257,7 +259,7 @@ section .data
 cat_path:      db "/bin/cat", 0
 passwd_path:   db "/etc/passwd", 0
 ```
-#### Appeler une commande avec sh
+#### Appeler la commande avec sh
 ```armasm
 bits 64
 section .text
@@ -295,9 +297,9 @@ sh_path:        db "/bin/sh", 0
 sh_c_option:    db "-c", 0
 touch_command:  db "touch /tmp/lalala", 0
 ```
-#### Shell distant
+#### Coquille de liaison
 
-Shell distant depuis [https://packetstormsecurity.com/files/151731/macOS-TCP-4444-Bind-Shell-Null-Free-Shellcode.html](https://packetstormsecurity.com/files/151731/macOS-TCP-4444-Bind-Shell-Null-Free-Shellcode.html) sur le **port 4444**
+Coquille de liaison depuis [https://packetstormsecurity.com/files/151731/macOS-TCP-4444-Bind-Shell-Null-Free-Shellcode.html](https://packetstormsecurity.com/files/151731/macOS-TCP-4444-Bind-Shell-Null-Free-Shellcode.html) sur le **port 4444**
 ```armasm
 section .text
 global _main
@@ -440,12 +442,12 @@ syscall
 
 <summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge HackTricks AWS)</strong></a><strong>!</strong></summary>
 
-D'autres façons de soutenir HackTricks:
+Autres façons de soutenir HackTricks:
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
