@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Leer AWS hakwerk vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS hak vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Ander maniere om HackTricks te ondersteun:
 
@@ -10,25 +10,25 @@ Ander maniere om HackTricks te ondersteun:
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou hakwerktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Deel jou haktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
 ## Pkg Basiese Inligting
 
-'n macOS **installeerpakket** (ook bekend as 'n `.pkg` lêer) is 'n lêerformaat wat deur macOS gebruik word om **sagteware te versprei**. Hierdie lêers is soos 'n **kas wat alles bevat wat 'n stuk sagteware** nodig het om korrek te installeer en te hardloop.
+'n macOS **installeerderpakkie** (ook bekend as 'n `.pkg` lêer) is 'n lêerformaat wat deur macOS gebruik word om **sagteware te versprei**. Hierdie lêers is soos 'n **kas wat alles bevat wat 'n stuk sagteware** nodig het om korrek te installeer en te hardloop.
 
-Die pakketlêer self is 'n argief wat 'n **hiërargie van lêers en gide wat op die teikenrekenaar geïnstalleer sal word** bevat. Dit kan ook **skripte** insluit om take voor en na die installasie uit te voer, soos die opstel van konfigurasie lêers of die skoonmaak van ou weergawes van die sagteware.
+Die pakkie-lêer self is 'n argief wat 'n **hiërargie van lêers en gideons bevat wat op die teikenrekenaar geïnstalleer sal word**. Dit kan ook **skripte** insluit om take voor en na die installasie uit te voer, soos die opstel van konfigurasie lêers of die opruiming van ou weergawes van die sagteware.
 
 ### Hiërargie
 
 <figure><img src="../../../.gitbook/assets/Pasted Graphic.png" alt="https://www.youtube.com/watch?v=iASSG0_zobQ"><figcaption></figcaption></figure>
 
-* **Verspreiding (xml)**: Aanpassings (titel, welkomsteks...) en skrip/installasie kontroles
-* **PackageInfo (xml)**: Inligting, installeer vereistes, installeer ligging, paaie na skripte om uit te voer
+* **Distribusie (xml)**: Aanpassings (titel, welkomsteks...) en skrip/installasie kontroles
+* **PackageInfo (xml)**: Inligting, installeer vereistes, installeerligging, paaie na skripte om uit te voer
 * **Materiaalstaat (bom)**: Lys van lêers om te installeer, op te dateer of te verwyder met lêerregte
-* **Vrag (CPIO argief gzip saamgedruk)**: Lêers om te installeer in die `installeer-ligging` vanaf PackageInfo
-* **Skripte (CPIO argief gzip saamgedruk)**: Voor en na installasie skripte en meer bronne wat na 'n tydelike gids onttrek word vir uitvoering.
+* **Vrag (CPIO argief gzip saamgedruk)**: Lêers om te installeer in die `installeerligging` vanaf PackageInfo
+* **Skripte (CPIO argief gzip saamgedruk)**: Voor en na installasie skripte en meer bronne wat onttrek word na 'n tydlike gids vir uitvoering.
 
 ### Ontsaam
 ```bash
@@ -46,43 +46,45 @@ cpio -i < Scripts
 ```
 ## DMG Basiese Inligting
 
-DMG-lêers, of Apple Skyfafbeeldings, is 'n lêerformaat wat deur Apple se macOS vir skyfafbeeldings gebruik word. 'n DMG-lêer is essensieel 'n **monteerbare skyfafbeelding** (dit bevat sy eie lêersisteem) wat gewoonlik saamgepers en soms versleutelde rou blokdata bevat. Wanneer jy 'n DMG-lêer oopmaak, **monteer macOS dit asof dit 'n fisiese skyf** is, wat jou in staat stel om by sy inhoud te kom.
+DMG-lêers, of Apple Skyfafbeeldings, is 'n lêerformaat wat deur Apple se macOS vir skyfafbeeldings gebruik word. 'n DMG-lêer is essensieel 'n **monteerbare skyfafbeelding** (dit bevat sy eie lêersisteem) wat gewoonlik saamgepers en soms versleutelde rou blokdata bevat. Wanneer jy 'n DMG-lêer oopmaak, **monteer macOS dit asof dit 'n fisiese skyf was**, wat jou in staat stel om by sy inhoud te kom.
+
+{% hint style="danger" %}
+Let daarop dat **`.dmg`** installateurs **so baie formate** ondersteun dat in die verlede sommige van hulle wat kwesbaarhede bevat het, misbruik is om **kernel-kode-uitvoering** te verkry.
+{% endhint %}
 
 ### Hiërargie
 
 <figure><img src="../../../.gitbook/assets/image (222).png" alt=""><figcaption></figcaption></figure>
 
-Die hiërargie van 'n DMG-lêer kan verskil op grond van die inhoud. Vir aansoek DMGs volg dit gewoonlik hierdie struktuur:
+Die hiërargie van 'n DMG-lêer kan verskil op grond van die inhoud. Vir aansoek-DMGs volg dit gewoonlik hierdie struktuur:
 
 - Bo-vlak: Dit is die wortel van die skyfafbeelding. Dit bevat dikwels die aansoek en moontlik 'n skakel na die Toepassings-vouer.
 - Aansoek (.app): Dit is die werklike aansoek. In macOS is 'n aansoek tipies 'n pakkie wat baie individuele lêers en vouers bevat wat die aansoek uitmaak.
 - Toepassingskakel: Dit is 'n kortpad na die Toepassings-vouer in macOS. Die doel hiervan is om dit vir jou maklik te maak om die aansoek te installeer. Jy kan die .app-lêer na hierdie kortpad sleep om die aansoek te installeer.
 
-## Privesc via pkg misbruik
+## Privesc via pkg-misbruik
 
 ### Uitvoering vanaf openbare gids
 
-As 'n voor- of na-installasieskrip byvoorbeeld uitvoer vanaf **`/var/tmp/Installerutil`**, en 'n aanvaller kan daardie skrip beheer sodat hy voorregte kan eskaleer wanneer dit uitgevoer word. Of 'n ander soortgelyke voorbeeld:
+As 'n voor- of na-installasieskrip byvoorbeeld vanaf **`/var/tmp/Installerutil`** uitgevoer word, en 'n aanvaller daardie skrip kan beheer, kan hy voorregte eskaleer wanneer dit uitgevoer word. Of 'n ander soortgelyke voorbeeld:
 
-<figure><img src="../../../.gitbook/assets/Pasted Graphic 5.png" alt="https://www.youtube.com/watch?v=iASSG0_zobQ"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/Pasted Graphic 5.png" alt="https://www.youtube.com/watch?v=iASSG0_zobQ"><figcaption><p><a href="https://www.youtube.com/watch?v=kCXhIYtODBg">https://www.youtube.com/watch?v=kCXhIYtODBg</a></p></figcaption></figure>
 
 ### AuthorizationExecuteWithPrivileges
 
-Dit is 'n [openbare funksie](https://developer.apple.com/documentation/security/1540038-authorizationexecutewithprivileg) wat verskeie installeerders en opdateerders sal aanroep om iets as root uit te voer. Hierdie funksie aanvaar die **pad** van die **lêer** om as parameter **uit te voer**, maar as 'n aanvaller hierdie lêer kon **verander**, sal hy in staat wees om sy uitvoering met root te **misbruik** om voorregte te **eskaleer**.
+Dit is 'n [openbare funksie](https://developer.apple.com/documentation/security/1540038-authorizationexecutewithprivileg) wat verskeie installateurs en opdateraars sal aanroep om iets as root uit te voer. Hierdie funksie aanvaar die **pad** van die **lêer** om as parameter **uit te voer**, maar as 'n aanvaller hierdie lêer kon **verander**, sal hy in staat wees om sy uitvoering met root te **misbruik** om voorregte te **eskaleer**.
 ```bash
 # Breakpoint in the function to check wich file is loaded
 (lldb) b AuthorizationExecuteWithPrivileges
 # You could also check FS events to find this missconfig
 ```
-Vir meer inligting, kyk na hierdie aanbieding: [https://www.youtube.com/watch?v=lTOItyjTTkw](https://www.youtube.com/watch?v=lTOItyjTTkw)
+### Uitvoering deur te koppel
 
-### Uitvoering deur montering
-
-As 'n installeerder skryf na `/tmp/fixedname/bla/bla`, is dit moontlik om **'n montering te skep** oor `/tmp/fixedname` met geen eienaars, sodat jy **enige lêer tydens die installasie kan wysig** om die installasieproses te misbruik.
+Indien 'n installeerder skryf na `/tmp/fixedname/bla/bla`, is dit moontlik om **'n koppeling te skep** oor `/tmp/fixedname` met geen eienaars, sodat jy **enige lêer tydens die installasie kan wysig** om die installasieproses te misbruik.
 
 'n Voorbeeld hiervan is **CVE-2021-26089** wat daarin geslaag het om 'n periodieke skripsie te **oorwryf om uitvoering as root te kry**. Vir meer inligting, kyk na die aanbieding: [**OBTS v4.0: "Mount(ain) of Bugs" - Csaba Fitzl**](https://www.youtube.com/watch?v=jSYPazD4VcE)
 
-## pkg as malware
+## pkg as skadelike sagteware
 
 ### Leë Vrag
 
@@ -98,17 +100,4 @@ Dit is moontlik om **`<script>`** etikette by die **verspreidings-xml** lêer va
 
 * [**DEF CON 27 - Unpacking Pkgs A Look Inside Macos Installer Packages And Common Security Flaws**](https://www.youtube.com/watch?v=iASSG0\_zobQ)
 * [**OBTS v4.0: "The Wild World of macOS Installers" - Tony Lambert**](https://www.youtube.com/watch?v=Eow5uNHtmIg)
-
-<details>
-
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Ander maniere om HackTricks te ondersteun:
-
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
+* [**DEF CON 27 - Unpacking Pkgs A Look Inside MacOS Installer Packages**](https://www.youtube.com/watch?v=kCXhIYtODBg)

@@ -8,7 +8,7 @@ Ander maniere om HackTricks te ondersteun:
 
 * As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
@@ -22,7 +22,7 @@ Toestemmings in 'n **gids**:
 * **skryf** - jy kan **lêers skryf/verwyder** in die gids en jy kan **leë mappe verwyder**.
 * Maar jy **kan nie nie-leë mappe verwyder/wysig** tensy jy skryftoestemmings daaroor het nie.
 * Jy **kan nie die naam van 'n map wysig** tensy jy die eienaar daarvan is nie.
-* **uitvoer** - jy is **toegelaat om deur** die gids te beweeg - as jy nie hierdie reg het nie, kan jy nie enige lêers daarin, of in enige subgidse, toegang nie.
+* **uitvoer** - jy is **toegelaat om deur** die gids te beweeg - as jy nie hierdie reg het nie, kan jy nie enige lêers daarin, of in enige subdossiers, bereik nie.
 
 ### Gevaarlike Kombinasies
 
@@ -32,23 +32,23 @@ Toestemmings in 'n **gids**:
 * Een ouer **gids eienaar** in die pad is 'n **gebruikersgroep** met **skryftoegang**
 * 'n Gebruikers **groep** het **skryf** toegang tot die **lêer**
 
-Met enige van die vorige kombinasies kan 'n aanvaller 'n **sym/hard skakel** inspuit na die verwagte pad om 'n bevoorregte willekeurige skryf te verkry.
+Met enige van die vorige kombinasies kan 'n aanvaller 'n **sym/harde skakel inspuit** na die verwagte pad om 'n bevoorregte willekeurige skryf te verkry.
 
 ### Gidsroet R+X Spesiale geval
 
-As daar lêers in 'n **gids** is waar **slegs root R+X-toegang** het, is daardie lêers **nie toeganklik vir enigiemand anders nie**. Dus kan 'n kwesbaarheid wat toelaat om 'n lêer leesbaar deur 'n gebruiker te **skuif**, wat nie gelees kan word as gevolg van daardie **beperking**, van hierdie gids **na 'n ander een**, misbruik word om hierdie lêers te lees.
+As daar lêers in 'n **gids** is waar **slegs root R+X-toegang het**, is daardie lêers **nie toeganklik vir enigiemand anders nie**. Dus kan 'n kwesbaarheid wat toelaat om 'n lêer leesbaar deur 'n gebruiker te **skuif**, wat nie gelees kan word as gevolg van daardie **beperking**, van hierdie gids **na 'n ander een**, misbruik word om hierdie lêers te lees.
 
 Voorbeeld in: [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions)
 
 ## Simboliese Skakel / Harde Skakel
 
-As 'n bevoorregte proses data skryf in 'n **lêer** wat deur 'n **laer bevoorregte gebruiker beheer** kan word, of wat voorheen deur 'n laer bevoorregte gebruiker geskep kon word. Die gebruiker kan dit net **na 'n ander lêer wys** deur 'n Simboliese of Harde skakel, en die bevoorregte proses sal op daardie lêer skryf.
+As 'n bevoorregte proses data skryf in 'n **lêer** wat deur 'n **laer bevoorregte gebruiker beheer** kan word, of wat **vooraf geskep** kan word deur 'n laer bevoorregte gebruiker. Die gebruiker kan dit net **na 'n ander lêer wys** deur 'n Simboliese of Harde skakel, en die bevoorregte proses sal op daardie lêer skryf.
 
-Kyk na die ander afdelings waar 'n aanvaller 'n willekeurige skryf kan misbruik om voorregte te eskaleer.
+Kyk na die ander afdelings waar 'n aanvaller 'n **willekeurige skryf kan misbruik om voorregte te eskaleer**.
 
 ## .fileloc
 
-Lêers met die **`.fileloc`** uitbreiding kan na ander toepassings of binêre lêers wys sodat wanneer hulle oopgemaak word, die toepassing/binêre lêer uitgevoer sal word.\
+Lêers met die **`.fileloc`** uitbreiding kan na ander toepassings of binêre lêers wys sodat wanneer hulle oopgemaak word, die toepassing/binêre lêer die een sal wees wat uitgevoer word.\
 Voorbeeld:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -122,9 +122,9 @@ ls -le /tmp/test
 ```
 ### **com.apple.acl.text xattr + AppleDouble**
 
-**AppleDouble**-lêerformaat kopieer 'n lêer saam met sy ACE's.
+**AppleDouble** lêerformaat kopieer 'n lêer saam met sy ACEs.
 
-In die [**bronkode**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) is dit moontlik om te sien dat die ACL-teksverteenwoordiging wat binne die xattr genaamd **`com.apple.acl.text`** gestoor word, as ACL in die gedekomprimeerde lêer ingestel gaan word. Dus, as jy 'n aansoek in 'n zip-lêer met die **AppleDouble**-lêerformaat saam met 'n ACL wat voorkom dat ander xattrs daaraan geskryf word, saamgedruk het... die karantyn-xattr is nie in die aansoek ingestel nie:
+In die [**bronkode**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) is dit moontlik om te sien dat die ACL-teksvoorstelling wat binne die xattr genoem word **`com.apple.acl.text`** gestoor word, as ACL in die gedekomprimeerde lêer ingestel gaan word. Dus, as jy 'n aansoek in 'n zip-lêer met die **AppleDouble** lêerformaat saam met 'n ACL wat voorkom dat ander xattrs daarin geskryf kan word, saamgedruk het... die karantyn xattr was nie in die aansoek ingestel nie:
 
 Kyk na die [**oorspronklike verslag**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/) vir meer inligting.
 
@@ -146,7 +146,7 @@ ditto -c -k del test.zip
 ditto -x -k --rsrc test.zip .
 ls -le test
 ```
-(Moenie vergeet dat selfs as dit werk die sandboks skryf die karantyn xattr voor)
+(Note that selfs as dit werk die sandboks skryf die karantyn xattr voor)
 
 Nie regtig nodig nie, maar ek los dit daar net in geval:
 
@@ -211,8 +211,6 @@ openssl dgst -binary -sha1 /System/Cryptexes/App/System/Applications/Safari.app/
 ## Monteer dmgs
 
 'n Gebruiker kan 'n aangepaste dmg selfs bo-op bestaande lêers monteer. Dit is hoe jy 'n aangepaste dmg-pakket met aangepaste inhoud kan skep:
-
-{% code overflow="wrap" %}
 ```bash
 # Create the volume
 hdiutil create /private/tmp/tmp.dmg -size 2m -ov -volname CustomVolName -fs APFS 1>/dev/null
@@ -238,7 +236,7 @@ hdiutil create -srcfolder justsome.app justsome.dmg
 Gewoonlik koppel macOS skyf deur met die `com.apple.DiskArbitrarion.diskarbitrariond` Mach-diens te praat (verskaf deur `/usr/libexec/diskarbitrationd`). As die parameter `-d` by die LaunchDaemons plist-lêer gevoeg word en herlaai word, sal dit logboeke stoor in `/var/log/diskarbitrationd.log`.\
 Dit is egter moontlik om gereedskap soos `hdik` en `hdiutil` te gebruik om direk met die `com.apple.driver.DiskImages` kext te kommunikeer.
 
-## Willekeurige Skrywings
+## Willekeurige Skrywes
 
 ### Periodieke sh-skripte
 
@@ -265,21 +263,19 @@ Skryf 'n willekeurige **LaunchDaemon** soos **`/Library/LaunchDaemons/xyz.hacktr
 </dict>
 </plist>
 ```
-### Genereer die skrip `/Applications/Scripts/privesc.sh` met die **opdragte** wat jy as root wil hardloop.
-
 ### Sudoers-lêer
 
-As jy **willekeurige skryfregte** het, kan jy 'n lêer binne die gids **`/etc/sudoers.d/`** skep wat jou **sudo**-bevoegdhede toeken.
+Indien jy **willekeurige skryfregte** het, kan jy 'n lêer binne die **`/etc/sudoers.d/`**-map skep wat jou **sudo**-bevoegdhede toeken.
 
 ### PAD-lêers
 
-Die lêer **`/etc/paths`** is een van die belangrikste plekke wat die PAD-omgewingsveranderlike populeer. Jy moet root wees om dit te oorskryf, maar as 'n skrip van 'n **bevoorregte proses** 'n **opdrag sonder die volledige pad** uitvoer, kan jy dit dalk **kaap** deur hierdie lêer te wysig.
+Die lêer **`/etc/paths`** is een van die hoofplekke wat die PAD-omgewingsveranderlike populeer. Jy moet 'n hoofgebruiker wees om dit te oorskryf, maar as 'n skriffie van 'n **bevoorregte proses** 'n paar **opdragte sonder die volledige pad** uitvoer, kan jy dit dalk **kaap** deur hierdie lêer te wysig.
 
-Jy kan ook lêers skryf in **`/etc/paths.d`** om nuwe gids in die `PAD`-omgewingsveranderlike te laai.
+Jy kan ook lêers skryf in **`/etc/paths.d`** om nuwe vouers in die `PAD`-omgewingsveranderlike te laai.
 
-## Genereer skryfbare lêers as ander gebruikers
+## Skep skryfbare lêers as ander gebruikers
 
-Dit sal 'n lêer genereer wat aan root behoort en deur my geskryf kan word ([**kode vanaf hier**](https://github.com/gergelykalman/brew-lpe-via-periodic/blob/main/brew\_lpe.sh)). Dit kan ook werk as 'n privesc:
+Dit sal 'n lêer genereer wat aan root behoort en deur my oorskryf kan word ([**kode vanaf hier**](https://github.com/gergelykalman/brew-lpe-via-periodic/blob/main/brew\_lpe.sh)). Dit mag ook werk vir bevoorregte eskalasie:
 ```bash
 DIRNAME=/usr/local/etc/periodic/daily
 
@@ -291,13 +287,119 @@ MallocStackLogging=1 MallocStackLoggingDirectory=$DIRNAME MallocStackLoggingDont
 FILENAME=$(ls "$DIRNAME")
 echo $FILENAME
 ```
+## POSIX Gedeelde Geheue
+
+**POSIX gedeelde geheue** maak dit vir prosesse in POSIX-samewerkende bedryfstelsels moontlik om 'n gemeenskaplike geheue-areas te benader, wat vinniger kommunikasie fasiliteer in vergelyking met ander interproses kommunikasiemetodes. Dit behels die skep of oopmaak van 'n gedeelde geheue-object met `shm_open()`, die instelling van sy grootte met `ftruncate()`, en die koppel dit in die proses se adresruimte met `mmap()`. Prosesse kan dan direk van hierdie geheue-area lees en daarnaartoe skryf. Om gelyktydige toegang te bestuur en datakorrupsie te voorkom, word sinchronisasie meganismes soos mutexes of semafore dikwels gebruik. Laastens, prosesse maak die gedeelde geheue ongedaan en sluit dit met `munmap()` en `close()`, en verwyder opsioneel die geheue-object met `shm_unlink()`. Hierdie stelsel is veral doeltreffend vir doeltreffende, vinnige IPC in omgewings waar meervoudige prosesse vinnig toegang tot gedeelde data benodig.
+
+<details>
+
+<summary>Vervaardiger Kode Voorbeeld</summary>
+```c
+// gcc producer.c -o producer -lrt
+#include <fcntl.h>
+#include <sys/mman.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+const char *name = "/my_shared_memory";
+const int SIZE = 4096; // Size of the shared memory object
+
+// Create the shared memory object
+int shm_fd = shm_open(name, O_CREAT | O_RDWR, 0666);
+if (shm_fd == -1) {
+perror("shm_open");
+return EXIT_FAILURE;
+}
+
+// Configure the size of the shared memory object
+if (ftruncate(shm_fd, SIZE) == -1) {
+perror("ftruncate");
+return EXIT_FAILURE;
+}
+
+// Memory map the shared memory
+void *ptr = mmap(0, SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
+if (ptr == MAP_FAILED) {
+perror("mmap");
+return EXIT_FAILURE;
+}
+
+// Write to the shared memory
+sprintf(ptr, "Hello from Producer!");
+
+// Unmap and close, but do not unlink
+munmap(ptr, SIZE);
+close(shm_fd);
+
+return 0;
+}
+```
+</details>
+
+<details>
+
+<summary>Verbruikerskodevoorbeeld</summary>
+```c
+// gcc consumer.c -o consumer -lrt
+#include <fcntl.h>
+#include <sys/mman.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+const char *name = "/my_shared_memory";
+const int SIZE = 4096; // Size of the shared memory object
+
+// Open the shared memory object
+int shm_fd = shm_open(name, O_RDONLY, 0666);
+if (shm_fd == -1) {
+perror("shm_open");
+return EXIT_FAILURE;
+}
+
+// Memory map the shared memory
+void *ptr = mmap(0, SIZE, PROT_READ, MAP_SHARED, shm_fd, 0);
+if (ptr == MAP_FAILED) {
+perror("mmap");
+return EXIT_FAILURE;
+}
+
+// Read from the shared memory
+printf("Consumer received: %s\n", (char *)ptr);
+
+// Cleanup
+munmap(ptr, SIZE);
+close(shm_fd);
+shm_unlink(name); // Optionally unlink
+
+return 0;
+}
+
+```
+</details>
+
+## macOS Bewaakte Beskrywers
+
+**macOS bewaakte beskrywers** is 'n veiligheidskenmerk wat in macOS ingevoer is om die veiligheid en betroubaarheid van **lêerbeskrywer-operasies** in gebruikersprogramme te verbeter. Hierdie bewaakte beskrywers bied 'n manier om spesifieke beperkings of "wagte" te assosieer met lêerbeskrywers, wat deur die kernel afgedwing word.
+
+Hierdie kenmerk is veral nuttig om sekere klasse van veiligheidskwesbaarhede soos **onbevoegde lêertoegang** of **wedloopvoorwaardes** te voorkom. Hierdie kwesbaarhede kom voor wanneer byvoorbeeld 'n draad 'n lêerbeskrywing benader wat **'n ander kwesbare draad toegang daartoe gee** of wanneer 'n lêerbeskrywer **oorerf** word deur 'n kwesbare kinderproses. Sommige funksies wat verband hou met hierdie funksionaliteit is:
+
+* `guarded_open_np`: Maak 'n FD oop met 'n wag
+* `guarded_close_np`: Maak dit toe
+* `change_fdguard_np`: Verander wagvlaggies op 'n beskrywer (selfs om die wagbeskerming te verwyder)
+
 ## Verwysings
 
 * [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/)
 
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Ander maniere om HackTricks te ondersteun:
 
@@ -305,6 +407,6 @@ Ander maniere om HackTricks te ondersteun:
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag. 
+* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
