@@ -30,7 +30,7 @@ Permissions dans un **répertoire** :
 
 - Un **propriétaire de répertoire parent** dans le chemin est l'utilisateur
 - Un **propriétaire de répertoire parent** dans le chemin est un **groupe d'utilisateurs** avec **accès en écriture**
-- Un **groupe d'utilisateurs** a un accès **en écriture** au **fichier**
+- Un **groupe d'utilisateurs** a un **accès en écriture** au **fichier**
 
 Avec l'une des combinaisons précédentes, un attaquant pourrait **injecter** un **lien symbole/dur** dans le chemin attendu pour obtenir une écriture arbitraire privilégiée.
 
@@ -44,7 +44,7 @@ Exemple dans : [https://theevilbit.github.io/posts/exploiting\_directory\_permis
 
 Si un processus privilégié écrit des données dans un **fichier** qui pourrait être **contrôlé** par un **utilisateur moins privilégié**, ou qui pourrait avoir été **précédemment créé** par un utilisateur moins privilégié. L'utilisateur pourrait simplement **le pointer vers un autre fichier** via un lien symbolique ou physique, et le processus privilégié écrira sur ce fichier.
 
-Consultez les autres sections où un attaquant pourrait **abuser d'une écriture arbitraire pour escalader les privilèges**.
+Vérifiez dans les autres sections où un attaquant pourrait **abuser d'une écriture arbitraire pour escalader les privilèges**.
 
 ## .fileloc
 
@@ -62,9 +62,9 @@ Exemple :
 </dict>
 </plist>
 ```
-## Descripteur de fichier arbitraire
+## FD arbitraire
 
-Si vous pouvez faire en sorte qu'un **processus ouvre un fichier ou un dossier avec des privilèges élevés**, vous pouvez abuser de **`crontab`** pour ouvrir un fichier dans `/etc/sudoers.d` avec **`EDITOR=exploit.py`**, de sorte que `exploit.py` obtiendra le descripteur de fichier vers le fichier à l'intérieur de `/etc/sudoers` et l'abusera.
+Si vous pouvez **faire en sorte qu'un processus ouvre un fichier ou un dossier avec des privilèges élevés**, vous pouvez abuser de **`crontab`** pour ouvrir un fichier dans `/etc/sudoers.d` avec **`EDITOR=exploit.py`**, ainsi `exploit.py` obtiendra le FD du fichier à l'intérieur de `/etc/sudoers` et l'abusera.
 
 Par exemple : [https://youtu.be/f1HA5QhLQ7Y?t=21098](https://youtu.be/f1HA5QhLQ7Y?t=21098)
 
@@ -76,7 +76,7 @@ xattr -d com.apple.quarantine /path/to/file_or_app
 ```
 ### Drapeau uchg / uchange / uimmutable
 
-Si un fichier/dossier a cet attribut immuable, il ne sera pas possible d'y ajouter un xattr
+Si un fichier/dossier a cet attribut immuable, il ne sera pas possible d'y mettre un xattr
 ```bash
 echo asd > /tmp/asd
 chflags uchg /tmp/asd # "chflags uchange /tmp/asd" or "chflags uimmutable /tmp/asd"
@@ -99,7 +99,7 @@ xattr: [Errno 1] Operation not permitted: '/tmp/mnt/lol'
 ```
 ### ACL writeextattr
 
-Cet ACL empêche l'ajout de `xattrs` au fichier.
+Cet ACL empêche l'ajout de `xattrs` au fichier
 ```bash
 rm -rf /tmp/test*
 echo test >/tmp/test
@@ -122,9 +122,9 @@ ls -le /tmp/test
 ```
 ### **com.apple.acl.text xattr + AppleDouble**
 
-Le format de fichier **AppleDouble** copie un fichier avec ses ACEs.
+Le format de fichier **AppleDouble** copie un fichier incluant ses ACEs.
 
-Dans le [**code source**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html), il est possible de voir que la représentation textuelle de l'ACL stockée à l'intérieur de l'xattr appelé **`com.apple.acl.text`** va être définie comme ACL dans le fichier décompressé. Ainsi, si vous compressez une application dans un fichier zip avec le format de fichier **AppleDouble** avec un ACL qui empêche l'écriture d'autres xattrs... l'xattr de quarantaine n'a pas été défini dans l'application :
+Dans le [**code source**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html), il est possible de voir que la représentation textuelle de l'ACL stockée à l'intérieur du xattr appelé **`com.apple.acl.text`** va être définie comme ACL dans le fichier décompressé. Ainsi, si vous avez compressé une application dans un fichier zip avec le format de fichier **AppleDouble** avec un ACL qui empêche l'écriture d'autres xattrs dessus... le xattr de quarantaine n'a pas été défini dans l'application :
 
 Consultez le [**rapport original**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/) pour plus d'informations.
 
@@ -233,7 +233,7 @@ hdiutil create -srcfolder justsome.app justsome.dmg
 ```
 {% endcode %}
 
-En général, macOS monte le disque en dialoguant avec le service Mach `com.apple.DiskArbitration.diskarbitrationd` (fourni par `/usr/libexec/diskarbitrationd`). Si vous ajoutez le paramètre `-d` au fichier LaunchDaemons plist et redémarrez, il stockera des journaux dans `/var/log/diskarbitrationd.log`.\
+En général, macOS monte le disque en parlant au service Mach `com.apple.DiskArbitration.diskarbitrationd` (fourni par `/usr/libexec/diskarbitrationd`). Si vous ajoutez le paramètre `-d` au fichier plist de LaunchDaemons et redémarrez, il stockera des journaux dans `/var/log/diskarbitrationd.log`.\
 Cependant, il est possible d'utiliser des outils comme `hdik` et `hdiutil` pour communiquer directement avec le kext `com.apple.driver.DiskImages`.
 
 ## Écritures arbitraires
@@ -242,11 +242,11 @@ Cependant, il est possible d'utiliser des outils comme `hdik` et `hdiutil` pour 
 
 Si votre script peut être interprété comme un **script shell**, vous pouvez écraser le script shell **`/etc/periodic/daily/999.local`** qui sera déclenché chaque jour.
 
-Vous pouvez **simuler** l'exécution de ce script avec: **`sudo periodic daily`**
+Vous pouvez **simuler** l'exécution de ce script avec : **`sudo periodic daily`**
 
 ### Daemons
 
-Écrivez un **LaunchDaemon** arbitraire comme **`/Library/LaunchDaemons/xyz.hacktricks.privesc.plist`** avec un plist exécutant un script arbitraire comme:
+Écrivez un **LaunchDaemon** arbitraire comme **`/Library/LaunchDaemons/xyz.hacktricks.privesc.plist`** avec un plist exécutant un script arbitraire comme :
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -269,13 +269,13 @@ Si vous avez **l'écriture arbitraire**, vous pourriez créer un fichier à l'in
 
 ### Fichiers PATH
 
-Le fichier **`/etc/paths`** est l'un des principaux endroits qui alimentent la variable d'environnement PATH. Vous devez être root pour le remplacer, mais si un script d'un **processus privilégié** exécute une **commande sans le chemin complet**, vous pourriez **le détourner** en modifiant ce fichier.
+Le fichier **`/etc/paths`** est l'un des principaux endroits qui alimentent la variable d'environnement PATH. Vous devez être root pour le remplacer, mais si un script d'un **processus privilégié** exécute une **commande sans le chemin complet**, vous pourriez le **détourner** en modifiant ce fichier.
 
 Vous pouvez également écrire des fichiers dans **`/etc/paths.d`** pour charger de nouveaux dossiers dans la variable d'environnement `PATH`.
 
 ## Générer des fichiers inscriptibles en tant qu'autres utilisateurs
 
-Cela générera un fichier appartenant à root qui est inscriptible par moi ([**code from here**](https://github.com/gergelykalman/brew-lpe-via-periodic/blob/main/brew\_lpe.sh)). Cela pourrait également fonctionner comme une élévation de privilèges:
+Cela générera un fichier appartenant à root qui est inscriptible par moi ([**code à partir d'ici**](https://github.com/gergelykalman/brew-lpe-via-periodic/blob/main/brew\_lpe.sh)). Cela pourrait également fonctionner comme élévation de privilèges :
 ```bash
 DIRNAME=/usr/local/etc/periodic/daily
 
@@ -287,20 +287,126 @@ MallocStackLogging=1 MallocStackLoggingDirectory=$DIRNAME MallocStackLoggingDont
 FILENAME=$(ls "$DIRNAME")
 echo $FILENAME
 ```
+## Mémoire partagée POSIX
+
+**La mémoire partagée POSIX** permet aux processus des systèmes d'exploitation compatibles POSIX d'accéder à une zone mémoire commune, facilitant une communication plus rapide par rapport à d'autres méthodes de communication inter-processus. Cela implique la création ou l'ouverture d'un objet mémoire partagée avec `shm_open()`, en définissant sa taille avec `ftruncate()`, et en le mappant dans l'espace d'adressage du processus à l'aide de `mmap()`. Les processus peuvent ensuite lire directement et écrire dans cette zone mémoire. Pour gérer l'accès concurrent et prévenir la corruption des données, des mécanismes de synchronisation tels que des mutex ou des sémaphores sont souvent utilisés. Enfin, les processus désallouent et ferment la mémoire partagée avec `munmap()` et `close()`, et éventuellement suppriment l'objet mémoire avec `shm_unlink()`. Ce système est particulièrement efficace pour une IPC efficace et rapide dans des environnements où plusieurs processus ont besoin d'accéder rapidement à des données partagées.
+
+<details>
+
+<summary>Exemple de code du producteur</summary>
+```c
+// gcc producer.c -o producer -lrt
+#include <fcntl.h>
+#include <sys/mman.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+const char *name = "/my_shared_memory";
+const int SIZE = 4096; // Size of the shared memory object
+
+// Create the shared memory object
+int shm_fd = shm_open(name, O_CREAT | O_RDWR, 0666);
+if (shm_fd == -1) {
+perror("shm_open");
+return EXIT_FAILURE;
+}
+
+// Configure the size of the shared memory object
+if (ftruncate(shm_fd, SIZE) == -1) {
+perror("ftruncate");
+return EXIT_FAILURE;
+}
+
+// Memory map the shared memory
+void *ptr = mmap(0, SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
+if (ptr == MAP_FAILED) {
+perror("mmap");
+return EXIT_FAILURE;
+}
+
+// Write to the shared memory
+sprintf(ptr, "Hello from Producer!");
+
+// Unmap and close, but do not unlink
+munmap(ptr, SIZE);
+close(shm_fd);
+
+return 0;
+}
+```
+</details>
+
+<details>
+
+<summary>Exemple de code consommateur</summary>
+```c
+// gcc consumer.c -o consumer -lrt
+#include <fcntl.h>
+#include <sys/mman.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+const char *name = "/my_shared_memory";
+const int SIZE = 4096; // Size of the shared memory object
+
+// Open the shared memory object
+int shm_fd = shm_open(name, O_RDONLY, 0666);
+if (shm_fd == -1) {
+perror("shm_open");
+return EXIT_FAILURE;
+}
+
+// Memory map the shared memory
+void *ptr = mmap(0, SIZE, PROT_READ, MAP_SHARED, shm_fd, 0);
+if (ptr == MAP_FAILED) {
+perror("mmap");
+return EXIT_FAILURE;
+}
+
+// Read from the shared memory
+printf("Consumer received: %s\n", (char *)ptr);
+
+// Cleanup
+munmap(ptr, SIZE);
+close(shm_fd);
+shm_unlink(name); // Optionally unlink
+
+return 0;
+}
+
+```
+</details>
+
+## Descripteurs protégés macOS
+
+Les **descripteurs protégés macOS** sont une fonctionnalité de sécurité introduite dans macOS pour améliorer la sécurité et la fiabilité des **opérations de descripteur de fichier** dans les applications utilisateur. Ces descripteurs protégés fournissent un moyen d'associer des restrictions spécifiques ou des "gardes" à des descripteurs de fichier, qui sont appliqués par le noyau.
+
+Cette fonctionnalité est particulièrement utile pour prévenir certaines classes de vulnérabilités de sécurité telles que l'**accès non autorisé aux fichiers** ou les **conditions de concurrence**. Ces vulnérabilités se produisent par exemple lorsqu'un thread accède à une description de fichier donnant **à un autre thread vulnérable un accès dessus** ou lorsqu'un descripteur de fichier est **hérité** par un processus enfant vulnérable. Certaines fonctions liées à cette fonctionnalité sont :
+
+* `guarded_open_np` : Ouvre un FD avec un garde
+* `guarded_close_np` : Le ferme
+* `change_fdguard_np` : Modifie les indicateurs de garde sur un descripteur (même en supprimant la protection du garde)
+
 ## Références
 
 * [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/)
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
-Autres façons de soutenir HackTricks:
+Autres façons de soutenir HackTricks :
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF** Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
