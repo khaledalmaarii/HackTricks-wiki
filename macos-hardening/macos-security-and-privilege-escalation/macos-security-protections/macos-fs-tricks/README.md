@@ -6,11 +6,11 @@
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+- Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+- Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+- Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+- **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+- **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 
@@ -18,31 +18,31 @@ Outras maneiras de apoiar o HackTricks:
 
 Permissões em um **diretório**:
 
-* **leitura** - você pode **enumerar** as entradas do diretório
-* **escrita** - você pode **excluir/escrever** **arquivos** no diretório e pode **excluir pastas vazias**.
-* Mas você **não pode excluir/modificar pastas não vazias** a menos que tenha permissões de escrita sobre elas.
-* Você **não pode modificar o nome de uma pasta** a menos que a possua.
-* **execução** - você está **autorizado a percorrer** o diretório - se você não tiver esse direito, não poderá acessar nenhum arquivo dentro dele, ou em quaisquer subdiretórios.
+- **leitura** - você pode **enumerar** as entradas do diretório
+- **escrita** - você pode **excluir/escrever** **arquivos** no diretório e pode **excluir pastas vazias**.
+- Mas você **não pode excluir/modificar pastas não vazias** a menos que tenha permissões de escrita sobre elas.
+- Você **não pode modificar o nome de uma pasta** a menos que a possua.
+- **execução** - você está **autorizado a percorrer** o diretório - se você não tiver esse direito, não poderá acessar nenhum arquivo dentro dele, ou em quaisquer subdiretórios.
 
 ### Combinações Perigosas
 
 **Como sobrescrever um arquivo/pasta de propriedade do root**, mas:
 
-* Um **proprietário de diretório pai** no caminho é o usuário
-* Um **proprietário de diretório pai** no caminho é um **grupo de usuários** com **acesso de escrita**
-* Um **grupo de usuários** tem **acesso de escrita** ao **arquivo**
+- Um **proprietário de diretório pai** no caminho é o usuário
+- Um **proprietário de diretório pai** no caminho é um **grupo de usuários** com **acesso de escrita**
+- Um **grupo de usuários** tem **acesso de escrita** ao **arquivo**
 
-Com uma das combinações anteriores, um atacante poderia **injetar** um **link simbólico/rígido** no caminho esperado para obter uma gravação arbitrária privilegiada.
+Com qualquer uma das combinações anteriores, um atacante poderia **injetar** um **link simbólico/link físico** no caminho esperado para obter uma gravação arbitrária privilegiada.
 
-### Caso Especial de Raiz da Pasta R+X
+### Caso Especial de Raiz de Pasta R+X
 
-Se houver arquivos em um **diretório** onde **apenas o root tem acesso R+X**, esses arquivos **não são acessíveis a mais ninguém**. Portanto, uma vulnerabilidade que permita **mover um arquivo legível por um usuário**, que não pode ser lido por causa dessa **restrição**, desta pasta **para outra diferente**, poderia ser abusada para ler esses arquivos.
+Se houver arquivos em um **diretório** onde **apenas o root tem acesso R+X**, esses arquivos **não são acessíveis a mais ninguém**. Portanto, uma vulnerabilidade que permita **mover um arquivo legível por um usuário**, que não pode ser lido por causa dessa **restrição**, deste diretório **para um diferente**, poderia ser abusada para ler esses arquivos.
 
 Exemplo em: [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions)
 
-## Link Simbólico / Link Rígido
+## Link Simbólico / Link Físico
 
-Se um processo privilegiado estiver gravando dados em um **arquivo** que poderia ser **controlado** por um **usuário com menos privilégios**, ou que poderia ter sido **criado anteriormente** por um usuário com menos privilégios. O usuário poderia simplesmente **apontá-lo para outro arquivo** via um link simbólico ou rígido, e o processo privilegiado gravará nesse arquivo.
+Se um processo privilegiado estiver gravando dados em um **arquivo** que poderia ser **controlado** por um **usuário com menos privilégios**, ou que poderia ser **previamente criado** por um usuário com menos privilégios. O usuário poderia simplesmente **apontá-lo para outro arquivo** via um link simbólico ou físico, e o processo privilegiado gravará nesse arquivo.
 
 Verifique nas outras seções onde um atacante poderia **abusar de uma gravação arbitrária para escalar privilégios**.
 
@@ -64,7 +64,7 @@ Exemplo:
 ```
 ## FD Arbitrário
 
-Se você conseguir fazer um **processo abrir um arquivo ou uma pasta com altos privilégios**, você pode abusar do **`crontab`** para abrir um arquivo em `/etc/sudoers.d` com **`EDITOR=exploit.py`**, então o `exploit.py` obterá o FD para o arquivo dentro de `/etc/sudoers` e abusará dele.
+Se você pode fazer um **processo abrir um arquivo ou uma pasta com altos privilégios**, você pode abusar do **`crontab`** para abrir um arquivo em `/etc/sudoers.d` com **`EDITOR=exploit.py`**, então o `exploit.py` obterá o FD para o arquivo dentro de `/etc/sudoers` e abusará dele.
 
 Por exemplo: [https://youtu.be/f1HA5QhLQ7Y?t=21098](https://youtu.be/f1HA5QhLQ7Y?t=21098)
 
@@ -148,7 +148,7 @@ ls -le test
 ```
 (Note que mesmo que isso funcione, a sandbox escreve o atributo de quarentena antes)
 
-Não é realmente necessário, mas eu deixo aqui caso:
+Não é realmente necessário, mas eu deixo aqui apenas por precaução:
 
 {% content-ref url="macos-xattr-acls-extra-stuff.md" %}
 [macos-xattr-acls-extra-stuff.md](macos-xattr-acls-extra-stuff.md)
@@ -210,7 +210,7 @@ openssl dgst -binary -sha1 /System/Cryptexes/App/System/Applications/Safari.app/
 ```
 ## Montar dmgs
 
-Um usuário pode montar um dmg personalizado até mesmo em cima de algumas pastas existentes. Veja como você pode criar um pacote dmg personalizado com conteúdo personalizado:
+Um usuário pode montar um arquivo dmg personalizado até mesmo em cima de algumas pastas existentes. Veja como você pode criar um pacote dmg personalizado com conteúdo personalizado:
 ```bash
 # Create the volume
 hdiutil create /private/tmp/tmp.dmg -size 2m -ov -volname CustomVolName -fs APFS 1>/dev/null
@@ -265,7 +265,7 @@ Escreva um **LaunchDaemon** arbitrário como **`/Library/LaunchDaemons/xyz.hackt
 ```
 ### Ficheiro Sudoers
 
-Se tiver **escrita arbitrária**, poderá criar um ficheiro dentro da pasta **`/etc/sudoers.d/`** concedendo a si mesmo privilégios **sudo**.
+Se tiver **escrita arbitrária**, poderá criar um ficheiro dentro da pasta **`/etc/sudoers.d/`** concedendo a si próprio privilégios **sudo**.
 
 ### Ficheiros PATH
 
@@ -287,18 +287,124 @@ MallocStackLogging=1 MallocStackLoggingDirectory=$DIRNAME MallocStackLoggingDont
 FILENAME=$(ls "$DIRNAME")
 echo $FILENAME
 ```
+## Memória Compartilhada POSIX
+
+A **memória compartilhada POSIX** permite que processos em sistemas operacionais compatíveis com POSIX acessem uma área de memória comum, facilitando uma comunicação mais rápida em comparação com outros métodos de comunicação entre processos. Envolve a criação ou abertura de um objeto de memória compartilhada com `shm_open()`, definindo seu tamanho com `ftruncate()`, e mapeando-o no espaço de endereço do processo usando `mmap()`. Os processos podem então ler e escrever diretamente nesta área de memória. Para gerenciar o acesso concorrente e evitar a corrupção de dados, mecanismos de sincronização como mutexes ou semáforos são frequentemente utilizados. Por fim, os processos desmapeiam e fecham a memória compartilhada com `munmap()` e `close()`, e opcionalmente removem o objeto de memória com `shm_unlink()`. Este sistema é especialmente eficaz para IPC eficiente e rápido em ambientes onde múltiplos processos precisam acessar dados compartilhados rapidamente.
+
+<details>
+
+<summary>Exemplo de Código do Produtor</summary>
+```c
+// gcc producer.c -o producer -lrt
+#include <fcntl.h>
+#include <sys/mman.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+const char *name = "/my_shared_memory";
+const int SIZE = 4096; // Size of the shared memory object
+
+// Create the shared memory object
+int shm_fd = shm_open(name, O_CREAT | O_RDWR, 0666);
+if (shm_fd == -1) {
+perror("shm_open");
+return EXIT_FAILURE;
+}
+
+// Configure the size of the shared memory object
+if (ftruncate(shm_fd, SIZE) == -1) {
+perror("ftruncate");
+return EXIT_FAILURE;
+}
+
+// Memory map the shared memory
+void *ptr = mmap(0, SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
+if (ptr == MAP_FAILED) {
+perror("mmap");
+return EXIT_FAILURE;
+}
+
+// Write to the shared memory
+sprintf(ptr, "Hello from Producer!");
+
+// Unmap and close, but do not unlink
+munmap(ptr, SIZE);
+close(shm_fd);
+
+return 0;
+}
+```
+</details>
+
+<details>
+
+<summary>Exemplo de Código do Consumidor</summary>
+```c
+// gcc consumer.c -o consumer -lrt
+#include <fcntl.h>
+#include <sys/mman.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+const char *name = "/my_shared_memory";
+const int SIZE = 4096; // Size of the shared memory object
+
+// Open the shared memory object
+int shm_fd = shm_open(name, O_RDONLY, 0666);
+if (shm_fd == -1) {
+perror("shm_open");
+return EXIT_FAILURE;
+}
+
+// Memory map the shared memory
+void *ptr = mmap(0, SIZE, PROT_READ, MAP_SHARED, shm_fd, 0);
+if (ptr == MAP_FAILED) {
+perror("mmap");
+return EXIT_FAILURE;
+}
+
+// Read from the shared memory
+printf("Consumer received: %s\n", (char *)ptr);
+
+// Cleanup
+munmap(ptr, SIZE);
+close(shm_fd);
+shm_unlink(name); // Optionally unlink
+
+return 0;
+}
+
+```
+</details>
+
+## Descritores Guardados do macOS
+
+Os **descritores guardados do macOS** são um recurso de segurança introduzido no macOS para melhorar a segurança e confiabilidade das **operações de descritores de arquivo** em aplicativos de usuário. Esses descritores guardados fornecem uma maneira de associar restrições específicas ou "guardas" com descritores de arquivo, que são aplicadas pelo kernel.
+
+Este recurso é particularmente útil para prevenir certas classes de vulnerabilidades de segurança, como **acesso não autorizado a arquivos** ou **condições de corrida**. Essas vulnerabilidades ocorrem, por exemplo, quando uma thread está acessando uma descrição de arquivo, dando **a outra thread vulnerável acesso sobre ela** ou quando um descritor de arquivo é **herdado** por um processo filho vulnerável. Algumas funções relacionadas a essa funcionalidade são:
+
+* `guarded_open_np`: Abre um FD com um guarda
+* `guarded_close_np`: Fecha-o
+* `change_fdguard_np`: Altera as flags de guarda em um descritor (mesmo removendo a proteção do guarda)
+
 ## Referências
 
 * [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/)
 
 <details>
 
-<summary><strong>Aprenda hacking da AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.

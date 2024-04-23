@@ -1,12 +1,12 @@
-# Abuso de Instaladores no macOS
+# Abuso de Instaladores do macOS
 
 <details>
 
 <summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras formas de apoiar o HackTricks:
+Outras maneiras de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -16,9 +16,9 @@ Outras formas de apoiar o HackTricks:
 
 ## Informações Básicas sobre Pkg
 
-Um **pacote de instalação do macOS** (também conhecido como arquivo `.pkg`) é um formato de arquivo usado pelo macOS para **distribuir software**. Esses arquivos são como uma **caixa que contém tudo o que um software** precisa para instalar e funcionar corretamente.
+Um **pacote de instalador** do macOS (também conhecido como arquivo `.pkg`) é um formato de arquivo usado pelo macOS para **distribuir software**. Esses arquivos são como uma **caixa que contém tudo o que um software** precisa para instalar e funcionar corretamente.
 
-O arquivo do pacote em si é um arquivo compactado que contém uma **hierarquia de arquivos e diretórios que serão instalados no computador de destino**. Ele também pode incluir **scripts** para realizar tarefas antes e depois da instalação, como configurar arquivos de configuração ou limpar versões antigas do software.
+O arquivo do pacote em si é um arquivo de arquivo que contém uma **hierarquia de arquivos e diretórios que serão instalados no** computador de destino. Também pode incluir **scripts** para realizar tarefas antes e depois da instalação, como configurar arquivos de configuração ou limpar versões antigas do software.
 
 ### Hierarquia
 
@@ -27,8 +27,8 @@ O arquivo do pacote em si é um arquivo compactado que contém uma **hierarquia 
 * **Distribuição (xml)**: Personalizações (título, texto de boas-vindas...) e verificações de script/instalação
 * **PackageInfo (xml)**: Informações, requisitos de instalação, local de instalação, caminhos para scripts a serem executados
 * **Lista de materiais (bom)**: Lista de arquivos para instalar, atualizar ou remover com permissões de arquivo
-* **Carga (arquivo CPIO compactado com gzip)**: Arquivos para instalar no `local de instalação` do PackageInfo
-* **Scripts (arquivo CPIO compactado com gzip)**: Scripts de pré e pós-instalação e mais recursos extraídos para um diretório temporário para execução.
+* **Carga (arquivo CPIO gzip compactado)**: Arquivos para instalar no `local de instalação` do PackageInfo
+* **Scripts (arquivo CPIO gzip compactado)**: Scripts de pré e pós-instalação e mais recursos extraídos para um diretório temporário para execução.
 
 ### Descompactar
 ```bash
@@ -44,15 +44,17 @@ xar -xf "/path/to/package.pkg"
 cat Scripts | gzip -dc | cpio -i
 cpio -i < Scripts
 ```
-Para visualizar o conteúdo do instalador sem descompactá-lo manualmente, você também pode usar a ferramenta gratuita [**Suspicious Package**](https://mothersruin.com/software/SuspiciousPackage/).
+## Informações Básicas do DMG
 
-## Informações Básicas sobre DMG
+Os arquivos DMG, ou Apple Disk Images, são um formato de arquivo usado pelo macOS da Apple para imagens de disco. Um arquivo DMG é essencialmente uma **imagem de disco montável** (contém seu próprio sistema de arquivos) que contém dados de bloco brutos normalmente comprimidos e às vezes criptografados. Quando você abre um arquivo DMG, o macOS o **monta como se fosse um disco físico**, permitindo que você acesse seu conteúdo.
 
-Os arquivos DMG, ou Apple Disk Images, são um formato de arquivo usado pelo macOS da Apple para imagens de disco. Um arquivo DMG é essencialmente uma **imagem de disco montável** (ele contém seu próprio sistema de arquivos) que contém dados de bloco brutos normalmente comprimidos e às vezes criptografados. Quando você abre um arquivo DMG, o macOS o **monta como se fosse um disco físico**, permitindo que você acesse seu conteúdo.
+{% hint style="danger" %}
+Observe que os instaladores **`.dmg`** suportam **tantos formatos** que no passado alguns deles contendo vulnerabilidades foram abusados para obter **execução de código do kernel**.
+{% endhint %}
 
 ### Hierarquia
 
-<figure><img src="../../../.gitbook/assets/image (12) (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (222).png" alt=""><figcaption></figcaption></figure>
 
 A hierarquia de um arquivo DMG pode ser diferente com base no conteúdo. No entanto, para DMGs de aplicativos, geralmente segue esta estrutura:
 
@@ -62,11 +64,11 @@ A hierarquia de um arquivo DMG pode ser diferente com base no conteúdo. No enta
 
 ## Privesc via abuso de pkg
 
-### Execução de diretórios públicos
+### Execução a partir de diretórios públicos
 
-Se um script de pré ou pós-instalação estiver, por exemplo, sendo executado em **`/var/tmp/Installerutil`**, e um atacante puder controlar esse script, ele poderá elevar privilégios sempre que for executado. Ou outro exemplo semelhante:
+Se um script de pré ou pós-instalação estiver, por exemplo, sendo executado a partir de **`/var/tmp/Installerutil`**, e um atacante puder controlar esse script, ele poderá elevar privilégios sempre que for executado. Ou outro exemplo semelhante:
 
-<figure><img src="../../../.gitbook/assets/Pasted Graphic 5.png" alt="https://www.youtube.com/watch?v=iASSG0_zobQ"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/Pasted Graphic 5.png" alt="https://www.youtube.com/watch?v=iASSG0_zobQ"><figcaption><p><a href="https://www.youtube.com/watch?v=kCXhIYtODBg">https://www.youtube.com/watch?v=kCXhIYtODBg</a></p></figcaption></figure>
 
 ### AuthorizationExecuteWithPrivileges
 
@@ -76,6 +78,8 @@ Esta é uma [função pública](https://developer.apple.com/documentation/securi
 (lldb) b AuthorizationExecuteWithPrivileges
 # You could also check FS events to find this missconfig
 ```
+Para mais informações, confira esta palestra: [https://www.youtube.com/watch?v=lTOItyjTTkw](https://www.youtube.com/watch?v=lTOItyjTTkw)
+
 ### Execução por montagem
 
 Se um instalador escreve em `/tmp/fixedname/bla/bla`, é possível **criar um ponto de montagem** sobre `/tmp/fixedname` sem proprietários para que você possa **modificar qualquer arquivo durante a instalação** para abusar do processo de instalação.
@@ -92,9 +96,10 @@ Um exemplo disso é o **CVE-2021-26089** que conseguiu **sobrescrever um script 
 
 É possível adicionar tags **`<script>`** no arquivo **xml de distribuição** do pacote e esse código será executado e pode **executar comandos** usando **`system.run`**:
 
-<figure><img src="../../../.gitbook/assets/image (14).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1040).png" alt=""><figcaption></figcaption></figure>
 
 ## Referências
 
 * [**DEF CON 27 - Desempacotando Pkgs Uma Visão Interna dos Pacotes de Instalação do MacOS e Falhas Comuns de Segurança**](https://www.youtube.com/watch?v=iASSG0\_zobQ)
 * [**OBTS v4.0: "O Mundo Selvagem dos Instaladores do macOS" - Tony Lambert**](https://www.youtube.com/watch?v=Eow5uNHtmIg)
+* [**DEF CON 27 - Desempacotando Pkgs Uma Visão Interna dos Pacotes de Instalação do MacOS**](https://www.youtube.com/watch?v=kCXhIYtODBg)
