@@ -7,9 +7,9 @@
 Njia nyingine za kusaidia HackTricks:
 
 * Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
@@ -19,20 +19,20 @@ Njia nyingine za kusaidia HackTricks:
 Ruhusa katika **directory**:
 
 * **soma** - unaweza **kuorodhesha** viingilio vya directory
-* **andika** - unaweza **kufuta/andika** **faili** katika directory na unaweza **kufuta folda tupu**.
-* Lakini huwezi **kufuta/kubadilisha folda zilizo na vitu** isipokuwa una ruhusa za kuandika juu yake.
-* Huwezi **kubadilisha jina la folda** isipokuwa unamiliki.
+* **andika** - unaweza **kufuta/kuandika** **faili** katika directory na unaweza **kufuta folda tupu**.
+* Lakini huwezi **kufuta/kurekebisha folda zilizo na vitu** isipokuwa una ruhusa za kuandika juu yake.
+* Huwezi **kurekebisha jina la folda** isipokuwa unamiliki.
 * **tekeleza** - unaruhusiwa **kutembea** directory - ikiwa huna haki hii, huwezi kupata faili yoyote ndani yake, au katika subdirectories yoyote.
 
 ### Mchanganyiko Hatari
 
 **Jinsi ya kubadilisha faili/folder iliyo milikiwa na root**, lakini:
 
-* Mzazi mmoja wa **directory ni mmiliki** katika njia ni mtumiaji
+* Mzazi mmoja wa **directory ni mmiliki** ni mtumiaji
 * Mzazi mmoja wa **directory ni mmiliki wa kikundi cha watumiaji** na **ruhusa ya kuandika**
 * Kikundi cha watumiaji kina **ruhusa ya kuandika** kwa **faili**
 
-Kwa mchanganyiko wowote uliopita, mshambuliaji anaweza **kuingiza** **kiungo cha sim/hard** kwenye njia inayotarajiwa ili kupata uandishi wa aina yoyote wa kipekee.
+Kwa mchanganyiko wowote uliopita, mshambuliaji anaweza **kuingiza** **kiungo cha sim/hard** kwenye njia inayotarajiwa ili kupata uandishi wa aina ya kipekee.
 
 ### Kesi Maalum ya R+X ya Mzizi wa Folda
 
@@ -44,11 +44,11 @@ Mfano katika: [https://theevilbit.github.io/posts/exploiting\_directory\_permiss
 
 Ikiwa mchakato uliopewa mamlaka unahifadhi data katika **faili** ambayo inaweza **kudhibitiwa** na **mtumiaji mwenye mamlaka ya chini**, au ambayo inaweza **kuundwa mapema** na mtumiaji mwenye mamlaka ya chini. Mtumiaji anaweza tu **kuielekeza kwenye faili nyingine** kupitia Kiungo cha Ishara au Kiungo Kali, na mchakato uliopewa mamlaka atahifadhi kwenye faili hiyo.
 
-Angalia sehemu zingine ambapo mshambuliaji anaweza **kutumia uandishi wa aina yoyote wa kipekee kwa kukuza mamlaka**.
+Angalia sehemu zingine ambapo mshambuliaji anaweza **kutumia uandishi wa aina ya kipekee kwa kuboresha mamlaka**.
 
 ## .fileloc
 
-Faili zenye kipengele cha **`.fileloc`** zinaweza kuashiria programu au binaries nyingine ili wakati zinapofunguliwa, programu/binari itakuwa ile inayotekelezwa.\
+Faili zenye kipengele cha **`.fileloc`** zinaweza kuashiria programu au binaries nyingine hivyo wakati zinafunguliwa, programu/binari itakuwa ile inayotekelezwa.\
 Mfano:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -64,11 +64,11 @@ Mfano:
 ```
 ## FD ya Kiholela
 
-Ikiwa unaweza kufanya **mchakato ufungue faili au folda kwa mamlaka kubwa**, unaweza kutumia **`crontab`** kufungua faili katika `/etc/sudoers.d` kwa kutumia **`EDITOR=exploit.py`**, hivyo `exploit.py` itapata FD ya faili ndani ya `/etc/sudoers` na kuitumia.
+Ikiwa unaweza kufanya **mchakato ufungue faili au folda kwa mamlaka ya juu**, unaweza kutumia **`crontab`** kufungua faili katika `/etc/sudoers.d` kwa **`EDITOR=exploit.py`**, hivyo `exploit.py` itapata FD ya faili ndani ya `/etc/sudoers` na kuitumia.
 
 Kwa mfano: [https://youtu.be/f1HA5QhLQ7Y?t=21098](https://youtu.be/f1HA5QhLQ7Y?t=21098)
 
-## Kuepuka hila za xattrs za karantini
+## Epuka mbinu za xattrs za karantini
 
 ### Ondoa hiyo
 ```bash
@@ -86,9 +86,9 @@ xattr: [Errno 1] Operation not permitted: '/tmp/asd'
 ls -lO /tmp/asd
 # check the "uchg" in the output
 ```
-### Kufunga defvfs
+### Kuunganisha defvfs
 
-Kufunga **devfs** **haisaidii xattr**, taarifa zaidi katika [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)
+**Kuunganisha devfs** **haishikilii xattr**, maelezo zaidi katika [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)
 ```bash
 mkdir /tmp/mnt
 mount_devfs -o noowners none "/tmp/mnt"
@@ -122,13 +122,13 @@ ls -le /tmp/test
 ```
 ### **com.apple.acl.text xattr + AppleDouble**
 
-**Muundo wa faili wa AppleDouble** unakopi faili pamoja na ACEs zake.
+**Muundo wa faili wa AppleDouble** unachukua faili pamoja na ACEs zake.
 
-Katika [**msimbo wa chanzo**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) inawezekana kuona kuwa uwakilishi wa maandishi wa ACL uliohifadhiwa ndani ya xattr inayoitwa **`com.apple.acl.text`** itawekwa kama ACL katika faili iliyofunguliwa. Kwa hivyo, ikiwa ulifunga programu ndani ya faili ya zip na muundo wa faili wa **AppleDouble** na ACL ambayo inazuia xattrs zingine kuandikwa kwake... xattr ya karantini haikuwekwa kwenye programu:
+Katika [**msimbo wa chanzo**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) inawezekana kuona kwamba uwakilishi wa maandishi wa ACL uliohifadhiwa ndani ya xattr inayoitwa **`com.apple.acl.text`** utawekwa kama ACL katika faili iliyopunguzwa. Kwa hivyo, ikiwa ulipunguza programu ndani ya faili ya zip na muundo wa faili wa **AppleDouble** na ACL ambayo inazuia xattrs zingine kuandikwa kwake... xattr ya karantini haikuwekwa kwenye programu:
 
 Angalia [**ripoti ya asili**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/) kwa maelezo zaidi.
 
-Ili kuzidisha hili kwanza tunahitaji kupata mnyororo sahihi wa acl:
+Ili kuzidisha hii kwanza tunahitaji kupata mnyororo sahihi wa acl:
 ```bash
 # Everything will be happening here
 mkdir /tmp/temp_xattrs
@@ -148,7 +148,7 @@ ls -le test
 ```
 (Note that even if this works the sandbox write the quarantine xattr before)
 
-Siyo lazima sana lakini naacha hapo kwa tahadhari:
+Hakika haikuhitajika lakini naacha hapo kwa tahadhari:
 
 {% content-ref url="macos-xattr-acls-extra-stuff.md" %}
 [macos-xattr-acls-extra-stuff.md](macos-xattr-acls-extra-stuff.md)
@@ -156,7 +156,7 @@ Siyo lazima sana lakini naacha hapo kwa tahadhari:
 
 ## Kupuuza Saini za Kodi
 
-Vifurushi vinavyo **`_CodeSignature/CodeResources`** ambayo ina **hash** ya kila **faili** katika **kifurushi**. Tafadhali kumbuka kuwa hash ya CodeResources pia **imeingizwa kwenye kutekelezeka**, hivyo hatuwezi kuharibu hilo.
+Vifurushi vinavyo **`_CodeSignature/CodeResources`** ambavyo vina **hash** ya kila **faili** katika **kifurushi**. Tafadhali kumbuka kuwa hash ya CodeResources pia **imeingizwa kwenye kutekelezeka**, hivyo hatuwezi kuharibu hilo, pia.
 
 Hata hivyo, kuna baadhi ya faili ambazo saini yake haitachunguzwa, hizi zina ufunguo wa kutoa katika plist, kama vile:
 ```xml
@@ -208,9 +208,9 @@ Inawezekana kuhesabu saini ya rasilimali kutoka kwa cli na:
 ```bash
 openssl dgst -binary -sha1 /System/Cryptexes/App/System/Applications/Safari.app/Contents/Resources/AppIcon.icns | openssl base64
 ```
-## Kufunga dmgs
+## Pakia faili za dmgs
 
-Mtumiaji anaweza kufunga dmg ya desturi hata juu ya folda zilizopo. Hivi ndivyo unavyoweza kuunda pakiti ya dmg ya desturi na maudhui ya desturi:
+Mtumiaji anaweza kupakia faili ya dmg iliyoundwa hata juu ya folda zilizopo. Hivi ndivyo unavyoweza kuunda pakiti ya dmg ya desturi na maudhui ya desturi:
 ```bash
 # Create the volume
 hdiutil create /private/tmp/tmp.dmg -size 2m -ov -volname CustomVolName -fs APFS 1>/dev/null
@@ -233,14 +233,14 @@ hdiutil create -srcfolder justsome.app justsome.dmg
 ```
 {% endcode %}
 
-Kawaida macOS inamount diski ikiongea na huduma ya `com.apple.DiskArbitrarion.diskarbitrariond` (iliyotolewa na `/usr/libexec/diskarbitrationd`). Ikiwa unaweka paramu `-d` kwenye faili ya plist ya LaunchDaemons na kuanzisha upya, itahifadhi logs itahifadhi logs katika `/var/log/diskarbitrationd.log`.\
+Kawaida macOS inamount diski inazungumza na huduma ya `com.apple.DiskArbitrarion.diskarbitrariond` (iliyotolewa na `/usr/libexec/diskarbitrationd`). Ikiwa unaweka paramu `-d` kwenye faili ya plist ya LaunchDaemons na kuanzisha upya, itahifadhi logs itahifadhi logs katika `/var/log/diskarbitrationd.log`.\
 Walakini, inawezekana kutumia zana kama `hdik` na `hdiutil` kuwasiliana moja kwa moja na `com.apple.driver.DiskImages` kext.
 
 ## Kuandika Kiholela
 
 ### Skripti za sh za kipindi
 
-Ikiwa skripti yako inaweza kufasiriwa kama **skripti ya shell** unaweza kuandika upya **`/etc/periodic/daily/999.local`** skripti ya shell ambayo itaanzishwa kila siku.
+Ikiwa skripti yako inaweza kufasiriwa kama **skripti ya shell** unaweza kubadilisha **`/etc/periodic/daily/999.local`** skripti ya shell ambayo itaanzishwa kila siku.
 
 Unaweza **kuiga** utekelezaji wa skripti hii na: **`sudo periodic daily`**
 
@@ -265,7 +265,7 @@ Andika **LaunchDaemon** ya kiholela kama **`/Library/LaunchDaemons/xyz.hacktrick
 ```
 ### Faili ya Sudoers
 
-Ikiwa una **uwezo wa kuandika** kwa hiari, unaweza kuunda faili ndani ya folda **`/etc/sudoers.d/`** ukijipa **ruhusa ya sudo**.
+Ikiwa una **uwezo wa kuandika** kwa hiari, unaweza kuunda faili ndani ya folda **`/etc/sudoers.d/`** ukijipa **ruhusa za sudo**.
 
 ### Faili za PATH
 
@@ -287,20 +287,100 @@ MallocStackLogging=1 MallocStackLoggingDirectory=$DIRNAME MallocStackLoggingDont
 FILENAME=$(ls "$DIRNAME")
 echo $FILENAME
 ```
-## Marejeo
+## POSIX Kumbukumbu Inayoshirikishwa
 
-* [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/)
+**Kumbukumbu inayoshirikishwa ya POSIX** inaruhusu michakato katika mifumo ya uendeshaji inayozingatia POSIX kupata eneo la kumbukumbu la pamoja, ikirahisisha mawasiliano haraka ikilinganishwa na njia zingine za mawasiliano kati ya michakato. Inahusisha kujenga au kufungua kitu cha kumbukumbu kinachoshirikishwa kwa kutumia `shm_open()`, kuweka ukubwa wake kwa kutumia `ftruncate()`, na kuifunga katika eneo la anwani ya michakato kwa kutumia `mmap()`. Michakato kisha inaweza kusoma moja kwa moja na kuandika kwenye eneo hili la kumbukumbu. Ili kusimamia ufikiaji wa wakati mmoja na kuzuia uharibifu wa data, mara nyingi hutumiwa mbinu za kusawazisha kama vile mutex au semaphore. Hatimaye, michakato hufunga na kufunga kumbukumbu iliyoshirikishwa kwa kutumia `munmap()` na `close()`, na hiari kuondoa kitu cha kumbukumbu kwa kutumia `shm_unlink()`. Mfumo huu ni hasa ufanisi kwa IPC yenye ufanisi na haraka katika mazingira ambapo michakato mingi inahitaji kupata data iliyoshirikishwa kwa haraka.
+```c
+// gcc producer.c -o producer -lrt
+#include <fcntl.h>
+#include <sys/mman.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+const char *name = "/my_shared_memory";
+const int SIZE = 4096; // Size of the shared memory object
+
+// Create the shared memory object
+int shm_fd = shm_open(name, O_CREAT | O_RDWR, 0666);
+if (shm_fd == -1) {
+perror("shm_open");
+return EXIT_FAILURE;
+}
+
+// Configure the size of the shared memory object
+if (ftruncate(shm_fd, SIZE) == -1) {
+perror("ftruncate");
+return EXIT_FAILURE;
+}
+
+// Memory map the shared memory
+void *ptr = mmap(0, SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
+if (ptr == MAP_FAILED) {
+perror("mmap");
+return EXIT_FAILURE;
+}
+
+// Write to the shared memory
+sprintf(ptr, "Hello from Producer!");
+
+// Unmap and close, but do not unlink
+munmap(ptr, SIZE);
+close(shm_fd);
+
+return 0;
+}
+```
+</details>
 
 <details>
 
-<summary><strong>Jifunze kuhusu udukuzi wa AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Mfano wa Kanuni ya Mtumiaji</summary>
+```c
+// gcc consumer.c -o consumer -lrt
+#include <fcntl.h>
+#include <sys/mman.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-Njia nyingine za kusaidia HackTricks:
+int main() {
+const char *name = "/my_shared_memory";
+const int SIZE = 4096; // Size of the shared memory object
 
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MIPANGO YA KUJISAJILI**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+// Open the shared memory object
+int shm_fd = shm_open(name, O_RDONLY, 0666);
+if (shm_fd == -1) {
+perror("shm_open");
+return EXIT_FAILURE;
+}
 
+// Memory map the shared memory
+void *ptr = mmap(0, SIZE, PROT_READ, MAP_SHARED, shm_fd, 0);
+if (ptr == MAP_FAILED) {
+perror("mmap");
+return EXIT_FAILURE;
+}
+
+// Read from the shared memory
+printf("Consumer received: %s\n", (char *)ptr);
+
+// Cleanup
+munmap(ptr, SIZE);
+close(shm_fd);
+shm_unlink(name); // Optionally unlink
+
+return 0;
+}
+
+```
 </details>
+
+## Descriptors Zilizolindwa za macOS
+
+**Descripters zilizolindwa za macOS** ni kipengele cha usalama kilichoanzishwa katika macOS ili kuboresha usalama na uaminifu wa **shughuli za maelezo ya faili** katika programu za mtumiaji. Descripters hizi zilizolindwa hutoa njia ya kuunganisha vizuizi au "walinzi" maalum na maelezo ya faili, ambayo yanatekelezwa na kernel.
+
+Kipengele hiki ni muhimu hasa kwa kuzuia aina fulani za mapungufu ya usalama kama vile **upatikanaji haramu wa faili** au **hali za mbio**. Mapungufu haya hutokea wakati kwa mfano wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati
