@@ -6,9 +6,9 @@
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJSTVO**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* Otkrijte [**Porodičnu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
@@ -46,13 +46,17 @@ cpio -i < Scripts
 ```
 ## Osnovne informacije o DMG-u
 
-DMG datoteke, ili Apple Disk Images, su format datoteka koji koristi macOS kompanije Apple za disk slike. DMG datoteka je suštinski **montabilna disk slika** (sadrži svoj sopstveni fajl sistem) koja sadrži sirove blok podatke obično kompresovane i ponekad enkriptovane. Kada otvorite DMG datoteku, macOS je **montira kao da je fizički disk**, omogućavajući vam pristup njenom sadržaju.
+DMG datoteke, ili Apple Disk Images, su format datoteka koji koristi macOS kompanije Apple za disk slike. DMG datoteka je suštinski **montabilna disk slika** (sadrži sopstveni fajl sistem) koja sadrži sirove blok podatke obično kompresovane i ponekad enkriptovane. Kada otvorite DMG datoteku, macOS je **montira kao da je fizički disk**, omogućavajući vam pristup njenom sadržaju.
+
+{% hint style="danger" %}
+Imajte na umu da **`.dmg`** instalateri podržavaju **toliko formata** da su u prošlosti neki od njih koji su sadržavali ranjivosti zloupotrebljeni kako bi se dobio **izvršni kod kernela**.
+{% endhint %}
 
 ### Hijerarhija
 
 <figure><img src="../../../.gitbook/assets/image (222).png" alt=""><figcaption></figcaption></figure>
 
-Hijerarhija DMG datoteke može biti različita u zavisnosti od sadržaja. Međutim, za aplikacije u DMG formatu, obično prati ovu strukturu:
+Hijerarhija DMG datoteke može biti različita u zavisnosti od sadržaja. Međutim, za aplikativne DMG-ove, obično prati ovu strukturu:
 
 - Gornji nivo: Ovo je koren disk slike. Često sadrži aplikaciju i možda link ka folderu Aplikacije.
 - Aplikacija (.app): Ovo je stvarna aplikacija. U macOS-u, aplikacija je obično paket koji sadrži mnogo pojedinačnih fajlova i foldera koji čine aplikaciju.
@@ -62,13 +66,13 @@ Hijerarhija DMG datoteke može biti različita u zavisnosti od sadržaja. Međut
 
 ### Izvršavanje iz javnih direktorijuma
 
-Ako se skript za pre ili post instalaciju na primer izvršava iz **`/var/tmp/Installerutil`**, napadač može kontrolisati tu skriptu kako bi eskalirao privilegije svaki put kada se izvrši. Ili još jedan sličan primer:
+Ako se skript za pre ili post instalaciju na primer izvršava iz **`/var/tmp/Installerutil`**, a napadač može da kontroliše tu skriptu, može da eskalira privilegije svaki put kada se izvrši. Ili još jedan sličan primer:
 
-<figure><img src="../../../.gitbook/assets/Pasted Graphic 5.png" alt="https://www.youtube.com/watch?v=iASSG0_zobQ"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/Pasted Graphic 5.png" alt="https://www.youtube.com/watch?v=iASSG0_zobQ"><figcaption><p><a href="https://www.youtube.com/watch?v=kCXhIYtODBg">https://www.youtube.com/watch?v=kCXhIYtODBg</a></p></figcaption></figure>
 
 ### AuthorizationExecuteWithPrivileges
 
-Ovo je [javna funkcija](https://developer.apple.com/documentation/security/1540038-authorizationexecutewithprivileg) koju će nekoliko instalatera i ažuriranja pozvati da **izvrše nešto kao root**. Ova funkcija prihvata **putanju** **fajla** koji se **izvršava** kao parametar, međutim, ako napadač može **modifikovati** ovaj fajl, biće u mogućnosti da **zloupotrebi** njegovo izvršavanje sa root privilegijama kako bi **eskaliro privilegije**.
+Ovo je [javna funkcija](https://developer.apple.com/documentation/security/1540038-authorizationexecutewithprivileg) koju će nekoliko instalatera i ažuriranja pozvati da **izvrše nešto kao root**. Ova funkcija prihvata **putanju** **fajla** koji se **izvršava** kao parametar, međutim, ako napadač može da **modifikuje** ovaj fajl, moći će da **zloupotrebi** njegovo izvršavanje sa root privilegijama da bi **eskaliro privilegije**.
 ```bash
 # Breakpoint in the function to check wich file is loaded
 (lldb) b AuthorizationExecuteWithPrivileges
@@ -76,15 +80,15 @@ Ovo je [javna funkcija](https://developer.apple.com/documentation/security/15400
 ```
 ### Izvršenje putem montiranja
 
-Ako instalater piše u `/tmp/fixedname/bla/bla`, moguće je **napraviti montiranje** preko `/tmp/fixedname` bez vlasnika tako da možete **izmeniti bilo koji fajl tokom instalacije** kako biste zloupotrebili proces instalacije.
+Ako instalater piše u `/tmp/fixedname/bla/bla`, moguće je **napraviti montiranje** preko `/tmp/fixedname` bez vlasnika tako da možete **modifikovati bilo koji fajl tokom instalacije** kako biste zloupotrijebili proces instalacije.
 
-Primer za ovo je **CVE-2021-26089** koji je uspeo da **prepiše periodični skript** kako bi dobio izvršenje kao root. Za više informacija pogledajte ovaj razgovor: [**OBTS v4.0: "Mount(ain) of Bugs" - Csaba Fitzl**](https://www.youtube.com/watch?v=jSYPazD4VcE)
+Primer za ovo je **CVE-2021-26089** koji je uspeo da **prepiše periodični skript** kako bi dobio izvršenje kao root. Za više informacija pogledajte ovaj talk: [**OBTS v4.0: "Mount(ain) of Bugs" - Csaba Fitzl**](https://www.youtube.com/watch?v=jSYPazD4VcE)
 
 ## pkg kao zlonamerni softver
 
 ### Prazan Payload
 
-Moguće je jednostavno generisati **`.pkg`** fajl sa **pre i post-install skriptama** bez ikakvog payload-a.
+Moguće je generisati **`.pkg`** fajl sa **pre i post-install skriptama** bez ikakvog payload-a.
 
 ### JS u Distribution xml
 
@@ -96,3 +100,4 @@ Moguće je dodati **`<script>`** tagove u **distribution xml** fajl paketa i taj
 
 * [**DEF CON 27 - Unpacking Pkgs A Look Inside Macos Installer Packages And Common Security Flaws**](https://www.youtube.com/watch?v=iASSG0\_zobQ)
 * [**OBTS v4.0: "The Wild World of macOS Installers" - Tony Lambert**](https://www.youtube.com/watch?v=Eow5uNHtmIg)
+* [**DEF CON 27 - Unpacking Pkgs A Look Inside MacOS Installer Packages**](https://www.youtube.com/watch?v=kCXhIYtODBg)
