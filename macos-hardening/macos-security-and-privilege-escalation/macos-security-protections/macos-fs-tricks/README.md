@@ -19,14 +19,14 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 Berechtigungen in einem **Verzeichnis**:
 
 * **Lesen** - Sie können die Verzeichniseinträge **auflisten**
-* **Schreiben** - Sie können **Dateien löschen/schreiben** im Verzeichnis und Sie können **leere Ordner löschen**.
-* Aber Sie **können keine nicht leeren Ordner löschen/ändern**, es sei denn, Sie haben Schreibberechtigungen dafür.
-* Sie **können den Namen eines Ordners nicht ändern**, es sei denn, Sie besitzen ihn.
+* **Schreiben** - Sie können **Dateien** im Verzeichnis **löschen/schreiben** und **leere Ordner löschen**.
+* Sie können jedoch **keine nicht leeren Ordner löschen/ändern**, es sei denn, Sie haben Schreibberechtigungen dafür.
+* Sie können den **Namen eines Ordners nicht ändern**, es sei denn, Sie besitzen ihn.
 * **Ausführen** - Sie dürfen das Verzeichnis **durchqueren** - wenn Sie dieses Recht nicht haben, können Sie nicht auf Dateien darin oder in Unterverzeichnissen zugreifen.
 
 ### Gefährliche Kombinationen
 
-**Wie man eine von root besessene Datei/Ordner überschreibt**, aber:
+**Wie man eine von root besessene Datei/einen von root besessenen Ordner überschreibt**, aber:
 
 * Ein Eltern-**Verzeichnisbesitzer** im Pfad ist der Benutzer
 * Ein Eltern-**Verzeichnisbesitzer** im Pfad ist eine **Benutzergruppe** mit **Schreibzugriff**
@@ -36,15 +36,15 @@ Mit einer dieser vorherigen Kombinationen könnte ein Angreifer einen **sym/hard
 
 ### Besonderer Fall des Ordners root R+X
 
-Wenn es Dateien in einem **Verzeichnis** gibt, auf die **nur root Lese- und Ausführungszugriff hat**, sind diese für niemand anderen **nicht zugänglich**. Eine Schwachstelle, die es ermöglicht, eine von einem Benutzer lesbare Datei zu **verschieben**, die aufgrund dieser **Einschränkung** nicht gelesen werden kann, aus diesem Verzeichnis **in ein anderes**, könnte missbraucht werden, um diese Dateien zu lesen.
+Wenn es Dateien in einem **Verzeichnis** gibt, auf die **nur root Lese- und Ausführungszugriff hat**, sind diese für niemand anderen **nicht zugänglich**. Daher könnte eine Schwachstelle, die es ermöglicht, eine von einem Benutzer lesbare Datei zu **verschieben**, die aufgrund dieser **Einschränkung** nicht gelesen werden kann, aus diesem Verzeichnis **in ein anderes** zu verschieben, missbraucht werden, um diese Dateien zu lesen.
 
 Beispiel unter: [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions)
 
 ## Symbolischer Link / Hard Link
 
-Wenn ein privilegierter Prozess Daten in einer **Datei** schreibt, die von einem **niedriger privilegierten Benutzer kontrolliert** werden könnte oder die von einem niedriger privilegierten Benutzer **zuvor erstellt** wurde. Der Benutzer könnte einfach über einen Symbolischen oder Hard Link auf eine andere Datei zeigen, und der privilegierte Prozess wird auf diese Datei schreiben.
+Wenn ein privilegierter Prozess Daten in einer **Datei** schreibt, die von einem **niedriger privilegierten Benutzer kontrolliert** werden könnte oder die von einem niedriger privilegierten Benutzer **zuvor erstellt** wurde. Der Benutzer könnte einfach über einen Symbolischen oder Hard-Link darauf zeigen und der privilegierte Prozess wird in diese Datei schreiben.
 
-Überprüfen Sie in den anderen Abschnitten, wo ein Angreifer einen **beliebigen Schreibzugriff missbrauchen könnte, um Berechtigungen zu eskalieren**.
+Überprüfen Sie in den anderen Abschnitten, wo ein Angreifer einen **beliebigen Schreibzugriff missbrauchen könnte, um Privilegien zu eskalieren**.
 
 ## .fileloc
 
@@ -64,7 +64,7 @@ Beispiel:
 ```
 ## Beliebige FD
 
-Wenn Sie einen Prozess dazu bringen können, eine Datei oder einen Ordner mit hohen Berechtigungen zu öffnen, können Sie **`crontab`** missbrauchen, um eine Datei in `/etc/sudoers.d` mit **`EDITOR=exploit.py`** zu öffnen, damit `exploit.py` den FD zur Datei innerhalb von `/etc/sudoers` erhalten und sie missbrauchen kann.
+Wenn Sie einen Prozess dazu bringen können, eine Datei oder einen Ordner mit hohen Berechtigungen zu öffnen, können Sie **`crontab`** missbrauchen, um eine Datei in `/etc/sudoers.d` mit **`EDITOR=exploit.py`** zu öffnen, sodass `exploit.py` den FD zur Datei innerhalb von `/etc/sudoers` erhalten und ihn missbrauchen kann.
 
 Zum Beispiel: [https://youtu.be/f1HA5QhLQ7Y?t=21098](https://youtu.be/f1HA5QhLQ7Y?t=21098)
 
@@ -76,7 +76,7 @@ xattr -d com.apple.quarantine /path/to/file_or_app
 ```
 ### uchg / uchange / uimmutable Flag
 
-Wenn eine Datei / ein Ordner dieses unveränderliche Attribut hat, ist es nicht möglich, ein xattr darauf zu setzen.
+Wenn eine Datei/ein Ordner dieses unveränderliche Attribut hat, ist es nicht möglich, ein xattr darauf zu setzen.
 ```bash
 echo asd > /tmp/asd
 chflags uchg /tmp/asd # "chflags uchange /tmp/asd" or "chflags uimmutable /tmp/asd"
@@ -124,9 +124,9 @@ ls -le /tmp/test
 
 Das Dateiformat **AppleDouble** kopiert eine Datei einschließlich ihrer ACEs.
 
-Im [**Quellcode**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) ist zu sehen, dass die ACL-Textdarstellung, die im xattr namens **`com.apple.acl.text`** gespeichert ist, als ACL in der dekomprimierten Datei festgelegt wird. Wenn Sie also eine Anwendung in eine Zip-Datei mit dem Dateiformat **AppleDouble** komprimiert haben, das eine ACL enthält, die das Schreiben anderer xattrs verhindert... wurde der Quarantäne-xattr nicht in die Anwendung übertragen:
+Im [**Quellcode**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) ist zu sehen, dass die ACL-Textdarstellung, die im xattr mit dem Namen **`com.apple.acl.text`** gespeichert ist, als ACL in der dekomprimierten Datei festgelegt wird. Wenn Sie also eine Anwendung in eine Zip-Datei mit dem Dateiformat **AppleDouble** komprimiert haben, die eine ACL enthält, die das Schreiben anderer xattrs verhindert... wurde der Quarantäne-xattr nicht in die Anwendung gesetzt:
 
-Überprüfen Sie den [**ursprünglichen Bericht**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/) für weitere Informationen.
+Überprüfen Sie den [**Originalbericht**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/) für weitere Informationen.
 
 Um dies zu replizieren, müssen wir zuerst den richtigen ACL-String erhalten:
 ```bash
@@ -148,7 +148,7 @@ ls -le test
 ```
 (Note that even if this works the sandbox write the quarantine xattr before)
 
-Nicht wirklich notwendig, aber ich lasse es hier nur für den Fall:
+Nicht wirklich notwendig, aber ich lasse es dort für den Fall:
 
 {% content-ref url="macos-xattr-acls-extra-stuff.md" %}
 [macos-xattr-acls-extra-stuff.md](macos-xattr-acls-extra-stuff.md)
@@ -158,7 +158,7 @@ Nicht wirklich notwendig, aber ich lasse es hier nur für den Fall:
 
 Bundles enthalten die Datei **`_CodeSignature/CodeResources`**, die den **Hash** jeder einzelnen **Datei** im **Bundle** enthält. Beachten Sie, dass der Hash von CodeResources auch im **ausführbaren** Code eingebettet ist, sodass wir daran nichts ändern können.
 
-Es gibt jedoch einige Dateien, deren Signatur nicht überprüft wird. Diese haben den Schlüssel "omit" in der Plist, wie:
+Es gibt jedoch einige Dateien, deren Signatur nicht überprüft wird. Diese haben den Schlüssel `omit` in der Plist, wie:
 ```xml
 <dict>
 ...
@@ -210,7 +210,7 @@ openssl dgst -binary -sha1 /System/Cryptexes/App/System/Applications/Safari.app/
 ```
 ## Mounten von DMGs
 
-Ein Benutzer kann sogar eine benutzerdefinierte DMG-Datei erstellen und sie über vorhandene Ordner mounten. So könnten Sie eine benutzerdefinierte DMG-Datei mit individuellem Inhalt erstellen:
+Ein Benutzer kann sogar eine benutzerdefinierte DMG-Datei auf vorhandenen Ordnern erstellen. So könnten Sie eine benutzerdefinierte DMG-Datei mit individuellem Inhalt erstellen:
 ```bash
 # Create the volume
 hdiutil create /private/tmp/tmp.dmg -size 2m -ov -volname CustomVolName -fs APFS 1>/dev/null
@@ -233,7 +233,7 @@ hdiutil create -srcfolder justsome.app justsome.dmg
 ```
 {% endcode %}
 
-Normalerweise bindet macOS die Festplatte über den `com.apple.DiskArbitrarion.diskarbitrariond` Mach-Dienst ein (bereitgestellt von `/usr/libexec/diskarbitrationd`). Wenn Sie den Parameter `-d` zur LaunchDaemons-Platine hinzufügen und neu starten, werden Protokolle im Verzeichnis `/var/log/diskarbitrationd.log` gespeichert.\
+Normalerweise bindet macOS die Festplatte über den `com.apple.DiskArbitration.diskarbitrationd` Mach-Dienst ein (bereitgestellt von `/usr/libexec/diskarbitrationd`). Wenn Sie dem LaunchDaemons-Platine die Option `-d` hinzufügen und neu starten, werden Protokolle im Verzeichnis `/var/log/diskarbitrationd.log` gespeichert.\
 Es ist jedoch möglich, Tools wie `hdik` und `hdiutil` zu verwenden, um direkt mit dem `com.apple.driver.DiskImages` kext zu kommunizieren.
 
 ## Willkürliche Schreibvorgänge
@@ -242,11 +242,11 @@ Es ist jedoch möglich, Tools wie `hdik` und `hdiutil` zu verwenden, um direkt m
 
 Wenn Ihr Skript als **Shell-Skript** interpretiert werden könnte, könnten Sie das **`/etc/periodic/daily/999.local`** Shell-Skript überschreiben, das jeden Tag ausgelöst wird.
 
-Sie können eine **falsche** Ausführung dieses Skripts mit folgendem Befehl vortäuschen: **`sudo periodic daily`**
+Sie können die Ausführung dieses Skripts **vortäuschen** mit: **`sudo periodic daily`**
 
 ### Daemons
 
-Schreiben Sie einen beliebigen **LaunchDaemon** wie **`/Library/LaunchDaemons/xyz.hacktricks.privesc.plist`** mit einer Plist, die ein beliebiges Skript ausführt, wie:
+Schreiben Sie einen beliebigen **LaunchDaemon** wie **`/Library/LaunchDaemons/xyz.hacktricks.privesc.plist`** mit einem Plist, das ein beliebiges Skript ausführt, wie:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -269,7 +269,7 @@ Wenn Sie über **beliebige Schreibrechte** verfügen, könnten Sie eine Datei im
 
 ### PATH-Dateien
 
-Die Datei **`/etc/paths`** ist einer der Hauptorte, die die PATH-Umgebungsvariable bevölkern. Sie müssen root sein, um sie zu überschreiben, aber wenn ein Skript von einem **privilegierten Prozess** einige **Befehle ohne vollständigen Pfad** ausführt, könnten Sie es möglicherweise **übernehmen**, indem Sie diese Datei ändern.
+Die Datei **`/etc/paths`** ist einer der Hauptorte, die die PATH-Umgebungsvariable befüllen. Sie müssen root sein, um sie zu überschreiben, aber wenn ein Skript von einem **privilegierten Prozess** einige **Befehle ohne vollständigen Pfad** ausführt, könnten Sie es möglicherweise **übernehmen**, indem Sie diese Datei ändern.
 
 Sie können auch Dateien in **`/etc/paths.d`** schreiben, um neue Ordner in die `PATH`-Umgebungsvariable zu laden.
 
@@ -287,6 +287,112 @@ MallocStackLogging=1 MallocStackLoggingDirectory=$DIRNAME MallocStackLoggingDont
 FILENAME=$(ls "$DIRNAME")
 echo $FILENAME
 ```
+## POSIX Shared Memory
+
+**POSIX Shared Memory** ermöglicht Prozessen in POSIX-konformen Betriebssystemen den Zugriff auf einen gemeinsamen Speicherbereich, was eine schnellere Kommunikation im Vergleich zu anderen Interprozesskommunikationsmethoden ermöglicht. Es beinhaltet das Erstellen oder Öffnen eines gemeinsamen Speicherobjekts mit `shm_open()`, das Festlegen seiner Größe mit `ftruncate()` und das Abbilden in den Adressraum des Prozesses mit `mmap()`. Prozesse können dann direkt auf diesen Speicherbereich lesen und schreiben. Zur Verwaltung des gleichzeitigen Zugriffs und zur Verhinderung von Datenkorruption werden oft Synchronisierungsmechanismen wie Mutexe oder Semaphoren verwendet. Schließlich trennen Prozesse den gemeinsamen Speicher mit `munmap()` und `close()` und entfernen optional das Speicherobjekt mit `shm_unlink()`. Dieses System ist besonders effektiv für eine effiziente, schnelle IPC in Umgebungen, in denen mehrere Prozesse schnell auf gemeinsame Daten zugreifen müssen.
+
+<details>
+
+<summary>Beispielcode für Produzenten</summary>
+```c
+// gcc producer.c -o producer -lrt
+#include <fcntl.h>
+#include <sys/mman.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+const char *name = "/my_shared_memory";
+const int SIZE = 4096; // Size of the shared memory object
+
+// Create the shared memory object
+int shm_fd = shm_open(name, O_CREAT | O_RDWR, 0666);
+if (shm_fd == -1) {
+perror("shm_open");
+return EXIT_FAILURE;
+}
+
+// Configure the size of the shared memory object
+if (ftruncate(shm_fd, SIZE) == -1) {
+perror("ftruncate");
+return EXIT_FAILURE;
+}
+
+// Memory map the shared memory
+void *ptr = mmap(0, SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
+if (ptr == MAP_FAILED) {
+perror("mmap");
+return EXIT_FAILURE;
+}
+
+// Write to the shared memory
+sprintf(ptr, "Hello from Producer!");
+
+// Unmap and close, but do not unlink
+munmap(ptr, SIZE);
+close(shm_fd);
+
+return 0;
+}
+```
+</details>
+
+<details>
+
+<summary>Beispiel für Verbrauchercode</summary>
+```c
+// gcc consumer.c -o consumer -lrt
+#include <fcntl.h>
+#include <sys/mman.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+const char *name = "/my_shared_memory";
+const int SIZE = 4096; // Size of the shared memory object
+
+// Open the shared memory object
+int shm_fd = shm_open(name, O_RDONLY, 0666);
+if (shm_fd == -1) {
+perror("shm_open");
+return EXIT_FAILURE;
+}
+
+// Memory map the shared memory
+void *ptr = mmap(0, SIZE, PROT_READ, MAP_SHARED, shm_fd, 0);
+if (ptr == MAP_FAILED) {
+perror("mmap");
+return EXIT_FAILURE;
+}
+
+// Read from the shared memory
+printf("Consumer received: %s\n", (char *)ptr);
+
+// Cleanup
+munmap(ptr, SIZE);
+close(shm_fd);
+shm_unlink(name); // Optionally unlink
+
+return 0;
+}
+
+```
+</details>
+
+## macOS Geschützte Deskriptoren
+
+**macOS geschützte Deskriptoren** sind eine Sicherheitsfunktion, die in macOS eingeführt wurde, um die Sicherheit und Zuverlässigkeit von **Dateideskriptoroperationen** in Benutzeranwendungen zu verbessern. Diese geschützten Deskriptoren bieten eine Möglichkeit, spezifische Einschränkungen oder "Guards" mit Dateideskriptoren zu verknüpfen, die vom Kernel durchgesetzt werden.
+
+Diese Funktion ist besonders nützlich, um bestimmte Klassen von Sicherheitslücken wie **unberechtigten Dateizugriff** oder **Rennbedingungen** zu verhindern. Diese Sicherheitslücken treten auf, wenn beispielsweise ein Thread auf eine Dateibeschreibung zugreift, die **einem anderen gefährdeten Thread Zugriff darauf gibt**, oder wenn ein Dateideskriptor von einem gefährdeten Kindprozess **geerbt** wird. Einige Funktionen im Zusammenhang mit dieser Funktionalität sind:
+
+* `guarded_open_np`: Öffnet einen FD mit einem Guard
+* `guarded_close_np`: Schließt ihn
+* `change_fdguard_np`: Ändert die Guard-Flags an einem Deskriptor (auch die Guard-Schutz entfernen)
+
 ## Referenzen
 
 * [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/)
