@@ -4,13 +4,13 @@
 
 <summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras formas de apoiar o HackTricks:
+Outras maneiras de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Obtenha o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 
@@ -45,7 +45,7 @@ Outras formas de apoiar o HackTricks:
 
 ### Arquivos com Informações Sensíveis
 
-O macOS armazena informações como senhas em vários locais:
+O macOS armazena informações como senhas em vários lugares:
 
 {% content-ref url="macos-sensitive-locations.md" %}
 [macos-sensitive-locations.md](macos-sensitive-locations.md)
@@ -75,6 +75,7 @@ O macOS armazena informações como senhas em vários locais:
 * **`.Spotlight-V100`**: Esta pasta aparece no diretório raiz de cada volume no sistema.
 * **`.metadata_never_index`**: Se este arquivo estiver na raiz de um volume, o Spotlight não indexará esse volume.
 * **`.noindex`**: Arquivos e pastas com esta extensão não serão indexados pelo Spotlight.
+* **`.sdef`**: Arquivos dentro de pacotes especificando como é possível interagir com o aplicativo a partir de um AppleScript.
 
 ### Pacotes macOS
 
@@ -88,7 +89,7 @@ Um pacote é um **diretório** que **parece um objeto no Finder** (um exemplo de
 
 No macOS (e iOS), todas as bibliotecas compartilhadas do sistema, como frameworks e dylibs, são **combinadas em um único arquivo**, chamado de **cache compartilhado dyld**. Isso melhora o desempenho, pois o código pode ser carregado mais rapidamente.
 
-Assim como o cache compartilhado dyld, o kernel e as extensões do kernel também são compilados em um cache de kernel, que é carregado na inicialização.
+Similar ao cache compartilhado dyld, o kernel e as extensões do kernel também são compilados em um cache de kernel, que é carregado na inicialização.
 
 Para extrair as bibliotecas do arquivo único de cache compartilhado dylib, era possível usar o binário [dyld\_shared\_cache\_util](https://www.mbsplugins.de/files/dyld\_shared\_cache\_util-dyld-733.8.zip) que pode não estar funcionando atualmente, mas você também pode usar [**dyldextractor**](https://github.com/arandomdev/dyldextractor):
 
@@ -112,7 +113,7 @@ No iOS, você pode encontrá-los em **`/System/Library/Caches/com.apple.dyld/`**
 Note que mesmo se a ferramenta `dyld_shared_cache_util` não funcionar, você pode passar o **binário dyld compartilhado para o Hopper** e o Hopper será capaz de identificar todas as bibliotecas e permitir que você **selecione qual** deseja investigar:
 {% endhint %}
 
-<figure><img src="../../../.gitbook/assets/image (680).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1149).png" alt="" width="563"><figcaption></figcaption></figure>
 
 ## Permissões Especiais de Arquivos
 
@@ -120,18 +121,18 @@ Note que mesmo se a ferramenta `dyld_shared_cache_util` não funcionar, você po
 
 Em uma **pasta**, **ler** permite **listá-la**, **escrever** permite **excluir** e **escrever** arquivos nela, e **executar** permite **atravessar** o diretório. Portanto, por exemplo, um usuário com **permissão de leitura sobre um arquivo** dentro de um diretório onde ele **não tem permissão de execução** **não poderá ler** o arquivo.
 
-### Modificadores de Sinalizadores
+### Modificadores de Flag
 
-Existem alguns sinalizadores que podem ser definidos nos arquivos e que farão o arquivo se comportar de maneira diferente. Você pode **verificar os sinalizadores** dos arquivos dentro de um diretório com `ls -lO /caminho/diretório`
+Existem algumas flags que podem ser definidas nos arquivos e que farão o arquivo se comportar de maneira diferente. Você pode **verificar as flags** dos arquivos dentro de um diretório com `ls -lO /caminho/diretório`
 
-* **`uchg`**: Conhecido como sinalizador **uchange** irá **impedir qualquer ação** de alterar ou excluir o **arquivo**. Para defini-lo, faça: `chflags uchg arquivo.txt`
-* O usuário root pode **remover o sinalizador** e modificar o arquivo
-* **`restricted`**: Este sinalizador faz com que o arquivo seja **protegido pelo SIP** (você não pode adicionar este sinalizador a um arquivo).
-* **`Bit pegajoso`**: Se um diretório tiver o bit pegajoso, **apenas** o **proprietário dos diretórios ou root podem renomear ou excluir** arquivos. Tipicamente, isso é definido no diretório /tmp para evitar que usuários comuns excluam ou movam arquivos de outros usuários.
+* **`uchg`**: Conhecida como a flag **uchange** irá **impedir qualquer ação** de alterar ou excluir o **arquivo**. Para defini-la, faça: `chflags uchg arquivo.txt`
+* O usuário root pode **remover a flag** e modificar o arquivo
+* **`restricted`**: Essa flag faz com que o arquivo seja **protegido pelo SIP** (você não pode adicionar essa flag a um arquivo).
+* **`Bit pegajoso`**: Se um diretório tiver o bit pegajoso, **apenas** o **dono dos diretórios ou root podem renomear ou excluir** arquivos. Tipicamente isso é definido no diretório /tmp para evitar que usuários comuns excluam ou movam arquivos de outros usuários.
 
-Todos os sinalizadores podem ser encontrados no arquivo `sys/stat.h` (encontre-o usando `mdfind stat.h | grep stat.h`) e são:
+Todas as flags podem ser encontradas no arquivo `sys/stat.h` (encontre-o usando `mdfind stat.h | grep stat.h`) e são:
 
-* `UF_SETTABLE` 0x0000ffff: Máscara de sinalizadores alteráveis pelo proprietário.
+* `UF_SETTABLE` 0x0000ffff: Máscara de flags alteráveis pelo proprietário.
 * `UF_NODUMP` 0x00000001: Não fazer dump do arquivo.
 * `UF_IMMUTABLE` 0x00000002: Arquivo não pode ser alterado.
 * `UF_APPEND` 0x00000004: Gravações no arquivo só podem ser anexadas.
@@ -140,9 +141,9 @@ Todos os sinalizadores podem ser encontrados no arquivo `sys/stat.h` (encontre-o
 * `UF_TRACKED` 0x00000040: Sem notificações para exclusões/renomeações para arquivos com isso definido.
 * `UF_DATAVAULT` 0x00000080: Entitlement necessário para leitura e escrita.
 * `UF_HIDDEN` 0x00008000: Dica de que este item não deve ser exibido em uma GUI.
-* `SF_SUPPORTED` 0x009f0000: Máscara de sinalizadores suportados pelo superusuário.
-* `SF_SETTABLE` 0x3fff0000: Máscara de sinalizadores alteráveis pelo superusuário.
-* `SF_SYNTHETIC` 0xc0000000: Máscara de sinalizadores sintéticos somente leitura do sistema.
+* `SF_SUPPORTED` 0x009f0000: Máscara de flags suportadas pelo superusuário.
+* `SF_SETTABLE` 0x3fff0000: Máscara de flags alteráveis pelo superusuário.
+* `SF_SYNTHETIC` 0xc0000000: Máscara de flags sintéticas somente leitura do sistema.
 * `SF_ARCHIVED` 0x00010000: Arquivo está arquivado.
 * `SF_IMMUTABLE` 0x00020000: Arquivo não pode ser alterado.
 * `SF_APPEND` 0x00040000: Gravações no arquivo só podem ser anexadas.
@@ -151,9 +152,9 @@ Todos os sinalizadores podem ser encontrados no arquivo `sys/stat.h` (encontre-o
 * `SF_FIRMLINK` 0x00800000: Arquivo é um firmlink.
 * `SF_DATALESS` 0x40000000: Arquivo é um objeto sem dados.
 
-### **ACLs de Arquivo**
+### **ACLs de Arquivos**
 
-As **ACLs de arquivo** contêm **ACE** (Entradas de Controle de Acesso) onde permissões mais **granulares** podem ser atribuídas a diferentes usuários.
+As **ACLs** de arquivos contêm **ACE** (Entradas de Controle de Acesso) onde permissões mais **granulares** podem ser atribuídas a diferentes usuários.
 
 É possível conceder a um **diretório** essas permissões: `list`, `search`, `add_file`, `add_subdirectory`, `delete_child`, `delete_child`.\
 E a um **arquivo**: `read`, `write`, `append`, `execute`.
@@ -163,7 +164,7 @@ Quando o arquivo contém ACLs, você verá um "+" ao listar as permissões como 
 ls -ld Movies
 drwx------+   7 username  staff     224 15 Apr 19:42 Movies
 ```
-Você pode **ler os ACLs** do arquivo com:
+Você pode **ler as ACLs** do arquivo com:
 ```bash
 ls -lde Movies
 drwx------+ 7 username  staff  224 15 Apr 19:42 Movies
@@ -185,13 +186,13 @@ Atributos estendidos têm um nome e um valor desejado, e podem ser vistos usando
 - `com.apple.TextEncoding`: Especifica a codificação de texto de arquivos de texto ASCII
 - `com.apple.logd.metadata`: Usado pelo logd em arquivos em `/var/db/diagnostics`
 - `com.apple.genstore.*`: Armazenamento geracional (`/.DocumentRevisions-V100` na raiz do sistema de arquivos)
-- `com.apple.rootless`: MacOS: Usado pela Proteção de Integridade do Sistema para rotular arquivo (III/10)
+- `com.apple.rootless`: MacOS: Usado pela Proteção de Integridade do Sistema para rotular arquivos (III/10)
 - `com.apple.uuidb.boot-uuid`: Marcadores de épocas de inicialização do logd com UUID único
 - `com.apple.decmpfs`: MacOS: Compressão de arquivo transparente (II/7)
 - `com.apple.cprotect`: \*OS: Dados de criptografia por arquivo (III/11)
 - `com.apple.installd.*`: \*OS: Metadados usados pelo installd, por exemplo, `installType`, `uniqueInstallID`
 
-### Recursos de Recurso | ADS do macOS
+### Recursos de Fork | ADS do macOS
 
 Esta é uma maneira de obter **fluxos de dados alternativos no MacOS**. Você pode salvar conteúdo dentro de um atributo estendido chamado **com.apple.ResourceFork** dentro de um arquivo salvando-o em **file/..namedfork/rsrc**.
 ```bash
@@ -204,17 +205,19 @@ com.apple.ResourceFork: Hello Mac ADS
 ls -l a.txt #The file length is still q
 -rw-r--r--@ 1 username  wheel  6 17 Jul 01:15 a.txt
 ```
-Você pode **encontrar todos os arquivos que contêm este atributo estendido** com:
+Pode **encontrar todos os arquivos que contêm este atributo estendido** com:
 
 {% code overflow="wrap" %}
 ```bash
 find / -type f -exec ls -ld {} \; 2>/dev/null | grep -E "[x\-]@ " | awk '{printf $9; printf "\n"}' | xargs -I {} xattr -lv {} | grep "com.apple.ResourceFork"
 ```
+{% endcode %}
+
 ### decmpfs
 
 O atributo estendido `com.apple.decmpfs` indica que o arquivo está armazenado criptografado, `ls -l` irá relatar um **tamanho de 0** e os dados comprimidos estão dentro desse atributo. Sempre que o arquivo é acessado, ele será descriptografado na memória.
 
-Esse atributo pode ser visto com `ls -lO` indicado como comprimido porque arquivos comprimidos também são marcados com a flag `UF_COMPRESSED`. Se um arquivo comprimido for removido, essa flag com `chflags nocompressed </caminho/para/arquivo>`, o sistema não saberá que o arquivo estava comprimido e, portanto, não poderá descomprimir e acessar os dados (ele pensará que na verdade está vazio).
+Esse atributo pode ser visto com `ls -lO` indicado como comprimido porque arquivos comprimidos também são marcados com a flag `UF_COMPRESSED`. Se um arquivo comprimido for removido, essa flag com `chflags nocompressed </caminho/para/arquivo>`, o sistema não saberá que o arquivo estava comprimido e, portanto, não será capaz de descomprimir e acessar os dados (ele pensará que está vazio na verdade).
 
 A ferramenta afscexpand pode ser usada para forçar a descompressão de um arquivo.
 
@@ -244,10 +247,10 @@ O diretório `/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/S
 ## Arquivos de log
 
 * **`$HOME/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2`**: Contém informações sobre arquivos baixados, como a URL de onde foram baixados.
-* **`/var/log/system.log`**: Log principal dos sistemas OSX. com.apple.syslogd.plist é responsável pela execução do syslog (você pode verificar se está desativado procurando por "com.apple.syslogd" em `launchctl list`.
+* **`/var/log/system.log`**: Log principal dos sistemas OSX. com.apple.syslogd.plist é responsável pela execução do syslogd (você pode verificar se está desativado procurando por "com.apple.syslogd" em `launchctl list`.
 * **`/private/var/log/asl/*.asl`**: Estes são os Logs do Sistema Apple que podem conter informações interessantes.
 * **`$HOME/Library/Preferences/com.apple.recentitems.plist`**: Armazena arquivos e aplicativos acessados recentemente através do "Finder".
-* **`$HOME/Library/Preferences/com.apple.loginitems.plsit`**: Armazena itens para iniciar durante a inicialização do sistema.
+* **`$HOME/Library/Preferences/com.apple.loginitems.plsit`**: Armazena itens para serem iniciados durante a inicialização do sistema.
 * **`$HOME/Library/Logs/DiskUtility.log`**: Arquivo de log para o aplicativo DiskUtility (informações sobre unidades, incluindo USBs).
 * **`/Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist`**: Dados sobre pontos de acesso sem fio.
 * **`/private/var/db/launchd.db/com.apple.launchd/overrides.plist`**: Lista de daemons desativados.
