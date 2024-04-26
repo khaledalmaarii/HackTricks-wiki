@@ -20,9 +20,9 @@ Mac OS binarni fajlovi obično su kompajlirani kao **univerzalni binarni fajlovi
 
 Ovi binarni fajlovi prate **Mach-O strukturu** koja se uglavnom sastoji od:
 
-* Zaglavlje
-* Učitane komande
-* Podaci
+* Header-a
+* Load komandi
+* Podataka
 
 ![https://alexdremov.me/content/images/2022/10/6XLCD.gif](<../../../.gitbook/assets/image (467).png>)
 
@@ -41,13 +41,13 @@ struct fat_header {
 struct fat_arch {
 cpu_type_t	cputype;	/* specifikacija CPU-a (int) */
 cpu_subtype_t	cpusubtype;	/* specifikacija mašine (int) */
-uint32_t	offset;		/* ofset fajla do ovog objektnog fajla */
+uint32_t	offset;		/* fajl offset do ovog objektnog fajla */
 uint32_t	size;		/* veličina ovog objektnog fajla */
 uint32_t	align;		/* poravnanje kao stepen broja 2 */
 };
 </code></pre>
 
-Zaglavlje ima **magične** bajtove praćene **brojem** **arhitektura** koje fajl **sadrži** (`nfat_arch`) i svaka arhitektura će imati `fat_arch` strukturu.
+Header ima **magic** bajtove praćene **brojem** **arhitektura** koje fajl **sadrži** (`nfat_arch`) i svaka arhitektura će imati `fat_arch` strukturu.
 
 Proverite sa:
 
@@ -57,7 +57,7 @@ Proverite sa:
 /bin/ls (za arhitekturu arm64e):	Mach-O 64-bit izvršni arm64e
 
 % otool -f -v /bin/ls
-Fat zaglavlja
+Fat headers
 fat_magic FAT_MAGIC
 <strong>nfat_arch 2
 </strong><strong>arhitektura x86_64
@@ -65,14 +65,14 @@ fat_magic FAT_MAGIC
 cpusubtype CPU_SUBTYPE_X86_64_ALL
 mogućnosti 0x0
 <strong>    offset 16384
-</strong><strong>    size 72896
+</strong><strong>    veličina 72896
 </strong>    poravnanje 2^14 (16384)
 <strong>arhitektura arm64e
 </strong>    cputype CPU_TYPE_ARM64
 cpusubtype CPU_SUBTYPE_ARM64E
 mogućnosti PTR_AUTH_VERSION USERSPACE 0
 <strong>    offset 98304
-</strong><strong>    size 88816
+</strong><strong>    veličina 88816
 </strong>    poravnanje 2^14 (16384)
 </code></pre>
 
@@ -82,9 +82,9 @@ ili korišćenjem alata [Mach-O View](https://sourceforge.net/projects/machoview
 
 Kao što možda mislite, obično univerzalni binarni fajl kompajliran za 2 arhitekture **udvostručuje veličinu** jednog kompajliranog samo za 1 arhitekturu.
 
-## **Mach-O Zaglavlje**
+## **Mach-O Header**
 
-Zaglavlje sadrži osnovne informacije o fajlu, kao što su magični bajtovi za identifikaciju fajla kao Mach-O fajla i informacije o ciljnoj arhitekturi. Možete ga pronaći u: `mdfind loader.h | grep -i mach-o | grep -E "loader.h$"`
+Header sadrži osnovne informacije o fajlu, kao što su magic bajtovi za identifikaciju fajla kao Mach-O fajla i informacije o ciljnoj arhitekturi. Možete ga pronaći u: `mdfind loader.h | grep -i mach-o | grep -E "loader.h$"`
 ```c
 #define	MH_MAGIC	0xfeedface	/* the mach magic number */
 #define MH_CIGAM	0xcefaedfe	/* NXSwapInt(MH_MAGIC) */
@@ -111,11 +111,20 @@ uint32_t	flags;		/* flags */
 uint32_t	reserved;	/* reserved */
 };
 ```
-**Vrste fajlova**:
+### Vrste Mach-O fajlova
 
-* MH\_EXECUTE (0x2): Standardni Mach-O izvršni fajl
-* MH\_DYLIB (0x6): Mach-O dinamička povezana biblioteka (npr. .dylib)
-* MH\_BUNDLE (0x8): Mach-O paket (npr. .bundle)
+Postoje različite vrste fajlova, možete ih pronaći definisane u [**izvornom kodu na primer ovde**](https://opensource.apple.com/source/xnu/xnu-2050.18.24/EXTERNAL\_HEADERS/mach-o/loader.h). Najvažnije su:
+
+* `MH_OBJECT`: Objektni fajl sa premeštanjem (međuproizvodi kompilacije, još uvek nisu izvršni fajlovi).
+* `MH_EXECUTE`: Izvršni fajlovi.
+* `MH_FVMLIB`: Fiksna VM biblioteka.
+* `MH_CORE`: Dump fajlovi koda.
+* `MH_PRELOAD`: Prethodno učitani izvršni fajl (više nije podržan u XNU).
+* `MH_DYLIB`: Dinamičke biblioteke.
+* `MH_DYLINKER`: Dinamički linker.
+* `MH_BUNDLE`: "Fajlovi dodataka". Generisani korišćenjem -bundle u gcc i eksplicitno učitani pomoću `NSBundle` ili `dlopen`.
+* `MH_DYSM`: Pratni `.dSym` fajl (fajl sa simbolima za debagovanje).
+* `MH_KEXT_BUNDLE`: Proširenja jezgra.
 ```bash
 # Checking the mac header of a binary
 otool -arch arm64e -hv /bin/ls
@@ -127,11 +136,30 @@ Ili koristeći [Mach-O View](https://sourceforge.net/projects/machoview/):
 
 <figure><img src="../../../.gitbook/assets/image (1130).png" alt=""><figcaption></figcaption></figure>
 
-## **Mach-O Load komande**
+## **Mach-O Zastave**
 
-**Raspored fajla u memoriji** je ovde naveden, detalji o **lokaciji tabele simbola**, kontekst glavne niti pri pokretanju izvršenja, i potrebne **deljene biblioteke**. Instrukcije su pružene dinamičkom učitavaču **(dyld)** o procesu učitavanja binarnog fajla u memoriju.
+Izvorni kod takođe definiše nekoliko zastava korisnih za učitavanje biblioteka:
 
-Koristi **load\_command** strukturu, definisanu u pomenutom **`loader.h`**:
+* `MH_NOUNDEFS`: Bez nedefinisanih referenci (potpuno povezano)
+* `MH_DYLDLINK`: Dyld povezivanje
+* `MH_PREBOUND`: Dinamičke reference unapred povezane.
+* `MH_SPLIT_SEGS`: Datoteka deli r/o i r/w segmente.
+* `MH_WEAK_DEFINES`: Binarni ima slabo definisane simbole
+* `MH_BINDS_TO_WEAK`: Binarni koristi slabe simbole
+* `MH_ALLOW_STACK_EXECUTION`: Čini stek izvršivim
+* `MH_NO_REEXPORTED_DYLIBS`: Biblioteka nema LC\_REEXPORT komande
+* `MH_PIE`: Izvršna datoteka sa nezavisnim položajem
+* `MH_HAS_TLV_DESCRIPTORS`: Postoji odeljak sa lokalnim promenljivama niti
+* `MH_NO_HEAP_EXECUTION`: Bez izvršavanja za stranice heap/podataka
+* `MH_HAS_OBJC`: Binarni ima oBject-C sekcije
+* `MH_SIM_SUPPORT`: Podrška za simulator
+* `MH_DYLIB_IN_CACHE`: Koristi se na dylibs/frameworks u deljenom kešu biblioteka.
+
+## **Mach-O Komande učitavanja**
+
+**Raspored datoteke u memoriji** je ovde naveden, detalji o **lokaciji tabele simbola**, kontekst glavne niti pri pokretanju izvršavanja, i potrebne **deljene biblioteke**. Instrukcije su pružene dinamičkom učitavaču **(dyld)** o procesu učitavanja binarne datoteke u memoriju.
+
+Koristi se struktura **load\_command**, definisana u pomenutom **`loader.h`**:
 ```objectivec
 struct load_command {
 uint32_t cmd;           /* type of load command */
@@ -148,11 +176,11 @@ Ovaj tip Load Command-a definiše **kako učitati \_\_TEXT** (izvršni kod) **i 
 
 Ove komande **definišu segmente** koji su **mapirani** u **virtuelni memorijski prostor** procesa prilikom izvršavanja.
 
-Postoje **različite vrste** segmenata, poput **\_\_TEXT** segmenta, koji drži izvršni kod programa, i **\_\_DATA** segmenta, koji sadrži podatke korišćene od strane procesa. Ovi **segmenti se nalaze u data sekciji** Mach-O fajla.
+Postoje **različite vrste** segmenata, kao što je **\_\_TEXT** segment, koji drži izvršni kod programa, i **\_\_DATA** segment, koji sadrži podatke korišćene od strane procesa. Ovi **segmenti se nalaze u data sekciji** Mach-O fajla.
 
 **Svaki segment** može biti dodatno **podeljen** u više **sekcija**. Struktura **load komande** sadrži **informacije** o **ovim sekcijama** unutar odgovarajućeg segmenta.
 
-U zaglavlju prvo nalazite **zaglavlje segmenta**:
+U zaglavlju prvo se nalazi **zaglavlje segmenta**:
 
 <pre class="language-c"><code class="lang-c">struct segment_command_64 { /* za 64-bitne arhitekture */
 uint32_t	cmd;		/* LC_SEGMENT_64 */
@@ -190,11 +218,11 @@ uint32_t	reserved2;	/* reserved (for count or sizeof) */
 uint32_t	reserved3;	/* reserved */
 };
 ```
-Primer **sekcione zaglavlje**:
+Primer **naslova odeljka**:
 
 <figure><img src="../../../.gitbook/assets/image (1105).png" alt=""><figcaption></figcaption></figure>
 
-Ako **dodate** **pomeraj sekcije** (0x37DC) + **pomeraj** gde **arhiva počinje**, u ovom slučaju `0x18000` --> `0x37DC + 0x18000 = 0x1B7DC`
+Ako **dodate** **pomeraj odeljka** (0x37DC) + **pomeraj** gde **arhiva počinje**, u ovom slučaju `0x18000` --> `0x37DC + 0x18000 = 0x1B7DC`
 
 <figure><img src="../../../.gitbook/assets/image (698).png" alt=""><figcaption></figcaption></figure>
 
@@ -204,38 +232,101 @@ otool -lv /bin/ls
 ```
 Uobičajeni segmenti učitani ovom komandom:
 
-* **`__PAGEZERO`:** Nalaže jezgru da **mapira** **adresu nula** tako da ona **ne može biti čitana, pisana ili izvršena**. Maxprot i minprot promenljive u strukturi postavljene su na nulu da bi se naznačilo da nema **prava za čitanje-pisanje-izvršavanje na ovoj stranici**.
-* Ova alokacija je važna za **smanjenje ranjivosti NULL pokazivača**.
+* **`__PAGEZERO`:** Naređuje jezgru da **mapira** **adresu nula** tako da ona **ne može biti čitana, pisana ili izvršena**. Maxprot i minprot promenljive u strukturi postavljene su na nulu da bi se naznačilo da nema **prava za čitanje-pisanje-izvršavanje na ovoj stranici**.
+* Ova alokacija je važna za **smanjenje ranjivosti nul pokazivača**. To je zato što XNU sprovodi tvrdu stranicu nula koja osigurava da je prva stranica memorije nedostupna (osim na i386). Binarni fajl može ispuniti ove zahteve kreiranjem male \_\_PAGEZERO (koristeći `-pagezero_size`) da pokrije prvih 4k i imajući ostatak 32-bitne memorije dostupne i u korisničkom i u režimu jezgra.
 * **`__TEXT`**: Sadrži **izvršni** **kod** sa **dozvolama za čitanje** i **izvršavanje** (bez mogućnosti pisanja)**.** Uobičajeni delovi ovog segmenta:
 * `__text`: Kompajlirani binarni kod
-* `__const`: Konstantni podaci
-* `__cstring`: Konstante stringova
-* `__stubs` i `__stubs_helper`: Uključeni tokom procesa dinamičkog učitavanja biblioteka
+* `__const`: Konstantni podaci (samo za čitanje)
+* `__[c/u/os_log]string`: C, Unicode ili os log konstante stringova
+* `__stubs` i `__stubs_helper`: Uključeni tokom procesa učitavanja dinamičkih biblioteka
+* `__unwind_info`: Podaci o odmotavanju steka.
+* Napomena da je sav ovaj sadržaj potpisan ali označen i kao izvršan (stvarajući više opcija za iskorišćavanje delova koji ne moraju nužno imati ovu privilegiju, poput odeljaka posvećenih stringovima).
 * **`__DATA`**: Sadrži podatke koji su **čitljivi** i **pisivi** (bez mogućnosti izvršavanja)**.**
+* `__got:` Globalna tabela offseta
+* `__nl_symbol_ptr`: Ne-lenja (vezivanje pri učitavanju) simbol pokazivač
+* `__la_symbol_ptr`: Lenja (vezivanje pri upotrebi) simbol pokazivač
+* `__const`: Trebalo bi da budu podaci samo za čitanje (ali nisu)
+* `__cfstring`: CoreFoundation stringovi
 * `__data`: Globalne promenljive (koje su inicijalizovane)
 * `__bss`: Statičke promenljive (koje nisu inicijalizovane)
 * `__objc_*` (\_\_objc\_classlist, \_\_objc\_protolist, itd): Informacije korišćene od strane Objective-C runtime-a
-* **`__LINKEDIT`**: Sadrži informacije za linkera (dyld) kao što su "ulazi simbola, stringova i tabela premeštanja."
-* **`__OBJC`**: Sadrži informacije korišćene od strane Objective-C runtime-a. Iako se ove informacije mogu naći i u segmentu \_\_DATA, unutar različitih \_\_objc\_\* sekcija.
+* **`__DATA_CONST`**: \_\_DATA.\_\_const nije garantovano konstantan (dozvole za pisanje), niti su to ostali pokazivači i GOT. Ovaj odeljak čini `__const`, neki inicijalizatori i GOT tabela (jednom rešena) **samo za čitanje** koristeći `mprotect`.
+* **`__LINKEDIT`**: Sadrži informacije za linkera (dyld) kao što su, simbol, string i unosi tabele premeštanja. To je generički kontejner za sadržaje koji nisu ni u `__TEXT` ni u `__DATA` i njen sadržaj je opisan u drugim komandama učitavanja.
+* Informacije dyld-a: Rebase, Non-lazy/lazy/weak binding opkodi i informacije o izvozu
+* Početak funkcija: Tabela početnih adresa funkcija
+* Podaci u kodu: Podaci ostrva u \_\_text
+* Tabela simbola: Simboli u binarnom fajlu
+* Indirektna tabela simbola: Pokazivači/stub simboli
+* Tabela stringova
+* Potpis koda
+* **`__OBJC`**: Sadrži informacije korišćene od strane Objective-C runtime-a. Iako se ove informacije mogu naći i u segmentu \_\_DATA, unutar različitih odeljaka u \_\_objc\_\* sekcijama.
+* **`__RESTRICT`**: Segment bez sadržaja sa jednim odeljkom nazvanim **`__restrict`** (takođe prazan) koji osigurava da prilikom pokretanja binarnog fajla, ignoriše DYLD okružne promenljive.
 
-### **`LC_MAIN`**
+Kako je bilo moguće videti u kodu, **segmenti takođe podržavaju zastave** (iako se retko koriste):
 
-Sadrži ulaznu tačku u **entryoff atributu**. Prilikom učitavanja, **dyld** jednostavno **dodaje** ovu vrednost na (u memoriji) **bazu binarnog koda**, zatim **prelazi** na ovu instrukciju kako bi započeo izvršavanje koda binarnog fajla.
+* `SG_HIGHVM`: Samo za jezgro (ne koristi se)
+* `SG_FVMLIB`: Ne koristi se
+* `SG_NORELOC`: Segment nema premeštanje
+* `SG_PROTECTED_VERSION_1`: Enkripcija. Korišćeno na primer od strane Finder-a za enkripciju teksta u `__TEXT` segmentu.
 
-### **LC\_CODE\_SIGNATURE**
+### **`LC_UNIXTHREAD/LC_MAIN`**
 
-Sadrži informacije o **potpisu koda Macho-O fajla**. Sadrži samo **offset** koji **ukazuje** na **blok potpisa**. Obično se nalazi na samom kraju fajla.\
-Međutim, možete pronaći neke informacije o ovoj sekciji u [**ovom blog postu**](https://davedelong.com/blog/2018/01/10/reading-your-own-entitlements/) i ovom [**gists**](https://gist.github.com/carlospolop/ef26f8eb9fafd4bc22e69e1a32b81da4).
+**`LC_MAIN`** sadrži ulaznu tačku u **entryoff atributu.** Prilikom učitavanja, **dyld** jednostavno **dodaje** ovu vrednost na (u memoriji) **bazu binarnog fajla**, zatim **skoči** na ovu instrukciju da započne izvršavanje koda binarnog fajla.
 
-### **LC\_LOAD\_DYLINKER**
+**`LC_UNIXTHREAD`** sadrži vrednosti koje registri moraju imati prilikom pokretanja glavne niti. Ovo je već zastarelo ali **`dyld`** i dalje koristi. Moguće je videti vrednosti registara postavljene ovim sa:
+```bash
+otool -l /usr/lib/dyld
+[...]
+Load command 13
+cmd LC_UNIXTHREAD
+cmdsize 288
+flavor ARM_THREAD_STATE64
+count ARM_THREAD_STATE64_COUNT
+x0  0x0000000000000000 x1  0x0000000000000000 x2  0x0000000000000000
+x3  0x0000000000000000 x4  0x0000000000000000 x5  0x0000000000000000
+x6  0x0000000000000000 x7  0x0000000000000000 x8  0x0000000000000000
+x9  0x0000000000000000 x10 0x0000000000000000 x11 0x0000000000000000
+x12 0x0000000000000000 x13 0x0000000000000000 x14 0x0000000000000000
+x15 0x0000000000000000 x16 0x0000000000000000 x17 0x0000000000000000
+x18 0x0000000000000000 x19 0x0000000000000000 x20 0x0000000000000000
+x21 0x0000000000000000 x22 0x0000000000000000 x23 0x0000000000000000
+x24 0x0000000000000000 x25 0x0000000000000000 x26 0x0000000000000000
+x27 0x0000000000000000 x28 0x0000000000000000  fp 0x0000000000000000
+lr 0x0000000000000000 sp  0x0000000000000000  pc 0x0000000000004b70
+cpsr 0x00000000
 
-Sadrži **putanju do izvršne datoteke dinamičkog linkera** koji mapira deljene biblioteke u prostor adresnog prostora procesa. **Vrednost je uvek postavljena na `/usr/lib/dyld`**. Važno je napomenuti da se u macOS-u mapiranje dylib-a dešava u **korisničkom režimu**, a ne u režimu jezgra.
+[...]
+```
+### **`LC_CODE_SIGNATURE`**
+
+Sadrži informacije o **potpisu koda Mach-O fajla**. Sadrži samo **offset** koji **ukazuje** na **blok potpisa**. Obično se nalazi na samom kraju fajla.\
+Međutim, možete pronaći neke informacije o ovoj sekciji u [**ovom blog postu**](https://davedelong.com/blog/2018/01/10/reading-your-own-entitlements/) i ovom [**gistu**](https://gist.github.com/carlospolop/ef26f8eb9fafd4bc22e69e1a32b81da4).
+
+### **`LC_ENCRYPTION_INFO[_64]`**
+
+Podrška za enkripciju binarnih fajlova. Međutim, naravno, ako napadač uspe da kompromituje proces, moći će da izvuče memoriju nešifrovanu.
+
+### **`LC_LOAD_DYLINKER`**
+
+Sadrži **putanju do izvršne datoteke dinamičkog linkera** koji mapira deljene biblioteke u adresni prostor procesa. **Vrednost je uvek postavljena na `/usr/lib/dyld`**. Važno je napomenuti da se u macOS-u mapiranje dylib-a dešava u **korisničkom režimu**, a ne u režimu jezgra.
+
+### **`LC_IDENT`**
+
+Zastareo, ali kada je konfigurisan za generisanje ispisa prilikom panike, kreiran je Mach-O core dump i verzija jezgra je postavljena u `LC_IDENT` komandi.
+
+### **`LC_UUID`**
+
+Slučajni UUID. Koristan je za bilo šta direktno, ali XNU ga kešira sa ostalim informacijama o procesu. Može se koristiti u izveštajima o padu.
+
+### **`LC_DYLD_ENVIRONMENT`**
+
+Omogućava da se naznače okružne promenljive dyld-u pre nego što se proces izvrši. Ovo može biti veoma opasno jer može omogućiti izvršavanje proizvoljnog koda unutar procesa, pa se ova komanda učitavanja koristi samo u dyld-u izgrađenom sa `#define SUPPORT_LC_DYLD_ENVIRONMENT` i dalje ograničava obradu samo na promenljive oblika `DYLD_..._PATH` koje specificiraju putanje učitavanja.
 
 ### **`LC_LOAD_DYLIB`**
 
-Ova komanda za učitavanje opisuje **zavisnost od dinamičke biblioteke** koja **nalaže** učitavaču (dyld) da **učita i poveže navedenu biblioteku**. Postoji LC\_LOAD\_DYLIB komanda za učitavanje **za svaku biblioteku** koju Mach-O binarni fajl zahteva.
+Ova komanda učitavanja opisuje **zavisnost dinamičke biblioteke** koja **nalaže** **loaderu** (dyld) da **učita i poveže navedenu biblioteku**. Postoji `LC_LOAD_DYLIB` komanda učitavanja **za svaku biblioteku** koju Mach-O binarni fajl zahteva.
 
-* Ova komanda za učitavanje je struktura tipa **`dylib_command`** (koja sadrži strukturu dylib, opisuje stvarnu zavisnu dinamičku biblioteku):
+* Ova komanda učitavanja je struktura tipa **`dylib_command`** (koja sadrži strukturu dylib, opisuje stvarnu zavisnu dinamičku biblioteku):
 ```objectivec
 struct dylib_command {
 uint32_t        cmd;            /* LC_LOAD_{,WEAK_}DYLIB */
@@ -252,7 +343,7 @@ uint32_t compatibility_version;     /* library's compatibility vers number*/
 ```
 ![](<../../../.gitbook/assets/image (483).png>)
 
-Ove informacije možete dobiti i putem komandne linije sa:
+Ove informacije takođe možete dobiti putem komandne linije sa:
 ```bash
 otool -L /bin/ls
 /bin/ls:
@@ -268,7 +359,7 @@ Neke potencijalno zlonamerne biblioteke su:
 
 {% hint style="info" %}
 Mach-O binarni fajl može sadržati jedan ili **više konstruktora**, koji će biti **izvršeni pre** adrese navedene u **LC\_MAIN**.\
-Ofseti svih konstruktora se čuvaju u sekciji **\_\_mod\_init\_func** segmenta **\_\_DATA\_CONST**.
+Ofseti bilo kog konstruktora se čuvaju u sekciji **\_\_mod\_init\_func** segmenta **\_\_DATA\_CONST**.
 {% endhint %}
 
 ## **Mach-O Podaci**
@@ -281,13 +372,13 @@ Podaci su zapravo deo koji sadrži sve **informacije** koje se učitavaju pomoć
 
 ![https://www.oreilly.com/api/v2/epubs/9781785883378/files/graphics/B05055\_02\_38.jpg](<../../../.gitbook/assets/image (507) (3).png>)
 
-To uključuje:
+Ovo uključuje:
 
-* **Tabela funkcija:** Koja sadrži informacije o funkcijama programa.
-* **Tabela simbola**: Koja sadrži informacije o eksternim funkcijama koje koristi binarni fajl
+* **Tabelu funkcija:** Koja sadrži informacije o funkcijama programa.
+* **Tabelu simbola**: Koja sadrži informacije o eksternim funkcijama koje koristi binarni fajl
 * Takođe može sadržati interne funkcije, imena promenljivih i još mnogo toga.
 
-Da biste to proverili, možete koristiti alat [**Mach-O View**](https://sourceforge.net/projects/machoview/):
+Za proveru možete koristiti alat [**Mach-O View**](https://sourceforge.net/projects/machoview/):
 
 <figure><img src="../../../.gitbook/assets/image (1117).png" alt=""><figcaption></figcaption></figure>
 
@@ -299,9 +390,9 @@ size -m /bin/ls
 
 <summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Drugi načini da podržite HackTricks:
+Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJSTVO**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJSTVO**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
