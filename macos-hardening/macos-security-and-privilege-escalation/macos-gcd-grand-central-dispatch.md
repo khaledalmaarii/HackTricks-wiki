@@ -2,42 +2,107 @@
 
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan ileri seviyeye öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan ileri seviyeye öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile</strong>!</summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family'yi**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **💬 [Discord grubumuza](https://discord.gg/hRep4RUj7f) katılın veya [telegram grubuna](https://t.me/peass) katılın veya bizi Twitter'da** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarınızı paylaşarak** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR göndererek katkıda bulunun.
+- **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+- [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+- [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+- **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin**.
+- **Hacking püf noktalarınızı paylaşarak** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR göndererek katkıda bulunun.
 
 </details>
 
 ## Temel Bilgiler
 
-**Grand Central Dispatch (GCD)**, aynı zamanda **libdispatch** olarak da bilinir, macOS ve iOS'te mevcuttur. Apple tarafından geliştirilen bir teknolojidir ve çok çekirdekli donanımlarda eşzamanlı (çoklu iş parçacıklı) yürütme için uygulama desteğini optimize etmek amacıyla geliştirilmiştir.
+**Grand Central Dispatch (GCD),** ayrıca **libdispatch** (`libdispatch.dyld`) olarak da bilinir, macOS ve iOS'te mevcuttur. Apple tarafından geliştirilen bu teknoloji, çok çekirdekli donanımlarda eşzamanlı (çoklu iş parçacıklı) yürütme için uygulama desteğini optimize etmek amacıyla geliştirilmiştir.
 
-**GCD**, uygulamanızın **görevleri** **blok nesneleri** şeklinde **göndermesi** için ve **FIFO kuyruklarını** sağlamak ve yönetmek için kullanılır. Gönderilen bloklar, sistem tarafından tamamen yönetilen bir **iş parçacığı havuzunda** yürütülür. GCD, görevleri yürütmek için iş parçacıkları oluşturur ve bu görevleri mevcut çekirdeklere çalışacak şekilde planlar.
+**GCD**, uygulamanızın **blok nesneleri** şeklinde **görevleri gönderebileceği FIFO kuyruklarını** sağlar ve yönetir. Dağıtım kuyruklarına gönderilen bloklar, sistem tarafından tamamen yönetilen bir iş parçacığı havuzunda yürütülür. GCD, dağıtım kuyruklarındaki görevleri yürütmek için otomatik olarak iş parçacıkları oluşturur ve bu görevleri mevcut çekirdeklere çalışacak şekilde planlar.
 
 {% hint style="success" %}
-Özetle, **paralel olarak kodu yürütmek** için işlemler, kod bloklarını **GCD'ye gönderebilir** ve GCD bu kodları yürütir. Bu nedenle, işlemler yeni iş parçacıkları oluşturmaz; **GCD, kendi iş parçacığı havuzuyla verilen kodu yürütir**.
+Özetle, **paralel olarak kodu yürütmek** için işlemler, **GCD'ye kod blokları gönderebilir**, bu da onların yürütümüyle ilgilenir. Bu nedenle, işlemler yeni iş parçacıkları oluşturmaz; **GCD, verilen kodu kendi iş parçacığı havuzuyla yürütür** (gerektiğinde artabilir veya azalabilir).
 {% endhint %}
 
-Bu, paralel yürütümü başarılı bir şekilde yönetmek için çok yardımcı olur, işlemlerin oluşturduğu iş parçacığı sayısını büyük ölçüde azaltır ve paralel yürütümü optimize eder. Bu, **büyük paralelizm** gerektiren görevler (kaba kuvvet?) veya ana iş parçacığını bloke etmemesi gereken görevler için çok uygundur: Örneğin, iOS'taki ana iş parçacığı UI etkileşimlerini yönetir, bu nedenle uygulamanın donmasına neden olabilecek herhangi bir işlev (arama, web'e erişim, dosya okuma...) bu şekilde yönetilir.
+Bu, paralel yürütümü başarılı bir şekilde yönetmek için çok yardımcı olur, işlemlerin oluşturduğu iş parçacığı sayısını büyük ölçüde azaltır ve paralel yürütümü optimize eder. Bu, **büyük paralelizm** gerektiren görevler için (kaba kuvvet?) veya ana iş parçacığını engellememesi gereken görevler için idealdir: Örneğin, iOS'taki ana iş parçacığı UI etkileşimlerini yönetir, bu nedenle uygulamanın donmasına neden olabilecek herhangi başka bir işlev (arama, web'e erişim, dosya okuma...) bu şekilde yönetilir.
+
+### Bloklar
+
+Bir blok, **kendi başına kapsamlı bir kod bölümü** (argüman döndüren bir işlev gibi) ve bağlı değişkenleri de belirtebilir.\
+Ancak, derleyici düzeyinde bloklar mevcut değildir, bunlar `os_object`'lerdir. Bu nesnelerin her biri iki yapıdan oluşur:
+
+* **blok literali**:&#x20;
+* Bloğun sınıfına işaret eden **`isa`** alanıyla başlar:
+* `NSConcreteGlobalBlock` (`__DATA.__const` blokları)
+* `NSConcreteMallocBlock` (heap'teki bloklar)
+* `NSConcreateStackBlock` (yığında bloklar)
+* Blok tanımlayıcısında bulunan alanları gösteren **`flags`** ve bazı ayrılmış baytlar
+* Çağrılacak işlev işaretçisi
+* Bir blok tanımlayıcısına işaretçi
+* İçe aktarılan blok değişkenleri (varsa)
+* **blok tanımlayıcısı**: Bu, mevcut veriye bağlı olarak boyutu değişir (önceki bayraklarda belirtildiği gibi)
+* Bazı ayrılmış baytlar içerir
+* Boyutu
+* Genellikle, parametreler için ne kadar alanın gerektiğini bilmek için bir Objective-C tarzı imza işaretçisine işaret eder (bayrak `BLOCK_HAS_SIGNATURE`)
+* Değişkenler referans alınıyorsa, bu blok ayrıca bir kopya yardımcısına (değeri başlangıçta kopyalayan) ve atma yardımcısına (serbest bırakan) işaretçilere sahip olacaktır.
+
+### Kuyruklar
+
+Bir dağıtım kuyruğu, blokların yürütülmesi için FIFO sıralaması sağlayan adlandırılmış bir nesnedir.
+
+Blokların yürütülmesi için kuyruklara yerleştirilir ve bunlar 2 modu destekler: `DISPATCH_QUEUE_SERIAL` ve `DISPATCH_QUEUE_CONCURRENT`. Tabii ki, **seri** olan **yarış koşulu** sorunlarına sahip olmayacak çünkü bir blok, önceki blok bitene kadar yürütülmeyecektir. Ancak **diğer kuyruk türü bunu** yapabilir.
+
+Varsayılan kuyruklar:
+
+* `.main-thread`: `dispatch_get_main_queue()`'den
+* `.libdispatch-manager`: GCD'nin kuyruk yöneticisi
+* `.root.libdispatch-manager`: GCD'nin kuyruk yöneticisi
+* `.root.maintenance-qos`: En düşük öncelikli görevler
+* `.root.maintenance-qos.overcommit`
+* `.root.background-qos`: `DISPATCH_QUEUE_PRIORITY_BACKGROUND` olarak mevcut
+* `.root.background-qos.overcommit`
+* `.root.utility-qos`: `DISPATCH_QUEUE_PRIORITY_NON_INTERACTIVE` olarak mevcut
+* `.root.utility-qos.overcommit`
+* `.root.default-qos`: `DISPATCH_QUEUE_PRIORITY_DEFAULT` olarak mevcut
+* `.root.background-qos.overcommit`
+* `.root.user-initiated-qos`: `DISPATCH_QUEUE_PRIORITY_HIGH` olarak mevcut
+* `.root.background-qos.overcommit`
+* `.root.user-interactive-qos`: En yüksek öncelikli
+* `.root.background-qos.overcommit`
+
+Her zaman **hangi iş parçacıklarının hangi kuyrukları hangi zamanlarda işleyeceğine** sistem karar verecektir (çoklu iş parçacıkları aynı kuyrukta çalışabilir veya aynı iş parçacığı farklı kuyruklarda çalışabilir).
+
+#### Özellikler
+
+**`dispatch_queue_create`** ile bir kuyruk oluşturulurken üçüncü argüman bir `dispatch_queue_attr_t` olup genellikle ya `DISPATCH_QUEUE_SERIAL` (aslında NULL) ya da `DISPATCH_QUEUE_CONCURRENT` olacaktır, bu da kuyruğun bazı parametrelerini kontrol etmeye izin veren bir `dispatch_queue_attr_t` yapısına işaret eder.
+
+### Dağıtım nesneleri
+
+Libdispatch'in kullandığı birkaç nesne vardır ve kuyruklar ve bloklar sadece bunlardan ikisidir. Bu nesneleri `dispatch_object_create` ile oluşturmak mümkündür:
+
+* `block`
+* `data`: Veri blokları
+* `group`: Blok grubu
+* `io`: Asenkron G/Ç istekleri
+* `mach`: Mach portları
+* `mach_msg`: Mach mesajları
+* `pthread_root_queue`: İş parçacığı havuzlu bir kuyruk ve iş kuyrukları olmayan
+* `queue`
+* `semaphore`
+* `source`: Olay kaynağı
 
 ## Objective-C
 
-Objetive-C'de kodun paralel olarak yürütülmesi için farklı işlevler bulunmaktadır:
+Objective-C'de bir bloğun paralel olarak yürütülmesi için farklı işlevler bulunmaktadır:
 
-* [**dispatch\_async**](https://developer.apple.com/documentation/dispatch/1453057-dispatch\_async): Bir kod bloğunu eşzamansız olarak bir dağıtım kuyruğunda yürütmek için gönderir ve hemen döner.
-* [**dispatch\_sync**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync): Bir kod bloğunu yürütmek için gönderir ve o blok yürütüldükten sonra döner.
-* [**dispatch\_once**](https://developer.apple.com/documentation/dispatch/1447169-dispatch\_once): Bir uygulamanın ömrü boyunca yalnızca bir kez bir kod bloğunu yürütür.
-* [**dispatch\_async\_and\_wait**](https://developer.apple.com/documentation/dispatch/3191901-dispatch\_async\_and\_wait): Bir iş öğesini yürütmek için gönderir ve yalnızca o işlem yürütüldükten sonra döner. [**`dispatch_sync`**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync)'den farklı olarak, bu işlev, kuyruğun tüm özelliklerine saygı duyar ve bloğu yürütürken bu özellikleri dikkate alır.
+* [**dispatch\_async**](https://developer.apple.com/documentation/dispatch/1453057-dispatch\_async): Bir bloğu bir dağıtım kuyruğunda asenkron olarak yürütmek için gönderir ve hemen döner.
+* [**dispatch\_sync**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync): Bir blok nesnesini yürütüm için gönderir ve o blok yürütüldükten sonra döner.
+* [**dispatch\_once**](https://developer.apple.com/documentation/dispatch/1447169-dispatch\_once): Bir uygulamanın ömrü boyunca bir blok nesnesini yalnızca bir kez yürütür.
+* [**dispatch\_async\_and\_wait**](https://developer.apple.com/documentation/dispatch/3191901-dispatch\_async\_and\_wait): Bir iş öğesini yürütmek için gönderir ve yalnızca o iş öğesi yürütüldükten sonra döner. [**`dispatch_sync`**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync) işlevinin aksine, bu işlev, bloğu yürütürken kuyruğun tüm özelliklerine saygı duyar.
 
 Bu işlevler şu parametreleri bekler: [**`dispatch_queue_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_queue\_t) **`queue,`** [**`dispatch_block_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_block\_t) **`block`**
 
-Bu, bir Blok'un **yapısıdır**:
+İşte bir **Blok yapısının** yapısı:
 ```c
 struct Block {
 void *isa; // NSConcreteStackBlock,...
@@ -48,7 +113,7 @@ struct BlockDescriptor *descriptor;
 // captured variables go here
 };
 ```
-Ve **`dispatch_async`** kullanarak **paralelizm** kullanımına dair bir örnek:
+Ve **`dispatch_async`** kullanarak **paralelizm** kullanımına bir örnek:
 ```objectivec
 #import <Foundation/Foundation.h>
 
@@ -89,7 +154,7 @@ The **`libswiftDispatch`** library wraps the C GCD APIs in a more Swift-friendly
 * **`async await`**
 * **`var (data, response) = await URLSession.shared.data(from: URL(string: "https://api.example.com/getData"))`**
 
-**Code example**:
+**Kod örneği**:
 ```swift
 import Foundation
 
@@ -118,7 +183,7 @@ sleep(1)  // Simulate a long-running task
 ```
 ## Frida
 
-Aşağıdaki Frida betiği, birkaç `dispatch` fonksiyonuna **hook yapmak** ve sıra adını, geri izlemeyi ve bloğu çıkarmak için kullanılabilir: [**https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js**](https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js)
+Aşağıdaki Frida betiği, birkaç `dispatch` fonksiyonuna **kanca takmak** ve sıra adını, geri izlemeyi ve bloğu çıkarmak için kullanılabilir: [**https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js**](https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js)
 ```bash
 frida -U <prog_name> -l libdispatch.js
 
@@ -133,9 +198,9 @@ Backtrace:
 ```
 ## Ghidra
 
-Şu anda Ghidra, ne ObjectiveC **`dispatch_block_t`** yapısını, ne de **`swift_dispatch_block`** yapısını anlamıyor.
+Şu anda Ghidra, ne ObjectiveC **`dispatch_block_t`** yapısını ne de **`swift_dispatch_block`** yapısını anlamıyor.
 
-Bu nedenle, onları anlamasını istiyorsanız, sadece **bildirmeniz gerekebilir**:
+Bu yüzden onları anlamasını istiyorsanız, sadece **bildirmeniz gerekebilir**:
 
 <figure><img src="../../.gitbook/assets/image (1157).png" alt="" width="563"><figcaption></figcaption></figure>
 
@@ -146,7 +211,7 @@ Bu nedenle, onları anlamasını istiyorsanız, sadece **bildirmeniz gerekebilir
 Ardından, kodun içinde **kullanıldığı yeri bulun**:
 
 {% hint style="success" %}
-Yapıyı nasıl kullanıldığını anlamak için "block" ile yapılan tüm referanslara dikkat edin.
+"block" ile yapılan tüm referansları not alarak, yapının nasıl kullanıldığını anlayabilirsiniz.
 {% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (1161).png" alt="" width="563"><figcaption></figcaption></figure>
@@ -158,3 +223,7 @@ Değişkenin üzerine sağ tıklayın -> Değişkeni Yeniden Türle ve bu durumd
 Ghidra otomatik olarak her şeyi yeniden yazacaktır:
 
 <figure><img src="../../.gitbook/assets/image (1163).png" alt="" width="563"><figcaption></figcaption></figure>
+
+## Referanslar
+
+* [**\*OS Internals, Cilt I: Kullanıcı Modu. Jonathan Levin tarafından**](https://www.amazon.com/MacOS-iOS-Internals-User-Mode/dp/099105556X)
