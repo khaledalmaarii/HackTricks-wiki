@@ -1,28 +1,30 @@
-# macOS Function Hooking
+# macOS函数挂钩
 
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
 
 支持HackTricks的其他方式：
 
-* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+- 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+- 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
+- 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
+- **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+- 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
 ## 函数插入
 
-创建一个包含指向**原始**和**替换**函数的**函数指针**元组的**dylib**，其中包含一个\*\*`__interpose`**部分（或标记为**`S_INTERPOSING`\*\*的部分）。
+创建一个包含指向**原始**和**替换**函数的**函数指针**元组的**dylib**，其中包含一个**`__interpose` (`__DATA___interpose`)**部分（或一个标记为**`S_INTERPOSING`**的部分）。
 
-然后，使用\*\*`DYLD_INSERT_LIBRARIES`**注入dylib（插入操作需要在主应用程序加载之前发生）。显然，这里也适用于对**`DYLD_INSERT_LIBRARIES`\*\*的[**限制**](macos-library-injection/#check-restrictions)。
+然后，使用**`DYLD_INSERT_LIBRARIES`**注入dylib（插入操作需要在主应用程序加载之前发生）。显然，这里也适用于对**`DYLD_INSERT_LIBRARIES`**的[**限制**](macos-library-injection/#check-restrictions)。
 
 ### 插入printf
 
-{% code title="interpose.c" %}
+{% tabs %}
+{% tab title="interpose.c" %}
+{% code title="interpose.c" overflow="wrap" %}
 ```c
 // gcc -dynamiclib interpose.c -o interpose.dylib
 #include <stdio.h>
@@ -42,7 +44,9 @@ __attribute__((used)) static struct { const void *replacement; const void *repla
 __attribute__ ((section ("__DATA,__interpose"))) = { (const void *)(unsigned long)&my_printf, (const void *)(unsigned long)&printf };
 ```
 {% endcode %}
+{% endtab %}
 
+{% tab title="hello.c" %}
 ```c
 //gcc hello.c -o hello
 #include <stdio.h>
@@ -52,33 +56,10 @@ printf("Hello World!\n");
 return 0;
 }
 ```
+{% endtab %}
 
-#### macOS功能挂钩
-
-macOS提供了一种称为`DYLD_INSERT_LIBRARIES`的环境变量，允许我们在程序加载时注入动态链接库。这为我们提供了一种功能挂钩的方法，可以用来劫持程序的函数调用。
-
-我们可以创建一个动态链接库，重写目标函数的实现，然后将其注入到目标程序中。这样，当目标程序调用该函数时，实际上会执行我们注入的代码。
-
-以下是一个示例，展示了如何使用`DYLD_INSERT_LIBRARIES`环境变量来劫持`open`函数的调用：
-
-```c
-#include <stdio.h>
-#include <dlfcn.h>
-
-int open(const char *path, int oflag, ...) {
-    int (*original_open)(const char *, int, ...);
-    original_open = dlsym(RTLD_NEXT, "open");
-    
-    printf("Intercepted open call: %s\n", path);
-    
-    return original_open(path, oflag);
-}
-```
-
-在这个示例中，我们重写了`open`函数，添加了一行打印语句，然后调用原始的`open`函数。
-
-通过这种方式，我们可以在不修改目标程序源代码的情况下，劫持其函数调用，实现各种有趣的功能。
-
+{% tab title="interpose2.c" %}
+{% code overflow="wrap" %}
 ```c
 // Just another way to define an interpose
 // gcc -dynamiclib interpose2.c -o interpose2.dylib
@@ -102,7 +83,9 @@ return ret;
 
 DYLD_INTERPOSE(my_printf,printf);
 ```
-
+{% endcode %}
+{% endtab %}
+{% endtabs %}
 ```bash
 DYLD_INSERT_LIBRARIES=./interpose.dylib ./hello
 Hello from interpose
@@ -110,25 +93,44 @@ Hello from interpose
 DYLD_INSERT_LIBRARIES=./interpose2.dylib ./hello
 Hello from interpose
 ```
+{% hint style="warning" %}
+**`DYLD_PRINT_INTERPOSTING`** 环境变量可用于调试 interposing，并将打印 interpose 过程。
+{% endhint %}
 
+还要注意，**interposing 发生在进程和加载的库之间**，它不适用于共享库缓存。
+
+### 动态 Interposing
+
+现在也可以使用函数 **`dyld_dynamic_interpose`** 动态地 interpose 一个函数。这允许在运行时以编程方式 interpose 一个函数，而不仅仅是从一开始就这样做。
+
+只需要指示**要替换的函数和替换函数的元组**。
+```c
+struct dyld_interpose_tuple {
+const void* replacement;
+const void* replacee;
+};
+extern void dyld_dynamic_interpose(const struct mach_header* mh,
+const struct dyld_interpose_tuple array[], size_t count);
+```
 ## 方法交换
 
 在 ObjectiveC 中，方法的调用方式如下：**`[myClassInstance nameOfTheMethodFirstParam:param1 secondParam:param2]`**
 
-需要**对象**、**方法**和**参数**。当调用方法时，会使用函数\*\*`objc_msgSend`**发送**消息\*\*：`int i = ((int (*)(id, SEL, NSString *, NSString *))objc_msgSend)(someObject, @selector(method1p1:p2:), value1, value2);`
+需要**对象**、**方法**和**参数**。当调用方法时，会使用函数**`objc_msgSend`**发送**消息**：`int i = ((int (*)(id, SEL, NSString *, NSString *))objc_msgSend)(someObject, @selector(method1p1:p2:), value1, value2);`
 
-对象是\*\*`someObject`**，方法是**`@selector(method1p1:p2:)`**，参数是**value1\*\*、**value2**。
+对象是**`someObject`**，方法是**`@selector(method1p1:p2:)`**，参数是**value1**、**value2**。
 
 根据对象结构，可以访问一个包含方法**名称**和**指向方法代码的指针**的**方法数组**。
 
 {% hint style="danger" %}
-请注意，由于方法和类是根据它们的名称访问的，这些信息存储在二进制文件中，因此可以使用 `otool -ov </path/bin>` 或 [`class-dump </path/bin>`](https://github.com/nygard/class-dump) 检索它。
+请注意，由于方法和类是根据它们的名称访问的，这些信息存储在二进制文件中，因此可以使用 `otool -ov </path/bin>` 或 [`class-dump </path/bin>`](https://github.com/nygard/class-dump) 检索它们。
 {% endhint %}
 
 ### 访问原始方法
 
 可以访问方法的信息，如名称、参数数量或地址，如下例所示：
 
+{% code overflow="wrap" %}
 ```objectivec
 // gcc -framework Foundation test.m -o test
 
@@ -194,15 +196,15 @@ NSLog(@"Uppercase string: %@", uppercaseString3);
 return 0;
 }
 ```
-
 ### 使用`method_exchangeImplementations`进行方法交换
 
-函数\*\*`method_exchangeImplementations`**允许**更改**一个函数的**实现地址为另一个函数\*\*。
+函数**`method_exchangeImplementations`**允许**更改**一个函数的**实现地址为另一个函数**的地址。
 
 {% hint style="danger" %}
 因此，当调用一个函数时，**执行的是另一个函数**。
 {% endhint %}
 
+{% code overflow="wrap" %}
 ```objectivec
 //gcc -framework Foundation swizzle_str.m -o swizzle_str
 
@@ -246,6 +248,7 @@ NSLog(@"Substring: %@", subString);
 return 0;
 }
 ```
+{% endcode %}
 
 {% hint style="warning" %}
 在这种情况下，如果**合法方法的实现代码**验证**方法名称**，它可以**检测**到这种方法交换并阻止其运行。
@@ -255,10 +258,11 @@ return 0;
 
 ### 使用method\_setImplementation进行方法交换
 
-之前的格式很奇怪，因为你正在改变其中一个方法的实现。使用函数\*\*`method_setImplementation`**，您可以将一个方法的**实现更改为另一个方法\*\*。
+之前的格式很奇怪，因为你正在改变其中一个方法的实现。使用函数**`method_setImplementation`**，你可以将一个方法的实现**更改为另一个方法**。
 
-只需记住，如果您打算从新实现中调用原始实现的地址，请**存储原始实现的地址**，因为稍后要定位该地址将变得更加复杂。
+只需记住，如果你打算从新实现中调用原始实现的地址，**请存储原始实现的地址**，因为稍后要定位该地址将变得更加复杂。
 
+{% code overflow="wrap" %}
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
@@ -310,19 +314,19 @@ return 0;
 }
 }
 ```
+{% endcode %}
 
 ## Hooking Attack Methodology
 
-在这一页中，讨论了不同的挂钩函数的方法。然而，它们涉及**在进程内运行代码进行攻击**。
+在这一页中，讨论了钩住函数的不同方法。然而，它们涉及**在进程内运行代码进行攻击**。
 
-为了做到这一点，最简单的技术是通过环境变量或劫持注入[Dyld](macos-library-injection/macos-dyld-hijacking-and-dyld\_insert\_libraries.md)。然而，我认为这也可以通过[通过任务端口进行的Dylib进程注入](macos-ipc-inter-process-communication/#dylib-process-injection-via-task-port)来实现。
+为了做到这一点，最简单的技术是通过注入[Dyld通过环境变量或劫持](macos-library-injection/macos-dyld-hijacking-and-dyld\_insert\_libraries.md)。然而，我想这也可以通过[Dylib进程注入](macos-ipc-inter-process-communication/#dylib-process-injection-via-task-port)来实现。
 
 然而，这两种选项都**限制**在**未受保护**的二进制文件/进程上。查看每种技术以了解更多限制。
 
-然而，函数挂钩攻击非常具体，攻击者会这样做是为了**从进程内部窃取敏感信息**（如果不是的话，你只会进行进程注入攻击）。而这些敏感信息可能位于用户下载的应用程序中，比如MacPass。
+然而，函数钩取攻击非常具体，攻击者会这样做是为了**从进程内部窃取敏感信息**（如果不是的话，你只会进行进程注入攻击）。而这些敏感信息可能位于用户下载的应用程序中，比如MacPass。
 
-因此，攻击者的向量将是要么找到漏洞，要么剥离应用程序的签名，通过应用程序的Info.plist注入\*\*`DYLD_INSERT_LIBRARIES`\*\*环境变量，添加类似以下内容：
-
+因此，攻击者的向量将是要么找到一个漏洞，要么剥离应用程序的签名，通过应用程序的Info.plist注入**`DYLD_INSERT_LIBRARIES`**环境变量，添加类似以下内容：
 ```xml
 <key>LSEnvironment</key>
 <dict>
@@ -330,7 +334,6 @@ return 0;
 <string>/Applications/Application.app/Contents/malicious.dylib</string>
 </dict>
 ```
-
 然后**重新注册**应用程序：
 
 {% code overflow="wrap" %}
@@ -342,11 +345,12 @@ return 0;
 在该库中添加挂钩代码以外泄信息：密码，消息...
 
 {% hint style="danger" %}
-请注意，在较新版本的 macOS 中，如果您**剥离应用程序二进制文件的签名**，并且该应用程序之前已被执行，macOS将**不再执行该应用程序**。
+请注意，在 macOS 的新版本中，如果您**剥离应用程序二进制文件的签名**，并且该应用程序之前已被执行过，macOS将**不再执行该应用程序**。
 {% endhint %}
 
 #### 库示例
 
+{% code overflow="wrap" %}
 ```objectivec
 // gcc -dynamiclib -framework Foundation sniff.m -o sniff.dylib
 
@@ -382,6 +386,7 @@ IMP fake_IMP = (IMP)custom_setPassword;
 real_setPassword = method_setImplementation(real_Method, fake_IMP);
 }
 ```
+{% endcode %}
 
 ## 参考
 
@@ -389,14 +394,14 @@ real_setPassword = method_setImplementation(real_Method, fake_IMP);
 
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>从零开始学习 AWS 黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS 红队专家）</strong></a><strong>！</strong></summary>
 
-支持HackTricks的其他方式：
+支持 HackTricks 的其他方式：
 
-* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 如果您想看到您的**公司在 HackTricks 中做广告**或**下载 PDF 版本的 HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* 发现[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或**关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享您的黑客技巧。
 
 </details>
