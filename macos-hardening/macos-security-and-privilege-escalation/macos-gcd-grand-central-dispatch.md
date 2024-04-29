@@ -2,37 +2,102 @@
 
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
 
 Altri modi per supportare HackTricks:
 
-* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
 
 ## Informazioni di base
 
-**Grand Central Dispatch (GCD)**, noto anche come **libdispatch**, è disponibile sia su macOS che su iOS. È una tecnologia sviluppata da Apple per ottimizzare il supporto delle applicazioni per l'esecuzione concorrente (multithreaded) su hardware multicore.
+**Grand Central Dispatch (GCD),** noto anche come **libdispatch** (`libdispatch.dyld`), è disponibile sia su macOS che su iOS. È una tecnologia sviluppata da Apple per ottimizzare il supporto dell'applicazione per l'esecuzione concorrente (multithread) sull'hardware multicore.
 
 **GCD** fornisce e gestisce **code FIFO** a cui la tua applicazione può **inviare attività** sotto forma di **oggetti block**. I blocchi inviati alle code di invio vengono **eseguiti su un pool di thread** completamente gestito dal sistema. GCD crea automaticamente thread per eseguire le attività nelle code di invio e pianifica l'esecuzione di tali attività sui core disponibili.
 
 {% hint style="success" %}
-In sintesi, per eseguire codice in **parallelo**, i processi possono inviare **blocchi di codice a GCD**, che si occuperà della loro esecuzione. Pertanto, i processi non creano nuovi thread; **GCD esegue il codice fornito con il proprio pool di thread**.
+In sintesi, per eseguire codice in **parallelo**, i processi possono inviare **blocchi di codice a GCD**, che si occuperà della loro esecuzione. Pertanto, i processi non creano nuovi thread; **GCD esegue il codice fornito con il proprio pool di thread** (che potrebbe aumentare o diminuire secondo necessità).
 {% endhint %}
 
-Ciò è molto utile per gestire con successo l'esecuzione parallela, riducendo notevolmente il numero di thread creati dai processi e ottimizzando l'esecuzione parallela. Questo è ideale per attività che richiedono **un grande parallelismo** (brute-forcing?) o per attività che non dovrebbero bloccare il thread principale: ad esempio, il thread principale su iOS gestisce le interazioni dell'interfaccia utente, quindi qualsiasi altra funzionalità che potrebbe far bloccare l'applicazione (ricerca, accesso a un sito web, lettura di un file...) viene gestita in questo modo.
+Questo è molto utile per gestire con successo l'esecuzione parallela, riducendo notevolmente il numero di thread creati dai processi e ottimizzando l'esecuzione parallela. Questo è ideale per attività che richiedono **grande parallelismo** (forza bruta?) o per attività che non dovrebbero bloccare il thread principale: ad esempio, il thread principale su iOS gestisce le interazioni dell'interfaccia utente, quindi qualsiasi altra funzionalità che potrebbe far bloccare l'applicazione (ricerca, accesso a un sito web, lettura di un file...) è gestita in questo modo.
+
+### Blocchi
+
+Un blocco è una **sezione di codice autocontenuta** (come una funzione con argomenti che restituisce un valore) e può anche specificare variabili vincolate.\
+Tuttavia, a livello di compilatore i blocchi non esistono, sono `os_object`. Ciascuno di questi oggetti è formato da due strutture:
+
+* **letterale del blocco**:&#x20;
+* Inizia con il campo **`isa`**, che punta alla classe del blocco:
+* `NSConcreteGlobalBlock` (blocchi da `__DATA.__const`)
+* `NSConcreteMallocBlock` (blocchi nello heap)
+* `NSConcreateStackBlock` (blocchi nello stack)
+* Ha **`flags`** (che indicano i campi presenti nel descrittore del blocco) e alcuni byte riservati
+* Il puntatore alla funzione da chiamare
+* Un puntatore al descrittore del blocco
+* Variabili importate dal blocco (se presenti)
+* **descrittore del blocco**: La sua dimensione dipende dai dati presenti (come indicato nei flag precedenti)
+* Ha alcuni byte riservati
+* La sua dimensione
+* Di solito avrà un puntatore a una firma in stile Objective-C per sapere di quanto spazio è necessario per i parametri (flag `BLOCK_HAS_SIGNATURE`)
+* Se le variabili sono referenziate, questo blocco avrà anche puntatori a un aiutante di copia (che copia il valore all'inizio) e a un aiutante di smaltimento (liberandolo).
+
+### Code di invio
+
+Una coda di invio è un oggetto nominato che fornisce l'ordinamento FIFO dei blocchi per le esecuzioni.
+
+I blocchi sono impostati nelle code da eseguire e queste supportano 2 modalità: `DISPATCH_QUEUE_SERIAL` e `DISPATCH_QUEUE_CONCURRENT`. Naturalmente il **seriale** non avrà problemi di condizione di gara poiché un blocco non verrà eseguito fino a quando il precedente non sarà terminato. Ma **l'altro tipo di coda potrebbe averlo**.
+
+Code predefinite:
+
+* `.main-thread`: Da `dispatch_get_main_queue()`
+* `.libdispatch-manager`: Gestore delle code di GCD
+* `.root.libdispatch-manager`: Gestore delle code di GCD
+* `.root.maintenance-qos`: Compiti a priorità più bassa
+* `.root.maintenance-qos.overcommit`
+* `.root.background-qos`: Disponibile come `DISPATCH_QUEUE_PRIORITY_BACKGROUND`
+* `.root.background-qos.overcommit`
+* `.root.utility-qos`: Disponibile come `DISPATCH_QUEUE_PRIORITY_NON_INTERACTIVE`
+* `.root.utility-qos.overcommit`
+* `.root.default-qos`: Disponibile come `DISPATCH_QUEUE_PRIORITY_DEFAULT`
+* `.root.background-qos.overcommit`
+* `.root.user-initiated-qos`: Disponibile come `DISPATCH_QUEUE_PRIORITY_HIGH`
+* `.root.background-qos.overcommit`
+* `.root.user-interactive-qos`: Priorità più alta
+* `.root.background-qos.overcommit`
+
+Nota che sarà il sistema a decidere **quali thread gestiscono quali code in ogni momento** (più thread potrebbero lavorare nella stessa coda o lo stesso thread potrebbe lavorare in code diverse in un certo momento)
+
+#### Attributi
+
+Quando si crea una coda con **`dispatch_queue_create`** il terzo argomento è un `dispatch_queue_attr_t`, che di solito è o `DISPATCH_QUEUE_SERIAL` (che in realtà è NULL) o `DISPATCH_QUEUE_CONCURRENT` che è un puntatore a una struttura `dispatch_queue_attr_t` che consente di controllare alcuni parametri della coda.
+
+### Oggetti di invio
+
+Ci sono diversi oggetti che libdispatch utilizza e code e blocchi sono solo 2 di essi. È possibile creare questi oggetti con `dispatch_object_create`:
+
+* `blocco`
+* `dati`: Blocchi di dati
+* `gruppo`: Gruppo di blocchi
+* `io`: Richieste di I/O asincrone
+* `mach`: Porte Mach
+* `mach_msg`: Messaggi Mach
+* `pthread_root_queue`: Una coda con un pool di thread pthread e senza code di lavoro
+* `coda`
+* `semaforo`
+* `sorgente`: Sorgente di eventi
 
 ## Objective-C
 
 In Objective-C ci sono diverse funzioni per inviare un blocco da eseguire in parallelo:
 
 * [**dispatch\_async**](https://developer.apple.com/documentation/dispatch/1453057-dispatch\_async): Invia un blocco per l'esecuzione asincrona su una coda di invio e restituisce immediatamente.
-* [**dispatch\_sync**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync): Invia un oggetto blocco per l'esecuzione e restituisce dopo che il blocco ha finito di eseguire.
-* [**dispatch\_once**](https://developer.apple.com/documentation/dispatch/1447169-dispatch\_once): Esegue un oggetto blocco solo una volta per tutta la durata di un'applicazione.
+* [**dispatch\_sync**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync): Invia un oggetto blocco per l'esecuzione e restituisce dopo che quel blocco ha finito di eseguire.
+* [**dispatch\_once**](https://developer.apple.com/documentation/dispatch/1447169-dispatch\_once): Esegue un blocco solo una volta per tutta la durata di un'applicazione.
 * [**dispatch\_async\_and\_wait**](https://developer.apple.com/documentation/dispatch/3191901-dispatch\_async\_and\_wait): Invia un elemento di lavoro per l'esecuzione e restituisce solo dopo che ha finito di eseguire. A differenza di [**`dispatch_sync`**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync), questa funzione rispetta tutti gli attributi della coda quando esegue il blocco.
 
 Queste funzioni si aspettano questi parametri: [**`dispatch_queue_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_queue\_t) **`queue,`** [**`dispatch_block_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_block\_t) **`block`**
@@ -48,7 +113,7 @@ struct BlockDescriptor *descriptor;
 // captured variables go here
 };
 ```
-E questo è un esempio di utilizzo del **parallelismo** con **`dispatch_async`**:
+E questo è un esempio per utilizzare **il parallelismo** con **`dispatch_async`**:
 ```objectivec
 #import <Foundation/Foundation.h>
 
@@ -80,8 +145,8 @@ return 0;
 ```
 ## Swift
 
-**`libswiftDispatch`** è una libreria che fornisce **binding Swift** al framework Grand Central Dispatch (GCD) che è originariamente scritto in C.\
-La libreria **`libswiftDispatch`** incapsula le API C GCD in un'interfaccia più amichevole per Swift, rendendo più facile e intuitivo per gli sviluppatori Swift lavorare con GCD.
+**`libswiftDispatch`** è una libreria che fornisce **binding Swift** al framework Grand Central Dispatch (GCD) originariamente scritto in C.\
+La libreria **`libswiftDispatch`** incapsula le API C GCD in un'interfaccia più amichevole per Swift, rendendo più semplice e intuitivo per gli sviluppatori Swift lavorare con GCD.
 
 * **`DispatchQueue.global().sync{ ... }`**
 * **`DispatchQueue.global().async{ ... }`**
@@ -118,7 +183,7 @@ sleep(1)  // Simulate a long-running task
 ```
 ## Frida
 
-Il seguente script di Frida può essere utilizzato per **intercettare diverse funzioni `dispatch`** ed estrarre il nome della coda, la traccia di esecuzione e il blocco: [**https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js**](https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js)
+Il seguente script Frida può essere utilizzato per **agganciarsi a diverse funzioni `dispatch`** ed estrarre il nome della coda, la traccia dello stack e il blocco: [**https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js**](https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js)
 ```bash
 frida -U <prog_name> -l libdispatch.js
 
@@ -135,40 +200,30 @@ Backtrace:
 
 Attualmente Ghidra non comprende né la struttura **`dispatch_block_t`** di ObjectiveC, né quella di **`swift_dispatch_block`**.
 
-Quindi, se vuoi farlo capire, puoi semplicemente **dichiararle**:
+Quindi, se vuoi che le comprenda, puoi semplicemente **dichiararle**:
 
-<figure><img src="../../.gitbook/assets/image (688).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1157).png" alt="" width="563"><figcaption></figcaption></figure>
 
-<figure><img src="../../.gitbook/assets/image (690).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1159).png" alt="" width="563"><figcaption></figcaption></figure>
 
-<figure><img src="../../.gitbook/assets/image (691).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1160).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Successivamente, trova un punto nel codice in cui vengono **utilizzate**:
 
 {% hint style="success" %}
-Nota tutti i riferimenti al "block" per capire come puoi individuare l'utilizzo della struttura.
+Nota tutti i riferimenti al "block" per capire come potresti individuare che la struttura viene utilizzata.
 {% endhint %}
 
-<figure><img src="../../.gitbook/assets/image (692).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1161).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Fai clic con il pulsante destro del mouse sulla variabile -> Retype Variable e seleziona in questo caso **`swift_dispatch_block`**:
+Fai clic destro sulla variabile -> Ridichiara la variabile e seleziona in questo caso **`swift_dispatch_block`**:
 
-<figure><img src="../../.gitbook/assets/image (693).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1162).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Ghidra riscriverà automaticamente tutto:
 
-<figure><img src="../../.gitbook/assets/image (694).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1163).png" alt="" width="563"><figcaption></figcaption></figure>
 
-<details>
+## References
 
-<summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Altri modi per supportare HackTricks:
-
-* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF**, consulta i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai repository GitHub di** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
-
-</details>
+* [**\*OS Internals, Volume I: User Mode. Di Jonathan Levin**](https://www.amazon.com/MacOS-iOS-Internals-User-Mode/dp/099105556X)
