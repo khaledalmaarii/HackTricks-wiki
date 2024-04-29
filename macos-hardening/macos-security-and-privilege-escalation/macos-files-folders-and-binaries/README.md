@@ -2,19 +2,19 @@
 
 <details>
 
-<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
 
 Altri modi per supportare HackTricks:
 
-* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale PEASS & HackTricks**](https://peass.creator-spring.com)
+* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
 * Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
 
-## Layout della Gerarchia dei File
+## Layout della gerarchia dei file
 
 * **/Applications**: Le app installate dovrebbero essere qui. Tutti gli utenti potranno accedervi.
 * **/bin**: Binari della riga di comando
@@ -27,16 +27,16 @@ Altri modi per supportare HackTricks:
 * **/System**: File per far funzionare OS X. Dovresti trovare principalmente solo file specifici di Apple qui (non di terze parti).
 * **/tmp**: I file vengono eliminati dopo 3 giorni (è un collegamento simbolico a /private/tmp)
 * **/Users**: Directory home degli utenti.
-* **/usr**: Configurazioni e binari di sistema
+* **/usr**: Configurazione e binari di sistema
 * **/var**: File di log
 * **/Volumes**: Le unità montate appariranno qui.
-* **/.vol**: Eseguendo `stat a.txt` otterrai qualcosa come `16777223 7545753 -rw-r--r-- 1 username wheel ...` dove il primo numero è l'id del volume in cui si trova il file e il secondo è il numero di inode. Puoi accedere al contenuto di questo file tramite /.vol/ con queste informazioni eseguendo `cat /.vol/16777223/7545753`
+* **/.vol**: Eseguendo `stat a.txt` otterrai qualcosa del tipo `16777223 7545753 -rw-r--r-- 1 username wheel ...` dove il primo numero è l'id del volume in cui si trova il file e il secondo è il numero di inode. Puoi accedere al contenuto di questo file tramite /.vol/ con queste informazioni eseguendo `cat /.vol/16777223/7545753`
 
 ### Cartelle delle Applicazioni
 
 * Le **applicazioni di sistema** si trovano sotto `/System/Applications`
 * Le applicazioni **installate** di solito sono installate in `/Applications` o in `~/Applications`
-* I **dati dell'applicazione** possono essere trovati in `/Library/Application Support` per le applicazioni in esecuzione come root e `~/Library/Application Support` per le applicazioni in esecuzione come utente.
+* I **dati dell'applicazione** possono essere trovati in `/Library/Application Support` per le applicazioni in esecuzione come root e in `~/Library/Application Support` per le applicazioni in esecuzione come utente.
 * I **daemon** delle applicazioni di terze parti che **devono essere eseguiti come root** sono di solito situati in `/Library/PrivilegedHelperTools/`
 * Le app **sandboxed** sono mappate nella cartella `~/Library/Containers`. Ogni app ha una cartella con il nome dell'ID del bundle dell'applicazione (`com.apple.Safari`).
 * Il **kernel** si trova in `/System/Library/Kernels/kernel`
@@ -61,7 +61,7 @@ macOS memorizza informazioni come password in diversi luoghi:
 
 * **`.dmg`**: I file immagine disco di Apple sono molto frequenti per gli installatori.
 * **`.kext`**: Deve seguire una struttura specifica ed è la versione OS X di un driver. (è un bundle)
-* **`.plist`**: Conosciuto anche come elenco di proprietà, memorizza informazioni in formato XML o binario.
+* **`.plist`**: Conosciuto anche come property list memorizza informazioni in formato XML o binario.
 * Può essere XML o binario. Quelli binari possono essere letti con:
 * `defaults read config.plist`
 * `/usr/libexec/PlistBuddy -c print config.plsit`
@@ -70,10 +70,10 @@ macOS memorizza informazioni come password in diversi luoghi:
 * `plutil -convert json ~/Library/Preferences/com.apple.screensaver.plist -o -`
 * **`.app`**: Applicazioni Apple che seguono la struttura delle directory (è un bundle).
 * **`.dylib`**: Librerie dinamiche (come i file DLL di Windows)
-* **`.pkg`**: Sono gli stessi di xar (formato di archivio eXtensible). Il comando installer può essere usato per installare i contenuti di questi file.
+* **`.pkg`**: Sono uguali a xar (formato di archivio eXtensible). Il comando installer può essere usato per installare i contenuti di questi file.
 * **`.DS_Store`**: Questo file è in ogni directory, salva gli attributi e le personalizzazioni della directory.
 * **`.Spotlight-V100`**: Questa cartella appare nella directory radice di ogni volume del sistema.
-* **`.metadata_never_index`**: Se questo file è nella radice di un volume, Spotlight non indizzerà quel volume.
+* **`.metadata_never_index`**: Se questo file è nella radice di un volume Spotlight non indizzerà quel volume.
 * **`.noindex`**: I file e le cartelle con questa estensione non verranno indicizzati da Spotlight.
 * **`.sdef`**: File all'interno dei bundle che specificano come è possibile interagire con l'applicazione da uno script Apple.
 
@@ -85,13 +85,16 @@ Un bundle è una **directory** che **sembra un oggetto in Finder** (un esempio d
 [macos-bundles.md](macos-bundles.md)
 {% endcontent-ref %}
 
-## Cache Condivisa Dyld
+## Cache delle Librerie Condivise Dyld (SLC)
 
-Su macOS (e iOS) tutte le librerie di sistema condivise, come framework e dylib, sono **combinate in un singolo file**, chiamato **cache condivisa dyld**. Questo migliora le prestazioni, poiché il codice può essere caricato più velocemente.
+Su macOS (e iOS) tutte le librerie condivise di sistema, come framework e dylib, sono **combinate in un unico file**, chiamato **cache delle librerie condivise dyld**. Questo migliora le prestazioni, poiché il codice può essere caricato più velocemente.
 
-Analogamente alla cache condivisa dyld, il kernel e le estensioni del kernel sono anche compilati in una cache del kernel, che viene caricata all'avvio.
+Questo si trova in macOS in `/System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/` e nelle versioni più vecchie potresti trovare la **cache condivisa** in **`/System/Library/dyld/`**.\
+In iOS puoi trovarle in **`/System/Library/Caches/com.apple.dyld/`**.
 
-Per estrarre le librerie dal file unico della cache condivisa dylib era possibile utilizzare il binario [dyld\_shared\_cache\_util](https://www.mbsplugins.de/files/dyld\_shared\_cache\_util-dyld-733.8.zip) che potrebbe non funzionare al giorno d'oggi ma puoi anche usare [**dyldextractor**](https://github.com/arandomdev/dyldextractor):
+Analogamente alla cache delle librerie condivise dyld, il kernel e le estensioni del kernel sono anche compilati in una cache del kernel, che viene caricata all'avvio.
+
+Per estrarre le librerie dal file unico della cache delle librerie dyld era possibile utilizzare il binario [dyld\_shared\_cache\_util](https://www.mbsplugins.de/files/dyld\_shared\_cache\_util-dyld-733.8.zip) che potrebbe non funzionare al giorno d'oggi ma puoi anche usare [**dyldextractor**](https://github.com/arandomdev/dyldextractor):
 
 {% code overflow="wrap" %}
 ```bash
@@ -105,27 +108,44 @@ dyldex_all [dyld_shared_cache_path] # Extract all
 ```
 {% endcode %}
 
-Nelle versioni più vecchie potresti trovare la **cache condivisa** in **`/System/Library/dyld/`**.
-
-In iOS puoi trovarle in **`/System/Library/Caches/com.apple.dyld/`**.
-
 {% hint style="success" %}
 Nota che anche se lo strumento `dyld_shared_cache_util` non funziona, puoi passare il **binario dyld condiviso a Hopper** e Hopper sarà in grado di identificare tutte le librerie e permetterti di **selezionare quale** vuoi investigare:
 {% endhint %}
 
 <figure><img src="../../../.gitbook/assets/image (1149).png" alt="" width="563"><figcaption></figcaption></figure>
 
-## Permessi Speciali dei File
+Alcuni estrattori potrebbero non funzionare poiché le dylib sono precollegate con indirizzi codificati rigidamente e potrebbero quindi saltare a indirizzi sconosciuti
 
-### Permessi delle Cartelle
+{% hint style="success" %}
+È anche possibile scaricare la Cache delle Librerie Condivise di altri dispositivi \*OS su macOS utilizzando un emulatore in Xcode. Saranno scaricati all'interno di: ls `$HOME/Library/Developer/Xcode/<*>OS\ DeviceSupport/<version>/Symbols/System/Library/Caches/com.apple.dyld/`, come ad esempio: `$HOME/Library/Developer/Xcode/iOS\ DeviceSupport/14.1\ (18A8395)/Symbols/System/Library/Caches/com.apple.dyld/dyld_shared_cache_arm64`
+{% endhint %}
+
+### Mappatura SLC
+
+**`dyld`** utilizza la chiamata di sistema **`shared_region_check_np`** per sapere se la SLC è stata mappata (che restituisce l'indirizzo) e **`shared_region_map_and_slide_np`** per mappare la SLC.
+
+Nota che anche se la SLC viene slittata al primo utilizzo, tutti i **processi** utilizzano la **stessa copia**, il che **elimina la protezione ASLR** se l'attaccante fosse in grado di eseguire processi nel sistema. Questo è stato effettivamente sfruttato in passato e risolto con il pager della regione condivisa.
+
+I branch pool sono piccole dylib Mach-O che creano piccoli spazi tra i mapping delle immagini rendendo impossibile interporre le funzioni.
+
+### Sovrascrittura SLC
+
+Utilizzando le variabili di ambiente:
+
+* **`DYLD_DHARED_REGION=private DYLD_SHARED_CACHE_DIR=</path/dir> DYLD_SHARED_CACHE_DONT_VALIDATE=1`** -> Questo permetterà di caricare una nuova cache di librerie condivise
+* **`DYLD_SHARED_CACHE_DIR=avoid`** e sostituire manualmente le librerie con collegamenti simbolici alla cache con quelle reali (dovrai estrarle)
+
+## Autorizzazioni Speciali dei File
+
+### Autorizzazioni delle cartelle
 
 In una **cartella**, **read** permette di **elencarla**, **write** permette di **eliminare** e **scrivere** file al suo interno, ed **execute** permette di **attraversare** la directory. Quindi, ad esempio, un utente con **permesso di lettura su un file** all'interno di una directory dove non ha il permesso di **esecuzione non potrà leggere** il file.
 
-### Modificatori di Flag
+### Modificatori di flag
 
-Ci sono alcuni flag che possono essere impostati nei file e che li faranno comportare in modo diverso. Puoi **controllare i flag** dei file all'interno di una directory con `ls -lO /percorso/directory`
+Ci sono alcuni flag che possono essere impostati nei file che faranno sì che il file si comporti in modo diverso. Puoi **controllare i flag** dei file all'interno di una directory con `ls -lO /percorso/directory`
 
-* **`uchg`**: Conosciuto come flag **uchange** impedirà **qualsiasi azione** di modifica o eliminazione del **file**. Per impostarlo fai: `chflags uchg file.txt`
+* **`uchg`**: Noto come flag **uchange** impedirà qualsiasi azione di cambiare o eliminare il **file**. Per impostarlo: `chflags uchg file.txt`
 * L'utente root potrebbe **rimuovere il flag** e modificare il file
 * **`restricted`**: Questo flag fa sì che il file sia **protetto da SIP** (non puoi aggiungere questo flag a un file).
 * **`Sticky bit`**: Se una directory ha il bit sticky, **solo** il **proprietario delle directory o root può rinominare o eliminare** i file. Tipicamente questo è impostato sulla directory /tmp per impedire agli utenti ordinari di eliminare o spostare i file di altri utenti.
@@ -139,27 +159,27 @@ Tutti i flag possono essere trovati nel file `sys/stat.h` (trovalo usando `mdfin
 * `UF_OPAQUE` 0x00000008: La directory è opaca rispetto all'unione.
 * `UF_COMPRESSED` 0x00000020: Il file è compresso (alcuni file-system).
 * `UF_TRACKED` 0x00000040: Nessuna notifica per eliminazioni/ridenominazioni per i file con questo set.
-* `UF_DATAVAULT` 0x00000080: Richiesta l'abilitazione per la lettura e la scrittura.
-* `UF_HIDDEN` 0x00008000: Suggerimento che questo elemento non dovrebbe essere visualizzato in un'interfaccia grafica.
+* `UF_DATAVAULT` 0x00000080: Richiesta di autorizzazione per la lettura e la scrittura.
+* `UF_HIDDEN` 0x00008000: Suggerimento che questo elemento non dovrebbe essere visualizzato in una GUI.
 * `SF_SUPPORTED` 0x009f0000: Maschera dei flag supportati dal superutente.
 * `SF_SETTABLE` 0x3fff0000: Maschera dei flag modificabili dal superutente.
 * `SF_SYNTHETIC` 0xc0000000: Maschera dei flag sintetici di sola lettura del sistema.
 * `SF_ARCHIVED` 0x00010000: Il file è archiviato.
 * `SF_IMMUTABLE` 0x00020000: Il file non può essere modificato.
 * `SF_APPEND` 0x00040000: Le scritture nel file possono solo essere aggiunte.
-* `SF_RESTRICTED` 0x00080000: Richiesta l'abilitazione per la scrittura.
+* `SF_RESTRICTED` 0x00080000: Richiesta di autorizzazione per la scrittura.
 * `SF_NOUNLINK` 0x00100000: L'elemento non può essere rimosso, rinominato o montato.
-* `SF_FIRMLINK` 0x00800000: Il file è un firmlink.
+* `SF_FIRMLINK` 0x00800000: Il file è un collegamento fisso.
 * `SF_DATALESS` 0x40000000: Il file è un oggetto senza dati.
 
 ### **ACL dei File**
 
-Gli **ACL dei file** contengono **ACE** (voci di controllo dell'accesso) dove possono essere assegnati **permessi più granulari** a diversi utenti.
+Gli **ACL dei file** contengono **ACE** (voci di controllo dell'accesso) dove possono essere assegnate **autorizzazioni più granulari** a diversi utenti.
 
-È possibile concedere a una **directory** questi permessi: `list`, `search`, `add_file`, `add_subdirectory`, `delete_child`, `delete_child`.\
+È possibile concedere a una **directory** queste autorizzazioni: `list`, `search`, `add_file`, `add_subdirectory`, `delete_child`, `delete_child`.\
 E a un **file**: `read`, `write`, `append`, `execute`.
 
-Quando il file contiene ACL troverai un "+" quando elenchi i permessi come in:
+Quando il file contiene ACL troverai un "+" quando elenchi le autorizzazioni come in:
 ```bash
 ls -ld Movies
 drwx------+   7 username  staff     224 15 Apr 19:42 Movies
@@ -187,7 +207,7 @@ Gli attributi estesi hanno un nome e un valore desiderato, e possono essere visu
 - `com.apple.logd.metadata`: Utilizzato da logd su file in `/var/db/diagnostics`
 - `com.apple.genstore.*`: Archiviazione generazionale (`/.DocumentRevisions-V100` nella radice del filesystem)
 - `com.apple.rootless`: MacOS: Utilizzato da System Integrity Protection per etichettare il file (III/10)
-- `com.apple.uuidb.boot-uuid`: Marcature di logd degli epoche di avvio con UUID univoci
+- `com.apple.uuidb.boot-uuid`: Marchiature di logd degli epoche di avvio con UUID univoci
 - `com.apple.decmpfs`: MacOS: Compressione trasparente dei file (II/7)
 - `com.apple.cprotect`: \*OS: Dati di crittografia per file (III/11)
 - `com.apple.installd.*`: \*OS: Metadati utilizzati da installd, ad es., `installType`, `uniqueInstallID`
@@ -263,8 +283,8 @@ Altri modi per supportare HackTricks:
 
 * Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusivi [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
