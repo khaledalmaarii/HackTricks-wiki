@@ -1,4 +1,4 @@
-# macOS Function Hooking
+# Hooking de Funções no macOS
 
 <details>
 
@@ -6,23 +6,25 @@
 
 Outras formas de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+- Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+- Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
+- Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+- **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+- **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 
 ## Interposição de Funções
 
-Crie um **dylib** com uma seção **`__interpose`** (ou uma seção marcada com **`S_INTERPOSING`**) contendo tuplas de **ponteiros de função** que se referem às funções **originais** e de **substituição**.
+Crie um **dylib** com uma seção **`__interpose` (`__DATA___interpose`)** (ou uma seção marcada com **`S_INTERPOSING`**) contendo tuplas de **ponteiros de função** que se referem às funções **originais** e de **substituição**.
 
-Em seguida, **injete** o dylib com **`DYLD_INSERT_LIBRARIES`** (a interposição precisa ocorrer antes do aplicativo principal ser carregado). Obviamente, as [**restrições** aplicadas ao uso de **`DYLD_INSERT_LIBRARIES`** se aplicam aqui também](macos-library-injection/#check-restrictions).
+Em seguida, **injete** a dylib com **`DYLD_INSERT_LIBRARIES`** (a interposição precisa ocorrer antes do carregamento do aplicativo principal). Obviamente, as [**restrições** aplicadas ao uso de **`DYLD_INSERT_LIBRARIES`** se aplicam aqui também](macos-library-injection/#check-restrictions).
 
 ### Interpor printf
 
-{% code title="interpose.c" %}
+{% tabs %}
+{% tab title="interpose.c" %}
+{% code title="interpose.c" overflow="wrap" %}
 ```c
 // gcc -dynamiclib interpose.c -o interpose.dylib
 #include <stdio.h>
@@ -42,7 +44,9 @@ __attribute__((used)) static struct { const void *replacement; const void *repla
 __attribute__ ((section ("__DATA,__interpose"))) = { (const void *)(unsigned long)&my_printf, (const void *)(unsigned long)&printf };
 ```
 {% endcode %}
+{% endtab %}
 
+{% tab title="hello.c" %}
 ```c
 //gcc hello.c -o hello
 #include <stdio.h>
@@ -52,21 +56,10 @@ printf("Hello World!\n");
 return 0;
 }
 ```
+{% endtab %}
 
-### Mac OS Architecture
-
-#### Mac OS Function Hooking
-
-O hooking de funções no Mac OS é feito através da técnica de interposição de funções. Isso permite que uma função seja substituída por outra durante a execução do programa, alterando assim o comportamento original do software. Essa técnica é comumente usada para interceptar chamadas de sistema e modificar parâmetros de entrada e saída, possibilitando a execução de código malicioso ou a implementação de funcionalidades adicionais.
-
-A interposição de funções no Mac OS é realizada através da biblioteca `dyld`, que permite a substituição de funções em tempo de execução. Isso é feito alterando a tabela de símbolos da aplicação alvo, redirecionando as chamadas das funções originais para as funções personalizadas.
-
-Essa técnica é amplamente utilizada em projetos de segurança para monitorar e controlar o comportamento de programas, bem como em atividades de engenharia reversa e análise de malware. No entanto, também pode ser explorada por atacantes para realizar escalonamento de privilégios e contornar mecanismos de segurança do sistema operacional.
-
-Para proteger contra ataques de interposição de funções, é importante implementar medidas de segurança, como a assinatura de binários, a criptografia de código e a validação de integridade de arquivos. Além disso, a monitoração contínua do sistema em busca de atividades suspeitas pode ajudar a detectar e mitigar possíveis ataques de interposição de funções.
-
-Em resumo, o hooking de funções no Mac OS é uma técnica poderosa que pode ser usada tanto para fins legítimos quanto maliciosos, sendo essencial entender seu funcionamento para proteger adequadamente os sistemas contra possíveis ameaças.
-
+{% tab title="interpose2.c" %}
+{% code overflow="wrap" %}
 ```c
 // Just another way to define an interpose
 // gcc -dynamiclib interpose2.c -o interpose2.dylib
@@ -90,7 +83,9 @@ return ret;
 
 DYLD_INTERPOSE(my_printf,printf);
 ```
-
+{% endcode %}
+{% endtab %}
+{% endtabs %}
 ```bash
 DYLD_INSERT_LIBRARIES=./interpose.dylib ./hello
 Hello from interpose
@@ -98,7 +93,25 @@ Hello from interpose
 DYLD_INSERT_LIBRARIES=./interpose2.dylib ./hello
 Hello from interpose
 ```
+{% hint style="warning" %}
+A variável de ambiente **`DYLD_PRINT_INTERPOSTING`** pode ser usada para depurar interposição e imprimir o processo de interposição.
+{% endhint %}
 
+Também observe que **a interposição ocorre entre o processo e as bibliotecas carregadas**, não funciona com o cache de bibliotecas compartilhadas.
+
+### Interposição Dinâmica
+
+Agora também é possível interpor uma função dinamicamente usando a função **`dyld_dynamic_interpose`**. Isso permite interpor programaticamente uma função em tempo de execução, em vez de fazê-lo apenas desde o início.
+
+Apenas é necessário indicar os **tuplos** da **função a ser substituída e a função de substituição**.
+```c
+struct dyld_interpose_tuple {
+const void* replacement;
+const void* replacee;
+};
+extern void dyld_dynamic_interpose(const struct mach_header* mh,
+const struct dyld_interpose_tuple array[], size_t count);
+```
 ## Método Swizzling
 
 Em ObjectiveC é assim que um método é chamado: **`[instânciaDaMinhaClasse nomeDoMétodoPrimeiroParam:param1 segundoParam:param2]`**
@@ -117,6 +130,7 @@ Note que porque os métodos e classes são acessados com base em seus nomes, ess
 
 É possível acessar as informações dos métodos, como nome, número de parâmetros ou endereço, como no exemplo a seguir:
 
+{% code overflow="wrap" %}
 ```objectivec
 // gcc -framework Foundation test.m -o test
 
@@ -182,15 +196,15 @@ NSLog(@"Uppercase string: %@", uppercaseString3);
 return 0;
 }
 ```
-
 ### Troca de Método com method\_exchangeImplementations
 
 A função **`method_exchangeImplementations`** permite **alterar** o **endereço** da **implementação** de **uma função pela outra**.
 
 {% hint style="danger" %}
-Assim, quando uma função é chamada, o que é **executado é a outra**.
+Portanto, quando uma função é chamada, o que é **executado é a outra**.
 {% endhint %}
 
+{% code overflow="wrap" %}
 ```objectivec
 //gcc -framework Foundation swizzle_str.m -o swizzle_str
 
@@ -234,19 +248,21 @@ NSLog(@"Substring: %@", subString);
 return 0;
 }
 ```
+{% endcode %}
 
 {% hint style="warning" %}
-Neste caso, se o **código de implementação do método legítimo** verificar o **nome do método**, poderá **detectar** essa troca e impedir que ela seja executada.
+Neste caso, se o **código de implementação do método legítimo** verificar o **nome do método**, poderá **detectar** esse swizzling e impedir que ele seja executado.
 
 A técnica a seguir não tem essa restrição.
 {% endhint %}
 
 ### Troca de Método com method\_setImplementation
 
-O formato anterior é estranho porque você está alterando a implementação de 2 métodos um do outro. Usando a função **`method_setImplementation`**, você pode **alterar a implementação de um método para o outro**.
+O formato anterior é estranho porque você está alterando a implementação de 2 métodos um do outro. Usando a função **`method_setImplementation`** você pode **alterar a implementação de um método para o outro**.
 
-Apenas lembre-se de **armazenar o endereço da implementação do original** se você pretende chamá-lo a partir da nova implementação antes de sobrescrevê-lo, pois mais tarde será muito complicado localizar esse endereço.
+Apenas lembre-se de **armazenar o endereço da implementação do original** se você for chamá-lo a partir da nova implementação antes de sobrescrevê-lo, pois posteriormente será muito mais complicado localizar esse endereço.
 
+{% code overflow="wrap" %}
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
@@ -298,19 +314,19 @@ return 0;
 }
 }
 ```
+{% endcode %}
 
 ## Metodologia de Ataque de Hooking
 
-Nesta página foram discutidas diferentes maneiras de fazer hook em funções. No entanto, elas envolviam **executar código dentro do processo para atacar**.
+Nesta página foram discutidas diferentes maneiras de fazer hook em funções. No entanto, todas elas envolvem **executar código dentro do processo para atacar**.
 
 Para fazer isso, a técnica mais fácil de usar é injetar um [Dyld via variáveis de ambiente ou sequestrar](macos-library-injection/macos-dyld-hijacking-and-dyld\_insert\_libraries.md). No entanto, acredito que isso também poderia ser feito via [injeção de processo Dylib](macos-ipc-inter-process-communication/#dylib-process-injection-via-task-port).
 
 No entanto, ambas as opções são **limitadas** a **binários/processos desprotegidos**. Verifique cada técnica para aprender mais sobre as limitações.
 
-No entanto, um ataque de hooking de função é muito específico, um invasor fará isso para **roubar informações sensíveis de dentro de um processo** (caso contrário, você apenas faria um ataque de injeção de processo). E essas informações sensíveis podem estar localizadas em aplicativos baixados pelo usuário, como o MacPass.
+No entanto, um ataque de hooking de função é muito específico, um atacante fará isso para **roubar informações sensíveis de dentro de um processo** (caso contrário, você faria apenas um ataque de injeção de processo). E essas informações sensíveis podem estar localizadas em aplicativos baixados pelo usuário, como o MacPass.
 
 Assim, o vetor do atacante seria encontrar uma vulnerabilidade ou remover a assinatura do aplicativo, injetar a variável de ambiente **`DYLD_INSERT_LIBRARIES`** por meio do Info.plist do aplicativo adicionando algo como:
-
 ```xml
 <key>LSEnvironment</key>
 <dict>
@@ -318,7 +334,6 @@ Assim, o vetor do atacante seria encontrar uma vulnerabilidade ou remover a assi
 <string>/Applications/Application.app/Contents/malicious.dylib</string>
 </dict>
 ```
-
 e então **re-registre** o aplicativo:
 
 {% code overflow="wrap" %}
@@ -330,11 +345,12 @@ e então **re-registre** o aplicativo:
 Adicione nessa biblioteca o código de hooking para exfiltrar as informações: Senhas, mensagens...
 
 {% hint style="danger" %}
-Note que em versões mais recentes do macOS, se você **remover a assinatura** do binário do aplicativo e ele foi executado anteriormente, o macOS **não executará mais o aplicativo**.
+Note que em versões mais recentes do macOS, se você **remover a assinatura** do binário do aplicativo e ele foi executado anteriormente, o macOS **não irá mais executar o aplicativo**.
 {% endhint %}
 
 #### Exemplo de biblioteca
 
+{% code overflow="wrap" %}
 ```objectivec
 // gcc -dynamiclib -framework Foundation sniff.m -o sniff.dylib
 
@@ -370,6 +386,7 @@ IMP fake_IMP = (IMP)custom_setPassword;
 real_setPassword = method_setImplementation(real_Method, fake_IMP);
 }
 ```
+{% endcode %}
 
 ## Referências
 
@@ -377,11 +394,11 @@ real_setPassword = method_setImplementation(real_Method, fake_IMP);
 
 <details>
 
-<summary><strong>Aprenda hacking da AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
