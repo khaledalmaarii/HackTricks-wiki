@@ -12,7 +12,7 @@ Autres façons de soutenir HackTricks :
 
 </details>
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
@@ -32,7 +32,7 @@ Cet outil **modifie** les informations d'horodatage à l'intérieur de **`$STAND
 
 ## Usnjrnl
 
-Le **journal USN** (Journal de numéro de séquence de mise à jour) est une fonctionnalité du NTFS (système de fichiers Windows NT) qui garde une trace des modifications du volume. L'outil [**UsnJrnl2Csv**](https://github.com/jschicht/UsnJrnl2Csv) permet d'examiner ces changements.
+Le **journal USN** (Update Sequence Number Journal) est une fonctionnalité du NTFS (système de fichiers Windows NT) qui garde une trace des modifications du volume. L'outil [**UsnJrnl2Csv**](https://github.com/jschicht/UsnJrnl2Csv) permet d'examiner ces changements.
 
 ![](<../../.gitbook/assets/image (449).png>)
 
@@ -40,7 +40,7 @@ L'image précédente est la **sortie** affichée par l'**outil** où l'on peut o
 
 ## $LogFile
 
-**Toutes les modifications de métadonnées sur un système de fichiers sont enregistrées** dans un processus appelé [journalisation en avance](https://en.wikipedia.org/wiki/Write-ahead_logging). Les métadonnées enregistrées sont conservées dans un fichier nommé `**$LogFile**`, situé dans le répertoire racine d'un système de fichiers NTFS. Des outils tels que [LogFileParser](https://github.com/jschicht/LogFileParser) peuvent être utilisés pour analyser ce fichier et identifier les changements.
+**Toutes les modifications de métadonnées sur un système de fichiers sont enregistrées** dans un processus appelé [journalisation en avant](https://en.wikipedia.org/wiki/Write-ahead_logging). Les métadonnées enregistrées sont conservées dans un fichier nommé `**$LogFile**`, situé dans le répertoire racine d'un système de fichiers NTFS. Des outils tels que [LogFileParser](https://github.com/jschicht/LogFileParser) peuvent être utilisés pour analyser ce fichier et identifier les changements.
 
 ![](<../../.gitbook/assets/image (450).png>)
 
@@ -57,7 +57,7 @@ En utilisant le même outil, il est possible d'identifier à **quel moment les h
 
 ## Comparaison de `$STANDARD_INFORMATION` et `$FILE_NAME`
 
-Une autre façon d'identifier des fichiers modifiés de manière suspecte serait de comparer l'heure dans les deux attributs à la recherche de **discordances**.
+Une autre façon d'identifier des fichiers modifiés de manière suspecte serait de comparer l'heure sur les deux attributs à la recherche de **discordances**.
 
 ## Nanosecondes
 
@@ -69,7 +69,7 @@ Cet outil peut modifier les deux attributs `$STARNDAR_INFORMATION` et `$FILE_NAM
 
 # Dissimulation de données
 
-NTFS utilise un cluster et la taille d'information minimale. Cela signifie que si un fichier occupe un cluster et demi, la **moitié restante ne sera jamais utilisée** tant que le fichier n'est pas supprimé. Ainsi, il est possible de **cacher des données dans cet espace inutilisé**.
+NTFS utilise un cluster et la taille d'information minimale. Cela signifie que si un fichier occupe un cluster et demi, le **demi restant ne sera jamais utilisé** jusqu'à ce que le fichier soit supprimé. Ainsi, il est possible de **cacher des données dans cet espace inutilisé**.
 
 Il existe des outils comme slacker qui permettent de cacher des données dans cet espace "caché". Cependant, une analyse du `$logfile` et du `$usnjrnl` peut montrer qu'une certaine donnée a été ajoutée :
 
@@ -98,7 +98,7 @@ Il est possible de désactiver plusieurs méthodes de journalisation de Windows 
 
 Il s'agit d'une clé de registre qui conserve les dates et heures auxquelles chaque exécutable a été lancé par l'utilisateur.
 
-La désactivation de UserAssist nécessite deux étapes :
+Désactiver UserAssist nécessite deux étapes :
 
 1. Définir deux clés de registre, `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackProgs` et `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackEnabled`, toutes deux à zéro pour indiquer que nous voulons désactiver UserAssist.
 2. Effacer vos sous-arbres de registre ressemblant à `HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\<hash>`.
@@ -123,7 +123,7 @@ Chaque fois qu'un dossier est ouvert à partir d'un volume NTFS sur un serveur W
 4. Fermez l'Éditeur du Registre et redémarrez le serveur.
 ## Supprimer l'historique USB
 
-Toutes les **entrées de périphériques USB** sont stockées dans le Registre Windows sous la clé de registre **USBSTOR** qui contient des sous-clés créées chaque fois que vous branchez un périphérique USB sur votre PC ou ordinateur portable. Vous pouvez trouver cette clé ici `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. En **supprimant cela**, vous supprimerez l'historique USB.\
+Toutes les **entrées de périphériques USB** sont stockées dans le Registre Windows sous la clé de registre **USBSTOR** qui contient des sous-clés créées chaque fois que vous branchez un périphérique USB sur votre PC ou ordinateur portable. Vous pouvez trouver cette clé ici `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **En supprimant cela**, vous supprimerez l'historique USB.\
 Vous pouvez également utiliser l'outil [**USBDeview**](https://www.nirsoft.net/utils/usb\_devices\_view.html) pour vous assurer de les avoir supprimés (et pour les supprimer).
 
 Un autre fichier qui enregistre des informations sur les clés USB est le fichier `setupapi.dev.log` à l'intérieur de `C:\Windows\INF`. Celui-ci devrait également être supprimé.
@@ -138,10 +138,10 @@ Vous pouvez également les supprimer via l'interface graphique en suivant les é
 Pour désactiver les copies d'ombre [étapes à partir d'ici](https://support.waters.com/KB_Inf/Other/WKB15560_How_to_disable_Volume_Shadow_Copy_Service_VSS_in_Windows):
 
 1. Ouvrez le programme Services en tapant "services" dans la zone de recherche de texte après avoir cliqué sur le bouton Démarrer de Windows.
-2. Dans la liste, trouvez "Copie d'ombre de volume", sélectionnez-le, puis accédez aux Propriétés en cliquant avec le bouton droit.
+2. Dans la liste, trouvez "Volume Shadow Copy", sélectionnez-le, puis accédez aux Propriétés en cliquant avec le bouton droit.
 3. Choisissez Désactivé dans le menu déroulant "Type de démarrage", puis confirmez le changement en cliquant sur Appliquer et OK.
 
-Il est également possible de modifier la configuration des fichiers qui vont être copiés dans la copie d'ombre dans le registre `HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot`
+Il est également possible de modifier la configuration des fichiers qui vont être copiés dans la copie d'ombre dans le Registre `HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot`
 
 ## Écraser les fichiers supprimés
 
@@ -164,6 +164,21 @@ Il est également possible de modifier la configuration des fichiers qui vont ê
 
 * `fsutil usn deletejournal /d c:`
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
+
+
+<details>
+
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+
+Autres façons de soutenir HackTricks:
+
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez** 💬 le groupe Discord](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>

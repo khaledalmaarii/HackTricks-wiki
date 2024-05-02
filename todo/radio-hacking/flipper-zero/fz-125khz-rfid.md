@@ -14,7 +14,7 @@ Autres façons de soutenir HackTricks :
 
 </details>
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
@@ -36,12 +36,12 @@ Pour plus d'informations sur ces types de balises, [**lisez cette introduction**
 Essaie de **lire** les informations de la carte. Ensuite, il peut les **émuler**.
 
 {% hint style="warning" %}
-Notez que certains interphones tentent de se protéger contre la duplication de clés en envoyant une commande d'écriture avant la lecture. Si l'écriture réussit, cette balise est considérée comme fausse. Lorsque Flipper émule le RFID, il n'y a aucun moyen pour le lecteur de le distinguer de l'original, donc de tels problèmes ne se produisent pas.
+Notez que certains interphones tentent de se protéger contre la duplication de clés en envoyant une commande d'écriture avant la lecture. Si l'écriture réussit, cette balise est considérée comme fausse. Lorsque Flipper émule le RFID, il n'y a aucun moyen pour le lecteur de le distinguer de l'original, donc aucun problème de ce type ne se produit.
 {% endhint %}
 
 ### Ajouter manuellement
 
-Vous pouvez créer des **cartes factices dans Flipper Zero en indiquant les données** que vous avez saisies manuellement, puis les émuler.
+Vous pouvez créer des **cartes factices dans Flipper Zero en indiquant les données** manuellement, puis les émuler.
 
 #### IDs sur les cartes
 
@@ -62,13 +62,13 @@ Il en va de même pour cette carte HID où seuls 2 octets sur 3 peuvent être tr
 
 ### Émuler/Écrire
 
-Après avoir **copié** une carte ou **saisi** l'ID **manuellement**, il est possible de **l'émuler** avec Flipper Zero ou de **l'écrire** sur une vraie carte.
+Après avoir **copié** une carte ou **entré** l'ID **manuellement**, il est possible de **l'émuler** avec Flipper Zero ou de **l'écrire** sur une vraie carte.
 
 ## Références
 
 * [https://blog.flipperzero.one/rfid/](https://blog.flipperzero.one/rfid/)
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 

@@ -1,6 +1,6 @@
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks :
 
@@ -12,7 +12,7 @@ Autres façons de soutenir HackTricks :
 
 </details>
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
@@ -55,11 +55,11 @@ Autres façons de soutenir HackTricks :
 * [https://github.com/spinkham/skipfish](https://github.com/spinkham/skipfish)
 * [https://github.com/blark/aiodnsbrute](https://github.com/blark/aiodnsbrute) : Force brute de noms de domaine de manière asynchrone
 * [https://crt.sh/?q=%.yahoo.com](https://crt.sh/?q=%.yahoo.com) : Force brute de sous-domaines
-* [https://github.com/tomnomnom/httprobe](https://github.com/tomnomnom/httprobe): Vérifiez si les serveurs web d'un domaine sont accessibles
+* [https://github.com/tomnomnom/httprobe](https://github.com/tomnomnom/httprobe): Vérifiez si les serveurs web dans un domaine sont accessibles
 * [https://github.com/aboul3la/Sublist3r](https://github.com/aboul3la/Sublist3r) : Découverte de sous-domaines
 * [https://github.com/gwen001/github-search/blob/master/github-subdomains.py](https://github.com/gwen001/github-search/blob/master/github-subdomains.py) : Découverte de sous-domaines dans github
 * [https://github.com/robertdavidgraham/masscan](https://github.com/robertdavidgraham/masscan) : Balayage rapide des ports
-* [https://github.com/Threezh1/JSFinder](https://github.com/Threezh1/JSFinder) : Sous-domaines et URLs à partir de fichiers JS sur un site web
+* [https://github.com/Threezh1/JSFinder](https://github.com/Threezh1/JSFinder) : Sous-domaines et URLs à partir de fichiers JS dans un site web
 * [https://github.com/C1h2e1/MyFuzzingDict](https://github.com/C1h2e1/MyFuzzingDict) : Dictionnaire de fichiers web
 * [https://github.com/TypeError/Bookmarks/blob/master/README.md](https://github.com/TypeError/Bookmarks/blob/master/README.md) : Extension Burp pour éviter des dizaines d'onglets répétés
 * [https://github.com/hakluke/hakrawler](https://github.com/hakluke/hakrawler) : Obtenir des ressources
@@ -67,11 +67,11 @@ Autres façons de soutenir HackTricks :
 * [https://github.com/sehno/Bug-bounty/blob/master/bugbounty\_checklist.md](https://github.com/sehno/Bug-bounty/blob/master/bugbounty\_checklist.md) : Liste de contrôle BugBounty web
 * [https://github.com/Naategh/dom-red](https://github.com/Naategh/dom-red) : Vérifiez une liste de domaines contre les redirections ouvertes
 * [https://github.com/prodigysml/Dr.-Watson](https://github.com/prodigysml/Dr.-Watson) : Plugin Burp, analyse hors ligne pour découvrir des domaines, sous-domaines et IPs
-* [https://github.com/hahwul/WebHackersWeapons](https://github.com/hahwul/WebHackersWeapons): Liste de différents outils
+* [https://github.com/hahwul/WebHackersWeapons](https://github.com/hahwul/WebHackersWeapons): Liste d'outils différents
 * [https://github.com/gauravnarwani97/Trishul](https://github.com/gauravnarwani97/Trishul) : Plugin BurpSuite pour trouver des vulnérabilités (SQLi, XSS, SSTI)
 * [https://github.com/fransr/postMessage-tracker](https://github.com/fransr/postMessage-tracker) : Extension Chrome pour suivre les fonctions de post-messages
 * [https://github.com/Quitten/Autorize](https://github.com/Quitten/Autorize) : Tests d'authentification automatiques (supprime les cookies et essaie d'envoyer la requête)
-* [https://github.com/pikpikcu/xrcross](https://github.com/pikpikcu/xrcross): XRCross est un outil de reconstruction, de balayage et de test de pénétration / BugBounty. Cet outil a été conçu pour tester les vulnérabilités (XSS|SSRF|CORS|SSTI|IDOR|RCE|LFI|SQLI)
+* [https://github.com/pikpikcu/xrcross](https://github.com/pikpikcu/xrcross): XRCross est un outil de reconstruction, de balayage et un outil pour les tests de pénétration / BugBounty. Cet outil a été conçu pour tester les vulnérabilités (XSS|SSRF|CORS|SSTI|IDOR|RCE|LFI|SQLI)
 # Windows
 
 * [https://github.com/Mr-Un1k0d3r/PoisonHandler](https://github.com/Mr-Un1k0d3r/PoisonHandler) : Mouvements latéraux
@@ -79,7 +79,7 @@ Autres façons de soutenir HackTricks :
 * [https://gist.github.com/netbiosX/ee35fcd3722e401a38136cff7b751d79](https://gist.github.com/netbiosX/ee35fcd3722e401a38136cff7b751d79) ([https://pentestlab.blog/2020/01/13/persistence-image-file-execution-options-injection/](https://pentestlab.blog/2020/01/13/persistence-image-file-execution-options-injection/)): Persistance
 * [https://github.com/odzhan/injection](https://github.com/odzhan/injection) : Techniques d'injection de processus Windows
 * [https://github.com/BankSecurity/Red\_Team](https://github.com/BankSecurity/Red\_Team) : Scripts de l'équipe rouge
-* [https://github.com/l0ss/Grouper2](https://github.com/l0ss/Grouper2) : trouver des mauvaises configurations de sécurité dans la stratégie de groupe Active Directory.
+* [https://github.com/l0ss/Grouper2](https://github.com/l0ss/Grouper2) : trouver des mauvaises configurations liées à la sécurité dans la stratégie de groupe Active Directory.
 * [https://www.wietzebeukema.nl/blog/powershell-obfuscation-using-securestring](https://www.wietzebeukema.nl/blog/powershell-obfuscation-using-securestring) : Obfuscation Securestring
 * [https://pentestlab.blog/2020/02/24/parent-pid-spoofing/](https://pentestlab.blog/2020/02/24/parent-pid-spoofing/) : Spoofing du PID parent
 * [https://github.com/the-xentropy/xencrypt](https://github.com/the-xentropy/xencrypt) : Chiffrer les charges utiles Powershell
@@ -116,7 +116,7 @@ et voici la méthodologie OWASP pour analyser les firmwares : [https://github.co
 * [https://h0mbre.github.io/Learn-C-By-Creating-A-Rootkit/](https://h0mbre.github.io/Learn-C-By-Creating-A-Rootkit/)
 * [https://github.com/skelsec/jackdaw](https://github.com/skelsec/jackdaw)
 * [https://github.com/CoatiSoftware/Sourcetrail](https://github.com/CoatiSoftware/Sourcetrail) : Analyse statique du code
-* [https://www.hackerdecabecera.com/2019/12/blectf-capture-flag-en-formato-hardware.html](https://www.hackerdecabecera.com/2019/12/blectf-capture-flag-en-formato-hardware.html) : CTF Bluetooth LE
+* [https://www.hackerdecabecera.com/2019/12/blectf-capture-flag-en-formato-hardware.html](https://www.hackerdecabecera.com/2019/12/blectf-capture-flag-en-formato-hardware.html) : Bluetooth LE CTF
 * [https://github.com/skeeto/endlessh](https://github.com/skeeto/endlessh) : Piège SSH qui envoie lentement une bannière sans fin.
 * Outils AWS et Cloud : [https://github.com/toniblyx/my-arsenal-of-aws-security-tools](https://github.com/toniblyx/my-arsenal-of-aws-security-tools)
 * IFS (Système de fichiers interplanétaire) pour le phishing : [https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/using-the-interplanetary-file-system-for-offensive-operations/](https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/using-the-interplanetary-file-system-for-offensive-operations/)
@@ -126,13 +126,13 @@ et voici la méthodologie OWASP pour analyser les firmwares : [https://github.co
 * [https://github.com/nahamsec/Resources-for-Beginner-Bug-Bounty-Hunters/](https://github.com/nahamsec/Resources-for-Beginner-Bug-Bounty-Hunters/) : Ressources pour commencer les BugBounties
 * [https://medium.com/macoclock/jailbreak-and-stuff-kickstart-tools-and-techniques-for-ios-application-pentesting-6fa53a3987ab](https://medium.com/macoclock/jailbreak-and-stuff-kickstart-tools-and-techniques-for-ios-application-pentesting-6fa53a3987ab) : Outils de pentesting iOS
 * [https://github.com/random-robbie/keywords/blob/master/keywords.txt](https://github.com/random-robbie/keywords/blob/master/keywords.txt) : Mots-clés
-* [https://github.com/ElevenPaths/HomePWN](https://github.com/ElevenPaths/HomePWN) : Piratage IoT (Wifi, BLE, SSDP, MDNS)
+* [https://github.com/ElevenPaths/HomePWN](https://github.com/ElevenPaths/HomePWN) : Hacking IoT (Wifi, BLE, SSDP, MDNS)
 * [https://github.com/rackerlabs/scantron](https://github.com/rackerlabs/scantron) : automatisation du scan
 * [https://github.com/doyensec/awesome-electronjs-hacking](https://github.com/doyensec/awesome-electronjs-hacking) : Cette liste vise à couvrir les sujets liés à la sécurité d'Electron.js.
 * [https://github.com/serain/bbrecon](https://github.com/serain/bbrecon) : Infos sur les programmes BB
 
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 

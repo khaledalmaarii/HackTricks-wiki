@@ -5,29 +5,29 @@
 <summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 * Travaillez-vous dans une **entreprise de cybersécurité**? Vous voulez voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**dépôt hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**dépôt hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
 ## Introduction
 
-Le problème du "double saut" Kerberos survient lorsqu'un attaquant tente d'utiliser **l'authentification Kerberos sur deux** **sauts**, par exemple en utilisant **PowerShell**/**WinRM**.
+Le problème du "double saut" Kerberos survient lorsqu'un attaquant tente d'utiliser **l'authentification Kerberos à travers deux** **sauts**, par exemple en utilisant **PowerShell**/**WinRM**.
 
 Lorsqu'une **authentification** se produit via **Kerberos**, les **informations d'identification** ne sont pas mises en cache en **mémoire**. Par conséquent, si vous exécutez mimikatz, vous ne trouverez pas les informations d'identification de l'utilisateur sur la machine même s'il exécute des processus.
 
 Cela est dû au fait que lors de la connexion avec Kerberos, les étapes suivantes sont suivies :
 
-1. L'utilisateur 1 fournit des informations d'identification et le **contrôleur de domaine** renvoie un **TGT** Kerberos à l'utilisateur 1.
-2. L'utilisateur 1 utilise le **TGT** pour demander un **ticket de service** pour se **connecter** au Serveur 1.
-3. L'utilisateur 1 se **connecte** au **Serveur 1** et fournit le **ticket de service**.
-4. Le **Serveur 1** n'a pas les **informations d'identification** de l'utilisateur 1 en cache ni le **TGT** de l'utilisateur 1. Par conséquent, lorsque l'utilisateur 1 du Serveur 1 tente de se connecter à un deuxième serveur, il **ne peut pas s'authentifier**.
+1. L'utilisateur1 fournit des informations d'identification et le **contrôleur de domaine** renvoie un **TGT** Kerberos à l'utilisateur1.
+2. L'utilisateur1 utilise le **TGT** pour demander un **ticket de service** pour se **connecter** au Serveur1.
+3. L'utilisateur1 se **connecte** au **Serveur1** et fournit le **ticket de service**.
+4. Le **Serveur1** n'a pas les **informations d'identification** de l'utilisateur1 en cache ni le **TGT** de l'utilisateur1. Par conséquent, lorsque l'utilisateur1 du Serveur1 essaie de se connecter à un deuxième serveur, il **n'est pas en mesure de s'authentifier**.
 
 ### Délégation non contrainte
 
@@ -48,18 +48,18 @@ Get-WSManCredSSP
 ```
 ## Solutions
 
-### Appeler la commande
+### Commande Invoke
 
-Pour résoudre le problème du double saut, une méthode impliquant un `Invoke-Command` imbriqué est présentée. Cela ne résout pas le problème directement mais offre une solution de contournement sans nécessiter de configurations spéciales. Cette approche permet d'exécuter une commande (`hostname`) sur un serveur secondaire via une commande PowerShell exécutée à partir d'une machine d'attaque initiale ou via une session PS précédemment établie avec le premier serveur. Voici comment procéder :
+Pour résoudre le problème du double saut, une méthode impliquant une `Invoke-Command` imbriquée est présentée. Cela ne résout pas le problème directement mais offre une solution de contournement sans avoir besoin de configurations spéciales. Cette approche permet d'exécuter une commande (`hostname`) sur un serveur secondaire via une commande PowerShell exécutée à partir d'une machine d'attaque initiale ou via une session PS précédemment établie avec le premier serveur. Voici comment procéder :
 ```powershell
 $cred = Get-Credential ta\redsuit
 Invoke-Command -ComputerName bizintel -Credential $cred -ScriptBlock {
 Invoke-Command -ComputerName secdev -Credential $cred -ScriptBlock {hostname}
 }
 ```
-### Enregistrement de la configuration de la session PS
+### Enregistrement de la configuration de la session PSSession
 
-Une solution pour contourner le problème du double saut consiste à utiliser `Register-PSSessionConfiguration` avec `Enter-PSSession`. Cette méthode nécessite une approche différente de celle d'`evil-winrm` et permet une session qui ne souffre pas de la limitation du double saut.
+Une solution pour contourner le problème du double saut implique d'utiliser `Register-PSSessionConfiguration` avec `Enter-PSSession`. Cette méthode nécessite une approche différente de celle d'`evil-winrm` et permet une session qui ne souffre pas de la limitation du double saut.
 ```powershell
 Register-PSSessionConfiguration -Name doublehopsess -RunAsCredential domain_name\username
 Restart-Service WinRM
@@ -75,7 +75,7 @@ netsh advfirewall firewall add rule name=fwd dir=in action=allow protocol=TCP lo
 ```
 #### winrs.exe
 
-`winrs.exe` peut être utilisé pour transmettre des demandes WinRM, potentiellement comme une option moins détectable si la surveillance de PowerShell est une préoccupation. La commande ci-dessous démontre son utilisation:
+`winrs.exe` peut être utilisé pour transmettre des requêtes WinRM, potentiellement comme une option moins détectable si la surveillance de PowerShell est une préoccupation. La commande ci-dessous démontre son utilisation:
 ```bash
 winrs -r:http://bizintel:5446 -u:ta\redsuit -p:2600leet hostname
 ```
@@ -89,7 +89,7 @@ L'installation d'OpenSSH sur le premier serveur permet de contourner le problèm
 2. Décompressez et exécutez le script `Install-sshd.ps1`.
 3. Ajoutez une règle de pare-feu pour ouvrir le port 22 et vérifiez que les services SSH sont en cours d'exécution.
 
-Pour résoudre les erreurs de `réinitialisation de connexion`, les autorisations peuvent nécessiter une mise à jour pour permettre à tout le monde d'avoir un accès en lecture et en exécution sur le répertoire OpenSSH.
+Pour résoudre les erreurs de `réinitialisation de connexion`, les autorisations peuvent nécessiter une mise à jour pour permettre à tout le monde de lire et d'exécuter l'accès au répertoire OpenSSH.
 ```bash
 icacls.exe "C:\Users\redsuit\Documents\ssh\OpenSSH-Win64" /grant Everyone:RX /T
 ```
@@ -100,7 +100,7 @@ icacls.exe "C:\Users\redsuit\Documents\ssh\OpenSSH-Win64" /grant Everyone:RX /T
 * [https://learn.microsoft.com/en-gb/archive/blogs/sergey\_babkins\_blog/another-solution-to-multi-hop-powershell-remoting](https://learn.microsoft.com/en-gb/archive/blogs/sergey\_babkins\_blog/another-solution-to-multi-hop-powershell-remoting)
 * [https://4sysops.com/archives/solve-the-powershell-multi-hop-problem-without-using-credssp/](https://4sysops.com/archives/solve-the-powershell-multi-hop-problem-without-using-credssp/)
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
