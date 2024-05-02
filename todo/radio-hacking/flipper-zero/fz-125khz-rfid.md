@@ -2,11 +2,11 @@
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Ειδικός Ερυθρός Ομάδας HackTricks AWS)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Ειδικός Ερυθρός Ομάδας AWS του HackTricks)</strong></a><strong>!</strong></summary>
 
-Άλλοι τρόποι υποστήριξης των HackTricks:
+Άλλοι τρόποι υποστήριξης του HackTricks:
 
-* Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στα HackTricks** ή να **κατεβάσετε τα HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Εγγραφείτε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -14,14 +14,14 @@
 
 </details>
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
 
 ## Εισαγωγή
 
-Για περισσότερες πληροφορίες σχετικά με το πώς λειτουργούν τα ετικέτες 125kHz, ελέγξτε:
+Για περισσότερες πληροφορίες σχετικά με το πώς λειτουργούν οι ετικέτες 125kHz, ελέγξτε:
 
 {% content-ref url="../pentesting-rfid.md" %}
 [pentesting-rfid.md](../pentesting-rfid.md)
@@ -33,15 +33,15 @@
 
 ### Διάβασμα
 
-Προσπαθεί να **διαβάσει** τις πληροφορίες της κάρτας. Στη συνέχεια μπορεί να τις **εμμιμητευτεί**.
+Προσπαθεί να **διαβάσει** τις πληροφορίες της κάρτας. Στη συνέχεια μπορεί να τις **εξομοιώσει**.
 
 {% hint style="warning" %}
-Σημειώστε ότι μερικά κουδούνια προσπαθούν να προστατευτούν από την αντιγραφή κλειδιών με την αποστολή εντολής εγγραφής πριν την ανάγνωση. Αν η εγγραφή επιτύχει, αυτή η ετικέτα θεωρείται ψεύτικη. Όταν το Flipper εμμιμείται RFID, δεν υπάρχει τρόπος για τον αναγνώστη να το διακρίνει από το πρωτότυπο, οπότε δεν προκύπτουν τέτοια προβλήματα.
+Σημειώστε ότι μερικά κουδούνια προσπαθούν να προστατευτούν από την αντιγραφή κλειδιών με την αποστολή εντολής εγγραφής πριν την ανάγνωση. Αν η εγγραφή επιτύχει, αυτή η ετικέτα θεωρείται ψεύτικη. Όταν το Flipper εξομοιώνει RFID, δεν υπάρχει τρόπος για τον αναγνώστη να το διακρίνει από το πρωτότυπο, οπότε δεν υπάρχουν τέτοια προβλήματα.
 {% endhint %}
 
 ### Προσθήκη Χειροκίνητα
 
-Μπορείτε να δημιουργήσετε **ψεύτικες κάρτες στο Flipper Zero δείχνοντας τα δεδομένα** που εισάγετε χειροκίνητα και στη συνέχεια να τα εμμιμητευτείτε.
+Μπορείτε να δημιουργήσετε **ψεύτικες κάρτες στο Flipper Zero δείχνοντας τα δεδομένα** που εισάγετε χειροκίνητα και στη συνέχεια να τα εξομοιώσετε.
 
 #### IDs στις κάρτες
 
@@ -60,26 +60,26 @@
 
 <figure><img src="../../../.gitbook/assets/image (1011).png" alt=""><figcaption></figcaption></figure>
 
-### Εμμιμητεύω/Εγγραφή
+### Εξομοίωση/Εγγραφή
 
-Μετά το **αντιγράφο** μιας κάρτας ή την **εισαγωγή** του ID **χειροκίνητα**, είναι δυνατόν να την **εμμιμητευτείτε** με το Flipper Zero ή να την **εγγράψετε** σε μια πραγματική κάρτα.
+Μετά το **αντιγράφο** μιας κάρτας ή την **εισαγωγή** του ID **χειροκίνητα**, είναι δυνατόν να την **εξομοιώσετε** με το Flipper Zero ή να την **εγγράψετε** σε μια πραγματική κάρτα.
 
 ## Αναφορές
 
 * [https://blog.flipperzero.one/rfid/](https://blog.flipperzero.one/rfid/)
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Ειδικός Ερυθρός Ομάδας HackTricks AWS)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Ειδικός Ερυθρός Ομάδας AWS του HackTricks)</strong></a><strong>!</strong></summary>
 
-Άλλοι τρόποι υποστήριξης των HackTricks:
+Άλλοι τρόποι υποστήριξης του HackTricks:
 
-* Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στα HackTricks** ή να **κατεβάσετε τα HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Εγγραφείτε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
