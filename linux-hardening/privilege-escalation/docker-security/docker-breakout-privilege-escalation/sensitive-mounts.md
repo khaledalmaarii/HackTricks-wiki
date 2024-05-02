@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Nauka hakowania AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Zacznij od zera i stań się mistrzem hakowania AWS dzięki</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 
@@ -10,11 +10,11 @@ Inne sposoby wsparcia HackTricks:
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
 
 </details>
 
-<figure><img src="../../../../.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../..https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
@@ -22,7 +22,7 @@ Ujawnienie `/proc` i `/sys` bez odpowiedniej izolacji przestrzeni nazw wprowadza
 
 **Możesz znaleźć dalsze szczegóły dotyczące każdej potencjalnej luki w** [**https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts**](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts)**.**
 
-## Zagrożenia procfs
+## Zagrożenia związane z procfs
 
 ### `/proc/sys`
 
@@ -31,14 +31,14 @@ Ten katalog umożliwia dostęp do modyfikacji zmiennych jądra, zazwyczaj za pom
 #### **`/proc/sys/kernel/core_pattern`**
 
 * Opisany w [core(5)](https://man7.org/linux/man-pages/man5/core.5.html).
-* Pozwala zdefiniować program do wykonania podczas generowania pliku rdzenia z pierwszymi 128 bajtami jako argumentami. Może to prowadzić do wykonania kodu, jeśli plik zaczyna się od rury `|`.
+* Umożliwia zdefiniowanie programu do wykonania podczas generowania pliku rdzenia z pierwszymi 128 bajtami jako argumentami. Może to prowadzić do wykonania kodu, jeśli plik zaczyna się od rury `|`.
 *   **Przykład testowania i eksploatacji**:
 
 ```bash
 [ -w /proc/sys/kernel/core_pattern ] && echo Yes # Test dostępu do zapisu
 cd /proc/sys/kernel
-echo "|$overlay/shell.sh" > core_pattern # Ustawianie niestandardowego obsługiwacza
-sleep 5 && ./crash & # Wywołanie obsługiwacza
+echo "|$overlay/shell.sh" > core_pattern # Ustawianie niestandardowego obsługującego
+sleep 5 && ./crash & # Wywołanie obsługującego
 ```
 
 #### **`/proc/sys/kernel/modprobe`**
@@ -54,7 +54,7 @@ ls -l $(cat /proc/sys/kernel/modprobe) # Sprawdzanie dostępu do modprobe
 #### **`/proc/sys/vm/panic_on_oom`**
 
 * Wzmiankowany w [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
-* Globalna flaga kontrolująca, czy jądro ma panikować czy wywoływać zabójcę OOM, gdy wystąpi warunek OOM.
+* Globalna flaga kontrolująca, czy jądro wpada w panikę czy wywołuje zabójcę OOM, gdy wystąpi warunek OOM.
 
 #### **`/proc/sys/fs`**
 
@@ -63,7 +63,7 @@ ls -l $(cat /proc/sys/kernel/modprobe) # Sprawdzanie dostępu do modprobe
 
 #### **`/proc/sys/fs/binfmt_misc`**
 
-* Umożliwia rejestrację interpreterów dla formatów binarnych nie-natywnych na podstawie ich numeru magicznego.
+* Umożliwia rejestrację interpretatorów dla formatów binarnych nie-natywnych na podstawie ich numeru magicznego.
 * Może prowadzić do eskalacji uprawnień lub uzyskania dostępu do powłoki root, jeśli `/proc/sys/fs/binfmt_misc/register` jest zapisywalny.
 * Związany exploit i wyjaśnienie:
 * [Rootkit dla ubogich poprzez binfmt\_misc](https://github.com/toffan/binfmt\_misc)
@@ -88,7 +88,7 @@ echo b > /proc/sysrq-trigger # Ponowne uruchomienie hosta
 #### **`/proc/kmsg`**
 
 * Ujawnia komunikaty z bufora pierścieniowego jądra.
-* Może pomóc w eksploatacji jądra, ujawnianiu adresów i dostarczaniu wrażliwych informacji systemowych.
+* Może pomóc w eksploatacji jądra, wyciekach adresów i dostarczaniu wrażliwych informacji systemowych.
 
 #### **`/proc/kallsyms`**
 
@@ -113,12 +113,12 @@ echo b > /proc/sysrq-trigger # Ponowne uruchomienie hosta
 #### **`/proc/kmem`**
 
 * Alternatywny interfejs dla `/dev/kmem`, reprezentujący pamięć wirtualną jądra.
-* Umożliwia odczytywanie i zapisywanie, co umożliwia bezpośrednią modyfikację pamięci jądra.
+* Umożliwia odczyt i zapis, co umożliwia bezpośrednią modyfikację pamięci jądra.
 
 #### **`/proc/mem`**
 
 * Alternatywny interfejs dla `/dev/mem`, reprezentujący pamięć fizyczną.
-* Umożliwia odczytywanie i zapisywanie, a modyfikacja całej pamięci wymaga przekształcenia adresów wirtualnych na fizyczne.
+* Umożliwia odczyt i zapis, a modyfikacja całej pamięci wymaga przekształcenia adresów wirtualnych na fizyczne.
 
 #### **`/proc/sched_debug`**
 
@@ -130,7 +130,7 @@ echo b > /proc/sysrq-trigger # Ponowne uruchomienie hosta
 * Udostępnia informacje o punktach montowania w przestrzeni nazw montowania procesu.
 * Ujawnia lokalizację `rootfs` kontenera lub obrazu. 
 
-### Zagrożenia sysfs
+### Zagrożenia związane z `/sys`
 
 #### **`/sys/kernel/uevent_helper`**
 
@@ -142,7 +142,7 @@ echo b > /proc/sysrq-trigger # Ponowne uruchomienie hosta
 
 echo "#!/bin/sh" > /evil-helper echo "ps > /output" >> /evil-helper chmod +x /evil-helper
 
-### Znajduje ścieżkę hosta z montowania OverlayFS dla kontenera
+### Znajduje ścieżkę hosta z montażu OverlayFS dla kontenera
 
 host\_path=$(sed -n 's/._\perdir=(\[^,]_).\*/\1/p' /etc/mtab)
 
@@ -163,7 +163,7 @@ cat /output %%%
 
 #### **`/sys/kernel/vmcoreinfo`**
 
-* Wycieka adresy jądra, potencjalnie kompromitując KASLR.
+* Ujawnia adresy jądra, potencjalnie kompromitując KASLR.
 
 #### **`/sys/kernel/security`**
 
@@ -172,8 +172,8 @@ cat /output %%%
 
 #### **`/sys/firmware/efi/vars` and `/sys/firmware/efi/efivars`**
 
-* Ujawnia interfejsy do interakcji z zmiennymi EFI w pamięci NVRAM.
-* Niewłaściwa konfiguracja lub eksploatacja może prowadzić do zablokowania laptopów lub niemożliwości uruchomienia hosta.
+* Ujawnia interfejsy do interakcji z zmiennymi EFI w NVRAM.
+* Niewłaściwa konfiguracja lub eksploatacja może prowadzić do zablokowania laptopów lub niemożliwości uruchomienia hostów.
 
 #### **`/sys/kernel/debug`**
 
@@ -186,7 +186,7 @@ cat /output %%%
 * [Understanding and Hardening Linux Containers](https://research.nccgroup.com/wp-content/uploads/2020/07/ncc\_group\_understanding\_hardening\_linux\_containers-1-1.pdf)
 * [Abusing Privileged and Unprivileged Linux Containers](https://www.nccgroup.com/globalassets/our-research/us/whitepapers/2016/june/container\_whitepaper.pdf)
 
-<figure><img src="../../../../.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../..https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
@@ -199,7 +199,7 @@ Inne sposoby wsparcia HackTricks:
 * Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Kup [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**Grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

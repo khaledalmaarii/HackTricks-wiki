@@ -14,7 +14,7 @@ Inne sposoby wsparcia HackTricks:
 
 </details>
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
@@ -45,12 +45,12 @@ Możesz stworzyć **fałszywe karty w Flipper Zero, wskazując dane** ręcznie, 
 
 #### ID na kartach
 
-Czasami, gdy dostajesz kartę, znajdziesz ID (lub jego część) napisane na karcie.
+Czasami, gdy dostaniesz kartę, znajdziesz ID (lub jego część) napisane na karcie.
 
 * **EM Marin**
 
 Na przykład w tej karcie EM-Marin na fizycznej karcie można **odczytać ostatnie 3 z 5 bajtów w czytelny sposób**.\
-Pozostałe 2 można złamać siłowo, jeśli nie można ich odczytać z karty.
+Pozostałe 2 można złamać metodą brute force, jeśli nie można ich odczytać z karty.
 
 <figure><img src="../../../.gitbook/assets/image (101).png" alt=""><figcaption></figcaption></figure>
 
@@ -68,7 +68,7 @@ Po **skopiowaniu** karty lub **ręcznym wprowadzeniu** ID można ją **emulować
 
 * [https://blog.flipperzero.one/rfid/](https://blog.flipperzero.one/rfid/)
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 

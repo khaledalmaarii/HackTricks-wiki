@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Zacznij naukę hakowania AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Nauka hakowania AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 * Czy pracujesz w **firmie z branży cyberbezpieczeństwa**? Chcesz zobaczyć swoją **firmę reklamowaną na HackTricks**? lub chcesz mieć dostęp do **najnowszej wersji PEASS lub pobrać HackTricks w formacie PDF**? Sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
@@ -12,7 +12,7 @@
 
 </details>
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
@@ -37,7 +37,7 @@ ftkimager /dev/sdb evidence --e01 --case-number 1 --evidence-number 1 --descript
 ```
 ### EWF
 
-Możesz wygenerować obraz dysku za pomocą [**narzędzi ewf**](https://github.com/libyal/libewf).
+Możesz wygenerować obraz dysku, używając [**narzędzi ewf**](https://github.com/libyal/libewf).
 ```bash
 ewfacquire /dev/sdb
 #Name: evidence
@@ -56,7 +56,7 @@ ewfacquire /dev/sdb
 ```
 ## Montowanie
 
-### Kilka typów
+### Kilka rodzajów
 
 W systemie **Windows** można spróbować skorzystać z darmowej wersji narzędzia Arsenal Image Mounter ([https://arsenalrecon.com/downloads/](https://arsenalrecon.com/downloads/)), aby **zamontować obraz z dziedziny informatyki śledczej**.
 
@@ -91,7 +91,7 @@ To aplikacja Windows do montowania woluminów. Możesz ją pobrać tutaj [https:
 ### Błędy
 
 * **`nie można zamontować /dev/loop0 tylko do odczytu`** w tym przypadku należy użyć flag **`-o ro,norecovery`**
-* **`zły typ systemu plików, zła opcja, zły superblok na /dev/loop0, brak strony kodowej lub programu pomocniczego, lub inny błąd.`** w tym przypadku montaż nie powiódł się, ponieważ przesunięcie systemu plików jest inne niż obrazu dysku. Musisz znaleźć rozmiar sektora i sektor początkowy:
+* **`zły typ systemu plików, zła opcja, zły superblok na /dev/loop0, brak strony kodowej lub programu pomocniczego, lub inny błąd.`** w tym przypadku montaż nie powiódł się, ponieważ przesunięcie systemu plików różni się od obrazu dysku. Musisz znaleźć rozmiar sektora i sektor początkowy:
 ```bash
 fdisk -l disk.img
 Disk disk.img: 102 MiB, 106954648 bytes, 208896 sectors
@@ -104,11 +104,11 @@ Disk identifier: 0x00495395
 Device        Boot Start    End Sectors  Size Id Type
 disk.img1       2048 208895  206848  101M  1 FAT12
 ```
-Zauważ, że rozmiar sektora wynosi **512**, a początek to **2048**. Następnie zamontuj obraz w ten sposób:
+Zauważ, że rozmiar sektora wynosi **512** a początek to **2048**. Następnie zamontuj obraz w ten sposób:
 ```bash
 mount disk.img /mnt -o ro,offset=$((2048*512))
 ```
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
@@ -116,7 +116,7 @@ mount disk.img /mnt -o ro,offset=$((2048*512))
 
 <summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Czy pracujesz w **firmie z branży cyberbezpieczeństwa**? Chcesz zobaczyć, jak Twoja **firma jest reklamowana w HackTricks**? lub chcesz mieć dostęp do **najnowszej wersji PEASS lub pobrać HackTricks w formacie PDF**? Sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
+* Czy pracujesz w **firmie zajmującej się cyberbezpieczeństwem**? Chcesz zobaczyć, jak Twoja **firma jest reklamowana w HackTricks**? lub chcesz mieć dostęp do **najnowszej wersji PEASS lub pobrać HackTricks w formacie PDF**? Sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Dołącz do** [**💬**](https://emojipedia.org/speech-balloon/) [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** mnie na **Twitterze** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**

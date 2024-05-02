@@ -12,19 +12,19 @@ Inne sposoby wsparcia HackTricks:
 
 </details>
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
 
 # Znaczniki czasu
 
-Atakujący może być zainteresowany **zmianą znaczników czasu plików**, aby uniknąć wykrycia.\
+Atakujący może być zainteresowany **zmianą znaczników czasu plików** w celu uniknięcia wykrycia.\
 Możliwe jest znalezienie znaczników czasu wewnątrz MFT w atrybutach `$STANDARD_INFORMATION` __ i __ `$FILE_NAME`.
 
 Oba atrybuty mają 4 znaczniki czasu: **Modyfikację**, **dostęp**, **tworzenie** i **modyfikację rejestru MFT** (MACE lub MACB).
 
-**Eksplorator Windowsa** i inne narzędzia pokazują informacje z **`$STANDARD_INFORMATION`**.
+**Eksplorator Windows** i inne narzędzia pokazują informacje z **`$STANDARD_INFORMATION`**.
 
 ## TimeStomp - Narzędzie antyforensyczne
 
@@ -65,21 +65,21 @@ Znaczniki czasu **NTFS** mają **precyzję** **100 nanosekund**. Znalezienie pli
 
 ## SetMace - Narzędzie antyforensyczne
 
-To narzędzie może modyfikować oba atrybuty `$STARNDAR_INFORMATION` i `$FILE_NAME`. Jednakże, od Windows Vista, konieczne jest posiadanie działającego systemu operacyjnego na żywo, aby zmodyfikować te informacje.
+To narzędzie może modyfikować oba atrybuty `$STARNDAR_INFORMATION` i `$FILE_NAME`. Jednakże, od Windows Vista, konieczne jest posiadanie działającego systemu operacyjnego w celu zmodyfikowania tych informacji.
 
 # Ukrywanie danych
 
-NTFS używa klastra i minimalnego rozmiaru informacji. Oznacza to, że jeśli plik zajmuje jeden klaster i pół, **pozostała połowa nigdy nie zostanie użyta** do momentu usunięcia pliku. Dlatego możliwe jest **ukrycie danych w tej przestrzeni luzem**.
+NTFS używa klastra i minimalnego rozmiaru informacji. Oznacza to, że jeśli plik zajmuje jeden klaster i pół, **pozostała połowa nigdy nie zostanie użyta** do momentu usunięcia pliku. Dlatego możliwe jest **ukrycie danych w tej przestrzeni rezerwowej**.
 
 Istnieją narzędzia takie jak slacker, które pozwalają na ukrywanie danych w tej "ukrytej" przestrzeni. Jednak analiza `$logfile` i `$usnjrnl` może pokazać, że dodano pewne dane:
 
 ![](<../../.gitbook/assets/image (452).png>)
 
-Następnie możliwe jest odzyskanie przestrzeni luzem za pomocą narzędzi takich jak FTK Imager. Należy zauważyć, że tego rodzaju narzędzie może zapisać zawartość zasłoniętą lub nawet zaszyfrowaną.
+Następnie możliwe jest odzyskanie przestrzeni rezerwowej za pomocą narzędzi takich jak FTK Imager. Należy zauważyć, że tego rodzaju narzędzie może zapisać zawartość zasłoniętą lub nawet zaszyfrowaną.
 
 # UsbKill
 
-To narzędzie **wyłączy komputer w przypadku wykrycia jakiejkolwiek zmiany w portach USB**.\
+To narzędzie **wyłączy komputer, jeśli wykryta zostanie jakakolwiek zmiana w portach USB**.\
 Sposobem na odkrycie tego byłoby sprawdzenie działających procesów i **przejrzenie każdego skryptu pythona działającego**.
 
 # Dystrybucje Live Linux
@@ -92,7 +92,7 @@ Te dystrybucje są **wykonywane w pamięci RAM**. Jedynym sposobem na ich wykryc
 
 # Konfiguracja Windows
 
-Możliwe jest wyłączenie kilku metod logowania w systemie Windows, aby utrudnić dochodzenie w sprawie forensyki.
+Możliwe jest wyłączenie kilku metod logowania w systemie Windows, aby utrudnić dochodzenie w dziedzinie informatyki sądowej.
 
 ## Wyłączenie znaczników czasu - UserAssist
 
@@ -105,7 +105,7 @@ Wyłączenie UserAssist wymaga dwóch kroków:
 
 ## Wyłączenie znaczników czasu - Prefetch
 
-To zapisze informacje o aplikacjach uruchomionych w celu poprawy wydajności systemu Windows. Jednakże może to być również przydatne w praktykach forensycznych.
+To zapisze informacje o aplikacjach uruchomionych w celu poprawy wydajności systemu Windows. Jednakże może to być również przydatne w praktykach związanych z informatyką sądową.
 
 * Uruchom `regedit`
 * Wybierz ścieżkę pliku `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SessionManager\Memory Management\PrefetchParameters`
@@ -113,20 +113,20 @@ To zapisze informacje o aplikacjach uruchomionych w celu poprawy wydajności sys
 * Wybierz Modyfikuj dla każdego z nich, aby zmienić wartość z 1 (lub 3) na 0
 * Zrestartuj
 
-## Wyłączenie znaczników czasu - Czas ostatniego dostępu
+## Wyłączenie znaczników czasu - Ostatni czas dostępu
 
-Za każdym razem, gdy folder jest otwierany z woluminu NTFS na serwerze Windows NT, system zajmuje czas na **aktualizację pola znacznika czasu na każdym wymienionym folderze**, zwane czasem ostatniego dostępu. Na intensywnie używanym woluminie NTFS może to wpłynąć na wydajność.
+Za każdym razem, gdy folder jest otwierany z woluminu NTFS na serwerze Windows NT, system zajmuje czas na **aktualizację pola znacznika czasu na każdym wymienionym folderze**, zwane ostatnim czasem dostępu. Na intensywnie używanym woluminie NTFS może to wpłynąć na wydajność.
 
 1. Otwórz Edytor rejestru (Regedit.exe).
 2. Przejdź do `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem`.
-3. Znajdź `NtfsDisableLastAccessUpdate`. Jeśli nie istnieje, dodaj tę wartość DWORD i ustaw jej wartość na 1, co wyłączy proces.
+3. Znajdź `NtfsDisableLastAccessUpdate`. Jeśli nie istnieje, dodaj ten DWORD i ustaw jego wartość na 1, co wyłączy proces.
 4. Zamknij Edytor rejestru i zrestartuj serwer.
 ## Usuń historię USB
 
-Wszystkie **wpisy urządzeń USB** są przechowywane w rejestrze systemu Windows pod kluczem rejestru **USBSTOR**, który zawiera podklucze tworzone za każdym razem, gdy podłączysz urządzenie USB do komputera. Możesz znaleźć ten klucz tutaj `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **Usunięcie tego** spowoduje usunięcie historii USB.\
+Wszystkie **wpisy urządzeń USB** są przechowywane w rejestrze systemu Windows pod kluczem rejestru **USBSTOR**, który zawiera podklucze tworzone za każdym razem, gdy podłączysz urządzenie USB do komputera lub laptopa. Możesz znaleźć ten klucz tutaj `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **Usunięcie tego** spowoduje usunięcie historii USB.\
 Możesz także użyć narzędzia [**USBDeview**](https://www.nirsoft.net/utils/usb\_devices\_view.html), aby upewnić się, że je usunąłeś (i je usunąć).
 
-Innym plikiem, który zapisuje informacje o urządzeniach USB, jest plik `setupapi.dev.log` znajdujący się w `C:\Windows\INF`. Również ten plik powinien zostać usunięty.
+Innym plikiem, który zapisuje informacje o urządzeniach USB, jest plik `setupapi.dev.log` znajdujący się w `C:\Windows\INF`. Również powinien zostać usunięty.
 
 ## Wyłącz kopie migawkowe
 
@@ -139,7 +139,7 @@ Aby wyłączyć kopie migawkowe [kroki stąd](https://support.waters.com/KB_Inf/
 
 1. Otwórz program Usługi, wpisując "services" w pole wyszukiwania tekstu po kliknięciu przycisku start w systemie Windows.
 2. Z listy znajdź "Kopię migawkową woluminu", wybierz ją, a następnie uzyskaj dostęp do właściwości, klikając prawym przyciskiem myszy.
-3. Wybierz opcję Wyłączone z menu rozwijanego "Typ uruchamiania", a następnie potwierdź zmianę, klikając Zastosuj i OK.
+3. Wybierz opcję Wyłączone z rozwijanego menu "Typ uruchamiania", a następnie potwierdź zmianę, klikając Zastosuj i OK.
 
 Możliwe jest również zmodyfikowanie konfiguracji, które pliki zostaną skopiowane w kopii migawkowej w rejestrze `HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot`
 
@@ -164,6 +164,21 @@ Możliwe jest również zmodyfikowanie konfiguracji, które pliki zostaną skopi
 
 * `fsutil usn deletejournal /d c:`
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
+
+
+<details>
+
+<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+
+Inne sposoby wsparcia HackTricks:
+
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
+* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>

