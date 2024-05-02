@@ -1,4 +1,4 @@
-# Osetljivi mount-ovi
+# Osetljivi Montaži
 
 <details>
 
@@ -6,7 +6,7 @@
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -14,11 +14,11 @@ Drugi načini podrške HackTricks-u:
 
 </details>
 
-<figure><img src="../../../../.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../..https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
-Izloženost `/proc` i `/sys` bez odgovarajuće izolacije imenskog prostora uvodi značajne sigurnosne rizike, uključujući proširenje površine napada i otkrivanje informacija. Ovi direktorijumi sadrže osetljive datoteke koje, ako nisu ispravno konfigurisane ili pristupljene od strane neovlašćenog korisnika, mogu dovesti do bekstva iz kontejnera, modifikacije domaćina ili pružanja informacija koje pomažu daljim napadima. Na primer, nepravilno montiranje `-v /proc:/host/proc` može zaobići AppArmor zaštitu zbog njegove putem zasnovane prirode, ostavljajući `/host/proc` nezaštićenim.
+Izlaganje `/proc` i `/sys` bez odgovarajuće izolacije imenskog prostora uvodi značajne sigurnosne rizike, uključujući povećanje površine napada i otkrivanje informacija. Ovi direktorijumi sadrže osetljive datoteke koje, ako su pogrešno konfigurisane ili pristupljene od strane neovlašćenog korisnika, mogu dovesti do bekstva iz kontejnera, modifikacije domaćina ili pružanja informacija koje pomažu daljim napadima. Na primer, nepravilno montiranje `-v /proc:/host/proc` može zaobići AppArmor zaštitu zbog njegove putem zasnovane prirode, ostavljajući `/host/proc` nezaštićen.
 
 **Možete pronaći dalje detalje o svakom potencijalnom propustu na** [**https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts**](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts)**.**
 
@@ -31,7 +31,7 @@ Ovaj direktorijum dozvoljava pristup za modifikaciju kernel promenljivih, običn
 #### **`/proc/sys/kernel/core_pattern`**
 
 * Opisan u [core(5)](https://man7.org/linux/man-pages/man5/core.5.html).
-* Omogućava definisanje programa za izvršavanje prilikom generisanja core datoteke sa prva 128 bajta kao argumentima. Ovo može dovesti do izvršavanja koda ako datoteka počinje sa cev `|`.
+* Omogućava definisanje programa za izvršavanje prilikom generisanja core datoteke sa prvih 128 bajtova kao argumentima. Ovo može dovesti do izvršavanja koda ako datoteka počinje sa cev `|`.
 *   **Primer testiranja i eksploatacije**:
 
 ```bash
@@ -43,30 +43,30 @@ sleep 5 && ./crash & # Pokrenite rukovaoca
 
 #### **`/proc/sys/kernel/modprobe`**
 
-* Detaljno opisan u [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
+* Detaljno objašnjen u [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
 * Sadrži putanju do učitavača kernel modula, pozvanog za učitavanje kernel modula.
 *   **Primer provere pristupa**:
 
 ```bash
-ls -l $(cat /proc/sys/kernel/modprobe) # Provera pristupa modprobe
+ls -l $(cat /proc/sys/kernel/modprobe) # Provera pristupa modprobe-u
 ```
 
 #### **`/proc/sys/vm/panic_on_oom`**
 
-* Pomenut u [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
-* Globalna oznaka koja kontroliše da li kernel pravi paniku ili poziva OOM ubijalicu kada se pojavi OOM uslov.
+* Povezan u [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
+* Globalna oznaka koja kontroliše da li kernel pravi paniku ili poziva OOM ubijalicu kada se desi OOM uslov.
 
 #### **`/proc/sys/fs`**
 
 * Prema [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html), sadrži opcije i informacije o fajl sistemu.
-* Pristup pisanju može omogućiti različite napade uskraćivanjem usluge na domaćinu.
+* Pristup pisanju može omogućiti različite napade uskraćivanjem usluga na domaćinu.
 
 #### **`/proc/sys/fs/binfmt_misc`**
 
-* Omogućava registraciju interpretatora za ne-nativne binarne formate na osnovu njihovog magičnog broja.
+* Omogućava registrovanje interpretatora za ne-nativne binarne formate na osnovu njihovog magičnog broja.
 * Može dovesti do eskalacije privilegija ili pristupa root shell-u ako je `/proc/sys/fs/binfmt_misc/register` za pisanje.
-* Relevantan eksploatacioni alat i objašnjenje:
-* [Rootkit putem binfmt\_misc](https://github.com/toffan/binfmt\_misc)
+* Relevantan eksploatacioni primer i objašnjenje:
+* [Rootkit preko binfmt\_misc](https://github.com/toffan/binfmt\_misc)
 * Detaljan tutorijal: [Video link](https://www.youtube.com/watch?v=WBC7hhgMvQQ)
 
 ### Ostali u `/proc`
@@ -92,7 +92,7 @@ echo b > /proc/sysrq-trigger # Ponovno pokreće domaćina
 
 #### **`/proc/kallsyms`**
 
-* Navodi simbole kernela i njihove adrese.
+* Navodi izvožene simbole kernela i njihove adrese.
 * Bitno za razvoj eksploatacije kernela, posebno za prevazilaženje KASLR-a.
 * Informacije o adresi su ograničene sa `kptr_restrict` postavljenim na `1` ili `2`.
 * Detalji u [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
@@ -101,7 +101,7 @@ echo b > /proc/sysrq-trigger # Ponovno pokreće domaćina
 
 * Interfejs sa uređajem kernel memorije `/dev/mem`.
 * Istoriski ranjiv na napade eskalacije privilegija.
-* Više na [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
+* Više o [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
 
 #### **`/proc/kcore`**
 
@@ -127,8 +127,8 @@ echo b > /proc/sysrq-trigger # Ponovno pokreće domaćina
 
 #### **`/proc/[pid]/mountinfo`**
 
-* Pruža informacije o tačkama montiranja u imenskom prostoru montiranja procesa.
-* Izlaže lokaciju `rootfs` kontejnera ili slike. 
+* Pruža informacije o tačkama montiranja u imenskom prostoru procesa.
+* Izlaže lokaciju `rootfs` kontejnera ili slike.
 
 ### Ranjivosti `/sys`
 
@@ -136,13 +136,13 @@ echo b > /proc/sysrq-trigger # Ponovno pokreće domaćina
 
 * Koristi se za rukovanje kernel uređajima `uevents`.
 * Pisanje u `/sys/kernel/uevent_helper` može izvršiti proizvoljne skripte prilikom okidača `uevent`.
-*   **Primer eksploatacije**: %%%bash
+*   **Primer za eksploataciju**: %%%bash
 
 ### Kreira payload
 
 echo "#!/bin/sh" > /evil-helper echo "ps > /output" >> /evil-helper chmod +x /evil-helper
 
-### Pronalazi putanju domaćina iz OverlayFS montiranja za kontejner
+### Pronalazi putanju domaćina iz OverlayFS montaže za kontejner
 
 host\_path=$(sed -n 's/._\perdir=(\[^,]_).\*/\1/p' /etc/mtab)
 
@@ -173,7 +173,7 @@ cat /output %%%
 #### **`/sys/firmware/efi/vars` i `/sys/firmware/efi/efivars`**
 
 * Izlaže interfejse za interakciju sa EFI varijablama u NVRAM-u.
-* Pogrešna konfiguracija ili eksploatacija može dovesti do oštećenih laptopova ili neupotrebljivih host mašina.
+* Pogrešna konfiguracija ili eksploatacija može dovesti do oštećenja laptopova ili neupotrebljivih host mašina.
 
 #### **`/sys/kernel/debug`**
 
@@ -186,20 +186,20 @@ cat /output %%%
 * [Understanding and Hardening Linux Containers](https://research.nccgroup.com/wp-content/uploads/2020/07/ncc\_group\_understanding\_hardening\_linux\_containers-1-1.pdf)
 * [Abusing Privileged and Unprivileged Linux Containers](https://www.nccgroup.com/globalassets/our-research/us/whitepapers/2016/june/container\_whitepaper.pdf)
 
-<figure><img src="../../../../.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../..https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od početka do naprednog nivoa sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili **telegram grupi** ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>

@@ -4,7 +4,7 @@
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** Proverite [**PLANOVE ZA PRIJEM**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
@@ -12,7 +12,7 @@ Drugi načini podrške HackTricks-u:
 
 </details>
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
@@ -69,47 +69,47 @@ Drugi načini podrške HackTricks-u:
 * [https://github.com/prodigysml/Dr.-Watson](https://github.com/prodigysml/Dr.-Watson) : Burp dodatak, offline analiza za otkrivanje domena, poddomena i IP adresa
 * [https://github.com/hahwul/WebHackersWeapons](https://github.com/hahwul/WebHackersWeapons): Lista različitih alata
 * [https://github.com/gauravnarwani97/Trishul](https://github.com/gauravnarwani97/Trishul) : BurpSuite dodatak za pronalaženje ranjivosti (SQLi, XSS, SSTI)
-* [https://github.com/fransr/postMessage-tracker](https://github.com/fransr/postMessage-tracker) : Chrome ekstenzija za praćenje funkcija post-poruka
-* [https://github.com/Quitten/Autorize](https://github.com/Quitten/Autorize) : Automatski testovi autentifikacije (uklanjanje kolačića i pokušaj slanja zahteva)
-* [https://github.com/pikpikcu/xrcross](https://github.com/pikpikcu/xrcross): XRCross je rekonstrukcija, skener i alat za testiranje penetracije / BugBounty. Ovaj alat je napravljen za testiranje (XSS|SSRF|CORS|SSTI|IDOR|RCE|LFI|SQLI) ranjivosti
+* [https://github.com/fransr/postMessage-tracker](https://github.com/fransr/postMessage-tracker) : Chrome ekstenzija za praćenje post-poruka funkcija
+* [https://github.com/Quitten/Autorize](https://github.com/Quitten/Autorize) : Automatski testovi autentikacije (uklanjanje kolačića i pokušaj slanja zahteva)
+* [https://github.com/pikpikcu/xrcross](https://github.com/pikpikcu/xrcross): XRCross je alat za rekonstrukciju, skener i alat za testiranje penetracije / BugBounty. Ovaj alat je napravljen za testiranje (XSS|SSRF|CORS|SSTI|IDOR|RCE|LFI|SQLI) ranjivosti
 # Windows
 
-* [https://github.com/Mr-Un1k0d3r/PoisonHandler](https://github.com/Mr-Un1k0d3r/PoisonHandler) : Lateralna kretanja
+* [https://github.com/Mr-Un1k0d3r/PoisonHandler](https://github.com/Mr-Un1k0d3r/PoisonHandler) : Lateral movements
 * [https://freddiebarrsmith.com/trix/trix.html](https://freddiebarrsmith.com/trix/trix.html) : LOL bins
-* [https://gist.github.com/netbiosX/ee35fcd3722e401a38136cff7b751d79](https://gist.github.com/netbiosX/ee35fcd3722e401a38136cff7b751d79) ([https://pentestlab.blog/2020/01/13/persistence-image-file-execution-options-injection/](https://pentestlab.blog/2020/01/13/persistence-image-file-execution-options-injection/)): Upornost
+* [https://gist.github.com/netbiosX/ee35fcd3722e401a38136cff7b751d79](https://gist.github.com/netbiosX/ee35fcd3722e401a38136cff7b751d79) ([https://pentestlab.blog/2020/01/13/persistence-image-file-execution-options-injection/](https://pentestlab.blog/2020/01/13/persistence-image-file-execution-options-injection/)): Persistence
 * [https://github.com/odzhan/injection](https://github.com/odzhan/injection) : Tehnike ubacivanja procesa u Windows
 * [https://github.com/BankSecurity/Red\_Team](https://github.com/BankSecurity/Red\_Team) : Skripte Crvenog tima
-* [https://github.com/l0ss/Grouper2](https://github.com/l0ss/Grouper2) : pronalaženje sigurnosno povezanih grešaka u konfiguracijama grupe politika Active Directory.
+* [https://github.com/l0ss/Grouper2](https://github.com/l0ss/Grouper2) : pronalaženje sigurnosno povezanih grešaka u konfiguraciji Grupe politika Active Directory.
 * [https://www.wietzebeukema.nl/blog/powershell-obfuscation-using-securestring](https://www.wietzebeukema.nl/blog/powershell-obfuscation-using-securestring) : Obfuskacija Securestring
-* [https://pentestlab.blog/2020/02/24/parent-pid-spoofing/](https://pentestlab.blog/2020/02/24/parent-pid-spoofing/) : Maskiranje roditeljskog PID-a
+* [https://pentestlab.blog/2020/02/24/parent-pid-spoofing/](https://pentestlab.blog/2020/02/24/parent-pid-spoofing/) : Prikrivanje roditeljskog PID-a
 * [https://github.com/the-xentropy/xencrypt](https://github.com/the-xentropy/xencrypt) : Šifrovanje Powershell payload-a
 * [https://shells.systems/introducing-ninja-c2-the-c2-built-for-stealth-red-team-operations/](https://shells.systems/introducing-ninja-c2-the-c2-built-for-stealth-red-team-operations/) : Stealth C2
-* [https://windows-internals.com/faxing-your-way-to-system/](https://windows-internals.com/faxing-your-way-to-system/) : Serija logova o unutrašnjostima Windows-a
+* [https://windows-internals.com/faxing-your-way-to-system/](https://windows-internals.com/faxing-your-way-to-system/) : Serija logova o Windows internim
 * [https://bestestredteam.com/2018/10/02/tracking-pixel-in-microsoft-office-document/](https://bestestredteam.com/2018/10/02/tracking-pixel-in-microsoft-office-document/) : Pratite ko otvara dokument
 * [https://github.com/Integration-IT/Active-Directory-Exploitation-Cheat-Sheet](https://github.com/Integration-IT/Active-Directory-Exploitation-Cheat-Sheet) : Lista trikova za eksploataciju Active Directory-a
 
 # Firmware
 
-Alati koji bi mogli biti korisni za analizu firmvera (automatski):
+Alati koje vidim da bi mogli biti kul za analizu firmvera (automatski):
 
 * [https://github.com/craigz28/firmwalker](https://github.com/craigz28/firmwalker)
 * [https://github.com/fkie-cad/FACT\_core](https://github.com/fkie-cad/FACT\_core)
 * [https://gitlab.com/bytesweep/bytesweep-go](https://gitlab.com/bytesweep/bytesweep-go)
 
-Nakon analize:
+Post-crema:
 
 * [https://blog.mindedsecurity.com/2018/09/pentesting-iot-devices-part-1-static.html](https://blog.mindedsecurity.com/2018/09/pentesting-iot-devices-part-1-static.html)
 * [https://blog.mindedsecurity.com/2018/10/pentesting-iot-devices-part-2-dynamic.html](https://blog.mindedsecurity.com/2018/10/pentesting-iot-devices-part-2-dynamic.html)
 
 Kako izvući firmver ako ga ne možemo pronaći online: [https://www.youtube.com/watch?v=Kxvpbu9STU4](https://www.youtube.com/watch?v=Kxvpbu9STU4)
 
-Evo firmvera sa ranjivostima za analizu: [https://github.com/scriptingxss/IoTGoat](https://github.com/scriptingxss/IoTGoat)
+Ovde je firmver sa ranjivostima za analizu: [https://github.com/scriptingxss/IoTGoat](https://github.com/scriptingxss/IoTGoat)
 
-i ovde je OWASP metodologija za analizu firmvera: [https://github.com/scriptingxss/owasp-fstm](https://github.com/scriptingxss/owasp-fstm)
+a ovde je OWASP metodologija za analizu firmvera: [https://github.com/scriptingxss/owasp-fstm](https://github.com/scriptingxss/owasp-fstm)
 
 Emulacija firmvera: FIRMADYNE (https://github.com/firmadyne/firmadyne/) je platforma za automatizaciju emulacije i dinamičke analize firmvera zasnovanih na Linux-u.
 
-# OSTALO
+# OTHER
 
 * [https://twitter.com/HackAndDo/status/1202695084543791117](https://twitter.com/HackAndDo/status/1202695084543791117)
 * [https://github.com/weev3/LKWA](https://github.com/weev3/LKWA)
@@ -123,7 +123,7 @@ Emulacija firmvera: FIRMADYNE (https://github.com/firmadyne/firmadyne/) je platf
 * Usluge rotacije IP adrese: [https://medium.com/@lokeshdlk77/how-to-rotate-ip-address-in-brute-force-attack-e66407259212](https://medium.com/@lokeshdlk77/how-to-rotate-ip-address-in-brute-force-attack-e66407259212)
 * Linux rootkit: [https://github.com/aesophor/satanic-rootkit](https://github.com/aesophor/satanic-rootkit)
 * [https://theia-ide.org/](https://theia-ide.org) : Online IDE
-* [https://github.com/nahamsec/Resources-for-Beginner-Bug-Bounty-Hunters/](https://github.com/nahamsec/Resources-for-Beginner-Bug-Bounty-Hunters/) : Resursi za početnike u BugBounties
+* [https://github.com/nahamsec/Resources-for-Beginner-Bug-Bounty-Hunters/](https://github.com/nahamsec/Resources-for-Beginner-Bug-Bounty-Hunters/) : Resursi za početak BugBounties
 * [https://medium.com/macoclock/jailbreak-and-stuff-kickstart-tools-and-techniques-for-ios-application-pentesting-6fa53a3987ab](https://medium.com/macoclock/jailbreak-and-stuff-kickstart-tools-and-techniques-for-ios-application-pentesting-6fa53a3987ab) : IOS alati za testiranje sigurnosti
 * [https://github.com/random-robbie/keywords/blob/master/keywords.txt](https://github.com/random-robbie/keywords/blob/master/keywords.txt) : Ključne reči
 * [https://github.com/ElevenPaths/HomePWN](https://github.com/ElevenPaths/HomePWN) : Hakovanje IoT-a (Wifi, BLE, SSDP, MDNS)
@@ -131,9 +131,11 @@ Emulacija firmvera: FIRMADYNE (https://github.com/firmadyne/firmadyne/) je platf
 * [https://github.com/doyensec/awesome-electronjs-hacking](https://github.com/doyensec/awesome-electronjs-hacking) : Ova lista ima za cilj da obuhvati teme vezane za sigurnost Electron.js.
 * [https://github.com/serain/bbrecon](https://github.com/serain/bbrecon) : Informacije o BB programima
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
+
 
 <details>
 
@@ -141,7 +143,7 @@ Emulacija firmvera: FIRMADYNE (https://github.com/firmadyne/firmadyne/) je platf
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks suvenir**](https://peass.creator-spring.com)
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**

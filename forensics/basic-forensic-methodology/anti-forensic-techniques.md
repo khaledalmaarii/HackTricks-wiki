@@ -4,7 +4,7 @@
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** Proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
@@ -12,14 +12,14 @@ Drugi načini podrške HackTricks-u:
 
 </details>
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
 
 # Vremenske oznake
 
-Napadač može biti zainteresovan za **menjanje vremenskih oznaka datoteka** kako bi izbegao otkrivanje.\
+Napadač može biti zainteresovan za **menjanje vremenskih oznaka fajlova** kako bi izbegao otkrivanje.\
 Moguće je pronaći vremenske oznake unutar MFT-a u atributima `$STANDARD_INFORMATION` __ i __ `$FILE_NAME`.
 
 Oba atributa imaju 4 vremenske oznake: **Modifikacija**, **pristup**, **kreacija**, i **modifikacija MFT registra** (MACE ili MACB).
@@ -36,7 +36,7 @@ Ovaj alat **menja** informacije o vremenskim oznakama unutar **`$STANDARD_INFORM
 
 ![](<../../.gitbook/assets/image (449).png>)
 
-Prethodna slika je **izlaz** prikazan od strane **alata** gde se može primetiti da su neke **promene izvršene** na datoteci.
+Prethodna slika je **izlaz** prikazan od strane **alata** gde se može primetiti da su neke **promene izvršene** na fajlu.
 
 ## $LogFile
 
@@ -46,7 +46,7 @@ Prethodna slika je **izlaz** prikazan od strane **alata** gde se može primetiti
 
 Ponovo, u izlazu alata moguće je videti da su **izvršene neke promene**.
 
-Korišćenjem istog alata moguće je identifikovati **kada su vremenske oznake modifikovane**:
+Korišćenjem istog alata moguće je identifikovati **u koje vreme su vremenske oznake modifikovane**:
 
 ![](<../../.gitbook/assets/image (451).png>)
 
@@ -57,11 +57,11 @@ Korišćenjem istog alata moguće je identifikovati **kada su vremenske oznake m
 
 ## Poređenje `$STANDARD_INFORMATION` i `$FILE_NAME`
 
-Još jedan način identifikovanja sumnjivih modifikovanih datoteka bio bi upoređivanje vremena na oba atributa u potrazi za **neslaganjima**.
+Još jedan način identifikovanja sumnjivih modifikovanih fajlova bio bi upoređivanje vremena na oba atributa u potrazi za **neslaganjima**.
 
 ## Nanosekunde
 
-**NTFS** vremenske oznake imaju **preciznost** od **100 nanosekundi**. Zato je veoma sumnjivo pronaći datoteke sa vremenskim oznakama poput 2010-10-10 10:10:**00.000:0000**.
+**NTFS** vremenske oznake imaju **preciznost** od **100 nanosekundi**. Zato je veoma sumnjivo pronaći fajlove sa vremenima oznaka kao što su 2010-10-10 10:10:**00.000:0000**.
 
 ## SetMace - Anti-forenzički alat
 
@@ -69,7 +69,7 @@ Ovaj alat može modifikovati oba atributa `$STARNDAR_INFORMATION` i `$FILE_NAME`
 
 # Skrivanje podataka
 
-NTFS koristi klaster i minimalnu veličinu informacija. To znači da ako datoteka zauzima klaster i pola, **preostala polovina nikada neće biti korišćena** dok datoteka ne bude obrisana. Zato je moguće **sakriti podatke u ovom praznom prostoru**.
+NTFS koristi klaster i minimalnu veličinu informacija. To znači da ako fajl zauzima klaster i po, **preostali deo nikada neće biti korišćen** dok fajl ne bude obrisan. Zato je moguće **sakriti podatke u ovom praznom prostoru**.
 
 Postoje alati poput slacker koji omogućavaju skrivanje podataka u ovom "skrivenom" prostoru. Međutim, analiza `$logfile` i `$usnjrnl` može pokazati da su dodati neki podaci:
 
@@ -79,7 +79,7 @@ Zatim je moguće povratiti prazan prostor korišćenjem alata poput FTK Imager. 
 
 # UsbKill
 
-Ovo je alat koji će **isključiti računar ako se detektuje bilo kakva promena na USB** portovima.\
+Ovo je alat koji će **isključiti računar ako se detektuje bilo kakva promena u USB** portovima.\
 Način da se ovo otkrije je inspekcija pokrenutih procesa i **pregled svakog Python skripta koji se izvršava**.
 
 # Linux distribucije uživo
@@ -98,7 +98,7 @@ Moguće je onemogućiti nekoliko metoda beleženja Windows-a kako bi forenzička
 
 Ovo je registarski ključ koji čuva datume i sate kada je svaki izvršni fajl pokrenut od strane korisnika.
 
-Onemogućavanje UserAssist zahteva dva koraka:
+Onemogućavanje UserAssist-a zahteva dva koraka:
 
 1. Postavite dva registarska ključa, `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackProgs` i `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackEnabled`, oba na nulu kako biste signalizirali da želite onemogućiti UserAssist.
 2. Obrišite podstabla registra koja izgledaju kao `HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\<hash>`.
@@ -109,7 +109,7 @@ Ovo će sačuvati informacije o aplikacijama koje su izvršene sa ciljem pobolj�
 
 * Izvršite `regedit`
 * Izaberite putanju fajla `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SessionManager\Memory Management\PrefetchParameters`
-* Desni klik na `EnablePrefetch` i `EnableSuperfetch`
+* Desni klik na `EnablePrefetcher` i `EnableSuperfetch`
 * Izaberite Izmeni na svakom od njih da promenite vrednost sa 1 (ili 3) na 0
 * Ponovo pokrenite
 
@@ -123,29 +123,29 @@ Kada se folder otvori sa NTFS volumena na Windows NT serveru, sistem uzima vreme
 4. Zatvorite Registry Editor i ponovo pokrenite server.
 ## Obriši USB istoriju
 
-Svi **unos uređaja USB** se čuvaju u Windows registru pod ključem **USBSTOR** koji sadrži podključeve koji se kreiraju svaki put kada priključite USB uređaj na računar. Možete pronaći ovaj ključ ovde `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **Brisanjem ovoga** ćete obrisati USB istoriju.\
-Takođe možete koristiti alat [**USBDeview**](https://www.nirsoft.net/utils/usb\_devices\_view.html) da biste bili sigurni da ste ih obrisali (i da ih obrišete).
+Svi **unosu uređaja USB-a** se čuvaju u Windows registru pod ključem **USBSTOR** koji sadrži podključeve koji se kreiraju svaki put kada priključite USB uređaj na računar ili laptop. Možete pronaći ovaj ključ ovde `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **Brisanjem ovoga** ćete obrisati USB istoriju.\
+Takođe možete koristiti alat [**USBDeview**](https://www.nirsoft.net/utils/usb_devices_view.html) da biste bili sigurni da ste ih obrisali (i da ih obrišete).
 
-Drugi fajl koji čuva informacije o USB uređajima je fajl `setupapi.dev.log` unutar `C:\Windows\INF`. Ovaj fajl takođe treba obrisati.
+Drugi fajl koji čuva informacije o USB uređajima je fajl `setupapi.dev.log` unutar `C:\Windows\INF`. I ovaj fajl treba obrisati.
 
-## Onemogući Shadow kopije
+## Onemogući senke kopija
 
-**Prikaži** shadow kopije sa `vssadmin list shadowstorage`\
+**Prikaži** senke kopija sa `vssadmin list shadowstorage`\
 **Obriši** ih pokretanjem `vssadmin delete shadow`
 
 Takođe ih možete obrisati putem GUI prateći korake predložene na [https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html](https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html)
 
-Za onemogućavanje shadow kopija [koraci odavde](https://support.waters.com/KB_Inf/Other/WKB15560_How_to_disable_Volume_Shadow_Copy_Service_VSS_in_Windows):
+Za onemogućavanje senki kopija [koraci odavde](https://support.waters.com/KB_Inf/Other/WKB15560_How_to_disable_Volume_Shadow_Copy_Service_VSS_in_Windows):
 
-1. Otvorite program Services kucanjem "services" u polje za pretragu teksta nakon klika na Windows start dugme.
+1. Otvorite program Services kucanjem "services" u polje za pretragu teksta nakon što kliknete na Windows start dugme.
 2. Iz liste pronađite "Volume Shadow Copy", izaberite ga, a zatim pristupite Properties desnim klikom.
 3. Izaberite Disabled iz padajućeg menija "Startup type", a zatim potvrdite promenu klikom na Apply i OK.
 
-Takođe je moguće izmeniti konfiguraciju koje datoteke će biti kopirane u shadow kopiji u registru `HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot`
+Takođe je moguće izmeniti konfiguraciju koje datoteke će biti kopirane u senki kopiji u registru `HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot`
 
 ## Prepisi obrisane fajlove
 
-* Možete koristiti **Windows alat**: `cipher /w:C` Ovo će uputiti cipher da ukloni sve podatke sa dostupnog neiskorišćenog prostora na disku C.
+* Možete koristiti **Windows alat**: `cipher /w:C` Ovo će narediti cifri da ukloni sve podatke sa dostupnog neiskorišćenog prostora na disku C.
 * Takođe možete koristiti alate poput [**Eraser**](https://eraser.heidi.ie)
 
 ## Obriši Windows događajne zapise
@@ -164,6 +164,6 @@ Takođe je moguće izmeniti konfiguraciju koje datoteke će biti kopirane u shad
 
 * `fsutil usn deletejournal /d c:`
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}

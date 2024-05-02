@@ -4,7 +4,7 @@
 
 <summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks**? ili želite pristup **najnovijoj verziji PEASS ili preuzimanje HackTricks u PDF formatu**? Proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
+* Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks**? ili želite pristup **najnovijoj verziji PEASS-a ili preuzimanje HackTricks-a u PDF formatu**? Proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
@@ -12,7 +12,7 @@
 
 </details>
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
@@ -21,9 +21,9 @@
 
 Local Administrator Password Solution (LAPS) je alat koji se koristi za upravljanje sistemom gde se **administrator lozinke**, koje su **jedinstvene, slučajno generisane i često menjane**, primenjuju na računare pridružene domenu. Ove lozinke se čuvaju bezbedno unutar Active Directory-ja i pristup imaju samo korisnici kojima je dozvoljen pristup putem Access Control Lists (ACLs). Bezbednost prenosa lozinke sa klijenta na server je obezbeđena korišćenjem **Kerberos verzije 5** i **Advanced Encryption Standard (AES)**.
 
-Implementacija LAPS-a na objektima računara u domenu rezultira dodavanjem dva nova atributa: **`ms-mcs-AdmPwd`** i **`ms-mcs-AdmPwdExpirationTime`**. Ovi atributi čuvaju **plain-text administrator lozinku** i **vreme njenog isteka**, redom.
+U objektima računara domena, implementacija LAPS-a rezultira dodavanjem dva nova atributa: **`ms-mcs-AdmPwd`** i **`ms-mcs-AdmPwdExpirationTime`**. Ovi atributi čuvaju **plain-text administrator lozinku** i **vreme njenog isteka**, redom.
 
-### Provera da li je aktiviran
+### Proverite da li je aktiviran
 ```bash
 reg query "HKLM\Software\Policies\Microsoft Services\AdmPwd" /v AdmPwdEnabled
 
@@ -38,7 +38,7 @@ Get-DomainObject -SearchBase "LDAP://DC=sub,DC=domain,DC=local" | ? { $_."ms-mcs
 ```
 ### Pristup lozinki LAPS
 
-Mogli biste **preuzeti sirovu LAPS politiku** sa `\\dc\SysVol\domain\Policies\{4A8A4E8E-929F-401A-95BD-A7D40E0976C8}\Machine\Registry.pol` i zatim koristiti **`Parse-PolFile`** iz paketa [**GPRegistryPolicyParser**](https://github.com/PowerShell/GPRegistryPolicyParser) kako biste konvertirali ovaj fajl u lako čitljiv format.
+Mogli biste **preuzeti sirovu LAPS politiku** sa `\\dc\SysVol\domain\Policies\{4A8A4E8E-929F-401A-95BD-A7D40E0976C8}\Machine\Registry.pol` a zatim koristiti **`Parse-PolFile`** iz paketa [**GPRegistryPolicyParser**](https://github.com/PowerShell/GPRegistryPolicyParser) koji se može koristiti za konvertovanje ovog fajla u ljudski čitljiv format.
 
 Osim toga, **nativne LAPS PowerShell cmdlets** mogu se koristiti ako su instalirani na mašini do koje imamo pristup:
 ```powershell
@@ -71,8 +71,7 @@ Get-DomainObject -Identity wkstn-2 -Properties ms-Mcs-AdmPwd
 ```
 ### LAPSToolkit
 
-[LAPSToolkit](https://github.com/leoloobeek/LAPSToolkit) olakšava enumeraciju LAPS-a sa nekoliko funkcija. Jedna od njih je parsiranje **`ExtendedRights`** za **sve računare sa omogućenim LAPS-om**. To će prikazati **grupe** koje su specifično **delegirane za čitanje LAPS lozinki**, koje su često korisnici u zaštićenim grupama.\
-Neki **nalog** koji je **pridružio računar** domenu dobija `Sva proširena prava` nad tim računarom, a ovo pravo daje tom **nalogu** mogućnost da **čita lozinke**. Enumeracija može pokazati korisnički nalog koji može čitati LAPS lozinku na računaru. Ovo nam može pomoći da **ciljamo određene AD korisnike** koji mogu čitati LAPS lozinke.
+[LAPSToolkit](https://github.com/leoloobeek/LAPSToolkit) olakšava enumeraciju LAPS-a sa nekoliko funkcija. Jedna od njih je parsiranje **`ExtendedRights`** za **sve računare sa omogućenim LAPS-om**. Ovo će prikazati **grupe** koje su specifično **delegirane za čitanje LAPS lozinki**, koje su često korisnici u zaštićenim grupama. **Nalog** koji je **pridružio računar** domenu dobija `Sva proširena prava` nad tim računarom, a ovo pravo daje **nalogu** mogućnost da **čita lozinke**. Enumeracija može pokazati korisnički nalog koji može čitati LAPS lozinku na računaru. Ovo nam može pomoći da **ciljamo određene AD korisnike** koji mogu čitati LAPS lozinke.
 ```powershell
 # Get groups that can read passwords
 Find-LAPSDelegatedGroups
@@ -101,11 +100,11 @@ Ako nemate pristup powershell-u, možete zloupotrebiti ovu privilegiju udaljeno 
 ```
 crackmapexec ldap 10.10.10.10 -u user -p password --kdcHost 10.10.10.10 -M laps
 ```
-## **LAPS Upornost**
+## **LAPS Persistencija**
 
 ### **Datum isteka**
 
-Kada ste administrator, moguće je **dobiti lozinke** i **sprečiti** mašinu da **ažurira** svoju **lozinku** tako što ćete **postaviti datum isteka u budućnost**.
+Kada ste admin, moguće je **dobiti lozinke** i **sprečiti** mašinu da **ažurira** svoju **lozinku** tako što ćete **postaviti datum isteka u budućnost**.
 ```powershell
 # Get expiration time
 Get-DomainObject -Identity computer-21 -Properties ms-mcs-admpwdexpirationtime
@@ -115,7 +114,7 @@ Get-DomainObject -Identity computer-21 -Properties ms-mcs-admpwdexpirationtime
 Set-DomainObject -Identity wkstn-2 -Set @{"ms-mcs-admpwdexpirationtime"="232609935231523081"}
 ```
 {% hint style="warning" %}
-Lozinka će se i dalje resetovati ako je **administrator** koristi **`Reset-AdmPwdPassword`** cmdlet; ili ako je omogućeno **Ne dozvoli da vreme isteka lozinke bude duže od onog što je potrebno prema pravilima** u LAPS GPO.
+Lozinka će se i dalje resetovati ako je **administrator** koristi **`Reset-AdmPwdPassword`** cmdlet; ili ako je omogućeno **Ne dozvoli vreme isteka lozinke duže od onog što je potrebno prema politici** u LAPS GPO.
 {% endhint %}
 
 ### Zadnja vrata
@@ -127,7 +126,7 @@ Zatim, samo kompajlirajte novi `AdmPwd.PS.dll` i otpremite ga na mašinu u `C:\T
 ## Reference
 * [https://4sysops.com/archives/introduction-to-microsoft-laps-local-administrator-password-solution/](https://4sysops.com/archives/introduction-to-microsoft-laps-local-administrator-password-solution/)
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
@@ -138,7 +137,7 @@ Zatim, samo kompajlirajte novi `AdmPwd.PS.dll` i otpremite ga na mašinu u `C:\T
 * Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite vašu **kompaniju reklamiranu na HackTricks**? ili želite pristupiti **najnovijoj verziji PEASS ili preuzeti HackTricks u PDF formatu**? Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) **Discord grupi** ili **telegram grupi** ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na [hacktricks repo](https://github.com/carlospolop/hacktricks) i [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova na [hacktricks repozitorijum](https://github.com/carlospolop/hacktricks) i [hacktricks-cloud repozitorijum](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>

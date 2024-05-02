@@ -4,15 +4,15 @@
 
 <summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks**? ili želite pristupiti **najnovijoj verziji PEASS-a ili preuzeti HackTricks u PDF formatu**? Proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
+* Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks**? ili želite pristup **najnovijoj verziji PEASS-a ili preuzimanje HackTricks-a u PDF formatu**? Proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova u [hacktricks repozitorijum](https://github.com/carlospolop/hacktricks) i [hacktricks-cloud repozitorijum](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Podelite svoje hakovanje trikova slanjem PR-ova u [hacktricks repozitorijum](https://github.com/carlospolop/hacktricks) i [hacktricks-cloud repozitorijum](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
@@ -56,9 +56,9 @@ ewfacquire /dev/sdb
 ```
 ## Montiranje
 
-### Više vrsta
+### Više tipova
 
-Na **Windows** operativnom sistemu možete pokušati koristiti besplatnu verziju Arsenal Image Mounter alata ([https://arsenalrecon.com/downloads/](https://arsenalrecon.com/downloads/)) za **montiranje forenzičke slike**.
+Na **Windows** operativnom sistemu možete pokušati da koristite besplatnu verziju Arsenal Image Mounter alata ([https://arsenalrecon.com/downloads/](https://arsenalrecon.com/downloads/)) za **montiranje forenzičke slike**.
 
 ### Sirova
 ```bash
@@ -90,8 +90,8 @@ To je Windows aplikacija za montiranje volumena. Možete je preuzeti ovde [https
 
 ### Greške
 
-* **`cannot mount /dev/loop0 read-only`** u ovom slučaju morate koristiti zastave **`-o ro,norecovery`**
-* **`wrong fs type, bad option, bad superblock on /dev/loop0, missing codepage or helper program, or other error.`** u ovom slučaju montiranje nije uspelo jer je offset fajl sistema drugačiji od offseta disk slike. Morate pronaći veličinu sektora i početni sektor:
+* **`ne može da montira /dev/loop0 samo za čitanje`** u ovom slučaju morate koristiti zastave **`-o ro,norecovery`**
+* **`pogrešan tip fs, loša opcija, loš superblock na /dev/loop0, nedostaje codepage ili pomoćni program, ili druga greška.`** u ovom slučaju montiranje nije uspelo jer je offset fajl sistema različit od offseta disk slike. Morate pronaći veličinu sektora i početni sektor:
 ```bash
 fdisk -l disk.img
 Disk disk.img: 102 MiB, 106954648 bytes, 208896 sectors
@@ -104,11 +104,11 @@ Disk identifier: 0x00495395
 Device        Boot Start    End Sectors  Size Id Type
 disk.img1       2048 208895  206848  101M  1 FAT12
 ```
-Imajte na umu da je veličina sektora **512** i početak je **2048**. Zatim montirajte sliku na ovaj način:
+Imajte na umu da je veličina sektora **512** i početak je **2048**. Zatim montirajte sliku na sledeći način:
 ```bash
 mount disk.img /mnt -o ro,offset=$((2048*512))
 ```
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
@@ -119,7 +119,7 @@ mount disk.img /mnt -o ro,offset=$((2048*512))
 * Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks**? ili želite pristup **najnovijoj verziji PEASS-a ili preuzimanje HackTricks-a u PDF formatu**? Proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili **telegram grupi** ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova u [hacktricks repozitorijum](https://github.com/carlospolop/hacktricks) i [hacktricks-cloud repozitorijum](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
