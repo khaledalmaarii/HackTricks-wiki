@@ -8,7 +8,7 @@
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
@@ -16,7 +16,7 @@ Ander maniere om HackTricks te ondersteun:
 
 </details>
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
@@ -30,7 +30,7 @@ Binne hierdie SQLite-databasis kan jy die `Kennisgewing`-tabel vind met al die k
 
 ### Tydlyn
 
-Tydlyn is 'n Windows kenmerk wat 'n **chronologiese geskiedenis** van besoekte webbladsye, bewerkte dokumente, en uitgevoerde toepassings bied.
+Tydlyn is 'n Windows kenmerk wat 'n **chronologiese geskiedenis** van besoekte webwerwe, bewerkte dokumente, en uitgevoerde toepassings bied.
 
 Die databasis bly in die pad `\Users\<gebruikersnaam>\AppData\Local\ConnectedDevicesPlatform\<id>\ActivitiesCache.db`. Hierdie databasis kan geopen word met 'n SQLite-instrument of met die instrument [**WxTCmd**](https://github.com/EricZimmerman/WxTCmd) **wat 2 lêers genereer wat geopen kan word met die instrument** [**TimeLine Explorer**](https://ericzimmerman.github.io/#!index.md).
 
@@ -42,7 +42,7 @@ Lêers wat afgelaai is, kan die **ADS Zone.Identifier** bevat wat aandui **hoe**
 
 ### Stortbak
 
-In Vista/Win7/Win8/Win10 kan die **Stortbak** gevind word in die vouer **`$Recycle.bin`** in die wortel van die aandrywing (`C:\$Recycle.bin`).\
+In Vista/Win7/Win8/Win10 kan die **Stortbak** gevind word in die vouer **`$Recycle.bin`** in die hoof van die aandrywing (`C:\$Recycle.bin`).\
 Wanneer 'n lêer in hierdie vouer verwyder word, word 2 spesifieke lêers geskep:
 
 * `$I{id}`: Lêerinligting (datum van wanneer dit verwyder is}
@@ -68,7 +68,7 @@ Deur die forensiese beeld te koppel met die **ArsenalImageMounter**, kan die hul
 
 ![](<../../../.gitbook/assets/image (521).png>)
 
-Die registerinskrywing `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\BackupRestore` bevat die lêers en sleutels **wat nie agterkopieë moet hê nie**:
+Die registerinskrywing `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\BackupRestore` bevat die lêers en sleutels **wat nie agtergekopieer moet word nie**:
 
 ![](<../../../.gitbook/assets/image (522).png>)
 
@@ -78,9 +78,9 @@ Die register `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\VSS` bevat oo
 
 Jy kan die kantoor opgeslane lêers vind in: `C:\Usuarios\\AppData\Roaming\Microsoft{Excel|Word|Powerpoint}\`
 
-## Skuldelemente
+## Skulpelemente
 
-'n Skuldelement is 'n item wat inligting bevat oor hoe om toegang tot 'n ander lêer te verkry.
+'n Skulpelement is 'n item wat inligting bevat oor hoe om toegang tot 'n ander lêer te verkry.
 
 ### Onlangse Dokumente (LNK)
 
@@ -89,11 +89,11 @@ Windows **skep outomaties** hierdie **kortpaaie** wanneer die gebruiker 'n lêer
 * Win7-Win10: `C:\Users\\AppData\Roaming\Microsoft\Windows\Recent\`
 * Kantoor: `C:\Users\\AppData\Roaming\Microsoft\Office\Recent\`
 
-Wanneer 'n vouer geskep word, word 'n skakel na die vouer, na die ouervouer en die ouerouervouer ook geskep.
+Wanneer 'n vouer geskep word, word 'n skakel na die vouer, na die ouervouer en die ouergrootouervouer ook geskep.
 
 Hierdie outomaties geskepte skakellêers bevat inligting oor die oorsprong soos of dit 'n **lêer** **of** 'n **vouer** is, **MAC** **tye** van daardie lêer, **volume-inligting** waar die lêer gestoor word en **vouer van die teikenvouer**. Hierdie inligting kan nuttig wees om daardie lêers te herstel in die geval dat hulle verwyder is.
 
-Ook is die **skeppingstyd van die skakel** lêer die eerste **keer** wat die oorspronklike lêer **eerste** **gebruik** is en die **datum** **gewysig** van die skakel lêer is die **laaste** **keer** wat die oorspronklike lêer gebruik is.
+Ook is die **datum geskep van die skakel** lêer die eerste **keer** wat die oorspronklike lêer **eerste** **gebruik** is en die **datum** **gewysig** van die skakel lêer is die **laaste** **keer** wat die oorspronklike lêer gebruik is.
 
 Om hierdie lêers te ondersoek, kan jy [**LinkParser**](http://4discovery.com/our-tools/) gebruik.
 
@@ -114,13 +114,15 @@ Jy kan dieselfde inligting kry deur die Windows CLI-hulpmiddel uit te voer: [**L
 ```
 LECmd.exe -d C:\Users\student\Desktop\LNKs --csv C:\Users\student\Desktop\LNKs
 ```
+In hierdie geval gaan die inligting binne 'n CSV-lêer gestoor word.
+
 ### Springlyste
 
 Dit is die onlangse lêers wat per toepassing aangedui word. Dit is die lys van **onlangse lêers wat deur 'n toepassing gebruik is** wat jy op elke toepassing kan raadpleeg. Hulle kan **outomaties geskep word of aangepas wees**.
 
-Die **springlyste** wat outomaties geskep word, word gestoor in `C:\Users\{gebruikersnaam}\AppData\Roaming\Microsoft\Windows\Recent\AutomaticDestinations\`. Die springlyste word genoem volgens die formaat `{id}.autmaticDestinations-ms` waar die aanvanklike ID die ID van die toepassing is.
+Die **springlyste** wat outomaties geskep word, word gestoor in `C:\Gebruikers\{gebruikersnaam}\AppData\Roaming\Microsoft\Windows\Recent\AutomaticDestinations\`. Die springlyste word genoem volgens die formaat `{id}.autmaticDestinations-ms` waar die aanvanklike ID die ID van die toepassing is.
 
-Die aangepaste springlyste word gestoor in `C:\Users\{gebruikersnaam}\AppData\Roaming\Microsoft\Windows\Recent\CustomDestination\` en hulle word gewoonlik deur die toepassing geskep omdat iets **belangrik** met die lêer gebeur het (miskien as gunsteling gemerk).
+Die aangepaste springlyste word gestoor in `C:\Gebruikers\{gebruikersnaam}\AppData\Roaming\Microsoft\Windows\Recent\CustomDestination\` en hulle word gewoonlik deur die toepassing geskep omdat iets **belangrik** met die lêer gebeur het (miskien as gunsteling gemerk).
 
 Die **geskepte tyd** van enige springlys dui die **eerste keer aan dat die lêer benader is** en die **gewysigde tyd die laaste keer**.
 
@@ -128,7 +130,7 @@ Jy kan die springlyste inspekteer met behulp van [**JumplistExplorer**](https://
 
 ![](<../../../.gitbook/assets/image (474).png>)
 
-(_Let daarop dat die tydmerke wat deur JumplistExplorer voorsien word, verband hou met die springlys lêer self_)
+(_Let daarop dat die tye wat deur JumplistExplorer voorsien word, verband hou met die springlys-lêer self_)
 
 ### Shellbags
 
@@ -146,7 +148,7 @@ Let daarop dat sommige LNK-lêers in plaas van na die oorspronklike pad te verwy
 
 ![](<../../../.gitbook/assets/image (476).png>)
 
-Die lêers in die WPDNSE-vouer is 'n kopie van die oorspronklike lêers, sal dus nie oorleef nie 'n herbegin van die rekenaar nie en die GUID word geneem uit 'n shellbag.
+Die lêers in die WPDNSE-vouer is 'n kopie van die oorspronklike lêers, sal dus nie 'n herbegin van die rekenaar oorleef nie en die GUID word uit 'n shellbag geneem.
 
 ### Registreer Inligting
 
@@ -154,19 +156,19 @@ Die lêers in die WPDNSE-vouer is 'n kopie van die oorspronklike lêers, sal dus
 
 ### setupapi
 
-Kyk na die lêer `C:\Windows\inf\setupapi.dev.log` om die tydmerke te kry oor wanneer die USB-verbinding geproduseer is (soek vir `Section start`).
+Kyk na die lêer `C:\Windows\inf\setupapi.dev.log` om die tye te kry wanneer die USB-verbinding plaasgevind het (soek vir `Section start`).
 
 ![](<../../../.gitbook/assets/image (477) (2) (2) (2) (2) (2) (2) (2) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (14).png>)
 
 ### USB Detective
 
-[**USBDetective**](https://usbdetective.com) kan gebruik word om inligting te verkry oor die USB-toestelle wat aan 'n beeld gekoppel was.
+[**USBDetective**](https://usbdetective.com) kan gebruik word om inligting oor die USB-toestelle wat aan 'n beeld gekoppel is, te verkry.
 
 ![](<../../../.gitbook/assets/image (483).png>)
 
 ### Inprop en Speel Skoonmaak
 
-Die geskeduleerde taak wat bekend staan as 'Inprop en Speel Skoonmaak' is primêr ontwerp vir die verwydering van verouderde drywerversione. In teenstelling met sy gespesifiseerde doelwit om die nuutste drywepakketweergawe te behou, suggereer aanlynbronne dat dit ook mik op drywers wat vir 30 dae onaktief was. Gevolglik kan drywers vir verwyderbare toestelle wat nie in die afgelope 30 dae aangesluit was nie, onderwerp wees aan uitwissing.
+Die geskeduleerde taak wat bekend staan as 'Inprop en Speel Skoonmaak' is hoofsaaklik ontwerp vir die verwydering van verouderde bestuurderweergawes. In teenstelling met sy gespesifiseerde doel om die jongste bestuurderpakketweergawe te behou, suggereer aanlynbronne dat dit ook mik op bestuurders wat vir 30 dae onaktief was. Gevolglik kan bestuurders vir verwyderbare toestelle wat nie in die afgelope 30 dae aangesluit is nie, onderwerp wees aan uitvee.
 
 Die taak is geleë op die volgende pad:
 `C:\Windows\System32\Tasks\Microsoft\Windows\Plug and Play\Plug and Play Cleanup`.
@@ -174,16 +176,16 @@ Die taak is geleë op die volgende pad:
 'n Skermkiekie wat die inhoud van die taak uitbeeld, word voorsien:
 ![](https://2.bp.blogspot.com/-wqYubtuR_W8/W19bV5S9XyI/AAAAAAAANhU/OHsBDEvjqmg9ayzdNwJ4y2DKZnhCdwSMgCLcBGAs/s1600/xml.png)
 
-**Sleutelkomponente en Instellings van die Taak:**
+**Kernkomponente en Instellings van die Taak:**
 - **pnpclean.dll**: Hierdie DLL is verantwoordelik vir die werklike skoonmaakproses.
-- **UseUnifiedSchedulingEngine**: Gestel op `TRUE`, wat dui op die gebruik van die generiese taakbeplanningsenjin.
+- **UseUnifiedSchedulingEngine**: Gestel op `TRUE`, wat dui op die gebruik van die generiese taakskeduleringsenjin.
 - **MaintenanceSettings**:
-- **Tydperk ('P1M')**: Stuur die Taakbeplanner om die skoonmaaktaak maandeliks tydens gereelde Outomatiese instandhouding te begin.
-- **Deurnooi ('P2M')**: Instrueer die Taakbeplanner, as die taak vir twee opeenvolgende maande misluk, om die taak tydens noodsaaklike Outomatiese instandhouding uit te voer.
+- **Tydperk ('P1M')**: Stuur die Taakscheduler om die skoonmaaktaak maandeliks tydens gereelde Outomatiese instandhouding te begin.
+- **Deurnooi ('P2M')**: Instrueer die Taakscheduler, as die taak vir twee opeenvolgende maande misluk, om die taak tydens noodsaaklike Outomatiese instandhouding uit te voer.
 
-Hierdie konfigurasie verseker gereelde instandhouding en skoonmaak van drywers, met bepalings vir herpoging van die taak in geval van opeenvolgende mislukkings.
+Hierdie konfigurasie verseker gereelde instandhouding en skoonmaak van bestuurders, met bepalings vir 'n herpoging van die taak in geval van opeenvolgende mislukkings.
 
-**Vir meer inligting kyk na:** [**https://blog.1234n6.com/2018/07/windows-plug-and-play-cleanup.html**](https://blog.1234n6.com/2018/07/windows-plug-and-play-cleanup.html)
+**Vir meer inligting kyk:** [**https://blog.1234n6.com/2018/07/windows-plug-and-play-cleanup.html**](https://blog.1234n6.com/2018/07/windows-plug-and-play-cleanup.html)
 
 ## E-posse
 
@@ -198,9 +200,9 @@ Ook kan jy binne die `Verwysings` en `In-Reply-To` koppe die ID van die boodskap
 
 ### Windows Pos App
 
-Hierdie toepassing stoor e-posse in HTML of teks. Jy kan die e-posse binne subvouers vind binne `\Users\<gebruikersnaam>\AppData\Local\Comms\Unistore\data\3\`. Die e-posse word gestoor met die `.dat`-uitbreiding.
+Hierdie toepassing stoor e-posse in HTML of teks. Jy kan die e-posse binne subvouers vind binne `\Gebruikers\<gebruikersnaam>\AppData\Local\Comms\Unistore\data\3\`. Die e-posse word gestoor met die `.dat`-uitbreiding.
 
-Die **metadata** van die e-posse en die **kontakbesonderhede** kan binne die **EDB-databasis** gevind word: `\Users\<gebruikersnaam>\AppData\Local\Comms\UnistoreDB\store.vol`
+Die **metadata** van die e-posse en die **kontakte** kan binne die **EDB-databasis** gevind word: `\Gebruikers\<gebruikersnaam>\AppData\Local\Comms\UnistoreDB\store.vol`
 
 **Verander die uitbreiding** van die lêer van `.vol` na `.edb` en jy kan die instrument [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html) gebruik om dit oop te maak. Binne die `Boodskap`-tabel kan jy die e-posse sien.
 
@@ -209,11 +211,11 @@ Die **metadata** van die e-posse en die **kontakbesonderhede** kan binne die **E
 Wanneer Exchange-bedieners of Outlook-kliënte gebruik word, gaan daar 'n paar MAPI-koppe wees:
 
 * `Mapi-Client-Submit-Time`: Tyd van die stelsel wanneer die e-pos gestuur is
-* `Mapi-Conversation-Index`: Aantal kinderboodskappe van die draad en tydmerk van elke boodskap van die draad
+* `Mapi-Conversation-Index`: Aantal kinderboodskappe van die draad en tydstempel van elke boodskap van die draad
 * `Mapi-Entry-ID`: Boodskapidentifiseerder.
 * `Mappi-Message-Flags` en `Pr_last_Verb-Executed`: Inligting oor die MAPI-kliënt (boodskap gelees? nie gelees nie? geantwoord? omgelei? uit die kantoor?)
 
-In die Microsoft Outlook-kliënt word al die gestuurde/ontvangsboodskappe, kontakdata, en kalenderdata gestoor in 'n PST-lêer in:
+In die Microsoft Outlook-kliënt word al die gestuurde/ontvangsboodskappe, kontakte-inligting, en kalenderinligting gestoor in 'n PST-lêer in:
 
 * `%USERPROFILE%\Local Settings\Application Data\Microsoft\Outlook` (WinXP)
 * `%USERPROFILE%\AppData\Local\Microsoft\Outlook`
@@ -225,11 +227,11 @@ Jy kan die PST-lêer oopmaak met die instrument [**Kernel PST Viewer**](https://
 ![](<../../../.gitbook/assets/image (485).png>)
 ### Microsoft Outlook OST-lêers
 
-'n **OST-lêer** word gegenereer deur Microsoft Outlook wanneer dit gekonfigureer is met **IMAP** of 'n **Exchange**-bediener, wat soortgelyke inligting as 'n PST-lêer stoor. Hierdie lêer word gesinkroniseer met die bediener, behou data vir **die laaste 12 maande** tot 'n **maksimum grootte van 50GB**, en word in dieselfde gids as die PST-lêer gevind. Om 'n OST-lêer te sien, kan die [**Kernel OST-aansig**](https://www.nucleustechnologies.com/ost-viewer.html) gebruik word.
+'n **OST-lêer** word gegenereer deur Microsoft Outlook wanneer dit gekonfigureer is met **IMAP** of 'n **Exchange**-bediener, wat soortgelyke inligting as 'n PST-lêer stoor. Hierdie lêer word gesinkroniseer met die bediener, behou data vir **die laaste 12 maande** tot 'n **maksimum grootte van 50GB**, en is geleë in dieselfde gids as die PST-lêer. Om 'n OST-lêer te sien, kan die [**Kernel OST-aansigter**](https://www.nucleustechnologies.com/ost-viewer.html) gebruik word.
 
-### Herwinning van Aanhangsels
+### Terugwinning van Aanhegsels
 
-Verlore aanhangsels kan herwin word vanaf:
+Verlore aanhegsels kan herwin word vanaf:
 
 - Vir **IE10**: `%APPDATA%\Local\Microsoft\Windows\Temporary Internet Files\Content.Outlook`
 - Vir **IE11 en hoër**: `%APPDATA%\Local\Microsoft\InetCache\Content.Outlook`
@@ -240,8 +242,8 @@ Verlore aanhangsels kan herwin word vanaf:
 
 ### Beeld Duimnaels
 
-- **Windows XP en 8-8.1**: Toegang tot 'n gids met duimnaels genereer 'n `thumbs.db`-lêer wat beeldvoorbeelde stoor, selfs ná verwydering.
-- **Windows 7/10**: `thumbs.db` word geskep wanneer dit oor 'n netwerk benader word via 'n UNC-paadjie.
+- **Windows XP en 8-8.1**: Toegang tot 'n gids met duimnaels genereer 'n `thumbs.db`-lêer wat beeldvoorbeelde stoor, selfs ná skrapping.
+- **Windows 7/10**: `thumbs.db` word geskep wanneer dit oor 'n netwerk via 'n UNC-paadjie benader word.
 - **Windows Vista en nuwer**: Duimnaelvoorbeelde is gesentraliseer in `%userprofile%\AppData\Local\Microsoft\Windows\Explorer` met lêers genaamd **thumbcache\_xxx.db**. [**Thumbsviewer**](https://thumbsviewer.github.io) en [**ThumbCache Viewer**](https://thumbcacheviewer.github.io) is gereedskap vir die sien van hierdie lêers.
 
 ### Windows Registerinligting
@@ -250,31 +252,31 @@ Die Windows-register, wat omvattende stelsel- en gebruikersaktiwiteitsdata stoor
 
 - `%windir%\System32\Config` vir verskeie `HKEY_LOCAL_MACHINE` subklasse.
 - `%UserProfile%{User}\NTUSER.DAT` vir `HKEY_CURRENT_USER`.
-- Windows Vista en nuwer maak 'n rugsteun van `HKEY_LOCAL_MACHINE` registerlêers in `%Windir%\System32\Config\RegBack\`.
+- Windows Vista en nuwer weergawes maak 'n rugsteun van `HKEY_LOCAL_MACHINE` registerlêers in `%Windir%\System32\Config\RegBack\`.
 - Daarbenewens word programuitvoerinligting gestoor in `%UserProfile%\{User}\AppData\Local\Microsoft\Windows\USERCLASS.DAT` vanaf Windows Vista en Windows 2008 Server aan.
 
 ### Gereedskap
 
 Sommige gereedskap is nuttig om die registerlêers te analiseer:
 
-* **Registerredakteur**: Dit is geïnstalleer in Windows. Dit is 'n GUI om deur die Windows-register van die huidige sessie te navigeer.
-* [**Registerontdekker**](https://ericzimmerman.github.io/#!index.md): Dit laat jou toe om die registerlêer te laai en daardeur te navigeer met 'n GUI. Dit bevat ook Bladmerke wat sleutels met interessante inligting beklemtoon.
+* **Registerredigeerder**: Dit is geïnstalleer in Windows. Dit is 'n GUI om deur die Windows-register van die huidige sessie te navigeer.
+* [**Registerontleder**](https://ericzimmerman.github.io/#!index.md): Dit laat jou toe om die registerlêer te laai en daardeur te navigeer met 'n GUI. Dit bevat ook Bladmerke wat sleutels met interessante inligting beklemtoon.
 * [**RegRipper**](https://github.com/keydet89/RegRipper3.0): Weereens, dit het 'n GUI wat toelaat om deur die gelaai register te navigeer en bevat ook aanvullings wat interessante inligting binne die gelaai register beklemtoon.
 * [**Windows Registerherwinning**](https://www.mitec.cz/wrr.html): 'n Ander GUI-toepassing wat in staat is om die belangrike inligting uit die gelaai register te onttrek.
 
 ### Herwinning van Verwyderde Element
 
-Wanneer 'n sleutel verwyder word, word dit as sodanig gemerk, maar totdat die spasie wat dit beset word benodig word, sal dit nie verwyder word nie. Daarom is dit moontlik om hierdie verwyderde sleutels te herwin deur gereedskap soos **Registerontdekker** te gebruik.
+Wanneer 'n sleutel verwyder word, word dit as sodanig gemerk, maar totdat die spasie wat dit beset benodig word, sal dit nie verwyder word nie. Daarom is dit moontlik om hierdie verwyderde sleutels te herwin deur gereedskap soos **Registerontleder** te gebruik.
 
 ### Laaste Skryftyd
 
-Elke Sleutel-Waarde bevat 'n **tydstempel** wat die laaste keer aandui wat dit gewysig is.
+Elke Sleutel-Waarde bevat 'n **tydstempel** wat aandui wanneer dit laas gewysig is.
 
 ### SAM
 
 Die lêer/hive **SAM** bevat die **gebruikers, groepe en gebruikerswagwoorde** hasjies van die stelsel.
 
-In `SAM\Domains\Account\Users` kan jy die gebruikersnaam, die RID, laaste aanmelding, laaste mislukte aanmelding, aanmeldteller, wagwoordbeleid en wanneer die rekening geskep is, verkry. Om die **hasjies** te kry, het jy ook die lêer/hive **SYSTEM** nodig.
+In `SAM\Domains\Account\Users` kan jy die gebruikersnaam, die RID, laaste aanmelding, laaste mislukte aanmelding, aanmeldingteller, wagwoordbeleid en wanneer die rekening geskep is, verkry. Om die **hasjies** te kry, het jy ook die lêer/hive **SYSTEM** nodig.
 
 ### Interessante inskrywings in die Windows-register
 
@@ -290,21 +292,21 @@ In [hierdie pos](https://jonahacks.medium.com/investigating-common-windows-proce
 
 ### Windows Onlangse Toepassings
 
-Binne die register `NTUSER.DAT` in die paadjie `Software\Microsoft\Current Version\Search\RecentApps` kan jy subklasse met inligting oor die **uitgevoerde toepassing**, **laaste keer** wat dit uitgevoer is, en **aantal kere** wat dit uitgevoer is, vind.
+Binne die register `NTUSER.DAT` in die pad `Software\Microsoft\Current Version\Search\RecentApps` kan jy subklasse met inligting oor die **uitgevoerde toepassing**, **laaste tyd** wat dit uitgevoer is, en **aantal kere** wat dit afgeskop is, vind.
 
 ### BAM (Agtergrondaktiwiteitsmoderator)
 
-Jy kan die `SYSTEM`-lêer oopmaak met 'n registerredakteur en binne die paadjie `SYSTEM\CurrentControlSet\Services\bam\UserSettings\{SID}` kan jy die inligting oor die **toepassings wat deur elke gebruiker uitgevoer is** vind (let op die `{SID}` in die paadjie) en **wanneer** hulle uitgevoer is (die tyd is binne die Data-waarde van die register).
+Jy kan die `SYSTEM`-lêer met 'n registerredigeerder oopmaak en binne die pad `SYSTEM\CurrentControlSet\Services\bam\UserSettings\{SID}` kan jy die inligting oor die **toepassings wat deur elke gebruiker uitgevoer is** vind (let op die `{SID}` in die pad) en op **watter tyd** hulle uitgevoer is (die tyd is binne die Data-waarde van die register).
 
 ### Windows Prefetch
 
-Prefetching is 'n tegniek wat 'n rekenaar toelaat om stilweg die nodige hulpbronne te **haal wat nodig is om inhoud te vertoon** wat 'n gebruiker **moontlik binnekort sal toegang** sodat hulpbronne vinniger toegang kan word.
+Prefetching is 'n tegniek wat 'n rekenaar in staat stel om stilweg die nodige hulpbronne te **haal wat nodig is om inhoud te vertoon** wat 'n gebruiker **moontlik binnekort sal toegang** sodat hulpbronne vinniger toeganklik kan wees.
 
-Windows prefetch bestaan uit die skep van **kasgeheues van die uitgevoerde programme** om hulle vinniger te kan laai. Hierdie geheues word geskep as `.pf`-lêers binne die paadjie: `C:\Windows\Prefetch`. Daar is 'n limiet van 128 lêers in XP/VISTA/WIN7 en 1024 lêers in Win8/Win10.
+Windows prefetch bestaan uit die skep van **kasgeheues van die uitgevoerde programme** om hulle vinniger te kan laai. Hierdie geheues word geskep as `.pf`-lêers binne die pad: `C:\Windows\Prefetch`. Daar is 'n limiet van 128 lêers in XP/VISTA/WIN7 en 1024 lêers in Win8/Win10.
 
-Die lêernaam word geskep as `{program_naam}-{hasj}.pf` (die hasj is gebaseer op die paadjie en argumente van die uitvoerbare lêer). In W10 is hierdie lêers saamgedruk. Let daarop dat die enkele teenwoordigheid van die lêer aandui dat **die program op 'n stadium uitgevoer is**.
+Die lêernaam word geskep as `{program_naam}-{hasj}.pf` (die hasj is gebaseer op die pad en argumente van die uitvoerbare lêer). In W10 is hierdie lêers saamgedruk. Let daarop dat die enkele teenwoordigheid van die lêer aandui dat **die program op 'n stadium uitgevoer is**.
 
-Die lêer `C:\Windows\Prefetch\Layout.ini` bevat die **name van die gids van die lêers wat geprefetch** word. Hierdie lêer bevat **inligting oor die aantal uitvoerings**, **datums** van die uitvoering en **lêers** **wat oop** is deur die program.
+Die lêer `C:\Windows\Prefetch\Layout.ini` bevat die **name van die gids van die lêers wat geprefetch is**. Hierdie lêer bevat **inligting oor die aantal uitvoerings**, **datums** van die uitvoering en **lêers** **wat oop** is deur die program.
 
 Om hierdie lêers te ondersoek, kan jy die gereedskap [**PEcmd.exe**](https://github.com/EricZimmerman/PECmd) gebruik:
 ```bash
@@ -314,36 +316,36 @@ Om hierdie lêers te ondersoek, kan jy die gereedskap [**PEcmd.exe**](https://gi
 
 ### Superprefetch
 
-**Superprefetch** het dieselfde doel as prefetch, **laai programme vinniger** deur te voorspel wat die volgende gelaaide item sal wees. Dit vervang egter nie die prefetch-diens nie.\
-Hierdie diens sal databasislêers genereer in `C:\Windows\Prefetch\Ag*.db`.
+**Superprefetch** het dieselfde doel as prefetch, **laai programme vinniger** deur te voorspel wat gaan volgende gelaai word. Dit vervang egter nie die prefetch-diens nie.\
+Hierdie diens sal databasis lêers genereer in `C:\Windows\Prefetch\Ag*.db`.
 
 In hierdie databasisse kan jy die **naam** van die **program**, **aantal** **uitvoerings**, **lêers** **geopen**, **volume** **toegang**, **volledige** **pad**, **tydraamwerke** en **tydstempels** vind.
 
-Jy kan hierdie inligting kry deur die werktuig [**CrowdResponse**](https://www.crowdstrike.com/resources/community-tools/crowdresponse/) te gebruik.
+Jy kan toegang tot hierdie inligting kry deur die instrument [**CrowdResponse**](https://www.crowdstrike.com/resources/community-tools/crowdresponse/).
 
 ### SRUM
 
-**System Resource Usage Monitor** (SRUM) **monitor** die **hulpbronne** **verbruik** **deur 'n proses**. Dit het in W8 verskyn en stoor die data in 'n ESE-databasis wat geleë is in `C:\Windows\System32\sru\SRUDB.dat`.
+**System Resource Usage Monitor** (SRUM) **monitor** die **hulpbronne** **verbruik** **deur 'n proses**. Dit het in W8 verskyn en stoor die data in 'n ESE-databasis geleë in `C:\Windows\System32\sru\SRUDB.dat`.
 
 Dit gee die volgende inligting:
 
 * AppID en Pad
 * Gebruiker wat die proses uitgevoer het
-* Gestuurde grepe
-* Ontvangs grepe
-* Netwerk koppelvlak
+* Gestuurde Grepe
+* Ontvangs Grepe
+* Netwerk Koppelvlak
 * Koppelingsduur
 * Prosesduur
 
 Hierdie inligting word elke 60 minute opgedateer.
 
-Jy kan die datum uit hierdie lêer kry deur die werktuig [**srum\_dump**](https://github.com/MarkBaggett/srum-dump) te gebruik.
+Jy kan die datum uit hierdie lêer verkry deur die instrument [**srum\_dump**](https://github.com/MarkBaggett/srum-dump).
 ```bash
 .\srum_dump.exe -i C:\Users\student\Desktop\SRUDB.dat -t SRUM_TEMPLATE.xlsx -o C:\Users\student\Desktop\srum
 ```
 ### AppCompatCache (ShimCache)
 
-Die **AppCompatCache**, ook bekend as **ShimCache**, vorm 'n deel van die **Toepassingsverenigbaarheidsdatabasis** wat deur **Microsoft** ontwikkel is om toepassingsverenigbaarheidsprobleme aan te spreek. Hierdie stelselkomponent neem verskeie stukke lêermetadate op, wat insluit:
+Die **AppCompatCache**, ook bekend as **ShimCache**, vorm deel van die **Toepassingsverenigbaarheidsdatabasis** wat deur **Microsoft** ontwikkel is om toepassingsverenigbaarheidsprobleme aan te spreek. Hierdie stelselkomponent neem verskeie stukke lêermetadat op, wat insluit:
 
 - Volledige pad van die lêer
 - Grootte van die lêer
@@ -366,11 +368,11 @@ Die **Amcache.hve**-lêer is essensieel 'n registerstok wat besonderhede oor toe
 
 Hierdie lêer is opmerklik vir die stoor van rekords van onlangs uitgevoerde prosesse, insluitend die paaie na die uitvoerbare lêers en hul SHA1-hashes. Hierdie inligting is van onskatbare waarde vir die opsporing van die aktiwiteit van toepassings op 'n stelsel.
 
-Om die data uit **Amcache.hve** te onttrek en te analiseer, kan die [**AmcacheParser**](https://github.com/EricZimmerman/AmcacheParser)-werktuig gebruik word. Die volgende bevel is 'n voorbeeld van hoe AmcacheParser gebruik kan word om die inhoud van die **Amcache.hve**-lêer te ontled en die resultate in CSV-formaat uit te voer:
+Om die data uit **Amcache.hve** te onttrek en te analiseer, kan die [**AmcacheParser**](https://github.com/EricZimmerman/AmcacheParser)-werktuig gebruik word. Die volgende bevel is 'n voorbeeld van hoe om AmcacheParser te gebruik om die inhoud van die **Amcache.hve**-lêer te ontled en die resultate in CSV-formaat uit te voer:
 ```bash
 AmcacheParser.exe -f C:\Users\genericUser\Desktop\Amcache.hve --csv C:\Users\genericUser\Desktop\outputFolder
 ```
-Onder die gegenereerde CSV-lêers is die `Amcache_Unassociated file entries` veral merkwaardig vanweë die ryk inligting wat dit bied oor ongeassosieerde lêerinskrywings.
+Onder die gegenereerde CSV-lêers is die `Amcache_Unassociated file entries` veral merkwaardig weens die ryk inligting wat dit bied oor ongeassosieerde lêerinskrywings.
 
 Die mees interessante CVS-lêer wat gegenereer word, is die `Amcache_Unassociated file entries`.
 
@@ -380,7 +382,7 @@ Hierdie artefak kan slegs in W7 gevind word in `C:\Windows\AppCompat\Programs\Re
 
 Jy kan die werktuig [**RecentFileCacheParse**](https://github.com/EricZimmerman/RecentFileCacheParser) gebruik om die lêer te ontled.
 
-### Beplande take
+### Geskeduleerde take
 
 Jy kan hulle onttrek uit `C:\Windows\Tasks` of `C:\Windows\System32\Tasks` en dit as XML lees.
 
@@ -390,13 +392,13 @@ Jy kan hulle in die register vind onder `SYSTEM\ControlSet001\Services`. Jy kan 
 
 ### **Windows Store**
 
-Die geïnstalleerde toepassings kan gevind word in `\ProgramData\Microsoft\Windows\AppRepository\`\
-Hierdie argief het 'n **log** met **elke toepassing wat geïnstalleer is** in die stelsel binne die databasis **`StateRepository-Machine.srd`**.
+Die geïnstalleerde aansoeke kan gevind word in `\ProgramData\Microsoft\Windows\AppRepository\`\
+Hierdie argief het 'n **log** met **elke aansoek wat geïnstalleer** is in die stelsel binne die databasis **`StateRepository-Machine.srd`**.
 
-Binne die Toepassingstabel van hierdie databasis is dit moontlik om die kolomme te vind: "Toepassings-ID", "Pakketnommer", en "Vertoonnaam". Hierdie kolomme het inligting oor vooraf geïnstalleerde en geïnstalleerde toepassings en dit kan gevind word of sekere toepassings ongeïnstalleer is omdat die ID's van geïnstalleerde toepassings opeenvolgend moet wees.
+Binne die Aansoek-tabel van hierdie databasis, is dit moontlik om die kolomme te vind: "Aansoek-ID", "Pakketnommer", en "Vertoonnaam". Hierdie kolomme het inligting oor vooraf geïnstalleerde en geïnstalleerde aansoeke en dit kan gevind word as sommige aansoeke ongeïnstalleer is omdat die ID's van geïnstalleerde aansoeke opeenvolgend moet wees.
 
-Dit is ook moontlik om **geïnstalleerde toepassing** in die registerpad te vind: `Software\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Applications\`\
-En **ongeïnstalleerde toepassings** in: `Software\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Deleted\`
+Dit is ook moontlik om **geïnstalleerde aansoek** binne die registerpad te vind: `Software\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Applications\`\
+En **ongeïnstalleerde** **aansoeke** in: `Software\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Deleted\`
 
 ## Windows Gebeure
 
@@ -406,22 +408,22 @@ Inligting wat binne Windows-gebeure verskyn, is:
 * Tydstempel (UTC + 0)
 * Gebruikers betrokke
 * Gasheer betrokke (gasheernaam, IP)
-* Bates benader (lêers, vouer, drukker, dienste)
+* Bates wat benader is (lêers, vouer, drukker, dienste)
 
 Die logs is geleë in `C:\Windows\System32\config` voor Windows Vista en in `C:\Windows\System32\winevt\Logs` na Windows Vista. Voor Windows Vista was die gebeurtenislogs in binêre formaat en daarna is hulle in **XML-formaat** en gebruik die **.evtx**-uitbreiding.
 
 Die ligging van die gebeurtenis lêers kan gevind word in die SYSTEM-register in **`HKLM\SYSTEM\CurrentControlSet\services\EventLog\{Application|System|Security}`**
 
-Hulle kan gesien word vanuit die Windows-gebeurtenisvenster (**`eventvwr.msc`**) of met ander gereedskap soos [**Event Log Explorer**](https://eventlogxp.com) **of** [**Evtx Explorer/EvtxECmd**](https://ericzimmerman.github.io/#!index.md)**.**
+Hulle kan gesien word vanuit die Windows-gebeurtenisleser (**`eventvwr.msc`**) of met ander gereedskap soos [**Event Log Explorer**](https://eventlogxp.com) **of** [**Evtx Explorer/EvtxECmd**](https://ericzimmerman.github.io/#!index.md)**.**
 
 ## Begrip van Windows-sekuriteit-gebeurtenislogging
 
-Toegangsgebeure word aangeteken in die sekuriteitskonfigurasie-lêer wat geleë is by `C:\Windows\System32\winevt\Security.evtx`. Hierdie lêer se grootte is aanpasbaar, en wanneer sy kapasiteit bereik is, word ouer gebeure oorskryf. Aangetekende gebeure sluit in gebruikersaanmeldings en -afmeldings, gebruikeraksies, en veranderinge aan sekuriteitsinstellings, sowel as toegang tot lêers, vouers, en gedeelde bates.
+Toegangsgebeure word aangeteken in die sekerheidskonfigurasie-lêer wat geleë is by `C:\Windows\System32\winevt\Security.evtx`. Hierdie lêer se grootte is aanpasbaar, en wanneer sy kapasiteit bereik is, word ouer gebeure oorskryf. Aangetekende gebeure sluit in gebruikersaanmeldings en -afmeldings, gebruikeraksies, en veranderinge aan sekuriteitsinstellings, sowel as toegang tot lêers, vouers, en gedeelde bates.
 
 ### Sleutel Gebeurtenis-ID's vir Gebruiker-identifikasie:
 
-- **Gebeurtenis-ID 4624**: Dui aan dat 'n gebruiker suksesvol geïdentifiseer het.
-- **Gebeurtenis-ID 4625**: Dui op 'n identifikasie-mislukking.
+- **Gebeurtenis-ID 4624**: Dui aan dat 'n gebruiker suksesvol geïdentifiseer is.
+- **Gebeurtenis-ID 4625**: Dui op 'n mislukte identifikasie.
 - **Gebeurtenis-ID's 4634/4647**: Verteenwoordig gebruiker-afmeldgebeure.
 - **Gebeurtenis-ID 4672**: Dui op aanmelding met administratiewe voorregte.
 
@@ -430,52 +432,52 @@ Toegangsgebeure word aangeteken in die sekuriteitskonfigurasie-lêer wat geleë 
 - **Interaktief (2)**: Direkte gebruiker aanmelding.
 - **Netwerk (3)**: Toegang tot gedeelde vouers.
 - **Batch (4)**: Uitvoering van lotprosesse.
-- **Diens (5)**: Diensbeginne.
+- **Diens (5)**: Diensaanvang.
 - **Proksi (6)**: Proksi-identifikasie.
 - **Ontsluit (7)**: Skerm ontgrendel met 'n wagwoord.
-- **Netwerk Skoon teks (8)**: Skoon teks wagwoord oordrag, dikwels vanaf IIS.
+- **Netwerk Skoon (8)**: Skoon wagwoordtransmissie, dikwels vanaf IIS.
 - **Nuwe Gelde (9)**: Gebruik van verskillende gelde vir toegang.
 - **Verre Interaktief (10)**: Verre lessenaar of terminaaldiens aanmelding.
-- **Kas Interaktief (11)**: Aanmelding met gekasheerde gelde sonder domeinbeheerderkontak.
-- **Kas Verre Interaktief (12)**: Verre aanmelding met gekasheerde gelde.
-- **Gekasheerde Ontsluiting (13)**: Ontsluiting met gekasheerde gelde.
+- **Kas Interaktief (11)**: Aanmelding met gekas gelde sonder kontak met die domeinbeheerder.
+- **Kas Verre Interaktief (12)**: Verre aanmelding met gekas gelde.
+- **Gekas Ontsluit (13)**: Ontsluiting met gekas gelde.
 
 #### Status en Sub-status-kodes vir Gebeurntenis-ID 4625:
 
-- **0xC0000064**: Gebruikersnaam bestaan nie - Kan dui op 'n gebruikersnaamopnoemingsaanval.
+- **0xC0000064**: Gebruikersnaam bestaan nie - Kan dui op 'n gebruikersnaamopsommingaanval.
 - **0xC000006A**: Korrekte gebruikersnaam maar verkeerde wagwoord - Moontlike wagwoord raai of bruto-kragpoging.
-- **0xC0000234**: Gebruikersrekening gesluit - Kan volg op 'n bruto-kragpoging wat lei tot meervoudige mislukte aanmeldings.
+- **0xC0000234**: Gebruikersrekening gesluit - Mag volg op 'n bruto-kragpoging wat lei tot meervoudige mislukte aanmeldings.
 - **0xC0000072**: Rekening gedeaktiveer - Onbevoegde pogings om toegang te verkry tot gedeaktiveerde rekeninge.
 - **0xC000006F**: Aanmelding buite toegelate tyd - Dui op pogings om toegang te verkry buite die vasgestelde aanmeldingstye, 'n moontlike teken van onbevoegde toegang.
 - **0xC0000070**: Oortreding van werkstasiebeperkings - Kan 'n poging wees om vanaf 'n onbevoegde plek aan te meld.
 - **0xC0000193**: Rekening verval - Toegangspogings met vervalde gebruikersrekeninge.
 - **0xC0000071**: Vervalde wagwoord - Aanmeldingspogings met verouderde wagwoorde.
-- **0xC0000133**: Tydsinkronisasieprobleme - Groot tydverskille tussen klient en bediener kan dui op meer gesofistikeerde aanvalle soos pas-die-kaart.
+- **0xC0000133**: Tydsinkronisasieprobleme - Groot tydsverskille tussen klient en bediener kan dui op meer gesofistikeerde aanvalle soos pas-die-kaartjie.
 - **0xC0000224**: Verpligte wagwoordverandering vereis - Gereelde verpligte veranderinge mag dui op 'n poging om rekeningsekuriteit te destabiliseer.
-- **0xC0000225**: Dui op 'n stelsel fout eerder as 'n sekuriteitskwessie.
+- **0xC0000225**: Dui op 'n stelselfout eerder as 'n sekuriteitsprobleem.
 - **0xC000015b**: Geweierde aanmeldingstipe - Toegangspoging met ongemagtigde aanmeldingstipe, soos 'n gebruiker wat probeer om 'n diensaanmelding uit te voer.
 
 #### Gebeurtenis-ID 4616:
 - **Tydverandering**: Wysiging van die stelseltyd, kan die tydlyn van gebeure vertroebel.
 
-#### Gebeurtenis-ID's 6005 en 6006:
+#### Gebeurntenis-ID 6005 en 6006:
 - **Stelselbegin en -afsluiting**: Gebeurtenis-ID 6005 dui op die stelsel wat begin, terwyl Gebeurtenis-ID 6006 dit aandui wat afsluit.
 
 #### Gebeurtenis-ID 1102:
-- **Logverwydering**: Sekuriteitslogs wat skoongemaak word, wat dikwels 'n rooi vlag is vir die bedekking van onwettige aktiwiteite.
+- **Logverwydering**: Sekuriteitslogs wat skoongevee word, wat dikwels 'n waarskuwingsteken is vir die bedekking van onwettige aktiwiteite.
 
 #### Gebeurtenis-ID's vir USB-toestelopsporing:
 - **20001 / 20003 / 10000**: Eerste koppeling van USB-toestel.
 - **10100**: USB-bestuursteroptatering.
 - **Gebeurtenis-ID 112**: Tyd van USB-toestelinskakeling.
 
-Vir praktiese voorbeelde oor die simulasie van hierdie aanmeldingstipes en geleenthede vir gelde-dumping, verwys na [Altered Security se gedetailleerde gids](https://www.alteredsecurity.com/post/fantastic-windows-logon-types-and-where-to-find-credentials-in-them).
+Vir praktiese voorbeelde oor die simulasie van hierdie aanmeldingstipes en geleentheid vir gelde-uitdeling, verwys na [Altered Security se gedetailleerde gids](https://www.alteredsecurity.com/post/fantastic-windows-logon-types-and-where-to-find-credentials-in-them).
 
-Gebeurtenisbesonderhede, insluitend status- en substatuskodes, bied verdere insigte in gebeurtenisoorzake, veral opmerklik in Gebeurtenis-ID 4625.
+Gebeurtenisbesonderhede, insluitend status- en substatuskodes, bied verdere insigte in gebeureoorzake, veral opmerklik in Gebeurtenis-ID 4625.
 
 ### Herstel van Windows-gebeure
 
-Om die kanse op die herwinning van uitgevee Windows-gebeure te verbeter, word dit aanbeveel om die verdagte rekenaar af te skakel deur dit direk uit te trek. **Bulk_extractor**, 'n herstelwerktuig wat die `.evtx`-uitbreiding spesifiseer, word aanbeveel vir die poging om sulke gebeure te herwin.
+Om die kanse op die herwinning van uitgevee Windows-gebeure te verbeter, is dit raadsaam om die verdagte rekenaar af te skakel deur dit direk uit te trek. **Bulk_extractor**, 'n herstelwerktuig wat die `.evtx`-uitbreiding spesifiseer, word aanbeveel vir die poging om sulke gebeure te herwin.
 
 ### Identifisering van algemene aanvalle via Windows-gebeure
 
@@ -483,7 +485,7 @@ Vir 'n omvattende gids oor die gebruik van Windows-gebeurtenis-ID's om algemene 
 
 #### Bruto-kragaanvalle
 
-Identifiseerbaar deur meervoudige Gebeurtenis-ID 4625 inskrywings, gevolg deur 'n Gebeurtenis-ID 4624 as die aanval slaag.
+Identifiseerbaar deur meervoudige Gebeurtenis-ID 4625 rekords, gevolg deur 'n Gebeurtenis-ID 4624 as die aanval slaag.
 
 #### Tydverandering
 
@@ -500,7 +502,7 @@ GebeurtenisID 6005 dui op stelselbegin, terwyl GebeurtenisID 6006 afsluiting aan
 
 Sekuriteit GebeurtenisID 1102 dui op die verwydering van logboeke, 'n kritieke gebeurtenis vir forensiese analise.
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
@@ -511,7 +513,7 @@ Sekuriteit GebeurtenisID 1102 dui op die verwydering van logboeke, 'n kritieke g
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kontroleer die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
