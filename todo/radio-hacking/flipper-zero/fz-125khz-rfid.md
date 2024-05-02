@@ -6,7 +6,7 @@
 
 HackTricks를 지원하는 다른 방법:
 
-- **회사가 HackTricks에 광고되길 원하거나** **PDF 형식의 HackTricks를 다운로드하고 싶다면** [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
+- **회사가 HackTricks에 광고되길 원하거나** **PDF 형식의 HackTricks를 다운로드**하려면 [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
 - [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구입하세요
 - [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
 - 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)를 **팔로우**하세요.
@@ -14,7 +14,7 @@ HackTricks를 지원하는 다른 방법:
 
 </details>
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
@@ -40,7 +40,7 @@ HackTricks를 지원하는 다른 방법:
 
 ### 수동 추가
 
-Flipper Zero에서 **수동으로 데이터를 지정**하여 **가짜 카드를 생성**한 다음 모방할 수 있습니다.
+Flipper Zero에서 **수동으로 데이터를 지정**하는 가짜 카드를 만들고 그것을 모방할 수 있습니다.
 
 #### 카드의 ID
 
@@ -61,13 +61,13 @@ HID 카드의 경우 카드에 인쇄된 3바이트 중 2바이트만 찾을 수
 
 ### 모방/쓰기
 
-카드를 **복사**하거나 **수동으로 ID를 입력한 후** Flipper Zero에서 모방하거나 **실제 카드에 쓸 수** 있습니다.
+카드를 **복사**하거나 **수동으로 ID를 입력한 후** Flipper Zero에서 모방하거나 실제 카드에 **쓸 수** 있습니다.
 
 ## 참고 자료
 
 * [https://blog.flipperzero.one/rfid/](https://blog.flipperzero.one/rfid/)
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
@@ -77,7 +77,7 @@ HID 카드의 경우 카드에 인쇄된 3바이트 중 2바이트만 찾을 수
 
 HackTricks를 지원하는 다른 방법:
 
-- **회사가 HackTricks에 광고되길 원하거나** **PDF 형식의 HackTricks를 다운로드하고 싶다면** [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
+- **회사가 HackTricks에 광고되길 원하거나** **PDF 형식의 HackTricks를 다운로드**하려면 [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
 - [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구입하세요
 - [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
 - 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)를 **팔로우**하세요.
