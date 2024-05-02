@@ -12,27 +12,27 @@ Outras maneiras de apoiar o HackTricks:
 
 </details>
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
 
-# Timestamps
+# Carimbos de Data e Hora
 
-Um atacante pode estar interessado em **alterar os timestamps dos arquivos** para evitar ser detectado.\
-É possível encontrar os timestamps dentro do MFT nos atributos `$STANDARD_INFORMATION` __ e __ `$FILE_NAME`.
+Um atacante pode estar interessado em **alterar os carimbos de data e hora dos arquivos** para evitar ser detectado.\
+É possível encontrar os carimbos de data e hora dentro do MFT nos atributos `$STANDARD_INFORMATION` __ e __ `$FILE_NAME`.
 
-Ambos os atributos têm 4 timestamps: **Modificação**, **acesso**, **criação** e **modificação do registro MFT** (MACE ou MACB).
+Ambos os atributos possuem 4 carimbos de data e hora: **Modificação**, **acesso**, **criação** e **modificação do registro MFT** (MACE ou MACB).
 
 O **explorador do Windows** e outras ferramentas mostram as informações de **`$STANDARD_INFORMATION`**.
 
 ## TimeStomp - Ferramenta Anti-forense
 
-Esta ferramenta **modifica** as informações de timestamp dentro de **`$STANDARD_INFORMATION`** **mas não** as informações dentro de **`$FILE_NAME`**. Portanto, é possível **identificar** **atividades suspeitas**.
+Esta ferramenta **modifica** as informações de carimbo de data e hora dentro de **`$STANDARD_INFORMATION`** **mas não** as informações dentro de **`$FILE_NAME`**. Portanto, é possível **identificar** **atividades suspeitas**.
 
 ## Usnjrnl
 
-O **USN Journal** (Update Sequence Number Journal) é um recurso do NTFS (sistema de arquivos do Windows NT) que mantém o controle das alterações no volume. A ferramenta [**UsnJrnl2Csv**](https://github.com/jschicht/UsnJrnl2Csv) permite a análise dessas alterações.
+O **Diário USN** (Update Sequence Number Journal) é um recurso do NTFS (sistema de arquivos do Windows NT) que mantém o controle das alterações no volume. A ferramenta [**UsnJrnl2Csv**](https://github.com/jschicht/UsnJrnl2Csv) permite a análise dessas alterações.
 
 ![](<../../.gitbook/assets/image (449).png>)
 
@@ -46,7 +46,7 @@ A imagem anterior é a **saída** mostrada pela **ferramenta** onde pode ser obs
 
 Novamente, na saída da ferramenta é possível ver que **algumas alterações foram realizadas**.
 
-Usando a mesma ferramenta, é possível identificar a **que horas os timestamps foram modificados**:
+Usando a mesma ferramenta, é possível identificar a **que horas os carimbos de data e hora foram modificados**:
 
 ![](<../../.gitbook/assets/image (451).png>)
 
@@ -57,15 +57,15 @@ Usando a mesma ferramenta, é possível identificar a **que horas os timestamps 
 
 ## Comparação de `$STANDARD_INFORMATION` e `$FILE_NAME`
 
-Outra maneira de identificar arquivos modificados suspeitos seria comparar o horário em ambos os atributos em busca de **inconsistências**.
+Outra maneira de identificar arquivos modificados suspeitos seria comparar a hora em ambos os atributos em busca de **inconsistências**.
 
 ## Nanosegundos
 
-Os timestamps do **NTFS** têm uma **precisão** de **100 nanosegundos**. Portanto, encontrar arquivos com timestamps como 2010-10-10 10:10:**00.000:0000 é muito suspeito**.
+Os carimbos de data e hora do **NTFS** têm uma **precisão** de **100 nanosegundos**. Portanto, encontrar arquivos com carimbos de data e hora como 2010-10-10 10:10:**00.000:0000 é muito suspeito**.
 
 ## SetMace - Ferramenta Anti-forense
 
-Esta ferramenta pode modificar ambos os atributos `$STARNDAR_INFORMATION` e `$FILE_NAME`. No entanto, a partir do Windows Vista, é necessário um sistema operacional ativo para modificar essas informações.
+Esta ferramenta pode modificar ambos os atributos `$STARNDAR_INFORMATION` e `$FILE_NAME`. No entanto, a partir do Windows Vista, é necessário um sistema operacional ao vivo para modificar essas informações.
 
 # Ocultação de Dados
 
@@ -94,7 +94,7 @@ Essas distribuições são **executadas dentro da memória RAM**. A única manei
 
 É possível desativar vários métodos de registro do Windows para tornar a investigação forense muito mais difícil.
 
-## Desativar Timestamps - UserAssist
+## Desativar Carimbos de Data e Hora - UserAssist
 
 Esta é uma chave de registro que mantém datas e horas quando cada executável foi executado pelo usuário.
 
@@ -103,7 +103,7 @@ Desativar o UserAssist requer dois passos:
 1. Definir duas chaves de registro, `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackProgs` e `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackEnabled`, ambos como zero para sinalizar que queremos o UserAssist desativado.
 2. Limpar os subárvores do registro que se parecem com `HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\<hash>`.
 
-## Desativar Timestamps - Prefetch
+## Desativar Carimbos de Data e Hora - Prefetch
 
 Isso salvará informações sobre os aplicativos executados com o objetivo de melhorar o desempenho do sistema Windows. No entanto, isso também pode ser útil para práticas forenses.
 
@@ -113,9 +113,9 @@ Isso salvará informações sobre os aplicativos executados com o objetivo de me
 * Selecione Modificar em cada um deles para alterar o valor de 1 (ou 3) para 0
 * Reinicie
 
-## Desativar Timestamps - Último Horário de Acesso
+## Desativar Carimbos de Data e Hora - Último Horário de Acesso
 
-Sempre que uma pasta é aberta de um volume NTFS em um servidor Windows NT, o sistema leva tempo para **atualizar um campo de timestamp em cada pasta listada**, chamado de último horário de acesso. Em um volume NTFS muito utilizado, isso pode afetar o desempenho.
+Sempre que uma pasta é aberta de um volume NTFS em um servidor Windows NT, o sistema leva tempo para **atualizar um campo de carimbo de data e hora em cada pasta listada**, chamado de último horário de acesso. Em um volume NTFS muito utilizado, isso pode afetar o desempenho.
 
 1. Abra o Editor de Registro (Regedit.exe).
 2. Navegue até `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem`.
@@ -123,21 +123,21 @@ Sempre que uma pasta é aberta de um volume NTFS em um servidor Windows NT, o si
 4. Feche o Editor de Registro e reinicie o servidor.
 ## Apagar Histórico USB
 
-Todas as **Entradas de Dispositivos USB** são armazenadas no Registro do Windows sob a chave do registro **USBSTOR** que contém subchaves criadas sempre que você conecta um Dispositivo USB ao seu PC ou Laptop. Você pode encontrar esta chave aqui `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **Apagando isso** você apagará o histórico USB.\
-Você também pode usar a ferramenta [**USBDeview**](https://www.nirsoft.net/utils/usb\_devices\_view.html) para garantir que os tenha apagado (e para apagá-los).
+Todas as **Entradas de Dispositivos USB** são armazenadas no Registro do Windows sob a chave do registro **USBSTOR** que contém subchaves criadas sempre que você conecta um Dispositivo USB ao seu PC ou Laptop. Você pode encontrar essa chave aqui `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **Apagando isso** você apagará o histórico USB.\
+Você também pode usar a ferramenta [**USBDeview**](https://www.nirsoft.net/utils/usb\_devices\_view.html) para ter certeza de que os apagou (e para apagá-los).
 
-Outro arquivo que salva informações sobre os USBs é o arquivo `setupapi.dev.log` dentro de `C:\Windows\INF`. Este arquivo também deve ser apagado.
+Outro arquivo que salva informações sobre os USBs é o arquivo `setupapi.dev.log` dentro de `C:\Windows\INF`. Isso também deve ser apagado.
 
 ## Desativar Cópias de Sombra
 
 **Liste** as cópias de sombra com `vssadmin list shadowstorage`\
-**Apague** elas executando `vssadmin delete shadow`
+**Apague** executando `vssadmin delete shadow`
 
 Você também pode apagá-las via GUI seguindo as etapas propostas em [https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html](https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html)
 
-Para desativar as cópias de sombra [passos daqui](https://support.waters.com/KB_Inf/Other/WKB15560_How_to_disable_Volume_Shadow_Copy_Service_VSS_in_Windows):
+Para desativar cópias de sombra [passos daqui](https://support.waters.com/KB_Inf/Other/WKB15560_How_to_disable_Volume_Shadow_Copy_Service_VSS_in_Windows):
 
-1. Abra o programa Serviços digitando "services" na caixa de pesquisa de texto após clicar no botão iniciar do Windows.
+1. Abra o programa Serviços digitando "services" na caixa de pesquisa de texto após clicar no botão Iniciar do Windows.
 2. Na lista, encontre "Cópia de Sombra de Volume", selecione-a e acesse Propriedades clicando com o botão direito.
 3. Escolha Desativado no menu suspenso "Tipo de inicialização" e confirme a alteração clicando em Aplicar e OK.
 
@@ -145,7 +145,7 @@ Também é possível modificar a configuração de quais arquivos serão copiado
 
 ## Sobrescrever arquivos apagados
 
-* Você pode usar uma **ferramenta do Windows**: `cipher /w:C` Isso indicará ao cipher para remover quaisquer dados do espaço em disco não utilizado disponível na unidade C.
+* Você pode usar uma **ferramenta do Windows**: `cipher /w:C` Isso indicará ao cipher para remover quaisquer dados do espaço de disco não utilizado disponível dentro da unidade C.
 * Você também pode usar ferramentas como [**Eraser**](https://eraser.heidi.ie)
 
 ## Apagar logs de eventos do Windows
@@ -164,7 +164,7 @@ Também é possível modificar a configuração de quais arquivos serão copiado
 
 * `fsutil usn deletejournal /d c:`
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
@@ -173,11 +173,11 @@ Também é possível modificar a configuração de quais arquivos serão copiado
 
 <summary><strong>Aprenda hacking AWS do zero ao avançado com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras formas de apoiar o HackTricks:
+Outras maneiras de apoiar o HackTricks:
 
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Adquira o [**oficial PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 

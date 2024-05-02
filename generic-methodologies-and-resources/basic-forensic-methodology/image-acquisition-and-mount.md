@@ -1,4 +1,4 @@
-# Aquisição e Montagem de Imagem
+# Aquisição de Imagem & Montagem
 
 <details>
 
@@ -12,7 +12,7 @@
 
 </details>
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
@@ -90,8 +90,8 @@ mount output/ewf1 -o ro,norecovery /mnt
 
 ### Erros
 
-* **`não é possível montar /dev/loop0 somente leitura`** nesse caso, você precisa usar as flags **`-o ro,norecovery`**
-* **`tipo de sistema de arquivos incorreto, opção inválida, superbloco inválido em /dev/loop0, página de código ausente ou programa auxiliar, ou outro erro.`** nesse caso, a montagem falhou devido ao deslocamento do sistema de arquivos ser diferente do da imagem do disco. Você precisa encontrar o tamanho do setor e o setor de início:
+* **`não é possível montar /dev/loop0 somente leitura`** neste caso, você precisa usar as flags **`-o ro,norecovery`**
+* **`tipo de sistema de arquivos incorreto, opção inválida, superbloco inválido em /dev/loop0, página de código ausente ou programa auxiliar, ou outro erro.`** neste caso, a montagem falhou devido ao deslocamento do sistema de arquivos ser diferente do da imagem do disco. Você precisa encontrar o tamanho do setor e o setor de início:
 ```bash
 fdisk -l disk.img
 Disk disk.img: 102 MiB, 106954648 bytes, 208896 sectors
@@ -104,11 +104,11 @@ Disk identifier: 0x00495395
 Device        Boot Start    End Sectors  Size Id Type
 disk.img1       2048 208895  206848  101M  1 FAT12
 ```
-Note que o tamanho do setor é **512** e o início é **2048**. Em seguida, monte a imagem assim:
+Note que o tamanho do setor é **512** e o início é **2048**. Em seguida, monte a imagem da seguinte forma:
 ```bash
 mount disk.img /mnt -o ro,offset=$((2048*512))
 ```
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
@@ -116,7 +116,7 @@ mount disk.img /mnt -o ro,offset=$((2048*512))
 
 <summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Você trabalha em uma **empresa de cibersegurança**? Quer ver sua **empresa anunciada no HackTricks**? ou quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**

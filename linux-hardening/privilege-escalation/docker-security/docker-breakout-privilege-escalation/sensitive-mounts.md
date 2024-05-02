@@ -2,11 +2,11 @@
 
 <details>
 
-<summary><strong>Aprenda hacking na AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -14,11 +14,11 @@ Outras maneiras de apoiar o HackTricks:
 
 </details>
 
-<figure><img src="../../../../.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../..https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
-A exposição de `/proc` e `/sys` sem isolamento adequado de namespace introduz riscos significativos de segurança, incluindo aumento da superfície de ataque e divulgação de informações. Esses diretórios contêm arquivos sensíveis que, se mal configurados ou acessados por um usuário não autorizado, podem levar à fuga do contêiner, modificação do host ou fornecer informações que auxiliam em ataques adicionais. Por exemplo, montar incorretamente `-v /proc:/host/proc` pode contornar a proteção do AppArmor devido à sua natureza baseada em caminho, deixando `/host/proc` desprotegido.
+A exposição de `/proc` e `/sys` sem isolamento de namespace adequado introduz riscos significativos de segurança, incluindo aumento da superfície de ataque e divulgação de informações. Esses diretórios contêm arquivos sensíveis que, se mal configurados ou acessados por um usuário não autorizado, podem levar à fuga do contêiner, modificação do host ou fornecer informações que auxiliam em ataques adicionais. Por exemplo, montar incorretamente `-v /proc:/host/proc` pode contornar a proteção do AppArmor devido à sua natureza baseada em caminho, deixando `/host/proc` desprotegido.
 
 **Você pode encontrar mais detalhes de cada vulnerabilidade potencial em** [**https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts**](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts)**.**
 
@@ -66,7 +66,7 @@ ls -l $(cat /proc/sys/kernel/modprobe) # Verificar acesso ao modprobe
 * Permite registrar interpretadores para formatos binários não nativos com base em seus números mágicos.
 * Pode levar à escalada de privilégios ou acesso ao shell root se `/proc/sys/fs/binfmt_misc/register` for gravável.
 * Exploração relevante e explicação:
-* [Rootkit de pobre via binfmt\_misc](https://github.com/toffan/binfmt\_misc)
+* [Rootkit de homem pobre via binfmt\_misc](https://github.com/toffan/binfmt\_misc)
 * Tutorial detalhado: [Link do vídeo](https://www.youtube.com/watch?v=WBC7hhgMvQQ)
 
 ### Outros em `/proc`
@@ -106,7 +106,7 @@ echo b > /proc/sysrq-trigger # Reinicia o host
 #### **`/proc/kcore`**
 
 * Representa a memória física do sistema no formato de core ELF.
-* A leitura pode vazar conteúdos de memória do host e de outros contêineres.
+* A leitura pode vazar conteúdos de memória do sistema host e de outros contêineres.
 * O tamanho grande do arquivo pode levar a problemas de leitura ou falhas de software.
 * Uso detalhado em [Despejando /proc/kcore em 2019](https://schlafwandler.github.io/posts/dumping-/proc/kcore/).
 
@@ -167,13 +167,13 @@ cat /output %%%
 
 #### **`/sys/kernel/security`**
 
-* Abriga a interface `securityfs`, permitindo a configuração de Módulos de Segurança Linux como AppArmor.
+* Abriga a interface `securityfs`, permitindo a configuração de Módulos de Segurança Linux como o AppArmor.
 * O acesso pode permitir que um contêiner desative seu sistema MAC.
 
 #### **`/sys/firmware/efi/vars` e `/sys/firmware/efi/efivars`**
 
 * Expõe interfaces para interagir com variáveis EFI na NVRAM.
-* Má configuração ou exploração pode resultar em laptops inutilizáveis ou máquinas host iniciais.
+* Má configuração ou exploração pode resultar em laptops inutilizáveis ou máquinas host ininicializáveis.
 
 #### **`/sys/kernel/debug`**
 
@@ -186,7 +186,7 @@ cat /output %%%
 * [Compreensão e Reforço de Contêineres Linux](https://research.nccgroup.com/wp-content/uploads/2020/07/ncc\_group\_understanding\_hardening\_linux\_containers-1-1.pdf)
 * [Abusando de Contêineres Linux Privilegiados e Não Privilegiados](https://www.nccgroup.com/globalassets/our-research/us/whitepapers/2016/june/container\_whitepaper.pdf)
 
-<figure><img src="../../../../.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../..https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
