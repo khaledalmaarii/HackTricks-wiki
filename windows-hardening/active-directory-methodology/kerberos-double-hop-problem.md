@@ -4,15 +4,15 @@
 
 <summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, unataka kuona **kampuni yako ikitangazwa kwenye HackTricks**? au unataka kupata upatikanaji wa **toleo jipya la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Unataka kuona **kampuni yako ikionyeshwa kwenye HackTricks**? au unataka kupata upatikanaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* Pata [**swagi rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **nifuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
@@ -20,27 +20,27 @@
 
 Tatizo la "Mara Mbili" la Kerberos hutokea wakati muhusika anajaribu kutumia **uthibitisho wa Kerberos kupitia** **hops** mbili, kwa mfano kutumia **PowerShell**/**WinRM**.
 
-Wakati **uthibitisho** unapotokea kupitia **Kerberos**, **vyeti** **havihifadhiwi** kwenye **kumbukumbu**. Kwa hivyo, ikiwa unatumia mimikatz hutapata vyeti vya mtumiaji kwenye mashine hata kama anatekeleza michakato.
+Wakati **uthibitisho** unapotokea kupitia **Kerberos**, **siri** **hazihifadhiwi** kwenye **kumbukumbu**. Hivyo, ikiwa unatumia mimikatz hutapata **siri** za mtumiaji kwenye mashine hata kama anatekeleza michakato.
 
-Hii ni kwa sababu wakati wa kuunganisha na Kerberos hatua zifuatazo hufanyika:
+Hii ni kwa sababu wakati unapounganisha na Kerberos hatua zifuatazo hufanyika:
 
-1. User1 hutoa vyeti na **domain controller** hurudisha **TGT** ya Kerberos kwa User1.
-2. User1 hutumia **TGT** kuomba **tiketi ya huduma** ili **kuunganisha** kwenye Seva1.
-3. User1 **anaunganisha** kwenye **Seva1** na hutoa **tiketi ya huduma**.
-4. **Seva1** **haina** **vyeti** vya User1 vilivyohifadhiwa au **TGT** ya User1. Kwa hivyo, wakati User1 kutoka Seva1 anajaribu kuingia kwenye seva ya pili, hawezi **kuthibitishwa**.
+1. User1 hutoa siri na **domain controller** hurudisha **TGT** ya Kerberos kwa User1.
+2. User1 anatumia **TGT** kuomba **tiketi ya huduma** ili **kuunganisha** kwenye Seva1.
+3. User1 **anaunganisha** kwenye **Seva1** na kutoa **tiketi ya huduma**.
+4. **Seva1** **haina** **siri** za User1 zilizohifadhiwa au **TGT** ya User1. Kwa hivyo, wakati User1 kutoka Seva1 anapojaribu kuingia kwenye seva ya pili, hawezi **kuthibitishwa**.
 
 ### Uteuzi Usiozuiliwa
 
-Ikiwa **uteuzi usiozuiliwa** umewezeshwa kwenye PC, hii haitatokea kwani **Seva** itapata **TGT** ya kila mtumiaji anayeipata. Zaidi ya hayo, ikiwa uteuzi usiozuiliwa unatumika labda unaweza **kuambukiza Msimamizi wa Kikoa** kutoka hapo.\
+Ikiwa **uteuzi usiozuiliwa** umewezeshwa kwenye PC, hii haitatokea kwani **Seva** itapata **TGT** ya kila mtumiaji anayeipata. Zaidi ya hayo, ikiwa uteuzi usiozuiliwa unatumika labda unaweza **kuhatarisha Msimamizi wa Kikoa** kutoka hapo.\
 [Maelezo zaidi kwenye ukurasa wa uteuzi usiozuiliwa](unconstrained-delegation.md).
 
 ### CredSSP
 
-Njia nyingine ya kuepuka tatizo hili ambayo ni [**si salama sana**](https://docs.microsoft.com/en-us/powershell/module/microsoft.wsman.management/enable-wsmancredssp?view=powershell-7) ni **Mtoaji wa Usaidizi wa Usalama wa Vyeti**. Kutoka kwa Microsoft:
+Njia nyingine ya kuepuka tatizo hili ambayo ni [**si salama sana**](https://docs.microsoft.com/en-us/powershell/module/microsoft.wsman.management/enable-wsmancredssp?view=powershell-7) ni **Mtoaji wa Usaidizi wa Usalama wa Siri**. Kutoka kwa Microsoft:
 
-> Uthibitisho wa CredSSP unaweka vyeti vya mtumiaji kutoka kwenye kompyuta ya ndani kwenda kwenye kompyuta ya mbali. Mazoea haya huongeza hatari ya usalama wa operesheni ya mbali. Ikiwa kompyuta ya mbali imeathiriwa, vyeti vinapopitishwa kwake, vyeti vinaweza kutumika kudhibiti kikao cha mtandao.
+> Uthibitisho wa CredSSP unaweka siri za mtumiaji kutoka kwenye kompyuta ya ndani kwenda kwenye kompyuta ya mbali. Mazoea haya huongeza hatari ya usalama wa operesheni ya mbali. Ikiwa kompyuta ya mbali itadhuriwa, wakati siri zinapopitishwa kwake, siri hizo zinaweza kutumika kudhibiti kikao cha mtandao.
 
-Inashauriwa sana kwamba **CredSSP** izimwe kwenye mifumo ya uzalishaji, mitandao inayohitaji usiri, na mazingira kama hayo kutokana na wasiwasi wa usalama. Ili kubaini ikiwa **CredSSP** imezimwa, amri ya `Get-WSManCredSSP` inaweza kutekelezwa. Amri hii inaruhusu **uchunguzi wa hali ya CredSSP** na inaweza hata kutekelezwa kijijini, ikitoa **WinRM** imezimwa.
+Inashauriwa sana kwamba **CredSSP** izimwe kwenye mifumo ya uzalishaji, mitandao inayohitaji usiri, na mazingira kama hayo kutokana na wasiwasi wa usalama. Ili kubaini ikiwa **CredSSP** imezimwa, amri ya `Get-WSManCredSSP` inaweza kutekelezwa. Amri hii inaruhusu **uchunguzi wa hali ya CredSSP** na inaweza hata kutekelezwa kijijini, ikiruhusiwa **WinRM** iwezeshwe.
 ```powershell
 Invoke-Command -ComputerName bizintel -Credential ta\redsuit -ScriptBlock {
 Get-WSManCredSSP
@@ -50,18 +50,16 @@ Get-WSManCredSSP
 
 ### Amuru Amri
 
-Kukabiliana na shida ya mara mbili ya kuruka, njia inayohusisha `Invoke-Command` iliyofichwa inapendekezwa. Hii haishughulikii tatizo moja kwa moja lakini inatoa suluhisho bila kuhitaji mipangilio maalum. Mbinu hii inaruhusu kutekeleza amri (`hostname`) kwenye seva ya pili kupitia amri ya PowerShell iliyotekelezwa kutoka kwa mashine ya kwanza ya kushambulia au kupitia kikao cha PS kilichoundwa mapema na seva ya kwanza. Hivi ndivyo inavyofanyika:
+Ili kushughulikia shida ya mara mbili ya kupita, njia inayohusisha `Invoke-Command` iliyonakiliwa inapendekezwa. Hii haishughulikii shida moja kwa moja lakini inatoa suluhisho mbadala bila kuhitaji mipangilio maalum. Mbinu hii inaruhusu kutekeleza amri (`jina la mwenyeji`) kwenye seva ya pili kupitia amri ya PowerShell iliyotekelezwa kutoka kwa mashine ya kwanza ya kushambulia au kupitia kikao cha PS kilichoundwa hapo awali na seva ya kwanza. Hivi ndivyo inavyofanywa:
 ```powershell
 $cred = Get-Credential ta\redsuit
 Invoke-Command -ComputerName bizintel -Credential $cred -ScriptBlock {
 Invoke-Command -ComputerName secdev -Credential $cred -ScriptBlock {hostname}
 }
 ```
-Au kuanzisha PS-Session na server ya kwanza na kukimbia `Invoke-Command` kutumia `$cred` inapendekezwa kwa ajili ya kusambaza kazi.
+### Kuanzisha Usajili wa Mipangilio ya PSSession
 
-### Jisajili PSSession Configuration
-
-Lahaja ya kuepuka tatizo la double hop inahusisha kutumia `Register-PSSessionConfiguration` na `Enter-PSSession`. Mbinu hii inahitaji njia tofauti na `evil-winrm` na inaruhusu kikao ambacho hakisumbuliwi na kizuizi cha double hop.
+Lahaja ya kuepuka tatizo la mara mbili linajumuisha kutumia `Register-PSSessionConfiguration` pamoja na `Enter-PSSession`. Mbinu hii inahitaji njia tofauti kuliko `evil-winrm` na inaruhusu kikao ambacho hakisumbuliwi na kizuizi cha mara mbili.
 ```powershell
 Register-PSSessionConfiguration -Name doublehopsess -RunAsCredential domain_name\username
 Restart-Service WinRM
@@ -77,13 +75,13 @@ netsh advfirewall firewall add rule name=fwd dir=in action=allow protocol=TCP lo
 ```
 #### winrs.exe
 
-`winrs.exe` inaweza kutumika kwa kusambaza maombi ya WinRM, labda kama chaguo linaloweza kugundulika kidogo ikiwa ufuatiliaji wa PowerShell unahusika. Amri hapa chini inaonyesha matumizi yake:
+`winrs.exe` inaweza kutumika kwa kusafirisha maombi ya WinRM, labda kama chaguo linaloweza kugundulika kidogo ikiwa ufuatiliaji wa PowerShell unahusika. Amri hapa chini inaonyesha matumizi yake:
 ```bash
 winrs -r:http://bizintel:5446 -u:ta\redsuit -p:2600leet hostname
 ```
 ### OpenSSH
 
-Kuweka OpenSSH kwenye server ya kwanza kunawezesha suluhisho la shida ya double-hop, hasa inayofaa kwa mazingira ya jump box. Mbinu hii inahitaji ufungaji wa CLI na usanidi wa OpenSSH kwa Windows. Wakati ilipowekwa kwa Uthibitishaji wa Nywila, hii inaruhusu server ya kati kupata TGT kwa niaba ya mtumiaji.
+Kuweka OpenSSH kwenye server ya kwanza inawezesha suluhisho la shida ya double-hop, hasa inayofaa kwa mazingira ya jump box. Mbinu hii inahitaji ufungaji wa CLI na usanidi wa OpenSSH kwa Windows. Wakati ilipowekwa kwa Uthibitishaji wa Nywila, hii inaruhusu server ya kati kupata TGT kwa niaba ya mtumiaji.
 
 #### Hatua za Ufungaji wa OpenSSH
 
@@ -102,18 +100,18 @@ icacls.exe "C:\Users\redsuit\Documents\ssh\OpenSSH-Win64" /grant Everyone:RX /T
 * [https://learn.microsoft.com/en-gb/archive/blogs/sergey\_babkins\_blog/another-solution-to-multi-hop-powershell-remoting](https://learn.microsoft.com/en-gb/archive/blogs/sergey\_babkins\_blog/another-solution-to-multi-hop-powershell-remoting)
 * [https://4sysops.com/archives/solve-the-powershell-multi-hop-problem-without-using-credssp/](https://4sysops.com/archives/solve-the-powershell-multi-hop-problem-without-using-credssp/)
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi mtaalamu na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhack AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, ungependa kuona **kampuni yako ikionyeshwa kwenye HackTricks**? au ungependa kupata upatikanaji wa **toleo jipya la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Je unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, unataka kuona **kampuni yako ikionyeshwa kwenye HackTricks**? au unataka kupata upatikanaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **nifuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **fuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwenye** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

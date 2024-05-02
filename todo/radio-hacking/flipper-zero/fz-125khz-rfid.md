@@ -2,19 +2,19 @@
 
 <details>
 
-<summary><strong>Jifunze kuhusu udukuzi wa AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
 * Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
+* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
@@ -36,16 +36,16 @@ Kwa habari zaidi kuhusu aina hizi za vitambulisho [**soma utangulizi huu**](../p
 Jaribu **kusoma** habari ya kadi. Kisha inaweza **kuiga**.
 
 {% hint style="warning" %}
-Tafadhali kumbuka kuwa baadhi ya intercoms hujaribu kujilinda kutokana na nakala za funguo kwa kutuma amri ya kuandika kabla ya kusoma. Ikiwa andiko linafaulu, kadi hiyo inachukuliwa kuwa bandia. Wakati Flipper inaiga RFID hakuna njia ya msomaji kutofautisha kati yake na ile ya asili, hivyo matatizo kama hayo hayatokei.
+Tafadhali kumbuka kwamba baadhi ya intercoms jaribu kujilinda kutokana na nakala za funguo kwa kutuma amri ya kuandika kabla ya kusoma. Ikiwa andiko linafaulu, kadi hiyo inachukuliwa kuwa bandia. Wakati Flipper inaiga RFID hakuna njia kwa msomaji kutofautisha kati yake na ile ya asili, hivyo matatizo kama hayo hayatokei.
 {% endhint %}
 
-### Ongeza Kwa Mkono
+### Ongeza Kwa Mikono
 
-Unaweza kuunda **kadi bandia kwenye Flipper Zero ikionyesha data** uliyoingiza kwa mkono na kisha kuiga.
+Unaweza kuunda **kadi bandia kwenye Flipper Zero ikionyesha data** uliyoingiza kwa mikono kisha kuiga.
 
 #### Vitambulisho kwenye kadi
 
-Wakati mwingine, unapopata kadi utapata kitambulisho (au sehemu) chake kimeandikwa kwenye kadi inayoonekana.
+Wakati mwingine, unapopata kadi utapata kitambulisho (au sehemu) yake imeandikwa kwenye kadi inayoonekana.
 
 * **EM Marin**
 
@@ -56,33 +56,33 @@ Zingine 2 zinaweza kufanyiwa nguvu ikiwa huwezi kusoma kutoka kwenye kadi.
 
 * **HID**
 
-Hali kama hiyo hutokea kwenye kadi hii ya HID ambapo ni 2 kati ya 3 ya byte zinaweza kupatikana zimeandikwa kwenye kadi
+Hali kama hiyo hutokea kwenye kadi hii ya HID ambapo ni 2 kati ya 3 ya byte zinaweza kupatikana zikiwa zimeandikwa kwenye kadi
 
 <figure><img src="../../../.gitbook/assets/image (1011).png" alt=""><figcaption></figcaption></figure>
 
 ### Iga/Andika
 
-Baada ya **kunakili** kadi au **kuingiza** kitambulisho **kwa mkono** inawezekana **kuiga** kwa Flipper Zero au **kuandika** kwenye kadi halisi.
+Baada ya **kunakili** kadi au **kuingiza** kitambulisho **kwa mikono** inawezekana **kuiga** kwa Flipper Zero au **kuandika** kwenye kadi halisi.
 
 ## Marejeo
 
 * [https://blog.flipperzero.one/rfid/](https://blog.flipperzero.one/rfid/)
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
 
 <details>
 
-<summary><strong>Jifunze kuhusu udukuzi wa AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
 * Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
+* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
