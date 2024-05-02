@@ -4,15 +4,15 @@
 
 <summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
 
-* 你在**网络安全公司**工作吗？想要看到你的**公司在HackTricks中被宣传**吗？或者想要访问**PEASS的最新版本或下载PDF格式的HackTricks**吗？查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[NFT收藏品](https://opensea.io/collection/the-peass-family)
+* 你在**网络安全公司**工作吗？想要看到你的**公司在HackTricks中被宣传**吗？或者想要访问**PEASS的最新版本或下载HackTricks的PDF**吗？查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家[NFTs收藏](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) **Discord群**](https://discord.gg/hRep4RUj7f) 或 **电报群** 或在**Twitter**上关注我 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* 通过向**hacktricks仓库**和**hacktricks-cloud仓库**提交PR来**分享你的黑客技巧**
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* 通过向[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧**
 
 </details>
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
@@ -21,21 +21,21 @@
 
 **Gatekeeper**是为Mac操作系统开发的安全功能，旨在确保用户在其系统上**仅运行可信软件**。它通过**验证用户从**App Store**之外的来源下载并尝试打开的软件**（如应用程序、插件或安装程序包）来发挥作用。
 
-Gatekeeper的关键机制在于其**验证**过程。它检查下载的软件是否**由认可的开发人员签名**，确保软件的真实性。此外，它还确定软件是否**被苹果公证**，以确认其不包含已知的恶意内容，并且在公证后未被篡改。
+Gatekeeper的关键机制在于其**验证**过程。它检查下载的软件是否**由认可的开发人员签名**，确保软件的真实性。此外，它还确定软件是否**被苹果公证**，以确认其不包含已知恶意内容并且在公证后未被篡改。
 
-此外，Gatekeeper通过**提示用户批准首次打开**下载的软件来加强用户控制和安全性。这种保护措施有助于防止用户无意中运行可能被误认为是无害数据文件的潜在有害可执行代码。
+此外，Gatekeeper通过**提示用户批准首次打开**下载软件来加强用户控制和安全性。这种保护措施有助于防止用户无意中运行可能被误认为是无害数据文件的潜在有害可执行代码。
 
 ### 应用程序签名
 
-应用程序签名，也称为代码签名，是Apple安全基础设施的关键组成部分。它用于**验证软件作者**（开发人员）的身份，并确保代码自上次签名以来未被篡改。
+应用程序签名，也称为代码签名，是Apple安全基础设施的关键组成部分。它用于**验证软件作者的身份**（开发人员）并确保代码自上次签名以来未被篡改。
 
 工作原理如下：
 
-1. **签署应用程序：**当开发人员准备分发他们的应用程序时，他们会使用**私钥对应用程序进行签名**。此私钥与开发人员在加入Apple开发人员计划时获得的**证书相关联**。签名过程涉及创建应用程序所有部分的加密哈希，并使用开发人员的私钥对此哈希进行加密。
+1. **签署应用程序：**当开发人员准备分发他们的应用程序时，他们会使用**私钥对应用程序进行签名**。此私钥与开发人员在加入Apple开发人员计划时获得的**证书相关联**。签名过程涉及创建应用程序所有部分的加密哈希，并使用开发人员的私钥对该哈希进行加密。
 2. **分发应用程序：**签名的应用程序随后与开发人员的证书一起分发给用户，该证书包含相应的公钥。
 3. **验证应用程序：**当用户下载并尝试运行应用程序时，他们的Mac操作系统使用开发人员证书中的公钥来解密哈希。然后，它根据应用程序的当前状态重新计算哈希，并将其与解密的哈希进行比较。如果它们匹配，这意味着**应用程序自开发人员签名以来未被修改**，系统允许应用程序运行。
 
-应用程序签名是Apple Gatekeeper技术的重要组成部分。当用户尝试**打开从互联网下载的应用程序**时，Gatekeeper会验证应用程序签名。如果它使用由苹果颁发给已知开发人员的证书签名，并且代码未被篡改，Gatekeeper允许应用程序运行。否则，它会阻止应用程序并警告用户。
+应用程序签名是Apple Gatekeeper技术的重要组成部分。当用户尝试**打开从互联网下载的应用程序**时，Gatekeeper会验证应用程序签名。如果它使用由苹果颁发给已知开发人员的证书签名且代码未被篡改，则Gatekeeper允许应用程序运行。否则，它会阻止应用程序并警告用户。
 
 从macOS Catalina开始，**Gatekeeper还会检查应用程序是否已被苹果公证**，增加了额外的安全层。公证过程会检查应用程序是否存在已知的安全问题和恶意代码，如果这些检查通过，苹果会向应用程序添加Gatekeeper可以验证的凭证。
 
@@ -60,30 +60,30 @@ codesign -s <cert-name-keychain> toolsdemo
 ```
 ### 验证
 
-苹果的验证流程作为一项额外的保障措施，旨在保护用户免受潜在有害软件的侵害。这涉及开发人员通过**苹果的验证服务**提交其应用程序进行审查，这与应用审核不应混淆。这项服务是一个**自动化系统**，用于审查提交的软件是否存在**恶意内容**以及代码签名是否存在任何潜在问题。
+苹果的验证流程作为一项额外的保障，旨在保护用户免受潜在有害软件的侵害。这涉及**开发人员将其应用提交给苹果的验证服务**进行审查，这与App审核不应混淆。这项服务是一个**自动化系统**，会审查提交的软件是否存在**恶意内容**以及代码签名是否存在任何潜在问题。
 
 如果软件**通过**此检查而没有引起任何关注，验证服务将生成一个验证票证。然后开发人员需要**将此票证附加到其软件**上，这个过程称为“装订”。此外，验证票证也会在线发布，Gatekeeper，苹果的安全技术，可以访问它。
 
-在用户首次安装或执行软件时，验证票证的存在 - 无论是装订到可执行文件还是在线找到 - **通知 Gatekeeper 软件已由苹果进行验证**。因此，Gatekeeper 在初始启动对话框中显示一个描述性消息，指示该软件已经通过苹果的恶意内容检查。这个过程增强了用户对其系统上安装或运行的软件安全性的信心。
+在用户首次安装或执行软件时，验证票证的存在 - 无论是装订到可执行文件还是在线找到 - **通知Gatekeeper该软件已由苹果进行验证**。因此，Gatekeeper在初始启动对话框中显示一个描述性消息，指示该软件已经通过苹果的恶意内容检查。这个过程增强了用户对其系统上安装或运行的软件安全性的信心。
 
 ### 枚举 Gatekeeper
 
-Gatekeeper 既是**几个安全组件**，用于阻止不受信任的应用程序执行，也是**其中的一个组件**。
+Gatekeeper既是**几个安全组件**，用于阻止不受信任的应用程序执行，也是**其中的一个组件**。
 
-可以使用以下命令查看 Gatekeeper 的**状态**：
+可以使用以下命令查看Gatekeeper的**状态**：
 ```bash
 # Check the status
 spctl --status
 ```
 {% hint style="danger" %}
-请注意，GateKeeper 签名检查仅针对具有隔离属性的文件进行，而不是针对每个文件进行。
+请注意，GateKeeper 签名检查仅针对具有**Quarantine 属性的文件**执行，而不是针对每个文件执行。
 {% endhint %}
 
-GateKeeper 将检查二进制文件是否可以执行，根据**偏好设置和签名**：
+GateKeeper 将根据**偏好设置和签名**检查二进制文件是否可以执行：
 
 <figure><img src="../../../.gitbook/assets/image (1147).png" alt=""><figcaption></figcaption></figure>
 
-保存此配置的数据库位于**`/var/db/SystemPolicy`**。您可以以 root 身份检查此数据库：
+保存此配置的数据库位于**`/var/db/SystemPolicy`**中。您可以以 root 身份检查此数据库：
 ```bash
 # Open database
 sqlite3 /var/db/SystemPolicy
@@ -109,13 +109,13 @@ cdhash H"4317047eefac8125ce4d44cab0eb7b1dff29d19a"|1|0|GKE
 cdhash H"0a71962e7a32f0c2b41ddb1fb8403f3420e1d861"|1|0|GKE
 cdhash H"8d0d90ff23c3071211646c4c9c607cdb601cb18f"|1|0|GKE
 ```
-这些哈希值来自于**`/var/db/SystemPolicyConfiguration/gke.bundle/Contents/Resources/gke.auth`、`/var/db/gke.bundle/Contents/Resources/gk.db`**和**`/var/db/gkopaque.bundle/Contents/Resources/gkopaque.db`**
+这些哈希值来自于 **`/var/db/SystemPolicyConfiguration/gke.bundle/Contents/Resources/gke.auth`**、**`/var/db/gke.bundle/Contents/Resources/gk.db`** 和 **`/var/db/gkopaque.bundle/Contents/Resources/gkopaque.db`**
 
-或者你可以列出前面提到的信息：
+或者你可以使用以下命令列出先前的信息：
 ```bash
 sudo spctl --list
 ```
-**`spctl`** 的选项 **`--master-disable`** 和 **`--global-disable`** 将完全**禁用**这些签名检查：
+选项 **`--master-disable`** 和 **`--global-disable`** 会完全禁用这些签名检查：
 ```bash
 # Disable GateKeeper
 spctl --global-disable
@@ -129,11 +129,11 @@ spctl --master-enable
 
 <figure><img src="../../../.gitbook/assets/image (1148).png" alt=""><figcaption></figcaption></figure>
 
-可以使用以下方法**检查 GateKeeper 是否允许某个应用程序**：
+可以使用以下方法**检查应用程序是否会被 GateKeeper 允许**：
 ```bash
 spctl --assess -v /Applications/App.app
 ```
-可以通过以下方式向 GateKeeper 添加新规则，允许执行特定应用程序：
+可以通过以下方式向 GateKeeper 添加新规则，以允许执行特定应用程序：
 ```bash
 # Check if allowed - nop
 spctl --assess -v /Applications/App.app
@@ -148,24 +148,25 @@ sudo spctl --enable --label "whitelist"
 spctl --assess -v /Applications/App.app
 /Applications/App.app: accepted
 ```
-### 检疫文件
+### 隔离文件
 
-在下载应用程序或文件时，特定的 macOS 应用程序，如网络浏览器或电子邮件客户端，会向下载的文件附加一个称为“**检疫标志**”的扩展文件属性。该属性作为一项安全措施，将文件标记为来自不受信任的来源（互联网），并可能携带风险。然而，并非所有应用程序都会附加此属性，例如，常见的 BitTorrent 客户端软件通常会绕过此过程。
+在下载应用程序或文件时，特定的 macOS 应用程序，如 Web 浏览器或电子邮件客户端，会向下载的文件附加一个称为“隔离标志”（quarantine flag）的扩展文件属性。该属性作为一项安全措施，将文件标记为来自不受信任的来源（互联网），并可能携带风险。然而，并非所有应用程序都会附加此属性，例如，常见的 BitTorrent 客户端软件通常会绕过此过程。
 
-**当用户尝试执行文件时，检疫标志的存在会触发 macOS 的 Gatekeeper 安全功能**。
+**隔离标志的存在**会在用户尝试执行文件时向 macOS 的 Gatekeeper 安全功能发出信号。
 
-在检疫标志不存在的情况下（例如通过某些 BitTorrent 客户端下载的文件），Gatekeeper 的检查可能不会执行。因此，用户在打开从较不安全或未知来源下载的文件时应谨慎。
+在**隔离标志不存在的情况下**（例如通过某些 BitTorrent 客户端下载的文件），Gatekeeper 的**检查可能不会执行**。因此，用户在打开从较不安全或未知来源下载的文件时应谨慎。
 
 {% hint style="info" %}
-**验证**代码签名的**有效性**是一个**资源密集型**的过程，包括生成代码及其所有捆绑资源的加密**哈希**。此外，检查证书的有效性涉及向苹果的服务器进行**在线检查**，以查看签发后是否已被吊销。出于这些原因，每次启动应用程序时运行完整的代码签名和公证检查是**不切实际**的。
+**验证**代码签名的**有效性**是一个**资源密集型**过程，包括生成代码及其所有捆绑资源的加密哈希。此外，检查证书的有效性涉及在线检查苹果的服务器，以查看证书是否在签发后被吊销。出于这些原因，每次启动应用程序时运行完整的代码签名和公证检查是**不切实际**的。
 
-因此，这些检查**仅在执行带有检疫属性的应用程序时运行**。
+因此，这些检查**仅在执行带有隔离属性的应用程序时运行**。
 {% endhint %}
 
 {% hint style="warning" %}
-此属性必须由**创建/下载**文件的应用程序**设置**。
+此属性必须由**创建/下载文件的应用程序设置**。
 
-但是，经过沙盒化的文件将为它们创建的每个文件设置此属性。非沙盒化的应用程序可以自行设置，或在 **Info.plist** 中指定 [**LSFileQuarantineEnabled**](https://developer.apple.com/documentation/bundleresources/information\_property\_list/lsfilequarantineenabled?language=objc) 键，系统将在创建的文件上设置 `com.apple.quarantine` 扩展属性。
+但是，受沙盒限制的文件将使它们创建的每个文件都设置此属性。非沙盒应用程序可以自行设置它，或在 **Info.plist** 中指定 [**LSFileQuarantineEnabled**](https://developer.apple.com/documentation/bundleresources/information\_property\_list/lsfilequarantineenabled?language=objc) 键，这将使系统在创建文件时设置 `com.apple.quarantine` 扩展属性。
+
 {% endhint %}
 
 可以通过以下方式**检查其状态并启用/禁用**（需要 root 权限）：
@@ -199,7 +200,7 @@ com.apple.quarantine: 00C1;607842eb;Brave;F643CD5F-6071-46AB-83AB-390BA944DEC5
 # Brave -- App
 # F643CD5F-6071-46AB-83AB-390BA944DEC5 -- UID assigned to the file downloaded
 ```
-实际上，一个进程“可以为它创建的文件设置隔离标志”（我尝试在创建的文件中应用USER\_APPROVED标志，但它不会应用）：
+实际上一个进程"可以为它创建的文件设置隔离标志"（我尝试在创建的文件中应用USER\_APPROVED标志，但它不会应用）：
 
 <details>
 
@@ -287,15 +288,13 @@ find / -exec ls -ld {} \; 2>/dev/null | grep -E "[x\-]@ " | awk '{printf $9; pri
 
 ### XProtect
 
-XProtect是macOS中内置的**反恶意软件**功能。XProtect会针对已知恶意软件和不安全文件类型的数据库**检查任何应用程序在首次启动或修改时**。当您通过某些应用程序（如Safari、Mail或Messages）下载文件时，XProtect会自动扫描该文件。如果文件与其数据库中的任何已知恶意软件匹配，XProtect将**阻止文件运行**并向您发出威胁警报。
+XProtect是macOS中内置的**反恶意软件**功能。XProtect会**针对首次启动或修改的任何应用程序**与其已知恶意软件和不安全文件类型的数据库进行检查。当您通过某些应用程序（如Safari、Mail或Messages）下载文件时，XProtect会自动扫描该文件。如果文件与其数据库中的任何已知恶意软件匹配，XProtect将**阻止文件运行**并向您发出威胁警报。
 
 XProtect数据库由Apple定期更新新的恶意软件定义，并这些更新会自动下载并安装到您的Mac上。这确保了XProtect始终与最新已知威胁保持同步。
 
 然而，值得注意的是**XProtect并非完整的防病毒解决方案**。它仅检查特定已知威胁列表，不像大多数防病毒软件那样执行访问扫描。
 
 您可以获取有关最新XProtect更新的信息运行：
-
-{% code overflow="wrap" %}
 ```bash
 system_profiler SPInstallHistoryDataType 2>/dev/null | grep -A 4 "XProtectPlistConfigData" | tail -n 5
 ```
@@ -306,19 +305,19 @@ XProtect位于SIP受保护位置**/Library/Apple/System/Library/CoreServices/XPr
 - **`XProtect.bundle/Contents/Resources/LegacyEntitlementAllowlist.plist`**：允许具有这些cdhashes的代码使用传统授权。
 - **`XProtect.bundle/Contents/Resources/XProtect.meta.plist`**：禁止通过BundleID和TeamID加载的插件和扩展列表，或指示最低版本。
 - **`XProtect.bundle/Contents/Resources/XProtect.yara`**：用于检测恶意软件的Yara规则。
-- **`XProtect.bundle/Contents/Resources/gk.db`**：带有被阻止的应用程序和TeamIDs哈希的SQLite3数据库。
+- **`XProtect.bundle/Contents/Resources/gk.db`**：带有已阻止应用程序和TeamIDs哈希的SQLite3数据库。
 
 请注意，还有另一个与XProtect相关的应用程序**`/Library/Apple/System/Library/CoreServices/XProtect.app`**与Gatekeeper进程无关。
 
 ### 非Gatekeeper
 
 {% hint style="danger" %}
-请注意，Gatekeeper**不会每次**执行应用程序时都执行，只有在您执行已经由Gatekeeper验证的应用程序时，_**AppleMobileFileIntegrity**_（AMFI）才会**验证可执行代码签名**。
+请注意，Gatekeeper**不会每次**执行应用程序时都执行，只有在您执行已由Gatekeeper执行和验证的应用程序时，_**AppleMobileFileIntegrity** (AMFI)才会**验证可执行代码签名**。
 {% endhint %}
 
-因此，以前可以执行应用程序以使用Gatekeeper缓存它，然后**修改应用程序的非可执行文件**（如Electron asar或NIB文件），如果没有其他保护措施，应用程序将带有**恶意**添加内容。
+因此，以前可以执行应用程序以使用Gatekeeper缓存它，然后**修改应用程序的非可执行文件**（如Electron asar或NIB文件），如果没有其他保护措施，应用程序将带有**恶意**添加项**执行**。
 
-然而，现在这是不可能的，因为macOS**阻止修改**应用程序包内的文件。因此，如果尝试[Dirty NIB](../macos-proces-abuse/macos-dirty-nib.md)攻击，您将发现不再可能滥用它，因为在使用Gatekeeper执行应用程序以缓存它后，您将无法修改bundle。例如，如果更改Contents目录的名称为NotCon（如在漏洞利用中指示的那样），然后执行应用程序的主要二进制文件以使用Gatekeeper缓存它，将触发错误并且不会执行。
+然而，现在这是不可能的，因为macOS**阻止修改**应用程序包内的文件。因此，如果尝试[Dirty NIB](../macos-proces-abuse/macos-dirty-nib.md)攻击，您将发现不再可能滥用它，因为在执行应用程序以使用Gatekeeper缓存它后，您将无法修改bundle。例如，如果更改Contents目录的名称为NotCon（如在漏洞利用中指示的那样），然后执行应用程序的主要二进制文件以使用Gatekeeper缓存它，将触发错误并且不会执行。
 
 ## Gatekeeper绕过
 
@@ -332,7 +331,7 @@ XProtect位于SIP受保护位置**/Library/Apple/System/Library/CoreServices/XPr
 
 ### [CVE-2021-30990](https://ronmasas.com/posts/bypass-macos-gatekeeper)
 
-当使用**Automator**创建应用程序时，关于其执行所需内容的信息位于`application.app/Contents/document.wflow`中，而不是在可执行文件中。可执行文件只是一个名为**Automator Application Stub**的通用Automator二进制文件。
+当使用**Automator**创建应用程序时，关于其需要执行的信息位于`application.app/Contents/document.wflow`中，而不是在可执行文件中。可执行文件只是一个名为**Automator Application Stub**的通用Automator二进制文件。
 
 因此，您可以使`application.app/Contents/MacOS/Automator\ Application\ Stub`**指向系统内另一个Automator Application Stub的符号链接**，它将执行`document.wflow`中的内容（您的脚本）**而不触发Gatekeeper**，因为实际可执行文件没有quarantine xattr。
 
@@ -342,7 +341,7 @@ XProtect位于SIP受保护位置**/Library/Apple/System/Library/CoreServices/XPr
 
 ### [CVE-2022-22616](https://www.jamf.com/blog/jamf-threat-labs-safari-vuln-gatekeeper-bypass/)
 
-在此绕过中，创建了一个zip文件，从`application.app/Contents`开始压缩而不是从`application.app`开始。因此，**从`application.app/Contents`的所有文件**都应用了**quarantine属性**，但**没有应用到`application.app`**，Gatekeeper正在检查的是这一点，因此Gatekeeper被绕过，因为当触发`application.app`时，**它没有quarantine属性**。
+在此绕过中，创建了一个zip文件，从`application.app/Contents`开始压缩，而不是从`application.app`开始。因此，**quarantine attr**被应用于**来自`application.app/Contents`的所有文件**，但未应用于`application.app`，Gatekeeper正在检查的文件，因此Gatekeeper被绕过，因为当触发`application.app`时，**它没有quarantine属性**。
 ```bash
 zip -r test.app/Contents test.zip
 ```
@@ -350,11 +349,11 @@ zip -r test.app/Contents test.zip
 
 ### [CVE-2022-32910](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-32910)
 
-即使组件不同，利用此漏洞的方式与先前的漏洞非常相似。在这种情况下，我们将从**`application.app/Contents`**生成一个苹果存档，这样当通过**Archive Utility**解压缩时，**`application.app`将不会获得隔离属性**。
+即使组件不同，利用此漏洞的方式与之前的漏洞非常相似。在这种情况下，我们将从**`application.app/Contents`**生成一个苹果存档，这样当通过**Archive Utility**解压缩时，**`application.app`将不会获得隔离属性**。
 ```bash
 aa archive -d test.app/Contents -o test.app.aar
 ```
-查看[**原始报告**](https://www.jamf.com/blog/jamf-threat-labs-macos-archive-utility-vulnerability/)以获取更多信息。
+查看有关更多信息的[**原始报告**](https://www.jamf.com/blog/jamf-threat-labs-macos-archive-utility-vulnerability/)。
 
 ### [CVE-2022-42821](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/)
 
@@ -365,9 +364,9 @@ chmod +a "everyone deny writeextattr" /tmp/no-attr
 xattr -w attrname vale /tmp/no-attr
 xattr: [Errno 13] Permission denied: '/tmp/no-attr'
 ```
-此外，**AppleDouble** 文件格式会复制文件及其ACEs。
+此外，**AppleDouble** 文件格式会复制文件及其 ACEs。
 
-在[**源代码**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html)中，可以看到存储在名为**`com.apple.acl.text`**的xattr中的ACL文本表示将被设置为解压后文件的ACL。因此，如果您使用**AppleDouble**文件格式将应用程序压缩到zip文件中，并附带一个ACL以阻止其他xattr被写入...则隔离xattr不会被设置到应用程序中：
+在[**源代码**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html)中，可以看到存储在名为**`com.apple.acl.text`**的 xattr 内的 ACL 文本表示将被设置为解压后文件的 ACL。因此，如果您使用**AppleDouble**文件格式将应用程序压缩到 zip 文件中，并附带一个 ACL，防止其他 xattr 被写入其中... 检疫 xattr 将不会设置到应用程序中：
 ```bash
 chmod +a "everyone deny write,writeattr,writeextattr" /tmp/test
 ditto -c -k test test.zip
@@ -378,7 +377,7 @@ python3 -m http.server
 
 查看[**原始报告**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/)以获取更多信息。
 
-请注意，这也可以利用AppleArchives：
+请注意，这也可以利用AppleArchives:
 ```bash
 mkdir app
 touch app/test
@@ -392,8 +391,6 @@ aa archive -d app -o test.aar
 ### [CVE-2023-27951](https://redcanary.com/blog/gatekeeper-bypass-vulnerabilities/)
 
 AppleDouble文件格式将文件属性存储在以`._`开头的单独文件中，这有助于在**macOS设备之间复制文件属性**。然而，注意到在解压AppleDouble文件后，以`._`开头的文件**没有被赋予隔离属性**。
-
-{% code overflow="wrap" %}
 ```bash
 mkdir test
 echo a > test/a
@@ -405,7 +402,7 @@ aa archive -d test/ -o test.aar
 ```
 {% endcode %}
 
-能够创建一个不会设置隔离属性的文件，这样就有可能绕过Gatekeeper。技巧是使用AppleDouble命名约定（以`._`开头）创建一个DMG文件应用程序，并创建一个可见文件作为对这个没有隔离属性的隐藏文件的符号链接。当执行dmg文件时，由于它没有隔离属性，它将绕过Gatekeeper。
+能够创建一个不会设置隔离属性的文件，这样就有可能绕过Gatekeeper。诀窍是使用AppleDouble命名约定（以`._`开头）创建一个DMG文件应用程序，并创建一个可见文件作为对这个没有隔离属性的隐藏文件的符号链接。当执行dmg文件时，由于它没有隔离属性，它将绕过Gatekeeper。
 ```bash
 # Create an app bundle with the backdoor an call it app.app
 
@@ -423,23 +420,8 @@ aa archive -d s/ -o app.aar
 ```
 ### 防止隔离 xattr
 
-在“.app”捆绑包中，如果未添加隔离 xattr，则执行时**Gatekeeper 将不会被触发**。
+在“.app”捆绑包中，如果未添加隔离 xattr，则执行时**Gatekeeper 不会被触发**。
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
-
-
-<details>
-
-<summary><strong>从零开始学习 AWS 黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-支持 HackTricks 的其他方式：
-
-* 如果您想看到您的**公司在 HackTricks 中做广告**或**下载 PDF 版本的 HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* 探索[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或**关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享您的黑客技巧。
-
-</details>
