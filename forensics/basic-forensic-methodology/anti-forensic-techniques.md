@@ -6,13 +6,13 @@ Altri modi per supportare HackTricks:
 
 * Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
+* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
@@ -32,7 +32,7 @@ Questo strumento **modifica** le informazioni sui timestamp all'interno di **`$S
 
 ## Usnjrnl
 
-Il **USN Journal** (Update Sequence Number Journal) è una caratteristica del NTFS (sistema di file di Windows NT) che tiene traccia delle modifiche al volume. Lo strumento [**UsnJrnl2Csv**](https://github.com/jschicht/UsnJrnl2Csv) consente di esaminare queste modifiche.
+Il **Journal USN** (Update Sequence Number Journal) è una caratteristica del file system NTFS (Windows NT) che tiene traccia delle modifiche al volume. Lo strumento [**UsnJrnl2Csv**](https://github.com/jschicht/UsnJrnl2Csv) consente di esaminare queste modifiche.
 
 ![](<../../.gitbook/assets/image (449).png>)
 
@@ -40,13 +40,13 @@ Nell'immagine precedente è mostrato l'**output** dello **strumento** dove si po
 
 ## $LogFile
 
-**Tutte le modifiche dei metadati a un sistema di file vengono registrate** in un processo noto come [write-ahead logging](https://en.wikipedia.org/wiki/Write-ahead_logging). I metadati registrati sono conservati in un file chiamato `**$LogFile**`, situato nella directory radice di un sistema di file NTFS. Strumenti come [LogFileParser](https://github.com/jschicht/LogFileParser) possono essere utilizzati per analizzare questo file e identificare le modifiche.
+**Tutte le modifiche dei metadati a un file system vengono registrate** in un processo noto come [write-ahead logging](https://en.wikipedia.org/wiki/Write-ahead_logging). I metadati registrati sono conservati in un file chiamato `**$LogFile**`, situato nella directory radice di un file system NTFS. Strumenti come [LogFileParser](https://github.com/jschicht/LogFileParser) possono essere utilizzati per analizzare questo file e identificare le modifiche.
 
 ![](<../../.gitbook/assets/image (450).png>)
 
 Ancora una volta, nell'output dello strumento è possibile vedere che **alcune modifiche sono state effettuate**.
 
-Utilizzando lo stesso strumento è possibile identificare a **quale ora i timestamp sono stati modificati**:
+Utilizzando lo stesso strumento è possibile identificare a **quale momento i timestamp sono stati modificati**:
 
 ![](<../../.gitbook/assets/image (451).png>)
 
@@ -69,7 +69,7 @@ Questo strumento può modificare entrambi gli attributi `$STARNDAR_INFORMATION` 
 
 # Nascondere Dati
 
-NTFS utilizza un cluster e la dimensione minima delle informazioni. Ciò significa che se un file occupa un cluster e mezzo, il **mezzo rimanente non verrà mai utilizzato** fino a quando il file non viene eliminato. Quindi, è possibile **nascondere dati in questo spazio vuoto**.
+NFTS utilizza un cluster e la dimensione minima delle informazioni. Ciò significa che se un file occupa un cluster e mezzo, il **mezzo rimanente non verrà mai utilizzato** fino a quando il file non viene eliminato. Quindi, è possibile **nascondere dati in questo spazio vuoto**.
 
 Ci sono strumenti come slacker che consentono di nascondere dati in questo spazio "nascosto". Tuttavia, un'analisi del `$logfile` e `$usnjrnl` può mostrare che sono stati aggiunti alcuni dati:
 
@@ -82,7 +82,7 @@ Quindi, è possibile recuperare lo spazio vuoto utilizzando strumenti come FTK I
 Questo è uno strumento che **spegnerà il computer se viene rilevata qualsiasi modifica nelle porte USB**.\
 Un modo per scoprirlo sarebbe ispezionare i processi in esecuzione e **esaminare ogni script python in esecuzione**.
 
-# Distribuzioni Live di Linux
+# Distribuzioni Linux Live
 
 Queste distribuzioni sono **eseguite all'interno della memoria RAM**. L'unico modo per rilevarle è **nel caso in cui il file system NTFS sia montato con permessi di scrittura**. Se è montato solo con permessi di lettura, non sarà possibile rilevare l'intrusione.
 
@@ -117,13 +117,13 @@ Questo salverà informazioni sulle applicazioni eseguite con l'obiettivo di migl
 
 Ogni volta che una cartella viene aperta da un volume NTFS su un server Windows NT, il sistema impiega tempo per **aggiornare un campo timestamp su ciascuna cartella elencata**, chiamato l'ultimo tempo di accesso. Su un volume NTFS molto utilizzato, questo può influire sulle prestazioni.
 
-1. Apri l'Editor del Registro (Regedit.exe).
+1. Apri l'Editor del Registro di sistema (Regedit.exe).
 2. Naviga fino a `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem`.
 3. Cerca `NtfsDisableLastAccessUpdate`. Se non esiste, aggiungi questo DWORD e impostane il valore su 1, che disabiliterà il processo.
-4. Chiudi l'Editor del Registro e riavvia il server.
-## Eliminare la cronologia USB
+4. Chiudi l'Editor del Registro di sistema e riavvia il server.
+## Eliminare la Cronologia USB
 
-Tutte le **voci dei dispositivi USB** sono memorizzate nel Registro di Windows sotto la chiave di registro **USBSTOR** che contiene sottochiavi create ogni volta che si collega un dispositivo USB al PC o al laptop. È possibile trovare questa chiave qui H`KEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **Eliminando questo** si eliminerà la cronologia USB.\
+Tutte le **voci dei dispositivi USB** sono memorizzate nel Registro di Windows sotto la chiave di registro **USBSTOR** che contiene sottochiavi create ogni volta che si collega un dispositivo USB al PC o al laptop. È possibile trovare questa chiave qui H`HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **Eliminando questo** si eliminerà la cronologia USB.\
 È anche possibile utilizzare lo strumento [**USBDeview**](https://www.nirsoft.net/utils/usb\_devices\_view.html) per assicurarsi di averli eliminati (e per eliminarli).
 
 Un altro file che salva informazioni sugli USB è il file `setupapi.dev.log` all'interno di `C:\Windows\INF`. Anche questo dovrebbe essere eliminato.
@@ -145,12 +145,12 @@ Per disabilitare le copie shadow [passaggi da qui](https://support.waters.com/KB
 
 ## Sovrascrivere i file eliminati
 
-* È possibile utilizzare uno strumento **Windows**: `cipher /w:C` Questo indicherà a cipher di rimuovere tutti i dati dallo spazio disco non utilizzato disponibile nel disco C.
+* È possibile utilizzare uno strumento **Windows**: `cipher /w:C` Questo indicherà a cipher di rimuovere tutti i dati dallo spazio disco non utilizzato disponibile all'interno del disco C.
 * È anche possibile utilizzare strumenti come [**Eraser**](https://eraser.heidi.ie)
 
 ## Eliminare i log degli eventi di Windows
 
-* Windows + R --> eventvwr.msc --> Espandi "Log di Windows" --> Fare clic con il pulsante destro su ogni categoria e selezionare "Cancella log"
+* Windows + R --> eventvwr.msc --> Espandere "Log di Windows" --> Fare clic con il pulsante destro su ogni categoria e selezionare "Cancella log"
 * `for /F "tokens=*" %1 in ('wevtutil.exe el') DO wevtutil.exe cl "%1"`
 * `Get-EventLog -LogName * | ForEach { Clear-EventLog $_.Log }`
 
@@ -164,7 +164,7 @@ Per disabilitare le copie shadow [passaggi da qui](https://support.waters.com/KB
 
 * `fsutil usn deletejournal /d c:`
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
@@ -175,10 +175,10 @@ Per disabilitare le copie shadow [passaggi da qui](https://support.waters.com/KB
 
 Altri modi per supportare HackTricks:
 
-* Se desideri vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
+* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusivi [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository di Github.
+* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

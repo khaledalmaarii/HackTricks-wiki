@@ -4,15 +4,15 @@
 
 <summary><strong>Impara l'hacking AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Lavori in una **azienda di sicurezza informatica**? Vuoi vedere la tua **azienda pubblicizzata su HackTricks**? o vuoi avere accesso all'**ultima versione del PEASS o scaricare HackTricks in PDF**? Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Lavori in una **azienda di sicurezza informatica**? Vuoi vedere la **tua azienda pubblicizzata su HackTricks**? o vuoi avere accesso all'**ultima versione del PEASS o scaricare HackTricks in PDF**? Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
 * Ottieni il [**merchandising ufficiale PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR al [repo di hacktricks](https://github.com/carlospolop/hacktricks) e al [repo di hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Condividi i tuoi trucchi di hacking inviando PR al [repo hacktricks](https://github.com/carlospolop/hacktricks) e al [repo hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
@@ -54,7 +54,7 @@ ewfacquire /dev/sdb
 #Then use default values
 #It will generate the disk image in the current directory
 ```
-## Mount
+## Mounta
 
 ### Diversi tipi
 
@@ -70,10 +70,6 @@ evidence.img: Linux rev 1.0 ext4 filesystem data, UUID=1031571c-f398-4bfb-a414-b
 mount evidence.img /mnt
 ```
 ### EWF
-
-#### Acquisizione di immagini
-
-L'acquisizione di immagini è il processo di copia bit a bit di un'immagine di un dispositivo di archiviazione. Questo processo è essenziale per garantire che i dati originali siano preservati e non siano modificati durante l'analisi forense. L'uso di formati di immagine forense come EWF (Expert Witness Compression Format) aiuta a garantire l'integrità dei dati acquisiti.
 ```bash
 #Get file type
 file evidence.E01
@@ -90,12 +86,12 @@ mount output/ewf1 -o ro,norecovery /mnt
 ```
 ### ArsenalImageMounter
 
-È un'applicazione Windows per montare volumi. Puoi scaricarla qui [https://arsenalrecon.com/downloads/](https://arsenalrecon.com/downloads/)
+È un'applicazione Windows per montare volumi. Puoi scaricarla [qui](https://arsenalrecon.com/downloads/)
 
 ### Errori
 
 * **`impossibile montare /dev/loop0 in sola lettura`** in questo caso è necessario utilizzare i flag **`-o ro,norecovery`**
-* **`tipo fs errato, opzione errata, superblock errato su /dev/loop0, pagina codice mancante o programma di assistenza, o altro errore.`** in questo caso il mount è fallito poiché l'offset del filesystem è diverso rispetto a quello dell'immagine disco. È necessario trovare la dimensione del settore e il settore di avvio:
+* **`tipo fs errato, opzione errata, superblock errato su /dev/loop0, pagina di codice mancante o programma di assistenza, o altro errore.`** in questo caso il mount è fallito poiché l'offset del filesystem è diverso rispetto a quello dell'immagine disco. È necessario trovare la dimensione del settore e il settore di avvio:
 ```bash
 fdisk -l disk.img
 Disk disk.img: 102 MiB, 106954648 bytes, 208896 sectors
@@ -112,18 +108,18 @@ Nota che la dimensione del settore è **512** e l'inizio è **2048**. Quindi mon
 ```bash
 mount disk.img /mnt -o ro,offset=$((2048*512))
 ```
-<figure><img src="/.gitbook/assets/WebSec_1500x400_10fps_21sn_lightoptimized_v2.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
 <details>
 
-<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 * Lavori in una **azienda di sicurezza informatica**? Vuoi vedere la **tua azienda pubblicizzata su HackTricks**? o vuoi avere accesso all'**ultima versione del PEASS o scaricare HackTricks in PDF**? Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR al [repo di hacktricks](https://github.com/carlospolop/hacktricks) e al [repo di hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Condividi i tuoi trucchi di hacking inviando PR al [repo hacktricks](https://github.com/carlospolop/hacktricks) e al [repo hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
