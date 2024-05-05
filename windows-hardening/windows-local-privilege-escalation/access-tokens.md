@@ -2,29 +2,29 @@
 
 <details>
 
-<summary><strong>Erlernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Arbeiten Sie in einem **Cybersicherheitsunternehmen**? Möchten Sie Ihr **Unternehmen in HackTricks beworben sehen**? Oder möchten Sie Zugriff auf die **neueste Version des PEASS erhalten oder HackTricks als PDF herunterladen**? Überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Arbeiten Sie in einem **Cybersicherheitsunternehmen**? Möchten Sie Ihr **Unternehmen in HackTricks beworben sehen**? oder möchten Sie Zugriff auf die **neueste Version des PEASS oder HackTricks als PDF herunterladen**? Überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
-* **Treten Sie der** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) bei oder der [**Telegram-Gruppe**](https://t.me/peass) oder **folgen** Sie mir auf **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Treten Sie der** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie mir auf **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an das** [**hacktricks-Repo**](https://github.com/carlospolop/hacktricks) **und das** [**hacktricks-cloud-Repo**](https://github.com/carlospolop/hacktricks-cloud) **einreichen**.
 
 </details>
 
 ### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) ist eine von **Dark Web** angetriebene Suchmaschine, die **kostenlose** Funktionen bietet, um zu überprüfen, ob ein Unternehmen oder seine Kunden von **Stealer-Malware** **kompromittiert** wurden.
 
 Das Hauptziel von WhiteIntel ist es, Kontoübernahmen und Ransomware-Angriffe aufgrund von informationsstehlender Malware zu bekämpfen.
 
-Sie können ihre Website besuchen und ihr Tool **kostenlos** ausprobieren unter:
+Sie können ihre Website besuchen und ihre Engine **kostenlos** ausprobieren unter:
 
 {% embed url="https://whiteintel.io" %}
 
----
+***
 
 ## Zugriffstoken
 
@@ -76,11 +76,11 @@ SeTimeZonePrivilege           Change the time zone                 Disabled
 ```
 oder mit _Process Explorer_ von Sysinternals (Prozess auswählen und auf die Registerkarte "Sicherheit" zugreifen):
 
-![](<../../.gitbook/assets/image (769).png>)
+![](<../../.gitbook/assets/image (772).png>)
 
 ### Lokaler Administrator
 
-Wenn sich ein lokaler Administrator anmeldet, **werden zwei Zugriffstoken erstellt**: Eines mit Administratorrechten und das andere mit normalen Rechten. **Standardmäßig** wird bei der Ausführung eines Prozesses durch diesen Benutzer das mit **normalen** (nicht-Administrator) **Rechten verwendet**. Wenn dieser Benutzer versucht, **etwas als Administrator auszuführen** ("Als Administrator ausführen" zum Beispiel), wird die **UAC** verwendet, um um Erlaubnis zu bitten.\
+Wenn sich ein lokaler Administrator anmeldet, **werden zwei Zugriffstoken erstellt**: Eins mit Adminrechten und das andere mit normalen Rechten. **Standardmäßig** wird bei der Ausführung eines Prozesses durch diesen Benutzer das mit **normalen** (nicht-Administrator) **Rechten verwendet**. Wenn dieser Benutzer versucht, **etwas als Administrator auszuführen** ("Als Administrator ausführen" zum Beispiel), wird die **UAC** verwendet, um um Erlaubnis zu bitten.\
 Wenn Sie mehr über die UAC erfahren möchten, lesen Sie diese Seite [**hier**](../authentication-credentials-uac-and-efs/#uac)**.**
 
 ### Benutzerimitation von Anmeldeinformationen
@@ -98,16 +98,16 @@ runas /user:domain\username /netonly cmd.exe
 
 Es gibt zwei Arten von verfügbaren Tokens:
 
-- **Primäres Token**: Dient als Repräsentation der Sicherheitsanmeldeinformationen eines Prozesses. Die Erstellung und Zuordnung von primären Tokens zu Prozessen sind Aktionen, die erhöhte Berechtigungen erfordern und das Prinzip der Berechtigungstrennung betonen. Typischerweise ist ein Authentifizierungsdienst für die Token-Erstellung verantwortlich, während ein Anmeldedienst die Zuordnung mit der Betriebssystemshell des Benutzers behandelt. Es ist erwähnenswert, dass Prozesse das Primärtoken ihres übergeordneten Prozesses bei der Erstellung erben.
-- **Imitierungs-Token**: Ermächtigt eine Serveranwendung, vorübergehend die Identität des Clients anzunehmen, um auf sichere Objekte zuzugreifen. Dieser Mechanismus ist in vier Betriebsstufen unterteilt:
-  - **Anonym**: Gewährt dem Server Zugriff ähnlich wie einem nicht identifizierten Benutzer.
-  - **Identifikation**: Ermöglicht es dem Server, die Identität des Clients zu überprüfen, ohne sie für den Objektzugriff zu verwenden.
-  - **Imitierung**: Ermöglicht es dem Server, unter der Identität des Clients zu arbeiten.
-  - **Delegation**: Ähnlich wie Imitierung, beinhaltet jedoch die Möglichkeit, diese Identitätsannahme auf entfernte Systeme auszudehnen, mit denen der Server interagiert, um die Aufrechterhaltung von Anmeldeinformationen sicherzustellen.
+* **Primäres Token**: Dient als Repräsentation der Sicherheitsanmeldeinformationen eines Prozesses. Die Erstellung und Zuordnung von primären Tokens zu Prozessen sind Aktionen, die erhöhte Berechtigungen erfordern und das Prinzip der Berechtigungstrennung betonen. Typischerweise ist ein Authentifizierungsdienst für die Token-Erstellung verantwortlich, während ein Anmeldedienst die Zuordnung mit der Betriebssystemshell des Benutzers behandelt. Es ist erwähnenswert, dass Prozesse das Primärtoken ihres übergeordneten Prozesses bei der Erstellung erben.
+* **Imitierungs-Token**: Ermächtigt eine Serveranwendung, vorübergehend die Identität des Clients anzunehmen, um auf sichere Objekte zuzugreifen. Dieser Mechanismus ist in vier Betriebsstufen unterteilt:
+  * **Anonym**: Gewährt dem Server Zugriff ähnlich wie bei einem nicht identifizierten Benutzer.
+  * **Identifikation**: Ermöglicht es dem Server, die Identität des Clients zu überprüfen, ohne sie für den Objektzugriff zu verwenden.
+  * **Imitierung**: Ermöglicht es dem Server, unter der Identität des Clients zu arbeiten.
+  * **Delegation**: Ähnlich wie Imitierung, beinhaltet jedoch die Möglichkeit, diese Identitätsannahme auf entfernte Systeme auszudehnen, mit denen der Server interagiert, um die Aufrechterhaltung von Anmeldeinformationen sicherzustellen.
 
-#### Imitieren von Tokens
+#### Tokens imitieren
 
-Mit dem _**incognito**_ Modul von Metasploit können Sie bei ausreichenden Berechtigungen einfach **Liste** und **Imitieren** anderer **Tokens**. Dies könnte nützlich sein, um **Aktionen auszuführen, als wären Sie der andere Benutzer**. Sie könnten auch mit dieser Technik **Berechtigungen eskalieren**.
+Mit dem _**incognito**_ Modul von Metasploit können Sie bei ausreichenden Berechtigungen einfach andere **Tokens** **auflisten** und **imitieren**. Dies könnte nützlich sein, um **Aktionen auszuführen, als wären Sie der andere Benutzer**. Mit dieser Technik könnten Sie auch **Berechtigungen eskalieren**.
 
 ### Token-Berechtigungen
 
@@ -125,13 +125,13 @@ Erfahren Sie mehr über Tokens in diesen Tutorials: [https://medium.com/@seemant
 
 ### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) ist eine von Dark Web angetriebene Suchmaschine, die **kostenlose** Funktionen bietet, um zu überprüfen, ob ein Unternehmen oder seine Kunden von **Stealer-Malware** **kompromittiert** wurden.
+[**WhiteIntel**](https://whiteintel.io) ist eine von **Dark Web** angetriebene Suchmaschine, die **kostenlose** Funktionen bietet, um zu überprüfen, ob ein Unternehmen oder seine Kunden von **Stealer-Malware** **kompromittiert** wurden.
 
 Das Hauptziel von WhiteIntel ist es, Kontoübernahmen und Ransomware-Angriffe aufgrund von informationsstehlender Malware zu bekämpfen.
 
-Sie können ihre Website besuchen und ihre Engine **kostenlos** ausprobieren unter:
+Sie können ihre Website besuchen und ihre Suchmaschine **kostenlos** ausprobieren unter:
 
 {% embed url="https://whiteintel.io" %}
 
@@ -139,10 +139,10 @@ Sie können ihre Website besuchen und ihre Engine **kostenlos** ausprobieren unt
 
 <summary><strong>Erfahren Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-- Arbeiten Sie in einem **Cybersicherheitsunternehmen**? Möchten Sie Ihr **Unternehmen in HackTricks beworben sehen**? Oder möchten Sie Zugriff auf die **neueste Version des PEASS oder HackTricks in PDF** haben? Überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-- Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-- Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
-- **Treten Sie der** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegramm-Gruppe**](https://t.me/peass) bei oder **folgen** Sie mir auf **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-- **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an das** [**HackTricks-Repo**](https://github.com/carlospolop/hacktricks) **und das** [**HackTricks-Cloud-Repo**](https://github.com/carlospolop/hacktricks-cloud) **einreichen**.
+* Arbeiten Sie in einem **Cybersicherheitsunternehmen**? Möchten Sie Ihr **Unternehmen in HackTricks beworben sehen**? Oder möchten Sie Zugriff auf die **neueste Version des PEASS oder HackTricks als PDF herunterladen**? Überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
+* **Treten Sie der** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegramm-Gruppe**](https://t.me/peass) bei oder **folgen** Sie mir auf **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an das** [**HackTricks-Repo**](https://github.com/carlospolop/hacktricks) **und das** [**HackTricks-Cloud-Repo**](https://github.com/carlospolop/hacktricks-cloud) **einreichen**.
 
 </details>

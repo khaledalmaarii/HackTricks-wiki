@@ -9,14 +9,14 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 * Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositories einreichen.
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
 
 </details>
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -24,7 +24,7 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 
 ## Globale Variablen
 
-Die globalen Variablen **werden** von **Kindprozessen** geerbt.
+Die globalen Variablen **werden von** **Kindprozessen** geerbt.
 
 Sie können eine globale Variable für Ihre aktuelle Sitzung erstellen, indem Sie:
 ```bash
@@ -33,7 +33,7 @@ echo $MYGLOBAL #Prints: hello world
 ```
 Diese Variable wird von Ihren aktuellen Sitzungen und deren untergeordneten Prozessen zugänglich sein.
 
-Sie können eine Variable **entfernen**, indem Sie Folgendes tun:
+Sie können eine Variable **entfernen**, indem Sie:
 ```bash
 unset MYGLOBAL
 ```
@@ -45,7 +45,7 @@ LOCAL="my local"
 echo $LOCAL
 unset LOCAL
 ```
-## Liste aktueller Variablen
+## Liste aktuelle Variablen
 ```bash
 set
 env
@@ -85,13 +85,13 @@ export HISTFILESIZE=0
 ```
 ### **HISTSIZE**
 
-Ändern Sie den **Wert dieser Variablen auf 0**, damit bei **Beendigung Ihrer Sitzung** keine Befehle zur **Verlaufdatei** (\~/.bash\_history) hinzugefügt werden.
+Ändern Sie den **Wert dieser Variablen auf 0**, damit bei **Beendigung Ihrer Sitzung** keine Befehle zur **Verlaufsdatei** (\~/.bash\_history) hinzugefügt werden.
 ```bash
 export HISTSIZE=0
 ```
 ### http\_proxy & https\_proxy
 
-Die Prozesse verwenden den hier deklarierten **Proxy**, um eine Verbindung zum Internet über **http oder https** herzustellen.
+Die Prozesse werden den hier deklarierten **Proxy** verwenden, um eine Verbindung zum Internet über **http oder https** herzustellen.
 ```bash
 export http_proxy="http://10.10.10.10:8080"
 export https_proxy="http://10.10.10.10:8080"
@@ -107,27 +107,27 @@ export SSL_CERT_DIR=/path/to/ca-certificates
 
 Ändern Sie das Aussehen Ihrer Eingabeaufforderung.
 
-[**Hier ist ein Beispiel**](https://gist.github.com/carlospolop/43f7cd50f3deea972439af3222b68808)
+[**Dies ist ein Beispiel**](https://gist.github.com/carlospolop/43f7cd50f3deea972439af3222b68808)
 
 Root:
 
-![](<../.gitbook/assets/image (87).png>)
+![](<../.gitbook/assets/image (897).png>)
 
 Normaler Benutzer:
 
-![](<../.gitbook/assets/image (88).png>)
+![](<../.gitbook/assets/image (740).png>)
 
 Ein, zwei und drei im Hintergrund laufende Jobs:
 
-![](<../.gitbook/assets/image (89).png>)
+![](<../.gitbook/assets/image (145).png>)
 
 Ein Hintergrundjob, ein gestoppter Job und der letzte Befehl wurde nicht korrekt beendet:
 
-![](<../.gitbook/assets/image (90).png>)
+![](<../.gitbook/assets/image (715).png>)
 
 **Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
@@ -137,10 +137,10 @@ Ein Hintergrundjob, ein gestoppter Job und der letzte Befehl wurde nicht korrekt
 
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* Wenn Sie möchten, dass Ihr **Unternehmen in HackTricks beworben wird** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositories einreichen.
 
 </details>

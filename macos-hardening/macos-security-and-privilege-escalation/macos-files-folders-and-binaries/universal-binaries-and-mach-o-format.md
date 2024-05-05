@@ -6,11 +6,11 @@
 
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks in PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegramm-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
 
 </details>
 
@@ -24,9 +24,9 @@ Diese Binärdateien folgen der **Mach-O-Struktur**, die im Wesentlichen aus folg
 * Ladebefehle
 * Daten
 
-![https://alexdremov.me/content/images/2022/10/6XLCD.gif](<../../../.gitbook/assets/image (467).png>)
+![https://alexdremov.me/content/images/2022/10/6XLCD.gif](<../../../.gitbook/assets/image (470).png>)
 
-## Fat-Header
+## Fat Header
 
 Suchen Sie nach der Datei mit: `mdfind fat.h | grep -i mach-o | grep -E "fat.h$"`
 
@@ -78,11 +78,11 @@ Fähigkeiten PTR_AUTH_VERSION USERSPACE 0
 
 oder mit dem [Mach-O View](https://sourceforge.net/projects/machoview/) Tool:
 
-<figure><img src="../../../.gitbook/assets/image (1091).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1094).png" alt=""><figcaption></figcaption></figure>
 
-Wie Sie vielleicht denken, verdoppelt eine universelle Binärdatei, die für 2 Architekturen kompiliert ist, normalerweise die Größe einer Binärdatei, die nur für 1 Architektur kompiliert ist.
+Wie Sie vielleicht denken, verdoppelt eine universelle Binärdatei, die für 2 Architekturen kompiliert ist, normalerweise die Größe einer, die nur für 1 Architektur kompiliert ist.
 
-## **Mach-O-Header**
+## **Mach-O Header**
 
 Der Header enthält grundlegende Informationen über die Datei, wie magische Bytes zur Identifizierung als Mach-O-Datei und Informationen über die Zielarchitektur. Sie finden ihn unter: `mdfind loader.h | grep -i mach-o | grep -E "loader.h$"`
 ```c
@@ -113,17 +113,17 @@ uint32_t	reserved;	/* reserved */
 ```
 ### Mach-O Dateitypen
 
-Es gibt verschiedene Dateitypen, die in der [**Quellcodebeispiel hier**](https://opensource.apple.com/source/xnu/xnu-2050.18.24/EXTERNAL\_HEADERS/mach-o/loader.h) definiert sind. Die wichtigsten sind:
+Es gibt verschiedene Dateitypen, die in der [**Quellcode-Beispiel hier**](https://opensource.apple.com/source/xnu/xnu-2050.18.24/EXTERNAL\_HEADERS/mach-o/loader.h) definiert sind. Die wichtigsten sind:
 
-* `MH_OBJECT`: Verschiebbares Objektdatei (Zwischenprodukte der Kompilierung, noch keine ausführbaren Dateien).
+* `MH_OBJECT`: Verschiebbares Objektfile (Zwischenprodukte der Kompilierung, noch keine ausführbaren Dateien).
 * `MH_EXECUTE`: Ausführbare Dateien.
-* `MH_FVMLIB`: Datei einer festen VM-Bibliothek.
+* `MH_FVMLIB`: Festes VM-Bibliotheksfile.
 * `MH_CORE`: Code-Dumps
-* `MH_PRELOAD`: Vorab geladene ausführbare Datei (nicht mehr in XNU unterstützt)
+* `MH_PRELOAD`: Vorab geladene ausführbare Datei (nicht mehr unterstützt in XNU)
 * `MH_DYLIB`: Dynamische Bibliotheken
 * `MH_DYLINKER`: Dynamischer Linker
 * `MH_BUNDLE`: "Plugin-Dateien". Generiert mit -bundle in gcc und explizit geladen von `NSBundle` oder `dlopen`.
-* `MH_DYSM`: Begleitende `.dSym`-Datei (Datei mit Symbolen für Debugging).
+* `MH_DYSM`: Begleitendes `.dSym`-File (File mit Symbolen für Debugging).
 * `MH_KEXT_BUNDLE`: Kernel-Erweiterungen.
 ```bash
 # Checking the mac header of a binary
@@ -134,7 +134,7 @@ MH_MAGIC_64    ARM64          E USR00     EXECUTE    19       1728   NOUNDEFS DY
 ```
 Oder mit [Mach-O View](https://sourceforge.net/projects/machoview/):
 
-<figure><img src="../../../.gitbook/assets/image (1130).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1133).png" alt=""><figcaption></figcaption></figure>
 
 ## **Mach-O Flags**
 
@@ -146,18 +146,18 @@ Der Quellcode definiert auch mehrere nützliche Flags zum Laden von Bibliotheken
 * `MH_SPLIT_SEGS`: Datei teilt r/o- und r/w-Segmente auf.
 * `MH_WEAK_DEFINES`: Binärdatei hat schwach definierte Symbole
 * `MH_BINDS_TO_WEAK`: Binärdatei verwendet schwache Symbole
-* `MH_ALLOW_STACK_EXECUTION`: Macht den Stapel ausführbar
+* `MH_ALLOW_STACK_EXECUTION`: Den Stack ausführbar machen
 * `MH_NO_REEXPORTED_DYLIBS`: Bibliothek ohne LC\_REEXPORT-Befehle
 * `MH_PIE`: Positionsunabhängige ausführbare Datei
 * `MH_HAS_TLV_DESCRIPTORS`: Es gibt einen Abschnitt mit thread-lokalen Variablen
 * `MH_NO_HEAP_EXECUTION`: Keine Ausführung für Heap-/Daten-Seiten
 * `MH_HAS_OBJC`: Binärdatei hat oBject-C-Abschnitte
 * `MH_SIM_SUPPORT`: Simulatorunterstützung
-* `MH_DYLIB_IN_CACHE`: Verwendet auf dylibs/Frameworks im gemeinsamen Bibliothekscache.
+* `MH_DYLIB_IN_CACHE`: Verwendet auf dylibs/Frameworks im gemeinsamen Bibliotheks-Cache.
 
 ## **Mach-O Load-Befehle**
 
-Die **Speicherlayout der Datei** ist hier festgelegt, wobei der **Speicherort der Symboltabelle**, der Kontext des Hauptthreads beim Start der Ausführung und die erforderlichen **gemeinsam genutzten Bibliotheken** beschrieben werden. Anweisungen werden dem dynamischen Loader **(dyld)** zum Ladevorgang der Binärdatei in den Speicher bereitgestellt.
+Die **Speicherlayout der Datei** ist hier festgelegt, wobei der **Speicherort der Symboltabelle**, der Kontext des Hauptthreads beim Start der Ausführung und die erforderlichen **gemeinsam genutzten Bibliotheken** beschrieben werden. Anweisungen werden dem dynamischen Loader **(dyld)** zum Laden des Binärprogramms in den Speicher bereitgestellt.
 
 Es wird die **load\_command**-Struktur verwendet, die in der genannten **`loader.h`** definiert ist:
 ```objectivec
@@ -171,14 +171,14 @@ Es gibt ungefähr **50 verschiedene Arten von Ladungsbefehlen**, die das System 
 ### **LC\_SEGMENT/LC\_SEGMENT\_64**
 
 {% hint style="success" %}
-Grundsätzlich definieren diese Art von Ladungsbefehlen, **wie der \_\_TEXT** (ausführbarer Code) **und \_\_DATA** (Daten für den Prozess) **Segmenten** entsprechend den **Offsets geladen werden, die im Datenabschnitt** angegeben sind, wenn die Binärdatei ausgeführt wird.
+Grundsätzlich definieren diese Arten von Ladungsbefehlen, **wie der \_\_TEXT** (ausführbarer Code) **und \_\_DATA** (Daten für den Prozess) **Segmenten** entsprechend der **Offsets geladen werden, die im Datenabschnitt** angegeben sind, wenn die Binärdatei ausgeführt wird.
 {% endhint %}
 
 Diese Befehle **definieren Segmente**, die in den **virtuellen Speicherbereich** eines Prozesses abgebildet werden, wenn er ausgeführt wird.
 
-Es gibt **verschiedene Arten** von Segmenten, wie das **\_\_TEXT**-Segment, das den ausführbaren Code eines Programms enthält, und das **\_\_DATA**-Segment, das Daten enthält, die vom Prozess verwendet werden. Diese **Segmente befinden sich im Datenabschnitt** der Mach-O-Datei.
+Es gibt **verschiedene Arten** von Segmenten, wie das **\_\_TEXT**-Segment, das den ausführbaren Code eines Programms enthält, und das **\_\_DATA**-Segment, das von dem Prozess verwendete Daten enthält. Diese **Segmente befinden sich im Datenabschnitt** der Mach-O-Datei.
 
-**Jedes Segment** kann weiter in mehrere **Abschnitte** unterteilt werden. Die **Ladungsbefehlsstruktur** enthält **Informationen** über **diese Abschnitte** innerhalb des jeweiligen Segments.
+**Jedes Segment** kann weiter in mehrere **Abschnitte** unterteilt werden. Die **Ladungsbefehlsstruktur** enthält **Informationen** zu **diesen Abschnitten** innerhalb des jeweiligen Segments.
 
 Im Header finden Sie zuerst den **Segment-Header**:
 
@@ -199,7 +199,7 @@ int32_t		initprot;	/* anfänglicher VM-Schutz */
 
 Beispiel für einen Segment-Header:
 
-<figure><img src="../../../.gitbook/assets/image (1123).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1126).png" alt=""><figcaption></figcaption></figure>
 
 Dieser Header definiert die **Anzahl der Abschnitte, deren Header danach erscheinen**:
 ```c
@@ -220,11 +220,11 @@ uint32_t	reserved3;	/* reserved */
 ```
 Beispiel für **Abschnittsüberschrift**:
 
-<figure><img src="../../../.gitbook/assets/image (1105).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1108).png" alt=""><figcaption></figcaption></figure>
 
 Wenn Sie den **Abschnittsversatz** (0x37DC) + den **Versatz** hinzufügen, an dem die **Architektur beginnt**, in diesem Fall `0x18000` --> `0x37DC + 0x18000 = 0x1B7DC`
 
-<figure><img src="../../../.gitbook/assets/image (698).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (701).png" alt=""><figcaption></figcaption></figure>
 
 Es ist auch möglich, **Headerinformationen** von der **Befehlszeile** aus abzurufen:
 ```bash
@@ -232,48 +232,48 @@ otool -lv /bin/ls
 ```
 Gemeinsame Segmente, die von diesem Befehl geladen werden:
 
-* **`__PAGEZERO`:** Es weist den Kernel an, die **Adresse Null** so zu **zuordnen**, dass sie **nicht gelesen, geschrieben oder ausgeführt** werden kann. Die maxprot- und minprot-Variablen in der Struktur sind auf Null gesetzt, um anzuzeigen, dass es **keine Lese-Schreib-Ausführungsrechte auf dieser Seite** gibt.
-* Diese Zuweisung ist wichtig, um **NULL-Pointer-Dereferenz-Schwachstellen zu mildern**. Dies liegt daran, dass XNU eine harte Seite Null durchsetzt, die sicherstellt, dass die erste Seite (nur die erste) des Speichers unzugänglich ist (außer in i386). Ein Binärfile könnte diese Anforderungen erfüllen, indem es ein kleines \_\_PAGEZERO (unter Verwendung der `-pagezero_size`) erstellt, um die ersten 4 KB abzudecken und den Rest des 32-Bit-Speichers sowohl im Benutzer- als auch im Kernelmodus zugänglich zu machen.
-* **`__TEXT`**: Enthält **ausführbaren** **Code** mit **Lese-** und **Ausführungsrechten** (nicht schreibbar)**.** Gemeinsame Abschnitte dieses Segments:
-* `__text`: Kompilierter Binärcode
-* `__const`: Konstante Daten (nur lesbar)
-* `__[c/u/os_log]string`: C-, Unicode- oder os-Log-Zeichenfolgenkonstanten
-* `__stubs` und `__stubs_helper`: Während des dynamischen Bibliotheksladevorgangs involviert
-* `__unwind_info`: Stack-Unwind-Daten.
-* Beachten Sie, dass all diese Inhalte signiert sind, aber auch als ausführbar markiert sind (was mehr Möglichkeiten für die Ausnutzung von Abschnitten schafft, die diese Berechtigung nicht unbedingt benötigen, wie z. B. spezielle Zeichenfolgenabschnitte).
-* **`__DATA`**: Enthält Daten, die **lesbar** und **schreibbar** sind (nicht ausführbar)**.**
-* `__got:` Global Offset Table
-* `__nl_symbol_ptr`: Nicht träge (bei Laden binden) Symbolzeiger
-* `__la_symbol_ptr`: Träge (bei Verwendung binden) Symbolzeiger
-* `__const`: Sollte schreibgeschützte Daten sein (ist es aber nicht wirklich)
-* `__cfstring`: CoreFoundation-Zeichenfolgen
-* `__data`: Globale Variablen (die initialisiert wurden)
-* `__bss`: Statische Variablen (die nicht initialisiert wurden)
-* `__objc_*` (\_\_objc\_classlist, \_\_objc\_protolist, usw.): Informationen, die vom Objective-C-Laufzeitumgebung verwendet werden
-* **`__DATA_CONST`**: \_\_DATA.\_\_const ist nicht garantiert konstant zu sein (Schreibberechtigungen), ebenso wie andere Zeiger und die GOT. Dieser Abschnitt macht `__const`, einige Initialisierer und die GOT-Tabelle (nach der Auflösung) mit `mprotect` **schreibgeschützt**.
-* **`__LINKEDIT`**: Enthält Informationen für den Linker (dyld) wie Symbol-, Zeichenfolgen- und Relokationstabelleneinträge. Es ist ein generischer Container für Inhalte, die weder in `__TEXT` noch in `__DATA` sind, und sein Inhalt wird in anderen Ladebefehlen beschrieben.
-* dyld-Informationen: Rebase, Nicht-träge/träge/schwache Bindungsoperationen und Exportinformationen
-* Funktionsstarts: Tabelle der Startadressen von Funktionen
-* Daten im Code: Dateninseln in \_\_text
-* Symboltabelle: Symbole im Binärfile
-* Indirekte Symboltabelle: Zeiger/Stub-Symbole
-* Zeichentabelle
-* Codesignatur
-* **`__OBJC`**: Enthält Informationen, die von der Objective-C-Laufzeitumgebung verwendet werden. Diese Informationen können auch im \_\_DATA-Segment in verschiedenen \_\_objc\_\*-Abschnitten gefunden werden.
-* **`__RESTRICT`**: Ein Segment ohne Inhalt mit einem einzigen Abschnitt namens **`__restrict`** (ebenfalls leer), das sicherstellt, dass beim Ausführen des Binärfiles die DYLD-Umgebungsvariablen ignoriert werden.
+- **`__PAGEZERO`:** Es weist den Kernel an, die **Adresse Null** so zu **zuordnen**, dass sie **nicht gelesen, geschrieben oder ausgeführt** werden kann. Die maxprot- und minprot-Variablen in der Struktur sind auf Null gesetzt, um anzuzeigen, dass es **keine Lese-Schreib-Ausführungsrechte auf dieser Seite** gibt.
+- Diese Zuweisung ist wichtig, um **NULL-Pointer-Dereferenz-Schwachstellen zu mildern**. Dies liegt daran, dass XNU eine harte Seite Null durchsetzt, die sicherstellt, dass die erste Seite (nur die erste) des Speichers unzugänglich ist (außer in i386). Ein Binärfile könnte diese Anforderungen erfüllen, indem es ein kleines \_\_PAGEZERO (unter Verwendung der `-pagezero_size`) erstellt, um die ersten 4 KB abzudecken und den Rest des 32-Bit-Speichers sowohl im Benutzer- als auch im Kernelmodus zugänglich zu machen.
+- **`__TEXT`**: Enthält **ausführbaren** **Code** mit **Lese-** und **Ausführungsrechten** (nicht schreibbar)**.** Gemeinsame Abschnitte dieses Segments:
+  - `__text`: Kompilierter Binärcode
+  - `__const`: Konstante Daten (nur lesbar)
+  - `__[c/u/os_log]string`: C-, Unicode- oder os-Log-Zeichenfolgenkonstanten
+  - `__stubs` und `__stubs_helper`: Während des dynamischen Bibliotheksladevorgangs involviert
+  - `__unwind_info`: Stack-Unwind-Daten.
+- Beachten Sie, dass dieser Inhalt zwar signiert ist, aber auch als ausführbar markiert ist (was mehr Möglichkeiten für die Ausnutzung von Abschnitten schafft, die diese Berechtigung nicht unbedingt benötigen, wie z. B. spezielle Zeichenfolgenabschnitte).
+- **`__DATA`**: Enthält Daten, die **lesbar** und **schreibbar** sind (nicht ausführbar)**.**
+  - `__got:` Global Offset Table
+  - `__nl_symbol_ptr`: Nicht träge (bei Laden binden) Symbolzeiger
+  - `__la_symbol_ptr`: Träge (bei Verwendung binden) Symbolzeiger
+  - `__const`: Sollte schreibgeschützte Daten sein (nicht wirklich)
+  - `__cfstring`: CoreFoundation-Zeichenfolgen
+  - `__data`: Globale Variablen (die initialisiert wurden)
+  - `__bss`: Statische Variablen (die nicht initialisiert wurden)
+  - `__objc_*` (\_\_objc\_classlist, \_\_objc\_protolist, usw.): Informationen, die vom Objective-C-Laufzeitumgebung verwendet werden
+- **`__DATA_CONST`**: \_\_DATA.\_\_const ist nicht garantiert konstant zu sein (Schreibberechtigungen), ebenso wie andere Zeiger und die GOT. Dieser Abschnitt macht `__const`, einige Initialisierer und die GOT-Tabelle (einmal aufgelöst) mit `mprotect` **schreibgeschützt**.
+- **`__LINKEDIT`**: Enthält Informationen für den Linker (dyld) wie Symbol-, Zeichenfolgen- und Relokationstabelleneinträge. Es ist ein generischer Container für Inhalte, die weder in `__TEXT` noch in `__DATA` sind, und sein Inhalt wird in anderen Ladebefehlen beschrieben.
+- dyld-Informationen: Rebase, Nicht-träge/träge/schwache Bindungsoperationen und Exportinformationen
+- Funktionsstarts: Tabelle der Startadressen von Funktionen
+- Daten im Code: Dateninseln in \_\_text
+- Symboltabelle: Symbole im Binärfile
+- Indirekte Symboltabelle: Zeiger/Stub-Symbole
+- Zeichentabelle
+- Codesignatur
+- **`__OBJC`**: Enthält Informationen, die von der Objective-C-Laufzeitumgebung verwendet werden. Diese Informationen können auch im \_\_DATA-Segment in verschiedenen \_\_objc\_\*-Abschnitten gefunden werden.
+- **`__RESTRICT`**: Ein Segment ohne Inhalt mit einem einzigen Abschnitt namens **`__restrict`** (ebenfalls leer), das sicherstellt, dass beim Ausführen des Binärfiles die DYLD-Umgebungsvariablen ignoriert werden.
 
 Wie im Code zu sehen war, **unterstützen Segmente auch Flags** (obwohl sie nicht sehr häufig verwendet werden):
 
-* `SG_HIGHVM`: Nur Core (nicht verwendet)
-* `SG_FVMLIB`: Nicht verwendet
-* `SG_NORELOC`: Segment hat keine Relokation
-* `SG_PROTECTED_VERSION_1`: Verschlüsselung. Wird beispielsweise vom Finder verwendet, um den Text im `__TEXT`-Segment zu verschlüsseln.
+- `SG_HIGHVM`: Nur Core (nicht verwendet)
+- `SG_FVMLIB`: Nicht verwendet
+- `SG_NORELOC`: Segment hat keine Relokation
+- `SG_PROTECTED_VERSION_1`: Verschlüsselung. Wird beispielsweise vom Finder verwendet, um den Text im `__TEXT`-Segment zu verschlüsseln.
 
 ### **`LC_UNIXTHREAD/LC_MAIN`**
 
 **`LC_MAIN`** enthält den Einstiegspunkt im **entryoff-Attribut**. Zur Ladezeit **addiert** **dyld** einfach diesen Wert zur (im Speicher befindlichen) **Basis des Binärfiles** und **springt** dann zu dieser Anweisung, um die Ausführung des Codes des Binärfiles zu starten.
 
-**`LC_UNIXTHREAD`** enthält die Werte, die die Register haben müssen, wenn der Hauptthread gestartet wird. Dies wurde bereits veraltet, aber **`dyld`** verwendet es immer noch. Es ist möglich, die Werte der Register, die durch dies festgelegt sind, mit anzusehen:
+**`LC_UNIXTHREAD`** enthält die Werte, die die Register haben müssen, wenn der Hauptthread gestartet wird. Dies wurde bereits veraltet, aber **`dyld`** verwendet es immer noch. Es ist möglich, die Werte der Register, die durch dies gesetzt werden, mit anzusehen:
 ```bash
 otool -l /usr/lib/dyld
 [...]
@@ -316,15 +316,15 @@ Veraltet, aber wenn konfiguriert ist, um Dumps bei einem Absturz zu generieren, 
 
 ### **`LC_UUID`**
 
-Zufällige UUID. Es ist nicht direkt nützlich, aber XNU speichert es zusammen mit dem Rest der Prozessinformationen im Cache. Es kann in Absturzberichten verwendet werden.
+Zufällige UUID. Es ist direkt für nichts nützlich, aber XNU speichert es zusammen mit dem Rest der Prozessinformationen im Cache. Es kann in Absturzberichten verwendet werden.
 
 ### **`LC_DYLD_ENVIRONMENT`**
 
-Ermöglicht das Angeben von Umgebungsvariablen für den dyld, bevor der Prozess ausgeführt wird. Dies kann sehr gefährlich sein, da es ermöglichen kann, beliebigen Code im Prozess auszuführen. Daher wird dieser Ladungsbefehl nur in dyld-Builds mit `#define SUPPORT_LC_DYLD_ENVIRONMENT` verwendet und beschränkt die Verarbeitung weiterhin nur auf Variablen im Format `DYLD_..._PATH`, die Ladepfade angeben.
+Ermöglicht das Angeben von Umgebungsvariablen für den dyld, bevor der Prozess ausgeführt wird. Dies kann sehr gefährlich sein, da es ermöglichen kann, beliebigen Code innerhalb des Prozesses auszuführen. Daher wird dieser Ladungsbefehl nur in dyld-Builds mit `#define SUPPORT_LC_DYLD_ENVIRONMENT` verwendet und beschränkt die Verarbeitung weiterhin nur auf Variablen im Format `DYLD_..._PATH`, die Ladepfade angeben.
 
 ### **`LC_LOAD_DYLIB`**
 
-Dieser Ladungsbefehl beschreibt eine **dynamische Bibliotheksabhängigkeit**, die den **Lader** (dyld) anweist, diese Bibliothek zu **laden und zu verknüpfen**. Es gibt einen `LC_LOAD_DYLIB`-Ladungsbefehl **für jede Bibliothek**, die die Mach-O-Binärdatei benötigt.
+Dieser Ladungsbefehl beschreibt eine **dynamische Bibliotheksabhängigkeit**, die den **Loader** (dyld) anweist, diese Bibliothek zu **laden und zu verknüpfen**. Es gibt einen `LC_LOAD_DYLIB`-Ladungsbefehl **für jede Bibliothek**, die die Mach-O-Binärdatei benötigt.
 
 * Dieser Ladungsbefehl ist eine Struktur vom Typ **`dylib_command`** (die eine Struktur dylib enthält, die die tatsächliche abhängige dynamische Bibliothek beschreibt):
 ```objectivec
@@ -341,7 +341,7 @@ uint32_t current_version;           /* library's current version number */
 uint32_t compatibility_version;     /* library's compatibility vers number*/
 };
 ```
-![](<../../../.gitbook/assets/image (483).png>)
+![](<../../../.gitbook/assets/image (486).png>)
 
 Sie könnten diese Informationen auch über die Befehlszeile mit erhalten:
 ```bash
@@ -353,18 +353,18 @@ otool -L /bin/ls
 ```
 Einige potenziell mit Malware verbundene Bibliotheken sind:
 
-- **DiskArbitration**: Überwachung von USB-Laufwerken
-- **AVFoundation**: Aufnahme von Audio und Video
-- **CoreWLAN**: WLAN-Scans.
+* **DiskArbitration**: Überwachung von USB-Laufwerken
+* **AVFoundation:** Aufnahme von Audio und Video
+* **CoreWLAN**: Wifi-Scans.
 
 {% hint style="info" %}
-Ein Mach-O-Binärfile kann einen oder **mehrere Konstruktoren** enthalten, die **vor** der Adresse, die in **LC\_MAIN** angegeben ist, **ausgeführt** werden.\
+Ein Mach-O-Binärdatei kann einen oder **mehrere Konstruktoren** enthalten, die **vor** der in **LC\_MAIN** angegebenen Adresse **ausgeführt** werden.\
 Die Offsets aller Konstruktoren werden im Abschnitt **\_\_mod\_init\_func** des Segments **\_\_DATA\_CONST** gehalten.
 {% endhint %}
 
 ## **Mach-O-Daten**
 
-Im Kern der Datei befindet sich der Datenbereich, der aus mehreren Segmenten besteht, wie im Bereich der Ladungsbefehle definiert. **In jedem Segment können verschiedene Datensektionen untergebracht sein**, wobei jede Sektion **Code oder Daten** spezifisch für einen Typ enthält.
+Im Kern der Datei befindet sich der Datenbereich, der aus mehreren Segmenten besteht, wie im Abschnitt der Ladungsbefehle definiert. **In jedem Segment können verschiedene Datensektionen untergebracht sein**, wobei jede Sektion **Code oder Daten** spezifisch für einen Typ enthält.
 
 {% hint style="success" %}
 Die Daten sind im Wesentlichen der Teil, der alle **Informationen** enthält, die von den Ladungsbefehlen **LC\_SEGMENTS\_64** geladen werden.
@@ -374,28 +374,36 @@ Die Daten sind im Wesentlichen der Teil, der alle **Informationen** enthält, di
 
 Dies beinhaltet:
 
-- **Funktionstabelle:** Die Informationen über die Programm-Funktionen enthält.
-- **Symboltabelle:** Enthält Informationen über die externen Funktionen, die vom Binärfile verwendet werden.
-- Es könnte auch interne Funktionen, Variablennamen und mehr enthalten.
+* **Funktionstabelle:** Die Informationen über die Programm-Funktionen enthält.
+* **Symboltabelle**: Enthält Informationen über die externen Funktionen, die von der Binärdatei verwendet werden.
+* Es könnte auch interne Funktionen, Variablennamen und mehr enthalten.
 
 Um dies zu überprüfen, könnten Sie das [**Mach-O View**](https://sourceforge.net/projects/machoview/) Tool verwenden:
 
-<figure><img src="../../../.gitbook/assets/image (1117).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1120).png" alt=""><figcaption></figcaption></figure>
 
-Oder über die Befehlszeile:
+Oder von der Befehlszeile aus:
 ```bash
 size -m /bin/ls
 ```
-<details>
+## Objective-C Gemeinsame Abschnitte
 
-<summary><strong>Erlernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+Im `__TEXT` Segment (r-x):
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
+- `__objc_classname`: Klassennamen (Zeichenketten)
+- `__objc_methname`: Methodennamen (Zeichenketten)
+- `__objc_methtype`: Methodentypen (Zeichenketten)
 
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
+Im `__DATA` Segment (rw-):
 
-</details>
+- `__objc_classlist`: Zeiger auf alle Objective-C-Klassen
+- `__objc_nlclslist`: Zeiger auf nicht-lazy Objective-C-Klassen
+- `__objc_catlist`: Zeiger auf Kategorien
+- `__objc_nlcatlist`: Zeiger auf nicht-lazy Kategorien
+- `__objc_protolist`: Protokolliste
+- `__objc_const`: Konstante Daten
+- `__objc_imageinfo`, `__objc_selrefs`, `objc__protorefs`...
+
+## Swift
+
+- `_swift_typeref`, `_swift3_capture`, `_swift3_assocty`, `_swift3_types, _swift3_proto`, `_swift3_fieldmd`, `_swift3_builtin`, `_swift3_reflstr`

@@ -6,8 +6,8 @@
 
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
+* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
@@ -18,7 +18,7 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 
 Ein macOS **Installationspaket** (auch bekannt als `.pkg`-Datei) ist ein Dateiformat, das von macOS verwendet wird, um **Software zu verteilen**. Diese Dateien sind wie eine **Box, die alles enthält, was eine Software** benötigt, um korrekt installiert und ausgeführt zu werden.
 
-Die Paketdatei selbst ist ein Archiv, das eine **Hierarchie von Dateien und Verzeichnissen enthält, die auf dem Zielcomputer installiert werden**. Es kann auch **Skripte** enthalten, um Aufgaben vor und nach der Installation auszuführen, wie z. B. das Einrichten von Konfigurationsdateien oder das Bereinigen alter Versionen der Software.
+Die Paketdatei selbst ist ein Archiv, das eine **Hierarchie von Dateien und Verzeichnissen enthält, die auf dem Zielcomputer installiert werden sollen**. Es kann auch **Skripte** enthalten, um Aufgaben vor und nach der Installation auszuführen, wie z. B. Konfigurationsdateien einzurichten oder alte Versionen der Software zu bereinigen.
 
 ### Hierarchie
 
@@ -26,7 +26,7 @@ Die Paketdatei selbst ist ein Archiv, das eine **Hierarchie von Dateien und Verz
 
 * **Distribution (xml)**: Anpassungen (Titel, Willkommens-Text...) und Skript/Installationsprüfungen
 * **PackageInfo (xml)**: Informationen, Installationsanforderungen, Installationsort, Pfade zu auszuführenden Skripten
-* **Materialliste (bom)**: Liste der zu installierenden, zu aktualisierenden oder zu entfernenden Dateien mit Dateiberechtigungen
+* **Materialliste (bom)**: Liste der Dateien, die installiert, aktualisiert oder entfernt werden sollen, mit Dateiberechtigungen
 * **Payload (CPIO-Archiv gzip-komprimiert)**: Dateien, die im `install-location` aus PackageInfo installiert werden sollen
 * **Skripte (CPIO-Archiv gzip-komprimiert)**: Vor- und Nachinstallations-Skripte und weitere Ressourcen, die in ein temporäres Verzeichnis extrahiert werden, um ausgeführt zu werden.
 
@@ -48,7 +48,7 @@ Um den Inhalt des Installers ohne manuelles Entpacken zu visualisieren, können 
 
 ## DMG Grundinformationen
 
-DMG-Dateien oder Apple Disk Images sind ein Dateiformat, das von Apples macOS für Festplattenabbilder verwendet wird. Eine DMG-Datei ist im Wesentlichen ein **einbindbares Festplattenabbild** (es enthält sein eigenes Dateisystem), das in der Regel komprimierte und manchmal verschlüsselte Rohblockdaten enthält. Wenn Sie eine DMG-Datei öffnen, **bindet macOS sie ein, als ob es sich um eine physische Festplatte handeln würde**, was es Ihnen ermöglicht, auf deren Inhalt zuzugreifen.
+DMG-Dateien oder Apple Disk Images sind ein Dateiformat, das von Apples macOS für Festplattenabbilder verwendet wird. Eine DMG-Datei ist im Wesentlichen ein **einbindbares Festplattenabbild** (es enthält sein eigenes Dateisystem), das rohe Blockdaten enthält, die typischerweise komprimiert und manchmal verschlüsselt sind. Wenn Sie eine DMG-Datei öffnen, **bindet macOS sie ein, als ob es sich um eine physische Festplatte handeln würde**, und ermöglicht Ihnen den Zugriff auf deren Inhalt.
 
 {% hint style="danger" %}
 Beachten Sie, dass **`.dmg`**-Installer **so viele Formate** unterstützen, dass in der Vergangenheit einige von ihnen mit Schwachstellen missbraucht wurden, um **Kernelcodeausführung** zu erlangen.
@@ -56,7 +56,7 @@ Beachten Sie, dass **`.dmg`**-Installer **so viele Formate** unterstützen, dass
 
 ### Hierarchie
 
-<figure><img src="../../../.gitbook/assets/image (222).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (225).png" alt=""><figcaption></figcaption></figure>
 
 Die Hierarchie einer DMG-Datei kann je nach Inhalt unterschiedlich sein. Für Anwendungs-DMGs folgt sie jedoch in der Regel dieser Struktur:
 
@@ -74,7 +74,7 @@ Wenn beispielsweise ein Vor- oder Nachinstallations-Skript aus **`/var/tmp/Insta
 
 ### AuthorizationExecuteWithPrivileges
 
-Dies ist eine [öffentliche Funktion](https://developer.apple.com/documentation/security/1540038-authorizationexecutewithprivileg), die von mehreren Installationsprogrammen und Updatern aufgerufen wird, um **etwas als Root auszuführen**. Diese Funktion akzeptiert den **Pfad** der **Datei**, die als Parameter **ausgeführt** werden soll. Wenn ein Angreifer jedoch diese Datei **modifizieren** könnte, könnte er ihre Ausführung mit Root-Rechten **missbrauchen**, um Berechtigungen zu **eskaliere**n.
+Dies ist eine [öffentliche Funktion](https://developer.apple.com/documentation/security/1540038-authorizationexecutewithprivileg), die von mehreren Installationsprogrammen und Updatern aufgerufen wird, um **etwas als Root auszuführen**. Diese Funktion akzeptiert den **Pfad** der **Datei**, die als Parameter **ausgeführt** werden soll. Wenn ein Angreifer jedoch diese Datei **ändern** könnte, könnte er deren Ausführung mit Root-Rechten **missbrauchen**, um Berechtigungen zu **eskaliere**n.
 ```bash
 # Breakpoint in the function to check wich file is loaded
 (lldb) b AuthorizationExecuteWithPrivileges
@@ -82,21 +82,21 @@ Dies ist eine [öffentliche Funktion](https://developer.apple.com/documentation/
 ```
 ### Ausführung durch Einhängen
 
-Wenn ein Installer nach `/tmp/fixedname/bla/bla` schreibt, ist es möglich, ein **Mount** über `/tmp/fixedname` ohne Besitzer zu erstellen, sodass Sie **beliebige Dateien während der Installation ändern** können, um den Installationsprozess zu missbrauchen.
+Wenn ein Installer nach `/tmp/fixedname/bla/bla` schreibt, ist es möglich, **ein Mount über** `/tmp/fixedname` ohne Besitzer zu erstellen, sodass Sie **während der Installation jede Datei ändern** können, um den Installationsprozess zu missbrauchen.
 
-Ein Beispiel hierfür ist **CVE-2021-26089**, bei dem es gelungen ist, ein periodisches Skript zu überschreiben, um die Ausführung als Root zu erhalten. Für weitere Informationen schauen Sie sich den Vortrag an: [**OBTS v4.0: "Mount(ain) of Bugs" - Csaba Fitzl**](https://www.youtube.com/watch?v=jSYPazD4VcE)
+Ein Beispiel hierfür ist **CVE-2021-26089**, bei dem es gelungen ist, **ein periodisches Skript zu überschreiben**, um die Ausführung als Root zu erhalten. Für weitere Informationen schauen Sie sich den Vortrag an: [**OBTS v4.0: "Mount(ain) of Bugs" - Csaba Fitzl**](https://www.youtube.com/watch?v=jSYPazD4VcE)
 
 ## pkg als Malware
 
 ### Leerer Payload
 
-Es ist möglich, eine **`.pkg`**-Datei nur mit **Vor- und Nachinstallations-Skripten** ohne Payload zu generieren.
+Es ist möglich, einfach eine **`.pkg`**-Datei mit **Vor- und Nachinstallations-Skripten** ohne Payload zu generieren.
 
 ### JS in Distribution-XML
 
-Es ist möglich, **`<script>`**-Tags in der **Distribution-XML**-Datei des Pakets hinzuzufügen, und dieser Code wird ausgeführt, um Befehle mithilfe von **`system.run`** auszuführen:
+Es ist möglich, **`<script>`**-Tags in der **Distribution-XML**-Datei des Pakets hinzuzufügen, und dieser Code wird ausgeführt, um Befehle mit **`system.run`** auszuführen:
 
-<figure><img src="../../../.gitbook/assets/image (1040).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1043).png" alt=""><figcaption></figcaption></figure>
 
 ## Referenzen
 

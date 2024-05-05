@@ -2,15 +2,15 @@
 
 <details>
 
-<summary><strong>Erlernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Erlernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegramm-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositorys einreichen.
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
 
 </details>
 
@@ -30,7 +30,7 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 * **/usr**: Konfigurations- und Systembinärdateien
 * **/var**: Protokolldateien
 * **/Volumes**: Die eingebundenen Laufwerke erscheinen hier.
-* **/.vol**: Wenn Sie `stat a.txt` ausführen, erhalten Sie etwas wie `16777223 7545753 -rw-r--r-- 1 Benutzername wheel ...`, wobei die erste Zahl die ID-Nummer des Volumes ist, in dem die Datei existiert, und die zweite die Inode-Nummer. Sie können auf den Inhalt dieser Datei über /.vol/ mit diesen Informationen zugreifen, indem Sie `cat /.vol/16777223/7545753` ausführen.
+* **/.vol**: Wenn Sie `stat a.txt` ausführen, erhalten Sie etwas wie `16777223 7545753 -rw-r--r-- 1 Benutzername wheel ...`, wobei die erste Zahl die ID-Nummer des Volumes ist, in dem die Datei existiert, und die zweite die Inode-Nummer ist. Sie können auf den Inhalt dieser Datei über /.vol/ mit diesen Informationen zugreifen, indem Sie `cat /.vol/16777223/7545753` ausführen.
 
 ### Anwendungsordner
 
@@ -70,7 +70,7 @@ macOS speichert Informationen wie Passwörter an verschiedenen Orten:
 * `plutil -convert json ~/Library/Preferences/com.apple.screensaver.plist -o -`
 * **`.app`**: Apple-Anwendungen, die der Verzeichnisstruktur folgen (es ist ein Bundle).
 * **`.dylib`**: Dynamische Bibliotheken (wie Windows DLL-Dateien)
-* **`.pkg`**: Sind dasselbe wie xar (eXtensible Archive-Format). Der Installer-Befehl kann verwendet werden, um den Inhalt dieser Dateien zu installieren.
+* **`.pkg`**: Sind dasselbe wie xar (eXtensible Archive-Format). Der Befehl `installer` kann verwendet werden, um den Inhalt dieser Dateien zu installieren.
 * **`.DS_Store`**: Diese Datei befindet sich in jedem Verzeichnis und speichert die Attribute und Anpassungen des Verzeichnisses.
 * **`.Spotlight-V100`**: Dieser Ordner erscheint im Stammverzeichnis jedes Volumes im System.
 * **`.metadata_never_index`**: Wenn sich diese Datei im Stammverzeichnis eines Volumes befindet, wird Spotlight dieses Volume nicht indizieren.
@@ -79,7 +79,7 @@ macOS speichert Informationen wie Passwörter an verschiedenen Orten:
 
 ### macOS-Bundles
 
-Ein Bundle ist ein **Verzeichnis**, das **wie ein Objekt im Finder aussieht** (ein Beispiel für ein Bundle sind `*.app`-Dateien).
+Ein Bundle ist ein **Verzeichnis**, das wie ein Objekt im Finder aussieht (ein Beispiel für ein Bundle sind `*.app`-Dateien).
 
 {% content-ref url="macos-bundles.md" %}
 [macos-bundles.md](macos-bundles.md)
@@ -87,12 +87,12 @@ Ein Bundle ist ein **Verzeichnis**, das **wie ein Objekt im Finder aussieht** (e
 
 ## Dyld Shared Library Cache (SLC)
 
-Auf macOS (und iOS) sind alle System-Shared Libraries, wie Frameworks und Dylibs, in einer einzigen Datei namens **dyld shared cache** kombiniert. Dies verbessert die Leistung, da der Code schneller geladen werden kann.
+Auf macOS (und iOS) sind alle System-Freigabelibraries, wie Frameworks und Dylibs, in einer einzigen Datei namens **dyld shared cache** kombiniert. Dies verbessert die Leistung, da der Code schneller geladen werden kann.
 
 Dies befindet sich in macOS in `/System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/` und in älteren Versionen finden Sie den **Shared Cache** möglicherweise in **`/System/Library/dyld/`**.\
 In iOS finden Sie sie in **`/System/Library/Caches/com.apple.dyld/`**.
 
-Ähnlich wie der dyld Shared Cache werden der Kernel und die Kernelerweiterungen auch in einem Kernel-Cache kompiliert, der beim Booten geladen wird.
+Ähnlich wie der dyld Shared Cache werden der Kernel und die Kernelerweiterungen auch in einen Kernelcache kompiliert, der beim Booten geladen wird.
 
 Um die Bibliotheken aus der einzigen Datei des Dylib Shared Cache zu extrahieren, war es möglich, das Binärprogramm [dyld\_shared\_cache\_util](https://www.mbsplugins.de/files/dyld\_shared\_cache\_util-dyld-733.8.zip) zu verwenden, das heutzutage möglicherweise nicht mehr funktioniert, aber Sie können auch [**dyldextractor**](https://github.com/arandomdev/dyldextractor) verwenden:
 
@@ -112,12 +112,12 @@ dyldex_all [dyld_shared_cache_path] # Extract all
 Beachten Sie, dass selbst wenn das `dyld_shared_cache_util`-Tool nicht funktioniert, Sie das **gemeinsame dyld-Binary an Hopper übergeben** können und Hopper alle Bibliotheken identifizieren und Sie **auswählen lassen kann**, welche Sie untersuchen möchten:
 {% endhint %}
 
-<figure><img src="../../../.gitbook/assets/image (1149).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1152).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Einige Extraktoren funktionieren nicht, da dylibs mit fest codierten Adressen vorverknüpft sind und daher möglicherweise zu unbekannten Adressen springen.
 
 {% hint style="success" %}
-Es ist auch möglich, den Shared Library Cache anderer \*OS-Geräte in macOS mithilfe eines Emulators in Xcode herunterzuladen. Sie werden innerhalb heruntergeladen: ls `$HOME/Library/Developer/Xcode/<*>OS\ DeviceSupport/<version>/Symbols/System/Library/Caches/com.apple.dyld/`, wie:`$HOME/Library/Developer/Xcode/iOS\ DeviceSupport/14.1\ (18A8395)/Symbols/System/Library/Caches/com.apple.dyld/dyld_shared_cache_arm64`
+Es ist auch möglich, den Shared Library Cache anderer \*OS-Geräte in macOS herunterzuladen, indem man einen Emulator in Xcode verwendet. Sie werden heruntergeladen unter: ls `$HOME/Library/Developer/Xcode/<*>OS\ DeviceSupport/<version>/Symbols/System/Library/Caches/com.apple.dyld/`, wie z.B.: `$HOME/Library/Developer/Xcode/iOS\ DeviceSupport/14.1\ (18A8395)/Symbols/System/Library/Caches/com.apple.dyld/dyld_shared_cache_arm64`
 {% endhint %}
 
 ### Zuordnung von SLC
@@ -128,35 +128,35 @@ Beachten Sie, dass selbst wenn der SLC beim ersten Gebrauch verschoben wird, all
 
 Zweigpools sind kleine Mach-O-Dylibs, die kleine Zwischenräume zwischen Bildzuordnungen erstellen und es unmöglich machen, die Funktionen zu interponieren.
 
-### SLCs außer Kraft setzen
+### SLCs überschreiben
 
 Verwendung der Umgebungsvariablen:
 
-* **`DYLD_DHARED_REGION=private DYLD_SHARED_CACHE_DIR=</path/dir> DYLD_SHARED_CACHE_DONT_VALIDATE=1`** -> Dadurch wird das Laden eines neuen Shared Library Cache ermöglicht
-* **`DYLD_SHARED_CACHE_DIR=avoid`** und manuelles Ersetzen der Bibliotheken durch symbolische Links zum Shared Cache mit den echten (Sie müssen sie extrahieren)
+* **`DYLD_DHARED_REGION=private DYLD_SHARED_CACHE_DIR=</path/dir> DYLD_SHARED_CACHE_DONT_VALIDATE=1`** -> Dies ermöglicht das Laden eines neuen Shared Library Cache
+* **`DYLD_SHARED_CACHE_DIR=avoid`** und manuelles Ersetzen der Bibliotheken durch Symlinks zum Shared Cache mit den echten (Sie müssen sie extrahieren)
 
 ## Besondere Dateiberechtigungen
 
-### Berechtigungen für Ordner
+### Ordnerberechtigungen
 
-In einem **Ordner** erlaubt **lesen**, es **aufzulisten**, **schreiben** erlaubt es, **Dateien darin zu löschen** und **schreiben** erlaubt es, das Verzeichnis zu **durchqueren**. So wird beispielsweise ein Benutzer mit **Leseberechtigung über eine Datei** in einem Verzeichnis, in dem er **keine Ausführungsberechtigung hat**, **nicht in der Lage sein, die Datei zu lesen**.
+In einem **Ordner** erlaubt **lesen**, es **aufzulisten**, **schreiben** erlaubt es, **Dateien darin zu löschen** und **schreiben** erlaubt es, **Dateien darin zu schreiben**, und **ausführen** erlaubt es, das **Verzeichnis zu durchqueren**. So wird beispielsweise ein Benutzer mit **Leseberechtigung über eine Datei** in einem Verzeichnis, in dem er **keine Ausführungsberechtigung hat**, **nicht in der Lage sein, die Datei zu lesen**.
 
 ### Flag-Modifikatoren
 
 Es gibt einige Flags, die in den Dateien gesetzt werden können, um das Verhalten der Datei zu ändern. Sie können die Flags der Dateien in einem Verzeichnis mit `ls -lO /path/directory` überprüfen
 
-* **`uchg`**: Bekannt als **uchange**-Flag verhindert jegliche Änderung oder Löschung der **Datei**. Um es zu setzen, verwenden Sie: `chflags uchg file.txt`
+* **`uchg`**: Bekannt als **uchange**-Flag wird jegliche Änderung oder Löschung der **Datei verhindern**. Um es zu setzen, verwenden Sie: `chflags uchg file.txt`
 * Der Root-Benutzer könnte das Flag **entfernen** und die Datei ändern
 * **`restricted`**: Dieses Flag macht die Datei durch SIP geschützt (Sie können dieses Flag nicht zu einer Datei hinzufügen).
-* **`Sticky-Bit`**: Wenn ein Verzeichnis mit Sticky-Bit, können **nur** der **Verzeichniseigentümer oder Root** Dateien umbenennen oder löschen. Typischerweise wird dies im /tmp-Verzeichnis festgelegt, um normale Benutzer daran zu hindern, Dateien anderer Benutzer zu löschen oder zu verschieben.
+* **`Sticky-Bit`**: Wenn ein Verzeichnis mit Sticky-Bit, **nur** der **Verzeichnisbesitzer oder Root kann Dateien umbenennen oder löschen**. Typischerweise wird dies im /tmp-Verzeichnis gesetzt, um normale Benutzer daran zu hindern, Dateien anderer Benutzer zu löschen oder zu verschieben.
 
 Alle Flags finden Sie in der Datei `sys/stat.h` (finden Sie sie mit `mdfind stat.h | grep stat.h`) und sind:
 
 * `UF_SETTABLE` 0x0000ffff: Maske der vom Besitzer änderbaren Flags.
 * `UF_NODUMP` 0x00000001: Datei nicht sichern.
 * `UF_IMMUTABLE` 0x00000002: Datei darf nicht geändert werden.
-* `UF_APPEND` 0x00000004: Schreibzugriffe auf die Datei dürfen nur angehängt werden.
-* `UF_OPAQUE` 0x00000008: Verzeichnis ist bzgl. Union undurchsichtig.
+* `UF_APPEND` 0x00000004: Schreibvorgänge an die Datei dürfen nur angehängt werden.
+* `UF_OPAQUE` 0x00000008: Verzeichnis ist undurchsichtig bzgl. Union.
 * `UF_COMPRESSED` 0x00000020: Datei ist komprimiert (einige Dateisysteme).
 * `UF_TRACKED` 0x00000040: Keine Benachrichtigungen für Löschungen/Umbenennungen für Dateien mit diesem Satz.
 * `UF_DATAVAULT` 0x00000080: Berechtigung zum Lesen und Schreiben erforderlich.
@@ -166,7 +166,7 @@ Alle Flags finden Sie in der Datei `sys/stat.h` (finden Sie sie mit `mdfind stat
 * `SF_SYNTHETIC` 0xc0000000: Maske der systemeigenen schreibgeschützten synthetischen Flags.
 * `SF_ARCHIVED` 0x00010000: Datei ist archiviert.
 * `SF_IMMUTABLE` 0x00020000: Datei darf nicht geändert werden.
-* `SF_APPEND` 0x00040000: Schreibzugriffe auf die Datei dürfen nur angehängt werden.
+* `SF_APPEND` 0x00040000: Schreibvorgänge an die Datei dürfen nur angehängt werden.
 * `SF_RESTRICTED` 0x00080000: Berechtigung zum Schreiben erforderlich.
 * `SF_NOUNLINK` 0x00100000: Element darf nicht entfernt, umbenannt oder eingehängt werden.
 * `SF_FIRMLINK` 0x00800000: Datei ist ein fester Link.
@@ -174,7 +174,7 @@ Alle Flags finden Sie in der Datei `sys/stat.h` (finden Sie sie mit `mdfind stat
 
 ### **Datei-ACLs**
 
-Datei-**ACLs** enthalten **ACE** (Access Control Entries), mit denen verschiedenen Benutzern genauere Berechtigungen zugewiesen werden können.
+Datei-**ACLs** enthalten **ACE** (Access Control Entries), in denen verschiedenen Benutzern genauere Berechtigungen zugewiesen werden können.
 
 Es ist möglich, einem **Verzeichnis** diese Berechtigungen zu gewähren: `list`, `search`, `add_file`, `add_subdirectory`, `delete_child`, `delete_child`.\
 Und einer **Datei**: `read`, `write`, `append`, `execute`.
@@ -184,7 +184,7 @@ Wenn die Datei ACLs enthält, finden Sie ein "+" beim Auflisten der Berechtigung
 ls -ld Movies
 drwx------+   7 username  staff     224 15 Apr 19:42 Movies
 ```
-Du kannst die ACLs der Datei mit folgendem Befehl lesen:
+Du kannst die **ACLs der Datei** mit folgendem Befehl lesen:
 ```bash
 ls -lde Movies
 drwx------+ 7 username  staff  224 15 Apr 19:42 Movies
@@ -196,7 +196,7 @@ ls -RAle / 2>/dev/null | grep -E -B1 "\d: "
 ```
 ### Erweiterte Attribute
 
-Erweiterte Attribute haben einen Namen und einen beliebigen Wert und können mit `ls -@` angezeigt und mit dem Befehl `xattr` manipuliert werden. Einige gängige erweiterte Attribute sind:
+Erweiterte Attribute haben einen Namen und einen beliebigen Wert und können mit dem Befehl `ls -@` angezeigt und mit dem Befehl `xattr` manipuliert werden. Einige gängige erweiterte Attribute sind:
 
 - `com.apple.resourceFork`: Ressourcengabelkompatibilität. Auch sichtbar als `filename/..namedfork/rsrc`
 - `com.apple.quarantine`: MacOS: Gatekeeper-Quarantänemechanismus (III/6)
@@ -239,7 +239,7 @@ Das erweiterte Attribut `com.apple.decmpfs` zeigt an, dass die Datei verschlüss
 
 Dieses Attribut kann mit `ls -lO` angezeigt werden, da komprimierte Dateien auch mit der Flagge `UF_COMPRESSED` markiert sind. Wenn eine komprimierte Datei entfernt wird, wird diese Flagge mit `chflags nocompressed </Pfad/zur/Datei>` entfernt. Das System wird dann nicht wissen, dass die Datei komprimiert war, und daher nicht in der Lage sein, die Daten zu dekomprimieren und darauf zuzugreifen (es wird denken, dass sie tatsächlich leer ist).
 
-Das Tool afscexpand kann verwendet werden, um eine Datei zwangsweise zu dekomprimieren.
+Das Tool `afscexpand` kann verwendet werden, um eine Datei zwangsweise zu dekomprimieren.
 
 ## **Universelle Binärdateien &** Mach-o-Format
 
@@ -249,7 +249,9 @@ Mac OS-Binärdateien sind normalerweise als **universelle Binärdateien** kompil
 [universal-binaries-and-mach-o-format.md](universal-binaries-and-mach-o-format.md)
 {% endcontent-ref %}
 
-## macOS-Speicherauszug
+## macOS Prozessspeicher
+
+## macOS Speicherabbild
 
 {% content-ref url="macos-memory-dumping.md" %}
 [macos-memory-dumping.md](macos-memory-dumping.md)
@@ -257,20 +259,20 @@ Mac OS-Binärdateien sind normalerweise als **universelle Binärdateien** kompil
 
 ## Risikokategoriedateien Mac OS
 
-Das Verzeichnis `/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/System` ist der Ort, an dem Informationen über die **mit verschiedenen Dateierweiterungen verbundenen Risiken** gespeichert sind. Dieses Verzeichnis kategorisiert Dateien in verschiedene Risikostufen, was beeinflusst, wie Safari mit diesen Dateien nach dem Download umgeht. Die Kategorien sind wie folgt:
+Das Verzeichnis `/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/System` ist der Ort, an dem Informationen über das **mit verschiedenen Dateierweiterungen verbundene Risiko** gespeichert sind. Dieses Verzeichnis kategorisiert Dateien in verschiedene Risikostufen, was beeinflusst, wie Safari mit diesen Dateien nach dem Download umgeht. Die Kategorien sind wie folgt:
 
 * **LSRiskCategorySafe**: Dateien in dieser Kategorie gelten als **vollkommen sicher**. Safari öffnet diese Dateien automatisch nach dem Download.
 * **LSRiskCategoryNeutral**: Diese Dateien werden ohne Warnungen geliefert und von Safari **nicht automatisch geöffnet**.
-* **LSRiskCategoryUnsafeExecutable**: Dateien in dieser Kategorie lösen eine Warnung aus, die darauf hinweist, dass die Datei eine Anwendung ist. Dies dient als Sicherheitsmaßnahme, um den Benutzer zu alarmieren.
+* **LSRiskCategoryUnsafeExecutable**: Dateien in dieser Kategorie lösen eine Warnung aus, die darauf hinweist, dass es sich um eine Anwendung handelt. Dies dient als Sicherheitsmaßnahme, um den Benutzer zu warnen.
 * **LSRiskCategoryMayContainUnsafeExecutable**: Diese Kategorie ist für Dateien wie Archive vorgesehen, die eine ausführbare Datei enthalten könnten. Safari löst eine Warnung aus, es sei denn, es kann überprüft werden, dass alle Inhalte sicher oder neutral sind.
 
 ## Protokolldateien
 
 * **`$HOME/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2`**: Enthält Informationen über heruntergeladene Dateien, wie z. B. die URL, von der sie heruntergeladen wurden.
-* **`/var/log/system.log`**: Hauptprotokoll der OSX-Systeme. com.apple.syslogd.plist ist für die Ausführung des Syslog-Dienstes verantwortlich (Sie können überprüfen, ob er deaktiviert ist, indem Sie nach "com.apple.syslogd" in `launchctl list` suchen).
+* **`/var/log/system.log`**: Hauptprotokoll der OSX-Systeme. `com.apple.syslogd.plist` ist für die Ausführung des Syslog-Dienstes verantwortlich (Sie können überprüfen, ob er deaktiviert ist, indem Sie nach "com.apple.syslogd" in `launchctl list` suchen).
 * **`/private/var/log/asl/*.asl`**: Dies sind die Apple-Systemprotokolle, die interessante Informationen enthalten können.
 * **`$HOME/Library/Preferences/com.apple.recentitems.plist`**: Speichert zuletzt zugegriffene Dateien und Anwendungen über "Finder".
 * **`$HOME/Library/Preferences/com.apple.loginitems.plsit`**: Speichert Elemente, die beim Systemstart gestartet werden sollen.
-* **`$HOME/Library/Logs/DiskUtility.log`**: Protokolldatei für die DiskUtility-App (Informationen über Laufwerke, einschließlich USBs).
+* **`$HOME/Library/Logs/DiskUtility.log`**: Protokolldatei für die DiskUtility-App (Informationen zu Laufwerken, einschließlich USBs).
 * **`/Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist`**: Daten über drahtlose Zugangspunkte.
 * **`/private/var/db/launchd.db/com.apple.launchd/overrides.plist`**: Liste der deaktivierten Daemons.

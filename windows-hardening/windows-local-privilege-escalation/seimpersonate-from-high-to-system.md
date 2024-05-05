@@ -1,22 +1,23 @@
+# SeImpersonate von Hoch zu System
+
 <details>
 
-<summary><strong>Lernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Erlernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) **bei oder folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) **und** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **GitHub-Repositories senden.**
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositories einreichen.
 
 </details>
 
+### Code
 
-## Code
-
-Der folgende Code stammt von [hier](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962). Er ermöglicht es, **eine Prozess-ID als Argument anzugeben**, und es wird eine CMD **ausgeführt, die als Benutzer des angegebenen Prozesses läuft**.\
-Wenn Sie in einem Prozess mit hoher Integrität ausgeführt werden, können Sie die PID eines als System ausgeführten Prozesses (wie winlogon, wininit) angeben und eine cmd.exe als System ausführen.
+Der folgende Code stammt von [hier](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962). Es ermöglicht, **eine Prozess-ID als Argument anzugeben** und eine CMD **auszuführen, die als Benutzer des angegebenen Prozesses läuft**.\
+Wenn Sie in einem Prozess mit hoher Integrität laufen, können Sie die PID eines als System ausgeführten Prozesses angeben (wie winlogon, wininit) und eine cmd.exe als System ausführen.
 ```cpp
 impersonateuser.exe 1234
 ```
@@ -153,9 +154,9 @@ return 0;
 ```
 {% endcode %}
 
-## Fehler
+### Fehler
 
-In einigen Fällen kann es vorkommen, dass Sie versuchen, sich als System auszugeben, aber es funktioniert nicht und es wird eine Ausgabe wie die folgende angezeigt:
+In einigen Fällen können Sie versuchen, sich als System auszugeben, und es funktioniert nicht, sondern zeigt eine Ausgabe wie folgt an:
 ```cpp
 [+] OpenProcess() success!
 [+] OpenProcessToken() success!
@@ -166,38 +167,22 @@ In einigen Fällen kann es vorkommen, dass Sie versuchen, sich als System auszug
 [-] CreateProcessWithTokenW Return Code: 0
 [-] CreateProcessWithTokenW Error: 1326
 ```
-Das bedeutet, dass selbst wenn Sie auf einem hohen Integritätslevel ausgeführt werden, **Sie nicht über ausreichende Berechtigungen verfügen**.\
-Überprüfen Sie die aktuellen Administratorberechtigungen für `svchost.exe`-Prozesse mit dem **Process Explorer** (oder Sie können auch den Process Hacker verwenden):
+Das bedeutet, dass selbst wenn Sie auf einer hohen Integritätsstufe ausgeführt werden, **Sie nicht über ausreichende Berechtigungen verfügen**.\
+Lassen Sie uns die aktuellen Administratorberechtigungen über `svchost.exe`-Prozesse mit **Process Explorer** überprüfen (oder Sie können auch den Process Hacker verwenden):
 
 1. Wählen Sie einen Prozess von `svchost.exe` aus.
-2. Rechtsklick --> Eigenschaften.
+2. Rechtsklick --> Eigenschaften
 3. Klicken Sie im Register "Sicherheit" unten rechts auf die Schaltfläche "Berechtigungen".
 4. Klicken Sie auf "Erweitert".
 5. Wählen Sie "Administratoren" aus und klicken Sie auf "Bearbeiten".
 6. Klicken Sie auf "Erweiterte Berechtigungen anzeigen".
 
-![](<../../.gitbook/assets/image (322).png>)
+![](<../../.gitbook/assets/image (437).png>)
 
 Das vorherige Bild enthält alle Berechtigungen, die "Administratoren" über den ausgewählten Prozess haben (wie Sie sehen können, haben sie nur "Abfrage"-Berechtigungen für `svchost.exe`).
 
-Sehen Sie sich die Berechtigungen an, die "Administratoren" für `winlogon.exe` haben:
+Sehen Sie sich die Berechtigungen an, die "Administratoren" über `winlogon.exe` haben:
 
-![](<../../.gitbook/assets/image (323).png>)
+![](<../../.gitbook/assets/image (1102).png>)
 
-In diesem Prozess können "Administratoren" den Speicher lesen und Berechtigungen lesen, was ihnen wahrscheinlich ermöglicht, das Token zu übernehmen, das von diesem Prozess verwendet wird.
-
-
-
-<details>
-
-<summary><strong>Erlernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie Pull Requests an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
-
-</details>
+In diesem Prozess können "Administratoren" "Speicher lesen" und "Berechtigungen lesen", was ihnen wahrscheinlich ermöglicht, das Token zu übernehmen, das von diesem Prozess verwendet wird.

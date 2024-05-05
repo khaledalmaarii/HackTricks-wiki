@@ -48,11 +48,11 @@ PERL5LIB=/tmp/ PERL5OPT=-Mpmod
 ```
 ## Über Abhängigkeiten
 
-Es ist möglich, die Abhängigkeiten des Perl-Laufs in der Reihenfolge der Ordner aufzulisten:
+Es ist möglich, die Abhängigkeiten des Perl-Laufordners aufzulisten:
 ```bash
 perl -e 'print join("\n", @INC)'
 ```
-Was zurückgeben wird, ist etwas Ähnliches wie:
+Was etwas zurückgeben wird wie:
 ```bash
 /Library/Perl/5.30/darwin-thread-multi-2level
 /Library/Perl/5.30
@@ -67,10 +67,10 @@ Was zurückgeben wird, ist etwas Ähnliches wie:
 Einige der zurückgegebenen Ordner existieren nicht einmal, jedoch existiert **`/Library/Perl/5.30`**, es ist **nicht** durch **SIP** geschützt und es befindet sich **vor** den von SIP geschützten Ordnern. Daher könnte jemand diesen Ordner missbrauchen, um Skriptabhängigkeiten hinzuzufügen, damit ein Perl-Skript mit hohen Berechtigungen sie lädt.
 
 {% hint style="warning" %}
-Beachten Sie jedoch, dass Sie **Root-Rechte benötigen, um in diesen Ordner zu schreiben**, und heutzutage erhalten Sie diese **TCC-Aufforderung**:
+Beachten Sie jedoch, dass Sie **Root-Rechte benötigen, um in diesen Ordner zu schreiben** und heutzutage erhalten Sie diese **TCC-Aufforderung**:
 {% endhint %}
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png" alt="" width="244"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (28).png" alt="" width="244"><figcaption></figcaption></figure>
 
 Zum Beispiel, wenn ein Skript **`use File::Basename;`** importiert, wäre es möglich, `/Library/Perl/5.30/File/Basename.pm` zu erstellen, um beliebigen Code auszuführen.
 
@@ -84,7 +84,7 @@ Zum Beispiel, wenn ein Skript **`use File::Basename;`** importiert, wäre es mö
 
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen** oder **HackTricks im PDF-Format herunterladen** möchten, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**

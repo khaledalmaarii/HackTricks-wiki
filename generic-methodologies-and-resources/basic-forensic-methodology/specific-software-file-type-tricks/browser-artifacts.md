@@ -2,36 +2,36 @@
 
 <details>
 
-<summary><strong>Erlernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Erlernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegramm-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um mühelos Workflows zu erstellen und zu **automatisieren**, die von den fortschrittlichsten Community-Tools der Welt unterstützt werden.\
+Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um mühelos **Workflows zu erstellen und zu automatisieren**, die von den weltweit **fortschrittlichsten** Community-Tools unterstützt werden.\
 Heute Zugriff erhalten:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 ## Browser-Artefakte <a href="#id-3def" id="id-3def"></a>
 
-Browser-Artefakte umfassen verschiedene Arten von Daten, die von Webbrowsern gespeichert werden, wie Navigationsverlauf, Lesezeichen und Cache-Daten. Diese Artefakte werden in spezifischen Ordnern im Betriebssystem aufbewahrt, unterscheiden sich in Standort und Namen zwischen Browsern, speichern jedoch im Allgemeinen ähnliche Datentypen.
+Browser-Artefakte umfassen verschiedene Arten von Daten, die von Webbrowsern gespeichert werden, wie Navigationsverlauf, Lesezeichen und Cache-Daten. Diese Artefakte werden in spezifischen Ordnern im Betriebssystem aufbewahrt, die sich je nach Browser in Standort und Namen unterscheiden, aber im Allgemeinen ähnliche Datentypen speichern.
 
 Hier ist eine Zusammenfassung der häufigsten Browser-Artefakte:
 
 * **Navigationsverlauf**: Verfolgt die Besuche von Benutzern auf Websites, nützlich zur Identifizierung von Besuchen auf bösartigen Websites.
-* **Automatische Vervollständigung**: Vorschläge basierend auf häufigen Suchanfragen, bieten Einblicke, wenn sie mit dem Navigationsverlauf kombiniert werden.
+* **Automatische Vervollständigung**: Vorschläge basierend auf häufigen Suchanfragen, die Einblicke bieten, wenn sie mit dem Navigationsverlauf kombiniert werden.
 * **Lesezeichen**: Von Benutzern gespeicherte Websites für schnellen Zugriff.
-* **Erweiterungen und Add-ons**: Vom Benutzer installierte Browsererweiterungen oder Add-ons.
+* **Erweiterungen und Add-ons**: Vom Benutzer installierte Browser-Erweiterungen oder Add-ons.
 * **Cache**: Speichert Webinhalte (z. B. Bilder, JavaScript-Dateien) zur Verbesserung der Ladezeiten von Websites, wertvoll für forensische Analysen.
 * **Anmeldungen**: Gespeicherte Anmeldeinformationen.
 * **Favicons**: Mit Websites verknüpfte Symbole, die in Registerkarten und Lesezeichen erscheinen, nützlich für zusätzliche Informationen zu Benutzerbesuchen.
@@ -49,7 +49,7 @@ Firefox organisiert Benutzerdaten in Profilen, die an spezifischen Standorten ba
 * **MacOS**: `/Users/$USER/Library/Application Support/Firefox/Profiles/`
 * **Windows**: `%userprofile%\AppData\Roaming\Mozilla\Firefox\Profiles\`
 
-Eine `profiles.ini`-Datei in diesen Verzeichnissen listet die Benutzerprofile auf. Die Daten jedes Profils werden in einem Ordner gespeichert, der im `Path`-Variablen innerhalb von `profiles.ini` benannt ist und sich im selben Verzeichnis wie `profiles.ini` selbst befindet. Wenn der Ordner eines Profils fehlt, wurde er möglicherweise gelöscht.
+Eine `profiles.ini`-Datei in diesen Verzeichnissen listet die Benutzerprofile auf. Die Daten jedes Profils werden in einem Ordner gespeichert, der im `Path`-Variablen innerhalb von `profiles.ini` benannt ist und sich im selben Verzeichnis wie `profiles.ini` selbst befindet. Wenn ein Profilordner fehlt, wurde er möglicherweise gelöscht.
 
 In jedem Profilordner finden Sie mehrere wichtige Dateien:
 
@@ -71,7 +71,7 @@ In jedem Profilordner finden Sie mehrere wichtige Dateien:
 
 Zusätzlich kann die Überprüfung der Anti-Phishing-Einstellungen des Browsers durch die Suche nach `browser.safebrowsing`-Einträgen in `prefs.js` erfolgen, die anzeigen, ob die Funktionen für sicheres Surfen aktiviert oder deaktiviert sind.
 
-Um zu versuchen, das Masterpasswort zu entschlüsseln, können Sie [https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt) verwenden\
+Um zu versuchen, das Masterpasswort zu entschlüsseln, können Sie [https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt) verwenden.\
 Mit dem folgenden Skript und Aufruf können Sie eine Passwortdatei zum Brute-Forcen angeben:
 
 {% code title="brute.sh" %}
@@ -87,7 +87,7 @@ done < $passfile
 ```
 {% endcode %}
 
-![](<../../../.gitbook/assets/image (417).png>)
+![](<../../../.gitbook/assets/image (692).png>)
 
 ## Google Chrome
 
@@ -99,7 +99,7 @@ Google Chrome speichert Benutzerprofile an spezifischen Orten basierend auf dem 
 
 In diesen Verzeichnissen befinden sich die meisten Benutzerdaten in den Ordnern **Default/** oder **ChromeDefaultData/**. Die folgenden Dateien enthalten wichtige Daten:
 
-* **Verlauf**: Enthält URLs, Downloads und Suchbegriffe. Auf Windows kann [ChromeHistoryView](https://www.nirsoft.net/utils/chrome\_history\_view.html) verwendet werden, um den Verlauf zu lesen. Die Spalte "Transition Type" hat verschiedene Bedeutungen, darunter Benutzerklicks auf Links, eingegebene URLs, Formulareingaben und Seitenaktualisierungen.
+* **Verlauf**: Enthält URLs, Downloads und Suchbegriffe. Auf Windows kann [ChromeHistoryView](https://www.nirsoft.net/utils/chrome\_history\_view.html) verwendet werden, um den Verlauf zu lesen. Die Spalte "Transition Type" hat verschiedene Bedeutungen, einschließlich Benutzerklicks auf Links, eingegebene URLs, Formulareingaben und Seitenaktualisierungen.
 * **Cookies**: Speichert Cookies. Zur Inspektion steht [ChromeCookiesView](https://www.nirsoft.net/utils/chrome\_cookies\_view.html) zur Verfügung.
 * **Cache**: Enthält zwischengespeicherte Daten. Windows-Benutzer können zur Inspektion [ChromeCacheView](https://www.nirsoft.net/utils/chrome\_cache\_view.html) nutzen.
 * **Lesezeichen**: Benutzer-Lesezeichen.
@@ -111,7 +111,7 @@ In diesen Verzeichnissen befinden sich die meisten Benutzerdaten in den Ordnern 
 * **Erweiterungen**: Verzeichnisse für Browsererweiterungen und Add-Ons.
 * **Miniaturansichten**: Speichert Website-Miniaturansichten.
 * **Einstellungen**: Eine Datei mit vielen Informationen, einschließlich Einstellungen für Plugins, Erweiterungen, Pop-ups, Benachrichtigungen und mehr.
-* **Browser-eigener Anti-Phishing-Schutz**: Um zu überprüfen, ob der Anti-Phishing- und Malware-Schutz aktiviert ist, führen Sie `grep 'safebrowsing' ~/Library/Application Support/Google/Chrome/Default/Preferences` aus. Suchen Sie nach `{"enabled: true,"}` in der Ausgabe.
+* **Integrierter Phishing-Schutz des Browsers**: Um zu überprüfen, ob der Anti-Phishing- und Malware-Schutz aktiviert ist, führen Sie `grep 'safebrowsing' ~/Library/Application Support/Google/Chrome/Default/Preferences` aus. Suchen Sie nach `{"enabled: true,"}` in der Ausgabe.
 
 ## **Wiederherstellung von SQLite-DB-Daten**
 
@@ -121,13 +121,13 @@ Wie in den vorherigen Abschnitten zu sehen ist, verwenden sowohl Chrome als auch
 
 Internet Explorer 11 verwaltet seine Daten und Metadaten an verschiedenen Orten, was die Trennung von gespeicherten Informationen und den entsprechenden Details zur einfachen Zugriff und Verwaltung erleichtert.
 
-### Metadatenspeicherung
+### Speicherung von Metadaten
 
 Metadaten für Internet Explorer werden in `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` (wobei VX V01, V16 oder V24 ist) gespeichert. Begleitend dazu kann die Datei `V01.log` Zeitunterschiede bei Änderungen im Vergleich zu `WebcacheVX.data` aufweisen, was auf eine Reparatur mit `esentutl /r V01 /d` hinweist. Diese Metadaten, die in einer ESE-Datenbank gespeichert sind, können mithilfe von Tools wie photorec und [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html) wiederhergestellt und inspiziert werden. In der **Containers**-Tabelle kann man die spezifischen Tabellen oder Container erkennen, in denen jeder Datensegment gespeichert ist, einschließlich Cache-Details für andere Microsoft-Tools wie Skype.
 
 ### Cache-Inspektion
 
-Das Tool [IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html) ermöglicht die Cache-Inspektion und erfordert den Speicherort des extrahierten Cache-Datenordners. Metadaten für den Cache umfassen Dateinamen, Verzeichnis, Zugriffszähler, URL-Herkunft und Zeitstempel, die die Erstellungs-, Zugriffs-, Änderungs- und Ablaufzeiten des Caches anzeigen.
+Das Tool [IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html) ermöglicht die Cache-Inspektion und erfordert den Speicherort des Cache-Datenextraktionsordners. Die Metadaten für den Cache umfassen Dateinamen, Verzeichnis, Zugriffszähler, URL-Herkunft und Zeitstempel, die die Erstellung, den Zugriff, die Änderung und das Ablaufdatum des Caches anzeigen.
 
 ### Cookies-Verwaltung
 
@@ -135,15 +135,15 @@ Cookies können mithilfe von [IECookiesView](https://www.nirsoft.net/utils/iecoo
 
 ### Download-Details
 
-Download-Metadaten sind über [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html) zugänglich, wobei spezifische Container Daten wie URL, Dateityp und Download-Speicherort enthalten. Die physischen Dateien sind unter `%userprofile%\Appdata\Roaming\Microsoft\Windows\IEDownloadHistory` zu finden.
+Metadaten zu Downloads sind über [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html) zugänglich, wobei spezifische Container Daten wie URL, Dateityp und Download-Speicherort enthalten. Die physischen Dateien sind unter `%userprofile%\Appdata\Roaming\Microsoft\Windows\IEDownloadHistory` zu finden.
 
-### Verlauf des Browsing
+### Browserverlauf
 
-Um den Browsing-Verlauf zu überprüfen, kann [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html) verwendet werden, wobei der Speicherort der extrahierten Verlaufsdateien und die Konfiguration für Internet Explorer erforderlich sind. Die Metadaten enthalten hier Änderungs- und Zugriffszeiten sowie Zugriffszähler. Die Verlaufsdateien befinden sich in `%userprofile%\Appdata\Local\Microsoft\Windows\History`.
+Um den Browserverlauf zu überprüfen, kann [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html) verwendet werden, wobei der Speicherort der extrahierten Verlaufsdateien und die Konfiguration für Internet Explorer erforderlich sind. Die Metadaten hier umfassen Änderungs- und Zugriffszeiten sowie Zugriffszähler. Die Verlaufsdateien befinden sich in `%userprofile%\Appdata\Local\Microsoft\Windows\History`.
 
 ### Eingegebene URLs
 
-Eingegebene URLs und deren Verwendungszuordnungen werden in der Registrierung unter `NTUSER.DAT` unter `Software\Microsoft\InternetExplorer\TypedURLs` und `Software\Microsoft\InternetExplorer\TypedURLsTime` gespeichert, wobei die letzten 50 vom Benutzer eingegebenen URLs und deren letzte Eingabezeiten verfolgt werden.
+Eingegebene URLs und deren Verwendungszuordnungen werden in der Registrierung unter `NTUSER.DAT` unter `Software\Microsoft\InternetExplorer\TypedURLs` und `Software\Microsoft\InternetExplorer\TypedURLsTime` gespeichert, wobei die letzten 50 vom Benutzer eingegebenen URLs und deren letzten Eingabezeiten verfolgt werden.
 
 ## Microsoft Edge
 
@@ -161,18 +161,18 @@ Safari-Daten werden unter `/Users/$User/Library/Safari` gespeichert. Wichtige Da
 
 * **History.db**: Enthält Tabellen `history_visits` und `history_items` mit URLs und Besuchszeitstempeln. Verwenden Sie `sqlite3` zum Abfragen.
 * **Downloads.plist**: Informationen zu heruntergeladenen Dateien.
-* **Bookmarks.plist**: Speichert gebookmarkte URLs.
+* **Bookmarks.plist**: Speichert Lesezeichen-URLs.
 * **TopSites.plist**: Meistbesuchte Websites.
 * **Extensions.plist**: Liste der Safari-Browsererweiterungen. Verwenden Sie `plutil` oder `pluginkit` zum Abrufen.
 * **UserNotificationPermissions.plist**: Domains, die Benachrichtigungen senden dürfen. Verwenden Sie `plutil` zum Parsen.
 * **LastSession.plist**: Tabs aus der letzten Sitzung. Verwenden Sie `plutil` zum Parsen.
-* **Browser-eigener Anti-Phishing-Schutz**: Überprüfen Sie mit `defaults read com.apple.Safari WarnAboutFraudulentWebsites`. Eine Antwort von 1 zeigt an, dass die Funktion aktiv ist.
+* **Integrierter Phishing-Schutz des Browsers**: Überprüfen Sie mit `defaults read com.apple.Safari WarnAboutFraudulentWebsites`. Eine Antwort von 1 zeigt an, dass die Funktion aktiv ist.
 
 ## Opera
 
 Die Daten von Opera befinden sich in `/Users/$USER/Library/Application Support/com.operasoftware.Opera` und entsprechen dem Format von Chrome für Verlauf und Downloads.
 
-* **Browser-eigener Anti-Phishing-Schutz**: Überprüfen Sie, ob `fraud_protection_enabled` in der Preferences-Datei auf `true` gesetzt ist, indem Sie `grep` verwenden.
+* **Integrierter Phishing-Schutz des Browsers**: Überprüfen Sie, ob `fraud_protection_enabled` in der Preferences-Datei auf `true` gesetzt ist, indem Sie `grep` verwenden.
 
 Diese Pfade und Befehle sind entscheidend für den Zugriff auf und das Verständnis der von verschiedenen Webbrowsern gespeicherten Browsing-Daten.
 
@@ -183,10 +183,10 @@ Diese Pfade und Befehle sind entscheidend für den Zugriff auf und das Verständ
 * [https://books.google.com/books?id=jfMqCgAAQBAJ\&pg=PA128\&lpg=PA128\&dq=%22This+file](https://books.google.com/books?id=jfMqCgAAQBAJ\&pg=PA128\&lpg=PA128\&dq=%22This+file)
 * **Buch: OS X Incident Response: Scripting and Analysis By Jaron Bradley pag 123**
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um mühelos Workflows zu erstellen und zu automatisieren, die von den fortschrittlichsten Community-Tools der Welt unterstützt werden.\
+Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um mühelos Workflows zu erstellen und zu automatisieren, die von den weltweit fortschrittlichsten Community-Tools unterstützt werden.\
 Erhalten Sie noch heute Zugriff:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -194,10 +194,10 @@ Erhalten Sie noch heute Zugriff:
 <details>
 
 <summary><strong>Erlernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-* Wenn Sie Ihr Unternehmen in HackTricks beworben sehen möchten oder HackTricks im PDF-Format herunterladen möchten, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
+* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Holen Sie sich das [**offizielle PEASS & HackTricks Merch**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositorys senden.
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) **und** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **GitHub-Repositories senden.**
 
 </details>

@@ -1,16 +1,16 @@
 # Nützliche Linux-Befehle
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um mühelos **Workflows zu erstellen** und zu **automatisieren**, die von den weltweit **fortschrittlichsten** Community-Tools unterstützt werden.\
+Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um einfach **Workflows zu erstellen** und zu **automatisieren**, die von den fortschrittlichsten Community-Tools der Welt unterstützt werden.\
 Heute Zugriff erhalten:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 <details>
 
-<summary><strong>Erlernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Erlernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
@@ -18,11 +18,11 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositorys einreichen.
 
 </details>
 
-## Gemeinsame Bash
+## Übliches Bash
 ```bash
 #Exfiltration using Base64
 base64 -w 0 file
@@ -141,10 +141,10 @@ sudo chattr -i file.txt #Remove the bit so you can delete it
 # List files inside zip
 7z l file.zip
 ```
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Verwenden Sie [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks), um mühelos **Workflows zu erstellen** und zu **automatisieren**, die von den weltweit **fortschrittlichsten** Community-Tools unterstützt werden.\
+Verwenden Sie [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks), um einfach **Workflows zu erstellen** und zu **automatisieren**, die von den fortschrittlichsten Community-Tools der Welt unterstützt werden.\
 Heute Zugriff erhalten:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -171,7 +171,7 @@ i686-mingw32msvc-gcc -o executable useradd.c
 ```
 ## Greps
 
-Grep ist ein leistungsstarkes Tool zum Durchsuchen von Text in Dateien. Es kann verwendet werden, um nach bestimmten Zeichenfolgen in einer oder mehreren Dateien zu suchen. Grep kann auch mit regulären Ausdrücken verwendet werden, um die Suche zu verfeinern.
+Grep steht für "Global Regular Expression Print". Es wird verwendet, um Textzeilen zu durchsuchen und nach Mustern zu filtern.
 ```bash
 #Extract emails from file
 grep -E -o "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b" file.txt
@@ -253,39 +253,26 @@ egrep -a -o "\bISBN(?:-1[03])?:? (?=[0-9X]{10}$|(?=(?:[0-9]+[- ]){3})[- 0-9X]{13
 ```
 ## Find
 
-### Beschreibung
+Um Dateien basierend auf verschiedenen Kriterien zu finden, können Sie den Befehl `find` verwenden. Hier sind einige Beispiele:
 
-Der `find`-Befehl wird verwendet, um Dateien und Verzeichnisse basierend auf verschiedenen Kriterien zu suchen.
-
-### Syntax
-
+- Suche nach Dateien mit einem bestimmten Namen in einem Verzeichnis:
 ```bash
-find <path> <options>
+find /pfad/zum/verzeichnis -name "dateiname"
 ```
 
-### Optionen
-
-- `-name`: Suche nach Dateien/Verzeichnissen mit einem bestimmten Namen.
-- `-type`: Suche nach einem bestimmten Typ von Datei (z. B. `f` für reguläre Datei, `d` für Verzeichnis).
-- `-user`: Suche nach Dateien/Verzeichnissen, die einem bestimmten Benutzer gehören.
-- `-size`: Suche nach Dateien basierend auf ihrer Größe.
-- `-exec`: Führt einen Befehl für jede gefundene Datei/Verzeichnis aus.
-
-### Beispiele
-
-1. Suche nach einer Datei mit einem bestimmten Namen im aktuellen Verzeichnis:
+- Suche nach Dateien, die größer als eine bestimmte Größe sind:
 ```bash
-find . -name example.txt
+find /pfad/zum/verzeichnis -size +1M
 ```
 
-2. Suche nach allen Verzeichnissen im Home-Verzeichnis:
+- Suche nach leeren Dateien innerhalb eines Verzeichnisses:
 ```bash
-find ~ -type d
+find /pfad/zum/verzeichnis -empty
 ```
 
-3. Suche nach Dateien, die einem bestimmten Benutzer gehören:
+- Suche nach Dateien, die von einem bestimmten Benutzer erstellt wurden:
 ```bash
-find /var/log -user root
+find /pfad/zum/verzeichnis -user benutzername
 ```
 ```bash
 # Find SUID set files.
@@ -323,31 +310,13 @@ locate -r '\.nse$' | xargs grep categories | grep 'default\|version\|safe' | gre
 nmap --script-help "(default or version) and smb)"
 ```
 ## Bash
-
-### Beschreibung
-
-Bash ist eine beliebte Unix-Shell und Befehlsinterpreter für Unix-basierte Betriebssysteme wie Linux. Es bietet eine Befehlszeilenumgebung, in der Benutzer Befehle eingeben und Skripte ausführen können, um verschiedene Aufgaben auszuführen. Bash bietet eine Vielzahl von Funktionen und Befehlen, die es Benutzern ermöglichen, effizient mit dem Betriebssystem zu interagieren und komplexe Aufgaben zu automatisieren.
 ```bash
 #All bytes inside a file (except 0x20 and 0x00)
 for j in $((for i in {0..9}{0..9} {0..9}{a..f} {a..f}{0..9} {a..f}{a..f}; do echo $i; done ) | sort | grep -v "20\|00"); do echo -n -e "\x$j" >> bytes; done
 ```
 ## Iptables
 
-### Beschreibung
-
-Iptables ist ein leistungsstarkes Tool zur Konfiguration von Firewall-Regeln in Linux-Systemen. Es ermöglicht die Kontrolle des Datenverkehrs auf Netzwerkebene durch die Definition von Regeln für den Datenverkehr.
-
-### Verwendung
-
-Um Iptables zu verwenden, müssen Sie die Befehlszeile verwenden. Hier sind einige grundlegende Befehle, die Ihnen den Einstieg erleichtern:
-
-- `iptables -L`: Zeigt die aktuellen Firewall-Regeln an.
-- `iptables -A INPUT -s <source> -j DROP`: Blockiert den Datenverkehr von einer bestimmten Quelle.
-- `iptables -A OUTPUT -d <destination> -j DROP`: Blockiert den Datenverkehr zu einem bestimmten Ziel.
-- `iptables -P INPUT DROP`: Setzt die Standardeinstellung für eingehenden Datenverkehr auf Blockieren.
-- `iptables -P OUTPUT DROP`: Setzt die Standardeinstellung für ausgehenden Datenverkehr auf Blockieren.
-
-Diese Befehle sind nur ein Ausgangspunkt. Iptables bietet eine Vielzahl von Optionen und Konfigurationen, um die Firewall nach Ihren Anforderungen anzupassen.
+iptables ist ein leistungsstarkes Firewall-Tool für Linux-Systeme. Es wird verwendet, um den Datenverkehr zu überwachen, zu filtern und zu steuern. Mit iptables können Regeln erstellt werden, um den Netzwerkverkehr basierend auf verschiedenen Kriterien wie IP-Adresse, Port und Protokoll zu blockieren oder zuzulassen. Es ist ein unverzichtbares Werkzeug für die Sicherung von Linux-Systemen.
 ```bash
 #Delete curent rules and chains
 iptables --flush
@@ -392,10 +361,10 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um einfach **Workflows zu erstellen und zu automatisieren**, die von den weltweit **fortschrittlichsten** Community-Tools unterstützt werden.\
+Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um mühelos **Workflows zu erstellen und zu automatisieren**, die von den weltweit **fortschrittlichsten** Community-Tools unterstützt werden.\
 Heute Zugriff erhalten:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
