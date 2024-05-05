@@ -1,16 +1,16 @@
-# macOS MIG - Mach Interface Generator
+# macOS MIG - Générateur d'interface Mach
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge HackTricks AWS)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks :
 
-- Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-- Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-- Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
-- **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-- **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 
@@ -37,16 +37,13 @@ n2          :  uint32_t);
 ```
 {% endcode %}
 
-Maintenant, utilisez mig pour générer le code serveur et client qui pourra communiquer entre eux pour appeler la fonction Soustraire :
+Maintenant, utilisez mig pour générer le code serveur et client qui pourra communiquer entre eux pour appeler la fonction Subtract :
 ```bash
 mig -header myipcUser.h -sheader myipcServer.h myipc.defs
 ```
 Plusieurs nouveaux fichiers seront créés dans le répertoire actuel.
 
 Dans les fichiers **`myipcServer.c`** et **`myipcServer.h`**, vous pouvez trouver la déclaration et la définition de la structure **`SERVERPREFmyipc_subsystem`**, qui définit essentiellement la fonction à appeler en fonction de l'ID du message reçu (nous avons indiqué un numéro de départ de 500) :
-
-{% tabs %}
-{% tab title="myipcServer.c" %}
 ```c
 /* Description of this subsystem, for use in direct RPC */
 const struct SERVERPREFmyipc_subsystem SERVERPREFmyipc_subsystem = {
@@ -68,7 +65,7 @@ myipc_server_routine,
 
 ### macOS MIG (Mach Interface Generator)
 
-Le générateur d'interface Mach (MIG) est un outil utilisé pour simplifier le processus de communication entre les processus sur macOS. Il génère des fonctions pour envoyer et recevoir des messages entre les processus en utilisant le framework Mach. Cela peut être exploité par des attaquants pour escalader les privilèges en manipulant les appels système générés par MIG. Il est important de sécuriser correctement les services utilisant MIG pour éviter les abus et les attaques de privilèges.
+Le MIG (Mach Interface Generator) est un outil fourni par Apple pour simplifier le processus de communication entre les processus sur macOS. Il génère du code source C à partir de spécifications d'interface MIG, facilitant ainsi la communication inter-processus.
 ```c
 /* Description of this subsystem, for use in direct RPC */
 extern const struct SERVERPREFmyipc_subsystem {
@@ -142,9 +139,9 @@ return FALSE;
 }
 </code></pre>
 
-Vérifiez les lignes précédemment surlignées en accédant à la fonction à appeler par ID.
+Vérifiez les lignes précédemment mises en évidence accédant à la fonction à appeler par ID.
 
-Voici le code pour créer un **serveur** et un **client** simples où le client peut appeler les fonctions Subtract du serveur :
+Dans ce qui suit est le code pour créer un **serveur** et un **client** simples où le client peut appeler les fonctions Soustraire du serveur :
 
 {% tabs %}
 {% tab title="myipc_server.c" %}
@@ -184,27 +181,23 @@ mach_msg_server(myipc_server, sizeof(union __RequestUnion__SERVERPREFmyipc_subsy
 
 ```c
 #include <stdio.h>
-#include <mach/mach.h>
 #include <servers/bootstrap.h>
+#include <mach/mach.h>
+#include <mach/message.h>
+#include <mach/mig.h>
 #include "myipc.h"
 
 int main() {
-    mach_port_t bootstrap_port;
-    kern_return_t kr = task_get_bootstrap_port(mach_task_self(), &bootstrap_port);
+    mach_port_t server_port;
+    kern_return_t kr;
+
+    kr = bootstrap_look_up(bootstrap_port, "com.example.myipc_server", &server_port);
     if (kr != KERN_SUCCESS) {
-        printf("Failed to get bootstrap port\n");
+        printf("Error looking up server port: %s\n", mach_error_string(kr));
         return 1;
     }
 
-    myipc_args_t args = { 1, 2 };
-    myipc_rval_t retval;
-    kr = myipc_call(bootstrap_port, &args, &retval);
-    if (kr != KERN_SUCCESS) {
-        printf("Failed to call myipc\n");
-        return 1;
-    }
-
-    printf("Result: %d\n", retval.result);
+    myipc_do_mach_msg(server_port);
 
     return 0;
 }
@@ -366,11 +359,22 @@ return r0;
 
 En fait, si vous allez à la fonction **`0x100004000`**, vous trouverez le tableau des structures **`routine_descriptor`**. Le premier élément de la structure est l'**adresse** où la **fonction** est implémentée, et la **structure prend 0x28 octets**, donc tous les 0x28 octets (à partir de l'octet 0) vous pouvez obtenir 8 octets et ce sera l'**adresse de la fonction** qui sera appelée :
 
-<figure><img src="../../../../.gitbook/assets/image (32).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (35).png" alt=""><figcaption></figcaption></figure>
 
-<figure><img src="../../../../.gitbook/assets/image (33).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (36).png" alt=""><figcaption></figcaption></figure>
 
 Ces données peuvent être extraites [**en utilisant ce script Hopper**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py).
+
+<details>
+
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+
+D'autres façons de soutenir HackTricks :
+
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez** 💬 le [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) **et** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **dépôts GitHub.**
 
 </details>

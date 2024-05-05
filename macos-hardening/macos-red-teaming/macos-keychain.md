@@ -9,24 +9,24 @@ Autres façons de soutenir HackTricks :
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 
 ### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) est un moteur de recherche alimenté par le **dark web** qui offre des fonctionnalités **gratuites** pour vérifier si une entreprise ou ses clients ont été **compromis** par des **logiciels malveillants voleurs**.
 
-Le but principal de WhiteIntel est de lutter contre les prises de contrôle de compte et les attaques de ransomware résultant de logiciels malveillants volant des informations.
+Le but principal de WhiteIntel est de lutter contre les prises de contrôle de compte et les attaques de ransomware résultant de logiciels malveillants voleurs d'informations.
 
 Vous pouvez consulter leur site Web et essayer leur moteur **gratuitement** sur :
 
 {% embed url="https://whiteintel.io" %}
 
----
+***
 
 ## Principaux trousseaux
 
@@ -35,7 +35,7 @@ Vous pouvez consulter leur site Web et essayer leur moteur **gratuitement** sur 
 
 ### Accès au trousseau de mots de passe
 
-Ces fichiers, bien qu'ils n'aient pas de protection inhérente et puissent être **téléchargés**, sont chiffrés et nécessitent le **mot de passe en clair de l'utilisateur pour être déchiffrés**. Un outil comme [**Chainbreaker**](https://github.com/n0fate/chainbreaker) pourrait être utilisé pour le déchiffrement.
+Ces fichiers, bien qu'ils ne bénéficient pas d'une protection inhérente et puissent être **téléchargés**, sont chiffrés et nécessitent le **mot de passe en clair de l'utilisateur pour être déchiffrés**. Un outil comme [**Chainbreaker**](https://github.com/n0fate/chainbreaker) pourrait être utilisé pour le déchiffrement.
 
 ## Protections des entrées du trousseau
 
@@ -47,17 +47,17 @@ Chaque entrée dans le trousseau est régie par des **listes de contrôle d'acc�
 * **ACLAuhtorizationExportWrapped** : Permet au détenteur d'obtenir le texte en clair chiffré avec un autre mot de passe fourni.
 * **ACLAuhtorizationAny** : Permet au détenteur d'effectuer n'importe quelle action.
 
-Les ACL sont accompagnées d'une **liste d'applications de confiance** qui peuvent effectuer ces actions sans invitation. Cela pourrait être :
+Les ACL sont également accompagnées d'une **liste d'applications de confiance** pouvant effectuer ces actions sans invitation. Cela pourrait être :
 
-* &#x20;**N`il`** (aucune autorisation requise, **tout le monde est de confiance**)
+* **N`il`** (aucune autorisation requise, **tout le monde est de confiance**)
 * Une liste **vide** (personne n'est de confiance)
-* Liste d'applications **spécifiques**.
+* **Liste** d'applications **spécifiques**.
 
 De plus, l'entrée peut contenir la clé **`ACLAuthorizationPartitionID`,** qui est utilisée pour identifier le **teamid, apple,** et **cdhash.**
 
 * Si le **teamid** est spécifié, alors pour **accéder à la valeur de l'entrée** sans **invitation**, l'application utilisée doit avoir le **même teamid**.
 * Si l'**apple** est spécifié, alors l'application doit être **signée** par **Apple**.
-* Si le **cdhash** est indiqué, alors l'application doit avoir le **cdhash** spécifique.
+* Si le **cdhash** est indiqué, alors l'**application** doit avoir le **cdhash** spécifique.
 
 ### Création d'une entrée de trousseau
 
@@ -93,7 +93,7 @@ security set-generic-password-parition-list -s "test service" -a "test acount" -
 ### APIs
 
 {% hint style="success" %}
-La **numérotation et l'extraction** des secrets du trousseau qui **ne généreront pas de fenêtre contextuelle** peuvent être effectuées avec l'outil [**LockSmith**](https://github.com/its-a-feature/LockSmith)
+L'**énumération et l'extraction** des secrets du trousseau qui **ne généreront pas de fenêtre contextuelle** peuvent être effectuées avec l'outil [**LockSmith**](https://github.com/its-a-feature/LockSmith)
 {% endhint %}
 
 Listez et obtenez des **informations** sur chaque entrée du trousseau :
@@ -109,7 +109,7 @@ Obtenez les **ACL** de chaque entrée :
 
 * Avec l'API **`SecAccessCopyACLList`** vous pouvez obtenir l'**ACL de l'élément du trousseau**, et il renverra une liste d'ACL (comme `ACLAuhtorizationExportClear` et les autres mentionnés précédemment) où chaque liste a :
 * Description
-* Liste d'applications de confiance. Cela pourrait être :
+* **Liste d'applications de confiance**. Cela pourrait être :
 * Une application : /Applications/Slack.app
 * Un binaire : /usr/libexec/airportd
 * Un groupe : group://AirPort
@@ -121,7 +121,7 @@ Exportez les données :
 
 Et voici les **conditions** pour pouvoir **exporter un secret sans fenêtre contextuelle** :
 
-* Si **1+ applications de confiance** sont répertoriées :
+* Si **1+ applications de confiance** répertoriées :
 * Besoin des **autorisations appropriées** (**`Nil`**, ou faire **partie** de la liste autorisée d'applications dans l'autorisation pour accéder aux informations secrètes)
 * Besoin que la signature de code corresponde à **PartitionID**
 * Besoin que la signature de code corresponde à celle d'une **application de confiance** (ou être membre du bon KeychainAccessGroup)
@@ -148,7 +148,7 @@ Si **apple** est indiqué dans le **partitionID**, vous pourriez y accéder avec
 
 ### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) est un moteur de recherche alimenté par le **dark web** qui offre des fonctionnalités **gratuites** pour vérifier si une entreprise ou ses clients ont été **compromis** par des **logiciels malveillants voleurs**.
 
@@ -164,10 +164,10 @@ Vous pouvez consulter leur site Web et essayer leur moteur **gratuitement** sur 
 
 Autres façons de soutenir HackTricks :
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF** Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF** Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez** 💬 le groupe Discord](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Rejoignez** 💬 le [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

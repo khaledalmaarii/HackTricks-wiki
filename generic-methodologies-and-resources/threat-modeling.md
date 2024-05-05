@@ -2,25 +2,25 @@
 
 ### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) est un moteur de recherche alimenté par le **dark web** qui offre des fonctionnalités **gratuites** pour vérifier si une entreprise ou ses clients ont été **compromis** par des **logiciels malveillants voleurs**.
 
-L'objectif principal de WhiteIntel est de lutter contre les prises de contrôle de compte et les attaques de ransomware résultant de logiciels malveillants volant des informations.
+Le but principal de WhiteIntel est de lutter contre les prises de contrôle de compte et les attaques de ransomware résultant de logiciels malveillants voleurs d'informations.
 
 Vous pouvez consulter leur site Web et essayer leur moteur **gratuitement** sur :
 
 {% embed url="https://whiteintel.io" %}
 
----
+***
 
 ## Modélisation des Menaces
 
-Bienvenue dans le guide complet de HackTricks sur la modélisation des menaces ! Lancez-vous dans une exploration de cet aspect crucial de la cybersécurité, où nous identifions, comprenons et élaborons des stratégies contre les vulnérabilités potentielles d'un système. Ce fil conducteur sert de guide étape par étape rempli d'exemples concrets, de logiciels utiles et d'explications faciles à comprendre. Idéal pour les novices et les praticiens expérimentés cherchant à renforcer leurs défenses en cybersécurité.
+Bienvenue dans le guide complet de HackTricks sur la modélisation des menaces ! Lancez-vous dans une exploration de cet aspect critique de la cybersécurité, où nous identifions, comprenons et élaborons des stratégies contre les vulnérabilités potentielles d'un système. Ce fil conducteur sert de guide étape par étape rempli d'exemples du monde réel, de logiciels utiles et d'explications faciles à comprendre. Idéal pour les novices et les praticiens expérimentés cherchant à renforcer leurs défenses en cybersécurité.
 
 ### Scénarios Couramment Utilisés
 
-1. **Développement de Logiciels** : Dans le cadre du Cycle de Vie de Développement de Logiciels Sécurisé (SSDLC), la modélisation des menaces aide à **identifier les sources potentielles de vulnérabilités** dès les premières étapes du développement.
+1. **Développement de Logiciels** : Dans le cadre du Cycle de Vie de Développement de Logiciels Sécurisé (SSDLC), la modélisation des menaces aide à **identifier les sources potentielles de vulnérabilités** aux premiers stades du développement.
 2. **Tests de Pénétration** : Le cadre d'exécution des tests de pénétration (PTES) exige la modélisation des menaces pour comprendre les vulnérabilités du système avant d'effectuer le test.
 
 ### Modèle de Menace en Bref
@@ -31,11 +31,11 @@ Les modèles de menace comportent souvent des éléments marqués en rouge, symb
 
 ### La Triade CIA
 
-La Triade CIA est un modèle largement reconnu dans le domaine de la sécurité de l'information, représentant la Confidentialité, l'Intégrité et la Disponibilité. Ces trois piliers forment la base sur laquelle de nombreuses mesures de sécurité et politiques sont construites, y compris les méthodologies de modélisation des menaces.
+La Triade CIA est un modèle largement reconnu dans le domaine de la sécurité de l'information, représentant la Confidentialité, l'Intégrité et la Disponibilité. Ces trois piliers constituent la base sur laquelle de nombreuses mesures de sécurité et politiques sont construites, y compris les méthodologies de modélisation des menaces.
 
 1. **Confidentialité** : Garantir que les données ou le système ne sont pas accessibles par des individus non autorisés. Il s'agit d'un aspect central de la sécurité, nécessitant des contrôles d'accès appropriés, le chiffrement et d'autres mesures pour prévenir les violations de données.
 2. **Intégrité** : L'exactitude, la cohérence et la fiabilité des données tout au long de leur cycle de vie. Ce principe garantit que les données ne sont pas altérées ou manipulées par des parties non autorisées. Il implique souvent des sommes de contrôle, des hachages et d'autres méthodes de vérification des données.
-3. **Disponibilité** : Cela garantit que les données et les services sont accessibles aux utilisateurs autorisés au moment voulu. Cela implique souvent la redondance, la tolérance aux pannes et des configurations à haute disponibilité pour maintenir les systèmes opérationnels même en cas de perturbations.
+3. **Disponibilité** : Cela garantit que les données et les services sont accessibles aux utilisateurs autorisés lorsqu'ils en ont besoin. Cela implique souvent la redondance, la tolérance aux pannes et des configurations à haute disponibilité pour maintenir les systèmes opérationnels même en cas de perturbations.
 
 ### Méthodologies de Modélisation des Menaces
 
@@ -44,7 +44,7 @@ La Triade CIA est un modèle largement reconnu dans le domaine de la sécurité 
 3. **PASTA** (Process for Attack Simulation and Threat Analysis) : Il s'agit d'une méthodologie en sept étapes, centrée sur les risques. Elle comprend la définition et l'identification des objectifs de sécurité, la création d'un périmètre technique, la décomposition de l'application, l'analyse des menaces, l'analyse des vulnérabilités et l'évaluation des risques/triages.
 4. **Trike** : Il s'agit d'une méthodologie basée sur les risques qui se concentre sur la défense des actifs. Elle part d'une perspective de **gestion des risques** et examine les menaces et les vulnérabilités dans ce contexte.
 5. **VAST** (Visual, Agile et Simple Threat modeling) : Cette approche vise à être plus accessible et s'intègre dans les environnements de développement Agile. Elle combine des éléments des autres méthodologies et se concentre sur les **représentations visuelles des menaces**.
-6. **OCTAVE** (Operationally Critical Threat, Asset et Vulnerability Evaluation) : Développé par le CERT Coordination Center, ce cadre est axé sur **l'évaluation des risques organisationnels plutôt que sur des systèmes ou des logiciels spécifiques**.
+6. **OCTAVE** (Operationally Critical Threat, Asset, and Vulnerability Evaluation) : Développé par le CERT Coordination Center, ce cadre est orienté vers **l'évaluation des risques organisationnels plutôt que des systèmes ou des logiciels spécifiques**.
 
 ## Outils
 
@@ -52,7 +52,7 @@ Il existe plusieurs outils et solutions logicielles disponibles qui peuvent **ai
 
 ### [SpiderSuite](https://github.com/3nock/SpiderSuite)
 
-Une araignée/crawler web GUI multiplateforme avancée et multi-fonctionnelle pour les professionnels de la cybersécurité. Spider Suite peut être utilisé pour la cartographie et l'analyse de la surface d'attaque.
+Une araignée/crawler web GUI multi-fonction avancée et multi-plateforme pour les professionnels de la cybersécurité. Spider Suite peut être utilisé pour la cartographie et l'analyse de la surface d'attaque.
 
 **Utilisation**
 
@@ -78,11 +78,11 @@ Parfois, cela pourrait ressembler à ceci :
 
 <figure><img src="../.gitbook/assets/1_threatmodel_create_project.jpg" alt=""><figcaption></figcaption></figure>
 
-2. Lancez un Nouveau Projet
+2. Lancez le Nouveau Projet
 
 <figure><img src="../.gitbook/assets/launch_new_project_2.jpg" alt=""><figcaption></figcaption></figure>
 
-3. Enregistrez le Nouveau Projet
+3. Sauvegardez le Nouveau Projet
 
 <figure><img src="../.gitbook/assets/save_new_project.jpg" alt=""><figcaption></figcaption></figure>
 
@@ -116,17 +116,16 @@ Gardez à l'esprit qu'il y a une différence entre les Menaces d'Acteurs et les 
 
 6. Terminé
 
-Maintenant, votre modèle fini devrait ressembler à ceci. Et voilà comment vous créez un modèle de menace simple avec OWASP Threat Dragon.
+Maintenant, votre modèle terminé devrait ressembler à ceci. Et voilà comment vous créez un modèle de menace simple avec OWASP Threat Dragon.
 
 <figure><img src="../.gitbook/assets/threat_model_finished.jpg" alt=""><figcaption></figcaption></figure>
 ### [Outil de modélisation des menaces Microsoft](https://aka.ms/threatmodelingtool)
 
 Il s'agit d'un outil gratuit de Microsoft qui aide à trouver les menaces dans la phase de conception des projets logiciels. Il utilise la méthodologie STRIDE et est particulièrement adapté à ceux qui développent sur la pile technologique de Microsoft.
 
-
 ### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) est un moteur de recherche alimenté par le **dark web** qui offre des fonctionnalités **gratuites** pour vérifier si une entreprise ou ses clients ont été **compromis** par des **logiciels malveillants voleurs**.
 

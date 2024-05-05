@@ -16,38 +16,38 @@ Autres façons de soutenir HackTricks :
 
 ### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) est un moteur de recherche alimenté par le **dark web** qui offre des fonctionnalités **gratuites** pour vérifier si une entreprise ou ses clients ont été **compromis** par des **logiciels malveillants voleurs**.
 
-Le but principal de WhiteIntel est de lutter contre les prises de contrôle de compte et les attaques de ransomware résultant de logiciels malveillants volant des informations.
+Le but principal de WhiteIntel est de lutter contre les prises de contrôle de compte et les attaques de ransomware résultant de logiciels malveillants voleurs d'informations.
 
 Vous pouvez consulter leur site Web et essayer leur moteur **gratuitement** sur :
 
 {% embed url="https://whiteintel.io" %}
 
----
+***
 
 ## Niveaux d'intégrité
 
-Dans Windows Vista et les versions ultérieures, tous les éléments protégés sont associés à une balise de **niveau d'intégrité**. Ce paramétrage attribue principalement un niveau d'intégrité "moyen" aux fichiers et clés de registre, sauf pour certains dossiers et fichiers auxquels Internet Explorer 7 peut écrire à un niveau d'intégrité bas. Le comportement par défaut est que les processus initiés par des utilisateurs standard ont un niveau d'intégrité moyen, tandis que les services fonctionnent généralement à un niveau d'intégrité système. Une étiquette d'intégrité élevée protège le répertoire racine.
+Dans Windows Vista et les versions ultérieures, tous les éléments protégés sont accompagnés d'une balise de **niveau d'intégrité**. Ce paramètre attribue principalement un niveau d'intégrité "moyen" aux fichiers et clés de registre, sauf pour certains dossiers et fichiers auxquels Internet Explorer 7 peut écrire à un niveau d'intégrité faible. Le comportement par défaut est que les processus initiés par des utilisateurs standard ont un niveau d'intégrité moyen, tandis que les services fonctionnent généralement à un niveau d'intégrité système. Une étiquette d'intégrité élevée protège le répertoire racine.
 
 Une règle clé est que les objets ne peuvent pas être modifiés par des processus ayant un niveau d'intégrité inférieur à celui de l'objet. Les niveaux d'intégrité sont :
 
 * **Non approuvé** : Ce niveau est destiné aux processus avec des connexions anonymes. %%%Exemple : Chrome%%%
-* **Faible** : Principalement pour les interactions Internet, en particulier dans le mode protégé d'Internet Explorer, affectant les fichiers et processus associés, et certains dossiers comme le **Dossier Internet Temporaire**. Les processus à faible intégrité font face à des restrictions importantes, notamment l'absence d'accès en écriture au registre et un accès limité à l'écriture de profil utilisateur.
+* **Faible** : Principalement pour les interactions Internet, en particulier dans le Mode protégé d'Internet Explorer, affectant les fichiers et processus associés, et certains dossiers comme le **Dossier Internet Temporaire**. Les processus à faible intégrité font face à des restrictions importantes, notamment aucun accès en écriture au registre et un accès limité à l'écriture de profil utilisateur.
 * **Moyen** : Le niveau par défaut pour la plupart des activités, attribué aux utilisateurs standard et aux objets sans niveaux d'intégrité spécifiques. Même les membres du groupe Administrateurs fonctionnent à ce niveau par défaut.
 * **Élevé** : Réservé aux administrateurs, leur permettant de modifier des objets à des niveaux d'intégrité inférieurs, y compris ceux au niveau élevé lui-même.
-* **Système** : Le niveau opérationnel le plus élevé pour le noyau Windows et les services principaux, inaccessible même pour les administrateurs, assurant la protection des fonctions système vitales.
+* **Système** : Le niveau opérationnel le plus élevé pour le noyau Windows et les services principaux, hors de portée même des administrateurs, assurant la protection des fonctions système vitales.
 * **Installateur** : Un niveau unique qui se situe au-dessus de tous les autres, permettant aux objets à ce niveau de désinstaller tout autre objet.
 
 Vous pouvez obtenir le niveau d'intégrité d'un processus en utilisant **Process Explorer** de **Sysinternals**, en accédant aux **propriétés** du processus et en consultant l'onglet "**Sécurité**" :
 
-![](<../../.gitbook/assets/image (821).png>)
+![](<../../.gitbook/assets/image (824).png>)
 
 Vous pouvez également obtenir votre **niveau d'intégrité actuel** en utilisant `whoami /groups`
 
-![](<../../.gitbook/assets/image (322).png>)
+![](<../../.gitbook/assets/image (325).png>)
 
 ### Niveaux d'intégrité dans le système de fichiers
 
@@ -78,7 +78,7 @@ NT AUTHORITY\SERVICE:(I)(M,DC)
 NT AUTHORITY\BATCH:(I)(M,DC)
 Mandatory Label\High Mandatory Level:(NW)
 ```
-C'est là que les choses deviennent intéressantes. Vous pouvez voir que l'utilisateur `DESKTOP-IDJHTKP\user` a **des privilèges COMPLETS** sur le fichier (en effet, c'était l'utilisateur qui a créé le fichier), cependant, en raison du niveau d'intégrité minimum implémenté, il ne pourra plus modifier le fichier à moins qu'il ne s'exécute à l'intérieur d'un niveau d'intégrité élevé (notez qu'il pourra toujours le lire) :
+C'est là que les choses deviennent intéressantes. Vous pouvez voir que l'utilisateur `DESKTOP-IDJHTKP\user` a **des privilèges COMPLETS** sur le fichier (en effet, c'était l'utilisateur qui a créé le fichier), cependant, en raison du niveau d'intégrité minimum implémenté, il ne pourra plus modifier le fichier à moins qu'il ne s'exécute à l'intérieur d'un niveau d'intégrité élevé (notez qu'il pourra le lire) :
 ```
 echo 1234 > asd.txt
 Access is denied.
@@ -88,12 +88,12 @@ C:\Users\Public\asd.txt
 Access is denied.
 ```
 {% hint style="info" %}
-**Par conséquent, lorsqu'un fichier a un niveau d'intégrité minimum, pour le modifier, vous devez au moins fonctionner à ce niveau d'intégrité.**
+**Par conséquent, lorsqu'un fichier a un niveau d'intégrité minimum, pour le modifier vous devez au moins être en cours d'exécution à ce niveau d'intégrité.**
 {% endhint %}
 
 ### Niveaux d'intégrité dans les binaires
 
-J'ai fait une copie de `cmd.exe` dans `C:\Windows\System32\cmd-low.exe` et je lui ai attribué un **niveau d'intégrité bas à partir d'une console d'administrateur :**
+J'ai fait une copie de `cmd.exe` dans `C:\Windows\System32\cmd-low.exe` et je lui ai attribué un **niveau d'intégrité bas à partir d'une console administrateur :**
 ```
 icacls C:\Windows\System32\cmd-low.exe
 C:\Windows\System32\cmd-low.exe NT AUTHORITY\SYSTEM:(I)(F)
@@ -105,20 +105,19 @@ Mandatory Label\Low Mandatory Level:(NW)
 ```
 Maintenant, lorsque j'exécute `cmd-low.exe`, il **s'exécutera avec un niveau d'intégrité bas** au lieu d'un niveau moyen :
 
-![](<../../.gitbook/assets/image (310).png>)
+![](<../../.gitbook/assets/image (313).png>)
 
 Pour les curieux, si vous attribuez un niveau d'intégrité élevé à un binaire (`icacls C:\Windows\System32\cmd-high.exe /setintegritylevel high`), il ne s'exécutera pas automatiquement avec un niveau d'intégrité élevé (si vous l'invoquez à partir d'un niveau d'intégrité moyen --par défaut-- il s'exécutera avec un niveau d'intégrité moyen).
 
 ### Niveaux d'intégrité dans les processus
 
-Tous les fichiers et dossiers n'ont pas un niveau d'intégrité minimum, **mais tous les processus s'exécutent avec un niveau d'intégrité**. Et de manière similaire à ce qui s'est passé avec le système de fichiers, **si un processus souhaite écrire dans un autre processus, il doit avoir au moins le même niveau d'intégrité**. Cela signifie qu'un processus avec un niveau d'intégrité bas ne peut pas ouvrir une poignée avec un accès complet à un processus avec un niveau d'intégrité moyen.
+Tous les fichiers et dossiers n'ont pas un niveau d'intégrité minimum, **mais tous les processus s'exécutent avec un niveau d'intégrité**. Et de manière similaire à ce qui s'est passé avec le système de fichiers, **si un processus souhaite écrire à l'intérieur d'un autre processus, il doit avoir au moins le même niveau d'intégrité**. Cela signifie qu'un processus avec un niveau d'intégrité bas ne peut pas ouvrir une poignée avec un accès complet à un processus avec un niveau d'intégrité moyen.
 
-En raison des restrictions mentionnées dans cette section et la précédente, d'un point de vue de la sécurité, il est toujours **recommandé d'exécuter un processus avec le niveau d'intégrité le plus bas possible**.
-
+En raison des restrictions mentionnées dans cette section et la section précédente, d'un point de vue sécurité, il est toujours **recommandé d'exécuter un processus avec le niveau d'intégrité le plus bas possible**.
 
 ### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) est un moteur de recherche alimenté par le **dark web** qui offre des fonctionnalités **gratuites** pour vérifier si une entreprise ou ses clients ont été **compromis** par des **malwares voleurs**.
 
@@ -128,14 +127,13 @@ Vous pouvez consulter leur site web et essayer leur moteur **gratuitement** sur 
 
 {% embed url="https://whiteintel.io" %}
 
-
 <details>
 
 <summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks :
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF** Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**

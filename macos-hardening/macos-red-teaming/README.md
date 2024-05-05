@@ -21,7 +21,7 @@ Autres façons de soutenir HackTricks :
 
 Si vous parvenez à **compromettre les identifiants d'administrateur** pour accéder à la plateforme de gestion, vous pouvez **potentiellement compromettre tous les ordinateurs** en distribuant votre logiciel malveillant sur les machines.
 
-Pour le red teaming dans les environnements macOS, il est fortement recommandé de comprendre le fonctionnement des MDM :
+Pour le red teaming dans les environnements macOS, il est fortement recommandé d'avoir une certaine compréhension du fonctionnement des MDM :
 
 {% content-ref url="macos-mdm/" %}
 [macos-mdm](macos-mdm/)
@@ -29,38 +29,38 @@ Pour le red teaming dans les environnements macOS, il est fortement recommandé 
 
 ### Utilisation de MDM comme C2
 
-Un MDM aura l'autorisation d'installer, interroger ou supprimer des profils, installer des applications, créer des comptes administrateurs locaux, définir un mot de passe de firmware, changer la clé FileVault...
+Un MDM aura l'autorisation d'installer, interroger ou supprimer des profils, installer des applications, créer des comptes administrateurs locaux, définir un mot de passe du firmware, changer la clé FileVault...
 
-Pour exécuter votre propre MDM, vous avez besoin de **votre CSR signé par un vendeur** que vous pourriez essayer d'obtenir avec [**https://mdmcert.download/**](https://mdmcert.download/). Et pour exécuter votre propre MDM pour les appareils Apple, vous pourriez utiliser [**MicroMDM**](https://github.com/micromdm/micromdm).
+Pour exécuter votre propre MDM, vous devez **faire signer votre CSR par un vendeur** que vous pourriez essayer d'obtenir avec [**https://mdmcert.download/**](https://mdmcert.download/). Et pour exécuter votre propre MDM pour les appareils Apple, vous pourriez utiliser [**MicroMDM**](https://github.com/micromdm/micromdm).
 
-Cependant, pour installer une application sur un appareil inscrit, vous devez toujours la signer avec un compte développeur... cependant, lors de l'inscription au MDM, le **dispositif ajoute le certificat SSL du MDM en tant qu'AC de confiance**, vous pouvez donc maintenant signer n'importe quoi.
+Cependant, pour installer une application sur un appareil inscrit, vous devez toujours la faire signer par un compte développeur... cependant, lors de l'inscription au MDM, le **dispositif ajoute le certificat SSL du MDM en tant qu'AC de confiance**, vous pouvez donc maintenant signer n'importe quoi.
 
-Pour inscrire l'appareil dans un MDM, vous devez installer un fichier **`mobileconfig`** en tant que root, qui pourrait être livré via un fichier **pkg** (vous pourriez le compresser en zip et lorsqu'il est téléchargé depuis Safari, il sera décompressé).
+Pour inscrire le dispositif dans un MDM, vous devez installer un fichier **`mobileconfig`** en tant que root, qui pourrait être livré via un fichier **pkg** (vous pourriez le compresser en zip et lorsqu'il est téléchargé depuis Safari, il sera décompressé).
 
-**L'agent Mythic Orthrus** utilise cette technique.
+L'agent Mythic Orthrus utilise cette technique.
 
 ### Abus de JAMF PRO
 
-JAMF peut exécuter des **scripts personnalisés** (scripts développés par l'administrateur système), des **charges utiles natives** (création de compte local, définition du mot de passe EFI, surveillance de fichiers/processus...) et des **MDM** (configurations de l'appareil, certificats de l'appareil...).
+JAMF peut exécuter des **scripts personnalisés** (scripts développés par l'administrateur système), des **charges utiles natives** (création de compte local, définition du mot de passe EFI, surveillance de fichiers/processus...) et des **MDM** (configurations de dispositif, certificats de dispositif...).
 
 #### Auto-inscription JAMF
 
-Allez sur une page comme `https://<nom-de-l'entreprise>.jamfcloud.com/enroll/` pour voir si **l'auto-inscription est activée**. S'ils l'ont, il pourrait **demander des identifiants pour accéder**.
+Allez sur une page comme `https://<nom-de-l'entreprise>.jamfcloud.com/enroll/` pour voir si **l'auto-inscription est activée**. S'ils l'ont, cela pourrait **demander des identifiants pour accéder**.
 
 Vous pourriez utiliser le script [**JamfSniper.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfSniper.py) pour effectuer une attaque de pulvérisation de mots de passe.
 
-De plus, après avoir trouvé les bons identifiants, vous pourriez être en mesure de faire une attaque de force brute sur d'autres noms d'utilisateur avec le formulaire suivant :
+De plus, après avoir trouvé les identifiants appropriés, vous pourriez être en mesure de faire une attaque de force brute sur d'autres noms d'utilisateur avec le formulaire suivant :
 
-![](<../../.gitbook/assets/image (104).png>)
+![](<../../.gitbook/assets/image (107).png>)
 
-#### Authentification de l'appareil JAMF
+#### Authentification de dispositif JAMF
 
-<figure><img src="../../.gitbook/assets/image (164).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (167).png" alt=""><figcaption></figcaption></figure>
 
 Le binaire **`jamf`** contenait le secret pour ouvrir le trousseau qui, au moment de la découverte, était **partagé** par tout le monde et c'était : **`jk23ucnq91jfu9aj`**.\
 De plus, jamf **persiste** en tant que **LaunchDaemon** dans **`/Library/LaunchAgents/com.jamf.management.agent.plist`**
 
-#### Prise de contrôle de l'appareil JAMF
+#### Prise de contrôle de dispositif JAMF
 
 L'URL du **JSS** (Serveur de logiciels Jamf) que **`jamf`** utilisera est située dans **`/Library/Preferences/com.jamfsoftware.jamf.plist`**.\
 Ce fichier contient essentiellement l'URL :
@@ -80,9 +80,7 @@ plutil -convert xml1 -o - /Library/Preferences/com.jamfsoftware.jamf.plist
 ```
 {% endcode %}
 
-Ainsi, un attaquant pourrait déposer un package malveillant (`pkg`) qui **écrase ce fichier** lors de l'installation en définissant l'**URL vers un écouteur Mythic C2 à partir d'un agent Typhon** pour pouvoir maintenant abuser de JAMF en tant que C2. 
-
-{% code overflow="wrap" %}
+Ainsi, un attaquant pourrait déposer un package malveillant (`pkg`) qui **écrase ce fichier** lors de l'installation en définissant l'**URL vers un écouteur Mythic C2 à partir d'un agent Typhon** pour pouvoir maintenant abuser de JAMF en tant que C2.
 ```bash
 # After changing the URL you could wait for it to be reloaded or execute:
 sudo jamf policy -id 0
@@ -98,11 +96,11 @@ Pour **impersonner la communication** entre un appareil et JMF, vous avez besoin
 * L'**UUID** de l'appareil : `ioreg -d2 -c IOPlatformExpertDevice | awk -F" '/IOPlatformUUID/{print $(NF-1)}'`
 * Le **trousseau JAMF** depuis : `/Library/Application\ Support/Jamf/JAMF.keychain` qui contient le certificat de l'appareil
 
-Avec ces informations, **créez une machine virtuelle** avec l'**UUID matériel volé** et avec **SIP désactivé**, déposez le **trousseau JAMF**, **accrochez** l'**agent Jamf** et volez ses informations.
+Avec ces informations, **créez une machine virtuelle** avec l'**UUID du matériel volé** et avec **SIP désactivé**, déposez le **trousseau JAMF**, **accrochez** l'**agent Jamf** et volez ses informations.
 
 #### Vol de secrets
 
-<figure><img src="../../.gitbook/assets/image (1022).png" alt=""><figcaption><p>a</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1025).png" alt=""><figcaption><p>a</p></figcaption></figure>
 
 Vous pouvez également surveiller l'emplacement `/Library/Application Support/Jamf/tmp/` pour les **scripts personnalisés** que les administrateurs pourraient vouloir exécuter via Jamf car ils sont **placés ici, exécutés et supprimés**. Ces scripts **peuvent contenir des informations d'identification**.
 
@@ -120,7 +118,7 @@ Et aussi sur les **protocoles** **réseau** **"spéciaux"** de **MacOS** :
 
 ## Active Directory
 
-Dans certains cas, vous constaterez que l'**ordinateur MacOS est connecté à un AD**. Dans ce scénario, vous devriez essayer d'**énumérer** l'annuaire actif comme vous en avez l'habitude. Trouvez de l'**aide** sur les pages suivantes :
+Dans certaines occasions, vous constaterez que l'**ordinateur MacOS est connecté à un AD**. Dans ce scénario, vous devriez essayer d'**énumérer** l'annuaire actif comme vous en avez l'habitude. Trouvez de l'**aide** sur les pages suivantes :
 
 {% content-ref url="../../network-services-pentesting/pentesting-ldap.md" %}
 [pentesting-ldap.md](../../network-services-pentesting/pentesting-ldap.md)
@@ -134,17 +132,15 @@ Dans certains cas, vous constaterez que l'**ordinateur MacOS est connecté à un
 [pentesting-kerberos-88](../../network-services-pentesting/pentesting-kerberos-88/)
 {% endcontent-ref %}
 
-Certains **outils locaux MacOS** qui pourraient également vous aider sont `dscl`:
+Certains **outils locaux MacOS** qui pourraient également vous aider sont `dscl` :
 ```bash
 dscl "/Active Directory/[Domain]/All Domains" ls /
 ```
-Également, il existe des outils préparés pour MacOS pour énumérer automatiquement l'AD et jouer avec Kerberos :
+Également, il existe des outils préparés pour MacOS permettant d'énumérer automatiquement l'AD et de jouer avec Kerberos :
 
 * [**Machound**](https://github.com/XMCyber/MacHound) : MacHound est une extension de l'outil d'audit Bloodhound permettant de collecter et d'ingérer des relations Active Directory sur des hôtes MacOS.
 * [**Bifrost**](https://github.com/its-a-feature/bifrost) : Bifrost est un projet Objective-C conçu pour interagir avec les API Heimdal krb5 sur macOS. Le but du projet est de permettre de meilleurs tests de sécurité autour de Kerberos sur les appareils macOS en utilisant des API natives sans nécessiter d'autres frameworks ou packages sur la cible.
-* [**Orchard**](https://github.com/its-a-feature/Orchard) : Outil JavaScript for Automation (JXA) pour l'énumération Active Directory.
-
-### Informations sur le domaine
+* [**Orchard**](https://github.com/its-a-feature/Orchard) : Outil JavaScript for Automation (JXA) pour l'énumération de l'Active Directory.
 ```bash
 echo show com.apple.opendirectoryd.ActiveDirectory | scutil
 ```
@@ -197,15 +193,15 @@ Le trousseau contient très probablement des informations sensibles qui, s'il es
 
 ## Services externes
 
-Le Red Teaming sur MacOS est différent d'un Red Teaming Windows classique car généralement **MacOS est intégré à plusieurs plateformes externes directement**. Une configuration courante de MacOS est d'accéder à l'ordinateur en utilisant **les identifiants synchronisés de OneLogin, et d'accéder à plusieurs services externes** (comme github, aws...) via OneLogin.
+Le Red Teaming sur MacOS est différent d'un Red Teaming Windows classique car **MacOS est généralement intégré à plusieurs plateformes externes directement**. Une configuration courante de MacOS est d'accéder à l'ordinateur en utilisant **les identifiants synchronisés de OneLogin, et d'accéder à plusieurs services externes** (comme github, aws...) via OneLogin.
 
 ## Techniques Red Team diverses
 
 ### Safari
 
-Lorsqu'un fichier est téléchargé dans Safari, s'il s'agit d'un fichier "sûr", il sera **ouvert automatiquement**. Par exemple, si vous **téléchargez un fichier zip**, il sera automatiquement décompressé :
+Lorsqu'un fichier est téléchargé dans Safari, s'il s'agit d'un fichier "sûr", il sera **automatiquement ouvert**. Par exemple, si vous **téléchargez un fichier zip**, il sera automatiquement décompressé :
 
-<figure><img src="../../.gitbook/assets/image (223).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (226).png" alt=""><figcaption></figcaption></figure>
 
 ## Références
 
@@ -224,7 +220,7 @@ Autres façons de soutenir HackTricks :
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

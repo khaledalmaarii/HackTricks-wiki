@@ -1,23 +1,23 @@
-# SeImpersonate de Haut à Système
+# SeImpersonate de Haut en Système
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
-Autres façons de soutenir HackTricks :
+Autres façons de soutenir HackTricks:
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 
 ### Code
 
 Le code suivant provient de [ici](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962). Il permet de **indiquer un ID de processus en argument** et une CMD **s'exécutant en tant qu'utilisateur** du processus indiqué sera exécutée.\
-En exécutant dans un processus de haute intégrité, vous pouvez **indiquer l'ID du processus s'exécutant en tant que Système** (comme winlogon, wininit) et exécuter un cmd.exe en tant que système.
+En exécutant dans un processus d'intégrité élevée, vous pouvez **indiquer l'ID de processus d'un processus s'exécutant en tant que Système** (comme winlogon, wininit) et exécuter un cmd.exe en tant que système.
 ```cpp
 impersonateuser.exe 1234
 ```
@@ -172,17 +172,17 @@ Vérifions les autorisations actuelles de l'administrateur sur les processus `sv
 
 1. Sélectionnez un processus `svchost.exe`
 2. Clic droit --> Propriétés
-3. Dans l'onglet "Sécurité", cliquez en bas à droite sur le bouton "Autorisations"
+3. À l'intérieur de l'onglet "Sécurité", cliquez en bas à droite sur le bouton "Autorisations"
 4. Cliquez sur "Avancé"
 5. Sélectionnez "Administrateurs" et cliquez sur "Modifier"
 6. Cliquez sur "Afficher les autorisations avancées"
 
-![](<../../.gitbook/assets/image (434).png>)
+![](<../../.gitbook/assets/image (437).png>)
 
-L'image précédente contient tous les privilèges que les "Administrateurs" ont sur le processus sélectionné (comme vous pouvez le voir dans le cas de `svchost.exe`, ils n'ont que des privilèges de "Consultation")
+L'image précédente contient tous les privilèges que les "Administrateurs" ont sur le processus sélectionné (comme vous pouvez le voir dans le cas de `svchost.exe`, ils n'ont que des privilèges de "Requête")
 
 Voyez les privilèges que les "Administrateurs" ont sur `winlogon.exe` :
 
-![](<../../.gitbook/assets/image (1099).png>)
+![](<../../.gitbook/assets/image (1102).png>)
 
 À l'intérieur de ce processus, les "Administrateurs" peuvent "Lire la mémoire" et "Lire les autorisations", ce qui leur permet probablement d'usurper le jeton utilisé par ce processus.

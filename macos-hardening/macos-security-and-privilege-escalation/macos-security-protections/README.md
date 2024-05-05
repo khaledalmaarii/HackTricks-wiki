@@ -50,7 +50,7 @@ Le bac à sable macOS **limite les applications** s'exécutant à l'intérieur d
 
 ### Contraintes de lancement/environnement & Cache de confiance
 
-Les contraintes de lancement dans macOS sont une fonctionnalité de sécurité pour **réguler l'initiation des processus** en définissant **qui peut lancer** un processus, **comment**, et **d'où**. Introduites dans macOS Ventura, elles catégorisent les binaires système en catégories de contraintes dans un **cache de confiance**. Chaque binaire exécutable a des **règles** définies pour son **lancement**, y compris des contraintes **auto**, **parentales** et **responsables**. Étendues aux applications tierces en tant que Contraintes d'**Environnement** dans macOS Sonoma, ces fonctionnalités aident à atténuer les exploitations potentielles du système en régissant les conditions de lancement des processus.
+Les contraintes de lancement dans macOS sont une fonctionnalité de sécurité pour **réguler l'initiation des processus** en définissant **qui peut lancer** un processus, **comment**, et **d'où**. Introduites dans macOS Ventura, elles catégorisent les binaires système en catégories de contraintes dans un **cache de confiance**. Chaque binaire exécutable a des **règles** définies pour son **lancement**, y compris des contraintes **auto**, **parent** et **responsable**. Étendues aux applications tierces en tant que Contraintes d'**Environnement** dans macOS Sonoma, ces fonctionnalités aident à atténuer les exploitations potentielles du système en régissant les conditions de lancement des processus.
 
 {% content-ref url="macos-launch-environment-constraints.md" %}
 [macos-launch-environment-constraints.md](macos-launch-environment-constraints.md)
@@ -60,20 +60,20 @@ Les contraintes de lancement dans macOS sont une fonctionnalité de sécurité p
 
 L'outil de suppression de logiciels malveillants (MRT) est une autre partie de l'infrastructure de sécurité de macOS. Comme son nom l'indique, la fonction principale de MRT est de **supprimer les logiciels malveillants connus des systèmes infectés**.
 
-Une fois qu'un logiciel malveillant est détecté sur un Mac (soit par XProtect, soit par d'autres moyens), MRT peut être utilisé pour **supprimer automatiquement le logiciel malveillant**. MRT fonctionne silencieusement en arrière-plan et s'exécute généralement chaque fois que le système est mis à jour ou lorsqu'une nouvelle définition de logiciel malveillant est téléchargée (il semble que les règles que MRT doit utiliser pour détecter les logiciels malveillants sont à l'intérieur du binaire).
+Une fois qu'un logiciel malveillant est détecté sur un Mac (soit par XProtect, soit par d'autres moyens), MRT peut être utilisé pour **supprimer automatiquement le logiciel malveillant**. MRT fonctionne silencieusement en arrière-plan et s'exécute généralement chaque fois que le système est mis à jour ou lorsqu'une nouvelle définition de logiciel malveillant est téléchargée (il semble que les règles que MRT doit suivre pour détecter les logiciels malveillants sont à l'intérieur du binaire).
 
-Alors que XProtect et MRT font partie des mesures de sécurité de macOS, ils remplissent des fonctions différentes :
+Bien que XProtect et MRT fassent partie des mesures de sécurité de macOS, ils remplissent des fonctions différentes :
 
 - **XProtect** est un outil préventif. Il **vérifie les fichiers lors de leur téléchargement** (via certaines applications), et s'il détecte des types de logiciels malveillants connus, il **empêche l'ouverture du fichier**, empêchant ainsi le logiciel malveillant d'infecter votre système en premier lieu.
-- **MRT**, en revanche, est un **outil réactif**. Il fonctionne après la détection de logiciels malveillants sur un système, dans le but de supprimer le logiciel offensant pour nettoyer le système.
+- **MRT**, en revanche, est un outil **réactif**. Il intervient après la détection de logiciels malveillants sur un système, dans le but de supprimer le logiciel incriminé pour nettoyer le système.
 
-L'application MRT est située dans **`/Library/Apple/System/Library/CoreServices/MRT.app`**
+L'application MRT se trouve dans **`/Library/Apple/System/Library/CoreServices/MRT.app`**
 
 ## Gestion des tâches en arrière-plan
 
-**macOS** signale maintenant à chaque fois qu'un outil utilise une technique bien connue pour **persister l'exécution du code** (comme les éléments de connexion, les démons...), afin que l'utilisateur sache mieux **quel logiciel persiste**.
+**macOS** signale désormais à chaque fois qu'un outil utilise une technique bien connue pour **persister l'exécution du code** (comme les éléments de connexion, les démons...), afin que l'utilisateur sache mieux **quels logiciels persistent**.
 
-<figure><img src="../../../.gitbook/assets/image (1180).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1183).png" alt=""><figcaption></figcaption></figure>
 
 Cela fonctionne avec un **démon** situé dans `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Versions/A/Resources/backgroundtaskmanagementd` et l'**agent** dans `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Support/BackgroundTaskManagementAgent.app`
 
@@ -109,13 +109,13 @@ chmod +x dumpBTM
 xattr -rc dumpBTM # Remove quarantine attr
 ./dumpBTM
 ```
-Ces informations sont stockées dans **`/private/var/db/com.apple.backgroundtaskmanagement/BackgroundItems-v4.btm`** et le Terminal a besoin de FDA.
+Ces informations sont stockées dans **`/private/var/db/com.apple.backgroundtaskmanagement/BackgroundItems-v4.btm`** et le Terminal a besoin de l'autorisation FDA.
 
 ### Manipulation de BTM
 
-Lorsqu'une nouvelle persistance est trouvée, un événement de type **`ES_EVENT_TYPE_NOTIFY_BTM_LAUNCH_ITEM_ADD`** est déclenché. Ainsi, toute méthode pour **empêcher** l'envoi de cet **événement** ou pour **alerter l'utilisateur** de l'agent aidera un attaquant à _**contourner**_ BTM.
+Lorsqu'une nouvelle persistance est trouvée, un événement de type **`ES_EVENT_TYPE_NOTIFY_BTM_LAUNCH_ITEM_ADD`** est déclenché. Ainsi, toute méthode pour **empêcher** l'envoi de cet **événement** ou pour que l'**agent n'alerte pas** l'utilisateur aidera un attaquant à _**contourner**_ BTM.
 
-* **Réinitialisation de la base de données**: Exécuter la commande suivante réinitialisera la base de données (devrait la reconstruire à partir de zéro), cependant, pour une raison quelconque, après l'exécution de cette commande, **aucune nouvelle persistance ne sera signalée tant que le système n'aura pas été redémarré**.
+* **Réinitialisation de la base de données**: Exécuter la commande suivante réinitialisera la base de données (la reconstruira à partir de zéro), cependant, pour une raison inconnue, après l'exécution de cette commande, **aucune nouvelle persistance ne sera signalée tant que le système n'aura pas été redémarré**.
 * **root** est requis.
 ```bash
 # Reset the database
@@ -134,7 +134,7 @@ kill -SIGSTOP 1011
 ps -o state 1011
 T
 ```
-* **Bug**: Si le **processus qui a créé la persistance existe rapidement juste après**, le démon essaiera de **récupérer des informations** à son sujet, **échouera**, et **ne pourra pas envoyer l'événement** indiquant qu'une nouvelle chose persiste.
+* **Bug**: Si le **processus qui a créé la persistance existe rapidement juste après**, le démon va essayer de **récupérer des informations** à son sujet, **échouer**, et **ne pourra pas envoyer l'événement** indiquant qu'une nouvelle chose persiste.
 
 Références et **plus d'informations sur BTM**:
 
@@ -144,7 +144,7 @@ Références et **plus d'informations sur BTM**:
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks:
 

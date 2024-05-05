@@ -9,12 +9,12 @@ Autres façons de soutenir HackTricks :
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (377).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (380).png" alt=""><figcaption></figcaption></figure>
 
 Rejoignez le serveur [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) pour communiquer avec des pirates expérimentés et des chasseurs de primes !
 
@@ -22,7 +22,7 @@ Rejoignez le serveur [**HackenProof Discord**](https://discord.com/invite/N3FrSb
 Engagez-vous avec du contenu qui explore le frisson et les défis du piratage
 
 **Actualités de piratage en temps réel**\
-Restez à jour avec le monde du piratage en évolution rapide grâce aux actualités et aux informations en temps réel
+Restez informé du monde du piratage en évolution rapide grâce à des actualités et des informations en temps réel
 
 **Dernières annonces**\
 Restez informé des dernières primes de bugs lancées et des mises à jour cruciales de la plateforme
@@ -31,7 +31,7 @@ Restez informé des dernières primes de bugs lancées et des mises à jour cruc
 
 ## ASREPRoast
 
-ASREPRoast est une attaque de sécurité qui exploite les utilisateurs qui ne disposent pas de l'**attribut requis de pré-authentification Kerberos**. Essentiellement, cette vulnérabilité permet aux attaquants de demander une authentification pour un utilisateur auprès du Contrôleur de Domaine (DC) sans avoir besoin du mot de passe de l'utilisateur. Le DC répond ensuite avec un message chiffré avec la clé dérivée du mot de passe de l'utilisateur, que les attaquants peuvent tenter de craquer hors ligne pour découvrir le mot de passe de l'utilisateur.
+ASREPRoast est une attaque de sécurité qui exploite les utilisateurs qui ne disposent pas de l'**attribut requis de pré-authentification Kerberos**. Essentiellement, cette vulnérabilité permet aux attaquants de demander une authentification pour un utilisateur auprès du Contrôleur de Domaine (DC) sans avoir besoin du mot de passe de l'utilisateur. Le DC répond alors avec un message chiffré avec la clé dérivée du mot de passe de l'utilisateur, que les attaquants peuvent tenter de craquer hors ligne pour découvrir le mot de passe de l'utilisateur.
 
 Les principaux prérequis pour cette attaque sont :
 
@@ -51,6 +51,8 @@ Get-DomainUser -PreauthNotRequired -verbose #List vuln users using PowerView
 ```bash
 bloodyAD -u user -p 'totoTOTOtoto1234*' -d crash.lab --host 10.100.10.5 get search --filter '(&(userAccountControl:1.2.840.113556.1.4.803:=4194304)(!(UserAccountControl:1.2.840.113556.1.4.803:=2)))' --attr sAMAccountName
 ```
+{% endcode %}
+
 #### Demande de message AS_REP
 
 {% code title="Utilisation de Linux" %}
@@ -70,7 +72,7 @@ Get-ASREPHash -Username VPN114user -verbose #From ASREPRoast.ps1 (https://github
 {% endcode %}
 
 {% hint style="warning" %}
-La technique de Roasting AS-REP avec Rubeus générera un 4768 avec un type de chiffrement de 0x17 et un type de préauthentification de 0.
+L'AS-REP Roasting avec Rubeus générera un 4768 avec un type de chiffrement de 0x17 et un type de préauthentification de 0.
 {% endhint %}
 
 ### Craquage
@@ -80,7 +82,7 @@ hashcat -m 18200 --force -a 0 hashes.asreproast passwords_kerb.txt
 ```
 ### Persistance
 
-Forcer **preauth** non requis pour un utilisateur pour lequel vous avez les permissions **GenericAll** (ou les permissions pour écrire des propriétés):
+Forcer **preauth** non requis pour un utilisateur pour lequel vous avez les permissions **GenericAll** (ou les permissions d'écrire des propriétés) :
 
 {% code title="Utilisation de Windows" %}
 ```bash
@@ -114,31 +116,31 @@ ASRepCatcher listen
 
 ***
 
-<figure><img src="../../.gitbook/assets/image (377).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (380).png" alt=""><figcaption></figcaption></figure>
 
-Rejoignez le serveur [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) pour communiquer avec des hackers expérimentés et des chasseurs de primes en bugs !
+Rejoignez le serveur [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) pour communiquer avec des hackers expérimentés et des chasseurs de bugs !
 
 **Perspectives de Hacking**\
 Engagez-vous avec du contenu qui explore le frisson et les défis du hacking
 
 **Actualités de Hacking en Temps Réel**\
-Restez à jour avec le monde du hacking en constante évolution grâce aux actualités et aux informations en temps réel
+Restez informé du monde du hacking en constante évolution grâce aux actualités et aux informations en temps réel
 
 **Dernières Annonces**\
 Restez informé des dernières primes de bugs lancées et des mises à jour cruciales de la plateforme
 
-**Rejoignez-nous sur** [**Discord**](https://discord.com/invite/N3FrSbmwdy) et commencez à collaborer avec les meilleurs hackers dès aujourd'hui!
+**Rejoignez-nous sur** [**Discord**](https://discord.com/invite/N3FrSbmwdy) et commencez à collaborer avec les meilleurs hackers dès aujourd'hui !
 
 <details>
 
 <summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Autres façons de soutenir HackTricks:
+Autres façons de soutenir HackTricks :
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF** Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

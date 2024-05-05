@@ -4,9 +4,9 @@
 
 <summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
-Autres façons de soutenir HackTricks:
+Autres façons de soutenir HackTricks :
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -16,9 +16,9 @@ Autres façons de soutenir HackTricks:
 
 ### Outils d'Énumération Automatique pour MacOS
 
-* **MacPEAS**: [https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS](https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS)
-* **Metasploit**: [https://github.com/rapid7/metasploit-framework/blob/master/modules/post/osx/gather/enum\_osx.rb](https://github.com/rapid7/metasploit-framework/blob/master/modules/post/osx/gather/enum\_osx.rb)
-* **SwiftBelt**: [https://github.com/cedowens/SwiftBelt](https://github.com/cedowens/SwiftBelt)
+* **MacPEAS** : [https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS](https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS)
+* **Metasploit** : [https://github.com/rapid7/metasploit-framework/blob/master/modules/post/osx/gather/enum\_osx.rb](https://github.com/rapid7/metasploit-framework/blob/master/modules/post/osx/gather/enum\_osx.rb)
+* **SwiftBelt** : [https://github.com/cedowens/SwiftBelt](https://github.com/cedowens/SwiftBelt)
 
 ### Commandes Spécifiques pour MacOS
 ```bash
@@ -129,7 +129,7 @@ sudo killall -HUP mDNSResponder
 ```
 ### Logiciels et Services Installés
 
-Vérifiez les applications installées **suspectes** et les **privilèges** sur les ressources installées :
+Vérifiez les applications **suspectes** installées et les **privilèges** sur les ressources installées :
 ```
 system_profiler SPApplicationsDataType #Installed Apps
 system_profiler SPFrameworksDataType #Instaled framework
@@ -151,4 +151,4 @@ launchctl print gui/<user's UID>/com.company.launchagent.label
 
 Sans invites
 
-<figure><img src="../.gitbook/assets/image (76).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (79).png" alt=""><figcaption></figcaption></figure>

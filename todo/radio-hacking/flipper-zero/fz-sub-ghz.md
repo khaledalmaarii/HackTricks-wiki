@@ -2,15 +2,15 @@
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks :
 
-- Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-- Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-- Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-- **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-- **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF** Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 
@@ -26,13 +26,13 @@ Autres façons de soutenir HackTricks :
 
 Flipper Zero peut **recevoir et transmettre des fréquences radio dans la plage de 300 à 928 MHz** avec son module intégré, qui peut lire, enregistrer et émuler des télécommandes. Ces télécommandes sont utilisées pour interagir avec des portails, des barrières, des serrures radio, des interrupteurs de télécommande, des sonnettes sans fil, des lumières intelligentes, et plus encore. Flipper Zero peut vous aider à savoir si votre sécurité est compromise.
 
-<figure><img src="../../../.gitbook/assets/image (711).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (714).png" alt=""><figcaption></figcaption></figure>
 
 ## Matériel Sub-GHz <a href="#kfpn7" id="kfpn7"></a>
 
 Flipper Zero possède un module sub-1 GHz intégré basé sur une puce [﻿](https://www.st.com/en/nfc/st25r3916.html#overview)﻿[CC1101](https://www.ti.com/lit/ds/symlink/cc1101.pdf) et une antenne radio (la portée maximale est de 50 mètres). La puce CC1101 et l'antenne sont conçues pour fonctionner à des fréquences dans les bandes de 300 à 348 MHz, 387 à 464 MHz et 779 à 928 MHz.
 
-<figure><img src="../../../.gitbook/assets/image (920).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (923).png" alt=""><figcaption></figcaption></figure>
 
 ## Actions
 
@@ -42,7 +42,7 @@ Flipper Zero possède un module sub-1 GHz intégré basé sur une puce [﻿](htt
 Comment trouver quelle fréquence utilise la télécommande
 {% endhint %}
 
-Lors de l'analyse, Flipper Zero scanne la force des signaux (RSSI) à toutes les fréquences disponibles dans la configuration des fréquences. Flipper Zero affiche la fréquence avec la valeur RSSI la plus élevée, avec une force de signal supérieure à -90 [dBm](https://en.wikipedia.org/wiki/DBm).
+Lors de l'analyse, Flipper Zero scanne la force des signaux (RSSI) sur toutes les fréquences disponibles dans la configuration des fréquences. Flipper Zero affiche la fréquence avec la valeur RSSI la plus élevée, avec une force de signal supérieure à -90 [dBm](https://en.wikipedia.org/wiki/DBm).
 
 Pour déterminer la fréquence de la télécommande, suivez ces étapes :
 
@@ -62,7 +62,7 @@ L'option **Lire** **écoute sur la fréquence configurée** sur la modulation in
 Pendant l'utilisation de la fonction Lire, il est possible d'appuyer sur le **bouton gauche** et de le **configurer**.\
 À ce moment, il y a **4 modulations** (AM270, AM650, FM328 et FM476), et **plusieurs fréquences pertinentes** sont stockées :
 
-<figure><img src="../../../.gitbook/assets/image (944).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (947).png" alt=""><figcaption></figcaption></figure>
 
 Vous pouvez définir **celle qui vous intéresse**, cependant, si vous **n'êtes pas sûr de la fréquence** qui pourrait être utilisée par la télécommande que vous avez, **activez le saut à ON** (désactivé par défaut), et appuyez sur le bouton plusieurs fois jusqu'à ce que Flipper la capture et vous donne les informations nécessaires pour définir la fréquence.
 
@@ -78,11 +78,11 @@ Vol (et relecture) d'un signal dans la fréquence configurée
 
 L'option **Lire brut** **enregistre les signaux** envoyés à la fréquence d'écoute. Cela peut être utilisé pour **voler** un signal et le **répéter**.
 
-Par défaut, **Lire brut est également en 433,92 en AM650**, mais si avec l'option Lire vous avez trouvé que le signal qui vous intéresse est dans une **fréquence/modulation différente, vous pouvez également la modifier** en appuyant sur gauche (pendant que vous êtes dans l'option Lire brut).
+Par défaut, **Lire brut est également à 433,92 en AM650**, mais si avec l'option Lire vous avez trouvé que le signal qui vous intéresse est dans une **fréquence/modulation différente, vous pouvez également la modifier** en appuyant sur gauche (pendant que vous êtes dans l'option Lire brut).
 
 ### Brute-Force
 
-Si vous connaissez le protocole utilisé par exemple par la porte de garage, il est possible de **générer tous les codes et de les envoyer avec le Flipper Zero**. Voici un exemple qui prend en charge les types de garages courants : [**https://github.com/tobiabocchi/flipperzero-bruteforce**](https://github.com/tobiabocchi/flipperzero-bruteforce)
+Si vous connaissez le protocole utilisé par exemple par la porte de garage, il est possible de **générer tous les codes et de les envoyer avec le Flipper Zero.** C'est un exemple qui prend en charge les types de garages courants : [**https://github.com/tobiabocchi/flipperzero-bruteforce**](https://github.com/tobiabocchi/flipperzero-bruteforce)
 
 ### Ajouter manuellement
 

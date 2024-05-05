@@ -2,11 +2,11 @@
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks :
 
-* Si vous voulez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -18,17 +18,17 @@ Autres façons de soutenir HackTricks :
 
 iButton est un nom générique pour une clé d'identification électronique emballée dans un **conteneur métallique en forme de pièce de monnaie**. Il est également appelé **Mémoire tactile Dallas** ou mémoire de contact. Bien qu'il soit souvent incorrectement appelé une clé "magnétique", il n'y a **rien de magnétique** en lui. En fait, une puce électronique complète fonctionnant sur un protocole numérique est cachée à l'intérieur.
 
-<figure><img src="../../.gitbook/assets/image (912).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (915).png" alt=""><figcaption></figcaption></figure>
 
-### Qu'est-ce que iButton? <a href="#what-is-ibutton" id="what-is-ibutton"></a>
+### Qu'est-ce que iButton ? <a href="#what-is-ibutton" id="what-is-ibutton"></a>
 
 Généralement, iButton implique la forme physique de la clé et du lecteur - une pièce ronde avec deux contacts. Pour le cadre qui l'entoure, il existe de nombreuses variations allant du support en plastique le plus courant avec un trou aux bagues, pendentifs, etc.
 
-<figure><img src="../../.gitbook/assets/image (1075).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1078).png" alt=""><figcaption></figcaption></figure>
 
 Lorsque la clé atteint le lecteur, les **contacts se touchent** et la clé est alimentée pour **transmettre** son ID. Parfois, la clé n'est **pas lue** immédiatement car le **PSD de contact d'un interphone est plus grand** qu'il ne devrait l'être. Ainsi, les contours extérieurs de la clé et du lecteur ne peuvent pas se toucher. Si c'est le cas, vous devrez appuyer sur la clé contre l'une des parois du lecteur.
 
-<figure><img src="../../.gitbook/assets/image (287).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (290).png" alt=""><figcaption></figcaption></figure>
 
 ### **Protocole 1-Wire** <a href="#id-1-wire-protocol" id="id-1-wire-protocol"></a>
 

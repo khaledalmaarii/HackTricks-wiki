@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks :
 
@@ -17,19 +17,19 @@ Autres façons de soutenir HackTricks :
 ### Code indésirable
 
 Il est très courant de trouver du **code indésirable qui n'est jamais utilisé** pour rendre la rétro-ingénierie de la macro plus difficile.\
-Par exemple, dans l'image suivante, vous pouvez voir qu'un If qui ne sera jamais vrai est utilisé pour exécuter un code indésirable et inutile.
+Par exemple, dans l'image suivante, vous pouvez voir que et Si cela ne sera jamais vrai est utilisé pour exécuter un code indésirable et inutile.
 
-![](<../.gitbook/assets/image (365).png>)
+![](<../.gitbook/assets/image (369).png>)
 
 ### Formes de macro
 
-En utilisant la fonction **GetObject**, il est possible d'obtenir des données à partir des formulaires de la macro. Cela peut être utilisé pour compliquer l'analyse. La photo suivante montre un formulaire de macro utilisé pour **cacher des données à l'intérieur de zones de texte** (une zone de texte peut en cacher d'autres) :
+En utilisant la fonction **GetObject**, il est possible d'obtenir des données à partir des formulaires de la macro. Cela peut être utilisé pour compliquer l'analyse. La photo suivante montre un formulaire de macro utilisé pour **cacher des données à l'intérieur de zones de texte** (une zone de texte peut cacher d'autres zones de texte) :
 
-![](<../.gitbook/assets/image (341).png>)
+![](<../.gitbook/assets/image (344).png>)
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks :
 

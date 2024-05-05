@@ -2,21 +2,21 @@
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert Red Team AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks :
 
-- Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-- Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-- Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
-- **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-- **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 
 ### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) est un moteur de recherche alimenté par le **dark web** qui offre des fonctionnalités **gratuites** pour vérifier si une entreprise ou ses clients ont été **compromis** par des **logiciels malveillants voleurs**.
 
@@ -26,7 +26,7 @@ Vous pouvez consulter leur site Web et essayer leur moteur **gratuitement** sur 
 
 {% embed url="https://whiteintel.io" %}
 
----
+***
 
 ## Analyse statique
 
@@ -127,17 +127,17 @@ class-dump Kindle.app
 ```
 #### Appel de fonction
 
-Lorsqu'une fonction est appelée dans un binaire qui utilise Objective-C, le code compilé, au lieu d'appeler directement cette fonction, appellera **`objc_msgSend`**. Ce dernier appellera la fonction finale :
+Lorsqu'une fonction est appelée dans un binaire qui utilise Objective-C, le code compilé au lieu d'appeler cette fonction, appellera **`objc_msgSend`**. Qui appellera la fonction finale :
 
-![](<../../../.gitbook/assets/image (302).png>)
+![](<../../../.gitbook/assets/image (305).png>)
 
-Les paramètres attendus par cette fonction sont les suivants :
+Les paramètres que cette fonction attend sont :
 
-- Le premier paramètre (**self**) est "un pointeur qui pointe vers l'**instance de la classe qui doit recevoir le message**". En d'autres termes, il s'agit de l'objet sur lequel la méthode est invoquée. Si la méthode est une méthode de classe, il s'agira d'une instance de l'objet de la classe (dans son ensemble), tandis que pour une méthode d'instance, self pointera vers une instance instanciée de la classe en tant qu'objet.
-- Le deuxième paramètre, (**op**), est "le sélecteur de la méthode qui gère le message". En termes plus simples, il s'agit simplement du **nom de la méthode**.
+- Le premier paramètre (**self**) est "un pointeur qui pointe vers l'**instance de la classe qui doit recevoir le message**". Ou plus simplement, c'est l'objet sur lequel la méthode est invoquée. Si la méthode est une méthode de classe, il s'agira d'une instance de l'objet de la classe (dans son ensemble), tandis que pour une méthode d'instance, self pointera vers une instance instanciée de la classe en tant qu'objet.
+- Le deuxième paramètre, (**op**), est "le sélecteur de la méthode qui gère le message". Encore une fois, plus simplement, il s'agit simplement du **nom de la méthode**.
 - Les paramètres restants sont toutes les **valeurs requises par la méthode** (op).
 
-Découvrez comment **obtenir ces informations facilement avec `lldb` en ARM64** sur cette page :
+Voyez comment **obtenir ces informations facilement avec `lldb` en ARM64** sur cette page :
 
 {% content-ref url="arm64-basic-assembly.md" %}
 [arm64-basic-assembly.md](arm64-basic-assembly.md)
@@ -145,19 +145,19 @@ Découvrez comment **obtenir ces informations facilement avec `lldb` en ARM64** 
 
 x64 :
 
-| **Argument**      | **Registre**                                                   | **(pour) objc\_msgSend**                                |
-| ----------------- | -------------------------------------------------------------- | ------------------------------------------------------ |
-| **1er argument**  | **rdi**                                                        | **self : objet sur lequel la méthode est invoquée**    |
-| **2e argument**   | **rsi**                                                        | **op : nom de la méthode**                             |
-| **3e argument**   | **rdx**                                                        | **1er argument de la méthode**                         |
-| **4e argument**   | **rcx**                                                        | **2e argument de la méthode**                          |
-| **5e argument**   | **r8**                                                         | **3e argument de la méthode**                          |
-| **6e argument**   | **r9**                                                         | **4e argument de la méthode**                          |
+| **Argument**      | **Registre**                                                    | **(pour) objc\_msgSend**                                |
+| ----------------- | --------------------------------------------------------------- | ------------------------------------------------------ |
+| **1er argument**  | **rdi**                                                         | **self : objet sur lequel la méthode est invoquée**    |
+| **2e argument**   | **rsi**                                                         | **op : nom de la méthode**                             |
+| **3e argument**   | **rdx**                                                         | **1er argument de la méthode**                         |
+| **4e argument**   | **rcx**                                                         | **2e argument de la méthode**                          |
+| **5e argument**   | **r8**                                                          | **3e argument de la méthode**                          |
+| **6e argument**   | **r9**                                                          | **4e argument de la méthode**                          |
 | **7e+ argument**  | <p><strong>rsp+</strong><br><strong>(sur la pile)</strong></p> | **5e+ argument de la méthode**                         |
 
 ### Swift
 
-Avec les binaires Swift, étant donné la compatibilité avec Objective-C, il est parfois possible d'extraire des déclarations en utilisant [class-dump](https://github.com/nygard/class-dump/), mais pas toujours.
+Avec les binaires Swift, étant donné la compatibilité avec Objective-C, parfois vous pouvez extraire des déclarations en utilisant [class-dump](https://github.com/nygard/class-dump/) mais pas toujours.
 
 Avec les lignes de commande **`jtool -l`** ou **`otool -l`**, il est possible de trouver plusieurs sections qui commencent par le préfixe **`__swift5`** :
 ```bash
@@ -181,16 +181,16 @@ https://github.com/ghidraninja/ghidra_scripts/blob/master/swift_demangler.py
 # Swift cli
 swift demangle
 ```
-### Binaires packés
+### Binaires packagés
 
 * Vérifiez l'entropie élevée
-* Vérifiez les chaînes de caractères (s'il n'y a presque aucune chaîne compréhensible, c'est packé)
+* Vérifiez les chaînes de caractères (s'il n'y a presque aucune chaîne compréhensible, c'est probablement un binaire packagé)
 * Le packer UPX pour MacOS génère une section appelée "\_\_XHDR"
 
 ## Analyse dynamique
 
 {% hint style="warning" %}
-Notez que pour déboguer les binaires, **SIP doit être désactivé** (`csrutil disable` ou `csrutil enable --without debug`) ou copier les binaires dans un dossier temporaire et **supprimer la signature** avec `codesign --remove-signature <chemin-du-binaire>` ou autoriser le débogage du binaire (vous pouvez utiliser [ce script](https://gist.github.com/carlospolop/a66b8d72bb8f43913c4b5ae45672578b))
+Notez que pour déboguer des binaires, **SIP doit être désactivé** (`csrutil disable` ou `csrutil enable --without debug`) ou copier les binaires dans un dossier temporaire et **supprimer la signature** avec `codesign --remove-signature <chemin-du-binaire>` ou autoriser le débogage du binaire (vous pouvez utiliser [ce script](https://gist.github.com/carlospolop/a66b8d72bb8f43913c4b5ae45672578b))
 {% endhint %}
 
 {% hint style="warning" %}
@@ -207,19 +207,19 @@ De plus, il existe des journaux qui contiendront la balise `<private>` pour **ma
 
 #### Panneau de gauche
 
-Dans le panneau de gauche de Hopper, il est possible de voir les symboles (**Labels**) du binaire, la liste des procédures et fonctions (**Proc**) et les chaînes de caractères (**Str**). Ce ne sont pas toutes les chaînes mais celles définies dans plusieurs parties du fichier Mac-O (comme _cstring ou `objc_methname`).
+Dans le panneau de gauche de Hopper, il est possible de voir les symboles (**Labels**) du binaire, la liste des procédures et fonctions (**Proc**) et les chaînes de caractères (**Str**). Ce ne sont pas toutes les chaînes, mais celles définies dans plusieurs parties du fichier Mac-O (comme _cstring ou `objc_methname`).
 
-#### Panneau central
+#### Panneau du milieu
 
-Dans le panneau central, vous pouvez voir le **code désassemblé**. Et vous pouvez le voir en désassemblage **brut**, en **graphique**, en **décompilé** et en **binaire** en cliquant sur l'icône respective :
+Dans le panneau du milieu, vous pouvez voir le **code désassemblé**. Vous pouvez le voir en désassemblage **brut**, en **graphique**, en **décompilé** et en **binaire** en cliquant sur l'icône respective :
 
-<figure><img src="../../../.gitbook/assets/image (340).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (343).png" alt=""><figcaption></figcaption></figure>
 
 En cliquant avec le bouton droit sur un objet de code, vous pouvez voir les **références vers/depuis cet objet** ou même changer son nom (cela ne fonctionne pas dans le pseudocode décompilé) :
 
-<figure><img src="../../../.gitbook/assets/image (1114).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1117).png" alt=""><figcaption></figcaption></figure>
 
-De plus, dans le **bas du panneau central, vous pouvez écrire des commandes python**.
+De plus, dans le **milieu en bas, vous pouvez écrire des commandes python**.
 
 #### Panneau de droite
 
@@ -227,7 +227,7 @@ Dans le panneau de droite, vous pouvez voir des informations intéressantes tell
 
 ### dtrace
 
-Il permet aux utilisateurs d'accéder aux applications à un niveau extrêmement **bas** et offre un moyen aux utilisateurs de **tracer** des **programmes** et même de modifier leur flux d'exécution. Dtrace utilise des **sondes** qui sont **placées dans tout le noyau** et se trouvent à des emplacements tels que le début et la fin des appels système.
+Il permet aux utilisateurs d'accéder aux applications à un niveau extrêmement **bas** et offre un moyen aux utilisateurs de **tracer** des **programmes** voire de modifier leur flux d'exécution. Dtrace utilise des **sondes** qui sont **placées dans tout le noyau** et se trouvent à des endroits tels que le début et la fin des appels système.
 
 DTrace utilise la fonction **`dtrace_probe_create`** pour créer une sonde pour chaque appel système. Ces sondes peuvent être déclenchées au **point d'entrée et de sortie de chaque appel système**. L'interaction avec DTrace se fait via /dev/dtrace qui n'est disponible que pour l'utilisateur root.
 
@@ -249,7 +249,7 @@ ID   PROVIDER            MODULE                          FUNCTION NAME
 ```
 Le nom de la sonde se compose de quatre parties : le fournisseur, le module, la fonction et le nom (`fbt:mach_kernel:ptrace:entry`). Si vous ne spécifiez pas une partie du nom, Dtrace appliquera cette partie comme un joker.
 
-Pour configurer DTrace pour activer les sondes et spécifier les actions à effectuer lorsqu'elles se déclenchent, nous devrons utiliser le langage D.
+Pour configurer DTrace afin d'activer les sondes et de spécifier les actions à effectuer lorsqu'elles se déclenchent, nous devrons utiliser le langage D.
 
 Une explication plus détaillée et plus d'exemples peuvent être trouvés dans [https://illumos.org/books/dtrace/chp-intro.html](https://illumos.org/books/dtrace/chp-intro.html)
 
@@ -301,8 +301,6 @@ printf("=%d\n", arg1);
 sudo dtrace -s syscalls_info.d -c "cat /etc/hosts"
 ```
 ### dtruss
-
-### dtruss
 ```bash
 dtruss -c ls #Get syscalls of ls
 dtruss -c -p 1000 #get syscalls of PID 1000
@@ -320,13 +318,13 @@ ktrace trace -s -S -t c -c ls | grep "ls("
 ### SpriteTree
 
 [**SpriteTree**](https://themittenmac.com/tools/) est un outil qui affiche les relations entre les processus.\
-Vous devez surveiller votre Mac avec une commande comme **`sudo eslogger fork exec rename create > cap.json`** (le terminal lançant cela nécessite FDA). Ensuite, vous pouvez charger le json dans cet outil pour voir toutes les relations :
+Vous devez surveiller votre mac avec une commande comme **`sudo eslogger fork exec rename create > cap.json`** (le terminal lançant cela nécessite FDA). Ensuite, vous pouvez charger le json dans cet outil pour voir toutes les relations :
 
-<figure><img src="../../../.gitbook/assets/image (1179).png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1182).png" alt="" width="375"><figcaption></figcaption></figure>
 
 ### FileMonitor
 
-[**FileMonitor**](https://objective-see.com/products/utilities.html#FileMonitor) permet de surveiller les événements liés aux fichiers (comme la création, les modifications et les suppressions) en fournissant des informations détaillées sur ces événements.
+[**FileMonitor**](https://objective-see.com/products/utilities.html#FileMonitor) permet de surveiller les événements de fichiers (tels que la création, les modifications et les suppressions) en fournissant des informations détaillées sur ces événements.
 
 ### Crescendo
 
@@ -336,7 +334,7 @@ Vous devez surveiller votre Mac avec une commande comme **`sudo eslogger fork ex
 
 [**Apple Instruments**](https://developer.apple.com/library/archive/documentation/Performance/Conceptual/CellularBestPractices/Appendix/Appendix.html) font partie des outils de développement Xcode - utilisés pour surveiller les performances des applications, identifier les fuites de mémoire et suivre l'activité du système de fichiers.
 
-![](<../../../.gitbook/assets/image (1135).png>)
+![](<../../../.gitbook/assets/image (1138).png>)
 
 ### fs\_usage
 
@@ -345,14 +343,14 @@ Permet de suivre les actions effectuées par les processus :
 fs_usage -w -f filesys ls #This tracks filesystem actions of proccess names containing ls
 fs_usage -w -f network curl #This tracks network actions
 ```
-### TaskExplorer
+### Explorateur de tâches
 
 [**Taskexplorer**](https://objective-see.com/products/taskexplorer.html) est utile pour voir les **bibliothèques** utilisées par un binaire, les **fichiers** qu'il utilise et les **connexions réseau**.\
 Il vérifie également les processus binaires sur **virustotal** et affiche des informations sur le binaire.
 
 ## PT\_DENY\_ATTACH <a href="#page-title" id="page-title"></a>
 
-Dans [**cet article de blog**](https://knight.sc/debugging/2019/06/03/debugging-apple-binaries-that-use-pt-deny-attach.html), vous pouvez trouver un exemple sur la façon de **déboguer un démon en cours d'exécution** qui utilise **`PT_DENY_ATTACH`** pour empêcher le débogage même si SIP était désactivé.
+Dans [**cet article de blog**](https://knight.sc/debugging/2019/06/03/debugging-apple-binaries-that-use-pt-deny-attach.html), vous pouvez trouver un exemple sur comment **déboguer un démon en cours d'exécution** qui utilise **`PT_DENY_ATTACH`** pour empêcher le débogage même si SIP était désactivé.
 
 ### lldb
 
@@ -363,7 +361,7 @@ lldb -p 1122
 lldb -n malware.bin
 lldb -n malware.bin --waitfor
 ```
-Vous pouvez définir l'option intel en utilisant lldb en créant un fichier appelé **`.lldbinit`** dans votre dossier personnel avec la ligne suivante :
+Vous pouvez définir le style Intel lors de l'utilisation de lldb en créant un fichier appelé **`.lldbinit`** dans votre dossier personnel avec la ligne suivante :
 ```bash
 settings set target.x86-disassembly-flavor intel
 ```
@@ -371,10 +369,10 @@ settings set target.x86-disassembly-flavor intel
 À l'intérieur de lldb, dump un processus avec `process save-core`
 {% endhint %}
 
-<table data-header-hidden><thead><tr><th width="225"></th><th></th></tr></thead><tbody><tr><td><strong>(lldb) Commande</strong></td><td><strong>Description</strong></td></tr><tr><td><strong>run (r)</strong></td><td>Démarrer l'exécution, qui se poursuivra jusqu'à ce qu'un point d'arrêt soit atteint ou que le processus se termine.</td></tr><tr><td><strong>continue (c)</strong></td><td>Continuer l'exécution du processus en cours de débogage.</td></tr><tr><td><strong>nexti (n / ni)</strong></td><td>Exécuter l'instruction suivante. Cette commande sautera les appels de fonction.</td></tr><tr><td><strong>stepi (s / si)</strong></td><td>Exécuter l'instruction suivante. Contrairement à la commande nexti, cette commande entrera dans les appels de fonction.</td></tr><tr><td><strong>finish (f)</strong></td><td>Exécuter le reste des instructions dans la fonction actuelle ("frame") et s'arrêter.</td></tr><tr><td><strong>control + c</strong></td><td>Mettre en pause l'exécution. Si le processus a été démarré (r) ou continué (c), cela provoquera l'arrêt du processus ... où qu'il soit actuellement en cours d'exécution.</td></tr><tr><td><strong>breakpoint (b)</strong></td><td><p>b main #Toute fonction appelée main</p><p>b &#x3C;nom_du_binaire>`main #Fonction principale du binaire</p><p>b set -n main --shlib &#x3C;nom_lib> #Fonction principale du binaire indiqué</p><p>b -[NSDictionary objectForKey:]</p><p>b -a 0x0000000100004bd9</p><p>br l #Liste des points d'arrêt</p><p>br e/dis &#x3C;num> #Activer/Désactiver le point d'arrêt</p><p>breakpoint delete &#x3C;num></p></td></tr><tr><td><strong>help</strong></td><td><p>help breakpoint #Obtenir de l'aide sur la commande de point d'arrêt</p><p>help memory write #Obtenir de l'aide pour écrire dans la mémoire</p></td></tr><tr><td><strong>reg</strong></td><td><p>reg read</p><p>reg read $rax</p><p>reg read $rax --format &#x3C;<a href="https://lldb.llvm.org/use/variable.html#type-format">format</a>></p><p>reg write $rip 0x100035cc0</p></td></tr><tr><td><strong>x/s &#x3C;reg/adresse_mémoire></strong></td><td>Afficher la mémoire sous forme de chaîne terminée par un caractère nul.</td></tr><tr><td><strong>x/i &#x3C;reg/adresse_mémoire></strong></td><td>Afficher la mémoire sous forme d'instruction d'assemblage.</td></tr><tr><td><strong>x/b &#x3C;reg/adresse_mémoire></strong></td><td>Afficher la mémoire sous forme d'octet.</td></tr><tr><td><strong>print object (po)</strong></td><td><p>Cela affichera l'objet référencé par le paramètre</p><p>po $raw</p><p><code>{</code></p><p><code>dnsChanger = {</code></p><p><code>"affiliate" = "";</code></p><p><code>"blacklist_dns" = ();</code></p><p>Notez que la plupart des API ou méthodes Objective-C d'Apple renvoient des objets et doivent donc être affichées via la commande "print object" (po). Si po ne produit pas de sortie significative, utilisez <code>x/b</code></p></td></tr><tr><td><strong>memory</strong></td><td>memory read 0x000....<br>memory read $x0+0xf2a<br>memory write 0x100600000 -s 4 0x41414141 #Écrire AAAA à cette adresse<br>memory write -f s $rip+0x11f+7 "AAAA" #Écrire AAAA à l'adresse</td></tr><tr><td><strong>disassembly</strong></td><td><p>dis #Désassembler la fonction actuelle</p><p>dis -n &#x3C;nom_de_la_fonction> #Désassembler la fonction</p><p>dis -n &#x3C;nom_de_la_fonction> -b &#x3C;nom_de_base> #Désassembler la fonction<br>dis -c 6 #Désassembler 6 lignes<br>dis -c 0x100003764 -e 0x100003768 # De une adresse à l'autre<br>dis -p -c 4 # Commencer à l'adresse actuelle à désassembler</p></td></tr><tr><td><strong>parray</strong></td><td>parray 3 (char **)$x1 # Vérifier le tableau de 3 composants dans le registre x1</td></tr></tbody></table>
+<table data-header-hidden><thead><tr><th width="225"></th><th></th></tr></thead><tbody><tr><td><strong>(lldb) Commande</strong></td><td><strong>Description</strong></td></tr><tr><td><strong>run (r)</strong></td><td>Démarrer l'exécution, qui se poursuivra jusqu'à ce qu'un point d'arrêt soit atteint ou que le processus se termine.</td></tr><tr><td><strong>continue (c)</strong></td><td>Continuer l'exécution du processus en cours de débogage.</td></tr><tr><td><strong>nexti (n / ni)</strong></td><td>Exécuter l'instruction suivante. Cette commande sautera les appels de fonction.</td></tr><tr><td><strong>stepi (s / si)</strong></td><td>Exécuter l'instruction suivante. Contrairement à la commande nexti, cette commande entrera dans les appels de fonction.</td></tr><tr><td><strong>finish (f)</strong></td><td>Exécuter le reste des instructions dans la fonction actuelle ("frame") et s'arrêter.</td></tr><tr><td><strong>control + c</strong></td><td>Mettre en pause l'exécution. Si le processus a été exécuté (r) ou continué (c), cela provoquera l'arrêt du processus ... où qu'il soit actuellement en cours d'exécution.</td></tr><tr><td><strong>breakpoint (b)</strong></td><td><p>b main #Toute fonction appelée main</p><p>b &#x3C;nom_du_binaire>`main #Fonction principale du binaire</p><p>b set -n main --shlib &#x3C;nom_lib> #Fonction principale du binaire indiqué</p><p>b -[NSDictionary objectForKey:]</p><p>b -a 0x0000000100004bd9</p><p>br l #Liste des points d'arrêt</p><p>br e/dis &#x3C;num> #Activer/Désactiver le point d'arrêt</p><p>breakpoint delete &#x3C;num></p></td></tr><tr><td><strong>help</strong></td><td><p>help breakpoint #Obtenir de l'aide sur la commande de point d'arrêt</p><p>help memory write #Obtenir de l'aide pour écrire dans la mémoire</p></td></tr><tr><td><strong>reg</strong></td><td><p>reg read</p><p>reg read $rax</p><p>reg read $rax --format &#x3C;<a href="https://lldb.llvm.org/use/variable.html#type-format">format</a>></p><p>reg write $rip 0x100035cc0</p></td></tr><tr><td><strong>x/s &#x3C;adresse_reg/mémoire></strong></td><td>Afficher la mémoire sous forme de chaîne terminée par un caractère nul.</td></tr><tr><td><strong>x/i &#x3C;adresse_reg/mémoire></strong></td><td>Afficher la mémoire sous forme d'instruction d'assemblage.</td></tr><tr><td><strong>x/b &#x3C;adresse_reg/mémoire></strong></td><td>Afficher la mémoire sous forme d'octet.</td></tr><tr><td><strong>print object (po)</strong></td><td><p>Cela affichera l'objet référencé par le paramètre</p><p>po $raw</p><p><code>{</code></p><p><code>dnsChanger = {</code></p><p><code>"affiliate" = "";</code></p><p><code>"blacklist_dns" = ();</code></p><p>Remarquez que la plupart des API ou méthodes Objective-C d'Apple renvoient des objets, et doivent donc être affichées via la commande "print object" (po). Si po ne produit pas de sortie significative, utilisez <code>x/b</code></p></td></tr><tr><td><strong>memory</strong></td><td>memory read 0x000....<br>memory read $x0+0xf2a<br>memory write 0x100600000 -s 4 0x41414141 #Écrire AAAA à cette adresse<br>memory write -f s $rip+0x11f+7 "AAAA" #Écrire AAAA à l'adresse</td></tr><tr><td><strong>disassembly</strong></td><td><p>dis #Désassembler la fonction actuelle</p><p>dis -n &#x3C;nom_de_fonction> #Désassembler la fonction</p><p>dis -n &#x3C;nom_de_fonction> -b &#x3C;nom_de_base> #Désassembler la fonction<br>dis -c 6 #Désassembler 6 lignes<br>dis -c 0x100003764 -e 0x100003768 # De une adresse à l'autre<br>dis -p -c 4 # Commencer à l'adresse actuelle à désassembler</p></td></tr><tr><td><strong>parray</strong></td><td>parray 3 (char **)$x1 # Vérifier le tableau de 3 composants dans le registre x1</td></tr></tbody></table>
 
 {% hint style="info" %}
-Lors de l'appel de la fonction **`objc_sendMsg`**, le registre **rsi** contient le **nom de la méthode** sous forme de chaîne terminée par un caractère nul ("C"). Pour afficher le nom via lldb, faites :
+Lors de l'appel de la fonction **`objc_sendMsg`**, le registre **rsi** contient le **nom de la méthode** sous forme de chaîne terminée par un caractère nul ("C"). Pour afficher le nom via lldb :
 
 `(lldb) x/s $rsi: 0x1000f1576: "startMiningWithPort:password:coreCount:slowMemory:currency:"`
 
@@ -384,7 +382,7 @@ Lors de l'appel de la fonction **`objc_sendMsg`**, le registre **rsi** contient 
 `(lldb) reg read $rsi: rsi = 0x00000001000f1576 "startMiningWithPort:password:coreCount:slowMemory:currency:"`
 {% endhint %}
 
-### Anti-Analyse Dynamique
+### Analyse dynamique anti
 
 #### Détection de VM
 
@@ -395,17 +393,17 @@ Lors de l'appel de la fonction **`objc_sendMsg`**, le registre **rsi** contient 
 * `if(P_TRACED == (info.kp_proc.p_flag & P_TRACED)){ //processus en cours de débogage }`
 * Il est également possible d'invoquer l'appel système **`ptrace`** avec le drapeau **`PT_DENY_ATTACH`**. Cela **empêche** un déb**u**ggeur de s'attacher et de tracer.
 * Vous pouvez vérifier si la fonction **`sysctl`** ou **`ptrace`** est **importée** (mais le malware pourrait l'importer dynamiquement)
-* Comme indiqué dans cet article, “[Déjouer les techniques anti-débogage : variantes de ptrace sur macOS](https://alexomara.com/blog/defeating-anti-debug-techniques-macos-ptrace-variants/)” :\
+* Comme indiqué dans cet article, “[Déjouer les techniques anti-debug : variantes de ptrace sur macOS](https://alexomara.com/blog/defeating-anti-debug-techniques-macos-ptrace-variants/)” :\
 "_Le message Processus # a quitté avec **le statut = 45 (0x0000002d)** est généralement un signe révélateur que la cible de débogage utilise **PT\_DENY\_ATTACH**_"
 ## Fuzzing
 
 ### [ReportCrash](https://ss64.com/osx/reportcrash.html)
 
-ReportCrash **analyse les processus qui plantent et enregistre un rapport de plantage sur le disque**. Un rapport de plantage contient des informations qui peuvent **aider un développeur à diagnostiquer** la cause d'un plantage.\
+ReportCrash **analyse les processus qui plantent et enregistre un rapport de plantage sur le disque**. Un rapport de plantage contient des informations qui peuvent **aider un développeur à diagnostiquer** la cause du plantage.\
 Pour les applications et autres processus **fonctionnant dans le contexte de lancement par utilisateur**, ReportCrash s'exécute en tant que LaunchAgent et enregistre les rapports de plantage dans `~/Library/Logs/DiagnosticReports/` de l'utilisateur.\
-Pour les démons, les autres processus **fonctionnant dans le contexte de lancement système** et d'autres processus privilégiés, ReportCrash s'exécute en tant que LaunchDaemon et enregistre les rapports de plantage dans `/Library/Logs/DiagnosticReports` du système.
+Pour les démons, les autres processus **fonctionnant dans le contexte de lancement système** et les autres processus privilégiés, ReportCrash s'exécute en tant que LaunchDaemon et enregistre les rapports de plantage dans `/Library/Logs/DiagnosticReports` du système.
 
-Si vous êtes préoccupé par les rapports de plantage **envoyés à Apple**, vous pouvez les désactiver. Sinon, les rapports de plantage peuvent être utiles pour **déterminer comment un serveur a planté**.
+Si vous craignez que les rapports de plantage **soient envoyés à Apple**, vous pouvez les désactiver. Sinon, les rapports de plantage peuvent être utiles pour **déterminer comment un serveur a planté**.
 ```bash
 #To disable crash reporting:
 launchctl unload -w /System/Library/LaunchAgents/com.apple.ReportCrash.plist
@@ -425,7 +423,7 @@ Lors du fuzzing dans un MacOS, il est important de ne pas permettre au Mac de se
 
 #### Déconnexion SSH
 
-Si vous faites du fuzzing via une connexion SSH, il est important de s'assurer que la session ne se termine pas. Modifiez donc le fichier sshd\_config avec :
+Si vous effectuez du fuzzing via une connexion SSH, il est important de s'assurer que la session ne se termine pas. Modifiez donc le fichier sshd\_config avec :
 
 * TCPKeepAlive Yes
 * ClientAliveInterval 0
@@ -469,9 +467,9 @@ Fonctionne pour les outils en ligne de commande
 
 #### [Litefuzz](https://github.com/sec-tools/litefuzz)
 
-Il "**fonctionne simplement"** avec les outils GUI macOS. Notez que certaines applications macOS ont des exigences spécifiques telles que des noms de fichiers uniques, la bonne extension, la nécessité de lire les fichiers à partir du sandbox (`~/Library/Containers/com.apple.Safari/Data`)...
+Il "**fonctionne simplement"** avec les outils GUI macOS. Notez que certaines applications macOS ont des exigences spécifiques comme des noms de fichiers uniques, la bonne extension, besoin de lire les fichiers à partir du bac à sable (`~/Library/Containers/com.apple.Safari/Data`)...
 
-Quelques exemples:
+Quelques exemples :
 
 {% code overflow="wrap" %}
 ```bash
@@ -513,16 +511,15 @@ litefuzz -s -a tcp://localhost:5900 -i input/screenshared-session --reportcrash 
 * [**https://taomm.org/vol1/analysis.html**](https://taomm.org/vol1/analysis.html)
 * [**The Art of Mac Malware: The Guide to Analyzing Malicious Software**](https://taomm.org/)
 
-
 ### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) est un moteur de recherche alimenté par le **dark web** qui offre des fonctionnalités **gratuites** pour vérifier si une entreprise ou ses clients ont été **compromis** par des **logiciels malveillants voleurs**.
+[**WhiteIntel**](https://whiteintel.io) est un moteur de recherche alimenté par le **dark web** qui offre des fonctionnalités **gratuites** pour vérifier si une entreprise ou ses clients ont été **compromis** par des **malwares voleurs**.
 
-Le but principal de WhiteIntel est de lutter contre les prises de contrôle de compte et les attaques de ransomware résultant de logiciels malveillants volant des informations.
+Le but principal de WhiteIntel est de lutter contre les prises de contrôle de compte et les attaques de ransomware résultant de malwares volant des informations.
 
-Vous pouvez consulter leur site Web et essayer leur moteur **gratuitement** sur :
+Vous pouvez consulter leur site web et essayer leur moteur **gratuitement** sur :
 
 {% embed url="https://whiteintel.io" %}
 
@@ -534,7 +531,7 @@ Autres façons de soutenir HackTricks :
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 

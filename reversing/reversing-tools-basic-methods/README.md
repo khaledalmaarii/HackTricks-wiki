@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks :
 
@@ -51,7 +51,7 @@ Le mérite ici est que si un code source perdu nécessite une restauration à pa
 
 ### [.NET Reflector](https://www.red-gate.com/products/reflector/)
 
-Avec un modèle d'extension complet et une API qui étend l'outil pour répondre à vos besoins exacts, .NET Reflector fait gagner du temps et simplifie le développement. Jetons un coup d'œil à la pléthore de services d'ingénierie inverse que cet outil fournit :
+Avec un modèle d'extension complet et une API qui étend l'outil pour répondre à vos besoins exacts, .NET Reflector fait gagner du temps et simplifie le développement. Jetons un coup d'œil à la pléthore de services d'ingénierie inverse que cet outil propose :
 
 * Fournit un aperçu de la façon dont les données circulent à travers une bibliothèque ou un composant
 * Fournit un aperçu de la mise en œuvre et de l'utilisation des langages et des frameworks .NET
@@ -79,7 +79,7 @@ Pour déboguer du code en utilisant DNSpy, vous devez :
 
 Tout d'abord, modifier les **attributs de l'Assembly** liés au **débogage** :
 
-![](<../../.gitbook/assets/image (970).png>)
+![](<../../.gitbook/assets/image (973).png>)
 ```aspnet
 [assembly: Debuggable(DebuggableAttribute.DebuggingModes.IgnoreSymbolStoreSequencePoints)]
 ```
@@ -96,7 +96,7 @@ Et cliquez sur **compiler** :
 
 Ensuite, enregistrez le nouveau fichier via _**Fichier >> Enregistrer le module...**_ :
 
-![](<../../.gitbook/assets/image (599).png>)
+![](<../../.gitbook/assets/image (602).png>)
 
 Ceci est nécessaire car si vous ne le faites pas, à **l'exécution** plusieurs **optimisations** seront appliquées au code et il pourrait être possible qu'en déboguant un **point d'arrêt ne soit jamais atteint** ou que certaines **variables n'existent pas**.
 
@@ -106,25 +106,25 @@ iisreset /noforce
 ```
 Ensuite, pour commencer le débogage, vous devez fermer tous les fichiers ouverts et dans l'onglet **Débogage** sélectionner **Joindre au processus...** :
 
-![](<../../.gitbook/assets/image (315).png>)
+![](<../../.gitbook/assets/image (318).png>)
 
 Ensuite, sélectionnez **w3wp.exe** pour vous attacher au serveur **IIS** et cliquez sur **attacher** :
 
-![](<../../.gitbook/assets/image (110).png>)
+![](<../../.gitbook/assets/image (113).png>)
 
 Maintenant que nous déboguons le processus, il est temps de l'arrêter et de charger tous les modules. Cliquez d'abord sur _Débogage >> Interrompre tout_ puis cliquez sur _**Débogage >> Fenêtres >> Modules**_ :
 
-![](<../../.gitbook/assets/image (129).png>)
+![](<../../.gitbook/assets/image (132).png>)
 
-![](<../../.gitbook/assets/image (831).png>)
+![](<../../.gitbook/assets/image (834).png>)
 
 Cliquez sur n'importe quel module dans **Modules** et sélectionnez **Ouvrir tous les modules** :
 
-![](<../../.gitbook/assets/image (919).png>)
+![](<../../.gitbook/assets/image (922).png>)
 
 Cliquez avec le bouton droit sur n'importe quel module dans **Explorateur d'assemblage** et cliquez sur **Trier les assemblages** :
 
-![](<../../.gitbook/assets/image (336).png>)
+![](<../../.gitbook/assets/image (339).png>)
 
 ## Décompilateur Java
 
@@ -139,11 +139,11 @@ Cliquez avec le bouton droit sur n'importe quel module dans **Explorateur d'asse
 * Sélectionnez le débogueur **Windbg**
 * Sélectionnez "**Suspendre lors du chargement/déchargement de la bibliothèque**"
 
-![](<../../.gitbook/assets/image (865).png>)
+![](<../../.gitbook/assets/image (868).png>)
 
 * Configurez les **paramètres** de l'exécution en mettant le **chemin d'accès à la DLL** et la fonction que vous souhaitez appeler :
 
-![](<../../.gitbook/assets/image (701).png>)
+![](<../../.gitbook/assets/image (704).png>)
 
 Ensuite, lorsque vous commencez le débogage, **l'exécution s'arrêtera à chaque chargement de DLL**, puis, lorsque rundll32 charge votre DLL, l'exécution s'arrêtera.
 
@@ -154,11 +154,11 @@ Mais, comment accéder au code de la DLL qui a été chargée ? En utilisant cet
 * **Charger rundll32** (64 bits dans C:\Windows\System32\rundll32.exe et 32 bits dans C:\Windows\SysWOW64\rundll32.exe)
 * **Changer la ligne de commande** ( _Fichier --> Changer la ligne de commande_ ) et définir le chemin de la DLL et la fonction que vous souhaitez appeler, par exemple : "C:\Windows\SysWOW64\rundll32.exe" "Z:\shared\Cybercamp\rev2\\\14.ridii\_2.dll",DLLMain
 * Changer _Options --> Paramètres_ et sélectionner "**Entrée DLL**".
-* Ensuite, **démarrez l'exécution**, le débogueur s'arrêtera à chaque point d'entrée de la DLL, à un moment donné vous vous arrêterez dans l'entrée de la DLL. À partir de là, recherchez simplement les points où vous souhaitez mettre un point d'arrêt.
+* Ensuite, **démarrez l'exécution**, le débogueur s'arrêtera à chaque point d'entrée de la DLL, à un moment donné vous vous **arrêterez dans l'entrée de la DLL de votre DLL**. À partir de là, recherchez simplement les points où vous souhaitez mettre un point d'arrêt.
 
-Notez que lorsque l'exécution est arrêtée pour une raison quelconque dans win64dbg, vous pouvez voir **dans quel code vous êtes** en regardant en **haut de la fenêtre win64dbg** :
+Notez que lorsque l'exécution est arrêtée pour une raison quelconque dans win64dbg, vous pouvez voir **dans quel code vous êtes** en regardant en haut de la fenêtre win64dbg :
 
-![](<../../.gitbook/assets/image (839).png>)
+![](<../../.gitbook/assets/image (842).png>)
 
 Ensuite, en regardant cela, vous pouvez voir quand l'exécution a été arrêtée dans la DLL que vous souhaitez déboguer.
 
@@ -170,7 +170,7 @@ Ensuite, en regardant cela, vous pouvez voir quand l'exécution a été arrêté
 [cheat-engine.md](cheat-engine.md)
 {% endcontent-ref %}
 
-[**PiNCE**](https://github.com/korcankaraokcu/PINCE) est un outil d'ingénierie inverse/front-end pour le Débogueur du Projet GNU (GDB), axé sur les jeux. Cependant, il peut être utilisé pour tout ce qui concerne l'ingénierie inverse.
+[**PiNCE**](https://github.com/korcankaraokcu/PINCE) est un outil d'ingénierie inverse/interface utilisateur pour le Débogueur du Projet GNU (GDB), axé sur les jeux. Cependant, il peut être utilisé pour tout ce qui concerne l'ingénierie inverse.
 
 [**Decompiler Explorer**](https://dogbolt.org/) est une interface web pour plusieurs décompilateurs. Ce service web vous permet de comparer la sortie de différents décompilateurs sur de petits exécutables.
 
@@ -196,29 +196,29 @@ Vous pouvez trouver une version légèrement modifiée de Blobrunner dans le lie
 
 [**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4)est très similaire à blobrunner. Il va **allouer** le **shellcode** dans un espace mémoire, et démarrer une **boucle éternelle**. Vous devez ensuite **attacher le débogueur** au processus, **démarrer, attendre 2-5 secondes et appuyer sur stop** et vous vous retrouverez dans la **boucle éternelle**. Sautez vers l'instruction suivante de la boucle éternelle car ce sera un appel au shellcode, et enfin vous vous retrouverez à exécuter le shellcode.
 
-![](<../../.gitbook/assets/image (506).png>)
+![](<../../.gitbook/assets/image (509).png>)
 
 Vous pouvez télécharger une version compilée de [jmp2it sur la page des versions](https://github.com/adamkramer/jmp2it/releases/).
 
 ### Débogage de shellcode avec Cutter
 
-[**Cutter**](https://github.com/rizinorg/cutter/releases/tag/v1.12.0) est l'interface graphique de radare. En utilisant Cutter, vous pouvez émuler le shellcode et l'inspecter dynamiquement.
+[**Cutter**](https://github.com/rizinorg/cutter/releases/tag/v1.12.0) est l'interface graphique de radare. Avec Cutter, vous pouvez émuler le shellcode et l'inspecter dynamiquement.
 
 Notez que Cutter vous permet d'"Ouvrir un fichier" et d'"Ouvrir un shellcode". Dans mon cas, lorsque j'ai ouvert le shellcode en tant que fichier, il l'a décompilé correctement, mais lorsque je l'ai ouvert en tant que shellcode, il ne l'a pas fait :
 
-![](<../../.gitbook/assets/image (559).png>)
+![](<../../.gitbook/assets/image (562).png>)
 
 Pour démarrer l'émulation à l'endroit souhaité, définissez un point d'arrêt là-bas et apparemment Cutter démarrera automatiquement l'émulation à partir de là :
 
-![](<../../.gitbook/assets/image (586).png>)
+![](<../../.gitbook/assets/image (589).png>)
 
-![](<../../.gitbook/assets/image (384).png>)
+![](<../../.gitbook/assets/image (387).png>)
 
 Vous pouvez voir la pile par exemple dans un dump hexadécimal :
 
-![](<../../.gitbook/assets/image (183).png>)
+![](<../../.gitbook/assets/image (186).png>)
 
-### Désembrouillage du shellcode et obtention des fonctions exécutées
+### Désembrouillage de shellcode et obtention des fonctions exécutées
 
 Vous devriez essayer [**scdbg**](http://sandsprite.com/blogs/index.php?uid=7\&pid=152).\
 Il vous dira quelles fonctions le shellcode utilise et si le shellcode se **décrypte** en mémoire.
@@ -232,9 +232,9 @@ scdbg.exe -f shellcode /foff 0x0000004D #Start the executing in that offset
 ```
 scDbg dispose également d'un lanceur graphique où vous pouvez sélectionner les options que vous souhaitez et exécuter le shellcode
 
-![](<../../.gitbook/assets/image (255).png>)
+![](<../../.gitbook/assets/image (258).png>)
 
-L'option **Créer un dump** va générer le shellcode final si des modifications sont apportées dynamiquement au shellcode en mémoire (utile pour télécharger le shellcode décodé). L'**offset de démarrage** peut être utile pour démarrer le shellcode à un offset spécifique. L'option **Déboguer le shell** est utile pour déboguer le shellcode en utilisant le terminal scDbg (cependant, je trouve que l'une des options expliquées précédemment est meilleure pour cette tâche car vous pourrez utiliser Ida ou x64dbg).
+L'option **Créer un dump** va créer un dump du shellcode final si des modifications sont apportées dynamiquement au shellcode en mémoire (utile pour télécharger le shellcode décodé). L'**offset de démarrage** peut être utile pour démarrer le shellcode à un offset spécifique. L'option **Debug Shell** est utile pour déboguer le shellcode en utilisant le terminal scDbg (cependant, je trouve que l'une des options expliquées précédemment est meilleure pour cette tâche car vous pourrez utiliser Ida ou x64dbg).
 
 ### Désassemblage en utilisant CyberChef
 
@@ -260,7 +260,7 @@ Si vous participez à un **CTF, cette astuce pour trouver le drapeau** pourrait 
 
 Pour trouver le **point d'entrée**, recherchez les fonctions par `::main` comme dans :
 
-![](<../../.gitbook/assets/image (1077).png>)
+![](<../../.gitbook/assets/image (1080).png>)
 
 Dans ce cas, le binaire s'appelait authenticator, il est donc assez évident que c'est la fonction main intéressante.\
 Ayant le **nom** des **fonctions** appelées, recherchez-les sur **Internet** pour en apprendre davantage sur leurs **entrées** et **sorties**.
@@ -273,7 +273,7 @@ Si vous devez inverser un binaire Delphi, je vous suggère d'utiliser le plugin 
 
 Appuyez simplement sur **ATL+f7** (importez le plugin python dans IDA) et sélectionnez le plugin python.
 
-Ce plugin exécutera le binaire et résoudra dynamiquement les noms de fonctions au début du débogage. Après le démarrage du débogage, appuyez à nouveau sur le bouton Démarrer (le bouton vert ou f9) et un point d'arrêt sera atteint au début du code réel.
+Ce plugin exécutera le binaire et résoudra dynamiquement les noms de fonction au début du débogage. Après le démarrage du débogage, appuyez à nouveau sur le bouton Démarrer (le bouton vert ou f9) et un point d'arrêt sera atteint au début du code réel.
 
 C'est également très intéressant car si vous appuyez sur un bouton dans l'application graphique, le débogueur s'arrêtera dans la fonction exécutée par ce bouton.
 
@@ -304,9 +304,9 @@ Si vous obtenez le **binaire** d'un jeu GBA, vous pouvez utiliser différents ou
 
 Dans [**no$gba**](https://problemkaputt.de/gba.htm), dans _**Options --> Configuration de l'émulation --> Contrôles**_\*\* \*\* vous pouvez voir comment appuyer sur les **boutons** de la Game Boy Advance
 
-![](<../../.gitbook/assets/image (578).png>)
+![](<../../.gitbook/assets/image (581).png>)
 
-Lorsqu'ils sont pressés, chaque **touche a une valeur** pour l'identifier:
+Lorsqu'ils sont pressés, chaque **touche a une valeur** pour l'identifier :
 ```
 A = 1
 B = 2
@@ -321,7 +321,7 @@ L = 256
 ```
 Donc, dans ce type de programme, la partie intéressante sera **comment le programme traite l'entrée de l'utilisateur**. À l'adresse **0x4000130**, vous trouverez la fonction couramment trouvée : **KEYINPUT**.
 
-![](<../../.gitbook/assets/image (444).png>)
+![](<../../.gitbook/assets/image (447).png>)
 
 Dans l'image précédente, vous pouvez voir que la fonction est appelée depuis **FUN\_080015a8** (adresses : _0x080015fa_ et _0x080017ac_).
 
@@ -391,8 +391,8 @@ Dans le code précédent, vous pouvez voir que nous comparons **uVar1** (l'endro
 * Tout d'abord, il est comparé avec la **valeur 4** (bouton **SELECT**) : Dans le défi, ce bouton efface l'écran.
 * Ensuite, il est comparé avec la **valeur 8** (bouton **START**) : Dans le défi, cela vérifie si le code est valide pour obtenir le drapeau.
 * Dans ce cas, la variable **`DAT_030000d8`** est comparée à 0xf3 et si la valeur est la même, un certain code est exécuté.
-* Dans tous les autres cas, un certain cont (`DAT_030000d4`) est vérifié. C'est un cont car il ajoute 1 juste après avoir entré le code.\
-Si moins de 8, quelque chose qui implique d'**ajouter** des valeurs à **`DAT_030000d8`** est fait (essentiellement, il ajoute les valeurs des touches pressées dans cette variable tant que le cont est inférieur à 8).
+* Dans tous les autres cas, un cont (`DAT_030000d4`) est vérifié. C'est un cont car il ajoute 1 juste après être entré dans le code.\
+Si c'est inférieur à 8, quelque chose qui implique d'**ajouter** des valeurs à **`DAT_030000d8`** est fait (essentiellement, il ajoute les valeurs des touches pressées dans cette variable tant que le cont est inférieur à 8).
 
 Ainsi, dans ce défi, en connaissant les valeurs des boutons, vous deviez **appuyer sur une combinaison d'une longueur inférieure à 8 pour que l'addition résultante soit 0xf3**.
 

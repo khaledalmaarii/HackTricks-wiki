@@ -2,15 +2,15 @@
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks :
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 
@@ -37,7 +37,7 @@ Vous pouvez **supprimer** une variable en faisant :
 ```bash
 unset MYGLOBAL
 ```
-## Variables locaux
+## Variables locales
 
 Les **variables locales** ne peuvent être **accédées** que par le **shell/script actuel**.
 ```bash
@@ -46,10 +46,6 @@ echo $LOCAL
 unset LOCAL
 ```
 ## Liste des variables actuelles
-
-```bash
-$ printenv
-```
 ```bash
 set
 env
@@ -57,9 +53,9 @@ printenv
 cat /proc/$$/environ
 cat /proc/`python -c "import os; print(os.getppid())"`/environ
 ```
-## Variables courantes
+## Variables communs
 
-À partir de : [https://geek-university.com/linux/common-environment-variables/](https://geek-university.com/linux/common-environment-variables/)
+From: [https://geek-university.com/linux/common-environment-variables/](https://geek-university.com/linux/common-environment-variables/)
 
 * **DISPLAY** – l'affichage utilisé par **X**. Cette variable est généralement définie sur **:0.0**, ce qui signifie le premier affichage sur l'ordinateur actuel.
 * **EDITOR** – l'éditeur de texte préféré de l'utilisateur.
@@ -68,7 +64,7 @@ cat /proc/`python -c "import os; print(os.getppid())"`/environ
 * **HOME** – votre répertoire personnel.
 * **HOSTNAME** – le nom d'hôte de l'ordinateur.
 * **LANG** – votre langue actuelle.
-* **MAIL** – l'emplacement du répertoire de messagerie de l'utilisateur. Généralement **/var/spool/mail/USER**.
+* **MAIL** – l'emplacement du répertoire de courrier de l'utilisateur. Généralement **/var/spool/mail/USER**.
 * **MANPATH** – la liste des répertoires à rechercher pour les pages de manuel.
 * **OSTYPE** – le type de système d'exploitation.
 * **PS1** – l'invite par défaut dans bash.
@@ -89,7 +85,7 @@ export HISTFILESIZE=0
 ```
 ### **HISTSIZE**
 
-Changez la **valeur de cette variable à 0**, ainsi lorsque vous **terminez votre session**, aucune commande ne sera ajoutée au **fichier d'historique** (\~/.bash\_history).
+Changez la **valeur de cette variable à 0**, ainsi lorsque vous **terminez votre session** aucun commande ne sera ajoutée au **fichier d'historique** (\~/.bash\_history).
 ```bash
 export HISTSIZE=0
 ```
@@ -100,7 +96,7 @@ Les processus utiliseront le **proxy** déclaré ici pour se connecter à Intern
 export http_proxy="http://10.10.10.10:8080"
 export https_proxy="http://10.10.10.10:8080"
 ```
-### SSL\_CERT\_FILE & SSL\_CERT\_DIR
+### SSL_CERT_FILE & SSL_CERT_DIR
 
 Les processus feront confiance aux certificats indiqués dans **ces variables d'environnement**.
 ```bash
@@ -115,19 +111,19 @@ Modifiez l'apparence de votre invite de commande.
 
 Root:
 
-![](<../.gitbook/assets/image (894).png>)
+![](<../.gitbook/assets/image (897).png>)
 
 Utilisateur régulier:
 
-![](<../.gitbook/assets/image (737).png>)
+![](<../.gitbook/assets/image (740).png>)
 
 Un, deux et trois emplois en arrière-plan:
 
-![](<../.gitbook/assets/image (142).png>)
+![](<../.gitbook/assets/image (145).png>)
 
-Un travail en arrière-plan, un arrêté et la dernière commande n'a pas fini correctement:
+Un travail en arrière-plan, un arrêté et la dernière commande n'a pas été exécutée correctement:
 
-![](<../.gitbook/assets/image (712).png>)
+![](<../.gitbook/assets/image (715).png>)
 
 **Groupe de sécurité Try Hard**
 

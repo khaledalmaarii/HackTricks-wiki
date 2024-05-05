@@ -24,7 +24,7 @@ Autres façons de soutenir HackTricks :
 En résumé, pour exécuter du code en **parallèle**, les processus peuvent envoyer des **blocs de code à GCD**, qui se chargera de leur exécution. Par conséquent, les processus ne créent pas de nouveaux threads ; **GCD exécute le code donné avec son propre pool de threads** (qui peut augmenter ou diminuer selon les besoins).
 {% endhint %}
 
-Cela est très utile pour gérer avec succès l'exécution parallèle, réduisant considérablement le nombre de threads que les processus créent et optimisant l'exécution parallèle. C'est idéal pour les tâches qui nécessitent une **grande parallélisme** (force brute ?) ou pour les tâches qui ne doivent pas bloquer le thread principal : par exemple, le thread principal sur iOS gère les interactions UI, donc toute autre fonctionnalité qui pourrait faire planter l'application (recherche, accès à un site web, lecture d'un fichier...) est gérée de cette manière.
+Cela est très utile pour gérer avec succès l'exécution parallèle, réduisant considérablement le nombre de threads que les processus créent et optimisant l'exécution parallèle. C'est idéal pour les tâches qui nécessitent une **grande parallélisme** (force brute ?) ou pour les tâches qui ne doivent pas bloquer le thread principal : Par exemple, le thread principal sur iOS gère les interactions UI, donc toute autre fonctionnalité qui pourrait faire planter l'application (recherche, accès à un site web, lecture d'un fichier...) est gérée de cette manière.
 
 ### Blocs
 
@@ -48,9 +48,9 @@ Cependant, au niveau du compilateur, les blocs n'existent pas, ce sont des `os_o
 
 ### Files d'attente
 
-Une file d'attente de répartition est un objet nommé fournissant un ordre FIFO des blocs pour les exécutions.
+Une file d'attente de répartition est un objet nommé fournissant un ordonnancement FIFO des blocs pour les exécutions.
 
-Les blocs sont placés dans des files d'attente pour être exécutés, et celles-ci prennent en charge 2 modes : `DISPATCH_QUEUE_SERIAL` et `DISPATCH_QUEUE_CONCURRENT`. Bien sûr, le **sériel** ne **aura pas de problèmes de conditions de course** car un bloc ne sera pas exécuté tant que le précédent n'aura pas fini. Mais **l'autre type de file d'attente pourrait en avoir**.
+Les blocs sont placés dans des files d'attente pour être exécutés, et celles-ci prennent en charge 2 modes : `DISPATCH_QUEUE_SERIAL` et `DISPATCH_QUEUE_CONCURRENT`. Bien sûr, le **sériel** ne **posera pas de problèmes de condition de course** car un bloc ne sera pas exécuté tant que le précédent n'aura pas fini. Mais **l'autre type de file d'attente pourrait en avoir**.
 
 Files d'attente par défaut :
 
@@ -89,7 +89,7 @@ Il existe plusieurs objets que libdispatch utilise et les files d'attente et les
 - `pthread_root_queue` : Une file d'attente avec un pool de threads pthread et pas de workqueues
 - `queue`
 - `semaphore`
-- `source` : Source d'événements
+- `source` : Source d'événement
 
 ## Objective-C
 
@@ -146,7 +146,7 @@ return 0;
 ## Swift
 
 **`libswiftDispatch`** est une bibliothèque qui fournit des **liaisons Swift** au framework Grand Central Dispatch (GCD) qui est initialement écrit en C.\
-La bibliothèque **`libswiftDispatch`** enveloppe les API C GCD dans une interface plus conviviale pour Swift, facilitant ainsi le travail des développeurs Swift avec GCD.
+La bibliothèque **`libswiftDispatch`** enveloppe les API C GCD dans une interface plus conviviale pour Swift, facilitant ainsi le travail avec GCD pour les développeurs Swift.
 
 * **`DispatchQueue.global().sync{ ... }`**
 * **`DispatchQueue.global().async{ ... }`**
@@ -183,7 +183,7 @@ sleep(1)  // Simulate a long-running task
 ```
 ## Frida
 
-Le script Frida suivant peut être utilisé pour **accrocher plusieurs fonctions `dispatch`** et extraire le nom de la file d'attente, la trace de la pile et le bloc : [**https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js**](https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js)
+Le script Frida suivant peut être utilisé pour **s'accrocher à plusieurs fonctions `dispatch`** et extraire le nom de la file d'attente, la trace de la pile et le bloc : [**https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js**](https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js)
 ```bash
 frida -U <prog_name> -l libdispatch.js
 
@@ -202,11 +202,11 @@ Actuellement, Ghidra ne comprend ni la structure ObjectiveC **`dispatch_block_t`
 
 Donc si vous voulez qu'il les comprenne, vous pouvez simplement les **déclarer** :
 
-<figure><img src="../../.gitbook/assets/image (1157).png" alt="" width="563"><figcaption></figcaption></figure>
-
-<figure><img src="../../.gitbook/assets/image (1159).png" alt="" width="563"><figcaption></figcaption></figure>
-
 <figure><img src="../../.gitbook/assets/image (1160).png" alt="" width="563"><figcaption></figcaption></figure>
+
+<figure><img src="../../.gitbook/assets/image (1162).png" alt="" width="563"><figcaption></figcaption></figure>
+
+<figure><img src="../../.gitbook/assets/image (1163).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Ensuite, trouvez un endroit dans le code où ils sont **utilisés** :
 
@@ -214,15 +214,15 @@ Ensuite, trouvez un endroit dans le code où ils sont **utilisés** :
 Notez toutes les références à "block" pour comprendre comment vous pourriez déterminer que la structure est utilisée.
 {% endhint %}
 
-<figure><img src="../../.gitbook/assets/image (1161).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1164).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Cliquez avec le bouton droit sur la variable -> Retype Variable et sélectionnez dans ce cas **`swift_dispatch_block`** :
 
-<figure><img src="../../.gitbook/assets/image (1162).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1165).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Ghidra réécrira automatiquement tout :
 
-<figure><img src="../../.gitbook/assets/image (1163).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1166).png" alt="" width="563"><figcaption></figcaption></figure>
 
 ## Références
 

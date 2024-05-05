@@ -25,7 +25,7 @@ Consultez ce wiki pour rechercher plus de langages ésotériques
 
 ## npiet
 
-![](<../.gitbook/assets/image (688).png>)
+![](<../.gitbook/assets/image (691).png>)
 
 [https://www.bertnase.de/npiet/npiet-execute.php](https://www.bertnase.de/npiet/npiet-execute.php)
 
@@ -64,9 +64,7 @@ Whisper my world
 
 ---
 
-### French Translation:
-
-Les langages ésotériques sont des langages de programmation conçus pour être bizarres et difficiles à comprendre. PETOOH est un exemple de langage ésotérique qui utilise des mots en russe pour les instructions.
+La langue de programmation **PETOOH** est basée sur l'idée de l'interaction entre deux personnages, **Petit et Grand**. Petit peut stocker des valeurs dans un tableau, tandis que Grand peut effectuer des opérations arithmétiques simples. Les instructions sont données en utilisant des mots russes, ce qui rend ce langage de programmation très unique et difficile à comprendre pour les non-initiés.
 ```
 KoKoKoKoKoKoKoKoKoKo Kud-Kudah
 KoKoKoKoKoKoKoKo kudah kO kud-Kudah Kukarek kudah

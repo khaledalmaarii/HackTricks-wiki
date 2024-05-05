@@ -2,19 +2,19 @@
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité**? Vous voulez voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Partagez vos astuces de piratage en soumettant des PR au** [**dépôt hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**dépôt hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
 ### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) est un moteur de recherche alimenté par le **dark web** qui offre des fonctionnalités **gratuites** pour vérifier si une entreprise ou ses clients ont été **compromis** par des **logiciels malveillants voleurs**.
 
@@ -24,11 +24,11 @@ Vous pouvez consulter leur site Web et essayer leur moteur **gratuitement** sur 
 
 {% embed url="https://whiteintel.io" %}
 
----
+***
 
 ## Jetons d'accès
 
-Chaque **utilisateur connecté** au système **détient un jeton d'accès avec des informations de sécurité** pour cette session de connexion. Le système crée un jeton d'accès lorsque l'utilisateur se connecte. **Chaque processus exécuté** au nom de l'utilisateur **a une copie du jeton d'accès**. Le jeton identifie l'utilisateur, les groupes de l'utilisateur et les privilèges de l'utilisateur. Un jeton contient également un SID de connexion (Security Identifier) qui identifie la session de connexion actuelle.
+Chaque **utilisateur connecté** au système **détient un jeton d'accès avec des informations de sécurité** pour cette session de connexion. Le système crée un jeton d'accès lorsque l'utilisateur se connecte. **Chaque processus exécuté** au nom de l'utilisateur **dispose d'une copie du jeton d'accès**. Le jeton identifie l'utilisateur, les groupes de l'utilisateur et les privilèges de l'utilisateur. Un jeton contient également un SID de connexion (Security Identifier) qui identifie la session de connexion actuelle.
 
 Vous pouvez voir ces informations en exécutant `whoami /all`
 ```
@@ -76,7 +76,7 @@ SeTimeZonePrivilege           Change the time zone                 Disabled
 ```
 ou en utilisant _Process Explorer_ de Sysinternals (sélectionnez le processus et accédez à l'onglet "Sécurité") :
 
-![](<../../.gitbook/assets/image (769).png>)
+![](<../../.gitbook/assets/image (772).png>)
 
 ### Administrateur local
 
@@ -94,16 +94,18 @@ Vous pouvez lancer un processus qui **utilise des informations d'identification 
 ```
 runas /user:domain\username /netonly cmd.exe
 ```
+Cela est utile si vous avez des informations d'identification utiles pour accéder à des objets dans le réseau mais que ces informations d'identification ne sont pas valides à l'intérieur de l'hôte actuel car elles ne seront utilisées que dans le réseau (dans l'hôte actuel, vos privilèges d'utilisateur actuels seront utilisés).
+
 ### Types de jetons
 
 Il existe deux types de jetons disponibles :
 
-- **Jeton principal** : Il sert de représentation des informations d'identification de sécurité d'un processus. La création et l'association de jetons principaux avec des processus sont des actions qui nécessitent des privilèges élevés, mettant en avant le principe de séparation des privilèges. En général, un service d'authentification est responsable de la création du jeton, tandis qu'un service de connexion gère son association avec l'interface système de l'utilisateur. Il est à noter que les processus héritent du jeton principal de leur processus parent lors de leur création.
-- **Jeton d'usurpation** : Permet à une application serveur d'adopter temporairement l'identité du client pour accéder à des objets sécurisés. Ce mécanisme est stratifié en quatre niveaux d'opération :
-  - **Anonyme** : Accorde à un serveur un accès similaire à celui d'un utilisateur non identifié.
-  - **Identification** : Permet au serveur de vérifier l'identité du client sans l'utiliser pour accéder aux objets.
-  - **Usurpation** : Permet au serveur de fonctionner sous l'identité du client.
-  - **Délégation** : Similaire à l'Usurpation, mais inclut la capacité d'étendre cette supposition d'identité aux systèmes distants avec lesquels le serveur interagit, assurant la préservation des informations d'identification.
+* **Jeton principal** : Il sert de représentation des informations d'identification de sécurité d'un processus. La création et l'association de jetons principaux avec des processus sont des actions qui nécessitent des privilèges élevés, mettant en avant le principe de séparation des privilèges. En général, un service d'authentification est responsable de la création du jeton, tandis qu'un service de connexion gère son association avec l'interpréteur de commandes du système d'exploitation de l'utilisateur. Il convient de noter que les processus héritent du jeton principal de leur processus parent lors de leur création.
+* **Jeton d'usurpation** : Permet à une application serveur d'adopter temporairement l'identité du client pour accéder à des objets sécurisés. Ce mécanisme est stratifié en quatre niveaux d'opération :
+  * **Anonyme** : Accorde à un serveur un accès similaire à celui d'un utilisateur non identifié.
+  * **Identification** : Permet au serveur de vérifier l'identité du client sans l'utiliser pour accéder aux objets.
+  * **Usurpation** : Permet au serveur de fonctionner sous l'identité du client.
+  * **Délégation** : Similaire à l'Usurpation mais inclut la capacité d'étendre cette supposition d'identité aux systèmes distants avec lesquels le serveur interagit, garantissant la préservation des informations d'identification.
 
 #### Usurper des jetons
 
@@ -117,21 +119,21 @@ Apprenez quels **privilèges des jetons peuvent être abusés pour escalader les
 [privilege-escalation-abusing-tokens.md](privilege-escalation-abusing-tokens.md)
 {% endcontent-ref %}
 
-Jetez un œil à [**tous les privilèges de jetons possibles et quelques définitions sur cette page externe**](https://github.com/gtworek/Priv2Admin).
+Jetez un œil à [**tous les privilèges possibles des jetons et quelques définitions sur cette page externe**](https://github.com/gtworek/Priv2Admin).
 
 ## Références
 
-Apprenez-en davantage sur les jetons dans ces tutoriels : [https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa](https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa) et [https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)
+Apprenez-en plus sur les jetons dans ces tutoriels : [https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa](https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa) et [https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)
 
 ### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) est un moteur de recherche alimenté par le **dark web** qui offre des fonctionnalités **gratuites** pour vérifier si une entreprise ou ses clients ont été **compromis** par des **logiciels malveillants voleurs**.
 
-L'objectif principal de WhiteIntel est de lutter contre les prises de contrôle de compte et les attaques de ransomware résultant de logiciels malveillants voleurs d'informations.
+Le but principal de WhiteIntel est de lutter contre les prises de contrôle de compte et les attaques de ransomware résultant de logiciels malveillants voleurs d'informations.
 
-Vous pouvez consulter leur site Web et essayer leur moteur **gratuitement** sur :
+Vous pouvez consulter leur site web et essayer leur moteur **gratuitement** sur :
 
 {% embed url="https://whiteintel.io" %}
 
@@ -142,7 +144,7 @@ Vous pouvez consulter leur site Web et essayer leur moteur **gratuitement** sur 
 * Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) **groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

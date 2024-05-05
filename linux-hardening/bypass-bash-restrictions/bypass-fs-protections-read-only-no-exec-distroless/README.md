@@ -14,9 +14,9 @@ Autres façons de soutenir HackTricks :
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Si vous êtes intéressé par une **carrière en piratage** et pirater l'impossible - **nous recrutons !** (_polonais écrit et parlé couramment requis_).
+Si vous êtes intéressé par une **carrière en piratage** et pirater l'impiratable - **nous recrutons !** (_maîtrise du polonais écrit et parlé requis_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
@@ -24,7 +24,7 @@ Si vous êtes intéressé par une **carrière en piratage** et pirater l'impossi
 
 Dans les vidéos suivantes, vous trouverez les techniques mentionnées sur cette page expliquées plus en détail :
 
-* [**DEF CON 31 - Exploration de la manipulation de la mémoire Linux pour la discrétion et l'évasion**](https://www.youtube.com/watch?v=poHirez8jk4)
+* [**DEF CON 31 - Exploration de la manipulation de la mémoire Linux pour la furtivité et l'évasion**](https://www.youtube.com/watch?v=poHirez8jk4)
 * [**Intrusions furtives avec DDexec-ng & in-memory dlopen() - HackTricks Track 2023**](https://www.youtube.com/watch?v=VM\_gjjiARaU)
 
 ## Scénario lecture seule / pas d'exécution
@@ -44,7 +44,7 @@ securityContext:
 </strong>    command: ["sh", "-c", "while true; do sleep 1000; done"]
 </code></pre>
 
-Cependant, même si le système de fichiers est monté en ro, **`/dev/shm`** restera inscriptible, donc il est faux de dire que nous ne pouvons rien écrire sur le disque. Cependant, ce dossier sera **monté avec une protection no-exec**, donc si vous téléchargez un binaire ici, vous **ne pourrez pas l'exécuter**.
+Cependant, même si le système de fichiers est monté en ro, **`/dev/shm`** restera inscriptible, donc en réalité nous pouvons écrire sur le disque. Cependant, ce dossier sera **monté avec une protection no-exec**, donc si vous téléchargez un binaire ici, vous **ne pourrez pas l'exécuter**.
 
 {% hint style="warning" %}
 D'un point de vue d'équipe rouge, cela rend **compliqué le téléchargement et l'exécution** de binaires qui ne sont pas déjà présents dans le système (comme des portes dérobées ou des outils d'énumération comme `kubectl`).
@@ -93,7 +93,7 @@ Pour plus d'informations sur cette technique, consultez le Github ou :
 
 ### MemExec
 
-[**Memexec**](https://github.com/arget13/memexec) est la prochaine étape naturelle de DDexec. C'est un **démon de shellcode DDexec**, donc chaque fois que vous voulez **exécuter un binaire différent**, vous n'avez pas besoin de relancer DDexec, vous pouvez simplement exécuter le shellcode memexec via la technique DDexec et ensuite **communiquer avec ce démon pour transmettre de nouveaux binaires à charger et exécuter**.
+[**Memexec**](https://github.com/arget13/memexec) est la prochaine étape naturelle de DDexec. C'est un **shellcode demonisé DDexec**, donc chaque fois que vous voulez **exécuter un binaire différent**, vous n'avez pas besoin de relancer DDexec, vous pouvez simplement exécuter le shellcode memexec via la technique DDexec et ensuite **communiquer avec ce démon pour transmettre de nouveaux binaires à charger et exécuter**.
 
 Vous pouvez trouver un exemple de **comment utiliser memexec pour exécuter des binaires à partir d'un shell PHP inversé** dans [https://github.com/arget13/memexec/blob/main/a.php](https://github.com/arget13/memexec/blob/main/a.php).
 
@@ -117,7 +117,7 @@ Dans un conteneur Distroless, vous pourriez **ne pas trouver même `sh` ou `bash
 Par conséquent, vous **ne pourrez pas** obtenir un **shell inversé** ou **énumérer** le système comme vous le faites habituellement.
 {% endhint %}
 
-Cependant, si le conteneur compromis exécute par exemple une application web Flask, alors Python est installé, et donc vous pouvez obtenir un **shell Python inversé**. S'il exécute Node, vous pouvez obtenir un shell Node, et de même avec la plupart des **langages de script**.
+Cependant, si le conteneur compromis exécute par exemple une application web Flask, alors Python est installé, et donc vous pouvez obtenir un **shell inversé Python**. S'il exécute Node, vous pouvez obtenir un shell Node, et de même avec la plupart des **langages de script**.
 
 {% hint style="success" %}
 En utilisant le langage de script, vous pourriez **énumérer le système** en utilisant les capacités du langage.
@@ -131,9 +131,9 @@ Cependant, dans ce type de conteneurs, ces protections existent généralement, 
 
 Vous pouvez trouver des **exemples** sur **comment exploiter certaines vulnérabilités RCE** pour obtenir des **shells inversés de langages de script** et exécuter des binaires en mémoire dans [**https://github.com/carlospolop/DistrolessRCE**](https://github.com/carlospolop/DistrolessRCE).
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Si vous êtes intéressé par une **carrière en piratage** et pirater l'impossible - **nous recrutons !** (_maîtrise du polonais écrit et parlé requis_).
+Si vous êtes intéressé par une **carrière en hacking** et pirater l'impiratable - **nous recrutons !** (_maîtrise du polonais écrit et parlé requis_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 

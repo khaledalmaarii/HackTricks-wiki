@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks :
 
@@ -26,12 +26,12 @@ Pour décrypter le CBC, les **opérations opposées** sont effectuées :
 
 Remarquez qu'il est nécessaire d'utiliser une **clé de chiffrement** et un **IV**.
 
-## Rembourrage de message
+## Rembourrage du message
 
 Comme le chiffrement est effectué en **blocs de taille fixe**, un **rembourrage** est généralement nécessaire dans le **dernier bloc** pour compléter sa longueur.\
 Généralement, on utilise **PKCS7**, qui génère un rembourrage **répétant** le **nombre de bytes nécessaires** pour **compléter** le bloc. Par exemple, si le dernier bloc manque 3 bytes, le rembourrage sera `\x03\x03\x03`.
 
-Examinons d'autres exemples avec **2 blocs de longueur 8 bytes** :
+Regardons d'autres exemples avec **2 blocs de 8 bytes de longueur** :
 
 | byte #0 | byte #1 | byte #2 | byte #3 | byte #4 | byte #5 | byte #6 | byte #7 | byte #0  | byte #1  | byte #2  | byte #3  | byte #4  | byte #5  | byte #6  | byte #7  |
 | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- |
@@ -60,11 +60,11 @@ perl ./padBuster.pl http://10.10.10.10/index.php "RVJDQrwUdTRWJUVUeBKkEA==" 8 -e
 ```
 **Encodage 0** signifie que **base64** est utilisé (mais d'autres sont disponibles, consultez le menu d'aide).
 
-Vous pourriez également **abuser de cette vulnérabilité pour chiffrer de nouvelles données. Par exemple, imaginez que le contenu du cookie est "**_**user=MyUsername**_**", vous pourriez alors le changer en "\_user=administrateur\_" et escalader les privilèges à l'intérieur de l'application. Vous pourriez également le faire en utilisant `padbuster` en spécifiant le paramètre -plaintext** :
+Vous pourriez également **abuser de cette vulnérabilité pour chiffrer de nouvelles données. Par exemple, imaginez que le contenu du cookie soit "**_**user=MyUsername**_**", vous pourriez alors le modifier en "\_user=administrateur\_" et escalader les privilèges à l'intérieur de l'application. Vous pourriez également le faire en utilisant `paduster` en spécifiant le paramètre -plaintext** :
 ```bash
 perl ./padBuster.pl http://10.10.10.10/index.php "RVJDQrwUdTRWJUVUeBKkEA==" 8 -encoding 0 -cookies "login=RVJDQrwUdTRWJUVUeBKkEA==" -plaintext "user=administrator"
 ```
-Si le site est vulnérable, `padbuster`essaiera automatiquement de trouver quand l'erreur de rembourrage se produit, mais vous pouvez également indiquer le message d'erreur en utilisant le paramètre **-error**.
+Si le site est vulnérable, `padbuster` essaiera automatiquement de trouver quand l'erreur de rembourrage se produit, mais vous pouvez également indiquer le message d'erreur en utilisant le paramètre **-error**.
 ```bash
 perl ./padBuster.pl http://10.10.10.10/index.php "" 8 -encoding 0 -cookies "hcon=RVJDQrwUdTRWJUVUeBKkEA==" -error "Invalid padding"
 ```
@@ -72,10 +72,10 @@ perl ./padBuster.pl http://10.10.10.10/index.php "" 8 -encoding 0 -cookies "hcon
 
 En **résumé**, vous pouvez commencer à décrypter les données chiffrées en devinant les valeurs correctes qui peuvent être utilisées pour créer tous les **différents paddings**. Ensuite, l'attaque de l'oracle de padding commencera à décrypter les octets de la fin vers le début en devinant quelle sera la valeur correcte qui **crée un padding de 1, 2, 3, etc**.
 
-![](<../.gitbook/assets/image (558).png>)
+![](<../.gitbook/assets/image (561).png>)
 
-Imaginez que vous ayez un texte chiffré qui occupe **2 blocs** formés par les octets de **E0 à E15**.\
-Pour **décrypter** le **dernier** **bloc** (**E8** à **E15**), le bloc entier passe par le "déchiffrement du chiffrement par bloc" générant les **octets intermédiaires I0 à I15**.\
+Imaginez que vous avez un texte chiffré qui occupe **2 blocs** formés par les octets de **E0 à E15**.\
+Pour **décrypter** le **dernier** **bloc** (**E8** à **E15**), le bloc entier passe par le "décryptage du chiffrement par bloc" générant les **octets intermédiaires I0 à I15**.\
 Enfin, chaque octet intermédiaire est **XORé** avec les octets chiffrés précédents (E0 à E7). Donc :
 
 * `C15 = D(E15) ^ E7 = I15 ^ E7`
@@ -86,7 +86,7 @@ Enfin, chaque octet intermédiaire est **XORé** avec les octets chiffrés préc
 
 Maintenant, il est possible de **modifier `E7` jusqu'à ce que `C15` soit `0x01`**, ce qui sera également un padding correct. Ainsi, dans ce cas : `\x01 = I15 ^ E'7`
 
-En trouvant E'7, il est **possible de calculer I15** : `I15 = 0x01 ^ E'7`
+Donc, en trouvant E'7, il est **possible de calculer I15** : `I15 = 0x01 ^ E'7`
 
 Ce qui nous permet de **calculer C15** : `C15 = E7 ^ I15 = E7 ^ \x01 ^ E'7`
 
@@ -99,11 +99,11 @@ Ensuite, suivez les mêmes étapes pour décrypter C14 : **`C14 = E6 ^ I14 = E6 
 
 ### Détection de la vulnérabilité
 
-Inscrivez-vous et connectez-vous avec ce compte.\
-Si vous vous **connectez plusieurs fois** et obtenez toujours le **même cookie**, il y a probablement **quelque chose de** **incorrect** dans l'application. Le **cookie renvoyé devrait être unique** à chaque fois que vous vous connectez. Si le cookie est **toujours** le **même**, il sera probablement toujours valide et il **n'y aura aucun moyen de l'invalider**.
+Inscrivez-vous et connectez-vous avec ce compte .\
+Si vous vous **connectez plusieurs fois** et obtenez toujours le **même cookie**, il y a probablement **quelque chose** de **incorrect** dans l'application. Le **cookie renvoyé devrait être unique** à chaque fois que vous vous connectez. Si le cookie est **toujours** le **même**, il sera probablement toujours valide et il **n'y aura aucun moyen de l'invalid**er.
 
 Maintenant, si vous essayez de **modifier** le **cookie**, vous verrez que vous obtenez une **erreur** de l'application.\
-Mais si vous forcez le padding (en utilisant padbuster par exemple), vous parvenez à obtenir un autre cookie valide pour un utilisateur différent. Ce scénario est très probablement vulnérable à padbuster.
+Mais si vous forcez le padding (en utilisant par exemple padbuster) vous parvenez à obtenir un autre cookie valide pour un utilisateur différent. Ce scénario est très probablement vulnérable à padbuster.
 
 ### Références
 
@@ -115,10 +115,10 @@ Mais si vous forcez le padding (en utilisant padbuster par exemple), vous parven
 
 Autres façons de soutenir HackTricks :
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF** Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

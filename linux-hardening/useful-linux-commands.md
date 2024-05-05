@@ -1,16 +1,16 @@
 # Commandes Linux Utiles
 
-<figure><img src="../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser facilement** des flux de travail alimentés par les outils communautaires les plus avancés au monde.\
-Obtenez l'accès aujourd'hui :
+Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge HackTricks AWS)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks :
 
@@ -141,11 +141,11 @@ sudo chattr -i file.txt #Remove the bit so you can delete it
 # List files inside zip
 7z l file.zip
 ```
-<figure><img src="../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) pour construire facilement et **automatiser des workflows** alimentés par les outils communautaires les plus avancés au monde.\
-Accédez-y aujourd'hui :
+Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -171,37 +171,13 @@ i686-mingw32msvc-gcc -o executable useradd.c
 ```
 ## Greps
 
-### Grep for a string in files
+Grep est l'une des commandes les plus puissantes et les plus utilisées sur Linux. Elle est principalement utilisée pour rechercher du texte dans des fichiers en fonction de modèles. Voici quelques exemples courants d'utilisation de la commande grep :
 
-To search for a specific string in files, you can use the `grep` command followed by the string you are looking for and the file or directory where you want to search.
-
-```bash
-grep "search_string" file.txt
-```
-
-### Grep recursively in directories
-
-To search for a string recursively in all files within a directory and its subdirectories, you can use the `-r` flag with `grep`.
-
-```bash
-grep -r "search_string" /path/to/directory
-```
-
-### Grep with line numbers
-
-If you want to display the line numbers along with the lines containing the matched string, you can use the `-n` flag with `grep`.
-
-```bash
-grep -n "search_string" file.txt
-```
-
-### Grep for whole words
-
-To search for a whole word matching the specified string, you can use the `-w` flag with `grep`.
-
-```bash
-grep -w "search_string" file.txt
-```
+- Rechercher un motif dans un fichier : `grep pattern file`
+- Rechercher de manière récursive dans les répertoires : `grep -r pattern directory`
+- Ignorer la casse lors de la recherche : `grep -i pattern file`
+- Afficher le numéro de ligne des correspondances : `grep -n pattern file`
+- Afficher les lignes qui ne correspondent pas au motif : `grep -v pattern file`
 ```bash
 #Extract emails from file
 grep -E -o "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b" file.txt
@@ -318,79 +294,19 @@ locate -r '\.nse$' | xargs grep categories | grep 'default\|version\|safe' | gre
 nmap --script-help "(default or version) and smb)"
 ```
 ## Bash
-
-### Changer l'interpréteur de commandes par défaut
-
-Pour changer l'interpréteur de commandes par défaut pour un utilisateur spécifique, utilisez la commande suivante :
-
-```bash
-chsh -s /chemin/vers/nouvel/interpréteur nom_utilisateur
-```
-
-### Vérifier l'interpréteur de commandes actuel
-
-Pour vérifier l'interpréteur de commandes actuellement utilisé, exécutez la commande suivante :
-
-```bash
-echo $SHELL
-```
-
-### Exécuter une commande avec un interpréteur de commandes spécifique
-
-Pour exécuter une commande spécifique avec un interpréteur de commandes différent, utilisez la commande suivante :
-
-```bash
-chemin_vers_interpréteur -c "commande"
-```
 ```bash
 #All bytes inside a file (except 0x20 and 0x00)
 for j in $((for i in {0..9}{0..9} {0..9}{a..f} {a..f}{0..9} {a..f}{a..f}; do echo $i; done ) | sort | grep -v "20\|00"); do echo -n -e "\x$j" >> bytes; done
 ```
 ## Iptables
 
-### List all rules
+iptables est un utilitaire en ligne de commande pour configurer le pare-feu du noyau Linux. Il permet de définir des règles pour contrôler le trafic réseau entrant et sortant. Voici quelques commandes utiles :
 
-```bash
-iptables -L
-```
-
-### List all rules with line numbers
-
-```bash
-iptables -L --line-numbers
-```
-
-### List all rules for a specific table
-
-```bash
-iptables -t <table_name> -L
-```
-
-### Allow all loopback (lo) traffic and drop all traffic to 127/8 that doesn't use lo
-
-```bash
-iptables -A INPUT -i lo -j ACCEPT
-iptables -A INPUT ! -i lo -d 127.0.0.0/8 -j REJECT
-```
-
-### Allow all traffic from and to a specific IP address
-
-```bash
-iptables -A INPUT -s <source_ip> -j ACCEPT
-iptables -A OUTPUT -d <destination_ip> -j ACCEPT
-```
-
-### Block a specific IP address
-
-```bash
-iptables -A INPUT -s <ip_address> -j DROP
-```
-
-### Block a specific port
-
-```bash
-iptables -A INPUT -p tcp --dport <port_number> -j DROP
-```
+- `iptables -L` : Affiche les règles actuelles du pare-feu.
+- `iptables -F` : Efface toutes les règles du pare-feu.
+- `iptables -A` : Ajoute une règle.
+- `iptables -D` : Supprime une règle.
+- `iptables -P` : Définit la politique par défaut pour une chaîne.
 ```bash
 #Delete curent rules and chains
 iptables --flush
@@ -435,7 +351,7 @@ Autres façons de soutenir HackTricks :
 
 </details>
 
-<figure><img src="../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser facilement des workflows** alimentés par les outils communautaires les plus avancés au monde.\

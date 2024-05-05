@@ -16,10 +16,10 @@ Autres façons de soutenir HackTricks :
 
 ## Horodatage
 
-Un attaquant peut être intéressé par **la modification des horodatages des fichiers** pour éviter d'être détecté.\
+Un attaquant peut être intéressé par **le changement des horodatages des fichiers** pour éviter d'être détecté.\
 Il est possible de trouver les horodatages à l'intérieur du MFT dans les attributs `$STANDARD_INFORMATION` et `$FILE_NAME`.
 
-Les deux attributs ont 4 horodatages : **modification**, **accès**, **création** et **modification du registre MFT** (MACE ou MACB).
+Les deux attributs ont 4 horodatages : **Modification**, **accès**, **création**, et **modification du registre MFT** (MACE ou MACB).
 
 **L'explorateur Windows** et d'autres outils affichent les informations de **`$STANDARD_INFORMATION`**.
 
@@ -29,9 +29,9 @@ Cet outil **modifie** les informations d'horodatage à l'intérieur de **`$STAND
 
 ### Usnjrnl
 
-Le **journal USN** (Journal de numéro de séquence de mise à jour) est une fonctionnalité du NTFS (système de fichiers Windows NT) qui garde une trace des modifications du volume. L'outil [**UsnJrnl2Csv**](https://github.com/jschicht/UsnJrnl2Csv) permet d'examiner ces changements.
+Le **Journal USN** (Journal de numéro de séquence de mise à jour) est une fonctionnalité du NTFS (système de fichiers Windows NT) qui garde une trace des modifications du volume. L'outil [**UsnJrnl2Csv**](https://github.com/jschicht/UsnJrnl2Csv) permet d'examiner ces changements.
 
-![](<../../.gitbook/assets/image (798).png>)
+![](<../../.gitbook/assets/image (801).png>)
 
 L'image précédente est la **sortie** affichée par l'**outil** où l'on peut observer que des **changements ont été effectués** sur le fichier.
 
@@ -39,13 +39,13 @@ L'image précédente est la **sortie** affichée par l'**outil** où l'on peut o
 
 **Toutes les modifications de métadonnées sur un système de fichiers sont enregistrées** dans un processus appelé [journalisation avant écriture](https://en.wikipedia.org/wiki/Write-ahead\_logging). Les métadonnées enregistrées sont conservées dans un fichier nommé `**$LogFile**`, situé dans le répertoire racine d'un système de fichiers NTFS. Des outils tels que [LogFileParser](https://github.com/jschicht/LogFileParser) peuvent être utilisés pour analyser ce fichier et identifier les changements.
 
-![](<../../.gitbook/assets/image (134).png>)
+![](<../../.gitbook/assets/image (137).png>)
 
 Encore une fois, dans la sortie de l'outil, il est possible de voir que **des changements ont été effectués**.
 
 En utilisant le même outil, il est possible d'identifier à **quel moment les horodatages ont été modifiés** :
 
-![](<../../.gitbook/assets/image (1086).png>)
+![](<../../.gitbook/assets/image (1089).png>)
 
 * CTIME : Heure de création du fichier
 * ATIME : Heure de modification du fichier
@@ -64,26 +64,26 @@ Les horodatages **NTFS** ont une **précision** de **100 nanosecondes**. Ainsi, 
 
 Cet outil peut modifier les deux attributs `$STARNDAR_INFORMATION` et `$FILE_NAME`. Cependant, à partir de Windows Vista, il est nécessaire d'avoir un système d'exploitation en direct pour modifier ces informations.
 
-## Dissimulation de données
+## Dissimulation de Données
 
 NTFS utilise un cluster et la taille d'information minimale. Cela signifie que si un fichier occupe un cluster et demi, la **moitié restante ne sera jamais utilisée** tant que le fichier n'est pas supprimé. Ainsi, il est possible de **cacher des données dans cet espace inutilisé**.
 
 Il existe des outils comme slacker qui permettent de cacher des données dans cet espace "caché". Cependant, une analyse du `$logfile` et du `$usnjrnl` peut montrer qu'une certaine donnée a été ajoutée :
 
-![](<../../.gitbook/assets/image (1057).png>)
+![](<../../.gitbook/assets/image (1060).png>)
 
 Il est alors possible de récupérer l'espace inutilisé en utilisant des outils comme FTK Imager. Notez que ce type d'outil peut enregistrer le contenu de manière obfusquée ou même chiffrée.
 
 ## UsbKill
 
-C'est un outil qui **éteindra l'ordinateur si un changement dans les ports USB** est détecté.\
+Il s'agit d'un outil qui **éteindra l'ordinateur si un changement dans les ports USB** est détecté.\
 Une façon de découvrir cela serait d'inspecter les processus en cours d'exécution et de **revoir chaque script Python en cours d'exécution**.
 
-## Distributions Linux en direct
+## Distributions Linux en Direct
 
-Ces distributions sont **exécutées dans la mémoire RAM**. La seule façon de les détecter est **si le système de fichiers NTFS est monté avec des autorisations d'écriture**. S'il est monté uniquement avec des autorisations de lecture, il ne sera pas possible de détecter l'intrusion.
+Ces distributions sont **exécutées à l'intérieur de la mémoire RAM**. La seule façon de les détecter est **dans le cas où le système de fichiers NTFS est monté avec des permissions d'écriture**. S'il est monté uniquement avec des permissions de lecture, il ne sera pas possible de détecter l'intrusion.
 
-## Suppression sécurisée
+## Suppression Sécurisée
 
 [https://github.com/Claudio-C/awesome-data-sanitization](https://github.com/Claudio-C/awesome-data-sanitization)
 
@@ -91,16 +91,16 @@ Ces distributions sont **exécutées dans la mémoire RAM**. La seule façon de 
 
 Il est possible de désactiver plusieurs méthodes de journalisation de Windows pour rendre l'enquête forensique beaucoup plus difficile.
 
-### Désactiver les horodatages - UserAssist
+### Désactiver les Horodatages - UserAssist
 
 Il s'agit d'une clé de registre qui conserve les dates et heures auxquelles chaque exécutable a été lancé par l'utilisateur.
 
 Désactiver UserAssist nécessite deux étapes :
 
-1. Définir deux clés de registre, `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackProgs` et `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackEnabled`, toutes deux à zéro pour indiquer que nous voulons désactiver UserAssist.
+1. Définir deux clés de registre, `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackProgs` et `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackEnabled`, toutes deux à zéro pour signaler que nous voulons désactiver UserAssist.
 2. Effacer vos sous-arbres de registre ressemblant à `HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\<hash>`.
 
-### Désactiver les horodatages - Prefetch
+### Désactiver les Horodatages - Prefetch
 
 Cela enregistrera des informations sur les applications exécutées dans le but d'améliorer les performances du système Windows. Cependant, cela peut également être utile pour les pratiques forensiques.
 
@@ -110,7 +110,7 @@ Cela enregistrera des informations sur les applications exécutées dans le but 
 * Sélectionner Modifier sur chacun d'eux pour changer la valeur de 1 (ou 3) à 0
 * Redémarrer
 
-### Désactiver les horodatages - Heure de dernier accès
+### Désactiver les Horodatages - Heure de Dernier Accès
 
 Chaque fois qu'un dossier est ouvert à partir d'un volume NTFS sur un serveur Windows NT, le système prend le temps de **mettre à jour un champ d'horodatage sur chaque dossier répertorié**, appelé l'heure de dernier accès. Sur un volume NTFS très utilisé, cela peut affecter les performances.
 
@@ -120,7 +120,7 @@ Chaque fois qu'un dossier est ouvert à partir d'un volume NTFS sur un serveur W
 4. Fermer l'Éditeur du Registre et redémarrer le serveur.
 ### Supprimer l'historique USB
 
-Toutes les **entrées de périphériques USB** sont stockées dans le Registre Windows sous la clé de Registre **USBSTOR** qui contient des sous-clés créées chaque fois que vous branchez un périphérique USB sur votre PC ou ordinateur portable. Vous pouvez trouver cette clé ici `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. En **supprimant cela**, vous supprimerez l'historique USB.\
+Toutes les **entrées de périphériques USB** sont stockées dans le Registre Windows sous la clé de Registre **USBSTOR** qui contient des sous-clés créées chaque fois que vous branchez un périphérique USB sur votre PC ou ordinateur portable. Vous pouvez trouver cette clé ici `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **En supprimant cela**, vous supprimerez l'historique USB.\
 Vous pouvez également utiliser l'outil [**USBDeview**](https://www.nirsoft.net/utils/usb\_devices\_view.html) pour vous assurer de les avoir supprimés (et pour les supprimer).
 
 Un autre fichier qui enregistre des informations sur les clés USB est le fichier `setupapi.dev.log` à l'intérieur de `C:\Windows\INF`. Celui-ci devrait également être supprimé.
@@ -135,7 +135,7 @@ Vous pouvez également les supprimer via l'interface graphique en suivant les é
 Pour désactiver les copies d'ombre [étapes à partir d'ici](https://support.waters.com/KB\_Inf/Other/WKB15560\_How\_to\_disable\_Volume\_Shadow\_Copy\_Service\_VSS\_in\_Windows):
 
 1. Ouvrez le programme Services en tapant "services" dans la zone de recherche de texte après avoir cliqué sur le bouton Démarrer de Windows.
-2. Dans la liste, trouvez "Volume Shadow Copy", sélectionnez-le, puis accédez aux Propriétés en cliquant avec le bouton droit.
+2. Dans la liste, trouvez "Copie d'ombre de volume", sélectionnez-le, puis accédez aux Propriétés en cliquant avec le bouton droit.
 3. Choisissez Désactivé dans le menu déroulant "Type de démarrage", puis confirmez le changement en cliquant sur Appliquer et OK.
 
 Il est également possible de modifier la configuration des fichiers qui vont être copiés dans la copie d'ombre dans le Registre `HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot`

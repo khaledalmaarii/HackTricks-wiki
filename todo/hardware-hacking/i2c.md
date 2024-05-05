@@ -2,11 +2,11 @@
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
-Autres façons de soutenir HackTricks:
+Autres façons de soutenir HackTricks :
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -16,7 +16,7 @@ Autres façons de soutenir HackTricks:
 
 ## Bus Pirate
 
-Pour tester si un Bus Pirate fonctionne, connectez +5V à VPU et 3.3V à ADC et accédez au Bus Pirate (en utilisant Tera Term par exemple) et utilisez la commande `~`:
+Pour tester si un Bus Pirate fonctionne, connectez +5V à VPU et 3,3V à ADC et accédez au Bus Pirate (en utilisant Tera Term par exemple) et utilisez la commande `~`:
 ```bash
 # Use command
 HiZ>~
@@ -59,11 +59,11 @@ Comme vous pouvez le voir dans la commande précédente, il a indiqué qu'il n'a
 
 Pour se connecter avec le bus pirate, vous pouvez suivre la documentation :
 
-![](<../../.gitbook/assets/image (481).png>)
+![](<../../.gitbook/assets/image (484).png>)
 
 Dans ce cas, je vais me connecter à un EPROM : ATMEL901 24C256 PU27 :
 
-![](<../../.gitbook/assets/image (961).png>)
+![](<../../.gitbook/assets/image (964).png>)
 
 Pour communiquer avec le bus pirate, j'ai utilisé Tera Term connecté au port COM du bus pirate avec un réglage --> Port série --> Vitesse de 115200.\
 Dans la communication suivante, vous trouverez comment préparer le bus pirate pour communiquer en I2C et comment écrire et lire depuis la mémoire (Les commentaires apparaissent en utilisant "#", ne vous attendez pas à cette partie dans la communication) :
@@ -167,9 +167,9 @@ NACK
 ```
 ### Sniffer
 
-Dans ce scénario, nous allons renifler la communication I2C entre l'arduino et l'EPROM précédente, vous devez simplement connecter les deux appareils et ensuite connecter le bus pirate aux broches SCL, SDA et GND :
+Dans ce scénario, nous allons renifler la communication I2C entre l'arduino et l'EPROM précédente, vous devez simplement connecter les deux appareils, puis connecter le bus pirate aux broches SCL, SDA et GND :
 
-![](<../../.gitbook/assets/image (163).png>)
+![](<../../.gitbook/assets/image (166).png>)
 ```bash
 I2C>m
 1. HiZ

@@ -6,7 +6,7 @@
 
 Autres façons de soutenir HackTricks :
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -16,7 +16,7 @@ Autres façons de soutenir HackTricks :
 
 ## Partitions
 
-Un disque dur ou un **SSD peut contenir différentes partitions** dans le but de séparer physiquement les données.\
+Un disque dur ou un **disque SSD peut contenir différentes partitions** dans le but de séparer physiquement les données.\
 L'unité **minimale** d'un disque est le **secteur** (généralement composé de 512 octets). Ainsi, la taille de chaque partition doit être un multiple de cette taille.
 
 ### MBR (Master Boot Record)
@@ -25,45 +25,45 @@ Il est alloué dans le **premier secteur du disque après les 446 octets du code
 Il permet jusqu'à **4 partitions** (au plus **1 seule** peut être active/**amorçable**). Cependant, si vous avez besoin de plus de partitions, vous pouvez utiliser des **partitions étendues**. Le **dernier octet** de ce premier secteur est la signature de l'enregistrement d'amorçage **0x55AA**. Une seule partition peut être marquée comme active.\
 MBR autorise **max 2,2 To**.
 
-![](<../../../.gitbook/assets/image (347).png>)
+![](<../../../.gitbook/assets/image (350).png>)
 
-![](<../../../.gitbook/assets/image (301).png>)
+![](<../../../.gitbook/assets/image (304).png>)
 
 Des **octets 440 à 443** du MBR, vous pouvez trouver la **signature de disque Windows** (si Windows est utilisé). La lettre de lecteur logique du disque dur dépend de la signature de disque Windows. Changer cette signature pourrait empêcher Windows de démarrer (outil : [**Active Disk Editor**](https://www.disk-editor.org/index.html)**)**.
 
-![](<../../../.gitbook/assets/image (306).png>)
+![](<../../../.gitbook/assets/image (310).png>)
 
 **Format**
 
 | Décalage    | Longueur    | Élément             |
 | ----------- | ----------- | ------------------- |
 | 0 (0x00)    | 446 (0x1BE) | Code de démarrage   |
-| 446 (0x1BE) | 16 (0x10)   | Première partition   |
-| 462 (0x1CE) | 16 (0x10)   | Deuxième partition   |
-| 478 (0x1DE) | 16 (0x10)   | Troisième partition   |
-| 494 (0x1EE) | 16 (0x10)   | Quatrième partition   |
-| 510 (0x1FE) | 2 (0x2)     | Signature 0x55 0xAA |
+| 446 (0x1BE) | 16 (0x10)  | Première partition   |
+| 462 (0x1CE) | 16 (0x10)  | Deuxième partition   |
+| 478 (0x1DE) | 16 (0x10)  | Troisième partition   |
+| 494 (0x1EE) | 16 (0x10)  | Quatrième partition   |
+| 510 (0x1FE) | 2 (0x2)    | Signature 0x55 0xAA |
 
 **Format de l'enregistrement de partition**
 
-| Décalage   | Longueur  | Élément                                                   |
-| ---------- | --------- | ---------------------------------------------------------- |
-| 0 (0x00)   | 1 (0x01)  | Drapeau actif (0x80 = amorçable)                          |
-| 1 (0x01)   | 1 (0x01)  | Tête de départ                                           |
-| 2 (0x02)   | 1 (0x01)  | Secteur de départ (bits 0-5); bits supérieurs du cylindre (6- 7) |
-| 3 (0x03)   | 1 (0x01)  | Bits les plus faibles du cylindre de départ               |
-| 4 (0x04)   | 1 (0x01)  | Code de type de partition (0x83 = Linux)                  |
-| 5 (0x05)   | 1 (0x01)  | Tête de fin                                              |
-| 6 (0x06)   | 1 (0x01)  | Secteur de fin (bits 0-5); bits supérieurs du cylindre (6- 7) |
-| 7 (0x07)   | 1 (0x01)  | Bits les plus faibles du cylindre de fin                  |
-| 8 (0x08)   | 4 (0x04)  | Secteurs précédant la partition (little endian)            |
-| 12 (0x0C) | 4 (0x04)  | Secteurs dans la partition                                |
+| Décalage    | Longueur    | Élément                                                   |
+| ----------- | ----------- | ---------------------------------------------------------- |
+| 0 (0x00)    | 1 (0x01)    | Drapeau actif (0x80 = amorçable)                          |
+| 1 (0x01)    | 1 (0x01)    | Tête de départ                                           |
+| 2 (0x02)    | 1 (0x01)    | Secteur de départ (bits 0-5); bits supérieurs du cylindre (6- 7) |
+| 3 (0x03)    | 1 (0x01)    | Bits les plus faibles du cylindre de départ               |
+| 4 (0x04)    | 1 (0x01)    | Code de type de partition (0x83 = Linux)                 |
+| 5 (0x05)    | 1 (0x01)    | Tête de fin                                              |
+| 6 (0x06)    | 1 (0x01)    | Secteur de fin (bits 0-5); bits supérieurs du cylindre (6- 7) |
+| 7 (0x07)    | 1 (0x01)    | Bits les plus faibles du cylindre de fin                  |
+| 8 (0x08)    | 4 (0x04)    | Secteurs précédant la partition (little endian)           |
+| 12 (0x0C)   | 4 (0x04)    | Secteurs dans la partition                                |
 
 Pour monter un MBR sous Linux, vous devez d'abord obtenir le décalage de départ (vous pouvez utiliser `fdisk` et la commande `p`)
 
-![](<../../../.gitbook/assets/image (413) (3) (3) (3) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../../../.gitbook/assets/image (413) (3) (3) (3) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
-Et utilisez ensuite le code suivant
+Et ensuite utilisez le code suivant
 ```bash
 #Mount MBR in Linux
 mount -o ro,loop,offset=<Bytes>
@@ -76,7 +76,7 @@ mount -o ro,loop,offset=32256,noatime /path/to/image.dd /media/part/
 
 ### GPT (Table de partition GUID)
 
-La Table de Partition GUID, connue sous le nom de GPT, est préférée pour ses capacités améliorées par rapport à MBR (Master Boot Record). Distinctive pour son **identifiant unique mondial** pour les partitions, GPT se distingue de plusieurs manières :
+La Table de partition GUID, connue sous le nom de GPT, est préférée pour ses capacités améliorées par rapport à MBR (Master Boot Record). Distinctive pour son **identifiant unique mondial** pour les partitions, GPT se distingue de plusieurs manières :
 
 * **Emplacement et Taille** : Tant GPT que MBR commencent à **l'octet 0**. Cependant, GPT fonctionne sur **64 bits**, contrairement aux 32 bits de MBR.
 * **Limites de Partition** : GPT prend en charge jusqu'à **128 partitions** sur les systèmes Windows et peut accueillir jusqu'à **9,4 ZB** de données.
@@ -89,9 +89,9 @@ La Table de Partition GUID, connue sous le nom de GPT, est préférée pour ses 
 
 **MBR Protecteur (LBA0)** :
 
-* GPT maintient la compatibilité ascendante grâce à un MBR protecteur. Cette fonctionnalité réside dans l'espace MBR hérité mais est conçue pour empêcher les anciens utilitaires basés sur MBR d'écraser par erreur les disques formatés en GPT, protégeant ainsi l'intégrité des données sur les disques formatés en GPT.
+* GPT maintient la compatibilité ascendante grâce à un MBR protecteur. Cette fonctionnalité réside dans l'espace MBR hérité mais est conçue pour empêcher les anciens utilitaires basés sur MBR d'écraser par erreur les disques GPT, protégeant ainsi l'intégrité des données sur les disques formatés en GPT.
 
-![https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/GUID\_Partition\_Table\_Scheme.svg/800px-GUID\_Partition\_Table\_Scheme.svg.png](<../../../.gitbook/assets/image (1059).png>)
+![https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/GUID\_Partition\_Table\_Scheme.svg/800px-GUID\_Partition\_Table\_Scheme.svg.png](<../../../.gitbook/assets/image (1062).png>)
 
 **MBR Hybride (LBA 0 + GPT)**
 
@@ -137,7 +137,7 @@ L'en-tête de la table de partition définit les blocs utilisables sur le disque
 
 **Types de Partitions**
 
-![](<../../../.gitbook/assets/image (80).png>)
+![](<../../../.gitbook/assets/image (83).png>)
 
 Plus de types de partitions sur [https://en.wikipedia.org/wiki/GUID\_Partition\_Table](https://en.wikipedia.org/wiki/GUID\_Partition\_Table)
 
@@ -145,7 +145,7 @@ Plus de types de partitions sur [https://en.wikipedia.org/wiki/GUID\_Partition\_
 
 Après avoir monté l'image de la scène de crime avec [**ArsenalImageMounter**](https://arsenalrecon.com/downloads/), vous pouvez inspecter le premier secteur en utilisant l'outil Windows [**Active Disk Editor**](https://www.disk-editor.org/index.html)**.** Dans l'image suivante, un **MBR** a été détecté sur le **secteur 0** et interprété :
 
-![](<../../../.gitbook/assets/image (351).png>)
+![](<../../../.gitbook/assets/image (354).png>)
 
 S'il s'agissait d'une **table GPT au lieu d'un MBR**, la signature _EFI PART_ devrait apparaître dans le **secteur 1** (qui est vide dans l'image précédente).
 ## Systèmes de fichiers
@@ -162,7 +162,7 @@ S'il s'agissait d'une **table GPT au lieu d'un MBR**, la signature _EFI PART_ de
 
 Le système de fichiers **FAT (File Allocation Table)** est conçu autour de son composant principal, la table d'allocation de fichiers, positionnée au début du volume. Ce système protège les données en maintenant **deux copies** de la table, garantissant l'intégrité des données même si l'une est corrompue. La table, ainsi que le dossier racine, doivent être à un **emplacement fixe**, crucial pour le processus de démarrage du système.
 
-L'unité de stockage de base du système de fichiers est un **cluster, généralement de 512B**, comprenant plusieurs secteurs. FAT a évolué à travers les versions :
+L'unité de stockage de base du système de fichiers est un **cluster, généralement de 512 octets**, comprenant plusieurs secteurs. FAT a évolué à travers les versions :
 
 * **FAT12**, prenant en charge des adresses de cluster sur 12 bits et gérant jusqu'à 4078 clusters (4084 avec UNIX).
 * **FAT16**, évoluant vers des adresses sur 16 bits, permettant ainsi d'accueillir jusqu'à 65 517 clusters.
@@ -231,7 +231,7 @@ Le Carving de flux de données est similaire au Carving de fichiers mais **au li
 ### Suppression sécurisée
 
 De toute évidence, il existe des moyens de **supprimer "sécuritairement" des fichiers et une partie des journaux à leur sujet**. Par exemple, il est possible de **écraser le contenu** d'un fichier avec des données indésirables plusieurs fois, puis de **supprimer** les **journaux** du **$MFT** et du **$LOGFILE** concernant le fichier, et de **supprimer les copies d'ombre du volume**.\
-Vous remarquerez peut-être qu'en effectuant cette action, il peut y avoir **d'autres parties où l'existence du fichier est toujours enregistrée**, et c'est vrai, une partie du travail d'un professionnel de la criminalistique est de les trouver.
+Vous remarquerez peut-être qu'en effectuant cette action, il peut y avoir **d'autres parties où l'existence du fichier est toujours enregistrée**, et c'est vrai, une partie du travail du professionnel de la criminalistique consiste à les trouver.
 
 ## Références
 
@@ -240,17 +240,3 @@ Vous remarquerez peut-être qu'en effectuant cette action, il peut y avoir **d'a
 * [https://www.osforensics.com/faqs-and-tutorials/how-to-scan-ntfs-i30-entries-deleted-files.html](https://www.osforensics.com/faqs-and-tutorials/how-to-scan-ntfs-i30-entries-deleted-files.html)
 * [https://docs.microsoft.com/en-us/windows-server/storage/file-server/volume-shadow-copy-service](https://docs.microsoft.com/en-us/windows-server/storage/file-server/volume-shadow-copy-service)
 * **iHackLabs Certified Digital Forensics Windows**
-
-<details>
-
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Autres façons de soutenir HackTricks :
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez** 💬 le [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>

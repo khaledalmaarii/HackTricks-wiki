@@ -1,11 +1,11 @@
-# Analyse de la mémoire
+# Analyse de vidage mémoire
 
 <details>
 
 <summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 * Travaillez-vous dans une **entreprise de cybersécurité**? Vous voulez voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**dépôt hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**dépôt hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
@@ -24,27 +24,27 @@ Commencez à **rechercher** des **logiciels malveillants** dans le pcap. Utilise
 
 ## [Volatility](volatility-cheatsheet.md)
 
-**Volatility est le principal framework open source pour l'analyse des dumps mémoire**. Cet outil Python analyse les dumps provenant de sources externes ou de machines virtuelles VMware, identifiant des données telles que des processus et des mots de passe en fonction du profil OS du dump. Il est extensible avec des plugins, le rendant très polyvalent pour les enquêtes forensiques.
+**Volatility est le principal framework open source pour l'analyse de vidages mémoire**. Cet outil Python analyse les vidages provenant de sources externes ou de machines virtuelles VMware, identifiant des données telles que des processus et des mots de passe en fonction du profil OS du vidage. Il est extensible avec des plugins, le rendant très polyvalent pour les enquêtes judiciaires.
 
-[**Trouvez ici une fiche de triche**](volatility-cheatsheet.md)
+[**Trouvez ici une feuille de triche**](volatility-cheatsheet.md)
 
-## Rapport de crash de mini dump
+## Rapport de crash de mini vidage
 
-Lorsque le dump est petit (juste quelques Ko, peut-être quelques Mo), il s'agit probablement d'un rapport de crash de mini dump et non d'un dump mémoire.
+Lorsque le vidage est petit (juste quelques Ko, peut-être quelques Mo), il s'agit probablement d'un rapport de crash de mini vidage et non d'un vidage mémoire.
 
-![](<../../../.gitbook/assets/image (529).png>)
+![](<../../../.gitbook/assets/image (532).png>)
 
 Si vous avez Visual Studio installé, vous pouvez ouvrir ce fichier et lier quelques informations de base comme le nom du processus, l'architecture, les informations sur les exceptions et les modules en cours d'exécution :
 
-![](<../../../.gitbook/assets/image (260).png>)
+![](<../../../.gitbook/assets/image (263).png>)
 
 Vous pouvez également charger l'exception et voir les instructions décompilées
 
-![](<../../../.gitbook/assets/image (139).png>)
+![](<../../../.gitbook/assets/image (142).png>)
 
-![](<../../../.gitbook/assets/image (607).png>)
+![](<../../../.gitbook/assets/image (610).png>)
 
-Quoi qu'il en soit, Visual Studio n'est pas le meilleur outil pour effectuer une analyse approfondie du dump.
+Quoi qu'il en soit, Visual Studio n'est pas le meilleur outil pour effectuer une analyse approfondie du vidage.
 
 Vous devriez l'**ouvrir** en utilisant **IDA** ou **Radare** pour l'inspecter en **profondeur**.
 
@@ -61,7 +61,7 @@ Vous devriez l'**ouvrir** en utilisant **IDA** ou **Radare** pour l'inspecter en
 <summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 * Travaillez-vous dans une **entreprise de cybersécurité**? Vous voulez voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**dépôt hacktricks**](https://github.com/carlospolop/hacktricks) **et** [**dépôt hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).

@@ -1,4 +1,4 @@
-# Sécurité et élévation de privilèges sur macOS
+# Sécurité et élévation de privilèges macOS
 
 <details>
 
@@ -14,7 +14,7 @@ Autres façons de soutenir HackTricks :
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (377).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (380).png" alt=""><figcaption></figcaption></figure>
 
 Rejoignez le serveur [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) pour communiquer avec des pirates expérimentés et des chasseurs de primes !
 
@@ -39,7 +39,7 @@ Si vous n'êtes pas familier avec macOS, vous devriez commencer par apprendre le
 [macos-files-folders-and-binaries](macos-files-folders-and-binaries/)
 {% endcontent-ref %}
 
-* Utilisateurs courants de macOS
+* Utilisateurs macOS courants
 
 {% content-ref url="macos-users.md" %}
 [macos-users.md](macos-users.md)
@@ -57,7 +57,7 @@ Si vous n'êtes pas familier avec macOS, vous devriez commencer par apprendre le
 [mac-os-architecture](mac-os-architecture/)
 {% endcontent-ref %}
 
-* Services et protocoles réseau **courants de macOS**
+* Services et protocoles réseau macOS courants
 
 {% content-ref url="macos-protocols.md" %}
 [macos-protocols.md](macos-protocols.md)
@@ -66,21 +66,21 @@ Si vous n'êtes pas familier avec macOS, vous devriez commencer par apprendre le
 * macOS **Open Source** : [https://opensource.apple.com/](https://opensource.apple.com/)
 * Pour télécharger un `tar.gz`, modifiez une URL telle que [https://opensource.apple.com/**source**/dyld/](https://opensource.apple.com/source/dyld/) en [https://opensource.apple.com/**tarballs**/dyld/**dyld-852.2.tar.gz**](https://opensource.apple.com/tarballs/dyld/dyld-852.2.tar.gz)
 
-### MacOS MDM
+### MDM macOS
 
-Dans les entreprises, les systèmes **macOS** sont très probablement gérés avec un MDM. Par conséquent, du point de vue d'un attaquant, il est intéressant de savoir **comment cela fonctionne** :
+Dans les entreprises, les systèmes macOS sont très probablement **gérés avec un MDM**. Par conséquent, du point de vue d'un attaquant, il est intéressant de savoir **comment cela fonctionne** :
 
 {% content-ref url="../macos-red-teaming/macos-mdm/" %}
 [macos-mdm](../macos-red-teaming/macos-mdm/)
 {% endcontent-ref %}
 
-### MacOS - Inspection, Débogage et Fuzzing
+### macOS - Inspection, Débogage et Fuzzing
 
 {% content-ref url="macos-apps-inspecting-debugging-and-fuzzing/" %}
 [macos-apps-inspecting-debugging-and-fuzzing](macos-apps-inspecting-debugging-and-fuzzing/)
 {% endcontent-ref %}
 
-## Protections de sécurité de MacOS
+## Protections de sécurité macOS
 
 {% content-ref url="macos-security-protections/" %}
 [macos-security-protections](macos-security-protections/)
@@ -90,11 +90,11 @@ Dans les entreprises, les systèmes **macOS** sont très probablement gérés av
 
 ### Autorisations de fichier
 
-Si un **processus s'exécutant en tant que root écrit** un fichier contrôlable par un utilisateur, l'utilisateur pourrait en abuser pour **élever ses privilèges**.\
+Si un **processus s'exécutant en tant que root écrit** un fichier pouvant être contrôlé par un utilisateur, l'utilisateur pourrait en abuser pour **élever ses privilèges**.\
 Cela pourrait se produire dans les situations suivantes :
 
 * Le fichier utilisé a déjà été créé par un utilisateur (appartenant à l'utilisateur)
-* Le fichier utilisé est accessible en écriture par l'utilisateur en raison d'un groupe
+* Le fichier utilisé est inscriptible par l'utilisateur en raison d'un groupe
 * Le fichier utilisé est à l'intérieur d'un répertoire appartenant à l'utilisateur (l'utilisateur pourrait créer le fichier)
 * Le fichier utilisé est à l'intérieur d'un répertoire appartenant à root mais l'utilisateur a un accès en écriture dessus en raison d'un groupe (l'utilisateur pourrait créer le fichier)
 
@@ -106,7 +106,7 @@ Pour ce type de vulnérabilités, n'oubliez pas de **vérifier les installateurs
 [macos-installers-abuse.md](macos-files-folders-and-binaries/macos-installers-abuse.md)
 {% endcontent-ref %}
 
-### Extension de fichier & gestionnaires d'applications de schéma d'URL
+### Extension de fichier et gestionnaires d'applications de schéma d'URL
 
 Des applications étranges enregistrées par des extensions de fichier pourraient être abusées et différentes applications peuvent être enregistrées pour ouvrir des protocoles spécifiques
 
@@ -114,17 +114,17 @@ Des applications étranges enregistrées par des extensions de fichier pourraien
 [macos-file-extension-apps.md](macos-file-extension-apps.md)
 {% endcontent-ref %}
 
-## Élévation de privilèges TCC / SIP sur macOS
+## Élévation de privilèges TCC / SIP macOS
 
 Dans macOS, les **applications et binaires peuvent avoir des autorisations** pour accéder à des dossiers ou des paramètres qui les rendent plus privilégiés que d'autres.
 
 Par conséquent, un attaquant qui souhaite compromettre avec succès une machine macOS devra **élever ses privilèges TCC** (ou même **contourner SIP**, selon ses besoins).
 
-Ces privilèges sont généralement accordés sous forme de **droits** avec lesquels l'application est signée, ou l'application peut demander certains accès et après que l'utilisateur les a **approuvés**, ils peuvent être trouvés dans les **bases de données TCC**. Une autre façon pour un processus d'obtenir ces privilèges est d'être un **enfant d'un processus** avec ces **privilèges** car ils sont généralement **hérités**.
+Ces privilèges sont généralement accordés sous forme d'**autorisations** avec lesquelles l'application est signée, ou l'application peut demander certains accès et après que l'utilisateur les a **approuvés**, ils peuvent être trouvés dans les **bases de données TCC**. Une autre façon pour un processus d'obtenir ces privilèges est d'être un **enfant d'un processus** avec ces **privilèges** car ils sont généralement **hérités**.
 
-Suivez ces liens pour trouver différentes façons d'**élever les privilèges dans TCC** (macos-security-protections/macos-tcc/#tcc-privesc-and-bypasses), de **contourner TCC** (macos-security-protections/macos-tcc/macos-tcc-bypasses/) et comment dans le passé le **SIP a été contourné** (macos-security-protections/macos-sip.md#sip-bypasses).
+Suivez ces liens pour trouver différentes façons d'**élever les privilèges dans TCC**](macos-security-protections/macos-tcc/#tcc-privesc-and-bypasses), de [**contourner TCC**](macos-security-protections/macos-tcc/macos-tcc-bypasses/) et comment dans le passé [**SIP a été contourné**](macos-security-protections/macos-sip.md#sip-bypasses).
 
-## Élévation de privilèges traditionnelle sur macOS
+## Élévation de privilèges traditionnelle macOS
 
 Bien sûr, du point de vue des équipes rouges, vous devriez également être intéressé par l'élévation des privilèges à root. Consultez le post suivant pour quelques indices :
 
@@ -139,15 +139,15 @@ Bien sûr, du point de vue des équipes rouges, vous devriez également être in
 * [**https://assets.sentinelone.com/c/sentinal-one-mac-os-?x=FvGtLJ**](https://assets.sentinelone.com/c/sentinal-one-mac-os-?x=FvGtLJ)
 * [**https://www.youtube.com/watch?v=vMGiplQtjTY**](https://www.youtube.com/watch?v=vMGiplQtjTY)
 
-<figure><img src="../../.gitbook/assets/image (377).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (380).png" alt=""><figcaption></figcaption></figure>
 
-Rejoignez le serveur [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) pour communiquer avec des hackers expérimentés et des chasseurs de primes en bugs !
+Rejoignez le serveur [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) pour communiquer avec des hackers expérimentés et des chasseurs de bugs !
 
 **Perspectives sur le Hacking**\
-Engagez-vous avec du contenu qui explore les sensations et les défis du hacking
+Engagez-vous avec du contenu qui explore le frisson et les défis du hacking
 
 **Actualités de Hacking en Temps Réel**\
-Restez à jour avec le monde du hacking en évolution rapide grâce aux actualités et aux analyses en temps réel
+Restez à jour avec le monde du hacking en évolution rapide grâce aux actualités et aux informations en temps réel
 
 **Dernières Annonces**\
 Restez informé des dernières primes de bugs lancées et des mises à jour cruciales de la plateforme

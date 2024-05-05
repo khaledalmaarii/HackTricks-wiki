@@ -4,25 +4,25 @@
 
 <summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
-* Travaillez-vous pour une **entreprise de cybersécurité**? Voulez-vous voir votre **entreprise annoncée sur HackTricks**? Ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Obtenez le [**swag officiel de PEASS et HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) **groupe Discord** ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-moi** sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live).
-* **Partagez vos astuces de piratage en envoyant des PR à** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **et** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* ¿Trabajas en una **empresa de ciberseguridad**? ¿Quieres ver tu **empresa anunciada en HackTricks**? ¿O quieres tener acceso a la **última versión de PEASS o descargar HackTricks en PDF**? ¡Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
+* Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Obtén el [**swag oficial de PEASS y HackTricks**](https://peass.creator-spring.com)
+* **Únete al** [**💬**](https://emojipedia.org/speech-balloon/) **grupo de Discord** o al [**grupo de telegram**](https://t.me/peass) o **sígueme** en **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live).
+* **Comparte tus trucos de hacking enviando PR a** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **y** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
 ## Informations de base
 
-L'IO Kit est un **cadre de pilote de périphérique** orienté objet open source dans le noyau XNU, qui gère les **pilotes de périphériques chargés dynamiquement**. Il permet d'ajouter du code modulaire au noyau à la volée, prenant en charge du matériel divers.
+L'IO Kit est un **cadre de pilote de périphérique** orienté objet open source dans le noyau XNU, gère les **pilotes de périphériques chargés dynamiquement**. Il permet d'ajouter du code modulaire au noyau à la volée, prenant en charge du matériel divers.
 
-Les pilotes IOKit **exportent essentiellement des fonctions du noyau**. Les types de paramètres de ces fonctions sont **prédéfinis** et vérifiés. De plus, tout comme XPC, IOKit est juste une autre couche **au-dessus des messages Mach**.
+Les pilotes IOKit **exportent essentiellement des fonctions du noyau**. Les types de paramètres de ces fonctions sont **prédéfinis** et vérifiés. De plus, tout comme XPC, IOKit est juste une autre couche au **dessus des messages Mach**.
 
-Le code du noyau **IOKit XNU** est open source par Apple sur [https://github.com/apple-oss-distributions/xnu/tree/main/iokit](https://github.com/apple-oss-distributions/xnu/tree/main/iokit). De plus, les composants IOKit de l'espace utilisateur sont également open source sur [https://github.com/opensource-apple/IOKitUser](https://github.com/opensource-apple/IOKitUser).
+Le code **noyau IOKit XNU** est open source par Apple sur [https://github.com/apple-oss-distributions/xnu/tree/main/iokit](https://github.com/apple-oss-distributions/xnu/tree/main/iokit). De plus, les composants IOKit de l'espace utilisateur sont également open source sur [https://github.com/opensource-apple/IOKitUser](https://github.com/opensource-apple/IOKitUser).
 
-Cependant, **aucun pilote IOKit** n'est open source. De toute façon, de temps en temps, une version d'un pilote peut être publiée avec des symboles qui facilitent le débogage. Consultez comment [**obtenir les extensions de pilote depuis le micrologiciel ici**](./#ipsw)**.**
+Cependant, **aucun pilote IOKit** n'est open source. De toute façon, de temps en temps, une version d'un pilote peut être publiée avec des symboles qui facilitent le débogage. Consultez comment **obtenir les extensions de pilote à partir du micrologiciel ici**](./#ipsw)**.
 
-Il est écrit en **C++**. Vous pouvez obtenir des symboles C++ démanglés avec:
+Il est écrit en **C++**. Vous pouvez obtenir des symboles C++ démanglés avec :
 ```bash
 # Get demangled symbols
 nm -C com.apple.driver.AppleJPEGDriver
@@ -41,7 +41,7 @@ Les fonctions exposées par IOKit pourraient effectuer des vérifications de sé
 Sur macOS, ils se trouvent dans :
 
 - **`/System/Library/Extensions`**
-- Fichiers KEXT intégrés dans le système d'exploitation OS X.
+- Fichiers KEXT intégrés au système d'exploitation OS X.
 - **`/Library/Extensions`**
 - Fichiers KEXT installés par des logiciels tiers
 
@@ -89,7 +89,7 @@ ioreg -p <plane> #Check other plane
 ```
 Vous pouvez télécharger **`IORegistryExplorer`** depuis les **Outils Additionnels Xcode** sur [**https://developer.apple.com/download/all/**](https://developer.apple.com/download/all/) et inspecter le **IORegistry macOS** à travers une interface **graphique**.
 
-<figure><img src="../../../.gitbook/assets/image (1164).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1167).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Dans IORegistryExplorer, les "planes" sont utilisés pour organiser et afficher les relations entre différents objets dans l'IORegistry. Chaque plane représente un type spécifique de relation ou une vue particulière de la configuration matérielle et des pilotes du système. Voici quelques-uns des planes courants que vous pourriez rencontrer dans IORegistryExplorer :
 
@@ -165,13 +165,13 @@ Il existe **d'autres** fonctions qui peuvent être utilisées pour appeler des f
 
 ## Inversion du point d'entrée du pilote
 
-Vous pourriez obtenir ceux-ci par exemple à partir d'une [**image du micrologiciel (ipsw)**](./#ipsw). Ensuite, chargez-la dans votre décompilateur préféré.
+Vous pourriez les obtenir par exemple à partir d'une [**image du micrologiciel (ipsw)**](./#ipsw). Ensuite, chargez-la dans votre décompilateur préféré.
 
 Vous pourriez commencer à décompiler la fonction **`externalMethod`** car c'est la fonction du pilote qui recevra l'appel et appellera la fonction correcte :
 
-<figure><img src="../../../.gitbook/assets/image (1165).png" alt="" width="315"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1168).png" alt="" width="315"><figcaption></figcaption></figure>
 
-<figure><img src="../../../.gitbook/assets/image (1166).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1169).png" alt=""><figcaption></figcaption></figure>
 
 Cet appel horrible démêlé signifie :
 
@@ -197,35 +197,35 @@ OSObject * target, void * reference)
 ```
 Avec ces informations, vous pouvez réécrire Ctrl+Right -> `Modifier la signature de la fonction` et définir les types connus :
 
-<figure><img src="../../../.gitbook/assets/image (1171).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1174).png" alt=""><figcaption></figcaption></figure>
 
 Le nouveau code décomplié ressemblera à ceci :
 
-<figure><img src="../../../.gitbook/assets/image (1172).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1175).png" alt=""><figcaption></figcaption></figure>
 
-Pour l'étape suivante, nous devons avoir défini la structure **`IOExternalMethodDispatch2022`**. Elle est open source sur [https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176](https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176), vous pouvez la définir :
+Pour l'étape suivante, nous devons avoir défini la structure **`IOExternalMethodDispatch2022`**. C'est open source sur [https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176](https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176), vous pouvez le définir :
 
-<figure><img src="../../../.gitbook/assets/image (1167).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1170).png" alt=""><figcaption></figcaption></figure>
 
 Maintenant, en suivant `(IOExternalMethodDispatch2022 *)&sIOExternalMethodArray`, vous pouvez voir beaucoup de données :
 
-<figure><img src="../../../.gitbook/assets/image (1173).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1176).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Changez le type de données en **`IOExternalMethodDispatch2022:`**
 
-<figure><img src="../../../.gitbook/assets/image (1174).png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1177).png" alt="" width="375"><figcaption></figcaption></figure>
 
 après le changement :
 
-<figure><img src="../../../.gitbook/assets/image (1176).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1179).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Et maintenant que nous avons un **tableau de 7 éléments** (vérifiez le code décomplié final), cliquez pour créer un tableau de 7 éléments :
+Et comme nous le savons maintenant, nous avons un **tableau de 7 éléments** (vérifiez le code décomplié final), cliquez pour créer un tableau de 7 éléments :
 
-<figure><img src="../../../.gitbook/assets/image (1177).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1180).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Une fois le tableau créé, vous pouvez voir toutes les fonctions exportées :
 
-<figure><img src="../../../.gitbook/assets/image (1178).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1181).png" alt=""><figcaption></figcaption></figure>
 
 {% hint style="success" %}
 Si vous vous souvenez, pour **appeler** une fonction **exportée** depuis l'espace utilisateur, nous n'avons pas besoin d'appeler le nom de la fonction, mais le **numéro de sélecteur**. Ici, vous pouvez voir que le sélecteur **0** est la fonction **`initializeDecoder`**, le sélecteur **1** est **`startDecoder`**, le sélecteur **2** **`initializeEncoder`**...
